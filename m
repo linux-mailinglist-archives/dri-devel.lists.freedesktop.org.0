@@ -2,132 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5547E753D54
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 16:28:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313FC753D5E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 16:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB7610E8A6;
-	Fri, 14 Jul 2023 14:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5074510E895;
+	Fri, 14 Jul 2023 14:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C272810E8A7
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 14:28:38 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 36ECMOn0024604; Fri, 14 Jul 2023 15:28:24 +0100
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92E4010E895
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 14:29:12 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
+ 36EBU21C000769; Fri, 14 Jul 2023 15:28:41 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:content-transfer-encoding
- :content-type:mime-version; s=dk201812; bh=Gh5nry9G3EtL39fdloSbI
- lS3vR6MZHmLv+kzoON/g1o=; b=CAiLKb17ff+BGXUd0dIsXzAiihKoB0k+dw4Ja
- yqHcHDpQcfxTrdW7SNy2COtu59l8Yo/e73mX+Yaafycdd3bLXgT3o1KulSRb/Gko
- LUAzHOtxfthsSg7bq3RBXmV4Dtsq400S0mUlm694OC2gQ8JfbgEACbv1fHh7vSmN
- aN5140UZW6twzYfP8Sczt3OKkzX/TR6d6CyvSAxq8QyDmh2nk1EITMHiUMNFjwWf
- 5kM8Tk7VbN20iSa3EovOfeWLyQ7XOnhzfRi6rAvxhdavymbo2zjuJvITqJXc0vi+
- 1PkNxUJXkCARTQwvpYeATcAJrzqceJpzKLXkdEIil96+Kc9SA==
+ :content-type:mime-version; s=dk201812; bh=Ccpy4lmmQeCpD1LuKI95i
+ ws1HhnTPCHlr/wn016U78g=; b=BmwzaDZLTfVYnyGe+wbTHjkz0MNzhosxwxDZ1
+ 0iJDgZK6WaK0+1de1KDeVpQAvoana6dImb6kzlyROWDK/SJYFIVqWkvab411YLyH
+ JruDIx8x2m1kQ+1PPcmtV2reHp8Rol2SGd9SdPJARgJ83rCoJXqw08qvnUxHHHed
+ XOn4Wcru8ZM8jzGxS607YRTbzy6IheYGTKCpmty+35a0c6wMjJNWyQf9N1b7R1rz
+ 0iqn2VzgYY3ZQuJInRvCP+teuMqkp5A9oEhstEDy7khlxVrA05Q6K6/IXKNGUiDE
+ +nEUhrMrIN90LGy+vN7S1mJjzDwl/OaL3YIFju7I/bnGGtESg==
 Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3rtpu80m7s-1
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3rtpu8gmdv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Fri, 14 Jul 2023 15:28:23 +0100 (BST)
+ Fri, 14 Jul 2023 15:28:41 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
  HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 14 Jul 2023 15:28:22 +0100
+ 15.1.2507.27; Fri, 14 Jul 2023 15:28:40 +0100
 Received: from GBR01-CWX-obe.outbound.protection.outlook.com (104.47.85.48) by
  email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27 via Frontend
- Transport; Fri, 14 Jul 2023 15:28:22 +0100
+ Transport; Fri, 14 Jul 2023 15:28:40 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EEqMc2wqdhivxuueKdYIWUXrPqnLnlMD7u18q3XbC6moVzNTkFKvYPXLSDdgpqsj8mKc0gZqKV1NLtzxY8ryt8hVj05Y1CC1Bt5422gZZtr+X6XjHBwiadLNo8/dGF8i4A5w2ARVVNKZA69U+vnhuRD+O6dlS9CZ04Qgfyaa/2zxqalsvd6ikxuUjw+CEJH+vQfh0N5rm2dFypacyuYSL5lb0lQklvpoDTIgXch2s6Uw+OGpGdrSvxGKxTc9jVJx9kMkmGiKxSzyfvQIKfBreviXGIbKwwNqX0dmEH+2cdFF2j5LxQOSZnJbAh9BdHsNIGoNBLqjPlyyEdtc9RBYTw==
+ b=bJ6OM8pTinmMj81c7sUI+D+hOY0RmujtXpkjAHsNM8t6Xx5QTSI98urnDbOPgImHEr4P779kAd5Tn1TRYyhlk2DFKwZNBGkrU0xyxgW8lHOPu4mDRXzeZ7RzSbn5fJxvVzvu4F9E1V1uoq2G2lMqFe8DXXzKr41zHx7F6LoTDeJCncLQwPa6qk9Yey0iO30BO458e59VZjJeAAyguZK5ZOaZYFmvJXi29+V28NU7pii8zJofveGgt/eOWBSjaG+52Bc/OAtJQj/uolZyJC79OaKUyeiYBsxs9Eu7uM5lGv5akkimVCGGCoNUmpb7N6Y/GTMO42DiO3oiak1MfD+1BQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gh5nry9G3EtL39fdloSbIlS3vR6MZHmLv+kzoON/g1o=;
- b=hrcojXb9Yq9mygQN+VohN2pQ9rwtHuh68IOiD3PVOVNCp+lfJXuIlF2CqX3YdmFX7Qn2EZ2cirUhIv6kz1O23uRfyykxAVoQ90iK8MgS3TBl9yrONsOt4BBlPv/f7MyLOElsrzGYezGVTFVxkOcw1CfYeLqTdouq/xIewwQKoTKCMoJpVjuI5/QEO8x5z8U400l3kCxKL9bys6S7s7rHxz5zO1Vet2hp+x/VvaGneeS4EQDFANtodAaECbMyLVBUi7iQymfE457RM8Q94Qgdq60FqE774fNE13ffU2xoNRkiQLF4yK5hs+zQ6ywzf9hFS1irhtDwhy4taEuq7XjKCQ==
+ bh=Ccpy4lmmQeCpD1LuKI95iws1HhnTPCHlr/wn016U78g=;
+ b=mM+Ez/T2omjmdg0ldSt9nCJmqUv7l3QO5lgafVbAz7vofEdcPlfSbVD/RS1qitgZzgd91j6fZ5DBGM1I1t4yzZmuQiYHXxKVqGYrU6mK4Zbb/rKo3j8qnArAkhc0OlQ79qVv+eI8zJ/as8a2lGprj81bt3tZGCEB5uyK2RNiEyVIva/9WY7jPeM2HL52KkrB/zzt5983DHmsOHwKvipLnLsxt8+HPu2gczBj6yu87FzqaTTIzDss2KfiyJVDxSKkIRr8fGe2zMULKqoUaRTVSemIoKKmkW/9BEocHhtjoI8nFY35UXkMh+xXLXJemBgcK0FIWXPYdXRHQnynkuL8xg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gh5nry9G3EtL39fdloSbIlS3vR6MZHmLv+kzoON/g1o=;
- b=AmimRgKCLvaorQ+bS/Nb1PwqzKqmbNUQmkke9boroA/WNqXwCAFNGCMz02pgZbyC6Ms6T4kGeLaii7L2mCm/4X6mz2E9FDISpqclCkv6BwLVTntHwxCCZnL2+k5B5aVPA+fLbaIdwHvAvDK8Q1MS2iazzuxvhBg5r/k/rklSwRM=
+ bh=Ccpy4lmmQeCpD1LuKI95iws1HhnTPCHlr/wn016U78g=;
+ b=e/fCXV2LDubEDGPWUfmv6DTDaod4ts+sfWvwL33KKYpYICs0/fn8ity9VdZFmf/kZjHbI0yv/m0Bh77d9W5BboHpMTG2O5AxYJj2q4fPlAjUMF9n5/zCy37sSlxrTqalfHCdG6UOBDfYr3OpF03SiL9KMxG2tQ8Bsv/fOz5PYGQ=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by CWLP265MB5972.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1d1::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 14:28:17 +0000
+ 2023 14:28:33 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f042:5122:eb28:4131]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f042:5122:eb28:4131%5]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 14:28:17 +0000
+ 14:28:33 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 11/17] drm/imagination: Implement MIPS firmware processor
- and MMU support
-Date: Fri, 14 Jul 2023 15:28:06 +0100
-Message-Id: <20230714142806.112191-1-sarah.walker@imgtec.com>
+Subject: [PATCH v4 12/17] drm/imagination: Implement free list and HWRT create
+ and destroy ioctls
+Date: Fri, 14 Jul 2023 15:28:23 +0100
+Message-Id: <20230714142823.112255-1-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO2P265CA0347.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:d::23) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P265CA0492.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:13a::17) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB5972:EE_
-X-MS-Office365-Filtering-Correlation-Id: 976b8ffb-26f6-4c0d-4fb5-08db847690c7
+X-MS-Office365-Filtering-Correlation-Id: d0410ab3-b6fc-4f96-0900-08db84769a55
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uIieH1knfaTLY4+M1Kpx8qRwo5I1uiAhOI3ABMU1PGNEpv1UgosF1WzkcR7pSjU6jNl1WtWG4QydLiaNM6JZ957qCCA7O+TMttiMRRA4dUDDYNg/HRfwzWuV4wyQdf8jmD56pphL4XqIJttmqqHChBeb/zwKzyOLoMk4G1ZLdjwqWkBWMBqGCz8uLzKXrBa3MMHLgJv0TxK6YaTn7WwS13iYiv+oNEh1MtP35F7lKPWxVTDgA9D8+o/dE6sx/yyu/NxO6vMcTNqz8JE9kOsyDUhBdIs+DIVF9CfDuiYVC/4IGcr3+gwcgkJazKndlyDFVBUbuX9ALMchS/4hzntPe1h9IIz/uNnjXeBwEk2MIiU2NyIGQsHDYRhnzihXJPKZTzR3jnS/Ud/gdBEU3Zmc2AdAAcXTy1lMwkJGhDaax19AGe2BGNoMVXkZJSlha656jo3AVBqvwvubyFMoR7fqyFcEvX0ysD80xD6MBiPU1TF21ojRwaRVbfaYRQD4umlXAD3FwIS2TrDKxGNffxcfV5UQHoYGVG50Ub5g6jqACtIvzF+1LY3N+s6F3Wh1QeoZJe/4f3LbLnSii3WRe4fDS8M5bW402YZArDXRpN33EhECevhFDaIDvmq8UUOmVbq5
+X-Microsoft-Antispam-Message-Info: fNF4NLd3DgnOBbA/80syaORCU8vYyjnqBfVbhS94Dph7mRXFK5O5GYLfuJ2HQTL2DydodZuS6kWDLwrm7KfklppxV5Akp2OffzDWOSa9fm4AkeI0/O4TiCPg+e3NNYTV3uUW+QzZX+zosw8JX0BFT2zoIf9rpQTHk48FVmo1Rmtof4Te4fmN9rGKwKFvVcwDA+K6GZiDPEumpLBtY+zCYAvFXA8PPrL7aStIrxVso9i85LBcS2qDds5newpwk8hUzPc8MPiu8kUNI2UNd46NpBAtib6xmHvznnb5r7BYMgNXgqb/Olxt4HYnZZhNKzChWQ05pZ6zFpd8S7c0CXzxcxKUjZINC1e1KnIwoyS37jugL7WUcpwEyDBXA7hgzU4atHVS+m1V7NcT7JNmmlUB7vnUdUaqHHaTu3SRF5xcnSxyWKEsP7VtI6V4HuR0anY0VpAU68SCRXGYhB0YLrFCMaDfCG8SHw7FHy8/eRAyS3b2qkZAwfKLN2A+lt3zt6mlHNH/mRGAFfcuVKE+cVEBO6owK+Q4XaSLAdymN/qW9EgDQU8CCz3Y0A6GpUtNgH0+jYxfKczRr72ajR4LYwAEpdP6OgnsTTL/v012LfxVH5O5imIXIC83bYTsEW+U2MPj
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(366004)(136003)(376002)(39850400004)(346002)(451199021)(86362001)(30864003)(2906002)(83380400001)(44832011)(8676002)(8936002)(316002)(2616005)(41300700001)(7416002)(5660300002)(38100700002)(38350700002)(6916009)(66476007)(36756003)(66556008)(4326008)(66946007)(186003)(26005)(6512007)(1076003)(6506007)(478600001)(6486002)(6666004)(52116002);
+ SFS:(13230028)(396003)(366004)(136003)(376002)(39850400004)(346002)(451199021)(86362001)(30864003)(2906002)(83380400001)(44832011)(8676002)(8936002)(316002)(2616005)(41300700001)(7416002)(5660300002)(38100700002)(38350700002)(6916009)(66476007)(36756003)(66556008)(4326008)(66946007)(186003)(26005)(6512007)(1076003)(6506007)(478600001)(6486002)(6666004)(52116002)(559001)(579004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OASnKNgbB66yN7QrMpwPO0W4AQJ4S17hA8JenowHlamrkCO34YIe7pd5gc4j?=
- =?us-ascii?Q?zOjygLjn5OA3BX1X3VciJGEwgL2Gb142q6l5RDOECtWLMO5DztoOAKAzduVT?=
- =?us-ascii?Q?YpMLTBDJ/Q679lvunsatnF7NVaKME8ep4CxR//IHzIsL2P6nWW7iQWXdah79?=
- =?us-ascii?Q?C5/3+K2GM7JwZUBHRAX4bhgc0zJZRCCFb0hnR2JNFHLWXG9sdHsZoYfLQsZP?=
- =?us-ascii?Q?igLJi7Sk4uILm+u9e/QAnizRFbKU8iu8t6v7AVBFA9bF0EacEJQ+lP36xISa?=
- =?us-ascii?Q?B+kkGohs5ijx7BlJCbvclpv+ZbizLZU+EdN8bZbo6+GymE9FMmbcvnAdOg4T?=
- =?us-ascii?Q?H3upio90q2pRav1xHN0nPJ38HTHoGu3ocn2Ab+srnU3BWMMchLVhwgc5+CrE?=
- =?us-ascii?Q?cieGfIlWgKlt6+y+wHsswu5ufDc1ae8xhSZIDNYjFFqJ/yYHgtnJWOcBm1Id?=
- =?us-ascii?Q?WS36TCDf3TgGKxSezYoMfA5UgAhHh4AhfPE/mAEBSIPPSSgJJH7ZUEco/w+j?=
- =?us-ascii?Q?baOhvhYvhPLOI7HIi7BOWoyMC0Dg4KvRnGRmIAjtrW0HCNy7xTq+TxayoEMj?=
- =?us-ascii?Q?dY6maTRRGHCcfD0YxomKukDsYIacLwSKFwAgwnEXbPU1hYi3F+maxzrVLfd/?=
- =?us-ascii?Q?4rkKNQIVvEZwyf2OZesz0k2FLzGpCdkPra2KTHvJvhIKZoqnxmnxl2K7lpBl?=
- =?us-ascii?Q?qXROP874oFYUjUpCxxG9WlEpVZxaWsEAAor4HUmPw79x9qE6SFEWkiIkMKHG?=
- =?us-ascii?Q?2GltsiAwPmL/GOPYWEKYCazino5iPWDCsvKdLHkHynN9oTPI8ns929J32Y71?=
- =?us-ascii?Q?M6oLKQuKylfHQDKwoZTkPQL85NL/tySqPDNGNV/BT0ynfVoJYsJ52rx2LVka?=
- =?us-ascii?Q?W4rfY0QHA8/X1H/fPHe5/W+ZuCrgkMRTY4q535qqrohC/yLON73xomrKrmYc?=
- =?us-ascii?Q?DTHz/fUIDJCXwPicizyI2BAqssXjtb65p1Ds4Lwjpn2b5F3zfcnZdYr7QhJ6?=
- =?us-ascii?Q?+u+JNULBXRN/eL0ExHfUYkFwyD/pE9N4xd1ZtwRVw+kby92WAw/B3uo7Azdk?=
- =?us-ascii?Q?t383zeQiWbo5LnLfF2BREcJVcwdAEr5vRSD/XJeRjrxAsqrJHoQZbbSl4Sxl?=
- =?us-ascii?Q?hyAaEzxu1nzQ2yPD/8M3SX+rhL6IYWLHJeZHmzPwR9y9yWlqfhFRGuWdDFSu?=
- =?us-ascii?Q?1ZaaZ7+KfSRel8vE6XTlMcl67orBrU7Q4gtg+b61HUuFsJpo7EGTSxJ61CoM?=
- =?us-ascii?Q?01veHD9A5l4RbN3sjZy0JZ3ie5WZQtRbGldkghpqZmIjfxXuQsfJVQ8WNZ5q?=
- =?us-ascii?Q?qRy5913PQZXhHkDUdubgdf5tZkrEAXUlowDAaieSkiE5AncUpGJ105hWN+3q?=
- =?us-ascii?Q?oWTHVUetBDhkIvdv9VpuD3/Nb1oVlbQ8awLm92CnfX1H4g+G0wSARN5ec907?=
- =?us-ascii?Q?Zo9yrIRjnBSHvCJpXnLBTw63XvPzgP/e9e9SREh9tuRGfRuB12IVglvX/iMJ?=
- =?us-ascii?Q?qKO4sDtVReg0hfr5V56que+DQkNtcOtjuSVtIroz1mdZR3OcnzovDSdH+lvs?=
- =?us-ascii?Q?yTTBMXdB2cOOGyBzrOe69Ne4Cs8d02PSeoYe0Z12gAg39F7fcl/4O0IZyahj?=
- =?us-ascii?Q?dg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 976b8ffb-26f6-4c0d-4fb5-08db847690c7
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Q8CCZxfo6qJq92t0+plttDwbPrn7IhAnFxLkBCIDn4feUFspn+wrO8tTQ/IY?=
+ =?us-ascii?Q?0vFafgUIzIkvZj2JKBGEf/1KvYiYC35J7EYYWw10gsP1N06KFmsZi+3ElByS?=
+ =?us-ascii?Q?Va+1W40OwZdZ4qGuqJeRGElVGek0wEGQf1EVeZc2FR5MDonDfHvbuVCshnUW?=
+ =?us-ascii?Q?cpoqDuKm3ZDMAfx53awccm87+m3ez+EyWBknIIQbup8h1ntcU/H4HknqXm6C?=
+ =?us-ascii?Q?61/kLAmwLMuWl8onmEJ1rlHpXecqDzK4nUeBhDvt7J5Q9pBYgRpIwHZGvQvb?=
+ =?us-ascii?Q?+PTAICIdvGImrqhv507ItkYKt9Q/MW2ZMsOP3G+ToujjUG++e8Zjc/ZtE7yp?=
+ =?us-ascii?Q?7sBqD7RWfYLtHT9xl5lsu6RSVOryWVurJVOJmcVLebvJWiPdKEjLdjKM6Nv/?=
+ =?us-ascii?Q?6at+3egAZMyc1UEZu2YhMasW/AGNUu5jcTlDZbtYgsvIguhmJkH0J6Xf5YH3?=
+ =?us-ascii?Q?zPm2XJ9Gtf6dOxCcsxZtG4seB8c6Upx9HElzXoXmiWYXDYOsHRG+NVlThXBf?=
+ =?us-ascii?Q?o2Ye1rQxPOh3NViE42hhwfiyg5ToX9lfHW7mGUA3+o6fY9XmM7EYUoEYqU/I?=
+ =?us-ascii?Q?AjqnxWwMny2I5+OlsdVgAWWbOSEw8BQIz8DEYEfSPyST9SlTroDnZ/jv/DAP?=
+ =?us-ascii?Q?AGHvbJIbiWdy0416pPTbM3R4ykugQExX4hdJvX++/msWhWy5z5IhvOdI8oBC?=
+ =?us-ascii?Q?q53+9jsFs363LESOcNNHg9lllMkvixzPgs3IoP1NV4t+zNrRa0ZRiH+HBMKK?=
+ =?us-ascii?Q?Tof2V8h4Xs3L4y+XLc2rPv5Td9FP3PVMjy1+ZQSlUq8q06CfCp2cgYcnxx05?=
+ =?us-ascii?Q?8Ctfo1oTvFKnLeUMOz0ZWdfSEiWxe6f66zDGfeq7e0dP8qGGNHkLWRIMcabx?=
+ =?us-ascii?Q?t8Gm26/rpHvf2NXR9+gwKVGnoRHguvHzIlVC2/C8pXI9p2N6GPe/3vnHvD6I?=
+ =?us-ascii?Q?OHvYtrmHtSq7H/AI75roD2UCPQRayASgtW56mSFtxBSl4dGEVHG3jYref6cy?=
+ =?us-ascii?Q?yGLTazjGq2xoy3sbtzCxE6s/bfRD1gDxgp+uSoKQcO8194cwC2eHJ2E6YZxb?=
+ =?us-ascii?Q?zkxGXuI44kuuLBqRmv6zgz9RRPXs8Kyq8S4CN0MdbPDEnkXKjdX42pZYYhaP?=
+ =?us-ascii?Q?XIRV+kkCOGUUTW7C2ZlEdD8Sf8CSRfa+Rfcdd/ucLola0Ms/rASRb7AwM2EE?=
+ =?us-ascii?Q?csyAzlDV4ju5PZVeyEW/QaCbx0kTX9MWR8UsyJphVWL4NuhLIbUkJ1T/eCkL?=
+ =?us-ascii?Q?jpotuiN8bZcb8OuMkyTySZbvyarHt9Dxvw0wJcSTn3FuFsqwKjAPJ9Rr0JUf?=
+ =?us-ascii?Q?Mncd91CgvNp4dRlTw/nVKPoVjmrMIfSkuYVIlWT5evertOLTAeSGC9Omxvtq?=
+ =?us-ascii?Q?6irIM05nEi4H6rZIjcdlaR542I1MwAvRRw5AcQwvs3t8kE0cMjaeN0nbcfDI?=
+ =?us-ascii?Q?ZUwqwXFh40nL/ldRuDHZPjhYxBomV0u5Is8UrSSP8jNOySgXmRBJ8MGkA0h9?=
+ =?us-ascii?Q?qcN/j3iQfucgdWjSSds3euKGFWhVXV7BISitvS4PGEOtmBqim+r71yscBAjY?=
+ =?us-ascii?Q?alZPRlW2GAep1f5mBX6dlbxhxDnlFYkGpki6m8wlKurSica+Y6NlYwixcFKX?=
+ =?us-ascii?Q?tQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0410ab3-b6fc-4f96-0900-08db84769a55
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 14:28:17.4522 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 14:28:33.5281 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mwdo5raLt6qOhyh75BHoEY/wPlZ5fVm+W/R2XtQlBzBPIwhgTon90jVAqa9voyDAbudKC6B2j4UI7b7trHhZTg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 164hyFvou1LuSxd27yKktiB7A9AlvKG9dPSJpffgEk74kjcHczWfwmxBhFrHLgszQlEMDmHUxi4Ss0+1RH6LCQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5972
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: Qh8BOVnCBPqBfIKmZO4XgYG9a9UOiEnb
-X-Proofpoint-GUID: Qh8BOVnCBPqBfIKmZO4XgYG9a9UOiEnb
+X-Proofpoint-GUID: m_kNfxCn6jXXMtstxiPNEpfNikU8L1nD
+X-Proofpoint-ORIG-GUID: m_kNfxCn6jXXMtstxiPNEpfNikU8L1nD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,654 +147,1874 @@ Cc: matthew.brost@intel.com, luben.tuikov@amd.com, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the MIPS firmware processor, used in the Series AXE GPU.
-The MIPS firmware processor uses a separate MMU to the rest of the GPU, so
-this patch adds support for that as well.
+Implement ioctls to create and destroy free lists and HWRT datasets. Free
+lists are used for GPU-side memory allocation during geometry processing.
+HWRT datasets are the FW-side structures representing render targets.
 
 Changes since v3:
-- Get regs resource (removed from GPU resources commit)
+- Support free list grow requests from FW
+- Use drm_dev_{enter,exit}
 
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- drivers/gpu/drm/imagination/Makefile      |   4 +-
- drivers/gpu/drm/imagination/pvr_device.c  |   5 +-
- drivers/gpu/drm/imagination/pvr_device.h  |   3 +
- drivers/gpu/drm/imagination/pvr_fw.c      |   2 +
- drivers/gpu/drm/imagination/pvr_fw_mips.c | 261 ++++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_fw_mips.h |  38 ++++
- drivers/gpu/drm/imagination/pvr_vm_mips.c | 209 +++++++++++++++++
- drivers/gpu/drm/imagination/pvr_vm_mips.h |  22 ++
- 8 files changed, 542 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.h
+ drivers/gpu/drm/imagination/Makefile        |   2 +
+ drivers/gpu/drm/imagination/pvr_ccb.c       |  10 +
+ drivers/gpu/drm/imagination/pvr_device.h    |  24 +
+ drivers/gpu/drm/imagination/pvr_drv.c       | 112 +++-
+ drivers/gpu/drm/imagination/pvr_free_list.c | 639 ++++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_free_list.h | 195 ++++++
+ drivers/gpu/drm/imagination/pvr_hwrt.c      | 552 +++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_hwrt.h      | 165 +++++
+ 8 files changed, 1695 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.h
 
 diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index f4e265ab0735..3172b65783b6 100644
+index 3172b65783b6..df3fd372f6f6 100644
 --- a/drivers/gpu/drm/imagination/Makefile
 +++ b/drivers/gpu/drm/imagination/Makefile
-@@ -10,11 +10,13 @@ powervr-y := \
+@@ -8,12 +8,14 @@ powervr-y := \
+ 	pvr_device.o \
+ 	pvr_device_info.o \
  	pvr_drv.o \
++	pvr_free_list.o \
  	pvr_fw.o \
  	pvr_fw_meta.o \
-+	pvr_fw_mips.o \
+ 	pvr_fw_mips.o \
  	pvr_fw_startstop.o \
  	pvr_fw_trace.o \
  	pvr_gem.o \
++	pvr_hwrt.o \
  	pvr_mmu.o \
  	pvr_power.o \
--	pvr_vm.o
-+	pvr_vm.o \
-+	pvr_vm_mips.o
+ 	pvr_vm.o \
+diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
+index b36898d953db..7fa9ee88aeeb 100644
+--- a/drivers/gpu/drm/imagination/pvr_ccb.c
++++ b/drivers/gpu/drm/imagination/pvr_ccb.c
+@@ -4,6 +4,7 @@
+ #include "pvr_ccb.h"
+ #include "pvr_device.h"
+ #include "pvr_drv.h"
++#include "pvr_free_list.h"
+ #include "pvr_fw.h"
+ #include "pvr_gem.h"
+ #include "pvr_power.h"
+@@ -139,6 +140,15 @@ process_fwccb_command(struct pvr_device *pvr_dev, struct rogue_fwif_fwccb_cmd *c
+ 		pvr_power_reset(pvr_dev, false);
+ 		break;
  
- obj-$(CONFIG_DRM_POWERVR) += powervr.o
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index 3736f95b86f1..16c64c7ecfff 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -50,16 +50,19 @@ pvr_device_reg_init(struct pvr_device *pvr_dev)
- {
- 	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
- 	struct platform_device *plat_dev = to_platform_device(drm_dev->dev);
-+	struct resource *regs_resource;
- 	void __iomem *regs;
- 
-+	pvr_dev->regs_resource = NULL;
- 	pvr_dev->regs = NULL;
- 
--	regs = devm_platform_ioremap_resource(plat_dev, 0);
-+	regs = devm_platform_get_and_ioremap_resource(plat_dev, 0, &regs_resource);
- 	if (IS_ERR(regs))
- 		return dev_err_probe(drm_dev->dev, PTR_ERR(regs),
- 				     "failed to ioremap gpu registers\n");
- 
- 	pvr_dev->regs = regs;
-+	pvr_dev->regs_resource = regs_resource;
- 
- 	return 0;
- }
++	case ROGUE_FWIF_FWCCB_CMD_FREELISTS_RECONSTRUCTION:
++		pvr_free_list_process_reconstruct_req(pvr_dev,
++						      &cmd->cmd_data.cmd_freelists_reconstruction);
++		break;
++
++	case ROGUE_FWIF_FWCCB_CMD_FREELIST_GROW:
++		pvr_free_list_process_grow_req(pvr_dev, &cmd->cmd_data.cmd_free_list_gs);
++		break;
++
+ 	default:
+ 		drm_info(from_pvr_device(pvr_dev), "Received unknown FWCCB command %x\n",
+ 			 cmd->cmd_type);
 diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 5521bd6e6550..6725df65cf54 100644
+index 6725df65cf54..4aef66ede2bb 100644
 --- a/drivers/gpu/drm/imagination/pvr_device.h
 +++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -93,6 +93,9 @@ struct pvr_device {
- 	/** @fw_version: Firmware version detected at runtime. */
- 	struct pvr_fw_version fw_version;
+@@ -146,6 +146,14 @@ struct pvr_device {
+ 	/** @fw_dev: Firmware related data. */
+ 	struct pvr_fw_device fw_dev;
  
-+	/** @regs_resource: Resource representing device control registers. */
-+	struct resource *regs_resource;
++	/**
++	 * @free_list_ids: Array of free lists belonging to this device. Array members
++	 *                 are of type "struct pvr_free_list *".
++	 *
++	 * This array is used to allocate IDs used by the firmware.
++	 */
++	struct xarray free_list_ids;
++
+ 	struct {
+ 		/** @work: Work item for watchdog callback. */
+ 		struct delayed_work work;
+@@ -241,6 +249,22 @@ struct pvr_file {
+ 	 */
+ 	struct pvr_device *pvr_dev;
+ 
++	/**
++	 * @free_list_handles: Array of free lists belonging to this file. Array
++	 * members are of type "struct pvr_free_list *".
++	 *
++	 * This array is used to allocate handles returned to userspace.
++	 */
++	struct xarray free_list_handles;
++
++	/**
++	 * @hwrt_handles: Array of HWRT datasets belonging to this file. Array
++	 * members are of type "struct pvr_hwrt_dataset *".
++	 *
++	 * This array is used to allocate handles returned to userspace.
++	 */
++	struct xarray hwrt_handles;
 +
  	/**
- 	 * @regs: Device control registers.
- 	 *
-diff --git a/drivers/gpu/drm/imagination/pvr_fw.c b/drivers/gpu/drm/imagination/pvr_fw.c
-index 3d8cd72ebc03..0f470fca3040 100644
---- a/drivers/gpu/drm/imagination/pvr_fw.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw.c
-@@ -883,6 +883,8 @@ pvr_fw_init(struct pvr_device *pvr_dev)
+ 	 * @vm_ctx_handles: Array of VM contexts belonging to this file. Array
+ 	 * members are of type "struct pvr_vm_context *".
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+index cf07078cca39..acd06135fbd0 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.c
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -3,7 +3,9 @@
  
- 	if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_META)
- 		fw_dev->defs = &pvr_fw_defs_meta;
-+	else if (fw_dev->processor_type == PVR_FW_PROCESSOR_TYPE_MIPS)
-+		fw_dev->defs = &pvr_fw_defs_mips;
- 	else
- 		return -EINVAL;
+ #include "pvr_device.h"
+ #include "pvr_drv.h"
++#include "pvr_free_list.h"
+ #include "pvr_gem.h"
++#include "pvr_hwrt.h"
+ #include "pvr_power.h"
+ #include "pvr_rogue_defs.h"
+ #include "pvr_rogue_fwif_client.h"
+@@ -725,7 +727,41 @@ static int
+ pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
+ 			   struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_create_free_list_args *args = raw_args;
++	struct pvr_file *pvr_file = to_pvr_file(file);
++	struct pvr_free_list *free_list;
++	int idx;
++	int err;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	free_list = pvr_free_list_create(pvr_file, args);
++	if (IS_ERR(free_list)) {
++		err = PTR_ERR(free_list);
++		goto err_drm_dev_exit;
++	}
++
++	/* Allocate object handle for userspace. */
++	err = xa_alloc(&pvr_file->free_list_handles,
++		       &args->handle,
++		       free_list,
++		       xa_limit_32b,
++		       GFP_KERNEL);
++	if (err < 0)
++		goto err_cleanup;
++
++	drm_dev_exit(idx);
++
++	return 0;
++
++err_cleanup:
++	pvr_free_list_put(free_list);
++
++err_drm_dev_exit:
++	drm_dev_exit(idx);
++
++	return err;
+ }
  
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.c b/drivers/gpu/drm/imagination/pvr_fw_mips.c
+ /**
+@@ -745,7 +781,19 @@ static int
+ pvr_ioctl_destroy_free_list(struct drm_device *drm_dev, void *raw_args,
+ 			    struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_destroy_free_list_args *args = raw_args;
++	struct pvr_file *pvr_file = to_pvr_file(file);
++	struct pvr_free_list *free_list;
++
++	if (args->_padding_4)
++		return -EINVAL;
++
++	free_list = xa_erase(&pvr_file->free_list_handles, args->handle);
++	if (!free_list)
++		return -EINVAL;
++
++	pvr_free_list_put(free_list);
++	return 0;
+ }
+ 
+ /**
+@@ -765,7 +813,41 @@ static int
+ pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
+ 			      struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_create_hwrt_dataset_args *args = raw_args;
++	struct pvr_file *pvr_file = to_pvr_file(file);
++	struct pvr_hwrt_dataset *hwrt;
++	int idx;
++	int err;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	hwrt = pvr_hwrt_dataset_create(pvr_file, args);
++	if (IS_ERR(hwrt)) {
++		err = PTR_ERR(hwrt);
++		goto err_drm_dev_exit;
++	}
++
++	/* Allocate object handle for userspace. */
++	err = xa_alloc(&pvr_file->hwrt_handles,
++		       &args->handle,
++		       hwrt,
++		       xa_limit_32b,
++		       GFP_KERNEL);
++	if (err < 0)
++		goto err_cleanup;
++
++	drm_dev_exit(idx);
++
++	return 0;
++
++err_cleanup:
++	pvr_hwrt_dataset_put(hwrt);
++
++err_drm_dev_exit:
++	drm_dev_exit(idx);
++
++	return err;
+ }
+ 
+ /**
+@@ -785,7 +867,19 @@ static int
+ pvr_ioctl_destroy_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
+ 			       struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_destroy_hwrt_dataset_args *args = raw_args;
++	struct pvr_file *pvr_file = to_pvr_file(file);
++	struct pvr_hwrt_dataset *hwrt;
++
++	if (args->_padding_4)
++		return -EINVAL;
++
++	hwrt = xa_erase(&pvr_file->hwrt_handles, args->handle);
++	if (!hwrt)
++		return -EINVAL;
++
++	pvr_hwrt_dataset_put(hwrt);
++	return 0;
+ }
+ 
+ /**
+@@ -1209,6 +1303,8 @@ pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
+ 	 */
+ 	pvr_file->pvr_dev = pvr_dev;
+ 
++	xa_init_flags(&pvr_file->free_list_handles, XA_FLAGS_ALLOC1);
++	xa_init_flags(&pvr_file->hwrt_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->vm_ctx_handles, XA_FLAGS_ALLOC1);
+ 
+ 	/*
+@@ -1237,6 +1333,8 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
+ 	struct pvr_file *pvr_file = to_pvr_file(file);
+ 
+ 	/* Drop references on any remaining objects. */
++	pvr_destroy_free_lists_for_file(pvr_file);
++	pvr_destroy_hwrt_datasets_for_file(pvr_file);
+ 	pvr_destroy_vm_contexts_for_file(pvr_file);
+ 
+ 	kfree(pvr_file);
+@@ -1307,6 +1405,8 @@ pvr_probe(struct platform_device *plat_dev)
+ 	if (err)
+ 		goto err_device_fini;
+ 
++	xa_init_flags(&pvr_dev->free_list_ids, XA_FLAGS_ALLOC1);
++
+ 	return 0;
+ 
+ err_device_fini:
+@@ -1324,6 +1424,10 @@ pvr_remove(struct platform_device *plat_dev)
+ 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
+ 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
+ 
++	WARN_ON(!xa_empty(&pvr_dev->free_list_ids));
++
++	xa_destroy(&pvr_dev->free_list_ids);
++
+ 	drm_dev_unplug(drm_dev);
+ 	pvr_device_fini(pvr_dev);
+ 	pvr_watchdog_fini(pvr_dev);
+diff --git a/drivers/gpu/drm/imagination/pvr_free_list.c b/drivers/gpu/drm/imagination/pvr_free_list.c
 new file mode 100644
-index 000000000000..7d26d47e493e
+index 000000000000..6dc85503b548
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.c
-@@ -0,0 +1,261 @@
++++ b/drivers/gpu/drm/imagination/pvr_free_list.c
+@@ -0,0 +1,639 @@
 +// SPDX-License-Identifier: GPL-2.0 OR MIT
 +/* Copyright (c) 2022 Imagination Technologies Ltd. */
 +
-+#include "pvr_device.h"
-+#include "pvr_fw.h"
-+#include "pvr_fw_mips.h"
++#include "pvr_free_list.h"
 +#include "pvr_gem.h"
-+#include "pvr_rogue_mips.h"
-+#include "pvr_vm_mips.h"
++#include "pvr_hwrt.h"
++#include "pvr_rogue_fwif.h"
++#include "pvr_vm.h"
 +
-+#include <linux/elf.h>
-+#include <linux/err.h>
-+#include <linux/types.h>
++#include <drm/drm_gem.h>
++#include <linux/slab.h>
++#include <linux/xarray.h>
++#include <uapi/drm/pvr_drm.h>
 +
-+#define ROGUE_FW_HEAP_MIPS_BASE 0xC0000000
-+#define ROGUE_FW_HEAP_MIPS_SHIFT 24 /* 16 MB */
-+#define ROGUE_FW_HEAP_MIPS_RESERVED_SIZE SZ_1M
++#define FREE_LIST_ENTRY_SIZE sizeof(u32)
++
++#define FREE_LIST_ALIGNMENT \
++	((ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE / FREE_LIST_ENTRY_SIZE) - 1)
++
++#define FREE_LIST_MIN_PAGES 50
++#define FREE_LIST_MIN_PAGES_BRN66011 40
++#define FREE_LIST_MIN_PAGES_ROGUEXE 25
 +
 +/**
-+ * process_elf_command_stream() - Process ELF firmware image and populate
-+ *                                firmware sections
++ * pvr_get_free_list_min_pages() - Get minimum free list size for this device
 + * @pvr_dev: Device pointer.
-+ * @fw: Pointer to firmware image.
-+ * @layout_entries: Pointer to layout table.
-+ * @num_layout_entries: Number of entries in layout table.
-+ * @fw_code_ptr: Pointer to FW code section.
-+ * @fw_data_ptr: Pointer to FW data section.
-+ * @fw_core_code_ptr: Pointer to FW coremem code section.
-+ * @fw_core_data_ptr: Pointer to FW coremem data section.
 + *
-+ * Returns :
-+ *  * 0 on success, or
-+ *  * -EINVAL on any error in ELF command stream.
++ * Returns:
++ *  * Minimum free list size, in PM physical pages.
 + */
-+static int
-+process_elf_command_stream(struct pvr_device *pvr_dev, const u8 *fw,
-+			   const struct pvr_fw_layout_entry *layout_entries,
-+			   u32 num_layout_entries, u8 *fw_code_ptr,
-+			   u8 *fw_data_ptr, u8 *fw_core_code_ptr,
-+			   u8 *fw_core_data_ptr)
++u32
++pvr_get_free_list_min_pages(struct pvr_device *pvr_dev)
 +{
-+	struct elf32_hdr *header = (struct elf32_hdr *)fw;
-+	struct elf32_phdr *program_header = (struct elf32_phdr *)(fw + header->e_phoff);
-+	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-+	u32 entry;
-+	int err;
++	u32 value;
 +
-+	for (entry = 0; entry < header->e_phnum; entry++, program_header++) {
-+		void *write_addr;
-+
-+		/* Only consider loadable entries in the ELF segment table */
-+		if (program_header->p_type != PT_LOAD)
-+			continue;
-+
-+		err = pvr_fw_find_mmu_segment(program_header->p_vaddr, program_header->p_memsz,
-+					      layout_entries, num_layout_entries, fw_code_ptr,
-+					      fw_data_ptr, fw_core_code_ptr, fw_core_data_ptr,
-+					      &write_addr);
-+		if (err) {
-+			drm_err(drm_dev,
-+				"Addr 0x%x (size: %d) not found in any firmware segment",
-+				program_header->p_vaddr, program_header->p_memsz);
-+			return err;
-+		}
-+
-+		/* Write to FW allocation only if available */
-+		if (write_addr) {
-+			memcpy(write_addr, fw + program_header->p_offset,
-+			       program_header->p_filesz);
-+
-+			memset((u8 *)write_addr + program_header->p_filesz, 0,
-+			       program_header->p_memsz - program_header->p_filesz);
-+		}
++	if (PVR_HAS_FEATURE(pvr_dev, roguexe)) {
++		if (PVR_HAS_QUIRK(pvr_dev, 66011))
++			value = FREE_LIST_MIN_PAGES_BRN66011;
++		else
++			value = FREE_LIST_MIN_PAGES_ROGUEXE;
++	} else {
++		value = FREE_LIST_MIN_PAGES;
 +	}
 +
-+	return 0;
++	return value;
 +}
 +
 +static int
-+pvr_mips_init(struct pvr_device *pvr_dev)
++free_list_create_kernel_structure(struct pvr_file *pvr_file,
++				  struct drm_pvr_ioctl_create_free_list_args *args,
++				  struct pvr_free_list *free_list)
 +{
-+	pvr_fw_heap_info_init(pvr_dev, ROGUE_FW_HEAP_MIPS_SHIFT, ROGUE_FW_HEAP_MIPS_RESERVED_SIZE);
++	struct pvr_gem_object *free_list_obj;
++	struct pvr_vm_context *vm_ctx;
++	u64 free_list_size;
++	int err;
 +
-+	return pvr_vm_mips_init(pvr_dev);
++	if (args->grow_threshold > 100 ||
++	    args->initial_num_pages > args->max_num_pages ||
++	    args->grow_num_pages > args->max_num_pages ||
++	    args->max_num_pages == 0 ||
++	    (args->initial_num_pages < args->max_num_pages && !args->grow_num_pages) ||
++	    (args->initial_num_pages == args->max_num_pages && args->grow_num_pages))
++		return -EINVAL;
++
++	if ((args->initial_num_pages & FREE_LIST_ALIGNMENT) ||
++	    (args->max_num_pages & FREE_LIST_ALIGNMENT) ||
++	    (args->grow_num_pages & FREE_LIST_ALIGNMENT))
++		return -EINVAL;
++
++	vm_ctx = pvr_vm_context_lookup(pvr_file, args->vm_context_handle);
++	if (!vm_ctx)
++		return -EINVAL;
++
++	free_list_obj = pvr_vm_find_gem_object(vm_ctx, args->free_list_gpu_addr,
++					       NULL, &free_list_size);
++	if (!free_list_obj) {
++		err = -EINVAL;
++		goto err_put_vm_context;
++	}
++
++	if ((free_list_obj->flags & DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS) ||
++	    !(free_list_obj->flags & DRM_PVR_BO_DEVICE_PM_FW_PROTECT) ||
++	    free_list_size < (args->max_num_pages * FREE_LIST_ENTRY_SIZE)) {
++		err = -EINVAL;
++		goto err_put_free_list_obj;
++	}
++
++	free_list->pvr_dev = pvr_file->pvr_dev;
++	free_list->current_pages = 0;
++	free_list->max_pages = args->max_num_pages;
++	free_list->grow_pages = args->grow_num_pages;
++	free_list->grow_threshold = args->grow_threshold;
++	free_list->obj = free_list_obj;
++	free_list->free_list_gpu_addr = args->free_list_gpu_addr;
++	free_list->initial_num_pages = args->initial_num_pages;
++
++	err = pvr_gem_object_get_pages(free_list->obj);
++	if (err < 0)
++		goto err_put_free_list_obj;
++
++	pvr_vm_context_put(vm_ctx);
++
++	return 0;
++
++err_put_free_list_obj:
++	pvr_gem_object_put(free_list_obj);
++
++err_put_vm_context:
++	pvr_vm_context_put(vm_ctx);
++
++	return err;
 +}
 +
 +static void
-+pvr_mips_fini(struct pvr_device *pvr_dev)
++free_list_destroy_kernel_structure(struct pvr_free_list *free_list)
 +{
-+	pvr_vm_mips_fini(pvr_dev);
++	WARN_ON(!list_empty(&free_list->hwrt_list));
++
++	pvr_gem_object_put_pages(free_list->obj);
++	pvr_gem_object_put(free_list->obj);
 +}
 +
-+static int
-+pvr_mips_fw_process(struct pvr_device *pvr_dev, const u8 *fw,
-+		    const struct pvr_fw_layout_entry *layout_entries, u32 num_layout_entries,
-+		    u8 *fw_code_ptr, u8 *fw_data_ptr, u8 *fw_core_code_ptr, u8 *fw_core_data_ptr,
-+		    u32 core_code_alloc_size)
++/**
++ * calculate_free_list_ready_pages_locked() - Function to work out the number of free
++ *                                            list pages to reserve for growing within
++ *                                            the FW without having to wait for the
++ *                                            host to progress a grow request
++ * @free_list: Pointer to free list.
++ * @pages: Total pages currently in free list.
++ *
++ * If the threshold or grow size means less than the alignment size (4 pages on
++ * Rogue), then the feature is not used.
++ *
++ * Caller must hold &free_list->lock.
++ *
++ * Return: number of pages to reserve.
++ */
++static u32
++calculate_free_list_ready_pages_locked(struct pvr_free_list *free_list, u32 pages)
 +{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	const struct pvr_fw_layout_entry *boot_code_entry;
-+	const struct pvr_fw_layout_entry *boot_data_entry;
-+	const struct pvr_fw_layout_entry *exception_code_entry;
-+	const struct pvr_fw_layout_entry *stack_entry;
-+	struct rogue_mipsfw_boot_data *boot_data;
-+	dma_addr_t dma_addr;
-+	u32 page_nr;
-+	int err;
++	u32 ready_pages;
 +
-+	err = process_elf_command_stream(pvr_dev, fw, layout_entries, num_layout_entries,
-+					 fw_code_ptr, fw_data_ptr, fw_core_code_ptr,
-+					 fw_core_data_ptr);
-+	if (err)
-+		return err;
++	lockdep_assert_held(&free_list->lock);
 +
-+	boot_code_entry = pvr_fw_find_layout_entry(layout_entries, num_layout_entries,
-+						   MIPS_BOOT_CODE);
-+	boot_data_entry = pvr_fw_find_layout_entry(layout_entries, num_layout_entries,
-+						   MIPS_BOOT_DATA);
-+	exception_code_entry = pvr_fw_find_layout_entry(layout_entries, num_layout_entries,
-+							MIPS_EXCEPTIONS_CODE);
-+	if (!boot_code_entry || !boot_data_entry || !exception_code_entry)
-+		return -EINVAL;
++	ready_pages = ((pages * free_list->grow_threshold) / 100);
 +
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.code_obj->gem, boot_code_entry->alloc_offset,
-+				     &mips_data->boot_code_dma_addr));
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.data_obj->gem, boot_data_entry->alloc_offset,
-+				     &mips_data->boot_data_dma_addr));
-+	WARN_ON(pvr_gem_get_dma_addr(fw_dev->mem.code_obj->gem,
-+				     exception_code_entry->alloc_offset,
-+				     &mips_data->exception_code_dma_addr));
++	/* The number of pages must be less than the grow size. */
++	ready_pages = min(ready_pages, free_list->grow_pages);
 +
-+	stack_entry = pvr_fw_find_layout_entry(layout_entries, num_layout_entries, MIPS_STACK);
-+	if (!stack_entry)
-+		return -EINVAL;
++	/*
++	 * The number of pages must be a multiple of the free list align size.
++	 */
++	ready_pages &= ~FREE_LIST_ALIGNMENT;
 +
-+	boot_data = (struct rogue_mipsfw_boot_data *)(fw_data_ptr + boot_data_entry->alloc_offset +
-+						      ROGUE_MIPSFW_BOOTLDR_CONF_OFFSET);
-+
-+	WARN_ON(pvr_fw_object_get_dma_addr(fw_dev->mem.data_obj, stack_entry->alloc_offset,
-+					   &dma_addr));
-+	boot_data->stack_phys_addr = dma_addr;
-+
-+	boot_data->reg_base = pvr_dev->regs_resource->start;
-+
-+	for (page_nr = 0; page_nr < ARRAY_SIZE(boot_data->pt_phys_addr); page_nr++) {
-+		WARN_ON(pvr_gem_get_dma_addr(mips_data->pt_obj,
-+					     page_nr << ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K, &dma_addr));
-+
-+		boot_data->pt_phys_addr[page_nr] = dma_addr;
-+	}
-+
-+	boot_data->pt_log2_page_size = ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	boot_data->pt_num_pages = ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES;
-+	boot_data->reserved1 = 0;
-+	boot_data->reserved2 = 0;
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_mips_wrapper_init(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_mips_data *mips_data = pvr_dev->fw_dev.processor_data.mips_data;
-+	const u64 remap_settings = ROGUE_MIPSFW_BOOT_REMAP_LOG2_SEGMENT_SIZE;
-+	u32 phys_bus_width;
-+
-+	int err = PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width);
-+
-+	if (WARN_ON(err))
-+		return err;
-+
-+	/* Currently MIPS FW only supported with physical bus width > 32 bits. */
-+	if (WARN_ON(phys_bus_width <= 32))
-+		return -EINVAL;
-+
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MIPS_WRAPPER_CONFIG,
-+		       (ROGUE_MIPSFW_REGISTERS_VIRTUAL_BASE >>
-+			ROGUE_MIPSFW_WRAPPER_CONFIG_REGBANK_ADDR_ALIGN) |
-+		       ROGUE_CR_MIPS_WRAPPER_CONFIG_BOOT_ISA_MODE_MICROMIPS);
-+
-+	/* Configure remap for boot code, boot data and exceptions code areas. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1,
-+		       ROGUE_MIPSFW_BOOT_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2,
-+		       (mips_data->boot_code_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP1_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	if (PVR_HAS_QUIRK(pvr_dev, 63553)) {
-+		/*
-+		 * WA always required on 36 bit cores, to avoid continuous unmapped memory accesses
-+		 * to address 0x0.
-+		 */
-+		WARN_ON(phys_bus_width != 36);
-+
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1,
-+			       ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG1_MODE_ENABLE_EN);
-+		pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2,
-+			       (mips_data->boot_code_dma_addr &
-+				~ROGUE_CR_MIPS_ADDR_REMAP5_CONFIG2_ADDR_OUT_CLRMSK) |
-+			       remap_settings);
-+	}
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1,
-+		       ROGUE_MIPSFW_DATA_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2,
-+		       (mips_data->boot_data_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP2_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1,
-+		       ROGUE_MIPSFW_CODE_REMAP_PHYS_ADDR_IN |
-+		       ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG1_MODE_ENABLE_EN);
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2,
-+		       (mips_data->exception_code_dma_addr &
-+			~ROGUE_CR_MIPS_ADDR_REMAP3_CONFIG2_ADDR_OUT_CLRMSK) | remap_settings);
-+
-+	/* Garten IDLE bit controlled by MIPS. */
-+	pvr_cr_write64(pvr_dev, ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG,
-+		       ROGUE_CR_MTS_GARTEN_WRAPPER_CONFIG_IDLE_CTRL_META);
-+
-+	/* Turn on the EJTAG probe. */
-+	pvr_cr_write32(pvr_dev, ROGUE_CR_MIPS_DEBUG_CONFIG, 0);
-+
-+	return 0;
++	return ready_pages;
 +}
 +
 +static u32
-+pvr_mips_get_fw_addr_with_offset(struct pvr_fw_object *fw_obj, u32 offset)
++calculate_free_list_ready_pages(struct pvr_free_list *free_list, u32 pages)
 +{
-+	struct pvr_device *pvr_dev = to_pvr_device(gem_from_pvr_gem(fw_obj->gem)->dev);
++	u32 ret;
 +
-+	/* MIPS cacheability is determined by page table. */
-+	return ((fw_obj->fw_addr_offset + offset) & pvr_dev->fw_dev.fw_heap_info.offset_mask) |
-+	       ROGUE_FW_HEAP_MIPS_BASE;
++	mutex_lock(&free_list->lock);
++
++	ret = calculate_free_list_ready_pages_locked(free_list, pages);
++
++	mutex_unlock(&free_list->lock);
++
++	return ret;
 +}
 +
-+static bool
-+pvr_mips_has_fixed_data_addr(void)
++static void
++free_list_fw_init(void *cpu_ptr, void *priv)
 +{
-+	return true;
++	struct rogue_fwif_freelist *fw_data = cpu_ptr;
++	struct pvr_free_list *free_list = priv;
++	u32 ready_pages;
++
++	/* Fill out FW structure */
++	ready_pages = calculate_free_list_ready_pages(free_list,
++						      free_list->initial_num_pages);
++
++	fw_data->max_pages = free_list->max_pages;
++	fw_data->current_pages = free_list->initial_num_pages - ready_pages;
++	fw_data->grow_pages = free_list->grow_pages;
++	fw_data->ready_pages = ready_pages;
++	fw_data->freelist_id = free_list->fw_id;
++	fw_data->grow_pending = false;
++	fw_data->current_stack_top = fw_data->current_pages - 1;
++	fw_data->freelist_dev_addr = free_list->free_list_gpu_addr;
++	fw_data->current_dev_addr = (fw_data->freelist_dev_addr +
++				     ((fw_data->max_pages - fw_data->current_pages) *
++				      FREE_LIST_ENTRY_SIZE)) &
++				    ~((u64)ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE - 1);
 +}
 +
-+const struct pvr_fw_defs pvr_fw_defs_mips = {
-+	.init = pvr_mips_init,
-+	.fini = pvr_mips_fini,
-+	.fw_process = pvr_mips_fw_process,
-+	.vm_map = pvr_vm_mips_map,
-+	.vm_unmap = pvr_vm_mips_unmap,
-+	.get_fw_addr_with_offset = pvr_mips_get_fw_addr_with_offset,
-+	.wrapper_init = pvr_mips_wrapper_init,
-+	.has_fixed_data_addr = pvr_mips_has_fixed_data_addr,
-+	.irq = {
-+		.enable_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_ENABLE,
-+		.status_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS,
-+		.clear_reg = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR,
-+		.event_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_STATUS_EVENT_EN,
-+		.clear_mask = ROGUE_CR_MIPS_WRAPPER_IRQ_CLEAR_EVENT_EN,
-+	},
-+};
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_mips.h b/drivers/gpu/drm/imagination/pvr_fw_mips.h
++static int
++free_list_create_fw_structure(struct pvr_file *pvr_file,
++			      struct drm_pvr_ioctl_create_free_list_args *args,
++			      struct pvr_free_list *free_list)
++{
++	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
++
++	/*
++	 * Create and map the FW structure so we can initialise it. This is not
++	 * accessed on the CPU side post-initialisation so the mapping lifetime
++	 * is only for this function.
++	 */
++	free_list->fw_data = pvr_fw_object_create_and_map(pvr_dev, sizeof(*free_list->fw_data),
++							  PVR_BO_FW_FLAGS_DEVICE_UNCACHED |
++							  DRM_PVR_BO_CREATE_ZEROED,
++							  free_list_fw_init, free_list,
++							  &free_list->fw_obj);
++	if (IS_ERR(free_list->fw_data))
++		return PTR_ERR(free_list->fw_data);
++
++	return 0;
++}
++
++static void
++free_list_destroy_fw_structure(struct pvr_free_list *free_list)
++{
++	pvr_fw_object_unmap_and_destroy(free_list->fw_obj);
++}
++
++static int
++pvr_free_list_insert_pages_locked(struct pvr_free_list *free_list,
++				  struct sg_table *sgt, u32 offset, u32 num_pages)
++{
++	struct sg_dma_page_iter dma_iter;
++	u32 *page_list;
++
++	lockdep_assert_held(&free_list->lock);
++
++	page_list = pvr_gem_object_vmap(free_list->obj);
++	if (IS_ERR(page_list))
++		return PTR_ERR(page_list);
++
++	offset /= FREE_LIST_ENTRY_SIZE;
++	/* clang-format off */
++	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
++		dma_addr_t dma_addr = sg_page_iter_dma_address(&dma_iter);
++		u64 dma_pfn = dma_addr >>
++			       ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT;
++		u32 dma_addr_offset;
++
++		BUILD_BUG_ON(ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE > PAGE_SIZE);
++
++		for (dma_addr_offset = 0; dma_addr_offset < PAGE_SIZE;
++		     dma_addr_offset += ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE) {
++			WARN_ON_ONCE(dma_pfn >> 32);
++
++			page_list[offset++] = (u32)dma_pfn;
++			dma_pfn++;
++
++			num_pages--;
++			if (!num_pages)
++				break;
++		}
++
++		if (!num_pages)
++			break;
++	};
++	/* clang-format on */
++
++	/* Make sure our free_list update is flushed. */
++	wmb();
++
++	pvr_gem_object_vunmap(free_list->obj);
++
++	return 0;
++}
++
++static int
++pvr_free_list_insert_node_locked(struct pvr_free_list_node *free_list_node)
++{
++	struct pvr_free_list *free_list = free_list_node->free_list;
++	struct sg_table *sgt;
++	u32 start_page;
++	u32 offset;
++	int err;
++
++	lockdep_assert_held(&free_list->lock);
++
++	start_page = free_list->max_pages - free_list->current_pages -
++		     free_list_node->num_pages;
++	offset = (start_page * FREE_LIST_ENTRY_SIZE) &
++		  ~((u64)ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE - 1);
++
++	sgt = drm_gem_shmem_get_pages_sgt(&free_list_node->mem_obj->base);
++	if (WARN_ON(IS_ERR(sgt)))
++		return PTR_ERR(sgt);
++
++	err = pvr_free_list_insert_pages_locked(free_list, sgt,
++						offset, free_list_node->num_pages);
++	if (!err)
++		free_list->current_pages += free_list_node->num_pages;
++
++	return err;
++}
++
++static int
++pvr_free_list_grow(struct pvr_free_list *free_list, u32 num_pages)
++{
++	struct pvr_device *pvr_dev = free_list->pvr_dev;
++	struct pvr_free_list_node *free_list_node;
++	int err;
++
++	mutex_lock(&free_list->lock);
++
++	if (num_pages & FREE_LIST_ALIGNMENT) {
++		err = -EINVAL;
++		goto err_unlock;
++	}
++
++	free_list_node = kzalloc(sizeof(*free_list_node), GFP_KERNEL);
++	if (!free_list_node) {
++		err = -ENOMEM;
++		goto err_unlock;
++	}
++
++	free_list_node->num_pages = num_pages;
++	free_list_node->free_list = free_list;
++
++	free_list_node->mem_obj = pvr_gem_object_create(pvr_dev,
++							num_pages <<
++							ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT,
++							PVR_BO_FW_FLAGS_DEVICE_CACHED);
++	if (IS_ERR(free_list_node->mem_obj)) {
++		err = PTR_ERR(free_list_node->mem_obj);
++		goto err_free;
++	}
++
++	err = pvr_gem_object_get_pages(free_list_node->mem_obj);
++	if (err < 0)
++		goto err_destroy_gem_object;
++
++	err = pvr_free_list_insert_node_locked(free_list_node);
++	if (err)
++		goto err_put_pages;
++
++	list_add_tail(&free_list_node->node, &free_list->mem_block_list);
++
++	/*
++	 * Reserve a number ready pages to allow the FW to process OOM quickly
++	 * and asynchronously request a grow.
++	 */
++	free_list->ready_pages =
++		calculate_free_list_ready_pages_locked(free_list,
++						       free_list->current_pages);
++	free_list->current_pages -= free_list->ready_pages;
++
++	mutex_unlock(&free_list->lock);
++
++	return 0;
++
++err_put_pages:
++	pvr_gem_object_put_pages(free_list_node->mem_obj);
++
++err_destroy_gem_object:
++	pvr_gem_object_put(free_list_node->mem_obj);
++
++err_free:
++	kfree(free_list_node);
++
++err_unlock:
++	mutex_unlock(&free_list->lock);
++
++	return err;
++}
++
++void pvr_free_list_process_grow_req(struct pvr_device *pvr_dev,
++				    struct rogue_fwif_fwccb_cmd_freelist_gs_data *req)
++{
++	struct pvr_free_list *free_list = pvr_free_list_lookup_id(pvr_dev, req->freelist_id);
++	struct rogue_fwif_kccb_cmd resp_cmd = {
++		.cmd_type = ROGUE_FWIF_KCCB_CMD_FREELIST_GROW_UPDATE,
++	};
++	struct rogue_fwif_freelist_gs_data *resp = &resp_cmd.cmd_data.free_list_gs_data;
++	u32 grow_pages = 0;
++
++	/* If we don't have a freelist registered for this ID, we can't do much. */
++	if (WARN_ON(!free_list))
++		return;
++
++	/* Since the FW made the request, it has already consumed the ready pages,
++	 * update the host struct.
++	 */
++	free_list->current_pages += free_list->ready_pages;
++	free_list->ready_pages = 0;
++
++	/* If the grow succeeds, update the grow_pages argument. */
++	if (!pvr_free_list_grow(free_list, free_list->grow_pages))
++		grow_pages = free_list->grow_pages;
++
++	/* Now prepare the response and send it back to the FW. */
++	pvr_fw_object_get_fw_addr(free_list->fw_obj, &resp->freelist_fw_addr);
++	resp->delta_pages = grow_pages;
++	resp->new_pages = free_list->current_pages + free_list->ready_pages;
++	resp->ready_pages = free_list->ready_pages;
++	pvr_free_list_put(free_list);
++
++	WARN_ON(pvr_kccb_send_cmd(pvr_dev, &resp_cmd, NULL));
++}
++
++static void
++pvr_free_list_free_node(struct pvr_free_list_node *free_list_node)
++{
++	pvr_gem_object_put_pages(free_list_node->mem_obj);
++	pvr_gem_object_put(free_list_node->mem_obj);
++
++	kfree(free_list_node);
++}
++
++/**
++ * pvr_free_list_create() - Create a new free list and return an object pointer
++ * @pvr_file: Pointer to pvr_file structure.
++ * @args: Creation arguments from userspace.
++ *
++ * Return:
++ *  * Pointer to new free_list, or
++ *  * ERR_PTR(-%ENOMEM) on out of memory.
++ */
++struct pvr_free_list *
++pvr_free_list_create(struct pvr_file *pvr_file,
++		     struct drm_pvr_ioctl_create_free_list_args *args)
++{
++	struct pvr_free_list *free_list;
++	int err;
++
++	/* Create and fill out the kernel structure */
++	free_list = kzalloc(sizeof(*free_list), GFP_KERNEL);
++
++	if (!free_list)
++		return ERR_PTR(-ENOMEM);
++
++	kref_init(&free_list->ref_count);
++	INIT_LIST_HEAD(&free_list->mem_block_list);
++	INIT_LIST_HEAD(&free_list->hwrt_list);
++	mutex_init(&free_list->lock);
++
++	err = free_list_create_kernel_structure(pvr_file, args, free_list);
++	if (err < 0)
++		goto err_free;
++
++	/* Allocate global object ID for firmware. */
++	err = xa_alloc(&pvr_file->pvr_dev->free_list_ids,
++		       &free_list->fw_id,
++		       free_list,
++		       xa_limit_32b,
++		       GFP_KERNEL);
++	if (err)
++		goto err_destroy_kernel_structure;
++
++	err = free_list_create_fw_structure(pvr_file, args, free_list);
++	if (err < 0)
++		goto err_free_fw_id;
++
++	err = pvr_free_list_grow(free_list, args->initial_num_pages);
++	if (err < 0)
++		goto err_fw_struct_cleanup;
++
++	return free_list;
++
++err_fw_struct_cleanup:
++	WARN_ON(pvr_fw_structure_cleanup(free_list->pvr_dev,
++					 ROGUE_FWIF_CLEANUP_FREELIST,
++					 free_list->fw_obj, 0));
++
++err_free_fw_id:
++	xa_erase(&free_list->pvr_dev->free_list_ids, free_list->fw_id);
++
++err_destroy_kernel_structure:
++	free_list_destroy_kernel_structure(free_list);
++
++err_free:
++	mutex_destroy(&free_list->lock);
++	kfree(free_list);
++
++	return ERR_PTR(err);
++}
++
++static void
++pvr_free_list_release(struct kref *ref_count)
++{
++	struct pvr_free_list *free_list =
++		container_of(ref_count, struct pvr_free_list, ref_count);
++	struct list_head *pos, *n;
++	int err;
++
++	xa_erase(&free_list->pvr_dev->free_list_ids, free_list->fw_id);
++
++	err = pvr_fw_structure_cleanup(free_list->pvr_dev,
++				       ROGUE_FWIF_CLEANUP_FREELIST,
++				       free_list->fw_obj, 0);
++	if (err == -EBUSY) {
++		/* Flush the FWCCB to process any HWR or freelist reconstruction
++		 * request that might keep the freelist busy, and try again.
++		 */
++		pvr_fwccb_process(free_list->pvr_dev);
++		err = pvr_fw_structure_cleanup(free_list->pvr_dev,
++					       ROGUE_FWIF_CLEANUP_FREELIST,
++					       free_list->fw_obj, 0);
++	}
++
++	WARN_ON(err);
++
++	/* clang-format off */
++	list_for_each_safe(pos, n, &free_list->mem_block_list) {
++		struct pvr_free_list_node *free_list_node =
++			container_of(pos, struct pvr_free_list_node, node);
++
++		list_del(pos);
++		pvr_free_list_free_node(free_list_node);
++	}
++	/* clang-format on */
++
++	free_list_destroy_kernel_structure(free_list);
++	free_list_destroy_fw_structure(free_list);
++	mutex_destroy(&free_list->lock);
++	kfree(free_list);
++}
++
++/**
++ * pvr_destroy_free_lists_for_file: Destroy any free lists associated with the
++ * given file.
++ * @pvr_file: Pointer to pvr_file structure.
++ *
++ * Removes all free lists associated with @pvr_file from the device free_list
++ * list and drops initial references. Free lists will then be destroyed once
++ * all outstanding references are dropped.
++ */
++void pvr_destroy_free_lists_for_file(struct pvr_file *pvr_file)
++{
++	struct pvr_free_list *free_list;
++	unsigned long handle;
++
++	xa_for_each(&pvr_file->free_list_handles, handle, free_list) {
++		(void)free_list;
++		pvr_free_list_put(xa_erase(&pvr_file->free_list_handles, handle));
++	}
++}
++
++/**
++ * pvr_free_list_put() - Release reference on free list
++ * @free_list: Pointer to list to release reference on
++ */
++void
++pvr_free_list_put(struct pvr_free_list *free_list)
++{
++	if (free_list)
++		kref_put(&free_list->ref_count, pvr_free_list_release);
++}
++
++void pvr_free_list_add_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data)
++{
++	mutex_lock(&free_list->lock);
++
++	list_add_tail(&hwrt_data->freelist_node, &free_list->hwrt_list);
++
++	mutex_unlock(&free_list->lock);
++}
++
++void pvr_free_list_remove_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data)
++{
++	mutex_lock(&free_list->lock);
++
++	list_del(&hwrt_data->freelist_node);
++
++	mutex_unlock(&free_list->lock);
++}
++
++static void
++pvr_free_list_reconstruct(struct pvr_device *pvr_dev, u32 freelist_id)
++{
++	struct pvr_free_list *free_list = pvr_free_list_lookup_id(pvr_dev, freelist_id);
++	struct pvr_free_list_node *free_list_node;
++	struct rogue_fwif_freelist *fw_data;
++	struct pvr_hwrt_data *hwrt_data;
++
++	if (!free_list)
++		return;
++
++	mutex_lock(&free_list->lock);
++
++	/* Rebuild the free list based on the memory block list. */
++	free_list->current_pages = 0;
++
++	list_for_each_entry(free_list_node, &free_list->mem_block_list, node)
++		WARN_ON(pvr_free_list_insert_node_locked(free_list_node));
++
++	/*
++	 * Remove the ready pages, which are reserved to allow the FW to process OOM quickly and
++	 * asynchronously request a grow.
++	 */
++	free_list->current_pages -= free_list->ready_pages;
++
++	fw_data = free_list->fw_data;
++	fw_data->current_stack_top = fw_data->current_pages - 1;
++	fw_data->allocated_page_count = 0;
++	fw_data->allocated_mmu_page_count = 0;
++
++	/* Reset the state of any associated HWRTs. */
++	list_for_each_entry(hwrt_data, &free_list->hwrt_list, freelist_node) {
++		struct rogue_fwif_hwrtdata *hwrt_fw_data = pvr_fw_object_vmap(hwrt_data->fw_obj);
++
++		if (!WARN_ON(IS_ERR(hwrt_fw_data))) {
++			hwrt_fw_data->state = ROGUE_FWIF_RTDATA_STATE_HWR;
++			hwrt_fw_data->hwrt_data_flags &= ~HWRTDATA_HAS_LAST_GEOM;
++		}
++
++		pvr_fw_object_vunmap(hwrt_data->fw_obj);
++	}
++
++	mutex_unlock(&free_list->lock);
++
++	pvr_free_list_put(free_list);
++}
++
++void
++pvr_free_list_process_reconstruct_req(struct pvr_device *pvr_dev,
++				struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data *req)
++{
++	struct rogue_fwif_kccb_cmd resp_cmd = {
++		.cmd_type = ROGUE_FWIF_KCCB_CMD_FREELISTS_RECONSTRUCTION_UPDATE,
++	};
++	struct rogue_fwif_freelists_reconstruction_data *resp =
++		&resp_cmd.cmd_data.free_lists_reconstruction_data;
++
++	for (u32 i = 0; i < req->freelist_count; i++)
++		pvr_free_list_reconstruct(pvr_dev, req->freelist_ids[i]);
++
++	resp->freelist_count = req->freelist_count;
++	memcpy(resp->freelist_ids, req->freelist_ids,
++	       req->freelist_count * sizeof(resp->freelist_ids[0]));
++
++	WARN_ON(pvr_kccb_send_cmd(pvr_dev, &resp_cmd, NULL));
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_free_list.h b/drivers/gpu/drm/imagination/pvr_free_list.h
 new file mode 100644
-index 000000000000..6e54e603d481
+index 000000000000..2898aa692c8e
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_fw_mips.h
-@@ -0,0 +1,38 @@
++++ b/drivers/gpu/drm/imagination/pvr_free_list.h
+@@ -0,0 +1,195 @@
 +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2022 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_FW_MIPS_H
-+#define PVR_FW_MIPS_H
++#ifndef PVR_FREE_LIST_H
++#define PVR_FREE_LIST_H
 +
++#include <linux/compiler_attributes.h>
++#include <linux/kref.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
 +#include <linux/types.h>
-+
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_gem_object;
-+
-+/**
-+ * struct pvr_fw_mips_data - MIPS-specific data
-+ */
-+struct pvr_fw_mips_data {
-+	/** @pt_obj: Object representing MIPS pagetable. */
-+	struct pvr_gem_object *pt_obj;
-+
-+	/** @pt: Pointer to CPU mapping of MIPS pagetable. */
-+	u32 *pt;
-+
-+	/** @boot_code_dma_addr: DMA address of MIPS boot code. */
-+	dma_addr_t boot_code_dma_addr;
-+
-+	/** @boot_data_dma_addr: DMA address of MIPS boot data. */
-+	dma_addr_t boot_data_dma_addr;
-+
-+	/** @exception_code_dma_addr: DMA address of MIPS exception code. */
-+	dma_addr_t exception_code_dma_addr;
-+
-+	/** @cache_policy: Cache policy for this processor. */
-+	u32 cache_policy;
-+
-+	/** @pfn_mask: PFN mask for MIPS pagetable. */
-+	u32 pfn_mask;
-+};
-+
-+#endif /* PVR_FW_MIPS_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.c b/drivers/gpu/drm/imagination/pvr_vm_mips.c
-new file mode 100644
-index 000000000000..1bab16fb664d
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_vm_mips.c
-@@ -0,0 +1,209 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2022 Imagination Technologies Ltd. */
++#include <linux/xarray.h>
++#include <uapi/drm/pvr_drm.h>
 +
 +#include "pvr_device.h"
-+#include "pvr_fw_mips.h"
-+#include "pvr_gem.h"
-+#include "pvr_mmu.h"
-+#include "pvr_rogue_mips.h"
-+#include "pvr_vm.h"
-+#include "pvr_vm_mips.h"
-+
-+#include <drm/drm_managed.h>
-+#include <linux/err.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+/**
-+ * pvr_vm_mips_init() - Initialise MIPS FW pagetable
-+ * @pvr_dev: Target PowerVR device.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EINVAL,
-+ *  * Any error returned by pvr_gem_object_create(), or
-+ *  * And error returned by pvr_gem_object_vmap().
-+ */
-+int
-+pvr_vm_mips_init(struct pvr_device *pvr_dev)
-+{
-+	u32 pt_size = 1 << ROGUE_MIPSFW_LOG2_PAGETABLE_SIZE_4K(pvr_dev);
-+	struct pvr_fw_mips_data *mips_data;
-+	u32 phys_bus_width;
-+	int err;
-+
-+	/* Page table size must be at most ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * 4k pages. */
-+	if (pt_size > ROGUE_MIPSFW_MAX_NUM_PAGETABLE_PAGES * SZ_4K)
-+		return -EINVAL;
-+
-+	if (PVR_FEATURE_VALUE(pvr_dev, phys_bus_width, &phys_bus_width))
-+		return -EINVAL;
-+
-+	mips_data = drmm_kzalloc(from_pvr_device(pvr_dev), sizeof(*mips_data), GFP_KERNEL);
-+	if (!mips_data)
-+		return -ENOMEM;
-+
-+	mips_data->pt_obj = pvr_gem_object_create(pvr_dev, pt_size,
-+						  DRM_PVR_BO_DEVICE_PM_FW_PROTECT |
-+						  DRM_PVR_BO_CREATE_ZEROED);
-+	if (IS_ERR(mips_data->pt_obj))
-+		return PTR_ERR(mips_data->pt_obj);
-+
-+	mips_data->pt = pvr_gem_object_vmap(mips_data->pt_obj);
-+	if (IS_ERR(mips_data->pt)) {
-+		err = PTR_ERR(mips_data->pt);
-+		goto err_put_obj;
-+	}
-+
-+	mips_data->pfn_mask = (phys_bus_width > 32) ? ROGUE_MIPSFW_ENTRYLO_PFN_MASK_ABOVE_32BIT :
-+						      ROGUE_MIPSFW_ENTRYLO_PFN_MASK;
-+
-+	mips_data->cache_policy = (phys_bus_width > 32) ? ROGUE_MIPSFW_CACHED_POLICY_ABOVE_32BIT :
-+							  ROGUE_MIPSFW_CACHED_POLICY;
-+
-+	pvr_dev->fw_dev.processor_data.mips_data = mips_data;
-+
-+	return 0;
-+
-+err_put_obj:
-+	pvr_gem_object_put(mips_data->pt_obj);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_vm_mips_fini() - Release MIPS FW pagetable
-+ * @pvr_dev: Target PowerVR device.
-+ */
-+void
-+pvr_vm_mips_fini(struct pvr_device *pvr_dev)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+
-+	pvr_gem_object_vunmap(mips_data->pt_obj);
-+	pvr_gem_object_put(mips_data->pt_obj);
-+	fw_dev->processor_data.mips_data = NULL;
-+}
-+
-+static u32
-+get_mips_pte_flags(bool read, bool write, u32 cache_policy)
-+{
-+	u32 flags = 0;
-+
-+	if (read && write) /* Read/write. */
-+		flags |= ROGUE_MIPSFW_ENTRYLO_DIRTY_EN;
-+	else if (write)    /* Write only. */
-+		flags |= ROGUE_MIPSFW_ENTRYLO_READ_INHIBIT_EN;
-+	else
-+		WARN_ON(!read);
-+
-+	flags |= cache_policy << ROGUE_MIPSFW_ENTRYLO_CACHE_POLICY_SHIFT;
-+
-+	flags |= ROGUE_MIPSFW_ENTRYLO_VALID_EN | ROGUE_MIPSFW_ENTRYLO_GLOBAL_EN;
-+
-+	return flags;
-+}
-+
-+/**
-+ * pvr_vm_mips_map() - Map a FW object into MIPS address space
-+ * @pvr_dev: Target PowerVR device.
-+ * @fw_obj: FW object to map.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * -%EINVAL if object does not reside within FW address space, or
-+ *  * Any error returned by pvr_fw_object_get_dma_addr().
-+ */
-+int
-+pvr_vm_mips_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	struct pvr_gem_object *pvr_obj = fw_obj->gem;
-+	u64 start = fw_obj->fw_mm_node.start;
-+	u64 size = fw_obj->fw_mm_node.size;
-+	u64 end;
-+	u32 cache_policy;
-+	u32 pte_flags;
-+	u32 start_pfn;
-+	u32 end_pfn;
-+	u32 pfn;
-+	int err;
-+
-+	if (check_add_overflow(start, size - 1, &end))
-+		return -EINVAL;
-+
-+	if (start < ROGUE_FW_HEAP_BASE ||
-+	    start >= ROGUE_FW_HEAP_BASE + fw_dev->fw_heap_info.raw_size ||
-+	    end < ROGUE_FW_HEAP_BASE ||
-+	    end >= ROGUE_FW_HEAP_BASE + fw_dev->fw_heap_info.raw_size ||
-+	    (start & ROGUE_MIPSFW_PAGE_MASK_4K) ||
-+	    ((end + 1) & ROGUE_MIPSFW_PAGE_MASK_4K))
-+		return -EINVAL;
-+
-+	start_pfn = (start & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	end_pfn = (end & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+
-+	if (pvr_obj->flags & PVR_BO_FW_FLAGS_DEVICE_UNCACHED)
-+		cache_policy = ROGUE_MIPSFW_UNCACHED_CACHE_POLICY;
-+	else
-+		cache_policy = mips_data->cache_policy;
-+
-+	pte_flags = get_mips_pte_flags(true, true, cache_policy);
-+
-+	for (pfn = start_pfn; pfn <= end_pfn; pfn++) {
-+		dma_addr_t dma_addr;
-+		u32 pte;
-+
-+		err = pvr_fw_object_get_dma_addr(fw_obj,
-+						 (pfn - start_pfn) <<
-+						 ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K,
-+						 &dma_addr);
-+		if (err)
-+			goto err_unmap_pages;
-+
-+		pte = ((dma_addr >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K)
-+		       << ROGUE_MIPSFW_ENTRYLO_PFN_SHIFT) & mips_data->pfn_mask;
-+		pte |= pte_flags;
-+
-+		WRITE_ONCE(mips_data->pt[pfn], pte);
-+	}
-+
-+	pvr_mmu_flush(pvr_dev);
-+
-+	return 0;
-+
-+err_unmap_pages:
-+	for (; pfn >= start_pfn; pfn--)
-+		WRITE_ONCE(mips_data->pt[pfn], 0);
-+
-+	pvr_mmu_flush(pvr_dev);
-+
-+	return err;
-+}
-+
-+/**
-+ * pvr_vm_mips_unmap() - Unmap a FW object into MIPS address space
-+ * @pvr_dev: Target PowerVR device.
-+ * @fw_obj: FW object to unmap.
-+ */
-+void
-+pvr_vm_mips_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj)
-+{
-+	struct pvr_fw_device *fw_dev = &pvr_dev->fw_dev;
-+	struct pvr_fw_mips_data *mips_data = fw_dev->processor_data.mips_data;
-+	u64 start = fw_obj->fw_mm_node.start;
-+	u64 size = fw_obj->fw_mm_node.size;
-+	u64 end = start + size;
-+
-+	u32 start_pfn = (start & fw_dev->fw_heap_info.offset_mask) >>
-+			ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	u32 end_pfn = (end & fw_dev->fw_heap_info.offset_mask) >> ROGUE_MIPSFW_LOG2_PAGE_SIZE_4K;
-+	u32 pfn;
-+
-+	for (pfn = start_pfn; pfn < end_pfn; pfn++)
-+		WRITE_ONCE(mips_data->pt[pfn], 0);
-+
-+	pvr_mmu_flush(pvr_dev);
-+}
-diff --git a/drivers/gpu/drm/imagination/pvr_vm_mips.h b/drivers/gpu/drm/imagination/pvr_vm_mips.h
-new file mode 100644
-index 000000000000..05bfb0565209
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_vm_mips.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2022 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_VM_MIPS_H
-+#define PVR_VM_MIPS_H
-+
-+/* Forward declaration from pvr_device.h. */
-+struct pvr_device;
 +
 +/* Forward declaration from pvr_gem.h. */
 +struct pvr_fw_object;
 +
-+int
-+pvr_vm_mips_init(struct pvr_device *pvr_dev);
-+void
-+pvr_vm_mips_fini(struct pvr_device *pvr_dev);
-+int
-+pvr_vm_mips_map(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
-+void
-+pvr_vm_mips_unmap(struct pvr_device *pvr_dev, struct pvr_fw_object *fw_obj);
++/* Forward declaration from pvr_gem.h. */
++struct pvr_gem_object;
 +
-+#endif /* PVR_VM_MIPS_H */
++/* Forward declaration from pvr_hwrt.h. */
++struct pvr_hwrt_data;
++
++/**
++ * struct pvr_free_list_node - structure representing an allocation in the free
++ *                             list
++ */
++struct pvr_free_list_node {
++	/** @node: List node for &pvr_free_list.mem_block_list. */
++	struct list_head node;
++
++	/** @free_list: Pointer to owning free list. */
++	struct pvr_free_list *free_list;
++
++	/** @num_pages: Number of pages in this node. */
++	u32 num_pages;
++
++	/** @mem_obj: GEM object representing the pages in this node. */
++	struct pvr_gem_object *mem_obj;
++};
++
++/**
++ * struct pvr_free_list - structure representing a free list
++ */
++struct pvr_free_list {
++	/** @ref_count: Reference count of object. */
++	struct kref ref_count;
++
++	/** @pvr_dev: Pointer to device that owns this object. */
++	struct pvr_device *pvr_dev;
++
++	/** @obj: GEM object representing the free list. */
++	struct pvr_gem_object *obj;
++
++	/** @fw_obj: FW object representing the FW-side structure. */
++	struct pvr_fw_object *fw_obj;
++
++	/** @fw_data: Pointer to CPU mapping of the FW-side structure. */
++	struct rogue_fwif_freelist *fw_data;
++
++	/**
++	 * @lock: Mutex protecting modification of the free list. Must be held when accessing any
++	 *        of the members below.
++	 */
++	struct mutex lock;
++
++	/** @fw_id: Firmware ID for this object. */
++	u32 fw_id;
++
++	/** @current_pages: Current number of pages in free list. */
++	u32 current_pages;
++
++	/** @max_pages: Maximum number of pages in free list. */
++	u32 max_pages;
++
++	/** @grow_pages: Pages to grow free list by per request. */
++	u32 grow_pages;
++
++	/**
++	 * @grow_threshold: Percentage of FL memory used that should trigger a
++	 *                  new grow request.
++	 */
++	u32 grow_threshold;
++
++	/**
++	 * @ready_pages: Number of pages reserved for FW to use while a grow
++	 *               request is being processed.
++	 */
++	u32 ready_pages;
++
++	/** @mem_block_list: List of memory blocks in this free list. */
++	struct list_head mem_block_list;
++
++	/** @hwrt_list: List of HWRTs using this free list. */
++	struct list_head hwrt_list;
++
++	/** @initial_num_pages: Initial number of pages in free list. */
++	u32 initial_num_pages;
++
++	/** @free_list_gpu_addr: Address of free list in GPU address space. */
++	u64 free_list_gpu_addr;
++};
++
++struct pvr_free_list *
++pvr_free_list_create(struct pvr_file *pvr_file,
++		     struct drm_pvr_ioctl_create_free_list_args *args);
++
++void
++pvr_destroy_free_lists_for_file(struct pvr_file *pvr_file);
++
++u32
++pvr_get_free_list_min_pages(struct pvr_device *pvr_dev);
++
++static __always_inline struct pvr_free_list *
++pvr_free_list_get(struct pvr_free_list *free_list)
++{
++	if (free_list)
++		kref_get(&free_list->ref_count);
++
++	return free_list;
++}
++
++/**
++ * pvr_free_list_lookup() - Lookup free list pointer from handle and file
++ * @pvr_file: Pointer to pvr_file structure.
++ * @handle: Object handle.
++ *
++ * Takes reference on free list object. Call pvr_free_list_put() to release.
++ *
++ * Returns:
++ *  * The requested object on success, or
++ *  * %NULL on failure (object does not exist in list, is not a free list, or
++ *    does not belong to @pvr_file)
++ */
++static __always_inline struct pvr_free_list *
++pvr_free_list_lookup(struct pvr_file *pvr_file, u32 handle)
++{
++	struct pvr_free_list *free_list;
++
++	xa_lock(&pvr_file->free_list_handles);
++	free_list = pvr_free_list_get(xa_load(&pvr_file->free_list_handles, handle));
++	xa_unlock(&pvr_file->free_list_handles);
++
++	return free_list;
++}
++
++/**
++ * pvr_free_list_lookup_id() - Lookup free list pointer from FW ID
++ * @pvr_dev: Device pointer.
++ * @id: FW object ID.
++ *
++ * Takes reference on free list object. Call pvr_free_list_put() to release.
++ *
++ * Returns:
++ *  * The requested object on success, or
++ *  * %NULL on failure (object does not exist in list, or is not a free list)
++ */
++static __always_inline struct pvr_free_list *
++pvr_free_list_lookup_id(struct pvr_device *pvr_dev, u32 id)
++{
++	struct pvr_free_list *free_list;
++
++	xa_lock(&pvr_dev->free_list_ids);
++
++	/* Contexts are removed from the ctx_ids set in the context release path,
++	 * meaning the ref_count reached zero before they get removed. We need
++	 * to make sure we're not trying to acquire a context that's being
++	 * destroyed.
++	 */
++	free_list = xa_load(&pvr_dev->free_list_ids, id);
++	if (free_list && !kref_get_unless_zero(&free_list->ref_count))
++		free_list = NULL;
++	xa_unlock(&pvr_dev->free_list_ids);
++
++	return free_list;
++}
++
++void
++pvr_free_list_put(struct pvr_free_list *free_list);
++
++void
++pvr_free_list_add_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data);
++void
++pvr_free_list_remove_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data);
++
++void pvr_free_list_process_grow_req(struct pvr_device *pvr_dev,
++				    struct rogue_fwif_fwccb_cmd_freelist_gs_data *req);
++
++void
++pvr_free_list_process_reconstruct_req(struct pvr_device *pvr_dev,
++				struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data *req);
++
++#endif /* PVR_FREE_LIST_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_hwrt.c b/drivers/gpu/drm/imagination/pvr_hwrt.c
+new file mode 100644
+index 000000000000..c5432c4b974c
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_hwrt.c
+@@ -0,0 +1,552 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2022 Imagination Technologies Ltd. */
++
++#include "pvr_free_list.h"
++#include "pvr_hwrt.h"
++#include "pvr_gem.h"
++#include "pvr_rogue_cr_defs_client.h"
++#include "pvr_rogue_fwif.h"
++
++#include <drm/drm_gem.h>
++#include <linux/bitops.h>
++#include <linux/math.h>
++#include <linux/slab.h>
++#include <linux/xarray.h>
++#include <uapi/drm/pvr_drm.h>
++
++static_assert(ROGUE_FWIF_NUM_RTDATAS == 2);
++static_assert(ROGUE_FWIF_NUM_GEOMDATAS == 1);
++static_assert(ROGUE_FWIF_NUM_RTDATA_FREELISTS == 2);
++
++/*
++ * struct pvr_rt_mtile_info - Render target macrotile information
++ */
++struct pvr_rt_mtile_info {
++	u32 mtile_x[3];
++	u32 mtile_y[3];
++	u32 tile_max_x;
++	u32 tile_max_y;
++	u32 tile_size_x;
++	u32 tile_size_y;
++	u32 num_tiles_x;
++	u32 num_tiles_y;
++};
++
++/* Size of Shadow Render Target Cache entry */
++#define SRTC_ENTRY_SIZE sizeof(u32)
++/* Size of Renders Accumulation Array entry */
++#define RAA_ENTRY_SIZE sizeof(u32)
++
++static int
++hwrt_init_kernel_structure(struct pvr_file *pvr_file,
++			   struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
++			   struct pvr_hwrt_dataset *hwrt)
++{
++	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
++	int err;
++	int i;
++
++	hwrt->pvr_dev = pvr_dev;
++	hwrt->max_rts = args->layers;
++
++	/* Get pointers to the free lists */
++	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
++		hwrt->free_lists[i] = pvr_free_list_lookup(pvr_file,  args->free_list_handles[i]);
++		if (!hwrt->free_lists[i]) {
++			err = -EINVAL;
++			goto err_put_free_lists;
++		}
++	}
++
++	if (hwrt->free_lists[ROGUE_FW_LOCAL_FREELIST]->current_pages <
++	    pvr_get_free_list_min_pages(pvr_dev)) {
++		err = -EINVAL;
++		goto err_put_free_lists;
++	}
++
++	return 0;
++
++err_put_free_lists:
++	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
++		pvr_free_list_put(hwrt->free_lists[i]);
++		hwrt->free_lists[i] = NULL;
++	}
++
++	return err;
++}
++
++static void
++hwrt_fini_kernel_structure(struct pvr_hwrt_dataset *hwrt)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
++		pvr_free_list_put(hwrt->free_lists[i]);
++		hwrt->free_lists[i] = NULL;
++	}
++}
++
++static void
++hwrt_fini_common_fw_structure(struct pvr_hwrt_dataset *hwrt)
++{
++	pvr_fw_object_destroy(hwrt->common_fw_obj);
++}
++
++static int
++get_cr_isp_mtile_size_val(struct pvr_device *pvr_dev, u32 samples,
++			  struct pvr_rt_mtile_info *info, u32 *value_out)
++{
++	u32 x = info->mtile_x[0];
++	u32 y = info->mtile_y[0];
++	u32 samples_per_pixel;
++	int err;
++
++	err = PVR_FEATURE_VALUE(pvr_dev, isp_samples_per_pixel, &samples_per_pixel);
++	if (err)
++		return err;
++
++	if (samples_per_pixel == 1) {
++		if (samples >= 4)
++			x <<= 1;
++		if (samples >= 2)
++			y <<= 1;
++	} else if (samples_per_pixel == 2) {
++		if (samples >= 8)
++			x <<= 1;
++		if (samples >= 4)
++			y <<= 1;
++	} else if (samples_per_pixel == 4) {
++		if (samples >= 8)
++			y <<= 1;
++	} else {
++		WARN(true, "Unsupported ISP samples per pixel value");
++		return -EINVAL;
++	}
++
++	*value_out = ((x << ROGUE_CR_ISP_MTILE_SIZE_X_SHIFT) & ~ROGUE_CR_ISP_MTILE_SIZE_X_CLRMSK) |
++		     ((y << ROGUE_CR_ISP_MTILE_SIZE_Y_SHIFT) & ~ROGUE_CR_ISP_MTILE_SIZE_Y_CLRMSK);
++
++	return 0;
++}
++
++static int
++get_cr_multisamplectl_val(u32 samples, bool y_flip, u64 *value_out)
++{
++	static const struct {
++		u8 x[8];
++		u8 y[8];
++	} sample_positions[4] = {
++		/* 1 sample */
++		{
++			.x = { 8 },
++			.y = { 8 },
++		},
++		/* 2 samples */
++		{
++			.x = { 12, 4 },
++			.y = { 12, 4 },
++		},
++		/* 4 samples */
++		{
++			.x = { 6, 14, 2, 10 },
++			.y = { 2, 6, 10, 14 },
++		},
++		/* 8 samples */
++		{
++			.x = { 9, 7, 13, 5, 3, 1, 11, 15 },
++			.y = { 5, 11, 9, 3, 13, 7, 15, 1 },
++		},
++	};
++	const int idx = fls(samples) - 1;
++	u64 value = 0;
++
++	if (idx < 0 || idx > 3)
++		return -EINVAL;
++
++	for (u32 i = 0; i < 8; i++) {
++		value |= sample_positions[idx].x[i] << (i * 8);
++		if (y_flip)
++			value |= ((16 - sample_positions[idx].y[i]) & 0xf) << (i * 8 + 4);
++		else
++			value |= (sample_positions[idx].y[i]) << (i * 8 + 4);
++	}
++
++	*value_out = value;
++
++	return 0;
++}
++
++static int
++get_cr_te_aa_val(struct pvr_device *pvr_dev, u32 samples, u32 *value_out)
++{
++	u32 samples_per_pixel;
++	u32 value = 0;
++	int err = 0;
++
++	err = PVR_FEATURE_VALUE(pvr_dev, isp_samples_per_pixel, &samples_per_pixel);
++	if (err)
++		return err;
++
++	switch (samples_per_pixel) {
++	case 1:
++		if (samples >= 2)
++			value |= ROGUE_CR_TE_AA_Y_EN;
++		if (samples >= 4)
++			value |= ROGUE_CR_TE_AA_X_EN;
++		break;
++	case 2:
++		if (samples >= 2)
++			value |= ROGUE_CR_TE_AA_X2_EN;
++		if (samples >= 4)
++			value |= ROGUE_CR_TE_AA_Y_EN;
++		if (samples >= 8)
++			value |= ROGUE_CR_TE_AA_X_EN;
++		break;
++	case 4:
++		if (samples >= 2)
++			value |= ROGUE_CR_TE_AA_X2_EN;
++		if (samples >= 4)
++			value |= ROGUE_CR_TE_AA_Y2_EN;
++		if (samples >= 8)
++			value |= ROGUE_CR_TE_AA_Y_EN;
++		break;
++	default:
++		WARN(true, "Unsupported ISP samples per pixel value");
++		return -EINVAL;
++	}
++
++	*value_out = value;
++
++	return 0;
++}
++
++static void
++hwrtdata_common_init(void *cpu_ptr, void *priv)
++{
++	struct pvr_hwrt_dataset *hwrt = priv;
++
++	memcpy(cpu_ptr, &hwrt->common, sizeof(hwrt->common));
++}
++
++static int
++hwrt_init_common_fw_structure(struct pvr_file *pvr_file,
++			      struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
++			      struct pvr_hwrt_dataset *hwrt)
++{
++	struct drm_pvr_create_hwrt_geom_data_args *geom_data_args = &args->geom_data_args;
++	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
++	struct pvr_rt_mtile_info info;
++	int err;
++
++	err = PVR_FEATURE_VALUE(pvr_dev, tile_size_x, &info.tile_size_x);
++	if (WARN_ON(err))
++		return err;
++
++	err = PVR_FEATURE_VALUE(pvr_dev, tile_size_y, &info.tile_size_y);
++	if (WARN_ON(err))
++		return err;
++
++	info.num_tiles_x = DIV_ROUND_UP(args->width, info.tile_size_x);
++	info.num_tiles_y = DIV_ROUND_UP(args->height, info.tile_size_y);
++
++	if (PVR_HAS_FEATURE(pvr_dev, simple_internal_parameter_format)) {
++		u32 parameter_format;
++
++		err = PVR_FEATURE_VALUE(pvr_dev, simple_internal_parameter_format,
++					&parameter_format);
++		if (WARN_ON(err))
++			return err;
++
++		WARN_ON(parameter_format != 2);
++
++		/*
++		 * Set up 16 macrotiles with a multiple of 2x2 tiles per macrotile, which is
++		 * aligned to a tile group.
++		 */
++		info.mtile_x[0] = DIV_ROUND_UP(info.num_tiles_x, 8) * 2;
++		info.mtile_y[0] = DIV_ROUND_UP(info.num_tiles_y, 8) * 2;
++		info.mtile_x[1] = 0;
++		info.mtile_y[1] = 0;
++		info.mtile_x[2] = 0;
++		info.mtile_y[2] = 0;
++		info.tile_max_x = round_up(info.num_tiles_x, 2) - 1;
++		info.tile_max_y = round_up(info.num_tiles_y, 2) - 1;
++	} else {
++		/* Set up 16 macrotiles with a multiple of 4x4 tiles per macrotile. */
++		info.mtile_x[0] = round_up(DIV_ROUND_UP(info.num_tiles_x, 4), 4);
++		info.mtile_y[0] = round_up(DIV_ROUND_UP(info.num_tiles_y, 4), 4);
++		info.mtile_x[1] = info.mtile_x[0] * 2;
++		info.mtile_y[1] = info.mtile_y[0] * 2;
++		info.mtile_x[2] = info.mtile_x[0] * 3;
++		info.mtile_y[2] = info.mtile_y[0] * 3;
++		info.tile_max_x = info.num_tiles_x - 1;
++		info.tile_max_y = info.num_tiles_y - 1;
++	}
++
++	hwrt->common.geom_caches_need_zeroing = false;
++
++	hwrt->common.isp_merge_lower_x = args->isp_merge_lower_x;
++	hwrt->common.isp_merge_lower_y = args->isp_merge_lower_y;
++	hwrt->common.isp_merge_upper_x = args->isp_merge_upper_x;
++	hwrt->common.isp_merge_upper_y = args->isp_merge_upper_y;
++	hwrt->common.isp_merge_scale_x = args->isp_merge_scale_x;
++	hwrt->common.isp_merge_scale_y = args->isp_merge_scale_y;
++
++	err = get_cr_multisamplectl_val(args->samples, false,
++					&hwrt->common.multi_sample_ctl);
++	if (err)
++		return err;
++
++	err = get_cr_multisamplectl_val(args->samples, true,
++					&hwrt->common.flipped_multi_sample_ctl);
++	if (err)
++		return err;
++
++	hwrt->common.mtile_stride = info.mtile_x[0] * info.mtile_y[0];
++
++	err = get_cr_te_aa_val(pvr_dev, args->samples, &hwrt->common.teaa);
++	if (err)
++		return err;
++
++	hwrt->common.screen_pixel_max =
++		(((args->width - 1) << ROGUE_CR_PPP_SCREEN_PIXXMAX_SHIFT) &
++		 ~ROGUE_CR_PPP_SCREEN_PIXXMAX_CLRMSK) |
++		(((args->height - 1) << ROGUE_CR_PPP_SCREEN_PIXYMAX_SHIFT) &
++		 ~ROGUE_CR_PPP_SCREEN_PIXYMAX_CLRMSK);
++
++	hwrt->common.te_screen =
++		((info.tile_max_x << ROGUE_CR_TE_SCREEN_XMAX_SHIFT) &
++		 ~ROGUE_CR_TE_SCREEN_XMAX_CLRMSK) |
++		((info.tile_max_y << ROGUE_CR_TE_SCREEN_YMAX_SHIFT) &
++		 ~ROGUE_CR_TE_SCREEN_YMAX_CLRMSK);
++	hwrt->common.te_mtile1 =
++		((info.mtile_x[0] << ROGUE_CR_TE_MTILE1_X1_SHIFT) & ~ROGUE_CR_TE_MTILE1_X1_CLRMSK) |
++		((info.mtile_x[1] << ROGUE_CR_TE_MTILE1_X2_SHIFT) & ~ROGUE_CR_TE_MTILE1_X2_CLRMSK) |
++		((info.mtile_x[2] << ROGUE_CR_TE_MTILE1_X3_SHIFT) & ~ROGUE_CR_TE_MTILE1_X3_CLRMSK);
++	hwrt->common.te_mtile2 =
++		((info.mtile_y[0] << ROGUE_CR_TE_MTILE2_Y1_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y1_CLRMSK) |
++		((info.mtile_y[1] << ROGUE_CR_TE_MTILE2_Y2_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y2_CLRMSK) |
++		((info.mtile_y[2] << ROGUE_CR_TE_MTILE2_Y3_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y3_CLRMSK);
++
++	err = get_cr_isp_mtile_size_val(pvr_dev, args->samples, &info,
++					&hwrt->common.isp_mtile_size);
++	if (err)
++		return err;
++
++	hwrt->common.tpc_stride = geom_data_args->tpc_stride;
++	hwrt->common.tpc_size = geom_data_args->tpc_size;
++
++	hwrt->common.rgn_header_size = args->region_header_size;
++
++	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_hwrtdata_common),
++				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED |
++				   DRM_PVR_BO_CREATE_ZEROED, hwrtdata_common_init, hwrt,
++				   &hwrt->common_fw_obj);
++
++	return err;
++}
++
++static void
++hwrt_fw_data_init(void *cpu_ptr, void *priv)
++{
++	struct pvr_hwrt_data *hwrt_data = priv;
++
++	memcpy(cpu_ptr, &hwrt_data->data, sizeof(hwrt_data->data));
++}
++
++static int
++hwrt_data_init_fw_structure(struct pvr_file *pvr_file,
++			    struct pvr_hwrt_dataset *hwrt,
++			    struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
++			    struct drm_pvr_create_hwrt_rt_data_args *rt_data_args,
++			    struct pvr_hwrt_data *hwrt_data)
++{
++	struct drm_pvr_create_hwrt_geom_data_args *geom_data_args = &args->geom_data_args;
++	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
++	struct rogue_fwif_rta_ctl *rta_ctl;
++	int free_list_i;
++	int err;
++
++	pvr_fw_object_get_fw_addr(hwrt->common_fw_obj,
++				  &hwrt_data->data.hwrt_data_common_fw_addr);
++
++	for (free_list_i = 0; free_list_i < ARRAY_SIZE(hwrt->free_lists); free_list_i++) {
++		pvr_fw_object_get_fw_addr(hwrt->free_lists[free_list_i]->fw_obj,
++					  &hwrt_data->data.freelists_fw_addr[free_list_i]);
++	}
++
++	hwrt_data->data.tail_ptrs_dev_addr = geom_data_args->tpc_dev_addr;
++	hwrt_data->data.vheap_table_dev_addr = geom_data_args->vheap_table_dev_addr;
++	hwrt_data->data.rtc_dev_addr = geom_data_args->rtc_dev_addr;
++
++	hwrt_data->data.pm_mlist_dev_addr = rt_data_args->pm_mlist_dev_addr;
++	hwrt_data->data.macrotile_array_dev_addr = rt_data_args->macrotile_array_dev_addr;
++	hwrt_data->data.rgn_header_dev_addr = rt_data_args->region_header_dev_addr;
++
++	rta_ctl = &hwrt_data->data.rta_ctl;
++
++	rta_ctl->render_target_index = 0;
++	rta_ctl->active_render_targets = 0;
++	rta_ctl->valid_render_targets_fw_addr = 0;
++	rta_ctl->rta_num_partial_renders_fw_addr = 0;
++	rta_ctl->max_rts = args->layers;
++
++	if (args->layers > 1) {
++		err = pvr_fw_object_create(pvr_dev, args->layers * SRTC_ENTRY_SIZE,
++					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED |
++					   DRM_PVR_BO_CREATE_ZEROED,
++					   NULL, NULL, &hwrt_data->srtc_obj);
++		if (err)
++			return err;
++		pvr_fw_object_get_fw_addr(hwrt_data->srtc_obj,
++					  &rta_ctl->valid_render_targets_fw_addr);
++
++		err = pvr_fw_object_create(pvr_dev, args->layers * RAA_ENTRY_SIZE,
++					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED |
++					   DRM_PVR_BO_CREATE_ZEROED,
++					   NULL, NULL, &hwrt_data->raa_obj);
++		if (err)
++			goto err_put_shadow_rt_cache;
++		pvr_fw_object_get_fw_addr(hwrt_data->raa_obj,
++					  &rta_ctl->rta_num_partial_renders_fw_addr);
++	}
++
++	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_hwrtdata),
++				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED | DRM_PVR_BO_CREATE_ZEROED,
++				   hwrt_fw_data_init, hwrt_data, &hwrt_data->fw_obj);
++	if (err)
++		goto err_put_raa_obj;
++
++	pvr_free_list_add_hwrt(hwrt->free_lists[0], hwrt_data);
++
++	return 0;
++
++err_put_raa_obj:
++	if (args->layers > 1)
++		pvr_fw_object_destroy(hwrt_data->raa_obj);
++
++err_put_shadow_rt_cache:
++	if (args->layers > 1)
++		pvr_fw_object_destroy(hwrt_data->srtc_obj);
++
++	return err;
++}
++
++static void
++hwrt_data_fini_fw_structure(struct pvr_hwrt_dataset *hwrt, int hwrt_nr)
++{
++	struct pvr_hwrt_data *hwrt_data = &hwrt->data[hwrt_nr];
++
++	pvr_free_list_remove_hwrt(hwrt->free_lists[0], hwrt_data);
++
++	if (hwrt->max_rts > 1) {
++		pvr_fw_object_destroy(hwrt_data->raa_obj);
++		pvr_fw_object_destroy(hwrt_data->srtc_obj);
++	}
++
++	pvr_fw_object_destroy(hwrt_data->fw_obj);
++}
++
++/**
++ * pvr_hwrt_dataset_create() - Create a new HWRT dataset
++ * @pvr_file: Pointer to pvr_file structure.
++ * @args: Creation arguments from userspace.
++ *
++ * Return:
++ *  * Pointer to new HWRT, or
++ *  * ERR_PTR(-%ENOMEM) on out of memory.
++ */
++struct pvr_hwrt_dataset *
++pvr_hwrt_dataset_create(struct pvr_file *pvr_file,
++			struct drm_pvr_ioctl_create_hwrt_dataset_args *args)
++{
++	struct pvr_hwrt_dataset *hwrt;
++	int err;
++
++	/* Create and fill out the kernel structure */
++	hwrt = kzalloc(sizeof(*hwrt), GFP_KERNEL);
++
++	if (!hwrt)
++		return ERR_PTR(-ENOMEM);
++
++	kref_init(&hwrt->ref_count);
++
++	err = hwrt_init_kernel_structure(pvr_file, args, hwrt);
++	if (err < 0)
++		goto err_free;
++
++	err = hwrt_init_common_fw_structure(pvr_file, args, hwrt);
++	if (err < 0)
++		goto err_free;
++
++	for (int i = 0; i < ARRAY_SIZE(hwrt->data); i++) {
++		err = hwrt_data_init_fw_structure(pvr_file, hwrt, args,
++						  &args->rt_data_args[i],
++						  &hwrt->data[i]);
++		if (err < 0) {
++			i--;
++			/* Destroy already created structures. */
++			for (; i >= 0; i--)
++				hwrt_data_fini_fw_structure(hwrt, i);
++			goto err_free;
++		}
++
++		hwrt->data[i].hwrt_dataset = hwrt;
++	}
++
++	return hwrt;
++
++err_free:
++	pvr_hwrt_dataset_put(hwrt);
++
++	return ERR_PTR(err);
++}
++
++static void
++pvr_hwrt_dataset_release(struct kref *ref_count)
++{
++	struct pvr_hwrt_dataset *hwrt =
++		container_of(ref_count, struct pvr_hwrt_dataset, ref_count);
++
++	for (int i = ARRAY_SIZE(hwrt->data) - 1; i >= 0; i--) {
++		WARN_ON(pvr_fw_structure_cleanup(hwrt->pvr_dev, ROGUE_FWIF_CLEANUP_HWRTDATA,
++						 hwrt->data[i].fw_obj, 0));
++		hwrt_data_fini_fw_structure(hwrt, i);
++	}
++
++	hwrt_fini_common_fw_structure(hwrt);
++	hwrt_fini_kernel_structure(hwrt);
++
++	kfree(hwrt);
++}
++
++/**
++ * pvr_destroy_hwrt_datasets_for_file: Destroy any HWRT datasets associated
++ * with the given file.
++ * @pvr_file: Pointer to pvr_file structure.
++ *
++ * Removes all HWRT datasets associated with @pvr_file from the device
++ * hwrt_dataset list and drops initial references. HWRT datasets will then be
++ * destroyed once all outstanding references are dropped.
++ */
++void pvr_destroy_hwrt_datasets_for_file(struct pvr_file *pvr_file)
++{
++	struct pvr_hwrt_dataset *hwrt;
++	unsigned long handle;
++
++	xa_for_each(&pvr_file->hwrt_handles, handle, hwrt) {
++		(void)hwrt;
++		pvr_hwrt_dataset_put(xa_erase(&pvr_file->hwrt_handles, handle));
++	}
++}
++
++/**
++ * pvr_hwrt_dataset_put() - Release reference on HWRT dataset
++ * @hwrt: Pointer to HWRT dataset to release reference on
++ */
++void
++pvr_hwrt_dataset_put(struct pvr_hwrt_dataset *hwrt)
++{
++	if (hwrt)
++		kref_put(&hwrt->ref_count, pvr_hwrt_dataset_release);
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_hwrt.h b/drivers/gpu/drm/imagination/pvr_hwrt.h
+new file mode 100644
+index 000000000000..ae1af8383295
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_hwrt.h
+@@ -0,0 +1,165 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2022 Imagination Technologies Ltd. */
++
++#ifndef PVR_HWRT_H
++#define PVR_HWRT_H
++
++#include <linux/compiler_attributes.h>
++#include <linux/kref.h>
++#include <linux/list.h>
++#include <linux/types.h>
++#include <linux/xarray.h>
++#include <uapi/drm/pvr_drm.h>
++
++#include "pvr_device.h"
++#include "pvr_rogue_fwif_shared.h"
++
++/* Forward declaration from pvr_free_list.h. */
++struct pvr_free_list;
++
++/* Forward declaration from pvr_gem.h. */
++struct pvr_fw_object;
++
++/**
++ * struct pvr_hwrt_data - structure representing HWRT data
++ */
++struct pvr_hwrt_data {
++	/** @fw_obj: FW object representing the FW-side structure. */
++	struct pvr_fw_object *fw_obj;
++
++	/** @data: Local copy of FW-side structure. */
++	struct rogue_fwif_hwrtdata data;
++
++	/** @freelist_node: List node connecting this HWRT to the local freelist. */
++	struct list_head freelist_node;
++
++	/**
++	 * @srtc_obj: FW object representing shadow render target cache.
++	 *
++	 * Only valid if @max_rts > 1.
++	 */
++	struct pvr_fw_object *srtc_obj;
++
++	/**
++	 * @raa_obj: FW object representing renders accumulation array.
++	 *
++	 * Only valid if @max_rts > 1.
++	 */
++	struct pvr_fw_object *raa_obj;
++
++	/** @hwrt_dataset: Back pointer to owning HWRT dataset. */
++	struct pvr_hwrt_dataset *hwrt_dataset;
++};
++
++/**
++ * struct pvr_hwrt_dataset - structure representing a HWRT data set.
++ */
++struct pvr_hwrt_dataset {
++	/** @ref_count: Reference count of object. */
++	struct kref ref_count;
++
++	/** @pvr_dev: Pointer to device that owns this object. */
++	struct pvr_device *pvr_dev;
++
++	/** @common_fw_obj: FW object representing common FW-side structure. */
++	struct pvr_fw_object *common_fw_obj;
++
++	struct rogue_fwif_hwrtdata_common common;
++
++	/** @data: HWRT data structures belonging to this set. */
++	struct pvr_hwrt_data data[ROGUE_FWIF_NUM_RTDATAS];
++
++	/** @free_lists: Free lists used by HWRT data set. */
++	struct pvr_free_list *free_lists[ROGUE_FWIF_NUM_RTDATA_FREELISTS];
++
++	/** @max_rts: Maximum render targets for this HWRT data set. */
++	u16 max_rts;
++};
++
++struct pvr_hwrt_dataset *
++pvr_hwrt_dataset_create(struct pvr_file *pvr_file,
++			struct drm_pvr_ioctl_create_hwrt_dataset_args *args);
++
++void
++pvr_destroy_hwrt_datasets_for_file(struct pvr_file *pvr_file);
++
++/**
++ * pvr_hwrt_dataset_lookup() - Lookup HWRT dataset pointer from handle
++ * @pvr_file: Pointer to pvr_file structure.
++ * @handle: Object handle.
++ *
++ * Takes reference on dataset object. Call pvr_hwrt_dataset_put() to release.
++ *
++ * Returns:
++ *  * The requested object on success, or
++ *  * %NULL on failure (object does not exist in list, or is not a HWRT
++ *    dataset)
++ */
++static __always_inline struct pvr_hwrt_dataset *
++pvr_hwrt_dataset_lookup(struct pvr_file *pvr_file, u32 handle)
++{
++	struct pvr_hwrt_dataset *hwrt;
++
++	xa_lock(&pvr_file->hwrt_handles);
++	hwrt = xa_load(&pvr_file->hwrt_handles, handle);
++
++	if (hwrt)
++		kref_get(&hwrt->ref_count);
++
++	xa_unlock(&pvr_file->hwrt_handles);
++
++	return hwrt;
++}
++
++void
++pvr_hwrt_dataset_put(struct pvr_hwrt_dataset *hwrt);
++
++/**
++ * pvr_hwrt_data_lookup() - Lookup HWRT data pointer from handle and index
++ * @pvr_file: Pointer to pvr_file structure.
++ * @handle: Object handle.
++ * @index: Index of RT data within dataset.
++ *
++ * Takes reference on dataset object. Call pvr_hwrt_data_put() to release.
++ *
++ * Returns:
++ *  * The requested object on success, or
++ *  * %NULL on failure (object does not exist in list, or is not a HWRT
++ *    dataset, or index is out of range)
++ */
++static __always_inline struct pvr_hwrt_data *
++pvr_hwrt_data_lookup(struct pvr_file *pvr_file, u32 handle, u32 index)
++{
++	struct pvr_hwrt_dataset *hwrt_dataset = pvr_hwrt_dataset_lookup(pvr_file, handle);
++
++	if (hwrt_dataset) {
++		if (index < ARRAY_SIZE(hwrt_dataset->data))
++			return &hwrt_dataset->data[index];
++
++		pvr_hwrt_dataset_put(hwrt_dataset);
++	}
++
++	return NULL;
++}
++
++/**
++ * pvr_hwrt_data_put() - Release reference on HWRT data
++ * @hwrt: Pointer to HWRT data to release reference on
++ */
++static __always_inline void
++pvr_hwrt_data_put(struct pvr_hwrt_data *hwrt)
++{
++	if (hwrt)
++		pvr_hwrt_dataset_put(hwrt->hwrt_dataset);
++}
++
++static __always_inline struct pvr_hwrt_data *
++pvr_hwrt_data_get(struct pvr_hwrt_data *hwrt)
++{
++	if (hwrt)
++		kref_get(&hwrt->hwrt_dataset->ref_count);
++
++	return hwrt;
++}
++
++#endif /* PVR_HWRT_H */
 -- 
 2.41.0
 
