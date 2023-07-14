@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4417532A4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:11:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 260687532F5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A1C010E7CF;
-	Fri, 14 Jul 2023 07:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCB910E7D6;
+	Fri, 14 Jul 2023 07:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D8D210E7CF
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 07:11:43 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qKCxY-0005DB-0v; Fri, 14 Jul 2023 09:11:24 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qKCxU-00EIO8-Gu; Fri, 14 Jul 2023 09:11:20 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qKCxT-004kNA-SW; Fri, 14 Jul 2023 09:11:19 +0200
-Date: Fri, 14 Jul 2023 09:11:19 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
-Message-ID: <20230714071119.vtc2sqrscrfixj7s@pengutronix.de>
-References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
- <874jm8go61.fsf@intel.com>
- <20230713103940.aeqgcbmcoqepvbax@pengutronix.de>
- <2ypl3btshoovedyyq7jaohjgmwr7egnhazuxuffbxudlljktml@syv5u27skpqr>
- <20230713141023.52dkz5ezicwev74w@pengutronix.de>
- <vnn7b2vk76j4ooccelibkbkblduz5uvjryzfi5vmseljxl3dhq@5ckosntec72j>
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
+ [209.85.128.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBEDF10E7D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 07:18:30 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-5701eaf0d04so13917067b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 00:18:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689319109; x=1691911109;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dAao7P7chUwnMdkU8LunFgLkqh5TGQLJMNbk3gX+1fs=;
+ b=T6iy9du13TPutIhljjOm1d2urQ1l1cjBdqHAPVL41YpMz7iSgpQ70K+c1CU/pV8TO/
+ DapxuBCirx7yNnVtYd/VJj0FKcy94ktmclVC7dSGsScOY9kBChRxmPr+5nsYxyiIvo9K
+ TBL3UwNhvWv2jtdXmcWzIXTBNnA2KWfT2RcEgVANbY2dYhQ32QIidv7r5wiMUomi2JKI
+ LiBVJezGp4311i3Lo3nplaPDu/PwkTfkf6AcHbqY+1/8ipQHPGkFKPM3eG7PUTlzHdFi
+ hZyPticRWnCdoGG47YRig3gsB7u14yjnfBZ56dUAf7WoXIJ6TNwNY9fWojscTwos1y+a
+ bZjA==
+X-Gm-Message-State: ABy/qLYpPOkTqmD4YdBgxzNfV44TvEpO+v7XHPHCCaZP327OkUZkmc4L
+ vFebhtasFROOdvvg+gaNBgG1kRzNqB+wrXPZ
+X-Google-Smtp-Source: APBJJlE5iTsF4y5RkelFjTPwu5Cv2RcFjtLu3okmgJau+u6V5QwUeTqfK/qxuAJD0R7w6/4dlBZYCA==
+X-Received: by 2002:a81:7741:0:b0:577:60d3:e5fd with SMTP id
+ s62-20020a817741000000b0057760d3e5fdmr3948583ywc.28.1689319109314; 
+ Fri, 14 Jul 2023 00:18:29 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
+ [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
+ z123-20020a0dd781000000b00576c534115bsm2191888ywd.34.2023.07.14.00.18.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jul 2023 00:18:28 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-cb7b6ecb3cdso944933276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 00:18:28 -0700 (PDT)
+X-Received: by 2002:a25:1854:0:b0:c6b:ffe2:1431 with SMTP id
+ 81-20020a251854000000b00c6bffe21431mr3074682yby.24.1689319107977; Fri, 14 Jul
+ 2023 00:18:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dd3e5jxajyoqj3mw"
-Content-Disposition: inline
-In-Reply-To: <vnn7b2vk76j4ooccelibkbkblduz5uvjryzfi5vmseljxl3dhq@5ckosntec72j>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20230713163213.1028952-1-javierm@redhat.com>
+In-Reply-To: <20230713163213.1028952-1-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 14 Jul 2023 09:18:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXbboXGYVezzw3_TEu8U6WR=q2x2NjD-aqeF91-DXOD3Q@mail.gmail.com>
+Message-ID: <CAMuHMdXbboXGYVezzw3_TEu8U6WR=q2x2NjD-aqeF91-DXOD3Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/ssd130x: Fix an oops when attempting to update a
+ disabled plane
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +70,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Julia Lawall <julia.lawall@inria.fr>, Sui Jingfeng <suijingfeng@loongson.cn>,
- kernel@pengutronix.de, Jani Nikula <jani.nikula@intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- "Russell King \(Oracle\)" <linux@armlinux.org.uk>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <seanpaul@chromium.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Javier,
 
---dd3e5jxajyoqj3mw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jul 13, 2023 at 6:32=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Geert reports that the following NULL pointer dereference happens for him
+> after commit 49d7d581ceaf ("drm/ssd130x: Don't allocate buffers on each
+> plane update"):
+>
+>     [drm] Initialized ssd130x 1.0.0 20220131 for 0-003c on minor 0
+>     ssd130x-i2c 0-003c: [drm] surface width(128), height(32), bpp(1)
+>     and format(R1   little-endian (0x20203152))
+>     Unable to handle kernel NULL pointer dereference at virtual address 0=
+0000000
+>     Oops [#1]
+>     CPU: 0 PID: 1 Comm: swapper Not tainted
+>     6.5.0-rc1-orangecrab-02219-g0a529a1e4bf4 #565
+>     epc : ssd130x_update_rect.isra.0+0x13c/0x340
+>      ra : ssd130x_update_rect.isra.0+0x2bc/0x340
+>     ...
+>     status: 00000120 badaddr: 00000000 cause: 0000000f
+>     [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
+>     [<c0304200>] ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
+>     [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
+>     [<c02f9314>] drm_atomic_helper_commit_tail+0x5c/0xb4
+>     [<c02f94fc>] commit_tail+0x190/0x1b8
+>     [<c02f99fc>] drm_atomic_helper_commit+0x194/0x1c0
+>     [<c02c5d00>] drm_atomic_commit+0xa4/0xe4
+>     [<c02cce40>] drm_client_modeset_commit_atomic+0x244/0x278
+>     [<c02ccef0>] drm_client_modeset_commit_locked+0x7c/0x1bc
+>     [<c02cd064>] drm_client_modeset_commit+0x34/0x64
+>     [<c0301a78>] __drm_fb_helper_restore_fbdev_mode_unlocked+0xc4/0xe8
+>     [<c0303424>] drm_fb_helper_set_par+0x38/0x58
+>     [<c027c410>] fbcon_init+0x294/0x534
+>     ...
+>
+> The problem is that fbcon calls fbcon_init() which triggers a DRM modeset
+> and this leads to drm_atomic_helper_commit_planes() attempting to commit
+> the atomic state for all planes, even the ones whose CRTC is not enabled.
+>
+> Since the primary plane buffer is allocated in the encoder .atomic_enable
+> callback, this happens after that initial modeset commit and leads to the
+> mentioned NULL pointer dereference.
+>
+> Fix this by not using the default drm_atomic_helper_commit_tail() helper,
+> but instead the drm_atomic_helper_commit_tail_rpm() function that doesn't
+> attempt to commit the atomic state for planes related to inactive CRTCs.
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Hello Maxime,
+Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-On Thu, Jul 13, 2023 at 05:47:54PM +0200, Maxime Ripard wrote:
-> So, on the record, we have 1 drm-misc maintainer, 1 intel GPU
-> maintainer, 1 amdgpu/radeon/dma-buf maintainer and one former drm-misc
-> maintainer pretty much against, or at best skeptical. And you don't have
+> --- a/drivers/gpu/drm/solomon/ssd130x.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> @@ -795,6 +795,10 @@ static const struct drm_mode_config_funcs ssd130x_mo=
+de_config_funcs =3D {
+>         .atomic_commit =3D drm_atomic_helper_commit,
+>  };
+>
+> +static const struct drm_mode_config_helper_funcs ssd130x_mode_config_hel=
+pers =3D {
+> +       .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
 
-So now it's proven that the people who at the time when I prepared the
-2nd series have mainly criticised that I did the crtc rename in several
-patches instead of one are pretty high in the food chain. Yes, there
-was a strong "no", but the others were (at that time and in my
-understanding of their public mails) ok with the idea. So I still think
-the suggestion that I ignored concerns isn't justified.
+The docs say this is intended for drivers that support runtime_pm or
+need the CRTC to be enabled to perform a commit.  Might be worthwhile
+to add basic Runtime PM, so the I2C controller can go to sleep when
+the display is not used.
 
-Today I'm not convinced any more that sending an updated series was a
-good idea, and I excused me for the misunderstanding it produced.
+> +};
+> +
+>  static const uint32_t ssd130x_formats[] =3D {
+>         DRM_FORMAT_XRGB8888,
+>  };
 
-I experience your mail that underlines your allegation heavy-handed
-without considering my reasoning and excuse as aggressive, too.
+Gr{oetje,eeting}s,
 
-I'll put aside my effort to improve the drm code now.
-
-Thanks
-Uwe
+                        Geert
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
---dd3e5jxajyoqj3mw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSw9RcACgkQj4D7WH0S
-/k5cFwf+IltqqL9itAETgJg8XQ4ke/GvZYWypJuK09QxxTg6cVXWjNV4jb3W/H4i
-aNV2OMaBCvrPsKP0bTLibAQRSmSpdPm3bPCuUAdjr7Bh7xMOI4Ab+s1L4mpE/X+9
-sHqnEnF2KL0gQQIJKMlTlSBxwdYB2roccPBwg4uO73pvmDqSqcVFZ/MnduWBhiJ0
-/rKbD99UXg7I4uhy3XaWyZOW4MaAoJlgF27WrUaTYZiiC0551H6wC09l7FTXZGdY
-E3HmuijwczIrEtwCoEf2IjcfeMncGuFptgq86NU4nAng3794wlKcrE50OYZ9uC71
-X5jKSWS71d0jhwHzrzAMMR8+cJHzig==
-=CM77
------END PGP SIGNATURE-----
-
---dd3e5jxajyoqj3mw--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
