@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59AF753702
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8041B75370A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:49:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEC3210E842;
-	Fri, 14 Jul 2023 09:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9784110E846;
+	Fri, 14 Jul 2023 09:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 047CA10E842
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:48:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689328118;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z97MyfIRibDWN3rLru1qWEoPopdMmVgdKe32TsvDViA=;
- b=eJaT95ayOIAEI7n/JVF5JZAiVFi7w/cF4Vz+QBfAASHVp9uGKsMD78VAn857GHhPJNSm0v
- EEGksbZwN6LMtkxqqEn7Z0CnDnnYP+1kwSz1EbPMFwCIjXtkY3jr/Z62mS4SRqhpP3/JnQ
- rtzWooAA3iSp0XHY8niFyVaXTeXeW20=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-316-4gXBXCLfP3SVCAoEAsIJGg-1; Fri, 14 Jul 2023 05:48:37 -0400
-X-MC-Unique: 4gXBXCLfP3SVCAoEAsIJGg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-315a03cae87so1153811f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 02:48:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689328116; x=1691920116;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Z97MyfIRibDWN3rLru1qWEoPopdMmVgdKe32TsvDViA=;
- b=UIho/PFeo29ppK97K/ke5D8YO8kjqW74QQBvKLI0YwOakJqC+LHULUHw58wL96gaoO
- DtufeIiH3Hh8YDN+pLEtrXqkG0HuTQRK4lMPOAdtOkRj1CSloKxR7birvKeutPPogPeW
- gSfdC4LS3QzFDrGT7FqXQ9WwjfibTUbrfjYkoSpzPgNJHJhopTjBIjzMbwqJ9Scmjhw4
- 4HaSSgLXL3H9WEj7z47TpcN0+LjKPyrkADdr7YWVUbq9Ksy+jtFh0axO9NgEOsWYELLI
- NVR5Aq6sFk91Llnl7pujLlPF3d44zNvImNAfgbjs0XszN9I2YprzaZ3wllQIBn/FsM21
- AnpQ==
-X-Gm-Message-State: ABy/qLblj2GyArsMS3Hdu9g73EgnM7d0Py6OxxBZOE/o/6m6bjClnZNv
- /aMCjgbxvyP7mPZzD8eK/Zrm+1tH+hXAe5499Kol9mNxI5PBKz6wacedX57JGXSLJ7MM5zMW+dT
- 41hyDWOgbiAl2Op6PnxGlSzc/QQy5
-X-Received: by 2002:a05:600c:4f46:b0:3fa:125c:8d65 with SMTP id
- m6-20020a05600c4f4600b003fa125c8d65mr1901776wmq.3.1689328116103; 
- Fri, 14 Jul 2023 02:48:36 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGWfZIJyNMIOBOjrpSYm8OGTuUPCpFBy2GQgf6h3deOqmpOOP4cjW8gyAPZVAGHfk4rYWHYVQ==
-X-Received: by 2002:a05:600c:4f46:b0:3fa:125c:8d65 with SMTP id
- m6-20020a05600c4f4600b003fa125c8d65mr1901768wmq.3.1689328115848; 
- Fri, 14 Jul 2023 02:48:35 -0700 (PDT)
-Received: from localhost ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
- s8-20020a7bc388000000b003fb41491670sm1013494wmj.24.2023.07.14.02.48.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jul 2023 02:48:35 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 1/8] drm/ssd130x: Fix pitch calculation in
- ssd130x_fb_blit_rect()
-In-Reply-To: <CAMuHMdVAXPqjSNGMrZQ2g8FNNL4f7PbdoUCi17g9YOdoqmjFpQ@mail.gmail.com>
-References: <cover.1689252746.git.geert@linux-m68k.org>
- <54deec2ec533e90544faa8c60a0c2518c58f3e9c.1689252746.git.geert@linux-m68k.org>
- <87r0pau99o.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdVAXPqjSNGMrZQ2g8FNNL4f7PbdoUCi17g9YOdoqmjFpQ@mail.gmail.com>
-Date: Fri, 14 Jul 2023 11:48:34 +0200
-Message-ID: <874jm69631.fsf@minerva.mail-host-address-is-not-set>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA03F10E843
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:49:16 +0000 (UTC)
+X-UUID: aef91eec222b11ee9cb5633481061a41-20230714
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=h4uR7sIcsW0oD3DH3/+YWiBVGi54OMGtSqKkjMVXam0=; 
+ b=eH9ivg2hXh7RHTT7hYHzcU48QlHUa3l1JxoJmg5SW46EBpdHY8M1wbX8ocdUszdzuro+0VMqCrQpfGD3pg5HHno3/so51YDZPinoqhZBUCvCeWggg2G+m2kjZIYb1SJB1vtaU0gVDessXalLhhA0IJUW3Nw80RQ468WmuBk6xQQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.28, REQID:99505907-65cf-40a0-b82d-106c60c6cd7c, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:176cd25, CLOUDID:f9e49e87-44fb-401c-8de7-6a5572f1f5d5,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: aef91eec222b11ee9cb5633481061a41-20230714
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 272650915; Fri, 14 Jul 2023 17:49:10 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 14 Jul 2023 17:49:10 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 14 Jul 2023 17:49:10 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
+ <amergnat@baylibre.com>
+Subject: [PATCH v4 0/4] Fix mediatek-drm coverity issues
+Date: Fri, 14 Jul 2023 17:49:04 +0800
+Message-ID: <20230714094908.13087-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,65 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+Add this patch series to fix some mediatek-drm coverity issues.
 
-> Hi Javier,
->
-> On Fri, Jul 14, 2023 at 11:34=E2=80=AFAM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> Geert Uytterhoeven <geert@linux-m68k.org> writes:
->> > The page height must be taken into account only for vertical coordinat=
-es
->> > and heights, not for horizontal coordinates and widths.
->> >
->> > Fixes: 179a790aaf2a0127 ("drm/ssd130x: Set the page height value in th=
-e device info data")
->> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->
->> > --- a/drivers/gpu/drm/solomon/ssd130x.c
->> > +++ b/drivers/gpu/drm/solomon/ssd130x.c
->> > @@ -596,7 +596,7 @@ static int ssd130x_fb_blit_rect(struct drm_framebu=
-ffer *fb, const struct iosys_m
->> >       rect->y1 =3D round_down(rect->y1, page_height);
->> >       rect->y2 =3D min_t(unsigned int, round_up(rect->y2, page_height)=
-, ssd130x->height);
->> >
->> > -     dst_pitch =3D DIV_ROUND_UP(drm_rect_width(rect), page_height);
->> > +     dst_pitch =3D DIV_ROUND_UP(drm_rect_width(rect), 8);
->> >
->>
->> That's true for ssd130x controllers that use R1, but when doing that
->> change one of my goals was to prepare the driver for supporting the
->> ssd132x family that use a 16-grayscale pixel format (R4).
->>
->> For those controllers, the pixels are encoded in 4-bit and each page
->> has two pixels. So for those controllers the dst_pitch will need to
->> be DIV_ROUND_UP(drm_rect_width(rect), 2) instead since the width is
->> not 8 in that case.
->>
->> So I would prefer to skip this patch from your set, because otherwise
->> we will need to revert it when adding support for SSD132x controllers.
->
-> My point is that the 8 as used here is related to the number of bits per =
-pixel,
-> not to the page height.  The page height might also be impacted by the
-> number of bits per pixel, but that is orthogonal.
->
+Change in v4:
+1. Fix title and commit message in [PATCH v3 3/4].
 
-Ah, I see what you mean. Yes, you are right. We can later add a
-different variable when adding support for controllers using R4.
+Change in v3:
+1. swap Fixes and Signed tag.
+2. change cast (__u64) to '=' then ' *='.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Change in v2:
+1. remove kfree(pkt) in mtk_drm_crtc_create_pkt().
+2. change the statement of cnt reach to MAX_CRTC.
+3. drop the mtk_gem_obj initialized patch.
+4. change casting from unsined long to __u64.
+5. add 'int offset' for multiplier calculation.
+6. drop the unrelavaent modification in dereference null check patch.
 
---=20
-Best regards,
+Jason-JH.Lin (4):
+  drm/mediatek: Remove freeing not dynamic allocated memory
+  drm/mediatek: Add cnt checking for coverity issue
+  drm/mediatek: Fix unintentional integer overflow in multiplying
+    different types
+  drm/mediatek: Fix dereference before null check
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |  7 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c   |  5 ++++-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c   |  3 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 28 ++++++++++++------------
+ 4 files changed, 22 insertions(+), 21 deletions(-)
+
+-- 
+2.18.0
 
