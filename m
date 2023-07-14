@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E617532C4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AF77532C9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB75110E7D2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D7E10E7D1;
 	Fri, 14 Jul 2023 07:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B80BF10E118
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:59:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3E410E118
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:07:54 +0000 (UTC)
 Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R2K5n6tqNzBR9sd
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 12:59:41 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTP id 4R2KHC5cfczBR9sk
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 13:07:51 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
  content-transfer-encoding:content-type:message-id:user-agent
  :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689310781; x=1691902782; bh=kKU3uyB6okQSTGQqzBMPumiXiBT
- wf7W7pXC7rR7eRcU=; b=jTKq5bHrxgGenSCsBcUePEu8ahT3UeW4zbqUl/8BFrR
- ABqV3UYTd3Ya+6mPCaHL2s4BtxKzAMRtH1mO+76gS+BiQwueJ0qOmtH6vwmNeI7P
- H+tGgLIU2OBqBscEqgKmV2NaYFgsYIdIvBq9fSthQqgcxGK/LXZZStOeT6fPdLrY
- AoebTuu3vgMy/4G78apxMSJcWx381frcOO4fr2/2kkanIy4J8PKmEZqf5nHNdIJh
- /EJUQrMYU6uu/LkNUDuK+CCogfCPEAzFaUAKiYXdHRqUcHDXmcAz5XYs60+qngGJ
- C/VsMxALuxklw59BRABj6Z7FhrAmiaoEAWl0Eeprwmw==
+ dkim; t=1689311271; x=1691903272; bh=iLOcUk3bzPHlWtwxwuDqm4mV/on
+ mtIq3hNktSDaOMh0=; b=dayk1z4nMV1fZbuidXhMI6B2QFfwaNUxjs6ELTjkeqW
+ q/1uz9XY+klGvH68wDkTyfO5nzdQ8KG0m4u8aflOzh2IUb04h9/YGnZ92qWj9BOQ
+ +DOgBw1GiE4R2UvijLnRUWzlIlYXOOzoQV9gEmfi66bi991CQwn8CicSG8dImCu0
+ 69WwSSMTUTNS7n9RkrqMAgNy8EEmvwuZiHf75p9y8IHyjXFKmKKdmsi2FhZDHg/D
+ GDCh+GKbpZITWFLddjBrmHbGhXbs50AtGAwqqAFbGiLIv7RVMTu7cb9yuhdC9bnv
+ 7DkbK88GIaW8RPqKpBTMqHdVI/bclfwcNrEljKG5KrQ==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
  by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 2McWVolSoOCK for <dri-devel@lists.freedesktop.org>;
- Fri, 14 Jul 2023 12:59:41 +0800 (CST)
+ with ESMTP id APTRzWr_JrQs for <dri-devel@lists.freedesktop.org>;
+ Fri, 14 Jul 2023 13:07:51 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R2K5n3m0JzBHXhS;
- Fri, 14 Jul 2023 12:59:41 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTPSA id 4R2KHC1hs4zBR7bB;
+ Fri, 14 Jul 2023 13:07:51 +0800 (CST)
 MIME-Version: 1.0
-Date: Fri, 14 Jul 2023 12:59:41 +0800
+Date: Fri, 14 Jul 2023 13:07:51 +0800
 From: shijie001@208suo.com
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon/dpm: ERROR: open brace '{' following enum go on
- the same line
-In-Reply-To: <tencent_FDFE1B9D84BD3C51CAE7FADFDCF6613D5D0A@qq.com>
-References: <tencent_FDFE1B9D84BD3C51CAE7FADFDCF6613D5D0A@qq.com>
+Subject: [PATCH] drm/radeon: ERROR: space prohibited before that ', ' (ctx:WxV)
+In-Reply-To: <tencent_E1D8F653B67C8E7FFC6D0E16C4A59D916306@qq.com>
+References: <tencent_E1D8F653B67C8E7FFC6D0E16C4A59D916306@qq.com>
 User-Agent: Roundcube Webmail
-Message-ID: <21b12c2d37bff73a0c625b6af9d95021@208suo.com>
+Message-ID: <501c1939cf8047584b11c1af2022518a@208suo.com>
 X-Sender: shijie001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -68,56 +67,26 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix four occurrences of the checkpatch.pl error:
-ERROR: open brace '{' following enum go on the same line
+Fix two occurrences of the checkpatch.pl error:
+ERROR: space prohibited before that ',' (ctx:WxV)
+ERROR: space required after that ',' (ctx:WxV)
 
 Signed-off-by: Jie Shi <shijie001@208suo.com>
 ---
-  drivers/gpu/drm/radeon/ni_dpm.h | 12 ++++--------
-  1 file changed, 4 insertions(+), 8 deletions(-)
+  drivers/gpu/drm/radeon/atom-bits.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/ni_dpm.h 
-b/drivers/gpu/drm/radeon/ni_dpm.h
-index 74e301936906..4e3e7303e035 100644
---- a/drivers/gpu/drm/radeon/ni_dpm.h
-+++ b/drivers/gpu/drm/radeon/ni_dpm.h
-@@ -59,8 +59,7 @@ struct ni_mc_reg_table {
-
-  #define NISLANDS_MCREGISTERTABLE_FIRST_DRIVERSTATE_SLOT 2
-
--enum ni_dc_cac_level
--{
-+enum ni_dc_cac_level {
-      NISLANDS_DCCAC_LEVEL_0 = 0,
-      NISLANDS_DCCAC_LEVEL_1,
-      NISLANDS_DCCAC_LEVEL_2,
-@@ -72,8 +71,7 @@ enum ni_dc_cac_level
-      NISLANDS_DCCAC_MAX_LEVELS
-  };
-
--struct ni_leakage_coeffients
--{
-+struct ni_leakage_coeffients {
-      u32 at;
-      u32 bt;
-      u32 av;
-@@ -83,8 +81,7 @@ struct ni_leakage_coeffients
-      u32 t_ref;
-  };
-
--struct ni_cac_data
--{
-+struct ni_cac_data {
-      struct ni_leakage_coeffients leakage_coefficients;
-      u32 i_leakage;
-      s32 leakage_minimum_temperature;
-@@ -100,8 +97,7 @@ struct ni_cac_data
-      u8 lts_truncate_n;
-  };
-
--struct ni_cac_weights
--{
-+struct ni_cac_weights {
-      u32 weight_tcp_sig0;
-      u32 weight_tcp_sig1;
-      u32 weight_ta_sig;
+diff --git a/drivers/gpu/drm/radeon/atom-bits.h 
+b/drivers/gpu/drm/radeon/atom-bits.h
+index e8fae5c77514..2bfd6d0ff050 100644
+--- a/drivers/gpu/drm/radeon/atom-bits.h
++++ b/drivers/gpu/drm/radeon/atom-bits.h
+@@ -33,7 +33,7 @@ static inline uint8_t get_u8(void *bios, int ptr)
+  #define CU8(ptr) get_u8(ctx->bios, (ptr))
+  static inline uint16_t get_u16(void *bios, int ptr)
+  {
+-    return get_u8(bios ,ptr)|(((uint16_t)get_u8(bios, ptr+1))<<8);
++    return get_u8(bios, ptr)|(((uint16_t)get_u8(bios, ptr+1))<<8);
+  }
+  #define U16(ptr) get_u16(ctx->ctx->bios, (ptr))
+  #define CU16(ptr) get_u16(ctx->bios, (ptr))
