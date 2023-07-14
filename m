@@ -2,51 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CCA75370E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4DE753711
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:50:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E0610E84D;
-	Fri, 14 Jul 2023 09:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE27A10E848;
+	Fri, 14 Jul 2023 09:50:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E4E10E848
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:49:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 9CAD05BC37;
- Fri, 14 Jul 2023 09:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1689328188;
- bh=PC7GXXNDk15CT3rU7hYCpLMfS9lNq6DXUxfJ9HZPrS8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=IPcsl7xZXqCSToAEy5I5oBtveILmM0LY+CIKTH+8cdBXnHWwvnXsOO1cLA46v9EfB
- xKmn/5TjJe3mMVTePdJ6HnHIQ1iNSWbNCduyWSaxLJnQbJ3TQMrgDFxLZ8ki1p1y66
- DZwq3nqBRlNzHp+5kXs+g7FttPXb8lTbV3zR1lFc37QCtDh5vky4MOnIpeXd+jKwKM
- MCQ7P5+87K6HuPRVJ+J8GZAzfSkNyc9Cj6ZcHiqrK+gojmeo+T7mwV1i2hOxw/V+UG
- RX3Q+PiMLcg1aANo/TfYm8M7Fn7dBQr1KQOiTvfyZ4eNDnf/XFMQAY0ZjS9bdHWIVI
- yL2JF5gtnDbTA==
-Message-ID: <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
-Date: Fri, 14 Jul 2023 18:49:44 +0900
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D912610E848
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689328216;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tBjp82gLLLlocN70gzT39Xi/h+/6LoHEroJf4qpzUyQ=;
+ b=M4I9f96jr9jjFQw6Z20/wfjlP9w3DXqHW5PFZYEP9LDbXHCx7leksFJJWYJE4CVGyJkq77
+ wUY/ooo3a73PVUvLd3ZbHPUVS3T7eirYzfwhUj+RCNFPg/12Oa2xu/7kuv5BwDwmNnCasJ
+ Y8UlE5Z47ZCflDA9EtNdbT8QwmN+YUA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-634-We3tCet4PEmff_rXQdagmw-1; Fri, 14 Jul 2023 05:50:14 -0400
+X-MC-Unique: We3tCet4PEmff_rXQdagmw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3fc08d6a40cso9258715e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 02:50:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689328213; x=1691920213;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tBjp82gLLLlocN70gzT39Xi/h+/6LoHEroJf4qpzUyQ=;
+ b=QGUYkg1frnr/fFeY8UfCYA+1IO1P8xZE7iYkmFnRPlIVYzBwvalj92bJxLAQ2vvRnK
+ L0C47euEKuRB1Fl3s2cNtOYupOERwumeaDh9ZjLb6iOpDQ72rKMLAbRPrBi+5mMX/45o
+ tR1rhjHoR6jwhCEdvzfY7U7LqFuT0Z5IduQnePnQZZtDx4eF64YzVvEqxsk2Fi6mIaMT
+ eiR/ej/4IltLZxLNr3n9XhSWznrWQDEiQGaFYaoqEMIDNnx7qzZovcoG2zJlqu/BJ4tR
+ TLZ+6oSxuQC13e3DNPXufvgFWi534/4Cmia9J4RFTaVsVtYLIVQ9kFkaBoF/DosaSf3G
+ 71VQ==
+X-Gm-Message-State: ABy/qLa8O/jfbYp0UDziMnWgFnBMoar34+73yUFrSyN9DCdkd1jA5dUa
+ BBIlDwILlLAgG20gQoNUPBkq90VeZd7RUJD3iiRObMo3tVHyUWpa82IPGJlOKV61bWJ2u2p5a3p
+ oex4DGowH7YwwO5z7RMSEuAa28GYP
+X-Received: by 2002:adf:ea10:0:b0:314:35ce:a0e7 with SMTP id
+ q16-20020adfea10000000b0031435cea0e7mr3545417wrm.16.1689328213582; 
+ Fri, 14 Jul 2023 02:50:13 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFh1wPKblkmTBw8OQ1NLIUngbHtYwtP+MmS66mPVwKsVEsfrpflPboxtBmMk3of1k+PN6KJlg==
+X-Received: by 2002:adf:ea10:0:b0:314:35ce:a0e7 with SMTP id
+ q16-20020adfea10000000b0031435cea0e7mr3545397wrm.16.1689328213266; 
+ Fri, 14 Jul 2023 02:50:13 -0700 (PDT)
+Received: from localhost ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
+ g12-20020a5d46cc000000b0031455482d1fsm10372260wrs.47.2023.07.14.02.50.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jul 2023 02:50:12 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 2/8] drm/dumb-buffers: Fix drm_mode_create_dumb() for
+ bpp < 8
+In-Reply-To: <5ba8ac5e465121b646a59487dc75b27017e0c769.1689252746.git.geert@linux-m68k.org>
+References: <cover.1689252746.git.geert@linux-m68k.org>
+ <5ba8ac5e465121b646a59487dc75b27017e0c769.1689252746.git.geert@linux-m68k.org>
+Date: Fri, 14 Jul 2023 11:50:11 +0200
+Message-ID: <87o7keu8j0.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
- <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,61 +83,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/07/2023 17.43, Christian König wrote:
-> Am 14.07.23 um 10:21 schrieb Asahi Lina:
->> A signaled scheduler fence can outlive its scheduler, since fences are
->> independencly reference counted. Therefore, we can't reference the
->> scheduler in the get_timeline_name() implementation.
->>
->> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
->> dma-bufs reference fences from GPU schedulers that no longer exist.
->>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->>    drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->>    drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->>    include/drm/gpu_scheduler.h              | 5 +++++
->>    3 files changed, 14 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index b2bbc8a68b30..17f35b0b005a 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -389,7 +389,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->>    
->>    		/*
->>    		 * Fence is from the same scheduler, only need to wait for
->> -		 * it to be scheduled
->> +		 * it to be scheduled.
->> +		 *
->> +		 * Note: s_fence->sched could have been freed and reallocated
->> +		 * as another scheduler. This false positive case is okay, as if
->> +		 * the old scheduler was freed all of its jobs must have
->> +		 * signaled their completion fences.
-> 
-> This is outright nonsense. As long as an entity for a scheduler exists
-> it is not allowed to free up this scheduler.
-> 
-> So this function can't be called like this.
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
-As I already explained, the fences can outlive their scheduler. That 
-means *this* entity certainly exists for *this* scheduler, but the 
-*dependency* fence might have come from a past scheduler that was 
-already destroyed along with all of its entities, and its address reused.
+> drm_mode_create_dumb() calculates the number of characters per pixel
+> from the number of bits per pixel by rounding up, which is not correct
+> as the actual value of cpp may be non-integer.  While we do not need to
+> care here about complex formats like YUV, bpp < 8 is a valid use case.
+>
+>   - The overflow check for the buffer width is not correct if bpp < 8.
+>     However, it doesn't hurt, as widths larger than U32_MAX / 8 should
+>     not happen for real anyway.  Add a comment to clarify.
+>   - Calculating the stride from the number of characters per pixel is
+>     not correct.  Fix this by calculating it from the number of bits per
+>     pixel instead.
+>
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+> Why is drm_mode_create_dumb.size __u64?  The test for "args->height >
 
-Christian, I'm really getting tired of your tone. I don't appreciate 
-being told my comments are "outright nonsense" when you don't even take 
-the time to understand what the issue is and what I'm trying to 
-do/document. If you aren't interested in working with me, I'm just going 
-to give up on drm_sched, wait until Rust gets workqueue support, and 
-reimplement it in Rust. You can keep your broken fence lifetime 
-semantics and I'll do my own thing.
+I don't think can be changed since is a DRM_IOCTL_MODE_CREATE_DUMB uAPI ?
 
-~~ Lina
+> U32_MAX / stride" rejects all sizes not fitting in __u32 anyway.
+
+Hmm, wonder if should be U64_MAX instead ?
+
+> ---
+>  drivers/gpu/drm/drm_dumb_buffers.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
+> index 70032bba1c97e787..21a04c32a5e3d785 100644
+> --- a/drivers/gpu/drm/drm_dumb_buffers.c
+> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
+> @@ -71,10 +71,11 @@ int drm_mode_create_dumb(struct drm_device *dev,
+>  	/* overflow checks for 32bit size calculations */
+>  	if (args->bpp > U32_MAX - 8)
+>  		return -EINVAL;
+> +	/* Incorrect (especially if bpp < 8), but doesn't hurt much */
+>  	cpp = DIV_ROUND_UP(args->bpp, 8);
+>  	if (cpp > U32_MAX / args->width)
+>  		return -EINVAL;
+> -	stride = cpp * args->width;
+> +	stride = DIV_ROUND_UP(args->bpp * args->width, 8);
+>  	if (args->height > U32_MAX / stride)
+>  		return -EINVAL;
+>  
+
+Good catch.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
