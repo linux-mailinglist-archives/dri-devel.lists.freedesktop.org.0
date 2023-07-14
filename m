@@ -1,64 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BCB7532CA
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8787532D0
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1E9610E7D4;
-	Fri, 14 Jul 2023 07:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E6C10E7E1;
+	Fri, 14 Jul 2023 07:14:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62C2D10E106
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 03:51:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B362B10E106
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 03:54:53 +0000 (UTC)
 Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R2Hb16B6PzBRSVr
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 11:51:25 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTP id 4R2Hfy3jMyzBRSVm
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 11:54:50 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
  content-transfer-encoding:content-type:message-id:user-agent
  :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689306685; x=1691898686; bh=QD5wT/8x1E9M8LSp4jRHIAhQCQo
- Pi5hSuSfjtzogOas=; b=ZHw6c8u2/z+5GtVUcOcsaGHJUnoV/oIuU0kGzPRMfWq
- m19IVTXe/KNfcxdYm37cwcyNIqsSEu6AZeat1YB9SzfwC9f65X0+rZD7x/3dGWu2
- vLXpJH+jruz4Ue53UQn8AiN2L+s1zBNie0FgwA+b0dIYzfyisHRYuXcrkNet9ZZK
- g5p+IclJqMxXFuHYnkLyIrnmwl3YYjKVzxhuQwCNUYMjBRSERnkYmPm5HDMew3/5
- jN3c47QUDcIbw8bIArGwMhxsuzQr/WbrY9tLdNbO3pnyNGceNpJNrzzsvV/TLue5
- jZxovYkW4+DbQCub9d5319dwBaiR7Ci4IhyxV+afU5A==
+ dkim; t=1689306890; x=1691898891; bh=iTXZlIcRdyK6o3+wDm/UapfqCgm
+ g6WekFBy6SQamdR0=; b=Nok34jzjPVafwrRrSRNa78LuU/gf5f63GOJ39mTJ7LC
+ cobjTiBXs/8nOmpsUZTvDxOmIOo+7cx3cgGhuNz+U6Zc9NAB9rxq8S3dirFxlHCm
+ 7q87gKe04TpTQyfgHXfr/j7fP5RI4lbtjUqdfSNyru0rVZu7eN2riO0thnxCXBWy
+ QHOI5tpTRy7twmcJUwFVCoCw/8CGybNDafhtqyzTVZ4BGt5xDsVH2zWKL7G25Ftn
+ VLZCqOmCi1vEKOJtWyB3aosMjId51PyLTtyhTC/DzP7YuQvG1I+rsWxEA7rVm6bE
+ +HcDd8XtTtwu5YbLWQ0iJAjsc1uQ072hQzlwOJHdzLg==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
  by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id t5ZH5IShLye9 for <dri-devel@lists.freedesktop.org>;
- Fri, 14 Jul 2023 11:51:25 +0800 (CST)
+ with ESMTP id TQLkX_26Wfd9 for <dri-devel@lists.freedesktop.org>;
+ Fri, 14 Jul 2023 11:54:50 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R2Hb12z43zBHXhN;
- Fri, 14 Jul 2023 11:51:25 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTPSA id 4R2Hfy0G1bzBR7b2;
+ Fri, 14 Jul 2023 11:54:50 +0800 (CST)
 MIME-Version: 1.0
-Date: Fri, 14 Jul 2023 11:51:25 +0800
-From: huzhi001@208suo.com
-To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
+Date: Fri, 14 Jul 2023 11:54:49 +0800
+From: shijie001@208suo.com
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/nouveau/fifo:Fix Nineteen occurrences of the gk104.c
- error: ERROR: space prohibited before that ':' (ctx:WxW) ERROR: trailing
- statements should be on next line ERROR: space prohibited before that ':'
- (ctx:WxW) ERROR: trailing statements should be on next line ERROR: space
- prohibited before that ':' (ctx:WxW) ERROR: trailing statements should be on
- next line ERROR: trailing statements should be on next line ERROR: space
- prohibited before that ':' (ctx:WxW) ERROR: trailing statements should be on
- next line ERROR: space prohibited before that ':' (ctx:WxW) ERROR: trailing
- statements should be on next line ERROR: space prohibited before that ':'
- (ctx:WxW) ERROR: trailing statements should be on next line ERROR: space
- prohibited before that ':' (ctx:WxW) ERROR: trailing statements should be on
- next line ERROR: space prohibited before that ':' (ctx:WxE) ERROR: space
- prohibited before that ':' (ctx:WxE) ERROR: trailing statements should be on
- next line ERROR: trailing s tatements should be on next line
-In-Reply-To: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
-References: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
+Subject: [PATCH] drm/radeon: ERROR: that open brace { should be on the
+ previous line
+In-Reply-To: <tencent_996261255FBE1BF185353D65C90BFB5FDF0A@qq.com>
+References: <tencent_996261255FBE1BF185353D65C90BFB5FDF0A@qq.com>
 User-Agent: Roundcube Webmail
-Message-ID: <5c894d0a8a178628ca200d054004be3c@208suo.com>
-X-Sender: huzhi001@208suo.com
+Message-ID: <8d7c6d7599c0f56403c920985f646e34@208suo.com>
+X-Sender: shijie001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
@@ -75,94 +63,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix Nineteen occurrences of the checkpatch.pl error:
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxW)
-ERROR: trailing statements should be on next line
-ERROR: space prohibited before that ':' (ctx:WxE)
-ERROR: space prohibited before that ':' (ctx:WxE)
-ERROR: trailing statements should be on next line
-ERROR: trailing statements should be on next line
-Signed-off-by: ZhiHu <huzhi001@208suo.com>
+Fix eight occurrences of the checkpatch.pl error:
+ERROR: that open brace { should be on the previous line
+ERROR: space prohibited before that close parenthesis ')'
+ERROR: spaces required around that '?' (ctx:VxW)
+
+Signed-off-by: Jie Shi <shijie001@208suo.com>
 ---
-  .../gpu/drm/nouveau/nvkm/engine/fifo/gk104.c  | 40 ++++++++++++++-----
-  1 file changed, 29 insertions(+), 11 deletions(-)
+  drivers/gpu/drm/radeon/sumo_dpm.c | 18 ++++++++----------
+  1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c 
-b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-index d8a4d773a58c..b99e0a7c96bb 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-@@ -137,15 +137,29 @@ gk104_ectx_bind(struct nvkm_engn *engn, struct 
-nvkm_cctx *cctx, struct nvkm_chan
-      u64 addr = 0ULL;
+diff --git a/drivers/gpu/drm/radeon/sumo_dpm.c 
+b/drivers/gpu/drm/radeon/sumo_dpm.c
+index f74f381af05f..8af793c89fd1 100644
+--- a/drivers/gpu/drm/radeon/sumo_dpm.c
++++ b/drivers/gpu/drm/radeon/sumo_dpm.c
+@@ -33,8 +33,7 @@
+  #define SUMO_MINIMUM_ENGINE_CLOCK 800
+  #define BOOST_DPM_LEVEL 7
 
-      switch (engn->engine->subdev.type) {
--    case NVKM_ENGINE_SW    : return;
--    case NVKM_ENGINE_GR    : ptr0 = 0x0210; break;
--    case NVKM_ENGINE_SEC   : ptr0 = 0x0220; break;
--    case NVKM_ENGINE_MSPDEC: ptr0 = 0x0250; break;
--    case NVKM_ENGINE_MSPPP : ptr0 = 0x0260; break;
--    case NVKM_ENGINE_MSVLD : ptr0 = 0x0270; break;
--    case NVKM_ENGINE_VIC   : ptr0 = 0x0280; break;
--    case NVKM_ENGINE_MSENC : ptr0 = 0x0290; break;
--    case NVKM_ENGINE_NVDEC :
-+    case NVKM_ENGINE_SW:
-+        return;
-+    case NVKM_ENGINE_GR:
-+        ptr0 = 0x0210;
-+        break;
-+    case NVKM_ENGINE_SEC:
-+        ptr0 = 0x0220;
-+        break;
-+    case NVKM_ENGINE_MSPDEC:
-+        ptr0 = 0x0250;
-+        break;
-+    case NVKM_ENGINE_MSPPP:
-+        ptr0 = 0x0260;
-+        break;
-+    case NVKM_ENGINE_MSVLD:
-+        ptr0 = 0x0270;
-+        break;
-+    case NVKM_ENGINE_VIC:
-+        ptr0 = 0x0280; break;
-+    case NVKM_ENGINE_MSENC:
-+        ptr0 = 0x0290;
-+        break;
-+    case NVKM_ENGINE_NVDEC:
-          ptr1 = 0x0270;
-          ptr0 = 0x0210;
-          break;
-@@ -435,8 +449,12 @@ gk104_runl_commit(struct nvkm_runl *runl, struct 
-nvkm_memory *memory, u32 start,
-      int target;
+-static const u32 sumo_utc[SUMO_PM_NUMBER_OF_TC] =
+-{
++static const u32 sumo_utc[SUMO_PM_NUMBER_OF_TC] = {
+      SUMO_UTC_DFLT_00,
+      SUMO_UTC_DFLT_01,
+      SUMO_UTC_DFLT_02,
+@@ -52,8 +51,7 @@ static const u32 sumo_utc[SUMO_PM_NUMBER_OF_TC] =
+      SUMO_UTC_DFLT_14,
+  };
 
-      switch (nvkm_memory_target(memory)) {
--    case NVKM_MEM_TARGET_VRAM: target = 0; break;
--    case NVKM_MEM_TARGET_NCOH: target = 3; break;
-+    case NVKM_MEM_TARGET_VRAM:
-+        target = 0;
-+        break;
-+    case NVKM_MEM_TARGET_NCOH:
-+        target = 3;
-+        break;
-      default:
-          WARN_ON(1);
-          return;
+-static const u32 sumo_dtc[SUMO_PM_NUMBER_OF_TC] =
+-{
++static const u32 sumo_dtc[SUMO_PM_NUMBER_OF_TC] = {
+      SUMO_DTC_DFLT_00,
+      SUMO_DTC_DFLT_01,
+      SUMO_DTC_DFLT_02,
+@@ -109,11 +107,11 @@ static void sumo_mg_clockgating_enable(struct 
+radeon_device *rdev, bool enable)
+      local1 = RREG32(CG_CGTT_LOCAL_1);
+
+      if (enable) {
+-        WREG32(CG_CGTT_LOCAL_0, (0 & CGCG_CGTT_LOCAL0_MASK) | (local0 & 
+~CGCG_CGTT_LOCAL0_MASK) );
+-        WREG32(CG_CGTT_LOCAL_1, (0 & CGCG_CGTT_LOCAL1_MASK) | (local1 & 
+~CGCG_CGTT_LOCAL1_MASK) );
++        WREG32(CG_CGTT_LOCAL_0, (0 & CGCG_CGTT_LOCAL0_MASK) | (local0 & 
+~CGCG_CGTT_LOCAL0_MASK));
++        WREG32(CG_CGTT_LOCAL_1, (0 & CGCG_CGTT_LOCAL1_MASK) | (local1 & 
+~CGCG_CGTT_LOCAL1_MASK));
+      } else {
+-        WREG32(CG_CGTT_LOCAL_0, (0xFFFFFFFF & CGCG_CGTT_LOCAL0_MASK) | 
+(local0 & ~CGCG_CGTT_LOCAL0_MASK) );
+-        WREG32(CG_CGTT_LOCAL_1, (0xFFFFCFFF & CGCG_CGTT_LOCAL1_MASK) | 
+(local1 & ~CGCG_CGTT_LOCAL1_MASK) );
++        WREG32(CG_CGTT_LOCAL_0, (0xFFFFFFFF & CGCG_CGTT_LOCAL0_MASK) | 
+(local0 & ~CGCG_CGTT_LOCAL0_MASK));
++        WREG32(CG_CGTT_LOCAL_1, (0xFFFFCFFF & CGCG_CGTT_LOCAL1_MASK) | 
+(local1 & ~CGCG_CGTT_LOCAL1_MASK));
+      }
+  }
+
+@@ -702,9 +700,9 @@ static void sumo_post_notify_alt_vddnb_change(struct 
+radeon_device *rdev,
+      u32 nbps1_new = 0;
+
+      if (old_ps != NULL)
+-        nbps1_old = (old_ps->flags & 
+SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE)? 1 : 0;
++        nbps1_old = (old_ps->flags & 
+SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE) ? 1 : 0;
+
+-    nbps1_new = (new_ps->flags & 
+SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE)? 1 : 0;
++    nbps1_new = (new_ps->flags & 
+SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE) ? 1 : 0;
+
+      if (nbps1_old == 0 && nbps1_new == 1)
+          sumo_smu_notify_alt_vddnb_change(rdev, 1, 1);
