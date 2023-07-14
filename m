@@ -2,75 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061DF753453
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3D175346C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:57:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 237C610E810;
-	Fri, 14 Jul 2023 07:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A1A10E078;
+	Fri, 14 Jul 2023 07:57:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0BCE10E810
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 07:53:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689321222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SelqxeKyBQtIj4KiXYdkVNmN0aLewo38VPrsEtLfSog=;
- b=DV5DZ/dHOsY9hebR/4RK4XQ3jr74DGupsBDnl4indisb2H09zRSXq9lhQ4PwT2EeLsJ6gk
- sevV0u6kTDQBId8X44idCBb3ggRVtdoBPmr1aStt5MNq5qiQFfxch6UkifJDUwRMZrvZRf
- DboaODzVtpG5nthA/H/tNb0hEHV6ErI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-299-fyuQIxFiOhea-PbECiYehw-1; Fri, 14 Jul 2023 03:53:41 -0400
-X-MC-Unique: fyuQIxFiOhea-PbECiYehw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-314134f403fso974371f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 00:53:40 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE1D10E078;
+ Fri, 14 Jul 2023 07:57:43 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-991c786369cso210376366b.1; 
+ Fri, 14 Jul 2023 00:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689321461; x=1691913461;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J5ElJcCisTjTfQ81l4I/8cbaR6lPIqj8nspiY8+QPbo=;
+ b=cl74GZw1rLNDlObn1H0rDHOmAQcY0x7dSphtCKEbGFS2NS1i0Eg9+y1ZuSm+t6Llqy
+ cU8pttD+1H4AYiQj6ehEm1S9Aqg+OQkdYtNkHb89lVRxohvWR7/6swVroTQzUqCV7V8D
+ LZ7v62it/YBY1Nob8vlNE+aIxpm77K4D60NLMQrBB0gr2EiDqbKPRF1u1WLrvU0Gs77B
+ GNQ5d1Rr9q9t3I/VdLX/V0cDkotFGpxx+OFvKPzuqBSrPEgzPoyP9A2KvX27VCGadbE4
+ hTEpgBDT1+hPy2Bk6B0rw0OEZeFVgGf0OjqMkPBJWd4EgUCe/10+Zh8YhfqiSSipGG8f
+ +6Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689321219; x=1691913219;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1+9ZBEjT3mFJea6YptXe/CBaBHfnJsPQnoZEZ+DpvPs=;
- b=WaI2684r6b0HqBabbRLngMfS7+Y/wKuMGkqxuxzxL2xrl+XfJEd7iCzwxTd22FlEWV
- oFR7dgySeuE8bvt940u3XBt7rIvxTg5aOHh41ZTHTSd16liqNNvKcKan5uP6sK/VK4XZ
- cM+tuS37mmAGmo6t1tyQpnfpIdXMDLTAYiqMxPNx5jGAhZft+Ha3XmRrwDv8j5KRFXbT
- KQPulWHTm4o4Bcgnp7s+fbDcdb9z5BzMX5NiAvfbu97js0BOSxejf98UsF1sHuL2+5Th
- mdI5cm9e+IfnijzlfI2CtA55LSCioFRrfVjM5cf4I+czHUxlg3dpBQdmmoT3j82Z3rrq
- IHGg==
-X-Gm-Message-State: ABy/qLZE+MI9uMjOo8/rS96+0mGk0OsrMWd8Bu+NXUfyDDd3WDTVPi80
- Gtm3PvOlZLah8fm1VFIKoaQH3wC68TUQ25IvIPsvt7ZhVma2yvAFdjaaSuU46rT+zjSokGWxyHr
- XmKojiITyDGf8zUqBd72JDWn0uVmxJKHaA88V
-X-Received: by 2002:a5d:4bcc:0:b0:314:11ab:11a0 with SMTP id
- l12-20020a5d4bcc000000b0031411ab11a0mr3311912wrt.34.1689321219589; 
- Fri, 14 Jul 2023 00:53:39 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFADpuHUbZdK5ADJswylCCcQ4pxYAN8eI2QEsyDhW7qoWJSX8qkK3H+kEbsI7p7RxibRp7P/Q==
-X-Received: by 2002:a5d:4bcc:0:b0:314:11ab:11a0 with SMTP id
- l12-20020a5d4bcc000000b0031411ab11a0mr3311905wrt.34.1689321219190; 
- Fri, 14 Jul 2023 00:53:39 -0700 (PDT)
-Received: from localhost ([90.167.94.6]) by smtp.gmail.com with ESMTPSA id
- l13-20020a5d560d000000b0031590317c26sm10103869wrv.61.2023.07.14.00.53.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jul 2023 00:53:39 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] drm/ssd130x: Fix an oops when attempting to update a
- disabled plane
-In-Reply-To: <CAMuHMdXbboXGYVezzw3_TEu8U6WR=q2x2NjD-aqeF91-DXOD3Q@mail.gmail.com>
-References: <20230713163213.1028952-1-javierm@redhat.com>
- <CAMuHMdXbboXGYVezzw3_TEu8U6WR=q2x2NjD-aqeF91-DXOD3Q@mail.gmail.com>
-Date: Fri, 14 Jul 2023 09:53:38 +0200
-Message-ID: <87ttu7szct.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20221208; t=1689321461; x=1691913461;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J5ElJcCisTjTfQ81l4I/8cbaR6lPIqj8nspiY8+QPbo=;
+ b=RemjkOrZAiWjnyvt4lWayePMqktxAJ4oReEfevrjcmoUZ061xp24uvaj2xn6C4KD1d
+ DN9I8t0H+22jTlYfEQ5zQl85HC/Y3IFKqXUzTNI4jXb/pW7PMi9ZeeX0WchiM40uvgKH
+ aQPDxK6GTsStnzguyVit0A91IW0HNoQWSS0j02XnWwRnYOaGWQJaUsXccygVA/7igDc6
+ ZRygv9qyPUk6evq2KAlt6/glp7TezeRyImAFVwa/Nzr4fSd4uWOrMxILV4pjrF2OLRIC
+ 5jy7AMF+8FdI+jPWk5sozgtJeCwo2Hmf/F3lkgtJLV/sur4EKQgvbS44xIeoO6bYV37J
+ RDLg==
+X-Gm-Message-State: ABy/qLZ4hg0Ut5uXphgl4QQoBDuXt/gXkpbGlNrj4fndVsC84GsPyTdp
+ 1g0zES7KtzqgnqMCF0AXtyGv5+adsmY=
+X-Google-Smtp-Source: APBJJlH5SoaeB9vzqm17ilB32zwQfDLRF6M/of9REA5jG11AZA/r44YTR2+Z2CBn4HUBYnonpvM8Tw==
+X-Received: by 2002:a17:906:2487:b0:992:9d41:875b with SMTP id
+ e7-20020a170906248700b009929d41875bmr2967787ejb.32.1689321461287; 
+ Fri, 14 Jul 2023 00:57:41 -0700 (PDT)
+Received: from ?IPV6:2a00:e180:156e:8700:817e:6375:6a13:2da9?
+ ([2a00:e180:156e:8700:817e:6375:6a13:2da9])
+ by smtp.gmail.com with ESMTPSA id
+ m25-20020a17090607d900b0097404f4a124sm4968547ejc.2.2023.07.14.00.57.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Jul 2023 00:57:40 -0700 (PDT)
+Message-ID: <6485568b-da41-b549-f6bd-36139df59215@gmail.com>
+Date: Fri, 14 Jul 2023 09:57:39 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 5/6] drm/amdgpu: Log IBs and ring name at coredump
+Content-Language: en-US
+To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230713213242.680944-1-andrealmeid@igalia.com>
+ <20230713213242.680944-6-andrealmeid@igalia.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230713213242.680944-6-andrealmeid@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,100 +80,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ michel.daenzer@mailbox.org,
+ =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
-
-Hello Geert,
-
-> Hi Javier,
+Am 13.07.23 um 23:32 schrieb André Almeida:
+> Log the IB addresses used by the hung job along with the stuck ring
+> name. Note that due to nested IBs, the one that caused the reset itself
+> may be in not listed address.
 >
-> On Thu, Jul 13, 2023 at 6:32=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> Geert reports that the following NULL pointer dereference happens for hi=
-m
->> after commit 49d7d581ceaf ("drm/ssd130x: Don't allocate buffers on each
->> plane update"):
->>
->>     [drm] Initialized ssd130x 1.0.0 20220131 for 0-003c on minor 0
->>     ssd130x-i2c 0-003c: [drm] surface width(128), height(32), bpp(1)
->>     and format(R1   little-endian (0x20203152))
->>     Unable to handle kernel NULL pointer dereference at virtual address =
-00000000
->>     Oops [#1]
->>     CPU: 0 PID: 1 Comm: swapper Not tainted
->>     6.5.0-rc1-orangecrab-02219-g0a529a1e4bf4 #565
->>     epc : ssd130x_update_rect.isra.0+0x13c/0x340
->>      ra : ssd130x_update_rect.isra.0+0x2bc/0x340
->>     ...
->>     status: 00000120 badaddr: 00000000 cause: 0000000f
->>     [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
->>     [<c0304200>] ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
->>     [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
->>     [<c02f9314>] drm_atomic_helper_commit_tail+0x5c/0xb4
->>     [<c02f94fc>] commit_tail+0x190/0x1b8
->>     [<c02f99fc>] drm_atomic_helper_commit+0x194/0x1c0
->>     [<c02c5d00>] drm_atomic_commit+0xa4/0xe4
->>     [<c02cce40>] drm_client_modeset_commit_atomic+0x244/0x278
->>     [<c02ccef0>] drm_client_modeset_commit_locked+0x7c/0x1bc
->>     [<c02cd064>] drm_client_modeset_commit+0x34/0x64
->>     [<c0301a78>] __drm_fb_helper_restore_fbdev_mode_unlocked+0xc4/0xe8
->>     [<c0303424>] drm_fb_helper_set_par+0x38/0x58
->>     [<c027c410>] fbcon_init+0x294/0x534
->>     ...
->>
->> The problem is that fbcon calls fbcon_init() which triggers a DRM modese=
-t
->> and this leads to drm_atomic_helper_commit_planes() attempting to commit
->> the atomic state for all planes, even the ones whose CRTC is not enabled=
-.
->>
->> Since the primary plane buffer is allocated in the encoder .atomic_enabl=
-e
->> callback, this happens after that initial modeset commit and leads to th=
-e
->> mentioned NULL pointer dereference.
->>
->> Fix this by not using the default drm_atomic_helper_commit_tail() helper=
-,
->> but instead the drm_atomic_helper_commit_tail_rpm() function that doesn'=
-t
->> attempt to commit the atomic state for planes related to inactive CRTCs.
->>
->> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  3 +++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 31 +++++++++++++++++++++-
+>   2 files changed, 33 insertions(+), 1 deletion(-)
 >
-> Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
->
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index e1cc83a89d46..cfeaf93934fd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1086,6 +1086,9 @@ struct amdgpu_coredump_info {
+>   	struct amdgpu_task_info         reset_task_info;
+>   	struct timespec64               reset_time;
+>   	bool                            reset_vram_lost;
+> +	u64				*ibs;
+> +	u32				num_ibs;
+> +	char				ring_name[16];
+>   };
+>   #endif
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 07546781b8b8..431ccc3d7857 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -5008,12 +5008,24 @@ static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
+>   				   coredump->adev->reset_dump_reg_value[i]);
+>   	}
+>   
+> +	if (coredump->num_ibs) {
+> +		drm_printf(&p, "IBs:\n");
+> +		for (i = 0; i < coredump->num_ibs; i++)
+> +			drm_printf(&p, "\t[%d] 0x%llx\n", i, coredump->ibs[i]);
+> +	}
+> +
+> +	if (coredump->ring_name[0] != '\0')
+> +		drm_printf(&p, "ring name: %s\n", coredump->ring_name);
+> +
+>   	return count - iter.remain;
+>   }
+>   
+>   static void amdgpu_devcoredump_free(void *data)
+>   {
+> -	kfree(data);
+> +	struct amdgpu_coredump_info *coredump = data;
+> +
+> +	kfree(coredump->ibs);
+> +	kfree(coredump);
+>   }
+>   
+>   static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
+> @@ -5021,6 +5033,8 @@ static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
+>   {
+>   	struct amdgpu_coredump_info *coredump;
+>   	struct drm_device *dev = adev_to_drm(adev);
+> +	struct amdgpu_job *job = reset_context->job;
+> +	int i;
+>   
+>   	coredump = kmalloc(sizeof(*coredump), GFP_NOWAIT);
+>   
+> @@ -5038,6 +5052,21 @@ static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
+>   
+>   	coredump->adev = adev;
+>   
+> +	if (job && job->num_ibs) {
 
-Thanks for reporting the issue in the first place and for the testing!
+I really really really don't want any dependency of the core dump 
+feature towards the job.
 
->> --- a/drivers/gpu/drm/solomon/ssd130x.c
->> +++ b/drivers/gpu/drm/solomon/ssd130x.c
->> @@ -795,6 +795,10 @@ static const struct drm_mode_config_funcs ssd130x_m=
-ode_config_funcs =3D {
->>         .atomic_commit =3D drm_atomic_helper_commit,
->>  };
->>
->> +static const struct drm_mode_config_helper_funcs ssd130x_mode_config_he=
-lpers =3D {
->> +       .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
->
-> The docs say this is intended for drivers that support runtime_pm or
-> need the CRTC to be enabled to perform a commit.  Might be worthwhile
-> to add basic Runtime PM, so the I2C controller can go to sleep when
-> the display is not used.
->
+What we could do is to record the first executed IB VAs in the hw fence, 
+but I'm not sure how useful this is in the first place.
 
-Indeed, I thought the same. But I believe we can do that as a follow-up pat=
-ch.
+We have some internal feature in progress to query the VA of the draw 
+command which cause the waves currently executing in the SQ to be retrieved.
 
---=20
-Best regards,
+> +		struct amdgpu_ring *ring = to_amdgpu_ring(job->base.sched);
+> +		u32 num_ibs = job->num_ibs;
+> +
+> +		coredump->ibs = kmalloc_array(num_ibs, sizeof(coredump->ibs), GFP_NOWAIT);
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+This can fail pretty easily.
+
+Christian.
+
+> +		if (coredump->ibs)
+> +			coredump->num_ibs = num_ibs;
+> +
+> +		for (i = 0; i < coredump->num_ibs; i++)
+> +			coredump->ibs[i] = job->ibs[i].gpu_addr;
+> +
+> +		if (ring)
+> +			strncpy(coredump->ring_name, ring->name, 16);
+> +	}
+> +
+>   	ktime_get_ts64(&coredump->reset_time);
+>   
+>   	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
 
