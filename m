@@ -1,40 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFE575389D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 12:46:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 694FA7538AD
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 12:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9420010E86B;
-	Fri, 14 Jul 2023 10:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E5410E86F;
+	Fri, 14 Jul 2023 10:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82F0210E86B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 10:46:11 +0000 (UTC)
-Date: Fri, 14 Jul 2023 10:46:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1689331569; x=1689590769;
- bh=F88L1jddDY0lJbDr0j8tOCNblklIgEUw4HUYT/cLCZY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=Jw3e7fhIBpB0TFm64KbXc8dQjpiKyBEc2iv2vaKA9t+OeiWZguZ44IE8vVAMr0nCB
- N5renVnXw8Cj4YDzyrc9EZx0JRuMS1qMgNKXZcMXDBr91blFDvS0AE7JRdxQQBlGP/
- WuKGquhsbtu52hENlkGxUA6PChxGlXAdPwUjuxFUuEepCDtLgS5JWtQlj3MfqXFOaP
- BUmHoECgD6RuGJgFHvWkJ54Y61l8uCy689qb2oN+8M5QuxhX31C4gPOwTHwdzGgchH
- lq2wZiLm7uQx2EjIhAm0AOKKRNSWMnf735ntQ53i6MaGxwL7SYkiWOobMWS4KUxZu1
- AmnPGvakgRwnA==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [RFC PATCH 3/3] drm/file: drop DRM_MINOR_CONTROL
-Message-ID: <20230714104557.518457-3-contact@emersion.fr>
-In-Reply-To: <20230714104557.518457-1-contact@emersion.fr>
-References: <20230714104557.518457-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF83E10E86E;
+ Fri, 14 Jul 2023 10:47:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7ECEB1FD8E;
+ Fri, 14 Jul 2023 10:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689331623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i6h55HQftgQvvkADA67nYyBV+C/0slxTlkvYG6YPBpQ=;
+ b=JZN2yI8rzL18Kd+zDHxd/TnFZF8NcWznRSUZbF+sDr4OinPC2cSxFcSkTAzJSwhPTy5GER
+ 8RR7GB8vyS+yJ9Vrf2sPB8e5nfnWH646KN34d0NT1VKITWZcIQd3H5Uf54bGaP42JBn9z2
+ caBWuuGKXdn5VW0NsACfB7CapldgqfM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689331623;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i6h55HQftgQvvkADA67nYyBV+C/0slxTlkvYG6YPBpQ=;
+ b=/epw2TagvC6JEinSwpHEJxmj1PG/pM/YY2ZPJdrmm2KOfeJr3f2ATmf8+LQH8TDFG9gdkX
+ Z7hM/OF80gyVoJCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 060C213A15;
+ Fri, 14 Jul 2023 10:47:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id qw1yO6YnsWQgHgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 10:47:02 +0000
+Message-ID: <12d980f4-e681-378d-6d94-da5cc6be5210@suse.de>
+Date: Fri, 14 Jul 2023 12:47:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <20230714075155.5686-1-tzimmermann@suse.de>
+ <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
+ <47a3ab8d-5e8c-db2c-fcde-5c2b1bac32aa@suse.de>
+ <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------vCsdIumFTGHoRkqMx9FMKvYN"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,47 +73,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
- James Zhu <James.Zhu@amd.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ kvm@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ javierm@redhat.com, linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-geode@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This entry should never be used by the kernel. Record the historical
-context in a comment.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------vCsdIumFTGHoRkqMx9FMKvYN
+Content-Type: multipart/mixed; boundary="------------Nh1ETrjj519EbQRvF1jjXvLz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-fbdev@vger.kernel.org,
+ kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ deller@gmx.de, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-geode@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Message-ID: <12d980f4-e681-378d-6d94-da5cc6be5210@suse.de>
+Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+References: <20230714075155.5686-1-tzimmermann@suse.de>
+ <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
+ <47a3ab8d-5e8c-db2c-fcde-5c2b1bac32aa@suse.de>
+ <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
+In-Reply-To: <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-Cc: James Zhu <James.Zhu@amd.com>
-Cc: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- include/drm/drm_file.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+--------------Nh1ETrjj519EbQRvF1jjXvLz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 010239392adf..a23cc2f6163f 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -53,12 +53,14 @@ struct file;
- /* Note that the values of this enum are ABI (it determines
-  * /dev/dri/renderD* numbers).
-  *
-+ * There used to be a DRM_MINOR_CONTROL =3D 1 entry, but such nodes were n=
-ever
-+ * exposed. Still, some user-space has logic to handle them.
-+ *
-  * Setting DRM_MINOR_ACCEL to 32 gives enough space for more drm minors to
-  * be implemented before we hit any future
-  */
- enum drm_minor_type {
- =09DRM_MINOR_PRIMARY =3D 0,
--=09DRM_MINOR_CONTROL =3D 1,
- =09DRM_MINOR_RENDER =3D 2,
- =09DRM_MINOR_ACCEL =3D 32,
- };
---=20
-2.41.0
+SGkNCg0KQW0gMTQuMDcuMjMgdW0gMTI6Mjkgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBP
+biBGcmksIEp1bCAxNCwgMjAyMyBhdCAxMjoyNDowNVBNICswMjAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+Pg0KPj4+PiAgICAgZmJkZXY6IFJlbW92ZSBmbGFnIEZCSU5GT19E
+RUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0KPj4+PiAgICAgZmJkZXY6IFJlbW92ZSBmbGFn
+IEZCSU5GT19ERUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0KPj4+PiAgICAgZmJkZXY6IFJl
+bW92ZSBmbGFnIEZCSU5GT19ERUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0KPj4+PiAgICAg
+ZmJkZXY6IFJlbW92ZSBmbGFnIEZCSU5GT19ERUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0K
+Pj4NCj4+DQo+PiBJIHdhc24ndCBoYXBweSBhYm91dCB0aGlzIGVpdGhlci4gQnV0IEkgY291
+bGQgbm90IGNvbWUgdXAgd2l0aCBhIGRlc2NyaXB0aW9uDQo+PiB0aGF0IGZpdHMgaW50byB0
+aGUgNzQtY2hhciBsaW1pdCBmb3IgZWFjaCBjb21taXQuIFRoZXkgb25seSBkaWZmZXIgaW4g
+dGhlDQo+PiBtZXRob2Qgb2YgbWVtb3J5IGFsbG9jYXRpb24uIERvIHlvdSBoYXZlIGFueSBp
+ZGVhcz8NCj4gDQo+IGZiZGV2OiBSZW1vdmUgRkJJTkZPX0RFRkFVTFQgZnJvbSBzdGF0aWMg
+c3RydWN0cw0KPiBmYmRldjogUmVtb3ZlIEZCSU5GT19ERUZBVUxUIGZyb20ga3phbGxvYygp
+IHN0cnVjdHMNCj4gZmJkZXY6IFJlbW92ZSBGQklORk9fREVGQVVMVCBmcm9tIGRldm1fa3ph
+bGxvYygpIHN0cnVjdHMNCg0KU291bmRzIGdvb2QsIEknbGwgdXNlIHRoYXQuIFRoYW5rcyEN
+Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBl
+bnRlcg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
+c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
+QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
+ODA5IChBRyBOdWVybmJlcmcpDQo=
 
+--------------Nh1ETrjj519EbQRvF1jjXvLz--
 
+--------------vCsdIumFTGHoRkqMx9FMKvYN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSxJ6YFAwAAAAAACgkQlh/E3EQov+Bc
+Ww//WC0tumM5S+EfD4Q3tfllL5EPhego1FSEQVXnQdTPZc8IN3W/NQ8i9WsQ6fo9LKFvVgpf95fb
+Kfd8xqKPvezuQuHVb2IAFP7ibxikAyWlb4WNOFJB4Ah0CMaPvo84TGqc1PsVTLxN4RjfxW1TIWo/
+tTSL1DLFkQcZyyf9Ob45Xhziifbry/gBRBLnFod84polfZ43cqBSY3/Hq2LjXpJCQTj9Hqr46qe6
+B48hMgAHnh80y+nol5nDEpssM51l6ZHeoHTjmyzfZRGqSKVPLWqIj+ptehPA119yW2bUvFILYbJy
+RbZitdzmNooqtDyQ+6Pz4UKvyYr0nROzPQSwNoOLXMl8RZ5THCdy0yS734X7KL5NoVH0CM7O7olG
+5tDK5ZzrMItI+Q1OZALGcEJ6T+gFPn+lIvE8EIeY0aFS+rrtSYA2ATXOjI08LVKAF9ATH7+RiDQX
+owVo7azYHBZshazZ1oYIzErxlpf1eBhF9c8I2+nL7uVgG4QtfFt/xIVifp/DOWfRdRNKgelVhi33
+a9bW51tp/GdqwqIdJ/QeLWUpbJT7kDVinHpA8PqYaTI3Z6TlWR1n+/2UN7pj2QE3YSwIwLBMdgv4
+ZD+RBXHdIo8W4ChCFELPyYjW9ixpmLgCNjta6dhBpYODkuM0XtTLdHmTqOkISlup+qdi9vk/9H8t
+Cbg=
+=ZWbe
+-----END PGP SIGNATURE-----
+
+--------------vCsdIumFTGHoRkqMx9FMKvYN--
