@@ -2,48 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6669753AC0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 14:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9822753B13
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 14:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC6A10E87F;
-	Fri, 14 Jul 2023 12:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E11D10E882;
+	Fri, 14 Jul 2023 12:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD8610E87B;
- Fri, 14 Jul 2023 12:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=b1Gph0vuGXSeRBOUXNrnFyU+mX28k/NdwjFLIR6GaPw=; b=GmhqCPA6yfKkTaZwzAhwBcaA82
- 1wZqmYKBvGQs/NT6daPi0IramA0DwS0ycGIPhjFVw6itABCVfJlgifWaCVpnsFo2wU3bLBYQlWfAp
- iVhUrrrbp3ZX0i3JtzW8HaDg5AI3mKcstAkk99rP1S0YwEK1HzsSOHZN5ijwnUIP/TjrgN8T1lLmO
- Ef7XI4/i+dIh1CON8pHnkAj3Z6UxKrznt50Ie5GhwyUsyFKRoc0nQEVmtGA+LHVMRs5vQtVwciaGD
- aHRXkrdIMZU4EpRO+eNZhvqjDzqjH+Fi9E8baadyYXUqBx2F3NiydLssYawZJ55silcoDl+N1DG6I
- e9r/OqTw==;
-Received: from [187.74.70.209] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qKHq3-00EVOo-L8; Fri, 14 Jul 2023 14:23:59 +0200
-Message-ID: <50fa1365-ab6a-58a1-e82f-ebaf1b623010@igalia.com>
-Date: Fri, 14 Jul 2023 09:23:55 -0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC07810E882
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 12:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689338113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o1Zd/JVb3INpcm5Suw1qo0GVcXGE20luaGYc4chBP6I=;
+ b=dF0hRcdmQdQ5PAyayiz0JzJh7Jx0K6lRGjTf0uPqbF8zmNjp8sgKAWaxIkLpWraLy/xz/g
+ k7jxeHKq+GKyImPHP53UN1nr3D7/5ZuflQHOwPKYSeg/OE24xcNCsml9ndNz72Qup4jnlJ
+ /1aOixhAzXBEuJBcp2sQJAdOOx8/dew=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-459-M3IHZxprNpKHBnxiXLxP6g-1; Fri, 14 Jul 2023 08:35:12 -0400
+X-MC-Unique: M3IHZxprNpKHBnxiXLxP6g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3fc0627eafbso8395215e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:35:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689338111; x=1691930111;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=r4YYFQeFF+tmW56W+2YbpK+12pRE5g3fji817lOXKvo=;
+ b=MC2SyYEFvP6GEVTkfi9XlotH8HZnGKMtilcUk1ehTA+Uqju5/JGKttGgbLXd3LBROX
+ 7mN78rmx2XEZDE4Niw8XY6mVdzo2TmJD6Iu+sq0PtLv/l7cB8mhFEV6woNRFADRI7RY6
+ 4MMbplgSfZpZQcpe2iBPS+DeOFUTrIUWDAC7cF0rEnwQafDtHwu/+2gMLk0YIV/p0r1S
+ hrRuCbXhhxixYbT3ykJrY3/c41ZSVeoAWq3Mm3vV7wiyZXVZDJ4MdnQ2qlhBBkD8GanK
+ XZqLcaSfpXERnzCC01arhAMyMlTuMyTWgqUKn1l93qUZymnvs7IsFi0hMAFmwydz82yj
+ ZifQ==
+X-Gm-Message-State: ABy/qLaBZP36GEnP4WMkI9ANOSdLYlRuVbKPWWdLH5MZJWgeCIFla0jn
+ nTnET1vo+JxcM6vpquwsTAiiDBqulPVOvl8E4x7QRqyvzHV1iPJnS3ySQkuWcvG4epZnonqpKvY
+ NNL14tDQBcZXzSwSvBMah6WGHeGoY
+X-Received: by 2002:a05:600c:3c82:b0:3fa:821e:1fb5 with SMTP id
+ bg2-20020a05600c3c8200b003fa821e1fb5mr2350935wmb.5.1689338111128; 
+ Fri, 14 Jul 2023 05:35:11 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlH9jx6L5IrTf9LzMzlaRmSACtru8z+t6WqE3jtnwWMGELxmr4yY71Dv3BxD0LDKeBPRdZryjQ==
+X-Received: by 2002:a05:600c:3c82:b0:3fa:821e:1fb5 with SMTP id
+ bg2-20020a05600c3c8200b003fa821e1fb5mr2350920wmb.5.1689338110820; 
+ Fri, 14 Jul 2023 05:35:10 -0700 (PDT)
+Received: from localhost (208.red-88-2-40.staticip.rima-tde.net. [88.2.40.208])
+ by smtp.gmail.com with ESMTPSA id
+ n22-20020a7bcbd6000000b003fb225d414fsm1326015wmi.21.2023.07.14.05.35.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jul 2023 05:35:10 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
+In-Reply-To: <CAMuHMdV1MXexXuRuvW2ap5KA51q_3h9X8jXdYXtFb2RF-BBLnw@mail.gmail.com>
+References: <cover.1689252746.git.geert@linux-m68k.org>
+ <72746f6d9c47f09fc057ad7a4bbb3b7f423af803.1689252746.git.geert@linux-m68k.org>
+ <87ilamu7e3.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdV1MXexXuRuvW2ap5KA51q_3h9X8jXdYXtFb2RF-BBLnw@mail.gmail.com>
+Date: Fri, 14 Jul 2023 14:35:09 +0200
+Message-ID: <875y6macxu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 5/6] drm/amdgpu: Log IBs and ring name at coredump
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20230713213242.680944-1-andrealmeid@igalia.com>
- <20230713213242.680944-6-andrealmeid@igalia.com>
- <6485568b-da41-b549-f6bd-36139df59215@gmail.com>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <6485568b-da41-b549-f6bd-36139df59215@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,127 +85,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- michel.daenzer@mailbox.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
+Hello Geert,
 
-Em 14/07/2023 04:57, Christian König escreveu:
-> Am 13.07.23 um 23:32 schrieb André Almeida:
->> Log the IB addresses used by the hung job along with the stuck ring
->> name. Note that due to nested IBs, the one that caused the reset itself
->> may be in not listed address.
+> Hi Javier,
+>
+> On Fri, Jul 14, 2023 at 12:14=E2=80=AFPM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+>> Thanks a lot for your patch, this has been on my TODO for some time!
 >>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  3 +++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 31 +++++++++++++++++++++-
->>   2 files changed, 33 insertions(+), 1 deletion(-)
+>> > The native display format is monochrome light-on-dark (R1).
+>> > Hence add support for R1, so monochrome applications can avoid the
+>> > overhead of back-and-forth conversions between R1 and XR24.
+>> >
+>> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> > ---
+>> > This work interfered with commit 49d7d581ceaf4cf8 ("drm/ssd130x: Don't
+>> > allocate buffers on each plane update") in drm-misc/for-linux-next,
+>> > which always allocates the buffer upfront, while it is no longer neede=
+d
+>> > when never using XR24.
 >>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> index e1cc83a89d46..cfeaf93934fd 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> @@ -1086,6 +1086,9 @@ struct amdgpu_coredump_info {
->>       struct amdgpu_task_info         reset_task_info;
->>       struct timespec64               reset_time;
->>       bool                            reset_vram_lost;
->> +    u64                *ibs;
->> +    u32                num_ibs;
->> +    char                ring_name[16];
->>   };
->>   #endif
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> index 07546781b8b8..431ccc3d7857 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -5008,12 +5008,24 @@ static ssize_t amdgpu_devcoredump_read(char 
->> *buffer, loff_t offset,
->>                      coredump->adev->reset_dump_reg_value[i]);
->>       }
->> +    if (coredump->num_ibs) {
->> +        drm_printf(&p, "IBs:\n");
->> +        for (i = 0; i < coredump->num_ibs; i++)
->> +            drm_printf(&p, "\t[%d] 0x%llx\n", i, coredump->ibs[i]);
->> +    }
->> +
->> +    if (coredump->ring_name[0] != '\0')
->> +        drm_printf(&p, "ring name: %s\n", coredump->ring_name);
->> +
->>       return count - iter.remain;
->>   }
->>   static void amdgpu_devcoredump_free(void *data)
->>   {
->> -    kfree(data);
->> +    struct amdgpu_coredump_info *coredump = data;
->> +
->> +    kfree(coredump->ibs);
->> +    kfree(coredump);
->>   }
->>   static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
->> @@ -5021,6 +5033,8 @@ static void amdgpu_coredump(struct amdgpu_device 
->> *adev, bool vram_lost,
->>   {
->>       struct amdgpu_coredump_info *coredump;
->>       struct drm_device *dev = adev_to_drm(adev);
->> +    struct amdgpu_job *job = reset_context->job;
->> +    int i;
->>       coredump = kmalloc(sizeof(*coredump), GFP_NOWAIT);
->> @@ -5038,6 +5052,21 @@ static void amdgpu_coredump(struct 
->> amdgpu_device *adev, bool vram_lost,
->>       coredump->adev = adev;
->> +    if (job && job->num_ibs) {
-> 
-> I really really really don't want any dependency of the core dump 
-> feature towards the job.
-> 
+>> you mean R1 here, right ?
+>
+> I did mean R1. I think you missed the double negation.
+>
 
-Because of the lifetime of job?
+I did indeed. As a non-native english speaker, I find it very hard to
+parse double negations :)
 
-Do you think implementing amdgpu_job_get()/put() would help here?
+>> It's still used in ssd130x_clear_screen() though.
+>
+> I guess it became worthwhile to make ssd130x_clear_screen()
+> do memset(data_array, 0, ...) and call ssd130x_write_data() directly,
+> avoiding the pointless reshuffling of black pixels in
+> ssd130x_update_rect()?
+>
 
-> What we could do is to record the first executed IB VAs in the hw fence, 
-> but I'm not sure how useful this is in the first place.
-> 
+I think so, yeah.
 
-I see, any hint here of the timedout job would be helpful AFAIK.
+>> > Probably ssd130x->buffer should be allocated on first use.
+>>
+>> Yes, that makes sense.
+>>
+>> > And why not allocate the buffers using devm_kcalloc()?
+>>
+>> I think there are some lifetimes discrepancies between struct device and
+>> struct drm_device objects. But we could use drm_device managed resources
+>> helpers, i.e: drmm_kzalloc().
+>
+> The display should not be updated after .remove(), so I think plain
+> devm_kcalloc() should be fine.
+>
 
-> We have some internal feature in progress to query the VA of the draw 
-> command which cause the waves currently executing in the SQ to be 
-> retrieved.
-> 
->> +        struct amdgpu_ring *ring = to_amdgpu_ring(job->base.sched);
->> +        u32 num_ibs = job->num_ibs;
->> +
->> +        coredump->ibs = kmalloc_array(num_ibs, sizeof(coredump->ibs), 
->> GFP_NOWAIT);
-> 
-> This can fail pretty easily.
+That was precisely my point, that there could be atomic commits even after
+the driver has been removed (e.g: if using DRM fbdev emulation, user-space
+can keep the /dev/fb0 opened and continue updating the framebuffer. That's
+not released until the fd is closed and struct fb_ops .fb_destroy called.
 
-Because of its size?
+But that's a general rule in DRM, any user-visible resource must not be
+allocated using device managed resources and instead use the drm_device
+managed resources helpers. To make sure that are not released until the
+last call to drm_dev_put():
 
-> 
-> Christian.
-> 
->> +        if (coredump->ibs)
->> +            coredump->num_ibs = num_ibs;
->> +
->> +        for (i = 0; i < coredump->num_ibs; i++)
->> +            coredump->ibs[i] = job->ibs[i].gpu_addr;
->> +
->> +        if (ring)
->> +            strncpy(coredump->ring_name, ring->name, 16);
->> +    }
->> +
->>       ktime_get_ts64(&coredump->reset_time);
->>       dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
-> 
+https://docs.kernel.org/gpu/drm-internals.html#device-instance-and-driver-h=
+andling
+
+--=20
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
