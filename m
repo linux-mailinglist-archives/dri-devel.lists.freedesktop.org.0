@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFC07533E8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:52:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D13047533DB
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC5B10E820;
-	Fri, 14 Jul 2023 07:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E059A10E817;
+	Fri, 14 Jul 2023 07:52:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 089D410E80A;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614FF10E803;
  Fri, 14 Jul 2023 07:52:05 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C03DB1FDA2;
- Fri, 14 Jul 2023 07:52:03 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 25F2622161;
+ Fri, 14 Jul 2023 07:52:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689321123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1689321124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=85l2ukO3ODIPQ6vFxAUAj342VQosexDKbJyC6X6EE14=;
- b=EnsEcGyfqq0kOkgwSp2971OUagS9I6Kq3FS3QoesQxzxxLFVVx7d6xBi6ikOmovOlN0UFl
- cjgzkl1ESK0UmYPNzY73WQ70pkDJypVKOM2bSx2KDpzLrGwL26zXVu/xcKIWG5P7lQbg0u
- Ukuv1XG9Sa1kuFa7aM8m2neGM9vAJD8=
+ bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
+ b=otBrxq3T4CulYsnRCs+iQc7IGtuWC/N+sUZavM3yydEjG8vt7IhtVAOuvkEMlU0CfJYWFx
+ kwCRQghUfRgZYpDL3j+EyNUi0KY1YcYrIHeahVFuRUbZa1j0pO1mJBJtTJi1h7VSxnUQj4
+ sR/sRb1rOEBC/tbeaYZT54FgrDq8Vpc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689321123;
+ s=susede2_ed25519; t=1689321124;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=85l2ukO3ODIPQ6vFxAUAj342VQosexDKbJyC6X6EE14=;
- b=XobNV/Jyb9yCeCLMoY/RztAO2gLUJ7Y86K4bpgtvqUqM9MRG0fSo/a+bslAULLcDQ+y/T9
- j4E7DndDgNbWCZBw==
+ bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
+ b=2jQQkl6TZszbkDXBuShxp72O5rB+emNtFGZSWmDo6DnQ4nuuTwVk/f0HgKK7yUENuTQPpw
+ 1dhePVctm2xAwOBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 77CB513A15;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C701013A15;
  Fri, 14 Jul 2023 07:52:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YJt0HKP+sGQCQwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id QLCtL6P+sGQCQwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:52:03 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
-Subject: [PATCH v3 16/18] fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
-Date: Fri, 14 Jul 2023 09:49:42 +0200
-Message-ID: <20230714075155.5686-17-tzimmermann@suse.de>
+Subject: [PATCH v3 17/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+Date: Fri, 14 Jul 2023 09:49:43 +0200
+Message-ID: <20230714075155.5686-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
 References: <20230714075155.5686-1-tzimmermann@suse.de>
@@ -80,35 +80,37 @@ Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-fbinfo.flags has been allocated to zero by devm_kzalloc(). So do not
-set it.
-
-Flags should signal differences from the default values. After cleaning
-up all occurrences of FBINFO_DEFAULT, the token will be removed.
-
-v2:
-	* fix commit message (Miguel)
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT. No
+functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/pxafb.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/linux/fb.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
-index c8c4677d06b4..beffb0602a2c 100644
---- a/drivers/video/fbdev/pxafb.c
-+++ b/drivers/video/fbdev/pxafb.c
-@@ -888,7 +888,6 @@ static void init_pxafb_overlay(struct pxafb_info *fbi, struct pxafb_layer *ofb,
- 	ofb->fb.var.vmode		= FB_VMODE_NONINTERLACED;
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 1d5c13f34b09..43458f582f35 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -383,7 +383,6 @@ struct fb_tile_ops {
+ #endif /* CONFIG_FB_TILEBLITTING */
  
- 	ofb->fb.fbops			= &overlay_fb_ops;
--	ofb->fb.flags			= FBINFO_FLAG_DEFAULT;
- 	ofb->fb.node			= -1;
- 	ofb->fb.pseudo_palette		= NULL;
+ /* FBINFO_* = fb_info.flags bit flags */
+-#define FBINFO_DEFAULT		0
+ #define FBINFO_HWACCEL_DISABLED	0x0002
+ 	/* When FBINFO_HWACCEL_DISABLED is set:
+ 	 *  Hardware acceleration is turned off.  Software implementations
+@@ -504,8 +503,6 @@ struct fb_info {
+ 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
+ };
  
+-#define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT
+-
+ /* This will go away
+  * fbset currently hacks in FB_ACCELF_TEXT into var.accel_flags
+  * when it wants to turn the acceleration engine on.  This is
 -- 
 2.41.0
 
