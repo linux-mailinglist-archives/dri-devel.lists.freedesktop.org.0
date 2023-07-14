@@ -1,76 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4DE753711
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:50:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877C375371B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE27A10E848;
-	Fri, 14 Jul 2023 09:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C39BF10E84B;
+	Fri, 14 Jul 2023 09:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D912610E848
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689328216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tBjp82gLLLlocN70gzT39Xi/h+/6LoHEroJf4qpzUyQ=;
- b=M4I9f96jr9jjFQw6Z20/wfjlP9w3DXqHW5PFZYEP9LDbXHCx7leksFJJWYJE4CVGyJkq77
- wUY/ooo3a73PVUvLd3ZbHPUVS3T7eirYzfwhUj+RCNFPg/12Oa2xu/7kuv5BwDwmNnCasJ
- Y8UlE5Z47ZCflDA9EtNdbT8QwmN+YUA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-We3tCet4PEmff_rXQdagmw-1; Fri, 14 Jul 2023 05:50:14 -0400
-X-MC-Unique: We3tCet4PEmff_rXQdagmw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3fc08d6a40cso9258715e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 02:50:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689328213; x=1691920213;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tBjp82gLLLlocN70gzT39Xi/h+/6LoHEroJf4qpzUyQ=;
- b=QGUYkg1frnr/fFeY8UfCYA+1IO1P8xZE7iYkmFnRPlIVYzBwvalj92bJxLAQ2vvRnK
- L0C47euEKuRB1Fl3s2cNtOYupOERwumeaDh9ZjLb6iOpDQ72rKMLAbRPrBi+5mMX/45o
- tR1rhjHoR6jwhCEdvzfY7U7LqFuT0Z5IduQnePnQZZtDx4eF64YzVvEqxsk2Fi6mIaMT
- eiR/ej/4IltLZxLNr3n9XhSWznrWQDEiQGaFYaoqEMIDNnx7qzZovcoG2zJlqu/BJ4tR
- TLZ+6oSxuQC13e3DNPXufvgFWi534/4Cmia9J4RFTaVsVtYLIVQ9kFkaBoF/DosaSf3G
- 71VQ==
-X-Gm-Message-State: ABy/qLa8O/jfbYp0UDziMnWgFnBMoar34+73yUFrSyN9DCdkd1jA5dUa
- BBIlDwILlLAgG20gQoNUPBkq90VeZd7RUJD3iiRObMo3tVHyUWpa82IPGJlOKV61bWJ2u2p5a3p
- oex4DGowH7YwwO5z7RMSEuAa28GYP
-X-Received: by 2002:adf:ea10:0:b0:314:35ce:a0e7 with SMTP id
- q16-20020adfea10000000b0031435cea0e7mr3545417wrm.16.1689328213582; 
- Fri, 14 Jul 2023 02:50:13 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFh1wPKblkmTBw8OQ1NLIUngbHtYwtP+MmS66mPVwKsVEsfrpflPboxtBmMk3of1k+PN6KJlg==
-X-Received: by 2002:adf:ea10:0:b0:314:35ce:a0e7 with SMTP id
- q16-20020adfea10000000b0031435cea0e7mr3545397wrm.16.1689328213266; 
- Fri, 14 Jul 2023 02:50:13 -0700 (PDT)
-Received: from localhost ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
- g12-20020a5d46cc000000b0031455482d1fsm10372260wrs.47.2023.07.14.02.50.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jul 2023 02:50:12 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 2/8] drm/dumb-buffers: Fix drm_mode_create_dumb() for
- bpp < 8
-In-Reply-To: <5ba8ac5e465121b646a59487dc75b27017e0c769.1689252746.git.geert@linux-m68k.org>
-References: <cover.1689252746.git.geert@linux-m68k.org>
- <5ba8ac5e465121b646a59487dc75b27017e0c769.1689252746.git.geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 11:50:11 +0200
-Message-ID: <87o7keu8j0.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E193210E84B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:51:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 72F9C5BC37;
+ Fri, 14 Jul 2023 09:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1689328297;
+ bh=9YdiC6yP/uFp6AFL5xOcZWtsFNruI4WD3T4VKunyZuM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=tVradgmizqZtTSMOOR1/kDVWWp9IuFmRZeHsU7ET8PCoB9Gg/lv3s9QNmXaGXXvSz
+ U5dY2f1B7lE/TBHDRgUCjn6EjBE+UspHpBMddK3gRTbmsCjwL40Hz/AoXw+fQX3M3k
+ RlPAGl663yz9oVtSFLLy6YXSVMK+QLcBHL/YaTXlgoB2NaZ+595tz7cJF9v+SqhE/B
+ JRkfi4PKbAwYmlyVuN9N4KAeM12bj4QbXatuJ4RSEiduMivPqVW5dB9AixUkWLcYkq
+ 9VUVPT7M2xR4ZohtD+P7oM6A5u7QlwqmDaPpVTDrAJCx4ikXGt7sfbLF8RjNoUGE72
+ Zuo61b+e6nYlQ==
+Message-ID: <d2e748e3-0263-70ed-0f6a-278441379371@asahilina.net>
+Date: Fri, 14 Jul 2023 18:51:32 +0900
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/3] drm/scheduler: Add more documentation
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-1-c567249709f7@asahilina.net>
+ <332e031c-c04e-998c-e401-685c817ea2a1@amd.com>
+ <6ba6827b-ab2b-1c03-2c72-eb3f6da7e719@asahilina.net>
+ <1c9e3c2b-a2bd-e465-809c-0e57ca61f40d@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <1c9e3c2b-a2bd-e465-809c-0e57ca61f40d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,65 +60,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+On 14/07/2023 18.47, Christian König wrote:
+> Am 14.07.23 um 11:39 schrieb Asahi Lina:
+>> On 14/07/2023 17.40, Christian König wrote:
+>>> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>>>> Document the implied lifetime rules of the scheduler (or at least the
+>>>> intended ones), as well as the expectations of how resource acquisition
+>>>> should be handled.
+>>>>
+>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>> ---
+>>>>     drivers/gpu/drm/scheduler/sched_main.c | 58
+>>>> ++++++++++++++++++++++++++++++++--
+>>>>     1 file changed, 55 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> index 7b2bfc10c1a5..1f3bc3606239 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -43,9 +43,61 @@
+>>>>      *
+>>>>      * The jobs in a entity are always scheduled in the order that
+>>>> they were pushed.
+>>>>      *
+>>>> - * Note that once a job was taken from the entities queue and
+>>>> pushed to the
+>>>> - * hardware, i.e. the pending queue, the entity must not be
+>>>> referenced anymore
+>>>> - * through the jobs entity pointer.
+>>>> + * Lifetime rules
+>>>> + * --------------
+>>>> + *
+>>>> + * Getting object lifetimes right across the stack is critical to
+>>>> avoid UAF
+>>>> + * issues. The DRM scheduler has the following lifetime rules:
+>>>> + *
+>>>> + * - The scheduler must outlive all of its entities.
+>>>> + * - Jobs pushed to the scheduler are owned by it, and must only be
+>>>> freed
+>>>> + *   after the free_job() callback is called.
+>>>> + * - Scheduler fences are reference-counted and may outlive the
+>>>> scheduler.
+>>>
+>>>> + * - The scheduler *may* be destroyed while jobs are still in flight.
+>>>
+>>> That's not correct. The scheduler can only be destroyed after all the
+>>> entities serving it have been destroyed as well as all the jobs already
+>>> pushed to the hw finished.
+>>
+>> The point of this series is to change this behavior so I can actually
+>> use the scheduler in my use case, and that begins with formally
+>> documenting it as Daniel suggested. That is, I need it to be safe for
+>> jobs to not be yet complete before the scheduler is destroyed (the
+>> entities do get destroyed first, that's the first bullet point).
+> 
+> Yeah, but you need to document the current situation not how you like it
+> to be.
 
-> drm_mode_create_dumb() calculates the number of characters per pixel
-> from the number of bits per pixel by rounding up, which is not correct
-> as the actual value of cpp may be non-integer.  While we do not need to
-> care here about complex formats like YUV, bpp < 8 is a valid use case.
->
->   - The overflow check for the buffer width is not correct if bpp < 8.
->     However, it doesn't hurt, as widths larger than U32_MAX / 8 should
->     not happen for real anyway.  Add a comment to clarify.
->   - Calculating the stride from the number of characters per pixel is
->     not correct.  Fix this by calculating it from the number of bits per
->     pixel instead.
->
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
-> Why is drm_mode_create_dumb.size __u64?  The test for "args->height >
+Daniel told me to document how I think it should be, then fix the bugs 
+that make it not so. That's what this series does.
 
-I don't think can be changed since is a DRM_IOCTL_MODE_CREATE_DUMB uAPI ?
+>> We already had this discussion. Without this guarantee, I cannot build
+>> a reasonable safe Rust abstraction. Unless you have another
+>> suggestion, as far as I can tell it's either this or I give up on
+>> using the DRM scheduler entirely and reimplement something else on my
+>> own.
+>>
+>>> What might be possible to add is that the hw is still working on the
+>>> already pushed jobs, but so far that was rejected as undesirable.
+>>
+>> Where was this rejected?
+> 
+> Years ago. Our initial driver suspend/resume design relied on that.
+> Turned out not to be a good idea
 
-> U32_MAX / stride" rejects all sizes not fitting in __u32 anyway.
+Times change, maybe it's time to revisit that decision?
 
-Hmm, wonder if should be U64_MAX instead ?
-
-> ---
->  drivers/gpu/drm/drm_dumb_buffers.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
-> index 70032bba1c97e787..21a04c32a5e3d785 100644
-> --- a/drivers/gpu/drm/drm_dumb_buffers.c
-> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
-> @@ -71,10 +71,11 @@ int drm_mode_create_dumb(struct drm_device *dev,
->  	/* overflow checks for 32bit size calculations */
->  	if (args->bpp > U32_MAX - 8)
->  		return -EINVAL;
-> +	/* Incorrect (especially if bpp < 8), but doesn't hurt much */
->  	cpp = DIV_ROUND_UP(args->bpp, 8);
->  	if (cpp > U32_MAX / args->width)
->  		return -EINVAL;
-> -	stride = cpp * args->width;
-> +	stride = DIV_ROUND_UP(args->bpp * args->width, 8);
->  	if (args->height > U32_MAX / stride)
->  		return -EINVAL;
->  
-
-Good catch.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+~~ Lina
 
