@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A135754070
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 19:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A9D754083
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 19:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE2610E10E;
-	Fri, 14 Jul 2023 17:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC07E10E8C9;
+	Fri, 14 Jul 2023 17:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com
- [IPv6:2607:f8b0:4864:20::e34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9D310E10E;
- Fri, 14 Jul 2023 17:26:35 +0000 (UTC)
-Received: by mail-vs1-xe34.google.com with SMTP id
- ada2fe7eead31-440b9d60606so847947137.1; 
- Fri, 14 Jul 2023 10:26:35 -0700 (PDT)
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com
+ [IPv6:2607:f8b0:4864:20::936])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A230510E8C5;
+ Fri, 14 Jul 2023 17:35:05 +0000 (UTC)
+Received: by mail-ua1-x936.google.com with SMTP id
+ a1e0cc1a2514c-7918b56b1e1so778270241.2; 
+ Fri, 14 Jul 2023 10:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689355594; x=1691947594;
+ d=gmail.com; s=20221208; t=1689356103; x=1691948103;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1mAgclljv5o/aMLISpskQlH5O1cIlPLCvHjF6I6Xhl0=;
- b=Sdi50qWxDVmpfpR9yAOwbvMJxkNACxSHIvPlQHn5QW/ydralkVzyW5PFYQc6Cw4/be
- ml9ZdsspIYAzUcQuuvxXXAAXsR9xd+6POVL61o7KP5W2gNnOkGIsR/ZFG3baDTX4itdA
- 3bBxUi31Zeja1jKQetbHYEFl82edDdiIuo1+2kgx+6O30sxlQIHgKd2YDXrw5LwER8qD
- 4vqerJ5kO/2LEwGbbQyXAfsYFdz5ZKS0J477V5LuUfz+ZrCcNG7Qj9wNYLrf6CG1v4Jl
- nCtCIe2j41HUkrdOciCP/aF1s5ex0Rd8h01ZRMYmohv9cvcwratBam6mijBSs2artuyF
- 1HhA==
+ bh=OV2Ug93Gav+8T58ju3y8+5YHTN9dRtivqYz5Rn6HN1A=;
+ b=Sm9T+5FUWy9zTWEzVG78o87Iy6UsmlLRmNJgtucTulyYns58ZoWCv8w970rl1/Veyk
+ pQ4NLkLFyNSd13q3i3b45TJraXrG9xSh4AjYUF10lBciIC0w+xExyhuyeBXs+6fxG/vo
+ hA3bB7vFfEQXnyPAT5lqs1JvkIHQhxS3aGw61j59s3DkT9E4BwGeZksq99GQ7reN7UH/
+ 0Ah30FOruU1Nll2XF+a8TGNd1gxd043C00oaHodwCqdDUqYB8ygGI5J3wLNW85t+ZfoF
+ yl0PNvQhLOjs3oIeysJjAamBdZm04eyfNwI3ESXzlXRzPT/gVBriJqYVRjq31guxDrxf
+ Wvng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689355594; x=1691947594;
+ d=1e100.net; s=20221208; t=1689356103; x=1691948103;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1mAgclljv5o/aMLISpskQlH5O1cIlPLCvHjF6I6Xhl0=;
- b=JfLsTByg0MG/q13vPDytDERbGHIOHdbHkgGUFAl5w0C/vki1bXaq5g9B8QXbS0ZmOU
- TB510c2Vy8iMbsx4TGtC1PA+XwQwqcKbwyj8wBC8vWmVYaIO3wck4FXxuhoy0HEH1Bfo
- WTNzfH2GCtSx0tPaSmrGDnAMtmIFidGpt9InHFP9TZ52dMBkdxhGisIkAsJhyNPbh6v3
- lZOr+5yinntE7P/wzzZbymy19V8339gV7yCIq4lG7WYMNotSXf+G1qKIWhu+gHPFowm+
- 7kTU8SQqkB/4UeKkUUr6w/kjy0nrPS2ov/Jo44Ux6Ehwk1jc8mM6SyA8q7wjnocaa4Bv
- SPww==
-X-Gm-Message-State: ABy/qLZASOQx1tlGYSuWKU8BrIopSEvvWLH54yYoz5OwCzXrUIwwEQCx
- iKgPlSyxY8APrlzrDnZfPmATSJnt8VTBHvGcVGM=
-X-Google-Smtp-Source: APBJJlFHbcDnDvP4z879dm67J+CIsQU+E2UFFcItQwOdwy7jRkl60+B8Hlu1ITKA4UEn0reT1KdxVabKqwM1RP7+WBM=
-X-Received: by 2002:a67:b901:0:b0:443:8898:2a50 with SMTP id
- q1-20020a67b901000000b0044388982a50mr2784041vsn.35.1689355593821; Fri, 14 Jul
- 2023 10:26:33 -0700 (PDT)
+ bh=OV2Ug93Gav+8T58ju3y8+5YHTN9dRtivqYz5Rn6HN1A=;
+ b=H5Upze9/xJcZX4lp9JMJaCnOyB1HkqqHAxT/sjZ7G6N74++NJidtk4BnunTFGHmjmb
+ 5cSnmj2H2Iu/y50c+EJV9Y2iZf8r5KFDgZn8zmvjCKPNn0RPqJNRc2s2nmSDk2FL0CDI
+ FxfI/M1wUvaYP4actSah3VnNbg38mV+YH6zBpGTmnIsSZHgyCStWf63tYcpyXm8dc/Lk
+ A6tnFfbcFfAouwrzDzgHNomGMFPKk/UUdU09HvodpMJ/PSS+kOAz25z1FjAThR5phSKZ
+ n6y+5377W7caEepvRMa/KJAuU3mgoU1Um4GQjW+qhNoBVPv3yS7+ll0spS/j17vrpMIY
+ DAow==
+X-Gm-Message-State: ABy/qLZX2Cjtb+UGRlbTHh7zzdL7GvZOf+938FpBuWI1llQJD5JR4Sd7
+ LhnTC6U7SYX9DF1knP5Ktg90s8xIsOb7Q29MxX2BfCl/
+X-Google-Smtp-Source: APBJJlHPWnkuzIUxdR+EPWCIw+Tcbf5bVSlQ7Yephhjpo0reZQAZ9ifJDHW1WXS2A1nan9Wfq45XF7N2gMqGphOO4CM=
+X-Received: by 2002:a67:f1c7:0:b0:443:895d:1b53 with SMTP id
+ v7-20020a67f1c7000000b00443895d1b53mr3445086vsm.10.1689356103255; Fri, 14 Jul
+ 2023 10:35:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230713163626.31338-1-jim.cromie@gmail.com>
- <20230713163626.31338-21-jim.cromie@gmail.com>
- <07f0c6ac-f195-e598-4649-e88ad5e76005@infradead.org>
-In-Reply-To: <07f0c6ac-f195-e598-4649-e88ad5e76005@infradead.org>
+ <20230713163626.31338-22-jim.cromie@gmail.com>
+ <76995421-a529-ac25-c306-2e4ac2844602@infradead.org>
+In-Reply-To: <76995421-a529-ac25-c306-2e4ac2844602@infradead.org>
 From: jim.cromie@gmail.com
-Date: Fri, 14 Jul 2023 11:26:07 -0600
-Message-ID: <CAJfuBxy7Z+=5b2rP0diRUYT0a8wsZvD9+vUh+cBOX2eeGG04ig@mail.gmail.com>
-Subject: Re: [PATCH v4 20/21] config TEST_DYNAMIC_DEBUG default m
+Date: Fri, 14 Jul 2023 11:34:37 -0600
+Message-ID: <CAJfuBxyUoVJU13cVxtp01PLfQ1v3PZVWD9vLLR1y+Fiz5Xd66A@mail.gmail.com>
+Subject: Re: [PATCH v4 21/21] dyndbg-doc: add classmap info to howto
 To: Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -78,45 +78,48 @@ Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 13, 2023 at 1:04=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
+On Thu, Jul 13, 2023 at 1:13=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
 > wrote:
 >
-> Hi Jim,
+>
 >
 > On 7/13/23 09:36, Jim Cromie wrote:
+> > Add some basic info on classmap usage and api
+> >
 > > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 > > ---
-> >  lib/Kconfig.debug | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >  .../admin-guide/dynamic-debug-howto.rst       | 64 ++++++++++++++++++-
+> >  1 file changed, 63 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index d4fbbcc395d2..82d11ac63758 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -2696,13 +2696,14 @@ config TEST_STATIC_KEYS
-> >
-> >  config TEST_DYNAMIC_DEBUG
-> >       tristate "Build test-dynamic-debug module"
-> > +     default m
+> > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docume=
+ntation/admin-guide/dynamic-debug-howto.rst
+> > index 8dc668cc1216..878750ce8c1d 100644
+> > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
 >
-> You need to justify such a change, and since it's not required
-> for running the system, I don't think it should be 'm'.
+> > @@ -374,3 +373,66 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``=
+.
+> >  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format stri=
+ng is
+> >  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+> >  in case ``prefix_str`` is built dynamically.
+> > +
+> > +Dynamic Debug classmaps
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Dyndbg generally selects *prdbg* callsites using structural info:
+> > +module, file, function, line.  Using classmaps, user modules can
+> > +organize/select pr_debug()s as they like.
+> > +
+> > +- classes coordinates/spans multiple modules
+> > +- complements the mod,file,func attrs
+> > +- keeps pr_debug's 0-off-cost JUMP_LABEL goodness
+> > +- isolates from other class'd and un-class'd pr_debugs()
+> > +  (one doesnt mix 2 clients bank accounts)
+>
+>           doesn't
 >
 
-meh, now I cant "justify" the bored/curious comment. ;-)
-I'll drop this patch.
 
-> >       depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
-> >       help
-> >         This module works/demo's the dyndbg's classmap API, by
-> >         creating 2 classes: a DISJOINT classmap (like DRM.debug)
-> >         and a LEVELS/VERBOSE classmap (where 2>1).
-> >
-> > -       If unsure, say N.
-> > +       If unsure, say N.  If bored/curious, say M
-> >
-> >  config TEST_KMOD
-> >       tristate "kmod stress tester"
->
-> --
-> ~Randy
+thanks Randy,
+got this, and the rest.
