@@ -2,71 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499FF753368
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061707533A2
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:52:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB8CF10E7F6;
-	Fri, 14 Jul 2023 07:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C97810E804;
+	Fri, 14 Jul 2023 07:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63F1210E7F6
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 07:45:53 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-51a52a7d859so5942534a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 00:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689320751; x=1691912751;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N6vuG3HQkEQ7VNeSQ5xmh1TS6CjzB/10WVd0XG/5aiY=;
- b=gjzet+3EtfmPg0tf8IJHdcqio4lk8hH5r0xGb3jPub9rRkdCMPlN07kjBsFMoNgcUl
- 9scbBglIZZafZTLDAVubtwb6YTanXfnEwyUEE3Xu9iU5qB+whYOrbNEf2ssOHEqvKdeG
- KC8Fule84HyTin/rpOsFjWQ2PzioUgoterzvoTE5x15sm5L2Pg0UtE4dkeixAfjLmJmw
- 7BUdczbiPnmAM3KnW3ox/dM3xHSlKpcK5eF8Ce6hgLFRp72tDCyneWEOh9w12AX2ZzAp
- RmVGFDyypB4Tt8gw880ZKOmFh5s0a30KiULcXr8YnPHrT3HuFjh3Whv9ZPZhrOLVxlQ6
- DLwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689320751; x=1691912751;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N6vuG3HQkEQ7VNeSQ5xmh1TS6CjzB/10WVd0XG/5aiY=;
- b=GNNvsP9joiGhtl5jJH/jtzhZ3XQ5durKOEidEbQm1ZLb8PzewWQfqHgUpquxojrTbW
- txVGLVYCxQyfGtQpnrQRrckuylVWszGduL9QnWMwmIl8nvQ3uZVp5xTtWdQpjiJ56iSq
- Twkcob2fqnEIYb+oYVNu0gJ29VnLzBGB0hCZZxPBroJrx5rPSQxFluko+gO/aQMfhsPe
- hOyRxn/wPhTJ039SWEOkVb4crxY7+naDNfXMmKQ78fTvXtxCY7KtCfpZ0MGx+7LF5z2Y
- /u8vV5qW+AOT1jMo8Ea/eH/RY/d+oOaXhDFcBNbkQWGI6r4tjAkAKwptgM7TggVEc5gs
- Z/5w==
-X-Gm-Message-State: ABy/qLYabcIx9jkUhSSiATNJwd65u+no8rvXRDFQgOYooODuI54n1Hr8
- c5+XaBNmmHiDI8UUyvEgCDI=
-X-Google-Smtp-Source: APBJJlE9LmJVESEldeBsjKBFMJhkXTV0WWWDsVr7FqxjeFyNg3BVE+QDcTnHHM2SkLqoXFEitTeN4A==
-X-Received: by 2002:a05:6402:518f:b0:51e:4218:b91b with SMTP id
- q15-20020a056402518f00b0051e4218b91bmr2404203edd.1.1689320750718; 
- Fri, 14 Jul 2023 00:45:50 -0700 (PDT)
-Received: from ?IPV6:2a00:e180:156e:8700:817e:6375:6a13:2da9?
- ([2a00:e180:156e:8700:817e:6375:6a13:2da9])
- by smtp.gmail.com with ESMTPSA id
- n1-20020a056402514100b0051e2cde9e3esm5419862edd.75.2023.07.14.00.45.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jul 2023 00:45:50 -0700 (PDT)
-Message-ID: <942c0138-e264-88c0-ebb1-cce0604d74ff@gmail.com>
-Date: Fri, 14 Jul 2023 09:45:48 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5AF10E801;
+ Fri, 14 Jul 2023 07:51:58 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0EE061F8D5;
+ Fri, 14 Jul 2023 07:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689321117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HUxd2I1CvpKA4+clhziKfHP/fuVnOLROIjy/7JR+efc=;
+ b=d1pCTqnt4+bbACtUdUQXwvyCo6rRm/tyq1s7729TZGQtBcgqvLcXaKfxPhrtubpnXV0Jab
+ D2nOC2ARWyuiH++ZvdtA8cr/6Nc926wvES2TtK4nJW+jD2d9Jg0d+CGJZTkMDUTa6Qnv1P
+ 5/FFDhaO5ltU0xElyCs8B/uG+y3suOo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689321117;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HUxd2I1CvpKA4+clhziKfHP/fuVnOLROIjy/7JR+efc=;
+ b=UuffdXMhSPcyhA5XIonKDe7ip0VnmwttBNaPU0lptWk6vSmgwoAgRKHCqEtfQG0L/KuVnL
+ yg2bRadbQrN4lxCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9B0F13A15;
+ Fri, 14 Jul 2023 07:51:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id X4d2KJz+sGQCQwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:51:56 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	javierm@redhat.com
+Subject: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+ flags
+Date: Fri, 14 Jul 2023 09:49:26 +0200
+Message-ID: <20230714075155.5686-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v3] misc: sram: Add DMA-BUF Heap
- exporting of SRAM areas
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Davis <afd@ti.com>
-References: <20230713191316.116019-1-afd@ti.com>
- <2023071308-squeeze-hamster-d02f@gregkh>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <2023071308-squeeze-hamster-d02f@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,100 +66,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.07.23 um 21:28 schrieb Greg Kroah-Hartman:
-> On Thu, Jul 13, 2023 at 02:13:16PM -0500, Andrew Davis wrote:
->> This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
->> this allows for allocations of DMA-BUFs that can be consumed by various
->> DMA-BUF supporting devices.
-> What devices exactly?
->
-> And what userspace tools/programs are going to use this api?
->
->> Signed-off-by: Andrew Davis <afd@ti.com>
->> ---
->>
->> Changes from v2:
->>   - Make sram_dma_heap_allocate static (kernel test robot)
->>   - Rebase on v6.5-rc1
->>
->>   drivers/misc/Kconfig         |   7 +
->>   drivers/misc/Makefile        |   1 +
->>   drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
->>   drivers/misc/sram.c          |   6 +
->>   drivers/misc/sram.h          |  16 +++
->>   5 files changed, 275 insertions(+)
->>   create mode 100644 drivers/misc/sram-dma-heap.c
->>
->> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
->> index 75e427f124b28..ee34dfb61605f 100644
->> --- a/drivers/misc/Kconfig
->> +++ b/drivers/misc/Kconfig
->> @@ -448,6 +448,13 @@ config SRAM
->>   config SRAM_EXEC
->>   	bool
->>   
->> +config SRAM_DMA_HEAP
->> +	bool "Export on-chip SRAM pools using DMA-Heaps"
->> +	depends on DMABUF_HEAPS && SRAM
->> +	help
->> +	  This driver allows the export of on-chip SRAM marked as both pool
->> +	  and exportable to userspace using the DMA-Heaps interface.
-> Module name?
->
->>   config DW_XDATA_PCIE
->>   	depends on PCI
->>   	tristate "Synopsys DesignWare xData PCIe driver"
->> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
->> index f2a4d1ff65d46..5e7516bfaa8de 100644
->> --- a/drivers/misc/Makefile
->> +++ b/drivers/misc/Makefile
->> @@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
->>   obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
->>   obj-$(CONFIG_SRAM)		+= sram.o
->>   obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
->> +obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
->>   obj-$(CONFIG_GENWQE)		+= genwqe/
->>   obj-$(CONFIG_ECHO)		+= echo/
->>   obj-$(CONFIG_CXL_BASE)		+= cxl/
->> diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
->> new file mode 100644
->> index 0000000000000..c054c04dff33e
->> --- /dev/null
->> +++ b/drivers/misc/sram-dma-heap.c
->> @@ -0,0 +1,245 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * SRAM DMA-Heap userspace exporter
->> + *
->> + * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
->> + *	Andrew Davis <afd@ti.com>
-> It's 2023 :(
->
-> And this needs review from the dma-buf maintainers before I could do
-> anything with it.
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+useful when fbdev had special handling for driver modules. With
+commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+and have no further effect.
 
-Yeah, agree. Thanks Greg.
+Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+split this by the way the fb_info struct is being allocated. All flags
+are cleared to zero during the allocation.
 
-It would be nice if you explicitly CC the maintainers for DMA-buf and 
-DMA-buf heaps as well.
+Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+an actual bug in how arch/sh uses the token for struct fb_videomode,
+which is unrelated.
 
-Of hand I can only find the version from 2020 in the LKML archives.
+Patch 17 removes both flag constants from <linux/fb.h> and patch 18
+documents the zero'ed memory returned by framebuffer_alloc().
 
-Regards,
-Christian.
+v3:
+	* sh: include board name in commit message (Adrian)
+	* docs: reword text (Miguel)
+v2:
+	* sh: use FB_MODE_IS_UNKNOWN (Adrian)
+	* fix commit messages (Miguel)
+	* document framebuffer_alloc()'s zero'ed memory (Miguel)
 
->
-> thanks,
->
-> greg k-h
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+[1] https://lore.kernel.org/dri-devel/877crer8fm.fsf@minerva.mail-host-address-is-not-set/
+
+Thomas Zimmermann (18):
+  drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+  vfio-mdev: Remove flag FBINFO_DEFAULT from fbdev sample driver
+  sh: mach-sh7763rdp: Assign FB_MODE_IS_UNKNOWN to struct
+    fb_videomode.flag
+  auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
+  media: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+  fbdev: Document that framebuffer_alloc() returns zero'ed data
+
+ arch/sh/boards/mach-sh7763rdp/setup.c          | 2 +-
+ drivers/auxdisplay/cfag12864bfb.c              | 1 -
+ drivers/auxdisplay/ht16k33.c                   | 1 -
+ drivers/gpu/drm/drm_fbdev_dma.c                | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c            | 1 -
+ drivers/gpu/drm/gma500/fbdev.c                 | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c          | 2 +-
+ drivers/hid/hid-picolcd_fb.c                   | 1 -
+ drivers/media/pci/ivtv/ivtvfb.c                | 1 -
+ drivers/media/test-drivers/vivid/vivid-osd.c   | 1 -
+ drivers/staging/fbtft/fbtft-core.c             | 2 +-
+ drivers/staging/sm750fb/sm750.c                | 1 -
+ drivers/video/fbdev/68328fb.c                  | 2 +-
+ drivers/video/fbdev/acornfb.c                  | 2 +-
+ drivers/video/fbdev/amba-clcd.c                | 1 -
+ drivers/video/fbdev/amifb.c                    | 5 ++---
+ drivers/video/fbdev/arcfb.c                    | 1 -
+ drivers/video/fbdev/asiliantfb.c               | 1 -
+ drivers/video/fbdev/atafb.c                    | 1 -
+ drivers/video/fbdev/atmel_lcdfb.c              | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c             | 1 -
+ drivers/video/fbdev/aty/atyfb_base.c           | 3 +--
+ drivers/video/fbdev/aty/radeon_base.c          | 3 +--
+ drivers/video/fbdev/broadsheetfb.c             | 2 +-
+ drivers/video/fbdev/bw2.c                      | 1 -
+ drivers/video/fbdev/carminefb.c                | 1 -
+ drivers/video/fbdev/cg14.c                     | 2 +-
+ drivers/video/fbdev/cg3.c                      | 1 -
+ drivers/video/fbdev/cg6.c                      | 2 +-
+ drivers/video/fbdev/chipsfb.c                  | 1 -
+ drivers/video/fbdev/cirrusfb.c                 | 3 +--
+ drivers/video/fbdev/clps711x-fb.c              | 1 -
+ drivers/video/fbdev/cobalt_lcdfb.c             | 1 -
+ drivers/video/fbdev/controlfb.c                | 2 +-
+ drivers/video/fbdev/core/fb_info.c             | 3 ++-
+ drivers/video/fbdev/cyber2000fb.c              | 2 +-
+ drivers/video/fbdev/da8xx-fb.c                 | 1 -
+ drivers/video/fbdev/efifb.c                    | 1 -
+ drivers/video/fbdev/ep93xx-fb.c                | 1 -
+ drivers/video/fbdev/ffb.c                      | 3 +--
+ drivers/video/fbdev/fm2fb.c                    | 1 -
+ drivers/video/fbdev/fsl-diu-fb.c               | 2 +-
+ drivers/video/fbdev/g364fb.c                   | 2 +-
+ drivers/video/fbdev/gbefb.c                    | 1 -
+ drivers/video/fbdev/geode/gx1fb_core.c         | 1 -
+ drivers/video/fbdev/geode/gxfb_core.c          | 1 -
+ drivers/video/fbdev/geode/lxfb_core.c          | 1 -
+ drivers/video/fbdev/goldfishfb.c               | 1 -
+ drivers/video/fbdev/grvga.c                    | 2 +-
+ drivers/video/fbdev/gxt4500.c                  | 3 +--
+ drivers/video/fbdev/hecubafb.c                 | 2 +-
+ drivers/video/fbdev/hgafb.c                    | 2 +-
+ drivers/video/fbdev/hitfb.c                    | 2 +-
+ drivers/video/fbdev/hpfb.c                     | 1 -
+ drivers/video/fbdev/hyperv_fb.c                | 2 --
+ drivers/video/fbdev/i740fb.c                   | 2 +-
+ drivers/video/fbdev/i810/i810_main.c           | 4 ++--
+ drivers/video/fbdev/imsttfb.c                  | 3 +--
+ drivers/video/fbdev/imxfb.c                    | 3 +--
+ drivers/video/fbdev/intelfb/intelfbdrv.c       | 5 ++---
+ drivers/video/fbdev/kyro/fbdev.c               | 1 -
+ drivers/video/fbdev/leo.c                      | 1 -
+ drivers/video/fbdev/macfb.c                    | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 5 ++---
+ drivers/video/fbdev/maxinefb.c                 | 1 -
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 2 +-
+ drivers/video/fbdev/metronomefb.c              | 2 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c             | 2 +-
+ drivers/video/fbdev/mx3fb.c                    | 1 -
+ drivers/video/fbdev/neofb.c                    | 2 +-
+ drivers/video/fbdev/nvidia/nvidia.c            | 4 ++--
+ drivers/video/fbdev/offb.c                     | 2 +-
+ drivers/video/fbdev/omap/omapfb_main.c         | 1 -
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
+ drivers/video/fbdev/p9100.c                    | 1 -
+ drivers/video/fbdev/platinumfb.c               | 1 -
+ drivers/video/fbdev/pm2fb.c                    | 3 +--
+ drivers/video/fbdev/pm3fb.c                    | 3 +--
+ drivers/video/fbdev/pmag-aa-fb.c               | 1 -
+ drivers/video/fbdev/pmag-ba-fb.c               | 1 -
+ drivers/video/fbdev/pmagb-b-fb.c               | 1 -
+ drivers/video/fbdev/ps3fb.c                    | 2 +-
+ drivers/video/fbdev/pvr2fb.c                   | 2 +-
+ drivers/video/fbdev/pxa168fb.c                 | 2 +-
+ drivers/video/fbdev/pxafb.c                    | 2 --
+ drivers/video/fbdev/q40fb.c                    | 1 -
+ drivers/video/fbdev/riva/fbdev.c               | 3 +--
+ drivers/video/fbdev/s1d13xxxfb.c               | 4 ++--
+ drivers/video/fbdev/s3c-fb.c                   | 1 -
+ drivers/video/fbdev/sa1100fb.c                 | 1 -
+ drivers/video/fbdev/savage/savagefb_driver.c   | 3 +--
+ drivers/video/fbdev/sh_mobile_lcdcfb.c         | 2 --
+ drivers/video/fbdev/simplefb.c                 | 1 -
+ drivers/video/fbdev/sis/sis_main.c             | 5 +----
+ drivers/video/fbdev/skeletonfb.c               | 2 +-
+ drivers/video/fbdev/sm501fb.c                  | 2 +-
+ drivers/video/fbdev/sm712fb.c                  | 1 -
+ drivers/video/fbdev/smscufx.c                  | 2 +-
+ drivers/video/fbdev/sstfb.c                    | 1 -
+ drivers/video/fbdev/sunxvr1000.c               | 1 -
+ drivers/video/fbdev/sunxvr2500.c               | 1 -
+ drivers/video/fbdev/sunxvr500.c                | 1 -
+ drivers/video/fbdev/tcx.c                      | 1 -
+ drivers/video/fbdev/tdfxfb.c                   | 2 +-
+ drivers/video/fbdev/tgafb.c                    | 2 +-
+ drivers/video/fbdev/tridentfb.c                | 2 +-
+ drivers/video/fbdev/udlfb.c                    | 2 +-
+ drivers/video/fbdev/uvesafb.c                  | 3 +--
+ drivers/video/fbdev/valkyriefb.c               | 1 -
+ drivers/video/fbdev/vermilion/vermilion.c      | 2 +-
+ drivers/video/fbdev/vesafb.c                   | 2 +-
+ drivers/video/fbdev/vfb.c                      | 1 -
+ drivers/video/fbdev/vga16fb.c                  | 2 +-
+ drivers/video/fbdev/via/viafbdev.c             | 2 +-
+ drivers/video/fbdev/vt8500lcdfb.c              | 3 +--
+ drivers/video/fbdev/wm8505fb.c                 | 3 +--
+ drivers/video/fbdev/xen-fbfront.c              | 2 +-
+ drivers/video/fbdev/xilinxfb.c                 | 1 -
+ include/linux/fb.h                             | 3 ---
+ samples/vfio-mdev/mdpy-fb.c                    | 1 -
+ 120 files changed, 68 insertions(+), 151 deletions(-)
+
+-- 
+2.41.0
 
