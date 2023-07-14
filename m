@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DA6752EBB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 03:38:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D022752EC0
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 03:38:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD2210E7B3;
-	Fri, 14 Jul 2023 01:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08DA210E7B7;
+	Fri, 14 Jul 2023 01:38:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43FFC10E0C8
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 372C910E0AD
  for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 01:38:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B867161BC4;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B469361BBE;
  Fri, 14 Jul 2023 01:38:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58042C433CA;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F6E6C433D9;
  Fri, 14 Jul 2023 01:38:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1689298684;
- bh=BWX8AXPfJ5gQEAV6Gfsqwd1FF8WXCoKoYTywoJ22YAI=;
+ bh=EyFDzV4ddqw1sjwHBTSR4kWEp2hOqnAjhUV748qVmZI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JQzQ13H+HlDBwkhGckSx6+UVsUTgf01rN2VxwEfLMhsxfJGPZLGnBuvfOxvWSxQks
- wt91ai0vjK/Pr0I7lWxhituUXXkHgRO12rL0GZn9l+Tlj67Osv4QOkuKXGO9dEUWVG
- A3vJGVPYi1pHSnDFHLxRxYUCMRAJcAYdGvbveGn1ENNQNNxlWqV+w1fRvE8cR4SVaU
- UxMc/R6KmA1KYHwtLhDuWXj1J3bAywXFGfyW9wbBfnEbKnDQV81wRveWWhOqXyQB8/
- Mue7M4xbPx9oH0g5OLt671GIFyUpkCXnxMpWP7g8yRoCinZ7hLT6D2s5w1ltqRlwVq
- r6NojQosdpfMA==
+ b=HysJGfs/dIwxuKwN3vBYM0JpBWVvtSNxLGpwu9TNJpI3Ie6yITYRQ5ZlzvdRFhAV1
+ sm0BCuMYOalW0M3sx5jvgtizhq9QiQYD1KBjGWpnJvah4OAPEUrnCWSo+FZrM8eHtt
+ mxDXBSfDJvl9+GWOBH34u+2mo7sJMRHvPyDI8DlQ37YPjm1AxXoIxejrxJ0sCcjZNN
+ u1TMZUeL6nmsrSwibZ/p6SqMifWqJ+L2YO4lQliO9ludKlt/vbAUvZjpB+VuWnFT87
+ TDW/iTkCWoikzVAeaLfzkVCAOoFRm6YF6+0jqyp21w+zYH/UQ0snemsabIGtoR1NVx
+ kSZvCf/n4GTSg==
 Received: by mercury (Postfix, from userid 1000)
- id D82FB1067696; Fri, 14 Jul 2023 03:37:58 +0200 (CEST)
+ id DAB131067697; Fri, 14 Jul 2023 03:37:58 +0200 (CEST)
 From: Sebastian Reichel <sre@kernel.org>
 To: Sebastian Reichel <sre@kernel.org>
-Subject: [PATCH v3 06/19] drm/panel: sitronix-st7789v: simplify
- st7789v_spi_write
-Date: Fri, 14 Jul 2023 03:37:43 +0200
-Message-Id: <20230714013756.1546769-7-sre@kernel.org>
+Subject: [PATCH v3 07/19] drm/panel: sitronix-st7789v: improve error handling
+Date: Fri, 14 Jul 2023 03:37:44 +0200
+Message-Id: <20230714013756.1546769-8-sre@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230714013756.1546769-1-sre@kernel.org>
 References: <20230714013756.1546769-1-sre@kernel.org>
@@ -67,39 +65,64 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-st7789v_spi_write initializes a message with just
-a single transfer, spi_sync_transfer can be used
-for that.
+Improve error handling in the probe routine, so that probe
+defer errors are captured in /sys/kernel/debug/devices_deferred
 
 Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Sebastian Reichel <sre@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    | 23 ++++++++++---------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index 1d43b8cc1647..6290bd49d055 100644
+index 6290bd49d055..a6d6155ef45c 100644
 --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
 +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -129,17 +129,13 @@ static int st7789v_spi_write(struct st7789v *ctx, enum st7789v_prefix prefix,
- 			     u8 data)
+@@ -348,32 +348,33 @@ static const struct drm_panel_funcs st7789v_drm_funcs = {
+ 
+ static int st7789v_probe(struct spi_device *spi)
  {
- 	struct spi_transfer xfer = { };
--	struct spi_message msg;
- 	u16 txbuf = ((prefix & 1) << 8) | data;
++	struct device *dev = &spi->dev;
+ 	struct st7789v *ctx;
+ 	int ret;
  
--	spi_message_init(&msg);
--
- 	xfer.tx_buf = &txbuf;
- 	xfer.bits_per_word = 9;
- 	xfer.len = sizeof(txbuf);
+-	ctx = devm_kzalloc(&spi->dev, sizeof(*ctx), GFP_KERNEL);
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+ 		return -ENOMEM;
  
--	spi_message_add_tail(&xfer, &msg);
--	return spi_sync(ctx->spi, &msg);
-+	return spi_sync_transfer(ctx->spi, &xfer, 1);
- }
+ 	spi_set_drvdata(spi, ctx);
+ 	ctx->spi = spi;
  
- static int st7789v_write_command(struct st7789v *ctx, u8 cmd)
+-	drm_panel_init(&ctx->panel, &spi->dev, &st7789v_drm_funcs,
++	drm_panel_init(&ctx->panel, dev, &st7789v_drm_funcs,
+ 		       DRM_MODE_CONNECTOR_DPI);
+ 
+-	ctx->power = devm_regulator_get(&spi->dev, "power");
+-	if (IS_ERR(ctx->power))
+-		return PTR_ERR(ctx->power);
++	ctx->power = devm_regulator_get(dev, "power");
++	ret = PTR_ERR_OR_ZERO(ctx->power);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get regulator\n");
+ 
+-	ctx->reset = devm_gpiod_get_optional(&spi->dev, "reset", GPIOD_OUT_LOW);
+-	if (IS_ERR(ctx->reset)) {
+-		dev_err(&spi->dev, "Couldn't get our reset line\n");
+-		return PTR_ERR(ctx->reset);
+-	}
++	ctx->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++	ret = PTR_ERR_OR_ZERO(ctx->reset);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get reset line\n");
+ 
+ 	ret = drm_panel_of_backlight(&ctx->panel);
+ 	if (ret)
+-		return ret;
++		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+ 
+ 	drm_panel_add(&ctx->panel);
+ 
 -- 
 2.40.1
 
