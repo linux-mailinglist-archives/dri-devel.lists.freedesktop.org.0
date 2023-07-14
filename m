@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061707533A2
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2982675339A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C97810E804;
-	Fri, 14 Jul 2023 07:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38C010E805;
+	Fri, 14 Jul 2023 07:52:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5AF10E801;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBAC10E801;
  Fri, 14 Jul 2023 07:51:58 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0EE061F8D5;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 77648220D0;
  Fri, 14 Jul 2023 07:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1689321117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HUxd2I1CvpKA4+clhziKfHP/fuVnOLROIjy/7JR+efc=;
- b=d1pCTqnt4+bbACtUdUQXwvyCo6rRm/tyq1s7729TZGQtBcgqvLcXaKfxPhrtubpnXV0Jab
- D2nOC2ARWyuiH++ZvdtA8cr/6Nc926wvES2TtK4nJW+jD2d9Jg0d+CGJZTkMDUTa6Qnv1P
- 5/FFDhaO5ltU0xElyCs8B/uG+y3suOo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
+ b=FiCxuuRgjeBg/xoExLC9yTE5L7LaBt5SUYCMx34HW12T0/lrXS3LS4llyhoAm+F7pEMHjS
+ PxTLSdY1od69+BJwO8AEtsZJXtoViPo5XWy1ALC6q6CUO0sT0lAwNlWnCGZV2zJPMQ6SnE
+ M563f0p47fey33bA7ioXZDxkJVDYx0o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1689321117;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HUxd2I1CvpKA4+clhziKfHP/fuVnOLROIjy/7JR+efc=;
- b=UuffdXMhSPcyhA5XIonKDe7ip0VnmwttBNaPU0lptWk6vSmgwoAgRKHCqEtfQG0L/KuVnL
- yg2bRadbQrN4lxCQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
+ b=+Lj70mtCwrt+Zf6K3n0Z5ytQjf8UZK7ETR4Sxgd90QQP8Xm/6hpxMXqHTmzg9On/LFh1x4
+ aRwqDVLFm20VmvCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9B0F13A15;
- Fri, 14 Jul 2023 07:51:56 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 152FA13A92;
+ Fri, 14 Jul 2023 07:51:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id X4d2KJz+sGQCQwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:51:56 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id UM9jBJ3+sGQCQwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:51:57 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com
-Subject: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
- flags
-Date: Fri, 14 Jul 2023 09:49:26 +0200
-Message-ID: <20230714075155.5686-1-tzimmermann@suse.de>
+Subject: [PATCH v3 01/18] drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+Date: Fri, 14 Jul 2023 09:49:27 +0200
+Message-ID: <20230714075155.5686-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
+References: <20230714075155.5686-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,187 +69,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+Cc: linux-fbdev@vger.kernel.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-input@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>, linux-nvidia@lists.surfsouth.com,
  linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-useful when fbdev had special handling for driver modules. With
-commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-and have no further effect.
+The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
+has been allocated to zero by framebuffer_alloc(). So do not set it.
 
-Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-split this by the way the fb_info struct is being allocated. All flags
-are cleared to zero during the allocation.
+Flags should signal differences from the default values. After cleaning
+up all occurrences of FBINFO_DEFAULT, the token will be removed.
 
-Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-an actual bug in how arch/sh uses the token for struct fb_videomode,
-which is unrelated.
-
-Patch 17 removes both flag constants from <linux/fb.h> and patch 18
-documents the zero'ed memory returned by framebuffer_alloc().
-
-v3:
-	* sh: include board name in commit message (Adrian)
-	* docs: reword text (Miguel)
 v2:
-	* sh: use FB_MODE_IS_UNKNOWN (Adrian)
-	* fix commit messages (Miguel)
-	* document framebuffer_alloc()'s zero'ed memory (Miguel)
+	* fix commit message (Miguel)
 
-[1] https://lore.kernel.org/dri-devel/877crer8fm.fsf@minerva.mail-host-address-is-not-set/
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+---
+ drivers/gpu/drm/drm_fbdev_dma.c       | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c   | 1 -
+ drivers/gpu/drm/gma500/fbdev.c        | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c | 2 +-
+ 4 files changed, 2 insertions(+), 4 deletions(-)
 
-Thomas Zimmermann (18):
-  drm: Remove flag FBINFO_DEFAULT from fbdev emulation
-  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
-  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
-  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
-  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
-  fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
-  vfio-mdev: Remove flag FBINFO_DEFAULT from fbdev sample driver
-  sh: mach-sh7763rdp: Assign FB_MODE_IS_UNKNOWN to struct
-    fb_videomode.flag
-  auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-  hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
-  media: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-  staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-  fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
-  fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
-  fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
-  fbdev: Document that framebuffer_alloc() returns zero'ed data
-
- arch/sh/boards/mach-sh7763rdp/setup.c          | 2 +-
- drivers/auxdisplay/cfag12864bfb.c              | 1 -
- drivers/auxdisplay/ht16k33.c                   | 1 -
- drivers/gpu/drm/drm_fbdev_dma.c                | 1 -
- drivers/gpu/drm/drm_fbdev_generic.c            | 1 -
- drivers/gpu/drm/gma500/fbdev.c                 | 2 +-
- drivers/gpu/drm/radeon/radeon_fbdev.c          | 2 +-
- drivers/hid/hid-picolcd_fb.c                   | 1 -
- drivers/media/pci/ivtv/ivtvfb.c                | 1 -
- drivers/media/test-drivers/vivid/vivid-osd.c   | 1 -
- drivers/staging/fbtft/fbtft-core.c             | 2 +-
- drivers/staging/sm750fb/sm750.c                | 1 -
- drivers/video/fbdev/68328fb.c                  | 2 +-
- drivers/video/fbdev/acornfb.c                  | 2 +-
- drivers/video/fbdev/amba-clcd.c                | 1 -
- drivers/video/fbdev/amifb.c                    | 5 ++---
- drivers/video/fbdev/arcfb.c                    | 1 -
- drivers/video/fbdev/asiliantfb.c               | 1 -
- drivers/video/fbdev/atafb.c                    | 1 -
- drivers/video/fbdev/atmel_lcdfb.c              | 2 +-
- drivers/video/fbdev/aty/aty128fb.c             | 1 -
- drivers/video/fbdev/aty/atyfb_base.c           | 3 +--
- drivers/video/fbdev/aty/radeon_base.c          | 3 +--
- drivers/video/fbdev/broadsheetfb.c             | 2 +-
- drivers/video/fbdev/bw2.c                      | 1 -
- drivers/video/fbdev/carminefb.c                | 1 -
- drivers/video/fbdev/cg14.c                     | 2 +-
- drivers/video/fbdev/cg3.c                      | 1 -
- drivers/video/fbdev/cg6.c                      | 2 +-
- drivers/video/fbdev/chipsfb.c                  | 1 -
- drivers/video/fbdev/cirrusfb.c                 | 3 +--
- drivers/video/fbdev/clps711x-fb.c              | 1 -
- drivers/video/fbdev/cobalt_lcdfb.c             | 1 -
- drivers/video/fbdev/controlfb.c                | 2 +-
- drivers/video/fbdev/core/fb_info.c             | 3 ++-
- drivers/video/fbdev/cyber2000fb.c              | 2 +-
- drivers/video/fbdev/da8xx-fb.c                 | 1 -
- drivers/video/fbdev/efifb.c                    | 1 -
- drivers/video/fbdev/ep93xx-fb.c                | 1 -
- drivers/video/fbdev/ffb.c                      | 3 +--
- drivers/video/fbdev/fm2fb.c                    | 1 -
- drivers/video/fbdev/fsl-diu-fb.c               | 2 +-
- drivers/video/fbdev/g364fb.c                   | 2 +-
- drivers/video/fbdev/gbefb.c                    | 1 -
- drivers/video/fbdev/geode/gx1fb_core.c         | 1 -
- drivers/video/fbdev/geode/gxfb_core.c          | 1 -
- drivers/video/fbdev/geode/lxfb_core.c          | 1 -
- drivers/video/fbdev/goldfishfb.c               | 1 -
- drivers/video/fbdev/grvga.c                    | 2 +-
- drivers/video/fbdev/gxt4500.c                  | 3 +--
- drivers/video/fbdev/hecubafb.c                 | 2 +-
- drivers/video/fbdev/hgafb.c                    | 2 +-
- drivers/video/fbdev/hitfb.c                    | 2 +-
- drivers/video/fbdev/hpfb.c                     | 1 -
- drivers/video/fbdev/hyperv_fb.c                | 2 --
- drivers/video/fbdev/i740fb.c                   | 2 +-
- drivers/video/fbdev/i810/i810_main.c           | 4 ++--
- drivers/video/fbdev/imsttfb.c                  | 3 +--
- drivers/video/fbdev/imxfb.c                    | 3 +--
- drivers/video/fbdev/intelfb/intelfbdrv.c       | 5 ++---
- drivers/video/fbdev/kyro/fbdev.c               | 1 -
- drivers/video/fbdev/leo.c                      | 1 -
- drivers/video/fbdev/macfb.c                    | 1 -
- drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 5 ++---
- drivers/video/fbdev/maxinefb.c                 | 1 -
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 2 +-
- drivers/video/fbdev/metronomefb.c              | 2 +-
- drivers/video/fbdev/mmp/fb/mmpfb.c             | 2 +-
- drivers/video/fbdev/mx3fb.c                    | 1 -
- drivers/video/fbdev/neofb.c                    | 2 +-
- drivers/video/fbdev/nvidia/nvidia.c            | 4 ++--
- drivers/video/fbdev/offb.c                     | 2 +-
- drivers/video/fbdev/omap/omapfb_main.c         | 1 -
- drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
- drivers/video/fbdev/p9100.c                    | 1 -
- drivers/video/fbdev/platinumfb.c               | 1 -
- drivers/video/fbdev/pm2fb.c                    | 3 +--
- drivers/video/fbdev/pm3fb.c                    | 3 +--
- drivers/video/fbdev/pmag-aa-fb.c               | 1 -
- drivers/video/fbdev/pmag-ba-fb.c               | 1 -
- drivers/video/fbdev/pmagb-b-fb.c               | 1 -
- drivers/video/fbdev/ps3fb.c                    | 2 +-
- drivers/video/fbdev/pvr2fb.c                   | 2 +-
- drivers/video/fbdev/pxa168fb.c                 | 2 +-
- drivers/video/fbdev/pxafb.c                    | 2 --
- drivers/video/fbdev/q40fb.c                    | 1 -
- drivers/video/fbdev/riva/fbdev.c               | 3 +--
- drivers/video/fbdev/s1d13xxxfb.c               | 4 ++--
- drivers/video/fbdev/s3c-fb.c                   | 1 -
- drivers/video/fbdev/sa1100fb.c                 | 1 -
- drivers/video/fbdev/savage/savagefb_driver.c   | 3 +--
- drivers/video/fbdev/sh_mobile_lcdcfb.c         | 2 --
- drivers/video/fbdev/simplefb.c                 | 1 -
- drivers/video/fbdev/sis/sis_main.c             | 5 +----
- drivers/video/fbdev/skeletonfb.c               | 2 +-
- drivers/video/fbdev/sm501fb.c                  | 2 +-
- drivers/video/fbdev/sm712fb.c                  | 1 -
- drivers/video/fbdev/smscufx.c                  | 2 +-
- drivers/video/fbdev/sstfb.c                    | 1 -
- drivers/video/fbdev/sunxvr1000.c               | 1 -
- drivers/video/fbdev/sunxvr2500.c               | 1 -
- drivers/video/fbdev/sunxvr500.c                | 1 -
- drivers/video/fbdev/tcx.c                      | 1 -
- drivers/video/fbdev/tdfxfb.c                   | 2 +-
- drivers/video/fbdev/tgafb.c                    | 2 +-
- drivers/video/fbdev/tridentfb.c                | 2 +-
- drivers/video/fbdev/udlfb.c                    | 2 +-
- drivers/video/fbdev/uvesafb.c                  | 3 +--
- drivers/video/fbdev/valkyriefb.c               | 1 -
- drivers/video/fbdev/vermilion/vermilion.c      | 2 +-
- drivers/video/fbdev/vesafb.c                   | 2 +-
- drivers/video/fbdev/vfb.c                      | 1 -
- drivers/video/fbdev/vga16fb.c                  | 2 +-
- drivers/video/fbdev/via/viafbdev.c             | 2 +-
- drivers/video/fbdev/vt8500lcdfb.c              | 3 +--
- drivers/video/fbdev/wm8505fb.c                 | 3 +--
- drivers/video/fbdev/xen-fbfront.c              | 2 +-
- drivers/video/fbdev/xilinxfb.c                 | 1 -
- include/linux/fb.h                             | 3 ---
- samples/vfio-mdev/mdpy-fb.c                    | 1 -
- 120 files changed, 68 insertions(+), 151 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index f9b1f7cd31b7..ee7c265b0585 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -123,7 +123,6 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
+ 
+ 	info->fbops = &drm_fbdev_dma_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
+ 
+ 	/* screen */
+ 	info->flags |= FBINFO_VIRTFB; /* system memory */
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index b9343fb6cf13..a0ea042b1526 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -109,7 +109,6 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
+ 
+ 	info->fbops = &drm_fbdev_generic_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
+ 
+ 	/* screen */
+ 	info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 054426549fc6..be8f5fbd5260 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -215,7 +215,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 	}
+ 
+ 	info->fbops = &psb_fbdev_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
++
+ 	/* Accessed stolen memory directly */
+ 	info->screen_base = dev_priv->vram_addr + backing->offset;
+ 	info->screen_size = size;
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index f941e2e7cae6..68c06ac9acce 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -253,7 +253,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	}
+ 
+ 	info->fbops = &radeon_fbdev_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
++
+ 	/* radeon resume is fragile and needs a vt switch to help it along */
+ 	info->skip_vt_switch = false;
+ 
 -- 
 2.41.0
 
