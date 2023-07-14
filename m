@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529067532CD
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2967532D2
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0342310E7D5;
-	Fri, 14 Jul 2023 07:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68B9910E7E7;
+	Fri, 14 Jul 2023 07:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97E4410E040
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:17:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 878A710E128
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:21:25 +0000 (UTC)
 Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R2KTz25WVzBR9sh
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 13:17:11 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTP id 4R2KZp4vgxzBR9sc
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 13:21:22 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
  content-transfer-encoding:content-type:message-id:user-agent
  :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689311831; x=1691903832; bh=7scmTbQs/wsjbW5FBE+Ka8Is++h
- 9WlnkMEr/CtGidh8=; b=XDGbHSMSiJcDQZEvsPGYRyXIqRAsB05zer7cXaV4Psn
- L3iBBQdaUY47Pg0/zOVP0YuCay+0NLrkM0LrTqDX/cyRscnKppqVP3VVeUHthrTm
- cBk2loccp7r27Nw/PxMsCZD+D7shhdurf/cMdbsynByFPGdno9+21cbICdjz5RXZ
- oT68N2mAsz24gFeS3FdJARvJTgpICs5lKDcxAn/COMvRWQM0nkDkyEH3YVEOO5S/
- Nmgj5PMFqfzUhwHgexQoVqHX9FvSfiCeUFR9vBtrnPjIUY211XA33T2OhEPMxa8a
- BEuA/Zta71UJRWnBuA7sB2z0j5T//+51uyylCwRYVuQ==
+ dkim; t=1689312082; x=1691904083; bh=7scmTbQs/wsjbW5FBE+Ka8Is++h
+ 9WlnkMEr/CtGidh8=; b=cFZG1dXUYbwthyU8KAwnnjyKMoFPv8SYl8iJ9XuQRRZ
+ FdcoYJpsx0yyDaiZhNIQ25XPr9iH0kvY4VOA+yXQkt7nfktYTQJ0Y9NzYJ5/d9Vr
+ DaVmgsBxGj/kw+XgwJlNdBLEjaFpLFS1Sm3WFuYiXRav3Iu7X9EtlaDtVX5lhDIe
+ tHxDrfKBXGb/JBq88QJYi0sCGQMCQ0TYXEFf3TowxOfHEWvOdoPZQymojfE8af/s
+ iciuDn0LAwc2rMe9xXBFKr6FS7+Zo6XPR17yKAfjxCEMkVUxGUh9L6H+KageMXp1
+ WtQoDIqwMqSY5qEub/qRE8L0BfX2Kr8CKafo11SYj2A==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
  by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id rgIFbRt511vW for <dri-devel@lists.freedesktop.org>;
- Fri, 14 Jul 2023 13:17:11 +0800 (CST)
+ with ESMTP id yjSEqWHeskod for <dri-devel@lists.freedesktop.org>;
+ Fri, 14 Jul 2023 13:21:22 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R2KTy6ks7zBHXhS;
- Fri, 14 Jul 2023 13:17:10 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTPSA id 4R2KZp226wzBHXhS;
+ Fri, 14 Jul 2023 13:21:22 +0800 (CST)
 MIME-Version: 1.0
-Date: Fri, 14 Jul 2023 13:17:10 +0800
+Date: Fri, 14 Jul 2023 13:21:22 +0800
 From: huzhi001@208suo.com
 To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
  airlied@gmail.com, daniel@ffwll.ch
 Subject: [PATCH] drm/nouveau/fifo:Fix Nineteen occurrences of the gk104.c
- error: ERROR: space prohibited before that ':' (ctx:WxW) ERROR: : trailing
- statements should be on next line
+ error: ERROR: : trailing statements should be on next line
 In-Reply-To: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
 References: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
 User-Agent: Roundcube Webmail
-Message-ID: <2f4a7303e305d07fdd9c15a9dc95dc5f@208suo.com>
+Message-ID: <d0d767fb0dd3a9b7642559f379dbb0d6@208suo.com>
 X-Sender: huzhi001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
