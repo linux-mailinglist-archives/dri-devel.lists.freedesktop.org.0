@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8041B75370A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:49:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D291753707
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:49:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9784110E846;
-	Fri, 14 Jul 2023 09:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2362C10E847;
+	Fri, 14 Jul 2023 09:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA03F10E843
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:49:16 +0000 (UTC)
-X-UUID: aef91eec222b11ee9cb5633481061a41-20230714
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2222910E843
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:49:15 +0000 (UTC)
+X-UUID: aed00c00222b11ee9cb5633481061a41-20230714
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=h4uR7sIcsW0oD3DH3/+YWiBVGi54OMGtSqKkjMVXam0=; 
- b=eH9ivg2hXh7RHTT7hYHzcU48QlHUa3l1JxoJmg5SW46EBpdHY8M1wbX8ocdUszdzuro+0VMqCrQpfGD3pg5HHno3/so51YDZPinoqhZBUCvCeWggg2G+m2kjZIYb1SJB1vtaU0gVDessXalLhhA0IJUW3Nw80RQ468WmuBk6xQQ=;
+ h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=Nmymd6FcjPG0LHMUpGfhlzJOwH1OF5bT/SUxmx53gsE=; 
+ b=Knspl2rW5WSBfoQGhOjjGHUkg1QuF8VyhLunRQtnVQFAfRQztPcM+GxMNceYgE7goYsC/xmDToAJZQuQ3nPUkE5u9aMuVW0pZMpjL+vGxm9Qo6S5pUCcTV2PcOdAlA9O7CrzbDg+Bi/CElR0VK3LmN0SjxrFgz0WeIv4V6t6u5o=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28, REQID:99505907-65cf-40a0-b82d-106c60c6cd7c, IP:0,
+X-CID-O-INFO: VERSION:1.1.28, REQID:7ebe2b7f-a9af-4678-8ce2-fc6fa7c719f9, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:176cd25, CLOUDID:f9e49e87-44fb-401c-8de7-6a5572f1f5d5,
+X-CID-META: VersionHash:176cd25, CLOUDID:3c51b54c-06c1-468b-847d-5b62d44dbb9b,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: aef91eec222b11ee9cb5633481061a41-20230714
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: aed00c00222b11ee9cb5633481061a41-20230714
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 272650915; Fri, 14 Jul 2023 17:49:10 +0800
+ with ESMTP id 454526780; Fri, 14 Jul 2023 17:49:10 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Fri, 14 Jul 2023 17:49:10 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -47,10 +47,13 @@ From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
  <amergnat@baylibre.com>
-Subject: [PATCH v4 0/4] Fix mediatek-drm coverity issues
-Date: Fri, 14 Jul 2023 17:49:04 +0800
-Message-ID: <20230714094908.13087-1-jason-jh.lin@mediatek.com>
+Subject: [PATCH v4 1/4] drm/mediatek: Remove freeing not dynamic allocated
+ memory
+Date: Fri, 14 Jul 2023 17:49:05 +0800
+Message-ID: <20230714094908.13087-2-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20230714094908.13087-1-jason-jh.lin@mediatek.com>
+References: <20230714094908.13087-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -77,36 +80,53 @@ Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add this patch series to fix some mediatek-drm coverity issues.
+Fixing the coverity issue of:
+mtk_drm_cmdq_pkt_destroy frees address of mtk_crtc->cmdq_handle
 
-Change in v4:
-1. Fix title and commit message in [PATCH v3 3/4].
+So remove the free function.
 
-Change in v3:
-1. swap Fixes and Signed tag.
-2. change cast (__u64) to '=' then ' *='.
+Fixes: 7627122fd1c0 ("drm/mediatek: Add cmdq_handle in mtk_crtc")
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Change in v2:
-1. remove kfree(pkt) in mtk_drm_crtc_create_pkt().
-2. change the statement of cnt reach to MAX_CRTC.
-3. drop the mtk_gem_obj initialized patch.
-4. change casting from unsined long to __u64.
-5. add 'int offset' for multiplier calculation.
-6. drop the unrelavaent modification in dereference null check patch.
-
-Jason-JH.Lin (4):
-  drm/mediatek: Remove freeing not dynamic allocated memory
-  drm/mediatek: Add cnt checking for coverity issue
-  drm/mediatek: Fix unintentional integer overflow in multiplying
-    different types
-  drm/mediatek: Fix dereference before null check
-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |  7 ++----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c   |  5 ++++-
- drivers/gpu/drm/mediatek/mtk_drm_gem.c   |  3 ++-
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 28 ++++++++++++------------
- 4 files changed, 22 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index d40142842f85..8d44f3df116f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -116,10 +116,9 @@ static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *
+ 	dma_addr_t dma_addr;
+ 
+ 	pkt->va_base = kzalloc(size, GFP_KERNEL);
+-	if (!pkt->va_base) {
+-		kfree(pkt);
++	if (!pkt->va_base)
+ 		return -ENOMEM;
+-	}
++
+ 	pkt->buf_size = size;
+ 	pkt->cl = (void *)client;
+ 
+@@ -129,7 +128,6 @@ static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *
+ 	if (dma_mapping_error(dev, dma_addr)) {
+ 		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
+ 		kfree(pkt->va_base);
+-		kfree(pkt);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -145,7 +143,6 @@ static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+ 	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+ 			 DMA_TO_DEVICE);
+ 	kfree(pkt->va_base);
+-	kfree(pkt);
+ }
+ #endif
+ 
 -- 
 2.18.0
 
