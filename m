@@ -2,131 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23C3753D3A
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 16:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A7F753D3B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 16:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD2F10E0AB;
-	Fri, 14 Jul 2023 14:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2D510E897;
+	Fri, 14 Jul 2023 14:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF03610E0AB
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 14:26:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A2110E897
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 14:26:34 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
  by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 36EBJNfo020760; Fri, 14 Jul 2023 15:25:59 +0100
+ 36EBU217000769; Fri, 14 Jul 2023 15:26:16 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
- from:to:cc:subject:date:message-id:content-transfer-encoding
- :content-type:mime-version; s=dk201812; bh=pi8cTQpINT1VnV7L7u5Fk
- HXhBpS7ipDMeXssHikUyUc=; b=T+g/ZF3h9ynkVAUqNyYPB2AlwB/yaWaLpZ+BX
- 0iVhlWrKoJs4Ctbdvk13U5FIXzLdRNqY30jWvlAYTiSapJeSzthTs/eQO1/UeKyN
- HuZ2q2BOjveCk//zHbkmgA4KUXbltNfa/MZguK8mnzWzeFT7vk7KiSWIkqs65XRY
- oRgYomEbXLbfD0YicatBwD+rljsd5yRg2lHmdiE2DLT9WnhOigXyk5qMAR7e694M
- VV+qbBFmWSB+zdzD/QZOIcm35Ise6ngiZnkWjk+x3+iO0vWfFkDh6nBgMmyRtkgG
- BTdWIEzG82BKI3xCnkPcOKxvpVXUWcttCynUkWdWOdqHzH6Ew==
-Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3rtpu8gmbq-1
+ from:to:cc:subject:date:message-id:content-type
+ :content-transfer-encoding:mime-version; s=dk201812; bh=WWwK9/uP
+ ihoz42NWy2MabiUPjP4EdPdHXHq6V0amyyo=; b=Ui6JE5BT+n6E0gh1/wWeF/YO
+ NEfiGXgQvkam4FWgojAy1JdvD5fVdeu8e9JsL1Ydg2Cf/5me6oAqj7EG86ro0gp+
+ nN0rmEphjtraEchp7eakhSNuL73Mup/5u/Nmw9vOq+ZwgZx5KjnI+Q7CQg0mqPH4
+ NivDcai3HXgv2IuuzIbqlV4WPu1uZmB/I9kaD6wdc5Hgq+rhrkbSAnMN3g+iooZ/
+ xru7RGIwPp5V7upleaml3eZCs3K4STXW7W2Ac/CiHKTMJR5bHGWAbxy6R+ew3M4d
+ SyB8REIcM7rmE0qtzQ00bUKH9mCPHq6XgN92aTRQPgl/bwODzJj9x1rmDmnE/Q==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3rtpu8gmbv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Fri, 14 Jul 2023 15:25:59 +0100 (BST)
+ Fri, 14 Jul 2023 15:26:16 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
- HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 14 Jul 2023 15:25:58 +0100
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.53) by
+ 15.1.2507.27; Fri, 14 Jul 2023 15:26:15 +0100
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.52) by
  email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, 
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27 via Frontend
- Transport; Fri, 14 Jul 2023 15:25:58 +0100
+ Transport; Fri, 14 Jul 2023 15:26:15 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XM/BK7+6dSizb7XWs9SYLlyNwXZHUNcuE6iIjK8noaYuh020PMVVxkOAHjV1atWFwiImsVODyMZEM2KCMQ3GujGfIN108jfcY9Kjre+zYcuEzhR8YWrQshhJhqk7LtFxyaaoIMGo4cDxiD8N7OXOjm9CdDFaZUNHjpKMGb0Jd/rYbCXNyq9TouboiVRNP6K9drmH657J8pNRQIIFSalXIK5ldaCLEP/Cr4rVrSbrnrEDON69HdAAj0tPW4nygrSscMQnWxT+IhYya5fE4iXX4GdZLf0Ka2HByaeIeP+tk0KUVAkU/ib+uOkMlpC72qFTQ+k3Wr8h2nIR/6OSHjb7pw==
+ b=XFH+/XKKXuDBLK9w4Fzz4R/HFQLLRP906F60s6LNTGoASFZXq9NVOtbVM3OznS6hZJo7cqIHot+ApH7tH93jtdEQg1khqa8vSHg+2kroOwupNAm2+eRM42yP1hfgrkru97IEJuH9h5RQr0FQ4qebStpSpNmqQSXHvJ2jy7M++iG2NexHZ/FfAmwo/aDSrRF/ikSSFQIvIVRDN0Mh94jbafQvS3ujQp3Z5F2xSOuI9VVkhD6UzTlZfFM73qgzYU3MoEBeqBxwEEEZwa4Qn3tbqvr5W/e3MMvZHRjV1td+awq2DPPtt3YDXlbSlDS9J++a8LWhjK4P3zEbBORrpU6a2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pi8cTQpINT1VnV7L7u5FkHXhBpS7ipDMeXssHikUyUc=;
- b=SsP7r0njYZGpiZDqeLDUvbyB+AOYoCW2fXSmWQFaLMjprdmC7k2hwo5MxEsv/63717ToSeH5hJ3PfcL9z6o3rjBiZZatMDI7jjhMK8nlrHGuo7Wso6HUaraUF9NJAXfoTo46O28fLLauV82v0cBRpL8BI7fnKkfExi8Dc3utl8e/zITuC8GZwEInx91j/8XQ1FVL89wI8y7ElQnZJ4r8caqTwgBnXVzkOkLMyAlyeYoXm3LsrC6N4jbHKz5VqfFURmnsBoQ41ptVBBw+Oshi5K++9D7X1h9uXrUTLXukXz7i5fVGQyIH5jx34CR4bZMdUf2jM/+rHzua01Dfr31yhQ==
+ bh=WWwK9/uPihoz42NWy2MabiUPjP4EdPdHXHq6V0amyyo=;
+ b=Dy6UD+pYjB0DgjyZpz2r6lpzvE01xGc5ugtf1HZm087mQkKpDpzJM3KxHwGkCPcM2ANs8pJd9uE/JTKb4DypjvD1jNRzmDLMREg4lBlU6GNOwsEir23SZfSpg0R51+pd67P9yBTb+EDeqVJXZa9LNYYjvCK3ObFWnImdRfI/ObTx1Gda2qks4lh+Z77rqBm2NSWvXbfEQiIyQMkiUAkryr60EE3fUzPmKYWHRd+DJaRmCUzBlqTWy7JGfU/3IKlkzXcI+DvFLrHFmyRlwQcFBiSPo+MmsOUoGs8Y5AY6COyemGofaBpOksOlnt+LtruIsEVP8GhzLm9Q7JZugXn7sw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pi8cTQpINT1VnV7L7u5FkHXhBpS7ipDMeXssHikUyUc=;
- b=mOkpkZ5uVP9yzpYuJXwKn7/CkbSQe5RqKSAx1tldf92f9P25drB/xboi6xFOvIkk01OEZAI5KWF5BBWkeWbP9BvdntXycoAHgf17dtidZBshBhowHp0mqm0OX3HY18dhJKiAWBSDxHXNhjol7qdTgaDt+5lJ95+frVSw0taLZuw=
+ bh=WWwK9/uPihoz42NWy2MabiUPjP4EdPdHXHq6V0amyyo=;
+ b=ijPM/A+WxOd3tJp0hu7rg47v3AwUEPB6iX0E47mAyYDICVF3hvDFhuXt847hgZz28ALFFswgXH1mqAkdDgHIiKPYOHLvA2v+hXXwA25umr6Nc8Ycx2K+ejnaR83tijUw4VajygqyaG0Ms/NtjZMMwh2Oh41RCJpZz7oboClq1gY=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by LOYP265MB2077.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:11f::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 14:25:53 +0000
+ 2023 14:26:13 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f042:5122:eb28:4131]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::f042:5122:eb28:4131%5]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 14:25:53 +0000
+ 14:26:13 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 03/17] drm/imagination/uapi: Add PowerVR driver UAPI
-Date: Fri, 14 Jul 2023 15:25:43 +0100
-Message-Id: <20230714142543.111625-1-sarah.walker@imgtec.com>
+Subject: [PATCH v4 04/17] drm/imagination: Add skeleton PowerVR driver
+Date: Fri, 14 Jul 2023 15:26:02 +0100
+Message-Id: <20230714142602.111681-1-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO6P265CA0025.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ff::18) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P265CA0101.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:c::17) To CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LOYP265MB2077:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffcf6175-2d8f-46f3-d21b-08db84763b28
+X-MS-Office365-Filtering-Correlation-Id: 0532a367-8a63-40cb-f329-08db847646e1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R2FSxRDRYvEqU9M34TRDM54o3i21HbnfKkwqHuZKKrMCJShZPQdD6FbA8/ODgCOENNqZkuuLWKpfx0DC1ldNtk85nA6dYFa0hrmC1AYY4Z1xVKHPnzitd7sihUDAX5ilE7V7RGZaJbJEYuyThEhVkCfuSNwKMUvOOzL1DqIdOj5zXA0hhu8GuWulTPE+/MqESWeOVEKHJSvBiReTnl7yp9DddVAI8DKI/gP/oohm0ctwd7oU59G898ejcKoz5nUSgUDucqxo/14zT275Hjl+F7sesngtP0ze1N8zYRl6mxJlEkHLcJEfo4AFiBxE/r5v7yckf0/PejljPfIdqhhV5aDsEOHmq7af7Jj4AY2kH113GFzWP//IWZnTjYb5Lg5+iKOA6YxikLtu3P2ljk+1ohAAxsHgnUD3GgdWtBFt4g8r1pl0AKeD1bg51ViYxvs+AykSt14YcJzIUx6Z05vbBEWvvEgjzGnIax8Mh79pkMQALWcQFzwgk1dPLnkHxlrQk3BI7mRlHV085Kk0VQsEAgUp+IoLVTijdLQ2k72ZJcHfl1PR+gFRgEc4DjxkCtwtLIThdz9z7HORQEHg8RbZ4aLM4r2FT4G3QcK6HhJ6Fh2w6gPKW2euethk0qEQD4Pe
+X-Microsoft-Antispam-Message-Info: eM++NkWoHxRIG/oSeoBtkaFwYfpHyRTXttohKTdbmpie83LjyEchEfBJFFq693LNprTFOj02kKAhXISMsKs49qp8i7UVYcFNMs/LckiywtOScJhd85KiqvRPtgnkMKGJfRt28Iva0zQ8js6CQFn7WJPA3GwcrzyLzQMNCOscCeqnZWgf8gdtSvV9vFS38myjqlM3t16NXvEH+LShl5q2+QtAFrQ+j/t0SzMRh/2lzR3A247VZZ9G5Jwgtck41Au+VkD4yVazn5IFqaMTTsnKMZLYFJkhRUXZPEYK2Qg7l2xCAjnGidw406jAB5rX3/z1nHJWbDwT5M9z/TF6RuifZqB1e72RADwpm5iyp5pE1pPsRb/n95BbKGWs1MglchIP13p0X574Sob5iFDdZ6xs4x9s2wWhpRXCibeO7Z9+xMWYCe33AnCDD47vJ47+r7sfETTXGqILR0PfGq/5ZPU+G6swjykMcLp4ZsrvwNG61gmvmn0or1nwL1MdXUluuwwXzNF88Bs0qfvY8T0Mqte4i+AE6Gbi9oXoGlat/rVcR56feA+YtC9BxGL0rVWF4Iaw6/Bj2e1GTnPbxdX5/dmX0BAs6kZb0qtrYgSAjUH4SgpeaTAo9lyMRcCgjRqbZnyx
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(136003)(366004)(376002)(396003)(39850400004)(451199021)(41300700001)(44832011)(66476007)(7416002)(4326008)(66946007)(66556008)(6916009)(478600001)(30864003)(5660300002)(2906002)(316002)(8936002)(8676002)(6666004)(6486002)(52116002)(6512007)(86362001)(1076003)(26005)(6506007)(186003)(83380400001)(36756003)(38350700002)(2616005)(38100700002)(579004);
+ SFS:(13230028)(346002)(136003)(366004)(376002)(396003)(39850400004)(451199021)(41300700001)(44832011)(66476007)(7416002)(4326008)(66946007)(66556008)(6916009)(478600001)(30864003)(5660300002)(2906002)(316002)(8936002)(8676002)(6666004)(6486002)(52116002)(6512007)(86362001)(1076003)(26005)(6506007)(186003)(83380400001)(36756003)(38350700002)(2616005)(38100700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AgLtmJVlh89zOYupIhVBC02kpDpa2eJLs83fJBPH/SAKvjfNyU5jRVSlHorm?=
- =?us-ascii?Q?cE5G+HJtfA2QWnfqPhfnWqLhGvvuN3LgvYw8J7bWB2kavwdlCJ2pPZdcL1K1?=
- =?us-ascii?Q?TbDD2IRu3NLe8AmdbWX2gcCBgKP13zIw2cW+wbbuk9IO7E7SXjcCjj9vWW8O?=
- =?us-ascii?Q?KL0LUGfCCHz/5QXai/M5ClwYfvFsPy7XFMmjYPurrcjSh5CVLoA/eNr7e0Ur?=
- =?us-ascii?Q?c4oZiOBMBjDvAguMLqh+bT4oShuPyclD2FfYk8QPiWzG8qOqf5pHTcfQTU1V?=
- =?us-ascii?Q?Nm2ZssyxQzKWEdFV5JJrh1p6SIdt12/hkPe6BVCaLH2XiBZ8Lkb+FPEFcM8I?=
- =?us-ascii?Q?MlH2CA4dvwG49kBhKsU5B1prK53BZDKx8UlyREZQIEK5vjiXRzO3cHhFFhk4?=
- =?us-ascii?Q?j5KHGVosYTsVdC/m2kHqNav/QjTsVS+WTHE2RLLZUr5SrlF8l7Jclw8okMmw?=
- =?us-ascii?Q?ufgeVFit+yzLrnADTP7uFUtqd9nAW1JCWSTnBNJJVH8w/PBVwZvIVcvnyaJR?=
- =?us-ascii?Q?q6dmaEIciDm7xjq452ot7Q7DD3jx+k+q85tCJRmv5FfeoPFZ4Wmyv2IzhROE?=
- =?us-ascii?Q?8fO2gB56uCwbojZ9oInG0/9Y/WvokxmyOxZ5sYJRX/DQ7MRbYIPluVt4ydjz?=
- =?us-ascii?Q?fQCZHi83K9absltm+n75cPsbS3caHOfEPpBM0P3DE92ChYEOkprXR+3cGu32?=
- =?us-ascii?Q?jRIFicDLaS5iZh06TIp8dSc2Vmf9C1SBxdMVK2UziDyzhGxyHcJgNsLqAHGg?=
- =?us-ascii?Q?G73PKL4M49CZ4//0a1jB9XKn8SoJ7Em5GhqDqB3FHrfZTBKSZtfaSghdKOOp?=
- =?us-ascii?Q?N956UzE1SOcEC89+3oB6vMtAWtncls6LW6qNM4wCgApekjKEdCUkz34QjBv3?=
- =?us-ascii?Q?ZggTFByiS30bFGCO8KaxXP4Ut1XDx+xzAY4nTTELvfEv5YqEYIXfEG8b28w1?=
- =?us-ascii?Q?0KZWFCMX0h0zsfL76ub3oJo3NqZ539EQwkX5jlt9SbP5+PJhccYFsMAV+Ya8?=
- =?us-ascii?Q?PeaP6L36lUUoSNMjGieSsXzTZaZOFD0zmlFwwGbuOgceE+OuWbsVMxi7k8bL?=
- =?us-ascii?Q?yx/wHkU3/X/qe46KA+HEnpYIODJl21SEE0MhabA6Z6QrBaf63gsBMYIvV4hv?=
- =?us-ascii?Q?GmvzoR3BoKtTJOv3eQUw6zaPs093g43xMwErQcRFp96P1b9T0t9ThtvMKot0?=
- =?us-ascii?Q?dpNTHAYzxN1v3Hhv4JCbrM6ai1VhwJdWCZv0JOB8DW2mZYqBs4ZU+gW1RGmo?=
- =?us-ascii?Q?H8xMSntE9M6SpQQ9KDlN420VWty6lBMkS0ph0+hL9N7WOdBUFOClV1EAcw87?=
- =?us-ascii?Q?cdPy9GjusPUkNfBpxK48yR6eTmAV9y6uiYiim67QrcZuVzxPLKaObBPMxMqQ?=
- =?us-ascii?Q?UE/Q+3ROt7iu2UhQLwMcrXR+7hgdvraPG9xSaM+bC/2cSxAp7Sks2MFHLfUP?=
- =?us-ascii?Q?bdctfFLzbOTeXv68giOtp4QQNeHSoTcMxWVP2fAaCPuqLPZQGiPR4rJM8fw8?=
- =?us-ascii?Q?i8e0k38POk1yrfxyC7jJ/Er623LjQ0e9PTVTiuT2CFRoZ+8kTxj78Khgq2Mh?=
- =?us-ascii?Q?xNNhTK6wPDw4uoSOKnE8y1WoMj2ljk8zpRS19BRBknzAoaZtE1LKOiRrY5wV?=
- =?us-ascii?Q?7w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffcf6175-2d8f-46f3-d21b-08db84763b28
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RGJ2TEFpNXdFdDdDT2pOVHVpb200RWFaMnR5YXJzK2xENVNENFo5VkJFekdT?=
+ =?utf-8?B?ZDNjTFJNU0kxM3ZNY1V5cEdWTXZJTzNDcy9ZNXNETlpuWkx5MUZXODQvOEdy?=
+ =?utf-8?B?V1NON2JzTmtZTzRObkdDckhsVHdxZjFWMFFjN3pKRUdnZCtGVkZPUkdoNG9w?=
+ =?utf-8?B?cXZHNElNRU45b1F1cEZBSVQ0VUtwMEpQYzZvQU9SZnJtUXVoakdvV3orTS8z?=
+ =?utf-8?B?OENzcGNvOFpGRWlIS1RJd2FZbFE1K096Z0YrY3lMalF2MHlvZlpnSldOR1pY?=
+ =?utf-8?B?WnIwbmFxWTJuVTFQQStZMTYzZS9kNkZQdHFSRjhWUWtMN3Q4SkFwcTRZRHE1?=
+ =?utf-8?B?MXF0UFdMVEcwaTZOdHhWbDMvZVh0bUhLS3U5MnlDcEZrbUh5di85bjV2R0lF?=
+ =?utf-8?B?RXVVVWRzMVhQbE42RTNUVDM0d0lCelROOGkwZ3U3T3hFWTlZeGJ1MWxMU051?=
+ =?utf-8?B?QnAxTUtpdUozRjNUTFNlbG5vVk5iV1ZyTEIwQnNBZFNCNVA1Ly9vWnJ5SVFv?=
+ =?utf-8?B?d24zcWlkTnBhNU9nYTFYN01PRERaczFmYmY1V1I5VU9RNlI1aWxXcTZUc2oz?=
+ =?utf-8?B?aXRoSENXS014REp0R01BMjlCNnJoK2k0ZThUNlQ4aTZZb2xqMTFMNC82YVRz?=
+ =?utf-8?B?T0tQN0g2bWJXUjlhakFRVU9QSWtWVTk1WVZWRXZjTkdxYkd5a3lpMURwNUZx?=
+ =?utf-8?B?N0RVNWhXYXBZb01VT2I1ejdCUWZRd3FpbU1PYkxUT1pjRThrOVUwREJEQUxH?=
+ =?utf-8?B?QzZYek9icFJoZ1k3TkZSUXlWSWhMd2lyd2JJQ2gwaDlMMVBGRTZSeVhROGhL?=
+ =?utf-8?B?QzM4alRlNjJodmp3L0x4Y0VtaWRDZHFRYUxHZCtWWTNWTHVETytLL3V4dVp2?=
+ =?utf-8?B?NFlWYTZMeEkxRUlOQ2VlempjSWlKUjhkdDFPYWlieHRzaVpZL3ZpdXBEZ004?=
+ =?utf-8?B?U1NqZEJLNENvbkRwZ296aWFJSjB1U3U1Q0srZjM0MFlVUEkrU1ZTeVJ3UzVB?=
+ =?utf-8?B?eGxNV3QzVlM3V3Q0dUJhcmhHcjFteHdJYWtrWGlYQXZjcnBrV3lQQmFjT1VK?=
+ =?utf-8?B?d2llZGV1NGlRa1BoMW9XcENtWGUyd3d6Z1J6Wnk1emlDeWlTOTNCeG9HbFJB?=
+ =?utf-8?B?NS95SHNPMlFIOEgrTzBDclFXazFwL2pGbUU2QklXVVRiRCtYampnaGw4SzFy?=
+ =?utf-8?B?K1ExNDljZkxrWmdXZkNZVEp1OStEeFJ4elZ0STRPVHJEemZyZDJhbGsrUldn?=
+ =?utf-8?B?blBsZ0xVZlVCUnM3eEovOFMwWHozcm9Velk4aWRoUmxjd3M3WEdlM2R0WlFo?=
+ =?utf-8?B?cjdKOWFuVUVSb2dJNGMrcHFSMkZLWW0wWXNWTGIyS0s4RlNHekVOMWpZNFY1?=
+ =?utf-8?B?VFhlL2JBb3VNRzlqdWZMU3Mwb2h5ajAzMG9nVTg0WG9wMXBuM1JRaHF0dXh0?=
+ =?utf-8?B?Y214eGplaEU3YTFzMWY4UkVBQjdWUExBUGlUc3ZXTWVCQlNWc05XMVFKS0xU?=
+ =?utf-8?B?OFNJL0xFd3cwc2RpZzd2cmhPYm1yRFFhcmdlZHpBTnFwbFB6N3V4MTY4TnJz?=
+ =?utf-8?B?ak1HNnhpR1lWL1JhbEUrV3lKdFFTbTc1R0RDaXh3Y25YOEY2MFRsY0I1SEV1?=
+ =?utf-8?B?YjZadU1LQlZLVFlDS092dXc0V2hFWTFmZWNuMVF3cHdrclFudllmMWtjU3JK?=
+ =?utf-8?B?NE1weUVpbWhrcGUwdDN1TGhjTXQ2TUJoSlpQZFBUcXo3OHBZUVROdkNoTGpt?=
+ =?utf-8?B?TnJ3dzFDd3NXNXNNYWpOK256T0dVR2xIdnd3OHNBSWtYSXY1QlZSdWx3VURK?=
+ =?utf-8?B?MzN4SVQ5VjFCSFhvYnNhMU1VdWxzZHQxK1JuVWJlWjlmejA2STllbks2Z1Zz?=
+ =?utf-8?B?TEwyRENpazAyQ2t1Q1hqViszVXplanNHWGRJVmNZNkp0Yk1EeU0xWkdBN21R?=
+ =?utf-8?B?Z1lPR1o5TVBXeGthR0pkcHJseE8yaEdPVlhTekFTZTIveWMyOExRZXNkTENr?=
+ =?utf-8?B?UUw1Zk92MmZuTGoyNFVzS2J3NTBCYVlUeHY5Z0ovbytSZG1TYkI5eVcva0Ju?=
+ =?utf-8?B?dEtKY0g2MDJWeEUvRkt4aFJ0b3Q1S3grQzRkcjRHRFFpWG85VjZIYmN0OUpT?=
+ =?utf-8?B?WXlUMXVwN3Q4K0ZhWkFzTjdwU3JuYm9xWmZmelR6WitHcldTOUJ2MlRpb2xR?=
+ =?utf-8?B?VlE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0532a367-8a63-40cb-f329-08db847646e1
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 14:25:53.8271 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 14:26:13.5005 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KAHajmFWKGKIFoGPuSknq8Pv3ETPYZjBZkQ9BGve7vOrIdj1u7HnzubHyKPHvl9kuViTc2I6Ddwy2vNNXaLZEQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: qelzo0yGnhVqe826uwPfsBP+lWNPoNGhxAcPXX4qlTaRvPlH0oSqd6vf4S0f2uXTzIztO4WGwM6r5d0+310EMw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB2077
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-GUID: KeUGzqFUiy_FjuTV0srzME-WKKjetb_I
-X-Proofpoint-ORIG-GUID: KeUGzqFUiy_FjuTV0srzME-WKKjetb_I
+X-Proofpoint-GUID: Lfu3jCYZbBos-VkX49cSYTNdWAewkBl6
+X-Proofpoint-ORIG-GUID: Lfu3jCYZbBos-VkX49cSYTNdWAewkBl6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,1337 +155,809 @@ Cc: matthew.brost@intel.com, luben.tuikov@amd.com, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the UAPI implementation for the PowerVR driver.
+This adds the basic skeleton of the driver. The driver registers
+itself with DRM on probe. Ioctl handlers are currently implemented
+as stubs.
+
+Changes since v3:
+- Clarify supported GPU generations in driver description
+- Use drm_dev_unplug() when removing device
+- Change from_* and to_* functions to macros
+- Fix IS_PTR/PTR_ERR confusion in pvr_probe()
+- Remove err_out labels in favour of direct returning
+- Remove specific am62 compatible match string
+- Drop MODULE_FIRMWARE()
 
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- MAINTAINERS                |    1 +
- include/uapi/drm/pvr_drm.h | 1304 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 1305 insertions(+)
- create mode 100644 include/uapi/drm/pvr_drm.h
+ MAINTAINERS                              |   1 +
+ drivers/gpu/drm/Kconfig                  |   2 +
+ drivers/gpu/drm/Makefile                 |   1 +
+ drivers/gpu/drm/imagination/Kconfig      |  15 +
+ drivers/gpu/drm/imagination/Makefile     |   9 +
+ drivers/gpu/drm/imagination/pvr_device.h | 153 +++++++
+ drivers/gpu/drm/imagination/pvr_drv.c    | 510 +++++++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_drv.h    |  22 +
+ 8 files changed, 713 insertions(+)
+ create mode 100644 drivers/gpu/drm/imagination/Kconfig
+ create mode 100644 drivers/gpu/drm/imagination/Makefile
+ create mode 100644 drivers/gpu/drm/imagination/pvr_device.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_drv.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_drv.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0763388b31ef..4c3bcc68f152 100644
+index 4c3bcc68f152..9371dc92e6b5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
 @@ -10105,6 +10105,7 @@ M:	Sarah Walker <sarah.walker@imgtec.com>
  M:	Donald Robson <donald.robson@imgtec.com>
  S:	Supported
  F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
-+F:	include/uapi/drm/pvr_drm.h
++F:	drivers/gpu/drm/imagination/
+ F:	include/uapi/drm/pvr_drm.h
  
  IMON SOUNDGRAPH USB IR RECEIVER
- M:	Sean Young <sean@mess.org>
-diff --git a/include/uapi/drm/pvr_drm.h b/include/uapi/drm/pvr_drm.h
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index afb3b2f5f425..603a57bb2596 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -363,6 +363,8 @@ source "drivers/gpu/drm/solomon/Kconfig"
+ 
+ source "drivers/gpu/drm/sprd/Kconfig"
+ 
++source "drivers/gpu/drm/imagination/Kconfig"
++
+ config DRM_HYPERV
+ 	tristate "DRM Support for Hyper-V synthetic video device"
+ 	depends on DRM && PCI && MMU && HYPERV
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 2fcaff2e378b..7fe29ba2e769 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -195,3 +195,4 @@ obj-y			+= gud/
+ obj-$(CONFIG_DRM_HYPERV) += hyperv/
+ obj-y			+= solomon/
+ obj-$(CONFIG_DRM_SPRD) += sprd/
++obj-$(CONFIG_DRM_POWERVR) += imagination/
+diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
 new file mode 100644
-index 000000000000..58533659a0c8
+index 000000000000..15efe67f13e1
 --- /dev/null
-+++ b/include/uapi/drm/pvr_drm.h
-@@ -0,0 +1,1304 @@
-+/* SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT */
++++ b/drivers/gpu/drm/imagination/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0 OR MIT
++# Copyright (c) 2022 Imagination Technologies Ltd.
++
++config DRM_POWERVR
++	tristate "Imagination Technologies PowerVR Graphics (Series 6 and later)"
++	depends on ARM64
++	depends on DRM
++	select DRM_GEM_SHMEM_HELPER
++	select DRM_SCHED
++	select FW_LOADER
++	help
++	  Choose this option if you have a system that has an Imagination
++	  Technologies PowerVR GPU (Series 6 or later).
++
++	  If "M" is selected, the module will be called powervr.
+diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
+new file mode 100644
+index 000000000000..62ccf0ccbd51
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/Makefile
+@@ -0,0 +1,9 @@
++# SPDX-License-Identifier: GPL-2.0 OR MIT
++# Copyright (c) 2022 Imagination Technologies Ltd.
++
++subdir-ccflags-y := -I$(srctree)/$(src)
++
++powervr-y := \
++	pvr_drv.o \
++
++obj-$(CONFIG_DRM_POWERVR) += powervr.o
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+new file mode 100644
+index 000000000000..42224b5247df
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -0,0 +1,153 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
 +/* Copyright (c) 2022 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_DRM_UAPI_H
-+#define PVR_DRM_UAPI_H
++#ifndef PVR_DEVICE_H
++#define PVR_DEVICE_H
 +
-+#include "drm.h"
++#include <drm/drm_device.h>
++#include <drm/drm_file.h>
++#include <drm/drm_mm.h>
 +
-+#include <linux/const.h>
++#include <linux/bits.h>
++#include <linux/compiler_attributes.h>
++#include <linux/compiler_types.h>
++#include <linux/kernel.h>
 +#include <linux/types.h>
-+
-+#if defined(__cplusplus)
-+extern "C" {
-+#endif
++#include <linux/wait.h>
 +
 +/**
-+ * DOC: PowerVR UAPI
-+ *
-+ * The PowerVR IOCTL argument structs have a few limitations in place, in
-+ * addition to the standard kernel restrictions:
-+ *
-+ *  - All members must be type-aligned.
-+ *  - The overall struct must be padded to 64-bit alignment.
-+ *  - Explicit padding is almost always required. This takes the form of
-+ *    ``_padding_[x]`` members of sufficient size to pad to the next power-of-two
-+ *    alignment, where [x] is the offset into the struct in hexadecimal. Arrays
-+ *    are never used for alignment. Padding fields must be zeroed; this is
-+ *    always checked.
-+ *  - Unions may only appear as the last member of a struct.
-+ *  - Individual union members may grow in the future. The space between the
-+ *    end of a union member and the end of its containing union is considered
-+ *    "implicit padding" and must be zeroed. This is always checked.
-+ *
-+ * In addition to the IOCTL argument structs, the PowerVR UAPI makes use of
-+ * DEV_QUERY argument structs. These are used to fetch information about the
-+ * device and runtime. These structs are subject to the same rules set out
-+ * above.
++ * struct pvr_device - powervr-specific wrapper for &struct drm_device
 + */
-+
-+/**
-+ * struct drm_pvr_obj_array - Container used to pass arrays of objects
-+ *
-+ * It is not unusual to have to extend objects to pass new parameters, and the DRM
-+ * ioctl infrastructure is supporting that by padding ioctl arguments with zeros
-+ * when the data passed by userspace is smaller than the struct defined in the
-+ * drm_ioctl_desc, thus keeping things backward compatible. This type is just
-+ * applying the same concepts to indirect objects passed through arrays referenced
-+ * from the main ioctl arguments structure: the stride basically defines the size
-+ * of the object passed by userspace, which allows the kernel driver to pad with
-+ * zeros when it's smaller than the size of the object it expects.
-+ *
-+ * Use ``DRM_PVR_OBJ_ARRAY()`` to fill object array fields, unless you
-+ * have a very good reason not to.
-+ */
-+struct drm_pvr_obj_array {
-+	/** @stride: Stride of object struct. Used for versioning. */
-+	__u32 stride;
-+
-+	/** @count: Number of objects in the array. */
-+	__u32 count;
-+
-+	/** @array: User pointer to an array of objects. */
-+	__u64 array;
-+};
-+
-+/**
-+ * DRM_PVR_OBJ_ARRAY() - Helper macro for filling &struct drm_pvr_obj_array.
-+ * @cnt: Number of elements pointed to py @ptr.
-+ * @ptr: Pointer to start of a C array.
-+ *
-+ * Return: Literal of type &struct drm_pvr_obj_array.
-+ */
-+#define DRM_PVR_OBJ_ARRAY(cnt, ptr) \
-+	{ .stride = sizeof((ptr)[0]), .count = (cnt), .array = (__u64)(uintptr_t)(ptr) }
-+
-+/**
-+ * DOC: PowerVR IOCTL interface
-+ */
-+
-+/**
-+ * PVR_IOCTL() - Build a PowerVR IOCTL number
-+ * @_ioctl: An incrementing id for this IOCTL. Added to %DRM_COMMAND_BASE.
-+ * @_mode: Must be one of %DRM_IOR, %DRM_IOW or %DRM_IOWR.
-+ * @_data: The type of the args struct passed by this IOCTL.
-+ *
-+ * The struct referred to by @_data must have a ``drm_pvr_ioctl_`` prefix and an
-+ * ``_args suffix``. They are therefore omitted from @_data.
-+ *
-+ * This should only be used to build the constants described below; it should
-+ * never be used to call an IOCTL directly.
-+ *
-+ * Return: An IOCTL number to be passed to ioctl() from userspace.
-+ */
-+#define PVR_IOCTL(_ioctl, _mode, _data) \
-+	_mode(DRM_COMMAND_BASE + (_ioctl), struct drm_pvr_ioctl_##_data##_args)
-+
-+#define DRM_IOCTL_PVR_DEV_QUERY PVR_IOCTL(0x00, DRM_IOWR, dev_query)
-+#define DRM_IOCTL_PVR_CREATE_BO PVR_IOCTL(0x01, DRM_IOWR, create_bo)
-+#define DRM_IOCTL_PVR_GET_BO_MMAP_OFFSET PVR_IOCTL(0x02, DRM_IOWR, get_bo_mmap_offset)
-+#define DRM_IOCTL_PVR_CREATE_VM_CONTEXT PVR_IOCTL(0x03, DRM_IOWR, create_vm_context)
-+#define DRM_IOCTL_PVR_DESTROY_VM_CONTEXT PVR_IOCTL(0x04, DRM_IOW, destroy_vm_context)
-+#define DRM_IOCTL_PVR_VM_MAP PVR_IOCTL(0x05, DRM_IOW, vm_map)
-+#define DRM_IOCTL_PVR_VM_UNMAP PVR_IOCTL(0x06, DRM_IOW, vm_unmap)
-+#define DRM_IOCTL_PVR_CREATE_CONTEXT PVR_IOCTL(0x07, DRM_IOWR, create_context)
-+#define DRM_IOCTL_PVR_DESTROY_CONTEXT PVR_IOCTL(0x08, DRM_IOW, destroy_context)
-+#define DRM_IOCTL_PVR_CREATE_FREE_LIST PVR_IOCTL(0x09, DRM_IOWR, create_free_list)
-+#define DRM_IOCTL_PVR_DESTROY_FREE_LIST PVR_IOCTL(0x0a, DRM_IOW, destroy_free_list)
-+#define DRM_IOCTL_PVR_CREATE_HWRT_DATASET PVR_IOCTL(0x0b, DRM_IOWR, create_hwrt_dataset)
-+#define DRM_IOCTL_PVR_DESTROY_HWRT_DATASET PVR_IOCTL(0x0c, DRM_IOW, destroy_hwrt_dataset)
-+#define DRM_IOCTL_PVR_SUBMIT_JOBS PVR_IOCTL(0x0d, DRM_IOW, submit_jobs)
-+
-+/**
-+ * DOC: PowerVR IOCTL DEV_QUERY interface
-+ */
-+
-+/**
-+ * struct drm_pvr_dev_query_gpu_info - Container used to fetch information about
-+ * the graphics processor.
-+ *
-+ * When fetching this type &struct drm_pvr_ioctl_dev_query_args.type must be set
-+ * to %DRM_PVR_DEV_QUERY_GPU_INFO_GET.
-+ */
-+struct drm_pvr_dev_query_gpu_info {
++struct pvr_device {
 +	/**
-+	 * @gpu_id: GPU identifier.
++	 * @base: The underlying &struct drm_device.
 +	 *
-+	 * For all currently supported GPUs this is the BVNC encoded as a 64-bit
-+	 * value as follows:
++	 * Do not access this member directly, instead call
++	 * from_pvr_device().
++	 */
++	struct drm_device base;
++};
++
++/**
++ * struct pvr_file - powervr-specific data to be assigned to &struct
++ * drm_file.driver_priv
++ */
++struct pvr_file {
++	/**
++	 * @file: A reference to the parent &struct drm_file.
 +	 *
-+	 *    +--------+--------+--------+-------+
-+	 *    | 63..48 | 47..32 | 31..16 | 15..0 |
-+	 *    +========+========+========+=======+
-+	 *    | B      | V      | N      | C     |
-+	 *    +--------+--------+--------+-------+
++	 * Do not access this member directly, instead call from_pvr_file().
 +	 */
-+	__u64 gpu_id;
++	struct drm_file *file;
 +
 +	/**
-+	 * @num_phantoms: Number of Phantoms present.
++	 * @pvr_dev: A reference to the powervr-specific wrapper for the
++	 *           associated device. Saves on repeated calls to
++	 *           to_pvr_device().
 +	 */
-+	__u32 num_phantoms;
++	struct pvr_device *pvr_dev;
 +};
 +
-+/**
-+ * struct drm_pvr_dev_query_runtime_info - Container used to fetch information
-+ * about the graphics runtime.
-+ *
-+ * When fetching this type &struct drm_pvr_ioctl_dev_query_args.type must be set
-+ * to %DRM_PVR_DEV_QUERY_RUNTIME_INFO_GET.
-+ */
-+struct drm_pvr_dev_query_runtime_info {
-+	/**
-+	 * @free_list_min_pages: Minimum allowed free list size,
-+	 * in PM physical pages.
-+	 */
-+	__u64 free_list_min_pages;
++#define from_pvr_device(pvr_dev) (&pvr_dev->base)
 +
-+	/**
-+	 * @free_list_max_pages: Maximum allowed free list size,
-+	 * in PM physical pages.
-+	 */
-+	__u64 free_list_max_pages;
++#define to_pvr_device(drm_dev) container_of_const(drm_dev, struct pvr_device, base)
 +
-+	/**
-+	 * @common_store_alloc_region_size: Size of the Allocation
-+	 * Region within the Common Store used for coefficient and shared
-+	 * registers, in dwords.
-+	 */
-+	__u32 common_store_alloc_region_size;
++#define from_pvr_file(pvr_file) (pvr_file->file)
 +
-+	/**
-+	 * @common_store_partition_space_size: Size of the
-+	 * Partition Space within the Common Store for output buffers, in
-+	 * dwords.
-+	 */
-+	__u32 common_store_partition_space_size;
-+
-+	/**
-+	 * @max_coeffs: Maximum coefficients, in dwords.
-+	 */
-+	__u32 max_coeffs;
-+
-+	/**
-+	 * @cdm_max_local_mem_size_regs: Maximum amount of local
-+	 * memory available to a compute kernel, in dwords.
-+	 */
-+	__u32 cdm_max_local_mem_size_regs;
-+};
++#define to_pvr_file(file) (file->driver_priv)
 +
 +/**
-+ * struct drm_pvr_dev_query_quirks - Container used to fetch information about
-+ * hardware fixes for which the device may require support in the user mode
-+ * driver.
++ * DOC: IOCTL validation helpers
 + *
-+ * When fetching this type &struct drm_pvr_ioctl_dev_query_args.type must be set
-+ * to %DRM_PVR_DEV_QUERY_QUIRKS_GET.
-+ */
-+struct drm_pvr_dev_query_quirks {
-+	/**
-+	 * @quirks: A userspace address for the hardware quirks __u32 array.
-+	 *
-+	 * The first @musthave_count items in the list are quirks that the
-+	 * client must support for this device. If userspace does not support
-+	 * all these quirks then functionality is not guaranteed and client
-+	 * initialisation must fail.
-+	 * The remaining quirks in the list affect userspace and the kernel or
-+	 * firmware. They are disabled by default and require userspace to
-+	 * opt-in. The opt-in mechanism depends on the quirk.
-+	 */
-+	__u64 quirks;
-+
-+	/** @count: Length of @quirks (number of __u32). */
-+	__u16 count;
-+
-+	/**
-+	 * @musthave_count: The number of entries in @quirks that are
-+	 * mandatory, starting at index 0.
-+	 */
-+	__u16 musthave_count;
-+
-+	/** @_padding_c: Reserved. This field must be zeroed. */
-+	__u32 _padding_c;
-+};
-+
-+/**
-+ * struct drm_pvr_dev_query_enhancements - Container used to fetch information
-+ * about optional enhancements supported by the device that require support in
-+ * the user mode driver.
++ * To validate the constraints imposed on IOCTL argument structs, a collection
++ * of macros and helper functions exist in ``pvr_device.h``.
 + *
-+ * When fetching this type &struct drm_pvr_ioctl_dev_query_args.type must be set
-+ * to %DRM_PVR_DEV_ENHANCEMENTS_GET.
-+ */
-+struct drm_pvr_dev_query_enhancements {
-+	/**
-+	 * @enhancements: A userspace address for the hardware enhancements
-+	 * __u32 array.
-+	 *
-+	 * These enhancements affect userspace and the kernel or firmware. They
-+	 * are disabled by default and require userspace to opt-in. The opt-in
-+	 * mechanism depends on the quirk.
-+	 */
-+	__u64 enhancements;
-+
-+	/** @count: Length of @enhancements (number of __u32). */
-+	__u16 count;
-+
-+	/** @_padding_a: Reserved. This field must be zeroed. */
-+	__u16 _padding_a;
-+
-+	/** @_padding_c: Reserved. This field must be zeroed. */
-+	__u32 _padding_c;
-+};
-+
-+/**
-+ * enum drm_pvr_heap_id - Array index for heap info data returned by
-+ * %DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+ *
-+ * For compatibility reasons all indices will be present in the returned array,
-+ * however some heaps may not be present. These are indicated where
-+ * &struct drm_pvr_heap.size is set to zero.
-+ */
-+enum drm_pvr_heap_id {
-+	/** @DRM_PVR_HEAP_GENERAL: General purpose heap. */
-+	DRM_PVR_HEAP_GENERAL = 0,
-+	/** @DRM_PVR_HEAP_PDS_CODE_DATA: PDS code and data heap. */
-+	DRM_PVR_HEAP_PDS_CODE_DATA,
-+	/** @DRM_PVR_HEAP_USC_CODE: USC code heap. */
-+	DRM_PVR_HEAP_USC_CODE,
-+	/** @DRM_PVR_HEAP_RGNHDR: Region header heap. Only used if GPU has BRN63142. */
-+	DRM_PVR_HEAP_RGNHDR,
-+	/** @DRM_PVR_HEAP_VIS_TEST: Visibility test heap. */
-+	DRM_PVR_HEAP_VIS_TEST,
-+	/** @DRM_PVR_HEAP_TRANSFER_FRAG: Transfer fragment heap. */
-+	DRM_PVR_HEAP_TRANSFER_FRAG,
-+
-+	/**
-+	 * @DRM_PVR_HEAP_COUNT: The number of heaps returned by
-+	 * %DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+	 *
-+	 * More heaps may be added, so this also serves as the copy limit when
-+	 * sent by the caller.
-+	 */
-+	DRM_PVR_HEAP_COUNT
-+	/* Please only add additional heaps above DRM_PVR_HEAP_COUNT! */
-+};
-+
-+/**
-+ * DOC: Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+ *
-+ * .. c:macro:: DRM_PVR_HEAP_FLAG_STATIC_CARVEOUT_AT_END
-+ *
-+ *    The static data area is at the end of the heap memory area, rather than
-+ *    at the beginning.
-+ *    The base address will be:
-+ *        drm_pvr_heap::base +
-+ *            (drm_pvr_heap::size - drm_pvr_heap::static_data_carveout_size)
-+ */
-+#define DRM_PVR_HEAP_FLAG_STATIC_CARVEOUT_AT_END _BITUL(0)
-+
-+/**
-+ * struct drm_pvr_heap - Container holding information about a single heap.
-+ *
-+ * This will always be fetched as an array.
-+ */
-+struct drm_pvr_heap {
-+	/** @base: Base address of heap. */
-+	__u64 base;
-+
-+	/**
-+	 * @size: Size of heap, in bytes. Will be 0 if the heap is not present.
-+	 */
-+	__u64 size;
-+
-+	/** @flags: Flags for this heap. See &enum drm_pvr_heap_flags. */
-+	__u32 flags;
-+
-+	/** @page_size_log2: Log2 of page size. */
-+	__u32 page_size_log2;
-+};
-+
-+/**
-+ * struct drm_pvr_dev_query_heap_info - Container used to fetch information
-+ * about heaps supported by the device driver.
-+ *
-+ * Please note all driver-supported heaps will be returned up to &heaps.count.
-+ * Some heaps will not be present in all devices, which will be indicated by
-+ * &struct drm_pvr_heap.size being set to zero.
-+ *
-+ * When fetching this type &struct drm_pvr_ioctl_dev_query_args.type must be set
-+ * to %DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+ */
-+struct drm_pvr_dev_query_heap_info {
-+	/**
-+	 * @heaps: Array of &struct drm_pvr_heap. If pointer is NULL, the count
-+	 * and stride will be updated with those known to the driver version, to
-+	 * facilitate allocation by the caller.
-+	 */
-+	struct drm_pvr_obj_array heaps;
-+};
-+
-+/**
-+ * enum drm_pvr_static_data_area_usage - Array index for static data area info
-+ * returned by %DRM_PVR_DEV_QUERY_STATIC_DATA_AREAS_GET.
-+ *
-+ * For compatibility reasons all indices will be present in the returned array,
-+ * however some areas may not be present. These are indicated where
-+ * &struct drm_pvr_static_data_area.size is set to zero.
-+ */
-+enum drm_pvr_static_data_area_usage {
-+	/**
-+	 * @DRM_PVR_STATIC_DATA_AREA_EOT: End of Tile USC program.
-+	 *
-+	 * The End of Tile task runs at completion of a tile, and is responsible for emitting the
-+	 * tile to the Pixel Back End.
-+	 */
-+	DRM_PVR_STATIC_DATA_AREA_EOT = 0,
-+
-+	/**
-+	 * @DRM_PVR_STATIC_DATA_AREA_FENCE: MCU fence area, used during cache flush and
-+	 * invalidation.
-+	 *
-+	 * This must point to valid physical memory but the contents otherwise are not used.
-+	 */
-+	DRM_PVR_STATIC_DATA_AREA_FENCE,
-+
-+	/**
-+	 * @DRM_PVR_STATIC_DATA_AREA_VDM_SYNC: VDM sync program.
-+	 *
-+	 * The VDM sync program is used to synchronise multiple areas of the GPU hardware.
-+	 */
-+	DRM_PVR_STATIC_DATA_AREA_VDM_SYNC,
-+
-+	/**
-+	 * @DRM_PVR_STATIC_DATA_AREA_YUV_CSC: YUV coefficients.
-+	 *
-+	 * Area contains up to 16 slots with stride of 64 bytes. Each is a 3x4 matrix of u16 fixed
-+	 * point numbers, with 1 sign bit, 2 integer bits and 13 fractional bits.
-+	 *
-+	 * The slots are :
-+	 * 0 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_RGB_IDENTITY_KHR
-+	 * 1 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_IDENTITY_KHR (full range)
-+	 * 2 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_IDENTITY_KHR (conformant range)
-+	 * 3 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_709_KHR (full range)
-+	 * 4 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_709_KHR (conformant range)
-+	 * 5 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_601_KHR (full range)
-+	 * 6 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_601_KHR (conformant range)
-+	 * 7 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_2020_KHR (full range)
-+	 * 8 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_2020_KHR (conformant range)
-+	 * 9 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_601_KHR (conformant range, 10 bit)
-+	 * 10 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_709_KHR (conformant range, 10 bit)
-+	 * 11 = VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_2020_KHR (conformant range, 10 bit)
-+	 * 14 = Identity (biased)
-+	 * 15 = Identity
-+	 */
-+	DRM_PVR_STATIC_DATA_AREA_YUV_CSC,
-+};
-+
-+/**
-+ * struct drm_pvr_static_data_area - Container holding information about a
-+ * single static data area.
-+ *
-+ * This will always be fetched as an array.
-+ */
-+struct drm_pvr_static_data_area {
-+	/**
-+	 * @area_usage: Usage of static data area.
-+	 * See &enum drm_pvr_static_data_area_usage.
-+	 */
-+	__u16 area_usage;
-+
-+	/**
-+	 * @location_heap_id: Array index of heap where this of static data
-+	 * area is located. This array is fetched using
-+	 * %DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+	 */
-+	__u16 location_heap_id;
-+
-+	/** @size: Size of static data area. Not present if set to zero. */
-+	__u32 size;
-+
-+	/**
-+	 * @offset: Offset of static data area from start of static data
-+	 * carveout.
-+	 */
-+	__u64 offset;
-+};
-+
-+/**
-+ * struct drm_pvr_dev_query_static_data_areas - Container used to fetch
-+ * information about the static data areas in heaps supported by the device
-+ * driver.
-+ *
-+ * Please note all driver-supported static data areas will be returned up to
-+ * &static_data_areas.count. Some will not be present for all devices which,
-+ * will be indicated by &struct drm_pvr_static_data_area.size being set to zero.
-+ *
-+ * Further, some heaps will not be present either. See &struct
-+ * drm_pvr_dev_query_heap_info.
-+ *
-+ * When fetching this type &struct drm_pvr_ioctl_dev_query_args.type must be set
-+ * to %DRM_PVR_DEV_QUERY_STATIC_DATA_AREAS_GET.
-+ */
-+struct drm_pvr_dev_query_static_data_areas {
-+	/**
-+	 * @static_data_areas: Array of &struct drm_pvr_static_data_area. If
-+	 * pointer is NULL, the count and stride will be updated with those
-+	 * known to the driver version, to facilitate allocation by the caller.
-+	 */
-+	struct drm_pvr_obj_array static_data_areas;
-+};
-+
-+/**
-+ * enum drm_pvr_dev_query - For use with &drm_pvr_ioctl_dev_query_args.type to
-+ * indicate the type of the receiving container.
-+ *
-+ * Append only. Do not reorder.
-+ */
-+enum drm_pvr_dev_query {
-+	/**
-+	 * @DRM_PVR_DEV_QUERY_GPU_INFO_GET: The dev query args contain a pointer
-+	 * to &struct drm_pvr_dev_query_gpu_info.
-+	 */
-+	DRM_PVR_DEV_QUERY_GPU_INFO_GET = 0,
-+
-+	/**
-+	 * @DRM_PVR_DEV_QUERY_RUNTIME_INFO_GET: The dev query args contain a
-+	 * pointer to &struct drm_pvr_dev_query_runtime_info.
-+	 */
-+	DRM_PVR_DEV_QUERY_RUNTIME_INFO_GET,
-+
-+	/**
-+	 * @DRM_PVR_DEV_QUERY_QUIRKS_GET: The dev query args contain a pointer
-+	 * to &struct drm_pvr_dev_query_quirks.
-+	 */
-+	DRM_PVR_DEV_QUERY_QUIRKS_GET,
-+
-+	/**
-+	 * @DRM_PVR_DEV_QUERY_ENHANCEMENTS_GET: The dev query args contain a
-+	 * pointer to &struct drm_pvr_dev_query_enhancements.
-+	 */
-+	DRM_PVR_DEV_QUERY_ENHANCEMENTS_GET,
-+
-+	/**
-+	 * @DRM_PVR_DEV_QUERY_HEAP_INFO_GET: The dev query args contain a
-+	 * pointer to &struct drm_pvr_dev_query_heap_info.
-+	 */
-+	DRM_PVR_DEV_QUERY_HEAP_INFO_GET,
-+
-+	/**
-+	 * @DRM_PVR_DEV_QUERY_STATIC_DATA_AREAS_GET: The dev query args contain
-+	 * a pointer to &struct drm_pvr_dev_query_static_data_areas.
-+	 */
-+	DRM_PVR_DEV_QUERY_STATIC_DATA_AREAS_GET,
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_dev_query_args - Arguments for %DRM_IOCTL_PVR_DEV_QUERY.
-+ */
-+struct drm_pvr_ioctl_dev_query_args {
-+	/**
-+	 * @type: Type of query and output struct. See &enum drm_pvr_dev_query.
-+	 */
-+	__u32 type;
-+
-+	/**
-+	 * @size: Size of the receiving struct, see @type.
-+	 *
-+	 * After a successful call this will be updated to the written byte
-+	 * length.
-+	 * Can also be used to get the minimum byte length (see @pointer).
-+	 * This allows additional fields to be appended to the structs in
-+	 * future.
-+	 */
-+	__u32 size;
-+
-+	/**
-+	 * @pointer: Pointer to struct @type.
-+	 *
-+	 * Must be large enough to contain @size bytes.
-+	 * If pointer is NULL, the expected size will be returned in the @size
-+	 * field, but no other data will be written.
-+	 */
-+	__u64 pointer;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL CREATE_BO interface
++ * Of the current helpers, it should only be necessary to call
++ * PVR_IOCTL_UNION_PADDING_CHECK() directly. This macro should be used once in
++ * every code path which extracts a union member from a struct passed from
++ * userspace.
 + */
 +
 +/**
-+ * DOC: Flags for CREATE_BO
++ * pvr_ioctl_union_padding_check() - Validate that the implicit padding between
++ * the end of a union member and the end of the union itself is zeroed.
++ * @instance: Pointer to the instance of the struct to validate.
++ * @union_offset: Offset into the type of @instance of the target union. Must
++ * be 64-bit aligned.
++ * @union_size: Size of the target union in the type of @instance. Must be
++ * 64-bit aligned.
++ * @member_size: Size of the target member in the target union specified by
++ * @union_offset and @union_size. It is assumed that the offset of the target
++ * member is zero relative to @union_offset. Must be 64-bit aligned.
 + *
-+ * The &struct drm_pvr_ioctl_create_bo_args.flags field is 64 bits wide and consists
-+ * of three groups of flags: creation, device mapping and CPU mapping.
++ * You probably want to use PVR_IOCTL_UNION_PADDING_CHECK() instead of calling
++ * this function directly, since that macro abstracts away much of the setup,
++ * and also provides some static validation. See its docs for details.
 + *
-+ * We use "device" to refer to the GPU here because of the ambiguity between
-+ * CPU and GPU in some fonts.
-+ *
-+ * Creation options
-+ *    These use the prefix ``DRM_PVR_BO_CREATE_``.
-+ *
-+ *    :ZEROED: Require the allocated buffer to be zeroed before returning. Note
-+ *      that this is an active operation, and is never zero cost. Unless it is
-+ *      explicitly required, this option should not be set.
-+ *
-+ * Device mapping options
-+ *    These use the prefix ``DRM_PVR_BO_DEVICE_``.
-+ *
-+ *    :BYPASS_CACHE: There are very few situations where this flag is useful.
-+ *       By default, the device flushes its memory caches after every job.
-+ *    :PM_FW_PROTECT: Specify that only the Parameter Manager (PM) and/or
-+ *       firmware processor should be allowed to access this memory when mapped
-+ *       to the device. It is not valid to specify this flag with
-+ *       CPU_ALLOW_USERSPACE_ACCESS.
-+ *
-+ * CPU mapping options
-+ *    These use the prefix ``DRM_PVR_BO_CPU_``.
-+ *
-+ *    :ALLOW_USERSPACE_ACCESS: Allow userspace to map and access the contents
-+ *       of this memory. It is not valid to specify this flag with
-+ *       DEVICE_PM_FW_PROTECT.
++ * Return:
++ *  * %true if every byte between the end of the used member of the union and
++ *    the end of that union is zeroed, or
++ *  * %false otherwise.
 + */
-+#define DRM_PVR_BO_DEVICE_BYPASS_CACHE _BITULL(0)
-+#define DRM_PVR_BO_DEVICE_PM_FW_PROTECT _BITULL(1)
-+#define DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS _BITULL(2)
-+#define DRM_PVR_BO_CREATE_ZEROED _BITULL(3)
-+/* Bits 4..63 are reserved. */
-+
-+/**
-+ * struct drm_pvr_ioctl_create_bo_args - Arguments for %DRM_IOCTL_PVR_CREATE_BO
-+ */
-+struct drm_pvr_ioctl_create_bo_args {
-+	/**
-+	 * @size: [IN/OUT] Unaligned size of buffer object to create. On
-+	 * return, this will be populated with the actual aligned size of the
-+	 * new buffer.
++static __always_inline bool
++pvr_ioctl_union_padding_check(void *instance, size_t union_offset,
++			      size_t union_size, size_t member_size)
++{
++	/*
++	 * void pointer arithmetic is technically illegal - cast to a byte
++	 * pointer so this addition works safely.
 +	 */
-+	__u64 size;
++	void *padding_start = ((u8 *)instance) + union_offset + member_size;
++	size_t padding_size = union_size - member_size;
 +
-+	/**
-+	 * @handle: [OUT] GEM handle of the new buffer object for use in
-+	 * userspace.
-+	 */
-+	__u32 handle;
-+
-+	/** @_padding_c: Reserved. This field must be zeroed. */
-+	__u32 _padding_c;
-+
-+	/**
-+	 * @flags: [IN] Options which will affect the behaviour of this
-+	 * creation operation and future mapping operations on the created
-+	 * object. This field must be a valid combination of ``DRM_PVR_BO_*``
-+	 * values, with all bits marked as reserved set to zero.
-+	 */
-+	__u64 flags;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL GET_BO_MMAP_OFFSET interface
-+ */
-+
-+/**
-+ * struct drm_pvr_ioctl_get_bo_mmap_offset_args - Arguments for
-+ * %DRM_IOCTL_PVR_GET_BO_MMAP_OFFSET
-+ *
-+ * Like other DRM drivers, the "mmap" IOCTL doesn't actually map any memory.
-+ * Instead, it allocates a fake offset which refers to the specified buffer
-+ * object. This offset can be used with a real mmap call on the DRM device
-+ * itself.
-+ */
-+struct drm_pvr_ioctl_get_bo_mmap_offset_args {
-+	/** @handle: [IN] GEM handle of the buffer object to be mapped. */
-+	__u32 handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+
-+	/** @offset: [OUT] Fake offset to use in the real mmap call. */
-+	__u64 offset;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT interfaces
-+ */
-+
-+/**
-+ * struct drm_pvr_ioctl_create_vm_context_args - Arguments for
-+ * %DRM_IOCTL_PVR_CREATE_VM_CONTEXT
-+ */
-+struct drm_pvr_ioctl_create_vm_context_args {
-+	/** @handle: [OUT] Handle for new VM context. */
-+	__u32 handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_destroy_vm_context_args - Arguments for
-+ * %DRM_IOCTL_PVR_DESTROY_VM_CONTEXT
-+ */
-+struct drm_pvr_ioctl_destroy_vm_context_args {
-+	/**
-+	 * @handle: [IN] Handle for VM context to be destroyed.
-+	 */
-+	__u32 handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL VM_MAP and VM_UNMAP interfaces
-+ *
-+ * The VM UAPI allows userspace to create buffer object mappings in GPU virtual address space.
-+ *
-+ * The client is responsible for managing GPU address space. It should allocate mappings within
-+ * the heaps returned by %DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+ *
-+ * %DRM_IOCTL_PVR_VM_MAP creates a new mapping. The client provides the target virtual address for
-+ * the mapping. Size and offset within the mapped buffer object can be specified, so the client can
-+ * partially map a buffer.
-+ *
-+ * %DRM_IOCTL_PVR_VM_UNMAP removes a mapping. The entire mapping will be removed from GPU address
-+ * space. For this reason only the start address is provided by the client.
-+ */
-+
-+/**
-+ * struct drm_pvr_ioctl_vm_map_args - Arguments for %DRM_IOCTL_PVR_VM_MAP.
-+ */
-+struct drm_pvr_ioctl_vm_map_args {
-+	/**
-+	 * @vm_context_handle: [IN] Handle for VM context for this mapping to
-+	 * exist in.
-+	 */
-+	__u32 vm_context_handle;
-+
-+	/** @flags: [IN] Flags which affect this mapping. Currently always 0. */
-+	__u32 flags;
-+
-+	/**
-+	 * @device_addr: [IN] Requested device-virtual address for the mapping.
-+	 * This must be non-zero and aligned to the device page size for the
-+	 * heap containing the requested address. It is an error to specify an
-+	 * address which is not contained within one of the heaps returned by
-+	 * %DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
-+	 */
-+	__u64 device_addr;
-+
-+	/**
-+	 * @handle: [IN] Handle of the target buffer object. This must be a
-+	 * valid handle returned by %DRM_IOCTL_PVR_CREATE_BO.
-+	 */
-+	__u32 handle;
-+
-+	/** @_padding_14: Reserved. This field must be zeroed. */
-+	__u32 _padding_14;
-+
-+	/**
-+	 * @offset: [IN] Offset into the target bo from which to begin the
-+	 * mapping.
-+	 */
-+	__u64 offset;
-+
-+	/**
-+	 * @size: [IN] Size of the requested mapping. Must be aligned to
-+	 * the device page size for the heap containing the requested address,
-+	 * as well as the host page size. When added to @device_addr, the
-+	 * result must not overflow the heap which contains @device_addr (i.e.
-+	 * the range specified by @device_addr and @size must be completely
-+	 * contained within a single heap specified by
-+	 * %DRM_PVR_DEV_QUERY_HEAP_INFO_GET).
-+	 */
-+	__u64 size;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_vm_unmap_args - Arguments for %DRM_IOCTL_PVR_VM_UNMAP.
-+ */
-+struct drm_pvr_ioctl_vm_unmap_args {
-+	/**
-+	 * @vm_context_handle: [IN] Handle for VM context that this mapping
-+	 * exists in.
-+	 */
-+	__u32 vm_context_handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+
-+	/**
-+	 * @device_addr: [IN] Device-virtual address at the start of the target
-+	 * mapping. This must be non-zero.
-+	 */
-+	__u64 device_addr;
-+
-+	/**
-+	 * @size: Size in bytes of the target mapping. This must be non-zero.
-+	 */
-+	__u64 size;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL CREATE_CONTEXT and DESTROY_CONTEXT interfaces
-+ */
-+
-+/**
-+ * enum drm_pvr_ctx_priority - Arguments for
-+ * &drm_pvr_ioctl_create_context_args.priority
-+ */
-+enum drm_pvr_ctx_priority {
-+	/** @DRM_PVR_CTX_PRIORITY_LOW: Priority below normal. */
-+	DRM_PVR_CTX_PRIORITY_LOW = -512,
-+
-+	/** @DRM_PVR_CTX_PRIORITY_NORMAL: Normal priority. */
-+	DRM_PVR_CTX_PRIORITY_NORMAL = 0,
-+
-+	/**
-+	 * @DRM_PVR_CTX_PRIORITY_HIGH: Priority above normal.
-+	 * Note this requires ``CAP_SYS_NICE`` or ``DRM_MASTER``.
-+	 */
-+	DRM_PVR_CTX_PRIORITY_HIGH = 512,
-+};
-+
-+/**
-+ * enum drm_pvr_ctx_type - Arguments for
-+ * &struct drm_pvr_ioctl_create_context_args.type
-+ */
-+enum drm_pvr_ctx_type {
-+	/**
-+	 * @DRM_PVR_CTX_TYPE_RENDER: Render context. Use &struct
-+	 * drm_pvr_ioctl_create_render_context_args for context creation arguments.
-+	 */
-+	DRM_PVR_CTX_TYPE_RENDER = 0,
-+
-+	/**
-+	 * @DRM_PVR_CTX_TYPE_COMPUTE: Compute context. Use &struct
-+	 * drm_pvr_ioctl_create_compute_context_args for context creation arguments.
-+	 */
-+	DRM_PVR_CTX_TYPE_COMPUTE,
-+
-+	/**
-+	 * @DRM_PVR_CTX_TYPE_TRANSFER_FRAG: Transfer context for fragment data masters. Use
-+	 * &struct drm_pvr_ioctl_create_transfer_context_args for context creation arguments.
-+	 */
-+	DRM_PVR_CTX_TYPE_TRANSFER_FRAG,
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_create_context_args - Arguments for
-+ * %DRM_IOCTL_PVR_CREATE_CONTEXT
-+ */
-+struct drm_pvr_ioctl_create_context_args {
-+	/**
-+	 * @type: [IN] Type of context to create.
-+	 *
-+	 * This must be one of the values defined by &enum drm_pvr_ctx_type.
-+	 */
-+	__u32 type;
-+
-+	/** @flags: [IN] Flags for context. */
-+	__u32 flags;
-+
-+	/**
-+	 * @priority: [IN] Priority of new context.
-+	 *
-+	 * This must be one of the values defined by &enum drm_pvr_ctx_priority.
-+	 */
-+	__s32 priority;
-+
-+	/** @handle: [OUT] Handle for new context. */
-+	__u32 handle;
-+
-+	/**
-+	 * @static_context_state: [IN] Pointer to static context state stream.
-+	 */
-+	__u64 static_context_state;
-+
-+	/**
-+	 * @static_context_state_len: [IN] Length of static context state, in bytes.
-+	 */
-+	__u32 static_context_state_len;
-+
-+	/**
-+	 * @vm_context_handle: [IN] Handle for VM context that this context is
-+	 * associated with.
-+	 */
-+	__u32 vm_context_handle;
-+
-+	/**
-+	 * @callstack_addr: [IN] Address for initial call stack pointer. Only valid
-+	 * if @type is %DRM_PVR_CTX_TYPE_RENDER, otherwise must be 0.
-+	 */
-+	__u64 callstack_addr;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_destroy_context_args - Arguments for
-+ * %DRM_IOCTL_PVR_DESTROY_CONTEXT
-+ */
-+struct drm_pvr_ioctl_destroy_context_args {
-+	/**
-+	 * @handle: [IN] Handle for context to be destroyed.
-+	 */
-+	__u32 handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL CREATE_FREE_LIST and DESTROY_FREE_LIST interfaces
-+ */
-+
-+/**
-+ * struct drm_pvr_ioctl_create_free_list_args - Arguments for
-+ * %DRM_IOCTL_PVR_CREATE_FREE_LIST
-+ *
-+ * Free list arguments have the following constraints :
-+ *
-+ * - @max_num_pages must be greater than zero.
-+ * - @grow_threshold must be between 0 and 100.
-+ * - @grow_num_pages must be less than or equal to &max_num_pages.
-+ * - @initial_num_pages, @max_num_pages and @grow_num_pages must be multiples
-+ *   of 4.
-+ * - When &grow_num_pages is 0, @initial_num_pages must be equal to
-+ *   @max_num_pages.
-+ * - When &grow_num_pages is non-zero, @initial_num_pages must be less than
-+ *   @max_num_pages.
-+ */
-+struct drm_pvr_ioctl_create_free_list_args {
-+	/**
-+	 * @free_list_gpu_addr: [IN] Address of GPU mapping of buffer object
-+	 * containing memory to be used by free list.
-+	 *
-+	 * The mapped region of the buffer object must be at least
-+	 * @max_num_pages * ``sizeof(__u32)``.
-+	 *
-+	 * The buffer object must have been created with
-+	 * %DRM_PVR_BO_DEVICE_PM_FW_PROTECT set and
-+	 * %DRM_PVR_BO_CPU_ALLOW_USERSPACE_ACCESS not set.
-+	 */
-+	__u64 free_list_gpu_addr;
-+
-+	/** @initial_num_pages: [IN] Pages initially allocated to free list. */
-+	__u32 initial_num_pages;
-+
-+	/** @max_num_pages: [IN] Maximum number of pages in free list. */
-+	__u32 max_num_pages;
-+
-+	/** @grow_num_pages: [IN] Pages to grow free list by per request. */
-+	__u32 grow_num_pages;
-+
-+	/**
-+	 * @grow_threshold: [IN] Percentage of FL memory used that should
-+	 * trigger a new grow request.
-+	 */
-+	__u32 grow_threshold;
-+
-+	/**
-+	 * @vm_context_handle: [IN] Handle for VM context that the free list buffer
-+	 * object is mapped in.
-+	 */
-+	__u32 vm_context_handle;
-+
-+	/**
-+	 * @handle: [OUT] Handle for created free list.
-+	 */
-+	__u32 handle;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_destroy_free_list_args - Arguments for
-+ * %DRM_IOCTL_PVR_DESTROY_FREE_LIST
-+ */
-+struct drm_pvr_ioctl_destroy_free_list_args {
-+	/**
-+	 * @handle: [IN] Handle for free list to be destroyed.
-+	 */
-+	__u32 handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET interfaces
-+ */
-+
-+/**
-+ * struct drm_pvr_create_hwrt_geom_data_args - Geometry data arguments used for
-+ * &struct drm_pvr_ioctl_create_hwrt_dataset_args.geom_data_args.
-+ */
-+struct drm_pvr_create_hwrt_geom_data_args {
-+	/** @tpc_dev_addr: [IN] Tail pointer cache GPU virtual address. */
-+	__u64 tpc_dev_addr;
-+
-+	/** @tpc_size: [IN] Size of TPC, in bytes. */
-+	__u32 tpc_size;
-+
-+	/** @tpc_stride: [IN] Stride between layers in TPC, in pages */
-+	__u32 tpc_stride;
-+
-+	/** @vheap_table_dev_addr: [IN] VHEAP table GPU virtual address. */
-+	__u64 vheap_table_dev_addr;
-+
-+	/** @rtc_dev_addr: [IN] Render Target Cache virtual address. */
-+	__u64 rtc_dev_addr;
-+};
-+
-+/**
-+ * struct drm_pvr_create_hwrt_rt_data_args - Render target arguments used for
-+ * &struct drm_pvr_ioctl_create_hwrt_dataset_args.rt_data_args.
-+ */
-+struct drm_pvr_create_hwrt_rt_data_args {
-+	/** @pm_mlist_dev_addr: [IN] PM MLIST GPU virtual address. */
-+	__u64 pm_mlist_dev_addr;
-+
-+	/** @macrotile_array_dev_addr: [IN] Macrotile array GPU virtual address. */
-+	__u64 macrotile_array_dev_addr;
-+
-+	/** @region_header_dev_addr: [IN] Region header array GPU virtual address. */
-+	__u64 region_header_dev_addr;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_create_hwrt_dataset_args - Arguments for
-+ * %DRM_IOCTL_PVR_CREATE_HWRT_DATASET
-+ */
-+struct drm_pvr_ioctl_create_hwrt_dataset_args {
-+	/** @geom_data_args: [IN] Geometry data arguments. */
-+	struct drm_pvr_create_hwrt_geom_data_args geom_data_args;
-+
-+	/** @rt_data_args: [IN] Array of render target arguments. */
-+	struct drm_pvr_create_hwrt_rt_data_args rt_data_args[2];
-+
-+	/**
-+	 * @free_list_handles: [IN] Array of free list handles.
-+	 *
-+	 * free_list_handles[0] must have initial size of at least that reported
-+	 * by &drm_pvr_dev_query_runtime_info.free_list_min_pages.
-+	 */
-+	__u32 free_list_handles[2];
-+
-+	/** @width: [IN] Width in pixels. */
-+	__u32 width;
-+
-+	/** @height: [IN] Height in pixels. */
-+	__u32 height;
-+
-+	/** @samples: [IN] Number of samples. */
-+	__u32 samples;
-+
-+	/** @layers: [IN] Number of layers. */
-+	__u32 layers;
-+
-+	/** @isp_merge_lower_x: [IN] Lower X coefficient for triangle merging. */
-+	__u32 isp_merge_lower_x;
-+
-+	/** @isp_merge_lower_y: [IN] Lower Y coefficient for triangle merging. */
-+	__u32 isp_merge_lower_y;
-+
-+	/** @isp_merge_scale_x: [IN] Scale X coefficient for triangle merging. */
-+	__u32 isp_merge_scale_x;
-+
-+	/** @isp_merge_scale_y: [IN] Scale Y coefficient for triangle merging. */
-+	__u32 isp_merge_scale_y;
-+
-+	/** @isp_merge_upper_x: [IN] Upper X coefficient for triangle merging. */
-+	__u32 isp_merge_upper_x;
-+
-+	/** @isp_merge_upper_y: [IN] Upper Y coefficient for triangle merging. */
-+	__u32 isp_merge_upper_y;
-+
-+	/**
-+	 * @region_header_size: [IN] Size of region header array. This common field is used by
-+	 * both render targets in this data set.
-+	 *
-+	 * The units for this field differ depending on what version of the simple internal
-+	 * parameter format the device uses. If format 2 is in use then this is interpreted as the
-+	 * number of region headers. For other formats it is interpreted as the size in dwords.
-+	 */
-+	__u32 region_header_size;
-+
-+	/**
-+	 * @handle: [OUT] Handle for created HWRT dataset.
-+	 */
-+	__u32 handle;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_destroy_hwrt_dataset_args - Arguments for
-+ * %DRM_IOCTL_PVR_DESTROY_HWRT_DATASET
-+ */
-+struct drm_pvr_ioctl_destroy_hwrt_dataset_args {
-+	/**
-+	 * @handle: [IN] Handle for HWRT dataset to be destroyed.
-+	 */
-+	__u32 handle;
-+
-+	/** @_padding_4: Reserved. This field must be zeroed. */
-+	__u32 _padding_4;
-+};
-+
-+/**
-+ * DOC: PowerVR IOCTL SUBMIT_JOBS interface
-+ */
-+
-+/**
-+ * DOC: Flags for the drm_pvr_sync_op object.
-+ *
-+ * .. c:macro:: DRM_PVR_SYNC_OP_HANDLE_TYPE_MASK
-+ *
-+ *    Handle type mask for the drm_pvr_sync_op::flags field.
-+ *
-+ * .. c:macro:: DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ
-+ *
-+ *    Indicates the handle passed in drm_pvr_sync_op::handle is a syncobj handle.
-+ *    This is the default type.
-+ *
-+ * .. c:macro:: DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_TIMELINE_SYNCOBJ
-+ *
-+ *    Indicates the handle passed in drm_pvr_sync_op::handle is a timeline syncobj handle.
-+ *
-+ * .. c:macro:: DRM_PVR_SYNC_OP_FLAG_SIGNAL
-+ *
-+ *    Signal operation requested. The out-fence bound to the job will be attached to
-+ *    the syncobj whose handle is passed in drm_pvr_sync_op::handle.
-+ *
-+ * .. c:macro:: DRM_PVR_SYNC_OP_FLAG_WAIT
-+ *
-+ *    Wait operation requested. The job will wait for this particular syncobj or syncobj
-+ *    point to be signaled before being started.
-+ *    This is the default operation.
-+ */
-+#define DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_MASK 0xf
-+#define DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_SYNCOBJ 0
-+#define DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_TIMELINE_SYNCOBJ 1
-+#define DRM_PVR_SYNC_OP_FLAG_SIGNAL _BITULL(31)
-+#define DRM_PVR_SYNC_OP_FLAG_WAIT 0
-+
-+#define DRM_PVR_SYNC_OP_FLAGS_MASK (DRM_PVR_SYNC_OP_FLAG_HANDLE_TYPE_MASK | \
-+				    DRM_PVR_SYNC_OP_FLAG_SIGNAL)
-+
-+/**
-+ * struct drm_pvr_sync_op - Object describing a sync operation
-+ */
-+struct drm_pvr_sync_op {
-+	/** @handle: Handle of sync object. */
-+	__u32 handle;
-+
-+	/** @flags: Combination of ``DRM_PVR_SYNC_OP_FLAG_`` flags. */
-+	__u32 flags;
-+
-+	/** @value: Timeline value for this drm_syncobj. MBZ for a binary syncobj. */
-+	__u64 value;
-+};
-+
-+/**
-+ * DOC: Flags for SUBMIT_JOB ioctl geometry command.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_GEOM_CMD_FIRST
-+ *
-+ *    Indicates if this the first command to be issued for a render.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_GEOM_CMD_LAST
-+ *
-+ *    Indicates if this the last command to be issued for a render.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_GEOM_CMD_SINGLE_CORE
-+ *
-+ *    Forces to use single core in a multi core device.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_GEOM_CMD_FLAGS_MASK
-+ *
-+ *    Logical OR of all the geometry cmd flags.
-+ */
-+#define DRM_PVR_SUBMIT_JOB_GEOM_CMD_FIRST _BITULL(0)
-+#define DRM_PVR_SUBMIT_JOB_GEOM_CMD_LAST _BITULL(1)
-+#define DRM_PVR_SUBMIT_JOB_GEOM_CMD_SINGLE_CORE _BITULL(2)
-+#define DRM_PVR_SUBMIT_JOB_GEOM_CMD_FLAGS_MASK                                 \
-+	(DRM_PVR_SUBMIT_JOB_GEOM_CMD_FIRST |                                   \
-+	 DRM_PVR_SUBMIT_JOB_GEOM_CMD_LAST |                                    \
-+	 DRM_PVR_SUBMIT_JOB_GEOM_CMD_SINGLE_CORE)
-+
-+/**
-+ * DOC: Flags for SUBMIT_JOB ioctl fragment command.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_SINGLE_CORE
-+ *
-+ *    Use single core in a multi core setup.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_DEPTHBUFFER
-+ *
-+ *    Indicates whether a depth buffer is present.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_STENCILBUFFER
-+ *
-+ *    Indicates whether a stencil buffer is present.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_PREVENT_CDM_OVERLAP
-+ *
-+ *    Disallow compute overlapped with this render.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_GET_VIS_RESULTS
-+ *
-+ *    Indicates whether this render produces visibility results.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_SCRATCHBUFFER
-+ *
-+ *    Indicates whether partial renders write to a scratch buffer instead of
-+ *    the final surface. It also forces the full screen copy expected to be
-+ *    present on the last render after all partial renders have completed.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_FRAG_CMD_FLAGS_MASK
-+ *
-+ *    Logical OR of all the fragment cmd flags.
-+ */
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_SINGLE_CORE _BITULL(0)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_DEPTHBUFFER _BITULL(1)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_STENCILBUFFER _BITULL(2)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_PREVENT_CDM_OVERLAP _BITULL(3)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_SCRATCHBUFFER _BITULL(4)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_GET_VIS_RESULTS _BITULL(5)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_PARTIAL_RENDER _BITULL(6)
-+#define DRM_PVR_SUBMIT_JOB_FRAG_CMD_FLAGS_MASK                                 \
-+	(DRM_PVR_SUBMIT_JOB_FRAG_CMD_SINGLE_CORE |                             \
-+	 DRM_PVR_SUBMIT_JOB_FRAG_CMD_DEPTHBUFFER |                             \
-+	 DRM_PVR_SUBMIT_JOB_FRAG_CMD_STENCILBUFFER |                           \
-+	 DRM_PVR_SUBMIT_JOB_FRAG_CMD_PREVENT_CDM_OVERLAP |                     \
-+	 DRM_PVR_SUBMIT_JOB_FRAG_CMD_SCRATCHBUFFER |                           \
-+	 DRM_PVR_SUBMIT_JOB_FRAG_CMD_GET_VIS_RESULTS |                         \
-+	 DRM_PVR_SUBMIT_JOB_FRAG_CMD_PARTIAL_RENDER)
-+
-+/**
-+ * DOC: Flags for SUBMIT_JOB ioctl compute command.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_PREVENT_ALL_OVERLAP
-+ *
-+ *    Disallow other jobs overlapped with this compute.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_SINGLE_CORE
-+ *
-+ *    Forces to use single core in a multi core device.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_FLAGS_MASK
-+ *
-+ *    Logical OR of all the compute cmd flags.
-+ */
-+#define DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_PREVENT_ALL_OVERLAP _BITULL(0)
-+#define DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_SINGLE_CORE _BITULL(1)
-+#define DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_FLAGS_MASK         \
-+	(DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_PREVENT_ALL_OVERLAP | \
-+	 DRM_PVR_SUBMIT_JOB_COMPUTE_CMD_SINGLE_CORE)
-+
-+/**
-+ * DOC: Flags for SUBMIT_JOB ioctl transfer command.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_SINGLE_CORE
-+ *
-+ *    Forces job to use a single core in a multi core device.
-+ *
-+ * .. c:macro:: DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_FLAGS_MASK
-+ *
-+ *    Logical OR of all the transfer cmd flags.
-+ */
-+#define DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_SINGLE_CORE _BITULL(0)
-+
-+#define DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_FLAGS_MASK \
-+	DRM_PVR_SUBMIT_JOB_TRANSFER_CMD_SINGLE_CORE
-+
-+/**
-+ * enum drm_pvr_job_type - Arguments for &struct drm_pvr_job.job_type
-+ */
-+enum drm_pvr_job_type {
-+	/** @DRM_PVR_JOB_TYPE_GEOMETRY: Job type is geometry. */
-+	DRM_PVR_JOB_TYPE_GEOMETRY = 0,
-+
-+	/** @DRM_PVR_JOB_TYPE_FRAGMENT: Job type is fragment. */
-+	DRM_PVR_JOB_TYPE_FRAGMENT,
-+
-+	/** @DRM_PVR_JOB_TYPE_COMPUTE: Job type is compute. */
-+	DRM_PVR_JOB_TYPE_COMPUTE,
-+
-+	/** @DRM_PVR_JOB_TYPE_TRANSFER_FRAG: Job type is a fragment transfer. */
-+	DRM_PVR_JOB_TYPE_TRANSFER_FRAG,
-+};
-+
-+/**
-+ * struct drm_pvr_hwrt_data_ref - Reference HWRT data
-+ */
-+struct drm_pvr_hwrt_data_ref {
-+	/** @set_handle: HWRT data set handle. */
-+	__u32 set_handle;
-+
-+	/** @data_index: Index of the HWRT data inside the data set. */
-+	__u32 data_index;
-+};
-+
-+/**
-+ * struct drm_pvr_job - Job arguments passed to the %DRM_IOCTL_PVR_SUBMIT_JOBS ioctl
-+ */
-+struct drm_pvr_job {
-+	/**
-+	 * @type: [IN] Type of job being submitted
-+	 *
-+	 * This must be one of the values defined by &enum drm_pvr_job_type.
-+	 */
-+	__u32 type;
-+
-+	/**
-+	 * @context_handle: [IN] Context handle.
-+	 *
-+	 * When @job_type is %DRM_PVR_JOB_TYPE_RENDER, %DRM_PVR_JOB_TYPE_COMPUTE or
-+	 * %DRM_PVR_JOB_TYPE_TRANSFER_FRAG, this must be a valid handle returned by
-+	 * %DRM_IOCTL_PVR_CREATE_CONTEXT. The type of context must be compatible
-+	 * with the type of job being submitted.
-+	 *
-+	 * When @job_type is %DRM_PVR_JOB_TYPE_NULL, this must be zero.
-+	 */
-+	__u32 context_handle;
-+
-+	/**
-+	 * @flags: [IN] Flags for command.
-+	 *
-+	 * Those are job-dependent. See all ``DRM_PVR_SUBMIT_JOB_*``.
-+	 */
-+	__u32 flags;
-+
-+	/**
-+	 * @cmd_stream_len: [IN] Length of command stream, in bytes.
-+	 */
-+	__u32 cmd_stream_len;
-+
-+	/**
-+	 * @cmd_stream: [IN] Pointer to command stream for command.
-+	 *
-+	 * The command stream must be u64-aligned.
-+	 */
-+	__u64 cmd_stream;
-+
-+	/** @sync_ops: [IN] Fragment sync operations. */
-+	struct drm_pvr_obj_array sync_ops;
-+
-+	/**
-+	 * @hwrt: [IN] HWRT data used by render jobs (geometry or fragment).
-+	 *
-+	 * Must be zero for non-render jobs.
-+	 */
-+	struct drm_pvr_hwrt_data_ref hwrt;
-+};
-+
-+/**
-+ * struct drm_pvr_ioctl_submit_jobs_args - Arguments for %DRM_IOCTL_PVR_SUBMIT_JOB
-+ */
-+struct drm_pvr_ioctl_submit_jobs_args {
-+	/** @jobs: [IN] Array of jobs to submit. */
-+	struct drm_pvr_obj_array jobs;
-+};
-+
-+#if defined(__cplusplus)
++	return !memchr_inv(padding_start, 0, padding_size);
 +}
-+#endif
 +
-+#endif /* PVR_DRM_UAPI_H */
++/**
++ * PVR_STATIC_ASSERT_64BIT_ALIGNED() - Inline assertion for 64-bit alignment.
++ * @static_expr_: Target expression to evaluate.
++ *
++ * If @static_expr_ does not evaluate to a constant integer which would be a
++ * 64-bit aligned address (i.e. a multiple of 8), compilation will fail.
++ *
++ * Return:
++ * The value of @static_expr_.
++ */
++#define PVR_STATIC_ASSERT_64BIT_ALIGNED(static_expr_)                     \
++	({                                                                \
++		static_assert(((static_expr_) & (sizeof(u64) - 1)) == 0); \
++		(static_expr_);                                           \
++	})
++
++/**
++ * PVR_IOCTL_UNION_PADDING_CHECK() - Validate that the implicit padding between
++ * the end of a union member and the end of the union itself is zeroed.
++ * @struct_instance_: An expression which evaluates to a pointer to a UAPI data
++ * struct.
++ * @union_: The name of the union member of @struct_instance_ to check. If the
++ * union member is nested within the type of @struct_instance_, this may
++ * contain the member access operator (".").
++ * @member_: The name of the member of @union_ to assess.
++ *
++ * This is a wrapper around pvr_ioctl_union_padding_check() which performs
++ * alignment checks and simplifies things for the caller.
++ *
++ * Return:
++ *  * %true if every byte in @struct_instance_ between the end of @member_ and
++ *    the end of @union_ is zeroed, or
++ *  * %false otherwise.
++ */
++#define PVR_IOCTL_UNION_PADDING_CHECK(struct_instance_, union_, member_)     \
++	({                                                                   \
++		typeof(struct_instance_) __instance = (struct_instance_);    \
++		size_t __union_offset = PVR_STATIC_ASSERT_64BIT_ALIGNED(     \
++			offsetof(typeof(*__instance), union_));              \
++		size_t __union_size = PVR_STATIC_ASSERT_64BIT_ALIGNED(       \
++			sizeof(__instance->union_));                         \
++		size_t __member_size = PVR_STATIC_ASSERT_64BIT_ALIGNED(      \
++			sizeof(__instance->union_.member_));                 \
++		pvr_ioctl_union_padding_check(__instance, __union_offset,    \
++					      __union_size, __member_size);  \
++	})
++
++#endif /* PVR_DEVICE_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+new file mode 100644
+index 000000000000..2035131e6177
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -0,0 +1,510 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/* Copyright (c) 2022 Imagination Technologies Ltd. */
++
++#include "pvr_device.h"
++#include "pvr_drv.h"
++
++#include <uapi/drm/pvr_drm.h>
++
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_file.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_ioctl.h>
++
++#include <linux/err.h>
++#include <linux/export.h>
++#include <linux/fs.h>
++#include <linux/kernel.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/moduleparam.h>
++#include <linux/of_device.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
++
++/**
++ * DOC: PowerVR (Series 6 and later) Graphics Driver
++ *
++ * This driver supports the following PowerVR graphics cores from Imagination
++ * Technologies:
++ *
++ * * AXE-1-16M (found in Texas Instruments AM62)
++ */
++
++/**
++ * pvr_ioctl_create_bo() - IOCTL to create a GEM buffer object.
++ * @drm_dev: [IN] Target DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ * &struct drm_pvr_ioctl_create_bo_args.
++ * @file: [IN] DRM file-private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_BO.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%EINVAL if the value of &drm_pvr_ioctl_create_bo_args.size is zero
++ *    or wider than &typedef size_t,
++ *  * -%EINVAL if any bits in &drm_pvr_ioctl_create_bo_args.flags that are
++ *    reserved or undefined are set,
++ *  * -%EINVAL if any padding fields in &drm_pvr_ioctl_create_bo_args are not
++ *    zero,
++ *  * Any error encountered while creating the object (see
++ *    pvr_gem_object_create()), or
++ *  * Any error encountered while transferring ownership of the object into a
++ *    userspace-accessible handle (see pvr_gem_object_into_handle()).
++ */
++static int
++pvr_ioctl_create_bo(struct drm_device *drm_dev, void *raw_args,
++		    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_get_bo_mmap_offset() - IOCTL to generate a "fake" offset to be
++ * used when calling mmap() from userspace to map the given GEM buffer object
++ * @drm_dev: [IN] DRM device (unused).
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_get_bo_mmap_offset_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_GET_BO_MMAP_OFFSET.
++ *
++ * This IOCTL does *not* perform an mmap. See the docs on
++ * &struct drm_pvr_ioctl_get_bo_mmap_offset_args for details.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%ENOENT if the handle does not reference a valid GEM buffer object,
++ *  * -%EINVAL if any padding fields in &struct
++ *    drm_pvr_ioctl_get_bo_mmap_offset_args are not zero, or
++ *  * Any error returned by drm_gem_create_mmap_offset().
++ */
++static int
++pvr_ioctl_get_bo_mmap_offset(__always_unused struct drm_device *drm_dev,
++			     void *raw_args, struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_dev_query() - IOCTL to copy information about a device
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_dev_query_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DEV_QUERY.
++ * If the given receiving struct pointer is NULL, or the indicated size is too
++ * small, the expected size of the struct type will be returned in the size
++ * argument field.
++ *
++ * Return:
++ *  * 0 on success or when fetching the size with args->pointer == NULL, or
++ *  * -%E2BIG if the indicated size of the receiving struct is less than is
++ *    required to contain the copied data, or
++ *  * -%EINVAL if the indicated struct type is unknown, or
++ *  * -%ENOMEM if local memory could not be allocated, or
++ *  * -%EFAULT if local memory could not be copied to userspace.
++ */
++static int
++pvr_ioctl_dev_query(struct drm_device *drm_dev, void *raw_args,
++		    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_context() - IOCTL to create a context
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_context_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_CONTEXT.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if provided arguments are invalid, or
++ *  * -%EFAULT if arguments can't be copied from userspace, or
++ *  * Any error returned by pvr_create_render_context().
++ */
++static int
++pvr_ioctl_create_context(struct drm_device *drm_dev, void *raw_args,
++			 struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_context() - IOCTL to destroy a context
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_destroy_context_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DESTROY_CONTEXT.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if context not in context list.
++ */
++static int
++pvr_ioctl_destroy_context(struct drm_device *drm_dev, void *raw_args,
++			  struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_free_list() - IOCTL to create a free list
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_free_list_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_FREE_LIST.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_free_list_create().
++ */
++static int
++pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
++			   struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_free_list() - IOCTL to destroy a free list
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_destroy_free_list_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DESTROY_FREE_LIST.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if free list not in object list.
++ */
++static int
++pvr_ioctl_destroy_free_list(struct drm_device *drm_dev, void *raw_args,
++			    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_hwrt_dataset() - IOCTL to create a HWRT dataset
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_hwrt_dataset_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_HWRT_DATASET.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_hwrt_dataset_create().
++ */
++static int
++pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
++			      struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_hwrt_dataset() - IOCTL to destroy a HWRT dataset
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_destroy_hwrt_dataset_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_DESTROY_HWRT_DATASET.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if HWRT dataset not in object list.
++ */
++static int
++pvr_ioctl_destroy_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
++			       struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_create_vm_context() - IOCTL to create a VM context
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN/OUT] Arguments passed to this IOCTL. This must be of type
++ *                     &struct drm_pvr_ioctl_create_vm_context_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_CREATE_VM_CONTEXT.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * Any error returned by pvr_vm_create_context().
++ */
++static int
++pvr_ioctl_create_vm_context(struct drm_device *drm_dev, void *raw_args,
++			    struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_destroy_vm_context() - IOCTL to destroy a VM context
++￼* @drm_dev: [IN] DRM device.
++￼* @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++￼*                 &struct drm_pvr_ioctl_destroy_vm_context_args.
++￼* @file: [IN] DRM file private data.
++￼*
++￼* Called from userspace with %DRM_IOCTL_PVR_DESTROY_VM_CONTEXT.
++￼*
++￼* Return:
++￼*  * 0 on success, or
++￼*  * -%EINVAL if object not in object list.
++ */
++static int
++pvr_ioctl_destroy_vm_context(struct drm_device *drm_dev, void *raw_args,
++			     struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_vm_map() - IOCTL to map buffer to GPU address space.
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_vm_map_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_VM_MAP.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%EINVAL if &drm_pvr_ioctl_vm_op_map_args.flags is not zero,
++ *  * -%EINVAL if the bounds specified by &drm_pvr_ioctl_vm_op_map_args.offset
++ *    and &drm_pvr_ioctl_vm_op_map_args.size are not valid or do not fall
++ *    within the buffer object specified by
++ *    &drm_pvr_ioctl_vm_op_map_args.handle,
++ *  * -%EINVAL if the bounds specified by
++ *    &drm_pvr_ioctl_vm_op_map_args.device_addr and
++ *    &drm_pvr_ioctl_vm_op_map_args.size do not form a valid device-virtual
++ *    address range which falls entirely within a single heap, or
++ *  * -%ENOENT if &drm_pvr_ioctl_vm_op_map_args.handle does not refer to a
++ *    valid PowerVR buffer object.
++ */
++static int
++pvr_ioctl_vm_map(struct drm_device *drm_dev, void *raw_args,
++		 struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/**
++ * pvr_ioctl_vm_unmap() - IOCTL to unmap buffer from GPU address space.
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_vm_unmap_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_VM_UNMAP.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%EINVAL if &drm_pvr_ioctl_vm_op_unmap_args.device_addr is not a valid
++ *    device page-aligned device-virtual address, or
++ *  * -%ENOENT if there is currently no PowerVR buffer object mapped at
++ *    &drm_pvr_ioctl_vm_op_unmap_args.device_addr.
++ */
++static int
++pvr_ioctl_vm_unmap(struct drm_device *drm_dev, void *raw_args,
++		   struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++/*
++ * pvr_ioctl_submit_job() - IOCTL to submit a job to the GPU
++ * @drm_dev: [IN] DRM device.
++ * @raw_args: [IN] Arguments passed to this IOCTL. This must be of type
++ *                 &struct drm_pvr_ioctl_submit_job_args.
++ * @file: [IN] DRM file private data.
++ *
++ * Called from userspace with %DRM_IOCTL_PVR_SUBMIT_JOB.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if arguments are invalid.
++ */
++static int
++pvr_ioctl_submit_jobs(struct drm_device *drm_dev, void *raw_args,
++		      struct drm_file *file)
++{
++	return -ENOTTY;
++}
++
++#define DRM_PVR_IOCTL(_name, _func, _flags) \
++	DRM_IOCTL_DEF_DRV(PVR_##_name, pvr_ioctl_##_func, _flags)
++
++/* clang-format off */
++
++static const struct drm_ioctl_desc pvr_drm_driver_ioctls[] = {
++	DRM_PVR_IOCTL(DEV_QUERY, dev_query, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_BO, create_bo, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(GET_BO_MMAP_OFFSET, get_bo_mmap_offset, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_VM_CONTEXT, create_vm_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_VM_CONTEXT, destroy_vm_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(VM_MAP, vm_map, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(VM_UNMAP, vm_unmap, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_CONTEXT, create_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_CONTEXT, destroy_context, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_FREE_LIST, create_free_list, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_FREE_LIST, destroy_free_list, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(CREATE_HWRT_DATASET, create_hwrt_dataset, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(DESTROY_HWRT_DATASET, destroy_hwrt_dataset, DRM_RENDER_ALLOW),
++	DRM_PVR_IOCTL(SUBMIT_JOBS, submit_jobs, DRM_RENDER_ALLOW),
++};
++
++/* clang-format on */
++
++#undef DRM_PVR_IOCTL
++
++/**
++ * pvr_drm_driver_open() - Driver callback when a new &struct drm_file is opened
++ * @drm_dev: [IN] DRM device.
++ * @file: [IN] DRM file private data.
++ *
++ * Allocates powervr-specific file private data (&struct pvr_file).
++ *
++ * Registered in &pvr_drm_driver.
++ *
++ * Return:
++ *  * 0 on success,
++ *  * -%ENOMEM if the allocation of a &struct ipvr_file fails, or
++ *  * Any error returned by pvr_memory_context_init().
++ */
++static int
++pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
++{
++	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
++	struct pvr_file *pvr_file;
++
++	pvr_file = kzalloc(sizeof(*pvr_file), GFP_KERNEL);
++	if (!pvr_file)
++		return -ENOMEM;
++
++	/*
++	 * Store reference to base DRM file private data for use by
++	 * from_pvr_file.
++	 */
++	pvr_file->file = file;
++
++	/*
++	 * Store reference to powervr-specific outer device struct in file
++	 * private data for convenient access.
++	 */
++	pvr_file->pvr_dev = pvr_dev;
++
++	/*
++	 * Store reference to powervr-specific file private data in DRM file
++	 * private data.
++	 */
++	file->driver_priv = pvr_file;
++
++	return 0;
++}
++
++/**
++ * pvr_drm_driver_postclose() - One of the driver callbacks when a &struct
++ * drm_file is closed.
++ * @drm_dev: [IN] DRM device (unused).
++ * @file: [IN] DRM file private data.
++ *
++ * Frees powervr-specific file private data (&struct pvr_file).
++ *
++ * Registered in &pvr_drm_driver.
++ */
++static void
++pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
++			 struct drm_file *file)
++{
++	struct pvr_file *pvr_file = to_pvr_file(file);
++
++	kfree(pvr_file);
++	file->driver_priv = NULL;
++}
++
++DEFINE_DRM_GEM_FOPS(pvr_drm_driver_fops);
++
++static struct drm_driver pvr_drm_driver = {
++	.driver_features = DRIVER_RENDER,
++	.open = pvr_drm_driver_open,
++	.postclose = pvr_drm_driver_postclose,
++	.ioctls = pvr_drm_driver_ioctls,
++	.num_ioctls = ARRAY_SIZE(pvr_drm_driver_ioctls),
++	.fops = &pvr_drm_driver_fops,
++
++	.name = PVR_DRIVER_NAME,
++	.desc = PVR_DRIVER_DESC,
++	.date = PVR_DRIVER_DATE,
++	.major = PVR_DRIVER_MAJOR,
++	.minor = PVR_DRIVER_MINOR,
++	.patchlevel = PVR_DRIVER_PATCHLEVEL,
++
++};
++
++static int
++pvr_probe(struct platform_device *plat_dev)
++{
++	struct pvr_device *pvr_dev;
++	struct drm_device *drm_dev;
++
++	pvr_dev = devm_drm_dev_alloc(&plat_dev->dev, &pvr_drm_driver,
++				     struct pvr_device, base);
++	if (IS_ERR(pvr_dev))
++		return PTR_ERR(pvr_dev);
++
++	drm_dev = &pvr_dev->base;
++
++	platform_set_drvdata(plat_dev, drm_dev);
++
++	return drm_dev_register(drm_dev, 0);
++}
++
++static int
++pvr_remove(struct platform_device *plat_dev)
++{
++	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
++
++	drm_dev_unplug(drm_dev);
++
++	return 0;
++}
++
++static const struct of_device_id dt_match[] = {
++	{ .compatible = "img,powervr-seriesaxe", .data = NULL },
++	{}
++};
++MODULE_DEVICE_TABLE(of, dt_match);
++
++static struct platform_driver pvr_driver = {
++	.probe = pvr_probe,
++	.remove = pvr_remove,
++	.driver = {
++		.name = PVR_DRIVER_NAME,
++		.of_match_table = dt_match,
++	},
++};
++module_platform_driver(pvr_driver);
++
++MODULE_AUTHOR("Imagination Technologies Ltd.");
++MODULE_DESCRIPTION(PVR_DRIVER_DESC);
++MODULE_LICENSE("Dual MIT/GPL");
++MODULE_IMPORT_NS(DMA_BUF);
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.h b/drivers/gpu/drm/imagination/pvr_drv.h
+new file mode 100644
+index 000000000000..55e9b4ad608d
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_drv.h
+@@ -0,0 +1,22 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++/* Copyright (c) 2022 Imagination Technologies Ltd. */
++
++#ifndef PVR_DRV_H
++#define PVR_DRV_H
++
++#include "linux/compiler_attributes.h"
++#include <uapi/drm/pvr_drm.h>
++
++#define PVR_DRIVER_NAME "powervr"
++#define PVR_DRIVER_DESC "Imagination PowerVR Graphics (Series 6 and later)"
++#define PVR_DRIVER_DATE "20220211"
++
++/*
++ * Driver interface version:
++ *  - 1.0: Initial interface
++ */
++#define PVR_DRIVER_MAJOR 1
++#define PVR_DRIVER_MINOR 0
++#define PVR_DRIVER_PATCHLEVEL 0
++
++#endif /* PVR_DRV_H */
 -- 
 2.41.0
 
