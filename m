@@ -1,65 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20B4753DFC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 16:47:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA309753E75
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 17:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5665310E8A1;
-	Fri, 14 Jul 2023 14:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0F210E8A9;
+	Fri, 14 Jul 2023 15:09:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F17E10E8A2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 14:46:56 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 975132209B;
- Fri, 14 Jul 2023 14:46:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689346014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s7DbIMsHwZe7OGM29YmTw6EXpgPM5WYMuOmkPEwRQP4=;
- b=2T0aE5UGBfrCCgxqM/XzVfy87UJWkueRN4mUiqD2opzJ6buzg7PzlpE/gXo6o9MDdYPpCC
- kyVW6BdkUU+NTJXPNazahJLVTt2Z64lJi2ucXvsSM6yhybdOSmN0XmsVIxBrbtDpvOtrBM
- FHpunZ/CCbaunf5zxdwprX3QlsGhU6o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689346014;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s7DbIMsHwZe7OGM29YmTw6EXpgPM5WYMuOmkPEwRQP4=;
- b=6XfHH5b2/8RyL/ye5++UMV9DqUa3mg5Fshn40IH3tuPkQ88VXFsJNr/yTp72Cyvuzltule
- 6e7do8soJAf0WHBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 73C0513A15;
- Fri, 14 Jul 2023 14:46:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NnwbG95fsWQwJwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 14:46:54 +0000
-Message-ID: <4ff986c0-d62e-a1d7-91f1-23af08cc0398@suse.de>
-Date: Fri, 14 Jul 2023 16:46:53 +0200
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2088.outbound.protection.outlook.com [40.107.244.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F081810E8A2;
+ Fri, 14 Jul 2023 15:09:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NzLu1HMyzN+ZoAlkNMbninzZqYqDvgncbvm7AOcjk9+iXmZ16rJr2ksgwEUPHqmFmzC8QBbkopbepL/6Nd6siJUI4grQXCoGqgh+GgYFLMmQgmA8gDxj/x/Kbou/kp8lcmOkeUXuior/B6Hr7nG2t7J/l++mba3+SBSA3b7LHO/MHTDr0ccYPVTSfsb6a5K8AcudVNL4CdGfj3RrTWkhSMCLu/Fr1Uo68FUpI1BCFnUL5dAxGYKeUc1GI/cqF9rjT/HIttTjCA52bwyMOypRIotgtvLtJRTQ9izF0v1KapW85yprdN1eMIGmFwWgfNuGviQDEX2vhwd1OleGViuaCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q3xZF5J6hDeVTz38rQQZg0jtHyI4OckezjK3Y8a6Fdw=;
+ b=Q+75TrHifaQjONKFwU6AKMJGuqS/13rhnOxkWus6ngw90NjIQ11afhj/qiaTkZ5Mdr0wlCoh+E7P+aCVjnvIQ1XGfYYYTzfX4k/sAzSmuWmXmfkzhGLDFn8fZPX0Xkf3DkxjFVWxH3bAXOSaC36CWexl9hv7JKC7xbBbIGXdcbe+bqMfxn/sQ5F8dmXcsM68iR5YkHzGtHyVGhcoZ9bVDc3pEALDJzWh+21hM/9SpaIy440nnUFs+xGh+UoN7OkIMtvJdLIeI6wdTa/nyeO8m2LmAfoW26S7X3huUmU+O9gBYmowdVt6NeOfNh70UjyYO+GI2FFa4c+G1eFBAF7UKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q3xZF5J6hDeVTz38rQQZg0jtHyI4OckezjK3Y8a6Fdw=;
+ b=dA5oczX2ivTgUY/jA45ZAEyZfb1wWxnAFkajWCtIaYCxkPOx1De7LNuKCPh1E2180nji0IjWXxi8tcj1penKDdlU0qDCY2rkp34bi/KYG5spqbueMhOiDaNflwnSoBhD7bJ89MPc8ZCgwrnAKbYTpg1q5Re3RWtn1NAP/VUdcx0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by PH7PR12MB6788.namprd12.prod.outlook.com (2603:10b6:510:1ae::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.35; Fri, 14 Jul
+ 2023 15:09:38 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::2dc3:c1:e72d:55bc]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::2dc3:c1:e72d:55bc%7]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
+ 15:09:38 +0000
+Message-ID: <f6999021-fba6-c115-2dfc-1898b8355ea5@amd.com>
+Date: Fri, 14 Jul 2023 11:09:35 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC PATCH 3/3] drm/file: drop DRM_MINOR_CONTROL
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 3/5] drm/amdkfd: use vma_is_stack() and vma_is_heap()
+To: Vlastimil Babka <vbabka@suse.cz>, Christoph Hellwig <hch@infradead.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20230712143831.120701-1-wangkefeng.wang@huawei.com>
+ <20230712143831.120701-4-wangkefeng.wang@huawei.com>
+ <ZK671bHU1QLYagj8@infradead.org>
+ <83f11260-cd26-5b46-e9d4-1ca97565a1d0@amd.com>
+ <d11b6c3c-cbf8-a7dc-3cf9-e4e4dcf81fbc@suse.cz>
 Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20230714104557.518457-1-contact@emersion.fr>
- <20230714104557.518457-3-contact@emersion.fr>
- <ae92e39e-4087-ba36-2708-31dede0274e1@suse.de>
- <HwBhGvmlMRmImPdvQecgkegO5PCzZuM3XQW1_xK3MrJQk8ZKVaohV09sZBNbXrxmSf3o-8WN0Wf_Xqchr6h2rumOkp8lU_VjGTOha_6JBrI=@emersion.fr>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <HwBhGvmlMRmImPdvQecgkegO5PCzZuM3XQW1_xK3MrJQk8ZKVaohV09sZBNbXrxmSf3o-8WN0Wf_Xqchr6h2rumOkp8lU_VjGTOha_6JBrI=@emersion.fr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Z095ODq0CPgJYo0Aw80jBVAx"
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <d11b6c3c-cbf8-a7dc-3cf9-e4e4dcf81fbc@suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0243.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:66::24) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|PH7PR12MB6788:EE_
+X-MS-Office365-Filtering-Correlation-Id: c7bed051-13eb-4d3d-a9fc-08db847c5774
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PiziPCUe8KlgSkOMx++jubN4GeWP4qc7fXA9KsKv08naxtp17ExuVBcOSpx0hbJdmgSGwUD+p+OOZuh/MAZHvJrs9EdWB8S0ZyS04AvcVyqng6ouo4h8BpJqPtNTauTLuuO4kc5TxmsUOGtXyOmup1C2BP+A4aLNFbARss3KPmhM2C8JEvNoTPS+9KTrqgKP8J4OAW/jI84Xap1sKhuMGfh3DeWfE09hkyoxEwZQc+txcH+IQfHEqyjiqQljSJ0IIBvH0qlLv62Tc/2NAZVlMfgc0LXGDN3SVtCvfh0RpkO6e7mNkhHw82MsuYFoTEnW8dnKhES4eRhGZuqgsEVa8LOkrDdaQvhiTJaXtJpYqvFRJv/ktd3E04tLWiRb32L72/9ukS2M//WNnlewTAgQt7K5evz2Hwk1cHD3y+jazg/s0QJdSxuVq85BDu2MuNBos3IjW48m53qR4n8b/GNYTvuFHPeUyLG8LF1564dgmMETWTKP/CJA8nDai8hwBTjlViBsEpFK1omXxLLowNpCXkdryW3gESj7oqQiPE8DwSKv1lOY0ynWUfu1Po1RpWuIcK8bAfNS+or0cdB6oQoWnUSpWFKF8SS5fPwmTpVtP7cyp0UXXxx/it/i5WgTjesVnVB4FRdQOTfbDB6OfANm3Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(136003)(366004)(346002)(376002)(451199021)(7416002)(44832011)(4326008)(66946007)(66556008)(66476007)(316002)(2906002)(41300700001)(478600001)(8676002)(110136005)(8936002)(31686004)(5660300002)(6666004)(6486002)(6512007)(53546011)(83380400001)(186003)(36756003)(38100700002)(6506007)(86362001)(2616005)(26005)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXFYMW42V1dZZmpRQS92Tmx3V2pjNWpqTFNKVGpuWVpmWmt6YVVPTHVLUXQx?=
+ =?utf-8?B?bEZ3OUtSaHdBUDZnSUxwZW5HQU9ManFRbk51K2dHRWhqbXFGczMzRUp2VkhF?=
+ =?utf-8?B?WEFNSEtTK1JzdXhkY2N5V0VkdUEvTVpoakdGNEY5VXJ0eDhHQ1ViZlJmTFQv?=
+ =?utf-8?B?aHl3WWpVRWVYK2xBYW5TRVIvMjlpWTJzclprQ0xVNmkxNzRVMzlxNTBZa3lI?=
+ =?utf-8?B?V1lXd2x1VEQ0ZVVZMjZHaUZvSWwvdU5MeWY4bHVjWVNPM3E1emlPbU8rYi9l?=
+ =?utf-8?B?ODNvM2Z5cG84MklaWGdiSVVFSkhaMUNsczN2SWxuK3RvSjFXSjN3Qi9LZVlj?=
+ =?utf-8?B?TlFvcGFVaUR0TlZYNmhxL2psa3hNbWgxbzRJUHdSTzVVRkcvbUh2RUpOc2FI?=
+ =?utf-8?B?a2xFcDBxRTJER3Y4REg3UW9yL3NzVDNZMThjNjVLdEIrOW1lRmZRcUNtL3JG?=
+ =?utf-8?B?ZXVJcklLQWV3UHhXeTdWOUVoRGErZnFlSkdKTCt0ckh6RUFqVFJJVUQrZjVl?=
+ =?utf-8?B?eUpYZVJOckVuVTZ2LzFFMGpCODR4RXdJUEh6SlJackNDV2JtNzlCc016NG1Q?=
+ =?utf-8?B?eGVCU2I1UHM1Ujc1Sk1VNUpMVnBKVEk5bzhLQklCSkljKzgrT3pJSEc0ZTVm?=
+ =?utf-8?B?RmU2RW1YQ0hnT21BMG5VRkl2Rlp3UmUwMGdjT2lDWllYbGNtdHBuaGFhVS9J?=
+ =?utf-8?B?QVRZNEJJVmxlWGZmMXdHU2U4M0U3ZkFMMnQwVFZYeHpiRWsveHlHc3M1bVlX?=
+ =?utf-8?B?S2p5OSswakQ4cmNTVktCZUE5cTd6MENpUm9tL01OdGtSM2dzbmRGbEhVaEdS?=
+ =?utf-8?B?NGsyK0syNTdDNm5RS2lvL1F5aWlTWU5OMXUwRWFVUmlJZ1pYWTZibDJOazdk?=
+ =?utf-8?B?TFhPQXZ4am51Ti9KWHV5eC90T2FGRUNYVklPc2ZBTkQ0NkNPSUZ1Qmg5MW1s?=
+ =?utf-8?B?NkhZaUZPMll6LzZwL09jeHZ5VUFnQnN6dDBmVE1ENzJiN2VrQlBCTVVOL0Er?=
+ =?utf-8?B?b09rYmJpakNwemdXTUY2Y1BNczQ0ajB3T0N4OW5kc051TkFCbm9lajloZGU5?=
+ =?utf-8?B?emxtb2xGRXk0THhzQ2ZyMWRFdXhnMCtlM1RKNWcxTG9QQVZvbDlxWUhraWh5?=
+ =?utf-8?B?YXFWRFNtbVdkOTlCRmZtWDFsbVJMYjl4SkRTVVRVeld1RlhPWk1BdlpIcGNC?=
+ =?utf-8?B?SUs0VGR1Zk5KTzFwMHIwVXdkVVkweDFoaWlRVnh4YUhmanJ5c2l0SzFyNlJn?=
+ =?utf-8?B?Yy9qQlp1S3IxYVI4M1cyYlNZV25oN01IY1JtQW5EN09PcHlDY0lJRW1yT3J5?=
+ =?utf-8?B?MUx2Um90MGJHNzF0a3MyRjNrcnErUFhLYXorNFB1SzVzbEtoS2x1bUt0UTdZ?=
+ =?utf-8?B?SDAwMXJyZlBnTng1Q1dURWFDL3ZwZW5YYWZFa25jU3pSaFU5VFE4ZEtuL2kv?=
+ =?utf-8?B?NHhyN1FKRzcyaDkwNlA0VHJsUy9hdnJ6SXVmT1JsOUkwM2ZLUFJZOFF2dTFr?=
+ =?utf-8?B?bzNJQjR4MlVrVFNuc2tFWFhZelU2RU04NzBWUDhxVkx0Q2RUN2R3czZoV0pp?=
+ =?utf-8?B?R3h5OFhDY0pmME14dEljL1pBMkN2bmF1aVo0NjJ6K3ZHVWJpL0ZoQ1RWdGMz?=
+ =?utf-8?B?aUE4ZjNJaEV0ZlpJOTNwVGF0dERIN1V3anZxM1RUdm0yZWRtSjJWN1F2NDE0?=
+ =?utf-8?B?VDZaeEVBdkx0eVp2c2RXeVc1SEF0R3JIbFRDYkFiV1MwazJlVFk0bnBKSEsw?=
+ =?utf-8?B?dlRicFpleWtCSnpsV1cya292VlAzbjFqNDRSYWMvdFpWbE9jRmV6SEtEeHh3?=
+ =?utf-8?B?MVNXd0VpdTJxbzZvWVA0c1RGYzduejJMRTczTmFLSnR6RDNtRjlxSWNSY0JF?=
+ =?utf-8?B?Z0JXMFExeE95Q0VOdmUrdE9Jd0o2Q2R6ejBmY1cyRFR2U2F0T2xpNUgxQ2Rx?=
+ =?utf-8?B?c2JVSXM4RGxYYU5hc0ppRjdtbjMvQ05qaFJOM2hCR24xekZjUHlVRkxncktz?=
+ =?utf-8?B?OU9uWGdjTWROQnV6ZUVRVGdNMXhKblR2dC9uVzVjT0s3Qy9tYWxVOHVEMWkv?=
+ =?utf-8?B?MHdsV1RsSFdDL3hScDYyYTNZLzVlTEg0VUkxN1I2Q001eHdsbW9UT3E5d1h5?=
+ =?utf-8?Q?GQLTHZGj1V5Bn6VIrEXWzEsls?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7bed051-13eb-4d3d-a9fc-08db847c5774
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 15:09:38.3370 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: so/LpKGYVX4XGsaTwWhNVMtoROZ30VofCZPFY1KqRuuBq93H4/hbCLTbklEbvGGGZFpmwY6afhjcxO1tbIXKbg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6788
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,99 +129,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
- James Zhu <James.Zhu@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: selinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Z095ODq0CPgJYo0Aw80jBVAx
-Content-Type: multipart/mixed; boundary="------------0vPSWvi8ETCx0oCarHVLCfE4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
- <marek.olsak@amd.com>, James Zhu <James.Zhu@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <4ff986c0-d62e-a1d7-91f1-23af08cc0398@suse.de>
-Subject: Re: [RFC PATCH 3/3] drm/file: drop DRM_MINOR_CONTROL
-References: <20230714104557.518457-1-contact@emersion.fr>
- <20230714104557.518457-3-contact@emersion.fr>
- <ae92e39e-4087-ba36-2708-31dede0274e1@suse.de>
- <HwBhGvmlMRmImPdvQecgkegO5PCzZuM3XQW1_xK3MrJQk8ZKVaohV09sZBNbXrxmSf3o-8WN0Wf_Xqchr6h2rumOkp8lU_VjGTOha_6JBrI=@emersion.fr>
-In-Reply-To: <HwBhGvmlMRmImPdvQecgkegO5PCzZuM3XQW1_xK3MrJQk8ZKVaohV09sZBNbXrxmSf3o-8WN0Wf_Xqchr6h2rumOkp8lU_VjGTOha_6JBrI=@emersion.fr>
+Am 2023-07-14 um 10:26 schrieb Vlastimil Babka:
+> On 7/12/23 18:24, Felix Kuehling wrote:
+>> Allocations in the heap and stack tend to be small, with several
+>> allocations sharing the same page. Sharing the same page for different
+>> allocations with different access patterns leads to thrashing when we
+>> migrate data back and forth on GPU and CPU access. To avoid this we
+>> disable HMM migrations for head and stack VMAs.
+> Wonder how well does it really work in practice? AFAIK "heaps" (malloc())
+> today uses various arenas obtained by mmap() and not a single brk() managed
+> space anymore? And programs might be multithreaded, thus have multiple
+> stacks, while vma_is_stack() will recognize only the initial one...
 
---------------0vPSWvi8ETCx0oCarHVLCfE4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for these pointers. I have not heard of such problems with mmap 
+arenas and multiple thread stacks in practice. But I'll keep it in mind 
+in case we observe unexpected thrashing in the future. FWIW, we once had 
+the opposite problem of a custom malloc implementation that used sbrk 
+for very large allocations. This disabled migrations of large buffers 
+unexpectedly.
 
-SGkNCg0KQW0gMTQuMDcuMjMgdW0gMTY6Mzcgc2NocmllYiBTaW1vbiBTZXI6DQo+IE9uIEZy
-aWRheSwgSnVseSAxNHRoLCAyMDIzIGF0IDE2OjI4LCBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+IA0KPj4gSGkgU2ltb24NCj4+DQo+PiBBbSAx
-NC4wNy4yMyB1bSAxMjo0NiBzY2hyaWViIFNpbW9uIFNlcjoNCj4+PiBUaGlzIGVudHJ5IHNo
-b3VsZCBuZXZlciBiZSB1c2VkIGJ5IHRoZSBrZXJuZWwuIFJlY29yZCB0aGUgaGlzdG9yaWNh
-bA0KPj4+IGNvbnRleHQgaW4gYSBjb21tZW50Lg0KPj4+DQo+Pj4gU2lnbmVkLW9mZi1ieTog
-U2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPg0KPj4+IENjOiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+Pj4gQ2M6IEphbWVzIFpodSA8SmFt
-ZXMuWmh1QGFtZC5jb20+DQo+Pj4gQ2M6IE1hcmVrIE9sxaHDoWsgPG1hcmVrLm9sc2FrQGFt
-ZC5jb20+DQo+Pj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+
-DQo+Pj4gLS0tDQo+Pj4gICAgaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaCB8IDQgKysrLQ0KPj4+
-ICAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4+
-Pg0KPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZmlsZS5oIGIvaW5jbHVkZS9k
-cm0vZHJtX2ZpbGUuaA0KPj4+IGluZGV4IDAxMDIzOTM5MmFkZi4uYTIzY2MyZjYxNjNmIDEw
-MDY0NA0KPj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9maWxlLmgNCj4+PiArKysgYi9pbmNs
-dWRlL2RybS9kcm1fZmlsZS5oDQo+Pj4gQEAgLTUzLDEyICs1MywxNCBAQCBzdHJ1Y3QgZmls
-ZTsNCj4+PiAgICAvKiBOb3RlIHRoYXQgdGhlIHZhbHVlcyBvZiB0aGlzIGVudW0gYXJlIEFC
-SSAoaXQgZGV0ZXJtaW5lcw0KPj4+ICAgICAqIC9kZXYvZHJpL3JlbmRlckQqIG51bWJlcnMp
-Lg0KPj4+ICAgICAqDQo+Pj4gKyAqIFRoZXJlIHVzZWQgdG8gYmUgYSBEUk1fTUlOT1JfQ09O
-VFJPTCA9IDEgZW50cnksIGJ1dCBzdWNoIG5vZGVzIHdlcmUgbmV2ZXINCj4+PiArICogZXhw
-b3NlZC4gU3RpbGwsIHNvbWUgdXNlci1zcGFjZSBoYXMgbG9naWMgdG8gaGFuZGxlIHRoZW0u
-DQo+Pj4gKyAqDQo+Pj4gICAgICogU2V0dGluZyBEUk1fTUlOT1JfQUNDRUwgdG8gMzIgZ2l2
-ZXMgZW5vdWdoIHNwYWNlIGZvciBtb3JlIGRybSBtaW5vcnMgdG8NCj4+PiAgICAgKiBiZSBp
-bXBsZW1lbnRlZCBiZWZvcmUgd2UgaGl0IGFueSBmdXR1cmUNCj4+PiAgICAgKi8NCj4+PiAg
-ICBlbnVtIGRybV9taW5vcl90eXBlIHsNCj4+PiAgICAJRFJNX01JTk9SX1BSSU1BUlkgPSAw
-LA0KPj4+IC0JRFJNX01JTk9SX0NPTlRST0wgPSAxLA0KPj4NCj4+IE1heWJlIHJhdGhlciBs
-ZWF2ZSB0aGlzIGxpbmUgaW4gYW5kIGNvbW1lbnQgaXQgd2l0aCAiLy8gb2Jzb2xldGUiLg0K
-Pj4gT3RoZXJ3aXNlIHNvbWVvbmUgbWlnaHQgYWNjaWRlbnRhbGx5IHVzZSAxIGZvciBzb21l
-dGhpbmcuDQo+IA0KPiBZZWFoLi4uIFRoYXQncyB3aHkgSSBhZGRlZCB0aGUgY29tbWVudC4g
-QnV0IG1heWJlIGJldHRlciB0byBsZWF2ZSB0aGUgZW50cnkNCj4gaW5kZWVkLCBldmVuIGlm
-IHdlIHJpc2sgc29tZW9uZSBhY2NpZGVudGFsbHkgdXNpbmcgaXQuDQoNCllvdSBjb3VsZCBz
-dGlsbCBvdXQtY29tbWVudCB0aGUgbGluZSBhcyBhIHdob2xlLiBTaW1wbHkgaGF2aW5nIGl0
-IHRoZXJlIA0Kd2lsbCB3YXJuIHBvdGVudGlhbCB1c2Vycy4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4+IEluIGFueSBjYXNlDQo+Pg0KPj4gUmV2aWV3ZWQtYnk6IFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4NCj4+IGZvciB0aGUgd2hv
-bGUgc2VyaWVzLg0KPiANCj4gVGhhbmtzIGZvciB0aGUgcmV2aWV3IQ0KDQotLSANClRob21h
-cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
-IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVl
-cm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBN
-Y0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+I agree that eventually we'll want a more dynamic way of detecting and 
+suppressing thrashing that's based on observed memory access patterns. 
+Getting this right is probably trickier than it sounds, so I'd prefer to 
+have some more experience with real workloads to use as benchmarks. 
+Compared to other things we're working on, this is fairly low on our 
+priority list at the moment. Using the VMA flags is a simple and 
+effective method for now, at least until we see it failing in real 
+workloads.
+
+Regards,
+   Felix
 
 
---------------0vPSWvi8ETCx0oCarHVLCfE4--
-
---------------Z095ODq0CPgJYo0Aw80jBVAx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSxX90FAwAAAAAACgkQlh/E3EQov+An
-9RAArCph2g/m7D5wjN/WX/HYBTUnykyIP1nh2g74+GA+pJxnqzU2tB+j5XwSoNFFrMiR2n2Icrs6
-FZ5DCCZodbccKL2dm0TORLK1vVIPcfe18krw4spV1VT/3JEOH64z0mtq6aZ7EsfrxgAwWoN2KnXR
-5qD42SLZKOTUyhT8CjlBWnBUxYE3CCEQQeBhVCqD82qWwzCiEWkE3WluRCSu8gA3uhSCwszC/7+z
-p4LPan6EJopYicEQR0ajyQbiRXStA+5ffJRaBXnmx/SmQdeojSqbsKfztn2hOPDTLdkToT3Kvwm8
-B7nRng6Q4oczGKFJEJw/+IleWSIF61Oldr30/wCzvxyLF2sZ186k1zL0aI/ZGb2btLt7P80AvfM5
-eB4Y4MbwOoNCEQOP0xaupYKIioSXg8gRgIGu8h1aYXS0ItNeFBqmEDHy06JZfCoOtAnj+uwA7YoH
-LSCgt+Bz/KOls36fgwonn943aRsaghrRBxsBMKCZFdGZPH+GJbgdgmpNxz1zinHnRGNBPm6LrcGn
-K47563dza18p6PXmZG8rt1uAXVQQcI/GUapVLa9NSAigfF2Uf1U04dSb80ivko2oQCZwGGkO7NdM
-L1tpq1RtmWFcl6etPES5LqTF1H8xtCyz7GEUBUtVz6pL2rSkbzm8yEimS3qr72rCSvoPE8iDd4fV
-e5A=
-=wmxK
------END PGP SIGNATURE-----
-
---------------Z095ODq0CPgJYo0Aw80jBVAx--
+>
+> Vlastimil
+>
+>> Regards,
+>>     Felix
+>>
+>>
+>> Am 2023-07-12 um 10:42 schrieb Christoph Hellwig:
+>>> On Wed, Jul 12, 2023 at 10:38:29PM +0800, Kefeng Wang wrote:
+>>>> Use the helpers to simplify code.
+>>> Nothing against your addition of a helper, but a GPU driver really
+>>> should have no business even looking at this information..
+>>>
+>>>
