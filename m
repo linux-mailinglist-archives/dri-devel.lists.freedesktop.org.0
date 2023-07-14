@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F028F75309F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 06:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6E7753112
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 07:20:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E581310E00E;
-	Fri, 14 Jul 2023 04:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54FD10E040;
+	Fri, 14 Jul 2023 05:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3548810E00E
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:39:52 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-98dfb3f9af6so193042366b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 21:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689309589; x=1691901589;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CcH/aystrJ6CXZA8qG6BNZCfnNcu6DPOcQ2YDR7bZSY=;
- b=k7n5n485J1PiibEInR+NucF0IFX6VaNJKOxdlB+4JT14IV9tLE85n2oBtfv27e315U
- l4f+Lw0gE3ozgZWAq+6pggNNRfAa/JpxUMlKLAAV28wT4NzfY1U6+nPr1dVw7Hn36DJL
- teW3DKfnO+06lZCijccCFZdGcMZ71Vv5MmQ1Sx8RCX69nIRVIveknuYnjaVx6YlRdwgo
- Vb4YbieQFQs7zqfSB16rX231WnbzWM9+GZ6Mb1pluy4jOoVcQ5m6n4ge1nwU8yKrrSNk
- 0OnVDNHnFlRGCCDYk1zbqTxAlDuQ8OL2+9cJRhgjbcAAJXeSwtMZ1SCHgiMG1ebkf69W
- Mp6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689309589; x=1691901589;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CcH/aystrJ6CXZA8qG6BNZCfnNcu6DPOcQ2YDR7bZSY=;
- b=b/DIzqJo+oH76+pvTuCirKaqcIJyCfro98x7t0gcTh4pt4tBung3JhEp9XFKmercU0
- 10y9GvfSyS8uNvSj1SiHtJERfPocU83rVgfY37cbQIn/5f3AvOKRVWv4DpdsO7GtitvY
- 9lQ/l4R5P1f2RnQlN8+L9ARi06YH4sEux/aCM16J9i2JxUgaAZL2N9FSC3fpB4FB/VMx
- WZEo1m+1XAGB8grYHk2rsARFLK5PUWtYFag5xZrqB/a6HMdGPI7iL0rEaScEbnQSCjcf
- yxuYsBgbTOC7uGyZQr5XTUeDZlAU8X1NFjTwJax9Ui+wXWgvWV1HVMLl2uegCtzccOQG
- SppQ==
-X-Gm-Message-State: ABy/qLYv6GkPIqr3c2xlW9s/04elEwUc/Urp9zbG7DbhjL3uSgfqNlvZ
- 1zz7IsouoBNp5bGycDzEU4C2/E0wujWyaustcF0=
-X-Google-Smtp-Source: APBJJlEuq+iUhWyYpsiUm7tLfKO5iMwpDe3tQbjuHaLQsslI+h6Nmr2eiYZ0ugup+KCTh47JYItZ7XNRevGp7Hl0lw0=
-X-Received: by 2002:a17:907:bc7:b0:993:f4cd:34b5 with SMTP id
- ez7-20020a1709070bc700b00993f4cd34b5mr2630462ejc.29.1689309589187; Thu, 13
- Jul 2023 21:39:49 -0700 (PDT)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0083210E040
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:20:19 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 36E5Jfdk027988;
+ Fri, 14 Jul 2023 00:19:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1689311981;
+ bh=BHOrpK/ljgXl0AHtCNr8aSY5P0JKLJms+yaIGKw6ih0=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=jEJ3liBcQyVV9f0LSWRObZ1PVZdKL296Lv7B4XjyB62pAQ0GkRIEpM4gQhgMrUrfn
+ c58P6Coc+VJ2WGOfzItdFbCqg4ZmlhuthWxmJHOKqbOV3XWZ3tAcHxYo1JDDlD4nQI
+ DRrJfHTqtoISo9nCiH4/rJCtlH7S2G4uIqaWUxsI=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 36E5JeN5084901
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 14 Jul 2023 00:19:41 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 14
+ Jul 2023 00:19:40 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 14 Jul 2023 00:19:40 -0500
+Received: from [172.24.227.132] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 36E5JYQ4022078;
+ Fri, 14 Jul 2023 00:19:35 -0500
+Message-ID: <5bf5e4d1-546f-19fc-1647-7ece567d52f1@ti.com>
+Date: Fri, 14 Jul 2023 10:49:33 +0530
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 14 Jul 2023 14:39:37 +1000
-Message-ID: <CAPM=9txdhgYF63eL7VMpc3gmnvCz=gnxLW=HwTRNHNU8geU5Ww@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.5-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 5/8] drm/bridge: sii902x: Support format negotiation
+ hooks
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20230606082142.23760-1-a-bhatia1@ti.com>
+ <20230606082142.23760-6-a-bhatia1@ti.com>
+ <20230710150822.GA5237@ravnborg.org>
+Content-Language: en-US
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20230710150822.GA5237@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,280 +66,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Nishanth Menon <nm@ti.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Robert Foss <rfoss@kernel.org>,
+ Tomi Valkeinen <tomba@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Swapnil Jakhade <sjakhade@cadence.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>, Francesco Dolcini <francesco@dolcini.it>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Linus,
+Hi Sam,
 
-There were a bunch of fixes lined up for 2 weeks, so we have quite a
-few scattered fixes, mostly amdgpu and i915, but ttm has a bunch and
-nouveau makes an appearance.
+On 10-Jul-23 20:38, Sam Ravnborg wrote:
+> Hi Aradhya,
+> 
+> On Tue, Jun 06, 2023 at 01:51:39PM +0530, Aradhya Bhatia wrote:
+>> With new connector model, sii902x will not create the connector, when
+>> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and SoC driver will rely on format
+>> negotiation to setup the encoder format.
+>>
+>> Support format negotiations hooks in the drm_bridge_funcs.
+>> Use helper functions for state management.
+>>
+>> Input format is selected to MEDIA_BUS_FMT_RGB888_1X24 as default, as is
+>> the case with older model.
+>>
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> 
+> As noted by Javier, this patch-set was forgotten, so sorry for not
+> providing timely feedback.
 
-So a bit busier than usual for rc2, but nothing seems out of the ordinary.
+Thank you for reviewing my patch nevertheless! =)
 
-Dave.
+> 
+> 
+>> ---
+>>
+>> Notes:
+>>
+>>     changes from v6:
+>>     * Add Neil Armstrong's R-b tag.
+>>
+>>  drivers/gpu/drm/bridge/sii902x.c | 25 +++++++++++++++++++++++++
+>>  1 file changed, 25 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
+>> index ef66461e7f7c..70aeb04b7f77 100644
+>> --- a/drivers/gpu/drm/bridge/sii902x.c
+>> +++ b/drivers/gpu/drm/bridge/sii902x.c
+>> @@ -473,6 +473,27 @@ static struct edid *sii902x_bridge_get_edid(struct drm_bridge *bridge,
+>>  	return sii902x_get_edid(sii902x, connector);
+>>  }
+>>  
+>> +static u32 *sii902x_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>> +						     struct drm_bridge_state *bridge_state,
+>> +						     struct drm_crtc_state *crtc_state,
+>> +						     struct drm_connector_state *conn_state,
+>> +						     u32 output_fmt,
+>> +						     unsigned int *num_input_fmts)
+>> +{
+>> +	u32 *input_fmts;
+>> +
+>> +	*num_input_fmts = 0;
+>> +
+>> +	input_fmts = kcalloc(1, sizeof(*input_fmts), GFP_KERNEL);
+>> +	if (!input_fmts)
+>> +		return NULL;
+>> +
+>> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+>> +	*num_input_fmts = 1;
+>> +
+>> +	return input_fmts;
+>> +}
+> 
+> An alternative implementation of the above is:
+> {
+>         switch (output_fmt) {
+>         case MEDIA_BUS_FMT_RGB888_1X24:
+>                 break;
+> 
+>         default:
+>         /* Fail for any other formats */
+>                *num_input_fmts = 0;
+>                 return NULL;
+>         }
+> 
+>        return drm_atomic_helper_bridge_propagate_bus_fmt(bridge, bridge_state,
+>                                                          crtc_state, conn_state,
+>                                                          output_fmt,
+>                                                          num_input_fmts);
+> }
+> 
+> If you agree and have the time to do it it would be nice to use this
+> simpler variant.
+> Mostly so we avoid more open coded variants like you already did, and
+> which we have plenty of already.
 
-drm-fixes-2023-07-14-1:
-drm fixes for 6.5-rc2
+I agree with the idea that these hooks should get streamlined.
 
-fbdev:
-- dma: Fix documented default preferred_bpp value
+However, this particular approach will break things when the output_fmt
+is defaulted to MEDIA_BUS_FMT_FIXED. Even if we add this format as a
+fall-through case along with MEDIA_BUS_FMT_RGB888_1X24, tidss driver
+will too then receive MEDIA_BUS_FMT_FIXED as an expected output format
+and will throw an error.
 
-ttm:
-- fix warning that we shouldn't mix && and ||
-- never consider pinned BOs for eviction&swap
-- Don't leak a resource on eviction error
-- Don't leak a resource on swapout move error
-- fix bulk_move corruption when adding a entry
+The possibility of an equivalent if-check was discussed in the previous
+version[1].
 
-client:
-- Send hotplug event after registering a client
+> 
+> It would be even better to walk through other implementations of
+> get_input_bus_fmts and update them accordingly.
+> 
+> Again, sorry for being late here. Feel free to ignore if you already
+> moved on with something else.
+> 
 
-dma-buf:
-- keep the signaling time of merged fences v3
-- fix an error pointer vs NULL bug
+I am working on adding OLDI support for tidss, but if we can resolve the
+above concern, and Javier agrees, I will be happy to add an incremental
+fix for this! =)
 
-sched:
-- wait for all deps in kill jobs
-- call set fence parent from scheduled
 
-i915:
-- Don't preserve dpll_hw_state for slave crtc in Bigjoiner
-- Consider OA buffer boundary when zeroing out reports
-- Remove dead code from gen8_pte_encode
-- Fix one wrong caching mode enum usage
+Regards
+Aradhya
 
-amdgpu:
-- SMU i2c locking fix
-- Fix a possible deadlock in process restoration for ROCm apps
-- Disable PCIe lane/speed switching on Intel platforms (the platforms
-don't support it)
-
-nouveau:
-- disp: fix HDMI on gt215+
-- disp/g94: enable HDMI
-- acr: Abort loading ACR if no firmware was found
-- bring back blit subchannel for pre nv50 GPUs
-- Fix drm_dp_remove_payload() invocation
-
-ivpu:
-- Fix VPU register access in irq disable
-- Clear specific interrupt status bits on C0
-
-bridge:
-- dw_hdmi: fix connector access for scdc
-- ti-sn65dsi86: Fix auxiliary bus lifetime
-
-panel:
-- simple: Add connector_type for innolux_at043tn24
-- simple: Add Powertip PH800480T013 drm_display_mode flags
-The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5=
-:
-
-  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-07-14-1
-
-for you to fetch changes up to 38d88d5e97c9032ebeca092b9372209f2ca92cdf:
-
-  Merge tag 'amd-drm-fixes-6.5-2023-07-12' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2023-07-14
-13:19:54 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.5-rc2
-
-fbdev:
-- dma: Fix documented default preferred_bpp value
-
-ttm:
-- fix warning that we shouldn't mix && and ||
-- never consider pinned BOs for eviction&swap
-- Don't leak a resource on eviction error
-- Don't leak a resource on swapout move error
-- fix bulk_move corruption when adding a entry
-
-client:
-- Send hotplug event after registering a client
-
-dma-buf:
-- keep the signaling time of merged fences v3
-- fix an error pointer vs NULL bug
-
-sched:
-- wait for all deps in kill jobs
-- call set fence parent from scheduled
-
-i915:
-- Don't preserve dpll_hw_state for slave crtc in Bigjoiner
-- Consider OA buffer boundary when zeroing out reports
-- Remove dead code from gen8_pte_encode
-- Fix one wrong caching mode enum usage
-
-amdgpu:
-- SMU i2c locking fix
-- Fix a possible deadlock in process restoration for ROCm apps
-- Disable PCIe lane/speed switching on Intel platforms (the platforms
-don't support it)
-
-nouveau:
-- disp: fix HDMI on gt215+
-- disp/g94: enable HDMI
-- acr: Abort loading ACR if no firmware was found
-- bring back blit subchannel for pre nv50 GPUs
-- Fix drm_dp_remove_payload() invocation
-
-ivpu:
-- Fix VPU register access in irq disable
-- Clear specific interrupt status bits on C0
-
-bridge:
-- dw_hdmi: fix connector access for scdc
-- ti-sn65dsi86: Fix auxiliary bus lifetime
-
-panel:
-- simple: Add connector_type for innolux_at043tn24
-- simple: Add Powertip PH800480T013 drm_display_mode flags
-
-----------------------------------------------------------------
-Adri=C3=A1n Larumbe (1):
-      drm: bridge: dw_hdmi: fix connector access for scdc
-
-Boris Brezillon (2):
-      drm/sched: Make sure we wait for all dependencies in kill_jobs_cb()
-      drm/sched: Call drm_sched_fence_set_parent() from
-drm_sched_fence_scheduled()
-
-Christian K=C3=B6nig (3):
-      drm/ttm: fix warning that we shouldn't mix && and ||
-      dma-buf: keep the signaling time of merged fences v3
-      drm/ttm: never consider pinned BOs for eviction&swap
-
-Dan Carpenter (1):
-      dma-buf: fix an error pointer vs NULL bug
-
-Dave Airlie (3):
-      Merge tag 'drm-misc-fixes-2023-07-13' of
-ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2023-07-13' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.5-2023-07-12' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Douglas Anderson (1):
-      drm/bridge: ti-sn65dsi86: Fix auxiliary bus lifetime
-
-Evan Quan (1):
-      drm/amd/pm: share the code around SMU13 pcie parameters update
-
-Fabio Estevam (1):
-      drm/panel: simple: Add connector_type for innolux_at043tn24
-
-Geert Uytterhoeven (1):
-      drm/fbdev-dma: Fix documented default preferred_bpp value
-
-Karol Herbst (4):
-      drm/nouveau/disp: fix HDMI on gt215+
-      drm/nouveau/disp/g94: enable HDMI
-      drm/nouveau/acr: Abort loading ACR if no firmware was found
-      drm/nouveau: bring back blit subchannel for pre nv50 GPUs
-
-Karol Wachowski (2):
-      accel/ivpu: Fix VPU register access in irq disable
-      accel/ivpu: Clear specific interrupt status bits on C0
-
-Lyude Paul (1):
-      drm/nouveau/kms/nv50-: Fix drm_dp_remove_payload() invocation
-
-Marek Vasut (1):
-      drm/panel: simple: Add Powertip PH800480T013 drm_display_mode flags
-
-Mario Limonciello (3):
-      drm/amd/pm: conditionally disable pcie lane/speed switching for SMU13
-      drm/amd: Move helper for dynamic speed switch check out of smu13
-      drm/amd: Align SMU11 SMU_MSG_OverridePcieParameters
-implementation with SMU13
-
-Maxime Ripard (1):
-      Merge v6.5-rc1 into drm-misc-fixes
-
-Stanislav Lisovskiy (1):
-      drm/i915: Don't preserve dpll_hw_state for slave crtc in Bigjoiner
-
-Thomas Hellstr=C3=B6m (2):
-      drm/ttm: Don't leak a resource on eviction error
-      drm/ttm: Don't leak a resource on swapout move error
-
-Thomas Zimmermann (1):
-      drm/client: Send hotplug event after registering a client
-
-Tvrtko Ursulin (2):
-      drm/i915: Remove dead code from gen8_pte_encode
-      drm/i915: Fix one wrong caching mode enum usage
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/perf: Consider OA buffer boundary when zeroing out reports
-
-Yang Wang (1):
-      drm/amd/pm: fix smu i2c data read risk
-
-Yunxiang Li (1):
-      drm/ttm: fix bulk_move corruption when adding a entry
-
-gaba (1):
-      drm/amdgpu: avoid restore process run into dead loop.
-
- drivers/accel/ivpu/ivpu_drv.h                      |  1 +
- drivers/accel/ivpu/ivpu_hw_mtl.c                   | 20 +++--
- drivers/dma-buf/dma-fence-unwrap.c                 | 26 ++++++-
- drivers/dma-buf/dma-fence.c                        |  7 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 19 +++++
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |  4 +
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  2 +-
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 91 +++++-------------=
-----
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     | 48 ++++++++++++
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 35 +--------
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  2 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   | 33 +-------
- drivers/gpu/drm/armada/armada_fbdev.c              |  4 -
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  9 ++-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              | 35 +++++----
- drivers/gpu/drm/drm_client.c                       | 21 +++++
- drivers/gpu/drm/drm_fbdev_dma.c                    |  6 +-
- drivers/gpu/drm/drm_fbdev_generic.c                |  4 -
- drivers/gpu/drm/drm_syncobj.c                      |  6 +-
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c          |  4 -
- drivers/gpu/drm/gma500/fbdev.c                     |  4 -
- drivers/gpu/drm/i915/display/intel_display.c       |  1 -
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |  3 -
- drivers/gpu/drm/i915/gt/intel_gtt.c                |  2 +-
- drivers/gpu/drm/i915/i915_perf.c                   | 11 ++-
- drivers/gpu/drm/msm/msm_fbdev.c                    |  4 -
- drivers/gpu/drm/nouveau/dispnv50/disp.c            |  8 +-
- drivers/gpu/drm/nouveau/nouveau_chan.c             |  1 +
- drivers/gpu/drm/nouveau/nouveau_chan.h             |  1 +
- drivers/gpu/drm/nouveau/nouveau_drm.c              | 20 ++++-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c     |  1 +
- drivers/gpu/drm/nouveau/nvkm/engine/disp/gt215.c   |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c     |  2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c               |  4 -
- drivers/gpu/drm/panel/panel-simple.c               |  2 +
- drivers/gpu/drm/radeon/radeon_fbdev.c              |  4 -
- drivers/gpu/drm/scheduler/sched_entity.c           | 41 ++++++++--
- drivers/gpu/drm/scheduler/sched_fence.c            | 40 ++++++----
- drivers/gpu/drm/scheduler/sched_main.c             |  3 +-
- drivers/gpu/drm/tegra/fbdev.c                      |  4 -
- drivers/gpu/drm/ttm/ttm_bo.c                       | 29 ++++---
- drivers/gpu/drm/ttm/ttm_resource.c                 |  5 +-
- include/drm/gpu_scheduler.h                        |  5 +-
- include/linux/dma-fence.h                          |  2 +-
- 48 files changed, 318 insertions(+), 266 deletions(-)
+[1]: https://patchwork.freedesktop.org/patch/536008/?series=82765&rev=6
