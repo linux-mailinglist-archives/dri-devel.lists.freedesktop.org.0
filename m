@@ -1,48 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A0075483B
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 12:40:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A30C7548B2
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 15:19:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94FCF10E083;
-	Sat, 15 Jul 2023 10:40:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4228510E14D;
+	Sat, 15 Jul 2023 13:19:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D90DE10E083
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 10:40:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 59D3C60ADB;
- Sat, 15 Jul 2023 10:40:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB3F1C433C8;
- Sat, 15 Jul 2023 10:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689417628;
- bh=wTBz1S2hSZwl9POKXMBD1OXuh1TzdFtjpS1qwGx+jkU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AzOsA2qFOz4tvHXjRervo3hsjJMpV6Wh6vmXrC9HBvJufqG5Rxd2QWn4Ytf9WmKT3
- ujHHRaZ6EHvH9eJq5Bo2tUdsmlaScYysaiAgNR5GV/wUns4qUKnTOnwwuRUszRu1mj
- 4qvEGI7Q96XZXeehYXzyZx/h+k8lBAetCYLTvmZoAJuV5oqUtFL/b5h5rDuBdToy79
- LlOPbpvXntlRlSlMzqmc1z6eguAX/wxLQFmPbaLavZ+57NQu0BY6V2btUGLmjFKQek
- vDqhRkXReWmtyZWxzFjTYSctCOWNIJE4N1xbj3OiHtccADkleRhF4jBxF2aF3HsgF3
- RgCDKpsDhMdRA==
-Date: Sat, 15 Jul 2023 11:40:22 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Sarah Walker <sarah.walker@imgtec.com>
-Subject: Re: [PATCH v4 02/17] dt-bindings: gpu: Add Imagination Technologies
- PowerVR GPU
-Message-ID: <20230715-paramount-straining-6a486f8af20d@spud>
-References: <20230714142526.111569-1-sarah.walker@imgtec.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 268C310E14D
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 13:19:16 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4fb94b1423eso4831245e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 06:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689427154; x=1692019154;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FXoY4wuUPjDOldwD7dE7gOpwgLhPzZMlyDRvF1aAR3s=;
+ b=C2axjIxHAFyqA4pUT/iwr5T1Zw72zeD8qKwd9L/sJczW2aQrkfwLl4JweSQOSQ/EJK
+ wVy804oYSTkALOAsniiYbueY8iRQSAHpgUqGMiQfsGikk4rRU85fZmGLJV9oPK6SxvjF
+ 0xEwTpEdWmO2XItPKI8ISVG3r4XGuiCTAVkljGB3f0JF2sLBm0iLFRN7kjNJ5JykAmav
+ TRc28QFk5wjdlNIxAF7/z5sT44YxJE5v6DLDUuJL1f3D1yR5GzsRPpBKZ8kOPewVYOCY
+ OAmFCh+7zAxA/VxU9a7qN5g6c/kFKFzlQrSt1JIbKpOxedTGVFXt49J4/XAoi+1a96nd
+ oepQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689427154; x=1692019154;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FXoY4wuUPjDOldwD7dE7gOpwgLhPzZMlyDRvF1aAR3s=;
+ b=JLLrFwzj+UQfB9ErCHP7BF1jaVOQuX3+JnwgwfU3l0S5n347t3A5ghg3VDKX17ucWO
+ cer45L0S6LCkopT7raRZkItMTP7bkzaLL9S+i1xZX+HO7HxX7uIxnhOL8vIcb5DIlSMS
+ YN4y0ffGAsEx+JqvfeMRJQG610/PYmO5J7xtIao9E8uxFtCvhFBYXmYD9SjgxGKYLk5p
+ Z2QJQW8TViWKnNVhGKH6YY8MQMcI5WPTGlvFF+q2UUfaqqCmKGolafrRCFCGXeFghbbX
+ kshUoYQese02+/eeiziuyig2sa6iP5HGfI7LODoqQbRY7rGNUzvNrfaUcJbYEdH5tqZQ
+ wl3g==
+X-Gm-Message-State: ABy/qLbC2i5hFK+/oEgVT2zXTkpONLDy07hKsZd3TKFkZsYZ9PHuKYCJ
+ ZkBCIvvRPasQxOAOxgixFK7nBQ==
+X-Google-Smtp-Source: APBJJlHNHGPM6ATv15FJZUAumex5mVufXUwPA28GGXr0NLXlGIQ+FshHvcE2kpVgnkdPPX9VCM7m1A==
+X-Received: by 2002:a05:6512:3b14:b0:4fb:8771:e898 with SMTP id
+ f20-20020a0565123b1400b004fb8771e898mr7541862lfv.15.1689427153761; 
+ Sat, 15 Jul 2023 06:19:13 -0700 (PDT)
+Received: from [192.168.1.101] (abxi167.neoplus.adsl.tpnet.pl. [83.9.2.167])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020ac25583000000b004fcdd81355csm591322lfg.269.2023.07.15.06.19.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Jul 2023 06:19:12 -0700 (PDT)
+Message-ID: <6d709bda-afb3-35ce-7653-7703120699af@linaro.org>
+Date: Sat, 15 Jul 2023 15:19:11 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PGVJVVq7kVn9L8A9"
-Content-Disposition: inline
-In-Reply-To: <20230714142526.111569-1-sarah.walker@imgtec.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 7/8] drm/msm/mdss: Handle the reg bus ICC path
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
+ <20230712121145.1994830-8-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230712121145.1994830-8-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,111 +83,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mripard@kernel.org, matthew.brost@intel.com, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, tzimmermann@suse.de, luben.tuikov@amd.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, afd@ti.com, robh+dt@kernel.org,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- hns@goldelico.com, christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---PGVJVVq7kVn9L8A9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hey Sarah,
-
-Your series does not appear to be threaded. `git send-email` can be
-passed, for example, a directory containing a whole series & will set
-the correct in-reply-to headers so that the series is in a single
-thread.
-
-On Fri, Jul 14, 2023 at 03:25:26PM +0100, Sarah Walker wrote:
-> Add the device tree binding documentation for the Series AXE GPU used in
-> TI AM62 SoCs.
-
-> Changes since v3:
-> - Remove oneOf in compatible property
-> - Remove power-supply (not used on AM62)
->=20
-> Changes since v2:
-> - Add commit message description
-> - Remove mt8173-gpu support (not currently supported)
-> - Drop quotes from $id and $schema
-> - Remove reg: minItems
-> - Drop _clk suffixes from clock-names
-> - Remove operating-points-v2 property and cooling-cells (not currently
->   used)
-> - Add additionalProperties: false
-> - Remove stray blank line at the end of file
-
-The changelog should go below the --- line.
-
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+On 12.07.2023 14:11, Dmitry Baryshkov wrote:
+> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
+> another path that needs to be handled to ensure MDSS functions properly,
+> namely the "reg bus", a.k.a the CPU-MDSS interconnect.
+> 
+> Gating that path may have a variety of effects, from none to otherwise
+> inexplicable DSI timeouts.
+> 
+> Provide a way for MDSS driver to vote on this bus.
+> 
+> A note regarding vote values. Newer platforms have corresponding
+> bandwidth values in the vendor DT files. For the older platforms there
+> was a static vote in the mdss_mdp and rotator drivers. I choose to be
+> conservative here and choose this value as a default.
+> 
+> Co-developed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  .../devicetree/bindings/gpu/img,powervr.yaml  | 68 +++++++++++++++++++
->  MAINTAINERS                                   |  7 ++
->  2 files changed, 75 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
+We can store data in icc units (without the *1000).
 
-> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Doc=
-umentation/devicetree/bindings/gpu/img,powervr.yaml
-> new file mode 100644
-> index 000000000000..3292a0440465
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2022 Imagination Technologies Ltd.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+Konrad
+>  drivers/gpu/drm/msm/msm_mdss.c | 51 +++++++++++++++++++++++++++++++---
+>  1 file changed, 47 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index b7765e63d549..ee31a9ab88d4 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -26,6 +26,8 @@
+>  
+>  #define MIN_IB_BW	400000000UL /* Min ib vote 400MB */
+>  
+> +#define DEFAULT_REG_BW	153600000UL /* Used in mdss fbdev driver */
 > +
-> +title: Imagination Technologies PowerVR GPU
+>  struct msm_mdss_data {
+>  	u32 ubwc_version;
+>  	/* can be read from register 0x58 */
+> @@ -34,6 +36,8 @@ struct msm_mdss_data {
+>  	u32 ubwc_static;
+>  	u32 highest_bank_bit;
+>  	u32 macrotile_mode;
 > +
-> +maintainers:
-> +  - Sarah Walker <sarah.walker@imgtec.com>
-
-> +  interrupts:
-> +    items:
-> +      - description: GPU interrupt
-
-The description here doesn't add any value, since there is only one
-interrupt, so you can drop it and do maxItems: 1 as you have done
-elsewhere.
-
-> +  interrupt-names:
-> +    items:
-> +      - const: gpu
-
-And this
-items:
-  - const: gpu
-can just be
-const: gpu
-
-Although, if there is only one interrupt this is probably not
-particularly helpful. Are there other implementations of this IP that
-have more interrupts?
-
-Otherwise, this looks good to me.
-
-Thanks,
-Conor.
-
---PGVJVVq7kVn9L8A9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLJ3lgAKCRB4tDGHoIJi
-0j3aAQDVMC24k6fauiEV0VhEg6EVlCN4u/NEO2bgeg06XEa29wD/RMfmf/un5KW6
-LVpJKv8SHRhzcCHfOR387DPgS+VIDgE=
-=XdJ6
------END PGP SIGNATURE-----
-
---PGVJVVq7kVn9L8A9--
+> +	unsigned long reg_bus_bw;
+>  };
+>  
+>  struct msm_mdss {
+> @@ -50,6 +54,7 @@ struct msm_mdss {
+>  	const struct msm_mdss_data *mdss_data;
+>  	struct icc_path *mdp_path[2];
+>  	u32 num_mdp_paths;
+> +	struct icc_path *reg_bus_path;
+>  };
+>  
+>  static int msm_mdss_parse_data_bus_icc_path(struct device *dev,
+> @@ -57,6 +62,7 @@ static int msm_mdss_parse_data_bus_icc_path(struct device *dev,
+>  {
+>  	struct icc_path *path0;
+>  	struct icc_path *path1;
+> +	struct icc_path *reg_bus_path;
+>  
+>  	path0 = devm_of_icc_get(dev, "mdp0-mem");
+>  	if (IS_ERR_OR_NULL(path0))
+> @@ -71,6 +77,10 @@ static int msm_mdss_parse_data_bus_icc_path(struct device *dev,
+>  		msm_mdss->num_mdp_paths++;
+>  	}
+>  
+> +	reg_bus_path = of_icc_get(dev, "cpu-cfg");
+> +	if (!IS_ERR_OR_NULL(reg_bus_path))
+> +		msm_mdss->reg_bus_path = reg_bus_path;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -231,6 +241,13 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+>  	for (i = 0; i < msm_mdss->num_mdp_paths; i++)
+>  		icc_set_bw(msm_mdss->mdp_path[i], 0, Bps_to_icc(MIN_IB_BW));
+>  
+> +	if (msm_mdss->mdss_data && msm_mdss->mdss_data->reg_bus_bw)
+> +		icc_set_bw(msm_mdss->reg_bus_path, 0,
+> +			   Bps_to_icc(msm_mdss->mdss_data->reg_bus_bw));
+> +	else
+> +		icc_set_bw(msm_mdss->reg_bus_path, 0,
+> +			   Bps_to_icc(DEFAULT_REG_BW));
+> +
+>  	ret = clk_bulk_prepare_enable(msm_mdss->num_clocks, msm_mdss->clocks);
+>  	if (ret) {
+>  		dev_err(msm_mdss->dev, "clock enable failed, ret:%d\n", ret);
+> @@ -288,6 +305,9 @@ static int msm_mdss_disable(struct msm_mdss *msm_mdss)
+>  	for (i = 0; i < msm_mdss->num_mdp_paths; i++)
+>  		icc_set_bw(msm_mdss->mdp_path[i], 0, 0);
+>  
+> +	if (msm_mdss->reg_bus_path)
+> +		icc_set_bw(msm_mdss->reg_bus_path, 0, 0);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -374,6 +394,8 @@ static struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5
+>  	if (!msm_mdss)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +	msm_mdss->mdss_data = of_device_get_match_data(&pdev->dev);
+> +
+>  	msm_mdss->mmio = devm_platform_ioremap_resource_byname(pdev, is_mdp5 ? "mdss_phys" : "mdss");
+>  	if (IS_ERR(msm_mdss->mmio))
+>  		return ERR_CAST(msm_mdss->mmio);
+> @@ -464,8 +486,6 @@ static int mdss_probe(struct platform_device *pdev)
+>  	if (IS_ERR(mdss))
+>  		return PTR_ERR(mdss);
+>  
+> -	mdss->mdss_data = of_device_get_match_data(&pdev->dev);
+> -
+>  	platform_set_drvdata(pdev, mdss);
+>  
+>  	/*
+> @@ -499,11 +519,13 @@ static const struct msm_mdss_data msm8998_data = {
+>  	.ubwc_version = UBWC_1_0,
+>  	.ubwc_dec_version = UBWC_1_0,
+>  	.highest_bank_bit = 1,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data qcm2290_data = {
+>  	/* no UBWC */
+>  	.highest_bank_bit = 0x2,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sc7180_data = {
+> @@ -511,6 +533,7 @@ static const struct msm_mdss_data sc7180_data = {
+>  	.ubwc_dec_version = UBWC_2_0,
+>  	.ubwc_static = 0x1e,
+>  	.highest_bank_bit = 0x3,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sc7280_data = {
+> @@ -520,6 +543,7 @@ static const struct msm_mdss_data sc7280_data = {
+>  	.ubwc_static = 1,
+>  	.highest_bank_bit = 1,
+>  	.macrotile_mode = 1,
+> +	.reg_bus_bw = 74000 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sc8180x_data = {
+> @@ -527,6 +551,7 @@ static const struct msm_mdss_data sc8180x_data = {
+>  	.ubwc_dec_version = UBWC_3_0,
+>  	.highest_bank_bit = 3,
+>  	.macrotile_mode = 1,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sc8280xp_data = {
+> @@ -536,12 +561,14 @@ static const struct msm_mdss_data sc8280xp_data = {
+>  	.ubwc_static = 1,
+>  	.highest_bank_bit = 2,
+>  	.macrotile_mode = 1,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sdm845_data = {
+>  	.ubwc_version = UBWC_2_0,
+>  	.ubwc_dec_version = UBWC_2_0,
+>  	.highest_bank_bit = 2,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sm6350_data = {
+> @@ -550,12 +577,14 @@ static const struct msm_mdss_data sm6350_data = {
+>  	.ubwc_swizzle = 6,
+>  	.ubwc_static = 0x1e,
+>  	.highest_bank_bit = 1,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sm8150_data = {
+>  	.ubwc_version = UBWC_3_0,
+>  	.ubwc_dec_version = UBWC_3_0,
+>  	.highest_bank_bit = 2,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sm6115_data = {
+> @@ -564,6 +593,7 @@ static const struct msm_mdss_data sm6115_data = {
+>  	.ubwc_swizzle = 7,
+>  	.ubwc_static = 0x11f,
+>  	.highest_bank_bit = 0x1,
+> +	.reg_bus_bw = 76800 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sm8250_data = {
+> @@ -574,6 +604,18 @@ static const struct msm_mdss_data sm8250_data = {
+>  	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+>  	.highest_bank_bit = 3,
+>  	.macrotile_mode = 1,
+> +	.reg_bus_bw = 76800 * 1000,
+> +};
+> +
+> +static const struct msm_mdss_data sm8350_data = {
+> +	.ubwc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_static = 1,
+> +	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = 1,
+> +	.reg_bus_bw = 74000 * 1000,
+>  };
+>  
+>  static const struct msm_mdss_data sm8550_data = {
+> @@ -584,6 +626,7 @@ static const struct msm_mdss_data sm8550_data = {
+>  	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+>  	.highest_bank_bit = 3,
+>  	.macrotile_mode = 1,
+> +	.reg_bus_bw = 57000 * 1000,
+>  };
+>  
+>  static const struct of_device_id mdss_dt_match[] = {
+> @@ -600,8 +643,8 @@ static const struct of_device_id mdss_dt_match[] = {
+>  	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
+>  	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
+>  	{ .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
+> -	{ .compatible = "qcom,sm8350-mdss", .data = &sm8250_data },
+> -	{ .compatible = "qcom,sm8450-mdss", .data = &sm8250_data },
+> +	{ .compatible = "qcom,sm8350-mdss", .data = &sm8350_data },
+> +	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
+>  	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
+>  	{}
+>  };
