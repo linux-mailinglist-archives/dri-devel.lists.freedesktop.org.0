@@ -1,66 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DAB754931
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 16:13:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C6175494A
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 16:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE4010E093;
-	Sat, 15 Jul 2023 14:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 296F110E11B;
+	Sat, 15 Jul 2023 14:20:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C8310E093;
- Sat, 15 Jul 2023 14:12:53 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id
- 5614622812f47-3a41da34780so1806944b6e.0; 
- Sat, 15 Jul 2023 07:12:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689430373; x=1692022373;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kTHIurDy6gvGsTnE5nzog+Umudwtg/UCtyZzHm5BLaQ=;
- b=iWhE8lFEziu8ThlgqXgS0ZMU2b440yAokQPM4ejUOUMnLGe7UW+OEGxLdqQgqxK9Xf
- Ik+ubVkxHZ+2BH0/c4/QqSyhSffKB3TnWgpNzkhI8EKnRoSOvruuC8Ov8NJWo5zS0CHT
- hdXqybJryJGv3kEKRVwc5Cuu01L347xzjBV+bNb6SbsfVc1VvV/piU4thZ0w7f+zEFAy
- raYYnVT82HM9PfrguuFo3SGVJVBwGhYLbA2JEzOeNYIh4geZUdwj/PTAN8q6dET0G4Y9
- h9g1GiJ8KAB4dkpjD62CCBlZc1PgNUKSSsuT63Vna6FWFZY7YNSZpVT2CJlVMc6CR2AR
- BC8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689430373; x=1692022373;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kTHIurDy6gvGsTnE5nzog+Umudwtg/UCtyZzHm5BLaQ=;
- b=RQomScjIsp10CUJ2h7XoHWilI4norxiAvLMIQOyX5Fbq0hSYVwKdDOEDM5ixu8w0+F
- 33VqK6fGyzaK7UkMlojLYiovWyoAaX4SHKMhUMLY8EhWx+VUHH3K0GeYnZrLNNZTi5iI
- QJYk9FTqsBxl0B0wo+VGmYo0/R7RYTZh+7fftE2sMFKhnuqsBSwJucc66FNzO8ug9o9L
- jddT+W0RYieTQ7cg1gZIOWsiVHWRlWaacwqFaCvtA9SCxGP6MPxy4pGpkQBhCzZ0A8JH
- qyT95DHjrN5YHP0xQIfevChmr2Y1J4O1mS4GYR9zucaDUPO1tcKs/A65js/pVDMiq9lo
- KsgQ==
-X-Gm-Message-State: ABy/qLbawGNBNFleLhOT/0tccznlBwsZiTzDyd82bKDUs+JWWMAiRdIL
- Wzt0IiF1h/KNU4EcdaQF9wy2QDrL5UCuJz5KZQ8=
-X-Google-Smtp-Source: APBJJlGukieqSedPfaXxROehySYI55LMV7KSoAeHgvT/HCubI9rbmsYY5ld/YdlgSkr96f9cIVvx5ywB1o3ngfw/auc=
-X-Received: by 2002:a05:6808:3b0:b0:3a3:e769:44a3 with SMTP id
- n16-20020a05680803b000b003a3e76944a3mr3343104oie.12.1689430372643; Sat, 15
- Jul 2023 07:12:52 -0700 (PDT)
+X-Greylist: delayed 342 seconds by postgrey-1.36 at gabe;
+ Sat, 15 Jul 2023 14:20:22 UTC
+Received: from out-59.mta1.migadu.com (out-59.mta1.migadu.com [95.215.58.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F5BA10E11B
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 14:20:21 +0000 (UTC)
 MIME-Version: 1.0
-References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-13-robdclark@gmail.com>
- <4cdceddb-033a-6301-163e-89d27152e242@linaro.org>
- <CAF6AEGvtMRnWBQz_KOi5b1p40HjvAAHYdd64kiR3KsKWPBO+bg@mail.gmail.com>
- <0e805cae-d311-2b8c-cead-62621288a34f@linaro.org>
-In-Reply-To: <0e805cae-d311-2b8c-cead-62621288a34f@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 15 Jul 2023 07:12:41 -0700
-Message-ID: <CAF6AEGuBsfuCOzteqqvutRs7oBMhqF9q_HEKj1aLEC7aWZw0sg@mail.gmail.com>
-Subject: Re: [PATCH 12/12] drm/msm/adreno: Switch to chip-id for identifying
- GPU
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+ s=key1; t=1689430474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Exn0iOvVonsyS0RrlLSc0WGJin7aNNSG8UVnuWPxU9U=;
+ b=t/W/IPYE3d7Jq/unFMsbXJLxEErOfxhf4yu6/72S9Q+SjRgLquoMqkKQezx0JsO0jec71+
+ yd+XLox94l1Rfe6tP4f0GcgRUtGtt/xPEv/GSU+tBZQvYVqiAN/zt3VjScJGnhmQmSz8m7
+ MMDRXTatfmE2t5WRkGqzmkO7/LO4PLUROW1+MkN1rDaKE7DhehIwcvxF1MR0d9uLTXMfka
+ Ef8flkwck6XqlzG6u4sO0BSYHaVQp2pEPPvulTePYrEPcZP8KhFLY5KLGZpCYWc2o0YCiQ
+ xWXhEW24YGpZ9EVSG627zq5mggx8+PTHVDLZdqxUlRhTv+WXAtsJ43TJhIf2ow==
+Date: Sat, 15 Jul 2023 14:14:32 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: alyssa@rosenzweig.io
+Message-ID: <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+TLS-Required: No
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+To: "Luben Tuikov" <luben.tuikov@amd.com>,
+ "=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=" <christian.koenig@amd.com>, "Asahi
+ Lina" <lina@asahilina.net>, "David Airlie" <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, "Sumit Semwal" <sumit.semwal@linaro.org>
+In-Reply-To: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+ <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,151 +61,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: asahi@lists.linux.dev, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Faith Ekstrand <faith.ekstrand@collabora.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 15, 2023 at 6:38=E2=80=AFAM Konrad Dybcio <konrad.dybcio@linaro=
-.org> wrote:
->
-> On 7.07.2023 18:08, Rob Clark wrote:
-> > On Thu, Jul 6, 2023 at 5:25=E2=80=AFPM Konrad Dybcio <konrad.dybcio@lin=
-aro.org> wrote:
-> >>
-> >> On 6.07.2023 23:10, Rob Clark wrote:
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> Since the revision becomes an opaque identifier with future GPUs, mov=
-e
-> >>> away from treating different ranges of bits as having a given meaning=
-.
-> >>> This means that we need to explicitly list different patch revisions =
-in
-> >>> the device table.
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> ---
-> [...]
->
-> >>>  static inline int adreno_is_7c3(const struct adreno_gpu *gpu)
-> >>>  {
-> >>> -     /* The order of args is important here to handle ANY_ID correct=
-ly */
-> >>> -     return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu->rev);
-> >>> +     return gpu->info->chip_ids[0] =3D=3D 0x06030500;
-> >>>  }
-> >> I'm sorry, but this screams trouble.. and doesn't sound very maintaina=
-ble :/
-> >>
-> >
-> > why? It is intentionally checking the first chip-id so that nothing
-> > breaks if later chip-ids are added
-> checking for magic numbers and magic array indices at the same time is
-> very prone to breaking, as breaking this check would not at all be easy
-> to spot in code review.
+15 July 2023 at 00:03, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
 
-It isn't like we can arbitrarily change the chip-id's.. they are abi
-between dt/kernel/userspace.  If they aren't changing, there isn't
-anything to break.
 
-> >
-> >> Apart from all these comments, I don't really see the point of this pa=
-tch,
-> >> other than trying to tie together Qualcomm's almost-meaningless chipid=
-s on
-> >> a7xx into the picture..
-> >>
-> >> Since they can't even be read back from the hardware, I don't think tr=
-ying
-> >> to force them into the upstream kernel makes any sense.
-> >
-> > Sure, we _could_ pick our own arbitrary identifiers, we don't have to
-> > align with kgsl.  But that would be a super huge PITA for mesa, which
-> > has support for both kernels.
-> Perhaps I'm biased towards keeping this kind of stuff out of the kernel,
-> but I'd say that Linux should decide on one logical path.
-
-The kernel is the small part of the driver stack, and we have two
-drivers above in userspace (vk and gallium) which can work on top of
-three different kernels (msm, kgsl, and virtgpu).  So what sounds like
-an easy/clean answer to you, is not necessarily easy/clean in the big
-picture.
-
-So wherever it comes from (and dt is fine, or socid or whatever, and
-it's fine for it to just be an opaque 32b value as long as we don't
-get conflicting values, I don't mind explicitly listing all of the
-possible patch-id's for the legacy scheme) we need to stick with
-CHIP_ID.
-
-> In between us starting this discussion, Qualcomm managed to introduce
-> yet another way of deciding what GPU is present on the system in their
-> downstream driver[1]. We're at like 5 now. Do we wanna keep up each time?
-> New ID rework for A8xx when that comes out one day?
-
-What matters is how they expose it to userspace, not where they get
-the value from.
-
-BR,
--R
-
-> >
-> >> On a different note, I think we could try to blockify Adreno definitio=
-ns a
-> >> bit by splitting things into:
-> >>
-> >> - Core GPU propeties (revision, fw name, GMEM size)
-> >>
-> >> - G(P)MU properties
-> >>
-> >> - Family data (quirks, reg presets in some config struct which could b=
-e a
-> >>   union of config structs per generation, hwcg, maybe protected regs p=
-tr
-> >>   should also be moved there)
-> >
-> > We do something like this on the mesa side.  But we also get to use
-> > python tricks to generate code as part of the build process which
-> > makes things a bit more elegant.
-> >
-> > Fwiw, I was already thinking about splitting the gpu "hw catalog" from
-> > a flat table, to probably something more like a table of tables, so
-> > that we can split a2xx/a3xx/a4xx/a5xx/a6xx tables into separate files.
-> > And then we could move hwcg/protect/etc tables into the same file.
-> > But I thought that might be a bit too conflicty for the a7xx series so
-> > was thinking to wait until after that landed.. unless you don't think
-> > it will be a problem.
-> Yeah I'd like to get a7xx landed this season..
->
-> Konrad
->
-> [1] they now read parts of socinfo from smem and decide the CHIPID and
->     speedbin based on that, but it's not available on most existing SoCs,
->     that was thrown in with SOCID v17
-> >
-> > BR,
-> > -R
-> >
-> >> - Generation data (init function, a2xx and a6xx specifics)
-> >>
-> >> - Speedbin LUTs matched against socid
-> >>
-> >>
-> >> or something like that.. there's a whole lot of duplicated data atm
-> >>
-> >> Konrad
-> >>>
-> >>>  static inline int adreno_is_a660(const struct adreno_gpu *gpu)
-> >>> @@ -358,8 +364,7 @@ static inline int adreno_is_a680(const struct adr=
-eno_gpu *gpu)
-> >>>
-> >>>  static inline int adreno_is_a690(const struct adreno_gpu *gpu)
-> >>>  {
-> >>> -     /* The order of args is important here to handle ANY_ID correct=
-ly */
-> >>> -     return adreno_cmp_rev(ADRENO_REV(6, 9, 0, ANY_ID), gpu->rev);
-> >>> +     return gpu->info->chip_ids[0] =3D=3D 0x06090000;
-> >>>  };
-> >>>  /* check for a615, a616, a618, a619 or any a630 derivatives */
-> >>>  static inline int adreno_is_a630_family(const struct adreno_gpu *gpu=
+>=20
+>=20On 2023-07-14 05:57, Christian K=C3=B6nig wrote:
+>=20
+>=20>=20
+>=20> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+> >=20
+>=20> >=20
+>=20> > On 14/07/2023 17.43, Christian K=C3=B6nig wrote:
+> > >=20
+>=20>=20
+>=20>  Am 14.07.23 um 10:21 schrieb Asahi Lina:
+> >  A signaled scheduler fence can outlive its scheduler, since fences a=
+re
+> >  independencly reference counted. Therefore, we can't reference the
+> >  scheduler in the get_timeline_name() implementation.
+> >=20
+>=20>  Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when share=
+d
+> >  dma-bufs reference fences from GPU schedulers that no longer exist.
+> >=20
+>=20>  Signed-off-by: Asahi Lina <lina@asahilina.net>
+> >  ---
+> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_fence.c=C2=A0 | 4 +++-
+> >  =C2=A0=C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5 +++++
+> >  =C2=A0=C2=A0 3 files changed, 14 insertions(+), 2 deletions(-)
+> >=20
+>=20>  diff --git a/drivers/gpu/drm/scheduler/sched_entity.c=20
+>=20>  b/drivers/gpu/drm/scheduler/sched_entity.c
+> >  index b2bbc8a68b30..17f35b0b005a 100644
+> >  --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> >  +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> >  @@ -389,7 +389,12 @@ static bool=20
+>=20>  drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity=
 )
+> >  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 /*
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=
+ Fence is from the same scheduler, only need to wait for
+> >  -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
+ed
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
+ed.
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Note: s_fence->s=
+ched could have been freed and reallocated
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * as another sched=
+uler. This false positive case is okay,=20
+>=20>  as if
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the old schedule=
+r was freed all of its jobs must have
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * signaled their c=
+ompletion fences.
+> >=20
+>=20>  This is outright nonsense. As long as an entity for a scheduler ex=
+ists
+> >  it is not allowed to free up this scheduler.
+> >=20
+>=20>  So this function can't be called like this.
+> >=20
+>=20> >=20
+>=20> > As I already explained, the fences can outlive their scheduler. T=
+hat=20
+>=20> >  means *this* entity certainly exists for *this* scheduler, but t=
+he=20
+>=20> >  *dependency* fence might have come from a past scheduler that wa=
+s=20
+>=20> >  already destroyed along with all of its entities, and its addres=
+s reused.
+> > >=20
+>=20>=20
+>=20>=20=20
+>=20>  Well this is function is not about fences, this function is a call=
+back=20
+>=20>  for the entity.
+> >=20=20
+>=20>=20
+>=20> >=20
+>=20> > Christian, I'm really getting tired of your tone. I don't appreci=
+ate=20
+>=20> >  being told my comments are "outright nonsense" when you don't ev=
+en=20
+>=20> >  take the time to understand what the issue is and what I'm tryin=
+g to=20
+>=20> >  do/document. If you aren't interested in working with me, I'm ju=
+st=20
+>=20> >  going to give up on drm_sched, wait until Rust gets workqueue su=
+pport,=20
+>=20> >  and reimplement it in Rust. You can keep your broken fence lifet=
+ime=20
+>=20> >  semantics and I'll do my own thing.
+> > >=20
+>=20>=20
+>=20>=20=20
+>=20>  I'm certainly trying to help here, but you seem to have unrealisti=
+c=20
+>=20>  expectations.
+> >=20=20
+>=20>  I perfectly understand what you are trying to do, but you don't se=
+em to=20
+>=20>  understand that this functionality here isn't made for your use ca=
+se.
+> >=20=20
+>=20>  We can adjust the functionality to better match your requirements,=
+ but=20
+>=20>  you can't say it is broken because it doesn't work when you use it=
+ not=20
+>=20>  in the way it is intended to be used.
+> >=20
+>=20
+> I believe "adjusting" functionality to fit some external requirements,
+> may have unintended consequences, requiring yet more and more "adjustme=
+nts".
+> (Or may allow (new) drivers to do wild things which may lead to wild re=
+sults. :-) )
+>=20
+>=20We need to be extra careful and wary of this.
+
+Either drm/scheduler is common code that we should use for our driver, in=
+ which case we need to "adjust" it to fit the requirements of a safe Rust=
+ abstraction usable for AGX. Or, drm/scheduler is not common code intende=
+d for drivers with our requirements, and then we need to be able to write=
+ our own scheduler.
+
+AMD has NAK'd both options, effectively NAK'ing the driver.
+
+I will ask a simple yes/no question: Should we use drm/sched?
+
+If yes, it will need patches like these, and AMD needs to be ok with that=
+ and stop NAK'ing them on sight becuase they don't match the existing req=
+uirements.
+
+If no, we will write our own scheduler in Rust, and AMD needs to be ok wi=
+th that and not NAK it on sight because it's not drm/sched.
+
+Which is it?
+
+Note if we write a Rust scheduler, drm/sched and amdgpu will be unaffecte=
+d. If we do that and AMD comes back and NAKs it -- as said in this thread=
+ would "probably" happen -- then it is impossible for us to upstream a dr=
+iver regardless of whether we use drm/sched.
+
+Lina has been polite and accommodating while AMD calls her code "outright=
+ nonsense" and gets "outright NAK"s, and puts her into an impossible catc=
+h-22 where no matter what she does it's NAK'd.
+
+That's not ok.
