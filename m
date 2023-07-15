@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A91754B2C
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 20:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B91754AF2
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 20:54:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9740210E1C8;
-	Sat, 15 Jul 2023 18:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7386410E1A7;
+	Sat, 15 Jul 2023 18:53:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6334410E18E;
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC8F510E19A;
  Sat, 15 Jul 2023 18:53:52 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 265BD21AE4;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 88FED1FD68;
  Sat, 15 Jul 2023 18:53:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1689447231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HF0ntTEfTFR2eIXkYuLTyCKB+tFcMggnqDzzMkFmIGA=;
- b=epo9Ya2u6FlD9nLz/rIKRF9OMdO+LNGFhrgi7rf57h6jrrZHQJGnRNkaimxXU9JHv6ETGH
- 6Y7fXLr7bKAIIItUjzL7zTfV23Sr4VAdvGYcRFePrJcbcOe91GMkkPVirlmPPu+v7wVAyy
- xmnPmGIWIF/AJxQzL4L6meP5PHQznZ8=
+ bh=lpTHaHWHwRCdCBE/tiBvFTjJvTf3C77zAKIrSfguJVI=;
+ b=biaCtdt79Xq+jHloV0+M131OabHH5aaiCV22tdakKda3TzO/MKxGp7elD5gFBCWliu9HIB
+ ILXq0DvWCNDsov/wIwUFMtq3hn2BmZFQDlKxDxJ5f/dtyTDHjw3v+t4jdyGmUS1CWSK6ZQ
+ pSntvqABmeS8mFNqVIBwPzSZdew5OCY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1689447231;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HF0ntTEfTFR2eIXkYuLTyCKB+tFcMggnqDzzMkFmIGA=;
- b=uW5O5mrDRVpr1c3h7FGRD8BpU7mhlgcUS7Bleuu0xigjOEEVU2pD7UO2kP9kaUee3uat+5
- 3x5dag1l2yfq+WCw==
+ bh=lpTHaHWHwRCdCBE/tiBvFTjJvTf3C77zAKIrSfguJVI=;
+ b=nUUODatEKA07q6zMWpuLT5/l/B8zRV8BzCWYkCnneE4KDoX4n7wImRbXPCpQbS4R2YMpl3
+ pFkLRIdauLVRcqBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE02C13A23;
- Sat, 15 Jul 2023 18:53:50 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B8C8133F7;
+ Sat, 15 Jul 2023 18:53:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MD+KKT7rsmQCBwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:50 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4NaoCT/rsmQCBwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 15 Jul 2023 18:53:51 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, javierm@redhat.com, geert@linux-m68k.org,
  dan.carpenter@linaro.org
-Subject: [PATCH v4 12/18] staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev
- drivers
-Date: Sat, 15 Jul 2023 20:51:54 +0200
-Message-ID: <20230715185343.7193-13-tzimmermann@suse.de>
+Subject: [PATCH v4 13/18] fbdev: Remove FBINFO_FLAG_DEFAULT from kzalloc()'ed
+ structs
+Date: Sat, 15 Jul 2023 20:51:55 +0200
+Message-ID: <20230715185343.7193-14-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230715185343.7193-1-tzimmermann@suse.de>
 References: <20230715185343.7193-1-tzimmermann@suse.de>
@@ -73,60 +73,61 @@ Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
  linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
  Sam Ravnborg <sam@ravnborg.org>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-geode@lists.infradead.org, Teddy Wang <teddy.wang@siliconmotion.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-input@vger.kernel.org,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-not set it.
+fbinfo.flags has been allocated to zero by kzalloc(). So do not
+set it.
 
 Flags should signal differences from the default values. After cleaning
 up all occurrences of FBINFO_DEFAULT, the token will be removed.
 
+v4:
+	* clarify commit message (Geert, Dan)
 v2:
 	* fix commit message (Miguel)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/staging/fbtft/fbtft-core.c | 2 +-
- drivers/staging/sm750fb/sm750.c    | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/video/fbdev/amba-clcd.c             | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c | 5 ++---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3a4abf3bae40..eac1d570f437 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -684,7 +684,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 	info->var.transp.offset =  0;
- 	info->var.transp.length =  0;
+diff --git a/drivers/video/fbdev/amba-clcd.c b/drivers/video/fbdev/amba-clcd.c
+index e45338227be6..24d89e6fb780 100644
+--- a/drivers/video/fbdev/amba-clcd.c
++++ b/drivers/video/fbdev/amba-clcd.c
+@@ -461,7 +461,6 @@ static int clcdfb_register(struct clcd_fb *fb)
+ 	}
  
--	info->flags =              FBINFO_FLAG_DEFAULT | FBINFO_VIRTFB;
-+	info->flags =              FBINFO_VIRTFB;
+ 	fb->fb.fbops		= &clcdfb_ops;
+-	fb->fb.flags		= FBINFO_FLAG_DEFAULT;
+ 	fb->fb.pseudo_palette	= fb->cmap;
  
- 	par = info->par;
- 	par->info = info;
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index c260f73cf570..79bcd5bd4938 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -807,7 +807,6 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	info->screen_base = crtc->v_screen;
- 	pr_debug("screen_base vaddr = %p\n", info->screen_base);
- 	info->screen_size = line_length * var->yres_virtual;
--	info->flags = FBINFO_FLAG_DEFAULT | 0;
+ 	strncpy(fb->fb.fix.id, clcd_name, sizeof(fb->fb.fix.id));
+diff --git a/drivers/video/fbdev/matrox/matroxfb_crtc2.c b/drivers/video/fbdev/matrox/matroxfb_crtc2.c
+index 7655afa3fd50..372197c124de 100644
+--- a/drivers/video/fbdev/matrox/matroxfb_crtc2.c
++++ b/drivers/video/fbdev/matrox/matroxfb_crtc2.c
+@@ -603,9 +603,8 @@ static int matroxfb_dh_regit(const struct matrox_fb_info *minfo,
+ 	void* oldcrtc2;
  
- 	/* set info->fix */
- 	fix->type = FB_TYPE_PACKED_PIXELS;
+ 	m2info->fbcon.fbops = &matroxfb_dh_ops;
+-	m2info->fbcon.flags = FBINFO_FLAG_DEFAULT;
+-	m2info->fbcon.flags |= FBINFO_HWACCEL_XPAN |
+-			       FBINFO_HWACCEL_YPAN;
++	m2info->fbcon.flags = FBINFO_HWACCEL_XPAN |
++			      FBINFO_HWACCEL_YPAN;
+ 	m2info->fbcon.pseudo_palette = m2info->cmap;
+ 	fb_alloc_cmap(&m2info->fbcon.cmap, 256, 1);
+ 
 -- 
 2.41.0
 
