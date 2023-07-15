@@ -1,74 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2959A7547DE
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 11:23:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E49E57547F7
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 11:26:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F47110E0B1;
-	Sat, 15 Jul 2023 09:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C339610E0C0;
+	Sat, 15 Jul 2023 09:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BEC10E0BD
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 09:23:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689412996;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T67vF7lK28TebQE5iDVY482spLCTkCO2SL9TUb1C5Xo=;
- b=IuSiPzbggsQiiuqk5XnwUtbbt9FnP1lOGV4oZaro8lVrcuuPwafEkOZGLxZgrEEnIzvzg1
- YBWNQY3cMs8rQGOUu3n++H2a3RiryB51AVWIwZxCd5eRxBe/0ca1t7ZeFNCbmiIx3TInaw
- D9PWGj2dOD8iiWnFrX52sK6+vp5bgLI=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-462-Sg_lGNfhMtmqlZJRUOzKgg-1; Sat, 15 Jul 2023 05:23:14 -0400
-X-MC-Unique: Sg_lGNfhMtmqlZJRUOzKgg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2b72262fb80so4838711fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 02:23:13 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED93010E0C0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 09:26:50 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1ba4460f0a4so1016442fac.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 02:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689413210; x=1692005210;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wHphB4LnIXM8B5KTzxaE1knTLhvmv4UUsDUmEXJtUjc=;
+ b=KNtkg40Donc1RJ+Y/N6bMmujMSl9cywEa6fXVSQYqV4W4lT8G1IFlO5DKCTqezy9NY
+ lefwY54PRhNWProidCgY7SJny7AEfavu3g+BjFgAL5dZzNMIElbAwgo4QZnm4OLwjy+V
+ CVJWSo1L7gWOhYkpGKP0r9oukax6+UlfkfofBx8xxPcLUf3ek7zbTjABn/JHDdvTWXCu
+ WWDX31kpkxyfmd7Q/WE+0i7y3grMAoIl2p8ABV+V0g6ZwAueUBzPNbjvXwLF4/1Voo58
+ THpoQ4ecU8W2lHElPdLC420Acx2PDSK/3KkrYlQGhj1Cbwmy3bV4wSFCbbKfSoIqtJyV
+ 8cKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689412992; x=1690017792;
+ d=1e100.net; s=20221208; t=1689413210; x=1692005210;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T67vF7lK28TebQE5iDVY482spLCTkCO2SL9TUb1C5Xo=;
- b=NREnmZN0dwu5SMllszd12D2itFBX8bZw600X94Cz+D2UNWDJMb/2JlLg8a/XSfSLtZ
- QIT0EuMkdJw9RJWChhuH6cCN+pShIM48RSvGX1Ylm5jZKurm6pPVv3ZtPLilkeQZnP29
- QaPXwnJIWbIdWFQFogYXTyMc7aVUWNa3TIFKvvPWQ48/kdrYmaK2E2JKPeWm9ROp5ola
- jCP75umzozRZLKEJR1Az+lsWPbj56NQROxw9hm0ysTZILCAeXCFhOx11iahUS4X5dMeT
- ZxqFhB6SMHZEcmovku9T9MCztSz+ZcHrCkGSy60x+F6qASmzi1mS8wpSwIjni/9Tgowh
- lAuw==
-X-Gm-Message-State: ABy/qLaL5you4PizIdXkFZP//fSrqJiare625GJo3ss0lh3ocs43uBpK
- 3U7OFyPnrxUxUjEvr3D5T86qJw3Pp+4eygKfKXb2ccHr6mUdR+9TDuK9nhSkvIrjHzep4LdmbkE
- neCU+oq1ydMfXgzhph7w59Lfk2NBVBna3GYq9MlfTLh20
-X-Received: by 2002:a05:651c:2123:b0:2b6:a662:b879 with SMTP id
- a35-20020a05651c212300b002b6a662b879mr964534ljq.3.1689412992751; 
- Sat, 15 Jul 2023 02:23:12 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFalwUBzCDIhgeQM4PgOEFdZlcRiXI5UE3UZbzH859X91WuS1+9/Njeg/b/sg7vTRMDlagQb8LNWaQla49OP5g=
-X-Received: by 2002:a05:651c:2123:b0:2b6:a662:b879 with SMTP id
- a35-20020a05651c212300b002b6a662b879mr964525ljq.3.1689412992377; Sat, 15 Jul
- 2023 02:23:12 -0700 (PDT)
+ bh=wHphB4LnIXM8B5KTzxaE1knTLhvmv4UUsDUmEXJtUjc=;
+ b=KcTELNCG7zxa5RqWuwNU2DHLz/In/h7iPACiikH/tcmFdmGiVOXIJMUCGohh+S7tGb
+ Pgxaa867Qq7ZL5YsSO2m6/aGewqEOwGxz0+uGDkEXR9Dy3s/l2epH1jgtfhF/JCgHdm6
+ jCX00xdC4oH/BpPbMbF8UgJ0UjQTTXf8eRL2QBADfvQ7Nn7OGtiGSthpsYSEnrRQCNvn
+ nYwJIhx2xmaTNDe9WS0Opl6zX089IuBu/3Ov0rfcynJ7ktKKABJDWFSaNHu5jQ7aYpw5
+ ZtAYRp4EbIA1MXfEC0JqtwDxn+G3chU89tV2OoncM9ODSYjcSQeX5Z7q7zvDhYg5hY7F
+ E6bQ==
+X-Gm-Message-State: ABy/qLY2SYsRbg3IckVU+lUQG/gwRCtzIBA9ZKlPVbVB2hqHChe5xjKL
+ ZUQ9wJE3TgYq1ydvSwkeOTCwvN650JoPFG83euw=
+X-Google-Smtp-Source: APBJJlGwdJmxyzGjSGIAgoqFi7CGlWiMJBmcsPBzo9lxW5BLyYxxPOYfHlixbBaupkZxkAV8b0mEWpZJ8j8VMX6oWRI=
+X-Received: by 2002:a05:6870:328d:b0:177:a158:9ef6 with SMTP id
+ q13-20020a056870328d00b00177a1589ef6mr6679986oac.52.1689413209848; Sat, 15
+ Jul 2023 02:26:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <5c894d0a8a178628ca200d054004be3c@208suo.com>
- <f25017a660f8a3a4e49258a1d96003dc@208suo.com>
- <2f4a7303e305d07fdd9c15a9dc95dc5f@208suo.com>
- <d0d767fb0dd3a9b7642559f379dbb0d6@208suo.com>
- <0ad4154429aaa41ca26da859c3f35784@208suo.com>
- <856d1130fad58062ea454da297fa64348382bda2.camel@redhat.com>
-In-Reply-To: <856d1130fad58062ea454da297fa64348382bda2.camel@redhat.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Sat, 15 Jul 2023 11:23:01 +0200
-Message-ID: <CACO55tu08XTx=TZQK=RyCGRdFVDQN9m+X+y3F3V0H7nuwyycRw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/fifo:Fix Nineteen occurrences of the gk104.c
- error: ERROR: : trailing statements should be on next line
-To: Lyude Paul <lyude@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230714174841.4061919-1-robh@kernel.org>
+In-Reply-To: <20230714174841.4061919-1-robh@kernel.org>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Sat, 15 Jul 2023 11:26:38 +0200
+Message-ID: <CAMhs-H-6tAV-+U-4zZDKs47eKCJr+kZ-Op8vR4SyJyE5LK_2aw@mail.gmail.com>
+Subject: Re: [PATCH] phy: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,113 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: huzhi001@208suo.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bskeggs@redhat.com,
- nouveau@lists.freedesktop.org
+Cc: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ devicetree@vger.kernel.org, Al Cooper <alcooperx@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Justin Chen <justin.chen@broadcom.com>,
+ linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Alban Bedel <albeu@free.fr>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Ioana Ciornei <ioana.ciornei@nxp.com>, linux-phy@lists.infradead.org,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, linux-renesas-soc@vger.kernel.org,
+ Robert Marko <robert.marko@sartura.hr>, Luka Perkov <luka.perkov@sartura.hr>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ Yu Chen <chenyu56@huawei.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
+ Andy Gross <agross@kernel.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Wolfgang Grandegger <wg@grandegger.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Binghui Wang <wangbinghui@hisilicon.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-can@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
+ linux-samsung-soc@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, JC Kuo <jckuo@nvidia.com>,
+ netdev@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-mediatek@lists.infradead.org, Shawn Guo <shawnguo@kernel.org>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 15, 2023 at 1:07=E2=80=AFAM Lyude Paul <lyude@redhat.com> wrote=
+On Fri, Jul 14, 2023 at 7:49=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
 :
 >
-> NAK - checkpatch.pl is a (strongish) guideline, but not a rule. In the ca=
-ses
-> corrected in the patch series here, we format the switch cases on single =
-lines
-> as it dramatically improves the readability of what is otherwise just a /=
-long/
-> list of slightly different static mappings. I don't believe we're the onl=
-y
-> part of the kernel to do this either.
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 >
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/phy/ralink/phy-mt7621-pci.c                   | 3 +--
 
-I wished there was a place to document something like "patches whose
-only reason is 'checkpatch.pl' said so" will be rejected.
+Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-I think following some checkpatch rules are sane, but then the
-argument should be "makes code more clear" or "converts risky coding
-practises to less risky ones". Or do we have such a place? Maybe we
-should patch checkpatch.pl instead to throw a warning
-
-> On Fri, 2023-07-14 at 14:58 +0800, huzhi001@208suo.com wrote:
-> > Signed-off-by: ZhiHu <huzhi001@208suo.com>
-> > ---
-> >   .../gpu/drm/nouveau/nvkm/engine/fifo/gk104.c  | 40 ++++++++++++++----=
--
-> >   1 file changed, 29 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-> > b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-> > index d8a4d773a58c..b99e0a7c96bb 100644
-> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-> > @@ -137,15 +137,29 @@ gk104_ectx_bind(struct nvkm_engn *engn, struct
-> > nvkm_cctx *cctx, struct nvkm_chan
-> >       u64 addr =3D 0ULL;
-> >
-> >       switch (engn->engine->subdev.type) {
-> > -    case NVKM_ENGINE_SW    : return;
-> > -    case NVKM_ENGINE_GR    : ptr0 =3D 0x0210; break;
-> > -    case NVKM_ENGINE_SEC   : ptr0 =3D 0x0220; break;
-> > -    case NVKM_ENGINE_MSPDEC: ptr0 =3D 0x0250; break;
-> > -    case NVKM_ENGINE_MSPPP : ptr0 =3D 0x0260; break;
-> > -    case NVKM_ENGINE_MSVLD : ptr0 =3D 0x0270; break;
-> > -    case NVKM_ENGINE_VIC   : ptr0 =3D 0x0280; break;
-> > -    case NVKM_ENGINE_MSENC : ptr0 =3D 0x0290; break;
-> > -    case NVKM_ENGINE_NVDEC :
-> > +    case NVKM_ENGINE_SW:
-> > +        return;
-> > +    case NVKM_ENGINE_GR:
-> > +        ptr0 =3D 0x0210;
-> > +        break;
-> > +    case NVKM_ENGINE_SEC:
-> > +        ptr0 =3D 0x0220;
-> > +        break;
-> > +    case NVKM_ENGINE_MSPDEC:
-> > +        ptr0 =3D 0x0250;
-> > +        break;
-> > +    case NVKM_ENGINE_MSPPP:
-> > +        ptr0 =3D 0x0260;
-> > +        break;
-> > +    case NVKM_ENGINE_MSVLD:
-> > +        ptr0 =3D 0x0270;
-> > +        break;
-> > +    case NVKM_ENGINE_VIC:
-> > +        ptr0 =3D 0x0280; break;
-> > +    case NVKM_ENGINE_MSENC:
-> > +        ptr0 =3D 0x0290;
-> > +        break;
-> > +    case NVKM_ENGINE_NVDEC:
-> >           ptr1 =3D 0x0270;
-> >           ptr0 =3D 0x0210;
-> >           break;
-> > @@ -435,8 +449,12 @@ gk104_runl_commit(struct nvkm_runl *runl, struct
-> > nvkm_memory *memory, u32 start,
-> >       int target;
-> >
-> >       switch (nvkm_memory_target(memory)) {
-> > -    case NVKM_MEM_TARGET_VRAM: target =3D 0; break;
-> > -    case NVKM_MEM_TARGET_NCOH: target =3D 3; break;
-> > +    case NVKM_MEM_TARGET_VRAM:
-> > +        target =3D 0;
-> > +        break;
-> > +    case NVKM_MEM_TARGET_NCOH:
-> > +        target =3D 3;
-> > +        break;
->
-> This one isn't very long, but I'd still say it's definitely a lot easier =
-to
-> read in the compact form. If anything, the only change I would make here =
-is
-> formatting the default: case to be on a single line as well
->
-> >       default:
-> >           WARN_ON(1);
-> >           return;
->
-> --
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
->
-
+Thanks,
+    Sergio Paracuellos
