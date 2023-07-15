@@ -1,72 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5397755A64
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 06:00:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E458755C90
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 09:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E67F10E1AD;
-	Mon, 17 Jul 2023 04:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709D010E1EB;
+	Mon, 17 Jul 2023 07:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6166610E1AD
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 04:00:18 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id
- e9e14a558f8ab-34611de0ee4so16740115ab.0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 21:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1689566416; x=1692158416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rane9LymWOzuf5nVdxKmicrrVi/5Plm4e1af1OJmuGo=;
- b=DeAi7UPa7J5RPMLgaBGKipqwjcPkkqSSXuEc9ftX8/pT3LdEynyXPvvXHsoBuoweVK
- K+W20Bcm8gviQ+3+cgoCbuF6wacfW34Xhqm1f6UBpwkNqVso9STiOkM+PAE+xBh3g41G
- CWCN3iqWakKicn8hjXfGA88G1V9z0WWvgkFxo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689566416; x=1692158416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rane9LymWOzuf5nVdxKmicrrVi/5Plm4e1af1OJmuGo=;
- b=je2i/aLQHa4Uq++G+vwZSJDk2URHP+V4ZbkLKzKc+3N6nLUKzOLfEviEluWGS+ljG7
- pthYUBGWb/1gvtA6dzKFpo8Kwrc8hMxZ6O+eOCfKFu7N/GM076ymAg1FYGPo2n+4PPtQ
- UObssSd/ERc2AJFheY71clilCLlcusQmrhNCp15r2Dkex2goufOsZ4sHtZiObEsBALFP
- Uq5Ovnm1JjzWW5IMYFoCgs9M49MPoVkw5PpjWYSgzEIoIBza0pmcAcU3UtspSE5dUOVU
- wrgq1+p4wQsOOEH6rKXXCGWu9twK48dfQyuaJU+HoXKX5heqpioVli1BPnGNLElBI29f
- RYow==
-X-Gm-Message-State: ABy/qLYO9gByW0PbYepwujM7W0fWyYY7/l8D98d/6zC9MKeIJe2ZsX+o
- qBiJML5NV3u3OxuOiV1nxtAcqBmHAtd59u+3mxo=
-X-Google-Smtp-Source: APBJJlFRWORvSPdmmHKFB33CKQ9ywysannOuHAp+3anxtobj0i+GTMDRBZDMpxSrccxl77ik7dE2sg==
-X-Received: by 2002:a92:c081:0:b0:347:6d5f:ab2f with SMTP id
- h1-20020a92c081000000b003476d5fab2fmr9592413ile.6.1689566416345; 
- Sun, 16 Jul 2023 21:00:16 -0700 (PDT)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
- [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
- w15-20020a92db4f000000b00345d154ce58sm4519409ilq.12.2023.07.16.21.00.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jul 2023 21:00:15 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id
- ca18e2360f4ac-78360b822abso160889839f.2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 21:00:15 -0700 (PDT)
-X-Received: by 2002:a5e:890a:0:b0:77e:288d:f3c1 with SMTP id
- k10-20020a5e890a000000b0077e288df3c1mr9803357ioj.6.1689566414860; Sun, 16 Jul
- 2023 21:00:14 -0700 (PDT)
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1270B10E154
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 20:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=JxBhhYK0Y5VT2HXGIOu9TJojogxR36dmFxRFhj6IWCk=;
+ b=EVElt5TCflzYgiRrmN27f0ZK5MwnAlXBDddOCHg6/OVohDn42qAtgNTo5OfcLdzxWG2SRBFfTehox
+ xNOBoSfNDJzs3G7hNViFJKi/eWgcZSc8XjfH227Fu8qgxnV8T/L9k2kbIA0TZQokuWJ+ry5L7uGt3S
+ eDRotSkr5oRNdgzxdg7YaiwxS1dKxGLKWYbj3gEJyCEtA+CikK6SwC793O4AA7oPFy3WliBjXaujiN
+ jIW5IRtD7dVIQTKWn5fuE38KmwgPMYpkppyDRBcw0Lj664vpEaR8bSW8fFgvBrj4JprqbJ9guXY0Cs
+ zK0jiHS5+p6sj2f0nA1gLqEzVUOMj3w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=JxBhhYK0Y5VT2HXGIOu9TJojogxR36dmFxRFhj6IWCk=;
+ b=Z/37LrNNgkFmoRmOnuPWeSyBJ3zkNDMuzDj4yl37D//Yx8vlrZ1t4ZtvhEx9F98EMcvKO2OmDB7Cz
+ mpB1B+iCw==
+X-HalOne-ID: da40b60a-234c-11ee-b5d0-99461c6a3fe8
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1 (Halon) with ESMTPSA
+ id da40b60a-234c-11ee-b5d0-99461c6a3fe8;
+ Sat, 15 Jul 2023 20:19:11 +0000 (UTC)
+Date: Sat, 15 Jul 2023 22:19:08 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+Message-ID: <20230715201908.GA321950@ravnborg.org>
+References: <20230714174545.4056287-1-robh@kernel.org>
 MIME-Version: 1.0
-References: <20230421021609.7730-1-nancy.lin@mediatek.com>
- <ae96299cffaacdbf51beae96e3a257c95a04ac95.camel@mediatek.com>
-In-Reply-To: <ae96299cffaacdbf51beae96e3a257c95a04ac95.camel@mediatek.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Mon, 17 Jul 2023 11:59:38 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njEG2sV28XAWDw8FoQ0p5w=-sU4i+D-ESfapHMQC1ZW3Q@mail.gmail.com>
-Message-ID: <CAC=S1njEG2sV28XAWDw8FoQ0p5w=-sU4i+D-ESfapHMQC1ZW3Q@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: fix uninitialized symbol
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
+X-Mailman-Approved-At: Mon, 17 Jul 2023 07:17:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,73 +57,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-rockchip@lists.infradead.org,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, etnaviv@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Icenowy Zheng <icenowy@aosc.io>, freedreno@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>, lima@lists.freedesktop.org,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Liu Ying <victor.liu@nxp.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alain Volmat <alain.volmat@foss.st.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-rpi-kernel@lists.infradead.org,
+ Tian Tao <tiantao6@hisilicon.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-tegra@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, xen-devel@lists.xenproject.org,
+ Tomi Valkeinen <tomba@kernel.org>, linux-sunxi@lists.linux.dev,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ John Stultz <jstultz@google.com>, Shawn Guo <shawnguo@kernel.org>,
+ Ondrej Jirman <megous@megous.com>, linux-stm32@st-md-mailman.stormreply.com,
+ Emma Anholt <emma@anholt.net>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Paul Cercueil <paul@crapouillou.net>,
+ Marek Vasut <marex@denx.de>, linux-renesas-soc@vger.kernel.org,
+ Artur Weber <aweber.kernel@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi CK,
+Hi Rob,
 
-On Fri, Jul 14, 2023 at 5:27=E2=80=AFPM CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89)=
- <ck.hu@mediatek.com> wrote:
->
-> Hi, Nancy:
->
-> On Fri, 2023-04-21 at 10:16 +0800, Nancy.Lin wrote:
-snip
->
-> In line 566, the statement is
->
-> if (nodo) {
->         comp_pdev =3D ...
-> }
->
-> The comment says that only ovl_adaptoer has no device node, so the
-> checking should be
->
-> if (type !=3D MTK_DISP_OVL_ADAPTOR) {
->         comp_pdev =3D ...
-> }
->
-> and later it would return when type =3D MTK_DISP_OVL_ADAPTOR,
-> so there would be no problem of uninitialized symbol.
-
-That sounds fair, but IIUC what Nancy tries to resolve here is the
-false-positive Smatch warning.
-How about this: given the `if (node)` block was exclusively added for
-ovl_adaptor in [1], plus the init function will immediately return
-after that in this case, it should be safe to do the following
-
-```
-/* Not all drm components have a DTS device node... */
-if (node =3D=3D NULL)
-    return 0;
-
-comp_pdev =3D of_find_device_by_node(node);
-...
-
-if (type =3D=3D MTK_DISP_AAL ||
-...
-```
-
-which is equivalent to adding a `node =3D=3D NULL` check before [1].
-This should suppress the Smatch warning because `comp_pdev` will be
-(again) unconditionally assigned to something, and the `type =3D=3D
-MTK_DISP_OVL_ADAPTOR` line can be dropped also (optional?).
-
-[1]: commit 0d9eee9118b7 ("drm/mediatek: Add drm ovl_adaptor sub
-driver for MT8195")
-
-Regards,
-Fei
+On Fri, Jul 14, 2023 at 11:45:34AM -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
