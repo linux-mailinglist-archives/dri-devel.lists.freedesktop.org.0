@@ -2,44 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C50754990
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 17:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8B87549A3
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jul 2023 17:11:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40BA010E15C;
-	Sat, 15 Jul 2023 15:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D4610E15D;
+	Sat, 15 Jul 2023 15:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292AA10E15C
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 15:05:20 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 766C1E0002;
- Sat, 15 Jul 2023 15:05:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1689433518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g5k147YyTR7m+TG5HLa8g5sxazFffEO9aVF1D74wOqk=;
- b=VQ6dlf6ivmTL+ca35id06Lel2KmVR8gJ+2mAzMMSSWscwNaiTfpOZ2rEp8LOm200fLw4lh
- qPp1+BdudlOb2W5WUx6v5rPaMFwoKAXaxtur6raHjiDyv/AAzqrq4ynVT6JirTO1WL46sa
- 0HdRyrE4jE5RVye+3VEvR6vQzIepdQ0YAOz4a/Th0p6qMQhTnzjtWxBQpgw9TYwyXD/wT5
- pX83VCBrLo4UroUz08UVJjs3yD9StpMnk6kHV5ilj8PozDMPKA6sQXd9NoU019aKNRj1IW
- pNaB9dpQbBsUiZafPfYmEjVZC2c1veDUGlfnrwiuq+9xn05O+yz3qycBLoX3Qg==
-Date: Sat, 15 Jul 2023 17:05:15 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH v3 00/19] Sitronix ST7789V improvements
-Message-ID: <20230715170515.637f4f65@xps-13>
-In-Reply-To: <20230714013756.1546769-1-sre@kernel.org>
-References: <20230714013756.1546769-1-sre@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 838C010E15D
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 15:11:18 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4fbb281eec6so4813954e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 08:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689433875; x=1692025875;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uahl0JK8EKsnvSfqLyeXPnd2KJauvmsFvzs6gaaLC+Q=;
+ b=cEQKLfs+irNYlu4PHC7FcXJnmKVMQpjgceJ73Dz9W9kZUya7PARB2vlIWIRdz+da8A
+ 8Idoso99nNolkI4/+4/SXjxa0c2yRNvDHRgddHTDHOou+7H9yk2qwIaIW8ifTsnvgiLb
+ NzgMpFWltHaUNBoRZHMDbTn9UulcLojYKHAj0uqKPGxg7nOjrBW+/dRrKCZXpQxQ7fR1
+ f7Cykva76SaJ/zEk2/RMDLIqZXn+VSLojMv8az12trqaeY/7X3WNuUmQrojOLV9vczJF
+ qBGP+SjB5KDILKLcusMDcQQwA08HVG7bLs19yn5zq6tNrHztIrEYKn6CtkqUU3RvgsMQ
+ T+sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689433875; x=1692025875;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uahl0JK8EKsnvSfqLyeXPnd2KJauvmsFvzs6gaaLC+Q=;
+ b=HeHWwGc6TEFFc4fnWQlxiXt00Drk6aHusMAhvz7+9krRIltYM0dlD+PpqJCSuyOnR7
+ SoSDhpsR6LL/mzFsjCuaPnGpHBDw9G9U7KITYiCP2iJZGET3lksu8JeQl527mCBkIkI7
+ tUeNZ/uPrfsLnTthqNijb06TBLoO3Lqzlwx91H0fxKNN6GvLg+ld5q+lBDHgpsBxg8mU
+ G6LgdxqlHs/qLDxbduN5tF3axW7OTc3ZaLKg1wCIJ1knB7oAP1nbhCJIONIu+et4dYVi
+ YbgQnfVl74yKTjmS04v3m6cd/9LVxg/nJl/z3Yi6iDwtSW+sPS9Yk7M4xHRHSLrJQGpM
+ n55g==
+X-Gm-Message-State: ABy/qLYcP+X8+bakrpaHEM4fCn0fi0gPxsLeSgBUhXmXSm7fTjEdRH2u
+ SKzFHkYpcOC8FHR/TxRul/1ayg==
+X-Google-Smtp-Source: APBJJlF8jICyjjbV1u/4xnF/oNp/tqc4zSp4PrfGF2zGzjcKVvb18AyYpYbdJHF6+FvSU7aOHyw/XA==
+X-Received: by 2002:a05:6512:ea9:b0:4f8:752f:3722 with SMTP id
+ bi41-20020a0565120ea900b004f8752f3722mr6549825lfb.5.1689433875119; 
+ Sat, 15 Jul 2023 08:11:15 -0700 (PDT)
+Received: from [192.168.1.101] (abxi167.neoplus.adsl.tpnet.pl. [83.9.2.167])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020ac2532f000000b004fb745fd232sm1914885lfh.30.2023.07.15.08.11.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Jul 2023 08:11:14 -0700 (PDT)
+Message-ID: <7774d80e-81d4-2283-59ec-87012bb28294@linaro.org>
+Date: Sat, 15 Jul 2023 17:11:13 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 4/5] arm64: dts: qcom: qrb5165-rb5: enable displayport
+ controller
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
+ <20230709041926.4052245-5-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230709041926.4052245-5-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,84 +84,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+On 9.07.2023 06:19, Dmitry Baryshkov wrote:
+> Enable the onboard displayport controller, connect it to QMP PHY.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-+ Thomas
-
-sre@kernel.org wrote on Fri, 14 Jul 2023 03:37:37 +0200:
-
-> Hi,
->=20
-> This adds panel support for Inanbo T28CP45TN89, which I found inside of a
-> handheld thermal camera. The panel is based on the st7789v controller. All
-> information is based on reverse engineering. I also appended the series
-> from Miquel Raynal adding EDT ET028013DMA panel support, so that I could
-> easily test it with my SPI_NO_RX setup. They are slightly different due
-> to rebasing.
-
-Thanks a lot! I'll continue following the series and provide my help
-when required.
-
-Cheers,
-Miqu=C3=A8l
-
->=20
-> Changes since PATCHv2:
->  * https://lore.kernel.org/all/20230422205012.2464933-1-sre@kernel.org/
->  * https://lore.kernel.org/all/20230616163255.2804163-1-miquel.raynal@boo=
-tlin.com/
->  * Add Rob Herring's R-b for the DT binding
->  * Make panel info "static const"
->  * Add Michael Riesch's R-b to all my patches
->  * Rebase to 6.5-rc1
->  * Append Miquel's series
->=20
-> Changes since PATCHv1:
->  * https://lore.kernel.org/all/20230317232355.1554980-1-sre@kernel.org/
->  * Apply DT binding changes requested by Krzysztof Kozlowski and his Ack
->  * I changed the driver patches to avoid code duplication and splitted
->    the code a bit more
->=20
-> Greetings,
->=20
-> -- Sebastian
->=20
-> Miquel Raynal (6):
->   dt-bindings: display: st7789v: Add the edt,et028013dma panel
->     compatible
->   dt-bindings: display: st7789v: bound the number of Rx data lines
->   drm/panel: sitronix-st7789v: Use 9 bits per spi word by default
->   drm/panel: sitronix-st7789v: Clarify a definition
->   drm/panel: sitronix-st7789v: Add EDT ET028013DMA panel support
->   drm/panel: sitronix-st7789v: Check display ID
->=20
-> Sebastian Reichel (13):
->   dt-bindings: vendor-prefixes: add Inanbo
->   dt-bindings: display: st7789v: add Inanbo T28CP45TN89
->   drm/panel: sitronix-st7789v: add SPI ID table
->   drm/panel: sitronix-st7789v: remove unused constants
->   drm/panel: sitronix-st7789v: make reset GPIO optional
->   drm/panel: sitronix-st7789v: simplify st7789v_spi_write
->   drm/panel: sitronix-st7789v: improve error handling
->   drm/panel: sitronix-st7789v: avoid hardcoding mode info
->   drm/panel: sitronix-st7789v: avoid hardcoding panel size
->   drm/panel: sitronix-st7789v: add media bus format
->   drm/panel: sitronix-st7789v: avoid hardcoding invert mode
->   drm/panel: sitronix-st7789v: avoid hardcoding polarity info
->   drm/panel: sitronix-st7789v: add Inanbo T28CP45TN89 support
->=20
->  .../display/panel/sitronix,st7789v.yaml       |  10 +-
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  .../gpu/drm/panel/panel-sitronix-st7789v.c    | 262 +++++++++++++++---
->  3 files changed, 237 insertions(+), 37 deletions(-)
->=20
+Konrad
+>  arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+> index a03f334a3d01..210c60025c32 100644
+> --- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+> +++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
+> @@ -656,6 +656,15 @@ &mdss {
+>  	status = "okay";
+>  };
+>  
+> +&mdss_dp {
+> +	status = "okay";
+> +};
+> +
+> +&mdss_dp_out {
+> +	data-lanes = <0 1>;
+> +	remote-endpoint = <&usb_1_qmpphy_dp_in>;
+> +};
+> +
+>  &mdss_dsi0 {
+>  	status = "okay";
+>  	vdda-supply = <&vreg_l9a_1p2>;
+> @@ -1436,3 +1445,7 @@ pm8150b_typec_sbu_out: endpoint {
+>  		};
+>  	};
+>  };
+> +
+> +&usb_1_qmpphy_dp_in {
+> +	remote-endpoint = <&mdss_dp_out>;
+> +};
