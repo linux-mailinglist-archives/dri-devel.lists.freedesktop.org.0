@@ -1,54 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F14754D62
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 07:01:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B476754D76
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 07:40:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B91510E065;
-	Sun, 16 Jul 2023 05:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4A6F10E0BE;
+	Sun, 16 Jul 2023 05:40:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A89C10E1D1
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 05:01:32 +0000 (UTC)
-Received: by mail-oi1-f199.google.com with SMTP id
- 5614622812f47-3a4261fc598so5485716b6e.2
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jul 2023 22:01:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689483691; x=1692075691;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Gc8P9j4aAtUD818FUv9FldLGl7WtvU/qesSGY59z6is=;
- b=H9rMt+Tc4+pEyaFOM7lPlQvEtRLQGEmpPHOE0wbuaG3IPujynvA1i7llQ9UTxDqJ5j
- Et+xrToTR6DIwkcjbd2sIHPFSbXl+BM036FRLXzUgT80SuzG5aBsSyLnnDCNUqLX0XQ4
- 6nxy1wtdUjkI4yYv2e9o3T5xKduJejOprS5QrxX2IoHCuIfVj+3sHZEzVBWlZBWegMtw
- IJYJJ82N0Cza71EmsqwRw72sjE2oRzfzX5pNRNY4LQCK5lQ0EYpk58H+q9vMtR7TBQIW
- HRenunY0epvtAKCxDwU2y0ryripi+2jHEqgSjF8vPLfzYzwHAdJUgbTlngPl1Gq04tj4
- XKew==
-X-Gm-Message-State: ABy/qLaeCFoi5St5vOzVa7UCgDQjTGzmL1T0N63SDPAASjJEnyIGMn8+
- XOIVNURXcPo+mrlY0km7gAXlxJcagXhwlu5rVoE1VP8LnT0e
-X-Google-Smtp-Source: APBJJlHiKkQSYHWZqiMGK6JjPBORaD5zWjOurp/X4RHYedM4t3zbGTgydgOk6gzh9XX0dFzBM53cFrKdyB0aFSTeEV/ZZD4WxY07
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79E7910E0BE;
+ Sun, 16 Jul 2023 05:40:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2ECCE60C40;
+ Sun, 16 Jul 2023 05:39:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122FEC433C7;
+ Sun, 16 Jul 2023 05:39:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1689485998;
+ bh=xzcG60dh739GetSZoGv/B7pts9l8fNioZtl7+wrSna8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jOMJX9PqBMeLqwwRc0XBgozzSKaFYhws5b33GLPRkWefkeyT1O8mEP4gjFZ+C96ES
+ WCqfp286R5Fp/sL23oSajHdBGRRbH9Xm0Mh05zF+hSchMoCx6RjeYs26t7iG+4gszi
+ R55ORu7FrjK9XNLYni5UGyrUP+NDjGk7b+ESqleA=
+Date: Sun, 16 Jul 2023 07:39:55 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 12/18] staging: Remove flag FBINFO_FLAG_DEFAULT from
+ fbdev drivers
+Message-ID: <2023071644-celery-name-af50@gregkh>
+References: <20230715185343.7193-1-tzimmermann@suse.de>
+ <20230715185343.7193-13-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1316:b0:3a1:e88d:98ab with SMTP id
- y22-20020a056808131600b003a1e88d98abmr11466633oiv.6.1689483691033; Sat, 15
- Jul 2023 22:01:31 -0700 (PDT)
-Date: Sat, 15 Jul 2023 22:01:30 -0700
-In-Reply-To: <20230716043411.4950-1-astrajoan@yahoo.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004209890600939346@google.com>
-Subject: Re: [syzbot] [dri?] KMSAN: uninit-value in drm_mode_setcrtc
-From: syzbot <syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com>
-To: airlied@gmail.com, astrajoan@yahoo.com, christian.koenig@amd.com, 
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org, glider@google.com, 
- ivan.orlov0322@gmail.com, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- skhan@linuxfoundation.org, sumit.semwal@linaro.org, 
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230715185343.7193-13-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,23 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+ Teddy Wang <teddy.wang@siliconmotion.com>, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, deller@gmx.de, linux-staging@lists.linux.dev,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ geert@linux-m68k.org, amd-gfx@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-geode@lists.infradead.org,
+ dan.carpenter@linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Sat, Jul 15, 2023 at 08:51:54PM +0200, Thomas Zimmermann wrote:
+> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
+> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
+> not set it.
+> 
+> Flags should signal differences from the default values. After cleaning
+> up all occurrences of FBINFO_DEFAULT, the token will be removed.
+> 
+> v2:
+> 	* fix commit message (Miguel)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
-
-Reported-and-tested-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
-
-Tested on:
-
-commit:         d1d7f15c DO-NOT-SUBMIT: kmsan: add the kmsan_exceed_ma..
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=101d3fdaa80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=36e4a2f8150fbc62
-dashboard link: https://syzkaller.appspot.com/bug?extid=4fad2e57beb6397ab2fc
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=15430342a80000
-
-Note: testing is done by a robot and is best-effort only.
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
