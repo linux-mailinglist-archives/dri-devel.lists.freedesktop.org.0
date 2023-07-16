@@ -1,52 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE44754DC2
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 09:51:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 223D2754E7D
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 13:45:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D55FF10E192;
-	Sun, 16 Jul 2023 07:51:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69CB610E0F2;
+	Sun, 16 Jul 2023 11:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC90710E190
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 07:51:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 976C45BC8B;
- Sun, 16 Jul 2023 07:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1689493872;
- bh=gYedBdij8EEj4bxFgU0IbfRjRyKP5k9HHjXwlINja/A=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=TMo85PN5gOQ3hHQ3yWJV2Zg+x3Z9jjizP8YVug1tfKZcvCsICpS+WBOemybd3WLDb
- KVmSJss87jmRovNPhIuyS0VTo6HyVnQ4AWclvC9e/6d2fYhRYYiNj57Xn23qKTVLby
- SmXBlBcKwfskhvVcOcnlpJqz/GULG6Dl/vUu6DpVUjj399S77i8bCyrEFxYUmWOhjK
- n15xl1DyULI+7eYw1m6UCvliBW3kpRjXuiEB55Rb0Sl7Xh+Yb7RTjryGPKbGcGPZR9
- 6gozKuAMKT3+xHDHg/TB8cKw59u6I9/IqcmkmJnr6mHU+CwSpmucwYQjb+SqhIut4p
- fl3lLaFv081UA==
-Message-ID: <99f9003f-d959-fff3-361a-25b2f47efc88@asahilina.net>
-Date: Sun, 16 Jul 2023 16:51:06 +0900
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C11C10E088;
+ Sun, 16 Jul 2023 11:44:59 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id
+ d2e1a72fcca58-676f16e0bc4so2298533b3a.0; 
+ Sun, 16 Jul 2023 04:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689507898; x=1692099898;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UW0Gb0fhe8KUAoH9z0fOHvs5nZuEEb7L+CPOMHFXQWA=;
+ b=irD1uJ3MFytLmjvRmq8Yl9WjAlyqjv1PYh9U2Jga5+2zclCqDvzEU4EV7397PzfnJd
+ AwQggkMPsYHhRdhK/uhDy6Y7Cloweegu34afTCFBtS1fWsTnZBTnSFuU/qDAaf6xERBm
+ Pc0joGj8Pj9guWnSGFCB7QUM1TsN5iy6himHOcsGIm2IZ2kMOd4GLVrw7WhXYzC6MaPB
+ 16Vqyv5R3Y2aUq9PiCg1tynvKpgCGbbEzyYBUCE/glqQkejAQB/Jau845OjWbLbYxQc+
+ TmRHm8ZJNN+YqQntBpdPsDf541E8suumaahIZ6xC2hS5sttdRzKsbzPRGsoYOoU7qs95
+ S77w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689507898; x=1692099898;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UW0Gb0fhe8KUAoH9z0fOHvs5nZuEEb7L+CPOMHFXQWA=;
+ b=bB2jKVBiv53sCE6L+B1bUJbIx5PDNN601KAo07mjSUj7PHLAc2H0rgx148nV1ybvdy
+ n1D0lLtqWHfDSr6AO9FX9Q9wqrfIvwpfg5oQDrAV+1YAC1LXaQbShgu2Lu615WtAa/MY
+ 4+nmXiyG4Z6ISI9Td7/Fj9hEb8ELl87heRrJKAmNtDqEEgIzUAFGE+p009Lftv6uiNZ7
+ xgW5WA/bvMchnGxDUgmhKLejlLO+b3hnki5uDwfQwqAtVn6MH0vfHFlCBFfyagZkAhrY
+ /bWG8OEC1i1vz7ppu2sGL3jYwAL2iXWl8vMUPf0fLpSvSjsm0Fsf9cYMC6tEEUorTwi4
+ I51g==
+X-Gm-Message-State: ABy/qLZ1eDFaHWH+RrD4NXwncm4EXu45honrWCHjk42fNiOObiV2ydWy
+ TPFzT78ltju6T/YTeetq/ro=
+X-Google-Smtp-Source: APBJJlENaURlprzIJM/AWxrCdrM0RnZHU+VlpQ7Ay5WfVSfljEoACMDN/5bW6NiEKcB2hFoQgwU8Sw==
+X-Received: by 2002:a05:6a00:23c2:b0:680:fa5f:4ed6 with SMTP id
+ g2-20020a056a0023c200b00680fa5f4ed6mr11156582pfc.27.1689507898117; 
+ Sun, 16 Jul 2023 04:44:58 -0700 (PDT)
+Received: from [192.168.0.104] ([103.131.18.64])
+ by smtp.gmail.com with ESMTPSA id
+ 2-20020aa79242000000b0067777e960d9sm9988284pfp.155.2023.07.16.04.44.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 Jul 2023 04:44:57 -0700 (PDT)
+Message-ID: <12caddea-9432-6285-f46b-2ba0ae426c38@gmail.com>
+Date: Sun, 16 Jul 2023 18:44:43 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 3/3] drm/scheduler: Clean up jobs when the scheduler is
- torn down.
+ Thunderbird/102.13.0
 Content-Language: en-US
-To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-3-c567249709f7@asahilina.net>
- <9343165f-2533-f363-4942-719ee9b7d2a4@amd.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <9343165f-2533-f363-4942-719ee9b7d2a4@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maik Broemme <mbroemme@libmpq.org>, Johannes <johannesnitschke@yahoo.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: =?UTF-8?Q?Fwd=3a_Framebuffer-Display_issue=2e_=28Intel=c2=ae_Iris?=
+ =?UTF-8?B?wq4gWGUp?=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,190 +80,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
+Cc: Linux Framebuffer <linux-fbdev@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>,
+ Linux Intel GPU <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Stable <stable@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/07/2023 16.14, Luben Tuikov wrote:
-> On 2023-07-14 04:21, Asahi Lina wrote:
->> drm_sched_fini() currently leaves any pending jobs dangling, which
->> causes segfaults and other badness when job completion fences are
->> signaled after the scheduler is torn down.
+Hi,
+
+I notice a regression report on Bugzilla [1]. Quoting from it:
+
+> Hello I have been having problems for some time now with displaying any linux distribution with the new kernal. The only thing that can fix it are older kernals.
 > 
-> If there are pending jobs, ideally we want to call into the driver,
-> so that it can release resources it may be holding for those.
-> The idea behind "pending" is that they are pending in the hardware
-> and we don't know their state until signalled/the callback called.
-> (Or unless the device is reset and we get a notification of that fact.)
-
-That's what the job->free_job() callback does, then the driver is free 
-to do whatever it wants with those jobs. A driver could opt to 
-synchronously kill those jobs (if it can) or account for them 
-separately/asynchronously.
-
-What this patch basically says is that if you destroy a scheduler with 
-pending jobs, it immediately considers them terminated with an error, 
-and returns ownership back to the driver for freeing. Then the driver 
-can decide how to handle the rest and whatever the underlying hardware 
-state is.
-
->> Explicitly detach all jobs from their completion callbacks and free
->> them. This makes it possible to write a sensible safe abstraction for
->> drm_sched, without having to externally duplicate the tracking of
->> in-flight jobs.
->>
->> This shouldn't regress any existing drivers, since calling
->> drm_sched_fini() with any pending jobs is broken and this change should
->> be a no-op if there are no pending jobs.
+> I can't describe it very well, so I'm attaching some pictures, but it's like whenever anything happens on the screen, it pushes the upper left half up from the bottom. But it only goes to a certain extent, after that it just shakes around and jumps back a bit. Also, for example, the firefox icon is not where it is displayed, but where it should be (I tried it with touch).
 > 
-> While this statement is true on its own, it kind of contradicts
-> the premise of the first paragraph.
-
-I mean right *now* it's broken, before this patch. I'm trying to make it 
-safe, but it shouldn't regress any exiting drivers since if they trigger 
-this code path they are broken today.
-
+> I think it has something to do with the framebuffer, because an usb stick with just the arch iso show the same issue in the tty.
 > 
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 32 ++++++++++++++++++++++++++++++--
->>   1 file changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 1f3bc3606239..a4da4aac0efd 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -1186,10 +1186,38 @@ EXPORT_SYMBOL(drm_sched_init);
->>   void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>   {
->>   	struct drm_sched_entity *s_entity;
->> +	struct drm_sched_job *s_job, *tmp;
->>   	int i;
->>   
->> -	if (sched->thread)
->> -		kthread_stop(sched->thread);
->> +	if (!sched->thread)
->> +		return;
->> +
->> +	/*
->> +	 * Stop the scheduler, detaching all jobs from their hardware callbacks
->> +	 * and cleaning up complete jobs.
->> +	 */
->> +	drm_sched_stop(sched, NULL);
->> +
->> +	/*
->> +	 * Iterate through the pending job list and free all jobs.
->> +	 * This assumes the driver has either guaranteed jobs are already stopped, or that
->> +	 * otherwise it is responsible for keeping any necessary data structures for
->> +	 * in-progress jobs alive even when the free_job() callback is called early (e.g. by
->> +	 * putting them in its own queue or doing its own refcounting).
->> +	 */
->> +	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
->> +		spin_lock(&sched->job_list_lock);
->> +		list_del_init(&s_job->list);
->> +		spin_unlock(&sched->job_list_lock);
->> +
->> +		dma_fence_set_error(&s_job->s_fence->finished, -ESRCH);
->> +		drm_sched_fence_finished(s_job->s_fence);
+> The hardware is a Huawei Matebook E 2022.
+> Cpu: Intel® Core™ i5-1130G7
+> Graphics: Intel® Iris® Xe
 > 
-> I'd imagine it's better to rebase this on top of drm-misc-next where
-> drm_sched_fence_finished() takes one more parameter--the error.
-
-Ah, sure! I can do that.
-
+> Example under Manjaro that worked was with the 
+> linux-lqx-6.1.0.lqx2-1-x86_64.pkg.tar.zst kernal
+> 22-Dec-2022 14:44           154507169
+> from https://repo.blacksky3.com/x86_64/linux-lqx/old/
 > 
->> +
->> +		WARN_ON(s_job->s_fence->parent);
->> +		sched->ops->free_job(s_job);
->> +	}
->> +
->> +	kthread_stop(sched->thread);
->>   
->>   	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
->>   		struct drm_sched_rq *rq = &sched->sched_rq[i];
->>
+> Kernals above that Version dosent work, Example with 6.1.1-lqx1-linux-lqx:
+> `
+> $inxi -F
+> System:
+> Host: Johannes Kernel: 6.1.1-lqx1-linux-lqx arch: x86_64 bits: 64
+> Desktop: GNOME v: 43.5 Distro: Manjaro Linux
+> Machine:
+> Type: Detachable System: HUAWEI product: DRC-WXX v: M1010
+> serial:
+> Mobo: HUAWEI model: DRC-WXX-PCB v: M1010 serial:
+> UEFI: HUAWEI v: 1.30 date: 06/29/2022
+> Battery:
+> ID-1: BAT1 charge: 27.8 Wh (66.0%) condition: 42.1/42.1 Wh (100.0%)
+> volts: 11.9 min: 11.5
+> CPU:
+> Info: quad core model: 11th Gen Intel Core i5-1130G7 bits: 64 type: MT MCP
+> cache: L2: 5 MiB
+> Speed (MHz): avg: 1395 min/max: 400/1801 cores: 1: 897 2: 1046 3: 962
+> 4: 1801 5: 1801 6: 1801 7: 1801 8: 1052
+> Graphics:
+> Device-1: Intel Tiger Lake-UP4 GT2 [Iris Xe Graphics] driver: i915 v: kernel
+> Display: wayland server: X.org v: 1.21.1.8 with: Xwayland v: 23.1.1
+> compositor: gnome-shell driver: gpu: i915 resolution: 2560x1600~60Hz
+> API: OpenGL v: 4.6 Mesa 23.0.3 renderer: Mesa Intel Xe Graphics (TGL GT2)
+> Audio:
+> Device-1: Intel driver: N/A
+> Device-2: Intel Tiger Lake-LP Smart Sound Audio
+> driver: sof-audio-pci-intel-tgl
+> API: ALSA v: k6.1.1-lqx1-linux-lqx status: kernel-api
+> Server-1: PulseAudio v: 16.1 status: active
+> Network:
+> Device-1: Intel Wi-Fi 6 AX201 driver: iwlwifi
+> IF: wlp0s20f3 state: up mac: f4:b3:01:b7:c6:6d
+> Bluetooth:
+> Device-1: Intel AX201 Bluetooth driver: btusb type: USB
+> Report: rfkill ID: hci0 state: up address: see --recommends
+> Drives:
+> Local Storage: total: 476.94 GiB used: 9.65 GiB (2.0%)
+> ID-1: /dev/nvme0n1 model: PCIe-8 SSD 512GB size: 476.94 GiB
+> Partition:
+> ID-1: / size: 468.09 GiB used: 9.65 GiB (2.1%) fs: ext4 dev: /dev/nvme0n1p2
+> ID-2: /boot/efi size: 299.4 MiB used: 288 KiB (0.1%) fs: vfat
+> dev: /dev/nvme0n1p1
+> Swap:
+> Alert: No swap data was found.
+> Sensors:
+> System Temperatures: cpu: 35.0 C mobo: N/A
+> Fan Speeds (RPM): N/A
+> Info:
+> Processes: 241 Uptime: 0m Memory: available: 15.42 GiB used: 1.18 GiB (7.6%)
+> Shell: Zsh inxi: 3.3.27
 > 
-> Conceptually I don't mind this patch--I see what it is trying to achieve,
-> but technically, we want the driver to detect GPU removal and return shared
-> resources back, such as "jobs", which DRM is also aware of.
+> `
+> 
+> Distros I testet:
+> Ubuntu 20.04.2 results in Blackscreen/poweroff
+> Fedora 38 (Bug as I mentiond)
+> Manjaro (Bug as I mentiond)
+> It all works fine when you start from grub2 in Rescue mode.
+> 
+> That all is very new to me, so I am sorry if I did something wrong. 
+> I mean, I reported that bug first at the wrong place.. Anyway
+> 
+> Best regreds Johannes
 
-I think you missed the context of why I'm doing this, so in short: my 
-use case (like Xe's) involves using a separate drm_sched instance *per 
-file* since these queues are scheduled directly by the firmware. So this 
-isn't about GPU removal, but rather about a GPU context going away while 
-jobs are in flight (e.g. the process got killed). We want that to 
-quickly kill the "DRM view" of the world, including signaling all the 
-fences with an error and freeing resources like the scheduler itself.
+See Bugzilla for the full thread and attached pictures that demonstrate
+this regression.
 
-In the case of this particular GPU, there is no known way to actively 
-and synchronously abort GPU jobs, so we need to let them run to 
-completion (or failure), but we don't want that to block process cleanup 
-and freeing a bunch of high-level resources. The driver is architected 
-roughly along the lines of a firmware abstraction layer that maps to the 
-firmware shared memory structures, and then a layer on top that 
-implements the DRM view. When a process gets killed, the DRM side (which 
-includes the scheduler, etc.) gets torn down immediately, and it makes 
-sense to handle this cleanup inside drm_sched since it already has a 
-view into what jobs are in flight. Otherwise, I would have to duplicate 
-job tracking in the driver (actually worse: in the Rust abstraction for 
-safety), which doesn't make much sense.
+Anyway, I'm adding it to regzbot:
 
-But what I *do* have in the driver is tracking of the firmware 
-structures. So when the drm_sched gets torn down and all the jobs 
-killed, the underlying firmware jobs do run to completion, and the 
-resources they use are all cleaned up after that (it's all reference 
-counted). The primitive involved here is that in-flight firmware jobs 
-are assigned an event completion slot, and that keeps a reference to 
-them from a global array until the events fire and all the jobs are 
-known to have completed. This keeps things memory-safe, since we 
-absolutely cannot free/destroy firmware structures while they are in use 
-(otherwise the firmware crashes, which is fatal on these GPUs - requires 
-a full system reboot to recover).
+#regzbot introduced: v6.1..v6.4 https://bugzilla.kernel.org/show_bug.cgi?id=217666
+#regzbot title: screen shakes on Intel® Iris® Xe
 
-In practice, with the VM map model that we use, what ends up happening 
-when a process gets killed is that all the user objects for in-flight 
-jobs get unmapped, which usually causes the GPU hardware (not firmware) 
-to fault. This then triggers early termination of jobs anyway via the 
-firmware fault recovery flow. But even that takes some short amount of 
-time, and by then all the drm_sched stuff is long gone and we're just 
-dealing with the in-flight firmware stuff.
+(also Cc'ing stable list because it also occurs on v6.1.y, but not in
+v6.1 mainline).
 
-> In the case where we're initiating the tear, we should notify the driver that
-> we're about to forget jobs (resources), so that it knows to return them back
-> or that it shouldn't notify us for them (since we've notified we're forgetting them.)
+Thanks.
 
-That contradicts Christian's comment. I tried to document that (after 
-this patch) the scheduler no longer cares about hw fences and whether 
-they are signaled or not after it's destroyed, and I got a strongly 
-worded NAK for it. Sooo... which is it? Is it okay for drivers not to 
-signal the hw fence after a scheduler teardown, or not?
-
-But really, I don't see a use case for an explicit "about to forget job" 
-callback. The job free callback already serves the purpose of telling 
-the driver to clean up resources associated with a job. If it wants to 
-synchronously abort things there, it could easily take over its own 
-fence signaling and do something with the underlying stuff if the fence 
-is not signaled yet.
-
-In my case, since the driver is written in Rust and free_job() just maps 
-to the destructor (Drop impl), that just ends up freeing a bunch of 
-memory and other objects, and I don't particularly care about the state 
-of the firmware side any more after that. The flow is the same whether 
-it was a successful job completion, a failure, or an early destruction 
-due to the drm_sched getting torn down.
-
-> (Note also that in this latter case, traditionally, the device would be reset,
-> so that we can guarantee that it has forgotten all shared resources which
-> we are to tear up. This is somewhat more complicated with GPUs, thus the method
-> pointed out above.)
-
-Yeah, in the firmware scheduling case we can't do this at all unless the 
-firmware has an explicit teardown/forget op (which I'm not aware of) and 
-a full GPU reset isn't something we can do either. Hence we just let the 
-underlying jobs complete. In practice they tend to die pretty quickly 
-anyway once all the buffers are unmapped.
-
-~~ Lina
-
+-- 
+An old man doll... just what I always wanted! - Clara
