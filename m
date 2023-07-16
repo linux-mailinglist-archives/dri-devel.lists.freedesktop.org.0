@@ -1,73 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223D2754E7D
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 13:45:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717F0754ED2
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 15:30:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69CB610E0F2;
-	Sun, 16 Jul 2023 11:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB5F10E18B;
+	Sun, 16 Jul 2023 13:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C11C10E088;
- Sun, 16 Jul 2023 11:44:59 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id
- d2e1a72fcca58-676f16e0bc4so2298533b3a.0; 
- Sun, 16 Jul 2023 04:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689507898; x=1692099898;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UW0Gb0fhe8KUAoH9z0fOHvs5nZuEEb7L+CPOMHFXQWA=;
- b=irD1uJ3MFytLmjvRmq8Yl9WjAlyqjv1PYh9U2Jga5+2zclCqDvzEU4EV7397PzfnJd
- AwQggkMPsYHhRdhK/uhDy6Y7Cloweegu34afTCFBtS1fWsTnZBTnSFuU/qDAaf6xERBm
- Pc0joGj8Pj9guWnSGFCB7QUM1TsN5iy6himHOcsGIm2IZ2kMOd4GLVrw7WhXYzC6MaPB
- 16Vqyv5R3Y2aUq9PiCg1tynvKpgCGbbEzyYBUCE/glqQkejAQB/Jau845OjWbLbYxQc+
- TmRHm8ZJNN+YqQntBpdPsDf541E8suumaahIZ6xC2hS5sttdRzKsbzPRGsoYOoU7qs95
- S77w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2516710E18B
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 13:30:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689514237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CjuXrLpE5fZ4kMeORkkTJX0Um/Y7BBe3dNlC2HaYSoU=;
+ b=X8snGem+gcYRwACxX1FNLN5Ew9D+hoQdg6z4DuFlqZzyFCiTQMSTrcE5bqMkldvyNYVlj2
+ r7UglPQVK69KPOAjuSDtnDB/h9HpLjMErhjgCHYnJACrqJiVwzzB0FeqMMYEJMeFQCtWZT
+ BQBUn3kXgI11EYNQk2dcNwC//sq48f0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-371-Yvsup6xPNMqH5S_lDkBI2g-1; Sun, 16 Jul 2023 09:30:35 -0400
+X-MC-Unique: Yvsup6xPNMqH5S_lDkBI2g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcef2acso19270175e9.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 06:30:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689507898; x=1692099898;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UW0Gb0fhe8KUAoH9z0fOHvs5nZuEEb7L+CPOMHFXQWA=;
- b=bB2jKVBiv53sCE6L+B1bUJbIx5PDNN601KAo07mjSUj7PHLAc2H0rgx148nV1ybvdy
- n1D0lLtqWHfDSr6AO9FX9Q9wqrfIvwpfg5oQDrAV+1YAC1LXaQbShgu2Lu615WtAa/MY
- 4+nmXiyG4Z6ISI9Td7/Fj9hEb8ELl87heRrJKAmNtDqEEgIzUAFGE+p009Lftv6uiNZ7
- xgW5WA/bvMchnGxDUgmhKLejlLO+b3hnki5uDwfQwqAtVn6MH0vfHFlCBFfyagZkAhrY
- /bWG8OEC1i1vz7ppu2sGL3jYwAL2iXWl8vMUPf0fLpSvSjsm0Fsf9cYMC6tEEUorTwi4
- I51g==
-X-Gm-Message-State: ABy/qLZ1eDFaHWH+RrD4NXwncm4EXu45honrWCHjk42fNiOObiV2ydWy
- TPFzT78ltju6T/YTeetq/ro=
-X-Google-Smtp-Source: APBJJlENaURlprzIJM/AWxrCdrM0RnZHU+VlpQ7Ay5WfVSfljEoACMDN/5bW6NiEKcB2hFoQgwU8Sw==
-X-Received: by 2002:a05:6a00:23c2:b0:680:fa5f:4ed6 with SMTP id
- g2-20020a056a0023c200b00680fa5f4ed6mr11156582pfc.27.1689507898117; 
- Sun, 16 Jul 2023 04:44:58 -0700 (PDT)
-Received: from [192.168.0.104] ([103.131.18.64])
- by smtp.gmail.com with ESMTPSA id
- 2-20020aa79242000000b0067777e960d9sm9988284pfp.155.2023.07.16.04.44.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jul 2023 04:44:57 -0700 (PDT)
-Message-ID: <12caddea-9432-6285-f46b-2ba0ae426c38@gmail.com>
-Date: Sun, 16 Jul 2023 18:44:43 +0700
+ d=1e100.net; s=20221208; t=1689514234; x=1692106234;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CjuXrLpE5fZ4kMeORkkTJX0Um/Y7BBe3dNlC2HaYSoU=;
+ b=hFKahN+IQRYQq6sAukpBwHDwkHTAS01hxVBuaXdDm/4dHD6hfuzbt1demt/ieUXcXd
+ L/ZfD6sVlY/f50fy08uUMwNt9tJf9PnmO+/ecBYhEVoAqxRzmOI3BVDOgneM4dtDgZch
+ h8GcPUkjBrCCi6OJixit92Wz4GAab7Serm/ipsXnWSrY286UOjl1pQpRcLy+FFSxXELV
+ kUJE8wqWFwvZqop2gcx88KomekVFzLbwjhwwzlukLBg3h5B/3CTrXcAur72O+LBSnIE2
+ azzJ8A3Gras1kFrT2rVd5+m6iUOiMKQ0eR5iBrs06gm5Y4RAaZtdVhxCJNII3KWKcT3U
+ gsAg==
+X-Gm-Message-State: ABy/qLYzdqhYJ5Eq6uANNOsycdBYBzjs9ag1g18t2H+EVNAXUbSgs7NM
+ 4cp3LD2LRbU2IuiankUOPJ6wYB8ulGe/2TZ9+myEgm91dxaCkBWT+bR8+wlzNoQvnPjnqndtfCx
+ vbv4jnjjctmzHqjigUgzQKdtdKevG
+X-Received: by 2002:a7b:cbcb:0:b0:3f9:b1e7:8a4b with SMTP id
+ n11-20020a7bcbcb000000b003f9b1e78a4bmr7679356wmi.21.1689514234768; 
+ Sun, 16 Jul 2023 06:30:34 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlF9RdEhJ0TAEWePY7ifDIJ9OBUgAG5cpiZ6Um+wUYdwWLf1n30CjRuAHN3tQL7HMIYTidQoXg==
+X-Received: by 2002:a7b:cbcb:0:b0:3f9:b1e7:8a4b with SMTP id
+ n11-20020a7bcbcb000000b003f9b1e78a4bmr7679337wmi.21.1689514234418; 
+ Sun, 16 Jul 2023 06:30:34 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y13-20020a05600c364d00b003f819faff24sm5580532wmq.40.2023.07.16.06.30.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Jul 2023 06:30:33 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/8] drm: fb-helper/ssd130x: Add support for DRM_FORMAT_R1
+In-Reply-To: <cover.1689252746.git.geert@linux-m68k.org>
+References: <cover.1689252746.git.geert@linux-m68k.org>
+Date: Sun, 16 Jul 2023 15:30:32 +0200
+Message-ID: <87zg3w7zlz.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maik Broemme <mbroemme@libmpq.org>, Johannes <johannesnitschke@yahoo.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: =?UTF-8?Q?Fwd=3a_Framebuffer-Display_issue=2e_=28Intel=c2=ae_Iris?=
- =?UTF-8?B?wq4gWGUp?=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,111 +82,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Framebuffer <linux-fbdev@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>,
- Linux Intel GPU <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Stable <stable@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
-I notice a regression report on Bugzilla [1]. Quoting from it:
+Hello Geert,
 
-> Hello I have been having problems for some time now with displaying any linux distribution with the new kernal. The only thing that can fix it are older kernals.
-> 
-> I can't describe it very well, so I'm attaching some pictures, but it's like whenever anything happens on the screen, it pushes the upper left half up from the bottom. But it only goes to a certain extent, after that it just shakes around and jumps back a bit. Also, for example, the firefox icon is not where it is displayed, but where it should be (I tried it with touch).
-> 
-> I think it has something to do with the framebuffer, because an usb stick with just the arch iso show the same issue in the tty.
-> 
-> The hardware is a Huawei Matebook E 2022.
-> Cpu: Intel® Core™ i5-1130G7
-> Graphics: Intel® Iris® Xe
-> 
-> Example under Manjaro that worked was with the 
-> linux-lqx-6.1.0.lqx2-1-x86_64.pkg.tar.zst kernal
-> 22-Dec-2022 14:44           154507169
-> from https://repo.blacksky3.com/x86_64/linux-lqx/old/
-> 
-> Kernals above that Version dosent work, Example with 6.1.1-lqx1-linux-lqx:
-> `
-> $inxi -F
-> System:
-> Host: Johannes Kernel: 6.1.1-lqx1-linux-lqx arch: x86_64 bits: 64
-> Desktop: GNOME v: 43.5 Distro: Manjaro Linux
-> Machine:
-> Type: Detachable System: HUAWEI product: DRC-WXX v: M1010
-> serial:
-> Mobo: HUAWEI model: DRC-WXX-PCB v: M1010 serial:
-> UEFI: HUAWEI v: 1.30 date: 06/29/2022
-> Battery:
-> ID-1: BAT1 charge: 27.8 Wh (66.0%) condition: 42.1/42.1 Wh (100.0%)
-> volts: 11.9 min: 11.5
-> CPU:
-> Info: quad core model: 11th Gen Intel Core i5-1130G7 bits: 64 type: MT MCP
-> cache: L2: 5 MiB
-> Speed (MHz): avg: 1395 min/max: 400/1801 cores: 1: 897 2: 1046 3: 962
-> 4: 1801 5: 1801 6: 1801 7: 1801 8: 1052
-> Graphics:
-> Device-1: Intel Tiger Lake-UP4 GT2 [Iris Xe Graphics] driver: i915 v: kernel
-> Display: wayland server: X.org v: 1.21.1.8 with: Xwayland v: 23.1.1
-> compositor: gnome-shell driver: gpu: i915 resolution: 2560x1600~60Hz
-> API: OpenGL v: 4.6 Mesa 23.0.3 renderer: Mesa Intel Xe Graphics (TGL GT2)
-> Audio:
-> Device-1: Intel driver: N/A
-> Device-2: Intel Tiger Lake-LP Smart Sound Audio
-> driver: sof-audio-pci-intel-tgl
-> API: ALSA v: k6.1.1-lqx1-linux-lqx status: kernel-api
-> Server-1: PulseAudio v: 16.1 status: active
-> Network:
-> Device-1: Intel Wi-Fi 6 AX201 driver: iwlwifi
-> IF: wlp0s20f3 state: up mac: f4:b3:01:b7:c6:6d
-> Bluetooth:
-> Device-1: Intel AX201 Bluetooth driver: btusb type: USB
-> Report: rfkill ID: hci0 state: up address: see --recommends
-> Drives:
-> Local Storage: total: 476.94 GiB used: 9.65 GiB (2.0%)
-> ID-1: /dev/nvme0n1 model: PCIe-8 SSD 512GB size: 476.94 GiB
-> Partition:
-> ID-1: / size: 468.09 GiB used: 9.65 GiB (2.1%) fs: ext4 dev: /dev/nvme0n1p2
-> ID-2: /boot/efi size: 299.4 MiB used: 288 KiB (0.1%) fs: vfat
-> dev: /dev/nvme0n1p1
-> Swap:
-> Alert: No swap data was found.
-> Sensors:
-> System Temperatures: cpu: 35.0 C mobo: N/A
-> Fan Speeds (RPM): N/A
-> Info:
-> Processes: 241 Uptime: 0m Memory: available: 15.42 GiB used: 1.18 GiB (7.6%)
-> Shell: Zsh inxi: 3.3.27
-> 
-> `
-> 
-> Distros I testet:
-> Ubuntu 20.04.2 results in Blackscreen/poweroff
-> Fedora 38 (Bug as I mentiond)
-> Manjaro (Bug as I mentiond)
-> It all works fine when you start from grub2 in Rescue mode.
-> 
-> That all is very new to me, so I am sorry if I did something wrong. 
-> I mean, I reported that bug first at the wrong place.. Anyway
-> 
-> Best regreds Johannes
+> 	Hi all,
+>
+> The native display format of ssd1306 OLED displays is monochrome
+> light-on-dark (R1).  This patch series adds support for the R1 buffer
+> format to both the ssd130x DRM driver and the FB helpers, so monochrome
+> applications (including fbdev emulation and the text console) can avoid
+> the overhead of back-and-forth conversions between R1 and XR24.
+>
 
-See Bugzilla for the full thread and attached pictures that demonstrate
-this regression.
+I've tested your series on a ssd1306 I2C OLED panel and fbcon did work for
+me, but had some issues when trying to run your fbtest suite. Because the
+test005 gets killed with a SIGSEGV.
 
-Anyway, I'm adding it to regzbot:
+$ ./fbtest -d 
+fb_init()
+fb_open()
+fb_get_var()
+fb_get_fix()
+fb_map()
+fb_start = 0, fb_offset = 0, fb_len = 1000
+fb_save()
+fb_clear()
+Using drawops planar (monochrome and (interleaved) bitplanes)
+Available visuals:
+  Monochrome
+  Grayscale 2
+Using visops monochrome
+Running all tests
+Running test test001
+test001: PASSED
+Running test test002
+test002: PASSED
+Running test test003
+Requirement num_colors >= 16 not met
+Running test test004
+test004: PASSED
+Running test test005
+Caught signal 11. Exiting
+fb_cleanup()
+fb_restore()
+fb_unmap()
+fb_set_var()
+fb_get_var()
+fb_get_fix()
+fb_close()
 
-#regzbot introduced: v6.1..v6.4 https://bugzilla.kernel.org/show_bug.cgi?id=217666
-#regzbot title: screen shakes on Intel® Iris® Xe
+Maybe more tests are missing the minimum num_colors requirement? Also, the
+penguin in test004 is not displayed correctly. I was expecting that to be
+working correctly since you mentioned to be using the Linux logo on boot.
 
-(also Cc'ing stable list because it also occurs on v6.1.y, but not in
-v6.1 mainline).
+Another question, do you know if is possible to change the default format?
+I believe that fbset won't work because the DRM fbdev emulation layer does
+not implement mode settings but I thought that changing the mode using the
+atomic KMS API would work.
 
-Thanks.
+$ modetest -M ssd130x -P 31@33:128x64@XR24 -a
+$ echo $?
+0
+
+but after that I still get:
+
+$ fbset -i
+
+mode "128x64"
+    geometry 128 64 128 64 1
+    timings 0 0 0 0 0 0 0
+    rgba 1/0,1/0,1/0,0/0
+endmode
+
+Frame buffer device information:
+    Name        : ssd130xdrmfb
+    Address     : (nil)
+    Size        : 4096
+    Type        : PACKED PIXELS
+    Visual      : MONO10
+    XPanStep    : 1
+    YPanStep    : 1
+    YWrapStep   : 0
+    LineLength  : 16
+    Accelerator : No
+
+Maybe I'm doing something wrong or misunderstading about how should work?
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
