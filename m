@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD8D75575E
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jul 2023 23:23:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6CD7558B4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 01:57:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD0DC10E09A;
-	Sun, 16 Jul 2023 21:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9C410E0A5;
+	Sun, 16 Jul 2023 23:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A6710E09A
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 21:22:55 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-cacc3f97ee9so4124647276.3
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 14:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689542575; x=1692134575;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ehHFd2i1D4cdxDgZXxDtxev4s/OtFUIBV9R8JH1GczI=;
- b=TUANb1xdwg4ApfDT153qsO6QCznb5nxHBKEhNirqqCNXAE2sRkK2qbvW49vqxIsAj2
- o2d0ZFedzmRDzUrDHmn0LcAsYOg6z8ZPD+RX6Vqg3LesLA6K8FweiqJ6RiNjb507yS7J
- mdzOgTJygiJIrBrFtehvMOuu6AhkSN0LytONWTRC2sSOQeK9jfjBPxGgmtKU3x5wVAuk
- pGIeeLly8iAwYCG5ts7WPiV6nwFJ9jkDCjgu5w3cFHMpcmzUjp6oCkVNsHui7JD8NlYY
- /naJzYS/oBC+CDcx7XIUGGVbOkDCjT84b8RociW+eusq3Wx7Uvgx9u/SPNpIoF3bfmLH
- gjcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689542575; x=1692134575;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ehHFd2i1D4cdxDgZXxDtxev4s/OtFUIBV9R8JH1GczI=;
- b=Y8Su10HjdCHzXXZEV1aQEL36lbM380m3vmefTzxM4qYvvWe/FsKE9D2tYC41Pq3NrW
- dEy1N/iMZxwZaEhCMtvDCVA3xN1wfKnToYxeDm50N9v3Yh8VamjgosGK0gy9YToR9Xw7
- S6aUcX3KDYWuF2p36gvBYKd3E91Otj/1bevsY2czdjLphp48nSmU7oihbaTxDkZ0of+i
- ubIpdatVkgtTJahFKeUDK88DEbfGl5arF1q14giAyApiQbrWY3SRS4ZB/485oNXutr6y
- 2HMwX0OB6OULd/w/2Z926PBPTHXPU+qmLuipjTelB6NknznrBtsV/vczX93Qn3Qh11RU
- n7+w==
-X-Gm-Message-State: ABy/qLanldH7+WcsFd8JXeksk+DikZwG6tkXBRmw+72uiapgl0712NIv
- Kny2tLKIjwAPOpWK1t86DcVB2hhB/+r/8ESbr45Qgg==
-X-Google-Smtp-Source: APBJJlErNg8Oc3PPMT7Mk+Lfx5QAC/OC92g4sKDGGNguhpK28xKdYtC3K+IjcJQWqeu8+LMrged+MnE1lM++5T7GyW0=
-X-Received: by 2002:a0d:eec3:0:b0:577:3fb4:f245 with SMTP id
- x186-20020a0deec3000000b005773fb4f245mr12710224ywe.19.1689542574879; Sun, 16
- Jul 2023 14:22:54 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15C1310E0A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 23:57:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D96C260EE2;
+ Sun, 16 Jul 2023 23:57:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F19C433C7;
+ Sun, 16 Jul 2023 23:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689551833;
+ bh=+2BhqY9zrhKuYyQ9etJS5H8r5edL7fVLVmdomTcsJy0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TBFRNmShB+QtUymfhfsuzlj3mrAUiU+5Hg+ldphDuktGwVKO+KxXQagpUkGBQJbWl
+ hXyeF+Rfg6ewUcNhDMsuBvqcdWqvqawpVMD6yWImZiyxQtdvTYWzL+kMpw5xzqpRhG
+ zeXaT0cOS+lRpVDZ6s045vluNNr6NG8cNDQ0AcffxOFmBiEOaCwDgVYYnRJ3T4sqWQ
+ wzLuT7zwBFRFCBLF6Pt82BWVaS82xTXICHEGNuTljfml0iqwe6rpTBHVuINaJ0uP2a
+ 1u6ABa3DonIrUNt5odDi+lmA05AzQN6US36BEfW0zBjuLP3/0xlzgySFmJCGVXiatb
+ uc5uAgsCg/N8w==
+Message-ID: <73971895-6fa7-a5e1-542d-3faccbc4a830@kernel.org>
+Date: Sun, 16 Jul 2023 16:57:07 -0700
 MIME-Version: 1.0
-References: <20230707095415.1449376-1-arnd@kernel.org>
- <20230707095415.1449376-3-arnd@kernel.org>
- <CACRpkdbiDUomH8HLkk_jyJZYc+mEmRaFL8-JasDmd=ooSB62Qw@mail.gmail.com>
- <1c0119cc-7787-4f95-870e-da1c5894625d@app.fastmail.com>
-In-Reply-To: <1c0119cc-7787-4f95-870e-da1c5894625d@app.fastmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 16 Jul 2023 23:22:43 +0200
-Message-ID: <CACRpkdYVQa-p_tA5reK1Biniz6xf9gWm3K8JKCbjr4fO3=GHZQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] dummycon: limit Arm console size hack to footbridge
-To: Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RFC PATCH 06/10] net: add SO_DEVMEM_DONTNEED setsockopt to
+ release RX pages
+Content-Language: en-US
+To: Mina Almasry <almasrymina@google.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20230710223304.1174642-1-almasrymina@google.com>
+ <20230710223304.1174642-7-almasrymina@google.com>
+From: Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <20230710223304.1174642-7-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,28 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Russell King <rmk+kernel@armlinux.org.uk>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, jgg@ziepe.ca,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 7, 2023 at 4:28=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
+On 7/10/23 15:32, Mina Almasry wrote:
+> Add an interface for the user to notify the kernel that it is done reading
+> the NET_RX dmabuf pages returned as cmsg. The kernel will drop the
+> reference on the NET_RX pages to make them available for re-use.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> ---
 
-> Since you have already spent the time to build and test a kernel with
-> this patch, can you do one more test here and check the text size
-> reported in the atags on this machine and the actual text sizes you
-> get from both vgacon and cyber2000fb?
+> +		for (i = 0; i < num_tokens; i++) {
+> +			for (j = 0; j < tokens[i].token_count; j++) {
+> +				struct page *pg = xa_erase(&sk->sk_pagepool,
+> +							   tokens[i].token_start + j);
+> +
+> +				if (pg)
+> +					put_page(pg);
+> +				else
+> +					/* -EINTR here notifies the userspace
+> +					 * that not all tokens passed to it have
+> +					 * been freed.
+> +					 */
+> +					ret = -EINTR;
 
-Heh I tested this then walked out of the office for vacation.
+Unless I'm missing something, this type of error reporting is 
+unrecoverable -- userspace doesn't know how many tokens have been freed.
 
-But I can put a note in my calendar to test it when I return to
-my equipment!
+I think you should either make it explicitly unrecoverable (somehow shut 
+down dmabuf handling entirely) or tell userspace how many tokens were 
+successfully freed.
 
-Yours,
-Linus Walleij
+--Andy
