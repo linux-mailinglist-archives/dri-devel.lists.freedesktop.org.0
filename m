@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2E6756F24
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 23:53:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5F6756F2A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 23:55:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62DDB10E057;
-	Mon, 17 Jul 2023 21:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 724F010E183;
+	Mon, 17 Jul 2023 21:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCC510E057;
- Mon, 17 Jul 2023 21:52:54 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3441510E14F;
+ Mon, 17 Jul 2023 21:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689630774; x=1721166774;
+ t=1689630894; x=1721166894;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=GIu/1sTBWNqQVdXog3kMitlUfCk5qxXNdX74p4fnTsQ=;
- b=Yqdc8PX23F2cSA61oWruxC3zdGWUaTLWV/dLOr+B00/ltmZYXmG9utff
- hHHhIHa/phYsiXGnv46dHKWrWeH0uOKy033LLoY/Ac76+CmUN9m4jDs7O
- ZKrxUCr6/yl7qVYQb/mxe5R6+ZSkgwofnPGZx9HuPHMDFQEtMkSZnODsi
- j77dhytBmz6OyKRpQYfC0KFqPm0n8QPQARugLvuroC6+XB8c2wKfjWNuQ
- UKkU7Gh1lqADDHREEzHOLgdiE5GF3ec9WxxY3bgWBxi21yKs8bHMb4Gno
- ys1ciCeecKYy/XC/Q60N3zVEislkOPBPrk5b2KVMbf22xsTmdd/XwHKEg Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="345641885"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="345641885"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 14:52:35 -0700
+ bh=ElIHn6hBqwLfRrs0obXHmv9S/gTj2Fw1lEgqFWi9kJ0=;
+ b=Vz1WBWHwR2wRDAsYpSk6iMhER2rOEsRENEcQE7u7AaaZ18pSt+CrAJMF
+ SLzvfRQvB/uOnsvrCYWz1k2WoPPRBFIrjLCkJf+kZm+o2ivWUuTI4j7Pt
+ Y+lS5QkBXeUv5c2Ir0TTh0Rgw0gQRmD4nzbiqOjTUFfmR3LcHUGHkFzx/
+ PbgaAnhQWvqugifDUfBKfhpJyNAVMDQf7ixcst7CJsj021lS/s8/Ebu1v
+ qGDTtNKOrNeUTg7I576yTv3qbW8/gSexiP8G3Bdh6fZ9HXG8LVKPJ0vd4
+ 39WUMWzq1dCl9c7B+iYngcMrpPENgNCSrGcuYrvdC1IwNBF+xD1A/QeKT Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="452423339"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="452423339"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 14:54:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="700650224"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="700650224"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="837046161"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="837046161"
 Received: from jplazoni-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.55.169])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 14:52:33 -0700
-Date: Mon, 17 Jul 2023 23:52:25 +0200
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 14:54:50 -0700
+Date: Mon, 17 Jul 2023 23:54:42 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v4 2/6] drm/i915/gt: Ensure memory quiesced before
- invalidation
-Message-ID: <ZLW4GXM17rdep1Ex@ashyti-mobl2.lan>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v4 3/6] drm/i915/gt: Rename flags with
+ bit_group_X according to the datasheet
+Message-ID: <ZLW4oqGarqzWv2fc@ashyti-mobl2.lan>
 References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
- <20230717173059.422892-3-andi.shyti@linux.intel.com>
- <20230717175425.GB138014@mdroper-desk1.amr.corp.intel.com>
- <20230717203103.GG138014@mdroper-desk1.amr.corp.intel.com>
+ <20230717173059.422892-4-andi.shyti@linux.intel.com>
+ <e951e0c3-23e8-75aa-f58a-5aa99a7d4598@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230717203103.GG138014@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <e951e0c3-23e8-75aa-f58a-5aa99a7d4598@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +66,56 @@ Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
  Jonathan Cavitt <jonathan.cavitt@intel.com>,
  DRI Devel <dri-devel@lists.freedesktop.org>,
  Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi Andrzej,
 
-On Mon, Jul 17, 2023 at 01:31:03PM -0700, Matt Roper wrote:
-> On Mon, Jul 17, 2023 at 10:54:37AM -0700, Matt Roper wrote:
-> > On Mon, Jul 17, 2023 at 07:30:55PM +0200, Andi Shyti wrote:
-> > > From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > > 
-> > > All memory traffic must be quiesced before requesting
-> > > an aux invalidation on platforms that use Aux CCS.
-> > > 
-> > > Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-> > > Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > > Cc: <stable@vger.kernel.org> # v5.8+
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > > index 563efee055602..bee3b7dc595cf 100644
-> > > --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > > +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > > @@ -202,6 +202,13 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
-> > >  {
-> > >  	struct intel_engine_cs *engine = rq->engine;
-> > >  
-> > > +	/*
-> > > +	 * Aux invalidations on Aux CCS platforms require
-> > > +	 * memory traffic is quiesced prior.
-> > > +	 */
-> > > +	if ((mode & EMIT_INVALIDATE) && !HAS_FLAT_CCS(engine->i915))
+On Mon, Jul 17, 2023 at 08:21:40PM +0200, Andrzej Hajda wrote:
+> On 17.07.2023 19:30, Andi Shyti wrote:
+> > In preparation of the next patch allign with the datasheet (BSPEC
+> > 47112) with the naming of the pipe control set of flag values.
+> > The variable "flags" in gen12_emit_flush_rcs() is applied as a
+> > set of flags called Bit Group 1.
 > > 
-> > It's a pre-existing mistake in drm-tip at the moment, but we shouldn't
-> > assume !flatccs always implies auxccs.  PVC has neither, and there may
-> > be other similar platforms in the future.  We should probably add a
-> > helper function for AuxCCS, similar to what we added to the Xe driver
-> > recently:
+> > Define also the Bit Group 0 as bit_group_0 where currently only
+> > PIPE_CONTROL0_HDC_PIPELINE_FLUSH bit is set.
 > > 
-> > https://patchwork.freedesktop.org/patch/539304/?series=118334&rev=1
+> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: <stable@vger.kernel.org> # v5.8+
+> > ---
+> >   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 34 +++++++++++++-----------
+> >   1 file changed, 18 insertions(+), 16 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> > index bee3b7dc595cf..3c935d6b68bf0 100644
+> > --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> > +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> > @@ -210,7 +210,8 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+> >   		mode |= EMIT_FLUSH;
+> >   	if (mode & EMIT_FLUSH) {
+> > -		u32 flags = 0;
+> > +		u32 bit_group_0 = 0;
+> > +		u32 bit_group_1 = 0;
+> 
+> For me flags0 and flags1 seems more readable as in
+> *gen8_emit_pipe_control(batch, flags0, flags1, offset), but no strong
+> feelings, but if bit_group is chosen arguments of *gen8_emit_pipe_control
+> could be changed as well.
 
-Currently that is done in patch 6...
+yes, I thought to update all of them, as well for consistency. I
+like the name bit_group_0/1 because it's similar to the
+datasheet.
 
-> BTW, since this patch didn't handle it I was expecting to see another
-> patch in the series that quiesces memory for the non-RCS/CCS engines,
-> but it looks like there isn't one yet.  So we should probably add the
-> necessary MI_FLUSH_DW logic for the other engines to this patch as well.
+I had some confusion about it earlier and I think this can help
+to improve readability.
 
-... where also other engines are handles as well. I left this
-patch as it is in order to preserve the authorship and it's
-original form.
+Will update all the other functions, as well.
 
-Maybe in patch 6 I can add the extra check for PVC as you did for
-XE.
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Thanks,
+Thanks!
+
 Andi
