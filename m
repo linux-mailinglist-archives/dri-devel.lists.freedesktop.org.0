@@ -2,55 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6948E756505
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DCA75650F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:34:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5274510E245;
-	Mon, 17 Jul 2023 13:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8030810E256;
+	Mon, 17 Jul 2023 13:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA5910E245
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:30:56 +0000 (UTC)
-Received: from [192.168.2.126] (109-252-154-2.dynamic.spd-mgts.ru
- [109.252.154.2])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DE0C66606EF9;
- Mon, 17 Jul 2023 14:30:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689600654;
- bh=3r44yMGopZswD/4MCovJLODOOOfJODbmEllLZPplAYU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RpFjy4UM1kol+ZAsvt1ZNWWfZZeaoWF6BEdkRkxHLSLiB+0oU6tu5WMsILTnxjcxv
- FOW2P7aOKEEppbsWZTXu2x4aspd+8mnQuvIcqvagFjDyTXAil+xvMzuScsajZLHK36
- LIq6gQrpnxyPoBRFUN4C+UyZEmuPTPy8cy4vPb8ryxbyMG9zYBU7Xumsq3t+wuRLtN
- htg0q42eDRVOXdRc/3OVUeK140k9fGrJYAOevgXGrBJyQgXrUyOnVDzPg+iVWk33Mp
- 6N4OefvXSxD0/cszqbyIva19b+c0j/Ae3VbttFO1x7SBJ19WKK8ET7IWaSAR1+t7qM
- T4SU8VmNrvHzA==
-Message-ID: <f567b685-0155-a317-1786-cc8267d15612@collabora.com>
-Date: Mon, 17 Jul 2023 16:30:51 +0300
+Received: from out-17.mta0.migadu.com (out-17.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21F5610E256
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:34:06 +0000 (UTC)
+Content-Type: multipart/alternative;
+ boundary="------------IJqnIXHQHd0oWDiqCHPxgcBt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1689600843;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kkckZSA+inAR7TFamVZNuzW5TIQv43tF8fQPgC6ze4U=;
+ b=pFcInVz32lzzxaGc48q9cCI+P8pY1nDNyCYMWa9gpPNdfkwe7TRBiqt1ZScQVKuu9zXtF4
+ X/01soZdcxtwdtJnAH3+8pQs+08mTOLXTfelaOeZpTu94wT0jhcK0TCDPyg8sopmm+rRwl
+ lmgj0sBlzDjsrGa9jsgak6557stfrfc=
+Message-ID: <b224d17b-4889-a913-8856-bad1f4262f9c@linux.dev>
+Date: Mon, 17 Jul 2023 21:33:55 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v1] drm/panfrost: Sync IRQ by job's timeout handler
-To: Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230717065254.1061033-1-dmitry.osipenko@collabora.com>
- <20230717090506.2ded4594@collabora.com>
- <80de081a-e443-85a2-1a61-6a8885e8d529@collabora.com>
- <20230717094905.7a1ee007@collabora.com>
- <0b527996-342b-da44-61dd-38743db80cda@arm.com>
- <20230717104955.268d84a8@collabora.com>
- <31f04dca-f7b7-e899-07ee-8c5f2dd55494@arm.com>
+Subject: Re: [PATCH v1 1/8] drm/etnaviv: Using the size_t variable to store
+ the number of pages
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <31f04dca-f7b7-e899-07ee-8c5f2dd55494@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+ <20230623100822.274706-2-sui.jingfeng@linux.dev>
+ <4f80b175f94eaf386354d1f3425208ca6cf20482.camel@pengutronix.de>
+ <4484c007-132c-ce47-fa71-87f33c87fe07@linux.dev>
+ <8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,139 +55,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-17.07.2023 11:59, Steven Price пишет:
-> On 17/07/2023 09:49, Boris Brezillon wrote:
->> On Mon, 17 Jul 2023 09:06:56 +0100
->> Steven Price <steven.price@arm.com> wrote:
+This is a multi-part message in MIME format.
+--------------IJqnIXHQHd0oWDiqCHPxgcBt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+On 2023/7/17 18:38, Lucas Stach wrote:
+> Am Montag, dem 17.07.2023 um 18:12 +0800 schrieb Sui Jingfeng:
+>> Hi
 >>
->>> On 17/07/2023 08:49, Boris Brezillon wrote:
->>>> On Mon, 17 Jul 2023 10:20:02 +0300
->>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
->>>>   
->>>>> Hi,
->>>>>
->>>>> On 7/17/23 10:05, Boris Brezillon wrote:  
->>>>>> Hi Dmitry,
->>>>>>
->>>>>> On Mon, 17 Jul 2023 09:52:54 +0300
->>>>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
->>>>>>     
->>>>>>> Panfrost IRQ handler may stuck for a long time, for example this happens
->>>>>>> when there is a bad HDMI connection and HDMI handler takes a long time to
->>>>>>> finish processing, holding Panfrost. Make Panfrost's job timeout handler
->>>>>>> to sync IRQ before checking fence signal status in order to prevent
->>>>>>> spurious job timeouts due to a slow IRQ processing.    
->>>>>>
->>>>>> Feels like the problem should be fixed in the HDMI encoder driver
->>>>>> instead, so it doesn't stall the whole system when processing its
->>>>>> IRQs (use threaded irqs, maybe). I honestly don't think blocking in the
->>>>>> job timeout path to flush IRQs is a good strategy.    
->>>>>
->>>>> The syncing is necessary to have for correctness regardless of whether
->>>>> it's HDMI problem or something else, there could be other reasons for
->>>>> CPU to delay IRQ processing. It's wrong to say that hw is hung, while
->>>>> it's not.  
+>> On 2023/7/17 17:43, Lucas Stach wrote:
+>>> Hi Jingfeng,
+>>>
+>>> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
+>>>> From: Sui Jingfeng<suijingfeng@loongson.cn>
 >>>>
->>>> Well, hardware is effectively hung, if not indefinitely, at least
->>>> temporarily. All you do here is block in the timeout handler path
->>>> waiting for the GPU interrupt handlers to finish, handler that's
->>>> probably waiting in the queue, because the raw HDMI handler is blocking
->>>> it somehow. So, in the end, you might just be delaying the time of HWR a
->>>> bit more. I know it's not GPU's fault in that case, and the job could
->>>> have finished in time if the HDMI encoder hadn't stall the interrupt
->>>> handling pipeline, but I'm not sure we should care for that specific
->>>> situation. And more importantly, if it took more than 500ms to get a
->>>> frame rendered (or, in that case, to get the event that a frame is
->>>> rendered), you already lost, so I'm not sure correctness matters:
->>>> rendering didn't make it in time, and the watchdog kicked in to try and
->>>> unblock the situation. Feels like we're just papering over an HDMI
->>>> encoder driver bug here, really.  
->>>
->>> TLDR; I don't see any major downsides and it stops the GPU getting the 
->>> blame for something that isn't its fault.
+>>>> Because the etnaviv_gem_new_private() function receives the size_t argument
+>>>> for the number of pages. And the number of pages should be unsigned.
+>>>>
+>>>> Note that Most 32-bit architectures use "unsigned int" size_t,
+>>>> and all 64-bit architectures use "unsigned long" size_t.
+>>>> So, let's keep the argument and parameter consistent.
+>>>>
+>>> This explanation doesn't add up. npages is just that: a number of
+>>> pages. Why would it make sense to use size_t here?
+>> Because the 'size' variable in the etnaviv_gem_prime_import_sg_table()
+>> function is declared
 >>
->> True, but doing that will also give the impression that things run fine,
->> but very slowly, which would put the blame on the userspace driver :P.
-> 
-> Maybe I'm tainted by years of the kernel driver getting the blame
-> because it was the one that printed the message ;p
-> 
->>>
->>> I guess the question is whether panfrost should work on a system which 
->>> has terrible IRQ latency. At the moment we have a synchronize_irq() call 
->>> in panfrost_reset() which effectively does the same thing, but with all 
->>> the overhead/spew of resetting the GPU.
+>> as size_t type. On 64-bit machine, size_t is actually is 64-bit wide and
+>> it is*unsigned*.
 >>
->> Unless I'm mistaken, the synchronize_irq() in panfrost_reset() is
->> mostly here to make sure there's no race between the interrupt
->> handler and the reset logic (we mask interrupts, and then synchronize,
->> guaranteeing that the interrupt handler won't be running after that
->> point), and it happens after we've printed the error message, so the
->> user knows something was blocked at least.
-> 
-> Yes the synchronize_irq() in panfrost_reset() is there to avoid a real
-> race - but it has the side effect of flushing out the IRQ and therefore
-> the job gets completed successfully. And in the high IRQ latency
-> situation makes the actual reset redundant.
-> 
->>>
->>> Of course in the case Dmitry is actually talking about - it does seem 
->>> like the HDMI encoder has a bug which needs fixing. There are plenty of 
->>> other things that will break if IRQ latency gets that bad.
+>> While 'int' is actually 32-bit wide(at both 32-bit system and 64-bit
+>> system) and it is*signed*,
 >>
->> Yes, that's my point. The GPU driver is the only one to complain right
->> now, but the HDMI encoder behavior could be impacting other parts of
->> the system. Silently ignoring those weirdnesses sounds like a terrible
->> idea.
-> 
-> Agreed - but making it look like a GPU driver bug isn't good either.
-> 
->>>
->>> I do wonder if it makes sense to only synchronize when it's needed, 
->>> e.g.:
->>>
->>> ----8<---
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> index dbc597ab46fb..d96266b74e5c 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> @@ -720,6 +720,12 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->>>  	if (dma_fence_is_signaled(job->done_fence))
->>>  		return DRM_GPU_SCHED_STAT_NOMINAL;
->>>  
->>> +	/* Synchronize with the IRQ handler in case the IRQ latency is bad */
->>> +	synchronize_irq(pfdev->js->irq);
->>> +	/* Recheck if the job is now complete */
->>> +	if (dma_fence_is_signaled(job->done_fence))
->>> +		return DRM_GPU_SCHED_STAT_NOMINAL;
->>> +
->>>  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
->>>  		js,
->>>  		job_read(pfdev, JS_CONFIG(js)),
->>> ----8<---
->>>
->>> I don't have any data as to how often we hit the case where the DRM 
->>> scheduler calls the timeout but we've already signalled - so the extra 
->>> check might be overkill.
+>> So, my point (argument) is that
 >>
->> Right, it's not so much about the overhead of the synchronize_irq()
->> call (even though my first reply complained about that :-)), but more
->> about silently ignoring system misbehaviors. So I guess I'd be fine with
->> a version printing a dev_warn("Unexpectedly high interrupt latency")
->> when synchronize_irq() unblocks the situation, which means you'd still
->> have to do it in two steps.
-> 
-> I like this idea - it still warns so it's obvious there's something
-> wrong with the system, and it makes it clear it's not the GPU's fault.
+>>
+>> 1) This patch help to avoid the unnecessary 64 bit to 32 bit conversion.
+>>
+>> 2) The kvmalloc_array() function also accept  size_t type (see the
+>> prototype of  kvmalloc_array function include/linux/slab.h)
+>>
+>>
+>> So my patch do helps to keep the code style consistent.
+>>
+> But then we go on to call drm_prime_sq_to_page_array(), which takes a
+> integer as the number of pages parameter, so the parameter types are
+> inconsistent before and after your patch, it just switches which
+> function call has to do some conversion.
+>
+But the drm_prime_sg_to_page_array() function is going to be depreciated,
 
-Like that idea too, thanks for the suggestions! Will prepare v2
+We probably could modified it also to unified it, that is to take size_t 
+arguments.
 
--- 
-Best regards,
-Dmitry
+--------------IJqnIXHQHd0oWDiqCHPxgcBt
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi,<br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/7/17 18:38, Lucas Stach wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:8b0d82d48ff24f578e7a1c7433e56ddaadc3188b.camel@pengutronix.de">
+      <pre class="moz-quote-pre" wrap="">Am Montag, dem 17.07.2023 um 18:12 +0800 schrieb Sui Jingfeng:
+</pre>
+      <blockquote type="cite" style="color: #007cff;">
+        <pre class="moz-quote-pre" wrap="">Hi
+
+On 2023/7/17 17:43, Lucas Stach wrote:
+</pre>
+        <blockquote type="cite" style="color: #007cff;">
+          <pre class="moz-quote-pre" wrap="">Hi Jingfeng,
+
+Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
+</pre>
+          <blockquote type="cite" style="color: #007cff;">
+            <pre class="moz-quote-pre" wrap="">From: Sui Jingfeng <a class="moz-txt-link-rfc2396E" href="mailto:suijingfeng@loongson.cn" moz-do-not-send="true">&lt;suijingfeng@loongson.cn&gt;</a>
+
+Because the etnaviv_gem_new_private() function receives the size_t argument
+for the number of pages. And the number of pages should be unsigned.
+
+Note that Most 32-bit architectures use "unsigned int" size_t,
+and all 64-bit architectures use "unsigned long" size_t.
+So, let's keep the argument and parameter consistent.
+
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">This explanation doesn't add up. npages is just that: a number of
+pages. Why would it make sense to use size_t here?
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">Because the 'size' variable in the etnaviv_gem_prime_import_sg_table() 
+function is declared
+
+as size_t type. On 64-bit machine, size_t is actually is 64-bit wide and 
+it is <b class="moz-txt-star"><span class="moz-txt-tag">*</span>unsigned<span class="moz-txt-tag">*</span></b>.
+
+While 'int' is actually 32-bit wide(at both 32-bit system and 64-bit 
+system) and it is <b class="moz-txt-star"><span class="moz-txt-tag">*</span>signed<span class="moz-txt-tag">*</span></b>,
+
+So, my point (argument) is that
+
+
+1) This patch help to avoid the unnecessary 64 bit to 32 bit conversion.
+
+2) The kvmalloc_array() function also accept  size_t type (see the 
+prototype of  kvmalloc_array function include/linux/slab.h)
+
+
+So my patch do helps to keep the code style consistent.
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">But then we go on to call drm_prime_sq_to_page_array(), which takes a
+integer as the number of pages parameter, so the parameter types are
+inconsistent before and after your patch, it just switches which
+function call has to do some conversion.
+
+</pre>
+    </blockquote>
+    <p>But the drm_prime_sg_to_page_array() function is going to be
+      depreciated, <br>
+    </p>
+    <p>We probably could modified it also to unified it, that is to take
+      size_t arguments.<br>
+    </p>
+  </body>
+</html>
+
+--------------IJqnIXHQHd0oWDiqCHPxgcBt--
