@@ -2,67 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0089755EA3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F8B755EB3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:46:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D08A10E20F;
-	Mon, 17 Jul 2023 08:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71F7A10E033;
+	Mon, 17 Jul 2023 08:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1350B10E20F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:39:41 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3fbc5d5746cso43033685e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 01:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689583180; x=1692175180;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=GvXy/QD/Pk1wVQOh6YjaEGgI2E+g61IPu7wSGMnkliU=;
- b=L7QarnmjyFnGGDP+dtzUQ+m9EkC03vr9oMUyRD+RKckUnMK92aQ+1hzqssBvr/VS8t
- ybG4szpchIROTfFkul5BgUelxLI6lLkqBdpxAQTRPETqHAP2NehvpjUXL880COyw6pqw
- 3Npn5/xMcQn/CD7SxVZqrG+u3uioULXDPh/wgUR4bvGzos0vymTWM4kwgTixw3kFmGA1
- LnOlykAitHhn2wyaqgUP7mMN2CpUB7Hg6K3uG/SfXntBPe+F9LUl5u6h9FbOzIyd2OeN
- HyUlKZTruFFbwELpiucIaKZpq4Ix7WZds0o+xJ6g6/XO6mrgq7EfL+I6fjLY0ID2mdUc
- Z0BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689583180; x=1692175180;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GvXy/QD/Pk1wVQOh6YjaEGgI2E+g61IPu7wSGMnkliU=;
- b=Vy2WaSsMlXjYMA/WM48dgcm78WBoRvvUDhXVJF4AlZnEDFjZr0d1T883S78nNPFKzq
- TRrwxhD2pxsUOxfAqf0eOrGphPF+OC1+UubxPcp1hLMZQD9s2i9XWeUzJMc8F0SUO3bT
- 1KacWi8sC0h78sPicxObnjxp8oIFJE4xOPcnlY+xzQE57Jgvs4cK20DWnYhOF8EV6Dch
- /h59SERb88WtxnKpbzogRe4r7YqmMdy5YR6UcM8srehV12oRFKGmjME8ONzJKbFrISjr
- V0S66Y1nZ9QUxvVnXHf3HsB67wU2VfV/COjHj4g1sQNEydA1O21S1GnDfYQP452u6bFG
- UVXg==
-X-Gm-Message-State: ABy/qLa675AhKt2n0Xu+KEpId4WC7cc5BFTKNn5+AUra8CKBehzdB8Hi
- NwbtmwkKwB8a8q6aDhMz+gusyA==
-X-Google-Smtp-Source: APBJJlHgZ4E1mKTLXPhXfFVpcxT5qb27bMkUkVf2TsNNUrMgy5l8jHfpRhxNmjMn8BqDmr9/iS7uzQ==
-X-Received: by 2002:a7b:c4c7:0:b0:3fb:40ff:1cba with SMTP id
- g7-20020a7bc4c7000000b003fb40ff1cbamr9475089wmk.6.1689583180223; 
- Mon, 17 Jul 2023 01:39:40 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- i6-20020a5d55c6000000b003145521f4e5sm18523160wrw.116.2023.07.17.01.39.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jul 2023 01:39:39 -0700 (PDT)
-Date: Mon, 17 Jul 2023 09:39:38 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Artur Weber <aweber.kernel@gmail.com>
-Subject: Re: [PATCH 2/2] backlight: lp855x: Catch errors when changing
- brightness
-Message-ID: <20230717083938.GB3448956@aspen.lan>
-References: <20230714121440.7717-1-aweber.kernel@gmail.com>
- <20230714121440.7717-3-aweber.kernel@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87AD910E033
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:45:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BEC6760FCD;
+ Mon, 17 Jul 2023 08:45:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4765C433C8;
+ Mon, 17 Jul 2023 08:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689583558;
+ bh=hdOCg7+PatqDTYJfrUrBETRxlBmQzetLFDdS6hsvDy4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cf5RGabV6Qg2m89nTGUfoUqkuwrJ77zVBZ6t4xcHkuiNkmCa3bsv8q83jkQFq3ySr
+ 5YEncGXGUSwuT2n0+0svt1tXGQKREsIHCl5fIvmu1kJjFkykKpAzKXtyc5V81p8KK5
+ cYDytXaZm+liX7HhEL4TvQakNrbr3Et/KqNZQqeOA1sVWjZmd4pCC4H+vRWszmLrnN
+ wBKAytfEU8v8RVAdLAA3T09HeunAg1buPcUqDHIf/7M9haqchQp/xE0mrUc6jKJGJu
+ Kicl4DKd21X4NgQthcF6Sl6Ru3LtOj3dIFP0MLSlpkHDqCdMX8ZfvqeqEHYBQ//zw7
+ iBVh9TWbuer2Q==
+Date: Mon, 17 Jul 2023 10:45:55 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+Subject: Re: [PATCH 2/4] drm/tests: Add test for
+ drm_framebuffer_check_src_coords()
+Message-ID: <os25nxijhqvw77mn7v4fuuobv4qlrdtylkctuxj4ca6lb6rxfz@ummy4rrlksoz>
+References: <20230714180619.15850-1-gcarlos@disroot.org>
+ <20230714180619.15850-3-gcarlos@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wwthgkudc4rd2o45"
 Content-Disposition: inline
-In-Reply-To: <20230714121440.7717-3-aweber.kernel@gmail.com>
+In-Reply-To: <20230714180619.15850-3-gcarlos@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,23 +56,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: andrealmeid@igalia.com, tzimmermann@suse.de, tales.aparecida@gmail.com,
+ dri-devel@lists.freedesktop.org, mairacanal@riseup.net, davidgow@google.com,
+ michal.winiarski@intel.com, arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 14, 2023 at 02:14:40PM +0200, Artur Weber wrote:
-> The lp855x_bl_update_status function's return type is int, but
-> it always returns 0, without checking for the results of the
-> write_byte/pwm_ctrl functions called within.
->
-> Make this function return the return values of the functions it
-> calls, and modify the lp855x_pwm_ctrl function to return errors.
->
-> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+--wwthgkudc4rd2o45
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Jul 14, 2023 at 03:06:17PM -0300, Carlos Eduardo Gallo Filho wrote:
+> Add a parametrized test for the drm_framebuffer_check_src_coords function.
+>=20
+> Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+> ---
+>  drivers/gpu/drm/tests/drm_framebuffer_test.c | 107 +++++++++++++++++++
+>  1 file changed, 107 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/d=
+rm/tests/drm_framebuffer_test.c
+> index f759d9f3b76e..175146f7ac9e 100644
+> --- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> +++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+> @@ -9,6 +9,7 @@
+> =20
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_mode.h>
+> +#include <drm/drm_framebuffer.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_print.h>
+> =20
+> @@ -366,8 +367,114 @@ static void drm_framebuffer_test_to_desc(const stru=
+ct drm_framebuffer_test *t, c
+>  KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
+>  		  drm_framebuffer_test_to_desc);
+> =20
+> +struct check_src_coords_case {
+> +	const int expect;
+> +	const uint32_t src_x;
+> +	const uint32_t src_y;
+> +	const uint32_t src_w;
+> +	const uint32_t src_h;
+> +	const struct drm_framebuffer fb;
+> +	const char *name;
+> +};
+> +
+> +static const struct check_src_coords_case check_src_coords_cases[] =3D {
+> +	{ .name =3D "source inside framebuffer",
+> +	  .expect =3D 0,
+> +	  .src_x =3D 500 << 16, .src_y =3D 700 << 16,
+> +	  .src_w =3D 100 << 16, .src_h =3D 100 << 16,
+> +	  .fb =3D { .width =3D 600, .height =3D 800 }
+> +	},
+
+Generally speaking, a small comment explaining what the test is doing
+and what is the expected result is would be nice. A couple of
+months/years down the line, obvious tests might not be so obvious
+anymore.
+
+=2E..
+> +static void check_src_coords_test_to_desc(const struct check_src_coords_=
+case *t,
+> +					  char *desc)
+> +{
+> +	strcpy(desc, t->name);
+> +}
+
+strscpy
+
+> +KUNIT_ARRAY_PARAM(check_src_coords, check_src_coords_cases,
+> +		  check_src_coords_test_to_desc);
+> +
+>  static struct kunit_case drm_framebuffer_tests[] =3D {
+>  	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_ge=
+n_params),
+> +	KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, check_src_coord=
+s_gen_params),
+
+I'd prefer to keep them ordered alphabetically.
+
+Thanks!
+Maxime
+
+--wwthgkudc4rd2o45
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLT/wwAKCRDj7w1vZxhR
+xb/xAP4ilO0Nt3tob0onXviITVF6PHUQqwlWqx82BKZj2bxZLgEAyTlXFallFOhb
+16ZY0yt740DRF8NMdpcRDlvEapgcHww=
+=/Tlf
+-----END PGP SIGNATURE-----
+
+--wwthgkudc4rd2o45--
