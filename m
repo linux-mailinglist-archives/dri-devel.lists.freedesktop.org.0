@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0BA756618
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C76B756620
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A909010E268;
-	Mon, 17 Jul 2023 14:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A725010E276;
+	Mon, 17 Jul 2023 14:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDC1E10E25F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E4D10E265
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:50 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EDBED660706B;
- Mon, 17 Jul 2023 15:14:47 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CCCD5660706D;
+ Mon, 17 Jul 2023 15:14:48 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689603288;
- bh=vi70p/9FDUxG9+dFVjjeS3h5x0OhHX3G4+djzfe2T7g=;
+ s=mail; t=1689603289;
+ bh=CefhFqQ/uXdHAnQ63I1hQJ7LyexCUl3QyjqRS2AFcCA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EbTkkR0teiWcw05LFQieNjl2W+VC/k26E+DX+Uuw516A3SmmB8jrr1KMI9BSkRmJu
- BVEcecpOr1DrWMN0kAuwb4U1QwWZfwWAP8iyW43mjFJNe36cmWPj+hZZ8mMGb12sQt
- Z0aXTsg7mpwvo25MEwhACay3IXEKEY4pMti1nm9qoM/Z4pGs2CPMOmkXjvgxI3mxq+
- XEBoO5LqDH3xShkuKrtXQc99Mzjj8JP6K9YFLBWDTc7pAF0QKuqYFEbvDA2GAkXDaU
- hBp/keqJV8TBZAfLI0ZMzETOjKUlk8jrEjKqFQpLr5Wy/SJqpWO+CvzSo6SBJzbPg7
- wq1K4WxwsbkNg==
+ b=AK4xXbN33T2/2nMWz2vsx9EJjM6mHcA2ztaFJcKg0UWMS1zcZoQV6NAURVx5D7+zx
+ xMePh/F61DvLmxQjqAvz5kIDFwtRsvj9ZOv3FS3XaAfdjopyE2dNKbwKYf+znv9TxA
+ tmOKJWMVAvgenCdvRRAgO+CFWvc1pjiFhZCmWSIclWe7BBsyps67eV/bnBwi7EGu0/
+ geiKRDPPE9sdD2UKYJPHtDIZtXj6oj7Kimy6XpkvwRDqK2yE01oj4GjhZZ7ZJlZMR9
+ aZregpCBwM2QekulpgNx6+k5dvY8Ov4oGdYWcMNlWb9yryyYBsC90ZxXfl3R2Y0PB5
+ ApKCB2TeqVGJQ==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v6 06/11] drm/mediatek: dp: Enable event interrupt only when
- bridge attached
-Date: Mon, 17 Jul 2023 16:14:33 +0200
-Message-Id: <20230717141438.274419-7-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v6 07/11] drm/mediatek: dp: Avoid mutex locks if audio is not
+ supported/enabled
+Date: Mon, 17 Jul 2023 16:14:34 +0200
+Message-Id: <20230717141438.274419-8-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
 References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
@@ -60,86 +60,50 @@ Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is useless and error-prone to enable the DisplayPort event interrupt
-before finishing to probe and install the driver, as the DP training
-cannot happen before the entire pipeline is correctly set up, as the
-interrupt handler also requires the full hardware to be initialized by
-mtk_dp_bridge_attach().
+If a controller (usually, eDP!) does not support audio, or audio is not
+enabled because the endpoint has no audio support, it's useless to lock
+a mutex only to unlock it right after because there's no .plugged_cb().
 
-Anyway, depending in which state the controller is left from the
-bootloader, this may cause an interrupt storm and consequently hang
-the kernel during boot, so, avoid enabling the interrupt until we
-reach a clean state by adding the IRQ_NOAUTOEN flag before requesting
-it at probe time and manage the enablement of the ISR in the .attach()
-and .detach() handlers for the DP bridge.
+Check if the audio is supported and enabled before locking the mutex in
+mtk_dp_update_plugged_status(): if not, we simply return immediately.
+
+While at it, since the update_plugged_status_lock mutex would not be
+used if the controller doesn't support audio at all, initialize it
+only if `audio_supported` is true.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index e8d3bf310608..83e55f8dc84a 100644
+index 83e55f8dc84a..c1d1a882f1db 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -100,6 +100,7 @@ struct mtk_dp_efuse_fmt {
- struct mtk_dp {
- 	bool enabled;
- 	bool need_debounce;
-+	int irq;
- 	u8 max_lanes;
- 	u8 max_linkrate;
- 	u8 rx_cap[DP_RECEIVER_CAP_SIZE];
-@@ -2141,6 +2142,8 @@ static int mtk_dp_bridge_attach(struct drm_bridge *bridge,
+@@ -1948,6 +1948,9 @@ static int mtk_dp_dt_parse(struct mtk_dp *mtk_dp,
  
- 	mtk_dp->drm_dev = bridge->dev;
- 
-+	irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
-+	enable_irq(mtk_dp->irq);
- 	mtk_dp_hwirq_enable(mtk_dp, true);
- 
- 	return 0;
-@@ -2157,6 +2160,7 @@ static void mtk_dp_bridge_detach(struct drm_bridge *bridge)
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 
- 	mtk_dp_hwirq_enable(mtk_dp, false);
-+	disable_irq(mtk_dp->irq);
- 	mtk_dp->drm_dev = NULL;
- 	mtk_dp_poweroff(mtk_dp);
- 	drm_dp_aux_unregister(&mtk_dp->aux);
-@@ -2475,7 +2479,7 @@ static int mtk_dp_probe(struct platform_device *pdev)
+ static void mtk_dp_update_plugged_status(struct mtk_dp *mtk_dp)
  {
- 	struct mtk_dp *mtk_dp;
- 	struct device *dev = &pdev->dev;
--	int ret, irq_num;
-+	int ret;
++	if (!mtk_dp->data->audio_supported || !mtk_dp->audio_enable)
++		return;
++
+ 	mutex_lock(&mtk_dp->update_plugged_status_lock);
+ 	if (mtk_dp->plugged_cb && mtk_dp->codec_dev)
+ 		mtk_dp->plugged_cb(mtk_dp->codec_dev,
+@@ -2520,11 +2523,11 @@ static int mtk_dp_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, ret,
+ 				     "failed to request mediatek dptx irq\n");
  
- 	mtk_dp = devm_kzalloc(dev, sizeof(*mtk_dp), GFP_KERNEL);
- 	if (!mtk_dp)
-@@ -2484,9 +2488,9 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 	mtk_dp->dev = dev;
- 	mtk_dp->data = (struct mtk_dp_data *)of_device_get_match_data(dev);
+-	mutex_init(&mtk_dp->update_plugged_status_lock);
+-
+ 	platform_set_drvdata(pdev, mtk_dp);
  
--	irq_num = platform_get_irq(pdev, 0);
--	if (irq_num < 0)
--		return dev_err_probe(dev, irq_num,
-+	mtk_dp->irq = platform_get_irq(pdev, 0);
-+	if (mtk_dp->irq < 0)
-+		return dev_err_probe(dev, mtk_dp->irq,
- 				     "failed to request dp irq resource\n");
- 
- 	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-@@ -2507,7 +2511,8 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 
- 	spin_lock_init(&mtk_dp->irq_thread_lock);
- 
--	ret = devm_request_threaded_irq(dev, irq_num, mtk_dp_hpd_event,
-+	irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
-+	ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
- 					mtk_dp_hpd_event_thread,
- 					IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
- 					mtk_dp);
+ 	if (mtk_dp->data->audio_supported) {
++		mutex_init(&mtk_dp->update_plugged_status_lock);
++
+ 		ret = mtk_dp_register_audio_driver(dev);
+ 		if (ret) {
+ 			dev_err(dev, "Failed to register audio driver: %d\n",
 -- 
 2.40.1
 
