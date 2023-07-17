@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3482E755C76
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 09:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019AE755C9F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 09:20:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF0410E1E9;
-	Mon, 17 Jul 2023 07:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D132B10E1EC;
+	Mon, 17 Jul 2023 07:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C85910E1E9
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 07:10:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F3DB10E1EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 07:20:07 +0000 (UTC)
+Received: from [192.168.2.153] (109-252-154-2.dynamic.spd-mgts.ru
+ [109.252.154.2])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 16B9360F90;
- Mon, 17 Jul 2023 07:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 630E6C43391;
- Mon, 17 Jul 2023 07:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689577823;
- bh=kvQ4q466Bpj6b6ubZR8+sRx3jIO1KBUpvlufwnQcgfU=;
- h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
- b=VqNtVmevieTksEJLCI1ucCRZ5wR5oQ7LZObSp49ZaP/tUW6nhJXgvMoeiyvReazaA
- I6cpZsDfZ0Yh7RFF62LXzZ03M8UjpoRgH29vtXhBGm3XXvlCgEfQkpR7VqGv7GceoL
- WuLWajg7sU2SeUV8HNjz/RW1je0DekG7D136S7o50eMK+UYx7G2NySrr3V1ghaIQPN
- /KDkA67CS5QCE5CKb24dY824TKTLMveJibcINdj5yUaz/ZsPZQi62eW6Xs1UXEH5Gm
- 7b+IWTVGxYrYHaGQtMq5B8sS2eE9F8Db7MjmMrq5voOSvABX/FVNXm4YL4y3mJhq5b
- vZ2+wRoL3yCEA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 367D2E270F6; Mon, 17 Jul 2023 07:10:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A88486603203;
+ Mon, 17 Jul 2023 08:20:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1689578406;
+ bh=2azQJ2Y4SSayyaeHVwWvWOeHAUzUtm51R0fJQMMVQ5c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QHaic3iJQAnUh41LPL/dSxbTzIoLUHJUqvA9Ca1tskxSrpSt8oXSxP50SxH+ur4tx
+ /M19RkGlQGU3ywi/XWLXSf4C9qJau1esH0awecUt3jsSQ88rIgga/XZzYGCb5Z7+AA
+ Zu3gwmBu4OT9MXtYwwdryWn8LZsBUudGGRDIgcDFHbIRqL4XSUI1cPkb3Lh28JF/D+
+ BPVKiqTpwGIbWoiTbqPyLDY/+4L3NTMkCjVHouapZULziLYjhxuu3caF1cJu7DT62a
+ sGNhb8kbkBIcRQzvcGrr0paHt8hVQz/E9i/yJc+1kNUyaotcK1+8YxUaL5ujj9SSPK
+ HyEyIDEP7XZdQ==
+Message-ID: <80de081a-e443-85a2-1a61-6a8885e8d529@collabora.com>
+Date: Mon, 17 Jul 2023 10:20:02 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next v9 00/11] Brcm ASP 2.0 Ethernet Controller
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168957782321.7157.4637717042830143680.git-patchwork-notify@kernel.org>
-Date: Mon, 17 Jul 2023 07:10:23 +0000
-References: <1689286746-43609-1-git-send-email-justin.chen@broadcom.com>
-In-Reply-To: <1689286746-43609-1-git-send-email-justin.chen@broadcom.com>
-To: Justin Chen <justin.chen@broadcom.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v1] drm/panfrost: Sync IRQ by job's timeout handler
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230717065254.1061033-1-dmitry.osipenko@collabora.com>
+ <20230717090506.2ded4594@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230717090506.2ded4594@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,59 +57,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, opendmb@gmail.com,
- florian.fainelli@broadcom.com, andrew@lunn.ch, netdev@vger.kernel.org,
- richardcochran@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux@armlinux.org.uk, edumazet@google.com,
- robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
- krzysztof.kozlowski+dt@linaro.org, simon.horman@corigine.com, kuba@kernel.org,
- christian.koenig@amd.com, pabeni@redhat.com, sumit.semwal@linaro.org,
- davem@davemloft.net, hkallweit1@gmail.com
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello:
+Hi,
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
-
-On Thu, 13 Jul 2023 15:18:55 -0700 you wrote:
-> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> introduced with 72165.
+On 7/17/23 10:05, Boris Brezillon wrote:
+> Hi Dmitry,
 > 
-> Florian Fainelli (2):
->   dt-bindings: net: Brcm ASP 2.0 Ethernet controller
->   net: phy: bcm7xxx: Add EPHY entry for 74165
+> On Mon, 17 Jul 2023 09:52:54 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 > 
-> [...]
+>> Panfrost IRQ handler may stuck for a long time, for example this happens
+>> when there is a bad HDMI connection and HDMI handler takes a long time to
+>> finish processing, holding Panfrost. Make Panfrost's job timeout handler
+>> to sync IRQ before checking fence signal status in order to prevent
+>> spurious job timeouts due to a slow IRQ processing.
+> 
+> Feels like the problem should be fixed in the HDMI encoder driver
+> instead, so it doesn't stall the whole system when processing its
+> IRQs (use threaded irqs, maybe). I honestly don't think blocking in the
+> job timeout path to flush IRQs is a good strategy.
 
-Here is the summary with links:
-  - [net-next,v9,01/11] dt-bindings: net: brcm,unimac-mdio: Add asp-v2.0
-    https://git.kernel.org/netdev/net-next/c/27312c43472b
-  - [net-next,v9,02/11] dt-bindings: net: Brcm ASP 2.0 Ethernet controller
-    https://git.kernel.org/netdev/net-next/c/a29401be8c69
-  - [net-next,v9,03/11] net: bcmasp: Add support for ASP2.0 Ethernet controller
-    https://git.kernel.org/netdev/net-next/c/490cb412007d
-  - [net-next,v9,04/11] net: bcmasp: Add support for WoL magic packet
-    https://git.kernel.org/netdev/net-next/c/a2f0751206b0
-  - [net-next,v9,05/11] net: bcmasp: Add support for wake on net filters
-    https://git.kernel.org/netdev/net-next/c/c5d511c49587
-  - [net-next,v9,06/11] net: bcmasp: Add support for eee mode
-    https://git.kernel.org/netdev/net-next/c/550e6f345687
-  - [net-next,v9,07/11] net: bcmasp: Add support for ethtool standard stats
-    https://git.kernel.org/netdev/net-next/c/649315346729
-  - [net-next,v9,08/11] net: bcmasp: Add support for ethtool driver stats
-    https://git.kernel.org/netdev/net-next/c/7c10691e1f5e
-  - [net-next,v9,09/11] net: phy: mdio-bcm-unimac: Add asp v2.0 support
-    https://git.kernel.org/netdev/net-next/c/9de2b402d818
-  - [net-next,v9,10/11] net: phy: bcm7xxx: Add EPHY entry for 74165
-    https://git.kernel.org/netdev/net-next/c/9fa0bba012c2
-  - [net-next,v9,11/11] MAINTAINERS: ASP 2.0 Ethernet driver maintainers
-    https://git.kernel.org/netdev/net-next/c/3abf3d15ffff
+The syncing is necessary to have for correctness regardless of whether
+it's HDMI problem or something else, there could be other reasons for
+CPU to delay IRQ processing. It's wrong to say that hw is hung, while
+it's not.
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Best regards,
+Dmitry
 
