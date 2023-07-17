@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9727756626
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0D47566D8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10A2E10E267;
-	Mon, 17 Jul 2023 14:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D56010E0C2;
+	Mon, 17 Jul 2023 14:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64DFD10E0C2;
- Mon, 17 Jul 2023 14:16:14 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD90610E0C2;
+ Mon, 17 Jul 2023 14:53:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689603374; x=1721139374;
+ t=1689605582; x=1721141582;
  h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=7oIXFtPke/kfgsdUNrqPolx9Ehkm2nb3Nq7m0Dv/7D0=;
- b=k063VRBIzc0GJiY1TjBgR1pl6xqwsK9dL2n/wcBkK5sT3j+fPcGn8ZPn
- 1pJTeG7Bei/uguBtiPyN83aJ2SGvsP3BftvhL5vXZCqnuPDL3cxKGFzWn
- JBs/rT5c9NF1HDIkuFO6GuaxSAn0c2F3+K1IoN0U/KGFEoGIfljGgvboQ
- 027EFaPVCWupzdXyPpxvOXtIaA6Fu7lTISN2zQfbvVAIqdwDHH+BUqSeQ
- jl3vLzqgvuEf8qzvt0O3ZrrVdShZ60i1Hfh1Wp8WCGBOb8WdNk/oargMe
- HKb8ztgsWRmOmdh7wKRoVqzupv8KAmgYd3YcxbR0ahDAfvcTBAHbhpWro A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="368582448"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
- d="scan'208,217";a="368582448"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 07:16:13 -0700
+ from:in-reply-to:content-transfer-encoding;
+ bh=PaYQUrnIAw10UGRh51Er0CiQIbO+1qEOK90eqGzlL3M=;
+ b=ktI/SBeSGFeViZ21yY4vkJ1kAny1rLi50XAeE5FPZ9vhc3IQXNmo4xWL
+ VWvHGSuNbns2VWNoParX1QHMV+PjTcOFy7+Nano3GOCKHJmx38NX78Vzr
+ 5yrjxvCqX1Me5dNXLOGyvnNyXnNx2iLTa3Pt9dduFGS+evA/HLAZj57UF
+ 7ngtF4jo1jX1k0l3NYZBENUmdXHsmNT0pjOKmsDfd0Rg5wLY4Yc4kfRxm
+ Fp59pyYH5UWmp/hbglycrIeVeGJLgUwFN+xF+VeEy3lgHTlhbLIoS/UTS
+ 6U/H7Y63aWjMFDVgYk4GC5lHdiQUdM4Passq61Ftb2joVkMWQr77cwRcz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="432120117"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="432120117"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 07:53:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="752908283"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
- d="scan'208,217";a="752908283"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.36.7])
- ([10.249.36.7])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 07:16:11 -0700
-Content-Type: multipart/alternative;
- boundary="------------3T04aE3AV55G0qzQToBmX2SA"
-Message-ID: <9a26481e-afcf-9cf8-67ba-c8452371cacb@linux.intel.com>
-Date: Mon, 17 Jul 2023 16:16:08 +0200
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="788686219"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="788686219"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.9.23])
+ ([10.213.9.23])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 07:52:55 -0700
+Message-ID: <0cae35ea-7635-383d-cae5-2051abbc6d64@intel.com>
+Date: Mon, 17 Jul 2023 16:52:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 5/5] drm/i915/gt: Support aux invalidation on all
- engines
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/i915/tv: avoid possible division by zero
+To: Su Hui <suhui@nfschina.com>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
+ nathan@kernel.org, ndesaulniers@google.com, trix@redhat.com
+References: <20230717062209.124106-1-suhui@nfschina.com>
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-References: <20230717125134.399115-1-andi.shyti@linux.intel.com>
- <20230717125134.399115-6-andi.shyti@linux.intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230717125134.399115-6-andi.shyti@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230717062209.124106-1-suhui@nfschina.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,405 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mripard@kernel.org,
+ ankit.k.nautiyal@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------3T04aE3AV55G0qzQToBmX2SA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
 
-On 7/17/2023 2:51 PM, Andi Shyti wrote:
-> Perform some refactoring with the purpose of keeping in one
-> single place all the operations around the aux table
-> invalidation.
+On 17.07.2023 08:22, Su Hui wrote:
+> Clang warning: drivers/gpu/drm/i915/display/intel_tv.c:
+> line 991, column 22 Division by zero.
+> Assuming tv_mode->oversample=1 and (!tv_mode->progressive)=1,
+> then division by zero will happen.
 >
-> With this refactoring add more engines where the invalidation
-> should be performed.
->
-> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-> Signed-off-by: Andi Shyti<andi.shyti@linux.intel.com>
-> Cc:<stable@vger.kernel.org>  # v5.8+
-
-|Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>|
-
+> Fixes: 1bba5543e4fe ("drm/i915: Fix TV encoder clock computation")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
 > ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 63 +++++++++++++++---------
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
->   drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +------
->   3 files changed, 44 insertions(+), 39 deletions(-)
+>   drivers/gpu/drm/i915/display/intel_tv.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index 51914ac00eb79..50d9e8fecd5b5 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -165,7 +165,8 @@ static u32 preparser_disable(bool state)
->   	return MI_ARB_CHECK | 1 << 8 | state;
->   }
->   
-> -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
-> +static u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs,
-> +				     const i915_reg_t inv_reg)
+> diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
+> index 36b479b46b60..82b54af51f23 100644
+> --- a/drivers/gpu/drm/i915/display/intel_tv.c
+> +++ b/drivers/gpu/drm/i915/display/intel_tv.c
+> @@ -988,7 +988,8 @@ intel_tv_mode_to_mode(struct drm_display_mode *mode,
+>   		      const struct tv_mode *tv_mode,
+>   		      int clock)
 >   {
->   	u32 gsi_offset = gt->uncore->gsi_offset;
->   
-> @@ -187,6 +188,40 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
->   	return cs;
->   }
->   
-> +static i915_reg_t intel_get_aux_inv_reg(struct intel_engine_cs *engine)
-> +{
-> +	if (HAS_FLAT_CCS(engine->i915))
-> +		return _MMIO(0);
-> +
-> +	switch (engine->id) {
-> +	case RCS0:
-> +		return GEN12_CCS_AUX_INV;
-> +	case VCS0:
-> +		return GEN12_VD0_AUX_INV;
-> +	case VCS2:
-> +		return GEN12_VD2_AUX_INV;
-> +	case VECS0:
-> +		return GEN12_VE0_AUX_INV;
-> +	default:
-> +		return _MMIO(0);
-> +	}
-> +}
-> +
-> +static bool intel_engine_has_aux_inv(struct intel_engine_cs *engine)
-> +{
-> +	i915_reg_t reg = intel_get_aux_inv_reg(engine);
-> +
-> +	return !!reg.reg;
-> +}
-> +
-> +u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs)
-> +{
-> +	i915_reg_t reg = intel_get_aux_inv_reg(engine);
-> +	struct intel_gt *gt = engine->gt;
-> +
-> +	return reg.reg ? gen12_emit_aux_table_inv(gt, cs, reg) : cs;
-> +}
-> +
->   static int mtl_dummy_pipe_control(struct i915_request *rq)
->   {
->   	/* Wa_14016712196 */
-> @@ -311,11 +346,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   
->   		cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
->   
-> -		if (!HAS_FLAT_CCS(rq->engine->i915)) {
-> -			/* hsdes: 1809175790 */
-> -			cs = gen12_emit_aux_table_inv(rq->engine->gt, cs,
-> -						      GEN12_CCS_AUX_INV);
-> -		}
-> +		cs = intel_emit_aux_table_inv(engine, cs);
->   
->   		*cs++ = preparser_disable(false);
->   		intel_ring_advance(rq, cs);
-> @@ -326,21 +357,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   
->   int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
->   {
-> -	intel_engine_mask_t aux_inv = 0;
->   	u32 cmd, *cs;
->   
->   	cmd = 4;
->   	if (mode & EMIT_INVALIDATE) {
->   		cmd += 2;
->   
-> -		if (!HAS_FLAT_CCS(rq->engine->i915) &&
-> -		    (rq->engine->class == VIDEO_DECODE_CLASS ||
-> -		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
-> -			aux_inv = rq->engine->mask &
-> -				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
-> -			if (aux_inv)
-> -				cmd += 10;
-> -		}
-> +		if (intel_engine_has_aux_inv(rq->engine))
-> +			cmd += 10;
->   	}
->   
->   	cs = intel_ring_begin(rq, cmd);
-> @@ -371,14 +395,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
->   	*cs++ = 0; /* upper addr */
->   	*cs++ = 0; /* value */
->   
-> -	if (aux_inv) { /* hsdes: 1809175790 */
-> -		if (rq->engine->class == VIDEO_DECODE_CLASS)
-> -			cs = gen12_emit_aux_table_inv(rq->engine->gt,
-> -						      cs, GEN12_VD0_AUX_INV);
-> -		else
-> -			cs = gen12_emit_aux_table_inv(rq->engine->gt,
-> -						      cs, GEN12_VE0_AUX_INV);
-> -	}
-> +	cs = intel_emit_aux_table_inv(rq->engine, cs);
->   
->   	if (mode & EMIT_INVALIDATE)
->   		*cs++ = preparser_disable(false);
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-> index 655e5c00ddc27..d938c94524510 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-> @@ -13,6 +13,7 @@
->   #include "intel_gt_regs.h"
->   #include "intel_gpu_commands.h"
->   
-> +struct intel_engine_cs;
->   struct intel_gt;
->   struct i915_request;
->   
-> @@ -46,7 +47,7 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
->   u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
->   u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
->   
-> -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg);
-> +u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs);
->   
->   static inline u32 *
->   __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index 235f3fab60a98..70054767c88c3 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -1371,10 +1371,7 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
->   	    IS_DG2_G11(ce->engine->i915))
->   		cs = gen8_emit_pipe_control(cs, PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE, 0);
->   
-> -	/* hsdes: 1809175790 */
-> -	if (!HAS_FLAT_CCS(ce->engine->i915))
-> -		cs = gen12_emit_aux_table_inv(ce->engine->gt,
-> -					      cs, GEN12_CCS_AUX_INV);
-> +	cs = intel_emit_aux_table_inv(ce->engine, cs);
->   
->   	/* Wa_16014892111 */
->   	if (IS_MTL_GRAPHICS_STEP(ce->engine->i915, M, STEP_A0, STEP_B0) ||
-> @@ -1399,17 +1396,7 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
->   						    PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE,
->   						    0);
->   
-> -	/* hsdes: 1809175790 */
-> -	if (!HAS_FLAT_CCS(ce->engine->i915)) {
-> -		if (ce->engine->class == VIDEO_DECODE_CLASS)
-> -			cs = gen12_emit_aux_table_inv(ce->engine->gt,
-> -						      cs, GEN12_VD0_AUX_INV);
-> -		else if (ce->engine->class == VIDEO_ENHANCEMENT_CLASS)
-> -			cs = gen12_emit_aux_table_inv(ce->engine->gt,
-> -						      cs, GEN12_VE0_AUX_INV);
-> -	}
-> -
-> -	return cs;
-> +	return intel_emit_aux_table_inv(ce->engine, cs);
->   }
->   
->   static void
---------------3T04aE3AV55G0qzQToBmX2SA
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+> -	mode->clock = clock / (tv_mode->oversample >> !tv_mode->progressive);
+> +	mode->clock = clock / (tv_mode->oversample != 1 ?
+> +			tv_mode->oversample >> !tv_mode->progressive : 1);
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 7/17/2023 2:51 PM, Andi Shyti wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230717125134.399115-6-andi.shyti@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">Perform some refactoring with the purpose of keeping in one
-single place all the operations around the aux table
-invalidation.
+Seems too smart to me, why not just:
+mode->clock = clock / tv_mode->oversample;
+if (!tv_mode->progressive)
+     mode->clock <<= 1;
+Or trying being smart:
+mode->clock = clock / tv_mode->oversample << !tv_mode->progressive;
 
-With this refactoring add more engines where the invalidation
-should be performed.
+Btw in both cases there is assumption tv_mode->oversample != 0, I guess 
+it is true.
 
-Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-Signed-off-by: Andi Shyti <a class="moz-txt-link-rfc2396E" href="mailto:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
-Cc: <a class="moz-txt-link-rfc2396E" href="mailto:stable@vger.kernel.org">&lt;stable@vger.kernel.org&gt;</a> # v5.8+</pre>
-    </blockquote>
-    <br>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">Reviewed-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></code></pre>
-    <blockquote type="cite"
-      cite="mid:20230717125134.399115-6-andi.shyti@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 63 +++++++++++++++---------
- drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +------
- 3 files changed, 44 insertions(+), 39 deletions(-)
+Regards
+Andrzej
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 51914ac00eb79..50d9e8fecd5b5 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -165,7 +165,8 @@ static u32 preparser_disable(bool state)
- 	return MI_ARB_CHECK | 1 &lt;&lt; 8 | state;
- }
- 
--u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
-+static u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs,
-+				     const i915_reg_t inv_reg)
- {
- 	u32 gsi_offset = gt-&gt;uncore-&gt;gsi_offset;
- 
-@@ -187,6 +188,40 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
- 	return cs;
- }
- 
-+static i915_reg_t intel_get_aux_inv_reg(struct intel_engine_cs *engine)
-+{
-+	if (HAS_FLAT_CCS(engine-&gt;i915))
-+		return _MMIO(0);
-+
-+	switch (engine-&gt;id) {
-+	case RCS0:
-+		return GEN12_CCS_AUX_INV;
-+	case VCS0:
-+		return GEN12_VD0_AUX_INV;
-+	case VCS2:
-+		return GEN12_VD2_AUX_INV;
-+	case VECS0:
-+		return GEN12_VE0_AUX_INV;
-+	default:
-+		return _MMIO(0);
-+	}
-+}
-+
-+static bool intel_engine_has_aux_inv(struct intel_engine_cs *engine)
-+{
-+	i915_reg_t reg = intel_get_aux_inv_reg(engine);
-+
-+	return !!reg.reg;
-+}
-+
-+u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs)
-+{
-+	i915_reg_t reg = intel_get_aux_inv_reg(engine);
-+	struct intel_gt *gt = engine-&gt;gt;
-+
-+	return reg.reg ? gen12_emit_aux_table_inv(gt, cs, reg) : cs;
-+}
-+
- static int mtl_dummy_pipe_control(struct i915_request *rq)
- {
- 	/* Wa_14016712196 */
-@@ -311,11 +346,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 
- 		cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
- 
--		if (!HAS_FLAT_CCS(rq-&gt;engine-&gt;i915)) {
--			/* hsdes: 1809175790 */
--			cs = gen12_emit_aux_table_inv(rq-&gt;engine-&gt;gt, cs,
--						      GEN12_CCS_AUX_INV);
--		}
-+		cs = intel_emit_aux_table_inv(engine, cs);
- 
- 		*cs++ = preparser_disable(false);
- 		intel_ring_advance(rq, cs);
-@@ -326,21 +357,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 
- int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
- {
--	intel_engine_mask_t aux_inv = 0;
- 	u32 cmd, *cs;
- 
- 	cmd = 4;
- 	if (mode &amp; EMIT_INVALIDATE) {
- 		cmd += 2;
- 
--		if (!HAS_FLAT_CCS(rq-&gt;engine-&gt;i915) &amp;&amp;
--		    (rq-&gt;engine-&gt;class == VIDEO_DECODE_CLASS ||
--		     rq-&gt;engine-&gt;class == VIDEO_ENHANCEMENT_CLASS)) {
--			aux_inv = rq-&gt;engine-&gt;mask &amp;
--				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
--			if (aux_inv)
--				cmd += 10;
--		}
-+		if (intel_engine_has_aux_inv(rq-&gt;engine))
-+			cmd += 10;
- 	}
- 
- 	cs = intel_ring_begin(rq, cmd);
-@@ -371,14 +395,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
- 	*cs++ = 0; /* upper addr */
- 	*cs++ = 0; /* value */
- 
--	if (aux_inv) { /* hsdes: 1809175790 */
--		if (rq-&gt;engine-&gt;class == VIDEO_DECODE_CLASS)
--			cs = gen12_emit_aux_table_inv(rq-&gt;engine-&gt;gt,
--						      cs, GEN12_VD0_AUX_INV);
--		else
--			cs = gen12_emit_aux_table_inv(rq-&gt;engine-&gt;gt,
--						      cs, GEN12_VE0_AUX_INV);
--	}
-+	cs = intel_emit_aux_table_inv(rq-&gt;engine, cs);
- 
- 	if (mode &amp; EMIT_INVALIDATE)
- 		*cs++ = preparser_disable(false);
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-index 655e5c00ddc27..d938c94524510 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-@@ -13,6 +13,7 @@
- #include "intel_gt_regs.h"
- #include "intel_gpu_commands.h"
- 
-+struct intel_engine_cs;
- struct intel_gt;
- struct i915_request;
- 
-@@ -46,7 +47,7 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
- u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
- u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
- 
--u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg);
-+u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs);
- 
- static inline u32 *
- __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 235f3fab60a98..70054767c88c3 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1371,10 +1371,7 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
- 	    IS_DG2_G11(ce-&gt;engine-&gt;i915))
- 		cs = gen8_emit_pipe_control(cs, PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE, 0);
- 
--	/* hsdes: 1809175790 */
--	if (!HAS_FLAT_CCS(ce-&gt;engine-&gt;i915))
--		cs = gen12_emit_aux_table_inv(ce-&gt;engine-&gt;gt,
--					      cs, GEN12_CCS_AUX_INV);
-+	cs = intel_emit_aux_table_inv(ce-&gt;engine, cs);
- 
- 	/* Wa_16014892111 */
- 	if (IS_MTL_GRAPHICS_STEP(ce-&gt;engine-&gt;i915, M, STEP_A0, STEP_B0) ||
-@@ -1399,17 +1396,7 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
- 						    PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE,
- 						    0);
- 
--	/* hsdes: 1809175790 */
--	if (!HAS_FLAT_CCS(ce-&gt;engine-&gt;i915)) {
--		if (ce-&gt;engine-&gt;class == VIDEO_DECODE_CLASS)
--			cs = gen12_emit_aux_table_inv(ce-&gt;engine-&gt;gt,
--						      cs, GEN12_VD0_AUX_INV);
--		else if (ce-&gt;engine-&gt;class == VIDEO_ENHANCEMENT_CLASS)
--			cs = gen12_emit_aux_table_inv(ce-&gt;engine-&gt;gt,
--						      cs, GEN12_VE0_AUX_INV);
--	}
--
--	return cs;
-+	return intel_emit_aux_table_inv(ce-&gt;engine, cs);
- }
- 
- static void
-</pre>
-    </blockquote>
-  </body>
-</html>
+>   
+>   	/*
+>   	 * tv_mode horizontal timings:
 
---------------3T04aE3AV55G0qzQToBmX2SA--
