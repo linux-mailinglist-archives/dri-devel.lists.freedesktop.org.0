@@ -2,36 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7067A755E9B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451BC755E64
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:25:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A7D10E209;
-	Mon, 17 Jul 2023 08:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F50C89C86;
+	Mon, 17 Jul 2023 08:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 86AC010E220;
- Mon, 17 Jul 2023 08:20:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A67211FB;
- Mon, 17 Jul 2023 01:21:03 -0700 (PDT)
-Received: from [10.57.37.37] (unknown [10.57.37.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 41CB33F73F;
- Mon, 17 Jul 2023 01:19:59 -0700 (PDT)
-Message-ID: <e2c69d34-7523-98ae-93a2-04e132745ebd@arm.com>
-Date: Mon, 17 Jul 2023 09:19:59 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 119C989C86
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:25:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4742860FA6;
+ Mon, 17 Jul 2023 08:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A55C433C7;
+ Mon, 17 Jul 2023 08:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689582321;
+ bh=doFHr3QF6bY8ddY9UhfVjgKC7xXSlDDrpfA6E5eb81U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QryReVgmTffP0w3I9RGl4nFKC8sPFjHYkCtysJYPg9S/Sf6VJ5cTUoEpRNchMMySi
+ x7bglbzQ/qOk6boZWTyNhibd4AoOatma0gz+uTxQBTUuiqtdWdj6bM1Vvs1GsWAtZN
+ dMqewzojwlGJ+PjCkWr8Z+0dWkSctwS5qn4lmMtuSJYNjqORgaXJO8JFgkQ+F2t4Wm
+ K8biyc4nm3dSHuA1g8DF7SLnxv4mVWZu0h0reo8TnsHBnOgjtRq+m+SkZ7gJ1r8JAs
+ WXgY8cLs670wDadgVhj0UfiKgETTnFZMtx8WRyITd5OlDdD3Tbv435GR5sn+63IZDz
+ +JtGNxVZmgPgg==
+Date: Mon, 17 Jul 2023 10:25:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Sarah Walker <sarah.walker@imgtec.com>
+Subject: Re: [PATCH v4 07/17] drm/imagination: Add GPU ID parsing and
+ firmware loading
+Message-ID: <fd2daftonqrd6ae2pc6jlyw5zv4n4hhmzb5ifnrhb24kjpzecp@vk74clsdhy2l>
+References: <20230714142700.111897-1-sarah.walker@imgtec.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: Explicitly include correct DT includes
-To: Rob Herring <robh@kernel.org>
-References: <20230714174545.4056287-1-robh@kernel.org>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Mon, 17 Jul 2023 08:37:46 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7f4trdj3svh4pmk2"
+Content-Disposition: inline
+In-Reply-To: <20230714142700.111897-1-sarah.walker@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,105 +54,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- NXP Linux Team <linux-imx@nxp.com>, xen-devel@lists.xenproject.org,
- linux-sunxi@lists.linux.dev, =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, etnaviv@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- linux-kernel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philippe Cornu <philippe.cornu@foss.st.com>, freedreno@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Yongqin Liu <yongqin.liu@linaro.org>, lima@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-rockchip@lists.infradead.org,
- Jagan Teki <jagan@amarulasolutions.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Alain Volmat <alain.volmat@foss.st.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Jianhua Lu <lujianhua000@gmail.com>, linux-rpi-kernel@lists.infradead.org,
- Tian Tao <tiantao6@hisilicon.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-tegra@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Orson Zhai <orsonzhai@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Tomi Valkeinen <tomba@kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- John Stultz <jstultz@google.com>, Shawn Guo <shawnguo@kernel.org>,
- Ondrej Jirman <megous@megous.com>, Emma Anholt <emma@anholt.net>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Paul Cercueil <paul@crapouillou.net>,
- Marek Vasut <marex@denx.de>, linux-renesas-soc@vger.kernel.org,
- Artur Weber <aweber.kernel@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-mediatek@lists.infradead.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Purism Kernel Team <kernel@puri.sm>,
- Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Dmitry B aryshkov <dmitry.baryshkov@linaro.org>, Liu Ying <victor.liu@nxp.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: matthew.brost@intel.com, luben.tuikov@amd.com, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, afd@ti.com,
+ boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
+ hns@goldelico.com, christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/07/2023 18:45, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-[...]
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index bbada731bbbd..20c25c836198 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -4,8 +4,9 @@
->  /* Copyright 2019 Collabora ltd. */
->  
->  #include <linux/module.h>
-> -#include <linux/of_platform.h>
-> +#include <linux/of.h>
->  #include <linux/pagemap.h>
-> +#include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <drm/panfrost_drm.h>
->  #include <drm/drm_drv.h>
 
-Panfrost part:
+--7f4trdj3svh4pmk2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+On Fri, Jul 14, 2023 at 03:27:00PM +0100, Sarah Walker wrote:
+> +/**
+> + * pvr_device_gpu_fini() - GPU-specific deinitialization for a PowerVR device
+> + * @pvr_dev: Target PowerVR device.
+> + */
+> +static void
+> +pvr_device_gpu_fini(struct pvr_device *pvr_dev)
+> +{
+> +	release_firmware(pvr_dev->fw_dev.firmware);
+> +}
+> +
 
-Steve
+Since you call that function at remove time, I think you can register a
+devm action using devm_add_action_or_reset() to remove the need to call
+it explicitly (and probably the need to have pvr_device_fini() in the
+first place)
 
+Maxime
+
+--7f4trdj3svh4pmk2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLT67gAKCRDj7w1vZxhR
+xXSKAP9sDARcLROGvAko1J3uZQb/zCiLFU6sAlcdkH63quaN4QD9EaD0LaWdahRi
+9dKFxXH1g5VK/dbuuzt8CBjXUQEMKwk=
+=GtC6
+-----END PGP SIGNATURE-----
+
+--7f4trdj3svh4pmk2--
