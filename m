@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830F4756BCF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:23:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A83D756C2D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:34:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE6E10E2A1;
-	Mon, 17 Jul 2023 18:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0926E10E2A3;
+	Mon, 17 Jul 2023 18:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 002F810E2A1;
- Mon, 17 Jul 2023 18:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689618186; x=1721154186;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Tr99F48zan845+HokQR/cz95BdWpXXi56Vs7fgqztG4=;
- b=nFguEJCpMtFXJrA6k6a1llobLsfQqIt4U5kic6nDNRPdMVDlWXbTWIzg
- 5M82CP5wBDPdn6jlfKEN04XzeNx2OHaLFAMhK0E0NWLadfWx+Yn/qgkGB
- fEhkYZbl2iQORuy5tOsI3+HBaS0HgoCaNSOSJFmLNImM9Dg5asoFOrfeN
- smAZdxdGp0uAumXKNOHvqiyb93CH/kAc7r+0YyBwkI4UPn3cosoWS6n1n
- h3ACybBgLVMrl2MSX32ZcqB2IOPT5WXEA9MYxDin+5LRmtNQa5zKcKHNQ
- oH+LSn1qUkoHI9bcjs0Q90Y/oULA2ZKmgT1rcu6mvFSjuF3sGcY/31Ev5 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="396834564"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="396834564"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 11:23:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="726649536"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="726649536"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.9.23])
- ([10.213.9.23])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 11:23:02 -0700
-Message-ID: <79b92652-c63f-36fd-fd2a-835c25dc61ae@intel.com>
-Date: Mon, 17 Jul 2023 20:23:00 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6A36410E2A3;
+ Mon, 17 Jul 2023 18:34:33 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxV_G4ibVkDxIGAA--.16371S3;
+ Tue, 18 Jul 2023 02:34:32 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx_yOsibVk5dAxAA--.31528S3; 
+ Tue, 18 Jul 2023 02:34:31 +0800 (CST)
+Message-ID: <e3a05204-61fe-2318-5f06-fd12addfe2e9@loongson.cn>
+Date: Tue, 18 Jul 2023 02:34:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [Intel-gfx] [PATCH v4 4/6] drm/i915/gt: Enable the CCS_FLUSH bit
- in the pipe control
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1 3/8] drm/etnaviv: Drop the second argument of the
+ etnaviv_gem_new_impl()
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+ <20230623100822.274706-4-sui.jingfeng@linux.dev>
+ <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
- <20230717173059.422892-5-andi.shyti@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230717173059.422892-5-andi.shyti@linux.intel.com>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx_yOsibVk5dAxAA--.31528S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWFy8WrWDZw4DXr1xWF47Jrc_yoWrWw43pF
+ sayFyjkrW8Z3yDK3s7XFn5Aw1UWr1Igry0yas0ywn8Kw4YgF1kXF1FkFWDCFsxArs7uF13
+ t3W0yF1rK3W5A3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
+ xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+ AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
+ 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0sjUU
+ UUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,83 +70,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
+Cc: loongson-kernel@lists.loongnix.cn, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.07.2023 19:30, Andi Shyti wrote:
-> Enable the CCS_FLUSH bit 13 in the control pipe for render and
-> compute engines in platforms starting from Meteor Lake (BSPEC
-> 43904 and 47112).
-> 
-> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> Cc: <stable@vger.kernel.org> # v5.8+
+Hi,  Lucas
 
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Thanks for you guidance!
 
-Regards
-Andrzej
-> ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 10 +++++++++-
->   drivers/gpu/drm/i915/gt/intel_engine_types.h |  1 +
->   drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  1 +
->   3 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index 3c935d6b68bf0..aa2fb9d72745a 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -207,7 +207,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   	 * memory traffic is quiesced prior.
->   	 */
->   	if ((mode & EMIT_INVALIDATE) && !HAS_FLAT_CCS(engine->i915))
-> -		mode |= EMIT_FLUSH;
-> +		mode |= EMIT_FLUSH | EMIT_CCS_FLUSH;
->   
->   	if (mode & EMIT_FLUSH) {
->   		u32 bit_group_0 = 0;
-> @@ -221,6 +221,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   
->   		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
->   
-> +		/*
-> +		 * When required, in MTL+ platforms we need to
-> +		 * set the CCS_FLUSH bit in the pipe control
-> +		 */
-> +		if (mode & EMIT_CCS_FLUSH &&
-> +		    GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
-> +			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
-> +
->   		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
->   		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
->   		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index e99a6fa03d453..e2cae9d02bd62 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -514,6 +514,7 @@ struct intel_engine_cs {
->   	int		(*emit_flush)(struct i915_request *request, u32 mode);
->   #define EMIT_INVALIDATE	BIT(0)
->   #define EMIT_FLUSH	BIT(1)
-> +#define EMIT_CCS_FLUSH	BIT(2) /* MTL+ */
->   #define EMIT_BARRIER	(EMIT_INVALIDATE | EMIT_FLUSH)
->   	int		(*emit_bb_start)(struct i915_request *rq,
->   					 u64 offset, u32 length,
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> index 5d143e2a8db03..5df7cce23197c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-> @@ -299,6 +299,7 @@
->   #define   PIPE_CONTROL_QW_WRITE				(1<<14)
->   #define   PIPE_CONTROL_POST_SYNC_OP_MASK                (3<<14)
->   #define   PIPE_CONTROL_DEPTH_STALL			(1<<13)
-> +#define   PIPE_CONTROL_CCS_FLUSH			(1<<13) /* MTL+ */
->   #define   PIPE_CONTROL_WRITE_FLUSH			(1<<12)
->   #define   PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH	(1<<12) /* gen6+ */
->   #define   PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE	(1<<11) /* MBZ on ILK */
+
+On 2023/7/17 17:51, Lucas Stach wrote:
+> Hi Jingfeng,
+>
+> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> Because it is not used by the etnaviv_gem_new_impl() function,
+>> no functional change.
+>>
+> I think it would make sense to move into the opposite direction: in
+> both callsites of etnaviv_gem_new_impl we immediately call
+> drm_gem_object_init with the size.
+
+Really?
+
+But there are multiple call path to the etnaviv_gem_new_impl() function.
+
+
+Code path 1 (PRIME):
+
+|- etnaviv_gem_prime_import_sg_table()
+
+|--  etnaviv_gem_new_private()
+
+|--- etnaviv_gem_new_impl(dev, size, flags, ops, &obj)
+
+|--- drm_gem_private_object_init(dev, obj, size)
+
+
+Code path 2 (USERPTR):
+
+|- etnaviv_gem_new_userptr()
+
+|--  etnaviv_gem_new_private()
+
+|--- etnaviv_gem_new_impl(dev, size, flags, ops, &obj)
+
+|--- drm_gem_private_object_init(dev, obj, size)
+
+
+Code path 3 (construct a GEM buffer object for the user-space):
+
+|- etnaviv_ioctl_gem_new()
+
+|-- etnaviv_gem_new_handle()
+
+|--- etnaviv_gem_new_impl(dev, size, flags, &etnaviv_gem_shmem_ops, &obj);
+
+|---  drm_gem_object_init(dev, obj, size);
+
+
+If I understand this correctly:
+
+
+Code path 1 is for cross device (and cross driver) buffer-sharing,
+
+Code path 2 is going to share the buffer the userspace,
+
+
+*Only* the code path 3 is to construct a GEM buffer object for the 
+user-space the userspace,
+
+that is say, *only* the code path 3 need to do the backing memory 
+allocation work for the userspace.
+
+thus it need to call drm_gem_object_init() function, which really the 
+shmem do the backing memory
+
+allocation.
+
+
+The code path 1 and the code path 2 do not need the kernel space 
+allocate the backing memory.
+
+Because they are going to share the buffer already allocated by others.
+
+thus, code path 2 and code path 3 should call drm_gem_private_object_init(),
+
+*not* the drm_gem_object_init() function.
+
+
+When import buffer from the a specific KMS driver,
+
+then etnaviv_gem_prime_import_sg_table() will be called.
+
+
+I guess you means that drm_gem_private_object_init() (not the 
+drm_gem_object_init() function)here ?
+
+
+> A better cleanup would be to make
+> use of the size parameter and move this object init call into
+> etnaviv_gem_new_impl.
+
+If I following you guidance, how do I differentiate the cases
+
+when to call drm_gem_private_object_init() not drm_gem_object_init() ?
+
+and when call drm_gem_object_init() not drm_gem_private_object_init()?
+
+
+I don't think you are right here.
+
+>
+> Regards,
+> Lucas
+>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 +++----
+>>   1 file changed, 3 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> index b5f73502e3dd..be2f459c66b5 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+>> @@ -542,7 +542,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+>>   	.vm_ops = &vm_ops,
+>>   };
+>>   
+>> -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+>> +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
+>>   	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+>>   {
+>>   	struct etnaviv_gem_object *etnaviv_obj;
+>> @@ -591,8 +591,7 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+>>   
+>>   	size = PAGE_ALIGN(size);
+>>   
+>> -	ret = etnaviv_gem_new_impl(dev, size, flags,
+>> -				   &etnaviv_gem_shmem_ops, &obj);
+>> +	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
+>>   	if (ret)
+>>   		goto fail;
+>>   
+>> @@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
+>>   	struct drm_gem_object *obj;
+>>   	int ret;
+>>   
+>> -	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
+>> +	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
+>>   	if (ret)
+>>   		return ret;
+>>   
 
