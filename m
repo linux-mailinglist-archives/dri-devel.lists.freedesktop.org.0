@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF0F756BCB
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830F4756BCF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFDE010E2A4;
-	Mon, 17 Jul 2023 18:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE6E10E2A1;
+	Mon, 17 Jul 2023 18:23:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50E9110E2A1;
- Mon, 17 Jul 2023 18:21:49 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002F810E2A1;
+ Mon, 17 Jul 2023 18:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689618109; x=1721154109;
+ t=1689618186; x=1721154186;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=0u6F7R1pl3WVsOOyvrZJmV5zfsoS1f6q1xWmozMPV/0=;
- b=UjB+uJnxcIjklO20/gFJd5bskZA7tVEuZklDzsaiP/adhdhj/5jPB5AH
- x7xNCNjw2Ca9N/em3ODZNu7xzpgl8fWd6IqKAOXDRr302NAyfaYoj4LHk
- fq7Y7RpeY/QAbmfKVMnn8wBn0aZHjtt/sQF3h4KXzPb8XJ4gFRK+6nu7W
- Hs5YnnqFw9uDpK0EJBEHwrU7FURFEi2bXb0Z8eZWDEuStjyRgeuwi0iW6
- j6Ilexksd3PsQTZgp/CqqcAUfjEL/E0TMQ6ipLe6pvSiyIlPEnL58nDTU
- rpFj7yRQ8Y5eD8xqhtD1BL50QK/2IN7IJuC0c8LYcSXEMTT10sXSXhd3c Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="432178988"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="432178988"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 11:21:48 -0700
+ bh=Tr99F48zan845+HokQR/cz95BdWpXXi56Vs7fgqztG4=;
+ b=nFguEJCpMtFXJrA6k6a1llobLsfQqIt4U5kic6nDNRPdMVDlWXbTWIzg
+ 5M82CP5wBDPdn6jlfKEN04XzeNx2OHaLFAMhK0E0NWLadfWx+Yn/qgkGB
+ fEhkYZbl2iQORuy5tOsI3+HBaS0HgoCaNSOSJFmLNImM9Dg5asoFOrfeN
+ smAZdxdGp0uAumXKNOHvqiyb93CH/kAc7r+0YyBwkI4UPn3cosoWS6n1n
+ h3ACybBgLVMrl2MSX32ZcqB2IOPT5WXEA9MYxDin+5LRmtNQa5zKcKHNQ
+ oH+LSn1qUkoHI9bcjs0Q90Y/oULA2ZKmgT1rcu6mvFSjuF3sGcY/31Ev5 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="396834564"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="396834564"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 11:23:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="788742340"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="788742340"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="726649536"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="726649536"
 Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.9.23])
  ([10.213.9.23])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 11:21:42 -0700
-Message-ID: <e951e0c3-23e8-75aa-f58a-5aa99a7d4598@intel.com>
-Date: Mon, 17 Jul 2023 20:21:40 +0200
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 11:23:02 -0700
+Message-ID: <79b92652-c63f-36fd-fd2a-835c25dc61ae@intel.com>
+Date: Mon, 17 Jul 2023 20:23:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [Intel-gfx] [PATCH v4 3/6] drm/i915/gt: Rename flags with
- bit_group_X according to the datasheet
+Subject: Re: [Intel-gfx] [PATCH v4 4/6] drm/i915/gt: Enable the CCS_FLUSH bit
+ in the pipe control
 Content-Language: en-US
 To: Andi Shyti <andi.shyti@linux.intel.com>,
  Jonathan Cavitt <jonathan.cavitt@intel.com>,
@@ -51,11 +51,11 @@ To: Andi Shyti <andi.shyti@linux.intel.com>,
  Mika Kuoppala <mika.kuoppala@linux.intel.com>,
  Nirmoy Das <nirmoy.das@intel.com>
 References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
- <20230717173059.422892-4-andi.shyti@linux.intel.com>
+ <20230717173059.422892-5-andi.shyti@linux.intel.com>
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230717173059.422892-4-andi.shyti@linux.intel.com>
+In-Reply-To: <20230717173059.422892-5-andi.shyti@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,92 +76,77 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17.07.2023 19:30, Andi Shyti wrote:
-> In preparation of the next patch allign with the datasheet (BSPEC
-> 47112) with the naming of the pipe control set of flag values.
-> The variable "flags" in gen12_emit_flush_rcs() is applied as a
-> set of flags called Bit Group 1.
+> Enable the CCS_FLUSH bit 13 in the control pipe for render and
+> compute engines in platforms starting from Meteor Lake (BSPEC
+> 43904 and 47112).
 > 
-> Define also the Bit Group 0 as bit_group_0 where currently only
-> PIPE_CONTROL0_HDC_PIPELINE_FLUSH bit is set.
-> 
+> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
 > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Cc: Nirmoy Das <nirmoy.das@intel.com>
 > Cc: <stable@vger.kernel.org> # v5.8+
-> ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 34 +++++++++++++-----------
->   1 file changed, 18 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index bee3b7dc595cf..3c935d6b68bf0 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -210,7 +210,8 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		mode |= EMIT_FLUSH;
->   
->   	if (mode & EMIT_FLUSH) {
-> -		u32 flags = 0;
-> +		u32 bit_group_0 = 0;
-> +		u32 bit_group_1 = 0;
 
-For me flags0 and flags1 seems more readable as in 
-*gen8_emit_pipe_control(batch, flags0, flags1, offset), but no strong 
-feelings, but if bit_group is chosen arguments of 
-*gen8_emit_pipe_control could be changed as well.
 
 Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
 Regards
 Andrzej
-
->   		int err;
->   		u32 *cs;
+> ---
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 10 +++++++++-
+>   drivers/gpu/drm/i915/gt/intel_engine_types.h |  1 +
+>   drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  1 +
+>   3 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 3c935d6b68bf0..aa2fb9d72745a 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -207,7 +207,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   	 * memory traffic is quiesced prior.
+>   	 */
+>   	if ((mode & EMIT_INVALIDATE) && !HAS_FLAT_CCS(engine->i915))
+> -		mode |= EMIT_FLUSH;
+> +		mode |= EMIT_FLUSH | EMIT_CCS_FLUSH;
 >   
-> @@ -218,32 +219,33 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		if (err)
->   			return err;
+>   	if (mode & EMIT_FLUSH) {
+>   		u32 bit_group_0 = 0;
+> @@ -221,6 +221,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
 >   
-> -		flags |= PIPE_CONTROL_TILE_CACHE_FLUSH;
-> -		flags |= PIPE_CONTROL_FLUSH_L3;
-> -		flags |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
-> -		flags |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
-> +		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
+>   		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
+>   
+> +		/*
+> +		 * When required, in MTL+ platforms we need to
+> +		 * set the CCS_FLUSH bit in the pipe control
+> +		 */
+> +		if (mode & EMIT_CCS_FLUSH &&
+> +		    GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
+> +			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
 > +
-> +		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
-> +		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
-> +		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
-> +		bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
->   		/* Wa_1409600907:tgl,adl-p */
-> -		flags |= PIPE_CONTROL_DEPTH_STALL;
-> -		flags |= PIPE_CONTROL_DC_FLUSH_ENABLE;
-> -		flags |= PIPE_CONTROL_FLUSH_ENABLE;
-> +		bit_group_1 |= PIPE_CONTROL_DEPTH_STALL;
-> +		bit_group_1 |= PIPE_CONTROL_DC_FLUSH_ENABLE;
-> +		bit_group_1 |= PIPE_CONTROL_FLUSH_ENABLE;
->   
-> -		flags |= PIPE_CONTROL_STORE_DATA_INDEX;
-> -		flags |= PIPE_CONTROL_QW_WRITE;
-> +		bit_group_1 |= PIPE_CONTROL_STORE_DATA_INDEX;
-> +		bit_group_1 |= PIPE_CONTROL_QW_WRITE;
->   
-> -		flags |= PIPE_CONTROL_CS_STALL;
-> +		bit_group_1 |= PIPE_CONTROL_CS_STALL;
->   
->   		if (!HAS_3D_PIPELINE(engine->i915))
-> -			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
-> +			bit_group_1 &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
->   		else if (engine->class == COMPUTE_CLASS)
-> -			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
-> +			bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
->   
->   		cs = intel_ring_begin(rq, 6);
->   		if (IS_ERR(cs))
->   			return PTR_ERR(cs);
->   
-> -		cs = gen12_emit_pipe_control(cs,
-> -					     PIPE_CONTROL0_HDC_PIPELINE_FLUSH,
-> -					     flags, LRC_PPHWSP_SCRATCH_ADDR);
-> +		cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
-> +					     LRC_PPHWSP_SCRATCH_ADDR);
->   		intel_ring_advance(rq, cs);
->   	}
->   
+>   		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+>   		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+>   		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> index e99a6fa03d453..e2cae9d02bd62 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> @@ -514,6 +514,7 @@ struct intel_engine_cs {
+>   	int		(*emit_flush)(struct i915_request *request, u32 mode);
+>   #define EMIT_INVALIDATE	BIT(0)
+>   #define EMIT_FLUSH	BIT(1)
+> +#define EMIT_CCS_FLUSH	BIT(2) /* MTL+ */
+>   #define EMIT_BARRIER	(EMIT_INVALIDATE | EMIT_FLUSH)
+>   	int		(*emit_bb_start)(struct i915_request *rq,
+>   					 u64 offset, u32 length,
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> index 5d143e2a8db03..5df7cce23197c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> @@ -299,6 +299,7 @@
+>   #define   PIPE_CONTROL_QW_WRITE				(1<<14)
+>   #define   PIPE_CONTROL_POST_SYNC_OP_MASK                (3<<14)
+>   #define   PIPE_CONTROL_DEPTH_STALL			(1<<13)
+> +#define   PIPE_CONTROL_CCS_FLUSH			(1<<13) /* MTL+ */
+>   #define   PIPE_CONTROL_WRITE_FLUSH			(1<<12)
+>   #define   PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH	(1<<12) /* gen6+ */
+>   #define   PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE	(1<<11) /* MBZ on ILK */
 
