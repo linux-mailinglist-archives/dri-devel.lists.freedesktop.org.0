@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E513D75661A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27F4756614
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19AE510E270;
-	Mon, 17 Jul 2023 14:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8841C10E263;
+	Mon, 17 Jul 2023 14:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3484010E268
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:53 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2285010E263
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:54 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 61E4B6607073;
- Mon, 17 Jul 2023 15:14:51 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 40DAB6607067;
+ Mon, 17 Jul 2023 15:14:52 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1689603292;
- bh=0hGL/8LzIM49OnwR70sh4p7tQJGg8O110NQk4ZNHwd0=;
+ bh=J2LXqbhqDnB0oQhrTOcYs4nhQoquh9K8gXsYFc7oo4U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QlRzY3+6MjLfPwDht+YhnrAPXd0qTP00SI/ZJs2PVH+7PXopK2VH41JfJu/yqRZzu
- 1Ad1vWTsiHqOmy6zhyDLWO8WjlCbsKGY17jGmGS0bHQoxHh39rf0h4m4FeM7IVnRDD
- lgT1dksa5r6wqTpQRKJgmBNx3ayp554dNJaNO/vOzkzxmU1PoUrcQ5tiY4eeT5bXoD
- ara+vDSZng/mTtHOJlayeZYvGC5N0B7orm+01qASJttnJhBEVx2olZWnK50jk4J5Oc
- IDRIykJmehSe7uMioWTLaO7qRrCPrJ77MGrt3c5K4EIYzjL4pHhI8zC0bWJFLrHMwA
- 9RY0AWrj3uhTg==
+ b=j1ny1loxOHOf9zcl/KK79tj3NsJz0oPSmAlAkp1qPQ2NYXQOfWrVJYlLXuekgp8J2
+ RTXY8WejsO1muPaJINn1hZueTEyLeLThMn8hLPj3meKOHj/uBJ8u5TgY1Uc+aUqYQ+
+ BILTe48I8ifL4h9AvEr9NmIdw4AlNIi4F6OiM2uG/OWF4FuV8QyXMRum9D3lDjNNcx
+ SenSDurFDMFaCyRJXh9XGnnYIWF8eZHb1Ic4WKDvoWBgtEYb3Qjy7sGmxJf98TmqJP
+ IaxK+xxz57OG4NUNyoSjNn9eoTlURsfOVcdRLwEz4WOx8gf3vMLDIgqzVXKBepvMNr
+ x5A3kvwkoG2zw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v6 10/11] drm/mediatek: dp: Add .wait_hpd_asserted() for AUX
- bus
-Date: Mon, 17 Jul 2023 16:14:37 +0200
-Message-Id: <20230717141438.274419-11-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v6 11/11] drm/mediatek: dp: Don't register HPD interrupt
+ handler for eDP case
+Date: Mon, 17 Jul 2023 16:14:38 +0200
+Message-Id: <20230717141438.274419-12-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
 References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
@@ -60,114 +59,172 @@ Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support usecases in which the panel regulator can be
-switched on and off to save power, and usecases in which the panel
-regulator is off at boot, add a .wait_hpd_asserted() callback for
-the AUX bus: this will make sure to wait until the panel is fully
-ready after power-on before trying to communicate with it.
+The interrupt handler for HPD is useful only if a display is actually
+supposed to be hotpluggable, as that manages the machinery to perform
+cable (un)plug detection, debouncing and setup for re-training.
 
-Also, parse the eDP display capabilities in that callback, so that
-we can also avoid using the .get_edid() callback from this bridge.
-
-Since at this point the hpd machinery is performed in the new hpd
-callback and the detection and edid reading are done outside of
-this driver, assign the DRM_BRIDGE_OP_{DETECT, EDID, HPD} ops and
-register the bridge unconditionally at probe time only if we are
-probing full DisplayPort and not eDP while, for the latter, we
-register the bridge in the .done_probing() callback and only if
-the panel was found and triggered HPD.
+Since eDP panels are not supposed to be hotpluggable we can avoid
+using the HPD interrupts altogether and rely on HPD polling only
+for the suspend/resume case, saving us some spinlocking action and
+the overhead of interrupts firing at every suspend/resume cycle,
+achieving a faster (even if just slightly) display resume.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 45 ++++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 81 ++++++++++++++++++-------------
+ 1 file changed, 46 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index acdd457b5449..e74295ba9707 100644
+index e74295ba9707..c06fcc7318e7 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1920,6 +1920,31 @@ static irqreturn_t mtk_dp_hpd_event(int hpd, void *dev)
- 	return IRQ_WAKE_THREAD;
- }
+@@ -2182,9 +2182,11 @@ static int mtk_dp_bridge_attach(struct drm_bridge *bridge,
  
-+static int mtk_dp_wait_hpd_asserted(struct drm_dp_aux *mtk_aux, unsigned long wait_us)
-+{
-+	struct mtk_dp *mtk_dp = container_of(mtk_aux, struct mtk_dp, aux);
-+	u32 val;
-+	int ret;
-+
-+	ret = regmap_read_poll_timeout(mtk_dp->regs, MTK_DP_TRANS_P0_3414,
-+				       val, !!(val & HPD_DB_DP_TRANS_P0_MASK),
-+				       wait_us / 100, wait_us);
-+	if (ret) {
-+		mtk_dp->train_info.cable_plugged_in = false;
-+		return ret;
+ 	mtk_dp->drm_dev = bridge->dev;
+ 
+-	irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
+-	enable_irq(mtk_dp->irq);
+-	mtk_dp_hwirq_enable(mtk_dp, true);
++	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
++		irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
++		enable_irq(mtk_dp->irq);
++		mtk_dp_hwirq_enable(mtk_dp, true);
 +	}
-+
-+	mtk_dp->train_info.cable_plugged_in = true;
-+
-+	ret = mtk_dp_parse_capabilities(mtk_dp);
-+	if (ret) {
-+		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int mtk_dp_dt_parse(struct mtk_dp *mtk_dp,
- 			   struct platform_device *pdev)
- {
-@@ -2532,6 +2557,12 @@ static int mtk_dp_edp_link_panel(struct drm_dp_aux *mtk_aux)
- 		mtk_dp->next_bridge = NULL;
- 		return ret;
- 	}
-+
-+	/* For eDP, we add the bridge only if the panel was found */
-+	ret = devm_drm_bridge_add(dev, &mtk_dp->bridge);
-+	if (ret)
-+		return ret;
-+
+ 
  	return 0;
- }
  
-@@ -2568,6 +2599,7 @@ static int mtk_dp_probe(struct platform_device *pdev)
+@@ -2199,8 +2201,10 @@ static void mtk_dp_bridge_detach(struct drm_bridge *bridge)
+ {
+ 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+ 
+-	mtk_dp_hwirq_enable(mtk_dp, false);
+-	disable_irq(mtk_dp->irq);
++	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
++		mtk_dp_hwirq_enable(mtk_dp, false);
++		disable_irq(mtk_dp->irq);
++	}
+ 	mtk_dp->drm_dev = NULL;
+ 	mtk_dp_poweroff(mtk_dp);
+ 	drm_dp_aux_unregister(&mtk_dp->aux);
+@@ -2579,40 +2583,44 @@ static int mtk_dp_probe(struct platform_device *pdev)
+ 	mtk_dp->dev = dev;
+ 	mtk_dp->data = (struct mtk_dp_data *)of_device_get_match_data(dev);
+ 
+-	mtk_dp->irq = platform_get_irq(pdev, 0);
+-	if (mtk_dp->irq < 0)
+-		return dev_err_probe(dev, mtk_dp->irq,
+-				     "failed to request dp irq resource\n");
+-
+-	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+-	if (IS_ERR(mtk_dp->next_bridge) &&
+-	    PTR_ERR(mtk_dp->next_bridge) == -ENODEV)
+-		mtk_dp->next_bridge = NULL;
+-	else if (IS_ERR(mtk_dp->next_bridge))
+-		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
+-				     "Failed to get bridge\n");
+-
+ 	ret = mtk_dp_dt_parse(mtk_dp, pdev);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to parse dt\n");
+ 
++	/*
++	 * Request the interrupt and install service routine only if we are
++	 * on full DisplayPort.
++	 * For eDP, polling the HPD instead is more convenient because we
++	 * don't expect any (un)plug events during runtime, hence we can
++	 * avoid some locking.
++	 */
++	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP) {
++		mtk_dp->irq = platform_get_irq(pdev, 0);
++		if (mtk_dp->irq < 0)
++			return dev_err_probe(dev, mtk_dp->irq,
++					     "failed to request dp irq resource\n");
++
++		spin_lock_init(&mtk_dp->irq_thread_lock);
++
++		irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
++		ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
++						mtk_dp_hpd_event_thread,
++						IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
++						mtk_dp);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "failed to request mediatek dptx irq\n");
++
++		mtk_dp->need_debounce = true;
++		timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
++	}
++
  	mtk_dp->aux.name = "aux_mtk_dp";
  	mtk_dp->aux.dev = dev;
  	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
-+	mtk_dp->aux.wait_hpd_asserted = mtk_dp_wait_hpd_asserted;
+ 	mtk_dp->aux.wait_hpd_asserted = mtk_dp_wait_hpd_asserted;
  	drm_dp_aux_init(&mtk_dp->aux);
  
- 	spin_lock_init(&mtk_dp->irq_thread_lock);
-@@ -2600,15 +2632,8 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 
- 	mtk_dp->bridge.funcs = &mtk_dp_bridge_funcs;
- 	mtk_dp->bridge.of_node = dev->of_node;
+-	spin_lock_init(&mtk_dp->irq_thread_lock);
 -
--	mtk_dp->bridge.ops =
--		DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
+-	irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
+-	ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
+-					mtk_dp_hpd_event_thread,
+-					IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
+-					mtk_dp);
+-	if (ret)
+-		return dev_err_probe(dev, ret,
+-				     "failed to request mediatek dptx irq\n");
+-
+ 	platform_set_drvdata(pdev, mtk_dp);
+ 
+ 	if (mtk_dp->data->audio_supported) {
+@@ -2634,9 +2642,6 @@ static int mtk_dp_probe(struct platform_device *pdev)
+ 	mtk_dp->bridge.of_node = dev->of_node;
  	mtk_dp->bridge.type = mtk_dp->data->bridge_type;
  
--	ret = devm_drm_bridge_add(dev, &mtk_dp->bridge);
--	if (ret)
--		return dev_err_probe(dev, ret, "Failed to add bridge\n");
+-	mtk_dp->need_debounce = true;
+-	timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
 -
- 	mtk_dp->need_debounce = true;
- 	timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
+ 	if (mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP) {
+ 		/*
+ 		 * Set the data lanes to idle in case the bootloader didn't
+@@ -2647,6 +2652,9 @@ static int mtk_dp_probe(struct platform_device *pdev)
+ 		mtk_dp_initialize_aux_settings(mtk_dp);
+ 		mtk_dp_power_enable(mtk_dp);
  
-@@ -2647,6 +2672,12 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 				return ret;
- 			}
- 		}
-+	} else {
-+		mtk_dp->bridge.ops = DRM_BRIDGE_OP_DETECT |
-+				     DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
-+		ret = devm_drm_bridge_add(dev, &mtk_dp->bridge);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "Failed to add bridge\n");
- 	}
++		/* Disable HW interrupts: we don't need any for eDP */
++		mtk_dp_hwirq_enable(mtk_dp, false);
++
+ 		/*
+ 		 * Power on the AUX to allow reading the EDID from aux-bus:
+ 		 * please note that it is necessary to call power off in the
+@@ -2692,7 +2700,8 @@ static int mtk_dp_remove(struct platform_device *pdev)
  
- 	pm_runtime_enable(dev);
+ 	pm_runtime_put(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
+-	del_timer_sync(&mtk_dp->debounce_timer);
++	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP)
++		del_timer_sync(&mtk_dp->debounce_timer);
+ 	platform_device_unregister(mtk_dp->phy_dev);
+ 	if (mtk_dp->audio_pdev)
+ 		platform_device_unregister(mtk_dp->audio_pdev);
+@@ -2706,7 +2715,8 @@ static int mtk_dp_suspend(struct device *dev)
+ 	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
+ 
+ 	mtk_dp_power_disable(mtk_dp);
+-	mtk_dp_hwirq_enable(mtk_dp, false);
++	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP)
++		mtk_dp_hwirq_enable(mtk_dp, false);
+ 	pm_runtime_put_sync(dev);
+ 
+ 	return 0;
+@@ -2718,7 +2728,8 @@ static int mtk_dp_resume(struct device *dev)
+ 
+ 	pm_runtime_get_sync(dev);
+ 	mtk_dp_init_port(mtk_dp);
+-	mtk_dp_hwirq_enable(mtk_dp, true);
++	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP)
++		mtk_dp_hwirq_enable(mtk_dp, true);
+ 	mtk_dp_power_enable(mtk_dp);
+ 
+ 	return 0;
 -- 
 2.40.1
 
