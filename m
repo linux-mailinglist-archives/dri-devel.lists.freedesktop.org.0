@@ -1,54 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6CD7558B4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 01:57:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA052755938
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 03:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9C410E0A5;
-	Sun, 16 Jul 2023 23:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4CD10E121;
+	Mon, 17 Jul 2023 01:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C1310E0A5
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 23:57:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D96C260EE2;
- Sun, 16 Jul 2023 23:57:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F19C433C7;
- Sun, 16 Jul 2023 23:57:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689551833;
- bh=+2BhqY9zrhKuYyQ9etJS5H8r5edL7fVLVmdomTcsJy0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TBFRNmShB+QtUymfhfsuzlj3mrAUiU+5Hg+ldphDuktGwVKO+KxXQagpUkGBQJbWl
- hXyeF+Rfg6ewUcNhDMsuBvqcdWqvqawpVMD6yWImZiyxQtdvTYWzL+kMpw5xzqpRhG
- zeXaT0cOS+lRpVDZ6s045vluNNr6NG8cNDQ0AcffxOFmBiEOaCwDgVYYnRJ3T4sqWQ
- wzLuT7zwBFRFCBLF6Pt82BWVaS82xTXICHEGNuTljfml0iqwe6rpTBHVuINaJ0uP2a
- 1u6ABa3DonIrUNt5odDi+lmA05AzQN6US36BEfW0zBjuLP3/0xlzgySFmJCGVXiatb
- uc5uAgsCg/N8w==
-Message-ID: <73971895-6fa7-a5e1-542d-3faccbc4a830@kernel.org>
-Date: Sun, 16 Jul 2023 16:57:07 -0700
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A57AD10E120;
+ Mon, 17 Jul 2023 01:47:45 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R44dJ1jQ6ztR79;
+ Mon, 17 Jul 2023 09:44:36 +0800 (CST)
+Received: from cgs.huawei.com (10.244.148.83) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 17 Jul 2023 09:47:39 +0800
+From: Gaosheng Cui <cuigaosheng1@huawei.com>
+To: <liviu.dudau@arm.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>,
+ <sam@ravnborg.org>, <quic_eberman@quicinc.com>, <a39.skl@gmail.com>,
+ <quic_gurus@quicinc.com>, <cuigaosheng1@huawei.com>,
+ <angelogioacchino.delregno@somainline.org>, <james.qian.wang@arm.com>
+Subject: [PATCH v4 0/3] Fix IS_ERR() vs NULL check for drm
+Date: Mon, 17 Jul 2023 09:47:36 +0800
+Message-ID: <20230717014739.2952665-1-cuigaosheng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC PATCH 06/10] net: add SO_DEVMEM_DONTNEED setsockopt to
- release RX pages
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20230710223304.1174642-1-almasrymina@google.com>
- <20230710223304.1174642-7-almasrymina@google.com>
-From: Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20230710223304.1174642-7-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.244.148.83]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +50,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, jgg@ziepe.ca,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/10/23 15:32, Mina Almasry wrote:
-> Add an interface for the user to notify the kernel that it is done reading
-> the NET_RX dmabuf pages returned as cmsg. The kernel will drop the
-> reference on the NET_RX pages to make them available for re-use.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> ---
+v4:
+- 1. Update the second patch's commit messages.
+  2. Update the first patch, use dev_err_probe() instead of dev_err().
 
-> +		for (i = 0; i < num_tokens; i++) {
-> +			for (j = 0; j < tokens[i].token_count; j++) {
-> +				struct page *pg = xa_erase(&sk->sk_pagepool,
-> +							   tokens[i].token_start + j);
-> +
-> +				if (pg)
-> +					put_page(pg);
-> +				else
-> +					/* -EINTR here notifies the userspace
-> +					 * that not all tokens passed to it have
-> +					 * been freed.
-> +					 */
-> +					ret = -EINTR;
+  Thanks!
 
-Unless I'm missing something, this type of error reporting is 
-unrecoverable -- userspace doesn't know how many tokens have been freed.
+v3:
+- Update the second patch:
+  1. change IS_ERR to IS_ERR_OR_NULL
+  2. add Dmitry's R-b in this revision:
+  link: https://patchwork.freedesktop.org/patch/511035/?series=110745&rev=1
 
-I think you should either make it explicitly unrecoverable (somehow shut 
-down dmabuf handling entirely) or tell userspace how many tokens were 
-successfully freed.
+  Thanks!
 
---Andy
+v2:
+- I'm sorry I missed some emails, these patches were submitted last year,
+  now let me resend it with the following changes:
+  1. remove the patch: "drm/msm: Fix IS_ERR_OR_NULL() vs NULL check in msm_icc_get()"
+  2. remove the patch: "drm/vc4: kms: Fix IS_ERR() vs NULL check for vc4_kms"
+  3. add "Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>" to the second patch.
+
+  Thanks!
+
+v1:
+- This series contains a few fixup patches, to fix IS_ERR() vs NULL check
+  for drm, and avoid a potential null-ptr-defer issue, too. Thanks!
+
+Gaosheng Cui (3):
+  drm/panel: Fix IS_ERR() vs NULL check in nt35950_probe()
+  drm/msm: Fix IS_ERR_OR_NULL() vs NULL check in a5xx_submit_in_rb()
+  drm/komeda: Fix IS_ERR() vs NULL check in
+    komeda_component_get_avail_scaler()
+
+ drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c | 2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c                      | 2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c              | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+2.25.1
+
