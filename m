@@ -2,77 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A622756F9B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 00:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB78B756FA1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 00:12:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACED310E2B8;
-	Mon, 17 Jul 2023 22:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4508F10E2B9;
+	Mon, 17 Jul 2023 22:12:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AADE10E14F;
- Mon, 17 Jul 2023 22:09:39 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36HLUd6p011980; Mon, 17 Jul 2023 22:09:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=qcppdkim1;
- bh=IeervRfX/kX2Bi7uw7CJLhGLqA1Lgq6bFpdT1U/qa9Q=;
- b=mWGr9htnaizP+stw0khzIeXa0O4FdCbtmjECk5ekclYFEHyQSc+AiRaJrOxgxBZJeB/I
- EU8hdielcPemQc5QgNyeYcwHPxhf2eZTWgEIJ+jmpGztQvtK35u4JDixkItG340bE3fv
- 0LJcvV+Q+lJkgI2mY8dFZyHWo/SIi3sCPyE/ZdXJ20VvReDmbvUAR2WbYAiPqlXCaivM
- zDMBKjT6xcdK5lDTR5RSdvhnR7wyfXIhDeOs+vqWjIC9/sUhGUQ20Ve6s3U5nsAlattH
- 2HXm39eyYSgshRtWr3wlSYA83+7yyEuFTN42u54o9UitGs+etqbkflRkiXp3RqdfSgal Uw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run1jmj7c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jul 2023 22:09:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36HM96IR028294
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jul 2023 22:09:06 GMT
-Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Mon, 17 Jul 2023 15:09:03 -0700
-Date: Tue, 18 Jul 2023 03:39:00 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [PATCH 12/12] drm/msm/adreno: Switch to chip-id for
- identifying GPU
-Message-ID: <mn5diy7fy2nmvs7bapm76qzubbxqpouugxzto4qqxrfj7komuw@xyosf5w4xpbk>
-References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-13-robdclark@gmail.com>
- <ab9f2c65-deb4-1762-4a32-a7046608311e@linaro.org>
- <vdeu4ecennghygse3ktuqlwfnzqu5jcgscx7bbxh7lmlu2dwc7@ktwknruwjl4n>
- <CAF6AEGujdBLpV8spq0_Ydv+7-bmd02Z938WJk5E7cCacPB=Hvw@mail.gmail.com>
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6892910E2B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 22:12:20 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-666e6541c98so5102813b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 15:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1689631939; x=1692223939;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nfZGdLayIsQ4EXLbarw1/OO0pNLBzQdwR1vEqsrzGII=;
+ b=Jk8Ffu+zgnI1CsgL7PShvnMc/G0hm1hbh3TPz5Fbc34BI/VC6K+YvpO0Dtz1Q06LcE
+ vf29m9vckcSQeAqUEVUy2hQg3wChzTMiZjPdUNSWsPB40TqlA/Z3Z90RDeI/5eGEIh5a
+ oHIWxzri1XJMuhuB2UIvkNGwKQM8BtpRM8RbCOHyQCc7eetsY5S+VbcO2iAUIljyLIvn
+ 7DgUtRFxxg3tnphZnCaerMskJ/OIgXT3e8pOBne6YWSI+yYb8YG43ww6ejPC+GReMaLK
+ AQZU6DLVDF3nw8hq4CMA6FGa2JzmC2rObjfL+xz46TVHFpF838cUJw0/Qyn0hTY2P629
+ 8fnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689631939; x=1692223939;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nfZGdLayIsQ4EXLbarw1/OO0pNLBzQdwR1vEqsrzGII=;
+ b=HLEAw8N6cSFhDKjvTUpd8m1wgjLLu/5qg+aan44vishHy/udyJLMXuHjjz9Ocylrgz
+ GRXA9NjQub45CA0QNehyq2NZYB27DdGAXs6nOgkcBwnDN5mqnof1ncg5dOf8N7zQjavS
+ Eb94DG0LRKj4maYCGvhN3kP1a1+Yb+DA3g19jzDrihC9C8JVnDIhii2pQmKHTpehh7kb
+ 8VVvd/0OVpKLbsRj2fubPcnLcwjYj68X5BXfopplb9YCMptci2lHbjSpvlqAdhBYR8EF
+ qEKGAGhALYp68KnaFtZEyvaGaeCAntSdR0RyqhS6Tb93NMfMNPihd4s91qhZ+Q3hTM7y
+ WCfA==
+X-Gm-Message-State: ABy/qLbM+TzX9rJlMuCH9tsCcKC48K8MFuBxRR0osG0O7szls7w/K6X5
+ 867uoIW2tOe7JjepaE18REytwQ==
+X-Google-Smtp-Source: APBJJlGZQPlE97VCyl6VDpxaBgXkuk8Xeb/cb5kTAa5gNdx+KBrLI5Ve+dnBz8NdMBvhTebPf2Gh3g==
+X-Received: by 2002:a05:6a00:2307:b0:668:81c5:2f8a with SMTP id
+ h7-20020a056a00230700b0066881c52f8amr19367164pfh.17.1689631939323; 
+ Mon, 17 Jul 2023 15:12:19 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.25.194]) by smtp.gmail.com with ESMTPSA id
+ q185-20020a632ac2000000b0055fedbf1938sm278952pgq.31.2023.07.17.15.12.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jul 2023 15:12:18 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1qLWS0-002PFZ-GX;
+ Mon, 17 Jul 2023 19:12:16 -0300
+Date: Mon, 17 Jul 2023 19:12:16 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH 0/2] eventfd: simplify signal helpers
+Message-ID: <ZLW8wEzkhBxd0O0L@ziepe.ca>
+References: <20230630155936.3015595-1-jaz@semihalf.com>
+ <20230714-gauner-unsolidarisch-fc51f96c61e8@brauner>
+ <CAH76GKPF4BjJLrzLBW8k12ATaAGADeMYc2NQ9+j0KgRa0pomUw@mail.gmail.com>
+ <20230717130831.0f18381a.alex.williamson@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGujdBLpV8spq0_Ydv+7-bmd02Z938WJk5E7cCacPB=Hvw@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: -z2u113hbEfYdlc0d4tNvj39js7qV1t1
-X-Proofpoint-GUID: -z2u113hbEfYdlc0d4tNvj39js7qV1t1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- bulkscore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0 spamscore=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307170201
+In-Reply-To: <20230717130831.0f18381a.alex.williamson@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,501 +79,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-aio@kvack.org, Muchun Song <muchun.song@linux.dev>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Paul Durrant <paul@xen.org>, Tom Rix <trix@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Roman Gushchin <roman.gushchin@linux.dev>,
+ dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-mm@kvack.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, netdev@vger.kernel.org,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>, Borislav Petkov <bp@alien8.de>,
+ Alexander Gordeev <agordeev@linux.ibm.com>, Fei Li <fei1.li@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Marcin Wojtas <mw@semihalf.com>,
+ Arnd Bergmann <arnd@arndb.de>, Leon Romanovsky <leon@kernel.org>,
+ Harald Freudenberger <freude@linux.ibm.com>, x86@kernel.org,
+ Halil Pasic <pasic@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
+ Moritz Fischer <mdf@kernel.org>, Frederic Barrat <fbarrat@linux.ibm.com>,
+ Xu Yilun <yilun.xu@intel.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, linux-fpga@vger.kernel.org,
+ Zhi Wang <zhi.a.wang@intel.com>, Wu Hao <hao.wu@intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ linux-s390@vger.kernel.org, Dominik Behr <dbehr@chromium.org>,
+ intel-gfx@lists.freedesktop.org, Sean Christopherson <seanjc@google.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shakeel Butt <shakeelb@google.com>, kvm@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, cgroups@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org, intel-gvt-dev@lists.freedesktop.org,
+ io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Christian Brauner <brauner@kernel.org>, Grzegorz Jaszczyk <jaz@semihalf.com>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-usb@vger.kernel.org,
+ Peter Oberparleiter <oberpar@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Benjamin LaHaise <bcrl@kvack.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, linuxppc-dev@lists.ozlabs.org,
+ Pavel Begunkov <asml.silence@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 13, 2023 at 03:06:36PM -0700, Rob Clark wrote:
-> 
-> On Thu, Jul 13, 2023 at 2:39 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
-> >
-> > On Fri, Jul 07, 2023 at 06:45:42AM +0300, Dmitry Baryshkov wrote:
-> > >
-> > > On 07/07/2023 00:10, Rob Clark wrote:
-> > > > From: Rob Clark <robdclark@chromium.org>
-> > > >
-> > > > Since the revision becomes an opaque identifier with future GPUs, move
-> > > > away from treating different ranges of bits as having a given meaning.
-> > > > This means that we need to explicitly list different patch revisions in
-> > > > the device table.
-> > > >
-> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > ---
-> > > >   drivers/gpu/drm/msm/adreno/a4xx_gpu.c      |   2 +-
-> > > >   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |  11 +-
-> > > >   drivers/gpu/drm/msm/adreno/a5xx_power.c    |   2 +-
-> > > >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  13 ++-
-> > > >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |   9 +-
-> > > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 128 ++++++++++-----------
-> > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  16 +--
-> > > >   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  51 ++++----
-> > > >   8 files changed, 122 insertions(+), 110 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-> > > > index 715436cb3996..8b4cdf95f445 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-> > > > @@ -145,7 +145,7 @@ static void a4xx_enable_hwcg(struct msm_gpu *gpu)
-> > > >     gpu_write(gpu, REG_A4XX_RBBM_CLOCK_DELAY_HLSQ, 0x00220000);
-> > > >     /* Early A430's have a timing issue with SP/TP power collapse;
-> > > >        disabling HW clock gating prevents it. */
-> > > > -   if (adreno_is_a430(adreno_gpu) && adreno_gpu->rev.patchid < 2)
-> > > > +   if (adreno_is_a430(adreno_gpu) && adreno_patchid(adreno_gpu) < 2)
-> > > >             gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL, 0);
-> > > >     else
-> > > >             gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL, 0xAAAAAAAA);
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > > > index f0803e94ebe5..70d2b5342cd9 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> > > > @@ -1744,6 +1744,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
-> > > >     struct msm_drm_private *priv = dev->dev_private;
-> > > >     struct platform_device *pdev = priv->gpu_pdev;
-> > > >     struct adreno_platform_config *config = pdev->dev.platform_data;
-> > > > +   const struct adreno_info *info;
-> > > >     struct a5xx_gpu *a5xx_gpu = NULL;
-> > > >     struct adreno_gpu *adreno_gpu;
-> > > >     struct msm_gpu *gpu;
-> > > > @@ -1770,7 +1771,15 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
-> > > >     nr_rings = 4;
-> > > > -   if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
-> > > > +   /*
-> > > > +    * Note that we wouldn't have been able to get this far if there is not
-> > > > +    * a device table entry for this chip_id
-> > > > +    */
-> > > > +   info = adreno_find_info(config->chip_id);
-> > > > +   if (WARN_ON(!info))
-> > > > +           return ERR_PTR(-EINVAL);
-> > > > +
-> > > > +   if (info->revn == 510)
-> > > >             nr_rings = 1;
-> > > >     ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, nr_rings);
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_power.c b/drivers/gpu/drm/msm/adreno/a5xx_power.c
-> > > > index 0e63a1429189..7705f8010484 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/a5xx_power.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/a5xx_power.c
-> > > > @@ -179,7 +179,7 @@ static void a540_lm_setup(struct msm_gpu *gpu)
-> > > >     /* The battery current limiter isn't enabled for A540 */
-> > > >     config = AGC_LM_CONFIG_BCL_DISABLED;
-> > > > -   config |= adreno_gpu->rev.patchid << AGC_LM_CONFIG_GPU_VERSION_SHIFT;
-> > > > +   config |= adreno_patchid(adreno_gpu) << AGC_LM_CONFIG_GPU_VERSION_SHIFT;
-> > > >     /* For now disable GPMU side throttling */
-> > > >     config |= AGC_LM_CONFIG_THROTTLE_DISABLE;
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > index f1bb20574018..a9ba547a120c 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > > > @@ -790,10 +790,15 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
-> > > >     gmu_write(gmu, REG_A6XX_GMU_AHB_FENCE_RANGE_0,
-> > > >             (1 << 31) | (0xa << 18) | (0xa0));
-> > > > -   chipid = adreno_gpu->rev.core << 24;
-> > > > -   chipid |= adreno_gpu->rev.major << 16;
-> > > > -   chipid |= adreno_gpu->rev.minor << 12;
-> > > > -   chipid |= adreno_gpu->rev.patchid << 8;
-> > > > +   /* Note that the GMU has a slightly different layout for
-> > > > +    * chip_id, for whatever reason, so a bit of massaging
-> > > > +    * is needed.  The upper 16b are the same, but minor and
-> > > > +    * patchid are packed in four bits each with the lower
-> > > > +    * 8b unused:
-> > > > +    */
-> > > > +   chipid  = adreno_gpu->chip_id & 0xffff0000;
-> > > > +   chipid |= (adreno_gpu->chip_id << 4) & 0xf000; /* minor */
-> > > > +   chipid |= (adreno_gpu->chip_id << 8) & 0x0f00; /* patchid */
-> > >
-> > > I'd beg for explicit FIELD_GET and FIELD_PREP here.
-> > >
-> > > >     gmu_write(gmu, REG_A6XX_GMU_HFI_SFR_ADDR, chipid);
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > > index 77b23c004b94..ed075729ca09 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > > > @@ -2344,10 +2344,13 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
-> > > >     /*
-> > > >      * We need to know the platform type before calling into adreno_gpu_init
-> > > >      * so that the hw_apriv flag can be correctly set. Snoop into the info
-> > > > -    * and grab the revision number
-> > > > +    * and grab the revision number.
-> > > > +    *
-> > > > +    * Note that we wouldn't have been able to get this far if there is not
-> > > > +    * a device table entry for this chip_id
-> > >
-> > > Having seen this note twice, shouldn't we explicitly pass adreno_info to our
-> > > aNxx_gpu_init() functions and then further to adreno_gpu_init()?
-> > >
-> > > >      */
-> > > > -   info = adreno_info(config->rev);
-> > > > -   if (!info)
-> > > > +   info = adreno_find_info(config->chip_id);
-> > > > +   if (WARN_ON(!info))
-> > > >             return ERR_PTR(-EINVAL);
-> > > >     adreno_gpu->base.hw_apriv = !!(info->quirks & ADRENO_QUIRK_HAS_HW_APRIV);
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > > index fd2e183bce60..4a718ff33635 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > > > @@ -22,7 +22,7 @@ module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
-> > > >   static const struct adreno_info gpulist[] = {
-> > > >     {
-> > > > -           .rev   = ADRENO_REV(2, 0, 0, 0),
-> > > > +           .chip_ids = ADRENO_CHIP_IDS(0x02000000),
-> > >
-> > > This begs to use bit masks, but see below
-> > >
-> > > >             .family = ADRENO_2XX_GEN1,
-> > > >             .revn  = 200,
-> > > >             .fw = {
-> > >
-> > > [skipped]
-> > >
-> > > > @@ -77,7 +77,11 @@ static const struct adreno_info gpulist[] = {
-> > > >             .inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> > > >             .init  = a3xx_gpu_init,
-> > > >     }, {
-> > > > -           .rev   = ADRENO_REV(3, 2, ANY_ID, ANY_ID),
-> > > > +           .chip_ids = ADRENO_CHIP_IDS(
-> > > > +                   0x03020000,
-> > > > +                   0x03020001,
-> > > > +                   0x03020002
-> > >
-> > > definitely a bitmask would help
-> > >
-> > > > +           ),
-> > > >             .family = ADRENO_3XX,
-> > > >             .revn  = 320,
-> > > >             .fw = {
-> > >
-> > > [skipped the rest]
-> > >
-> > > > @@ -494,31 +502,16 @@ MODULE_FIRMWARE("qcom/a630_sqe.fw");
-> > > >   MODULE_FIRMWARE("qcom/a630_gmu.bin");
-> > > >   MODULE_FIRMWARE("qcom/a630_zap.mbn");
-> > > > -static inline bool _rev_match(uint8_t entry, uint8_t id)
-> > > > -{
-> > > > -   return (entry == ANY_ID) || (entry == id);
-> > > > -}
-> > > > -
-> > > > -bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2)
-> > > > -{
-> > > > -
-> > > > -   return _rev_match(rev1.core, rev2.core) &&
-> > > > -           _rev_match(rev1.major, rev2.major) &&
-> > > > -           _rev_match(rev1.minor, rev2.minor) &&
-> > > > -           _rev_match(rev1.patchid, rev2.patchid);
-> > > > -}
-> > > > -
-> > > > -const struct adreno_info *adreno_info(struct adreno_rev rev)
-> > > > +const struct adreno_info *adreno_find_info(uint32_t chip_id)
-> > > >   {
-> > > > -   int i;
-> > > > -
-> > > >     /* identify gpu: */
-> > > > -   for (i = 0; i < ARRAY_SIZE(gpulist); i++) {
-> > > > +   for (int i = 0; i < ARRAY_SIZE(gpulist); i++) {
-> > > >             const struct adreno_info *info = &gpulist[i];
-> > > >             if (info->machine && !of_machine_is_compatible(info->machine))
-> > > >                     continue;
-> > > > -           if (adreno_cmp_rev(info->rev, rev))
-> > > > -                   return info;
-> > > > +           for (int j = 0; info->chip_ids[j]; j++)
-> > > > +                   if (info->chip_ids[j] == chip_id)
-> > > > +                           return info;
-> > > >     }
-> > > >     return NULL;
-> > > > @@ -598,12 +591,11 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
-> > > >     return NULL;
-> > > >   }
-> > > > -static int find_chipid(struct device *dev, struct adreno_rev *rev)
-> > > > +static int find_chipid(struct device *dev, uint32_t *chipid)
-> > > >   {
-> > > >     struct device_node *node = dev->of_node;
-> > > >     const char *compat;
-> > > >     int ret;
-> > > > -   u32 chipid;
-> > > >     /* first search the compat strings for qcom,adreno-XYZ.W: */
-> > > >     ret = of_property_read_string_index(node, "compatible", 0, &compat);
-> > > > @@ -612,32 +604,34 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
-> > > >             if (sscanf(compat, "qcom,adreno-%u.%u", &r, &patch) == 2 ||
-> > > >                 sscanf(compat, "amd,imageon-%u.%u", &r, &patch) == 2) {
-> > > > -                   rev->core = r / 100;
-> > > > +                   uint32_t core, major, minor;
-> > > > +
-> > > > +                   core = r / 100;
-> > > >                     r %= 100;
-> > > > -                   rev->major = r / 10;
-> > > > +                   major = r / 10;
-> > > >                     r %= 10;
-> > > > -                   rev->minor = r;
-> > > > -                   rev->patchid = patch;
-> > > > +                   minor = r;
-> > > > +
-> > > > +                   *chipid = (core << 24) |
-> > > > +                           (major << 16) |
-> > > > +                           (minor << 8) |
-> > > > +                           patch;
-> > >
-> > > This starts to look realy crazy. I'd repeat my suggestion of moving towards
-> > > of_device match data. This would result in some duplication, we'd have to
-> > > explicitly list all supported compatibles in the of_match_table. But then we
-> > > can drop all the CHIPID lists from device table and/or manual parsing of the
-> > > chipid from the compat field.
-> > >
-> > > This way we can have per-SoC overrides, etc.
-> > >
-> > > >                     return 0;
-> > > >             }
-> > > > +
-> > > > +           if (sscanf(compat, "qcom,adreno-%08x", chipid) == 1)
-> > > > +                   return 0;
-> > > >     }
-> > > >     /* and if that fails, fall back to legacy "qcom,chipid" property: */
-> > > > -   ret = of_property_read_u32(node, "qcom,chipid", &chipid);
-> > > > +   ret = of_property_read_u32(node, "qcom,chipid", chipid);
-> > > >     if (ret) {
-> > > >             DRM_DEV_ERROR(dev, "could not parse qcom,chipid: %d\n", ret);
-> > > >             return ret;
-> > > >     }
-> > > > -   rev->core = (chipid >> 24) & 0xff;
-> > > > -   rev->major = (chipid >> 16) & 0xff;
-> > > > -   rev->minor = (chipid >> 8) & 0xff;
-> > > > -   rev->patchid = (chipid & 0xff);
-> > > > -
-> > > >     dev_warn(dev, "Using legacy qcom,chipid binding!\n");
-> > > > -   dev_warn(dev, "Use compatible qcom,adreno-%u%u%u.%u instead.\n",
-> > > > -           rev->core, rev->major, rev->minor, rev->patchid);
-> > > >     return 0;
-> > > >   }
-> > > > @@ -651,22 +645,22 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
-> > > >     struct msm_gpu *gpu;
-> > > >     int ret;
-> > > > -   ret = find_chipid(dev, &config.rev);
-> > > > +   ret = find_chipid(dev, &config.chip_id);
-> > > >     if (ret)
-> > > >             return ret;
-> > > >     dev->platform_data = &config;
-> > > >     priv->gpu_pdev = to_platform_device(dev);
-> > > > -   info = adreno_info(config.rev);
-> > > > +   info = adreno_find_info(config.chip_id);
-> > > >     if (!info) {
-> > > >             dev_warn(drm->dev, "Unknown GPU revision: %"ADRENO_CHIPID_FMT"\n",
-> > > > -                   ADRENO_CHIPID_ARGS(config.rev));
-> > > > +                   ADRENO_CHIPID_ARGS(config.chip_id));
-> > > >             return -ENXIO;
-> > > >     }
-> > > > -   DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.rev));
-> > > > +   DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.chip_id));
-> > > >     priv->is_a2xx = info->family < ADRENO_3XX;
-> > > >     priv->has_cached_coherent =
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > index 1a982a926f21..1274609a74b1 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > > > @@ -326,10 +326,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> > > >             *value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
-> > > >             return 0;
-> > > >     case MSM_PARAM_CHIP_ID:
-> > > > -           *value =  (uint64_t)adreno_gpu->rev.patchid |
-> > > > -                    ((uint64_t)adreno_gpu->rev.minor << 8) |
-> > > > -                    ((uint64_t)adreno_gpu->rev.major << 16) |
-> > > > -                    ((uint64_t)adreno_gpu->rev.core  << 24);
-> > > > +           *value = adreno_gpu->chip_id;
-> > > >             if (!adreno_gpu->info->revn)
-> > > >                     *value |= ((uint64_t) adreno_gpu->speedbin) << 32;
-> > > >             return 0;
-> > > > @@ -849,7 +846,7 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
-> > > >     drm_printf(p, "revision: %u (%"ADRENO_CHIPID_FMT")\n",
-> > > >                     adreno_gpu->info->revn,
-> > > > -                   ADRENO_CHIPID_ARGS(adreno_gpu->rev));
-> > > > +                   ADRENO_CHIPID_ARGS(adreno_gpu->chip_id));
-> > > >     /*
-> > > >      * If this is state collected due to iova fault, so fault related info
-> > > >      *
-> > > > @@ -922,7 +919,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
-> > > >     printk("revision: %u (%"ADRENO_CHIPID_FMT")\n",
-> > > >                     adreno_gpu->info->revn,
-> > > > -                   ADRENO_CHIPID_ARGS(adreno_gpu->rev));
-> > > > +                   ADRENO_CHIPID_ARGS(adreno_gpu->chip_id));
-> > > >     for (i = 0; i < gpu->nr_rings; i++) {
-> > > >             struct msm_ringbuffer *ring = gpu->rb[i];
-> > > > @@ -1072,14 +1069,13 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
-> > > >     struct adreno_platform_config *config = dev->platform_data;
-> > > >     struct msm_gpu_config adreno_gpu_config  = { 0 };
-> > > >     struct msm_gpu *gpu = &adreno_gpu->base;
-> > > > -   struct adreno_rev *rev = &config->rev;
-> > > >     const char *gpu_name;
-> > > >     u32 speedbin;
-> > > >     int ret;
-> > > >     adreno_gpu->funcs = funcs;
-> > > > -   adreno_gpu->info = adreno_info(config->rev);
-> > > > -   adreno_gpu->rev = *rev;
-> > > > +   adreno_gpu->info = adreno_find_info(config->chip_id);
-> > > > +   adreno_gpu->chip_id = config->chip_id;
-> > > >     /* Only handle the core clock when GMU is not in use (or is absent). */
-> > > >     if (adreno_has_gmu_wrapper(adreno_gpu) ||
-> > > > @@ -1104,7 +1100,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
-> > > >     adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
-> > > >     gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT,
-> > > > -                   ADRENO_CHIPID_ARGS(config->rev));
-> > > > +                   ADRENO_CHIPID_ARGS(config->chip_id));
-> > > >     if (!gpu_name)
-> > > >             return -ENOMEM;
-> > > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > > > index 73e7155f164c..18f53c7ab589 100644
-> > > > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > > > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > > > @@ -54,23 +54,15 @@ enum adreno_family {
-> > > >   #define ADRENO_QUIRK_HAS_HW_APRIV         BIT(3)
-> > > >   #define ADRENO_QUIRK_HAS_CACHED_COHERENT  BIT(4)
-> > > > -struct adreno_rev {
-> > > > -   uint8_t  core;
-> > > > -   uint8_t  major;
-> > > > -   uint8_t  minor;
-> > > > -   uint8_t  patchid;
-> > > > -};
-> > > > -
-> > > > -#define ANY_ID 0xff
-> > > > -
-> > > > -#define ADRENO_REV(core, major, minor, patchid) \
-> > > > -   ((struct adreno_rev){ core, major, minor, patchid })
-> > > > -
-> > > >   /* Helper for formating the chip_id in the way that userspace tools like
-> > > >    * crashdec expect.
-> > > >    */
-> > > >   #define ADRENO_CHIPID_FMT "u.%u.%u.%u"
-> > > > -#define ADRENO_CHIPID_ARGS(_r) (_r).core, (_r).major, (_r).minor, (_r).patchid
-> > > > +#define ADRENO_CHIPID_ARGS(_c) \
-> > > > +   (((_c) >> 24) & 0xff), \
-> > > > +   (((_c) >> 16) & 0xff), \
-> > > > +   (((_c) >> 8)  & 0xff), \
-> > > > +   ((_c) & 0xff)
-> > >
-> > > So, we still have some meaning for chipid?
-> > >
-> > > >   struct adreno_gpu_funcs {
-> > > >     struct msm_gpu_funcs base;
-> > > > @@ -87,7 +79,12 @@ extern const struct adreno_reglist a660_hwcg[], a690_hwcg[];
-> > > >   struct adreno_info {
-> > > >     const char *machine;
-> > > > -   struct adreno_rev rev;
-> > > > +   /**
-> > > > +    * @chipids: Table of matching chip-ids
-> > > > +    *
-> > > > +    * Terminated with 0 sentinal
-> > > > +    */
-> > > > +   uint32_t *chip_ids;
-> > > >     enum adreno_family family;
-> > > >     uint32_t revn;
-> > > >     const char *fw[ADRENO_FW_MAX];
-> > > > @@ -107,6 +104,8 @@ struct adreno_info {
-> > > >     uint32_t *speedbins;
-> > > >   };
-> > > > +#define ADRENO_CHIP_IDS(tbl...) (uint32_t[]) { tbl, 0 }
-> > > > +
-> > > >   /*
-> > > >    * Helper to build a speedbin table, ie. the table:
-> > > >    *      fuse | speedbin
-> > > > @@ -125,12 +124,12 @@ struct adreno_info {
-> > > >    */
-> > > >   #define ADRENO_SPEEDBINS(tbl...) (uint32_t[]) { tbl, UINT_MAX }
-> > > > -const struct adreno_info *adreno_info(struct adreno_rev rev);
-> > > > +const struct adreno_info *adreno_find_info(uint32_t chip_id);
-> > > >   struct adreno_gpu {
-> > > >     struct msm_gpu base;
-> > > > -   struct adreno_rev rev;
-> > > >     const struct adreno_info *info;
-> > > > +   uint32_t chip_id;
-> > > >     uint16_t speedbin;
-> > > >     const struct adreno_gpu_funcs *funcs;
-> > > > @@ -179,7 +178,7 @@ struct adreno_ocmem {
-> > > >   /* platform config data (ie. from DT, or pdata) */
-> > > >   struct adreno_platform_config {
-> > > > -   struct adreno_rev rev;
-> > > > +   uint32_t chip_id;
-> > > >   };
-> > > >   #define ADRENO_IDLE_TIMEOUT msecs_to_jiffies(1000)
-> > > > @@ -196,7 +195,15 @@ struct adreno_platform_config {
-> > > >     __ret;                                             \
-> > > >   })
-> > > > -bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
-> > > > +static inline uint8_t adreno_patchid(const struct adreno_gpu *gpu)
-> > > > +{
-> > > > +   /* It is probably ok to assume legacy "adreno_rev" format
-> > > > +    * for all a6xx devices, but probably best to limit this
-> > > > +    * to older things.
-> > > > +    */
-> > > > +   WARN_ON_ONCE(gpu->info->family >= ADRENO_6XX_GEN1);
-> > > > +   return gpu->chip_id & 0xff;
-> > > > +}
-> > > >   static inline bool adreno_is_revn(const struct adreno_gpu *gpu, uint32_t revn)
-> > > >   {
-> > > > @@ -252,7 +259,7 @@ static inline bool adreno_is_a330(const struct adreno_gpu *gpu)
-> > > >   static inline bool adreno_is_a330v2(const struct adreno_gpu *gpu)
-> > > >   {
-> > > > -   return adreno_is_a330(gpu) && (gpu->rev.patchid > 0);
-> > > > +   return adreno_is_a330(gpu) && (adreno_patchid(gpu) > 0);
-> > > >   }
-> > > >   static inline int adreno_is_a405(const struct adreno_gpu *gpu)
-> > > > @@ -342,8 +349,7 @@ static inline int adreno_is_a650(const struct adreno_gpu *gpu)
-> > > >   static inline int adreno_is_7c3(const struct adreno_gpu *gpu)
-> > > >   {
-> > > > -   /* The order of args is important here to handle ANY_ID correctly */
-> > > > -   return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu->rev);
-> > > > +   return gpu->info->chip_ids[0] == 0x06030500;
-> >
-> > Why not use adreno_gpu->chip_id here? Or do we need this check before
-> > adreno_gpu_init()? I thought we got rid of those.
-> 
-> This is intentional, because there can be multiple chip-id's for a
-> single table entry, in theory.  But the first chip_id in the gpu table
-> entry should suffice, and is simpler than comparing
-> adreno_gpu->chip_id against each possible match.
+On Mon, Jul 17, 2023 at 01:08:31PM -0600, Alex Williamson wrote:
 
-Sounds that would work, but please mention somewhere that a new chipid
-should always be appended to the bottom of the array. Otherwise, it
-would introduce be a silly subtle bug.
+> What would that mechanism be?  We've been iterating on getting the
+> serialization and buffering correct, but I don't know of another means
+> that combines the notification with a value, so we'd likely end up with
+> an eventfd only for notification and a separate ring buffer for
+> notification values.
 
--Akhil
+All FDs do this. You just have to make a FD with custom
+file_operations that does what this wants. The uAPI shouldn't be able
+to tell if the FD is backing it with an eventfd or otherwise. Have the
+kernel return the FD instead of accepting it. Follow the basic design
+of eg mlx5vf_save_fops
 
-> 
-> BR,
-> -R
-> 
-> > >
-> > > Ugh. The thing that bugs me isn't even the manual comparison of chip_ids[0],
-> > > but the fact that these two platforms stand aside. I think at the end we
-> > > should have a single mechanism for checking GPU's SKUs.
-> > >
-> > > Or maybe we should get rid of that completely.
-> > >
-> > > If we get rid of a single gpulist table and move individual GPU info
-> > > definitions to aNxx_gpu.c, we can subclass a generic info structure with
-> > > generation-specific data, for example generation-specific quirks, pointers
-> > > to hcwg or VBIF registers, etc. And then instead of having adreno_is_foo all
-> > > over the code we can migrate most of these checks to data in the gpu info
-> > > data.
-> >
-> > I think the downstream driver does what you described here. It helps to
-> > move more generation-specific data to the table without inflating the
-> > gpu table size.
-> >
-> > -Akhil
-> >
-> > >
-> > > >   }
-> > > >   static inline int adreno_is_a660(const struct adreno_gpu *gpu)
-> > > > @@ -358,8 +364,7 @@ static inline int adreno_is_a680(const struct adreno_gpu *gpu)
-> > > >   static inline int adreno_is_a690(const struct adreno_gpu *gpu)
-> > > >   {
-> > > > -   /* The order of args is important here to handle ANY_ID correctly */
-> > > > -   return adreno_cmp_rev(ADRENO_REV(6, 9, 0, ANY_ID), gpu->rev);
-> > > > +   return gpu->info->chip_ids[0] == 0x06090000;
-> > > >   };
-> > > >   /* check for a615, a616, a618, a619 or any a630 derivatives */
-> > > >   static inline int adreno_is_a630_family(const struct adreno_gpu *gpu)
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
-> > >
+Jason
