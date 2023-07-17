@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27F4756614
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9727756626
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8841C10E263;
-	Mon, 17 Jul 2023 14:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10A2E10E267;
+	Mon, 17 Jul 2023 14:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2285010E263
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:54 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 40DAB6607067;
- Mon, 17 Jul 2023 15:14:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689603292;
- bh=J2LXqbhqDnB0oQhrTOcYs4nhQoquh9K8gXsYFc7oo4U=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j1ny1loxOHOf9zcl/KK79tj3NsJz0oPSmAlAkp1qPQ2NYXQOfWrVJYlLXuekgp8J2
- RTXY8WejsO1muPaJINn1hZueTEyLeLThMn8hLPj3meKOHj/uBJ8u5TgY1Uc+aUqYQ+
- BILTe48I8ifL4h9AvEr9NmIdw4AlNIi4F6OiM2uG/OWF4FuV8QyXMRum9D3lDjNNcx
- SenSDurFDMFaCyRJXh9XGnnYIWF8eZHb1Ic4WKDvoWBgtEYb3Qjy7sGmxJf98TmqJP
- IaxK+xxz57OG4NUNyoSjNn9eoTlURsfOVcdRLwEz4WOx8gf3vMLDIgqzVXKBepvMNr
- x5A3kvwkoG2zw==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH v6 11/11] drm/mediatek: dp: Don't register HPD interrupt
- handler for eDP case
-Date: Mon, 17 Jul 2023 16:14:38 +0200
-Message-Id: <20230717141438.274419-12-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
-References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DFD10E0C2;
+ Mon, 17 Jul 2023 14:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689603374; x=1721139374;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=7oIXFtPke/kfgsdUNrqPolx9Ehkm2nb3Nq7m0Dv/7D0=;
+ b=k063VRBIzc0GJiY1TjBgR1pl6xqwsK9dL2n/wcBkK5sT3j+fPcGn8ZPn
+ 1pJTeG7Bei/uguBtiPyN83aJ2SGvsP3BftvhL5vXZCqnuPDL3cxKGFzWn
+ JBs/rT5c9NF1HDIkuFO6GuaxSAn0c2F3+K1IoN0U/KGFEoGIfljGgvboQ
+ 027EFaPVCWupzdXyPpxvOXtIaA6Fu7lTISN2zQfbvVAIqdwDHH+BUqSeQ
+ jl3vLzqgvuEf8qzvt0O3ZrrVdShZ60i1Hfh1Wp8WCGBOb8WdNk/oargMe
+ HKb8ztgsWRmOmdh7wKRoVqzupv8KAmgYd3YcxbR0ahDAfvcTBAHbhpWro A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="368582448"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+ d="scan'208,217";a="368582448"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 07:16:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="752908283"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+ d="scan'208,217";a="752908283"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.36.7])
+ ([10.249.36.7])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 07:16:11 -0700
+Content-Type: multipart/alternative;
+ boundary="------------3T04aE3AV55G0qzQToBmX2SA"
+Message-ID: <9a26481e-afcf-9cf8-67ba-c8452371cacb@linux.intel.com>
+Date: Mon, 17 Jul 2023 16:16:08 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 5/5] drm/i915/gt: Support aux invalidation on all
+ engines
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
+References: <20230717125134.399115-1-andi.shyti@linux.intel.com>
+ <20230717125134.399115-6-andi.shyti@linux.intel.com>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20230717125134.399115-6-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,179 +70,405 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The interrupt handler for HPD is useful only if a display is actually
-supposed to be hotpluggable, as that manages the machinery to perform
-cable (un)plug detection, debouncing and setup for re-training.
+This is a multi-part message in MIME format.
+--------------3T04aE3AV55G0qzQToBmX2SA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Since eDP panels are not supposed to be hotpluggable we can avoid
-using the HPD interrupts altogether and rely on HPD polling only
-for the suspend/resume case, saving us some spinlocking action and
-the overhead of interrupts firing at every suspend/resume cycle,
-achieving a faster (even if just slightly) display resume.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+On 7/17/2023 2:51 PM, Andi Shyti wrote:
+> Perform some refactoring with the purpose of keeping in one
+> single place all the operations around the aux table
+> invalidation.
+>
+> With this refactoring add more engines where the invalidation
+> should be performed.
+>
+> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
+> Signed-off-by: Andi Shyti<andi.shyti@linux.intel.com>
+> Cc:<stable@vger.kernel.org>  # v5.8+
+
+|Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>|
+
+> ---
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 63 +++++++++++++++---------
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
+>   drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +------
+>   3 files changed, 44 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 51914ac00eb79..50d9e8fecd5b5 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -165,7 +165,8 @@ static u32 preparser_disable(bool state)
+>   	return MI_ARB_CHECK | 1 << 8 | state;
+>   }
+>   
+> -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
+> +static u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs,
+> +				     const i915_reg_t inv_reg)
+>   {
+>   	u32 gsi_offset = gt->uncore->gsi_offset;
+>   
+> @@ -187,6 +188,40 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
+>   	return cs;
+>   }
+>   
+> +static i915_reg_t intel_get_aux_inv_reg(struct intel_engine_cs *engine)
+> +{
+> +	if (HAS_FLAT_CCS(engine->i915))
+> +		return _MMIO(0);
+> +
+> +	switch (engine->id) {
+> +	case RCS0:
+> +		return GEN12_CCS_AUX_INV;
+> +	case VCS0:
+> +		return GEN12_VD0_AUX_INV;
+> +	case VCS2:
+> +		return GEN12_VD2_AUX_INV;
+> +	case VECS0:
+> +		return GEN12_VE0_AUX_INV;
+> +	default:
+> +		return _MMIO(0);
+> +	}
+> +}
+> +
+> +static bool intel_engine_has_aux_inv(struct intel_engine_cs *engine)
+> +{
+> +	i915_reg_t reg = intel_get_aux_inv_reg(engine);
+> +
+> +	return !!reg.reg;
+> +}
+> +
+> +u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs)
+> +{
+> +	i915_reg_t reg = intel_get_aux_inv_reg(engine);
+> +	struct intel_gt *gt = engine->gt;
+> +
+> +	return reg.reg ? gen12_emit_aux_table_inv(gt, cs, reg) : cs;
+> +}
+> +
+>   static int mtl_dummy_pipe_control(struct i915_request *rq)
+>   {
+>   	/* Wa_14016712196 */
+> @@ -311,11 +346,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   
+>   		cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
+>   
+> -		if (!HAS_FLAT_CCS(rq->engine->i915)) {
+> -			/* hsdes: 1809175790 */
+> -			cs = gen12_emit_aux_table_inv(rq->engine->gt, cs,
+> -						      GEN12_CCS_AUX_INV);
+> -		}
+> +		cs = intel_emit_aux_table_inv(engine, cs);
+>   
+>   		*cs++ = preparser_disable(false);
+>   		intel_ring_advance(rq, cs);
+> @@ -326,21 +357,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   
+>   int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+>   {
+> -	intel_engine_mask_t aux_inv = 0;
+>   	u32 cmd, *cs;
+>   
+>   	cmd = 4;
+>   	if (mode & EMIT_INVALIDATE) {
+>   		cmd += 2;
+>   
+> -		if (!HAS_FLAT_CCS(rq->engine->i915) &&
+> -		    (rq->engine->class == VIDEO_DECODE_CLASS ||
+> -		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
+> -			aux_inv = rq->engine->mask &
+> -				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
+> -			if (aux_inv)
+> -				cmd += 10;
+> -		}
+> +		if (intel_engine_has_aux_inv(rq->engine))
+> +			cmd += 10;
+>   	}
+>   
+>   	cs = intel_ring_begin(rq, cmd);
+> @@ -371,14 +395,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+>   	*cs++ = 0; /* upper addr */
+>   	*cs++ = 0; /* value */
+>   
+> -	if (aux_inv) { /* hsdes: 1809175790 */
+> -		if (rq->engine->class == VIDEO_DECODE_CLASS)
+> -			cs = gen12_emit_aux_table_inv(rq->engine->gt,
+> -						      cs, GEN12_VD0_AUX_INV);
+> -		else
+> -			cs = gen12_emit_aux_table_inv(rq->engine->gt,
+> -						      cs, GEN12_VE0_AUX_INV);
+> -	}
+> +	cs = intel_emit_aux_table_inv(rq->engine, cs);
+>   
+>   	if (mode & EMIT_INVALIDATE)
+>   		*cs++ = preparser_disable(false);
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+> index 655e5c00ddc27..d938c94524510 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+> @@ -13,6 +13,7 @@
+>   #include "intel_gt_regs.h"
+>   #include "intel_gpu_commands.h"
+>   
+> +struct intel_engine_cs;
+>   struct intel_gt;
+>   struct i915_request;
+>   
+> @@ -46,7 +47,7 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+>   u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+>   u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+>   
+> -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg);
+> +u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs);
+>   
+>   static inline u32 *
+>   __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> index 235f3fab60a98..70054767c88c3 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> @@ -1371,10 +1371,7 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
+>   	    IS_DG2_G11(ce->engine->i915))
+>   		cs = gen8_emit_pipe_control(cs, PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE, 0);
+>   
+> -	/* hsdes: 1809175790 */
+> -	if (!HAS_FLAT_CCS(ce->engine->i915))
+> -		cs = gen12_emit_aux_table_inv(ce->engine->gt,
+> -					      cs, GEN12_CCS_AUX_INV);
+> +	cs = intel_emit_aux_table_inv(ce->engine, cs);
+>   
+>   	/* Wa_16014892111 */
+>   	if (IS_MTL_GRAPHICS_STEP(ce->engine->i915, M, STEP_A0, STEP_B0) ||
+> @@ -1399,17 +1396,7 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
+>   						    PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE,
+>   						    0);
+>   
+> -	/* hsdes: 1809175790 */
+> -	if (!HAS_FLAT_CCS(ce->engine->i915)) {
+> -		if (ce->engine->class == VIDEO_DECODE_CLASS)
+> -			cs = gen12_emit_aux_table_inv(ce->engine->gt,
+> -						      cs, GEN12_VD0_AUX_INV);
+> -		else if (ce->engine->class == VIDEO_ENHANCEMENT_CLASS)
+> -			cs = gen12_emit_aux_table_inv(ce->engine->gt,
+> -						      cs, GEN12_VE0_AUX_INV);
+> -	}
+> -
+> -	return cs;
+> +	return intel_emit_aux_table_inv(ce->engine, cs);
+>   }
+>   
+>   static void
+--------------3T04aE3AV55G0qzQToBmX2SA
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 7/17/2023 2:51 PM, Andi Shyti wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20230717125134.399115-6-andi.shyti@linux.intel.com">
+      <pre class="moz-quote-pre" wrap="">Perform some refactoring with the purpose of keeping in one
+single place all the operations around the aux table
+invalidation.
+
+With this refactoring add more engines where the invalidation
+should be performed.
+
+Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
+Signed-off-by: Andi Shyti <a class="moz-txt-link-rfc2396E" href="mailto:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
+Cc: <a class="moz-txt-link-rfc2396E" href="mailto:stable@vger.kernel.org">&lt;stable@vger.kernel.org&gt;</a> # v5.8+</pre>
+    </blockquote>
+    <br>
+    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">Reviewed-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></code></pre>
+    <blockquote type="cite"
+      cite="mid:20230717125134.399115-6-andi.shyti@linux.intel.com">
+      <pre class="moz-quote-pre" wrap="">
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 81 ++++++++++++++++++-------------
- 1 file changed, 46 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 63 +++++++++++++++---------
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +------
+ 3 files changed, 44 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index e74295ba9707..c06fcc7318e7 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2182,9 +2182,11 @@ static int mtk_dp_bridge_attach(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+index 51914ac00eb79..50d9e8fecd5b5 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+@@ -165,7 +165,8 @@ static u32 preparser_disable(bool state)
+ 	return MI_ARB_CHECK | 1 &lt;&lt; 8 | state;
+ }
  
- 	mtk_dp->drm_dev = bridge->dev;
- 
--	irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
--	enable_irq(mtk_dp->irq);
--	mtk_dp_hwirq_enable(mtk_dp, true);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
-+		irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
-+		enable_irq(mtk_dp->irq);
-+		mtk_dp_hwirq_enable(mtk_dp, true);
-+	}
- 
- 	return 0;
- 
-@@ -2199,8 +2201,10 @@ static void mtk_dp_bridge_detach(struct drm_bridge *bridge)
+-u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
++static u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs,
++				     const i915_reg_t inv_reg)
  {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+ 	u32 gsi_offset = gt-&gt;uncore-&gt;gsi_offset;
  
--	mtk_dp_hwirq_enable(mtk_dp, false);
--	disable_irq(mtk_dp->irq);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
-+		mtk_dp_hwirq_enable(mtk_dp, false);
-+		disable_irq(mtk_dp->irq);
+@@ -187,6 +188,40 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
+ 	return cs;
+ }
+ 
++static i915_reg_t intel_get_aux_inv_reg(struct intel_engine_cs *engine)
++{
++	if (HAS_FLAT_CCS(engine-&gt;i915))
++		return _MMIO(0);
++
++	switch (engine-&gt;id) {
++	case RCS0:
++		return GEN12_CCS_AUX_INV;
++	case VCS0:
++		return GEN12_VD0_AUX_INV;
++	case VCS2:
++		return GEN12_VD2_AUX_INV;
++	case VECS0:
++		return GEN12_VE0_AUX_INV;
++	default:
++		return _MMIO(0);
 +	}
- 	mtk_dp->drm_dev = NULL;
- 	mtk_dp_poweroff(mtk_dp);
- 	drm_dp_aux_unregister(&mtk_dp->aux);
-@@ -2579,40 +2583,44 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 	mtk_dp->dev = dev;
- 	mtk_dp->data = (struct mtk_dp_data *)of_device_get_match_data(dev);
- 
--	mtk_dp->irq = platform_get_irq(pdev, 0);
--	if (mtk_dp->irq < 0)
--		return dev_err_probe(dev, mtk_dp->irq,
--				     "failed to request dp irq resource\n");
--
--	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
--	if (IS_ERR(mtk_dp->next_bridge) &&
--	    PTR_ERR(mtk_dp->next_bridge) == -ENODEV)
--		mtk_dp->next_bridge = NULL;
--	else if (IS_ERR(mtk_dp->next_bridge))
--		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
--				     "Failed to get bridge\n");
--
- 	ret = mtk_dp_dt_parse(mtk_dp, pdev);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to parse dt\n");
- 
-+	/*
-+	 * Request the interrupt and install service routine only if we are
-+	 * on full DisplayPort.
-+	 * For eDP, polling the HPD instead is more convenient because we
-+	 * don't expect any (un)plug events during runtime, hence we can
-+	 * avoid some locking.
-+	 */
-+	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP) {
-+		mtk_dp->irq = platform_get_irq(pdev, 0);
-+		if (mtk_dp->irq < 0)
-+			return dev_err_probe(dev, mtk_dp->irq,
-+					     "failed to request dp irq resource\n");
++}
 +
-+		spin_lock_init(&mtk_dp->irq_thread_lock);
++static bool intel_engine_has_aux_inv(struct intel_engine_cs *engine)
++{
++	i915_reg_t reg = intel_get_aux_inv_reg(engine);
 +
-+		irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
-+		ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
-+						mtk_dp_hpd_event_thread,
-+						IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
-+						mtk_dp);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to request mediatek dptx irq\n");
++	return !!reg.reg;
++}
 +
-+		mtk_dp->need_debounce = true;
-+		timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
-+	}
++u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs)
++{
++	i915_reg_t reg = intel_get_aux_inv_reg(engine);
++	struct intel_gt *gt = engine-&gt;gt;
 +
- 	mtk_dp->aux.name = "aux_mtk_dp";
- 	mtk_dp->aux.dev = dev;
- 	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
- 	mtk_dp->aux.wait_hpd_asserted = mtk_dp_wait_hpd_asserted;
- 	drm_dp_aux_init(&mtk_dp->aux);
++	return reg.reg ? gen12_emit_aux_table_inv(gt, cs, reg) : cs;
++}
++
+ static int mtl_dummy_pipe_control(struct i915_request *rq)
+ {
+ 	/* Wa_14016712196 */
+@@ -311,11 +346,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
  
--	spin_lock_init(&mtk_dp->irq_thread_lock);
+ 		cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
+ 
+-		if (!HAS_FLAT_CCS(rq-&gt;engine-&gt;i915)) {
+-			/* hsdes: 1809175790 */
+-			cs = gen12_emit_aux_table_inv(rq-&gt;engine-&gt;gt, cs,
+-						      GEN12_CCS_AUX_INV);
+-		}
++		cs = intel_emit_aux_table_inv(engine, cs);
+ 
+ 		*cs++ = preparser_disable(false);
+ 		intel_ring_advance(rq, cs);
+@@ -326,21 +357,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+ 
+ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ {
+-	intel_engine_mask_t aux_inv = 0;
+ 	u32 cmd, *cs;
+ 
+ 	cmd = 4;
+ 	if (mode &amp; EMIT_INVALIDATE) {
+ 		cmd += 2;
+ 
+-		if (!HAS_FLAT_CCS(rq-&gt;engine-&gt;i915) &amp;&amp;
+-		    (rq-&gt;engine-&gt;class == VIDEO_DECODE_CLASS ||
+-		     rq-&gt;engine-&gt;class == VIDEO_ENHANCEMENT_CLASS)) {
+-			aux_inv = rq-&gt;engine-&gt;mask &amp;
+-				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
+-			if (aux_inv)
+-				cmd += 10;
+-		}
++		if (intel_engine_has_aux_inv(rq-&gt;engine))
++			cmd += 10;
+ 	}
+ 
+ 	cs = intel_ring_begin(rq, cmd);
+@@ -371,14 +395,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 	*cs++ = 0; /* upper addr */
+ 	*cs++ = 0; /* value */
+ 
+-	if (aux_inv) { /* hsdes: 1809175790 */
+-		if (rq-&gt;engine-&gt;class == VIDEO_DECODE_CLASS)
+-			cs = gen12_emit_aux_table_inv(rq-&gt;engine-&gt;gt,
+-						      cs, GEN12_VD0_AUX_INV);
+-		else
+-			cs = gen12_emit_aux_table_inv(rq-&gt;engine-&gt;gt,
+-						      cs, GEN12_VE0_AUX_INV);
+-	}
++	cs = intel_emit_aux_table_inv(rq-&gt;engine, cs);
+ 
+ 	if (mode &amp; EMIT_INVALIDATE)
+ 		*cs++ = preparser_disable(false);
+diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+index 655e5c00ddc27..d938c94524510 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
++++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
+@@ -13,6 +13,7 @@
+ #include "intel_gt_regs.h"
+ #include "intel_gpu_commands.h"
+ 
++struct intel_engine_cs;
+ struct intel_gt;
+ struct i915_request;
+ 
+@@ -46,7 +47,7 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+ 
+-u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg);
++u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs);
+ 
+ static inline u32 *
+ __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index 235f3fab60a98..70054767c88c3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -1371,10 +1371,7 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
+ 	    IS_DG2_G11(ce-&gt;engine-&gt;i915))
+ 		cs = gen8_emit_pipe_control(cs, PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE, 0);
+ 
+-	/* hsdes: 1809175790 */
+-	if (!HAS_FLAT_CCS(ce-&gt;engine-&gt;i915))
+-		cs = gen12_emit_aux_table_inv(ce-&gt;engine-&gt;gt,
+-					      cs, GEN12_CCS_AUX_INV);
++	cs = intel_emit_aux_table_inv(ce-&gt;engine, cs);
+ 
+ 	/* Wa_16014892111 */
+ 	if (IS_MTL_GRAPHICS_STEP(ce-&gt;engine-&gt;i915, M, STEP_A0, STEP_B0) ||
+@@ -1399,17 +1396,7 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
+ 						    PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE,
+ 						    0);
+ 
+-	/* hsdes: 1809175790 */
+-	if (!HAS_FLAT_CCS(ce-&gt;engine-&gt;i915)) {
+-		if (ce-&gt;engine-&gt;class == VIDEO_DECODE_CLASS)
+-			cs = gen12_emit_aux_table_inv(ce-&gt;engine-&gt;gt,
+-						      cs, GEN12_VD0_AUX_INV);
+-		else if (ce-&gt;engine-&gt;class == VIDEO_ENHANCEMENT_CLASS)
+-			cs = gen12_emit_aux_table_inv(ce-&gt;engine-&gt;gt,
+-						      cs, GEN12_VE0_AUX_INV);
+-	}
 -
--	irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
--	ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
--					mtk_dp_hpd_event_thread,
--					IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
--					mtk_dp);
--	if (ret)
--		return dev_err_probe(dev, ret,
--				     "failed to request mediatek dptx irq\n");
--
- 	platform_set_drvdata(pdev, mtk_dp);
+-	return cs;
++	return intel_emit_aux_table_inv(ce-&gt;engine, cs);
+ }
  
- 	if (mtk_dp->data->audio_supported) {
-@@ -2634,9 +2642,6 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 	mtk_dp->bridge.of_node = dev->of_node;
- 	mtk_dp->bridge.type = mtk_dp->data->bridge_type;
- 
--	mtk_dp->need_debounce = true;
--	timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
--
- 	if (mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP) {
- 		/*
- 		 * Set the data lanes to idle in case the bootloader didn't
-@@ -2647,6 +2652,9 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 		mtk_dp_initialize_aux_settings(mtk_dp);
- 		mtk_dp_power_enable(mtk_dp);
- 
-+		/* Disable HW interrupts: we don't need any for eDP */
-+		mtk_dp_hwirq_enable(mtk_dp, false);
-+
- 		/*
- 		 * Power on the AUX to allow reading the EDID from aux-bus:
- 		 * please note that it is necessary to call power off in the
-@@ -2692,7 +2700,8 @@ static int mtk_dp_remove(struct platform_device *pdev)
- 
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
--	del_timer_sync(&mtk_dp->debounce_timer);
-+	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP)
-+		del_timer_sync(&mtk_dp->debounce_timer);
- 	platform_device_unregister(mtk_dp->phy_dev);
- 	if (mtk_dp->audio_pdev)
- 		platform_device_unregister(mtk_dp->audio_pdev);
-@@ -2706,7 +2715,8 @@ static int mtk_dp_suspend(struct device *dev)
- 	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
- 
- 	mtk_dp_power_disable(mtk_dp);
--	mtk_dp_hwirq_enable(mtk_dp, false);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP)
-+		mtk_dp_hwirq_enable(mtk_dp, false);
- 	pm_runtime_put_sync(dev);
- 
- 	return 0;
-@@ -2718,7 +2728,8 @@ static int mtk_dp_resume(struct device *dev)
- 
- 	pm_runtime_get_sync(dev);
- 	mtk_dp_init_port(mtk_dp);
--	mtk_dp_hwirq_enable(mtk_dp, true);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP)
-+		mtk_dp_hwirq_enable(mtk_dp, true);
- 	mtk_dp_power_enable(mtk_dp);
- 
- 	return 0;
--- 
-2.40.1
+ static void
+</pre>
+    </blockquote>
+  </body>
+</html>
 
+--------------3T04aE3AV55G0qzQToBmX2SA--
