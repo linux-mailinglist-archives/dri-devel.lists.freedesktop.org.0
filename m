@@ -1,79 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E914756A15
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:22:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE23756A25
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE6D910E28C;
-	Mon, 17 Jul 2023 17:22:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDEF10E28B;
+	Mon, 17 Jul 2023 17:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5DA10E28A
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 17:22:42 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2b734aea34aso73229481fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689614560; x=1690219360;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bxqU8MeBBR9Osa5GDCEqe7jglVtCIxQ76sQ+O1kbmxI=;
- b=XlJqCpldQAZfj3iOSEpQs105sezH+tDG95ND3aFanXvnb23UPXXn2IKnW+DTed9e2J
- wpedp5nKafUj43AO5KIac0M7K9q5Thq1kBpOxRo0+OS6OtFvlq+WyHg5VpmHpm/+wECJ
- kqAnZ+w3mOZoBwiWN7I0U82tp4zUdgROU4pOEP1bJRDAwrun9M58aygVoEKxoAB1ofoF
- mNBonT9fHl3GGqqAqdGkuTOk0nj2T/2Q31wHCy3oH9zt4Zr6bhlm7md8xFdHYo0xJgyC
- RDinlk23DcLdlYGO40GSG9ZJ0fMIobK/2QDjyozTiACRK2Pd9RGPQsmd/Lh1WlFJmH/p
- pQRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689614560; x=1690219360;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bxqU8MeBBR9Osa5GDCEqe7jglVtCIxQ76sQ+O1kbmxI=;
- b=Lyir26D1C+Rk4eB0PHHQMMX6LNtJVomBDQUgf/6/Ci+Q53rAa/K1X6ZgRDKFUpteRc
- pvrk9ob7FsrlXnjF5FPZN3Fwb/G5XP311DQzZwm1Hkatrl4SBdN2cozs0ZXalNJK4FDb
- +cg3FPK7GbSPGkgvlfXCvAuSMIavrQ03DvdHEJidjB4XSg0AOr+uV+j2h9SVEt5VCDU5
- rk+YlEfXIq/hkeyV4NCFic/Tk6OT3fDW1PeumEtV2W+iGVFXatPhIW0nOcghNIEOYPn7
- guIdN4N/1szkEWAKljXBAkpK/7vIkHEvPUkDYGPGtfOtH1WovItMY/2/TLJsBoVd7J+G
- go0A==
-X-Gm-Message-State: ABy/qLY70U8sXyUROVkWZFi1zd7SY6TqZkTeRfbLr3QCzevLtgR4Vu2K
- 7/laPM8FnnJJQXv0b4BBKBXFXg==
-X-Google-Smtp-Source: APBJJlGJni+uOB6VKWOS4EOEtPpcDWYvpmXzDVskx+DKTBRfpY3AkiWk4hkbUbzXzext6yOouU+dAA==
-X-Received: by 2002:a2e:2c05:0:b0:2b6:d89e:74e2 with SMTP id
- s5-20020a2e2c05000000b002b6d89e74e2mr8727077ljs.7.1689614560137; 
- Mon, 17 Jul 2023 10:22:40 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- r20-20020a2eb614000000b002b93d66b82asm8950ljn.112.2023.07.17.10.22.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jul 2023 10:22:39 -0700 (PDT)
-Message-ID: <9a9ec559-769c-d593-6eaa-45daa5966cb8@linaro.org>
-Date: Mon, 17 Jul 2023 20:22:38 +0300
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 88CA310E28B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 17:24:31 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxRvFOebVk+AoGAA--.16107S3;
+ Tue, 18 Jul 2023 01:24:30 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxriNNebVke7oxAA--.31760S3; 
+ Tue, 18 Jul 2023 01:24:29 +0800 (CST)
+Message-ID: <c1184f26-ac80-8138-6501-de0609d16004@loongson.cn>
+Date: Tue, 18 Jul 2023 01:24:29 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v1 4/5] drm/msm/dp: move relevant dp initialization code
- from bind() to probe()
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-5-git-send-email-quic_khsieh@quicinc.com>
- <121f82ad-9d5d-6d7f-b4ae-9a371ab49ef7@linaro.org>
- <9df52052-93fd-75a4-b54c-02ed9554e15f@quicinc.com>
- <3fa812d6-9222-065a-8b40-95c2f2c808a6@linaro.org>
- <8bc82b4b-b169-a11b-9f5d-eb821b680af7@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <8bc82b4b-b169-a11b-9f5d-eb821b680af7@quicinc.com>
+Subject: Re: [09/11] drm/vc4: tests: pv-muxing: Switch to managed locking init
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
+References: <20230710-kms-kunit-actions-rework-v1-9-722c58d72c72@kernel.org>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230710-kms-kunit-actions-rework-v1-9-722c58d72c72@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxriNNebVke7oxAA--.31760S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3XFW7KF4rZFy8tF4DXF43Arc_yoW3Jw45pr
+ 1kJFyUKFW5Jr4kWasrJayv9r9akw4UtryfKr97Ww4SvF1jgFyYy3Wvq34UZFW5ArZ5XFs3
+ Aw1ayw15Xw4DAwbCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
+ xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+ AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
+ 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j5WrAU
+ UUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,172 +66,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/07/2023 20:16, Kuogee Hsieh wrote:
-> 
-> On 7/10/2023 11:13 AM, Dmitry Baryshkov wrote:
->> On 10/07/2023 19:57, Kuogee Hsieh wrote:
->>>
->>> On 7/7/2023 5:11 PM, Dmitry Baryshkov wrote:
->>>> On 08/07/2023 02:52, Kuogee Hsieh wrote:
->>>>> In preparation of moving edp of_dp_aux_populate_bus() to
->>>>> dp_display_probe(), move dp_display_request_irq(),
->>>>> dp->parser->parse() and dp_power_client_init() to dp_display_probe()
->>>>> too.
->>>>>
->>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> ---
->>>>>   drivers/gpu/drm/msm/dp/dp_display.c | 48 
->>>>> +++++++++++++++++--------------------
->>>>>   drivers/gpu/drm/msm/dp/dp_display.h |  1 -
->>>>>   2 files changed, 22 insertions(+), 27 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>>>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>> index 44580c2..185f1eb 100644
->>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>> @@ -290,12 +290,6 @@ static int dp_display_bind(struct device *dev, 
->>>>> struct device *master,
->>>>>           goto end;
->>>>>       }
->>>>>   -    rc = dp_power_client_init(dp->power);
->>>>> -    if (rc) {
->>>>> -        DRM_ERROR("Power client create failed\n");
->>>>> -        goto end;
->>>>> -    }
->>>>> -
->>>>>       rc = dp_register_audio_driver(dev, dp->audio);
->>>>>       if (rc) {
->>>>>           DRM_ERROR("Audio registration Dp failed\n");
->>>>> @@ -752,6 +746,12 @@ static int dp_init_sub_modules(struct 
->>>>> dp_display_private *dp)
->>>>>           goto error;
->>>>>       }
->>>>>   +    rc = dp->parser->parse(dp->parser);
->>>>> +    if (rc) {
->>>>> +        DRM_ERROR("device tree parsing failed\n");
->>>>> +        goto error;
->>>>> +    }
->>>>> +
->>>>>       dp->catalog = dp_catalog_get(dev, &dp->parser->io);
->>>>>       if (IS_ERR(dp->catalog)) {
->>>>>           rc = PTR_ERR(dp->catalog);
->>>>> @@ -768,6 +768,12 @@ static int dp_init_sub_modules(struct 
->>>>> dp_display_private *dp)
->>>>>           goto error;
->>>>>       }
->>>>>   +    rc = dp_power_client_init(dp->power);
->>>>> +    if (rc) {
->>>>> +        DRM_ERROR("Power client create failed\n");
->>>>> +        goto error;
->>>>> +    }
->>>>> +
->>>>>       dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
->>>>>       if (IS_ERR(dp->aux)) {
->>>>>           rc = PTR_ERR(dp->aux);
->>>>> @@ -1196,26 +1202,20 @@ static irqreturn_t 
->>>>> dp_display_irq_handler(int irq, void *dev_id)
->>>>>       return ret;
->>>>>   }
->>>>>   -int dp_display_request_irq(struct msm_dp *dp_display)
->>>>> +static int dp_display_request_irq(struct dp_display_private *dp)
->>>>>   {
->>>>>       int rc = 0;
->>>>> -    struct dp_display_private *dp;
->>>>> -
->>>>> -    if (!dp_display) {
->>>>> -        DRM_ERROR("invalid input\n");
->>>>> -        return -EINVAL;
->>>>> -    }
->>>>> -
->>>>> -    dp = container_of(dp_display, struct dp_display_private, 
->>>>> dp_display);
->>>>> +    struct device *dev = &dp->pdev->dev;
->>>>>   -    dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
->>>>>       if (!dp->irq) {
->>>>> -        DRM_ERROR("failed to get irq\n");
->>>>> -        return -EINVAL;
->>>>> +        dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
->>>>> +        if (!dp->irq) {
->>>>> +            DRM_ERROR("failed to get irq\n");
->>>>> +            return -EINVAL;
->>>>> +        }
->>>>>       }
->>>>
->>>> Use platform_get_irq() from probe() function.
->>>>
->>>>>   -    rc = devm_request_irq(dp_display->drm_dev->dev, dp->irq,
->>>>> -            dp_display_irq_handler,
->>>>> +    rc = devm_request_irq(dev, dp->irq, dp_display_irq_handler,
->>>>>               IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
->>>>
->>>>
->>>>>       if (rc < 0) {
->>>>>           DRM_ERROR("failed to request IRQ%u: %d\n",
->>>>> @@ -1290,6 +1290,8 @@ static int dp_display_probe(struct 
->>>>> platform_device *pdev)
->>>>>         platform_set_drvdata(pdev, &dp->dp_display);
->>>>>   +    dp_display_request_irq(dp);
->>>>> +
->>>>
->>>> Error checking?
->>>> Are we completely ready to handle interrupts at this point?
->>> not until dp_display_host_init() is called which will be called from 
->>> pm_runtime_resume() later.
->>
->> But once you request_irq(), you should be ready for the IRQs to be 
->> delivered right away.
-> 
-> At this point, the DP controller interrupts mask bit is not enabled yet.
-> 
-> Therefore interrupts will not happen until dp_bridge_hpd_enable() is 
-> called to initialize dp host  controller and then enabled mask bits.
+Hi,
 
-Are AUX and CTRL interrupts also disabled? What about any stray/pending 
-interrupts? Just take it as a rule of thumb. Once request_irq() has been 
-called without the IRQ_NOAUTOEN flag, the driver should be prepared to 
-handle the incoming interrupt requests.
 
->>>>>       rc = component_add(&pdev->dev, &dp_display_comp_ops);
->>>>>       if (rc) {
->>>>>           DRM_ERROR("component add failed, rc=%d\n", rc);
->>>>> @@ -1574,12 +1576,6 @@ int msm_dp_modeset_init(struct msm_dp 
->>>>> *dp_display, struct drm_device *dev,
->>>>>         dp_priv = container_of(dp_display, struct 
->>>>> dp_display_private, dp_display);
->>>>>   -    ret = dp_display_request_irq(dp_display);
->>>>> -    if (ret) {
->>>>> -        DRM_ERROR("request_irq failed, ret=%d\n", ret);
->>>>> -        return ret;
->>>>> -    }
->>>>> -
->>>>>       ret = dp_display_get_next_bridge(dp_display);
->>>>>       if (ret)
->>>>>           return ret;
->>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h 
->>>>> b/drivers/gpu/drm/msm/dp/dp_display.h
->>>>> index 1e9415a..b3c08de 100644
->>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.h
->>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
->>>>> @@ -35,7 +35,6 @@ struct msm_dp {
->>>>>   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
->>>>>           hdmi_codec_plugged_cb fn, struct device *codec_dev);
->>>>>   int dp_display_get_modes(struct msm_dp *dp_display);
->>>>> -int dp_display_request_irq(struct msm_dp *dp_display);
->>>>>   bool dp_display_check_video_test(struct msm_dp *dp_display);
->>>>>   int dp_display_get_test_bpp(struct msm_dp *dp_display);
->>>>>   void dp_display_signal_audio_start(struct msm_dp *dp_display);
->>>>
->>
+On 2023/7/10 15:47, Maxime Ripard wrote:
+> The new helper to init the locking context allows to remove some
+> boilerplate.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 42 ++++++++++++--------------
+>   1 file changed, 19 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+> index 776a7b01608f..ff1deaed0cab 100644
+> --- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+> +++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
+> @@ -20,7 +20,6 @@
+>   
+>   struct pv_muxing_priv {
+>   	struct vc4_dev *vc4;
+> -	struct drm_modeset_acquire_ctx ctx;
+>   	struct drm_atomic_state *state;
+>   };
+>   
+> @@ -725,6 +724,7 @@ static void drm_vc4_test_pv_muxing_invalid(struct kunit *test)
+>   static int vc4_pv_muxing_test_init(struct kunit *test)
+>   {
+>   	const struct pv_muxing_param *params = test->param_value;
+> +	struct drm_modeset_acquire_ctx *ctx;
+>   	struct drm_atomic_state *state;
+>   	struct pv_muxing_priv *priv;
+>   	struct drm_device *drm;
+> @@ -738,13 +738,14 @@ static int vc4_pv_muxing_test_init(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
+>   	priv->vc4 = vc4;
+>   
+> -	drm_modeset_acquire_init(&priv->ctx, 0);
+> +	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
 
--- 
-With best wishes
-Dmitry
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>   
+
+The pointer returned by drm_kunit_helper_acquire_ctx_alloc() function 
+can't be NULL,
+
+if ctx is NULL, the current kthread will be terminated by the 
+KUNIT_ASSERT_NOT_NULL() in the drm_kunit_helper_acquire_ctx_alloc().
+
+so only a PTR_ERR is possible, right?
+
+If so, probably invent a KUNIT_ASSERT_NOT_ERR() function to call is enough.
+
+I'm fine with this patch, but I feel the checking if the ctx is NULL is 
+redundant.
+
+>   	drm = &vc4->base;
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &priv->ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	priv->state = state;
+>   
+> @@ -757,8 +758,6 @@ static void vc4_pv_muxing_test_exit(struct kunit *test)
+>   	struct drm_atomic_state *state = priv->state;
+>   
+>   	drm_atomic_state_put(state);
+> -	drm_modeset_drop_locks(&priv->ctx);
+> -	drm_modeset_acquire_fini(&priv->ctx);
+>   }
+>   
+>   static struct kunit_case vc4_pv_muxing_tests[] = {
+> @@ -798,7 +797,7 @@ static struct kunit_suite vc5_pv_muxing_test_suite = {
+>    */
+>   static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *test)
+>   {
+> -	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_modeset_acquire_ctx *ctx;
+>   	struct drm_atomic_state *state;
+>   	struct vc4_crtc_state *new_vc4_crtc_state;
+>   	struct vc4_hvs_state *new_hvs_state;
+> @@ -811,13 +810,14 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
+>   	vc4 = vc5_mock_device(test);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
+>   
+> -	drm_modeset_acquire_init(&ctx, 0);
+> +	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>   
+>   	drm = &vc4->base;
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI0);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -844,7 +844,7 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI1);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -866,13 +866,11 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
+>   	KUNIT_EXPECT_NE(test, hdmi0_channel, hdmi1_channel);
+>   
+>   	drm_atomic_state_put(state);
+> -	drm_modeset_drop_locks(&ctx);
+> -	drm_modeset_acquire_fini(&ctx);
+>   }
+>   
+>   static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
+>   {
+> -	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_modeset_acquire_ctx *ctx;
+>   	struct drm_atomic_state *state;
+>   	struct vc4_crtc_state *new_vc4_crtc_state;
+>   	struct vc4_hvs_state *new_hvs_state;
+> @@ -885,13 +883,14 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
+>   	vc4 = vc5_mock_device(test);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
+>   
+> -	drm_modeset_acquire_init(&ctx, 0);
+> +	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>   
+>   	drm = &vc4->base;
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI0);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -929,7 +928,7 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	ret = vc4_mock_atomic_del_output(test, state, VC4_ENCODER_TYPE_HDMI0);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -954,14 +953,12 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
+>   	}
+>   
+>   	drm_atomic_state_put(state);
+> -	drm_modeset_drop_locks(&ctx);
+> -	drm_modeset_acquire_fini(&ctx);
+>   }
+>   
+>   static void
+>   drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct kunit *test)
+>   {
+> -	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_modeset_acquire_ctx *ctx;
+>   	struct drm_atomic_state *state;
+>   	struct vc4_crtc_state *new_vc4_crtc_state;
+>   	struct drm_device *drm;
+> @@ -971,13 +968,14 @@ drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct ku
+>   	vc4 = vc5_mock_device(test);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
+>   
+> -	drm_modeset_acquire_init(&ctx, 0);
+> +	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+>   
+>   	drm = &vc4->base;
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI0);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -993,7 +991,7 @@ drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct ku
+>   	state = drm_atomic_state_alloc(drm);
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>   
+> -	state->acquire_ctx = &ctx;
+> +	state->acquire_ctx = ctx;
+>   
+>   	ret = vc4_mock_atomic_add_output(test, state, VC4_ENCODER_TYPE_HDMI1);
+>   	KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -1006,8 +1004,6 @@ drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct ku
+>   	KUNIT_EXPECT_NULL(test, new_vc4_crtc_state);
+>   
+>   	drm_atomic_state_put(state);
+> -	drm_modeset_drop_locks(&ctx);
+> -	drm_modeset_acquire_fini(&ctx);
+>   }
+>   
+>   static struct kunit_case vc5_pv_muxing_bugs_tests[] = {
 
