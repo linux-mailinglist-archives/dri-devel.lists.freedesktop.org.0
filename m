@@ -1,138 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8D1756A31
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:25:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 993A7756A54
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DC010E28A;
-	Mon, 17 Jul 2023 17:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 290BC10E03F;
+	Mon, 17 Jul 2023 17:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA2110E28F;
- Mon, 17 Jul 2023 17:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689614699; x=1721150699;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=hlcvIfeJ/vhLRc7TcDB7RhsG2jZzSDJh1vnGLLrTfgk=;
- b=gaCgfb86J5mAN1+Su8lxBHS+K9eIflkmgXRLhNj+0qd13oZhBXH0LKb2
- jovctj5TaXoTLZs90y/k4HO30K8WfphMSI/tkdhNuV8+sX1ImRBOKqSqN
- hweduf/JrIwRrOx7T6+aRUhDinMH0KB5Gj/+jw4kyrKPgQs5f0apvqcKw
- elw7eITJp6QR0wwFbbnA6rJ2jG/2cSfjeHKgwgRFKjxl85MWgpVD+cquC
- qLo3Uxdk5xFuHo9J22fssKKwEg1pVkQGBNHtN99tXnpdaFX7qfcQam1/5
- uZzGHMrXDer20chG/cl+tkd9d8Rmfx9eOXuDy2qUYzr1AivbhsvPGVUL+ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="396819984"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="396819984"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 10:24:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="717311374"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="717311374"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga007.jf.intel.com with ESMTP; 17 Jul 2023 10:24:58 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 17 Jul 2023 10:24:57 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 17 Jul 2023 10:24:57 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 17 Jul 2023 10:24:57 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 17 Jul 2023 10:24:57 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2049.outbound.protection.outlook.com [40.107.93.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7745910E03F;
+ Mon, 17 Jul 2023 17:28:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DsyfZZnlxMZ9SUFNypPTYrNryxB7c0gGpuFXMLap4aU7yRlk9EUTwVt6DNWkwTL/oDkJrH4j4wr6iE3JZResVwOrY6MXS2++c1FCqKV+zkJxGKNtFRh6Mi5hzCAYGLi7zhxmVpaTtUHrawr5bBjiUkiunQEnFuZx6dXI5QT87IqaR5gUTy7HrGBEfjamflF7VmaJPMqIN8x0iq9cZXDHY50Z1sqSX0lhkGUEZ+BCqTa9v6XbJFPY5iMlHCU7c0IhXlIC/BIosuOrIlzGwY6wFZwBtvpvMjraKkxdpt/yjBZiRplzKsbiVaR/AVVrzA/jNHkIBWpv9C6HEm3wd0LFig==
+ b=lR8QWBFVJebMkGs9kHkgaJyP3nnBGz1OvcxcM3MwR5tcwky8xhrjtkujmF96+223liwS2VHDDPPcDLjl//lUoqa0nysv55UlNgUwQ5ZDzegsW+BcFvpuQSwRU1eLut9k9lRelrSdjNRGDtV4TSkt/V8Hy1f64vTYCKdYdyn9456+8RTzaRkZt1gf/CCflgFOpubvjFtGhyoRXdm2xmVefSYK8N+gq0tuGJVhq8fqPgKKoe1d3nMuLr1qDEae5Np9YEUT8fFnkRlHpoYMkMXm4rDeGIxUSgKWkdhb0PjUnfL334P99YE9TO/OvjoYxoe9FI4NuCrtAMjciawpFesT5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lZ+cEPEYDmTWfYkbyDXHM1XWXvZ77ELno/fRy5nAbA4=;
- b=FmqrE1iLax/ETcCtDaudQYFXva5nFUgu4WqZ3thJrWIfhSzRwCk283GEu914Fb5dBQyA5I2Y7ERT3w+SygVJ6MeDABdQx8YrOxSsaqJQV507/jV/K6BcD2AXSIpN8hHJLySoY71Bnd1VDwem78AmOsBaJGNY6e5tPBchGJqw2LnyZvTA7VMpwGxa09YW++3z67ZSHFHCKYqqaiDrlHBKIhdEDGNkBVamOOYbX8RdccWg7Nytp6apszDMrPxpXHOBAaQKQ+u2TGfvmZk6Lq3HtZQ/NGj9CPvSt/ZdwfNP+SZoWzbGaEpiTc5qA2FGvRgiZSkLzUhTRRMvV6WrmFUm/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BL1PR11MB5335.namprd11.prod.outlook.com (2603:10b6:208:31b::17)
+ bh=gqDcIh3B9sOpYZYiKQzBixycYyJzN1tLgjjoyu/n2a4=;
+ b=X8Nis8qgg4B9A/EE55xMHxeNbYhyPql2N4nnpZzVdZT+0FdHYU8OjSQBEIfU19dbpwEKy+Dflc4kTvE/zX3LrS5t44BMPUXRcTIjXKwa8l2i586zBVEDEoXSRWniUWhigiQ+sWZa6ie7jTmDIYw31ZZ73wtV3gLI0QD60CUybN8hLkVdDssPG2JQBaiafsB5lc7Snq+3Yw+alfMRvTspGp5n9IKYFkrbvSy+lyDYbqwI4WXVV17o3QKS+n+bO4Hq/kLfSemcbQSXUHLaLUYz7qRc2gXlvCmVSvEIfmyYgUURuj8xcFLCOdwCqWbWOosRPzTK1N2sILDVARnixa5kJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gqDcIh3B9sOpYZYiKQzBixycYyJzN1tLgjjoyu/n2a4=;
+ b=Z1IvZzMCPTfRa5X6hzA72qL7P1FnuGR8OEpxWrasbvyeus3rB5fWhQjroKfyctU3P0ver7Xat7JzupdwuuTnMJyyxuU1krlL49x7Vo7ow1L/wQGb0G3Kc5yzjTqxoUvHGnrpH4ZDAlGW1vwTho1TeaHU7096dLKa2HTw7SwOFZs=
+Received: from MW4PR03CA0103.namprd03.prod.outlook.com (2603:10b6:303:b7::18)
+ by CY8PR12MB7123.namprd12.prod.outlook.com (2603:10b6:930:60::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.32; Mon, 17 Jul
- 2023 17:24:55 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
- 17:24:55 +0000
-Date: Mon, 17 Jul 2023 13:24:50 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: "Welty, Brian" <brian.welty@intel.com>
-Subject: Re: [Intel-xe] ttm_bo and multiple backing store segments
-Message-ID: <ZLV5YmlKu1+obT8L@intel.com>
-References: <c886cd42-2a78-fe3e-405b-e531d54449fb@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <c886cd42-2a78-fe3e-405b-e531d54449fb@intel.com>
-X-ClientProxiedBy: SJ0PR13CA0007.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::12) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Mon, 17 Jul
+ 2023 17:27:58 +0000
+Received: from CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:b7:cafe::84) by MW4PR03CA0103.outlook.office365.com
+ (2603:10b6:303:b7::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33 via Frontend
+ Transport; Mon, 17 Jul 2023 17:27:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT050.mail.protection.outlook.com (10.13.174.79) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6588.33 via Frontend Transport; Mon, 17 Jul 2023 17:27:58 +0000
+Received: from ETHANOL.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 17 Jul
+ 2023 12:27:51 -0500
+From: sguttula <Suresh.Guttula@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Leo Liu
+ <leo.liu@amd.com>
+Subject: [PATCH] drm/amdgpu: allow secure submission on VCN4 ring
+Date: Mon, 17 Jul 2023 22:57:08 +0530
+Message-ID: <20230717172708.4044221-1-Suresh.Guttula@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BL1PR11MB5335:EE_
-X-MS-Office365-Filtering-Correlation-Id: eddd5685-342a-4ea3-8e6a-08db86eabca0
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT050:EE_|CY8PR12MB7123:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc0774c8-cce5-4410-abfe-08db86eb29f8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6KLHif+QRaTsaGbQgOcWRSg8bW9YSuqIB7hWTTqkElldZUu1DoFnajz0wkbGKvuHAje4xNAaABLE2oGo6z54QeSljT00yqV9a0UPIvPCHFLVtyvdw2x/j4hvabhgIIX6NIxVptGS7Dc606qIkZ4+phMMrJn9gVecBc023WDiPY+fS4niseOQlw8b0hJ00EaTt+k9LrTiTEkL8oeO/KxRwjHbxdWNkvcICpIUcpB2UpoDY7raEzhbW9Dx2dcx1KRKIrBSBHlvKYDouIKOUB7GGjSay2jlOGeeCUjsAJknBCvfar5LDc8A9G4eMbY77sL6oevIOd6CbGdzG0Xn15lhZvwFlpsuGdMGavbfzT95CYow3QiYsJJm1hktvxueflQgWTniHUCPuCAVHCqskHU0EgIgrpufHzNF+8dwwUmrcN15Mtt6CzFIpFn2FoNSE0DRLM4mVWyTVBM5+fcJ4oFoIfHWdMsxr0y2rg6dutPVqzRfej6yHP6qyDz4Zo6z/a1j3XVkgiLE869Dp0UKz3ET4RcrFNVoAdFW5spiznIbtafj1b/QrxjdWZHf4YyUqVijoozX6AOCJxZ6KR8gLrpXKnbQX3d/S7LasDJgGObqTCc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(346002)(39860400002)(396003)(136003)(366004)(451199021)(478600001)(6486002)(54906003)(37006003)(6666004)(2616005)(83380400001)(86362001)(36756003)(2906002)(26005)(186003)(6506007)(6512007)(38100700002)(316002)(82960400001)(66556008)(44832011)(66476007)(6636002)(66946007)(4326008)(41300700001)(8936002)(8676002)(5660300002)(6862004)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5cR7ZKfuG/zTz+vHfX8Sj1wutMieXcrmEbPVnyPw3fCv1VAijHiv6g9OFOha?=
- =?us-ascii?Q?2DcNwb5CXYEfn7gS3keiaT/K7ty/a3HV7wnBrZW4dCWl905oxlkwsNeaqGgz?=
- =?us-ascii?Q?wrBhXtTE6qJ2ojoHGZxGJB3Oqy82343ZdqjjEtmXlUklqOTeqGSKHQSzS64B?=
- =?us-ascii?Q?6iTdNsJx0wDPjBBuVMMUBEra3YMqVhkO/HAqvIbkCxgnSBMEJVGcak9qftZM?=
- =?us-ascii?Q?qbZ9VVNZTkLbLGOK5yTTtYjOF7ynDC6mltxa7Vq3giHe/5gXsabByYvn6aGy?=
- =?us-ascii?Q?ZOjmlQWWpP6I/dW1zmbAqcgbANBMXbNW6DMdwlO4Tor+KFp93RQBIm035Xn8?=
- =?us-ascii?Q?BUESqU1+qR0J+WBgWZk/vTWk5qfAB0Ktx9NmRapESzvDPTVLw0yhwfbSv3d6?=
- =?us-ascii?Q?bjVMl9IJ8LUYKgYQtZOErHRfbiOCNUa155/EnV2v3MlRdhnNrSeJgDAQWKu4?=
- =?us-ascii?Q?D8cdrfi8AGdVZuZS+BCalzx1qCZiuDwz4Y27pSzfO66rEuyCT7qBJNx27g2e?=
- =?us-ascii?Q?t4LB5tJCjSnuNxkQgHMCJxHXNa3EUWABp3pa3OgPj+5U7cim8OGQ/Q4Lv6Y7?=
- =?us-ascii?Q?pV3izP/2yTPjLMfG7ChzNfYtGO/aQWxn1tEmAagZuXChTj8OpeguhcKRF3fg?=
- =?us-ascii?Q?/eSiipLdvKD9kesTBa3hyNMocgdfOYfccswufiEBJSgC48K8EtcpjctnHIfz?=
- =?us-ascii?Q?+uBTdTQi0Z8S1OlKi0h5xz7sQr7sSnObljdWyOrPetnCrgED7GYzC4TH5gvM?=
- =?us-ascii?Q?8x09vGWn0yqeCysbSFwdBwUHdsqSsBALOgHCmp22NBNSmoAXhvlCmpJLTitO?=
- =?us-ascii?Q?TBmtPbAPNxFfEbEySqMz9q/ZhjyVFcuJBMKlcBvhePKLnAOG5zJM+M2w1BH4?=
- =?us-ascii?Q?VXRRRMohV2adktYOo5l4mmM1mR7XR4s21l2SuHLQQ2BeCaxEBWDj42tSCFDB?=
- =?us-ascii?Q?LOOkRHahcb6itDhmgjKiK+THoT+89salCUAHF6/93oHvtaSqK1gv3yIyLO0M?=
- =?us-ascii?Q?hQIHcMacHK4kWHEA7nMWR6T/6FHf48/x07T6dnC8IzrsqivRmhmszv3MXkt+?=
- =?us-ascii?Q?4TjHUyFt0A2RT6U6TEQTQBsqWKFw26LIlvl3MX05IPWCAMv8VLuLB0z0RNFN?=
- =?us-ascii?Q?rFEVaQQI1ZNCSF7F7H7jWCmdMnxOBGlFEIJIUqqZtgcoyNWMu1ilMLstJSep?=
- =?us-ascii?Q?/t720fjL5BLTqHMsd/Zi4EXthjMovDzIOuulpIuIKaNI4nN2bk48AOiQMsg3?=
- =?us-ascii?Q?6yM32SMUFrtl5fpED1wGZfoNPejogpaDMpJlr3bz6sGf72uczIHguuiTn8Ck?=
- =?us-ascii?Q?WymF/NG+0uN/xszpSKwmjNgmPqaniB2+90HAodZxPGr2LejggISzGiXcXPLo?=
- =?us-ascii?Q?IoUDdiFWg/YfaoMSBFhRrdgkxwuTZhCWkxAnFVtD528IdIkrwnoIJZkZEr9u?=
- =?us-ascii?Q?xdkSN+1e2pKGMCBzpBrGDsQw71DN08OI68UJTd6tw/ykYz9fINm8RCgSPVTc?=
- =?us-ascii?Q?ErJGcCRAIHWZ2hW56svA+ofoxxpTzTCNjSA81vPJe957hq6vnIP25WlQid54?=
- =?us-ascii?Q?h+PXUhKQcnPATWgbtfOzSidIe9jWC8nUyMwF3krN?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: eddd5685-342a-4ea3-8e6a-08db86eabca0
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 17:24:55.5749 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m2GmdlG3ouzXGlsHi5sA/jR60/iNLIzBJ/YGPwjPuoDOC+kdRSeCmsTxJSbsXk9uuudPSlURWsUIOhpqwr1B2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5335
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: zI9Gfl3V9jC/D4zO1QuhgiBLsdViMaLfvnsy9AVkgyOFzzLNwvOeMsLe97w6ZHbKB7gMMF0vxOOR7fMxQ5q0E6DwQjFmTg/Q1tKfRoFIGu/AHf4SFavKN4/tqtIYmKWbYh6dMxmHptSIw1jKqJt1BTJ7f5eSNL9dfe8YuDPspRPtSaHaTZwTzw8hwo5eoRBmIBSWIgvLAtIVb5gNQ0VGLGCu4vNYwBJYHlhZAwfqwz0AShUP3ipfJ7dKGFisTMrSSDGuo9J+xocMKjO1IQnZ5bR8lB/vzHF17U0UBdpfU9wFD0CNCKQjP8S32XyRAqd/bkaXrKsJ+2D8gIQrpiYiLEQ1aVs4NdVFjE+GUNWq6vp21FBP3jcw1Iy5m5Nr1kJqHL8uJkODoje29VTmxM7aN+nXaS9pq8ZG54xipkHXEpaRDsMpuhNquoDk+1CUNffw7hGYRB1Z7y/lqMyxbGFA5oAy3FoTE5H28cMBc2uUV7R0RR1V3gfz6PwyNaLJTptMMScYqHcFZI+W6Zz63S8XraSHmNtUdIok4AsLaqRRz/ocdYABLxqpU+PlO4H0ToCUDm+ccspu41plomEM2OTuqXWgvwqPP0o5YUv3adv40FVtNmvGsFSj+OCgj/1ZK1GbOZDBPlzA0mccikN5U/kCi7waKC5eqoeaifnLNWUYC4pLZ5JJ5J5twav4vFNKsYh5k1qsEEi+IP2T5GeXZVLnrxw6BgOc1LhUl+/Y/zv8SOvLbp8NQAGmVJkb/8VqwFOD+es4+OKS76FZp0x2MPm0GMpH0tOAxHzAHXarb1xIb9o=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(346002)(376002)(396003)(136003)(451199021)(82310400008)(40470700004)(46966006)(36840700001)(2906002)(81166007)(356005)(82740400003)(336012)(426003)(47076005)(83380400001)(186003)(1076003)(36860700001)(26005)(40480700001)(2616005)(16526019)(86362001)(40460700003)(5660300002)(36756003)(8676002)(8936002)(7696005)(478600001)(110136005)(54906003)(6666004)(316002)(41300700001)(4326008)(6636002)(70206006)(70586007)(450100002)(43062005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 17:27:58.0937 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc0774c8-cce5-4410-abfe-08db86eb29f8
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,58 +100,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ sguttula <Suresh.Guttula@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 29, 2023 at 02:10:58PM -0700, Welty, Brian wrote:
-> 
-> Hi Christian / Thomas,
-> 
-> Wanted to ask if you have explored or thought about adding support in TTM
-> such that a ttm_bo could have more than one underlying backing store segment
-> (that is, to have a tree of ttm_resources)?
-> We are considering to support such BOs for Intel Xe driver.
+This patch will enable secure decode playback on VCN4_0_2
 
-They are indeed the best one to give an opinion here.
-I just have some dummy questions and comments below.
+Signed-off-by: sguttula <Suresh.Guttula@amd.com>
 
-> 
-> Some of the benefits:
->  * devices with page fault support can fault (and migrate) backing store
->    at finer granularity than the entire BO
+---
+Changes in v2:
+-updated commit message only enabling for VCN402
+-updated the logic as per Leo's feedback
+---
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-what advantage does this bring? to each workload?
-is it a performance on huge bo?
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+index e8c02ae10163..d2d89bb711b0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+@@ -1801,7 +1801,7 @@ static int vcn_v4_0_ring_patch_cs_in_place(struct amdgpu_cs_parser *p,
+ 	return 0;
+ }
+ 
+-static const struct amdgpu_ring_funcs vcn_v4_0_unified_ring_vm_funcs = {
++static struct amdgpu_ring_funcs vcn_v4_0_unified_ring_vm_funcs = {
+ 	.type = AMDGPU_RING_TYPE_VCN_ENC,
+ 	.align_mask = 0x3f,
+ 	.nop = VCN_ENC_CMD_NO_OP,
+@@ -1846,7 +1846,11 @@ static void vcn_v4_0_set_unified_ring_funcs(struct amdgpu_device *adev)
+ 		if (adev->vcn.harvest_config & (1 << i))
+ 			continue;
+ 
+-		adev->vcn.inst[i].ring_enc[0].funcs = &vcn_v4_0_unified_ring_vm_funcs;
++		if (adev->ip_versions[VCN_HWIP][0] == IP_VERSION(4, 0, 2))
++			vcn_v4_0_unified_ring_vm_funcs.secure_submission_supported = true;
++
++		adev->vcn.inst[i].ring_enc[0].funcs =
++		       (const struct amdgpu_ring_funcs *)&vcn_v4_0_unified_ring_vm_funcs;
+ 		adev->vcn.inst[i].ring_enc[0].me = i;
+ 
+ 		DRM_INFO("VCN(%d) encode/decode are enabled in VM mode\n", i);
+-- 
+2.25.1
 
->  * BOs can support having multiple backing store segments, which can be
->    in different memory domains/regions
-
-what locking challenges would this bring?
-is this more targeting gpu + cpu? or only for our multi-tile platforms?
-and what's the advantage this is bringing to real use cases?
-(probably the svm/hmm question below answers my questions, but...)
-
->  * BO eviction could operate on smaller granularity than entire BO
-
-I believe all the previous doubts apply to this item as well...
-
-> 
-> Or is the thinking that workloads should use SVM/HMM instead of GEM_CREATE
-> if they want above benefits?
-> 
-> Is this something you are open to seeing an RFC series that starts perhaps
-> with just extending ttm_bo_validate() to see how this might shape up?
-
-Imho the RFC always help... a piece of code to see the idea usually draws
-more attention from devs than ask in text mode. But more text explaining
-the reasons behind are also helpful even with the RFC.
-
-Thanks,
-Rodrigo.
-
-> 
-> -Brian
