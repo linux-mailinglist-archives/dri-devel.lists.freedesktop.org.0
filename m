@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033E97565F8
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:13:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CE4756608
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B1610E260;
-	Mon, 17 Jul 2023 14:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F18E10E264;
+	Mon, 17 Jul 2023 14:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1791A10E260;
- Mon, 17 Jul 2023 14:12:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689603180; x=1721139180;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=nIH7TP/6GpxY5/i6QotmcWHkrE1acoCnIAiOb8nnQnM=;
- b=MFDADXk0gTPP5dRPQ5tAhfDImUN4vwJbmy2VSzmi17NwmOJaCMZh7O4v
- mw61BsTE/9M2gVoVIvgxYK6sCvjg2l2BKJsXta9b+FjihcDXbkOobDjIP
- nLpnjNtwAX4KaySgt8jpzi9RzF3grkUfxYwf8B4S7fpKagZLbWW9P8gQK
- 0q4XMA4JUfOCk7eCZP4AImP0g6+2xRhyU20UpfNPrjH8IefGMLL7TsHxj
- 7RhL1I/QUMV9dZXmVCmaryAPQP8bMr7BW+3rAVsOI6sohNkHJuajWXoHQ
- +5RNoDn+6FQqD8XRkmOEgGFO8NlLe2dRq2BqzqZMZ+9D1gCeJffxQ/3qh w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="355876895"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
- d="scan'208,217";a="355876895"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 07:12:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="673548334"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
- d="scan'208,217";a="673548334"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.36.7])
- ([10.249.36.7])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 07:12:57 -0700
-Content-Type: multipart/alternative;
- boundary="------------tB0gficugwiJT7m03dn2hHNh"
-Message-ID: <dbf36662-bb53-9f76-45cc-e1843cee3392@linux.intel.com>
-Date: Mon, 17 Jul 2023 16:12:55 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D821810E263
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:44 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C30146606FC8;
+ Mon, 17 Jul 2023 15:14:42 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1689603283;
+ bh=Q4HPiSYOmkoIPgF+rGlTLj93wrF/ANybvzT6KO8OyD8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nLS5D4dYhx22ds1BMwMhee0pcviP4/9asFclVstHL6dfcKqS1X456/ppQhrzvJDWo
+ LJ1Kltf54heseL8T+gaMyoRn+gin86e7gqPipg4d/xzeqRPij+06gp2ptSnLZNpiFH
+ b4AQa1UiFsqMar/ZiCkV7yT3wWsv6rLMi3KhTFtm30i/+ZHGEpNA1eBI3WA3lLYSJ1
+ ZDld9G5Spwq5o9Z86KJablku9uGp3ZRBEFH5QsnOTkgmmeYMbloXzHAH9EKKSHtnCW
+ gP862bhZfaqlIzgfZVqT8iSbsFWYMZyAy59l2zcCjXJWApx/hbpDS30EDsgSpyLvvD
+ FJ9YafJ5drxVA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v6 00/11] MediaTek DisplayPort: support eDP and aux-bus
+Date: Mon, 17 Jul 2023 16:14:27 +0200
+Message-Id: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 2/5] drm/i915/gt: Ensure memory quiesced before
- invalidation
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-References: <20230717125134.399115-1-andi.shyti@linux.intel.com>
- <20230717125134.399115-3-andi.shyti@linux.intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230717125134.399115-3-andi.shyti@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,107 +49,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
+Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------tB0gficugwiJT7m03dn2hHNh
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Changes in v6:
+ - Added some previously missing error checking (patch [01/11])
+ - Added error checks for devm_drm_bridge_add()
+ - Made sure that cable_plugged_in is set to false if HPD assertion
+   polling fails (timeout)
+ - Support panel as module (tested with panel-edp on MT8195 Tomato)
+ - Rebased over next-20230717
+
+Changes in v5:
+ - Added .wait_hpd_asserted() callback for aux-bus
+ - Avoid enabling and registering HPD interrupt + handlers for
+   eDP case only (keeps HPD interrupts enabled for full DP case)
+ - Support not always-on eDP panels (boot with regulator off,
+   suspend with regulator off) for power saving in PM suspend.
+
+Changes in v4:
+ - Set data lanes to idle to prevent stalls if bootloader didn't
+   properly close the eDP port
+ - Now using the .done_probing() callback for AUX bus to prevent
+   probe deferral loops in case the panel-edp driver is a module
+   as previously seen with another bridge driver (ANX7625) on
+   some other SoCs (MT8192 and others)
+ - Rebased over next-20230706
+ - Dropped Chen-Yu's T-b tag on last patch as some logic changed
+   (before, I wasn't using the .done_probing() callback).
+
+Changes in v3:
+ - Added DPTX AUX block initialization before trying to communicate
+   to stop relying on the bootloader keeping it initialized before
+   booting Linux.
+ - Fixed commit description for patch [09/09] and removed commented
+   out code (that slipped from dev phase.. sorry!).
+
+This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
+
+Explaining the "real":
+Before this change, the DisplayPort driver did support eDP to some
+extent, but it was treating it entirely like a regular DP interface
+which is partially fine, after all, embedded DisplayPort *is* actually
+DisplayPort, but there might be some differences to account for... and
+this is for both small performance improvements and, more importantly,
+for correct functionality in some systems.
+
+Functionality first:
+
+One of the common differences found in various boards implementing eDP
+and machines using an eDP panel is that many times the HPD line is not
+connected. This *must* be accounted for: at startup, this specific IP
+will raise a HPD interrupt (which should maybe be ignored... as it does
+not appear to be a "real" event...) that will make the eDP panel to be
+detected and to actually work but, after a suspend-resume cycle, there
+will be no HPD interrupt (as there's no HPD line in my case!) producing
+a functionality issue - specifically, the DP Link Training fails because
+the panel doesn't get powered up, then it stays black and won't work
+until rebooting the machine (or removing and reinserting the module I
+think, but I haven't tried that).
+
+Now for.. both:
+eDP panels are *e*DP because they are *not* removable (in the sense that
+you can't unplug the cable without disassembling the machine, in which
+case, the machine shall be powered down..!): this (correct) assumption
+makes us able to solve some issues and to also gain a little performance
+during PM operations.
+
+What was done here is:
+ - Caching the EDID if the panel is eDP: we're always going to read the
+   same data everytime, so we can just cache that (as it's small enough)
+   shortening PM resume times for the eDP driver instance;
+ - Always return connector_status_connected if it's eDP: non-removable
+   means connector_status_disconnected can't happen during runtime...
+   this also saves us some time and even power, as we won't have to
+   perform yet another power cycle of the HW;
+ - Added aux-bus support!
+   This makes us able to rely on panel autodetection from the EDID,
+   avoiding to add more and more panel timings to panel-edp and, even
+   better, allowing to use one panel node in devicetrees for multiple
+   variants of the same machine since, at that point, it's not important
+   to "preventively know" what panel we have (eh, it's autodetected...!).
+
+This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bus)
 
 
-On 7/17/2023 2:51 PM, Andi Shyti wrote:
-> From: Jonathan Cavitt<jonathan.cavitt@intel.com>
->
-> All memory traffic must be quiesced before requesting
-> an aux invalidation on platforms that use Aux CCS.
->
-> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-> Signed-off-by: Jonathan Cavitt<jonathan.cavitt@intel.com>
-> Signed-off-by: Andi Shyti<andi.shyti@linux.intel.com>
-> Cc:<stable@vger.kernel.org>  # v5.8+
+P.S.: For your own testing commodity, here's a reference devicetree:
 
-|Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>|
+pp3300_disp_x: regulator-pp3300-disp-x {
+	compatible = "regulator-fixed";
+	regulator-name = "pp3300_disp_x";
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	enable-active-high;
+	gpio = <&pio 55 GPIO_ACTIVE_HIGH>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&panel_fixed_pins>;
+};
 
-> ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index 563efee055602..bee3b7dc595cf 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -202,6 +202,13 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   {
->   	struct intel_engine_cs *engine = rq->engine;
->   
-> +	/*
-> +	 * Aux invalidations on Aux CCS platforms require
-> +	 * memory traffic is quiesced prior.
-> +	 */
-> +	if ((mode & EMIT_INVALIDATE) && !HAS_FLAT_CCS(engine->i915))
-> +		mode |= EMIT_FLUSH;
-> +
->   	if (mode & EMIT_FLUSH) {
->   		u32 flags = 0;
->   		int err;
---------------tB0gficugwiJT7m03dn2hHNh
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+&edp_tx {
+	status = "okay";
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 7/17/2023 2:51 PM, Andi Shyti wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230717125134.399115-3-andi.shyti@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">From: Jonathan Cavitt <a class="moz-txt-link-rfc2396E" href="mailto:jonathan.cavitt@intel.com">&lt;jonathan.cavitt@intel.com&gt;</a>
+	pinctrl-names = "default";
+	pinctrl-0 = <&edptx_pins_default>;
 
-All memory traffic must be quiesced before requesting
-an aux invalidation on platforms that use Aux CCS.
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
 
-Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-Signed-off-by: Jonathan Cavitt <a class="moz-txt-link-rfc2396E" href="mailto:jonathan.cavitt@intel.com">&lt;jonathan.cavitt@intel.com&gt;</a>
-Signed-off-by: Andi Shyti <a class="moz-txt-link-rfc2396E" href="mailto:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
-Cc: <a class="moz-txt-link-rfc2396E" href="mailto:stable@vger.kernel.org">&lt;stable@vger.kernel.org&gt;</a> # v5.8+</pre>
-    </blockquote>
-    <br>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">Reviewed-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></code></pre>
-    <blockquote type="cite"
-      cite="mid:20230717125134.399115-3-andi.shyti@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">
----
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+		port@0 {
+			reg = <0>;
+			edp_in: endpoint {
+				remote-endpoint = <&dp_intf0_out>;
+			};
+		};
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 563efee055602..bee3b7dc595cf 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -202,6 +202,13 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- {
- 	struct intel_engine_cs *engine = rq-&gt;engine;
- 
-+	/*
-+	 * Aux invalidations on Aux CCS platforms require
-+	 * memory traffic is quiesced prior.
-+	 */
-+	if ((mode &amp; EMIT_INVALIDATE) &amp;&amp; !HAS_FLAT_CCS(engine-&gt;i915))
-+		mode |= EMIT_FLUSH;
-+
- 	if (mode &amp; EMIT_FLUSH) {
- 		u32 flags = 0;
- 		int err;
-</pre>
-    </blockquote>
-  </body>
-</html>
+		port@1 {
+			reg = <1>;
+			edp_out: endpoint {
+				data-lanes = <0 1 2 3>;
+				remote-endpoint = <&panel_in>;
+			};
+		};
+	};
 
---------------tB0gficugwiJT7m03dn2hHNh--
+	aux-bus {
+		panel: panel {
+			compatible = "edp-panel";
+			power-supply = <&pp3300_disp_x>;
+			backlight = <&backlight_lcd0>;
+			port {
+				panel_in: endpoint {
+					remote-endpoint = <&edp_out>;
+				};
+			};
+		};
+	};
+};
+
+AngeloGioacchino Del Regno (11):
+  drm/mediatek: dp: Add missing error checks in
+    mtk_dp_parse_capabilities
+  drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
+  drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+  drm/mediatek: dp: Use devm variant of drm_bridge_add()
+  drm/mediatek: dp: Move AUX_P0 setting to
+    mtk_dp_initialize_aux_settings()
+  drm/mediatek: dp: Enable event interrupt only when bridge attached
+  drm/mediatek: dp: Avoid mutex locks if audio is not supported/enabled
+  drm/mediatek: dp: Move PHY registration to new function
+  drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
+  drm/mediatek: dp: Add .wait_hpd_asserted() for AUX bus
+  drm/mediatek: dp: Don't register HPD interrupt handler for eDP case
+
+ drivers/gpu/drm/mediatek/Kconfig  |   1 +
+ drivers/gpu/drm/mediatek/mtk_dp.c | 360 ++++++++++++++++++++----------
+ 2 files changed, 242 insertions(+), 119 deletions(-)
+
+-- 
+2.40.1
+
