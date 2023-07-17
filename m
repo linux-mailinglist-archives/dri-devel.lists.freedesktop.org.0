@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC97755B51
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 08:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC10755B52
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 08:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD78210E1DC;
-	Mon, 17 Jul 2023 06:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48E1F10E1DF;
+	Mon, 17 Jul 2023 06:14:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on20622.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::622])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E546610E1DC
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 06:14:29 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2079.outbound.protection.outlook.com [40.107.20.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1DA410E1DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 06:14:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VwNAnrgYMH4qs80FeYaXfkNEx4v/VDeKqzN6BgRTW53T4/wZhgd7i0F2YRyFYByQrBbjVQDSlTaJD4i8MRh2B6gKl2hhSaKwsbHLzWq5EaNpvMQlTYPLs+zZPHhO558NOFNDq2D7xwd8YcRwQM++/6hepslM188xdpzanGv0Swc4E7+VBPjOQ2S0weTqMJ7zrZxFUu9QqmItAuBC7yu5iNxoeV2Y7aZm7Ot4jnYiomLqiW/t+DlWBgJuaVTyJEYxYpJBUFXOjVbUar+YagOfAm0+pNrUsEa+lo0UB8zqWKmUvUAeaGnbU8KgMvNfJU9vV2pv7aZHrr6Yp1OydOvsFA==
+ b=Wb9+SzTir3RDJQYzSBoyZy1vasV++Da2EzDR5dZo6yJUt8JInuQTFrjNzJy9rFQ5SlZxQnZNK5ktnRWO8TONQNqdFg5DG+YwN1BGbNcPH0V5fVji0YHUds9yA+K7Fc4a8bhxlGEBgsAmd2R0AeVp8POdFJzAfj3AHLQ5BkJ1dR10zwuNKvkRywSAvMrkO/Gr+hzxPUoHKY50kBV0uqA1zm3n3zTbb8hym5wJIFjPajchzuZ3Uh9paGVMmW4s5Emx2w8NsGkO5aqrxc5PPfeTaZM/4tVQduTZizuZy2wTeOTjq1m0l+3EzjKTaIafMMqlYR7goGBzZNtRhGHR186Aqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f0cdEHcFLlJAXsmnT4mtG5zci/b3hDN6K/NgDcNZlX4=;
- b=ZAetXI71pjk27CGBrwpBrz2RSOGHgavmkHH2Fwo+NTWGoxf7JQDWSiHMRf7eHb+BfSStAC+DvhyxcbxTFipWIhxvFiHQgegOj1SKQkfGZlAeDgUyEim/7tLSBP0wzv7rjUyTFvyoLHdXFsaAvuxMk0Ug8DLOG9qo9K1mo+hQs2gxbGk3lkk1t55wiVRd/DI+H8w+2+sam46OUCm0zW2yagZx6xepzMolgwm1tIN0HhsAR/yG6wcdEtEKXEb8+uQQ3YYXWP229Jl+3aPJQ4wGrBX+QYuX5+4YW3uE9lj3XfhjX2ybmVL1oZL9i3/l9Q6F9BA22FCfD+X+FpTIhIeqxQ==
+ bh=Ob0sIpkjIL6spa4jwGWgcCpRxAOJAnOpUMMGMWUpn8A=;
+ b=A9VwJrcHlSi6f+n24QJ/cehueBxoW41fuBo7Ci/z/QcL7w7oarp9vT1U55+vpyyIxKcocyooLuf4sjDWarf2EWXBJQ/IPpwdrjb7e0Ue8WQkvRBXQWIM/+gH85leZqRzzZPlRg8WwLOBTdO2BQ7BXh00RsWQ/EbzV7katSI5Zqa4nfAS59DiXQR9RmdqDdmaILEQpU34JEkWK0U3sIARWtAK1cfNm2RohTrRM852k3YH9+X9Bt7klq+NU0dSd2qSrac550HuKwSMGhZeqLl/fBmxckdSeDP9lD6NeVDBlCVhGyK/OztLxmfnYE4f6LiC6Lq1ie22KL0QvY/AbPpC/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f0cdEHcFLlJAXsmnT4mtG5zci/b3hDN6K/NgDcNZlX4=;
- b=LkTMkfpBFymuqp9YLjePQlSJFlQNWKxSHBZnlvZ6TVZtUhJyPxwe6zKTBF3ZKKSIDxX5I7kOf7HRiHzzYs8i99B2oI+tnD0ZefMPlCDahxhl+Cs6Yffzo8zIIJXSVuPAz/UCcASqEcIGYloEOYhKn1xpZdEoUv9bXrMBzOFLf9s=
+ bh=Ob0sIpkjIL6spa4jwGWgcCpRxAOJAnOpUMMGMWUpn8A=;
+ b=bB4qnaUaoETaaZFWarifjRUosuw1qqLHtHoypfNtk9fGBDmjLptuOtL77X+7FiJAYIBC9kX3Yo1bXgd4BWLOTVWorkQEpAdtHbqafB9Xr+6FQHsWh0hWQ9JnXVCZpibbpPcj4s01eOo9+3qW3Zk5SXEZaxPzq0xybjDMAa9szfg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by AS8PR04MB9189.eurprd04.prod.outlook.com (2603:10a6:20b:44c::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.32; Mon, 17 Jul
- 2023 06:14:25 +0000
+ 2023 06:14:31 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::7af:d8d5:d0ce:f68e]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::7af:d8d5:d0ce:f68e%2]) with mapi id 15.20.6588.027; Mon, 17 Jul 2023
- 06:14:25 +0000
+ 06:14:31 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 7/9] drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX and LPRX
- timeout check
-Date: Mon, 17 Jul 2023 14:18:29 +0800
-Message-Id: <20230717061831.1826878-8-victor.liu@nxp.com>
+Subject: [PATCH 8/9] dt-bindings: display: bridge: Document Freescale i.MX93
+ MIPI DSI
+Date: Mon, 17 Jul 2023 14:18:30 +0800
+Message-Id: <20230717061831.1826878-9-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230717061831.1826878-1-victor.liu@nxp.com>
 References: <20230717061831.1826878-1-victor.liu@nxp.com>
@@ -57,52 +56,52 @@ X-ClientProxiedBy: SI1PR02CA0060.apcprd02.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB9189:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3234bf40-1ded-45ba-b5f6-08db868d122e
+X-MS-Office365-Filtering-Correlation-Id: 2fbae979-1275-4882-7f2d-08db868d1567
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UZZnR8km/ddapPuheGRBBtCQkI4AWIPK8VclBRQMDvywlRtfhfAXBA1J7cJgfGNffw5O05k5bF5wuIFKDVhHU2AvUSJAJBjfgUpWP5JNPUzExfc6P+kPlUoHTqmbeYB4Wtos7I2WeaBfHd1n3XfSV3mFr+XR+yxlwuZd5OpQn5a1b5V277v4FEOECuDeKvuxpNJ0C1iVbRcY+zrpi3y0cZkPN7uY8dUkjQVKUrNKfLzajt+HXO3Yc/aWGJCwHLbVrPUDAA8sU0eBK6+PXImzWezO66NufHigWS0HJLmb5or8jND+uixdSoGobkYGAEJneof3zZjUOTegFKIYVBe09X7l9+1IoTO4Z2cjM6MWw+FijoLe+bFLx5pAHQearmb4XZQAsdAlnCX+MiJmTCKDniH5cjwKVH39KboxJXo3ZYYIMUlQUiazWI0lvVmFoec0j5Q+PqC7SmyCztbRNeA7d5xLmaALUbtTtyNv78EAN4KTyyburpxbhdcbpFYQOTExZo2oh143as3V5lIf/B6y2rlpIYjoBi+Y3bnof65Fc6te/jxAB8KxliQZ4G4C/Uq58RVN2dbnu2naVcPllWssE9NpTtQHgClldY4oQgmabK9JrnhvqSGCl/Da1CbsR79Q
+X-Microsoft-Antispam-Message-Info: TORFTmAVY5OnSMyDZjM/OfwcaHh82h4ro06halZe0FaxWMr4Y+vhQy1g7c55vr/YJf5nVdEUg64DVIY4O+mLNSt+agD4H7gL+hEHdSZu7t1/jzM/Myb5eGA2Cs9p6AB1QAGRplMwjk39GTYXKf5AkVBYEBgdgeYiYPlPcxC08wt/Ozv+gfhSP7tbV7hsR2D0gRtMG++UVWva2DPzGluQIMqkrIXqZLBsmlxX5LAovJ3Si0/2mYG7v8LDtFBAWZwvGA3IcJvq+8+W/0E2iHCv/pDYH2h8frcof4xDwbA/uyMZ8+vswpHMRJCJhXV/WkMH1HumO8/0GpNZu5IGl5gwb5Gp3TlxThrEoyT/JTHJ1f9BK8DXEWY3bj+MYH+8p4uJlfHSKgLg23bJnj4eKnYieJPtbWAr0IsCwsej1AR4rt+BcAphZI0QtI5ha1NE1v3vfEMxmwc3/2P7zcXoNFtfOiW2YwdLpBVB8R4NLRZXq5P1/1Bmnh2j4FVzNc17hflX4zH1IZyY62943Ahbb9pXDL3hwWndOKo7yshL7q/BlJFg1UE9C7J4BQS6zAqrblHhTFVAEeChLADuO0dUT7/GEkEBZFNFUVA4rQpBb+fOJKA/uYIgTjlzAcnsbf28amUFgXz9z2MSHpOXBi5aAOhRqQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(39860400002)(396003)(366004)(346002)(376002)(451199021)(478600001)(52116002)(6486002)(186003)(1076003)(6506007)(26005)(6512007)(2906002)(41300700001)(316002)(66556008)(66476007)(4326008)(5660300002)(7416002)(36756003)(8936002)(8676002)(66946007)(38350700002)(38100700002)(86362001)(2616005)(83380400001);
+ SFS:(13230028)(4636009)(136003)(39860400002)(396003)(366004)(346002)(376002)(451199021)(478600001)(52116002)(6486002)(186003)(1076003)(6506007)(26005)(6512007)(966005)(2906002)(41300700001)(316002)(66556008)(66476007)(4326008)(5660300002)(7416002)(36756003)(8936002)(8676002)(66946007)(38350700002)(38100700002)(86362001)(2616005)(83380400001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BU/KYHnYxBONF0wfwQc6cKdvXSvc+4xoafs1/2x8LAfXRxe98EB5hvwCSsU7?=
- =?us-ascii?Q?i7DD+tSEzCbbad4PBO4ViwgKURkju6PZmbWNKOX1AS8p7ss8tckRFlX5Z1O7?=
- =?us-ascii?Q?vlV2PRryaAc1eN0LY6RrEff689Xm8EWaoMUEF2OsNFGV30YY3S/HEK7VijO+?=
- =?us-ascii?Q?nCmVNIVDQuT2jDoT13qVDUDCQA2aZQ2JtDP2DHFekiKpX7aZvJK52yIydZcj?=
- =?us-ascii?Q?qOd2d1j+hvHUPiLQ4sU0PTf0cOe3oDcf2BhFNE/kiC8jLl26hBGXOeleqQBd?=
- =?us-ascii?Q?VeaKpKfJgaBcdHWnEDzVzE0VgEBsdY4QNUCLnus/jsFMjz1WBn9D9NyzkiQD?=
- =?us-ascii?Q?IJXpI2rNEJLdr1zM9xqj0MXDUMCIiPWneRDTEjGgLoLW7VL/6TQWuosW9zjH?=
- =?us-ascii?Q?S0HpUR1aELu2Z+qAsSQBrUUH6h9qZHpnZSQDOkKENVV2AwTFGmFDka+1bExV?=
- =?us-ascii?Q?Jc6EnhMWpnp6ElzjW5/S7WH7uLbQIdMClHd4o09tWz54zrewv4s4ruKBEmAG?=
- =?us-ascii?Q?SJAPsiuvMFqARCUlOCOdh534wLzPNtpoC+GSREbJI1dlcuB42VqXDpR1nU65?=
- =?us-ascii?Q?NUImrYqi6qeo9CMWYALTXqx0KH7U/vYDUbqOfTgZ6OyOf6J44uOhcC5kwmFX?=
- =?us-ascii?Q?kp6KJ4vAZm7W3RgxJowY4KC5dR+ZcokPWyP5ERP+pU9QbIsiEmMdAATGMb4V?=
- =?us-ascii?Q?gZZMYTFB9lgXoc7SevUBFunhHVswlj1aT/vVRYv6A+NOullwLSaq2Ug1i+ea?=
- =?us-ascii?Q?pJF35HHHUXDphSoIOgy1lWE4MWgy6LMB+NGtvIa+aldzWoQ7DK4rn09W/8LH?=
- =?us-ascii?Q?3o/k/c0lrnv2FABJapbVly+VSRgKniG0FU83loEVnlBaMT6UcS9hcIxaVFpK?=
- =?us-ascii?Q?6t/A1U7OrIVM12lySVODvY5bkscxgqQksthtdAU0FYZXWqesLgym4WK0nh4x?=
- =?us-ascii?Q?vXA0OHMuwk+fONFTPU7BJF/7QVkQIVz9HmXrl9eGHxDirHZB2dg35k3UueeD?=
- =?us-ascii?Q?cLrqHDEUIFvVaHPyqb2rZKlL2X/3Rqwi0YVFOq9UGehpGl+sUFnhGIEzbR4B?=
- =?us-ascii?Q?5VqvMxBigNtDduCcQd8pV/heUb3bT87X7AEnb6RpkU+SOwJJyeVqANmx5jZD?=
- =?us-ascii?Q?1S05t03jph/HEfHK9INKmfSTSdt3/h0ZwPBHn6Tk1AG+HgRQR5lN42j9TXiH?=
- =?us-ascii?Q?Wj/ME8BuhRumcjUjuZricJDjfcdqDaxO6hWFLgBoknN6C+G49X38b6WNs2Fv?=
- =?us-ascii?Q?F+LWRfrFWnt1151BGEKhfH1MnX4t6LKQyLBBOiXxbg7JmkeWGUhj7nYQ/28s?=
- =?us-ascii?Q?n6qzXA5y+FDVuQl1qyrl+ZGtUGtyt4sZyP6ky62WsRQ/wdqWlEAZ3+e7/55S?=
- =?us-ascii?Q?gExikEQfXN2x4aJA7654kzi+Z0ge8N29XUZ08gLOYXB1WluInTxKAGQhlD0J?=
- =?us-ascii?Q?mMIlDOUhBjTOJtwkZ3tUAZ7yZyKe/ewwu8QKqgOqlOe33Q1nK/42j0q7k9eq?=
- =?us-ascii?Q?sv+ZdUgGR8L2AqSnTND3rVivd9z4M506vMUnM4eXIzIbONo9bZVsGMxrqJY/?=
- =?us-ascii?Q?Dee360PNbDaT7Rc4K/PFOLMnW3LVDJpec8pl4Ozj?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wWePFywa3jt7ylS1dsjrjGv7D9uA+GQ+KWJBCgZWtOWJBKtoH2voVIG8Znc+?=
+ =?us-ascii?Q?7ig08SkKmjeONb+IC8WKt9iR8pz72dSTsm1EDfsmkb18HP1HiSUv6+pqRioT?=
+ =?us-ascii?Q?WTMsjJW1q9/sZohQ4MNymDURVXMeRaXfxTCmwuHayrG2/4slDLJs9R5nYeXG?=
+ =?us-ascii?Q?pvYGYSwFygGhvvC9WLEiSaR22+5hAWeM32fLGrjM/fiKlxnLOSPukRwoZpn4?=
+ =?us-ascii?Q?ch10RnBGY7/Yyfx8zvR3mhND+I93LOdEJzDSdBw4lGAs6z8nhFDRHtMfYtiB?=
+ =?us-ascii?Q?VcAI6qF+l5+8QlEZ/pLBomgaJggUqM5+Lwld2J/LL057Xxe9PfEOqAVyP+Di?=
+ =?us-ascii?Q?QWutww0ONcVpqhNYnf2rnh1ujTFKlqood35rL+tVA4lhtIZ5KHmgJ8N4or1T?=
+ =?us-ascii?Q?5EvXYa3DjGYPogF/0dkA23IBSVhw8i3eHBjV9Bi0fixe0Kad1nYoro+ZaJpT?=
+ =?us-ascii?Q?9cxTkPn7p7gMoiLJr859/jsJ1p9GkTkQ02lcqi+25Ow5eUvEyVjVGslDH1z5?=
+ =?us-ascii?Q?0qblbCOyPtcTSvB8iTUK6z6ZGijKP0sxqYbrumV0O/F3VmZdE0D3fwRfQs4C?=
+ =?us-ascii?Q?oZC0B7MW9uclxtMuBFjeK1+kU52FP7Nyxo6GdVMOB4QEJTo+D52WdA/jCYEd?=
+ =?us-ascii?Q?xFoAwS7eopksf4kliSxpEl4IgWSFArB/7Yt+6CGuVcsuVHEazLOHb437K8cj?=
+ =?us-ascii?Q?fihkDvmTPsasap6ZHRi/VKC3ozWMsULArEuHzZNgW+2DxoKg7/nL1kqnjsHT?=
+ =?us-ascii?Q?oVjDfLO+TfYDh3czWeCgf24DVs6ga0BeqkyBwbEwOwa2h48RdNCMzBzT+eUI?=
+ =?us-ascii?Q?YObY+bKYez5foYG3yVps2sDe/KAcdc3gBYXDjptgHa0z6DZ+TlqGFJquxA7o?=
+ =?us-ascii?Q?3t3g942xjy7l4LjD5BmeAf8Hef73vaTvTnU1guVWDf4e3K6Ib+iMkKsVOawl?=
+ =?us-ascii?Q?yVi27jlfdHAFvaXAW3IdMUM9rWGjdisqtdzKjyQAfUJELzqngqAB/Fo9Ck3S?=
+ =?us-ascii?Q?r+jz7YvbfwqN6QvA9HYjZpCs2Rdf1JP+qp9+7Z5xlyrWAqY7xpYTV7Ejh4yQ?=
+ =?us-ascii?Q?zKrJQ4DDp2FPioOJasU+8oNdqct4GsRGfhHsGYCpd/tpTardTzYSs/BEdhhy?=
+ =?us-ascii?Q?VrNa70FWGK1cfJ29/q1PxNW6AiEoa5jJb/ARXY7NgXRAoNjOcOdupV7b8OdQ?=
+ =?us-ascii?Q?Q4jin6wQvQkOqPFppIn4hM1GupTvZ4hLTefsw2iYzAbj6RLmeHYqlQhdKHop?=
+ =?us-ascii?Q?eNfRLjMDNy+Hfc+cA+eFuQAovOY5e1vFyAocPQ26RkS4thLLBdYSJJU3b8xU?=
+ =?us-ascii?Q?ho/z6U+WiyGuV4WeBk9+lWcUmT/f8mUmZPXYt8hTH57NgvUPiH/UM6GFzfk+?=
+ =?us-ascii?Q?2k99Lhr69+B7BmI+th8PMC9XPoHhfQ6zcVqyH1i+oMVXw+kVWUed2h1moqWB?=
+ =?us-ascii?Q?gqdt3KqgnleXum78qck4c6hUPmNHXS17eHoeAWxAAgVZx+6oHluLhrUjPbqb?=
+ =?us-ascii?Q?k1qVgtXT6B6v3MEnvJ7RnUUUV82nylfrqekxHXBTvUbzgpCoxKaO2ZA91O8X?=
+ =?us-ascii?Q?j1jRzl+uH1Oi0peYD0KRW43qvpQn/aA78GyVgfsh?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3234bf40-1ded-45ba-b5f6-08db868d122e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2fbae979-1275-4882-7f2d-08db868d1567
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 06:14:25.9200 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 06:14:31.2347 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dHSY1fViomqTLW5ZWCBzPV/cSMrWyEkODK5ujkIN6BGo2+X2jGnertlKzGBnYqSE8Caj3FuasNEt+lQ0sQzMaw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0k+vhbI1yzPsHPWXVzURBRwLHxkOyFsPUEFiK5Z6KjEnWOuqUWI7l1WX2qqHfhKZxxSwH/G/+jLrrSaMHdaxXA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9189
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,49 +123,137 @@ Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, rfoss@kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to Synopsys DW MIPI DSI host databook, HSTX and LPRX timeout
-contention detections are measured in TO_CLK_DIVISION cycles.  However,
-the current driver programs magic values to TO_CLK_DIVISION, HSTX_TO_CNT
-and LPRX_TO_CNT register fields, which makes timeout error event wrongly
-happen for some video modes, at least for the typical 1920x1080p@60 video
-mode read from a HDMI monitor driven by ADV7535 DSI to HDMI bridge.
-While at it, the current driver doesn't enable interrupt to handle or
-complain about the error status, so true error just happens silently
-except for display distortions by visual check.
-
-Disable the timeout check by setting those timeout register fields to
-zero for now until someone comes along with better computations for the
-timeout values.  Although the databook doesn't mention what happens when
-they are set to zero, it turns out the false error doesn't happen for
-the 1920x1080p@60 video mode at least.
+Freescale i.MX93 SoC embeds a Synopsys Designware MIPI DSI host
+controller and a Synopsys Designware MIPI DPHY.  Some configurations
+and extensions to them are controlled by i.MX93 media blk-ctrl.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../display/bridge/fsl,imx93-mipi-dsi.yaml    | 115 ++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 536306ccea5a..0fcadf99e783 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -684,7 +684,7 @@ static void dw_mipi_dsi_init(struct dw_mipi_dsi *dsi)
- 	 * timeout clock division should be computed with the
- 	 * high speed transmission counter timeout and byte lane...
- 	 */
--	dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(10) |
-+	dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(0) |
- 		  TX_ESC_CLK_DIVISION(esc_clk_division));
- }
- 
-@@ -747,7 +747,7 @@ static void dw_mipi_dsi_command_mode_config(struct dw_mipi_dsi *dsi)
- 	 * compute high speed transmission counter timeout according
- 	 * to the timeout clock division (TO_CLK_DIVISION) and byte lane...
- 	 */
--	dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(1000) | LPRX_TO_CNT(1000));
-+	dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(0) | LPRX_TO_CNT(0));
- 	/*
- 	 * TODO dw drv improvements
- 	 * the Bus-Turn-Around Timeout Counter should be computed
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
+new file mode 100644
+index 000000000000..d6e51d0cf546
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/fsl,imx93-mipi-dsi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX93 specific extensions to Synopsys Designware MIPI DSI
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++
++description: |
++  There is a Synopsys Designware MIPI DSI Host Controller and a Synopsys
++  Designware MIPI DPHY embedded in Freescale i.MX93 SoC.  Some configurations
++  and extensions to them are controlled by i.MX93 media blk-ctrl.
++
++allOf:
++  - $ref: snps,dw-mipi-dsi.yaml#
++
++properties:
++  compatible:
++    const: fsl,imx93-mipi-dsi
++
++  clocks:
++    items:
++      - description: apb clock
++      - description: pixel clock
++      - description: PHY configuration clock
++      - description: PHY reference clock
++
++  clock-names:
++    items:
++      - const: pclk
++      - const: pix
++      - const: phy_cfg
++      - const: phy_ref
++
++  interrupts:
++    maxItems: 1
++
++  fsl,media-blk-ctrl:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      i.MX93 media blk-ctrl, as a syscon, controls pixel component bit map
++      configurations from LCDIF display controller to the MIPI DSI host
++      controller and MIPI DPHY PLL related configurations through PLL SoC
++      interface.
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - interrupts
++  - fsl,media-blk-ctrl
++  - power-domains
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx93-clock.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/fsl,imx93-power.h>
++
++    dsi@4ae10000 {
++        compatible = "fsl,imx93-mipi-dsi";
++        reg = <0x4ae10000 0x10000>;
++        interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX93_CLK_MIPI_DSI_GATE>,
++                 <&clk IMX93_CLK_MEDIA_DISP_PIX>,
++                 <&clk IMX93_CLK_MIPI_PHY_CFG>,
++                 <&clk IMX93_CLK_24M>;
++        clock-names = "pclk", "pix", "phy_cfg", "phy_ref";
++        fsl,media-blk-ctrl = <&media_blk_ctrl>;
++        power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_DSI>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "raydium,rm67191";
++            reg = <0>;
++            reset-gpios = <&adp5585gpio 6 GPIO_ACTIVE_LOW>;
++            dsi-lanes = <4>;
++            video-mode = <2>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi_out>;
++                };
++            };
++        };
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                dsi_to_lcdif: endpoint {
++                    remote-endpoint = <&lcdif_to_dsi>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                dsi_out: endpoint {
++                    remote-endpoint = <&panel_in>;
++                };
++            };
++        };
++    };
 -- 
 2.37.1
 
