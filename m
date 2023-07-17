@@ -1,44 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26190755E4E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:17:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7067A755E9B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB07410E202;
-	Mon, 17 Jul 2023 08:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A7D10E209;
+	Mon, 17 Jul 2023 08:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE10110E202
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:17:34 +0000 (UTC)
-Received: from workpc.. (109-252-154-2.dynamic.spd-mgts.ru [109.252.154.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 33A456603203;
- Mon, 17 Jul 2023 09:17:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689581852;
- bh=cDQ2vNJdynhbZflqAFsbK6vZklSq9Zi8ClehMpPtBBs=;
- h=From:To:Cc:Subject:Date:From;
- b=gQcSPD210Nl413tX4EN9AKxAjl2Lu3jVl6iygQmOQ+d6udO7PTzMFmqu7SraPlMM4
- vX/IxYjmG1QqY7pZZegi5w3aSJyQgbDXthOZpem7w75Mtt7v5iUThLyQJsp+KFa6W7
- GWaLGifts77smDhMnNTGWKRC9WlWnlrdOEfhUrZe5rmVsQTKXh8/JG0MQoK2NoYJcS
- X9u9ZtbmfTkzOQDMg2J54xV1Sm8KyIaHEH8jQT/nr1WCaxT6SdVz8oWpN8oMUcSxWS
- 40UfLI1qbcfVDyEEEaEbY54kV5xj3Z2QxGf/v/sSE0q6Fm/kLwnUX0NxT/U8by3OXv
- AgigAAND7l0sw==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v1] MAINTAINERS: Add Boris Brezillon as Panfrost driver
- maintainer
-Date: Mon, 17 Jul 2023 11:15:44 +0300
-Message-ID: <20230717081544.1068254-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.41.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 86AC010E220;
+ Mon, 17 Jul 2023 08:20:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A67211FB;
+ Mon, 17 Jul 2023 01:21:03 -0700 (PDT)
+Received: from [10.57.37.37] (unknown [10.57.37.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 41CB33F73F;
+ Mon, 17 Jul 2023 01:19:59 -0700 (PDT)
+Message-ID: <e2c69d34-7523-98ae-93a2-04e132745ebd@arm.com>
+Date: Mon, 17 Jul 2023 09:19:59 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm: Explicitly include correct DT includes
+To: Rob Herring <robh@kernel.org>
+References: <20230714174545.4056287-1-robh@kernel.org>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230714174545.4056287-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 17 Jul 2023 08:37:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,38 +44,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, xen-devel@lists.xenproject.org,
+ linux-sunxi@lists.linux.dev, =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, etnaviv@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, Ondrej Jirman <megi@xff.cz>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, freedreno@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>, lima@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-rockchip@lists.infradead.org,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alain Volmat <alain.volmat@foss.st.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-rpi-kernel@lists.infradead.org,
+ Tian Tao <tiantao6@hisilicon.com>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-tegra@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ John Stultz <jstultz@google.com>, Shawn Guo <shawnguo@kernel.org>,
+ Ondrej Jirman <megous@megous.com>, Emma Anholt <emma@anholt.net>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Paul Cercueil <paul@crapouillou.net>,
+ Marek Vasut <marex@denx.de>, linux-renesas-soc@vger.kernel.org,
+ Artur Weber <aweber.kernel@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Dmitry B aryshkov <dmitry.baryshkov@linaro.org>, Liu Ying <victor.liu@nxp.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Boris Brezillon as Panfrost driver maintainer. Boris is a new lead
-developer of the Panfrost Mesa driver and main developer behind the
-upcoming Panthor kernel driver that will serve next-gen Mali GPUs.
+On 14/07/2023 18:45, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+[...]
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index bbada731bbbd..20c25c836198 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -4,8 +4,9 @@
+>  /* Copyright 2019 Collabora ltd. */
+>  
+>  #include <linux/module.h>
+> -#include <linux/of_platform.h>
+> +#include <linux/of.h>
+>  #include <linux/pagemap.h>
+> +#include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <drm/panfrost_drm.h>
+>  #include <drm/drm_drv.h>
 
-Remove Tomeu and Alyssa, who left Collabora and stepped down from working
-on Panfrost.
+Panfrost part:
 
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5d6536fef2fc..08dc75916148 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1615,9 +1615,8 @@ F:	drivers/gpu/drm/arm/display/komeda/
- 
- ARM MALI PANFROST DRM DRIVER
- M:	Rob Herring <robh@kernel.org>
--M:	Tomeu Vizoso <tomeu.vizoso@collabora.com>
-+M:	Boris Brezillon <boris.brezillon@collabora.com>
- R:	Steven Price <steven.price@arm.com>
--R:	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--- 
-2.41.0
+Steve
 
