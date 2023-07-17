@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872A8755EC2
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:50:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EB9755ED4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:59:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAA4F10E0CA;
-	Mon, 17 Jul 2023 08:50:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 057D910E07E;
+	Mon, 17 Jul 2023 08:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39DDC10E0F4
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:50:39 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8805B6607008;
- Mon, 17 Jul 2023 09:50:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689583836;
- bh=FA0WJ/4w/kSzok3YACKCV67AqsSFqdugv/Hgl8UwAzY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PcSduDWtb1r5ca/n7wrdp7xyWfHgTXKEhzmpEusqlt6iuTc5Yp0DTaMI0gchYMUU6
- d09xC3daHVNl4eYpKXdCtTULqDgLYvJaqu/CisyjR9EfMb9m/48VwtqrtXQvAn2ajk
- 604rpQLlvC8ANUeCmYBG9gqepAqN8meE8uhKFE3luHoxPQCVIqVRwDlzVOcj2pmgWP
- LhewRDKOao5MtmsyS8iUNT3n0Hrl2ulX1nLnSB1GGwgzyQDz+iYT9NXkYlp0+2hyXc
- wq3h5TLvSupI3PTtBQdS55ZVxVF3dEkUNlnOp/gJOp6ho0n+xHbr2WyB+o2FAk3h3f
- 9dMLmQBg5lw8w==
-Date: Mon, 17 Jul 2023 10:50:33 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v1] MAINTAINERS: Add Boris Brezillon as Panfrost driver
- maintainer
-Message-ID: <20230717105033.4805a864@collabora.com>
-In-Reply-To: <20230717081544.1068254-1-dmitry.osipenko@collabora.com>
-References: <20230717081544.1068254-1-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD18E10E07E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:59:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A059DD75;
+ Mon, 17 Jul 2023 02:00:12 -0700 (PDT)
+Received: from [10.57.37.37] (unknown [10.57.37.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 20C463F73F;
+ Mon, 17 Jul 2023 01:59:27 -0700 (PDT)
+Message-ID: <31f04dca-f7b7-e899-07ee-8c5f2dd55494@arm.com>
+Date: Mon, 17 Jul 2023 09:59:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v1] drm/panfrost: Sync IRQ by job's timeout handler
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230717065254.1061033-1-dmitry.osipenko@collabora.com>
+ <20230717090506.2ded4594@collabora.com>
+ <80de081a-e443-85a2-1a61-6a8885e8d529@collabora.com>
+ <20230717094905.7a1ee007@collabora.com>
+ <0b527996-342b-da44-61dd-38743db80cda@arm.com>
+ <20230717104955.268d84a8@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230717104955.268d84a8@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,42 +48,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Jul 2023 11:15:44 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-
-> Add Boris Brezillon as Panfrost driver maintainer. Boris is a new lead
-> developer of the Panfrost Mesa driver and main developer behind the
-> upcoming Panthor kernel driver that will serve next-gen Mali GPUs.
+On 17/07/2023 09:49, Boris Brezillon wrote:
+> On Mon, 17 Jul 2023 09:06:56 +0100
+> Steven Price <steven.price@arm.com> wrote:
 > 
-> Remove Tomeu and Alyssa, who left Collabora and stepped down from working
-> on Panfrost.
+>> On 17/07/2023 08:49, Boris Brezillon wrote:
+>>> On Mon, 17 Jul 2023 10:20:02 +0300
+>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>>   
+>>>> Hi,
+>>>>
+>>>> On 7/17/23 10:05, Boris Brezillon wrote:  
+>>>>> Hi Dmitry,
+>>>>>
+>>>>> On Mon, 17 Jul 2023 09:52:54 +0300
+>>>>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>>>>     
+>>>>>> Panfrost IRQ handler may stuck for a long time, for example this happens
+>>>>>> when there is a bad HDMI connection and HDMI handler takes a long time to
+>>>>>> finish processing, holding Panfrost. Make Panfrost's job timeout handler
+>>>>>> to sync IRQ before checking fence signal status in order to prevent
+>>>>>> spurious job timeouts due to a slow IRQ processing.    
+>>>>>
+>>>>> Feels like the problem should be fixed in the HDMI encoder driver
+>>>>> instead, so it doesn't stall the whole system when processing its
+>>>>> IRQs (use threaded irqs, maybe). I honestly don't think blocking in the
+>>>>> job timeout path to flush IRQs is a good strategy.    
+>>>>
+>>>> The syncing is necessary to have for correctness regardless of whether
+>>>> it's HDMI problem or something else, there could be other reasons for
+>>>> CPU to delay IRQ processing. It's wrong to say that hw is hung, while
+>>>> it's not.  
+>>>
+>>> Well, hardware is effectively hung, if not indefinitely, at least
+>>> temporarily. All you do here is block in the timeout handler path
+>>> waiting for the GPU interrupt handlers to finish, handler that's
+>>> probably waiting in the queue, because the raw HDMI handler is blocking
+>>> it somehow. So, in the end, you might just be delaying the time of HWR a
+>>> bit more. I know it's not GPU's fault in that case, and the job could
+>>> have finished in time if the HDMI encoder hadn't stall the interrupt
+>>> handling pipeline, but I'm not sure we should care for that specific
+>>> situation. And more importantly, if it took more than 500ms to get a
+>>> frame rendered (or, in that case, to get the event that a frame is
+>>> rendered), you already lost, so I'm not sure correctness matters:
+>>> rendering didn't make it in time, and the watchdog kicked in to try and
+>>> unblock the situation. Feels like we're just papering over an HDMI
+>>> encoder driver bug here, really.  
+>>
+>> TLDR; I don't see any major downsides and it stops the GPU getting the 
+>> blame for something that isn't its fault.
 > 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  MAINTAINERS | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> True, but doing that will also give the impression that things run fine,
+> but very slowly, which would put the blame on the userspace driver :P.
+
+Maybe I'm tainted by years of the kernel driver getting the blame
+because it was the one that printed the message ;p
+
+>>
+>> I guess the question is whether panfrost should work on a system which 
+>> has terrible IRQ latency. At the moment we have a synchronize_irq() call 
+>> in panfrost_reset() which effectively does the same thing, but with all 
+>> the overhead/spew of resetting the GPU.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5d6536fef2fc..08dc75916148 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1615,9 +1615,8 @@ F:	drivers/gpu/drm/arm/display/komeda/
->  
->  ARM MALI PANFROST DRM DRIVER
->  M:	Rob Herring <robh@kernel.org>
-> -M:	Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> +M:	Boris Brezillon <boris.brezillon@collabora.com>
+> Unless I'm mistaken, the synchronize_irq() in panfrost_reset() is
+> mostly here to make sure there's no race between the interrupt
+> handler and the reset logic (we mask interrupts, and then synchronize,
+> guaranteeing that the interrupt handler won't be running after that
+> point), and it happens after we've printed the error message, so the
+> user knows something was blocked at least.
 
-Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+Yes the synchronize_irq() in panfrost_reset() is there to avoid a real
+race - but it has the side effect of flushing out the IRQ and therefore
+the job gets completed successfully. And in the high IRQ latency
+situation makes the actual reset redundant.
 
->  R:	Steven Price <steven.price@arm.com>
-> -R:	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
+>>
+>> Of course in the case Dmitry is actually talking about - it does seem 
+>> like the HDMI encoder has a bug which needs fixing. There are plenty of 
+>> other things that will break if IRQ latency gets that bad.
+> 
+> Yes, that's my point. The GPU driver is the only one to complain right
+> now, but the HDMI encoder behavior could be impacting other parts of
+> the system. Silently ignoring those weirdnesses sounds like a terrible
+> idea.
+
+Agreed - but making it look like a GPU driver bug isn't good either.
+
+>>
+>> I do wonder if it makes sense to only synchronize when it's needed, 
+>> e.g.:
+>>
+>> ----8<---
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index dbc597ab46fb..d96266b74e5c 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -720,6 +720,12 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+>>  	if (dma_fence_is_signaled(job->done_fence))
+>>  		return DRM_GPU_SCHED_STAT_NOMINAL;
+>>  
+>> +	/* Synchronize with the IRQ handler in case the IRQ latency is bad */
+>> +	synchronize_irq(pfdev->js->irq);
+>> +	/* Recheck if the job is now complete */
+>> +	if (dma_fence_is_signaled(job->done_fence))
+>> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+>> +
+>>  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+>>  		js,
+>>  		job_read(pfdev, JS_CONFIG(js)),
+>> ----8<---
+>>
+>> I don't have any data as to how often we hit the case where the DRM 
+>> scheduler calls the timeout but we've already signalled - so the extra 
+>> check might be overkill.
+> 
+> Right, it's not so much about the overhead of the synchronize_irq()
+> call (even though my first reply complained about that :-)), but more
+> about silently ignoring system misbehaviors. So I guess I'd be fine with
+> a version printing a dev_warn("Unexpectedly high interrupt latency")
+> when synchronize_irq() unblocks the situation, which means you'd still
+> have to do it in two steps.
+
+I like this idea - it still warns so it's obvious there's something
+wrong with the system, and it makes it clear it's not the GPU's fault.
+
+Steve
+
 
