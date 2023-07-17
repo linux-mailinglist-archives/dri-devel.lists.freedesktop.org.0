@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C5D75698E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 18:50:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F727569D6
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:08:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD3610E284;
-	Mon, 17 Jul 2023 16:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8351A10E287;
+	Mon, 17 Jul 2023 17:08:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E31610E284
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 16:50:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2261010E28F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 17:08:14 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxXetacbVkDgcGAA--.10671S3;
- Tue, 18 Jul 2023 00:50:34 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxEvB9dbVkowgGAA--.14963S3;
+ Tue, 18 Jul 2023 01:08:13 +0800 (CST)
 Received: from [10.20.42.43] (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxbSNIcbVko7MxAA--.23049S3; 
- Tue, 18 Jul 2023 00:50:33 +0800 (CST)
-Message-ID: <970f4a65-25dc-1805-3776-6447a61f77c5@loongson.cn>
-Date: Tue, 18 Jul 2023 00:50:16 +0800
+ AQAAf8DxviN8dbVkMLcxAA--.31462S3; 
+ Tue, 18 Jul 2023 01:08:12 +0800 (CST)
+Message-ID: <fbbc08de-043a-2622-7cd4-fa485129edaf@loongson.cn>
+Date: Tue, 18 Jul 2023 01:08:12 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [05/11] drm/tests: helpers: Create an helper to allocate a
  locking ctx
+Content-Language: en-US
 To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
 References: <20230710-kms-kunit-actions-rework-v1-5-722c58d72c72@kernel.org>
-Content-Language: en-US
 From: suijingfeng <suijingfeng@loongson.cn>
 In-Reply-To: <20230710-kms-kunit-actions-rework-v1-5-722c58d72c72@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxbSNIcbVko7MxAA--.23049S3
+X-CM-TRANSID: AQAAf8DxviN8dbVkMLcxAA--.31462S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxur1DGF43AF1DXw1rJF4xGrX_yoW5Cw45pF
- 4UAa40krWUtFZxCw1Iva4DZa4S9w4xXr1Uur97Zr45ZFWYgF9I9a1Dtr13urW5GrWDXF1I
- vF4a934Uua1jkrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxur1DGF43AF1DXw1rJF4xGrX_yoW5AF4UpF
+ 4UAa4vkrWUtFZxCw1Iva4DZa4Skw1xJr4xWr97Zr45ZFWYgFnxua1Dtr13urW5Gr4DXF4I
+ vF1avryUua1qkrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
  sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ 0xBIdaVrnRJUUU92b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
  e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Jr0_Gr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
- x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17
- McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
- I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
- JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
- v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
- 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
- IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8hiSPUUUUU==
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
+ xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+ AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
+ xVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+ AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
+ 42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
+ IF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVF
+ xhVjvjDU0xZFpf9x07j5WrAUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,6 +121,14 @@ On 2023/7/10 15:47, Maxime Ripard wrote:
 > +	int ret;
 > +
 > +	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+
+Because kunit_kzalloc() is also managed,
+
+Is there any possibility that kfree(ctx) get called before 
+action_drm_release_context(ctx) ?
+
+Currently, I can't find where the order is guaranteed.
+
 > +	KUNIT_ASSERT_NOT_NULL(test, ctx);
 > +
 > +	drm_modeset_acquire_init(ctx, 0);
@@ -135,23 +143,6 @@ On 2023/7/10 15:47, Maxime Ripard wrote:
 > +}
 > +EXPORT_SYMBOL_GPL(drm_kunit_helper_acquire_ctx_alloc);
 > +
-
-I think all of the patch inside this series are quite well.
-
-Personally, I can't find problems in it.
-
-
-But I still want to ask a question:
-
-Should the managed functions you introduced be prefixed with drmm_ 
-(instead of drm_) ?
-
-As mindless programmer may still want to call drm_modeset_acquire_fini() 
-on the pointer returned by
-
-drm_kunit_helper_acquire_ctx_alloc()?
-
-
 >   MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
 >   MODULE_LICENSE("GPL");
 > diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
