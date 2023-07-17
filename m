@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF26756607
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:14:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C6075660E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 16:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F4410E261;
-	Mon, 17 Jul 2023 14:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE24310E26D;
+	Mon, 17 Jul 2023 14:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9285510E25F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3000910E25F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 14:14:47 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 83D0A660701C;
- Mon, 17 Jul 2023 15:14:44 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 61AB86607065;
+ Mon, 17 Jul 2023 15:14:45 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689603285;
- bh=Tr3orzOYDdkQGSYDctxq9UCgUZnNKjA4Jv1f4ePhHyw=;
+ s=mail; t=1689603286;
+ bh=kKU4HTE/J0aKcQTNyeW8JikkjhCBaQvDbF5Kxj8x8Ac=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AAlzN98F7xO+Rtfr+7t6XCh2o7uQEWNaBW+SDM2sC8CTiLUEkNWrWetY5H79XzYcd
- 09yQ2wjXCSFiipcvxowwky6CwLi+/Njp2lJMzAywsiqgwLL/5H4nJskgOTOzgAvMZZ
- HlQQzrwz8078V5L1rtvUdkyIs4zCDHG7ILgV+WsGdNWaoXoyiO5Vb/o4tQzkLeDMfm
- nBgsOxz3/iXRqwyQ/CxTxZLN391gxLYNENaBTUX95TnnWuOIMCCetxkR/ZX78DAIS5
- p3JB9abSLITqZLXN42+O5W02q/yWPwXrnfBNw/uzG+1/8TwC/Xj33+Jgn0QC/jQ+Eh
- g5XO5YEpAFgoQ==
+ b=V9dF57QcRiObKK67hOr4s5T5zw3R5AYW2tB0g1jsSSlvILbDFACdFMQEK84l/5Hd9
+ w03KHbK18/q7dUuu6Lz0QCOsCxrUU78SvI9drbtUBjPW0YjbvuuNsBl+Mpsvdlj38E
+ YEZdiQDeMTzBhozuYzzl/lBbGGvJLWqcyJRNh0Gz+CE5pHJf6ac/v5zMTRR8gp35MV
+ AzzprVD9plVViIjRD8nK9xbRTD2z6Z5m6BF9x7wFINyGmNQtWpxfeNWGSi1tAFbeJc
+ lT2gdCF+4hSYFlxps/1lAZTw6wiHZtS8YN5PhdKJSb1P18ONQlwoBjRM+BLZ6xIb/u
+ ZkKz6xLUdwS5A==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v6 02/11] drm/mediatek: dp: Move AUX and panel poweron/off
- sequence to function
-Date: Mon, 17 Jul 2023 16:14:29 +0200
-Message-Id: <20230717141438.274419-3-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v6 03/11] drm/mediatek: dp: Change logging to dev for
+ mtk_dp_aux_transfer()
+Date: Mon, 17 Jul 2023 16:14:30 +0200
+Message-Id: <20230717141438.274419-4-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
 References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
@@ -60,151 +60,54 @@ Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Everytime we run bridge detection and/or EDID read we run a poweron
-and poweroff sequence for both the AUX and the panel; moreover, this
-is also done when enabling the bridge in the .atomic_enable() callback.
+Change logging from drm_{err,info}() to dev_{err,info}() in functions
+mtk_dp_aux_transfer() and mtk_dp_aux_do_transfer(): this will be
+essential to avoid getting NULL pointer kernel panics if any kind
+of error happens during AUX transfers happening before the bridge
+is attached.
 
-Move this power on/off sequence to a new mtk_dp_aux_panel_poweron()
-function as to commonize it.
-Note that, before this commit, in mtk_dp_bridge_atomic_enable() only
-the AUX was getting powered on but the panel was left powered off if
-the DP cable wasn't plugged in while now we unconditionally send a D0
-request and this is done for two reasons:
- - First, whether this request fails or not, it takes the same time
-   and anyway the DP hardware won't produce any error (or, if it
-   does, it's ignorable because it won't block further commands)
- - Second, training the link between a sleeping/standby/unpowered
-   display makes little sense.
+This may potentially start happening in a later commit implementing
+aux-bus support, as AUX transfers will be triggered from the panel
+driver (for EDID) before the mtk-dp bridge gets attached, and it's
+done in preparation for the same.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 76 ++++++++++++-------------------
- 1 file changed, 30 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index c58b775877a3..77da0d002e9f 100644
+index 77da0d002e9f..98f63d8230e4 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dp.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1251,6 +1251,29 @@ static void mtk_dp_audio_mute(struct mtk_dp *mtk_dp, bool mute)
- 			   val[2], AU_TS_CFG_DP_ENC0_P0_MASK);
- }
+@@ -847,7 +847,7 @@ static int mtk_dp_aux_do_transfer(struct mtk_dp *mtk_dp, bool is_read, u8 cmd,
+ 		u32 phy_status = mtk_dp_read(mtk_dp, MTK_DP_AUX_P0_3628) &
+ 				 AUX_RX_PHY_STATE_AUX_TX_P0_MASK;
+ 		if (phy_status != AUX_RX_PHY_STATE_AUX_TX_P0_RX_IDLE) {
+-			drm_err(mtk_dp->drm_dev,
++			dev_err(mtk_dp->dev,
+ 				"AUX Rx Aux hang, need SW reset\n");
+ 			return -EIO;
+ 		}
+@@ -2054,7 +2054,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+ 		is_read = true;
+ 		break;
+ 	default:
+-		drm_err(mtk_aux->drm_dev, "invalid aux cmd = %d\n",
++		dev_err(mtk_dp->dev, "invalid aux cmd = %d\n",
+ 			msg->request);
+ 		ret = -EINVAL;
+ 		goto err;
+@@ -2070,7 +2070,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+ 					     to_access, &msg->reply);
  
-+static void mtk_dp_aux_panel_poweron(struct mtk_dp *mtk_dp, bool pwron)
-+{
-+	if (pwron) {
-+		/* power on aux */
-+		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+				   DP_PWR_STATE_BANDGAP_TPLL_LANE,
-+				   DP_PWR_STATE_MASK);
-+
-+		/* power on panel */
-+		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
-+		usleep_range(2000, 5000);
-+	} else {
-+		/* power off panel */
-+		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
-+		usleep_range(2000, 3000);
-+
-+		/* power off aux */
-+		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-+				   DP_PWR_STATE_BANDGAP_TPLL,
-+				   DP_PWR_STATE_MASK);
-+	}
-+}
-+
- static void mtk_dp_power_enable(struct mtk_dp *mtk_dp)
- {
- 	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
-@@ -1941,16 +1964,9 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
- 	if (!mtk_dp->train_info.cable_plugged_in)
- 		return ret;
- 
--	if (!enabled) {
--		/* power on aux */
--		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--				   DP_PWR_STATE_BANDGAP_TPLL_LANE,
--				   DP_PWR_STATE_MASK);
-+	if (!enabled)
-+		mtk_dp_aux_panel_poweron(mtk_dp, true);
- 
--		/* power on panel */
--		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
--		usleep_range(2000, 5000);
--	}
- 	/*
- 	 * Some dongles still source HPD when they do not connect to any
- 	 * sink device. To avoid this, we need to read the sink count
-@@ -1962,16 +1978,8 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
- 	if (DP_GET_SINK_COUNT(sink_count))
- 		ret = connector_status_connected;
- 
--	if (!enabled) {
--		/* power off panel */
--		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
--		usleep_range(2000, 3000);
--
--		/* power off aux */
--		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--				   DP_PWR_STATE_BANDGAP_TPLL,
--				   DP_PWR_STATE_MASK);
--	}
-+	if (!enabled)
-+		mtk_dp_aux_panel_poweron(mtk_dp, false);
- 
- 	return ret;
- }
-@@ -1987,15 +1995,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
- 
- 	if (!enabled) {
- 		drm_atomic_bridge_chain_pre_enable(bridge, connector->state->state);
--
--		/* power on aux */
--		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--				   DP_PWR_STATE_BANDGAP_TPLL_LANE,
--				   DP_PWR_STATE_MASK);
--
--		/* power on panel */
--		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
--		usleep_range(2000, 5000);
-+		mtk_dp_aux_panel_poweron(mtk_dp, true);
- 	}
- 
- 	new_edid = drm_get_edid(connector, &mtk_dp->aux.ddc);
-@@ -2015,15 +2015,7 @@ static struct edid *mtk_dp_get_edid(struct drm_bridge *bridge,
- 	}
- 
- 	if (!enabled) {
--		/* power off panel */
--		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
--		usleep_range(2000, 3000);
--
--		/* power off aux */
--		mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--				   DP_PWR_STATE_BANDGAP_TPLL,
--				   DP_PWR_STATE_MASK);
--
-+		mtk_dp_aux_panel_poweron(mtk_dp, false);
- 		drm_atomic_bridge_chain_post_disable(bridge, connector->state->state);
- 	}
- 
-@@ -2183,15 +2175,7 @@ static void mtk_dp_bridge_atomic_enable(struct drm_bridge *bridge,
- 		return;
- 	}
- 
--	/* power on aux */
--	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
--			   DP_PWR_STATE_BANDGAP_TPLL_LANE,
--			   DP_PWR_STATE_MASK);
--
--	if (mtk_dp->train_info.cable_plugged_in) {
--		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D0);
--		usleep_range(2000, 5000);
--	}
-+	mtk_dp_aux_panel_poweron(mtk_dp, true);
- 
- 	/* Training */
- 	ret = mtk_dp_training(mtk_dp);
+ 		if (ret) {
+-			drm_info(mtk_dp->drm_dev,
++			dev_info(mtk_dp->dev,
+ 				 "Failed to do AUX transfer: %d\n", ret);
+ 			goto err;
+ 		}
 -- 
 2.40.1
 
