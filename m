@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4692756007
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 12:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85871756012
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 12:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 647B310E21C;
-	Mon, 17 Jul 2023 10:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B120810E220;
+	Mon, 17 Jul 2023 10:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1C410E21C
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:03:38 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-5701e8f2b79so43936697b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 03:03:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689588217; x=1692180217;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=r38XqAfbSP4Ur+0AuPdJrDlGHf8b+ew1arLdw+Z2HI0=;
- b=JSoNTMbqPYtHOk5U2Tcuh+FJv0JNnsmwc17trCeWx+maXpRBPZ8q3B83S4RiYiSBx+
- C29dz5fxUdw+AqSmdDCUulQujTAWZSB2+qA/MRzmNlc5C1tv0gPQVCRZ0fnmBco7DbYc
- QgHX4iDzcq5kGKUUH199EXuS5t5MNoGfJI0oesz9AdNYwareIraJT7oe736UiDmyucW2
- AI3U2MdVykYvOG+K+L6NHEaWQr0dY3Z/3ETldEGW25PmB18rq2QJGBzQGdAxxsFwwKX4
- 9YMSpUvrwnzYk4lmNSR3iVFbUtNlqJF5CLuKX08AfK1Jdg9T4nL6hrfaZ+ye5gylp9Mm
- fNqA==
-X-Gm-Message-State: ABy/qLYMlk9S/8WAQ84Y3ASVARmVejHQSLWHzZSSoErC75YIN6NIYLwq
- UQ+mtTreGTWhu6LEe1Du8Z9vrbBGZ2bZmQ==
-X-Google-Smtp-Source: APBJJlExEvjM+m2cle1QMzKL8Y842Rxa8CDwiHQ1EUKmjH3S5QKp281LBNhx3LLVsUVPVnChLlLZjA==
-X-Received: by 2002:a81:83d0:0:b0:577:21ff:4d47 with SMTP id
- t199-20020a8183d0000000b0057721ff4d47mr10846497ywf.7.1689588217409; 
- Mon, 17 Jul 2023 03:03:37 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
- b8-20020a816708000000b0056d31a089e9sm3726571ywc.126.2023.07.17.03.03.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jul 2023 03:03:37 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-cada5e4e3f6so4381609276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 03:03:37 -0700 (PDT)
-X-Received: by 2002:a25:b90a:0:b0:c63:a04d:ad34 with SMTP id
- x10-20020a25b90a000000b00c63a04dad34mr9332442ybj.64.1689588216863; Mon, 17
- Jul 2023 03:03:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1689252746.git.geert@linux-m68k.org>
- <87zg3w7zlz.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdV_qNfytroBEfqDMe04POt27s9o=FevXht7N4YXRmBz8Q@mail.gmail.com>
- <87o7kakijn.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdURa8E9cmphbDkTgS2o3ORWd7JAj68PV9bxd3aygKZRJg@mail.gmail.com>
- <87jzuykhm5.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87jzuykhm5.fsf@minerva.mail-host-address-is-not-set>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 17 Jul 2023 12:03:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUiEXgk51Bjo+SdTXJz=bCrPzrcd8k1cZcEJUamsn0d1g@mail.gmail.com>
-Message-ID: <CAMuHMdUiEXgk51Bjo+SdTXJz=bCrPzrcd8k1cZcEJUamsn0d1g@mail.gmail.com>
-Subject: Re: [PATCH 0/8] drm: fb-helper/ssd130x: Add support for DRM_FORMAT_R1
-To: Javier Martinez Canillas <javierm@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4171E10E21E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:07:21 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qLL8L-00015l-Ud; Mon, 17 Jul 2023 12:07:14 +0200
+Message-ID: <66749b1b4523d2859b9fbc6e9120e5f1e887d531.camel@pengutronix.de>
+Subject: Re: [PATCH v1 8/8] drm/etnaviv: Add a helper to get a pointer to
+ the first available node
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Date: Mon, 17 Jul 2023 12:07:12 +0200
+In-Reply-To: <20230623100822.274706-9-sui.jingfeng@linux.dev>
+References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+ <20230623100822.274706-9-sui.jingfeng@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,58 +51,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>=20
+> This make the code in etnaviv_pdev_probe() less twisted, drop the referen=
+ce
+> to device node after finished. Also kill a double blank line.
+>=20
+I can't spot the double blank line you claim to remove.
 
-On Mon, Jul 17, 2023 at 11:33=E2=80=AFAM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> >> >> penguin in test004 is not displayed correctly. I was expecting that=
- to be
-> >> >> working correctly since you mentioned to be using the Linux logo on=
- boot.
-> >> >
-> >> > Linux has logos for displays using 2, 16, and 256 colors. Note that =
-the
-> >> > default logos are 80x80, which is larger than your display, so no lo=
-go
-> >> > is drawn.
-> >> > Fbtest has only the full color logo, so it will look bad on a monoch=
-rome
-> >> > display.
-> >>
-> >> I see. Should the test check for minimum num_colors and skip that test=
- then?
-> >
-> > The test still works (you did see an ugly black-and-white penguin), doe=
-sn't it?
->
-> Fair enough. But when it defaulted to XRGB8888, it looked better. So I
-> thought that it was a regression. No strong opinion though if the test
-> should be skipped or not.
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c | 32 ++++++++++++++++++---------
+>  1 file changed, 22 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etna=
+viv/etnaviv_drv.c
+> index 7d0eeab3e8b7..3446f8eabf59 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -27,6 +27,19 @@
+>   * DRM operations:
+>   */
+> =20
+> +/* If the DT contains at least one available GPU, return a pointer to it=
+ */
+> +
+I think the code in the function is simple enough that we don't need a
+comment explaining what it does.
 
-IC, fbtest's mono_match_color() just finds the closest color (black or
-white), while drm_fb_xrgb8888_to_gray8_line() uses a weighted average
-of the RGB components. That might make a small but visible difference.
+Regards,
+Lucas
 
-We could make it look even better using Floyd-Steinberg dithering... ;-)
-Fbtest does have an unused match_color_error() helper, so I must have
-had that in mind, initially...
+> +static struct device_node *etnaviv_of_first_node(void)
+> +{
+> +	struct device_node *np;
+> +
+> +	for_each_compatible_node(np, NULL, "vivante,gc") {
+> +		if (of_device_is_available(np))
+> +			return np;
+> +	}
+> +
+> +	return NULL;
+> +}
+> =20
+>  static void load_gpu(struct drm_device *dev)
+>  {
+> @@ -587,7 +600,7 @@ static const struct component_master_ops etnaviv_mast=
+er_ops =3D {
+>  static int etnaviv_pdev_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+> -	struct device_node *first_node =3D NULL;
+> +	struct device_node *first_node;
+>  	struct component_match *match =3D NULL;
+> =20
+>  	if (!dev->platform_data) {
+> @@ -597,11 +610,10 @@ static int etnaviv_pdev_probe(struct platform_devic=
+e *pdev)
+>  			if (!of_device_is_available(core_node))
+>  				continue;
+> =20
+> -			if (!first_node)
+> -				first_node =3D core_node;
+> -
+>  			drm_of_component_match_add(&pdev->dev, &match,
+>  						   component_compare_of, core_node);
+> +
+> +			of_node_put(core_node);
+>  		}
+>  	} else {
+>  		char **names =3D dev->platform_data;
+> @@ -634,8 +646,11 @@ static int etnaviv_pdev_probe(struct platform_device=
+ *pdev)
+>  	 * device as the GPU we found. This assumes that all Vivante
+>  	 * GPUs in the system share the same DMA constraints.
+>  	 */
+> -	if (first_node)
+> +	first_node =3D etnaviv_of_first_node();
+> +	if (first_node) {
+>  		of_dma_configure(&pdev->dev, first_node, true);
+> +		of_node_put(first_node);
+> +	}
+> =20
+>  	return component_master_add_with_match(dev, &etnaviv_master_ops, match)=
+;
+>  }
+> @@ -709,17 +724,14 @@ static int __init etnaviv_init(void)
+>  	 * If the DT contains at least one available GPU device, instantiate
+>  	 * the DRM platform device.
+>  	 */
+> -	for_each_compatible_node(np, NULL, "vivante,gc") {
+> -		if (!of_device_is_available(np))
+> -			continue;
+> +	np =3D etnaviv_of_first_node();
+> +	if (np) {
+>  		of_node_put(np);
+> =20
+>  		ret =3D etnaviv_create_platform_device("etnaviv",
+>  						     &etnaviv_platform_device);
+>  		if (ret)
+>  			goto unregister_platform_driver;
+> -
+> -		break;
+>  	}
+> =20
+>  	return 0;
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
