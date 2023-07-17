@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A61756161
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 13:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980D4756190
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 13:29:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D2810E045;
-	Mon, 17 Jul 2023 11:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1110F10E035;
+	Mon, 17 Jul 2023 11:28:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8547410E035;
- Mon, 17 Jul 2023 11:19:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689592745; x=1721128745;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5ayOVA/GQPLvpc8JskJdHeDy6bwdswbfsNy9l94v+t4=;
- b=MGOHK/gSh6PrqC+D8UjTgeQWSX9ETvtgKGDeEGXd62BYZuszEWjMq8HC
- 4ObtcVRld7uvyge5vaJY4UlUGZWnFhV4RpDuNKMDXeHNO/6jlKG4a1XeM
- AMXEr0/xeBfZBxOryNcWfNA44iugF0MulV9a57xT5a3WLMHlTUaLH4+Qa
- FJuRd968qJDiB4c1fubJGBqgOjtSwwedfIb84/kcx0sCMEUP56vamwJNO
- zFXBZXUmEY+9JH4KWCM6yk1NqcDi1FGTNzp5WeFeJ2EQDQXpem0+8F9l8
- YJJF6GRBOrWYfCaHSU18xUNFigswuASlk4dJJwuY5E3ClGoptrtFeLM+L A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="346209416"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="346209416"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 04:19:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10773"; a="836847162"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="836847162"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO jkrzyszt-mobl2.lan)
- ([10.213.9.176])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 04:18:51 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915: Fix premature release of request's reusable
- memory
-Date: Mon, 17 Jul 2023 13:17:47 +0200
-Message-ID: <20230717111746.17269-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 091DF10E0EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 11:28:54 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-579e5d54e68so47395477b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 04:28:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689593333; x=1692185333;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ovpqli4VYl8QA6u7r093Hwe7E7RuqANjeNVwPKe59Vg=;
+ b=eN6IWv08c9DARoxPVycjWfBXRKNjkcCokKJbscIDc9na6e+vhW2Dpw7CnMkbQ+9Q2i
+ UGr/+owkXaLP0QHfHTx2HtwvhBYEtuSN6Xdr7d2dCbhkEzZMox5QgujLUBzgK2vqf7aX
+ hDPjffH2l7ujQ7Qb0LCK/HWA7FK8Ilas5N39A7WHDtNcVNmpz+FQ8w0Ve/P/Z9SH05s5
+ n909eP9gyd3kVunEw+8Zv9fInBrsTvHirq4SowbTksHuyD8ABb6BIB1VPxT5hJzoZUbG
+ 7b8Tvq30pkY4SXqA4inqubXa0YZuSW0q3r6+UjTgb/f7DK5n7b9U9ngxtia8cDxfHukA
+ hN0g==
+X-Gm-Message-State: ABy/qLa+ckJ4RGI1CBjjukjQSNNcl/nUkfbquxHVP32B/gU8WlyOHPFk
+ NWRdeTqfPLbiJkleyf8BAeUylq7aX+rlbQ==
+X-Google-Smtp-Source: APBJJlHFtXUC8YB4pzabSHzx2KQGfrHUCTjqnRm1uMnRgOe6vtUsGYU5ridS/72OFF0Dhoq0zK5amQ==
+X-Received: by 2002:a0d:fac4:0:b0:573:b24c:a527 with SMTP id
+ k187-20020a0dfac4000000b00573b24ca527mr14320749ywf.41.1689593333572; 
+ Mon, 17 Jul 2023 04:28:53 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
+ [209.85.219.181]) by smtp.gmail.com with ESMTPSA id
+ b7-20020a0dc007000000b0057a0e5b18e0sm3757900ywd.142.2023.07.17.04.28.53
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Jul 2023 04:28:53 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-bfe6ea01ff5so4613734276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 04:28:53 -0700 (PDT)
+X-Received: by 2002:a25:23c7:0:b0:c60:fb80:99f7 with SMTP id
+ j190-20020a2523c7000000b00c60fb8099f7mr10930768ybj.16.1689593333040; Mon, 17
+ Jul 2023 04:28:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230713163213.1028952-1-javierm@redhat.com>
+ <bbbb18e0-5de1-5155-c6b2-52a2b1d75898@suse.de>
+ <CAMuHMdVuLBTBymfEXDgHsDVavH6Ggq53fPep0T=dEWbztBWkjw@mail.gmail.com>
+ <87h6q2kh6s.fsf@minerva.mail-host-address-is-not-set>
+ <87bkgaken1.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87bkgaken1.fsf@minerva.mail-host-address-is-not-set>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 17 Jul 2023 13:28:40 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVYdL0y2-tVfG3BZbCtR-0xOMz9tu4R4=CJqxqwgVVmcw@mail.gmail.com>
+Message-ID: <CAMuHMdVYdL0y2-tVfG3BZbCtR-0xOMz9tu4R4=CJqxqwgVVmcw@mail.gmail.com>
+Subject: Re: [PATCH] drm/ssd130x: Fix an oops when attempting to update a
+ disabled plane
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,271 +74,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Infinite waits for completion of GPU activity have been observed in CI,
-mostly inside __i915_active_wait(), triggered by igt@gem_barrier_race or
-igt@perf@stress-open-close.  Root cause analysis, based of ftrace dumps
-generated with a lot of extra trace_printk() calls added to the code,
-revealed loops of request dependencies being accidentally built,
-preventing the requests from being processed, each waiting for completion
-of another one's activity.
+Hi Javier,
 
-After we substitute a new request for a last active one tracked on a
-timeline, we set up a dependency of our new request to wait on completion
-of current activity of that previous one.  While doing that, we must take
-care of keeping the old request still in memory until we use its
-attributes for setting up that await dependency, or we can happen to set
-up the await dependency on an unrelated request that already reuses the
-memory previously allocated to the old one, already released.  Combined
-with perf adding consecutive kernel context remote requests to different
-user context timelines, unresolvable loops of await dependencies can be
-built, leading do infinite waits.
+On Mon, Jul 17, 2023 at 12:37=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Javier Martinez Canillas <javierm@redhat.com> writes:
+> >> On Mon, Jul 17, 2023 at 10:48=E2=80=AFAM Thomas Zimmermann <tzimmerman=
+n@suse.de> wrote:
+> >>> After some discussion on IRC, I'd suggest to allocate the buffer
+> >>> somewhere within probe. So it will always be there when the plane cod=
+e runs.
+> >>>
+> >>> A full fix would be to allocate the buffer memory as part of the plan=
+e
+> >>> state and/or the plane's atomic_check. That's a bit more complicated =
+if
+> >>> you want to shared the buffer memory across plane updates.
+> >>
+> >> Note that actually two buffers are involved: data_array (monochrome,
+> >> needed for each update), and buffer (R8, only needed when converting
+> >> from XR24 to R1).
+> >>
+> >> For the former, I agree, as it's always needed.
+> >> For the latter, I'm afraid it would set a bad example: while allocatin=
+g
+> >> a possibly-unused buffer doesn't hurt for small displays, it would
+> >> mean wasting 1 MiB in e.g. the repaper driver (once it has gained
+> >> support for R1 ;^).
+> >>
+> >
+> > Maybe another option is to allocate on the struct drm_mode_config_funcs
+> > .fb_create callback? That way, we can get the mode_cmd->pixel_format an=
+d
+> > determine if only "data_array" buffer must be allocated or also "buffer=
+".
+> >
+>
+> Something like the following patch:
+>
+> From 307bf062c9a999693a4a68c6740ec55b81f796b8 Mon Sep 17 00:00:00 2001
+> From: Javier Martinez Canillas <javierm@redhat.com>
+> Date: Mon, 17 Jul 2023 12:30:35 +0200
+> Subject: [PATCH v2] drm/ssd130x: Fix an oops when attempting to update a
+>  disabled plane
+>
+> Geert reports that the following NULL pointer dereference happens for him
+> after commit 49d7d581ceaf ("drm/ssd130x: Don't allocate buffers on each
+> plane update"):
+>
+>     [drm] Initialized ssd130x 1.0.0 20220131 for 0-003c on minor 0
+>     ssd130x-i2c 0-003c: [drm] surface width(128), height(32), bpp(1)
+>     and format(R1   little-endian (0x20203152))
+>     Unable to handle kernel NULL pointer dereference at virtual address 0=
+0000000
+>     Oops [#1]
+>     CPU: 0 PID: 1 Comm: swapper Not tainted
+>     6.5.0-rc1-orangecrab-02219-g0a529a1e4bf4 #565
+>     epc : ssd130x_update_rect.isra.0+0x13c/0x340
+>      ra : ssd130x_update_rect.isra.0+0x2bc/0x340
+>     ...
+>     status: 00000120 badaddr: 00000000 cause: 0000000f
+>     [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
+>     [<c0304200>] ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
+>     [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
+>     [<c02f9314>] drm_atomic_helper_commit_tail+0x5c/0xb4
+>     [<c02f94fc>] commit_tail+0x190/0x1b8
+>     [<c02f99fc>] drm_atomic_helper_commit+0x194/0x1c0
+>     [<c02c5d00>] drm_atomic_commit+0xa4/0xe4
+>     [<c02cce40>] drm_client_modeset_commit_atomic+0x244/0x278
+>     [<c02ccef0>] drm_client_modeset_commit_locked+0x7c/0x1bc
+>     [<c02cd064>] drm_client_modeset_commit+0x34/0x64
+>     [<c0301a78>] __drm_fb_helper_restore_fbdev_mode_unlocked+0xc4/0xe8
+>     [<c0303424>] drm_fb_helper_set_par+0x38/0x58
+>     [<c027c410>] fbcon_init+0x294/0x534
+>     ...
+>
+> The problem is that fbcon calls fbcon_init() which triggers a DRM modeset
+> and this leads to drm_atomic_helper_commit_planes() attempting to commit
+> the atomic state for all planes, even the ones whose CRTC is not enabled.
+>
+> Since the primary plane buffer is allocated in the encoder .atomic_enable
+> callback, this happens after that initial modeset commit and leads to the
+> mentioned NULL pointer dereference.
+>
+> Fix this by allocating the buffers in the struct drm_mode_config_funcs
+> .fb_create, instead of doing it when the encoder is enabled.
+>
+> Also, make a couple of improvements to the ssd130x_buf_alloc() function:
+>
+>   * Make the allocation smarter to only allocate the intermediate buffer
+>     if the native R1 format is not used. Otherwise is not needed, since
+>     there is no XRGB8888 to R1 format conversion during plane updates.
+>
+>   * Allocate the buffers as device managed resources, this is enough and
+>     simplifies the logic since there is no need to explicitly free them.
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>
+> Changes in v2:
+> - Move the buffers allocation to .fb_create instead of preventing atomic
+>   updates for disable planes.
+> - Don't allocate the intermediate buffer when using the native R1 format.
+> - Allocate buffers as device managed resources.
 
-We obtain a pointer to the previous request to wait upon when we
-substitute it with a pointer to our new request in an active tracker,
-e.g. in intel_timeline.last_request.  In some processing paths we protect
-that old request from being freed before we use it by getting a reference
-to it under RCU protection, but in others, e.g.  __i915_request_commit()
--> __i915_request_add_to_timeline() -> __i915_request_ensure_ordering(),
-we don't.  But anyway, since the requests' memory is SLAB_FAILSAFE_BY_RCU,
-that RCU protection is not sufficient against reuse of memory.
+Thanks for the update!
 
-We could protect i915_request's memory from being prematurely reused by
-calling its release function via call_rcu() and using rcu_read_lock()
-consequently, as proposed in v1.  However, that approach leads to
-significant (up to 10 times) increase of SLAB utilization by i915_request
-SLAB cache.  Another potential approach is to take a reference to the
-previous active fence.
+> --- a/drivers/gpu/drm/solomon/ssd130x.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> @@ -146,38 +146,35 @@ static inline struct ssd130x_device *drm_to_ssd130x=
+(struct drm_device *drm)
+>         return container_of(drm, struct ssd130x_device, drm);
+>  }
+>
+> -static int ssd130x_buf_alloc(struct ssd130x_device *ssd130x)
+> +static int ssd130x_buf_alloc(struct ssd130x_device *ssd130x, __u32 pixel=
+_format)
+>  {
+>         unsigned int page_height =3D ssd130x->device_info->page_height;
+>         unsigned int pages =3D DIV_ROUND_UP(ssd130x->height, page_height)=
+;
+>         const struct drm_format_info *fi;
+>         unsigned int pitch;
+>
+> -       fi =3D drm_format_info(DRM_FORMAT_R1);
+> -       if (!fi)
+> -               return -EINVAL;
+> +       /* If the native format is not used an intermediate buffer is nee=
+ded */
+> +       if (pixel_format !=3D DRM_FORMAT_R1) {
+> +               fi =3D drm_format_info(DRM_FORMAT_R1);
+> +               if (!fi)
+> +                       return -EINVAL;
+>
+> -       pitch =3D drm_format_info_min_pitch(fi, 0, ssd130x->width);
+> +               pitch =3D drm_format_info_min_pitch(fi, 0, ssd130x->width=
+);
+>
+> -       ssd130x->buffer =3D kcalloc(pitch, ssd130x->height, GFP_KERNEL);
+> -       if (!ssd130x->buffer)
+> -               return -ENOMEM;
+> +               ssd130x->buffer =3D devm_kcalloc(ssd130x->dev, pitch, ssd=
+130x->height,
+> +                                              GFP_KERNEL);
 
-When updating an active fence tracker, we first lock the new fence,
-substitute a pointer of the current active fence with the new one, then we
-lock the substituted fence.  With this approach, there is a time window
-after the substitution and before the lock when the request can be
-concurrently released by an interrupt handler and its memory reused, then
-we may happen to lock and return a new, unrelated request.
+This should check if the buffer was allocated before.
+Else an application creating two or more frame buffers will keep
+on allocating new buffers.  The same is true for fbdev emulation vs.
+a userspace application.
 
-Always get a reference to the current active fence first, before
-replacing it with a new one.  Having it protected from premature release
-and reuse, lock it and then replace with the new one but only if not
-yet signalled via a potential concurrent interrupt nor replaced with
-another one by a potential concurrent thread, otherwise retry, starting
-from getting a reference to the new current one.  Adjust users to not
-get a reference to the previous active fence themselves and always put the
-reference got by __i915_active_fence_set() when no longer needed.
+> +               if (!ssd130x->buffer)
+> +                       return -ENOMEM;
+> +       }
+>
+> -       ssd130x->data_array =3D kcalloc(ssd130x->width, pages, GFP_KERNEL=
+);
+> -       if (!ssd130x->data_array) {
+> -               kfree(ssd130x->buffer);
+> +       ssd130x->data_array =3D devm_kcalloc(ssd130x->dev, ssd130x->width=
+, pages,
+> +                                          GFP_KERNEL);
 
-v2: Protect request's memory by getting a reference to it in favor of
-    delegating its release to call_rcu() (Chris)
+Same here.
 
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8211
-Fixes: df9f85d8582e ("drm/i915: Serialise i915_active_fence_set() with itself")
-Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.6+
----
- drivers/gpu/drm/i915/i915_active.c  | 99 ++++++++++++++++++++---------
- drivers/gpu/drm/i915/i915_request.c | 11 ++++
- 2 files changed, 81 insertions(+), 29 deletions(-)
+> +       if (!ssd130x->data_array)
+>                 return -ENOMEM;
+> -       }
 
-diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-index 8ef93889061a6..53c2c669ad003 100644
---- a/drivers/gpu/drm/i915/i915_active.c
-+++ b/drivers/gpu/drm/i915/i915_active.c
-@@ -449,8 +449,11 @@ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
- 		}
- 	} while (unlikely(is_barrier(active)));
- 
--	if (!__i915_active_fence_set(active, fence))
-+	fence = __i915_active_fence_set(active, fence);
-+	if (!fence)
- 		__i915_active_acquire(ref);
-+	else
-+		dma_fence_put(fence);
- 
- out:
- 	i915_active_release(ref);
-@@ -469,13 +472,9 @@ __i915_active_set_fence(struct i915_active *ref,
- 		return NULL;
- 	}
- 
--	rcu_read_lock();
- 	prev = __i915_active_fence_set(active, fence);
--	if (prev)
--		prev = dma_fence_get_rcu(prev);
--	else
-+	if (!prev)
- 		__i915_active_acquire(ref);
--	rcu_read_unlock();
- 
- 	return prev;
- }
-@@ -1019,10 +1018,11 @@ void i915_request_add_active_barriers(struct i915_request *rq)
-  *
-  * Records the new @fence as the last active fence along its timeline in
-  * this active tracker, moving the tracking callbacks from the previous
-- * fence onto this one. Returns the previous fence (if not already completed),
-- * which the caller must ensure is executed before the new fence. To ensure
-- * that the order of fences within the timeline of the i915_active_fence is
-- * understood, it should be locked by the caller.
-+ * fence onto this one. Gets and returns a reference to the previous fence
-+ * (if not already completed), which the caller must put after making sure
-+ * that it is executed before the new fence. To ensure that the order of
-+ * fences within the timeline of the i915_active_fence is understood, it
-+ * should be locked by the caller.
-  */
- struct dma_fence *
- __i915_active_fence_set(struct i915_active_fence *active,
-@@ -1031,7 +1031,23 @@ __i915_active_fence_set(struct i915_active_fence *active,
- 	struct dma_fence *prev;
- 	unsigned long flags;
- 
--	if (fence == rcu_access_pointer(active->fence))
-+	/*
-+	 * In case of fences embedded in i915_requests, their memory is
-+	 * SLAB_FAILSAFE_BY_RCU, then it can be reused right after release
-+	 * by new requests.  Then, there is a risk of passing back a pointer
-+	 * to a new, completely unrelated fence that reuses the same memory
-+	 * while tracked under a different active tracker.  Combined with i915
-+	 * perf open/close operations that build await dependencies between
-+	 * engine kernel context requests and user requests from different
-+	 * timelines, this can lead to dependency loops and infinite waits.
-+	 *
-+	 * As a countermeasure, we try to get a reference to the active->fence
-+	 * first, so if we succeed and pass it back to our user then it is not
-+	 * released and potentially reused by an unrelated request before the
-+	 * user has a chance to set up an await dependency on it.
-+	 */
-+	prev = i915_active_fence_get(active);
-+	if (fence == prev)
- 		return fence;
- 
- 	GEM_BUG_ON(test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags));
-@@ -1040,27 +1056,56 @@ __i915_active_fence_set(struct i915_active_fence *active,
- 	 * Consider that we have two threads arriving (A and B), with
- 	 * C already resident as the active->fence.
- 	 *
--	 * A does the xchg first, and so it sees C or NULL depending
--	 * on the timing of the interrupt handler. If it is NULL, the
--	 * previous fence must have been signaled and we know that
--	 * we are first on the timeline. If it is still present,
--	 * we acquire the lock on that fence and serialise with the interrupt
--	 * handler, in the process removing it from any future interrupt
--	 * callback. A will then wait on C before executing (if present).
--	 *
--	 * As B is second, it sees A as the previous fence and so waits for
--	 * it to complete its transition and takes over the occupancy for
--	 * itself -- remembering that it needs to wait on A before executing.
-+	 * Both A and B have got a reference to C or NULL, depending on the
-+	 * timing of the interrupt handler.  Let's assume that if A has got C
-+	 * then it has locked C first (before B).
- 	 *
- 	 * Note the strong ordering of the timeline also provides consistent
- 	 * nesting rules for the fence->lock; the inner lock is always the
- 	 * older lock.
- 	 */
- 	spin_lock_irqsave(fence->lock, flags);
--	prev = xchg(__active_fence_slot(active), fence);
--	if (prev) {
--		GEM_BUG_ON(prev == fence);
-+	if (prev)
- 		spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-+
-+	/*
-+	 * A does the cmpxchg first, and so it sees C or NULL, as before, or
-+	 * something else, depending on the timing of other threads and/or
-+	 * interrupt handler.  If not the same as before then A unlocks C if
-+	 * applicable and retries, starting from an attempt to get a new
-+	 * active->fence.  Meanwhile, B follows the same path as A.
-+	 * Once A succeeds with cmpxch, B fails again, retires, gets A from
-+	 * active->fence, locks it as soon as A completes, and possibly
-+	 * succeeds with cmpxchg.
-+	 */
-+	while (!try_cmpxchg(__active_fence_slot(active), &prev, fence)) {
-+		if (prev) {
-+			spin_unlock(prev->lock);
-+			dma_fence_put(prev);
-+		}
-+		spin_unlock_irqrestore(fence->lock, flags);
-+
-+		prev = i915_active_fence_get(active);
-+		GEM_BUG_ON(prev == fence);
-+
-+		spin_lock_irqsave(fence->lock, flags);
-+		if (prev)
-+			spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-+	}
-+
-+	/*
-+	 * If prev is NULL then the previous fence must have been signaled
-+	 * and we know that we are first on the timeline.  If it is still
-+	 * present then, having the lock on that fence already acquired, we
-+	 * serialise with the interrupt handler, in the process of removing it
-+	 * from any future interrupt callback.  A will then wait on C before
-+	 * executing (if present).
-+	 *
-+	 * As B is second, it sees A as the previous fence and so waits for
-+	 * it to complete its transition and takes over the occupancy for
-+	 * itself -- remembering that it needs to wait on A before executing.
-+	 */
-+	if (prev) {
- 		__list_del_entry(&active->cb.node);
- 		spin_unlock(prev->lock); /* serialise with prev->cb_list */
- 	}
-@@ -1077,11 +1122,7 @@ int i915_active_fence_set(struct i915_active_fence *active,
- 	int err = 0;
- 
- 	/* Must maintain timeline ordering wrt previous active requests */
--	rcu_read_lock();
- 	fence = __i915_active_fence_set(active, &rq->fence);
--	if (fence) /* but the previous fence may not belong to that timeline! */
--		fence = dma_fence_get_rcu(fence);
--	rcu_read_unlock();
- 	if (fence) {
- 		err = i915_request_await_dma_fence(rq, fence);
- 		dma_fence_put(fence);
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 894068bb37b6f..833b73edefdbb 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1661,6 +1661,11 @@ __i915_request_ensure_parallel_ordering(struct i915_request *rq,
- 
- 	request_to_parent(rq)->parallel.last_rq = i915_request_get(rq);
- 
-+	/*
-+	 * Users have to put a reference potentially got by
-+	 * __i915_active_fence_set() to the returned request
-+	 * when no longer needed
-+	 */
- 	return to_request(__i915_active_fence_set(&timeline->last_request,
- 						  &rq->fence));
- }
-@@ -1707,6 +1712,10 @@ __i915_request_ensure_ordering(struct i915_request *rq,
- 							 0);
- 	}
- 
-+	/*
-+	 * Users have to put the reference to prev potentially got
-+	 * by __i915_active_fence_set() when no longer needed
-+	 */
- 	return prev;
- }
- 
-@@ -1760,6 +1769,8 @@ __i915_request_add_to_timeline(struct i915_request *rq)
- 		prev = __i915_request_ensure_ordering(rq, timeline);
- 	else
- 		prev = __i915_request_ensure_parallel_ordering(rq, timeline);
-+	if (prev)
-+		i915_request_put(prev);
- 
- 	/*
- 	 * Make sure that no request gazumped us - if it was allocated after
--- 
-2.41.0
+And you still need the data_array buffer for clearing the screen,
+which is not tied to the creation of a frame buffer, I think?
 
+>
+>         return 0;
+>  }
+>
+> -static void ssd130x_buf_free(struct ssd130x_device *ssd130x)
+> -{
+> -       kfree(ssd130x->data_array);
+> -       kfree(ssd130x->buffer);
+> -}
+> -
+>  /*
+>   * Helper to write data (SSD130X_DATA) to the device.
+>   */
+> @@ -741,10 +738,6 @@ static void ssd130x_encoder_helper_atomic_enable(str=
+uct drm_encoder *encoder,
+>         if (ret)
+>                 goto power_off;
+>
+> -       ret =3D ssd130x_buf_alloc(ssd130x);
+> -       if (ret)
+> -               goto power_off;
+> -
+>         ssd130x_write_cmd(ssd130x, 1, SSD130X_DISPLAY_ON);
+>
+>         backlight_enable(ssd130x->bl_dev);
+> @@ -766,8 +759,6 @@ static void ssd130x_encoder_helper_atomic_disable(str=
+uct drm_encoder *encoder,
+>
+>         ssd130x_write_cmd(ssd130x, 1, SSD130X_DISPLAY_OFF);
+>
+> -       ssd130x_buf_free(ssd130x);
+> -
+>         ssd130x_power_off(ssd130x);
+>  }
+>
+> @@ -811,8 +802,21 @@ static const struct drm_connector_funcs ssd130x_conn=
+ector_funcs =3D {
+>         .atomic_destroy_state =3D drm_atomic_helper_connector_destroy_sta=
+te,
+>  };
+>
+> +static struct drm_framebuffer *ssd130x_fb_create(struct drm_device *dev,=
+ struct drm_file *file,
+> +                                                const struct drm_mode_fb=
+_cmd2 *mode_cmd)
+> +{
+> +       struct ssd130x_device *ssd130x =3D drm_to_ssd130x(dev);
+> +       int ret;
+> +
+> +       ret =3D ssd130x_buf_alloc(ssd130x, mode_cmd->pixel_format);
+> +       if (ret)
+> +               return ERR_PTR(ret);
+> +
+> +       return drm_gem_fb_create_with_dirty(dev, file, mode_cmd);
+> +}
+> +
+>  static const struct drm_mode_config_funcs ssd130x_mode_config_funcs =3D =
+{
+> -       .fb_create =3D drm_gem_fb_create_with_dirty,
+> +       .fb_create =3D ssd130x_fb_create,
+>         .atomic_check =3D drm_atomic_helper_check,
+>         .atomic_commit =3D drm_atomic_helper_commit,
+>  };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
