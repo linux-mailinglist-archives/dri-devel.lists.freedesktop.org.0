@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173BF756400
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:13:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C234575641A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:15:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3272A10E243;
-	Mon, 17 Jul 2023 13:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC2910E082;
+	Mon, 17 Jul 2023 13:15:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3769D10E258
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:13:23 +0000 (UTC)
-Date: Mon, 17 Jul 2023 13:13:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1689599600; x=1689858800;
- bh=BgHYcfI/OdkCVJ+9YqDXLHYNiN1Ru4k9bujnCXL11M0=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=ljRyQnn8KPzAeySdZhBUYcM2NFDaqmS6hPOpWqwrLeonNbAK8rcpFWhHgLAuFs2gC
- WQNXHDtQlNQZ8th18igUWU8kjiBeg6ppPdyvoaggt3LELPIdZ9hYUgbN1HATwayb7k
- PgLtYpzWX0R6pmNGCqwpMAEC4jaLtnO0V3WWY7dWdgvBJy9mGbB8EtcgR+DP88iQsD
- DXlm3K3qCqPKHddqdfEyMOBideOgTvT3Vp91A2R9Ps0eKAJdRs+1tydQLcExPT6RiI
- 7E5kaa2mkUdBNVVw+Phgee2RObJRrfuIppefJMyP11V1jcqKPHte9suldCbOS2Dba4
- 5A3yuriAAqGoQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm/doc: add warning about connector_type_id stability
-Message-ID: <20230717131305.616855-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1216810E082
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:15:49 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
+ by xavier.telenet-ops.be with bizsmtp
+ id NDFl2A00A0ucMBo01DFlJC; Mon, 17 Jul 2023 15:15:46 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qLO4e-001frD-FH;
+ Mon, 17 Jul 2023 15:15:45 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qLO4n-007Qms-Br;
+ Mon, 17 Jul 2023 15:15:45 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v3] drm/bridge_connector: Handle drm_connector_init_with_ddc()
+ failures
+Date: Mon, 17 Jul 2023 15:15:44 +0200
+Message-Id: <3a7e9540d8dc94298d021aa2fb046ae8616ca4dd.1689599701.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,36 +47,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mention that the connector_type_id is not stable: it depends on
-driver and device probe order.
+drm_connector_init_with_ddc() can fail, but the call in
+drm_bridge_connector_init() does not check that.  Fix this by adding
+the missing error handling.
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/uapi/drm/drm_mode.h | 3 +++
- 1 file changed, 3 insertions(+)
+v3:
+  - Add Reviewed-by,
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 92d96a2b6763..ea1b639bcb28 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -488,6 +488,9 @@ struct drm_mode_get_connector {
- =09 * This is not an object ID. This is a per-type connector number. Each
- =09 * (type, type_id) combination is unique across all connectors of a DRM
- =09 * device.
-+=09 *
-+=09 * The (type, type_id) combination is not a stable identifier: the
-+=09 * type_id can change depending on the driver probe order.
- =09 */
- =09__u32 connector_type_id;
-=20
---=20
-2.41.0
+v2:
+  - Move declaration of ret to its own line,
+  - Add Reviewed-by.
+---
+ drivers/gpu/drm/drm_bridge_connector.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+index fc6f16e14f367dad..1da93d5a1f614732 100644
+--- a/drivers/gpu/drm/drm_bridge_connector.c
++++ b/drivers/gpu/drm/drm_bridge_connector.c
+@@ -318,6 +318,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	struct i2c_adapter *ddc = NULL;
+ 	struct drm_bridge *bridge, *panel_bridge = NULL;
+ 	int connector_type;
++	int ret;
+ 
+ 	bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+ 	if (!bridge_connector)
+@@ -368,8 +369,14 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	drm_connector_init_with_ddc(drm, connector, &drm_bridge_connector_funcs,
+-				    connector_type, ddc);
++	ret = drm_connector_init_with_ddc(drm, connector,
++					  &drm_bridge_connector_funcs,
++					  connector_type, ddc);
++	if (ret) {
++		kfree(bridge_connector);
++		return ERR_PTR(ret);
++	}
++
+ 	drm_connector_helper_add(connector, &drm_bridge_connector_helper_funcs);
+ 
+ 	if (bridge_connector->bridge_hpd)
+-- 
+2.34.1
 
