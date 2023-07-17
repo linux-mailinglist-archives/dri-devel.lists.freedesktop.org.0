@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A95755E86
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:32:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5930D755E99
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55DF10E208;
-	Mon, 17 Jul 2023 08:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A035A10E20C;
+	Mon, 17 Jul 2023 08:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D20F610E208
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:32:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 344F560FCC;
- Mon, 17 Jul 2023 08:32:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44651C433C7;
- Mon, 17 Jul 2023 08:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689582766;
- bh=nVdNFaIM5q8yzAM6X+ufMIbwtpAWzqwx9TWlj/9T9a0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eJv8zaXTCskf0rsUA2PcHM5wmjcsMNCwOxRXctje0xqR6ITX+/19lybW3LQiEkOik
- MpIy+cALmr5EXeHLBSIOU8eiUXQwB3FWADGAd6R5wGWmBYs/oAQNSF6WijrWD9s8XF
- qOh4yZlrywBH8R5UmZF6jaJjLi4bm5efVj13pMjdwK5Ns63+4gM/ocZ1lHT8Umcv1C
- 5PLma2w6djzqVpWBX2ItlXsp6K4hXtbCG4a2P63f6QMBv4iE6yiMkYOrMqLkJmVWOi
- 8zep+sMwzjH91JwjqeHWZ0crB752mKET/bAXqnLjCriTu/wWU92hbW5dDoZTO36fiz
- DlGaVHBJ9gQ+Q==
-Date: Mon, 17 Jul 2023 10:32:44 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Sarah Walker <sarah.walker@imgtec.com>
-Subject: Re: [PATCH v4 17/17] arm64: dts: ti: k3-am62-main: Add GPU device
- node [DO NOT MERGE]
-Message-ID: <el4ythd7inzj5emscuoiewh4x2glkyugxxnqd67axloglamtpr@vp26mlv6ocas>
-References: <20230714143033.112624-1-sarah.walker@imgtec.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CFB2210E209;
+ Mon, 17 Jul 2023 08:37:14 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Bx5fC4_bRkctsFAA--.15658S3;
+ Mon, 17 Jul 2023 16:37:12 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx_c6l_bRkmEQxAA--.5661S3; 
+ Mon, 17 Jul 2023 16:37:11 +0800 (CST)
+Message-ID: <73307b1e-1e0e-6265-0344-171d2700e495@loongson.cn>
+Date: Mon, 17 Jul 2023 16:36:53 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mfri3en37qva4g6l"
-Content-Disposition: inline
-In-Reply-To: <20230714143033.112624-1-sarah.walker@imgtec.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1 0/8] drm/etnaviv: Various cleanup
+To: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Cx_c6l_bRkmEQxAA--.5661S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7JF1UWw4ktr43tw1ruF18Xrc_yoWkKrc_CF
+ yqv3srWr43JF1vqF47AryrZFW0kFW8Xan3tw1qqwnag343trZxGF1kCryDXa45JFWUKFn8
+ GF9xJr97Ary7WosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+ s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+ cSsGvfJTRUUUbI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+ vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+ w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+ 14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
+ AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+ rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+ CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+ 67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+ 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7_Ma
+ UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +67,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, luben.tuikov@amd.com, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, afd@ti.com,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- hns@goldelico.com, christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: loongson-kernel@lists.loongnix.cn, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Dear etnaviv folks
 
---mfri3en37qva4g6l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Would you like to review this cleanup patch set ?
 
-On Fri, Jul 14, 2023 at 03:30:33PM +0100, Sarah Walker wrote:
-> Add the Series AXE GPU node to the AM62 device tree.
->=20
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+I am asking because I'm wondering that
 
-Checkpatch complains about that one because you indented the node with
-spaces instead of tabs.
+if I should re-spin my other patch from the code base
 
-Once fixed:
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+which *with* this series applied or from the code base
 
-Maxime
+*without* this series applied.
 
---mfri3en37qva4g6l
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+I think this series looks fine, is it acceptable?
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLT8qwAKCRDj7w1vZxhR
-xa7fAP9FDt6bwQ/W8zycfYaWUKZ/M9LdF98tonOYw0cebZEB8gD/aOmlzvHgQ9FI
-LdvGl02SvojJp3fIySEVUOc3xWUX5Aw=
-=6+yl
------END PGP SIGNATURE-----
 
---mfri3en37qva4g6l--
+On 2023/6/23 18:08, Sui Jingfeng wrote:
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>
+> No functional change.
+>
+> Sui Jingfeng (8):
+>    drm/etnaviv: Using the size_t variable to store the number of pages
+>    drm/etnaviv: Using the unsigned int type to count the number of pages
+>    drm/etnaviv: Drop the second argument of the etnaviv_gem_new_impl()
+>    drm/etnaviv: Remove surplus else after return
+>    drm/etnaviv: Keep the curly brace aligned
+>    drm/etnaviv: No indentation by double tabs
+>    drm/etnaviv: Add dedicated functions to create and destroy platform
+>      device
+>    drm/etnaviv: Add a helper to get a pointer to the first available node
+>
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 100 +++++++++++++-------
+>   drivers/gpu/drm/etnaviv/etnaviv_gem.c       |  14 +--
+>   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |   7 +-
+>   3 files changed, 77 insertions(+), 44 deletions(-)
+>
+
