@@ -1,62 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4681756CDA
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 21:11:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E21C756D4C
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 21:33:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E9C10E2AD;
-	Mon, 17 Jul 2023 19:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A97E110E2AE;
+	Mon, 17 Jul 2023 19:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C674310E2AD;
- Mon, 17 Jul 2023 19:11:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689621093; x=1721157093;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PUf2yUoTaYi8DC3EY4D3RkYTKWBf0pDWIYA79jnomVA=;
- b=gZ5RB18umcHJW790d3+9Dj3wHlitByk3w5do8cSP84UENqfHLffBu2bT
- GTFF+jlgxnnWuW9/yP30lATJ3Wtr84rl5Im9d9Ez0/HFDUXYm5u6eBk4I
- nKxL3XYcTsbfIaYY7N1qf1QZsPbe4L4qeMMb0PMEcYUpUcQzNeuVROLO7
- XS+NZJYEiY84AfxZ9PUqBX06oB/DdXaBC5+LU7u9ed5qir0SyG3Unu6y1
- OvmfA7IcSBHPlEeK/SOedJWv08wNg7jUybX5LmsU0za0epfsgvyZ0eAVV
- k/a3mobiwiYtT2cncXoa0eVmz5wZptpP8HfzWpZD6+Lr+aXtwuNexcaak A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="369569885"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="369569885"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 12:11:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="866827301"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.9.23])
- ([10.213.9.23])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 12:11:29 -0700
-Message-ID: <58136997-4870-c321-a04a-d10443e92546@intel.com>
-Date: Mon, 17 Jul 2023 21:11:26 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF19110E2AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 19:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=f8qTz45rRelzzpoecvD3iz/zMuBbkdOmNpDw5F4bPH4=; b=MyLj4f4fzy2Pizl70yXxs7QGjP
+ hYRzuLqtfUqzn/M4kZYqxNPf1jIgG9cacks9Mg3m/iTMNKb+SEptisXtCjOpSmmqjCM2AR9XUNZqh
+ 8mgZ4Lpr/sG36RlN3C1gUbQkyVsAKWLLz37wWkQLaH7G3eGn3pFbe9Lpvyh/52wjp8HbS/01g40yR
+ 6Hr0zAVsCKpDGV+S7xcq6X8XpBWgGUEBNvh0P4nVbf3lCTmWryV0EKuN1FQzY/1anTj3mn8bTpkoU
+ t59rfq+L5/rAewqqbVphJIE8g96O+ecIN+GVtQPeLtD7I4MVMEupdLSSGp/DmMKK9VVzxRLnsdqeX
+ pAZQU4LQ==;
+Received: from [187.36.235.191] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qLTxh-00GNeI-Du; Mon, 17 Jul 2023 21:32:49 +0200
+Message-ID: <f448676e-5398-8a55-27d7-f6784f8c78b6@igalia.com>
+Date: Mon, 17 Jul 2023 16:32:42 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [Intel-gfx] [PATCH v4 6/6] drm/i915/gt: Support aux invalidation
- on all engines
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 6/7] drm/v3d: switch to using drm_exec
 Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
- <20230717173059.422892-7-andi.shyti@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230717173059.422892-7-andi.shyti@linux.intel.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230712124704.333004-1-christian.koenig@amd.com>
+ <20230712124704.333004-7-christian.koenig@amd.com>
+From: Maira Canal <mcanal@igalia.com>
+In-Reply-To: <20230712124704.333004-7-christian.koenig@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,206 +56,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.07.2023 19:30, Andi Shyti wrote:
-> Perform some refactoring with the purpose of keeping in one
-> single place all the operations around the aux table
-> invalidation.
+Hi Christian,
+
+I believe that `select DRM_EXEC` is missing on v3d's Kconfig file. If
+we don't select it, we will get some compilation errors.
+
+Apart from this problem, I ran some tests on the RPi 4 and didn't see
+any problems.
+
+Best Regards,
+- Maíra
+
+On 7/12/23 09:47, Christian König wrote:
+> Just a straightforward conversion without any optimization.
 > 
-> With this refactoring add more engines where the invalidation
-> should be performed.
+> Only compile tested for now.
 > 
-> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: <stable@vger.kernel.org> # v5.8+
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Cc: Emma Anholt <emma@anholt.net>
+> Cc: Melissa Wen <mwen@igalia.com>
 > ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 63 +++++++++++++++---------
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
->   drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +------
->   3 files changed, 44 insertions(+), 39 deletions(-)
+>   drivers/gpu/drm/v3d/v3d_gem.c | 44 ++++++++++++++++-------------------
+>   1 file changed, 20 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index fbc70f3b7f2fd..6d21a1ac06e73 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -165,7 +165,8 @@ static u32 preparser_disable(bool state)
->   	return MI_ARB_CHECK | 1 << 8 | state;
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+> index 2e94ce788c71..190e2a9f64a4 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -10,6 +10,7 @@
+>   #include <linux/sched/signal.h>
+>   #include <linux/uaccess.h>
+>   
+> +#include <drm/drm_exec.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_syncobj.h>
+>   #include <uapi/drm/v3d_drm.h>
+> @@ -249,20 +250,17 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
+>    * to v3d, so we don't attach dma-buf fences to them.
+>    */
+>   static int
+> -v3d_lock_bo_reservations(struct v3d_job *job,
+> -			 struct ww_acquire_ctx *acquire_ctx)
+> +v3d_lock_bo_reservations(struct v3d_job *job, struct drm_exec *exec)
+>   {
+>   	int i, ret;
+>   
+> -	ret = drm_gem_lock_reservations(job->bo, job->bo_count, acquire_ctx);
+> +	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+> +	drm_exec_until_all_locked(exec)
+> +		ret = drm_exec_prepare_array(exec, job->bo, job->bo_count, 1);
+>   	if (ret)
+> -		return ret;
+> +		goto fail;
+>   
+>   	for (i = 0; i < job->bo_count; i++) {
+> -		ret = dma_resv_reserve_fences(job->bo[i]->resv, 1);
+> -		if (ret)
+> -			goto fail;
+> -
+>   		ret = drm_sched_job_add_implicit_dependencies(&job->base,
+>   							      job->bo[i], true);
+>   		if (ret)
+> @@ -272,7 +270,7 @@ v3d_lock_bo_reservations(struct v3d_job *job,
+>   	return 0;
+>   
+>   fail:
+> -	drm_gem_unlock_reservations(job->bo, job->bo_count, acquire_ctx);
+> +	drm_exec_fini(exec);
+>   	return ret;
 >   }
 >   
-> -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
-> +static u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs,
-> +				     const i915_reg_t inv_reg)
->   {
->   	u32 gsi_offset = gt->uncore->gsi_offset;
->   
-> @@ -187,6 +188,40 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
->   	return cs;
->   }
->   
-> +static i915_reg_t intel_get_aux_inv_reg(struct intel_engine_cs *engine)
-> +{
-> +	if (HAS_FLAT_CCS(engine->i915))
-> +		return _MMIO(0);
-
-Why not INVALID_MMIO_REG ? Here and below.
-
-> +
-> +	switch (engine->id) {
-> +	case RCS0:
-> +		return GEN12_CCS_AUX_INV;
-> +	case VCS0:
-> +		return GEN12_VD0_AUX_INV;
-> +	case VCS2:
-> +		return GEN12_VD2_AUX_INV;
-> +	case VECS0:
-> +		return GEN12_VE0_AUX_INV;
-> +	default:
-> +		return _MMIO(0);
-> +	}
-> +}
-> +
-> +static bool intel_engine_has_aux_inv(struct intel_engine_cs *engine)
-> +{
-> +	i915_reg_t reg = intel_get_aux_inv_reg(engine);
-> +
-> +	return !!reg.reg;
-
-  return i915_mmio_reg_valid(intel_get_aux_inv_reg(engine));
-
-> +}
-> +
-> +u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs)
-> +{
-> +	i915_reg_t reg = intel_get_aux_inv_reg(engine);
-> +	struct intel_gt *gt = engine->gt;
-> +
-> +	return reg.reg ? gen12_emit_aux_table_inv(gt, cs, reg) : cs;
-> +}
-> +
-
-I am not sure about prefixes, IMHO gen12_ instead of intel_ is more 
-adequate as this is only gen12 feature, works only on gen12, and is 
-called from gen12 context, up to you. In any case we can squash 
-intel_emit_aux_table_inv and gen12_emit_aux_table_inv into one function, 
-am I right?
-
-Regards
-Andrzej
-
->   static int mtl_dummy_pipe_control(struct i915_request *rq)
->   {
->   	/* Wa_14016712196 */
-> @@ -311,11 +346,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   
->   		cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
->   
-> -		if (!HAS_FLAT_CCS(rq->engine->i915)) {
-> -			/* hsdes: 1809175790 */
-> -			cs = gen12_emit_aux_table_inv(rq->engine->gt, cs,
-> -						      GEN12_CCS_AUX_INV);
-> -		}
-> +		cs = intel_emit_aux_table_inv(engine, cs);
->   
->   		*cs++ = preparser_disable(false);
->   		intel_ring_advance(rq, cs);
-> @@ -326,21 +357,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   
->   int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
->   {
-> -	intel_engine_mask_t aux_inv = 0;
->   	u32 cmd, *cs;
->   
->   	cmd = 4;
->   	if (mode & EMIT_INVALIDATE) {
->   		cmd += 2;
->   
-> -		if (!HAS_FLAT_CCS(rq->engine->i915) &&
-> -		    (rq->engine->class == VIDEO_DECODE_CLASS ||
-> -		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
-> -			aux_inv = rq->engine->mask &
-> -				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
-> -			if (aux_inv)
-> -				cmd += 10;
-> -		}
-> +		if (intel_engine_has_aux_inv(rq->engine))
-> +			cmd += 10;
+> @@ -477,7 +475,7 @@ v3d_push_job(struct v3d_job *job)
+>   static void
+>   v3d_attach_fences_and_unlock_reservation(struct drm_file *file_priv,
+>   					 struct v3d_job *job,
+> -					 struct ww_acquire_ctx *acquire_ctx,
+> +					 struct drm_exec *exec,
+>   					 u32 out_sync,
+>   					 struct v3d_submit_ext *se,
+>   					 struct dma_fence *done_fence)
+> @@ -492,7 +490,7 @@ v3d_attach_fences_and_unlock_reservation(struct drm_file *file_priv,
+>   				   DMA_RESV_USAGE_WRITE);
 >   	}
 >   
->   	cs = intel_ring_begin(rq, cmd);
-> @@ -371,14 +395,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
->   	*cs++ = 0; /* upper addr */
->   	*cs++ = 0; /* value */
+> -	drm_gem_unlock_reservations(job->bo, job->bo_count, acquire_ctx);
+> +	drm_exec_fini(exec);
 >   
-> -	if (aux_inv) { /* hsdes: 1809175790 */
-> -		if (rq->engine->class == VIDEO_DECODE_CLASS)
-> -			cs = gen12_emit_aux_table_inv(rq->engine->gt,
-> -						      cs, GEN12_VD0_AUX_INV);
-> -		else
-> -			cs = gen12_emit_aux_table_inv(rq->engine->gt,
-> -						      cs, GEN12_VE0_AUX_INV);
-> -	}
-> +	cs = intel_emit_aux_table_inv(rq->engine, cs);
+>   	/* Update the return sync object for the job */
+>   	/* If it only supports a single signal semaphore*/
+> @@ -669,7 +667,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+>   	struct v3d_render_job *render = NULL;
+>   	struct v3d_job *clean_job = NULL;
+>   	struct v3d_job *last_job;
+> -	struct ww_acquire_ctx acquire_ctx;
+> +	struct drm_exec exec;
+>   	int ret = 0;
 >   
->   	if (mode & EMIT_INVALIDATE)
->   		*cs++ = preparser_disable(false);
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-> index 655e5c00ddc27..d938c94524510 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.h
-> @@ -13,6 +13,7 @@
->   #include "intel_gt_regs.h"
->   #include "intel_gpu_commands.h"
+>   	trace_v3d_submit_cl_ioctl(&v3d->drm, args->rcl_start, args->rcl_end);
+> @@ -731,7 +729,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+>   	if (ret)
+>   		goto fail;
 >   
-> +struct intel_engine_cs;
->   struct intel_gt;
->   struct i915_request;
+> -	ret = v3d_lock_bo_reservations(last_job, &acquire_ctx);
+> +	ret = v3d_lock_bo_reservations(last_job, &exec);
+>   	if (ret)
+>   		goto fail;
 >   
-> @@ -46,7 +47,7 @@ u32 *gen8_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
->   u32 *gen11_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
->   u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs);
+> @@ -775,7 +773,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
 >   
-> -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg);
-> +u32 *intel_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs);
+>   	v3d_attach_fences_and_unlock_reservation(file_priv,
+>   						 last_job,
+> -						 &acquire_ctx,
+> +						 &exec,
+>   						 args->out_sync,
+>   						 &se,
+>   						 last_job->done_fence);
+> @@ -791,8 +789,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+>   fail_unreserve:
+>   	mutex_unlock(&v3d->sched_lock);
+>   fail_perfmon:
+> -	drm_gem_unlock_reservations(last_job->bo,
+> -				    last_job->bo_count, &acquire_ctx);
+> +	drm_exec_fini(&exec);
+>   fail:
+>   	v3d_job_cleanup((void *)bin);
+>   	v3d_job_cleanup((void *)render);
+> @@ -819,7 +816,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+>   	struct drm_v3d_submit_tfu *args = data;
+>   	struct v3d_submit_ext se = {0};
+>   	struct v3d_tfu_job *job = NULL;
+> -	struct ww_acquire_ctx acquire_ctx;
+> +	struct drm_exec exec;
+>   	int ret = 0;
 >   
->   static inline u32 *
->   __gen8_emit_pipe_control(u32 *batch, u32 flags0, u32 flags1, u32 offset)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index 235f3fab60a98..70054767c88c3 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -1371,10 +1371,7 @@ gen12_emit_indirect_ctx_rcs(const struct intel_context *ce, u32 *cs)
->   	    IS_DG2_G11(ce->engine->i915))
->   		cs = gen8_emit_pipe_control(cs, PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE, 0);
+>   	trace_v3d_submit_tfu_ioctl(&v3d->drm, args->iia);
+> @@ -870,7 +867,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+>   		job->base.bo[job->base.bo_count] = bo;
+>   	}
 >   
-> -	/* hsdes: 1809175790 */
-> -	if (!HAS_FLAT_CCS(ce->engine->i915))
-> -		cs = gen12_emit_aux_table_inv(ce->engine->gt,
-> -					      cs, GEN12_CCS_AUX_INV);
-> +	cs = intel_emit_aux_table_inv(ce->engine, cs);
+> -	ret = v3d_lock_bo_reservations(&job->base, &acquire_ctx);
+> +	ret = v3d_lock_bo_reservations(&job->base, &exec);
+>   	if (ret)
+>   		goto fail;
 >   
->   	/* Wa_16014892111 */
->   	if (IS_MTL_GRAPHICS_STEP(ce->engine->i915, M, STEP_A0, STEP_B0) ||
-> @@ -1399,17 +1396,7 @@ gen12_emit_indirect_ctx_xcs(const struct intel_context *ce, u32 *cs)
->   						    PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE,
->   						    0);
+> @@ -879,7 +876,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+>   	mutex_unlock(&v3d->sched_lock);
 >   
-> -	/* hsdes: 1809175790 */
-> -	if (!HAS_FLAT_CCS(ce->engine->i915)) {
-> -		if (ce->engine->class == VIDEO_DECODE_CLASS)
-> -			cs = gen12_emit_aux_table_inv(ce->engine->gt,
-> -						      cs, GEN12_VD0_AUX_INV);
-> -		else if (ce->engine->class == VIDEO_ENHANCEMENT_CLASS)
-> -			cs = gen12_emit_aux_table_inv(ce->engine->gt,
-> -						      cs, GEN12_VE0_AUX_INV);
-> -	}
-> -
-> -	return cs;
-> +	return intel_emit_aux_table_inv(ce->engine, cs);
->   }
+>   	v3d_attach_fences_and_unlock_reservation(file_priv,
+> -						 &job->base, &acquire_ctx,
+> +						 &job->base, &exec,
+>   						 args->out_sync,
+>   						 &se,
+>   						 job->base.done_fence);
+> @@ -914,7 +911,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+>   	struct v3d_submit_ext se = {0};
+>   	struct v3d_csd_job *job = NULL;
+>   	struct v3d_job *clean_job = NULL;
+> -	struct ww_acquire_ctx acquire_ctx;
+> +	struct drm_exec exec;
+>   	int ret;
 >   
->   static void
-
+>   	trace_v3d_submit_csd_ioctl(&v3d->drm, args->cfg[5], args->cfg[6]);
+> @@ -957,7 +954,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+>   	if (ret)
+>   		goto fail;
+>   
+> -	ret = v3d_lock_bo_reservations(clean_job, &acquire_ctx);
+> +	ret = v3d_lock_bo_reservations(clean_job, &exec);
+>   	if (ret)
+>   		goto fail;
+>   
+> @@ -983,7 +980,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+>   
+>   	v3d_attach_fences_and_unlock_reservation(file_priv,
+>   						 clean_job,
+> -						 &acquire_ctx,
+> +						 &exec,
+>   						 args->out_sync,
+>   						 &se,
+>   						 clean_job->done_fence);
+> @@ -996,8 +993,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+>   fail_unreserve:
+>   	mutex_unlock(&v3d->sched_lock);
+>   fail_perfmon:
+> -	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
+> -				    &acquire_ctx);
+> +	drm_exec_fini(&exec);
+>   fail:
+>   	v3d_job_cleanup((void *)job);
+>   	v3d_job_cleanup(clean_job);
