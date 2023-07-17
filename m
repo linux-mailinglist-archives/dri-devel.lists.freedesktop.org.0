@@ -1,79 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC04D756C5B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:45:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE515756C5D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:45:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF7010E2AA;
-	Mon, 17 Jul 2023 18:45:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2B5810E2A8;
+	Mon, 17 Jul 2023 18:45:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D319610E039;
- Mon, 17 Jul 2023 18:45:10 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36HHjS2Y021908; Mon, 17 Jul 2023 18:45:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=iWSq1bYD3DoW6tvSA6KzBX99cGqJ4u2o15xxCTEBkIo=;
- b=aNkVDxuObl79FYAkTUH2bt3LSwePXgOK4Bg3QIgExT+nuLbx4Y0/+PMC4GucXTVJfNLj
- 353OnvfHUxvPuIdqiUcpASCDCmlzC7ueyKg6Rm7Z6KCKB+hzUtMh78y8tCdUW+ZYS/qy
- 0DzjN4UI0IK1ZVkg+Q6lU6GSfx7FxSLeb14+EZr5xIEjSQ+KY/1HHQZuYqLcexDxJ/oV
- xayFLLCE5deWPRIvtD+SckjOu4WvX8v3HyYla/x2W2NiZ6/7DRsFSWUSqpXjcaWBHJoR
- xksWg4WXkzFD9AIPBkbtuiq9LbMZNWHFLAw9kbNfhO/Tj19zJVYT+n5EqG1OGsBlN10b qQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run1evaxk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jul 2023 18:45:02 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36HIj1VG000411
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Jul 2023 18:45:01 GMT
-Received: from [10.110.91.201] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 17 Jul
- 2023 11:45:01 -0700
-Message-ID: <9c594fdb-095d-0c3f-cdd0-bd92304b42cb@quicinc.com>
-Date: Mon, 17 Jul 2023 11:45:00 -0700
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F0C410E2A8;
+ Mon, 17 Jul 2023 18:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689619513; x=1721155513;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=AR3oPutieacLQtLEpeFKul3okLTiearp7rNSPjYiRuA=;
+ b=Gz4yU2euudJM1oHISQ4ySOGSEtdjGE7dJ+GZayzfFN/PlCkmfydn45ps
+ pPXtWDUUtrqmSNfCEO2SvrkeRO1WFCp3ssZxDjXSC3OoR3vZjY168mbQh
+ 51Izpvx1b3b/qG3jBl8B3HTOrhyIZnkSNA7fh6OV+vK1uHOstR9NIAiad
+ 33vpOeHzP+HzJZdYfjTjTHYnulvFnfmCXYvPZ/3h6+eu3mwQIGqUKb/NE
+ NWAgpc+gj9LHVsY43j0BbSdh1ttxavWxO/voSzHCHSFYTulV8ecPHZOXI
+ a5lZkROBrJ66Fz+F0DALSvXTswruGx7agypo9bO1R4KkeRQgvlQCFUQfJ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="366048999"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="366048999"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 11:45:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="813458069"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="813458069"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.36.7])
+ ([10.249.36.7])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 11:45:09 -0700
+Message-ID: <ad4c5943-398e-59fc-75f6-3384b6b19c8d@linux.intel.com>
+Date: Mon, 17 Jul 2023 20:45:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 02/11] drm/msm/dpu: core_perf: extract bandwidth
- aggregation function
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v4 3/6] drm/i915/gt: Rename flags with bit_group_X
+ according to the datasheet
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230712221139.313729-1-dmitry.baryshkov@linaro.org>
- <20230712221139.313729-3-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230712221139.313729-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
+References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
+ <20230717173059.422892-4-andi.shyti@linux.intel.com>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20230717173059.422892-4-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: PhVU7Srcolx33UvKgX0alhc6d7Cw0YYN
-X-Proofpoint-ORIG-GUID: PhVU7Srcolx33UvKgX0alhc6d7Cw0YYN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_13,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 impostorscore=0 mlxscore=0 malwarescore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 phishscore=0 bulkscore=0
- mlxlogscore=999 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2306200000 definitions=main-2307170171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,90 +68,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks for cleaning this.
 
+With Matt's suggestion, this is
 
-On 7/12/2023 3:11 PM, Dmitry Baryshkov wrote:
-> In preparation to refactoring the dpu_core_perf debugfs interface,
-> extract the bandwidth aggregation function from
-> _dpu_core_perf_crtc_update_bus().
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+
+On 7/17/2023 7:30 PM, Andi Shyti wrote:
+> In preparation of the next patch allign with the datasheet (BSPEC
+> 47112) with the naming of the pipe control set of flag values.
+> The variable "flags" in gen12_emit_flush_rcs() is applied as a
+> set of flags called Bit Group 1.
+>
+> Define also the Bit Group 0 as bit_group_0 where currently only
+> PIPE_CONTROL0_HDC_PIPELINE_FLUSH bit is set.
+>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.8+
 > ---
-
-Drop the core_perf tag from the subject line.
-
-The debugfs refactor was dropped from this series if thats what you are 
-referring to here.
-
-So even this and the next patch dont serve any purpose in this series 
-and should be dropped, Unless you have some reason of keeping them here.
-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 39 +++++++++++--------
->   1 file changed, 22 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 1d9d83d7b99e..333dcfe57800 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -206,33 +206,38 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
->   	return 0;
->   }
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 34 +++++++++++++-----------
+>   1 file changed, 18 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index bee3b7dc595cf..3c935d6b68bf0 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -210,7 +210,8 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   		mode |= EMIT_FLUSH;
 >   
-> -static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
-> -		struct drm_crtc *crtc)
-> +static void dpu_core_perf_aggregate(struct drm_device *ddev,
-> +				    enum dpu_crtc_client_type curr_client_type,
-> +				    struct dpu_core_perf_params *perf)
->   {
-> -	struct dpu_core_perf_params perf = { 0 };
-> -	enum dpu_crtc_client_type curr_client_type
-> -					= dpu_crtc_get_client_type(crtc);
-> -	struct drm_crtc *tmp_crtc;
->   	struct dpu_crtc_state *dpu_cstate;
-> -	int i, ret = 0;
-> -	u64 avg_bw;
-> +	struct drm_crtc *tmp_crtc;
+>   	if (mode & EMIT_FLUSH) {
+> -		u32 flags = 0;
+> +		u32 bit_group_0 = 0;
+> +		u32 bit_group_1 = 0;
+>   		int err;
+>   		u32 *cs;
 >   
-> -	drm_for_each_crtc(tmp_crtc, crtc->dev) {
-> +	drm_for_each_crtc(tmp_crtc, ddev) {
->   		if (tmp_crtc->enabled &&
-> -			curr_client_type ==
-> -				dpu_crtc_get_client_type(tmp_crtc)) {
-> +		    curr_client_type == dpu_crtc_get_client_type(tmp_crtc)) {
->   			dpu_cstate = to_dpu_crtc_state(tmp_crtc->state);
+> @@ -218,32 +219,33 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   		if (err)
+>   			return err;
 >   
-> -			perf.max_per_pipe_ib = max(perf.max_per_pipe_ib,
-> -					dpu_cstate->new_perf.max_per_pipe_ib);
-> +			perf->max_per_pipe_ib = max(perf->max_per_pipe_ib,
-> +						    dpu_cstate->new_perf.max_per_pipe_ib);
+> -		flags |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+> -		flags |= PIPE_CONTROL_FLUSH_L3;
+> -		flags |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+> -		flags |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
+> +		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
+> +
+> +		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+> +		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+> +		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+> +		bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
+>   		/* Wa_1409600907:tgl,adl-p */
+> -		flags |= PIPE_CONTROL_DEPTH_STALL;
+> -		flags |= PIPE_CONTROL_DC_FLUSH_ENABLE;
+> -		flags |= PIPE_CONTROL_FLUSH_ENABLE;
+> +		bit_group_1 |= PIPE_CONTROL_DEPTH_STALL;
+> +		bit_group_1 |= PIPE_CONTROL_DC_FLUSH_ENABLE;
+> +		bit_group_1 |= PIPE_CONTROL_FLUSH_ENABLE;
 >   
-> -			perf.bw_ctl += dpu_cstate->new_perf.bw_ctl;
-> +			perf->bw_ctl += dpu_cstate->new_perf.bw_ctl;
+> -		flags |= PIPE_CONTROL_STORE_DATA_INDEX;
+> -		flags |= PIPE_CONTROL_QW_WRITE;
+> +		bit_group_1 |= PIPE_CONTROL_STORE_DATA_INDEX;
+> +		bit_group_1 |= PIPE_CONTROL_QW_WRITE;
 >   
-> -			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu paths:%d\n",
-> -				  tmp_crtc->base.id,
-> -				  dpu_cstate->new_perf.bw_ctl, kms->num_paths);
-> +			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu\n",
-> +					 tmp_crtc->base.id,
-> +					 dpu_cstate->new_perf.bw_ctl);
->   		}
+> -		flags |= PIPE_CONTROL_CS_STALL;
+> +		bit_group_1 |= PIPE_CONTROL_CS_STALL;
+>   
+>   		if (!HAS_3D_PIPELINE(engine->i915))
+> -			flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
+> +			bit_group_1 &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
+>   		else if (engine->class == COMPUTE_CLASS)
+> -			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+> +			bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+>   
+>   		cs = intel_ring_begin(rq, 6);
+>   		if (IS_ERR(cs))
+>   			return PTR_ERR(cs);
+>   
+> -		cs = gen12_emit_pipe_control(cs,
+> -					     PIPE_CONTROL0_HDC_PIPELINE_FLUSH,
+> -					     flags, LRC_PPHWSP_SCRATCH_ADDR);
+> +		cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
+> +					     LRC_PPHWSP_SCRATCH_ADDR);
+>   		intel_ring_advance(rq, cs);
 >   	}
-> +}
-> +
-> +static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
-> +		struct drm_crtc *crtc)
-> +{
-> +	struct dpu_core_perf_params perf = { 0 };
-> +	int i, ret = 0;
-> +	u64 avg_bw;
-> +
-> +	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
 >   
->   	if (!kms->num_paths)
->   		return 0;
