@@ -1,39 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF31756511
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:34:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD8A756590
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3E510E253;
-	Mon, 17 Jul 2023 13:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D79010E258;
+	Mon, 17 Jul 2023 13:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338C110E257
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:34:16 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
- by laurent.telenet-ops.be with bizsmtp
- id NDaE2A0030ucMBo01DaEsE; Mon, 17 Jul 2023 15:34:14 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qLOMX-001fzk-83;
- Mon, 17 Jul 2023 15:34:14 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qLOMg-007RAi-4y;
- Mon, 17 Jul 2023 15:34:14 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH resend] drm/panel: simple: Simplify matching using
- of_device_get_match_data()
-Date: Mon, 17 Jul 2023 15:34:13 +0200
-Message-Id: <bca1d6f6a0582988accbb48d709aa9de7ad49ed7.1689600771.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B90F010E258;
+ Mon, 17 Jul 2023 13:54:43 +0000 (UTC)
+Date: Mon, 17 Jul 2023 13:54:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1689602080; x=1689861280;
+ bh=j+NctoV157Hl8xFcIjQ36ZakhJ/XyrxgevyeE2vj0F0=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=Ly7FT9mOIPU57Y4AdvgAHVFEN90D5b39r7ZV/PTD6jCFMsR5gLGcNfKAbYRP6F+Yc
+ KS2xW5oACZgigt8F0iO5+N38X+e1qRKZj/nPHN7ewYaWDYThMbTsQic/iWLqaaURlT
+ gce765Fh07OZs/TzBWgsbKSrqoj/AQyAvotX0KLywXJyIhgw2Om3S4pnjzHnCl4Ce6
+ kWmmQIcHRdMqe2tDCLUCupmhEQiZZRm8iYRy1OYkJfxpe3oD74NjDVgjnsSmjYleZ2
+ dVPcbt806VsoT9gZ3qJdLaOH4cPqOp7feKUJgttpfHpXzapUIxMguXOjZXWKu42j6V
+ ZdnmNC0mXQ8Dw==
+To: Emil Velikov <emil.l.velikov@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: support up to 128 drm devices
+Message-ID: <d5rv64CZ72yzMTvfnFQ78-9tKaF5IaDHx5gcEGxHvijBrmdJQX1MS7BEbOU3-fiZzoaH6ZahN5lF2zxP-pgz6qOlOgkEn2k5bVKmlSpt5L4=@emersion.fr>
+In-Reply-To: <CACvgo51i9nBodn6wcxEXQ3Aty+LtHF-5=5owGKtVvbhHqGdHqw@mail.gmail.com>
+References: <20230630115651.354849-1-James.Zhu@amd.com>
+ <wBFta68Nq7iIaszeM9WT6v04l1DSIEs2cM-dOQ3uMWbFM2B74j43LU4Vm3VvzLrTfJRtZ8zM2c3AAxtMsqKcVlNtBuaJlITqtIRZzBuT56M=@emersion.fr>
+ <CACvgo50YDLkavfidjQAmrsxHWJEtCD6QrC8duuz4F-C144RtDw@mail.gmail.com>
+ <PguMcqMlRDvAT5fdpZfgyOWT8DQ1ZLXhgLD0puLL8l0ZYj0UiBvDclFp54l3ov1vH9A7whpUQhY4H65Fh3u6a4aXZzK5a_6fgSKpi4_PXx8=@emersion.fr>
+ <CACvgo51i9nBodn6wcxEXQ3Aty+LtHF-5=5owGKtVvbhHqGdHqw@mail.gmail.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,60 +51,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, dri-devel@lists.freedesktop.org
+Cc: jamesz@amd.com, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, James Zhu <James.Zhu@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both the patform_driver and mipi_dsi_driver structures contain pointers
-to the match table used, so the custom code to obtain match and match
-data can be replaced by calls to of_device_get_match_data().
+On Monday, July 17th, 2023 at 15:24, Emil Velikov <emil.l.velikov@gmail.com=
+> wrote:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/gpu/drm/panel/panel-simple.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+> > > For going forward, here is one way we can shave this yak:
+> > >  - update libdrm to max 64 nodes
+> > >  - roll libdrm release, nag distributions to update to it // could be
+> > > folded with the next release below
+> > >  - update libdrm to use name driven type detection
+> > >  - roll libdrm release, nag distributions to update to it
+> > >  - once ^^ release hits most distributions, merge the above proposed
+> > > kernel patch
+> > >    - the commit message should explain the caveats and fixed libdrm v=
+ersion
+> > >    - we should be prepared to revert the commit, if it causes user
+> > > space regression - fix (see below) and re-introduce the kernel patch
+> > > 1-2 releases later
+> >
+> > That sounds really scary to me. I'd really prefer to try not to break t=
+he
+> > kernel uAPI here.
+> >
+>=20
+> With part in particular? Mind you I'm not particularly happy either,
+> since in essence it's like a controlled explosion.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 241243447b3e5c81..70326f335f44c295 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4457,13 +4457,13 @@ MODULE_DEVICE_TABLE(of, platform_of_match);
- 
- static int panel_simple_platform_probe(struct platform_device *pdev)
- {
--	const struct of_device_id *id;
-+	const struct panel_desc *desc;
- 
--	id = of_match_node(platform_of_match, pdev->dev.of_node);
--	if (!id)
-+	desc = of_device_get_match_data(&pdev->dev);
-+	if (!desc)
- 		return -ENODEV;
- 
--	return panel_simple_probe(&pdev->dev, id->data);
-+	return panel_simple_probe(&pdev->dev, desc);
- }
- 
- static void panel_simple_platform_remove(struct platform_device *pdev)
-@@ -4734,15 +4734,12 @@ MODULE_DEVICE_TABLE(of, dsi_of_match);
- static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
- {
- 	const struct panel_desc_dsi *desc;
--	const struct of_device_id *id;
- 	int err;
- 
--	id = of_match_node(dsi_of_match, dsi->dev.of_node);
--	if (!id)
-+	desc = of_device_get_match_data(&dsi->dev);
-+	if (!desc)
- 		return -ENODEV;
- 
--	desc = id->data;
--
- 	err = panel_simple_probe(&dsi->dev, &desc->desc);
- 	if (err < 0)
- 		return err;
--- 
-2.34.1
+I believe there are ways to extend the uAPI to support more devices without
+breaking the uAPI. Micha=C5=82 Winiarski's patch for instance tried somethi=
+ng to
+this effect.
 
+> > The kernel rule is "do not break user-space".
+>=20
+> Yes, in a perfect world. In practice, there have been multiple kernel
+> changes breaking user-space. Some got reverted, some remained.
+> AFAICT the above will get us out of the sticky situation we're in with
+> the least amount of explosion.
+>=20
+> If there is a concrete proposal, please go ahead and sorry if I've
+> missed it. I'm supposed to be off, having fun with family when I saw
+> this whole thing explode.
+>=20
+> Small note: literally all the users I've seen will stop on a missing
+> node (card or render) aka if the kernel creates card0...63 and then
+> card200... then (hard wavy estimate) 80% of the apps will be broken.
+
+That's fine, because that's not a kernel regression. Supporting more than 6=
+4
+devices is a new kernel feature, and if some user-space ignores the new nod=
+es,
+that's not a kernel regression. A regression only happens when a use-case w=
+hich
+works with an older kernel is broken by a newer kernel.
