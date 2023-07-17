@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F2A75754E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FF375754C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:28:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 486A010E2D9;
-	Tue, 18 Jul 2023 07:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC3B110E1A2;
+	Tue, 18 Jul 2023 07:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B8810E26C;
- Mon, 17 Jul 2023 14:27:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00AE510E272
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 15:40:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 404EA61129;
- Mon, 17 Jul 2023 14:27:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD0D6C433B6;
- Mon, 17 Jul 2023 14:27:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 47E4B6114E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 15:40:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 196F0C433BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 15:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689604065;
- bh=rkLKjJGA9W9V1hgJstWBCmZrxpmjuvUsbHV5ieMMp8c=;
+ s=k20201202; t=1689608405;
+ bh=tF/K12dcb1AtR13XQY0pq3bgmoCAiVfZHpGq03H1+sk=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tbqM5G1Bre2zBYNYlSaGpYvtGMUIHymVMKeK/TzG0KjBzCmaAHwEaXmM+fnWr8QHf
- A5IwGR12akMgYWcxzwUULBkB0mekTRl4kMKQRSfx+pzkXO2wU5OR+OPuWWdNpyb/9Y
- 27H/XVZnsbuLv2tvpMFxcyKcBrfhw24Ct3Dtn6k2jIwf9fiUxfMZRE5qGgbeygcQZ2
- vy5S/pTq31758S5Um6WTDPfgsWL212q22eKGrybewvdX7t97Q3XcLfmDw1+8j8e8ow
- KnsnOeGJcjyYNIZVOv3JTTaB9YED46K0NRnfA2+aAkAVdCs2rPfSquk+go0eGVrLFe
- 3iKfcFajgoGdg==
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-317009c0f9aso1243516f8f.0; 
- Mon, 17 Jul 2023 07:27:45 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbQRa6/HHEoT9rlRYrWrwROOOpSRuHecjG/I8O28uVvMdxxvWEV
- hS3M0K39nuM2WtPkLf8xDQkYKEkn5ATwEerEog==
-X-Google-Smtp-Source: APBJJlFSY1EKmbumZhe1Fkfe0qsodiNyBdGN/d2gmlGF1ZwWgImoQ1RpodF7t1ooNJHJiRju6eg8DIGKKeloqUgo0eo=
-X-Received: by 2002:a2e:8945:0:b0:2b9:48f1:b195 with SMTP id
- b5-20020a2e8945000000b002b948f1b195mr576527ljk.44.1689604043579; Mon, 17 Jul
- 2023 07:27:23 -0700 (PDT)
+ b=mX8RhJfEol8SKSIZYImvm3vgYGg2QOjrhEImVy70eQw9yFGHJhacPYnLrSEjLcXVH
+ lsK1foH9DnVkOrz0XgrZvShJMkw35zdZXkm28OGXKxZAPZQPWjnMqmD7u1K/6wWyrF
+ KESSOxDGgUcHfAUMGWeNgAp8rP61IeLKmYc7IOGocR2yzizGnLQn+2LOPOUV3VN8RI
+ nXJsuiRAgYTOZFEMemZolvUrK9EbLD+pNe2um6lCwrS0nGmoypnFT87DTWspO0tENT
+ 6g2YWD6p/fpzoiD+byVvvn8YboH7BuhPrNAUEc3aLc7yE8lROrZtFeZkeMUjss/bxz
+ 8gUvf0rnNUAvw==
+Received: by mail-oi1-f170.google.com with SMTP id
+ 5614622812f47-3a41da34780so2845853b6e.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:40:05 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZnMkAxHyYmSkS05eif5Tadew8mnmIz4GlbMuAiuywsmIHHvg4K
+ aeA/sTKesJeuwxhpOAvPx1L2xbn2KIU6iTXtLp6eMw==
+X-Google-Smtp-Source: APBJJlHs9bNlVGErzzDkG3ITNYPrBi9bcbK5hB2pZ5ku9OA6MncccRQ7QQDddVXbZVn5Z/tCXP76UHYBqks/PFSJBmQ=
+X-Received: by 2002:a17:90b:1095:b0:263:3567:f99 with SMTP id
+ gj21-20020a17090b109500b0026335670f99mr13011407pjb.15.1689608384033; Mon, 17
+ Jul 2023 08:39:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230714174545.4056287-1-robh@kernel.org>
  <114500369.nniJfEyVGO@phil>
-In-Reply-To: <114500369.nniJfEyVGO@phil>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 17 Jul 2023 08:27:10 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
-Message-ID: <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+ <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+In-Reply-To: <CAL_JsqJMo4LHRmsfRQAr-j6oNESbS=q+eFU+B7e720emjf+8nA@mail.gmail.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 17 Jul 2023 17:39:32 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi5wOhptw4PgP2etkC5KYh_5cfOXZuVhsN6YCMiqn15hog@mail.gmail.com>
+Message-ID: <CAN6tsi5wOhptw4PgP2etkC5KYh_5cfOXZuVhsN6YCMiqn15hog@mail.gmail.com>
 Subject: Re: [PATCH] drm: Explicitly include correct DT includes
-To: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 18 Jul 2023 07:28:04 +0000
@@ -69,8 +70,7 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Steven Price <steven.price@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Kevin Hilman <khilman@baylibre.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
  NXP Linux Team <linux-imx@nxp.com>, linux-rockchip@lists.infradead.org,
  =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
@@ -119,11 +119,11 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
  Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Qiang Yu <yuq825@gmail.com>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-mediatek@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
  Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Purism Kernel Team <kernel@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>, Thomas Zimmermann <tzimmermann@suse.de>,
  Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
  Philippe Cornu <philippe.cornu@foss.st.com>,
  Chunyan Zhang <zhang.lyra@gmail.com>,
@@ -131,44 +131,54 @@ Cc: Xinliang Liu <xinliang.liu@linaro.org>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 16, 2023 at 3:26=E2=80=AFAM Heiko Stuebner <heiko@sntech.de> wr=
-ote:
+On Mon, Jul 17, 2023 at 4:27=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
 >
-> Am Freitag, 14. Juli 2023, 19:45:34 CEST schrieb Rob Herring:
-> > The DT of_device.h and of_platform.h date back to the separate
-> > of_platform_bus_type before it as merged into the regular platform bus.
-> > As part of that merge prepping Arm DT support 13 years ago, they
-> > "temporarily" include each other. They also include platform_device.h
-> > and of.h. As a result, there's a pretty much random mix of those includ=
-e
-> > files used throughout the tree. In order to detangle these headers and
-> > replace the implicit includes with struct declarations, users need to
-> > explicitly include the correct includes.
+> On Sun, Jul 16, 2023 at 3:26=E2=80=AFAM Heiko Stuebner <heiko@sntech.de> =
+wrote:
 > >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
+> > Am Freitag, 14. Juli 2023, 19:45:34 CEST schrieb Rob Herring:
+> > > The DT of_device.h and of_platform.h date back to the separate
+> > > of_platform_bus_type before it as merged into the regular platform bu=
+s.
+> > > As part of that merge prepping Arm DT support 13 years ago, they
+> > > "temporarily" include each other. They also include platform_device.h
+> > > and of.h. As a result, there's a pretty much random mix of those incl=
+ude
+> > > files used throughout the tree. In order to detangle these headers an=
+d
+> > > replace the implicit includes with struct declarations, users need to
+> > > explicitly include the correct includes.
+> > >
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > ---
+> >
+> > [...]
+> >
+> > > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/driver=
+s/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > > index 917e79951aac..2744d8f4a6fa 100644
+> > > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> > > @@ -12,7 +12,9 @@
+> > >  #include <linux/mfd/syscon.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/of_device.h>
+> > > +#include <linux/of_platform.h>
+> > >  #include <linux/phy/phy.h>
+> > > +#include <linux/platform_device.h>
+> > >  #include <linux/pm_runtime.h>
+> > >  #include <linux/regmap.h>
+> >
+> > I'm not sure if I'm just misreading something, but in all other places
+> > of_device.h gets removed while here is stays as an include. Is this
+> > correct this way?
 >
-> [...]
+> Yes, because of_match_device() is used.
 >
-> > diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/=
-gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> > index 917e79951aac..2744d8f4a6fa 100644
-> > --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> > +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> > @@ -12,7 +12,9 @@
-> >  #include <linux/mfd/syscon.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of_device.h>
-> > +#include <linux/of_platform.h>
-> >  #include <linux/phy/phy.h>
-> > +#include <linux/platform_device.h>
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/regmap.h>
+> Rob
 >
-> I'm not sure if I'm just misreading something, but in all other places
-> of_device.h gets removed while here is stays as an include. Is this
-> correct this way?
 
-Yes, because of_match_device() is used.
+For drivers/gpu/drm/bridge/
 
-Rob
+Acked-by: Robert Foss <rfoss@kernel.org>
