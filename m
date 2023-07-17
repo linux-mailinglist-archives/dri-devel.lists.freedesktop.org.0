@@ -1,79 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9748F75605B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 12:25:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C9675605F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 12:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE5110E223;
-	Mon, 17 Jul 2023 10:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 573F510E225;
+	Mon, 17 Jul 2023 10:27:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC1D610E223
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:25:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B138D10E225
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689589547;
+ s=mimecast20190719; t=1689589623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ZxqwFcIYi400ycUN1jF1UBiOV7Go/IiKqR9OlilEKQ=;
- b=SfykH/ii3gUCTwlyPuuCth+cz001fCWo95eWHJiSUOn65rniv0I8nUqum9T2TOTs9h0f/8
- YGi6pYFViNM1FtuYbUvoywXkP25N53QuE15VHpDDSb8eO792EaoINwhwjmRGMQ47lVVkCQ
- c+j9coZwgS0ZIcR7yWBv3h+UhR4T6rg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QcjXX5GWlegc91aegHozDG5ys9NXk4J7QfyGnNAR82g=;
+ b=XrpZPjAsl8mA7ZAChOz1BPW2utDsrTt6W0f0wLIkGDy7RKO8FekuySZ6xmU+/0l2b/WrdZ
+ UbDp1rDD2Ylm2q5KuxrTEwqeHD3q0mvKAOj3Vqf2Aqfhw9UT8z5BAoZAEHiY2fMGnK29HR
+ ZktIiR5/LJDY0BS79YUN8cln1t31U0w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-41-_B-34mWwOF2qYwAf8Qo-4w-1; Mon, 17 Jul 2023 06:25:46 -0400
-X-MC-Unique: _B-34mWwOF2qYwAf8Qo-4w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-314256aedcbso2376149f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 03:25:46 -0700 (PDT)
+ us-mta-671-kHVPZAhYMV6JDwlf7a1m_A-1; Mon, 17 Jul 2023 06:27:02 -0400
+X-MC-Unique: kHVPZAhYMV6JDwlf7a1m_A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-2f2981b8364so2678256f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 03:27:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689589545; x=1692181545;
+ d=1e100.net; s=20221208; t=1689589621; x=1692181621;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3ZxqwFcIYi400ycUN1jF1UBiOV7Go/IiKqR9OlilEKQ=;
- b=EE1CSZZy6fdRW2YbLbWbSpWbfTTmtdt3Uh9fwJUwJVwEJVSFWbJuzdtI8Cyf7GfQkr
- DZp7UD4sbDcipoFZLHR92U2rThH6aswfc0icVi+iaa0+CzIBBe8+F14vP3w32NgVUT75
- KKFmcFOm/wez1EevEpUOlf4AxkPsuhwJXRsjAvpdAjM5aYXaaMx2fp0NfavBT3A3au8b
- Vq4PFVNjCje03YSKKMqT1eQ4AzuIl238nRGsTk2DopiQ1UWfk+Q370/BvGiBbcRW5YWA
- nchS5TnH2hXdb04sLPFHDWtppcyOZhy2uHLVz4TY5FuLSEiDebemPLLSaTJImVu571N+
- 33QA==
-X-Gm-Message-State: ABy/qLY7QItcmh/Eqe0rvD36sq8hMFisgmMflCmXbgcKvLfdXftyG+Qi
- MyCDsBS1Aho1kvrwHVD+QYBLVOqiE22mpyo31SlJq+HYzNXdkKP8h6FzzBo3TMj0FcHW7sWJVms
- pHw9hyRQlpL3o9iamMRBzfOAlgK/F
-X-Received: by 2002:a5d:6301:0:b0:313:f548:25b9 with SMTP id
- i1-20020a5d6301000000b00313f54825b9mr10182304wru.40.1689589545445; 
- Mon, 17 Jul 2023 03:25:45 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEWwgj2gvrTcZVcFzDTLfBjRjMXpKrSXg5bhLw4PXADJbZO+n+htRPdtsID+emCjARx8zYmVw==
-X-Received: by 2002:a5d:6301:0:b0:313:f548:25b9 with SMTP id
- i1-20020a5d6301000000b00313f54825b9mr10182288wru.40.1689589545080; 
- Mon, 17 Jul 2023 03:25:45 -0700 (PDT)
+ bh=QcjXX5GWlegc91aegHozDG5ys9NXk4J7QfyGnNAR82g=;
+ b=Yg6msAVt/iWJ6S+kwlCeHGmWCL7B06Urf1AkomfMr4hYv+hk0BL/00yNJhc8Z12aRK
+ SHx+kejAmjoNdNJ/p1wxExwOs1UY/Hel+cm1nNGaxOc4S96S4SlohAx0T1R885fTNzqw
+ D3pSWoyZ9CEOc5DbGAJCeWlRlrdnsoT+g3SG5CnnaXSh7be6//flCdgo2k4YgBRE+wid
+ op5ji4YpqzRNkpN/cpKldB+L9wkOtlLyUevtbMjTtCbZCH3FSda6StmfkrbsXEqRH23H
+ Qe12CCfgVDAaiR6SIaFcMT3ng6m34A9nCUBdzCf/gb/8XQAb5n7XAd6/2Y8RXjvtIxHd
+ sJCw==
+X-Gm-Message-State: ABy/qLaa9UjBVJuZm6P0ohG6YdKWnS3UVUEQGAWfj5mO/jGv+XVVX5ku
+ hceMVuQuNcfOXpCNbM2JFSydbT2D7/nX2NJ7O+YNeDC6J+vaztZA8DgMHGlTgyK3sA6JblLBh13
+ R6fjXRVQXGjxcG9rX3iiPY9LWjj7S
+X-Received: by 2002:a5d:6a49:0:b0:314:2c17:d921 with SMTP id
+ t9-20020a5d6a49000000b003142c17d921mr10297827wrw.38.1689589621623; 
+ Mon, 17 Jul 2023 03:27:01 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHg4QSrt7ASwOV1fEBcNK4Q/NKk0aYoKscyfvU06BxfjAob7ZBV5ewkV0pAvLD46ImkfH0r8w==
+X-Received: by 2002:a5d:6a49:0:b0:314:2c17:d921 with SMTP id
+ t9-20020a5d6a49000000b003142c17d921mr10297812wrw.38.1689589621295; 
+ Mon, 17 Jul 2023 03:27:01 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c735:400:2501:5a2e:13c6:88da?
  (p200300cbc735040025015a2e13c688da.dip0.t-ipconnect.de.
  [2003:cb:c735:400:2501:5a2e:13c6:88da])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a5d4641000000b0031434936f0dsm18732085wrs.68.2023.07.17.03.25.43
+ v16-20020a5d4b10000000b003143be36d99sm18839549wrq.58.2023.07.17.03.27.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jul 2023 03:25:44 -0700 (PDT)
-Message-ID: <2000511c-d551-5b3d-a9a9-adb4ba3be1f1@redhat.com>
-Date: Mon, 17 Jul 2023 12:25:43 +0200
+ Mon, 17 Jul 2023 03:27:00 -0700 (PDT)
+Message-ID: <4a7feeb3-0c9e-0dba-1023-4f0ae1bfe471@redhat.com>
+Date: Mon, 17 Jul 2023 12:26:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 2/5] mm: use vma_is_stack() and vma_is_heap()
+Subject: Re: [PATCH 1/5] mm: introduce vma_is_stack() and vma_is_heap()
 To: Kefeng Wang <wangkefeng.wang@huawei.com>,
  Andrew Morton <akpm@linux-foundation.org>
 References: <20230712143831.120701-1-wangkefeng.wang@huawei.com>
- <20230712143831.120701-3-wangkefeng.wang@huawei.com>
+ <20230712143831.120701-2-wangkefeng.wang@huawei.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20230712143831.120701-3-wangkefeng.wang@huawei.com>
+In-Reply-To: <20230712143831.120701-2-wangkefeng.wang@huawei.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -99,21 +99,40 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12.07.23 16:38, Kefeng Wang wrote:
-> Use the helpers to simplify code.
+> Introduce the two helpers for general use.
 > 
 > Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 > ---
->   fs/proc/task_mmu.c   | 24 ++++--------------------
->   fs/proc/task_nommu.c | 15 +--------------
->   2 files changed, 5 insertions(+), 34 deletions(-)
+>   include/linux/mm.h | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 > 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 1462cf15badf..0bbeb31ac750 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -926,6 +926,18 @@ static inline bool vma_is_anonymous(struct vm_area_struct *vma)
+>   	return !vma->vm_ops;
+>   }
+>   
+> +static inline bool vma_is_heap(struct vm_area_struct *vma)
+> +{
+> +       return vma->vm_start <= vma->vm_mm->brk &&
+> +		vma->vm_end >= vma->vm_mm->start_brk;
+> +}
+> +
+> +static inline bool vma_is_stack(struct vm_area_struct *vma)
+> +{
+> +       return vma->vm_start <= vma->vm_mm->start_stack &&
+> +	       vma->vm_end >= vma->vm_mm->start_stack;
+> +}
+> +
+>   static inline bool vma_is_temporary_stack(struct vm_area_struct *vma)
+>   {
+>   	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
 
-Please squash patch #1 and this patch and call it something like
+Looking at the comments in patch #3, should these functions be called
 
-"mm: factor out VMA stack and heap checks"
-
-And then, maybe also keep the comments in these functions, they sound 
-reasonable to have.
+vma_is_initial_heap / vma_is_initial_stack ?
 
 -- 
 Cheers,
