@@ -1,63 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A83D756C2D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:34:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4A2756C47
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 20:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0926E10E2A3;
-	Mon, 17 Jul 2023 18:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F6310E2A5;
+	Mon, 17 Jul 2023 18:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6A36410E2A3;
- Mon, 17 Jul 2023 18:34:33 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxV_G4ibVkDxIGAA--.16371S3;
- Tue, 18 Jul 2023 02:34:32 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_yOsibVk5dAxAA--.31528S3; 
- Tue, 18 Jul 2023 02:34:31 +0800 (CST)
-Message-ID: <e3a05204-61fe-2318-5f06-fd12addfe2e9@loongson.cn>
-Date: Tue, 18 Jul 2023 02:34:20 +0800
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A903010E2A5;
+ Mon, 17 Jul 2023 18:39:26 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36HCF0v9010797; Mon, 17 Jul 2023 18:39:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=2XrcCt9dnVGVjvvdzjbjzXSRfAcB5g1H23Jcn75kWM0=;
+ b=R05VuS/PYVzb5UWG6biRye3ITQPi6oTLpvXTLInKxyly+EfhnIj2pwTFLJ1iN/rlQG9q
+ L4GCY1VIRCg2gMIS9xEsNkeSBAxmCH1VQfzBCNsU2ILfRWp7lKuXHbyN1yH0WY0tDEgE
+ erw9QZ0GCwcNi4+ujsLIMuu1+wZrAkdD28RVExy5lRK1IOGvmZNZlfHkqn9Dpjv33Uy6
+ BMFCGZAildvBC6dErqmWsCk36grDx5HIna06ZyUVYe2QA+J1ZhdTDQpMOiiCpj7Qe4if
+ rbHWwHRN2woC6/CB4XFioVKe3S+cMmegkqP+H6SS24H52t0uldq5rKoXZB4r94ITEK8E Yw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3run0avbvq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jul 2023 18:39:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36HIdJtj026070
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Jul 2023 18:39:19 GMT
+Received: from [10.110.91.201] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 17 Jul
+ 2023 11:39:19 -0700
+Message-ID: <52f63ee3-be75-9ad2-822c-d9f0b1ba32b9@quicinc.com>
+Date: Mon, 17 Jul 2023 11:39:18 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v1 3/8] drm/etnaviv: Drop the second argument of the
- etnaviv_gem_new_impl()
-To: Lucas Stach <l.stach@pengutronix.de>,
- Sui Jingfeng <sui.jingfeng@linux.dev>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
- <20230623100822.274706-4-sui.jingfeng@linux.dev>
- <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 07/11] drm/msm/dpu: use dpu_perf_cfg in DPU core_perf
+ code
 Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dx_yOsibVk5dAxAA--.31528S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxWFy8WrWDZw4DXr1xWF47Jrc_yoWrWw43pF
- sayFyjkrW8Z3yDK3s7XFn5Aw1UWr1Igry0yas0ywn8Kw4YgF1kXF1FkFWDCFsxArs7uF13
- t3W0yF1rK3W5A3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j0sjUU
- UUUU=
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230712221139.313729-1-dmitry.baryshkov@linaro.org>
+ <20230712221139.313729-8-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230712221139.313729-8-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: UB6AVDF_umgKWECnFLAjgxM6yX0hrKbt
+X-Proofpoint-ORIG-GUID: UB6AVDF_umgKWECnFLAjgxM6yX0hrKbt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_13,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxlogscore=999 bulkscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307170170
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,159 +86,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,  Lucas
 
 
-Thanks for you guidance!
+On 7/12/2023 3:11 PM, Dmitry Baryshkov wrote:
+> Simplify dpu_core_perf code by using only dpu_perf_cfg instead of using
+> full-featured catalog data.
+> 
+> Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 73 ++++++++-----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  8 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  2 +-
+>   3 files changed, 35 insertions(+), 48 deletions(-)
+> 
 
+With dpu_core_rev as a separate struct, if we do need the dpu hw version 
+in this module, we can just pass that instead. Hence,
 
-On 2023/7/17 17:51, Lucas Stach wrote:
-> Hi Jingfeng,
->
-> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
->> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->> Because it is not used by the etnaviv_gem_new_impl() function,
->> no functional change.
->>
-> I think it would make sense to move into the opposite direction: in
-> both callsites of etnaviv_gem_new_impl we immediately call
-> drm_gem_object_init with the size.
-
-Really?
-
-But there are multiple call path to the etnaviv_gem_new_impl() function.
-
-
-Code path 1 (PRIME):
-
-|- etnaviv_gem_prime_import_sg_table()
-
-|--  etnaviv_gem_new_private()
-
-|--- etnaviv_gem_new_impl(dev, size, flags, ops, &obj)
-
-|--- drm_gem_private_object_init(dev, obj, size)
-
-
-Code path 2 (USERPTR):
-
-|- etnaviv_gem_new_userptr()
-
-|--  etnaviv_gem_new_private()
-
-|--- etnaviv_gem_new_impl(dev, size, flags, ops, &obj)
-
-|--- drm_gem_private_object_init(dev, obj, size)
-
-
-Code path 3 (construct a GEM buffer object for the user-space):
-
-|- etnaviv_ioctl_gem_new()
-
-|-- etnaviv_gem_new_handle()
-
-|--- etnaviv_gem_new_impl(dev, size, flags, &etnaviv_gem_shmem_ops, &obj);
-
-|---  drm_gem_object_init(dev, obj, size);
-
-
-If I understand this correctly:
-
-
-Code path 1 is for cross device (and cross driver) buffer-sharing,
-
-Code path 2 is going to share the buffer the userspace,
-
-
-*Only* the code path 3 is to construct a GEM buffer object for the 
-user-space the userspace,
-
-that is say, *only* the code path 3 need to do the backing memory 
-allocation work for the userspace.
-
-thus it need to call drm_gem_object_init() function, which really the 
-shmem do the backing memory
-
-allocation.
-
-
-The code path 1 and the code path 2 do not need the kernel space 
-allocate the backing memory.
-
-Because they are going to share the buffer already allocated by others.
-
-thus, code path 2 and code path 3 should call drm_gem_private_object_init(),
-
-*not* the drm_gem_object_init() function.
-
-
-When import buffer from the a specific KMS driver,
-
-then etnaviv_gem_prime_import_sg_table() will be called.
-
-
-I guess you means that drm_gem_private_object_init() (not the 
-drm_gem_object_init() function)here ?
-
-
-> A better cleanup would be to make
-> use of the size parameter and move this object init call into
-> etnaviv_gem_new_impl.
-
-If I following you guidance, how do I differentiate the cases
-
-when to call drm_gem_private_object_init() not drm_gem_object_init() ?
-
-and when call drm_gem_object_init() not drm_gem_private_object_init()?
-
-
-I don't think you are right here.
-
->
-> Regards,
-> Lucas
->
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 +++----
->>   1 file changed, 3 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> index b5f73502e3dd..be2f459c66b5 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
->> @@ -542,7 +542,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
->>   	.vm_ops = &vm_ops,
->>   };
->>   
->> -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
->> +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flags,
->>   	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
->>   {
->>   	struct etnaviv_gem_object *etnaviv_obj;
->> @@ -591,8 +591,7 @@ int etnaviv_gem_new_handle(struct drm_device *dev, struct drm_file *file,
->>   
->>   	size = PAGE_ALIGN(size);
->>   
->> -	ret = etnaviv_gem_new_impl(dev, size, flags,
->> -				   &etnaviv_gem_shmem_ops, &obj);
->> +	ret = etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops, &obj);
->>   	if (ret)
->>   		goto fail;
->>   
->> @@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device *dev, size_t size, u32 flags,
->>   	struct drm_gem_object *obj;
->>   	int ret;
->>   
->> -	ret = etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
->> +	ret = etnaviv_gem_new_impl(dev, flags, ops, &obj);
->>   	if (ret)
->>   		return ret;
->>   
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
