@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78135757553
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:28:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFC4757550
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:28:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72FB910E2E1;
-	Tue, 18 Jul 2023 07:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8CC510E2DC;
+	Tue, 18 Jul 2023 07:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4808A10E284
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 16:13:10 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-56fff21c2ebso46945457b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 09:13:10 -0700 (PDT)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9205510E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 22:29:26 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1b8ad356f03so29626695ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 15:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=paul-moore.com; s=google; t=1689610389; x=1692202389;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8CqPKH8zLjxPG0T2aNpKAIqJzacVH6EbJBb3LjExpjw=;
- b=cQpEj7wQVECv/U9cTpn+RN55ujAIWvks3MU4IX4Wr/hwnFIe0F/qx5YUKjSMpnx703
- CHzs0WWQ7uBihIAx5z5eiCKmCaltnArXhlaNRgavYeytVm5vSw/gQiRT1py2AerifbO6
- AiJnYOTJCz0R2HkNoD7T9Yf9t3z2uTFa83xyLrtRemXVRe2lrXcVvM5qyrJMMViUNE7U
- 6aLZBv3MPfrrvSHz+w10LReOyQijeOLBQAf/Jl5WjQxapxktKezBDH2erUpWfo+TfrZS
- RnuZ/YnESkQ6HSr7gO5+BgLJh/oDlySt0yQzLcBh/BGfPb0h9TdwTyAHNWQPywULEg7z
- BUVQ==
+ d=sifive.com; s=google; t=1689632966; x=1692224966;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XFPVhrUWRZQSAaKQnnj1TZG9poZqEqSu3fVdFJa8KKE=;
+ b=YHbmAyIqg8BYpJU1Jk+XnlqKZH3UCVovE5VLeCN3tuNUrY/YLOl0HTKZydaosVQ0mi
+ bZ/+W7LaITxuZQ7V0/ZvDUCbe8DuZA62WoXOTwBKy/EH1GOSsAU1WER+eLG5I3bcGQ8g
+ 9RubTwXoJcDUl8g3IOnz3/GFqSZACjnxzTlCj+4JqoaaXj6mcm/Pbnow99OvOfjdCBkR
+ juCPV3H7FJFjkVSd1lhUxp3cd0E0Pg7TUp1lyVgFshzwbhi8ju8hQFNSyiHsXMlks4Mu
+ tF6014MG/tDwXw6owFkRGs3p712Y0TRM+xwwZ4ZAyVtu+hsrNEFxxR0Y0OuIfe9awYnk
+ teCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689610389; x=1692202389;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8CqPKH8zLjxPG0T2aNpKAIqJzacVH6EbJBb3LjExpjw=;
- b=WWFhESOTHhVoTN3ghu4Z0w49rCyEcBJuwoFUt0jW9kDSzRYHPzvdH7RowAYLJ1O1+o
- DjkmeFzmVvIwiLZsztmcpQhqPsIoi1v8UUdsn2mkQWG5llmY/AsYmhie7d/NcANOJuGM
- nXZ3hpvXqKDXhWiKtWwZjz2tkLJiTxzqmsJZ2yhrO3Y3N53Ir95BUCBGbomFEGrdbQWh
- tS9qLRxkxnZAuuC1nKzVLZPD9RMklFilB1PftsjKJyvJKlDWa5ji5M6mnYHa63IlGcU4
- Ti3jUB7+HSojXU45+U+DY4lPac4RDSHnVEwfgG9O7pCknrKjt0x+gCKlndnDRTYsMI3M
- uhtg==
-X-Gm-Message-State: ABy/qLbLaOaD5cSj1d1NrqNfedT3sU/ZsVCFjLi3dvujcqjmc7nNElVa
- 3YUhkBsw+IVx0AJwOj0Lr8b20Q4YLkqWa5Hf/HdUOBF7iFPBS1I=
-X-Google-Smtp-Source: APBJJlGog4dyfGlwFIS3iBtcrvJFLeH/ogm5YcXS+semC1utnZAcGzlBZgUKou2DvMgGuYXX4nNPAERtXRDz/TQJF88=
-X-Received: by 2002:a81:67c1:0:b0:577:2fda:f181 with SMTP id
- b184-20020a8167c1000000b005772fdaf181mr12551811ywc.44.1689610388723; Mon, 17
- Jul 2023 09:13:08 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689632966; x=1692224966;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XFPVhrUWRZQSAaKQnnj1TZG9poZqEqSu3fVdFJa8KKE=;
+ b=WVJjUBRBbjMwVYjPjWhuP4ymClSVshucgjnu7nkMra0XeE/rEmJ0teW2a+ROOhjtkQ
+ 8hj4UDzVrfSYkj+0MkIwUHgUAaC1wuNOnd6UbMG1Bww+z/DOhSsbX9GQsrioNt7pFAWf
+ iuoZXOLkFx1bgi63ca+0FqFzrUAfnCXz4IkQtMA16OpYzcsFhTuz88vp/XZXA6kwuBbk
+ P8kBmX8DyPABrRv+fJU7nFnSKjmKJxN39QXHo4M4HSTvNxSNX8YDfqv3D3udT1ekLZpI
+ iZWAq2dbOkOdEP1xhkq2L3aQwfqSoJbuAMWyH9bvKxytledvWIVD7IXj7bjrU8LkqGLB
+ g8SQ==
+X-Gm-Message-State: ABy/qLalcPFsoMLjsQzCVggTlCK+r5+RXTY7VLY6c55dx/5RsNWQQ4WF
+ oBtCIF5JKwMSJ+3fIYtlVk8CQA==
+X-Google-Smtp-Source: APBJJlGcyS1478AzqSwi9033GBaEO4A6Ib9Gvs0E+TYvAHuX+SPIhJ/+F5b4vj5CO2kQ+M8+NIDK/A==
+X-Received: by 2002:a17:902:9a4b:b0:1b9:c03b:39d9 with SMTP id
+ x11-20020a1709029a4b00b001b9c03b39d9mr10939188plv.53.1689632965727; 
+ Mon, 17 Jul 2023 15:29:25 -0700 (PDT)
+Received: from sw06.internal.sifive.com ([64.62.193.194])
+ by smtp.gmail.com with ESMTPSA id
+ o15-20020a170902d4cf00b001b9e8e833f3sm375704plg.61.2023.07.17.15.29.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Jul 2023 15:29:25 -0700 (PDT)
+From: Samuel Holland <samuel.holland@sifive.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm/amd/display: Allow building DC with clang on RISC-V
+Date: Mon, 17 Jul 2023 15:29:23 -0700
+Message-Id: <20230717222923.3026018-1-samuel.holland@sifive.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230712143831.120701-1-wangkefeng.wang@huawei.com>
- <20230712143831.120701-5-wangkefeng.wang@huawei.com>
-In-Reply-To: <20230712143831.120701-5-wangkefeng.wang@huawei.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 17 Jul 2023 12:12:58 -0400
-Message-ID: <CAHC9VhSU=T5FEP=sZyNukykE-xRzWsqyddS2-+sEsy2bmfGHKQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] selinux: use vma_is_stack() and vma_is_heap()
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 18 Jul 2023 07:28:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,52 +75,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: selinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org
+Cc: llvm@lists.linux.dev, Tom Rix <trix@redhat.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Samuel Holland <samuel.holland@sifive.com>,
+ Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 10:25=E2=80=AFAM Kefeng Wang <wangkefeng.wang@huawe=
-i.com> wrote:
->
-> Use the helpers to simplify code.
->
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->  security/selinux/hooks.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index 4e46cf3d67b6..289ef2d6a427 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -3775,13 +3775,10 @@ static int selinux_file_mprotect(struct vm_area_s=
-truct *vma,
->         if (default_noexec &&
->             (prot & PROT_EXEC) && !(vma->vm_flags & VM_EXEC)) {
->                 int rc =3D 0;
-> -               if (vma->vm_start >=3D vma->vm_mm->start_brk &&
-> -                   vma->vm_end <=3D vma->vm_mm->brk) {
-> +               if (vma_is_heap(vma)) {
->                         rc =3D avc_has_perm(sid, sid, SECCLASS_PROCESS,
->                                           PROCESS__EXECHEAP, NULL);
-> -               } else if (!vma->vm_file &&
-> -                          ((vma->vm_start <=3D vma->vm_mm->start_stack &=
-&
-> -                            vma->vm_end >=3D vma->vm_mm->start_stack) ||
-> +               } else if (!vma->vm_file && vma_is_stack(vma) ||
->                             vma_is_stack_for_current(vma))) {
+clang on RISC-V appears to be unaffected by the bug causing excessive
+stack usage in calculate_bandwidth(). clang 16 with -fstack-usage
+reports a 304 byte stack frame size with CONFIG_ARCH_RV32I, and 512
+bytes with CONFIG_ARCH_RV64I.
 
-With the parens fix that Andrew already provided.
+Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+---
 
-Acked-by: Paul Moore <paul@paul-moore.com>
+ drivers/gpu/drm/amd/display/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->                         rc =3D avc_has_perm(sid, sid, SECCLASS_PROCESS,
->                                           PROCESS__EXECSTACK, NULL);
-> --
-> 2.41.0
+diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
+index bf0a655d009e..901d1961b739 100644
+--- a/drivers/gpu/drm/amd/display/Kconfig
++++ b/drivers/gpu/drm/amd/display/Kconfig
+@@ -5,7 +5,7 @@ menu "Display Engine Configuration"
+ config DRM_AMD_DC
+ 	bool "AMD DC - Enable new display engine"
+ 	default y
+-	depends on BROKEN || !CC_IS_CLANG || X86_64 || SPARC64 || ARM64
++	depends on BROKEN || !CC_IS_CLANG || ARM64 || RISCV || SPARC64 || X86_64
+ 	select SND_HDA_COMPONENT if SND_HDA_CORE
+ 	# !CC_IS_CLANG: https://github.com/ClangBuiltLinux/linux/issues/1752
+ 	select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
+-- 
+2.40.1
 
---=20
-paul-moore.com
