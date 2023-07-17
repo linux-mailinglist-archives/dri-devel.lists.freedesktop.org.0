@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89393756A9D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:31:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC486756A9B
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 19:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D28AF10E29A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C35A10E297;
 	Mon, 17 Jul 2023 17:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9506510E295;
- Mon, 17 Jul 2023 17:31:43 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD7810E291;
+ Mon, 17 Jul 2023 17:31:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689615103; x=1721151103;
+ t=1689615101; x=1721151101;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KG9Oz0y70DMMLAuB52xEO7N9n6jFglqVRXsAgcnZadQ=;
- b=VPYNBwMvHP1AZi9xzEzdUUOQEjmTDqtbUIfJMInmCnBazUEIKr73NXIA
- 7icCrU67bXudsxOiNxZ0PoL/GH1fy5AB2UYyEQnubVPAJyimA8GcdYXpw
- 6WzQId0Ytf4VsipvUSkAjEDITMCjXU68TnPYA55oN75tcqabIUEdFXXB6
- tS2U0eKRix4ehRU73Eb9hqwyQ1imaAzj7usTnGtz1NrXGzL1SV+sI6U7t
- FpP7Qr6lP6nVQw967rY4Jongy4NwGhdiPGXg6/RdQbW1k9NNeSCmtWmSg
- CcVhmfCbWNjEKcVvebB1exa2NUB3AyZ58fCVjQ73T5GYvcPKs0M5lr6Jz Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="396822071"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="396822071"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 10:31:34 -0700
+ bh=qAWW7j1OgrjTJTJNRLOSpVTPxJGfFE1/Aa99WtV5SfY=;
+ b=cyzNsthaPCMUkr9x0iGhcj5+xwQzUgEpqsz9SfKOSdh2ZedKaU1Tts1b
+ UGJIioaSxu+KnY0EH+lqTe/PNzhnX8RHdXKA9K+SAOkA01OqTxb6FqwsS
+ Wm6wOHyX+t7CxL9IAFP8f+v5ntVve6LJuTgqnw4fuL8bZhrmWTO1hCKcI
+ HRCuK1UL5DqSRwPsNeDMBtL8Dc5XrOfA/7BS6YXMLj5sG5kzeyJ+0Inpo
+ fuMAOGkuCBcXKFU4c7c4lWqQYELBbz5nuxoQzIVSakpLO9ZA/D71thl0t
+ T0m//yuYztRl8uD1mGtkixMZsVjyuoE4VPaOjseqfrfGsK4FMtM+rolGw w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="350855578"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="350855578"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 10:31:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="836958420"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="836958420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="813427659"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="813427659"
 Received: from jplazoni-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.55.169])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 10:31:31 -0700
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 10:31:36 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
  Matt Roper <matthew.d.roper@intel.com>,
  Chris Wilson <chris@chris-wilson.co.uk>,
  Mika Kuoppala <mika.kuoppala@linux.intel.com>,
  Nirmoy Das <nirmoy.das@intel.com>
-Subject: [PATCH v4 4/6] drm/i915/gt: Enable the CCS_FLUSH bit in the pipe
- control
-Date: Mon, 17 Jul 2023 19:30:57 +0200
-Message-Id: <20230717173059.422892-5-andi.shyti@linux.intel.com>
+Subject: [PATCH v4 5/6] drm/i915/gt: Poll aux invalidation register bit on
+ invalidation
+Date: Mon, 17 Jul 2023 19:30:58 +0200
+Message-Id: <20230717173059.422892-6-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230717173059.422892-1-andi.shyti@linux.intel.com>
 References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
@@ -69,73 +69,77 @@ Cc: Intel GFX <intel-gfx@lists.freedesktop.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the CCS_FLUSH bit 13 in the control pipe for render and
-compute engines in platforms starting from Meteor Lake (BSPEC
-43904 and 47112).
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+
+For platforms that use Aux CCS, wait for aux invalidation to
+complete by checking the aux invalidation register bit is
+cleared.
 
 Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
 Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
 Cc: <stable@vger.kernel.org> # v5.8+
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 10 +++++++++-
- drivers/gpu/drm/i915/gt/intel_engine_types.h |  1 +
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 17 +++++++++++++----
  drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  1 +
- 3 files changed, 11 insertions(+), 1 deletion(-)
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 3c935d6b68bf0..aa2fb9d72745a 100644
+index aa2fb9d72745a..fbc70f3b7f2fd 100644
 --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
 +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -207,7 +207,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 	 * memory traffic is quiesced prior.
- 	 */
- 	if ((mode & EMIT_INVALIDATE) && !HAS_FLAT_CCS(engine->i915))
--		mode |= EMIT_FLUSH;
-+		mode |= EMIT_FLUSH | EMIT_CCS_FLUSH;
+@@ -174,6 +174,16 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
+ 	*cs++ = AUX_INV;
+ 	*cs++ = MI_NOOP;
  
- 	if (mode & EMIT_FLUSH) {
- 		u32 bit_group_0 = 0;
-@@ -221,6 +221,14 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 
- 		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
- 
-+		/*
-+		 * When required, in MTL+ platforms we need to
-+		 * set the CCS_FLUSH bit in the pipe control
-+		 */
-+		if (mode & EMIT_CCS_FLUSH &&
-+		    GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
-+			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
++	*cs++ = MI_SEMAPHORE_WAIT_TOKEN |
++		MI_SEMAPHORE_REGISTER_POLL |
++		MI_SEMAPHORE_POLL |
++		MI_SEMAPHORE_SAD_EQ_SDD;
++	*cs++ = 0;
++	*cs++ = i915_mmio_reg_offset(inv_reg) + gsi_offset;
++	*cs++ = 0;
++	*cs++ = 0;
++	*cs++ = MI_NOOP;
 +
- 		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
- 		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
- 		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index e99a6fa03d453..e2cae9d02bd62 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -514,6 +514,7 @@ struct intel_engine_cs {
- 	int		(*emit_flush)(struct i915_request *request, u32 mode);
- #define EMIT_INVALIDATE	BIT(0)
- #define EMIT_FLUSH	BIT(1)
-+#define EMIT_CCS_FLUSH	BIT(2) /* MTL+ */
- #define EMIT_BARRIER	(EMIT_INVALIDATE | EMIT_FLUSH)
- 	int		(*emit_bb_start)(struct i915_request *rq,
- 					 u64 offset, u32 length,
+ 	return cs;
+ }
+ 
+@@ -284,10 +294,9 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+ 		else if (engine->class == COMPUTE_CLASS)
+ 			flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+ 
++		count = 8;
+ 		if (!HAS_FLAT_CCS(rq->engine->i915))
+-			count = 8 + 4;
+-		else
+-			count = 8;
++			count += 10;
+ 
+ 		cs = intel_ring_begin(rq, count);
+ 		if (IS_ERR(cs))
+@@ -330,7 +339,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 mode)
+ 			aux_inv = rq->engine->mask &
+ 				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
+ 			if (aux_inv)
+-				cmd += 4;
++				cmd += 10;
+ 		}
+ 	}
+ 
 diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-index 5d143e2a8db03..5df7cce23197c 100644
+index 5df7cce23197c..2bd8d98d21102 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
 +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-@@ -299,6 +299,7 @@
- #define   PIPE_CONTROL_QW_WRITE				(1<<14)
- #define   PIPE_CONTROL_POST_SYNC_OP_MASK                (3<<14)
- #define   PIPE_CONTROL_DEPTH_STALL			(1<<13)
-+#define   PIPE_CONTROL_CCS_FLUSH			(1<<13) /* MTL+ */
- #define   PIPE_CONTROL_WRITE_FLUSH			(1<<12)
- #define   PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH	(1<<12) /* gen6+ */
- #define   PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE	(1<<11) /* MBZ on ILK */
+@@ -121,6 +121,7 @@
+ #define   MI_SEMAPHORE_TARGET(engine)	((engine)<<15)
+ #define MI_SEMAPHORE_WAIT	MI_INSTR(0x1c, 2) /* GEN8+ */
+ #define MI_SEMAPHORE_WAIT_TOKEN	MI_INSTR(0x1c, 3) /* GEN12+ */
++#define   MI_SEMAPHORE_REGISTER_POLL	(1 << 16)
+ #define   MI_SEMAPHORE_POLL		(1 << 15)
+ #define   MI_SEMAPHORE_SAD_GT_SDD	(0 << 12)
+ #define   MI_SEMAPHORE_SAD_GTE_SDD	(1 << 12)
 -- 
 2.40.1
 
