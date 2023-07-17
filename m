@@ -2,50 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E217559B7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 04:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5397755A64
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 06:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942D310E196;
-	Mon, 17 Jul 2023 02:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E67F10E1AD;
+	Mon, 17 Jul 2023 04:00:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD24A10E196
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 02:41:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9FDEF60EDD;
- Mon, 17 Jul 2023 02:41:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 048DCC433C7;
- Mon, 17 Jul 2023 02:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689561695;
- bh=BMRFKeXZlpIRSbPMYrVconDlclfefxaU6mHhh2wyjZ0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tC0pXdzAqzWC61pPDdl/Dly3pRxNGL9fN4BDm+nuS7/odvvaFkj3p+PHEJfH4KrjC
- ivN6UF0bRGN3CSU0hlku6KpewVkw3N+ketF6UkIG8T5zgk46mrUAwJluS182IhS1FS
- evtOZBgtvXSoKbg+V1ocHWiMxb8Iw1bJcQCByj2a+gEBiJ+nIRHCRT2+OfhxHniPnP
- pvdKPUrRAZ9CT9efe2h1Ly+duTllVj8Cla61AWVPYtBFmfTjYesnWxHimYktLFmr0T
- PwBpxm93RFEFiT7tMUIS4/zHBBH7BPN1HrTe8L9PoOJiL6rZr+vnsWTEMhycsqx6br
- D3V282i3tMWeA==
-Message-ID: <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
-Date: Sun, 16 Jul 2023 19:41:28 -0700
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
+ [IPv6:2607:f8b0:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6166610E1AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 04:00:18 +0000 (UTC)
+Received: by mail-il1-x130.google.com with SMTP id
+ e9e14a558f8ab-34611de0ee4so16740115ab.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 21:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1689566416; x=1692158416;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rane9LymWOzuf5nVdxKmicrrVi/5Plm4e1af1OJmuGo=;
+ b=DeAi7UPa7J5RPMLgaBGKipqwjcPkkqSSXuEc9ftX8/pT3LdEynyXPvvXHsoBuoweVK
+ K+W20Bcm8gviQ+3+cgoCbuF6wacfW34Xhqm1f6UBpwkNqVso9STiOkM+PAE+xBh3g41G
+ CWCN3iqWakKicn8hjXfGA88G1V9z0WWvgkFxo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689566416; x=1692158416;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rane9LymWOzuf5nVdxKmicrrVi/5Plm4e1af1OJmuGo=;
+ b=je2i/aLQHa4Uq++G+vwZSJDk2URHP+V4ZbkLKzKc+3N6nLUKzOLfEviEluWGS+ljG7
+ pthYUBGWb/1gvtA6dzKFpo8Kwrc8hMxZ6O+eOCfKFu7N/GM076ymAg1FYGPo2n+4PPtQ
+ UObssSd/ERc2AJFheY71clilCLlcusQmrhNCp15r2Dkex2goufOsZ4sHtZiObEsBALFP
+ Uq5Ovnm1JjzWW5IMYFoCgs9M49MPoVkw5PpjWYSgzEIoIBza0pmcAcU3UtspSE5dUOVU
+ wrgq1+p4wQsOOEH6rKXXCGWu9twK48dfQyuaJU+HoXKX5heqpioVli1BPnGNLElBI29f
+ RYow==
+X-Gm-Message-State: ABy/qLYO9gByW0PbYepwujM7W0fWyYY7/l8D98d/6zC9MKeIJe2ZsX+o
+ qBiJML5NV3u3OxuOiV1nxtAcqBmHAtd59u+3mxo=
+X-Google-Smtp-Source: APBJJlFRWORvSPdmmHKFB33CKQ9ywysannOuHAp+3anxtobj0i+GTMDRBZDMpxSrccxl77ik7dE2sg==
+X-Received: by 2002:a92:c081:0:b0:347:6d5f:ab2f with SMTP id
+ h1-20020a92c081000000b003476d5fab2fmr9592413ile.6.1689566416345; 
+ Sun, 16 Jul 2023 21:00:16 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
+ [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
+ w15-20020a92db4f000000b00345d154ce58sm4519409ilq.12.2023.07.16.21.00.15
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 Jul 2023 21:00:15 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-78360b822abso160889839f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jul 2023 21:00:15 -0700 (PDT)
+X-Received: by 2002:a5e:890a:0:b0:77e:288d:f3c1 with SMTP id
+ k10-20020a5e890a000000b0077e288df3c1mr9803357ioj.6.1689566414860; Sun, 16 Jul
+ 2023 21:00:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20230710223304.1174642-1-almasrymina@google.com>
-From: Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20230710223304.1174642-1-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230421021609.7730-1-nancy.lin@mediatek.com>
+ <ae96299cffaacdbf51beae96e3a257c95a04ac95.camel@mediatek.com>
+In-Reply-To: <ae96299cffaacdbf51beae96e3a257c95a04ac95.camel@mediatek.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Mon, 17 Jul 2023 11:59:38 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njEG2sV28XAWDw8FoQ0p5w=-sU4i+D-ESfapHMQC1ZW3Q@mail.gmail.com>
+Message-ID: <CAC=S1njEG2sV28XAWDw8FoQ0p5w=-sU4i+D-ESfapHMQC1ZW3Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/mediatek: fix uninitialized symbol
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,84 +79,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, jgg@ziepe.ca,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/10/23 15:32, Mina Almasry wrote:
-> * TL;DR:
-> 
-> Device memory TCP (devmem TCP) is a proposal for transferring data to and/or
-> from device memory efficiently, without bouncing the data to a host memory
-> buffer.
+Hi CK,
 
-(I'm writing this as someone who might plausibly use this mechanism, but 
-I don't think I'm very likely to end up working on the kernel side, 
-unless I somehow feel extremely inspired to implement it for i40e.)
+On Fri, Jul 14, 2023 at 5:27=E2=80=AFPM CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89)=
+ <ck.hu@mediatek.com> wrote:
+>
+> Hi, Nancy:
+>
+> On Fri, 2023-04-21 at 10:16 +0800, Nancy.Lin wrote:
+snip
+>
+> In line 566, the statement is
+>
+> if (nodo) {
+>         comp_pdev =3D ...
+> }
+>
+> The comment says that only ovl_adaptoer has no device node, so the
+> checking should be
+>
+> if (type !=3D MTK_DISP_OVL_ADAPTOR) {
+>         comp_pdev =3D ...
+> }
+>
+> and later it would return when type =3D MTK_DISP_OVL_ADAPTOR,
+> so there would be no problem of uninitialized symbol.
 
-I looked at these patches and the GVE tree, and I'm trying to wrap my 
-head around the data path.  As I understand it, for RX:
+That sounds fair, but IIUC what Nancy tries to resolve here is the
+false-positive Smatch warning.
+How about this: given the `if (node)` block was exclusively added for
+ovl_adaptor in [1], plus the init function will immediately return
+after that in this case, it should be safe to do the following
 
-1. The GVE driver notices that the queue is programmed to use devmem, 
-and it programs the NIC to copy packet payloads to the devmem that has 
-been programmed.
-2. The NIC receives the packet and copies the header to kernel memory 
-and the payload to dma-buf memory.
-3. The kernel tells userspace where in the dma-buf the data is.
-4. Userspace does something with the data.
-5. Userspace does DONTNEED to recycle the memory and make it available 
-for new received packets.
+```
+/* Not all drm components have a DTS device node... */
+if (node =3D=3D NULL)
+    return 0;
 
-Did I get this right?
+comp_pdev =3D of_find_device_by_node(node);
+...
 
-This seems a bit awkward if there's any chance that packets not intended 
-for the target device end up in the rxq.
+if (type =3D=3D MTK_DISP_AAL ||
+...
+```
 
-I'm wondering if a more capable if somewhat higher latency model could 
-work where the NIC stores received packets in its own device memory. 
-Then userspace (or the kernel or a driver or whatever) could initiate a 
-separate DMA from the NIC to the final target *after* reading the 
-headers.  Can the hardware support this?
+which is equivalent to adding a `node =3D=3D NULL` check before [1].
+This should suppress the Smatch warning because `comp_pdev` will be
+(again) unconditionally assigned to something, and the `type =3D=3D
+MTK_DISP_OVL_ADAPTOR` line can be dropped also (optional?).
 
-Another way of putting this is: steering received data to a specific 
-device based on the *receive queue* forces the logic selecting a 
-destination device to be the same as the logic selecting the queue.  RX 
-steering logic is pretty limited on most hardware (as far as I know -- 
-certainly I've never had much luck doing anything especially intelligent 
-with RX flow steering, and I've tried on a couple of different brands of 
-supposedly fancy NICs).  But Linux has very nice capabilities to direct 
-packets, in software, to where they are supposed to go, and it would be 
-nice if all that logic could just work, scalably, with device memory. 
-If Linux could examine headers *before* the payload gets DMAed to 
-wherever it goes, I think this could plausibly work quite nicely.  One 
-could even have an easy-to-use interface in which one directs a *socket* 
-to a PCIe device.  I expect, although I've never looked at the 
-datasheets, that the kernel could even efficiently make rx decisions 
-based on data in device memory on upcoming CXL NICs where device memory 
-could participate in the host cache hierarchy.
+[1]: commit 0d9eee9118b7 ("drm/mediatek: Add drm ovl_adaptor sub
+driver for MT8195")
 
-My real ulterior motive is that I think it would be great to use an 
-ability like this for DPDK-like uses.  Wouldn't it be nifty if I could 
-open a normal TCP socket, then, after it's open, ask the kernel to 
-kindly DMA the results directly to my application memory (via udmabuf, 
-perhaps)?  Or have a whole VLAN or macvlan get directed to a userspace 
-queue, etc?
-
-
-It also seems a bit odd to me that the binding from rxq to dma-buf is 
-established by programming the dma-buf.  This makes the security model 
-(and the mental model) awkward -- this binding is a setting on the 
-*queue*, not the dma-buf, and in a containerized or privilege-separated 
-system, a process could have enough privilege to make a dma-buf 
-somewhere but not have any privileges on the NIC.  (And may not even 
-have the NIC present in its network namespace!)
-
---Andy
+Regards,
+Fei
