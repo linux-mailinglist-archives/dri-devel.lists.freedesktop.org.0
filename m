@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37961756437
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D0675644D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 15:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD2610E241;
-	Mon, 17 Jul 2023 13:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B323010E23A;
+	Mon, 17 Jul 2023 13:19:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-4.mta0.migadu.com (out-4.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D69310E23A
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:17:30 +0000 (UTC)
-Content-Type: multipart/alternative;
- boundary="------------JKLfB54Qwq2eqKP1PnwIWNIX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689599846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7+RliUrqICbDC830YEWOJg9bc03V4eGiVu8EeHfdt18=;
- b=DSEnU8oaOgf5lchiQaWDNUZzGcgYUikosTVblgD3dLS+JPZPFT2BACPOFSRadcjrQOjYjY
- SC1t2XRw9HeIZVN6E1npqx1bG59dkRq/djXWRuvaHGH6urb6ydIb/vWjrrUIWyMTGX5NdR
- VW+PwKyEeskNGgP0pTe14mdL3nNMsFg=
-Message-ID: <ddd6430c-86c1-7aae-fd46-0f33399e0067@linux.dev>
-Date: Mon, 17 Jul 2023 21:17:12 +0800
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1AF110E23A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 13:19:02 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-310-MKii5FwAMlKdoCNe_Twzww-1; Mon, 17 Jul 2023 14:17:35 +0100
+X-MC-Unique: MKii5FwAMlKdoCNe_Twzww-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 17 Jul
+ 2023 14:17:34 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 17 Jul 2023 14:17:34 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: =?utf-8?B?J0phc29uLUpIIExpbiAo5p6X552/56WlKSc=?=
+ <Jason-JH.Lin@mediatek.com>, =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?=
+ <ck.hu@mediatek.com>, "amergnat@baylibre.com" <amergnat@baylibre.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
+Subject: RE: [PATCH v3 3/4] drm/mediatek: Add casting before assign
+Thread-Topic: [PATCH v3 3/4] drm/mediatek: Add casting before assign
+Thread-Index: AQHZpCpze4o/ajTsOEOlfRNPyXn/w6+45FuAgAAQ54CABSNGEA==
+Date: Mon, 17 Jul 2023 13:17:34 +0000
+Message-ID: <df87b66cc9de4f4c8e3b555278533b0d@AcuMS.aculab.com>
+References: <20230621102247.10116-1-jason-jh.lin@mediatek.com>
+ <20230621102247.10116-4-jason-jh.lin@mediatek.com>
+ <f8a838524f0ce324495fcf2994488d76768cae2f.camel@mediatek.com>
+ <9d2e3526bd30e9f307eab32b67f487fa4ab102eb.camel@mediatek.com>
+In-Reply-To: <9d2e3526bd30e9f307eab32b67f487fa4ab102eb.camel@mediatek.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To: suijingfeng <suijingfeng@loongson.cn>, Bjorn Helgaas
- <bhelgaas@google.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, "Maciej W. Rozycki" <macro@orcam.me.uk>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>
-References: <20230711134354.755966-1-sui.jingfeng@linux.dev>
- <20230711134354.755966-3-sui.jingfeng@linux.dev>
- <6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,398 +63,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------JKLfB54Qwq2eqKP1PnwIWNIX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+RnJvbTogSmFzb24tSkggTGluDQo+IFNlbnQ6IDE0IEp1bHkgMjAyMyAwNzo0Ng0KPiANCj4gSGkg
+Q0ssDQo+IA0KPiBUaGFua3MgZm9yIHRoZSByZXZpZXdzLg0KPiANCj4gT24gRnJpLCAyMDIzLTA3
+LTE0IGF0IDA1OjQ1ICswMDAwLCBDSyBIdSAo6IOh5L+K5YWJKSB3cm90ZToNCj4gPiBIaSwgSmFz
+b246DQo+ID4NCj4gPiBPbiBXZWQsIDIwMjMtMDYtMjEgYXQgMTg6MjIgKzA4MDAsIEphc29uLUpI
+LkxpbiB3cm90ZToNCj4gPiA+IDEuIEFkZCBjYXN0aW5nIGJlZm9yZSBhc3NpZ24gdG8gYXZvaWQg
+dGhlIHVuaW50ZW50aW9uYWwgaW50ZWdlcg0KPiA+ID4gICAgb3ZlcmZsb3cgb3IgdW5pbnRlbmRl
+ZCBzaWduIGV4dGVuc2lvbi4NCj4gPiA+IDIuIEFkZCBhIGludCB2YXJyaWFibGUgZm9yIG11bHRp
+cGxpZXIgY2FsY3VsYXRpb24gaW5zdGVhZCBvZg0KPiA+ID4gY2FsY3VsYXRpbmcNCj4gPiA+ICAg
+IGRpZmZlcmVudCB0eXBlcyBtdWx0aXBsaWVyIHdpdGggZG1hX2FkZHJfdCB2YXJyaWFibGUgZGly
+ZWN0bHkuDQo+ID4NCj4gPiBJIGFncmVlIHdpdGggdGhlc2UgbW9kaWZpY2F0aW9uLCBidXQgdGhl
+IHRpdGxlIGRvZXMgbm90IG1hdGNoIHRoZQ0KPiA+IG1vZGlmaWNhdGlvbi4NCj4gPg0KPiA+IFJl
+Z2FyZHMsDQo+ID4gQ0sNCj4gDQo+IEknbGwgY2hhbmdlIHRoZSB0aXRsZSBhbmQgY29tbWl0IG1z
+ZyBhdCB0aGUgbmV4dCB2ZXJzaW9uIGJlbG93Og0KPiANCj4gRml4IHVuaW50ZW50aW9uYWwgaW50
+ZWdlciBvdmVyZmxvdyBpbiBtdWx0aXBseWluZyBkaWZmZXJlbnQgdHlwZXMNCj4gDQo+IDEuIElu
+c3RlYWQgb2YgbXVsdGlwbHlpbmcgMiB2YXJpYWJsZSBvZiBkaWZmZXJlbnQgdHlwZXMuIENoYW5n
+ZSB0bw0KPiBhc3NpZ24gYSB2YWx1ZSBvZiBvbmUgdmFyaWFibGUgYW5kIHRoZW4gbXVsdGlwbHkg
+dGhlIG90aGVyIHZhcmlhYmxlLg0KPiANCj4gMi4gQWRkIGEgaW50IHZhcmlhYmxlIGZvciBtdWx0
+aXBsaWVyIGNhbGN1bGF0aW9uIGluc3RlYWQgb2YgY2FsY3VsYXRpbmcNCj4gZGlmZmVyZW50IHR5
+cGVzIG11bHRpcGxpZXIgd2l0aCBkbWFfYWRkcl90IHZhcmlhYmxlIGRpcmVjdGx5Lg0KDQpJJ20g
+cHJldHR5IHN1cmUgdGhlIHBhdGNoIG1ha2VzIGFic29sdXRlbHkgbm8gZGlmZmVyZW5jZS4NCklu
+IEMgYWxsIGFyaXRobWV0aWMgaXMgZG9uZSB3aXRoIGNoYXIvc2hvcnQgKGluYy4gdW5zaWduZWQp
+DQpwcm9tb3RlZCB0byBpbnQuDQoNClNvIHRoZSBvbmx5IGxpa2VseSBvdmVyZmxvdyBpcyBpZiB0
+aGUgdmFsdWVzIGV4Y2VlZCAyXjMxLg0KU2luY2UgdGhlIHRlbXBvcmFyaWVzIHlvdSBhcmUgdXNp
+bmcgYXJlICdpbnQnIHRoaXMgaXNuJ3QgdHJ1ZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQg
+QWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVz
+LCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-Hi,
-
-On 2023/7/17 17:51, suijingfeng wrote:
->
-> Hi,
->
->
-> On 2023/7/11 21:43, Sui Jingfeng wrote:
->> From: Sui Jingfeng<suijingfeng@loongson.cn>
->>
->> Currently, vgaarb only cares about PCI VGA-compatible class devices.
->>
->> While vga_arbiter_del_pci_device() gets called unbalanced when some PCI
->> device is about to be removed. This happens even during the boot process.
->>
->> Another reason is that the vga_arb_device_init() function is not efficient.
->> Since we only care about VGA-compatible devices (pdev->class == 0x030000),
->> We could filter the unqualified devices out in the vga_arb_device_init()
->> function. While the current implementation is to search all PCI devices
->> in a system, this is not necessary.
->>
->> Reviewed-by: Mario Limonciello<mario.limonciello@amd.com>
->> Signed-off-by: Sui Jingfeng<suijingfeng@loongson.cn>
->> ---
->>   drivers/pci/vgaarb.c | 25 +++++++++++++------------
->>   1 file changed, 13 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->> index c1bc6c983932..021116ed61cb 100644
->> --- a/drivers/pci/vgaarb.c
->> +++ b/drivers/pci/vgaarb.c
->> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
->>   	struct pci_dev *bridge;
->>   	u16 cmd;
->>   
->> -	/* Only deal with VGA class devices */
->> -	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
->> -		return false;
->> -
->>   	/* Allocate structure */
->>   	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
->>   	if (vgadev == NULL) {
->> @@ -1502,6 +1498,10 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->>   
->>   	vgaarb_dbg(dev, "%s\n", __func__);
->>   
->> +	/* Deal with VGA compatible devices only */
->> +	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
->> +		return 0;
->> +
->>   	/* For now we're only intereted in devices added and removed. I didn't
->>   	 * test this thing here, so someone needs to double check for the
->>   	 * cases of hotplugable vga cards. */
->> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
->>   
->>   static int __init vga_arb_device_init(void)
->>   {
->> +	struct pci_dev *pdev = NULL;
->>   	int rc;
->> -	struct pci_dev *pdev;
->>   
->>   	rc = misc_register(&vga_arb_device);
->>   	if (rc < 0)
->> @@ -1543,13 +1543,14 @@ static int __init vga_arb_device_init(void)
->>   
->>   	bus_register_notifier(&pci_bus_type, &pci_notifier);
->>   
->> -	/* We add all PCI devices satisfying VGA class in the arbiter by
->> -	 * default */
->> -	pdev = NULL;
->> -	while ((pdev =
->> -		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
->> -			       PCI_ANY_ID, pdev)) != NULL)
->> -		vga_arbiter_add_pci_device(pdev);
->> +	/*
->> +	 * We add all PCI VGA compatible devices in the arbiter by default
->> +	 */
->> +	do {
->> +		pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
->> +		if (pdev)
->> +			vga_arbiter_add_pci_device(pdev);
->> +	} while (pdev);
-> I suddenly remember one more thing that I forget to explain.
->
-> In a previous thread[1] of previous version of this series,
->
-> Maciej seems argue that PCI_CLASS_NOT_DEFINED_VGA should be handled also.
->
-> But, even I try to handled PCI_CLASS_NOT_DEFINED_VGA at here,
->
-> this card still will not be annotate as boot_vga,
->
-> because the pci_dev_attrs_are_visible() function only consider VGA compatible devices
->
-> which (pdev->class >> 8 == PCI_CLASS_DISPLAY_VGA) is true. See [2].
->
->
-> Intel integrated GPU is more intelligent,
->
-> which could change their class of the PCI(e) device to 0x038000 when
->
-> multiple GPU co-exist. Even though the GPU can display. This is configurable by
->
-> the firmware, but this is trying to escape the arbitration by changing is PCI id.
-
-"by changing is PCI id" -> "by changing its PCI(e) class number".
-
-For example, the intel GPU will change their PCI class number from 0x030000 to 0x038000,
-
-if a user choose the dGPU as primary by setting their UEFI firmware from the BIOS.
-
-
-But other GPUs may not support to change their PCI class number.
-
->
-> So, PCI devices belong to the PCI_CLASS_DISPLAY_OTHER, PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_XGA
->
-> can not participate in the arbitration. They are all will be get filtered.
-
-I means that PCI devices with their PCI class number equal  to
-
-PCI_CLASS_DISPLAY_OTHER, PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_XGA
-
-will get ignored by vgaarb currently.
-
-Even we throw other devices(DISPLAY_OTHER, DISPLAY_3D, DISPLAY_XGA) into 
-the arbitrator,
-
-We still not make a meaningful progress, I need also to change the code 
-in link [2]
-
-to make the boot_vga visible to userspace. Because X server is the end 
-consumer.
-
-This already form an ABI.  So change the code here alone is not enough 
-to expand vgaarb.
-
->
-> So, this is a limitation of the vgaarb itself.
->
-> While I could help to improve it in the future, what do you think?
-> Is my express clear?
-Am I express my thoughts clearly ?
->
-> [1] 
-> https://lkml.kernel.org/nouveau/alpine.DEB.2.21.2306190339590.14084@angie.orcam.me.uk/#t
->
-> [2] 
-> https://elixir.bootlin.com/linux/latest/source/drivers/pci/pci-sysfs.c#L1544
->
-Alex acclaims that "we won't need vgaarb if the platform has no VGA devices", see [3].
-
-while this is not 100% correct, because X server is the primary consumer of the boot_vga flag,
-
-the convention usage of the userspace and the kernel space is already established.
-
-So without we can craft something new easily without significant change.
-
-
-
-[3]https://lkml.kernel.org/nouveau/CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com/
-
-
->>   
->>   	pr_info("loaded\n");
->>   	return rc;
---------------JKLfB54Qwq2eqKP1PnwIWNIX
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi,<br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/7/17 17:51, suijingfeng wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p>Hi,<br>
-      </p>
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 2023/7/11 21:43, Sui Jingfeng
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:20230711134354.755966-3-sui.jingfeng@linux.dev">
-        <pre class="moz-quote-pre" wrap="">From: Sui Jingfeng <a class="moz-txt-link-rfc2396E" href="mailto:suijingfeng@loongson.cn" moz-do-not-send="true">&lt;suijingfeng@loongson.cn&gt;</a>
-
-Currently, vgaarb only cares about PCI VGA-compatible class devices.
-
-While vga_arbiter_del_pci_device() gets called unbalanced when some PCI
-device is about to be removed. This happens even during the boot process.
-
-Another reason is that the vga_arb_device_init() function is not efficient.
-Since we only care about VGA-compatible devices (pdev-&gt;class == 0x030000),
-We could filter the unqualified devices out in the vga_arb_device_init()
-function. While the current implementation is to search all PCI devices
-in a system, this is not necessary.
-
-Reviewed-by: Mario Limonciello <a class="moz-txt-link-rfc2396E" href="mailto:mario.limonciello@amd.com" moz-do-not-send="true">&lt;mario.limonciello@amd.com&gt;</a>
-Signed-off-by: Sui Jingfeng <a class="moz-txt-link-rfc2396E" href="mailto:suijingfeng@loongson.cn" moz-do-not-send="true">&lt;suijingfeng@loongson.cn&gt;</a>
----
- drivers/pci/vgaarb.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index c1bc6c983932..021116ed61cb 100644
---- a/drivers/pci/vgaarb.c
-+++ b/drivers/pci/vgaarb.c
-@@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 	struct pci_dev *bridge;
- 	u16 cmd;
- 
--	/* Only deal with VGA class devices */
--	if ((pdev-&gt;class &gt;&gt; 8) != PCI_CLASS_DISPLAY_VGA)
--		return false;
--
- 	/* Allocate structure */
- 	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
- 	if (vgadev == NULL) {
-@@ -1502,6 +1498,10 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
- 
- 	vgaarb_dbg(dev, "%s\n", __func__);
- 
-+	/* Deal with VGA compatible devices only */
-+	if ((pdev-&gt;class &gt;&gt; 8) != PCI_CLASS_DISPLAY_VGA)
-+		return 0;
-+
- 	/* For now we're only intereted in devices added and removed. I didn't
- 	 * test this thing here, so someone needs to double check for the
- 	 * cases of hotplugable vga cards. */
-@@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
- 
- static int __init vga_arb_device_init(void)
- {
-+	struct pci_dev *pdev = NULL;
- 	int rc;
--	struct pci_dev *pdev;
- 
- 	rc = misc_register(&amp;vga_arb_device);
- 	if (rc &lt; 0)
-@@ -1543,13 +1543,14 @@ static int __init vga_arb_device_init(void)
- 
- 	bus_register_notifier(&amp;pci_bus_type, &amp;pci_notifier);
- 
--	/* We add all PCI devices satisfying VGA class in the arbiter by
--	 * default */
--	pdev = NULL;
--	while ((pdev =
--		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
--			       PCI_ANY_ID, pdev)) != NULL)
--		vga_arbiter_add_pci_device(pdev);
-+	/*
-+	 * We add all PCI VGA compatible devices in the arbiter by default
-+	 */
-+	do {
-+		pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA &lt;&lt; 8, pdev);
-+		if (pdev)
-+			vga_arbiter_add_pci_device(pdev);
-+	} while (pdev);
-</pre>
-      </blockquote>
-      <pre id="b">I suddenly remember one more thing that I forget to explain.
-
-In a previous thread[1] of previous version of this series,
-
-Maciej seems argue that PCI_CLASS_NOT_DEFINED_VGA should be handled also.
-
-But, even I try to handled PCI_CLASS_NOT_DEFINED_VGA at here,
-
-this card still will not be annotate as boot_vga,
-
-because the pci_dev_attrs_are_visible() function only consider VGA compatible devices
-
-which (pdev-&gt;class &gt;&gt; 8 == PCI_CLASS_DISPLAY_VGA) is true. See [2].
-
-
-Intel integrated GPU is more intelligent,
-
-which could change their class of the PCI(e) device to 0x038000 when
-
-multiple GPU co-exist. Even though the GPU can display. This is configurable by
-
-the firmware, but this is trying to escape the arbitration by changing is PCI id. 
-</pre>
-    </blockquote>
-    <pre id="b">"by changing is PCI id" -&gt; "by changing its PCI(e) class number".
-
-For example, the intel GPU will change their PCI class number from 0x030000 to 0x038000,
-
-if a user choose the dGPU as primary by setting their UEFI firmware from the BIOS.
-
-
-But other GPUs may not support to change their PCI class number.
-
-</pre>
-    <blockquote type="cite"
-      cite="mid:6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn">
-      <pre id="b">
-
-So, PCI devices belong to the PCI_CLASS_DISPLAY_OTHER, PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_XGA
-
-can not participate in the arbitration. They are all will be get filtered. </pre>
-    </blockquote>
-    <p>I means that PCI devices with their PCI class number equal  to</p>
-    <p>PCI_CLASS_DISPLAY_OTHER, PCI_CLASS_DISPLAY_3D and
-      PCI_CLASS_DISPLAY_XGA</p>
-    <p>will get ignored by vgaarb currently.</p>
-    <p>Even we throw other devices(DISPLAY_OTHER, DISPLAY_3D,
-      DISPLAY_XGA) into the arbitrator,<br>
-    </p>
-    <p>We still not make a meaningful progress, I need also to change
-      the code in link [2]</p>
-    <p>to make the boot_vga visible to userspace. Because X server is
-      the end consumer.<br>
-    </p>
-    <p>This already form an ABI.  So change the code here alone is not
-      enough to expand vgaarb.<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn">
-      <pre id="b">
-
-So, this is a limitation of the vgaarb itself.
-
-While I could help to improve it in the future, what do you think?</pre>
-    </blockquote>
-    <blockquote type="cite"
-      cite="mid:6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn">
-      <pre id="b">
-Is my express clear?
-</pre>
-    </blockquote>
-    Am I express my thoughts clearly ?<br>
-    <blockquote type="cite"
-      cite="mid:6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn">
-      <pre id="b">
-</pre>
-      <p>[1]
-        <a class="moz-txt-link-freetext"
-href="https://lkml.kernel.org/nouveau/alpine.DEB.2.21.2306190339590.14084@angie.orcam.me.uk/#t"
-          moz-do-not-send="true">https://lkml.kernel.org/nouveau/alpine.DEB.2.21.2306190339590.14084@angie.orcam.me.uk/#t</a></p>
-      <p>[2]
-        <a class="moz-txt-link-freetext"
-href="https://elixir.bootlin.com/linux/latest/source/drivers/pci/pci-sysfs.c#L1544"
-          moz-do-not-send="true">https://elixir.bootlin.com/linux/latest/source/drivers/pci/pci-sysfs.c#L1544</a><br>
-      </p>
-    </blockquote>
-    <pre id="b">
-Alex acclaims that "we won't need vgaarb if the platform has no VGA devices", see [3].
-
-while this is not 100% correct, because X server is the primary consumer of the boot_vga flag,
-
-the convention usage of the userspace and the kernel space is already established.
-
-So without we can craft something new easily without significant change.
-
-
-
-[3] <a class="moz-txt-link-freetext" href="https://lkml.kernel.org/nouveau/CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com/">https://lkml.kernel.org/nouveau/CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com/</a>
-</pre>
-    <p></p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:6b4ff3d5-293e-7bf3-f5df-babc14661c44@loongson.cn">
-      <p> </p>
-      <blockquote type="cite"
-        cite="mid:20230711134354.755966-3-sui.jingfeng@linux.dev">
-        <pre class="moz-quote-pre" wrap=""> 
- 	pr_info("loaded\n");
- 	return rc;
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
-
---------------JKLfB54Qwq2eqKP1PnwIWNIX--
