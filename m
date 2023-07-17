@@ -1,84 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C9675605F
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 12:27:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395DE756093
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 12:36:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 573F510E225;
-	Mon, 17 Jul 2023 10:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045A810E227;
+	Mon, 17 Jul 2023 10:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B138D10E225
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689589623;
+Received: from out-50.mta1.migadu.com (out-50.mta1.migadu.com [95.215.58.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 545C210E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 10:36:29 +0000 (UTC)
+Message-ID: <59365758-a14a-feb6-6a17-729c5b43e581@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1689590187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QcjXX5GWlegc91aegHozDG5ys9NXk4J7QfyGnNAR82g=;
- b=XrpZPjAsl8mA7ZAChOz1BPW2utDsrTt6W0f0wLIkGDy7RKO8FekuySZ6xmU+/0l2b/WrdZ
- UbDp1rDD2Ylm2q5KuxrTEwqeHD3q0mvKAOj3Vqf2Aqfhw9UT8z5BAoZAEHiY2fMGnK29HR
- ZktIiR5/LJDY0BS79YUN8cln1t31U0w=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-671-kHVPZAhYMV6JDwlf7a1m_A-1; Mon, 17 Jul 2023 06:27:02 -0400
-X-MC-Unique: kHVPZAhYMV6JDwlf7a1m_A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-2f2981b8364so2678256f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 03:27:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689589621; x=1692181621;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QcjXX5GWlegc91aegHozDG5ys9NXk4J7QfyGnNAR82g=;
- b=Yg6msAVt/iWJ6S+kwlCeHGmWCL7B06Urf1AkomfMr4hYv+hk0BL/00yNJhc8Z12aRK
- SHx+kejAmjoNdNJ/p1wxExwOs1UY/Hel+cm1nNGaxOc4S96S4SlohAx0T1R885fTNzqw
- D3pSWoyZ9CEOc5DbGAJCeWlRlrdnsoT+g3SG5CnnaXSh7be6//flCdgo2k4YgBRE+wid
- op5ji4YpqzRNkpN/cpKldB+L9wkOtlLyUevtbMjTtCbZCH3FSda6StmfkrbsXEqRH23H
- Qe12CCfgVDAaiR6SIaFcMT3ng6m34A9nCUBdzCf/gb/8XQAb5n7XAd6/2Y8RXjvtIxHd
- sJCw==
-X-Gm-Message-State: ABy/qLaa9UjBVJuZm6P0ohG6YdKWnS3UVUEQGAWfj5mO/jGv+XVVX5ku
- hceMVuQuNcfOXpCNbM2JFSydbT2D7/nX2NJ7O+YNeDC6J+vaztZA8DgMHGlTgyK3sA6JblLBh13
- R6fjXRVQXGjxcG9rX3iiPY9LWjj7S
-X-Received: by 2002:a5d:6a49:0:b0:314:2c17:d921 with SMTP id
- t9-20020a5d6a49000000b003142c17d921mr10297827wrw.38.1689589621623; 
- Mon, 17 Jul 2023 03:27:01 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHg4QSrt7ASwOV1fEBcNK4Q/NKk0aYoKscyfvU06BxfjAob7ZBV5ewkV0pAvLD46ImkfH0r8w==
-X-Received: by 2002:a5d:6a49:0:b0:314:2c17:d921 with SMTP id
- t9-20020a5d6a49000000b003142c17d921mr10297812wrw.38.1689589621295; 
- Mon, 17 Jul 2023 03:27:01 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c735:400:2501:5a2e:13c6:88da?
- (p200300cbc735040025015a2e13c688da.dip0.t-ipconnect.de.
- [2003:cb:c735:400:2501:5a2e:13c6:88da])
- by smtp.gmail.com with ESMTPSA id
- v16-20020a5d4b10000000b003143be36d99sm18839549wrq.58.2023.07.17.03.27.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jul 2023 03:27:00 -0700 (PDT)
-Message-ID: <4a7feeb3-0c9e-0dba-1023-4f0ae1bfe471@redhat.com>
-Date: Mon, 17 Jul 2023 12:26:59 +0200
+ bh=qkMjuh1v+2sdz1CZtDe1vdfKbs4DnmbzZ54ExQuiBD0=;
+ b=AnX3rHXJKdWUgnb5Bn5ywZJfJbOtkR6Ij/4aELIBsviIyHp0J99iiSthhNGSuHpdj06Qp2
+ mLz1nDwqr0SjJSZZMuTs2QKAPsX89UWMeSs2NxjIx/CiNdxXNqUTIUl2VMmtDfxVv0L7x1
+ SXF8WtA75aY0V483zNtYXvHLh78yj4Q=
+Date: Mon, 17 Jul 2023 18:36:23 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/5] mm: introduce vma_is_stack() and vma_is_heap()
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <20230712143831.120701-1-wangkefeng.wang@huawei.com>
- <20230712143831.120701-2-wangkefeng.wang@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230712143831.120701-2-wangkefeng.wang@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v1 8/8] drm/etnaviv: Add a helper to get a pointer to the
+ first available node
 Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+ <20230623100822.274706-9-sui.jingfeng@linux.dev>
+ <66749b1b4523d2859b9fbc6e9120e5f1e887d531.camel@pengutronix.de>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <66749b1b4523d2859b9fbc6e9120e5f1e887d531.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,51 +54,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: selinux@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn, Sui Jingfeng <suijingfeng@loongson.cn>,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.07.23 16:38, Kefeng Wang wrote:
-> Introduce the two helpers for general use.
-> 
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->   include/linux/mm.h | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 1462cf15badf..0bbeb31ac750 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -926,6 +926,18 @@ static inline bool vma_is_anonymous(struct vm_area_struct *vma)
->   	return !vma->vm_ops;
->   }
->   
-> +static inline bool vma_is_heap(struct vm_area_struct *vma)
-> +{
-> +       return vma->vm_start <= vma->vm_mm->brk &&
-> +		vma->vm_end >= vma->vm_mm->start_brk;
-> +}
-> +
-> +static inline bool vma_is_stack(struct vm_area_struct *vma)
-> +{
-> +       return vma->vm_start <= vma->vm_mm->start_stack &&
-> +	       vma->vm_end >= vma->vm_mm->start_stack;
-> +}
-> +
->   static inline bool vma_is_temporary_stack(struct vm_area_struct *vma)
->   {
->   	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+Hi,
 
-Looking at the comments in patch #3, should these functions be called
+On 2023/7/17 18:07, Lucas Stach wrote:
+> Am Freitag, dem 23.06.2023 um 18:08 +0800 schrieb Sui Jingfeng:
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> This make the code in etnaviv_pdev_probe() less twisted, drop the reference
+>> to device node after finished. Also kill a double blank line.
+>>
+> I can't spot the double blank line you claim to remove.
+>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 32 ++++++++++++++++++---------
+>>   1 file changed, 22 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>> index 7d0eeab3e8b7..3446f8eabf59 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+>> @@ -27,6 +27,19 @@
+>>    * DRM operations:
+>>    */
+>>   
+>> +/* If the DT contains at least one available GPU, return a pointer to it */
+>> +
+> I think the code in the function is simple enough that we don't need a
+> comment explaining what it does.
 
-vma_is_initial_heap / vma_is_initial_stack ?
+Because the DT could disable GPU cores by add "status=disabled" property.
 
--- 
-Cheers,
+So, only the word *available* in this comments is deserved.
 
-David / dhildenb
+But I'm fine to delete the comment for this function, will be fixed at 
+the next version.
 
+Thanks for reviewing.
+
+> Regards,
+> Lucas
+>
+>> +static struct device_node *etnaviv_of_first_node(void)
+>> +{
+>> +	struct device_node *np;
+>> +
+>> +	for_each_compatible_node(np, NULL, "vivante,gc") {
+>> +		if (of_device_is_available(np))
+>> +			return np;
+>> +	}
+>> +
+>> +	return NULL;
+>> +}
+>>   
+>>   static void load_gpu(struct drm_device *dev)
+>>   {
+>> @@ -587,7 +600,7 @@ static const struct component_master_ops etnaviv_master_ops = {
+>>   static int etnaviv_pdev_probe(struct platform_device *pdev)
+>>   {
+>>   	struct device *dev = &pdev->dev;
+>> -	struct device_node *first_node = NULL;
+>> +	struct device_node *first_node;
+>>   	struct component_match *match = NULL;
+>>   
+>>   	if (!dev->platform_data) {
+>> @@ -597,11 +610,10 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+>>   			if (!of_device_is_available(core_node))
+>>   				continue;
+>>   
+>> -			if (!first_node)
+>> -				first_node = core_node;
+>> -
+>>   			drm_of_component_match_add(&pdev->dev, &match,
+>>   						   component_compare_of, core_node);
+>> +
+>> +			of_node_put(core_node);
+>>   		}
+>>   	} else {
+>>   		char **names = dev->platform_data;
+>> @@ -634,8 +646,11 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+>>   	 * device as the GPU we found. This assumes that all Vivante
+>>   	 * GPUs in the system share the same DMA constraints.
+>>   	 */
+>> -	if (first_node)
+>> +	first_node = etnaviv_of_first_node();
+>> +	if (first_node) {
+>>   		of_dma_configure(&pdev->dev, first_node, true);
+>> +		of_node_put(first_node);
+>> +	}
+>>   
+>>   	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+>>   }
+>> @@ -709,17 +724,14 @@ static int __init etnaviv_init(void)
+>>   	 * If the DT contains at least one available GPU device, instantiate
+>>   	 * the DRM platform device.
+>>   	 */
+>> -	for_each_compatible_node(np, NULL, "vivante,gc") {
+>> -		if (!of_device_is_available(np))
+>> -			continue;
+>> +	np = etnaviv_of_first_node();
+>> +	if (np) {
+>>   		of_node_put(np);
+>>   
+>>   		ret = etnaviv_create_platform_device("etnaviv",
+>>   						     &etnaviv_platform_device);
+>>   		if (ret)
+>>   			goto unregister_platform_driver;
+>> -
+>> -		break;
+>>   	}
+>>   
+>>   	return 0;
