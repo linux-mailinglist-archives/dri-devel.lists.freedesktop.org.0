@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E88755E0E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:14:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26190755E4E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jul 2023 10:17:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6800810E201;
-	Mon, 17 Jul 2023 08:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB07410E202;
+	Mon, 17 Jul 2023 08:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0395810E201
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:14:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE10110E202
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 08:17:34 +0000 (UTC)
+Received: from workpc.. (109-252-154-2.dynamic.spd-mgts.ru [109.252.154.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 51C3A60FAB;
- Mon, 17 Jul 2023 08:14:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41158C433C8;
- Mon, 17 Jul 2023 08:14:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689581651;
- bh=Sl+QltKLEKMYxs1hQQYrVUaWdIlqz3j/k7mSX0+hia0=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=bn7stKdHRnxERh8ChT9k48Nl7RDqA5KiV5mJzKqwKSoLmkNM3DkwItVrNBIRd9lKE
- vOZdKC+OEwIPjKfGIL49v9oGrpKiqZ1s/eIoy5rCDr+4+hJXBmHCaMc9FOUy0MLmcs
- HWFaeD4zwj7R8XPjhP+k3HJacKmw8nRUXtG5DFKtkWu4ooIIrLJRI3gwbcymOVJ763
- pjJhhRHGncO/25zybkV8OWZOatOvVk1u+Q0Rxhd8bEhGkPadQEdCCr26Mr67UL20ly
- 4PLlMkWGwMY4jODeWw3bHcn6mr7D/NeqbZWm1e5AhI2ZKk1AHfsWP3azvdu/SWUJYZ
- pgP4exJc8mfBQ==
-Message-ID: <c244d1d525c9582899fcf581b0f6078c.mripard@kernel.org>
-Date: Mon, 17 Jul 2023 08:14:09 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Sarah Walker" <sarah.walker@imgtec.com>
-Subject: Re: [PATCH v4 05/17] drm/imagination: Get GPU resources
-In-Reply-To: <20230714142618.111746-1-sarah.walker@imgtec.com>
-References: <20230714142618.111746-1-sarah.walker@imgtec.com>
-Content-Transfer-Encoding: 7bit
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 33A456603203;
+ Mon, 17 Jul 2023 09:17:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1689581852;
+ bh=cDQ2vNJdynhbZflqAFsbK6vZklSq9Zi8ClehMpPtBBs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gQcSPD210Nl413tX4EN9AKxAjl2Lu3jVl6iygQmOQ+d6udO7PTzMFmqu7SraPlMM4
+ vX/IxYjmG1QqY7pZZegi5w3aSJyQgbDXthOZpem7w75Mtt7v5iUThLyQJsp+KFa6W7
+ GWaLGifts77smDhMnNTGWKRC9WlWnlrdOEfhUrZe5rmVsQTKXh8/JG0MQoK2NoYJcS
+ X9u9ZtbmfTkzOQDMg2J54xV1Sm8KyIaHEH8jQT/nr1WCaxT6SdVz8oWpN8oMUcSxWS
+ 40UfLI1qbcfVDyEEEaEbY54kV5xj3Z2QxGf/v/sSE0q6Fm/kLwnUX0NxT/U8by3OXv
+ AgigAAND7l0sw==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v1] MAINTAINERS: Add Boris Brezillon as Panfrost driver
+ maintainer
+Date: Mon, 17 Jul 2023 11:15:44 +0300
+Message-ID: <20230717081544.1068254-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,24 +51,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, luben.tuikov@amd.com, mripard@kernel.org,
- tzimmermann@suse.de, hns@goldelico.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, afd@ti.com, boris.brezillon@collabora.com,
- dakr@redhat.com, donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Jul 2023 15:26:18 +0100, Sarah Walker wrote:
-> Acquire clock and register resources, and enable/map as appropriate.
-> 
-> Changes since v3:
-> - Remove regulator resource (not used on supported platform)
-> - Use devm helpers
-> 
-> [ ... ]
+Add Boris Brezillon as Panfrost driver maintainer. Boris is a new lead
+developer of the Panfrost Mesa driver and main developer behind the
+upcoming Panthor kernel driver that will serve next-gen Mali GPUs.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Remove Tomeu and Alyssa, who left Collabora and stepped down from working
+on Panfrost.
 
-Thanks!
-Maxime
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5d6536fef2fc..08dc75916148 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1615,9 +1615,8 @@ F:	drivers/gpu/drm/arm/display/komeda/
+ 
+ ARM MALI PANFROST DRM DRIVER
+ M:	Rob Herring <robh@kernel.org>
+-M:	Tomeu Vizoso <tomeu.vizoso@collabora.com>
++M:	Boris Brezillon <boris.brezillon@collabora.com>
+ R:	Steven Price <steven.price@arm.com>
+-R:	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-- 
+2.41.0
+
