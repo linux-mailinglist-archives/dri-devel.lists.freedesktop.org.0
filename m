@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CD775839C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 19:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92AD75839F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 19:37:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7166710E3AF;
-	Tue, 18 Jul 2023 17:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C81910E3B3;
+	Tue, 18 Jul 2023 17:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1FF6510E3AF
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 17:37:12 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxCPLHzbZk2OAGAA--.17724S3;
- Wed, 19 Jul 2023 01:37:11 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxX8+5zbZkMY0zAA--.10465S3; 
- Wed, 19 Jul 2023 01:37:10 +0800 (CST)
-Message-ID: <19d4b8a1-bbfe-c887-2edf-7fa57f4370a1@loongson.cn>
-Date: Wed, 19 Jul 2023 01:36:57 +0800
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 271B110E3B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 17:37:31 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 232D9866C9;
+ Tue, 18 Jul 2023 19:37:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1689701849;
+ bh=YEtNzm1euuxnUFtbYvHqJq+s7z6mvIW8puTN8pzlSCg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AQGA58q6DELDWhWDOQRAB6WluERs9eCVS0fvvtXvIdqIb6BnWwLE0snMKT/3NeIiU
+ HBKJXVuZ58leqL4niI3Iio5cnJgTDmWHBJ5gn+M5wvcPp0Nmc0vWYvyXxXhMxOVxKb
+ CeWDLNow2UCvu5baLrrxhQpgUf4VKSjMrGhsvD095JLUGnCt1B3Pxgm52k5YS+p1sO
+ nMJqRUIurTlpZMUzrlsNMaOp2Z0vH0HaDGusSLHlHtMDQQyrHpTrBETufTp7QIsfpK
+ cXqiffWjQPZvQjNjd2h3dRibsiCIx7RzTMgGl1sgiXMlQdSAj6MzeivaZy0U4e/Tir
+ b+sgeRPKfoKlg==
+Message-ID: <34985434-7ee4-d86e-e157-9ad670315315@denx.de>
+Date: Tue, 18 Jul 2023 19:37:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] drm: loongson: Add a check for lsdc_bo_create() errors
+Subject: Re: [PATCH] drm/panel: simple: Initialize unprepared_time in probe
+To: Doug Anderson <dianders@chromium.org>
+References: <20230709135231.449636-1-marex@denx.de>
+ <CAD=FV=W9qXNaeQ14h8nmvoP3HKhXT8PbAtGikwR4eaQ+svX+ig@mail.gmail.com>
+ <a0f83bf2-b125-9474-4316-9df3b6da5ad8@denx.de>
+ <CAD=FV=X1Pt4439OT5xjHcP6+BWbQ7z81_nPB+bOiK3xnYNi_rA@mail.gmail.com>
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, conduct@kernel.org
-References: <0da6859b-40cc-4b3e-b8b6-fed157517083@moroto.mountain>
- <c9ac14ee-7cfc-c10b-4a55-37049bbb4338@loongson.cn>
- <bbaa11a9-9984-40c1-bd63-adc8698d0185@kadam.mountain>
- <90d22f14-c912-42f0-bf33-eb4297fe9fa8@kadam.mountain>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <90d22f14-c912-42f0-bf33-eb4297fe9fa8@kadam.mountain>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAD=FV=X1Pt4439OT5xjHcP6+BWbQ7z81_nPB+bOiK3xnYNi_rA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxX8+5zbZkMY0zAA--.10465S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7uF1fGr4fGw13Gw45Kw48uFX_yoW8XrWfpF
- s3Gay5tFZ8Jw40vr1DtrW2yFWSqw4DAFWjgF1xKw1ruF4qqryvqF4Sgw4ruFy7urs3uw1j
- qrWrua4Iv3WvyagCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
- 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
- wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4
- CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
- WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcVc_
- UUUUU
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,64 +58,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/18/23 18:15, Doug Anderson wrote:
+> Hi,
+
 Hi,
 
+> On Tue, Jul 18, 2023 at 8:36 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 7/18/23 16:17, Doug Anderson wrote:
+>>> Hi,
+>>
+>> Hi,
+>>
+>>> On Sun, Jul 9, 2023 at 6:52 AM Marek Vasut <marex@denx.de> wrote:
+>>>>
+>>>> The unprepared_time has to be initialized during probe to probe time
+>>>> ktime, otherwise panel_simple_resume() panel_simple_wait() call may
+>>>> wait too short time, or no time at all, which would violate the panel
+>>>> timing specification. Initializing the unprepared_time() to probe time
+>>>> ktime assures the delay is at least what the panel requires from the
+>>>> time kernel started. The unprepared_time is then updated every time
+>>>> the panel is suspended in panel_simple_suspend() too.
+>>>>
+>>>> Fixes: e5e30dfcf3db ("drm: panel: simple: Defer unprepare delay till next prepare to shorten it")
+>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>>
+>>> Can you talk in more detail about the problem you're seeing? Your
+>>> patch will likely cause boot speed regressions. While correctness
+>>> trumps performance, I'd like to make sure this is right before landing
+>>> it.
+>>
+>> With AUO T215HVN01 panel, connected to LT9211 DSI-to-LVDS bridge,
+>> connected to MX8M Mini DSIM , the panel just would not come up correctly
+>> because this unprepare_time is not observed. The panel would only show
+>> blue stripe on the left side, instead of actual image.
+>>
+>>> Specifically, I think your patch is nearly the opposite as what I did
+>>> in commit 691c1fcda535 ("regulator: core: Shorten off-on-delay-us for
+>>> always-on/boot-on by time since booted"). I think many of the same
+>>> arguments I made in that commit message argue against your patch.
+>>
+>> You cannot guarantee in which state the panel is after boot/reboot,
+> 
+> Agreed. To the best extent possible, whatever solution we arrive at
+> should work regardless of how the bootloader left things.
+> 
+> 
+>> so
+>> I believe the kernel has to shut it down, and then bring it up, with the
+>> correct timings.
+> 
+> If that's required for your panel then the driver should do what it
+> needs to do to ensure this.
 
-I still remember you are helps to review the drm/lsdc patch one years 
-ago, see [1].
+The panel-simple driver used to do it. Now it no longer does, which 
+means the kernel is now running this AUO and possibly other panels out 
+of specification.
 
-  drm/lsdc is the former version of drm/loongson,  originally drm/lsdc 
-are embedded SoCs of Loongson.
+> As indicated by my other comments, I
+> actually don't think your patch currently does in all cases. If the
+> panel is powered by a PMIC and the bootloader left the power on, your
+> patch series _won't_ shut it down and bring it back up, will it?
 
-[1] https://patchwork.freedesktop.org/patch/471997/?series=99512&rev=5
+That depends on the regulator configuration. That itself is a separate 
+issue however, one which has been present even before any of this boot 
+time optimization attempt.
 
-I haven't forget about you.
+> In any case, if your panel requires extra delays, it would be ideal if
+> this didn't inflict a penalty on all panels. I haven't personally
+> worked on any panels currently serviced by panel-simple, but for most
+> eDP panels the only strong timing requirement is that once you turn
+> off the main power rail that you don't turn it on again for ~500ms.
 
+The extra delay is actually only inflicted on panels which do set delay 
+{ .unprepare = ... } constraint in their timing specification, and those 
+panels most certainly do need those extra delays to operate correctly.
 
-On 2023/7/18 21:59, Dan Carpenter wrote:
->>> Even if the fail happened, your patch is not fixing the root problem.
-> What is the correct fix then?
+> For most panels it's OK to turn it on early (like as soon as the
+> regulator proves) and also OK if the main power rail stays on between
+> the bootloader and the kernel.
 
+I would debate the "most" part, as that is not my experience with DPI 
+and LVDS panels, which, if they are not correctly power sequenced, can 
+go all kinds of weird and that weirdness is often very subtle. Or worse, 
+those panels start failing in deployment.
 
-lsdc_bo_create_kernel_pinned() is intend to be used when you do the self 
-test (cat benchmark)
+> For eDP the one exception I've seen was
+> the "samsung-atna33xc20" panel and that panel has its own driver
+> specifically to deal with quirks like this. I talk about this a little
+> bit in commit 23ff866987de ("arm64: dts: qcom: sc7180: Start the
+> trogdor eDP/touchscreen regulator on") since homestar uses
+> "samsung-atna33xc20"
 
-which is using to testing the hardware bandwidth via debugfs.
+I seldom work with eDP panels, so I cannot comment on that part.
 
-Another potential usage is to implement built in fbdev emulation.
+It is well possible the more complex electronics of the panel hides a 
+lot of the power sequencing details, I wouldn't be surprised by that.
 
+>>> ...however, I guess in the case of the panel, things could be
+>>> different because regulators aren't directly controlled by the panel
+>>> code. Thus, I could imagine that your situation is this:
+>>>
+>>> 1. Bootloader runs and leaves the panel powered on.
+>>
+>> Bootloader does not touch the panel at all.
+> 
+> Huh, then I'm pretty confused. Where is the timing violation then? If
+> the panel was off when the device started booting and the bootloader
+> didn't touch the panel, then the existing code should work fine. The
+> current code will make sure that we delay at least "unprepare" ms
+> since the kernel booted and so no specs should be violated.
+> 
+> Are you sure you aren't running into something like a case of
+> -EPROBE_DEFER where panel-simple powers the regulator on, then
+> un-probes, and then tries probing again? ...or maybe the default state
+> of the regulator at bootup _is_ powered on and that's the problem?
 
-I admit the error handling is necessary, but it's a kind of costuming.
+Have a look at panel_simple_resume() panel_simple_wait(), this is where 
+the extra delay is needed. You cannot predict how long the bootloader 
+took to reach the kernel time t=0 and you cannot know what happened 
+before the bootloader started (maybe abrupt sysrq reset), not on all 
+platforms anyway, so the best you can do is assume the worst, i.e. full 
+unprepare delay.
 
-To be honest, I have also post similar patches to other DRM drivers.:-)
+> In
+> either case, it feels like the regulator "off-on-delay" constraint
+> might be better here.
 
-So, that is okay.
+Please stop suggesting that we should work around the existing defect of 
+this driver, which does not correctly honor the .delay.unprepare time of 
+a panel and causes actual failures on existing panels, instead of fixing 
+it properly, only because this impedes boot time. Sure, it does, but 
+correctly bringing up the panel is more important than reducing boot 
+time at all costs, because if I only see blue stripe on the left side of 
+the panel, I do not care if the kernel booted 100ms faster, I care about 
+the non-working panel .
 
+This could be a good optimization, but it certainly is not a fix for the 
+issue at hand.
 
-But let's back to the technique, when the kzalloc() fails, who will 
-survives?
+>>> 2. Linux boots. Time starts at 0.
+>>>
+>>> 3. Simple fixed regulator (GPIO-based) probes and doesn't know GPIO
+>>> state of regulator, so turns it off. We'll call this time "a"
+>>>
+>>> 4. Panel probes at time "b" and tries to turn the panel on.
+>>>
+>>> With the existing code, when we try to turn the panel code on for the
+>>> first time we'll wait "min(unprepared_time, b)". In other words, if
+>>> the panel's probe was called so early at boot that it was shorter than
+>>> unprepared_time then we'd delay. Otherwise we wouldn't. In the case
+>>> described above, this is obviously a violation.
+>>>
+>>> The more correct delay would be to wait "min(unprepared_time, b-a)".
+>>> In other words, make sure the regulator is off for a certain amount of
+>>> time.
+>>>
+>>> Your patch would make us always wait "unprepared_time", which is still
+>>> correct but less performant.
+>>>
+>>> Did I describe your situation correctly?
+>>
+>> Partly.
+>>
+>> I believe the better approach would be to fix this such that we do not
+>> operate panels out of specification right now, since panel vendors are
+>> very sensitive about that, and any sort of optimization is a topic for
+>> separate patch.
+>>
+>> But please do keep in mind that depending on the state of the system in
+>> which bootloader left it is likely a bad idea.
+> 
+> Right that we want to match the panel spec and right that we should
+> work regardless of if the bootloader left the panel off or left it on.
+> If you look at my commit message in commit 691c1fcda535 ("regulator:
+> core: Shorten off-on-delay-us for always-on/boot-on by time since
+> booted") you can see that I made sure to consider both situations.
 
-If the the kzalloc() fail, then I think the implement of kzalloc() 
-should be blamed first.
+This all talks about 'off-on-delay-us' DT property, I don't like how 
+this is being posed as an alternative, because it does not really fix 
+the problem with this driver now failing to respect the .delay.unprepare 
+delay in panel description .
 
-while developing this driver nearly about two years, it rare happens.
+>>> If so, then IMO a more
+>>> correct fix than this is actually:
+>>>
+>>> a) Don't rely on the panel code to enforce your regulator constraints.
+>>> It's OK for the panel code to have this logic as a failsafe, but it's
+>>> actually better to specify "off-on-delay-us" for the regulator itself.
+>>> This means that the regulator framework can handle things correctly.
+>>> It'll work better for deferred probes and shared regulator rails,
+>>> among other things. Note that "off-on-delay-us" is currently only
+>>> implemented for fixed regulators, but IMO it would be an easy sell to
+>>> make it generic.
+>>>
+>>> b) Assuming your panel is OK with it, consider using
+>>> "regulator-boot-on" to optimize your boot speed.
+>>
+>> This is dangerous, since the panel has power sequencing requirements
+>> which must be observed, i.e. which supplies get flipped on in specific
+>> order with various delays between each step. That very much rules out
+>> any such regulator-boot-on shenanigans.
+> 
+> Right. This is why I said for b) "assuming your panel is OK with it"
+> and "consider using". :-) Most eDP panels can handle this. If your
+> panel can't, then the correct solution is a) without b).
 
-
-For my drivers, kzalloc() fails is one sort of error,
-
-lsdc_bo_create() could fail when no enough VRAM is another.
-
-The  dumb_buffer test if IGT would helps to probe such failures.
-
-But this is a kind of limitation of the hardware itself.
-
-Its a resource limitation, even the drm/radeon could probably fail.
-
-So, How does your patch could resolve the root problems that caused by 
-no enough resource available?
-
+Please see above, I really don't think that 'off-on-delay-us' is 
+relevant to fixing this issue. It is a nice optimization, but it is 
+separate topic.
