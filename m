@@ -1,36 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDEC757F4F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 16:21:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F24A757F62
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 16:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF6310E0E0;
-	Tue, 18 Jul 2023 14:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85A510E0E4;
+	Tue, 18 Jul 2023 14:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4B7AD10E0E0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 14:21:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E756D75
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:21:53 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8E6823F6C4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:21:09 -0700 (PDT)
-Date: Tue, 18 Jul 2023 15:21:07 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Faiz Abbas <faiz.abbas@arm.com>
-Subject: Re: [PATCH v3] drm/arm/komeda: Remove component framework and add a
- simple encoder
-Message-ID: <ZLaf00o7IqrxcJK4@e110455-lin.cambridge.arm.com>
-References: <20230712064937.25192-1-faiz.abbas@arm.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EDF010E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 14:24:15 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4fdd31bf179so87105e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1689690251; x=1692282251;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HFgUWvdvnkQ6F7sGz59bCo1vWE/XSynA4fQJ3vd3zkE=;
+ b=fR6JPaQCJzgizl3XUccARxRu/Q6eTvQVsSNvuTXT5nfZ0NPA2T9vekOLy3+cP5na+F
+ pxhjOLtPdSmhZOZVir5ELUOr9Ky/eB8yl0trtusDrttho4U1n2q4+0GsG341PBa1e/Kp
+ HFonOds5K+hzkR1F9t/APpjeQEJqevVRglXgs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689690251; x=1692282251;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HFgUWvdvnkQ6F7sGz59bCo1vWE/XSynA4fQJ3vd3zkE=;
+ b=Wm4mdMt2bN+yweo+i8UXRpoE9ai2ucr0IiU3f6ATa5wBVpL6VSTGTLi/jYZWprnTbS
+ BlaLJ/f5AE71p2b+LFvHKJMXxhBcLl5aEi6iWV3qaqkuVJMmkTjvPpISKE9ruot/UW1Q
+ IsBCwmZncJU9nwKr8XBmdsviIxVZTleuawq5QfaTcj0jIYLhDxnPA9VTiK4uXgTQkkBp
+ 2IoQaBh7FAEn9szc1SoKU13NIZxKvQqitOmNlL/4KGTub0aG1rk7BjmhXznuf+qs3hG3
+ Xt9TBPHTjEuJ9vO/p9GFWEVdVgLzNP6+EvIGGjxB4scnOMGCooMO1+3rbqfCTwRvK9Y9
+ Z+/Q==
+X-Gm-Message-State: ABy/qLaSX6xOPtNm6F4F839tklOHw23cu4MVbsD4e80JzmalNcNuio60
+ oQ7W27EmXkKT/9f4QICr5GYR79JHnRkYV11oKf+5kc3B
+X-Google-Smtp-Source: APBJJlFIfjk8wpr0RMUJaXS2tX5GWWFw+n5lrOhBQaSTHWYlbYi86CHh1f+ZOFx5lzxbkagHeuFDKg==
+X-Received: by 2002:a19:2d53:0:b0:4fb:7be5:4870 with SMTP id
+ t19-20020a192d53000000b004fb7be54870mr9464168lft.46.1689690251551; 
+ Tue, 18 Jul 2023 07:24:11 -0700 (PDT)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
+ [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
+ p6-20020a05640210c600b0051873c201a0sm1312822edu.26.2023.07.18.07.24.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Jul 2023 07:24:10 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-51e24210395so13568a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:24:10 -0700 (PDT)
+X-Received: by 2002:a50:d0c6:0:b0:51d:ebed:93a6 with SMTP id
+ g6-20020a50d0c6000000b0051debed93a6mr93216edf.5.1689690250553; Tue, 18 Jul
+ 2023 07:24:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230712064937.25192-1-faiz.abbas@arm.com>
+References: <20230709162253.464299-1-marex@denx.de>
+In-Reply-To: <20230709162253.464299-1-marex@denx.de>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 18 Jul 2023 07:23:57 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XoX+weEHHz0Cy7ebx-6dRTLAqNeDWz-ejbj6=fAi-F2g@mail.gmail.com>
+Message-ID: <CAD=FV=XoX+weEHHz0Cy7ebx-6dRTLAqNeDWz-ejbj6=fAi-F2g@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: simple: Drop prepared_time
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,270 +78,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 12:19:37PM +0530, Faiz Abbas wrote:
-> The Komeda driver always expects the remote connector node to initialize
-> an encoder. It uses the component aggregator framework which consists
-> of component->bind() calls used to initialize the remote encoder and attach
-> it to the crtc. This makes it incompatible with connector drivers which
-> implement drm_bridge APIs.
-> 
-> Remove all component framework calls from the komeda driver and declare and
-> attach an encoder inside komeda_crtc_add().
-> 
-> The remote connector driver has to implement the DRM bridge APIs which
-> can be used to glue the encoder to the remote connector. Since we
-> usually pair this with a component encoder that also implements a
-> drm_bridge, dropping support is not expected to affect users of this
-> driver.
-> 
-> Signed-off-by: Faiz Abbas <faiz.abbas@arm.com>
+Hi,
 
-Sorry for the delay in replying, I thought I already did. Patch looks good
-and thanks for the effort.
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-I'm going to pull this into drm-misc-next by the end of the week.
-
-Best regards,
-Liviu
-
+On Sun, Jul 9, 2023 at 9:23=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
+>
+> This has been superseded by RPM in commit
+> 3235b0f20a0a ("drm/panel: panel-simple: Use runtime pm to avoid excessive=
+ unprepare / prepare")
+> and the last user of the non-RPM case has been dropped in commit
+> b6d5ffce11dd ("drm/panel-simple: Non-eDP panels don't need "HPD" handling=
+")
+> whatever is left in this driver is just assigned and never used.
+> Drop the remaining parts.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
-> v3 -> v2:
-> * Rebased to latest drm-misc-next
-> 
-> v2 -> v1:
-> 
-> * Removed additional instances of component APIs
-> 
->  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 23 +++++++-
->  .../gpu/drm/arm/display/komeda/komeda_drv.c   | 55 ++-----------------
->  .../gpu/drm/arm/display/komeda/komeda_kms.c   | 11 +---
->  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  3 +
->  4 files changed, 30 insertions(+), 62 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index cea3fd5772b57..b615d625c244f 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -12,6 +12,8 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_vblank.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +#include <drm/drm_bridge.h>
->  
->  #include "komeda_dev.h"
->  #include "komeda_kms.h"
-> @@ -612,9 +614,11 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
->  			   struct komeda_crtc *kcrtc)
->  {
->  	struct drm_crtc *crtc = &kcrtc->base;
-> +	struct drm_device *base = &kms->base;
-> +	struct drm_bridge *bridge;
->  	int err;
->  
-> -	err = drm_crtc_init_with_planes(&kms->base, crtc,
-> +	err = drm_crtc_init_with_planes(base, crtc,
->  					get_crtc_primary(kms, kcrtc), NULL,
->  					&komeda_crtc_funcs, NULL);
->  	if (err)
-> @@ -624,6 +628,23 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
->  
->  	crtc->port = kcrtc->master->of_output_port;
->  
-> +
-> +	/* Construct an encoder for each pipeline and attach it to the remote
-> +	 * bridge
-> +	 */
-> +	kcrtc->encoder.possible_crtcs = drm_crtc_mask(crtc);
-> +	err = drm_simple_encoder_init(base, &kcrtc->encoder,
-> +				      DRM_MODE_ENCODER_TMDS);
-> +	if (err)
-> +		return err;
-> +
-> +	bridge = devm_drm_of_get_bridge(base->dev, kcrtc->master->of_node,
-> +					KOMEDA_OF_PORT_OUTPUT, 0);
-> +	if (IS_ERR(bridge))
-> +		return PTR_ERR(bridge);
-> +
-> +	err = drm_bridge_attach(&kcrtc->encoder, bridge, NULL, 0);
-> +
->  	drm_crtc_enable_color_mgmt(crtc, 0, true, KOMEDA_COLOR_LUT_SIZE);
->  
->  	return err;
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> index c597c362f6892..cb2a2be24c5ff 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
-> @@ -8,7 +8,6 @@
->  #include <linux/kernel.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> -#include <linux/component.h>
->  #include <linux/pm_runtime.h>
->  #include <drm/drm_fbdev_generic.h>
->  #include <drm/drm_module.h>
-> @@ -28,13 +27,11 @@ struct komeda_dev *dev_to_mdev(struct device *dev)
->  	return mdrv ? mdrv->mdev : NULL;
->  }
->  
-> -static void komeda_unbind(struct device *dev)
-> +static void komeda_platform_remove(struct platform_device *pdev)
->  {
-> +	struct device *dev = &pdev->dev;
->  	struct komeda_drv *mdrv = dev_get_drvdata(dev);
->  
-> -	if (!mdrv)
-> -		return;
-> -
->  	komeda_kms_detach(mdrv->kms);
->  
->  	if (pm_runtime_enabled(dev))
-> @@ -48,8 +45,9 @@ static void komeda_unbind(struct device *dev)
->  	devm_kfree(dev, mdrv);
->  }
->  
-> -static int komeda_bind(struct device *dev)
-> +static int komeda_platform_probe(struct platform_device *pdev)
->  {
-> +	struct device *dev = &pdev->dev;
->  	struct komeda_drv *mdrv;
->  	int err;
->  
-> @@ -91,51 +89,6 @@ static int komeda_bind(struct device *dev)
->  	return err;
->  }
->  
-> -static const struct component_master_ops komeda_master_ops = {
-> -	.bind	= komeda_bind,
-> -	.unbind	= komeda_unbind,
-> -};
-> -
-> -static void komeda_add_slave(struct device *master,
-> -			     struct component_match **match,
-> -			     struct device_node *np,
-> -			     u32 port, u32 endpoint)
-> -{
-> -	struct device_node *remote;
-> -
-> -	remote = of_graph_get_remote_node(np, port, endpoint);
-> -	if (remote) {
-> -		drm_of_component_match_add(master, match, component_compare_of, remote);
-> -		of_node_put(remote);
-> -	}
-> -}
-> -
-> -static int komeda_platform_probe(struct platform_device *pdev)
-> -{
-> -	struct device *dev = &pdev->dev;
-> -	struct component_match *match = NULL;
-> -	struct device_node *child;
-> -
-> -	if (!dev->of_node)
-> -		return -ENODEV;
-> -
-> -	for_each_available_child_of_node(dev->of_node, child) {
-> -		if (of_node_cmp(child->name, "pipeline") != 0)
-> -			continue;
-> -
-> -		/* add connector */
-> -		komeda_add_slave(dev, &match, child, KOMEDA_OF_PORT_OUTPUT, 0);
-> -		komeda_add_slave(dev, &match, child, KOMEDA_OF_PORT_OUTPUT, 1);
-> -	}
-> -
-> -	return component_master_add_with_match(dev, &komeda_master_ops, match);
-> -}
-> -
-> -static void komeda_platform_remove(struct platform_device *pdev)
-> -{
-> -	component_master_del(&pdev->dev, &komeda_master_ops);
-> -}
-> -
->  static const struct of_device_id komeda_of_match[] = {
->  	{ .compatible = "arm,mali-d71", .data = d71_identify, },
->  	{ .compatible = "arm,mali-d32", .data = d71_identify, },
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> index 62dc64550793e..9299026701f34 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-> @@ -4,7 +4,6 @@
->   * Author: James.Qian.Wang <james.qian.wang@arm.com>
->   *
->   */
-> -#include <linux/component.h>
->  #include <linux/interrupt.h>
->  
->  #include <drm/drm_atomic.h>
-> @@ -305,17 +304,13 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
->  	if (err)
->  		goto cleanup_mode_config;
->  
-> -	err = component_bind_all(mdev->dev, kms);
-> -	if (err)
-> -		goto cleanup_mode_config;
-> -
->  	drm_mode_config_reset(drm);
->  
->  	err = devm_request_irq(drm->dev, mdev->irq,
->  			       komeda_kms_irq_handler, IRQF_SHARED,
->  			       drm->driver->name, drm);
->  	if (err)
-> -		goto free_component_binding;
-> +		goto cleanup_mode_config;
->  
->  	drm_kms_helper_poll_init(drm);
->  
-> @@ -327,8 +322,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
->  
->  free_interrupts:
->  	drm_kms_helper_poll_fini(drm);
-> -free_component_binding:
-> -	component_unbind_all(mdev->dev, drm);
->  cleanup_mode_config:
->  	drm_mode_config_cleanup(drm);
->  	komeda_kms_cleanup_private_objs(kms);
-> @@ -339,12 +332,10 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
->  void komeda_kms_detach(struct komeda_kms_dev *kms)
->  {
->  	struct drm_device *drm = &kms->base;
-> -	struct komeda_dev *mdev = drm->dev_private;
->  
->  	drm_dev_unregister(drm);
->  	drm_kms_helper_poll_fini(drm);
->  	drm_atomic_helper_shutdown(drm);
-> -	component_unbind_all(mdev->dev, drm);
->  	drm_mode_config_cleanup(drm);
->  	komeda_kms_cleanup_private_objs(kms);
->  	drm->dev_private = NULL;
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-> index 3a872c2920912..6ef6553263570 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-> @@ -84,6 +84,9 @@ struct komeda_crtc {
->  
->  	/** @disable_done: this flip_done is for tracing the disable */
->  	struct completion *disable_done;
-> +
-> +	/** @encoder: encoder at the end of the pipeline */
-> +	struct drm_encoder encoder;
->  };
->  
->  /**
-> -- 
-> 2.25.1
-> 
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 4 ----
+>  1 file changed, 4 deletions(-)
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Thanks for cleaning this up.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+I'm happy to apply this or happy for others to. I'll wait a few more
+days and then apply it if nobody else has.
+
+-Doug
