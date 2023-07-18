@@ -1,72 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE68A7574D3
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:01:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37724757579
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:39:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1835410E0A1;
-	Tue, 18 Jul 2023 07:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF7B10E2F0;
+	Tue, 18 Jul 2023 07:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DAAC10E0A1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:01:00 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4fc8049fd8bso8379917e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 00:01:00 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E048610E2E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:39:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689663658; x=1692255658;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=kzieHZlpDOLsgEPivisv9+3RDs3SyQFnGZbkeHuzeX0=;
- b=np/Ysr8mFnATx1zGSjJaJBGBYCAYp8ngWc4vLS4YQ2TLze9a/kHLMsU7fUjND/pPf4
- jgy4m4GJVitBizM1aGRXQ78vBu2y5ZEOuYxE/fIoDV5qdl6UKPKqGE0DZBlSeAMrMCs6
- 6e6x4gg0LruYJ5qulCOPP9MKR/3V9jUFZEx7tPVwre3/NXYVYWrtNkTI2ljPURj/RPKP
- I38ksF65IYD9pcaDpH/hvTkC9x8M9BbbdtlTykBNgpQom216hMO5YOgHbX6OFpVaAFmD
- osq0rbYlJlxgkkgaa9l2rd66vXBJnfcGxtL/KcgAYzDLs86tF+dStoW6SWf091UY94yT
- 4tlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689663658; x=1692255658;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kzieHZlpDOLsgEPivisv9+3RDs3SyQFnGZbkeHuzeX0=;
- b=asfzfgPkLZ1OvyYyoyysGBe2/Q3jJsf+Q45TCto8ycaBszN3fYy/nJaeZ3NjjxA6Xc
- pASyNdBkPBt6u0a6URKgGpBbS5B8XvjkzvezLNVV8ATRHs/Bo8Zdgk17BRnhhymCriGj
- a6ehPQwvrTA2x/44aMYFuOJca2CL9wRhBk1gY8d1atGmbdLFlQjgl+wDYP6B3UkBkOug
- +kbISOUJzTdB0/P+e8SwlIMJkc+5HADV+TEma5WwambO6XwOESrJ8v4qgFMqoyfrodtE
- Cpg8EBU2U8HY5aR5B5RRkUB/vvMZL73HeYm/HcDiBaoHgHvgKbyrPpRdFK0cyRaiZgQl
- bG+w==
-X-Gm-Message-State: ABy/qLZLj1oYGmF4Pqqg4xuUIV2JBwzTBRho933BhgaAzzm1lxJR6U6s
- fKdzHj2FfWC6e23+XIgauQk=
-X-Google-Smtp-Source: APBJJlFHvd7M7a9soGmSZ+09TiCIcaPpyWtKjUfbn2SPfV0Vkwikg+WrazoT8xrn8UbRc9VLObqhfQ==
-X-Received: by 2002:a19:e001:0:b0:4f9:6256:2a7e with SMTP id
- x1-20020a19e001000000b004f962562a7emr8964387lfg.31.1689663657398; 
- Tue, 18 Jul 2023 00:00:57 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef05:8700:4ac8:4223:8b53:53c1?
- (p200300f6ef0587004ac842238b5353c1.dip0.t-ipconnect.de.
- [2003:f6:ef05:8700:4ac8:4223:8b53:53c1])
- by smtp.gmail.com with ESMTPSA id
- x25-20020aa7cd99000000b0050488d1d376sm779394edv.0.2023.07.18.00.00.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jul 2023 00:00:57 -0700 (PDT)
-Message-ID: <1c3fde3a873b0f948d3c4d37107c5bb67dc9f7bb.camel@gmail.com>
-Subject: Re: [PATCH V2] drm: adv7511: Fix low refresh rate register for
- ADV7533/5
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Alexandru Ardelean <alex@shruggie.ro>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Date: Tue, 18 Jul 2023 09:03:27 +0200
-In-Reply-To: <20230718062854.29875-1-alex@shruggie.ro>
-References: <20190716131005.761-1-bogdan.togorean@analog.com>
- <20230718062854.29875-1-alex@shruggie.ro>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1689665981; x=1721201981;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=UJsIi3D4zDu0VjcUmmlsHRVnmLwOFqmIT/kb3xsdkMc=;
+ b=kxuD5pY1zM3vf3/jL2ZdWUO++R1/AjqrALmOZRXFCXBrw310JaIPYD6Y
+ cbBMKlG1pSW2ELUzNCM14RnPxqayXh/lhCo0Bz9uco2UzdYr0jZ/a2bXG
+ KNvUmp7sdBI6Hh/Cm7wukjDYLSru68/Ne+XgQTAvZfLUNXwqkN4cnQ6Oc
+ xBaIWvR19ZXAyIqgQhFVzVceTac6KqFyMChGO9pIQDafMTRKI+m+z32BM
+ 9BDrqunjpXeJc/6qE93zRsYeq/H0EGLt+cOLfeCi/H09nQ3G5bMGkwDhy
+ rE2N75W1WD66VI//7MCnZ/Hp1Zb9nEK9nE/IbUQA5cBVW+QLpI52TWkOG g==;
+X-IronPort-AV: E=Sophos;i="6.01,213,1684792800"; d="scan'208";a="31978588"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 18 Jul 2023 09:39:37 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DA074280078;
+ Tue, 18 Jul 2023 09:39:36 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
+Date: Tue, 18 Jul 2023 09:39:36 +0200
+Message-ID: <3750806.kQq0lBPeGt@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230717061831.1826878-1-victor.liu@nxp.com>
+References: <20230717061831.1826878-1-victor.liu@nxp.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,73 +57,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, architt@codeaurora.org, rfoss@kernel.org,
- andrzej.hajda@intel.com, jonas@kwiboo.se, nuno.sa@analog.com,
- bogdan.togorean@analog.com, Laurent.pinchart@ideasonboard.com
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, rfoss@kernel.org,
+ andrzej.hajda@intel.com, jonas@kwiboo.se, Liu Ying <victor.liu@nxp.com>,
+ s.hauer@pengutronix.de, jernej.skrabec@gmail.com, robh+dt@kernel.org,
+ Laurent.pinchart@ideasonboard.com, krzysztof.kozlowski+dt@linaro.org,
+ shawnguo@kernel.org, kernel@pengutronix.de, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2023-07-18 at 09:28 +0300, Alexandru Ardelean wrote:
-> From: Bogdan Togorean <bogdan.togorean@analog.com>
->=20
-> For ADV7533 and ADV7535 low refresh rate is selected using
-> bits [3:2] of 0x4a main register.
-> So depending on ADV model write 0xfb or 0x4a register.
->=20
-> Fixes: 2437e7cd88e8 ("drm/bridge: adv7533: Initial support for ADV7533")
-> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
-> Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
-> ---
->=20
+Hi,
 
-It looks like you dropped your S-o-b tag in v2? I guess it was not on purpo=
-se :)
-
-- Nuno S=C3=A1
-
-> Changelog v1 -> v2:
-> *
-> https://lore.kernel.org/dri-devel/20190716131005.761-1-bogdan.togorean@an=
-alog.com/
-> * added Fixes: tag
-> * added Reviewed-by: tag for Nuno
+Am Montag, 17. Juli 2023, 08:18:22 CEST schrieb Liu Ying:
+> Hi,
 >=20
-> =C2=A0drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 9 +++++++--
-> =C2=A01 file changed, 7 insertions(+), 2 deletions(-)
+> This series aims to add MIPI DSI support for Freescale i.MX93 SoC.
 >=20
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index ddceafa7b637..09290a377957 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -786,8 +786,13 @@ static void adv7511_mode_set(struct adv7511 *adv7511=
-,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0low_refresh_rate =3D ADV7511_LOW_REFRESH_RATE_NONE;
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regmap_update_bits(adv7511->re=
-gmap, 0xfb,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A00x6, low_refresh_rate << 1);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (adv7511->type =3D=3D ADV75=
-11)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0regmap_update_bits(adv7511->regmap, 0xfb,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00x6, low_=
-refresh_rate << 1);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0else
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0regmap_update_bits(adv7511->regmap, 0x4a,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A00xc, low_=
-refresh_rate << 2);
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0regmap_update_bits(adv751=
-1->regmap, 0x17,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A00x60, (vsync_polarity << 6) | (hsync_polarity << 5)=
-);
-> =C2=A0
+> There is a Synopsys DesignWare MIPI DSI host controller and a Synopsys
+> Designware MIPI DPHY embedded in i.MX93.  Some configurations and
+> extensions to them are controlled by i.MX93 media blk-ctrl.
+>=20
+> Add a DRM bridge for i.MX93 MIPI DSI by using existing DW MIPI DSI
+> bridge helpers and implementing i.MX93 MIPI DSI specific extensions.
+>=20
+> Note that since this series touches the dw-mipi-dsi driver, tests are
+> needed to be done for meson, rockchip and stm.
+>=20
+> Patch 1 ~ 7 do preparation work for adding i.MX93 MIPI DSI DRM bridge
+> driver.
+>=20
+> Patch 8 adds DT-binding documentation for i.MX93 MIPI DSI.
+>=20
+> Patch 9 adds i.MX93 MIPI DSI DRM bridge.
+>=20
+> Liu Ying (9):
+>   drm/bridge: synopsys: dw-mipi-dsi: Add dw_mipi_dsi_get_bridge() helper
+>   drm/bridge: synopsys: dw-mipi-dsi: Add input bus format negotiation
+>     support
+>   drm/bridge: synopsys: dw-mipi-dsi: Force input bus flags
+>   drm/bridge: synopsys: dw-mipi-dsi: Add mode fixup support
+>   drm/bridge: synopsys: dw-mipi-dsi: Use pixel clock rate to calculate
+>     lbcc
+>   drm/bridge: synopsys: dw-mipi-dsi: Set minimum lane byte clock cycles
+>     for HSA and HBP
+>   drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX and LPRX timeout check
+>   dt-bindings: display: bridge: Document Freescale i.MX93 MIPI DSI
+>   drm/bridge: imx: Add i.MX93 MIPI DSI support
+>=20
+>  .../display/bridge/fsl,imx93-mipi-dsi.yaml    | 115 +++
+>  drivers/gpu/drm/bridge/imx/Kconfig            |  10 +
+>  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+>  drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   | 934 ++++++++++++++++++
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |  91 +-
+>  include/drm/bridge/dw_mipi_dsi.h              |  16 +
+>  6 files changed, 1163 insertions(+), 4 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.yaml
+> create mode 100644 drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+
+Thanks for posting this patch series. I was trying to use this driver on ou=
+r=20
+TQMa93xxLA platform where the DSI signals are connected to a TC9595 (driver=
+=20
+tc358767) DSI-to-DP bridge.
+Unfortunately this bridge requires the DSI signals to be in LP-11 upon rese=
+t=20
+and while in idle, otherwise not even DP AUX channel is functional.
+Apparently DSI is currently not in LP-11. But reading the RM I have no idea=
+=20
+how to configure the DSI host to achieve that. Do you have additional=20
+information which might help me here?
+Also could you provide your DT configuration?
+
+Thanks and best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
