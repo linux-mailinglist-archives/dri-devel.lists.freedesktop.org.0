@@ -1,73 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DEE8757A1E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 13:10:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C2C757A42
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 13:16:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCDCE10E31C;
-	Tue, 18 Jul 2023 11:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 610E610E312;
+	Tue, 18 Jul 2023 11:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 540D910E31C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:10:19 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-992acf67388so689763366b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 04:10:19 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 146D310E312
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:16:44 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 98e67ed59e1d1-26586e824e7so2840359a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 04:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689678617; x=1692270617;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1689679003; x=1692271003;
+ h=content-disposition:mime-version:subject:to:date:from:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=aajYIP5snbVq3l5m7wqui3wz8vLZfCkS107XHrf17Nk=;
- b=FrBsmurDeFoxnrfcaRJj3S4siJ250IDShr9ktrso9kakqk/dqYGg/nGyrvPyLMTo7n
- Mzx80YMQeH/qKpx+G0hJY23/JB7zWvRcpGRd39AOeqU3AO0RBSqrc5qXUgkIiZkjZm0D
- 49nguYZk9ZAhqavC0XEty0I0fSupPpCXydPmguajvH4FArOWHCed3mMdOnMtG4e0Rlmq
- 6culvTmxnFlx6ofKV+VCvC7XyxhOfs0N0q46uehskc7JVyPmZ0EzFfAEAAOFmvJ8spto
- 9N0OuAfhQa1/vfgKDoNivuxekRX23wNBwxHrNbo6+OjInvfvDguHZIlF7MdFXq5AmnxJ
- OclQ==
+ bh=RDqCEtPP7u4lUuZ9Np/PNRIOxRGuU6kZQY2tiFjWesI=;
+ b=R1b13mbfqdYlno1rEzfx5LoSkAJSZ4myTZ4145u7gLU7tIkMZ1H6QkP+AcW+MbaE6T
+ c+Dkoeor41D1nkVFvRVfUjUXUWep5edmRb0sWAnhxGUyr0GUblOQPo+m+4SQxOSRxx2S
+ rDVuQD0rjNVHptG3czYEL1GTpHsWpeAIF4QL9do43kt2ri2v5Af/qhIOF/+WFbf6rEF9
+ UrI92NJo+RAWtgWxqedqpE76x9zyxAcC5bT81uVLVvDnZGjNcFRyOPKJwWvOzdHsOy5m
+ sVIrhakF1Tfjg7YmUmKgcP8DU6K8Mc3g54JVP7RSe0HT5JbHvg/i/6BCNGt7TOebLKVS
+ 1mrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689678617; x=1692270617;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1689679003; x=1692271003;
+ h=content-disposition:mime-version:subject:to:date:from:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aajYIP5snbVq3l5m7wqui3wz8vLZfCkS107XHrf17Nk=;
- b=Ma/1HmEDsMziwDbJPP+RG06kYGHuoxF5ZnOKW3796icz1WBJINBrGc8LJIfezociCo
- hLxSwg5NAGP89mwHHVNpA3PBD5Tnn8B9jI7vLefrfTdMKhN/t2zJf+YXLrXe4A4ccxiH
- BkHi8hcfnAQoioNrRjw1FApEvUUWhd53SfjcFXpKxsP5n0iqbmq6E4/GixCfjw7AEo+Z
- x3RLCitliUsG9YlMrRokuk1+pTyDDRoJ4Ls8Anh9frZKe6er2bNQ1r57IwPXhCm9e8So
- 01VrX2Bz5BYLlY2fEmmbCnLuDkNQUY4pyCGjlPLsK6s6HGrKch2lJT8NqPqcSk8DvW2a
- mpNA==
-X-Gm-Message-State: ABy/qLbXM3PaQhse6FtATd3b1G1fWk4wI+oqfdWw9WX1ZocEickp36x3
- IDLZhSo8tWuGFKl2brqVxTWtiA==
-X-Google-Smtp-Source: APBJJlGWV/QSUi6HFAgilRdsMb0RiR24L2HSwKqQilgOC33dQBeMvzgNtwKldyAC2HnEcBh8bsHMqw==
-X-Received: by 2002:a17:906:10d2:b0:991:37d2:c9ea with SMTP id
- v18-20020a17090610d200b0099137d2c9eamr12802294ejv.6.1689678617448; 
- Tue, 18 Jul 2023 04:10:17 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
- by smtp.gmail.com with ESMTPSA id
- u9-20020a1709063b8900b00992e51fecfbsm900717ejf.64.2023.07.18.04.10.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jul 2023 04:10:16 -0700 (PDT)
-Message-ID: <4131759e-9474-48f6-cc05-67b6d4b6559b@linaro.org>
-Date: Tue, 18 Jul 2023 13:10:14 +0200
+ bh=RDqCEtPP7u4lUuZ9Np/PNRIOxRGuU6kZQY2tiFjWesI=;
+ b=DCc6mS5Ng44gpY7VwXmYNGiPhDkT3aI2UsWa8wn3FtH9SyUHKkX5KmB+z98/VQCq2f
+ 4z2HGiKzogSftNbuZl8uZLA7NYk+K9OHxm8VB2e7F7bZQvKacc4KgK5rSdkXxE3+37wO
+ mfUFQDKCs+37XYLmK/dt2qPMikOTGZLOrZ7bwTN68fnvri7xX6T4wUzzw3NPbqbYBPDy
+ NiiurRQmt8/pCX27SLO5bm5GXDJX3yBZnG0Uu5imUAm/d2XoTORDlzsKQibyZxB7dMTV
+ 69OL5fqdGCFZPfVrOsxmKuVjFem3G0xrM8LnDuuFosAskcYr1h+nWP/D9Oht1m7d62bs
+ GS7A==
+X-Gm-Message-State: ABy/qLYVmRNFub4FaYjdcOnDLnN+tFZdDEjp6carRqMln9D0WEvTLfB4
+ 3mGC8LnbLptDeK8Dy836Wm4=
+X-Google-Smtp-Source: APBJJlEst8u9Az2C8TF7X1huLYbv/7A043tSS9ngGKSY788TupNY8qhUi2D7L/U93exBd4YXJmFbjw==
+X-Received: by 2002:a17:90a:62c5:b0:262:d19c:4fee with SMTP id
+ k5-20020a17090a62c500b00262d19c4feemr11645410pjs.19.1689679003309; 
+ Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
+Received: from sie-luc. ([1.85.36.133]) by smtp.gmail.com with ESMTPSA id
+ 6-20020a17090a194600b00263d3448141sm1329482pjh.8.2023.07.18.04.16.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jul 2023 04:16:42 -0700 (PDT)
+Message-ID: <64b6749a.170a0220.3acab.2af9@mx.google.com>
+X-Google-Original-Message-ID: <20230718111634.GA8462@sie-luc.>
+From: Luc Ma <onion0709@gmail.com>
+X-Google-Original-From: Luc Ma <luc@sietium.com>
+Date: Tue, 18 Jul 2023 19:16:34 +0800
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ javierm@redhat.com, onion0709@gmail.com
+Subject: [PATCH v2] dma-buf: Fix the typo in DMA-BUF statistics doc
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 02/17] dt-bindings: gpu: Add Imagination Technologies
- PowerVR GPU
-Content-Language: en-US
-To: Frank Binns <Frank.Binns@imgtec.com>, "conor@kernel.org"
- <conor@kernel.org>, Sarah Walker <Sarah.Walker@imgtec.com>
-References: <20230714142526.111569-1-sarah.walker@imgtec.com>
- <20230715-paramount-straining-6a486f8af20d@spud>
- <a86f6359706485cf595889a07e513e2b9fd6d71b.camel@imgtec.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a86f6359706485cf595889a07e513e2b9fd6d71b.camel@imgtec.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +74,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "hns@goldelico.com" <hns@goldelico.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mripard@kernel.org" <mripard@kernel.org>, "afd@ti.com" <afd@ti.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
- "dakr@redhat.com" <dakr@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>,
- Donald Robson <Donald.Robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/07/2023 13:08, Frank Binns wrote:
->> And this
->> items:
->>   - const: gpu
->> can just be
->> const: gpu
->>
->> Although, if there is only one interrupt this is probably not
->> particularly helpful. Are there other implementations of this IP that
->> have more interrupts?
-> 
-> No, all our current GPUs just have a single interrupt. I assume it's more future
-> proof to keep the name in case that ever changes? 
+From: Luc Ma <luc@sietium.com>
 
-Why do you need name in the first place? If there is single entry, the
-name is pointless, especially if it repeats the name of the IP block.
+The kernel-doc for DMA-BUF statistics mentions /sys/kernel/dma-buf/buffers
+but the correct path is /sys/kernel/dmabuf/buffers instead.
 
-> As in, by having the name now
-> we can make it a required property, which I guess we won't be able to do at some
-> later point.
+Signed-off-by: Luc Ma <luc@sietium.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Why even making it required?
-
-Best regards,
-Krzysztof
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index 6cfbbf0720bd..b5b62e40ccc1 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -33,7 +33,7 @@
+  * into their address space. This necessitated the creation of the DMA-BUF sysfs
+  * statistics interface to provide per-buffer information on production systems.
+  *
+- * The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
++ * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
+  * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
+  *
+  * The following stats are exposed by the interface:
+-- 
+2.25.1
 
