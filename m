@@ -1,83 +1,132 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EECF758005
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 16:48:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F148758081
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 17:13:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83CD210E362;
-	Tue, 18 Jul 2023 14:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E84910E0ED;
+	Tue, 18 Jul 2023 15:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF6D510E362
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 14:48:15 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 783FD5801B9;
- Tue, 18 Jul 2023 10:48:13 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Tue, 18 Jul 2023 10:48:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1689691693; x=1689698893; bh=4E
- XBgwGIlgKcIRz7fYYqQngyR1yPZq+r239tLLqrHVk=; b=U+PxApC1c0376TqZuP
- isAD22T8M4zJIjSrvXmVpbp6KhpIotLqk2flmz7s+T06sAtwetZtqAN35oBQM18V
- E9Vd5EknfrCd55/sR9Rg3J+FxpX5GsKEjtQU9AFnUtjkxe7oqBoVQzTNoDP5u5X5
- rSry6e0s/Ht0NKUlu8EZd+aki7CeM1QL9lQ7BuAYb8NIf+q6wneEjcqyAdNAOSKe
- 3Q3/Rw4DAondMIM4X45wkoQvE0WYFJubJX2ViPetJGUOtAKwJQY/rNiVnrqi130S
- /Ys2lD9M1NM+lK1VylAriUlkcLzpU6TE/xpWVIXsuJ6Oq43IcCjQXdSEh9Y0zSSg
- cz2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1689691693; x=1689698893; bh=4EXBgwGIlgKcI
- Rz7fYYqQngyR1yPZq+r239tLLqrHVk=; b=vt/n/+reICKpoGKCCTL+PKs8fBesX
- bRB0MIXNSbw788baiVok0Iks/FSNTx3qLITMrTkCAbIvshkyyo9MJWsyNbKKs3Uy
- qud4qHjnngBLw0+PwQ07Re6o3QKgK/+v3dwIvNqhul//0hUKKRr6nGmkpdaLExui
- 66AQ4sIEYM6WU7ha+ddVGz5eyqyj5wcVeESPo62AwB8GCUXJgKYBPh4Ltx3Lxhzq
- EWTdVTjHxSm6vhtcdlSDxi5e9dMQ0fVJoXkaYJu6CJwtLBsbItpUb+zW9oKkFbMO
- wy0AtBUz7Iqop6y2Wl8lzx4kAiNFUPuXWdo9jc9jUT8tXU0cWmw6lNQQw==
-X-ME-Sender: <xms:LKa2ZL9VJEOBxw8oEliC4PNJ4jT_CVSWCm_f5JE7K0Tw5PBqWCeIWw>
- <xme:LKa2ZHs4jDEworQ0UeTqj33pEpAv3TWtuinGhkkOiumIW6T5P6F5-QDM6L3vP0zGS
- TuGhzKBjkxCybTvb-8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggdejjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
- udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:LKa2ZJDmNsYvmYWf3JnzcWBbZoO5jKTiyTtqE4alr31NKvJCBTj5aw>
- <xmx:LKa2ZHf3KGqesnyHhNEumxnmoezUKbmQR2ScJuBN6eMpWSftCWddxg>
- <xmx:LKa2ZAMMvpHsg5Hc9S56BEMspz1ujpTc1dNFZ8wWYcJ3ItQpHjWkmw>
- <xmx:Laa2ZGuPGNZd1VeqvnHuAjKMw2FYyCL90xx6fqP8Sbak_y136dhR7Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 4A372B60086; Tue, 18 Jul 2023 10:48:12 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
-Mime-Version: 1.0
-Message-Id: <0beb03f8-ba55-439f-8aa5-6da0e85c11d9@app.fastmail.com>
-In-Reply-To: <150c0fa2-bff2-0644-d6e5-c4dab7f79048@suse.de>
-References: <20230629121952.10559-1-tzimmermann@suse.de>
- <20230629121952.10559-8-tzimmermann@suse.de>
- <80e3a583-805e-4e8f-a67b-ebe2e4b9a7e5@app.fastmail.com>
- <d3de124c-6aa8-e930-e238-7bd6dd7929a6@suse.de>
- <0dbbdfc4-0e91-4be4-9ca0-d8ba6f18453d@app.fastmail.com>
- <ef7b3899-7d18-8018-47fa-aac0efaa61f4@suse.de>
- <dd5aa01e-afad-48d2-bf4c-4a58b74f1644@app.fastmail.com>
- <150c0fa2-bff2-0644-d6e5-c4dab7f79048@suse.de>
-Date: Tue, 18 Jul 2023 16:47:41 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>, 
- "Daniel Vetter" <daniel@ffwll.ch>, "Dave Airlie" <airlied@gmail.com>
-Subject: Re: [PATCH 07/12] arch/x86: Declare edid_info in <asm/screen_info.h>
-Content-Type: text/plain
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02on2053.outbound.protection.outlook.com [40.107.241.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92AD710E0ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 15:12:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oWAVGkf6ANQOLCGGlJdak+GqsbboNrIT3B9t8qyQa21KkR43kYXpV54erL30k7+gEEtp1n0DX6Yx44iQimy4uluY+qWMcR532gxebSqyZQm5+2HUPXrDtapfH1PshAUU85PCNZGpEzgkP4CW72fnAviX1DJTCdVZ786TMDB5sbl6TnhTmdW/jh7GG0lCP7w6klmwMXigjaZNE3X40PIZB+90Dm7QxpRlylRVRw7gfmAZ8QwicaR6MZo6wkmEG0wRiK6z1bRQ3CGFd80kTUmN1Fo8IvbO5WLNERJowzaBO2ECYbf71JgM4l4mHEiDC5s7lKFdumFDltxNHyOAzjgwKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ak9MXHVidtAsYAFVlfhJHUv7MoGB+lZyh8bnNiOLUNY=;
+ b=JsVOHJqy0iSCx2sX5gwIfdkIf6t3AgbJsR3XxzBLcduyqGVAieYBUNQDWEnJeXTUDK987gxqZs+5rZH6tys7j2xaUEFJTlPvMGuTSU/ktS6PvXEVrk5llabbfUqBkNSA6TQzNjIKEfu2Zvfe9nTXEtJxLc+a+AP7N4a2Orr3RfDhF+ebjrHdpXupmmtSV7vljn3zYzHcgbTmQsJNl8hgqPr0VeNAv5Tof2NfsIDxOhBk3qJXCPpLcsOTQy89Z+BywBOYDSvwiTmNwF7VQXwoiJFKGANJhl/I43zhPaDq4Ch9vq5SGk3kyM+4KGhsmZtB/gsnv8bJ3wr51mjvIdntfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ak9MXHVidtAsYAFVlfhJHUv7MoGB+lZyh8bnNiOLUNY=;
+ b=YyIi+PbycbAsYkuhU33AsO1jJHLM20PX8I6RFD46XZHgs28tCQS41q60SbnhhvaInU+JPbc3lE29eOTPVA1V1TK1R/HYqhV3sDR4ZgNkAzYgqlBnZihYnBwiFmc5dV0v5+QhYT3OF4pJxI9VlRmjKAOBkzPEbnm2Amm03GXItLE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by DB8PR08MB5482.eurprd08.prod.outlook.com (2603:10a6:10:116::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Tue, 18 Jul
+ 2023 15:12:56 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::4fd7:91a9:a92b:295a]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::4fd7:91a9:a92b:295a%4]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 15:12:56 +0000
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Subject: [PATCH 0/2] drm/panel: sitronix-st7789v: add panel orientation support
+Date: Tue, 18 Jul 2023 17:12:44 +0200
+Message-Id: <20230718-feature-st7789v-v1-0-76d6ca9b31d8@wolfvision.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOyrtmQC/x2NQQqDQAwAvyI5N7BG6Wq/UnpY11gDsi2JSkH8u
+ 6HHGRjmAGMVNnhUByjvYvIpDvWtgjyn8maU0RkoUBNi3eHEad2U0dYYu37HdgyZ8p2ppR68GpI
+ xDppKnr0r27K4/CpP8vtvnq/zvADU3gLmdgAAAA==
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Sebastian Reichel <sre@kernel.org>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1689693175; l=1043;
+ i=michael.riesch@wolfvision.net; s=20230406; h=from:subject:message-id;
+ bh=GNOScjzXERVDwwTTAU2ZNKkyZGQj3Ff3agEWGXZII8Q=;
+ b=zL36ITx/qbgpx33tj11csWBuEZff9pWQqvRpbfZoMfRzxq6HMzaoWvy4kTEhn8gzty9dYR9wR
+ 9xFFfRctjIzBSbutJfJPPOM5/61pP6r5fUyIal/1/JiNa7ZGvvVuPQj
+X-Developer-Key: i=michael.riesch@wolfvision.net; a=ed25519;
+ pk=G03kuYHL670EcdsWaNfVA7KnHWmkSpj98XziQm/hjbk=
+X-ClientProxiedBy: VI1PR08CA0247.eurprd08.prod.outlook.com
+ (2603:10a6:803:dc::20) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DB8PR08MB5482:EE_
+X-MS-Office365-Filtering-Correlation-Id: df4ef3b1-eef3-422d-846c-08db87a17725
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JbWYt3gMr4JFmItf6WTAyD5XC3xWtkfSGNsURsIi5XChzEznIT1UryHHFQ/UtbxeyRswTJKaoa/wa06V12SkWJ3O/BIRWP4eX6MJWUKvP54dKjR/DwB6/OViA0U2M3raXaoJHz4wdPWUHasUIBMppI8xpijOFVOS4FDZKTA7fOsOzSg7qey+LVbf8KHc9j7656f1xMfkd/M6AbjquSPjlsVMHEAVhAKGaYMNUsvD89SXzUrnl4aEt1VS60eiwhWV+oEl+wcCbwDAGJCr8GcqAJ6IHHq+QQdmsbMY1rPuvFybQDaQ++i64HjmvDfR1ab6QixtQzjpsq9oTTBVbwZxECHwgC3mv7v1Blfd7DhZguUEY25DC4921WnakAi4eySlg9kjD1kN5me9h2LB/p3A9rjvP+jkm/KvYjmxWnJ6WCYZGQLNUTQmVK9WTZFuaEkQNzanr91xcBhsTdKpUEmJ9oZ2eOJkcsPfQd1xxVwx9va12JKb9SWBwdXeJtJcOjDaHRM1/WIrbqBHUGZdvRol/WSNpeQB1vdfo/nnyHzdtJeqkh+QPi+03hdWV9quo4EcaYy9gf1OAdusalY6g9BE/WDpFbO44prEoJQxLrPPZYgDTNw3yb6H3+Wgkj2iE4y7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39850400004)(136003)(376002)(346002)(366004)(396003)(451199021)(186003)(110136005)(478600001)(6506007)(26005)(107886003)(6666004)(6486002)(6512007)(966005)(83380400001)(2906002)(66476007)(2616005)(52116002)(6636002)(41300700001)(38350700002)(86362001)(5660300002)(4326008)(38100700002)(66946007)(316002)(66556008)(36756003)(8936002)(7416002)(8676002)(44832011)(4744005)(921005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjdneHRSTTJYbFJ6TXViRUducENSRjB2OSt6OUROMldGeHZ1bVNxMkoyWEZm?=
+ =?utf-8?B?TGMyaE5LT21ESTFRdkQ3WUd5WWFzemVvVEFQMjVadkdvQk1namo1cXBzMjN3?=
+ =?utf-8?B?Z0xKaFQxQVhZMytzRURNK21OQ1ZEVFdLN1RGUXFlMEJyUHlybFFySk9IdWZM?=
+ =?utf-8?B?L3RxNjloV2ZGSzdNRzhiU296OHZ5ZkRSd2Rmd3JyTjBOWXlhSThYcnREWlAz?=
+ =?utf-8?B?VjZ1ejdOQzU0NXkwQkxrS3FIdi9LUFd4bkFqWmw0ZmUyOVBqSElaVjdpUVFT?=
+ =?utf-8?B?Q1VuRmd5eXpNY25VOUxsaHJwVmhaZlE5eEw1NW5yUlFFeW1VSkEyMWNMRWRD?=
+ =?utf-8?B?WUJMaHRmMnFIcHBPVlRudCs0TDJaYzFIWm5BSVZWMGYySFBhcHB2SXpiMjlu?=
+ =?utf-8?B?WVM5OHJlWnludjZtR2RIT1BselE3RXhZbWJtMFpYd015WElkRlZyM2tyV0pW?=
+ =?utf-8?B?SzRpWktQSEQrWExaOUpSYnNDZm10a1lBbnFqYTd1dTBhb1BUVFBrQ0Nqdnl3?=
+ =?utf-8?B?YkwyZHdRMzc4aUtTVFY2SCsvS3pvWjdZZGJUaVQybzEwcnhvaGlQZTgweFJy?=
+ =?utf-8?B?M0hvWFZlc3RiYmFGRWZzZzlSbTB3a0VXMDJvWTFRK0VZTjJjUWRZVCtYTWE0?=
+ =?utf-8?B?VWNGT0l6QWNPUFdTL01CM3dRNTFtYTl1bEJJWXVMQjNqS2svdFlVMGgzYlo5?=
+ =?utf-8?B?MTg4YTl1Q2Q5Wkw5anhmWWJvaE4wU054RitYUkphYnVvU3EvQ2FLTUpNMG0y?=
+ =?utf-8?B?ZFp6YWVFNWZJdVdWYU4vR3lyRE1IRk5YRkxQdHRYNW5JMUZwK2V2czR2bVBF?=
+ =?utf-8?B?S2krMXA3R1dJcUZ3N2F4UGI4enNNVE1zSE1YRTVjcTVIS3NhVU5MVTBsaUox?=
+ =?utf-8?B?TElDMWlhOWZwNU0xbUF5RVRrOEgvdXFrc2Zud1ppWW1jMmgwZkM1b0xScWRq?=
+ =?utf-8?B?OVMwRDRRRTJ2QTJxaFZldktiODh0SHA0YUxMVThZSnBaK1ppanN2L1JkT3E2?=
+ =?utf-8?B?aWdEc2NwRlIyeUoyN3FPdHJLZHBWbVNJOSswcnpHblJnVEZGOVpsMHBraDJm?=
+ =?utf-8?B?Yk1UcC9SZGJRNW1nY0N2V2h0WFhGZFpWOVBlVkd6Z2YrYXFnM2JTbTZDaUhJ?=
+ =?utf-8?B?OUdOd2wyaUJkK0p6VTE4UGl1WDk1U3VjTnNSY1A1UGwwbGI4TjB0RGNGdkVR?=
+ =?utf-8?B?TVVjWFIvdTc4eUFMaktxWDdjdEtSQ3h2RjRGTTAxUTNnN1NQSXcxVXVhNWZJ?=
+ =?utf-8?B?Nkh3ZmVUL1FKdGpWL3hMbVVzRWo1K0RBSFJTT29CcHRaQVRabXhFYlFyT3Uy?=
+ =?utf-8?B?TjZLcTFDKzg0VWFkRW1FWWY4T2sxa2Q3Y0VyaGhjVkdXa0VNdm9WY0o0cDhZ?=
+ =?utf-8?B?SUZHWW5qc2FaMk8wa0I1OFNOUGJ1WmVVTWtSNWVsUW5iaG82b1d4VnU3SXFx?=
+ =?utf-8?B?czNTWE14TGdhUTQ2Y2pEc0wzRlNuSUtWQ2g1Z3VvdGtKSGw3Y253c0FpcnFB?=
+ =?utf-8?B?QStsYjloUEwvaDg1TXNkKzZ0WkhIN3RoSW9Cb3V6QUZnSlVQUmdsS2RFL0J0?=
+ =?utf-8?B?ZXJvdmhENlZwSWtESGVobkpWRFNBL080Mm85dkhlaXdjZG1aenpWcGJIdDBr?=
+ =?utf-8?B?MENVYTNId0hhSEpNM0NuUnBVaWhFVlZvVUhXSkJlWVdTd28veU0yb2p0dDV4?=
+ =?utf-8?B?dUNYdDdaVS90VTVZZnRsai9pQ0QyQThFdnQydWpJUzhyQWoyWU1hWmhxQkZj?=
+ =?utf-8?B?bUF5Q2M1RU1aclBQZ2dpNER2Zmx6a3hFN3JDcDJEMk9tckxPUVFTU3dVSjhv?=
+ =?utf-8?B?elBDWThVN1FHUmZDMGRYcVVqZ09RSjNJZUVkQ3g2aUxCWVFnYWx5M01ldjRR?=
+ =?utf-8?B?TEpMRDdxU25QRFVNbUxFNUVoTVhXK2lHL3E2Z3QvUUhlVk9yM1pRcnQySUc2?=
+ =?utf-8?B?ZmlTZ0poc29LeGFFTTVUenFmMFZWUUU2aUdzbUtXeTZUa2trQWo1TW5pMjF1?=
+ =?utf-8?B?UUorN0ZLVlM4ejJEZ1crdWJtajFWaUlvbmZpcHZlaDNrc2RuQ2l0S3JRRmU1?=
+ =?utf-8?B?eEh5cldiQWlLVU1FSmhkL3FnV2loY3JraHdyd2doOVZOdmJVMUdOOStIaHhv?=
+ =?utf-8?B?QzgwazMvdzZtQkh6Q0pLTE0rSGRhVzVTdkVSREtQaVlHSlFPSmhrTWQ4alp3?=
+ =?utf-8?B?Vmc9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: df4ef3b1-eef3-422d-846c-08db87a17725
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 15:12:56.2696 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7gfuRtZElNUgJIzPxwzZHRGtZIXIe6r9baBifLViq8+Qse5shwwtGvY/YKCskUYrj/lcep7XRvplIwlhasrxhMZFnoBOr+Ef90HYxqRcf6w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5482
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,119 +139,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-hexagon@vger.kernel.org,
- linux-staging@lists.linux.dev,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Sami Tolvanen <samitolvanen@google.com>,
- Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
- Borislav Petkov <bp@alien8.de>, loongarch@lists.linux.dev,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- x86@kernel.org, linux-mips@vger.kernel.org,
- Juerg Haefliger <juerg.haefliger@canonical.com>, linux-alpha@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Michael Riesch <michael.riesch@wolfvision.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 5, 2023, at 10:18, Thomas Zimmermann wrote:
-> Am 30.06.23 um 13:53 schrieb Arnd Bergmann:
->> On Fri, Jun 30, 2023, at 09:46, Thomas Zimmermann wrote:
->>> Am 29.06.23 um 15:21 schrieb Arnd Bergmann:
->> 
->> I definitely get it for the screen_info, which needs the complexity.
->> For ARCHARCH_HAS_EDID_INFO I would hope that it's never selected by
->> anything other than x86, so I would still go with just a dependency
->> on x86 for simplicity, but I don't mind having the extra symbol if that
->> keeps it more consistent with how the screen_info is handled.
->
-> Well, I'd like to add edid_info to platforms with EFI. What would be 
-> arm/arm64 and loongarch, I guess. See below for the future plans.
+Hi all,
 
-To be clear: I don't mind using a 'struct edid_info' being passed
-around between subsystems, that is clearly an improvement over
-'struct screen_info'. It's the global variable that seems like
-an artifact of linux-2.4 days, and I think we can do better than that.
+This series adds support for orientation specification in the device
+tree to the Sitronix ST7789V panel driver. 
 
->>>> I suppose you could use FIRMWARE_EDID on EFI or OF systems without
->>>> the need for a global edid_info structure, but that would not
->>>> share any code with the current fb_firmware_edid() function.
->>>
->>> The current code is build on top of screen_info and edid_info. I'd
->>> preferably not replace that, if possible.
->> 
->> One way I could imagine this looking in the end would be
->> something like
->> 
->> struct screen_info *fb_screen_info(struct device *dev)
->> {
->>        struct screen_info *si = NULL;
->> 
->>        if (IS_ENABLED(CONFIG_EFI))
->>              si = efi_get_screen_info(dev);
->> 
->>        if (IS_ENABLED(CONFIG_ARCH_HAS_SCREEN_INFO) && !si)
->>              si = screen_info;
->> 
->>        return si;
->> }
->> 
->> corresponding to fb_firmware_edid(). With this, any driver
->> that wants to access screen_info would call this function
->> instead of using the global pointer, plus either NULL pointer
->> check or a CONFIG_ARCH_HAS_SCREEN_INFO dependency.
->> 
->> This way we could completely eliminate the global screen_info
->> on arm64, riscv, and loongarch but still use the efi and
->> hyperv framebuffer/drm drivers.
->
-> If possible, I'd like to remove global screen_info and edid_info 
-> entirely from fbdev and the various consoles.
+This is can be seen as reduced version of [0] (some things of [0] have
+been implemented in more general fashion in the scope of [1], other
+things have been rejected).
 
-ok
+Looking forward to your comments!
 
-> We currently use screen_info to set up the generic framebuffer device in 
-> drivers/firmware/sysfb.c. I'd like to use edid_info here as well, so 
-> that the generic graphics drivers can get EDID information.
->
-> For the few fbdev drivers and consoles that require the global 
-> screen_info/edid_info, I'd rather provide lookup functions in sysfb 
-> (e.g., sysfb_get_screen_info(), sysfb_get_edid_info()). The global 
-> screen_info/edid_info state would then become an internal artifact of 
-> the sysfb code.
->
-> Hopefully that explains some of the decisions made in this patchset.
+[0] https://lore.kernel.org/lkml/20230314115644.3775169-1-gerald.loacker@wolfvision.net/
+[1] https://lore.kernel.org/lkml/20230714013756.1546769-1-sre@kernel.org/
 
-I spent some more time looking at the screen_info side, after my
-first set of patches to refine the #ifdefs, and I think we don't
-even need to make screen_info available to non-x86 drivers at all:
+---
+Michael Riesch (2):
+      drm/panel: sitronix-st7789v: add panel orientation support
+      dt-bindings: display: add rotation property to sitronix,st7789v
 
-- All the vgacon users except for x86 can just register a static
-  screen_info (or simplified into a simpler structure) with the
-  driver itself. This even includes ia64, which does not support
-  EFI framebuffers.
+ .../bindings/display/panel/sitronix,st7789v.yaml   |  2 ++
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c     | 28 ++++++++++++++++++----
+ 2 files changed, 25 insertions(+), 5 deletions(-)
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20230718-feature-st7789v-4d0c2c6e2429
 
-- The VESA, vga16, SIS, Intel and HyperV framebuffer drivers only
-  need access to screen_info on x86. HyperV is the only driver that
-  can currently access the data from EFI firmware on arm64, but
-  that is only used for 'gen 1' guests, which I'm pretty sure
-  only exist on x86.
+Best regards,
+-- 
+Michael Riesch <michael.riesch@wolfvision.net>
 
-- All the other references to screen_info are specific to EFI
-  firmware, so we can move the global definition from arm,
-  arm64, loongarch, riscv and ia64 into the EFI firmware
-  code itself. It is still accessed by efifb and efi-earlycon
-  at this point.
-
-I have uploaded version 2 of my series to
-https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=screen-info-v2
-and will send it out after I get the green light from build
-bots. 
-
-       Arnd
