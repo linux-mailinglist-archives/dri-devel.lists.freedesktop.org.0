@@ -2,75 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D240C757468
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 08:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3D27574DD
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 09:02:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20D0E10E2D4;
-	Tue, 18 Jul 2023 06:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC0110E16C;
+	Tue, 18 Jul 2023 07:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B39B510E2D4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 06:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689662347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uGWZGJs7iJ0bHkmNYO8V4KcHUQKd/vxJD2N3uDsccto=;
- b=ZuJAJ03Aj/fuw3xOsSNe3JNbS8PgII33FmcISQ6GJZgsycnnrj4+xED3sqi9+7yKHPxSvd
- JbzObVey2c0DY67oEu8RL8D449xd+Y1YerzVGae5xn1aC/QpSWYbzYN0W+Sr4HVVeesaKx
- eXRZbLhv6juivM2lkZCpSTk8jaJxgLc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-125-fsskmEEmP_uCMaBuIlY-EQ-1; Tue, 18 Jul 2023 02:39:05 -0400
-X-MC-Unique: fsskmEEmP_uCMaBuIlY-EQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-31400956ce8so2921265f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 23:39:05 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22C2310E16C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:02:05 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-3143ccb0f75so5348827f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 00:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689663723; x=1692255723;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=j6Xn2Nym15wdt3Gsh/k8fd5yRhovhKcNX6yue5YH2mI=;
+ b=TOlKrTAIPqpBVjSOj/cJGUbIz3vNQhTgpCINIgJSCL8MJvSQ9PV3IeGkg6b6+5wYiz
+ Lb2qqH01mnItGbPN8U2yugo6IudYPwcCe0rfc2mfm0PoDSu7ZF+u+2lAGJfkQhFoUsPm
+ sSiuK4eK0x0bbicBTnaciG13WveA1riz83DFCKkFPuWwxCugCGyimGvXgE1RCnL6q9M3
+ Ob4wx4mRXQFw/T6PlB94oclisKZFC4oX7Hye7d3/0fveFmRv0FQqqIE0E6oXF6dcYEe2
+ Sg3qnWst5fTw6INVAX2d+bLiQGAyn0cg8F+mqORe06eJlHCgsCQ/CzFWe4G6UZpTTthe
+ gAHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689662344; x=1692254344;
- h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+ d=1e100.net; s=20221208; t=1689663723; x=1692255723;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uGWZGJs7iJ0bHkmNYO8V4KcHUQKd/vxJD2N3uDsccto=;
- b=jKlkQbk8kDAv4Tz01WpFOiYf/GazAcZdGo8ygivzTCaZxr6TCpdF5d6By5jOf4zc+M
- KOfcSqoo3OFn6YhQ7iTEn0mMhLZatsgeXapGMqIvpJH/1AcyaiBGBNlErqYKvw+D+fY7
- ZBn0499DIrpVuHzSoYRzvsi0iXeuWkSY+2aPpieWrN8aM9SNM80UOWhYagV7Lds1OkUj
- VtDBsokZ5L9jKDp0wHZSlZ00vxQvt1ap6RKTCRjer6Q9Ta1C3FzNcByqKKoRpcXOaIpn
- SG1Kz5flGUfMlo5a013ssm25HliBaD4kRe09bFvJBdtqPNpgkJURfw3O+DnwGUQ68DG7
- Li6g==
-X-Gm-Message-State: ABy/qLZnd0IpetJMJ0FY3wuNYGrJ3wBKzELWITgzrFTnQvvEBOpuZ3CL
- ImTk+EYnyIwIo8ZH36XPwPABYFKKUwR8R1VwW61Roru6+jdVYhRmE15I79qLDZZEXL0HhuWwtsK
- H/YeZGt++xTNzbHBQiTHZ1MgVKWUL
-X-Received: by 2002:adf:d4c7:0:b0:314:268b:21f1 with SMTP id
- w7-20020adfd4c7000000b00314268b21f1mr11320610wrk.18.1689662344258; 
- Mon, 17 Jul 2023 23:39:04 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHv18uaI93wFrqmmHeM+/M9p05Ssvf+TiET1HDtjWoK2EEJHqu10sNXHiTb6Zw0EgXCaxftWA==
-X-Received: by 2002:adf:d4c7:0:b0:314:268b:21f1 with SMTP id
- w7-20020adfd4c7000000b00314268b21f1mr11320599wrk.18.1689662343997; 
- Mon, 17 Jul 2023 23:39:03 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c7-20020adfe747000000b003143c9beeaesm1393087wrn.44.2023.07.17.23.39.03
+ bh=j6Xn2Nym15wdt3Gsh/k8fd5yRhovhKcNX6yue5YH2mI=;
+ b=etJO7bSLRaCINRPcY8ZKqSMb4rLMSKyX+SC1S8/7tgFLJD+d/j8rkk2BZfIaP37P9l
+ Q0WnvkAdasQRsJemYKgk919Q38JW9B21O+HzwlJr6eN/jdb47eP0CYjZWrql4roKIncy
+ dEK4CJyT7O4dWEgNv5ewsAaCxELpEil1OcdEJJvEOSkkWL67Nh+8fmX5P9XgTmB4kp3Q
+ Jz4pCxvXlmmA7+lDa7nObTclrYT+zhXegEmHoP5NrSBSry/98N4ML2+QHdIoSgUv9kkT
+ yhEZPZILi6cN/Oy27GQNcQu7btJSRs21mF3Lo7SCT1iTs1t7cFyf0wRDeev+SVnA524+
+ eAlQ==
+X-Gm-Message-State: ABy/qLZNcp3eN8cvw4U8ihZwcMdZGM5LupnjqRiNDHI8snsJYYDzYLQn
+ kyhnIliuPaDUDGvpLFeyDo+Mew==
+X-Google-Smtp-Source: APBJJlGlm1EuZA5YRI7QwlUl/G00TjllCRC97QoeQcg9WNYyBUjCyukkqtjh8GS6QPkbAw4Gnqq1iQ==
+X-Received: by 2002:a05:6000:90e:b0:314:37ac:c896 with SMTP id
+ cw14-20020a056000090e00b0031437acc896mr15110467wrb.44.1689663722952; 
+ Tue, 18 Jul 2023 00:02:02 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ i12-20020adffdcc000000b003142e438e8csm1463707wrs.26.2023.07.18.00.02.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jul 2023 23:39:03 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Luc Ma <onion0709@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, onion0709@gmail.com
-Subject: Re: [PATCH] dma-buf: remove unintended hyphen in the sysfs path
-In-Reply-To: <64b5dc93.170a0220.243d5.1d63@mx.google.com>
-References: <64b5dc93.170a0220.243d5.1d63@mx.google.com>
-Date: Tue, 18 Jul 2023 08:39:03 +0200
-Message-ID: <87zg3tiv08.fsf@minerva.mail-host-address-is-not-set>
+ Tue, 18 Jul 2023 00:02:01 -0700 (PDT)
+Date: Tue, 18 Jul 2023 10:01:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: [PATCH] drm: loongson: Add a check for lsdc_bo_create() errors
+Message-ID: <0da6859b-40cc-4b3e-b8b6-fed157517083@moroto.mountain>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,27 +69,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Luc Ma <onion0709@gmail.com> writes:
+The lsdc_bo_create() function can fail so add a check for that.
 
-> From: Luc Ma <luc@sietium.com>
->
-> Signed-off-by: Luc Ma <luc@sietium.com>
-> ---
+Fixes: f39db26c5428 ("drm: Add kms driver for loongson display controller")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/loongson/lsdc_ttm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Even when is a trivial change I would add something as commit message, i.e:
-
-"The kernel-doc mentions /sys/kernel/dma-buf/buffers but the correct path
-is /sys/kernel/dmabuf/buffers instead. Fix the typo in the documentation".
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+diff --git a/drivers/gpu/drm/loongson/lsdc_ttm.c b/drivers/gpu/drm/loongson/lsdc_ttm.c
+index bb0c8fd43a75..bf79dc55afa4 100644
+--- a/drivers/gpu/drm/loongson/lsdc_ttm.c
++++ b/drivers/gpu/drm/loongson/lsdc_ttm.c
+@@ -496,6 +496,8 @@ struct lsdc_bo *lsdc_bo_create_kernel_pinned(struct drm_device *ddev,
+ 	int ret;
+ 
+ 	lbo = lsdc_bo_create(ddev, domain, size, true, NULL, NULL);
++	if (IS_ERR(lbo))
++		return ERR_CAST(lbo);
+ 
+ 	ret = lsdc_bo_reserve(lbo);
+ 	if (unlikely(ret)) {
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.39.2
 
