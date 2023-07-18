@@ -2,64 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A74757A07
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 13:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC9B757A0F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 13:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C46210E317;
-	Tue, 18 Jul 2023 11:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3B010E008;
+	Tue, 18 Jul 2023 11:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4037610E312
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:04:14 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1b89bc52cd1so30213425ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 04:04:14 -0700 (PDT)
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
+ [91.207.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACAE10E008
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:08:54 +0000 (UTC)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+ by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
+ 36I5e1VU010456; Tue, 18 Jul 2023 12:08:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+ from:to:cc:subject:date:message-id:references:in-reply-to
+ :content-type:content-id:content-transfer-encoding:mime-version;
+ s=dk201812; bh=4AZTzAPJU9HXqZOr0pMZpkVaAYcd/NE9gnlPQ1XkvK4=; b=
+ jgnp2+VxhIldCeGEEqVEDU+kx7y/I9QrohMhxGkQ73fGoqQIh8Q3GH2Xc83dJMtt
+ kr1H8o5p4NHH1u11OzWaks6H9u+E9uw7QjcWeyRZCf9uXrPJ4vtv2zpik3kIk0EH
+ nphWaOZ1In88jBXb8ZvWzHNvnDwTeQgMZxcFlUp+KA76ostIFkx6Lf96Ueum2kXi
+ XNur2Tj9+auZubRFbNljzJuN5xjjFCwTVd1a5r8inBllTJprYXTqww7OZ7ptC7tz
+ RJor9CfmL9+DDKz/CNC2d0FH2JamwC77bfGVwBG4CydJI/ffUq/7bH4srWwJ5aWk
+ zWw8YwRAgJC60Kukj7X3WQ==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3rutdrt17b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 18 Jul 2023 12:08:14 +0100 (BST)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 18 Jul 2023 12:08:14 +0100
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (104.47.20.53) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27 via Frontend
+ Transport; Tue, 18 Jul 2023 12:08:14 +0100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C+folBSXbC2GwQpA1R0EPpP1M9gW5ucK37XhCRGuk+HHIIcsrE6j1qKshcZz/z6tOTM1imaU5n6D6suGFoLFJuIwP32fA2IzllaRw8CcAPvuChAu+HjuaUmUlO2s3qrp4icwwCCwGsdpn9/DGXeI4i8nLJ4rNFNwYTIJDTsd6gb/nIIAZOF/cWt4Rh6Y8g/1ldmKqfQ8RnJAki+Ta2kX0i5jLTApXEsGFdHzjOhvNPKZMgDkvnz7BjkMipfvUHDclgS8T3t7x2E530LEZJxRfeIRwqsxifpMQnIg0aiTtYaIDzDDwzbxYzZZI7MmP0kYJVD1mwAUQep+oL81hoGcaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4AZTzAPJU9HXqZOr0pMZpkVaAYcd/NE9gnlPQ1XkvK4=;
+ b=aJNEk4VvCAT9TkIl+32hsjA9h8dhfXfWaRhGSzQ0unaCcJ8V0S2DHgeLlmLtiMuESx1HibemNUWh4j6XTB0RFLSRKZtyxLix9qMAv6292ds99LUSDnOLFcXqTToYDjU4F5Pr+eWULC4UTFJQ2uqDJep6KpWi4geMQKhnOqLgzVenlu6U1sCgfhjHOac1oJ/tdQ+fSRREnJ3SfxJ/foY0aJdgoX/mUkinTpIiBwRGpYSFdiqLqObySnNZwwGpz/T7cbv0Rw4/8a+GAF0O6J41SLBDmBJJdhax5BcLF95tR5rEU3m0p0AU5tNk/OR1yrvlFVlydaWw5dOcQFA5afqr6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1689678253; x=1692270253;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=etTj0pWMAV2sAubqIZBEXj6qldTWEzUvybkt9VmOWkQ=;
- b=dfDcS27GMuLlijiYqgpv8cFTc3tXNf8/2jhweJnFwS6yRKPQJEgW9e7SVaDhecEteX
- jsLvny+TYCzpRAzJuSeEy4pRZTa97qtYrRPXWmEbquL6Q9ZnCcyDE1uQ+wR9BUjq33qL
- cx7+WQWiudb3/Dx50EqpZPrKtHKrdWUw2Yu1M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689678253; x=1692270253;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=etTj0pWMAV2sAubqIZBEXj6qldTWEzUvybkt9VmOWkQ=;
- b=VptW2rLGNDuou4hqLG8no8CCp0JCUOFhmMkM4SE02SBTF96tVSyfYQYVnh4WtVbmkF
- iolKSEBWI44DdyCBtgISJQJ/rnDvmJHbzuPgVyhhke794G9JhSRlZBCMSPrxta6UMrMM
- eaCIQtwC/PmSsi/ihVTqJfOlIh/CpLoBaTNrryUeGTGtiVXWVC1ytzmaGRp2cRSJv3j1
- wrd3L58wKKMxRoQ9ZbjdT7o+Ye+nUmcTdJMQDs0Dty0RcP5qW2f82fhXX8fmtP+/1/xA
- 3uBUUoTAucQXcPDb16vgPy2kI3hp84Wkcl7qUhaA1sj3sgl6mrPTEEvFp1qfvN4RQk3j
- SQdA==
-X-Gm-Message-State: ABy/qLbcHw6yZtGEAZ8P5NN37U+OjqikFWTK9j2hRcMzeNKfLxOXUgjk
- y+NI3lQI00lTCeMKfOhummGKNA==
-X-Google-Smtp-Source: APBJJlGG4NOpl+g5V/U9cG71noJtVcij0c/eyNMfvbRAmsKPwKrMP4+yk/z1WRvMytepuTvM07cBPw==
-X-Received: by 2002:a17:902:ce91:b0:1b9:e1d6:7c7d with SMTP id
- f17-20020a170902ce9100b001b9e1d67c7dmr15851892plg.47.1689678253174; 
- Tue, 18 Jul 2023 04:04:13 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2401:fa00:1:10:5662:36e5:ffc6:2e8c])
- by smtp.gmail.com with ESMTPSA id
- y8-20020a17090322c800b001b850c9af71sm1544509plg.285.2023.07.18.04.04.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jul 2023 04:04:12 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH v13] drm/bridge: Remove redundant i2c_client in anx7625/it6505
-Date: Tue, 18 Jul 2023 19:04:05 +0800
-Message-ID: <20230718110407.1005200-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.41.0.455.g037347b96a-goog
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4AZTzAPJU9HXqZOr0pMZpkVaAYcd/NE9gnlPQ1XkvK4=;
+ b=l4l6kiIFNtZxDBx3omwXouKu93E/UehxyKlNUqttRH9B06YGNU7g4N3UMPKkvFs2X44Z69hfNXKNq7WxMllNfs4R4ko9/1EV6POzTwmwYJzmmx4YU2dGLN/eZxiGOwgCRCAll6+9L1pw+Jb/pWqxas01ICOcuLnhPXUpz+ZP58E=
+Received: from LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2a5::14)
+ by CWLP265MB5692.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a2::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Tue, 18 Jul
+ 2023 11:08:12 +0000
+Received: from LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1871:e3c9:b5a7:a740]) by LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1871:e3c9:b5a7:a740%3]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 11:08:05 +0000
+From: Frank Binns <Frank.Binns@imgtec.com>
+To: "conor@kernel.org" <conor@kernel.org>, Sarah Walker
+ <Sarah.Walker@imgtec.com>
+Subject: Re: [PATCH v4 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
+Thread-Topic: [PATCH v4 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
+Thread-Index: AQHZtl8P3D36r4o1qUe5ZVQPQ0pfk6+6pMUAgAS+uwA=
+Date: Tue, 18 Jul 2023 11:08:05 +0000
+Message-ID: <a86f6359706485cf595889a07e513e2b9fd6d71b.camel@imgtec.com>
+References: <20230714142526.111569-1-sarah.walker@imgtec.com>
+ <20230715-paramount-straining-6a486f8af20d@spud>
+In-Reply-To: <20230715-paramount-straining-6a486f8af20d@spud>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.5-0ubuntu1 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LO6P265MB6032:EE_|CWLP265MB5692:EE_
+x-ms-office365-filtering-correlation-id: 025637fc-0afa-466e-8d2a-08db877f42c0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LqUMEbG9atg4QAK9RBIm52E5vVUVw6dy/oG7/pgYofVqAD1KplgbxQtPrarh4u/keivY9o7R9ndv8pKEzegEPwKZ/ZRgMzx1ypX7rF2kNw3+k6vqkT/TOVuYUkK/awfm+fdRSXrnKIo3fWnPS3Kgb3H34jjB5mpszerrtBVDgdQqBlPgvXvPfLyEB10MQMqJDkQliFdY5YxwMuGzJZVfMWM1jihcRGJrI7cTGbYnFdS1jB4Jd47gDC181rzYkO1PHal2hglb/a4JVH4C3QNZVGLkINF5/ZpLB7Dim6dMSu4lTUppurfM2PWbNlzN52A3rd+Z/XhHeFBfJw7HFv9B7qMLOm04h9DzBzcamOowzIdUf/ENNzZ2WPC0fgOK7Lt8RjKb8Hhv4Q9RGuudeDUXheJisRxgffz7p2gTW6t/yReoV2gX8Kwm2eXjiqvicsjK+L9FepQBxMucYFu+CuLS7WomVFtBgm8nN2iBBqFpg+VOzGG7FWCCGyPFmwbOHei2qzKE+2Xzi7RF21TdSRD78R0kNoWdUrWIyiTqNTOc44slrS4ik+GHEFF9Hmcg28at21Nm/kiYMMzouDUfV2Nu91DdTNs1CkTnUI+BSx+KRNk=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(39850400004)(346002)(376002)(366004)(396003)(451199021)(6486002)(71200400001)(478600001)(83380400001)(6506007)(26005)(966005)(6512007)(110136005)(38100700002)(54906003)(76116006)(66946007)(64756008)(66446008)(66476007)(66556008)(122000001)(6636002)(4326008)(316002)(186003)(2616005)(5660300002)(7416002)(41300700001)(38070700005)(2906002)(8676002)(8936002)(86362001)(36756003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YVF0SDYrbEZwOWl3a2RHdk4wM1VGWExvTWVVMUpxQUtqaCtvYThFM2tJT3BI?=
+ =?utf-8?B?ZytEdUZFeWRmNHNLcnpOK00zSk04dTAzWVVNd2MwUTM5aHdoT29UdTVYa21z?=
+ =?utf-8?B?RzZIeUt2bVVPaEdOUzlVd0Nnek9sdW93VHJ6OHRaeWZSYWd4d00rMG4xN1hw?=
+ =?utf-8?B?YUtlOFVhZHRnVkdIeWErVkVmSG82VWcxdE5MOEI4SElYQVJDTElhM1cySW0x?=
+ =?utf-8?B?Vi9MdzBqRlF6czdqQlB2QzR2WkhrTURiNUlVWUNhYS9BVDZCeVAxRkNNN0tO?=
+ =?utf-8?B?YlRhNHYvcDZmOEhoUEdUMGwyc0JFcDcraVpqUjQ5YjhzSVJwNFZsSkF0bkFU?=
+ =?utf-8?B?ejF2UUJzZmYrRkFicnU2N0lTakZHekpEN0NjdTJOZXMrTWxzTldobDdCK3hY?=
+ =?utf-8?B?OUdDRFRCUE83MjFVZnJXRFd1WEczckxjQkF1TCtGOGdKSHN3VG03RUxQTkVU?=
+ =?utf-8?B?NkNXcks1UUhLUWE1OG01VWlVNUxMdlMxNU13d0cwejk3bitOWmRxNEpQRTBu?=
+ =?utf-8?B?NzMxODFKS1dLeXlOeVZhQmJKTjI1UmRUd25acjBoWFJYb2J0bTlMRVR6UWpy?=
+ =?utf-8?B?NnBzMVd0Q2RLTDQwbEhFeTdGWUV0T01FQTBhMS9ZOVNxRnVoUVBDSEVnbmwv?=
+ =?utf-8?B?V3NEeUdWVU93ZllPZjNNSjFSU05PMVRRcUp5V1RjT1I2Y1lseFlmaVVGNjEx?=
+ =?utf-8?B?Yno5SlRLUWVBVVlmeDZsMGZ1eGVvZ3dlZjU0aDFVTFFjQzNCdDlWRlpaSlhR?=
+ =?utf-8?B?ZUx4QlMzanBtTVY5ZExONEtyTjN2UzhWUFZHRVlkZnNnLzFlSVVkRkZDSEQy?=
+ =?utf-8?B?U3IxejlWVEI1OE1ibWFCMVo5NjZSSTl2Wlh4dFc4SWtUbzNyZkFZaTVYZDFv?=
+ =?utf-8?B?dlFoUmk2SzZPQVhPVGt3SUhTTko5c3p4a2ZPVG9GYUtid2xiNkdmeG81US9D?=
+ =?utf-8?B?V1FhSW5nWUN0bXo1VGlHaFBzMDBIMnJRWWpEMTVMUkF2NnJEbktjaXZGbXNw?=
+ =?utf-8?B?ZXVGSTlyOHdRV1Q4amF4cmNLVFhsNlROVld3R0RNRzQ0V2JLN0V6enY4MVdR?=
+ =?utf-8?B?bGJSQ1BsL1VobUtqZ3FpdWphdTdwZ2tYV3JSYWFKV1NMNm1vVXY5QS80Q3h6?=
+ =?utf-8?B?cEp0bTIyVmpEUThzT1V5WU9LSGxWSlc0MXZHK2wrelhoYUgzNjNpcjNNY2pE?=
+ =?utf-8?B?R0RMU0FZRzdGMmdLUVRsOUd6eGFMTTFsOFVselR4a0RoYkVEelJMMExBeFlP?=
+ =?utf-8?B?TENYZytGVVRRRHUydG9LR0ZVc3lqWGJkZTByMGEyMmZ3dTg1bFd1MWRnZDh5?=
+ =?utf-8?B?VXJQZEV4N05LQ1BDRnlGc2d6aU53dEtuTGYxc3JuamROYnRIbXQ0NzlXZzl4?=
+ =?utf-8?B?aUxmK1Y0NnhCUmFsMG8rZGR0VEFhTzNVVTJ5Zk9ETUZLK1A5c1IvRFVlYlhX?=
+ =?utf-8?B?S292YkFoZ2NScVVYR010RTFOVVA3YjVpSEVDWHR6Q3J3a2c2aTZRSGo5c3g5?=
+ =?utf-8?B?Z0VuaDltNnJ1Qy9KbWhBb2Jra3BEY0wrTDFhUm05MlBEaU1GT2FBRVdua000?=
+ =?utf-8?B?dmh3ZWxkWUZCNnk5Z2RSK1A4Q3RwSXFRc2thTlVvaFo0WUc1MlQyb3hUeXkr?=
+ =?utf-8?B?UUx6L1ZtQkU1bjZTQzZ5VnBUbGpGU3VhTks3Zk9aRkswV25DNCt3NjFDZTRD?=
+ =?utf-8?B?b2JiRWplTUpqNVlKVkxOSnVmakhRRVozMmlyYW5FaTRPMUloUERDVGRqeUIv?=
+ =?utf-8?B?SVFZZm5JN3NNMXMvSG5HMkpKOGx4ZFI2VGlpcVFkSkMvUkFEYTBPQ2E0VVJI?=
+ =?utf-8?B?dG41TmE3N2VGZ3BXKzgrKytmTmVUOUNUV3BvaG5tNkJ3KzNyTzdLOGNUV29h?=
+ =?utf-8?B?VVJRbCtUMEhveEFBZmphZVVZbHJhS24rT0Z2OVhmZ1JLbGR6Tktrd2twcHJI?=
+ =?utf-8?B?eWVtRXFvRHJERWRlQndOZnMyL1hqblRuck9QdC9uZ3Q0WHVwLzBKVFNwdmRL?=
+ =?utf-8?B?cDNRVlBGWEdUZTlnRFppcjd3TW5MRVBKdnlLNEl2KzkvNHlQRG9qSUtJNzkw?=
+ =?utf-8?B?R2ZySUZIa3VVdk9qaEVNNm1hSDU5U3pyRnpFQnF6eGFKT3kwTjlJWHRWNkt4?=
+ =?utf-8?B?a3Z3VDE5ZDBSZDhvRjAxQnl2YWdWOFFhRTNkMy83cGFpSzRESUpLdXNGQ1o3?=
+ =?utf-8?B?ZGc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <40C79CDB962E2B49BEEA7A20E23AA476@GBRP265.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 025637fc-0afa-466e-8d2a-08db877f42c0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2023 11:08:05.3364 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: E4v1kvwgdfwvV/fXWGHZezgO2JpRohabLdIt3DXbNmx2BA0XKhZ+kpTI9gRo2C18SkN93y8kBZn8r9MPc33E5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5692
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: tz-Ah-4gXmyvHFmDKCwJrY8hEu-yC5sT
+X-Proofpoint-ORIG-GUID: tz-Ah-4gXmyvHFmDKCwJrY8hEu-yC5sT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,1079 +159,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
- Chen-Yu Tsai <wenst@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "hns@goldelico.com" <hns@goldelico.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mripard@kernel.org" <mripard@kernel.org>, "afd@ti.com" <afd@ti.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
+ "dakr@redhat.com" <dakr@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>, Donald
+ Robson <Donald.Robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pin-yen Lin <treapking@chromium.org>
-
-These two drivers embed a i2c_client in their private driver data, but
-only strict device is actually needed. Replace the i2c_client reference
-with a struct device one.
-
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v12:
-- Rebase onto next-20230718 as requested
-
-Changes since v11:
-- Rebase onto v6.5-rc1
-- Converted one more instance in anx7625_attach_dsi() introduced by
-  1464e48d69ab drm/bridge: anx7625: Prevent endless probe loop
-
-Splitting this patch out of its original type-C mux patch series [1] to
-get it merged. This is a cleanup that is not strictly related to the
-rest of the series, and that series is still undergoing dicussions about
-the design.
-
-[1] https://lore.kernel.org/r/20230331091145.737305-7-treapking@chromium.org
-
- drivers/gpu/drm/bridge/analogix/anx7625.c |  98 ++++++++---------
- drivers/gpu/drm/bridge/analogix/anx7625.h |   2 +-
- drivers/gpu/drm/bridge/ite-it6505.c       | 128 +++++++++++-----------
- 3 files changed, 114 insertions(+), 114 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index e93eba89d5ee..51abe42c639e 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -206,7 +206,7 @@ static int anx7625_read_ctrl_status_p0(struct anx7625_data *ctx)
- 
- static int wait_aux_op_finish(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int val;
- 	int ret;
- 
-@@ -233,7 +233,7 @@ static int wait_aux_op_finish(struct anx7625_data *ctx)
- static int anx7625_aux_trans(struct anx7625_data *ctx, u8 op, u32 address,
- 			     u8 len, u8 *buf)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 	u8 addrh, addrm, addrl;
- 	u8 cmd;
-@@ -426,7 +426,7 @@ static int anx7625_odfc_config(struct anx7625_data *ctx,
- 			       u8 post_divider)
- {
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Config input reference clock frequency 27MHz/19.2MHz */
- 	ret = anx7625_write_and(ctx, ctx->i2c.rx_p1_client, MIPI_DIGITAL_PLL_16,
-@@ -476,7 +476,7 @@ static int anx7625_set_k_value(struct anx7625_data *ctx)
- 
- static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	unsigned long m, n;
- 	u16 htotal;
- 	int ret;
-@@ -574,7 +574,7 @@ static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
- static int anx7625_swap_dsi_lane3(struct anx7625_data *ctx)
- {
- 	int val;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Swap MIPI-DSI data lane 3 P and N */
- 	val = anx7625_reg_read(ctx, ctx->i2c.rx_p1_client, MIPI_SWAP);
-@@ -591,7 +591,7 @@ static int anx7625_api_dsi_config(struct anx7625_data *ctx)
- 
- {
- 	int val, ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Swap MIPI-DSI data lane 3 P and N */
- 	ret = anx7625_swap_dsi_lane3(ctx);
-@@ -656,7 +656,7 @@ static int anx7625_api_dsi_config(struct anx7625_data *ctx)
- 
- static int anx7625_dsi_config(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "config dsi.\n");
-@@ -688,7 +688,7 @@ static int anx7625_dsi_config(struct anx7625_data *ctx)
- 
- static int anx7625_api_dpi_config(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	u16 freq = ctx->dt.pixelclock.min / 1000;
- 	int ret;
- 
-@@ -719,7 +719,7 @@ static int anx7625_api_dpi_config(struct anx7625_data *ctx)
- 
- static int anx7625_dpi_config(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "config dpi\n");
-@@ -764,7 +764,7 @@ static int anx7625_read_flash_status(struct anx7625_data *ctx)
- static int anx7625_hdcp_key_probe(struct anx7625_data *ctx)
- {
- 	int ret, val;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	u8 ident[FLASH_BUF_LEN];
- 
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-@@ -814,7 +814,7 @@ static int anx7625_hdcp_key_probe(struct anx7625_data *ctx)
- static int anx7625_hdcp_key_load(struct anx7625_data *ctx)
- {
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Select HDCP 1.4 KEY */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-@@ -842,7 +842,7 @@ static int anx7625_hdcp_key_load(struct anx7625_data *ctx)
- static int anx7625_hdcp_disable(struct anx7625_data *ctx)
- {
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	dev_dbg(dev, "disable HDCP 1.4\n");
- 
-@@ -863,7 +863,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
- {
- 	u8 bcap;
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	ret = anx7625_hdcp_key_probe(ctx);
- 	if (ret) {
-@@ -921,7 +921,7 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
- static void anx7625_dp_start(struct anx7625_data *ctx)
- {
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	u8 data;
- 
- 	if (!ctx->display_timing_valid) {
-@@ -954,7 +954,7 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
- 
- static void anx7625_dp_stop(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 	u8 data;
- 
-@@ -1019,7 +1019,7 @@ static int sp_tx_aux_rd(struct anx7625_data *ctx, u8 len_cmd)
- static int sp_tx_get_edid_block(struct anx7625_data *ctx)
- {
- 	int c = 0;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	sp_tx_aux_wr(ctx, 0x7e);
- 	sp_tx_aux_rd(ctx, 0x01);
-@@ -1041,7 +1041,7 @@ static int edid_read(struct anx7625_data *ctx,
- 		     u8 offset, u8 *pblock_buf)
- {
- 	int ret, cnt;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	for (cnt = 0; cnt <= EDID_TRY_CNT; cnt++) {
- 		sp_tx_aux_wr(ctx, offset);
-@@ -1072,7 +1072,7 @@ static int segments_edid_read(struct anx7625_data *ctx,
- {
- 	u8 cnt;
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Write address only */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-@@ -1127,7 +1127,7 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
- 	u8 i, j;
- 	int g_edid_break = 0;
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Address initial */
- 	ret = anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-@@ -1234,7 +1234,7 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
- 
- static void anx7625_power_on(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret, i;
- 
- 	if (!ctx->pdata.low_power_mode) {
-@@ -1270,7 +1270,7 @@ static void anx7625_power_on(struct anx7625_data *ctx)
- 
- static void anx7625_power_standby(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 
- 	if (!ctx->pdata.low_power_mode) {
-@@ -1300,7 +1300,7 @@ static void anx7625_config(struct anx7625_data *ctx)
- 
- static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 
- 	/* Reset main ocm */
-@@ -1320,7 +1320,7 @@ static void anx7625_disable_pd_protocol(struct anx7625_data *ctx)
- static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
- {
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Check interface workable */
- 	ret = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client,
-@@ -1366,7 +1366,7 @@ static void anx7625_power_on_init(struct anx7625_data *ctx)
- 
- static void anx7625_init_gpio(struct anx7625_data *platform)
- {
--	struct device *dev = &platform->client->dev;
-+	struct device *dev = platform->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "init gpio\n");
- 
-@@ -1406,7 +1406,7 @@ static void anx7625_stop_dp_work(struct anx7625_data *ctx)
- static void anx7625_start_dp_work(struct anx7625_data *ctx)
- {
- 	int ret;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	if (ctx->hpd_high_cnt >= 2) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "filter useless HPD\n");
-@@ -1458,7 +1458,7 @@ static int _anx7625_hpd_polling(struct anx7625_data *ctx,
- 				unsigned long wait_us)
- {
- 	int ret, val;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* Interrupt mode, no need poll HPD status, just return */
- 	if (ctx->pdata.intp_irq)
-@@ -1492,7 +1492,7 @@ static int anx7625_wait_hpd_asserted(struct drm_dp_aux *aux,
- 				     unsigned long wait_us)
- {
- 	struct anx7625_data *ctx = container_of(aux, struct anx7625_data, aux);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 
- 	pm_runtime_get_sync(dev);
-@@ -1525,7 +1525,7 @@ static void anx7625_dp_adjust_swing(struct anx7625_data *ctx)
- 
- static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	/* HPD changed */
- 	DRM_DEV_DEBUG_DRIVER(dev, "dp_hpd_change_default_func: %d\n",
-@@ -1545,7 +1545,7 @@ static void dp_hpd_change_handler(struct anx7625_data *ctx, bool on)
- static int anx7625_hpd_change_detect(struct anx7625_data *ctx)
- {
- 	int intr_vector, status;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	status = anx7625_reg_write(ctx, ctx->i2c.tcpc_client,
- 				   INTR_ALERT_1, 0xFF);
-@@ -1593,7 +1593,7 @@ static void anx7625_work_func(struct work_struct *work)
- 
- 	mutex_lock(&ctx->lock);
- 
--	if (pm_runtime_suspended(&ctx->client->dev)) {
-+	if (pm_runtime_suspended(ctx->dev)) {
- 		mutex_unlock(&ctx->lock);
- 		return;
- 	}
-@@ -1737,7 +1737,7 @@ static ssize_t anx7625_aux_transfer(struct drm_dp_aux *aux,
- 				    struct drm_dp_aux_msg *msg)
- {
- 	struct anx7625_data *ctx = container_of(aux, struct anx7625_data, aux);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	u8 request = msg->request & ~DP_AUX_I2C_MOT;
- 	int ret = 0;
- 
-@@ -1763,7 +1763,7 @@ static ssize_t anx7625_aux_transfer(struct drm_dp_aux *aux,
- 
- static struct edid *anx7625_get_edid(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	struct s_edid_data *p_edid = &ctx->slimport_edid_p;
- 	int edid_num;
- 	u8 *edid;
-@@ -1799,7 +1799,7 @@ static struct edid *anx7625_get_edid(struct anx7625_data *ctx)
- 
- static enum drm_connector_status anx7625_sink_detect(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "sink detect\n");
- 
-@@ -2008,7 +2008,7 @@ static const struct hdmi_codec_ops anx7625_codec_ops = {
- 
- static void anx7625_unregister_audio(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	if (ctx->audio_pdev) {
- 		platform_device_unregister(ctx->audio_pdev);
-@@ -2044,7 +2044,7 @@ static int anx7625_register_audio(struct device *dev, struct anx7625_data *ctx)
- static int anx7625_setup_dsi_device(struct anx7625_data *ctx)
- {
- 	struct mipi_dsi_device *dsi;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	struct mipi_dsi_host *host;
- 	const struct mipi_dsi_device_info info = {
- 		.type = "anx7625",
-@@ -2078,7 +2078,7 @@ static int anx7625_setup_dsi_device(struct anx7625_data *ctx)
- 
- static int anx7625_attach_dsi(struct anx7625_data *ctx)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int ret;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "attach dsi\n");
-@@ -2104,7 +2104,7 @@ static void hdcp_check_work_func(struct work_struct *work)
- 
- 	dwork = to_delayed_work(work);
- 	ctx = container_of(dwork, struct anx7625_data, hdcp_work);
--	dev = &ctx->client->dev;
-+	dev = ctx->dev;
- 
- 	if (!ctx->connector) {
- 		dev_err(dev, "HDCP connector is null!");
-@@ -2131,7 +2131,7 @@ static void hdcp_check_work_func(struct work_struct *work)
- static int anx7625_connector_atomic_check(struct anx7625_data *ctx,
- 					  struct drm_connector_state *state)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	int cp;
- 
- 	dev_dbg(dev, "hdcp state check\n");
-@@ -2176,7 +2176,7 @@ static int anx7625_bridge_attach(struct drm_bridge *bridge,
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
- 	int err;
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "drm attach\n");
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-@@ -2220,7 +2220,7 @@ anx7625_bridge_mode_valid(struct drm_bridge *bridge,
- 			  const struct drm_display_mode *mode)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "drm mode checking\n");
- 
-@@ -2241,7 +2241,7 @@ static void anx7625_bridge_mode_set(struct drm_bridge *bridge,
- 				    const struct drm_display_mode *mode)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "drm mode set\n");
- 
-@@ -2287,7 +2287,7 @@ static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
- 				      struct drm_display_mode *adj)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	u32 hsync, hfp, hbp, hblanking;
- 	u32 adj_hsync, adj_hfp, adj_hbp, adj_hblanking, delta_adj;
- 	u32 vref, adj_clock;
-@@ -2405,7 +2405,7 @@ static int anx7625_bridge_atomic_check(struct drm_bridge *bridge,
- 				       struct drm_connector_state *conn_state)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	dev_dbg(dev, "drm bridge atomic check\n");
- 
-@@ -2419,7 +2419,7 @@ static void anx7625_bridge_atomic_enable(struct drm_bridge *bridge,
- 					 struct drm_bridge_state *state)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 	struct drm_connector *connector;
- 
- 	dev_dbg(dev, "drm atomic enable\n");
-@@ -2446,7 +2446,7 @@ static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
- 					  struct drm_bridge_state *old)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	dev_dbg(dev, "drm atomic disable\n");
- 
-@@ -2460,7 +2460,7 @@ static enum drm_connector_status
- anx7625_bridge_detect(struct drm_bridge *bridge)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "drm bridge detect\n");
- 
-@@ -2471,7 +2471,7 @@ static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
- 					    struct drm_connector *connector)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "drm bridge get edid\n");
- 
-@@ -2496,7 +2496,7 @@ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
- static int anx7625_register_i2c_dummy_clients(struct anx7625_data *ctx,
- 					      struct i2c_client *client)
- {
--	struct device *dev = &ctx->client->dev;
-+	struct device *dev = ctx->dev;
- 
- 	ctx->i2c.tx_p0_client = devm_i2c_new_dummy_device(dev, client->adapter,
- 							  TX_P0_ADDR >> 1);
-@@ -2631,7 +2631,7 @@ static int anx7625_i2c_probe(struct i2c_client *client)
- 
- 	pdata = &platform->pdata;
- 
--	platform->client = client;
-+	platform->dev = &client->dev;
- 	i2c_set_clientdata(client, platform);
- 
- 	pdata->supplies[0].supply = "vdd10";
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 14f33d6be289..5af819611ebc 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -458,7 +458,7 @@ struct anx7625_data {
- 	int hdcp_cp;
- 	/* Lock for work queue */
- 	struct mutex lock;
--	struct i2c_client *client;
-+	struct device *dev;
- 	struct anx7625_i2c_client i2c;
- 	struct i2c_client *last_client;
- 	struct timer_list hdcp_timer;
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 504d51c42f79..6c2fcd8b8780 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -404,7 +404,7 @@ struct debugfs_entries {
- struct it6505 {
- 	struct drm_dp_aux aux;
- 	struct drm_bridge bridge;
--	struct i2c_client *client;
-+	struct device *dev;
- 	struct it6505_drm_dp_link link;
- 	struct it6505_platform_data pdata;
- 	/*
-@@ -524,7 +524,7 @@ static int it6505_read(struct it6505 *it6505, unsigned int reg_addr)
- {
- 	unsigned int value;
- 	int err;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	if (!it6505->powered)
- 		return -ENODEV;
-@@ -542,7 +542,7 @@ static int it6505_write(struct it6505 *it6505, unsigned int reg_addr,
- 			unsigned int reg_val)
- {
- 	int err;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	if (!it6505->powered)
- 		return -ENODEV;
-@@ -562,7 +562,7 @@ static int it6505_set_bits(struct it6505 *it6505, unsigned int reg,
- 			   unsigned int mask, unsigned int value)
- {
- 	int err;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	if (!it6505->powered)
- 		return -ENODEV;
-@@ -580,7 +580,7 @@ static int it6505_set_bits(struct it6505 *it6505, unsigned int reg,
- static void it6505_debug_print(struct it6505 *it6505, unsigned int reg,
- 			       const char *prefix)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int val;
- 
- 	if (!drm_debug_enabled(DRM_UT_DRIVER))
-@@ -599,7 +599,7 @@ static int it6505_dpcd_read(struct it6505 *it6505, unsigned long offset)
- {
- 	u8 value;
- 	int ret;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	ret = drm_dp_dpcd_readb(&it6505->aux, offset, &value);
- 	if (ret < 0) {
-@@ -613,7 +613,7 @@ static int it6505_dpcd_write(struct it6505 *it6505, unsigned long offset,
- 			     u8 datain)
- {
- 	int ret;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	ret = drm_dp_dpcd_writeb(&it6505->aux, offset, datain);
- 	if (ret < 0) {
-@@ -626,7 +626,7 @@ static int it6505_dpcd_write(struct it6505 *it6505, unsigned long offset,
- static int it6505_get_dpcd(struct it6505 *it6505, int offset, u8 *dpcd, int num)
- {
- 	int ret;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	ret = drm_dp_dpcd_read(&it6505->aux, offset, dpcd, num);
- 
-@@ -643,7 +643,7 @@ static void it6505_dump(struct it6505 *it6505)
- {
- 	unsigned int i, j;
- 	u8 regs[16];
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	for (i = 0; i <= 0xff; i += 16) {
- 		for (j = 0; j < 16; j++)
-@@ -682,7 +682,7 @@ static int it6505_read_word(struct it6505 *it6505, unsigned int reg)
- 
- static void it6505_calc_video_info(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int hsync_pol, vsync_pol, interlaced;
- 	int htotal, hdes, hdew, hfph, hsyncw;
- 	int vtotal, vdes, vdew, vfph, vsyncw;
-@@ -926,7 +926,7 @@ static int it6505_aux_wait(struct it6505 *it6505)
- {
- 	int status;
- 	unsigned long timeout;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	timeout = jiffies + msecs_to_jiffies(AUX_WAIT_TIMEOUT_MS) + 1;
- 
-@@ -1141,7 +1141,7 @@ static int it6505_get_edid_block(void *data, u8 *buf, unsigned int block,
- 				 size_t len)
- {
- 	struct it6505 *it6505 = data;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	enum aux_cmd_reply reply;
- 	int offset, ret, aux_retry = 100;
- 
-@@ -1201,7 +1201,7 @@ static int it6505_send_video_infoframe(struct it6505 *it6505,
- {
- 	u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_AVI_INFOFRAME_SIZE];
- 	int err;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	err = hdmi_avi_infoframe_pack(frame, buffer, sizeof(buffer));
- 	if (err < 0) {
-@@ -1231,7 +1231,7 @@ static void it6505_get_extcon_property(struct it6505 *it6505)
- {
- 	int err;
- 	union extcon_property_value property;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	if (it6505->extcon && !it6505->lane_swap_disabled) {
- 		err = extcon_get_property(it6505->extcon, EXTCON_DISP_DP,
-@@ -1382,7 +1382,7 @@ static void it6505_enable_audio_source(struct it6505 *it6505)
- 
- static void it6505_enable_audio_infoframe(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	u8 audio_info_ca[] = { 0x00, 0x00, 0x01, 0x03, 0x07, 0x0B, 0x0F, 0x1F };
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "infoframe channel_allocation:0x%02x",
-@@ -1411,7 +1411,7 @@ static void it6505_disable_audio(struct it6505 *it6505)
- 
- static void it6505_enable_audio(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int regbe;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
-@@ -1446,7 +1446,7 @@ static bool it6505_use_step_train_check(struct it6505 *it6505)
- 
- static void it6505_parse_link_capabilities(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	struct it6505_drm_dp_link *link = &it6505->link;
- 	int bcaps;
- 
-@@ -1557,7 +1557,7 @@ static void it6505_lane_count_setup(struct it6505 *it6505)
- 
- static void it6505_link_training_setup(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	if (it6505->enable_enhanced_frame)
- 		it6505_set_bits(it6505, REG_DATA_MUTE_CTRL,
-@@ -1708,7 +1708,7 @@ it6505_step_cr_train(struct it6505 *it6505,
- 					FORCE_CR_DONE);
- 			return true;
- 		}
--		DRM_DEV_DEBUG_DRIVER(&it6505->client->dev, "cr not done");
-+		DRM_DEV_DEBUG_DRIVER(it6505->dev, "cr not done");
- 
- 		if (it6505_check_max_voltage_swing_reached(lane_level_config,
- 							   it6505->lane_count))
-@@ -1785,7 +1785,7 @@ it6505_step_eq_train(struct it6505 *it6505,
- 					FORCE_EQ_DONE);
- 			return true;
- 		}
--		DRM_DEV_DEBUG_DRIVER(&it6505->client->dev, "eq not done");
-+		DRM_DEV_DEBUG_DRIVER(it6505->dev, "eq not done");
- 
- 		for (i = 0; i < it6505->lane_count; i++) {
- 			lane_voltage_pre_emphasis->voltage_swing[i] =
-@@ -1820,7 +1820,7 @@ static bool it6505_link_start_step_train(struct it6505 *it6505)
- 		.pre_emphasis = { 0 },
- 	};
- 
--	DRM_DEV_DEBUG_DRIVER(&it6505->client->dev, "start");
-+	DRM_DEV_DEBUG_DRIVER(it6505->dev, "start");
- 	err = it6505_drm_dp_link_configure(it6505);
- 
- 	if (err < 0)
-@@ -1854,7 +1854,7 @@ static void it6505_reset_hdcp(struct it6505 *it6505)
- 
- static void it6505_start_hdcp(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 	it6505_reset_hdcp(it6505);
-@@ -1882,7 +1882,7 @@ static bool it6505_hdcp_is_ksv_valid(u8 *ksv)
- 
- static void it6505_hdcp_part1_auth(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	u8 hdcp_bcaps;
- 
- 	it6505_set_bits(it6505, REG_RESET_CTRL, HDCP_RESET, 0x00);
-@@ -1923,7 +1923,7 @@ static int it6505_sha1_digest(struct it6505 *it6505, u8 *sha1_input,
- 	struct shash_desc *desc;
- 	struct crypto_shash *tfm;
- 	int err;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	tfm = crypto_alloc_shash("sha1", 0, 0);
- 	if (IS_ERR(tfm)) {
-@@ -1948,7 +1948,7 @@ static int it6505_sha1_digest(struct it6505 *it6505, u8 *sha1_input,
- 
- static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	u8 binfo[2];
- 	int down_stream_count, i, err, msg_count = 0;
- 
-@@ -2012,7 +2012,7 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
- 
- static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	u8 av[5][4], bv[5][4];
- 	int i, err;
- 
-@@ -2045,7 +2045,7 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- {
- 	struct it6505 *it6505 = container_of(work, struct it6505,
- 					     hdcp_wait_ksv_list);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	unsigned int timeout = 5000;
- 	u8 bstatus = 0;
- 	bool ksv_list_check;
-@@ -2087,7 +2087,7 @@ static void it6505_hdcp_work(struct work_struct *work)
- {
- 	struct it6505 *it6505 = container_of(work, struct it6505,
- 					     hdcp_work.work);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int ret;
- 	u8 link_status[DP_LINK_STATUS_SIZE] = { 0 };
- 
-@@ -2128,7 +2128,7 @@ static void it6505_hdcp_work(struct work_struct *work)
- 
- static void it6505_show_hdcp_info(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int i;
- 	u8 *sha1 = it6505->sha1_input;
- 
-@@ -2162,7 +2162,7 @@ static void it6505_stop_link_train(struct it6505 *it6505)
- 
- static void it6505_link_train_ok(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	it6505->link_state = LINK_OK;
- 	/* disalbe mute enable avi info frame */
-@@ -2181,7 +2181,7 @@ static void it6505_link_train_ok(struct it6505 *it6505)
- 
- static void it6505_link_step_train_process(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int ret, i, step_retry = 3;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "Start step train");
-@@ -2219,7 +2219,7 @@ static void it6505_link_step_train_process(struct it6505 *it6505)
- static void it6505_link_training_work(struct work_struct *work)
- {
- 	struct it6505 *it6505 = container_of(work, struct it6505, link_works);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int ret;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "it6505->sink_count: %d",
-@@ -2267,7 +2267,7 @@ static void it6505_remove_edid(struct it6505 *it6505)
- 
- static int it6505_process_hpd_irq(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int ret, dpcd_sink_count, dp_irq_vector, bstatus;
- 	u8 link_status[DP_LINK_STATUS_SIZE];
- 
-@@ -2331,7 +2331,7 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
- 
- static void it6505_irq_hpd(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int dp_sink_count;
- 
- 	it6505->hpd_state = it6505_get_sink_hpd_status(it6505);
-@@ -2393,7 +2393,7 @@ static void it6505_irq_hpd(struct it6505 *it6505)
- 
- static void it6505_irq_hpd_irq(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hpd_irq interrupt");
- 
-@@ -2403,7 +2403,7 @@ static void it6505_irq_hpd_irq(struct it6505 *it6505)
- 
- static void it6505_irq_scdt(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	bool data;
- 
- 	data = it6505_get_video_status(it6505);
-@@ -2418,7 +2418,7 @@ static void it6505_irq_scdt(struct it6505 *it6505)
- 
- static void it6505_irq_hdcp_done(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp done interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_DONE;
-@@ -2427,7 +2427,7 @@ static void it6505_irq_hdcp_done(struct it6505 *it6505)
- 
- static void it6505_irq_hdcp_fail(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "hdcp fail interrupt");
- 	it6505->hdcp_status = HDCP_AUTH_IDLE;
-@@ -2437,14 +2437,14 @@ static void it6505_irq_hdcp_fail(struct it6505 *it6505)
- 
- static void it6505_irq_aux_cmd_fail(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "AUX PC Request Fail Interrupt");
- }
- 
- static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
- 	schedule_work(&it6505->hdcp_wait_ksv_list);
-@@ -2452,7 +2452,7 @@ static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
- 
- static void it6505_irq_audio_fifo_error(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "audio fifo error Interrupt");
- 
-@@ -2462,7 +2462,7 @@ static void it6505_irq_audio_fifo_error(struct it6505 *it6505)
- 
- static void it6505_irq_link_train_fail(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "link training fail interrupt");
- 	schedule_work(&it6505->link_works);
-@@ -2470,7 +2470,7 @@ static void it6505_irq_link_train_fail(struct it6505 *it6505)
- 
- static void it6505_irq_video_fifo_error(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "video fifo overflow interrupt");
- 	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-@@ -2481,7 +2481,7 @@ static void it6505_irq_video_fifo_error(struct it6505 *it6505)
- 
- static void it6505_irq_io_latch_fifo_overflow(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "IO latch fifo overflow interrupt");
- 	it6505->auto_train_retry = AUTO_TRAIN_RETRY;
-@@ -2498,7 +2498,7 @@ static bool it6505_test_bit(unsigned int bit, const unsigned int *addr)
- static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- {
- 	struct it6505 *it6505 = data;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	static const struct {
- 		int bit;
- 		void (*handler)(struct it6505 *it6505);
-@@ -2550,7 +2550,7 @@ static irqreturn_t it6505_int_threaded_handler(int unused, void *data)
- 
- static int it6505_poweron(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	struct it6505_platform_data *pdata = &it6505->pdata;
- 	int err;
- 
-@@ -2599,7 +2599,7 @@ static int it6505_poweron(struct it6505 *it6505)
- 
- static int it6505_poweroff(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	struct it6505_platform_data *pdata = &it6505->pdata;
- 	int err;
- 
-@@ -2633,7 +2633,7 @@ static int it6505_poweroff(struct it6505 *it6505)
- 
- static enum drm_connector_status it6505_detect(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	enum drm_connector_status status = connector_status_disconnected;
- 	int dp_sink_count;
- 
-@@ -2694,7 +2694,7 @@ static int it6505_extcon_notifier(struct notifier_block *self,
- static void it6505_extcon_work(struct work_struct *work)
- {
- 	struct it6505 *it6505 = container_of(work, struct it6505, extcon_wq);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int state, ret;
- 
- 	if (it6505->enable_drv_hold)
-@@ -2739,11 +2739,11 @@ static void it6505_extcon_work(struct work_struct *work)
- static int it6505_use_notifier_module(struct it6505 *it6505)
- {
- 	int ret;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	it6505->event_nb.notifier_call = it6505_extcon_notifier;
- 	INIT_WORK(&it6505->extcon_wq, it6505_extcon_work);
--	ret = devm_extcon_register_notifier(&it6505->client->dev,
-+	ret = devm_extcon_register_notifier(it6505->dev,
- 					    it6505->extcon, EXTCON_DISP_DP,
- 					    &it6505->event_nb);
- 	if (ret) {
-@@ -2759,7 +2759,7 @@ static int it6505_use_notifier_module(struct it6505 *it6505)
- static void it6505_remove_notifier_module(struct it6505 *it6505)
- {
- 	if (it6505->extcon) {
--		devm_extcon_unregister_notifier(&it6505->client->dev,
-+		devm_extcon_unregister_notifier(it6505->dev,
- 						it6505->extcon,	EXTCON_DISP_DP,
- 						&it6505->event_nb);
- 
-@@ -2772,7 +2772,7 @@ static void __maybe_unused it6505_delayed_audio(struct work_struct *work)
- 	struct it6505 *it6505 = container_of(work, struct it6505,
- 					     delayed_audio.work);
- 
--	DRM_DEV_DEBUG_DRIVER(&it6505->client->dev, "start");
-+	DRM_DEV_DEBUG_DRIVER(it6505->dev, "start");
- 
- 	if (!it6505->powered)
- 		return;
-@@ -2785,7 +2785,7 @@ static int __maybe_unused it6505_audio_setup_hw_params(struct it6505 *it6505,
- 						       struct hdmi_codec_params
- 						       *params)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int i = 0;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "%s %d Hz, %d bit, %d channels\n", __func__,
-@@ -2869,7 +2869,7 @@ static int it6505_bridge_attach(struct drm_bridge *bridge,
- 				enum drm_bridge_attach_flags flags)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	int ret;
- 
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-@@ -2933,7 +2933,7 @@ static void it6505_bridge_atomic_enable(struct drm_bridge *bridge,
- 					struct drm_bridge_state *old_state)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	struct drm_atomic_state *state = old_state->base.state;
- 	struct hdmi_avi_infoframe frame;
- 	struct drm_crtc_state *crtc_state;
-@@ -2989,7 +2989,7 @@ static void it6505_bridge_atomic_disable(struct drm_bridge *bridge,
- 					 struct drm_bridge_state *old_state)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 
-@@ -3004,7 +3004,7 @@ static void it6505_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 					    struct drm_bridge_state *old_state)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 
-@@ -3015,7 +3015,7 @@ static void it6505_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 					      struct drm_bridge_state *old_state)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "start");
- 
-@@ -3034,7 +3034,7 @@ static struct edid *it6505_bridge_get_edid(struct drm_bridge *bridge,
- 					   struct drm_connector *connector)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	if (!it6505->cached_edid) {
- 		it6505->cached_edid = drm_do_get_edid(connector, it6505_get_edid_block,
-@@ -3086,7 +3086,7 @@ static const struct dev_pm_ops it6505_bridge_pm_ops = {
- static int it6505_init_pdata(struct it6505 *it6505)
- {
- 	struct it6505_platform_data *pdata = &it6505->pdata;
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	/* 1.0V digital core power regulator  */
- 	pdata->pwr18 = devm_regulator_get(dev, "pwr18");
-@@ -3128,7 +3128,7 @@ static int it6505_get_data_lanes_count(const struct device_node *endpoint,
- 
- static void it6505_parse_dt(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 	struct device_node *np = dev->of_node, *ep = NULL;
- 	int len;
- 	u64 link_frequencies;
-@@ -3333,7 +3333,7 @@ static void debugfs_create_files(struct it6505 *it6505)
- 
- static void debugfs_init(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
-+	struct device *dev = it6505->dev;
- 
- 	it6505->debugfs = debugfs_create_dir(DEBUGFS_DIR_NAME, NULL);
- 
-@@ -3375,7 +3375,7 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 
- 	it6505->bridge.of_node = client->dev.of_node;
- 	it6505->connector_status = connector_status_disconnected;
--	it6505->client = client;
-+	it6505->dev = &client->dev;
- 	i2c_set_clientdata(client, it6505);
- 
- 	/* get extcon device from DTS */
--- 
-2.41.0.455.g037347b96a-goog
-
+SGkgQ29ub3IsDQoNClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjayAoY29tbWVudHMgYmVsb3cp
+Lg0KDQpPbiBTYXQsIDIwMjMtMDctMTUgYXQgMTE6NDAgKzAxMDAsIENvbm9yIERvb2xleSB3cm90
+ZToNCj4gSGV5IFNhcmFoLA0KPiANCj4gWW91ciBzZXJpZXMgZG9lcyBub3QgYXBwZWFyIHRvIGJl
+IHRocmVhZGVkLiBgZ2l0IHNlbmQtZW1haWxgIGNhbiBiZQ0KPiBwYXNzZWQsIGZvciBleGFtcGxl
+LCBhIGRpcmVjdG9yeSBjb250YWluaW5nIGEgd2hvbGUgc2VyaWVzICYgd2lsbCBzZXQNCj4gdGhl
+IGNvcnJlY3QgaW4tcmVwbHktdG8gaGVhZGVycyBzbyB0aGF0IHRoZSBzZXJpZXMgaXMgaW4gYSBz
+aW5nbGUNCj4gdGhyZWFkLg0KDQpUaGFuayB5b3UgcG9pbnRpbmcgdGhpcyBvdXQsIHdlJ2xsIG1h
+a2Ugc3VyZSB3ZSBkbyB0aGlzIGZvciB0aGUgbmV4dCBpdGVyYXRpb24uDQoNCj4gDQo+IE9uIEZy
+aSwgSnVsIDE0LCAyMDIzIGF0IDAzOjI1OjI2UE0gKzAxMDAsIFNhcmFoIFdhbGtlciB3cm90ZToN
+Cj4gPiBBZGQgdGhlIGRldmljZSB0cmVlIGJpbmRpbmcgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIFNl
+cmllcyBBWEUgR1BVIHVzZWQgaW4NCj4gPiBUSSBBTTYyIFNvQ3MuDQo+ID4gQ2hhbmdlcyBzaW5j
+ZSB2MzoNCj4gPiAtIFJlbW92ZSBvbmVPZiBpbiBjb21wYXRpYmxlIHByb3BlcnR5DQo+ID4gLSBS
+ZW1vdmUgcG93ZXItc3VwcGx5IChub3QgdXNlZCBvbiBBTTYyKQ0KPiA+IA0KPiA+IENoYW5nZXMg
+c2luY2UgdjI6DQo+ID4gLSBBZGQgY29tbWl0IG1lc3NhZ2UgZGVzY3JpcHRpb24NCj4gPiAtIFJl
+bW92ZSBtdDgxNzMtZ3B1IHN1cHBvcnQgKG5vdCBjdXJyZW50bHkgc3VwcG9ydGVkKQ0KPiA+IC0g
+RHJvcCBxdW90ZXMgZnJvbSAkaWQgYW5kICRzY2hlbWENCj4gPiAtIFJlbW92ZSByZWc6IG1pbkl0
+ZW1zDQo+ID4gLSBEcm9wIF9jbGsgc3VmZml4ZXMgZnJvbSBjbG9jay1uYW1lcw0KPiA+IC0gUmVt
+b3ZlIG9wZXJhdGluZy1wb2ludHMtdjIgcHJvcGVydHkgYW5kIGNvb2xpbmctY2VsbHMgKG5vdCBj
+dXJyZW50bHkNCj4gPiAgIHVzZWQpDQo+ID4gLSBBZGQgYWRkaXRpb25hbFByb3BlcnRpZXM6IGZh
+bHNlDQo+ID4gLSBSZW1vdmUgc3RyYXkgYmxhbmsgbGluZSBhdCB0aGUgZW5kIG9mIGZpbGUNCj4g
+DQo+IFRoZSBjaGFuZ2Vsb2cgc2hvdWxkIGdvIGJlbG93IHRoZSAtLS0gbGluZS4NCg0KQWNrDQoN
+Cj4gDQo+ID4gU2lnbmVkLW9mZi1ieTogU2FyYWggV2Fsa2VyIDxzYXJhaC53YWxrZXJAaW1ndGVj
+LmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L2ltZyxwb3dl
+cnZyLnlhbWwgIHwgNjggKysrKysrKysrKysrKysrKysrKw0KPiA+ICBNQUlOVEFJTkVSUyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNyArKw0KPiA+ICAyIGZpbGVzIGNoYW5n
+ZWQsIDc1IGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncHUvaW1nLHBvd2VydnIueWFtbA0KPiA+IGRpZmYgLS1n
+aXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L2ltZyxwb3dlcnZyLnlh
+bWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3B1L2ltZyxwb3dlcnZyLnlh
+bWwNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uMzI5
+MmEwNDQwNDY1DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9ncHUvaW1nLHBvd2VydnIueWFtbA0KPiA+IEBAIC0wLDAgKzEsNjgg
+QEANCj4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0Qt
+Mi1DbGF1c2UpDQo+ID4gKyMgQ29weXJpZ2h0IChjKSAyMDIyIEltYWdpbmF0aW9uIFRlY2hub2xv
+Z2llcyBMdGQuDQo+ID4gKyVZQU1MIDEuMg0KPiA+ICstLS0NCj4gPiArJGlkOiBodHRwOi8vZGV2
+aWNldHJlZS5vcmcvc2NoZW1hcy9ncHUvaW1nLHBvd2VydnIueWFtbCMNCj4gPiArJHNjaGVtYTog
+aHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQo+ID4gKw0KPiA+
+ICt0aXRsZTogSW1hZ2luYXRpb24gVGVjaG5vbG9naWVzIFBvd2VyVlIgR1BVDQo+ID4gKw0KPiA+
+ICttYWludGFpbmVyczoNCj4gPiArICAtIFNhcmFoIFdhbGtlciA8c2FyYWgud2Fsa2VyQGltZ3Rl
+Yy5jb20+DQo+ID4gKyAgaW50ZXJydXB0czoNCj4gPiArICAgIGl0ZW1zOg0KPiA+ICsgICAgICAt
+IGRlc2NyaXB0aW9uOiBHUFUgaW50ZXJydXB0DQo+IA0KPiBUaGUgZGVzY3JpcHRpb24gaGVyZSBk
+b2Vzbid0IGFkZCBhbnkgdmFsdWUsIHNpbmNlIHRoZXJlIGlzIG9ubHkgb25lDQo+IGludGVycnVw
+dCwgc28geW91IGNhbiBkcm9wIGl0IGFuZCBkbyBtYXhJdGVtczogMSBhcyB5b3UgaGF2ZSBkb25l
+DQo+IGVsc2V3aGVyZS4NCg0KU3VyZSwgd2lsbCBtYWtlIHRoaXMgY2hhbmdlLg0KDQo+IA0KPiA+
+ICsgIGludGVycnVwdC1uYW1lczoNCj4gPiArICAgIGl0ZW1zOg0KPiA+ICsgICAgICAtIGNvbnN0
+OiBncHUNCj4gDQo+IEFuZCB0aGlzDQo+IGl0ZW1zOg0KPiAgIC0gY29uc3Q6IGdwdQ0KPiBjYW4g
+anVzdCBiZQ0KPiBjb25zdDogZ3B1DQo+IA0KPiBBbHRob3VnaCwgaWYgdGhlcmUgaXMgb25seSBv
+bmUgaW50ZXJydXB0IHRoaXMgaXMgcHJvYmFibHkgbm90DQo+IHBhcnRpY3VsYXJseSBoZWxwZnVs
+LiBBcmUgdGhlcmUgb3RoZXIgaW1wbGVtZW50YXRpb25zIG9mIHRoaXMgSVAgdGhhdA0KPiBoYXZl
+IG1vcmUgaW50ZXJydXB0cz8NCg0KTm8sIGFsbCBvdXIgY3VycmVudCBHUFVzIGp1c3QgaGF2ZSBh
+IHNpbmdsZSBpbnRlcnJ1cHQuIEkgYXNzdW1lIGl0J3MgbW9yZSBmdXR1cmUNCnByb29mIHRvIGtl
+ZXAgdGhlIG5hbWUgaW4gY2FzZSB0aGF0IGV2ZXIgY2hhbmdlcz8gQXMgaW4sIGJ5IGhhdmluZyB0
+aGUgbmFtZSBub3cNCndlIGNhbiBtYWtlIGl0IGEgcmVxdWlyZWQgcHJvcGVydHksIHdoaWNoIEkg
+Z3Vlc3Mgd2Ugd29uJ3QgYmUgYWJsZSB0byBkbyBhdCBzb21lDQpsYXRlciBwb2ludC4NCg0KVGhh
+bmtzDQpGcmFuaw0KDQo+IA0KPiBPdGhlcndpc2UsIHRoaXMgbG9va3MgZ29vZCB0byBtZS4NCj4g
+DQo+IFRoYW5rcywNCj4gQ29ub3IuDQo=
