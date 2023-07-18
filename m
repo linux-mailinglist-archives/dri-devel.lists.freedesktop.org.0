@@ -1,86 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E577576D9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 10:41:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 306827576E0
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 10:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D0D10E2FF;
-	Tue, 18 Jul 2023 08:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CA310E004;
+	Tue, 18 Jul 2023 08:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2682410E004
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 08:41:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689669697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JXo1PBuzT+dNb4ugtQZrTRjYI2adrTAH49R4WAbJ7+8=;
- b=L8O2n6LzmA+CU+jXT55TFzfuGt8wgGDKDvvj0rSiTjg/8n4z/eNzN9WPuCx31ncQM4OleD
- alDzIoPMw3k2+b46vNwmsmalt+G11cC47IwGBGs6zlRsAcveRJlDEGaigc2e/YNXnuTNGx
- vh+CHi+M3KHtqrhhkmSnO/JSyspZpvY=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-25-U169gVwdNv-7dW9_ZwWewA-1; Tue, 18 Jul 2023 04:41:35 -0400
-X-MC-Unique: U169gVwdNv-7dW9_ZwWewA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4fbcdca8fb6so4490700e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 01:41:34 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EB910E004
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 08:42:24 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3fbef8ad9bbso54003985e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 01:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1689669743; x=1692261743; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lsS2Iaqm2U2paaIACaH5afuQDHJxmglgO9qoIKv0pEA=;
+ b=MBDlFtSo/of5p9ZelE58JuefVNUOWIvorbrubSBnVW4BlQlEH6Mw/KO3D5xPrkLvV5
+ SjCuvySBuxskdiacTSqHZE8FtqlTrzKsQH9dwejWswvEPK+E7O3uUrOkn2z+FLnn1xTV
+ ndrxQtNgjWwsrEnkBQ+OfMy0U3OKdZ/0rVTDmFAmm9mOV96oobm6vISd/bBza2cfkgt2
+ KjVkpasRnlhtPSLCF+HNi8EX/OOEHqjQSm4xD84sqxLv6ofaMfcCMw4LQyFTJWH4pYNh
+ xPWmNsAQ+HUkVDnjMgqRhxpkJ9/Cu3azqGoEUrFTZ+afcCeFdxF4ZMJi8K8Ef0M/07wU
+ 1cHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689669693; x=1692261693;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JXo1PBuzT+dNb4ugtQZrTRjYI2adrTAH49R4WAbJ7+8=;
- b=gMqAg0fUOaY/XC9inXNQfoITiLdQJCpq9NunykQR7nQz+i+vFXT1Atkz0pizcOYbW5
- NzvVcXH/IGroKBVrwEfqpTZJTwQBEZKFwG0WL8dh19Lhzf7sP5lLHjJFCnQXAhGKcnHM
- bqZGcBl308dWxKfDOBFYlnQuJa0XnKkwdV4frH2Wy7liJ9mqe+4ziwJordvKXWOhw1sW
- Bl25IwPmAWg0O4Sq2I4pp42OvGi+NhKLOEMnKC2GiLzN3Pm39udCZJhWt9PImSSwRnWt
- IEWJxhaXiLVMa3X9yW3VTfBuZud2kc6cf2+uC9Ix07GTJm/Yb9sBbCT9BX17jBsGbzry
- xuNA==
-X-Gm-Message-State: ABy/qLYtL57CQSD+F/OOWImeJYeeDne+BEi1Dr4QAwsvH+5LXVi8KxDC
- 0WqkkYWH57s9LwO+st3jzNjVULpGfHTAIjK7lunQt0q4Ju7Bhr4ZbjZufVLf3PIWt72CAlVo6V8
- 2xwaZkMkDw15x7/UetQPT0nATAle1
-X-Received: by 2002:ac2:4a62:0:b0:4f9:5519:78b8 with SMTP id
- q2-20020ac24a62000000b004f9551978b8mr9211997lfp.63.1689669693660; 
- Tue, 18 Jul 2023 01:41:33 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEC0BvK24zrWl5+2wJseWT+oae1QqEbrqyuNehHNadpFhZWtiZZQDoUX1/4l7PmtJmRPTChew==
-X-Received: by 2002:ac2:4a62:0:b0:4f9:5519:78b8 with SMTP id
- q2-20020ac24a62000000b004f9551978b8mr9211988lfp.63.1689669693291; 
- Tue, 18 Jul 2023 01:41:33 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m13-20020a7bce0d000000b003fbaa2903f4sm1570853wmc.19.2023.07.18.01.41.32
+ d=1e100.net; s=20221208; t=1689669743; x=1692261743;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lsS2Iaqm2U2paaIACaH5afuQDHJxmglgO9qoIKv0pEA=;
+ b=BckSfikjQosdY4MRWYDKbsKhdbIvm1N3jQ4tTcc/w1wDnYhfgaORvojjzwvWIFKHfg
+ jKPxcOgZQHxLa8VirtQd0Y3kwOObUo+R+VR9/r24oGVnoyFGnBVfm1X9fIgAVlVAXE84
+ WpZVEkBvAdM44WsupTB59mZ4J6pabaJISSsYGw/cBUQ9B9VOZyqZkuPAkNOceqIAx3gK
+ fGsmqM63vmjgJ9PuQUo/+rV5Ng7hohEYR7tFa7eiy2shxqKownOBpuYDHAoiuAOTPI5P
+ hsNIAvtw9ZHmhEyjgD2+WIgJ4xV8MNFHIRR/NNDMCJ4BMDsFmiHOld0wO1kkQAi7IHF4
+ d8og==
+X-Gm-Message-State: ABy/qLaibr2Hg1XNmypGEiHk7gw/5cxraEg3r2y0rlhU/T/axMERXYSs
+ HJrDvepfF98sUNe+X4LqYv31cg==
+X-Google-Smtp-Source: APBJJlHTgcBHE/VSkW3ZfuCIg9Ibg4GpA1UxvEWc9NATxNplSnsgVIZFa9W55MLD+FD0CzX/38W9Ug==
+X-Received: by 2002:a5d:68c6:0:b0:313:ef93:925a with SMTP id
+ p6-20020a5d68c6000000b00313ef93925amr11695801wrw.24.1689669742696; 
+ Tue, 18 Jul 2023 01:42:22 -0700 (PDT)
+Received: from neptune.lan ([188.27.131.236]) by smtp.gmail.com with ESMTPSA id
+ a1-20020adffac1000000b003143ac73fd0sm1751233wrs.1.2023.07.18.01.42.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jul 2023 01:41:32 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>, Michael Banack <banackm@vmware.com>
-Subject: Re: [PATCH v4 2/8] drm/atomic: Add support for mouse hotspots
-In-Reply-To: <20230711101442.72530df5@eldfell>
-References: <20230628052133.553154-1-zack@kde.org>
- <20230628052133.553154-3-zack@kde.org> <20230628104106.30360b55@eldfell>
- <20230628105424.11eb45ec@eldfell>
- <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
- <20230629110348.3530f427@eldfell>
- <6c5449cf-b7a6-1125-9493-0fe968166915@vmware.com>
- <20230704110845.490344f5@eldfell>
- <ce7754be-8085-ffd1-93f3-a774f7fcdb87@vmware.com>
- <20230706110146.0abeda0a@eldfell>
- <247b630c-8b16-7c33-987e-8b3451be3c70@vmware.com>
- <20230707113837.1a9d31e9@eldfell>
- <6be74496-f14e-302c-329e-d865f5ee3c36@vmware.com>
- <20230710111706.209cfd55@eldfell>
- <9768c00d-536b-dd7b-c8e2-e9d920cd6959@vmware.com>
- <20230711101442.72530df5@eldfell>
-Date: Tue, 18 Jul 2023 10:41:32 +0200
-Message-ID: <87wmyxipc3.fsf@minerva.mail-host-address-is-not-set>
+ Tue, 18 Jul 2023 01:42:22 -0700 (PDT)
+From: Alexandru Ardelean <alex@shruggie.ro>
+To: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm: adv7511: Fix low refresh rate register for ADV7533/5
+Date: Tue, 18 Jul 2023 11:42:15 +0300
+Message-ID: <20230718084215.12767-1-alex@shruggie.ro>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20190716131005.761-1-bogdan.togorean@analog.com>
+References: <20190716131005.761-1-bogdan.togorean@analog.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,62 +73,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Martin Krastev <krastevm@vmware.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, Ian Forbes <iforbes@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>, "zack@kde.org" <zack@kde.org>
+Cc: neil.armstrong@linaro.org, rfoss@kernel.org, andrzej.hajda@intel.com,
+ jonas@kwiboo.se, nuno.sa@analog.com, Laurent.pinchart@ideasonboard.com,
+ Alexandru Ardelean <alex@shruggie.ro>, bogdan.togorean@analog.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pekka Paalanen <ppaalanen@gmail.com> writes:
+From: Bogdan Togorean <bogdan.togorean@analog.com>
 
-Hello folks,
+For ADV7533 and ADV7535 low refresh rate is selected using
+bits [3:2] of 0x4a main register.
+So depending on ADV model write 0xfb or 0x4a register.
 
-> On Mon, 10 Jul 2023 10:46:56 -0700
-> Michael Banack <banackm@vmware.com> wrote:
->
->> On 7/10/23 01:17, Pekka Paalanen wrote:
->> > On Fri, 7 Jul 2023 13:54:21 -0700
->> > Michael Banack <banackm@vmware.com> wrote:
->
-> ...
->
->> >> So I guess I would vote for trying to include something to that effect
->> >> as context or explanation, but not try to strictly define how that works?  
->> > Yes, exactly.  
->> 
->> Okay, if we can keep the mouse/input stuff on the fuzzy side then I 
->> think we're on the same page.
->
-> Very much of the fuzzy side, yes! All I am saying is that one cannot
-> explain the hotspot property without saying anything about it being
-> connected with input devices in some way. The very key I want to see
-> documented is that all cursor-needing pointing input devices and all
-> KMS cursor planes exposed to the guest OS are meant to be associated
-> with the same single conceptual pointer. That is all.
->
+Fixes: 2437e7cd88e8 ("drm/bridge: adv7533: Initial support for ADV7533")
+Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
+Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+---
 
-So if I understand correctly Pekka doesn't have any issues with the actual
-implementation and is just asking for better documentation ?
+Changelog v2 -> v3:
+* https://lore.kernel.org/dri-devel/1c3fde3a873b0f948d3c4d37107c5bb67dc9f7bb.camel@gmail.com/T/#u
+* Added my S-o-b tag back
 
-How can we move this series forward? Maybe we can land this set and add an
-explanation / more verbose uAPI documentation as a follow-up patches ?
+Changelog v1 -> v2:
+* https://lore.kernel.org/dri-devel/20190716131005.761-1-bogdan.togorean@analog.com/
+* added Fixes: tag
+* added Reviewed-by: tag for Nuno
 
-Or do you think that the everything must be merged together and another
-revision be posted ? The sooner we could land this, the sooner that should
-be able to drop virtio-gpu from the mutter atomic deny list, and be able
-to use the damage handling work that has been done across the virt stack.
 
->
-> Thanks,
-> pq
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index ddceafa7b637..09290a377957 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -786,8 +786,13 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+ 	else
+ 		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
+ 
+-	regmap_update_bits(adv7511->regmap, 0xfb,
+-		0x6, low_refresh_rate << 1);
++	if (adv7511->type == ADV7511)
++		regmap_update_bits(adv7511->regmap, 0xfb,
++			0x6, low_refresh_rate << 1);
++	else
++		regmap_update_bits(adv7511->regmap, 0x4a,
++			0xc, low_refresh_rate << 2);
++
+ 	regmap_update_bits(adv7511->regmap, 0x17,
+ 		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
+ 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.41.0
 
