@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8D4758169
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 17:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C205275817B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 17:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85CAE10E37B;
-	Tue, 18 Jul 2023 15:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB6A10E1B7;
+	Tue, 18 Jul 2023 15:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8699810E37B
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 15:55:05 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxCPLYtbZksNYGAA--.17638S3;
- Tue, 18 Jul 2023 23:55:04 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxF83YtbZkFHgzAA--.8545S3; 
- Tue, 18 Jul 2023 23:55:04 +0800 (CST)
-Message-ID: <9bb65e5b-6537-4f86-e604-9dc1b797ce62@loongson.cn>
-Date: Tue, 18 Jul 2023 23:55:03 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B883D10E1B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 15:56:42 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0C03961636;
+ Tue, 18 Jul 2023 15:56:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E5BC433C7;
+ Tue, 18 Jul 2023 15:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689695801;
+ bh=OUGHLXWRvZQd4i149WLBrdAwtqzrKGDvVPyUoqibuF4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qTKticjYbVQQLmTeraIKe4Qz5hsaBMNYKBSWjRdWymOQjCAeSYl/cbzrGVyJVGTlu
+ te9NliQFYAHQYJJiTL8zUXlV3m8TWS2UNfrhT/oLET0tAeB8CW959AvNGpSOvhfJh0
+ Xc9dzDDtvm9+bzIY2GY2EzzzLaQdc3tKUAYKBibCGJvmfganbbBNLwwt2kzCfm5FWQ
+ 0PYZ2Z8kCP35qqGU96rUMunAlkGsTVGX0d6FnH3CWY/7qRj/vM0dysv6F0Dmmel7gv
+ y98hESioDjPW+eepPregpMMkAZsmjUzczPXVbGR3c4piTGei9kTPH0+yioxjslat++
+ 3ldAWnj/SR5AA==
+Date: Tue, 18 Jul 2023 16:56:36 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH 1/4] dt-bindings: vendor-prefixes: add jasonic
+Message-ID: <20230718-endurance-dismiss-3aeab33dd7f2@spud>
+References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
+ <20230718-feature-lcd-panel-v1-1-e9a85d5374fd@wolfvision.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm: loongson: Add a check for lsdc_bo_create() errors
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, conduct@kernel.org
-References: <0da6859b-40cc-4b3e-b8b6-fed157517083@moroto.mountain>
- <c9ac14ee-7cfc-c10b-4a55-37049bbb4338@loongson.cn>
- <bbaa11a9-9984-40c1-bd63-adc8698d0185@kadam.mountain>
- <90d22f14-c912-42f0-bf33-eb4297fe9fa8@kadam.mountain>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <90d22f14-c912-42f0-bf33-eb4297fe9fa8@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxF83YtbZkFHgzAA--.8545S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUU9qb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
- 67AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
- I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
- jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
- 07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
- 1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
- CVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
- 1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4U
- JbIYCTnIWIevJa73UjIFyTuYvjxUzKZXUUUUU
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="79UkCYMlLnqwphdT"
+Content-Disposition: inline
+In-Reply-To: <20230718-feature-lcd-panel-v1-1-e9a85d5374fd@wolfvision.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,35 +55,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 2023/7/18 21:59, Dan Carpenter wrote:
-> People have suggested that I misread this and that "bare brain" means
-> through code review instead of testing.  In context that seems to make
-> sense.
->
-> Sorry.
+--79UkCYMlLnqwphdT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry for my broken English, that's really a misunderstanding.
+On Tue, Jul 18, 2023 at 05:31:50PM +0200, Michael Riesch wrote:
+> Add vendor prefix for Jasonic Technology Ltd., a manufacturer
+> of custom LCD panels.
+>=20
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 
-> Anyway, the fixes tag is warranted.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Thanks,
+Conor.
 
-Okay, I'll accept this if no other experts object.
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index 1e2e51401dc5..1dfafc339ddd 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -677,6 +677,8 @@ patternProperties:
+>      description: iWave Systems Technologies Pvt. Ltd.
+>    "^jadard,.*":
+>      description: Jadard Technology Inc.
+> +  "^jasonic,.*":
+> +    description: Jasonic Technology Ltd.
+>    "^jdi,.*":
+>      description: Japan Display Inc.
+>    "^jedec,.*":
+>=20
+> --=20
+> 2.30.2
+>=20
 
-To follow the convention of the DRM world,
+--79UkCYMlLnqwphdT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-please rename the commit title by "drm/loongson: Add a check for 
-lsdc_bo_create() errors".
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZLa2NAAKCRB4tDGHoIJi
+0tbPAP42JYtxjnWsZ+Ip4AgG8fiZyGRzyI3eQ/Ek4AiJdA+mJwD/eN7iTbD3MFnp
+9mOc1hfwV3/a0VWDJ63BpKNy3mR8ewo=
+=Xf4S
+-----END PGP SIGNATURE-----
 
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-With this small problem solved.
-
+--79UkCYMlLnqwphdT--
