@@ -2,72 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1481757AF7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 13:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC3F757DB8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 15:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB88110E325;
-	Tue, 18 Jul 2023 11:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B3410E0D9;
+	Tue, 18 Jul 2023 13:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5A6D10E32B
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:54:09 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-51e2a6a3768so8012823a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 04:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689681248; x=1692273248;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZDvfCq2rYjVFo4n3JaAZGwBu1O0j5CMRvxTlhF+phBE=;
- b=leb66+CLlHF97LLt85yV4SxY9TCEqgEUzNiJkcQh+ihcyBQvwr6uX7ola/6Va4rWOS
- 8x19UvwnxZS53+PVzqyopBZ+2h+GmV15aX5TZ3fAJfUgukyZFWlxcEKowxtAWMHGLNdZ
- Pl7lwbkHzCOHYnZdKuYEFQG5jwABP23ZlGaj3kJVuHPorvxvfOacGUhNtjVIAkhdBBFA
- sM+yAbQ00jBvR2OevMUW5XvG7asOhIjplWejK3gQS+dZM430ilhxncncBU5wmeMazpT3
- vSfyrM1hB5bAOZJ8KXr2KFU2+Fd2dlMLafQKSYG6HisYENb41zP31Tk/sTVJNB9j7PXn
- VX/A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F50410E343
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 13:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689687327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cEu1yb4Zgq1SLELJ8rlpOHBQWwE2NJnVWaDiK7u0B4Q=;
+ b=G7h3ahF7YZIu7wF/bCeYmvQ2knQ7V0soXbpPHE1MRYjb9Ixn0sxVgW9ODMZ6vXWAYBdUAp
+ S+vRPC4yg6s886n4dWD9bhxdZoQqCjIz2TSdEhqk2WMrLTtlUzcpnlHd9NdW4KRXu8eemt
+ 1C4yAd78NWRFWSNFUTpxvDTzigwiF9w=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-407-zsfUcea-PwCj5YThl0aeSA-1; Tue, 18 Jul 2023 09:35:25 -0400
+X-MC-Unique: zsfUcea-PwCj5YThl0aeSA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-51e0fc38f16so3958832a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 06:35:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689681248; x=1692273248;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZDvfCq2rYjVFo4n3JaAZGwBu1O0j5CMRvxTlhF+phBE=;
- b=TXnxzAPjMNPsBeSaTihxkikcOHejAUG9o07t3Qj4KwSJncPJ+yj7SvyNY82MCRLbmK
- KGlm1VZug4Y8emSv4n5Te9N4QxtOcyIV3oL+6uL/QnNsN6A7JEA4D3ap8Jan0nSmnFuH
- rPv71vGKbdiGtAA4gg8d4gl+dtxAWYxI+qXFJ9xri1y5KYvMuS2SuU44xcLlmjiRpadI
- zPOt2NeRYUGHF9Hn83/v9bENMuIETJEGPZsp+WJvpjIxbwvI1L/nISiSsKpLdfOECH4W
- GgBjSDnpPcZuyMklWCuUw41n6Zb31GhhF6+s+vrB16Z0O0DPEZUwXv4EguBkkxiWytZE
- 5geg==
-X-Gm-Message-State: ABy/qLbuINk8JTziQR3Wwhc32SLdF3eL73G4bcHqF/wmyv74N+e1C2TP
- zi8A9eOGFkYVQE8x6QDxQW9zTA==
-X-Google-Smtp-Source: APBJJlGo95nQJFKL792SHJPaSiWKgXJBaPhwi4GdonpOb/yE6DAQNPoWUsd1OUyOwDJJoiXFMUddtg==
-X-Received: by 2002:a05:6402:2048:b0:51e:234:cc51 with SMTP id
- bc8-20020a056402204800b0051e0234cc51mr13412054edb.17.1689681248020; 
- Tue, 18 Jul 2023 04:54:08 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
+ d=1e100.net; s=20221208; t=1689687325; x=1692279325;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cEu1yb4Zgq1SLELJ8rlpOHBQWwE2NJnVWaDiK7u0B4Q=;
+ b=hpjPxd/j72HrHeL5RmXHZYkj52O/85wGyVgLzZzhkMwWGcK6Lb82MZWDly/NSBTEJf
+ ZPoqFbahY8JSnUu4AdX2V6JkyIyQTlie2oaGrcNvmunu+1hDcMlpMRyRPo48iFLLDi0o
+ 5wWzG2Lv3FeYAo2N0nrqmhSvfTad5IJjWXMfOjxrqEpYSqctewED0PBDw5sb4YGDyjRr
+ aO33P7p+AluHj1L++BW1/JMF7tid7KcVszblGNVQlyqIq0GjEBz+CVglPf/msE5UjihL
+ Ytj3wKoZ0cOqxdc9snnhFgbuheG27nq6Y+j0OJd4btR8+JCtOjlxEm0Jn5HWCtigc5Zf
+ Vl6w==
+X-Gm-Message-State: ABy/qLZL6JZtdcLVnK/N5aX3kZnm0FgmHccbX7R/1jlvET62kMo3EGyJ
+ y8ieqHXd0uNr7BFrZdYwPoFfop+kTk/WP9dduNG3kPQZcHKESunSYhllOqT3CS75/ZkQyTAcMU8
+ ReXCwmCVjXeQVoCD2RdCrqBTRDXzT
+X-Received: by 2002:a17:906:eb82:b0:991:f7cb:cc3d with SMTP id
+ mh2-20020a170906eb8200b00991f7cbcc3dmr13327540ejb.65.1689687324864; 
+ Tue, 18 Jul 2023 06:35:24 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE6BIgUGric7bcLk/QABEzPWeIdh0wiGZkCK6sZV8z78PAPNcNuqus+Bife1lVy6P9Ah+mfdA==
+X-Received: by 2002:a17:906:eb82:b0:991:f7cb:cc3d with SMTP id
+ mh2-20020a170906eb8200b00991f7cbcc3dmr13327514ejb.65.1689687324521; 
+ Tue, 18 Jul 2023 06:35:24 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- w5-20020aa7dcc5000000b005217a24addbsm1124462edu.20.2023.07.18.04.54.06
+ d1-20020a056402516100b00521a3d8474csm1244859ede.57.2023.07.18.06.35.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jul 2023 04:54:07 -0700 (PDT)
-Message-ID: <c674cc0f-087d-3333-65cd-00394aa62d32@linaro.org>
-Date: Tue, 18 Jul 2023 13:54:05 +0200
+ Tue, 18 Jul 2023 06:35:24 -0700 (PDT)
+Message-ID: <51968407-c87a-e565-28f7-868a1b923d5c@redhat.com>
+Date: Tue, 18 Jul 2023 13:38:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 02/17] dt-bindings: gpu: Add Imagination Technologies
- PowerVR GPU
+ Thunderbird/102.12.0
+Subject: Re: [PATCH drm-next v7 02/13] drm: manager to keep track of GPUs VA
+ mappings
+To: Donald Robson <Donald.Robson@imgtec.com>, "corbet@lwn.net"
+ <corbet@lwn.net>, "jason@jlekstrand.net" <jason@jlekstrand.net>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>,
+ "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
+ "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "alexdeucher@gmail.com" <alexdeucher@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>
+References: <20230713170429.2964-1-dakr@redhat.com>
+ <20230713170429.2964-3-dakr@redhat.com>
+ <f5957892c4fb41becd7084ac93310aae3a6e091a.camel@imgtec.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <f5957892c4fb41becd7084ac93310aae3a6e091a.camel@imgtec.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Frank Binns <Frank.Binns@imgtec.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sarah Walker <Sarah.Walker@imgtec.com>
-References: <20230714142526.111569-1-sarah.walker@imgtec.com>
- <01f0cf88-4e85-0c92-9723-eb9198782d0d@linaro.org>
- <b6a83ff4ba6ac92af2ab573e200cbf0b5b2847f9.camel@imgtec.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <b6a83ff4ba6ac92af2ab573e200cbf0b5b2847f9.camel@imgtec.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,62 +105,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "hns@goldelico.com" <hns@goldelico.com>,
+Cc: "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mripard@kernel.org" <mripard@kernel.org>, "afd@ti.com" <afd@ti.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
- "dakr@redhat.com" <dakr@redhat.com>, Donald Robson <Donald.Robson@imgtec.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@redhat.com" <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/07/2023 13:47, Frank Binns wrote:
-> Hi Krzysztof,
-> 
-> On Tue, 2023-07-18 at 08:20 +0200, Krzysztof Kozlowski wrote:
->> On 14/07/2023 16:25, Sarah Walker wrote:
->>> Add the device tree binding documentation for the Series AXE GPU used in
->>> TI AM62 SoCs.
->>>
->>
->> ...
->>
->>> +
->>> +additionalProperties: false
->>> +
->>> +examples:
->>> +  - |
->>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->>> +
->>> +    gpu: gpu@fd00000 {
->>> +        compatible = "ti,am62-gpu", "img,powervr-seriesaxe";
->>> +        reg = <0x0fd00000 0x20000>;
->>> +        power-domains = <&some_pds 187>;
->>> +        clocks = <&k3_clks 187 0>;
->>> +        clock-names = "core";
->>> +        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
->>> +        interrupt-names = "gpu";
->>
->> Why does it differ from your DTS?
-> 
-> This is just an oversight on our part. We'll make sure they both match in the
-> next version.
-> 
+On 7/17/23 12:00, Donald Robson wrote:
+> Hi Danilo,
+> The below part of the documentation is out of date now.
+> Thanks,
+> Donald
 
-Just test your DTS before sending. You would see errors and there is no
-need to involve manual reviewing. It is always better to use tools than
-reviewers time. Otherwise, please kindly donate your time by helping to
-review other patches.
+Thanks Donald for pointing this out.
 
-Best regards,
-Krzysztof
+If there aren't any further objections in general I will fix up the 
+comment and then push the GPUVA Manager parts of the series to 
+drm-misc-next.
+
+- Danilo
+
+> 
+> On Thu, 2023-07-13 at 19:03 +0200, Danilo Krummrich wrote:
+>>
+>> +
+>> +/**
+>> + * DOC: Locking
+>> + *
+>> + * Generally, the GPU VA manager does not take care of locking itself, it is
+>> + * the drivers responsibility to take care about locking. Drivers might want to
+>> + * protect the following operations: inserting, removing and iterating
+>> + * &drm_gpuva objects as well as generating all kinds of operations, such as
+>> + * split / merge or prefetch.
+>> + *
+>> + * The GPU VA manager also does not take care of the locking of the backing
+>> + * &drm_gem_object buffers GPU VA lists by itself; drivers are responsible to
+>> + * enforce mutual exclusion using either the GEMs dma_resv lock or alternatively
+>> + * a driver specific external lock by setting the @DRM_GPUVA_MANAGER_LOCK_EXTERN
+>> + * flag.
+>> + *
+>> + * For the latter, functions such as drm_gpuva_link() or drm_gpuva_unlink()
+>> + * contain lockdep checks to indicate locking issues. For this to work drivers
+>> + * must provide (in case the @DRM_GPUVA_MANAGER_LOCK_EXTERN flag is set) their
+>> + * external lock with drm_gpuva_manager_set_ext_lock() after initialization.
+>> + */
+>>
 
