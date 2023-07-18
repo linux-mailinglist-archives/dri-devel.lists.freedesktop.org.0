@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F542758E4A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD9758E45
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:01:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4B910E3FD;
-	Wed, 19 Jul 2023 07:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ABF710E188;
+	Wed, 19 Jul 2023 07:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC85610E362
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 14:32:45 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-26304be177fso3109477a91.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:32:45 -0700 (PDT)
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D6F510E02C;
+ Tue, 18 Jul 2023 15:10:27 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ 006d021491bc7-5633b7e5f90so3887079eaf.1; 
+ Tue, 18 Jul 2023 08:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689690765; x=1690295565;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Vd+uFPWLpIQPh4SFHZpsAuGHKOc6yNS+XOp7OBcXgLA=;
- b=kFrND2l0r68i9Cz0nyT/ldG+rz4laT0IoN22GEQ7FTv+W945MTU6v7/4hZytopwM7x
- kEpF6ZhmeoGvUGI391B5uzn4MG9xUbwcqxEmAc94fFzocPtKTTxs15C9cpUt4nva116M
- ykAN10CdGqGB4KABZyZJM8v9X0CYFxJcWJmFfMEgvgkmyFRvNS3nSeCrvwyTJNP9RFRd
- vNJmiHdslPJ9EbZSO2GK9h6FWtulmcheaOacgsP8Uf+NBUGcpNM/ba1Ec+6942PVXxe+
- WT7o9LkaYUeX8k/joLiAXMGHq1rnoV0Y8j6i0FLybKoknJfDKAJ/qJZd+5j9mL8/CV3c
- R3cg==
+ d=googlemail.com; s=20221208; t=1689693026; x=1692285026;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=JNQ6/gc5vfGP1wHAlH0r+RXd8q2VGkAv8eOnlipw9dY=;
+ b=CV3ZKEqZWXlKDj1uZ5AVabNJrLd2Eg+AK05DTeuCA+f5zQEMBxYFca0FBmwFTkHcK7
+ 3MlmM5lZTYfktW0UF6SbvxyLoTf1TuBv6ZgILXcv8VOuLPDPduWcM5h/tDvlr0ypg5/q
+ smpype/Nr37YgegIwLWzCYWecOynGyznMId0h5Yu07QY99zOYbeNAPhOMiBJCFwdHIg1
+ os2djPgcqhMTtJsBcOr448wqDatFIAol+X13i+uIjse3EoWbTEh8eawvWBB+t+x4nBHX
+ AwOdbRVZlXT+Nd0dKShzXbdAGtZ+nCvMDk4XVNYGLQfeaKo9QT1PyMpwDQCP/QPpHn7V
+ zClA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689690765; x=1690295565;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vd+uFPWLpIQPh4SFHZpsAuGHKOc6yNS+XOp7OBcXgLA=;
- b=Z69omPnZF5tMuMau86LVhMXnbDpAoj+0GaTDO+SjffzJTCk1PIvOMyv4cgQvmVPWA7
- zmi6/1y4LQir+qX0ZzMRVbEkBpSqTQTOF5DDNe9KTcTaMY07+hEph8NIsU/UZwR39qjk
- c082WetBkt2LBeXsG5S/m+drofxOyZpGrxCIIE6Kj4pNKGTvVkDZA/xxwoDcI49Pqxd7
- abG7jXwdLJ3lGT88oDkYvLtDMA53cuSz5kE2L4N2uMiF+yXe8A23fxWISRqFf7lG2aHv
- wqZPRHN3LtuYVCMoi/6Y+PpF1Bkzm9acw30N9i2lTYkkC46XdlksZLUP/MuBNosvveeE
- FP9w==
-X-Gm-Message-State: ABy/qLbPimrvaezaXBNKuF+6gRG3tZOZ7v6gjSGBVLMsTkP8cUqaffhO
- CSl+re8xgp6cHNMpatzatOk3lG0Y3h6Aodum5jDhs4uf
-X-Google-Smtp-Source: APBJJlFp9W+n/8ZsZGaB7+VUEmcTeN+3V6qSGo7Ythk5tBFqT59lFadxEaPiu6K9POKDcMTnYujYOG1PkhLhVxKC48g=
-X-Received: by 2002:a17:90a:49ca:b0:262:df1d:8e16 with SMTP id
- l10-20020a17090a49ca00b00262df1d8e16mr12457915pjm.33.1689690764808; Tue, 18
- Jul 2023 07:32:44 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689693026; x=1692285026;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JNQ6/gc5vfGP1wHAlH0r+RXd8q2VGkAv8eOnlipw9dY=;
+ b=i5EEvBpUd/QEkMRsLU4YPSGrAFJvWYZj0POpamfBylm0mXpaOgDKQ8t8bFyWnVoKKv
+ PlRHmVtHsL3wJt8GCQJDp21FbTKJOTuH2iSbFJnoo2s9PLoQg19E+6pL/XAnHsX/hKc4
+ 9Y2n5KTyxh1BAu8+g7wtSlmK/wXLML2+pUiVocDMzwSpK2ZubGO/Yjv7GSsTe+wGXi4E
+ 91K+dKhkKTOcYcr9pNZVOFvH/ahNzB4VLg4Mdx6K8bx8WAf7E25jjb+d5Wo26mC5z9At
+ jLLUrJEIBhyCYelev9x/O/xhpi0YAsfuv/eEWMQwEP72jlYe7CnxHWbvZ7hCeTZjft28
+ Ilwg==
+X-Gm-Message-State: ABy/qLZ+3L1VtMdm6qjHTmJsFl8Ick1gGE0mrtUI+o49RqO3rmcYgfQt
+ D40muqcAW70ZYk9u6N+OVRQ2Eqq+0MJecHvkY/M=
+X-Google-Smtp-Source: APBJJlHDVXGokvOwlHVsvWNoqkFMjjyNFTxOWLqeqnl954tIVvHpuyY0R8psa6PK/CXU+eZaGshpae8nJo4WqnvYlBA=
+X-Received: by 2002:a05:6358:7f0d:b0:134:c37f:4b60 with SMTP id
+ p13-20020a0563587f0d00b00134c37f4b60mr11494410rwn.32.1689693025766; Tue, 18
+ Jul 2023 08:10:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAF23GwBA6R45968qDv4v-r+sKicjojVifqGsEDh8=F9RVkJ1Hw@mail.gmail.com>
- <CAJa=HVrHdoL3ZLUS-nmYXUxQd-MvLAG=NKm_rQsMnXObg8ZU-w@mail.gmail.com>
-In-Reply-To: <CAJa=HVrHdoL3ZLUS-nmYXUxQd-MvLAG=NKm_rQsMnXObg8ZU-w@mail.gmail.com>
-From: SUNIDHI DIXIT <sdikshit786@gmail.com>
-Date: Tue, 18 Jul 2023 20:02:32 +0530
-Message-ID: <CAF23GwB7fBmhZiV1-Anr=v_qV4AeAO7RKKfoQZ4QKCR21XqLDQ@mail.gmail.com>
-Subject: Re: [BUG]: Getting a unique connector name when identical displays
- are connected
-To: dri-devel@lists.freedesktop.org
-Content-Type: multipart/alternative; boundary="000000000000d117940600c3c93d"
+References: <20230712143831.120701-1-wangkefeng.wang@huawei.com>
+ <20230712143831.120701-2-wangkefeng.wang@huawei.com>
+In-Reply-To: <20230712143831.120701-2-wangkefeng.wang@huawei.com>
+From: =?UTF-8?Q?Christian_G=C3=B6ttsche?= <cgzones@googlemail.com>
+Date: Tue, 18 Jul 2023 17:10:14 +0200
+Message-ID: <CAJ2a_Dd+CUggq0gtaeuPSP+iCrqUH08cCwU95AYGXxv5TBWSuA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] mm: introduce vma_is_stack() and vma_is_heap()
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Wed, 19 Jul 2023 07:01:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,72 +68,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: selinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000d117940600c3c93d
-Content-Type: text/plain; charset="UTF-8"
-
-I am waiting for response on this please guide.
-
-On Sat, Jul 15, 2023, 7:50 PM Freelancer Intern <
-internfreelancer21@gmail.com> wrote:
-
-> I have also seen this case...
+On Wed, 12 Jul 2023 at 16:25, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
 >
-> On Thu, Jul 13, 2023, 1:14 PM SUNIDHI DIXIT <sdikshit786@gmail.com> wrote:
+> Introduce the two helpers for general use.
 >
->> Hello all,
->>
->> This is regarding an issue I have encountered recently in drm. When I
->> connect two identical HDMI display(with same resolution) there is no way to
->> distinguish them uniquely.
->>
->> I looked into that and found that the connector id, and connector_type_id
->> can be changed based on which connector appears first to the kernel.
->>
->> Is there any solution already implemented for this problem?
->>
->> I see following solution to this issue:
->>
->> Assigning a unique connector->name from drm_connector_init() and adding
->> an api drmModeGetConnectorName().
->>
->> Please let me know what you think..
->>
->> Thanks in advance!
->>
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+>  include/linux/mm.h | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 1462cf15badf..0bbeb31ac750 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -926,6 +926,18 @@ static inline bool vma_is_anonymous(struct vm_area_struct *vma)
+>         return !vma->vm_ops;
+>  }
+>
+> +static inline bool vma_is_heap(struct vm_area_struct *vma)
 
---000000000000d117940600c3c93d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+What about declaring the parameters const to document in code these
+functions do not modify any state, and allow callers to pass pointers
+to const?
 
-<div dir=3D"auto">I am waiting for response on this please guide.</div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Ju=
-l 15, 2023, 7:50 PM Freelancer Intern &lt;<a href=3D"mailto:internfreelance=
-r21@gmail.com">internfreelancer21@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div dir=3D"auto">I have also seen this case...=C2=
-=A0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Thu, Jul 13, 2023, 1:14 PM SUNIDHI DIXIT &lt;<a href=3D"mailto:sdiksh=
-it786@gmail.com" target=3D"_blank" rel=3D"noreferrer">sdikshit786@gmail.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">H=
-ello all,<div dir=3D"auto"><br></div><div dir=3D"auto">This is regarding an=
- issue I have encountered recently in drm. When I connect two identical HDM=
-I display(with same resolution) there is no way to distinguish them uniquel=
-y.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I looked into that an=
-d found that the connector id, and connector_type_id can be changed based o=
-n which connector appears first to the kernel.</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Is there any solution already implemented for this p=
-roblem?</div><div dir=3D"auto"><br></div><div dir=3D"auto">I see following =
-solution to this=C2=A0issue:</div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">Assigning a unique connector-&gt;name from drm_connector_init() and ad=
-ding an api drmModeGetConnectorName().</div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Please let me know what you think..</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">Thanks in advance!</div></div>
-</blockquote></div>
-</blockquote></div>
-
---000000000000d117940600c3c93d--
+> +{
+> +       return vma->vm_start <= vma->vm_mm->brk &&
+> +               vma->vm_end >= vma->vm_mm->start_brk;
+> +}
+> +
+> +static inline bool vma_is_stack(struct vm_area_struct *vma)
+> +{
+> +       return vma->vm_start <= vma->vm_mm->start_stack &&
+> +              vma->vm_end >= vma->vm_mm->start_stack;
+> +}
+> +
+>  static inline bool vma_is_temporary_stack(struct vm_area_struct *vma)
+>  {
+>         int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+> --
+> 2.41.0
+>
