@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211C9757346
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 07:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDD8757347
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 07:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5142E10E08D;
-	Tue, 18 Jul 2023 05:40:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C6AF10E09B;
+	Tue, 18 Jul 2023 05:40:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9EF10E06F
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 05:40:04 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3fbd33a57ddso48468425e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 22:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689658802; x=1692250802;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Ya/1SVocqBXDn23113d+R4cUZi+/kBBEHle0gpe+T/o=;
- b=yAiQg4/G4RZgC98nQfxJHmKg1a07ypHkoXSBOBhHi1hQ4suNxn7ew76iCJ45pHI1A7
- w/+G2qEoTK7/GFWcwVSCi00Ns6k4G91AkX8NyBz0sElNy5kvRJ3Zy8PGGTBqAFrTNctm
- V0w74PGnD5+NCu5Lx9mviu8j0u18uwOm0EJ6nBenp1W6UODxunP89A9MPnulhHAU34Jq
- aay2smoz0ZSOgSCGP9/56o/qDvj3f/8U3cxzsG1NwQ/loDMc9pQXbT3qIlPPpSk7bJP8
- kYY9L28x3s3tgAWhEaqmedGoiuZKrYgnCJYswjcXnCu6/Iz4n3OWFVUb3E0DVBZWcz6g
- c7Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689658802; x=1692250802;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ya/1SVocqBXDn23113d+R4cUZi+/kBBEHle0gpe+T/o=;
- b=h0ZTT2SA33awYWeBXq8UaCygue85L0QDE6dGqkJA3cV+K3dcTr8uT98HumB9QyNu1M
- d35I3Eyrcg1XCxX2RV9F5HvuhumqvMgvw2RUyEJDa3JvjotIDrnchjgP7B7+OX6cSaKh
- SLXNek9xmdmcV0JpLkjlmct9/CUA9c7JUDDo+tlaOi5oUU0kCHT5Ly19RJinM2Z0RLa2
- fZSAp8OLQ6W9ObQmRxZaYqfIC50XkYWgpP5yhx+MjqB622jj+dTChngjeyXNx+IPWHPF
- 3x0ot7zxufdFahm5XIWGW4ou2EE8dpwIfM7cQMEywd3e9GlqS91Xjpxa7XafHBb5VeIN
- OeUg==
-X-Gm-Message-State: ABy/qLaV6rQNWgvx97LyALaUoTp1YjMmx6NubJ/i0aOJ9DgvL4aIFsTn
- 8hgkEijfF8rfKuI/Dxb++4dA4g==
-X-Google-Smtp-Source: APBJJlFBbKZc1gO7M8n+dJxiTS+4YHzjapaWo98VW7MNkFMR1mz0AnzM9LtEYi+Sck8117UetH7LZw==
-X-Received: by 2002:a05:600c:a388:b0:3f8:f382:8e1f with SMTP id
- hn8-20020a05600ca38800b003f8f3828e1fmr1001451wmb.24.1689658802067; 
- Mon, 17 Jul 2023 22:40:02 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- 3-20020a05600c234300b003fc0062f0f8sm1253235wmq.9.2023.07.17.22.39.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jul 2023 22:39:59 -0700 (PDT)
-Date: Tue, 18 Jul 2023 08:39:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH] drm/i915/tv: avoid possible division by zero
-Message-ID: <d763816b-07c9-4346-8f7c-f95e86cba488@kadam.mountain>
-References: <20230717062209.124106-1-suhui@nfschina.com>
- <0cae35ea-7635-383d-cae5-2051abbc6d64@intel.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F2E2410E09B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 05:40:22 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cx5_HFJbZky3YGAA--.17056S3;
+ Tue, 18 Jul 2023 13:40:21 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxrM7FJbZkrbUyAA--.8970S3; 
+ Tue, 18 Jul 2023 13:40:21 +0800 (CST)
+Message-ID: <5d51f17e-138c-fbc1-c1f7-b0d3f09bcf7a@loongson.cn>
+Date: Tue, 18 Jul 2023 13:40:21 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: drm/ast: Do not enable PCI resources multiple times
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ airlied@gmail.com, airlied@redhat.com, daniel@ffwll.ch
+References: <20230712130826.3318-1-tzimmermann@suse.de>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230712130826.3318-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0cae35ea-7635-383d-cae5-2051abbc6d64@intel.com>
+X-CM-TRANSID: AQAAf8BxrM7FJbZkrbUyAA--.8970S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7tFy8ZryUGw4DGF1rJF13GFX_yoW8Aw1Dp3
+ 9xJF92yrZ8tF4fKF17uryqvFy5Ja47ta40grn5Ww1S9wsFvw1qyF95A3yfXryDZrZ7CFyI
+ qFs7KFyrJ34UJabCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9Sb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C2
+ 67AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
+ 8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
+ CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
+ 1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBI
+ daVFxhVjvjDU0xZFpf9x07jnUUUUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +64,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
- kernel-janitors@vger.kernel.org, llvm@lists.linux.dev,
- Su Hui <suhui@nfschina.com>, trix@redhat.com, intel-gfx@lists.freedesktop.org,
- ndesaulniers@google.com, linux-kernel@vger.kernel.org, nathan@kernel.org,
- mripard@kernel.org, rodrigo.vivi@intel.com, ankit.k.nautiyal@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 17, 2023 at 04:52:51PM +0200, Andrzej Hajda wrote:
-> 
-> 
-> On 17.07.2023 08:22, Su Hui wrote:
-> > Clang warning: drivers/gpu/drm/i915/display/intel_tv.c:
-> > line 991, column 22 Division by zero.
-> > Assuming tv_mode->oversample=1 and (!tv_mode->progressive)=1,
-> > then division by zero will happen.
-> > 
-> > Fixes: 1bba5543e4fe ("drm/i915: Fix TV encoder clock computation")
-> > Signed-off-by: Su Hui <suhui@nfschina.com>
-> > ---
-> >   drivers/gpu/drm/i915/display/intel_tv.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-> > index 36b479b46b60..82b54af51f23 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_tv.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_tv.c
-> > @@ -988,7 +988,8 @@ intel_tv_mode_to_mode(struct drm_display_mode *mode,
-> >   		      const struct tv_mode *tv_mode,
-> >   		      int clock)
-> >   {
-> > -	mode->clock = clock / (tv_mode->oversample >> !tv_mode->progressive);
-> > +	mode->clock = clock / (tv_mode->oversample != 1 ?
-> > +			tv_mode->oversample >> !tv_mode->progressive : 1);
-> 
-> Seems too smart to me, why not just:
-> mode->clock = clock / tv_mode->oversample;
-> if (!tv_mode->progressive)
->     mode->clock <<= 1;
+Hi,
 
-This is nice.
 
-regards,
-dan carpenter
+Actually,Â  I'm only a little bit worry about the ast_pm_thaw() code path.
+
+|- ast_pm_thaw()
+
+|-- ast_drm_thaw()
+
+|--- ast_post_gpu()
+
+
+Except this, all other code path have pci_enable_device() or 
+pcim_enable_device() called.
+
+So, this patch seems OK.
+
+
+On 2023/7/12 21:08, Thomas Zimmermann wrote:
+> Remove ast_init_pci_config() as the ast driver already enables the PCI
+> resources by calling pcim_enable_device().
+>
+> Suggested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>   drivers/gpu/drm/ast/ast_main.c | 21 ---------------------
+>   1 file changed, 21 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index 8bfbdfd86d77..dae365ed3969 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -35,23 +35,6 @@
+>   
+>   #include "ast_drv.h"
+>   
+> -static int ast_init_pci_config(struct pci_dev *pdev)
+> -{
+> -	int err;
+> -	u16 pcis04;
+> -
+> -	err = pci_read_config_word(pdev, PCI_COMMAND, &pcis04);
+> -	if (err)
+> -		goto out;
+> -
+> -	pcis04 |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
+> -
+> -	err = pci_write_config_word(pdev, PCI_COMMAND, pcis04);
+> -
+> -out:
+> -	return pcibios_err_to_errno(err);
+> -}
+> -
+>   static bool ast_is_vga_enabled(struct drm_device *dev)
+>   {
+>   	struct ast_device *ast = to_ast_device(dev);
+> @@ -483,10 +466,6 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
+>   			return ERR_PTR(-EIO);
+>   	}
+>   
+> -	ret = ast_init_pci_config(pdev);
+> -	if (ret)
+> -		return ERR_PTR(ret);
+> -
+>   	if (!ast_is_vga_enabled(dev)) {
+>   		drm_info(dev, "VGA not enabled on entry, requesting chip POST\n");
+>   		need_post = true;
+
