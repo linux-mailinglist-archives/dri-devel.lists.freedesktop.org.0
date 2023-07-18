@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141E275847D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:19:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61385758480
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCFF410E3B9;
-	Tue, 18 Jul 2023 18:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 496D110E3BA;
+	Tue, 18 Jul 2023 18:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F0310E3B9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:19:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1B410E3BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:19:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 2D6E0414D9;
- Tue, 18 Jul 2023 20:19:20 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 1656244EC0;
+ Tue, 18 Jul 2023 20:19:28 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from knopi.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hWmI46mZq8rj; Tue, 18 Jul 2023 20:19:19 +0200 (CEST)
+ with ESMTP id 7OxWR5sY9p9H; Tue, 18 Jul 2023 20:19:27 +0200 (CEST)
 From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1689704358; bh=2unuaUUBzkJ1ke9rHzkXWZSFjQ+6AAdbMfmqOa2pkbE=;
- h=From:To:Cc:Subject:Date;
- b=UU5qHWPYkTIRpNNzYGeOn5g9DgnRZvtK5wEWPDFbM/NRojgcMlKWhL7AXnkEsxdJZ
- iDlYtLaXjuSnfowW1h8lQXRyZFWyR9lXSc/PcG0okXZVDtSToA9F6SYxiy4Dnu31Co
- UfdVyk1LPRdGss9Gdhbonp5qZGHcApGsgb6pUZYYlT4iAkbCrwehCVPWv3VoUtwTb4
- +kFrztaJf9tvPb1ZMo5w2T8nGYdNkGN/f0uqESaAhCmRovKTB8bUK9S3UvC0s7PICZ
- 5hCRZPAKKR+lQTl0CXf4mI1lJE0lCjGVKvsLZ37zvKu/Zi/+LBl3uo23qXhSbm8IzS
- XznynG2+wkXCg==
+ t=1689704366; bh=3APKavHLl3ZkMGA6TxzMMhaHSrKm6w2x6zwKuukLtHU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=SDZisZ4FxIHV2JQWLS2z36ESNavV9R64VM+L/Ad73enRMn5jlNf7op1DLqHJOq3Xm
+ j37aOjNzT98y7gb4zu8TE/JRK5W7OgLw6NG9tHG3uM4McmINAES/tdzRogQGg08387
+ zEpQz1xs9rMDfk0V0t/6eFk1ivOGb4jlf9QzhMp+mkHF+mjZQj9zQw/gDHRP84Qm6g
+ Vp+9zl0hVrCeYKSDxGfNipWy6s2SM+BDY6YgtFHakbbY2x/PkGuNDl7WSnxOiUf3Xx
+ be9KShM3zlE8CYDmzWZHG0azq7AXGegD8L5JNiAav1jmsceM67TeRCalEzJ/X1Sdu6
+ Cgp0mtmgqH5hg==
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4] Add documentation and KUnit tests for functions on
- drm_framebuffer.c
-Date: Tue, 18 Jul 2023 15:17:22 -0300
-Message-ID: <20230718181726.3799-1-gcarlos@disroot.org>
+Subject: [PATCH v2 1/4] drm: Add kernel-doc for
+ drm_framebuffer_check_src_coords()
+Date: Tue, 18 Jul 2023 15:17:23 -0300
+Message-ID: <20230718181726.3799-2-gcarlos@disroot.org>
+In-Reply-To: <20230718181726.3799-1-gcarlos@disroot.org>
+References: <20230718181726.3799-1-gcarlos@disroot.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,34 +57,45 @@ Cc: andrealmeid@igalia.com, tzimmermann@suse.de, tales.aparecida@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds documentation and unit tests for
-drm_framebuffer_check_src_coords() and drm_internal_framebuffer_create()
-functions on drm_framebuffer.c, including new parameters to the, until
-then, only existent test.
-
-Many thanks,
-Carlos
-
+Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
 ---
+ drivers/gpu/drm/drm_framebuffer.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-v2:
-    - Replaced strcpy to strscpy (Maxime)
-    - Added comments (Maxime)
-    - Ordered KUNIT_CASE_PARAM alphabetically (Maxime)
-    - Replaced some parameter cases description with more verbose ones
-
----
-
-Carlos Eduardo Gallo Filho (4):
-  drm: Add kernel-doc for drm_framebuffer_check_src_coords()
-  drm/tests: Add test for drm_framebuffer_check_src_coords()
-  drm/tests: Add parameters to the drm_test_framebuffer_create test
-  drm/tests: Add test case for drm_internal_framebuffer_create()
-
- drivers/gpu/drm/drm_framebuffer.c            |  16 +-
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 178 ++++++++++++++++++-
- 2 files changed, 192 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index aff3746dedfb..49df3ca3b3ee 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -73,6 +73,21 @@
+  * drm_framebuffer.
+  */
+ 
++/**
++ * drm_framebuffer_check_src_coords - check if the source with given
++ * coordinates and sizes is inside the framebuffer
++ * @src_x: source x coordinate
++ * @src_y: source y coordinate
++ * @src_w: source width
++ * @src_h: source height
++ * @fb: pointer to the framebuffer to check
++ *
++ * This function checks if an object with the given set of coordinates and
++ * sizes fits inside the framebuffer by looking at its size.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
++ */
+ int drm_framebuffer_check_src_coords(uint32_t src_x, uint32_t src_y,
+ 				     uint32_t src_w, uint32_t src_h,
+ 				     const struct drm_framebuffer *fb)
+@@ -82,7 +97,6 @@ int drm_framebuffer_check_src_coords(uint32_t src_x, uint32_t src_y,
+ 	fb_width = fb->width << 16;
+ 	fb_height = fb->height << 16;
+ 
+-	/* Make sure source coordinates are inside the fb. */
+ 	if (src_w > fb_width ||
+ 	    src_x > fb_width - src_w ||
+ 	    src_h > fb_height ||
 -- 
 2.41.0
 
