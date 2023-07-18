@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5037582F4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 18:56:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7528A7582F1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 18:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F92910E3AA;
-	Tue, 18 Jul 2023 16:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E9110E3A6;
+	Tue, 18 Jul 2023 16:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB48D10E3A3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 16:54:55 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5803:2d6d:5bbc:e252])
- by andre.telenet-ops.be with bizsmtp
- id Ngur2A00f0ucMBo01gurGk; Tue, 18 Jul 2023 18:54:54 +0200
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A67D10E39A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 16:54:54 +0000 (UTC)
+Received: from ramsan.of.borg ([84.195.187.55])
+ by xavier.telenet-ops.be with bizsmtp
+ id Ngur2A00i1C8whw01gur1W; Tue, 18 Jul 2023 18:54:53 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qLnyD-001nZO-K0;
+ (envelope-from <geert@linux-m68k.org>) id 1qLnyD-001nZR-KZ;
  Tue, 18 Jul 2023 18:54:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qLnyN-000gdW-L6;
+ (envelope-from <geert@linux-m68k.org>) id 1qLnyN-000gdb-Li;
  Tue, 18 Jul 2023 18:54:51 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -29,9 +29,10 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH v2 30/41] drm: renesas: shmobile: Use drm_crtc_handle_vblank()
-Date: Tue, 18 Jul 2023 18:54:35 +0200
-Message-Id: <c4dbba81c3067f31e8b99c481da8ae960fd07013.1689698048.git.geert+renesas@glider.be>
+Subject: [PATCH v2 31/41] drm: renesas: shmobile: Move
+ shmob_drm_crtc_finish_page_flip()
+Date: Tue, 18 Jul 2023 18:54:36 +0200
+Message-Id: <cb72002e1f36e176f8ed20c0d6985b5a6393e553.1689698048.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689698048.git.geert+renesas@glider.be>
 References: <cover.1689698048.git.geert+renesas@glider.be>
@@ -49,39 +50,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the call to the legacy drm_handle_vblank() function with a call
-to the new drm_crtc_handle_vblank() helper.
+Move the shmob_drm_crtc_finish_page_flip() function up, to avoid having
+to move it during the modification in the next change.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
 v2:
-  - Add Reviewed-by.
+  - Add Reviewed-by,
+  - Move further up.
 ---
- drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 36 ++++++++++---------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-index 6bc05a9e9661915e..44f12bfcb3ce575d 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-@@ -86,7 +86,7 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
- 	spin_unlock_irqrestore(&sdev->irq_lock, flags);
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+index f55b5263e611c782..0adf5d33ba31695e 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+@@ -35,6 +35,26 @@
+  * TODO: panel support
+  */
  
- 	if (status & LDINTR_VES) {
--		drm_handle_vblank(dev, 0);
-+		drm_crtc_handle_vblank(&sdev->crtc.base);
- 		shmob_drm_crtc_finish_page_flip(&sdev->crtc);
- 	}
++/* -----------------------------------------------------------------------------
++ * Page Flip
++ */
++
++void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
++{
++	struct drm_pending_vblank_event *event;
++	struct drm_device *dev = scrtc->base.dev;
++	unsigned long flags;
++
++	spin_lock_irqsave(&dev->event_lock, flags);
++	event = scrtc->event;
++	scrtc->event = NULL;
++	if (event) {
++		drm_crtc_send_vblank_event(&scrtc->base, event);
++		drm_crtc_vblank_put(&scrtc->base);
++	}
++	spin_unlock_irqrestore(&dev->event_lock, flags);
++}
++
+ /* -----------------------------------------------------------------------------
+  * CRTC
+  */
+@@ -364,22 +384,6 @@ static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
+ 	.mode_set_base = shmob_drm_crtc_mode_set_base,
+ };
  
+-void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
+-{
+-	struct drm_pending_vblank_event *event;
+-	struct drm_device *dev = scrtc->base.dev;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dev->event_lock, flags);
+-	event = scrtc->event;
+-	scrtc->event = NULL;
+-	if (event) {
+-		drm_crtc_send_vblank_event(&scrtc->base, event);
+-		drm_crtc_vblank_put(&scrtc->base);
+-	}
+-	spin_unlock_irqrestore(&dev->event_lock, flags);
+-}
+-
+ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
+ 				    struct drm_framebuffer *fb,
+ 				    struct drm_pending_vblank_event *event,
 -- 
 2.34.1
 
