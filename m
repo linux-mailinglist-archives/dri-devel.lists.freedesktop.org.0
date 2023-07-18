@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306827576E0
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 10:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C9C7576EF
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 10:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13CA310E004;
-	Tue, 18 Jul 2023 08:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBC210E179;
+	Tue, 18 Jul 2023 08:44:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4EB910E004
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 08:42:24 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3fbef8ad9bbso54003985e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 01:42:24 -0700 (PDT)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5C710E179
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 08:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1689669743; x=1692261743; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lsS2Iaqm2U2paaIACaH5afuQDHJxmglgO9qoIKv0pEA=;
- b=MBDlFtSo/of5p9ZelE58JuefVNUOWIvorbrubSBnVW4BlQlEH6Mw/KO3D5xPrkLvV5
- SjCuvySBuxskdiacTSqHZE8FtqlTrzKsQH9dwejWswvEPK+E7O3uUrOkn2z+FLnn1xTV
- ndrxQtNgjWwsrEnkBQ+OfMy0U3OKdZ/0rVTDmFAmm9mOV96oobm6vISd/bBza2cfkgt2
- KjVkpasRnlhtPSLCF+HNi8EX/OOEHqjQSm4xD84sqxLv6ofaMfcCMw4LQyFTJWH4pYNh
- xPWmNsAQ+HUkVDnjMgqRhxpkJ9/Cu3azqGoEUrFTZ+afcCeFdxF4ZMJi8K8Ef0M/07wU
- 1cHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689669743; x=1692261743;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lsS2Iaqm2U2paaIACaH5afuQDHJxmglgO9qoIKv0pEA=;
- b=BckSfikjQosdY4MRWYDKbsKhdbIvm1N3jQ4tTcc/w1wDnYhfgaORvojjzwvWIFKHfg
- jKPxcOgZQHxLa8VirtQd0Y3kwOObUo+R+VR9/r24oGVnoyFGnBVfm1X9fIgAVlVAXE84
- WpZVEkBvAdM44WsupTB59mZ4J6pabaJISSsYGw/cBUQ9B9VOZyqZkuPAkNOceqIAx3gK
- fGsmqM63vmjgJ9PuQUo/+rV5Ng7hohEYR7tFa7eiy2shxqKownOBpuYDHAoiuAOTPI5P
- hsNIAvtw9ZHmhEyjgD2+WIgJ4xV8MNFHIRR/NNDMCJ4BMDsFmiHOld0wO1kkQAi7IHF4
- d8og==
-X-Gm-Message-State: ABy/qLaibr2Hg1XNmypGEiHk7gw/5cxraEg3r2y0rlhU/T/axMERXYSs
- HJrDvepfF98sUNe+X4LqYv31cg==
-X-Google-Smtp-Source: APBJJlHTgcBHE/VSkW3ZfuCIg9Ibg4GpA1UxvEWc9NATxNplSnsgVIZFa9W55MLD+FD0CzX/38W9Ug==
-X-Received: by 2002:a5d:68c6:0:b0:313:ef93:925a with SMTP id
- p6-20020a5d68c6000000b00313ef93925amr11695801wrw.24.1689669742696; 
- Tue, 18 Jul 2023 01:42:22 -0700 (PDT)
-Received: from neptune.lan ([188.27.131.236]) by smtp.gmail.com with ESMTPSA id
- a1-20020adffac1000000b003143ac73fd0sm1751233wrs.1.2023.07.18.01.42.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jul 2023 01:42:22 -0700 (PDT)
-From: Alexandru Ardelean <alex@shruggie.ro>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm: adv7511: Fix low refresh rate register for ADV7533/5
-Date: Tue, 18 Jul 2023 11:42:15 +0300
-Message-ID: <20230718084215.12767-1-alex@shruggie.ro>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20190716131005.761-1-bogdan.togorean@analog.com>
-References: <20190716131005.761-1-bogdan.togorean@analog.com>
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1689669857; x=1721205857;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HgPdbUmEfsLF8pyFhzs6jd6wcfwbV7JK9KcdUCKPGNA=;
+ b=bl8tmXIqtU1thmbvK4rDS5TX9I8+B3YWRGGbwKN4qmH+vaZkNgXe5YIC
+ 96uCt2pZMNnMUAYV6oQEnsPQ+6mBAuwv2nYs4x98StUyO5C2BVE9ujMey
+ uJkhQPPXVqPtF9Wj/2OtMlM6mz1Ek4baVp4ZONQTBQwETdnCXFdqCRahs
+ YkeNJiomaRPXg0FGlKf1zkyQ/C/TSl0XVBOueRUQc069WnSOSkmNICw0z
+ Yv3QbN0+ou5Yici+kq0jfBsFx3DOWjaie5pTIlIWgE8wrb2bOqFr9C0hC
+ af9BKPNADXIUGBjV7WvnFL8wS6i9w0kzIllRS872U+wAsPZgOUzHWBKtE g==;
+X-IronPort-AV: E=Sophos;i="6.01,213,1684792800"; d="scan'208";a="31980959"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 18 Jul 2023 10:44:15 +0200
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AA7FA280078;
+ Tue, 18 Jul 2023 10:44:14 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: [PATCH 1/1] dt-bindings: display: bridge: tc358867: Add interrupt
+ property
+Date: Tue, 18 Jul 2023 10:44:11 +0200
+Message-Id: <20230718084411.1189831-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,57 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, rfoss@kernel.org, andrzej.hajda@intel.com,
- jonas@kwiboo.se, nuno.sa@analog.com, Laurent.pinchart@ideasonboard.com,
- Alexandru Ardelean <alex@shruggie.ro>, bogdan.togorean@analog.com
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Bogdan Togorean <bogdan.togorean@analog.com>
+This bridge has an interrupt line for event signaling. Add the
+corresponding property.
 
-For ADV7533 and ADV7535 low refresh rate is selected using
-bits [3:2] of 0x4a main register.
-So depending on ADV model write 0xfb or 0x4a register.
-
-Fixes: 2437e7cd88e8 ("drm/bridge: adv7533: Initial support for ADV7533")
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
-Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
-Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
+This fixes warnings like:
+imx93-tqma9352-mba93xxla.dtb: dp-bridge@f: 'interrupt-parent', 'interrupts'
+do not match any of the regexes: 'pinctrl-[0-9]+'
+  from schema $id: http://devicetree.org/schemas/display/bridge/toshiba,tc358767.yaml#
 
-Changelog v2 -> v3:
-* https://lore.kernel.org/dri-devel/1c3fde3a873b0f948d3c4d37107c5bb67dc9f7bb.camel@gmail.com/T/#u
-* Added my S-o-b tag back
+ .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml   | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Changelog v1 -> v2:
-* https://lore.kernel.org/dri-devel/20190716131005.761-1-bogdan.togorean@analog.com/
-* added Fixes: tag
-* added Reviewed-by: tag for Nuno
-
-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index ddceafa7b637..09290a377957 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -786,8 +786,13 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
- 	else
- 		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+index 0521261b04a9..ae894d996d21 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+@@ -49,6 +49,9 @@ properties:
+     description: |
+         OF device-tree gpio specification for RSTX pin(active low system reset)
  
--	regmap_update_bits(adv7511->regmap, 0xfb,
--		0x6, low_refresh_rate << 1);
-+	if (adv7511->type == ADV7511)
-+		regmap_update_bits(adv7511->regmap, 0xfb,
-+			0x6, low_refresh_rate << 1);
-+	else
-+		regmap_update_bits(adv7511->regmap, 0x4a,
-+			0xc, low_refresh_rate << 2);
++  interrupts:
++    maxItems: 1
 +
- 	regmap_update_bits(adv7511->regmap, 0x17,
- 		0x60, (vsync_polarity << 6) | (hsync_polarity << 5));
- 
+   toshiba,hpd-pin:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     enum:
 -- 
-2.41.0
+2.34.1
 
