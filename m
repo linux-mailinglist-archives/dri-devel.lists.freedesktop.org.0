@@ -1,54 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4572775780E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 11:31:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4604D757824
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 11:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2594F10E30A;
-	Tue, 18 Jul 2023 09:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0FFD10E308;
+	Tue, 18 Jul 2023 09:33:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAD510E1A0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 09:31:04 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED5610E308
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 09:33:47 +0000 (UTC)
+X-UUID: 2e50855c254e11eeb20a276fd37b9834-20230718
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=GRRHxLsJp0Va5QK+hfECtQmDgoTpnZ+dhZxskmNdHBM=; 
+ b=VOw+0G0rpE2a4+OPESQiLccUEEgDufRSxqzn7OZR3WNoklFLJcsVYdEBd7ErXvuhFg571k4rE0v0vVKAotDL1M+KSmsLxhcEtuwH7IrCDJTSxXJtxyc8AUNo7EuqGCuX2uMDbPiRTq6jIIVDOnzBXzrmlS7ZS3hMip1gJelJRn8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.28, REQID:35cbbf7d-df76-4ffc-98be-71115ea2922f, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:176cd25, CLOUDID:2b80badc-dc79-4898-9235-1134b97257a8,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 2e50855c254e11eeb20a276fd37b9834-20230718
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 703046127; Tue, 18 Jul 2023 17:33:40 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 18 Jul 2023 17:33:39 +0800
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 18 Jul 2023 17:33:39 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JbqvP5rbILk+dpsCLEiTgZCz1tGlLKHR6xGVPqcSgtvncXhv6W01t097+lcwuWE8bLt3dV662ibOCBpBLVsjAHvBRYd58nRfd6JmZCXq6bU/Q0oUWK0UOFbU9NU7jIQuDMjQjWs0Lk/2oQzZFnr7xRMs0RWpAIIn2w/3sgA/0UtSGHMevB3Tg78orkecWYrcI+Mgbgmk8+5Pci7m7YWMCuxKua+5VaJdRrvepNwfwbT9JXkhIkFO9xxHdTJSoMuILljww1C5yQ9+9q4JPlhAW8VElLon1eOciMlpwQZgaQTkxmTOggkhX2LSnz04ZBsJprS4vCBL8PuzF/94eqzi1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nlRxVWr3hibZB31Fkkp3R3vR3rtmyZpqzumVo+9MmdA=;
+ b=WSI2ZWrP50hWYSebgvn17bdfHORkxxLO1bBPhWpNHH9Rp1EnI2SxtLVxoPqUOVaV2l0rDArB22W5FIZ8Bgu02YP1l5cMZWHlGUKrzr8RkZzCwAY2VEQGdKZtUvlvEFVeyV4DygpL5FPJ1vV6SlyES9mNfI9chotaWbBEWq816A3UC95JJNgOtv2br+57n5ZJRmvC9wUjQumU4/J/1gtO9vzq447B2ZPnTFQR0k1w5zeRraV5a6gaokqj8FexGsLT+42LcnKFvPUrCjew33pWnIwJVfLoQiLTv0YwZndHV1+ppJnAOUbEpMzFE7Tybgd+v6h+DZ1BUENUCzqrY0fcfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1689672665; x=1721208665;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=57+ullO1ijISCv2nmZbVaR8CKu2emO90qj71uBLQ9hU=;
- b=niguQ2bkCWDWvE9eOgimRyedhd4L/qPU+gDJpolwAwkAB/zmxQAT2TCD
- KYAdUJyhwHW8k7NCx+WKdrBN5LcnMbZIlwfU2PbKR8TfQfZ+19+8NBoh0
- f2i7A+bA4oEDD50WvFUyipbRkrnvfhfPYFVUi84dd7IHn4KNvSLF/18Bb
- EQFeCT+sKND+lKUoQWczysBTRUSjS3MXm0UOXJCybBTw2U0l92eUi10N7
- Gx2crWihdoxnRchW047Sz3uhO5X9t6nLn1STYI0mVa0lWJy+Yh6ONKVMq
- PlG0Ax+yoTnFbZoBGKxS1OvLQdOFlqR6o1+GhJP+eaaMYvZxBXXNDauQr A==;
-X-IronPort-AV: E=Sophos;i="6.01,213,1684792800"; d="scan'208";a="31982646"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 18 Jul 2023 11:31:02 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1428F280078;
- Tue, 18 Jul 2023 11:31:02 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Ying Liu <victor.liu@nxp.com>
-Subject: Re: [PATCH 9/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
-Date: Tue, 18 Jul 2023 11:31:01 +0200
-Message-ID: <8287028.NyiUUSuA9g@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <DB8PR04MB7051324184846E6206E495BF9838A@DB8PR04MB7051.eurprd04.prod.outlook.com>
-References: <20230717061831.1826878-1-victor.liu@nxp.com>
- <3174425.5fSG56mABF@steina-w>
- <DB8PR04MB7051324184846E6206E495BF9838A@DB8PR04MB7051.eurprd04.prod.outlook.com>
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nlRxVWr3hibZB31Fkkp3R3vR3rtmyZpqzumVo+9MmdA=;
+ b=bXoIQwJCTdCfc0Vlo+R0oVK1OJ89pcdwXab70kNV5QbYCvOCuDUV+b8vG11CmYWWwcDEwK/8d/VWH+X3dOTVg6cueaf73beAx3scbrUkek3LAz8JB/OkQJFIPBa0P2are6P1MM/M6qHwKvQB83TqlbuowYlZCiEvcC5rRtzHQTA=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by TYZPR03MB8101.apcprd03.prod.outlook.com (2603:1096:400:45a::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Tue, 18 Jul
+ 2023 09:33:36 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::d126:7f34:9e4f:a95]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::d126:7f34:9e4f:a95%4]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
+ 09:33:36 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v6 04/11] drm/mediatek: dp: Use devm variant of
+ drm_bridge_add()
+Thread-Topic: [PATCH v6 04/11] drm/mediatek: dp: Use devm variant of
+ drm_bridge_add()
+Thread-Index: AQHZuLkYUe0O4+N+d0iCM7ELrHwPg6+/RGcA
+Date: Tue, 18 Jul 2023 09:33:36 +0000
+Message-ID: <0be54099a44dcaeafa3ff930dcd87a780da045fb.camel@mediatek.com>
+References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
+ <20230717141438.274419-5-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230717141438.274419-5-angelogioacchino.delregno@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB8101:EE_
+x-ms-office365-filtering-correlation-id: 8e4ed415-5dbc-4dd2-9fae-08db87720fce
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EP3+CycHi8eddT/+zHaGhMLyKAwu1eG4yPDeHmzw3sfUvRb88FAQhLpec4pbPOcNZEcbucn9tFQ0BBzmGivgHFodjTrT/h7PI+WckrTbbDpYfntaC/M9Y5fo6h+Z8vhSSZpqvdZvSl2zy1AGsIUyy/nrtwPXZIVc6OQNl2FmW2jY9U/hdVUY9hqU9WcjoExfl7XRo9fVY+iTEHxLRMCIOVyy+N2H1z+2OHYHqJezgsT0+DWSJt2l1bzzywNAWjc0yaqZadWRMUnhJq0CL5hmwbODVbYUmXpM6bNtSafMntskjf4LEjR9NDGQzo12Mq3k0pHTL5cjLUUHSyqtmre7X8YlwArO9qp89GzSi949Gi9vXbfppXttxL+zE5rfz3lm6vQCMJvGfocpGMFw0EIztvZtE4synmr+mhUyQuzY5sVXVv96iqR29c6WUddJmu+aKukV+sCWGNTwmTqqFgpFqukW4amedSiplY2WIqJ0lSQbVN+O55Xp6dgawmvkDv+g3/Y5urRsNr4g5P/N0mxTHf7vk8ybJvXY/49zjGgzN9iyx74L17c8ZOCfr3pYRikGkpIOeMDEbKPwRL5S97VzUPK2cEiIScjubwY0WqMV+vG4MNYxaiz8r5Y4bC3iCgDy81SxwTH2AT3cbSikwhlJJy+Iy+NV1LIrkhIYGldMA0U=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(396003)(376002)(366004)(346002)(136003)(451199021)(5660300002)(86362001)(4326008)(41300700001)(38100700002)(66476007)(316002)(66946007)(76116006)(66446008)(66556008)(64756008)(2906002)(83380400001)(2616005)(38070700005)(122000001)(8936002)(7416002)(8676002)(36756003)(85182001)(110136005)(478600001)(54906003)(6486002)(6512007)(6506007)(26005)(186003)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cU14YUFNR1hVWWhMd0FYa1NVMFdyWE9nYU5wUFpjaVBTcmdSUTBWdlNTbjEr?=
+ =?utf-8?B?dlE2MnFiU09kV2psdzNuRjV3M2xIV1BidWRLbVVIQlVBc1BmQkhnQWUrNXpi?=
+ =?utf-8?B?eVF2cVBIQWMrMTErMDlmV3VqMlNCY3ZLOXZVbWFQZ2pubFI3MlpGTVF5ZkJn?=
+ =?utf-8?B?c2FyNXJrVnYvVGh3eUE1YXIrRE5lKzVBU0UxSkh5L3YrL2l6UThwT3lHRWFx?=
+ =?utf-8?B?VU1mYXR6eU8wVTFmU3lKUUhKdFN1dmMyeHV0dmE4UC9wcFlDYUhhVnlPd093?=
+ =?utf-8?B?SWsvZ3laVS9SaFo4TkpXd291MkFDcnowM0JhSXFxams2ZG14SnRpY044TEZX?=
+ =?utf-8?B?UkVZVHl2SXFuMUxzcjdsNFkyamU0UG9QUUozVzRFakVIeVN6eStoMnpGeGNO?=
+ =?utf-8?B?WHRuVzNmT0JBOTV0T0d1blBSREdSajYxM2Z5dWMxcTVzL3Uwd3NrQ2lnT0NY?=
+ =?utf-8?B?Wlo1QmlUajRvc3hkcm9Db2tjaGJTTDl2WEZqaXA0U2s5TzdxVjBpN012T1pj?=
+ =?utf-8?B?VHdhNjhEWjFhZEhEalRFRzIrVDJTU1RvUDJNdDlLY1FqdHBRdFoyT2R0SUN3?=
+ =?utf-8?B?M0xoNmp0Rm9yQ2ZwZjhDZy83Mm5XMlVCZEJkN2JPSVpZMFJ5cnM5TUVZZFlL?=
+ =?utf-8?B?dnA3R1NBcGRMSmh0eGF6UHlpN3N6akRkRmhDNUFJUW1qd3d3V3EzT0E4QndC?=
+ =?utf-8?B?ZXAxUmVXUHlmY05RNzNhVWRUMXRqN2g2TkE5bUIrSFNTVlJha1psZU1JaGtO?=
+ =?utf-8?B?QmZmWVBzcWVvRTljL2hRVER4bnhvNit5MFU1b05Ld1BVSXpBRDhnbjF6c3Fa?=
+ =?utf-8?B?MkFWTGhJNHRlQ0ZKbWlNVDhxeXdLOVR5aFc3dDdvaVBGeDZqdThHY29qYmxR?=
+ =?utf-8?B?QzEwMVVTZ0JxQU1NOW4yS04zeGRQZk1kWEtocXZvUlpzR2lBWGRNdDhxQkky?=
+ =?utf-8?B?SWU4ODZPSGxubGtnWkl4aXhTdXlhT1NCVEk4azNaVjI0Q1ExMk1JWGpYdlpF?=
+ =?utf-8?B?azFVUkJNb0I5QjFJNWVZazlDUXZyOVlXUnhFWFR5eDdjZHJKOTBTME5DQlpS?=
+ =?utf-8?B?U0JyRERyeW1JVEx0dlNYYVh3d2R6NmkwSWZvaXBRYVp0ZWYybjZnamFreGY4?=
+ =?utf-8?B?VXRWcmNwK3JEZDNEK3k4NjhyaUFFaUljQm8weEZBWksyYVJYMkIwVm1jeVdY?=
+ =?utf-8?B?aXE1TUNSNFZxZzA3aVNMWERkc2RjOTRUUkNCWDIvZVhhTzVVV0RMMTRLRXBM?=
+ =?utf-8?B?YXQveEl0dlJjUmg5OUNPNHoraCtWaGovVVVjN3RPMVhIbHB2YjQxZzRxN0w0?=
+ =?utf-8?B?bDN0c0tOU0tvcCtNQmI1L0lWb0JMaU1vQnV4SU5tZUhkWkw2VTV3eDVKb095?=
+ =?utf-8?B?UGRQTUtFbkN5K2xoenpKRUpDY2Q1TnpsWDZ6dTQzbkw3M1oyd0FNaDB1SmVr?=
+ =?utf-8?B?cVM3QTRPbnVsdytwZnB2Wm10dGQ4WUlLQVAweDFrL2p3N1ZNczFmejZrM3hU?=
+ =?utf-8?B?alcwTjlrVTVyaVZ5Y2tYZS9KRHgxSi9pZ2Z2OHMxYXYzUTNMRm9MUXpHTWtK?=
+ =?utf-8?B?M1VtZy9nMUlCRnBENDNEZUl5QVlXM1ltQkNCNHpJOVJ0N0YrdmpNK0x3YjFV?=
+ =?utf-8?B?QnlibDBETG1saTRqc1pmMGtqcThxUnoxR3pUMTlqTzRtR1V1U2hhQXVsQ016?=
+ =?utf-8?B?Qm1PR0JHS25nYjhTTkRtMGhPam5DYTJxc2d6VGtVSnpUaGs5ZXdLWWl2czRP?=
+ =?utf-8?B?U0MweXdrRmdMTlozY0VkWXZkOTVmeUhFZHRkK1VxYks0eTNMSWx5cWlWYld3?=
+ =?utf-8?B?blZYbE9Bb1o3eENkMGt5OFhRTzFwZDl4bzlPSEZWK2laL3VCMU1BMTZOQzhp?=
+ =?utf-8?B?a1FKTTU2Z2V4ekFiTWNEeHVVdjBCa2NlZlVXWjYwTnphekxsUVlEMEwydXQx?=
+ =?utf-8?B?T0RHT0FlbUFoSEZHUTRMMXdGUzZUY2VEUXduTmwyMjB6ZjRhcFZzNmF1U1Nj?=
+ =?utf-8?B?ZVY4MFZZZGttZzlpTXIwbHFmdnBReVArVFFTeDRIQ0NNb05MWWwxV2dTUFlK?=
+ =?utf-8?B?NzdDVE9hdkh5NkZ3Nk16K0VSa0VsR1FCeE90dTBMVVpxWjVyYzNaNkdnWERG?=
+ =?utf-8?Q?lAr8MroLm835wc4TBUGWzRFki?=
+Content-ID: <7DD883AACCD6224B8BC936395E9381EC@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e4ed415-5dbc-4dd2-9fae-08db87720fce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2023 09:33:36.4049 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CxNc/sDEX47ADRsKWe0cn9NmCZFuM4vLsxM2vlqJckoY80EtYM3piRGuu0BjJ5iKxmX7b6GGR/lH2qCY3VAY1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB8101
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_001_2068444278.1978362402"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,292 +162,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- dl-linux-imx <linux-imx@nxp.com>
+Cc: "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--__=_Part_Boundary_001_2068444278.1978362402
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Am Dienstag, 18. Juli 2023, 11:00:25 CEST schrieb Ying Liu:
-> On Tuesday, July 18, 2023 3:49 PM Alexander Stein <alexander.stein@ew.tq-
-group.com> wrote:
-> > Hi,
->=20
-> Hi,
->=20
-> > thanks for the patch.
->=20
-> Thanks for your review.
->=20
-> > Am Montag, 17. Juli 2023, 08:18:31 CEST schrieb Liu Ying:
-> > > Freescale i.MX93 SoC embeds a Synopsys Designware MIPI DSI host
-> > > controller and a Synopsys Designware MIPI DPHY.  Some configurations
-> > > and extensions to them are controlled by i.MX93 media blk-ctrl.
-> > >=20
-> > > Add a DRM bridge for i.MX93 MIPI DSI by using existing DW MIPI DSI
-> > > bridge helpers and implementing i.MX93 MIPI DSI specific extensions.
-> > >=20
-> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > > ---
-> > >=20
-> > >  drivers/gpu/drm/bridge/imx/Kconfig          |  10 +
-> > >  drivers/gpu/drm/bridge/imx/Makefile         |   1 +
-> > >  drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c | 934
-> >=20
-> > ++++++++++++++++++++
-> >=20
-> > >  3 files changed, 945 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > >=20
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > b/drivers/gpu/drm/bridge/imx/Kconfig index
-> >=20
-> > 9fae28db6aa7..5182298c7182
-> >=20
-> > > 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > @@ -49,4 +49,14 @@ config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
-> > >=20
-> > >       Choose this to enable pixel link to display pixel
-> >=20
-> > interface(PXL2DPI)
-> >=20
-> > >       found in Freescale i.MX8qxp processor.
-> > >=20
-> > > +config DRM_IMX93_MIPI_DSI
-> > > +   tristate "Freescale i.MX93 specific extensions for Synopsys DW MI=
-PI
-> >=20
-> > DSI"
-> >=20
-> > > +   depends on OF
-> > > +   depends on COMMON_CLK
-> > > +   select DRM_DW_MIPI_DSI
-> > > +   select GENERIC_PHY_MIPI_DPHY
-> > > +   help
-> > > +     Choose this to enable MIPI DSI controller found in Freescale
-> >=20
-> > i.MX93
-> >=20
-> > > +     processor.
-> > > +
-> > >=20
-> > >  endif # ARCH_MXC || COMPILE_TEST
-> > >=20
-> > > diff --git a/drivers/gpu/drm/bridge/imx/Makefile
-> > > b/drivers/gpu/drm/bridge/imx/Makefile index
-> >=20
-> > 8e2ebf3399a1..2b0c2e44aa1b
-> >=20
-> > > 100644
-> > > --- a/drivers/gpu/drm/bridge/imx/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> > > @@ -4,3 +4,4 @@ obj-$(CONFIG_DRM_IMX8QXP_LDB) +=3D imx8qxp-ldb.o
-> > >=20
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) +=3D imx8qxp-pixel-
-> >=20
-> > combiner.o
-> >=20
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) +=3D imx8qxp-pixel-link.o
-> > >  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) +=3D imx8qxp-pxl2dpi.o
-> > >=20
-> > > +obj-$(CONFIG_DRM_IMX93_MIPI_DSI) +=3D imx93-mipi-dsi.o
-> > > diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > > b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c new file mode 100644
-> > > index 000000000000..77f59e3407a0
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-> > >=20
-> > > [snip]
-> > >=20
-> > > +static int imx93_dsi_probe(struct platform_device *pdev)
-> > > +{
-> > > +   struct device *dev =3D &pdev->dev;
-> > > +   struct device_node *np =3D dev->of_node;
-> > > +   struct imx93_dsi *dsi;
-> > > +   int ret;
-> > > +
-> > > +   dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> > > +   if (!dsi)
-> > > +           return -ENOMEM;
-> > > +
-> > > +   dsi->regmap =3D syscon_regmap_lookup_by_phandle(np, "fsl,media-
-> >=20
-> > blk-
-> > ctrl");
-> >=20
-> > > +   if (IS_ERR(dsi->regmap)) {
-> > > +           ret =3D PTR_ERR(dsi->regmap);
-> >=20
-> > > +           DRM_DEV_ERROR(dev, "failed to get block ctrl regmap:
-> > %d\n", ret);
-> >=20
-> > Could you use dev_err_probe here instead?
->=20
-> Maybe, it's better to keep using DRM_DEV_ERROR to achieve consistent
-> error log format across the driver which is implemented in drm_dev_printk=
-().
-> I see other DRM drivers do the same.
+PHByZT4NCkhpLCYjMzI7QW5nZWxvOg0KDQpPbiYjMzI7TW9uLCYjMzI7MjAyMy0wNy0xNyYjMzI7
+YXQmIzMyOzE2OjE0JiMzMjsrMDIwMCwmIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMyO0RlbCYjMzI7
+UmVnbm8mIzMyO3dyb3RlOg0KJmd0OyYjMzI7JiMzMjsmIzMyOw0KJmd0OyYjMzI7RXh0ZXJuYWwm
+IzMyO2VtYWlsJiMzMjs6JiMzMjtQbGVhc2UmIzMyO2RvJiMzMjtub3QmIzMyO2NsaWNrJiMzMjts
+aW5rcyYjMzI7b3ImIzMyO29wZW4mIzMyO2F0dGFjaG1lbnRzJiMzMjt1bnRpbA0KJmd0OyYjMzI7
+eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7dGhlJiMzMjtzZW5kZXImIzMyO29yJiMzMjt0
+aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsmIzMyO0luJiMzMjtwcmVwYXJhdGlvbiYjMzI7Zm9y
+JiMzMjthZGRpbmcmIzMyO3N1cHBvcnQmIzMyO2ZvciYjMzI7YXV4LWJ1cywmIzMyO3doaWNoJiMz
+Mjt3aWxsJiMzMjthZGQmIzMyO2EmIzMyO2NvZGUNCiZndDsmIzMyO3BhdGgmIzMyO3RoYXQmIzMy
+O21heSYjMzI7ZmFpbCYjMzI7YWZ0ZXImIzMyO3RoZSYjMzI7ZHJtX2JyaWRnZV9hZGQoKSYjMzI7
+Y2FsbCwmIzMyO2NoYW5nZSYjMzI7dGhhdCYjMzI7dG8NCiZndDsmIzMyO2Rldm1fZHJtX2JyaWRn
+ZV9hZGQoKSYjMzI7dG8mIzMyO3NpbXBsaWZ5JiMzMjtmYWlsdXJlJiMzMjtwYXRocyYjMzI7bGF0
+ZXIuDQoNClJldmlld2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsu
+Y29tJmd0Ow0KDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtBbmdlbG9H
+aW9hY2NoaW5vJiMzMjtEZWwmIzMyO1JlZ25vJiMzMjsmbHQ7DQomZ3Q7JiMzMjthbmdlbG9naW9h
+Y2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20mZ3Q7DQomZ3Q7JiMzMjtUZXN0ZWQtYnk6JiMz
+MjtDaGVuLVl1JiMzMjtUc2FpJiMzMjsmbHQ7d2Vuc3RAY2hyb21pdW0ub3JnJmd0Ow0KJmd0OyYj
+MzI7LS0tDQomZ3Q7JiMzMjsmIzMyO2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYyYj
+MzI7fCYjMzI7NSYjMzI7KysrLS0NCiZndDsmIzMyOyYjMzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdl
+ZCwmIzMyOzMmIzMyO2luc2VydGlvbnMoKyksJiMzMjsyJiMzMjtkZWxldGlvbnMoLSkNCiZndDsm
+IzMyOw0KJmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19kcC5jDQomZ3Q7JiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAu
+Yw0KJmd0OyYjMzI7aW5kZXgmIzMyOzk4ZjYzZDgyMzBlNC4uZmM2Y2FiZjUzNzBiJiMzMjsxMDA2
+NDQNCiZndDsmIzMyOy0tLSYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMN
+CiZndDsmIzMyOysrKyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMNCiZn
+dDsmIzMyO0BAJiMzMjstMjU1Miw3JiMzMjsrMjU1Miw5JiMzMjtAQCYjMzI7c3RhdGljJiMzMjtp
+bnQmIzMyO210a19kcF9wcm9iZShzdHJ1Y3QmIzMyO3BsYXRmb3JtX2RldmljZQ0KJmd0OyYjMzI7
+KnBkZXYpDQomZ3Q7JiMzMjsmIzMyO0RSTV9CUklER0VfT1BfREVURUNUJiMzMjt8JiMzMjtEUk1f
+QlJJREdFX09QX0VESUQmIzMyO3wNCiZndDsmIzMyO0RSTV9CUklER0VfT1BfSFBEOw0KJmd0OyYj
+MzI7JiMzMjttdGtfZHAtJmd0O2JyaWRnZS50eXBlJiMzMjs9JiMzMjttdGtfZHAtJmd0O2RhdGEt
+Jmd0O2JyaWRnZV90eXBlOw0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyOy1kcm1fYnJpZGdlX2Fk
+ZCgmYW1wO210a19kcC0mZ3Q7YnJpZGdlKTsNCiZndDsmIzMyOytyZXQmIzMyOz0mIzMyO2Rldm1f
+ZHJtX2JyaWRnZV9hZGQoZGV2LCYjMzI7JmFtcDttdGtfZHAtJmd0O2JyaWRnZSk7DQomZ3Q7JiMz
+MjsraWYmIzMyOyhyZXQpDQomZ3Q7JiMzMjsrcmV0dXJuJiMzMjtkZXZfZXJyX3Byb2JlKGRldiwm
+IzMyO3JldCwmIzMyOyZxdW90O0ZhaWxlZCYjMzI7dG8mIzMyO2FkZA0KJmd0OyYjMzI7YnJpZGdl
+JiM5MjtuJnF1b3Q7KTsNCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyO210a19kcC0mZ3Q7
+bmVlZF9kZWJvdW5jZSYjMzI7PSYjMzI7dHJ1ZTsNCiZndDsmIzMyOyYjMzI7dGltZXJfc2V0dXAo
+JmFtcDttdGtfZHAtJmd0O2RlYm91bmNlX3RpbWVyLCYjMzI7bXRrX2RwX2RlYm91bmNlX3RpbWVy
+LCYjMzI7MCk7DQomZ3Q7JiMzMjtAQCYjMzI7LTI1NzAsNyYjMzI7KzI1NzIsNiYjMzI7QEAmIzMy
+O3N0YXRpYyYjMzI7aW50JiMzMjttdGtfZHBfcmVtb3ZlKHN0cnVjdCYjMzI7cGxhdGZvcm1fZGV2
+aWNlDQomZ3Q7JiMzMjsqcGRldikNCiZndDsmIzMyOyYjMzI7cG1fcnVudGltZV9wdXQoJmFtcDtw
+ZGV2LSZndDtkZXYpOw0KJmd0OyYjMzI7JiMzMjtwbV9ydW50aW1lX2Rpc2FibGUoJmFtcDtwZGV2
+LSZndDtkZXYpOw0KJmd0OyYjMzI7JiMzMjtkZWxfdGltZXJfc3luYygmYW1wO210a19kcC0mZ3Q7
+ZGVib3VuY2VfdGltZXIpOw0KJmd0OyYjMzI7LWRybV9icmlkZ2VfcmVtb3ZlKCZhbXA7bXRrX2Rw
+LSZndDticmlkZ2UpOw0KJmd0OyYjMzI7JiMzMjtwbGF0Zm9ybV9kZXZpY2VfdW5yZWdpc3Rlciht
+dGtfZHAtJmd0O3BoeV9kZXYpOw0KJmd0OyYjMzI7JiMzMjtpZiYjMzI7KG10a19kcC0mZ3Q7YXVk
+aW9fcGRldikNCiZndDsmIzMyOyYjMzI7cGxhdGZvcm1fZGV2aWNlX3VucmVnaXN0ZXIobXRrX2Rw
+LSZndDthdWRpb19wZGV2KTsNCiZndDsmIzMyOy0tJiMzMjsNCiZndDsmIzMyOzIuNDAuMQ0KDQo8
+L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsg
+Q29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0
+aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0
+YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBv
+ciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdz
+LiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQg
+cmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJp
+bnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRz
+IA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHBy
+b2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRl
+ZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJl
+Y2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQpp
+bW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBh
+bGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZy
+b20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMg
+ZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
 
-I see your point. On the other hand the benefit of dev_err_probe() is that =
-the=20
-message of deferred probe can be seen in /sys/kernel/debug/devices_deferred.
-Your check against EPROBE_DEFER will hide the message if something is not=20
-correct.
+--__=_Part_Boundary_001_2068444278.1978362402
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Maybe a to be introduced DRM_DEV_ERROR_PROBE might be useful.
+SGksIEFuZ2VsbzoNCg0KT24gTW9uLCAyMDIzLTA3LTE3IGF0IDE2OjE0ICswMjAwLCBBbmdlbG9H
+aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gIAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxl
+YXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBo
+YXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+ICBJbiBwcmVwYXJhdGlv
+biBmb3IgYWRkaW5nIHN1cHBvcnQgZm9yIGF1eC1idXMsIHdoaWNoIHdpbGwgYWRkIGEgY29kZQ0K
+PiBwYXRoIHRoYXQgbWF5IGZhaWwgYWZ0ZXIgdGhlIGRybV9icmlkZ2VfYWRkKCkgY2FsbCwgY2hh
+bmdlIHRoYXQgdG8NCj4gZGV2bV9kcm1fYnJpZGdlX2FkZCgpIHRvIHNpbXBsaWZ5IGZhaWx1cmUg
+cGF0aHMgbGF0ZXIuDQoNClJldmlld2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0K
+DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbmdlbG9HaW9hY2NoaW5vIERlbCBSZWdubyA8DQo+IGFu
+Z2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT4NCj4gVGVzdGVkLWJ5OiBDaGVu
+LVl1IFRzYWkgPHdlbnN0QGNocm9taXVtLm9yZz4NCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RwLmMgfCA1ICsrKy0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRp
+b25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHAuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAu
+Yw0KPiBpbmRleCA5OGY2M2Q4MjMwZTQuLmZjNmNhYmY1MzcwYiAxMDA2NDQNCj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHAuYw0KPiBAQCAtMjU1Miw3ICsyNTUyLDkgQEAgc3RhdGljIGludCBtdGtf
+ZHBfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZQ0KPiAqcGRldikNCj4gIAkJRFJNX0JSSURH
+RV9PUF9ERVRFQ1QgfCBEUk1fQlJJREdFX09QX0VESUQgfA0KPiBEUk1fQlJJREdFX09QX0hQRDsN
+Cj4gIAltdGtfZHAtPmJyaWRnZS50eXBlID0gbXRrX2RwLT5kYXRhLT5icmlkZ2VfdHlwZTsNCj4g
+IA0KPiAtCWRybV9icmlkZ2VfYWRkKCZtdGtfZHAtPmJyaWRnZSk7DQo+ICsJcmV0ID0gZGV2bV9k
+cm1fYnJpZGdlX2FkZChkZXYsICZtdGtfZHAtPmJyaWRnZSk7DQo+ICsJaWYgKHJldCkNCj4gKwkJ
+cmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2LCByZXQsICJGYWlsZWQgdG8gYWRkDQo+IGJyaWRnZVxu
+Iik7DQo+ICANCj4gIAltdGtfZHAtPm5lZWRfZGVib3VuY2UgPSB0cnVlOw0KPiAgCXRpbWVyX3Nl
+dHVwKCZtdGtfZHAtPmRlYm91bmNlX3RpbWVyLCBtdGtfZHBfZGVib3VuY2VfdGltZXIsIDApOw0K
+PiBAQCAtMjU3MCw3ICsyNTcyLDYgQEAgc3RhdGljIGludCBtdGtfZHBfcmVtb3ZlKHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UNCj4gKnBkZXYpDQo+ICAJcG1fcnVudGltZV9wdXQoJnBkZXYtPmRldik7
+DQo+ICAJcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5kZXYpOw0KPiAgCWRlbF90aW1lcl9zeW5j
+KCZtdGtfZHAtPmRlYm91bmNlX3RpbWVyKTsNCj4gLQlkcm1fYnJpZGdlX3JlbW92ZSgmbXRrX2Rw
+LT5icmlkZ2UpOw0KPiAgCXBsYXRmb3JtX2RldmljZV91bnJlZ2lzdGVyKG10a19kcC0+cGh5X2Rl
+dik7DQo+ICAJaWYgKG10a19kcC0+YXVkaW9fcGRldikNCj4gIAkJcGxhdGZvcm1fZGV2aWNlX3Vu
+cmVnaXN0ZXIobXRrX2RwLT5hdWRpb19wZGV2KTsNCj4gLS0gDQo+IDIuNDAuMQ0K
 
-Best regards,
-Alexander
-
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   dsi->clk_pixel =3D devm_clk_get(dev, "pix");
-> > > +   if (IS_ERR(dsi->clk_pixel)) {
-> > > +           ret =3D PTR_ERR(dsi->clk_pixel);
-> > > +           if (ret !=3D -EPROBE_DEFER)
-> >=20
-> > > +                   DRM_DEV_ERROR(dev, "failed to get pixel clock:
-> > %d\n", ret);
-> >=20
-> > Could you use dev_err_probe here instead?
->=20
-> Ditto.
->=20
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   dsi->clk_cfg =3D devm_clk_get(dev, "phy_cfg");
-> > > +   if (IS_ERR(dsi->clk_cfg)) {
-> > > +           ret =3D PTR_ERR(dsi->clk_cfg);
-> > > +           if (ret !=3D -EPROBE_DEFER)
-> >=20
-> > > +                   DRM_DEV_ERROR(dev, "failed to get phy cfg clock:
-> > %d\n", ret);
-> >=20
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   dsi->clk_ref =3D devm_clk_get(dev, "phy_ref");
-> > > +   if (IS_ERR(dsi->clk_ref)) {
-> > > +           ret =3D PTR_ERR(dsi->clk_ref);
-> > > +           if (ret !=3D -EPROBE_DEFER)
-> >=20
-> > > +                   DRM_DEV_ERROR(dev, "failed to get phy ref clock:
-> > %d\n", ret);
-> >=20
-> > Could you use dev_err_probe here instead?
->=20
-> Ditto.
->=20
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   dsi->ref_clk_rate =3D clk_get_rate(dsi->clk_ref);
-> > > +   if (dsi->ref_clk_rate < REF_CLK_RATE_MIN ||
-> > > +       dsi->ref_clk_rate > REF_CLK_RATE_MAX) {
-> > > +           DRM_DEV_ERROR(dev, "invalid phy ref clock rate %lu\n",
-> > > +                         dsi->ref_clk_rate);
-> > > +           return -EINVAL;
-> > > +   }
-> > > +   DRM_DEV_DEBUG_DRIVER(dev, "phy ref clock rate: %lu\n", dsi-
-> > >
-> > >ref_clk_rate);
-> > >
-> > > +
-> > > +   dsi->dev =3D dev;
-> > > +   dsi->pdata.max_data_lanes =3D 4;
-> > > +   dsi->pdata.mode_valid =3D imx93_dsi_mode_valid;
-> > > +   dsi->pdata.mode_fixup =3D imx93_dsi_mode_fixup;
-> > > +   dsi->pdata.get_input_bus_fmts =3D imx93_dsi_get_input_bus_fmts;
-> > > +   dsi->pdata.phy_ops =3D &imx93_dsi_phy_ops;
-> > > +   dsi->pdata.host_ops =3D &imx93_dsi_host_ops;
-> > > +   dsi->pdata.priv_data =3D dsi;
-> > > +   platform_set_drvdata(pdev, dsi);
-> > > +
-> > > +   dsi->dmd =3D dw_mipi_dsi_probe(pdev, &dsi->pdata);
-> > > +   if (IS_ERR(dsi->dmd)) {
-> > > +           ret =3D PTR_ERR(dsi->dmd);
-> > > +           if (ret !=3D -EPROBE_DEFER)
-> >=20
-> > > +                   DRM_DEV_ERROR(dev, "failed to probe dw_mipi_dsi:
-> > %d\n", ret);
-> >=20
-> > Could you use dev_err_probe here instead?
->=20
-> Ditto.
->=20
-> Regards,
-> Liu Ying
->=20
-> > Best regards,
-> > Alexander
-> >=20
-> > > +           return ret;
-> > > +   }
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +
-> > > +static void imx93_dsi_remove(struct platform_device *pdev)
-> > > +{
-> > > +   struct imx93_dsi *dsi =3D platform_get_drvdata(pdev);
-> > > +
-> > > +   dw_mipi_dsi_remove(dsi->dmd);
-> > > +}
-> > > +
-> > > +static const struct of_device_id imx93_dsi_dt_ids[] =3D {
-> > > +   { .compatible =3D "fsl,imx93-mipi-dsi", },
-> > > +   { /* sentinel */ }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, imx93_dsi_dt_ids);
-> > > +
-> > > +static struct platform_driver imx93_dsi_driver =3D {
-> > > +   .probe  =3D imx93_dsi_probe,
-> > > +   .remove_new =3D imx93_dsi_remove,
-> > > +   .driver =3D {
-> > > +           .of_match_table =3D imx93_dsi_dt_ids,
-> > > +           .name =3D "imx93_mipi_dsi",
-> > > +   },
-> > > +};
-> > > +module_platform_driver(imx93_dsi_driver);
-> > > +
-> > > +MODULE_DESCRIPTION("Freescale i.MX93 MIPI DSI driver");
-> > > +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-> > > +MODULE_LICENSE("GPL");
-> >=20
-> > --
-> > TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-> > Amtsgericht M=FCnchen, HRB 105018
-> > Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-> > http://www.t/
-> > q-
-> > group.com%2F&data=3D05%7C01%7Cvictor.liu%40nxp.com%7Cc42417f9a9484
-> > 3ead2b808db876380d3%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0
-> > %7C638252633665634690%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj
-> > AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%
-> > 7C%7C&sdata=3DGUWOZgHFFp0nKImw2aIAsaqMv9KtgI6%2BD%2BaOdDhJ%2B
-> > tU%3D&reserved=3D0
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+--__=_Part_Boundary_001_2068444278.1978362402--
 
