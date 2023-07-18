@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C8C7573A9
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 08:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17547573F3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 08:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87E3310E2D8;
-	Tue, 18 Jul 2023 06:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F93010E081;
+	Tue, 18 Jul 2023 06:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FB510E2D7
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 06:09:44 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4fba1288bbdso8522918e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 23:09:44 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A8210E081
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 06:18:13 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2b703cbfaf5so78367921fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 23:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689660583; x=1690265383;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Z5VQwVrGcXMfCfvuw2kyfpvvEbdxnp5EKgVKHPURbWM=;
- b=HHvKaDKj0O6hNAptE4inyZOHuRF+UKZXm+WzhvsppGx6mT12Uv3s0wHix2zOZOkvkJ
- 877SnV8WdE3kc/5yorMj2oCVMEcnUrqvrqltwTn2u3Ma5XlIhQ9YjVrYtchVjFchEUVs
- b4ns+4ukynBmrM4w9TK2edsk+MJLwwQFbmx0sdD9fvxXosHfFSPF1gAHqA55UosGsiHD
- asr4nRLbFZLmqxAJyEVTPU4ej+5KkCtQJCfSuXXDYYgcVdwYifBoECoY7YkW7k5/iM8K
- VPnYrIdT8Q//oCldxyRGgcLZUqFNTzskDMAuvE7hvRpARirSNs4Gfz0gRvAqXT76NsIA
- MTSw==
+ d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1689661089; x=1692253089; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KA1k3LWdJrycD7+8OcHcVZB99NNNbrk61vgndGZGEcM=;
+ b=DpzU++FE4Ax0xt45yhig+1UQjsLFHwRkgQyIWi0NXZpKJ7C5flgwQUT+795d9afTSS
+ jY1zc36HC/j7RH2b/pmgWfGnUlFbdfM7ZYNBHri+DRXdVlxXeRLr8/EIdC+LH0jFhMdR
+ XDMcj73CHjloM9lT5M4ILWA9aW1Z784lfnuEl7UdvJprzZgA9miRXu/ImrEv4fjyg0Yg
+ LapLMBqub/u4MN3nVIAvof29Hcnj4bwSpWTAteFyD58GSMaWFTIaVI6JtfLtX8fRFF2t
+ v9pAisptdpzM21tq7jQv7z7oOhX/wwYNdvx2DZ9Lwvd+IR+G8cltwB60DnKHsyKxJ/AB
+ V1tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689660583; x=1690265383;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z5VQwVrGcXMfCfvuw2kyfpvvEbdxnp5EKgVKHPURbWM=;
- b=dI3CZ9BefhPePf3i8YV/AEhTKYwGygB6z5pCqRJacCXQ7K6VDRQwKQ8Rm96l9T/oG/
- f5z3iu/7en3cdnERjdzTS/ws7BDt2KNiAZEWN1sz25cL9lsJRvXQrm71aXyMwFn8E5Oz
- LiKP0msmORl3OfKFw67Ah/IgKKc6leXZzQebx1RgQq55qS6St7i3ecwXZvFOvBV9R9b+
- ogyhCaKzI968dmpErNGrQi9w6lrKeEns2E9j2QLA5ztwpjLsepyjHrv0F5WvgG7RYwht
- 8efMrXYjeaqmzp9D5PHCw8U7zzGjDAOdRXVc9ppW0mhs5pQSGslDGRuxo6fdW4k9z15H
- SPwg==
-X-Gm-Message-State: ABy/qLa1s87dHjqHJdfs4uuOqLJ/yTzImh+gG+VhNm9zVZKWcOEglpLl
- 7qmuGrfhn2ixH8Pso2Ei/pY32A==
-X-Google-Smtp-Source: APBJJlFuWqM7VJ+TLOLnaEcliAKHtvXtVu+8Nyr2lg0mEZWLl6kglI0wuWE+sp43IVhjUCSwTxDmtg==
-X-Received: by 2002:a05:6512:3989:b0:4fd:c923:db5f with SMTP id
- j9-20020a056512398900b004fdc923db5fmr1976725lfu.14.1689660582991; 
- Mon, 17 Jul 2023 23:09:42 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- a28-20020a056512021c00b004fbac025223sm279081lfo.22.2023.07.17.23.09.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Jul 2023 23:09:42 -0700 (PDT)
-Message-ID: <0075783f-9166-89aa-a9f9-068494e468e3@linaro.org>
-Date: Tue, 18 Jul 2023 09:09:41 +0300
+ d=1e100.net; s=20221208; t=1689661089; x=1692253089;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KA1k3LWdJrycD7+8OcHcVZB99NNNbrk61vgndGZGEcM=;
+ b=Flsq1sNGZ8jK5DvAQqhQHLfS2sLja+TqyZOP+AUvXG0FSpVyRPRzAE4dw+fmVzL1MG
+ 4QuBNZbu6MSvyVPSj5Fnq/J2qYT/df1Cg1PBFYlyuW/vIUHJ5A2wScKB3lOfjY1sQeCm
+ tIG4YJo9pkoOMBBKCIU9/xKXvZzNsOzhRM+ZEsmSTC5R4DKrfZtVxS60clxmAFSK1was
+ 3ZNgocNrquliPM/GtKpuFP+KEYGz8fNWc+ZCmE9vnBUxLNqhiQCLSaS/jmN60+lI7OCK
+ L6Hg6ZUmY687UE4VFUQBMXWiZRzbdgmnVcBa+Eq9PUSZjtx3AdHhKQwWfBWV7LDBxvjx
+ Sgqw==
+X-Gm-Message-State: ABy/qLbl4cTyP3cVVTXPZs6oA3OX8YXir0QpUKkRGixXinaXwCDim8fZ
+ Zupb0uCK8Zd2HDnRnIXRuZqV9/j27U8vE0JJixpJrw==
+X-Google-Smtp-Source: APBJJlGB0oIGKDOPuaduZrWnO2FxLltxsvsGPi07T5wrz5pWNnb/vYvW5RkHh+acrIJO2WQbbmY7yUIzF0xFnt3F6Vo=
+X-Received: by 2002:a2e:9dcc:0:b0:2b9:3461:45ad with SMTP id
+ x12-20020a2e9dcc000000b002b9346145admr4853916ljj.20.1689661089433; Mon, 17
+ Jul 2023 23:18:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 0/5] arm64: dts: qcom: qrb5165-rb5: enable DP support
-Content-Language: en-GB
-To: Bjorn Andersson <andersson@kernel.org>
-References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
- <yjr3i54z4ddifn7y6ls65h65su54xtuzx3gvibw6ld4x27fd7x@ganmrdp4vzx7>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <yjr3i54z4ddifn7y6ls65h65su54xtuzx3gvibw6ld4x27fd7x@ganmrdp4vzx7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230516164416.11616-1-alex@shruggie.ro>
+ <CAOMZO5Br-nMxLSekZL5jLHNpyfOH_KgL1WUgAZ25wu86S2eYwA@mail.gmail.com>
+ <27105a1712cd7be1d3d36702873f5702999566e7.camel@gmail.com>
+In-Reply-To: <27105a1712cd7be1d3d36702873f5702999566e7.camel@gmail.com>
+From: Alexandru Ardelean <alex@shruggie.ro>
+Date: Tue, 18 Jul 2023 09:17:58 +0300
+Message-ID: <CAH3L5QqOUOR4t2b2r780Q7YcWUqDo_rvmLYt_VHKx1MszaNGNA@mail.gmail.com>
+Subject: Re: [PATCH] drm: adv7511: Fix low refresh rate register for ADV7533/5
+To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,41 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bogdan Togorean <bogdan.togorean@analog.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/07/2023 07:37, Bjorn Andersson wrote:
-> On Sun, Jul 09, 2023 at 07:19:21AM +0300, Dmitry Baryshkov wrote:
->> Implement DisplayPort support for the Qualcomm RB5 platform.
->>
->> Note: while testing this, I had link training issues with several
->> dongles with DP connectors. Other DisplayPort-USB-C dongles (with HDMI
->> or VGA connectors) work perfectly.
->>
->> Dependencies: [1]
->> Soft-dependencies: [2], [3]
->>
->> [1] https://lore.kernel.org/linux-arm-msm/20230515133643.3621656-1-bryan.odonoghue@linaro.org/
-> 
-> I'm not able to find a version of this series ready to be merged, can
-> you please help me find it?
+On Fri, Jul 14, 2023 at 10:48=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.co=
+m> wrote:
+>
+> Hey Alex,
 
-This = Bryan's? I have posted some (small) feedback regarding v8. You 
-also had issues with orientation switching bindings, etc. So there 
-should be v9.
+Hey Nuno :)
 
-> 
-> Regards,
-> Bjorn
+>
+> On Thu, 2023-07-13 at 17:19 -0300, Fabio Estevam wrote:
+> > On Wed, May 17, 2023 at 4:08=E2=80=AFAM Alexandru Ardelean <alex@shrugg=
+ie.ro> wrote:
+> > >
+> > > From: Bogdan Togorean <bogdan.togorean@analog.com>
+> > >
+> > > For ADV7533 and ADV7535 low refresh rate is selected using
+> > > bits [3:2] of 0x4a main register.
+> > > So depending on ADV model write 0xfb or 0x4a register.
+> > >
+> > > Signed-off-by: Bogdan Togorean <bogdan.togorean@analog.com>
+> > > Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
+> >
+> > Should this contain a Fixes tag so that it could be backported to
+> > stable kernels?
+>
+> Yeah, most likely yes... With that:
 
--- 
-With best wishes
-Dmitry
+I'll add one.
+I seem to forget some upstreaming routines, since I started doing less
+upstreaming.
 
+Thanks
+Alex
+
+>
+> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+>
+>
