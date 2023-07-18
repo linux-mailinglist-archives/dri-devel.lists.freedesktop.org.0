@@ -2,73 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD4E758E41
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F542758E4A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:01:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98D310E405;
-	Wed, 19 Jul 2023 07:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4B910E3FD;
+	Wed, 19 Jul 2023 07:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F82110E352
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 14:25:27 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id
- d9443c01a7336-1b8b4749013so45042775ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:25:27 -0700 (PDT)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC85610E362
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 14:32:45 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ 98e67ed59e1d1-26304be177fso3109477a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 07:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689690327; x=1692282327;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1689690765; x=1690295565;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RecCA8vAFQXqohj5TOPR9rOC0edp+q0SVjbjIuPLS2c=;
- b=Gw2kPAo65Kv8O7eN2R3imSArpp3sl+zwXomh/gx/glI7B/aOOkZRdJYBo9niQUcWUs
- cxiLx/U1ALQC33BgIDYK5UpG9UV4Tcv1X/R5w5EFtphYvzbXh8QfuimjDQp5y1k5sx+x
- zJGn3juBl49+O+GoqubCevXG3mUHDriuufo3xQDGHvtelOtA4Kuf/rhnI2HmvpV/S8Lo
- BZ9RaiGs37K4zzLSc1dGFAHFXDIr21RKayxi5q68ielyUMVpcNXPNz5NUI5I2X2p8n/A
- Vb9eyqxtFG/0qO4N8sqKhlPGD+OciG51JX4xiUu/6OrWkPXr0Pej73u3HkfbBGRqBsm1
- N49w==
+ bh=Vd+uFPWLpIQPh4SFHZpsAuGHKOc6yNS+XOp7OBcXgLA=;
+ b=kFrND2l0r68i9Cz0nyT/ldG+rz4laT0IoN22GEQ7FTv+W945MTU6v7/4hZytopwM7x
+ kEpF6ZhmeoGvUGI391B5uzn4MG9xUbwcqxEmAc94fFzocPtKTTxs15C9cpUt4nva116M
+ ykAN10CdGqGB4KABZyZJM8v9X0CYFxJcWJmFfMEgvgkmyFRvNS3nSeCrvwyTJNP9RFRd
+ vNJmiHdslPJ9EbZSO2GK9h6FWtulmcheaOacgsP8Uf+NBUGcpNM/ba1Ec+6942PVXxe+
+ WT7o9LkaYUeX8k/joLiAXMGHq1rnoV0Y8j6i0FLybKoknJfDKAJ/qJZd+5j9mL8/CV3c
+ R3cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689690327; x=1692282327;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1689690765; x=1690295565;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RecCA8vAFQXqohj5TOPR9rOC0edp+q0SVjbjIuPLS2c=;
- b=UZLVeCawc+zuanVHYYe7j33hg1aSwKhBnmHgH8qKzHb0gI0oO93qUJ4S2FhfmTb+hI
- 4MdBnWNrB+WMK5WkBFjSvwgs0ivxunz/RQSXKKjyrhOLMGC8R9jNrkXN5QSeh5oS/Ui8
- CvBuAyj/J0/Sj9pbwBAPZB2CHUmVqAfRyJCMl1xNcNX3A6VFMERz3FskyFg+WRGmb1G2
- wGXHXZqBfMK5kZKB42KGTJTE33BgLqNbBFaBl0BUDvackXuy0GGCn2IBygvvWjbjVM0d
- IRrlRhwneqEtkIcK9aGgKeT2Ab4nMjKsfzwXb5ZC9GVxn/+JkrpTUdCz9jGdS4kVj2yb
- ehLA==
-X-Gm-Message-State: ABy/qLaqO31nwQFiJZpl+zDp9clnlH/O/xYMVC9RR4lA7bb05ddJJQcw
- 6oX9ODIhozRKn85MymGqanY=
-X-Google-Smtp-Source: APBJJlGTNBTi10xRnLxTNvbAGliZrTe+7oB/h3WGBUx3s26ABAxe3uDi+qg37LchChzL4lbfZStnfg==
-X-Received: by 2002:a17:902:ce81:b0:1b9:e23a:f761 with SMTP id
- f1-20020a170902ce8100b001b9e23af761mr18256106plg.63.1689690327104; 
- Tue, 18 Jul 2023 07:25:27 -0700 (PDT)
-Received: from ?IPV6:2601:1c2:980:9ec0::2764? ([2601:1c2:980:9ec0::2764])
- by smtp.gmail.com with ESMTPSA id
- k10-20020a170902ba8a00b001b50cbc0b4fsm1952851pls.111.2023.07.18.07.25.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jul 2023 07:25:26 -0700 (PDT)
-Message-ID: <f52eb3fe-e141-5fc7-047f-185ff6e74735@gmail.com>
-Date: Tue, 18 Jul 2023 07:25:20 -0700
+ bh=Vd+uFPWLpIQPh4SFHZpsAuGHKOc6yNS+XOp7OBcXgLA=;
+ b=Z69omPnZF5tMuMau86LVhMXnbDpAoj+0GaTDO+SjffzJTCk1PIvOMyv4cgQvmVPWA7
+ zmi6/1y4LQir+qX0ZzMRVbEkBpSqTQTOF5DDNe9KTcTaMY07+hEph8NIsU/UZwR39qjk
+ c082WetBkt2LBeXsG5S/m+drofxOyZpGrxCIIE6Kj4pNKGTvVkDZA/xxwoDcI49Pqxd7
+ abG7jXwdLJ3lGT88oDkYvLtDMA53cuSz5kE2L4N2uMiF+yXe8A23fxWISRqFf7lG2aHv
+ wqZPRHN3LtuYVCMoi/6Y+PpF1Bkzm9acw30N9i2lTYkkC46XdlksZLUP/MuBNosvveeE
+ FP9w==
+X-Gm-Message-State: ABy/qLbPimrvaezaXBNKuF+6gRG3tZOZ7v6gjSGBVLMsTkP8cUqaffhO
+ CSl+re8xgp6cHNMpatzatOk3lG0Y3h6Aodum5jDhs4uf
+X-Google-Smtp-Source: APBJJlFp9W+n/8ZsZGaB7+VUEmcTeN+3V6qSGo7Ythk5tBFqT59lFadxEaPiu6K9POKDcMTnYujYOG1PkhLhVxKC48g=
+X-Received: by 2002:a17:90a:49ca:b0:262:df1d:8e16 with SMTP id
+ l10-20020a17090a49ca00b00262df1d8e16mr12457915pjm.33.1689690764808; Tue, 18
+ Jul 2023 07:32:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] TinyDRM display driver for Philips PCD8544 display
- controller
-Content-Language: en-US
-To: Viktar Simanenka <viteosen@gmail.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230718080727.323426-1-viteosen@gmail.com>
-From: Randy Dunlap <rd.dunlab@gmail.com>
-In-Reply-To: <20230718080727.323426-1-viteosen@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAF23GwBA6R45968qDv4v-r+sKicjojVifqGsEDh8=F9RVkJ1Hw@mail.gmail.com>
+ <CAJa=HVrHdoL3ZLUS-nmYXUxQd-MvLAG=NKm_rQsMnXObg8ZU-w@mail.gmail.com>
+In-Reply-To: <CAJa=HVrHdoL3ZLUS-nmYXUxQd-MvLAG=NKm_rQsMnXObg8ZU-w@mail.gmail.com>
+From: SUNIDHI DIXIT <sdikshit786@gmail.com>
+Date: Tue, 18 Jul 2023 20:02:32 +0530
+Message-ID: <CAF23GwB7fBmhZiV1-Anr=v_qV4AeAO7RKKfoQZ4QKCR21XqLDQ@mail.gmail.com>
+Subject: Re: [BUG]: Getting a unique connector name when identical displays
+ are connected
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000d117940600c3c93d"
 X-Mailman-Approved-At: Wed, 19 Jul 2023 07:01:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,21 +71,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/18/23 01:07, Viktar Simanenka wrote:
-> Support for common monochrome LCD displays based on PCD8544 (such as Nokia 5110/3310 LCD) SPI controlled displays.
-> 
-> Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
-> ---
->  .../bindings/display/philips,pcd8544.yaml     |  92 ++++
->  drivers/gpu/drm/tiny/Kconfig                  |  11 +
->  drivers/gpu/drm/tiny/pcd8544.c                | 506 ++++++++++++++++++
->  3 files changed, 609 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/philips,pcd8544.yaml
->  create mode 100644 drivers/gpu/drm/tiny/pcd8544.c
+--000000000000d117940600c3c93d
+Content-Type: text/plain; charset="UTF-8"
 
+I am waiting for response on this please guide.
 
-Why is there no change to the Makefile?
+On Sat, Jul 15, 2023, 7:50 PM Freelancer Intern <
+internfreelancer21@gmail.com> wrote:
 
--- 
-~Randy
+> I have also seen this case...
+>
+> On Thu, Jul 13, 2023, 1:14 PM SUNIDHI DIXIT <sdikshit786@gmail.com> wrote:
+>
+>> Hello all,
+>>
+>> This is regarding an issue I have encountered recently in drm. When I
+>> connect two identical HDMI display(with same resolution) there is no way to
+>> distinguish them uniquely.
+>>
+>> I looked into that and found that the connector id, and connector_type_id
+>> can be changed based on which connector appears first to the kernel.
+>>
+>> Is there any solution already implemented for this problem?
+>>
+>> I see following solution to this issue:
+>>
+>> Assigning a unique connector->name from drm_connector_init() and adding
+>> an api drmModeGetConnectorName().
+>>
+>> Please let me know what you think..
+>>
+>> Thanks in advance!
+>>
+>
 
+--000000000000d117940600c3c93d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">I am waiting for response on this please guide.</div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Ju=
+l 15, 2023, 7:50 PM Freelancer Intern &lt;<a href=3D"mailto:internfreelance=
+r21@gmail.com">internfreelancer21@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><div dir=3D"auto">I have also seen this case...=C2=
+=A0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Thu, Jul 13, 2023, 1:14 PM SUNIDHI DIXIT &lt;<a href=3D"mailto:sdiksh=
+it786@gmail.com" target=3D"_blank" rel=3D"noreferrer">sdikshit786@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">H=
+ello all,<div dir=3D"auto"><br></div><div dir=3D"auto">This is regarding an=
+ issue I have encountered recently in drm. When I connect two identical HDM=
+I display(with same resolution) there is no way to distinguish them uniquel=
+y.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I looked into that an=
+d found that the connector id, and connector_type_id can be changed based o=
+n which connector appears first to the kernel.</div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">Is there any solution already implemented for this p=
+roblem?</div><div dir=3D"auto"><br></div><div dir=3D"auto">I see following =
+solution to this=C2=A0issue:</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Assigning a unique connector-&gt;name from drm_connector_init() and ad=
+ding an api drmModeGetConnectorName().</div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">Please let me know what you think..</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">Thanks in advance!</div></div>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000d117940600c3c93d--
