@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D467475B336
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:42:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 255D075B33A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADAE610E15A;
-	Thu, 20 Jul 2023 15:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74B7F10E163;
+	Thu, 20 Jul 2023 15:42:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5CA10E152;
- Thu, 20 Jul 2023 15:42:22 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB4510E15D;
+ Thu, 20 Jul 2023 15:42:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ByvUMAyCa4KCBieuxV9sECi2gCa4Q4x4RSEsYuJmcC8FDLNwrCt28M4sV9ggRR6dV7YeryMUZiuVBpqzwPa60awjEB6sIiLzxYqTOLiLWXNSexNJBhMNhNZ2WWYvsaUPk6C5MZiBBxxZJIMeLltdy2Ww6odqwh1ml9bMSn6y+oTgQRWjW6/xiaPchY+bp8JoiWFqzI/4P4w1bcH/II5sLxqZnem0Xuug2EAqUTaIUf3NFQtD6voFVZQIAViGPFwrvaPu4Hv4xJqdQ9NGqAnCuh1xCoulpaQeTDqvRIJltA7zFvA4px6wDTL/72XPdMP9PZtU0BniVnIfk7lHgwwSXg==
+ b=fL17Q3VqUkjo+GQr3X1peWuyk2d3nfQk1RDbiYDBa5GQ6kD1vJIWjNFRVyG/GBhppbJilddoURlva9plAgm9N/O+CNYqfo2UWmYuYYb2oOnoZQDpQlg4WNUqFZH4SPH+E9e24XL8Xei4MAGABYkrVHtOV3TLI9LpCjemDgXO8yWzamBlbDJGMXqXh+Qo42ngiBSkQ8+7o40XtT4EpWXvc2yrbmouxijEjfuOF54m+FZ+JaPCihSormywLPxSaL65jU4wYtH6VIaCy/9V+6KdDYBqvgZVN1ietvsRed5fLQh7FvXVqOjya6IVAzBK70IFlJNDWrYUubJY9MWVk/+Z7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GdiUILM/nQcuoALqK4CGcMA91lbUzkpGmKFXl3R/JBA=;
- b=l3gToPVK4qRy6sh4fDY5ZEpZoMOI0AjoeDkHAAdaIu9M70e0Ct0oNWpHZXZh78L2paJZlfjkfftxfCz8xLYMSzhY9q8otIVmQTGMWTuUhGxQI/+4GS+Jn2FpDinbgixt+HA49Fh3eKaVnDCCo5aSe2ZbD5rXUppSuPhBELY5Jw77r9jXnuy7OLSlSGqrhFJC2ShNtrysLIOZU7x5icrhDxyhFSXfhY04KDrw8kA71RZG4FM+cwsn5IvB/RgHWRq4+aThgS4PGHGwuO2avxOwclppcpdcHxzGjmg2GT7W2mQ1TJQX8RmIjBJelXObHdfIgf4XxXJ8ua99+4yajwYlxQ==
+ bh=pm4E2+hW5eTc5xMhIXTVAYIwvZHWqYMYPPXcyOpVT5Q=;
+ b=avPsmOTjPjnQICWAD5+JNNTcmpKEdQrQYPW5OHDD6/tqStRsPnmaCtiL87jhVaBwXVPygLBAiNG8d92WM2wzzRmPPGmRrng706v6ZEfu+ySpIl5eRutUD3JB1mzQCgCI/elIzhi6uJewkdjwosnlwPshfAZqG+cDBX43nF5zVfqcSk5/8AY9AicDkBU8AmmcDNS7okKM3Pe3ttvDeL9fvD6uWItDmjA8LGGa7236DLhi6t2hFYnfabpUVdRsh2PxygX6cxwSQtRlgSjdXrLWeucW0VBQK+Kl8JATt05z5pK6mtDv36jw+pwwGDSRQ9NUXgGz2t6wXvxnOUcys/9agg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GdiUILM/nQcuoALqK4CGcMA91lbUzkpGmKFXl3R/JBA=;
- b=n3GNqAqDlq2Xu9VXxPLhSudyK7DrjFE8CaEWd6YrEHG8Zm8nS8aIHREUDRn9iteJ6cdhtsmXWgpZvxQG5m41ou8yVVhOQS1VK2VKf+gQt55gFKpwR3bV0M6wz3wqqiR6HSC280DU7a8kjQRMOkDecSyDkSQ2ja7OWwEYrkfwxog=
-Received: from MW4PR03CA0317.namprd03.prod.outlook.com (2603:10b6:303:dd::22)
- by CYYPR12MB8751.namprd12.prod.outlook.com (2603:10b6:930:ba::19)
+ bh=pm4E2+hW5eTc5xMhIXTVAYIwvZHWqYMYPPXcyOpVT5Q=;
+ b=BCfDpAQx7ujYZWCQp2+X6WGon7Tdlytb1McqC/oQaJEphojcCWx0bv81DxfXBB1ttT6pJJ1cn7X3Te2fgCtEzRx0txy3hV7XF63KmBSSXGYVxVX0mz7jTJFCRx1dJzvmSB754mTm5W8F2z2cG65IpfHDrwAFDe6jhfa8TG2CDu4=
+Received: from BN9PR03CA0558.namprd03.prod.outlook.com (2603:10b6:408:138::23)
+ by CH0PR12MB8529.namprd12.prod.outlook.com (2603:10b6:610:18d::5)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Thu, 20 Jul
- 2023 15:42:19 +0000
-Received: from CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:dd:cafe::6d) by MW4PR03CA0317.outlook.office365.com
- (2603:10b6:303:dd::22) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 15:42:40 +0000
+Received: from BN8NAM11FT112.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:138:cafe::da) by BN9PR03CA0558.outlook.office365.com
+ (2603:10b6:408:138::23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28 via Frontend
- Transport; Thu, 20 Jul 2023 15:42:19 +0000
+ Transport; Thu, 20 Jul 2023 15:42:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,18 +45,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT057.mail.protection.outlook.com (10.13.174.205) with Microsoft SMTP
+ BN8NAM11FT112.mail.protection.outlook.com (10.13.176.210) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6609.28 via Frontend Transport; Thu, 20 Jul 2023 15:42:18 +0000
+ 15.20.6609.25 via Frontend Transport; Thu, 20 Jul 2023 15:42:40 +0000
 Received: from SITE-L-T34-2.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 20 Jul
- 2023 10:42:15 -0500
+ 2023 10:42:37 -0500
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: <stable@vger.kernel.org>
-Subject: [PATCH 6.1] drm/client: Send hotplug event after registering a client
-Date: Mon, 17 Jul 2023 23:22:47 -0500
-Message-ID: <20230718042247.80514-1-mario.limonciello@amd.com>
+Subject: [PATCH 6.4] drm/client: Send hotplug event after registering a client
+Date: Mon, 17 Jul 2023 23:23:26 -0500
+Message-ID: <20230718042326.80531-1-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -66,26 +66,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT057:EE_|CYYPR12MB8751:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ffcf219-dd15-4ed2-f45f-08db8937e6c2
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT112:EE_|CH0PR12MB8529:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3eeaa6d-a90b-48d1-4d80-08db8937f389
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S7ud+dNEhrqJaEsUigSY1/wdOf7SSIvW5NaGfVcpALIbEHQRVmoVKD9MqRyN4E54jTNxrzfpFo2BKMYYr+k1TzZIQpr3xeiM1QtePYTJme/nkyau61IVGJbchtfDw8T7LZDCrGKdHOkYIkXpZaak2cJPVvhw1d+DRx73JS45y7OzQfYfmBu/HOaGnPWwBEKw3+qjKHeNFYROcT6RWceWsMQl0SIRuSTCoUefu0Je1KiiK0/HIogBkUeSRqV+XD1mIfG37dm+HkKCIjRUtRtKTKNkokd3lVjI1fHFM//mKCXmuN9kAzsnjz5ifa4SYaUX63T+zSFQ+7tn5bcEzE0LRndagMObEKR3NQQGVud0zY8OLV1QXXlkuOHJsCQAVd2t3QS3jFu62C4PFzWC8KmJJ3UySSB9z2OkaWW5LMKhsa+mlX7aUundC0TG0GW3LgFkltnZ5fMnA5M+BEXwY6uUWgW4jImlLsdtOwVs5ICmXbgTLsdB5nJFbzTwy5+mBr5uLKV8Bu67ztQEizKaQejL2sfXFHX84EI0AdFSSErJqO/bY1iu4TqIWpSjc/mf7/a4zjVEJl3cth67s9J5IsSha3e3b9b7rNaWFK1PcF0nzsJKd7JrrKQATTdlpuGjI5oM6kxHIiFflk2obk4MTEkbPggoUP9ma4r+IlNu6AhdbS4jPdUrHMjv6zCWlIzmm1mD3GqGBfunMIBOq5BsONk+MTBg8sMJCWW8vRo6aoWRCjkLt1JxP2jedPTS9n96s7bymPkA93e/jwvdhpBzKLI7RAPqohX3EFAGhCRruISEecU=
+X-Microsoft-Antispam-Message-Info: iVk8hyt2nmP+TsAHLNV08Bz+fM6CWYuE98bFIxXF47AHyZtrEAM133P0bgdeZfHuRc7HhHV8PsgvW4pqKeXGUSFhoIKZcj3xCTvNnDZNwHZs0eSv8bjV8V/A4ZgOznAAuG5fURhcLbsgD3attINAgtdECDJg+gIslFNKAwCzl/gPRDFnyAETC8sbAzDZqPVfLZfNMH/0Vu8LQtOpPqt/7+cQsvreoo4PCoV9AII2d2p24VOnkbtis2ECiYxXjiUTqj+XndPBf0ofzyxnceS/ZXunpv6ELroE35a0iGZhVYFw0QCi7wRnix7OIb5ypJ7gmO/nTqfYcISEwh8HyWJ8bFSuvoMACVDiYBu6g9ZJZJX93p7cR9PlblumdqWjuUWB8CWPDXCyd65T07vDGBfaxhpnVucQ87XVfYn032wQEFOSRzpudY0OXz45gO4btmaPQ2rFmjzHNFd4ogQKnhG9HpgmIMix9nByWxkh2/wT0Vc8VQ3Gwl/No1xAu6Ponx18cMbdsweg72AdeImOyGrExEuuvQy0Z9p3sKdB+rHsC9t6LgUFNNmnz4IiV+K/FS0tnujwFmfeofe2MFIQGpXMag7Z3gUVw9QFH23MiBAha/hXNMYCXP5Qr4VkPyWZMUmEXqWnBHIH2mkN+cDCr7O3pIKAbNIcACdjWpJuGy2ZqjS2tCH8Qws9ULxyddDzJcUTaE7SS3rkPv6CVgxwnPr6wO/ujydeSMVv6yJY+eI2uc+2QkjYvi7/xeOo692k90RKviYLF2s9YkCmp1q1o3Jy8gxRDEUERz9EiF5iBhQlAnI=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(346002)(396003)(376002)(136003)(82310400008)(451199021)(46966006)(36840700001)(40470700004)(70206006)(70586007)(40460700003)(4326008)(316002)(6916009)(6666004)(7696005)(45080400002)(81166007)(82740400003)(356005)(47076005)(26005)(336012)(66574015)(966005)(2616005)(426003)(186003)(1076003)(36860700001)(16526019)(83380400001)(478600001)(2906002)(36756003)(86362001)(40480700001)(54906003)(44832011)(41300700001)(5660300002)(7406005)(7416002)(8936002)(8676002)(36900700001);
+ SFS:(13230028)(4636009)(346002)(396003)(136003)(376002)(39860400002)(82310400008)(451199021)(46966006)(36840700001)(40470700004)(54906003)(478600001)(966005)(7696005)(6666004)(40480700001)(36860700001)(36756003)(86362001)(83380400001)(40460700003)(426003)(2906002)(30864003)(4326008)(336012)(2616005)(16526019)(186003)(1076003)(82740400003)(81166007)(316002)(356005)(26005)(6916009)(70206006)(7406005)(70586007)(8936002)(44832011)(47076005)(7416002)(8676002)(66574015)(41300700001)(5660300002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 15:42:18.9393 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ffcf219-dd15-4ed2-f45f-08db8937e6c2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 15:42:40.4500 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3eeaa6d-a90b-48d1-4d80-08db8937f389
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT112.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8751
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8529
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,7 +111,7 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
  Perttunen <mperttunen@nvidia.com>, linux-arm-kernel@lists.infradead.org,
  freedreno@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- alexandru.gagniuc@hp.com, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -210,35 +210,22 @@ Link: https://patchwork.freedesktop.org/patch/msgid/20230710091029.27503-1-tzimm
 (cherry picked from commit 27655b9bb9f0d9c32b8de8bec649b676898c52d5)
 Dropped changes to drivers/gpu/drm/armada/armada_fbdev.c as
 174c3c38e3a2 drm/armada: Initialize fbdev DRM client
-was introduced in 6.5-rc1.
-
-Dropped changes to exynos, msm, omapdrm, radeon, tegra drivers
-as missing code these commits introduced:
-
-99286486d674 drm/exynos: Initialize fbdev DRM client
-841ef552b141 drm/msm: Initialize fbdev DRM client
-9e69bcd88e45 drm/omapdrm: Implement fbdev emulation as in-kernel client
-e317a69fe891 drm/radeon: Implement client-based fbdev emulation
-9b926bcf2636 drm/radeon: Only build fbdev if DRM_FBDEV_EMULATION is set
-25dda38e0b07 drm/tegra: Initialize fbdev DRM client
-8f1aaccb04b7 drm/gma500: Implement client-based fbdev emulation
-b79fe9abd58b drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers
-
-Move code for drm-fbdev-generic.c to matching file in 6.1.y because
-these commits haven't happened in 6.1.y.
-8ab59da26bc0 drm/fb-helper: Move generic fbdev emulation into separate source file
-b9c93f4ec737 drm/fbdev-generic: Rename symbols
-
-Cc: alexandru.gagniuc@hp.com
-Link: https://lore.kernel.org/stable/SJ0PR84MB20882EEA1ABB36F60E845E378F5AA@SJ0PR84MB2088.NAMPRD84.PROD.OUTLOOK.COM/
+was introduced in 6.5-rc1
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/drm/drm_client.c    | 21 +++++++++++++++++++++
- drivers/gpu/drm/drm_fb_helper.c |  4 ----
- 2 files changed, 21 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_client.c              | 21 +++++++++++++++++++++
+ drivers/gpu/drm/drm_fbdev_dma.c           |  4 ----
+ drivers/gpu/drm/drm_fbdev_generic.c       |  4 ----
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c |  4 ----
+ drivers/gpu/drm/gma500/fbdev.c            |  4 ----
+ drivers/gpu/drm/msm/msm_fbdev.c           |  4 ----
+ drivers/gpu/drm/omapdrm/omap_fbdev.c      |  4 ----
+ drivers/gpu/drm/radeon/radeon_fbdev.c     |  4 ----
+ drivers/gpu/drm/tegra/fbdev.c             |  4 ----
+ 9 files changed, 21 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 2b230b4d6942..dcbeeb68ca64 100644
+index f6292ba0e6fc..037e36f2049c 100644
 --- a/drivers/gpu/drm/drm_client.c
 +++ b/drivers/gpu/drm/drm_client.c
 @@ -122,13 +122,34 @@ EXPORT_SYMBOL(drm_client_init);
@@ -276,21 +263,126 @@ index 2b230b4d6942..dcbeeb68ca64 100644
  	mutex_unlock(&dev->clientlist_mutex);
  }
  EXPORT_SYMBOL(drm_client_register);
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 76e46713b2f0..442746d9777a 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2634,10 +2634,6 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
- 		preferred_bpp = 32;
- 	fb_helper->preferred_bpp = preferred_bpp;
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index 728deffcc0d9..ce85b30d585e 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -253,10 +253,6 @@ void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp)
+ 		goto err_drm_client_init;
+ 	}
  
--	ret = drm_fbdev_client_hotplug(&fb_helper->client);
+-	ret = drm_fbdev_dma_client_hotplug(&fb_helper->client);
 -	if (ret)
 -		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
 -
  	drm_client_register(&fb_helper->client);
- }
- EXPORT_SYMBOL(drm_fbdev_generic_setup);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index 8e5148bf40bb..7e65be35477e 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -340,10 +340,6 @@ void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferred_bpp)
+ 		goto err_drm_client_init;
+ 	}
+ 
+-	ret = drm_fbdev_generic_client_hotplug(&fb_helper->client);
+-	if (ret)
+-		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&fb_helper->client);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+index ea4b3d248aac..cc98168a7a5e 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+@@ -216,10 +216,6 @@ void exynos_drm_fbdev_setup(struct drm_device *dev)
+ 	if (ret)
+ 		goto err_drm_client_init;
+ 
+-	ret = exynos_drm_fbdev_client_hotplug(&fb_helper->client);
+-	if (ret)
+-		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&fb_helper->client);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 62287407e717..ba193c5bb35e 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -330,10 +330,6 @@ void psb_fbdev_setup(struct drm_psb_private *dev_priv)
+ 		goto err_drm_fb_helper_unprepare;
+ 	}
+ 
+-	ret = psb_fbdev_client_hotplug(&fb_helper->client);
+-	if (ret)
+-		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&fb_helper->client);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
+index 2ebc86381e1c..c082646c3c0b 100644
+--- a/drivers/gpu/drm/msm/msm_fbdev.c
++++ b/drivers/gpu/drm/msm/msm_fbdev.c
+@@ -227,10 +227,6 @@ void msm_fbdev_setup(struct drm_device *dev)
+ 		goto err_drm_fb_helper_unprepare;
+ 	}
+ 
+-	ret = msm_fbdev_client_hotplug(&helper->client);
+-	if (ret)
+-		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&helper->client);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+index b950e93b3846..02cec22b9749 100644
+--- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
++++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+@@ -323,10 +323,6 @@ void omap_fbdev_setup(struct drm_device *dev)
+ 
+ 	INIT_WORK(&fbdev->work, pan_worker);
+ 
+-	ret = omap_fbdev_client_hotplug(&helper->client);
+-	if (ret)
+-		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&helper->client);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index 8f6c3aef0962..8b93e6e5d2ff 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -386,10 +386,6 @@ void radeon_fbdev_setup(struct radeon_device *rdev)
+ 		goto err_drm_client_init;
+ 	}
+ 
+-	ret = radeon_fbdev_client_hotplug(&fb_helper->client);
+-	if (ret)
+-		drm_dbg_kms(rdev->ddev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&fb_helper->client);
+ 
+ 	return;
+diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
+index dca9eccae466..d527b0b9de1d 100644
+--- a/drivers/gpu/drm/tegra/fbdev.c
++++ b/drivers/gpu/drm/tegra/fbdev.c
+@@ -227,10 +227,6 @@ void tegra_fbdev_setup(struct drm_device *dev)
+ 	if (ret)
+ 		goto err_drm_client_init;
+ 
+-	ret = tegra_fbdev_client_hotplug(&helper->client);
+-	if (ret)
+-		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+-
+ 	drm_client_register(&helper->client);
+ 
+ 	return;
 -- 
 2.34.1
 
