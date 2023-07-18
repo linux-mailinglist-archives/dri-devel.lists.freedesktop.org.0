@@ -1,78 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E357587DF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 00:00:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 518AF7587E4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 00:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4182610E3D5;
-	Tue, 18 Jul 2023 22:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0D010E3C0;
+	Tue, 18 Jul 2023 22:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C45910E3C0;
- Tue, 18 Jul 2023 22:00:53 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36IM001t022216; Tue, 18 Jul 2023 22:00:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ymgd4/Bkgc7xtsP6rTTr4IPWNwHMeiTT1MxkMjb0zk4=;
- b=Zbo1b7yuDua5f52VhZaWotK7jfjuPZsk/ful4w/GCv6q2ePWbMfBtYMpmV3PoX74AHcI
- R9k17kfzZz3fLTYzHelbZLsYABURTZFJPL7GVz4yuADhtkoitLCm6Fq4jSnNFE/OltA1
- shgkKkfGfhHOnLW68uzF52d+g53xejxTj6WykE+TAmcFt7ER4jKefLnvFrP5UDmv8CU0
- kej07sQUYS/7l85LxSSmvX8qJ4SQLaEGV2lteYALz/FFYV+c0ttLd2vZXE4OSG23dHhP
- Uhe7+fbt7IjqbyszQtg0xFDKn59N3+lnno4EeSipESIMoj9ycWUDVc/OERuPz0rKU3Q5 ew== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rwnrrhwgd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jul 2023 22:00:43 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36IM0hKD002020
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jul 2023 22:00:43 GMT
-Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 18 Jul
- 2023 15:00:39 -0700
-Message-ID: <c2d27415-f93b-e2db-fdbe-20c43120c4bb@quicinc.com>
-Date: Tue, 18 Jul 2023 15:00:38 -0700
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC1310E3C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 22:01:05 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id
+ d9443c01a7336-1b8ad9eede0so50051535ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 15:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689717664; x=1692309664;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=/DBv5NGK1dmc+CZMq0/WXS3utH3EmBQl9zIKDmjQ1i4=;
+ b=cathwXRCdEL7wvuiZ7bcMAHF2YkxTm1Pa99hNgy2x+3oEKy8vP5p1pu9MijkOsOxyc
+ jVjO8T1YTkH454Bng4g8CC+ThLmAff8Zub0Wh44Fl8hmA3B+pz1cCE8AhFvDJSoUkJID
+ NS7KV1XDtpxLbe2HWUcgGi+EM6yjEGw6Sq2n/Qnwk0U558oV9/CsEMgkI+jF8M4J14Bl
+ j/CISxZtgmOZEeF8ngbj99zwzx/DpIifrqP3yzGJWnNbKrjb9QyRTvPr1aPJ88+oJ9jy
+ batIZ/8swsAtixDHJfvcm05Qd0arLM9+ER1NC94CBHpMmwXt1e8Hdw90O3brBFBThqFk
+ WTSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689717664; x=1692309664;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/DBv5NGK1dmc+CZMq0/WXS3utH3EmBQl9zIKDmjQ1i4=;
+ b=D2viw4bE8GCBi+45u0GP6z68eh/Yxl+bQW3u45K+P1rqw1bH3+ubQ4Qv/kAirqaEaL
+ r4EpPsKambkb3ougfyXbCAYK62Svej11a26814R6+AxtU/gDrcUfSLTEHfVxz0JQg9bI
+ ihwhtyssnU9Inft5wg5Dg8ETrbr3EinXw40gCU5TebknZaUeAsA2eURlZ4QzhBfMDlTH
+ fw0Lt+bx40fT/ED5YqWNJB8ghctPzUYQGgrXuuvJEpEUjn+jDBiPLe6MA+y1Moi6/tT8
+ TiSYEgs4hEQBydyhCcnoM54anMN/FfjCz3hY6HUEFC+50LLf4d2XbxfK795YY0xF1GIf
+ o1aw==
+X-Gm-Message-State: ABy/qLYn7Detja9S7ud08czxU9eTBM6dIscMgvMY7nNHlLEYfgrBKUAu
+ cZoO3wq38cvHIIlIzOu9uTM=
+X-Google-Smtp-Source: APBJJlEKmijXIQPxNbeLXXqgtsMDd/YUFQr0MtJ3gF/quDqVxbtlCH7F50lGttR5T6rSx/zqeT1Vfg==
+X-Received: by 2002:a17:902:768c:b0:1ba:ff05:d8b1 with SMTP id
+ m12-20020a170902768c00b001baff05d8b1mr982129pll.19.1689717664188; 
+ Tue, 18 Jul 2023 15:01:04 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:fbd8])
+ by smtp.gmail.com with ESMTPSA id
+ g15-20020a1709029f8f00b001b8b2a6c4a4sm2354458plq.172.2023.07.18.15.01.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jul 2023 15:01:03 -0700 (PDT)
+Date: Tue, 18 Jul 2023 12:01:02 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
+ 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
+ mechanism)
+Message-ID: <ZLcLnoAoJmQ9WTuM@slm.duckdns.org>
+References: <20230511181931.869812-1-tj@kernel.org>
+ <20230511181931.869812-7-tj@kernel.org>
+ <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
+ <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
+ <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
+ <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+ <ZK30CR196rs-OWLq@slm.duckdns.org>
+ <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
+ <ZLXIvXBvhsnL-ik_@slm.duckdns.org>
+ <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/13] drm/msm/dpu: remove IS_ERR_OR_NULL for
- dpu_hw_intr_init() error handling
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230707231251.3849701-1-dmitry.baryshkov@linaro.org>
- <20230707231251.3849701-3-dmitry.baryshkov@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20230707231251.3849701-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hZpSseyhgr00jQUYaJjfhXnI_QN2Hk9v
-X-Proofpoint-ORIG-GUID: hZpSseyhgr00jQUYaJjfhXnI_QN2Hk9v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-18_17,2023-07-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- malwarescore=0 suspectscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307180199
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,47 +83,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-rtc@vger.kernel.org,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
+ kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
+ <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
+On Tue, Jul 18, 2023 at 11:54:58AM +0200, Geert Uytterhoeven wrote:
+> I gave it a try on a system with an 800 MHz Cortex A9, only to discover
+> it makes no difference, as that machine has 1600 BogoMIPS:
 
-On 7/7/2023 4:12 PM, Dmitry Baryshkov wrote:
-> Using IS_ERR_OR_NULL() together with PTR_ERR() is a typical mistake. If
-> the value is NULL, then the function will return 0 instead of a proper
-> return code. Replace IS_ERR_OR_NULL() with IS_ERR() in the
-> dpu_hw_intr_init() error check.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Oops.
 
-Hi Dmitry,
+> workqueue: blk_mq_run_work_fn hogged CPU for >10000us 4 times,
+> consider switching to WQ_UNBOUND
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+It could be that we actually want to switch to UNBOUND for some reports but
+the above triggering most likely indicates that the threshold is too
+aggressive.
 
-Thanks,
+> Artificially low BogoMIPS numbers only happen on systems that have
+> the related timers (Cortex A7/A15 and later, Cortex A9 MPCore,
+> and arm64).
 
-Jessica Zhang
+Ah, I see. Thanks for the explanation.
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index e7ac02e92f42..85b8c9cc99ef 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1096,7 +1096,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   	}
->   
->   	dpu_kms->hw_intr = dpu_hw_intr_init(dpu_kms->mmio, dpu_kms->catalog);
-> -	if (IS_ERR_OR_NULL(dpu_kms->hw_intr)) {
-> +	if (IS_ERR(dpu_kms->hw_intr)) {
->   		rc = PTR_ERR(dpu_kms->hw_intr);
->   		DPU_ERROR("hw_intr init failed: %d\n", rc);
->   		dpu_kms->hw_intr = NULL;
-> -- 
-> 2.39.2
-> 
+> I will test on more systems, but that will probably not happen until
+> next week...
+
+Thanks, really appreciate it. Can you try the following instead when you
+have time? I just pushed up the lower boundary to 4000 MIPS. The scaling is
+still capped at 1s.
+
+From 8555cbd4b22e5f85eb2bdcb84fd1d1f519a0a0d3 Mon Sep 17 00:00:00 2001
+From: Tejun Heo <tj@kernel.org>
+Date: Mon, 17 Jul 2023 12:50:02 -1000
+Subject: [PATCH] workqueue: Scale up wq_cpu_intensive_thresh_us if BogoMIPS is
+ below 4000
+
+wq_cpu_intensive_thresh_us is used to detect CPU-hogging per-cpu work items.
+Once detected, they're excluded from concurrency management to prevent them
+from blocking other per-cpu work items. If CONFIG_WQ_CPU_INTENSIVE_REPORT is
+enabled, repeat offenders are also reported so that the code can be updated.
+
+The default threshold is 10ms which is long enough to do fair bit of work on
+modern CPUs while short enough to be usually not noticeable. This
+unfortunately leads to a lot of, arguable spurious, detections on very slow
+CPUs. Using the same threshold across CPUs whose performance levels may be
+apart by multiple levels of magnitude doesn't make whole lot of sense.
+
+This patch scales up wq_cpu_intensive_thresh_us upto 1 second when BogoMIPS
+is below 4000. This is obviously very inaccurate but it doesn't have to be
+accurate to be useful. The mechanism is still useful when the threshold is
+fully scaled up and the benefits of reports are usually shared with everyone
+regardless of who's reporting, so as long as there are sufficient number of
+fast machines reporting, we don't lose much.
+
+Some (or is it all?) ARM CPUs systemtically report significantly lower
+BogoMIPS. While this doesn't break anything, given how widespread ARM CPUs
+are, it's at least a missed opportunity and it probably would be a good idea
+to teach workqueue about it.
+
+Signed-off-by: Tejun Heo <tj@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ kernel/workqueue.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index 02a8f402eeb5..0d7a3d29762f 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -52,6 +52,7 @@
+ #include <linux/sched/debug.h>
+ #include <linux/nmi.h>
+ #include <linux/kvm_para.h>
++#include <linux/delay.h>
+ 
+ #include "workqueue_internal.h"
+ 
+@@ -338,8 +339,10 @@ static cpumask_var_t *wq_numa_possible_cpumask;
+  * Per-cpu work items which run for longer than the following threshold are
+  * automatically considered CPU intensive and excluded from concurrency
+  * management to prevent them from noticeably delaying other per-cpu work items.
++ * ULONG_MAX indicates that the user hasn't overridden it with a boot parameter.
++ * The actual value is initialized in wq_cpu_intensive_thresh_init().
+  */
+-static unsigned long wq_cpu_intensive_thresh_us = 10000;
++static unsigned long wq_cpu_intensive_thresh_us = ULONG_MAX;
+ module_param_named(cpu_intensive_thresh_us, wq_cpu_intensive_thresh_us, ulong, 0644);
+ 
+ static bool wq_disable_numa;
+@@ -6513,6 +6516,42 @@ void __init workqueue_init_early(void)
+ 	       !system_freezable_power_efficient_wq);
+ }
+ 
++static void __init wq_cpu_intensive_thresh_init(void)
++{
++	unsigned long thresh;
++	unsigned long mips;
++
++	/* if the user set it to a specific value, keep it */
++	if (wq_cpu_intensive_thresh_us != ULONG_MAX)
++		return;
++
++	/*
++	 * The default of 10ms is derived from the fact that most modern (as of
++	 * 2023) processors can do a lot in 10ms and that it's just below what
++	 * most consider human-perceivable. However, the kernel also runs on a
++	 * lot slower CPUs including microcontrollers where the threshold is way
++	 * too low.
++	 *
++	 * Let's scale up the threshold upto 1 second if BogoMips is below 4000.
++	 * This is by no means accurate but it doesn't have to be. The mechanism
++	 * is still useful even when the threshold is fully scaled up. Also, as
++	 * the reports would usually be applicable to everyone, some machines
++	 * operating on longer thresholds won't significantly diminish their
++	 * usefulness.
++	 */
++	thresh = 10 * USEC_PER_MSEC;
++
++	/* see init/calibrate.c for lpj -> BogoMIPS calculation */
++	mips = max_t(unsigned long, loops_per_jiffy / 500000 * HZ, 1);
++	if (mips < 4000)
++		thresh = min_t(unsigned long, thresh * 4000 / mips, USEC_PER_SEC);
++
++	pr_debug("wq_cpu_intensive_thresh: lpj=%lu mips=%lu thresh_us=%lu\n",
++		 loops_per_jiffy, mips, thresh);
++
++	wq_cpu_intensive_thresh_us = thresh;
++}
++
+ /**
+  * workqueue_init - bring workqueue subsystem fully online
+  *
+@@ -6528,6 +6567,8 @@ void __init workqueue_init(void)
+ 	struct worker_pool *pool;
+ 	int cpu, bkt;
+ 
++	wq_cpu_intensive_thresh_init();
++
+ 	/*
+ 	 * It'd be simpler to initialize NUMA in workqueue_init_early() but
+ 	 * CPU to node mapping may not be available that early on some
+-- 
+2.41.0
+
