@@ -1,67 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A117570DF
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 02:28:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 907087570E2
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 02:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF3B10E2BE;
-	Tue, 18 Jul 2023 00:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E801310E2BB;
+	Tue, 18 Jul 2023 00:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D39CC10E2BB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 00:28:04 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1bb119be881so34098015ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jul 2023 17:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689640084; x=1692232084;
- h=content-disposition:mime-version:subject:to:date:from:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gsybScX3TAasEPJeiUR0GnmS4s7meRN3K9Y2WCrLayY=;
- b=GYPcZnb4RnvOvNBuxEiXWOH2d4Wdug96h8EVX+GOEAgH8Z2WuqXUnvTdvjg8INdLVK
- DBM6NmczPdhvkoEVgE66kquSab4fELL0UgX9eLK3jBDLcso9kc0kfbYSI3rTcAEJ3QUy
- SmCoO6rPHbwElTJ7wYlf3BAZrK3VhWaiMlcQYwMtHivHPgIZXc/XTyoNeDOsyH5GOnxQ
- sjCP1eAzutGHf8lN59Yz1O/JG9GRHP9SnMMYsSu1sdnwHcK+XZl2DsZ31qXrtxnuXZxz
- /t2hKkm+PnqrDgAoZ+yd+9HBftSE5GVA5rMczzXFjjGU8WsoQTDmwLcGW8AvRgsfSYfg
- j/QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689640084; x=1692232084;
- h=content-disposition:mime-version:subject:to:date:from:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gsybScX3TAasEPJeiUR0GnmS4s7meRN3K9Y2WCrLayY=;
- b=Cp++3de8I5ALoghNlhPNNAQME5KJHQrhEgmIVw3z1uEJSOVuSoBwYEDjYO5ZGfx6ok
- ri7q54GL81YQx84ropgLOYdR684Voyuk71p6OzPc1ZB4k65ro7IKrhG+yTHk9x/NrUPY
- lO5J47z2af2H9noZ0+HmQ3QKXsdYSwoH3FVgtgoJDVpRJqDFbgdSRakSv504WLn8R4PI
- 88etY/oE5gP+4h2gtqZTpBemTRwN7Gbv0DCU/U5h+ifLAOunKN4wly87y5hCGTyRHLJ/
- zV7c35Ah07Qy+5s1U84d5SkzQaaOYeq5r521lteT9e4DhvMX22QcoNv2+J8/VR/M8QSS
- HGfg==
-X-Gm-Message-State: ABy/qLY0K4MIjfVoWg6aqqO1zpzteoKyR1MrMs6kwEox623WwRq3/FU6
- KaA+qh9da+lOSLLOqDvKUw8=
-X-Google-Smtp-Source: APBJJlGcs3hJOrf1f/Cd0vMFz6Oee0pgYh+6JNHCOG9asryiPrdQHqTUaqPDEil1JR7+YBoerQtMgg==
-X-Received: by 2002:a17:902:e805:b0:1ab:11c8:777a with SMTP id
- u5-20020a170902e80500b001ab11c8777amr16225639plg.13.1689640083776; 
- Mon, 17 Jul 2023 17:28:03 -0700 (PDT)
-Received: from sie-luc. ([1.85.36.133]) by smtp.gmail.com with ESMTPSA id
- n10-20020a170902e54a00b001b86e17ecacsm452089plf.131.2023.07.17.17.28.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Jul 2023 17:28:03 -0700 (PDT)
-Message-ID: <64b5dc93.170a0220.243d5.1d63@mx.google.com>
-X-Google-Original-Message-ID: <20230718002756.GA2558@sie-luc.>
-From: Luc Ma <onion0709@gmail.com>
-X-Google-Original-From: Luc Ma <luc@sietium.com>
-Date: Tue, 18 Jul 2023 08:27:56 +0800
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- onion0709@gmail.com
-Subject: [PATCH] dma-buf: remove unintended hyphen in the sysfs path
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1AE810E2BB;
+ Tue, 18 Jul 2023 00:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689640118; x=1721176118;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gLggTVJAkctyJjeZE88PhBO2TEV7EcdnHGLiNiQfr3Y=;
+ b=juk6bN4Uw/W6jo1/VcmmNAsw0obAwhLFLIGsTd3SPqkYykekO52k8fHM
+ hdfu6O+e6zZIxW2ekn2UgEb04eDy6XO74BhLB7QRccVgv//zsQ54Puior
+ Dx4pF/iKcnuRd/Gd4Biexa7Kh97wGpHDCS2t7hqVFLhO/CUEi9dd7bT0S
+ xDuCtk1FKoFfA1ugg7ZCg0eOgbTVmhxtc6OhyV+nIK086a+6WjsTSdHi9
+ FLev8n5uP+tlbUjv6RUXfwJ16t8pet8P0+LUPgcEpjaM3m5s0ngfdQho7
+ ZjBQYyiT9YWnPXZYavQIbnPP+l6viwQ8IDqfCs2qV8ymtYqr3R0P0FwM3 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="368713924"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="368713924"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 17:28:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="970041076"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="970041076"
+Received: from ygaydayc-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.249.35.242])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2023 17:28:35 -0700
+Date: Tue, 18 Jul 2023 02:28:26 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v4 2/6] drm/i915/gt: Ensure memory quiesced before
+ invalidation
+Message-ID: <ZLXcnTS1oN3Rh1pU@ashyti-mobl2.lan>
+References: <20230717173059.422892-1-andi.shyti@linux.intel.com>
+ <20230717173059.422892-3-andi.shyti@linux.intel.com>
+ <20230717175425.GB138014@mdroper-desk1.amr.corp.intel.com>
+ <20230717203103.GG138014@mdroper-desk1.amr.corp.intel.com>
+ <ZLW4GXM17rdep1Ex@ashyti-mobl2.lan>
+ <20230717220018.GH138014@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230717220018.GH138014@mdroper-desk1.amr.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,29 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Luc Ma <luc@sietium.com>
+Hi Matt,
 
-Signed-off-by: Luc Ma <luc@sietium.com>
----
- drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > +	/*
+> > > > > +	 * Aux invalidations on Aux CCS platforms require
+> > > > > +	 * memory traffic is quiesced prior.
+> > > > > +	 */
+> > > > > +	if ((mode & EMIT_INVALIDATE) && !HAS_FLAT_CCS(engine->i915))
+> > > > 
+> > > > It's a pre-existing mistake in drm-tip at the moment, but we shouldn't
+> > > > assume !flatccs always implies auxccs.  PVC has neither, and there may
+> > > > be other similar platforms in the future.  We should probably add a
+> > > > helper function for AuxCCS, similar to what we added to the Xe driver
+> > > > recently:
+> > > > 
+> > > > https://patchwork.freedesktop.org/patch/539304/?series=118334&rev=1
+> > 
+> > Currently that is done in patch 6...
+> 
+> Are you sure?  Patch #6 consolidates things a bit, but is still incorrectly
+> assuming flatccs = !auxccs:
+> 
+>        if (HAS_FLAT_CCS(engine->i915))                                                                                                            
+>                return _MMIO(0);                                                                                                                   
 
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-index 6cfbbf0720bd..b5b62e40ccc1 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -33,7 +33,7 @@
-  * into their address space. This necessitated the creation of the DMA-BUF sysfs
-  * statistics interface to provide per-buffer information on production systems.
-  *
-- * The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
-+ * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
-  * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-  *
-  * The following stats are exposed by the interface:
--- 
-2.25.1
+But isn't it the same the patch you linked is doing?
 
+	return !xe->info.has_flat_ccs;
+
+And
