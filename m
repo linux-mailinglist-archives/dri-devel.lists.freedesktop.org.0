@@ -2,47 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20055758451
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141E275847D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE8E10E0AC;
-	Tue, 18 Jul 2023 18:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFF410E3B9;
+	Tue, 18 Jul 2023 18:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393F810E0AC
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:15:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E8ADC616A0;
- Tue, 18 Jul 2023 18:15:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4D9C433C8;
- Tue, 18 Jul 2023 18:15:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689704110;
- bh=QH0xYXdTL5ojivjEzeCT3IU9wzvatahM/LtkztuvSTY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=M2xJPN8NkR7qyXSRJpzqMsqZ0hj4ofVwtTavhx3nB43D9hiF17Jgg0vUBjoG6GOyZ
- NHkodP8ygOWRSS9EcGASWagCYZyhTXUHuYsu/CHwV0wazaWRQoZmVa0kpq7LXp2KEo
- 28do4tKMH65/CCglk9STCpu4TQbBi/e0ydhVmLGH3TWi1Je5kii3sUONcHdZqYy8U0
- 8duXFGfRsHj7lNVAeSuuI6a3XqyZcESPQZSAS3CRKS7mCfin+89r6P8xdnFUriaByd
- /8tmr35CcRgdRHefUBhC2OWYDewm1En+PQlBGS0Xnera7dOX1hV4Lo/tGRsDCtGUpg
- Kr8fgqNGjuE0g==
-Date: Tue, 18 Jul 2023 11:15:08 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-Message-ID: <20230718111508.6f0b9a83@kernel.org>
-In-Reply-To: <ZLbUpdNYvyvkD27P@ziepe.ca>
-References: <20230710223304.1174642-1-almasrymina@google.com>
- <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
- <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
- <ZLbUpdNYvyvkD27P@ziepe.ca>
+Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13F0310E3B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:19:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 2D6E0414D9;
+ Tue, 18 Jul 2023 20:19:20 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from knopi.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hWmI46mZq8rj; Tue, 18 Jul 2023 20:19:19 +0200 (CEST)
+From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1689704358; bh=2unuaUUBzkJ1ke9rHzkXWZSFjQ+6AAdbMfmqOa2pkbE=;
+ h=From:To:Cc:Subject:Date;
+ b=UU5qHWPYkTIRpNNzYGeOn5g9DgnRZvtK5wEWPDFbM/NRojgcMlKWhL7AXnkEsxdJZ
+ iDlYtLaXjuSnfowW1h8lQXRyZFWyR9lXSc/PcG0okXZVDtSToA9F6SYxiy4Dnu31Co
+ UfdVyk1LPRdGss9Gdhbonp5qZGHcApGsgb6pUZYYlT4iAkbCrwehCVPWv3VoUtwTb4
+ +kFrztaJf9tvPb1ZMo5w2T8nGYdNkGN/f0uqESaAhCmRovKTB8bUK9S3UvC0s7PICZ
+ 5hCRZPAKKR+lQTl0CXf4mI1lJE0lCjGVKvsLZ37zvKu/Zi/+LBl3uo23qXhSbm8IzS
+ XznynG2+wkXCg==
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/4] Add documentation and KUnit tests for functions on
+ drm_framebuffer.c
+Date: Tue, 18 Jul 2023 15:17:22 -0300
+Message-ID: <20230718181726.3799-1-gcarlos@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,25 +48,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mina Almasry <almasrymina@google.com>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- linux-kselftest@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
- Andy Lutomirski <luto@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Jesper Dangaard Brouer <hawk@kernel.org>, linux-media@vger.kernel.org
+Cc: andrealmeid@igalia.com, tzimmermann@suse.de, tales.aparecida@gmail.com,
+ mripard@kernel.org, mairacanal@riseup.net,
+ Carlos Eduardo Gallo Filho <gcarlos@disroot.org>, davidgow@google.com,
+ michal.winiarski@intel.com, arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Jul 2023 15:06:29 -0300 Jason Gunthorpe wrote:
-> netlink feels like a weird API choice for that, in particular it would
-> be really wrong to somehow bind the lifecycle of a netlink object to a
-> process.
+This series adds documentation and unit tests for
+drm_framebuffer_check_src_coords() and drm_internal_framebuffer_create()
+functions on drm_framebuffer.c, including new parameters to the, until
+then, only existent test.
 
-Netlink is the right API, life cycle of objects can be easily tied to
-a netlink socket.
+Many thanks,
+Carlos
+
+---
+
+v2:
+    - Replaced strcpy to strscpy (Maxime)
+    - Added comments (Maxime)
+    - Ordered KUNIT_CASE_PARAM alphabetically (Maxime)
+    - Replaced some parameter cases description with more verbose ones
+
+---
+
+Carlos Eduardo Gallo Filho (4):
+  drm: Add kernel-doc for drm_framebuffer_check_src_coords()
+  drm/tests: Add test for drm_framebuffer_check_src_coords()
+  drm/tests: Add parameters to the drm_test_framebuffer_create test
+  drm/tests: Add test case for drm_internal_framebuffer_create()
+
+ drivers/gpu/drm/drm_framebuffer.c            |  16 +-
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 178 ++++++++++++++++++-
+ 2 files changed, 192 insertions(+), 2 deletions(-)
+
+-- 
+2.41.0
+
