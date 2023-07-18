@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D1A75834D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 19:17:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACB375837A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 19:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 726C910E381;
-	Tue, 18 Jul 2023 17:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B1E10E3A1;
+	Tue, 18 Jul 2023 17:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9E110E381
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 17:17:04 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3fbfcc6daa9so55583235e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 10:17:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689700621; x=1692292621;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cRDtp/WtEw9mLKqbxe9I85x6ziwi94Y2+xfVDhxRx98=;
- b=l35yAg6rLbX9bryJRqrdHh0SNSnkU2HjdV1QnN9k+iR1MDEyIHRodrxwx6D5yMd0Ty
- 2riv5zpKPGWr7im5tYE4xWkAUZZiXWQHS7is8BiV43wZSm0Imt2H7poEsA2tsmnHpiJc
- LCL26sp6cjENNQjqthxsMGkg0DHwmqvkrM93ExyinF4DJZvg+nZTZgJpFTLkVRKjS2Yq
- jArb202ZSfEuSvOELPqI70eb+5cZVFsVR1RsKihhpHFg8hNmaJbV1haGcWOINg1AmpUy
- 3Mf0mT6/pJ0pcsI7HTn9SB3vivnqCMWFF/Z9jrUnNoKKWuunSfMtEsKn/8OirxPAVkcx
- 8VEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689700621; x=1692292621;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cRDtp/WtEw9mLKqbxe9I85x6ziwi94Y2+xfVDhxRx98=;
- b=T3oUgzrbyyZIGpk4ofA8SObdPe8q4SFTfmjr4CYBXOBs+1YkpQViwkU0AVogWQf/D1
- JwezRgbbCD8xEqxitZWtgKLu85mgtXau+mULdxAxZnV6qKiy/0ZjbzRXZdebwRGxvCNe
- tU6dpGrlNq+SBA48mjDMgTIvK3HHkfajBrjgUE7+w2ejNQDSmZL1N4fJc++iEF1i9Z0T
- pA4KqLmg5iCdtiwp+s7xnbLJn6PF6w6xBkg0ytg1C4EIbPNmEw/2xH7sTeZbYBL0t9Ss
- bV2edPe22oQDTzhFS/h9AtakLXSQT4pIqZJ7cLQ0xasKM8gsOlSsdm1dZMeifVePe+CT
- oP/Q==
-X-Gm-Message-State: ABy/qLaQP5mXG5XbAflX53FrCmtlmpJqWWljQARbZJV2hPsPgF0ala2s
- 8Hcdbrdeyo9bhG6XxL04tUQ=
-X-Google-Smtp-Source: APBJJlG6LoYeezjNXpGpd5uIC0J1poUg9o9vS0RrXRrX0PkrfaGrt01RZcKAMG5YfuJpc/XYYaB0ww==
-X-Received: by 2002:a7b:c387:0:b0:3fb:c217:722e with SMTP id
- s7-20020a7bc387000000b003fbc217722emr21174wmj.33.1689700621245; 
- Tue, 18 Jul 2023 10:17:01 -0700 (PDT)
-Received: from localhost ([37.171.244.194]) by smtp.gmail.com with ESMTPSA id
- y17-20020a1c4b11000000b003fb739d27aesm10877952wma.35.2023.07.18.10.17.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jul 2023 10:17:00 -0700 (PDT)
-From: Raphael Gallais-Pou <rgallaispou@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3] staging: fbtft: ili9341: use macro
- FBTFT_REGISTER_SPI_DRIVER
-Date: Tue, 18 Jul 2023 19:20:24 +0200
-Message-ID: <20230718172024.67488-1-rgallaispou@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A1A10E3A0;
+ Tue, 18 Jul 2023 17:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689701369; x=1721237369;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=UwGmiKQKhVjjNgFCT3wJLwWn/3beFwHc7cEzoU8zeYI=;
+ b=KHcQPUOEDLzjU1TCGK7HagGqUwVdZo78N2eM2zqa1scb1TrC0665WKci
+ AEFEVIAkbEsUGRvkW2R/XRRowCjbrscjVZ3KQwjM0d/JFtpGb2W1IT1WQ
+ FYmjGQjHgxj+MaW8N8RPG3mbTtjD2ujyZP71Ew3swk8EmE1g0/N4dSzMX
+ wovTMKi1xkjPY+DYUA/+jtm5xPhP6Cb/n4lTWdwkLI6/cWW83KTooefSY
+ +XusIKqGz5w374va9tQnOyN/Zk7fyf3HIi1zDE6KG0BJAgMMZK8Oys6Fi
+ hg7T6HjlHOUVG0Pu43zse9jwJzaeW3T/WEICW3CTwVJ/NNApNRw7JIASB A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="369825395"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; d="scan'208";a="369825395"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2023 10:29:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="723701941"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; d="scan'208";a="723701941"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2023 10:29:27 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 2/3] drm: Add an HPD poll helper to reschedule the poll work
+Date: Tue, 18 Jul 2023 20:29:33 +0300
+Message-Id: <20230718172934.69049-2-imre.deak@intel.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230718172934.69049-1-imre.deak@intel.com>
+References: <20230718172934.69049-1-imre.deak@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,40 +57,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
-ultimately causes a warning when the module probes. Fixes it.
+Add a helper to reschedule drm_mode_config::output_poll_work after
+polling has been enabled for a connector (and needing a reschedule,
+since previously polling was disabled for all connectors and hence
+output_poll_work was not running).
 
-Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+This is needed by the next patch fixing HPD polling on i915.
+
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
+ drivers/gpu/drm/drm_probe_helper.c | 68 ++++++++++++++++++++----------
+ include/drm/drm_probe_helper.h     |  1 +
+ 2 files changed, 47 insertions(+), 22 deletions(-)
 
-Changes in v3:
-	- added changelog
-
-Changes in v2:
-	- dropped MODULE_ALIAS changes
-	- changed commit log for more accurate description
-
- drivers/staging/fbtft/fb_ili9341.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
-index 9ccd0823c3ab..47e72b87d76d 100644
---- a/drivers/staging/fbtft/fb_ili9341.c
-+++ b/drivers/staging/fbtft/fb_ili9341.c
-@@ -145,7 +145,7 @@ static struct fbtft_display display = {
- 	},
- };
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 2fb9bf901a2cc..3f479483d7d80 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -262,6 +262,26 @@ static bool drm_kms_helper_enable_hpd(struct drm_device *dev)
+ }
  
--FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
-+FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
+ #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
++static void reschedule_output_poll_work(struct drm_device *dev)
++{
++	unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
++
++	if (dev->mode_config.delayed_event)
++		/*
++		 * FIXME:
++		 *
++		 * Use short (1s) delay to handle the initial delayed event.
++		 * This delay should not be needed, but Optimus/nouveau will
++		 * fail in a mysterious way if the delayed event is handled as
++		 * soon as possible like it is done in
++		 * drm_helper_probe_single_connector_modes() in case the poll
++		 * was enabled before.
++		 */
++		delay = HZ;
++
++	schedule_delayed_work(&dev->mode_config.output_poll_work, delay);
++}
++
+ /**
+  * drm_kms_helper_poll_enable - re-enable output polling.
+  * @dev: drm_device
+@@ -279,37 +299,41 @@ static bool drm_kms_helper_enable_hpd(struct drm_device *dev)
+  */
+ void drm_kms_helper_poll_enable(struct drm_device *dev)
+ {
+-	bool poll = false;
+-	unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
+-
+ 	if (!dev->mode_config.poll_enabled || !drm_kms_helper_poll ||
+ 	    dev->mode_config.poll_running)
+ 		return;
  
- MODULE_ALIAS("spi:" DRVNAME);
- MODULE_ALIAS("platform:" DRVNAME);
+-	poll = drm_kms_helper_enable_hpd(dev);
+-
+-	if (dev->mode_config.delayed_event) {
+-		/*
+-		 * FIXME:
+-		 *
+-		 * Use short (1s) delay to handle the initial delayed event.
+-		 * This delay should not be needed, but Optimus/nouveau will
+-		 * fail in a mysterious way if the delayed event is handled as
+-		 * soon as possible like it is done in
+-		 * drm_helper_probe_single_connector_modes() in case the poll
+-		 * was enabled before.
+-		 */
+-		poll = true;
+-		delay = HZ;
+-	}
+-
+-	if (poll)
+-		schedule_delayed_work(&dev->mode_config.output_poll_work, delay);
++	if (drm_kms_helper_enable_hpd(dev) ||
++	    dev->mode_config.delayed_event)
++		reschedule_output_poll_work(dev);
+ 
+ 	dev->mode_config.poll_running = true;
+ }
+ EXPORT_SYMBOL(drm_kms_helper_poll_enable);
+ 
++/**
++ * drm_kms_helper_poll_reschedule - reschedule the output polling work
++ * @dev: drm_device
++ *
++ * This function reschedules the output polling work, after polling for a
++ * connector has been enabled.
++ *
++ * Drivers must call this helper after enabling polling for a connector by
++ * setting %DRM_CONNECTOR_POLL_CONNECT / %DRM_CONNECTOR_POLL_DISCONNECT flags
++ * in drm_connector::polled. Note that after disabling polling by clearing these
++ * flags for a connector will stop the output polling work automatically if
++ * the polling is disabled for all other connectors as well.
++ *
++ * The function can be called only after polling has been enabled by calling
++ * drm_kms_helper_poll_init() / drm_kms_helper_poll_enable().
++ */
++void drm_kms_helper_poll_reschedule(struct drm_device *dev)
++{
++	if (dev->mode_config.poll_running)
++		reschedule_output_poll_work(dev);
++}
++EXPORT_SYMBOL(drm_kms_helper_poll_reschedule);
++
+ static enum drm_connector_status
+ drm_helper_probe_detect_ctx(struct drm_connector *connector, bool force)
+ {
+diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+index 4977e0ab72dbb..fad3c4003b2b5 100644
+--- a/include/drm/drm_probe_helper.h
++++ b/include/drm/drm_probe_helper.h
+@@ -25,6 +25,7 @@ void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector);
+ 
+ void drm_kms_helper_poll_disable(struct drm_device *dev);
+ void drm_kms_helper_poll_enable(struct drm_device *dev);
++void drm_kms_helper_poll_reschedule(struct drm_device *dev);
+ bool drm_kms_helper_is_poll_worker(void);
+ 
+ enum drm_mode_status drm_crtc_helper_mode_valid_fixed(struct drm_crtc *crtc,
 -- 
-2.41.0
+2.37.2
 
