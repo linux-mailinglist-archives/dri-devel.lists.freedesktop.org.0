@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B867586E4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 23:25:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 177377586E9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 23:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE18410E3C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9166B10E3C7;
 	Tue, 18 Jul 2023 21:24:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59D0310E3C0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 21:24:44 +0000 (UTC)
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6FC10E3C6;
+ Tue, 18 Jul 2023 21:24:44 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CF8733F67C;
- Tue, 18 Jul 2023 23:24:40 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 3139A3F696;
+ Tue, 18 Jul 2023 23:24:42 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Tue, 18 Jul 2023 23:24:38 +0200
-Subject: [PATCH v3 02/15] arm64: dts: qcom: sm6125: Sort spmi_bus node
- numerically by reg
+Date: Tue, 18 Jul 2023 23:24:39 +0200
+Subject: [PATCH v3 03/15] dt-bindings: clock: qcom,dispcc-sm6125: Require
+ GCC PLL0 DIV clock
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230718-sm6125-dpu-v3-2-6c5a56e99820@somainline.org>
+Message-Id: <20230718-sm6125-dpu-v3-3-6c5a56e99820@somainline.org>
 References: <20230718-sm6125-dpu-v3-0-6c5a56e99820@somainline.org>
 In-Reply-To: <20230718-sm6125-dpu-v3-0-6c5a56e99820@somainline.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
@@ -67,77 +67,55 @@ Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This node has always resided in the wrong spot, making it somewhat
-harder to contribute new node entries while maintaining proper sorting
-around it.  Move the node up to sit after hsusb_phy1 where it maintains
-proper numerical sorting on the (first of its many) reg address
-property.
+The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
+be passed from DT, and should be required by the bindings.
 
-Fixes: cff4bbaf2a2d ("arm64: dts: qcom: Add support for SM6125")
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/sm6125.dtsi | 38 ++++++++++++++++++------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-index 6937c7ebdb81..cfd0901d4555 100644
---- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-@@ -684,6 +684,24 @@ hsusb_phy1: phy@1613000 {
- 			status = "disabled";
- 		};
+diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+index 8a210c4c5f82..8fd29915bf2c 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+@@ -29,6 +29,7 @@ properties:
+       - description: Link clock from DP PHY
+       - description: VCO DIV clock from DP PHY
+       - description: AHB config clock from GCC
++      - description: GPLL0 div source from GCC
  
-+		spmi_bus: spmi@1c40000 {
-+			compatible = "qcom,spmi-pmic-arb";
-+			reg = <0x01c40000 0x1100>,
-+			      <0x01e00000 0x2000000>,
-+			      <0x03e00000 0x100000>,
-+			      <0x03f00000 0xa0000>,
-+			      <0x01c0a000 0x26000>;
-+			reg-names = "core", "chnls", "obsrvr", "intr", "cnfg";
-+			interrupt-names = "periph_irq";
-+			interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>;
-+			qcom,ee = <0>;
-+			qcom,channel = <0>;
-+			#address-cells = <2>;
-+			#size-cells = <0>;
-+			interrupt-controller;
-+			#interrupt-cells = <4>;
-+		};
-+
- 		rpm_msg_ram: sram@45f0000 {
- 			compatible = "qcom,rpm-msg-ram";
- 			reg = <0x045f0000 0x7000>;
-@@ -1189,27 +1207,9 @@ sram@4690000 {
- 			reg = <0x04690000 0x10000>;
- 		};
+   clock-names:
+     items:
+@@ -39,6 +40,7 @@ properties:
+       - const: dp_phy_pll_link_clk
+       - const: dp_phy_pll_vco_div_clk
+       - const: cfg_ahb_clk
++      - const: gcc_disp_gpll0_div_clk_src
  
--		spmi_bus: spmi@1c40000 {
--			compatible = "qcom,spmi-pmic-arb";
--			reg = <0x01c40000 0x1100>,
--			      <0x01e00000 0x2000000>,
--			      <0x03e00000 0x100000>,
--			      <0x03f00000 0xa0000>,
--			      <0x01c0a000 0x26000>;
--			reg-names = "core", "chnls", "obsrvr", "intr", "cnfg";
--			interrupt-names = "periph_irq";
--			interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>;
--			qcom,ee = <0>;
--			qcom,channel = <0>;
--			#address-cells = <2>;
--			#size-cells = <0>;
--			interrupt-controller;
--			#interrupt-cells = <4>;
--		};
--
- 		apps_smmu: iommu@c600000 {
- 			compatible = "qcom,sm6125-smmu-500", "qcom,smmu-500", "arm,mmu-500";
--			reg = <0xc600000 0x80000>;
-+			reg = <0x0c600000 0x80000>;
- 			interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
+   '#clock-cells':
+     const: 1
+@@ -72,14 +74,16 @@ examples:
+                <&dsi1_phy 1>,
+                <&dp_phy 0>,
+                <&dp_phy 1>,
+-               <&gcc GCC_DISP_AHB_CLK>;
++               <&gcc GCC_DISP_AHB_CLK>,
++               <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>;
+       clock-names = "bi_tcxo",
+                     "dsi0_phy_pll_out_byteclk",
+                     "dsi0_phy_pll_out_dsiclk",
+                     "dsi1_phy_pll_out_dsiclk",
+                     "dp_phy_pll_link_clk",
+                     "dp_phy_pll_vco_div_clk",
+-                    "cfg_ahb_clk";
++                    "cfg_ahb_clk",
++                    "gcc_disp_gpll0_div_clk_src";
+       #clock-cells = <1>;
+       #power-domain-cells = <1>;
+     };
 
 -- 
 2.41.0
