@@ -2,85 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC294758415
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D43E775841D
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A27610E3AB;
-	Tue, 18 Jul 2023 18:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF8DB10E3B2;
+	Tue, 18 Jul 2023 18:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91BD410E3AB
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:05:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689703509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BdnawvUq/ESyZgDDMa23Rpm43IZBpwfkwo4hNwMktF4=;
- b=YaxEJEB/4N1ZImJGE52yTnJC4+Pl39vjI1L79bGs5ULHIikrjx768IGyEjEdJSzBmhFUVb
- y5Hj1Fq6bTm35toG3OTn/aCrB3BPpRQiyqSl5OKCI9s29UefdLLA2MJuV029baHd/so1Ux
- jQIYZG6IOg0Imbp2+8fLJxbzfalZOwU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-JXyaUVXrNyifWITalbGr_g-1; Tue, 18 Jul 2023 14:05:07 -0400
-X-MC-Unique: JXyaUVXrNyifWITalbGr_g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-30793c16c78so3734600f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:05:07 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D881310E3B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:06:32 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1b9e9765f2cso35777905ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 11:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1689703591; x=1692295591;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nXz9xDxwT7BaavIhnCmafXwp3/aDUnwPYqui5jTbzSQ=;
+ b=groKThLKhcGdvS7VGO7C4SDS0MFs8h/VRyqV+OQecO/1MgBAs/ZfpPKMHdEDFc18U6
+ lL6E01mKA8UE5kLtpd7OED7gt7ztbJ5zG6ZR10SH2TRXOQQY1VxzoLfjSQ8X+8hvr7zc
+ 87zzsMTMDmeVha3PmXm/KENBZCBJR0whtZvmDjcbID28N6ghyDcrk5tXGBvdZgk2kE89
+ c/ehnZ5oymDKSDagYvboYUn0sxTqAeqXz24JaL1wf81rDQDv/hEv3XN80y+jSOV2M/0E
+ 6T7xuWgJpH1NmtIjdE8p3/Mzy7HrBdkuTncvzIqpvybXisn6eFXd5MAeGA3KsBbF/NVQ
+ x6YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689703504; x=1692295504;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BdnawvUq/ESyZgDDMa23Rpm43IZBpwfkwo4hNwMktF4=;
- b=K6I2gv+8PFkE5b7INzEHTBm0cOuAxibCPoEcXk88ywSuXA6CoTzPs94Tpkg7r0IeJJ
- 8jszKdti4SmKrH0WevT9upfAOSEj/+O7IP9V4AF5bO7TJOL0Whf8nL4qMlE58Esg/iyn
- 5Ke7YKGhC3ZT7944o2DJ2Vca53NpcjR5NHGMS4rwvK1GvMy59UmfGX28D6Mr2BzKqwA3
- iPQdyo4UpM+9AHjRgSFo1KaKf/RYwdjSU6eTJiRYN4pFWkGibJ2HZ0TrfwnpydInxGwC
- 5h79UKGzMWP3+5wn+KExg/Ydf54+zNwe8KQpU+P7S++zxu+CxD6nbJhTe8yIQg7DhLqa
- TlJQ==
-X-Gm-Message-State: ABy/qLag3pw4fFUPE20+pvPcGXiZK3nGlnAhZ4/rO1iyO/GrkLFn/Skz
- jRYD5hFY3mBSXTcuzANzdUy+WoHi77rDWjIwlHKfzeYNzKSnBSymuv5ayV6tMeGVpfFu2DRHL5X
- xYsiZa5g14AdsIykzWcCO2ZL3kVhA
-X-Received: by 2002:adf:f8c3:0:b0:314:22ea:4ee7 with SMTP id
- f3-20020adff8c3000000b0031422ea4ee7mr14494080wrq.33.1689703504096; 
- Tue, 18 Jul 2023 11:05:04 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFukCzwvofvcGW8EW7kBTjsACh25vsuvoclxvSpcB3aRfCp96tR3U1ZptWpG88c0KvDaDa9Cw==
-X-Received: by 2002:adf:f8c3:0:b0:314:22ea:4ee7 with SMTP id
- f3-20020adff8c3000000b0031422ea4ee7mr14494056wrq.33.1689703503783; 
- Tue, 18 Jul 2023 11:05:03 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c740:6200:84e1:eabc:8e2:7429?
- (p200300cbc740620084e1eabc08e27429.dip0.t-ipconnect.de.
- [2003:cb:c740:6200:84e1:eabc:8e2:7429])
- by smtp.gmail.com with ESMTPSA id
- y25-20020a7bcd99000000b003fc04eb92cbsm2741669wmj.44.2023.07.18.11.05.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Jul 2023 11:05:03 -0700 (PDT)
-Message-ID: <2556f0dd-d951-c21f-0e2e-7f2bb8d9fab3@redhat.com>
-Date: Tue, 18 Jul 2023 20:05:02 +0200
+ d=1e100.net; s=20221208; t=1689703591; x=1692295591;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nXz9xDxwT7BaavIhnCmafXwp3/aDUnwPYqui5jTbzSQ=;
+ b=ggfMJJTr3yV/2sNDyaJQNYb807Vjbdi73GzrgL+JfaC5nDrBal+87GDYoOOHwOxS+w
+ z6mBjZZxOrj8JxfwGyEAReoCC7xqE2NpyAoxgqtyqMruRncJgfTG9/qZQzgCJEoQ1V8f
+ kODfkygCj+74lZJBmAz8Mj9VBv05Rnc7pSGiHU6OTaRK+ILeYnTOFWaOc9A0EhaJ8Hr2
+ x8MXTaz1+MpH1ENrR5WWCN24L2uwYVSXKZs+tslgmU5q96FIBgOvP2LYZnsBgQBtzqWV
+ BfxgHTBVRNDynEcCrXwsM7aoawlW2D2EWr/TwGwQ76QFEyqyL9APzdUKjIkuOkLccdqy
+ MrzQ==
+X-Gm-Message-State: ABy/qLaPum1d4BOf1mA2w/ZZJcyNPHzo6XQnN9WvNVVt1+ZGODwMt4PS
+ Z4Y/u6gAss5B8THJ/GmFqwhlNg==
+X-Google-Smtp-Source: APBJJlF7FlQJHF3FMLrPPssG4qg4BrXeUhwWshlLKfnw7NuTDc181VYHZRzG6vsaH9PJ4JGKGoGO3g==
+X-Received: by 2002:a17:902:c406:b0:1b9:e9b2:1288 with SMTP id
+ k6-20020a170902c40600b001b9e9b21288mr530425plk.38.1689703591309; 
+ Tue, 18 Jul 2023 11:06:31 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26]) by smtp.gmail.com with ESMTPSA id
+ z10-20020a1709028f8a00b001b89c313185sm2171634plo.205.2023.07.18.11.06.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jul 2023 11:06:30 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1qLp5h-002aj7-9n;
+ Tue, 18 Jul 2023 15:06:29 -0300
+Date: Tue, 18 Jul 2023 15:06:29 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC PATCH 00/10] Device Memory TCP
+Message-ID: <ZLbUpdNYvyvkD27P@ziepe.ca>
+References: <20230710223304.1174642-1-almasrymina@google.com>
+ <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
+ <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/2] udmabuf: Add back support for mapping hugetlb
- pages (v2)
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Mike Kravetz <mike.kravetz@oracle.com>
-References: <20230718082605.1570740-1-vivek.kasireddy@intel.com>
- <20230718082605.1570740-3-vivek.kasireddy@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230718082605.1570740-3-vivek.kasireddy@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,54 +76,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- Junxiao Chang <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ linux-kselftest@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
+ Andy Lutomirski <luto@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18.07.23 10:26, Vivek Kasireddy wrote:
-> A user or admin can configure a VMM (Qemu) Guest's memory to be
-> backed by hugetlb pages for various reasons. However, a Guest OS
-> would still allocate (and pin) buffers that are backed by regular
-> 4k sized pages. In order to map these buffers and create dma-bufs
-> for them on the Host, we first need to find the hugetlb pages where
-> the buffer allocations are located and then determine the offsets
-> of individual chunks (within those pages) and use this information
-> to eventually populate a scatterlist.
-> 
-> Testcase: default_hugepagesz=2M hugepagesz=2M hugepages=2500 options
-> were passed to the Host kernel and Qemu was launched with these
-> relevant options: qemu-system-x86_64 -m 4096m....
-> -device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
-> -display gtk,gl=on
-> -object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
-> -machine memory-backend=mem1
-> 
-> Replacing -display gtk,gl=on with -display gtk,gl=off above would
-> exercise the mmap handler.
-> 
-> v2: Updated get_sg_table() to manually populate the scatterlist for
->      both huge page and non-huge-page cases.
-> 
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Jason Gunthorpe <jgg@nvidia.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Cc: Junxiao Chang <junxiao.chang@intel.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->   drivers/dma-buf/udmabuf.c | 84 +++++++++++++++++++++++++++++++++------
->   1 file changed, 71 insertions(+), 13 deletions(-)
+On Tue, Jul 18, 2023 at 10:36:52AM -0700, Mina Almasry wrote:
 
-LGTM, in general. But I really hope Mike can comment.
+> That is specific to this proposal, and will likely be very different
+> in future ones. I thought the dma-buf pages approach was extensible
+> and the uapi belonged somewhere in dma-buf. Clearly not. The next
+> proposal, I think, will program the rxq via some net uapi and will
+> take the dma-buf as input. Probably some netlink api (not sure if
+> ethtool family or otherwise). I'm working out details of this
+> non-paged networking first.
 
--- 
-Cheers,
+In practice you want the application to startup, get itself some 3/5
+tuples and then request the kernel to setup the flow steering and
+provision the NIC queues.
 
-David / dhildenb
+This is the right moment for the application to provide the backing
+for the rx queue memory via a DMABUF handle.
 
+Ideally this would all be accessible to non-priv applications as well,
+so I think you'd want some kind of system call that sets all this up
+and takes in a FD for the 3/5-tuple socket (to prove ownership over
+the steering) and the DMABUF FD.
+
+The queues and steering should exist only as long as the application
+is still running (whatever that means). Otherwise you have a big mess
+to clean up whenever anything crashes.
+
+netlink feels like a weird API choice for that, in particular it would
+be really wrong to somehow bind the lifecycle of a netlink object to a
+process.
+
+Further, if you are going to all the trouble of doing this, it seems
+to me you should make it work with any kind of memory, including CPU
+memory. Get a consistent approach to zero-copy TCP RX. So also allow a
+memfd or similar to be passed in as the backing storage.
+
+Jason
