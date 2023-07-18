@@ -2,159 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3520757622
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 10:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0607577D8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 11:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 144EF10E2F2;
-	Tue, 18 Jul 2023 08:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6135010E305;
+	Tue, 18 Jul 2023 09:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C22F10E2E6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 08:02:52 +0000 (UTC)
-X-UUID: 7b44ef0e254111ee9cb5633481061a41-20230718
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=5kAceQ0yqT4MlEA6h4x0Q3MWPzH0gbPWHYbvAwCI88I=; 
- b=gwIJIZtSVhKBa/mdg1QzUxZ2uPYrbbdisKZyDjlHwdxRanSVwfv9Net5ZQKHgMP9krRHdtYq3gMsfibubc82h0MMYqDWjNPeZyH44nCU3mPuGEL5pJnge0LZXB8f9X+kSK/O+4mKBPbEW5y1Zn9m6Wsii2cXDLH/epydFoDAtVU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28, REQID:b5a875f2-47ec-4865-91d0-dc3f010bdc69, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:45
-X-CID-INFO: VERSION:1.1.28, REQID:b5a875f2-47ec-4865-91d0-dc3f010bdc69, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:45
-X-CID-META: VersionHash:176cd25, CLOUDID:2c66bf87-44fb-401c-8de7-6a5572f1f5d5,
- B
- ulkID:230718154926SCFOXRXU,BulkQuantity:2,Recheck:0,SF:48|38|29|28|17|19|1
- 02,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:41,QS:nil,BEC:nil
- ,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:PA,DKP:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN, TF_CID_SPAM_SNR, TF_CID_SPAM_SDM,
- TF_CID_SPAM_FAS, TF_CID_SPAM_FSD
-X-UUID: 7b44ef0e254111ee9cb5633481061a41-20230718
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 895086044; Tue, 18 Jul 2023 16:02:46 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 18 Jul 2023 16:02:45 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Tue, 18 Jul 2023 16:02:45 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WMi4JfQc4/2VqyJ/x8EZMbF72Xd5cE5crsToge0NOMKZdyXLmNW81HVroRPF7G2WbTYqRMTHREBSGzf1eE5RvXPOZWlTMI6s0OdoVkJeewYDiIMKPEN5QM2oTgKVcajSyTyUQkSlrI2mZUDwwBKozKQbp8JR6rbLwhZIUpmqQocLQ9lMct+/s/eZ54yxR2wSt/z2y6aMu7cj8OJ4CN+UCJyFtMk9mZM7qrCScVjqQ+bz2xahBiD62lqq5l6tFHMtsFynlJDwGrmInRNU8xPIYnUoM+R0A22x3hDUHC1RSNbUVZfOkaiPYRvhQfsVz1Q7gLMZkg1Bjd5gcQvCLhrzLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W3zTgqym2+5kPitEA7UbnQYV3izcxtKgBoek7N918d0=;
- b=DyG0rU9wbwFZ5ZNZmfCYmb3LB6i1WeAoW3/6bgRIDg1BlzmdRubfw0POOqUUzPlw2A6a9s17X0Z2SMW/n08upU9ItdS/du97LkkmQ8Pat3EoKGdi5+ibGCzhtZ3Zv31ASZnKHIC8XvPKN0SLAVEHtKe/WWFW8DDX9cAVJ0LeWEDxeqNI+YHpoHUBBfLNnUimy+MjLm/oB9+DMGr+zcKEXgUbtNkHjKmm3LdDIbzIKnvjHdfcY6ZDePouDBrFFrH77ex83lpzYmFmCjnYO44X7shcqYdAnK2LoSUnBGGtnfuNsCMWo6UF9BBs470El2AQoAoUEuQUbTR9r5XuPh77YA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B762610E2EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 08:08:06 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4fbf09a9139so8562978e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 01:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W3zTgqym2+5kPitEA7UbnQYV3izcxtKgBoek7N918d0=;
- b=g9w/NjktuKnGAc2ahBw6TGFp6IuZdcVeTKMmo9T4sBNKL+ahnGSJfhWFvUGdNHG0TYyUGHVfojMS9Fat3W3z67mfaLrnmJslviJQjmNMqCymDG8ePq7ADY97lXIf0CGyHr1i9MhGEwRSsqHFNHUyy96SFcO2oOYJsTqQOsI4nt4=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SEYPR03MB7397.apcprd03.prod.outlook.com (2603:1096:101:13b::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Tue, 18 Jul
- 2023 08:02:43 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::d126:7f34:9e4f:a95]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::d126:7f34:9e4f:a95%4]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
- 08:02:43 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v6 01/11] drm/mediatek: dp: Add missing error checks in
- mtk_dp_parse_capabilities
-Thread-Topic: [PATCH v6 01/11] drm/mediatek: dp: Add missing error checks in
- mtk_dp_parse_capabilities
-Thread-Index: AQHZuLk9K2/9wwsl8USIlsnthYU+i6+/KwIA
-Date: Tue, 18 Jul 2023 08:02:43 +0000
-Message-ID: <2e6f9673e92a12a2abecd2b075bb325882490895.camel@mediatek.com>
-References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
- <20230717141438.274419-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230717141438.274419-2-angelogioacchino.delregno@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEYPR03MB7397:EE_
-x-ms-office365-filtering-correlation-id: 20a67daf-1773-420b-47cf-08db87655d6c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yavWCQUvffNeeWsiz64n250KK3/8Mu/3Y1xgD7ukedkIgVw2wzN19lFI8X4DcS5BPfkc43HFITqVVJqVFsyceH2bdSzb1kSZH0OB/YQ0hqryJ1YzvpvSmtmv7FhQ/29lMqkSm0cUfzt3eSesAClEZxnVTVwswSd8sDxB2EL7KEfyc+nOPb2RyJj1H3MxBH9leTkfnYUrj9GYqzWh3xvC180NdJzIj0+AlCQkHB7n7ZOaQO12Ynhe4Do4aNDxq9QCVWBb8NurlwpygQo5i3hXKbJD58jY22CRDx3HMSoeHzPqC8rl1wGYuHgY3pGrm6AC2cInuN2BKjk/N4qqO9dp9+T6qSV+mx/H010wS+H8w/Nho+G7mhxNF2PvDiQOUiY8VEbvBIZsfLj7mgRXXREYO2P+lOKEeBcagfm6isU6ZOABaYC0O4/0DqLnVHkRPLqVSFBVEicYor+tAYIZ0RU1IfXw+6sBBpPIMgTP0GvMd7//iDxaz098SFNYgyPTlmUNKsV2tKhRItW8BPKnIDs1u8TAuFioaaV8tehZOlyzWlJsKmT2i17dUtyeqDb+85i126pQ3p+na9lXi5tuiKsbuNubzvWMTnmSbg+myD2uvd7OoqVFgik50Ol+HItXdBCFSdLsPuidedfmayiQGmzqAEe3cdJ8mpV2q8p25WwA/OM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(136003)(366004)(39860400002)(396003)(346002)(451199021)(478600001)(6486002)(71200400001)(110136005)(54906003)(83380400001)(38070700005)(85182001)(86362001)(76116006)(2906002)(186003)(36756003)(6506007)(2616005)(6512007)(316002)(66556008)(122000001)(38100700002)(26005)(64756008)(41300700001)(66446008)(66946007)(66476007)(4326008)(8676002)(8936002)(5660300002)(7416002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UTBka3h3dnNsVDhYRUZUb2FJOGVkdHNQMndhNDN3dXc5NDdVQ2dlTitEWEgy?=
- =?utf-8?B?MXZVcnIxbFIzN242Z3VZcGxRNjF5elFxRWoyamQzRkI3ZEQxNlZYQUlITDQ4?=
- =?utf-8?B?TnZBQzRySUNHcFBmSWgzN1Z1MnltSUZRNHlDSWVlZlNlWDhqWlZkUlhvaG8v?=
- =?utf-8?B?d0RudWI3SGx0VmRmQUsyMW13WHIzRmtEWkZSUTdRc01wT1M1RjJUbkVHZlVD?=
- =?utf-8?B?c2pER0hzN3pyK25xNVJkU1VTbkExb0NVVnJlTTZrSUw2YjF5T2J2SnFnTm5F?=
- =?utf-8?B?ZFE3UjJDc1JaS2JKRUVKekUvYVk1MTduU1lpbXpPTHV4eko1QWp2Mm40R3R4?=
- =?utf-8?B?cFh4eW9oUkhDNjFWRzhKM2ZFZW1PN2t0elpZYVMwQ0lqSjY2WWxFYmpQWGFs?=
- =?utf-8?B?S1Z6UGVGUWdzT1ZYR1N0Q3E2cEg5U0RoZzBEN3FIRWJ1SzZXQ0QvUkFqNEdh?=
- =?utf-8?B?cUIrOXhWNTNrM3BYWG9LZ0xpazVyT0VkR2FJUWlIVjcwb29UZUJlWUhMM0ZW?=
- =?utf-8?B?UkxEdnYzcTF0TGhLOTB4VVVsdWp6bzVXWFoyMGVTNkMxU0ovQWYrdXpqaC9V?=
- =?utf-8?B?UVAwdlpCUWpKK0FEUHJuWWw0L2R4cllBVXE5UmJIM0NtRFY1aURuSXR2Wit6?=
- =?utf-8?B?cEZLWHQ2T2Z0SW1oNHJ1TS9MTm53YWhQckE2RytYZ2YwRldLUVdnQnhJT0Fj?=
- =?utf-8?B?bjdXczhKbDE2ZGFOOXF3VE94ZjR1K1FMdlhxclJuVnV3ai9WSkhkUDlPK3ky?=
- =?utf-8?B?VTZxbkt2YXZvaWNqNGZ5QnRFNXFmUkNCYkcrTE5zd1R4TkkzZmo0b2M5cHZo?=
- =?utf-8?B?Ui83ek1WM3o5K1ZxOGVmeHV0VDdqcC92R2dpZVcwNEFHZldGRjNhTHRSOUpL?=
- =?utf-8?B?VWk3YXFNT20yWlZ2cE5ZcU5jbUxTTTJQeXczNEh6bUIwa1RlUjZ5Y1FnbVpH?=
- =?utf-8?B?YzZoWjVRMjM2Y25NbzVQZXBKQXg3Qm5QcE5iejZ6QWM1NkFwSUhrd1Jpd2RK?=
- =?utf-8?B?UzZvRmVtcDhBWk81VE50Z2tybUhTcy9SckRDdjdXYUVhQ1loUFI1M3lNckxO?=
- =?utf-8?B?OGR6elBEaCtnTVpNNmlzSHM0NXN1VWhUaTBhUFRHSmdweUhDR3BFVmlZcmpM?=
- =?utf-8?B?S1VzVmwwUnZjWVlvT0QwczIyVDNjaDBSdXhzK1dpVzc1QUhuazZwU1AzTDNK?=
- =?utf-8?B?c3M2cGNNR2VkM05QNFBkdWRDMWJyK2cvR0VyRlJYUElFSGZZL2VrdkorM1Uw?=
- =?utf-8?B?dU03Z0NZck5iT3BOU2ljQUdmWlFmWW5OSHdGeUVPQmZ2ZEE1RS9vM2lQbHp6?=
- =?utf-8?B?TDRmNXRoSXpDalpCVnVBdlN6akloRW1xWk5JY2x1Y1pKNEdmeHVubzNmZ0Ni?=
- =?utf-8?B?MEMxeWd5TER2U2dxb09FR0dmOTlLV2kwSTc0cXFJTWoyRXd6d1pmN0pHK3l6?=
- =?utf-8?B?bTdkV1BoUHpTREdldjdkOWVrODVub2FpS3lHbDk0cXB0dWs4NFpaQ3E5MHBM?=
- =?utf-8?B?eFdiR0U5T3NGa2wyaU1GQnNicXh6MnRhMVVUVnBmZk16TEJqWlZLcVZIdU1L?=
- =?utf-8?B?a1liS0R2Vm8ycTQwaVE5OWMzUXJJdjZNU1JTeHVpWlNrUS9FM0hTVDAzQkUv?=
- =?utf-8?B?N0xveU1WMkNmOWJUTjA5bUsrTnpXaHlCNWJnOElVSlNqYWY4MG9PRm96dzl3?=
- =?utf-8?B?ZDBYNnY3QStRc2t5c0NJb3ZLak1TallWRjk1V25ZV2RZbmZSaWNEQm42Qi9h?=
- =?utf-8?B?aUpvbStza3hLK2Y0OUNseTVWL3lJM0YvNVRXMkp4TDBnSm1TVkIyOFh1ODRS?=
- =?utf-8?B?QjNiY05qckk1SGpLazBwZ2lYd09kWHVOdy9OblZKaDMxREpiamVXdW55WWpU?=
- =?utf-8?B?Q2pLQzZYTE5pR1czSXFJQnE1WGJLb2lyT0w2OG5rWDlWOHpwSUNPRHZlTmtR?=
- =?utf-8?B?RXNVb2JYQlpLT3J0SWpoenJLc1JqTlVGUTNtOCtTZzE0NkM0TEZsODMrS0x0?=
- =?utf-8?B?eE1ubnltZkZ0TGo2TU1OUUF6Rjg3Q0xCamluOS82M1RzU2p4OHFjeXNjdFgx?=
- =?utf-8?B?Snk5UTZ5UzZpaEVqZlVjOSs0cUtOQWtrQUR2S1RKanRsUDRpalljUnZ3eFBB?=
- =?utf-8?Q?GbD5aSRBxQewc8oOL4vPbcy/c?=
-Content-ID: <74D7DDC1507972429FE22F8EB6129C00@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=gmail.com; s=20221208; t=1689667684; x=1692259684;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KA8K2h/1CLpyxn4sjRF3LovDW4zyHxIaxzrSp6zG83s=;
+ b=QA2vmJowlO8EYbSRKAfhxEq5dB/5O8+lOchHZ9xBrhR4kkxXNl6J84QYpzkSw33Yz8
+ SnkMgcp0YcoL+EeIVziKn+as9jDDhOUCViX75ADrQwO+4MNDMyQItQSPf2RlkPfhdqSc
+ Yl/rBUg8XmUILr66MkUQg2uRmJ2zxhu8uDIfLroQfoAmxqutD3DjEK8wOlGg6vmLANl2
+ I7MKt2a0kLORp1Osaj4YWe6dE3cHFkzxrrOMPvmiijk3sINOdzwSBOfxelmMTtHe9LUn
+ KtrkeqoUO/BSKgXRhrt8nAibdye6FReUcYWMA1CEEeTA22jTOR833O0guCsHnIhNtTxX
+ aetw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689667684; x=1692259684;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KA8K2h/1CLpyxn4sjRF3LovDW4zyHxIaxzrSp6zG83s=;
+ b=KMo6IU9uK0RcacOYIzJ3/NxHZ6Tr2a4Zp+RXlDcfl4tKoJv6s/OpiYlBL8v5KGqSDO
+ v4couAvg44RgiQ3J96SP+Knd4PUlnjQmhIdZv7GmhrGlX+h0g/ZHJta00xpGnhGaEGks
+ cSG86exL00AWDnzdkBhSU6ske/NR4CE/+erI9yucf1W7thgvCV2hDO2Wy7pXwTh+oYyt
+ fgSQ4FWiLSTCfDA8hZXQLsiRRPSTWlMx+DfFl+eWLDNKAAV0LSNmQT5iDHSywewEIqQV
+ sfcG8iLQg/Je+9ocxgMni9DJvSJ2Flo0PtfRypX5jbi+afqlJ1WT1xOE/OIvJeXjyMA1
+ cPWQ==
+X-Gm-Message-State: ABy/qLZ0XuB+UvkuR9vzjVU9kWazyEc3EGlIzXxApYEf90Cmfncwea4D
+ mRywxh+yGum4+kmE56XTwLc=
+X-Google-Smtp-Source: APBJJlFpdSipNZ04XqNDdXAKSoDWFtM+Q44ot5yhISU7r8vEdXiFQfktaAkMc+2BrIul7kPMYFUMkQ==
+X-Received: by 2002:ac2:5b4a:0:b0:4f9:cd02:4aec with SMTP id
+ i10-20020ac25b4a000000b004f9cd024aecmr9760154lfp.29.1689667684278; 
+ Tue, 18 Jul 2023 01:08:04 -0700 (PDT)
+Received: from localhost.localdomain ([86.57.157.184])
+ by smtp.gmail.com with ESMTPSA id
+ p20-20020ac246d4000000b004f84a92ba75sm321618lfo.65.2023.07.18.01.08.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Jul 2023 01:08:03 -0700 (PDT)
+From: Viktar Simanenka <viteosen@gmail.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Viktar Simanenka <viteosen@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] TinyDRM display driver for Philips PCD8544 display controller
+Date: Tue, 18 Jul 2023 11:07:27 +0300
+Message-Id: <20230718080727.323426-1-viteosen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20a67daf-1773-420b-47cf-08db87655d6c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2023 08:02:43.1268 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bDvUEKn9D+Tjewetzzq8952i0v8drQpgN2JvGaLVjFPtaHfke/6PFPQPJzn9W1Iftg2XyO25Ct9xT3S9cWyyZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7397
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_003_508658109.855922996"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 18 Jul 2023 09:24:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,133 +75,652 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_003_508658109.855922996
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Support for common monochrome LCD displays based on PCD8544 (such as Nokia 5110/3310 LCD) SPI controlled displays.
 
-PHByZT4NCkhpLCYjMzI7QW5nZWxvOg0KDQpPbiYjMzI7TW9uLCYjMzI7MjAyMy0wNy0xNyYjMzI7
-YXQmIzMyOzE2OjE0JiMzMjsrMDIwMCwmIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMyO0RlbCYjMzI7
-UmVnbm8mIzMyO3dyb3RlOg0KJmd0OyYjMzI7JiMzMjsmIzMyOw0KJmd0OyYjMzI7RXh0ZXJuYWwm
-IzMyO2VtYWlsJiMzMjs6JiMzMjtQbGVhc2UmIzMyO2RvJiMzMjtub3QmIzMyO2NsaWNrJiMzMjts
-aW5rcyYjMzI7b3ImIzMyO29wZW4mIzMyO2F0dGFjaG1lbnRzJiMzMjt1bnRpbA0KJmd0OyYjMzI7
-eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7dGhlJiMzMjtzZW5kZXImIzMyO29yJiMzMjt0
-aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsmIzMyO0lmJiMzMjtyZWFkaW5nJiMzMjt0aGUmIzMy
-O1JYJiMzMjtjYXBhYmlsaXRpZXMmIzMyO2ZhaWxzJiMzMjt0aGUmIzMyO3RyYWluaW5nJiMzMjtw
-YXR0ZXJuJiMzMjt3aWxsJiMzMjtiZQ0KJmd0OyYjMzI7c2V0DQomZ3Q7JiMzMjt3cm9uZ2x5OiYj
-MzI7YWRkJiMzMjtlcnJvciYjMzI7Y2hlY2tpbmcmIzMyO2ZvciYjMzI7ZHJtX2RwX3JlYWRfZHBj
-ZF9jYXBzKCkmIzMyO2FuZCYjMzI7cmV0dXJuJiMzMjtpZg0KJmd0OyYjMzI7YW55dGhpbmcmIzMy
-O3dlbnQmIzMyO3dyb25nJiMzMjt3aXRoJiMzMjtpdC4NCiZndDsmIzMyOw0KJmd0OyYjMzI7V2hp
-bGUmIzMyO2F0JiMzMjtpdCwmIzMyO2Fsc28mIzMyO2FkZCYjMzI7YSYjMzI7bGVzcyYjMzI7Y3Jp
-dGljYWwmIzMyO2Vycm9yJiMzMjtjaGVjayYjMzI7d2hlbiYjMzI7d3JpdGluZyYjMzI7dG8NCiZn
-dDsmIzMyO2NsZWFyJiMzMjt0aGUmIzMyO0VTSTAmIzMyO0lSUSYjMzI7dmVjdG9yLg0KDQpSZXZp
-d2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsuY29tJmd0Ow0KDQom
-Z3Q7JiMzMjsNCiZndDsmIzMyO0ZpeGVzOiYjMzI7ZjcwYWMwOTdhMmNmJiMzMjsoJnF1b3Q7ZHJt
-L21lZGlhdGVrOiYjMzI7QWRkJiMzMjtNVDgxOTUmIzMyO0VtYmVkZGVkJiMzMjtEaXNwbGF5UG9y
-dA0KJmd0OyYjMzI7ZHJpdmVyJnF1b3Q7KQ0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0Fu
-Z2Vsb0dpb2FjY2hpbm8mIzMyO0RlbCYjMzI7UmVnbm8mIzMyOyZsdDsNCiZndDsmIzMyO2FuZ2Vs
-b2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbSZndDsNCiZndDsmIzMyOy0tLQ0KJmd0
-OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMmIzMyO3wmIzMyOzE1
-JiMzMjsrKysrKysrKysrLS0tLS0NCiZndDsmIzMyOyYjMzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdl
-ZCwmIzMyOzEwJiMzMjtpbnNlcnRpb25zKCspLCYjMzI7NSYjMzI7ZGVsZXRpb25zKC0pDQomZ3Q7
-JiMzMjsNCiZndDsmIzMyO2RpZmYmIzMyOy0tZ2l0JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHAuYw0KJmd0OyYjMzI7Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rw
-LmMNCiZndDsmIzMyO2luZGV4JiMzMjs2NGVlZTc3NDUyYzAuLmM1OGI3NzU4NzdhMyYjMzI7MTAw
-NjQ0DQomZ3Q7JiMzMjstLS0mIzMyO2EvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5j
-DQomZ3Q7JiMzMjsrKysmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jDQom
-Z3Q7JiMzMjtAQCYjMzI7LTE1ODgsNyYjMzI7KzE1ODgsOSYjMzI7QEAmIzMyO3N0YXRpYyYjMzI7
-aW50JiMzMjttdGtfZHBfcGFyc2VfY2FwYWJpbGl0aWVzKHN0cnVjdA0KJmd0OyYjMzI7bXRrX2Rw
-JiMzMjsqbXRrX2RwKQ0KJmd0OyYjMzI7JiMzMjt1OCYjMzI7dmFsOw0KJmd0OyYjMzI7JiMzMjtz
-c2l6ZV90JiMzMjtyZXQ7DQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7LWRybV9kcF9yZWFkX2Rw
-Y2RfY2FwcygmYW1wO210a19kcC0mZ3Q7YXV4LCYjMzI7bXRrX2RwLSZndDtyeF9jYXApOw0KJmd0
-OyYjMzI7K3JldCYjMzI7PSYjMzI7ZHJtX2RwX3JlYWRfZHBjZF9jYXBzKCZhbXA7bXRrX2RwLSZn
-dDthdXgsJiMzMjttdGtfZHAtJmd0O3J4X2NhcCk7DQomZ3Q7JiMzMjsraWYmIzMyOyhyZXQmIzMy
-OyZsdDsmIzMyOzApDQomZ3Q7JiMzMjsrcmV0dXJuJiMzMjtyZXQ7DQomZ3Q7JiMzMjsmIzMyOw0K
-Jmd0OyYjMzI7JiMzMjtpZiYjMzI7KGRybV9kcF90cHM0X3N1cHBvcnRlZChtdGtfZHAtJmd0O3J4
-X2NhcCkpDQomZ3Q7JiMzMjsmIzMyO210a19kcC0mZ3Q7dHJhaW5faW5mby5jaGFubmVsX2VxX3Bh
-dHRlcm4mIzMyOz0NCiZndDsmIzMyO0RQX1RSQUlOSU5HX1BBVFRFUk5fNDsNCiZndDsmIzMyO0BA
-JiMzMjstMTYxNSwxMCYjMzI7KzE2MTcsMTMmIzMyO0BAJiMzMjtzdGF0aWMmIzMyO2ludCYjMzI7
-bXRrX2RwX3BhcnNlX2NhcGFiaWxpdGllcyhzdHJ1Y3QNCiZndDsmIzMyO210a19kcCYjMzI7Km10
-a19kcCkNCiZndDsmIzMyOyYjMzI7cmV0dXJuJiMzMjtyZXQmIzMyOz09JiMzMjswJiMzMjsmIzYz
-OyYjMzI7LUVJTyYjMzI7OiYjMzI7cmV0Ow0KJmd0OyYjMzI7JiMzMjt9DQomZ3Q7JiMzMjsmIzMy
-Ow0KJmd0OyYjMzI7LWlmJiMzMjsodmFsKQ0KJmd0OyYjMzI7LWRybV9kcF9kcGNkX3dyaXRlYigm
-YW1wO210a19kcC0mZ3Q7YXV4LA0KJmd0OyYjMzI7LSYjMzI7JiMzMjsmIzMyO0RQX0RFVklDRV9T
-RVJWSUNFX0lSUV9WRUNUT1INCiZndDsmIzMyO19FU0kwLA0KJmd0OyYjMzI7LSYjMzI7JiMzMjsm
-IzMyO3ZhbCk7DQomZ3Q7JiMzMjsraWYmIzMyOyh2YWwpJiMzMjt7DQomZ3Q7JiMzMjsrcmV0JiMz
-Mjs9JiMzMjtkcm1fZHBfZHBjZF93cml0ZWIoJmFtcDttdGtfZHAtJmd0O2F1eCwNCiZndDsmIzMy
-OysmIzMyO0RQX0RFVklDRV9TRVJWSUNFX0lSUV8NCiZndDsmIzMyO1ZFQ1RPUl9FU0kwLA0KJmd0
-OyYjMzI7KyYjMzI7dmFsKTsNCiZndDsmIzMyOytpZiYjMzI7KHJldCYjMzI7Jmx0OyYjMzI7MCkN
-CiZndDsmIzMyOytyZXR1cm4mIzMyO3JldDsNCiZndDsmIzMyOyt9DQomZ3Q7JiMzMjsmIzMyO30N
-CiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyO3JldHVybiYjMzI7MDsNCiZndDsmIzMyOy0t
-JiMzMjsNCiZndDsmIzMyOzIuNDAuMQ0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48
-cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioq
-KioqKioqKioqKioqKg0KVGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBt
-ZXNzYWdlIChpbmNsdWRpbmcgYW55IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWws
-IHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Ns
-b3N1cmUgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZl
-eWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1p
-bmF0aW9uLCANCmRpc3RyaWJ1dGlvbiwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9m
-IHRoaXMgZS1tYWlsIChpbmNsdWRpbmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQg
-cmVjaXBpZW50KHMpIGlzIHN0cmljdGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVs
-LiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9y
-IGJlbGlldmUgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBw
-bGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhp
-cyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGlu
-Y2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRp
-c2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRo
-YW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
+---
+ .../bindings/display/philips,pcd8544.yaml     |  92 ++++
+ drivers/gpu/drm/tiny/Kconfig                  |  11 +
+ drivers/gpu/drm/tiny/pcd8544.c                | 506 ++++++++++++++++++
+ 3 files changed, 609 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/philips,pcd8544.yaml
+ create mode 100644 drivers/gpu/drm/tiny/pcd8544.c
 
---__=_Part_Boundary_003_508658109.855922996
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-
-SGksIEFuZ2VsbzoNCg0KT24gTW9uLCAyMDIzLTA3LTE3IGF0IDE2OjE0ICswMjAwLCBBbmdlbG9H
-aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gIAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxl
-YXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBo
-YXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+ICBJZiByZWFkaW5nIHRo
-ZSBSWCBjYXBhYmlsaXRpZXMgZmFpbHMgdGhlIHRyYWluaW5nIHBhdHRlcm4gd2lsbCBiZQ0KPiBz
-ZXQNCj4gd3JvbmdseTogYWRkIGVycm9yIGNoZWNraW5nIGZvciBkcm1fZHBfcmVhZF9kcGNkX2Nh
-cHMoKSBhbmQgcmV0dXJuIGlmDQo+IGFueXRoaW5nIHdlbnQgd3Jvbmcgd2l0aCBpdC4NCj4gDQo+
-IFdoaWxlIGF0IGl0LCBhbHNvIGFkZCBhIGxlc3MgY3JpdGljYWwgZXJyb3IgY2hlY2sgd2hlbiB3
-cml0aW5nIHRvDQo+IGNsZWFyIHRoZSBFU0kwIElSUSB2ZWN0b3IuDQoNClJldml3ZWQtYnk6IENL
-IEh1IDxjay5odUBtZWRpYXRlay5jb20+DQoNCj4gDQo+IEZpeGVzOiBmNzBhYzA5N2EyY2YgKCJk
-cm0vbWVkaWF0ZWs6IEFkZCBNVDgxOTUgRW1iZWRkZWQgRGlzcGxheVBvcnQNCj4gZHJpdmVyIikN
-Cj4gU2lnbmVkLW9mZi1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPA0KPiBhbmdlbG9n
-aW9hY2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kcC5jIHwgMTUgKysrKysrKysrKy0tLS0tDQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RwLmMNCj4gaW5kZXggNjRlZWU3NzQ1MmMwLi5jNThiNzc1ODc3YTMgMTAw
-NjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYw0KPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMNCj4gQEAgLTE1ODgsNyArMTU4OCw5IEBA
-IHN0YXRpYyBpbnQgbXRrX2RwX3BhcnNlX2NhcGFiaWxpdGllcyhzdHJ1Y3QNCj4gbXRrX2RwICpt
-dGtfZHApDQo+ICAJdTggdmFsOw0KPiAgCXNzaXplX3QgcmV0Ow0KPiAgDQo+IC0JZHJtX2RwX3Jl
-YWRfZHBjZF9jYXBzKCZtdGtfZHAtPmF1eCwgbXRrX2RwLT5yeF9jYXApOw0KPiArCXJldCA9IGRy
-bV9kcF9yZWFkX2RwY2RfY2FwcygmbXRrX2RwLT5hdXgsIG10a19kcC0+cnhfY2FwKTsNCj4gKwlp
-ZiAocmV0IDwgMCkNCj4gKwkJcmV0dXJuIHJldDsNCj4gIA0KPiAgCWlmIChkcm1fZHBfdHBzNF9z
-dXBwb3J0ZWQobXRrX2RwLT5yeF9jYXApKQ0KPiAgCQltdGtfZHAtPnRyYWluX2luZm8uY2hhbm5l
-bF9lcV9wYXR0ZXJuID0NCj4gRFBfVFJBSU5JTkdfUEFUVEVSTl80Ow0KPiBAQCAtMTYxNSwxMCAr
-MTYxNywxMyBAQCBzdGF0aWMgaW50IG10a19kcF9wYXJzZV9jYXBhYmlsaXRpZXMoc3RydWN0DQo+
-IG10a19kcCAqbXRrX2RwKQ0KPiAgCQkJcmV0dXJuIHJldCA9PSAwID8gLUVJTyA6IHJldDsNCj4g
-IAkJfQ0KPiAgDQo+IC0JCWlmICh2YWwpDQo+IC0JCQlkcm1fZHBfZHBjZF93cml0ZWIoJm10a19k
-cC0+YXV4LA0KPiAtCQkJCQkgICBEUF9ERVZJQ0VfU0VSVklDRV9JUlFfVkVDVE9SDQo+IF9FU0kw
-LA0KPiAtCQkJCQkgICB2YWwpOw0KPiArCQlpZiAodmFsKSB7DQo+ICsJCQlyZXQgPSBkcm1fZHBf
-ZHBjZF93cml0ZWIoJm10a19kcC0+YXV4LA0KPiArCQkJCQkJIERQX0RFVklDRV9TRVJWSUNFX0lS
-UV8NCj4gVkVDVE9SX0VTSTAsDQo+ICsJCQkJCQkgdmFsKTsNCj4gKwkJCWlmIChyZXQgPCAwKQ0K
-PiArCQkJCXJldHVybiByZXQ7DQo+ICsJCX0NCj4gIAl9DQo+ICANCj4gIAlyZXR1cm4gMDsNCj4g
-LS0gDQo+IDIuNDAuMQ0K
-
---__=_Part_Boundary_003_508658109.855922996--
+diff --git a/Documentation/devicetree/bindings/display/philips,pcd8544.yaml b/Documentation/devicetree/bindings/display/philips,pcd8544.yaml
+new file mode 100644
+index 000000000000..d56a0c747812
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/philips,pcd8544.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/philips,pcd8544.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Philips PCD8544 LCD Display Controller
++
++maintainers:
++  - Viktar Simanenka <viteosen@gmail.com>
++
++description: |
++  Philips PCD8544 LCD Display Controller with SPI control bus.
++  This is a driver for monochrome 84x48 LCD displays,
++  such as Nokia 5110/3310 LCDs. May contain backlight LED.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    const: philips,pcd8544
++
++  dc-gpios:
++    maxItems: 1
++    description: Display data/command selection (D/CX)
++
++  reset-gpios:
++    maxItems: 1
++    description: Display hardware reset line (RST)
++
++  inverted:
++    maxItems: 1
++    description: Invert display colors
++
++  voltage_op:
++    maxItems: 1
++    description: Set operation voltage (contrast)
++
++  bias:
++    maxItems: 1
++    description: Bias voltage level
++
++  temperature_coeff:
++    maxItems: 1
++    description: Temperature coefficient
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++  - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    display@0 {
++        compatible = "philips,pcd8544";
++        spi-max-frequency = <8000000>;
++        reg = <0>;
++
++        dc-gpios = <&pio 0 3 0>; /* DC=PA3 */
++        reset-gpios = <&pio 0 1 0>; /* RESET=PA1 */
++        backlight = <&display_backlight>;
++        write-only;
++
++        /* Default values: */
++        inverted = <0>;
++        voltage_op = <0>;
++        bias = <4>;
++        temperature_coeff = <0>;
++
++        width-mm = <35>;
++        height-mm = <28>;
++
++        panel-timing {
++            hactive = <84>;
++            vactive = <48>;
++            hback-porch = <0>;
++            vback-porch = <0>;
++
++            clock-frequency = <0>;
++            hfront-porch = <0>;
++            hsync-len = <0>;
++            vfront-porch = <0>;
++            vsync-len = <0>;
++        };
++    };
++
++...
+diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+index f6889f649bc1..10caa0818253 100644
+--- a/drivers/gpu/drm/tiny/Kconfig
++++ b/drivers/gpu/drm/tiny/Kconfig
+@@ -172,6 +172,17 @@ config TINYDRM_MI0283QT
+ 	  DRM driver for the Multi-Inno MI0283QT display panel
+ 	  If M is selected the module will be called mi0283qt.
+ 
++config TINYDRM_PCD8544
++	tristate "DRM support for PCD8544 displays"
++	depends on DRM && SPI
++	select DRM_KMS_HELPER
++	select DRM_GEM_DMA_HELPER
++	select BACKLIGHT_CLASS_DEVICE
++	help
++	  DRM driver for PCD8544 (Nokia 5110/3310) 84x48 LCD displays.
++
++	  If M is selected the module will be called pcd8544.
++
+ config TINYDRM_REPAPER
+ 	tristate "DRM support for Pervasive Displays RePaper panels (V231)"
+ 	depends on DRM && SPI
+diff --git a/drivers/gpu/drm/tiny/pcd8544.c b/drivers/gpu/drm/tiny/pcd8544.c
+new file mode 100644
+index 000000000000..618bf7bf36ea
+--- /dev/null
++++ b/drivers/gpu/drm/tiny/pcd8544.c
+@@ -0,0 +1,506 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * DRM driver for Philips PCD8544 LCD controller/driver.
++ * Compatible with Nokia 5110/3310 84x48 LCD displays.
++ *
++ * Copyright 2023 Viktar Simanenka <viteosen@gmail.com>
++ */
++
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/property.h>
++#include <linux/spi/spi.h>
++
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_damage_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fb_dma_helper.h>
++#include <drm/drm_fb_helper.h>
++#include <drm/drm_format_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_gem_dma_helper.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_rect.h>
++#include <drm/drm_simple_kms_helper.h>
++
++/*
++ * The display is monochrome, every bit in buffer is a pixel.
++ * Display RAM divided into 6 banks along y-axis, each bank 84 bytes along x-axis.
++ * Driver uses horizontal addressing.
++ */
++
++#define PCD8544_FUNCTIONSET     0x20
++#define PCD8544_DISPLAYCONTROL  0x08
++#define PCD8544_SETYADDR        0x40
++#define PCD8544_SETXADDR        0x80
++#define PCD8544_SETBIAS         0x10
++#define PCD8544_SETTEMPCOEF     0x04
++#define PCD8544_SETVOP          0x80
++
++#define PCD8544_EXTENDED_INSTRUCTION    0x01
++#define PCD8544_VERTICAL_ADDRESSING     0x02
++#define PCD8544_DISPLAYNORMAL       0x04
++#define PCD8544_DISPLAYINVERTED     0x05
++
++struct pcd8544_device {
++	struct drm_device drm;
++	struct drm_simple_display_pipe pipe;
++	struct drm_connector connector;
++	struct drm_display_mode mode;
++	struct spi_device *spi;
++
++	u32 width;
++	u32 height;
++	u8 *tx_buf; // Buffer used for transfer
++	size_t tx_buflen;
++
++	struct backlight_device *backlight;
++	struct gpio_desc *reset;
++	struct gpio_desc *dc;
++
++	u32 inverted;
++	u32 temperature_coeff;
++	u32 bias;
++	u32 voltage_op;
++};
++
++MODULE_PARM_DESC(inverted, "Invert colors: 1 - enable, 0 - disable");
++MODULE_PARM_DESC(temperature_coeff, "TC[1:0] Temperature coefficient: 0-3 (default: 0)");
++MODULE_PARM_DESC(bias, "BS[2:0] Bias voltage level: 0-7 (default: 4)");
++MODULE_PARM_DESC(voltage_op, "Vop[6:0] Set operation voltage: 0-127 (default: 0)");
++
++#define drm_to_dev(__dev) container_of(__dev, struct pcd8544_device, drm)
++
++static int pcd8544_spi_transfer(struct spi_device *spi, const void *buf, size_t len)
++{
++	size_t max_chunk = spi_max_transfer_size(spi);
++	struct spi_transfer tr = {
++		.bits_per_word = 8,
++		.speed_hz = 0,
++	};
++	struct spi_message m;
++	size_t chunk;
++	int ret;
++
++	max_chunk = ALIGN_DOWN(max_chunk, 2);
++
++	spi_message_init_with_transfers(&m, &tr, 1);
++
++	while (len) {
++		chunk = min(len, max_chunk);
++
++		tr.tx_buf = buf;
++		tr.len = chunk;
++		buf += chunk;
++		len -= chunk;
++
++		ret = spi_sync(spi, &m);
++		if (ret)
++			return ret;
++	}
++	return 0;
++}
++
++static int pcd8544_spi_command(struct pcd8544_device *pcd8544_dev, u8 cmd)
++{
++	struct spi_device *spi = pcd8544_dev->spi;
++
++	gpiod_set_value_cansleep(pcd8544_dev->dc, 0);
++
++	return pcd8544_spi_transfer(spi, &cmd, 1);
++}
++
++static int pcd8544_spi_data(struct pcd8544_device *pcd8544_dev,
++				const void *tx_buf, size_t len)
++{
++	struct spi_device *spi = pcd8544_dev->spi;
++
++	gpiod_set_value_cansleep(pcd8544_dev->dc, 1);
++
++	return pcd8544_spi_transfer(spi, tx_buf, len);
++}
++
++static void pcd8544_screen_update(struct pcd8544_device *pcd8544_dev,
++				const u8 *buf, size_t len, u8 addr_x, u8 addr_y)
++{
++	pcd8544_spi_command(pcd8544_dev, PCD8544_SETYADDR | addr_y);
++	pcd8544_spi_command(pcd8544_dev, PCD8544_SETXADDR | addr_x);
++	pcd8544_spi_data(pcd8544_dev, buf, len);
++}
++
++static int pcd8544_fb_xrgb8888_to_mono(u8 *dst, struct drm_framebuffer *fb,
++					struct drm_rect *clip)
++{
++	struct iosys_map fb_map[DRM_FORMAT_MAX_PLANES];
++	struct iosys_map fb_data[DRM_FORMAT_MAX_PLANES];
++	struct iosys_map buf_map;
++	u8 *buf;
++	unsigned int width = drm_rect_width(clip);
++	unsigned int height = drm_rect_height(clip);
++	unsigned int line_length = DIV_ROUND_UP(width, 8);
++	unsigned int bank_max = DIV_ROUND_UP(height, 8);
++	unsigned int x, y, bank;
++	int ret = 0;
++
++	buf = kcalloc(line_length, height, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	buf_map = (struct iosys_map)IOSYS_MAP_INIT_VADDR(buf);
++
++	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
++	if (ret)
++		goto out_free;
++
++	ret = drm_gem_fb_vmap(fb, fb_map, fb_data);
++	if (ret)
++		goto out_end_cpu_access;
++
++	drm_fb_xrgb8888_to_mono(&buf_map, &line_length, fb_data, fb, clip);
++
++	drm_gem_fb_vunmap(fb, fb_map);
++
++	for (bank = 0; bank < bank_max; bank++) {
++		for (x = 0; x < width; x++) {
++			u8 data = 0;
++
++			for (y = 0; y < 8; y++) {
++				u8 byte = buf[(8 * bank + y) * line_length + x / 8];
++				u8 bit = (byte >> (x % 8)) & 1;
++
++				data |= bit << y;
++			}
++			*dst++ = data;
++		}
++	}
++
++out_end_cpu_access:
++	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
++out_free:
++	kfree(buf);
++
++	return ret;
++}
++
++static void pcd8544_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
++{
++	struct pcd8544_device *pcd8544_dev = drm_to_dev(fb->dev);
++	int idx, ret = 0;
++
++	if (!drm_dev_enter(fb->dev, &idx))
++		return;
++
++	/* Align rect y to display bank boundaries */
++	rect->y1 = round_down(rect->y1, 8);
++	rect->y2 = min_t(unsigned int, round_up(rect->y2, 8), pcd8544_dev->width);
++
++	ret = pcd8544_fb_xrgb8888_to_mono(pcd8544_dev->tx_buf, fb, rect);
++	if (ret)
++		goto err_msg;
++
++	/* if full update */
++	if (rect->x1 == 0 && rect->x2 == pcd8544_dev->width &&
++		rect->y1 == 0 && rect->y2 == pcd8544_dev->height) {
++		pcd8544_screen_update(pcd8544_dev, pcd8544_dev->tx_buf, pcd8544_dev->tx_buflen, 0, 0);
++	} else {
++		u32 rect_width = drm_rect_width(rect);
++		u32 bank_min = rect->y1 / 8;
++		u32 bank_max = rect->y2 / 8;
++
++		for (u32 bank = bank_min; bank <= bank_max; bank++)
++			pcd8544_screen_update(pcd8544_dev, &pcd8544_dev->tx_buf[rect_width * (bank - bank_min)],
++						rect_width, rect->x1, bank);
++	}
++
++err_msg:
++	if (ret)
++		dev_err_once(fb->dev->dev, "Failed to update display %d\n", ret);
++
++	drm_dev_exit(idx);
++}
++
++static enum drm_mode_status pcd8544_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
++							const struct drm_display_mode *mode)
++{
++	struct drm_crtc *crtc = &pipe->crtc;
++	struct pcd8544_device *pcd8544_dev = drm_to_dev(crtc->dev);
++
++	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &pcd8544_dev->mode);
++}
++
++static void pcd8544_pipe_enable(struct drm_simple_display_pipe *pipe,
++				struct drm_crtc_state *crtc_state,
++				struct drm_plane_state *plane_state)
++{
++	struct pcd8544_device *pcd8544_dev = drm_to_dev(pipe->crtc.dev);
++	struct drm_framebuffer *fb = plane_state->fb;
++	struct drm_rect rect = {
++		.x1 = 0,
++		.x2 = fb->width,
++		.y1 = 0,
++		.y2 = fb->height,
++	};
++	int idx;
++
++	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++		return;
++
++	drm_dbg(pipe->crtc.dev, "\n");
++
++	/* Reset display */
++	gpiod_set_value_cansleep(pcd8544_dev->reset, 0);
++	usleep_range(20, 1000);
++	gpiod_set_value_cansleep(pcd8544_dev->reset, 1);
++	msleep(120);
++
++	/* Init */
++	pcd8544_spi_command(pcd8544_dev, PCD8544_FUNCTIONSET | PCD8544_EXTENDED_INSTRUCTION);
++	pcd8544_spi_command(pcd8544_dev, PCD8544_SETBIAS | (pcd8544_dev->bias & 0x7));
++	pcd8544_spi_command(pcd8544_dev, PCD8544_SETTEMPCOEF | (pcd8544_dev->temperature_coeff & 0x3));
++	pcd8544_spi_command(pcd8544_dev, PCD8544_SETVOP | (pcd8544_dev->voltage_op & 0x7F));
++	pcd8544_spi_command(pcd8544_dev, PCD8544_FUNCTIONSET);
++	if (pcd8544_dev->inverted)
++		pcd8544_spi_command(pcd8544_dev, PCD8544_DISPLAYCONTROL | PCD8544_DISPLAYINVERTED);
++	else
++		pcd8544_spi_command(pcd8544_dev, PCD8544_DISPLAYCONTROL | PCD8544_DISPLAYNORMAL);
++
++	pcd8544_fb_dirty(fb, &rect);
++
++	drm_dev_exit(idx);
++}
++
++void pcd8544_pipe_disable(struct drm_simple_display_pipe *pipe)
++{
++	struct pcd8544_device *pcd8544_dev = drm_to_dev(pipe->crtc.dev);
++
++	drm_dbg(pipe->crtc.dev, "\n");
++
++	/* Clear screen */
++	memset(pcd8544_dev->tx_buf, 0, pcd8544_dev->tx_buflen);
++	pcd8544_screen_update(pcd8544_dev, pcd8544_dev->tx_buf, pcd8544_dev->tx_buflen, 0, 0);
++
++	if (pcd8544_dev->backlight)
++		backlight_disable(pcd8544_dev->backlight);
++}
++
++static void pcd8544_pipe_update(struct drm_simple_display_pipe *pipe,
++				struct drm_plane_state *old_state)
++{
++	struct drm_plane_state *state = pipe->plane.state;
++	struct drm_rect rect;
++
++	if (!pipe->crtc.state->active)
++		return;
++
++	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
++		pcd8544_fb_dirty(state->fb, &rect);
++}
++
++static const struct drm_simple_display_pipe_funcs pcd8544_pipe_funcs = {
++	.mode_valid = pcd8544_pipe_mode_valid,
++	.enable		= pcd8544_pipe_enable,
++	.disable	= pcd8544_pipe_disable,
++	.update		= pcd8544_pipe_update,
++};
++
++DEFINE_DRM_GEM_DMA_FOPS(pcd8544_fops);
++
++static int pcd8544_connector_get_modes(struct drm_connector *connector)
++{
++	struct pcd8544_device *pcd8544_dev = drm_to_dev(connector->dev);
++
++	return drm_connector_helper_get_modes_fixed(connector, &pcd8544_dev->mode);
++}
++
++static const struct drm_connector_helper_funcs pcd8544_connector_hfuncs = {
++	.get_modes = pcd8544_connector_get_modes,
++};
++
++static const struct drm_connector_funcs pcd8544_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static const struct drm_mode_config_funcs pcd8544_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create_with_dirty,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++};
++
++static int __maybe_unused pcd8544_pm_suspend(struct device *dev)
++{
++	return drm_mode_config_helper_suspend(dev_get_drvdata(dev));
++}
++
++static int __maybe_unused pcd8544_pm_resume(struct device *dev)
++{
++	drm_mode_config_helper_resume(dev_get_drvdata(dev));
++
++	return 0;
++}
++
++static const struct dev_pm_ops pcd8544_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(pcd8544_pm_suspend, pcd8544_pm_resume)
++};
++
++static const struct drm_driver pcd8544_driver = {
++	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
++	.fops			= &pcd8544_fops,
++	DRM_GEM_DMA_DRIVER_OPS_VMAP,
++	.name			= "pcd8544",
++	.desc			= "Philips PCD8544",
++	.date			= "20230701",
++	.major			= 1,
++	.minor			= 0,
++};
++
++static const uint32_t pcd8544_formats[] = {
++	DRM_FORMAT_XRGB8888,
++};
++
++static struct drm_display_mode pcd8544_mode = {
++	DRM_SIMPLE_MODE(84, 48, 35, 28),
++};
++
++static const struct of_device_id pcd8544_of_match[] = {
++	{ .compatible = "philips,pcd8544" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, pcd8544_of_match);
++
++static const struct spi_device_id pcd8544_id[] = {
++	{ "pcd8544", 0 },
++	{ }
++};
++MODULE_DEVICE_TABLE(spi, pcd8544_id);
++
++static int pcd8544_probe(struct spi_device *spi)
++{
++	struct device *dev = &spi->dev;
++	struct pcd8544_device *pcd8544_dev;
++	struct drm_device *drm;
++	int ret;
++	static const uint64_t modifiers[] = {
++		DRM_FORMAT_MOD_LINEAR,
++		DRM_FORMAT_MOD_INVALID
++	};
++	pcd8544_dev = devm_drm_dev_alloc(dev, &pcd8544_driver, struct pcd8544_device, drm);
++
++	if (IS_ERR(pcd8544_dev))
++		return PTR_ERR(pcd8544_dev);
++
++	pcd8544_dev->spi = spi;
++
++	pcd8544_dev->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(pcd8544_dev->reset))
++		return dev_err_probe(dev, PTR_ERR(pcd8544_dev->reset), "Failed to get GPIO 'reset'\n");
++
++	pcd8544_dev->dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
++	if (IS_ERR(pcd8544_dev->dc))
++		return dev_err_probe(dev, PTR_ERR(pcd8544_dev->dc), "Failed to get GPIO 'dc'\n");
++
++	pcd8544_dev->backlight = devm_of_find_backlight(dev);
++	if (IS_ERR(pcd8544_dev->backlight))
++		return PTR_ERR(pcd8544_dev->backlight);
++
++	if (device_property_read_u32(dev, "inverted", &pcd8544_dev->inverted))
++		pcd8544_dev->inverted = 0;
++	if (device_property_read_u32(dev, "temperature_coeff", &pcd8544_dev->temperature_coeff))
++		pcd8544_dev->temperature_coeff = 0;
++	if (device_property_read_u32(dev, "bias", &pcd8544_dev->bias))
++		pcd8544_dev->bias = 4;
++	if (device_property_read_u32(dev, "voltage_op", &pcd8544_dev->voltage_op))
++		pcd8544_dev->voltage_op = 0;
++
++	if (!dev->coherent_dma_mask) {
++		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
++		if (ret) {
++			dev_warn(dev, "Failed to set dma mask %d\n", ret);
++			return ret;
++		}
++	}
++
++	drm_mode_copy(&pcd8544_dev->mode, &pcd8544_mode);
++	pcd8544_dev->width = pcd8544_mode.hdisplay;
++	pcd8544_dev->height = pcd8544_mode.vdisplay;
++	pcd8544_dev->tx_buflen = pcd8544_dev->width * DIV_ROUND_UP(pcd8544_dev->height, 8);
++	pcd8544_dev->tx_buf = devm_kzalloc(dev, pcd8544_dev->tx_buflen, GFP_KERNEL);
++	if (!pcd8544_dev->tx_buf)
++		return -ENOMEM;
++
++	drm = &pcd8544_dev->drm;
++	ret = drmm_mode_config_init(drm);
++	if (ret)
++		return ret;
++
++	drm_connector_helper_add(&pcd8544_dev->connector, &pcd8544_connector_hfuncs);
++	ret = drm_connector_init(drm, &pcd8544_dev->connector, &pcd8544_connector_funcs, DRM_MODE_CONNECTOR_SPI);
++	if (ret)
++		return ret;
++
++	drm->mode_config.funcs = &pcd8544_mode_config_funcs;
++	drm->mode_config.min_width = pcd8544_dev->mode.hdisplay;
++	drm->mode_config.max_width = pcd8544_dev->mode.hdisplay;
++	drm->mode_config.min_height = pcd8544_dev->mode.vdisplay;
++	drm->mode_config.max_height = pcd8544_dev->mode.vdisplay;
++
++	ret = drm_simple_display_pipe_init(drm, &pcd8544_dev->pipe, &pcd8544_pipe_funcs,
++					pcd8544_formats, ARRAY_SIZE(pcd8544_formats),
++					modifiers, &pcd8544_dev->connector);
++	if (ret)
++		return ret;
++
++	drm_plane_enable_fb_damage_clips(&pcd8544_dev->pipe.plane);
++
++	spi_set_drvdata(spi, drm);
++
++	drm_mode_config_reset(drm);
++
++	ret = drm_dev_register(drm, 0);
++	if (ret)
++		return ret;
++
++	drm_dbg(drm, "SPI speed: %uMHz\n", spi->max_speed_hz / 1000000);
++
++	drm_fbdev_generic_setup(drm, 0);
++
++	return 0;
++}
++
++static void pcd8544_remove(struct spi_device *spi)
++{
++	struct drm_device *drm = spi_get_drvdata(spi);
++
++	drm_dev_unplug(drm);
++	drm_atomic_helper_shutdown(drm);
++}
++
++static void pcd8544_shutdown(struct spi_device *spi)
++{
++	drm_atomic_helper_shutdown(spi_get_drvdata(spi));
++}
++
++static struct spi_driver pcd8544_spi_driver = {
++	.driver = {
++		.name = "pcd8544",
++		.owner = THIS_MODULE,
++		.of_match_table = pcd8544_of_match,
++		.pm = &pcd8544_pm_ops,
++	},
++	.id_table = pcd8544_id,
++	.probe = pcd8544_probe,
++	.remove = pcd8544_remove,
++	.shutdown = pcd8544_shutdown,
++};
++module_spi_driver(pcd8544_spi_driver);
++
++MODULE_DESCRIPTION("Philips PCD8544 DRM driver");
++MODULE_AUTHOR("Viktar Simanenka <viteosen@gmail.com>");
++MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
