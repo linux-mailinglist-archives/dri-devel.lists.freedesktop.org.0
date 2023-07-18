@@ -1,43 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A39758485
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:19:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2750D75848C
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 20:21:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890F810E3C5;
-	Tue, 18 Jul 2023 18:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6BD10E3B7;
+	Tue, 18 Jul 2023 18:21:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4936510E3BD
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:19:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id E2F8B44EBF;
- Tue, 18 Jul 2023 20:19:44 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IaqFjBWqHy60; Tue, 18 Jul 2023 20:19:43 +0200 (CEST)
-From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1689704383; bh=YhUCbYUHFgY/A/B5JuF4w5fDDjji8xWqk5tX6lhk89w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=k38By5c/jhkUY5DIP3jUVB13dn39xCi76vzAuvkgN215xIsZpkltbHAd/aXOJ6Z48
- cY1yQLaNfxCyDBB0VaO94fHsAirvvp269iqV8bcF1cHkOdODd03FDPKVWrfkTrahMj
- rMzDPaYT0rqe97tqT63QMxPls4Q0/c5rV8WBuC7W427jfs7oA176XRP7yXcUvc1rCW
- haaltwNsrUjhY/AsDI5B7UW9r3UnSDshew8J4YeA4EKtPSgHFwDJDwHZDn56CkD/w1
- QFJ9VywoZHYjYEr7Ylh31t8QB2lCVDiF37FCCaAivlytwu775y1fwi1dG5vVL6o5pt
- uIjM5V0V7+MXQ==
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/tests: Add test case for
- drm_internal_framebuffer_create()
-Date: Tue, 18 Jul 2023 15:17:26 -0300
-Message-ID: <20230718181726.3799-5-gcarlos@disroot.org>
-In-Reply-To: <20230718181726.3799-1-gcarlos@disroot.org>
-References: <20230718181726.3799-1-gcarlos@disroot.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B72310E042
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jul 2023 18:21:02 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B4FF9616B4;
+ Tue, 18 Jul 2023 18:21:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53795C433C8;
+ Tue, 18 Jul 2023 18:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689704461;
+ bh=3FpetCvZbbcCl2/n3R3+Fi+awrw/7SJjS0am3/4WDVM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Pf57YBI319TjSa6UdgcJVOWOTlRAztiD3yo6PD8hehnt65sGwpA1/vT9ljpawxCW5
+ fMeHtFOrE123MsPIWNyokLRCZR87Ro5QZoioK+wC06wGF0s00mvFuQQAKz6jQtdH0h
+ mbq5e4/ZMJxcbt/7pdjAigRdAHIqMlD/cTA7hyNdzCCkfge9qJSS9TPfANUK/xfNq6
+ fL8/Pj/ihkWO/XwAv7J9G983bpRqTTCpKg1dZZrOVg1xFl12oojb3McruJqzldJVb2
+ mB5JfoqtrIkLnTjiPwjIfZYf8wvVAxq40FosgtpbIomeKTbQx3WE4Xfrbn/L9dgT/T
+ cozltHy/MCSDg==
+Message-ID: <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
+Date: Tue, 18 Jul 2023 12:20:59 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.0
+Subject: Re: [RFC PATCH 00/10] Device Memory TCP
+Content-Language: en-US
+To: Jakub Kicinski <kuba@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
+References: <20230710223304.1174642-1-almasrymina@google.com>
+ <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
+ <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
+ <ZLbUpdNYvyvkD27P@ziepe.ca> <20230718111508.6f0b9a83@kernel.org>
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <20230718111508.6f0b9a83@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,68 +59,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrealmeid@igalia.com, tzimmermann@suse.de, tales.aparecida@gmail.com,
- mripard@kernel.org, mairacanal@riseup.net,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>, davidgow@google.com,
- michal.winiarski@intel.com, arthurgrillo@riseup.net
+Cc: Mina Almasry <almasrymina@google.com>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ linux-kselftest@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
+ Andy Lutomirski <luto@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a test to cover the creation of framebuffer with
-modifier on a device that don't support it.
+On 7/18/23 12:15 PM, Jakub Kicinski wrote:
+> On Tue, 18 Jul 2023 15:06:29 -0300 Jason Gunthorpe wrote:
+>> netlink feels like a weird API choice for that, in particular it would
+>> be really wrong to somehow bind the lifecycle of a netlink object to a
+>> process.
+> 
+> Netlink is the right API, life cycle of objects can be easily tied to
+> a netlink socket.
 
-Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
----
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 29 ++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index cbab12503f5f..0f1744b5d2c1 100644
---- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
-+++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -388,6 +388,34 @@ static void drm_framebuffer_test_to_desc(const struct drm_framebuffer_test *t, c
- KUNIT_ARRAY_PARAM(drm_framebuffer_create, drm_framebuffer_create_cases,
- 		  drm_framebuffer_test_to_desc);
- 
-+/*
-+ * This test is very similar to drm_test_framebuffer_create, except that it
-+ * set mock->mode_config.fb_modifiers_not_supported member to 1, covering
-+ * the case of trying to create a framebuffer with modifiers without the
-+ * device really supporting it.
-+ */
-+static void drm_test_framebuffer_modifiers_not_supported(struct kunit *test)
-+{
-+	/* A valid cmd with modifier */
-+	struct drm_mode_fb_cmd2 cmd = {
-+		.width = MAX_WIDTH, .height = MAX_HEIGHT,
-+		.pixel_format = DRM_FORMAT_ABGR8888, .handles = { 1, 0, 0 },
-+		.offsets = { UINT_MAX / 2, 0, 0 }, .pitches = { 4 * MAX_WIDTH, 0, 0 },
-+		.flags = DRM_MODE_FB_MODIFIERS,
-+	};
-+	struct drm_device *mock = test->priv;
-+	int buffer_created = 0;
-+
-+	mock->dev_private = &buffer_created;
-+	mock->mode_config.fb_modifiers_not_supported = 1;
-+
-+	drm_internal_framebuffer_create(mock, &cmd, NULL);
-+	KUNIT_EXPECT_EQ(test, 0, buffer_created);
-+
-+	/* Restore original value */
-+	mock->mode_config.fb_modifiers_not_supported = 0;
-+}
-+
- /* Parameters for testing drm_framebuffer_check_src_coords function */
- struct check_src_coords_case {
- 	const char *name; /* Description of the parameter case */
-@@ -513,6 +541,7 @@ KUNIT_ARRAY_PARAM(check_src_coords, check_src_coords_cases,
- 		  check_src_coords_test_to_desc);
- 
- static struct kunit_case drm_framebuffer_tests[] = {
-+	KUNIT_CASE(drm_test_framebuffer_modifiers_not_supported),
- 	KUNIT_CASE_PARAM(drm_test_framebuffer_check_src_coords, check_src_coords_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_framebuffer_create, drm_framebuffer_create_gen_params),
- 	{ }
--- 
-2.41.0
-
+That is an untuitive connection -- memory references, h/w queues, flow
+steering should be tied to the datapath socket, not a control plane socket.
