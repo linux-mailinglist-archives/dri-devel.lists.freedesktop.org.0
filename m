@@ -2,47 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366387570A8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 01:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DEA7570BE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jul 2023 02:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 645DB10E028;
-	Mon, 17 Jul 2023 23:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A25210E00D;
+	Tue, 18 Jul 2023 00:05:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8473410E00D;
- Mon, 17 Jul 2023 23:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689637758; x=1721173758;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=uYG1LLb+JivMm5Dlq/SKhXP70yp1cKkqg/XKXMOgZLs=;
- b=Qrz+gmSu5GZqgigG3HxMPr/BRN7hQVaQoV2BbOQfGlA46F5Jns5fSMxn
- euw4aoY1001z4Yhtmud2/8aZ0PgEsEwS58plofgEcbxN2wCVowc1v9OLi
- ChoTYYCPfXDmSOy9FORNL2mO5cn+Gv4DN28eJtBzbmQQ9fW2SQXm9TZYS
- 3ewRhq4SoerOM4WY5pP926Fdo1ylz4s1VHmYULNLIM/vISFnu40MJaASB
- yGX7LotVZocq2sdY+MYLzXwlQLlGeM+g5zm0w1MVs9BhFVmom2a4qiP3R
- scJSJrmvoWDgnOPAJggvpeUUa+FUzf8InjFFD+CLXS6zrUquHGUkfBgX+ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="368708136"
-X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; d="scan'208";a="368708136"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 16:49:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="866873264"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2023 16:49:17 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/huc: check HuC and GuC version compatibility on
- MTL
-Date: Mon, 17 Jul 2023 16:49:05 -0700
-Message-ID: <20230717234905.117114-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0F3310E00D;
+ Tue, 18 Jul 2023 00:05:08 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36HNvkZ2027844; Tue, 18 Jul 2023 00:04:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0HUhWxdMwZ0PMjwDvay/KmMYU3EJdqBOAhqegS7k2ro=;
+ b=IM1iC8xiFV25YSMnQJNntvQn6c9+Qf7t4O1UIUse/I7yHPlBK1u4a6pmRHl6kVCg3x2/
+ 4E2SB4KYwfOYJQzBYvWF8TUrOy+5jUP2gKMkjSWpxmvZWTMb5LkcuA45LkgTXWxJZWwX
+ T3Fr9Up1O0pswzPYRCeAokWRMehNUsOXQWWCUe4TRcJnulBAyf7TvtvjXWeY4SxZfWCG
+ lqubGPxc+mlU2bqMk9ExctC00T7lKlyNTB8qGiEUKd92E4DY6TwBslk7tXVvb9Bb4HlV
+ pm2o5jlmi+tI63KZpcLX6bkcPisecNdpDh00YElvVT7aQZdPIpfJoWvsr+Gv/mEcApaU hg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rw3yv1my1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jul 2023 00:04:59 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36I04wVc031572
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jul 2023 00:04:58 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Mon, 17 Jul 2023 17:04:57 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+Subject: Re: (subset) [PATCH v2 0/8] MDSS reg bus interconnect
+Date: Mon, 17 Jul 2023 17:04:45 -0700
+Message-ID: <168963837489.9267.8179776097855928911.b4-ty@quicinc.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
+References: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 2ljxW3q5_TvsiaTbwaFLPD9KX00TnnSc
+X-Proofpoint-GUID: 2ljxW3q5_TvsiaTbwaFLPD9KX00TnnSc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ spamscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 phishscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=730
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307170219
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,92 +86,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to a change in the auth flow on MTL, GuC 70.7.0 and newer will only
-be able to authenticate HuC 8.5.1 and newer. The plan is to update the 2
-binaries synchronously in linux-firmware so that the fw repo always has
-a matching pair that works; still, it's better to check in the kernel so
-we can print an error message and abort HuC loading if the binaries are
-out of sync instead of failing the authentication.
 
-v2: Add clarification comment, fix typo in commit msg, clean up variable
-declaration (John)
+On Wed, 12 Jul 2023 15:11:37 +0300, Dmitry Baryshkov wrote:
+> Per agreement with Konrad, picked up this patch series.
+> 
+> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
+> another path that needs to be handled to ensure MDSS functions properly,
+> namely the "reg bus", a.k.a the CPU-MDSS interconnect.
+> 
+> Gating that path may have a variety of effects. from none to otherwise
+> inexplicable DSI timeouts.
+> 
+> [...]
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com> #v1
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 46 ++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+Applied, thanks!
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 08e16017584b..7aadad5639c3 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -803,11 +803,57 @@ static int try_firmware_load(struct intel_uc_fw *uc_fw, const struct firmware **
- 	return 0;
- }
- 
-+static int check_mtl_huc_guc_compatibility(struct intel_gt *gt,
-+					   struct intel_uc_fw_file *huc_selected)
-+{
-+	struct intel_uc_fw_file *guc_selected = &gt->uc.guc.fw.file_selected;
-+	struct intel_uc_fw_ver *huc_ver = &huc_selected->ver;
-+	struct intel_uc_fw_ver *guc_ver = &guc_selected->ver;
-+	bool new_huc, new_guc;
-+
-+	/* we can only do this check after having fetched both GuC and HuC */
-+	GEM_BUG_ON(!huc_selected->path || !guc_selected->path);
-+
-+	/*
-+	 * Due to changes in the authentication flow for MTL, HuC 8.5.1 or newer
-+	 * requires GuC 70.7.0 or newer. Older HuC binaries will instead require
-+	 * GuC < 70.7.0.
-+	 */
-+	new_huc = huc_ver->major > 8 ||
-+		  (huc_ver->major == 8 && huc_ver->minor > 5) ||
-+		  (huc_ver->major == 8 && huc_ver->minor == 5 && huc_ver->patch >= 1);
-+
-+	new_guc = guc_ver->major > 70 ||
-+		  (guc_ver->major == 70 && guc_ver->minor >= 7);
-+
-+	if (new_huc != new_guc) {
-+		UNEXPECTED(gt, "HuC %u.%u.%u is incompatible with GuC %u.%u.%u\n",
-+			   huc_ver->major, huc_ver->minor, huc_ver->patch,
-+			   guc_ver->major, guc_ver->minor, guc_ver->patch);
-+		gt_info(gt, "MTL GuC 70.7.0+ and HuC 8.5.1+ don't work with older releases\n");
-+		return -ENOEXEC;
-+	}
-+
-+	return 0;
-+}
-+
- int intel_uc_check_file_version(struct intel_uc_fw *uc_fw, bool *old_ver)
- {
- 	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
- 	struct intel_uc_fw_file *wanted = &uc_fw->file_wanted;
- 	struct intel_uc_fw_file *selected = &uc_fw->file_selected;
-+	int ret;
-+
-+	/*
-+	 * MTL has some compatibility issues with early GuC/HuC binaries
-+	 * not working with newer ones. This is specific to MTL and we
-+	 * don't expect it to extend to other platforms.
-+	 */
-+	if (IS_METEORLAKE(gt->i915) && uc_fw->type == INTEL_UC_FW_TYPE_HUC) {
-+		ret = check_mtl_huc_guc_compatibility(gt, selected);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	if (!wanted->ver.major || !selected->ver.major)
- 		return 0;
+[2/8] drm/msm/mdss: correct UBWC programming for SM8550
+      https://gitlab.freedesktop.org/drm/msm/-/commit/a85c238c5ccd
+
+Best regards,
 -- 
-2.41.0
-
+Abhinav Kumar <quic_abhinavk@quicinc.com>
