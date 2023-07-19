@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3504D759DF1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:54:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B02DD759DF7
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7C2510E4ED;
-	Wed, 19 Jul 2023 18:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304CC10E4F0;
+	Wed, 19 Jul 2023 18:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2C610E4ED
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:54:48 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FD610E4F1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689792887;
+ s=mimecast20190719; t=1689792939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
  bh=F50ZRNO2TGVX8Kl6rozSN2J4zAo6+Tkfm50rtvi7/ZE=;
- b=jQpqpYgmSivrKVtJD/BW5Lld3dbDhvtBdXJzUlgos2A2X80gu9g3lWdYctv7lyxG7vXpVU
- 3js/HZOzw9xxNqEZpZnrpzBgb1b4WfOfhtNxS6f+hK8fT5bugzUB4PyqkfDxH+J69uYO1k
- qR3wC3lwT2OTh45uyDEOH4COhu/dACE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=X5EIN+uDQysk6xMFC82ErpLGVJz5f9/kDCNEpbj9scrGeTH+bcPoHFhC9848AGK7PbA/QK
+ GPHFolLJEqZpourKUjVWTu+hkoDZzKIoD9BMXFsr2tx6XOB762Fr49GO2oploRZEW/36m/
+ FkmpXf64PKjL+/zLGa4q+YQ8y69tid0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-497-EnrO6A1eO3yC9X21dgqMxA-1; Wed, 19 Jul 2023 14:54:46 -0400
-X-MC-Unique: EnrO6A1eO3yC9X21dgqMxA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2f2981b8364so4344046f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 11:54:46 -0700 (PDT)
+ us-mta-586-ou8ZZfWvMdSgn3JSZK39sA-1; Wed, 19 Jul 2023 14:55:38 -0400
+X-MC-Unique: ou8ZZfWvMdSgn3JSZK39sA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3fc00d7d62cso44484075e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 11:55:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689792885; x=1690397685;
+ d=1e100.net; s=20221208; t=1689792936; x=1690397736;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=F50ZRNO2TGVX8Kl6rozSN2J4zAo6+Tkfm50rtvi7/ZE=;
- b=Wlb9tXM7/DrEc1vhlSxXsik8+upLmkslPC01ioBpKa8y5beEtNm+KqaO2ZhttA5U8X
- aTm5UfiiuZnGmFN1qT5ZkHeto0uRleSbO9FoIwl18gNtYoiCe1Zf76bDY2XmQ68MWBm6
- Yd60/ZIvLOuKsoZRC371DkaXZ0O0POvmfuEZFoso4li1h/LKo3K/9v0TYrSqzdyoMsNv
- CDSH0iVOOHa1bzhdLU9hQiL74szru+bWPJqojAuW16oXQuUORTNmPSXJn7qTLQj/XBpr
- MPUJtZZ5jLEDHDgZ5kB710NOc81tJRSLmCAmsifjwhF9ax3arw9d2zT4IGg9R/KAGX/b
- 3Rcg==
-X-Gm-Message-State: ABy/qLZUKXw7thwvAS9hLTh6Dxh8GtpILm+Bm9NJ5dOlvC8ChMLK5nsJ
- qsaPbF8bAmXw1EOmR9XDArDa6Ta/j7hy5DXMae4W9sPV0dMGkvXrCDrowv8eOS/qn/84VqZ+e3r
- /3Qlvlvoov5dj2Lj3iqp1x7lqjNKK
-X-Received: by 2002:adf:f710:0:b0:313:ea6b:6322 with SMTP id
- r16-20020adff710000000b00313ea6b6322mr598557wrp.9.1689792885724; 
- Wed, 19 Jul 2023 11:54:45 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlG2R/Xv30hj6XOpfiOSLt/lvChiKNZCGj3tPoo/DAdnjcpeiROEXlA9fxWU3sBuqdLXHC+8DA==
-X-Received: by 2002:adf:f710:0:b0:313:ea6b:6322 with SMTP id
- r16-20020adff710000000b00313ea6b6322mr598550wrp.9.1689792885396; 
- Wed, 19 Jul 2023 11:54:45 -0700 (PDT)
+ b=DAeL/wqt5hNGVIg8ZwTLbNgoJClH3UGqKjiQjKHlP1mIpMqBUYKCtUVTNnqC1GlR60
+ +1Caq4WZnYOqeH3rjUSCn3t6LtODxWsInPw79PoU1PRdDrra1gEbnMtNXS2RnDIqjvhm
+ MbeNF5QwPbcPSsJXv2/YPU8XIXe2/NaiYZ667hFCBReIeCmj+LqORj0WB9T2ZyHWg398
+ QzzNBaOmLtRf7frn46dlXrS8xW1c+Vf4WV/FSFQM5S4aWb5GZc88iCpa2Ak6mKaS1Gdz
+ 3RluuafVEgxr4xCt5Tq2GxKamVT/RbQHEgUoydGUcyy+IQn/LMoWzw94G5JI6N+rnE69
+ o4fg==
+X-Gm-Message-State: ABy/qLY65nqgnNuzCxDobo5idm3x4A2pZ1dT0vFqmqh9yqTSJonewVTu
+ xsL5nI83LDgp1JpOt2lq52KFllpXBNhV3CKMXVJ2puNHCQNFevBB/FPZTFBJcdwl1F7kKvaKLP8
+ xeh9HZu8OE8Wbffv7iY1HN394nutW
+X-Received: by 2002:a7b:c4d6:0:b0:3fc:70:2f76 with SMTP id
+ g22-20020a7bc4d6000000b003fc00702f76mr194189wmk.20.1689792936734; 
+ Wed, 19 Jul 2023 11:55:36 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlG2QS5yjSN+Zf0H8nEynLm3JsHawoJtVXOZv5yrZtAf7/B2P3zvonHgb0nSCS39LrTPJFwvyw==
+X-Received: by 2002:a7b:c4d6:0:b0:3fc:70:2f76 with SMTP id
+ g22-20020a7bc4d6000000b003fc00702f76mr194175wmk.20.1689792936411; 
+ Wed, 19 Jul 2023 11:55:36 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n13-20020adff08d000000b0031433443265sm6008647wro.53.2023.07.19.11.54.45
+ u9-20020a7bc049000000b003fba6a0c881sm2240800wmc.43.2023.07.19.11.55.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 11:54:45 -0700 (PDT)
+ Wed, 19 Jul 2023 11:55:36 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
  <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-Subject: Re: [PATCH 02/11] drm/tests: client-modeset: Remove call to
+Subject: Re: [PATCH 03/11] drm/tests: modes: Remove call to
  drm_kunit_helper_free_device()
-In-Reply-To: <20230710-kms-kunit-actions-rework-v1-2-722c58d72c72@kernel.org>
+In-Reply-To: <20230710-kms-kunit-actions-rework-v1-3-722c58d72c72@kernel.org>
 References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
- <20230710-kms-kunit-actions-rework-v1-2-722c58d72c72@kernel.org>
-Date: Wed, 19 Jul 2023 20:54:42 +0200
-Message-ID: <87y1jbhgul.fsf@minerva.mail-host-address-is-not-set>
+ <20230710-kms-kunit-actions-rework-v1-3-722c58d72c72@kernel.org>
+Date: Wed, 19 Jul 2023 20:55:35 +0200
+Message-ID: <87v8efhgt4.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
