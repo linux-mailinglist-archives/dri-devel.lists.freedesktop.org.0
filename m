@@ -1,120 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697D075982A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 16:24:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CEC759A2B
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D62710E4B8;
-	Wed, 19 Jul 2023 14:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 140AF10E4D3;
+	Wed, 19 Jul 2023 15:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9AD010E4B5;
- Wed, 19 Jul 2023 14:24:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QI6sOzi+gtQNdbN9C9GztwX037PSU2qhwGRIMd/ULjCFzbtl6G3vaGFx69Ru1dK2qxwYfscPcjX7u6az40Zuas8P2TIXBwRmBXSngKlE0q82RopW/vblRncDIe+/Y3xZzl3DeaCACmPW7kHidfJPFdQD2ycLHD5f4gesGlnSTv6YFpEINOYs2eIHDe/1ya/cDnqio0tJ1GlKWq5c4/eHIPGOeIQsgK4Y0HHwuIrY0itAVrwwYE/woVCFvByXlBC1cC4EWZoHxjmCvfclmNGCm4rQybJjlhQLheVJbjyFLNkaVATnLk39tlnQgrl8RZl6V+7u2T9yyBc7AVHnY0h86A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JiTW8fCjX/4q7DDyRSjV238D/QVT/rwNhUJ0BOiO6vE=;
- b=HY35YnX8iZAJYNOVeC4Aj1Dc5oo6aDFeOITJq49ORmFY01L2PElKQiKuNFCv9H4HgW+RZGDp/drbb6vJlR2897IW7zfIp0nlEGw3s99nhuKO6GCJiWKCTUO2MhY4TbhfyooCG8ErX+6Ml8jAo2b/rUaUtZikyj1WV5kqedoaneUwjonYfhz5WkfXrppi8MRsZs4PkFimUwJcJItmBcDkoEaCRdlR/5mcIF3CVY6P/AeVP8j0sgPCBGwhBYrqiaXJl2uK8018am8YHGZrZC49bIMUz0iQQdP6fAmsufU2xb/Ji+nWhSFdFAJUJlVoVvxFEgxceRJzcPbgaYxIWOifAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JiTW8fCjX/4q7DDyRSjV238D/QVT/rwNhUJ0BOiO6vE=;
- b=RI8ipCUVyRQQgyvzjHqzmMZkkYuMs7UfgrnLQD6lfqMKKp0P96fgQmoQ2/5h+kXQ2V7x0P+4j8G+zET0DUt+GNYsHIw8qBKxAJBaoRHl993HvswGMTQANS3/yvXtKNe2U1Ad+EpZCFy/oTVJckWowftSS4mmIpNfjItNWbqDhkM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by BL3PR12MB6546.namprd12.prod.outlook.com (2603:10b6:208:38d::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Wed, 19 Jul
- 2023 14:24:37 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::ca28:efb4:a838:58fb]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::ca28:efb4:a838:58fb%4]) with mapi id 15.20.6609.024; Wed, 19 Jul 2023
- 14:24:37 +0000
-Message-ID: <8b547ba9-45bb-312c-293f-356b5bea01c7@amd.com>
-Date: Wed, 19 Jul 2023 10:24:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6522510E4D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:49:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689781790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IIs1+OeC7xY5Px8k4Oh0JXDET+KMNKzjvphGrBCnx5U=;
+ b=DhY03SyjfsoTQ/YP2f1xBV0QYazT52zXeutAxdgw8kZen8bpB3buhxVG3W3QWIC5loryyV
+ Eb7N7gLs8ZHC2G4LTR2VtuEs22yDCJ6RLYkb+6aC0ZW56o28GWQjqwfggnJtz2bAnbyeM5
+ s2HVwIzfZcCaJxAtQTxoWtk0Qh9RzPw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-392-gICBU-V8Mbm8vekOpHVw6A-1; Wed, 19 Jul 2023 11:49:49 -0400
+X-MC-Unique: gICBU-V8Mbm8vekOpHVw6A-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-992e6840901so121001266b.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:49:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689781788; x=1692373788;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IIs1+OeC7xY5Px8k4Oh0JXDET+KMNKzjvphGrBCnx5U=;
+ b=O/j3IRMcf1qn45GSjwalxwnPbzzUiGYmLb97tIrlm0CubdIUrl/Eaf5kxQQslmLvZd
+ TFd4iECnakOO0TF5MipSeVnyJAdDOE72weNisVXHxMPG/Wkk1z5ZfjLn5xttcujAZv7z
+ Zg+bsliyQtEhsmaCeuAeAQIPUoGecm+pPte49nzs7+FVBl0mn1B86dO/s3HLKUspHSvR
+ 3qs9EhJ1pU78HD8yHk3bf3bvftlKG0KhdppJ9wMaJXR1/tNhjzxnRtjkBFJMbuHjje+f
+ 6VX7iKTBfoq6VugaSp1Bq5CJEC5WaEfkbSeRcIrSMd+hfBZAEXOonjW3OaLaJHYZFB2E
+ a92A==
+X-Gm-Message-State: ABy/qLaKzDogn9sGajXxoaQ5F7qiupZICfd8Ho1b++UPiCAD1Giv4Df/
+ Ov4+uQFUBiSFIfW8hDAyG19S0Tl+dVGFHX7UuEE2F3pRB4q9+njkqqj+J4baqKmPCOcQmdpPLHB
+ ISsxf4dBrlmN8WV/vxnLqibZ8VMgA
+X-Received: by 2002:a17:906:5195:b0:994:1805:1fad with SMTP id
+ y21-20020a170906519500b0099418051fadmr2933927ejk.10.1689781787943; 
+ Wed, 19 Jul 2023 08:49:47 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGQL1Dj9k25VVJZws0W/1xc6x1SGhyLAgn1JiyYhHtZBXW7L/qfpybCi7Tx38pKd+P+6CmdVA==
+X-Received: by 2002:a17:906:5195:b0:994:1805:1fad with SMTP id
+ y21-20020a170906519500b0099418051fadmr2933899ejk.10.1689781787590; 
+ Wed, 19 Jul 2023 08:49:47 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ u9-20020a1709063b8900b00992e51fecfbsm2549039ejf.64.2023.07.19.08.49.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jul 2023 08:49:47 -0700 (PDT)
+Message-ID: <955bc56a-6cfa-447a-31a9-2b35d8b23149@redhat.com>
+Date: Wed, 19 Jul 2023 16:24:58 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/4] drm/amdkfd: use vma_is_initial_stack() and
- vma_is_initial_heap()
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5] Documentation/gpu: Add a VM_BIND async draft document
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <20230715154543.13183-1-thomas.hellstrom@linux.intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230715154543.13183-1-thomas.hellstrom@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <20230719075127.47736-1-wangkefeng.wang@huawei.com>
- <20230719075127.47736-3-wangkefeng.wang@huawei.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20230719075127.47736-3-wangkefeng.wang@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0140.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:e::13) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|BL3PR12MB6546:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4144b76c-73e1-4298-7dc1-08db8863e16c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K8/s9c9gpEtTTD5iV+55HocmMU3c/dddZ6HOlFsLY90f1RZ9fx51+cmnVGOCC86xxqNjZQ44pIYb6Lo44qjrOvcvdzlrEivSSuEHRxa9+PiSW8VbVDApzVWbFUoSVydb8lYP7aVA+dQQqgo9uc4Y7DlftYJGNhcSoD5wfS4NsmT1FY0pqJljqBrYBwiIYpI4l1BrRiiiWncDgznn7ZyivLTaCAl/dLVQh+yncEXt/LMheF5R1QxG7VfK0pu4SjebkeOJ9/D6F1Axx2cemAmMR1ePcQNSCj8UfcXsldTfLiXyp6TCZ6xjWEHr++7I5Hn2KzZGVlAjdeE3djJxxYjy1WoV+73ZVmbBbtR9Mg/hxtMa56CbXpMjaiwLkKHiqrYGh5cDTl8K+kMQqdwIyg12fIJCNQaz3A2HkydnQXSpGEVGIhSf8nSKe78ZQzNSDoqmiuOI9BLcA4K0yQvtkv5anrX94LxnDO7LZMLk8I2T9SMBi65M6FwTa0hKOaLc5bACjtzpaqYqpdhDsR/6G/bA/60wDzYXGmtgfMS9SJotkkEqesY28vnro90o2jKpCoIQuog4PM/CWXRVrMu2lZr0TRmbnKM9aQIyClJ+lXjmM5eX3G5LBcIG5eRPEkJCm8ZvhjrPwtfARg9Iz6pWacGrTQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(396003)(39860400002)(376002)(366004)(136003)(451199021)(66946007)(54906003)(6486002)(110136005)(41300700001)(478600001)(8676002)(8936002)(5660300002)(6666004)(66476007)(66556008)(6512007)(4326008)(2616005)(316002)(66574015)(83380400001)(186003)(26005)(6506007)(38100700002)(31696002)(86362001)(36756003)(7416002)(44832011)(2906002)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3FZVW1jVFRjVW1UcmdKcTQyTW83bGpLSHJiTVRMK3dVWFNxbHJQVDdCZHFO?=
- =?utf-8?B?bktiYkpVYy9Vd0RGSzNNc2YrcmFSaXg1QzNkdFp2NnhlN3Vyc0pPS056cFJD?=
- =?utf-8?B?c2RpQy9TKzdSWlFCZDkzQ3llNGVFbGFybUpGZElsQmp1RVZmR1BTUitsL1pO?=
- =?utf-8?B?YytPRHlET3dYZHRxNVJXMG03NDc4ZVJGWHY3UHREMTRWNDBkQXMvTWlQYTlQ?=
- =?utf-8?B?YmFLUVFwRkdDM1JvL1RyLzNuMS9uK3dYRDNWYlA3MWVSeUV3RjF4eVluL3Fk?=
- =?utf-8?B?b0RNZGFrdVVIajdaL2IxSHNXVW5OMnNkSC9iaWhoRFBJL0kyRHU2TGUxM21P?=
- =?utf-8?B?SDBlRXVFSjJYczdXSldZdHhKZmx2NjRRaUdOYkxmQzZxK29ZSmQvOTlxWDZV?=
- =?utf-8?B?WWUyNjJtL3BjNHZuRVR2aVkrSEdON1czTjZQOVBFY3MwN3VJa08yTzVvcUlB?=
- =?utf-8?B?ZGdITk9kZzRJSm5OWE5zUlJqMW1tekRsZGh6aEdhU1E2cG5aVkZIcTc2TXVE?=
- =?utf-8?B?enV5TXFiQ0pGRmhqb1JGc2gyWEV5NXdCaXRxM0czMVA2ci9NZGV4bFpRUGhY?=
- =?utf-8?B?SVArbmpGWVBxQ0FRTzB0NUpScncwSG8zKzZETzJKaXc0cWsrK3ZhL0VrNk5C?=
- =?utf-8?B?ckpJdzl1cHR2dHovMlVYMVhZRGZWY1d4QVh4eFFxeHlqaHBOa2czWmMra3Zh?=
- =?utf-8?B?T1k3MklUeVQySDZVY1B0bUZyN0VhVEZPcWo1ZExqRXROQWdBRm9KSnFhK0Vi?=
- =?utf-8?B?OW1oWTEzemsxVlJheVcwcHZKRDNIMDdjWGNqc1dGdzBiTGppY1hzeG5RZjQx?=
- =?utf-8?B?ZmVid0ZEanoyWndsYTlldWcxbU9hTVEzalZKZEFRRTBBOEFqUGpjeklEK1ps?=
- =?utf-8?B?U2pkYUkrbCtvOFh4TGVOckVZUGtjTEd0ak9rL29wTXBRN2h3SktFRU1LM2lL?=
- =?utf-8?B?WjZ6UFFmR2IzSUF1NGdTK09FVGV0N3llcSt2UEhuRjF0MVF4cGxJajZRWjVG?=
- =?utf-8?B?RnhUTXJLVnRLaGw5ck15NnlBRmFPanBPc0Fhbmo0UWFaNDdrenV2WVNSZEk4?=
- =?utf-8?B?akhWRWh0cW82SkI3UG9LMXVaV0RQYVJrdS82dEFWWGR2eTdJekxuSnBjczJC?=
- =?utf-8?B?V1czTjEyU1ZCMGtwUEFUc09PaTVsb0tyQXFtZkx3QXltZFBFOWYrRDZSQkFo?=
- =?utf-8?B?SEV6UHIzRi9CNk1Ga0JoaUs2QlBTMGF5TW9pRk9HclNDN280RlN0UWRLWGVC?=
- =?utf-8?B?VDNFelBYN0o4cTZJL0IwLzZyaTlyOTJicDVRRkxGeFZadGF4MDdzYm9oYXR4?=
- =?utf-8?B?VEhJVEFRa3BJMEZwRXJMZUJWZTgybEpKS0g5SVVmZERNY2Rzemk0VVc1QzY5?=
- =?utf-8?B?a3BXYTJXaFA4S0Q5Qm1VSHZEdE5xVy9CWGZqSmVsQWFEcmFmWndHL25jelF3?=
- =?utf-8?B?S2hMSS9PbDN4SjZvTEUzRXh1UXpxUjJZQy9QNGp1bmEyRHc5QXVrV204WHB1?=
- =?utf-8?B?dzZ1Z0pwU0RTYjVZTkUwcFIrRldDcS9nY00rb1ZxVHFtRjlhU0J6Ly9sT25u?=
- =?utf-8?B?ZVVSSHcwb3Z1RHNHcmRRZlIzeThXZ05JNmJFcThLQXoyaWs5QkV0TmRwdS8z?=
- =?utf-8?B?dGdQQThPYXpGTUxEcUo3TGRBSU5LYlY3blNVN3lKZUdLV0lhb2hvOG1NcVlV?=
- =?utf-8?B?R2swM1lPUTRVVXhUTzUyRXMyQy9meE9qYTdWbjh2YklFVHBTTjJGL1NIcEda?=
- =?utf-8?B?UWE0azJXV1haMnFoanBKREdNUk9BRHZtT0VqeGFxRzFnbTcyd0hFNytsSVM4?=
- =?utf-8?B?aFQ3YXJIc1UrSWNreTJmTG9YTUlrU1ZIRHh5RzJwTlhteHBWSjdRYkJ4ajBq?=
- =?utf-8?B?dXlkdXlIUTg1eTJGSmVmZU5HK0xURzZLbGxURkZ6N1U3VnRKcGNTK3p6NElU?=
- =?utf-8?B?SlVwRmJNL3YxdEtrZHI4RnZsRm9GS3dyVkhoUjV1Njh6ZDZIeDMzMkRUZkNW?=
- =?utf-8?B?N2F1S1hmcFJGRTgxSldoMm9wNlEzWVNGWnFzcXR5RjhUVncwbFpLM0t2WTR6?=
- =?utf-8?B?cmluY1BvWnJJVEViclJrRE95QktIY2RoYzNUdVlMQkJTUTR5emphak41Mmxh?=
- =?utf-8?Q?xXPXac7sO71yvO0K2k7wf4JtO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4144b76c-73e1-4298-7dc1-08db8863e16c
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2023 14:24:36.9856 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VMONTdcPTmTQCYzKTQBdirY9O5MRcWMIMiyW9FCa5ox8nCg8KayC4GgW0qNCTbAxEhI+7UehTqpytCcLBLk5NA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6546
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,47 +88,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: selinux@vger.kernel.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org, linux-mm@kvack.org,
- amd-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Oak Zeng <oak.zeng@intel.com>,
+ intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Am 2023-07-19 um 03:51 schrieb Kefeng Wang:
-> Use the helpers to simplify code.
->
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-
-
+On 7/15/23 17:45, Thomas Hellström wrote:
+> Add a motivation for and description of asynchronous VM_BIND operation
+> 
+> v2:
+> - Fix typos (Nirmoy Das)
+> - Improve the description of a memory fence (Oak Zeng)
+> - Add a reference to the document in the Xe RFC.
+> - Add pointers to sample uAPI suggestions
+> v3:
+> - Address review comments (Danilo Krummrich)
+> - Formatting fixes
+> v4:
+> - Address typos (Francois Dugast)
+> - Explain why in-fences are not allowed for VM_BIND operations for long-
+>    running workloads (Matthew Brost)
+> v5:
+> - More typo- and style fixing
+> - Further clarify the implications of disallowing in-fences for VM_BIND
+>    operations for long-running workloads (Matthew Brost)
+> 
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Acked-by: Nirmoy Das <nirmoy.das@intel.com>
 > ---
->   drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> index 5ff1a5a89d96..0b7bfbd0cb66 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> @@ -2621,10 +2621,7 @@ svm_range_get_range_boundaries(struct kfd_process *p, int64_t addr,
->   		return -EFAULT;
->   	}
+>   Documentation/gpu/drm-vm-bind-async.rst | 171 ++++++++++++++++++++++++
+>   Documentation/gpu/rfc/xe.rst            |   4 +-
+>   2 files changed, 173 insertions(+), 2 deletions(-)
+>   create mode 100644 Documentation/gpu/drm-vm-bind-async.rst
+> 
+> diff --git a/Documentation/gpu/drm-vm-bind-async.rst b/Documentation/gpu/drm-vm-bind-async.rst
+> new file mode 100644
+> index 000000000000..d2b02a38198a
+> --- /dev/null
+> +++ b/Documentation/gpu/drm-vm-bind-async.rst
+> @@ -0,0 +1,171 @@
+> +====================
+> +Asynchronous VM_BIND
+> +====================
+> +
+> +Nomenclature:
+> +=============
+> +
+> +* ``VRAM``: On-device memory. Sometimes referred to as device local memory.
+> +
+> +* ``gpu_vm``: A GPU address space. Typically per process, but can be shared by
+> +  multiple processes.
+
+Again, pretty obvious, but I suggest to be explicit "GPU virtual address 
+space".
+
+Also, you might want to remove "draft" from the patch subject.
+
+Otherwise: Reviewed-by: Danilo Krummrich <dakr@redhat.com>
+
+> +
+> +* ``VM_BIND``: An operation or a list of operations to modify a gpu_vm using
+> +  an IOCTL. The operations include mapping and unmapping system- or
+> +  VRAM memory.
+> +
+> +* ``syncobj``: A container that abstracts synchronization objects. The
+> +  synchronization objects can be either generic, like dma-fences or
+> +  driver specific. A syncobj typically indicates the type of the
+> +  underlying synchronization object.
+> +
+> +* ``in-syncobj``: Argument to a VM_BIND IOCTL, the VM_BIND operation waits
+> +  for these before starting.
+> +
+> +* ``out-syncobj``: Argument to a VM_BIND_IOCTL, the VM_BIND operation
+> +  signals these when the bind operation is complete.
+> +
+> +* ``memory fence``: A synchronization object, different from a dma-fence.
+> +  A memory fence uses the value of a specified memory location to determine
+> +  signaled status. A memory fence can be awaited and signaled by both
+> +  the GPU and CPU. Memory fences are sometimes referred to as
+> +  user-fences, userspace-fences or gpu futexes and do not necessarily obey
+> +  the dma-fence rule of signaling within a "reasonable amount of time".
+> +  The kernel should thus avoid waiting for memory fences with locks held.
+> +
+> +* ``long-running workload``: A workload that may take more than the
+> +  current stipulated dma-fence maximum signal delay to complete and
+> +  which therefore needs to set the gpu_vm or the GPU execution context in
+> +  a certain mode that disallows completion dma-fences.
+> +
+> +* ``exec function``: An exec function is a function that revalidates all
+> +  affected gpu_vmas, submits a GPU command batch and registers the
+> +  dma_fence representing the GPU command's activity with all affected
+> +  dma_resvs. For completeness, although not covered by this document,
+> +  it's worth mentioning that an exec function may also be the
+> +  revalidation worker that is used by some drivers in compute /
+> +  long-running mode.
+> +
+> +* ``bind context``: A context identifier used for the VM_BIND
+> +  operation. VM_BIND operations that use the same bind context can be
+> +  assumed, where it matters, to complete in order of submission. No such
+> +  assumptions can be made for VM_BIND operations using separate bind contexts.
+> +
+> +* ``UMD``: User-mode driver.
+> +
+> +* ``KMD``: Kernel-mode driver.
+> +
+> +
+> +Synchronous / Asynchronous VM_BIND operation
+> +============================================
+> +
+> +Synchronous VM_BIND
+> +___________________
+> +With Synchronous VM_BIND, the VM_BIND operations all complete before the
+> +IOCTL returns. A synchronous VM_BIND takes neither in-fences nor
+> +out-fences. Synchronous VM_BIND may block and wait for GPU operations;
+> +for example swap-in or clearing, or even previous binds.
+> +
+> +Asynchronous VM_BIND
+> +____________________
+> +Asynchronous VM_BIND accepts both in-syncobjs and out-syncobjs. While the
+> +IOCTL may return immediately, the VM_BIND operations wait for the in-syncobjs
+> +before modifying the GPU page-tables, and signal the out-syncobjs when
+> +the modification is done in the sense that the next exec function that
+> +awaits for the out-syncobjs will see the change. Errors are reported
+> +synchronously assuming that the asynchronous part of the job never errors.
+> +In low-memory situations the implementation may block, performing the
+> +VM_BIND synchronously, because there might not be enough memory
+> +immediately available for preparing the asynchronous operation.
+> +
+> +If the VM_BIND IOCTL takes a list or an array of operations as an argument,
+> +the in-syncobjs needs to signal before the first operation starts to
+> +execute, and the out-syncobjs signal after the last operation
+> +completes. Operations in the operation list can be assumed, where it
+> +matters, to complete in order.
+> +
+> +Since asynchronous VM_BIND operations may use dma-fences embedded in
+> +out-syncobjs and internally in KMD to signal bind completion,  any
+> +memory fences given as VM_BIND in-fences need to be awaited
+> +synchronously before the VM_BIND ioctl returns, since dma-fences,
+
+IOCTL
+
+> +required to signal in a reasonable amount of time, can never be made
+> +to depend on memory fences that don't have such a restriction.
+> +
+> +To aid in supporting user-space queues, the VM_BIND may take a bind context.
+> +
+> +The purpose of an Asynchronous VM_BIND operation is for user-mode
+> +drivers to be able to pipeline interleaved gpu_vm modifications and
+> +exec functions. For long-running workloads, such pipelining of a bind
+> +operation is not allowed and any in-fences need to be awaited
+> +synchronously. The reason for this is twofold. First, any memory
+> +fences gated by a long-running workload and used as in-syncobjs for the
+> +VM_BIND operation will need to be awaited synchronously anyway (see
+> +above). Second, any dma-fences used as in-syncobjs for VM_BIND
+> +operations for long-running workloads will not allow for pipelining
+> +anyway since long-running workloads don't allow for dma-fences as
+> +out-syncobjs, so while theoretically possible the use of them is
+> +questionable and should be rejected until there is a valuable use-case.
+> +Note that this is not a limitation imposed by dma-fence rules, but
+> +rather a limitation imposed to keep KMD implementation simple. It does
+> +not affect using dma-fences as dependencies for the long-running
+> +workload itself, which is allowed by dma-fence rules, but rather for
+> +the VM_BIND operation only.
+> +
+> +Also for VM_BINDS for long-running gpu_vms the user-mode driver should typically
+> +select memory fences as out-fences since that gives greater flexibility for
+> +the kernel mode driver to inject other operations into the bind /
+> +unbind operations. Like for example inserting breakpoints into batch
+> +buffers. The workload execution can then easily be pipelined behind
+> +the bind completion using the memory out-fence as the signal condition
+> +for a GPU semaphore embedded by UMD in the workload.
+> +
+> +Multi-operation VM_BIND IOCTL error handling and interrupts
+> +===========================================================
+> +
+> +The VM_BIND operations of the IOCTL may error due to lack of resources
+> +to complete and also due to interrupted waits. In both situations UMD
+> +should preferably restart the IOCTL after taking suitable action. If
+> +UMD has over-committed a memory resource, an -ENOSPC error will be
+> +returned, and UMD may then unbind resources that are not used at the
+> +moment and restart the IOCTL. On -EINTR, UMD should simply restart the
+> +IOCTL and on -ENOMEM user-space may either attempt to free known
+> +system memory resources or abort the operation. If aborting as a
+> +result of a failed operation in a list of operations, some operations
+> +may still have completed, and to get back to a known state, user-space
+> +should therefore attempt to unbind all virtual memory regions touched
+> +by the failing IOCTL.
+> +Unbind operations are guaranteed not to cause any errors due to
+> +resource constraints.
+> +In between a failed VM_BIND IOCTL and a successful restart there may
+> +be implementation defined restrictions on the use of the gpu_vm. For a
+> +description why, please see KMD implementation details under `error
+> +state saving`_.
+> +
+> +Sample uAPI implementations
+> +===========================
+> +Suggested uAPI implementations at the moment of writing can be found for
+> +the Nouveau driver `here
+> +<https://patchwork.freedesktop.org/patch/543260/?series=112994&rev=6>`_.
+> +and for the Xe driver `here
+> +<https://cgit.freedesktop.org/drm/drm-xe/diff/include/uapi/drm/xe_drm.h?h=drm-xe-next&id=9cb016ebbb6a275f57b1cb512b95d5a842391ad7>`_.
+> +
+> +KMD implementation details
+> +==========================
+> +
+> +Error state saving
+> +__________________
+> +Open: When the VM_BIND IOCTL returns an error, some or even parts of
+> +an operation may have been completed. If the IOCTL is restarted, in
+> +order to know where to restart, the KMD can either put the gpu_vm in
+> +an error state and save one instance of the needed restart state
+> +internally. In this case, KMD needs to block further modifications of
+> +the gpu_vm state that may cause additional failures requiring a
+> +restart state save, until the error has been fully resolved. If the
+> +uAPI instead defines a pointer to a UMD allocated cookie in the IOCTL
+> +struct, it could also choose to store the restart state in that cookie.
+> +
+> +The restart state may, for example, be the number of successfully
+> +completed operations.
+> +
+> +Easiest for UMD would of course be if KMD did a full unwind on error
+> +so that no error state needs to be saved.
+> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+> index 2516fe141db6..0f062e1346d2 100644
+> --- a/Documentation/gpu/rfc/xe.rst
+> +++ b/Documentation/gpu/rfc/xe.rst
+> @@ -138,8 +138,8 @@ memory fences. Ideally with helper support so people don't get it wrong in all
+>   possible ways.
 >   
-> -	*is_heap_stack = (vma->vm_start <= vma->vm_mm->brk &&
-> -			  vma->vm_end >= vma->vm_mm->start_brk) ||
-> -			 (vma->vm_start <= vma->vm_mm->start_stack &&
-> -			  vma->vm_end >= vma->vm_mm->start_stack);
-> +	*is_heap_stack = vma_is_initial_heap(vma) || vma_is_initial_stack(vma);
+>   As a key measurable result, the benefits of ASYNC VM_BIND and a discussion of
+> -various flavors, error handling and a sample API should be documented here or in
+> -a separate document pointed to by this document.
+> +various flavors, error handling and sample API suggestions are documented in
+> +Documentation/gpu/drm-vm-bind-async.rst
 >   
->   	start_limit = max(vma->vm_start >> PAGE_SHIFT,
->   		      (unsigned long)ALIGN_DOWN(addr, 2UL << 8));
+>   Userptr integration and vm_bind
+>   -------------------------------
+
