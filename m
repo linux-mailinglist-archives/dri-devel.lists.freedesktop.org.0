@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34857759EA4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 21:32:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED84759EA5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 21:32:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B2710E500;
-	Wed, 19 Jul 2023 19:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B455810E506;
+	Wed, 19 Jul 2023 19:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E69C10E4F8;
- Wed, 19 Jul 2023 19:32:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BDAC10E516;
+ Wed, 19 Jul 2023 19:32:45 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A3B08617EA;
- Wed, 19 Jul 2023 19:32:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C165BC433C8;
- Wed, 19 Jul 2023 19:32:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9264C61802;
+ Wed, 19 Jul 2023 19:32:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCAE6C433C9;
+ Wed, 19 Jul 2023 19:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689795156;
- bh=5B2uDA9tsswf97AKzHjJwVKSaC/eQwz3Ft+8HwN2cMY=;
+ s=k20201202; t=1689795164;
+ bh=hZI4hitD39aZ+Qdl1lmi9pA61QSLLLHm+XV9ADPTsus=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=sKPn8HunIyLND9JEMu4ESWhCtE81F+Kc4q9T+MsHvJe5fiVAGpbXuDRp/BYXpZpLS
- W6t2CpoThhFjaBKMq9V/vJ4xDtEDO/+QJLKs4qmGj74udh8yjbH1CzdstTCReicUZ8
- a+GuNCN4+RignvXbuNN79PYXWUJifJtjcjTBO9iPpuJst49Rh/J1yePIbEk1m6saDf
- mz8tkyzl0u4mUpS4M6IUgiyI4u7WnVW2a2CTTQ6PLdK70OCT8nqJw53A7dhVhXa36m
- HFuvV439o4y7M4ZqbsSopjve8dD2ar20mZs0A1OecssekbzYQInKUphXz5EvXRa7wO
- tCq85pkSsXacQ==
-Date: Wed, 19 Jul 2023 14:32:33 -0500
+ b=eQXfqj+zST5V+UqVLxrOjyGA+WFrIALYwsndDf8yb+d/ZcAhNbmKZDq169VZaA9sf
+ 25+bBsBNSvp0yYQUkVL2vtrX8ooa/xyi+l+HGRTJ1LyPinE1QFLpb5R0Cg36sW3qNn
+ YgZrsKi4oHpxkgHsNexLn2gxv7Eeh2OoajZB5APtfPQ+10fXyIgjl2R3+z+WXlvO86
+ Qn893HS/fbI8ZKTtw08zvDfUMSHa1Fv8E+7oGp9QKbDJfH1c2kWXr4T2FGBMg+JkXS
+ oxjrRjZ46Nr7EXvdUaNgc1xypDfdpbsWW38ebY+nmePmjVTAwUQssX3tnWVYHKKP77
+ X9BK/nT/OlPNA==
+Date: Wed, 19 Jul 2023 14:32:41 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v3 4/9] PCI/VGA: Improve the default VGA device selection
-Message-ID: <20230719193233.GA511659@bhelgaas>
+Subject: Re: [PATCH v3 0/9] PCI/VGA: Improve the default VGA device selection
+Message-ID: <20230719193241.GA510805@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230711164310.791756-5-sui.jingfeng@linux.dev>
+In-Reply-To: <20230711164310.791756-1-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,108 +52,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, linux-pci@vger.kernel.org,
- dri-devel@lists.freedesktop.org, YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Likun Gao <Likun.Gao@amd.com>,
- Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Ben Skeggs <bskeggs@redhat.com>, Kevin Tian <kevin.tian@intel.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jani Nikula <jani.nikula@intel.com>,
- Bokun Zhang <Bokun.Zhang@amd.com>, intel-gfx@lists.freedesktop.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Abhishek Sahu <abhsahu@nvidia.com>, Maxime Ripard <mripard@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian Konig <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ kvm@vger.kernel.org, linux-pci@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+cc linux-pci (please cc in the future since the bulk of this patch
-is in drivers/pci/)]
+[+cc linux-pci]
 
-On Wed, Jul 12, 2023 at 12:43:05AM +0800, Sui Jingfeng wrote:
+On Wed, Jul 12, 2023 at 12:43:01AM +0800, Sui Jingfeng wrote:
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
 > 
-> Currently, the strategy of selecting the default boot on a multiple video
-> card coexistence system is not perfect. Potential problems are:
+> Currently, the default VGA device selection is not perfect. Potential
+> problems are:
 > 
 > 1) This function is a no-op on non-x86 architectures.
-
-Which function in particular is a no-op for non-x86?
-
 > 2) It does not take the PCI Bar may get relocated into consideration.
 > 3) It is not effective for the PCI device without a dedicated VRAM Bar.
 > 4) It is device-agnostic, thus it has to waste the effort to iterate all
 >    of the PCI Bar to find the VRAM aperture.
 > 5) It has invented lots of methods to determine which one is the default
->    boot device, but this is still a policy because it doesn't give the
->    user a choice to override.
+>    boot device on a multiple video card coexistence system. But this is
+>    still a policy because it doesn't give the user a choice to override.
+> 
+> With the observation that device drivers or video aperture helpers may
+> have better knowledge about which PCI bar contains the firmware FB,
+> 
+> This patch tries to solve the above problems by introducing a function
+> callback to the vga_client_register() function interface. DRM device
+> drivers for the PCI device need to register the is_boot_device() function
+> callback during the driver loading time. Once the driver binds the device
+> successfully, VRAARB will call back to the driver. This gives the device
+> drivers a chance to provide accurate boot device identification. Which in
+> turn unlock the abitration service to non-x86 architectures. A device
+> driver can also pass a NULL pointer to keep the original behavior.
 
-I don't think we need a list of *potential* problems.  We need an
-example of the specific problem this will solve, i.e., what currently
-does not work?
+I skimmed all these patches, but the only one that seems to mention an
+actual problem being solved, i.e., something that doesn't work for an
+end user, is "drm/ast: Register as a vga client ..."  Maybe
+"drm/loongson: Add an implement for ..." also solves a problem, but it
+lacks a commit log, so I don't know what the problem is.
 
-The drm/ast and maybe drm/loongson patches are the only ones that use
-the new callback, so I assume there are real problems with those
-drivers.
+In the future, can you please cc: linux-pci with the entire series?
+In this posting, only the patches that touched drivers/pci/vgaarb.c
+went to linux-pci, but those aren't enough to make sense of the series
+as a whole.
 
-CONFIG_DRM_AST is a tristate.  We're talking about identifying the
-boot-time console device.  So if CONFIG_DRM_AST=m, I guess we don't
-get the benefit of the new callback unless the module gets loaded?
+>   video/aperture: Add a helper to detect if an aperture contains
+>     firmware FB
+>   video/aperture: Add a helper for determining if an unmoved aperture
+>     contain FB
+>   PCI/VGA: Switch to aperture_contain_firmware_fb_nonreloc()
 
-> Also honor the comment: "Clients have *TWO* callback mechanisms they
-> can use"
+Since this subject includes the function name (which is nice!), it
+would also be helpful if the "Add a helper ..." subject included the
+same function name.
 
-This refers to the existing vga_client_register() function comment:
+>   PCI/VGA: Improve the default VGA device selection
 
-   * vga_client_register - register or unregister a VGA arbitration client
-   * @pdev: pci device of the VGA client
-   * @set_decode: vga decode change callback
-   *
-   * Clients have two callback mechanisms they can use.
-   *
-   * @set_decode callback: If a client can disable its GPU VGA resource, it
-   * will get a callback from this to set the encode/decode state.
+If you can make this subject any more specific, that would be useful.
+There's more to say about that patch, so I'll respond there.
 
-and the fact that struct vga_device currently only contains *one*
-callback function pointer:
+>   drm/amdgpu: Implement the is_primary_gpu callback of
+>     vga_client_register()
+>   drm/radeon: Add an implement for the is_primary_gpu function callback
+>   drm/i915: Add an implement for the is_primary_gpu hook
+>   drm/ast: Register as a vga client to vgaarb by calling
+>     vga_client_register()
+>   drm/loongson: Add an implement for the is_primary_gpu function
+>     callback
 
-  unsigned int (*set_decode)(struct pci_dev *pdev, bool decode);
+There's unnecessary variation in the subject lines (and the commit
+logs) of these patches.  If they all do the same thing but in
+different drivers, it's useful if the patches all *look* the same.
 
-Adding the .is_primary_gpu() callback does mean there will now be two
-callbacks, as the comment says, but I think it's just confusing to
-mention this in the commit log, so I would just remove it.
-
-> @@ -1509,13 +1543,24 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->  	 * cases of hotplugable vga cards.
->  	 */
->  
-> -	if (action == BUS_NOTIFY_ADD_DEVICE)
-> +	switch (action) {
-> +	case BUS_NOTIFY_ADD_DEVICE:
->  		notify = vga_arbiter_add_pci_device(pdev);
-> -	else if (action == BUS_NOTIFY_DEL_DEVICE)
-> +		if (notify)
-> +			vga_arbiter_notify_clients();
-> +		break;
-> +	case BUS_NOTIFY_DEL_DEVICE:
->  		notify = vga_arbiter_del_pci_device(pdev);
-> +		if (notify)
-> +			vga_arbiter_notify_clients();
-> +		break;
-> +	case BUS_NOTIFY_BOUND_DRIVER:
-> +		vga_arbiter_do_arbitration(pdev);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-
-Changing from if/else to switch makes the patch bigger than necessary
-for no real benefit and obscures what is really changing.
+You might be able to write these subjects as
+"Implement .is_primary_gpu() callback" for brevity.
 
 Bjorn
