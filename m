@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737407598BA
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 16:42:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1259F7598E5
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 16:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D30EC10E4B9;
-	Wed, 19 Jul 2023 14:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DB610E0AB;
+	Wed, 19 Jul 2023 14:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37CCC10E4B9;
- Wed, 19 Jul 2023 14:42:34 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- 006d021491bc7-56661fe27cbso4374271eaf.3; 
- Wed, 19 Jul 2023 07:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689777753; x=1692369753;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6xRuIs5eE+li5LEspd/uqDVdxyxGYMRY+5qaC71F82w=;
- b=L8r9oEP1ZyU6QlcUn2O6roGd1MuQKPhfaMHIu0TVSo3w9ZPLIFV2/QFGSBuokHKzDH
- PBYpjOSRGc865kBg/kQAt4Kk/sjgACgkAc81AeKcNOgUak5XIsV4cFDrbCmQBvZbeRxc
- M+zJ82MYAZwmMI4K7A6mOvcpLGxdOWVq7UzpHRFsf8+ZTdk1dTWdmmre5WaMNMv2HUWR
- wOjn/ibVZQR/Wdi06MMw4HRVdw7uhl737ZffWS4aOJKI+QWfMKSNFdtia3CTgdb5SISU
- HDEg2v64RFGKqQDy1oXXqfQAl2sGD65+mdYx8wMJeZokVuttYJULzO3YIYq8s7dNOBU1
- fWDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689777753; x=1692369753;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6xRuIs5eE+li5LEspd/uqDVdxyxGYMRY+5qaC71F82w=;
- b=OngShJ9DRsvgwTXjno5BAtcjZ6VWKQFn7YiKtLb0U8auOd0bkxfT7DfpkwVSrpNkrA
- bI9ZOhAPkd1iPg8vEJH1puBLPpk7y1o/s4J3FAhYJGdb5nI1SYSr+Ce2uls/dpjZ1vRb
- jJHg9gsTGYMuCyFPa0X3+GoLXd4nJtQCITc7JQp+m4gcDSy6X/lQCDiTFKm7B77vibmj
- UgaHf1bzUuADFZNh9dCJ5UKh69QAAsaN5GlQO7CCMe1HnClSLx9wn806nxVskF+47Zbs
- ZbkpabTREF42TZ8TcPuyLF/Znh0XeXbNxVXUrnNAZ3m2wGL6NCgXKTBWBB23LRoNh8g+
- QDSg==
-X-Gm-Message-State: ABy/qLaKLQVuseNCW/bCJw+M/0vu7TSSMNeEmKW77UI7FFovb1dchuIY
- A9rJtm/1cvnNvS0Pnp5c4I+F1MhGkeZPrSj4IwQ=
-X-Google-Smtp-Source: APBJJlEJwOI05e/ZJ9MQ6f7pTuB7wrtMvnBWQbZdf+Ww6Il1MvB2Wt+yllxrR39rA6xnE0ELIO0NTvIxZxAy40YuPPA=
-X-Received: by 2002:a05:6808:1829:b0:3a4:2c16:da70 with SMTP id
- bh41-20020a056808182900b003a42c16da70mr23192275oib.24.1689777752888; Wed, 19
- Jul 2023 07:42:32 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1953D10E0AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 14:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689778633; x=1721314633;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=imLHucqXnYNO2yrIn348rM221RZ8KilGBPj8l7A1Kwk=;
+ b=J2RCIjXrJPUYIRNS6vnIWgIGz5Y0rLXKF+1LnxkqPluzzDrI53zl309U
+ y4dVzkVJPHEtcoy6QlkWgyDbod+6PPNObJpX82OwGI5JEw0c2Ju2hrEQh
+ NT/mx8DqTBmZ5F6q6aoLIirhu9hUIdnBZDOd0292YS48H+YQoS0gFA7vs
+ y913o8qItRero1Tm9U9NkHV5opqkDi0aZ+m74XiN6Sdu0fOvJqZ8wb8oc
+ eU8BcmSDQv5bWAmQ86Z9qIxklWtc7o/50IVH8LIJs1tjKK44QFo0AmTxd
+ 8IielhDhp9L7ZzOYdZjCJgTG5HzEd2gnQh3i6iNC33tOYlvaByy7VXveo g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="356441021"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; d="scan'208";a="356441021"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2023 07:57:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="848073732"
+X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; d="scan'208";a="848073732"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+ by orsmga004.jf.intel.com with ESMTP; 19 Jul 2023 07:57:09 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qM8br-00052N-2r;
+ Wed, 19 Jul 2023 14:57:03 +0000
+Date: Wed, 19 Jul 2023 22:55:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/mipi-dbi: Lock SPI bus before setting D/C GPIO
+Message-ID: <202307192201.7i1HPQEe-lkp@intel.com>
+References: <20230719095343.88359-2-otto.pflueger@abscue.de>
 MIME-Version: 1.0
-References: <20230414143810.572237-1-l.stach@pengutronix.de>
- <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
- <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
-In-Reply-To: <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 19 Jul 2023 16:42:21 +0200
-Message-ID: <CAH9NwWd5TjfeYDCyaUDveGDz=QdUWKyB9UKpnDms3Hom-J3X5g@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230719095343.88359-2-otto.pflueger@abscue.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,42 +61,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Hi Otto,
 
-Am Mi., 21. Juni 2023 um 17:44 Uhr schrieb Christian Gmeiner
-<christian.gmeiner@gmail.com>:
->
-> Hi Lucas,
->
-> Am Mo., 17. Apr. 2023 um 19:42 Uhr schrieb Christian Gmeiner
-> <christian.gmeiner@gmail.com>:
-> >
-> > Hi Lucas
-> >
-> > >
-> > > gpu->mmu_context is the MMU context of the last job in the HW queue, which
-> > > isn't necessarily the same as the context from the bad job. Dump the MMU
-> > > context from the scheduler determined bad submit to make it work as intended.
-> > >
-> >
-> > Good catch!
-> >
->
-> I think this patch did not land yet. Do you have plans to add it to
-> etnaviv/next?
->
+kernel test robot noticed the following build errors:
 
-I have seen you added it today - great!
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc2 next-20230719]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Otto-Pfl-ger/drm-mipi-dbi-Lock-SPI-bus-before-setting-D-C-GPIO/20230719-180941
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230719095343.88359-2-otto.pflueger%40abscue.de
+patch subject: [PATCH 1/2] drm/mipi-dbi: Lock SPI bus before setting D/C GPIO
+config: arc-randconfig-r022-20230718 (https://download.01.org/0day-ci/archive/20230719/202307192201.7i1HPQEe-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192201.7i1HPQEe-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307192201.7i1HPQEe-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/tiny/ili9225.c: In function 'ili9225_dbi_command':
+>> drivers/gpu/drm/tiny/ili9225.c:321:15: error: too few arguments to function 'mipi_dbi_spi_transfer'
+     321 |         ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, cmd, 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/tiny/ili9225.c:30:
+   include/drm/drm_mipi_dbi.h:187:5: note: declared here
+     187 | int mipi_dbi_spi_transfer(struct spi_device *spi, u32 speed_hz,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tiny/ili9225.c:331:16: error: too few arguments to function 'mipi_dbi_spi_transfer'
+     331 |         return mipi_dbi_spi_transfer(spi, speed_hz, bpw, par, num);
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_mipi_dbi.h:187:5: note: declared here
+     187 | int mipi_dbi_spi_transfer(struct spi_device *spi, u32 speed_hz,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tiny/ili9225.c:332:1: error: control reaches end of non-void function [-Werror=return-type]
+     332 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +/mipi_dbi_spi_transfer +321 drivers/gpu/drm/tiny/ili9225.c
+
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  310  
+36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-22  311  static int ili9225_dbi_command(struct mipi_dbi *dbi, u8 *cmd, u8 *par,
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  312  			       size_t num)
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  313  {
+36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-22  314  	struct spi_device *spi = dbi->spi;
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  315  	unsigned int bpw = 8;
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  316  	u32 speed_hz;
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  317  	int ret;
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  318  
+36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-22  319  	gpiod_set_value_cansleep(dbi->dc, 0);
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  320  	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, 1);
+d23d4d4dac0119 drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-19 @321  	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, cmd, 1);
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  322  	if (ret || !num)
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  323  		return ret;
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  324  
+36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-22  325  	if (*cmd == ILI9225_WRITE_DATA_TO_GRAM && !dbi->swap_bytes)
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  326  		bpw = 16;
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  327  
+36b5057216236a drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-22  328  	gpiod_set_value_cansleep(dbi->dc, 1);
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  329  	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  330  
+d23d4d4dac0119 drivers/gpu/drm/tinydrm/ili9225.c Noralf Trønnes 2019-07-19  331  	return mipi_dbi_spi_transfer(spi, speed_hz, bpw, par, num);
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  332  }
+b57e8b7661e046 drivers/gpu/drm/tinydrm/ili9225.c David Lechner  2017-11-19  333  
 
 -- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
