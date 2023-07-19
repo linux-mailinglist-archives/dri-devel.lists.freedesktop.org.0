@@ -2,66 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CF875973E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 15:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E84759746
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 15:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC02410E4B0;
-	Wed, 19 Jul 2023 13:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B34610E100;
+	Wed, 19 Jul 2023 13:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8048610E4B4
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:43:24 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id
- d9443c01a7336-1b89e10d356so43810895ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 06:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689774204; x=1690379004;
- h=content-disposition:mime-version:message-id:subject:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Uj4bycoHIi78Tfh9p5PlVQ04avMBcEsGppMMatw0U6g=;
- b=CJrnhE7Trr0nlNCxZ6FHqOnklJL3pq5ya/g8BUqmj2ArNdHTcyWdHwtH3q+eK3gIdA
- F2LT4d11H0PEw+LgU+8f/C3zPwukCl2hJ9XfUpxCcGk4RTGadMyQWD3tWKT+cZKoEyOY
- 6OUHM6T2BwKCGljZ1dwOkIHrqr3reMjvxFI/kFGoYHTRFV8O1ECpZJ/4ABfETLag/RRe
- 7GCyFZK/OcqBVl2auOmO6W4Ema4K6EdVlLkyvnmPlhPnqxZAj+S91H3dN4VFYRwWYQcH
- SIO82jrJaXfflRhYWhtVVlILQbP2LmpgEJ/LpKLBn1WblL5xUCrvaYjALr3TZtbyOzUl
- 8NZA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4337310E100
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689774555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7gvBqRrgzjiPOFgHQxEB0Nm34S2dkYf27eWyqPPlFhY=;
+ b=O5Rd1URVjeh3tsQBpWBdG/ni9Q3s6GpVO5o+5lMdTSIxTxC+ZR8bzquFK10YAccDsOvlyR
+ XoUlHlrpd9iy1eW3Y5ZuTwxhSmAJ2kSf7aAHMhuzHBiDNAKzpDLTlcbtMEQn5sMrw1uVPi
+ 5zZ0MaBdd4Gn7k9rsO3tfhQ+uj8OS+A=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-323-EkHTQmYGMpOsawz2yug6Jw-1; Wed, 19 Jul 2023 09:49:14 -0400
+X-MC-Unique: EkHTQmYGMpOsawz2yug6Jw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-315a03cae87so354704f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 06:49:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689774204; x=1690379004;
- h=content-disposition:mime-version:message-id:subject:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Uj4bycoHIi78Tfh9p5PlVQ04avMBcEsGppMMatw0U6g=;
- b=Q6j+ipmVJAWghJPKiEFclMVsPiG3Ifxkbr252lhAO4fybFqztWKQs+fVb6jPXZLN/z
- CXRYhNZP5lkhJnaiSPXbyJ7jiEERYf2+xabvL6gtqRC/it0SoYH59nP7eevdXDs078PY
- Cbapg8nDwfG0UusSSMJ9ZFmHUYSwX7vwterEmkaCA/l4WChlzCwWCmd8Nu32airf8+7s
- lfxhIY6/v8mSR0DR6M+FcMnRF9cVNmfsxOq6Q5rI2jpQS6sD7b+Fxa+7cKBdfGsbaHwA
- PjkyxQeKBzR7RARFfIZCPEvC2+FvG7+Yg6ULc5U8/x5ggSbVBOxavMGwD3zt/CILb2nO
- 4naw==
-X-Gm-Message-State: ABy/qLZFi+sdLvksjux0yA//WlICO52jJl+1XbWWcBOHVSLOmoZcvUAk
- FV6G0swgVLiMPiP6C2Ac3jqWFSwsS6zuhQ==
-X-Google-Smtp-Source: APBJJlF8PGF3kIOqDDcd8iBgMQDwo5SHYLCSJ23t56NouDYZxRwNMVfNh4+/C0uNHBeZG1qHtYxJFA==
-X-Received: by 2002:a17:902:b28b:b0:1b8:6cab:db7f with SMTP id
- u11-20020a170902b28b00b001b86cabdb7fmr4807352plr.53.1689774203465; 
- Wed, 19 Jul 2023 06:43:23 -0700 (PDT)
-Received: from ubuntu ([59.178.102.25]) by smtp.gmail.com with ESMTPSA id
- iz9-20020a170902ef8900b001a1b66af22fsm3991568plb.62.2023.07.19.06.43.17
+ d=1e100.net; s=20221208; t=1689774552; x=1690379352;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7gvBqRrgzjiPOFgHQxEB0Nm34S2dkYf27eWyqPPlFhY=;
+ b=gsMq2+5bAHeOtYX+543rbWdAmQYzQkcVUYhEdpJ8TzAsSbGe8Wa0m3uqr/2uYqcTt9
+ wJ81fdPgP+QFDkIOA8xdCzYkWLTFryf43iAyTEJCZgxHDjl3iUjwmXenvWnkQ+lFq+7o
+ nR07NQBVTUkJkgqXV511KGY8sPNj+PO2hQ3FglXEUvhbetUsZK/r0jo8QwJkyNBPct9q
+ 27uKpTrub9X72wjmZdClKFOHfLDfba3uPSKPoFcGtMNR7BHbBHaY3oJvZvflpLg6ZOae
+ He0e+ElnW4uPBigG26X0h2IAZsLqmo+80KPHGUu+V/U8tcJkA6xjMJtPqQB8SzfqFBU8
+ GhUA==
+X-Gm-Message-State: ABy/qLZz/O+CSHh5QfahYKCS/6RKJf+4hR9YoMkgid03v/AU892G3hrv
+ urER0aJOYFAMOHOhwA89HnIit548ryVqfeuvGdmK/1UeWTVN72hp95izMgHrJMz/bLKAB2nxB+x
+ jjajAFh59iVkZPyHJzdQEMM+bfmDt
+X-Received: by 2002:a5d:6a04:0:b0:314:3369:df57 with SMTP id
+ m4-20020a5d6a04000000b003143369df57mr1948320wru.5.1689774552642; 
+ Wed, 19 Jul 2023 06:49:12 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFD8G6VPVcqqGeSjptpNDnOnSs3W+CAZM63rDbbbVz9hymKgoyuOl3Kik6r5ce0mC8oQNhizg==
+X-Received: by 2002:a5d:6a04:0:b0:314:3369:df57 with SMTP id
+ m4-20020a5d6a04000000b003143369df57mr1948300wru.5.1689774552274; 
+ Wed, 19 Jul 2023 06:49:12 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q2-20020a5d6582000000b003143bb5ecd5sm5381303wru.69.2023.07.19.06.49.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 06:43:22 -0700 (PDT)
-Date: Wed, 19 Jul 2023 06:43:14 -0700
-From: Sumitra Sharma <sumitraartsy@gmail.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ira Weiny <ira.weiny@intel.com>, Fabio <fmdefrancesco@gmail.com>,
- Deepak R Varma <drv@mailo.com>, Sumitra Sharma <sumitraartsy@gmail.com>,
- Alison Schofield <alison.schofield@intel.com>
-Subject: [PATCH] Remove unnecessary calls to kmap{,_local_page}() when
- acquiring pages using GFP_DMA32.
-Message-ID: <20230719134314.GA7590@ubuntu>
+ Wed, 19 Jul 2023 06:49:11 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v2 5/9] vgacon: remove screen_info dependency
+In-Reply-To: <20230719123944.3438363-6-arnd@kernel.org>
+References: <20230719123944.3438363-1-arnd@kernel.org>
+ <20230719123944.3438363-6-arnd@kernel.org>
+Date: Wed, 19 Jul 2023 15:49:11 +0200
+Message-ID: <87fs5khuzs.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,61 +81,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-hyperv@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+ Will Deacon <will@kernel.org>, linux-efi@vger.kernel.org,
+ Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ WANG Xuerui <kernel@xen0n.name>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Huacai Chen <chenhuacai@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Deepak Rawat <drawat.floss@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, loongarch@lists.linux.dev,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Khalid Aziz <khalid@gonehiking.org>, Brian Cain <bcain@quicinc.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Dinh Nguyen <dinguyen@kernel.org>, linux-riscv@lists.infradead.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GFP_DMA32 uses the DMA32 zone to satisfy the allocation
-requests. Therefore, pages allocated with GFP_DMA32 cannot
-come from Highmem.
+Arnd Bergmann <arnd@kernel.org> writes:
 
-Avoid using calls to kmap() / kunmap() as the kmap() is being
-deprecated [1].
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The vga console driver is fairly self-contained, and only used by
+> architectures that explicitly initialize the screen_info settings.
+>
+> Chance every instance that picks the vga console by setting conswitchp
+> to call a function instead, and pass a reference to the screen_info
+> there.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-Avoid using calls to kmap_local_page() / kunmap_local() as the
-code does not depends on the implicit disable of migration of
-local mappings and is, in fact, an unnecessary overhead for
-the main code [2].
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Hence, use a plain page_address() directly in the
-psb_mmu_alloc_pd function.
-
-[1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com/
-[2]: https://lwn.net/Articles/836503/
-
-Suggested-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
----
- drivers/gpu/drm/gma500/mmu.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/gma500/mmu.c b/drivers/gpu/drm/gma500/mmu.c
-index a70b01ccdf70..1a44dd062fd1 100644
---- a/drivers/gpu/drm/gma500/mmu.c
-+++ b/drivers/gpu/drm/gma500/mmu.c
-@@ -184,20 +184,15 @@ struct psb_mmu_pd *psb_mmu_alloc_pd(struct psb_mmu_driver *driver,
- 		pd->invalid_pte = 0;
- 	}
- 
--	v = kmap_local_page(pd->dummy_pt);
-+	v = page_address(pd->dummy_pt);
- 	for (i = 0; i < (PAGE_SIZE / sizeof(uint32_t)); ++i)
- 		v[i] = pd->invalid_pte;
- 
--	kunmap_local(v);
--
--	v = kmap_local_page(pd->p);
-+	v = page_address(pd->p);
- 	for (i = 0; i < (PAGE_SIZE / sizeof(uint32_t)); ++i)
- 		v[i] = pd->invalid_pde;
- 
--	kunmap_local(v);
--
--	clear_page(kmap(pd->dummy_page));
--	kunmap(pd->dummy_page);
-+	clear_page(page_address(pd->dummy_page));
- 
- 	pd->tables = vmalloc_user(sizeof(struct psb_mmu_pt *) * 1024);
- 	if (!pd->tables)
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
