@@ -2,72 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7080475A04F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 23:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397F275A060
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 23:13:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CADF10E514;
-	Wed, 19 Jul 2023 21:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CDF310E3FC;
+	Wed, 19 Jul 2023 21:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCBB10E514
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 21:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689800655;
+Received: from out-20.mta0.migadu.com (out-20.mta0.migadu.com [91.218.175.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 474B610E3FC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 21:13:15 +0000 (UTC)
+Message-ID: <1a10cb43-7c96-069a-bdd2-3a8cdb7727e1@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1689801191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5UtvnYzoD0hTrn0V/d7YsuJa3bzzNU2UnBUdhkM6arg=;
- b=Uz/awoxPhL1t3OFoT5zTHu93cHmhaWe/mU49W9+AzgN+bc6iX2bmGimnq36I1XQvDBfwcU
- FBA/4tn2CvebxZ0+Mt1YsFmXi2qwCWA7VW3hE2k4JooGIw2q0b+ab22N8PfOL5UxbFMyAq
- FrEEYdD4vV7RJ9ZOXPWMxi5nIAg54+0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-623-Wa7-Cra2MeOy6buD3NZpUw-1; Wed, 19 Jul 2023 17:04:13 -0400
-X-MC-Unique: Wa7-Cra2MeOy6buD3NZpUw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3faabd8fd33so479325e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 14:04:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689800653; x=1690405453;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5UtvnYzoD0hTrn0V/d7YsuJa3bzzNU2UnBUdhkM6arg=;
- b=RUPuhT9aM/24/9vplQ923kipEwyvf+Zpx/kJLv+eEhQQKypQVtk4VK4SiZcrLrBYdR
- 1octNGWrScQM9viW0VoV4v2bSITuvy151KTotmxp2MBvtDCh1CeKGd9126gzwroiSoLW
- CylmyJBU2gyUG+1XnfM5UdGHP3di5luOZd5wAph6Z9J/CvySMaEULo/Sg35jBAzbChI/
- xhHDASDjx1Ma7QVZnZ09sRxg7ocAyOKlkG2IcBOfMPS2HqEXJtL0ej8yAQJ5ghyE9Ffn
- 7WL/tjTP+HfVypfItUJiuDvMuxixC1SFD2hAap3fUYZDF4yqKys6nCoplCqZkSl/3BAP
- WVLA==
-X-Gm-Message-State: ABy/qLavXSvG4fT3ebO2m+9xgIN7ZBDrChu6xkYUXnkpBl5gOy+ppTmW
- tevTJe1ePFPWvSMvibG8AaQuQ9tr+rSoDO5Sn91VU6UN/zymJqFHXx0zm2vqtzlNbI+BegFVz/1
- B1bgPFp3wvSXoXvJVggTh+Rnqc6/C
-X-Received: by 2002:a7b:c417:0:b0:3fc:a49:4c05 with SMTP id
- k23-20020a7bc417000000b003fc0a494c05mr2605694wmi.40.1689800652863; 
- Wed, 19 Jul 2023 14:04:12 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGFMEBZUtWgLIXmLJGFgFBrBgcH+QPCPcyjvXHCOqZ4qj3Y2EJEdDf0aE7BHfrJp9fobuCGmw==
-X-Received: by 2002:a7b:c417:0:b0:3fc:a49:4c05 with SMTP id
- k23-20020a7bc417000000b003fc0a494c05mr2605683wmi.40.1689800652592; 
- Wed, 19 Jul 2023 14:04:12 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q22-20020a7bce96000000b003fbca05faa9sm2462505wmj.24.2023.07.19.14.04.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 14:04:12 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, emma@anholt.net,
- eric@anholt.net, tom.cooksey@arm.com
-Subject: Re: [PATCH] drm/pl111: Fix missing unwind goto in pl111_amba_probe()
-In-Reply-To: <20230329171824.1159104-1-harshit.m.mogalapalli@oracle.com>
-References: <20230329171824.1159104-1-harshit.m.mogalapalli@oracle.com>
-Date: Wed, 19 Jul 2023 23:04:11 +0200
-Message-ID: <87y1jbipf8.fsf@minerva.mail-host-address-is-not-set>
+ bh=GsT5fBh8KwnUgUCpgN0LIT64s0RQIMJgl5uyUvT45hU=;
+ b=onl9tgCTxyWZS4mjI/YjCwX2bDOLsgCA+ISxwXBqf+mKSgHVlK/fYzNmGvtF4NA4SrazBc
+ kBA9R1hBsWYb8TEpWhBanuhWyYSEzs6MaENojEpZivIyXmyoqGyVN/eQDHOjtvSWb2USi9
+ +WJeGIgLdpDUwGRijlEDkt46oUuzP3w=
+Date: Thu, 20 Jul 2023 05:13:01 +0800
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Subject: Re: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
+Content-Language: en-US
+To: Bjorn Helgaas <helgaas@kernel.org>
+References: <20230719182617.GA509912@bhelgaas>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20230719182617.GA509912@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,38 +48,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, error27@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: loongson-kernel@lists.loongnix.cn, Jingfeng@loongson.cn,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Sui@freedesktop.org, dri-devel@lists.freedesktop.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com> writes:
+Hi,
 
-> Smatch reports:
-> 	drivers/gpu/drm/pl111/pl111_drv.c:300
-> 	pl111_amba_probe() warn: missing unwind goto?
+
+On 2023/7/20 02:26, Bjorn Helgaas wrote:
+> On Tue, Jul 11, 2023 at 09:43:50PM +0800, Sui Jingfeng wrote:
+>> From: Sui Jingfeng<suijingfeng@loongson.cn>
+>>
+>> Currently, vgaarb only cares about PCI VGA-compatible class devices.
+>>
+>> While vga_arbiter_del_pci_device() gets called unbalanced when some PCI
+>> device is about to be removed. This happens even during the boot process.
+> The previous code calls vga_arbiter_add_pci_device() for every device
+> (every device present at boot and also every hot-added device).  It
+> only allocates a vga_device if pdev->class is 0x0300XX.
 >
-> When devm_request_irq() returns non-zero value, we need to drop the
-> reference for drm device and also release reserved memory which is
-> done in "dev_put" label. So instead of directly returning, goto dev_put
-> to fix this bug.
+> It calls vga_arbiter_del_pci_device() for every device removal.  It
+> does nothing unless it finds a vga_device.
+> This seems symmetric and reasonable to me.  Did you observe a problem
+> with it?
 >
-> Fixes: bed41005e617 ("drm/pl111: Initial drm/kms driver for pl111")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> This is based on static analysis, Only Compile tested.
-> ---
->  drivers/gpu/drm/pl111/pl111_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Not big deal, but the vgaarb does do some useless work there.
 
-The patch looks correct to me.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Right,  it calls vga_arbiter_del_pci_device() for every device removal.
 
--- 
-Best regards,
+And it can not finds a vga_device at the most time. (Because on normal 
+case, a user only have one or two GPU device in the system.)
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+But even it can not finds a vga_device, vga_arbiter_del_pci_device() 
+still brings
+
+additional(and it is unnecessary) overheads.
+
+
+For an example, on my i3-8100 (the motherboard model is H110 D4L) machine,
+
+The PCI device(0000:00:1f.1) will trigger the call to 
+vga_arbiter_del_pci_device().
+
+
+Even though it can not finds a vga_device,
+
+vga_arbiter_del_pci_device() is *NOT* a no-op still.
+
+
+```
+
+static bool vga_arbiter_del_pci_device(struct pci_dev *pdev)
+{
+     struct vga_device *vgadev;
+     unsigned long flags;
+     bool ret = true;
+
+     spin_lock_irqsave(&vga_lock, flags);
+     vgadev = vgadev_find(pdev);
+     if (vgadev == NULL) {
+         ret = false;
+         goto bail;
+     }
+
+     // omit ...
+
+
+bail:
+     spin_unlock_irqrestore(&vga_lock, flags);
+     kfree(vgadev);
+     return ret;
+}
+
+```
+
+
+1) It call spin_lock_irqsave() and  spin_unlock_irqrestore() pair for 
+complete irrelevant PCI devices
+
+2) It try to find a vgadev with pdev pointer, which have to search the 
+whole list (All nodes in the list got accessed), because it can not find.
+
+3) It call kfree() to free NULL pointer, it's just that kfree() will 
+just return if you pass a NULL, so no bug happen.
+
+
+It is not efficient.
+
+While the major contribution of my patch is to filter irrelevant PCI device.
+
+Otherwise there 30+ noisy(useless) events got snooped. See below:
+
+
+```
+
+[    0.246077] pci 0000:01:00.0: vgaarb: setting as boot VGA device
+[    0.246077] pci 0000:01:00.0: vgaarb: bridge control possible
+[    0.246077] pci 0000:01:00.0: vgaarb: VGA device added: 
+decodes=io+mem,owns=io+mem,locks=none
+[    0.246077] vgaarb: loaded
+[    0.294169] skl_uncore 0000:00:00.0: vgaarb: pci_notify: action=3
+[    0.294182] skl_uncore 0000:00:00.0: vgaarb: pci_notify: action=4
+[    0.301297] pcieport 0000:00:01.0: vgaarb: pci_notify: action=3
+[    0.301482] pcieport 0000:00:01.0: vgaarb: pci_notify: action=4
+[    0.301488] pcieport 0000:00:1c.0: vgaarb: pci_notify: action=3
+[    0.301705] pcieport 0000:00:1c.0: vgaarb: pci_notify: action=4
+[    1.806445] xhci_hcd 0000:00:14.0: vgaarb: pci_notify: action=3
+[    1.810976] ahci 0000:00:17.0: vgaarb: pci_notify: action=3
+[    1.824383] xhci_hcd 0000:00:14.0: vgaarb: pci_notify: action=4
+[    1.857470] ahci 0000:00:17.0: vgaarb: pci_notify: action=4
+[    4.692700] intel_pch_thermal 0000:00:14.2: vgaarb: pci_notify: action=3
+[    4.693110] intel_pch_thermal 0000:00:14.2: vgaarb: pci_notify: action=4
+[    4.746712] i801_smbus 0000:00:1f.4: vgaarb: pci_notify: action=3
+[    4.747212] pci 0000:00:1f.1: vgaarb: pci_notify: action=0
+[    4.747227] pci 0000:00:1f.1: vgaarb: pci_notify: action=1
+[    4.747250] pci 0000:00:1f.1: vgaarb: pci_notify: action=2
+[    4.749098] i801_smbus 0000:00:1f.4: vgaarb: pci_notify: action=4
+[    4.799217] mei_me 0000:00:16.0: vgaarb: pci_notify: action=3
+[    4.802503] mei_me 0000:00:16.0: vgaarb: pci_notify: action=4
+[    4.874880] intel-lpss 0000:00:15.0: vgaarb: pci_notify: action=3
+[    4.881227] intel-lpss 0000:00:15.0: vgaarb: pci_notify: action=4
+[    4.881240] intel-lpss 0000:00:15.1: vgaarb: pci_notify: action=3
+[    4.887578] intel-lpss 0000:00:15.1: vgaarb: pci_notify: action=4
+[    4.985796] r8169 0000:02:00.0: vgaarb: pci_notify: action=3
+[    4.991862] r8169 0000:02:00.0: vgaarb: pci_notify: action=4
+[    5.404835] snd_hda_intel 0000:00:1f.3: vgaarb: pci_notify: action=3
+[    5.405175] snd_hda_intel 0000:00:1f.3: vgaarb: pci_notify: action=4
+[    5.405401] snd_hda_intel 0000:01:00.1: vgaarb: pci_notify: action=3
+[    5.405973] snd_hda_intel 0000:01:00.1: vgaarb: pci_notify: action=4
+[   10.793665] i915 0000:00:02.0: vgaarb: pci_notify: action=3
+[   11.201384] i915 0000:00:02.0: vgaarb: pci_notify: action=4
+[   16.135842] amdgpu 0000:01:00.0: vgaarb: pci_notify: action=3
+[   16.140458] amdgpu 0000:01:00.0: vgaarb: deactivate vga console
+[   16.638564] amdgpu 0000:01:00.0: vgaarb: pci_notify: action=4
+
+```
+
+
+
 
