@@ -1,73 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977077592D6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:24:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771CF7592DA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3AAC10E457;
-	Wed, 19 Jul 2023 10:24:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4DE810E458;
+	Wed, 19 Jul 2023 10:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
- [IPv6:2607:f8b0:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BA710E458
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:24:50 +0000 (UTC)
-Received: by mail-il1-x134.google.com with SMTP id
- e9e14a558f8ab-3476c902f2aso33453815ab.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:24:50 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3446910E458
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:25:00 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4f122ff663eso11021708e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1689762289; x=1692354289;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K9ZDAcRcEb4EcOQItHJdczS495JLkwEqfSdpm/d3I5s=;
- b=eeUXFsNC6JkS1yWsEnlbibzVOaUw4iyaw9+9IEMNq2UipZPdVXpIO5CNDZTEWkOfsi
- hQN97Bi5G+ajQRqNVN3jCFvB/BpFl29KTazHH2u6FPf2Q9iLcRaKbjhYwlRwAwDNlFdr
- YHypId86jhjCihxQ4RkjS+LvUBZRA+y3CkQBw=
+ d=gmail.com; s=20221208; t=1689762298; x=1692354298;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kzwI5VxEU3KMLKWKNIn2pwe7xkF7bK6X8n8zVQIr7Rg=;
+ b=lLD7U78AvsWpQsA+ih7cP/XCaGmPFltne9MPqtHTzBQS+p3YpOfOb9o4wKgs/xstYd
+ DEIg6DYTG6baWnMkZPF19uln0GPiAVPkMQd0xcJcHl0QTVOWWnzywdJ3+LxBPTdWiigC
+ ja1haPZz7EVoWCD2gFGraRpHUOu5lEdVfMlxn7Mos+CMef5YpI6S5+JjiXn9n5bHvLME
+ mFv3WPXKBN9SVVF38NgWnlciFJebgjOOztwxf/BVNOnPimAJcUEmO6yrgGLmvEIDgfvd
+ bR/umRb2gHL+l7Ap2BhLXQxestuKJ2HmgK4Z/qqAqQQ8usmCkTtrlhDelbTpaw9zG0nV
+ 8bmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689762289; x=1692354289;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=K9ZDAcRcEb4EcOQItHJdczS495JLkwEqfSdpm/d3I5s=;
- b=KXQDG3qslYRmyPAFjSWB4ymQ/QtmYEr2XsLdgAZZ4toYgn6pS3DFJOiEhGp0xIQw8+
- MgpJ4Ws+Tmv1FjHnCkuZ6kXbdKx0m8BNp/FbJbh6H6WbggZ/szh4gc8YTM58AWjQl4jn
- 12BIN6/ye+DUEtNBRfdoaD4bxO/nVaUMlEezNwO5IjKy2AAdsaE76CPbzPYVSAbLTFpw
- qZv28Bfj1Yq9AwlVA1/3Dm8hJb3mZlBFlyf9brlZZxEvVA7fz3N0T0etDOSln8s5uyS3
- udCVjSIQR0fE4GcZXnvj3k4ve6ukimsSv385YavN2s8m0Z7QzLweAp+juFtdI1R2gTW6
- hXXg==
-X-Gm-Message-State: ABy/qLYk/5R+lRB4pbzgGvjw+8qZEPw1biPb6yyJ0VH2p48DQrPDbP6v
- YgM0leeLpxsJktMoslEDVoDWAUN70W/zmKymmPI=
-X-Google-Smtp-Source: APBJJlEt4UPBWLzXf9GVbtqGUrpXftndhonehlqagBd7emxlGMru2hRASr4dxahvpo96ei9y48tdoA==
-X-Received: by 2002:a05:6e02:1d0d:b0:32a:b644:af65 with SMTP id
- i13-20020a056e021d0d00b0032ab644af65mr5522215ila.7.1689762288904; 
- Wed, 19 Jul 2023 03:24:48 -0700 (PDT)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com.
- [209.85.166.51]) by smtp.gmail.com with ESMTPSA id
- d2-20020a92d5c2000000b003488fd8d2ccsm1313668ilq.33.2023.07.19.03.24.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jul 2023 03:24:48 -0700 (PDT)
-Received: by mail-io1-f51.google.com with SMTP id
- ca18e2360f4ac-78666994bc2so318444439f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:24:48 -0700 (PDT)
-X-Received: by 2002:a5e:950a:0:b0:787:1568:5df7 with SMTP id
- r10-20020a5e950a000000b0078715685df7mr5145284ioj.9.1689762287751; Wed, 19 Jul
- 2023 03:24:47 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689762298; x=1692354298;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kzwI5VxEU3KMLKWKNIn2pwe7xkF7bK6X8n8zVQIr7Rg=;
+ b=jG5vRGknW6NXgJ/0kluYF1oQFh6L4nhbO83VMkdm1fO2xjb5Pwkd4s+j3iX8mnqIhw
+ t3ahWyT2fH1oW2ZatBNZWarf6EMxj0+xq3Rgr1QJVxWkR98c7nMd2gccYzCDcCGYU0EE
+ 0lX+WssNbo/LlhhYqUNkqCjpDRbH6DWmrcxI+PKXLpQL40K72GPJcuZnt/ointMcD8s1
+ 2komQC0foLmg8p/6hSpizCSz3Y0cQLW8v8RPpI86jmVOR4mdK4lbLPLmj0r45nzWHfuk
+ 3Qu0KSRAZ5qXkE5eDnyyArBRrzM4e+LPob+wFHgPgFVVkxmukb7JxGfMlvxbUZd8GGC7
+ X0YQ==
+X-Gm-Message-State: ABy/qLb/0Y8em540nmeA4rYHM/njgmdrNlnfVsimTzU3lUvsQLe09lbq
+ zvnXKi8GDKFKgjAUrwOT4FY=
+X-Google-Smtp-Source: APBJJlGhm6Wd3ZSuA/ojzZSkRjGMNdf9Nw27UIw1oSG2HZPZKShGd2lhnbkd3lqo9fy+Xwkkw6MuAg==
+X-Received: by 2002:ac2:46f7:0:b0:4fb:c67e:b067 with SMTP id
+ q23-20020ac246f7000000b004fbc67eb067mr1296369lfo.66.1689762297723; 
+ Wed, 19 Jul 2023 03:24:57 -0700 (PDT)
+Received: from localhost.localdomain (mm-94-245-57-86.leased.line.mgts.by.
+ [86.57.245.94]) by smtp.gmail.com with ESMTPSA id
+ q11-20020a19a40b000000b004fa4323ec97sm887786lfc.301.2023.07.19.03.24.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 03:24:57 -0700 (PDT)
+From: Viktar Simanenka <viteosen@gmail.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Viktar Simanenka <viteosen@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: add vendor-prefixes and bindings for pcd8544
+ displays
+Date: Wed, 19 Jul 2023 13:24:29 +0300
+Message-Id: <20230719102430.316504-1-viteosen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230719075056.72178-1-angelogioacchino.delregno@collabora.com>
- <20230719075056.72178-5-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230719075056.72178-5-angelogioacchino.delregno@collabora.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Wed, 19 Jul 2023 18:24:11 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nguPCc8HUkWqNQgBWzNNaq83q7UdTdbv1i5_jH2ZZy4eA@mail.gmail.com>
-Message-ID: <CAC=S1nguPCc8HUkWqNQgBWzNNaq83q7UdTdbv1i5_jH2ZZy4eA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] drm/mediatek: mtk_dpi: Switch to .remove_new()
- void callback
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,20 +75,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 19, 2023 at 3:51=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> The .remove() callback cannot fail: switch to .remove_new() and
-> change mtk_dpi_remove() to void.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
+Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
+---
+ .../bindings/display/philips,pcd8544.yaml     | 89 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/philips,pcd8544.yaml
 
-Reviewed-by: Fei Shao <fshao@chromium.org>
+diff --git a/Documentation/devicetree/bindings/display/philips,pcd8544.yaml b/Documentation/devicetree/bindings/display/philips,pcd8544.yaml
+new file mode 100644
+index 000000000000..ac880d9d8cc1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/philips,pcd8544.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/philips,pcd8544.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Philips PCD8544 LCD Display Controller
++
++maintainers:
++  - Viktar Simanenka <viteosen@gmail.com>
++
++description: |
++  Philips PCD8544 LCD Display Controller with SPI control bus.
++  Monochrome 84x48 LCD displays, such as Nokia 5110/3310 LCDs.
++  May contain backlight LED.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - philips,pcd8544
++
++  dc-gpios:
++    maxItems: 1
++    description: Data/Command selection pin (D/CX)
++
++  reset-gpios:
++    maxItems: 1
++    description: Display Reset pin (RST)
++
++  philips,inverted:
++    type: boolean
++    description: Display color inversion
++
++  philips,voltage-op:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 127
++    description: Display liquid crystal operation voltage
++
++  philips,bias:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 7
++    description: Display bias voltage system value
++
++  philips,temperature-coeff:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 3
++    description: Display temperature compensation coefficient
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++  - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "philips,pcd8544";
++            spi-max-frequency = <8000000>;
++            reg = <0>;
++
++            dc-gpios = <&pio 0 3 GPIO_ACTIVE_HIGH>; /* DC=PA3 */
++            reset-gpios = <&pio 0 1 GPIO_ACTIVE_HIGH>; /* RESET=PA1 */
++            backlight = <&backlight>;
++
++            philips,inverted;
++            philips,voltage-op = <0>;
++            philips,bias = <4>;
++            philips,temperature-coeff = <0>;
++        };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index af60bf1a6664..0c3844af6776 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1037,6 +1037,8 @@ patternProperties:
+     description: Pervasive Displays, Inc.
+   "^phicomm,.*":
+     description: PHICOMM Co., Ltd.
++  "^philips,.*":
++    description: Koninklijke Philips N.V.
+   "^phytec,.*":
+     description: PHYTEC Messtechnik GmbH
+   "^picochip,.*":
+-- 
+2.34.1
+
