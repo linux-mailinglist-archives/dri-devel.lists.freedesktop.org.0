@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85CA758F2E
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98F3758F3A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCF2A10E071;
-	Wed, 19 Jul 2023 07:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21B4910E406;
+	Wed, 19 Jul 2023 07:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0204310E071
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 07:37:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4FCC260B45;
- Wed, 19 Jul 2023 07:37:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 447FAC433C8;
- Wed, 19 Jul 2023 07:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689752220;
- bh=2bZkptLEVnv1enX4bZBWQqqQlJRS0/+8nbD5gNdGN+I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=flXBR/Zbv4jbsYeEvOmrKv04u8tWeuTAtRSzmroJ1p0dQd3/lMa/d2Mgdtz1nhWDQ
- aHvh6oU8rdfaUxP5+FZ1XqBx7bDfH4CWcLiF/7WJtJXZNFK8IiWpeGMp63vH4cWJju
- A4aKaA0FjNHrCTEw+2/0nR2mbsjFWPUxj5PfLm5CU9fQTub6xFz6M/PUt6WxXhtkBi
- UtgwoTf1y/jnOEe8kFMRdZG25Krovbj6fIW11HEWR5Uw114b+be2/8jOtzIYCiku6E
- I2NPteKNveCrii+JxkDJCopRtUL5MVn2ZWV6ApWHTPdbw9IVl9yr8sfDOjU8OkPjRX
- Vv3enEsfmll2g==
-Date: Wed, 19 Jul 2023 09:36:57 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 2/4] drm/tests: Add test for
- drm_framebuffer_check_src_coords()
-Message-ID: <wstx2kkfgszzekdqtem6dqnffkmlmwbj3mbdwfvxsfpjiet5wk@kilzqzv4qi6i>
-References: <20230718181726.3799-3-gcarlos@disroot.org>
- <202307191411.kDvvppjm-lkp@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8E3B10E3F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 07:39:51 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 762EB660704A;
+ Wed, 19 Jul 2023 08:39:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1689752389;
+ bh=rNVjWyGyb4/QZCXHyXWf5MRLedoD5uQC2pGcS2nQLJM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KXAnIw+qjtq/TVA5eamsTuqS52g5ZYSbnDDs6DVc9VL/h9OMKBeFUUOoaNERSSpeV
+ u1iFRJZg59z7AUj8yplJ80OnLpIUBGZ0EdYaO29XIB+ZMEf3f1yHGV3VfzkWA0mTFA
+ IWnJwDSjAdrErnMtvJkaKkiTnBil+eBYIsnBgvU17ETesA9N1A76livi2XS6bwsneT
+ krC2W+oSTYwET1WjqEeJRAp7nDKZ+ngg193F2j24GMpCm/WfJvSlGmo0z+l6XQVpIU
+ ntX7vGSmW6rVD3taA6mIJowkm7Ppt588Jlw/74A+v3YLXlxCwZwORhaLSC+bNkWvND
+ WM6Oz3TI9R6pg==
+Message-ID: <07c93d61-c5fd-f074-abb2-73fdaa81fd65@collabora.com>
+Date: Wed, 19 Jul 2023 09:39:45 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dwv7arpteb5tco73"
-Content-Disposition: inline
-In-Reply-To: <202307191411.kDvvppjm-lkp@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET
+ settings/handling
+Content-Language: en-US
+To: chunkuang.hu@kernel.org
+References: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
+ <735623c5-3eeb-bda3-db87-2b33d9ad3446@collabora.com>
+ <2f1d4e6b-bf03-25d1-dac2-83e0dbd5734f@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <2f1d4e6b-bf03-25d1-dac2-83e0dbd5734f@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,42 +58,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrealmeid@igalia.com, davidgow@google.com, tales.aparecida@gmail.com,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- dri-devel@lists.freedesktop.org, mairacanal@riseup.net, tzimmermann@suse.de,
- oe-kbuild-all@lists.linux.dev, michal.winiarski@intel.com,
- arthurgrillo@riseup.net
+Cc: jitao.shi@mediatek.com, Alexandre Mergnat <amergnat@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ shaoming.chen@mediatek.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 23/06/23 13:29, Alexandre Mergnat ha scritto:
+> 
+> 
+> On 23/06/2023 11:47, AngeloGioacchino Del Regno wrote:
+>> Il 23/05/23 12:42, AngeloGioacchino Del Regno ha scritto:
+>>> Due to the initial confusion about MIPI_DSI_MODE_EOT_PACKET, properly
+>>> renamed to MIPI_DSI_MODE_NO_EOT_PACKET, reflecting its actual meaning,
+>>> both the DSI_TXRX_CON register setting for bit (HSTX_)DIS_EOT and the
+>>> later calculation for horizontal sync-active (HSA), back (HBP) and
+>>> front (HFP) porches got incorrect due to the logic being inverted.
+>>>
+>>> This means that a number of settings were wrong because....:
+>>>   - DSI_TXRX_CON register setting: bit (HSTX_)DIS_EOT should be
+>>>     set in order to disable the End of Transmission packet;
+>>>   - Horizontal Sync and Back/Front porches: The delta used to
+>>>     calculate all of HSA, HBP and HFP should account for the
+>>>     additional EOT packet.
+>>>
+>>> Before this change...
+>>>   - Bit (HSTX_)DIS_EOT was being set when EOT packet was enabled;
+>>>   - For HSA/HBP/HFP delta... all three were wrong, as words were
+>>>     added when EOT disabled, instead of when EOT packet enabled!
+>>>
+>>> Invert the logic around flag MIPI_DSI_MODE_NO_EOT_PACKET in the
+>>> MediaTek DSI driver to fix the aforementioned issues.
+>>>
+>>> Fixes: 8b2b99fd7931 ("drm/mediatek: dsi: Fine tune the line time caused by EOTp")
+>>> Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and EOT packet 
+>>> control")
+>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>
+>> Gentle ping for an important fix.
+>>
+>> Regards,
+>> Angelo
+>>
+>>> ---
+>>>   drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c 
+>>> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> index 7d5250351193..b0ab38e59db9 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+>>> @@ -407,7 +407,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
+>>>       if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+>>>           tmp_reg |= HSTX_CKLP_EN;
+>>> -    if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
+>>> +    if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+>>>           tmp_reg |= DIS_EOT;
+>>>       writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
+>>> @@ -484,7 +484,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi *dsi)
+>>>                 timing->da_hs_zero + timing->da_hs_exit + 3;
+>>>       delta = dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST ? 18 : 12;
+>>> -    delta += dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET ? 2 : 0;
+>>> +    delta += dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET ? 0 : 2;
+>>>       horizontal_frontporch_byte = vm->hfront_porch * dsi_tmp_buf_bpp;
+>>>       horizontal_front_back_byte = horizontal_frontporch_byte + 
+>>> horizontal_backporch_byte;
+>>
+>>
+> 
+> Sounds logic
+> 
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> 
 
---dwv7arpteb5tco73
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ping again.
 
-On Wed, Jul 19, 2023 at 02:50:16PM +0800, kernel test robot wrote:
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->=20
-> >> ERROR: modpost: "drm_framebuffer_check_src_coords" [drivers/gpu/drm/te=
-sts/drm_framebuffer_test.ko] undefined!
-
-Yeah, drm_framebuffer_check_src_coords isn't exported to modules. This
-wasn't an issue before because it was only used by the core KMS which is
-always compiled in the same module, but your new tests are in another
-module :)
-
-Maxime
-
---dwv7arpteb5tco73
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLeSmQAKCRDj7w1vZxhR
-xSPWAQCBX9ffEDqNdVaawfeNXe/Z+ngNk1/TzHT27TCwB/477AD7BM5ynasERxOZ
-dX+iv5HSrU0gkfKbFezCwMfJSfOscwk=
-=8QJM
------END PGP SIGNATURE-----
-
---dwv7arpteb5tco73--
+Regards,
+Angelo
