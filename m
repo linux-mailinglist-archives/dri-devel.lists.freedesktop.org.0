@@ -1,121 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E352758B54
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 04:29:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D56758B63
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 04:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9DAF10E0AD;
-	Wed, 19 Jul 2023 02:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EBB310E3FA;
+	Wed, 19 Jul 2023 02:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2055.outbound.protection.outlook.com [40.107.95.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A07F410E0AD;
- Wed, 19 Jul 2023 02:29:45 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on20604.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7d00::604])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5899B10E0E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 02:32:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vj540kJKu/n6d00Zh6M1dUET6i4U0cmP0GFMBkL6P3MQtU11SgtlzVxzadH1+zpfe3u5isoNhxFNAM69NMxF95wDl3gcqXNWvKnd2Yrlx/me9N0eZFuN37bYhG24LtaoKB0z2syKcWplgvD880NAvAwiy0NHw/tjX+oRKm8FGSSWaFoBAoOXzEgoWPrrsthqRNvjlwwt5csQGQGeP13TImN01JzJOzZhU0tMq+tevr2Hz3rWhAar7zTqgHx6+kbxRhgf70FGuqoV9OwKzepXJ0pYUQu5oh6384hAhkUAbbjYG3vv7R/DHMF6LxBnotcxVU1sb8n0BCOKDiIRtmHZqQ==
+ b=SyH2jrn64GwRKhxPw9502s/5vC0koI+Kx7plrxrtiiejRgqVOUXha73zzsLALITk+nHF1WHdNQ8V0T0kzfV3c03fEwno+yRJ08M/9/mKwFbh4/TG2mcc5PyRq9EEwNxEbXx20boMM4/TBm9wydCsuabdNojtYnuEvzh6UBx1leCGTea3QGj2pxiXsmZZ6hdhpqb8UhjlvXiNUItq8s4cQ0I+9CqFxNJ+ELVa+Nn+5miqQJtSvkdLsjf2o6PIaSmgxfeX8UByX4rpZhJ7GL+jLLZq3MqjQi1Cxgxr2nt6m+Xgspe9i4ca6ELJ1mlFXKwt0uF9+CvJu7rzcW3z3oNJBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZaVCpHOPaBUR/NZJWYFrraFTfmsRWHmM2UZewpxm+B4=;
- b=XGOVFCMQLmb3LgbdBRn517vxdmLUIdenjsZXN4O5UUo3lfH2zk1f5J/viAA/SMs152bfTmVMPfHf6cvWQvpISW95y3hojMxaTT074+iXyOlwVF53obPjKmmlcyhjGf34eWBYzStoBzo+ZVDh/rJnCWE1rVv1DS2fJTk4AV9v9qwHUoEupvYcg5/kWuBWHY1mj2opu8fDbMEW8pqkG5h8WfWdOmwQQFN67LFwnGE5f4ffT8eESBK88wopdAz3lPUdg4CZ+q3S605GsBDNA1YbbXeTBfM71VjYMiu+VnUopdsAFaI7ohqB89yRmd114JxhHM+WeE4RBbaE1S4kHlRy5w==
+ bh=8YC5TPtZzJl6vTkUQ2avJVMJehCoza8c/zJKFnCH5Gw=;
+ b=VXST8itexOkLczkQtWw2jTBtE1DOMquHUm8yDNegp5CpinxIU/QDYdSa+NBd63BMc3QKWPZUzlPYxaZXIvLEE06u+VhDyoQQuVARj4A54grtLNLYaVbh2xzNfH2bZ9MdUD8I+R9et/VZEmI+qO2d9JIaadN6KrUJVAOVEhCmQGWx++yBviizthZ50dnW5HfhPDqdhlfKn4Te5GqOBUZXMHIyldkDRXAlwRlBz/X2lUc0c76wXgPiON4hcHGEPkoTPsYdzCdbps5OzPOTcyGoM87xuXXVHqimSpq6K2/IerL1G/xgjtKlYXjFOUkggpDGD57BWro6ncaTJBq9TVvD0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZaVCpHOPaBUR/NZJWYFrraFTfmsRWHmM2UZewpxm+B4=;
- b=tMTsyGfOkOXhQESCZp26L9Mp8eWRkYTo4ZNZocSHPUz6sW9YH5Rm6zS3WAEna7GjcX8nPf4i3rRvwklTw31ALRnO+kLx0EUmnujuMgU9HjTyTXcOdVlBJTTFNqOzGksaSBp3nTMX3ELaznERADJKqheYYk+6qp19J9aP+KBo750=
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
- CO6PR12MB5396.namprd12.prod.outlook.com (2603:10b6:303:139::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6609.24; Wed, 19 Jul 2023 02:29:41 +0000
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::93dc:de92:88e7:b765]) by DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::93dc:de92:88e7:b765%4]) with mapi id 15.20.6588.031; Wed, 19 Jul 2023
- 02:29:41 +0000
-From: "Quan, Evan" <Evan.Quan@amd.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Subject: RE: [PATCH V6 1/9] drivers core: Add support for Wifi band RF
- mitigations
-Thread-Topic: [PATCH V6 1/9] drivers core: Add support for Wifi band RF
- mitigations
-Thread-Index: AQHZswnuaUrcGkEUvkO69ZFpbKmfV6+2xnYAgAiUksCAAEOtgIAAzFPg
-Date: Wed, 19 Jul 2023 02:29:40 +0000
-Message-ID: <DM6PR12MB26193915145D5C32ECC345D5E439A@DM6PR12MB2619.namprd12.prod.outlook.com>
-References: <20230710083641.2132264-1-evan.quan@amd.com>
- <20230710083641.2132264-2-evan.quan@amd.com>
- <5439dd61-7b5f-4fc9-8ccd-f7df43a791dd@lunn.ch>
- <DM6PR12MB2619CF4D4601864FF251A1FAE438A@DM6PR12MB2619.namprd12.prod.outlook.com>
- <642e3f4d-976b-4ee1-8f63-844b9568462e@lunn.ch>
-In-Reply-To: <642e3f4d-976b-4ee1-8f63-844b9568462e@lunn.ch>
-Accept-Language: en-US, zh-CN
+ bh=8YC5TPtZzJl6vTkUQ2avJVMJehCoza8c/zJKFnCH5Gw=;
+ b=Y8mz5boEuzA7ejYhsXnVPWl94FXBOZ5aOnIinC67+2xsiLRDNqQpW0J2pz18xmfwXzS/cdTwRnnsN6YBkAZKJb1yXToBiRo85Su0y4jWb+7Moyy2uou5XV4LkQW9JkiOhwkfHvsOqlcwQgjo4dVWN6u8/s8KBQaaQZQDAnjLNUE=
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by DB9PR04MB9792.eurprd04.prod.outlook.com (2603:10a6:10:4c2::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Wed, 19 Jul
+ 2023 02:32:40 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::3505:c499:96d4:1429]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::3505:c499:96d4:1429%4]) with mapi id 15.20.6588.031; Wed, 19 Jul 2023
+ 02:32:39 +0000
+From: Sandor Yu <sandor.yu@nxp.com>
+To: Rob Herring <robh@kernel.org>
+Subject: RE: [EXT] Re: [PATCH v7 3/7] dt-bindings: display: bridge: Add
+ Cadence MHDP850
+Thread-Topic: [EXT] Re: [PATCH v7 3/7] dt-bindings: display: bridge: Add
+ Cadence MHDP850
+Thread-Index: AQHZuIUePa/zOSPAXUe6/zQl/U27da/AHoWAgABCD1A=
+Date: Wed, 19 Jul 2023 02:32:39 +0000
+Message-ID: <PAXPR04MB9448A6CD96FB6CE751E565A8F439A@PAXPR04MB9448.eurprd04.prod.outlook.com>
+References: <cover.1689580812.git.Sandor.yu@nxp.com>
+ <3646ea4d279838c78e00af1d746e3de34351b083.1689580812.git.Sandor.yu@nxp.com>
+ <20230718223249.GB2112396-robh@kernel.org>
+In-Reply-To: <20230718223249.GB2112396-robh@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=0a4e7673-5735-4d66-9a58-992e97d36ed8;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-07-19T02:27:25Z;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
+ header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB2619:EE_|CO6PR12MB5396:EE_
-x-ms-office365-filtering-correlation-id: c8309da3-b302-43f2-322d-08db88000186
+x-ms-traffictypediagnostic: PAXPR04MB9448:EE_|DB9PR04MB9792:EE_
+x-ms-office365-filtering-correlation-id: 7b74a330-700b-4b67-c44e-08db88006be4
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: f+9P7GH8uHLy2OSUISPGVeNaEQqGzFTDJ3l8QmNw7WibK7tFQun/5ntOCgYhFIjVACjos3AiwDjU3BYVySz4pRMHFGoMXBvJPGrlBPvc60PmAM3hyv/pV7R4A0Ga/AZ/SSRW1IZeOowiF3hyS7RzyB6EyvRsc6Q3l7T61SlBYdC/Sc4R+MiwZCJHVpymFomG7YOVb6hda5cyNuFlqVSIgbFqTe+EUZe3yVgC5EOSU+u/aQJZDY3l0HEM3gaT2ecPiC39Mg5xyZesoEPNcn+XmFimZxpwRGxWSwcdW2Pa1m12yAeHZgq+G6dk6iLd1bejCuDo2t66/1oRiMbWv5rxZDamu95LvCpVuBNqwhSlGB+WWNdFU18C4ebydf0cvZGr2dpfxRQ5XrVfZtmUTMx04v4aHy4B7NEJ4af3PXnbeKuJAOGbfSO98RH0ppzFLPe3OgLhSm6w4toetebmwlgJIEtsmeAvpLVfQDtC6ccx/VoWDqQH8nTQSsOC3r5kk7cFbaAcC3ypMuy6SQkdoXGuWERlOJ1zEuQtLaHSmOzn7O7agqqHs8xJ1WoqPpTdTOPzEFrUB7Ap7wsRv7Y+sKOUqqOKHvdzdaMF2WQcWovlKIR2kTvHYM3/MZw/KcD9WLNg
+x-microsoft-antispam-message-info: 0HoxzhDGlHf4sfPg8TDfHhBDd6Jau9khnuDqpU8cIbp2aFhyv9oJz37p1aqk0aNL4bfKikyf+/WIr4b2NlDclpRftd5LW//CCbGVMv5OYruh0eprQitWiyGL1n3CfmcNcc5DyFYQhKkKLOVohUw8fz8voN8nam1ynMJ1SRpdKNolbD98grDFTMIRvgcD/rYnyqu908FWThHnB1l+UredTHPFjNbj5DN8BYVw3SOVqvwGEuhCTe/2jDSyHHfaKRMk1pcVrj5/C/Fj41vcf3ZA5Hbx9ToVPF9aOVmOSJvHX8difytA/UuFgBgkh5rK6m1cl/catZQQymbMF5lPFohq9jm/b0XxBC6r3j2do4LKLhFhGOvXIlrT9a46QLNKm/oDxkAyfLVFGpiMRfUfwBldQntah46N5O/ZgTj+DmkhUTp/7uZ3K+fxs0U3qJePhNta1OKqHrH58HJF6WkCTvcifnokvSr0nBDabbnTVuItleqJFpzogVIO3b4ZnLr6Bi3fcXB+Y4mcP30xvpEHftSSLcmQ4OouNRHycWnqyDSwUB/CSr/q8bSPrJ7gKdWYtpf3Ga+jhqyaUZhSx6zVmBTnmQplTOoNkVS/mA0+RY+O+s+wznFqhPgSLwbbiIZJoFzM
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(136003)(376002)(396003)(366004)(346002)(451199021)(55016003)(54906003)(478600001)(38070700005)(86362001)(186003)(26005)(33656002)(6506007)(53546011)(71200400001)(122000001)(83380400001)(38100700002)(9686003)(2906002)(7696005)(7416002)(8936002)(8676002)(52536014)(6916009)(41300700001)(64756008)(76116006)(66446008)(66476007)(66556008)(66946007)(5660300002)(316002)(4326008);
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(376002)(366004)(136003)(451199021)(86362001)(2906002)(7416002)(38070700005)(33656002)(44832011)(55016003)(83380400001)(186003)(26005)(9686003)(6506007)(7696005)(122000001)(54906003)(316002)(66446008)(64756008)(66476007)(8936002)(66946007)(6916009)(66556008)(38100700002)(4326008)(5660300002)(478600001)(41300700001)(71200400001)(45080400002)(76116006)(52536014)(8676002);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VYbk73/l3kpVglm4+2oNneT0ERyB2weVQXH+SkIpMnB8T9wKFdFExIAzzwpM?=
- =?us-ascii?Q?K+xjJVUHSVo5Jt5eH3kkab93N8VDcpD6J1xK7tXfXJi+o3gxNuNcmmIHs9cg?=
- =?us-ascii?Q?YhHe7N1ewWuqHinss5vI5PiVUQ6F6rh0fyqv6ZNsxVfhLMZjpxQ+KLcgnUsI?=
- =?us-ascii?Q?B8YxO/HSdMs1vxGw3033M4oSkWZX9bWxk+25QPPnNTXaEpFz7zTCiH4YhuaM?=
- =?us-ascii?Q?UhNrMikX9IaYlxdJVX4sWCB+LvUfq7aUPmTViv0BR60jQQNZoMbRT/hFIS2W?=
- =?us-ascii?Q?vEzehbGLHGnt5AT1swtX2N7QklE8q7/FprjyRP95NnmBDaRzOtGlIyn29cvY?=
- =?us-ascii?Q?Sp4bJ1XimkADms4G45PHd8auhN2Lk/UIsUP4TBrDMJzG2Sp5qgNSoTwheKlO?=
- =?us-ascii?Q?rcdXCcQWekoD96YABC+i+qRx4HlsU+7lQtIyGZ3Pv0dePSUoTsORVxiMUWLe?=
- =?us-ascii?Q?vMmryrBwndoKEzyyUCCRPlnSTwUarzDLm6Z+fhfTIjFszkdHAepqOdcC+iU4?=
- =?us-ascii?Q?13oCXY85OE3GJYhu6TEAKxSym0m4o9PeUChdRW8yt9buLxWta3PB2449oBt6?=
- =?us-ascii?Q?BIhbNDpxMuO3i6NOafaAjWEKftHqJu0KHDGslRDuqI7OrLgqQYZ1iI89p4Df?=
- =?us-ascii?Q?W3qH2/dwukKaKR++QDTUEY1epM5sKb1Yf9vUi+0ZzWipJ8QkF68GjK6S4Ffm?=
- =?us-ascii?Q?C981bcVWzO4M5sFgYPoFHDN1SFHFJvBQJaQadHQdoCAmDFysoKR0AW19aXQ6?=
- =?us-ascii?Q?rWq0i43R+d6dnNNwznj5p+EZBUcR1wBDO/OGob8t9AyxMMuEj0N0SS0Nkv/R?=
- =?us-ascii?Q?YPcX+BXgfZY0t0RjitIzL7ExZUwamub9tZpdQnC2OIxhUjjDpMZv8GzEohsg?=
- =?us-ascii?Q?wDPHuypYjIiWxcVdj7b7xkAJG1iyHYKY09V7TwukbfK/eJjUGkP6rgp2T/13?=
- =?us-ascii?Q?R8TMS1TweAgkGvI0xHMUEuhIVUesurXJVLWzy+7Co7TSw8mjlftAXwXGWUAs?=
- =?us-ascii?Q?GsnVo9JEOw8P2UCuEd3HRbS1GjA6HfYo4uN2d/T0XjRZfxJhwMh5xMvcy5k1?=
- =?us-ascii?Q?+vXdveLW1OS7EmSdOfqjcgHlS1//ztgZ3Llh7KWCdo3rUltcu/sCExi38A8b?=
- =?us-ascii?Q?8Ktl5WPttA1/JHi8Giq9OfBt1w/aFGdW0WIhvrFgxXAo/evs0zv5eMQSvbJM?=
- =?us-ascii?Q?wWRJS1gFVSK2YYSk2A6KoGqX2AEP7UixjDlWm07PzjGUcZsQclKFbZIf3lzA?=
- =?us-ascii?Q?hP6uB0YR4fS2gjp9RsSeFjMkbnBqUAHp1ZcO2sv0o9u1v7Gd6377sLvjqb9a?=
- =?us-ascii?Q?sbmxQjxwMgxiKUrkVNxRmd1gUOXtfugT1NDjp2MzNWWQZ+tcfs5/acTb1ahs?=
- =?us-ascii?Q?THbVyX7jBr+icjW5Mslpb0enb1A443iq3ndqdio6GVs9L8FLyhwZQEJYWtQE?=
- =?us-ascii?Q?wINS9EyvPSA0dJ2aL0bwEAHKzK9M1Cgmmu3GXpVbR5mIwqymwpBfDM/siqKp?=
- =?us-ascii?Q?zaYPvdm56mujDw/bRAePNpXQqbT/JO24WmfaWOqJujx3X09Rp6xiitW+u4SV?=
- =?us-ascii?Q?joJkHv5n5aFbwiukh3M=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+spA5o/GlrFyIjSLi/FnVNjhBhe7RSNTABTIaINREysR73hBLKMlhg40VTbE?=
+ =?us-ascii?Q?3tdnT6hrEXKROAaZqZ3Ba/tzdWVBiNoWqOchV7wmrEa+uu/m55GwO9Q7joef?=
+ =?us-ascii?Q?Xkyoxr7DWImdrkW1Wd1Jb8YA2MGM7LMWNioovOPu0mrbwjQx8buVXfjxhX4V?=
+ =?us-ascii?Q?QuBoOqxtcWiYe8rqNlfrn8m2eFO9qYSvRErKZLqLriGbGnZHGoa+hW8Jmhiu?=
+ =?us-ascii?Q?GTGN5McGHPyVca9j9zSoQi3YkQ1xAwp4czt8HcuMexBJWeSBbWP6C9lHcTbR?=
+ =?us-ascii?Q?7mzNiNPRxpo/9BxPRoZa4RtDj2/gynVB49BYAGydW4FjpograUQjyMF6z9SX?=
+ =?us-ascii?Q?Oelo3ck38DZByyIatoGBgOkFbn7gjvVnpYVFH/lsgSLREHRV3X6yWEFSmnOm?=
+ =?us-ascii?Q?/GLypEt7vrsDujC//dPBCHNYPB67Vrff/CKkiG3QF5axZ6YhhwjKkWbwifmM?=
+ =?us-ascii?Q?cTB8Ulgg+iPuEVHxmQR4sfn4XIC+y0UewVBV9B5ggUwj8U1Fq6ksetPCYm8L?=
+ =?us-ascii?Q?TeCres935VcJG8NqEau4r0Je1+Th4i5KGruZYGCiCfw7jzeU+RN8PR7v0h61?=
+ =?us-ascii?Q?6+7sOHwcDE/mKXNwUgfm0huj/yUYZQxl4h6Y/igGA+7w9KiLmzg1lJAm/Mzj?=
+ =?us-ascii?Q?ZkSTJFTPrH4eCceGX70WkuMhjaW80ttzRJh8ixXviPQgw1d0DLPzQXilwOeo?=
+ =?us-ascii?Q?B9A90ihuqmBbFrd3sSM3NuZfETgARQ+wvCNAu2JopXwO07AZRK6Di6tX7c0i?=
+ =?us-ascii?Q?0Mc81DKeTixAmtwImAUfYJR8MzSrD2EWBaWyIv+b662KsO6fZE8QfG7z4SZi?=
+ =?us-ascii?Q?YUiWcI7imb1RHToGoqolX3otG/a87hx0WysM3ijNAYGlTO0JVp9WOuCtEajb?=
+ =?us-ascii?Q?xfzVSdMf1yUKqU3dEPLfN4q4piTeUM3TKqyjfBYH90T4J4OFhI8kFPhZQ7V1?=
+ =?us-ascii?Q?DJSQ2TIGL9zlhYPIKbDo62a8goIiodjlFGwbgk/rT3XxIpHFtZJolnp0DJZl?=
+ =?us-ascii?Q?73LwwVFvWAXgsZQ1nLh8MoVfyaHdvSesr99LW16GQpB667mopvfuxwWD2IjI?=
+ =?us-ascii?Q?m1xz6HZSgLFdHgPhZue8/nklVBd6/wd2jfD3oxor5HAMTbDshmRS2X8bYi3W?=
+ =?us-ascii?Q?f7KaEJI+53CVTNlTVyTSGVm2nATW8KNb/N7QuSDG3rD+VWIEAGvVxhvX2mjb?=
+ =?us-ascii?Q?f5WS/vtmoUeMvYgh44Bphccw7C9fi2GBAw2yWsgeAMOa7hAH3CwErSP5cwTY?=
+ =?us-ascii?Q?leffvokhf+3k5VWA512bWV+L5PaXuFrP4P6Jte+EY0CE5VGRITEnMqY7YapI?=
+ =?us-ascii?Q?OOHh98K1YYl8qK9gSqirJTQ4qbuZgFCFeG6l2ZRtJC8Hv0Wu4yFRQz12xTH9?=
+ =?us-ascii?Q?P/e94an7iLYxG30PEnNr7FVPtUMxyqBbaE9zMXHf7sw6JP8btCSB7HAP6Q6U?=
+ =?us-ascii?Q?TyKOQVskNQEakyQhY36I/9jQVngYf0sie2wywrRfwMTtYsaRxj3JcBbfWpoj?=
+ =?us-ascii?Q?vPdMjhuDO/xM88xdN4fwPcASbqGAkoXYLE/OhguvXzcaL4ul0rKMOUd8KE86?=
+ =?us-ascii?Q?8yhTRl4/S8gdItw/YLI=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8309da3-b302-43f2-322d-08db88000186
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2023 02:29:40.9977 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b74a330-700b-4b67-c44e-08db88006be4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2023 02:32:39.4015 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iWFoeuvMkpnEILYdRKxNBwuRqq+vsQslesngGyOqMSd7qsl5EZw30XGjpC4wZPAB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5396
+X-MS-Exchange-CrossTenant-userprincipalname: E3vKok/J+lfJzCSYGXRkDiKIzHm3cGLtYN6/kCc5CWpYPAi/7xQoIU1ItU8BQAgPoikmhgukoodRsp6Cc6mbIA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9792
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,68 +120,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jingyuwang_vip@163.com" <jingyuwang_vip@163.com>,
- "bellosilicio@gmail.com" <bellosilicio@gmail.com>,
- "rafael@kernel.org" <rafael@kernel.org>, "trix@redhat.com" <trix@redhat.com>,
- "Lazar, Lijo" <Lijo.Lazar@amd.com>,
+Cc: "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+ "sam@ravnborg.org" <sam@ravnborg.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ dl-linux-imx <linux-imx@nxp.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Oliver Brown <oliver.brown@nxp.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mdaenzer@redhat.com" <mdaenzer@redhat.com>, "Limonciello,
- Mario" <Mario.Limonciello@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
- "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
- "lenb@kernel.org" <lenb@kernel.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "arnd@arndb.de" <arnd@arndb.de>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "edumazet@google.com" <edumazet@google.com>, "Koenig, 
- Christian" <Christian.Koenig@amd.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- "johannes@sipsolutions.net" <johannes@sipsolutions.net>,
- "davem@davemloft.net" <davem@davemloft.net>
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - General]
+Hi Rob,=20
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Tuesday, July 18, 2023 10:16 PM
-> To: Quan, Evan <Evan.Quan@amd.com>
-> Cc: rafael@kernel.org; lenb@kernel.org; Deucher, Alexander
-> <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
-> airlied@gmail.com; daniel@ffwll.ch; johannes@sipsolutions.net;
-> davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
-> pabeni@redhat.com; Limonciello, Mario <Mario.Limonciello@amd.com>;
-> mdaenzer@redhat.com; maarten.lankhorst@linux.intel.com;
-> tzimmermann@suse.de; hdegoede@redhat.com; jingyuwang_vip@163.com;
-> Lazar, Lijo <Lijo.Lazar@amd.com>; jim.cromie@gmail.com;
-> bellosilicio@gmail.com; andrealmeid@igalia.com; trix@redhat.com;
-> jsg@jsg.id.au; arnd@arndb.de; linux-kernel@vger.kernel.org; linux-
-> acpi@vger.kernel.org; amd-gfx@lists.freedesktop.org; dri-
-> devel@lists.freedesktop.org; linux-wireless@vger.kernel.org;
-> netdev@vger.kernel.org
-> Subject: Re: [PATCH V6 1/9] drivers core: Add support for Wifi band RF
-> mitigations
->
-> > The wbrf_supported_producer and wbrf_supported_consumer APIs seem
-> > unnecessary for the generic implementation.
->
-> I'm happy with these, once the description is corrected. As i said in ano=
-ther
-> comment, 'can' should be replaced with 'should'. The device itself knows =
-if it
-> can, only the core knows if it should, based on the policy of if actions =
-need to
-> be taken, and there are both providers and consumers registered with the
-> core.
-Sure, will update that in V7.
+Thanks for your comments,
 
-Evan
->
->    Andrew
+> > Add bindings for Cadence MHDP8501 DisplayPort/HDMI bridge..
+> >
+> > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> > ---
+> >  .../display/bridge/cdns,mhdp8501.yaml         | 105
+> ++++++++++++++++++
+> >  1 file changed, 105 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+> > b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+> > new file mode 100644
+> > index 000000000000..b983ee765f54
+> > --- /dev/null
+> > +++
+> b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.y
+> > +++ aml
+> > @@ -0,0 +1,105 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id:
+> > +https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> >
+> +cetree.org%2Fschemas%2Fdisplay%2Fbridge%2Fcdns%2Cmhdp8501.yaml%
+> 23&dat
+> >
+> +a=3D05%7C01%7CSandor.yu%40nxp.com%7C7c33f38de4804df82ed108db87d
+> eeeef%7C
+> >
+> +686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63825316378283684
+> 1%7CUnkno
+> >
+> +wn%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1
+> haWwi
+> >
+> +LCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DM0fImRvAyayYwQLSQsJVo
+> OQF59Y47KI5
+> > +XNnVzmuTHOc%3D&reserved=3D0
+> > +$schema:
+> > +https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fdev=
+i
+> >
+> +cetree.org%2Fmeta-schemas%2Fcore.yaml%23&data=3D05%7C01%7CSandor.
+> yu%40n
+> >
+> +xp.com%7C7c33f38de4804df82ed108db87deeeef%7C686ea1d3bc2b4c6fa9
+> 2cd99c5
+> >
+> +c301635%7C0%7C0%7C638253163782836841%7CUnknown%7CTWFpbGZs
+> b3d8eyJWIjoi
+> >
+> +MC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3
+> 000%7C%
+> >
+> +7C%7C&sdata=3DiCjpKSNsRnQYhRlXz7%2FR46uot%2B3aYbFz1ecfy63dYaw%3
+> D&reserv
+> > +ed=3D0
+> > +
+> > +title: Cadence MHDP8501 DP/HDMI bridge
+> > +
+> > +maintainers:
+> > +  - Sandor Yu <Sandor.yu@nxp.com>
+> > +
+> > +description:
+> > +  Cadence MHDP8501 DisplayPort/HDMI interface.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - cdns,mhdp8501
+>=20
+> Drop this.
+OK, " - cdns,mhdp8501" will be dropped.
+B.R
+Sandor
+>=20
+> > +      - fsl,imx8mq-mhdp8501
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +    description: MHDP8501 DP/HDMI APB clock.
+> > +
+> > +  phys:
+> > +    maxItems: 1
+> > +    description:
+> > +      phandle to the DisplayPort or HDMI PHY
+> > +
+> > +  interrupts:
+> > +    items:
+> > +      - description: Hotplug cable plugin.
+> > +      - description: Hotplug cable plugout.
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: plug_in
+> > +      - const: plug_out
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Input port from display controller output.
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Output port to DisplayPort or HDMI connector.
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - phys
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/imx8mq-clock.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    mhdp_dp: dp-bridge@32c00000 {
+> > +        compatible =3D "fsl,imx8mq-mhdp8501";
+> > +        reg =3D <0x32c00000 0x100000>;
+> > +        interrupts =3D <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
+> > +                     <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> > +        interrupt-names =3D "plug_in", "plug_out";
+> > +        clocks =3D <&clk IMX8MQ_CLK_DISP_APB_ROOT>;
+> > +        phys =3D <&dp_phy>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                mhdp_in: endpoint {
+> > +                    remote-endpoint =3D <&dcss_out>;
+> > +                };
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg =3D <1>;
+> > +
+> > +                mhdp_out: endpoint {
+> > +                    remote-endpoint =3D <&dp_connector>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > --
+> > 2.34.1
+> >
