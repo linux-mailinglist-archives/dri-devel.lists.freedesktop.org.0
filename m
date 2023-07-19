@@ -1,44 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A04B759D3A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:26:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE77F759DAC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C44CD10E4DA;
-	Wed, 19 Jul 2023 18:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4293E10E4EC;
+	Wed, 19 Jul 2023 18:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2394310E086
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:26:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 55012617CF;
- Wed, 19 Jul 2023 18:26:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86513C433C8;
- Wed, 19 Jul 2023 18:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689791179;
- bh=6nmxXiiQH/ZgR/96VnW9bkCyBKJ7S68RVdSGVdB9E38=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Z+u7r3i/0+xnn6FAc7NUsW8Tlb84OCb6IRrTAwcTC6JC+fOwa17/ERlpVm7bocSTv
- /x2ZvRb8KTK7MXBjgS3M0xtQV1V8R0Uwq1BTghd9MZH/kLdx56uCyDJzOoTMm1rj0L
- 2+Co/0CcxzsUxq8TjzvfbgSIHMnMKEIaHgSvL2G3qi+A+qX+314ECd0CU3iROLETBF
- taaCSiqPZPVAlHbivih/xuF8ZB8DegYq2cw+Dy0e4GHQ4NkNwmGTrzfQ30SNH8xMD0
- ihLzwndiC1oPP+LujNtk+LElPQoisUEZBdffDOh2kOnF6Jyi1iFcw4ous5GoEZYrCA
- IVTVt+FhJVdpg==
-Date: Wed, 19 Jul 2023 13:26:17 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
-Message-ID: <20230719182617.GA509912@bhelgaas>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF9DF10E4EC
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:42:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689792175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FesoQTJ8UjoHrjSRH+KuNtLC4V0/j8s1GxlaRmyTwsI=;
+ b=PiJSzAUtSXgS6NcDyoI2kEMC3sMtVhstMkmDMiXuWWxTtHWjOMuXq1lpT1Bq4p3xlDj+wA
+ pKI1lcMrcg4qlbj5tG73fqw5EkqOfN3MtyLMIlTEftbz3D7/AgejFzzUdGLBPv9jmLnztp
+ OdgRuew5Tn4aB7Pe3r0Xh5RB/FF3GSw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-333-9nUl4BC0MtOxM0m720Qnag-1; Wed, 19 Jul 2023 14:42:54 -0400
+X-MC-Unique: 9nUl4BC0MtOxM0m720Qnag-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-30e4943ca7fso3985758f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 11:42:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689792173; x=1690396973;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FesoQTJ8UjoHrjSRH+KuNtLC4V0/j8s1GxlaRmyTwsI=;
+ b=THfIQ/T7XDeUmzdi/yEP7Gp7PjI6Adu9zgdcJemrwpxZH2huoesMxRHiaoQyF8/Tbo
+ RZWO29CTug/KGuG4QvNkFv2xdb/sH/LiJFsyt2HmwFuZJ0ZTozcWMP8qP+IKJBXizI6z
+ SgE1TRQvBnf6c2ocnM11nk7w1hhRPm+N/XrrirdKgDbVRPbqL6wBe0wHHBVNEAh0wW/z
+ VU091q4ML3Cbj2/nxEDLET69Yx+yxx0dxvIIzT3CyuFqFXwox6SI5ruGtafzEfDyfE/I
+ KwOsBBqWJfNvEEEVkTJfxrrNVAIIE4RrkvbvyY8VMrHZdSAxh+5WO8npTrooX94puvdp
+ n5+w==
+X-Gm-Message-State: ABy/qLbizPNDufCkJ8irR0jbE3SZ57oKbhJa5nvRoViZ+DmU+KrvYcYx
+ 6/iMtQbmO6UMpBjv4G5CiHTNvt8u1IOZouPDXGpKTkJ79FiRLae4ZWyNaWKxhTNGG544sWV6Wym
+ fsD4Iccyy1mBkR+3lEjNXrXz3tMV4XEIcihcz
+X-Received: by 2002:adf:f40b:0:b0:314:3b70:1c72 with SMTP id
+ g11-20020adff40b000000b003143b701c72mr202813wro.12.1689792173115; 
+ Wed, 19 Jul 2023 11:42:53 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGfJpG0ygob3RPXEtMhQc4NUJjcgzdJI8tfjTO74cqd+QsTgZdrwIQDuFradrw/TbO50ij7dw==
+X-Received: by 2002:adf:f40b:0:b0:314:3b70:1c72 with SMTP id
+ g11-20020adff40b000000b003143b701c72mr202803wro.12.1689792172804; 
+ Wed, 19 Jul 2023 11:42:52 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ o8-20020a5d4a88000000b003145521f4e5sm5980075wrq.116.2023.07.19.11.42.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 11:42:52 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
+Subject: Re: [PATCH 01/11] drm/tests: helpers: Switch to kunit actions
+In-Reply-To: <20230710-kms-kunit-actions-rework-v1-1-722c58d72c72@kernel.org>
+References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
+ <20230710-kms-kunit-actions-rework-v1-1-722c58d72c72@kernel.org>
+Date: Wed, 19 Jul 2023 20:42:51 +0200
+Message-ID: <871qh3ivys.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230711134354.755966-3-sui.jingfeng@linux.dev>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,130 +83,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, Jingfeng@loongson.cn,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Sui@freedesktop.org, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 11, 2023 at 09:43:50PM +0800, Sui Jingfeng wrote:
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
-> 
-> Currently, vgaarb only cares about PCI VGA-compatible class devices.
-> 
-> While vga_arbiter_del_pci_device() gets called unbalanced when some PCI
-> device is about to be removed. This happens even during the boot process.
+Maxime Ripard <mripard@kernel.org> writes:
 
-The previous code calls vga_arbiter_add_pci_device() for every device
-(every device present at boot and also every hot-added device).  It
-only allocates a vga_device if pdev->class is 0x0300XX.
+Hello Maxime,
 
-It calls vga_arbiter_del_pci_device() for every device removal.  It
-does nothing unless it finds a vga_device.
+The patch looks good to me. I've two questions below though.
 
-This seems symmetric and reasonable to me.  Did you observe a problem
-with it?
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> Another reason is that the vga_arb_device_init() function is not efficient.
-> Since we only care about VGA-compatible devices (pdev->class == 0x030000),
-> We could filter the unqualified devices out in the vga_arb_device_init()
-> function. While the current implementation is to search all PCI devices
-> in a system, this is not necessary.
-
-Optimization is fine, but the most important thing here is to be clear
-about what functional change this patch makes.  As I mentioned at [1], 
-if this patch affects the class codes accepted, please make that clear
-here.
-
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-I do not see Mario's Reviewed-by on the list.  I do see Mario's
-Reviewed-by [2] for a previous version, but that version added this in
-pci_notify():
-
-  + if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
-  +   return 0;
-
-while this version adds:
-
-  + if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-  +   return 0;
-
-It's OK to carry a review to future versions if there are
-insignificant changes, but this is a functional change that seems
-significant to me.  The first matches only 0x030000, while the second
-discards the low eight bits so it matches 0x0300XX.
-
-[1] https://lore.kernel.org/r/20230718231400.GA496927@bhelgaas
-[2] https://lore.kernel.org/all/5b6fdf65-b354-94a9-f883-be820157efad@amd.com/
-
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/pci/vgaarb.c | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index c1bc6c983932..021116ed61cb 100644
-> --- a/drivers/pci/vgaarb.c
-> +++ b/drivers/pci/vgaarb.c
-> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
->  	struct pci_dev *bridge;
->  	u16 cmd;
+>  drivers/gpu/drm/tests/drm_kunit_helpers.c | 32 +++++++++++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> index 4df47071dc88..38211fea9ae6 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
+> @@ -35,8 +35,8 @@ static struct platform_driver fake_platform_driver = {
+>   * able to leverage the usual infrastructure and most notably the
+>   * device-managed resources just like a "real" device.
+>   *
+> - * Callers need to make sure drm_kunit_helper_free_device() on the
+> - * device when done.
+> + * Resources will be cleaned up automatically, but the removal can be
+> + * forced using @drm_kunit_helper_free_device.
+>   *
+>   * Returns:
+>   * A pointer to the new device, or an ERR_PTR() otherwise.
+> @@ -49,12 +49,31 @@ struct device *drm_kunit_helper_alloc_device(struct kunit *test)
+>  	ret = platform_driver_register(&fake_platform_driver);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
 >  
-> -	/* Only deal with VGA class devices */
-> -	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-> -		return false;
-> -
->  	/* Allocate structure */
->  	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
->  	if (vgadev == NULL) {
-> @@ -1502,6 +1498,10 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->  
->  	vgaarb_dbg(dev, "%s\n", __func__);
->  
-> +	/* Deal with VGA compatible devices only */
-> +	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-> +		return 0;
+> +	ret = kunit_add_action_or_reset(test,
+> +					(kunit_action_t *)platform_driver_unregister,
+> +					&fake_platform_driver);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
 > +
->  	/* For now we're only intereted in devices added and removed. I didn't
->  	 * test this thing here, so someone needs to double check for the
->  	 * cases of hotplugable vga cards. */
-> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
+>  	pdev = platform_device_alloc(KUNIT_DEVICE_NAME, PLATFORM_DEVID_NONE);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
 >  
->  static int __init vga_arb_device_init(void)
+> +	ret = kunit_add_action_or_reset(test,
+> +					(kunit_action_t *)platform_device_put,
+> +					pdev);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+>  	ret = platform_device_add(pdev);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> +	kunit_remove_action(test,
+> +			    (kunit_action_t *)platform_device_put,
+> +			    pdev);
+> +
+
+I understand that this action removal is because platform_device_put() is
+not needed anymore after the platform_device_unregister() remove action is
+registered since that already takes care of the platform_device_put().
+
+But maybe add a comment to make more clear for someone who is not familiar
+with these details of the platform core ?
+
+>  EXPORT_SYMBOL_GPL(drm_kunit_helper_alloc_device);
+> @@ -70,8 +89,13 @@ void drm_kunit_helper_free_device(struct kunit *test, struct device *dev)
 >  {
-> +	struct pci_dev *pdev = NULL;
->  	int rc;
-> -	struct pci_dev *pdev;
+>  	struct platform_device *pdev = to_platform_device(dev);
 >  
->  	rc = misc_register(&vga_arb_device);
->  	if (rc < 0)
-> @@ -1543,13 +1543,14 @@ static int __init vga_arb_device_init(void)
->  
->  	bus_register_notifier(&pci_bus_type, &pci_notifier);
->  
-> -	/* We add all PCI devices satisfying VGA class in the arbiter by
-> -	 * default */
-> -	pdev = NULL;
-> -	while ((pdev =
-> -		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
-> -			       PCI_ANY_ID, pdev)) != NULL)
-> -		vga_arbiter_add_pci_device(pdev);
-> +	/*
-> +	 * We add all PCI VGA compatible devices in the arbiter by default
-> +	 */
-> +	do {
-> +		pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
-> +		if (pdev)
-> +			vga_arbiter_add_pci_device(pdev);
-> +	} while (pdev);
->  
->  	pr_info("loaded\n");
->  	return rc;
-> -- 
-> 2.25.1
-> 
+> -	platform_device_unregister(pdev);
+> -	platform_driver_unregister(&fake_platform_driver);
+> +	kunit_release_action(test,
+> +			     (kunit_action_t *)platform_device_unregister,
+> +			     pdev);
+> +
+> +	kunit_release_action(test,
+> +			     (kunit_action_t *)platform_driver_unregister,
+> +			     &fake_platform_driver);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_kunit_helper_free_device);
+>
+
+I thought the point of using the kunit cleanup actions was that you could
+just make the kunit framework handle the release of resources and not do
+it manually?
+
+Can you just remove this function helper or is still needed in some cases?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
