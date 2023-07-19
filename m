@@ -2,42 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F2F75A22A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 00:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A237875A284
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 00:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D415910E12A;
-	Wed, 19 Jul 2023 22:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1510210E527;
+	Wed, 19 Jul 2023 22:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-3.mta1.migadu.com (out-3.mta1.migadu.com
- [IPv6:2001:41d0:203:375::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C16E10E12A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 22:44:52 +0000 (UTC)
-Message-ID: <74994ce2-c060-f662-9210-14d09a15162f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689806688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fjbO79xlLNloGHqzkmh/GrwE5dqq196RqzVZxz+HQuY=;
- b=tyL+5EjVO88fUgTXUzZJvKY+JfMezNTNqLlky4Key7ELBF1/bJEXZwIzwfXEU5giFkbOHo
- bs2sLXFvTbu5KRkClnah41uJLYUoPnho/GiocT6aPhwta72XhksZVZ/iUoXF/ZG9ZHo7Cc
- K41KgUorxkZsDqez3UfEW48aM4qvmjI=
-Date: Thu, 20 Jul 2023 06:44:29 +0800
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C2FCA10E130;
+ Wed, 19 Jul 2023 22:52:15 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxNvEeabhkCXYHAA--.19283S3;
+ Thu, 20 Jul 2023 06:52:14 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Ax3c4MabhkXyA1AA--.15556S3; 
+ Thu, 20 Jul 2023 06:52:13 +0800 (CST)
+Message-ID: <6f2faa2f-f91b-eaae-06bf-25367088645e@loongson.cn>
+Date: Thu, 20 Jul 2023 06:51:53 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [PATCH v3 4/9] PCI/VGA: Improve the default VGA device selection
-Content-Language: en-US
-To: suijingfeng <suijingfeng@loongson.cn>, Bjorn Helgaas <helgaas@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>, Sui Jingfeng <sui.jingfeng@linux.dev>
 References: <20230719193233.GA511659@bhelgaas>
- <f87a48c6-909e-39ba-62b0-289e78798540@loongson.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <f87a48c6-909e-39ba-62b0-289e78798540@loongson.cn>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230719193233.GA511659@bhelgaas>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID: AQAAf8Ax3c4MabhkXyA1AA--.15556S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUmIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E
+ 14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+ I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2
+ jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCF54CYxVAaw2AFwI0_JF0_Jw1l4c8EcI0E
+ c7CjxVAaw2AFwI0_GFv_Wryl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_GF
+ v_Wrylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+ 17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWI
+ evJa73UjIFyTuYvjxUzzuAUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +83,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2023/7/20 06:32, suijingfeng wrote:
-> it will be works no matter CONFIG_DRM_AST=m or CONFIG_DRM_AST=y
+On 2023/7/20 03:32, Bjorn Helgaas wrote:
+> but I think it's just confusing to
+> mention this in the commit log, so I would just remove it.
 
 
-It will be works regardless of CONFIG_DRM_AST=m or CONFIG_DRM_AST=y.
-
-When vgaarb call to the device driver, device driver already loaded 
-successfully.
-
-and the PCI(e) device emulation already finished.
-
-
-So the last change the vgaarb gave us to override is actually happen 
-very late.
-
-But it will be happen as long as the device driver get loaded successfully.
-
+Ok, will be done at the next version.
 
