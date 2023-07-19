@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB499759F58
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:09:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7E8759F6C
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D598310E50B;
-	Wed, 19 Jul 2023 20:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51DB10E2DF;
+	Wed, 19 Jul 2023 20:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D2C10E50B;
- Wed, 19 Jul 2023 20:09:24 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 96EE561807;
- Wed, 19 Jul 2023 20:09:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F24EC433C7;
- Wed, 19 Jul 2023 20:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689797363;
- bh=klqOWFOUh1QB5odPiLwWfeNWJcVb2PU7gijJT32YqNc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=A/2dYFF4KVhoHbqExV9WPBfS6C4fOHioJbj1B0mpePbgVhxjl+2zzBPGfp70rL5Dk
- LC0wykkcZrebfGspQLokwey+kP4xeSWCPaQO7vxVeq5rmNY8Ma0TYwI5c3G56Bdksn
- FQcFBYnlefuUVlBkvyEcDtZWip7j1OtLXXGDst3abhqiNtPIAz7j7JmXh2FX/kVk0b
- LqlA6yfDeEJJQmkrp4xAuI2511AJKjSBzRC63H85DyePlqWPkMmV0IF3bMMp6T9/Ns
- 4lVVS593VTU/O7DQN2AmYKl027Xxu2ccsdR73CTL6Ly/qBtPWkdEw0kL3rKywZPEe/
- KGn90hFEjFTSw==
-Received: (nullmailer pid 687249 invoked by uid 1000);
- Wed, 19 Jul 2023 20:09:20 -0000
-Date: Wed, 19 Jul 2023 14:09:19 -0600
-From: Rob Herring <robh@kernel.org>
-To: Amit Pundir <amit.pundir@linaro.org>
-Subject: Re: [PATCH v5 1/2] dt-bindings: display/msm: mdss-common: add
- memory-region property
-Message-ID: <168979735935.687074.3349593216589059012.robh@kernel.org>
-References: <20230713165238.2814849-1-amit.pundir@linaro.org>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7DAC210E2DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:16:35 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cx2eqiRLhk0WsHAA--.13817S3;
+ Thu, 20 Jul 2023 04:16:34 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx_yOiRLhkcAs1AA--.39777S3; 
+ Thu, 20 Jul 2023 04:16:34 +0800 (CST)
+Message-ID: <042abb3d-8963-9c90-ccc5-59c42332f22d@loongson.cn>
+Date: Thu, 20 Jul 2023 04:16:34 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230713165238.2814849-1-amit.pundir@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
+Content-Language: en-US
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <helgaas@kernel.org>
+References: <20230719182617.GA509912@bhelgaas>
+ <9a1590bd-5dfc-94ad-645e-a0a499ae5b23@linux.dev>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <9a1590bd-5dfc-94ad-645e-a0a499ae5b23@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Dx_yOiRLhkcAs1AA--.39777S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUPEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+ wI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCF54CYxVAaw2AFwI0_JF0_Jw1l4c8EcI0Ec7Cj
+ xVAaw2AFwI0_JF0_Jw1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_GFv_Wr
+ ylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+ 14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7
+ IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+ 87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+ IFyTuYvjxUcCD7UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,44 +63,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, dt <devicetree@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Caleb Connolly <caleb.connolly@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bryan Donoghue <bryan.odonoghue@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 13 Jul 2023 22:22:37 +0530, Amit Pundir wrote:
-> Add and document the reserved memory region property in the
-> mdss-common schema.
-> 
-> For now (sdm845-db845c), it points to a framebuffer memory
-> region reserved by the bootloader for splash screen.
-> 
-> Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
-> ---
-> v5: Moving the dt-binding to mdss-common schema with
->     updated commit message and property description.
-> 
-> v4: Adding this new dt-binding patch, in qcom,sdm845-mdss
->     schema, in the v4 of the follow-up patch for
->     sdm845-db845c.
->     https://lore.kernel.org/lkml/20230712130215.666924-2-amit.pundir@linaro.org/
-> 
->  .../devicetree/bindings/display/msm/mdss-common.yaml         | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
+On 2023/7/20 03:58, Sui Jingfeng wrote:
+> On the other hand, even though the lest significant 8 but if 
+> pdev->class is really matter.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
+If the low eight bits of pdev->class is really matters,
+
+maybe we should wait the potential problems became severe.
+
+Currently, it is not obvious.
 
