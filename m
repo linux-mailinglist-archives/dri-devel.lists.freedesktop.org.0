@@ -1,45 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B93F75A016
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:43:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6C75A040
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E1710E513;
-	Wed, 19 Jul 2023 20:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0720810E510;
+	Wed, 19 Jul 2023 20:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7159310E510;
- Wed, 19 Jul 2023 20:43:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E16256182F;
- Wed, 19 Jul 2023 20:43:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2564EC433C8;
- Wed, 19 Jul 2023 20:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689799425;
- bh=tjOjdSqSd3UKBynevaKWHcXD+EhI+M4v0jnzU2q7Kcs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=hoIuUAXNfvO3M5AutVXnVrVmIL15s0aDDjv5sTYY7QwPsMEjGwZYCwvmBAa1rSdaJ
- G23BZB20qaA1vwMkix+TGC8n2/pi7HmJ+ZjiqlswwHNDjrvqGJIjGUmzzmFP8u0tCV
- h///K7shd6BCvmJ66/CeMedszQb9KNLBPSUv10r+Dw2aDdcvCh6njSJVvvDh5tMYUB
- 4fGyuwhn/0YJTytmhTSd/vJGtvF21ZcrrmIJfO4sQrwpRWfpo5JoVtjNfk66WxLXUc
- L24L1XsaP0Gnnmk31klc/45lESRc+Lky137WSqVbg/grtvs+05Ntx1wsjylkjwtxri
- q+znIJLt8j6Tg==
-Date: Wed, 19 Jul 2023 15:43:43 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v3 1/9] video/aperture: Add a helper to detect if an
- aperture contains firmware FB
-Message-ID: <20230719204343.GA513226@bhelgaas>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02C8310E510
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:57:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689800231;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u8/7gfrcuf8/DAAooprDSDfzeOTJmiOUpVBm/359QlE=;
+ b=XQl36SiTsCiYtcS+SUpBmmSMy1EcVFgQKACSzNQEBmbFYmMrDBvsMVQ2TxZQ4uI5DnStUz
+ dtUIFrsmsqQIsuMD6ZePtYEXi34RCm0boff5kEkoRr0btV1P2zHzIjzFY8lyzJBLT1+oXo
+ NvG0yZNvgQ23vWqdCaneTiKTAjpZO9o=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-368-qcv8pMFQOKen9JHG8speIg-1; Wed, 19 Jul 2023 16:57:09 -0400
+X-MC-Unique: qcv8pMFQOKen9JHG8speIg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-316f39e3e89so526764f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:57:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689800228; x=1690405028;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u8/7gfrcuf8/DAAooprDSDfzeOTJmiOUpVBm/359QlE=;
+ b=P/REIJjszzOITCe/UbX0fNv+S6WkVm9wu83+xMjzYmSDdRP+RqoE0ZShiUycteYl3G
+ YgtNi1rprYJ2qGtVozLxbZ9rAymoB5HVecLHHhowIflJvvN1HSsSZ+WCpTWeJOPbJO2n
+ mXhxTGaD4CCb2F67FqVX3Ieg2ZHnaxLh60vZNFQIzHLDCPdTSold4rwt/BtliOs5Arjy
+ aKYreUM9Hl2XACmiXew4mkyFyHV1+jOkrD8avglw7pl/l0AjrRQty5Pr8pLCyQN4OeG2
+ e1+Agi/r2Gy9Q9pedbP0ll31TjSH7to48LtCnaEWIx0hSdTRPWrHHM5Rh4aYSDqVLSWi
+ wXjw==
+X-Gm-Message-State: ABy/qLaTAjCHa7N8yFohShh7qrawD+sc0nDsAofneJtPjkBFbi5IrDZq
+ mYJ5CImUAtAGOHe0OM7Neuof8IBUlBdVJRy2745GzicTZ6+eUfq60n8UtJZ0u25jeZz4pJN64gx
+ csFHrXGl9jOZjG0uBQ1LtLj9QYbokZaEOZbKfBIQ=
+X-Received: by 2002:a5d:6808:0:b0:313:ef62:6370 with SMTP id
+ w8-20020a5d6808000000b00313ef626370mr779417wru.10.1689800228319; 
+ Wed, 19 Jul 2023 13:57:08 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFLQI82PXe04TmP/q3eozKaXk38E3F+Qti+S7R2zewTlwbsEDY2//S9hJbdkbY4vyqMa8EZ9Q==
+X-Received: by 2002:a5d:6808:0:b0:313:ef62:6370 with SMTP id
+ w8-20020a5d6808000000b00313ef626370mr779410wru.10.1689800228058; 
+ Wed, 19 Jul 2023 13:57:08 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a5d460e000000b0030fb4b55c13sm6150243wrq.96.2023.07.19.13.57.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 13:57:07 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ maarten.lankhorst@linux.intel.com
+Subject: Re: [PATCH] drm/shmem-helper: Remove duplicate include
+In-Reply-To: <20230320015829.52988-1-jiapeng.chong@linux.alibaba.com>
+References: <20230320015829.52988-1-jiapeng.chong@linux.alibaba.com>
+Date: Wed, 19 Jul 2023 22:57:07 +0200
+Message-ID: <871qh3k4bg.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230711164310.791756-2-sui.jingfeng@linux.dev>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,30 +80,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
- kvm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Helge Deller <deller@gmx.de>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, tzimmermann@suse.de, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 12:43:02AM +0800, Sui Jingfeng wrote:
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
-> 
-> This patch adds the aperture_contain_firmware_fb() function to do the
-> determination. Unfortunately, due to the fact that the apertures list
-> will be freed dynamically, the location and size information of the
-> firmware FB will be lost after dedicated drivers call
-> aperture_remove_conflicting_devices(),
-> aperture_remove_conflicting_pci_devices() or
-> aperture_remove_all_conflicting_devices() functions
+Jiapeng Chong <jiapeng.chong@linux.alibaba.com> writes:
 
-> We solve this problem by introducing two static variables that record the
-> firmware framebuffer's start addrness and end addrness. It assumes that the
-> system has only one active firmware framebuffer driver at a time. We don't
-> use the global structure screen_info here, because PCI resources may get
-> reallocated (the VRAM BAR could be moved) during the kernel boot stage.
+> ./drivers/gpu/drm/drm_gem_shmem_helper.c: linux/module.h is included more than once.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4567
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
 
-s/addrness/address/ (twice)
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
