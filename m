@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F73759F42
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B05759F4B
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C75E810E505;
-	Wed, 19 Jul 2023 20:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F65410E507;
+	Wed, 19 Jul 2023 20:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 750A310E505
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689797101;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7/pTuM7M9vX1ufC1fpmoVaAmiz4C6dhPIINuHgLpo2o=;
- b=Aop8gbNdTslnhbDkvoyPq1DODARJ/MQyr129ilbRm7ksnPi8u9r8P6i8ktnmhbpdKTxFq7
- cydb2eD7RvS/vI63ntYUuQ0lXmuWeUvPW+CmMOAAMd7wHU2ljepfgXz3XQ8X65scHUt+fq
- NS2L3GCj8XQnhjrT4w/wrp94LMHAmek=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-27-nrQvkm7RPOq7EY9blyeZbQ-1; Wed, 19 Jul 2023 16:05:00 -0400
-X-MC-Unique: nrQvkm7RPOq7EY9blyeZbQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3fb416d7731so34885e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:05:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689797099; x=1690401899;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7/pTuM7M9vX1ufC1fpmoVaAmiz4C6dhPIINuHgLpo2o=;
- b=YjpPo6GpSIHw/T8NZ5dGuI+DtCKVEEt/KnA6IbJMl7gJFBFZRCKv1O5sIeNrlNPELY
- 6I85iALoKIi9WcczYZJNZWPGaYih92gqJ+BXP5ITaLxbzDfY3qBdrionPHouneVQSWnU
- QHGz/xyCt1DvUZLWwd6n45b3W1IPZGY+qHkSrSnD6Wze4Xiwj5pzQmLpw1rlTsej7/c7
- lyJ3cV0Gy4ski/JDmYNJLUXdnSJk5B5qhTtnS/G1K69+7+18rGnCu0YoCRPEbOef0WS0
- AFwvgabndWSF+hV28fToklLKyg0vECcoj3Zz6B5TLWlNM+f5b2s9G7Qw0aARv1hUtBf4
- uk2g==
-X-Gm-Message-State: ABy/qLbKKxjeudtJlfJjvyEJ2t+qKVdBPpgbseifDwxYIwqwZogQA85+
- r0KMCqTaTombe7u5Zqr9/obIhl0pjtn+3Zy51FFuN4LfqDGJSzZSHV1EO7Z3lM4r/hsOyU8TgLE
- gQAmnSfmvXxnyFp6hh077naYIKS+2
-X-Received: by 2002:a5d:4a49:0:b0:314:1a98:ebc0 with SMTP id
- v9-20020a5d4a49000000b003141a98ebc0mr685706wrs.26.1689797099230; 
- Wed, 19 Jul 2023 13:04:59 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFi0JY22d+kOHK5fHGqO+y4CtL8B9jTcDDC0m6+bbYWaVo5QzVUkwkdAF9IoCd2V8xLw0B20w==
-X-Received: by 2002:a5d:4a49:0:b0:314:1a98:ebc0 with SMTP id
- v9-20020a5d4a49000000b003141a98ebc0mr685693wrs.26.1689797098975; 
- Wed, 19 Jul 2023 13:04:58 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x8-20020a1c7c08000000b003f90b9b2c31sm2383353wmc.28.2023.07.19.13.04.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 13:04:58 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-Subject: Re: [PATCH 09/11] drm/vc4: tests: pv-muxing: Switch to managed
- locking init
-In-Reply-To: <20230710-kms-kunit-actions-rework-v1-9-722c58d72c72@kernel.org>
-References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
- <20230710-kms-kunit-actions-rework-v1-9-722c58d72c72@kernel.org>
-Date: Wed, 19 Jul 2023 22:04:58 +0200
-Message-ID: <87a5vrhdlh.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1AFBE10E507
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:06:37 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cxc_BKQrhkr2oHAA--.18861S3;
+ Thu, 20 Jul 2023 04:06:34 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Ax8uQ6QrhkbAo1AA--.15314S3; 
+ Thu, 20 Jul 2023 04:06:34 +0800 (CST)
+Message-ID: <4c6248d8-1145-6153-7031-fdbc635a4dff@loongson.cn>
+Date: Thu, 20 Jul 2023 04:06:18 +0800
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
+Content-Language: en-US
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Bjorn Helgaas <helgaas@kernel.org>
+References: <20230719182617.GA509912@bhelgaas>
+ <9a1590bd-5dfc-94ad-645e-a0a499ae5b23@linux.dev>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <9a1590bd-5dfc-94ad-645e-a0a499ae5b23@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Ax8uQ6QrhkbAo1AA--.15314S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUPCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAF
+ wI0_Jr0_Gr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE
+ 14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
+ AE67vIY487MxAIw28IcxkI7VAKI48JMxAqzxv262kKe7AKxVWUAVWUtwCF54CYxVCY1x02
+ 62kKe7AKxVWUAVWUtwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtw
+ C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+ wI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjx
+ v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
+ jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43
+ ZEXa7IU82g43UUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,25 +63,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
 
-> The new helper to init the locking context allows to remove some
-> boilerplate.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
+On 2023/7/20 03:58, Sui Jingfeng wrote:
+> What this version adds here is *same* before this patch set is applied.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+The filter method is *same* , in the cases of before this patch is 
+applied and after this patch is applied.
 
