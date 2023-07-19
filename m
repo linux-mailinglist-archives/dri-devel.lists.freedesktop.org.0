@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D89758FBF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 09:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDB7758FCB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:00:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F5710E413;
-	Wed, 19 Jul 2023 07:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCCF610E41A;
+	Wed, 19 Jul 2023 08:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9788810E413
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 07:57:08 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEE2410E416
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:00:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689753427;
+ s=mimecast20190719; t=1689753602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0LSXzH9KgQuNIJHrVFvJ9YD/ZmxqwFC+Ci2ZGBbMwGk=;
- b=R/bSZ5mtXvrl69m0j2LPjtqiFDM2BSu5VOtMCs3305nuxWSEevRP1VvhXKuouidC+3A43t
- ACls23rYvAb3pbmab44FxRi02bzkfInG2Vp74Wp+RMyK9taDKcyza5CLaVAFhFpakZu//d
- 1BqaJGu1ejaybMFF38L4/Gy6UJLRFWE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=speJPG1ycW/BkN4uS1NK3jR/omXFRRfNvkd75pwFmqw=;
+ b=SO9CuQvKFtQ4DcxlS4H4HDihSQ9jLvgmd3xJl3kmvfSMdM7+YkQriEeOsSsMLT/AKyiwzZ
+ WGYpxFUVoxepfaZ5Oi6WQeog9jsV+o7vDYF21jRvh7Bel3/h6oe6/n/EKYDjU1FRnLFj38
+ iBzAzX1mdTs3EG5TY3APSC6bCaf6bZw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-374-GUEfzSV0Nemvhrc2uDeqpw-1; Wed, 19 Jul 2023 03:57:06 -0400
-X-MC-Unique: GUEfzSV0Nemvhrc2uDeqpw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3faabd8fd33so35537275e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 00:57:06 -0700 (PDT)
+ us-mta-569-2rRz6XjJPYOqNhnbKZ4eWg-1; Wed, 19 Jul 2023 04:00:01 -0400
+X-MC-Unique: 2rRz6XjJPYOqNhnbKZ4eWg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-316f39e3e89so200007f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 01:00:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689753425; x=1690358225;
+ d=1e100.net; s=20221208; t=1689753600; x=1690358400;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0LSXzH9KgQuNIJHrVFvJ9YD/ZmxqwFC+Ci2ZGBbMwGk=;
- b=gmLC9CE6ABpQ3mZXqaW6Vx/Aq3+BGW27QS/abjst8fdJCaPjlf1dmV8u3mNAY98oRz
- q/3IdX/nYbQ4FyG5IbhfstLfDU9UbBvOwLOW3ezdk5hidd9s52MHoS7eL2g7lNmsnDjN
- ZUogOQTgR4SBHsqO4yjI/0jnRWuF6oOcs13CrwruHRrbOpCw9jVg3jiMDCDV2koL1ycU
- V4ya/+EpQctlUv3059DycB7Rr6tN9INZPZWd8QPxWmOyxPacJw1Y20OkLFTMB5smJo0h
- J7Hca5+/MQy7mQBp/UbhXYPZzZMvZEzYDDFpYw+MWoV23p4faCRxurelcWkS1q7fuWru
- Yzfw==
-X-Gm-Message-State: ABy/qLbHIbMVYwduxBoOZpysFJlEGMAJvaeqjxvjYW80MfgsaKvJk6Co
- blMpSc9dLh4zRc7ozl/iEx97hdGjrW/i7FPJV6b0aaHKsRC/qsNjAQHG/XRzy7r2SEGq7fIhrnt
- QS3G49zxZrYIcvMhtHtUW/0ZrGRpn
-X-Received: by 2002:a05:600c:cd:b0:3f7:f884:7be3 with SMTP id
- u13-20020a05600c00cd00b003f7f8847be3mr1334653wmm.4.1689753425237; 
- Wed, 19 Jul 2023 00:57:05 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlH74UgMTjLsFyK1xbqZGPblld9XHaIy+slQtfM8QvANl8wo4fumWmYeLIfxy+UY4GY0/K0oJw==
-X-Received: by 2002:a05:600c:cd:b0:3f7:f884:7be3 with SMTP id
- u13-20020a05600c00cd00b003f7f8847be3mr1334641wmm.4.1689753424896; 
- Wed, 19 Jul 2023 00:57:04 -0700 (PDT)
+ bh=speJPG1ycW/BkN4uS1NK3jR/omXFRRfNvkd75pwFmqw=;
+ b=OWNRQYlFDVz2VMsehnTSSUzq4zUnzZezhh7zJJTwEEwkQ+AG2zBbNQAzx8P7TrKIWD
+ vXstYjBc+Nry93sflrbqm4NkWg9jcfmnYNAIKkUVN+8AsatCK0QO22M/FhtXu0481LtC
+ sHRNbEn57pWVqCcK1fzsd8lqXgRcIcfS1q6uKXgsXdlYGjarBW3fz2gCQyTQQjl5H6o6
+ IQt1xM0DC9f1nGDNJ4P0Uv2mFscp3iwaV50nDNtz4uysbbNCz1C/R1MvhmuJd1Awp+m4
+ ZPJRBIBH2AwFljzPuFhoVco1ZoXBfICmTi1UYzYRJUZb2ILH8KS3ibtz5wohHR+O4rVi
+ iDkQ==
+X-Gm-Message-State: ABy/qLZ1OHsJATbsEQto0knV1cxoX2Ew7rqSqaJTophhLVPySNsplhRQ
+ lkRLVdbzAwZSPK034gRQiusbBcvkxj84psgrEMr4iEhOs46qHDSY0rzNf0bRYMrclyiyacGEAPb
+ f6CiP7q66IzCRYLCRwloa53U1J6+I
+X-Received: by 2002:adf:f183:0:b0:315:a235:8aa8 with SMTP id
+ h3-20020adff183000000b00315a2358aa8mr1151880wro.2.1689753600520; 
+ Wed, 19 Jul 2023 01:00:00 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGbErd5rOGWg9sKl7p9YbHezYUElnKB4HQRHgHvdWvGr5xTLlQhBGuXUlUSr7TY0UzQpwLZSQ==
+X-Received: by 2002:adf:f183:0:b0:315:a235:8aa8 with SMTP id
+ h3-20020adff183000000b00315a2358aa8mr1151868wro.2.1689753600230; 
+ Wed, 19 Jul 2023 01:00:00 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x15-20020a05600c21cf00b003fbbe41fd78sm1046275wmj.10.2023.07.19.00.57.04
+ i3-20020adfe483000000b00313f61889ecsm4551037wrm.66.2023.07.19.00.59.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 00:57:04 -0700 (PDT)
+ Wed, 19 Jul 2023 01:00:00 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/4] fbdev: Split frame buffer support in FB and
- FB_CORE symbols
-In-Reply-To: <91486e8b-49ca-4a8a-8dd6-e9a2c6ed63ee@app.fastmail.com>
+Subject: Re: [PATCH v5 2/4] fbdev: Move core fbdev symbols to a separate
+ Kconfig file
+In-Reply-To: <f925fa1c-a6db-4032-8adc-d6aba8cd2ef8@app.fastmail.com>
 References: <20230714171642.91185-1-javierm@redhat.com>
- <20230714171642.91185-4-javierm@redhat.com>
- <91486e8b-49ca-4a8a-8dd6-e9a2c6ed63ee@app.fastmail.com>
-Date: Wed, 19 Jul 2023 09:57:03 +0200
-Message-ID: <87o7k8ibao.fsf@minerva.mail-host-address-is-not-set>
+ <20230714171642.91185-3-javierm@redhat.com>
+ <f925fa1c-a6db-4032-8adc-d6aba8cd2ef8@app.fastmail.com>
+Date: Wed, 19 Jul 2023 09:59:59 +0200
+Message-ID: <87lefcib5s.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -82,15 +82,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Lee Jones <lee@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jingoo Han <jingoohan1@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Gleixner <tglx@linutronix.de>,
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -99,87 +93,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 "Arnd Bergmann" <arnd@arndb.de> writes:
 
 > On Fri, Jul 14, 2023, at 19:16, Javier Martinez Canillas wrote:
->> Currently the CONFIG_FB option has to be enabled even if no legacy fbdev
->> drivers are needed (e.g: only to have support for framebuffer consoles).
+>> The drivers/video/fbdev/Kconfig defines both symbols for fbdev drivers and
+>> core fbdev symbols, that can be enabled independently of the fbdev drivers.
 >>
->> The DRM subsystem has a fbdev emulation layer, but depends on CONFIG_FB
->> and so it can only be enabled if that dependency is enabled as well.
+>> Split the Kconfig in two, one that only has the symbols for fbdev drivers
+>> and another one that contains the fbdev core symbols.
 >>
->> That means fbdev drivers have to be explicitly disabled if users want to
->> enable CONFIG_FB, only to use fbcon and/or the DRM fbdev emulation layer.
->>
->> This patch introduces a non-visible CONFIG_FB_CORE symbol that could be
->> enabled just to have core support needed for CONFIG_DRM_FBDEV_EMULATION,
->> allowing CONFIG_FB to be disabled (and automatically disabling all the
->> fbdev drivers).
->>
->> Nothing from fb_backlight.o and fbmon.o is used by the DRM fbdev emulation
->> layer so these two objects can be compiled out when CONFIG_FB is disabled.
+>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
 >
-> I gave this a spin in my randconfig build setup and found one small
-> mistake:
+> While testing this patch series, I noticed a conflict against
+> Thomas Zimmermann's series for FB_SYS_HELPERS_DEFERRED, so you'll
+> have to adapt the patches in order to apply them on top.
 >
 
-Thanks for testing!
+Indeed. That was my bad when doing the conflict resolution on rebase.
 
->> diff --git a/drivers/video/fbdev/core/Makefile 
->> b/drivers/video/fbdev/core/Makefile
->> index 9150bafd9e89..2cd213716c12 100644
->> --- a/drivers/video/fbdev/core/Makefile
->> +++ b/drivers/video/fbdev/core/Makefile
->> @@ -1,10 +1,10 @@
->>  # SPDX-License-Identifier: GPL-2.0
->>  obj-$(CONFIG_FB_NOTIFY)           += fb_notify.o
->> -obj-$(CONFIG_FB)                  += fb.o
->> -fb-y                              := fb_backlight.o \
->> -                                     fb_info.o \
->> -                                     fbmem.o fbmon.o fbcmap.o \
->> +obj-$(CONFIG_FB_CORE)             += fb.o
->> +fb-y                              := fb_info.o \
->> +                                     fbmem.o fbcmap.o \
->>                                       modedb.o fbcvt.o fb_cmdline.o 
->> fb_io_fops.o
->> +fb-$(CONFIG_FB)                   += fb_backlight.o fbmon.o
+>> +
+>> +config FB_HECUBA
+>> +	tristate
+>> +	depends on FB
+>> +	depends on FB_DEFERRED_IO
+>> +
+>> +config FB_SVGALIB
+>> +	tristate
+>> +	depends on FB
+>> +	help
+>> +	  Common utility functions useful to fbdev drivers of VGA-based
+>> +	  cards.
+>> +
+>> +config FB_MACMODES
+>> +	tristate
+>> +	depends on FB
+>> +
 >
-> With CONFIG_FB_CORE=y and CONFIG_FB=m, Kbuild does not include
-> the fb_backlight.o and fbmon.o files in fb.ko because they are not
-> set to =y, causing link failures for fbdev drivers later:
->
-> ERROR: modpost: "of_get_fb_videomode" [drivers/video/fbdev/clps711x-fb.ko] undefined!
-> ERROR: modpost: "fb_videomode_from_videomode" [drivers/video/fbdev/atmel_lcdfb.ko] undefined!
-> ERROR: modpost: "of_get_fb_videomode" [drivers/video/fbdev/imxfb.ko] undefined!
-> ERROR: modpost: "fb_destroy_modedb" [drivers/video/fbdev/udlfb.ko] undefined!
-> ERROR: modpost: "fb_edid_to_monspecs" [drivers/video/fbdev/udlfb.ko] undefined!
-> ERROR: modpost: "fb_destroy_modedb" [drivers/video/fbdev/smscufx.ko] undefined!
-> ERROR: modpost: "fb_edid_to_monspecs" [drivers/video/fbdev/smscufx.ko] undefined!
-> ERROR: modpost: "fb_destroy_modedb" [drivers/video/fbdev/uvesafb.ko] undefined!
-> ERROR: modpost: "fb_validate_mode" [drivers/video/fbdev/uvesafb.ko] undefined!
-> ERROR: modpost: "fb_get_mode" [drivers/video/fbdev/uvesafb.ko] undefined!
+> The FB_HECUBA now needs 'FB_SYS_HELPERS_DEFERRED' instead
+> of 'FB_DEFERRED_IO', which is the change done in the other
+> patch. I think the best way of doing that would be to just
+> not move the three symbols above to core/Kconfig but leave them
+> in place, as they are all just helper modules for some other
+> drivers, rather than core code.
 >
 
-Right, sorry for missing that combination.
+Agreed. I'll change that in v6 as well.
 
+>       Arnd
 >
-> Folding this fixup into the patch makes it work:
->
-> diff --git a/drivers/video/fbdev/core/Makefile b/drivers/video/fbdev/core/Makefile
-> index 2cd213716c12f..84ddc5d308b58 100644
-> --- a/drivers/video/fbdev/core/Makefile
-> +++ b/drivers/video/fbdev/core/Makefile
-> @@ -4,7 +4,9 @@ obj-$(CONFIG_FB_CORE)             += fb.o
->  fb-y                              := fb_info.o \
->                                       fbmem.o fbcmap.o \
->                                       modedb.o fbcvt.o fb_cmdline.o fb_io_fops.o
-> -fb-$(CONFIG_FB)                   += fb_backlight.o fbmon.o
-> +ifdef CONFIG_FB
-> +fb-y		                   += fb_backlight.o fbmon.o
-> +endif
->  fb-$(CONFIG_FB_DEFERRED_IO)       += fb_defio.o
->  fb-$(CONFIG_FB_DEVICE)            += fb_chrdev.o \
->                                       fb_procfs.o \
->
-
-Perfect, I'll squash your fix in v6. Thanks!
 
 -- 
 Best regards,
