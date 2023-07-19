@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F90759996
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BFB75998D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:23:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B7810E4CF;
-	Wed, 19 Jul 2023 15:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F216110E4D2;
+	Wed, 19 Jul 2023 15:23:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF4810E4CB
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:23:51 +0000 (UTC)
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6677910E4CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:23:50 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:51f7:4083:c317:cdf])
- by baptiste.telenet-ops.be with bizsmtp
- id P3Pg2A0062xuRWb013PgBF; Wed, 19 Jul 2023 17:23:49 +0200
+ by albert.telenet-ops.be with bizsmtp
+ id P3Pg2A00E2xuRWb063Pg27; Wed, 19 Jul 2023 17:23:47 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qM91W-001tXy-4l;
+ (envelope-from <geert@linux-m68k.org>) id 1qM91W-001tY0-5d;
  Wed, 19 Jul 2023 17:23:40 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qM91g-001Bji-55;
+ (envelope-from <geert@linux-m68k.org>) id 1qM91g-001Bjl-60;
  Wed, 19 Jul 2023 17:23:40 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -33,9 +33,9 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Jyri Sarha <jyri.sarha@iki.fi>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Subject: [PATCH v3 1/4] drm/todo: Add atomic modesetting references
-Date: Wed, 19 Jul 2023 17:23:34 +0200
-Message-Id: <6809d0fda0716892cbccf0ee272481032251026d.1689779916.git.geert+renesas@glider.be>
+Subject: [PATCH v3 2/4] drm/todo: Convert list of fbconv links to footnotes
+Date: Wed, 19 Jul 2023 17:23:35 +0200
+Message-Id: <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689779916.git.geert+renesas@glider.be>
 References: <cover.1689779916.git.geert+renesas@glider.be>
@@ -53,64 +53,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The section about converting existing KMS drivers to atomic modesetting
-mentions the existence of a conversion guide, but does not reference it.
-While the guide is old and rusty, it still contains useful information,
-so add a link to it.  Also link to the LWN.net articles that give an
-overview about the atomic mode setting design.
-
-While at it, remove the reference to unconverted virtual HW drivers, as
-they've been converted.
+Convert the references to fbconv links to footnotes, so they can be
+navigated.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v3:
-  - No changes,
+  - Make main text read correctly when ignoring the footnotes,
 
 v2:
-  - Add Reviewed-by,
-  - Drop double space after full stop,
-  - Use footnotes for references,
-  - Remore reference to unconverted virtual HW drivers.
+  - New.
 ---
- Documentation/gpu/todo.rst | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ Documentation/gpu/todo.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b05b32c12975559b..b93059e384128904 100644
+index b93059e384128904..f2a4f6f90c54eefe 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
-@@ -49,14 +49,18 @@ converted over. Modern compositors like Wayland or Surfaceflinger on Android
- really want an atomic modeset interface, so this is all about the bright
- future.
+@@ -756,16 +756,16 @@ existing hardware. The new driver's call-back functions are filled from
+ existing fbdev code.
  
--There is a conversion guide for atomic and all you need is a GPU for a
--non-converted driver (again virtual HW drivers for KVM are still all
--suitable).
-+There is a conversion guide for atomic [1]_ and all you need is a GPU for a
-+non-converted driver.  The "Atomic mode setting design overview" series [2]_
-+[3]_ at LWN.net can also be helpful.
+ More complex fbdev drivers can be refactored step-by-step into a DRM
+-driver with the help of the DRM fbconv helpers. [1] These helpers provide
++driver with the help of the DRM fbconv helpers [4]_. These helpers provide
+ the transition layer between the DRM core infrastructure and the fbdev
+ driver interface. Create a new DRM driver on top of the fbconv helpers,
+ copy over the fbdev driver, and hook it up to the DRM code. Examples for
+-several fbdev drivers are available at [1] and a tutorial of this process
+-available at [2]. The result is a primitive DRM driver that can run X11
+-and Weston.
++several fbdev drivers are available in Thomas Zimmermann's fbconv tree
++[4]_, as well as a tutorial of this process [5]_. The result is a primitive
++DRM driver that can run X11 and Weston.
  
- As part of this drivers also need to convert to universal plane (which means
- exposing primary & cursor as proper plane objects). But that's much easier to
- do by directly using the new atomic helper driver callbacks.
+- - [1] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
+- - [2] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
++ .. [4] https://gitlab.freedesktop.org/tzimmermann/linux/tree/fbconv
++ .. [5] https://gitlab.freedesktop.org/tzimmermann/linux/blob/fbconv/drivers/gpu/drm/drm_fbconv_helper.c
  
-+  .. [1] https://blog.ffwll.ch/2014/11/atomic-modeset-support-for-kms-drivers.html
-+  .. [2] https://lwn.net/Articles/653071/
-+  .. [3] https://lwn.net/Articles/653466/
-+
- Contact: Daniel Vetter, respective driver maintainers
+ Contact: Thomas Zimmermann <tzimmermann@suse.de>
  
- Level: Advanced
 -- 
 2.34.1
 
