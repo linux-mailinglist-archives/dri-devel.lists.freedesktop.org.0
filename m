@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C5A759747
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 15:49:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1230F7597F0
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 16:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7B4910E19D;
-	Wed, 19 Jul 2023 13:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7454210E4AB;
+	Wed, 19 Jul 2023 14:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60BD610E19D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:49:32 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-3142970df44so6510580f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 06:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689774570; x=1692366570;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JeaSSoZd0P4aBDcnBZ8BgOhayrU2NW5OGYbO05NkL/4=;
- b=mSLGK2c7L5EE4FfadrFnGKrx8rHqMorl3CkK/H11fHsq3cy4XSsKtutECoQcxj7VUH
- 6217O/9tcynPgDcZCiS5kwgKPRQ9yaxcBfet9pGpjP3OtetZCluXE3f4KQeLL37dXcdq
- Shyafc4xZzvzAf3/I3duYT0A6Lan59ePh67EPf8B6LGZv9LJEeK4tH3b6lkOaji6veEW
- jV3wN5L8eRb0FEZEQdFL5i8bBvckl20VHoXJydGdhlh18d4M6Z7KwE4oD2NfJGaix4SY
- m60NOgE8+OkCmcQdiCC141H+NDbenv1Kvjlt/AYNlG4in4PaDFI5cUWT/kWWjIB6GhTf
- 8q+A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C7D610E4AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 14:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689776232;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YjdFQRNR08a24eSSE2jcx3RnjwPdI3D1UG9L8u3hsoE=;
+ b=PBFPnKRHPfxRQZ0KnBfWne0Zv04tU/3OZCyU0RgD1VC9UbR+yX08xfJVl8HtR/B+XOEu/9
+ iFK1u2pYF5WctsOUv3ROM54TF71ekjIpRqJkgktFXvzOk7b7+XvCdzzRwp6n+s5WqtJEKG
+ DH1ZAnW3FDKZZQ8PIVwDlcTYATlp1Ao=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-349-i9JM9At1NkqRV142-cqt7Q-1; Wed, 19 Jul 2023 10:17:10 -0400
+X-MC-Unique: i9JM9At1NkqRV142-cqt7Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3fb416d7731so39412435e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 07:17:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689774570; x=1692366570;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JeaSSoZd0P4aBDcnBZ8BgOhayrU2NW5OGYbO05NkL/4=;
- b=ERXn4ASmyY94MkhqM9GQrI8Ix5VWOOaLCvpZ8AoyFra8DCZp7NKfgTO9fnfzIsZ1LM
- /uFX0eCG5R9StFyvpEXLNdstcwWfj/TCMR4I4ASCA6OKS8JnQ7Izn4YGd+j0JI4HAl4J
- D4c0fufONeX0t+AGr+dm1cxxpnCCKWiKJYt3zTsE8RE6aW0+fIZGtG6rLsv5XkNYiCF6
- I5iBYSFZ1oP39GNqXRJSjwwzXPR9ssSI7tX6blOtUIQs28eZHAx6Sj7+LdrJBmAcketA
- wkNh/ixvOiaFkTyi6zscPC8RpQS6mcLIIL6YFMVnKWF00OROP3m9hDR+pEw+d0tWsnNv
- I1ZA==
-X-Gm-Message-State: ABy/qLY0yTUNeH4wvmemVLe7M2qKHWK0wok74KbkMHqnPWi7f/t6ZhYl
- Gxc082RxDH3aWtG1c/ppC3BH7Q==
-X-Google-Smtp-Source: APBJJlEbRVrqi3m5ZvwiJaNOZocZP7fbMQ7EmoV04cKWj5tMJSoThE8C5X94lSqKcc5w5KB/JoRc7Q==
-X-Received: by 2002:adf:d0d1:0:b0:314:824:3777 with SMTP id
- z17-20020adfd0d1000000b0031408243777mr13524380wrh.48.1689774570336; 
- Wed, 19 Jul 2023 06:49:30 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.201.220])
- by smtp.gmail.com with ESMTPSA id
- w17-20020adfde91000000b00315a57f1128sm5357828wrl.115.2023.07.19.06.49.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jul 2023 06:49:29 -0700 (PDT)
-Message-ID: <32595080-dd79-5cf0-46e7-b82d0df8f067@linaro.org>
-Date: Wed, 19 Jul 2023 15:49:22 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.13.0
-Subject: Re: [PATCH v2 5/9] vgacon: remove screen_info dependency
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>
+ d=1e100.net; s=20221208; t=1689776229; x=1690381029;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YjdFQRNR08a24eSSE2jcx3RnjwPdI3D1UG9L8u3hsoE=;
+ b=Bo9UDwdapGnIT5wMF5x5GmKWeu9aFJVOwIn1x+CQPk/z1tp559Ot0nGdJmJ2rmbz6p
+ VwKWT34pWjtzr7A//p8UbquJCDpJm+HTZG02nxUANThEfNshJLMLBlZKiqO+IIBG2fp3
+ eX+absBM1kM3DVInHWd9OxlQmGbD9a/3FKdCv49zB8vkfVU/q4/XrOq5ZCS1aUjyz0LW
+ 7yVqI6qe3JJO3tb+WgSZ8RZnWHs3UGtLx0YhtXzc+GI+d0MgkdsdBug1TB1IXB5n4jgE
+ YuWZwwjz8LIY9dNaPLrtXVf2H3OV7Kme2WM74yeQv7zHZCpMaZzLu6wRkCcV2sjsK3HC
+ c5Dw==
+X-Gm-Message-State: ABy/qLZxRUYqMLRDQ5Fg8aPRWrAvmOL2ipTmQXXS67Jom+v0F7uOp0Uv
+ BliPhkbFZ2a2EpYdG/WhHySfHbycegRoUGstlhN3BD/zoh2bBEOV8jMibclbntNfWfYLVG8MGc/
+ lJnan3dEvjsnWXjtqp4QVTR9FEpPd
+X-Received: by 2002:a05:600c:3651:b0:3fc:627:ea31 with SMTP id
+ y17-20020a05600c365100b003fc0627ea31mr2123084wmq.38.1689776229113; 
+ Wed, 19 Jul 2023 07:17:09 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHY6b0TgUW8MDG3POksnXdAxeQBRH+KD9U9aN090eyMWJPzhTreLBf0F2Av+qSumHgaL9gGUQ==
+X-Received: by 2002:a05:600c:3651:b0:3fc:627:ea31 with SMTP id
+ y17-20020a05600c365100b003fc0627ea31mr2123053wmq.38.1689776228833; 
+ Wed, 19 Jul 2023 07:17:08 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h21-20020a1ccc15000000b003fbacc853ccsm1833816wmb.18.2023.07.19.07.17.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 07:17:08 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v2 6/9] vgacon: clean up global screen_info instances
+In-Reply-To: <20230719123944.3438363-7-arnd@kernel.org>
 References: <20230719123944.3438363-1-arnd@kernel.org>
- <20230719123944.3438363-6-arnd@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230719123944.3438363-6-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20230719123944.3438363-7-arnd@kernel.org>
+Date: Wed, 19 Jul 2023 16:17:07 +0200
+Message-ID: <87cz0ohtp8.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,75 +108,44 @@ Cc: linux-hyperv@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+Arnd Bergmann <arnd@kernel.org> writes:
 
-On 19/7/23 14:39, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The vga console driver is fairly self-contained, and only used by
-> architectures that explicitly initialize the screen_info settings.
-> 
-> Chance every instance that picks the vga console by setting conswitchp
-> to call a function instead, and pass a reference to the screen_info
-> there.
-> 
+>
+> To prepare for completely separating the VGA console screen_info from
+> the one used in EFI/sysfb, rename the vgacon instances and make them
+> local as much as possible.
+>
+> ia64 and arm both have confurations with vgacon and efi, but the contents
+
+is this a typo for configurations ?
+
+> never overlaps because ia64 has no EFI framebuffer, and arm only has
+> vga console on legacy platforms without EFI. Renaming these is required
+> before the EFI screen_info can be moved into drivers/firmware.
+>
+> The ia64 vga console is actually registered in two places from
+> setup_arch(), but one of them is wrong, so drop the one in pcdp.c and
+> the fix the one in setup.c to use the correct conditional.
+>
+
+s/the fix the/fix the
+
+> x86 has to keep them together, as the boot protocol is used to switch
+> between VGA text console and framebuffer through the screen_info data.
+>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->   arch/alpha/kernel/setup.c      |  2 +-
->   arch/arm/kernel/setup.c        |  2 +-
->   arch/ia64/kernel/setup.c       |  2 +-
->   arch/mips/kernel/setup.c       |  2 +-
->   arch/x86/kernel/setup.c        |  2 +-
->   drivers/firmware/pcdp.c        |  2 +-
->   drivers/video/console/vgacon.c | 68 ++++++++++++++++++++--------------
->   include/linux/console.h        |  7 ++++
->   8 files changed, 53 insertions(+), 34 deletions(-)
 
+Patch looks good to me, but I'm not that familiar with some of the arches
+to give a proper reviewed-by.
 
-> @@ -1074,13 +1077,13 @@ static int vgacon_resize(struct vc_data *c, unsigned int width,
->   		 * Ho ho!  Someone (svgatextmode, eh?) may have reprogrammed
->   		 * the video mode!  Set the new defaults then and go away.
->   		 */
-> -		screen_info.orig_video_cols = width;
-> -		screen_info.orig_video_lines = height;
-> +		vga_si->orig_video_cols = width;
-> +		vga_si->orig_video_lines = height;
->   		vga_default_font_height = c->vc_cell_height;
->   		return 0;
->   	}
-> -	if (width % 2 || width > screen_info.orig_video_cols ||
-> -	    height > (screen_info.orig_video_lines * vga_default_font_height)/
-> +	if (width % 2 || width > vga_si->orig_video_cols ||
-> +	    height > (vga_si->orig_video_lines * vga_default_font_height)/
->   	    c->vc_cell_height)
->   		return -EINVAL;
->   
-> @@ -1110,8 +1113,8 @@ static void vgacon_save_screen(struct vc_data *c)
->   		 * console initialization routines.
->   		 */
->   		vga_bootup_console = 1;
-> -		c->state.x = screen_info.orig_x;
-> -		c->state.y = screen_info.orig_y;
-> +		c->state.x = vga_si->orig_x;
-> +		c->state.y = vga_si->orig_y;
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Not really my area, so bare with me if this is obviously not
-possible :) If using DUMMY_CONSOLE, can we trigger a save_screen
-/ resize? If so, we'd reach here with vga_si=NULL.
+-- 
+Best regards,
 
->   	}
->   
->   	/* We can't copy in more than the size of the video buffer,
-> @@ -1204,4 +1207,13 @@ const struct consw vga_con = {
->   };
->   EXPORT_SYMBOL(vga_con);
->   
-> +void vgacon_register_screen(struct screen_info *si)
-> +{
-> +	if (!si || vga_si)
-> +		return;
-> +
-> +	conswitchp = &vga_con;
-> +	vga_si = si;
-> +}
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
