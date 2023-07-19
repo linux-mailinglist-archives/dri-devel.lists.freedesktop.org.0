@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B390B759FD5
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:32:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF17759FEB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:37:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2893B10E50E;
-	Wed, 19 Jul 2023 20:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE9D110E50F;
+	Wed, 19 Jul 2023 20:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F27410E50F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:32:08 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 46e09a7af769-6b9c5362a51so59566a34.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1689798726; x=1692390726;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hVa5fBSVAdHHhZFj/pRkL4ALpTE995mDIMsnkkRTm0Q=;
- b=Lde5n1cKOA1T4bKffkRp7OCLFw3kIzNszFORWjdILVZqUjkjtj/r9hJnWetWPtfHma
- ljuFtQpXVY4jecYQAp9auj6671m4eJtWAWASvcxJ0vh6TBOL3L3JPhny0qmlkfIO9s+W
- 8B9dU1kPuZnzPVLrgJf4wHRzdb2yDbMwGZLSaAOSX8ifu+zNVAZ4k00aAjhvtL71UYFE
- zBzIW5qzWajLb4R1YlKHx0jzIA1FhXb9NOCMhsidexUSwl+9zzaHMeWSsIwt4d/UKdn3
- ou8P9mOiEJewUTZVMKvwVKWKgZcn3ZknSYuePQSkjSIgj6WoH4BvzHG+o4ET6ZkJEN1+
- idEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689798726; x=1692390726;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hVa5fBSVAdHHhZFj/pRkL4ALpTE995mDIMsnkkRTm0Q=;
- b=dH8J3kjliB8fuQIwNRScC85qM9UFcjgaSlcY8X+LKlb4JpWIB63vzGGLrTeexkLBSt
- NnHmYP3oWwS7+E4mtp+UYVQT36zcDOQy736aRhaJF5CkB7B/1p0ntCqQX6NROljB6Un7
- CllRVA0pQ6BenXzPMA0Y349qSs959ME/uNjwT8Tte2JjU3kD3PO0Po5+X8SqXA0aZYc0
- G9RAzfOrW6by13gvAi3/ECIoedt58KjaXmRawKZ/PNrTseLe+MGDTcK+m3pZAZiV6SVw
- oW1/KS+eVbpX7pL0W7ROsoxbW57l5puWVBuFPICLOfVIzE/zytHGPwGDittCuDT0pOuq
- IdSg==
-X-Gm-Message-State: ABy/qLbItnW7ICqB3sAcIKru5Q19IJa0zsT1iYUEgchDVysGecNaZlqT
- +e9JGPxiWbq/3bQ3hufZI7Z2rsi/bEhJSu/95CYqmA==
-X-Google-Smtp-Source: APBJJlG0LOmFWJJYoiI2DoFv8CdP9UbzzCs8Y7kDwJRTGKPR2LDaC31eQP8L8zN0JJDBJcCQwWuezCzERqGP128mCXI=
-X-Received: by 2002:a05:6808:138c:b0:3a3:eab8:8710 with SMTP id
- c12-20020a056808138c00b003a3eab88710mr4242718oiw.43.1689798726160; Wed, 19
- Jul 2023 13:32:06 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 549C310E50F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:37:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2E170617CB;
+ Wed, 19 Jul 2023 20:37:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2BE5C433C8;
+ Wed, 19 Jul 2023 20:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689799021;
+ bh=SL7k8eZ8nRbX0vwXOdVgFN2hRtqQGVAaTbvJqY57BEU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BuvyrT061YUMSD8cNtGfuZUYzuxPpFcZw8zFsExRkWlWUhjNMtWkE7mxb2izkRBZ9
+ O1WBwZ6bb8drf/uwk8Wa0VszOc7EqWwXPbEuhOssWsbLQP48hw/F10jMiOTwcXPOgD
+ EpO9kWXvGYiD9ZFJolRqG+ZSTPWbFE4Ak23jeb1eBfxk7yZCM9F9dl45vayuudNpRz
+ 3lka10SYYniiqESB1Tx8VVwqa/QrJX4KG7lGdFRY2SN14mLkl0k9oEYjJU+zvtG0Cw
+ 2AS37/gepyGO5pHewv4AQ8sUuKpeu8scpNrKlFO90A8Nl2c2rIgIuO1PaB2FBj01XT
+ CMknK6m3ulovw==
+Date: Wed, 19 Jul 2023 13:36:59 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC PATCH 00/10] Device Memory TCP
+Message-ID: <20230719133659.5529729e@kernel.org>
+In-Reply-To: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
+References: <20230710223304.1174642-1-almasrymina@google.com>
+ <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
+ <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
+ <ZLbUpdNYvyvkD27P@ziepe.ca> <20230718111508.6f0b9a83@kernel.org>
+ <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
+ <20230718112940.2c126677@kernel.org>
+ <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org>
+ <20230718154503.0421b4cd@kernel.org>
+ <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
-In-Reply-To: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 19 Jul 2023 13:31:54 -0700
-Message-ID: <CABdmKX1PUF+X897ZMOr0RNiYdoiL_2NkcSt+Eh55BfW-05LopQ@mail.gmail.com>
-Subject: Re: [RFC v5 00/17] DRM cgroup controller with scheduling control and
- memory stats
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +60,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
- Eero Tamminen <eero.t.tamminen@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ linux-kselftest@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Eric Dumazet <edumazet@google.com>, Andy Lutomirski <luto@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 4:47=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->   drm.memory.stat
->         A nested file containing cumulative memory statistics for the who=
-le
->         sub-hierarchy, broken down into separate GPUs and separate memory
->         regions supported by the latter.
->
->         For example::
->
->           $ cat drm.memory.stat
->           card0 region=3Dsystem total=3D12898304 shared=3D0 active=3D0 re=
-sident=3D12111872 purgeable=3D167936
->           card0 region=3Dstolen-system total=3D0 shared=3D0 active=3D0 re=
-sident=3D0 purgeable=3D0
->
->         Card designation corresponds to the DRM device names and multiple=
- line
->         entries can be present per card.
->
->         Memory region names should be expected to be driver specific with=
- the
->         exception of 'system' which is standardised and applicable for GP=
-Us
->         which can operate on system memory buffers.
->
->         Sub-keys 'resident' and 'purgeable' are optional.
->
->         Per category region usage is reported in bytes.
->
->  * Feedback from people interested in drm.active_us and drm.memory.stat i=
-s
->    required to understand the use cases and their usefulness (of the fiel=
-ds).
->
->    Memory stats are something which was easy to add to my series, since I=
- was
->    already working on the fdinfo memory stats patches, but the question i=
-s how
->    useful it is.
->
-Hi Tvrtko,
+On Wed, 19 Jul 2023 08:10:58 -0700 Mina Almasry wrote:
+> From Jakub and David's comments it sounds (if I understood correctly),
+> you'd like to tie the dma-buf bind/unbind functions to the lifetime of
+> a netlink socket, rather than a struct file like I was thinking. That
+> does sound cleaner, but I'm not sure how. Can you link me to any
+> existing code examples? Or rough pointers to any existing code?
 
-I think this style of driver-defined categories for reporting of
-memory could potentially allow us to eliminate the GPU memory tracking
-tracepoint used on Android (gpu_mem_total). This would involve reading
-drm.memory.stat at the root cgroup (I see it's currently disabled on
-the root), which means traversing the whole cgroup tree under the
-cgroup lock to generate the values on-demand. This would be done
-rarely, but I still wonder what the cost of that would turn out to be.
-The drm_memory_stats categories in the output don't seem like a big
-value-add for this use-case, but no real objection to them being
-there. I know it's called the DRM cgroup controller, but it'd be nice
-if there were a way to make the mem tracking part work for any driver
-that wishes to participate as many of our devices don't use a DRM
-driver. But making that work doesn't look like it would fit very
-cleanly into this controller, so I'll just shut up now.
+I don't have a strong preference whether the lifetime is bound to 
+the socket or not. My main point was that if we're binding lifetimes
+to processes, it should be done via netlink sockets, not special-
+-purpose FDs. Inevitably more commands and info will be needed and
+we'll start reinventing the uAPI wheel which is Netlink.
 
-Thanks!
--T.J.
+Currently adding state to netlink sockets is a bit raw. You can create
+an Xarray which stores the per socket state using socket's portid
+(genl_info->snd_portid) and use netlink_register_notifier() to get
+notifications when sockets are closed.
