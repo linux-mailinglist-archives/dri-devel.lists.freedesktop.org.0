@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A820758FF6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492C3758FF4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F25C10E41F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7463D10E41B;
 	Wed, 19 Jul 2023 08:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8172310E078
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:15:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE0E10E416
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689754555;
+ s=mimecast20190719; t=1689754556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=40ASWVJugYUVdn1GncG1gYQu4TsA6479quLHdQQNoPg=;
- b=R07QMZzeVejvjhm9UUXSDHsVfmlFbd8BUIxj8briBNmYeoF8KCFqcu6d0frYCuHc8YOxX6
- GGX/9z7V9+cumWWo7RfExhtbaIMUXnFnrSXOVcM7x0x48hBZ9vFmWKjxClEZT9ceDef3V3
- PPeym5w5BQXFgBS3rG16KbezouuZD6c=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pl7rDesBC4To4uNjgzRPqO8NIm8bPxHEaiAgd1Bj9kg=;
+ b=L253rMHDKbrm6zoX2TkY321K30PHUZo9UmqTN+XuirnYMrtGMRRfy/f28ok1aa+KQerprz
+ FmY7Z3x0ALTwvFrAiR/5kGT9wbnj1+fYvnID/DQrilIR6YXteOToNRK1BVWH2w9CdWZxv6
+ tO/JNOs67W/wlm19x/2Ah2ygHNxlWM4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-348-nwSiB13aOIGBFaiG0SEeyQ-1; Wed, 19 Jul 2023 04:15:54 -0400
-X-MC-Unique: nwSiB13aOIGBFaiG0SEeyQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-314275b653eso3665470f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 01:15:54 -0700 (PDT)
+ us-mta-450-yRbYdjQZOdOhiK3-2JDJ7w-1; Wed, 19 Jul 2023 04:15:55 -0400
+X-MC-Unique: yRbYdjQZOdOhiK3-2JDJ7w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3fbdde92299so34867655e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 01:15:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689754553; x=1690359353;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=40ASWVJugYUVdn1GncG1gYQu4TsA6479quLHdQQNoPg=;
- b=OYbFfCmNn1ZvcD29Suw8Pedinl8MYTIoc2jLXfCcfh6RWVrQIrb74jaesbzO2O297W
- Hy1S9k9RGQapApw7BzA1uJ/0klGlGGyEVd7K4GWGx0bXb5p3wtf/H/DYJPOo7iLbJ6kp
- c793nlKIMIvExhyYxXk7V/AKgx9SbHMa5jdWSCQY4PSI1seml10Fa8tk9D2gb1SnEmgw
- VQGeEbDbE7WjWHCFQspZXCcQHX9j6k6Em72bvv4ZKn2yIH3FX5hjN+FPjhs2b99VM3Kl
- SbkgRnPSQPzPl8vjGYMvqL1MBRjOIw7cT5sjlpKLL0wo9fld5UaoxppH4u5PD7ymfLo+
- VEEw==
-X-Gm-Message-State: ABy/qLbOXfxdVkJlng6jSsQTw4bZi4l2UcXEDw8uoT5j5PEun7Pl76Hd
- XZHRl3qGLhvxO36sNCa8ptTvY7/QFhsBwU2oXRusTMI8lRYJfu06+czy8brYahw17GEGz/pRpBS
- ST9xkMeveGWmwyBvtk+n2STpIBDAk
-X-Received: by 2002:adf:f010:0:b0:30f:c5b1:23ef with SMTP id
- j16-20020adff010000000b0030fc5b123efmr1442013wro.41.1689754553207; 
- Wed, 19 Jul 2023 01:15:53 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHwdSs8ByNSqXngMlZ63oFzlT6IoL2Kc3yr4P/RuiEvXHHGVP6vSlDKFsJHCgGc5/EQ8pwhrA==
-X-Received: by 2002:adf:f010:0:b0:30f:c5b1:23ef with SMTP id
- j16-20020adff010000000b0030fc5b123efmr1441993wro.41.1689754552888; 
- Wed, 19 Jul 2023 01:15:52 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689754554; x=1690359354;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pl7rDesBC4To4uNjgzRPqO8NIm8bPxHEaiAgd1Bj9kg=;
+ b=YHz8+sHZTXLhM3hItwHRb2ER6NKfGDygVqwi25oAq660C7mpH5PwYYGsoTI+zlwQvb
+ SY2kJO29dMV1BL1zP5Zi9HEOSh94yqIGTZGKyHI9bXsYW1ZQ4E6VrCLMkxDuItd+/Fpp
+ HYy3vQgi0pq3302gBhNHbZsmxdLMWl5Fbdgaiie1KN/18QT6Zn9HUgyknp/rxYjg14Wv
+ QjD0hOiLgNl7i0987V+sXHxaSe0uR6879j13Toh29x6chAopkElB3A+Fv7tEpwvltR0h
+ pTGvXUGjYtgcEG/f9asmg5r5viO0prHDs7Ir2obYCe8c+HFJIgGjVgsTlGDJ/3CTVni6
+ D50w==
+X-Gm-Message-State: ABy/qLak/fEB/y3De+ffEqXZLk8haHs2TodFpendU37/dAh0GLesC7Z0
+ CZ0Y2aKQtphN3IlRX1snPNLY9uNso3IKj44j7QkdP/I75h8m1TODF8bzSh2xwl/UhbZSHMB7JUs
+ Z3aTf4C+1oRxO2pi1KwHh7N8DApYQ
+X-Received: by 2002:adf:f087:0:b0:314:4c78:8b84 with SMTP id
+ n7-20020adff087000000b003144c788b84mr4142562wro.17.1689754554400; 
+ Wed, 19 Jul 2023 01:15:54 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFpqnqhnG2ZCWh/0oWIuDm9np5hx9FVZp0cyJdayt5CqHwUybqL7yFTlLi+cxoPwsgimsvCTw==
+X-Received: by 2002:adf:f087:0:b0:314:4c78:8b84 with SMTP id
+ n7-20020adff087000000b003144c788b84mr4142546wro.17.1689754554100; 
+ Wed, 19 Jul 2023 01:15:54 -0700 (PDT)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d5-20020a5d5385000000b0031423a8f4f7sm4574354wrv.56.2023.07.19.01.15.51
+ d5-20020a5d5385000000b0031423a8f4f7sm4574354wrv.56.2023.07.19.01.15.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 01:15:52 -0700 (PDT)
+ Wed, 19 Jul 2023 01:15:53 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/4] Allow disabling all native fbdev drivers and only
- keeping DRM emulation
-Date: Wed, 19 Jul 2023 10:15:34 +0200
-Message-ID: <20230719081544.741051-1-javierm@redhat.com>
+Subject: [PATCH v6 1/4] video: Add auxiliary display drivers to Graphics
+ support menu
+Date: Wed, 19 Jul 2023 10:15:35 +0200
+Message-ID: <20230719081544.741051-2-javierm@redhat.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230719081544.741051-1-javierm@redhat.com>
+References: <20230719081544.741051-1-javierm@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -81,103 +84,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, x86@kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, Daniel Thompson <daniel.thompson@linaro.org>,
- Nipun Gupta <nipun.gupta@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+Cc: linux-fbdev@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Arnd Bergmann <arnd@arndb.de>, Nipun Gupta <nipun.gupta@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
  Geert Uytterhoeven <geert@linux-m68k.org>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <mripard@kernel.org>,
- Borislav Petkov <bp@alien8.de>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jingoo Han <jingoohan1@gmail.com>, Oded Gabbay <ogabbay@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series splits the fbdev core support in two different Kconfig
-symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB to
-be disabled, while still having the the core fbdev support needed for the
-CONFIG_DRM_FBDEV_EMULATION to be enabled. The motivation is automatically
-disabling all fbdev drivers instead of having to be disabled individually.
+The drivers in this subsystem are for character-based LCD displays, which
+can fall into the same category of the DRM/KMS and fbdev drivers that are
+located under the "Graphics support" menu. Add auxdisplay there as well.
 
-The reason for doing this is that now with simpledrm, there's no need for
-the legacy fbdev (e.g: efifb or vesafb) drivers anymore and many distros
-now disable them. But it would simplify the config a lot fo have a single
-Kconfig symbol to disable all fbdev drivers.
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Tested-by: Arnd Bergmann <arnd@arndb.de>
+---
 
-I've built tested with possible combinations of CONFIG_FB, CONFIG_FB_CORE,
-CONFIG_DRM_FBDEV_EMULATION and CONFIG_FB_DEVICE symbols set to 'y' or 'n'.
-
-Patch #1 moves the auxdisplay drivers to "Graphics support" Kconfig menu,
-patch #2 moves the core fbdev Kconfig symbols to a separate Kconfig file,
-patch #3 does the FB symbol split and introduces the FB_CORE symbol and
-finally patch #4 makes the DRM symbol to select FB_CORE if the DRM fbdev
-emualtion support was enabled.
-
-Since this series touches three subsystems (auxdisplay, fbdev and DRM),
-I would like to merge it through DRM with the acks of these maintainers.
-
-This is a v6 of the patch-set that addresses issues pointed out by Arnd
-Bergmann in the previous v5:
-
-https://lists.freedesktop.org/archives/dri-devel/2023-July/413943.html
-
-Changes in v6:
-- Don't move FB_{HECUBA,SVGALIB,MACMODES} to config/Kcore (Arnd Bergmann).
-- Fix link error when CONFIG_FB_CORE=y and CONFIG_FB=m (Arnd Bergmann).
+(no changes since v5)
 
 Changes in v5:
 - Take the auxdisplay/Kconfig source out of "if HAS_IOMEM" (Geert Uytterhoeven).
-- Fix ifdef guard check in drivers/video/backlight/backlight.c (Arnd Bergmann).
 
-Changes in v4:
-- Fix menuconfig hierarchy that was broken in v3 (Arnd Bergmann).
+ drivers/Kconfig       | 2 --
+ drivers/video/Kconfig | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Changes in v3:
-- Really make a hidden symbol by removing the prompt (Arnd Bergmann).
-- Change FB_CORE to config instead of menuconfig (Arnd Bergmann).
-- Keep "depends on FB" for FIRMWARE_EDID (Arnd Bergmann).
-- Compile out fb_backlight.o and fbmon.o that are only needed for FB
-  (Arnd Bergmann).
-- Make FB_DEVICE to depend on FB_CORE instead of selecting it.
-- Make the DRM symbol to select FB_CORE if DRM_FBDEV_EMULATION is
-  enabled (Arnd Bergmann).
-- Also make DRM select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
-- Make DRM_FBDEV_EMULATION to depend on DRM instead of DRM_KMS_HELPER.
-
-Changes in v2:
-- Keep "depends on FB" for FB_DDC, FB_HECUBA, FB_SVGALIB, FB_MACMODES,
-  FB_BACKLIGHT, FB_MODE_HELPERS and FB_TILEBLITTING (Arnd Bergmann).
-- Don't change the fb.o object name (Arnd Bergmann).
-- Make FB_CORE a non-visible Kconfig symbol instead (Thomas Zimmermann).
-- Make CONFIG_DRM_FBDEV_EMULATION to select FB_CORE (Thomas Zimmermann).
-
-Javier Martinez Canillas (4):
-  video: Add auxiliary display drivers to Graphics support menu
-  fbdev: Move core fbdev symbols to a separate Kconfig file
-  fbdev: Split frame buffer support in FB and FB_CORE symbols
-  drm: Make FB_CORE to be selected if DRM fbdev emulation is enabled
-
- arch/x86/Makefile                   |   2 +-
- arch/x86/video/Makefile             |   2 +-
- drivers/Kconfig                     |   2 -
- drivers/gpu/drm/Kconfig             |   7 +-
- drivers/video/Kconfig               |   2 +
- drivers/video/backlight/backlight.c |   6 +-
- drivers/video/console/Kconfig       |   2 +-
- drivers/video/fbdev/Kconfig         | 197 ++--------------------------
- drivers/video/fbdev/core/Kconfig    | 190 +++++++++++++++++++++++++++
- drivers/video/fbdev/core/Makefile   |  10 +-
- 10 files changed, 218 insertions(+), 202 deletions(-)
- create mode 100644 drivers/video/fbdev/core/Kconfig
-
+diff --git a/drivers/Kconfig b/drivers/Kconfig
+index 514ae6b24cb2..496ca02ee18f 100644
+--- a/drivers/Kconfig
++++ b/drivers/Kconfig
+@@ -129,8 +129,6 @@ source "drivers/dma-buf/Kconfig"
+ 
+ source "drivers/dca/Kconfig"
+ 
+-source "drivers/auxdisplay/Kconfig"
+-
+ source "drivers/uio/Kconfig"
+ 
+ source "drivers/vfio/Kconfig"
+diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+index 8b2b9ac37c3d..e5b1cc54cafa 100644
+--- a/drivers/video/Kconfig
++++ b/drivers/video/Kconfig
+@@ -25,6 +25,8 @@ config VIDEO_NOMODESET
+ 	bool
+ 	default n
+ 
++source "drivers/auxdisplay/Kconfig"
++
+ if HAS_IOMEM
+ 
+ config HAVE_FB_ATMEL
 -- 
 2.41.0
 
