@@ -1,44 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F297592C6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB157592C9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513FC10E453;
-	Wed, 19 Jul 2023 10:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4DB10E454;
+	Wed, 19 Jul 2023 10:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF11910E453;
- Wed, 19 Jul 2023 10:22:33 +0000 (UTC)
-Received: from dggpemm500001.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4R5X0L6b1JzVjfR;
- Wed, 19 Jul 2023 18:21:06 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 19 Jul 2023 18:22:29 +0800
-Message-ID: <dc8223db-b4ac-7bee-6f89-63475a7dcaf8@huawei.com>
-Date: Wed, 19 Jul 2023 18:22:29 +0800
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1FE10E454
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:23:33 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id
+ ca18e2360f4ac-7872d448c5aso361505639f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1689762212; x=1692354212;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ahbeWucAcoOgJsJY2s8d1VaxXiv71GHKoX+Vccdy9XU=;
+ b=V3OI5aI1CIhNEJc+LvuPAbnWlaSuHe4j3O7b/zeU5O7BX7EK34Hbda4eDlokVMarKd
+ rezrzdYMwz871cIjBjzXffkBlL7upHcMN3+IK47349jzHAfLZJQxkQM93r+VAaRHxUNv
+ dixuuU+Z0zX3V5wzXuOEqSp6PLT9m1hZ1I7pE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689762212; x=1692354212;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ahbeWucAcoOgJsJY2s8d1VaxXiv71GHKoX+Vccdy9XU=;
+ b=hOunsp262C5HCu7SIpSbvhCOGz3DpQXZvltn4iXEvB5Ie6+cEydqp7z1gvI5EDaOI7
+ FYReKWgt2DOg5rw6zSyAu2eWgxcJ65/5aokxrvlIYJCZGHWYFHrKBFr/ZvbuawdvuKHo
+ pyMs0i2g8+IOX/BbUX1b4aoY0EeftzAqwoJYFJqkgkfXsQ7p79bpPSTfFabCphdAs7N1
+ q9m5wQz2uO6mdEMT3o1Boz+hXGJDofEjZ+M6E4Iet8Relt3HFOqsl+9W3MjFWuoA9eom
+ bBEQ6RtGfxWwzYWHQzOdXvxH19cXfniEo1Lab110oC3+yWo1qgjONcNSoQweUdU3pAHJ
+ oMGQ==
+X-Gm-Message-State: ABy/qLZXSGXyLq/H7QAAxvbOH1WLZM5eJ0hTczEYsaSzoVyXNC3RTHdY
+ 5oqbI6LC3mg7uGqmiafZ8XzrRyUR7WSP+/kILRg=
+X-Google-Smtp-Source: APBJJlEy51B4qgXGPh1ee3VViUv5S9/dZG0oUH5uKwVzaGCMC25nHcKLnenswL9k6FeZG5iMSsTSNw==
+X-Received: by 2002:a5e:8f08:0:b0:780:ce72:ac55 with SMTP id
+ c8-20020a5e8f08000000b00780ce72ac55mr5030909iok.10.1689762212339; 
+ Wed, 19 Jul 2023 03:23:32 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
+ [209.85.166.46]) by smtp.gmail.com with ESMTPSA id
+ eq26-20020a0566384e3a00b0039deb26853csm1189442jab.10.2023.07.19.03.23.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Jul 2023 03:23:32 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-78372b895d6so361163339f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:23:31 -0700 (PDT)
+X-Received: by 2002:a05:6602:3314:b0:783:60f7:ade9 with SMTP id
+ b20-20020a056602331400b0078360f7ade9mr1781762ioz.5.1689762211675; Wed, 19 Jul
+ 2023 03:23:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v2 3/4] selinux: use vma_is_initial_stack() and
- vma_is_initial_heap()
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_G=c3=b6ttsche?= <cgzones@googlemail.com>
-References: <20230719075127.47736-1-wangkefeng.wang@huawei.com>
- <20230719075127.47736-4-wangkefeng.wang@huawei.com>
- <CAJ2a_DfGvPeDuN38UBXD4f2928n9GZpHFgdiPo9MoSAY7YXeOg@mail.gmail.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <CAJ2a_DfGvPeDuN38UBXD4f2928n9GZpHFgdiPo9MoSAY7YXeOg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+References: <20230719075056.72178-1-angelogioacchino.delregno@collabora.com>
+ <20230719075056.72178-2-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230719075056.72178-2-angelogioacchino.delregno@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Wed, 19 Jul 2023 18:22:55 +0800
+X-Gmail-Original-Message-ID: <CAC=S1ng+s5Fr_Evwct6E5yPZD8hN_NLYnx2sitrUWK3b4ti73g@mail.gmail.com>
+Message-ID: <CAC=S1ng+s5Fr_Evwct6E5yPZD8hN_NLYnx2sitrUWK3b4ti73g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] drm/mediatek: mtk_dpi: Simplify with
+ devm_drm_bridge_add()
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,72 +80,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Moore <paul@paul-moore.com>, selinux@vger.kernel.org,
- Stephen Smalley <stephen.smalley.work@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, Eric Paris <eparis@parisplace.org>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jul 19, 2023 at 3:51=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Change drm_bridge_add() to its devm variant to slightly simplify the
+> probe function.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
-
-On 2023/7/19 17:02, Christian Göttsche wrote:
-> On Wed, 19 Jul 2023 at 09:40, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->>
->> Use the helpers to simplify code.
->>
->> Cc: Paul Moore <paul@paul-moore.com>
->> Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
->> Cc: Eric Paris <eparis@parisplace.org>
->> Acked-by: Paul Moore <paul@paul-moore.com>
->> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->> ---
->>   security/selinux/hooks.c | 7 ++-----
->>   1 file changed, 2 insertions(+), 5 deletions(-)
->>
->> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
->> index d06e350fedee..ee8575540a8e 100644
->> --- a/security/selinux/hooks.c
->> +++ b/security/selinux/hooks.c
->> @@ -3762,13 +3762,10 @@ static int selinux_file_mprotect(struct vm_area_struct *vma,
->>          if (default_noexec &&
->>              (prot & PROT_EXEC) && !(vma->vm_flags & VM_EXEC)) {
->>                  int rc = 0;
->> -               if (vma->vm_start >= vma->vm_mm->start_brk &&
->> -                   vma->vm_end <= vma->vm_mm->brk) {
->> +               if (vma_is_initial_heap(vma)) {
-> 
-> This seems to change the condition from
-> 
->      vma->vm_start >= vma->vm_mm->start_brk && vma->vm_end <= vma->vm_mm->brk
-> 
-> to
-> 
->      vma->vm_start <= vma->vm_mm->brk && vma->vm_end >= vma->vm_mm->start_brk
-> 
-> (or AND arguments swapped)
-> 
->      vma->vm_end >= vma->vm_mm->start_brk && vma->vm_start <= vma->vm_mm->brk
-> 
-> Is this intended?
-
-The new condition is to check whether there is intersection between
-[startbrk,brk] and [vm_start,vm_end], it contains orignal check, so
-I think it is ok, but for selinux check, I am not sure if there is
-some other problem.
-
-> 
->>                          rc = avc_has_perm(sid, sid, SECCLASS_PROCESS,
->>                                            PROCESS__EXECHEAP, NULL);
->> -               } else if (!vma->vm_file &&
->> -                          ((vma->vm_start <= vma->vm_mm->start_stack &&
->> -                            vma->vm_end >= vma->vm_mm->start_stack) ||
->> +               } else if (!vma->vm_file && (vma_is_initial_stack(vma) ||
->>                              vma_is_stack_for_current(vma))) {
->>                          rc = avc_has_perm(sid, sid, SECCLASS_PROCESS,
->>                                            PROCESS__EXECSTACK, NULL);
->> --
->> 2.27.0
->>
+Reviewed-by: Fei Shao <fshao@chromium.org>
