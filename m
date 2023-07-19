@@ -2,75 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D725E759F54
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB499759F58
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 22:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA4AC10E50A;
-	Wed, 19 Jul 2023 20:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D598310E50B;
+	Wed, 19 Jul 2023 20:09:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D2210E50A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 20:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689797321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iM0CuWzlzu6pdYi/6cJkA8MQCu3DxXUjouE+j/kSvnQ=;
- b=NFTl61zd1nwddSGg8TafABZ8+UzW3hXUbcWbsR49I6oFiNCR1doz3QOWMpgSGLWH6og095
- amyHJlO67ugjajXMqKhsI7f90lJbJX95ExLpoJ5J9JqFSt8DC5/Y1S8H7mn6JPSx3gWsqX
- +2y+msvBRFgODhPjEqNncB5gCqcwEXg=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-dUWZNJp8PGKdyPr6yXou9Q-1; Wed, 19 Jul 2023 16:08:40 -0400
-X-MC-Unique: dUWZNJp8PGKdyPr6yXou9Q-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-4fbcdca8fcbso1706e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 13:08:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689797318; x=1690402118;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iM0CuWzlzu6pdYi/6cJkA8MQCu3DxXUjouE+j/kSvnQ=;
- b=jJBTY9BsCNYGYj6PhKaDR8gOymKS3xnhB/0MZKpW5BHpgmQQVENeBE9Al89kbjL6/v
- pkoMmx/4faEqKeC2eOgQ51gomugwSC5hKgGOeyGDNJywvsUW6YcKjjfkOIlo6fdUdEzq
- TtOiSlD0A7nuhgqWhNDcG4xjcMdlDHiilOL+H0/F+ftIN+prcy1hxHOOP4JGkYor84Yx
- ZaIRrAE3aViKada6SCaULZbpGbYQy7HA3gP9DTBeyM8dvHv1jL6DKW8LM4wVJdsdfDK6
- TNZ/lV1bDAZ7+sMv6MsFQpGlLdr+4aiJuP52zTPz6YhejZDyjnkD5BAc49NnADNF3PWR
- OqyQ==
-X-Gm-Message-State: ABy/qLbsas3MrOB6fvxBbzbKrfOw3ldTy3bi8QkGIMYKnrKzVScgdGP/
- //5t3pur6Cx60rhh47MkQg68qSGPm4PccpfFGxfcRxjm/AzvEbz+G9VTRxf8v8omKBpsERDDC5v
- yxJ/JkG6ovB9P8Fiweo7E7dhheHf4
-X-Received: by 2002:a05:6512:33d0:b0:4f6:2317:f387 with SMTP id
- d16-20020a05651233d000b004f62317f387mr870473lfg.35.1689797318551; 
- Wed, 19 Jul 2023 13:08:38 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFc25d7ighZVtdSRxpwgArEzNOn94MS4yvSo0iGHAnJzSp1NeM1GJCTXANqXaeQnuA7j2/kdQ==
-X-Received: by 2002:a05:6512:33d0:b0:4f6:2317:f387 with SMTP id
- d16-20020a05651233d000b004f62317f387mr870455lfg.35.1689797318171; 
- Wed, 19 Jul 2023 13:08:38 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t10-20020a1c770a000000b003faef96ee78sm2431167wmi.33.2023.07.19.13.08.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 13:08:37 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-Subject: Re: [PATCH 11/11] drm/vc4: tests: pv-muxing: Document test scenario
-In-Reply-To: <20230710-kms-kunit-actions-rework-v1-11-722c58d72c72@kernel.org>
-References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
- <20230710-kms-kunit-actions-rework-v1-11-722c58d72c72@kernel.org>
-Date: Wed, 19 Jul 2023 22:08:37 +0200
-Message-ID: <874jlzhdfe.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D2C10E50B;
+ Wed, 19 Jul 2023 20:09:24 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 96EE561807;
+ Wed, 19 Jul 2023 20:09:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F24EC433C7;
+ Wed, 19 Jul 2023 20:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689797363;
+ bh=klqOWFOUh1QB5odPiLwWfeNWJcVb2PU7gijJT32YqNc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A/2dYFF4KVhoHbqExV9WPBfS6C4fOHioJbj1B0mpePbgVhxjl+2zzBPGfp70rL5Dk
+ LC0wykkcZrebfGspQLokwey+kP4xeSWCPaQO7vxVeq5rmNY8Ma0TYwI5c3G56Bdksn
+ FQcFBYnlefuUVlBkvyEcDtZWip7j1OtLXXGDst3abhqiNtPIAz7j7JmXh2FX/kVk0b
+ LqlA6yfDeEJJQmkrp4xAuI2511AJKjSBzRC63H85DyePlqWPkMmV0IF3bMMp6T9/Ns
+ 4lVVS593VTU/O7DQN2AmYKl027Xxu2ccsdR73CTL6Ly/qBtPWkdEw0kL3rKywZPEe/
+ KGn90hFEjFTSw==
+Received: (nullmailer pid 687249 invoked by uid 1000);
+ Wed, 19 Jul 2023 20:09:20 -0000
+Date: Wed, 19 Jul 2023 14:09:19 -0600
+From: Rob Herring <robh@kernel.org>
+To: Amit Pundir <amit.pundir@linaro.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: display/msm: mdss-common: add
+ memory-region property
+Message-ID: <168979735935.687074.3349593216589059012.robh@kernel.org>
+References: <20230713165238.2814849-1-amit.pundir@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230713165238.2814849-1-amit.pundir@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,26 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>
+Cc: Sean Paul <sean@poorly.run>, dt <devicetree@vger.kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Caleb Connolly <caleb.connolly@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ lkml <linux-kernel@vger.kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bryan Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
 
-> We've had a couple of tests that weren't really obvious, nor did they
-> document what they were supposed to test. Document that to make it
-> hopefully more obvious.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Thu, 13 Jul 2023 22:22:37 +0530, Amit Pundir wrote:
+> Add and document the reserved memory region property in the
+> mdss-common schema.
+> 
+> For now (sdm845-db845c), it points to a framebuffer memory
+> region reserved by the bootloader for splash screen.
+> 
+> Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
 > ---
+> v5: Moving the dt-binding to mdss-common schema with
+>     updated commit message and property description.
+> 
+> v4: Adding this new dt-binding patch, in qcom,sdm845-mdss
+>     schema, in the v4 of the follow-up patch for
+>     sdm845-db845c.
+>     https://lore.kernel.org/lkml/20230712130215.666924-2-amit.pundir@linaro.org/
+> 
+>  .../devicetree/bindings/display/msm/mdss-common.yaml         | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Reviewed-by: Rob Herring <robh@kernel.org>
 
