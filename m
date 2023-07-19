@@ -1,40 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7443175925A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:07:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF1E759294
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 784C810E0FF;
-	Wed, 19 Jul 2023 10:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4866F10E1DA;
+	Wed, 19 Jul 2023 10:18:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from srv01.abscue.de (abscue.de [89.58.28.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7468C10E1D0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:07:06 +0000 (UTC)
-Received: from srv01.abscue.de (localhost [127.0.0.1])
- by spamfilter.srv.local (Postfix) with ESMTP id 97F391C016A;
- Wed, 19 Jul 2023 11:57:37 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on abscue.de
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
- autolearn_force=no version=4.0.0
-Received: from fluffy-mammal.speedport.ip
- (p200300f3cf161c21784c9f47d061c57a.dip0.t-ipconnect.de
- [IPv6:2003:f3:cf16:1c21:784c:9f47:d061:c57a])
- by srv01.abscue.de (Postfix) with ESMTPSA id 489B11C0169;
- Wed, 19 Jul 2023 11:57:37 +0200 (CEST)
-From: =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/tiny: panel-mipi-dbi: Allow sharing the D/C GPIO
-Date: Wed, 19 Jul 2023 11:53:43 +0200
-Message-Id: <20230719095343.88359-3-otto.pflueger@abscue.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230719095343.88359-1-otto.pflueger@abscue.de>
-References: <20230719095343.88359-1-otto.pflueger@abscue.de>
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB9B10E1DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:18:03 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-3163eb69487so398926f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:18:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689761881; x=1690366681;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d6uSqq8iwHxn9/tpT05qWIJPin2r3B4nv+yMTWooWZQ=;
+ b=SIOzxz0kITZK8LFNRze7JYjdZtc1YCSgzt3hjwJAeBkNjc+AvJSC1N7/zvWKNFT2fv
+ habMlKdbAGHy8hqKFFxFqyYlUrjOI6uRKLk+Ni/S2VBmCgF1LFsed+EYzwSdN5UFx91f
+ aezEQDv//EXlkk3QwhCTMiggeTDLMoMyewr9wQvN2WrVfUHviIG2KxRw8tZRLxtNVIiY
+ gP5B7vwTv7lxPkt2x42ee8/nZRvPZOh07ZkazAYYdBGTrQm1kl91YnKxjIZZ8Ms8YsBG
+ sqUJS0uFKrDKXDHslsHEwC29cDCuqfnJHZXVRKPkhxEOvPpVXdJehP3jJFd4a0GWRWwf
+ cLlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689761881; x=1690366681;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d6uSqq8iwHxn9/tpT05qWIJPin2r3B4nv+yMTWooWZQ=;
+ b=EYHP7fXJfpZR84wPdEWTIWdksf0RyrDct4IoxqBv7TQQO4d7IlPgxqjgxWvhEhIg38
+ L1kKo4659WWy/Ev0uQjMNpilj8Ybj8FIAgq8RmCGr5I9ly6DeRTzfZ5jXPSoYv/ywDNR
+ q2CYjOjUh8nGxr0QOb5GmprlH184UCvNy+lgfvrQ6z+kivaI5B1BD79AAHNAQNapMGoO
+ 5rEKJkjyBrNQi6SKWn4rypu2PkBshRMnCH7apkrjLrATaO7/od4DJUk30kD5s3XhaPjS
+ u77SXPHgSHWdHcV23tTX3T92a0V54KXdklCH0eJPaNZ2E7csZFZ8dUPNCJc6F5AJlP48
+ gl+Q==
+X-Gm-Message-State: ABy/qLaMwQAFHkocA+guyQ8N3JzV9HN5iNF+m3/KeTPPegvMilc6ZyXy
+ IKD350fWEZ+/h/uB5USAORshtg==
+X-Google-Smtp-Source: APBJJlFM7viFvauoAMlySNo6VSSvtQdCoXkaiQxlJ4pgb0dZ2e8PBGcQhfI7IlseoQSuVvfamADMQg==
+X-Received: by 2002:adf:f082:0:b0:314:2c77:681b with SMTP id
+ n2-20020adff082000000b003142c77681bmr1387870wro.30.1689761881437; 
+ Wed, 19 Jul 2023 03:18:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ d15-20020adff84f000000b00313f9085119sm4896291wrq.113.2023.07.19.03.17.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 03:18:00 -0700 (PDT)
+Date: Wed, 19 Jul 2023 13:17:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: fix error code in event_alloc()
+Message-ID: <53fc5292-669a-4fca-8b99-e35a49da0b0f@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,35 +69,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>
+Cc: kernel-janitors@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Displays that are connected to the same SPI bus may share the D/C GPIO.
-Use GPIOD_FLAGS_BIT_NONEXCLUSIVE to allow access to the same GPIO for
-multiple panel-mipi-dbi instances. Exclusive access to the GPIO during
-transfers is ensured by the locking in drm_mipi_dbi.c.
+There are two "ret" variables declared in this function so setting
+"ret = -EBUSY;" sets the wrong one.  The function ends up returning an
+uninitialized variable.
 
-Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
+Fixes: f098f9b8042a ("drm/etnaviv: move runtime PM handling to events")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/tiny/panel-mipi-dbi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-index eb9f13f18a02..e616e3890043 100644
---- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-+++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-@@ -307,7 +307,8 @@ static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
- 	if (IS_ERR(dbi->reset))
- 		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index f54f12090685..0382cd91eebf 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1158,18 +1158,18 @@ static int event_alloc(struct etnaviv_gpu *gpu, unsigned nr_events,
+ 	int ret;
  
--	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-+	dc = devm_gpiod_get_optional(dev, "dc",
-+				     GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
- 	if (IS_ERR(dc))
- 		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
+ 	for (i = 0; i < nr_events; i++) {
+-		unsigned long ret;
++		unsigned long remaining;
  
+-		ret = wait_for_completion_timeout(&gpu->event_free, timeout);
++		remaining = wait_for_completion_timeout(&gpu->event_free, timeout);
+ 
+-		if (!ret) {
++		if (!remaining) {
+ 			dev_err(gpu->dev, "wait_for_completion_timeout failed");
+ 			ret = -EBUSY;
+ 			goto out;
+ 		}
+ 
+ 		acquired++;
+-		timeout = ret;
++		timeout = remaining;
+ 	}
+ 
+ 	spin_lock(&gpu->event_spinlock);
 -- 
-2.39.1
+2.39.2
+
