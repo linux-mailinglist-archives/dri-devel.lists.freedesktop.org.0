@@ -2,74 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCF9759CEF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 19:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA50759D15
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:08:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2977610E10B;
-	Wed, 19 Jul 2023 17:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C2010E115;
+	Wed, 19 Jul 2023 18:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 059C810E10B
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 17:57:14 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-66f5faba829so5384412b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=networkplumber-org.20221208.gappssmtp.com; s=20221208; t=1689789434;
- x=1690394234; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4FVEMGAeC4A4acfilWsGklHz88eR5z5EWRCCV9Kst0I=;
- b=0Q1tzUOb9vYJXHmPeDryrYB5A4pEESrmEqXYj9Hg+90Z5+QCPv2ecrkofZgQVHrh2Q
- 2SmV6ESktQAtsjCYVJZhJojTRHsrQLvYLqNH0EoTgXcN4+EyUGH6ZSXKFYb02Y0hiirh
- icie1/r4QjaO+Xr/8VrDJJ+t8iIcRUo2snH46DM7aXAbB12rMZS46rJ2h5Z2q3coLAKN
- GMT7GgUwcUUW4SpZr+6zG8X6fnKROWImTBv7u2v/1CdFXwNuMSzJvhzr6uNXEVsoU8p0
- jr3ynj+/29rinW5TGGhTFa+uF7yLH222PS2w2a9Iu7qAlX2Am1gjapUEui6PcMe/HT1i
- pwCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689789434; x=1690394234;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4FVEMGAeC4A4acfilWsGklHz88eR5z5EWRCCV9Kst0I=;
- b=bmvKVw1YreyLt6GScPX6ldzoFrMBKzxbBFfBMlBEVkCJPNKNk8HfPHvTRzDEvHIQkO
- YL0zdO4u5NJ2vKdH2iCT58MjmERAjSVTDcalV6MEsyxcrTtG0XxvVmjXst9+eawU1WGM
- eEbJdU9Vg+yfWu7Q+YLjbFJotOT81ib5gzG9NEINtogKfqO93T4sUb2xVRLpuhIe4qJA
- /hcjSCPiWx75Xp6GKepxxr6CrmhmiEZUFtyVIXhLDNSech//Zh8qdN21HV8FnTkCU+Ve
- P/DrGUJdpPe8nHfyVMNrMEBgYQ6yi3EzQGIBk9YwcFBjicviE6Ibn3rFNHbILK2iEpXA
- cUOw==
-X-Gm-Message-State: ABy/qLbxEwFJFjCv+CkheAwEAQo2+kDmkpiRHFaAZpTS/lUuqZ9Z0dCj
- 39e2BpvuHSwlB9G60VFrVWdW5Q==
-X-Google-Smtp-Source: APBJJlEsVXT/riHHb217/IRnC4FkTdrL+WEIRgGEaqW1QkKPQqx7J9SZ2+4YPKCL/Z0Wz9JzjQeyoQ==
-X-Received: by 2002:a17:90a:d598:b0:264:97a:2ba6 with SMTP id
- v24-20020a17090ad59800b00264097a2ba6mr4560333pju.7.1689789434001; 
- Wed, 19 Jul 2023 10:57:14 -0700 (PDT)
-Received: from hermes.local (204-195-127-207.wavecable.com. [204.195.127.207])
- by smtp.gmail.com with ESMTPSA id
- nw17-20020a17090b255100b00263f41a655esm1415304pjb.43.2023.07.19.10.57.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 10:57:13 -0700 (PDT)
-Date: Wed, 19 Jul 2023 10:57:11 -0700
-From: Stephen Hemminger <stephen@networkplumber.org>
-To: Mina Almasry <almasrymina@google.com>
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-Message-ID: <20230719105711.448f8cad@hermes.local>
-In-Reply-To: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
-References: <20230710223304.1174642-1-almasrymina@google.com>
- <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
- <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
- <ZLbUpdNYvyvkD27P@ziepe.ca> <20230718111508.6f0b9a83@kernel.org>
- <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
- <20230718112940.2c126677@kernel.org>
- <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org>
- <20230718154503.0421b4cd@kernel.org>
- <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C041210E115
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:07:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DA9DB616AF;
+ Wed, 19 Jul 2023 18:07:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06637C433C8;
+ Wed, 19 Jul 2023 18:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689790075;
+ bh=BtjH8sWL9n5DjUOXCUilsWd4aWNHoklU3FHjEqQvSvk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=tkOnohpjRtu+UdHtmqtKiGVSHWhQ/6PoSbOmhgUKeEbBDFNptjICuGJdx9vEto4X0
+ IX/WA9/RYHSDgdsADsoQhDCZKILX15TTGsLblzIcT6bGaISYR3SxAFOjeKJERDL65c
+ 1cBm8yvXxaK9HektlpIH1Bl5Cbn9/+Y7TFfexxpJRqLuribxUAn5dTz2fFh++GnyEB
+ 744tC+3nOcolkPiES+hjfls/7bYxbZ+9YZ/VB0DOQRKbQ4ESCNlnuE6fXliSOUz/C1
+ 57B0N67q9RZ2PtWj6gyYgvJAIQBA7zEZEcrUfSW7WoRb6ZGgK5Pq+PPOjbe1RjV5xc
+ 08wH/snPuWAmA==
+Date: Wed, 19 Jul 2023 13:07:52 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH 2/4] PCI/VGA: Deal only with PCI VGA class devices
+Message-ID: <20230719180752.GA509850@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230718231400.GA496927@bhelgaas>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,54 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- linux-kselftest@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, "David S.
- Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Eric Dumazet <edumazet@google.com>, Andy Lutomirski <luto@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Jesper Dangaard Brouer <hawk@kernel.org>, linux-media@vger.kernel.org
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 19 Jul 2023 08:10:58 -0700
-Mina Almasry <almasrymina@google.com> wrote:
+On Tue, Jul 18, 2023 at 06:14:00PM -0500, Bjorn Helgaas wrote:
+> On Fri, Jun 30, 2023 at 06:17:29PM +0800, Sui Jingfeng wrote:
+> > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > 
+> > VGAARB should only care about PCI VGA class devices (pdev->class == 0x0300)
+> > since only those devices might have VGA routed to them.
+> 
+> This is not actually a question of whether VGA addresses (mem
+> 0xa0000-0xbffff and io 0x3b0-0x3bb, 0x3c0-0x3df) might be *routed* to
+> the device because that routing is controlled by the bridge VGA Enable
+> bit, not by a device Class Code.
+> 
+> I think the important question here is what devices will *respond* to
+> those VGA addresses.  The VGA arbiter works by managing bridge VGA
+> Enable bits, so if we know a device doesn't respond to the VGA
+> addresses, there's no point in adding a vga_device for it.
 
-> On Tue, Jul 18, 2023 at 3:45=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
-wrote:
-> >
-> > On Tue, 18 Jul 2023 16:35:17 -0600 David Ahern wrote: =20
-> > > I do not see how 1 RSS context (or more specifically a h/w Rx queue) =
-can
-> > > be used properly with memory from different processes (or dma-buf
-> > > references). =20
->=20
-> Right, my experience with dma-bufs from GPUs are that they're
-> allocated from the userspace and owned by the process that allocated
-> the backing GPU memory and generated the dma-buf from it. I.e., we're
-> limited to 1 dma-buf per RX queue. If we enable binding multiple
-> dma-bufs to the same RX queue, we have a problem, because AFAIU the
-> NIC can't decide which dma-buf to put the packet into (it hasn't
-> parsed the packet's destination yet).
->=20
-> > > When the process dies, that memory needs to be flushed from
-> > > the H/W queues. Queues with interlaced submissions make that more
-> > > complicated. =20
-> > =20
->=20
-> When the process dies, do we really want to flush the memory from the
-> hardware queues? The drivers I looked at don't seem to have a function
-> to flush the rx queues alone, they usually do an entire driver reset
-> to achieve that. Not sure if that's just convenience or there is some
-> technical limitation there. Do we really want  to trigger a driver
-> reset at the event a userspace process crashes?
+Sorry, I see that I replied to an old version of this patch.  I'll go
+look at this series instead:
 
-Naive idea.
-Would it be possible for process to use mmap() on the GPU memory and then
-do zero copy TCP receive some how? Or is this what is being proposed.
+https://lore.kernel.org/r/20230711134354.755966-1-sui.jingfeng@linux.dev
+
+Bjorn
