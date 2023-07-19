@@ -1,77 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC68758FF8
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:16:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A93758FF2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:16:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A23C010E420;
-	Wed, 19 Jul 2023 08:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C07110E078;
+	Wed, 19 Jul 2023 08:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A025510E420
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689754560;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bcU/rlpXrVWc1+sSauJ1JjLJG+mGlwSz84SkWL7yj6M=;
- b=RhIWPYndaCj+2zCQQjssGseHfb0RKwYEbvXCXsOO5ghJhkDsX9zqOt+FaC0TF/awkOeQjf
- /iLN4CyEpWvgLLFMhOwLMVNbMfJUFDZdnZFU+GjVl+g/TjwP6Mua+shH1qXmTeZC+ab/7R
- oQHQkXghVpslegUVUEXSmsDuOVlMINE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-215-6Kwf_SvxOfWKRn-VGvI42A-1; Wed, 19 Jul 2023 04:15:59 -0400
-X-MC-Unique: 6Kwf_SvxOfWKRn-VGvI42A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-30e4943ca7fso3680735f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 01:15:59 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB6010E078
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:15:55 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id
+ 2adb3069b0e04-4fb960b7c9dso10991738e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 01:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689754552; x=1692346552;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UGz8KdQopyQUcO5NYlceM4R7xMyngGDkfeyxTx6CRhU=;
+ b=LnzFUmcsc83G4rMzRUOyNfBg27IbGB/JZfSRcyvcdjMxgwpF/vbKhxQbYBDe9wtzim
+ wf28ln6GbG+DQHT8t1VoXJN4ZuCngXV6CYqUh9icu/7WBv7rmHznQg9m0/1NY6C7C6Ao
+ Dls2DNyVoMbvysGCLLH/k8HxneAeu03d1jXma2LD9DOSmBPe7cLtrzOFfOYPgNyFThPs
+ 55zhTH2SdGxX90zCAhoQxDiEjFt466NYbDL/8EnUNT1aqeav3GmJPH/nPd3OXDXWEBZe
+ 7jnoeqASnnh2COoWLKrat4khpKQOLXrTInoX4rZeOo8QKOO0MIaMDCxyDS/ppdsW+2Xb
+ o45w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689754558; x=1690359358;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bcU/rlpXrVWc1+sSauJ1JjLJG+mGlwSz84SkWL7yj6M=;
- b=SEUPwYuoyTj07VYjzBpEMIziH8DsEPXrBi1QCwhqXcMX4d20b0Qf+ZM7eVTNCRjboT
- WyKGR1aEnD74PE/33uXIIm5wHFY7g22fiKdr3rQNnaN2v2kkCpLfSqpBugE86TQ0K/He
- PSu5kcPqUedVmkD9KpDcmO3oyiuXgPR4BvRtFJbnCWHBWN2ihqHBwtI1uyOJzGLfUVz8
- q+pDZ6T9gulraylyZYVXuhl3dMpil09KrabPhyX1fvyJDLIhrJr4HlHOJbjYrGDtP//e
- E2w56bGL6w5k4WGbUB7mwd1Vq63qRGbAaoxJgKnD5QRBvbAK678h6WuGpWZA/XVqtUpT
- 5Njw==
-X-Gm-Message-State: ABy/qLaRcGYmj55m/5JGcA6r2gPlZ3xvSjDH4vO9nEh7QRR/baxPiRHd
- t582HyKBxjt98Rblf90pKKnxnP10AVAiOWc/ff/AXSrl0IncNluqDS3DHGWeJSDd3UHHO6aqZx+
- +LzDhuebfML3cK93K5WjZfuCCUIS/
-X-Received: by 2002:a05:6000:1372:b0:314:12b8:641c with SMTP id
- q18-20020a056000137200b0031412b8641cmr11957816wrz.70.1689754558411; 
- Wed, 19 Jul 2023 01:15:58 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHsbVjauFmNT/vRl+JPx4O3MKbI+jZCgByxetPf2Hfe5iKn6L05qJBLj522sJa1I8oKCRJP7g==
-X-Received: by 2002:a05:6000:1372:b0:314:12b8:641c with SMTP id
- q18-20020a056000137200b0031412b8641cmr11957800wrz.70.1689754558149; 
- Wed, 19 Jul 2023 01:15:58 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d5-20020a5d5385000000b0031423a8f4f7sm4574354wrv.56.2023.07.19.01.15.57
+ d=1e100.net; s=20221208; t=1689754552; x=1692346552;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UGz8KdQopyQUcO5NYlceM4R7xMyngGDkfeyxTx6CRhU=;
+ b=A28EQCfij9p420/1sxWhhueg5gG749PYJA5M8D5SCwaO+knmVnXDkPlbPA4p4y+MnA
+ wY2E9RzJNkXlsU+zLk38wOzbvY28Urr1wX5O7/GTq9vS+bGhSJJ8x4CONebSYMUgBDhC
+ hKKQi3RM7U8X9HRy4yEs4pAtXwKkZkGGqrQpuqA6gTQAAUpOf+SgMzGHM/xxHLbvA/zD
+ ANLZdVJLNlLHttus5adOj7qoHrsRZveSyP4brH1EJfzNL09AP1crOBhfd06iZotglwW/
+ lIquNl47AhuG1qAEJrQTVZtupgGMRR/6+0VsxPib7xNtPTpxd9RsMcMeghRutqxO0uyQ
+ K4KA==
+X-Gm-Message-State: ABy/qLb/Kg1BDg+2tTSlLxu7N9acXV0tqo+nHq7ZwF4aYVylgx4VcUy7
+ Px9rELW+kYY/Qewv0TXC+B0=
+X-Google-Smtp-Source: APBJJlGexfCk/hL3UV7uZTOzinfpzWcGox56ECzre8BMquFQDfIgjd2jDOUfnnl7RuG79HK+SwgWDw==
+X-Received: by 2002:a05:6512:4025:b0:4ec:9ef9:e3d with SMTP id
+ br37-20020a056512402500b004ec9ef90e3dmr1585717lfb.26.1689754552027; 
+ Wed, 19 Jul 2023 01:15:52 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ f14-20020ac24e4e000000b004fdc5557a70sm836690lfr.141.2023.07.19.01.15.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 01:15:57 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v6 4/4] drm: Make FB_CORE to be selected if DRM fbdev
- emulation is enabled
-Date: Wed, 19 Jul 2023 10:15:38 +0200
-Message-ID: <20230719081544.741051-5-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230719081544.741051-1-javierm@redhat.com>
-References: <20230719081544.741051-1-javierm@redhat.com>
+ Wed, 19 Jul 2023 01:15:51 -0700 (PDT)
+Date: Wed, 19 Jul 2023 11:15:41 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Zack Rusin <zack@kde.org>
+Subject: Re: [PATCH v5 9/9] drm: Introduce documentation for hotspot properties
+Message-ID: <20230719111541.33c05b14@eldfell>
+In-Reply-To: <20230719014218.1700057-10-zack@kde.org>
+References: <20230719014218.1700057-1-zack@kde.org>
+ <20230719014218.1700057-10-zack@kde.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; boundary="Sig_/EiONIKEiq87f3GRwr6btSXQ";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,70 +72,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org
+Cc: banackm@vmware.com, javierm@redhat.com, krastevm@vmware.com,
+ dri-devel@lists.freedesktop.org, iforbes@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that fbdev core has been split in FB_CORE and FB, make the DRM symbol
-to select the FB_CORE option if the DRM fbdev emulation layer is enabled.
+--Sig_/EiONIKEiq87f3GRwr6btSXQ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This allows to disable the CONFIG_FB option if is not needed, which will
-avoid the need to explicitly disable each of the legacy fbdev drivers.
+On Tue, 18 Jul 2023 21:42:18 -0400
+Zack Rusin <zack@kde.org> wrote:
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Tested-by: Arnd Bergmann <arnd@arndb.de>
----
+> From: Michael Banack <banackm@vmware.com>
+>=20
+> To clarify the intent and reasoning behind the hotspot properties
+> introduce userspace documentation that goes over cursor handling
+> in para-virtualized environments.
+>=20
+> The documentation is generic enough to not special case for any
+> specific hypervisor and should apply equally to all.
+>=20
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> ---
+>  Documentation/gpu/drm-kms.rst |  6 ++++
+>  drivers/gpu/drm/drm_plane.c   | 58 ++++++++++++++++++++++++++++++++++-
+>  2 files changed, 63 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index c92d425cb2dd..7159b3e90a8a 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -577,6 +577,12 @@ Variable Refresh Properties
+>  .. kernel-doc:: drivers/gpu/drm/drm_connector.c
+>     :doc: Variable refresh properties
+> =20
+> +Cursor Hotspot Properties
+> +---------------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_plane.c
+> +   :doc: hotspot properties
+> +
+>  Existing KMS Properties
+>  -----------------------
+> =20
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 1dc00ad4c33c..f3f2eae83cca 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -230,6 +230,61 @@ static int create_in_format_blob(struct drm_device *=
+dev, struct drm_plane *plane
+>  	return 0;
+>  }
+> =20
+> +/**
+> + * DOC: hotspot properties
+> + *
+> + * HOTSPOT_X: property to set mouse hotspot x offset.
+> + * HOTSPOT_Y: property to set mouse hotspot y offset.
+> + *
+> + * When the plane is being used as a cursor image to display a mouse poi=
+nter,
+> + * the "hotspot" is the offset within the cursor image where mouse events
+> + * are expected to go.
+> + *
+> + * Positive values move the hotspot from the top-left corner of the curs=
+or
+> + * plane towards the right and bottom.
+> + *
+> + * Most display drivers do not need this information because the
+> + * hotspot is not actually connected to anything visible on screen.
+> + * However, this is necessary for display drivers like the para-virtuali=
+zed
+> + * drivers (eg qxl, vbox, virtio, vmwgfx), that are attached to a user c=
+onsole
+> + * with a mouse pointer.  Since these consoles are often being remoted o=
+ver a
+> + * network, they would otherwise have to wait to display the pointer mov=
+ement to
+> + * the user until a full network round-trip has occurred.  New mouse eve=
+nts have
+> + * to be sent from the user's console, over the network to the virtual i=
+nput
+> + * devices, forwarded to the desktop for processing, and then the cursor=
+ plane's
+> + * position can be updated and sent back to the user's console over the =
+network.
+> + * Instead, with the hotspot information, the console can anticipate the=
+ new
+> + * location, and draw the mouse cursor there before the confirmation com=
+es in.
+> + * To do that correctly, the user's console must be able predict how the
+> + * desktop will process mouse events, which normally requires the deskto=
+p's
+> + * mouse topology information, ie where each CRTC sits in the mouse coor=
+dinate
+> + * space.  This is typically sent to the para-virtualized drivers using =
+some
+> + * driver-specific method, and the driver then forwards it to the consol=
+e by
+> + * way of the virtual display device or hypervisor.
+> + *
+> + * The assumption is generally made that there is only one cursor plane =
+being
+> + * used this way at a time, and that the desktop is feeding all mouse de=
+vices
+> + * into the same global pointer.  Para-virtualized drivers that require =
+this
+> + * should only be exposing a single cursor plane, or find some other way
+> + * to coordinate with a userspace desktop that supports multiple pointer=
+s.
+> + * If the hotspot properties are set, the cursor plane is therefore assu=
+med to be
+> + * used only for displaying a mouse cursor image, and the position of th=
+e combined
+> + * cursor plane + offset can therefore be used for coordinating with inp=
+ut from a
+> + * mouse device.
+> + *
+> + * The cursor will then be drawn either at the location of the plane in =
+the CRTC
+> + * console, or as a free-floating cursor plane on the user's console
+> + * corresponding to their desktop mouse position.
+> + *
+> + * DRM clients which would like to work correctly on drivers which expose
+> + * hotspot properties should advertise DRM_CLIENT_CAP_CURSOR_PLANE_HOTSP=
+OT.
+> + * Setting this property on drivers which do not special case
+> + * cursor planes will return EOPNOTSUPP, which can be used by userspace =
+to
+> + * gauge requirements of the hardware/drivers they're running on. Advert=
+ising
+> + * DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT implies that the userspace client=
+ will be
+> + * correctly setting the hotspot properties.
+> + */
 
-(no changes since v3)
+Yes! This is exactly what I was after. Thank you!
 
-Changes in v3:
-- Make the DRM symbol to select FB_CORE if DRM_FBDEV_EMULATION is
-  enabled (Arnd Bergmann).
-- Also make DRM select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
-- Make DRM_FBDEV_EMULATION to depend on DRM instead of DRM_KMS_HELPER.
+> +
+>  /**
+>   * drm_plane_create_hotspot_properties - creates the mouse hotspot
+>   * properties and attaches them to the given cursor plane
+> @@ -237,7 +292,8 @@ static int create_in_format_blob(struct drm_device *d=
+ev, struct drm_plane *plane
+>   * @plane: drm cursor plane
+>   *
+>   * This function enables the mouse hotspot property on a given
+> - * cursor plane.
+> + * cursor plane. Look at the documentation for hotspot properties
+> + * to get a better understanding for what they're used for.
 
-Changes in v2:
-- Make CONFIG_DRM_FBDEV_EMULATION to select FB_CORE (Thomas Zimmermann).
+I haven't seen the rendered HTML, but is there a hyperlink from here to
+the hotspot property doc? I think a link would be neat.
 
- drivers/gpu/drm/Kconfig | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+>   *
+>   * RETURNS:
+>   * Zero for success or -errno
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 22c1ba9ea28c..4f209e5c958c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -9,6 +9,9 @@ menuconfig DRM
- 	tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)"
- 	depends on (AGP || AGP=n) && !EMULATED_CMPXCHG && HAS_DMA
- 	select DRM_PANEL_ORIENTATION_QUIRKS
-+	select DRM_KMS_HELPER if DRM_FBDEV_EMULATION
-+	select FB_CORE if DRM_FBDEV_EMULATION
-+	select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
- 	select HDMI
- 	select I2C
- 	select DMA_SHARED_BUFFER
-@@ -96,7 +99,6 @@ config DRM_KUNIT_TEST
- config DRM_KMS_HELPER
- 	tristate
- 	depends on DRM
--	select FB_SYS_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
- 	help
- 	  CRTC helpers for KMS drivers.
- 
-@@ -132,8 +134,7 @@ config DRM_DEBUG_MODESET_LOCK
- 
- config DRM_FBDEV_EMULATION
- 	bool "Enable legacy fbdev support for your modesetting driver"
--	depends on DRM_KMS_HELPER
--	depends on FB=y || FB=DRM_KMS_HELPER
-+	depends on DRM
- 	select FRAMEBUFFER_CONSOLE if !EXPERT
- 	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
- 	default y
--- 
-2.41.0
+Anyway:
 
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+--Sig_/EiONIKEiq87f3GRwr6btSXQ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmS3m60ACgkQI1/ltBGq
+qqeWhA/+INvIt3UzSeaoyb+RxUcogyfCYo/BBTwuy+kOwhhgK0W0WNNKldfBLWTj
+4iXSLe9QEpbm52//MEMhuoias3znGGuc/76Hxe1L0ccPr0gcwVZkIUDAGkWIGfJe
+6bFdjFAu1MhLT97jCsnHdliUUS64rCnAU+VNEc00snynONYvWvhAwxO3Q8NNvp5i
+WKVE4B2GD6C69QjAl4PWrIc/hpxhjFj6Dvw7gALmHS4qT325LF/+9p/1+ECbGhID
+gdbTBFaJEcm5khhnrwJqk944qRLstDgYKErfuFI7TBUNlpSDe1ERcbib3DoTaWt6
+gjnXqJGLkmdHnr1dGaIhVMsM9FUI0V002UGwDz3RdqxBckLIdNWdLg9iFJGweEdH
+6A7ELCOCfqWdqCcpEGi2zg9eQkGeVBYtWpwMitl8HMZ00RDpuSpwWq7/FCTiQEpO
+NzGP98Btd7DT50COrKEaEyLW4Zgonmkxmn6UW3Zzo6pMbm9++l2i40QAbUcVd1Ym
+47SwWGyDKxXB4MBfYKZHvrUunXoOOpGKcwwlH6iSej/mBzrBKR1dBu3sjaZ54ZRJ
+NXDBi7M6s7mqAwO8ulznDF30LwN3k5MxEhQ3FBpg3j5hVtWF55mCledlPO+5c3MO
+0fPNR9/Xae9lEt6SuiCCcOxUYGI1unJwo+/b03f4N9DGn95XyL0=
+=+giF
+-----END PGP SIGNATURE-----
+
+--Sig_/EiONIKEiq87f3GRwr6btSXQ--
