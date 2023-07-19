@@ -2,56 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE197599A8
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630CE759A18
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAED410E4D5;
-	Wed, 19 Jul 2023 15:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B4D10E4D0;
+	Wed, 19 Jul 2023 15:45:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A52110E4D5
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:26:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8B6D761737
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:26:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA322C433CA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:26:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689780370;
- bh=nXOLt+Ru1599YLHogJZDfcCqEFtOC1MXpEQo8Utf5+4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=X5Ur6GtOca0SFfi+2pqbWqAT2zyHEBEDsVDrSunDo62xwbrVst2eiLVPhX8LugXjg
- VPDH89Nwmdq4z7T9tXZJcSsK5UZhxGjzsbMhwc+3YELx3nwxBr1uyAy1BrUVxflDnd
- gyS0lvCBVAN2uYJptRT+6wrKD8KOMVvcMLSUG2djW8YJNayqmxBPBlCnPIAgZCKqTq
- wSM2U3r2QwqV5nZxt97CKc0wcpwHvgcrpZuPAt3ga2aXnTdPEdV8HKUrn5wAKeIbl1
- HoVdUdR4ReF/1XyB6SYMJeCbie8OcWHaMfG0FKlpRhKaKn4Q6EGaaNhS6ge9z7gPkB
- 7MNDCW+sYBPRw==
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2b74310566cso110846711fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:26:10 -0700 (PDT)
-X-Gm-Message-State: ABy/qLaM2V6lOd8axZ211252TBYfy23sZXP4py5C3mQ6maSo6U69MAR0
- QTr+3+ZrY8IkmkkUKBj/UqpBv3/MhNnaFn8QIg==
-X-Google-Smtp-Source: APBJJlFD292w7Q5p4ODutCfH9ve7dS7RcKMi1F2heH6iTUGn+9PvFn4FmEnqaV09PWhCD4P6dYl3jZJjD/GC9Da5Kbg=
-X-Received: by 2002:a2e:985a:0:b0:2b6:a057:8098 with SMTP id
- e26-20020a2e985a000000b002b6a0578098mr249343ljj.0.1689780368825; Wed, 19 Jul
- 2023 08:26:08 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE7210E4CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:45:16 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4fb77f21c63so11792736e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:45:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689781513; x=1692373513;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/eSE5PufSbPTUsRNAeK5Nlopm2AA9GyCjqeYSlulI3A=;
+ b=LjbyP/phFapwDihnGcU1TM699njxE3gU8W+o6nuquMg3Gbinz8PMCvZ991U+T5gGu9
+ k2kBhGtMNu1UDFS2did5j0QH85W2M6GlP/ThTq2CtBK0G9WpV5lPqKk9bhgrraUxsdYq
+ TS7VuYxJ5M5VN7f0+5Ou9BFeH6kTpOeh6Fdp0iMxOGpoZaWxL98PH6+ryUWTmh++3ojt
+ D1NEpzN0hIN5c1bywouCwx04dsUG/BF/xAmOHJh9nDMvuv738Deu9SjQVh02rxOfm4fq
+ 880YeCCR8fAf8c3ry+X+YYaR+EN2cwIO5xcY+jtiyyw7KcxOHeLD2fpwsy1rPtFpLWAC
+ OE2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689781513; x=1692373513;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/eSE5PufSbPTUsRNAeK5Nlopm2AA9GyCjqeYSlulI3A=;
+ b=UJWfKUuyn6TnV5PmwvrvUWLn9zNAviHwIPwwR7F6U2CKKxbEdYRKM4hHnVwyrg3LQD
+ TESPMigVobBtd+gJLN6BPssF3LSdNe3mS6Lrh/I7o5+DUvJf3XqpKuUK8bIh5uXYJaEz
+ E4pjEO36+cC9oaH56h/14MzT4vsE16SwIyWiOSJE8+q2YEEdkHpgzIlJa70tmM12Y/04
+ TJjYALmKNe3YBjm4DFOw0Mo9Y/mInQ1k+iB+ym5BV+bqZhiFLYUnr8XLi7eb15h1Rl+p
+ 0quvvvD1XN3Y89v5a4Bvq3C/S6fW9TeuB3xYfq6K5EOJL/miTxHGUwKqeboy6/BjWeN3
+ pk4g==
+X-Gm-Message-State: ABy/qLa6HA+fvt8hl07jgC3HZjpydajr52yqJqzze0KwRpz8H4u74Ui+
+ cdZW7UZZZ53kDfvhsmzyg5Q=
+X-Google-Smtp-Source: APBJJlFGNXbDbnAA9ArUgh05ey8iUBjzciSFQItiJjzD0Vsx2FKi172A3dqMVfN9FdeSK2KtTt+9Yg==
+X-Received: by 2002:a05:6512:36c5:b0:4f8:6d53:a692 with SMTP id
+ e5-20020a05651236c500b004f86d53a692mr154702lfs.61.1689781512689; 
+ Wed, 19 Jul 2023 08:45:12 -0700 (PDT)
+Received: from localhost.localdomain ([86.57.157.184])
+ by smtp.gmail.com with ESMTPSA id
+ v19-20020ac25593000000b004fb78959218sm996075lfg.200.2023.07.19.08.45.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 08:45:12 -0700 (PDT)
+From: Viktar Simanenka <viteosen@gmail.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Viktar Simanenka <viteosen@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: add bindings for pcd8544 displays
+Date: Wed, 19 Jul 2023 18:44:49 +0300
+Message-Id: <20230719154450.620410-1-viteosen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230523104234.7849-1-angelogioacchino.delregno@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 19 Jul 2023 23:25:56 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__oDNUx+_c=5u6TqX6vx-AG1r1xVzE-UWe+LaqQQEaaSw@mail.gmail.com>
-Message-ID: <CAAOTY__oDNUx+_c=5u6TqX6vx-AG1r1xVzE-UWe+LaqQQEaaSw@mail.gmail.com>
-Subject: Re: [PATCH] drm: mediatek: mtk_dsi: Fix NO_EOT_PACKET
- settings/handling
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- jitao.shi@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,83 +74,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, shaoming.chen@mediatek.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jitao:
+Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
 
-Do you have any comment?
-If you have no comment, I would apply this patch.
+V2: deleted oneOf property from compatible
+changed prefix from 'philips' to existing vendor prefix 'nxp'
+placed `reg = <0>` right after `compatible`
 
-Regards,
-Chun-Kuang.
+About parameters exposed for controller:
+inverted - I had an unbranded display that after reset had all pixels black,
+while register was in 'normal operation'. The display I have now is opposite:
+all white after reset in normal mode. This parameter should help user keep
+same settings in KMS(?) for diverse displays;
+voltage-op & temperature-coeff - adjusts contrast for display. voltage-op
+cannot be expressed in real units, because resulting equation looks like
+V = a + Vop * b, where a and b varies with ambient temperature. Vop is a
+coefficient. same story for temperature-coeff - it shifts resulting voltage
+curve depending on display usage invironment;
+bias - relates to waveforms for LCD segments. default is 4 and should be
+changed only if you use external oscillator for display.
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2023=E5=B9=B45=E6=9C=8823=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=886:4=
-2=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Due to the initial confusion about MIPI_DSI_MODE_EOT_PACKET, properly
-> renamed to MIPI_DSI_MODE_NO_EOT_PACKET, reflecting its actual meaning,
-> both the DSI_TXRX_CON register setting for bit (HSTX_)DIS_EOT and the
-> later calculation for horizontal sync-active (HSA), back (HBP) and
-> front (HFP) porches got incorrect due to the logic being inverted.
->
-> This means that a number of settings were wrong because....:
->  - DSI_TXRX_CON register setting: bit (HSTX_)DIS_EOT should be
->    set in order to disable the End of Transmission packet;
->  - Horizontal Sync and Back/Front porches: The delta used to
->    calculate all of HSA, HBP and HFP should account for the
->    additional EOT packet.
->
-> Before this change...
->  - Bit (HSTX_)DIS_EOT was being set when EOT packet was enabled;
->  - For HSA/HBP/HFP delta... all three were wrong, as words were
->    added when EOT disabled, instead of when EOT packet enabled!
->
-> Invert the logic around flag MIPI_DSI_MODE_NO_EOT_PACKET in the
-> MediaTek DSI driver to fix the aforementioned issues.
->
-> Fixes: 8b2b99fd7931 ("drm/mediatek: dsi: Fine tune the line time caused b=
-y EOTp")
-> Fixes: 2d52bfba09d1 ("drm/mediatek: add non-continuous clock mode and EOT=
- packet control")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index 7d5250351193..b0ab38e59db9 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -407,7 +407,7 @@ static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
->         if (dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
->                 tmp_reg |=3D HSTX_CKLP_EN;
->
-> -       if (!(dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET))
-> +       if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
->                 tmp_reg |=3D DIS_EOT;
->
->         writel(tmp_reg, dsi->regs + DSI_TXRX_CTRL);
-> @@ -484,7 +484,7 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi =
-*dsi)
->                           timing->da_hs_zero + timing->da_hs_exit + 3;
->
->         delta =3D dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST ? 18 : 12;
-> -       delta +=3D dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET ? 2 : 0;
-> +       delta +=3D dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET ? 0 : 2;
->
->         horizontal_frontporch_byte =3D vm->hfront_porch * dsi_tmp_buf_bpp=
-;
->         horizontal_front_back_byte =3D horizontal_frontporch_byte + horiz=
-ontal_backporch_byte;
-> --
-> 2.40.1
->
+v1 link: https://lore.kernel.org/linux-devicetree/20230719092903.316452-1-viteosen@gmail.com/
+
+---
+ .../bindings/display/nxp,pcd8544.yaml         | 94 +++++++++++++++++++
+ 1 file changed, 94 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml b/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+new file mode 100644
+index 000000000000..52e40fd0eacb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+@@ -0,0 +1,94 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/nxp,pcd8544.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Philips Semiconductors PCD8544 LCD Display Controller
++
++maintainers:
++  - Viktar Simanenka <viteosen@gmail.com>
++
++description: |
++  Philips Semiconductors PCD8544 LCD Display Controller with SPI control bus.
++  Designed to drive a graphic display of 48 rows and 84 columns,
++  such as Nokia 5110/3310 LCDs.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - nxp,pcd8544
++
++  dc-gpios:
++    maxItems: 1
++    description: Data/Command selection pin (D/CX)
++
++  reset-gpios:
++    maxItems: 1
++    description: Display Reset pin (RST)
++
++  nxp,inverted:
++    type: boolean
++    description: Display color inversion
++
++  nxp,voltage-op:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 127
++    description: |
++      Liquid crystall voltage operation coefficient. Determines the LCD
++      controlling voltage on the display segments. Should be adjusted
++      depending on the ambient temperature.
++
++  nxp,temperature-coeff:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 3
++    description: |
++      Display temperature compensation coefficient. Increases LCD
++      controlling voltage at lower temperatures to maintain optimum
++      contrast.
++
++  nxp,bias:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 7
++    description: Display bias system coefficient.
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++  - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "nxp,pcd8544";
++            reg = <0>;
++            spi-max-frequency = <8000000>;
++
++            dc-gpios = <&pio 0 3 GPIO_ACTIVE_HIGH>; /* DC=PA3 */
++            reset-gpios = <&pio 0 1 GPIO_ACTIVE_HIGH>; /* RESET=PA1 */
++            backlight = <&backlight>;
++
++            nxp,inverted;
++            nxp,voltage-op = <0>;
++            nxp,bias = <4>;
++            nxp,temperature-coeff = <0>;
++        };
++    };
++
++...
+-- 
+2.34.1
+
