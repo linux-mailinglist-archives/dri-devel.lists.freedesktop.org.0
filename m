@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECC47592FF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3575930A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 12:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A83810E45D;
-	Wed, 19 Jul 2023 10:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60F0B10E45E;
+	Wed, 19 Jul 2023 10:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 463BD10E45D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:29:08 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-992acf67388so827217666b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:29:08 -0700 (PDT)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1FA10E45E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 10:29:35 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-5217bb5ae05so5748035a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 03:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689762546; x=1692354546;
+ d=linaro.org; s=google; t=1689762573; x=1692354573;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ExPK31B4ljf4lopgSPrp6SO4czwztEWUPRdEkb+8xNo=;
- b=w7AG3lT/hleVDVJWoBWR/9b30ZYcgiAULuogEcKrVjW4wsEyArMaNchv2LL1RE/bul
- oxRQq9r5JoHKtZz3Ow87qVBlQvLxaDs5scr8e6rhDfcHqJGArp/KOzfHikZkFn6qoa2b
- QrJGXKXtS1Ly9ogY7Xa26nRYk89lX3lCNq/42xKVeG5fZzeNeh+OExcIMIwvAlSI7vaA
- FwSYwz2naQtrWqw6hiikqFFDybDbeimBwPSbuib42ZynZ5VihrsiyrcfCs4VFdmU3Vjn
- sIq90rOss4+PUaa0mtoQcdK+tBflunFm2hRLQSNTQQclooMzQGj7Ot42nI8d5StaLtNu
- TN3A==
+ bh=hsbdF3vSFjWOVf7tTPeAyNmYXPOrPPfpGyXWv71M4vY=;
+ b=pMflW6B6zdC43SRPUZaBNyhVj9ywPekh1ELYAAqf0KlpE0hJGBH+W0q+Cw+ck5fBYV
+ ymbC8xPJjNLICUR6EHbtArsWt4KeHjjU6xe+49HCiUWoCwxqgkSVijIhzhyHlV4ENYlf
+ QqNapgCKPE+KhWpp0Lzz1eY2nNQyd1c98UIHgtNWjhyoQN+XR24GU0pIFvWE4P6rdY55
+ fQ7dqFlUAyjHb3+GLq48He1mbQFjr9brzgkXWywQLzDgi6ooceElSVDDtVKGlQ0acRUX
+ p0nuLr+M1NfwwPLJHe87MxbtgPqupsuabUz8pqE2fKQZJQXY5T2sI6XaY825SScC8TPf
+ aunQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689762546; x=1692354546;
+ d=1e100.net; s=20221208; t=1689762573; x=1692354573;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ExPK31B4ljf4lopgSPrp6SO4czwztEWUPRdEkb+8xNo=;
- b=ABq2Ftgdj7EN/42sZFVVW9AId2K7ggLP0SCcgfPbDfP8gNMi4de5m2QfXFzhRgHzjp
- ec1wI7T27HxHMGAhng2d9zU44fCmxrvWyODlpS07HDd3Nbaq3g5bx2F9PhaS2KjTQSEr
- Baj4NWK2apbwPxaGw+aN1ElXBqUqXkilz3NXG/1uBPIoDhskzHDKl7ENedLN8ldRl0jb
- gRfd/ZCt3x0kR4oxZvNlNgMjG7hFBKOzs23uoC5sDDA+hVLyPh/3jhrrlVNnqsmV4rPM
- aED4FmC6+h4FkrrQvQYs1NirYqaEjPV6vUYPCaQI2q7rhcDCK7ihT4KlsQ3r1g7YjIo6
- WZdA==
-X-Gm-Message-State: ABy/qLZDNCujgXUL427Bn9nQ3fRr3/Z0kq5O6rvZ5DvROl3jFAfvIeI7
- HAHgR8e/Wf9mdyDfNLfBXgAQCQ==
-X-Google-Smtp-Source: APBJJlFj1TXxAa83rkP3FsR6k80oE7zp7zFFP1kYWHxI2V2j3NwUp9HJ/acreyD3O7Q9i8cabhBYXQ==
-X-Received: by 2002:a17:907:3e99:b0:967:21:5887 with SMTP id
- hs25-20020a1709073e9900b0096700215887mr2368427ejc.40.1689762546292; 
- Wed, 19 Jul 2023 03:29:06 -0700 (PDT)
+ bh=hsbdF3vSFjWOVf7tTPeAyNmYXPOrPPfpGyXWv71M4vY=;
+ b=lLx5EyvF2wiW+dRMFXHROuZ1Y3cMz2uhOq3JLqSqhS6pu9AeHZiba4GIVANx4gcPWZ
+ M4YndzjGdDtWDiUEo7XNppzrD4nqA907JX34qR5FJgy5B8cV2qUaBWa6iMDGyg89oerR
+ xZVa/0quLK+ULK6dQg7DiwPiOW5AACd3ZpDTy2NtC6b0fLpMzTiofU2kNh+6LTu+h1tn
+ d3cT6ForaoCbcHABCHMEDPA8FV2vPhgY72ua6jV2HULU2oSQ3ic+WdChU/6kg39Crlwi
+ qDhc9louZARKippo6gPG8CSHgdxd29IF1D1wJOfcZgS5KB7H6todi/8pms0134T6gIDr
+ 48kg==
+X-Gm-Message-State: ABy/qLYlSB0sXtbIiPCWuo5tBZzvLlxVuBXCFcWOwSom7Nx+zI4709xU
+ TZ7PAkHxBnl2DVS+Q+SNvcS4Ig==
+X-Google-Smtp-Source: APBJJlGjAQSiTv09hvjzoL2bHorCfqXaWQw+3rHRmToUpY1BWy3cRCU5AjBIV+sp0DuIyOQ3WgrdxA==
+X-Received: by 2002:aa7:d482:0:b0:521:aa4b:24f3 with SMTP id
+ b2-20020aa7d482000000b00521aa4b24f3mr2106665edr.24.1689762573695; 
+ Wed, 19 Jul 2023 03:29:33 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.104])
  by smtp.gmail.com with ESMTPSA id
- w21-20020a1709064a1500b00982b204678fsm2124473eju.207.2023.07.19.03.29.04
+ n7-20020a05640206c700b0051e2a5d9290sm2487874edy.77.2023.07.19.03.29.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Jul 2023 03:29:05 -0700 (PDT)
-Message-ID: <bccf2ce1-1cdc-9bd3-9670-e346c22e92af@linaro.org>
-Date: Wed, 19 Jul 2023 12:29:03 +0200
+ Wed, 19 Jul 2023 03:29:33 -0700 (PDT)
+Message-ID: <6d9ded3a-415a-e879-2c80-e462c21ed9cb@linaro.org>
+Date: Wed, 19 Jul 2023 12:29:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH 1/2] dt-bindings: add vendor-prefixes and bindings for
- pcd8544 displays
+Subject: Re: [PATCH 2/2] drm/tiny: add display driver for philips pcd8544
+ display controller
 Content-Language: en-US
 To: Viktar Simanenka <viteosen@gmail.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
@@ -65,8 +65,9 @@ To: Viktar Simanenka <viteosen@gmail.com>, David Airlie <airlied@gmail.com>,
  Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230719102430.316504-1-viteosen@gmail.com>
+ <20230719102430.316504-2-viteosen@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230719102430.316504-1-viteosen@gmail.com>
+In-Reply-To: <20230719102430.316504-2-viteosen@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,142 +86,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 19/07/2023 12:24, Viktar Simanenka wrote:
-> Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
-
-Missing commit msg, missing changelog, missing versioning - I already
-asked for the last two things.
-
-> ---
->  .../bindings/display/philips,pcd8544.yaml     | 89 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
->  2 files changed, 91 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/philips,pcd8544.yaml
+> Support for common monochrome LCD displays based on PCD8544 (such as
+> Nokia 5110/3310 LCD) SPI controlled displays.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/philips,pcd8544.yaml b/Documentation/devicetree/bindings/display/philips,pcd8544.yaml
-> new file mode 100644
-> index 000000000000..ac880d9d8cc1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/philips,pcd8544.yaml
-> @@ -0,0 +1,89 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/philips,pcd8544.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Philips PCD8544 LCD Display Controller
-> +
-> +maintainers:
-> +  - Viktar Simanenka <viteosen@gmail.com>
-> +
-> +description: |
-> +  Philips PCD8544 LCD Display Controller with SPI control bus.
-> +  Monochrome 84x48 LCD displays, such as Nokia 5110/3310 LCDs.
-> +  May contain backlight LED.
-> +
-> +allOf:
-> +  - $ref: panel/panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
+> Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
+> ---
 
-That's not oneOf.
-
-> +      - enum:
-> +          - philips,pcd8544
-> +
-> +  dc-gpios:
-> +    maxItems: 1
-> +    description: Data/Command selection pin (D/CX)
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Display Reset pin (RST)
-> +
-> +  philips,inverted:
-> +    type: boolean
-> +    description: Display color inversion
-
-Not much improved here. What is it?
-
-> +
-> +  philips,voltage-op:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 127
-> +    description: Display liquid crystal operation voltage
-
-Voltage is in microvolts (or other *volts). Use proper unit suffix.
-
-
-> +
-> +  philips,bias:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 7
-> +    description: Display bias voltage system value
-
-In which units? Voltage is in microvolts.
-
-> +
-> +  philips,temperature-coeff:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 3
-> +    description: Display temperature compensation coefficient
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - dc-gpios
-> +  - reset-gpios
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        display@0 {
-> +            compatible = "philips,pcd8544";
-> +            spi-max-frequency = <8000000>;
-> +            reg = <0>;
-
-reg is always after compatible.
-
-> +
-> +            dc-gpios = <&pio 0 3 GPIO_ACTIVE_HIGH>; /* DC=PA3 */
-> +            reset-gpios = <&pio 0 1 GPIO_ACTIVE_HIGH>; /* RESET=PA1 */
-> +            backlight = <&backlight>;
-> +
-> +            philips,inverted;
-> +            philips,voltage-op = <0>;
-> +            philips,bias = <4>;
-> +            philips,temperature-coeff = <0>;
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index af60bf1a6664..0c3844af6776 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1037,6 +1037,8 @@ patternProperties:
->      description: Pervasive Displays, Inc.
->    "^phicomm,.*":
->      description: PHICOMM Co., Ltd.
-> +  "^philips,.*":
-> +    description: Koninklijke Philips N.V.
-
-Isn't this Philips Semiconductors? That's what datasheet is saying.
-
-
+No changelog, same version, so nothing improved here?
 
 Best regards,
 Krzysztof
