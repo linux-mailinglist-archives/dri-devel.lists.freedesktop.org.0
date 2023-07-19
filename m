@@ -1,65 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A93758FF2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:16:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 625F3759006
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 10:17:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C07110E078;
-	Wed, 19 Jul 2023 08:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6B810E423;
+	Wed, 19 Jul 2023 08:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB6010E078
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:15:55 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id
- 2adb3069b0e04-4fb960b7c9dso10991738e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 01:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689754552; x=1692346552;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=UGz8KdQopyQUcO5NYlceM4R7xMyngGDkfeyxTx6CRhU=;
- b=LnzFUmcsc83G4rMzRUOyNfBg27IbGB/JZfSRcyvcdjMxgwpF/vbKhxQbYBDe9wtzim
- wf28ln6GbG+DQHT8t1VoXJN4ZuCngXV6CYqUh9icu/7WBv7rmHznQg9m0/1NY6C7C6Ao
- Dls2DNyVoMbvysGCLLH/k8HxneAeu03d1jXma2LD9DOSmBPe7cLtrzOFfOYPgNyFThPs
- 55zhTH2SdGxX90zCAhoQxDiEjFt466NYbDL/8EnUNT1aqeav3GmJPH/nPd3OXDXWEBZe
- 7jnoeqASnnh2COoWLKrat4khpKQOLXrTInoX4rZeOo8QKOO0MIaMDCxyDS/ppdsW+2Xb
- o45w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689754552; x=1692346552;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UGz8KdQopyQUcO5NYlceM4R7xMyngGDkfeyxTx6CRhU=;
- b=A28EQCfij9p420/1sxWhhueg5gG749PYJA5M8D5SCwaO+knmVnXDkPlbPA4p4y+MnA
- wY2E9RzJNkXlsU+zLk38wOzbvY28Urr1wX5O7/GTq9vS+bGhSJJ8x4CONebSYMUgBDhC
- hKKQi3RM7U8X9HRy4yEs4pAtXwKkZkGGqrQpuqA6gTQAAUpOf+SgMzGHM/xxHLbvA/zD
- ANLZdVJLNlLHttus5adOj7qoHrsRZveSyP4brH1EJfzNL09AP1crOBhfd06iZotglwW/
- lIquNl47AhuG1qAEJrQTVZtupgGMRR/6+0VsxPib7xNtPTpxd9RsMcMeghRutqxO0uyQ
- K4KA==
-X-Gm-Message-State: ABy/qLb/Kg1BDg+2tTSlLxu7N9acXV0tqo+nHq7ZwF4aYVylgx4VcUy7
- Px9rELW+kYY/Qewv0TXC+B0=
-X-Google-Smtp-Source: APBJJlGexfCk/hL3UV7uZTOzinfpzWcGox56ECzre8BMquFQDfIgjd2jDOUfnnl7RuG79HK+SwgWDw==
-X-Received: by 2002:a05:6512:4025:b0:4ec:9ef9:e3d with SMTP id
- br37-20020a056512402500b004ec9ef90e3dmr1585717lfb.26.1689754552027; 
- Wed, 19 Jul 2023 01:15:52 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f14-20020ac24e4e000000b004fdc5557a70sm836690lfr.141.2023.07.19.01.15.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 01:15:51 -0700 (PDT)
-Date: Wed, 19 Jul 2023 11:15:41 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Zack Rusin <zack@kde.org>
-Subject: Re: [PATCH v5 9/9] drm: Introduce documentation for hotspot properties
-Message-ID: <20230719111541.33c05b14@eldfell>
-In-Reply-To: <20230719014218.1700057-10-zack@kde.org>
-References: <20230719014218.1700057-1-zack@kde.org>
- <20230719014218.1700057-10-zack@kde.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4568B10E424
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:17:06 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qM2MY-0003qe-Oa; Wed, 19 Jul 2023 10:16:46 +0200
+Message-ID: <499938f424957fcf0fd3a9def157866d44f4ee3b.camel@pengutronix.de>
+Subject: Re: [PATCH v1 3/8] drm/etnaviv: Drop the second argument of the
+ etnaviv_gem_new_impl()
+From: Lucas Stach <l.stach@pengutronix.de>
+To: suijingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
+ <sui.jingfeng@linux.dev>,  Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 19 Jul 2023 10:16:41 +0200
+In-Reply-To: <06b291d4-9cab-5179-2a90-a73449ddb2dd@loongson.cn>
+References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
+ <20230623100822.274706-4-sui.jingfeng@linux.dev>
+ <862358e67a6f118b11ba16fb94828e9d1635cb66.camel@pengutronix.de>
+ <e3a05204-61fe-2318-5f06-fd12addfe2e9@loongson.cn>
+ <ee96ed1a1ff12656f6e6542ae928fb526a9758fe.camel@pengutronix.de>
+ <06b291d4-9cab-5179-2a90-a73449ddb2dd@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/EiONIKEiq87f3GRwr6btSXQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,191 +55,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: banackm@vmware.com, javierm@redhat.com, krastevm@vmware.com,
- dri-devel@lists.freedesktop.org, iforbes@vmware.com, mombasawalam@vmware.com
+Cc: loongson-kernel@lists.loongnix.cn, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/EiONIKEiq87f3GRwr6btSXQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Jingfeng,
 
-On Tue, 18 Jul 2023 21:42:18 -0400
-Zack Rusin <zack@kde.org> wrote:
-
-> From: Michael Banack <banackm@vmware.com>
+Am Mittwoch, dem 19.07.2023 um 00:16 +0800 schrieb suijingfeng:
+> Hi,
+> > >=20
+[...]
+> > > I don't think you are right here.
+> > >=20
+> > Yes, clearly I was not taking into account the differences between
+> > drm_gem_private_object_init and drm_gem_object_init properly. Please
+> > disregard my comment, this patch is good as-is.
 >=20
-> To clarify the intent and reasoning behind the hotspot properties
-> introduce userspace documentation that goes over cursor handling
-> in para-virtualized environments.
+> I have study your patch in the past frequently.
 >=20
-> The documentation is generic enough to not special case for any
-> specific hypervisor and should apply equally to all.
+> As you could solve very complex(and difficulty) bugs.
 >=20
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> ---
->  Documentation/gpu/drm-kms.rst |  6 ++++
->  drivers/gpu/drm/drm_plane.c   | 58 ++++++++++++++++++++++++++++++++++-
->  2 files changed, 63 insertions(+), 1 deletion(-)
+> So I still believe that you know everything about etnaviv.
 >=20
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index c92d425cb2dd..7159b3e90a8a 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -577,6 +577,12 @@ Variable Refresh Properties
->  .. kernel-doc:: drivers/gpu/drm/drm_connector.c
->     :doc: Variable refresh properties
-> =20
-> +Cursor Hotspot Properties
-> +---------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_plane.c
-> +   :doc: hotspot properties
-> +
->  Existing KMS Properties
->  -----------------------
-> =20
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 1dc00ad4c33c..f3f2eae83cca 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -230,6 +230,61 @@ static int create_in_format_blob(struct drm_device *=
-dev, struct drm_plane *plane
->  	return 0;
->  }
-> =20
-> +/**
-> + * DOC: hotspot properties
-> + *
-> + * HOTSPOT_X: property to set mouse hotspot x offset.
-> + * HOTSPOT_Y: property to set mouse hotspot y offset.
-> + *
-> + * When the plane is being used as a cursor image to display a mouse poi=
-nter,
-> + * the "hotspot" is the offset within the cursor image where mouse events
-> + * are expected to go.
-> + *
-> + * Positive values move the hotspot from the top-left corner of the curs=
-or
-> + * plane towards the right and bottom.
-> + *
-> + * Most display drivers do not need this information because the
-> + * hotspot is not actually connected to anything visible on screen.
-> + * However, this is necessary for display drivers like the para-virtuali=
-zed
-> + * drivers (eg qxl, vbox, virtio, vmwgfx), that are attached to a user c=
-onsole
-> + * with a mouse pointer.  Since these consoles are often being remoted o=
-ver a
-> + * network, they would otherwise have to wait to display the pointer mov=
-ement to
-> + * the user until a full network round-trip has occurred.  New mouse eve=
-nts have
-> + * to be sent from the user's console, over the network to the virtual i=
-nput
-> + * devices, forwarded to the desktop for processing, and then the cursor=
- plane's
-> + * position can be updated and sent back to the user's console over the =
-network.
-> + * Instead, with the hotspot information, the console can anticipate the=
- new
-> + * location, and draw the mouse cursor there before the confirmation com=
-es in.
-> + * To do that correctly, the user's console must be able predict how the
-> + * desktop will process mouse events, which normally requires the deskto=
-p's
-> + * mouse topology information, ie where each CRTC sits in the mouse coor=
-dinate
-> + * space.  This is typically sent to the para-virtualized drivers using =
-some
-> + * driver-specific method, and the driver then forwards it to the consol=
-e by
-> + * way of the virtual display device or hypervisor.
-> + *
-> + * The assumption is generally made that there is only one cursor plane =
-being
-> + * used this way at a time, and that the desktop is feeding all mouse de=
-vices
-> + * into the same global pointer.  Para-virtualized drivers that require =
-this
-> + * should only be exposing a single cursor plane, or find some other way
-> + * to coordinate with a userspace desktop that supports multiple pointer=
-s.
-> + * If the hotspot properties are set, the cursor plane is therefore assu=
-med to be
-> + * used only for displaying a mouse cursor image, and the position of th=
-e combined
-> + * cursor plane + offset can therefore be used for coordinating with inp=
-ut from a
-> + * mouse device.
-> + *
-> + * The cursor will then be drawn either at the location of the plane in =
-the CRTC
-> + * console, or as a free-floating cursor plane on the user's console
-> + * corresponding to their desktop mouse position.
-> + *
-> + * DRM clients which would like to work correctly on drivers which expose
-> + * hotspot properties should advertise DRM_CLIENT_CAP_CURSOR_PLANE_HOTSP=
-OT.
-> + * Setting this property on drivers which do not special case
-> + * cursor planes will return EOPNOTSUPP, which can be used by userspace =
-to
-> + * gauge requirements of the hardware/drivers they're running on. Advert=
-ising
-> + * DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT implies that the userspace client=
- will be
-> + * correctly setting the hotspot properties.
-> + */
+While flattering, even I myself am not thinking I know everything about
+etnaviv. The different HW generations and the complex subsystem the
+driver is living in doesn't make it easy for anyone to keep in mind
+everything.
 
-Yes! This is exactly what I was after. Thank you!
+> I'm just wondering that you are designing the traps. But I'm not sure.
+>=20
+Certainly not. I'm just human and do make mistakes as everyone. During
+the quick scrolling though the code when reviewing this patch my mind
+clearly just dropped the _private_ part of one of the function names. I
+appreciate being told when I am wrong and I do believe that the
+exchange during the review is helpful for everyone to get on the same
+page.
 
-> +
->  /**
->   * drm_plane_create_hotspot_properties - creates the mouse hotspot
->   * properties and attaches them to the given cursor plane
-> @@ -237,7 +292,8 @@ static int create_in_format_blob(struct drm_device *d=
-ev, struct drm_plane *plane
->   * @plane: drm cursor plane
->   *
->   * This function enables the mouse hotspot property on a given
-> - * cursor plane.
-> + * cursor plane. Look at the documentation for hotspot properties
-> + * to get a better understanding for what they're used for.
+Regards,
+Lucas
 
-I haven't seen the rendered HTML, but is there a hyperlink from here to
-the hotspot property doc? I think a link would be neat.
+> Okay, still acceptable.
+>=20
+> Because communicate will you is interesting.
+>=20
+> Thank you.
+>=20
+> > Regards,
+> > Lucas
+> >=20
+> > > > Regards,
+> > > > Lucas
+> > > >=20
+> > > > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > > > ---
+> > > > >    drivers/gpu/drm/etnaviv/etnaviv_gem.c | 7 +++----
+> > > > >    1 file changed, 3 insertions(+), 4 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/=
+drm/etnaviv/etnaviv_gem.c
+> > > > > index b5f73502e3dd..be2f459c66b5 100644
+> > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> > > > > @@ -542,7 +542,7 @@ static const struct drm_gem_object_funcs etna=
+viv_gem_object_funcs =3D {
+> > > > >    	.vm_ops =3D &vm_ops,
+> > > > >    };
+> > > > >   =20
+> > > > > -static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size=
+, u32 flags,
+> > > > > +static int etnaviv_gem_new_impl(struct drm_device *dev, u32 flag=
+s,
+> > > > >    	const struct etnaviv_gem_ops *ops, struct drm_gem_object **ob=
+j)
+> > > > >    {
+> > > > >    	struct etnaviv_gem_object *etnaviv_obj;
+> > > > > @@ -591,8 +591,7 @@ int etnaviv_gem_new_handle(struct drm_device =
+*dev, struct drm_file *file,
+> > > > >   =20
+> > > > >    	size =3D PAGE_ALIGN(size);
+> > > > >   =20
+> > > > > -	ret =3D etnaviv_gem_new_impl(dev, size, flags,
+> > > > > -				   &etnaviv_gem_shmem_ops, &obj);
+> > > > > +	ret =3D etnaviv_gem_new_impl(dev, flags, &etnaviv_gem_shmem_ops=
+, &obj);
+> > > > >    	if (ret)
+> > > > >    		goto fail;
+> > > > >   =20
+> > > > > @@ -627,7 +626,7 @@ int etnaviv_gem_new_private(struct drm_device=
+ *dev, size_t size, u32 flags,
+> > > > >    	struct drm_gem_object *obj;
+> > > > >    	int ret;
+> > > > >   =20
+> > > > > -	ret =3D etnaviv_gem_new_impl(dev, size, flags, ops, &obj);
+> > > > > +	ret =3D etnaviv_gem_new_impl(dev, flags, ops, &obj);
+> > > > >    	if (ret)
+> > > > >    		return ret;
+> > > > >   =20
+>=20
 
->   *
->   * RETURNS:
->   * Zero for success or -errno
-
-Anyway:
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
---Sig_/EiONIKEiq87f3GRwr6btSXQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmS3m60ACgkQI1/ltBGq
-qqeWhA/+INvIt3UzSeaoyb+RxUcogyfCYo/BBTwuy+kOwhhgK0W0WNNKldfBLWTj
-4iXSLe9QEpbm52//MEMhuoias3znGGuc/76Hxe1L0ccPr0gcwVZkIUDAGkWIGfJe
-6bFdjFAu1MhLT97jCsnHdliUUS64rCnAU+VNEc00snynONYvWvhAwxO3Q8NNvp5i
-WKVE4B2GD6C69QjAl4PWrIc/hpxhjFj6Dvw7gALmHS4qT325LF/+9p/1+ECbGhID
-gdbTBFaJEcm5khhnrwJqk944qRLstDgYKErfuFI7TBUNlpSDe1ERcbib3DoTaWt6
-gjnXqJGLkmdHnr1dGaIhVMsM9FUI0V002UGwDz3RdqxBckLIdNWdLg9iFJGweEdH
-6A7ELCOCfqWdqCcpEGi2zg9eQkGeVBYtWpwMitl8HMZ00RDpuSpwWq7/FCTiQEpO
-NzGP98Btd7DT50COrKEaEyLW4Zgonmkxmn6UW3Zzo6pMbm9++l2i40QAbUcVd1Ym
-47SwWGyDKxXB4MBfYKZHvrUunXoOOpGKcwwlH6iSej/mBzrBKR1dBu3sjaZ54ZRJ
-NXDBi7M6s7mqAwO8ulznDF30LwN3k5MxEhQ3FBpg3j5hVtWF55mCledlPO+5c3MO
-0fPNR9/Xae9lEt6SuiCCcOxUYGI1unJwo+/b03f4N9DGn95XyL0=
-=+giF
------END PGP SIGNATURE-----
-
---Sig_/EiONIKEiq87f3GRwr6btSXQ--
