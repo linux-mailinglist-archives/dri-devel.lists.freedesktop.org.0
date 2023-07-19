@@ -2,67 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA56759934
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:11:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E23759965
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 17:20:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0064B10E4AA;
-	Wed, 19 Jul 2023 15:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 479F610E4A8;
+	Wed, 19 Jul 2023 15:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com
- [IPv6:2607:f8b0:4864:20::92f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B288810E4AA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:11:11 +0000 (UTC)
-Received: by mail-ua1-x92f.google.com with SMTP id
- a1e0cc1a2514c-794d1714617so2547967241.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 08:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1689779470; x=1690384270;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=13/AwMP/8TITI/rLzUID1fTbfxpoHhwYclFZUG18RHI=;
- b=W9ugJhbZzcOHBcK1ryGKNlMvfaR4eWFGClQmFa2DEuQjWBhQ6kKehpd1BqB++U5hgw
- 3TWXC4fD7TCBkoX1R5UZTE2yJt6ER7ceOa34DwcVaieTCFsfXsMO7ebD1kKBgUVll/il
- T5l+Tk+DvcinG+V75/JSeoIsCFQ8k6ObjIad/1StTlViDKPCllGsT3b32oMukAxIX4KN
- BOqJKyr8il3GkecRMqZu5HqHgWgyu4a5TW8UHq9CwM7tE1s4Y8N0BkYwnbOJf9wDlic2
- T4I8G+BDJNbgq81Uhd6KHKUJLUl1eRoasPEOq2yCOXKm9K6XKz8GISCzVknnORxoJzmR
- xWFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689779470; x=1690384270;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=13/AwMP/8TITI/rLzUID1fTbfxpoHhwYclFZUG18RHI=;
- b=EI3W7WynCBWe2LanDMHiNNjhqEX7PVXM+5VKMP7s6uDpTm/It53Vp/fN6Y6+e7bIHE
- VTY1iamdGtOFrB0YJRa4dCUrWpN81ifyjv17qSurBHhxE9lhiecghJEe2AtKX6CnPoGt
- Lwv2eZC+61slK0lB46ON7bj9zfAPLRQkt7mit9EQRa6/vxYi/kSyXiawyxlUGIvlcUki
- t/iuSMBjIdlYZ0nVzpG6EkfAD/q+OKEziHkXnTe+7ElzlJiwMsMBUVZVnLS0VIBuaVga
- M4HrMSwAUzbcaoAqxhHLOQ39cuhISG+rrYLzhcz7ovAqRGcxPn4QJWxaWO9819IzCShV
- b1EQ==
-X-Gm-Message-State: ABy/qLZU04046Xr6dhvnUoabLKB0OQR7zEA42N+2mT4v5JAa4Aw7AYZc
- GlNYX9JK1QhXK8HAabdbp6HinmhSEj7Pu2Ujuuwcxw==
-X-Google-Smtp-Source: APBJJlGxQbcOy4ic7AA7A/45OA6HThArnJbsgb00HIZBBJVKBGnUSyKbwhuM+G0qPaAvZZrzdRo6tS+WQiuUsv4/hcs=
-X-Received: by 2002:a67:f60d:0:b0:443:5d85:99f3 with SMTP id
- k13-20020a67f60d000000b004435d8599f3mr10644906vso.7.1689779470214; Wed, 19
- Jul 2023 08:11:10 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19DB410E4A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 15:20:16 +0000 (UTC)
+Received: from johnny.home (unknown
+ [IPv6:2a01:e0a:212:79f0:c8e5:afad:333a:7f73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: aferraris)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7543E6606FCE;
+ Wed, 19 Jul 2023 16:20:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1689780013;
+ bh=z+ogJ9n6eVKxhL88T+iiOwnuLjSShxFXaTt/FLDI9c4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nnCxvicjSGFTOAsGooJ/PQCJffm48/T2BaYQvwsbCmgyN3D/3xtSiSbWYcDL7iE+1
+ 7xjTQJy3QCn5hVevO1dyDrsfjDdMTyhR8OlHCLLN2AwrlDLmFLYzj156fRP3R0zK/X
+ R32b6YmQWDc4hT8BXlzel7zn/sAQZ5vVPNvhJfMURFRPrQCFLQeH7Qg9VSiN5PgS19
+ c+XfIeK07xrREY8zb5LQcD/mY+DX5W3OCUccHx7ZtXQmU1BRigr0abOsHojY5R3xH0
+ D3ck9dv1R3T4qkdk4zMJsd2Vwyc2Sg5SC3+ke8Qim6/87Ba6sfe2txew4cu734fdGi
+ 6ddFpNgdinwNQ==
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/2 RESEND] Add driver for Novatek NT35596S panel
+Date: Wed, 19 Jul 2023 17:20:05 +0200
+Message-Id: <20230719152007.197710-1-arnaud.ferraris@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230710223304.1174642-1-almasrymina@google.com>
- <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
- <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
- <ZLbUpdNYvyvkD27P@ziepe.ca> <20230718111508.6f0b9a83@kernel.org>
- <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
- <20230718112940.2c126677@kernel.org>
- <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org>
- <20230718154503.0421b4cd@kernel.org>
-In-Reply-To: <20230718154503.0421b4cd@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 19 Jul 2023 08:10:58 -0700
-Message-ID: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-To: Jakub Kicinski <kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,112 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- linux-kselftest@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Eric Dumazet <edumazet@google.com>, Andy Lutomirski <luto@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jesper Dangaard Brouer <hawk@kernel.org>, linux-media@vger.kernel.org
+Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+ Molly Sophia <mollysophia379@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 18, 2023 at 3:45=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Tue, 18 Jul 2023 16:35:17 -0600 David Ahern wrote:
-> > I do not see how 1 RSS context (or more specifically a h/w Rx queue) ca=
-n
-> > be used properly with memory from different processes (or dma-buf
-> > references).
+These patches add support for Novatek NT35596S based JDI FHD panels,
+found in Xiaomi Mi Mix2S mobile phones.
 
-Right, my experience with dma-bufs from GPUs are that they're
-allocated from the userspace and owned by the process that allocated
-the backing GPU memory and generated the dma-buf from it. I.e., we're
-limited to 1 dma-buf per RX queue. If we enable binding multiple
-dma-bufs to the same RX queue, we have a problem, because AFAIU the
-NIC can't decide which dma-buf to put the packet into (it hasn't
-parsed the packet's destination yet).
+Notes:
+- I'm taking over this series as the original submitter is no longer
+  able to work on/test those patches.
+- Re-sending as I messed the1st attempt by not including the mailing
+  lists; sorry to those impacted by the noise
 
-> > When the process dies, that memory needs to be flushed from
-> > the H/W queues. Queues with interlaced submissions make that more
-> > complicated.
->
+Changes in v5:
+- Move changelogs out of commit messages.
+- Wrap comment/text lines around 80 chars.
 
-When the process dies, do we really want to flush the memory from the
-hardware queues? The drivers I looked at don't seem to have a function
-to flush the rx queues alone, they usually do an entire driver reset
-to achieve that. Not sure if that's just convenience or there is some
-technical limitation there. Do we really want  to trigger a driver
-reset at the event a userspace process crashes?
+Changes in v4:
+- Correct numeric order of the items in binding.
 
-> Agreed, one process, one control path socket.
->
-> FWIW the rtnetlink use of netlink is very basic. genetlink already has
-> some infra which allows associate state with a user socket and cleaning
-> it up when the socket gets closed. This needs some improvements. A bit
-> of a chicken and egg problem, I can't make the improvements until there
-> are families making use of it, and nobody will make use of it until
-> it's in tree... But the basics are already in place and I can help with
-> building it out.
->
+Changes in v3:
+- Embed the support into existing driver (panel-novatek-nt36672a), as
+  these two IC are similar with different initialization commands.
 
-I had this approach in mind (which doesn't need netlink improvements)
-for the next POC. It's mostly inspired by the comments from the cover
-letter of Jakub's memory-provider RFC, if I understood it correctly.
-I'm sure there's going to be some iteration, but roughly:
+Changes in v2:
+- Correct items order in Makefile and improve failure handling.
 
-1. A netlink CAP_NET_ADMIN API which binds the dma-buf to any number
-of rx queues on 1 NIC. It will do the dma_buf_attach() and
-dma_buf_map_attachment() and leave some indicator in the struct
-net_device to tell the NIC that it's bound to a dma-buf. The actual
-binding doesn't actuate until the next driver reset. The API, I guess,
-can cause a driver reset (or just a refill of the rx queues, if you
-think that's feasible) as well to streamline things a bit. The API
-returns a file handle to the user representing that binding.
+Molly Sophia (2):
+  dt-bindings: display: panel: Add Novatek NT35596S panel bindings
+  drm: panel: Add novatek nt35596s panel driver
 
-2. On the driver reset, the driver notices that its struct net_device
-is bound to a dma-buf, and sets up the dma-buf memory-provider instead
-of the basic one which provides host memory.
+ .../display/panel/novatek,nt36672a.yaml       |  21 +-
+ drivers/gpu/drm/panel/Kconfig                 |   7 +-
+ .../gpu/drm/panel/panel-novatek-nt36672a.c    | 251 ++++++++++++++++--
+ 3 files changed, 251 insertions(+), 28 deletions(-)
 
-3. The user can close the file handle received in #1 to unbind the
-dma-buf from the rx queues. Or if the user crashes, the kernel closes
-the handle for us. The unbind doesn't take effect until the next
-flushing or rx queues, or the next driver reset (not sure the former
-is feasible).
-
-4. The dma-buf memory provider keeps the dma buf mapping alive until
-the next driver reset, where all the dma-buf slices are freed, and the
-dma buf attachment mapping can be unmapped.
-
-I'm thinking the user sets up RSS and flow steering outside this API
-using existing ethtool APIs, but things can be streamlined a bit by
-doing some of these RSS/flow steering steps in cohesion with the
-dma-buf binding/unbinding. The complication with setting up flow
-steering in cohesion with dma-buf bind unbind is that the application
-may start more connections after the bind, and it will need to install
-flow steering rules for those too, and use the ethtool api for that.
-May as well use the ethtool apis for all of it...?
-
-From Jakub and David's comments it sounds (if I understood correctly),
-you'd like to tie the dma-buf bind/unbind functions to the lifetime of
-a netlink socket, rather than a struct file like I was thinking. That
-does sound cleaner, but I'm not sure how. Can you link me to any
-existing code examples? Or rough pointers to any existing code?
-
-> > I guess the devil is in the details; I look forward to the evolution of
-> > the patches.
->
-> +1
-
-
-
---=20
-Thanks,
-Mina
+-- 
+2.40.1
