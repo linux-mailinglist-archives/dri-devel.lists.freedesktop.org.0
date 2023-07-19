@@ -1,54 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17111759873
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 16:34:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5B9759874
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 16:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDB310E4BB;
-	Wed, 19 Jul 2023 14:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E41D610E07A;
+	Wed, 19 Jul 2023 14:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4490510E07A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 14:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689777264; x=1721313264;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=s1iD1p9R5LfOnp1gakxJokGfpaRqyiy9awXNAQXx9q8=;
- b=LxpBJeaSjQbTImqLFXgvcKenMAMUWk803bReN/rcJd3rkFNRwn/POSF0
- dweBWkN3PktW3vTEZtPLS3LMBwmriu8SOrsxUbj//odZ3qxC+XercGAPS
- SaKptNN2AYzPtg4JsKSe8SHZ0ZQAe1y8ytTbn+2l52ydAKw6qSohXVz5e
- tpCxoMK0ADjUDyG1gBpbqFWila391MQYU2+xTecfKjchjNQcLP1/UBpWF
- gcnaCG6RYYgI7SmRQZSugrb4bhX+12vCQq5apcxZrr2d+o4cNGc2hC1Lq
- yyS0ePNhUk/TMPxrlUDdaSGX2wGtvlr5QVBQKJANVyrwOiW4BUjn2h0b4 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="356434488"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; d="scan'208";a="356434488"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2023 07:34:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="724011747"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; d="scan'208";a="724011747"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 19 Jul 2023 07:34:18 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qM8Ft-00051W-1H;
- Wed, 19 Jul 2023 14:34:17 +0000
-Date: Wed, 19 Jul 2023 22:33:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/4] drm/tests: Add test for
- drm_framebuffer_check_src_coords()
-Message-ID: <202307192136.DPbcKMcd-lkp@intel.com>
-References: <20230718181726.3799-3-gcarlos@disroot.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0364E10E07A
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 14:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689777338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GW017PQkbwcyBZVSjL1eIJ3Tr23afBwEJMZO/sY3MB8=;
+ b=Bk+dk1mBEQJDTKuW9K8t8hp3CB+h01vAXtIZOhfUUaOwjhn9QZJr3CrmMjGOtTHDmM5KZW
+ vSQUlLA10dA9WKF3pWrhH871D3hn+/HeD7aooccGEqHBD5haE3RVpCeBrHeqIAGuJObE5/
+ sZCUoatdaCiRxEVTfL/SXBzjE87DKv8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-6FpXpiOyN2mTtm7ZdsjFUA-1; Wed, 19 Jul 2023 10:35:36 -0400
+X-MC-Unique: 6FpXpiOyN2mTtm7ZdsjFUA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3fc08d6a40cso39553655e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 07:35:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689777335; x=1690382135;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GW017PQkbwcyBZVSjL1eIJ3Tr23afBwEJMZO/sY3MB8=;
+ b=dE76GvftekICemlqYHkD0eo/deb5ddCzXvjK+rHHT36haUxPX9nz+CwCQXYjmI8DNv
+ K5shDaiVPWCNtVkE0sTzl2IzZvgjQrGATcl3NiN2BQy0AQp8kV1GR0WymqfsQUUMxD5O
+ qTt2y07G3EwCKM27V58FA8a7WvYoJvyhVvhFyb79YD/MzEKDfzxNsimzBgk4mcWvyQaJ
+ f67fwROIWYcXPBVMHdZ5IU/J6Le0W/fabrll136ZZWeQQhHjH2RuEolefpMubOVJDeBQ
+ SY5+brD6zZlcMZoAWVprRVPO2ylLXctql2+aRy8eMcKMemIPPIfu/LuaTTE0L9QexOR3
+ V6Lg==
+X-Gm-Message-State: ABy/qLbIOR7euueeoS52UWSMr4EeZm3Sf0BhIv4Nr0BScPFZP4wxeEq8
+ Q8yNcxys4QZwlsIHpmti+zv5ve2lw3op3AFaEZaWdL7RWWBOd+PmhM0PlZ2YA1Zh3YTFEaKg77r
+ sqxRsyqRRgHCYadp/PNK52e/1QIfN
+X-Received: by 2002:a05:600c:20f:b0:3fb:ab76:164b with SMTP id
+ 15-20020a05600c020f00b003fbab76164bmr2130589wmi.13.1689777335791; 
+ Wed, 19 Jul 2023 07:35:35 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGyN6MTy8oRS46HP6DzRqXrb5z9b00oXqiEwJ+r7OovxVf1XP/FK2uW1HDXjbNqEtS7mD81iA==
+X-Received: by 2002:a05:600c:20f:b0:3fb:ab76:164b with SMTP id
+ 15-20020a05600c020f00b003fbab76164bmr2130535wmi.13.1689777335451; 
+ Wed, 19 Jul 2023 07:35:35 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a7bc049000000b003fba6a0c881sm1798903wmc.43.2023.07.19.07.35.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 07:35:35 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v2 9/9] efi: move screen_info into efi init code
+In-Reply-To: <20230719123944.3438363-10-arnd@kernel.org>
+References: <20230719123944.3438363-1-arnd@kernel.org>
+ <20230719123944.3438363-10-arnd@kernel.org>
+Date: Wed, 19 Jul 2023 16:35:34 +0200
+Message-ID: <874jm0hsuh.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230718181726.3799-3-gcarlos@disroot.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +81,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrealmeid@igalia.com, davidgow@google.com, tales.aparecida@gmail.com,
- llvm@lists.linux.dev, Carlos Eduardo Gallo Filho <gcarlos@disroot.org>,
- mripard@kernel.org, mairacanal@riseup.net, tzimmermann@suse.de,
- oe-kbuild-all@lists.linux.dev, michal.winiarski@intel.com,
- arthurgrillo@riseup.net
+Cc: linux-hyperv@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
+ linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+ Will Deacon <will@kernel.org>, linux-efi@vger.kernel.org,
+ Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ WANG Xuerui <kernel@xen0n.name>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Huacai Chen <chenhuacai@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Deepak Rawat <drawat.floss@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, loongarch@lists.linux.dev,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Khalid Aziz <khalid@gonehiking.org>, Brian Cain <bcain@quicinc.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Dinh Nguyen <dinguyen@kernel.org>, linux-riscv@lists.infradead.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Carlos,
+Arnd Bergmann <arnd@kernel.org> writes:
 
-kernel test robot noticed the following build errors:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> After the vga console no longer relies on global screen_info, there are
+> only two remaining use cases:
+>
+>  - on the x86 architecture, it is used for multiple boot methods
+>    (bzImage, EFI, Xen, kexec) to commicate the initial VGA or framebuffer
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc2 next-20230719]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+communicate
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Carlos-Eduardo-Gallo-Filho/drm-Add-kernel-doc-for-drm_framebuffer_check_src_coords/20230719-022204
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230718181726.3799-3-gcarlos%40disroot.org
-patch subject: [PATCH v2 2/4] drm/tests: Add test for drm_framebuffer_check_src_coords()
-config: hexagon-randconfig-r041-20230718 (https://download.01.org/0day-ci/archive/20230719/202307192136.DPbcKMcd-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230719/202307192136.DPbcKMcd-lkp@intel.com/reproduce)
+>    settings to a number of device drivers.
+>
+>  - on other architectures, it is only used as part of the EFI stub,
+>    and only for the three sysfb framebuffers (simpledrm, simplefb, efifb).
+>
+> Remove the duplicate data structure definitions by moving it into the
+> efi-init.c file that sets it up initially for the EFI case, leaving x86
+> as an exception that retains its own definition for non-EFI boots.
+>
+> The added #ifdefs here are optional, I added them to further limit the
+> reach of screen_info to configurations that have at least one of the
+> users enabled.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307192136.DPbcKMcd-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "drm_framebuffer_check_src_coords" [drivers/gpu/drm/tests/drm_framebuffer_test.ko] undefined!
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
