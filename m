@@ -1,77 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A60C759DF9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:56:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E80ED759DFA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jul 2023 20:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD1110E4F1;
-	Wed, 19 Jul 2023 18:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5165710E4F2;
+	Wed, 19 Jul 2023 18:57:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5367310E4F1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689793011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FslhBD4l5T2qkRClAbGtLS/oR8F6Mx0QNWHGPPx2ZXc=;
- b=Ea9YwJpGpKst/zClR9iYWS+F73l7VcOKYedMHWuglmaQKMJdvvbRKOuTT/n9pbwSN9K6wk
- j3mypXlTFf78bh7KQbWWTZ3oGnr4g5VblgnsyGe8KFyU5ha3o9bYOd2oTW2rG6evaSuRDW
- hVdttayDeP75m/sHaVYhKoqsI9jfCsw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-60-Onm9CRbLPfaRTP-46mxG5w-1; Wed, 19 Jul 2023 14:56:50 -0400
-X-MC-Unique: Onm9CRbLPfaRTP-46mxG5w-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-315a03cae87so488615f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 11:56:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689793009; x=1690397809;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FslhBD4l5T2qkRClAbGtLS/oR8F6Mx0QNWHGPPx2ZXc=;
- b=jiCfzTF6mQCwRoapQ0+i1VAisWXVkD3SnvtcVCRjh94HIm7GiC0MsCcoZJadF1VGWM
- yy6JkAkQWbsUfgkoP0IkU2HslCwse3CyqMyM6W4jFkZTFisL89yeS++I8r24VEyE+8Pb
- QfiR3RoQGGJI2FvUpoDxoWWphUwFHKQfEMIUHrY3RsBXXcK8Uu+UhxQgj5PbexRc8IpL
- we314MWu8LlmS7BDHcPZH9IMq2agd/FebUdjjIW5vhGG76DUEJqi+VX1SPab+JW3BkjF
- 0TGBjb+oHJmN0VWfLAcQOXJv2WfVkMuy6QEX9cO4QcldbAc28EnxxizYpaxhXisu640D
- OT4A==
-X-Gm-Message-State: ABy/qLYE5hEo1jDeh6wfyDnmPUUGibTevjRlmwRVBl3KiWAWRbgduDp9
- mbdXFJUKBLpCtT7GTTeXo4dndA5ROhsC0a5O5VBCZtsiZOPa11bVJPNL/JCY60aOyPx42Mjf0UF
- 42SBTslFkp3ryECV6Ot+f7dWLfUG8
-X-Received: by 2002:a05:6000:1813:b0:30f:c050:88dd with SMTP id
- m19-20020a056000181300b0030fc05088ddmr735919wrh.8.1689793009136; 
- Wed, 19 Jul 2023 11:56:49 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGhFBq0y3+l95btRu979XI6LgGj62Asu0X0co6wuTkKKmz+b9NDsz2UvdgOLASIra+8Cr9Esw==
-X-Received: by 2002:a05:6000:1813:b0:30f:c050:88dd with SMTP id
- m19-20020a056000181300b0030fc05088ddmr735909wrh.8.1689793008883; 
- Wed, 19 Jul 2023 11:56:48 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k8-20020a7bc408000000b003fc01189b0dsm2321805wmi.42.2023.07.19.11.56.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Jul 2023 11:56:48 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-Subject: Re: [PATCH 04/11] drm/tests: probe-helper: Remove call to
- drm_kunit_helper_free_device()
-In-Reply-To: <20230710-kms-kunit-actions-rework-v1-4-722c58d72c72@kernel.org>
-References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
- <20230710-kms-kunit-actions-rework-v1-4-722c58d72c72@kernel.org>
-Date: Wed, 19 Jul 2023 20:56:48 +0200
-Message-ID: <87sf9jhgr3.fsf@minerva.mail-host-address-is-not-set>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6021510E4F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 18:57:06 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36JINV9D014385; Wed, 19 Jul 2023 18:56:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=u4Plk7blDTBNkVxxDGeUQXZ1eEoN8gNVZrwTkuX5Uh0=;
+ b=h16axxjQkZq0QAGyxN64nOvNR1Txhp3qeHYSP/4FnZe1nZv6srUjsc4xH/3mnDW+aHVx
+ icenmjz9R5sj+owP7e+qMcDhB79LP1cxVZJkqU+2eb6rRDyPi2qVnUMzHL5fIuq7CXQo
+ 5/YpRpZd5VEVLlaxCFiMSIOOyYJ2CkRLSOtXbLdWDIgki59OTPtlMKoCSVP6Y1envp6i
+ B6ofrblT/PhXmxC7HTVwmH9L4OH6QcHGEjnTurWf55Ky5KZCM8spGkAS4e4dZkzGmvas
+ Yumu/9EtOWfmRuOn6vHTF1KD/+uu2I7JaNUIxoOEZ5WboHvV3snqrFcw2j7nznZBALuk 1A== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rxg3v8ufs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jul 2023 18:56:57 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36JIuuKR003670
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Jul 2023 18:56:56 GMT
+Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 19 Jul
+ 2023 11:56:55 -0700
+Message-ID: <36775bbf-78aa-6d00-9dd3-ecdc4619e819@quicinc.com>
+Date: Wed, 19 Jul 2023 11:56:55 -0700
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel: r66451: select CONFIG_DRM_DISPLAY_DP_HELPER
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230719130940.659837-1-arnd@kernel.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230719130940.659837-1-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: T21iE2JSnpaUeIUB3cSDeBMNNQqdRBdB
+X-Proofpoint-ORIG-GUID: T21iE2JSnpaUeIUB3cSDeBMNNQqdRBdB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-19_13,2023-07-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ suspectscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2306200000 definitions=main-2307190171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,30 +83,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
 
-> Calling drm_kunit_helper_free_device() to clean up the resources
-> allocated by drm_kunit_helper_alloc_device() is now optional and not
-> needed in most cases.
->
-> Remove it.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+On 7/19/2023 6:09 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The newly added driver only builds when DRM_DISPLAY_DP_HELPER is enabled:
+> 
+> x86_64-linux-ld: drivers/gpu/drm/panel/panel-visionox-r66451.o: in function `visionox_r66451_enable':
+> panel-visionox-r66451.c:(.text+0x105): undefined reference to `drm_dsc_pps_payload_pack'
+> 
+> Select both CONFIG_DRM_DISPLAY_DP_HELPER and CONFIG_DRM_DISPLAY_HELPER to
+> ensure the helper function is always available.
+
+Hi Arnd,
+
+Thanks for catching this -- hadn't seen this issue due to DRM_MSM 
+selecting both configs already.
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+Thanks,
+
+Jessica Zhang
+
+> 
+> Fixes: a6dfab2738fc2 ("drm/panel: Add driver for Visionox r66451 panel")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-
-I wonder if makes sense to just squash 2-3 and this one as a single patch.
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+>   drivers/gpu/drm/panel/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 1a0fd0754692e..e8c9f4613a4b4 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -798,6 +798,8 @@ config DRM_PANEL_VISIONOX_R66451
+>   	depends on OF
+>   	depends on DRM_MIPI_DSI
+>   	depends on BACKLIGHT_CLASS_DEVICE
+> +	select DRM_DISPLAY_DP_HELPER
+> +	select DRM_DISPLAY_HELPER
+>   	help
+>   	  Say Y here if you want to enable support for Visionox
+>   	  R66451 1080x2340 AMOLED DSI panel.
+> -- 
+> 2.39.2
+> 
