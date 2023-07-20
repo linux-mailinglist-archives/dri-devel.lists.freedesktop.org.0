@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3F475B06F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 15:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341A275B071
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 15:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADB9710E5BE;
-	Thu, 20 Jul 2023 13:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14D310E5C6;
+	Thu, 20 Jul 2023 13:52:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACE0810E5BE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 13:52:28 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 33664E0012;
- Thu, 20 Jul 2023 13:52:25 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D69010E5C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 13:52:37 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76E7CC0002;
+ Thu, 20 Jul 2023 13:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1689861146;
+ t=1689861156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oQjwgP8NyAhjmDO+mDi8yi5oc9GjBls2NUUYZadye/k=;
- b=NOCwrt5yLMd025/qXCMrQZBKyitZGU/phqpgRJQmxaRbDcgwPdCM2gYvs5ya5Yc9vrgf8s
- d3lNaCv1ST9SGcmM1VJyDoemLKD4Xg3UoMTNwpHEuKcvH075SjTU9KVrNY8XcliymaB/LW
- vEcISNBI6flr0Q7dLuetw43OT0Q5Sgz4CxVTeTPQEgOtcazabOzO0EmQXZSYEfaLiYQvWT
- 7Zio2o1k3vgkAoHZiY+vTmR63m/rEYrD0D+9eDwc8T1fPI3/ys3pNgXgcHllQziEBBnEa7
- x1Xxx9zjzy70d0aIDj73JEH5lGovbNdz03mluByJxeWF6bm+BFbbVEEAy8j1dw==
-Date: Thu, 20 Jul 2023 15:52:23 +0200
+ bh=RuvPFmG9ZFC9+7jm4gOrOBVSo5fimZfSmfuIWCXVc4M=;
+ b=NuAnMN5XhRNe4iSNbCsbYt3hLB86U7IAdDLR5+sN2pLJfm5zbPooAJjyM21kk1I8uWBl6N
+ CVqu6vs+gBdjwlIlVNUyUFIvJInVpbLXGzLykm5UAD/ONGPOB793kBlx1V1fTiCoi01XWI
+ U229AiYkvY53eMQEmv4h6XoR183btcUiAkrpDQw1vQX/1Dpzv688BnyUQpg3TjBhEn1PgL
+ V/9vKN7Pv3HJK6XjZ9oOmJz/UzALITbXFCn8Kpkdib8tgxCsys/3qmG34sQgDPiQq72OXu
+ v/AflvuUodgUZ78BJkaNrk1zyFw6RCVSRt61RpAqd5dYUkL0iUHqD8zkfrVMfw==
+Date: Thu, 20 Jul 2023 15:52:33 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Subject: Re: [PATCH 2/3] dt-bindings: display: panel: Add panels based on
  ILITEK ILI9806E
-Message-ID: <20230720155223.7f4da41a@booty>
-In-Reply-To: <20230719-sizing-ribbon-9e62a4afb5f6@spud>
+Message-ID: <20230720155233.604cc5cc@booty>
+In-Reply-To: <a4ad14db-f3e6-a9a9-c7a9-b64bf2b3d33d@linaro.org>
 References: <20230719152147.355486-1-luca.ceresoli@bootlin.com>
  <20230719152147.355486-2-luca.ceresoli@bootlin.com>
- <20230719-sizing-ribbon-9e62a4afb5f6@spud>
+ <a4ad14db-f3e6-a9a9-c7a9-b64bf2b3d33d@linaro.org>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -66,93 +66,41 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Conor,
+Hello Krzysztof,
 
 thanks for reviewing.
 
-On Wed, 19 Jul 2023 17:44:45 +0100
-Conor Dooley <conor@kernel.org> wrote:
+On Wed, 19 Jul 2023 21:12:14 +0200
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-> Hey Luca,
-> 
-> On Wed, Jul 19, 2023 at 05:21:46PM +0200, Luca Ceresoli wrote:
+> On 19/07/2023 17:21, Luca Ceresoli wrote:
 > > Add bindings for LCD panels based on the ILITEK ILI9806E RGB controller
 > > connected over SPI and the "ShenZhen New Display Co NDS040480800-V3"
-> > 480x800 panel based on it.
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > ---
-> >  .../display/panel/ilitek,ili9806e.yaml        | 69 +++++++++++++++++++
-> >  MAINTAINERS                                   |  6 ++
-> >  2 files changed, 75 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > new file mode 100644
-> > index 000000000000..42abc6923065
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > @@ -0,0 +1,69 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/ilitek,ili9806e.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Ilitek ILI9806E display panels
-> > +
-> > +maintainers:
-> > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > +
-> > +description:
-> > +  This binding is for display panels using an Ilitek ILI9806E controller in
-> > +  SPI mode.  
+> > 480x800 panel based on it.  
 > 
-> I figure you explicitly mention SPI mode here because it also supports
-> D{P,S}I?
-
-Exactly, DSI is supported as well by the chip.
-
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          # ShenZhen New Display Co 3.97" 480x800 RGB a-SI TFT LCD
-> > +          - newdisplay,nds040480800-v3
-> > +      - const: ilitek,ili9806e
-> > +
-> > +  reg: true
-> > +  spi-max-frequency: true
-> > +  reset-gpios: true
-> > +  backlight: true
-> > +  port: true
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    backlight: backlight {
-> > +        compatible = "gpio-backlight";
-> > +        gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
-> > +    };
-> > +    spi {  
 > 
-> Just a nit, a blank line between properties please. Clearly no
-> respinning needed for that...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index aee340630eca..3c38699ee821 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -6515,6 +6515,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+> >  F:	Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+> >  F:	drivers/gpu/drm/tiny/ili9486.c
+> >  
+> > +DRM DRIVER FOR ILITEK ILI9806E PANELS
+> > +M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > +S:	Maintained
+> > +T:	git git://anongit.freedesktop.org/drm/drm-misc  
+> 
+> Nope, same for recent one-driver-subsystem. It's like a second try...
+> You do not have git tree for one driver. The git tree is for subsystem,
+> not driver.
 
-I agree. This comes from copy-paste from another bindings file so I'm
-probably sending a separate series to fix it and avoid the same issue
-in the future.
+I see, no problem, I'm removing the T: line in v2.
+
+As this came from copy-pasting another panel driver, should the T: line
+be removed from every "DRM DRIVER FOR * PANELS" entry? I could send a
+patch to do that, if that makes sense.
 
 Luca
 
