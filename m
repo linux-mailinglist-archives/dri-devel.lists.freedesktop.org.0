@@ -2,47 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F78E75B52B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 19:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799E975B544
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 19:11:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D2A10E5E6;
-	Thu, 20 Jul 2023 17:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4383210E5EB;
+	Thu, 20 Jul 2023 17:11:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76EA610E5E6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 17:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689872631; x=1721408631;
- h=date:from:to:cc:subject:message-id;
- bh=al7Jq507xzKvQQBzMtR7HnB3N/JyApoMHZ77mE46uNc=;
- b=DPSLXfqNS0sPcu+LOQYVilytC/RgIv3kfk7Vuh6Tn/EzVWgPulvggoU6
- +UD7z5kb0AJcSrdo7cx5Fusp44jf843celZjnJqhGo27raZRXp6dRmqBu
- z4/2cr8ka12prnc06gln67xWCBQacBEjeTzmboKjQcn8be6nZ0oKV50kG
- QGrU9lhXVuRCKl/TslSD7EaUFcLoitK4N6Y+fVx+Rzvq0ksfjsLAL8dha
- Lt+KTTfdfQ03kQ1syp99vSXGs0yrrkGyDaggmYTUXOCI2V4+JJgQOaXyW
- yf55Gj8kezYMzjzbxQQ928sBIz1bjeDCz6+3zGrrGYnC3Npd4NQKjz8t5 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="351687801"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="351687801"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 10:03:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="898379458"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="898379458"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 20 Jul 2023 10:03:15 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qMX3a-0006It-1J;
- Thu, 20 Jul 2023 17:03:14 +0000
-Date: Fri, 21 Jul 2023 01:02:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- c58c49dd89324b18a812762a2bfa5a0458e4f252
-Message-ID: <202307210113.e8lkxP09-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B7710E5E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 17:11:25 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4f95bf5c493so1653690e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 10:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689873084; x=1690477884;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bALuSQOEaIXV7+8g1kPlEIEXPY6havyGO8belxbKINE=;
+ b=QM+Bk2/Ep503vHxFU8hlMOEKrBdsf2QJ5ANYqnZh42ITGinI8GBXKbTrrxD6zGYeu7
+ 10HHp1LKK6rHEXKzoHqGBXXAWEAxt4Ql9azpLo33NnKNSX8fMH7WKRQZcyi0afkOapKl
+ Qoy7bPCufCiIvnbBN4bU82vxImNCcUOFdMJw9dlHTz92SQVN2eFmbkKJ7mSEyuQ1dss7
+ 3K4KQDTdz364IpO+9GYipvo4LE7O1z/0psgrMbi5h7gHfC1DEuXsUMdJ2nbeI4Z7q5m4
+ ZqFhplW+oC9hQKkgVZerbV72KjJPuu4ZYpGT+03zFJgiZ8tbBgZGlnJ9rTSjLae473Ud
+ 2WKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689873084; x=1690477884;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bALuSQOEaIXV7+8g1kPlEIEXPY6havyGO8belxbKINE=;
+ b=VqYrsCNLgiO3MtKgcPs9t0ay7nOphxvwH93LbXWNAH9FyIOjNiIm21Mg/Rz8UdgwRH
+ RjY4ncbqKIFdNhqvs4g41icpmhQhbj88k5JEfAFubsmfz2TLGvqmtxXZIqhu62uRWqNC
+ 3CI4r81ol6FFzEyFRSz/q2z5efr5LzRZf0dIbmAua57v6wrKVse621lrqLAONl/Cjbv+
+ lTiTLlRR2QdSDR1oX1wldHb4f8jq2yegx5EWJ739gSNuuY5Bfj+9lUsiBdozfRg8hD0e
+ eiuN/DZNjG+rgYBpzYMeGzAunuiIvhtpcWUL/TRCHWSXn1ICHRx7oDFUeipitcRDT82L
+ jmVg==
+X-Gm-Message-State: ABy/qLbtSmX3vUGI++cH3KXJPGKx78Ec34Nq2HDGmocdOIpDg/9mRV2h
+ ua/G9FxtIskNmQqk+9J++cpezQ==
+X-Google-Smtp-Source: APBJJlGOiKHsb1V0MVEKlaWuSBLsg+MjtKiZQvBXh+G+6GT0IskQ2rgyrt8zPoyO3+O22tAEZL2Zrw==
+X-Received: by 2002:a19:2d05:0:b0:4fa:5e76:7ad4 with SMTP id
+ k5-20020a192d05000000b004fa5e767ad4mr2564840lfj.10.1689873083816; 
+ Thu, 20 Jul 2023 10:11:23 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ r6-20020ac25a46000000b004fdc0023a50sm286045lfn.232.2023.07.20.10.11.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jul 2023 10:11:23 -0700 (PDT)
+Message-ID: <5f903395-9e5a-d4bc-067a-91256588c661@linaro.org>
+Date: Thu, 20 Jul 2023 20:11:22 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/msm: Check for the GPU IOMMU during bind
+To: Rob Clark <robdclark@gmail.com>
+References: <20230309222049.4180579-1-jorcrous@amazon.com>
+ <d73f6733-e605-0cf8-7909-8cced6e3b70d@linaro.org>
+ <CAF6AEGs89FRmFsENLkP-Dg1ZJN2LzCfxY2-+do9jH9b8L-XZxg@mail.gmail.com>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAF6AEGs89FRmFsENLkP-Dg1ZJN2LzCfxY2-+do9jH9b8L-XZxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,220 +79,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>, linux-iio@vger.kernel.org,
- linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Jordan Crouse <jorcrous@amazon.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ "Joel Fernandes \(Google\)" <joel@joelfernandes.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: c58c49dd89324b18a812762a2bfa5a0458e4f252  Add linux-next specific files for 20230720
+On 20/07/2023 18:52, Rob Clark wrote:
+> On Thu, Jul 6, 2023 at 11:55 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> On 10/03/2023 00:20, Jordan Crouse wrote:
+>>> While booting with amd,imageon on a headless target the GPU probe was
+>>> failing with -ENOSPC in get_pages() from msm_gem.c.
+>>>
+>>> Investigation showed that the driver was using the default 16MB VRAM
+>>> carveout because msm_use_mmu() was returning false since headless devices
+>>> use a dummy parent device. Avoid this by extending the existing is_a2xx
+>>> priv member to check the GPU IOMMU state on all platforms and use that
+>>> check in msm_use_mmu().
+>>>
+>>> This works for memory allocations but it doesn't prevent the VRAM carveout
+>>> from being created because that happens before we have a chance to check
+>>> the GPU IOMMU state in adreno_bind.
+>>>
+>>> There are a number of possible options to resolve this but none of them are
+>>> very clean. The easiest way is to likely specify vram=0 as module parameter
+>>> on headless devices so that the memory doesn't get wasted.
+>>
+>> This patch was on my plate for quite a while, please excuse me for
+>> taking it so long.
+>>
+>> I see the following problem with the current code. We have two different
+>> instances than can access memory: MDP/DPU and GPU. And each of them can
+>> either have or miss the MMU.
+>>
+>> For some time I toyed with the idea of determining whether the allocated
+>> BO is going to be used by display or by GPU, but then I abandoned it. We
+>> can have display BOs being filled by GPU, so handling it this way would
+>> complicate things a lot.
+> 
+> There is MSM_BO_SCANOUT .. but it wouldn't completely surprise me if
+> it isn't used in some place where it should somewhere or other.  But
+> that is the hint that contiguous allocation should be used if the
+> display doesn't support some sort of iommu.  (Using a GPU without some
+> sort of mmu/iommu isn't something sane to do.. the only reason the
+> support for that exists at all is to aid bringup.  I wouldn't call
+> that a "supported" configuration.)
+> 
+>> This actually rings a tiny bell in my head with the idea of splitting
+>> the display and GPU parts to two different drivers, but I'm not sure
+>> what would be the overall impact.
+> 
+> Userspace does have better support for split display/gpu these days
+> than it did when drm/msm was first merged.  It _might_ just work if
+> one device only advertised DRIVER_RENDER and the other
+> MODESET/ATOMIC.. but I'd be a bit concerned about breaking things.  I
+> guess you could try some sort of kconfig knob to have two "msm"
+> devices and see what breaks, but I'm a bit skeptical that we could
+> make this the default anytime soon.
 
-Error/Warning reports:
+Thanks. Yes, breaking userspace would be a bad thing. I do not know if 
+we should consider a single GPU+KMS driver to be an ABI and thus set in 
+stone.
 
-https://lore.kernel.org/oe-kbuild-all/202306260401.qZlYQpV2-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307160328.P79qWZoB-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307181450.sfbuvMf5-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307201439.A9MArfeq-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307202051.KikxDEX1-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202307210041.jT6femhS-lkp@intel.com
+> 
+> For now, just addressing the only-display and only-gpu cases
+> (continuing with the single device arrangement when you have both
+> display and gpu), maybe split up drm_dev_alloc() and drm_dev_init() so
+> that we could use drm_device::driver_features to mask out
+> DRIVER_RENDER if needed.
 
-Error/Warning: (recently discovered and may have been fixed)
+Yep. I'll continue following that path.
 
-../lib/gcc/loongarch64-linux/12.3.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
-drivers/mfd/max77541.c:176:18: warning: cast to smaller integer type 'enum max7754x_ids' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-drivers/regulator/max77857-regulator.c:312:16: error: initializer element is not a compile-time constant
-include/asm-generic/io.h:1137:20: error: static declaration of 'ioport_map' follows non-static declaration
-include/asm-generic/io.h:1147:22: error: static declaration of 'ioport_unmap' follows non-static declaration
-include/asm-generic/io.h:636:15: error: redefinition of 'inb_p'
-include/asm-generic/io.h:644:15: error: redefinition of 'inw_p'
-include/asm-generic/io.h:652:15: error: redefinition of 'inl_p'
-include/asm-generic/io.h:660:16: error: redefinition of 'outb_p'
-include/asm-generic/io.h:668:16: error: redefinition of 'outw_p'
-include/asm-generic/io.h:676:16: error: redefinition of 'outl_p'
-include/asm-generic/io.h:689:14: error: redefinition of 'insb'
-include/asm-generic/io.h:697:14: error: redefinition of 'insw'
-include/asm-generic/io.h:705:14: error: redefinition of 'insl'
-include/asm-generic/io.h:713:15: error: redefinition of 'outsb'
-include/asm-generic/io.h:722:15: error: redefinition of 'outsw'
-include/asm-generic/io.h:731:15: error: redefinition of 'outsl'
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/gpu/drm/tests/drm_exec_test.c:137 test_prepare_array() error: uninitialized symbol 'ret'.
-drivers/regulator/max77857-regulator.c:428:28: sparse: sparse: symbol 'max77857_id' was not declared. Should it be static?
-drivers/regulator/max77857-regulator.c:446:19: sparse: sparse: symbol 'max77857_driver' was not declared. Should it be static?
-drivers/regulator/max77857-regulator.c:70:22: sparse: sparse: symbol 'max77857_regmap_config' was not declared. Should it be static?
-mm/khugepaged.c:2137 collapse_file() warn: variable dereferenced before check 'cc' (see line 1787)
-net/wireless/scan.c:373 cfg80211_gen_new_ie() warn: potential spectre issue 'sub->data' [r]
-net/wireless/scan.c:397 cfg80211_gen_new_ie() warn: possible spectre second half.  'ext_id'
-{standard input}:13: Error: symbol `__export_symbol_alpha_mv' is already defined
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-randconfig-r025-20230720
-|   `-- standard-input:Error:symbol-__export_symbol_alpha_mv-is-already-defined
-|-- arc-randconfig-r083-20230720
-|   |-- drivers-gpu-drm-loongson-lsdc_benchmark.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-void-kptr
-|   `-- drivers-gpu-drm-loongson-lsdc_benchmark.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-volatile-noderef-__iomem-addr-got-void-kptr
-|-- arc-randconfig-r093-20230720
-|   |-- drivers-iio-adc-max14001.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-__be16-usertype-spi_tx_buffer-got-int
-|   `-- drivers-iio-adc-max14001.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-unsigned-short-usertype-__x-got-restricted-__be16-usertype
-|-- arm-randconfig-r091-20230720
-|   |-- drivers-regulator-max77857-regulator.c:sparse:sparse:symbol-max77857_driver-was-not-declared.-Should-it-be-static
-|   |-- drivers-regulator-max77857-regulator.c:sparse:sparse:symbol-max77857_id-was-not-declared.-Should-it-be-static
-|   `-- drivers-regulator-max77857-regulator.c:sparse:sparse:symbol-max77857_regmap_config-was-not-declared.-Should-it-be-static
-|-- i386-randconfig-m021-20230720
-|   `-- mm-khugepaged.c-collapse_file()-warn:variable-dereferenced-before-check-cc-(see-line-)
-|-- loongarch-randconfig-r001-20230720
-|   `-- lib-gcc-loongarch64-linux-..-plugin-include-config-loongarch-loongarch-opts.h:fatal-error:loongarch-def.h:No-such-file-or-directory
-|-- parisc-randconfig-m041-20230720
-|   |-- drivers-gpu-drm-tests-drm_exec_test.c-test_prepare_array()-error:uninitialized-symbol-ret-.
-|   |-- net-wireless-scan.c-cfg80211_gen_new_ie()-warn:possible-spectre-second-half.-ext_id
-|   `-- net-wireless-scan.c-cfg80211_gen_new_ie()-warn:potential-spectre-issue-sub-data-r
-|-- sh-randconfig-r083-20230720
-|   |-- include-asm-generic-io.h:error:redefinition-of-inb_p
-|   |-- include-asm-generic-io.h:error:redefinition-of-inl_p
-|   |-- include-asm-generic-io.h:error:redefinition-of-insb
-|   |-- include-asm-generic-io.h:error:redefinition-of-insl
-|   |-- include-asm-generic-io.h:error:redefinition-of-insw
-|   |-- include-asm-generic-io.h:error:redefinition-of-inw_p
-|   |-- include-asm-generic-io.h:error:redefinition-of-outb_p
-|   |-- include-asm-generic-io.h:error:redefinition-of-outl_p
-|   |-- include-asm-generic-io.h:error:redefinition-of-outsb
-|   |-- include-asm-generic-io.h:error:redefinition-of-outsl
-|   |-- include-asm-generic-io.h:error:redefinition-of-outsw
-|   |-- include-asm-generic-io.h:error:redefinition-of-outw_p
-|   |-- include-asm-generic-io.h:error:static-declaration-of-ioport_map-follows-non-static-declaration
-|   `-- include-asm-generic-io.h:error:static-declaration-of-ioport_unmap-follows-non-static-declaration
-`-- x86_64-randconfig-m001-20230720
-    `-- mm-khugepaged.c-collapse_file()-warn:variable-dereferenced-before-check-cc-(see-line-)
-clang_recent_errors
-|-- hexagon-randconfig-r004-20230720
-|   `-- drivers-regulator-max77857-regulator.c:error:initializer-element-is-not-a-compile-time-constant
-|-- hexagon-randconfig-r021-20230720
-|   `-- drivers-regulator-max77857-regulator.c:error:initializer-element-is-not-a-compile-time-constant
-`-- riscv-randconfig-r042-20230720
-    `-- drivers-mfd-max77541.c:warning:cast-to-smaller-integer-type-enum-max7754x_ids-from-const-void
-
-elapsed time: 726m
-
-configs tested: 110
-configs skipped: 6
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r022-20230720   gcc  
-alpha                randconfig-r025-20230720   gcc  
-alpha                randconfig-r031-20230720   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs101_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230720   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         assabet_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                      footbridge_defconfig   gcc  
-arm                  randconfig-r012-20230720   gcc  
-arm                  randconfig-r034-20230720   clang
-arm                  randconfig-r046-20230720   gcc  
-arm                        vexpress_defconfig   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r033-20230720   gcc  
-hexagon              randconfig-r004-20230720   clang
-hexagon              randconfig-r021-20230720   clang
-hexagon              randconfig-r041-20230720   clang
-hexagon              randconfig-r045-20230720   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230720   gcc  
-i386         buildonly-randconfig-r005-20230720   gcc  
-i386         buildonly-randconfig-r006-20230720   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230720   gcc  
-i386                 randconfig-i002-20230720   gcc  
-i386                 randconfig-i003-20230720   gcc  
-i386                 randconfig-i004-20230720   gcc  
-i386                 randconfig-i011-20230720   clang
-i386                 randconfig-i012-20230720   clang
-i386                 randconfig-i013-20230720   clang
-i386                 randconfig-i014-20230720   clang
-i386                 randconfig-i015-20230720   clang
-i386                 randconfig-i016-20230720   clang
-i386                 randconfig-r002-20230720   gcc  
-i386                 randconfig-r011-20230720   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-loongarch            randconfig-r001-20230720   gcc  
-loongarch            randconfig-r023-20230720   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r035-20230720   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                     cu1000-neo_defconfig   clang
-mips                           jazz_defconfig   gcc  
-mips                  maltasmvp_eva_defconfig   gcc  
-mips                         rt305x_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r005-20230720   gcc  
-nios2                randconfig-r013-20230720   gcc  
-openrisc             randconfig-r003-20230720   gcc  
-openrisc             randconfig-r006-20230720   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                      makalu_defconfig   gcc  
-powerpc                     mpc83xx_defconfig   gcc  
-powerpc                      ppc44x_defconfig   clang
-powerpc                     skiroot_defconfig   clang
-powerpc                     tqm8555_defconfig   gcc  
-powerpc                      walnut_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230720   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r015-20230720   clang
-s390                 randconfig-r044-20230720   clang
-sh                               allmodconfig   gcc  
-sh                             espt_defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                      rts7751r2d1_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230720   gcc  
-x86_64       buildonly-randconfig-r002-20230720   gcc  
-x86_64       buildonly-randconfig-r003-20230720   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r014-20230720   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                       common_defconfig   gcc  
-xtensa               randconfig-r036-20230720   gcc  
+> 
+> BR,
+> -R
+> 
+>> More on the msm_use_mmu() below.
+>>
+>>>
+>>> Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
+>>> ---
+>>>
+>>>    drivers/gpu/drm/msm/adreno/adreno_device.c | 6 +++++-
+>>>    drivers/gpu/drm/msm/msm_drv.c              | 7 +++----
+>>>    drivers/gpu/drm/msm/msm_drv.h              | 2 +-
+>>>    3 files changed, 9 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>> index 36f062c7582f..4f19da28f80f 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>> @@ -539,7 +539,11 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+>>>        DBG("Found GPU: %u.%u.%u.%u", config.rev.core, config.rev.major,
+>>>                config.rev.minor, config.rev.patchid);
+>>>
+>>> -     priv->is_a2xx = config.rev.core == 2;
+>>> +     /*
+>>> +      * A2xx has a built in IOMMU and all other IOMMU enabled targets will
+>>> +      * have an ARM IOMMU attached
+>>> +      */
+>>> +     priv->has_gpu_iommu = config.rev.core == 2 || device_iommu_mapped(dev);
+>>>        priv->has_cached_coherent = config.rev.core >= 6;
+>>>
+>>>        gpu = info->init(drm);
+>>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+>>> index aca48c868c14..a125a351ec90 100644
+>>> --- a/drivers/gpu/drm/msm/msm_drv.c
+>>> +++ b/drivers/gpu/drm/msm/msm_drv.c
+>>> @@ -318,11 +318,10 @@ bool msm_use_mmu(struct drm_device *dev)
+>>>        struct msm_drm_private *priv = dev->dev_private;
+>>>
+>>>        /*
+>>> -      * a2xx comes with its own MMU
+>>> -      * On other platforms IOMMU can be declared specified either for the
+>>> -      * MDP/DPU device or for its parent, MDSS device.
+>>> +      * Return true if the GPU or the MDP/DPU or parent MDSS device has an
+>>> +      * IOMMU
+>>>         */
+>>> -     return priv->is_a2xx ||
+>>> +     return priv->has_gpu_iommu ||
+>>>                device_iommu_mapped(dev->dev) ||
+>>>                device_iommu_mapped(dev->dev->parent);
+>>
+>> I have a generic feeling that both old an new code is not fully correct.
+>> Please correct me if I'm wrong:
+>>
+>> We should be using VRAM, if either of the blocks can not use remapped
+>> memory. So this should have been:
+>>
+>> bool msm_use_mmu()
+>> {
+>>    if (!gpu_has_iommu)
+>>      return false;
+>>
+>>    if (have_display_part && !display_has_mmu())
+>>      return false;
+>>
+>>    return true;
+>> }
+>>
+>> What do you think.
+>>
+>>>    }
+>>> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+>>> index 9f0c184b02a0..f33f94acd1b9 100644
+>>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>>> @@ -126,7 +126,7 @@ struct msm_drm_private {
+>>>        struct msm_gpu *gpu;
+>>>
+>>>        /* gpu is only set on open(), but we need this info earlier */
+>>> -     bool is_a2xx;
+>>> +     bool has_gpu_iommu;
+>>>        bool has_cached_coherent;
+>>>
+>>>        struct drm_fb_helper *fbdev;
+>>
+>> --
+>> With best wishes
+>> Dmitry
+>>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With best wishes
+Dmitry
+
