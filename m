@@ -1,70 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3951A75A86C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 09:58:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF99A75A8FC
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 10:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A5C10E576;
-	Thu, 20 Jul 2023 07:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E106310E577;
+	Thu, 20 Jul 2023 08:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79B7510E574
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 07:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689839907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=rBsqY2ARWfqTa1dHwVMnq2zequY3dOjM13Ekx3jcS5Y=;
- b=KzFMeiYnAOxBuNZyg/aStbNvm22kOYBzUv93Gh6jwCpdWNZpt7tvIwC7lDAcaDKUJOAXNg
- RLxIsP08qOsz274DzDEs7kB96Hd5vysOn60e1f2+jX/23fcaIDs2a92/+yGkCgzMBIvwdZ
- FH9nHmJvHsY4gBdw/BGffX4QnVarLeM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-M0G4fJBFOFOzI6hd8KWQIw-1; Thu, 20 Jul 2023 03:58:25 -0400
-X-MC-Unique: M0G4fJBFOFOzI6hd8KWQIw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3113da8b778so310525f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 00:58:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689839904; x=1690444704;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rBsqY2ARWfqTa1dHwVMnq2zequY3dOjM13Ekx3jcS5Y=;
- b=cTz/drGgbTYY8Pb1FCDqNf/3RLJC9tVeDR/HEfLvnRDQPIj4GuMzrJn/LvgZnmv48M
- DwCEUzpZBYEcl+kEQaA6XefvM1qXzfxhLXgq8hKkk2ASW86zrOADLsi/tZTx2wWsJ84y
- XeZxbFfrvvZdZ87pxZeQgk8j0UDCEF4gMSu0TziCelMNU1ew6HiuXxAZFF+OxnSz1OcM
- c5a07opdySKWkQJ9iEWfOvJwuP/ZtEs8N4n2QD5uciEDvPXiSP1wuDaMQNDwKki9Abpj
- PUYGJ0pU7D09cG/xFpDRq38m2bvFBcfY5mxqccpIyR5wTsP6crDOnfk6NPKja2rxUI9U
- 17Tg==
-X-Gm-Message-State: ABy/qLbKRqGOloykKOMH0jxZpepfPbBVNwAnkNrqKuyUEWerhigHcWe9
- lN1W03hXl4dA10zvj0nf98sWY1l5UQum7VxH5TMW8NzQrZYfi5UEfZBH37L+Xp3Z2ZgREf0XjTL
- Dj/OCLVXRbXI/pP8uXZePI78k8YS0
-X-Received: by 2002:a5d:4902:0:b0:313:e6fa:fae4 with SMTP id
- x2-20020a5d4902000000b00313e6fafae4mr1581775wrq.38.1689839904699; 
- Thu, 20 Jul 2023 00:58:24 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFKY9K36OMmmTRHeqT/hY4MtBLJ5HwtGaAPFPVDaWTc0bd4nxmxiFwWmGRYfffQNx6RmOVACw==
-X-Received: by 2002:a5d:4902:0:b0:313:e6fa:fae4 with SMTP id
- x2-20020a5d4902000000b00313e6fafae4mr1581761wrq.38.1689839904400; 
- Thu, 20 Jul 2023 00:58:24 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- j16-20020adfea50000000b0031424f4ef1dsm534302wrn.19.2023.07.20.00.58.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jul 2023 00:58:23 -0700 (PDT)
-Date: Thu, 20 Jul 2023 09:58:23 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <fmj5nok7zggux2lcpdtls2iknweba54wfc6o4zxq6i6s3dgi2r@7z3eawwhyhen>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C839810E577
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 08:19:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A8222618F3;
+ Thu, 20 Jul 2023 08:19:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2BD2C433C7;
+ Thu, 20 Jul 2023 08:19:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689841186;
+ bh=LEYRH+AJ/QqdSK5qdoAlO00DoSaMelRgW8AFErE1MqE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tkGb3cahMC7LB2H4YhamM4rwXjT8oJnHeRpVVyueojgXJW2B0DxyZGpDIy8pCt/+0
+ DhLLw14nWEq8C8m4VR7xc2QLw/NFydVyQI8MqaVgwGoFNijBX3cWN1DMPqw5FwO/tn
+ iqic0Mu2YdC4Qh+ZadX0Nj95QGhMKrYm7cdfXoptZqJXQQtBcN4HEFH04Otehm0BFe
+ L9AOEAG38wLrpgt2rKv5z4hcgZU0acFJLnJuNCgK/xRREAYY75WURrHLnqgk5BQMnC
+ saimZORIo2QFx/q5sx7q+OlCtwEjQ0f1qvquAxirFrq3OP3HlBD6gtKki+R5wA8QtX
+ HZK43uGtPhlew==
+Date: Thu, 20 Jul 2023 10:19:43 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: suijingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH 00/11] drm: kunit: Switch to kunit actions
+Message-ID: <niypycsz25r4ywlxeula3cc3padis74hr5gbr2rjw4hrxag7my@f55p7c3unf7o>
+References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
+ <6a92cbb7-e98b-e93c-6e62-ceddd0dfbc06@loongson.cn>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sydt4qtivjifpf3g"
+ protocol="application/pgp-signature"; boundary="7kqetfm2msju6b5l"
 Content-Disposition: inline
+In-Reply-To: <6a92cbb7-e98b-e93c-6e62-ceddd0dfbc06@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,87 +54,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---sydt4qtivjifpf3g
-Content-Type: text/plain; charset=iso-8859-1
+--7kqetfm2msju6b5l
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Here's this week drm-misc-fixes PR
+On Mon, Jul 17, 2023 at 11:24:13PM +0800, suijingfeng wrote:
+> On 2023/7/10 15:47, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Since v6.5-rc1, kunit gained a devm/drmm-like mechanism that makes tests
+> > resources much easier to cleanup.
+> >=20
+> > This series converts the existing tests to use those new actions were
+> > relevant.
+>=20
+> Is the word 'were' here means that 'where' relevant ?
 
+Yes :)
+
+> Or it is means that it were relevant, after applied you patch it is not
+> relevant anymore ?
+>=20
+> > Let me know what you think,
+> > Maxime
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> > Maxime Ripard (11):
+> >        drm/tests: helpers: Switch to kunit actions
+> >        drm/tests: client-modeset: Remove call to drm_kunit_helper_free_=
+device()
+> >        drm/tests: modes: Remove call to drm_kunit_helper_free_device()
+> >        drm/tests: probe-helper: Remove call to drm_kunit_helper_free_de=
+vice()
+> >        drm/tests: helpers: Create an helper to allocate a locking ctx
+> >        drm/tests: helpers: Create an helper to allocate an atomic state
+>=20
+> a helper or an helper ?
+>=20
+> Should this two patch be re-titled as following ?
+>=20
+> I search it on the internet[1], mostly using a helper.
+>=20
+>=20
+>       drm/tests: helpers: Create a helper to allocate a locking ctx
+>       drm/tests: helpers: Create a helper to allocate an atomic state
+>=20
+> [1] https://www.a-or-an.com/a_an/helper
+>=20
+> Sorry about the noise if I'm wrong.
+
+You're right, I'll fix it
+
+Thanks!
 Maxime
 
-drm-misc-fixes-2023-07-20:
-Memory leak fixes in drm/client, memory access/leak fixes for
-accel/qaic, another leak fix in dma-buf and three nouveau fixes around
-hotplugging.
-The following changes since commit 835a65f51790e1f72b1ab106ec89db9ac15b47d6:
-
-  drm/nouveau: bring back blit subchannel for pre nv50 GPUs (2023-07-12 22:=
-38:41 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-07-20
-
-for you to fetch changes up to ea293f823a8805735d9e00124df81a8f448ed1ae:
-
-  drm/nouveau/kms/nv50-: init hpd_irq_lock for PIOR DP (2023-07-19 11:08:47=
- +0200)
-
-----------------------------------------------------------------
-Memory leak fixes in drm/client, memory access/leak fixes for
-accel/qaic, another leak fix in dma-buf and three nouveau fixes around
-hotplugging.
-
-----------------------------------------------------------------
-Ben Skeggs (3):
-      drm/nouveau/i2c: fix number of aux event slots
-      drm/nouveau/disp: PIOR DP uses GPIO for HPD, not PMGR AUX interrupts
-      drm/nouveau/kms/nv50-: init hpd_irq_lock for PIOR DP
-
-Dan Carpenter (4):
-      accel/qaic: tighten bounds checking in encode_message()
-      accel/qaic: tighten bounds checking in decode_message()
-      accel/qaic: Add consistent integer overflow checks
-      accel/qaic: Fix a leak in map_user_pages()
-
-Jocelyn Falempe (2):
-      drm/client: Fix memory leak in drm_client_target_cloned
-      drm/client: Fix memory leak in drm_client_modeset_probe
-
-Ville Syrj=E4l=E4 (1):
-      dma-buf/dma-resv: Stop leaking on krealloc() failure
-
- drivers/accel/qaic/qaic_control.c                 | 39 +++++++++++++++----=
-----
- drivers/dma-buf/dma-resv.c                        | 13 +++++---
- drivers/gpu/drm/drm_client_modeset.c              |  6 ++++
- drivers/gpu/drm/nouveau/dispnv50/disp.c           |  4 +++
- drivers/gpu/drm/nouveau/include/nvkm/subdev/i2c.h |  4 +--
- drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c  | 27 ++++++++++------
- drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c    | 11 +++++--
- 7 files changed, 73 insertions(+), 31 deletions(-)
-
---sydt4qtivjifpf3g
+--7kqetfm2msju6b5l
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLjpHwAKCRDj7w1vZxhR
-xciZAQCW5/Ou+y/wvw0UokZBa5THjAMoHIv70GbQIvTtMOf0egD/fXpuWCUOXCf7
-r2BatfjEqzyf2zrCPiL+ZFJjmzX6Tg0=
-=9ZZy
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLjuHwAKCRDj7w1vZxhR
+xVLCAQDoNdtlkn5fkt9mcb8tWL1g65x5JVr74/QUKDCaIFJE2QD+KS/NvTymDxRR
+OMve6TqPr0ZuQfx3+b4y1NYS9yX6cgc=
+=jZNm
 -----END PGP SIGNATURE-----
 
---sydt4qtivjifpf3g--
-
+--7kqetfm2msju6b5l--
