@@ -1,54 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BBA75B175
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 16:45:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A444375B1F6
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:03:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9ED10E140;
-	Thu, 20 Jul 2023 14:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E5E10E148;
+	Thu, 20 Jul 2023 15:03:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CB810E140;
- Thu, 20 Jul 2023 14:45:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689864305; x=1721400305;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hwj0jhrpn4klfGKgURR6uYABhzZIboUztoGIE27jbPE=;
- b=b7YuoNbkIXAxNcIAKhXhIYb0hsYslifcnogfPQMyft2WxKnZBEElFppF
- fR4M2WrLT66wrh+5r+P6Xbe2mGmHAvioSrQ07AjybQycKSqNrDAZ3ka+z
- uk83i9BXfW2236uEADCOHujUNvm+moWzWHVqcWFy3WIb6XEMrduYG45HB
- 2G4REFZ5e1w2cZNwExodytiATqIk+Z+XpR+XhzZ0/RhG6Xuac8zlFLMMy
- PwVcE6QSJ7Qmg3ZyQDLow8bFDFF/6oZzLEfC0pgJH2kard8dRXe8v8YQQ
- 37D3A5Z3euCniHkKgcls5yMvUDBh+YKOPFpYrOshEc37rboU39pC148I4 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346348469"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="346348469"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 07:44:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="724410825"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="724410825"
-Received: from sdene1-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.32.238])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 07:44:41 -0700
-Date: Thu, 20 Jul 2023 16:44:39 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH v6 6/9] drm/i915/gt: Ensure memory quiesced before
- invalidation for all engines
-Message-ID: <ZLlIVyzuYNvIZTBo@ashyti-mobl2.lan>
-References: <20230719110729.618733-1-andi.shyti@linux.intel.com>
- <20230719110729.618733-7-andi.shyti@linux.intel.com>
- <2d2841c6-af08-ac8d-2c90-e4282c6def99@intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D83710E148
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 15:03:52 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-314172bac25so731127f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 08:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689865431; x=1690470231; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yk0+OfIBVrjxdxyJzd6k7bKe62s4LYJUT+/V2wesyK4=;
+ b=HvrixRAIL67I2qRJlTd4cc4z9glJkuSXOv1aDPxuTIHyLZ5BSGbNepxqA3n9t43KgE
+ LBNT82RTszenAssbCx8M1uPIjpd0Ga+VOzLnq6OyFtAzpVQFfyqIHXafX3CHjQQEd+NS
+ VWcHimCa5DPA9BQDKkPGcgLs1H3rql+tVoNrRRc5mvp+uIQi1VNB+fldBjbuDabP6L+Y
+ 8dYfAF9ew641dJCCXIANGFdLugHY2oxVXI2bFgK7ZyX3PbaFwNVP35RxC7uFNQ9jBQt1
+ UR5uKK+kQodIL8dGRKlnO40omGFnZ3LRz/tJ6pX+75Kh1+xxemuvvap0HTtLYhqILSpR
+ v0Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689865431; x=1690470231;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yk0+OfIBVrjxdxyJzd6k7bKe62s4LYJUT+/V2wesyK4=;
+ b=Hu7Iw0/1fT052T+2jAwqzLrn6PKeDHgPPdD9i1MbIVhBNA8qurg0BWtbWdtPvDsnk4
+ mWrXWoLU8rPxuETuqb2w0jrzeNoRLi8y6VdM3u+ejVxlF86Hkm5m7B1tDZGP+rZrSvfV
+ RAXlXEeT/6c7J37/8KacjyWon+EmDXvLWgeEo/fFVJ/4KkUs6yffPE5BB39MuzvIBedr
+ a0vfWXYfMGxHliIRo0cXtIY9g/br2Q2iooIJmjTmUvq0hVCNieWgYnoK72fVzANJLVOn
+ jUFenHCCKXVrkomI8hUmtLPcHiHMdrHmFg7CNT6CqSYXxkP+/fStzg643CA3FQHIXpQs
+ mjig==
+X-Gm-Message-State: ABy/qLa4TRMSMQ3sduDPZoFEG4HPP8hIk+RXLbDRLTTp4ElhyTYBJTVw
+ Vl0H/KG9YoECsGWNTMLtbEklIA==
+X-Google-Smtp-Source: APBJJlEnxpnc6Eg6VtavPczW2DTVI9oBNtJTq6mn0UUWeRqPv/nKBvuumDIPWZPdrtpXnWvrphAq/Q==
+X-Received: by 2002:a5d:4c4b:0:b0:314:1f1e:3a85 with SMTP id
+ n11-20020a5d4c4b000000b003141f1e3a85mr2051958wrt.61.1689865430880; 
+ Thu, 20 Jul 2023 08:03:50 -0700 (PDT)
+Received: from [10.1.3.59] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31]) by smtp.gmail.com with ESMTPSA id
+ n12-20020a5d6b8c000000b003143c6e09ccsm1589783wrx.16.2023.07.20.08.03.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jul 2023 08:03:50 -0700 (PDT)
+Message-ID: <a3502c0b-d0e8-9166-b6b4-8f40650636c7@baylibre.com>
+Date: Thu, 20 Jul 2023 17:03:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2d2841c6-af08-ac8d-2c90-e4282c6def99@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 10/11] drm/mediatek: dp: Add .wait_hpd_asserted() for
+ AUX bus
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
+ <20230717141438.274419-11-angelogioacchino.delregno@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20230717141438.274419-11-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +79,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>
+Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nirmoy,
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
->     +       if (aux_inv) {
->     +               u32 bit_group_0 = 0;
->     +               u32 bit_group_1 = 0;
->     +
->     +               cmd += 4;
->     +
->     +               bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
->     +
->     +               switch (rq->engine->class) {
->     +               case VIDEO_DECODE_CLASS:
->     +                       bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
->     +                       bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
->     +                       bit_group_1 |= PIPE_CONTROL_DC_FLUSH_ENABLE;
->     +                       bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
->     +                       bit_group_1 |= PIPE_CONTROL_CS_STALL;
->     +
->     +                       intel_emit_pipe_control_cs(rq, bit_group_0, bit_group_1,
->     +                                                  LRC_PPHWSP_SCRATCH_ADDR);
+On 17/07/2023 16:14, AngeloGioacchino Del Regno wrote:
+> In order to support usecases in which the panel regulator can be
+> switched on and off to save power, and usecases in which the panel
+> regulator is off at boot, add a .wait_hpd_asserted() callback for
+> the AUX bus: this will make sure to wait until the panel is fully
+> ready after power-on before trying to communicate with it.
 > 
+> Also, parse the eDP display capabilities in that callback, so that
+> we can also avoid using the .get_edid() callback from this bridge.
 > 
-> I think pipe control is only for compute and render engines.
-> 
->     +
->     +                       break;
->     +
->     +               case VIDEO_ENHANCEMENT_CLASS:
->     +               case COMPUTE_CLASS:
-> 
-> Don't think gen12_emit_flush_xcs() will get called for compute engine.
-> 
-> intel_guc_submission_setup() --> rcs_submission_override() replaces
-> gen12_emit_flush_xcs() with gen12_emit_flush_rcs()
-> 
-> for compute and render.
+> Since at this point the hpd machinery is performed in the new hpd
+> callback and the detection and edid reading are done outside of
+> this driver, assign the DRM_BRIDGE_OP_{DETECT, EDID, HPD} ops and
+> register the bridge unconditionally at probe time only if we are
+> probing full DisplayPort and not eDP while, for the latter, we
+> register the bridge in the .done_probing() callback and only if
+> the panel was found and triggered HPD.
 
-yes, I made some confusion here... this part is bogus... will try
-to clean things up and try again.
-
-Andi
+-- 
+Regards,
+Alexandre
