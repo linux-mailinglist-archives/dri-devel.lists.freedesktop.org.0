@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEED275AB77
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 11:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 332BF75AB7D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 11:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310CC10E585;
-	Thu, 20 Jul 2023 09:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D4910E0C0;
+	Thu, 20 Jul 2023 09:55:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C585910E585
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 09:52:05 +0000 (UTC)
-Date: Thu, 20 Jul 2023 09:51:45 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8717A10E0C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 09:55:05 +0000 (UTC)
+Date: Thu, 20 Jul 2023 09:54:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1689846723; x=1690105923;
- bh=4mHA0SaBqc6+geJCIajLrBL3H1kzHPaU609c3gFAKUk=;
+ s=protonmail2; t=1689846903; x=1690106103;
+ bh=lJQ3xlZHNyHV1pm3R41CKd2Oxp2EM768wCQcPy40TFY=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector;
- b=pZvpOIaOE9i5/edOBrD/ljNeRp93lihE6er6XwfI6/aImFGBBtBBM4HK31bMk8aPn
- ZbNUg/Az5XdEb0qTt4E9nYb904QHgFhonrIdwPCkrHpd+kLfdddlWuLEsWAHsphwA4
- tn3G+psJI8CL5KXg2tauePnyW463EmzYqIJBk1Nt3sNzKsRhq8un3qubnHqyzzYmI3
- C4OaN1HGfQbSfzb3oEF7c7IM/UUM996GhJrAhTvuWT1NvSX8ZIUe2P+MvEp1G9eAK0
- 1UZF+RZWKTpmEw5ASIhCOBOJlEenxw60TokqTTy/2TF1G8Nubv8LYkGC6YtX5my8Nn
- 9VWQ9GY4oF9mQ==
+ b=Zkl0uovKKYHgyt2zlddH7ujlJbB+GgP0H0cEW/FKbYKTq37mL1gKt5CYN5oiV8grN
+ N3ANu8xYX1kex+xHC81IEgC31HAwZUlEK68wGvwm7HBCB1O6gRrErS8Z1iFlgOYRoC
+ FhAZknOAGEaAtvhUUebMbkNjFdPClhgO/P2iGlM0F2s36GL0rCUmayxSzMwveT4LT6
+ IGrVX8DAmq8yd0PCcFuO6yncEU1VFqWneBJZG5Xxu1K+mZVWHAn0VSQkGDhH4YwA9k
+ jIxb8PsJJ9s2B+cY+Rm7E6OaLwVoULp3uYdvR4yILVPOboag/QG1F8OOwes27B83aq
+ B5rkEtrqPK3Vg==
 To: Zack Rusin <zackr@vmware.com>
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v5 9/9] drm: Introduce documentation for hotspot properties
-Message-ID: <xEuM22zj5Yf6p7kNWMGAuzgM8IGW8j0fmlDuttq2XYc6yRXCevD3U5aD_35drl8m_f5U7_1t_GsE2L3fVaKv1yjTNK7MtWzhHzH9ALK1WBI=@emersion.fr>
-In-Reply-To: <20230719014218.1700057-10-zack@kde.org>
+Subject: Re: [PATCH v5 8/9] drm: Introduce DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT
+Message-ID: <1J5B03mDildYGwgLgV-xNRaf2gWF8mRCI95wKnbPo5GV4k-ajo5JZ3AL8jves1MGkC-ieljQRoByCFUSAO2zbiFNk-a8_tFc-iWJE6BVHCo=@emersion.fr>
+In-Reply-To: <20230719014218.1700057-9-zack@kde.org>
 References: <20230719014218.1700057-1-zack@kde.org>
- <20230719014218.1700057-10-zack@kde.org>
+ <20230719014218.1700057-9-zack@kde.org>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -48,7 +48,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, banackm@vmware.com, krastevm@vmware.com,
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ javierm@redhat.com, banackm@vmware.com, krastevm@vmware.com,
  ppaalanen@gmail.com, dri-devel@lists.freedesktop.org, iforbes@vmware.com,
  mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -56,93 +59,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wednesday, July 19th, 2023 at 03:42, Zack Rusin <zack@kde.org> wrote:
 
-> +/**
-> + * DOC: hotspot properties
-> + *
-> + * HOTSPOT_X: property to set mouse hotspot x offset.
-> + * HOTSPOT_Y: property to set mouse hotspot y offset.
-> + *
-> + * When the plane is being used as a cursor image to display a mouse poi=
-nter,
-> + * the "hotspot" is the offset within the cursor image where mouse event=
-s
-> + * are expected to go.
-> + *
-> + * Positive values move the hotspot from the top-left corner of the curs=
-or
-> + * plane towards the right and bottom.
-> + *
-> + * Most display drivers do not need this information because the
-> + * hotspot is not actually connected to anything visible on screen.
-> + * However, this is necessary for display drivers like the para-virtuali=
-zed
-> + * drivers (eg qxl, vbox, virtio, vmwgfx), that are attached to a user c=
-onsole
-> + * with a mouse pointer.  Since these consoles are often being remoted o=
-ver a
-> + * network, they would otherwise have to wait to display the pointer mov=
-ement to
-> + * the user until a full network round-trip has occurred.  New mouse eve=
-nts have
-> + * to be sent from the user's console, over the network to the virtual i=
-nput
-> + * devices, forwarded to the desktop for processing, and then the cursor=
- plane's
-> + * position can be updated and sent back to the user's console over the =
-network.
-> + * Instead, with the hotspot information, the console can anticipate the=
- new
-> + * location, and draw the mouse cursor there before the confirmation com=
-es in.
-> + * To do that correctly, the user's console must be able predict how the
-> + * desktop will process mouse events, which normally requires the deskto=
-p's
-> + * mouse topology information, ie where each CRTC sits in the mouse coor=
-dinate
-> + * space.  This is typically sent to the para-virtualized drivers using =
-some
-> + * driver-specific method, and the driver then forwards it to the consol=
-e by
-> + * way of the virtual display device or hypervisor.
-> + *
-> + * The assumption is generally made that there is only one cursor plane =
-being
-> + * used this way at a time, and that the desktop is feeding all mouse de=
-vices
-> + * into the same global pointer.  Para-virtualized drivers that require =
-this
-> + * should only be exposing a single cursor plane, or find some other way
-> + * to coordinate with a userspace desktop that supports multiple pointer=
-s.
-> + * If the hotspot properties are set, the cursor plane is therefore assu=
-med to be
-> + * used only for displaying a mouse cursor image, and the position of th=
-e combined
-> + * cursor plane + offset can therefore be used for coordinating with inp=
-ut from a
-> + * mouse device.
-> + *
-> + * The cursor will then be drawn either at the location of the plane in =
-the CRTC
-> + * console, or as a free-floating cursor plane on the user's console
-> + * corresponding to their desktop mouse position.
-> + *
-> + * DRM clients which would like to work correctly on drivers which expos=
-e
-> + * hotspot properties should advertise DRM_CLIENT_CAP_CURSOR_PLANE_HOTSP=
-OT.
+> From: Zack Rusin <zackr@vmware.com>
+>=20
+> Virtualized drivers place additional restrictions on the cursor plane
+> which breaks the contract of universal planes. To allow atomic
+> modesettings with virtualized drivers the clients need to advertise
+> that they're capable of dealing with those extra restrictions.
+>=20
+> To do that introduce DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT which
+> lets DRM know that the client is aware of and capable of dealing with
+> the extra restrictions on the virtual cursor plane.
+>=20
+> Setting this option to true makes DRM expose the cursor plane on
+> virtualized drivers. The userspace is expected to set the hotspots
+> and handle mouse events on that plane.
+>=20
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Nit: an ampersand ("&") can be used to linkify that cap.
-
-> + * Setting this property on drivers which do not special case
-> + * cursor planes will return EOPNOTSUPP, which can be used by userspace =
-to
-> + * gauge requirements of the hardware/drivers they're running on. Advert=
-ising
-> + * DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT implies that the userspace client=
- will be
-> + * correctly setting the hotspot properties.
-
-Thanks a lot for writing these docs! It's super helpful!
+Looks good!
 
 Reviewed-by: Simon Ser <contact@emersion.fr>
