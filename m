@@ -2,47 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B963F75B072
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 15:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C2D75B08C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 15:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1597610E5C7;
-	Thu, 20 Jul 2023 13:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A27F810E14A;
+	Thu, 20 Jul 2023 13:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1638610E5C7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 13:52:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C984D4000D;
- Thu, 20 Jul 2023 13:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1689861161;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aqgjGCqvaiSNlmDsRmBgwW6pMJtbiMAZmpY9wcvjHx8=;
- b=Q+VuocpWXVnPx1WTifgxymPhNNJ0KxzjDRTn/uTlgSnJQa8DltTxIsUVzHI+DJz8PUVpE8
- Hce1XkYFmfI4WQ7tmRnAblRvwb/ZgYMGFjxF/N0RNV7kGGlWBnulI3kB7Qfq43QzXsaZXI
- lScIHIIm0wrdphLQZoeU0ZJ0lmplkBs+/INiA8sQpsUDuK9QGQTLFMHO7zYZjbMDOa7E7m
- OsEcxMwax0gFuzTlzfoWHCsltwSEm44rvl3DWnf9Efb+t0LPhGVw0Su208bw0EYJ28cUTs
- z1zfaaX84kgrW5QOwHJ1FfoCYugcrbn7kvaZv+5nuxwZA4kCuzueYb3uaT4c3g==
-Date: Thu, 20 Jul 2023 15:52:38 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 2/3] dt-bindings: display: panel: Add panels based on
- ILITEK ILI9806E
-Message-ID: <20230720155238.6fb8ac8c@booty>
-In-Reply-To: <20230719190254.GA578754-robh@kernel.org>
-References: <20230719152147.355486-1-luca.ceresoli@bootlin.com>
- <20230719152147.355486-2-luca.ceresoli@bootlin.com>
- <20230719190254.GA578754-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 498CD10E14A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 13:58:11 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3fbc12181b6so7216155e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 06:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689861490; x=1690466290; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6KjNhZCS5Ih96I9bAacZuqvFr9UPsBlbZ9B2cRl79QI=;
+ b=QwcdJqQCVz4AcTIz1jV7jM+Y3w2Kh3uWs+HE8005/g2KsJ/9gEJp980y2RH+uUxe1i
+ r1wYozxNwB47hwICexB/1Y+Gpiys1infL00YzdVJgeijFaaOqt1SeVBC01tK1HhX7TZi
+ YRMNDx8cBiT+MKifl1BqeeWkMGWIW8ORMfDYmhfnxhYBo1v2s1owObAvCP6VnPHfdKuW
+ nL3qFK1i5m5GoSN0AksyAqwBvSHB9nWA65Vn2I9YZenLGKAKmX+aMlT6PtXLjcdUlm3I
+ HbASaAJZ7xpdsATEwjI3eoDw9EF9ErPPNqXBMWWc6ySwPrHVmTVCtDYZLJxFr0wnhrXc
+ SHuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689861490; x=1690466290;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6KjNhZCS5Ih96I9bAacZuqvFr9UPsBlbZ9B2cRl79QI=;
+ b=Giu73az+QN7v+ymd0OHlS3yYMLfg1LUWcq2fNoKiVVSHbHxbuR+kcPOFIZNVHLgo78
+ AmcNtmZ3VFK+/13rd2ZD5Em5Xk8dmPQX+OzbSZvDehHYGwAAvpL126xzBIO8cm+XGJ/p
+ mbKfMmwtYXXd7loE0g7mpUli3Yr40oMGc1CeTM8oQC5hF7gsRP9UfP8kJ3QWY0CFi8eX
+ g9ICTp/w4ZnEhEKAasZQFdlD457A1kBhmjh/LMPnmozVT1YW3XHcUhzwOqgbueuSn8SW
+ 4iFDNRa26tAhCi2qjPKZsZp8cj57TVV9x+VT0CzNPb8HIHK/3U4OcBbzaTRS7Xs0u/Of
+ 4HiA==
+X-Gm-Message-State: ABy/qLZ7nASmy0/1CfjoabC1eedylq1GuKKYFBU9dPDohJTBe0Ry0NYP
+ zcJiQIcCKPf1HgHmGmbX1lIiRw==
+X-Google-Smtp-Source: APBJJlFG9cyOubbOROpvzag6IpZ7+gawUh0kbE6UP3Vgh8NySRsEiGPb78RC8ywPhOF3DSTCEkpT3g==
+X-Received: by 2002:a05:6000:194f:b0:315:8fc0:915e with SMTP id
+ e15-20020a056000194f00b003158fc0915emr1945057wry.56.1689861489726; 
+ Thu, 20 Jul 2023 06:58:09 -0700 (PDT)
+Received: from [10.1.3.131]
+ (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id
+ e10-20020adfe7ca000000b003143add4396sm1434471wrn.22.2023.07.20.06.58.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Jul 2023 06:58:09 -0700 (PDT)
+Message-ID: <65a7fc52-5438-3c9d-cd1b-cf8a83986c88@baylibre.com>
+Date: Thu, 20 Jul 2023 15:58:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 08/11] drm/mediatek: dp: Move PHY registration to new
+ function
+Content-Language: en-US
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
+ <20230717141438.274419-9-angelogioacchino.delregno@collabora.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20230717141438.274419-9-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,112 +80,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Rob,
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
-thanks for reviewing.
-
-On Wed, 19 Jul 2023 13:02:54 -0600
-Rob Herring <robh@kernel.org> wrote:
-
-> On Wed, Jul 19, 2023 at 05:21:46PM +0200, Luca Ceresoli wrote:
-> > Add bindings for LCD panels based on the ILITEK ILI9806E RGB controller
-> > connected over SPI and the "ShenZhen New Display Co NDS040480800-V3"
-> > 480x800 panel based on it.
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > ---
-> >  .../display/panel/ilitek,ili9806e.yaml        | 69 +++++++++++++++++++
-> >  MAINTAINERS                                   |  6 ++
-> >  2 files changed, 75 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > new file mode 100644
-> > index 000000000000..42abc6923065
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > @@ -0,0 +1,69 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/ilitek,ili9806e.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Ilitek ILI9806E display panels
-> > +
-> > +maintainers:
-> > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > +
-> > +description:
-> > +  This binding is for display panels using an Ilitek ILI9806E controller in
-> > +  SPI mode.
-> > +
-> > +allOf:
-> > +  - $ref: panel-common.yaml#  
+On 17/07/2023 16:14, AngeloGioacchino Del Regno wrote:
+> In preparation for adding support for eDP, move the PHY registration
+> code to a new mtk_dp_register_phy() function for better readability.
 > 
-> A SPI device should reference spi-peripheral-props.yaml as well.
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          # ShenZhen New Display Co 3.97" 480x800 RGB a-SI TFT LCD
-> > +          - newdisplay,nds040480800-v3
-> > +      - const: ilitek,ili9806e
-> > +
-> > +  reg: true  
-> 
-> maxItems: 1
-> 
-> > +  spi-max-frequency: true
-> > +  reset-gpios: true
-> > +  backlight: true
-> > +  port: true  
-> 
-> Drop all these and ...
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - port
-> > +
-> > +additionalProperties: false  
-> 
-> ... use "unevaluatedProperties" instead.
-> 
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    backlight: backlight {
-> > +        compatible = "gpio-backlight";
-> > +        gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
-> > +    };  
-> 
-> The exact backlight is outside the scope of this binding and should be 
-> dropped from the example.
-
-As this comes from copy-pasting from the bindings yaml for another
-panel, would it be useful if I send a patch to remove it?
-
-Requested changes queued for v2.
-
-Luca
+> This commit brings no functional changes.
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+Alexandre
