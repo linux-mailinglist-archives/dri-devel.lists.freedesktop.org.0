@@ -1,73 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB63575AE95
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 14:40:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B0D75AE99
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 14:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1BB310E135;
-	Thu, 20 Jul 2023 12:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 267CA10E139;
+	Thu, 20 Jul 2023 12:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A81110E135
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 12:40:12 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36K94mAl032672; Thu, 20 Jul 2023 12:40:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-03-30; bh=YysB9TeNdCNJSoyionbj0U3Aa3+Is2qgwJN5fXaFT7o=;
- b=0r4hERFa9JOeC0djA4o3L1MelHdpe10X7rgpfz2Cp/43wHD8UrvlZENaK+P7+V5IPC9m
- fVqPkwPRWUXN4FlVPwErwPYq+1pHIAfYUGNOGJpdGY1HrDgHG+gCJWmU0dK7xRYrAB/W
- fa2tvlA2Z5hme+FD5YmNL+/sAskl7id/yBwVgfNpfYMO4GwBNGDjICX3jQuw3n0gcMdl
- OTMOR8NU1A9/403yqBMLCuURLFDRy0tnUO63t+5ycWpI0oAUJqCo/u8TCGwv22S8RXNY
- LRNswW5MtDc53KlQToFhuNH0C/fgicP3qV4rWM5I+pEyrG07hYBzmU/Bs2wDNDMiqFW4 aQ== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3run8a9p00-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jul 2023 12:40:09 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 36KAf1ZC000777; Thu, 20 Jul 2023 12:40:08 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3ruhw8mnhf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jul 2023 12:40:08 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36KCe8f8017919;
- Thu, 20 Jul 2023 12:40:08 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3ruhw8mngn-1; Thu, 20 Jul 2023 12:40:07 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH next] drm/loongson: Fix error handling in
- lsdc_pixel_pll_setup()
-Date: Thu, 20 Jul 2023 05:39:50 -0700
-Message-ID: <20230720123950.543082-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B4A10E139
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 12:40:47 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-2b701dee4bfso11206041fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 05:40:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689856845; x=1690461645;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qZpB//8lTb3ZFujZDE4bagrndu+Ju1KA0fQV7nLW6P8=;
+ b=qvJZpZnSwnGhyzDAl2PcuhX/dXFvF1eqGMX9aU1XNHXJiji2BG1LBcmSzXYzVvhQ83
+ iMuPmoHHPRTIjWLk6SIQ8EOjPV2q0MnX7/wE22jiAnF/lrXsAkrYGOwZzCpFg+iov03E
+ 0W7BXJIMRtkyXARlFhYyJn4JS4lI48a5oaJWbIpLKAHQTO+aWNfu21j4Wffn7u9hnwad
+ oC6MJota+f1CKWiXtZFWOhvOig8RYRvxf1lVGGOZhhFIVwzqk7tCouL6mfSwzQ8gM8Y1
+ Zh0KoW02gmDI/FrUA7ukZyG2UiuoT6jwsQbqhGPsfGyDMLKvPar8imzBum6vv/yPYFDD
+ WFFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689856845; x=1690461645;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qZpB//8lTb3ZFujZDE4bagrndu+Ju1KA0fQV7nLW6P8=;
+ b=hsfSvHm1EXWNxEPDNCT4qBjepAciK8Sn7OlkkpiVrkrX3aQ7cjbl/C0BHWe9Rf3qIW
+ c0DRuAU4+UOPuELAuT3VASjG+X1br5w+CVILKoeF3JmRikjisSKo1+kU9fkYs6O5UzD4
+ TypgsaqA9KNXQyiiMooiVbqbZslM08pgMJZGueQjhLUqp/cj1NmsCUvG0r9apsHkdS6Z
+ R0Kk49oZErN07+QpoRHXszQiAXLDDkOUxftiO9GGig530CGanZcLpnxowMYTVBmf6wI0
+ f7zO5EiDoLMIKHcKBt9D7gpi6igIu+fqx8HB3QxOm+d7iBn9tkygOrIMjrPUorgSpYpR
+ txXQ==
+X-Gm-Message-State: ABy/qLbvzEdd9mcUrG8Z+o1fyFvTWfe9pjy1IWx7frZwTBv2pugyamU3
+ vdRanPQbQbsFEGR9QpIddvI=
+X-Google-Smtp-Source: APBJJlGCsRv1WqRdDjmGfn+vYt0U6nAiFC5jMM+a/x0v0+O1Pr0ulNxOHZkVLvFRAI2H8dtdOXQhyA==
+X-Received: by 2002:a05:651c:c7:b0:2b6:ccc7:4908 with SMTP id
+ 7-20020a05651c00c700b002b6ccc74908mr2063425ljr.15.1689856845260; 
+ Thu, 20 Jul 2023 05:40:45 -0700 (PDT)
+Received: from localhost.localdomain ([86.57.157.184])
+ by smtp.gmail.com with ESMTPSA id
+ 12-20020a05651c00cc00b002b94b355527sm258331ljr.32.2023.07.20.05.40.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jul 2023 05:40:44 -0700 (PDT)
+From: Viktar Simanenka <viteosen@gmail.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Viktar Simanenka <viteosen@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] dt-bindings: display: add bindings for pcd8544 displays
+Date: Thu, 20 Jul 2023 15:40:25 +0300
+Message-Id: <20230720124026.356603-1-viteosen@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-20_06,2023-07-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999
- suspectscore=0 phishscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307200106
-X-Proofpoint-ORIG-GUID: eG8Ucx40h9qnpY7ugnvGOs0VH_wx6f0Q
-X-Proofpoint-GUID: eG8Ucx40h9qnpY7ugnvGOs0VH_wx6f0Q
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,46 +74,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
- error27@gmail.com, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are two problems in lsdc_pixel_pll_setup()
-1. If kzalloc() fails then call iounmap() to release the resources.
-2. Both kzalloc and ioremap doesnot return error pointers on failure, so
-   using IS_ERR_OR_NULL() checks is a bit confusing and not very right,
-   fix this by changing those to NULL checks instead.
+Add device tree binding documentation for PCD8544 LCD display controller.
 
-Fixes: f39db26c5428 ("drm: Add kms driver for loongson display controller")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
 ---
-This is found with static analysis with smacth and only compile tested.
----
- drivers/gpu/drm/loongson/lsdc_pixpll.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+v3:add a little more description to the exposed vendor properties
+   add commit message finally
+v2 link: https://lore.kernel.org/linux-devicetree/20230719154450.620410-1-viteosen@gmail.com/
 
-diff --git a/drivers/gpu/drm/loongson/lsdc_pixpll.c b/drivers/gpu/drm/loongson/lsdc_pixpll.c
-index 04c15b4697e2..2609a2256da4 100644
---- a/drivers/gpu/drm/loongson/lsdc_pixpll.c
-+++ b/drivers/gpu/drm/loongson/lsdc_pixpll.c
-@@ -120,12 +120,14 @@ static int lsdc_pixel_pll_setup(struct lsdc_pixpll * const this)
- 	struct lsdc_pixpll_parms *pparms;
- 
- 	this->mmio = ioremap(this->reg_base, this->reg_size);
--	if (IS_ERR_OR_NULL(this->mmio))
-+	if (!this->mmio)
- 		return -ENOMEM;
- 
- 	pparms = kzalloc(sizeof(*pparms), GFP_KERNEL);
--	if (IS_ERR_OR_NULL(pparms))
-+	if (!pparms) {
-+		iounmap(this->mmio);
- 		return -ENOMEM;
-+	}
- 
- 	pparms->ref_clock = LSDC_PLL_REF_CLK_KHZ;
- 
+ .../bindings/display/nxp,pcd8544.yaml         | 95 +++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml b/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+new file mode 100644
+index 000000000000..bacdeff9776e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/nxp,pcd8544.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Philips Semiconductors PCD8544 LCD Display Controller
++
++maintainers:
++  - Viktar Simanenka <viteosen@gmail.com>
++
++description: |
++  Philips Semiconductors PCD8544 LCD Display Controller with SPI control bus.
++  Designed to drive a graphic display of 48 rows and 84 columns,
++  such as Nokia 5110/3310 LCDs.
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - nxp,pcd8544
++
++  dc-gpios:
++    maxItems: 1
++    description: Data/Command selection pin (D/CX)
++
++  reset-gpios:
++    maxItems: 1
++    description: Display Reset pin (RST)
++
++  nxp,inverted:
++    type: boolean
++    description: Display color inversion
++
++  nxp,voltage-op:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 127
++    description: |
++      Liquid crystall voltage operation coefficient. Determines the LCD
++      controlling voltage on display segments. Should be adjusted according
++      to the ambient temperature. Adjusts the contrast of the display.
++
++  nxp,temperature-coeff:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 3
++    description: |
++      Display temperature compensation coefficient. Increases LCD controlling
++      voltage at lower temperatures to maintain optimum contrast.
++
++  nxp,bias:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 7
++    description: |
++      Display bias system coefficient. Should only be changed if an external
++      oscillator is used for the display.
++
++required:
++  - compatible
++  - reg
++  - dc-gpios
++  - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "nxp,pcd8544";
++            reg = <0>;
++            spi-max-frequency = <8000000>;
++
++            dc-gpios = <&pio 0 3 GPIO_ACTIVE_HIGH>; /* DC=PA3 */
++            reset-gpios = <&pio 0 1 GPIO_ACTIVE_HIGH>; /* RESET=PA1 */
++            backlight = <&backlight>;
++
++            nxp,inverted;
++            nxp,voltage-op = <0>;
++            nxp,bias = <4>;
++            nxp,temperature-coeff = <0>;
++        };
++    };
++
++...
 -- 
-2.39.3
+2.34.1
 
