@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D43E75B39E
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A5375B3A4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F4110E168;
-	Thu, 20 Jul 2023 15:56:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439A710E15E;
+	Thu, 20 Jul 2023 15:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF9A510E14C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 15:56:50 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-3159da54e95so724893f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 08:56:50 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A27310E15E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 15:58:01 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3fbd33a57dcso8593605e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 08:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689868609; x=1690473409; 
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689868679; x=1690473479; 
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZUaGgshK7tSiuDfJWDqXManELi0SbVivYa4vNiVvwLk=;
- b=2kcjbWMtu5jkuZoM1057ogV1hCQNF9qQlFv7o7laX7Ec0UwJLiOXiXvPAMcnw+Ooua
- f1cgN0aaXzZuZKlDjK9nH3dFJ3nsMOFHTGZdG+xtxCm/jVu+mHExxhO0vwlg8KwMNGA5
- rga8y6hyrnV66S+kdowSnLuBDzYK+sKIDNk+1AOgyluurTwkrK8ensBP3eO5b+Xkd7dO
- qskxwpKBNT+tyQuUjcRZxwXAgH8KOb3gWINGJZ3731hAPTPWJmsZfcJRqp0edDdL++Kz
- o8ArBZDyuXu64wFuQnJ4hbgsRUJu5y//L7oO99mpWNrPgBxKcfBVPX4u9BcsZHfFHR/x
- Ss5g==
+ bh=ScmE8r0rxxQCSuio4l33tUu3r4Tsu2mdETilqyHlA68=;
+ b=A3exCasWYBk9MN1lB8jnIxVvIYr4390ayA7HijOrvQDBD/WZQTcZxCfhhaTK/dSRx7
+ AknB73ZWYt+BFUyrwessOCVTrBcH1z60/QOQFXrQtWzH9Zmqvr5mXFNi7sC3dXNZOiGp
+ nFRDgc/AFIZoqPmhnVKw05buL8OUCoEJfY06Z+fvPRDxTxFd10+4ikAkY0wgitmYMrBs
+ 9MvVw87BAPcBcd7vgBp1MelLgXwjyOkWtLYYAwYVgzbQflFvICZ4dWvRgTY03M1fzfSf
+ aHKonVx1d+dKiNhnGMyYpQDsXgoHobkZyP4gqNvvWa0oHSOkbq0t4wEDZdgaion4k8re
+ t6bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689868609; x=1690473409;
+ d=1e100.net; s=20221208; t=1689868679; x=1690473479;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZUaGgshK7tSiuDfJWDqXManELi0SbVivYa4vNiVvwLk=;
- b=JF4lllIjdt6Is7HTuuacKLCOlta4dfoCs1LovVqLAf7FqFvyGSDO4cVdr2CBwGWUqo
- 8V7NIe5XNPwD47+b5d90NGRS9NyCnxMsoH41c2H94vGK4FLnUC20xSHO7JD67AeRj8WU
- 1UuLZZH9NKlQPLPp6vGL2zpCJ4zjcc5uaUgMWNc3cBYznzfkC0hGysOsI7GRTxEg3uUd
- 9atbICTkQmCLSU46yUlq5pZHD3A5mgOaxfcMlR/4J+YoqPS7ZFF3ttq/omqLRac6PoDM
- +YGKxdoK4aNZwSUfxza5Ek3YMA7k8x+Wr2BH9l9tu4cfduDlx21KGJo7Je3xlvbntSXx
- p4Ng==
-X-Gm-Message-State: ABy/qLbELgUrTa8l5yjsSgkXLlkq9KDjtfio6QRjW6kHG3ppAWg3r0Gy
- B6twJuXmXAhmO3vgZe5XQYPGfQ==
-X-Google-Smtp-Source: APBJJlGA2DkEn0lhUqKt4dNDb8D6rF5QRcat3WvydSedezoT3YXG+1Wl3ACqrb3xpAk1dprZGpXTQQ==
-X-Received: by 2002:a5d:420f:0:b0:313:f61c:42b2 with SMTP id
- n15-20020a5d420f000000b00313f61c42b2mr2628545wrq.69.1689868609309; 
- Thu, 20 Jul 2023 08:56:49 -0700 (PDT)
+ bh=ScmE8r0rxxQCSuio4l33tUu3r4Tsu2mdETilqyHlA68=;
+ b=fLd6q8qVZQ3tMxc1a20q7oELuoXGb0f5yaBsj4ZSv4be4Jf3MQWoLjz12WH2rmrEFT
+ W3fIkE7UKl5jdULXBoP2MT1s0obhxQT1W2F7pe1IdH2CtCiQzFfz8D85GcI7/ZHZzfrK
+ VvxHOl3mPIOokCmMwQgPN7+EbrAe/grNkJkSsZpj2bZU4jLFNyDeX8Y5T7iP5NS91/fg
+ ko5y+y63m5FRBfaW9syv10N2cyehlJVdGjmgb+TlAUw8M2d3RN/chXwAQREo1vvjBbG1
+ OT6JjqdnVH/48ZUbhUq/4DQ+hNIuH+GhSfTz6QQy1sQ2gFTBV75cYt785ZZOyTxIHsiG
+ 1vqA==
+X-Gm-Message-State: ABy/qLaU4jY8S3c1tHn0WHDw5lyL6Ai0A62E476+pBaIl3Kr64PVxrEf
+ J6f9L6fPFXchtYjt2YYxmeqnpw==
+X-Google-Smtp-Source: APBJJlGYC6yA01AOSEM/0mE5MXhgTzoU6ewGKF/cbW8YmGXhi7AkY7Gets4CXxis5J5YQaTN+4qPCA==
+X-Received: by 2002:adf:ee0b:0:b0:313:f235:cd17 with SMTP id
+ y11-20020adfee0b000000b00313f235cd17mr2257248wrn.40.1689868679497; 
+ Thu, 20 Jul 2023 08:57:59 -0700 (PDT)
 Received: from [10.1.3.131]
  (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
  by smtp.gmail.com with ESMTPSA id
- q7-20020a5d5747000000b0031434936f0dsm1698149wrw.68.2023.07.20.08.56.48
+ o8-20020adfeac8000000b003143b7449ffsm1690412wrn.25.2023.07.20.08.57.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jul 2023 08:56:48 -0700 (PDT)
-Message-ID: <ef08ffa7-436a-5da2-ff46-5697cab6d299@baylibre.com>
-Date: Thu, 20 Jul 2023 17:56:48 +0200
+ Thu, 20 Jul 2023 08:57:59 -0700 (PDT)
+Message-ID: <d2817cd7-0d44-5572-8e38-da5478da5fe7@baylibre.com>
+Date: Thu, 20 Jul 2023 17:57:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v6 02/11] drm/mediatek: dp: Move AUX and panel poweron/off
- sequence to function
+Subject: Re: [PATCH v6 03/11] drm/mediatek: dp: Change logging to dev for
+ mtk_dp_aux_transfer()
 Content-Language: en-US
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  chunkuang.hu@kernel.org
 References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
- <20230717141438.274419-3-angelogioacchino.delregno@collabora.com>
+ <20230717141438.274419-4-angelogioacchino.delregno@collabora.com>
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230717141438.274419-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230717141438.274419-4-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,21 +90,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 On 17/07/2023 16:14, AngeloGioacchino Del Regno wrote:
-> Everytime we run bridge detection and/or EDID read we run a poweron
-> and poweroff sequence for both the AUX and the panel; moreover, this
-> is also done when enabling the bridge in the .atomic_enable() callback.
+> Change logging from drm_{err,info}() to dev_{err,info}() in functions
+> mtk_dp_aux_transfer() and mtk_dp_aux_do_transfer(): this will be
+> essential to avoid getting NULL pointer kernel panics if any kind
+> of error happens during AUX transfers happening before the bridge
+> is attached.
 > 
-> Move this power on/off sequence to a new mtk_dp_aux_panel_poweron()
-> function as to commonize it.
-> Note that, before this commit, in mtk_dp_bridge_atomic_enable() only
-> the AUX was getting powered on but the panel was left powered off if
-> the DP cable wasn't plugged in while now we unconditionally send a D0
-> request and this is done for two reasons:
->   - First, whether this request fails or not, it takes the same time
->     and anyway the DP hardware won't produce any error (or, if it
->     does, it's ignorable because it won't block further commands)
->   - Second, training the link between a sleeping/standby/unpowered
->     display makes little sense.
+> This may potentially start happening in a later commit implementing
+> aux-bus support, as AUX transfers will be triggered from the panel
+> driver (for EDID) before the mtk-dp bridge gets attached, and it's
+> done in preparation for the same.
 
 -- 
 Regards,
