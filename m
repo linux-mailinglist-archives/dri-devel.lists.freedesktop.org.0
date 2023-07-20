@@ -2,142 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A26C75A31B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 02:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0CB75A323
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 02:15:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEF410E52F;
-	Thu, 20 Jul 2023 00:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7AA910E531;
+	Thu, 20 Jul 2023 00:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E928C10E52D;
- Thu, 20 Jul 2023 00:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689811644; x=1721347644;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=/xyh4XekcoaBLjIXufif9Lb7BdCF0RkhVoZN51+GAAE=;
- b=SJMzkbYMN2fCFwDYvSzzMHxAXFT0hPySa3iuE9jvht5cE15X+GFfizB6
- FZaUWam9epSXytreeg3bYUjZ+DCcNrFSDEx3nfSrOpcy3DIZihr9l2iRb
- jTWGY/6fkYN9v+zn7sZhO0ovv01OP7BgkygrWYKlPRcQZqVxJ0EE0Tt3Y
- jLYnWo3Jm8uoCGS0tzfdCWNFEvJjfD8AjDXoFe0TL/qZVPSdr/zjMdtw7
- 76hODd0HfdXfFW8Pu0UlYWzqbocN8KrJIPDlRNpYjiBHvB0WjUsY/yAZ3
- H2YF1idYzAIt/p+ybQOAVT9zna7fGDVISFaJzciXvQE6xLsdvOghNrGJf Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="369250876"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; d="scan'208";a="369250876"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2023 17:07:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="759362435"
-X-IronPort-AV: E=Sophos;i="6.01,216,1684825200"; d="scan'208";a="759362435"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga001.jf.intel.com with ESMTP; 19 Jul 2023 17:07:21 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 19 Jul 2023 17:07:20 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 19 Jul 2023 17:07:20 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 19 Jul 2023 17:07:20 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Wed, 19 Jul 2023 17:07:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aatlU0YNtXjez8vshkvd/GLPRUvs4ijnAL4JIh1kSuPN8e7NAJ3jDd6uh/IsMgwDnoWAGdusxOzonwZyg3YgTXKQsJURk6hPL7Jl3qmDsIgTDV0UJgXay6oH6KZZ9brVrp9bOYdYFfNkOwOAaknqgwcUdzTpIZxv9cICBr7o7N9f9SKZRtEDMwYnhRFk+VeEkvxVPOaBp6rlbH58Pk1zkuRKwAEv2LYi/gQB+YL+betpd8zkOS1uilWpAZML3VakaeI/66u6OSgjnno+OYaRSEmAn+mQvcrf7npzSz7DzdxMLITNMiQAXH9K8b9i2e/Q3f563eMlGKkJA4joHy//jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yQj2K9QHg0tXH5V5GVXsnMJ+6IG5l6HLv7ywghKu9O0=;
- b=jgxGYzAoTNbRDRUFJHdffF9Yv3nML6lq4xP5iyYikHjvAVXlm8ADt1yOeJpBfQhhc1mbl4WC6VdeDnexgiGATrH/uq3YgjwHTnZuCIkGmhLvYm7Pf56gNZsjfKMQB8dRJ24KgbXnScYMRvcrbYav/PJPhcCo0TQzeFrDTnCT5QbosDyE+LXcEbLQnYFWw141a9c3/haZL1VgKOkedhp5TLEn9g8EbrQqHp7yyrvSAlWWHZyzGsrp7RyEs2rT5eE1JuTAQot/Q3QUvbgqvGuMO0/YU+/a4/rTrWGTvL6VxZ/bTsqi4GrYCKIR2pW2YLLppDLqh5vUoWTfVCdhofnorw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
- by CY8PR11MB7316.namprd11.prod.outlook.com (2603:10b6:930:9f::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Thu, 20 Jul
- 2023 00:07:15 +0000
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::ca92:81a9:39f7:933b]) by BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::ca92:81a9:39f7:933b%4]) with mapi id 15.20.6609.024; Thu, 20 Jul 2023
- 00:07:15 +0000
-From: "Yang, Fei" <fei.yang@intel.com>
-To: "Roper, Matthew D" <matthew.d.roper@intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>
-Subject: RE: [PATCH v3] drm/i915: Refactor PAT/object cache handling
-Thread-Topic: [PATCH v3] drm/i915: Refactor PAT/object cache handling
-Thread-Index: AQHZuj3S3fKOcuZYgEmEIa0jSNqDGq/BrRqAgAACt9A=
-Date: Thu, 20 Jul 2023 00:07:15 +0000
-Message-ID: <BYAPR11MB2567588886FB6EC3F357586B9A3EA@BYAPR11MB2567.namprd11.prod.outlook.com>
-References: <20230719123730.1094726-1-tvrtko.ursulin@linux.intel.com>
- <20230719223143.GP138014@mdroper-desk1.amr.corp.intel.com>
-In-Reply-To: <20230719223143.GP138014@mdroper-desk1.amr.corp.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR11MB2567:EE_|CY8PR11MB7316:EE_
-x-ms-office365-filtering-correlation-id: 8ff5d025-c3a4-4b64-a7eb-08db88b5468d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: p5Mk7eRj7kaWDPDFdsm1lVOSZkrRYfW6nCPMP0hZ1SQ1YUJTVzHz8DbV8J2+Po1et9xi7eBNDRJtbNpnUk8AaGgrhA3ZkEHeoWN/1RchKdqWCVSjuBDOJrhSEzM2TmClbgr682odcb8n9r15s3b1fkMoi3GNamJaLJcChacAzc6sPlcV2R7BXm63iQ0FCFUzyuURI4bFF8aq4oWuooCJ2jTjsKg4uOnwRWnDVwLyXRCalLmhPr8FdP0fmMsT3ViOtaSi2bNwj+T+o3tKdlnYG7TxpgebAW5LvEuputFqvgfZUGbU7yeDle5P12ltr9L1A6x1qh+jezBFx+l61XudK/6AYKpzHMzVYhX1l+r1Iqw5GcqpaKGZRQZm0PnExYA6dLqw5jE3ETCQQEZea0EEYka3/RF8uNTI7vmO7eb0GvgqpDeDHDBx5rpww3Qc21dshD+rNwLk1VjxUoNQAQ021ZRy3KZQ1MBlp9TNM6TxSONp4yGWS0bpcm0ppUQ81rApUAZDbMePpDexVxypBntFOMOGxsnS61DVviReQIXX1hNVQcyDzPYyhYd2ZJvSs7xP6IpAUg2zbzxTgvjN1kT0cIgUwD5md5+n6c2aBVBTbpC/UwS69n06lJRxNl2ZNnUS
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(366004)(136003)(346002)(376002)(39860400002)(451199021)(66556008)(54906003)(478600001)(110136005)(71200400001)(7696005)(186003)(316002)(2906002)(6506007)(9686003)(66476007)(5660300002)(122000001)(38100700002)(66946007)(66446008)(8936002)(8676002)(4326008)(41300700001)(64756008)(76116006)(82960400001)(52536014)(83380400001)(38070700005)(86362001)(33656002)(55016003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?juNwGjnXVONDl7Z8zQ9L47PRtx8CkHCajUkPbBcbXYYVaNuXcGP1XOx7bmZc?=
- =?us-ascii?Q?SeXce0yMojqZ1oenCJnq2e/qnPpX4733h+TczYReC+qvKI8JycUiJLfbAztb?=
- =?us-ascii?Q?os996Wgu8oKfmRR8DmP7euEOY8XPnhAg3d9gJcZ+ntdHh3bDQGoihYdJhTpQ?=
- =?us-ascii?Q?pn03U5O7jFDuGDWfgN+eMWR8wWp01GNYxpXo1KYupLUUaJTIMzWxmRKFjhJ9?=
- =?us-ascii?Q?2viDj9dnXooKD3lJvOkAXXsYCUbH56ltV4Wdn/cAPznpidqIwah/AEGYNMyW?=
- =?us-ascii?Q?Elh+oibk1J+iFwQenK6KIpH/sIEAbWjcysL9NWG/cX+zbRuTP296Xo32EoH/?=
- =?us-ascii?Q?I0bN9K55iaJZN6+y2NTUkLVYucR0hEX1C6Q70ElLrNrz/x/SPBFvvUEOkZz0?=
- =?us-ascii?Q?HnbH7IQ2l/XPwbrK/SRIqAxAptIxgHve3dWjRSvmTBv4JCXTKcvDgmGDkYq7?=
- =?us-ascii?Q?rQHbh3Z6CNSGgCKUkWQrq6d+zVsgVY0waq1/D9KJAqLLEYPwWrx3v8BbR8gJ?=
- =?us-ascii?Q?FfH1Mj3frLfHkqgOuy6eQ6Ujhf+uWJPIctKLTgcUUyAKm6Z0Kq/c1Y+5mjKQ?=
- =?us-ascii?Q?d0707tr7feh1EWgZHz/SU4p7zse0FssSVeH1th3/QrRUKqoE5kAOj3v796Q7?=
- =?us-ascii?Q?Y5EM+WKK4trJev/To2v7kQ8XuEeU/ZouypJ3PNlucmc5nALzQtFvx4NVkkmm?=
- =?us-ascii?Q?tnulLL0PxXssreVc0ecPCSko3+ilfOfADOrsFWDjFfODGgd15kYEdg/l4sYf?=
- =?us-ascii?Q?g2YRFHxyaXoV+KRBgrVbvcfgP4RBRSYrTUEFdt+SWAhPhc28rNCPIqhyc55r?=
- =?us-ascii?Q?rFPpXpkCkR2TuL2KMxG2Pqw+VHckbKDNNFN2Z3whrMlfAX+s5JJ36+jjU0if?=
- =?us-ascii?Q?V81ktSKcjORYWqk65PVk1PAIoH/U7gBx2IxDsH5kFRv85vp/6gLUI/qDRCTJ?=
- =?us-ascii?Q?xSFRwiP36XuGtMNDV+rmaRKRj7VYPAgLsoBqSMLt4jK7oq7qrOJQEhIkELos?=
- =?us-ascii?Q?qa/rqO2DBxE1Nnazw8Zupjy0rlLTSZkswCQ/VmfHyM/1IiEwsLwofeH/1yRk?=
- =?us-ascii?Q?9K18khCOjUZ/aI0Ytmrjxq7BMl7eJeyru29s5FlNj9ukUF+NCEx+6er3g5QP?=
- =?us-ascii?Q?8Zsw6kzWZ27JgUFDLNLEjXdyvRg905JrlwTkf1nFNC8Z4s2z7g1U6W6wApmy?=
- =?us-ascii?Q?ClWOTNhnaHka+xvaJ36Sm46uGuurYGU5JP5lXseCmYD8VNoy137Eso1oSqpW?=
- =?us-ascii?Q?3VNG9sLDFtZEtzwGdhOXfJm3WEFzuQN7XU7fT57ZIeh7kzNM5uwawufsn7Uv?=
- =?us-ascii?Q?Y6w7K4GhXAECoyBb1bb8PXTUWyTWQBrFo+WA2nicyP2QCFm6KX12s8aKBTBh?=
- =?us-ascii?Q?NDrW3VyhuysKC0EI8W8L7Cdci3M6Vos9o+X+dyqSTKnuzLWz2BjNdkSQtLGE?=
- =?us-ascii?Q?7D7BVPSDCkcfsFsmrwIDTrPGpx23yVyhRCbhTL8BAv3Ksl7JEVfHgR/+vG3T?=
- =?us-ascii?Q?Qxrq2EEvLwnsbFPzBLtFN13aC1v5FOvkpQ5PNpAs9B/Qv61/Xln/9XQdLQ?=
- =?us-ascii?Q?=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4451210E52D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 00:15:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689812099;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9MAJ8EMtFenMie1SWTJmxdbBwMxGBZxk+7aJAcUj1jA=;
+ b=abTDxD2y7ElL9p4GJ3TlnXVVo9Kp9nWOAObhAD4J32UCBZeX1oUW7yrYLBW8spUf8Wo8ur
+ ivipCazYFxU9tJBZxHj9DT/Xdjf80KlUTdySk3ZWOc4G3/8QGBo9JrTGEdsKSzk7A2vr2g
+ n6wsAQJOZ0avsX5S/jUc7gCdOAtOQ7c=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-126-qzuoRGFQOMOXtblVRai5FQ-1; Wed, 19 Jul 2023 20:14:57 -0400
+X-MC-Unique: qzuoRGFQOMOXtblVRai5FQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-9892495397cso15574966b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jul 2023 17:14:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689812096; x=1692404096;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9MAJ8EMtFenMie1SWTJmxdbBwMxGBZxk+7aJAcUj1jA=;
+ b=QJaQ53Ml87mgADTtf00SHuNxNfUeidFEWAsvsMN6IW3MBF0MysgtDjTMGhEjDEfO2u
+ knmMGdLNcKAj/cSQRTgKU1u3GCuljrQGCo5/4PFDy8X8lfjYmmVO8U7y+CMGNmfX+z+2
+ fNuZYKRnPC7WF3+GX6fWbGEHBgZ4WOaVVy5m09AGn3007qs3AbpQQawWlGDKqUDKXqJ0
+ ctn9fhLox2LpMktPELp2K5s7nOnJBOofvZuGF9exLj8q/L9wFS86Di/e17YwKS9yzmVI
+ c3CruSuORQ7YADO3JTGEH0yLPf0im5wnsZOTHx9aK0F/LsSSyzHvmVa7SntdP5chMCWu
+ LXiA==
+X-Gm-Message-State: ABy/qLbcftlDL1zpIEmmvHNmD3/02M4DkziKvHgSSGAnMvJaTDL1Hu0S
+ QSrI8dtOEDIUu537TYHzPf2Bu6p9lG8mQplpCJAPsego9jhMuzetOrADXvCsJGzyM33tiMlhAjC
+ cgejq2x/oi/6UYjm+nBR241tb2n42
+X-Received: by 2002:a17:906:10dd:b0:991:e458:d14 with SMTP id
+ v29-20020a17090610dd00b00991e4580d14mr3344018ejv.34.1689812096253; 
+ Wed, 19 Jul 2023 17:14:56 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlF5+4dLhxa5BBeAmhJX+HcnTR8JVBHx6BwH73LHNhgOneI4cJ8GnCbCVpg9/Ayq9OSdhGTQhg==
+X-Received: by 2002:a17:906:10dd:b0:991:e458:d14 with SMTP id
+ v29-20020a17090610dd00b00991e4580d14mr3343993ejv.34.1689812095878; 
+ Wed, 19 Jul 2023 17:14:55 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ y23-20020a17090614d700b00985ed2f1584sm2621787ejc.187.2023.07.19.17.14.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Jul 2023 17:14:55 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
+ mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
+ bskeggs@redhat.com, Liam.Howlett@oracle.com, matthew.brost@intel.com,
+ boris.brezillon@collabora.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+ bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
+ donald.robson@imgtec.com
+Subject: [PATCH drm-misc-next v8 00/12] DRM GPUVA Manager & Nouveau VM_BIND
+ UAPI
+Date: Thu, 20 Jul 2023 02:14:21 +0200
+Message-ID: <20230720001443.2380-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ff5d025-c3a4-4b64-a7eb-08db88b5468d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2023 00:07:15.7062 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6L16cBx6A1XiBVTXbHN5iejh2t43BSwWDzygeipHdGyoHm0E1z6eAAxjlUgbk+nkF1O2/MlVCgydNlEZ5XgWQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7316
-X-OriginatorOrg: intel.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,138 +86,338 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[snip]
->> @@ -27,15 +28,8 @@ static bool gpu_write_needs_clflush(struct drm_i915_g=
-em_object *obj)
->
-> The code change here looks accurate, but while we're here, I have a side
-> question about this function in general...it was originally introduced
-> in commit 48004881f693 ("drm/i915: Mark CPU cache as dirty when used for
-> rendering") which states that GPU rendering ends up in the CPU cache
-> (and thus needs a clflush later to make sure it lands in memory).  That
-> makes sense to me for LLC platforms, but is it really true for non-LLC
-> snooping platforms (like MTL) as the commit states?
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-For non-LLC platforms objects can be set to 1-way coherent which means
-GPU rendering ending up in CPU cache as well, so for non-LLC platform
-the logic here should be checking 1-way coherent flag.
+This patch series provides a new UAPI for the Nouveau driver in order to
+support Vulkan features, such as sparse bindings and sparse residency.
 
-> My understanding
-> was that snooping platforms just invalidated the CPU cache to prevent
-> future CPU reads from seeing stale data but didn't actually stick any
-> new data in there?  Am I off track or is the original logic of this
-> function not quite right?
->
-> Anyway, even if the logic of this function is wrong, it's a mistake that
-> would only hurt performance
+Furthermore, with the DRM GPUVA manager it provides a new DRM core feature to
+keep track of GPU virtual address (VA) mappings in a more generic way.
 
-Yes, this logic will introduce performance impact because it's missing the
-checking for obj->pat_set_by_user. For objects with pat_set_by_user=3D=3Dtr=
-ue,
-even if the object is snooping or 1-way coherent, we don't want to enforce
-a clflush here since the coherency is supposed to be handled by user space.
+The DRM GPUVA manager is indented to help drivers implement userspace-manageable
+GPU VA spaces in reference to the Vulkan API. In order to achieve this goal it
+serves the following purposes in this context.
 
-> (flushing more often than we truly need to)
-> rather than functionality, so not something we really need to dig into
-> right now as part of this patch.
->
->>      if (IS_DGFX(i915))
->>              return false;
->>
->> -    /*
->> -     * For objects created by userspace through GEM_CREATE with pat_ind=
-ex
->> -     * set by set_pat extension, i915_gem_object_has_cache_level() will
->> -     * always return true, because the coherency of such object is mana=
-ged
->> -     * by userspace. Othereise the call here would fall back to checkin=
-g
->> -     * whether the object is un-cached or write-through.
->> -     */
->> -    return !(i915_gem_object_has_cache_level(obj, I915_CACHE_NONE) ||
->> -             i915_gem_object_has_cache_level(obj, I915_CACHE_WT));
->> +    return i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_UC) !=3D=
- 1 &&
->> +           i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_WT) !=3D=
- 1;
->>  }
+    1) Provide infrastructure to track GPU VA allocations and mappings,
+       using an interval tree (RB-tree).
 
-[snip]
->> @@ -640,15 +640,9 @@ static inline int use_cpu_reloc(const struct reloc_=
-cache *cache,
->>      if (DBG_FORCE_RELOC =3D=3D FORCE_GTT_RELOC)
->>              return false;
->>
->> -    /*
->> -     * For objects created by userspace through GEM_CREATE with pat_ind=
-ex
->> -     * set by set_pat extension, i915_gem_object_has_cache_level() alwa=
-ys
->> -     * return true, otherwise the call would fall back to checking whet=
-her
->> -     * the object is un-cached.
->> -     */
->>      return (cache->has_llc ||
->>              obj->cache_dirty ||
->> -            !i915_gem_object_has_cache_level(obj, I915_CACHE_NONE));
->> +            i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_UC) !=
-=3D 1);
->
-> Platforms with relocations and platforms with user-specified PAT have no
-> overlap, right?  So a -1 return should be impossible here and this is
-> one case where we could just treat the return value as a boolean, right?
+    2) Generically connect GPU VA mappings to their backing buffers, in
+       particular DRM GEM objects.
 
-My understanding is that the condition here means to say that, if GPU
-access is uncached, don't use CPU reloc because the CPU cache might
-contain stale data. This condition is sufficient for snooping platforms.
-But from MTL onward, the condition show be whether the GPU access is
-coherent with CPU. So, we should be checking 1-way coherent flag instead
-of UC mode, because even if the GPU access is WB, it's still non-coherent,
-thus CPU cache could be out-dated.
+    3) Provide a common implementation to perform more complex mapping
+       operations on the GPU VA space. In particular splitting and merging
+       of GPU VA mappings, e.g. for intersecting mapping requests or partial
+       unmap requests.
 
-[snip]
->> @@ -208,12 +230,6 @@ bool i915_gem_object_can_bypass_llc(struct drm_i915=
-_gem_object *obj)
->>      if (!(obj->flags & I915_BO_ALLOC_USER))
->>              return false;
->>
->> -    /*
->> -     * Always flush cache for UMD objects at creation time.
->> -     */
->> -    if (obj->pat_set_by_user)
->> -            return true;
->> -
+The new VM_BIND Nouveau UAPI build on top of the DRM GPUVA manager, itself
+providing the following new interfaces.
 
-I'm still worried that the removal of these lines would cause the
-MESA failure seen before. I know you are checking pat index below, but
-that is only about GPU access. It doesn't tell you how CPU is going to
-access the memory. If user space is setting an uncached PAT, then use
-copy engine to zero out the memory, but on the CPU side the mapping is
-cacheable, you could still seeing garbage data.
+    1) Initialize a GPU VA space via the new DRM_IOCTL_NOUVEAU_VM_INIT ioctl
+       for UMDs to specify the portion of VA space managed by the kernel and
+       userspace, respectively.
 
-I agree the lines don't belong here because it doesn't have anything
-to do with LLC, but they need to be moved to the right location instead
-of being removed.
+    2) Allocate and free a VA space region as well as bind and unbind memory
+       to the GPUs VA space via the new DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
 
->>      /*
->>       * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make i=
-t
->>       * possible for userspace to bypass the GTT caching bits set by the
->> @@ -226,7 +242,21 @@ bool i915_gem_object_can_bypass_llc(struct drm_i915=
-_gem_object *obj)
->>       * it, but since i915 takes the stance of always zeroing memory bef=
-ore
->>       * handing it to userspace, we need to prevent this.
->>       */
->> -    return IS_JSL_EHL(i915);
->> +    if (IS_JSL_EHL(i915))
->> +            return true;
->> +
+    3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+
+Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, make use of the DRM
+scheduler to queue jobs and support asynchronous processing with DRM syncobjs
+as synchronization mechanism.
+
+By default DRM_IOCTL_NOUVEAU_VM_BIND does synchronous processing,
+DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+
+The new VM_BIND UAPI for Nouveau makes also use of drm_exec (execution context
+for GEM buffers) by Christian König. Since the patch implementing drm_exec was
+not yet merged into drm-next it is part of this series, as well as a small fix
+for this patch, which was found while testing this series.
+
+This patch series is also available at [1].
+
+There is a Mesa NVK merge request by Dave Airlie [2] implementing the
+corresponding userspace parts for this series.
+
+The Vulkan CTS test suite passes the sparse binding and sparse residency test
+cases for the new UAPI together with Dave's Mesa work.
+
+There are also some test cases in the igt-gpu-tools project [3] for the new UAPI
+and hence the DRM GPU VA manager. However, most of them are testing the DRM GPU
+VA manager's logic through Nouveau's new UAPI and should be considered just as
+helper for implementation.
+
+However, I absolutely intend to change those test cases to proper kunit test
+cases for the DRM GPUVA manager, once and if we agree on it's usefulness and
+design.
+
+[1] https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next /
+    https://gitlab.freedesktop.org/nouvelles/kernel/-/merge_requests/1
+[2] https://gitlab.freedesktop.org/nouveau/mesa/-/merge_requests/150/
+[3] https://gitlab.freedesktop.org/dakr/igt-gpu-tools/-/tree/wip_nouveau_vm_bind
+
+Changes in V2:
+==============
+  Nouveau:
+    - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in fence
+      signalling critical sections. Updates to the VA space are split up in three
+      separate stages, where only the 2. stage executes in a fence signalling
+      critical section:
+
+        1. update the VA space, allocate new structures and page tables
+        2. (un-)map the requested memory bindings
+        3. free structures and page tables
+
+    - Separated generic job scheduler code from specific job implementations.
+    - Separated the EXEC and VM_BIND implementation of the UAPI.
+    - Reworked the locking parts of the nvkm/vmm RAW interface, such that
+      (un-)map operations can be executed in fence signalling critical sections.
+
+  GPUVA Manager:
+    - made drm_gpuva_regions optional for users of the GPUVA manager
+    - allow NULL GEMs for drm_gpuva entries
+    - swichted from drm_mm to maple_tree for track drm_gpuva / drm_gpuva_region
+      entries
+    - provide callbacks for users to allocate custom drm_gpuva_op structures to
+      allow inheritance
+    - added user bits to drm_gpuva_flags
+    - added a prefetch operation type in order to support generating prefetch
+      operations in the same way other operations generated
+    - hand the responsibility for mutual exclusion for a GEM's
+      drm_gpuva list to the user; simplified corresponding (un-)link functions
+
+  Maple Tree:
+    - I added two maple tree patches to the series, one to support custom tree
+      walk macros and one to hand the locking responsibility to the user of the
+      GPUVA manager without pre-defined lockdep checks.
+
+Changes in V3:
+==============
+  Nouveau:
+    - Reworked the Nouveau VM_BIND UAPI to do the job cleanup (including page
+      table cleanup) within a workqueue rather than the job_free() callback of
+      the scheduler itself. A job_free() callback can stall the execution (run()
+      callback) of the next job in the queue. Since the page table cleanup
+      requires to take the same locks as need to be taken for page table
+      allocation, doing it directly in the job_free() callback would still
+      violate the fence signalling critical path.
+    - Separated Nouveau fence allocation and emit, such that we do not violate
+      the fence signalling critical path in EXEC jobs.
+    - Implement "regions" (for handling sparse mappings through PDEs and dual
+      page tables) within Nouveau.
+    - Drop the requirement for every mapping to be contained within a region.
+    - Add necassary synchronization of VM_BIND job operation sequences in order
+      to work around limitations in page table handling. This will be addressed
+      in a future re-work of Nouveau's page table handling.
+    - Fixed a couple of race conditions found through more testing. Thanks to
+      Dave for consitently trying to break it. :-)
+
+  GPUVA Manager:
+    - Implement pre-allocation capabilities for tree modifications within fence
+      signalling critical sections.
+    - Implement accessors to to apply tree modification while walking the GPUVA
+      tree in order to actually support processing of drm_gpuva_ops through
+      callbacks in fence signalling critical sections rather than through
+      pre-allocated operation lists.
+    - Remove merging of GPUVAs; the kernel has limited to none knowlege about
+      the semantics of mapping sequences. Hence, merging is purely speculative.
+      It seems that gaining a significant (or at least a measurable) performance
+      increase through merging is way more likely to happen when userspace is
+      responsible for merging mappings up to the next larger page size if
+      possible.
+    - Since merging was removed, regions pretty much loose their right to exist.
+      They might still be useful for handling dual page tables or similar
+      mechanisms, but since Nouveau seems to be the only driver having a need
+      for this for now, regions were removed from the GPUVA manager.
+    - Fixed a couple of maple_tree related issues; thanks to Liam for helping me
+      out.
+
+Changes in V4:
+==============
+  Nouveau:
+    - Refactored how specific VM_BIND and EXEC jobs are created and how their
+      arguments are passed to the generic job implementation.
+    - Fixed a UAF race condition where bind job ops could have been freed
+      already while still waiting for a job cleanup to finish. This is due to
+      in certain cases we need to wait for mappings actually being unmapped
+      before creating sparse regions in the same area.
+    - Re-based the code onto drm_exec v4 patch.
+
+  GPUVA Manager:
+    - Fixed a maple tree related bug when pre-allocating MA states.
+      (Boris Brezillion)
+    - Made struct drm_gpuva_fn_ops a const object in all occurrences.
+      (Boris Brezillion)
+
+Changes in V5:
+==============
+  Nouveau:
+    - Link and unlink GPUVAs outside the fence signalling critical path in
+      nouveau_uvmm_bind_job_submit() holding the dma-resv lock. Mutual exclusion
+      of BO evicts causing mapping invalidation and regular mapping operations
+      is ensured with dma-fences.
+
+  GPUVA Manager:
+    - Removed the separate GEMs GPUVA list lock. Link and unlink as well as
+      iterating the GEM's GPUVA list should be protected with the GEM's dma-resv
+      lock instead.
+    - Renamed DRM_GPUVA_EVICTED flag to DRM_GPUVA_INVALIDATED. Mappings do not
+      get eviced, they might get invalidated due to eviction.
+    - Maple tree uses the 'unsinged long' type for node entries. While this
+      works for GPU VA spaces larger than 32-bit on 64-bit kernel, the GPU VA
+      space is limited to 32-bit on 32-bit kernels as well.
+      As long as we do not have a 64-bit capable maple tree for 32-bit kernels,
+      the GPU VA manager contains checks to throw warnings when GPU VA entries
+      exceed the maple tree's storage capabilities.
+    - Extended the Documentation and added example code as requested by Donald
+      Robson.
+
+Changes in V6
+=============
+
+  Nouveau:
+    - Re-based the code onto drm_exec v5 patch.
+
+  GPUVA Manager:
+    - Switch from maple tree to RB-tree.
+
+      It turned out that mas_preallocate() requires the maple tree not to change
+      in between pre-allocating nodes with mas_preallocate() and inserting an
+      entry with the help of the pre-allocated memory (mas_insert_prealloc()).
+
+      However, considering that drivers typically implement interfaces where
+      jobs to create GPU mappings can be submitted by userspace, are queued up
+      by the kernel and are processed asynchronously in dma-fence signalling
+      critical paths, this is a major issue. In the ioctl() used to submit a job
+      we'd need to pre-allocated memory with mas_preallocate(), however,
+      previously queued up jobs could concurrently alter the maple tree
+      resulting in potentially insufficient pre-allocated memory for the
+      currently submitted job on execution time.
+
+      There is a detailed and still ongoing discussion about this topic one the
+      -mm list [1]. So far the only solution seems to be to use GFP_ATOMIC
+      and allocate memory directly in the fence signalling critical path, where
+      we need it. However, I think that is not what we want to rely on.
+
+      I think we should definitely continue in trying to find a solution on how
+      to fit in the maple tree (or how to make the maple tree fit in). However,
+      for now it seems to be more expedient to move on using a RB-tree.
+
+      [1] https://lore.kernel.org/lkml/20230612203953.2093911-15-Liam.Howlett@oracle.com/
+
+    - Provide a flag to let driver optionally provide their own lock to lock
+      linking and unlinking of GPUVAs to GEM objects. The DRM GPUVA manager
+      still does not take the locks itself, but rather contains lockdep checks
+      on either the GEMs dma-resv lock (default) or, if
+      DRM_GPUVA_MANAGER_LOCK_EXTERN is set, the driver provided lock.
+      (Boris Brezillon)
+
+Changes in V7
+=============
+  Nouveau:
+    - Rebase to drm_exec v7.
+    - Move drm_gem_gpuva_init() before ttm_bo_init_validate(), but after
+      initialization of the corresponding dma-resv.
+
+  GPUVA Manager:
+    - Fix drm_gpuva_find_first() range parameter in drm_gpuva_for_each_va*
+      macros. (Boris)
+    - Simplify drm_gpuva_for_each_va* macros using a __drm_gpuva_next() helper.
+      (Boris)
+    - Move lockdep checks for an optional external GEM gpuva list lock out of
+      the GPUVA Manager to drm_gem.h. (Boris)
+    - Fix code style issues pointed out by Thomas.
+    - Switch to EXPORT_SYMBOL_GPL(). (Christoph)
+
+Changes in V8
+=============
+  Nouveau:
+    - n/a
+
+  GPUVA Manager:
+    - Fix documentation about locking the GEMs GPUVA list. (Donald)
+    - Fix a few minor checkpatch warnings.
+
+Danilo Krummrich (12):
+  drm: manager to keep track of GPUs VA mappings
+  drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+  drm/nouveau: new VM_BIND uapi interfaces
+  drm/nouveau: get vmm via nouveau_cli_vmm()
+  drm/nouveau: bo: initialize GEM GPU VA interface
+  drm/nouveau: move usercopy helpers to nouveau_drv.h
+  drm/nouveau: fence: separate fence alloc and emit
+  drm/nouveau: fence: fail to emit when fence context is killed
+  drm/nouveau: chan: provide nouveau_channel_kill()
+  drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
+  drm/nouveau: implement new VM_BIND uAPI
+  drm/nouveau: debugfs: implement DRM GPU VA debugfs
+
+ Documentation/gpu/driver-uapi.rst             |   11 +
+ Documentation/gpu/drm-mm.rst                  |   36 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/drm_debugfs.c                 |   40 +
+ drivers/gpu/drm/drm_gem.c                     |    3 +
+ drivers/gpu/drm/drm_gpuva_mgr.c               | 1728 +++++++++++++++
+ drivers/gpu/drm/nouveau/Kbuild                |    3 +
+ drivers/gpu/drm/nouveau/Kconfig               |    2 +
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |    9 +-
+ drivers/gpu/drm/nouveau/include/nvif/if000c.h |   26 +-
+ drivers/gpu/drm/nouveau/include/nvif/vmm.h    |   19 +-
+ .../gpu/drm/nouveau/include/nvkm/subdev/mmu.h |   20 +-
+ drivers/gpu/drm/nouveau/nouveau_abi16.c       |   24 +
+ drivers/gpu/drm/nouveau/nouveau_abi16.h       |    1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.c          |  209 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.h          |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_chan.c        |   22 +-
+ drivers/gpu/drm/nouveau/nouveau_chan.h        |    1 +
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c     |   39 +
+ drivers/gpu/drm/nouveau/nouveau_dmem.c        |    9 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |   27 +-
+ drivers/gpu/drm/nouveau/nouveau_drv.h         |   94 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.c        |  414 ++++
+ drivers/gpu/drm/nouveau/nouveau_exec.h        |   54 +
+ drivers/gpu/drm/nouveau/nouveau_fence.c       |   23 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.h       |    5 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c         |   62 +-
+ drivers/gpu/drm/nouveau/nouveau_mem.h         |    5 +
+ drivers/gpu/drm/nouveau/nouveau_prime.c       |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |  462 ++++
+ drivers/gpu/drm/nouveau/nouveau_sched.h       |  123 +
+ drivers/gpu/drm/nouveau/nouveau_svm.c         |    2 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 1970 +++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h        |  107 +
+ drivers/gpu/drm/nouveau/nouveau_vmm.c         |    4 +-
+ drivers/gpu/drm/nouveau/nvif/vmm.c            |  100 +-
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  213 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c |  197 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   25 +
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgf100.c    |   16 +-
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   16 +-
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/vmmnv50.c |   27 +-
+ include/drm/drm_debugfs.h                     |   25 +
+ include/drm/drm_drv.h                         |    6 +
+ include/drm/drm_gem.h                         |   79 +
+ include/drm/drm_gpuva_mgr.h                   |  706 ++++++
+ include/uapi/drm/nouveau_drm.h                |  209 ++
+ 47 files changed, 6938 insertions(+), 240 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.c
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec.h
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.c
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_sched.h
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.c
+ create mode 100644 drivers/gpu/drm/nouveau/nouveau_uvmm.h
+ create mode 100644 include/drm/drm_gpuva_mgr.h
+
+
+base-commit: 41639b3a8b0f1f194dfe0577d99db70613f78626
+-- 
+2.41.0
+
