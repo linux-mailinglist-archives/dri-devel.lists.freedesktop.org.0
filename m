@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F4C75AF1C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 15:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA19375AF41
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 15:10:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD5610E125;
-	Thu, 20 Jul 2023 13:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE6410E5BD;
+	Thu, 20 Jul 2023 13:10:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEAFF10E125
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 13:05:05 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-51e429e1eabso1005783a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 06:05:05 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1FC10E5BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 13:10:33 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-31454996e06so638282f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 06:10:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689858304; x=1690463104; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PXEWaHqf0lWHOwfVBdFzP3gPi6ixm8kTT6knvLIOnrY=;
- b=wT923Xj1PAqxw+yaDhNJ/nUV/1XxpP2YqGKBg93pGqqICwOMUb0dd2qWkGps0F3RWv
- A9BYnTGB8k2Ky18llb2v3KVscxfx2n4NbBZYQU/nOjTRUYeVcwKvrbIxDaW5nFs/0hTf
- UGUk7Fr17e1IEPgeF1Qzvuole9rel2kVwbOhNDixj/ikRtx5sIMldhYoKXFxzBIthrSh
- HgCaqAFjrzZqqcNquDtWyne4GU/oTbwe4otfgdZA1SZA1EwVN6MRKYsbgrko6pkWXyjg
- uMpLOexle7flElpiGnShLxE4u16lsZnmcYSklUTMtphFCpZ7tCCpARdDy9JR1qqSSoot
- l6PQ==
+ d=linaro.org; s=google; t=1689858632; x=1690463432;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=csFhQ6XfWBL2F/LVnpr751g3gT4RNTtnYo/4zK0OLk0=;
+ b=AYUTrJHThtegFmXAf21FWbF8FkPLNfod8iIQR1PVenWxKes/7avxrVbGScXvzKy1CO
+ 7fUbxVzyP8Y7w5wQ33shQE9B6SuVByq/xgGu2rFqG20d03w0+INBqau49dXUNpIQE9Jg
+ 2jcz427S6KPPOVHeTohn9WzY7XSyPnwnDtpMr3nHuPlfOIMdUvvOLlny2o6kRDmRV0en
+ 5NXLFAsWd2wcsHgjrCkPHm75FXpwMB/iQjMKRvdgRiTV4hEDo9DaFIAJUr8SsWI+yFmO
+ iVk7GAds1/JW8Ojz4KuI3JEXftTvnrwfqDSFv7NMd0FTQlXS37RUTR/syR78nlFOusu0
+ S7Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689858304; x=1690463104;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1689858632; x=1690463432;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PXEWaHqf0lWHOwfVBdFzP3gPi6ixm8kTT6knvLIOnrY=;
- b=OW0m5bNf6vu4kUXptYyMI59kUrqGMdvEtT46ur2+W1lt0ra+1dQljjTgVxNVc3HMaN
- r3GVsTeKT2H9UPuSqR/TPnBrkHcLvH/VmVbcmtuGDCp2/i0P1C1PSjKbUWuL/u/O23s0
- YkIDW7PqFKdKwH42PrvfAF8Ig+FZl5TB7h2aRq932i/qbBQ/Owd56h/QLawBHEotMyeZ
- TMt8Uuc+uzOHuxQFuxTdxaeX10rcVkhEtOlGRN3LDbYbjTms10F4rlMTRr3KFaLOYgAz
- TvQd+I9O0fQuwLnDd/bMZZsU6SfSlaD7N/rkzgvV5gCJ17oae88dpRQZeTA6aePwji76
- niVw==
-X-Gm-Message-State: ABy/qLbqlfoV42uC9/tYLmWm9LYeD1dz1FLXSnR4oziDABguWOmSI6z2
- 9R7HG7jx5tG/xifa/u0CxSYp4g==
-X-Google-Smtp-Source: APBJJlF3czr78AaBbYI9Dkak734DtCkiU5pcGw2eai4oYTX2OPvmfRHYRclHZY5ITbbeNeFmedVu8w==
-X-Received: by 2002:aa7:c1cc:0:b0:51e:ca0:8a2e with SMTP id
- d12-20020aa7c1cc000000b0051e0ca08a2emr4997368edp.36.1689858304071; 
- Thu, 20 Jul 2023 06:05:04 -0700 (PDT)
-Received: from [10.1.3.131]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+ bh=csFhQ6XfWBL2F/LVnpr751g3gT4RNTtnYo/4zK0OLk0=;
+ b=j6cwNtNBKewQoV/EuxQ1UmzHURKin8ufDdoy8exyc/KJT6ecvgArdr4y82R7D+vN4U
+ SMa2wE55jLE+ib81jOS4kxjbuo6yKt0dA73DOg0FkOgWKJwJVUtuLs2vyPqK4VlYPIDb
+ k46Epg/Fw4xoCdjZxtmpDCJb6AEXtAlMvpgDyK/xEzCUQFML9NUz0hRFgyHfLFTCK2NP
+ vWFqnPtUkxKLLFnQxwonK6FUgthU0PErWv4ugApFuCmkERJ3onoZr7kwIJJrWyw2qyKJ
+ iPpZ4/0Z+m85im9Q+J2L1x4oNtZfGlUx69kYIHkFCNFJd1H/F6XsFikP/bWhL48w71jx
+ M0rA==
+X-Gm-Message-State: ABy/qLZcFbD+0ktKyEEuEX5WmlRnNZ4ZLlX0GQbJiSZoqD4YGko388Qp
+ lqQrWfVxMAFSoA9SgxjVQpbyuQ==
+X-Google-Smtp-Source: APBJJlHAQBN4QHX5GQzhjDPb1xmuMYdrMdIrZxUPkEN0IlJOj2W5MMz7ipLHhBJ3k2Q6Q703r7zH9w==
+X-Received: by 2002:adf:faca:0:b0:313:f5f8:a331 with SMTP id
+ a10-20020adffaca000000b00313f5f8a331mr1555738wrs.34.1689858631923; 
+ Thu, 20 Jul 2023 06:10:31 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- x19-20020aa7d393000000b0051bec856cb4sm734747edq.50.2023.07.20.06.05.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jul 2023 06:05:03 -0700 (PDT)
-Message-ID: <9d73d7e8-98ae-e5f1-706d-8c6128f2877b@baylibre.com>
-Date: Thu, 20 Jul 2023 15:05:02 +0200
+ a15-20020adfeecf000000b00311d8c2561bsm1317303wrp.60.2023.07.20.06.10.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jul 2023 06:10:31 -0700 (PDT)
+Date: Thu, 20 Jul 2023 14:10:29 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH] backlight: gpio_backlight: Drop output gpio direction
+ check for initial power state
+Message-ID: <20230720131029.GB2525277@aspen.lan>
+References: <20230720061105.154821-1-victor.liu@nxp.com>
+ <20230720112742.GA2525277@aspen.lan>
+ <CAMRc=MfbWjWTdU4ToFMp_ZV6eGdRnjD--Y+qsN329TsLFGQYxg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v6 07/11] drm/mediatek: dp: Avoid mutex locks if audio is
- not supported/enabled
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
- <20230717141438.274419-8-angelogioacchino.delregno@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230717141438.274419-8-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MfbWjWTdU4ToFMp_ZV6eGdRnjD--Y+qsN329TsLFGQYxg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,29 +78,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Andy Shevchenko <andy@kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Ying Liu <victor.liu@nxp.com>, "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+ "deller@gmx.de" <deller@gmx.de>, "lee@kernel.org" <lee@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 20, 2023 at 02:56:32PM +0200, Bartosz Golaszewski wrote:
+> On Thu, Jul 20, 2023 at 1:27 PM Daniel Thompson
+> <daniel.thompson@linaro.org> wrote:
+> >
+> > On Thu, Jul 20, 2023 at 06:06:27AM +0000, Ying Liu wrote:
+> > > Bootloader may leave gpio direction as input and gpio value as logical low.
+> > > It hints that initial backlight power state should be FB_BLANK_POWERDOWN
+> > > since the gpio value is literally logical low.
+> >
+> > To be honest this probably "hints" that the bootloader simply didn't
+> > consider the backlight at all :-) . I'd rather the patch description
+> > focus on what circumstances lead to the current code making a bad
+> > decision. More like:
+> >
+> >   If the GPIO pin is in the input state but the backlight is currently
+> >   off due to default pull downs then ...
+> >
+> > > So, let's drop output gpio
+> > > direction check and only check gpio value to set the initial power state.
+> >
+> > This check was specifically added by Bartosz so I'd be interested in his
+> > opinion of this change (especially since he is now a GPIO maintainer)!
+> >
+> > What motivates (or motivated) the need to check the direction rather
+> > than just read that current logic level on the pin?
+> >
+> >
+> > Daniel.
+> > [I'm done but since Bartosz and Linus were not on copy of the original
+> > thread I've left the rest of the patch below as a convenience ;-) ]
+> >
+>
+> This was done in commit: 706dc68102bc ("backlight: gpio: Explicitly
+> set the direction of the GPIO").
+>
+> Let me quote myself from it:
+> --
+> The GPIO backlight driver currently requests the line 'as is', without
+> actively setting its direction. This can lead to problems: if the line
+> is in input mode by default, we won't be able to drive it later when
+> updating the status and also reading its initial value doesn't make
+> sense for backlight setting.
+> --
+
+You are perhaps quoting the wrong bit here ;-). The currently proposed
+patch leaves the code to put the pin into output mode unmodified. However
+there was an extra line at the bottom of your commit message:
+--
+Also: check the current direction and only read the value if it's output.
+--
+
+This was the bit I wanted to check on, since the proposed patch
+literally reverses this!
+
+However...
 
 
-On 17/07/2023 16:14, AngeloGioacchino Del Regno wrote:
-> If a controller (usually, eDP!) does not support audio, or audio is not
-> enabled because the endpoint has no audio support, it's useless to lock
-> a mutex only to unlock it right after because there's no .plugged_cb().
-> 
-> Check if the audio is supported and enabled before locking the mutex in
-> mtk_dp_update_plugged_status(): if not, we simply return immediately.
-> 
-> While at it, since the update_plugged_status_lock mutex would not be
-> used if the controller doesn't support audio at all, initialize it
-> only if `audio_supported` is true.
+> I agree with Thomas that it's highly unlikely the bootloader "hints"
+> at any specific backlight settings. That being said, the change itself
+> looks correct to me. The other branch of that if will always unblank
+> the backlight if the GPIO is in input mode which may not be desirable.
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+... if you're happy the proposed change is OK then I'm happy too!
+I came to the same conclusion after reviewing the GPIO code this morning,
+however I copied you in because I was worried I might have overlooked
+something.
 
--- 
-Regards,
-Alexandre
+
+> I don't see any obvious problem with this change, just make sure the
+> commit message makes more sense.
+
+Agreed.
+
+
+Daniel.
