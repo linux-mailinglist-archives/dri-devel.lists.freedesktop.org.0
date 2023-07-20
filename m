@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D4475ACF0
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 13:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE0F75AD88
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 13:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346EF10E0FE;
-	Thu, 20 Jul 2023 11:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C2310E11A;
+	Thu, 20 Jul 2023 11:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E70610E0FE
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 11:27:46 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3fbd33a57b6so5751605e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 04:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689852465; x=1690457265;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=VitHHB/j4E2FbQyt3l4ZXhmBatL++1XQcdyfy56E4ks=;
- b=UP81D3FUZEgZ5vwArWBUB2oJ88gWEaslSg7iBpzTMCFOc2160r9S55a8+tJIRrg037
- G5V97G5DRX+lKnaXrGKPR4RkO26UxgJt8jjwXdNoWrBHL9PMNAnsv0e2pzeSOz6aayAl
- GgHsnvFzVOsygWLwFJrdshYMfLP8UiNe4w6rUzgm251Sl9KOMlBgnslNsEBK92R63K79
- 3CBeIc618P5Q76O+MlGW2BwMj9/tyMlJO+D9K+D0MgAqOTCENCbPUWR85mnkqQMb4Vqf
- aaL/+oCGdDcwftsor9jyjkuAV3UbRIyt6R1E0aYe/V07wxOs59hppx63/8unc4uvHjCe
- s/+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689852465; x=1690457265;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VitHHB/j4E2FbQyt3l4ZXhmBatL++1XQcdyfy56E4ks=;
- b=JAGKJbHhT4HQyLJAkhSjAGjLx+JoipeZvw1YB0fYK+zfSL2PqYgQKGc0DMTEdU5Dta
- 5OotZSWq+4Mp4LHeJL3z0KTOirxlZzjmfVrt331qQ9DvI0YWg1Q8zArip277rmnhPfiQ
- +gZSoM/DaRNQ7xLFAa5dWYUg+1ftkAXYrzXnGdGjSeTq95zC+pecZTgI9ISx1edM745e
- 9KrwDFrp6r6WmGex6IqzRkNq8ne+95d6v/dx32cYZ1HlsAGdUV20RsOdDI5oD0I0+Vvo
- EeiWyjLdiU9hgBnetn9opH88wc8BwruJV0JuSFr+Fih9OqXx18JVdUfC9+hoyCSdAcpc
- ZjSw==
-X-Gm-Message-State: ABy/qLZOMYqB8IkX5sTTY+mgXjgbYjvMWj9rlxelfNlu0YniKXqvDKIT
- kwXwKFmE1Ea4xC+5pWf5enMNOA==
-X-Google-Smtp-Source: APBJJlGRfFt2W2jdIn2r2U6UBgB1doiBi48U/0KDhjcLc5ca7PK5H7HtFWHizlOq4SYZw6yBJM3y0A==
-X-Received: by 2002:a05:600c:294a:b0:3fc:182:7eac with SMTP id
- n10-20020a05600c294a00b003fc01827eacmr7015134wmd.33.1689852464852; 
- Thu, 20 Jul 2023 04:27:44 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- c7-20020a05600c0ac700b003fbbe41fd78sm973423wmr.10.2023.07.20.04.27.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jul 2023 04:27:44 -0700 (PDT)
-Date: Thu, 20 Jul 2023 12:27:42 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Ying Liu <victor.liu@nxp.com>
-Subject: Re: [PATCH] backlight: gpio_backlight: Drop output gpio direction
- check for initial power state
-Message-ID: <20230720112742.GA2525277@aspen.lan>
-References: <20230720061105.154821-1-victor.liu@nxp.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8DA10E11A
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 11:54:33 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C54DA6607083;
+ Thu, 20 Jul 2023 12:54:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1689854071;
+ bh=xXEl0bZXMT2n/uen0YxtWvqWsJD2b4bMTkkm5cQcOic=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jLSsMFqqYoBSQC564mB2hCYCi1hnD3bT31BL/kAaZhUmJ0FgmNIdhGxYyKmrPL0Ba
+ tJMMXoPkw3y5ZcpH1BmGQ8CoPXUUnQvGzwWY4f4WV8uXm9pzgf9E3CTVKi/lIYOOEF
+ JC9N7SaM2Ir5T+/RpZWjD1DyKIqoMa5es1vhDatBSaOO5VqOTWb5hUVLHKz5c8hw2c
+ fJ7PPkNtU0IKAlRXqcKsYM1gQOwYq4Pq7rLAZ+zOpuCCseCrOgLdZiU6hWQ76/0YoL
+ 4Uye+n5XxetaD1Bbaj2zWHcm7WhfqbO0RbIWOkhL5Fr1JWllj6TdLyn0ah+EaLeQXb
+ YVf6ogHqsNJbg==
+Message-ID: <65da6005-3c07-a7ea-6b63-db45c8915ae8@collabora.com>
+Date: Thu, 20 Jul 2023 13:54:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230720061105.154821-1-victor.liu@nxp.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3,3/3] drm/mediatek: dp: Add the audio divider to
+ mtk_dp_data struct
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Shuijing Li <shuijing.li@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, jitao.shi@mediatek.com
+References: <20230720082604.18618-1-shuijing.li@mediatek.com>
+ <20230720082604.18618-4-shuijing.li@mediatek.com>
+ <44cc9cc5-7dce-f7a2-f077-b62d7851ee12@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <44cc9cc5-7dce-f7a2-f077-b62d7851ee12@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,63 +61,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "deller@gmx.de" <deller@gmx.de>,
- "lee@kernel.org" <lee@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 20, 2023 at 06:06:27AM +0000, Ying Liu wrote:
-> Bootloader may leave gpio direction as input and gpio value as logical low.
-> It hints that initial backlight power state should be FB_BLANK_POWERDOWN
-> since the gpio value is literally logical low.
+Il 20/07/23 12:14, Alexandre Mergnat ha scritto:
+> 
+> 
+> On 20/07/2023 10:26, Shuijing Li wrote:
+>> Due to the difference of HW, different dividers need to be set.
+>>
+>> Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+>> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+>> ---
+>> Changes in v3:
+>> Separate these two things into two different patches.
+>> per suggestion from the previous thread:
+>> https://lore.kernel.org/lkml/e2ad22bcba31797f38a12a488d4246a01bf0cb2e.camel@mediatek.com/
+>> Changes in v2:
+>> - change the variables' name to be more descriptive
+>> - add a comment that describes the function of mtk_dp_audio_sample_arrange
+>> - reduce indentation by doing the inverse check
+>> - add a definition of some bits
+>> - add support for mediatek, mt8188-edp-tx
+>> per suggestion from the previous thread:
+>> https://lore.kernel.org/lkml/ac0fcec9-a2fe-06cc-c727-189ef7babe9c@collabora.com/
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_dp.c     | 7 ++++++-
+>>   drivers/gpu/drm/mediatek/mtk_dp_reg.h | 1 +
+>>   2 files changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+>> index d8cda83d6fef..8e1a13ab2ba2 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+>> @@ -140,6 +140,7 @@ struct mtk_dp_data {
+>>       const struct mtk_dp_efuse_fmt *efuse_fmt;
+>>       bool audio_supported;
+>>       bool audio_pkt_in_hblank_area;
+>> +    u16 audio_m_div2_bit;
+>>   };
+>>   static const struct mtk_dp_efuse_fmt mt8195_edp_efuse_fmt[MTK_DP_CAL_MAX] = {
+>> @@ -648,7 +649,7 @@ static void mtk_dp_audio_sdp_asp_set_channels(struct mtk_dp 
+>> *mtk_dp,
+>>   static void mtk_dp_audio_set_divider(struct mtk_dp *mtk_dp)
+>>   {
+>>       mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_30BC,
+>> -               AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+>> +               mtk_dp->data->audio_m_div2_bit,
+>>                  AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MASK);
+>>   }
+>> @@ -2636,6 +2637,7 @@ static const struct mtk_dp_data mt8188_edp_data = {
+>>       .efuse_fmt = mt8195_edp_efuse_fmt,
+>>       .audio_supported = false,
+>>       .audio_pkt_in_hblank_area = false,
+>> +    .audio_m_div2_bit = MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+>>   };
+>>   static const struct mtk_dp_data mt8188_dp_data = {
+>> @@ -2644,6 +2646,7 @@ static const struct mtk_dp_data mt8188_dp_data = {
+>>       .efuse_fmt = mt8195_dp_efuse_fmt,
+>>       .audio_supported = true,
+>>       .audio_pkt_in_hblank_area = true,
+>> +    .audio_m_div2_bit = MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+>>   };
+>>   static const struct mtk_dp_data mt8195_edp_data = {
+>> @@ -2652,6 +2655,7 @@ static const struct mtk_dp_data mt8195_edp_data = {
+>>       .efuse_fmt = mt8195_edp_efuse_fmt,
+>>       .audio_supported = false,
+>>       .audio_pkt_in_hblank_area = false,
+>> +    .audio_m_div2_bit = AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+>>   };
+>>   static const struct mtk_dp_data mt8195_dp_data = {
+>> @@ -2660,6 +2664,7 @@ static const struct mtk_dp_data mt8195_dp_data = {
+>>       .efuse_fmt = mt8195_dp_efuse_fmt,
+>>       .audio_supported = true,
+>>       .audio_pkt_in_hblank_area = false,
+>> +    .audio_m_div2_bit = AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2,
+>>   };
+>>   static const struct of_device_id mtk_dp_of_match[] = {
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h 
+>> b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+>> index f38d6ff12afe..6d7f0405867e 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+>> @@ -162,6 +162,7 @@
+>>   #define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MUL_2    (1 << 8)
+>>   #define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MUL_4    (2 << 8)
+>>   #define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_MUL_8    (3 << 8)
+>> +#define MT8188_AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2    (4 << 8)
+> 
+> IMO, it's a bit weird to have SoC specific define in the generic header.
+> Are you sure this bit is only available for MT8188 ?
+> 
 
-To be honest this probably "hints" that the bootloader simply didn't
-consider the backlight at all :-) . I'd rather the patch description
-focus on what circumstances lead to the current code making a bad
-decision. More like:
+Eh, the P0_DIV2 bit is 5<<8 for MT8195, while for 8188 it's 4<<8, clearly :-)
 
-  If the GPIO pin is in the input state but the backlight is currently
-  off due to default pull downs then ...
-
-> So, let's drop output gpio
-> direction check and only check gpio value to set the initial power state.
-
-This check was specifically added by Bartosz so I'd be interested in his
-opinion of this change (especially since he is now a GPIO maintainer)!
-
-What motivates (or motivated) the need to check the direction rather
-than just read that current logic level on the pin?
+>>   #define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_2    (5 << 8)
+>>   #define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_4    (6 << 8)
+>>   #define AUDIO_M_CODE_MULT_DIV_SEL_DP_ENC0_P0_DIV_8    (7 << 8)
+> 
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> 
 
 
-Daniel.
-[I'm done but since Bartosz and Linus were not on copy of the original
-thread I've left the rest of the patch below as a convenience ;-) ]
-
-
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->  drivers/video/backlight/gpio_backlight.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-> index d3bea42407f1..d28c30b2a35d 100644
-> --- a/drivers/video/backlight/gpio_backlight.c
-> +++ b/drivers/video/backlight/gpio_backlight.c
-> @@ -87,8 +87,7 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->  		/* Not booted with device tree or no phandle link to the node */
->  		bl->props.power = def_value ? FB_BLANK_UNBLANK
->  					    : FB_BLANK_POWERDOWN;
-> -	else if (gpiod_get_direction(gbl->gpiod) == 0 &&
-> -		 gpiod_get_value_cansleep(gbl->gpiod) == 0)
-> +	else if (gpiod_get_value_cansleep(gbl->gpiod) == 0)
->  		bl->props.power = FB_BLANK_POWERDOWN;
->  	else
->  		bl->props.power = FB_BLANK_UNBLANK;
-> --
-> 2.37.1
->
