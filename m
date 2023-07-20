@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444F875A761
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 09:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9D775A762
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 09:10:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEE310E56E;
-	Thu, 20 Jul 2023 07:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C55910E56F;
+	Thu, 20 Jul 2023 07:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04on2080.outbound.protection.outlook.com [40.107.7.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2B6510E56F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 07:10:34 +0000 (UTC)
+ (mail-he1eur04on2048.outbound.protection.outlook.com [40.107.7.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0342610E56F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 07:10:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IbCJ9kWD2576lAbJvOqOc96c7JpFbErWnoQg1deS8kRDIi6Ios6M8b3lmOy1NmsZXLRxqrYbH6zBlBvcI9nP8YsiTlan957NQMDdyOyhaI81d5qhSOt8FDPTHm7IYqsbLSCuwHArGNzG27scNkZ+y+hJq88QlL/bBr8eTOqLA7vSyWpzXbEfx6Duu/eHp7+Xn3JEEr1vFn4zYlQMhkGeqaBwgBpuEa/zyIA9kRJRcixnnc6wVztW64RTQxPz6PE7uA6/iqbWtSoEjBHKyNVUgAhm8QN1jrTIl4DnbJZ6cBfTOjIwRAhkLJNfxTNQZr/nf796gqu5nYf6kWdEt7Shlw==
+ b=ggpUP2JEGMQHR2Z0cu/y/23vps/JwqImy5R3jh+2/amH3lCGyjWlW28s6ftOmu5pn74JoH/+bSWjwLXiud0h9GODfa72cmNNljPULtGWjfPfoR2dx7e9gPFPLzOLHKoU54veVv1OU5vDyTRSVxIF/RBNuTwO9k4c/YiY7PkbQuiXvRkO8Etleg3fgRx8cY8QRUP6YoCcVZtRcZzxh+q6xVueA4x1d5Jrl+u7ZzX+7VUxJOkD5TDe/iD3nmJui2nV91CEgVxndzRL4kWuS/LamtS/hv2i3+VwBG6l079+LXRfMRzapBP5QixOCcTMApcjd4OiHF15ib9xArrqlgg5GA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ro5EOp6mEkZd6S0WaGYqv9gtqvuAyxqa35OiIznoIJM=;
- b=aRyBzTpAqz60XTbrMF6FH2g01fRPjL5bwbZ7U7Rr2yrJvJjC4YEDH+N5pxgr8n64Uf6BNxEvSrDVGKw8/GwN5pyGMox4ptZfZxzlbIzCqQGfDO+a0RPOCb6oESxTXlUuGzTGS1cz+qd6FbK5K2LA/A+hWlkc8G7rrjKlmqCNCe6NDg2ghTeSRG8lwqmqfHhCVQeS2AgiUSEkviXpyDJe7Z3NjlbT8EVCw8XpjsbVfVrCpCRP+22e3zMylOPqLEmwdbNPYzFwIxNo/E2cjj5mKuCXku7DwT2MZyv/cJ69bVXxQWsyB8NJPZmaUasRw6qlEzjryUdUFnm+XmJ95DSi0g==
+ bh=ht35sNILRuy3JDoTfo8lLosxxMyf2f6Qkc+PxgdkdHs=;
+ b=f4plSjK56AG78fN0D+sulI57wToOLt8dteM6eLjr6m/mKrC9dPGyIqP+1mqjwuPQQTGi8BizzvkXpKn1YO0aonCKhmUsjKp399dZhFvt0joYyj8URFm+Km/qEAzJ7001GcHD5IUtxJ9kuDsaTm9zB78vR3OHPl5xmXVvvzzxMDXl3WVvUC+46OKbMx+W34D6keMQjH16yVjCFYN+xdK123z5ReP3BigY4UiqrIJRkuhqe+ua14RUZM9jaPKtUelzDpODlF6mlRYpKxQ9QchprnqRHPQRsQGlutjPN/L8R9ObeNAB6aIzOAijncU6U8WuGUv+5DzYoxEE3iGDaiuJCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ro5EOp6mEkZd6S0WaGYqv9gtqvuAyxqa35OiIznoIJM=;
- b=gP5Pv9/8giUgjPKf9juczSRwGAZ9QONFVE7ZUSydo0yCkNKoZITS04244VquGNNS1k5AXjV6WI4RClLEUGG69yZUDLTm2pZOiaj/bKRTvdnfYD9TwvFYLj/7HjmhDS1c3TTwuyCCHHDv8rtI/SmyOukdFo4HgJjO04Z7w7OEyA8=
+ bh=ht35sNILRuy3JDoTfo8lLosxxMyf2f6Qkc+PxgdkdHs=;
+ b=JzugVVPqp80xdQ2GOJnwptg/NAVBzTQOvNxr8QMBpKQCwSFN6vAlFtqpal4sI3Gi6JM0Vblqv64BYL/OlmHoVTNyQO8mioLzvJoy+Jo/klctT25C6BLLQQSeHE3r9OkpfWF/hUNohv9WJ6YP/vw8xlbDFg3WStPANc/NFLkhTaQ=
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by AM9PR04MB8415.eurprd04.prod.outlook.com (2603:10a6:20b:3b5::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Thu, 20 Jul
- 2023 07:10:32 +0000
+ 2023 07:10:38 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6609.022; Thu, 20 Jul 2023
- 07:10:32 +0000
+ 07:10:38 +0000
 From: Ying Liu <victor.liu@nxp.com>
 To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 7/9] drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX and
- LPRX timeout check
-Thread-Topic: [PATCH v2 7/9] drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX
- and LPRX timeout check
-Thread-Index: Adm62UWNCyqQxjzgdUmjJHPwqEPmsA==
-Date: Thu, 20 Jul 2023 07:10:32 +0000
-Message-ID: <20230720071430.259892-8-victor.liu@nxp.com>
+Subject: [PATCH v2 8/9] dt-bindings: display: bridge: Document Freescale
+ i.MX93 MIPI DSI
+Thread-Topic: [PATCH v2 8/9] dt-bindings: display: bridge: Document Freescale
+ i.MX93 MIPI DSI
+Thread-Index: Adm62UlRadPx1sNHokWiUjk2oOWebA==
+Date: Thu, 20 Jul 2023 07:10:38 +0000
+Message-ID: <20230720071430.259892-9-victor.liu@nxp.com>
 References: <20230720071430.259892-1-victor.liu@nxp.com>
 In-Reply-To: <20230720071430.259892-1-victor.liu@nxp.com>
 Accept-Language: en-US
@@ -61,56 +61,56 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|AM9PR04MB8415:EE_
-x-ms-office365-filtering-correlation-id: 69888b05-0bd7-4453-d394-08db88f0680e
+x-ms-office365-filtering-correlation-id: e1cafc19-3a96-4641-dd0c-08db88f06bd1
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LKldNpDWd3hmOB/Bpr6a/6F+3FGySCfQn0aNbYMoMxq7aYZ+Rht1uBeeIySt+V2g6bK4KY7nvLgBwcPbgnA5f9PsECC4un7UtJAS7k/v8xep9ERrzTBpd1OiGeicnFolVXyUY0EPdOIwN7r5OISl6Hs3OTqTbgHw64yzdf9cEGU8DlFrMg91u6E4/XdkNcXNezZJ4HbbDxeA1bMXgRBBWjReMAP2KPB6eq3IwpES3bRjOiW+dGS6C31IoEU8KVDzzBhK1H4aiZLJnlPLjuGWXe53KZ3twYzSS6l62ZyI33n0kojVGjPBNzh60uU3a1l17XYFCsDRsJkAAuNCJmTS4aS1kSV6Yw8mXJB2yradc5fLPKfMHgzSr3h/jgP5J7+X8dFpNrA+cC1mpD0j8h4NrJGU8GyI9R4hOuF4Xu/9+3p/8hckFxiRCxCb8M/p1u5TNKpEerJAmcpIRvKCUbMsFdhS+0pHv2nN+Z6G1BMyPsZLHbazmOsmwPN1hulffMe9a/TYZenm3BvTijtTae23+DPeMtOsdOlnD7rPPZy7Tq6XP0ECzbqI+xq0y3sIALxDzz0XweBB4rMwshXZzMXP95JX4+/Svur4nK8dB6CZ+oQMrYW3z/SzoJkgcaZrFvPI
+x-microsoft-antispam-message-info: Zd+iqvl2j3CG8WqjKhjPl6G5oUE2wOY0zrEkr8nVDtMMWMCI0QtyRRgpGlNneVHWwk93ezpRPYgtekLPyDXa+RXEtJfEWRC92f1mKu36jTPIuUAB3K7nkkC7VaGjoUWyGcRu0UwiZ5ifffiBBxsxgQQdzrkbWoG12ChGyCAHLOpWDbPwMJf/I90fxuEPv4phGaWBaILLJ1pYk1b+7jC+ZqQBIoWS3eRWqj8BRKfU3NReubRNTarRZtJw1SXe2vJjO78N0tKNuLAbhbsIPm3HVugRzWsRkoybZ0QV1ePq9c1nIeb9xtLa7OPJyfYHkvj0bnjjYSqrHsBSVK/7ZIwmKezICa7dmmNF/5C7NlOiUMXEFSuPb0xBY/g3dXNMUAblUxncKhYPr9Iurlhmh+lxh8yH9uANN5VLn6tCyUJGEvcY5kAhLfGBwnmKX1tvRgYFtGezni15v/MugdQXNTOeg2WJcLe/UW/mUFEFVxahGfH7uGKDcIcLOkqzTa0gcu+LTUZJXJe2sLOqlGrITSf1YmPkigukTHB+y6pwv3a5gxpd7cIs9jxVlQslYPD3GZHuSviJH9f51Ku/6hk/PnitkgMqPRd5hwilN/R1oBjQIOYIM6hXlFCXNFD3NVJkfUy1VpGa7aNqEzSWUgJGLeNwHg==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199021)(6506007)(478600001)(1076003)(26005)(6486002)(52116002)(2906002)(6512007)(71200400001)(4326008)(5660300002)(66556008)(316002)(66946007)(66476007)(83380400001)(66446008)(54906003)(110136005)(64756008)(38350700002)(36756003)(38100700002)(7416002)(8936002)(8676002)(86362001)(186003)(2616005)(41300700001)(122000001);
+ SFS:(13230028)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199021)(6506007)(478600001)(1076003)(26005)(6486002)(52116002)(2906002)(6512007)(71200400001)(966005)(4326008)(5660300002)(66556008)(316002)(66946007)(66476007)(83380400001)(66446008)(54906003)(110136005)(64756008)(38350700002)(36756003)(38100700002)(7416002)(8936002)(8676002)(86362001)(186003)(2616005)(41300700001)(122000001);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?R+gKqyyMBFptvoZofgvNiPp3Z0pBsgkrmLlzPqaRLdxtn7K7j8zGT9Eola?=
- =?iso-8859-1?Q?wKCCxcgf0O1DYFpT7ivr++f0fN5LKSiDQa+rykZz6zxMrZIQhN4mNefL/X?=
- =?iso-8859-1?Q?lgF1m2ThxOnrKqPj/FuxsQc23Fmn3wpAfISldqhulFiusNuk/iKCnCHd8Y?=
- =?iso-8859-1?Q?dmU5fX94wdhSPa/9XEpYDpAS6+F5moJ0eFNdLYngLkWHaGwtCN0CpmdJ4p?=
- =?iso-8859-1?Q?roZH96BBEtz0NkUgW0574veT8hiWYLXfxI0PQDoFFxz+o7Yr2t3oA8JnxA?=
- =?iso-8859-1?Q?liaj6hv8E10Vdf0pCxOg/YEtUf6GleUU4zW5sM17pSQv4aGSgS58GnRzzJ?=
- =?iso-8859-1?Q?xdKEjYyUMRL5uy7ptRNHysSjr4ZKWlMjvGV0Wg2MrL9aiZR3ydczp6SI9Q?=
- =?iso-8859-1?Q?Sd04F+d+Okj1SrTfF5j+VRN3W9ZT5GoUoEzYbomN64SEhtV+8a6fRHMV1+?=
- =?iso-8859-1?Q?qOgC7qtZoqzjglOZ9CtPIsXC/FcWLorRJfkLeRYr9rmBY2Z/LvrIVNGZSn?=
- =?iso-8859-1?Q?d0E/5QzAaqObKLlYLWaCHHbsY1ofI6ucBN0krlgmy2rm9mrQstQGi+yQwj?=
- =?iso-8859-1?Q?OGCTz5dkhNoOOImsDamipxOHqATxWFBHNT4xH9Nr98d8nO8Hz5PR+EE+vw?=
- =?iso-8859-1?Q?YFcP5uk2GeWskoYGuK8z404AvFPtDxvFK2GF68c9N5ErRHInk9+9ph+bep?=
- =?iso-8859-1?Q?vTt024mhpGsegu5KfZ6G9XriMEk9R0lkKtRY8LwaKMdbeROdbrORGZuE9z?=
- =?iso-8859-1?Q?zYV8GrSxaQlpzlXKqUhLE2KTXlPm1JlY0H33IRdJe+SI5kWd1pqhT4jfuA?=
- =?iso-8859-1?Q?7R2aqn4kKG7aSKbjM7ZPpayu4s7UR5dmfdy1W+54Z2TE2atDzJOZ1lpw4I?=
- =?iso-8859-1?Q?XRYgF9ZhSwZN2WiL51VI9X/NIbxkZTVcHQYAf7BZwng1eks4X37Z41K+D8?=
- =?iso-8859-1?Q?hnBDqlh7i74/NWXQO3mqxwvLZCPHih4f6z4wNbyZvoxKkc+O5ChiT7gNvs?=
- =?iso-8859-1?Q?8+wr+SrEqHL0WqzuvQwuFXbOhpWJ7WfhwkbDjwe6+pF7qYAcR7+3u6nOBP?=
- =?iso-8859-1?Q?bi4GVHXMRAq05iHPOUzWP+5p2NZjCvEndAnroy95S6+5Bwo2TeRLFdGRT1?=
- =?iso-8859-1?Q?aqJ/wwBk5LWA0PlxMENN1ugrKNmbxPPF8Un1DGQoMsvOuSa3au5dGLdH0S?=
- =?iso-8859-1?Q?C8bS1tzv0XE6bsRthmTck4EPu+7C5/+DXDY4x6T41wifse11o9VlZdrp0L?=
- =?iso-8859-1?Q?eEvNZgJ+uQn7JZWT0vlWpGOgc6SfzKooT8Fkn1vtNS9KrSux2aPldAj2fw?=
- =?iso-8859-1?Q?4a3NHuW9VqOxRK+nSkHSK8NhufT+iL8V9jwdZG9p9jg8/F26Jf2XQGdEEJ?=
- =?iso-8859-1?Q?UFhp+AewDJlflX5ZUgGnx57R5GwsIU6EpWRxFG+i+mxL3pA5eV1WpXXf+J?=
- =?iso-8859-1?Q?6wfTgT0YFlUeMg81Su9p/ahC7Ckg4YCepArYA1KOrpz2NfeRgZbTN+MM82?=
- =?iso-8859-1?Q?LYMFlccvszliYtkvqATog/0UWehcvoi2Wpmtkgtd2/zHMpKX2jxAHHsY1i?=
- =?iso-8859-1?Q?btJkFy0pMB4vOHD4tFKn+Y5fOSDBlr2nXXiQGpjAQlTqC4uyGleO3ViZun?=
- =?iso-8859-1?Q?hNZU4h3Nn7ER0nEd30S/bcuj37+G/8ghLz?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?tLqSj8339Ee5LkSEd5UalBWBpM73ZB4in1jZic0nHFAvnkIwW1ThiRm6Jg?=
+ =?iso-8859-1?Q?FTN5Jy1dZ66PrTx++uogK32TUB61cf5lk2r5Ls5WelgGh3OIE0zAT2UXPk?=
+ =?iso-8859-1?Q?WmhBKVfWK9CQ8tSSWQz2fz8Ui4akLpWDRZaqi0zp3Qqi8FOrWJ7dvTNMLB?=
+ =?iso-8859-1?Q?EdsRUk0/oupeSdFvcyKaMWk6zQEnD9OF9D//0ZuPziYBN4PRcagRDT9346?=
+ =?iso-8859-1?Q?AFJ+sE+N2Ihj/+KJBWIV473CfH2QFlljuOiYjj9HewQhFZVKsqkU8auu50?=
+ =?iso-8859-1?Q?K/qKHk7/tU6kyD0Lv5vD42HFPltU6M/Di4O/iTwKyO+oPyfqPRVymV01zn?=
+ =?iso-8859-1?Q?DDazfxMR/Mn1IWN0Bicjr84XiXRcRmoPjmmaSy+ogQwfTSjCBHkFYLdnGZ?=
+ =?iso-8859-1?Q?fWyt4tIll7Uw2VIddOLcjgSWd6DDc4gJdy7Xur3thxLjg+6v7SP+H4c0lU?=
+ =?iso-8859-1?Q?QYc+8GJ1Sg6u/VmnKh0cygW5mfB/8winfp3Q0LmgLRHvFGQQIF9pRv8JP1?=
+ =?iso-8859-1?Q?NTnV32W8DxhXF6zJ50ILLtvGZbMH89PmjqdKssm7rP7mQYnWG03kUN32BT?=
+ =?iso-8859-1?Q?bb7h2p5t6/zV4CjvjODHrXnIwfZbRUrFmxGXVMt3c5n5dSwOaHZ9VimKEY?=
+ =?iso-8859-1?Q?SWX//BahwLBi0sPTCeaBKiKaEEw2GAtTXO5VqgWUTLYCuViuOQqkbxv62s?=
+ =?iso-8859-1?Q?xTte+FV/qi+BOrQPTQ+H7moD2pO4N/hBp7//1al9oN1qosIMjVknv87hpu?=
+ =?iso-8859-1?Q?grgv+ubO2D5Hz29WdR4Up0ohWs59uwQy/aUnU8CA90GctQgtbOXom4gIgx?=
+ =?iso-8859-1?Q?zUPULnD4zuZDHHsIgRRYL0izdESOW1ZOd0N4SqXZBAb/Zxp+WrOA2Vw4Yr?=
+ =?iso-8859-1?Q?80fQz2XshZzp15epClYYsrGM4m7QtlWz8O+zHcT4Mlhs7CnkOjuG+Wl7Tk?=
+ =?iso-8859-1?Q?OY0XH2MaphwqUyvdG4Sh3XOzsnD3mbNF1R1+a5YeRMVLnE5wM5oAPJRnry?=
+ =?iso-8859-1?Q?Iwf1UCsQCMw95Hx+mjHYoh2CiKvUrsHKg8UQ8vvq7zJyUbSMSSzXJbTlOO?=
+ =?iso-8859-1?Q?JuDyrEShb63r7KZE5hk3th8dHnC9y1dWrYF4slAOXWrIz2VXTEYZSbjeys?=
+ =?iso-8859-1?Q?hoxpP0wEjmcCCAmjLVXk0Aj/TQaUgn95yE0qGDoozi59zAB4lzWQOmT7t0?=
+ =?iso-8859-1?Q?6sIJdelztadF81p7DkC6olyOly/gHaJu06Gkc0HCTDoH806cVc6b11rXZJ?=
+ =?iso-8859-1?Q?QkFBZbuJ+t+DO2i6TkFfbBsRcB4kEXIj5uytjtienxs1KfiRAfYFjAKhMV?=
+ =?iso-8859-1?Q?iXt2inra0Kp5tH5Apu8YuM65PQqAF2sthJJ53Xdsx4vUqhax3OxZ6zuGlp?=
+ =?iso-8859-1?Q?fOqbOxG2yGKHKU4p/BTcTqhOIxq3HpQebS9yY4BClnspphB1psjDUaK5il?=
+ =?iso-8859-1?Q?U4v5oUFc546gszEHJvE7NOHlK5gx9p47fln8Kb576RHXzVjdX+hl1fmH4+?=
+ =?iso-8859-1?Q?roZEa47MDmjMM/eiEDtptwCMtsk0OI/mVkie2NBGOE9Y03w1ev/ZWl8MZ+?=
+ =?iso-8859-1?Q?gICtHN85QNRlaFfWt9LW3pJo8FdoojIe8JUOW39ZE8MRs4hB9xUBt4Vh0h?=
+ =?iso-8859-1?Q?NpWN3QelrVYZiNo6jMOv71ZpOp5G2XK+v3?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69888b05-0bd7-4453-d394-08db88f0680e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2023 07:10:32.1952 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1cafc19-3a96-4641-dd0c-08db88f06bd1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2023 07:10:38.5224 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XUixrAXBC+LPWrgLCvV6MFuqbsLdl3WfEDdnZ2lRWIAs6kJbodURnp6wiF1XEWL2sLKanjt2MSd/Uu8z1lsppg==
+X-MS-Exchange-CrossTenant-userprincipalname: 7N+PbYYv2L4o+fQQdKKtrTZPXI/AxR97Uo1dVVtvS9jwNctGFPWlamW35OsaVQeDR1rGdBhJsUUNIQRVhQk80w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -143,54 +143,147 @@ Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to Synopsys DW MIPI DSI host databook, HSTX and LPRX timeout
-contention detections are measured in TO_CLK_DIVISION cycles.  However,
-the current driver programs magic values to TO_CLK_DIVISION, HSTX_TO_CNT
-and LPRX_TO_CNT register fields, which makes timeout error event wrongly
-happen for some video modes, at least for the typical 1920x1080p@60 video
-mode read from a HDMI monitor driven by ADV7535 DSI to HDMI bridge.
-While at it, the current driver doesn't enable interrupt to handle or
-complain about the error status, so true error just happens silently
-except for display distortions by visual check.
-
-Disable the timeout check by setting those timeout register fields to
-zero for now until someone comes along with better computations for the
-timeout values.  Although the databook doesn't mention what happens when
-they are set to zero, it turns out the false error doesn't happen for
-the 1920x1080p@60 video mode at least.
+Freescale i.MX93 SoC embeds a Synopsys Designware MIPI DSI host
+controller and a Synopsys Designware MIPI DPHY.  Some configurations
+and extensions to them are controlled by i.MX93 media blk-ctrl.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 v1->v2:
-* No change.
+* Add Rob's R-b tag.
 
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../display/bridge/fsl,imx93-mipi-dsi.yaml    | 115 ++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,im=
+x93-mipi-dsi.yaml
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/dr=
-m/bridge/synopsys/dw-mipi-dsi.c
-index 536306ccea5a..0fcadf99e783 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -684,7 +684,7 @@ static void dw_mipi_dsi_init(struct dw_mipi_dsi *dsi)
- 	 * timeout clock division should be computed with the
- 	 * high speed transmission counter timeout and byte lane...
- 	 */
--	dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(10) |
-+	dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(0) |
- 		  TX_ESC_CLK_DIVISION(esc_clk_division));
- }
-=20
-@@ -747,7 +747,7 @@ static void dw_mipi_dsi_command_mode_config(struct dw_m=
-ipi_dsi *dsi)
- 	 * compute high speed transmission counter timeout according
- 	 * to the timeout clock division (TO_CLK_DIVISION) and byte lane...
- 	 */
--	dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(1000) | LPRX_TO_CNT(1000));
-+	dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(0) | LPRX_TO_CNT(0));
- 	/*
- 	 * TODO dw drv improvements
- 	 * the Bus-Turn-Around Timeout Counter should be computed
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mip=
+i-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mip=
+i-dsi.yaml
+new file mode 100644
+index 000000000000..d6e51d0cf546
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx93-mipi-dsi.y=
+aml
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/fsl,imx93-mipi-dsi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX93 specific extensions to Synopsys Designware MIPI DS=
+I
++
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
++
++description: |
++  There is a Synopsys Designware MIPI DSI Host Controller and a Synopsys
++  Designware MIPI DPHY embedded in Freescale i.MX93 SoC.  Some configurati=
+ons
++  and extensions to them are controlled by i.MX93 media blk-ctrl.
++
++allOf:
++  - $ref: snps,dw-mipi-dsi.yaml#
++
++properties:
++  compatible:
++    const: fsl,imx93-mipi-dsi
++
++  clocks:
++    items:
++      - description: apb clock
++      - description: pixel clock
++      - description: PHY configuration clock
++      - description: PHY reference clock
++
++  clock-names:
++    items:
++      - const: pclk
++      - const: pix
++      - const: phy_cfg
++      - const: phy_ref
++
++  interrupts:
++    maxItems: 1
++
++  fsl,media-blk-ctrl:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      i.MX93 media blk-ctrl, as a syscon, controls pixel component bit map
++      configurations from LCDIF display controller to the MIPI DSI host
++      controller and MIPI DPHY PLL related configurations through PLL SoC
++      interface.
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - interrupts
++  - fsl,media-blk-ctrl
++  - power-domains
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx93-clock.h>
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/fsl,imx93-power.h>
++
++    dsi@4ae10000 {
++        compatible =3D "fsl,imx93-mipi-dsi";
++        reg =3D <0x4ae10000 0x10000>;
++        interrupts =3D <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
++        clocks =3D <&clk IMX93_CLK_MIPI_DSI_GATE>,
++                 <&clk IMX93_CLK_MEDIA_DISP_PIX>,
++                 <&clk IMX93_CLK_MIPI_PHY_CFG>,
++                 <&clk IMX93_CLK_24M>;
++        clock-names =3D "pclk", "pix", "phy_cfg", "phy_ref";
++        fsl,media-blk-ctrl =3D <&media_blk_ctrl>;
++        power-domains =3D <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_DSI>;
++        #address-cells =3D <1>;
++        #size-cells =3D <0>;
++
++        panel@0 {
++            compatible =3D "raydium,rm67191";
++            reg =3D <0>;
++            reset-gpios =3D <&adp5585gpio 6 GPIO_ACTIVE_LOW>;
++            dsi-lanes =3D <4>;
++            video-mode =3D <2>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint =3D <&dsi_out>;
++                };
++            };
++        };
++
++        ports {
++            #address-cells =3D <1>;
++            #size-cells =3D <0>;
++
++            port@0 {
++                reg =3D <0>;
++
++                dsi_to_lcdif: endpoint {
++                    remote-endpoint =3D <&lcdif_to_dsi>;
++                };
++            };
++
++            port@1 {
++                reg =3D <1>;
++
++                dsi_out: endpoint {
++                    remote-endpoint =3D <&panel_in>;
++                };
++            };
++        };
++    };
 --=20
 2.37.1
 
