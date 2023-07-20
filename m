@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3589175ACB3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 13:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCE175ACB2
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 13:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F75D10E5AC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D3710E5B0;
 	Thu, 20 Jul 2023 11:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6655C10E133
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 11:16:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0D610E133
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 11:16:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B1D5D61A33;
- Thu, 20 Jul 2023 11:16:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A1C8C433C8;
- Thu, 20 Jul 2023 11:16:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7464261A30;
+ Thu, 20 Jul 2023 11:16:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B63C433C7;
+ Thu, 20 Jul 2023 11:16:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689851764;
- bh=WCfLzKJ9sM8i+BLjxKY6Cmt+LRE3//pdjKIz70DXm0E=;
+ s=k20201202; t=1689851766;
+ bh=lolA781m2pvNRYndxxR6VFXpaiQRr55iVDwxTaDQ5Cg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=UNaf6uTbWK2GPJonf5J7mfU2ptw6C7UGMCgxsyCSYwLHB3D636hw4r33zJpx9bYeZ
- VD6RTESqqz2fi3vosR8f3K4hw6Mnl5bWI5Hj9SBSYMQskpG+sDUVlPk8ZwQgfcsdFz
- 43zNnRa6famQsILB7m+ijEZKIw0YZysU1unNJrtHfcK+sqUfzoCroZ+SLzG5MAesP+
- 9a5HGw1UMS1MKys0T7NCe21aARXQrw1nM2jcHkM2b7tXuQL0po2RN6OeVrUHfyJ6cP
- uo054JNiLq9ulYxTGQnzcVTPcndy7HsUIus2nHsxaeRW8a1+DewnAMBQoe6RjYiOga
- GB+eELLrpjqcw==
+ b=dTYuZxfdBdBE4uVyYSw1okw02GNpd3y/cPPtAQH5kOZN05SRokADcJOknZmXVWvuE
+ 3GVK6YatJzb3/7INyVcGVPXS/K7Dv4YF9y0JAiCMiC6s+lAmTkW3QWPkf5f+qLLwo3
+ DDt8ojhhGirvs63NQqLzBv7zKaejXoPaqoBI9JjYDt9uDw+L+wK9VxORVAbaoIHTNH
+ Om+lfBGw7an1vRpNb25o5edTtjIBoSVcGWHwgIcnQ6OtO0O6ru1jvzbPCevP8MbYns
+ fmEok7SZIrHuDAGCez4A0vfJ88CzhmlYm6nvGniEkV4p1Ix7MvuRdFcuLBJ/qgVFVd
+ ASXMThOuUR2cA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 20 Jul 2023 13:15:48 +0200
-Subject: [PATCH v2 03/11] drm/tests: modes: Remove call to
+Date: Thu, 20 Jul 2023 13:15:49 +0200
+Subject: [PATCH v2 04/11] drm/tests: probe-helper: Remove call to
  drm_kunit_helper_free_device()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230720-kms-kunit-actions-rework-v2-3-175017bd56ab@kernel.org>
+Message-Id: <20230720-kms-kunit-actions-rework-v2-4-175017bd56ab@kernel.org>
 References: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
 In-Reply-To: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1295; i=mripard@kernel.org;
- h=from:subject:message-id; bh=WCfLzKJ9sM8i+BLjxKY6Cmt+LRE3//pdjKIz70DXm0E=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCk7xTNce5ez58hlbNrX8dW3Q625/pewoty87DUhp/96n
- nWv23q1o5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABNZY8Tw3+eTaXLC9wYzG7Eb
- e8OeXuayXSIW43jS58j8ct11PRGn0hgZPl2/fPBtQvY5L8tb9pPF89n+S3av9Ni/7IuaiPV3q/g
- 7DAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1442; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=lolA781m2pvNRYndxxR6VFXpaiQRr55iVDwxTaDQ5Cg=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCk7xTN+ed+ROjlv+d053PHpDT9F7Cy6r0czLD/5QeDR/
+ uW2BzsEO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjARbR+G/84z1p/Vt4iSEfVZ
+ 7qTu/UJT/Z1W4v1Uk3OO7Wv0sxL95zAyLGoMM+ap3J7fGjpDem/pO+Npf687vcze8HnmQTPrx+E
+ neQE=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,33 +83,33 @@ Remove it.
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tests/drm_modes_test.c | 8 --------
+ drivers/gpu/drm/tests/drm_probe_helper_test.c | 8 --------
  1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_modes_test.c b/drivers/gpu/drm/tests/drm_modes_test.c
-index bc4aa2ce78be..1e9f63fbfead 100644
---- a/drivers/gpu/drm/tests/drm_modes_test.c
-+++ b/drivers/gpu/drm/tests/drm_modes_test.c
-@@ -36,13 +36,6 @@ static int drm_test_modes_init(struct kunit *test)
+diff --git a/drivers/gpu/drm/tests/drm_probe_helper_test.c b/drivers/gpu/drm/tests/drm_probe_helper_test.c
+index 0ee65828623e..1a2044070a6c 100644
+--- a/drivers/gpu/drm/tests/drm_probe_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_probe_helper_test.c
+@@ -60,13 +60,6 @@ static int drm_probe_helper_test_init(struct kunit *test)
  	return 0;
  }
  
--static void drm_test_modes_exit(struct kunit *test)
+-static void drm_probe_helper_test_exit(struct kunit *test)
 -{
--	struct drm_test_modes_priv *priv = test->priv;
+-	struct drm_probe_helper_test_priv *priv = test->priv;
 -
 -	drm_kunit_helper_free_device(test, priv->dev);
 -}
 -
- static void drm_test_modes_analog_tv_ntsc_480i(struct kunit *test)
- {
- 	struct drm_test_modes_priv *priv = test->priv;
-@@ -148,7 +141,6 @@ static struct kunit_case drm_modes_analog_tv_tests[] = {
- static struct kunit_suite drm_modes_analog_tv_test_suite = {
- 	.name = "drm_modes_analog_tv",
- 	.init = drm_test_modes_init,
--	.exit = drm_test_modes_exit,
- 	.test_cases = drm_modes_analog_tv_tests,
+ typedef struct drm_display_mode *(*expected_mode_func_t)(struct drm_device *);
+ 
+ struct drm_connector_helper_tv_get_modes_test {
+@@ -208,7 +201,6 @@ static struct kunit_case drm_test_connector_helper_tv_get_modes_tests[] = {
+ static struct kunit_suite drm_test_connector_helper_tv_get_modes_suite = {
+ 	.name = "drm_connector_helper_tv_get_modes",
+ 	.init = drm_probe_helper_test_init,
+-	.exit = drm_probe_helper_test_exit,
+ 	.test_cases = drm_test_connector_helper_tv_get_modes_tests,
  };
  
 
