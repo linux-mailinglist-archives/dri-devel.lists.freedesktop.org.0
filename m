@@ -1,59 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C9575A985
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 10:43:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A0575A999
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 10:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A72A10E15F;
-	Thu, 20 Jul 2023 08:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC5DF10E0C5;
+	Thu, 20 Jul 2023 08:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 940F610E0C5;
- Thu, 20 Jul 2023 08:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689842591; x=1721378591;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=di9h+46ohxqoEGRZiCGzN9lOQ5UWLl/5Mvmelef0gBg=;
- b=O/SvxBb00TKPFu1nljjRDo8QsrtRjTy13T5SVzb0qXgPd2ZFUDrOSJWF
- xjT9lq4oJM88jRTe0+c7MW1RDkCoQGmk/oLmjNFcbV+GteLMtIsVWWCIP
- TV/d+uDCKG2tKn6IaRaz7gKBPuqfNXobtu5tH2jQ7Zls6m+x3NZxXFx8K
- idAP8EmJyOIcUabtQJmhM75s6PoMIbOCX/+iQIi/bk0+Kszi7YCp7PqCI
- PyJnDbvkga0SDvzHwQDNGMFzQ782/7iXzbfXg/jrqSyd35wAH/z6xtwrv
- fUPAG3et0kZprTDyeLzI84ztjGwpT4UOd5YeYNIfME/xvB7FaJnrYBdAd w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="365558097"
-X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; d="scan'208";a="365558097"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 01:43:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="718317662"
-X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; d="scan'208";a="718317662"
-Received: from ctuohy-mobl1.ger.corp.intel.com (HELO [10.213.193.21])
- ([10.213.193.21])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 01:43:07 -0700
-Message-ID: <1a2aeca6-12f7-6316-c6e2-8474fd17255e@linux.intel.com>
-Date: Thu, 20 Jul 2023 09:43:05 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A415610E0C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 08:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689843057;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eABGrw0TL06vz03G7+XhqlL5JafnHauhGDPjNQEG6Nc=;
+ b=PRNmVP3qoIyE5QMZgMYMw1EdU9UPp5bNkRUs4Q1cUpJ00j6nLTzt4TWKwZANlVlAVZTe0/
+ 6k7QoChmGL7z7m2Bi4EtPhydz2dwtAnuZghM8IsBfALKcHU+GAELt8Uwo0NJmBrIt03KzQ
+ uZ+MPjQ1C2r7uO5qRhCXtC4pDszcFuA=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-549-hMVe0qBeODGMNi6lgZPQLg-1; Thu, 20 Jul 2023 04:50:54 -0400
+X-MC-Unique: hMVe0qBeODGMNi6lgZPQLg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2b6f51e170fso4841971fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 01:50:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689843053; x=1690447853;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eABGrw0TL06vz03G7+XhqlL5JafnHauhGDPjNQEG6Nc=;
+ b=M2Rbnx2IH3pz27Abf2kZRmrB9RbFLkqdVaKvQQoRiiqCW8bs/lNnj/BzVoyRODsJUI
+ kc8eqsj5CnXcDT06+p/9Pj762yvcXU7lwHxVg2FP7V8ROFT6rmKAWctz8QP2G/6bbY1P
+ 6xBC3eBGrIVvdVRfzgRCVyvmLH5T9CZUHIrbuGH6JdtiBmYhfFtMdVl1Q4k1GiaDEUJH
+ waaI6jjVIR415uijR7hw9oRtu6voXozu0p0+XsqZ72wquETYRRpASq1s67lfpuHeXVQL
+ 6sueCRdWMjI2jcIg09vCkoTUI3jbK4j7I23/CxgZUbpOSGzCiS0Qa4+rHsuZK/PwcFMr
+ Brog==
+X-Gm-Message-State: ABy/qLazJF8VI8+51Mvb+tp/omahMFGbUz3i1AYmC73GyT702rChf78x
+ rj2BSdOiuQldU/H+H42fTOiRXSAKv9eA/OAifmd+gRBEyXw/v1ikbQdQBZN4bUlmuibC9g6lVF1
+ m8DVEXCcVPs9km0joz/aGjv9TDjaC
+X-Received: by 2002:a2e:9316:0:b0:2b9:55c9:c228 with SMTP id
+ e22-20020a2e9316000000b002b955c9c228mr1315397ljh.27.1689843052944; 
+ Thu, 20 Jul 2023 01:50:52 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFqLEGV2HUA/UPmaeWdDYKPDFfMzY8GIWSGYauN6EzdveWA24IoVFoWMg48Sv5w8n4SRcevOQ==
+X-Received: by 2002:a2e:9316:0:b0:2b9:55c9:c228 with SMTP id
+ e22-20020a2e9316000000b002b955c9c228mr1315388ljh.27.1689843052598; 
+ Thu, 20 Jul 2023 01:50:52 -0700 (PDT)
+Received: from localhost ([90.167.86.194]) by smtp.gmail.com with ESMTPSA id
+ u9-20020a7bc049000000b003fba6a0c881sm3325924wmc.43.2023.07.20.01.50.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Jul 2023 01:50:52 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Simon Ser <contact@emersion.fr>, Zack Rusin <zackr@vmware.com>
+Subject: Re: [PATCH v5 9/9] drm: Introduce documentation for hotspot properties
+In-Reply-To: <xhJhUmlWt6a9ajOdF2Wodjm6IQBab4jqySRdBAPLaA4No87O7zfEX9v4d-ugWWAPgJBIWQeLV4RVuuRoZPK7aTYgNWp2YofiHra2GVLBfpY=@emersion.fr>
+References: <20230719014218.1700057-1-zack@kde.org>
+ <20230719014218.1700057-10-zack@kde.org> <20230719111541.33c05b14@eldfell>
+ <41590ef35281fbc54be1ee58d9187ede8bc44698.camel@vmware.com>
+ <xhJhUmlWt6a9ajOdF2Wodjm6IQBab4jqySRdBAPLaA4No87O7zfEX9v4d-ugWWAPgJBIWQeLV4RVuuRoZPK7aTYgNWp2YofiHra2GVLBfpY=@emersion.fr>
+Date: Thu, 20 Jul 2023 10:50:43 +0200
+Message-ID: <87sf9jhspo.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/i915: Avoid -Wconstant-logical-operand in
- nsecs_to_jiffies_timeout()
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, emma@anholt.net,
- mwen@igalia.com
-References: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-0-36ed8fc8faea@kernel.org>
- <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-2-36ed8fc8faea@kernel.org>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-2-36ed8fc8faea@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,70 +81,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trix@redhat.com, intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
- ndesaulniers@google.com, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, justinstitt@google.com
+Cc: aesteve@redhat.com, Michael Banack <banackm@vmware.com>,
+ Martin Krastev <krastevm@vmware.com>,
+ "ppaalanen@gmail.com" <ppaalanen@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Ian Forbes <iforbes@vmware.com>, Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Simon Ser <contact@emersion.fr> writes:
 
-On 18/07/2023 22:44, Nathan Chancellor wrote:
-> A proposed update to clang's -Wconstant-logical-operand to warn when the
-> left hand side is a constant shows the following instance in
-> nsecs_to_jiffies_timeout() when NSEC_PER_SEC is not a multiple of HZ,
-> such as CONFIG_HZ=300:
-> 
->    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
->      189 |         if (NSEC_PER_SEC % HZ &&
->          |             ~~~~~~~~~~~~~~~~~ ^
->    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: use '&' for a bitwise operation
->      189 |         if (NSEC_PER_SEC % HZ &&
->          |                               ^~
->          |                               &
->    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: remove constant to silence this warning
->    1 warning generated.
-> 
-> Turn this into an explicit comparison against zero to make the
-> expression a boolean to make it clear this should be a logical check,
-> not a bitwise one.
+Hello Simon,
 
-So -Wconstant-logical-operand only triggers when it is a constant but 
-not zero constant? Why does that make sense is not a kludge to avoid too 
-much noise?
+> On Thursday, July 20th, 2023 at 07:03, Zack Rusin <zackr@vmware.com> wrote:
+>
+>> I'll give this series a few more hours on the list and if no one objects I'll push
+>> it to drm-misc later today. Thanks!
+>
+> Sorry, but this doesn't seem to be enough to satisfy the DRM merge
+> requirements. This introduces a new uAPI but is missing user-space
+> patches and IGT. See [1] and [2].
+>
+> [1]: https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#requirements
+> [2]: https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
+>
 
-Personally, it all feels a bit over the top as a warning,  since code in 
-both cases should optimise away. And we may end up papering over it if 
-it becomes a default.
+Albert (Cc'ed) wrote IGT tests for this new uAPI and was waiting for
+Zack's patches to land to post them. I believe his branch is [0] but
+he can correct me if I'm wrong on that.
 
-Then again this patch IMO does make the code more readable, so I am 
-happy to take this one via our tree. Or either give ack to bring it in 
-via drm-misc-next:
+Zack also has mutter patches and Albert has been testing those too.
 
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+[0]: https://gitlab.freedesktop.org/aesteve/igt-gpu-tools/-/commits/modeset-cursor-hotspot-test/
 
-Let me know which route works best.
+-- 
+Best regards,
 
-Regards,
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-Tvrtko
-
-> Link: https://reviews.llvm.org/D142609
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index 4a33ad2d122b..d4b918fb11ce 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -186,7 +186,7 @@ i915_gem_object_wait(struct drm_i915_gem_object *obj,
->   static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
->   {
->   	/* nsecs_to_jiffies64() does not guard against overflow */
-> -	if (NSEC_PER_SEC % HZ &&
-> +	if ((NSEC_PER_SEC % HZ) != 0 &&
->   	    div_u64(n, NSEC_PER_SEC) >= MAX_JIFFY_OFFSET / HZ)
->   		return MAX_JIFFY_OFFSET;
->   
-> 
