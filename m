@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A444375B1F6
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A9375B23B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 17:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47E5E10E148;
-	Thu, 20 Jul 2023 15:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417DD10E5CD;
+	Thu, 20 Jul 2023 15:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D83710E148
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 15:03:52 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-314172bac25so731127f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 08:03:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689865431; x=1690470231; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yk0+OfIBVrjxdxyJzd6k7bKe62s4LYJUT+/V2wesyK4=;
- b=HvrixRAIL67I2qRJlTd4cc4z9glJkuSXOv1aDPxuTIHyLZ5BSGbNepxqA3n9t43KgE
- LBNT82RTszenAssbCx8M1uPIjpd0Ga+VOzLnq6OyFtAzpVQFfyqIHXafX3CHjQQEd+NS
- VWcHimCa5DPA9BQDKkPGcgLs1H3rql+tVoNrRRc5mvp+uIQi1VNB+fldBjbuDabP6L+Y
- 8dYfAF9ew641dJCCXIANGFdLugHY2oxVXI2bFgK7ZyX3PbaFwNVP35RxC7uFNQ9jBQt1
- UR5uKK+kQodIL8dGRKlnO40omGFnZ3LRz/tJ6pX+75Kh1+xxemuvvap0HTtLYhqILSpR
- v0Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689865431; x=1690470231;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yk0+OfIBVrjxdxyJzd6k7bKe62s4LYJUT+/V2wesyK4=;
- b=Hu7Iw0/1fT052T+2jAwqzLrn6PKeDHgPPdD9i1MbIVhBNA8qurg0BWtbWdtPvDsnk4
- mWrXWoLU8rPxuETuqb2w0jrzeNoRLi8y6VdM3u+ejVxlF86Hkm5m7B1tDZGP+rZrSvfV
- RAXlXEeT/6c7J37/8KacjyWon+EmDXvLWgeEo/fFVJ/4KkUs6yffPE5BB39MuzvIBedr
- a0vfWXYfMGxHliIRo0cXtIY9g/br2Q2iooIJmjTmUvq0hVCNieWgYnoK72fVzANJLVOn
- jUFenHCCKXVrkomI8hUmtLPcHiHMdrHmFg7CNT6CqSYXxkP+/fStzg643CA3FQHIXpQs
- mjig==
-X-Gm-Message-State: ABy/qLa4TRMSMQ3sduDPZoFEG4HPP8hIk+RXLbDRLTTp4ElhyTYBJTVw
- Vl0H/KG9YoECsGWNTMLtbEklIA==
-X-Google-Smtp-Source: APBJJlEnxpnc6Eg6VtavPczW2DTVI9oBNtJTq6mn0UUWeRqPv/nKBvuumDIPWZPdrtpXnWvrphAq/Q==
-X-Received: by 2002:a5d:4c4b:0:b0:314:1f1e:3a85 with SMTP id
- n11-20020a5d4c4b000000b003141f1e3a85mr2051958wrt.61.1689865430880; 
- Thu, 20 Jul 2023 08:03:50 -0700 (PDT)
-Received: from [10.1.3.59] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31]) by smtp.gmail.com with ESMTPSA id
- n12-20020a5d6b8c000000b003143c6e09ccsm1589783wrx.16.2023.07.20.08.03.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jul 2023 08:03:50 -0700 (PDT)
-Message-ID: <a3502c0b-d0e8-9166-b6b4-8f40650636c7@baylibre.com>
-Date: Thu, 20 Jul 2023 17:03:49 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C9510E5C4;
+ Thu, 20 Jul 2023 15:16:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9ADC661AF8;
+ Thu, 20 Jul 2023 15:16:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54165C433C7;
+ Thu, 20 Jul 2023 15:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689866199;
+ bh=cVe5IVCXrI2dTRFYJoEnl0cnQpuSELuvSLGYYEvbTf4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UKcPq9XCIwquJcL3mnGYr3evcDeveAHebalY3TcoJFLG8nvrsD8jh2Wlm9u1eGA7L
+ UmAkmsfQPf55yk8+oH6CFiL52EN+h760zhead+InEDJRosFzUvX7/kBYtzcXiowwFp
+ wMRJamotYNIceen6wFkHvKV1Z/FOXdJr2EcBZ+dmAceP2NXZgu/AfbOaRVaIxb2Tmg
+ kaCqFfkcOvDaihJ1211vVCLMhqh+QVvsPRKSzKq+oTHUlFpjvG7TgZUoITqkJFNjit
+ z/XTixs6VEeqTliLic5ED2ORon889x1b7MvtbmZ+GuvN/9e5xTdFEunHMW+fCDAx/1
+ eyC3SCSoy3Qkg==
+Date: Thu, 20 Jul 2023 08:16:36 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915: Avoid -Wconstant-logical-operand in
+ nsecs_to_jiffies_timeout()
+Message-ID: <20230720151636.GA511202@dev-arch.thelio-3990X>
+References: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-0-36ed8fc8faea@kernel.org>
+ <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-2-36ed8fc8faea@kernel.org>
+ <1a2aeca6-12f7-6316-c6e2-8474fd17255e@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v6 10/11] drm/mediatek: dp: Add .wait_hpd_asserted() for
- AUX bus
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
- <20230717141438.274419-11-angelogioacchino.delregno@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230717141438.274419-11-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1a2aeca6-12f7-6316-c6e2-8474fd17255e@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +55,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: justinstitt@google.com, emma@anholt.net, trix@redhat.com,
+ intel-gfx@lists.freedesktop.org, ndesaulniers@google.com,
+ patches@lists.linux.dev, mwen@igalia.com, dri-devel@lists.freedesktop.org,
+ llvm@lists.linux.dev, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-
-On 17/07/2023 16:14, AngeloGioacchino Del Regno wrote:
-> In order to support usecases in which the panel regulator can be
-> switched on and off to save power, and usecases in which the panel
-> regulator is off at boot, add a .wait_hpd_asserted() callback for
-> the AUX bus: this will make sure to wait until the panel is fully
-> ready after power-on before trying to communicate with it.
+On Thu, Jul 20, 2023 at 09:43:05AM +0100, Tvrtko Ursulin wrote:
 > 
-> Also, parse the eDP display capabilities in that callback, so that
-> we can also avoid using the .get_edid() callback from this bridge.
+> On 18/07/2023 22:44, Nathan Chancellor wrote:
+> > A proposed update to clang's -Wconstant-logical-operand to warn when the
+> > left hand side is a constant shows the following instance in
+> > nsecs_to_jiffies_timeout() when NSEC_PER_SEC is not a multiple of HZ,
+> > such as CONFIG_HZ=300:
+> > 
+> >    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+> >      189 |         if (NSEC_PER_SEC % HZ &&
+> >          |             ~~~~~~~~~~~~~~~~~ ^
+> >    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: use '&' for a bitwise operation
+> >      189 |         if (NSEC_PER_SEC % HZ &&
+> >          |                               ^~
+> >          |                               &
+> >    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: remove constant to silence this warning
+> >    1 warning generated.
+> > 
+> > Turn this into an explicit comparison against zero to make the
+> > expression a boolean to make it clear this should be a logical check,
+> > not a bitwise one.
 > 
-> Since at this point the hpd machinery is performed in the new hpd
-> callback and the detection and edid reading are done outside of
-> this driver, assign the DRM_BRIDGE_OP_{DETECT, EDID, HPD} ops and
-> register the bridge unconditionally at probe time only if we are
-> probing full DisplayPort and not eDP while, for the latter, we
-> register the bridge in the .done_probing() callback and only if
-> the panel was found and triggered HPD.
+> So -Wconstant-logical-operand only triggers when it is a
+> constant but not zero constant? Why does that make sense is not
+> a kludge to avoid too much noise?
 
--- 
-Regards,
-Alexandre
+Yes, the warning purposefully does not trigger when the constant is a 1
+or 0 (as those are usually indicative of an intentional logical
+operation):
+
+https://github.com/llvm/llvm-project/blob/dfdfd306cfaf54fbc43e2d5eb36489dac3eb9976/clang/lib/Sema/SemaExpr.cpp#L13917-L13919
+
+In this case, it is 100, so I kind of understand why this might be
+ambiguous to the compiler.
+
+> Personally, it all feels a bit over the top as a warning,
+> since code in both cases should optimise away. And we may end
+
+I do not necessarily disagree, as you can see from the differential
+review that I linked in the message, but I also understand it is a fine
+line to tread when writing compiler warnings between wanting to catch
+as many potential problems as possible and having too much noise for
+developers to sift through. I think this is erring on the side of
+caution.
+
+> up papering over it if it becomes a default.
+
+diagtool tree tells me this warning is already on by default.
+
+> Then again this patch IMO does make the code more readable, so
+
+I think so too.
+
+> I am happy to take this one via our tree. Or either give ack to
+> bring it in via drm-misc-next:
+> 
+> Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Let me know which route works best.
+
+Thanks for the feedback! Either route is fine with me but if the v3d
+patch is going to go in via drm-misc-next, it seems like it would not be
+too much trouble to push this one with it.
+
+Cheers,
+Nathan
