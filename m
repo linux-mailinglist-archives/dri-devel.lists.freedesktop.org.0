@@ -1,75 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF6375ABF3
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 12:29:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A0575ABFB
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 12:31:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19B110E59F;
-	Thu, 20 Jul 2023 10:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 515D010E5A1;
+	Thu, 20 Jul 2023 10:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1F4C10E5A2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 10:29:36 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3fc03d990daso1013895e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 03:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1689848975; x=1690453775;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=55ldkBN7Z9rmeZAoOny3CqxP4h68H/R8XHjCRpEpvaM=;
- b=To/aqJ+AR8e5dWEecXLmVyKzJv7p/eXCLLd8C+JTITCgvgX10gO3bPy9mTfjfApmKC
- pxsQe0Zi0t9ZTJKAnnPaXOSY+2KgC+undQtxxu7OXKGlWVpCoprWFOsxf+W4mnSLiDLC
- pAgi2NsmcZku6fKLA/jCVUWBjUWpmQMelRwLE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689848975; x=1690453775;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=55ldkBN7Z9rmeZAoOny3CqxP4h68H/R8XHjCRpEpvaM=;
- b=P+vUcpdlE8gLBYC4zZgUxhOMYYnlfttBjaH/LKEGvvQFavdHgl+8xynujy0KtAQ60J
- VkKHYuOHTTxvTBj4b6aRXJd0AQ0IoG4IbMA8MFzaSSou2vsSKXvjxIJ1bp7B0EIhm2a7
- VLXQ6JfM0GulyGPkGTtrf/L/x0LbL5WfuCZRmd29l55bS9YVAYdGTdL/N+UgVsFMnGZn
- uo94pqx9LBpjtxwI13l0BsDknBcnGk9FB6IUufVbeeb/Jabt4szwgbOyt5dDYJ8ISh7M
- 4Y9DG4eP/ye+uRtq7maN9QP69PgqE0WCpjHtf9a+Ax9P7SQtAHjaibGKWz17PiKyHEcb
- XHMw==
-X-Gm-Message-State: ABy/qLblKx1PLjeeN7XA84MuwF1YMMU80q6OK2HgC66C7t96bvy50GBN
- k0rtxdsTcomj/aNQCk0xttBKzg==
-X-Google-Smtp-Source: APBJJlGt+6m30H+euMcgCia5xz8EHhxIYsHnKz/Fj04bqSKh9ChxaTbMBvaixRVxb9X8NJRNSY8UQQ==
-X-Received: by 2002:a05:600c:354f:b0:3fa:9587:8fc1 with SMTP id
- i15-20020a05600c354f00b003fa95878fc1mr1968458wmq.1.1689848974989; 
- Thu, 20 Jul 2023 03:29:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- f14-20020a7bcd0e000000b003fc01f7b415sm3582137wmj.39.2023.07.20.03.29.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Jul 2023 03:29:34 -0700 (PDT)
-Date: Thu, 20 Jul 2023 12:29:32 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH] accel/habanalabs: add more debugfs stub helpers
-Message-ID: <ZLkMjL8Aebipv4QR@phenom.ffwll.local>
-Mail-Followup-To: Oded Gabbay <ogabbay@kernel.org>,
- Tomer Tayar <ttayar@habana.ai>, Arnd Bergmann <arnd@kernel.org>,
- Ohad Sharabi <osharabi@habana.ai>, Arnd Bergmann <arnd@arndb.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Dafna Hirschfeld <dhirschfeld@habana.ai>,
- Ofir Bitton <obitton@habana.ai>
-References: <20230609120636.3969045-1-arnd@kernel.org>
- <b3a3e2f8-51d8-f8ce-95ce-1180f80cc2d2@habana.ai>
- <CAFCwf122kE8sNksXivPA+E=BWzjroKowwqDJrHVMNj-o3oJq0A@mail.gmail.com>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB0D910E5A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 10:31:23 +0000 (UTC)
+Date: Thu, 20 Jul 2023 10:31:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1689849081; x=1690108281;
+ bh=RIzsxjFJVzu7QLMreVFel/I2enVI2aly68q3YeP4hq0=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=InfTrSUQ0uZ/cMgSXlQK6VSWlXVFSQUq4KnMDYSwVWz+Dhb5SWy/GZ7imgs+dsspT
+ Zg1SHsw7CgvUoajZWTrNYH4aleja1q9XsJMbF7h4/aNGzf8s9G34J3t3ej+iCtIjK5
+ ntrtIdfWf7pqkWxec5CBohfGorFTZEcJgJvcjBPqirvsnMygrkkFXu+MSbpLpMlXsW
+ 3SXmXK1H5sE+H4HUGniyVDpKJfhXWc4UZoBh6F9v0LELbm4jwUj8Ux174PVOFGNxZD
+ ZBe7CxGXqYfpBOXNRy17utA7Cd1S4ZZf59Lp1q1wrWj+gAGhyKUQ/KEJ+e8Lj36PUD
+ jC7Fe8X7VZL4Q==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm/ioctl: turn on -Woverride-init for IOCTL table
+Message-ID: <20230720103107.817084-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFCwf122kE8sNksXivPA+E=BWzjroKowwqDJrHVMNj-o3oJq0A@mail.gmail.com>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,73 +44,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@kernel.org>, Ohad Sharabi <osharabi@habana.ai>,
- Arnd Bergmann <arnd@arndb.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Dafna Hirschfeld <dhirschfeld@habana.ai>, Tomer Tayar <ttayar@habana.ai>,
- Ofir Bitton <obitton@habana.ai>
+Cc: Erik Kurzinger <ekurzinger@nvidia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 11, 2023 at 12:50:31PM +0300, Oded Gabbay wrote:
-> On Fri, Jun 9, 2023 at 4:37 PM Tomer Tayar <ttayar@habana.ai> wrote:
-> >
-> > On 09/06/2023 15:06, Arnd Bergmann wrote:
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > Two functions got added with normal prototypes for debugfs, but not
-> > > alternative when building without it:
-> > >
-> > > drivers/accel/habanalabs/common/device.c: In function 'hl_device_init':
-> > > drivers/accel/habanalabs/common/device.c:2177:14: error: implicit declaration of function 'hl_debugfs_device_init'; did you mean 'hl_debugfs_init'? [-Werror=implicit-function-declaration]
-> > > drivers/accel/habanalabs/common/device.c:2305:9: error: implicit declaration of function 'hl_debugfs_device_fini'; did you mean 'hl_debugfs_remove_file'? [-Werror=implicit-function-declaration]
-> > >
-> > > Add stubs for these as well.
-> > >
-> > > Fixes: 553311fc7b76e ("accel/habanalabs: expose debugfs files later")
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Thanks,
-> > Reviewed-by: Tomer Tayar <ttayar@habana.ai>
-> 
-> Thanks,
-> Applied to -fixes.
+Recently two patches [1] [2] have hit a case of mistakenly picking
+an IOCTL number which was already in-use. This is hard to debug
+because the last definition wins and there is no indication that
+there is a conflict.
 
-As requested applied to drm-fixes, hopeful for the next one your drm-misc
-account issue is fixed.
--Daniel
+Fix this by enabling -Werror=3Doverride-init for the IOCTL table.
+When there is a duplicate entry, the compiler now errors out:
 
-> Oded
-> >
-> > > ---
-> > >   drivers/accel/habanalabs/common/habanalabs.h | 9 +++++++++
-> > >   1 file changed, 9 insertions(+)
-> > >
-> > > diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-> > > index d92ba2e30e310..2f027d5a82064 100644
-> > > --- a/drivers/accel/habanalabs/common/habanalabs.h
-> > > +++ b/drivers/accel/habanalabs/common/habanalabs.h
-> > > @@ -3980,6 +3980,15 @@ static inline void hl_debugfs_fini(void)
-> > >   {
-> > >   }
-> > >
-> > > +static inline int hl_debugfs_device_init(struct hl_device *hdev)
-> > > +{
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static inline void hl_debugfs_device_fini(struct hl_device *hdev)
-> > > +{
-> > > +}
-> > > +
-> > >   static inline void hl_debugfs_add_device(struct hl_device *hdev)
-> > >   {
-> > >   }
-> >
-> >
+      CC [M]  drivers/gpu/drm/drm_ioctl.o
+    drivers/gpu/drm/drm_ioctl.c:555:33: error: initialized field overwritte=
+n [-Werror=3Doverride-init]
+      555 |         [DRM_IOCTL_NR(ioctl)] =3D {               \
+          |                                 ^
+    drivers/gpu/drm/drm_ioctl.c:708:9: note: in expansion of macro =
+=E2=80=98DRM_IOCTL_DEF=E2=80=99
+      708 |         DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_EVENTFD, drm_syncobj_re=
+set_ioctl,
+          |         ^~~~~~~~~~~~~
+    drivers/gpu/drm/drm_ioctl.c:555:33: note: (near initialization for =
+=E2=80=98drm_ioctls[207]=E2=80=99)
+      555 |         [DRM_IOCTL_NR(ioctl)] =3D {               \
+          |                                 ^
+    drivers/gpu/drm/drm_ioctl.c:708:9: note: in expansion of macro =
+=E2=80=98DRM_IOCTL_DEF=E2=80=99
+      708 |         DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_EVENTFD, drm_syncobj_re=
+set_ioctl,
+          |         ^~~~~~~~~~~~~
+    cc1: some warnings being treated as errors
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[1]: https://lore.kernel.org/dri-devel/20230714111257.11940-1-contact@emers=
+ion.fr/
+[2]: https://lore.kernel.org/dri-devel/vVFDBgHpdcB0vOwnl02QPOFmAZPEbIV56E_w=
+Q8B012K2GZ-fAGyG0JMbSrMu3-IcKYVf0JpJyrf71e6KFHfeMoSPJlYRACxlxy91eW9c6Fc=3D@=
+emersion.fr/
+
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Erik Kurzinger <ekurzinger@nvidia.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/drm_ioctl.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index f03ffbacfe9b..cd485eb54d2a 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -566,6 +566,8 @@ static int drm_ioctl_permit(u32 flags, struct drm_file =
+*file_priv)
+ #endif
+=20
+ /* Ioctl table */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic error "-Woverride-init"
+ static const struct drm_ioctl_desc drm_ioctls[] =3D {
+ =09DRM_IOCTL_DEF(DRM_IOCTL_VERSION, drm_version, DRM_RENDER_ALLOW),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_GET_UNIQUE, drm_getunique, 0),
+@@ -718,6 +720,7 @@ static const struct drm_ioctl_desc drm_ioctls[] =3D {
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_M=
+ASTER),
+ =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl,=
+ DRM_MASTER),
+ };
++#pragma GCC diagnostic pop
+=20
+ #define DRM_CORE_IOCTL_COUNT=09ARRAY_SIZE(drm_ioctls)
+=20
+--=20
+2.41.0
+
+
