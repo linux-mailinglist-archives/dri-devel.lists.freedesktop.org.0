@@ -2,75 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E7775AAF2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 11:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D4E75AB23
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 11:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9273310E58D;
-	Thu, 20 Jul 2023 09:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E04F10E0B1;
+	Thu, 20 Jul 2023 09:43:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9432B10E58E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 09:36:01 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-51f7fb9a944so780626a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 02:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689845760; x=1690450560; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MbEixaOkxNJN74ak67fuMAe8qbP5jIXA+BkpUoZ/+vw=;
- b=DyBZCxUTKXm94FjQXQ7w8jrcELARpqFqL+Kg0e7f1vQIwD46ODVgs6YOY8OpfvDtAR
- KTDMJxfZqdo2XWn2fRr44udKWcP9k6VxBv7qTq9MQMSKPNr00WULucw30rJPezx7HU+r
- 9oVqxAFlbNjB1i9UED2nkTueAVo5545WyqLFfUK1TvY6e+XOQoWL4hGOsYCirnhmKLxA
- GlvPrr6FtX/2aXYd5+c3sl4mDhH8MBSOnopNn+29pHLiEIPi6z9naAV74MRxqYKTa+WD
- vkGkyObwNkpGgXAnJ/Mmkmw8KxqrfFSmpXy7v6un9wZLIBGgDA/OBufg14vk9r9uEFOc
- l5cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689845760; x=1690450560;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MbEixaOkxNJN74ak67fuMAe8qbP5jIXA+BkpUoZ/+vw=;
- b=VRljIioew5dUQmod0FDp1whLebPPA6KH+A84RyLBEdPsE6vTeFM1rrHy+jwC4oDThJ
- hEzNs6iymETilIKkaETMqKiyKSv6H5NKj2eWMKbr0uISGOIgxZmG/GMeR5NaSRw6VFU9
- 0I4OwyUlwSgU8EupJ2n5yVwEhe2F7O5oI/k3L7DHF4DuNKOaqfzIzDaMds67uZB5aHRf
- /o9dkqhcR3uT8210+jTor2YVnAMrYJ6sBAgHFYH6auIhes4thyQ897pM5OzlEHaCKKAK
- l5TigDbxMIOo1VPPRgDRPx4CO1iaaYloBtkcaYiLwVEkShAIzOk3UAjM8IdlaDces39C
- GP0Q==
-X-Gm-Message-State: ABy/qLb6Q2KwwrvS+8mWJZcVPdHRtvvUXHAt0lv8qeWm11JX/gRYx70J
- XZHZipoLRGT/59Q41TsaMxogQg==
-X-Google-Smtp-Source: APBJJlHdcqWTCi4MqbmDQdedPbHXGtLDE+1AHMjwt6QtLxsX6n9wzm9peAh8UPM3H/gm2b/+7s6XsA==
-X-Received: by 2002:aa7:d7d1:0:b0:51e:ebd:9f5b with SMTP id
- e17-20020aa7d7d1000000b0051e0ebd9f5bmr4608092eds.36.1689845759752; 
- Thu, 20 Jul 2023 02:35:59 -0700 (PDT)
-Received: from [10.1.3.131]
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id
- w17-20020aa7cb51000000b005217a24addbsm489507edt.20.2023.07.20.02.35.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jul 2023 02:35:59 -0700 (PDT)
-Message-ID: <2e497eb2-f927-90bf-daf4-684d6aa0fbd6@baylibre.com>
-Date: Thu, 20 Jul 2023 11:35:57 +0200
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58F8210E0B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 09:43:43 +0000 (UTC)
+Date: Thu, 20 Jul 2023 09:43:18 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1689846221; x=1690105421;
+ bh=mjMKQzMuZf+7nxG2xE76DIlN/N1pXO8FtMKc7C4XDPY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=GhDHtiRCb19cR9RaObIzC3CUN5ca/lH/TV7HPFG3x0NaODiqJvUCazOif6aqW6zCm
+ eNR8YElT9mUIcKn8qfkciBnAPoeDSew0ZyA1tnWtZqinMjoioaijeOpY+8Vtbw0eSf
+ XWCZdYLiJ+/4Q9DZ0Qlcj8PsAErbBxkJJpybHTwS7cW4wP/Di+9tHULIGXWrnemUK0
+ v8jEOdDOVDB3ZoeWUema2iWx9lHflL52Qz4fXp+YOIZDawJVzl8Y3mTnMmMHQDofo9
+ a3qHhhqaEKK/Lujfojse5H6mMQlK/pbO68+mHxFsImahGSRYsd6WThaotB+VFAGaYp
+ RdT68yj0D6nbA==
+To: Erik Kurzinger <ekurzinger@nvidia.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/syncobj: add DRM_IOCTL_SYNCOBJ_IMPORT/EXPORT_SYNC_FILE
+Message-ID: <vVFDBgHpdcB0vOwnl02QPOFmAZPEbIV56E_wQ8B012K2GZ-fAGyG0JMbSrMu3-IcKYVf0JpJyrf71e6KFHfeMoSPJlYRACxlxy91eW9c6Fc=@emersion.fr>
+In-Reply-To: <d01ca12e-f914-12c4-de1b-8918a6dd0df0@nvidia.com>
+References: <d01ca12e-f914-12c4-de1b-8918a6dd0df0@nvidia.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3,2/3] drm/mediatek: dp: Add the audio packet flag to
- mtk_dp_data struct
-To: Shuijing Li <shuijing.li@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- jitao.shi@mediatek.com
-References: <20230720082604.18618-1-shuijing.li@mediatek.com>
- <20230720082604.18618-3-shuijing.li@mediatek.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230720082604.18618-3-shuijing.li@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,20 +47,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: James Jones <jajones@nvidia.com>, Austin Shafer <ashafer@nvidia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+On Wednesday, July 19th, 2023 at 19:05, Erik Kurzinger <ekurzinger@nvidia.c=
+om> wrote:
 
-On 20/07/2023 10:26, Shuijing Li wrote:
-> The audio packet arrangement function is to only arrange audio.
-> packets into the Hblanking area. In order to align with the HW
-> default setting of mt8195, this function needs to be turned off.
+> These new ioctls perform a task similar to
+> DRM_IOCTL_SYNCOBJ_HANDLE_TO_FD/FD_TO_HANDLE with the
+> IMPORT/EXPORT_SYNC_FILE flag set, except that they allow specifying the
+> timeline point to import or export the fence to or from on a timeline
+> syncobj.
+>=20
+> This eliminates the need to use a temporary binary syncobj along with
+> DRM_IOCTL_SYNCOBJ_TRANSFER to achieve such a thing, which is the
+> technique userspace has had to employ up to this point. While that does
+> work, it is rather awkward from the programmer's perspective.  Since DRM
+> syncobjs have been proposed as the basis for display server explicit
+> synchronization protocols, e.g. [1] and [2], providing a more
+> streamlined interface now seems worthwhile.
 
--- 
-Regards,
-Alexandre
+This looks like a good idea to me! The patch looks good as well, apart
+from one tricky issue, see below...
+
+> [1] https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requ=
+ests/90
+> [2] https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/967
+>=20
+> Accompanying userspace patches...
+> IGT: https://gitlab.freedesktop.org/ekurzinger/igt-gpu-tools/-/commit/241=
+e7f379aeaa9b22a32277e77ad4011c8717a57
+> libdrm: https://gitlab.freedesktop.org/ekurzinger/drm/-/commit/b3961a592f=
+c6f8b05f7e3a12413fb58eca2dbfa2
+
+(Unfortunately this isn't enough when it comes to user-space patches: the
+kernel rules require a "real" user of the new IOCTL, not just a libdr IOCTL
+wrapper. I will post a patch to make use of this from wlroots if that helps=
+.)
+
+> Signed-off-by: Erik Kurzinger <ekurzinger@nvidia.com>
+> ---
+>  drivers/gpu/drm/drm_internal.h |  4 +++
+>  drivers/gpu/drm/drm_ioctl.c    |  4 +++
+>  drivers/gpu/drm/drm_syncobj.c  | 60 ++++++++++++++++++++++++++++++----
+>  include/uapi/drm/drm.h         |  9 +++++
+>  4 files changed, 71 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_interna=
+l.h
+> index d7e023bbb0d5..64a28ed26a16 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -253,6 +253,10 @@ int drm_syncobj_timeline_signal_ioctl(struct drm_dev=
+ice *dev, void *data,
+>  =09=09=09=09      struct drm_file *file_private);
+>  int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+>  =09=09=09    struct drm_file *file_private);
+> +int drm_syncobj_import_sync_file_ioctl(struct drm_device *dev, void *dat=
+a,
+> +=09=09=09=09       struct drm_file *file_private);
+> +int drm_syncobj_export_sync_file_ioctl(struct drm_device *dev, void *dat=
+a,
+> +=09=09=09=09       struct drm_file *file_private);
+>=20
+>  /* drm_framebuffer.c */
+>  void drm_framebuffer_print_info(struct drm_printer *p, unsigned int inde=
+nt,
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index 7c9d66ee917d..0344e8e447bc 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -710,6 +710,10 @@ static const struct drm_ioctl_desc drm_ioctls[] =3D =
+{
+>  =09=09      DRM_RENDER_ALLOW),
+>  =09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_QUERY, drm_syncobj_query_ioctl,
+>  =09=09      DRM_RENDER_ALLOW),
+> +=09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_IMPORT_SYNC_FILE, drm_syncobj_import_=
+sync_file_ioctl,
+> +=09=09      DRM_RENDER_ALLOW),
+> +=09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_EXPORT_SYNC_FILE, drm_syncobj_export_=
+sync_file_ioctl,
+> +=09=09      DRM_RENDER_ALLOW),
+>  =09DRM_IOCTL_DEF(DRM_IOCTL_CRTC_GET_SEQUENCE, drm_crtc_get_sequence_ioct=
+l, 0),
+>  =09DRM_IOCTL_DEF(DRM_IOCTL_CRTC_QUEUE_SEQUENCE, drm_crtc_queue_sequence_=
+ioctl, 0),
+>  =09DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioct=
+l, DRM_MASTER),
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.=
+c
+> index 0c2be8360525..bf0c1eae353a 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -181,6 +181,13 @@
+>   * Note that if you want to transfer a struct &dma_fence_chain from a gi=
+ven
+>   * point on a timeline syncobj from/into a binary syncobj, you can use t=
+he
+>   * point 0 to mean take/replace the fence in the syncobj.
+> + *
+> + * &DRM_IOCTL_SYNCOBJ_IMPORT_SYNC_FILE and &DRM_IOCTL_SYNCOBJ_EXPORT_SYN=
+C_FILE
+> + * let the client import or export the struct &dma_fence_chain of a sync=
+obj
+> + * at a particular timeline point from or to a sync file.
+> + * These behave similarly to &DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC=
+_FILE
+> + * and &DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE described above,=
+ except
+> + * that they accommodate timeline syncobjs in addition to binary syncobj=
+s.
+>   */
+>=20
+>  #include <linux/anon_inodes.h>
+> @@ -682,10 +689,11 @@ static int drm_syncobj_fd_to_handle(struct drm_file=
+ *file_private,
+>  }
+>=20
+>  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_priv=
+ate,
+> -=09=09=09=09=09      int fd, int handle)
+> +=09=09=09=09=09      int fd, u64 point, int handle)
+
+Nit: can we specify the point after the handle, for consistency with
+drm_syncobj_export_sync_file()? It's pretty easy to mix up these two argume=
+nts.
+
+>  {
+>  =09struct dma_fence *fence =3D sync_file_get_fence(fd);
+>  =09struct drm_syncobj *syncobj;
+> +=09int ret =3D 0;
+>=20
+>  =09if (!fence)
+>  =09=09return -EINVAL;
+> @@ -696,14 +704,23 @@ static int drm_syncobj_import_sync_file_fence(struc=
+t drm_file *file_private,
+>  =09=09return -ENOENT;
+>  =09}
+>=20
+> -=09drm_syncobj_replace_fence(syncobj, fence);
+> +=09if (point =3D=3D 0) {
+> +=09=09drm_syncobj_replace_fence(syncobj, fence);
+> +=09} else {
+> +=09=09struct dma_fence_chain *chain =3D dma_fence_chain_alloc();
+> +=09=09if (chain) {
+> +=09=09=09drm_syncobj_add_point(syncobj, chain, fence, point);
+> +=09=09} else {
+> +=09=09=09ret =3D -ENOMEM;
+> +=09=09}
+> +=09}
+>  =09dma_fence_put(fence);
+>  =09drm_syncobj_put(syncobj);
+> -=09return 0;
+> +=09return ret;
+>  }
+>=20
+>  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+> -=09=09=09=09=09int handle, int *p_fd)
+> +=09=09=09=09=09int handle, u64 point, int *p_fd)
+>  {
+>  =09int ret;
+>  =09struct dma_fence *fence;
+> @@ -713,7 +730,7 @@ static int drm_syncobj_export_sync_file(struct drm_fi=
+le *file_private,
+>  =09if (fd < 0)
+>  =09=09return fd;
+>=20
+> -=09ret =3D drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
+> +=09ret =3D drm_syncobj_find_fence(file_private, handle, point, 0, &fence=
+);
+>  =09if (ret)
+>  =09=09goto err_put_fd;
+>=20
+> @@ -823,7 +840,7 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev=
+, void *data,
+>=20
+>  =09if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+>  =09=09return drm_syncobj_export_sync_file(file_private, args->handle,
+> -=09=09=09=09=09=09    &args->fd);
+> +=09=09=09=09=09=09    0 /* binary */, &args->fd);
+>=20
+>  =09return drm_syncobj_handle_to_fd(file_private, args->handle,
+>  =09=09=09=09=09&args->fd);
+> @@ -848,6 +865,7 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev=
+, void *data,
+>  =09if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
+>  =09=09return drm_syncobj_import_sync_file_fence(file_private,
+>  =09=09=09=09=09=09=09  args->fd,
+> +=09=09=09=09=09=09=09  0 /* binary */,
+>  =09=09=09=09=09=09=09  args->handle);
+>=20
+>  =09return drm_syncobj_fd_to_handle(file_private, args->fd,
+> @@ -1515,3 +1533,33 @@ int drm_syncobj_query_ioctl(struct drm_device *dev=
+, void *data,
+>=20
+>  =09return ret;
+>  }
+> +
+> +int drm_syncobj_import_sync_file_ioctl(struct drm_device *dev, void *dat=
+a,
+> +=09=09=09=09       struct drm_file *file_private)
+> +{
+> +=09struct drm_syncobj_sync_file *args =3D data;
+> +
+> +=09if (!drm_core_check_feature(dev, args->point =3D=3D 0 ?
+> +=09=09=09=09    DRIVER_SYNCOBJ :
+> +=09=09=09=09    DRIVER_SYNCOBJ_TIMELINE))
+> +=09=09return -EOPNOTSUPP;
+> +
+> +=09return drm_syncobj_import_sync_file_fence(file_private,
+> +=09=09=09=09=09=09  args->fd,
+> +=09=09=09=09=09=09  args->point,
+> +=09=09=09=09=09=09  args->handle);
+> +}
+> +
+> +int drm_syncobj_export_sync_file_ioctl(struct drm_device *dev, void *dat=
+a,
+> +=09=09=09=09       struct drm_file *file_private)
+> +{
+> +=09struct drm_syncobj_sync_file *args =3D data;
+> +
+> +=09if (!drm_core_check_feature(dev, args->point =3D=3D 0 ?
+> +=09=09=09=09    DRIVER_SYNCOBJ :
+> +=09=09=09=09    DRIVER_SYNCOBJ_TIMELINE))
+> +=09=09return -EOPNOTSUPP;
+> +
+> +=09return drm_syncobj_export_sync_file(file_private, args->handle,
+> +=09=09=09=09=09    args->point, &args->fd);
+> +}
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index a87bbbbca2d4..e1f045011c22 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -884,6 +884,12 @@ struct drm_syncobj_transfer {
+>  =09__u32 pad;
+>  };
+>=20
+> +struct drm_syncobj_sync_file {
+> +=09__u32 handle;
+> +=09__u32 fd;
+> +=09__u64 point;
+> +};
+> +
+>  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
+>  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
+>  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time =
+point to become available */
+> @@ -1139,6 +1145,9 @@ extern "C" {
+>  #define DRM_IOCTL_SYNCOBJ_TRANSFER=09DRM_IOWR(0xCC, struct drm_syncobj_t=
+ransfer)
+>  #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL=09DRM_IOWR(0xCD, struct drm_sy=
+ncobj_timeline_array)
+>=20
+> +#define DRM_IOCTL_SYNCOBJ_IMPORT_SYNC_FILE=09DRM_IOWR(0xCE, struct drm_s=
+yncobj_sync_file)
+> +#define DRM_IOCTL_SYNCOBJ_EXPORT_SYNC_FILE=09DRM_IOWR(0xCF, struct drm_s=
+yncobj_sync_file)
+
+So, there is a footgun here, one that I hit myself with before: 0xCE is alr=
+eady
+used by DRM_IOCTL_MODE_GETFB2. And there is no check whatsoever about
+conflicting IOCTL numbers. The only reason I noticed is that I got some pre=
+tty
+weird behavior when trying to detect for the IOCTL availability in IGT, and
+someone from AMD noticed some GETFB2 IGT test breakage when trying my patch=
+es.
+
+>  /**
+>   * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
+>   *
+> --
+> 2.41.0
