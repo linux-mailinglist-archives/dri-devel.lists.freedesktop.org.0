@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD11B75B161
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 16:38:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BBA75B175
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 16:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08E0510E0EC;
-	Thu, 20 Jul 2023 14:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9ED10E140;
+	Thu, 20 Jul 2023 14:45:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 922EA10E0EC
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 14:38:40 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0CB810E140;
+ Thu, 20 Jul 2023 14:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689863920; x=1721399920;
+ t=1689864305; x=1721400305;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=lgQXhZJEPJe56VQB2gV2H3KOeA7V4JX7thMnYcmwZOA=;
- b=JLj1ES9D8dZ2OTEr6uuTQwvOJdV6rubqh210Hrh9q3gSbMSp0u7Zezoo
- KwRw75O4tMCBNiMaVpaBYOzX2Jih4961SC5/KsjIq/t9eZC2moQ4crQus
- mYW8yD4mIYphRpNBFpnjhiP2O1wq1J+87RrkBdd2qVAsL5r+l1qnbUTmG
- m9oiwk9yRIMG9ajs+HbkhBCCY90wLYwm/jGqpElf1ZFLSypQwuL15QT1I
- IAKThD8F7HC2EpKchek0ZCXVRqlR3NpSZoGJF6GMWHVJX7ouAiOeLc6TD
- w/q2Uj4w4/fch0+umGDNHgxLzFw6vguf238viHOKSIof5I5xohulruAvw A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="430544123"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="430544123"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 07:38:23 -0700
+ bh=hwj0jhrpn4klfGKgURR6uYABhzZIboUztoGIE27jbPE=;
+ b=b7YuoNbkIXAxNcIAKhXhIYb0hsYslifcnogfPQMyft2WxKnZBEElFppF
+ fR4M2WrLT66wrh+5r+P6Xbe2mGmHAvioSrQ07AjybQycKSqNrDAZ3ka+z
+ uk83i9BXfW2236uEADCOHujUNvm+moWzWHVqcWFy3WIb6XEMrduYG45HB
+ 2G4REFZ5e1w2cZNwExodytiATqIk+Z+XpR+XhzZ0/RhG6Xuac8zlFLMMy
+ PwVcE6QSJ7Qmg3ZyQDLow8bFDFF/6oZzLEfC0pgJH2kard8dRXe8v8YQQ
+ 37D3A5Z3euCniHkKgcls5yMvUDBh+YKOPFpYrOshEc37rboU39pC148I4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346348469"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="346348469"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 07:44:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="838144924"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="838144924"
-Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
- by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2023 07:38:17 -0700
-Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qMUnI-0006A1-2b;
- Thu, 20 Jul 2023 14:38:16 +0000
-Date: Thu, 20 Jul 2023 22:37:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-Subject: Re: [PATCH v2 05/11] drm/tests: helpers: Create a helper to allocate
- a locking ctx
-Message-ID: <202307202244.26VyeZKj-lkp@intel.com>
-References: <20230720-kms-kunit-actions-rework-v2-5-175017bd56ab@kernel.org>
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="724410825"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="724410825"
+Received: from sdene1-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.32.238])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 07:44:41 -0700
+Date: Thu, 20 Jul 2023 16:44:39 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v6 6/9] drm/i915/gt: Ensure memory quiesced before
+ invalidation for all engines
+Message-ID: <ZLlIVyzuYNvIZTBo@ashyti-mobl2.lan>
+References: <20230719110729.618733-1-andi.shyti@linux.intel.com>
+ <20230719110729.618733-7-andi.shyti@linux.intel.com>
+ <2d2841c6-af08-ac8d-2c90-e4282c6def99@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720-kms-kunit-actions-rework-v2-5-175017bd56ab@kernel.org>
+In-Reply-To: <2d2841c6-af08-ac8d-2c90-e4282c6def99@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,77 +61,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Maxime Ripard <mripard@kernel.org>, linux-kselftest@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi Nirmoy,
 
-kernel test robot noticed the following build warnings:
+>     +       if (aux_inv) {
+>     +               u32 bit_group_0 = 0;
+>     +               u32 bit_group_1 = 0;
+>     +
+>     +               cmd += 4;
+>     +
+>     +               bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
+>     +
+>     +               switch (rq->engine->class) {
+>     +               case VIDEO_DECODE_CLASS:
+>     +                       bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+>     +                       bit_group_1 |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
+>     +                       bit_group_1 |= PIPE_CONTROL_DC_FLUSH_ENABLE;
+>     +                       bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+>     +                       bit_group_1 |= PIPE_CONTROL_CS_STALL;
+>     +
+>     +                       intel_emit_pipe_control_cs(rq, bit_group_0, bit_group_1,
+>     +                                                  LRC_PPHWSP_SCRATCH_ADDR);
+> 
+> 
+> I think pipe control is only for compute and render engines.
+> 
+>     +
+>     +                       break;
+>     +
+>     +               case VIDEO_ENHANCEMENT_CLASS:
+>     +               case COMPUTE_CLASS:
+> 
+> Don't think gen12_emit_flush_xcs() will get called for compute engine.
+> 
+> intel_guc_submission_setup() --> rcs_submission_override() replaces
+> gen12_emit_flush_xcs() with gen12_emit_flush_rcs()
+> 
+> for compute and render.
 
-[auto build test WARNING on c58c49dd89324b18a812762a2bfa5a0458e4f252]
+yes, I made some confusion here... this part is bogus... will try
+to clean things up and try again.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Switch-to-kunit-actions/20230720-191901
-base:   c58c49dd89324b18a812762a2bfa5a0458e4f252
-patch link:    https://lore.kernel.org/r/20230720-kms-kunit-actions-rework-v2-5-175017bd56ab%40kernel.org
-patch subject: [PATCH v2 05/11] drm/tests: helpers: Create a helper to allocate a locking ctx
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307202244.26VyeZKj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230720/202307202244.26VyeZKj-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307202244.26VyeZKj-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:145: warning: expecting prototype for drm_kunit_helper_context_alloc(). Prototype was for drm_kunit_helper_acquire_ctx_alloc() instead
-
-
-vim +145 drivers/gpu/drm/tests/drm_kunit_helpers.c
-
-   130	
-   131	/**
-   132	 * drm_kunit_helper_context_alloc - Allocates an acquire context
-   133	 * @test: The test context object
-   134	 *
-   135	 * Allocates and initializes a modeset acquire context.
-   136	 *
-   137	 * The context is tied to the kunit test context, so we must not call
-   138	 * drm_modeset_acquire_fini() on it, it will be done so automatically.
-   139	 *
-   140	 * Returns:
-   141	 * An ERR_PTR on error, a pointer to the newly allocated context otherwise
-   142	 */
-   143	struct drm_modeset_acquire_ctx *
-   144	drm_kunit_helper_acquire_ctx_alloc(struct kunit *test)
- > 145	{
-   146		struct drm_modeset_acquire_ctx *ctx;
-   147		int ret;
-   148	
-   149		ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-   150		KUNIT_ASSERT_NOT_NULL(test, ctx);
-   151	
-   152		drm_modeset_acquire_init(ctx, 0);
-   153	
-   154		ret = kunit_add_action_or_reset(test,
-   155						action_drm_release_context,
-   156						ctx);
-   157		if (ret)
-   158			return ERR_PTR(ret);
-   159	
-   160		return ctx;
-   161	}
-   162	EXPORT_SYMBOL_GPL(drm_kunit_helper_acquire_ctx_alloc);
-   163	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Andi
