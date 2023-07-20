@@ -1,63 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1A175A62F
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 08:20:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DC375A64D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 08:26:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE48B10E55C;
-	Thu, 20 Jul 2023 06:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D74010E55F;
+	Thu, 20 Jul 2023 06:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACEF10E55C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 06:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1689833997; x=1690438797; i=deller@gmx.de;
- bh=GqbM9uazU1aG9mZPA7y4FkFMh3oOFi2SYaKQzQeo6RU=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=F+uctR4DarX5dfuN+E+FYCY+87t9IBUFLA6PyyY9o+C5ZUiz11Nq9n3o93iWRMhnI9Qr0LX
- 3lf0H99EdBweZjJUTV0BEr+b9QkABB3TneYvJ3vwT2aidUehyKe6HLCNYGWW+4MWMUkZfyu+3
- f6H5R2DKUpMdICvoqbtlUJ3ipoohMo/bm4w6ZF37RTv8sNOv0w4VKOLA9ieXaIJXd6Y23W3Z+
- H4YzsWmmq9Kib5WtsFvxUZ99gp4HmyUPxecuaZJDEo0tR6o/9uRc6HCQSQLe5M7Hh+ereL9XI
- 5p015nPXYPP9VvmBTc4SDHWVCr1HXcR3IuHoUM2OJI/iQegO8brA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.153.9]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGQj7-1q8NSi2Es1-00Go1r; Thu, 20
- Jul 2023 08:19:57 +0200
-Message-ID: <7217d0fe-7b06-7213-f939-3e2d9b2f6b5a@gmx.de>
-Date: Thu, 20 Jul 2023 08:19:54 +0200
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D095010E55D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 06:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689834397; x=1721370397;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=g9Bjk+ImggViYijgQA4YSam0gggLDny1/aeRuTXiyx0=;
+ b=ZFb5U5F69Y7/aZ9UWrgYpsH8nbWF/ZNdwAnjeP3kDWePSfNadvcu8JCa
+ u+c8JIJkiw/TgC6RpZbJuo3d3QeYxsKdQUexqUgIvbVqixfnq2OvHD9CU
+ /jHNQZCS2famGdHgcDsf+TNgCSTqCbKt1jqOYWzJ15Z7gWh83k1YXUINs
+ P9Rm37xCq7R7I5iGAuC+YE5ahb8WYf3WCO6WoOlOsBSzKxZiTI8bW0rFr
+ MW8Pjl5wlgYM5UIqcBq4RgnyD6VE4kG+JEkGP7vnSJuzTn+SAuB0ExKMx
+ 6HTxMhxMmUwoxYARffb7R3YRHPso0NNCnARbmkxAHuM47c1fHhAIQAnjK w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="430412035"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; d="scan'208";a="430412035"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2023 23:26:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="718256630"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; d="scan'208";a="718256630"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+ by orsmga007.jf.intel.com with ESMTP; 19 Jul 2023 23:26:31 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qMN7O-0005oX-1h;
+ Thu, 20 Jul 2023 06:26:30 +0000
+Date: Thu, 20 Jul 2023 14:25:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: [drm-misc:for-linux-next 2/2] drivers/gpu/drm/drm_debugfs.c:212:28:
+ warning: cast from pointer to integer of different size
+Message-ID: <202307201445.Dc5d5leO-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] fb: Explicitly include correct DT includes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Michal Simek <michal.simek@amd.com>
-References: <20230718143227.1067178-1-robh@kernel.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230718143227.1067178-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tzrjxkOY0OvdPVtGD9X87Pcn8+yA2eAF2PSQLlfJ/953Dzxj2k6
- JnOGMkm8SyGB0piIsyKXTKuoeSmKpDrooJzB7nCQqL1VcbuTqEkoLtQ/TMXsuodhZGcnjab
- ib0ctJU5kGHVK+U8+dRrhnrmX/IfhQrVUcWWphWwN49NJbbppLpkqrEZqyukj022OebAwkT
- vqmz6PtZaDQ6OQh1Zydrg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MHdg98xXBVI=;vI3z3MFtGHabpbietwhGBnnHUtU
- ofP3Mi5Urf6AibhoBasPEBc2apbV066cYbbeffvqq92n69ptV+Gfobqpss5t78XNaMLjBhZfa
- CJERbSj+/0xpgtVj6Y2Oneeksg34/kdbOIr44g1/GoUqOtj6s2OnvYAB1oe1LQ8PuzFKulRpp
- +sAqE7VV0P6eC9Qi0pWaoruwBvMKj4BpVFQBgRjPMWjEGY29Cz0DPUt1+37f/OBa4z6aTi4Nw
- 2oFxpFdoybrZAvNKkzSVPYBczgoMa0feYtnMWxUYnRBHEzrNMvd7PCshCffMZojiQWhNDGh9R
- kqgEhJaD/6R1Vz0TeBzcv+ryPVTlTrOhxVy/SwLbUG87jum1Zh9k+4zNh9xGd6tCi0l7WeIWv
- ajP0Tu7NOViRutgJCL7TtbcPsXVlzAZBqMnLu9YtPdN7eE0xVwW7TyNkBVEUi0pAyBW4XoJJ0
- hDId2lsWx+k/LQ+DlEMFnmFlaZD4xmz8KfQttXyUklb1tboHJI2+eblSr6AD7nkexjR4deqVW
- qclAWlZ+EHSaSkbs1xd3H0IdW+5c663kaOFuyHCWiSbQts/PS8thegFiP1BbVz4KTAg9n31iz
- uer0X1lNQcV3OEcHl7aIqRPWwepyItuESM+vAK8/Srwf/s7fOu+GrttnnparhrCMEAVW7GQZs
- v53WNXfb1iFj2PulqQKij3/v9+0mGJBbeTGCsUeX6JKY2vbKrc6jX6G/V9yVJ410eJ+jjCi9D
- vZZDfb3s9JgtpVZwAYAJFtL3cqW2NOXT+EIAzKBkZaizR48wX7d0Gy5LjdhZ6XDXBszNJo2kI
- imzVa4ujfiLF1yMEyN828O+w4GOnGxsEBC9rC+rBOUTeGQULT70sOdpwyFNx8wZA/GBjCUKfa
- 2TAD9GSxSop/Ea3FnKAVVHY8Ewo0Ynyq5ToAQwR7qhSER01+87/seHVp2kEUBGIbV7qmIImb/
- 08PKukElyAMOJ7FUxXupnL5vHws=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,331 +57,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Boris Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/18/23 16:32, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   4f66feeab173bd73e71028b8c2e1dcea07e32dd5
+commit: 4f66feeab173bd73e71028b8c2e1dcea07e32dd5 [2/2] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230720/202307201445.Dc5d5leO-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230720/202307201445.Dc5d5leO-lkp@intel.com/reproduce)
 
-applied to fbdev git tree.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307201445.Dc5d5leO-lkp@intel.com/
 
-Thanks!
-Helge
+All warnings (new ones prefixed by >>):
 
-> ---
-> v2:
->   - Drop whitespace changes in sbuslib.c
-> ---
->   drivers/video/fbdev/bw2.c                                | 3 ++-
->   drivers/video/fbdev/cg14.c                               | 3 ++-
->   drivers/video/fbdev/cg3.c                                | 3 ++-
->   drivers/video/fbdev/cg6.c                                | 3 ++-
->   drivers/video/fbdev/ffb.c                                | 3 ++-
->   drivers/video/fbdev/grvga.c                              | 3 +--
->   drivers/video/fbdev/leo.c                                | 3 ++-
->   drivers/video/fbdev/mb862xx/mb862xxfb_accel.c            | 4 +---
->   drivers/video/fbdev/mb862xx/mb862xxfbdrv.c               | 6 +++---
->   drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c | 2 +-
->   drivers/video/fbdev/p9100.c                              | 3 ++-
->   drivers/video/fbdev/platinumfb.c                         | 4 ++--
->   drivers/video/fbdev/sbuslib.c                            | 2 +-
->   drivers/video/fbdev/sunxvr1000.c                         | 3 ++-
->   drivers/video/fbdev/sunxvr2500.c                         | 2 +-
->   drivers/video/fbdev/sunxvr500.c                          | 2 +-
->   drivers/video/fbdev/tcx.c                                | 3 ++-
->   drivers/video/fbdev/xilinxfb.c                           | 5 ++---
->   18 files changed, 31 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/video/fbdev/bw2.c b/drivers/video/fbdev/bw2.c
-> index 025d663dc6fd..39f438de0d6b 100644
-> --- a/drivers/video/fbdev/bw2.c
-> +++ b/drivers/video/fbdev/bw2.c
-> @@ -17,7 +17,8 @@
->   #include <linux/init.h>
->   #include <linux/fb.h>
->   #include <linux/mm.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/fbio.h>
-> diff --git a/drivers/video/fbdev/cg14.c b/drivers/video/fbdev/cg14.c
-> index 832a82f45c80..90fdc9d9bf5a 100644
-> --- a/drivers/video/fbdev/cg14.c
-> +++ b/drivers/video/fbdev/cg14.c
-> @@ -17,7 +17,8 @@
->   #include <linux/fb.h>
->   #include <linux/mm.h>
->   #include <linux/uaccess.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/fbio.h>
-> diff --git a/drivers/video/fbdev/cg3.c b/drivers/video/fbdev/cg3.c
-> index 6335cd364c74..98c60f72046a 100644
-> --- a/drivers/video/fbdev/cg3.c
-> +++ b/drivers/video/fbdev/cg3.c
-> @@ -17,7 +17,8 @@
->   #include <linux/init.h>
->   #include <linux/fb.h>
->   #include <linux/mm.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/fbio.h>
-> diff --git a/drivers/video/fbdev/cg6.c b/drivers/video/fbdev/cg6.c
-> index 6884572efea1..6427b85f1a94 100644
-> --- a/drivers/video/fbdev/cg6.c
-> +++ b/drivers/video/fbdev/cg6.c
-> @@ -17,7 +17,8 @@
->   #include <linux/init.h>
->   #include <linux/fb.h>
->   #include <linux/mm.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/fbio.h>
-> diff --git a/drivers/video/fbdev/ffb.c b/drivers/video/fbdev/ffb.c
-> index c6d3111dcbb0..c473841eb6ff 100644
-> --- a/drivers/video/fbdev/ffb.c
-> +++ b/drivers/video/fbdev/ffb.c
-> @@ -16,7 +16,8 @@
->   #include <linux/fb.h>
->   #include <linux/mm.h>
->   #include <linux/timer.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/upa.h>
-> diff --git a/drivers/video/fbdev/grvga.c b/drivers/video/fbdev/grvga.c
-> index 9aa15be29ea9..d4a9a58b3691 100644
-> --- a/drivers/video/fbdev/grvga.c
-> +++ b/drivers/video/fbdev/grvga.c
-> @@ -12,8 +12,7 @@
->
->   #include <linux/platform_device.h>
->   #include <linux/dma-mapping.h>
-> -#include <linux/of_platform.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
->   #include <linux/module.h>
->   #include <linux/kernel.h>
->   #include <linux/string.h>
-> diff --git a/drivers/video/fbdev/leo.c b/drivers/video/fbdev/leo.c
-> index 3ffc0a725f89..89ca48235dbe 100644
-> --- a/drivers/video/fbdev/leo.c
-> +++ b/drivers/video/fbdev/leo.c
-> @@ -16,8 +16,9 @@
->   #include <linux/init.h>
->   #include <linux/fb.h>
->   #include <linux/mm.h>
-> -#include <linux/of_device.h>
->   #include <linux/io.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/fbio.h>
->
-> diff --git a/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c b/drivers/vid=
-eo/fbdev/mb862xx/mb862xxfb_accel.c
-> index 61aed7fc0b8d..c35a7479fbf2 100644
-> --- a/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c
-> +++ b/drivers/video/fbdev/mb862xx/mb862xxfb_accel.c
-> @@ -15,9 +15,7 @@
->   #include <linux/module.h>
->   #include <linux/pci.h>
->   #include <linux/slab.h>
-> -#if defined(CONFIG_OF)
-> -#include <linux/of_platform.h>
-> -#endif
-> +
->   #include "mb862xxfb.h"
->   #include "mb862xx_reg.h"
->   #include "mb862xxfb_accel.h"
-> diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/=
-fbdev/mb862xx/mb862xxfbdrv.c
-> index b5c8fcab9940..9dc347d163cf 100644
-> --- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> +++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-> @@ -18,11 +18,11 @@
->   #include <linux/init.h>
->   #include <linux/interrupt.h>
->   #include <linux/pci.h>
-> -#if defined(CONFIG_OF)
-> +#include <linux/of.h>
->   #include <linux/of_address.h>
->   #include <linux/of_irq.h>
-> -#include <linux/of_platform.h>
-> -#endif
-> +#include <linux/platform_device.h>
-> +
->   #include "mb862xxfb.h"
->   #include "mb862xx_reg.h"
->
-> diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c b/=
-drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-> index ba94a0a7bd4f..77fce1223a64 100644
-> --- a/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-> +++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-dsi-cm.c
-> @@ -15,12 +15,12 @@
->   #include <linux/gpio/consumer.h>
->   #include <linux/interrupt.h>
->   #include <linux/jiffies.h>
-> +#include <linux/mod_devicetable.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
->   #include <linux/sched/signal.h>
->   #include <linux/slab.h>
->   #include <linux/workqueue.h>
-> -#include <linux/of_device.h>
->
->   #include <video/omapfb_dss.h>
->   #include <video/mipi_display.h>
-> diff --git a/drivers/video/fbdev/p9100.c b/drivers/video/fbdev/p9100.c
-> index 0876962c52eb..e2e747cae9b1 100644
-> --- a/drivers/video/fbdev/p9100.c
-> +++ b/drivers/video/fbdev/p9100.c
-> @@ -15,7 +15,8 @@
->   #include <linux/init.h>
->   #include <linux/fb.h>
->   #include <linux/mm.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/fbio.h>
-> diff --git a/drivers/video/fbdev/platinumfb.c b/drivers/video/fbdev/plat=
-inumfb.c
-> index f8283fcd5edb..b27f43b3616e 100644
-> --- a/drivers/video/fbdev/platinumfb.c
-> +++ b/drivers/video/fbdev/platinumfb.c
-> @@ -30,9 +30,9 @@
->   #include <linux/fb.h>
->   #include <linux/init.h>
->   #include <linux/nvram.h>
-> +#include <linux/of.h>
->   #include <linux/of_address.h>
-> -#include <linux/of_device.h>
-> -#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
->
->   #include "macmodes.h"
->   #include "platinumfb.h"
-> diff --git a/drivers/video/fbdev/sbuslib.c b/drivers/video/fbdev/sbuslib=
-.c
-> index 7f79db827b07..21e9fd8e69e2 100644
-> --- a/drivers/video/fbdev/sbuslib.c
-> +++ b/drivers/video/fbdev/sbuslib.c
-> @@ -11,7 +11,7 @@
->   #include <linux/fb.h>
->   #include <linux/mm.h>
->   #include <linux/uaccess.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
->
->   #include <asm/fbio.h>
->
-> diff --git a/drivers/video/fbdev/sunxvr1000.c b/drivers/video/fbdev/sunx=
-vr1000.c
-> index 490bd9a14763..17d61e1d11a6 100644
-> --- a/drivers/video/fbdev/sunxvr1000.c
-> +++ b/drivers/video/fbdev/sunxvr1000.c
-> @@ -8,7 +8,8 @@
->   #include <linux/kernel.h>
->   #include <linux/fb.h>
->   #include <linux/init.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   struct gfb_info {
->   	struct fb_info		*info;
-> diff --git a/drivers/video/fbdev/sunxvr2500.c b/drivers/video/fbdev/sunx=
-vr2500.c
-> index 2cab4b9be68a..e64ec7d0caf9 100644
-> --- a/drivers/video/fbdev/sunxvr2500.c
-> +++ b/drivers/video/fbdev/sunxvr2500.c
-> @@ -10,7 +10,7 @@
->   #include <linux/fb.h>
->   #include <linux/pci.h>
->   #include <linux/init.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
->
->   #include <asm/io.h>
->
-> diff --git a/drivers/video/fbdev/sunxvr500.c b/drivers/video/fbdev/sunxv=
-r500.c
-> index 6ec358af1256..c4e01e871483 100644
-> --- a/drivers/video/fbdev/sunxvr500.c
-> +++ b/drivers/video/fbdev/sunxvr500.c
-> @@ -10,7 +10,7 @@
->   #include <linux/fb.h>
->   #include <linux/pci.h>
->   #include <linux/init.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
->
->   #include <asm/io.h>
->
-> diff --git a/drivers/video/fbdev/tcx.c b/drivers/video/fbdev/tcx.c
-> index fc3ac2301b45..255eb57aefa2 100644
-> --- a/drivers/video/fbdev/tcx.c
-> +++ b/drivers/video/fbdev/tcx.c
-> @@ -17,7 +17,8 @@
->   #include <linux/init.h>
->   #include <linux/fb.h>
->   #include <linux/mm.h>
-> -#include <linux/of_device.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
->
->   #include <asm/io.h>
->   #include <asm/fbio.h>
-> diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinx=
-fb.c
-> index 2aa3a528277f..542baddd54ad 100644
-> --- a/drivers/video/fbdev/xilinxfb.c
-> +++ b/drivers/video/fbdev/xilinxfb.c
-> @@ -24,14 +24,13 @@
->   #include <linux/module.h>
->   #include <linux/kernel.h>
->   #include <linux/errno.h>
-> +#include <linux/platform_device.h>
->   #include <linux/string.h>
->   #include <linux/mm.h>
->   #include <linux/fb.h>
->   #include <linux/init.h>
->   #include <linux/dma-mapping.h>
-> -#include <linux/of_device.h>
-> -#include <linux/of_platform.h>
-> -#include <linux/of_address.h>
-> +#include <linux/of.h>
->   #include <linux/io.h>
->   #include <linux/slab.h>
->
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:212:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     212 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
 
+
+vim +212 drivers/gpu/drm/drm_debugfs.c
+
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
+   195	
+   196		if (!mgr->name)
+   197			return -ENODEV;
+   198	
+   199		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
+   200			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
+   201		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
+   202			   kva->va.addr, kva->va.addr + kva->va.range);
+   203		seq_puts(m, "\n");
+   204		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   205		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   206		drm_gpuva_for_each_va(va, mgr) {
+   207			if (unlikely(va == kva))
+   208				continue;
+   209	
+   210			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   211				   va->va.addr, va->va.range, va->va.addr + va->va.range,
+ > 212				   (u64)va->gem.obj, va->gem.offset);
+   213		}
+   214	
+   215		return 0;
+   216	}
+   217	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   218	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
