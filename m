@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727A875A760
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 09:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444F875A761
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 09:10:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 784D610E56D;
-	Thu, 20 Jul 2023 07:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEE310E56E;
+	Thu, 20 Jul 2023 07:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
- (mail-am0eur02on2087.outbound.protection.outlook.com [40.107.247.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777BC10E56D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 07:10:28 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur04on2080.outbound.protection.outlook.com [40.107.7.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B6510E56F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 07:10:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HjW1Gnn6/bQSemsX5gitmzAQWSwAtRAVqNFbPVLMDJHFt28se56bPYwl5+yYlc6O+cX9RbYMTIavGuU8+nwA1bj/CcGAw+luMviDm6QzZyOphpL4UXqALCwan31un0xESWrlISbvIm4LMtyIOUg++gN+lGXPVuJQCpsGmit0/bLule27xPP8BFXitJvzR5SYnoHh6GjSDmTh8WglkAPV9hsjkF1IHTJePqQdY/Wr430lsWSPRzShOCZgWj562BTY1IBIruR0tf45rBVcNSG1TKM80hpQQA82evBL4b4UhSM4HxHrVDY3bvgH7DN1iSTzKYvKehpoGCLlFcYD9Drk2Q==
+ b=IbCJ9kWD2576lAbJvOqOc96c7JpFbErWnoQg1deS8kRDIi6Ios6M8b3lmOy1NmsZXLRxqrYbH6zBlBvcI9nP8YsiTlan957NQMDdyOyhaI81d5qhSOt8FDPTHm7IYqsbLSCuwHArGNzG27scNkZ+y+hJq88QlL/bBr8eTOqLA7vSyWpzXbEfx6Duu/eHp7+Xn3JEEr1vFn4zYlQMhkGeqaBwgBpuEa/zyIA9kRJRcixnnc6wVztW64RTQxPz6PE7uA6/iqbWtSoEjBHKyNVUgAhm8QN1jrTIl4DnbJZ6cBfTOjIwRAhkLJNfxTNQZr/nf796gqu5nYf6kWdEt7Shlw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rhSkJQntSWcBdOAGaZsa21wewZ+p1zIS6OBZzYYOB0A=;
- b=bUUAemaBCdaxkzhYm56TdUWeeGzDvbMjfgMKwfVv6ZKTF6WkBGTAmlOXjAwM0W7du3AGaJECHNbBuzVHPFnGqHrJE7m7pas09313dkHxNhpkTPH/4veiJy8ZQeHo3WVAFHgT4VLkV2zD9qA4pgA+XNxXrlHfELvwPk3++CdfkFf+jD7SwMqZbvfk0yCIDESAafTabFhpCRGQU4/7t7VDmMgboIpmr0n/+PH3Fiw/CSW9kF3lkoM3qU7VhQ5ZPf0ZSMc2sO/Mm/pfqE0r2dt+0lPMnktZRSdSEpkHGObFTAeoqXFvQoBKVy4+sk5Fnh1+gLZrmApLsQnjfrF+J9kCvg==
+ bh=Ro5EOp6mEkZd6S0WaGYqv9gtqvuAyxqa35OiIznoIJM=;
+ b=aRyBzTpAqz60XTbrMF6FH2g01fRPjL5bwbZ7U7Rr2yrJvJjC4YEDH+N5pxgr8n64Uf6BNxEvSrDVGKw8/GwN5pyGMox4ptZfZxzlbIzCqQGfDO+a0RPOCb6oESxTXlUuGzTGS1cz+qd6FbK5K2LA/A+hWlkc8G7rrjKlmqCNCe6NDg2ghTeSRG8lwqmqfHhCVQeS2AgiUSEkviXpyDJe7Z3NjlbT8EVCw8XpjsbVfVrCpCRP+22e3zMylOPqLEmwdbNPYzFwIxNo/E2cjj5mKuCXku7DwT2MZyv/cJ69bVXxQWsyB8NJPZmaUasRw6qlEzjryUdUFnm+XmJ95DSi0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rhSkJQntSWcBdOAGaZsa21wewZ+p1zIS6OBZzYYOB0A=;
- b=cQFz6qxh7B5iAUnVqqnDB45tEjRV5R0NbAQyyruQmH6C2b5z07KlyQOOUMD77g1mOPI3ZImvcA5otRYsqjCQl6fZw7nnIn0/g2AHnp6i6AsFUmDnlQOMHOpR4jXF74iue/oKTZi5nEFH/X221eZFLXNdaE1iO3D5OZjG+Qf6IGc=
+ bh=Ro5EOp6mEkZd6S0WaGYqv9gtqvuAyxqa35OiIznoIJM=;
+ b=gP5Pv9/8giUgjPKf9juczSRwGAZ9QONFVE7ZUSydo0yCkNKoZITS04244VquGNNS1k5AXjV6WI4RClLEUGG69yZUDLTm2pZOiaj/bKRTvdnfYD9TwvFYLj/7HjmhDS1c3TTwuyCCHHDv8rtI/SmyOukdFo4HgJjO04Z7w7OEyA8=
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by AM9PR04MB8415.eurprd04.prod.outlook.com (2603:10a6:20b:3b5::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Thu, 20 Jul
- 2023 07:10:26 +0000
+ 2023 07:10:32 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6609.022; Thu, 20 Jul 2023
- 07:10:26 +0000
+ 07:10:32 +0000
 From: Ying Liu <victor.liu@nxp.com>
 To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 6/9] drm/bridge: synopsys: dw-mipi-dsi: Set minimum lane
- byte clock cycles for HSA and HBP
-Thread-Topic: [PATCH v2 6/9] drm/bridge: synopsys: dw-mipi-dsi: Set minimum
- lane byte clock cycles for HSA and HBP
-Thread-Index: Adm62UHicPoHs/xOAUWcntvTIy5cWw==
-Date: Thu, 20 Jul 2023 07:10:26 +0000
-Message-ID: <20230720071430.259892-7-victor.liu@nxp.com>
+Subject: [PATCH v2 7/9] drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX and
+ LPRX timeout check
+Thread-Topic: [PATCH v2 7/9] drm/bridge: synopsys: dw-mipi-dsi: Disable HSTX
+ and LPRX timeout check
+Thread-Index: Adm62UWNCyqQxjzgdUmjJHPwqEPmsA==
+Date: Thu, 20 Jul 2023 07:10:32 +0000
+Message-ID: <20230720071430.259892-8-victor.liu@nxp.com>
 References: <20230720071430.259892-1-victor.liu@nxp.com>
 In-Reply-To: <20230720071430.259892-1-victor.liu@nxp.com>
 Accept-Language: en-US
@@ -61,56 +61,56 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|AM9PR04MB8415:EE_
-x-ms-office365-filtering-correlation-id: a446ecaa-7d24-4f1e-6510-08db88f06468
+x-ms-office365-filtering-correlation-id: 69888b05-0bd7-4453-d394-08db88f0680e
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6+y8DSfmjnOhEJAMvH5/CQCYPIexSA12mz/Q5OzrMGWBixFboH9426KMcDcbW8ZxQRDH2dgwJvObp4ap2XOXsgR22gF9S4BW6gJrkN5gHpTQsaHe+8w58iZ4bs6XSGRzS5CnPBn2WPvL6yzXq7GAfOueM/QsNOVKbyj6fT/2NmsKyX2JK9BnqfMWr5BcPzzgqKF+W2h9TRkF7rRzQaHlzSKcDUlBiFKcJrYuPxRWA2qYpXCZti5M+qciq/Jn/cVyHpPW5ktcT+n3jClfymMYxboLNybcqhRAnuOb8bA198Eh6ljPNqsQKmBQkBPcQE06SoTHBQHwsdaKZoaCNLHpj3QwWVCYGGaCFOcbQvIfDhAL7nC+wNJ6c/Dd0nanjim6vTQE179es622pPZNTK2F/ww9Bx6Z5g91SorwIptKgkaECVZYqmH/LtC8axICXMJz9wgBTRC7R+sugbfSxDbMYoICV4l6U4MvcKEdBf5b+rj9oFE3AAejkzR1gw6fpILS7GaPN3Hx22TJDEri7jSyAYgby/WDmJ4QXf9IC4v2HC6WTVZOvodof2o+TxdZmiD6l96pPuiaM5sSBQrt80KEvVWB+0UDMWMrppETvFfSAmXoU2leY/058N2vYlz5QplM
+x-microsoft-antispam-message-info: LKldNpDWd3hmOB/Bpr6a/6F+3FGySCfQn0aNbYMoMxq7aYZ+Rht1uBeeIySt+V2g6bK4KY7nvLgBwcPbgnA5f9PsECC4un7UtJAS7k/v8xep9ERrzTBpd1OiGeicnFolVXyUY0EPdOIwN7r5OISl6Hs3OTqTbgHw64yzdf9cEGU8DlFrMg91u6E4/XdkNcXNezZJ4HbbDxeA1bMXgRBBWjReMAP2KPB6eq3IwpES3bRjOiW+dGS6C31IoEU8KVDzzBhK1H4aiZLJnlPLjuGWXe53KZ3twYzSS6l62ZyI33n0kojVGjPBNzh60uU3a1l17XYFCsDRsJkAAuNCJmTS4aS1kSV6Yw8mXJB2yradc5fLPKfMHgzSr3h/jgP5J7+X8dFpNrA+cC1mpD0j8h4NrJGU8GyI9R4hOuF4Xu/9+3p/8hckFxiRCxCb8M/p1u5TNKpEerJAmcpIRvKCUbMsFdhS+0pHv2nN+Z6G1BMyPsZLHbazmOsmwPN1hulffMe9a/TYZenm3BvTijtTae23+DPeMtOsdOlnD7rPPZy7Tq6XP0ECzbqI+xq0y3sIALxDzz0XweBB4rMwshXZzMXP95JX4+/Svur4nK8dB6CZ+oQMrYW3z/SzoJkgcaZrFvPI
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230028)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(451199021)(6506007)(478600001)(1076003)(26005)(6486002)(52116002)(2906002)(6512007)(71200400001)(4326008)(5660300002)(66556008)(316002)(66946007)(66476007)(83380400001)(66446008)(54906003)(110136005)(64756008)(38350700002)(36756003)(38100700002)(7416002)(8936002)(8676002)(86362001)(186003)(2616005)(41300700001)(122000001);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?bI2uAWd/1sX9fPuhsQhyiOOZEBo3BtkX8kO8xWoyRWM9x9X795E48Hv9Mh?=
- =?iso-8859-1?Q?bTo6PMir0NPJCLJdbZwfK9lH6X+E2BI/AoLNgfRgyxjEDo9vfv7OjUaLvM?=
- =?iso-8859-1?Q?UIy/TrtINiH3K/P2p9oNKcoCPdaXFgRhdRXcAqfvTCgvFqHHS2hbas0agX?=
- =?iso-8859-1?Q?Q08bTvxKBvL/SYbM8DINIF/V1jvVu3Iy6bJgqwyBXO/6kxZnl72iGu9+sR?=
- =?iso-8859-1?Q?HL4JOmwVRzr7DI27fgTMYWI9mHX3RX0vjfi6D9wRN38TOUjo47d+8XGxSJ?=
- =?iso-8859-1?Q?jITth+SNy0Lrj43sRt1Hdi7wsLY+yTY5zIBw1r7iJiZtGOcrzGJFJRwKxG?=
- =?iso-8859-1?Q?gI6jl2gqnnojapC9ZlYpLLNZbXF6V7EpdjnimPcXQnwPZkk/K3oRnrh0nV?=
- =?iso-8859-1?Q?Suj1Xq4TvM9A8CFy/2mHWERknQY3P2YT31mYmMQtz0wpKSl+ykcPQmeXh/?=
- =?iso-8859-1?Q?kHO7OWd5ogDxTGvB13hKVbWVRwPH3ivnKLvDXjqG8N+6LC2sGy/wT1WVwN?=
- =?iso-8859-1?Q?wjJFd2rSvbFjP9Ds6jHhmXuh6USEMtiRoDZ0czAgOBmGSXPuFvDvK0ymax?=
- =?iso-8859-1?Q?RaYG8IY2BVk0+fJGtLOtSB5K0sGNV63xO/4TK/M0c4eiq9WONH7XC/9nYC?=
- =?iso-8859-1?Q?R91WMSGPFAF0OK06gwPdvQQsoA8YJagXhwdqBBS3hUgo5BLwl1U4L4+F5h?=
- =?iso-8859-1?Q?jm2uDj6Kr5iQHFzqRKbiW6AoG8JLRBOwu6J0CePtc8YMB027g7c692xeON?=
- =?iso-8859-1?Q?Xawc6PChY1s9UtvetUYJ5ZiLha9QiZn963Jg2h1sWtDxDnDTA9Slkr5pKA?=
- =?iso-8859-1?Q?5j5K5/ygst9tesMzeBnYbU/TPsl6slBxJnfJRublGMafb6QcPR+jJkL3FL?=
- =?iso-8859-1?Q?6bWiKezEvvDEo+6T/QPHElcf3IeO4oFsRbKBhkEM2pCnaesll145Lxd8/o?=
- =?iso-8859-1?Q?Q8E5uvNe6SjO9i3xu/LsB4MzciU1GhEn1HipBDEqvJJjMr2gIrOWRR85TL?=
- =?iso-8859-1?Q?nHZFLc1AFiTW61tVK4hTVKcQT2W81fLNp5W45guCHjN4pyW0e9Pe25Z0b5?=
- =?iso-8859-1?Q?67PRY7q2/KttGSIl0SWKgz9X4kPMIn7ZTgbilaEIw+zvhOSakbTp9fbZLU?=
- =?iso-8859-1?Q?bkTS2et9l9i8HzwT0OCxsuyolNCdvIFVFAQX3I50LxbjAU7uuz/swwztHu?=
- =?iso-8859-1?Q?X8MzdmeFByiB2w3d6K2PPhg6JCBMOZfw3OL8ki2RmdWTCsWUTf0TUUKXJN?=
- =?iso-8859-1?Q?/kxvpFbsiXAKytJUFoxtDeelaE14iq3Gf2Ti6brfhC7ZJNQx1fKXNHMNRd?=
- =?iso-8859-1?Q?FJ1YtLK7e44Yrk3M7tPYT4I1WFhFgLyEPJdlaNdMucy6PgUbKstGwN53l+?=
- =?iso-8859-1?Q?iDNKOnXPoDKUIWxbHp7JiIGQ1dsRrIHhsyA1O9guvzlKZef0E8qlCFgpHk?=
- =?iso-8859-1?Q?R/81+ScbDd+zFjqgsxRDEC6Vo6f2Q0B3xXGJEJG3n0eTWTt9JY/WU1E2hS?=
- =?iso-8859-1?Q?kxw+hyGlC8cWgz7eQ/1xVwpkL8Xx6GSgFLKRrx1RBz+roeuIZ7XiyyRMLV?=
- =?iso-8859-1?Q?UlL7hVW301JojU19wP95xlbpZ/GmltXZP5l99xHjGenvD0XwKC00ZwWmhd?=
- =?iso-8859-1?Q?CGAewIRMdM7cnnmMof9q0390jarWTldJDi?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?R+gKqyyMBFptvoZofgvNiPp3Z0pBsgkrmLlzPqaRLdxtn7K7j8zGT9Eola?=
+ =?iso-8859-1?Q?wKCCxcgf0O1DYFpT7ivr++f0fN5LKSiDQa+rykZz6zxMrZIQhN4mNefL/X?=
+ =?iso-8859-1?Q?lgF1m2ThxOnrKqPj/FuxsQc23Fmn3wpAfISldqhulFiusNuk/iKCnCHd8Y?=
+ =?iso-8859-1?Q?dmU5fX94wdhSPa/9XEpYDpAS6+F5moJ0eFNdLYngLkWHaGwtCN0CpmdJ4p?=
+ =?iso-8859-1?Q?roZH96BBEtz0NkUgW0574veT8hiWYLXfxI0PQDoFFxz+o7Yr2t3oA8JnxA?=
+ =?iso-8859-1?Q?liaj6hv8E10Vdf0pCxOg/YEtUf6GleUU4zW5sM17pSQv4aGSgS58GnRzzJ?=
+ =?iso-8859-1?Q?xdKEjYyUMRL5uy7ptRNHysSjr4ZKWlMjvGV0Wg2MrL9aiZR3ydczp6SI9Q?=
+ =?iso-8859-1?Q?Sd04F+d+Okj1SrTfF5j+VRN3W9ZT5GoUoEzYbomN64SEhtV+8a6fRHMV1+?=
+ =?iso-8859-1?Q?qOgC7qtZoqzjglOZ9CtPIsXC/FcWLorRJfkLeRYr9rmBY2Z/LvrIVNGZSn?=
+ =?iso-8859-1?Q?d0E/5QzAaqObKLlYLWaCHHbsY1ofI6ucBN0krlgmy2rm9mrQstQGi+yQwj?=
+ =?iso-8859-1?Q?OGCTz5dkhNoOOImsDamipxOHqATxWFBHNT4xH9Nr98d8nO8Hz5PR+EE+vw?=
+ =?iso-8859-1?Q?YFcP5uk2GeWskoYGuK8z404AvFPtDxvFK2GF68c9N5ErRHInk9+9ph+bep?=
+ =?iso-8859-1?Q?vTt024mhpGsegu5KfZ6G9XriMEk9R0lkKtRY8LwaKMdbeROdbrORGZuE9z?=
+ =?iso-8859-1?Q?zYV8GrSxaQlpzlXKqUhLE2KTXlPm1JlY0H33IRdJe+SI5kWd1pqhT4jfuA?=
+ =?iso-8859-1?Q?7R2aqn4kKG7aSKbjM7ZPpayu4s7UR5dmfdy1W+54Z2TE2atDzJOZ1lpw4I?=
+ =?iso-8859-1?Q?XRYgF9ZhSwZN2WiL51VI9X/NIbxkZTVcHQYAf7BZwng1eks4X37Z41K+D8?=
+ =?iso-8859-1?Q?hnBDqlh7i74/NWXQO3mqxwvLZCPHih4f6z4wNbyZvoxKkc+O5ChiT7gNvs?=
+ =?iso-8859-1?Q?8+wr+SrEqHL0WqzuvQwuFXbOhpWJ7WfhwkbDjwe6+pF7qYAcR7+3u6nOBP?=
+ =?iso-8859-1?Q?bi4GVHXMRAq05iHPOUzWP+5p2NZjCvEndAnroy95S6+5Bwo2TeRLFdGRT1?=
+ =?iso-8859-1?Q?aqJ/wwBk5LWA0PlxMENN1ugrKNmbxPPF8Un1DGQoMsvOuSa3au5dGLdH0S?=
+ =?iso-8859-1?Q?C8bS1tzv0XE6bsRthmTck4EPu+7C5/+DXDY4x6T41wifse11o9VlZdrp0L?=
+ =?iso-8859-1?Q?eEvNZgJ+uQn7JZWT0vlWpGOgc6SfzKooT8Fkn1vtNS9KrSux2aPldAj2fw?=
+ =?iso-8859-1?Q?4a3NHuW9VqOxRK+nSkHSK8NhufT+iL8V9jwdZG9p9jg8/F26Jf2XQGdEEJ?=
+ =?iso-8859-1?Q?UFhp+AewDJlflX5ZUgGnx57R5GwsIU6EpWRxFG+i+mxL3pA5eV1WpXXf+J?=
+ =?iso-8859-1?Q?6wfTgT0YFlUeMg81Su9p/ahC7Ckg4YCepArYA1KOrpz2NfeRgZbTN+MM82?=
+ =?iso-8859-1?Q?LYMFlccvszliYtkvqATog/0UWehcvoi2Wpmtkgtd2/zHMpKX2jxAHHsY1i?=
+ =?iso-8859-1?Q?btJkFy0pMB4vOHD4tFKn+Y5fOSDBlr2nXXiQGpjAQlTqC4uyGleO3ViZun?=
+ =?iso-8859-1?Q?hNZU4h3Nn7ER0nEd30S/bcuj37+G/8ghLz?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a446ecaa-7d24-4f1e-6510-08db88f06468
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2023 07:10:26.0564 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69888b05-0bd7-4453-d394-08db88f0680e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2023 07:10:32.1952 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IA6gQbTrrmGXPKqPVyPpkJTeJmduevHkMcTpiSI2Q+tJO7yIexM7MaNTtSNRf9LEaNH9znO1Vgq6DGvX+DAQaA==
+X-MS-Exchange-CrossTenant-userprincipalname: XUixrAXBC+LPWrgLCvV6MFuqbsLdl3WfEDdnZ2lRWIAs6kJbodURnp6wiF1XEWL2sLKanjt2MSd/Uu8z1lsppg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -143,81 +143,54 @@ Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to Synopsys support channel, each region of HSA, HBP and HFP must
-have minimum number of 10 bytes where constant 4 bytes are for HSS or HSE
-and 6 bytes are for blanking packet(header + CRC).  Hence, the below table
-comes in.
+According to Synopsys DW MIPI DSI host databook, HSTX and LPRX timeout
+contention detections are measured in TO_CLK_DIVISION cycles.  However,
+the current driver programs magic values to TO_CLK_DIVISION, HSTX_TO_CNT
+and LPRX_TO_CNT register fields, which makes timeout error event wrongly
+happen for some video modes, at least for the typical 1920x1080p@60 video
+mode read from a HDMI monitor driven by ADV7535 DSI to HDMI bridge.
+While at it, the current driver doesn't enable interrupt to handle or
+complain about the error status, so true error just happens silently
+except for display distortions by visual check.
 
-+------------+----------+-------+
-| data lanes | min lbcc | bytes |
-+------------+----------+-------+
-|     1      |    10    |  1*10 |
-+------------+----------+-------+
-|     2      |    5     |  2*5  |
-+------------+----------+-------+
-|     3      |    4     |  3*4  |
-+------------+----------+-------+
-|     4      |    3     |  4*3  |
-+------------+----------+-------+
-
-Implement the minimum lbcc numbers to make sure that the values programmed
-into DSI_VID_HSA_TIME and DSI_VID_HBP_TIME registers meet the minimum
-number requirement.  For DSI_VID_HLINE_TIME register, it seems that the
-value programmed should be based on mode->htotal as-is, instead of sum up
-HSA, HBP, HFP and HDISPLAY.
-
-This helps the case where Raydium RM67191 DSI panel is connected, since
-it's video timing for hsync length is only 2 pixels and without this patch
-the programmed value for DSI_VID_HSA_TIME is only 2 with 4 data lanes.
+Disable the timeout check by setting those timeout register fields to
+zero for now until someone comes along with better computations for the
+timeout values.  Although the databook doesn't mention what happens when
+they are set to zero, it turns out the false error doesn't happen for
+the 1920x1080p@60 video mode at least.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v1->v2:
 * No change.
 
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/dr=
 m/bridge/synopsys/dw-mipi-dsi.c
-index 332388fd86da..536306ccea5a 100644
+index 536306ccea5a..0fcadf99e783 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -757,12 +757,19 @@ static void dw_mipi_dsi_command_mode_config(struct dw=
-_mipi_dsi *dsi)
- 	dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
+@@ -684,7 +684,7 @@ static void dw_mipi_dsi_init(struct dw_mipi_dsi *dsi)
+ 	 * timeout clock division should be computed with the
+ 	 * high speed transmission counter timeout and byte lane...
+ 	 */
+-	dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(10) |
++	dsi_write(dsi, DSI_CLKMGR_CFG, TO_CLK_DIVISION(0) |
+ 		  TX_ESC_CLK_DIVISION(esc_clk_division));
  }
 =20
-+static const u32 minimum_lbccs[] =3D {10, 5, 4, 3};
-+
-+static inline u32 dw_mipi_dsi_get_minimum_lbcc(struct dw_mipi_dsi *dsi)
-+{
-+	return minimum_lbccs[dsi->lanes - 1];
-+}
-+
- /* Get lane byte clock cycles. */
- static u32 dw_mipi_dsi_get_hcomponent_lbcc(struct dw_mipi_dsi *dsi,
- 					   const struct drm_display_mode *mode,
- 					   u32 hcomponent)
- {
--	u32 frac, lbcc;
-+	u32 frac, lbcc, minimum_lbcc;
- 	int bpp;
-=20
- 	bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-@@ -778,6 +785,11 @@ static u32 dw_mipi_dsi_get_hcomponent_lbcc(struct dw_m=
-ipi_dsi *dsi,
- 	if (frac)
- 		lbcc++;
-=20
-+	minimum_lbcc =3D dw_mipi_dsi_get_minimum_lbcc(dsi);
-+
-+	if (lbcc < minimum_lbcc)
-+		lbcc =3D minimum_lbcc;
-+
- 	return lbcc;
- }
-=20
+@@ -747,7 +747,7 @@ static void dw_mipi_dsi_command_mode_config(struct dw_m=
+ipi_dsi *dsi)
+ 	 * compute high speed transmission counter timeout according
+ 	 * to the timeout clock division (TO_CLK_DIVISION) and byte lane...
+ 	 */
+-	dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(1000) | LPRX_TO_CNT(1000));
++	dsi_write(dsi, DSI_TO_CNT_CFG, HSTX_TO_CNT(0) | LPRX_TO_CNT(0));
+ 	/*
+ 	 * TODO dw drv improvements
+ 	 * the Bus-Turn-Around Timeout Counter should be computed
 --=20
 2.37.1
 
