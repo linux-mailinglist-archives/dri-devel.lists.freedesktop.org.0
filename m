@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00B375A946
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 10:28:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C9575A985
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 10:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E7310E57F;
-	Thu, 20 Jul 2023 08:28:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A72A10E15F;
+	Thu, 20 Jul 2023 08:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C9510E57F;
- Thu, 20 Jul 2023 08:28:24 +0000 (UTC)
-Received: from dggpemm500001.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R65N85vy8ztRZ2;
- Thu, 20 Jul 2023 16:25:12 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 20 Jul 2023 16:28:20 +0800
-Message-ID: <1e839238-c78d-71e0-28ae-7efff0e04953@huawei.com>
-Date: Thu, 20 Jul 2023 16:28:19 +0800
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 940F610E0C5;
+ Thu, 20 Jul 2023 08:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689842591; x=1721378591;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=di9h+46ohxqoEGRZiCGzN9lOQ5UWLl/5Mvmelef0gBg=;
+ b=O/SvxBb00TKPFu1nljjRDo8QsrtRjTy13T5SVzb0qXgPd2ZFUDrOSJWF
+ xjT9lq4oJM88jRTe0+c7MW1RDkCoQGmk/oLmjNFcbV+GteLMtIsVWWCIP
+ TV/d+uDCKG2tKn6IaRaz7gKBPuqfNXobtu5tH2jQ7Zls6m+x3NZxXFx8K
+ idAP8EmJyOIcUabtQJmhM75s6PoMIbOCX/+iQIi/bk0+Kszi7YCp7PqCI
+ PyJnDbvkga0SDvzHwQDNGMFzQ782/7iXzbfXg/jrqSyd35wAH/z6xtwrv
+ fUPAG3et0kZprTDyeLzI84ztjGwpT4UOd5YeYNIfME/xvB7FaJnrYBdAd w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="365558097"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; d="scan'208";a="365558097"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 01:43:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10776"; a="718317662"
+X-IronPort-AV: E=Sophos;i="6.01,218,1684825200"; d="scan'208";a="718317662"
+Received: from ctuohy-mobl1.ger.corp.intel.com (HELO [10.213.193.21])
+ ([10.213.193.21])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 01:43:07 -0700
+Message-ID: <1a2aeca6-12f7-6316-c6e2-8474fd17255e@linux.intel.com>
+Date: Thu, 20 Jul 2023 09:43:05 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v2 3/4] selinux: use vma_is_initial_stack() and
- vma_is_initial_heap()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/i915: Avoid -Wconstant-logical-operand in
+ nsecs_to_jiffies_timeout()
 Content-Language: en-US
-To: Paul Moore <paul@paul-moore.com>, =?UTF-8?Q?Christian_G=c3=b6ttsche?=
- <cgzones@googlemail.com>
-References: <20230719075127.47736-1-wangkefeng.wang@huawei.com>
- <20230719075127.47736-4-wangkefeng.wang@huawei.com>
- <CAJ2a_DfGvPeDuN38UBXD4f2928n9GZpHFgdiPo9MoSAY7YXeOg@mail.gmail.com>
- <dc8223db-b4ac-7bee-6f89-63475a7dcaf8@huawei.com>
- <CAHC9VhQzJ3J0kEymDUn3i+dnP_34GMNRjaCHXc4oddUCFb0Ygw@mail.gmail.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <CAHC9VhQzJ3J0kEymDUn3i+dnP_34GMNRjaCHXc4oddUCFb0Ygw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+To: Nathan Chancellor <nathan@kernel.org>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, emma@anholt.net,
+ mwen@igalia.com
+References: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-0-36ed8fc8faea@kernel.org>
+ <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-2-36ed8fc8faea@kernel.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-2-36ed8fc8faea@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,66 +66,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: selinux@vger.kernel.org, Stephen Smalley <stephen.smalley.work@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org, linux-mm@kvack.org,
- amd-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- Eric Paris <eparis@parisplace.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: trix@redhat.com, intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ ndesaulniers@google.com, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, justinstitt@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 2023/7/19 23:25, Paul Moore wrote:
-> On Wed, Jul 19, 2023 at 6:23 AM Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->> On 2023/7/19 17:02, Christian Göttsche wrote:
->>> On Wed, 19 Jul 2023 at 09:40, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
->>>>
->>>> Use the helpers to simplify code.
->>>>
->>>> Cc: Paul Moore <paul@paul-moore.com>
->>>> Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
->>>> Cc: Eric Paris <eparis@parisplace.org>
->>>> Acked-by: Paul Moore <paul@paul-moore.com>
->>>> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->>>> ---
->>>>    security/selinux/hooks.c | 7 ++-----
->>>>    1 file changed, 2 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
->>>> index d06e350fedee..ee8575540a8e 100644
->>>> --- a/security/selinux/hooks.c
->>>> +++ b/security/selinux/hooks.c
->>>> @@ -3762,13 +3762,10 @@ static int selinux_file_mprotect(struct vm_area_struct *vma,
->>>>           if (default_noexec &&
->>>>               (prot & PROT_EXEC) && !(vma->vm_flags & VM_EXEC)) {
->>>>                   int rc = 0;
->>>> -               if (vma->vm_start >= vma->vm_mm->start_brk &&
->>>> -                   vma->vm_end <= vma->vm_mm->brk) {
->>>> +               if (vma_is_initial_heap(vma)) {
->>>
->>> This seems to change the condition from
->>>
->>>       vma->vm_start >= vma->vm_mm->start_brk && vma->vm_end <= vma->vm_mm->brk
->>>
->>> to
->>>
->>>       vma->vm_start <= vma->vm_mm->brk && vma->vm_end >= vma->vm_mm->start_brk
->>>
->>> (or AND arguments swapped)
->>>
->>>       vma->vm_end >= vma->vm_mm->start_brk && vma->vm_start <= vma->vm_mm->brk
->>>
->>> Is this intended?
->>
->> The new condition is to check whether there is intersection between
->> [startbrk,brk] and [vm_start,vm_end], it contains orignal check, so
->> I think it is ok, but for selinux check, I am not sure if there is
->> some other problem.
+On 18/07/2023 22:44, Nathan Chancellor wrote:
+> A proposed update to clang's -Wconstant-logical-operand to warn when the
+> left hand side is a constant shows the following instance in
+> nsecs_to_jiffies_timeout() when NSEC_PER_SEC is not a multiple of HZ,
+> such as CONFIG_HZ=300:
 > 
-> This particular SELinux vma check is see if the vma falls within the
-> heap; can you confirm that this change preserves this?
+>    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+>      189 |         if (NSEC_PER_SEC % HZ &&
+>          |             ~~~~~~~~~~~~~~~~~ ^
+>    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: use '&' for a bitwise operation
+>      189 |         if (NSEC_PER_SEC % HZ &&
+>          |                               ^~
+>          |                               &
+>    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: remove constant to silence this warning
+>    1 warning generated.
+> 
+> Turn this into an explicit comparison against zero to make the
+> expression a boolean to make it clear this should be a logical check,
+> not a bitwise one.
 
-Yes, within is one case of new vma scope check.
+So -Wconstant-logical-operand only triggers when it is a constant but 
+not zero constant? Why does that make sense is not a kludge to avoid too 
+much noise?
 
+Personally, it all feels a bit over the top as a warning,  since code in 
+both cases should optimise away. And we may end up papering over it if 
+it becomes a default.
+
+Then again this patch IMO does make the code more readable, so I am 
+happy to take this one via our tree. Or either give ack to bring it in 
+via drm-misc-next:
+
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Let me know which route works best.
+
+Regards,
+
+Tvrtko
+
+> Link: https://reviews.llvm.org/D142609
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index 4a33ad2d122b..d4b918fb11ce 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -186,7 +186,7 @@ i915_gem_object_wait(struct drm_i915_gem_object *obj,
+>   static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
+>   {
+>   	/* nsecs_to_jiffies64() does not guard against overflow */
+> -	if (NSEC_PER_SEC % HZ &&
+> +	if ((NSEC_PER_SEC % HZ) != 0 &&
+>   	    div_u64(n, NSEC_PER_SEC) >= MAX_JIFFY_OFFSET / HZ)
+>   		return MAX_JIFFY_OFFSET;
+>   
 > 
