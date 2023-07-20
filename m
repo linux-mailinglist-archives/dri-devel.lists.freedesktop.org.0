@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7FE75B5FC
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 19:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2465675B622
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 20:08:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C3910E5F0;
-	Thu, 20 Jul 2023 17:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF9C10E5FA;
+	Thu, 20 Jul 2023 18:08:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC6D10E5FC
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 17:58:24 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-993a37b79e2so177502766b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 10:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1689875902; x=1690480702;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cqyV84rzqAv60Q1JCmzeDg/z3HBPwnmC8UZiN/jzHpI=;
- b=M/Ju0l4Fy9jRgsTVIXzbhsxyG+1eWp5CIy5y9+dXCCf/ZeFuV4UXiuWmdkLXA05WJT
- vEPAAzhbS1k4Z0/yqi8VHPxs0LinSsOIzr4qTSiTrM+mHgcJ1kSlPnyTUf1ib3jr9EqP
- 0V9/ondqiSD4rkuCiXH1dOtE6CGfrHaXIkRUg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689875902; x=1690480702;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cqyV84rzqAv60Q1JCmzeDg/z3HBPwnmC8UZiN/jzHpI=;
- b=Ze3XRaDiBzXok+KezI6x8/bB6eSrBfMrIIQDNIoWKiTABMIsm21MEEp0tSAffB0RA3
- QwmVsVHOXpXaBczh9db4sT65BXh8mD/rylEr2fNk7Y4ZhReToagM+rsE2rOF3+q9hMa6
- om66ePZ6WplnP/R1c/V+BCUJZgbO7uBAAtMh96tfzURRbmZF2hQrR30NxbFhT1yEIcNv
- tHnKDdP2zqfbmfzg8B8dqraqszHWeuuo6zWpG57LAasjZTZtkvqtSUsfevmfaczB0BBU
- vWSg659w4j8l7pDzi3Js3FDTwVH7StS4d3h38M1BRrNuusT9sFxem4Glj/ojq0d0VQ7A
- oTIQ==
-X-Gm-Message-State: ABy/qLb5BWJzGJyte41DDuEf0ZNM2h845kwfN2QPPwM/V7kC0oofIE7n
- ZBlJXUNUPqurBiOlepG86wEDg13qXlI5TsQFMxbr1A==
-X-Google-Smtp-Source: APBJJlELy47gBFlbQguyHJieSy9N22t/ip4TlI85OA7Ktc7gxlhK7Rlm2oLzSNvh5eakj845CYhTdQ==
-X-Received: by 2002:a17:906:2a03:b0:99b:4908:1a6d with SMTP id
- j3-20020a1709062a0300b0099b49081a6dmr3294410eje.52.1689875902223; 
- Thu, 20 Jul 2023 10:58:22 -0700 (PDT)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com.
- [209.85.208.54]) by smtp.gmail.com with ESMTPSA id
- bn4-20020a170906c0c400b009829d2e892csm1017554ejb.15.2023.07.20.10.58.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jul 2023 10:58:21 -0700 (PDT)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-521db0bb0e8so1431a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 10:58:21 -0700 (PDT)
-X-Received: by 2002:a50:9ecd:0:b0:51e:295f:4ef0 with SMTP id
- a71-20020a509ecd000000b0051e295f4ef0mr962edf.5.1689875901136; Thu, 20 Jul
- 2023 10:58:21 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D49B310E5FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 18:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689876480; x=1721412480;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7dMx1vxlj/xh0eN5dm79YGMH5t91q+NabCzXn9iJnnM=;
+ b=JRAxraO84Pegi/d6WFgPr7hLBxVP9c6R0F6ZwrYJybDBKquuyTTxIAjM
+ UGF3GoWn2Iaq4GVnquB7F1eUdjsQIZ+SWNj8ACabnSFGykuhCobl+5SSE
+ SYxRgsRjDoKDrJQc5M9ubbwSqTKlHxfZ0+8YfsfhfOAU7HrwDdbneHYjo
+ 3k9sjZotQCjQ2Po69Z012q7RdED2spwkxkRjW10l+jUIbaZZ/nFQOtYYs
+ xy23YwhRq+TmDnn9S0qz4mtlyqYS9JDsPwTVdjAf38/o2ZrtBTcQH+t5Q
+ tbDvt0k4PTfMLZjJwtlBEvCAvYVd08a9odCOIeu5hQdhWH1dc9G900jTC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="370419706"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="370419706"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 11:06:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="848532395"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="848532395"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+ by orsmga004.jf.intel.com with ESMTP; 20 Jul 2023 11:06:21 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qMY2f-0006Ll-0K;
+ Thu, 20 Jul 2023 18:06:21 +0000
+Date: Fri, 21 Jul 2023 02:06:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
+Subject: Re: [PATCH v2 06/11] drm/tests: helpers: Create a helper to allocate
+ an atomic state
+Message-ID: <202307210124.Ur3UNuxZ-lkp@intel.com>
+References: <20230720-kms-kunit-actions-rework-v2-6-175017bd56ab@kernel.org>
 MIME-Version: 1.0
-References: <20230709162253.464299-1-marex@denx.de>
- <CAD=FV=XoX+weEHHz0Cy7ebx-6dRTLAqNeDWz-ejbj6=fAi-F2g@mail.gmail.com>
-In-Reply-To: <CAD=FV=XoX+weEHHz0Cy7ebx-6dRTLAqNeDWz-ejbj6=fAi-F2g@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 20 Jul 2023 10:58:09 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XWiPJp-5RU5K8fW=7N-keSFZRfj==nNq+q23-kg7q5uw@mail.gmail.com>
-Message-ID: <CAD=FV=XWiPJp-5RU5K8fW=7N-keSFZRfj==nNq+q23-kg7q5uw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: simple: Drop prepared_time
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720-kms-kunit-actions-rework-v2-6-175017bd56ab@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,54 +63,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- dri-devel@lists.freedesktop.org
+Cc: David Gow <davidgow@google.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>, llvm@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Brendan Higgins <brendan.higgins@linux.dev>,
+ Maxime Ripard <mripard@kernel.org>, linux-kselftest@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maxime,
 
-On Tue, Jul 18, 2023 at 7:23=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Sun, Jul 9, 2023 at 9:23=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
-> >
-> > This has been superseded by RPM in commit
-> > 3235b0f20a0a ("drm/panel: panel-simple: Use runtime pm to avoid excessi=
-ve unprepare / prepare")
-> > and the last user of the non-RPM case has been dropped in commit
-> > b6d5ffce11dd ("drm/panel-simple: Non-eDP panels don't need "HPD" handli=
-ng")
-> > whatever is left in this driver is just assigned and never used.
-> > Drop the remaining parts.
-> >
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > ---
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: dri-devel@lists.freedesktop.org
-> > ---
-> >  drivers/gpu/drm/panel/panel-simple.c | 4 ----
-> >  1 file changed, 4 deletions(-)
->
-> Thanks for cleaning this up.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> I'm happy to apply this or happy for others to. I'll wait a few more
-> days and then apply it if nobody else has.
+kernel test robot noticed the following build warnings:
 
-As promised, I've pushed this to drm-misc-next.
+[auto build test WARNING on c58c49dd89324b18a812762a2bfa5a0458e4f252]
 
-c942e935ff3f drm/panel: simple: Drop prepared_time
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Switch-to-kunit-actions/20230720-191901
+base:   c58c49dd89324b18a812762a2bfa5a0458e4f252
+patch link:    https://lore.kernel.org/r/20230720-kms-kunit-actions-rework-v2-6-175017bd56ab%40kernel.org
+patch subject: [PATCH v2 06/11] drm/tests: helpers: Create a helper to allocate an atomic state
+config: arm64-randconfig-r022-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210124.Ur3UNuxZ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210124.Ur3UNuxZ-lkp@intel.com/reproduce)
 
-I had to manually resolve the context conflict since this patch only
-applied cleanly atop your other patch [1]. However, the resolution was
-trivial.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210124.Ur3UNuxZ-lkp@intel.com/
 
-[1] https://lore.kernel.org/all/20230709135231.449636-1-marex@denx.de/
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:54:6: warning: cast from 'void (*)(struct platform_driver *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      54 |                                         (kunit_action_t *)platform_driver_unregister,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:62:6: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      62 |                                         (kunit_action_t *)platform_device_put,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:70:6: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      70 |                                         (kunit_action_t *)platform_device_del,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:90:9: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      90 |                              (kunit_action_t *)platform_device_unregister,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:94:9: warning: cast from 'void (*)(struct platform_driver *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      94 |                              (kunit_action_t *)platform_driver_unregister,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:192:6: warning: cast from 'void (*)(struct drm_atomic_state *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+     192 |                                         (kunit_action_t *)drm_atomic_state_put,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   6 warnings generated.
+
+
+vim +192 drivers/gpu/drm/tests/drm_kunit_helpers.c
+
+   164	
+   165	/**
+   166	 * drm_kunit_helper_atomic_state_alloc - Allocates an atomic state
+   167	 * @test: The test context object
+   168	 * @drm: The device to alloc the state for
+   169	 * @ctx: Locking context for that atomic update
+   170	 *
+   171	 * Allocates a empty atomic state.
+   172	 *
+   173	 * The state is tied to the kunit test context, so we must not call
+   174	 * drm_atomic_state_put() on it, it will be done so automatically.
+   175	 *
+   176	 * Returns:
+   177	 * An ERR_PTR on error, a pointer to the newly allocated state otherwise
+   178	 */
+   179	struct drm_atomic_state *
+   180	drm_kunit_helper_atomic_state_alloc(struct kunit *test,
+   181					    struct drm_device *drm,
+   182					    struct drm_modeset_acquire_ctx *ctx)
+   183	{
+   184		struct drm_atomic_state *state;
+   185		int ret;
+   186	
+   187		state = drm_atomic_state_alloc(drm);
+   188		if (!state)
+   189			return ERR_PTR(-ENOMEM);
+   190	
+   191		ret = kunit_add_action_or_reset(test,
+ > 192						(kunit_action_t *)drm_atomic_state_put,
+   193						state);
+   194		if (ret)
+   195			return ERR_PTR(ret);
+   196	
+   197		state->acquire_ctx = ctx;
+   198	
+   199		return state;
+   200	}
+   201	EXPORT_SYMBOL_GPL(drm_kunit_helper_atomic_state_alloc);
+   202	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
