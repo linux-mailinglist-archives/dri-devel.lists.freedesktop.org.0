@@ -2,151 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1320C75B8E9
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 22:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF28B75B8EC
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 22:53:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F46710E18E;
-	Thu, 20 Jul 2023 20:52:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4E910E19E;
+	Thu, 20 Jul 2023 20:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB5B10E18E;
- Thu, 20 Jul 2023 20:52:14 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4077310E19E;
+ Thu, 20 Jul 2023 20:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689886334; x=1721422334;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=DRfw5ft61tuYKI396p4NrMt++TjfZJ+InS6WBiYc4ZA=;
- b=AONDDZgLWE7PrArAJkKLdYkXPwVN62T7s59q2tqGpILeFcmPo0oFvWa8
- 2oQ2au7Yp/ld8rnio4A3czkyREKhgAXGBeXKLFCYBcA/P7dlmHSB3XMTR
- Aq3jLPUzm4h3zRM4TqkzXzUISftH6OkrT80NqEdpnZvEdU44fxU3ucylO
- Dqg30+RvvdSE4E7EZEQd/HX2PaOV3bC/wKwsdKNa7+Kl0Z4K9RxPTVji7
- Tg8XySprjJFsS8iXrzJFXhVDpjBLyQyGysjtEzVoIEMw5nK7gV0BRmOzJ
- NIomvL6EsUjcBK2m8gMh566+z5UAhNlUCzYGpqE13Jbj22Pl8XL4iUIca g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="433083108"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="433083108"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2023 13:52:13 -0700
+ t=1689886396; x=1721422396;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=crcKyzFazjW0l/qDB+YwdSPBEHwqAh/s+u+pGmWavwM=;
+ b=fD2EKx6iA0N2el3gkQJtv0wuVJQgKJIGfXbX7d30f8691T25EcwoM0Zu
+ T7WGWMaNENPkvwPnuq8WGDVy07o6NZLtR+MJaKk2CnnhxYtr7oD3bunoR
+ nRRheMhIdKEr8ohl4Vy2529a78aCYRewVre91vtUWwAAzOPsF97ry/iOO
+ OgG6F0IMQq6t80hOatm01Sx4WfQR17DQhGcy5tGWD//eXv0JjPFVL6DY9
+ 0mUeKPtSlySzYitmEkKfJcMXIWPmTgx4hh8m8X4mxM3MFx+KKpdoZzaj2
+ E14ZdOJORZMOuy333c1AF+2DQcydR8dFkv1/jowpB8BPMvdokgvq4tKwg g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="356846018"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="356846018"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 13:53:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="701796701"
-X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="701796701"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga006.jf.intel.com with ESMTP; 20 Jul 2023 13:52:13 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="848599866"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="848599866"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga004.jf.intel.com with ESMTP; 20 Jul 2023 13:53:15 -0700
 Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 20 Jul 2023 13:52:13 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 20 Jul 2023 13:52:13 -0700
+ 15.1.2507.27; Thu, 20 Jul 2023 13:53:15 -0700
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 20 Jul 2023 13:52:13 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
+ 15.1.2507.27 via Frontend Transport; Thu, 20 Jul 2023 13:53:15 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
  by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 20 Jul 2023 13:52:11 -0700
+ 15.1.2507.27; Thu, 20 Jul 2023 13:53:14 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GW78yX+CKAc8ZJQCpNchVuoetLfiA1RruEnd5IA16hkbm5CD4dc7qbLlHgCpRZO4PeABjgRwFXpxDmltD6eGUUK4cwNxyfsjAVoETjNv0Duv5ppgqo8JelRxF6I8xGu9SJkwAiX0qr56UdxtxIbhOCJItN6kJiX5912Hl2IOovitsF3FXR4gn/pGO7G9jWFxTTLHN83yTdNXlcA51zaJrd/w2nqOtgJB890I8VUENcJJcs7Rwvh7sA826hV16//wT27OvkqLEdNXWo+nyvSJBLJeq5ah5aqGZsQgafos9/csT6Df08oICqBp/F490Y9G+NnleotQ508jpCTBCeqVuQ==
+ b=RccPRSG8CDVPDoWu6uHttukJqD0xvWuCEgF+7DCch7CZ/RcN8FgthGrO+Z+OlbBI+y8r6zdK4K045t5UmauipvCLKZwOA84vEAQVOTBsOroP3YZZKGjcgaxUsvcHAEI1XMIQhJSZmWCbUJb0FFOeW9GS2+57Lo3+GudfTQUAMj4p+1LxGMhrVC1Zr9lcOjbQc6Vf2rzkP+8oMAseuzXnsBm6Z/6THv3MduPKiaiRi18lRu5P5Ks0RPJ31FSK1QZVBambk34Sjhg3Au6TweVh2qWrZwEWtzlo5fcAr9dVtrqpThyX4OKMK9WBLT/tfTo161qlSsJ7hd6RO5Fov06VKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qQ9vxro+I2XwTiq2VM1D3nLqYAjk4dlfe+mBNA6fMFY=;
- b=WouJTa4D/pYtkwT2G/w+rmXke3VZwClj8dnxTAx6MklnfpamvG6UPfpHDFWEUClFvjIgyv8qL9YWiSbkm0iOaXKHoQKS68RxH/FWJjA9p0YJ6kKL5+g00406Fkvbj6XCz/dU1ZsLscno8cMJ7DIKTAwOWcIQO/nAu/Qs8/hw1XCZmQksIDc1R+k45Gz6DGRX+Cs4HXQP9sFj74bXwg5PkfOHdUXzqidcJmnoVvkDV7MOPKwBJZ67n9kk32Ku+gGLXvt9yPKKzfJpMiZ31PezPq2yRG24pY1x4E1rCalrufdHu0oARZwGY76KBh8msd2znoquExfgQIMhQEAOsqmOKA==
+ bh=PpXjxeVR2Erf1ae596dO3aHutBrREEZoV5q2TTzXtII=;
+ b=LKnw+MtqRMbRyn9c26nq3P7KzcUk7zkfrYb7kt8H3AzZMTub8OJ2stOMoYCf0TyT1byG5eOAVRHhn1KFvZm3CDNI4PhyJvAmIbgWdIzmGsnjeRz1Nq1zuTSxD4jQJtoaulLCy4+qBTJ1nRaEMqc8l3BSgYskBMm0N9P3Oah+a4AGLMf3p7J+IsTj4cH7fFGg5BLoj4v85cObP8yzbkszAgt0klBCyRJgX1DcHuRp0uNDQ6JIj8ig1fcPrQPEPPWqrjulCMUZ++VOSsagUsdqNp1Hr+X+FTtPHPw4JHfLp3JjGjYbCQgXNTXmtrCdMGHmW5aLcek2zWtTC7dRWmPePQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
- by SA1PR11MB8594.namprd11.prod.outlook.com (2603:10b6:806:3b1::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Thu, 20 Jul
- 2023 20:52:04 +0000
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d218:3a45:e9ae:f699]) by PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d218:3a45:e9ae:f699%4]) with mapi id 15.20.6609.025; Thu, 20 Jul 2023
- 20:52:03 +0000
-Message-ID: <4965b5e0-5bad-bba8-7cd9-0975478105ad@intel.com>
-Date: Thu, 20 Jul 2023 13:52:00 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5] drm/i915/selftest/gsc: Ensure GSC Proxy init completes
- before selftests
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20230712231243.2459135-1-alan.previn.teres.alexis@intel.com>
-Content-Language: en-US
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230712231243.2459135-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR02CA0070.namprd02.prod.outlook.com
- (2603:10b6:a03:54::47) To PH7PR11MB7605.namprd11.prod.outlook.com
- (2603:10b6:510:277::5)
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
+ MW4PR11MB5934.namprd11.prod.outlook.com (2603:10b6:303:189::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6609.25; Thu, 20 Jul 2023 20:53:12 +0000
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::de6b:b5a9:e542:b41]) by DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::de6b:b5a9:e542:b41%5]) with mapi id 15.20.6609.024; Thu, 20 Jul 2023
+ 20:53:12 +0000
+Date: Thu, 20 Jul 2023 13:53:08 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v6 5/9] drm/i915/gt: Refactor
+ intel_emit_pipe_control_cs() in a single function
+Message-ID: <20230720205308.GW138014@mdroper-desk1.amr.corp.intel.com>
+References: <20230719110729.618733-1-andi.shyti@linux.intel.com>
+ <20230719110729.618733-6-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230719110729.618733-6-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: BYAPR04CA0010.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::23) To DS7PR11MB7859.namprd11.prod.outlook.com
+ (2603:10b6:8:da::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|SA1PR11MB8594:EE_
-X-MS-Office365-Filtering-Correlation-Id: 535937ef-e6dc-42d6-e069-08db89632b86
+X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|MW4PR11MB5934:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee552c37-f398-4283-edf7-08db896354bf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TnKUI5TlG2iZpWRbEvzhKG5/XHsr1jZ1egtr/3IBcTwZv/rgVtRQD/v8odCzV/MO7sV76dY8fd0kZI6DQMMkiBl02/GtdwhrkDq/aXfs/QJ+GZBP2ytbyfnHNI1UVdZNZteJTqJzm/fYntWTYsj5e7T7hmLGSYuzty+q2Q500gwa9rWpah1l/u0lvrSNN7wYbxPuL6IQokzZauyiLDUlBLTuyWfzPoL/HwSJg1nTNESDnW7aJO69DartAvjKdufuJouUGfSBzmFhOXBCCY2jReormv+c2hCvhYEUl9ms8H9HSBOSyIJJIysli4jBfEUgxqnRXego8XIysgrNh1WkyudtEtyykq4SFzgirSYz/xpol1Qt0IF1PUjeWMDTulxwLSHG9aLKbK0btzurXyu6I5Of46zWzFKY8iB682H1JZjEdvbTDZUMPy3nCVyyW2X7QAtn+ANQMD8ZsS+CX0Zbo3treXYZNmHCKIkWVVF25oCQXZFsa1UduYWokW+kIwHzPBw7krdg8NxA7nKZLG8VHH+s8sklt1jRoVZteWqTqwhDYP4zeh/CiAWlrUFa6sEykK+Zh9YKbbqSVY62rhsFgqOjxarq27hJbgh/wVcNq+qEkpMq+RoxLHhpCqRPykv4
+X-Microsoft-Antispam-Message-Info: n/HcexhRz096ViV7tYC/L3UmfFJCVjbNGHW/pb851SrMoGg+puPJ0E64Nq6RomTIDXMDBwX7j6h0yaKAWAlkF2SwSHTcOmdoYv+5hAd2+CXqdwrG3RncTNzY4omnpJuZHrcctlE3+doDpRXxFvtJOfvngEnc5X02/eqgCxAwD5Jii5IrTmLcJ5uwG64raRcc9CyRCXPXqV3SHuWZe/ARpPPNLycm8M2w+xHBfoYlsq9G+SogYVNUEL9i1qgvLrPhkpHauUAehJIBsVWuA4Ai+NjUiih/+LQscF/3ySj1UQW3bIkeqHjLKyzBr8iD00ZvHlbnNI88JYkdHObvCrr83JEgi9iE9jM0MoKscyaOdSJOjLotqDgYvgZ2rTdMSC0W+0t/GizDBGUXjSrx7pHn0S5cVJpS6n8YUoOAiUq/9eoH63VFF1VaiFZ6l8W8/BK1GSmSqK5P2KRrhpbvxqDczhRHBvtUTijQ4aCDTNNmvafy7iR365ic6HTOY5dEdTsgdq56/aKuQEi5Q+424/xo4ZnrZY8dGVIFRBSgQZaS8QXpDiq+lK2wUWUs0Kc+cC2T
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(366004)(376002)(39860400002)(346002)(396003)(136003)(451199021)(966005)(66946007)(6512007)(66556008)(66476007)(6486002)(107886003)(2906002)(53546011)(8676002)(316002)(8936002)(4326008)(36756003)(450100002)(5660300002)(82960400001)(6506007)(2616005)(38100700002)(186003)(26005)(41300700001)(83380400001)(86362001)(478600001)(31686004)(54906003)(31696002)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(136003)(376002)(346002)(366004)(396003)(451199021)(66476007)(478600001)(186003)(26005)(6506007)(41300700001)(1076003)(6512007)(6666004)(6486002)(54906003)(316002)(6916009)(4326008)(5660300002)(8936002)(66556008)(8676002)(66946007)(2906002)(83380400001)(38100700002)(82960400001)(86362001)(33656002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SldOVWxJRHRoOW5JRk9oYzJaYS9yUGRCZG5PWW0xbjlWNnBEVkREYzlRMEk0?=
- =?utf-8?B?SmYxV2tLUE90WHJBTkhzOFA2VG9ZTGI0M2t5bkM0dks2SlpBNXJKZWp0NXkz?=
- =?utf-8?B?cUpiVlBONWszeTJ1eUxaT2VMdC9sbzU3anlRM2JpZmpKeFE5UU5mRmN1b2NP?=
- =?utf-8?B?SXF4YWNRaVp1aFhkY1FqWTkrTkIyREFYQlI4OG0yN28yMVdoQTRFQVAyYWhs?=
- =?utf-8?B?cmpqVlM2UjByazZpOG5TdXVFVG9pTzZEZExBNzJVTWwrc3JLQUhMakllSy9N?=
- =?utf-8?B?QXNGdVNaaGVQY1VDTVBXTzErNWpQSnRFZS94Y0N2bitlcUNXRlZNWThJdG81?=
- =?utf-8?B?UVFpWXNNMTZGWE5ZSEdCb1B4QmdPVVpnVWVyVlJqa3ZTbE00aThTTEFETjlW?=
- =?utf-8?B?WjJlWXZHSEEwTlhwVVhLMXJEanQvZVR6bFZVVVkvQW1nalpaS3VVb1pQMS8x?=
- =?utf-8?B?ZEgzZ2VCdENORGt1diswVXhWdDJ2TGlTbUJWUFM4eWFscTVtQXJYZlpMZUdn?=
- =?utf-8?B?ZnRPRnhZSm1SODR3R1ZMRWJ3MHJ6SnhFQXFISVR1ZnFiNHNQM1pNZGZmUVNT?=
- =?utf-8?B?SVdkQis2bnJscVZkUVhaVFA5RGNZeXhTVllldXQ2MjJIT3ViL0FwZTlLWWVP?=
- =?utf-8?B?RzdyWVNGd2ltZjErdVVJQjQxVXVNWWp3SUFYcHBEZEJiMUxqVUhMNExyNjBN?=
- =?utf-8?B?b0JrKzl1WTZSV1Q4VUZmK2xXOEdKL0tBWXNkeG1kRU0yMEZ5cnkzaXh2SkYr?=
- =?utf-8?B?VFlpV0FZYjAyMnFLWDVVVGVjQ1JnSGlzbmR6SlRlQTRleFJtTUVRNnprQkdU?=
- =?utf-8?B?aVYwNzlTWHFUdVVDVnZSWlkwMHZYVGhOQUVHdWt6T29jNk5FYmE4MmxIRm41?=
- =?utf-8?B?UmpvaTVqL3lEd1dtODdhZGg1ZnpxYUdFZHpRcFVXTGhOQTcxWHZUd2xSSTFv?=
- =?utf-8?B?Y0ExRHM3ajhRZG9MZjlEWGp3SEx1M2VVUGxhMWppRFdyZzRGQjkyK2d6Znkw?=
- =?utf-8?B?SFY5V2VXZzlLOXIxQnRSS0VabHI5aGU2czU0STdCQWRKOTRwSHBiUUp6WU5K?=
- =?utf-8?B?ajVrYTNjNnc1MlpQTldxeExRdkwxOEcrWVlMWnd2bTJuS2RUVmdaUy9DUGhp?=
- =?utf-8?B?QUlrajBxeHlXY1FsWlpQWC9CNy9hOFdmUFFTRmFVNWsyMDVPOEZSS3VidXcz?=
- =?utf-8?B?eE0rZkdLSEJTZFkxL1FnOS9admVQcGpnNkszWlV4NW55N1ZOeUFpbEp3WXNy?=
- =?utf-8?B?ZjY4SGVHWVc0a2Nzb0ZiZ3Y4VE1EcFp5SWJOdVJyalhEUzMzQWd3cVAxaHdL?=
- =?utf-8?B?OEVnVkttTEdXTVBXMVA1UGZ3U2N0aEl6S2NsQXZ1RHN4SlNKNmk0SHUvcWdN?=
- =?utf-8?B?cDE4dGxvT1BlOVUwcUg2WnpwKzJkaXpwaUhnM0VITTg3Y0s4bUlMTk5pa3Ux?=
- =?utf-8?B?aDZaYldwc3FxMFRJN0g3MUl4QytoVGo3ekliK2hBM3BqSkJpbXZmRFZCMVlz?=
- =?utf-8?B?UWdSVlMvOXI4T3QvZWxndk1VV05ZMHl3aUFwdjVVT2xJY09Da1FFOVZ0SVZ0?=
- =?utf-8?B?OHkySWp0ejFqYnFUSHloUGl0RFlXL1g4ZEFpRVpuQUNFZWJLYmR5OUdlRDVP?=
- =?utf-8?B?aFFYRWdYRVV2ZGJzQ2tuOEJjQy9zVWVoZFgvOWUvbTNxSWVpVVB2bE5WVlhu?=
- =?utf-8?B?SEpEWUEyM01pRnZtN0ZlejFPdUZjS29tazFOdS9XUHhFSzNOcVgrSEdpUHpO?=
- =?utf-8?B?aHVzem9wTCt1RVpta0I4QjhuK2VKN2RTV0QzV2UyQmJabmFoUUoyTlpVc1gw?=
- =?utf-8?B?Y0RsKzVWQXhLUDFsbS95WVBEUzJaTWpPbGpXOExyMW93Q0htSnRjYVMxWWpl?=
- =?utf-8?B?eHZ2VEU5b3BWK2QzWWVlRkwrMnZISWJLNks5ams5cW9YU29pakJkK1BxVnZF?=
- =?utf-8?B?UXFOVXRTam5KbFpzQ2JhMm9kQUc5RGpTajRhRE5Fb250U3k5MGpYcXJkdTQ4?=
- =?utf-8?B?WFUxQXF6NnQ3VGlxQTVjRGFOaEhyMVRKTmQrSVFTcExQWGloMis3bC9OZWZL?=
- =?utf-8?B?WFlhNWUzRStiTUVMNFBPSGs1T05FbkpRVGQ2ckRIZmdhVUtmODFpS0NwbnQz?=
- =?utf-8?B?czZ3dVZjQ2lOTnlUam9tV2hMRXVWc2pIQTZaT0FpbmdmaDNEY054Mys0c2Nh?=
- =?utf-8?Q?HMQQ2yH1oR87P4OxItnVT0E=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 535937ef-e6dc-42d6-e069-08db89632b86
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mkcKI8xPI0EoWWF9eYRpqi+4iD69kCE7RxG1AAjtWcGEAjsq4NDCLDyvPvBg?=
+ =?us-ascii?Q?09ewUDzm8njywbRrfBXiUay+uteQjErP8ezpDwqmqcG5oe303oR42o0GfPlV?=
+ =?us-ascii?Q?TzMK4pMCshtIihfnYr33qMaFQXSTk/PD24p8uAW5VWuugBlhAg7slDGwJIhw?=
+ =?us-ascii?Q?2MxtNlT3C3vKnjRv6Vd1Gv6Yr0FFRfqKss0QnzeFFjN4WoHWwwcvyO/+nmH7?=
+ =?us-ascii?Q?/oYquZvvdF6rlqrzvEGbTrIpeFN3nvmB9OCf/D1AMgMsGUbR4oRqR68fyERj?=
+ =?us-ascii?Q?TE3efrsNMhI55rduxbth49p27E/8AIxxiK7wCElq//lBrqWn3HbQuEQMiPkv?=
+ =?us-ascii?Q?gK231d/t1KaWKfzWEBFldNyvyTE0b1fudrwOQ+qxctirOf8xbDQcbVJo49d4?=
+ =?us-ascii?Q?ba8orKjfR8pjN5OqL9iGtPzy3P56HTBio9zyLhXjBxn5bOQb91IUtPmD4EV3?=
+ =?us-ascii?Q?Ty8ZGpbYlTAaqOsab/Aogr/c86zxRB1e4u5pUSBOTMCtVp+ZSDb+dIsP7bHq?=
+ =?us-ascii?Q?mtKvqn/w3Y0IMD0/VkgvAKbFx1mxIvtDX/GQEG8J6O7qbLnSrMTJRgscWcBw?=
+ =?us-ascii?Q?+H6U4uYqq98PA3mnfkyzyIXM2Ww82SCt1FwB/c7coM68/CZiEdkhYcassMLF?=
+ =?us-ascii?Q?69RBzuMC1mEF+tMAYXfLeEdgA/8eMDtbHC/lF70Du3fYfhicB7LAG/ZugYhE?=
+ =?us-ascii?Q?1l3yyVnWF4/LhL1mTajIWGwh7fBvJHuIgdkh2DlRWatnp/GjbM73qJNPEv8E?=
+ =?us-ascii?Q?MrjBPESpC7riHR7dJaJPlzDj7KgEtb62BxO6yeQHZVAihXUJmfPjLLA8oBXk?=
+ =?us-ascii?Q?VuNsji6QkkCKQiZt0MuuEPl/PDXroGR5d/ejsGmtTkDOxPjaLvqmIHHrkiSQ?=
+ =?us-ascii?Q?PN0/+Pu5161iZKkVfhhXQxE4J4mGZsHKZpaGhZnSIMKZcKnY/jU1fbksIXO8?=
+ =?us-ascii?Q?12mkMOrsAnUreIYp9hkbtoAVKh6Qrt9E1lvlghLNRKLrI/npgB91UjWG33j4?=
+ =?us-ascii?Q?hJiR8K/GwjnR8CxbYf/ZpJwANJNBhd1Ce0GJ0wrkPOZjUfHu0dcLcYuYDdhJ?=
+ =?us-ascii?Q?fCT82ukMhhirlQwQbaiykaVMXAoGH/Ytl87hFRP/jqUMY4CEECVXBFg2s61N?=
+ =?us-ascii?Q?XVa4s0ezOJxSU87m1vJTTvdXasjYweJNwmPf5JVTR2mYq8LPjzIALu5iDaaX?=
+ =?us-ascii?Q?El6JBDkCw33jaiIGP+HZMc7KMPBzrKVGR6NMNURZGlLKdZUMqjyQNdwW3tg+?=
+ =?us-ascii?Q?2nvkeApYMxu0Z2hlFZmnDFqoGE1RoWsBHS1jVgNXONo17vAhLyo/hj8kRC+4?=
+ =?us-ascii?Q?pohrqMzsxJ/fczFeT4QtgU+1md1Qazp4gtDMH2QC/SKezljpq1JfkdJnkZFc?=
+ =?us-ascii?Q?o0SUi+HhYsuEizYgKGr+qz1lkujxlR57huMDwkC9Oug3LrD4FoeQX8aQPGAY?=
+ =?us-ascii?Q?nBUlA1CoCIjbCcBmzlyNbXyOCQ/ozPm31OrPItaST74HhHTa5vaP/JLO4NRz?=
+ =?us-ascii?Q?QCOGl0x4XZYbdPBWgwMK4T++3gHw05xXx6As5X0e415Mt9rRpAeJIu7rhTQt?=
+ =?us-ascii?Q?w0GthHTtxKTapPwwdWbP0BfI849LvJ2gQH8s4sBzsRQ3phQATc0Gq6Decat9?=
+ =?us-ascii?Q?tw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee552c37-f398-4283-edf7-08db896354bf
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 20:52:03.0199 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 20:53:12.0977 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lsg3dHdMw37+C5sJHkQ7f3Zouxpx+eoHiIvNemjozeGc6jIVleptd54MCrN0hXJU6AxeWI3kCJ0l5X3eucKtG3irMkeUSf39M9bBFGeZ9Gw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8594
+X-MS-Exchange-CrossTenant-UserPrincipalName: utxJZGy83YjCoFUxR75jYcSs68x5ENo+hrhMSaw32OARhW/d/VMppB1cUcyxnjc3CQOkOwIuXKE6vu6w+OwGmtEyaiOmUJOzpwun2QcNYOE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5934
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -160,110 +144,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ DRI Devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 7/12/2023 4:12 PM, Alan Previn wrote:
-> On MTL, if the GSC Proxy init flows haven't completed, submissions to the
-> GSC engine will fail. Those init flows are dependent on the mei's
-> gsc_proxy component that is loaded in parallel with i915 and a
-> worker that could potentially start after i915 driver init is done.
->
-> That said, all subsytems that access the GSC engine today does check
-> for such init flow completion before using the GSC engine. However,
-> selftests currently don't wait on anything before starting.
->
-> To fix this, add a waiter function at the start of __run_selftests
-> that waits for gsc-proxy init flows to complete.
->
-> Difference from prior versions:
->     v5: - Move the call to __wait_gsc_proxy_completed from common
->           __run_selftests dispatcher to the group-level selftest
->           function (Trvtko).
->         - change the pr_info to pr_warn if we hit the timeout.
->     v4: - Remove generalized waiters function table framework (Tvrtko).
->         - Remove mention of CI-framework-timeout from comments (Tvrtko).
->     v3: - Rebase to latest drm-tip.
->     v2: - Based on internal testing, increase the timeout for gsc-proxy
->           specific case to 8 seconds.
->
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+On Wed, Jul 19, 2023 at 01:07:25PM +0200, Andi Shyti wrote:
+> Just a trivial refactoring for reducing the number of code
+> duplicate. This will come at handy in the next commits.
+> 
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 > ---
->   .../gpu/drm/i915/selftests/i915_selftest.c    | 26 +++++++++++++++++++
->   1 file changed, 26 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_selftest.c b/drivers/gpu/drm/i915/selftests/i915_selftest.c
-> index 39da0fb0d6d2..b03d03eac3d6 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_selftest.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_selftest.c
-> @@ -24,6 +24,8 @@
->   #include <linux/random.h>
->   
->   #include "gt/intel_gt_pm.h"
-> +#include "gt/uc/intel_gsc_fw.h"
-> +
->   #include "i915_driver.h"
->   #include "i915_drv.h"
->   #include "i915_selftest.h"
-> @@ -127,6 +129,26 @@ static void set_default_test_all(struct selftest *st, unsigned int count)
->   		st[i].enabled = true;
->   }
->   
-> +static void
-> +__wait_gsc_proxy_completed(struct drm_i915_private *i915)
+>  drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 44 +++++++++++++-----------
+>  1 file changed, 23 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 7566c89d9def3..1b1dadacfbf42 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -177,23 +177,31 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
+>  	return cs;
+>  }
+>  
+> +static u32 *intel_emit_pipe_control_cs(struct i915_request *rq, u32 bit_group_0,
+
+This is another case where it gets confusing because this function name
+sounds like it's something generic, but it actually only applies to a
+small subset of platforms (gen12).
+
+> +				       u32 bit_group_1, u32 offset)
 > +{
-> +	bool need_to_wait = (IS_ENABLED(CONFIG_INTEL_MEI_GSC_PROXY) &&
-> +			     i915->media_gt &&
-> +			     HAS_ENGINE(i915->media_gt, GSC0) &&
-> +			     intel_uc_fw_is_loadable(&i915->media_gt->uc.gsc.fw));
-> +	/*
-> +	 * The gsc proxy component depends on the kernel component driver load ordering
-> +	 * and in corner cases (the first time after an IFWI flash), init-completion
-> +	 * firmware flows take longer.
-> +	 */
-> +	unsigned long timeout_ms = 8000;
+> +	u32 *cs;
 > +
-> +	if (need_to_wait &&
-> +	    (wait_for(intel_gsc_uc_fw_proxy_init_done(&i915->media_gt->uc.gsc, true),
+> +	cs = intel_ring_begin(rq, 6);
+> +	if (IS_ERR(cs))
+> +		return cs;
 
-Small issue here: if proxy init fails, intel_gsc_uc_fw_proxy_init_done 
-will keep returning false, so we'll wait for the full 8 secs. Maybe we 
-can instead have a proxy_init_status function to differentiate between 
-pending/failed/done. This would basically be a generalization of the 
-checks you already have in https://patchwork.freedesktop.org/series/118723/.
-Patch LGTM apart from this.
+We're not actually checking for this error at the callsites.  Should we
+be checking for it and propagating it farther up the call stack?
 
-Daniele
+> +
+> +	cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
+> +				     LRC_PPHWSP_SCRATCH_ADDR);
+> +	intel_ring_advance(rq, cs);
+> +
+> +	return cs;
 
-> +	    timeout_ms)))
-> +		pr_warn(DRIVER_NAME "Timed out waiting for gsc_proxy_completion!\n");
+This cursor never gets used for anything.  We can probably just make
+this function return an int error code.
+
+
+Matt
+
 > +}
 > +
->   static int __run_selftests(const char *name,
->   			   struct selftest *st,
->   			   unsigned int count,
-> @@ -206,6 +228,8 @@ int i915_live_selftests(struct pci_dev *pdev)
->   	if (!i915_selftest.live)
->   		return 0;
->   
-> +	__wait_gsc_proxy_completed(pdev_to_i915(pdev));
-> +
->   	err = run_selftests(live, pdev_to_i915(pdev));
->   	if (err) {
->   		i915_selftest.live = err;
-> @@ -227,6 +251,8 @@ int i915_perf_selftests(struct pci_dev *pdev)
->   	if (!i915_selftest.perf)
->   		return 0;
->   
-> +	__wait_gsc_proxy_completed(pdev_to_i915(pdev));
-> +
->   	err = run_selftests(perf, pdev_to_i915(pdev));
->   	if (err) {
->   		i915_selftest.perf = err;
->
-> base-commit: 57ea1a97c50c63c77e3bfa46ee486e8a451be5e7
+>  static int mtl_dummy_pipe_control(struct i915_request *rq)
+>  {
+>  	/* Wa_14016712196 */
+>  	if (IS_MTL_GRAPHICS_STEP(rq->engine->i915, M, STEP_A0, STEP_B0) ||
+> -	    IS_MTL_GRAPHICS_STEP(rq->engine->i915, P, STEP_A0, STEP_B0)) {
+> -		u32 *cs;
+> -
+> -		/* dummy PIPE_CONTROL + depth flush */
+> -		cs = intel_ring_begin(rq, 6);
+> -		if (IS_ERR(cs))
+> -			return PTR_ERR(cs);
+> -		cs = gen12_emit_pipe_control(cs,
+> -					     0,
+> -					     PIPE_CONTROL_DEPTH_CACHE_FLUSH,
+> -					     LRC_PPHWSP_SCRATCH_ADDR);
+> -		intel_ring_advance(rq, cs);
+> -	}
+> +	    IS_MTL_GRAPHICS_STEP(rq->engine->i915, P, STEP_A0, STEP_B0))
+> +		intel_emit_pipe_control_cs(rq,
+> +					   0,
+> +					   PIPE_CONTROL_DEPTH_CACHE_FLUSH,
+> +					   LRC_PPHWSP_SCRATCH_ADDR);
+>  
+>  	return 0;
+>  }
+> @@ -210,7 +218,6 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>  		u32 bit_group_0 = 0;
+>  		u32 bit_group_1 = 0;
+>  		int err;
+> -		u32 *cs;
+>  
+>  		err = mtl_dummy_pipe_control(rq);
+>  		if (err)
+> @@ -237,13 +244,8 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>  		else if (engine->class == COMPUTE_CLASS)
+>  			bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+>  
+> -		cs = intel_ring_begin(rq, 6);
+> -		if (IS_ERR(cs))
+> -			return PTR_ERR(cs);
+> -
+> -		cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
+> -					     LRC_PPHWSP_SCRATCH_ADDR);
+> -		intel_ring_advance(rq, cs);
+> +		intel_emit_pipe_control_cs(rq, bit_group_0, bit_group_1,
+> +					   LRC_PPHWSP_SCRATCH_ADDR);
+>  	}
+>  
+>  	if (mode & EMIT_INVALIDATE) {
+> -- 
+> 2.40.1
+> 
 
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
