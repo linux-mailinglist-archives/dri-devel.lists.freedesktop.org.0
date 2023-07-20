@@ -1,48 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCCF75AC8D
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 13:07:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 851AC75ACAF
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 13:16:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55BDB10E083;
-	Thu, 20 Jul 2023 11:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB8D10E5A2;
+	Thu, 20 Jul 2023 11:15:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516EA10E083
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 11:06:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D7810E5A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 11:15:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B3F5A61943;
- Thu, 20 Jul 2023 11:06:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A048DC433C7;
- Thu, 20 Jul 2023 11:06:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1B0ED61A2A;
+ Thu, 20 Jul 2023 11:15:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8AAAC433C7;
+ Thu, 20 Jul 2023 11:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689851215;
- bh=nW6GXJXezOzmxKL/mUK7YWV/NMfVem88eLoJC7XaP08=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QPXZJYsWPRAvaTWcfYGqmiW3vs3x0iPKKEk0GYNEYkOK9UkiAx7PPXWpWTOcy/s1A
- VXQ83P7k1kHTDazNqO/cqTcpQsFZ5WUScA4oWzS+8BxC24/9btrTtVrdHlVKZkkCDw
- 30A2Lc98eVOYbxzfYhGr0e1y9UrNQ+kvWc4tsaFQTGL/M9BYXKswJiqyHHbRGPv85N
- Tcr+qMlV8MGewzEAcxaQhdidO0xzio7+V+FCqc1nFPmrXUj6arfGHufFQlmI+F/LFs
- ynBTcXbBL5tcoUA1Y5hXqg2MmmPzi8yAyKB4EOZTyTzuUUzONhNDTOB7jdZNhE2UWd
- G402Q/7XNRXZw==
-Date: Thu, 20 Jul 2023 13:06:51 +0200
+ s=k20201202; t=1689851755;
+ bh=73gGluoq2h/z3lT1moMzLu5ggv2o12BR1rQu/YvuDqY=;
+ h=From:Subject:Date:To:Cc:From;
+ b=AADqVC6n/KiENfSQgakkG568Mj9vRtv0ERfGsfDctE6jDIVSEN6cMtCGWbrLGmqKR
+ L3SIW0TdsOkVo+xu6/8erHdegTNEs8vpHC6lixIgddDkM/2gVvjXLPLswIUMjXTilO
+ 59DoFDb0Y68jl4akGEGNPTx1PNnCOz0kIl018edRfuLPycDuF+TR1dNXZCfuxBenel
+ DCrO4z299FCeicz7yLBJWiir/vYXu7GTFs5c20jjoeQWtBfjngKr4ub92lIOiYfwdj
+ /LW8f0v/Xb6enJJqo052utJOKgyA7owoyQ3s6kb+8If4e/akvHxp+Bj6fOUJAllSA1
+ UsOxQOK7alz2Q==
 From: Maxime Ripard <mripard@kernel.org>
-To: suijingfeng <suijingfeng@loongson.cn>
-Subject: Re: [09/11] drm/vc4: tests: pv-muxing: Switch to managed locking init
-Message-ID: <ofn74ygkyt7ms4rfe47rebf6anqnkeorytedtvctavpqwepaqy@gct4abic4wpq>
-References: <20230710-kms-kunit-actions-rework-v1-9-722c58d72c72@kernel.org>
- <c1184f26-ac80-8138-6501-de0609d16004@loongson.cn>
+Subject: [PATCH v2 00/11] drm: kunit: Switch to kunit actions
+Date: Thu, 20 Jul 2023 13:15:45 +0200
+Message-Id: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="i6yioejuufk34fo2"
-Content-Disposition: inline
-In-Reply-To: <c1184f26-ac80-8138-6501-de0609d16004@loongson.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGEXuWQC/42NQQ6CMBBFr0Jm7Zh2CFRdeQ/DAssITbUlU0QN4
+ e5WTuDy/fz//gKJxXGCU7GA8OySiyED7QqwQxt6RtdlBlJUKqMV+kdC/wxuwtZOuZxQ+BXFY9X
+ pujQ12WN5hTwfhW/uvakvTebBpSnKZ3ua9S/9QzprVGiIbHXoDFlDZ88S+L6P0kOzrusXP7+xq
+ cEAAAA=
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2029; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=73gGluoq2h/z3lT1moMzLu5ggv2o12BR1rQu/YvuDqY=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCk7xTNWPPmlmWOcu0Oi23rVl1XGqpOqOL5N+H3u4vnEy
+ sWKaxUfdpSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiL+YyMnSKrZ36OHzmhbBv
+ dk/MJgpcFJT4N72hPY9Hfcsugctlx3IYfrMeqdK8sq500gHZ/W+nzDfx1P33Ja+mm0k4eKWus5X
+ ZEW4A
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,86 +66,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-kselftest@vger.kernel.org,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
+ Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---i6yioejuufk34fo2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since v6.5-rc1, kunit gained a devm/drmm-like mechanism that makes tests
+resources much easier to cleanup.
 
-On Tue, Jul 18, 2023 at 01:24:29AM +0800, suijingfeng wrote:
-> On 2023/7/10 15:47, Maxime Ripard wrote:
-> > The new helper to init the locking context allows to remove some
-> > boilerplate.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >   drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 42 ++++++++++++-----=
----------
-> >   1 file changed, 19 insertions(+), 23 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/g=
-pu/drm/vc4/tests/vc4_test_pv_muxing.c
-> > index 776a7b01608f..ff1deaed0cab 100644
-> > --- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-> > +++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-> > @@ -20,7 +20,6 @@
-> >   struct pv_muxing_priv {
-> >   	struct vc4_dev *vc4;
-> > -	struct drm_modeset_acquire_ctx ctx;
-> >   	struct drm_atomic_state *state;
-> >   };
-> > @@ -725,6 +724,7 @@ static void drm_vc4_test_pv_muxing_invalid(struct k=
-unit *test)
-> >   static int vc4_pv_muxing_test_init(struct kunit *test)
-> >   {
-> >   	const struct pv_muxing_param *params =3D test->param_value;
-> > +	struct drm_modeset_acquire_ctx *ctx;
-> >   	struct drm_atomic_state *state;
-> >   	struct pv_muxing_priv *priv;
-> >   	struct drm_device *drm;
-> > @@ -738,13 +738,14 @@ static int vc4_pv_muxing_test_init(struct kunit *=
-test)
-> >   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vc4);
-> >   	priv->vc4 =3D vc4;
-> > -	drm_modeset_acquire_init(&priv->ctx, 0);
-> > +	ctx =3D drm_kunit_helper_acquire_ctx_alloc(test);
->=20
-> > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
->=20
-> The pointer returned by drm_kunit_helper_acquire_ctx_alloc() function can=
-'t
-> be NULL,
->=20
-> if ctx is NULL, the current kthread will be terminated by the
-> KUNIT_ASSERT_NOT_NULL() in the drm_kunit_helper_acquire_ctx_alloc().
->=20
-> so only a PTR_ERR is possible, right?
->=20
-> If so, probably invent a KUNIT_ASSERT_NOT_ERR() function to call is enoug=
-h.
->=20
-> I'm fine with this patch, but I feel the checking if the ctx is NULL is
-> redundant.
+This series converts the existing tests to use those new actions where
+relevant.
 
-I guess, but we're still reference that pointer later on, so making sure
-that it's a valid pointer still makes sense.
-
+Let me know what you think,
 Maxime
 
---i6yioejuufk34fo2
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Fix some typos
+- Use plaltform_device_del instead of removing the call to
+  platform_device_put after calling platform_device_add
+- Link to v1: https://lore.kernel.org/r/20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org
 
------BEGIN PGP SIGNATURE-----
+---
+Maxime Ripard (11):
+      drm/tests: helpers: Switch to kunit actions
+      drm/tests: client-modeset: Remove call to drm_kunit_helper_free_device()
+      drm/tests: modes: Remove call to drm_kunit_helper_free_device()
+      drm/tests: probe-helper: Remove call to drm_kunit_helper_free_device()
+      drm/tests: helpers: Create a helper to allocate a locking ctx
+      drm/tests: helpers: Create a helper to allocate an atomic state
+      drm/vc4: tests: pv-muxing: Remove call to drm_kunit_helper_free_device()
+      drm/vc4: tests: mock: Use a kunit action to unregister DRM device
+      drm/vc4: tests: pv-muxing: Switch to managed locking init
+      drm/vc4: tests: Switch to atomic state allocation helper
+      drm/vc4: tests: pv-muxing: Document test scenario
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZLkVSwAKCRDj7w1vZxhR
-xa9aAQDZyXaMtBF9l/m6WbuHQ7xXPN4u13bFG6gaQKEYJBXObQEAvvZ9chBq2mOw
-+gey9Qa8fNru+HXpI0eQL4SLh5feZQo=
-=AI02
------END PGP SIGNATURE-----
+ drivers/gpu/drm/tests/drm_client_modeset_test.c |   8 --
+ drivers/gpu/drm/tests/drm_kunit_helpers.c       | 108 +++++++++++++++++++++-
+ drivers/gpu/drm/tests/drm_modes_test.c          |   8 --
+ drivers/gpu/drm/tests/drm_probe_helper_test.c   |   8 --
+ drivers/gpu/drm/vc4/tests/vc4_mock.c            |   5 ++
+ drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c  | 115 +++++++++---------------
+ include/drm/drm_kunit_helpers.h                 |   7 ++
+ 7 files changed, 158 insertions(+), 101 deletions(-)
+---
+base-commit: c58c49dd89324b18a812762a2bfa5a0458e4f252
+change-id: 20230710-kms-kunit-actions-rework-5d163762c93b
 
---i6yioejuufk34fo2--
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
