@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799E975B544
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 19:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9551875B554
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jul 2023 19:15:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4383210E5EB;
-	Thu, 20 Jul 2023 17:11:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7410E5E2;
+	Thu, 20 Jul 2023 17:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9B7710E5E2
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 17:11:25 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4f95bf5c493so1653690e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 10:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689873084; x=1690477884;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bALuSQOEaIXV7+8g1kPlEIEXPY6havyGO8belxbKINE=;
- b=QM+Bk2/Ep503vHxFU8hlMOEKrBdsf2QJ5ANYqnZh42ITGinI8GBXKbTrrxD6zGYeu7
- 10HHp1LKK6rHEXKzoHqGBXXAWEAxt4Ql9azpLo33NnKNSX8fMH7WKRQZcyi0afkOapKl
- Qoy7bPCufCiIvnbBN4bU82vxImNCcUOFdMJw9dlHTz92SQVN2eFmbkKJ7mSEyuQ1dss7
- 3K4KQDTdz364IpO+9GYipvo4LE7O1z/0psgrMbi5h7gHfC1DEuXsUMdJ2nbeI4Z7q5m4
- ZqFhplW+oC9hQKkgVZerbV72KjJPuu4ZYpGT+03zFJgiZ8tbBgZGlnJ9rTSjLae473Ud
- 2WKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689873084; x=1690477884;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bALuSQOEaIXV7+8g1kPlEIEXPY6havyGO8belxbKINE=;
- b=VqYrsCNLgiO3MtKgcPs9t0ay7nOphxvwH93LbXWNAH9FyIOjNiIm21Mg/Rz8UdgwRH
- RjY4ncbqKIFdNhqvs4g41icpmhQhbj88k5JEfAFubsmfz2TLGvqmtxXZIqhu62uRWqNC
- 3CI4r81ol6FFzEyFRSz/q2z5efr5LzRZf0dIbmAua57v6wrKVse621lrqLAONl/Cjbv+
- lTiTLlRR2QdSDR1oX1wldHb4f8jq2yegx5EWJ739gSNuuY5Bfj+9lUsiBdozfRg8hD0e
- eiuN/DZNjG+rgYBpzYMeGzAunuiIvhtpcWUL/TRCHWSXn1ICHRx7oDFUeipitcRDT82L
- jmVg==
-X-Gm-Message-State: ABy/qLbtSmX3vUGI++cH3KXJPGKx78Ec34Nq2HDGmocdOIpDg/9mRV2h
- ua/G9FxtIskNmQqk+9J++cpezQ==
-X-Google-Smtp-Source: APBJJlGOiKHsb1V0MVEKlaWuSBLsg+MjtKiZQvBXh+G+6GT0IskQ2rgyrt8zPoyO3+O22tAEZL2Zrw==
-X-Received: by 2002:a19:2d05:0:b0:4fa:5e76:7ad4 with SMTP id
- k5-20020a192d05000000b004fa5e767ad4mr2564840lfj.10.1689873083816; 
- Thu, 20 Jul 2023 10:11:23 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- r6-20020ac25a46000000b004fdc0023a50sm286045lfn.232.2023.07.20.10.11.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Jul 2023 10:11:23 -0700 (PDT)
-Message-ID: <5f903395-9e5a-d4bc-067a-91256588c661@linaro.org>
-Date: Thu, 20 Jul 2023 20:11:22 +0300
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EBB10E5E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 17:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689873334; x=1721409334;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ajwiDjEM37bJTrbE3/73m8Y1Bz0d/plYeHBMuGcnQlQ=;
+ b=d28e0eJFv2m6nYUAwrkxafUzoaA2suayn+KUyDHNWFbBa8uIsxmxOiCU
+ kmQ6sIsus2yEzePtoimeR7pGi+QGjdw/MNh343/ZIJkTbwZSCuPcD65Va
+ XhJcP+OiiV+piIcQk2PCLYBW48o66H3m+BKl9pjAjBsLV8bCktnqNHwRE
+ 1him/MQrE3waM+U7RmQmpA5UG5rp7JW4QlXoEzdMFQXksVFeqAcZCKz52
+ 2j09QDKwYPBCuLH4y6YXC6vKo9eSP7ucGPCrYcn6SRX+awPybwltquqZL
+ NaZEnf4HWdzEAS8Q77TBhzgMbwzndcGQb/eH+PltWcodt++LEvd8m1oU3 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346401625"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="346401625"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2023 10:15:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="727776415"
+X-IronPort-AV: E=Sophos;i="6.01,219,1684825200"; d="scan'208";a="727776415"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+ by fmsmga007.fm.intel.com with ESMTP; 20 Jul 2023 10:15:29 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qMXFM-0006JP-16;
+ Thu, 20 Jul 2023 17:15:25 +0000
+Date: Fri, 21 Jul 2023 01:14:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
+Subject: Re: [PATCH v2 01/11] drm/tests: helpers: Switch to kunit actions
+Message-ID: <202307210148.7gWzLOtn-lkp@intel.com>
+References: <20230720-kms-kunit-actions-rework-v2-1-175017bd56ab@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/msm: Check for the GPU IOMMU during bind
-To: Rob Clark <robdclark@gmail.com>
-References: <20230309222049.4180579-1-jorcrous@amazon.com>
- <d73f6733-e605-0cf8-7909-8cced6e3b70d@linaro.org>
- <CAF6AEGs89FRmFsENLkP-Dg1ZJN2LzCfxY2-+do9jH9b8L-XZxg@mail.gmail.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAF6AEGs89FRmFsENLkP-Dg1ZJN2LzCfxY2-+do9jH9b8L-XZxg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720-kms-kunit-actions-rework-v2-1-175017bd56ab@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,174 +62,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jordan Crouse <jorcrous@amazon.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- Ricardo Ribalda <ribalda@chromium.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>
+Cc: David Gow <davidgow@google.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>, llvm@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Brendan Higgins <brendan.higgins@linux.dev>,
+ Maxime Ripard <mripard@kernel.org>, linux-kselftest@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/07/2023 18:52, Rob Clark wrote:
-> On Thu, Jul 6, 2023 at 11:55 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On 10/03/2023 00:20, Jordan Crouse wrote:
->>> While booting with amd,imageon on a headless target the GPU probe was
->>> failing with -ENOSPC in get_pages() from msm_gem.c.
->>>
->>> Investigation showed that the driver was using the default 16MB VRAM
->>> carveout because msm_use_mmu() was returning false since headless devices
->>> use a dummy parent device. Avoid this by extending the existing is_a2xx
->>> priv member to check the GPU IOMMU state on all platforms and use that
->>> check in msm_use_mmu().
->>>
->>> This works for memory allocations but it doesn't prevent the VRAM carveout
->>> from being created because that happens before we have a chance to check
->>> the GPU IOMMU state in adreno_bind.
->>>
->>> There are a number of possible options to resolve this but none of them are
->>> very clean. The easiest way is to likely specify vram=0 as module parameter
->>> on headless devices so that the memory doesn't get wasted.
->>
->> This patch was on my plate for quite a while, please excuse me for
->> taking it so long.
->>
->> I see the following problem with the current code. We have two different
->> instances than can access memory: MDP/DPU and GPU. And each of them can
->> either have or miss the MMU.
->>
->> For some time I toyed with the idea of determining whether the allocated
->> BO is going to be used by display or by GPU, but then I abandoned it. We
->> can have display BOs being filled by GPU, so handling it this way would
->> complicate things a lot.
-> 
-> There is MSM_BO_SCANOUT .. but it wouldn't completely surprise me if
-> it isn't used in some place where it should somewhere or other.  But
-> that is the hint that contiguous allocation should be used if the
-> display doesn't support some sort of iommu.  (Using a GPU without some
-> sort of mmu/iommu isn't something sane to do.. the only reason the
-> support for that exists at all is to aid bringup.  I wouldn't call
-> that a "supported" configuration.)
-> 
->> This actually rings a tiny bell in my head with the idea of splitting
->> the display and GPU parts to two different drivers, but I'm not sure
->> what would be the overall impact.
-> 
-> Userspace does have better support for split display/gpu these days
-> than it did when drm/msm was first merged.  It _might_ just work if
-> one device only advertised DRIVER_RENDER and the other
-> MODESET/ATOMIC.. but I'd be a bit concerned about breaking things.  I
-> guess you could try some sort of kconfig knob to have two "msm"
-> devices and see what breaks, but I'm a bit skeptical that we could
-> make this the default anytime soon.
+Hi Maxime,
 
-Thanks. Yes, breaking userspace would be a bad thing. I do not know if 
-we should consider a single GPU+KMS driver to be an ABI and thus set in 
-stone.
+kernel test robot noticed the following build warnings:
 
-> 
-> For now, just addressing the only-display and only-gpu cases
-> (continuing with the single device arrangement when you have both
-> display and gpu), maybe split up drm_dev_alloc() and drm_dev_init() so
-> that we could use drm_device::driver_features to mask out
-> DRIVER_RENDER if needed.
+[auto build test WARNING on c58c49dd89324b18a812762a2bfa5a0458e4f252]
 
-Yep. I'll continue following that path.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Switch-to-kunit-actions/20230720-191901
+base:   c58c49dd89324b18a812762a2bfa5a0458e4f252
+patch link:    https://lore.kernel.org/r/20230720-kms-kunit-actions-rework-v2-1-175017bd56ab%40kernel.org
+patch subject: [PATCH v2 01/11] drm/tests: helpers: Switch to kunit actions
+config: arm64-randconfig-r022-20230720 (https://download.01.org/0day-ci/archive/20230721/202307210148.7gWzLOtn-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307210148.7gWzLOtn-lkp@intel.com/reproduce)
 
-> 
-> BR,
-> -R
-> 
->> More on the msm_use_mmu() below.
->>
->>>
->>> Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
->>> ---
->>>
->>>    drivers/gpu/drm/msm/adreno/adreno_device.c | 6 +++++-
->>>    drivers/gpu/drm/msm/msm_drv.c              | 7 +++----
->>>    drivers/gpu/drm/msm/msm_drv.h              | 2 +-
->>>    3 files changed, 9 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> index 36f062c7582f..4f19da28f80f 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> @@ -539,7 +539,11 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
->>>        DBG("Found GPU: %u.%u.%u.%u", config.rev.core, config.rev.major,
->>>                config.rev.minor, config.rev.patchid);
->>>
->>> -     priv->is_a2xx = config.rev.core == 2;
->>> +     /*
->>> +      * A2xx has a built in IOMMU and all other IOMMU enabled targets will
->>> +      * have an ARM IOMMU attached
->>> +      */
->>> +     priv->has_gpu_iommu = config.rev.core == 2 || device_iommu_mapped(dev);
->>>        priv->has_cached_coherent = config.rev.core >= 6;
->>>
->>>        gpu = info->init(drm);
->>> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->>> index aca48c868c14..a125a351ec90 100644
->>> --- a/drivers/gpu/drm/msm/msm_drv.c
->>> +++ b/drivers/gpu/drm/msm/msm_drv.c
->>> @@ -318,11 +318,10 @@ bool msm_use_mmu(struct drm_device *dev)
->>>        struct msm_drm_private *priv = dev->dev_private;
->>>
->>>        /*
->>> -      * a2xx comes with its own MMU
->>> -      * On other platforms IOMMU can be declared specified either for the
->>> -      * MDP/DPU device or for its parent, MDSS device.
->>> +      * Return true if the GPU or the MDP/DPU or parent MDSS device has an
->>> +      * IOMMU
->>>         */
->>> -     return priv->is_a2xx ||
->>> +     return priv->has_gpu_iommu ||
->>>                device_iommu_mapped(dev->dev) ||
->>>                device_iommu_mapped(dev->dev->parent);
->>
->> I have a generic feeling that both old an new code is not fully correct.
->> Please correct me if I'm wrong:
->>
->> We should be using VRAM, if either of the blocks can not use remapped
->> memory. So this should have been:
->>
->> bool msm_use_mmu()
->> {
->>    if (!gpu_has_iommu)
->>      return false;
->>
->>    if (have_display_part && !display_has_mmu())
->>      return false;
->>
->>    return true;
->> }
->>
->> What do you think.
->>
->>>    }
->>> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
->>> index 9f0c184b02a0..f33f94acd1b9 100644
->>> --- a/drivers/gpu/drm/msm/msm_drv.h
->>> +++ b/drivers/gpu/drm/msm/msm_drv.h
->>> @@ -126,7 +126,7 @@ struct msm_drm_private {
->>>        struct msm_gpu *gpu;
->>>
->>>        /* gpu is only set on open(), but we need this info earlier */
->>> -     bool is_a2xx;
->>> +     bool has_gpu_iommu;
->>>        bool has_cached_coherent;
->>>
->>>        struct drm_fb_helper *fbdev;
->>
->> --
->> With best wishes
->> Dmitry
->>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307210148.7gWzLOtn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:53:6: warning: cast from 'void (*)(struct platform_driver *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      53 |                                         (kunit_action_t *)platform_driver_unregister,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:61:6: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      61 |                                         (kunit_action_t *)platform_device_put,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:69:6: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      69 |                                         (kunit_action_t *)platform_device_del,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:89:9: warning: cast from 'void (*)(struct platform_device *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      89 |                              (kunit_action_t *)platform_device_unregister,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_kunit_helpers.c:93:9: warning: cast from 'void (*)(struct platform_driver *)' to 'kunit_action_t *' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
+      93 |                              (kunit_action_t *)platform_driver_unregister,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
+
+
+vim +53 drivers/gpu/drm/tests/drm_kunit_helpers.c
+
+    28	
+    29	/**
+    30	 * drm_kunit_helper_alloc_device - Allocate a mock device for a KUnit test
+    31	 * @test: The test context object
+    32	 *
+    33	 * This allocates a fake struct &device to create a mock for a KUnit
+    34	 * test. The device will also be bound to a fake driver. It will thus be
+    35	 * able to leverage the usual infrastructure and most notably the
+    36	 * device-managed resources just like a "real" device.
+    37	 *
+    38	 * Resources will be cleaned up automatically, but the removal can be
+    39	 * forced using @drm_kunit_helper_free_device.
+    40	 *
+    41	 * Returns:
+    42	 * A pointer to the new device, or an ERR_PTR() otherwise.
+    43	 */
+    44	struct device *drm_kunit_helper_alloc_device(struct kunit *test)
+    45	{
+    46		struct platform_device *pdev;
+    47		int ret;
+    48	
+    49		ret = platform_driver_register(&fake_platform_driver);
+    50		KUNIT_ASSERT_EQ(test, ret, 0);
+    51	
+    52		ret = kunit_add_action_or_reset(test,
+  > 53						(kunit_action_t *)platform_driver_unregister,
+    54						&fake_platform_driver);
+    55		KUNIT_ASSERT_EQ(test, ret, 0);
+    56	
+    57		pdev = platform_device_alloc(KUNIT_DEVICE_NAME, PLATFORM_DEVID_NONE);
+    58		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
+    59	
+    60		ret = kunit_add_action_or_reset(test,
+  > 61						(kunit_action_t *)platform_device_put,
+    62						pdev);
+    63		KUNIT_ASSERT_EQ(test, ret, 0);
+    64	
+    65		ret = platform_device_add(pdev);
+    66		KUNIT_ASSERT_EQ(test, ret, 0);
+    67	
+    68		ret = kunit_add_action_or_reset(test,
+    69						(kunit_action_t *)platform_device_del,
+    70						pdev);
+    71		KUNIT_ASSERT_EQ(test, ret, 0);
+    72	
+    73		return &pdev->dev;
+    74	}
+    75	EXPORT_SYMBOL_GPL(drm_kunit_helper_alloc_device);
+    76	
 
 -- 
-With best wishes
-Dmitry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
