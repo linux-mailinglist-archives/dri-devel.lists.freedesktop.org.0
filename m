@@ -1,75 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6226275CD28
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:08:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FE675CDD1
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 169DB10E6BA;
-	Fri, 21 Jul 2023 16:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD5D410E6C1;
+	Fri, 21 Jul 2023 16:15:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic311-24.consmr.mail.gq1.yahoo.com
- (sonic311-24.consmr.mail.gq1.yahoo.com [98.137.65.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC4B010E6BA
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 16:08:03 +0000 (UTC)
+Received: from sonic314-19.consmr.mail.gq1.yahoo.com
+ (sonic314-19.consmr.mail.gq1.yahoo.com [98.137.69.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4FC210E6BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 16:14:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1689955683; bh=nfLzFkl205ozVQfoC93TDv6rb+g8tAZfzEbMKwzdw9Q=;
+ t=1689956099; bh=bwDESC3di8J2hOB2Il7Vrnp9sMmAKZ7TFP4bVuEHGqQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=kFWq1DO/Sy46FcKsm+/HrAppAtEtT2f0idG4TdOOnneFNImzFZok+n+CjxFMp2HV1WwSjUy1XHLNhB7sSYYxMMAlQBMOjInfwhC5jlarjI1LH7HyoNKG4649PePC538uPPAcsf5YMiVeL/sfQAns1pNZkhx6NgoaN+0Dq+Tc0t15mEKyrQnvnlC55UyHhpBREy28rGlNNYm7EaoEdNGy7rmVl2Aa6+jViRUTzakgxeGY1YE0WyWTfewNOfSfobQ7m2EdkFphL7YEuITely5ETue1l+ccLe9sQmzSIlvOUzBEVJ9HQ2+8RJ2t/YKDPuXRvdTYPN6dNSStr3BEKuEygQ==
+ b=QZDwSUeqfdgSYfzjpQJHebO7VJqr+YUascrlVoH8W1meDWlX1Zdf1KycNf/kuN8X1kLnexTo4jk6wql7iWjbjixoll/xL4vfVMJJ8Fq6hl6F6hHwZsYfbSeKfEKaoAugqTeP0aixqHPmhCBm/paaxREgY1opN7TM2AA9ix+cT3A9+nPV1Av36bvYKY1Tv9Maoxn6GqbfeMC59T68h6IC9VVfoqbKe/n9iPAWkrafo+2TJvIr39tWxiggcaawWMP+Pn5xx3n3kmlBsKPRV4X5UWbqEYKc6JrTPUjvOxquzRqVDZEpLqxwL1BVJp4hRtAPqhjocNfZwu9G4ewdj7NRhQ==
 X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1689955683; bh=dIPTCv23EQRhdZaNB2pCpBjjPkJ0A2huRQcSX8+7Fyf=;
+ t=1689956099; bh=nOUatyXllBs4LsZ1gPlfX8t8Bq6fmbamfbJICAMajZb=;
  h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=EeVE6k08XCv3B6YJfJPLdvA8Tje76JkauZEhacYdkdtM3W9fVsbnZYMheNCdj3lJEgV0dhfYDnNZ4VJT+9vcyKvhr98ADi0jNNDitPODzoWelnQ6Vo04MvhUAJJdnhm50pLxdMHKaGXAMvemDHEj771+WFJzoXJ32sZHBd5kJPeKDm/vxrWCilH98EUPdFxJuY0Un6gaEFJLo968fNFmKECVeduBF9vZMS919sSEsHPIbVEd+t4n6stuw2F8fQdOawb11LhK1duH+mp1mteHcF3GPKmWfUbMCpbS3Xal1suxulqcVRlPsv1DXL2lm2pi5D85QZD/pQ79p47h+i+jUw==
-X-YMail-OSG: 0xj9L5sVM1ntnkZSTmua4TVWKzhUhUz8QCvOgyIVoVS15BIs8Ccdr5A.H66hT3p
- 51oHtH1L05Y_QpFMWXzYnYs1ZoDklscIpOIrXumYZoVU70uUpnU6OO_YpGPj0_F9yrHN9wKZN9Cv
- wLAE09NrTpKzfGyQA_jNnptuGtoN94pfZYLmVJbbUoymJuZv.qwXD59VWdEzEsxe0TLX1oxtcmx8
- YS8zKx1nyNKNWboYVRfRd7RxzMDdHFgiVSPQgWsv1MlIzJ1ZQHJ5VqKlKs_fx86j_RiQuJ2Wr9UM
- wpw2VYD.W_PZjtw3uXsxnyzw9IpktVrNH.oiOw5dkx5fSt4D9Xpn.obLJq1ZWHo_FkabdilazNSN
- h9L6zOFmDLie2c6OhtbYEvH55M.i9d9BYHCkwweDgMOB6aOxSZ8YNxC1UAksVz1q.Gwmlko57qU_
- StoVwPFI9X5kOm.CB7OMOdepw2dcad2ijKhJ8X_XY3yeUEW3hgTBYo1tCxj6ZLAfTkDIzh_LpH2e
- FFKo2NEvZsJ04K33HScgXsNOcPNshJBimBuNoxy2QAGu8xKA_KgvNFj_JDCnj24EKkYW81_A4ygh
- Fadgz9jxZp0Yn7Ud6_63m.DY7k1FUWj0h433s848chRdxhrwC2QS7roWHALKQwgN8WmnE8SqVWPL
- DvFFIRzcXhpPm2ufcbpvdHqPq49T57ASoeDjn2.x21wNyzRd_aycahds5FbJfYvW..OinDXmhcvZ
- hyACzWCuaZhKX_kSpGP9VXsZarg3CUOcJYO4QjwBZSDjQZOB0e5hHhRr.jhw9VRZjOFpTZcOVdFn
- _jonwSrVK4Lnv7I0wRqcfRoqyIvq5cX3UHir7zHVj0jsH_m4Fg8a0zw8Eiatemm36G8jaMe7nBqQ
- .BePKyKi3JSAl4q6StlD5VQH_KaLGOIYVGkUQCRzTpmGYi7BuopnAvE5TMvGnt.y8y_v2gMgLmv7
- pdlqS.49SO.7OTooinzRT1b4EkhQ.p2iTdHZswbcsEA0pSfBl.pHcngLE4Sei2qJRqAeNHLnsIaI
- 4liR7HmDVF4LVPIibATjVghEY8CmXEMIIVokCpky.wgLpk0pgCenPe00z_qmzyq0o_jXH0mc4w0O
- CZQ1jStcC_5GTkKiUZ2qJWAgBLOXyP0Ga1t8rPXlcJxKCTQ79wrb3iV1wUlR6R3pxTQWig4NFt55
- yJqejarK_xl4yLKjN19OzVpIx1.ua2radRxyU8qiPeEW19XgiAP0vbFvw_yQwOSFP7Alzc9g6ds9
- dOtn9GqzkvqmX3UExxeqt8N1om9tsfG0zHciZ8t3DYwV00ENxASQNoUoovJLPMFQbYjXcJwKrzbW
- 9nJptN7IJllsmrpl_YY3VGcywK3bIA7bzVCv_uZELJIlvsOf0wbhxrqtgF_PAf8RkaI9invawmKh
- 4VUPyaokoK6uyH5VIqnv7QnppSHSULGBi.IVTtcBs41Qq84dpP5mMoqeDgEYuBXCz1VeDNsKxFBm
- G9Qgq.7eq4B2FaQBpnaE_7NtjsWUMXIs.LLcS7QZ3SpS3P4jwrbxaDhwKVXkqJMUFWrCLWXHhv22
- omLp8RYBsCqXMW_NIroqY2HUjDOszg0_vGW7QRFM96lg27JQFx5n4rXGjohq.k1KpTjwA48sF_hp
- 46.MUkOctLmA4i1fpwQ0_vn1hkeD7WUG.q5Ipth1NsegAELXzoBL821SdEUisfsTxolxcWks0z23
- cmdrdXMinFzNAN9e0Nj18iRP6K2_RNqFEGOAv02EXCTSQyT3VBy.Pn8hcgaEJiODhW9VNTMwbaes
- q4KPRB._GH0oUWtLj.2bdfG9XEWTXcj8t10.RIctSwhQneai9PxXvwVpzp_pm_MBG2PXFPjdOF.r
- A7qfjio_ND0sbGnr.E6YeRHLtc4p8lM9sRR4zuueUkwQg817EtkFeTw_TF.Lmogrj3Be7c1aaXD6
- OhS1qzAeD2pqfk4pRNdvuK9n1boqPQTT2sd2rH6ASwclYxMTg9jg2W5QDsif8HUgJdjWyjOJeIYi
- opiqz03BYxZNl5_55.lZgwqEDcsfecxCgYE0xdoYBXuFShnq_4ePM2WndDzl.TSDHBTZ_qFCg9Jp
- m1FgmYv_wuLsqOJYPKEZYNyRA.2Zo9JW4AuxN7ODckAqtN4FcmLnxfMnqjh7MiJyXKDD.hB50YZs
- JXTP0MFAx3NXCOoG58F4ug4xxBY1whoPZKlBNSETHRp24rP8S.tK0PWturS85QD3kDuB3y0zC6PH
- WXB7UzzXi4zntga3I7rPDQPaRwBqAukGPdVO_EmEX
+ b=t3LIQGw5BbZo19KPXyvYwlWASfdaJbolJXxkDc9HZqHCDxO6atXrGoYlpyIvgzMzpB4rL6F32KfxWr62He+D2S6zh8LgW/msXZMsNv22lrwH7xbEhnTXktWOMgyb8w2+fJN/n0AWonQPp1vWIV11BbpI5eOdq+0kKJQZcssTys1K55sxNq9LevH9r+FPvwkXvOu2+CG3OPlbgZv/4MMpTfHbycHn1CMRVGerYoon4OrM/O5j2QBmrGxP4XNfVSmOqM3lAWwhm9CWY5tSOIjrPZGcNDSbTeeO3qxh4qcJLq1NpQEwNMFnuui7f+7rxQKsElnX4HdS7GTorom8hFfU0g==
+X-YMail-OSG: AK72WQEVM1kCQLkBysCEjn4U272Ihichi2rvmDMH3cNxzxRdOcvLjaZ58fabNYU
+ u6x_Y6YlOOvxcb2DXk5SFKgeeJyYmLmpWLg8je.z_whuanNbcBJMQX75VuPF5zvC7BUshbPJx0yo
+ B7lZRNNaqhPEcYMN_ZRbprziPqsjoqNu_l2RiwGFBgVT2TCsYDzPwZgtJzdqNseDHStMb2jCP3ca
+ jBLGoxWy8EjExtRA3biADyPm4ALqkNFXWO_o4fTvjpF07T8LS6pV6El1T5sKsdQ0x6ve5EBbyMPI
+ d0hQWgWvVsSZopBkSbiq66enpCmtkIs3GbWqM7bUcHfvm0wqW6hY_bjrhGeSJ4SrUXPG3Gjldkhl
+ xGF4cXRrUby5izMMOE1oFd3AlTYZXVH2SP6fZqqx.RfLAkL8hGqqOSlfvjUH5TU3uFHnky.X50_1
+ .P6CTJiFqQrSbkBhkfo_VyWZFe2U38z5G5D57AWw_M4S94Nv8fIo1eRAu3RJgSoDBdVs.T02hJ5k
+ WqVBdjI7zqTs3fR2bQ9XCA9Vhnrtq.Z1rSn5aObDyQat20NfYJK8v.F73RcwXPRkVYu3Q89lai62
+ el4ac5o3OkPnN8BYXAv50UJeoLCpHVUEGPuTDCOl.teZELbzX.6ds4Ax9gLTP7gCze8TlgxBeMOb
+ cDAgKDgmayAzkXsULhruf8iLkKNR.xMlmypACKW6Bnnj8jMptTk6_AB8ccXX035Qu4EwtGaUPl9b
+ g1E5jQgVngFW9NNOr6m1Dqo99m1Sd3wGs5WZYtGauHBOtOdnap3kiuciFN5ECbubzfugdVx3pHNA
+ xTAGF1hiXKl8cU7pl6aqlJaEh2DK3XEBnzqCPU11EfAbJYxRBh2wmhSXkVp3F5l1iSpQICTFmKqO
+ PIAYvMspukmukWm99b0L_6kOLRkGYieKx7q1PZVl.wpqmubF2AMqiCOd2xyCXzyCy15tvbpw01gH
+ bqUwkk1WGKb4FiIToNkeXm2eQ8pcm4htVDrtogxzqP8WDvScrflN8YphescR41EbgPl7M99LHvay
+ BiPoUhDwFKx1WTE9Nh4z36XhFnc7DvB45XS9_wvd7Ew9R4mZJZutd0EVOYMkn5qdQwssT_vyUD5I
+ myNn0BpGP11hxREEwTKcaF3NGldiNn6hC81_meLLYrXdCJwew291QLtDCUA_LEBZbOyPpjPJiQ5r
+ 9OQFSDdidOm.AeWSC3gswzOMNLCeyvcbJm8F.p9kUUUOeMer.RUVRAxkr.y0IUM8gBoHL3FhjYp7
+ HLU4WPcJcLwjtJ8EGbv17zGefLvbIRzhwp9OYcQkjPZMBII3j8SFcg5qhoOj6wVeETXuoY9pm0VR
+ 5OcwNl9o1cz6k9ySbiMnyRHq4qQ6MEKR_WOhoaWI00_Ms_PPV.4N5N1c6ziKq5el1xlP7l5_XXEq
+ .LMeh72PB6qCFzvbEupdhdxwm9NGKBSjPwbuvge5RzXEwNvA1fEegEWFw9CWCc7s1RXl.KOG.SK4
+ zMCIXrC7CbaTTr98aGFzoV5SwS70S3qKPz0b01DvE2fbqfEuQ2OR6ZeM9W396Q5jYt5gVAeAfdF2
+ SO38xKJBBhfhFwdMFsdUMXNYS1VTafFNcfRMQhGL4LqxAtVI8nQFYJm1CntRpJ_DzNJ7_ZlQB2hi
+ KABjzYEPHB1kr9jLjT17nz0lxyOQ5oYGohwff6BARp9_tjoXPY74M1kSplVxK5JNqg8.m.nZhyGB
+ Kpx58kuyaB6z8EK9p5m3ZFb1UOf2o_20L0tnOobHCScwXT8FX1.0UTq5Kq9m0EGAlDFaP3LX11Zm
+ WucnhRSGX.nzNaE75X4kkaHiufBOZmSo7bZr9yA5HcDf.2_NfweuaoETeUOCHKqdXcGrCYIkL_Hp
+ sw1DXOajAHyWreA3uNlJd5vRvzUPAOKFQhzPdx_MwA2BvDtkz5R8HeQVJcE90hc_N7wBa9frah8r
+ zbopetvI4ZfhyvxuSqXQtftTmdKin3Ro67d4675pX0fDZkL1bb2wYEEyFCXHU3sYDZVEFJm1Rqut
+ 4BIx1UN5J3hmDyFAPjCcsEKCOl4Gg_46C2_bAZ0NBmGRltF0kHe5922Kn9M8caC7GXPZmThMc5QU
+ Vdwz677wIjLTKp4DeFwhmyN3zNzfKUccMYBsKVgIMLpHR9AG6aufWgn5ZP.XU5FQWc9qQLqb5j2L
+ 0Mxv_7zDIvs8lFrhL9LutvjeRY_VvpduPH5yc2cDvwX5Rj8uKIBbLWP.foWB0h8KfxTP3I2obO7T
+ W9qksB4MU_LT3h_4n6Xi9t7S.keEm3Fs78koan3ul_WJECHRYe2DfG1Dz3gPMAWFYB1juc1o-
 X-Sonic-MF: <astrajoan@yahoo.com>
-X-Sonic-ID: b0e38791-f7b1-4bf4-a0ce-7b25eb176b67
+X-Sonic-ID: 9835a3bb-7434-4dd4-b4eb-52464eaacfa1
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic311.consmr.mail.gq1.yahoo.com with HTTP; Fri, 21 Jul 2023 16:08:03 +0000
-Received: by hermes--production-gq1-767c8cd9fb-ns9p5 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 46bbeec236ab3032b3222de6cea7f3d5; 
- Fri, 21 Jul 2023 16:07:59 +0000 (UTC)
+ sonic314.consmr.mail.gq1.yahoo.com with HTTP; Fri, 21 Jul 2023 16:14:59 +0000
+Received: by hermes--production-ne1-77c6dd44c7-qc7r8 (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 80a0f2870b2cba73bcd1cc4395b3f226; 
+ Fri, 21 Jul 2023 16:14:57 +0000 (UTC)
 From: Ziqi Zhao <astrajoan@yahoo.com>
 To: astrajoan@yahoo.com, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org, ivan.orlov0322@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  skhan@linuxfoundation.org, tzimmermann@suse.de
-Subject: [PATCH] drm/modes: Fix division by zero error
-Date: Fri, 21 Jul 2023 09:07:49 -0700
-Message-Id: <20230721160749.8489-1-astrajoan@yahoo.com>
+Subject: [PATCH] drm/crtc: Fix uninit-value bug in drm_mode_setcrtc
+Date: Fri, 21 Jul 2023 09:14:46 -0700
+Message-Id: <20230721161446.8602-1-astrajoan@yahoo.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230709011213.17890-1-astrajoan@yahoo.com>
-References: <20230709011213.17890-1-astrajoan@yahoo.com>
+In-Reply-To: <20230716043411.4950-1-astrajoan@yahoo.com>
+References: <20230716043411.4950-1-astrajoan@yahoo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,64 +84,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, dsahern@kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, edumazet@google.com, jiri@nvidia.com,
- jacob.e.keller@intel.com, kuba@kernel.org, pabeni@redhat.com,
- davem@davemloft.net, syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
+Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org, glider@google.com,
+ syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the bug reported by Syzbot, the variable `den == (1 << 22)` and
-`mode->vscan == (1 << 10)`, causing the multiplication to overflow and
-accidentally make `den == 0`. To prevent any chance of overflow, we
-replace `num` and `den` with 64-bit unsigned integers, and explicitly
-check if the divisor `den` will overflow. If so, we employ full 64-bit
-division with rounding; otherwise we keep the 64-bit to 32-bit division
-that could potentially be better optimized.
+The connector_set contains uninitialized values when allocated with
+kmalloc_array. However, in the "out" branch, the logic assumes that any
+element in connector_set would be equal to NULL if failed to
+initialize, which causes the bug reported by Syzbot. The fix is to use
+an extra variable to keep track of how many connectors are initialized
+indeed, and use that variable to decrease any refcounts in the "out"
+branch.
 
-In order to minimize the performance overhead, the overflow check for
-`den` is wrapped with an `unlikely` condition. Please let me know if
-this usage is appropriate.
-
-Reported-by: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
+Reported-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
 Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
 ---
- drivers/gpu/drm/drm_modes.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_crtc.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..aa98bd7b8bc9 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1285,13 +1285,13 @@ EXPORT_SYMBOL(drm_mode_set_name);
-  */
- int drm_mode_vrefresh(const struct drm_display_mode *mode)
- {
--	unsigned int num, den;
-+	unsigned long long num, den;
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index df9bf3c9206e..d718c17ab1e9 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -715,8 +715,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 	struct drm_mode_set set;
+ 	uint32_t __user *set_connectors_ptr;
+ 	struct drm_modeset_acquire_ctx ctx;
+-	int ret;
+-	int i;
++	int ret, i, num_connectors;
  
- 	if (mode->htotal == 0 || mode->vtotal == 0)
- 		return 0;
+ 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+ 		return -EOPNOTSUPP;
+@@ -851,6 +850,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 			goto out;
+ 		}
  
--	num = mode->clock;
--	den = mode->htotal * mode->vtotal;
-+	num = mul_u32_u32(mode->clock, 1000);
-+	den = mul_u32_u32(mode->htotal, mode->vtotal);
++		num_connectors = 0;
+ 		for (i = 0; i < crtc_req->count_connectors; i++) {
+ 			connector_set[i] = NULL;
+ 			set_connectors_ptr = (uint32_t __user *)(unsigned long)crtc_req->set_connectors_ptr;
+@@ -871,6 +871,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 					connector->name);
  
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		num *= 2;
-@@ -1300,7 +1300,10 @@ int drm_mode_vrefresh(const struct drm_display_mode *mode)
- 	if (mode->vscan > 1)
- 		den *= mode->vscan;
+ 			connector_set[i] = connector;
++			num_connectors++;
+ 		}
+ 	}
  
--	return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(num, 1000), den);
-+	if (unlikely(den >> 32))
-+		return div64_u64(num + (den >> 1), den);
-+	else
-+		return DIV_ROUND_CLOSEST_ULL(num, (unsigned int) den);
- }
- EXPORT_SYMBOL(drm_mode_vrefresh);
+@@ -879,7 +880,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 	set.y = crtc_req->y;
+ 	set.mode = mode;
+ 	set.connectors = connector_set;
+-	set.num_connectors = crtc_req->count_connectors;
++	set.num_connectors = num_connectors;
+ 	set.fb = fb;
  
+ 	if (drm_drv_uses_atomic_modeset(dev))
+@@ -892,7 +893,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
+ 		drm_framebuffer_put(fb);
+ 
+ 	if (connector_set) {
+-		for (i = 0; i < crtc_req->count_connectors; i++) {
++		for (i = 0; i < num_connectors; i++) {
+ 			if (connector_set[i])
+ 				drm_connector_put(connector_set[i]);
+ 		}
 -- 
 2.34.1
 
