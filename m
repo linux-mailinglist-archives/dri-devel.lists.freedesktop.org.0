@@ -2,142 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B640775C301
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 11:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2FEC75C30C
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 11:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAE4A10E63E;
-	Fri, 21 Jul 2023 09:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC4A510E63D;
+	Fri, 21 Jul 2023 09:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9124310E63D;
- Fri, 21 Jul 2023 09:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689931513; x=1721467513;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:mime-version: content-transfer-encoding;
- bh=1+wFG58O2XLDf+mqdBjs4VGqM3QLt3JdqNtN4nqPm2Y=;
- b=EzloLTmy/cHz5buH+EhSaUiJs58g6cxrTWfTxBOIwWw6RQxtnSMOxMje
- gSo6KDsHKFW7Hv3Hr8GUvOTBKJkulcGIH5DfSShqUNSrz0v9Niz8oFOsq
- DaYlDi/ieNfVPq1KMaaEseYVNYdxGawSdmj9rHOcV8yXrR2nRYs/rdXHY
- Wx1j+0tE9sSxnWsby00HHSbN+GFyPAv4uBMaTVAPNkNAlC21LH+jeVrOd
- wGAgNdRv/y2eErryptJN+uZIMsgrQ4EzPOnERr5Y7nEr6YBj7zvzkINSP
- 5HfnTsqwU22uxzE4nSm940ZSRvB57hjDuT+Zi/RlZM73S2piRrj2Xlt5R g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="453359207"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="453359207"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2023 02:25:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="728041220"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="728041220"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2023 02:25:11 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 21 Jul 2023 02:25:10 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 21 Jul 2023 02:25:10 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.171)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 21 Jul 2023 02:25:05 -0700
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur01on060f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1e::60f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2939E10E63D
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 09:29:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dSF1b5WV+AN6izDbiVy9ilxME9GvL/A9W819NWrwOknrunvHjaSXnCsAXrGeNbhHjwUqxWOQC1L3sJdvKeq/f234oaXnPVtioSTbedffERXGO4BxOEiQfC77JXQ+xJtUSwY78mhv6ZiKFMllYKPcIQ2MpcYT1CDMj5XTzdtP8spN9ITY5YaaJagEFV85ZPaiBYY7+gDdlVyUCHe/bjdH2kFYPnM3JyDK09RLjI/0VNVs5ZAm5kO7eTviMpl+UBhMg9yLbrvz8ZJcOyx+78lXEQ43+M2ZvipUdcBtjfzZ+LZ6foSybaCCYjc/mStWWIf+vHitLbDBO+8LXqX2bT/Mpg==
+ b=KInPFhvR99mj+41BEW/urRa6Wmx35rwYb2pi40nqX64m+nYLEmwIZtxGrXI2YQ6sTDVN8D7c4ydfmQ3l9LPiPvki4z1HRXeHsFGrHVXMjBRQ7phBjgYbDqroLj2DnAEpBFwbrLQ/RZXNdoabTRQUpUIhJ3pNsqaMQERekMVAtFzu7VSEQnXOIYezJMD/reICtPar7tTf5CEw4OzLDAv7UdpJIjgZthCgFZwmCRzDfbxs8qXVqYzw4uO0bdC+N4l49upj52ZHCWfd/FIJvg0R+q4ChaxwZlzl0qLy4w/wTiGbkcnQW4F8VWAp9EPKqFyr803OvASniHNYRoO2AWV98Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EAOhGyE6n6rkIK0LnMh9SgtlS42+9OId6Q2xGyqRGEU=;
- b=MENFBmQZlMpCSWcLv9YLzDXBBb4dCgVJdh0hzuhhcd+MoJvF48Vh59w5Bc6TNkcrTznluz/nXpoY610Cu1jjtnY6ixJiU2uYqSRecBO1iYC8ieEfIIgHhDW1oGTCpcLbSsOrOqYkid0XZJSarDElzHnbina8ayFsz+nlOOmk1/xsRjl2ItsOazrWZgfg8xdaLTDPRrwi3IJzAktHGQQh6AaacbZyb4XBO00iRlae0P07ue2ngYkE4tjU8oIgJPVc75RqwKE8Ds8XfkPjbcmi2SldMxe8yk3T2fpBIJ09LXQKNB7o6lgvHlDIv0fUjYTahZEzch+baKzmDWBx58ZHwg==
+ bh=u82CGcEKOLENHGQR12gi3yhE30P65VMkTWUyQlisuH4=;
+ b=WkvtufiC0al3j0wy0tk10s4062VAa3s/0dRbFYaGv2YKSfVTiCxRF/tN6iqYXbRz14MYwSka4SCxkJ2r1rR0VPQkY4pLVDGz0g1Bbfq1qabxlZO7Rjqborn6NiZbmBPCNGSezoLQYbfbq2Ih5Mw6ElP2M4NS+dk+G1ye0CpLq8AMCMpAazXeFyNadfKYa8Ypf7hn9/J8jV80ADpgI+mE4w/Ltwdqc5Sqb/8+mPBPUdPmlr2VpiIWSxPgft2ECOc9qwlKd1z3+QwmyvQ1g6u4BUjy/veBM8GwmZY8MB9rKS9dcKJYHM0exfu+TYG3i4qaMv5ARApjGs1GknRKLLn4bw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DS0PR11MB6445.namprd11.prod.outlook.com (2603:10b6:8:c6::11) by
- SA2PR11MB4922.namprd11.prod.outlook.com (2603:10b6:806:111::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.26; Fri, 21 Jul
- 2023 09:25:03 +0000
-Received: from DS0PR11MB6445.namprd11.prod.outlook.com
- ([fe80::7a40:3f62:1e7a:5301]) by DS0PR11MB6445.namprd11.prod.outlook.com
- ([fe80::7a40:3f62:1e7a:5301%7]) with mapi id 15.20.6609.024; Fri, 21 Jul 2023
- 09:25:03 +0000
-From: "Krzysztofik, Janusz" <janusz.krzysztofik@intel.com>
-To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>, "Roper, Matthew D"
- <matthew.d.roper@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>, "Mika
- Kuoppala" <mika.kuoppala@linux.intel.com>, "Das, Nirmoy"
- <nirmoy.das@intel.com>, "Hajda, Andrzej" <andrzej.hajda@intel.com>, "Andi
- Shyti" <andi.shyti@linux.intel.com>
-Subject: Re: [v7,2/9] drm/i915: Add the has_aux_ccs device property
-Thread-Topic: [v7,2/9] drm/i915: Add the has_aux_ccs device property
-Thread-Index: AQHZu7U6nuP7hyb9+UmqmCypaysJzQ==
-Date: Fri, 21 Jul 2023 09:25:03 +0000
-Message-ID: <2423957.jE0xQCEvom@jkrzyszt-mobl2.ger.corp.intel.com>
-References: <20230720210737.761400-3-andi.shyti@linux.intel.com>
-In-Reply-To: <20230720210737.761400-3-andi.shyti@linux.intel.com>
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u82CGcEKOLENHGQR12gi3yhE30P65VMkTWUyQlisuH4=;
+ b=cpBuwZRu7UBr0JSc3J2yYm4c07e6ACvM7pzw5vXBuTmin4TpFhOJFEntkubNVF6WxYQII+s6uT7j+6r41OQd1RZob+V44PNZnSOAPPdevEHB4Qk4njNJaZVWzDRfpHqUxuibHZjQ/FyPLrpLUp1fQm3MsQTX9YDSfXLl6zNFNAE=
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DB9PR04MB9913.eurprd04.prod.outlook.com (2603:10a6:10:4c4::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Fri, 21 Jul
+ 2023 09:29:04 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6609.022; Fri, 21 Jul 2023
+ 09:29:03 +0000
+From: Ying Liu <victor.liu@nxp.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4] backlight: gpio_backlight: Drop output GPIO direction
+ check for initial power state
+Thread-Topic: [PATCH v4] backlight: gpio_backlight: Drop output GPIO direction
+ check for initial power state
+Thread-Index: Adm7tcocHnotirQkKUSANe2HiNXlhw==
+Date: Fri, 21 Jul 2023 09:29:03 +0000
+Message-ID: <20230721093342.1532531-1-victor.liu@nxp.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+x-clientproxiedby: SG2PR02CA0011.apcprd02.prod.outlook.com
+ (2603:1096:3:17::23) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+x-mailer: git-send-email 2.37.1
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
+ header.d=none;dmarc=none action=none header.from=nxp.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR11MB6445:EE_|SA2PR11MB4922:EE_
-x-ms-office365-filtering-correlation-id: cf6c28d5-07e1-4dc9-9eef-08db89cc5d31
+x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|DB9PR04MB9913:EE_
+x-ms-office365-filtering-correlation-id: f140bde6-7aa0-4b07-033d-08db89ccec9b
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: e0Gjunu5emBXQ3lyAd+CW6hLT711pfTOuWxiO7q9/Z+/4Xd6twWWTswY6a9I26Lwxbd4iEDF03OEzLfl99oU9dNLYMY6ypW2/bCi/k5hJQSGRWeCCEJZ3QtP2DLeFRhOizOz4a5snMwSzgBkcQoMi9LkvT+rhL+ppWl8z8u/o29aCQ9NmVBS4zauBosH4X0nhQAzFrMcO3/fhZs/fU7e9dYZHGkA8jFmj5WZn5bKe1UBOfk0L762G+zB01MTZJunAFKacSrnjQXPjCERea45sD9we1gMyuaSboqEeocoCZrbBnUI3z50N6tV7Y626OGHw4mXPAOM0gpAlso2NHqXgilSxFf01EYwUaRYsSCL3pf+b95S39Zx+W2xAxZh63DtqftKCKBc6Et+koxeTCuOqSDnfprgVC/ZgTFF1DRbUATQf5wGplxLCkHVt9QLpW56MsRO0UkX18nWTntbCXPdwvgYNgBJ69liS4nCOpsBwK76ZadvdtfMfqJeOBksdE+Tnxzmg5MwEESkwx4KqfaeZHdVcf876g1kFEU7roxXXALIMQSxFgl2qknMv5CnzwTYW2nW6aIbEWxN6WaEGWYtg6zAS9fNzfL528m+Kh3+g2P73MwXCbxOCl5AEwuXh1Qo4YAI9rjUtbAmoF8C9CmYwGWiUbSR8VbiwpRJyuj4oN4=
+x-microsoft-antispam-message-info: JVwrT/qzocuvjMTgznUVPKcWOq/I0mVGixVOaSTdqOJuhuRmXq4mMiT5yc/sexzkVrdCSp5aru6ib9ra3mili03PHQ5jLquyA3cTC98TL9MDMJcah74XFzbzESwWawZ/HztZ+t6mvgVnqo0iCK4eK0Krf8D9omLbH8NXKym0TwinfSR1jshcLf58TTrrM1roqN2hkeOlZLmd4aliwFSUDpdONz203pRieZrIQ6vMPwkEuRKNMTaQRQscM9pB83uZ9ridjQZRFyiEWLIR22xq78IhyS7aNh+1pILZNUrVOWl2cNU0t7MMPi6tknkYTluQjXuZEAdKNYD0h0LMcqdCdJ8NCmDiHhH2iEQiwoSM8QC2WVLgB5MYOIqQLtUaoEnRqWDCfl9Q6MsG+/xBtUeWtsF4BhpbOY4fC1xhvlKE/e5Vnba+uX48hnIUmOhY6ZDSa2a6U5b1+X2a12lx2d7fCNTbSnMHwZWAQXbcBhoOstxiIwuYxQP8kkgY+WnZEqws1I76FwyzP0HES9bHFOcYWdop7CqFzsMplaaFEujNEFwH+D6MsE/A5Rm92HRPKsGNvLgBFo5il9uLV4ubIjGwZ/VZ7uho1+OvIDFgOEEMg/ZLBeeRemhhh0CDKsDgtgQA
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB6445.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(366004)(136003)(376002)(346002)(396003)(451199021)(478600001)(6486002)(6512007)(110136005)(91956017)(71200400001)(54906003)(83380400001)(38070700005)(86362001)(2906002)(6506007)(186003)(26005)(122000001)(38100700002)(316002)(921005)(82960400001)(66446008)(66476007)(76116006)(41300700001)(5660300002)(64756008)(8936002)(66556008)(66946007)(4326008)(8676002)(39026012);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(366004)(396003)(376002)(39860400002)(346002)(451199021)(71200400001)(54906003)(478600001)(6512007)(6486002)(52116002)(110136005)(186003)(2906002)(6506007)(4326008)(26005)(1076003)(7416002)(8936002)(64756008)(5660300002)(66446008)(8676002)(66946007)(66476007)(66556008)(122000001)(38350700002)(38100700002)(316002)(41300700001)(36756003)(83380400001)(2616005)(86362001);
+ DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Sacj7NkaPv3OdaLa82XGZxeZXMJHnqmyFyoAczQeZm+mDE998OqW97TwKLPw?=
- =?us-ascii?Q?qNVLISEaGX3lKOlDet2veUWhnKwwYD6MsuEPsKyvUi120lylHE04/zXUPKub?=
- =?us-ascii?Q?LToIH2GYz7/CmqiTSCfpw9H4ZDEjhaCbtHIX8NQ+TGbYb9xLwrA6JOtzQfIU?=
- =?us-ascii?Q?m2Ieucq/jSoHMhlO4sOmgzeCBkg1JostDKe+avE3McuFFtFeEFL6/+Ki5i/A?=
- =?us-ascii?Q?2dA4RaqQ2ZTNjhcIO40uw0nGMBbzTbaewcoN1J1GGQ/WOJTheL7jN7/9LjTs?=
- =?us-ascii?Q?MzPZBh4/YMXg3kWTxH8vbohlOaqEAJ/PHp1lA8MF7pnINefIPzGuW9nGuZWd?=
- =?us-ascii?Q?890B6/Rij+e/qIKdka5RUIpkEJCXuTkjxGbPH6n51+oX13tcVAImdp50wKn9?=
- =?us-ascii?Q?6LhuTqx0H5gHRWsOZWC7nR6vk6TUt86spYeeArBguqXHKnLbznJeWyECkZZf?=
- =?us-ascii?Q?JfxWlLOBQC7eb+i4X2iAOrMh428RLxXKAwgmuveVWwMR/vU+Xd/g89kwogmd?=
- =?us-ascii?Q?HSLZoTcbs7OWBLEHKADr2LJPz3ObCxUI0KZsSs0S0z2P8QThpZSQhppAaVt5?=
- =?us-ascii?Q?RdbYc1nSpnL06qJMxpSvgT1lc3McpnzdJI1v2kBvIFdPAT0UG7p6O0/MtJcE?=
- =?us-ascii?Q?+/DdOTBIJsMyJ1ES5YSIFNE0dDpYoP6w375GZzbVN4AisvxjS2KEFgApFR04?=
- =?us-ascii?Q?PEquClL/e2WpCIsdI0FZrwIPithAUGbxuvs8QgiyFsDd7do45URrOE3Tbj7g?=
- =?us-ascii?Q?BnqVWr1Y6rAJgEQxwpdXTjqwolt3Y1Szb4ft7gYyBErF7l3PWGL9xNVrUDCA?=
- =?us-ascii?Q?S//X/dVX7OY7yMNSd5AVDdQeVyAzyWxM2VsStGmXbZIwNLHDEjTspbWvfuNg?=
- =?us-ascii?Q?feHOWLTPSpPnvVn7NsO7H50D9fUcc30U5RbNiSOvYMjRAfo3vVjKYX3izHky?=
- =?us-ascii?Q?EZjT0IIP1FaPJS6l5nPIVrt6cLnhWHMiX5CYNvNayf2eUJcABREA//aIW3dM?=
- =?us-ascii?Q?SozomQBruTi38IU90vv6Ijq4+T6VzBubcNKw2PdOPsxUwHrf/Y0I5jvF1j/P?=
- =?us-ascii?Q?YYshLOBpUyCLIG3tI94sGZ4zT81cGwbNzpl8YnpoorRhZ4R8fjrYJgJpK6qI?=
- =?us-ascii?Q?TGzFLjKUhS/W6LCttJ5m+ZytsfkAQt/PDfmP3znU3Lig6x46YQBHQMqWjaTi?=
- =?us-ascii?Q?cqc1jAYQSOKkPy6CJBXZIkz5ktRZXE65onj4bVVTCGKF7qKPvFIRNG0ZPCcc?=
- =?us-ascii?Q?QCFgj/hr0YMyHaM9jWPlPFtW4pbsiHYSxYGABwQlfyAFnW1Ic+grRZMfIG0h?=
- =?us-ascii?Q?YtjpPNl5YmXjNHzIcLGN1cz2XDov9+5UiGZzKbIcFB1sWG2+xn1RloctoWc4?=
- =?us-ascii?Q?CK+s1ozx2qrKIOWVb7RmSehWfxyxce2n1YrNEJq8H3Te3tFLV2LALehfP6s4?=
- =?us-ascii?Q?9/fJCMkCq1BxyeV8CqoVALFv1DZzPIucnKlyPfa7gN7bHD9K2EPZQvYkZe/x?=
- =?us-ascii?Q?nqfebnpJoF81KV9AmChAbZlNF0WLHNb/Lysp12j2To7qrQy7Pq1EUi2TKm0U?=
- =?us-ascii?Q?PkSNKuozZ7P0l9sjeqD3gvAR2u/+Vvd3ldgvGtIUFKfFePi3qZ592ykZ3oO5?=
- =?us-ascii?Q?BoAOT3bjKzH9sMkoDMBvQho=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <44D7CBF7FD4E264DA966A1B1B5C412BA@namprd11.prod.outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6445.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf6c28d5-07e1-4dc9-9eef-08db89cc5d31
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2023 09:25:03.2585 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YkSB3sfhzZ2t7RVIJHgeFCbXgvo5m3TxYTKw6OtO6V453uCwJJtj4twA0zkvR9IOopayVh3bH644yR5GsVt5lqbcu9I7CA88LCzzJ8LO5Jo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4922
-X-OriginatorOrg: intel.com
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Ve0rljVe9ah7VMkBaUNXJ69I9CldkIjBWZGlI8XenYctkjEHkDqU1d0hnW?=
+ =?iso-8859-1?Q?xitTUL58IKSJoj9+l6BntGaMTxU6l5e9Ti79eDAHV4GgoOcHFIxXn5YGgf?=
+ =?iso-8859-1?Q?7Sk8/FF+55Iialoz5flA8EGKj+oBrY1D8vE3l0lbl/nHSRxzQq6eTTfY3o?=
+ =?iso-8859-1?Q?QkcarP9ZKurQOWg5Kz+bY60FPU5wiNNBgZg4I65VS+ZGe1GGY3A4QwfPNn?=
+ =?iso-8859-1?Q?iReweLPbclaMGR9hWgd24qf92Fdbo4Kw0Dwy61lAeLh5m3QK15hizRjsZG?=
+ =?iso-8859-1?Q?plr81m+nZIz8A4jgi805J4+7Bum6AbVW8lzrPqNHoGFNx4oL1Vjo+8zxbB?=
+ =?iso-8859-1?Q?t1A1qDCkrR25FYazh96MdCl0V+KhLhhCf72NPngJOPK81R7fmtezkG6cIO?=
+ =?iso-8859-1?Q?QxxacWkncxZcAPqKcPaeuKxzM08EuSRvm91T2NE0rGHV/5XZBOhiBIV9kG?=
+ =?iso-8859-1?Q?eZiBmum2hRMo9juB20MPCy5vLB1yEyamJUO6BYUg79H8Tb55d+CZMjcdYK?=
+ =?iso-8859-1?Q?AannJPmn32PqK7f3i9chCfqHHHFYe3lpRM2RcNzoAxkZSGn3l7j2jn6U92?=
+ =?iso-8859-1?Q?n/OnHye6MzQ2RdU6eJEDV2F1oKcMmYGcQ/GBXrHKg929IN2bI11zmNkDFa?=
+ =?iso-8859-1?Q?ZRUbNPufJc1HWN4BxBXUbRakfFjHFUjQu9SmIwpAVlBTXTC6jbBv6/X3hN?=
+ =?iso-8859-1?Q?GIJEUNzYzRfrq8RKb3puaKiTQafhyl7FV1kFZ2lg+TloXFonXJwadyrLOK?=
+ =?iso-8859-1?Q?yX2Swp5UJFeohT0qXwklg6sqkh4I0smGDgLru2IY7SjueORIrgVdVAiqsj?=
+ =?iso-8859-1?Q?/XJkNPGFmhgZtk3VfQq3Rhka316VU6sUMARXt6LBRLIWhJf+HLAC2O6u7d?=
+ =?iso-8859-1?Q?tQ1flV9KPkKqopH+KefvL4TgnTq55q0eqPOUfITvAqqbY+Nu/i1ZzShrgE?=
+ =?iso-8859-1?Q?XAn47J5NDdIDS8/1qiVInrMEoOD/YOxqqlFNZW4iJoZ9+sEnD+eoCbH+JX?=
+ =?iso-8859-1?Q?zZnY+9NelA+9ac8KqCp2u9FGhR2tFx/n1mkZObP5QRGJr9MGOwGeNvS0RO?=
+ =?iso-8859-1?Q?clYcVP3d1Q3Wt6KTj9EE0td5kAJfkknO9tkaIDA4JwhcZj7Ue/7r75GxLT?=
+ =?iso-8859-1?Q?J5Nn4jmizafYQ3zRsC6p9+YpUw79moYfEexDiyPb6MMmBUtYtNg/6Qn48N?=
+ =?iso-8859-1?Q?bDac57O3TtaUh7EggJdey5kyJQn+r1AbHgN4qz0zlYnGK/mfq/XszFlYgQ?=
+ =?iso-8859-1?Q?qJBmR6d0/Dy9Wb2HCW+WRoPIy9ZRwIoWNlMJe7CwCObllKVfIxHDlwyeqY?=
+ =?iso-8859-1?Q?wYl0nnS8GSo/L4gXAsnKORtpetmDUFRTD/nnkatqCZ3OZn0HjVvHy53qQz?=
+ =?iso-8859-1?Q?YlvMgGA+06XlOlj0RhfckXah6Zc9/nuOcrvfVnY31EavIHwH0xy3mwVv5u?=
+ =?iso-8859-1?Q?UwV7Y4P2yd9FMFVJiY8usuR5BGA7GNKQCcWY4DjwUxd4fqlaH2Kh+EYK2K?=
+ =?iso-8859-1?Q?gIEZ6G5mfF7MrXrbFzsuYBhwL7cniEh2AkRKEfMQnp7jKSmXbuxYrSTmj8?=
+ =?iso-8859-1?Q?pAoZ7xzlDO6VEbEaxbbqmyz8NtIQ79kAaPpwSi/9Puk4OnrPWih/D/26Fi?=
+ =?iso-8859-1?Q?WLy2A5EV4/zWzCA3eIJRmCds1CfsCr7NGV?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f140bde6-7aa0-4b07-033d-08db89ccec9b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2023 09:29:03.8931 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Rxlq5poUZSqFDaIec/zOaXvK0aC3/tPvRr4E2mgCQiXjXENfRbkcnTWyYWJOPbHrbSCrsiNdB5C41msK6atX0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9913
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,171 +123,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-evel <dri-devel@lists.freedesktop.org>,
- linux-stable <stable@vger.kernel.org>
+Cc: "andy@kernel.org" <andy@kernel.org>,
+ "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
+ "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "deller@gmx.de" <deller@gmx.de>,
+ "lee@kernel.org" <lee@kernel.org>, "brgl@bgdev.pl" <brgl@bgdev.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+If GPIO pin is in input state but backlight is currently off due to
+default pull downs, then initial power state is set to FB_BLANK_UNBLANK
+in DT boot mode with phandle link and the backlight is effectively
+turned on in gpio_backlight_probe(), which is undesirable according to
+patch description of commit ec665b756e6f ("backlight: gpio-backlight:
+Correct initial power state handling").
 
-On Thursday, 20 July 2023 23:07:30 CEST Andi Shyti wrote:
-> We always assumed that a device might either have AUX or FLAT
-> CCS, but this is an approximation that is not always true =
+Quote:
+---8<---
+If in DT boot we have phandle link then leave the GPIO in a state which the
+bootloader left it and let the user of the backlight to configure it furthe=
+r.
+---8<---
 
+So, let's drop output GPIO direction check and only check GPIO value to set
+the initial power state.
 
-If there exists a device that can have CCSs that fall into either none or b=
-oth =
+Fixes: 706dc68102bc ("backlight: gpio: Explicitly set the direction of the =
+GPIO")
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+v3->v4:
+* Capitalize words 'gpio' in patch description. (Andy)
+* Capitalize word 'gpio' in patch title.
+* Quote appropriately in patch description. (Andy)
 
-of those categories then I think we should have that device or two listed h=
-ere =
+v2->v3:
+* Add Fixes tag. (Daniel)
 
-as an example, regardless of deducible from the change or not.  Or if there =
+v1->v2:
+* Improve patch description. (Daniel, Bartosz, Andy)
 
-are no such devices so far, but we are going to introduce some, then I thin=
-k =
+ drivers/video/backlight/gpio_backlight.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-we should provide that information here.
-
-> as it
-> requires some further per device checks.
-> =
-
-> Add the "has_aux_ccs" flag in the intel_device_info structure in
-> order to have a per device flag indicating of the AUX CCS.
-> =
-
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Cc: <stable@vger.kernel.org> # v5.8+
-> ---
->  drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 4 ++--
->  drivers/gpu/drm/i915/i915_drv.h          | 1 +
->  drivers/gpu/drm/i915/i915_pci.c          | 5 ++++-
->  drivers/gpu/drm/i915/intel_device_info.h | 1 +
->  4 files changed, 8 insertions(+), 3 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/
-i915/gt/gen8_engine_cs.c
-> index 563efee055602..0d4d5e0407a2d 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -267,7 +267,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 =
-
-mode)
->  		else if (engine->class =3D=3D COMPUTE_CLASS)
->  			flags &=3D ~PIPE_CONTROL_3D_ENGINE_FLAGS;
->  =
-
-> -		if (!HAS_FLAT_CCS(rq->engine->i915))
-> +		if (HAS_AUX_CCS(rq->engine->i915))
->  			count =3D 8 + 4;
->  		else
->  			count =3D 8;
-> @@ -307,7 +307,7 @@ int gen12_emit_flush_xcs(struct i915_request *rq, u32 =
-
-mode)
->  	if (mode & EMIT_INVALIDATE) {
->  		cmd +=3D 2;
->  =
-
-> -		if (!HAS_FLAT_CCS(rq->engine->i915) &&
-> +		if (HAS_AUX_CCS(rq->engine->i915) &&
->  		    (rq->engine->class =3D=3D VIDEO_DECODE_CLASS ||
->  		     rq->engine->class =3D=3D VIDEO_ENHANCEMENT_CLASS)) {
->  			aux_inv =3D rq->engine->mask &
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/
-i915_drv.h
-> index 682ef2b5c7d59..e9cc048b5727a 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -848,6 +848,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->   * stored in lmem to support the 3D and media compression formats.
->   */
->  #define HAS_FLAT_CCS(i915)   (INTEL_INFO(i915)->has_flat_ccs)
-> +#define HAS_AUX_CCS(i915)    (INTEL_INFO(i915)->has_aux_ccs)
->  =
-
->  #define HAS_GT_UC(i915)	(INTEL_INFO(i915)->has_gt_uc)
->  =
-
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/
-i915_pci.c
-> index fcacdc21643cf..c9ff1d11a9fce 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -643,7 +643,8 @@ static const struct intel_device_info jsl_info =3D {
->  	TGL_CACHELEVEL, \
->  	.has_global_mocs =3D 1, \
->  	.has_pxp =3D 1, \
-> -	.max_pat_index =3D 3
-> +	.max_pat_index =3D 3, \
-> +	.has_aux_ccs =3D 1
-
-NIT: Can we please have the last element also followed by comma, like in ot=
-her =
-
-     places (e.g. see below)?  That will simplify future patches.
-
-Other than that, LGTM.
-
-Thanks,
-Janusz
-
->  =
-
->  static const struct intel_device_info tgl_info =3D {
->  	GEN12_FEATURES,
-> @@ -775,6 +776,7 @@ static const struct intel_device_info dg2_info =3D {
->  =
-
->  static const struct intel_device_info ats_m_info =3D {
->  	DG2_FEATURES,
-> +	.has_aux_ccs =3D 1,
->  	.require_force_probe =3D 1,
->  	.tuning_thread_rr_after_dep =3D 1,
->  };
-> @@ -827,6 +829,7 @@ static const struct intel_device_info mtl_info =3D {
->  	.__runtime.media.ip.ver =3D 13,
->  	PLATFORM(INTEL_METEORLAKE),
->  	.extra_gt_list =3D xelpmp_extra_gt,
-> +	.has_aux_ccs =3D 1,
->  	.has_flat_ccs =3D 0,
->  	.has_gmd_id =3D 1,
->  	.has_guc_deprivilege =3D 1,
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/
-i915/intel_device_info.h
-> index dbfe6443457b5..93485507506cc 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.h
-> +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> @@ -151,6 +151,7 @@ enum intel_ppgtt_type {
->  	func(has_reset_engine); \
->  	func(has_3d_pipeline); \
->  	func(has_4tile); \
-> +	func(has_aux_ccs); \
->  	func(has_flat_ccs); \
->  	func(has_global_mocs); \
->  	func(has_gmd_id); \
-> =
-
-
----------------------------------------------------------------------
-Intel Technology Poland sp. z o.o.
-ul. Slowackiego 173 | 80-298 Gdansk | Sad Rejonowy Gdansk Polnoc | VII Wydz=
-ial Gospodarczy Krajowego Rejestru Sadowego - KRS 101882 | NIP 957-07-52-31=
-6 | Kapital zakladowy 200.000 PLN.
-Spolka oswiadcza, ze posiada status duzego przedsiebiorcy w rozumieniu usta=
-wy z dnia 8 marca 2013 r. o przeciwdzialaniu nadmiernym opoznieniom w trans=
-akcjach handlowych.
-
-Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata=
- i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wi=
-adomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiek=
-olwiek przegladanie lub rozpowszechnianie jest zabronione.
-This e-mail and any attachments may contain confidential material for the s=
-ole use of the intended recipient(s). If you are not the intended recipient=
-, please contact the sender and delete all copies; any review or distributi=
-on by others is strictly prohibited.
+diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backl=
+ight/gpio_backlight.c
+index 6f78d928f054..38c46936fdcd 100644
+--- a/drivers/video/backlight/gpio_backlight.c
++++ b/drivers/video/backlight/gpio_backlight.c
+@@ -87,8 +87,7 @@ static int gpio_backlight_probe(struct platform_device *p=
+dev)
+ 		/* Not booted with device tree or no phandle link to the node */
+ 		bl->props.power =3D def_value ? FB_BLANK_UNBLANK
+ 					    : FB_BLANK_POWERDOWN;
+-	else if (gpiod_get_direction(gbl->gpiod) =3D=3D 0 &&
+-		 gpiod_get_value_cansleep(gbl->gpiod) =3D=3D 0)
++	else if (gpiod_get_value_cansleep(gbl->gpiod) =3D=3D 0)
+ 		bl->props.power =3D FB_BLANK_POWERDOWN;
+ 	else
+ 		bl->props.power =3D FB_BLANK_UNBLANK;
+--=20
+2.37.1
 
