@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0930F75C000
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 09:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B991E75C006
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 09:42:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63C2010E185;
-	Fri, 21 Jul 2023 07:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D634810E18A;
+	Fri, 21 Jul 2023 07:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E26CB10E185
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 07:42:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269D810E18A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 07:42:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2515061557;
- Fri, 21 Jul 2023 07:42:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7DE1C433C7;
- Fri, 21 Jul 2023 07:42:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7CFCB61557;
+ Fri, 21 Jul 2023 07:42:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51891C433C7;
+ Fri, 21 Jul 2023 07:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1689925324;
- bh=ru/HJwr0AiSjca15B3Bi2ebMejq+Oa1Rx+qw+Md7OWU=;
+ s=korg; t=1689925371;
+ bh=1KDOxZIbKp6YhXaedh5RHk//+8vUFdnb3PKGvJutDkU=;
  h=Subject:To:Cc:From:Date:From;
- b=WArvx3ChK2rfhgasHFhNTe3FZ5uInynKuLLBK2SHT7QAzbHslp5r1TJL21QDHRswD
- oSkn4tO/KNpJJhjwwEprZb6Xc922+L0xfXUXet744BBPLzCS+7B05X2zxrhw4ojJZ3
- BL5TdeJ7OKZKFDBCZ7WNaBuGYXLqk0ATkPfHgx+M=
+ b=flFYFEcWWj8iv5TRll7ZKWo7tNcTJ/XfAX5gDta4FqNominAJ2mu+7w+3cn3iVuCr
+ mJMIVkn/1EI59cNYnPhAlIHbNiaw7seU8YPG25hlkt/imkH4TbkZQ7Ha4QS8WyEDy8
+ 7DDU8I9oqXpmTybWCwRpTHLnjQKI5WxUx9Pda+Co=
 Subject: Patch "drm/ttm: Don't leak a resource on swapout move error" has been
- added to the 6.1-stable tree
+ added to the 6.4-stable tree
 To: andi.shyti@linux.intel.com, christian.koenig@amd.com,
  ckoenig.leichtzumerken@gmail.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, nirmoy.das@intel.com,
  thomas.hellstrom@linux.intel.com
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 21 Jul 2023 09:40:32 +0200
-Message-ID: <2023072131-barricade-backwash-96aa@gregkh>
+Date: Fri, 21 Jul 2023 09:40:43 +0200
+Message-ID: <2023072143-plutonium-jukebox-95cf@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/ttm: Don't leak a resource on swapout move error
 
-to the 6.1-stable tree which can be found at:
+to the 6.4-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-ttm-don-t-leak-a-resource-on-swapout-move-error.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.4 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -105,7 +105,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1165,6 +1165,7 @@ int ttm_bo_swapout(struct ttm_buffer_obj
+@@ -1167,6 +1167,7 @@ int ttm_bo_swapout(struct ttm_buffer_obj
  		ret = ttm_bo_handle_move_mem(bo, evict_mem, true, &ctx, &hop);
  		if (unlikely(ret != 0)) {
  			WARN(ret == -EMULTIHOP, "Unexpected multihop in swaput - likely driver bug.\n");
@@ -117,4 +117,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
 
-queue-6.1/drm-ttm-don-t-leak-a-resource-on-swapout-move-error.patch
+queue-6.4/drm-ttm-don-t-leak-a-resource-on-swapout-move-error.patch
+queue-6.4/drm-ttm-don-t-leak-a-resource-on-eviction-error.patch
