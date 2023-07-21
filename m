@@ -2,74 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FE675CDD1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5371575CDE8
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD5D410E6C1;
-	Fri, 21 Jul 2023 16:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B97310E6C3;
+	Fri, 21 Jul 2023 16:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic314-19.consmr.mail.gq1.yahoo.com
- (sonic314-19.consmr.mail.gq1.yahoo.com [98.137.69.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FC210E6BF
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 16:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1689956099; bh=bwDESC3di8J2hOB2Il7Vrnp9sMmAKZ7TFP4bVuEHGqQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=QZDwSUeqfdgSYfzjpQJHebO7VJqr+YUascrlVoH8W1meDWlX1Zdf1KycNf/kuN8X1kLnexTo4jk6wql7iWjbjixoll/xL4vfVMJJ8Fq6hl6F6hHwZsYfbSeKfEKaoAugqTeP0aixqHPmhCBm/paaxREgY1opN7TM2AA9ix+cT3A9+nPV1Av36bvYKY1Tv9Maoxn6GqbfeMC59T68h6IC9VVfoqbKe/n9iPAWkrafo+2TJvIr39tWxiggcaawWMP+Pn5xx3n3kmlBsKPRV4X5UWbqEYKc6JrTPUjvOxquzRqVDZEpLqxwL1BVJp4hRtAPqhjocNfZwu9G4ewdj7NRhQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1689956099; bh=nOUatyXllBs4LsZ1gPlfX8t8Bq6fmbamfbJICAMajZb=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=t3LIQGw5BbZo19KPXyvYwlWASfdaJbolJXxkDc9HZqHCDxO6atXrGoYlpyIvgzMzpB4rL6F32KfxWr62He+D2S6zh8LgW/msXZMsNv22lrwH7xbEhnTXktWOMgyb8w2+fJN/n0AWonQPp1vWIV11BbpI5eOdq+0kKJQZcssTys1K55sxNq9LevH9r+FPvwkXvOu2+CG3OPlbgZv/4MMpTfHbycHn1CMRVGerYoon4OrM/O5j2QBmrGxP4XNfVSmOqM3lAWwhm9CWY5tSOIjrPZGcNDSbTeeO3qxh4qcJLq1NpQEwNMFnuui7f+7rxQKsElnX4HdS7GTorom8hFfU0g==
-X-YMail-OSG: AK72WQEVM1kCQLkBysCEjn4U272Ihichi2rvmDMH3cNxzxRdOcvLjaZ58fabNYU
- u6x_Y6YlOOvxcb2DXk5SFKgeeJyYmLmpWLg8je.z_whuanNbcBJMQX75VuPF5zvC7BUshbPJx0yo
- B7lZRNNaqhPEcYMN_ZRbprziPqsjoqNu_l2RiwGFBgVT2TCsYDzPwZgtJzdqNseDHStMb2jCP3ca
- jBLGoxWy8EjExtRA3biADyPm4ALqkNFXWO_o4fTvjpF07T8LS6pV6El1T5sKsdQ0x6ve5EBbyMPI
- d0hQWgWvVsSZopBkSbiq66enpCmtkIs3GbWqM7bUcHfvm0wqW6hY_bjrhGeSJ4SrUXPG3Gjldkhl
- xGF4cXRrUby5izMMOE1oFd3AlTYZXVH2SP6fZqqx.RfLAkL8hGqqOSlfvjUH5TU3uFHnky.X50_1
- .P6CTJiFqQrSbkBhkfo_VyWZFe2U38z5G5D57AWw_M4S94Nv8fIo1eRAu3RJgSoDBdVs.T02hJ5k
- WqVBdjI7zqTs3fR2bQ9XCA9Vhnrtq.Z1rSn5aObDyQat20NfYJK8v.F73RcwXPRkVYu3Q89lai62
- el4ac5o3OkPnN8BYXAv50UJeoLCpHVUEGPuTDCOl.teZELbzX.6ds4Ax9gLTP7gCze8TlgxBeMOb
- cDAgKDgmayAzkXsULhruf8iLkKNR.xMlmypACKW6Bnnj8jMptTk6_AB8ccXX035Qu4EwtGaUPl9b
- g1E5jQgVngFW9NNOr6m1Dqo99m1Sd3wGs5WZYtGauHBOtOdnap3kiuciFN5ECbubzfugdVx3pHNA
- xTAGF1hiXKl8cU7pl6aqlJaEh2DK3XEBnzqCPU11EfAbJYxRBh2wmhSXkVp3F5l1iSpQICTFmKqO
- PIAYvMspukmukWm99b0L_6kOLRkGYieKx7q1PZVl.wpqmubF2AMqiCOd2xyCXzyCy15tvbpw01gH
- bqUwkk1WGKb4FiIToNkeXm2eQ8pcm4htVDrtogxzqP8WDvScrflN8YphescR41EbgPl7M99LHvay
- BiPoUhDwFKx1WTE9Nh4z36XhFnc7DvB45XS9_wvd7Ew9R4mZJZutd0EVOYMkn5qdQwssT_vyUD5I
- myNn0BpGP11hxREEwTKcaF3NGldiNn6hC81_meLLYrXdCJwew291QLtDCUA_LEBZbOyPpjPJiQ5r
- 9OQFSDdidOm.AeWSC3gswzOMNLCeyvcbJm8F.p9kUUUOeMer.RUVRAxkr.y0IUM8gBoHL3FhjYp7
- HLU4WPcJcLwjtJ8EGbv17zGefLvbIRzhwp9OYcQkjPZMBII3j8SFcg5qhoOj6wVeETXuoY9pm0VR
- 5OcwNl9o1cz6k9ySbiMnyRHq4qQ6MEKR_WOhoaWI00_Ms_PPV.4N5N1c6ziKq5el1xlP7l5_XXEq
- .LMeh72PB6qCFzvbEupdhdxwm9NGKBSjPwbuvge5RzXEwNvA1fEegEWFw9CWCc7s1RXl.KOG.SK4
- zMCIXrC7CbaTTr98aGFzoV5SwS70S3qKPz0b01DvE2fbqfEuQ2OR6ZeM9W396Q5jYt5gVAeAfdF2
- SO38xKJBBhfhFwdMFsdUMXNYS1VTafFNcfRMQhGL4LqxAtVI8nQFYJm1CntRpJ_DzNJ7_ZlQB2hi
- KABjzYEPHB1kr9jLjT17nz0lxyOQ5oYGohwff6BARp9_tjoXPY74M1kSplVxK5JNqg8.m.nZhyGB
- Kpx58kuyaB6z8EK9p5m3ZFb1UOf2o_20L0tnOobHCScwXT8FX1.0UTq5Kq9m0EGAlDFaP3LX11Zm
- WucnhRSGX.nzNaE75X4kkaHiufBOZmSo7bZr9yA5HcDf.2_NfweuaoETeUOCHKqdXcGrCYIkL_Hp
- sw1DXOajAHyWreA3uNlJd5vRvzUPAOKFQhzPdx_MwA2BvDtkz5R8HeQVJcE90hc_N7wBa9frah8r
- zbopetvI4ZfhyvxuSqXQtftTmdKin3Ro67d4675pX0fDZkL1bb2wYEEyFCXHU3sYDZVEFJm1Rqut
- 4BIx1UN5J3hmDyFAPjCcsEKCOl4Gg_46C2_bAZ0NBmGRltF0kHe5922Kn9M8caC7GXPZmThMc5QU
- Vdwz677wIjLTKp4DeFwhmyN3zNzfKUccMYBsKVgIMLpHR9AG6aufWgn5ZP.XU5FQWc9qQLqb5j2L
- 0Mxv_7zDIvs8lFrhL9LutvjeRY_VvpduPH5yc2cDvwX5Rj8uKIBbLWP.foWB0h8KfxTP3I2obO7T
- W9qksB4MU_LT3h_4n6Xi9t7S.keEm3Fs78koan3ul_WJECHRYe2DfG1Dz3gPMAWFYB1juc1o-
-X-Sonic-MF: <astrajoan@yahoo.com>
-X-Sonic-ID: 9835a3bb-7434-4dd4-b4eb-52464eaacfa1
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic314.consmr.mail.gq1.yahoo.com with HTTP; Fri, 21 Jul 2023 16:14:59 +0000
-Received: by hermes--production-ne1-77c6dd44c7-qc7r8 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 80a0f2870b2cba73bcd1cc4395b3f226; 
- Fri, 21 Jul 2023 16:14:57 +0000 (UTC)
-From: Ziqi Zhao <astrajoan@yahoo.com>
-To: astrajoan@yahoo.com, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ivan.orlov0322@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- skhan@linuxfoundation.org, tzimmermann@suse.de
-Subject: [PATCH] drm/crtc: Fix uninit-value bug in drm_mode_setcrtc
-Date: Fri, 21 Jul 2023 09:14:46 -0700
-Message-Id: <20230721161446.8602-1-astrajoan@yahoo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230716043411.4950-1-astrajoan@yahoo.com>
-References: <20230716043411.4950-1-astrajoan@yahoo.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340F310E6C3;
+ Fri, 21 Jul 2023 16:15:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689956142; x=1721492142;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EVRXyWNahLgpOGgoSgb79ITWOdPV9rVk3jwVKC+hPEQ=;
+ b=h1LmYgmcrBFbXd+EgX4hbSLeUyTHwl8hK7baNEYMdhtueFNy9pfDzsp5
+ 36EkN1UP+4OGEVUGx7yaDl/vIyQUNJG81Fp0C8WSoAAWElN6beYOgJaRy
+ nXZbWD4RHGcqu1Uxwfg7xxsGc+Eqc7avChznklYZ/YyGc+h0foqp5A9pS
+ i8GRt/fxxFB+uqPZZ9373tWv4otb22DBxtqcArOHCWYKUXrFq1j4LEW7z
+ YMI2FSi1yT5iNff56gWIPWjxqJskQi8YhJ1uNLReQ8wZ5W9tkxaEdigP5
+ ZrvSvhi/PYeqI+h8hC8DRvtt3UZdYzunGKYoUgkRe2cI/OtQM8N0pOyCr g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="397951394"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="397951394"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 09:15:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="1055602677"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="1055602677"
+Received: from hbockhor-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.54.104])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 09:15:28 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: [PATCH v8 0/9] Update AUX invalidation sequence
+Date: Fri, 21 Jul 2023 18:15:05 +0200
+Message-Id: <20230721161514.818895-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,75 +60,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org, glider@google.com,
- syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ linux-stable <stable@vger.kernel.org>,
+ dri-evel <dri-devel@lists.freedesktop.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The connector_set contains uninitialized values when allocated with
-kmalloc_array. However, in the "out" branch, the logic assumes that any
-element in connector_set would be equal to NULL if failed to
-initialize, which causes the bug reported by Syzbot. The fix is to use
-an extra variable to keep track of how many connectors are initialized
-indeed, and use that variable to decrease any refcounts in the "out"
-branch.
+Hi,
 
-Reported-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
-Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
----
- drivers/gpu/drm/drm_crtc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+as there are new hardware directives, we need a little adaptation
+for the AUX invalidation sequence.
 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index df9bf3c9206e..d718c17ab1e9 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -715,8 +715,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
- 	struct drm_mode_set set;
- 	uint32_t __user *set_connectors_ptr;
- 	struct drm_modeset_acquire_ctx ctx;
--	int ret;
--	int i;
-+	int ret, i, num_connectors;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
-@@ -851,6 +850,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
- 			goto out;
- 		}
- 
-+		num_connectors = 0;
- 		for (i = 0; i < crtc_req->count_connectors; i++) {
- 			connector_set[i] = NULL;
- 			set_connectors_ptr = (uint32_t __user *)(unsigned long)crtc_req->set_connectors_ptr;
-@@ -871,6 +871,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
- 					connector->name);
- 
- 			connector_set[i] = connector;
-+			num_connectors++;
- 		}
- 	}
- 
-@@ -879,7 +880,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
- 	set.y = crtc_req->y;
- 	set.mode = mode;
- 	set.connectors = connector_set;
--	set.num_connectors = crtc_req->count_connectors;
-+	set.num_connectors = num_connectors;
- 	set.fb = fb;
- 
- 	if (drm_drv_uses_atomic_modeset(dev))
-@@ -892,7 +893,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
- 		drm_framebuffer_put(fb);
- 
- 	if (connector_set) {
--		for (i = 0; i < crtc_req->count_connectors; i++) {
-+		for (i = 0; i < num_connectors; i++) {
- 			if (connector_set[i])
- 				drm_connector_put(connector_set[i]);
- 		}
+In this version we support all the engines affected by this
+change.
+
+The stable backport has some challenges because the original
+patch that this series fixes has had more changes in between.
+
+This patch is slowly exploding with code refactorings and
+features added and fixed.
+
+Thanks a lot Nirmoy, Andrzej and Matt for your review and for the
+fruitful discussions!
+
+Thanks,
+Andi
+
+Changelog:
+=========
+v7 -> v8
+ - Removed the aux invalidation from the device info and added a
+   helper function, instead (patch 2).
+ - Use "MTL and beyond" instead of "MTL+" in comments.
+ - Use the "gen12_" prefix instead of "intel_".
+ - In patch 6 return an int error instead of an error embedded in
+   the pointer in the intel_emit_pipe_control_cs() function and
+   propagate the error to the upper layers.
+
+v6 -> v7
+ - Fix correct sequence applied to the correct engine. A little
+   confusion promptly cought by Nirmoy when applying to the VD
+   engine the sequence belonging to the compute engines. Thanks a
+   lot, Nirmoy!
+
+v5 -> v6
+ - Fixed ccs flush in the engines VE and BCS. They are sent as a
+   separate command instead of added in the pipe control.
+ - Separated the CCS flusing in the pipe control patch with the
+   quiescing of the memory. They were meant to be on separate
+   patch already in the previous verision, but apparently I
+   squashed them by mistake.
+
+v4 -> v5
+ - The AUX CCS is added as a device property instead of checking
+   against FLAT CCS. This adds the new HAS_AUX_CCS check
+   (Patch 2, new).
+ - little and trivial refactoring here and there.
+ - extended the flags{0,1}/bit_group_{0,1} renaming to other
+   functions.
+ - Created an intel_emit_pipe_control_cs() wrapper for submitting
+   the pipe control.
+ - Quiesce memory for all the engines, not just RCS (Patch 6,
+   new).
+ - The PIPE_CONTROL_CCS_FLUSH is added to all the engines.
+ - Remove redundant EMIT_FLUSH_CCS mode flag.
+ - Remove unnecessary NOOPs from the command streamer for
+   invalidating the CCS table.
+ - Use INVALID_MMIO_REG and gen12_get_aux_inv_reg() instad of
+   __MMIO(0) and reg.reg.
+ - Remove useless wrapper and just use gen12_get_aux_inv_reg().
+
+v3 -> v4
+ - A trivial patch 3 is added to rename the flags with
+   bit_group_{0,1} to align with the datasheet naming.
+ - Patch 4 fixes a confusion I made where the CCS flag was
+   applied to the wrong bit group.
+
+v2 -> v3
+ - added r-b from Nirmoy in patch 1 and 4.
+ - added patch 3 which enables the ccs_flush in the control pipe
+   for mtl+ compute and render engines.
+ - added redundant checks in patch 2 for enabling the EMIT_FLUSH
+   flag.
+
+v1 -> v2
+ - add a clean up preliminary patch for the existing registers
+ - add support for more engines
+ - add the Fixes tag
+
+Andi Shyti (7):
+  drm/i915/gt: Cleanup aux invalidation registers
+  drm/i915: Add the gen12_needs_ccs_aux_inv helper
+  drm/i915/gt: Rename flags with bit_group_X according to the datasheet
+  drm/i915/gt: Enable the CCS_FLUSH bit in the pipe control
+  drm/i915/gt: Refactor intel_emit_pipe_control_cs() in a single
+    function
+  drm/i915/gt: Ensure memory quiesced before invalidation for all
+    engines
+  drm/i915/gt: Support aux invalidation on all engines
+
+Jonathan Cavitt (2):
+  drm/i915/gt: Ensure memory quiesced before invalidation
+  drm/i915/gt: Poll aux invalidation register bit on invalidation
+
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 198 ++++++++++++-------
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h     |  21 +-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h      |  16 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c          |  17 +-
+ 5 files changed, 155 insertions(+), 99 deletions(-)
+
 -- 
-2.34.1
+2.40.1
 
