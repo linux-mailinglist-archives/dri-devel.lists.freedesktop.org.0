@@ -1,53 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92F775C6EF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 14:34:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F3075C708
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 14:45:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE9310E67A;
-	Fri, 21 Jul 2023 12:34:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE82910E0F2;
+	Fri, 21 Jul 2023 12:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D34010E67A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 12:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
- message-id:subject:cc:to:from:date:from;
- bh=EmK+s79iHYSMxKUHHFzMSHP5Gr4Y9HLSftbd9Ecs9V0=;
- b=GoV3E7VTyj3jSak4WVapZnXdBDXUXPW7O/DjDQR67JvQSlDg0E6Z+7U2EJW2wSazWNIl+zv+6Wa/J
- Oko9BnChqt1i54NKNZoPyniQnmVclXhem4i6z8bBp6NtJIPaQD7+wnhOz/akOwwRa2ZC0ssNMMwmF5
- lNENAy8IzMfy97Ci9nY0MdxDviT9U14WA79crnQh6+4/WN84/8V8IqtRI1v5NfAxNuRyjSyPsveGoD
- tEtb6CyFzXVKij6+gOWLHJl7ZDtkINx+IZzIi9oHL7+60126NBJkga/kfzfjljAZB/5ubdRQDZFbeQ
- /Y4JIVvzIWYXtPd+u2V+2lGM6a3C9eQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
- message-id:subject:cc:to:from:date:from;
- bh=EmK+s79iHYSMxKUHHFzMSHP5Gr4Y9HLSftbd9Ecs9V0=;
- b=9xOKpGptgdPeXrLkjWh5r4V21or4l5WCdvZcs1Z3pKTNr83EHudOHcfJcC9y10AUYCZx4y9WENCOj
- 5kj+Y/MAQ==
-X-HalOne-ID: b8a6ca80-27c2-11ee-9464-592bb1efe9dc
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4 (Halon) with ESMTPSA
- id b8a6ca80-27c2-11ee-9464-592bb1efe9dc;
- Fri, 21 Jul 2023 12:33:00 +0000 (UTC)
-Date: Fri, 21 Jul 2023 14:32:58 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Subject: Re: [PATCH 6/9] drm/verisilicon: Add drm crtc funcs
-Message-ID: <20230721123258.GA337946@ravnborg.org>
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-7-keith.zhao@starfivetech.com>
- <07cc89a5-5200-72e6-f078-694c5820a99a@suse.de>
- <a8c51143-01cb-a95f-bfbd-16827325934e@starfivetech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur04on2081.outbound.protection.outlook.com [40.107.7.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12EBA10E0F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 12:45:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HVLFFVGqgepj9fnd+xRxXjnYzNgDp2tqHvxJxRshvWiHMziw+qq6cksZ9JZoxjzDXgACnHQTnAG2G2aI5Q0x9b/ASC1mt/x2+RmyANcJGJtA4+IE74s3t0WJvC7qcL/820TMmoVyfOOInv9phDHPH/UO89pe4VvCv7Lp0JR8LFsykFuTKISUE1CUyQYF1055QluLwQKtZ0yqOSXoCxSvbrX0yWDV1GEPaDaE0K7ub7NphqT3waOJ13dgfM8KngDGRX59koQwpAOIbFHHU1cINkdgk+U/bXvm+llbrC+sBsj63lTNoVyqP5GaERDb0e4xAqoLGekYK400p9Uy9i1A4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vd3p91/7kWZoxq9hmlHH653KMLEf8Flo16kKp5jq/7k=;
+ b=CbR3nQen6lP9sPmiAEguS707rCFhl+Pxo2TVblRqByZyzsl4vcHG5Lt5GTYXnL4lkTRCS+9L6KNbR9fHZRf1ilTLirMau5+ZdlmS2LdtWptn4FE1AEEUsvLf7UzOnHaPk09FlSgR0fD9ncylIwhsbnP8cB5E6SwCenk5GnQwo8RmXZ0ktLWD+y6P7lMgwRykSbUo6aDljlaOFJn1sqDln3f/1PEXW3YLe2KrLBybBex700aihVMQnESRxr7jdTxaq+TKqu9h7IlCFRyP5AFQbkZ0u8tlDTgZiQ4pMQ4jR4YcSi2Xoic4KiihlBB5SOeKnCRfFMnTsUuEUwtn3Irdhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vd3p91/7kWZoxq9hmlHH653KMLEf8Flo16kKp5jq/7k=;
+ b=lFT/ohaHt13o5fKBx6D+9pPGEJt4miqI01VcbE7I8W6Jpzz0sUvzZUs2+CqXfBM42WL2JfFLXEa8h5MnuuPP5dP1lepP/MCkm7T9o7tKYljdx0cp2bBAF+shIz7FKCYFBxPN1YE9PI+Rfvog9LOvHMJU199WDVHXV0eJDONbNZQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
+ by DU2PR04MB8645.eurprd04.prod.outlook.com (2603:10a6:10:2dc::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Fri, 21 Jul
+ 2023 12:45:06 +0000
+Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::3505:c499:96d4:1429]) by PAXPR04MB9448.eurprd04.prod.outlook.com
+ ([fe80::3505:c499:96d4:1429%4]) with mapi id 15.20.6609.026; Fri, 21 Jul 2023
+ 12:45:06 +0000
+From: Sandor Yu <Sandor.yu@nxp.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
+ u.kleine-koenig@pengutronix.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm: bridge: dw_hdmi: Add cec suspend/resume functions
+Date: Fri, 21 Jul 2023 20:44:15 +0800
+Message-Id: <20230721124415.1513223-1-Sandor.yu@nxp.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a8c51143-01cb-a95f-bfbd-16827325934e@starfivetech.com>
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0172.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::28) To PAXPR04MB9448.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b1::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DU2PR04MB8645:EE_
+X-MS-Office365-Filtering-Correlation-Id: e76da41d-452a-4458-1d3c-08db89e84fa2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QencDHjLQZM27FGAHlL8E1FMcFbsm6SEJ1uuf9qJ66tD/YaAPoMxok692BZ99BYKtAYmBjB37KK9aurtMonAOIBHq4nUU52kHQ56gKuN+/LmOS0zwdk8mlNn1PJfbHnaY2gmmkB/CwPLvPLFfyRApc1WW4Blxc4i1u1mCwjWSfqD3grzOaETAkNeBzZXrR3lU/PBuNRCustc01gUrSBibRNRz00k2fZm/ykdVft0WDrFzLlCo0CM46hLGE8q+1ju4N85DhqqmcWYXZlgNITb6drkFhDfuwjfTn67j9hbpvXgs/ilZL2MERVJs2Gcju5ta2aYBnSFv9S+QfCyMLrMGT5bglh/aSj8FTy689sq2yN37B++IKSeNsBKRStHKjGRwswuCrehrV9/p+mHn+6fZuaiyyP4AEIokRJG8TRdONsgvigqtE/axkqgk5iFeGE3+ZtWTrm1VhPpuDjyd2SNIXetQQl29rZHlXKWsxmgwXhVuIrRcuNK4Y5gpqGsLWlzGJ28Hm41BdTxdxLOdbJLu8RmYHdxS61hZM36eNoOPLqC3w1RJnJnJkH9U5l/qpcvEA9uq57vMd+naEQ7En69Enj5as5mRJNYt936bqjuuWG9PeJx2Q6Pmj41R4XtNiTKhL4I24jBbQ6g90z0s8SziA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(39860400002)(346002)(396003)(136003)(366004)(451199021)(921005)(86362001)(478600001)(8936002)(316002)(41300700001)(66556008)(66946007)(66476007)(8676002)(4326008)(186003)(7416002)(2906002)(1076003)(26005)(6506007)(83380400001)(15650500001)(38100700002)(38350700002)(2616005)(36756003)(52116002)(6486002)(6666004)(6512007)(5660300002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vdLq/lB26jzQpU4XSFSA3Xeu4tfIwEdzZDPgKzDBKCr/4T0UwRGwLmBA+NS7?=
+ =?us-ascii?Q?cTqUZMKyQAqx547uj1sI+w1NhG3CD+kaV3x0N9xhKGSZl7uymVha1T5hKsbs?=
+ =?us-ascii?Q?nPoDa1mWAmnZaXRhXZ9AWC+tRq7Isd+s3zcg6GyCbFaNkAniAHoKYP4S2YO3?=
+ =?us-ascii?Q?ipompYPMZXieJVKl6V0PLSfl4AfztZDBva2SdPJDHJKoNpMyKHHqcBDghdw3?=
+ =?us-ascii?Q?yovJAk3NfsovRzpf6aD1JeRnReVO/EqBnNGdTnI9PC+otKQg/oxnSiLqHxDn?=
+ =?us-ascii?Q?otfxp5Iz1p2guoH8X/m+JBIrnYvqs6KLJ+xIN3IHm2UQi/dR85+xKG7zhiRd?=
+ =?us-ascii?Q?sXI9O9EPtiJtiNL+q0dtmf0LsOhsI6ovc3PuLc5/QcRZ5t3hFhQZ73d4CeDJ?=
+ =?us-ascii?Q?jfz2Udm2wN7swfYownWsqa4H1eymrZFNJFeS9otmZjr7G1r3u0UjVdrA220m?=
+ =?us-ascii?Q?XrIlor+Zc+F1hrLHc4mH6jb7Fn+vBWKPSLhiPdUDzErxlC4VpA44kB/xIsmm?=
+ =?us-ascii?Q?WcLRNi9hNzAnlrrgu40fJ5P9q/UmpPlGBuZn7QO5LRfv1VHiJQkYFdAtOAbl?=
+ =?us-ascii?Q?Dm/6jStQTVdqZnnUyZ937GZwg4bXaT5XzdydrSM1Sij1CirQI9ABP/ZP1y2f?=
+ =?us-ascii?Q?tfPTW8HPDQYhRht5HsgRdMWy45XMAthz9gwvAeOo19Kuuqr/pn2d1PT6Ir6S?=
+ =?us-ascii?Q?0/JPuAefQLx9nSI1FO7LyMCinMIkrFZyDSiVaUHKPQK4uG20NVHu/VRcVARc?=
+ =?us-ascii?Q?Qgzz2iWzoXFs/iWDyA+BgACy7QjCPrO0BKzkYTwS+L722fOzIWCqGJQHY79l?=
+ =?us-ascii?Q?eJgrsAkk955HnXWAOkEN6G5bOdBpxveePN8YedOt/kjTHpFvdZ6n2Ff/dSVZ?=
+ =?us-ascii?Q?jQtVqa15XuaZFSoLPL1R38qGEwEXVEqg3s1+YmT0NCYgN1PMKzMlMnlc+EZ4?=
+ =?us-ascii?Q?Z3GQxlnRIKwnr59KHYbmOyT8BnybOSfrJuoh6dRjXdYKFVbe8pvEGI7wSx6N?=
+ =?us-ascii?Q?m/H4VzJNs3sXYO0kdBGIKUfFfKywxg5/qf6V68aFE8fpGQhF1WRbCbLRq09J?=
+ =?us-ascii?Q?80OBjY6dhzt4gc/BRadsdvtlV9F35Fg4tqvdNmeITGvdUYPm4zEEPLH4jbaf?=
+ =?us-ascii?Q?6tPwr+xiMaLe7ZFLT/u4f83fEMGT2Ia1YJb25Zq/jQy1l+FbmjrhQqPh/m1J?=
+ =?us-ascii?Q?DT3TS1yhNNmj34F+P5cdQwYhm92Kiio3c7eJlGifacPhc66/3xxvTUK/ZPmt?=
+ =?us-ascii?Q?palJvobU3erFNS8eRa04hWbbIdqt5dvsEz8sQmpGhdO3cV56hkPhUAAK2wk+?=
+ =?us-ascii?Q?Wz1KiOqbO2hd4iUwmLElMG+SfPnXXOCwXq9PGgpu5wqlNjqhpA1NexZHy6Bn?=
+ =?us-ascii?Q?x2GrgeAzJQFv9jq/t8ZPhy1t4ISx0Wy1RCmKICd38/1eAb2KXJPM9xFkhIcs?=
+ =?us-ascii?Q?AVPq+aR6OYlFChN97zmwyyoK21MDc07XsjnM90Buco3fKp0A6/Gq+Vaymqt9?=
+ =?us-ascii?Q?OgxVXEpZ8jTRXWjhBzvC7dZpU0vpwbceJK5nEmGK/tbTZIQUZ0ImOvyLXWP5?=
+ =?us-ascii?Q?3mQi0i6yUCr7OOxrnbxvqU8AD5fRBBeTpnzIteRP?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e76da41d-452a-4458-1d3c-08db89e84fa2
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2023 12:45:06.6231 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4HAzXkBz8rM/EKZM6HwHhZj274gX/pg0ltSdzsO6lQf45vtleC37JUE9nPJszB3vQb54+jCkq/DFS7+FltelNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8645
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,99 +115,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
- Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- christian.koenig@amd.com, Jack Zhu <jack.zhu@starfivetech.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Sandor.yu@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Keith,
-On Fri, Jul 21, 2023 at 07:57:24PM +0800, Keith Zhao wrote:
-> >> +
-> >> +struct vs_crtc_funcs {
-> >> +    void (*enable)(struct device *dev, struct drm_crtc *crtc);
-> >> +    void (*disable)(struct device *dev, struct drm_crtc *crtc);
-> >> +    bool (*mode_fixup)(struct device *dev,
-> >> +               const struct drm_display_mode *mode,
-> >> +               struct drm_display_mode *adjusted_mode);
-> >> +    void (*set_gamma)(struct device *dev, struct drm_crtc *crtc,
-> >> +              struct drm_color_lut *lut, unsigned int size);
-> >> +    void (*enable_gamma)(struct device *dev, struct drm_crtc *crtc,
-> >> +                 bool enable);
-> >> +    void (*enable_vblank)(struct device *dev, bool enable);
-> >> +    void (*commit)(struct device *dev);
-> >> +};
-> > 
-> > Why is this here? You are reproducing our interface with an internal interface. I know where this leads to: you have multiple chipset revisions and each has its own implemenation of these internal interfaces.
-> > 
-> > That will absolutely come back to haunt you in the long rung: the more chip revisions you support, the more obscure these internal interfaces and implentations become. And you won't be able to change these callbacks, as that affects all revisions. We've seen this with a few drivers. It will become unmaintainable.
-> > 
-> > A better approach is to treat DRM's atomic callback funcs and atomic helper funcs as your interface for each chip revision. So for each model, you implement a separate modesetting pipeline. When you add a new chip revision, you copy the previous chip's code into a new file and adopt it. If you find comon code among individual revisions, you can put it into a shared helper.  With this design, each chip revision stands on its own.
-> > 
-> > I suggest to study the mgag200 driver. It detects the chip revision very early and builds a chip-specific modesetting pipline. Although each chip is handled separately, a lot of shared code is in helpers. So the size of the driver remains small.
-> > 
-> hi Thomas:
-> I'm trying to understand what you're thinking
+CEC interrupt status/mask and logical address registers
+will be reset when device enter suspend.
+It will cause cec fail to work after device resume.
+Add CEC suspend/resume functions, reinitialize logical address registers
+and restore interrupt status/mask registers after resume.
 
-I am not Thomas, but let me try to put a few words on this.
+Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-> 1. Different chip ids should have their own independent drm_dev, and should not be supported based on a same drm_dev.
-Yes, this part is correct understood.
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+index 9389ce526eb13..be21c11de1f2a 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+@@ -62,6 +62,10 @@ struct dw_hdmi_cec {
+ 	bool rx_done;
+ 	struct cec_notifier *notify;
+ 	int irq;
++
++	u8 regs_polarity;
++	u8 regs_mask;
++	u8 regs_mute_stat0;
+ };
+ 
+ static void dw_hdmi_write(struct dw_hdmi_cec *cec, u8 val, int offset)
+@@ -304,11 +308,44 @@ static void dw_hdmi_cec_remove(struct platform_device *pdev)
+ 	cec_unregister_adapter(cec->adap);
+ }
+ 
++static int __maybe_unused dw_hdmi_cec_resume(struct device *dev)
++{
++	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
++
++	/* Restore logical address */
++	dw_hdmi_write(cec, cec->addresses & 255, HDMI_CEC_ADDR_L);
++	dw_hdmi_write(cec, cec->addresses >> 8, HDMI_CEC_ADDR_H);
++
++	/* Restore interrupt status/mask registers */
++	dw_hdmi_write(cec, cec->regs_polarity, HDMI_CEC_POLARITY);
++	dw_hdmi_write(cec, cec->regs_mask, HDMI_CEC_MASK);
++	dw_hdmi_write(cec, cec->regs_mute_stat0, HDMI_IH_MUTE_CEC_STAT0);
++
++	return 0;
++}
++
++static int __maybe_unused dw_hdmi_cec_suspend(struct device *dev)
++{
++	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
++
++	/* store interrupt status/mask registers */
++	 cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
++	 cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
++	 cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
++
++	return 0;
++}
++
++static const struct dev_pm_ops dw_hdmi_cec_pm = {
++	SET_SYSTEM_SLEEP_PM_OPS(dw_hdmi_cec_suspend, dw_hdmi_cec_resume)
++};
++
+ static struct platform_driver dw_hdmi_cec_driver = {
+ 	.probe	= dw_hdmi_cec_probe,
+ 	.remove_new = dw_hdmi_cec_remove,
+ 	.driver = {
+ 		.name = "dw-hdmi-cec",
++		.pm = &dw_hdmi_cec_pm,
+ 	},
+ };
+ module_platform_driver(dw_hdmi_cec_driver);
+-- 
+2.34.1
 
-> 2. diff chip id , for example dc8200 , dc9000,
-> 
-> struct vs_crtc_funcs {
-> 	void (*enable)(struct device *dev, struct drm_crtc *crtc);
-> 	void (*disable)(struct device *dev, struct drm_crtc *crtc);
-> 	bool (*mode_fixup)(struct device *dev,
-> 			   const struct drm_display_mode *mode,
-> 			   struct drm_display_mode *adjusted_mode);
-> 	void (*set_gamma)(struct device *dev, struct drm_crtc *crtc,
-> 			  struct drm_color_lut *lut, unsigned int size);
-> 	void (*enable_gamma)(struct device *dev, struct drm_crtc *crtc,
-> 			     bool enable);
-> 	void (*enable_vblank)(struct device *dev, bool enable);
-> 	void (*commit)(struct device *dev);
-> };
-No - the idea is that you populate crtc_funcs direct.
-Drop struct vs_crtc_funcs - just fill out your own crtc_funcs structure.
-
-If it turns out that most of the crtc operations are the same then share
-them. Avoid the extra layer of indirection that you have with struct vs_crtc_funcs
-as this is not needed when you use the pattern described by Thomas.
-
-
-> static const struct vs_crtc_funcs vs_dc8200_crtc_funcs = {...}
-> static const struct vs_crtc_funcs vs_dc9200_crtc_funcs = {...}
-> 
-> struct vs_drm_private {
-> 	struct drm_device base;
-> 	struct device *dma_dev;
-> 	struct iommu_domain *domain;
-> 	unsigned int pitch_alignment;
-
-This parts looks fine.
-
-> 
-> 	const struct vs_crtc_funcs *funcs;
-No, here you need a pointer to struct crtc_funcs or a struct that embeds
-crtc_funcs.
-> };
-
-If you, after reading this, thinks you need struct vs_crtc_funcs, then
-try to take an extra look at mgag200. It is not needed.
-
-I hope this helps.
-
-	Sam
