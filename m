@@ -2,138 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F375F75CC9A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 17:51:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06EB75CCAB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 17:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 477CD10E6B2;
-	Fri, 21 Jul 2023 15:51:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0E410E6B1;
+	Fri, 21 Jul 2023 15:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E2010E6B3;
- Fri, 21 Jul 2023 15:51:40 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC3A10E6B1;
+ Fri, 21 Jul 2023 15:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689954700; x=1721490700;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=BlR3z2H7TwcnJBA0DxiA9tHFljcrpWfEb6lHHNPfVOg=;
- b=lCigV5g60GRuqHpubcz3vkEiU/mTE9yFlLTO842G721dr2zZMnL6Jf2Z
- 3bUR5ASHvjl7pX6ulTqNcdoePuX4adtywQoQDSIYma2CIYPSIEsUoa6Yh
- Fk5luUgX6vFZG0GNglv1gMWM4ITi5MGB0NhrF0AhFSPvDHvs4/cgTa+0R
- xaVrIbtQhHPWDEQYw94kF+ueLxz/oyLfTCp593/YjIx/QXFKn1ECxNoco
- /Pjr/WSjNW7jt1rRt0AnIWkw9sXzNTOPG+1ZVedV/0DqS8Ar+T5WxV2kJ
- z9Cr4c+9BpRm9bYvUEm8IlFLWEe+sHrGX5qS7ap1zpPSOY5L5j4+6hSi0 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="453428992"
-X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="453428992"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2023 08:51:40 -0700
+ t=1689954812; x=1721490812;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=m0Ty5uMs1TjO4tXq8y8eCgyYHXZyQfEyhPZaRT37rAQ=;
+ b=AZPqAnFqN/cgUwd8GhnuPvIVbshmcUJx1+6i+pltcDqQExw4a0SLjtlg
+ IwyYTVVOtVDP5TGuHF+PxLgonSnIhRY21aAVOkytsx/vqAhPUCisTZUNl
+ uJLv4KavNpjODp6nZUwuTji/tdyXc+qxgFrO/5YWwaGZH56h+hRHzrBie
+ NfRZ8uQpaFdmLhW3vyZtPG10W0Yf0kqflWiSWFpC+kSX4+bHy2pZMCH5E
+ CS+O4jwsrJJcpIazlB0/tH9CWZk+XUKWPYzAwHA4rkWOcmwEIkgEmZ8H0
+ gljP20M2QakHZF/s5GruHjrOuNRL+sDuZAfKNn58bAivzVk8Tt0pbOdP5 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="351931945"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="351931945"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 08:53:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="898748840"
-X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="898748840"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga005.jf.intel.com with ESMTP; 21 Jul 2023 08:51:40 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="838604819"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="838604819"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2023 08:53:31 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 21 Jul 2023 08:51:39 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.27; Fri, 21 Jul 2023 08:53:31 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 21 Jul 2023 08:51:39 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2507.27 via Frontend Transport; Fri, 21 Jul 2023 08:53:31 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 21 Jul 2023 08:51:39 -0700
+ 15.1.2507.27; Fri, 21 Jul 2023 08:53:31 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z+ljoqB8Z93GVEp94gIwIKLR42tMm6c3DjkpVGkSIrhJEx6a+tYMhB2Pi+Z0+D0K+60P15WgrgA+BNdtrdHIAcR8ERdoaplubuXGrdidx2Wlc0PWDpz1KWlPxc58X8s2YPM4sLJqDYalQ94iJ7yFQgjlej6LChNzXEHiOWdNab4hMVwRA5WVHszOP8U95ec2IMb2f0y4PIetouwzFef0LSlox36qVKUniF/JE5MBm4ZFspwOsWI0khE3k3rL9bISDXPdcZ7Yw/vebrsdbfco9ZCLdc9Acc28W01K5I9/X1TbbZJjK7zOnmjUkql30RM+P2BBY8o08YTWNcTLx+Ul1w==
+ b=Bh/XWj7l+7cSkwZzGG69FOJTZvfoMUUDygRxeBTQYWSwdhbec35lMT1de5x1Cgav2/6EVn60lvDDHNNDlvJOxGNzafg8gjbJzlc4945cJwMFdwnfSGKgjblWd2y5ZK4usa9SWX8mm5n28EYAN0ly1Fv5xINoLJRHnVub5shnBJshCBUrYEQxmP6fJ/2fFodgw84b6YQ91T9IJ8T9WfaAIkn1oKrK9RVtbNxNiH6hysWRVyuPw7OIvbZh+m9wqpdLVerA3bK3qH6tqOqHH28vRPbELta51eWD2OzfUmBO8k0l3zUba42oWgskfsdxBp0Akcc7AKsloKeB7wWb/f66FQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wdn3haKvGApRw/BT6q0GnAA8JiFfO2CPcA4ioDYRUxA=;
- b=cV4zvoXFcfw6wUb1Mwl8HTUuoUn7qbcleIlyMmuurEztcmopiYVAk8G4clHK7DUOouvDv7IApQ7w+wI+BMHFDmF4SPH/tSUNMD6amX/1mmmk45NhmY+N5BypduoDbwzsYkJQIC7k0Zvk5t6rJ1ddLWwKTWw4/+4Ki4MYA3h1l3oD+X+MTkWq8MGM4oSLB0t3lXS0l/Z2bMJ+BD7h9K/gtgjUNlzhcHGKsam2yPBWXeFvYT6uHCm+2xnV1pWe8x5+Gl2BU05VdfbYqgVgHToeNB+USFNYFn16nBw5KBxIpfRHkIZclaRXgHMD3sObnO4wtQQ3KmUg7Wv6kJrXMIdBXw==
+ bh=w6qeRaFKqrT1wGaViWO8/H/AX0p1+hqRpD4YYuyZVXw=;
+ b=Z87kGMOVLuNoSCjuOyL9WPHhLRvIT38q+ftIh8neB3L1tHtB0uwHDqkwjMID8vWZ0YSXzUEsG9kSa65qRiDqpwTWJL9PYCD8jaMyh+4Tk621quITXXvH+yj8bwWJ6VGqVNXY6UyGm/k4c9pOf4naeXbWRS8P2mPciP8QjMoY9Uh2DUl9NYpJGmYG1JEv6Uqew4g6nobZjgde8vSIWS+AkLgeM+YInz4/KpqFPPt9Nb6BVGuZ1vTApm24qc4WELOECPfUCQcL0jBoW8MK8B8uXRx1YMdb+7SQE4tloVKaMsrkO5NrzXMhD+7UQ37N5k8jZMTwjlNKpQOGKR/Ar7mOIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
- MN0PR11MB6112.namprd11.prod.outlook.com (2603:10b6:208:3cc::7) with
+Received: from DM4PR11MB5971.namprd11.prod.outlook.com (2603:10b6:8:5e::7) by
+ DS0PR11MB8207.namprd11.prod.outlook.com (2603:10b6:8:164::16) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6609.24; Fri, 21 Jul 2023 15:51:37 +0000
-Received: from DS7PR11MB7859.namprd11.prod.outlook.com
- ([fe80::de6b:b5a9:e542:b41]) by DS7PR11MB7859.namprd11.prod.outlook.com
- ([fe80::de6b:b5a9:e542:b41%5]) with mapi id 15.20.6609.024; Fri, 21 Jul 2023
- 15:51:37 +0000
-Date: Fri, 21 Jul 2023 08:51:34 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: "Yang, Fei" <fei.yang@intel.com>
-Subject: Re: [PATCH v3] drm/i915: Refactor PAT/object cache handling
-Message-ID: <20230721155134.GZ138014@mdroper-desk1.amr.corp.intel.com>
-References: <20230719123730.1094726-1-tvrtko.ursulin@linux.intel.com>
- <20230719223143.GP138014@mdroper-desk1.amr.corp.intel.com>
- <BYAPR11MB2567588886FB6EC3F357586B9A3EA@BYAPR11MB2567.namprd11.prod.outlook.com>
- <20230720002208.GU209733@mdroper-desk1.amr.corp.intel.com>
- <51198371-0943-e4fc-41d8-4c3ac07409cf@linux.intel.com>
- <BYAPR11MB2567836F0A56371CC86111739A3FA@BYAPR11MB2567.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <BYAPR11MB2567836F0A56371CC86111739A3FA@BYAPR11MB2567.namprd11.prod.outlook.com>
-X-ClientProxiedBy: SJ0PR03CA0237.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::32) To DS7PR11MB7859.namprd11.prod.outlook.com
- (2603:10b6:8:da::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|MN0PR11MB6112:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b1aae49-c906-4c18-0c34-08db8a025dde
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aVycLuwXf74OKOQVOrzGIrBgJ3vKX1onvAiFRwxQXzqCcohB9z1CvDFJpHRiZcDVrFWjd3Y+Pav86RRvowcILVX68g2IzKatH2uoDo4c0+i+tWx3JK3O6g0mE/aGpKynnOWaESoj07zNJOijkglkUKSAdTD1cHOyqHZFfNnbX5H4SPdCGAEje0ti/dw0F3JB++5rWvzc0M91ij1OC4zwtSfG1X5wqSJtqOi3gNdwAEijXtuEpYgQ+xi0ghH+XJLEVZRe4rBBDQ/GgThMfzVU/IbpmmkCIBJM7sy2ykU1CLrSrBSBX4bNU55CiDGKAV2mnIRlGmAL+zfZyajB67ImYKJZb5k8gzt/hAANstqCSbr3+l0tnH/QwG5UB7AFGTszbVpYHejbwRTfmtW/VaydxwItpM40hai0n27mDtrSMGD7ThmBODTQaBNhLY+j90GmaFleZu7s/xUovtf7oZeyQR8f0R8tbQpe0h9cwVgSciAYbR7z3NLJsXpALsvyTfeSlFOpSf3R06t+LjpzvpuhAhzbPD8yu9OJrEgTAl6sYC9dtr792eI+xisqnuuwUbdj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(366004)(346002)(396003)(39860400002)(136003)(451199021)(6666004)(54906003)(478600001)(6512007)(6486002)(6506007)(26005)(186003)(1076003)(86362001)(6636002)(66946007)(66556008)(316002)(66476007)(8936002)(4326008)(6862004)(82960400001)(8676002)(38100700002)(5660300002)(2906002)(41300700001)(33656002)(83380400001);
+ 15.20.6609.24; Fri, 21 Jul 2023 15:53:29 +0000
+Received: from DM4PR11MB5971.namprd11.prod.outlook.com
+ ([fe80::8934:bc24:bf8a:2316]) by DM4PR11MB5971.namprd11.prod.outlook.com
+ ([fe80::8934:bc24:bf8a:2316%3]) with mapi id 15.20.6588.031; Fri, 21 Jul 2023
+ 15:53:29 +0000
+From: "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/i915: Use the i915_vma_flush_writes helper
+Thread-Topic: [PATCH] drm/i915: Use the i915_vma_flush_writes helper
+Thread-Index: AQHZu9Ric6UfZ2yq8U6V3Rby0fqv9a/EXulw
+Date: Fri, 21 Jul 2023 15:53:29 +0000
+Message-ID: <DM4PR11MB59719ED1F73A13854954AF05873FA@DM4PR11MB5971.namprd11.prod.outlook.com>
+References: <20230721130741.1306563-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20230721130741.1306563-1-tvrtko.ursulin@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5971:EE_|DS0PR11MB8207:EE_
+x-ms-office365-filtering-correlation-id: 632cd155-8533-471f-f278-08db8a02a0aa
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OvCnuiVv1IJmRZtvYvwGQGLbiP8Uee+b9vNXgzRe63MqBkMjcfqUjlz9v/FPWgiv8aS2fNIsZoLGx2AoqmmPzxraxUtbAQVupWE6HOTqpKeSNiLJM45r38HNkzXDvPyGdvQdcoLvRsBvDzSKPlAepR/mVL2w2yr1Ad1JycT4soSH3SNDsmr5icIKBRxd4ztFOL0gUZGqX6NkYC4Q/VV5otJaKzlHTdEFRDmr/rd7dpk69s7EBxmsSOy1759wo7sIXCeEVBAOuZLUQ+zayUwadbJwk0Y9X5kXzz65ou1Jp7dXlFyA5Gq7Bimpx/6z9JCRkmB5X/YeaC9nDuTAzkg0ZwCJYfVVPPIEQUYPNqO1zMotvHNGo+DajPAOUm3KyhqWINITI1Z5JjkM1ypO3t0Kfpn0aPZWprdgw3tAjDNLascs2ve7yeZyHkKCW7BQwP0gvKNiJXRafv+sZfgZIY0pLzaSQg2YYYxr+J7nNCE1dAuKY8+ZzULwhg9p3VzbvSdL9Cg8IoSViB5dOq+l5iYhroh1aGY7DxCve4EDO4Duwi3IyzK4Kw/cGmzotPJ2yosaFYJeLRZe102vi0Zq6A5p36UYJASQayQph4iea+MK7FGzXr/BXIn00ztRjq7RIzbe
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5971.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(396003)(366004)(346002)(39860400002)(136003)(451199021)(5660300002)(52536014)(38070700005)(66946007)(76116006)(66556008)(4326008)(66446008)(64756008)(66476007)(41300700001)(8936002)(8676002)(316002)(86362001)(33656002)(2906002)(55016003)(71200400001)(478600001)(7696005)(186003)(6506007)(53546011)(26005)(9686003)(122000001)(110136005)(38100700002)(83380400001)(82960400001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?D053okoVguT0HRgKWbbQklrbAd1jDN0vLRj5TYpKG62NSsxnuJUCjl1TPoJD?=
- =?us-ascii?Q?Jhst40ehF4q2ss4jEsno2QsCBfnjNQ++1M5hjihWZB2Ad428Neb/9SUpMjuq?=
- =?us-ascii?Q?jY12RAQBnlLtb+DOAEclpOiCzF2XgTOmXi5/uuOR7BJxm84oM2VNG513xePH?=
- =?us-ascii?Q?Mgqv0VKwsFKg0cW7yfzJSxIdt8mdXmXMBqLawE1wRoqrq7FD15e9mpiiDhvu?=
- =?us-ascii?Q?KdPhJ/ntAKS3V31hE2gjpKzCmgrpf9u6Xyxwkcj+MvmI/6yJE9o3E3taneUY?=
- =?us-ascii?Q?wPv9WiAgkhuc56teqsYaYm10sIUUAOREHtGo5CgOmDCjprxECkKhH27MrxOc?=
- =?us-ascii?Q?YqnU0swRFf4jE5YPySoNCDa5spHJTgLuDviDi4ZsBuQes11hva5QcUDLwA5t?=
- =?us-ascii?Q?zjwfx8ElfX26MJ7Ylr34c5kYL2tfuCTo0jKa3DaXbL6q7/glc8JDypyqXr+m?=
- =?us-ascii?Q?N0BdnafJJmLjURjUJMss4OYJ9vfcuAezEP2Xh4yc9Ws8sh6D2sXGlM5KrEAM?=
- =?us-ascii?Q?kdOKLlrJ+SzhFjdEi8azgQodOV5iiVsABpWYT3JkS5A2kyxcVhX7XnXK6scH?=
- =?us-ascii?Q?RtOx7bF9xtGpgAS0KpzD+Hbc4HqzkYcj9Yko4wpNlZcYz5XOrobEvDREyKhg?=
- =?us-ascii?Q?d9VsGDxng3AoZcYmmqiGfTHRn1nS3wyknT97zCLnTuXBGxouGEW/9xEi99RF?=
- =?us-ascii?Q?vmdVCYv4ehbw9YR0HiSi8cURjwMffYZ6vPeTtLCyKn9vBreDOj8z7LN9ph3b?=
- =?us-ascii?Q?v+YwhVddyzJG042w1PDm2LdVwS1u4GlW3OxzGTlcr1CVxB3eYe42ykpaKoPr?=
- =?us-ascii?Q?58NzzepJPnGQUFs9DWhguFadahEFL24swN6RE0ZUT2QxIE5LLHFuIR4JZzYY?=
- =?us-ascii?Q?e8PvIYOp9tNHM6d5CAJuJTNlHn7IrHWdwyg/pwvJ/P1fqQyqd8Dnx+uleyV/?=
- =?us-ascii?Q?Rfw6971QMzSzM/CuFYTDQg4+Nw5Co/is1vqyh+75J6Td4DO+8B6KbjrmJMtE?=
- =?us-ascii?Q?x0hD2/4DJDhrYN4OdntK7vrmopNGLoe8EEy0kEeGznNyQc2C0mywiylbC+Vk?=
- =?us-ascii?Q?m0EhRxKBNT+iYnautjXYuk56h+npKtCEQT2Eb5WQ3Lt2DGAfXnBRs01O1+mj?=
- =?us-ascii?Q?uvXw+spj1Y9pp6G9xGYB1ZZmH7KBHFUhchbvnQsmneeJGRRD6FTcE9UmTaJC?=
- =?us-ascii?Q?V9GnKdW1fhgwzMP6/DNMKQbSpIoUV91wyGw16Y30LJREVxpfkxAL0ry8pkpj?=
- =?us-ascii?Q?ZqLzH9HHhJ3hXZ+Eo84gup0uaFvJ7mS2ANBKYoOVfM8R9oEvlAzOIJ9SoSB1?=
- =?us-ascii?Q?ZPLb/FJ+umZWJ8w3mnB++vYN7OYPeEMaWUgG2iF1hdIF3xFSYwUZ9fHFz3Qm?=
- =?us-ascii?Q?RpEONgctcTs+42JX/Xbi5KqxS7WXNH8fv7wQ2znnINmcMyXN1LBRzipAZH0u?=
- =?us-ascii?Q?IQiHieJGG4XXpDjdteZWRmS/cD8cNviU4sG0SpF12AXyWCJgIbhCDxK0oPAa?=
- =?us-ascii?Q?IGOZwvXikTcHmegLVTpfWUlE8/0Ak60CnDJk6X9ofDUu3JL/OlF4jIQSL9xe?=
- =?us-ascii?Q?llO0A7217boqhgNPQpvrH/4iro0WPLg+iw66+KFa84kJHCrj8nuDHnPyzECr?=
- =?us-ascii?Q?dw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b1aae49-c906-4c18-0c34-08db8a025dde
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z4trq1UCm2oKibL+SuE7Oo5ZdtHRtrnLXoPng2/1dRZ7f2iDxy7zKgD3OIt3?=
+ =?us-ascii?Q?QQOaMxWrYTB1posfdvwpKetM7iNWHgxtvdUr9Dc+/lu/TLkruMSCZjUDefQ/?=
+ =?us-ascii?Q?ABy/QPIWXByZliUeYar/cYkChjlAGt1YTlji6Yd86oDAkcGOOkIduuqh9NG1?=
+ =?us-ascii?Q?Zv5EUiq1tAJhnej7cjsNssYuNLK5rnouGyRkhihiLgx4OIIaJwNgGn2pcqZJ?=
+ =?us-ascii?Q?A37hnXTQym081hfQIeUY+6HdkZq8b5REurxzm2r9aptpsnjRHB1PEZzUEb0/?=
+ =?us-ascii?Q?aJubEpmonY4wZLVUC6ECDgEkf5TxVIjiIQGa5+b5T1LptulJaYxFDrjd/Cev?=
+ =?us-ascii?Q?7kw0I0218/RIo4EX3Kbb8PXCGyIuxQSeyIQlFPsujvTNUI++H+FLK+IdI6Bu?=
+ =?us-ascii?Q?ZRsFcb0yGOq2KCwzSJCKrrtrnN7jTZg3WyIs5qmxVg7ELZ50LtMuEqDsYZtI?=
+ =?us-ascii?Q?J1bjRayKkfA2GKcEvpw9EH0/2biRlqLRxAjzYkY8y0weHZJ52vDYAaWaPLv2?=
+ =?us-ascii?Q?EF4Kbr80otpu0TYOlnkHOnNJu6z6Ajfo3mh/IszF90mYJ46BEtM1Fj+5uneH?=
+ =?us-ascii?Q?ee/7KwUTS78xvM7C3Yg/3/R7YsgllafhrTgL0uSx2SuCGkhDcfiZ+4JipARj?=
+ =?us-ascii?Q?eylZ39OefDmwhigDfjiAU62l8+2t6XPVe6vxXsnCMAaC1SUSK+HTslNRAx1K?=
+ =?us-ascii?Q?80bZmtt28ctq/Yfkjs45/9LSEVLtc3m/gtukgW/BXWFYF49y9c/Y3kovb9Vt?=
+ =?us-ascii?Q?h8txI0TvVs7aLZFh8d+T2Dge+jjDKuX3FkfqCu+karoiKNtrQg1YHe1KjgOb?=
+ =?us-ascii?Q?9nHGRy+oOZ1H7/Z6hAnSVLL6QGa48wpym814EGCWG756RbGB41tI6PtoTb7X?=
+ =?us-ascii?Q?jt1p7QWy7VrHPrAqhwpR6x0KXPSy2q2lfxgEfYYs/feZlAhyEl+BqUjflEfV?=
+ =?us-ascii?Q?9cHRuHjG/v5wVo93W1pDPVSa2NR7P/HWs11GxE7WSPvm4U3G6Qc5JsXYWrfB?=
+ =?us-ascii?Q?yNyDwv4+OA1dVqz7NWFKS+DD474c5SiblO6LD69Nf5p2cOg7Lo2ZzY+lDiig?=
+ =?us-ascii?Q?13pf+HTrVUMui8EucU571dOdDDpjCOKuFPxfTjk5vm+BzL+Vc6Qe/bKCcRMh?=
+ =?us-ascii?Q?4a2jZC6H8uuw5uc9QUwvcSaZskIwZGoobBKXymRhi+kxWOdKjchKsM7ICU3Q?=
+ =?us-ascii?Q?DOgZZJ9e4MkQchdUmHBFdmp3mvU+PVAdY77jk0jl8Gy63KRDyXIRQktiENAs?=
+ =?us-ascii?Q?8Qmezp8KgJN2qgLMjYfTi+3nmi7hwwZDk5Q/xFeuXK+mJCZqsiTSqH6rVHmb?=
+ =?us-ascii?Q?SPiBgicswMQHKSPDB1mhZg3sTdvHCqjZ6S3tpYCQTjQ6+yuDR90xckxWxVUJ?=
+ =?us-ascii?Q?PD0DhvJDekCPxRzqNYuHevdUvHSKGHNI5Rpqt0NOuFBTtOA90aaRPSnLA0T4?=
+ =?us-ascii?Q?jg7adFz3sxopyUHVYMd+9aNY8KGFNH86Kx70jnxbuQtRqKal3XnPKQlQ57p1?=
+ =?us-ascii?Q?u5LZy2Lp44/CKvfkdCr3xpAV405Xx3cWjwpUrdatAkk0OYQ/IAWxh5nuLncW?=
+ =?us-ascii?Q?aPNNwaqlzBltid5Gl9MrRNarXfFBnwkwK2YAsLQwbcP1B6LTcQNCeoV91tTz?=
+ =?us-ascii?Q?QQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2023 15:51:37.4952 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dMps4kYCnt6teWqIaFNeY74n7JPIyP03SbtG3TDjKaVaK1An7fesZv64BQfWpKsePE0VvVp6ShrJP4qJbjOIQY5FhOpTXk/G8E6TBGUsuJ8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6112
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5971.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 632cd155-8533-471f-f278-08db8a02a0aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2023 15:53:29.3006 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: puswAyAZiBWtqhQqgRY9KJuejLBJLjMUlgatNtIHmOJm62y3PqvXlkKMhBAMqqGWttSK4CaaVjn4I/oOHxkuKuVPzc4xYtB4bNnArRQsjmo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8207
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -147,147 +147,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>,
- "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 20, 2023 at 09:28:56PM -0700, Yang, Fei wrote:
-> >>> [snip]
-> >>>>> @@ -27,15 +28,8 @@ static bool gpu_write_needs_clflush(struct
-> >>>>> drm_i915_gem_object *obj)
-> >>>>
-> >>>> The code change here looks accurate, but while we're here, I have a
-> >>>> side question about this function in general...it was originally
-> >>>> introduced in commit 48004881f693 ("drm/i915: Mark CPU cache as
-> >>>> dirty when used for
-> >>>> rendering") which states that GPU rendering ends up in the CPU cache
-> >>>> (and thus needs a clflush later to make sure it lands in memory).
-> >>>> That makes sense to me for LLC platforms, but is it really true for
-> >>>> non-LLC snooping platforms (like MTL) as the commit states?
-> >>>
-> >>> For non-LLC platforms objects can be set to 1-way coherent which
-> >>> means GPU rendering ending up in CPU cache as well, so for non-LLC
-> >>> platform the logic here should be checking 1-way coherent flag.
-> >>
-> >> That's the part that I'm questioning (and not just for MTL, but for
-> >> all of our other non-LLC platforms too).  Just because there's
-> >> coherency doesn't mean that device writes landed in the CPU cache.
-> >> Coherency is also achieved if device writes invalidate the contents of the CPU cache.
-> >> I thought our non-LLC snooping platforms were coherent due to
-> >> write-invalidate rather than write-update, but I can't find it
-> >> specifically documented anywhere at the moment.  If write-invalidate
-> >> was used, then there shouldn't be a need for a later clflush either.
-> >
-> > [Trying to consolidate by doing a combined reply to the discussion so far.]
-> >
-> > On the write-invalidate vs write-update I don't know. If you did not
-> > find it in bspec then I doubt I would. I can have a browse still.
-> 
-> Matt was correct. Quote Ron Silvas from SW ARCH, "MTL GPU doesn't write to
-> CPU cache, it simply snoop CPU cache on its way to RAM."
-
-That's good to know.  We probably also want to find out if the same is
-true for old snooping platforms (i.e., things like VLV/CHV/BXT) and/or
-dgpu's (where I think the behavior is probably defined by the pcie spec,
-but I'm not sure where to look for that).
-
-> 
-> >>>> My understanding
-> >>>> was that snooping platforms just invalidated the CPU cache to
-> >>>> prevent future CPU reads from seeing stale data but didn't actually
-> >>>> stick any new data in there?  Am I off track or is the original
-> >>>> logic of this function not quite right?
-> >>>>
-> >>>> Anyway, even if the logic of this function is wrong, it's a mistake
-> >>>> that would only hurt performance
-> >>>
-> >>> Yes, this logic will introduce performance impact because it's
-> >>> missing the checking for obj->pat_set_by_user. For objects with
-> >>> pat_set_by_user==true, even if the object is snooping or 1-way
-> >>> coherent, we don't want to enforce a clflush here since the
-> >>> coherency is supposed to be handled by user space.
-> >
-> > What should I add you think to fix it?
-> 
-> I think the simplest would be
-> 
->         if (obj->pat_set_by_user)
->                 return false;
-> 
-> because even checking for incoherent WB is unnecessary, simply no
-> need for the KMD to initiate a flush if PAT is set by user.
-
-I guess one thing we're missing today is a well-documented explanation
-of the expectations for i915_gem_set_domain_ioctl behavior when we're
-using a user-defined PAT?
 
 
-Matt
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Tv=
+rtko
+> Ursulin
+> Sent: Friday, July 21, 2023 6:08 AM
+> To: Intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: Ursulin, Tvrtko <tvrtko.ursulin@intel.com>
+> Subject: [PATCH] drm/i915: Use the i915_vma_flush_writes helper
+>=20
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>=20
+> We can use the existing helper in flush_write_domain() and save some line=
+s
+> of code.
+>=20
+LGTM,
+Radhakrishna Sripada <radhakrishna.sripada@intel.com>
 
-> 
-> > Add a check for non-coherent WB in gpu_write_needs_clflush as an additional condition for returning false?
-> >
-> > And then if Matt is correct write-invalidate is used also !HAS_LLC should just return false?
-> >
-> >>>> (flushing more often than we truly need to) rather than
-> >>>> functionality, so not something we really need to dig into right now
-> >>>> as part of this patch.
-> >>>>
-> >>>>>       if (IS_DGFX(i915))
-> >>>>>               return false;
-> >>>>>
-> >>>>> -    /*
-> >>>>> -     * For objects created by userspace through GEM_CREATE with pat_index
-> >>>>> -     * set by set_pat extension, i915_gem_object_has_cache_level() will
-> >>>>> -     * always return true, because the coherency of such object is managed
-> >>>>> -     * by userspace. Othereise the call here would fall back to checking
-> >>>>> -     * whether the object is un-cached or write-through.
-> >>>>> -     */
-> >>>>> -    return !(i915_gem_object_has_cache_level(obj, I915_CACHE_NONE) ||
-> >>>>> -             i915_gem_object_has_cache_level(obj, I915_CACHE_WT));
-> >>>>> +    return i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_UC) != 1 &&
-> >>>>> +           i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_WT) != 1;
-> >>>>>   }
-> >>>
-> >>> [snip]
-> >>>>> @@ -640,15 +640,9 @@ static inline int use_cpu_reloc(const struct reloc_cache *cache,
-> >>>>>       if (DBG_FORCE_RELOC == FORCE_GTT_RELOC)
-> >>>>>               return false;
-> >>>>>
-> >>>>> -    /*
-> >>>>> -     * For objects created by userspace through GEM_CREATE with pat_index
-> >>>>> -     * set by set_pat extension, i915_gem_object_has_cache_level() always
-> >>>>> -     * return true, otherwise the call would fall back to checking whether
-> >>>>> -     * the object is un-cached.
-> >>>>> -     */
-> >>>>>       return (cache->has_llc ||
-> >>>>>               obj->cache_dirty ||
-> >>>>> -            !i915_gem_object_has_cache_level(obj, I915_CACHE_NONE));
-> >>>>> +            i915_gem_object_has_cache_mode(obj,
-> >>>>> + I915_CACHE_MODE_UC) != 1);
-> >>>>
-> >>>> Platforms with relocations and platforms with user-specified PAT
-> >>>> have no overlap, right?  So a -1 return should be impossible here
-> >>>> and this is one case where we could just treat the return value as
-> >>>> a boolean, right?
-> >>>
-> >
-> > Hm no, or maybe. My thinking behind tri-state is to allow a safe option
-> > for "don't know". In case PAT index to cache mode table is not fully
-> > populated on some future platform.
-> 
-> That would be a problem in the cache mode table. At least max_pat_index
-> should have guaranteed the PAT index is sane.
-> 
-> -Fei
+--Radhakrishna(RK) Sripada
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_domain.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> index dfaaa8b66ac3..ffddec1d2a76 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> @@ -68,10 +68,8 @@ flush_write_domain(struct drm_i915_gem_object *obj,
+> unsigned int flush_domains)
+>  	switch (obj->write_domain) {
+>  	case I915_GEM_DOMAIN_GTT:
+>  		spin_lock(&obj->vma.lock);
+> -		for_each_ggtt_vma(vma, obj) {
+> -			if (i915_vma_unset_ggtt_write(vma))
+> -				intel_gt_flush_ggtt_writes(vma->vm->gt);
+> -		}
+> +		for_each_ggtt_vma(vma, obj)
+> +			i915_vma_flush_writes(vma);
+>  		spin_unlock(&obj->vma.lock);
+>=20
+>  		i915_gem_object_flush_frontbuffer(obj, ORIGIN_CPU);
+> --
+> 2.39.2
 
--- 
-Matt Roper
-Graphics Software Engineer
-Linux GPU Platform Enablement
-Intel Corporation
