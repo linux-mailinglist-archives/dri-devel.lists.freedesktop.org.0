@@ -1,39 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B8F75CDB3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:14:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3045C75CE95
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:21:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984EB10E6BC;
-	Fri, 21 Jul 2023 16:13:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C715D10E6BF;
+	Fri, 21 Jul 2023 16:21:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EDCA10E6BC;
- Fri, 21 Jul 2023 16:13:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4546110E6BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 16:21:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 763FA61D2B;
- Fri, 21 Jul 2023 16:13:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D258C433C7;
- Fri, 21 Jul 2023 16:13:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 996E761CF4;
+ Fri, 21 Jul 2023 16:21:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A88F8C433C8;
+ Fri, 21 Jul 2023 16:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1689956035;
- bh=qbnodRkJmbR4UceeOvYhu4OqsChhMCKncTD483gVVBA=;
+ s=korg; t=1689956493;
+ bh=3JP2PPgNam4Rbk6weOxxRG79dW7F7oiC6ZvU1qqU8iw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BKJQdgm6wWlvcl36q2AvT84cIFnAUmjcnX4iS32xI7tdvu4zJMBAcEPxfFfxUdInz
- TpczzgeEZKj67r4k9VYV3PO8lnYYYZYB3xl121za9h/+UVs+GJPi99z8tcYSbBulIS
- LXvvVCbqmq0JpUAqgBi1uDfSvY6nKHPmGEPVNLpc=
+ b=2bCxYAp8rRmcW0ePe3hIeOXIFPPXLl+Ywx6tCoIDVyohhu/GF/XNmc0RqKNfo4D+k
+ lrxPSVWaC2boKAnSgHFSEJuRTQYuge3ImVy0tQZpDFWYu8Gi4e/OgKsDqAn3oL4bhr
+ d3+Ia+BI3rPPGH8GubVg09YC2wHxINeIoPO9MTdY=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.4 111/292] drm/client: Send hotplug event after registering
- a client
-Date: Fri, 21 Jul 2023 18:03:40 +0200
-Message-ID: <20230721160533.588771953@linuxfoundation.org>
+Subject: [PATCH 6.4 211/292] drm/ttm: Dont leak a resource on eviction error
+Date: Fri, 21 Jul 2023 18:05:20 +0200
+Message-ID: <20230721160537.940301209@linuxfoundation.org>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230721160528.800311148@linuxfoundation.org>
 References: <20230721160528.800311148@linuxfoundation.org>
@@ -53,275 +51,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- Thierry Reding <thierry.reding@gmail.com>, amd-gfx@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>, freedreno@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Kyungmin Park <kyungmin.park@samsung.com>, Paul Schyska <pschyska@gmail.com>,
- Torsten Krah <krah.tm@gmail.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, linux-tegra@vger.kernel.org,
- Mikko Perttunen <mperttunen@nvidia.com>, linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- patches@lists.linux.dev, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Moritz Duge <MoritzDuge@kolahilft.de>,
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-commit 27655b9bb9f0d9c32b8de8bec649b676898c52d5 upstream.
+commit e8188c461ee015ba0b9ab2fc82dbd5ebca5a5532 upstream.
 
-Generate a hotplug event after registering a client to allow the
-client to configure its display. Remove the hotplug calls from the
-existing clients for fbdev emulation. This change fixes a concurrency
-bug between registering a client and receiving events from the DRM
-core. The bug is present in the fbdev emulation of all drivers.
+On eviction errors other than -EMULTIHOP we were leaking a resource.
+Fix.
 
-The fbdev emulation currently generates a hotplug event before
-registering the client to the device. For each new output, the DRM
-core sends an additional hotplug event to each registered client.
+v2:
+- Avoid yet another goto (Andi Shyti)
 
-If the DRM core detects first output between sending the artificial
-hotplug and registering the device, the output's hotplug event gets
-lost. If this is the first output, the fbdev console display remains
-dark. This has been observed with amdgpu and fbdev-generic.
-
-Fix this by adding hotplug generation directly to the client's
-register helper drm_client_register(). Registering the client and
-receiving events are serialized by struct drm_device.clientlist_mutex.
-So an output is either configured by the initial hotplug event, or
-the client has already been registered.
-
-The bug was originally added in commit 6e3f17ee73f7 ("drm/fb-helper:
-generic: Call drm_client_add() after setup is done"), in which adding
-a client and receiving a hotplug event switched order. It was hidden,
-as most hardware and drivers have at least on static output configured.
-Other drivers didn't use the internal DRM client or still had struct
-drm_mode_config_funcs.output_poll_changed set. That callback handled
-hotplug events as well. After not setting the callback in amdgpu in
-commit 0e3172bac3f4 ("drm/amdgpu: Don't set struct
-drm_driver.output_poll_changed"), amdgpu did not show a framebuffer
-console if output events got lost. The bug got copy-pasted from
-fbdev-generic into the other fbdev emulation.
-
-Reported-by: Moritz Duge <MoritzDuge@kolahilft.de>
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/2649
-Fixes: 6e3f17ee73f7 ("drm/fb-helper: generic: Call drm_client_add() after setup is done")
-Fixes: 8ab59da26bc0 ("drm/fb-helper: Move generic fbdev emulation into separate source file")
-Fixes: b79fe9abd58b ("drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers")
-Fixes: 63c381552f69 ("drm/armada: Implement fbdev emulation as in-kernel client")
-Fixes: 49953b70e7d3 ("drm/exynos: Implement fbdev emulation as in-kernel client")
-Fixes: 8f1aaccb04b7 ("drm/gma500: Implement client-based fbdev emulation")
-Fixes: 940b869c2f2f ("drm/msm: Implement fbdev emulation as in-kernel client")
-Fixes: 9e69bcd88e45 ("drm/omapdrm: Implement fbdev emulation as in-kernel client")
-Fixes: e317a69fe891 ("drm/radeon: Implement client-based fbdev emulation")
-Fixes: 71ec16f45ef8 ("drm/tegra: Implement fbdev emulation as in-kernel client")
-Fixes: 0e3172bac3f4 ("drm/amdgpu: Don't set struct drm_driver.output_poll_changed")
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Moritz Duge <MoritzDuge@kolahilft.de>
-Tested-by: Torsten Krah <krah.tm@gmail.com>
-Tested-by: Paul Schyska <pschyska@gmail.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Noralf Trønnes <noralf@tronnes.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Fixes: 403797925768 ("drm/ttm: Fix multihop assert on eviction.")
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org
-Cc: linux-tegra@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.2+
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm
-Link: https://patchwork.freedesktop.org/patch/msgid/20230710091029.27503-1-tzimmermann@suse.de
-[ Dropped changes to drivers/gpu/drm/armada/armada_fbdev.c as
-  174c3c38e3a2 drm/armada: Initialize fbdev DRM client
-  was introduced in 6.5-rc1 ]
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Cc: <stable@vger.kernel.org> # v5.15+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> #v1
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230626091450.14757-4-thomas.hellstrom@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/drm_client.c              |   21 +++++++++++++++++++++
- drivers/gpu/drm/drm_fbdev_dma.c           |    4 ----
- drivers/gpu/drm/drm_fbdev_generic.c       |    4 ----
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c |    4 ----
- drivers/gpu/drm/gma500/fbdev.c            |    4 ----
- drivers/gpu/drm/msm/msm_fbdev.c           |    4 ----
- drivers/gpu/drm/omapdrm/omap_fbdev.c      |    4 ----
- drivers/gpu/drm/radeon/radeon_fbdev.c     |    4 ----
- drivers/gpu/drm/tegra/fbdev.c             |    4 ----
- 9 files changed, 21 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c |   22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -122,13 +122,34 @@ EXPORT_SYMBOL(drm_client_init);
-  * drm_client_register() it is no longer permissible to call drm_client_release()
-  * directly (outside the unregister callback), instead cleanup will happen
-  * automatically on driver unload.
-+ *
-+ * Registering a client generates a hotplug event that allows the client
-+ * to set up its display from pre-existing outputs. The client must have
-+ * initialized its state to able to handle the hotplug event successfully.
-  */
- void drm_client_register(struct drm_client_dev *client)
- {
- 	struct drm_device *dev = client->dev;
-+	int ret;
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -458,18 +458,18 @@ static int ttm_bo_evict(struct ttm_buffe
+ 		goto out;
+ 	}
  
- 	mutex_lock(&dev->clientlist_mutex);
- 	list_add(&client->list, &dev->clientlist);
+-bounce:
+-	ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+-	if (ret == -EMULTIHOP) {
++	do {
++		ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
++		if (ret != -EMULTIHOP)
++			break;
 +
-+	if (client->funcs && client->funcs->hotplug) {
-+		/*
-+		 * Perform an initial hotplug event to pick up the
-+		 * display configuration for the client. This step
-+		 * has to be performed *after* registering the client
-+		 * in the list of clients, or a concurrent hotplug
-+		 * event might be lost; leaving the display off.
-+		 *
-+		 * Hold the clientlist_mutex as for a regular hotplug
-+		 * event.
-+		 */
-+		ret = client->funcs->hotplug(client);
-+		if (ret)
-+			drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
-+	}
- 	mutex_unlock(&dev->clientlist_mutex);
- }
- EXPORT_SYMBOL(drm_client_register);
---- a/drivers/gpu/drm/drm_fbdev_dma.c
-+++ b/drivers/gpu/drm/drm_fbdev_dma.c
-@@ -253,10 +253,6 @@ void drm_fbdev_dma_setup(struct drm_devi
- 		goto err_drm_client_init;
+ 		ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
+-		if (ret) {
+-			if (ret != -ERESTARTSYS && ret != -EINTR)
+-				pr_err("Buffer eviction failed\n");
+-			ttm_resource_free(bo, &evict_mem);
+-			goto out;
+-		}
+-		/* try and move to final place now. */
+-		goto bounce;
++	} while (!ret);
++
++	if (ret) {
++		ttm_resource_free(bo, &evict_mem);
++		if (ret != -ERESTARTSYS && ret != -EINTR)
++			pr_err("Buffer eviction failed\n");
  	}
- 
--	ret = drm_fbdev_dma_client_hotplug(&fb_helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&fb_helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -340,10 +340,6 @@ void drm_fbdev_generic_setup(struct drm_
- 		goto err_drm_client_init;
- 	}
- 
--	ret = drm_fbdev_generic_client_hotplug(&fb_helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&fb_helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -216,10 +216,6 @@ void exynos_drm_fbdev_setup(struct drm_d
- 	if (ret)
- 		goto err_drm_client_init;
- 
--	ret = exynos_drm_fbdev_client_hotplug(&fb_helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&fb_helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/gma500/fbdev.c
-+++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -330,10 +330,6 @@ void psb_fbdev_setup(struct drm_psb_priv
- 		goto err_drm_fb_helper_unprepare;
- 	}
- 
--	ret = psb_fbdev_client_hotplug(&fb_helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&fb_helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -227,10 +227,6 @@ void msm_fbdev_setup(struct drm_device *
- 		goto err_drm_fb_helper_unprepare;
- 	}
- 
--	ret = msm_fbdev_client_hotplug(&helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -323,10 +323,6 @@ void omap_fbdev_setup(struct drm_device
- 
- 	INIT_WORK(&fbdev->work, pan_worker);
- 
--	ret = omap_fbdev_client_hotplug(&helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/radeon/radeon_fbdev.c
-+++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
-@@ -386,10 +386,6 @@ void radeon_fbdev_setup(struct radeon_de
- 		goto err_drm_client_init;
- 	}
- 
--	ret = radeon_fbdev_client_hotplug(&fb_helper->client);
--	if (ret)
--		drm_dbg_kms(rdev->ddev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&fb_helper->client);
- 
- 	return;
---- a/drivers/gpu/drm/tegra/fbdev.c
-+++ b/drivers/gpu/drm/tegra/fbdev.c
-@@ -227,10 +227,6 @@ void tegra_fbdev_setup(struct drm_device
- 	if (ret)
- 		goto err_drm_client_init;
- 
--	ret = tegra_fbdev_client_hotplug(&helper->client);
--	if (ret)
--		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
--
- 	drm_client_register(&helper->client);
- 
- 	return;
+ out:
+ 	return ret;
 
 
