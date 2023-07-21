@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403A975D4A9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 21:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7637375D10A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 20:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36F4F10E6F9;
-	Fri, 21 Jul 2023 19:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B145410E6E1;
+	Fri, 21 Jul 2023 18:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D44F10E096
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 19:23:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6878461D6D;
- Fri, 21 Jul 2023 19:23:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796AAC433C8;
- Fri, 21 Jul 2023 19:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1689967414;
- bh=r/yunUah8Ljs3Y9mcKog0QBzxCbnsJ/eItw2VdlXAAI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Efgs2/odu4IiQpv5Log3rsrA4kheLlZd52ZNz1SBBxNyrqMMaOMoRmPaB/GSKfnCY
- ORtfXIC+BMKepREDDfkZgBZI27UlJ8KBYwzy02EI3zvSo0CXyBRakrdoC5iF/w8N4H
- 2mXJoVomuDGtm72Tc74zRzNkuYIuwaBqGFtivW6Y=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.1 155/223] drm/ttm: Dont leak a resource on swapout move
- error
-Date: Fri, 21 Jul 2023 18:06:48 +0200
-Message-ID: <20230721160527.479476521@linuxfoundation.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230721160520.865493356@linuxfoundation.org>
-References: <20230721160520.865493356@linuxfoundation.org>
-User-Agent: quilt/0.67
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A8B10E6E1;
+ Fri, 21 Jul 2023 18:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689962715; x=1721498715;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2ZqF3U1eErgTFPFgJWh/6ybWGKI3dikgMvv1F5KCPHM=;
+ b=d5dzjeQkG+4acGTwaM+Xr5d/nWUQ7iJic/IdGrDteFEz6KORIZ2cWcEl
+ lfVlWZW5VGNUJZw/NkxlLeBprCFkFJN3WgOjZBT31/V/nR5omG13zG5ZH
+ peJtcWC2k8ZrhvOWzuZxuBHRRgf6QCDz+lK+AOFsqK6PUZjmBRDQwhPA0
+ mOSijLJ1jWsoNAUjz6Ki9eiyUJOYVJMlu78SyBLcfy64rsIlyGaYyxBWS
+ iiU3YcnH9+uMxznWEh+T/ZDNYZ1mlH0JKPMgDMnH7mwTXtFfoplHHaIfo
+ dkMeOiG1OnuRLss8AipDo0v3wO7FCEkxD0gCq4QgzUZZRxfqiIS6Zr0Cd g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="430875075"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="430875075"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 11:05:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="838650970"
+X-IronPort-AV: E=Sophos;i="6.01,222,1684825200"; d="scan'208";a="838650970"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2023 11:05:14 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/guc/slpc: Restore efficient freq earlier
+Date: Fri, 21 Jul 2023 11:03:49 -0700
+Message-Id: <20230721180349.1737284-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,46 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+This should be done before the soft min/max frequencies are restored.
+When we disable the "Ignore efficient frequency" flag, GuC does not
+actually bring the requested freq down to RPn.
 
-commit a590f03d8de7c4cb7ce4916dc7f2fd10711faabe upstream.
+Specifically, this scenario-
 
-If moving the bo to system for swapout failed, we were leaking
-a resource. Fix.
+- ignore efficient freq set to true
+- reduce min to RPn (from efficient)
+- suspend
+- resume (includes GuC load, restore soft min/max, restore efficient freq)
+- validate min freq has been resored to RPn
 
-Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.14+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230626091450.14757-5-thomas.hellstrom@linux.intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+This will fail if we didn't first restore(disable, in this case) efficient
+freq flag before setting the soft min frequency.
+
+Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8736
+Fixes: 55f9720dbf23 ("drm/i915/guc/slpc: Provide sysfs for efficient freq")
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c |    1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1165,6 +1165,7 @@ int ttm_bo_swapout(struct ttm_buffer_obj
- 		ret = ttm_bo_handle_move_mem(bo, evict_mem, true, &ctx, &hop);
- 		if (unlikely(ret != 0)) {
- 			WARN(ret == -EMULTIHOP, "Unexpected multihop in swaput - likely driver bug.\n");
-+			ttm_resource_free(bo, &evict_mem);
- 			goto out;
- 		}
- 	}
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+index ee9f83af7cf6..f16dff7c3185 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+@@ -743,6 +743,9 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 
+ 	intel_guc_pm_intrmsk_enable(slpc_to_gt(slpc));
+ 
++	/* Set cached value of ignore efficient freq */
++	intel_guc_slpc_set_ignore_eff_freq(slpc, slpc->ignore_eff_freq);
++
+ 	slpc_get_rp_values(slpc);
+ 
+ 	/* Handle the case where min=max=RPmax */
+@@ -765,9 +768,6 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+ 	/* Set cached media freq ratio mode */
+ 	intel_guc_slpc_set_media_ratio_mode(slpc, slpc->media_ratio_mode);
+ 
+-	/* Set cached value of ignore efficient freq */
+-	intel_guc_slpc_set_ignore_eff_freq(slpc, slpc->ignore_eff_freq);
+-
+ 	return 0;
+ }
+ 
+-- 
+2.38.1
 
