@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB4875CC44
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 17:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722A175CBCF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 17:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C0D10E6AB;
-	Fri, 21 Jul 2023 15:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2C010E6AE;
+	Fri, 21 Jul 2023 15:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2417 seconds by postgrey-1.36 at gabe;
- Fri, 21 Jul 2023 15:44:46 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D33610E6AB
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 15:44:46 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36LEfUjc031690; Fri, 21 Jul 2023 17:04:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : from : subject : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=vX6N7XGJvQJZDqcaxGp+qHNQlwyBDcnlYDyxQFcb864=;
- b=owY9XcUxsxKM+piw4rzIV2OTg7gG/uBWnmdEsU63jyeSZb3vVHWVYGtpJlw0d1r2QpC9
- Ib7ysEVFxgvJd6PU/O/nNGZkDMybcLkAhb5ZwJ+rK1BiwpEjUniFHMLiTtQAejwYSKXb
- cyJjg08j3czstoYZWKwVCV9/8chCA0v5W06RlHczG8eqtMsC3wInf1lpI5H7Ho5dzvvv
- ixffwAc+3QUJmlQ7JMYBlcWd8YEQLhKFCz/fPbXerrOfTnu3yzAAcuH0qiYoj9rFydOY
- HWr4aUy0b3oWW059HZ+t3kadfsL3Ds9u+Qh/UQ2SZ304WwOBVnWI3C+Ec+d9x1HiXuOm /g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rynjsufgu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jul 2023 17:04:23 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 848F910002A;
- Fri, 21 Jul 2023 17:04:21 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5F65424B8BD;
- Fri, 21 Jul 2023 17:04:21 +0200 (CEST)
-Received: from [10.252.20.152] (10.252.20.152) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 21 Jul
- 2023 17:04:20 +0200
-Message-ID: <749bc117-72c9-1d16-a41d-6fdf33bd40f2@foss.st.com>
-Date: Fri, 21 Jul 2023 17:04:16 +0200
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E87A210E6AC
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 15:34:02 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-521dc8ae899so2406455a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 08:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689953641; x=1690558441;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e+J3maWKZDLZOHu0KMClUTkcLoWuu+H0TcJ6B1ppGIM=;
+ b=fmDH21f77I25libj1wRrEk4TILKZ1kLWnMOmbSvfilgvRDaX/q9nI0LnO6BRwwLGyw
+ g4JnW+IFQt+HznIwYpdXczSCO43cnfYgNAcCU5ljr0kBxTgU46cr6ev4SqEIZ2yHYbZl
+ /+31gkI32NDaV/JIDkwmoD/mS26kbmdXRdCJFwQ7l5ihDpRHzBRd42vr6SM2dQ+gRKoa
+ RCj0DGnoWV384OkZm/EzMt3wXooPGX9thKsillns/ckLFVKOCyzMFv5ezIDO3PxdEIpj
+ XfuuKMAWBPKVZiOXw7/6NTCYGPvW3oaqbjYUfWeoQlvX098jxbIdIyLkRjlYP7SKMuHc
+ 5JEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689953641; x=1690558441;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=e+J3maWKZDLZOHu0KMClUTkcLoWuu+H0TcJ6B1ppGIM=;
+ b=dpgouwH1M6dPTUkgMa5HeN79FcxbldYe3w8GdsWplNNpzmNtKHW+2iAaAwKlLaAwLT
+ LYa3jUtk8pNeJ2aTGzDfcm6szAoDt1q3qBKsNEiwitFwwnjPxj8PA3yXU6FARCgSNA1O
+ AUMIV18eaTq8TFu0lecVxg924vpAw0y1ByiOS4ATOd7aGdZeKU9Ij+QNgkkq/8Z5RR4I
+ Fx1FbkjcBZeVVFUCj7CiodDEr7XnLhBdu5TWVdcIs2vTFL0m6/xwBZ+oM67mUrvERj1c
+ Cw5VAzzcK5thvOE9XrF3AvE83e/2pGfeqLjVgnqw+lLrORnvyhYgcmenR6l9n5UW1b34
+ I/GA==
+X-Gm-Message-State: ABy/qLbiQU0trlVuo55/SWHD/YTCFX6BjYWw8K5AQRuxZNKm4qMljEKG
+ uAKemUw5VEoICVVlQlru2mA=
+X-Google-Smtp-Source: APBJJlHxHpHitpRJOlz0XvfBo0jSQ+i1+osJAXEtnMET5LtbtSRMYQN2nySPQ57QEZdfL8+yUCjgKQ==
+X-Received: by 2002:aa7:c982:0:b0:51e:404:1e6d with SMTP id
+ c2-20020aa7c982000000b0051e04041e6dmr1981954edt.38.1689953641105; 
+ Fri, 21 Jul 2023 08:34:01 -0700 (PDT)
+Received: from localhost
+ (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ u11-20020a056402064b00b0051dfa2e30b2sm2244385edx.9.2023.07.21.08.34.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jul 2023 08:34:00 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Artur Weber <aweber.kernel@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/4] video: backlight: lp855x: modernize
+ bindings
+Date: Fri, 21 Jul 2023 17:33:58 +0200
+Message-ID: <168995363315.3656835.14137740606773160898.b4-ty@nvidia.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230519180728.2281-1-aweber.kernel@gmail.com>
+References: <20230519180728.2281-1-aweber.kernel@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-From: Philippe CORNU <philippe.cornu@foss.st.com>
-Subject: Re: [PATCH] MAINTAINERS: Update Alain Volmat's email address for
- drm/sti
-To: <arnd@arnd.de>
-References: <20230416202747.62479-1-avolmat@me.com>
- <c8c9a22f-3b35-9c4e-21bd-b9695866be32@foss.st.com>
-Content-Language: en-US
-In-Reply-To: <c8c9a22f-3b35-9c4e-21bd-b9695866be32@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.252.20.152]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-21_10,2023-07-20_01,2023-05-22_02
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,53 +79,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <avolmat@me.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patrice CHOTARD <patrice.chotard@foss.st.com>
+Cc: linux-arm-msm@vger.kernel.org, Luca Weiss <luca@z3ntu.xyz>,
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-pwm@vger.kernel.org,
+ devicetree@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-fbdev@vger.kernel.org,
+ Andy Gross <agross@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-tegra@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Thierry Reding <treding@nvidia.com>
 
 
-On 4/19/23 08:33, Patrice CHOTARD wrote:
-> Hi Alain
+On Fri, 19 May 2023 20:07:24 +0200, Artur Weber wrote:
+> Convert TI LP855X backlight controller bindings from TXT to YAML and,
+> while we're at it, rework some of the code related to PWM handling.
+> Also correct existing DTS files to avoid introducing new dtb_check
+> errors.
 > 
-> On 4/16/23 22:27, Alain Volmat wrote:
->> Update my email address for maintainer of the STi DRM driver.
->>
->> Signed-off-by: Alain Volmat <avolmat@me.com>
->> ---
->>   MAINTAINERS | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 0e64787aace8..3cec7ad72389 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -6952,7 +6952,7 @@ F:	Documentation/devicetree/bindings/display/rockchip/
->>   F:	drivers/gpu/drm/rockchip/
->>   
->>   DRM DRIVERS FOR STI
->> -M:	Alain Volmat <alain.volmat@foss.st.com>
->> +M:	Alain Volmat <avolmat@me.com>
->>   L:	dri-devel@lists.freedesktop.org
->>   S:	Maintained
->>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 > 
-> Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+> [...]
 
-Dear Arnd,
+Applied, thanks!
 
-May we ask you please to apply this patch (maybe on "soc/soc.git 
-(arm/fixes)") as you did previously for a similar DRM/STI serie [1]?
+[4/4] arm64: dts: adapt to LP855X bindings changes
+      commit: faae0778fa10fa4e8909fe9164f06acab170f1e9
 
-Many thanks
-Philippe :-)
-
-[1] 
-https://lore.kernel.org/all/164431157889.18327.10086136061531044985.git-patchwork-notify@kernel.org/
-
-
-> 
-> Thanks
-> Patrice
+Best regards,
+-- 
+Thierry Reding <treding@nvidia.com>
