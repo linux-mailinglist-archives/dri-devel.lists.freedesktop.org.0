@@ -1,54 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4697475C3E6
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 12:00:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB3275C3F6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 12:02:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3DE10E640;
-	Fri, 21 Jul 2023 10:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9FB10E644;
+	Fri, 21 Jul 2023 10:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89AC910E642;
- Fri, 21 Jul 2023 10:00:19 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E34310E642;
+ Fri, 21 Jul 2023 10:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689933619; x=1721469619;
+ t=1689933747; x=1721469747;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=W/JkJXh9nevGSmt/zzTK5WB4y7jcHDU6G4MERUR6I1Q=;
- b=i3V/C1uhJVc0GyPSzzD9FyKMTzwbhuCmZHaAFuf1z64pmeJpL6ipPdmR
- 7zuIOQQ4eNcaHQIr7uQ/lMqrewN8WjxXvuwLgdsSRrjSIkAKN9IHLQcY/
- OqYDcc7NWWdAh0+JKqundjJxy3fcUNuCdlMIobsmVh6ebV9xHyPc88mY5
- 3JSEZ33p31JSi1Mgu9hQQk7B3MuvXN74JFZ76zyYvH9XR29NJn+/oZNpq
- l9EFckYfGHxyyVFvKJN9Q+3qWeKwPRyqyH0Brwhwr+qEIlY7fT11eLMow
- pi702cn2Y6wayo/AVKRgexzcbLeYrFkpK7n2chMO2rXBRc/H4evJSp0WK Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="369659816"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="369659816"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2023 03:00:18 -0700
+ bh=L39xNoLTuiFqWrU9U5/rPXL0nELBWgjHwigd09/msqU=;
+ b=RyjyQEm6s8SP1PK5LVtTo4z++VvB60c3cXVtnP5FsfW5R2nQV3/1OmGT
+ qoVmbzqsXV3cFXoaxMPeF6eihaYmG2P6zeKSczBGmocuqBbNMDO+ZfA18
+ gGpJX069NZ+b/DU3dEFSL0xrQbsZLwd4jRlLcRoYf5qVMXSBLcXlQMog9
+ OF9JPhLmg/019yHLChM5RkKoGQxv5DILNEJn5PgKU57QpocOaUesAkS24
+ solKDFVf9zjmyiwvkrik9zqUSmfdTX4zkcff9Mat6azk1cecY83V71Opc
+ K1hvTG7fo/wL9sIpaDLExMTuEVdF6YDc3ETP2RJvpkdo8KP1RJwN2n/bw w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="346579805"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="346579805"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 03:02:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="790151520"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="790151520"
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="838488706"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="838488706"
 Received: from hbockhor-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.252.54.104])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2023 03:00:15 -0700
-Date: Fri, 21 Jul 2023 12:00:12 +0200
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 03:02:23 -0700
+Date: Fri, 21 Jul 2023 12:02:20 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v7 2/9] drm/i915: Add the has_aux_ccs device
- property
-Message-ID: <ZLpXLIVb5DUm8xSx@ashyti-mobl2.lan>
-References: <20230720210737.761400-1-andi.shyti@linux.intel.com>
- <20230720210737.761400-3-andi.shyti@linux.intel.com>
- <26ccff3c-b50a-e6e6-97d1-18bb40833108@intel.com>
+To: "Krzysztofik, Janusz" <janusz.krzysztofik@intel.com>
+Subject: Re: [v7,2/9] drm/i915: Add the has_aux_ccs device property
+Message-ID: <ZLpXrADgrQjybo0/@ashyti-mobl2.lan>
+References: <20230720210737.761400-3-andi.shyti@linux.intel.com>
+ <2423957.jE0xQCEvom@jkrzyszt-mobl2.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26ccff3c-b50a-e6e6-97d1-18bb40833108@intel.com>
+In-Reply-To: <2423957.jE0xQCEvom@jkrzyszt-mobl2.ger.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +59,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- linux-stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
- dri-evel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, "Cavitt,
+ Jonathan" <jonathan.cavitt@intel.com>, linux-stable <stable@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ dri-evel <dri-devel@lists.freedesktop.org>, "Hajda,
+ Andrzej" <andrzej.hajda@intel.com>, "Roper,
+ Matthew D" <matthew.d.roper@intel.com>, "Das, Nirmoy" <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
+Hi Janusz,
 
-On Fri, Jul 21, 2023 at 11:41:22AM +0200, Andrzej Hajda wrote:
-> On 20.07.2023 23:07, Andi Shyti wrote:
-> > We always assumed that a device might either have AUX or FLAT
-> > CCS, but this is an approximation that is not always true as it
-> > requires some further per device checks.
-> > 
-> > Add the "has_aux_ccs" flag in the intel_device_info structure in
-> > order to have a per device flag indicating of the AUX CCS.
+On Fri, Jul 21, 2023 at 09:25:03AM +0000, Krzysztofik, Janusz wrote:
+> Hi Andy,
 > 
-> As Matt mentioned in v6, aux_ccs is present also in older platforms.
-> This is about presence/necessity (?) of aux_ccs table invalidation.
-> Maybe has_aux_ccs_inv, dunno?
+> On Thursday, 20 July 2023 23:07:30 CEST Andi Shyti wrote:
+> > We always assumed that a device might either have AUX or FLAT
+> > CCS, but this is an approximation that is not always true 
+> 
+> If there exists a device that can have CCSs that fall into either none or both 
+> of those categories then I think we should have that device or two listed here 
+> as an example, regardless of deducible from the change or not.  Or if there 
+> are no such devices so far, but we are going to introduce some, then I think 
+> we should provide that information here.
 
-yes, true! It's aux_ccs_inv.
+true! I will improve the commit log.
 
-> Moreover you define flag per device, but this is rather per engine,
-> theoretically could be also:
-> MTL:
-> .aux_ccs_inv_mask = BIT(RCS0) | BIT(BCS0) | ...
-> Others:
-> .aux_ccs_inv_mask = BIT(RCS0) | ...
+[...]
 
-there is already some engine discrimination that is mandatory
-later in the series. Doing it here it's a bit replicated.
+> > --- a/drivers/gpu/drm/i915/i915_pci.c
+> > +++ b/drivers/gpu/drm/i915/i915_pci.c
+> > @@ -643,7 +643,8 @@ static const struct intel_device_info jsl_info = {
+> >  	TGL_CACHELEVEL, \
+> >  	.has_global_mocs = 1, \
+> >  	.has_pxp = 1, \
+> > -	.max_pat_index = 3
+> > +	.max_pat_index = 3, \
+> > +	.has_aux_ccs = 1
+> 
+> NIT: Can we please have the last element also followed by comma, like in other 
+>      places (e.g. see below)?  That will simplify future patches.
+> 
+> Other than that, LGTM.
 
-> looks overkill,
-> maybe helper function would be simpler, up to you.
-
-Yes, a helper function that checks on the platform and returns
-true or false... it looks hardcoded to me, while the info
-structure is hardcoded by definition and looks easier to
-maintain by just toggling on/off a single flag in that structure.
-That's why I decided to place it there.
-
-But, because there are already two people suggesting it, then I
-will try it in v8.
+As Andrzej and Matt suggested I will take another approach, i.e.
+adding a helper function that tells whether the aux invalidation
+is necessary or not.
 
 Thanks,
 Andi
