@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0863C75BE85
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 08:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2B575BEF1
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 08:33:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 740C810E0D7;
-	Fri, 21 Jul 2023 06:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 883B910E61E;
+	Fri, 21 Jul 2023 06:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A19110E61D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 06:10:35 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R6fLJ3d41zBRDtJ
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 14:10:32 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689919832; x=1692511833; bh=AY+u3jgn01B4/kF9DL4Qu4WGk/F
- PohXQgFq0v8CHJFU=; b=r/gDt3KukI0P0Fe4QmY8Jzjf7BqYwxcU1lM181rpD+l
- UU2k6h2q2BklYsFkfRXr6JrhMMoOjuUSzsj3f9jXQxUqcJZwNAeoS3kjlGFaBJ/t
- 8aZMcUhz+YwAEYDl8+8InqnLkciGVv8dK+3TR0vdMEH5vwI/GKa5ccvmJMRylmj5
- 0G0UtRVf904vwIEK3FkMru0RaWT6S0+4WF9f2JLpvPup6wzLpCCdlL1ajUYPgVFE
- OiPzu5QS1oPbUq0lLp23ctkTsgxbJxBzI+cbgXZEOkCt9VSTKV4NJk6YpvBczNhd
- pSUnhyuV5+PdLlAAl14YwrTHGXZU5OKciPWJyMo2+kg==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id tGRFSxJjEnD7 for <dri-devel@lists.freedesktop.org>;
- Fri, 21 Jul 2023 14:10:32 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R6fLJ171XzBJBHk;
- Fri, 21 Jul 2023 14:10:32 +0800 (CST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7797510E61E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 06:33:36 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-991ef0b464cso580957666b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jul 2023 23:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689921215; x=1690526015;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wnoccgm9pbFbfKUa9nHPfrhyKpJevZV6lRDZU+5R3HY=;
+ b=lff+WY/rFM79DiX68p0sDAXj+pfWUi86h0J8FhNtLOqTuVYK4386kw1jWOHJxhPE1R
+ SIe5+u3TWL7OlQRjR5PRK/CieuHVltbVamSV7z7kaexGnAYwy+0sp+MUtYfiKrTVze+J
+ TMPlDVVlRNU6WA3LEIhsldmVb7xy3J3eezzWe9R4MtcHd8TajMhBTQT22TFFRkQfP6Zh
+ nY+TUv3fKJwglNZkTIlf+Nvrder7u9HOEbrkfGDewYQRsQp36KdVojRsb+NpR0zvXNty
+ +Kmu4lZObKQTE7cNVAPVFOjNjukIsu5umvADczDVnC6unINqxKyyhYdS8kw5OT8TxWe/
+ xP1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689921215; x=1690526015;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wnoccgm9pbFbfKUa9nHPfrhyKpJevZV6lRDZU+5R3HY=;
+ b=Ofgvcx4W+PEraVzRB1m+nHwLXoYPRB5JKyVn4V09cbW89zXLbCg4iVxjrLof6g1PD+
+ urQ8x/cZiUnYQ4k8r/111GfDXxvLNzZdNIl+KsrOWbPnw2x6Lhg0EeV8WjgKWkq/i65x
+ iMbAkz2OZA21+yi55Fdvz3z0aRGlQvgc7zt27GSxpSmdz/oNHm0nhZaOx9LLEco/T4uF
+ QQbz09YYmSeCcqvEjn4DGvDeq6jDSa/rEjZDUrjKFoyxedMheMgRNac5nKgcng0sKSWy
+ iT7RNTT02iu1mkgGR0wkgthZ0BPXwwscWtkatEiLIfQf/nKQ0bxz6bbMcSBwzZKf/dwq
+ lcRw==
+X-Gm-Message-State: ABy/qLalTdF8NJ/Om+hORfx+LqMu/I8bkelFjX2lgMsdl4k5V4mShuEX
+ DY5mw5QYkbWm4tSq1tXhiJ4P4ZnjCP8Kx+J6QPw=
+X-Google-Smtp-Source: APBJJlEtO4UicrSfPlGEItokOw0Rqd9qo0Xz3sQB7r3a2uNCVNw6hO5cWfLViqwkI1hefdfKpgawHCVRuNQc60GaJTw=
+X-Received: by 2002:a17:907:7e92:b0:98e:4f1:f987 with SMTP id
+ qb18-20020a1709077e9200b0098e04f1f987mr8028770ejc.3.1689921214685; Thu, 20
+ Jul 2023 23:33:34 -0700 (PDT)
 MIME-Version: 1.0
-Date: Fri, 21 Jul 2023 06:10:32 +0000
-From: sunran001@208suo.com
-To: airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon: ERROR: "foo * bar" should be "foo *bar"
-In-Reply-To: <20230721060919.5133-1-xujianghui@cdjrlc.com>
-References: <20230721060919.5133-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <696ea9a46762e16d993f8fc4bf26fb7f@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230720061105.154821-1-victor.liu@nxp.com>
+ <20230720112742.GA2525277@aspen.lan>
+ <AM7PR04MB7046CF1E1561A37C7A5AC89B983FA@AM7PR04MB7046.eurprd04.prod.outlook.com>
+In-Reply-To: <AM7PR04MB7046CF1E1561A37C7A5AC89B983FA@AM7PR04MB7046.eurprd04.prod.outlook.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 21 Jul 2023 09:32:58 +0300
+Message-ID: <CAHp75Vf6FTgHyimX+B80tZEwJRg7ut1=DS=Dbdy+Aa+xVwh5YQ@mail.gmail.com>
+Subject: Re: [PATCH] backlight: gpio_backlight: Drop output gpio direction
+ check for initial power state
+To: Ying Liu <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,36 +71,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Andy Shevchenko <andy@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "deller@gmx.de" <deller@gmx.de>,
+ "lee@kernel.org" <lee@kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix nine occurrences of the checkpatch.pl error:
-ERROR: "foo * bar" should be "foo *bar"
+On Fri, Jul 21, 2023 at 8:17=E2=80=AFAM Ying Liu <victor.liu@nxp.com> wrote=
+:
+> On Thursday, July 20, 2023 7:28 PM Daniel Thompson <daniel.thompson@linar=
+o.org> wrote:
+> > On Thu, Jul 20, 2023 at 06:06:27AM +0000, Ying Liu wrote:
+> > > Bootloader may leave gpio direction as input and gpio value as logica=
+l low.
+> > > It hints that initial backlight power state should be
+> > FB_BLANK_POWERDOWN
+> > > since the gpio value is literally logical low.
+> >
+> > To be honest this probably "hints" that the bootloader simply didn't
+> > consider the backlight at all :-) . I'd rather the patch description
+> > focus on what circumstances lead to the current code making a bad
+> > decision. More like:
+> >
+> >   If the GPIO pin is in the input state but the backlight is currently
+> >   off due to default pull downs then ...
+>
+> How about this patch description?
+>
+> ---------------------------------8<--------------------------------------=
+-----
+> Without this patch, if gpio pin is in input state but backlight is curren=
+tly
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/radeon/atom.c | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+s/Without this patch, if/If/
 
-diff --git a/drivers/gpu/drm/radeon/atom.c 
-b/drivers/gpu/drm/radeon/atom.c
-index 11a1940bb26d..93acb0e42bd6 100644
---- a/drivers/gpu/drm/radeon/atom.c
-+++ b/drivers/gpu/drm/radeon/atom.c
-@@ -68,8 +68,8 @@ typedef struct {
-  } atom_exec_context;
+> off due to default pull downs, then initial power state is set to
+> FB_BLANK_UNBLANK in DT boot mode with phandle link and the backlight is
+> effectively turned on in gpio_backlight_probe(), which is undesirable
+> according to patch description of commit ec665b756e6f ("backlight:
+> gpio-backlight: Correct initial power state handling").
+>
+> Quote:
+> ---
+> If in DT boot we have phandle link then leave the GPIO in a state which t=
+he
+> bootloader left it and let the user of the backlight to configure it furt=
+her.
+> ---
+>
+> So, let's drop output gpio direction check and only check gpio value to s=
+et
+> the initial power state.
+> ---------------------------------8<--------------------------------------=
+-----
 
-  int atom_debug = 0;
--static int atom_execute_table_locked(struct atom_context *ctx, int 
-index, uint32_t * params);
--int atom_execute_table(struct atom_context *ctx, int index, uint32_t * 
-params);
-+static int atom_execute_table_locked(struct atom_context *ctx, int 
-index, uint32_t *params);
-+int atom_execute_table(struct atom_context *ctx, int index, uint32_t 
-*params);
-
-  static uint32_t atom_arg_mask[8] = {
-  	0xFFFFFFFF, 0x0000FFFF, 0x00FFFF00, 0xFFFF0000,
+--=20
+With Best Regards,
+Andy Shevchenko
