@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3078B75C7B9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 15:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BA875C7CF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 15:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4A410E67F;
-	Fri, 21 Jul 2023 13:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A91D10E681;
+	Fri, 21 Jul 2023 13:29:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B39510E088;
- Fri, 21 Jul 2023 13:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=e2WBsfQdtF53jEaskT1x/L0w3qneqs04eI7iCf3SKcc=; b=Lu7FKCXiyTE33Hnj/RpTRsJ/FQ
- Enxi3FWAzrnJQTL4mGsJcRVXkSdZnOZcWYufd6Dhlo8ewaVKIEtxM9G+NfQ09cty5+P5kG+J9HcMi
- iph7ecLJaBakYjgHaUroJ90T7W3F8ICm/lI1MZBimMUGA3Qw0HRGZQhG+hPWLoHh1k3CTuQXc5mij
- rcUJmBXmC/pQiAtupas0EBsXbiZso7Cd2DnkiAL2VDK/KtWLpj8hD2cSvquWteOnMhNwX3afVDUtw
- U2ad1QyIFZB2T00fUY8/W1TjQmsioexDwpOfvGJuAKiKKDa/hiH4AWp2y6HILt9uUDqLU97UaY+YJ
- 1nP98eNg==;
-Received: from [38.44.68.151] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qMq7U-001MbH-Rj; Fri, 21 Jul 2023 15:24:32 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/amd/display: set stream gamut remap matrix to MPC for
- DCN3+
-Date: Fri, 21 Jul 2023 12:24:31 -0100
-Message-Id: <20230721132431.692158-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.40.1
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B00F10E681
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 13:29:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689946177; x=1721482177;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2rKUwAFKJgzkKjqqHr46OXObcFtk3JdOWi9yJ8rPHuI=;
+ b=d7B4ZJlw/20B8TJzUbqWptOmWNzbFrDrimZSkclF4avp2y7opv35RUXq
+ b0S9X6JB2RH7Q+WMtM0Giq0RDJTmSVIdLiiV2kRSg3J6cmWdv7h7on7QF
+ CoOd6mNDBOvzoZgWDH+Hz63iB3wqXqFzjyYYJNcoSlKd04+yPOYi/aGOI
+ ZXzxe4kcg15SmmptGzl35yDM2tU8rbVw86QbjKhgvA+taBDITKu3URj6r
+ QZXFoLMvi/1TOEes6P/ZXNS+6jUDRApkJ0kUE/SCvqNX+tluxWCzlpxwY
+ fwoH45rgwnztRHqdpWBeHCDrczNeJoZ8i/ehnPb1gt2BwwRxn8YwgF4HC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="433251788"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="433251788"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 06:29:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="718818543"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="718818543"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+ by orsmga007.jf.intel.com with ESMTP; 21 Jul 2023 06:29:32 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qMqCJ-0007Kj-0F;
+ Fri, 21 Jul 2023 13:29:31 +0000
+Date: Fri, 21 Jul 2023 21:28:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH] drm/bridge: Add debugfs print for bridge chains
+Message-ID: <202307212102.Fxrv1Ayx-lkp@intel.com>
+References: <20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,179 +69,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>, amd-gfx@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, bhawanpreet.lakha@amd.com, Nicholas.Kazlauskas@amd.com,
- sungjoon.kim@amd.com
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dc->caps.color.mpc.gamut_remap says there is a post-blending color block
-for gamut remap matrix for DCN3 HW family and newer versions. However,
-those drivers still follow DCN10 programming that remap stream
-gamut_remap_matrix to DPP (pre-blending).
+Hi Tomi,
 
-To enable pre-blending and post-blending gamut_remap matrix supports at
-the same time, set stream gamut_remap to MPC and plane gamut_remap to
-DPP for DCN families that support both.
+kernel test robot noticed the following build errors:
 
-It was tested using IGT KMS color tests for DRM CRTC CTM property and it
-preserves test results.
+[auto build test ERROR on c7a472297169156252a50d76965eb36b081186e2]
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/drm-bridge-Add-debugfs-print-for-bridge-chains/20230721-174615
+base:   c7a472297169156252a50d76965eb36b081186e2
+patch link:    https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d%40ideasonboard.com
+patch subject: [PATCH] drm/bridge: Add debugfs print for bridge chains
+config: x86_64-randconfig-r032-20230720 (https://download.01.org/0day-ci/archive/20230721/202307212102.Fxrv1Ayx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230721/202307212102.Fxrv1Ayx-lkp@intel.com/reproduce)
 
----
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307212102.Fxrv1Ayx-lkp@intel.com/
 
-Hi,
+All errors (new ones prefixed by >>):
 
-Two relevant things to consider for this change. One is that mapping DRM
-CRTC CTM to MPC is a more consistent way since CRTC CTM is a
-post-blending transformation. Second, programming stream
-gamut_remap_matrix on MPC enables us to provide support for both plane
-CTM and CRTC CTM color properties. If we don't make this separation, we
-would need to reject an atomic commit that tries to set both properties
-at the same time and userspace may also get unexpected results.
+   drivers/gpu/drm/drm_bridge.c: In function 'drm_bridge_chains_info':
+>> drivers/gpu/drm/drm_bridge.c:1371:35: error: 'struct drm_bridge' has no member named 'of_node'
+    1371 |                         if (bridge->of_node)
+         |                                   ^~
+   drivers/gpu/drm/drm_bridge.c:1372:70: error: 'struct drm_bridge' has no member named 'of_node'
+    1372 |                                 drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
+         |                                                                      ^~
 
-Thanks in advance for any feeback,
 
-Melissa
+vim +1371 drivers/gpu/drm/drm_bridge.c
 
- .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 37 +++++++++++++++++++
- .../drm/amd/display/dc/dcn30/dcn30_hwseq.h    |  3 ++
- .../gpu/drm/amd/display/dc/dcn30/dcn30_init.c |  2 +-
- .../drm/amd/display/dc/dcn301/dcn301_init.c   |  2 +-
- .../gpu/drm/amd/display/dc/dcn31/dcn31_init.c |  2 +-
- .../drm/amd/display/dc/dcn314/dcn314_init.c   |  2 +-
- .../gpu/drm/amd/display/dc/dcn32/dcn32_init.c |  2 +-
- 7 files changed, 45 insertions(+), 5 deletions(-)
+  1349	
+  1350	#ifdef CONFIG_DEBUG_FS
+  1351	static int drm_bridge_chains_info(struct seq_file *m, void *data)
+  1352	{
+  1353		struct drm_debugfs_entry *entry = m->private;
+  1354		struct drm_device *dev = entry->dev;
+  1355		struct drm_printer p = drm_seq_file_printer(m);
+  1356		struct drm_mode_config *config = &dev->mode_config;
+  1357		struct drm_encoder *encoder;
+  1358		unsigned int bridge_idx = 0;
+  1359	
+  1360		list_for_each_entry(encoder, &config->encoder_list, head) {
+  1361			struct drm_bridge *bridge;
+  1362	
+  1363			drm_printf(&p, "encoder[%u]\n", encoder->base.id);
+  1364	
+  1365			bridge = drm_bridge_chain_get_first_bridge(encoder);
+  1366	
+  1367			while (bridge) {
+  1368				drm_printf(&p, "\tbridge[%u] type: %u, ops: %#x",
+  1369					   bridge_idx, bridge->type, bridge->ops);
+  1370	
+> 1371				if (bridge->of_node)
+  1372					drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
+  1373	
+  1374				drm_printf(&p, "\n");
+  1375	
+  1376				bridge_idx++;
+  1377				bridge = drm_bridge_get_next_bridge(bridge);
+  1378			}
+  1379		}
+  1380	
+  1381		return 0;
+  1382	}
+  1383	
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-index 4cd4ae07d73d..4fb4e9ec03f1 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
-@@ -186,6 +186,43 @@ bool dcn30_set_input_transfer_func(struct dc *dc,
- 	return result;
- }
- 
-+void dcn30_program_gamut_remap(struct pipe_ctx *pipe_ctx)
-+{
-+	int i = 0;
-+	struct dpp_grph_csc_adjustment dpp_adjust;
-+	struct mpc_grph_gamut_adjustment mpc_adjust;
-+	int mpcc_id = pipe_ctx->plane_res.hubp->inst;
-+	struct mpc *mpc = pipe_ctx->stream_res.opp->ctx->dc->res_pool->mpc;
-+
-+	memset(&dpp_adjust, 0, sizeof(dpp_adjust));
-+	dpp_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_BYPASS;
-+
-+	if (pipe_ctx->plane_state &&
-+	    pipe_ctx->plane_state->gamut_remap_matrix.enable_remap == true) {
-+		dpp_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_SW;
-+		for (i = 0; i < CSC_TEMPERATURE_MATRIX_SIZE; i++)
-+			dpp_adjust.temperature_matrix[i] =
-+				pipe_ctx->plane_state->gamut_remap_matrix.matrix[i];
-+	}
-+
-+	pipe_ctx->plane_res.dpp->funcs->dpp_set_gamut_remap(pipe_ctx->plane_res.dpp,
-+							    &dpp_adjust);
-+
-+	memset(&mpc_adjust, 0, sizeof(mpc_adjust));
-+	mpc_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_BYPASS;
-+
-+	if (pipe_ctx->top_pipe == NULL) {
-+		if (pipe_ctx->stream->gamut_remap_matrix.enable_remap == true) {
-+			mpc_adjust.gamut_adjust_type = GRAPHICS_GAMUT_ADJUST_TYPE_SW;
-+			for (i = 0; i < CSC_TEMPERATURE_MATRIX_SIZE; i++)
-+				mpc_adjust.temperature_matrix[i] =
-+					pipe_ctx->stream->gamut_remap_matrix.matrix[i];
-+		}
-+	}
-+
-+	mpc->funcs->set_gamut_remap(mpc, mpcc_id, &mpc_adjust);
-+}
-+
- bool dcn30_set_output_transfer_func(struct dc *dc,
- 				struct pipe_ctx *pipe_ctx,
- 				const struct dc_stream_state *stream)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
-index a24a8e33a3d2..cb34ca932a5f 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.h
-@@ -58,6 +58,9 @@ bool dcn30_set_blend_lut(struct pipe_ctx *pipe_ctx,
- bool dcn30_set_input_transfer_func(struct dc *dc,
- 				struct pipe_ctx *pipe_ctx,
- 				const struct dc_plane_state *plane_state);
-+
-+void dcn30_program_gamut_remap(struct pipe_ctx *pipe_ctx);
-+
- bool dcn30_set_output_transfer_func(struct dc *dc,
- 				struct pipe_ctx *pipe_ctx,
- 				const struct dc_stream_state *stream);
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
-index 3d19acaa12f3..5372eb76fcfc 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_init.c
-@@ -32,7 +32,7 @@
- #include "dcn30_init.h"
- 
- static const struct hw_sequencer_funcs dcn30_funcs = {
--	.program_gamut_remap = dcn10_program_gamut_remap,
-+	.program_gamut_remap = dcn30_program_gamut_remap,
- 	.init_hw = dcn30_init_hw,
- 	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
- 	.apply_ctx_for_surface = NULL,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
-index 257df8660b4c..81fd50ee97c3 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_init.c
-@@ -33,7 +33,7 @@
- #include "dcn301_init.h"
- 
- static const struct hw_sequencer_funcs dcn301_funcs = {
--	.program_gamut_remap = dcn10_program_gamut_remap,
-+	.program_gamut_remap = dcn30_program_gamut_remap,
- 	.init_hw = dcn10_init_hw,
- 	.power_down_on_boot = dcn10_power_down_on_boot,
- 	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
-index fc25cc300a17..4e724d52a68f 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_init.c
-@@ -34,7 +34,7 @@
- #include "dcn31_init.h"
- 
- static const struct hw_sequencer_funcs dcn31_funcs = {
--	.program_gamut_remap = dcn10_program_gamut_remap,
-+	.program_gamut_remap = dcn30_program_gamut_remap,
- 	.init_hw = dcn31_init_hw,
- 	.power_down_on_boot = dcn10_power_down_on_boot,
- 	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
-index ca8fe55c33b8..01e03ecf2291 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
-@@ -36,7 +36,7 @@
- #include "dcn314_init.h"
- 
- static const struct hw_sequencer_funcs dcn314_funcs = {
--	.program_gamut_remap = dcn10_program_gamut_remap,
-+	.program_gamut_remap = dcn30_program_gamut_remap,
- 	.init_hw = dcn31_init_hw,
- 	.power_down_on_boot = dcn10_power_down_on_boot,
- 	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
-index 777b2fac20c4..625008d618fa 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
-@@ -33,7 +33,7 @@
- #include "dcn32_init.h"
- 
- static const struct hw_sequencer_funcs dcn32_funcs = {
--	.program_gamut_remap = dcn10_program_gamut_remap,
-+	.program_gamut_remap = dcn30_program_gamut_remap,
- 	.init_hw = dcn32_init_hw,
- 	.apply_ctx_to_hw = dce110_apply_ctx_to_hw,
- 	.apply_ctx_for_surface = NULL,
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
