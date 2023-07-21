@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D3A75CCD1
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 17:58:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D1DA75CCEA
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 18:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D8AC10E6B7;
-	Fri, 21 Jul 2023 15:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2E0210E6B9;
+	Fri, 21 Jul 2023 16:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7178710E6B7;
- Fri, 21 Jul 2023 15:58:00 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-1a1fa977667so1574900fac.1; 
- Fri, 21 Jul 2023 08:58:00 -0700 (PDT)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D3F10E6CE;
+ Fri, 21 Jul 2023 16:00:05 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1b055510c9dso1357762fac.0; 
+ Fri, 21 Jul 2023 09:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689955079; x=1690559879;
+ d=gmail.com; s=20221208; t=1689955204; x=1690560004;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AZeUxWgbZbQOOu9zXQEd/H5BFiiNhJpxf25MCPQVsN8=;
- b=MUMpaDMWH5he4qGhTVt7ozEMWcR7DMqcNO6xs7rfA48c7LYr9BpeQdWzSiscdSq/hc
- EvrPAIhe9fAewXoibGXavDXBGIDA2kU2VFfETITSld9Uc/iCHNUAvy9f1gXuv9TJoCuZ
- QaoWRLlfkycCNCA64SVz80bBILvNczGOxPSNA4gnKqoWrC3kiJAwPRRovB/200jupVrH
- ibtU3wwjszBsW7HymyuwDOW04KioZzANfyYSVpYN1aG4+06Dga+5UbQdJwDHLf38Uo8t
- kLySeB/lILj2pdpZmQlUNsQjOOuxJ/VSZU7iuAvV/HVpo08golw6nXTIwwjiRLkA9feM
- NrDg==
+ bh=r5EvHH1DtEeFzSe/qfbeuuYUsnqICJDx2+XgzP0/NPs=;
+ b=QbJzX9iZpCz6sryu/XX2sbkAG/F7Ftohnc5pzMW3hZqdW/isAkFf/g5ilsNkyhXlwK
+ +WTjE6agHX3wYY3e5enOfq4YSz5wQEY9CCv88zbPaeL6+JuxwgEiu0ZtFnEgQeqJUnIu
+ ODmlcdotKUQIm0/qUVERDiShiOp0OvTCy/HGzLzaIJ8jutp/H4QdeJf5TDDc7fqxHJDy
+ foCNPc/MhMneu26q6uT+VSwHlNiSEBKvn55xkqBisEMH+Dib+cHmo893h9LCsOqkGqFg
+ jo27fk99aa99nEnU0o9KX9m2XvKYfZGQnxtZNmB6z5mXpSvkym3wJJjOq27hAfXgPyUb
+ WGDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689955079; x=1690559879;
+ d=1e100.net; s=20221208; t=1689955204; x=1690560004;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AZeUxWgbZbQOOu9zXQEd/H5BFiiNhJpxf25MCPQVsN8=;
- b=f9ZW5rZ0c/+wjW74psbbkGmjsC6XuhWZeZqCWk5HFYBa8wqM2C0FeUYkJIG7t6nLIC
- /AWo16+r7FxWln6t2UOGWfE8aVCNlRyhIBF0CpuH9NCdchgHUuZ08KIIaOAjsy+RP7Qk
- qsw4s4bgYIX0/EfZXHAapISoAtO69mg89eZOZ1MaZaEZv0NnHDl0jArNCwbS4MQFDJMV
- jDByrsq3uI4/zQjuRfltzPuzdpIzPGZVC9wWx4f2W+of0NUP9K6z9IBDNfFIHcxZyYFh
- m2pMD4lZNsDT5BWCiLrLAoja70wS+scAz8SZRtGQDq3uV6W86sFwMO4TY+3gAVdljlJG
- Mb1A==
-X-Gm-Message-State: ABy/qLZ0JibzzU33zlVw3CrRNGtYbkZH1CtYI0ewFjwmlBYvLKx8Tf7t
- QAlh9za/AqDrKrEqc1u5jZy/WzulRTCOoF+6DcmsD/us
-X-Google-Smtp-Source: APBJJlH444C8IPtwpejKuE6GYLqPtYKQIDgpO4RYWXSo+9vxTzDLITTa4MyNdiFO8dR1GpO8+vWqmwKb/wVp0tgirGE=
-X-Received: by 2002:a05:6870:eaa3:b0:1b0:b15:245 with SMTP id
- s35-20020a056870eaa300b001b00b150245mr2852819oap.16.1689955079677; Fri, 21
- Jul 2023 08:57:59 -0700 (PDT)
+ bh=r5EvHH1DtEeFzSe/qfbeuuYUsnqICJDx2+XgzP0/NPs=;
+ b=EOyNbo6LcNrRCygK7EQj+4laATB6isv05ZzrNPEWbH23G9kyzPTizMvckOz+VWnMZN
+ 8Ycv23rNCw4P6ald/YMPbGxZ/0TBKvsMU71mHDtRLR6s9Twec9y2Wj3CRzlZ3dtxPyiz
+ Kk4P9Kn+eWrz7+3b884yJJ4c5mWLYgeAkZyXSx7/85nFEXCh5+cX+ur6tCdEt6DfLPyC
+ KkL7zI3zzReUnb4OXHlNSb9lrqLZd38FfPr7NshzqDVVxxR5DLCPZcGWlb+4mzKcB7uF
+ 8VGhHJGiXE04lj/dTS1EB0URHfhKF6HB0siIOlYX89m81aorfrK+J/VrLvGbXyqMj0MI
+ sMuw==
+X-Gm-Message-State: ABy/qLayCPD3vziKYp55UFlaLZf5oiBSizoBYlI4dlSrpk7hflvNzG7l
+ vcuOlspFRJlN5Rb9wXIw5HFhfhfYwG4NEFfRqQs=
+X-Google-Smtp-Source: APBJJlH9uiN6ru/ABZodG46E50A0fohiI1ZXIZvNZwBeCL8QDXjl+XGWVujd3gtuauMG1+1seuNo/guT77TUv3eGpmE=
+X-Received: by 2002:a05:6870:46a2:b0:1ba:64a5:d2d1 with SMTP id
+ a34-20020a05687046a200b001ba64a5d2d1mr2503528oap.20.1689955204629; Fri, 21
+ Jul 2023 09:00:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230721033048.4840-1-xujianghui@cdjrlc.com>
- <d0906df99cdf6f76220e298bebaa5029@208suo.com>
-In-Reply-To: <d0906df99cdf6f76220e298bebaa5029@208suo.com>
+References: <20230721035225.4986-1-xujianghui@cdjrlc.com>
+ <f2e8d7241330934429e19a960a232f9c@208suo.com>
+In-Reply-To: <f2e8d7241330934429e19a960a232f9c@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 21 Jul 2023 11:57:48 -0400
-Message-ID: <CADnq5_P0hQbv81OnSjp7_RS92yOMzuNQfJZf_DKY7K_viSz5Vw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: open brace '{' following struct go on the
+Date: Fri, 21 Jul 2023 11:59:53 -0400
+Message-ID: <CADnq5_NKs6n1v+j6cTeo9OZ04yB12fHXD06XbzjWGzdBaE7RpQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: open brace '{' following struct go on the
  same line
 To: sunran001@208suo.com
 Content-Type: text/plain; charset="UTF-8"
@@ -70,36 +70,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
+Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Thu, Jul 20, 2023 at 11:32=E2=80=AFPM <sunran001@208suo.com> wrote:
+On Thu, Jul 20, 2023 at 11:53=E2=80=AFPM <sunran001@208suo.com> wrote:
 >
 > ERROR: open brace '{' following struct go on the same line
 >
+
+The description doesn't match what the patch is doing.
+
+Alex
+
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->   drivers/gpu/drm/amd/pm/inc/amdgpu_pm.h | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_pm.h
-> b/drivers/gpu/drm/amd/pm/inc/amdgpu_pm.h
-> index 52045ad59bed..eec816f0cbf9 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_pm.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_pm.h
-> @@ -24,8 +24,7 @@
->   #ifndef __AMDGPU_PM_H__
->   #define __AMDGPU_PM_H__
->
-> -struct cg_flag_name
-> -{
-> +struct cg_flag_name {
->         u64 flag;
->         const char *name;
->   };
+> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> index ddc488251313..0cf564ea1ed8 100644
+> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> @@ -429,10 +429,10 @@ int amdgpu_pm_load_smu_firmware(struct
+> amdgpu_device *adev, uint32_t *smu_versio
+>   int amdgpu_dpm_handle_passthrough_sbr(struct amdgpu_device *adev, bool
+> enable);
+>   int amdgpu_dpm_send_hbm_bad_pages_num(struct amdgpu_device *adev,
+> uint32_t size);
+>   int amdgpu_dpm_send_hbm_bad_channel_flag(struct amdgpu_device *adev,
+> uint32_t size);
+> -int amdgpu_dpm_get_dpm_freq_range(struct amdgpu_device *adev,enum
+> pp_clock_type type,
+> -                                 uint32_t *min,uint32_t *max);
+> -int amdgpu_dpm_set_soft_freq_range(struct amdgpu_device *adev,enum
+> pp_clock_type type,
+> -                                  uint32_t min,uint32_t max);
+> +int amdgpu_dpm_get_dpm_freq_range(struct amdgpu_device *adev, enum
+> pp_clock_type type,
+> +                                 uint32_t *min, uint32_t *max);
+> +int amdgpu_dpm_set_soft_freq_range(struct amdgpu_device *adev, enum
+> pp_clock_type type,
+> +                                  uint32_t min, uint32_t max);
+>   int amdgpu_dpm_write_watermarks_table(struct amdgpu_device *adev);
+>   int amdgpu_dpm_wait_for_event(struct amdgpu_device *adev, enum
+> smu_event_type event,
+>                               uint64_t event_arg);
