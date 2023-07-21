@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11C875C8E4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 16:03:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BED375C94A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 16:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580B810E18B;
-	Fri, 21 Jul 2023 14:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DF610E696;
+	Fri, 21 Jul 2023 14:13:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4CC10E18B;
- Fri, 21 Jul 2023 14:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689948178; x=1721484178;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ClOcl+VTB21mVAMFKz7g4AEK+zUooi66bWyE1gA6T24=;
- b=FGSHo6yYhtjBg9f1wV0l3rRE37c24hNYQIAmnhOlNBrVCMzTozytYqnX
- 12vdGNs9bwxMERyx+blG7sQlXlwWwsRgfaJ94WYXbQw/qk11rfnJdBgif
- Sll9FSsMTfe4OgQKw5cjfeIpfediL3cBZWpjA6P8i68duY24J1w9cfryu
- c1DbbiUcsfFPXqLZ3lpMZytsTsOBDy9bHDP2meoyhpWPXBI01cm4GbedT
- 55qAxOZqji2A9fjJjfs1NrEcXx55qiKPBkxQhE9H/PQw5W3yOpXz2psya
- XMSg/2EFbFNDmdJxsE+jUVPm5qttBriqumhx44/u4p7SNmrrqtmCOWZKp A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="453404353"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="453404353"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2023 07:02:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10778"; a="1055573907"
-X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="1055573907"
-Received: from hbockhor-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.54.104])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2023 07:02:52 -0700
-Date: Fri, 21 Jul 2023 16:02:50 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Krzysztofik, Janusz" <janusz.krzysztofik@intel.com>
-Subject: Re: [v7,9/9] drm/i915/gt: Support aux invalidation on all engines
-Message-ID: <ZLqQCq5eDId4zRFa@ashyti-mobl2.lan>
-References: <20230720210737.761400-10-andi.shyti@linux.intel.com>
- <3494477.V25eIC5XRa@jkrzyszt-mobl2.ger.corp.intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4330310E68F
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 14:12:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1689948773; x=1690553573; i=deller@gmx.de;
+ bh=B6OJug3RQ/dhSV0+iYjTHPYdl9R4HHqWZ5P7FggM32Y=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=jvrwo7EU26Qn4xLZeQXP/TrNQi1RZKW+AD9fUtCdj82fuNtmHjLTxWQWDG00Yx5n9KvhRe+
+ NP6yrMKFi+1QGZGD6Lt2/C/WRXRM0TYZBf/XrD9FUByffGHWsucTDeWuIBCqAL2gRmmiRH2YZ
+ aw962IZW/k4O1/xlLyd7BE7OCTof2xol3JGXq2UpeaY/Mr5AIDbXZvEky/WxmxzA3BPxDZqui
+ Keefbj2ssedH+yR+mysXpushYzh0qmRkjCUJuFvCEdwk7rBwBQiN+k8VKoAhX0aeCEIM0Vlnt
+ NE5xImXzoCmqeb+25TYYYu6tLIXI/PJIXy2aks7OSQQZBSKuEBZw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([94.134.144.189]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MD9T7-1qEMY0224n-0094cI; Fri, 21
+ Jul 2023 16:12:53 +0200
+Date: Fri, 21 Jul 2023 16:12:51 +0200
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and cleanups for v6.5-rc3
+Message-ID: <ZLqSYylyXm2C+aOV@ls3530>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3494477.V25eIC5XRa@jkrzyszt-mobl2.ger.corp.intel.com>
+X-Provags-ID: V03:K1:bw6bgLEYCwMnCIoBsQoi4Xek0KYaNO2nzlmlmjiBM6WSjLqgkPq
+ 3hLND5tJwOqyDFYZwsI1OzvTpgx/XVITlRtCe1vf+lle8oPvmAAX9xtDwjbZd4NrL9TV+xy
+ kGHycCFcPmni6FZq1bzb9G1EgLw6TzP7j2/EsZ3jDCyK3lAXgI0AMQkw+ZwzTzTh4q5DXOE
+ e8qMDw4hEQboQqeY4RHIw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:x75p+0ShAvQ=;id5z+tiQTFDYt/CRQx283MBd06A
+ v+Xt2JMyLemCGWm0XtLmFFsb8iMsiOpRlkH4nE+HAZfqeVks0hS+qtbGmpY54vEDOSAQfhyg7
+ 1WvUjwLNK2ezJ/vb/ksywXD4wuXBIBwKL6hRZlQhWRuGL2aNU0HE0AIUPczZIl2xiPYBhHiFt
+ B2IUATykGq/weii+uRyjKtx5hyChdeExtS3+FhksE+oBmvzpvyrv2dkOcZ+yokMV+CtQPp767
+ 5IkDB4wsDcCarO63GzUHMWPrAsQmjq9ta6hL8sf1177t4eQP03HInu4WXhVsknsixP2Kw7dZC
+ kiwtYGDczvn8ggKr++efbQeiJGUWI118Ko/3EdFkNZQ9N1Dcq486zekq/QSqjhyLenZr0bdCf
+ xNPvFz1l8cVME9RweMjEF5f0ZyrmssFj3EvxPMPLl04UlTDpv3CiRAyh9BUgnezBMuG+iU3jj
+ 58r6PQETbQzpU+XcrHhTbiaZymVCgPeEVM3pyKoHzSAjX8YKGOtoFrvADnD+iKG9ITITu3LxW
+ 7PrLrHY9S3oFS1rjNKR3RPP5+XgTU5iCTgXvAo/RSrfArJDnTa9XQ2dH+mTCxHooqvVtFB02V
+ VbMbrmXNHeELNwtmjoa3SUCsK+CE+D1uRz306smDh9qKS18giePBqsULf3jEODZC8y0fAmabM
+ iI80cJzmj8633OZ+i1vysQbc0FCc4NU1oc68mhAthUU/Tn5o7SpdEsRl4BcVE/8PRnW6iyveK
+ vEXry8mxPL9BPBI6K9CDcbR9GtU4NU8vHgtfVarSx7Ef1W/IE5/Vb00SOSrlYLKsRey+JC7zh
+ WEzewfyP6/XH9FUFoVpSVBzFHwqlZFp0xo7xTumbaUj3Z1URriHNpYRMGtVAdpfeaIUjqrL7u
+ xWaY08adgb5bvS1IEfkHRdJU5VCQzZKvlRELFYTP6TgmOOmCUBxquIYU9T4WTfVF1YEs5s1Rx
+ 41vSIQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,100 +67,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, "Cavitt,
- Jonathan" <jonathan.cavitt@intel.com>, linux-stable <stable@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- dri-evel <dri-devel@lists.freedesktop.org>, "Hajda,
- Andrzej" <andrzej.hajda@intel.com>, "Roper,
- Matthew D" <matthew.d.roper@intel.com>, "Das, Nirmoy" <nirmoy.das@intel.com>
+Cc: Martin Kaiser <martin@kaiser.cx>, Jiri Slaby <jirislaby@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janusz,
+Hi Linus,
 
-> > diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > index 3ded597f002a2..30fb4e0af6134 100644
-> > --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > @@ -165,9 +165,36 @@ static u32 preparser_disable(bool state)
-> >  	return MI_ARB_CHECK | 1 << 8 | state;
-> >  }
-> >  
-> > -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
-> > +static i915_reg_t gen12_get_aux_inv_reg(struct intel_engine_cs *engine)
-> >  {
-> > -	u32 gsi_offset = gt->uncore->gsi_offset;
-> > +	if (!HAS_AUX_CCS(engine->i915))
-> > +		return INVALID_MMIO_REG;
-> > +
-> > +	switch (engine->id) {
-> > +	case RCS0:
-> > +		return GEN12_CCS_AUX_INV;
-> > +	case BCS0:
-> > +		return GEN12_BCS0_AUX_INV;
-> > +	case VCS0:
-> > +		return GEN12_VD0_AUX_INV;
-> > +	case VCS2:
-> > +		return GEN12_VD2_AUX_INV;
-> > +	case VECS0:
-> > +		return GEN12_VE0_AUX_INV;
-> > +	case CCS0:
-> > +		return GEN12_CCS0_AUX_INV;
-> > +	default:
-> > +		return INVALID_MMIO_REG;
-> > +	}
-> > +}
-> > +
-> > +u32 *gen12_emit_aux_table_inv(struct intel_engine_cs *engine, u32 *cs)
-> > +{
-> > +	i915_reg_t inv_reg = gen12_get_aux_inv_reg(engine);
-> > +	u32 gsi_offset = engine->gt->uncore->gsi_offset;
-> > +
-> > +	if (i915_mmio_reg_valid(inv_reg))
-> > +		return cs;
-> 
-> Is that correct?  Now the original body of gen12_emit_aux_table_inv() will be 
-> executed only if either (!HAS_AUX_CCS(engine->i915) or the engine is not one 
-> of (RCS0, BCS0, VCS0, VCS2 or CCS0), ...
-> 
-> >  
-> >  	*cs++ = MI_LOAD_REGISTER_IMM(1) | MI_LRI_MMIO_REMAP_EN;
-> >  	*cs++ = i915_mmio_reg_offset(inv_reg) + gsi_offset;
-> > @@ -201,6 +228,11 @@ static u32 *intel_emit_pipe_control_cs(struct i915_request *rq, u32 bit_group_0,
-> >  	return cs;
-> >  }
-> >  
-> > +static bool gen12_engine_has_aux_inv(struct intel_engine_cs *engine)
-> > +{
-> > +	return i915_mmio_reg_valid(gen12_get_aux_inv_reg(engine));
-> > +}
-> > +
-> >  static int mtl_dummy_pipe_control(struct i915_request *rq)
-> >  {
-> >  	/* Wa_14016712196 */
-> > @@ -307,11 +339,7 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
-> >  
-> >  		cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
-> >  
-> > -		if (!HAS_FLAT_CCS(rq->engine->i915)) {
-> 
-> ... while before it was executed only if (!HAS_FLAT_CCS(rq->engine->i915)), 
-> which, according to commit description of PATCH 2/9, rather had the opposite 
-> meaning.  Am I missing something?
+please pull some fbdev fixes & cleanups for kernel 6.5-rc3.
 
-flat_ccs and aux_ccs are not mutually exclusive, so far the can
-both miss like in PVC. So that the !HAS_FLAT_CCS() is an
-approximation and that's why we need a better evaluation.
+Just the usual bunch of code cleanups in various drivers, this time
+mostly in vgacon and imxfb.
 
-Aux invalidation is needed only on platforms from TGL and beyond
-excluding PVC. The above engines  are the only engines where AUX
-invalidation happens, but there are no cases when we reach the
-default condition, as the emit_flush_rcs is already called within
-that set of engines. The default is there just for completeness.
+Thanks!
+Helge
 
-Does this answer?
+--------------
 
-Thanks,
-Andi
+The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
+
+  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.5-rc3
+
+for you to fetch changes up to e8812acb5bf724f2fc23a500e590c776ebda7b0a:
+
+  fbdev: Explicitly include correct DT includes (2023-07-20 07:56:30 +0200)
+
+----------------------------------------------------------------
+fbdev fixes and cleanups for 6.5-rc3:
+
+- Code cleanup in vgacon (Jiri Slaby)
+- Explicitly include correct DT includes (Rob Herring)
+- imxfb code cleanup (Yangtao Li, Martin Kaiser)
+- kyrofb: make arrays const and smaller (Colin Ian King)
+- ep93xx-fb: return value check fix (Yuanjun Gong)
+- au1200fb: add missing IRQ check (Zhang Shurong)
+
+----------------------------------------------------------------
+Colin Ian King (1):
+      fbdev: kyro: make some const read-only arrays static and reduce type size
+
+Jiri Slaby (SUSE) (7):
+      vgacon: switch vgacon_scrolldelta() and vgacon_restore_screen()
+      vgacon: remove unneeded forward declarations
+      vgacon: remove unused xpos from vgacon_set_cursor_size()
+      vgacon: let vgacon_doresize() return void
+      vgacon: cache vc_cell_height in vgacon_cursor()
+      sticon: make sticon_set_def_font() void and remove op parameter
+      fbcon: remove unused display (p) from fbcon_redraw()
+
+Martin Kaiser (2):
+      fbdev: imxfb: warn about invalid left/right margin
+      fbdev: imxfb: switch to DEFINE_SIMPLE_DEV_PM_OPS
+
+Rob Herring (1):
+      fbdev: Explicitly include correct DT includes
+
+Yangtao Li (4):
+      fbdev: imxfb: Removed unneeded release_mem_region
+      fbdev: imxfb: Convert to devm_kmalloc_array()
+      fbdev: imxfb: Convert to devm_platform_ioremap_resource()
+      fbdev: imxfb: remove unneeded labels
+
+Yuanjun Gong (1):
+      fbdev: ep93xx-fb: fix return value check in ep93xxfb_probe
+
+Zhang Shurong (1):
+      fbdev: au1200fb: Fix missing IRQ check in au1200fb_drv_probe
+
+ drivers/video/console/sticon.c                     | 12 ++--
+ drivers/video/console/vgacon.c                     | 74 ++++++++--------------
+ drivers/video/fbdev/au1200fb.c                     |  3 +
+ drivers/video/fbdev/bw2.c                          |  3 +-
+ drivers/video/fbdev/cg14.c                         |  3 +-
+ drivers/video/fbdev/cg3.c                          |  3 +-
+ drivers/video/fbdev/cg6.c                          |  3 +-
+ drivers/video/fbdev/core/fbcon.c                   |  7 +-
+ drivers/video/fbdev/ep93xx-fb.c                    |  4 +-
+ drivers/video/fbdev/ffb.c                          |  3 +-
+ drivers/video/fbdev/grvga.c                        |  3 +-
+ drivers/video/fbdev/imxfb.c                        | 48 ++++++--------
+ drivers/video/fbdev/kyro/STG4000InitDevice.c       | 10 +--
+ drivers/video/fbdev/leo.c                          |  3 +-
+ drivers/video/fbdev/mb862xx/mb862xxfb_accel.c      |  4 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c         |  6 +-
+ .../fbdev/omap2/omapfb/displays/panel-dsi-cm.c     |  2 +-
+ drivers/video/fbdev/p9100.c                        |  3 +-
+ drivers/video/fbdev/platinumfb.c                   |  4 +-
+ drivers/video/fbdev/sbuslib.c                      |  2 +-
+ drivers/video/fbdev/sunxvr1000.c                   |  3 +-
+ drivers/video/fbdev/sunxvr2500.c                   |  2 +-
+ drivers/video/fbdev/sunxvr500.c                    |  2 +-
+ drivers/video/fbdev/tcx.c                          |  3 +-
+ drivers/video/fbdev/xilinxfb.c                     |  5 +-
+ 25 files changed, 97 insertions(+), 118 deletions(-)
