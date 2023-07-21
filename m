@@ -1,53 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E4475C1CF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 10:36:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE0875C1DE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 10:42:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E88010E634;
-	Fri, 21 Jul 2023 08:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D02B10E638;
+	Fri, 21 Jul 2023 08:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5E6B10E634
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 08:36:14 +0000 (UTC)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD51A10E638
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 08:42:17 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-4fb77f21c63so2664639e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 01:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1689928574; x=1721464574;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qscxoPZSRFlMdwz0omMr1+2f4St3n6ppordwMHd/tdI=;
- b=m9uHpqaKUXfhgxHzFbsL9FI6jDwNmI1OUx6LTTUentA/G16o4ztDfKr1
- sCfQoAXkgAxuUSdNWxpOc8X8v19ED0mADw451d/01BoTySbiOODAESMTR
- va9T9iY09OLCwqBLAsM/n5khqB9gv0Y5bE9luWXDxIRh7aNhfb2S8dPST
- fFQREtsoS8Ds0AYsUQ+ZeM/LOL+Y0lLxoANWEm7H+Nf7W+2biMS5egt2r
- fnidCiAlMQfRMoiq4Xjw+3a5yxRHICimWKY5zcv4LNwsQRhXj4/cpQG+X
- gMTV+XOx2K4UIiRDxartLwSFMPCYT1WQDVYiEkPBIRbPydxl6P47pX2wD A==;
-X-IronPort-AV: E=Sophos;i="6.01,220,1684792800"; d="scan'208";a="32048717"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 21 Jul 2023 10:36:12 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9FCF4280078;
- Fri, 21 Jul 2023 10:36:12 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH 1/1] drm/imx/ipuv-v3: Fix front porch adjustment upon
- hactive aligning
-Date: Fri, 21 Jul 2023 10:36:10 +0200
-Message-ID: <2644832.X9hSmTKtgW@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230503111456.1748511-1-alexander.stein@ew.tq-group.com>
-References: <20230503111456.1748511-1-alexander.stein@ew.tq-group.com>
+ d=linaro.org; s=google; t=1689928936; x=1690533736;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=W6TNcuJ6KKeyZP2Qc4jlyhOYba3uwyITx3koQ5jSwOo=;
+ b=HXARkpRe+Woy704jzyCB1PGGko82xLt9OG7PhRKVf+T/dDXg/HTeom6C04EO5/KTSg
+ uYLQjum3/vFCHKVQR/H42P89Zp/H7rCobL+opuva5lCb6QODJZtrBr5CReJQt3lPWrD5
+ lLWX+0+ZvOmqlBw/qvFGk1Id30q4dTNFPr6hEvPjGk3QZkp0Py47WpAKQ/l2ewGR7MOu
+ gkxtsCSWZ9TYYIe4Z421Q1FxfjHKeyD8G2RorBxM+RSGqU/auqsWMhmL0AYVhcKUBZzC
+ dcBGpsNMQ6LpJ6pPfof+QKchRCWK+Gt7CtMGjuIK8PfhnA9t39mQspBKhPJumjSVwNJr
+ 1p1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689928936; x=1690533736;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W6TNcuJ6KKeyZP2Qc4jlyhOYba3uwyITx3koQ5jSwOo=;
+ b=TKo668fuxghU0mjuVp57HhMNKJQTUncL0OKjuZGM78zo3yeu0IY36EWpMFtDFT43Qe
+ vChCKXQ0nbIEkC3WfF0dQaExdBUl8khpVpkqrPxduusjYc+qIi6ZF/23SNr4WBayQdRl
+ d8KmjXmZ6Hg+zC4nOyLanZ9X51RTADjsZJ909s2PTP1AZuhIwgGtjDHIVSG6UL2/FyJy
+ usNrwFFmUug09zuymT4+ndQhs96VWKg1aSecaQjhkjLuecjcdonrAIKXey91Jms/Ek/o
+ PxJQjKzLSEAVtaTXVTodzoUigqDzL/42ennffllXrdBlU7viOcTiIVFymvXR9TWP13Sv
+ 3qCA==
+X-Gm-Message-State: ABy/qLYpy3vp3qjEvPNaxcyMotL+4jtgN0fFLn94FG+9M96N1wGzfJf+
+ /ROmOpj5XX0ReLm5sa40RJV9+Q==
+X-Google-Smtp-Source: APBJJlGKtETxxAKILcgSa+Bf4sk10TjgrNYisDXsNrKRx2MGlhPI/YEZW67N87KY8IC80WmfTGivlQ==
+X-Received: by 2002:ac2:5225:0:b0:4f8:711b:18b0 with SMTP id
+ i5-20020ac25225000000b004f8711b18b0mr866706lfl.3.1689928935769; 
+ Fri, 21 Jul 2023 01:42:15 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+ by smtp.gmail.com with ESMTPSA id
+ d15-20020a5d644f000000b003143c06135bsm3570899wrw.50.2023.07.21.01.42.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Jul 2023 01:42:15 -0700 (PDT)
+Message-ID: <5b9ceb0e-b7e4-d4b3-461e-c70f4a01fa5e@linaro.org>
+Date: Fri, 21 Jul 2023 10:42:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: add bindings for pcd8544
+ displays
+Content-Language: en-US
+To: Viktar Simanenka <viteosen@gmail.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230720124026.356603-1-viteosen@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230720124026.356603-1-viteosen@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +81,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Am Mittwoch, 3. Mai 2023, 13:14:56 CEST schrieb Alexander Stein:
-> When hactive is not aligned to 8 pixels, it is aligned accordingly and
-> hfront porch needs to be reduced the same amount. Unfortunately the front
-> porch is set to the difference rather than reducing it. There are some
-> Samsung TVs which can't cope with a front porch of instead of 70.
->=20
-> Fixes: 94dfec48fca7 ("drm/imx: Add 8 pixel alignment fix")
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+On 20/07/2023 14:40, Viktar Simanenka wrote:
+> Add device tree binding documentation for PCD8544 LCD display controller.
+> 
+> Signed-off-by: Viktar Simanenka <viteosen@gmail.com>
 > ---
-> AFAICS ipu_di_adjust_videomode() checks that front porch is big enough to
-> reduce the alignment difference.
+> v3:add a little more description to the exposed vendor properties
+>    add commit message finally
+> v2 link: https://lore.kernel.org/linux-devicetree/20230719154450.620410-1-viteosen@gmail.com/
+> 
+>  .../bindings/display/nxp,pcd8544.yaml         | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml b/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+> new file mode 100644
+> index 000000000000..bacdeff9776e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/nxp,pcd8544.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/nxp,pcd8544.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Philips Semiconductors PCD8544 LCD Display Controller
+> +
+> +maintainers:
+> +  - Viktar Simanenka <viteosen@gmail.com>
+> +
+> +description: |
+> +  Philips Semiconductors PCD8544 LCD Display Controller with SPI control bus.
+> +  Designed to drive a graphic display of 48 rows and 84 columns,
+> +  such as Nokia 5110/3310 LCDs.
+> +
+> +allOf:
+> +  - $ref: panel/panel-common.yaml#
 
-A gentle ping. Is there anything to do? Or is someone picking this patch wa=
-s=20
-tested by Ian?
+This is not a panel, is it?
+
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
 
 Best regards,
-Alexander
-
->  drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
-> b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c index 1d306f7be9fd..341e9125bf2c
-> 100644
-> --- a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
-> +++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
-> @@ -311,7 +311,7 @@ static void ipu_crtc_mode_set_nofb(struct drm_crtc
-> *crtc) sig_cfg.mode.hactive, new_hactive);
->=20
->  		dev_info(ipu_crtc->dev, "hfront_porch: %u\n",=20
-sig_cfg.mode.hfront_porch);
-> -		sig_cfg.mode.hfront_porch =3D new_hactive -=20
-sig_cfg.mode.hactive;
-> +		sig_cfg.mode.hfront_porch -=3D new_hactive -=20
-sig_cfg.mode.hactive;
-> dev_info(ipu_crtc->dev, "hfront_porch: %u\n", sig_cfg.mode.hfront_porch);
-> sig_cfg.mode.hactive =3D new_hactive;
->  	}
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+Krzysztof
 
