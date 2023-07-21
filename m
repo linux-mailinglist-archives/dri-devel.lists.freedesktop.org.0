@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B62E75C459
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 12:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E25975C470
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jul 2023 12:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 656E910E64A;
-	Fri, 21 Jul 2023 10:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B616110E64D;
+	Fri, 21 Jul 2023 10:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B720A10E64A
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 10:16:14 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-521dbe5e09bso2135464a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 03:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689934573; x=1690539373;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I9pbsGWRmQhFYBMY/NJD5z7H5GccL1796KX7w2BJdUk=;
- b=sW2HstlhQOPYQt5Hw7uJQSwQ4UtzmoY5z/4vM740TYB2/SGN+uqlSU1h7MfaX3jLfv
- SG+u5TQV7A9JnRvoVQOr+pZfo3iCcT1HsL6GkWGRC7kgshtYDmdklYdhXY9Nc5pOp2No
- PWXnUqFloCggSTG7CPewpL0+QIyDkMS3I/2RpPOIDIwFkuc9a7CVKa28PfzMaRRDcpsm
- 2yG6RgXxjeXPuJv3GMHLnZFoZ9dZxqO4Fdw0zZ8prMnZf16D+Vkdq35PMibd6b5wUIOx
- fkp5t1fbyyOrl1Fj0fQoIiIRv+J1M5Q25cSh9vdXtx6AhVNCV5AuSJavU+/OxGtukbte
- 6gwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689934573; x=1690539373;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I9pbsGWRmQhFYBMY/NJD5z7H5GccL1796KX7w2BJdUk=;
- b=UV0jntD6ODFJzlWyPNy67LeRIKP5K81fL1MlsEgSS1psZAXXzFxuXuGqUztzPfGQW3
- l6ToJv41NbKq9nQSZZChOm1I63x5hxpaky2KXN72YeAfGZ2Mbxif0sTJriURanVDupbc
- h52j1dYGQTMtu2av69lIKEhwLppp19h2744Ifnw/KncSOBGBkgXpMeZiWW+3dPc5DBCQ
- H992eoUgZCQZ28sl+6Roq5DnjFuKrHacwTk80humtqa8hkC4zm9SzpjR5w0sXMkc///9
- IeHuiF5W4GVA7va79ZexvlELSSPha6CU4B6HkmYXF8XbZxxs3ZBrfGvBMJzcMkrlDHPL
- OcJg==
-X-Gm-Message-State: ABy/qLasPloycJfQXXS8ABz9SpRBUhIgYbxN7HvJkFEK+umqlmax5NCF
- n0gQ++lPb3nqeDGIs3A6bxg=
-X-Google-Smtp-Source: APBJJlEG42wOwEYSG/XTXRiaQNAwS0FxDO+0N4WtgeWi+e7+3SPSBAvmdZViEOuur5CuBKK7xXxnHg==
-X-Received: by 2002:a05:6402:713:b0:51f:f168:a83 with SMTP id
- w19-20020a056402071300b0051ff1680a83mr1269892edx.33.1689934573033; 
- Fri, 21 Jul 2023 03:16:13 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- f20-20020a50ee94000000b00521ce1f04b8sm1894946edr.12.2023.07.21.03.16.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jul 2023 03:16:12 -0700 (PDT)
-Date: Fri, 21 Jul 2023 12:16:11 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] gpu/host1x: Explicitly include correct DT includes
-Message-ID: <ZLpa6yezfXUx_x8w@orome>
-References: <20230714174549.4056675-1-robh@kernel.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD76B10E64B;
+ Fri, 21 Jul 2023 10:17:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689934647; x=1721470647;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=OxibDKtAvapPQ7P85Ukb7Bo6W97b/VOI3fTJx3B8gxY=;
+ b=LU4jgxKrOLDN7viv7zBXYAqGlDf8h/d+te7iD4sOcMpM81amcffjpGxo
+ g5xg+5kAi2QBIAw94AchF4yvaC6XzAfQDWWbiN9023PgFWGU8c6abH9aN
+ Na93mZ+Z9++s6628bBlYTfWIAg12+hjsO4N2KXluFES6PKfpfzsHpbUQU
+ 4x7gaHJC/9GJBkDceAYIsCs97+rWIN+Nl+J1zRL5gbV9WD2ux6VmThZwR
+ BxgGK710lQlIGWwumt9pMiTX+VRzbDT1ZCnMXpc9OgPjQ8Cq5CjdOwebr
+ uESJ8LvU5iS3ugiza/3TYJhhJFAZmQgdqQ0T+BMxZbC07TTcgooeVKP20 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="365881229"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="365881229"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 03:17:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10777"; a="794916476"
+X-IronPort-AV: E=Sophos;i="6.01,220,1684825200"; d="scan'208";a="794916476"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.21.56])
+ ([10.213.21.56])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2023 03:17:24 -0700
+Message-ID: <bb22e634-03ed-7c51-8211-8fb6d5a52570@intel.com>
+Date: Fri, 21 Jul 2023 12:17:22 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QM4hLCGNIRW16k8r"
-Content-Disposition: inline
-In-Reply-To: <20230714174549.4056675-1-robh@kernel.org>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [Intel-gfx] [PATCH v7 5/9] drm/i915/gt: Enable the CCS_FLUSH bit
+ in the pipe control
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
+References: <20230720210737.761400-1-andi.shyti@linux.intel.com>
+ <20230720210737.761400-6-andi.shyti@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230720210737.761400-6-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,56 +70,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- linux-tegra@vger.kernel.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-evel <dri-devel@lists.freedesktop.org>,
+ linux-stable <stable@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---QM4hLCGNIRW16k8r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jul 14, 2023 at 11:45:49AM -0600, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On 20.07.2023 23:07, Andi Shyti wrote:
+> Enable the CCS_FLUSH bit 13 in the control pipe for render and
+> compute engines in platforms starting from Meteor Lake (BSPEC
+> 43904 and 47112).
+> 
+> Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Cc: Nirmoy Das <nirmoy.das@intel.com>
+> Cc: <stable@vger.kernel.org> # v5.8+
 > ---
->  drivers/gpu/host1x/context.c | 2 +-
->  drivers/gpu/host1x/dev.c     | 3 ++-
->  2 files changed, 3 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 7 +++++++
+>   drivers/gpu/drm/i915/gt/intel_gpu_commands.h | 1 +
+>   2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> index 7566c89d9def3..9d050b9a19194 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> @@ -218,6 +218,13 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+>   
+>   		bit_group_0 |= PIPE_CONTROL0_HDC_PIPELINE_FLUSH;
+>   
+> +		/*
+> +		 * When required, in MTL+ platforms we need to
+> +		 * set the CCS_FLUSH bit in the pipe control
+> +		 */
+> +		if (GRAPHICS_VER_FULL(rq->i915) >= IP_VER(12, 70))
+> +			bit_group_0 |= PIPE_CONTROL_CCS_FLUSH;
+> +
 
-Applied to drm-misc, thanks.
 
-Thierry
+Btw, not for this patch, but related: rcs and ccs have slightly 
+different set of flushes according to bspec but this functions is the 
+same for both. Is it sth we should address, or just safe simplification.
 
---QM4hLCGNIRW16k8r
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards
+Andrzej
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmS6WuoACgkQ3SOs138+
-s6ECow/+NNmR0ClidT/qBm/ZSwIdWoje3YSoYYTlv9kySXuMHCdqe7IubPeLAv1N
-KIjZwqkCNJDM3z5+ycXxV3jBONIsHn3bnZkQYs58vr3hoJpFFg4yGCfGq4V9wwyh
-2caMfzXdzlBum4P88aHQk35fIgOAMk4u1SmGWNH1y/uHFY+PMekH0kTYqdupRGpP
-NYzOL1QbZHZtnViy8tOt10olTI8ke0+jzGBVgB1gFrlXmgruU+94ljNey1KZZBJp
-uzotsjI0E8tcU+/sVk2ODAmNuNfqSbmQRpLht9nlGBPnyOs2UN+Df9SLDu4GyFKC
-3AtyyckgYmpKo/tROB67+QC6oh+MD6vyE595LVjX0geYMgxEi4oSX4h8DWm8R1z1
-IEGJ/8zPZk1gkadYhc3BnBStrGj8BIIaKfmGN3e/wwClPUsLjHWAK7PwCEm+uGwG
-wA0j5A/0oH0i4Yd+Pbghw7grY+lgzZi8LT/NYOFQaN4HTz8vsr7uWBNdsMWocZZC
-VF36CYD9BAWjY607pO8FAM3jfLZy+Iw2aCduIBQZ3hsi1zORLZ/HXExOApQuk7Av
-pE+yFTgHs4/xTFinowmz4OsIuk6i82pbgSomJulOR5TsS0UT5h2LOBwtoKREmLah
-Q01LASs1XGN6e/sc16O61cq8eGPSRgb0ULiuAZB1IfJ3rA+bOqU=
-=F+K4
------END PGP SIGNATURE-----
+>   		bit_group_1 |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+>   		bit_group_1 |= PIPE_CONTROL_FLUSH_L3;
+>   		bit_group_1 |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> index 5d143e2a8db03..5df7cce23197c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+> @@ -299,6 +299,7 @@
+>   #define   PIPE_CONTROL_QW_WRITE				(1<<14)
+>   #define   PIPE_CONTROL_POST_SYNC_OP_MASK                (3<<14)
+>   #define   PIPE_CONTROL_DEPTH_STALL			(1<<13)
+> +#define   PIPE_CONTROL_CCS_FLUSH			(1<<13) /* MTL+ */
+>   #define   PIPE_CONTROL_WRITE_FLUSH			(1<<12)
+>   #define   PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH	(1<<12) /* gen6+ */
+>   #define   PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE	(1<<11) /* MBZ on ILK */
 
---QM4hLCGNIRW16k8r--
