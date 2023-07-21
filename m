@@ -2,65 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4C775D763
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jul 2023 00:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A2A75D798
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jul 2023 00:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C496710E70D;
-	Fri, 21 Jul 2023 22:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9699D10E70C;
+	Fri, 21 Jul 2023 22:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3330110E70C;
- Fri, 21 Jul 2023 22:21:59 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- 98e67ed59e1d1-262c42d3fafso1662235a91.0; 
- Fri, 21 Jul 2023 15:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689978119; x=1690582919;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=91mL5jfG2O2HHjlTT7P8VaJYQOxhCgdT7EC1VTa5Mlk=;
- b=HoTrEYR2GIsVg0GudEbf1N4STKpjkBfxcIxV8y4tckabtqJiXjkWnRyTMvEvodEDKy
- 03wenOijhJ+tz7aJDaz6ktZq2S+2ea84w8eFBiNgmFbHdK3MdKsab/DgPlyqg57SV9mL
- IGK9P1QQ1OSJTXDk3wrx0YWu81fBhzrZK7dvLtbfMBKSOnWl3qh8LtIB4j6mN6+41KcR
- CPzHBXacWVpcD7202RYxOO6l77KD3p35XYRFkjBMvI62PoRHwECevgNiUY75d76DmXUK
- HnA6FyFKxSgAi4SNMPpnrnVccOXAIhNLC7OXA0S1Z7aFf6+LPA9HGgSVVY9xeboyvKdz
- tSWg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579A110E70C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 22:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689979175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=djeVFkwc7o11bqagTdpCOjfKwmcqowaFNZyoMjR9tzs=;
+ b=STOtfBz6xAoS1ZwLnT9bsI6Ip9aS1NxHDC5MsOToM3cqyVi1vL541XR51nu/mNUUjRjml0
+ 3dC+tYwQ8YlwSOpclDwZ/qz35afG+DgLg/hL1fEZMTxmBOoZyr4U27XfNNASv0TFswnFxA
+ FdmpHv7wr4OR2q3K5dHoOrRjDQ6R/P4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-171-Fw8PlUiAOiK3PJjuCnCEpg-1; Fri, 21 Jul 2023 18:39:33 -0400
+X-MC-Unique: Fw8PlUiAOiK3PJjuCnCEpg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3fbdd5d09b8so14771825e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jul 2023 15:39:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689978119; x=1690582919;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=91mL5jfG2O2HHjlTT7P8VaJYQOxhCgdT7EC1VTa5Mlk=;
- b=SLBs01Ucq43ipB+fAu3xGi42faKAp1tk6tEx1Z7b0gEYmZyteAHtm1mTowYLbWM4u5
- 1EBgrsYFqDs64fW2jzpAhQoCuc2B0RkdzI0yya27nAi5qXSa7TLUQneY6Kr87wtcXJUB
- WNLHXZVhJbCbvOxihLyn9zRcifo9GmLoVbKQd292uYXXhWBr6sdAuNI6y65EjExu6Jc1
- 3y9N1VLdRKAQ9/dcVztMB1/5/iPZ+dyWn8tJ2w7IhzTMoE7fUw93d60KjGUGoNWqqgjI
- SDb79g9cb4to/KS+lnd5/6zG1GDO/v4ot4YcayeEbRCOUAk4iNFf4TqDvhSLlZZ9e4Ba
- QDrw==
-X-Gm-Message-State: ABy/qLZL9XhMj1YCJGFmCYZNS+TzaMdBKrpxlqgo/x+NmcnQnGIk9Lo+
- 6ZeMLpqQhcm5pLU07qwFJEA=
-X-Google-Smtp-Source: APBJJlHKMa7ltMEibHTz8p6SimlBXW/dfy5JPiBMaVtarDRYEJmmQv5gvJ8rHnOz8BqcCK2OH/SWEg==
-X-Received: by 2002:a17:90a:4a0f:b0:263:f521:da3e with SMTP id
- e15-20020a17090a4a0f00b00263f521da3emr4581496pjh.2.1689978118480; 
- Fri, 21 Jul 2023 15:21:58 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:fbd8])
- by smtp.gmail.com with ESMTPSA id
- u3-20020a17090aae8300b00265a7145fe5sm4626319pjq.41.2023.07.21.15.21.57
+ d=1e100.net; s=20221208; t=1689979172; x=1690583972;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=djeVFkwc7o11bqagTdpCOjfKwmcqowaFNZyoMjR9tzs=;
+ b=S9d6YvDm+Ajxn+8aXxDokRW6/SF4ErsENJiaqoPmo+A8lqjzo6I1cRyGF7i2puj3N6
+ hLt0Y/iEQAE2yTMR6iDLS6aOhjWybln+MO1Y9ISBCHcQ4hWdJfY+qLw1/+QcGwuwquwq
+ ucZvc7y7AOH8W2T/IiJpEtcyboEINxq4SK7fTMy+iPBYMF2tdpPhyc1aOdewpGzYnjIp
+ UQpbhK5W0ckcSBSA7/aK7fBoWz38PY7E2c+ULbPBW50gDkXtNl7lbbbTbP7OVbAMH/mI
+ V2qaSj/B6N2CLUlMSTzO83RzBjtVWj5MbCtbesunurUekraruIR8SAIiXoU8P3zSLdfF
+ r/6w==
+X-Gm-Message-State: ABy/qLaiUZNEbSIAe0x7uAXfNjp6AW1nO97nnfHCVCSA6KBjGUbdo+Aa
+ DsTO8Y9dc+p7bti2h0X4gPSG7s1zt2ztNzilZvJqg/yqmWMNoK3yIgvFsc+1nn31OkugeVM0k0s
+ JxTX5Z8+uBCerwhx1JtUbeGQw4WlP
+X-Received: by 2002:a5d:688a:0:b0:313:e591:94ec with SMTP id
+ h10-20020a5d688a000000b00313e59194ecmr2492209wru.67.1689979172736; 
+ Fri, 21 Jul 2023 15:39:32 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFU19gbuGBPfn5GFP+ZJOAcjjr+4pjs4xq8gM4c2hidS9MPYgB6irSpOLn1E2i5bapMMgOciw==
+X-Received: by 2002:a5d:688a:0:b0:313:e591:94ec with SMTP id
+ h10-20020a5d688a000000b00313e59194ecmr2492200wru.67.1689979172460; 
+ Fri, 21 Jul 2023 15:39:32 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q17-20020adff511000000b0031272fced4dsm5316385wro.52.2023.07.21.15.39.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Jul 2023 15:21:58 -0700 (PDT)
-Date: Fri, 21 Jul 2023 12:21:56 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 16/17] cgroup/drm: Expose memory stats
-Message-ID: <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
-References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
- <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
+ Fri, 21 Jul 2023 15:39:31 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 1/8] drm/ssd130x: Fix pitch calculation in
+ ssd130x_fb_blit_rect()
+In-Reply-To: <874jm69631.fsf@minerva.mail-host-address-is-not-set>
+References: <cover.1689252746.git.geert@linux-m68k.org>
+ <54deec2ec533e90544faa8c60a0c2518c58f3e9c.1689252746.git.geert@linux-m68k.org>
+ <87r0pau99o.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdVAXPqjSNGMrZQ2g8FNNL4f7PbdoUCi17g9YOdoqmjFpQ@mail.gmail.com>
+ <874jm69631.fsf@minerva.mail-host-address-is-not-set>
+Date: Sat, 22 Jul 2023 00:39:30 +0200
+Message-ID: <87v8ecubx9.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,40 +84,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
- Dave Airlie <airlied@redhat.com>,
- =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
- Eero Tamminen <eero.t.tamminen@intel.com>,
- "T . J . Mercier" <tjmercier@google.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 12:46:04PM +0100, Tvrtko Ursulin wrote:
->   $ cat drm.memory.stat
->   card0 region=system total=12898304 shared=0 active=0 resident=12111872 purgeable=167936
->   card0 region=stolen-system total=0 shared=0 active=0 resident=0 purgeable=0
-> 
-> Data is generated on demand for simplicty of implementation ie. no running
-> totals are kept or accounted during migrations and such. Various
-> optimisations such as cheaper collection of data are possible but
-> deliberately left out for now.
-> 
-> Overall, the feature is deemed to be useful to container orchestration
-> software (and manual management).
-> 
-> Limits, either soft or hard, are not envisaged to be implemented on top of
-> this approach due on demand nature of collecting the stats.
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-So, yeah, if you want to add memory controls, we better think through how
-the fd ownership migration should work.
+Hello Geert,
 
-Thanks.
+> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+>
+
+[...]
+
+>>
+>> My point is that the 8 as used here is related to the number of bits per pixel,
+>> not to the page height.  The page height might also be impacted by the
+>> number of bits per pixel, but that is orthogonal.
+>>
+>
+> Ah, I see what you mean. Yes, you are right. We can later add a
+> different variable when adding support for controllers using R4.
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+
+Pushed to drm-misc (drm-misc-next) since this fix is independent of the
+rest of the patches. Thanks!
 
 -- 
-tejun
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
