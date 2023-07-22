@@ -2,55 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F3175DAFA
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jul 2023 10:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7101975DB55
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jul 2023 11:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6108910E04C;
-	Sat, 22 Jul 2023 08:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E4010E0CA;
+	Sat, 22 Jul 2023 09:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 38E7710E04C
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jul 2023 08:11:13 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bx5fAej7tk9y4IAA--.21051S3;
- Sat, 22 Jul 2023 16:11:10 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxX88bj7tkOYg2AA--.18356S3; 
- Sat, 22 Jul 2023 16:11:08 +0800 (CST)
-Message-ID: <ee44ec4e-df97-c327-b83b-fe56eb2c120b@loongson.cn>
-Date: Sat, 22 Jul 2023 16:11:07 +0800
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1A610E0CA
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jul 2023 09:24:52 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E10EA2014D;
+ Sat, 22 Jul 2023 11:24:48 +0200 (CEST)
+Date: Sat, 22 Jul 2023 11:24:47 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 06/15] dt-bindings: display/msm: sc7180-dpu: Describe
+ SM6125
+Message-ID: <ntbi7qdmxznuof27qtbvhxct7ol3rdioabtaary4u4chprrnml@vx2d2ctq73gp>
+References: <20230718-sm6125-dpu-v3-0-6c5a56e99820@somainline.org>
+ <20230718-sm6125-dpu-v3-6-6c5a56e99820@somainline.org>
+ <3ce19d8f-97d8-15b6-5148-78e200b112e9@linaro.org>
+ <tpkiplw7l2mzdwekynkrg6dwm7svktwm2zooodb3c42btyvo3e@yjrpqem26wtx>
+ <CAA8EJprHEes5T1z4-sxg_Xk+VjuyoTH0Ra-VyMnrWjTv7qG9EA@mail.gmail.com>
+ <m425lafv5gvrnyhoarasqgkoumntgsxiqdpmsudcxrwspvf6ed@al5sr3t2mwec>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>, Sui Jingfeng <sui.jingfeng@linux.dev>
-References: <20230719182617.GA509912@bhelgaas>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230719182617.GA509912@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxX88bj7tkOYg2AA--.18356S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxCr4xCry3try8ZF4kKry5KFX_yoW5Xr1rpa
- y0kFW5KFyvgFy0kw1xuFW8WFyrKr47JFy3AFyYg34Uu3yDXasI9rZYgrWqga4kCrs7Jr4I
- qFsFqr18uFyDArXCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUPYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
- kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
- twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
- k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
- 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxV
- WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
- 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
- 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5o7tUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m425lafv5gvrnyhoarasqgkoumntgsxiqdpmsudcxrwspvf6ed@al5sr3t2mwec>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,106 +47,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- loongson-kernel@lists.loongnix.cn, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Loic Poulain <loic.poulain@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2023-07-20 21:10:52, Marijn Suijten wrote:
+> On 2023-07-20 01:24:27, Dmitry Baryshkov wrote:
+> > On Thu, 20 Jul 2023 at 01:09, Marijn Suijten
+> > <marijn.suijten@somainline.org> wrote:
+> > >
+> > > On 2023-07-19 01:06:03, Dmitry Baryshkov wrote:
+> > > > On 19/07/2023 00:24, Marijn Suijten wrote:
+> > > > > SM6125 is identical to SM6375 except that while downstream also defines
+> > > > > a throttle clock, its presence results in timeouts whereas SM6375
+> > > > > requires it to not observe any timeouts.  This is represented by
+> > > > > reducing the clock array length to 6 so that it cannot be passed.  Note
+> > > > > that any SoC other than SM6375 (currently SC7180 and SM6350) are
+> > > > > unconstrained and could either pass or leave out this "throttle" clock.
+> > > >
+> > > > Could you please describe, what kind of timeouts do you observe? Is this
+> > > > the DSI underruns issue?
+> > >
+> > > Ping-pong timeouts and low(er) framerate.  However, they were previosuly
+> > > not happening on a random boot out of tens... and now I can no longer
+> > > reproduce the timeout on 4 consecutive boots after adding the throttle
+> > > clock.  Could it perhaps be the power domains and opps that we added in
+> > > v2 and v3?
+> > 
+> > Quite unlikely, but who knows. My main question is whether we should
+> > continue skipping the throttle clocks or if it should be enabled now.
+> 
+> And that "main question" could ... drum roll please ... only be answered
+> by knowing if this got "accidentally" fixed by providing the right PMs
+> or some other change entirely while I changed base branch and defconfig.
+> Or if this is just a fluke that persisted multiple boots but will fall
+> apart in some time and/or when someone else runs this on their device?
 
-On 2023/7/20 02:26, Bjorn Helgaas wrote:
-> Optimization is fine, but the most important thing here is to be clear
-> about what functional change this patch makes.  As I mentioned at [1],
-> if this patch affects the class codes accepted, please make that clear
-> here.
->
->> Reviewed-by: Mario Limonciello<mario.limonciello@amd.com>
->> Signed-off-by: Sui Jingfeng<suijingfeng@loongson.cn>
-> I do not see Mario's Reviewed-by on the list.  I do see Mario's
-> Reviewed-by [2] for a previous version, but that version added this in
-> pci_notify():
->
->    + if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
->    +   return 0;
->
-> while this version adds:
->
->    + if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
->    +   return 0;
->
-> It's OK to carry a review to future versions if there are
-> insignificant changes, but this is a functional change that seems
-> significant to me.  The first matches only 0x030000, while the second
-> discards the low eight bits so it matches 0x0300XX.
->
-> [1]https://lore.kernel.org/r/20230718231400.GA496927@bhelgaas
-> [2]https://lore.kernel.org/all/5b6fdf65-b354-94a9-f883-be820157efad@amd.com/
->
-Yes,  you are right. As you already told me at [1]:
+I'm going to write this off as PEBKAC from my past self.  I went back to
+an older branch where I recall adding this clock, added it to DT again,
+and observed no timeouts or inexplicable behaviour on multiple boots.
 
+Since downstream passes it as well, I'll revise this series for v4 to
+require it in dt-bindings, and include it in DT.
 
-According to the "PCI Code and ID Assignment" spec, r1.15, sec 1.4,
-
-only mentions 0x0300 programming interface 0x00 as decoding
-
-the legacy VGA addresses.
-
-
-If the programming interface is 0x01, then it is a 8514-compatible 
-controller.
-
-It is petty old card,  about 30 years old(I think, it is nearly obsolete 
-for now).
-
-I never have a chance to see such a card in real life.
-
-
-Yes, we should adopt first matches method here. That is:
-
-   + if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
-   +   return 0;
-
-It seems that we are more rigorous to deal the VGA-compatible devices as 
-illustrated by above code here.
-
-But who the still have that card (8514-compatible) and the hardware to 
-using such a card today ?
-
-
-Please consider that the pci_dev_attrs_are_visible() function[3] also 
-ignore the
-
-programming interface (the least significant 8 bits).
-
-Therefore, at this version of my vgaarb cleanup patch set.
-
-I choose to keep the original filtering rule,
-
-but do the necessary optimization only which I think is meaningful.
-
-
-In the future, we may want to expand VGAARB to deal all PCI display 
-class devices, with another patch.
-
-  
-if (pdev->class >> 16 == PCI_BASE_CLASS_DISPLAY)
-
-          // accept
-
-else
-
-       // return immediately.
-
-
-Then, we will have a more good chance to clarify the programmer interface.
-
-Is this explanation feasible and reasonable, Bjorn and Mario ?
-
-
-[3] 
-https://elixir.bootlin.com/linux/latest/source/drivers/pci/pci-sysfs.c#L1551
-
-
+- Marijn
