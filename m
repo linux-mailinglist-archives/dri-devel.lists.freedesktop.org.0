@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E782A75DF23
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 00:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1652475DF56
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 01:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8060110E030;
-	Sat, 22 Jul 2023 22:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BD310E14E;
+	Sat, 22 Jul 2023 23:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D226410E01F;
- Sat, 22 Jul 2023 22:06:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD26F10E057
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jul 2023 23:53:02 +0000 (UTC)
+Received: from workpc.. (109-252-150-127.dynamic.spd-mgts.ru [109.252.150.127])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1A78A60677;
- Sat, 22 Jul 2023 22:06:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B3BC433C7;
- Sat, 22 Jul 2023 22:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690063599;
- bh=tyf/hjLCqwPYZjmfSZ9szqE/H4NkKJfOiEi8d0WNkjw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cnew+AFer7HBfltIjGe5dOWt9R9E0nD2r85cxs7RNOmsG3pxvqao5fFC+PdIY5orz
- 12UbrKmri1iZX/D8/vHi3AjrKPlRYJQxzUfUh8Nt28YLwBLyx1KZrf4iXD68FG+j9k
- clhMh508R51YzREaYde6mvwTsqDdFfpVTtCFUmKbrtYzdjVesmMeDkDbZErNd3pIfw
- bqwUV/LPA1RdLhffmrBxuyYzFwp5tjZyR/Q39ygiabKzRrkBfqGTpVlAqLXp3Gd2hp
- JsAUXblDkXPBu2ga/dkkwwYw1m4iB4x8xzZoUaCJ1YBdnuxDjRZDlYH0+2nWg+FP1E
- co5yK1XaHMbPQ==
-Date: Sat, 22 Jul 2023 15:06:37 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/6] drm: execution context for GEM buffers v7
-Message-ID: <20230722220637.GA138486@dev-arch.thelio-3990X>
-References: <20230711133122.3710-1-christian.koenig@amd.com>
- <20230711133122.3710-2-christian.koenig@amd.com>
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 84B116606EFD;
+ Sun, 23 Jul 2023 00:52:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690069981;
+ bh=81zCbI/f3RiO00IRtoWpBFJlXd/bCmpEfNvrni+jPuI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=acwfAxtJAVNbxkrHyDamV8IwAWJBjs3vjtQvjxUm5diM9kI6m5eLT6GzV4tBsZno7
+ 7S6K7aP7NJb56dWksuXyBlGMphqv+7T5eeik95gOGpKX0r+puWjkj9WPeVY/oRJgGm
+ QNlqwNzCbz1pykLXwCSWDqGt10BdeWsk+gHYTPumr9mPNVKwEb+lk8jpXu/Wwjy92w
+ SETpZB7Tr/yjJMG1wJR/nis9/+KpI7eflhrEq5f1em1q0tnUH9kQWFiE60DZD/HDst
+ qWtuvG71p7QJJICdA+rqpwaIYHOTqjYbptD70/9Ot31VqIp0DeKsmnpBg0pXxk4Jpv
+ 3KquKc1aYL/0w==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
+Subject: [PATCH v14 00/12] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Date: Sun, 23 Jul 2023 02:47:34 +0300
+Message-ID: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230711133122.3710-2-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,101 +60,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+This series:
 
-On Tue, Jul 11, 2023 at 03:31:17PM +0200, Christian König wrote:
-> This adds the infrastructure for an execution context for GEM buffers
-> which is similar to the existing TTMs execbuf util and intended to replace
-> it in the long term.
-> 
-> The basic functionality is that we abstracts the necessary loop to lock
-> many different GEM buffers with automated deadlock and duplicate handling.
-> 
-> v2: drop xarray and use dynamic resized array instead, the locking
->     overhead is unnecessary and measurable.
-> v3: drop duplicate tracking, radeon is really the only one needing that.
-> v4: fixes issues pointed out by Danilo, some typos in comments and a
->     helper for lock arrays of GEM objects.
-> v5: some suggestions by Boris Brezillon, especially just use one retry
->     macro, drop loop in prepare_array, use flags instead of bool
-> v6: minor changes suggested by Thomas, Boris and Danilo
-> v7: minor typos pointed out by checkpatch.pl fixed
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-> Tested-by: Danilo Krummrich <dakr@redhat.com>
+  1. Adds common drm-shmem memory shrinker
+  2. Enables shrinker for VirtIO-GPU driver
+  3. Switches Panfrost driver to the common shrinker
 
-<snip>
+Changelog:
 
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> new file mode 100644
-> index 000000000000..73205afec162
-> --- /dev/null
-> +++ b/include/drm/drm_exec.h
+v14:- All the prerequisite reservation locking patches landed upstream,
+      previously were a part of this series in v13 and older.
 
-<snip>
+        https://lore.kernel.org/dri-devel/20230529223935.2672495-1-dmitry.osipenko@collabora.com/
 
-> + * Since labels can't be defined local to the loops body we use a jump pointer
-> + * to make sure that the retry is only used from within the loops body.
-> + */
-> +#define drm_exec_until_all_locked(exec)				\
-> +	for (void *__drm_exec_retry_ptr; ({			\
-> +		__label__ __drm_exec_retry;			\
-> +__drm_exec_retry:						\
-> +		__drm_exec_retry_ptr = &&__drm_exec_retry;	\
-> +		(void)__drm_exec_retry_ptr;			\
-> +		drm_exec_cleanup(exec);				\
-> +	});)
-> +
-> +/**
-> + * drm_exec_retry_on_contention - restart the loop to grap all locks
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to continue when a contention was detected and we need to
-> + * clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_retry_on_contention(exec)			\
-> +	do {							\
-> +		if (unlikely(drm_exec_is_contended(exec)))	\
-> +			goto *__drm_exec_retry_ptr;		\
-> +	} while (0)
+    - Added patches to improve locked/unlocked function names, like was
+      suggested by Boris Brezillon for v13.
 
-This construct of using a label as a value and goto to jump into a GNU
-C statement expression is explicitly documented in GCC's manual [1] as
-undefined behavior:
+    - Made all exported drm-shmem symbols GPL, like was previously
+      discussed with Thomas Zimmermann on this series.
 
-"Jumping into a statement expression with a computed goto (see Labels as
-Values [2]) has undefined behavior. "
+    - Improved virtio-gpu shrinker patch. Now it won't detach purged BO
+      when userspace closes GEM. Crosvm (and not qemu) checks res_id on
+      CMD_CTX_DETACH_RESOURCE and prints noisy error message if ID is
+      invalid, which wasn't noticed before.
 
-A recent change in clang [3] to prohibit this altogether points this out, so
-builds using clang-17 and newer will break with this change applied:
+v13:- Updated virtio-gpu shrinker patch to use drm_gem_shmem_object_pin()
+      directly instead of drm_gem_pin() and dropped patch that exported
+      drm_gem_pin() functions, like was requested by Thomas Zimmermann in
+      v12.
 
-  drivers/gpu/drm/tests/drm_exec_test.c:41:3: error: cannot jump from this indirect goto statement to one of its possible targets
-     41 |                 drm_exec_retry_on_contention(&exec);
-        |                 ^
-  include/drm/drm_exec.h:96:4: note: expanded from macro 'drm_exec_retry_on_contention'
-     96 |                         goto *__drm_exec_retry_ptr;             \
-        |                         ^
-  drivers/gpu/drm/tests/drm_exec_test.c:39:2: note: possible target of indirect goto statement
-     39 |         drm_exec_until_all_locked(&exec) {
-        |         ^
-  include/drm/drm_exec.h:79:33: note: expanded from macro 'drm_exec_until_all_locked'
-     79 |                 __label__ __drm_exec_retry;                     \
-        |                                                                 ^
-  drivers/gpu/drm/tests/drm_exec_test.c:39:2: note: jump enters a statement expression
+v12:- Fixed the "no previous prototype for function" warning reported by
+      kernel build bot for v11.
 
-It seems like if this construct works, it is by chance, although I am
-not sure if there is another solution.
+    - Fixed the missing reservation lock reported by Intel CI for VGEM
+      driver. Other drivers using drm-shmem were affected similarly to
+      VGEM. The problem was in the dma-buf attachment code path that led
+      to drm-shmem pinning function which assumed the held reservation lock
+      by drm_gem_pin(). In the past that code path was causing trouble for
+      i915 driver and we've changed the locking scheme for the attachment
+      code path in the dma-buf core to let exporters to handle the locking
+      themselves. After a closer investigation, I realized that my assumption
+      about testing of dma-buf export code path using Panfrost driver was
+      incorrect. Now I created additional local test to exrecise the Panfrost
+      export path. I also reproduced the issue reported by the Intel CI for
+      v10. It's all fixed now by making the drm_gem_shmem_pin() to take the
+      resv lock by itself.
 
-[1]: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
-[2]: https://gcc.gnu.org/onlinedocs/gcc/Labels-as-Values.html
-[3]: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f5d096eb3aed7b712f5067
+    - Patches are based on top of drm-tip, CC'd intel-gfx CI for testing.
 
-Cheers,
-Nathan
+v11:- Rebased on a recent linux-next. Added new patch as a result:
+
+        drm/shmem-helper: Export drm_gem_shmem_get_pages_sgt_locked()
+
+        It's needed by the virtio-gpu driver to swap-in/unevict shmem
+        object, previously get_pages_sgt() didn't use locking.
+
+    - Separated the "Add memory shrinker" patch into smaller parts to ease
+      the reviewing, as was requested by Thomas Zimmermann:
+
+        drm/shmem-helper: Factor out pages alloc/release from
+          drm_gem_shmem_get/put_pages()
+        drm/shmem-helper: Add pages_pin_count field
+        drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap to use pin/unpin
+        drm/shmem-helper: Factor out unpinning part from drm_gem_shmem_purge()
+
+    - Addessed the v10 review comments from Thomas Zimmermann: return errno
+      instead of bool, sort code alphabetically, rename function and etc
+      minor changes.
+
+    - Added new patch to remove the "map->is_iomem" from drm-shmem, as
+      was suggested by Thomas Zimmermann.
+
+    - Added acks and r-b's that were given to v10.
+
+v10:- Was partially applied to misc-fixes/next.
+
+      https://lore.kernel.org/dri-devel/6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com/T/
+
+Dmitry Osipenko (12):
+  drm/shmem-helper: Factor out pages alloc/release from
+    drm_gem_shmem_get/put_pages()
+  drm/shmem-helper: Add pages_pin_count field
+  drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap to use pin/unpin
+  drm/shmem-helper: Factor out unpinning part from drm_gem_shmem_purge()
+  drm/shmem-helper: Add memory shrinker
+  drm/shmem-helper: Remove obsoleted is_iomem test
+  drm/shmem-helper: Export drm_gem_shmem_get_pages_sgt_locked()
+  drm/virtio: Support memory shrinking
+  drm/panfrost: Switch to generic memory shrinker
+  drm/shmem-helper: Refactor locked/unlocked functions
+  drm/shmem-helper: Make drm_gem_shmem_print_info() symbol GPL
+  drm/gem: Add _unlocked postfix to drm_gem_pin/unpin()
+
+ drivers/gpu/drm/drm_gem.c                     |   4 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 546 ++++++++++++++----
+ drivers/gpu/drm/drm_internal.h                |   4 +-
+ drivers/gpu/drm/drm_prime.c                   |   4 +-
+ drivers/gpu/drm/lima/lima_gem.c               |  10 +-
+ drivers/gpu/drm/panfrost/Makefile             |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  29 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  40 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ----
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |   2 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |  10 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |  20 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c          |  72 +++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  33 ++
+ drivers/gpu/drm/virtio/virtgpu_kms.c          |   8 +
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 137 ++++-
+ drivers/gpu/drm/virtio/virtgpu_plane.c        |  17 +-
+ drivers/gpu/drm/virtio/virtgpu_submit.c       |  15 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c           |  40 ++
+ include/drm/drm_device.h                      |  10 +-
+ include/drm/drm_gem_shmem_helper.h            | 208 +++++--
+ include/uapi/drm/virtgpu_drm.h                |  14 +
+ 25 files changed, 986 insertions(+), 391 deletions(-)
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+
+-- 
+2.41.0
+
