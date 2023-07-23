@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3920475DF73
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 02:03:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D4A75E024
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 08:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0519710E1E9;
-	Sun, 23 Jul 2023 00:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2E4310E058;
+	Sun, 23 Jul 2023 06:41:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8D9410E1E9
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 00:02:55 +0000 (UTC)
-Received: from workpc.. (109-252-150-127.dynamic.spd-mgts.ru [109.252.150.127])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F11386606EFD;
- Sun, 23 Jul 2023 01:02:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690070574;
- bh=GUuN4Hv+kEehufgIB+sVRE0fxNfkqINjDEaKIO9+P1Q=;
- h=From:To:Cc:Subject:Date:From;
- b=AqGbeV6pC2fIb/cqylud/UkiC8DxdE0s/TJYG5HnWornI3FbcLwir3HZxPb08Rh63
- DKmQkuJyJ9/New8LCz6h5fxvTfnjGAxOJ0q2u0+27itaQXiOjHcMRpBmA8sI7KBixO
- 9xnu4sVyGaGGXVMB7UFZt8Fx9irW6ZiuaWBbREuDxkmNNqULMlnUOyyoXK2us5Vfn1
- KCcMz4pTLl7k79AFBBr1QLzvPvsi92e5aMo5GjeInznloDxr2Hhjj2Jo6z7GTtMrjv
- zoHkRk+sJbFteXAi+WwSt0mNQKw9rzt2wLnups1KKQSQ2Briyf8Ujy6eh9I+sktCbQ
- 7PcR+ZKCGuUGA==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v2] drm/panfrost: Sync IRQ by job's timeout handler
-Date: Sun, 23 Jul 2023 03:01:42 +0300
-Message-ID: <20230723000142.206908-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.41.0
+Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr
+ [80.12.242.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77BFD10E058
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 06:41:40 +0000 (UTC)
+Received: from pop-os.home ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id NSmdq59F14DtINSmdqfFoy; Sun, 23 Jul 2023 08:41:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1690094498;
+ bh=Q7o0UQvRfkS/4+Mc6nSPTzH0IapT9/fEsaA6pwimGA0=;
+ h=From:To:Cc:Subject:Date;
+ b=N/o86135ANjyjKGmokuS7xBDhOlV15gvy89zRuss8Qpd7KKHc/I4AvMRy0vHpTNPP
+ CdHlSFsd+qtazyI5QGlhGEa7t2s+ezl1Wb0N6mE9oRHSoYuvUBlBdxTuuwctbFxR2A
+ 9Zk5/e8z356kbKZSdmRnh2veOy8ewV5V48lDUyg0xuZHjeRIA/sxilDnSt8F7xqOnf
+ 4DmDV+b4GJow+4SNILdEJP+Bla9fs59NxWl1NOK80l4LU2T6INRhrrsH+zD1gGPb4e
+ 3J3PTblIWoQEMzg6a8hURf62+DuwkL5YE/vJoHpuj+ZKimoSeJBJVwoZCInRtvdcx7
+ t0prBJ/xef2wQ==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 23 Jul 2023 08:41:38 +0200
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/msm: Slightly simplify memory allocation in
+ submit_lookup_cmds()
+Date: Sun, 23 Jul 2023 08:41:33 +0200
+Message-Id: <9861e8b1ce385a556e0c9c4533beee9c4a92809c.1690094459.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,48 +54,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panfrost IRQ handler may stuck for a long time, for example this happens
-when there is a bad HDMI connection and HDMI handler takes a long time to
-finish processing, holding Panfrost. Make Panfrost's job timeout handler
-to sync IRQ before checking fence signal status in order to prevent
-spurious job timeouts due to a slow IRQ processing.
+If 'sz' is SIZE_MAX, kmalloc() will fail. So there is no need to explicitly
+check for an hypothetical overflow.
 
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Remove the check to save a few lines of code.
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Changelog:
-
-v2: - Moved synchronize_irq() after first signal-check to avoid unnecessary
-      blocking on syncing.
-
-    - Added warn message about high interrupt latency.
-
- drivers/gpu/drm/panfrost/panfrost_job.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index dbc597ab46fb..a7663d7847a2 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -720,6 +720,13 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 	if (dma_fence_is_signaled(job->done_fence))
- 		return DRM_GPU_SCHED_STAT_NOMINAL;
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 3f1aa4de3b87..6ca8f8cbb6e2 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -211,11 +211,7 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
  
-+	synchronize_irq(pfdev->js->irq);
+ 		sz = array_size(submit_cmd.nr_relocs,
+ 				sizeof(struct drm_msm_gem_submit_reloc));
+-		/* check for overflow: */
+-		if (sz == SIZE_MAX) {
+-			ret = -ENOMEM;
+-			goto out;
+-		}
 +
-+	if (dma_fence_is_signaled(job->done_fence)) {
-+		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
-+		return DRM_GPU_SCHED_STAT_NOMINAL;
-+	}
-+
- 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
- 		js,
- 		job_read(pfdev, JS_CONFIG(js)),
+ 		submit->cmd[i].relocs = kmalloc(sz, GFP_KERNEL);
+ 		if (!submit->cmd[i].relocs) {
+ 			ret = -ENOMEM;
 -- 
-2.41.0
+2.34.1
 
