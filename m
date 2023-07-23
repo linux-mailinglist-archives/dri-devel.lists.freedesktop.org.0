@@ -1,52 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3561D75DF61
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 01:53:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3920475DF73
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 02:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5812110E1A3;
-	Sat, 22 Jul 2023 23:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0519710E1E9;
+	Sun, 23 Jul 2023 00:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0261B10E1A3
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jul 2023 23:53:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8D9410E1E9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 00:02:55 +0000 (UTC)
 Received: from workpc.. (109-252-150-127.dynamic.spd-mgts.ru [109.252.150.127])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D0066607106;
- Sun, 23 Jul 2023 00:53:19 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F11386606EFD;
+ Sun, 23 Jul 2023 01:02:53 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690070000;
- bh=6qKB4njwK4pvtdiKlbD4ASfNH1pG62XLGXjGDD6zWg8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nLPvKTRmVWjb8eP4yVT7yKp4jWsOfcORj+1bLwVZ/+JaFFkJWwxRN2dx2zgAZE2ps
- treJE9dWXzxEVgBHhbrcUSDHAfUb9IjMELvZToBHk+rIR53PEPQ1VgmJXefxuRBnix
- OMcwQ3na64zGD8uO+jVav9+ujVVDAurQcatusGTxKKbGnjNhhQHq1WnzP0y/XsWo/m
- 6ceOfBM39yyCGFey0wBz/epn+F3D1/wYvxMZ9hUwrx6Z8xr8YaY9egLkw6r3n1C4a+
- WaPSfsoyD2Meiud8VvyFE+zOV7LhHHKfbXTE49KAmdyeenFCT954SKFv0ly1lraXh9
- gS4Cm0/5KW7BQ==
+ s=mail; t=1690070574;
+ bh=GUuN4Hv+kEehufgIB+sVRE0fxNfkqINjDEaKIO9+P1Q=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AqGbeV6pC2fIb/cqylud/UkiC8DxdE0s/TJYG5HnWornI3FbcLwir3HZxPb08Rh63
+ DKmQkuJyJ9/New8LCz6h5fxvTfnjGAxOJ0q2u0+27itaQXiOjHcMRpBmA8sI7KBixO
+ 9xnu4sVyGaGGXVMB7UFZt8Fx9irW6ZiuaWBbREuDxkmNNqULMlnUOyyoXK2us5Vfn1
+ KCcMz4pTLl7k79AFBBr1QLzvPvsi92e5aMo5GjeInznloDxr2Hhjj2Jo6z7GTtMrjv
+ zoHkRk+sJbFteXAi+WwSt0mNQKw9rzt2wLnups1KKQSQ2Briyf8Ujy6eh9I+sktCbQ
+ 7PcR+ZKCGuUGA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v14 12/12] drm/gem: Add _unlocked postfix to
- drm_gem_pin/unpin()
-Date: Sun, 23 Jul 2023 02:47:46 +0300
-Message-ID: <20230722234746.205949-13-dmitry.osipenko@collabora.com>
+To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v2] drm/panfrost: Sync IRQ by job's timeout handler
+Date: Sun, 23 Jul 2023 03:01:42 +0300
+Message-ID: <20230723000142.206908-1-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
-References: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,80 +51,47 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make clear that drm_gem_pin/unpin() functions take reservation lock by
-adding _unlocked postfix to the function names.
+Panfrost IRQ handler may stuck for a long time, for example this happens
+when there is a bad HDMI connection and HDMI handler takes a long time to
+finish processing, holding Panfrost. Make Panfrost's job timeout handler
+to sync IRQ before checking fence signal status in order to prevent
+spurious job timeouts due to a slow IRQ processing.
 
-Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c      | 4 ++--
- drivers/gpu/drm/drm_internal.h | 4 ++--
- drivers/gpu/drm/drm_prime.c    | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index c18686f434d4..805eb0d85297 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1146,7 +1146,7 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 		obj->funcs->print_info(p, indent, obj);
- }
+Changelog:
+
+v2: - Moved synchronize_irq() after first signal-check to avoid unnecessary
+      blocking on syncing.
+
+    - Added warn message about high interrupt latency.
+
+ drivers/gpu/drm/panfrost/panfrost_job.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index dbc597ab46fb..a7663d7847a2 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -720,6 +720,13 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ 	if (dma_fence_is_signaled(job->done_fence))
+ 		return DRM_GPU_SCHED_STAT_NOMINAL;
  
--int drm_gem_pin(struct drm_gem_object *obj)
-+int drm_gem_pin_unlocked(struct drm_gem_object *obj)
- {
- 	if (obj->funcs->pin)
- 		return obj->funcs->pin(obj);
-@@ -1154,7 +1154,7 @@ int drm_gem_pin(struct drm_gem_object *obj)
- 	return 0;
- }
- 
--void drm_gem_unpin(struct drm_gem_object *obj)
-+void drm_gem_unpin_unlocked(struct drm_gem_object *obj)
- {
- 	if (obj->funcs->unpin)
- 		obj->funcs->unpin(obj);
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index d7e023bbb0d5..80f5bd1da8fd 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -173,8 +173,8 @@ void drm_gem_release(struct drm_device *dev, struct drm_file *file_private);
- void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 			const struct drm_gem_object *obj);
- 
--int drm_gem_pin(struct drm_gem_object *obj);
--void drm_gem_unpin(struct drm_gem_object *obj);
-+int drm_gem_pin_unlocked(struct drm_gem_object *obj);
-+void drm_gem_unpin_unlocked(struct drm_gem_object *obj);
- int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
- void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
- 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 63b709a67471..8145b49e95ff 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -583,7 +583,7 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
- 	if (!obj->funcs->get_sg_table)
- 		return -ENOSYS;
- 
--	return drm_gem_pin(obj);
-+	return drm_gem_pin_unlocked(obj);
- }
- EXPORT_SYMBOL(drm_gem_map_attach);
- 
-@@ -601,7 +601,7 @@ void drm_gem_map_detach(struct dma_buf *dma_buf,
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
- 
--	drm_gem_unpin(obj);
-+	drm_gem_unpin_unlocked(obj);
- }
- EXPORT_SYMBOL(drm_gem_map_detach);
- 
++	synchronize_irq(pfdev->js->irq);
++
++	if (dma_fence_is_signaled(job->done_fence)) {
++		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
++		return DRM_GPU_SCHED_STAT_NOMINAL;
++	}
++
+ 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+ 		js,
+ 		job_read(pfdev, JS_CONFIG(js)),
 -- 
 2.41.0
 
