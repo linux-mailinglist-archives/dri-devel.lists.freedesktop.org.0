@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1377975E50D
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 23:54:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE2075E5A7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 00:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28EDB10E0A7;
-	Sun, 23 Jul 2023 21:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 933E010E025;
+	Sun, 23 Jul 2023 22:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7E510E0A7
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 21:53:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:From
- :References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=t0Is3M2u6cW6morbngtGEzD1LEPUvKNZlaQmjoa4F00=; b=mb/X8yNRNDegCib+BIKpVNXQ+v
- pgeK2NSO7U1IAo8DwYuz/Ur6N2pyH7NST908B11yky8PahtlpEZBprEE4CnBwOAfEEu0mm1qtHllU
- 8waf3FxKkbm48HMaLZL7dV2uHhxsJ6EmFSnQxVHqlsKNA2RBjv9kWsh2BWE8posDs0CeGr6QJSY0g
- yCkAlf7tCsbCmx7kQZ1AX56sEeHr58j7ztqC0zEWr/tkp5MNtqgGcaAXhaowk2Y5DDoXICpzt5wXT
- KO14iT/Wh+uL75CWKYa76IP7W4ut6fRiaI5fqQ/Ii/PWJDEuMpODCP+4tm/ELOBEHFUKXpkIJKrnZ
- ppVBXm5Q==;
-Received: from [187.36.235.191] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qNh1T-002iJL-5y; Sun, 23 Jul 2023 23:53:51 +0200
-Message-ID: <7e367a84-92a9-db44-ca00-33c966242497@igalia.com>
-Date: Sun, 23 Jul 2023 18:53:42 -0300
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E745510E025
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 22:47:24 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [62.91.23.180])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D33CF8662E;
+ Mon, 24 Jul 2023 00:47:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1690152442;
+ bh=qfZK0VREZLTTpcwrbsRDgCrOnouP5/qEztUwxdmURbs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=z+wRs9K6hjjGFkb2Uct7TBJIug4BgQ0i6a5LowdCvboc6BK7G4SUvRzj4AFRU7LjH
+ xZzAT7YlUOJZuDIu54nZXJpv+X8A9Qv1H1THix/M+wN8nZXxc1p2R36Vr0dkZdRXnR
+ OZhTYIeReT9nGn4M3rfA0f0rknkNIxvDJM89gOtqbI4zsvCwdheSHBjTAkfGYmmOQH
+ rWW3PpK9QRa4K/chagY0YftqSGneZxzMx+61cMRJPKvfX+RgW7YwX839y6Y6Zz5rt/
+ j8Nc45awGUKtrAZUJJZXoLFe0aOIEPl8xZH6FiP8Q4rH2RzFsita4gmfxyohy+lbUJ
+ B2jARM3k81UBw==
+Message-ID: <594f8182-b74d-6ef2-0d90-74061b35bc50@denx.de>
+Date: Mon, 24 Jul 2023 00:47:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/panel: simple: Initialize unprepared_time in probe
 Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>
-References: <20230723150132.130100-1-mcanal@igalia.com>
- <20230723210044.xwhbpxlyeu5wjphb@mail.igalia.com>
-From: Maira Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v2] drm/vkms: Implement all blend mode properties
-In-Reply-To: <20230723210044.xwhbpxlyeu5wjphb@mail.igalia.com>
+To: Doug Anderson <dianders@chromium.org>
+References: <20230709135231.449636-1-marex@denx.de>
+ <CAD=FV=W9qXNaeQ14h8nmvoP3HKhXT8PbAtGikwR4eaQ+svX+ig@mail.gmail.com>
+ <a0f83bf2-b125-9474-4316-9df3b6da5ad8@denx.de>
+ <CAD=FV=X1Pt4439OT5xjHcP6+BWbQ7z81_nPB+bOiK3xnYNi_rA@mail.gmail.com>
+ <34985434-7ee4-d86e-e157-9ad670315315@denx.de>
+ <CAD=FV=XAk423Z34ebiooHO874GmUf5BgssyQm4_HieCGhs7E_A@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAD=FV=XAk423Z34ebiooHO874GmUf5BgssyQm4_HieCGhs7E_A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,238 +60,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Melissa,
-
-On 7/23/23 18:00, Melissa Wen wrote:
-> On 07/23, Maíra Canal wrote:
->> Following the DRM assumption, VKMS currently assumes that the alpha is
->> pre-multiplied. Moreover, it doesn't support the alpha property.
->>
->> So, first, implement the alpha property to VKMS and then, the blend
->> mode property. In order to support all possible supported modes,
->> change the pre_mul_blend_channel() function to check the plane blend
->> mode and apply the correct blend formula, following the DRM
->> convention, using the proper plane alpha value.
->>
->> Tested with igt@kms_plane_alpha_blend.
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>
->> v1 -> v2: https://lore.kernel.org/dri-devel/20230428122751.24271-1-mcanal@igalia.com/T/
->>
->> * Rebased on top of drm-misc-next.
->>
->> ---
->>   drivers/gpu/drm/vkms/vkms_composer.c | 49 ++++++++++++++++++----------
->>   drivers/gpu/drm/vkms/vkms_drv.h      |  2 ++
->>   drivers/gpu/drm/vkms/vkms_plane.c    |  9 +++++
->>   3 files changed, 42 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
->> index d170a8e89b95..68a476461824 100644
->> --- a/drivers/gpu/drm/vkms/vkms_composer.c
->> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
->> @@ -12,33 +12,47 @@
->>
->>   #include "vkms_drv.h"
->>
->> -static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->> +static u16 blend_channel(struct vkms_frame_info *frame_info, u16 src, u16 dst, u16 alpha)
->>   {
->>   	u32 new_color;
->>
->> -	new_color = (src * 0xffff + dst * (0xffff - alpha));
->> +	switch (frame_info->pixel_blend_mode) {
->> +	case DRM_MODE_BLEND_PIXEL_NONE:
->> +		new_color = 0xffff * frame_info->alpha * src
->> +			+ (0xfffe0001 - 0xffff * frame_info->alpha) * dst;
->> +		break;
->> +	case DRM_MODE_BLEND_COVERAGE:
->> +		new_color = alpha * frame_info->alpha * src
->> +			+ (0xfffe0001 - alpha * frame_info->alpha) * dst;
->> +		break;
->> +	case DRM_MODE_BLEND_PREMULTI:
->> +	default:
->> +		new_color = 0xffff * frame_info->alpha * src
->> +			+ (0xfffe0001 - alpha * frame_info->alpha) * dst;
+On 7/18/23 21:33, Doug Anderson wrote:
+> Hi,
 > 
-> Hi Maíra,
+> On Tue, Jul 18, 2023 at 10:37 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 7/18/23 18:15, Doug Anderson wrote:
+>>> Hi,
+>>
+>> Hi,
+>>
+>>> On Tue, Jul 18, 2023 at 8:36 AM Marek Vasut <marex@denx.de> wrote:
+>>>>
+>>>> On 7/18/23 16:17, Doug Anderson wrote:
+>>>>> Hi,
+>>>>
+>>>> Hi,
+>>>>
+>>>>> On Sun, Jul 9, 2023 at 6:52 AM Marek Vasut <marex@denx.de> wrote:
+>>>>>>
+>>>>>> The unprepared_time has to be initialized during probe to probe time
+>>>>>> ktime, otherwise panel_simple_resume() panel_simple_wait() call may
+>>>>>> wait too short time, or no time at all, which would violate the panel
+>>>>>> timing specification. Initializing the unprepared_time() to probe time
+>>>>>> ktime assures the delay is at least what the panel requires from the
+>>>>>> time kernel started. The unprepared_time is then updated every time
+>>>>>> the panel is suspended in panel_simple_suspend() too.
+>>>>>>
+>>>>>> Fixes: e5e30dfcf3db ("drm: panel: simple: Defer unprepare delay till next prepare to shorten it")
+>>>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>>>>
+>>>>> Can you talk in more detail about the problem you're seeing? Your
+>>>>> patch will likely cause boot speed regressions. While correctness
+>>>>> trumps performance, I'd like to make sure this is right before landing
+>>>>> it.
+>>>>
+>>>> With AUO T215HVN01 panel, connected to LT9211 DSI-to-LVDS bridge,
+>>>> connected to MX8M Mini DSIM , the panel just would not come up correctly
+>>>> because this unprepare_time is not observed. The panel would only show
+>>>> blue stripe on the left side, instead of actual image.
+>>>>
+>>>>> Specifically, I think your patch is nearly the opposite as what I did
+>>>>> in commit 691c1fcda535 ("regulator: core: Shorten off-on-delay-us for
+>>>>> always-on/boot-on by time since booted"). I think many of the same
+>>>>> arguments I made in that commit message argue against your patch.
+>>>>
+>>>> You cannot guarantee in which state the panel is after boot/reboot,
+>>>
+>>> Agreed. To the best extent possible, whatever solution we arrive at
+>>> should work regardless of how the bootloader left things.
+>>>
+>>>
+>>>> so
+>>>> I believe the kernel has to shut it down, and then bring it up, with the
+>>>> correct timings.
+>>>
+>>> If that's required for your panel then the driver should do what it
+>>> needs to do to ensure this.
+>>
+>> The panel-simple driver used to do it. Now it no longer does, which
+>> means the kernel is now running this AUO and possibly other panels out
+>> of specification.
 > 
-> First, thank you for keep working on this feature and sorry for feedback
-> delay.
+> OK, I think the more I read this thread the more confused I get. :(
+> Hopefully we can arrive at some clarity.
 > 
-> I didn't complete understand this 0xfffe0001 calculation. Could you
-> describe a little more (adding a comment here) each formula that you are
-> using here?
-
-The idea here is the same as before, but now that we have two factors
-multiplying src and dst (alpha and frame_info->alpha), so we need to 
-divide by 0xffff * 0xffff = 0xfffe0001. This helps us not to lose
-precision when dividing the alpha and frame_info->alpha values by
-0xffff.
-
-I'm using the formulas specified in the DRM documentation [1]:
-
-"None": out.rgb = plane_alpha * fg.rgb + (1 - plane_alpha) * bg.rgb
-
-"Pre-multiplied": out.rgb = plane_alpha * fg.rgb +
-                             (1 - (plane_alpha * fg.alpha)) * bg.rgb
-
-"Coverage": out.rgb = plane_alpha * fg.alpha * fg.rgb +
-                       (1 - (plane_alpha * fg.alpha)) * bg.rgb
-
-I can add some comments in the code to make it clear that 0xfffe0001 is
-0xffff * 0xffff.
-
-[1] https://docs.kernel.org/gpu/drm-kms.html#plane-composition-properties
-
+> 1. I guess first off, nothing about the old kernel would have ensured
+> that the regulator would have been shut off. Looking at the old code
+> (before e5e30dfcf3db, the commit yous "Fixes") the panel-simple driver
+> just did:
 > 
-> Also, as we are changing pixels of both outputs that are part of the
-> comparisons, but we just compare the CRC (not pixel by pixel). Did you
-> verify a sample of the pixels resulted from this calculation to check if
-> they make sense?
+> regulator_get()
+> regulator_enable()
 > 
-
-I verified a sample of the resulting pixels while debugging the
-implementation with the IGT tests. It looked okay to me, but let me know
-if you find something suspecious.
-
-> IIRC, we don't have a negative test for this property in
-> kms_plane_alpha_blend. In this sense, did you verify if the test fail
-> when setting a property value but using a different equation that not
-> correspond to the pixel blend mode setup? Overall the change makes
-> sense, but I tried some invalid scenarios and didn't get the expected
-> result.
-
-I was able to reproduce this failure as well. Maybe we need some
-improviments on the IGT tests to make sure about the correctness of the
-pixel blend mode. For this patch, I based myself on the correctness of
-the formulas provided by the DRM documentation.
-
-Would you need more IGT tests to approve this feature?
-
-Best Regards,
-- Maíra
-
+> If the regulator was left on by the bootloader and managed by a
+> regulator driver that can read back initial regulator states then the
+> old driver would have done nothing at all to guarantee that a
+> regulator went off. If you want some proof of this, it's even
+> documented in `Documentation/power/regulator/consumer.rst`:
 > 
-> Melissa
+> NOTE:
+>    The supply may already be enabled before regulator_enabled() is called.
+>    This may happen if the consumer shares the regulator or the regulator has been
+>    previously enabled by bootloader or kernel board initialization code.
 > 
->> +		break;
->> +	}
+> If you really need to make sure that your regulator was disabled at
+> boot, you could probably do something like this psuedocode:
+> 
+> supply = regulator_get(...)
+> if (regulator_is_enabled(supply)) {
+>    /* Enable and disable and that should sync it up */
+>    regulator_enable(supply);
+>    regulator_disable(supply);
+>    if (regulator_is_enabled(supply)) {
+>      pr_err("Crud, we couldn't disable\n");
+>      return -E_LIFESUCKS;
+>    }
+> }
+> 
+> 
+> 2. Looking more closely at the commit you're fixing, though, I'm even
+> more confused.
+> 
+> I _think_ your assertion here is that the longer delay is needed on
+> the first power on of the panel at bootup. Is that correct? This is
+> why you need to initialize "unprepared_time" in the probe() function.
+> However, when I go back to the old code (before e5e30dfcf3db, the
+> commit yours "Fixes") you can actually see that there was no delay at
+> all before the first power on of the panel. The only delay was if you
+> turned the panel off and then turned it back on again. ...so the only
+> thing that the commit should have broken would have been the power-ons
+> of the panel _after_ the first. ...but your patch only affects the
+> delay for the first power on.
+> 
+> Huh?
+> 
+> 
+>>> As indicated by my other comments, I
+>>> actually don't think your patch currently does in all cases. If the
+>>> panel is powered by a PMIC and the bootloader left the power on, your
+>>> patch series _won't_ shut it down and bring it back up, will it?
 >>
->> -	return DIV_ROUND_CLOSEST(new_color, 0xffff);
->> +	return DIV_ROUND_CLOSEST(new_color, 0xfffe0001);
->>   }
+>> That depends on the regulator configuration. That itself is a separate
+>> issue however, one which has been present even before any of this boot
+>> time optimization attempt.
 >>
->>   /**
->> - * pre_mul_alpha_blend - alpha blending equation
->> + * alpha_blend - alpha blending equation
->>    * @frame_info: Source framebuffer's metadata
->>    * @stage_buffer: The line with the pixels from src_plane
->>    * @output_buffer: A line buffer that receives all the blends output
->>    *
->>    * Using the information from the `frame_info`, this blends only the
->>    * necessary pixels from the `stage_buffer` to the `output_buffer`
->> - * using premultiplied blend formula.
->> + * using the adequate blend formula depending on the plane blend mode
->> + * (see blend_channel()).
->>    *
->> - * The current DRM assumption is that pixel color values have been already
->> - * pre-multiplied with the alpha channel values. See more
->> - * drm_plane_create_blend_mode_property(). Also, this formula assumes a
->> - * completely opaque background.
->> + * By default, the current DRM assumption is that pixel color values have
->> + * been already pre-multiplied with the alpha channel values. See more
->> + * drm_plane_create_blend_mode_property().
->>    */
->> -static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
->> -				struct line_buffer *stage_buffer,
->> -				struct line_buffer *output_buffer)
->> +static void alpha_blend(struct vkms_frame_info *frame_info,
->> +			struct line_buffer *stage_buffer,
->> +			struct line_buffer *output_buffer)
->>   {
->>   	int x_dst = frame_info->dst.x1;
->>   	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
->> @@ -48,9 +62,9 @@ static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+>>> In any case, if your panel requires extra delays, it would be ideal if
+>>> this didn't inflict a penalty on all panels. I haven't personally
+>>> worked on any panels currently serviced by panel-simple, but for most
+>>> eDP panels the only strong timing requirement is that once you turn
+>>> off the main power rail that you don't turn it on again for ~500ms.
 >>
->>   	for (int x = 0; x < x_limit; x++) {
->>   		out[x].a = (u16)0xffff;
->> -		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
->> -		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
->> -		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
->> +		out[x].r = blend_channel(frame_info, in[x].r, out[x].r, in[x].a);
->> +		out[x].g = blend_channel(frame_info, in[x].g, out[x].g, in[x].a);
->> +		out[x].b = blend_channel(frame_info, in[x].b, out[x].b, in[x].a);
->>   	}
->>   }
+>> The extra delay is actually only inflicted on panels which do set delay
+>> { .unprepare = ... } constraint in their timing specification, and those
+>> panels most certainly do need those extra delays to operate correctly.
 >>
->> @@ -98,7 +112,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
->>    * @stage_buffer: The line with the pixels from plane being blend to the output
->>    * @row_size: The size, in bytes, of a single row
->>    *
->> - * This function blends the pixels (Using the `pre_mul_alpha_blend`)
->> + * This function blends the pixels (Using the `alpha_blend()`)
->>    * from all planes, calculates the crc32 of the output from the former step,
->>    * and, if necessary, convert and store the output to the writeback buffer.
->>    */
->> @@ -126,8 +140,7 @@ static void blend(struct vkms_writeback_job *wb,
->>   				continue;
+>>> For most panels it's OK to turn it on early (like as soon as the
+>>> regulator proves) and also OK if the main power rail stays on between
+>>> the bootloader and the kernel.
 >>
->>   			vkms_compose_row(stage_buffer, plane[i], y_pos);
->> -			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
->> -					    output_buffer);
->> +			alpha_blend(plane[i]->frame_info, stage_buffer, output_buffer);
->>   		}
+>> I would debate the "most" part, as that is not my experience with DPI
+>> and LVDS panels, which, if they are not correctly power sequenced, can
+>> go all kinds of weird and that weirdness is often very subtle. Or worse,
+>> those panels start failing in deployment.
 >>
->>   		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
->> index d25e0aae91f2..20e2c520885e 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.h
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
->> @@ -28,6 +28,8 @@ struct vkms_frame_info {
->>   	struct drm_rect src, dst;
->>   	struct drm_rect rotated;
->>   	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
->> +	u16 alpha;
->> +	u16 pixel_blend_mode;
->>   	unsigned int rotation;
->>   	unsigned int offset;
->>   	unsigned int pitch;
->> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->> index e5c625ab8e3e..891aa566acda 100644
->> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->> @@ -113,6 +113,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
->>   	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
->>   	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
->>   	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
->> +	frame_info->alpha = new_state->alpha;
->> +	frame_info->pixel_blend_mode = new_state->pixel_blend_mode;
->>   	frame_info->fb = fb;
->>   	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
->>   	drm_framebuffer_get(frame_info->fb);
->> @@ -212,6 +214,13 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>>> For eDP the one exception I've seen was
+>>> the "samsung-atna33xc20" panel and that panel has its own driver
+>>> specifically to deal with quirks like this. I talk about this a little
+>>> bit in commit 23ff866987de ("arm64: dts: qcom: sc7180: Start the
+>>> trogdor eDP/touchscreen regulator on") since homestar uses
+>>> "samsung-atna33xc20"
 >>
->>   	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
+>> I seldom work with eDP panels, so I cannot comment on that part.
 >>
->> +	drm_plane_create_alpha_property(&plane->base);
->> +
->> +	drm_plane_create_blend_mode_property(&plane->base,
->> +					     BIT(DRM_MODE_BLEND_PIXEL_NONE) |
->> +					     BIT(DRM_MODE_BLEND_PREMULTI)   |
->> +					     BIT(DRM_MODE_BLEND_COVERAGE));
->> +
->>   	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
->>   					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
+>> It is well possible the more complex electronics of the panel hides a
+>> lot of the power sequencing details, I wouldn't be surprised by that.
 >>
->> --
->> 2.41.0
+>>>>> ...however, I guess in the case of the panel, things could be
+>>>>> different because regulators aren't directly controlled by the panel
+>>>>> code. Thus, I could imagine that your situation is this:
+>>>>>
+>>>>> 1. Bootloader runs and leaves the panel powered on.
+>>>>
+>>>> Bootloader does not touch the panel at all.
+>>>
+>>> Huh, then I'm pretty confused. Where is the timing violation then? If
+>>> the panel was off when the device started booting and the bootloader
+>>> didn't touch the panel, then the existing code should work fine. The
+>>> current code will make sure that we delay at least "unprepare" ms
+>>> since the kernel booted and so no specs should be violated.
+>>>
+>>> Are you sure you aren't running into something like a case of
+>>> -EPROBE_DEFER where panel-simple powers the regulator on, then
+>>> un-probes, and then tries probing again? ...or maybe the default state
+>>> of the regulator at bootup _is_ powered on and that's the problem?
 >>
+>> Have a look at panel_simple_resume() panel_simple_wait(), this is where
+>> the extra delay is needed. You cannot predict how long the bootloader
+>> took to reach the kernel time t=0 and you cannot know what happened
+>> before the bootloader started (maybe abrupt sysrq reset), not on all
+>> platforms anyway, so the best you can do is assume the worst, i.e. full
+>> unprepare delay.
+> 
+> I feel like there is a confusion here. With the old code,
+> "unprepared_time" was implicitly set to 0 (because the whole structure
+> was zero initialized). 0 is actually a valid time and represents the
+> time that the kernel booted (well, more correctly when ktime finished
+> initting, but that's pretty early).
+> 
+> Let's look at a few concerte cases. In this example I'll go with what
+> I think you've said is happening in your system: the bootloader
+> doesn't touch the panel and the panels power rails are off at bootup.
+> 
+> 
+> Case 1: everything boots absurdly fast and "unprepared_time" is 1000 ms.
+> 
+> 1. CPU resets and starts executing the bootloader. Panel is fully powered off.
+> 
+> 2. Let's imagine the bootloader finishes in an absurdly fast 10 ms and
+> starts Linux.
+> 
+> 3. Linux starts and inits its clock. It does this in 10 ms. Kernel
+> time is 0 now and it's been 20 ms since CPU reset.
+> 
+> 4. Linux gets to panel init code after another 10 ms. Kernel time is
+> 10 ms and it's been 20 ms since CPU reset.
+> 
+> 5. We try to turn the panel on after another 10 ms. Kernel time is 20
+> ms and it's been 30 ms since CPU reset.
+> 
+> 6. We look at kernel time (30 ms) and the unprepare delay (1000 ms)
+> and we'll delay 970 ms.
+> 
+> 7. After the delay, kernel time will be 1000 ms and it will have been
+> 1010 ms since CPU reset.
+> 
+> ...so if the panel was truly untouched by the bootloader and the
+> panel's power truly initted to off at bootup then we should be fine
+> since it's been at least 1010 ms since the panel was powered off.
+> 
+> 
+> Case 2: everything boots absurdly slowly and "unprepared_time" is 1000 ms.
+> 
+> 1. CPU resets and starts executing the bootloader. Panel is fully powered off.
+> 
+> 2. Let's imagine the bootloader finishes in an absurdly slow 2000 ms
+> and starts Linux.
+> 
+> 3. Linux starts and inits its clock. It does this in 2000 ms. Kernel
+> time is 0 now and it's been 4000 ms since CPU reset.
+> 
+> 4. Linux gets to panel init code after another 2000 ms. Kernel time is
+> 2000 ms and it's been 6000 ms since CPU reset.
+> 
+> 5. We try to turn the panel on after another 2000 ms. Kernel time is
+> 4000 ms and it's been 8000 ms since CPU reset.
+> 
+> 6. We look at kernel time (4000 ms) and the unprepare delay (1000 ms)
+> and we'll delay 0 ms (no delay)
+> 
+> ...so if the panel was truly untouched by the bootloader and the
+> panel's power truly initted to off at bootup then we should be fine
+> since it's been at least 8000 ms since the panel was powered off.
+> 
+> 
+> Since the existing code should be correctly honoring the delay in both
+> of the two cases, I'd like to find out what assumption is wrong.
+
+Maybe the EPROBE_DEFER actually happens and triggers the failure ?
+
+[...]
