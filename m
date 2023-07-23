@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A6A75E30B
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 18:08:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA4A75E319
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 18:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2AEB10E0E3;
-	Sun, 23 Jul 2023 16:08:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F17710E0E4;
+	Sun, 23 Jul 2023 16:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 316C910E0E0;
- Sun, 23 Jul 2023 16:08:44 +0000 (UTC)
+Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7688D10E0E3;
+ Sun, 23 Jul 2023 16:08:45 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 3704B3F1C4;
- Sun, 23 Jul 2023 18:08:41 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 830B03F1D1;
+ Sun, 23 Jul 2023 18:08:42 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Sun, 23 Jul 2023 18:08:39 +0200
-Subject: [PATCH v4 01/17] drm/msm/dsi: Drop unused regulators from QCM2290
- 14nm DSI PHY config
+Date: Sun, 23 Jul 2023 18:08:40 +0200
+Subject: [PATCH v4 02/17] arm64: dts: qcom: sm6125: Pad APPS IOMMU address
+ to 8 characters
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230723-sm6125-dpu-v4-1-a3f287dd6c07@somainline.org>
+Message-Id: <20230723-sm6125-dpu-v4-2-a3f287dd6c07@somainline.org>
 References: <20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org>
 In-Reply-To: <20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
@@ -67,32 +66,28 @@ Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The regulator setup was likely copied from other SoCs by mistake.  Just
-like SM6125 the DSI PHY on this platform is not getting power from a
-regulator but from the MX power domain.
+APPS IOMMU is the only node in sm6125.dtsi that doesn't have its
+address padded to 8 hexadecimals; fix this by prepending a 0.
 
-Fixes: 572e9fd6d14a ("drm/msm/dsi: Add phy configuration for QCM2290")
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: 8ddb4bc3d3b5 ("arm64: dts: qcom: sm6125: Configure APPS SMMU")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 2 --
- 1 file changed, 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sm6125.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index 3ce45b023e63..31deda1c664a 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -1087,8 +1087,6 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs = {
+diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
+index 6937c7ebdb81..7feb6feffa40 100644
+--- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
+@@ -1209,7 +1209,7 @@ spmi_bus: spmi@1c40000 {
  
- const struct msm_dsi_phy_cfg dsi_phy_14nm_2290_cfgs = {
- 	.has_phy_lane = true,
--	.regulator_data = dsi_phy_14nm_17mA_regulators,
--	.num_regulators = ARRAY_SIZE(dsi_phy_14nm_17mA_regulators),
- 	.ops = {
- 		.enable = dsi_14nm_phy_enable,
- 		.disable = dsi_14nm_phy_disable,
+ 		apps_smmu: iommu@c600000 {
+ 			compatible = "qcom,sm6125-smmu-500", "qcom,smmu-500", "arm,mmu-500";
+-			reg = <0xc600000 0x80000>;
++			reg = <0x0c600000 0x80000>;
+ 			interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
 
 -- 
 2.41.0
