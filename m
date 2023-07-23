@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC4775E27B
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 16:15:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D963375E285
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 16:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C5310E0D9;
-	Sun, 23 Jul 2023 14:15:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDAAD10E129;
+	Sun, 23 Jul 2023 14:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D489210E0D9
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 14:15:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA8C10E129
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 14:17:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DBA4160D33;
- Sun, 23 Jul 2023 14:14:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBCA1C433C7;
- Sun, 23 Jul 2023 14:14:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7936860D36;
+ Sun, 23 Jul 2023 14:17:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D82C433CB;
+ Sun, 23 Jul 2023 14:17:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1690121699;
- bh=Sgd9xEr8wwi3+xAPT7emk06pyo2sWpMIHTVlS7rCqL8=;
+ s=korg; t=1690121827;
+ bh=O1cXHhAeYkZFkr7qMe4gJCB+wFoLOfSAL42tdBNvO2U=;
  h=Subject:To:Cc:From:Date:From;
- b=MQAowYXVjoRTb04UmBmCmQLh2RoLPsG+sdagvzNUb/7dUsgyy9YyfHb3X4g08UytM
- eu4vn3DZFjI/jx9CSbC+sR3imnN6p4jYve85iOnotlAponumnui9IUnA0BfXbQGFeB
- 0/rt56q8foEq6Sz/r8gObHoj1Wobud7HTreTWz9Q=
+ b=HwyDj2aj5RFL0zbuPHS4zMpIn4yKl01yr++ke6RBjR9ABhtxSxuaChexnNiKAgFI4
+ BmjvXXLBaS3to3wGTCKDfTGwlhxp1qAnhErewaMFd52KumCNJRAO3O/98MlN39QY1S
+ 1rni1b+80r7/M6uqhArYeCIgOSk9cSckIS5Abax8=
 Subject: Patch "dma-buf/dma-resv: Stop leaking on krealloc() failure" has been
- added to the 6.1-stable tree
+ added to the 6.4-stable tree
 To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, linaro-mm-sig@lists.linaro.org,
  sumit.semwal@linaro.org, ville.syrjala@linux.intel.com
 From: <gregkh@linuxfoundation.org>
-Date: Sun, 23 Jul 2023 16:13:00 +0200
-Message-ID: <2023072359-headset-penpal-f940@gregkh>
+Date: Sun, 23 Jul 2023 16:13:23 +0200
+Message-ID: <2023072323-glamorous-unsubtle-24f4@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     dma-buf/dma-resv: Stop leaking on krealloc() failure
 
-to the 6.1-stable tree which can be found at:
+to the 6.4-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.4 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -114,7 +113,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/dma-buf/dma-resv.c
 +++ b/drivers/dma-buf/dma-resv.c
-@@ -566,6 +566,7 @@ int dma_resv_get_fences(struct dma_resv
+@@ -571,6 +571,7 @@ int dma_resv_get_fences(struct dma_resv
  	dma_resv_for_each_fence_unlocked(&cursor, fence) {
  
  		if (dma_resv_iter_is_restarted(&cursor)) {
@@ -122,7 +121,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			unsigned int count;
  
  			while (*num_fences)
-@@ -574,13 +575,17 @@ int dma_resv_get_fences(struct dma_resv
+@@ -579,13 +580,17 @@ int dma_resv_get_fences(struct dma_resv
  			count = cursor.num_fences + 1;
  
  			/* Eventually re-allocate the array */
@@ -148,4 +147,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from ville.syrjala@linux.intel.com are
 
-queue-6.1/dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
+queue-6.4/dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
