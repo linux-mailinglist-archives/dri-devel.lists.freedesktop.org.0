@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D963375E285
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 16:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C4875E298
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 16:22:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDAAD10E129;
-	Sun, 23 Jul 2023 14:17:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93A1410E18C;
+	Sun, 23 Jul 2023 14:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CA8C10E129
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 14:17:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18A9C10E18C
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 14:22:45 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7936860D36;
- Sun, 23 Jul 2023 14:17:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D82C433CB;
- Sun, 23 Jul 2023 14:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1690121827;
- bh=O1cXHhAeYkZFkr7qMe4gJCB+wFoLOfSAL42tdBNvO2U=;
- h=Subject:To:Cc:From:Date:From;
- b=HwyDj2aj5RFL0zbuPHS4zMpIn4yKl01yr++ke6RBjR9ABhtxSxuaChexnNiKAgFI4
- BmjvXXLBaS3to3wGTCKDfTGwlhxp1qAnhErewaMFd52KumCNJRAO3O/98MlN39QY1S
- 1rni1b+80r7/M6uqhArYeCIgOSk9cSckIS5Abax8=
-Subject: Patch "dma-buf/dma-resv: Stop leaking on krealloc() failure" has been
- added to the 6.4-stable tree
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, ville.syrjala@linux.intel.com
-From: <gregkh@linuxfoundation.org>
-Date: Sun, 23 Jul 2023 16:13:23 +0200
-Message-ID: <2023072323-glamorous-unsubtle-24f4@gregkh>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4R859K22Dnz9tKq;
+ Sun, 23 Jul 2023 14:22:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1690122165; bh=BzwabxifSp+p4PAYhEknT/y66C5ageFXR6IPrGgoS2c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Usc7JN7loTFyCEqsB39yNbCDTJYBv3D3JcAzSH74akloAciEsMncZxJwiISPiAE1C
+ tN9tv4crvk/C8ZSZopKKgGzxgkhbVWYLAeEq1g5xCKRLBUnb9LPPzfXAdxEP32E2V2
+ T4aIx6tsZooWaQZBlCiAVzYn6/oIonWjE7dVhznQ=
+X-Riseup-User-ID: 31A219CC4290EDED5704FEFAA8012067F9DF7A1EE10ABB69FF497B6766463EE3
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4R859D52CSzJp26;
+ Sun, 23 Jul 2023 14:22:40 +0000 (UTC)
+Message-ID: <025697f9-fda2-d039-5e0f-01165cee774f@riseup.net>
+Date: Sun, 23 Jul 2023 11:22:37 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 00/11] drm: kunit: Switch to kunit actions
+To: Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
+References: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
+Content-Language: en-US
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,99 +55,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
-This is a note to let you know that I've just added the patch titled
+On 7/20/23 08:15, Maxime Ripard wrote:
+> Hi,
+> 
+> Since v6.5-rc1, kunit gained a devm/drmm-like mechanism that makes tests
+> resources much easier to cleanup.
+> 
+> This series converts the existing tests to use those new actions where
+> relevant.
+> > Let me know what you think,
 
-    dma-buf/dma-resv: Stop leaking on krealloc() failure
+With the problems pointed out by kernel test bot fixed, the whole
+series is:
 
-to the 6.4-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
-The filename of the patch is:
-     dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
-and it can be found in the queue-6.4 subdirectory.
+Best Regards,
+- Maíra
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 05abb3be91d8788328231ee02973ab3d47f5e3d2 Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-Date: Thu, 13 Jul 2023 22:47:45 +0300
-Subject: dma-buf/dma-resv: Stop leaking on krealloc() failure
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-commit 05abb3be91d8788328231ee02973ab3d47f5e3d2 upstream.
-
-Currently dma_resv_get_fences() will leak the previously
-allocated array if the fence iteration got restarted and
-the krealloc_array() fails.
-
-Free the old array by hand, and make sure we still clear
-the returned *fences so the caller won't end up accessing
-freed memory. Some (but not all) of the callers of
-dma_resv_get_fences() seem to still trawl through the
-array even when dma_resv_get_fences() failed. And let's
-zero out *num_fences as well for good measure.
-
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Cc: stable@vger.kernel.org
-Link: https://patchwork.freedesktop.org/patch/msgid/20230713194745.1751-1-ville.syrjala@linux.intel.com
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/dma-buf/dma-resv.c |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -571,6 +571,7 @@ int dma_resv_get_fences(struct dma_resv
- 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 
- 		if (dma_resv_iter_is_restarted(&cursor)) {
-+			struct dma_fence **new_fences;
- 			unsigned int count;
- 
- 			while (*num_fences)
-@@ -579,13 +580,17 @@ int dma_resv_get_fences(struct dma_resv
- 			count = cursor.num_fences + 1;
- 
- 			/* Eventually re-allocate the array */
--			*fences = krealloc_array(*fences, count,
--						 sizeof(void *),
--						 GFP_KERNEL);
--			if (count && !*fences) {
-+			new_fences = krealloc_array(*fences, count,
-+						    sizeof(void *),
-+						    GFP_KERNEL);
-+			if (count && !new_fences) {
-+				kfree(*fences);
-+				*fences = NULL;
-+				*num_fences = 0;
- 				dma_resv_iter_end(&cursor);
- 				return -ENOMEM;
- 			}
-+			*fences = new_fences;
- 		}
- 
- 		(*fences)[(*num_fences)++] = dma_fence_get(fence);
-
-
-Patches currently in stable-queue which might be from ville.syrjala@linux.intel.com are
-
-queue-6.4/dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
+> Maxime
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Changes in v2:
+> - Fix some typos
+> - Use plaltform_device_del instead of removing the call to
+>    platform_device_put after calling platform_device_add
+> - Link to v1: https://lore.kernel.org/r/20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org
+> 
+> ---
+> Maxime Ripard (11):
+>        drm/tests: helpers: Switch to kunit actions
+>        drm/tests: client-modeset: Remove call to drm_kunit_helper_free_device()
+>        drm/tests: modes: Remove call to drm_kunit_helper_free_device()
+>        drm/tests: probe-helper: Remove call to drm_kunit_helper_free_device()
+>        drm/tests: helpers: Create a helper to allocate a locking ctx
+>        drm/tests: helpers: Create a helper to allocate an atomic state
+>        drm/vc4: tests: pv-muxing: Remove call to drm_kunit_helper_free_device()
+>        drm/vc4: tests: mock: Use a kunit action to unregister DRM device
+>        drm/vc4: tests: pv-muxing: Switch to managed locking init
+>        drm/vc4: tests: Switch to atomic state allocation helper
+>        drm/vc4: tests: pv-muxing: Document test scenario
+> 
+>   drivers/gpu/drm/tests/drm_client_modeset_test.c |   8 --
+>   drivers/gpu/drm/tests/drm_kunit_helpers.c       | 108 +++++++++++++++++++++-
+>   drivers/gpu/drm/tests/drm_modes_test.c          |   8 --
+>   drivers/gpu/drm/tests/drm_probe_helper_test.c   |   8 --
+>   drivers/gpu/drm/vc4/tests/vc4_mock.c            |   5 ++
+>   drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c  | 115 +++++++++---------------
+>   include/drm/drm_kunit_helpers.h                 |   7 ++
+>   7 files changed, 158 insertions(+), 101 deletions(-)
+> ---
+> base-commit: c58c49dd89324b18a812762a2bfa5a0458e4f252
+> change-id: 20230710-kms-kunit-actions-rework-5d163762c93b
+> 
+> Best regards,
