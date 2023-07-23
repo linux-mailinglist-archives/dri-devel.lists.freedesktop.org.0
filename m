@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D38675E1A4
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 13:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC4775E27B
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 16:15:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1991410E0D8;
-	Sun, 23 Jul 2023 11:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C5310E0D9;
+	Sun, 23 Jul 2023 14:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3006::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 171E010E0D8
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 11:59:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202212;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=cIqESiJOre40Df0mljwEkgdug0gJWRxvyJ84yzGVWLU=; b=p9FpJA6Br63Y4M57IfF0YZVvet
- U9qDB9TdRuhvIbzgBbi4n1Dwxx8ZebMRrhOhK87jYVxajmDkSlE7h8m55ZarnZG6NWxtnUUEwFhHh
- 9bdLtIMbIK89aPaKKfuwhqnrc3B52jsKNRpOMs/5kT8i8JTTpT2NkMKvUwsPOHoTjSmE3ou4OB/VG
- QvUdVPUP4617jdssp98etBnjY+tTVRc2xI1tCxkpoEmikKfJr+Z5Zy2xWT+JTLzaM87CXFdOAC8ss
- gMUOTPMX2jiZR7/dTktVn1z5qtn+U8bEW2WC7FM7iJSZif5YPMtNSaARyLlHI2DE6r1VCqRb7mB93
- yKLcwgvA==;
-Received: from [2a01:799:95f:2800:2fb5:c6db:11b1:a10f] (port=43878)
- by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1qNXkZ-00Fdk7-M8;
- Sun, 23 Jul 2023 13:59:47 +0200
-Message-ID: <08589d8a-1a3a-36ae-31dd-0892dca42e23@tronnes.org>
-Date: Sun, 23 Jul 2023 13:59:45 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D489210E0D9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 14:15:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DBA4160D33;
+ Sun, 23 Jul 2023 14:14:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBCA1C433C7;
+ Sun, 23 Jul 2023 14:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1690121699;
+ bh=Sgd9xEr8wwi3+xAPT7emk06pyo2sWpMIHTVlS7rCqL8=;
+ h=Subject:To:Cc:From:Date:From;
+ b=MQAowYXVjoRTb04UmBmCmQLh2RoLPsG+sdagvzNUb/7dUsgyy9YyfHb3X4g08UytM
+ eu4vn3DZFjI/jx9CSbC+sR3imnN6p4jYve85iOnotlAponumnui9IUnA0BfXbQGFeB
+ 0/rt56q8foEq6Sz/r8gObHoj1Wobud7HTreTWz9Q=
+Subject: Patch "dma-buf/dma-resv: Stop leaking on krealloc() failure" has been
+ added to the 6.1-stable tree
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, ville.syrjala@linux.intel.com
+From: <gregkh@linuxfoundation.org>
+Date: Sun, 23 Jul 2023 16:13:00 +0200
+Message-ID: <2023072359-headset-penpal-f940@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/2] drm/tiny: panel-mipi-dbi: Allow sharing the D/C
- GPIO
-Content-Language: en-US
-To: =?UTF-8?Q?Otto_Pfl=c3=bcger?= <otto.pflueger@abscue.de>,
- dri-devel@lists.freedesktop.org
-References: <20230720102605.67805-1-otto.pflueger@abscue.de>
- <20230720102605.67805-3-otto.pflueger@abscue.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20230720102605.67805-3-otto.pflueger@abscue.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,44 +53,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- noralf@tronnes.org
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+This is a note to let you know that I've just added the patch titled
 
-On 7/20/23 12:26, Otto Pflüger wrote:
-> Displays that are connected to the same SPI bus may share the D/C GPIO.
-> Use GPIOD_FLAGS_BIT_NONEXCLUSIVE to allow access to the same GPIO for
-> multiple panel-mipi-dbi instances. Exclusive access to the GPIO during
-> transfers is ensured by the locking in drm_mipi_dbi.c.
-> 
-> Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
-> ---
->  drivers/gpu/drm/tiny/panel-mipi-dbi.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> index eb9f13f18a02..e616e3890043 100644
-> --- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> +++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> @@ -307,7 +307,8 @@ static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
->  	if (IS_ERR(dbi->reset))
->  		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
->  
-> -	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
+    dma-buf/dma-resv: Stop leaking on krealloc() failure
 
-Please add a comment here that sharing only works when on the same SPI bus.
+to the 6.1-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-> +	dc = devm_gpiod_get_optional(dev, "dc",
-> +				     GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
+The filename of the patch is:
+     dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
+and it can be found in the queue-6.1 subdirectory.
 
-I'd prefer this to be on one line, the 80 column limit has been upped to
-a 100 now.
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-Noralf.
 
->  	if (IS_ERR(dc))
->  		return dev_err_probe(dev, PTR_ERR(dc), "Failed to get GPIO 'dc'\n");
->  
+From 05abb3be91d8788328231ee02973ab3d47f5e3d2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Date: Thu, 13 Jul 2023 22:47:45 +0300
+Subject: dma-buf/dma-resv: Stop leaking on krealloc() failure
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+commit 05abb3be91d8788328231ee02973ab3d47f5e3d2 upstream.
+
+Currently dma_resv_get_fences() will leak the previously
+allocated array if the fence iteration got restarted and
+the krealloc_array() fails.
+
+Free the old array by hand, and make sure we still clear
+the returned *fences so the caller won't end up accessing
+freed memory. Some (but not all) of the callers of
+dma_resv_get_fences() seem to still trawl through the
+array even when dma_resv_get_fences() failed. And let's
+zero out *num_fences as well for good measure.
+
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Cc: stable@vger.kernel.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20230713194745.1751-1-ville.syrjala@linux.intel.com
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/dma-buf/dma-resv.c |   13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -566,6 +566,7 @@ int dma_resv_get_fences(struct dma_resv
+ 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+ 
+ 		if (dma_resv_iter_is_restarted(&cursor)) {
++			struct dma_fence **new_fences;
+ 			unsigned int count;
+ 
+ 			while (*num_fences)
+@@ -574,13 +575,17 @@ int dma_resv_get_fences(struct dma_resv
+ 			count = cursor.num_fences + 1;
+ 
+ 			/* Eventually re-allocate the array */
+-			*fences = krealloc_array(*fences, count,
+-						 sizeof(void *),
+-						 GFP_KERNEL);
+-			if (count && !*fences) {
++			new_fences = krealloc_array(*fences, count,
++						    sizeof(void *),
++						    GFP_KERNEL);
++			if (count && !new_fences) {
++				kfree(*fences);
++				*fences = NULL;
++				*num_fences = 0;
+ 				dma_resv_iter_end(&cursor);
+ 				return -ENOMEM;
+ 			}
++			*fences = new_fences;
+ 		}
+ 
+ 		(*fences)[(*num_fences)++] = dma_fence_get(fence);
+
+
+Patches currently in stable-queue which might be from ville.syrjala@linux.intel.com are
+
+queue-6.1/dma-buf-dma-resv-stop-leaking-on-krealloc-failure.patch
