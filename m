@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABA975E2C3
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 17:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DDC75E315
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 18:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA1C110E038;
-	Sun, 23 Jul 2023 15:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5163E10E1A0;
+	Sun, 23 Jul 2023 16:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E98710E0E0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 15:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=12I0tcjBVTMgSL7QBAU/s+hAReugFbxf70NLge5yLqc=; b=Zl/8MyqtDYvHqN9kaZ7wd5YgJE
- 0sml+JUw+6czzLhk88qPWAz0Kx2CDeEHjSF7e3YteFh/C0Yeeaj42/hn9u1pDX5pYIl4WBEkkJpiO
- Mb+MgiLwbHqlrQSEIPhzXetB7KBI1VYcHW9pEJSGDZU4jXALgsh63VfhXp9XJ2OYZCYsE6wfU5rT+
- z5u8WrqRCn4B2yJlMqB7FBUqx1UXyPBbnV1CSB9VMBRf6gnHntLY9E8lDrxsp348SnjtGXFD+udTI
- UKounQ/MS8WgYFUwxUm2OiqRaiZjvRKQNY3obdm6ngAgP5YtTjoxT322iC2y7BdnZA4oYK2912fHJ
- OA1pSsZA==;
-Received: from [187.36.235.191] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qNaao-002Ywh-LC; Sun, 23 Jul 2023 17:01:55 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-Subject: [PATCH v2] drm/vkms: Implement all blend mode properties
-Date: Sun, 23 Jul 2023 12:00:07 -0300
-Message-ID: <20230723150132.130100-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.41.0
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307BE10E02C;
+ Sun, 23 Jul 2023 16:08:44 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id CBB873F0E6;
+ Sun, 23 Jul 2023 18:08:39 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v4 00/17] drm/msm: Add SM6125 MDSS/DPU hardware and enable
+ Sony Xperia 10 II panel
+Date: Sun, 23 Jul 2023 18:08:38 +0200
+Message-Id: <20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIZQvWQC/23NQQ6CMBQE0KuQrq1pf6EFV97DuCjlA02wkFaIh
+ nB3CxslspxJ3sxMAnqLgVySmXicbLC9iyE9JcS02jVIbRUzAQaCSUhpeEgOGa2GkWqsTCGFQlQ
+ liaDUAWnptTNtJG7sulgOHmv72h5u95hbG569f2+HE1/bw+2JU0Z5lWkpcoNlDdfQP7R1nXV47
+ n1D1q0Jfr3aeYieCUwF08BUbg69+HrF850X0UuT6UxiUeTA/vyyLB/cu9PSPgEAAA==
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Loic Poulain <loic.poulain@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@somainline.org>
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,171 +58,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Lux Aliaga <they@mint.lgbt>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following the DRM assumption, VKMS currently assumes that the alpha is
-pre-multiplied. Moreover, it doesn't support the alpha property.
+Bring up the SM6125 DPU now that all preliminary series (such as INTF
+TE) have been merged (for me to test the hardware properly), and most
+other conflicting work (barring ongoing catalog *improvements*) has made
+its way in as well or is still being discussed.
 
-So, first, implement the alpha property to VKMS and then, the blend
-mode property. In order to support all possible supported modes,
-change the pre_mul_blend_channel() function to check the plane blend
-mode and apply the correct blend formula, following the DRM
-convention, using the proper plane alpha value.
+The second part of the series complements that by immediately utilizing
+this hardware in DT, and even enabling the MDSS/DSI nodes complete with
+a 6.0" 1080x2520 panel for Sony's Seine PDX201 (Xperia 10 II).
 
-Tested with igt@kms_plane_alpha_blend.
+The last patch ("sm6125-seine: Configure MDSS, DSI and panel") depends
+on (an impending v2 of) my Sony panel collection series [1].
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
-
-v1 -> v2: https://lore.kernel.org/dri-devel/20230428122751.24271-1-mcanal@igalia.com/T/
-
-* Rebased on top of drm-misc-next.
+[1]: https://lore.kernel.org/linux-arm-msm/20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org/
 
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 49 ++++++++++++++++++----------
- drivers/gpu/drm/vkms/vkms_drv.h      |  2 ++
- drivers/gpu/drm/vkms/vkms_plane.c    |  9 +++++
- 3 files changed, 42 insertions(+), 18 deletions(-)
+Changes in v4:
+- Require "throttle" clock in display-controller node bindings and
+  provide it in DTS (this clock previously resulted in inexplicable
+  pingpong timeouts, but that cannot be reproduced anymore);
+- Split APPS IOMMU address-padding fix to a separate patch;
+- Add new patch to remove wrong DSI1 output port in SM6350 and SM6375
+  MDSS dt-bindings example;
+- Link to v3: https://lore.kernel.org/r/20230718-sm6125-dpu-v3-0-6c5a56e99820@somainline.org
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index d170a8e89b95..68a476461824 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -12,33 +12,47 @@
+Changes in v3:
+- Drop status="disabled" from MDSS dt-bindings example;
+- Use "nom" instead of "svs" OPP for dsi-phy PD, matching downstream;
+- Add "retention" OPP to dispcc PD;
+- Reword dsi-phy required-opps documentation;
+- Rebased on latest -next and fixed conflicts in DT and DPU catalog;
+- Link to v2: https://lore.kernel.org/r/20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org
 
- #include "vkms_drv.h"
+Changes in v2:
+- Moved dispcc DT clock reordering to the right patch (--fixup on the
+  wrong hash) (Dmitry, Konrad multiple times);
+- Drop removal of GCC_DISP_AHB_CLK in dispcc bindings.  While it is
+  unused in the current driver, it is likely used to ensure a guaranteed
+  probe order between GCC and DISPCC downstream, as well as currently
+  relying on the fact that GCC_DISP_AHB_CLK is CLK_IS_CRITICAL and never
+  turned off (Bjorn);
+- Add GCC_DISP_GPLL0_DIV_CLK_SRC at the end of the dispcc clock list to
+  maintain some form of ABI stability (Krzysztof);
+- Use SoC-prefix format for 14nm DSI PHY qcom,sm6125-dsi-phy-14nm
+  compatible (Dmitry, Krzysztof);
+- Add patch to drop unused regulators from QCM2290 14nm DSI PHY (Konrad,
+  Dmitry);
+- Reuse QCM2290 14nm DSI PHY config struct for SM6125 compatible
+  (Konrad);
+- s/sde/mdss in pdx201.dts pinctrl node names and labels (Konrad);
+- Use MX power domain in DSI PHY with SVS OPP (Dmitry);
+- Use CX power domain with (already-existing) OPP table in DSI CTRL
+  (Konrad, Dmitry);
+- Rebased on top of DPU catalog rework [1] by inlining macro
+  invocations, and validated by diffing stripped dpu_hw_catalog.o that
+  there are no unexpected changes;
+- Unset min_llcc_ib because this platform has no LLCC (Konrad);
+- Fix UBWC comment to mention "encoding" version (Dmitry);
+- Reordered DT nodes to follow Konrad's requested sorting;
+- Add power-domains and required-opps properties to dsi-phy-14nm.yaml;
+- Link to v1: https://lore.kernel.org/r/20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org
 
--static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
-+static u16 blend_channel(struct vkms_frame_info *frame_info, u16 src, u16 dst, u16 alpha)
- {
- 	u32 new_color;
+The discussions and this list ran quite long, apologies if I missed or
+mis-resolved anything in advance!
 
--	new_color = (src * 0xffff + dst * (0xffff - alpha));
-+	switch (frame_info->pixel_blend_mode) {
-+	case DRM_MODE_BLEND_PIXEL_NONE:
-+		new_color = 0xffff * frame_info->alpha * src
-+			+ (0xfffe0001 - 0xffff * frame_info->alpha) * dst;
-+		break;
-+	case DRM_MODE_BLEND_COVERAGE:
-+		new_color = alpha * frame_info->alpha * src
-+			+ (0xfffe0001 - alpha * frame_info->alpha) * dst;
-+		break;
-+	case DRM_MODE_BLEND_PREMULTI:
-+	default:
-+		new_color = 0xffff * frame_info->alpha * src
-+			+ (0xfffe0001 - alpha * frame_info->alpha) * dst;
-+		break;
-+	}
+[1]: https://lore.kernel.org/linux-arm-msm/20230619212519.875673-1-dmitry.baryshkov@linaro.org/
 
--	return DIV_ROUND_CLOSEST(new_color, 0xffff);
-+	return DIV_ROUND_CLOSEST(new_color, 0xfffe0001);
- }
+---
+Marijn Suijten (17):
+      drm/msm/dsi: Drop unused regulators from QCM2290 14nm DSI PHY config
+      arm64: dts: qcom: sm6125: Pad APPS IOMMU address to 8 characters
+      arm64: dts: qcom: sm6125: Sort spmi_bus node numerically by reg
+      dt-bindings: display/msm: Remove DSI1 ports from SM6350/SM6375 example
+      dt-bindings: clock: qcom,dispcc-sm6125: Require GCC PLL0 DIV clock
+      dt-bindings: clock: qcom,dispcc-sm6125: Allow power-domains property
+      dt-bindings: display/msm: dsi-controller-main: Document SM6125
+      dt-bindings: display/msm: sc7180-dpu: Describe SM6125
+      dt-bindings: display/msm: Add SM6125 MDSS
+      drm/msm/dpu: Add SM6125 support
+      drm/msm/mdss: Add SM6125 support
+      dt-bindings: msm: dsi-phy-14nm: Document SM6125 variant
+      drm/msm/dsi: Reuse QCM2290 14nm DSI PHY configuration for SM6125
+      arm64: dts: qcom: sm6125: Switch fixed xo_board clock to RPM XO clock
+      arm64: dts: qcom: sm6125: Add dispcc node
+      arm64: dts: qcom: sm6125: Add display hardware nodes
+      arm64: dts: qcom: sm6125-seine: Configure MDSS, DSI and panel
 
- /**
-- * pre_mul_alpha_blend - alpha blending equation
-+ * alpha_blend - alpha blending equation
-  * @frame_info: Source framebuffer's metadata
-  * @stage_buffer: The line with the pixels from src_plane
-  * @output_buffer: A line buffer that receives all the blends output
-  *
-  * Using the information from the `frame_info`, this blends only the
-  * necessary pixels from the `stage_buffer` to the `output_buffer`
-- * using premultiplied blend formula.
-+ * using the adequate blend formula depending on the plane blend mode
-+ * (see blend_channel()).
-  *
-- * The current DRM assumption is that pixel color values have been already
-- * pre-multiplied with the alpha channel values. See more
-- * drm_plane_create_blend_mode_property(). Also, this formula assumes a
-- * completely opaque background.
-+ * By default, the current DRM assumption is that pixel color values have
-+ * been already pre-multiplied with the alpha channel values. See more
-+ * drm_plane_create_blend_mode_property().
-  */
--static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
--				struct line_buffer *stage_buffer,
--				struct line_buffer *output_buffer)
-+static void alpha_blend(struct vkms_frame_info *frame_info,
-+			struct line_buffer *stage_buffer,
-+			struct line_buffer *output_buffer)
- {
- 	int x_dst = frame_info->dst.x1;
- 	struct pixel_argb_u16 *out = output_buffer->pixels + x_dst;
-@@ -48,9 +62,9 @@ static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
+ .../bindings/clock/qcom,dispcc-sm6125.yaml         |  24 +-
+ .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
+ .../bindings/display/msm/dsi-phy-14nm.yaml         |  11 +
+ .../bindings/display/msm/qcom,sc7180-dpu.yaml      |   5 +-
+ .../bindings/display/msm/qcom,sm6125-mdss.yaml     | 213 +++++++++++++++++
+ .../bindings/display/msm/qcom,sm6350-mdss.yaml     |   7 -
+ .../bindings/display/msm/qcom,sm6375-mdss.yaml     |   7 -
+ .../dts/qcom/sm6125-sony-xperia-seine-pdx201.dts   |  59 +++++
+ arch/arm64/boot/dts/qcom/sm6125.dtsi               | 257 +++++++++++++++++++--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h | 236 +++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   7 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |   2 -
+ drivers/gpu/drm/msm/msm_mdss.c                     |   8 +
+ 16 files changed, 804 insertions(+), 38 deletions(-)
+---
+base-commit: 535ce75f2d80a47ce5407681014cd5a976646e38
+change-id: 20230624-sm6125-dpu-aedc9637ee7b
 
- 	for (int x = 0; x < x_limit; x++) {
- 		out[x].a = (u16)0xffff;
--		out[x].r = pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
--		out[x].g = pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
--		out[x].b = pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
-+		out[x].r = blend_channel(frame_info, in[x].r, out[x].r, in[x].a);
-+		out[x].g = blend_channel(frame_info, in[x].g, out[x].g, in[x].a);
-+		out[x].b = blend_channel(frame_info, in[x].b, out[x].b, in[x].a);
- 	}
- }
-
-@@ -98,7 +112,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
-  * @stage_buffer: The line with the pixels from plane being blend to the output
-  * @row_size: The size, in bytes, of a single row
-  *
-- * This function blends the pixels (Using the `pre_mul_alpha_blend`)
-+ * This function blends the pixels (Using the `alpha_blend()`)
-  * from all planes, calculates the crc32 of the output from the former step,
-  * and, if necessary, convert and store the output to the writeback buffer.
-  */
-@@ -126,8 +140,7 @@ static void blend(struct vkms_writeback_job *wb,
- 				continue;
-
- 			vkms_compose_row(stage_buffer, plane[i], y_pos);
--			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
--					    output_buffer);
-+			alpha_blend(plane[i]->frame_info, stage_buffer, output_buffer);
- 		}
-
- 		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index d25e0aae91f2..20e2c520885e 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -28,6 +28,8 @@ struct vkms_frame_info {
- 	struct drm_rect src, dst;
- 	struct drm_rect rotated;
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
-+	u16 alpha;
-+	u16 pixel_blend_mode;
- 	unsigned int rotation;
- 	unsigned int offset;
- 	unsigned int pitch;
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e5c625ab8e3e..891aa566acda 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -113,6 +113,8 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
- 	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
- 	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
- 	memcpy(&frame_info->rotated, &new_state->dst, sizeof(struct drm_rect));
-+	frame_info->alpha = new_state->alpha;
-+	frame_info->pixel_blend_mode = new_state->pixel_blend_mode;
- 	frame_info->fb = fb;
- 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
- 	drm_framebuffer_get(frame_info->fb);
-@@ -212,6 +214,13 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-
- 	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
-
-+	drm_plane_create_alpha_property(&plane->base);
-+
-+	drm_plane_create_blend_mode_property(&plane->base,
-+					     BIT(DRM_MODE_BLEND_PIXEL_NONE) |
-+					     BIT(DRM_MODE_BLEND_PREMULTI)   |
-+					     BIT(DRM_MODE_BLEND_COVERAGE));
-+
- 	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
- 					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
-
---
-2.41.0
+Best regards,
+-- 
+Marijn Suijten <marijn.suijten@somainline.org>
 
