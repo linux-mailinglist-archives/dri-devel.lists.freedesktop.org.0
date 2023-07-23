@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C5F75E343
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 18:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2C775E348
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jul 2023 18:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E1AF10E176;
-	Sun, 23 Jul 2023 16:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F175E10E212;
+	Sun, 23 Jul 2023 16:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C12C510E21E
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 16:09:00 +0000 (UTC)
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8758110E223
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Jul 2023 16:09:02 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 4725F3F1C4;
- Sun, 23 Jul 2023 18:08:58 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 8F75D3F1D1;
+ Sun, 23 Jul 2023 18:08:59 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Sun, 23 Jul 2023 18:08:52 +0200
-Subject: [PATCH v4 14/17] arm64: dts: qcom: sm6125: Switch fixed xo_board
- clock to RPM XO clock
+Date: Sun, 23 Jul 2023 18:08:53 +0200
+Subject: [PATCH v4 15/17] arm64: dts: qcom: sm6125: Add dispcc node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230723-sm6125-dpu-v4-14-a3f287dd6c07@somainline.org>
+Message-Id: <20230723-sm6125-dpu-v4-15-a3f287dd6c07@somainline.org>
 References: <20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org>
 In-Reply-To: <20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
@@ -66,56 +66,61 @@ Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have a working RPM XO clock; no other driver except rpmcc should be
-parenting directly to the fixed-factor xo_board clock nor should it be
-reachable by that global name.  Remove the name to that effect, so that
-every clock relation is explicitly defined in DTS.
+Enable and configure the dispcc node on SM6125 for consumption by MDSS
+later on.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- arch/arm64/boot/dts/qcom/sm6125.dtsi | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/qcom/sm6125.dtsi | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-index cfd0901d4555..90e242ad7943 100644
+index 90e242ad7943..23d1284793d2 100644
 --- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-@@ -23,7 +23,6 @@ xo_board: xo-board {
- 			compatible = "fixed-clock";
- 			#clock-cells = <0>;
- 			clock-frequency = <19200000>;
--			clock-output-names = "xo_board";
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2021, Martin Botka <martin.botka@somainline.org>
+  */
+ 
++#include <dt-bindings/clock/qcom,dispcc-sm6125.h>
+ #include <dt-bindings/clock/qcom,gcc-sm6125.h>
+ #include <dt-bindings/clock/qcom,sm6125-gpucc.h>
+ #include <dt-bindings/clock/qcom,rpmcc.h>
+@@ -1208,6 +1209,34 @@ sram@4690000 {
+ 			reg = <0x04690000 0x10000>;
  		};
  
- 		sleep_clk: sleep-clk {
-@@ -199,6 +198,8 @@ rpm_requests: rpm-requests {
- 				rpmcc: clock-controller {
- 					compatible = "qcom,rpmcc-sm6125", "qcom,rpmcc";
- 					#clock-cells = <1>;
-+					clocks = <&xo_board>;
-+					clock-names = "xo";
- 				};
- 
- 				rpmpd: power-controller {
-@@ -718,7 +719,7 @@ sdhc_1: mmc@4744000 {
- 
- 			clocks = <&gcc GCC_SDCC1_AHB_CLK>,
- 				 <&gcc GCC_SDCC1_APPS_CLK>,
--				 <&xo_board>;
-+				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
- 			clock-names = "iface", "core", "xo";
- 			iommus = <&apps_smmu 0x160 0x0>;
- 
-@@ -745,7 +746,7 @@ sdhc_2: mmc@4784000 {
- 
- 			clocks = <&gcc GCC_SDCC2_AHB_CLK>,
- 				 <&gcc GCC_SDCC2_APPS_CLK>,
--				 <&xo_board>;
-+				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
- 			clock-names = "iface", "core", "xo";
- 			iommus = <&apps_smmu 0x180 0x0>;
- 
++		dispcc: clock-controller@5f00000 {
++			compatible = "qcom,sm6125-dispcc";
++			reg = <0x05f00000 0x20000>;
++
++			clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <0>,
++				 <&gcc GCC_DISP_AHB_CLK>,
++				 <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>;
++			clock-names = "bi_tcxo",
++				      "dsi0_phy_pll_out_byteclk",
++				      "dsi0_phy_pll_out_dsiclk",
++				      "dsi1_phy_pll_out_dsiclk",
++				      "dp_phy_pll_link_clk",
++				      "dp_phy_pll_vco_div_clk",
++				      "cfg_ahb_clk",
++				      "gcc_disp_gpll0_div_clk_src";
++
++			required-opps = <&rpmpd_opp_ret>;
++			power-domains = <&rpmpd SM6125_VDDCX>;
++
++			#clock-cells = <1>;
++			#power-domain-cells = <1>;
++		};
++
+ 		apps_smmu: iommu@c600000 {
+ 			compatible = "qcom,sm6125-smmu-500", "qcom,smmu-500", "arm,mmu-500";
+ 			reg = <0x0c600000 0x80000>;
 
 -- 
 2.41.0
