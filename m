@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2BC75EEE3
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 11:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E6775EF07
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 11:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC2510E299;
-	Mon, 24 Jul 2023 09:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 842A088EBA;
+	Mon, 24 Jul 2023 09:23:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBD310E299;
- Mon, 24 Jul 2023 09:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690190280; x=1721726280;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=VZIuephpuiECXqv+dLAe1AiqRhSpFzX4VAlECEJz6L0=;
- b=k/b4oAn2R7Sg9g9P+Ip+qS8sTvdxFKJrTGmFqyLLQVDQztupj4BBCI5X
- 61lkqE7IbsTzVUZ/iHss3o2dCIlibOlkZDk7dGBZDtrDCx74cYyZpROS5
- 9sQuV+NuzF4JAwAlVKz6y/N6rtkSZ5vshjZkx54x1gMcI8aZSbJK+gCCF
- koxMcoPN+Nhw0m/AMfs4nLVFlKDE2xzekI24bDVAC/o4C+rzAzDPCFuIy
- VQDr/g1R6U+83CQPY6KVsnmnCRPX0Fb9/lLJ34VQVZO0qzdVcGG0O8F0k
- i02GK4dPDPVG0R/6F0+g3pgA0Rpr9uYCHSA3O6759idEkTqA589K9XZDm A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="367417450"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="367417450"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 02:17:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="790895131"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="790895131"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.14.115])
- ([10.213.14.115])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 02:17:57 -0700
-Message-ID: <57103f96-19e9-dbbf-fb6f-3bcfcbd7c6a1@intel.com>
-Date: Mon, 24 Jul 2023 11:17:55 +0200
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9249F88EBA;
+ Mon, 24 Jul 2023 09:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=nHwERRNohuUhZsb3fsbGJZNV/wqpb0sJjOXJGxj/gFU=; b=0eTCGmkFvYRanCjqIruUc+gFHD
+ eb0YjlozDEULA37j7v5qY4zn7oNzSJHyKS6Mu3lubDRF2RaMczkF4f0lJh//Gw6lfNr0hipZSgCGS
+ JIWlEQVkw7RyvqjD3Uxd4RuJG7sAceLde0p86r2jFr/kdLPlkftX1hnSBOxxVBlLMicc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1qNrmC-0026m1-D4; Mon, 24 Jul 2023 11:22:48 +0200
+Date: Mon, 24 Jul 2023 11:22:48 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Evan Quan <evan.quan@amd.com>
+Subject: Re: [PATCH V7 4/9] wifi: mac80211: Add support for ACPI WBRF
+Message-ID: <9b1f45f9-02a3-4c03-b9d5-cc3b9ab3a058@lunn.ch>
+References: <20230719090020.2716892-1-evan.quan@amd.com>
+ <20230719090020.2716892-5-evan.quan@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [PATCH v8 7/9] drm/i915/gt: Ensure memory quiesced before
- invalidation for all engines
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230721161514.818895-1-andi.shyti@linux.intel.com>
- <20230721161514.818895-8-andi.shyti@linux.intel.com>
- <3b7e1781-ca2b-44b3-846d-89e42f24106e@intel.com>
- <ZL5A82eugN0hbFjr@ashyti-mobl2.lan>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <ZL5A82eugN0hbFjr@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230719090020.2716892-5-evan.quan@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +46,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- dri-evel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, linux-stable <stable@vger.kernel.org>,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
+ trix@redhat.com, Lijo.Lazar@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mdaenzer@redhat.com, Mario.Limonciello@amd.com,
+ amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
+ hdegoede@redhat.com, netdev@vger.kernel.org, Xinhui.Pan@amd.com,
+ linux-wireless@vger.kernel.org, edumazet@google.com, Christian.Koenig@amd.com,
+ tzimmermann@suse.de, Alexander.Deucher@amd.com, johannes@sipsolutions.net,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> @@ -1395,6 +1395,8 @@ int ieee80211_register_hw(struct ieee80211_hw *hw)
+>  	debugfs_hw_add(local);
+>  	rate_control_add_debugfs(local);
+>  
+> +	ieee80211_check_wbrf_support(local);
+> +
+>  	rtnl_lock();
+>  	wiphy_lock(hw->wiphy);
+>  
 
+> +void ieee80211_check_wbrf_support(struct ieee80211_local *local)
+> +{
+> +	struct wiphy *wiphy = local->hw.wiphy;
+> +	struct device *dev;
+> +
+> +	if (!wiphy)
+> +		return;
+> +
+> +	dev = wiphy->dev.parent;
+> +	if (!dev)
+> +		return;
+> +
+> +	local->wbrf_supported = wbrf_supported_producer(dev);
+> +	dev_dbg(dev, "WBRF is %s supported\n",
+> +		local->wbrf_supported ? "" : "not");
+> +}
 
-On 24.07.2023 11:14, Andi Shyti wrote:
-> Hi Andrzej,
->
->>>    	intel_engine_mask_t aux_inv = 0;
->>> -	u32 cmd, *cs;
->>> +	u32 cmd_flush = 0;
->>> +	u32 cmd = 4;
->>> +	u32 *cs;
->>> -	cmd = 4;
->>> -	if (mode & EMIT_INVALIDATE) {
->>> +	if (mode & EMIT_INVALIDATE)
->>>    		cmd += 2;
->>> -		if (gen12_needs_ccs_aux_inv(rq->engine) &&
->>> -		    (rq->engine->class == VIDEO_DECODE_CLASS ||
->>> -		     rq->engine->class == VIDEO_ENHANCEMENT_CLASS)) {
->>> -			aux_inv = rq->engine->mask &
->>> -				~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
->>> -			if (aux_inv)
->>> -				cmd += 4;
->>> -		}
->>> +	if (gen12_needs_ccs_aux_inv(rq->engine))
->>> +		aux_inv = rq->engine->mask &
->>> +			  ~GENMASK(_BCS(I915_MAX_BCS - 1), BCS0);
->> Shouldn't we remove BCS check for MTL? And move it inside
->> gen12_needs_ccs_aux_inv?
->> Btw aux_inv is used as bool, make better is to make it bool.
-> Both the cleanups come in patch 9. I wanted to move it initially
-> before, but per engine check come later in the series.
->
-> I think would need to re-architecture all the patch structure if
-> I want to remove it :)
->
-> Are you strong with this change?
+This seems wrong. wbrf_supported_producer() is about "Should this
+device report the frequencies it is using?" The answer to that depends
+on a combination of: Are there consumers registered with the core, and
+is the policy set so WBRF should take actions.
 
-Nope, if it finally arrives then OK for me.
+The problem here is, you have no idea of the probe order. It could be
+this device probes before others, so wbrf_supported_producer() reports
+false, but a few second later would report true, once other devices
+have probed.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+It should be an inexpensive call into the core, so can be made every
+time the channel changes. All the core needs to do is check if the
+list of consumers is empty, and if not, check a Boolean policy value.
 
-Regards
-Andrzej
-
-
-
->
-> Andi
-
+     Andrew
