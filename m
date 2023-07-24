@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0DB75F5AA
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 14:08:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CD875F5EB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 14:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1B8810E2DE;
-	Mon, 24 Jul 2023 12:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A0510E2E3;
+	Mon, 24 Jul 2023 12:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC4D10E2DE
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 12:07:59 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id
- ca18e2360f4ac-7837329a00aso187419339f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 05:07:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690200479; x=1690805279;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9nNGOJzgymf6gQYpdxd2UIkw90HSJ+oAIVzOwuAShWk=;
- b=AGnyacAtQgTQdB9sxdspjAr/0gBEbGnzHtdv9A5PSwPd8hyLTaDVdnNJ6g2z3ADHXB
- /JNWfq+M4uG9ic7piypv6CW+ZxuapLSr4BbkS/PatgJsmWY3O06tORkuMkrWFvon5Htf
- t6m6kb2RyozMDds9MU9aTX9/zR3raX/KwI5HYgEkfbjsjLXR9MM+8mnr0tPLzO5e0bv6
- xvPC6FAZuPHK2IOKyA542mpEMEOalySN04LkjrewQUBLBqmNeBRA5XYZOiMU0lZ0ZKUX
- 42XYM0KqtEI60yvCHPfF0jw1maDp4TO2iNuQPhNChSDyVjbAvmZr+jnFagPF/bzx9Ion
- 8nGg==
-X-Gm-Message-State: ABy/qLYWjiRRa5yQ/vETcWAroe26ooLdNxkeSpupVTqdKvi+wQd9KQh7
- cyT2YyDhp5D2Htr0ZzjukBcRnacAFwSFGw==
-X-Google-Smtp-Source: APBJJlEKn6JGmSeZLwx4qoWukSzPIHvEDbXg1zvbFi5735r3ByxPyE7hqk4cfzbaKx4M/0LkUxe3Vw==
-X-Received: by 2002:a05:6e02:1d9a:b0:348:8b42:47c with SMTP id
- h26-20020a056e021d9a00b003488b42047cmr9480951ila.17.1690200478843; 
- Mon, 24 Jul 2023 05:07:58 -0700 (PDT)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com.
- [209.85.166.43]) by smtp.gmail.com with ESMTPSA id
- c8-20020a92c8c8000000b00342f537e3c3sm2979262ilq.2.2023.07.24.05.07.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jul 2023 05:07:58 -0700 (PDT)
-Received: by mail-io1-f43.google.com with SMTP id
- ca18e2360f4ac-78358268d1bso187010539f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 05:07:58 -0700 (PDT)
-X-Received: by 2002:a25:238e:0:b0:d05:abaf:9933 with SMTP id
- j136-20020a25238e000000b00d05abaf9933mr7019302ybj.36.1690200457350; Mon, 24
- Jul 2023 05:07:37 -0700 (PDT)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2960610E2DB;
+ Mon, 24 Jul 2023 12:16:24 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cxc_CXa75kLjQJAA--.23048S3;
+ Mon, 24 Jul 2023 20:16:23 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxTSOSa75k+yg5AA--.5452S3; 
+ Mon, 24 Jul 2023 20:16:19 +0800 (CST)
+Message-ID: <5fbc1ec7-fb61-7e4d-960c-81cc11b706f5@loongson.cn>
+Date: Mon, 24 Jul 2023 20:16:18 +0800
 MIME-Version: 1.0
-References: <20230719123944.3438363-1-arnd@kernel.org>
- <20230719123944.3438363-2-arnd@kernel.org>
- <87pm4lj1w3.fsf@mail.lhotse>
- <19631e74-415e-4dcb-b79d-33dcf03d2dfc@app.fastmail.com>
-In-Reply-To: <19631e74-415e-4dcb-b79d-33dcf03d2dfc@app.fastmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 24 Jul 2023 14:07:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVszR+oZi8x8L0iXx=ydTiaNUZxToBSdf=2ZH5t85+D_Q@mail.gmail.com>
-Message-ID: <CAMuHMdVszR+oZi8x8L0iXx=ydTiaNUZxToBSdf=2ZH5t85+D_Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] vgacon: rework Kconfig dependencies
-To: Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 4/9] PCI/VGA: Improve the default VGA device selection
+Content-Language: en-US
+To: Bjorn Helgaas <helgaas@kernel.org>, Sui Jingfeng <sui.jingfeng@linux.dev>
+References: <20230719193233.GA511659@bhelgaas>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230719193233.GA511659@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8AxTSOSa75k+yg5AA--.5452S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7uFWkGrykCF4rXw4rGr1xZwc_yoW8GFyxpa
+ 4a9Fy3KFZaqr4UJr9Fk348XF45Wa17Xas5Aw13Gryjkrs8X34qg34xK3yYk34kZFn3Wr1Y
+ vFWaka48ZFWqyacCm3ZEXasCq-sJn29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUPSb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vI
+ r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_GFv_Wrylx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
+ Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUnsZ23
+ UUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,88 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, x86@kernel.org, linux-ia64@vger.kernel.org,
- linux-sh@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-hyperv@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, linux-efi@vger.kernel.org,
- guoren <guoren@kernel.org>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- WANG Xuerui <kernel@xen0n.name>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Ard Biesheuvel <ardb@kernel.org>, Wei Liu <wei.liu@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
- Huacai Chen <chenhuacai@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Deepak Rawat <drawat.floss@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Will Deacon <will@kernel.org>,
- Brian Cain <bcain@quicinc.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Nicholas Piggin <npiggin@gmail.com>, Borislav Petkov <bp@alien8.de>,
- loongarch@lists.linux.dev,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Khalid Aziz <khalid@gonehiking.org>, Arnd Bergmann <arnd@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Dinh Nguyen <dinguyen@kernel.org>, linux-riscv@lists.infradead.org,
- Palmer Dabbelt <palmer@dabbelt.com>, linux-alpha@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>
+Cc: linux-fbdev@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ben Skeggs <bskeggs@redhat.com>, Kevin Tian <kevin.tian@intel.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@intel.com>, Bokun Zhang <Bokun.Zhang@amd.com>,
+ intel-gfx@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Abhishek Sahu <abhsahu@nvidia.com>, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+Hi,
 
-On Fri, Jul 21, 2023 at 10:29=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrot=
-e:
-> On Fri, Jul 21, 2023, at 06:59, Michael Ellerman wrote:
-> > Arnd Bergmann <arnd@kernel.org> writes:
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >>
-> >> The list of dependencies here is phrased as an opt-out, but this is mi=
-ssing
-> >> a lot of architectures that don't actually support VGA consoles, and s=
-ome
-> >> of the entries are stale:
-> >>
-> >>  - powerpc used to support VGA consoles in the old arch/ppc codebase, =
-but
-> >>    the merged arch/powerpc never did
-> >
-> > Not disputing this, but how did you come to that conclusion? I grepped
-> > around and couldn't convince myself whether it can work on powerpc or
-> > not. ie. currently it's possible to enable CONFIG_VGA_CONSOLE and
-> > powerpc does have a struct screen_info defined which seems like it woul=
-d
-> > allow vgacon_startup() to complete.
->
-> The VGA console needs both screen_info and vga_con to work. In arch/ppc
-> we had both, but in arch/powerpc we only retained the screen_info:
->
-> $ git grep vga_con v2.6.26 -- arch/ppc arch/ppc64 arch/powerpc
-> v2.6.26:arch/ppc/platforms/pplus.c:     conswitchp =3D &vga_con;
-> v2.6.26:arch/ppc/platforms/prep_setup.c:        conswitchp =3D &vga_con;
->
-> so after arch/ppc was removed, this became impossible to use on both
-> pplus and prep. These two platforms were also (as far as I can tell)
-> the only ones to support vga16fb as an alternative to vgacon, but
-> both platforms were removed later on.
+On 2023/7/20 03:32, Bjorn Helgaas wrote:
+>> 2) It does not take the PCI Bar may get relocated into consideration.
+>> 3) It is not effective for the PCI device without a dedicated VRAM Bar.
+>> 4) It is device-agnostic, thus it has to waste the effort to iterate all
+>>     of the PCI Bar to find the VRAM aperture.
+>> 5) It has invented lots of methods to determine which one is the default
+>>     boot device, but this is still a policy because it doesn't give the
+>>     user a choice to override.
+> I don't think we need a list of*potential*  problems.  We need an
+> example of the specific problem this will solve, i.e., what currently
+> does not work?
 
-I did use vgacon and vga16fb on CHRP on a second video card
-(initialized using Gabriel Paubert's x86 BIOS emulator), but that was
-definitely before the advent of arch/powerpc/.
 
-Gr{oetje,eeting}s,
+This version do allow the arbitration service works on non-x86 arch,
 
-                        Geert
+which also allow me remove a arch-specific workaround.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+I will give more detail at the next version.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+
+But I want to provide one more drawback of vgaarb here:
+
+
+(6) It does not works for non VGA-compatible PCI(e) display controllers.
+
+
+Because, currently, vgaarb deal with PCI VGA compatible devices only.
+
+See another my patch set [1] for more elaborate discussion.
+
+It also ignore PCI_CLASS_NOT_DEFINED_VGA as Maciej puts it[2].
+
+While my approach do not required the display controller to be 
+VGA-compatible to enjoy the arbitration service.
+
+What do you think then?
+
+
+[1] https://patchwork.freedesktop.org/patch/546690/?series=120548&rev=1
+
+[2] https://lkml.org/lkml/2023/6/18/315
+
