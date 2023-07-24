@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3620975F7DE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 15:10:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7D475F7DF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 15:10:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E79AA10E2E4;
-	Mon, 24 Jul 2023 13:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFDC310E31B;
+	Mon, 24 Jul 2023 13:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4528310E2E4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 13:10:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450DC10E2E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 13:10:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5644561127;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C02D261136;
+ Mon, 24 Jul 2023 13:10:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C749C433C9;
  Mon, 24 Jul 2023 13:10:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D65FAC433C8;
- Mon, 24 Jul 2023 13:10:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690204205;
- bh=hZSKhVnakl638ueLHfTbYqWQAVqZC+AGJPMm4AVaOI4=;
- h=From:To:Cc:Subject:Date:From;
- b=Dn4bOJw+ASZHaFweTGRpTvt0rYdGGICrbbHB54Qo+oLlMHTQ5QuzYbkr/+nvP7muF
- MQ6Nb0NE3FNfS7zF16v27iKv6jpsZvskMw8rlttYhdrYxoglSg6AMmnEJ/YNiiWhF8
- aJfp1HiVbQF4uw8p2xO5Pz6SSwycZe3ehvNUWqAaRdT5xaiG6r8KAArRuNJ4Dkkydl
- 1qL/5AH4uDTDZJZf34G87DIkkBDIF6r+ZhExt5q1PwT2h+vJj4QrR4zZjY5c5uRNP3
- YCK6276dHfhbcrUpMGy6InEHWwe4e4/R1XUg6M3aOFuSiMvStSVn7A0/1Ubv/WnVtc
- Vzce3gWKlJduQ==
+ s=k20201202; t=1690204207;
+ bh=7OOfFypWGI7C/cskpmuDB/vGZrq8aTFbLJRh/I5ZkGQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dHP3IwVyftta44uQm3O7pwbWUd027NLWXdt2wSM+CR9xKcXbDhmqP3vZuPGqu4v+w
+ te6F7evEWtG2+bQhwthRlVjnRLzdp4O+oGoykQICGJnFLMPeblDMLYPMpxDVPqR+RC
+ UQVjTUbbrbYRcZeCzLofC9vuOIlSDXA4O3AFQjmNHiP1O05Us6caPVq9ATbSwkUPQR
+ w6KAg26gmmupQDNM/NCJcPNCURKi3TbdR7XMCBpz/XIrp1jDMnnmnPYimHxEZbL+B+
+ 41WGe2IcVQLBfl3ovXLNQFlNLY9DReWfHj+pOFzL/iJKsuOgZfWaMcFFq17y6+fycO
+ m1giOJnSLnjMQ==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] accel/habanalabs/gaudi2 : remove psoc_arc access
-Date: Mon, 24 Jul 2023 16:09:59 +0300
-Message-Id: <20230724131000.859507-1-ogabbay@kernel.org>
+Subject: [PATCH 2/2] accel/habanalabs: fix ETR/ETF flush logic
+Date: Mon, 24 Jul 2023 16:10:00 +0300
+Message-Id: <20230724131000.859507-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230724131000.859507-1-ogabbay@kernel.org>
+References: <20230724131000.859507-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,79 +58,105 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Benjamin Dotan <bdotan@habana.ai>
 
-Because firmware is blocking PSOC_ARC_DBG, we need to disable access
-to this block.
+When config_etr or config_etf are called we need to validate the
+parameters that are passed into them to make sure the requested
+operation is valid.
 
 Signed-off-by: Benjamin Dotan <bdotan@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../habanalabs/gaudi2/gaudi2_coresight.c      | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/accel/habanalabs/gaudi/gaudi_coresight.c   | 12 ++++++++++++
+ drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c | 10 ++++++++++
+ drivers/accel/habanalabs/goya/goya_coresight.c     | 10 ++++++++++
+ 3 files changed, 32 insertions(+)
 
+diff --git a/drivers/accel/habanalabs/gaudi/gaudi_coresight.c b/drivers/accel/habanalabs/gaudi/gaudi_coresight.c
+index 3455b14554c6..1168fefa33f4 100644
+--- a/drivers/accel/habanalabs/gaudi/gaudi_coresight.c
++++ b/drivers/accel/habanalabs/gaudi/gaudi_coresight.c
+@@ -482,6 +482,11 @@ static int gaudi_config_etf(struct hl_device *hdev,
+ 
+ 	WREG32(base_reg + 0xFB0, CORESIGHT_UNLOCK);
+ 
++	val = RREG32(base_reg + 0x20);
++
++	if ((!params->enable && val == 0x0) || (params->enable && val != 0x0))
++		return 0;
++
+ 	val = RREG32(base_reg + 0x304);
+ 	val |= 0x1000;
+ 	WREG32(base_reg + 0x304, val);
+@@ -580,6 +585,13 @@ static int gaudi_config_etr(struct hl_device *hdev,
+ 
+ 	WREG32(mmPSOC_ETR_LAR, CORESIGHT_UNLOCK);
+ 
++	val = RREG32(mmPSOC_ETR_CTL);
++
++	if ((!params->enable && val == 0x0) || (params->enable && val != 0x0))
++		return 0;
++
++
++
+ 	val = RREG32(mmPSOC_ETR_FFCR);
+ 	val |= 0x1000;
+ 	WREG32(mmPSOC_ETR_FFCR, val);
 diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c b/drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c
-index 25b5368f37dd..3e90bc969264 100644
+index 3e90bc969264..32e0f1a85b35 100644
 --- a/drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c
 +++ b/drivers/accel/habanalabs/gaudi2/gaudi2_coresight.c
-@@ -151,8 +151,8 @@ static u64 debug_stm_regs[GAUDI2_STM_LAST + 1] = {
- 	[GAUDI2_STM_DCORE3_VDEC1_CS] = mmDCORE3_VDEC1_CS_STM_BASE,
- 	[GAUDI2_STM_PCIE] = mmPCIE_STM_BASE,
- 	[GAUDI2_STM_PSOC] = mmPSOC_STM_BASE,
--	[GAUDI2_STM_PSOC_ARC0_CS] = mmPSOC_ARC0_CS_STM_BASE,
--	[GAUDI2_STM_PSOC_ARC1_CS] = mmPSOC_ARC1_CS_STM_BASE,
-+	[GAUDI2_STM_PSOC_ARC0_CS] = 0,
-+	[GAUDI2_STM_PSOC_ARC1_CS] = 0,
- 	[GAUDI2_STM_PDMA0_CS] = mmPDMA0_CS_STM_BASE,
- 	[GAUDI2_STM_PDMA1_CS] = mmPDMA1_CS_STM_BASE,
- 	[GAUDI2_STM_CPU] = mmCPU_STM_BASE,
-@@ -293,8 +293,8 @@ static u64 debug_etf_regs[GAUDI2_ETF_LAST + 1] = {
- 	[GAUDI2_ETF_DCORE3_VDEC1_CS] = mmDCORE3_VDEC1_CS_ETF_BASE,
- 	[GAUDI2_ETF_PCIE] = mmPCIE_ETF_BASE,
- 	[GAUDI2_ETF_PSOC] = mmPSOC_ETF_BASE,
--	[GAUDI2_ETF_PSOC_ARC0_CS] = mmPSOC_ARC0_CS_ETF_BASE,
--	[GAUDI2_ETF_PSOC_ARC1_CS] = mmPSOC_ARC1_CS_ETF_BASE,
-+	[GAUDI2_ETF_PSOC_ARC0_CS] = 0,
-+	[GAUDI2_ETF_PSOC_ARC1_CS] = 0,
- 	[GAUDI2_ETF_PDMA0_CS] = mmPDMA0_CS_ETF_BASE,
- 	[GAUDI2_ETF_PDMA1_CS] = mmPDMA1_CS_ETF_BASE,
- 	[GAUDI2_ETF_CPU_0] = mmCPU_ETF_0_BASE,
-@@ -436,8 +436,8 @@ static u64 debug_funnel_regs[GAUDI2_FUNNEL_LAST + 1] = {
- 	[GAUDI2_FUNNEL_DCORE3_RTR6] = mmDCORE3_RTR6_FUNNEL_BASE,
- 	[GAUDI2_FUNNEL_DCORE3_RTR7] = mmDCORE3_RTR7_FUNNEL_BASE,
- 	[GAUDI2_FUNNEL_PSOC] = mmPSOC_FUNNEL_BASE,
--	[GAUDI2_FUNNEL_PSOC_ARC0] = mmPSOC_ARC0_FUNNEL_BASE,
--	[GAUDI2_FUNNEL_PSOC_ARC1] = mmPSOC_ARC1_FUNNEL_BASE,
-+	[GAUDI2_FUNNEL_PSOC_ARC0] = 0,
-+	[GAUDI2_FUNNEL_PSOC_ARC1] = 0,
- 	[GAUDI2_FUNNEL_XDMA] = mmXDMA_FUNNEL_BASE,
- 	[GAUDI2_FUNNEL_CPU] = mmCPU_FUNNEL_BASE,
- 	[GAUDI2_FUNNEL_PMMU] = mmPMMU_FUNNEL_BASE,
-@@ -766,10 +766,10 @@ static u64 debug_bmon_regs[GAUDI2_BMON_LAST + 1] = {
- 	[GAUDI2_BMON_PCIE_MSTR_RD] = mmPCIE_BMON_MSTR_RD_BASE,
- 	[GAUDI2_BMON_PCIE_SLV_WR] = mmPCIE_BMON_SLV_WR_BASE,
- 	[GAUDI2_BMON_PCIE_SLV_RD] = mmPCIE_BMON_SLV_RD_BASE,
--	[GAUDI2_BMON_PSOC_ARC0_0] = mmPSOC_ARC0_BMON_0_BASE,
--	[GAUDI2_BMON_PSOC_ARC0_1] = mmPSOC_ARC0_BMON_1_BASE,
--	[GAUDI2_BMON_PSOC_ARC1_0] = mmPSOC_ARC1_BMON_0_BASE,
--	[GAUDI2_BMON_PSOC_ARC1_1] = mmPSOC_ARC1_BMON_1_BASE,
-+	[GAUDI2_BMON_PSOC_ARC0_0] = 0,
-+	[GAUDI2_BMON_PSOC_ARC0_1] = 0,
-+	[GAUDI2_BMON_PSOC_ARC1_0] = 0,
-+	[GAUDI2_BMON_PSOC_ARC1_1] = 0,
- 	[GAUDI2_BMON_PDMA0_0] = mmPDMA0_BMON_0_BASE,
- 	[GAUDI2_BMON_PDMA0_1] = mmPDMA0_BMON_1_BASE,
- 	[GAUDI2_BMON_PDMA1_0] = mmPDMA1_BMON_0_BASE,
-@@ -968,8 +968,8 @@ static u64 debug_spmu_regs[GAUDI2_SPMU_LAST + 1] = {
- 	[GAUDI2_SPMU_DCORE3_VDEC0_CS] = mmDCORE3_VDEC0_CS_SPMU_BASE,
- 	[GAUDI2_SPMU_DCORE3_VDEC1_CS] = mmDCORE3_VDEC1_CS_SPMU_BASE,
- 	[GAUDI2_SPMU_PCIE] = mmPCIE_SPMU_BASE,
--	[GAUDI2_SPMU_PSOC_ARC0_CS] = mmPSOC_ARC0_CS_SPMU_BASE,
--	[GAUDI2_SPMU_PSOC_ARC1_CS] = mmPSOC_ARC1_CS_SPMU_BASE,
-+	[GAUDI2_SPMU_PSOC_ARC0_CS] = 0,
-+	[GAUDI2_SPMU_PSOC_ARC1_CS] = 0,
- 	[GAUDI2_SPMU_PDMA0_CS] = mmPDMA0_CS_SPMU_BASE,
- 	[GAUDI2_SPMU_PDMA1_CS] = mmPDMA1_CS_SPMU_BASE,
- 	[GAUDI2_SPMU_PMMU_CS] = mmPMMU_CS_SPMU_BASE,
+@@ -2092,6 +2092,11 @@ static int gaudi2_config_etf(struct hl_device *hdev, struct hl_debug_params *par
+ 	if (rc)
+ 		return -EIO;
+ 
++	val = RREG32(base_reg + mmETF_CTL_OFFSET);
++
++	if ((!params->enable && val == 0x0) || (params->enable && val != 0x0))
++		return 0;
++
+ 	val = RREG32(base_reg + mmETF_FFCR_OFFSET);
+ 	val |= 0x1000;
+ 	WREG32(base_reg + mmETF_FFCR_OFFSET, val);
+@@ -2189,6 +2194,11 @@ static int gaudi2_config_etr(struct hl_device *hdev, struct hl_ctx *ctx,
+ 	if (rc)
+ 		return -EIO;
+ 
++	val = RREG32(mmPSOC_ETR_CTL);
++
++	if ((!params->enable && val == 0x0) || (params->enable && val != 0x0))
++		return 0;
++
+ 	val = RREG32(mmPSOC_ETR_FFCR);
+ 	val |= 0x1000;
+ 	WREG32(mmPSOC_ETR_FFCR, val);
+diff --git a/drivers/accel/habanalabs/goya/goya_coresight.c b/drivers/accel/habanalabs/goya/goya_coresight.c
+index a6d6cc38bcd8..41cae5fd843b 100644
+--- a/drivers/accel/habanalabs/goya/goya_coresight.c
++++ b/drivers/accel/habanalabs/goya/goya_coresight.c
+@@ -315,6 +315,11 @@ static int goya_config_etf(struct hl_device *hdev,
+ 
+ 	WREG32(base_reg + 0xFB0, CORESIGHT_UNLOCK);
+ 
++	val = RREG32(base_reg + 0x20);
++
++	if ((!params->enable && val == 0x0) || (params->enable && val != 0x0))
++		return 0;
++
+ 	val = RREG32(base_reg + 0x304);
+ 	val |= 0x1000;
+ 	WREG32(base_reg + 0x304, val);
+@@ -386,6 +391,11 @@ static int goya_config_etr(struct hl_device *hdev,
+ 
+ 	WREG32(mmPSOC_ETR_LAR, CORESIGHT_UNLOCK);
+ 
++	val = RREG32(mmPSOC_ETR_CTL);
++
++	if ((!params->enable && val == 0x0) || (params->enable && val != 0x0))
++		return 0;
++
+ 	val = RREG32(mmPSOC_ETR_FFCR);
+ 	val |= 0x1000;
+ 	WREG32(mmPSOC_ETR_FFCR, val);
 -- 
 2.34.1
 
