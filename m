@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77AC75ECDE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 09:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B14E75EC0C
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 08:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90B5410E27E;
-	Mon, 24 Jul 2023 07:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC6A110E274;
+	Mon, 24 Jul 2023 06:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F72D10E27C;
- Mon, 24 Jul 2023 07:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690185299; x=1721721299;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9MYGepOmucZkFKKawDLrW6irF0O4CITjlV6O/LiLNZw=;
- b=SC+lxuTjzw/wpR2QBJWTbuRG9yE4ccwbokM0/X+1MEa9hqKJHLUdo9W9
- ADdUUE7PWdXLDgWYLGmjT+uV0QGWntOh0byOaMZRIJ+DO8Vv7Srpl9X0q
- b4HTg4A8GsoAZ3qkicg60XXmid+yWL51CuvP2hjDYzo0dmWIykyzKg6Rg
- vX7sexN1vaud+5UQk2lmhHMlwDiBfzyyorkIVB9b9SkD9HUz90GiUr12x
- e4c+WVvWYPLhdbJz/wqf8dsCZFRZyV/3uOzX6StQs3KecE0YN1I5cBUB/
- wI3wKnd93YH5l2DIZcWVGFKdhCgOlMy0hq+CEzXvZUkzJyCDFfp7CwABy w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="352273835"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="352273835"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 00:54:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="725603352"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="725603352"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.14.115])
- ([10.213.14.115])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 00:54:56 -0700
-Message-ID: <446e7f3b-3e85-9d27-c8c2-4a1c105a280a@intel.com>
-Date: Mon, 24 Jul 2023 09:54:54 +0200
+X-Greylist: delayed 1206 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Jul 2023 06:55:57 UTC
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7509710E274
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 06:55:57 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R8Vl44jCzzrRjF;
+ Mon, 24 Jul 2023 14:34:56 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 24 Jul
+ 2023 14:35:46 +0800
+From: Ruan Jinjie <ruanjinjie@huawei.com>
+To: <thierry.reding@gmail.com>, <mperttunen@nvidia.com>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <jonathanh@nvidia.com>,
+ <dri-devel@lists.freedesktop.org>, 
+ <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] drm/tegra: hdmi: Use devm_platform_ioremap_resource()
+Date: Mon, 24 Jul 2023 14:36:26 +0000
+Message-ID: <20230724143626.2582615-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-Subject: Re: [PATCH v8 6/9] drm/i915/gt: Refactor intel_emit_pipe_control_cs()
- in a single function
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
-References: <20230721161514.818895-1-andi.shyti@linux.intel.com>
- <20230721161514.818895-7-andi.shyti@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230721161514.818895-7-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.90.53.73]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,114 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- linux-stable <stable@vger.kernel.org>,
- dri-evel <dri-devel@lists.freedesktop.org>
+Cc: ruanjinjie@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: ruanjinjie <ruanjinjie@huawei.com>
 
+Use the devm_platform_ioremap_resource() helper instead of calling
+platform_get_resource() and devm_ioremap_resource() separately.
 
-On 21.07.2023 18:15, Andi Shyti wrote:
-> Just a trivial refactoring for reducing the number of code
-> duplicate. This will come at handy in the next commits.
->
-> Meantime, propagate the error to the above layers if we fail to
-> emit the pipe control.
->
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: <stable@vger.kernel.org> # v5.8+
+Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+---
+ drivers/gpu/drm/tegra/hdmi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
-> ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 47 +++++++++++++-----------
->   1 file changed, 26 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index 139a7e69f5c4d..5e19b45a5cabe 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -7,6 +7,7 @@
->   #include "i915_drv.h"
->   #include "intel_engine_regs.h"
->   #include "intel_gpu_commands.h"
-> +#include "intel_gt_print.h"
->   #include "intel_lrc.h"
->   #include "intel_ring.h"
->   
-> @@ -189,23 +190,30 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
->   	return cs;
->   }
->   
-> +static int gen12_emit_pipe_control_cs(struct i915_request *rq, u32 bit_group_0,
-> +				      u32 bit_group_1, u32 offset)
-> +{
-> +	u32 *cs;
-> +
-> +	cs = intel_ring_begin(rq, 6);
-> +	if (IS_ERR(cs))
-> +		return PTR_ERR(cs);
-> +
-> +	cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
-> +				     LRC_PPHWSP_SCRATCH_ADDR);
-> +	intel_ring_advance(rq, cs);
-> +
-> +	return 0;
-> +}
-> +
->   static int mtl_dummy_pipe_control(struct i915_request *rq)
->   {
->   	/* Wa_14016712196 */
->   	if (IS_MTL_GRAPHICS_STEP(rq->engine->i915, M, STEP_A0, STEP_B0) ||
-> -	    IS_MTL_GRAPHICS_STEP(rq->engine->i915, P, STEP_A0, STEP_B0)) {
-> -		u32 *cs;
-> -
-> -		/* dummy PIPE_CONTROL + depth flush */
-> -		cs = intel_ring_begin(rq, 6);
-> -		if (IS_ERR(cs))
-> -			return PTR_ERR(cs);
-> -		cs = gen12_emit_pipe_control(cs,
-> -					     0,
-> -					     PIPE_CONTROL_DEPTH_CACHE_FLUSH,
-> -					     LRC_PPHWSP_SCRATCH_ADDR);
-> -		intel_ring_advance(rq, cs);
-> -	}
-> +	    IS_MTL_GRAPHICS_STEP(rq->engine->i915, P, STEP_A0, STEP_B0))
-> +		return gen12_emit_pipe_control_cs(rq, 0,
-> +					PIPE_CONTROL_DEPTH_CACHE_FLUSH,
-> +					LRC_PPHWSP_SCRATCH_ADDR);
->   
->   	return 0;
->   }
-> @@ -222,7 +230,6 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		u32 bit_group_0 = 0;
->   		u32 bit_group_1 = 0;
->   		int err;
-> -		u32 *cs;
->   
->   		err = mtl_dummy_pipe_control(rq);
->   		if (err)
-> @@ -256,13 +263,11 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		else if (engine->class == COMPUTE_CLASS)
->   			bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
->   
-> -		cs = intel_ring_begin(rq, 6);
-> -		if (IS_ERR(cs))
-> -			return PTR_ERR(cs);
-> -
-> -		cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
-> -					     LRC_PPHWSP_SCRATCH_ADDR);
-> -		intel_ring_advance(rq, cs);
-> +		err = gen12_emit_pipe_control_cs(rq, bit_group_0, bit_group_1,
-> +						 LRC_PPHWSP_SCRATCH_ADDR);
-> +		if (err)
-> +			gt_warn(engine->gt,
-> +				"Failed to emit flush pipe control\n");
->   	}
->   
->   	if (mode & EMIT_INVALIDATE) {
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 6eac54ae1205..f3a44ca87151 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -1769,7 +1769,6 @@ static irqreturn_t tegra_hdmi_irq(int irq, void *data)
+ static int tegra_hdmi_probe(struct platform_device *pdev)
+ {
+ 	struct tegra_hdmi *hdmi;
+-	struct resource *regs;
+ 	int err;
+ 
+ 	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
+@@ -1831,8 +1830,7 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
+ 	if (err < 0)
+ 		return err;
+ 
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	hdmi->regs = devm_ioremap_resource(&pdev->dev, regs);
++	hdmi->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(hdmi->regs))
+ 		return PTR_ERR(hdmi->regs);
+ 
+-- 
+2.34.1
 
