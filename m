@@ -1,44 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC17975FAA1
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 17:20:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D358875FBF1
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 18:24:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7BCA10E0D2;
-	Mon, 24 Jul 2023 15:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B889610E33B;
+	Mon, 24 Jul 2023 16:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 462D610E0D2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 15:20:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=2Uq2Pslaml20DkLDwKIg3Bu+xRL9XU0v7guHi1TrQWo=; b=AMbbYdovmJxjBGIC8OX8ya+rO5
- g2Q7ooGVlDXvojFicjeF2yv/uglkqBe0+0mGMnHzQUcX47jvY0Zq7onOVrUGWbNoqbkQXhHVidrUD
- n8S8yhZ9ZeqjgWs6TYnvbvRei32lgFqefJrjrLvs7yaSCRmhCwPwm8CvTY/fllnbA6ABRxN4w1ftc
- FsNxaCOwHhX+0JntQD9/ROobN0RQUqtGPwarRdRrM8P/4GPWNoeNuXRacMXgP2yczoH9fmuGG6ysq
- nqa/WRgPR94l+KKbmITifk2GWyyjVVTcLvIo2Z7iStn2qNLXuKtb2O0GMGYhRolD3+bzL0O1T1KB9
- 60GLtT3w==;
-Received: from [2601:1c2:980:9ec0::2764]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qNxLs-004iws-1D; Mon, 24 Jul 2023 15:20:00 +0000
-Message-ID: <7f92397e-a51b-0fc1-bb70-823dfe10f16d@infradead.org>
-Date: Mon, 24 Jul 2023 08:19:58 -0700
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D21510E337;
+ Mon, 24 Jul 2023 16:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690215872; x=1721751872;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=UrlDO9w/AnWLaZUBmhVjpnmqS7Elf1R30ZuiU+UuJds=;
+ b=e/RnSFkd843BXVuZa3DBcF0OAfX3TXzbdBSMk79dzVf58E0OKlBhGUvv
+ l3xaQeWC3K6u2qd0+Pk22qiainlxrfZeT04aCAd7JcF9mGPX0GSS5bOS1
+ hwYsoCF9ft2FCLYQRo1f7kSkjLsivV+38pX0EqdCNmU0qkBuysCcBQiTj
+ i0vtEnR37tynD9reaLNaOL7Iho1C/hORUK7OpZmPe0FmJXTdkPqnTL0ca
+ tiC02nk0TpjVwV+Q69kAidSfB6YzswO2m8b5roh6JkmEQ+UVgnkeDJDpT
+ +ozW73FgVJkHMvzSZdM4lur+3IKa1OgZ9oS5zu+DjgU1ZTAwgoN1JzGGq A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347093721"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="347093721"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2023 09:24:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="755362747"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="755362747"
+Received: from gionescu-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.252.34.175])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2023 09:24:27 -0700
+Date: Mon, 24 Jul 2023 18:24:24 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix an error handling path in
+ igt_write_huge()
+Message-ID: <ZL6luGRLCEQs0HKG@ashyti-mobl2.lan>
+References: <7a036b88671312ee9adc01c74ef5b3376f690b76.1689619758.git.christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] dma-buf/sync_file: Fix docs syntax
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, linux-kernel@vger.kernel.org
-References: <20230724145000.125880-1-robdclark@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230724145000.125880-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7a036b88671312ee9adc01c74ef5b3376f690b76.1689619758.git.christophe.jaillet@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,47 +59,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
- Greg Hackmann <ghackmann@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christophe,
 
-
-On 7/24/23 07:49, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Jul 17, 2023 at 08:49:31PM +0200, Christophe JAILLET wrote:
+> All error handling paths go to 'out', except this one. Be consistent and
+> also branch to 'out' here.
 > 
-> Fixes the warning:
-> 
->   include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
-> 
-> Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
+> Fixes: c10a652e239e ("drm/i915/selftests: Rework context handling in hugepages selftests")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 > ---
->  include/uapi/linux/sync_file.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> /!\ Speculative /!\
 > 
-> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> index 7e42a5b7558b..ff0a931833e2 100644
-> --- a/include/uapi/linux/sync_file.h
-> +++ b/include/uapi/linux/sync_file.h
-> @@ -56,7 +56,7 @@ struct sync_fence_info {
->   * @name:	name of fence
->   * @status:	status of fence. 1: signaled 0:active <0:error
->   * @flags:	sync_file_info flags
-> - * @num_fences	number of fences in the sync_file
-> + * @num_fences:	number of fences in the sync_file
->   * @pad:	padding for 64-bit alignment, should always be zero
->   * @sync_fence_info: pointer to array of struct &sync_fence_info with all
->   *		 fences in the sync_file
+>    This patch is based on analysis of the surrounding code and should be
+>    reviewed with care !
+> 
+>    If the patch is wrong, maybe a comment in the code could explain why.
+> 
+> /!\ Speculative /!\
+> ---
+>  drivers/gpu/drm/i915/gem/selftests/huge_pages.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> index df6c9a84252c..6b9f6cf50bf6 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> @@ -1246,8 +1246,10 @@ static int igt_write_huge(struct drm_i915_private *i915,
+>  	 * times in succession a possibility by enlarging the permutation array.
+>  	 */
+>  	order = i915_random_order(count * count, &prng);
+> -	if (!order)
+> -		return -ENOMEM;
+> +	if (!order) {
+> +		err = -ENOMEM;
+> +		goto out;
+> +	}
 
--- 
-~Randy
+Looks good:
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+
+Thanks,
+Andi
