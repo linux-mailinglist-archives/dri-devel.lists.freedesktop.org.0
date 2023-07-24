@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9CC7600F5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:15:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAAA7600FB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:15:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC75210E35F;
-	Mon, 24 Jul 2023 21:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9884E10E35E;
+	Mon, 24 Jul 2023 21:15:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E342110E35D;
- Mon, 24 Jul 2023 21:15:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4B610E360;
+ Mon, 24 Jul 2023 21:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690233325; x=1721769325;
+ t=1690233329; x=1721769329;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=xxxbPCzILB+ORtjnLQS237W707qJrozmzmmQety2tGA=;
- b=V1u8+GLbEo5IetJRxYiyT2042MT+2frtHQ7zwSe7OM6bwUFpXs6T2tBP
- BMmHPPZicnIED45v0lmRTTBNjAG7TZkceHoNnCLv+gFgsn2ZE0zz8i6eF
- Vd+QvTw3Jd7XeFDgR+KKPjWOzXU8KI3b0QlLHlizNfsUTANmKIrc13Eyv
- hp3F+V7tWLP+t0A5CyMiyCWR8D49GaqCHdpP8L6pZGsQN+TjfVrXF85M7
- h+MajIrJFr5iDvdpidDamIhvMvymSk1Hv9oFoImYAhwaeyxl41rNajvLf
- a6G8U50rwLBNE/ZTulIHft7CaQxGO+MKLvnZh/M5xY2Hy7z30fmi4qX8X g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347830085"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="347830085"
+ bh=kUXpil+EcubVXuJnN+4CExkCdaMO2sx5fW3H8oEPG/A=;
+ b=HggiBl6W7RI474Eama9ikkHxfBjzMXG5gc6oN337k1czNFXvCwe55Q7K
+ pvKgMcrMO9o3pvrOS8DjxPeldGx7rhVEovFt7QYsAi6w9lgR9LQFAN8+d
+ 9/OiAtETMmIDVbUnootwm0T6xBxhzagBceiKfg0AJPboBNHCAfhCBcVlV
+ ace1engj3mHbzPxgPvWojErACVBebNTsiY2GiApEPQCUC02IdCZoszaiJ
+ mcigu3tiLCBrQ4gVE3993rBsVZMqXM3QkdJSqLEgF9nY7w6vIW7Cvn0pA
+ UKvxPRime1XmTVQ/C8qmo+87LahOum1Clr/Gl3wZWIb7QNNWwhXGSQJhh g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347830106"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="347830106"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 14:15:24 -0700
+ 24 Jul 2023 14:15:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="719815887"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="719815887"
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="719815891"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="719815891"
 Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga007.jf.intel.com with ESMTP; 24 Jul 2023 14:15:24 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ by orsmga007.jf.intel.com with ESMTP; 24 Jul 2023 14:15:27 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
  ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 24 Jul 2023 14:15:24 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 24 Jul 2023 14:15:24 -0700
+ 15.1.2507.27; Mon, 24 Jul 2023 14:15:27 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 24 Jul 2023 14:15:23 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
+ 15.1.2507.27 via Frontend Transport; Mon, 24 Jul 2023 14:15:26 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
  by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 24 Jul 2023 14:15:23 -0700
+ 15.1.2507.27; Mon, 24 Jul 2023 14:15:26 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FklTcyXx9LsfuaaPQ7vfSxDnpr2oc8PZvoYZgSkQGq+tfv0w8lQBxMy6J9DLVbWhmRRmak9o2Eysj3bU8v5I7F1iNoKI22A728XEheRnIig4t+Az70vp8cS5KSCn496l8WOg01ZmuNgbDShbJ7J4ItKYiUeBbNiTlN/gXrBwQCqzKCgnNuwC/PFN7ZA6vVL2ZIfgFY91qv6zj35rWTgnJVqKO9dMVpNNNBghch/ufl5swNpDjg45LGRP56Ej1rELLdPmwmiG7sbJnCWQ5SBBVXaH/kpYuR/78wwzMlvzHdQ8HSghQj8Qu5zA967nDxglb+8mg5ALYn6iZqTM5p6kDw==
+ b=C5vkG8uxR9l2NCCCrcOo2PLyPQC9NtAL3CKo17athrqfKtUddWTcUqcQzblVUQcAHgFcrCNfnpRvyEjCwgHfHwpvbwPte9aX1+c8V73zYCzWS3KibupQc4pMfE/b2itSIb34e9D8akUpewlSJxS+kRNJg7TrdUkkbHIzBX7zYn8f2Fn+nUYlEWwBqH/4e4+AfB/hVH9k3xLn7Q4dWXZt1ZhgclAxjR7xJ9zXC/PIZUPHCrnOUvzIj8wZThWNaWs3VDZFJIbpquEaJqxc7hMohyEExlZ/9toZpQn044msyMinssrCP3ic5GTwvZXqsc5ib9qI/9cmwLAac18TooQvfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+EA3oS/E2UCW5sP165cfWbyMjvpO7ndnK3w1c7wQzx4=;
- b=kcSw+Ub1h3Xc5edXbHAjgFw24vsnrZkEqHlEQW3VHWPedQ8azJ6/aKqsDbE58wEFo0mHHiUPwB7k66oJlZjXKPCnxmYgDDLw3ogpaBPmfiq9ZuttJld4t00Ctg8ing0URxd3atUG5S1z5VbtnRtpd4XUz6GnSbyc+QAVJwHvnbwQVuYazJ4Msy6H7HyICboGpFbvKDFMH7iiSHDVWxszTPd4kAaYd5g14TB18vd7h7YJ16lw3TVC382pJPnta1fsG6iITJj6MEiWePaZ5YdLJ9A9iX4kHqjv9uTlWgu6GT0m2G4WC9ltxA9HCYMMvRMyQx+A+EviVSSvAvRLijsEqw==
+ bh=UsXm8Qul64IFOWsASHDJgaS6S9yTtKU6nE/rDRuoU5Q=;
+ b=ip8eAQvF6CulTgx9rmhTwj1YThwLItRqQ4hIgRQuG7Ut8o3OJTycvqX9uxbuGneGDKDTHE2+dIjn6BBGPlHHpWl7luKN2m6b4TrYjxJuv7j73k5wDYzOHhIfY4Igly47wLoPzN+aaFmVKVV78+uAGJLrwC6Jy9PfdKpEEV88bweSOJvB+AYSsI/0dmxcw00xxzjBQLlW5OkcWTYBj4Hw8HqiF/d4OBN9QRQQQimtrZP4Lnh/bOICbmJxPBTBMOf86csJ1eCDlTPHsMPizgjMdVg/fVLrjtNRcSS1VNP6EnL68HCUY/SByRdcKpqvBsqipE8ljYP30xF1lbO+6PDsQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -66,83 +62,83 @@ Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
  MW5PR11MB5809.namprd11.prod.outlook.com (2603:10b6:303:197::6) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6609.32; Mon, 24 Jul 2023 21:15:20 +0000
+ 15.20.6609.32; Mon, 24 Jul 2023 21:15:24 +0000
 Received: from DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::1127:c109:d888:f6d1]) by DM4PR11MB5373.namprd11.prod.outlook.com
  ([fe80::1127:c109:d888:f6d1%5]) with mapi id 15.20.6609.031; Mon, 24 Jul 2023
- 21:15:20 +0000
+ 21:15:24 +0000
 From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v6 2/4] accel: Use XArray instead of IDR for minors
-Date: Mon, 24 Jul 2023 23:14:26 +0200
-Message-ID: <20230724211428.3831636-3-michal.winiarski@intel.com>
+Subject: [PATCH v6 3/4] drm: Expand max DRM device number to full MINORBITS
+Date: Mon, 24 Jul 2023 23:14:27 +0200
+Message-ID: <20230724211428.3831636-4-michal.winiarski@intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230724211428.3831636-1-michal.winiarski@intel.com>
 References: <20230724211428.3831636-1-michal.winiarski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0059.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::13) To DM4PR11MB5373.namprd11.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0137.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::12) To DM4PR11MB5373.namprd11.prod.outlook.com
  (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|MW5PR11MB5809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f495a29-fec7-4165-8fd7-08db8c8b1642
+X-MS-Office365-Filtering-Correlation-Id: f78ade33-7299-44fe-f1c3-08db8c8b18ca
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JHSnb+Gf3K2so5Ct2tasrkBwUmDOGKeuI7lGA7vCloJJ30oQNG6kFLK0UmIO+7U7nD6oAgbcuYw2p+60AHd9awkuUqqR8YIntKNpD4DBio7v+lI/3hAnEpbvnfWxxoS3ODW+WXQbzeQlN0m62RrjkqbC0UPbHCkMpclc7LTDotlWhFIMOgpJGqeDu9GiKqd+g+88aVa+wAUS3sWyILklVclH7WVeiedX3R1GTw9kUg1LZ2aQXioq2SACfEUIOwmEHpwi9NqSIrxJY13MyCA1iUXT/NITnRsgcbWl4wUNiDjCzbffniyhUbU+SRIkz+qQlgdUNLhPegylmD0cyqaBNsMviWEmRSQBk4hHaWqlxplcoS/zE0QEVgHNtNMAQI/J81WMgZEO5PK3XG2EkdSjv3gW15ChW9TEHGBpWHn/0lCQPjKJuLjsSsdfjELA7IzSOO85SnvXf4ILd7aXrmvSdGyHHZShkY5QF6L3ZmkGopo833iTg4de66zFAoFQPaH8EPTODV/owlMFL7KR3NXj5JFMRzR2qkJ5YpDXw3jE+GCXK1FHApI09LYDFCkjErQB
+X-Microsoft-Antispam-Message-Info: iRa+9irpUpOX/LmxBviGnEDfzDmiAhALFjmHBZ16RdY5EC4giqdt6ByjdsPk1J2F0VeGfJLcLljfzijTf15dCyuT/0J635javhLQ6y7vFhe/1GR/ZMzj/Vz9rmvp/gUKriqclpdEb6jPQ6tRQ+qCE4FAHOcdDnHICwF3y3GIEt5ojxIFKmuKEYOwvvzCiiCJI92jBUWlwVyzmI4gkuLE1UJPc3MGwirVHlzxjgbWJblQHRBTHUpUhZAefGt+/IgcbuvMrr+hIHVSalU3iwaZRSaj3PM3HjuGCw8YnqzAEieWpgnRR2MfDv2iziZLdhSGxSemrpdIsRHfdPOf4W0dMc8D66edAWVPSUqEAIBpYliOSXXUmrZHtFj2QVy1vbbYIYkJsZzqLziHix7d+181rWPAxKGFPEoep7zf2F5BQhPSUgYjUg4L6KGgiM96IkmSwpMnr+o/FJhDNgtjlcVzycn9y77SJqFEcwg3vg6bw77iPLV1hB9KjP2vpmSsOm8lQBlHIxm3yvwVU4/aE5jlVKBpxyFhn6HcPuRCHheYWwaAfq43dlC9Dj8jRbdcDU68
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(136003)(346002)(376002)(39860400002)(396003)(366004)(451199021)(83380400001)(38100700002)(36756003)(82960400001)(86362001)(54906003)(30864003)(2906002)(186003)(6506007)(1076003)(26005)(6512007)(6486002)(8936002)(5660300002)(8676002)(7416002)(478600001)(316002)(41300700001)(66476007)(66946007)(66556008)(4326008)(2616005);
+ SFS:(13230028)(136003)(346002)(376002)(39860400002)(396003)(366004)(451199021)(83380400001)(38100700002)(36756003)(82960400001)(86362001)(54906003)(2906002)(186003)(6506007)(1076003)(26005)(6512007)(6486002)(8936002)(5660300002)(8676002)(7416002)(478600001)(316002)(41300700001)(66476007)(66946007)(66556008)(4326008)(2616005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2pNbXB3emw0akFYekpQaFBpSWV0U3NEL2NKUkdtNXMzNGlGbUlYOHkxVU5v?=
- =?utf-8?B?ZDhZQzFYT0I4akY2eDBzSDdBb3ByejRvQkJvTUNuSi9FalBpQllDUXh1b0Jt?=
- =?utf-8?B?K1g4ZDk2Qmczcm9Sekx3aDFhbUVmbTd0cXcrSjdMWVNaOE91b2JmSXJJWUll?=
- =?utf-8?B?OVducEw4SVBLUElSWkJWNlcxNHdSeFBGNjRwQVZzaTZ1SVBhd1dyNXVSY0NK?=
- =?utf-8?B?NExoZS8wdFBPZ0thOW14Rml0aVFVMzExSDZaNEpBQVNpWnRiQ2lFV2RSNTQ1?=
- =?utf-8?B?Y1JQSGJDWkVpZEhCbmNXdFc5M1NXUzM0T2tlQlJtZDE5VVREYVNhRFI4K01B?=
- =?utf-8?B?c0svTlVSME85dlVzZEJXQzY0VzVnbFZVZVlOOUN0bTdVR2RtcVEzbEdOL0d6?=
- =?utf-8?B?aVdQZlN0V2dlUUgyZ20yY09HKzd5b3VKVmdsY0Z6TEtuVEw3disrNzJiTmdk?=
- =?utf-8?B?K3lmR0FQVkIxc1pPRTNpRkN6c3E4b044N0w4Wk0vTGUyT3RGNk43ZCsxaXFx?=
- =?utf-8?B?djhtc2lyWWtJSS9Yc21iNGJoQStyWkFEdHJuV1dNelUxcllYT08yMmROR1dq?=
- =?utf-8?B?bEJUQXJXa2N1WDVNM3dmc1hpL0x0Zjk5QzJBSWZmd2dUNzhvcEhqRWhqblZH?=
- =?utf-8?B?ejRKcjBBKzhuUmtLcVhSWEp0SjR6MGExQndvMkpqMFZuQytPZ2NMb0M3RXN6?=
- =?utf-8?B?YWErNVlZdHNBVDNwSlRSRStoWkQ3SW5iMWhReGlBTEFoL1l1R1NZLzlyNmZy?=
- =?utf-8?B?UTBmNm9HSVhKeUFwK1l3eWxjMUJmWGo3THVnQVZ1TmFES1JPdnJpY0hLS1Zp?=
- =?utf-8?B?a2RldjdrWW53STN0M2R3MitseXJyYmd4Z09vRld1eXpWOFRVYm15ajQ5ZTli?=
- =?utf-8?B?YlBuWWRWWHc4dEcxYVFWSFB5S1owNElTZHBIYXZ0Y2JvMzhSOWM5citRUmdi?=
- =?utf-8?B?YlNFdFI1bEpDYXEyeG93Q1JOUXl0ZmxzRllWSm5zcmJXQ1Y4Ulcrei9mOTNl?=
- =?utf-8?B?OHJkYVplcDdjN0c3L1Vib2xCKzJvWm1NNzVSaDdGZEhrK2JzTE5VWlVaZ3JO?=
- =?utf-8?B?RWZXR0hwRFRCbit5SGtVeW9RZlVROFFDS2N2amtlbFA2TTg3bFVRaFZyaGFU?=
- =?utf-8?B?U1Q4eDY1WTVMU3VoYXRpM1E3a3FyVEhNNVY0UUNidzRrUGMvcXpsN25aQmtI?=
- =?utf-8?B?MkkzZFUwV3RSS1p1RkYxRDBuMjEydGc2WmwzU2ZLTWwyUnhIUGt4czhUUVV4?=
- =?utf-8?B?eVVQZG84N1RHenZlUkEvaEhrcUw3NVVsWjN1cFJXbWtOdGtqY0J6TG4rdWlF?=
- =?utf-8?B?bHNicXJkbjB3VXJPKzJQdzRDSTFLUWw3VEYyU3BLbEZWM1dHQTRYWDArdlhG?=
- =?utf-8?B?YjVIaUd6dzNiUTZqVjNsR0Vxd3ZRQ1BubFBlWDc0NUlJaEdRazRzRnhnT3dJ?=
- =?utf-8?B?YjZ0VUZsR2diK254Y3A5eGsxZml3S1dVeFRZbUxFd0wwZExLWGl6OTlXVDhx?=
- =?utf-8?B?QkJWWXRKWWR4bUlKWEVWS21hdmNSbDFXcExsRVp0TThhS3hnS3pvYmFOcHlC?=
- =?utf-8?B?eXIrdktnTVZyUm1VaDZabm1ydUtUZExHZlRNVUlWUTFGSkxrcEhFb0JBQUVF?=
- =?utf-8?B?dGNsWFl2T3QvVC8zZ05MSTNCVHhKNzVwTXQ0UHNuVWtoU3lGaDdhcXY1ei9v?=
- =?utf-8?B?VmpkYWNYMUhnVnNsdllFSTRNNmRPOGlrR2hpQUduQ0tsYTArRHNSUkhDczVz?=
- =?utf-8?B?ZlE2N0d3eGFzNUhiV1RDbWJTU09PNFdsY28xdlRNY2FKdjdFZWpkWHlmV1Vi?=
- =?utf-8?B?K1Rtcm44REVnSlN2bHpPRTB5QkFoWktDN1ZZRHRPVXJNMVpDTVFMSExVT0JD?=
- =?utf-8?B?R2ZkU00vZ1Y4bldNdXJDQWRCSXJZeTZiVGtPL0Q5L29wZy90dDlyNUJLUk1n?=
- =?utf-8?B?V0c0ejhqYlhIbkFkOU12TVZ1azUrSGUyWWVqZEVMZ1VkWFpyTjJON2ZyT2N2?=
- =?utf-8?B?RmtiamN0OGxBUkkvQ09xTnNWUnpQeEsyNEVGYmNmUzFZajkvaW4yZlpzTFdF?=
- =?utf-8?B?dGY3d1I4V1dTVXhNZUQ4anJ3dmhkVkRSRFY0Uk5PVFpRU3pVSFJobVRuMTVr?=
- =?utf-8?B?OUVUR3dCazN6czN1cTNSTlJ2NitjcVkrTS83eDhsNzFZK0dTaW5pcGE0Tk5Z?=
- =?utf-8?B?ZXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f495a29-fec7-4165-8fd7-08db8c8b1642
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?clpUejNwdWdFUTYrZWY0TWxqME9JdmozL0s1T3pNM1dxenQxOVF2MlR6dEF4?=
+ =?utf-8?B?VHdiRWlsOHZhU1kxU3BXYnhwM0ZFSzVVSmdUMURaK2hCRy9RTk1iWllMRGpU?=
+ =?utf-8?B?ZjlFc01EemdwL2poRXoxZWpVZ3dWMVJub3dBQkhIR1Y4OW9iTGtpNDRNZEhw?=
+ =?utf-8?B?aDh2SXdObUR1a3BiUTVpVk9hTnFUU3U1TlFGYkJGdS96RFBwVVR4UzRUdnlB?=
+ =?utf-8?B?Wm5tbmcxb2puSGNjQUxCdDRZS3hxNFkvQmdTNEk4dkxKWlhlU1VCUWE5TnF3?=
+ =?utf-8?B?Wi9TR3hmRXh5ajdxY0RIWDhtVktoOE9obDFtN0liQlZJVjErQjBSbithSzd3?=
+ =?utf-8?B?ZGhjTzJlTVdxcWxjT091ejQ2SUpnMWZLZkRBVEU5Qkg4SldUb0UrQndJOG1a?=
+ =?utf-8?B?Wkl1eldwaEl1ZkMwV3VvSmtlSEUwV2J0VXdmUnI2RCs2ZjJnVldkVTRCaHRp?=
+ =?utf-8?B?TEpoRE84YUZuZDIzbGt0all3TllGSjhDb3hWNkp2RTRGVmw1SUM5dXd6TlMr?=
+ =?utf-8?B?dHkwTXRFRXNVbG85Rk9JRTVHRldwbTZxTTIwVDhGQ1B1SVZzcHQ4YlJucU0w?=
+ =?utf-8?B?N3ZNWGE1a1luY0JXS0M2cGorRSs3S3BkZkJNOVhKSlN4YzhwZTdDU0huK3dM?=
+ =?utf-8?B?RTJXbHhSbDlzY0FOWVBxSFUvaU5jYStuRGhJWjZoOFRMUFZBRVBRN0RseHds?=
+ =?utf-8?B?cjFQck8wNjZJZEE3MGxTaDh2MGY4cGZoSExzY3RST1ZhK1RCcjlWQS9CczUw?=
+ =?utf-8?B?NWNQQ2NONkVDSU4yNW5ua0FVcHNHUTBuOVUybkxPNUkwaFNFWkpwM3QrSWY2?=
+ =?utf-8?B?d29ralJrbWg5ZzlkRnFpMUVUcExXY2tZY0lpRTRLeHAzL0ZkdzVwUUJ5WW9a?=
+ =?utf-8?B?Mk9IUU5ib252amxzNDVKU2toNi9SQ0ZJaW9nV1JqT3J0MVBTekdrQXBwQ05j?=
+ =?utf-8?B?TWlheFhTb2F3a1QyWW9tdnk1VExGRUF5OVNrbW5HazZ6MVFsU055NTVoSXd4?=
+ =?utf-8?B?emp0RlltRG1hb2xseDl2NGRmVFhHRnFLRWt0N2M3NmhFNEI0MmlDQUxFWktQ?=
+ =?utf-8?B?YUU5SFhkMGM0TUg0NlZ3SEh2ZVNTclJURDZoU2kxWXo1YzFqdWxCNGpId3Jx?=
+ =?utf-8?B?Zm5tNGdWN3owZTdDNHd2S3crOGRHWXM1YmsyNm42UEZLU2c1Z0VVRGg2TG5R?=
+ =?utf-8?B?bVlkK0lnSnBuVGx5S09RN1M5OEFMa3hlb1VaWXNUdTNOUWN4MGJ3cFloR092?=
+ =?utf-8?B?eHY0ZmVIQjdmM3J4VS95RWNUQ2RTUG1ZVHdRNjJkcjZIbVIvZXAwaU00eWgz?=
+ =?utf-8?B?MXZSQlBGZm5aVjhPcmN6QUFmVEhWbzBKS0ZqVCs1WExRRithRi84TWVlWldW?=
+ =?utf-8?B?T05WOWpZK1E3OEZ4QUIxNXFMRk4ydFNXQXRqVGtMSXJiUk04dDVnRUN1V2Jp?=
+ =?utf-8?B?aUtsRisrMFdVV0c3aDdCTDNXMWtOYm93ZUpiOWNFbElyNm40WTFaYTlJaHRu?=
+ =?utf-8?B?SzVkZEtKNzhqT3BVK0dMcmUzQm1PbTBaQU5sYXNpK2NGa0FkZ0NQdnh0UkZx?=
+ =?utf-8?B?S2ZCZ1ZRNnhjRWZlL1NyKzk4aFg0UnVWRm5GT3MwQjVabWZYRjZ4UmErdG9u?=
+ =?utf-8?B?dzhSSjIvYXhkd0dtZWJhRHJqN29XQlRXSGFScGE3M3lpOU52RXhSUWliNUxm?=
+ =?utf-8?B?VWJFdWhESlduLzNWZG16UHo3bklhU1UrWHRiNU1ERFZibXF3Wm94eDB3ZG14?=
+ =?utf-8?B?UHVSQ1VPVVVueTNBTUIvZk1aMmFoTWVFZXYrVW9odFhURW8rWm9xNGNwbHho?=
+ =?utf-8?B?Y2NTb1JydHBnb0tKSU44V0F5OUh0ZEFjaGZFcGZjVS8wNEFvUjlNVGZqY0Np?=
+ =?utf-8?B?OXF0THdybDV0QTcxaVZNeTIzNTVISnhaekZ3OWFvM3F2UjdUVk8wMGFEaEty?=
+ =?utf-8?B?dXZxR2NaR0RDVEI1eXJLVnhnQjU4S2tMcTVFZXh0VEhHSmkwdnFFVHVrTi9Y?=
+ =?utf-8?B?SjFHTjh4WWt2clBOTTVaR2pJZGNmNytjODJJVHZYQTNIU1hHQUJCbnYydm85?=
+ =?utf-8?B?Vm5xRnM5OGNRaFhWbFd2dDVDaUxQdW1vbURURmw1QjRrRnB1RlN5RDFFdzZD?=
+ =?utf-8?B?L3d4NUdTZmFoM3h1dlFPZUNxWTdlbXpRbEJodEpXVENuYldtczM5OXczUnFQ?=
+ =?utf-8?B?RWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f78ade33-7299-44fe-f1c3-08db8c8b18ca
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2023 21:15:20.7168 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2023 21:15:24.8348 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7MrdX5LpfXpd9nKQtAfBUegXyfO18W3Pf/WUyKVmR9DUol+giVARQwjutK059Q9kflDT0uhymK6iydkOsoNL7ItQU2DIRL1ygsoGatS+dUo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: vCui1SnYORZj/kKIzR6zWfUC9rQJc9o+2IS1269RfITFmxYuoFcmqISGkwlpCui5JWdbNTzhEotWVVyUECTqYkXrF3PLWPLMv0/LKSyBT9I=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5809
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -167,428 +163,55 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Accel minor management is based on DRM (and is also using struct
-drm_minor internally), since DRM is using XArray for minors, it makes
-sense to also convert accel.
-As the two implementations are identical (only difference being the
-underlying xarray), move the accel_minor_* functionality to DRM.
+Having a limit of 64 DRM devices is not good enough for modern world
+where we have multi-GPU servers, SR-IOV virtual functions and virtual
+devices used for testing.
+Let's utilize full minor range for DRM devices.
+To avoid regressing the existing userspace, we're still maintaining the
+numbering scheme where 0-63 is used for primary, 64-127 is reserved
+(formerly for control) and 128-191 is used for render.
+For minors >= 192, we're allocating minors dynamically on a first-come,
+first-served basis.
 
 Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
 ---
- drivers/accel/drm_accel.c      | 110 +++------------------------------
- drivers/gpu/drm/drm_drv.c      |  66 ++++++++++----------
- drivers/gpu/drm/drm_file.c     |   2 +-
- drivers/gpu/drm/drm_internal.h |   4 --
- include/drm/drm_accel.h        |  18 +-----
- include/drm/drm_file.h         |   5 ++
- 6 files changed, 47 insertions(+), 158 deletions(-)
+ drivers/gpu/drm/drm_drv.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-index 4a9baf02439e..8827cb78ca9d 100644
---- a/drivers/accel/drm_accel.c
-+++ b/drivers/accel/drm_accel.c
-@@ -8,7 +8,7 @@
- 
- #include <linux/debugfs.h>
- #include <linux/device.h>
--#include <linux/idr.h>
-+#include <linux/xarray.h>
- 
- #include <drm/drm_accel.h>
- #include <drm/drm_debugfs.h>
-@@ -17,8 +17,7 @@
- #include <drm/drm_ioctl.h>
- #include <drm/drm_print.h>
- 
--static DEFINE_SPINLOCK(accel_minor_lock);
--static struct idr accel_minors_idr;
-+DEFINE_XARRAY_ALLOC(accel_minors_xa);
- 
- static struct dentry *accel_debugfs_root;
- static struct class *accel_class;
-@@ -120,99 +119,6 @@ void accel_set_device_instance_params(struct device *kdev, int index)
- 	kdev->type = &accel_sysfs_device_minor;
- }
- 
--/**
-- * accel_minor_alloc() - Allocates a new accel minor
-- *
-- * This function access the accel minors idr and allocates from it
-- * a new id to represent a new accel minor
-- *
-- * Return: A new id on success or error code in case idr_alloc failed
-- */
--int accel_minor_alloc(void)
--{
--	unsigned long flags;
--	int r;
--
--	spin_lock_irqsave(&accel_minor_lock, flags);
--	r = idr_alloc(&accel_minors_idr, NULL, 0, ACCEL_MAX_MINORS, GFP_NOWAIT);
--	spin_unlock_irqrestore(&accel_minor_lock, flags);
--
--	return r;
--}
--
--/**
-- * accel_minor_remove() - Remove an accel minor
-- * @index: The minor id to remove.
-- *
-- * This function access the accel minors idr and removes from
-- * it the member with the id that is passed to this function.
-- */
--void accel_minor_remove(int index)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&accel_minor_lock, flags);
--	idr_remove(&accel_minors_idr, index);
--	spin_unlock_irqrestore(&accel_minor_lock, flags);
--}
--
--/**
-- * accel_minor_replace() - Replace minor pointer in accel minors idr.
-- * @minor: Pointer to the new minor.
-- * @index: The minor id to replace.
-- *
-- * This function access the accel minors idr structure and replaces the pointer
-- * that is associated with an existing id. Because the minor pointer can be
-- * NULL, we need to explicitly pass the index.
-- *
-- * Return: 0 for success, negative value for error
-- */
--void accel_minor_replace(struct drm_minor *minor, int index)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&accel_minor_lock, flags);
--	idr_replace(&accel_minors_idr, minor, index);
--	spin_unlock_irqrestore(&accel_minor_lock, flags);
--}
--
--/*
-- * Looks up the given minor-ID and returns the respective DRM-minor object. The
-- * refence-count of the underlying device is increased so you must release this
-- * object with accel_minor_release().
-- *
-- * The object can be only a drm_minor that represents an accel device.
-- *
-- * As long as you hold this minor, it is guaranteed that the object and the
-- * minor->dev pointer will stay valid! However, the device may get unplugged and
-- * unregistered while you hold the minor.
-- */
--static struct drm_minor *accel_minor_acquire(unsigned int minor_id)
--{
--	struct drm_minor *minor;
--	unsigned long flags;
--
--	spin_lock_irqsave(&accel_minor_lock, flags);
--	minor = idr_find(&accel_minors_idr, minor_id);
--	if (minor)
--		drm_dev_get(minor->dev);
--	spin_unlock_irqrestore(&accel_minor_lock, flags);
--
--	if (!minor) {
--		return ERR_PTR(-ENODEV);
--	} else if (drm_dev_is_unplugged(minor->dev)) {
--		drm_dev_put(minor->dev);
--		return ERR_PTR(-ENODEV);
--	}
--
--	return minor;
--}
--
--static void accel_minor_release(struct drm_minor *minor)
--{
--	drm_dev_put(minor->dev);
--}
--
- /**
-  * accel_open - open method for ACCEL file
-  * @inode: device inode
-@@ -230,7 +136,7 @@ int accel_open(struct inode *inode, struct file *filp)
- 	struct drm_minor *minor;
- 	int retcode;
- 
--	minor = accel_minor_acquire(iminor(inode));
-+	minor = drm_minor_acquire(&accel_minors_xa, iminor(inode));
- 	if (IS_ERR(minor))
- 		return PTR_ERR(minor);
- 
-@@ -249,7 +155,7 @@ int accel_open(struct inode *inode, struct file *filp)
- 
- err_undo:
- 	atomic_dec(&dev->open_count);
--	accel_minor_release(minor);
-+	drm_minor_release(minor);
- 	return retcode;
- }
- EXPORT_SYMBOL_GPL(accel_open);
-@@ -260,7 +166,7 @@ static int accel_stub_open(struct inode *inode, struct file *filp)
- 	struct drm_minor *minor;
- 	int err;
- 
--	minor = accel_minor_acquire(iminor(inode));
-+	minor = drm_minor_acquire(&accel_minors_xa, iminor(inode));
- 	if (IS_ERR(minor))
- 		return PTR_ERR(minor);
- 
-@@ -277,7 +183,7 @@ static int accel_stub_open(struct inode *inode, struct file *filp)
- 		err = 0;
- 
- out:
--	accel_minor_release(minor);
-+	drm_minor_release(minor);
- 
- 	return err;
- }
-@@ -293,15 +199,13 @@ void accel_core_exit(void)
- 	unregister_chrdev(ACCEL_MAJOR, "accel");
- 	debugfs_remove(accel_debugfs_root);
- 	accel_sysfs_destroy();
--	idr_destroy(&accel_minors_idr);
-+	WARN_ON(!xa_empty(&accel_minors_xa));
- }
- 
- int __init accel_core_init(void)
- {
- 	int ret;
- 
--	idr_init(&accel_minors_idr);
--
- 	ret = accel_sysfs_init();
- 	if (ret < 0) {
- 		DRM_ERROR("Cannot create ACCEL class: %d\n", ret);
 diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 3faecb01186f..34b60196c443 100644
+index 34b60196c443..c2c6e80e6b31 100644
 --- a/drivers/gpu/drm/drm_drv.c
 +++ b/drivers/gpu/drm/drm_drv.c
-@@ -55,7 +55,7 @@ MODULE_AUTHOR("Gareth Hughes, Leif Delgass, José Fonseca, Jon Smirl");
- MODULE_DESCRIPTION("DRM shared core routines");
- MODULE_LICENSE("GPL and additional rights");
- 
--static DEFINE_XARRAY_ALLOC(drm_minors_xa);
-+DEFINE_XARRAY_ALLOC(drm_minors_xa);
- 
- /*
-  * If the drm core fails to init for whatever reason,
-@@ -83,6 +83,18 @@ DEFINE_STATIC_SRCU(drm_unplug_srcu);
-  * registered and unregistered dynamically according to device-state.
-  */
- 
-+static struct xarray *drm_minor_get_xa(enum drm_minor_type type)
-+{
-+	if (type == DRM_MINOR_PRIMARY || type == DRM_MINOR_RENDER)
-+		return &drm_minors_xa;
-+#if IS_ENABLED(CONFIG_DRM_ACCEL)
-+	else if (type == DRM_MINOR_ACCEL)
-+		return &accel_minors_xa;
-+#endif
-+	else
-+		return ERR_PTR(-EOPNOTSUPP);
-+}
-+
- static struct drm_minor **drm_minor_get_slot(struct drm_device *dev,
- 					     enum drm_minor_type type)
- {
-@@ -106,18 +118,18 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
- 
- 	put_device(minor->kdev);
- 
--	if (minor->type == DRM_MINOR_ACCEL)
--		accel_minor_remove(minor->index);
--	else
--		xa_erase(&drm_minors_xa, minor->index);
-+	xa_erase(drm_minor_get_xa(minor->type), minor->index);
+@@ -121,10 +121,19 @@ static void drm_minor_alloc_release(struct drm_device *dev, void *data)
+ 	xa_erase(drm_minor_get_xa(minor->type), minor->index);
  }
  
--#define DRM_MINOR_LIMIT(t) ({ typeof(t) _t = (t); XA_LIMIT(64 * _t, 64 * _t + 63); })
-+#define DRM_MINOR_LIMIT(t) ({ \
-+	typeof(t) _t = (t); \
-+	_t == DRM_MINOR_ACCEL ? XA_LIMIT(0, ACCEL_MAX_MINORS) : XA_LIMIT(64 * _t, 64 * _t + 63); \
-+})
++/*
++ * DRM used to support 64 devices, for backwards compatibility we need to maintain the
++ * minor allocation scheme where minors 0-63 are primary nodes, 64-127 are control nodes,
++ * and 128-191 are render nodes.
++ * After reaching the limit, we're allocating minors dynamically - first-come, first-serve.
++ * Accel nodes are using a distinct major, so the minors are allocated in continuous 0-MAX
++ * range.
++ */
+ #define DRM_MINOR_LIMIT(t) ({ \
+ 	typeof(t) _t = (t); \
+ 	_t == DRM_MINOR_ACCEL ? XA_LIMIT(0, ACCEL_MAX_MINORS) : XA_LIMIT(64 * _t, 64 * _t + 63); \
+ })
++#define DRM_EXTENDED_MINOR_LIMIT XA_LIMIT(192, (1 << MINORBITS) - 1)
  
  static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type type)
  {
- 	struct drm_minor *minor;
--	int index, r;
-+	int r;
+@@ -140,6 +149,9 @@ static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type type)
  
- 	minor = drmm_kzalloc(dev, sizeof(*minor), GFP_KERNEL);
- 	if (!minor)
-@@ -126,18 +138,11 @@ static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type type)
- 	minor->type = type;
- 	minor->dev = dev;
- 
--	if (type == DRM_MINOR_ACCEL) {
--		r = accel_minor_alloc();
--		index = r;
--	} else {
--		r = xa_alloc(&drm_minors_xa, &index, NULL, DRM_MINOR_LIMIT(type), GFP_KERNEL);
--	}
--
-+	r = xa_alloc(drm_minor_get_xa(type), &minor->index,
-+		     NULL, DRM_MINOR_LIMIT(type), GFP_KERNEL);
+ 	r = xa_alloc(drm_minor_get_xa(type), &minor->index,
+ 		     NULL, DRM_MINOR_LIMIT(type), GFP_KERNEL);
++	if (r == -EBUSY && (type == DRM_MINOR_PRIMARY || type == DRM_MINOR_RENDER))
++		r = xa_alloc(&drm_minors_xa, &minor->index,
++			     NULL, DRM_EXTENDED_MINOR_LIMIT, GFP_KERNEL);
  	if (r < 0)
  		return r;
  
--	minor->index = index;
--
- 	r = drmm_add_action_or_reset(dev, drm_minor_alloc_release, minor);
- 	if (r)
- 		return r;
-@@ -177,16 +182,12 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
- 		goto err_debugfs;
- 
- 	/* replace NULL with @minor so lookups will succeed from now on */
--	if (minor->type == DRM_MINOR_ACCEL) {
--		accel_minor_replace(minor, minor->index);
--	} else {
--		entry = xa_store(&drm_minors_xa, minor->index, minor, GFP_KERNEL);
--		if (xa_is_err(entry)) {
--			ret = xa_err(entry);
--			goto err_debugfs;
--		}
--		WARN_ON(entry);
-+	entry = xa_store(drm_minor_get_xa(type), minor->index, minor, GFP_KERNEL);
-+	if (xa_is_err(entry)) {
-+		ret = xa_err(entry);
-+		goto err_debugfs;
- 	}
-+	WARN_ON(entry);
- 
- 	DRM_DEBUG("new minor registered %d\n", minor->index);
- 	return 0;
-@@ -205,10 +206,7 @@ static void drm_minor_unregister(struct drm_device *dev, enum drm_minor_type typ
- 		return;
- 
- 	/* replace @minor with NULL so lookups will fail from now on */
--	if (minor->type == DRM_MINOR_ACCEL)
--		accel_minor_replace(NULL, minor->index);
--	else
--		xa_store(&drm_minors_xa, minor->index, NULL, GFP_KERNEL);
-+	xa_store(drm_minor_get_xa(type), minor->index, NULL, GFP_KERNEL);
- 
- 	device_del(minor->kdev);
- 	dev_set_drvdata(minor->kdev, NULL); /* safety belt */
-@@ -224,15 +222,15 @@ static void drm_minor_unregister(struct drm_device *dev, enum drm_minor_type typ
-  * minor->dev pointer will stay valid! However, the device may get unplugged and
-  * unregistered while you hold the minor.
-  */
--struct drm_minor *drm_minor_acquire(unsigned int minor_id)
-+struct drm_minor *drm_minor_acquire(struct xarray *minor_xa, unsigned int minor_id)
- {
- 	struct drm_minor *minor;
- 
--	xa_lock(&drm_minors_xa);
--	minor = xa_load(&drm_minors_xa, minor_id);
-+	xa_lock(minor_xa);
-+	minor = xa_load(minor_xa, minor_id);
- 	if (minor)
- 		drm_dev_get(minor->dev);
--	xa_unlock(&drm_minors_xa);
-+	xa_unlock(minor_xa);
- 
- 	if (!minor) {
- 		return ERR_PTR(-ENODEV);
-@@ -1020,7 +1018,7 @@ static int drm_stub_open(struct inode *inode, struct file *filp)
- 
- 	DRM_DEBUG("\n");
- 
--	minor = drm_minor_acquire(iminor(inode));
-+	minor = drm_minor_acquire(&drm_minors_xa, iminor(inode));
- 	if (IS_ERR(minor))
- 		return PTR_ERR(minor);
- 
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 883d83bc0e3d..20c9afe0f5a5 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -413,7 +413,7 @@ int drm_open(struct inode *inode, struct file *filp)
- 	int retcode;
- 	int need_setup = 0;
- 
--	minor = drm_minor_acquire(iminor(inode));
-+	minor = drm_minor_acquire(&drm_minors_xa, iminor(inode));
- 	if (IS_ERR(minor))
- 		return PTR_ERR(minor);
- 
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index d7e023bbb0d5..cb46f4c61991 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -77,10 +77,6 @@ void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
- void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
- 				 uint32_t handle);
- 
--/* drm_drv.c */
--struct drm_minor *drm_minor_acquire(unsigned int minor_id);
--void drm_minor_release(struct drm_minor *minor);
--
- /* drm_managed.c */
- void drm_managed_release(struct drm_device *dev);
- void drmm_add_final_kfree(struct drm_device *dev, void *container);
-diff --git a/include/drm/drm_accel.h b/include/drm/drm_accel.h
-index d4955062c77e..f93e23985f4e 100644
---- a/include/drm/drm_accel.h
-+++ b/include/drm/drm_accel.h
-@@ -51,11 +51,10 @@
- 
- #if IS_ENABLED(CONFIG_DRM_ACCEL)
- 
-+extern struct xarray accel_minors_xa;
-+
- void accel_core_exit(void);
- int accel_core_init(void);
--void accel_minor_remove(int index);
--int accel_minor_alloc(void);
--void accel_minor_replace(struct drm_minor *minor, int index);
- void accel_set_device_instance_params(struct device *kdev, int index);
- int accel_open(struct inode *inode, struct file *filp);
- void accel_debugfs_init(struct drm_minor *minor, int minor_id);
-@@ -72,19 +71,6 @@ static inline int __init accel_core_init(void)
- 	return 0;
- }
- 
--static inline void accel_minor_remove(int index)
--{
--}
--
--static inline int accel_minor_alloc(void)
--{
--	return -EOPNOTSUPP;
--}
--
--static inline void accel_minor_replace(struct drm_minor *minor, int index)
--{
--}
--
- static inline void accel_set_device_instance_params(struct device *kdev, int index)
- {
- }
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 010239392adf..7fc09460051f 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -45,6 +45,8 @@ struct drm_printer;
- struct device;
- struct file;
- 
-+extern struct xarray drm_minors_xa;
-+
- /*
-  * FIXME: Not sure we want to have drm_minor here in the end, but to avoid
-  * header include loops we need it here for now.
-@@ -420,6 +422,9 @@ static inline bool drm_is_accel_client(const struct drm_file *file_priv)
- 	return file_priv->minor->type == DRM_MINOR_ACCEL;
- }
- 
-+struct drm_minor *drm_minor_acquire(struct xarray *minors_xa, unsigned int minor_id);
-+void drm_minor_release(struct drm_minor *minor);
-+
- int drm_open(struct inode *inode, struct file *filp);
- int drm_open_helper(struct file *filp, struct drm_minor *minor);
- ssize_t drm_read(struct file *filp, char __user *buffer,
 -- 
 2.41.0
 
