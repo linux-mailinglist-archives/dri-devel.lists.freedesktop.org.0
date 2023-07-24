@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22BF75E612
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:14:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0225775E617
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 409B010E21D;
-	Mon, 24 Jul 2023 01:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB6A10E136;
+	Mon, 24 Jul 2023 01:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B24F10E21D;
- Mon, 24 Jul 2023 01:14:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E9A10E136
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 01:15:01 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA6FD60F02;
- Mon, 24 Jul 2023 01:14:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2D3C433CA;
- Mon, 24 Jul 2023 01:14:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D42DC60F0A;
+ Mon, 24 Jul 2023 01:15:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D99C7C433C7;
+ Mon, 24 Jul 2023 01:14:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690161263;
- bh=YuokKDlXdvuV5EM7iySVhVFhKWEFLeLpIW9GIrZ1Y0A=;
+ s=k20201202; t=1690161300;
+ bh=QhZf8toMd5+zDGE1EOIeW6wBNB1VaLLB+7VguP4KCAE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nC+Y5hS0JHZaYj5cWry4daABywImrh/qiE6GiVRxGY5mpidvfaHDAaQxcv+ch9Sq+
- A/S5h9iBvequDtxWdbcGZ6pyp3Zjhbu7rt1mWi4rKywpjlUPxJRLwd3ryaUxZ0hki4
- nI/fdlXVsNPb3b8ac52xhPX2RQj2CjfTMP54yNaN4GtknZU5eq9YWUJEYU2knbEa2Y
- PoUaVMmauB5bC17jlhrUlVZolc+qDvDzghoIjp6krLMk20/9O5xmx//SvQgE+54C4q
- Wgp3Pa8ni/dRk3j+rEUM43+wjIhLTXspqtVkEkwCwQZYZzAON6WEWqF2BQ/sW/AM6v
- wBJUCfZZM6bgg==
+ b=OUhAWf0eKyCot2e+mbFe1KQ9YFR0jcjjhPaYFrokV/ojDoCmwWqPeCUSc23cx3kLg
+ UuTj44IuTrAuCyTSajBHo2A4gHYplr6Lvb8UPqKaFj9MIF4Zc5I33ToX+8jVI+mtMx
+ 1g+fv93Kz+un6oZV2Zs23SpMDvqpWBKH+/LQ48aNmTesMghmXVoZVNKAJnkJ2w99o/
+ BM8e2HkJpd/p5S+MwivnFg2S5qkDhj8xkZF/24T2NqR+iVXc2/mHXF1+cVhvWeyNf0
+ fzo6Iwce6B4T3FCG+bfFwX+9CxhdTc+kFab1QBVVDh+vXl2pAQ3UrCqkGz3W/b4PR9
+ 8dxAlY8RchzgQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 08/58] Revert "drm/amd/display: disable SubVP +
- DRR to prevent underflow"
-Date: Sun, 23 Jul 2023 21:12:36 -0400
-Message-Id: <20230724011338.2298062-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 16/58] drm/stm: ltdc: fix late dereference check
+Date: Sun, 23 Jul 2023 21:12:44 -0400
+Message-Id: <20230724011338.2298062-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
 References: <20230724011338.2298062-1-sashal@kernel.org>
@@ -57,84 +57,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rdunlap@infradead.org, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- hamza.mahfooz@amd.com, Jun.Lei@amd.com, Sasha Levin <sashal@kernel.org>,
- austin.zheng@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- amd-gfx@lists.freedesktop.org, Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Nevenko.Stupar@amd.com, Alvin.Lee2@amd.com, George.Shen@amd.com,
- stylon.wang@amd.com, srinivasan.shanmugam@amd.com, sunpeng.li@amd.com,
- shiwu.zhang@amd.com, hdegoede@redhat.com, hersenxs.wu@amd.com,
- Dillon.Varone@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- wayne.lin@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, mcoquelin.stm32@gmail.com,
+ Dan Carpenter <error27@gmail.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ yannick.fertre@foss.st.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, Philippe Cornu <philippe.cornu@foss.st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-[ Upstream commit f38129bb081758176dd78304faaee95007fb8838 ]
+[ Upstream commit 898a9e3f56db9860ab091d4bf41b6caa99aafc3d ]
 
-This reverts commit 80c6d6804f31451848a3956a70c2bcb1f07cfcb0.
-The orignal commit was intended as a workaround to prevent underflow and
-flickering when using one normal monitor and the other high refresh rate
-monitor (> 120Hz).
+In ltdc_crtc_set_crc_source(), struct drm_crtc was dereferenced in a
+container_of() before the pointer check. This could cause a kernel panic.
 
-This patch is being reverted in favour of a software solution to enable
-SubVP+DRR
+Fix this smatch warning:
+drivers/gpu/drm/stm/ltdc.c:1124 ltdc_crtc_set_crc_source() warn: variable dereferenced before check 'crtc' (see line 1119)
 
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/lkml/202212241802.zeLFZCXB-lkp@intel.com/
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/lkml/202212241802.zeLFZCXB-lkp@intel.com/
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Signed-off-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230515123818.93971-1-raphael.gallais-pou@foss.st.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 5 -----
- drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 4 ----
- drivers/gpu/drm/amd/include/amd_shared.h             | 1 -
- 3 files changed, 10 deletions(-)
+ drivers/gpu/drm/stm/ltdc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 7acd73e5004fb..80756c7b92a54 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1646,11 +1646,6 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
- 	if (amdgpu_dc_feature_mask & DC_DISABLE_LTTPR_DP2_0)
- 		init_data.flags.allow_lttpr_non_transparent_mode.bits.DP2_0 = true;
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 03c6becda795c..b8be4c1db4235 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -1145,7 +1145,7 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
  
--	/* Disable SubVP + DRR config by default */
--	init_data.flags.disable_subvp_drr = true;
--	if (amdgpu_dc_feature_mask & DC_ENABLE_SUBVP_DRR)
--		init_data.flags.disable_subvp_drr = false;
--
- 	init_data.flags.seamless_boot_edp_requested = false;
+ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+ {
+-	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
++	struct ltdc_device *ldev;
+ 	int ret;
  
- 	if (check_seamless_boot_capability(adev)) {
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-index 0c4c3208def17..d7eca24bd09d2 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
-@@ -880,10 +880,6 @@ static bool subvp_drr_schedulable(struct dc *dc, struct dc_state *context, struc
- 	int16_t stretched_drr_us = 0;
- 	int16_t drr_stretched_vblank_us = 0;
- 	int16_t max_vblank_mallregion = 0;
--	const struct dc_config *config = &dc->config;
--
--	if (config->disable_subvp_drr)
--		return false;
+ 	DRM_DEBUG_DRIVER("\n");
+@@ -1153,6 +1153,8 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+ 	if (!crtc)
+ 		return -ENODEV;
  
- 	// Find SubVP pipe
- 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
-diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
-index e4a22c68517d1..f175e65b853a0 100644
---- a/drivers/gpu/drm/amd/include/amd_shared.h
-+++ b/drivers/gpu/drm/amd/include/amd_shared.h
-@@ -240,7 +240,6 @@ enum DC_FEATURE_MASK {
- 	DC_DISABLE_LTTPR_DP2_0 = (1 << 6), //0x40, disabled by default
- 	DC_PSR_ALLOW_SMU_OPT = (1 << 7), //0x80, disabled by default
- 	DC_PSR_ALLOW_MULTI_DISP_OPT = (1 << 8), //0x100, disabled by default
--	DC_ENABLE_SUBVP_DRR = (1 << 9), // 0x200, disabled by default
- };
- 
- enum DC_DEBUG_MASK {
++	ldev = crtc_to_ltdc(crtc);
++
+ 	if (source && strcmp(source, "auto") == 0) {
+ 		ldev->crc_active = true;
+ 		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
 -- 
 2.39.2
 
