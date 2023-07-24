@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D96675EDF2
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:40:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0567075EDFF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:42:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40C8A10E288;
-	Mon, 24 Jul 2023 08:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09BA310E286;
+	Mon, 24 Jul 2023 08:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4781710E288
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:40:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AEA7160FD6;
- Mon, 24 Jul 2023 08:40:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34E84C433C7;
- Mon, 24 Jul 2023 08:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690188030;
- bh=C+g9lG7y+eHxmO1DwvFohayuG7Vw2U1uWFRqR4wxhvc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Zp+lKC9DOiigHNG7q4UTl4zLFUZ3u+UJNI538qU43plYIE2VKFmGOeZwCOSS2BZ3d
- e0l45C0PzhcsLBN6UWj1A/25BZUQ70BgTD4hItlo290nJWbMz0WGz6pHnJ54dcIfvm
- C62bJnH8MiuHNRXx7UK4PYWEM0ryG7KIrngsSzGw3aLlzPLpzdqdah9OEgees9xN2Q
- pUq06vnn8fJ03YBc9HGWqzBs03qgNBstAWgQ9Se6Y7BlVaFOYsiTAo3K7DCancBEQ9
- F/OMBfgBU5JMeLtMYsMHLEWZzT8Ry7KLMpjDqO8DBztR4FyjKSIFbEvRx7gHVZ3uu0
- DtVthmtXskZCw==
-From: Robert Foss <rfoss@kernel.org>
-To: Xin Ji <xji@analogixsemi.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Chen-Yu Tsai <wenst@chromium.org>,
- Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v13] drm/bridge: Remove redundant i2c_client in
- anx7625/it6505
-Date: Mon, 24 Jul 2023 10:40:22 +0200
-Message-ID: <169018800611.622568.1753290816240362291.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230718110407.1005200-1-wenst@chromium.org>
-References: <20230718110407.1005200-1-wenst@chromium.org>
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CDD310E28B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:42:10 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4R8YYq57RlzBRx5M
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 16:42:07 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1690188127; x=1692780128; bh=eE7sNKxG4/rjsPDu9gJ/H3YFqzO
+ mN4jtb9Ah4UwXSdc=; b=kxCrOKJ/X6KDq2G5oEObom94SRx7CYjqrqZRkIa/JSN
+ w+gWM1YSu4rSANtBoTB5Hl9EqTUk5OIpxorjDfwo6t6qp9EcW+m8j6Tt+/zRvl1B
+ k+lkwemajkgxmRlEdM6blOU9BNJsoOPPphNAasDoLyQWFfkpYETFmiaShf2TzYWC
+ tEaEOg5skrZsLBL382oYRUlX8nUywcH/go7lkJDlrQ4ncAPLfhUQC62Aweupystc
+ OH+KPGzVGT8FEg+gg7j+cmX7mnZTfATZlHH3tbLXX3ugy1qWlEUev5s1+X2aiQuF
+ saP9nS8DZCwkzazLOJhvaWPLRiHsZDRtIhbRMWmM2BQ==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id X-iZjR1tDnY5 for <dri-devel@lists.freedesktop.org>;
+ Mon, 24 Jul 2023 16:42:07 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4R8YYq2NgkzB7Bvn;
+ Mon, 24 Jul 2023 16:42:07 +0800 (CST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Date: Mon, 24 Jul 2023 16:42:07 +0800
+From: sunran001@208suo.com
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/pm: that open brace { should be on the previous line
+In-Reply-To: <20230724084109.9496-1-xujianghui@cdjrlc.com>
+References: <20230724084109.9496-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <7fde0c4213bf401813918ac05f313fbb@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,31 +60,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <rfoss@kernel.org>,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Jul 2023 19:04:05 +0800, Chen-Yu Tsai wrote:
-> From: Pin-yen Lin <treapking@chromium.org>
-> 
-> These two drivers embed a i2c_client in their private driver data, but
-> only strict device is actually needed. Replace the i2c_client reference
-> with a struct device one.
-> 
-> 
-> [...]
+ERROR: that open brace { should be on the previous line
 
-Applied, thanks!
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+  drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h | 6 ++----
+  1 file changed, 2 insertions(+), 4 deletions(-)
 
-[1/1] drm/bridge: Remove redundant i2c_client in anx7625/it6505
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d65feac281ab
-
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h 
+b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
+index beab6d7b28b7..630132c4a76b 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
+@@ -52,8 +52,7 @@ static unsigned int DbiPrbs7[] =
 
 
-Rob
+  //4096 bytes, 256 byte aligned
+-static unsigned int NoDbiPrbs7[] =
+-{
++static unsigned int NoDbiPrbs7[] = {
+      0x0f0f0f0f, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f00f0f, 0x0f0f0f0f, 
+0x0f0f0f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f00f0f, 0xf0f00f0f, 
+0x0f0f0f0f, 0xf0f0f0f0, 0xf0f0f0f0, 0x0f0f0f0f, 0xf0f00f0f,
+      0x0f0f0f0f, 0xf0f00f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0xf0f0f0f0, 
+0xf0f00f0f, 0xf0f00f0f, 0xf0f00f0f, 0x0f0ff0f0, 0xf0f0f0f0, 0xf0f0f0f0, 
+0x0f0ff0f0, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f0f0f0, 0xf0f00f0f,
+      0x0f0f0f0f, 0xf0f00f0f, 0x0f0ff0f0, 0x0f0f0f0f, 0xf0f0f0f0, 
+0x0f0ff0f0, 0xf0f00f0f, 0xf0f00f0f, 0xf0f0f0f0, 0x0f0ff0f0, 0xf0f0f0f0, 
+0xf0f00f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0x0f0ff0f0, 0xf0f00f0f,
+@@ -121,8 +120,7 @@ static unsigned int NoDbiPrbs7[] =
+  };
 
+  // 4096 bytes, 256 byte aligned
+-static unsigned int DbiPrbs7[] =
+-{
++static unsigned int DbiPrbs7[] = {
+      0xffffffff, 0xffffffff, 0xffffffff, 0x0000ffff, 0xffffffff, 
+0xffffffff, 0x00000000, 0xffffffff, 0xffffffff, 0x0000ffff, 0x0000ffff, 
+0xffffffff, 0x00000000, 0x00000000, 0xffffffff, 0x0000ffff,
+      0xffffffff, 0x0000ffff, 0x00000000, 0xffffffff, 0x00000000, 
+0x0000ffff, 0x0000ffff, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, 
+0xffff0000, 0xffffffff, 0xffffffff, 0x00000000, 0x0000ffff,
+      0xffffffff, 0x0000ffff, 0xffff0000, 0xffffffff, 0x00000000, 
+0xffff0000, 0x0000ffff, 0x0000ffff, 0x00000000, 0xffff0000, 0x00000000, 
+0x0000ffff, 0x00000000, 0xffffffff, 0xffff0000, 0x0000ffff,
