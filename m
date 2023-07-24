@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14928760190
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A67760199
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2488B10E382;
-	Mon, 24 Jul 2023 21:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23AB110E383;
+	Mon, 24 Jul 2023 21:55:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3486810E382;
- Mon, 24 Jul 2023 21:53:45 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 46e09a7af769-6bb14c05d77so3276389a34.2; 
- Mon, 24 Jul 2023 14:53:45 -0700 (PDT)
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C41210E35D;
+ Mon, 24 Jul 2023 21:55:30 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ 006d021491bc7-5658573b1faso2793672eaf.1; 
+ Mon, 24 Jul 2023 14:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690235624; x=1690840424;
+ d=gmail.com; s=20221208; t=1690235729; x=1690840529;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=r4SHNWvonq3pTdPu5w/9lA9SaPd7vXM0OcBb+UX7Zcc=;
- b=Totw2DOP+aVvqwlywvLYSHlv7/hFnTw5PoZMFmPdshevUEe+e96+tR5JCJrBTv/7AR
- 5H5ZZNZagYQ3qPvvNO2xhWG0QzO0Y90y/UUIvYFpOuVn3YAkv5LE7HTfyd59/lGlqf8x
- trnruv82xA7s3X1xOVLk7oLBCU0dI0p6bukMxZrIbeA2FxMFPYiZJdDwsTJis4Coze1J
- x2624MmavfBFkqursl/yboRQGV2e9bNu+pkNR7/ZdNjxNxQTS4Op9t0qPNAsHqc2Szm9
- HWeHrHDA32xz0vFCCAi4MH0qIr3vac7JLQ9ZDwYq6uRa5Y0gDWTZU8isLOk/Bwi1dH37
- 9LvQ==
+ bh=X8guhtErTn6aNVQ1Iyi8hYudi3GFlQwENuhyidPmzNs=;
+ b=riH8prdIh4N80P2QMC/I8TGBRunp3tp7X2cT4CaOUuIe87vDpBwZFpcd6B75rCzyJ6
+ Y3fmrU0fnf0ovYMpXolI3muN61KF5fA9cunEp+k3uj/QgT9AjNDbstjLR4oxzT0ik5v9
+ b1liVJFoOCGPRwkaxdG1BgyLYyMDlNmIL9v+ThvBOFHFOv2ndNlGc8xTu7wrhqiRI9hu
+ odtRR/UW4YlMw3wW1V/Y4GpEaJFKDk5nPJ+gq4hXqh8qRBqORwHZ/8oPtivM4G4cRFZ3
+ U6vGsM1FjsGQO/lQtxQkL0JesoRy7p3NyQxchL2R7PKAz5wIOgyOjLoLmnn+1dcXImW8
+ ywWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690235624; x=1690840424;
+ d=1e100.net; s=20221208; t=1690235729; x=1690840529;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=r4SHNWvonq3pTdPu5w/9lA9SaPd7vXM0OcBb+UX7Zcc=;
- b=eGm4jJk2Zw5ByaszthDW4A88ENtNDAg8c4kv4KWtFMiWvCXxIl8ZCQfpfZf2jXgnh6
- bNlJI0DeqDf6JLEiPw6/Dte1uURMBfndcLhckiiTTlAGePdefcSMNOmLtvNhfqjI2Q3A
- AIz6hkj19w7EL0ChW+EjxOM4mV920uIsRXKJKCwRxlMe9JEwU0WsNWze6zX3hdPgO3eh
- 6i3xmxac3uihOfTnZFTNZUJHZnC4a0WywHgNoYTJrLIMgfEY7aeVgm0/doHlipg/LYfO
- yFYsm6wzuKXk14xRmUm2kW1UESZCBa5fX3z8Lde3CV0fe62DBE4fj0K6fk/pXLrwlfhM
- fA8A==
-X-Gm-Message-State: ABy/qLZFDHJ5MaOshAfJJc2vdTMVVjv1ZXQHWIJ31I3WSUjkM8ulKXd0
- WUcITxl9boXKUmqtrWBkG9ZbNRxyDMlVBlP6uSGWSF80
-X-Google-Smtp-Source: APBJJlFIfsDwrK83y95RbhA0I4iIT2y/sEJO0jQBfv+G0amgLdB9nh2cRiNGnstNhk1bHnNuKe9VEbs5ZY6xrwU4tWw=
-X-Received: by 2002:a05:6870:b50b:b0:1b3:eec8:fa87 with SMTP id
- v11-20020a056870b50b00b001b3eec8fa87mr12990007oap.42.1690235624460; Mon, 24
- Jul 2023 14:53:44 -0700 (PDT)
+ bh=X8guhtErTn6aNVQ1Iyi8hYudi3GFlQwENuhyidPmzNs=;
+ b=GyQllQS0CtMS75BgSwdFg2K+OUwsv+zD7s/u+CggojZBq/rglL0WIM51PIOZQdpQjY
+ R3jF3/MJgbOOSZlyn0Qglo2un2hrCkp8HOt6jobSgI5mHEy6ojOnf3nA3akmwhPTHuI/
+ BzwrQ5h6EWC3zMuby6bX8KyX92W9usbfIA7Pkzbwab+nFFSBjXOIEBif3y0uw7fvk4Us
+ HcJcXAqfI/wMj/HnCHJeofjZe7KMLqMdNkaspORsYOPo/44I6KxBS9lDNZvKB+4odSsk
+ 7KSV1E85t5/0vkAsyV64TIDl0uUwJh5pj84oF2luOZ7G/1su1LrH7HTqE6Sr0stNF2FR
+ wtTQ==
+X-Gm-Message-State: ABy/qLYq38IVfqIzRYPTtNZ1GyArQgGNEIcI3B3YFigPrR59GbxvlqES
+ /5occT2X9123INFe9GdABrgt8Nr7DDYXfwR4G44=
+X-Google-Smtp-Source: APBJJlGpvGvYHofhn296p0VQ4ekG8ECA+40wh6sjcsrKBSQ8a77kj0PDgEyovPB3KuscQIqDW7M85yrHYLg5IbNv+lY=
+X-Received: by 2002:a4a:344a:0:b0:566:efc9:1464 with SMTP id
+ n10-20020a4a344a000000b00566efc91464mr9031534oof.0.1690235729572; Mon, 24 Jul
+ 2023 14:55:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230724084109.9496-1-xujianghui@cdjrlc.com>
- <7fde0c4213bf401813918ac05f313fbb@208suo.com>
-In-Reply-To: <7fde0c4213bf401813918ac05f313fbb@208suo.com>
+References: <20230724071121.8710-1-xujianghui@cdjrlc.com>
+ <be6d6605aa504964eba3476910f7140a@208suo.com>
+ <a026386d6759911afbb1446a9145bdec@208suo.com>
+In-Reply-To: <a026386d6759911afbb1446a9145bdec@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Jul 2023 17:53:33 -0400
-Message-ID: <CADnq5_MUvvpznMhVB5DabVuNYgiyjbn_QEvTRr=ne7-8Ypc+xg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: that open brace { should be on the previous
- line
+Date: Mon, 24 Jul 2023 17:55:18 -0400
+Message-ID: <CADnq5_M0pcefVivAG+sVCfkyu2y2Mjb0bXs2O19KFZtBsB5aGw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: open brace '{' following function definitions
+ go on the next line
 To: sunran001@208suo.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -77,49 +78,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Mon, Jul 24, 2023 at 4:42=E2=80=AFAM <sunran001@208suo.com> wrote:
+On Mon, Jul 24, 2023 at 4:44=E2=80=AFAM <sunran001@208suo.com> wrote:
 >
-> ERROR: that open brace { should be on the previous line
+> ERROR: open brace '{' following function definitions go on the next line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->   drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-> b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-> index beab6d7b28b7..630132c4a76b 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-> @@ -52,8 +52,7 @@ static unsigned int DbiPrbs7[] =3D
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c
+> b/drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c
+> index c788aa7a99a9..5e408a195860 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c
+> @@ -205,7 +205,8 @@ int smu_v12_0_set_default_dpm_tables(struct
+> smu_context *smu)
+>         return smu_cmn_update_table(smu, SMU_TABLE_DPMCLOCKS, 0,
+> smu_table->clocks_table, false);
+>   }
 >
->
->   //4096 bytes, 256 byte aligned
-> -static unsigned int NoDbiPrbs7[] =3D
-> -{
-> +static unsigned int NoDbiPrbs7[] =3D {
->       0x0f0f0f0f, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f00f0f, 0x0f0f0f0f,
-> 0x0f0f0f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f00f0f, 0xf0f00f0f,
-> 0x0f0f0f0f, 0xf0f0f0f0, 0xf0f0f0f0, 0x0f0f0f0f, 0xf0f00f0f,
->       0x0f0f0f0f, 0xf0f00f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0xf0f0f0f0,
-> 0xf0f00f0f, 0xf0f00f0f, 0xf0f00f0f, 0x0f0ff0f0, 0xf0f0f0f0, 0xf0f0f0f0,
-> 0x0f0ff0f0, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f0f0f0, 0xf0f00f0f,
->       0x0f0f0f0f, 0xf0f00f0f, 0x0f0ff0f0, 0x0f0f0f0f, 0xf0f0f0f0,
-> 0x0f0ff0f0, 0xf0f00f0f, 0xf0f00f0f, 0xf0f0f0f0, 0x0f0ff0f0, 0xf0f0f0f0,
-> 0xf0f00f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0x0f0ff0f0, 0xf0f00f0f,
-> @@ -121,8 +120,7 @@ static unsigned int NoDbiPrbs7[] =3D
->   };
->
->   // 4096 bytes, 256 byte aligned
-> -static unsigned int DbiPrbs7[] =3D
-> -{
-> +static unsigned int DbiPrbs7[] =3D {
->       0xffffffff, 0xffffffff, 0xffffffff, 0x0000ffff, 0xffffffff,
-> 0xffffffff, 0x00000000, 0xffffffff, 0xffffffff, 0x0000ffff, 0x0000ffff,
-> 0xffffffff, 0x00000000, 0x00000000, 0xffffffff, 0x0000ffff,
->       0xffffffff, 0x0000ffff, 0x00000000, 0xffffffff, 0x00000000,
-> 0x0000ffff, 0x0000ffff, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000,
-> 0xffff0000, 0xffffffff, 0xffffffff, 0x00000000, 0x0000ffff,
->       0xffffffff, 0x0000ffff, 0xffff0000, 0xffffffff, 0x00000000,
-> 0xffff0000, 0x0000ffff, 0x0000ffff, 0x00000000, 0xffff0000, 0x00000000,
-> 0x0000ffff, 0x00000000, 0xffffffff, 0xffff0000, 0x0000ffff,
+> -int smu_v12_0_mode2_reset(struct smu_context *smu){
+> +int smu_v12_0_mode2_reset(struct smu_context *smu)
+> +{
+>         return smu_cmn_send_smc_msg_with_param(smu,
+> SMU_MSG_GfxDeviceDriverReset, SMU_RESET_MODE_2, NULL);
+>   }
