@@ -2,52 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C06D75EA36
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 05:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7342F75EA45
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 05:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACBAD10E270;
-	Mon, 24 Jul 2023 03:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0CD10E271;
+	Mon, 24 Jul 2023 03:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4BBD10E270
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 03:44:59 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R8Qyx2ZQQzBRYmS
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 11:44:57 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1690170297; x=1692762298; bh=oL5acEfGsFlngl49HUHQFfFGsTM
- P1vCTZkBz9qSCsgY=; b=m+Xbz7a7XQTLcRbDOpqCkZbCy8jFeiQkoqm5PLPfV26
- xhUJLAdsKt1to4pr7oKYKeuROeIPaTif3w6lblH08p5Jb/UQ1F7I9Z1d/8dtrRB/
- ve8SWE06hjuuAH8banfCOHIfiDsOicbgsQl0xqYNrdw0IYPbRXgMG7g4vjVdfsLE
- +MZ+xV8Pj0VM6EVsS7d49gV79yZbsj5sgpKSUHwQM/F2LSbN+foSARRM/xDQJRJw
- wLVcvMCY46HY5AoUCshbb+gfdP9p5RcxTsDHKOeN6p/q/wGW8b0yP+8NLIRP01Qi
- QP10L4/8sAL7s+qQJ8L/MYRYJ9jmRcBz2Vespy/Abzw==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id JKOBdqdAarW1 for <dri-devel@lists.freedesktop.org>;
- Mon, 24 Jul 2023 11:44:57 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R8Qyx0JfLzBJTF7;
- Mon, 24 Jul 2023 11:44:57 +0800 (CST)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD8BC10E271
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 03:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1690170646;
+ bh=1WvpFcCXiC55XJ1Msdg3rG8+IKnB5aPwn0slLurwDG0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=cR1czoN1qw0zw7GVzSRHAFzu2GDyIJ/1vWKaMQTVf+8DNWeCMmt57Wgrh8v2mcVl5
+ 2Bi/zmqtNx1BToTVbZSPeSbegR9Lg2fk945e4LV27AfxtiIthrBNLclwwufR83g6OT
+ wgsSjXTMuaKpqLW/92gkR62RYwXSxRG/auG8tQS1LyxnILdE64bThiyiNhUq1kSKn4
+ 01rcObNegjCu+SD1q7o3fVEeUiJOHINxq2bl4nKqwNDL2+iUhwB5toay3kQ0Ohz1Nm
+ YnNs+ZjcphVP67Peeyirs6UDXxK6TEe6POmoTYHe4LypIW1180QW/lYXkhQzvlFiR1
+ p8HLnGRvfus8g==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4R8R5d11Tyz4wyY;
+ Mon, 24 Jul 2023 13:50:45 +1000 (AEST)
+Date: Mon, 24 Jul 2023 13:50:42 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Subject: Re: linux-next: build warning after merge of the drm tree
+Message-ID: <20230724135042.663447e1@canb.auug.org.au>
+In-Reply-To: <20230712091714.760c00c8@canb.auug.org.au>
+References: <20230330142818.7efb6d05@canb.auug.org.au>
+ <CAJs_Fx67+VQwveGE3i7Nyp+5R2+Z5mEeDJ9ZMTZEY_gnYtc5Sw@mail.gmail.com>
+ <20230712091714.760c00c8@canb.auug.org.au>
 MIME-Version: 1.0
-Date: Mon, 24 Jul 2023 11:44:56 +0800
-From: sunran001@208suo.com
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/radeon: Move assignment outside if condition
-In-Reply-To: <20230724034415.8257-1-xujianghui@cdjrlc.com>
-References: <20230724034415.8257-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <304e90636af5cb6843ae603cd973680f@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/22Dy8D9SSj0NkaQKQw6rT+z";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +52,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Gustavo Padovan <gustavo.padovan@collabora.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following checkpatch errors:
+--Sig_/22Dy8D9SSj0NkaQKQw6rT+z
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-ERROR: do not use assignment in if condition
+Hi all,
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/radeon/radeon_legacy_tv.c | 6 ++++--
-  1 file changed, 4 insertions(+), 2 deletions(-)
+On Wed, 12 Jul 2023 09:17:14 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> On Thu, 30 Mar 2023 07:28:26 -0700 Rob Clark <robdclark@chromium.org> wro=
+te:
+> >
+> > On Wed, Mar 29, 2023 at 8:28=E2=80=AFPM Stephen Rothwell <sfr@canb.auug=
+.org.au> wrote: =20
+> > >
+> > > After merging the drm tree, today's linux-next build (htmldocs) produ=
+ced
+> > > this warning:
+> > >
+> > > include/uapi/linux/sync_file.h:77: warning: Function parameter or mem=
+ber 'num_fences' not described in 'sync_file_info'
+> > >   =20
+> >=20
+> > thanks, should be fixed by:
+> >=20
+> > https://patchwork.freedesktop.org/series/115871/
+> >  =20
+> > > Revealed by commit
+> > >
+> > >   d71c11cc79d2 ("dma-buf/sync_file: Surface sync-file uABI")
+> > >
+> > > Introduced by commit
+> > >
+> > >   2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+> > >
+> > > in 2016. =20
+>=20
+> I am still getting this warning (presumably now from Linus' tree).
 
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_tv.c 
-b/drivers/gpu/drm/radeon/radeon_legacy_tv.c
-index 12e180b119ac..7883e9ec0bae 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_tv.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_tv.c
-@@ -724,12 +724,14 @@ void radeon_legacy_tv_mode_set(struct drm_encoder 
-*encoder,
-  	}
+I am still getting this warning despite the patch from Rob being
+available since March 30.
+--=20
+Cheers,
+Stephen Rothwell
 
-  	for (i = 0; i < MAX_H_CODE_TIMING_LEN; i++) {
--		if ((tv_dac->tv.h_code_timing[i] = hor_timing[i]) == 0)
-+		tv_dac->tv.h_code_timing[i] = hor_timing[i];
-+		if (tv_dac->tv.h_code_timing[i] == 0)
-  			break;
-  	}
+--Sig_/22Dy8D9SSj0NkaQKQw6rT+z
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-  	for (i = 0; i < MAX_V_CODE_TIMING_LEN; i++) {
--		if ((tv_dac->tv.v_code_timing[i] = vert_timing[i]) == 0)
-+		tv_dac->tv.v_code_timing[i] = vert_timing[i];
-+		if (tv_dac->tv.v_code_timing[i] == 0)
-  			break;
-  	}
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmS99RIACgkQAVBC80lX
+0GwIigf/b3WOVdQXdt7NdigUv+jhB+G6q/H0CVE5JL6V3nRZdnQUuEwjknmeqSOw
+PTgIk63cMafuPIUCNyWcmTyVlesR5swlx20OAR4so+JdndSxkKAaIaJI/K5AllP/
+sDwhsedJngbDQkOJBnDE+L3jOSVEdOm9yXQ//zA9dlJr3jFHl77VBNcUIa+g7efP
+mQEbaBRko/EQ6ZA7FOJZAeKtaVp2aH+jUf6iWiV9ivj+iNh0TbSEW49UtGTdHOsq
+1HemmSOc6e33fuElX9roIZP5Huhii75PzSROsgaHMcJjd//O70bV6gEOp1q9TR/m
+z2iui1Ud6QEW0dy3SZXthY8+8TXwJg==
+=inDK
+-----END PGP SIGNATURE-----
+
+--Sig_/22Dy8D9SSj0NkaQKQw6rT+z--
