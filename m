@@ -1,51 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDA075F9E8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:32:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB6C75F9FB
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6DCA10E322;
-	Mon, 24 Jul 2023 14:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA7210E329;
+	Mon, 24 Jul 2023 14:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 750D310E322
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 14:31:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C230061187;
- Mon, 24 Jul 2023 14:31:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E419C433C8;
- Mon, 24 Jul 2023 14:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690209114;
- bh=dksxXLhwSPe4BRdGB7wqMekFr7I5vTyPJlU/kSDu0ZE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BuB5PeayfbKDQdYIOdkQ+l8yPS/3V7cliz69ztIy4uV4GUk12s1+he55o+Mgv7pT3
- OiRCD6Xuqz+tg7z9bS9F3z4v4a+2uX/oIgIu9W7GkumIWtHQLJM+bf2+f+FJuaymGA
- anIUtwF7K+UVaA2vlV8QnYF4cdypZQx13x7fpxc1HBuZNuXPHkF8bP+kacyo/Sy5A2
- Gl/4ceGLKE7PBQ1rORZ7ELXUj+FapLowpiV86RFZ+hvmQxudrMK5r99Dk98Pajx311
- ivFYuuCqmxzJ+Z6kWT8bM7ES0pkT8HAXkpwnIP4n9BzXOqb/TLQO4gME6jonIVn9dY
- xDQTtIc7f7UIQ==
-Received: (nullmailer pid 3432565 invoked by uid 1000);
- Mon, 24 Jul 2023 14:31:52 -0000
-Date: Mon, 24 Jul 2023 08:31:52 -0600
-From: Rob Herring <robh@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 2/3] dt-bindings: display: panel: Add panels based on
- ILITEK ILI9806E
-Message-ID: <20230724143152.GA3430423-robh@kernel.org>
-References: <20230719152147.355486-1-luca.ceresoli@bootlin.com>
- <20230719152147.355486-2-luca.ceresoli@bootlin.com>
- <20230719190254.GA578754-robh@kernel.org>
- <20230720155238.6fb8ac8c@booty>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 022CA10E324;
+ Mon, 24 Jul 2023 14:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690209345; x=1721745345;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ZkxaMWwZVIw+LW0WgBwy1SdhMTK4GEQ3AEQu3X0icZY=;
+ b=jBcKgTUXQ0f4Ixc913js0C4+vhVbN4aJHJS/hKNw8fT8a2GFTBgT9S51
+ nKXwlA/fzI9MQiqmzMT9Ckvccsy8FSih0oYH4gvynCxGUo/r8MUONo2Cv
+ AaQ3g+Z2iv2znQNCPcDSVrXzTKenthPRtMi38F/AVcc4tp00Nv+WP0XXO
+ LylsWk3enw3DkB4P/vsVV5pQ7QMaQ22x+Rk/yEmifwWfcgiXiTA2ZPPZE
+ 4PxMld2GVyfpmMcPvnP1jgYHETcqZFpNTsm+m5aW6D4qwB8hKhV1TCqbR
+ KOacCdQA4ecjK6NFJYgnNXXi+4K30Lu1H27odz1p4jn6tKd+tSFWlmYSg A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347060115"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="347060115"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2023 07:35:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="702913913"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="702913913"
+Received: from avmoskal-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.57.166])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2023 07:35:14 -0700
+Date: Mon, 24 Jul 2023 16:35:11 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v8 9/9] drm/i915/gt: Support aux invalidation
+ on all engines
+Message-ID: <ZL6MH3Hi8+Ore+w0@ashyti-mobl2.lan>
+References: <20230721161514.818895-1-andi.shyti@linux.intel.com>
+ <20230721161514.818895-10-andi.shyti@linux.intel.com>
+ <5f846260-8416-fb19-bd46-ced39153a92a@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230720155238.6fb8ac8c@booty>
+In-Reply-To: <5f846260-8416-fb19-bd46-ced39153a92a@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,108 +61,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ linux-stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ dri-evel <dri-devel@lists.freedesktop.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 20, 2023 at 03:52:38PM +0200, Luca Ceresoli wrote:
-> Hello Rob,
-> 
-> thanks for reviewing.
-> 
-> On Wed, 19 Jul 2023 13:02:54 -0600
-> Rob Herring <robh@kernel.org> wrote:
-> 
-> > On Wed, Jul 19, 2023 at 05:21:46PM +0200, Luca Ceresoli wrote:
-> > > Add bindings for LCD panels based on the ILITEK ILI9806E RGB controller
-> > > connected over SPI and the "ShenZhen New Display Co NDS040480800-V3"
-> > > 480x800 panel based on it.
-> > > 
-> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > > ---
-> > >  .../display/panel/ilitek,ili9806e.yaml        | 69 +++++++++++++++++++
-> > >  MAINTAINERS                                   |  6 ++
-> > >  2 files changed, 75 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > > new file mode 100644
-> > > index 000000000000..42abc6923065
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
-> > > @@ -0,0 +1,69 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/panel/ilitek,ili9806e.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Ilitek ILI9806E display panels
-> > > +
-> > > +maintainers:
-> > > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > > +
-> > > +description:
-> > > +  This binding is for display panels using an Ilitek ILI9806E controller in
-> > > +  SPI mode.
-> > > +
-> > > +allOf:
-> > > +  - $ref: panel-common.yaml#  
-> > 
-> > A SPI device should reference spi-peripheral-props.yaml as well.
-> > 
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +          # ShenZhen New Display Co 3.97" 480x800 RGB a-SI TFT LCD
-> > > +          - newdisplay,nds040480800-v3
-> > > +      - const: ilitek,ili9806e
-> > > +
-> > > +  reg: true  
-> > 
-> > maxItems: 1
-> > 
-> > > +  spi-max-frequency: true
-> > > +  reset-gpios: true
-> > > +  backlight: true
-> > > +  port: true  
-> > 
-> > Drop all these and ...
-> > 
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - port
-> > > +
-> > > +additionalProperties: false  
-> > 
-> > ... use "unevaluatedProperties" instead.
-> > 
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    backlight: backlight {
-> > > +        compatible = "gpio-backlight";
-> > > +        gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
-> > > +    };  
-> > 
-> > The exact backlight is outside the scope of this binding and should be 
-> > dropped from the example.
-> 
-> As this comes from copy-pasting from the bindings yaml for another
-> panel, would it be useful if I send a patch to remove it?
+Hi Andrzej,
 
-Yes.
+On Mon, Jul 24, 2023 at 11:42:16AM +0200, Andrzej Hajda wrote:
+> On 21.07.2023 18:15, Andi Shyti wrote:
+> > Perform some refactoring with the purpose of keeping in one
+> > single place all the operations around the aux table
+> > invalidation.
+> > 
+> > With this refactoring add more engines where the invalidation
+> > should be performed.
+> > 
+> > Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
+> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > Cc: <stable@vger.kernel.org> # v5.8+
+> > ---
+> >   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 53 ++++++++++++++----------
+> >   drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
+> >   drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +-------
+> >   3 files changed, 36 insertions(+), 37 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> > index 6daf7d99700e0..d33462387d1c6 100644
+> > --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> > +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+> > @@ -178,9 +178,36 @@ static bool gen12_needs_ccs_aux_inv(struct intel_engine_cs *engine)
+> >   	return !HAS_FLAT_CCS(engine->i915);
+> >   }
+> > -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
+> > +static i915_reg_t gen12_get_aux_inv_reg(struct intel_engine_cs *engine)
+> > +{
+> > +	if (!gen12_needs_ccs_aux_inv(engine))
+> > +		return INVALID_MMIO_REG;
+> > +
+> > +	switch (engine->id) {
+> > +	case RCS0:
+> > +		return GEN12_CCS_AUX_INV;
+> > +	case BCS0:
+> > +		return GEN12_BCS0_AUX_INV;
+> 
+> Shouldn't be MTL only?
+> With that explained/fixed:
 
-Rob
+this is actually difficult to be called by the wrong engine, so
+that the MTL check is a bit pedantic... I can still add it
+though.
+
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Thanks,
+Andi
