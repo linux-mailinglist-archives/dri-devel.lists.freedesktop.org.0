@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB6C75F9FB
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918F275FA2B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA7210E329;
-	Mon, 24 Jul 2023 14:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6055B10E19D;
+	Mon, 24 Jul 2023 14:50:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 022CA10E324;
- Mon, 24 Jul 2023 14:35:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690209345; x=1721745345;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ZkxaMWwZVIw+LW0WgBwy1SdhMTK4GEQ3AEQu3X0icZY=;
- b=jBcKgTUXQ0f4Ixc913js0C4+vhVbN4aJHJS/hKNw8fT8a2GFTBgT9S51
- nKXwlA/fzI9MQiqmzMT9Ckvccsy8FSih0oYH4gvynCxGUo/r8MUONo2Cv
- AaQ3g+Z2iv2znQNCPcDSVrXzTKenthPRtMi38F/AVcc4tp00Nv+WP0XXO
- LylsWk3enw3DkB4P/vsVV5pQ7QMaQ22x+Rk/yEmifwWfcgiXiTA2ZPPZE
- 4PxMld2GVyfpmMcPvnP1jgYHETcqZFpNTsm+m5aW6D4qwB8hKhV1TCqbR
- KOacCdQA4ecjK6NFJYgnNXXi+4K30Lu1H27odz1p4jn6tKd+tSFWlmYSg A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347060115"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="347060115"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 07:35:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="702913913"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="702913913"
-Received: from avmoskal-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.57.166])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 07:35:14 -0700
-Date: Mon, 24 Jul 2023 16:35:11 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v8 9/9] drm/i915/gt: Support aux invalidation
- on all engines
-Message-ID: <ZL6MH3Hi8+Ore+w0@ashyti-mobl2.lan>
-References: <20230721161514.818895-1-andi.shyti@linux.intel.com>
- <20230721161514.818895-10-andi.shyti@linux.intel.com>
- <5f846260-8416-fb19-bd46-ced39153a92a@intel.com>
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315CA10E19D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 14:50:28 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id
+ d2e1a72fcca58-668730696a4so2409058b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 07:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690210228; x=1690815028;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
+ b=ptc2BUxx3eJRL2ESeln4TMtMZ5o5saooTWv+0/B6wgK4hw10z0yrHD9Nw2fsBXrQ1H
+ oX0MT/nKxyWaS3YlZTNku5c4nK9gfkZa4BgbfvItSgMG+J+F1tPBd8zbDb74QdfEzhIb
+ jZ5sybePeyeHF8Rijwb1EGTw8cQJLsbRROaxQgcXn3sdBuwTgVB8PV5aqiAVKqrebhrb
+ tpIz0rA0PtyAY9yoRA/kdSw98AoDU+wd3qJyArnDu5zCbxhid29NK9Xwz4BbzSBrO1f0
+ 1YUeMTqXTR0XY8zTDeeG1p4QlDHHRCrgc3XW0s3eMuJyakFvOGHei7QXVF4Y2lKUSqLb
+ UdSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690210228; x=1690815028;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
+ b=AtQ3klHAwHYTU/Gdyih2OanxTchS56CuOWbMcibQveP13Y37s9P4wA5/C0O2yoGLDA
+ GzogFEP7+csX7bDn4PIQ8I4slnY6J8oecL7HmaTNcJFOv6DblZb7oybR3+nsMKqfRD+q
+ uonbqh18xvwT1E5hIBaxEyVCKUx1lWPfZbgWOrdabVZm8xgNCFDkUc6/qa2amVD/gTjv
+ DZdKW9lBgumse27D9xo8YDJJx1X915t8QhCZJRk/V2RDYCRp+Lmnd7at+hPHYk559R9i
+ siMMRxILA5ir1jRibAS9lhyGtoVdlKM0z4f3LbzjsO7Zimn4sAz+lC12JhP85LE90fSw
+ AFAg==
+X-Gm-Message-State: ABy/qLb8rhzcZHB2DZqYOHdfThCquwVe5ifd3Uq0p3FInNNAWI1WJ59y
+ zzbI2XTKYLwV/rdhka5AFt0ce8M1GeQ=
+X-Google-Smtp-Source: APBJJlFMZ8RANdQoPHnukFjFwlUwTdQ6RXBdcsp7hN2KNRuVwIr+EPpPeq8lz2UMrzl55cgy1/5Emw==
+X-Received: by 2002:a05:6a00:a8a:b0:643:aa8d:8cd7 with SMTP id
+ b10-20020a056a000a8a00b00643aa8d8cd7mr8363957pfl.32.1690210227606; 
+ Mon, 24 Jul 2023 07:50:27 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
+ by smtp.gmail.com with ESMTPSA id
+ 7-20020aa79147000000b0065980654baasm7805653pfi.130.2023.07.24.07.50.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jul 2023 07:50:26 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] dma-buf/sync_file: Fix docs syntax
+Date: Mon, 24 Jul 2023 07:49:41 -0700
+Message-ID: <20230724145000.125880-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5f846260-8416-fb19-bd46-ced39153a92a@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- linux-stable <stable@vger.kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
- dri-evel <dri-devel@lists.freedesktop.org>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
+ Greg Hackmann <ghackmann@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrzej,
+From: Rob Clark <robdclark@chromium.org>
 
-On Mon, Jul 24, 2023 at 11:42:16AM +0200, Andrzej Hajda wrote:
-> On 21.07.2023 18:15, Andi Shyti wrote:
-> > Perform some refactoring with the purpose of keeping in one
-> > single place all the operations around the aux table
-> > invalidation.
-> > 
-> > With this refactoring add more engines where the invalidation
-> > should be performed.
-> > 
-> > Fixes: 972282c4cf24 ("drm/i915/gen12: Add aux table invalidate for all engines")
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > Cc: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > Cc: <stable@vger.kernel.org> # v5.8+
-> > ---
-> >   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 53 ++++++++++++++----------
-> >   drivers/gpu/drm/i915/gt/gen8_engine_cs.h |  3 +-
-> >   drivers/gpu/drm/i915/gt/intel_lrc.c      | 17 +-------
-> >   3 files changed, 36 insertions(+), 37 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > index 6daf7d99700e0..d33462387d1c6 100644
-> > --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> > @@ -178,9 +178,36 @@ static bool gen12_needs_ccs_aux_inv(struct intel_engine_cs *engine)
-> >   	return !HAS_FLAT_CCS(engine->i915);
-> >   }
-> > -u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv_reg)
-> > +static i915_reg_t gen12_get_aux_inv_reg(struct intel_engine_cs *engine)
-> > +{
-> > +	if (!gen12_needs_ccs_aux_inv(engine))
-> > +		return INVALID_MMIO_REG;
-> > +
-> > +	switch (engine->id) {
-> > +	case RCS0:
-> > +		return GEN12_CCS_AUX_INV;
-> > +	case BCS0:
-> > +		return GEN12_BCS0_AUX_INV;
-> 
-> Shouldn't be MTL only?
-> With that explained/fixed:
+Fixes the warning:
 
-this is actually difficult to be called by the wrong engine, so
-that the MTL check is a bit pedantic... I can still add it
-though.
+  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
 
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ include/uapi/linux/sync_file.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Andi
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index 7e42a5b7558b..ff0a931833e2 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -56,7 +56,7 @@ struct sync_fence_info {
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+- * @num_fences	number of fences in the sync_file
++ * @num_fences:	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
+-- 
+2.41.0
+
