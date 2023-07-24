@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F124E75E69D
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:21:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B0B75E6A9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE9110E23B;
-	Mon, 24 Jul 2023 01:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0A810E240;
+	Mon, 24 Jul 2023 01:22:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B249D10E23D;
- Mon, 24 Jul 2023 01:21:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76E4010E240
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 01:22:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 38FD960F02;
- Mon, 24 Jul 2023 01:21:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC8CC43395;
- Mon, 24 Jul 2023 01:21:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F161660E9C;
+ Mon, 24 Jul 2023 01:22:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 052F6C433CC;
+ Mon, 24 Jul 2023 01:22:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690161697;
- bh=h0lbYusjsLR4jeJPqZG35r1XLxciahssI8+IRRwxdgU=;
+ s=k20201202; t=1690161725;
+ bh=QhZf8toMd5+zDGE1EOIeW6wBNB1VaLLB+7VguP4KCAE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PktDHyNkvdO4K0ldZuxe/1MnlTBvHPmPH7akb8FxtsE4lkus2PV0Whlq8bUW799Ly
- 8/SowYBCoBzLUZP9Qz1G0X28OyvRu74QiYP4Eod0Qorq5dRcQcc0gkcpPS5dHj3LZM
- iziwABkAbRMP+H65ijlHTALOiX34CwY0Dkaaj2Q6gJtg8Fv+32FGf/Z0m3cShJmiwJ
- ilfGIvq/FeGo1lakNx2HX/C0fr1JjWf4DBweY8sGtcKqUi2RrntZnStQO6EQVL7jMH
- PKfztL0dGTX0KeBDEGjI9qkHHGnlvx9F/5VFyvadPEMJQnXHK4U2aRDkFu6magUcu0
- YHvtYVfImQaBQ==
+ b=XZd/+hzLzDmDDgdgDlolWa/N65EciP5nslL1pyAlrasFVTWcW74iS8kckewop+c08
+ O4ebMkurCQsmsjf0tRWKN/lbUTaOFi/flT2sX6zWmVvrKEL5Lvzy61hHoneO6IQA/N
+ K5dROOZWtrOyb4GPrDdOr+WacWZyfEHX0DKeUhXkMwdrvjQXmshZNo6tmg8trgslQg
+ YJfy2O8pROebtUmuW2IlYwyiic86cPm2g9rEwi53gZ1Pj+gT3DUS00vXke+E2xPdAD
+ tqqzdVcnqarYDykuo3VnD1pipKfjd8rMBdQ/bvb5Y5nVl2bcteGKy68yeNUh9uBxqr
+ AOftbQK1dazmA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 05/41] drm/amdgpu: fix memory leak in mes self test
-Date: Sun, 23 Jul 2023 21:20:38 -0400
-Message-Id: <20230724012118.2316073-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 11/41] drm/stm: ltdc: fix late dereference check
+Date: Sun, 23 Jul 2023 21:20:44 -0400
+Message-Id: <20230724012118.2316073-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724012118.2316073-1-sashal@kernel.org>
 References: <20230724012118.2316073-1-sashal@kernel.org>
@@ -56,42 +56,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Jack Xiao <Jack.Xiao@amd.com>,
- Victor.Zhao@amd.com, Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Jiadong.Zhu@amd.com,
- christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, mcoquelin.stm32@gmail.com,
+ Dan Carpenter <error27@gmail.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ yannick.fertre@foss.st.com, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, Philippe Cornu <philippe.cornu@foss.st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jack Xiao <Jack.Xiao@amd.com>
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
-[ Upstream commit 31d7c3a4fc3d312a0646990767647925d5bde540 ]
+[ Upstream commit 898a9e3f56db9860ab091d4bf41b6caa99aafc3d ]
 
-The fences associated with mes queue have to be freed
-up during amdgpu_ring_fini.
+In ltdc_crtc_set_crc_source(), struct drm_crtc was dereferenced in a
+container_of() before the pointer check. This could cause a kernel panic.
 
-Signed-off-by: Jack Xiao <Jack.Xiao@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Fix this smatch warning:
+drivers/gpu/drm/stm/ltdc.c:1124 ltdc_crtc_set_crc_source() warn: variable dereferenced before check 'crtc' (see line 1119)
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/lkml/202212241802.zeLFZCXB-lkp@intel.com/
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/lkml/202212241802.zeLFZCXB-lkp@intel.com/
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Signed-off-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230515123818.93971-1-raphael.gallais-pou@foss.st.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/stm/ltdc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-index d3558c34d406c..296b2d5976af7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-@@ -361,6 +361,8 @@ void amdgpu_ring_fini(struct amdgpu_ring *ring)
- 		amdgpu_bo_free_kernel(&ring->ring_obj,
- 				      &ring->gpu_addr,
- 				      (void **)&ring->ring);
-+	} else {
-+		kfree(ring->fence_drv.fences);
- 	}
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 03c6becda795c..b8be4c1db4235 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -1145,7 +1145,7 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
  
- 	dma_fence_put(ring->vmid_wait);
+ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+ {
+-	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
++	struct ltdc_device *ldev;
+ 	int ret;
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+@@ -1153,6 +1153,8 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+ 	if (!crtc)
+ 		return -ENODEV;
+ 
++	ldev = crtc_to_ltdc(crtc);
++
+ 	if (source && strcmp(source, "auto") == 0) {
+ 		ldev->crc_active = true;
+ 		ret = regmap_set_bits(ldev->regmap, LTDC_GCR, GCR_CRCEN);
 -- 
 2.39.2
 
