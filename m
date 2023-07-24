@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918F275FA2B
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:50:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE5075FA7F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 17:14:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6055B10E19D;
-	Mon, 24 Jul 2023 14:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8AA810E331;
+	Mon, 24 Jul 2023 15:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315CA10E19D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 14:50:28 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id
- d2e1a72fcca58-668730696a4so2409058b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 07:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690210228; x=1690815028;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
- b=ptc2BUxx3eJRL2ESeln4TMtMZ5o5saooTWv+0/B6wgK4hw10z0yrHD9Nw2fsBXrQ1H
- oX0MT/nKxyWaS3YlZTNku5c4nK9gfkZa4BgbfvItSgMG+J+F1tPBd8zbDb74QdfEzhIb
- jZ5sybePeyeHF8Rijwb1EGTw8cQJLsbRROaxQgcXn3sdBuwTgVB8PV5aqiAVKqrebhrb
- tpIz0rA0PtyAY9yoRA/kdSw98AoDU+wd3qJyArnDu5zCbxhid29NK9Xwz4BbzSBrO1f0
- 1YUeMTqXTR0XY8zTDeeG1p4QlDHHRCrgc3XW0s3eMuJyakFvOGHei7QXVF4Y2lKUSqLb
- UdSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690210228; x=1690815028;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=y9FgIAEGGUhV8Bu4h5u2096wjTv+qpp9D0lv6o0X1Os=;
- b=AtQ3klHAwHYTU/Gdyih2OanxTchS56CuOWbMcibQveP13Y37s9P4wA5/C0O2yoGLDA
- GzogFEP7+csX7bDn4PIQ8I4slnY6J8oecL7HmaTNcJFOv6DblZb7oybR3+nsMKqfRD+q
- uonbqh18xvwT1E5hIBaxEyVCKUx1lWPfZbgWOrdabVZm8xgNCFDkUc6/qa2amVD/gTjv
- DZdKW9lBgumse27D9xo8YDJJx1X915t8QhCZJRk/V2RDYCRp+Lmnd7at+hPHYk559R9i
- siMMRxILA5ir1jRibAS9lhyGtoVdlKM0z4f3LbzjsO7Zimn4sAz+lC12JhP85LE90fSw
- AFAg==
-X-Gm-Message-State: ABy/qLb8rhzcZHB2DZqYOHdfThCquwVe5ifd3Uq0p3FInNNAWI1WJ59y
- zzbI2XTKYLwV/rdhka5AFt0ce8M1GeQ=
-X-Google-Smtp-Source: APBJJlFMZ8RANdQoPHnukFjFwlUwTdQ6RXBdcsp7hN2KNRuVwIr+EPpPeq8lz2UMrzl55cgy1/5Emw==
-X-Received: by 2002:a05:6a00:a8a:b0:643:aa8d:8cd7 with SMTP id
- b10-20020a056a000a8a00b00643aa8d8cd7mr8363957pfl.32.1690210227606; 
- Mon, 24 Jul 2023 07:50:27 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
- by smtp.gmail.com with ESMTPSA id
- 7-20020aa79147000000b0065980654baasm7805653pfi.130.2023.07.24.07.50.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Jul 2023 07:50:26 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] dma-buf/sync_file: Fix docs syntax
-Date: Mon, 24 Jul 2023 07:49:41 -0700
-Message-ID: <20230724145000.125880-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
+X-Greylist: delayed 358 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Jul 2023 15:14:39 UTC
+Received: from mail.fris.de (mail.fris.de [116.203.77.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B420110E331
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 15:14:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 7DE21C00F4; Mon, 24 Jul 2023 17:08:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
+ t=1690211307; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=+Oq42VHLt9WI5LMY6xBEFPI3JfgTSegkWwKVtR1Zjh4=;
+ b=tjjWmyPLkeRE7G950imIX1wsfh9Mijw+PuJebrWHS6rh2+VuRM+89tQ39Nucm7QN6njm8v
+ 6+GVI7LPNZI5WlevhtLPivM0PpGgJhuK1QfAyV4k/55/SeRgbgaaZCjkV6rLPVmzuOpUgH
+ czr0LcoU5qIQqmg8nvc/pKS/Q7AcFu/oBC0lXonlyP2yCHbE/VOnuNjTVewMWcxTr7lF3/
+ tgy2p6v9WTcc0kvOWgQ/sxo5/NPy0Dq2wVN/tETIcBxQmQ6wtz/gLC7TISIcotq8LnIelb
+ 3R/NWaxPvUGaioyt11Ih1Rj88GNgUOYBgegmMv3eoCgW975x6x3hRSHtcq2wrQ==
+From: Frieder Schrempf <frieder@fris.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>
+Subject: [PATCH] drm: bridge: samsung-dsim: Fix init during host transfer
+Date: Mon, 24 Jul 2023 17:08:03 +0200
+Message-ID: <20230724150812.553044-1-frieder@fris.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,40 +49,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
- Greg Hackmann <ghackmann@google.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Adam Ford <aford173@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-Fixes the warning:
+In case the downstream bridge or panel uses DSI transfers before the
+DSI host was actually initialized through samsung_dsim_atomic_enable()
+which clears the stop state (LP11) mode, all transfers will fail.
 
-  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+This happens with downstream bridges that are controlled by DSI
+commands such as the tc358762.
 
-Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+As documented in [1] DSI hosts are expected to allow transfers
+outside the normal bridge enable/disable flow.
+
+To fix this make sure that stop state is cleared in
+samsung_dsim_host_transfer() which restores the previous
+behavior.
+
+We also factor out the common code to enable/disable stop state
+to samsung_dsim_set_stop_state().
+
+[1] https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
+
+Fixes: 0c14d3130654 ("drm: bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec")
+Reported-by: Tim Harvey <tharvey@gateworks.com>
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
- include/uapi/linux/sync_file.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Tim, could you please give this patch a try and report back if
+it fixes your problem? Thanks!
+---
+ drivers/gpu/drm/bridge/samsung-dsim.c | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-index 7e42a5b7558b..ff0a931833e2 100644
---- a/include/uapi/linux/sync_file.h
-+++ b/include/uapi/linux/sync_file.h
-@@ -56,7 +56,7 @@ struct sync_fence_info {
-  * @name:	name of fence
-  * @status:	status of fence. 1: signaled 0:active <0:error
-  * @flags:	sync_file_info flags
-- * @num_fences	number of fences in the sync_file
-+ * @num_fences:	number of fences in the sync_file
-  * @pad:	padding for 64-bit alignment, should always be zero
-  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
-  *		 fences in the sync_file
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index 043b8109e64a..92ea60e0fbf1 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1386,6 +1386,18 @@ static void samsung_dsim_disable_irq(struct samsung_dsim *dsi)
+ 	disable_irq(dsi->irq);
+ }
+ 
++static void samsung_dsim_set_stop_state(struct samsung_dsim *dsi, bool enable)
++{
++	u32 reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
++
++	if (enable)
++		reg &= ~DSIM_FORCE_STOP_STATE;
++	else
++		reg |= DSIM_FORCE_STOP_STATE;
++
++	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
++}
++
+ static int samsung_dsim_init(struct samsung_dsim *dsi)
+ {
+ 	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
+@@ -1445,15 +1457,12 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+ 				       struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+-	u32 reg;
+ 
+ 	if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+ 		samsung_dsim_set_display_mode(dsi);
+ 		samsung_dsim_set_display_enable(dsi, true);
+ 	} else {
+-		reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+-		reg &= ~DSIM_FORCE_STOP_STATE;
+-		samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
++		samsung_dsim_set_stop_state(dsi, false);
+ 	}
+ 
+ 	dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
+@@ -1463,16 +1472,12 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
+ 					struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+-	u32 reg;
+ 
+ 	if (!(dsi->state & DSIM_STATE_ENABLED))
+ 		return;
+ 
+-	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+-		reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+-		reg |= DSIM_FORCE_STOP_STATE;
+-		samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+-	}
++	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
++		samsung_dsim_set_stop_state(dsi, true);
+ 
+ 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+ }
+@@ -1775,6 +1780,8 @@ static ssize_t samsung_dsim_host_transfer(struct mipi_dsi_host *host,
+ 	if (ret)
+ 		return ret;
+ 
++	samsung_dsim_set_stop_state(dsi, false);
++
+ 	ret = mipi_dsi_create_packet(&xfer.packet, msg);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.41.0
 
