@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D867A75E6C0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:22:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FBE75E6C3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7C810E242;
-	Mon, 24 Jul 2023 01:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20B1910E244;
+	Mon, 24 Jul 2023 01:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6121410E23F;
- Mon, 24 Jul 2023 01:22:54 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5D0B10E245;
+ Mon, 24 Jul 2023 01:22:58 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D7E1760F1A;
- Mon, 24 Jul 2023 01:22:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B30C433CA;
- Mon, 24 Jul 2023 01:22:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3C9EB60EF3;
+ Mon, 24 Jul 2023 01:22:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0309AC433C9;
+ Mon, 24 Jul 2023 01:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690161773;
- bh=p3150Tr9KfnpZCm90ApKd8zUar7dbuqahcKUiRD4dro=;
+ s=k20201202; t=1690161777;
+ bh=smhMJeh2tTvzJTEQwAbSnZ5ZD1kI1suSZXATpsAAO1E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ohFMowadHD52BrryDbo/P1clAfR+dIyTkHwDs5nQeB/QdAtLUevGJj+q8xQMUTnuq
- KNMkHNF5iyq12/fw6TNPGpuRZ6yMrvj8sc9Hn6Gu1P4MIEr/r8+ZLuB8QgTalBkmAj
- Svm9UY6X9Y7e62Mnn4gOCIswdkcUuukVQzg5hxOin2W980KZzvbYc4DA5zpooliM+J
- JPx9oIDnQkbvXn9RmXqRZpg19bHlM8SGRxZ12HcHMJCcfI3cMGJ5weRBug9/Iv7QKa
- ha+0R8k/ggMDX9u5Ykb4BJLFz5WzQDWtTYdqL277kB3WIiFhidoQI8Cnlz62EEv8Qv
- 6oT6xE9VaEYKw==
+ b=jxVdCXjTb7XqocVf4KzdOc73hx7MGxQEGZT01qf7U+XMi7bryMRMrRMMUweaZv75Q
+ Bnfv9aMT6R/qZ0jwZlgsZnFc6b2DdbE66uKShpZburjrhCrK6Xh9cXU6rA1xKaBrMS
+ 22OAAYlI0w5UJN44v/x6ntceA5qq03BZAi92x/YfhVrq8cupsI0FvDlXZ80SKFwgmB
+ H9wnO5ZsdkKItFPHXIeVm/5RhViadSt0DIe5MvFGWvCpI179FhilJvuMlxf+LX6N0E
+ DPRuzdKPBFUULfT1KcfAQs1s0RAKSb/hm1ORG+v9rwBGk/CTQ5laeu0nEFA8hX4ii4
+ KjDlz0L8792xA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 26/41] drm/amdgpu: install stub fence into
- potential unused fence pointers
-Date: Sun, 23 Jul 2023 21:20:59 -0400
-Message-Id: <20230724012118.2316073-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 27/41] drm/amd/display: Apply 60us prefetch for
+ DCFCLK <= 300Mhz
+Date: Sun, 23 Jul 2023 21:21:00 -0400
+Message-Id: <20230724012118.2316073-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724012118.2316073-1-sashal@kernel.org>
 References: <20230724012118.2316073-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.40
@@ -59,63 +57,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hongkun.Zhang@amd.com,
- dri-devel@lists.freedesktop.org, airlied@linux.ie, gregkh@linuxfoundation.org,
- danijel.slivka@amd.com, Xinhui.Pan@amd.com, samuel.pitoiset@gmail.com,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Lang Yu <Lang.Yu@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Tom Chung <chiahsuan.chung@amd.com>,
+ sunpeng.li@amd.com, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Nevenko Stupar <nevenko.stupar@amd.com>, Alvin Lee <alvin.lee2@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Jun Lei <jun.lei@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lang Yu <Lang.Yu@amd.com>
+From: Alvin Lee <alvin.lee2@amd.com>
 
-[ Upstream commit 187916e6ed9d0c3b3abc27429f7a5f8c936bd1f0 ]
+[ Upstream commit 7e60ab4eb3e4ba2adac46d737fdbbc5732bebd58 ]
 
-When using cpu to update page tables, vm update fences are unused.
-Install stub fence into these fence pointers instead of NULL
-to avoid NULL dereference when calling dma_fence_wait() on them.
+[Description]
+- Previously we wanted to apply extra 60us of prefetch for min DCFCLK
+  (200Mhz), but DCFCLK can be calculated to be 201Mhz which underflows
+  also without the extra prefetch
+- Instead, apply the the extra 60us prefetch for any DCFCLK freq <=
+  300Mhz
 
-Suggested-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Lang Yu <Lang.Yu@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Nevenko Stupar <nevenko.stupar@amd.com>
+Reviewed-by: Jun Lei <jun.lei@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Alvin Lee <alvin.lee2@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c    | 4 ++--
+ .../gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.h    | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 003aa9e47085e..2fa7b68c5966d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -1352,6 +1352,7 @@ struct amdgpu_bo_va *amdgpu_vm_bo_add(struct amdgpu_device *adev,
- 	amdgpu_vm_bo_base_init(&bo_va->base, vm, bo);
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+index 2bb768413c92a..19f55657272e4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+@@ -808,7 +808,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+ 					v->SwathHeightC[k],
+ 					TWait,
+ 					(v->DRAMSpeedPerState[mode_lib->vba.VoltageLevel] <= MEM_STROBE_FREQ_MHZ ||
+-						v->DCFCLKPerState[mode_lib->vba.VoltageLevel] <= MIN_DCFCLK_FREQ_MHZ) ?
++						v->DCFCLKPerState[mode_lib->vba.VoltageLevel] <= DCFCLK_FREQ_EXTRA_PREFETCH_REQ_MHZ) ?
+ 							mode_lib->vba.ip.min_prefetch_in_strobe_us : 0,
+ 					/* Output */
+ 					&v->DSTXAfterScaler[k],
+@@ -3289,7 +3289,7 @@ void dml32_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 							v->swath_width_chroma_ub_this_state[k],
+ 							v->SwathHeightYThisState[k],
+ 							v->SwathHeightCThisState[k], v->TWait,
+-							(v->DRAMSpeedPerState[i] <= MEM_STROBE_FREQ_MHZ || v->DCFCLKState[i][j] <= MIN_DCFCLK_FREQ_MHZ) ?
++							(v->DRAMSpeedPerState[i] <= MEM_STROBE_FREQ_MHZ || v->DCFCLKState[i][j] <= DCFCLK_FREQ_EXTRA_PREFETCH_REQ_MHZ) ?
+ 									mode_lib->vba.ip.min_prefetch_in_strobe_us : 0,
  
- 	bo_va->ref_count = 1;
-+	bo_va->last_pt_update = dma_fence_get_stub();
- 	INIT_LIST_HEAD(&bo_va->valids);
- 	INIT_LIST_HEAD(&bo_va->invalids);
+ 							/* Output */
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.h b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.h
+index e92eee2c664d0..a475775bc3894 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.h
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.h
+@@ -52,7 +52,7 @@
+ #define BPP_BLENDED_PIPE 0xffffffff
  
-@@ -2061,7 +2062,8 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm)
- 		vm->update_funcs = &amdgpu_vm_cpu_funcs;
- 	else
- 		vm->update_funcs = &amdgpu_vm_sdma_funcs;
--	vm->last_update = NULL;
-+
-+	vm->last_update = dma_fence_get_stub();
- 	vm->last_unlocked = dma_fence_get_stub();
- 	vm->last_tlb_flush = dma_fence_get_stub();
+ #define MEM_STROBE_FREQ_MHZ 1600
+-#define MIN_DCFCLK_FREQ_MHZ 200
++#define DCFCLK_FREQ_EXTRA_PREFETCH_REQ_MHZ 300
+ #define MEM_STROBE_MAX_DELIVERY_TIME_US 60.0
  
-@@ -2186,7 +2188,7 @@ int amdgpu_vm_make_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm)
- 		goto unreserve_bo;
- 
- 	dma_fence_put(vm->last_update);
--	vm->last_update = NULL;
-+	vm->last_update = dma_fence_get_stub();
- 	vm->is_compute_context = true;
- 
- 	/* Free the shadow bo for compute VM */
+ struct display_mode_lib;
 -- 
 2.39.2
 
