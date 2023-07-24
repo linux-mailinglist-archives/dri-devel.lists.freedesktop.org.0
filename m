@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C8E75EDB5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:34:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9D675EDB8
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:34:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 871BF10E285;
-	Mon, 24 Jul 2023 08:34:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF2C10E287;
+	Mon, 24 Jul 2023 08:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8E8310E285
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:34:44 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1qNr1d-0008D2-KF; Mon, 24 Jul 2023 10:34:41 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1qNr1a-001iLG-LE; Mon, 24 Jul 2023 10:34:38 +0200
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1qNr1a-000NGv-0X;
- Mon, 24 Jul 2023 10:34:38 +0200
-Message-ID: <3edf59510eda9806e254479cde3e1c8a3670f2d1.camel@pengutronix.de>
-Subject: Re: [PATCH v3 1/1] drm/i915: Move abs_diff() to math.h
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jani Nikula
- <jani.nikula@intel.com>, Imre Deak <imre.deak@intel.com>, Jiri Slaby
- <jirislaby@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Alexey Dobriyan <adobriyan@gmail.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
- linux-fbdev@vger.kernel.org
-Date: Mon, 24 Jul 2023 10:34:38 +0200
-In-Reply-To: <20230724082511.3225-1-andriy.shevchenko@linux.intel.com>
-References: <20230724082511.3225-1-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94CA510E286
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:34:46 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4R8YPH6P7PzBRx5M
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 16:34:43 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1690187683; x=1692779684; bh=xivezc9+8JHiL00mjjAuXmu9/dh
+ 6CnD4VSummcQwwCI=; b=oWaxq45Ozhy0XRIkwsph6ljsedBLPbXkY+NRRSkVFKn
+ pGajiMAgayA4DV00tcw6V5clYeTsa3Ykd6DTbajnm1UDDxRRABwdk0D2ScUnVas5
+ y5iFjuQcf0Xt3SUBardnqmDWZLfgpWg2EGGpmojPmBkeet8l1dJL7aoo6iY2tcr0
+ DJsE8ofwcGrSIs+DcrsfSJ40ktsvCR55NPFblEg2PCRvsd8CDzTS6RDWNpwNBxxd
+ RYOHO4qykFKSyEc/9Qo/inAvqSUvWBJ4/wuOSsysNznk9wkg/HDp/ZjAX5qugYcp
+ SisL4sERndhJxlskaCvk3DCO2mIa6FibhYW+6kx896A==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id HH4lrdkF6aJW for <dri-devel@lists.freedesktop.org>;
+ Mon, 24 Jul 2023 16:34:43 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4R8YPH40vFzBR1P0;
+ Mon, 24 Jul 2023 16:34:43 +0800 (CST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Date: Mon, 24 Jul 2023 16:34:43 +0800
+From: sunran001@208suo.com
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/pm: Clean up errors in
+ smu11_driver_if_sienna_cichlid.h
+In-Reply-To: <20230724083344.9285-1-xujianghui@cdjrlc.com>
+References: <20230724083344.9285-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <8e6eda082855e1b928253669fbb49316@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>,
- Nikita Shubin <nikita.shubin@maquefel.me>, Stephen Boyd <sboyd@kernel.org>,
- Helge Deller <deller@gmx.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andi Shyti <andi.shyti@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mo, 2023-07-24 at 11:25 +0300, Andy Shevchenko wrote:
-> abs_diff() belongs to math.h. Move it there.
-> This will allow others to use it.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Jiri Slaby <jirislaby@kernel.org> # tty/serial
+Fix the following errors reported by checkpatch:
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de> # gpu/ipu-v3
+ERROR: trailing whitespace
 
-regards
-Philipp
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+  drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h 
+b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
+index c5e26d619bf0..8ec588248aac 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
+@@ -30,7 +30,7 @@
+
+  #define ENABLE_DEBUG_FEATURES
+
+-// Firmware features
++// Firmware features
+  // Feature Control Defines
+  #define FEATURE_CCLK_DPM_BIT                 0
+  #define FEATURE_FAN_CONTROLLER_BIT           1
+@@ -92,7 +92,7 @@
+  #define FEATURE_ZSTATES_ECO_BIT             57
+  #define FEATURE_CC6_BIT                     58
+  #define FEATURE_DS_UMCCLK_BIT               59
+-#define FEATURE_DS_HSPCLK_BIT               60
++#define FEATURE_DS_HSPCLK_BIT               60
+  #define NUM_FEATURES                        61
+
+  typedef struct {
