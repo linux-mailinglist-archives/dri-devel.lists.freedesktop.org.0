@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D41975F9D8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDA075F9E8
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 16:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2D6389E36;
-	Mon, 24 Jul 2023 14:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DCA10E322;
+	Mon, 24 Jul 2023 14:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD41289E36
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 14:27:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 750D310E322
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 14:31:55 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 61D8E21879;
- Mon, 24 Jul 2023 14:27:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690208851; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G5/Wqj8g7HBy9OetDzWJZJrM4czQekeGCqJ1tMFNRiQ=;
- b=z1XvGTz74Mvtt5kszolPZxQ0Q2TQb+CDaAwMygZgvlbhx4uBmAJpo4um2OEheK0YMIrJQW
- 1MshgLbpv2zdirXAMTvrt/YzREu5OZ7tDTHpXK5FgdUmLZTQMHPF5hnnou/YnaKfDKMwth
- 1hwQWsk2C5zhASofFkULCPldfJ7jYwk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690208851;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G5/Wqj8g7HBy9OetDzWJZJrM4czQekeGCqJ1tMFNRiQ=;
- b=y22gDFTv1JbDlFxE3kzzeXxwOjvd0dnUoQ4rhcOAnu4AadYk0XBZxIaP8SVe7gKr6MQGEB
- cTPezthPrbtQ3LDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 346AC138E8;
- Mon, 24 Jul 2023 14:27:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Xw7DC1OKvmToXQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 24 Jul 2023 14:27:31 +0000
-Message-ID: <fb90dd22-b908-d65a-5272-c2f94aa0113d@suse.de>
-Date: Mon, 24 Jul 2023 16:27:30 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C230061187;
+ Mon, 24 Jul 2023 14:31:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E419C433C8;
+ Mon, 24 Jul 2023 14:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690209114;
+ bh=dksxXLhwSPe4BRdGB7wqMekFr7I5vTyPJlU/kSDu0ZE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BuB5PeayfbKDQdYIOdkQ+l8yPS/3V7cliz69ztIy4uV4GUk12s1+he55o+Mgv7pT3
+ OiRCD6Xuqz+tg7z9bS9F3z4v4a+2uX/oIgIu9W7GkumIWtHQLJM+bf2+f+FJuaymGA
+ anIUtwF7K+UVaA2vlV8QnYF4cdypZQx13x7fpxc1HBuZNuXPHkF8bP+kacyo/Sy5A2
+ Gl/4ceGLKE7PBQ1rORZ7ELXUj+FapLowpiV86RFZ+hvmQxudrMK5r99Dk98Pajx311
+ ivFYuuCqmxzJ+Z6kWT8bM7ES0pkT8HAXkpwnIP4n9BzXOqb/TLQO4gME6jonIVn9dY
+ xDQTtIc7f7UIQ==
+Received: (nullmailer pid 3432565 invoked by uid 1000);
+ Mon, 24 Jul 2023 14:31:52 -0000
+Date: Mon, 24 Jul 2023 08:31:52 -0600
+From: Rob Herring <robh@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 2/3] dt-bindings: display: panel: Add panels based on
+ ILITEK ILI9806E
+Message-ID: <20230724143152.GA3430423-robh@kernel.org>
+References: <20230719152147.355486-1-luca.ceresoli@bootlin.com>
+ <20230719152147.355486-2-luca.ceresoli@bootlin.com>
+ <20230719190254.GA578754-robh@kernel.org>
+ <20230720155238.6fb8ac8c@booty>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next] drm/fb-helper: Remove unused inline function
- drm_fb_helper_defio_init()
-To: YueHaibing <yuehaibing@huawei.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-References: <20230721120902.32920-1-yuehaibing@huawei.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230721120902.32920-1-yuehaibing@huawei.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------q495lpsBuTbuNPWhItYd10zh"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720155238.6fb8ac8c@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,75 +58,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------q495lpsBuTbuNPWhItYd10zh
-Content-Type: multipart/mixed; boundary="------------FwRuAiwu8Fnd0TU9htv3REIJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: YueHaibing <yuehaibing@huawei.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <fb90dd22-b908-d65a-5272-c2f94aa0113d@suse.de>
-Subject: Re: [PATCH -next] drm/fb-helper: Remove unused inline function
- drm_fb_helper_defio_init()
-References: <20230721120902.32920-1-yuehaibing@huawei.com>
-In-Reply-To: <20230721120902.32920-1-yuehaibing@huawei.com>
+On Thu, Jul 20, 2023 at 03:52:38PM +0200, Luca Ceresoli wrote:
+> Hello Rob,
+> 
+> thanks for reviewing.
+> 
+> On Wed, 19 Jul 2023 13:02:54 -0600
+> Rob Herring <robh@kernel.org> wrote:
+> 
+> > On Wed, Jul 19, 2023 at 05:21:46PM +0200, Luca Ceresoli wrote:
+> > > Add bindings for LCD panels based on the ILITEK ILI9806E RGB controller
+> > > connected over SPI and the "ShenZhen New Display Co NDS040480800-V3"
+> > > 480x800 panel based on it.
+> > > 
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > ---
+> > >  .../display/panel/ilitek,ili9806e.yaml        | 69 +++++++++++++++++++
+> > >  MAINTAINERS                                   |  6 ++
+> > >  2 files changed, 75 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
+> > > new file mode 100644
+> > > index 000000000000..42abc6923065
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9806e.yaml
+> > > @@ -0,0 +1,69 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/panel/ilitek,ili9806e.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Ilitek ILI9806E display panels
+> > > +
+> > > +maintainers:
+> > > +  - Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > +
+> > > +description:
+> > > +  This binding is for display panels using an Ilitek ILI9806E controller in
+> > > +  SPI mode.
+> > > +
+> > > +allOf:
+> > > +  - $ref: panel-common.yaml#  
+> > 
+> > A SPI device should reference spi-peripheral-props.yaml as well.
+> > 
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          # ShenZhen New Display Co 3.97" 480x800 RGB a-SI TFT LCD
+> > > +          - newdisplay,nds040480800-v3
+> > > +      - const: ilitek,ili9806e
+> > > +
+> > > +  reg: true  
+> > 
+> > maxItems: 1
+> > 
+> > > +  spi-max-frequency: true
+> > > +  reset-gpios: true
+> > > +  backlight: true
+> > > +  port: true  
+> > 
+> > Drop all these and ...
+> > 
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - port
+> > > +
+> > > +additionalProperties: false  
+> > 
+> > ... use "unevaluatedProperties" instead.
+> > 
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    backlight: backlight {
+> > > +        compatible = "gpio-backlight";
+> > > +        gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
+> > > +    };  
+> > 
+> > The exact backlight is outside the scope of this binding and should be 
+> > dropped from the example.
+> 
+> As this comes from copy-pasting from the bindings yaml for another
+> panel, would it be useful if I send a patch to remove it?
 
---------------FwRuAiwu8Fnd0TU9htv3REIJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Yes.
 
-SGkNCg0KQW0gMjEuMDcuMjMgdW0gMTQ6MDkgc2NocmllYiBZdWVIYWliaW5nOg0KPiBTaW5j
-ZSBjb21taXQgOGU4NmRlZTAyMjUzICgiZHJtL2ZiLWhlbHBlcjogUmVtb3ZlIGRybV9mYl9o
-ZWxwZXJfZGVmaW9faW5pdCgpIGFuZCB1cGRhdGUgZG9jcyIpDQo+IHRoaXMgaW5saW5lIGhl
-bHBlciBub3QgdXNlZCBhbnltb3JlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWXVlSGFpYmlu
-ZyA8eXVlaGFpYmluZ0BodWF3ZWkuY29tPg0KDQpZb3UgbmVlZCB0byBhZGQgYSBGaXhlczog
-dGFnIGhlcmUgd2l0aCB0aGUgY29tbWl0IHlvdSBtZW50aW9uZWQgaW4gdGhlIA0KZGVzY3Jp
-cHRpb24uDQoNCldpdGggdGhpcyBmaXhlZCwgeW91IGNhbiBhbHNvIGFkZA0KDQpSZXZpZXdl
-ZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+ICAgaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBl
-ci5oIHwgNSAtLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA1IGRlbGV0aW9ucygtKQ0KPiAN
-Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaCBiL2luY2x1ZGUv
-ZHJtL2RybV9mYl9oZWxwZXIuaA0KPiBpbmRleCA0ODYzYjBmODI5OWUuLjM3NTczN2ZkNmMz
-NiAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oDQo+ICsrKyBi
-L2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaA0KPiBAQCAtMzY4LDExICszNjgsNiBAQCBz
-dGF0aWMgaW5saW5lIHZvaWQgZHJtX2ZiX2hlbHBlcl9kZWZlcnJlZF9pbyhzdHJ1Y3QgZmJf
-aW5mbyAqaW5mbywNCj4gICB7DQo+ICAgfQ0KPiAgIA0KPiAtc3RhdGljIGlubGluZSBpbnQg
-ZHJtX2ZiX2hlbHBlcl9kZWZpb19pbml0KHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxw
-ZXIpDQo+IC17DQo+IC0JcmV0dXJuIC1FTk9ERVY7DQo+IC19DQo+IC0NCj4gICBzdGF0aWMg
-aW5saW5lIHZvaWQgZHJtX2ZiX2hlbHBlcl9zZXRfc3VzcGVuZChzdHJ1Y3QgZHJtX2ZiX2hl
-bHBlciAqZmJfaGVscGVyLA0KPiAgIAkJCQkJICAgICBib29sIHN1c3BlbmQpDQo+ICAgew0K
-DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
-VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0
-NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXll
-cnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51
-ZXJuYmVyZykNCg==
-
---------------FwRuAiwu8Fnd0TU9htv3REIJ--
-
---------------q495lpsBuTbuNPWhItYd10zh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmS+ilIFAwAAAAAACgkQlh/E3EQov+Bk
-fxAAsWTfoKbmTMl6gphpxk0rCn+ZWj8Sq2xpBiaQA+IWe/3MaxDwetfodNiiQvYwzQQXIog1G6EN
-TvsilfLh3Y0CP8OgGvMHpa2V5e8Ujagdn7j1kOvHHqpfaN4Am22Eoj3i4zgA9sdh/jJLKGmwDKx4
-sLk+6ueZcO8OjR4Lo3L8e3noJlmC5RCj9WbJUK4SJZ2DTx/M3MVznkSW1QvEMUcZcHiPCWC7egQl
-ihkWds3M3oX8kTsooUVkwdsKayEvfSyHfg4byKvv6oZavWb6uaHap33Gj7Nl82TPigbmx5i2zHkB
-GZDmQ4knpRqS9WC673h/Onusb+vtA4VEJCKnPegLkeKSVw8SkL3n+Wna53IGF4PoSc0WjZqKKVIG
-n9noqgPbjOzAH9X2z3miMwu/z9eLSJGefyFK1NtdRvMedz3b+kYxcJ+2XamPUlB9cdtTCuYS1VEq
-gfjdlPeyv+CDYVWiEWr/rWd+OphWewM7X9gSOimJWC1aVOCrwT1y/XRssxvYo+M1yonGcDBUKjAp
-sDJ0vNsrENyLsazUVdnJIDDxZJWbfF33WA7olQ1fyLhPRu5RBoUyTo8cl+v2rXx/Gvj1zGV5rSgU
-d9V8xT2QIY0AC4l/diF0Jbll3kV6Cyy6cgxwVVVaktC0ByrDpHNq1xk3e8N60Aiv0sdbYF2LTbLk
-YRo=
-=LhwO
------END PGP SIGNATURE-----
-
---------------q495lpsBuTbuNPWhItYd10zh--
+Rob
