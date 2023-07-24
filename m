@@ -1,37 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C618E75EE57
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:51:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2CD75EE66
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:54:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A139310E28D;
-	Mon, 24 Jul 2023 08:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB9510E079;
+	Mon, 24 Jul 2023 08:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5EB1610E28D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:51:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5CC6DE0;
- Mon, 24 Jul 2023 01:51:48 -0700 (PDT)
-Received: from [10.57.34.62] (unknown [10.57.34.62])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03B6F3F6C4;
- Mon, 24 Jul 2023 01:51:01 -0700 (PDT)
-Message-ID: <ecceef7c-8243-5770-c449-6f96636106b4@arm.com>
-Date: Mon, 24 Jul 2023 09:51:02 +0100
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE7010E290
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:54:28 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4R8Yr16BZ7zBRx5C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 16:54:25 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1690188865; x=1692780866; bh=chwR9bvFIg7iBGHVcSR9ITXkkoJ
+ jDG51eV1JMt2fqig=; b=SFzxcNQJfmH2iWnlPIODSRbG3ucbAh4R+FuRW4eH1H2
+ xCLYm0bqatfPCsRUMZaQraniglwPE3h4b42OhQ/l2fS814Xikw7YYP/6Sg2hYO6H
+ QB+9lAlOfSPvoc5d7PO6GfoM7Pnkyh3SgHiV0ygy12RlobLuE+hbmDVtPhZsxZOD
+ H5o/yH76RDH/rOxrsYh3Y4AUrj2IjKIXgfaHdfy1bn+rXDvheqc5nsMPTD9QTVDQ
+ OkozNrYdTWPp+jo0HUPOBHSu4EM9qEdRNECXA9mzAlJObAOP0fwcyyzd+0/bCDMH
+ wXbk+gcGEwCrMjHjAdCc1RtOPKB5YcQXR1ElCmI/ilA==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id SGX5WYfYFR-n for <dri-devel@lists.freedesktop.org>;
+ Mon, 24 Jul 2023 16:54:25 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4R8Yr14866zBKnld;
+ Mon, 24 Jul 2023 16:54:25 +0800 (CST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] drm/panfrost: Sync IRQ by job's timeout handler
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-References: <20230723000142.206908-1-dmitry.osipenko@collabora.com>
- <20230724085723.5e574bff@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230724085723.5e574bff@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Date: Mon, 24 Jul 2023 16:54:25 +0800
+From: sunran001@208suo.com
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/pm: Clean up errors in smu_v11_0_7_pptable.h
+In-Reply-To: <20230724085303.9607-1-xujianghui@cdjrlc.com>
+References: <20230724085303.9607-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <c5575527bac1642f2cf896ae0ee9f582@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,58 +60,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/07/2023 07:57, Boris Brezillon wrote:
-> On Sun, 23 Jul 2023 03:01:42 +0300
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> 
->> Panfrost IRQ handler may stuck for a long time, for example this happens
->> when there is a bad HDMI connection and HDMI handler takes a long time to
->> finish processing, holding Panfrost. Make Panfrost's job timeout handler
->> to sync IRQ before checking fence signal status in order to prevent
->> spurious job timeouts due to a slow IRQ processing.
->>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>
->> Changelog:
->>
->> v2: - Moved synchronize_irq() after first signal-check to avoid unnecessary
->>       blocking on syncing.
->>
->>     - Added warn message about high interrupt latency.
->>
->>  drivers/gpu/drm/panfrost/panfrost_job.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->> index dbc597ab46fb..a7663d7847a2 100644
->> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->> @@ -720,6 +720,13 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->>  	if (dma_fence_is_signaled(job->done_fence))
->>  		return DRM_GPU_SCHED_STAT_NOMINAL;
->>  
->> +	synchronize_irq(pfdev->js->irq);
-> 
-> Can we add a comment here explaining why we're doing that?
+Fix the following errors reported by checkpatch:
 
-Agreed, with a comment added:
+ERROR: trailing whitespace
+ERROR: open brace '{' following struct go on the same line
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+  .../amd/pm/swsmu/inc/smu_v11_0_7_pptable.h    | 41 +++++++++----------
+  1 file changed, 19 insertions(+), 22 deletions(-)
 
->> +
->> +	if (dma_fence_is_signaled(job->done_fence)) {
->> +		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
->> +		return DRM_GPU_SCHED_STAT_NOMINAL;
->> +	}
->> +
->>  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
->>  		js,
->>  		job_read(pfdev, JS_CONFIG(js)),
-> 
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_7_pptable.h 
+b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_7_pptable.h
+index 1cb399dbc7cc..64d60d48846a 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_7_pptable.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_7_pptable.h
+@@ -42,23 +42,23 @@
+  #define SMU_11_0_7_PP_POWERSAVINGCLOCK_VERSION            0x01          
+  // Power Saving Clock Table Version 1.00
 
+  enum SMU_11_0_7_ODFEATURE_CAP {
+-    SMU_11_0_7_ODCAP_GFXCLK_LIMITS = 0,
+-    SMU_11_0_7_ODCAP_GFXCLK_CURVE,
+-    SMU_11_0_7_ODCAP_UCLK_LIMITS,
+-    SMU_11_0_7_ODCAP_POWER_LIMIT,
+-    SMU_11_0_7_ODCAP_FAN_ACOUSTIC_LIMIT,
+-    SMU_11_0_7_ODCAP_FAN_SPEED_MIN,
+-    SMU_11_0_7_ODCAP_TEMPERATURE_FAN,
+-    SMU_11_0_7_ODCAP_TEMPERATURE_SYSTEM,
+-    SMU_11_0_7_ODCAP_MEMORY_TIMING_TUNE,
+-    SMU_11_0_7_ODCAP_FAN_ZERO_RPM_CONTROL,
+-    SMU_11_0_7_ODCAP_AUTO_UV_ENGINE,
+-    SMU_11_0_7_ODCAP_AUTO_OC_ENGINE,
+-    SMU_11_0_7_ODCAP_AUTO_OC_MEMORY,
++    SMU_11_0_7_ODCAP_GFXCLK_LIMITS = 0,
++    SMU_11_0_7_ODCAP_GFXCLK_CURVE,
++    SMU_11_0_7_ODCAP_UCLK_LIMITS,
++    SMU_11_0_7_ODCAP_POWER_LIMIT,
++    SMU_11_0_7_ODCAP_FAN_ACOUSTIC_LIMIT,
++    SMU_11_0_7_ODCAP_FAN_SPEED_MIN,
++    SMU_11_0_7_ODCAP_TEMPERATURE_FAN,
++    SMU_11_0_7_ODCAP_TEMPERATURE_SYSTEM,
++    SMU_11_0_7_ODCAP_MEMORY_TIMING_TUNE,
++    SMU_11_0_7_ODCAP_FAN_ZERO_RPM_CONTROL,
++    SMU_11_0_7_ODCAP_AUTO_UV_ENGINE,
++    SMU_11_0_7_ODCAP_AUTO_OC_ENGINE,
++    SMU_11_0_7_ODCAP_AUTO_OC_MEMORY,
+      SMU_11_0_7_ODCAP_FAN_CURVE,
+      SMU_11_0_ODCAP_AUTO_FAN_ACOUSTIC_LIMIT,
+-    SMU_11_0_7_ODCAP_POWER_MODE,
+-    SMU_11_0_7_ODCAP_COUNT,
++    SMU_11_0_7_ODCAP_POWER_MODE,
++    SMU_11_0_7_ODCAP_COUNT,
+  };
+
+  enum SMU_11_0_7_ODFEATURE_ID {
+@@ -130,8 +130,7 @@ enum SMU_11_0_7_PWRMODE_SETTING {
+  };
+  #define SMU_11_0_7_MAX_PMSETTING      32        //Maximum Number of 
+PowerMode Settings
+
+-struct smu_11_0_7_overdrive_table
+-{
++struct smu_11_0_7_overdrive_table {
+      uint8_t  revision;                                        
+//Revision = SMU_11_0_7_PP_OVERDRIVE_VERSION
+      uint8_t  reserve[3];                                      //Zero 
+filled field reserved for future use
+      uint32_t feature_count;                                   //Total 
+number of supported features
+@@ -160,8 +159,7 @@ enum SMU_11_0_7_PPCLOCK_ID {
+  };
+  #define SMU_11_0_7_MAX_PPCLOCK      16          //Maximum Number of PP 
+Clocks
+
+-struct smu_11_0_7_power_saving_clock_table
+-{
++struct smu_11_0_7_power_saving_clock_table {
+      uint8_t  revision;                                        
+//Revision = SMU_11_0_7_PP_POWERSAVINGCLOCK_VERSION
+      uint8_t  reserve[3];                                      //Zero 
+filled field reserved for future use
+      uint32_t count;                                           
+//power_saving_clock_count = SMU_11_0_7_PPCLOCK_COUNT
+@@ -169,8 +167,7 @@ struct smu_11_0_7_power_saving_clock_table
+      uint32_t min[SMU_11_0_7_MAX_PPCLOCK];                       
+//PowerSavingClock Mode Clock Minimum array In MHz
+  };
+
+-struct smu_11_0_7_powerplay_table
+-{
++struct smu_11_0_7_powerplay_table {
+        struct atom_common_table_header header;       //For 
+sienna_cichlid, header.format_revision = 15, header.content_revision = 0
+        uint8_t  table_revision;                      //For 
+sienna_cichlid, table_revision = 2
+        uint16_t table_size;                          //Driver portion 
+table size. The offset to smc_pptable including header size
+@@ -178,7 +175,7 @@ struct smu_11_0_7_powerplay_table
+        uint32_t golden_revision;                     //PPGen use only: 
+PP Table Revision on the Golden Data Base
+        uint16_t format_id;                           //PPGen use only: 
+PPTable for different ASICs. For sienna_cichlid this should be 0x80
+        uint32_t platform_caps;                       
+//POWERPLAYABLE::ulPlatformCaps
+-
++
+        uint8_t  thermal_controller_type;             //one of 
+SMU_11_0_7_PP_THERMALCONTROLLER
+
+        uint16_t small_power_limit1;
