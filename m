@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C964B76014F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2B3760157
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:40:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E753C10E36A;
-	Mon, 24 Jul 2023 21:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B868210E36C;
+	Mon, 24 Jul 2023 21:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6205F10E363;
- Mon, 24 Jul 2023 21:39:36 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id
- 5614622812f47-3a3ad1f39ebso3750302b6e.1; 
- Mon, 24 Jul 2023 14:39:36 -0700 (PDT)
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
+ [IPv6:2607:f8b0:4864:20::c2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D8310E36B;
+ Mon, 24 Jul 2023 21:40:27 +0000 (UTC)
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ 006d021491bc7-56347da4a50so3002466eaf.2; 
+ Mon, 24 Jul 2023 14:40:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690234775; x=1690839575;
+ d=gmail.com; s=20221208; t=1690234826; x=1690839626;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MQvicdLmL4lt+yOX/xSjVt1t0bXl8fj+TJA76nTMosM=;
- b=V79dFufsH0cq8p82YJZTa6JJu805tKEi0siRmc7/XqFp1XYZLKgJRXMCdoYJjQaMoy
- 3ueByAhffU3P9aRI3PW838rHnrnT34TzFvgDdxp6pOVBQTn+zHRJ94uCjW7qREnx8NBB
- pY4ACAMGjVbc9FxaFOFrw8Gy8Ylf/4mYjTIvy4qOwKIELL05P1mWTG1SEy+ufYq2EnAb
- a7l0qq3D+2hFJBQrUP2nMEdBM+Fz6oFjxQYhI0AsMhCoAN+/mVpw3BFJqCWpPlWEc39J
- YHSxAQ8fsoBlJKPiJrKBpxHvV27wo0km4mpy9TJPHYtNu5QDtet6YpHC5Jzobcb49tYq
- zt9g==
+ bh=YMfua460X0apacBl5wqrH5vgW/88RJ55cY6fU8YFXfA=;
+ b=lYGdh2YK5Fg5BkCX4oqNyWwUPhziLbMzoDETdbKONtA8QpFD85AFZjCKIcbkmTVQjw
+ A5RqQGx5iyo2Z9yBn8ODp0Uh3rOiv4RrRXgfB8zqxF351PtJ1FkbDMXLcpmqeZsF9o29
+ sSN68FinuSEYXQzJdt4aJvOyV4ebADAxreHn57F4uRnuYYCrnxFnXs0242YDPBTIdwe2
+ zf91jhq+OmAGmLVUT2zmW/JIjDb/KR6gdQhpD8uYkVu6era/3U1tS8qzl7d9AJVfutNN
+ E2TZUe4gQlfOA9F45aV8ifXO/7n07blK0+bzPw88tZ1KHPT35L2PZxKyWAt6Rbv3xG6p
+ RSkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690234775; x=1690839575;
+ d=1e100.net; s=20221208; t=1690234826; x=1690839626;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MQvicdLmL4lt+yOX/xSjVt1t0bXl8fj+TJA76nTMosM=;
- b=DtFKCsqGX5kjhESTgOFe0X6SQxXK2r/nsZQsQQBZDic0AEd/mWROKLyxtUMFEEryaA
- plQfnxw+bD4HTUqLTcikvdmlkFM7OZeE5n5OTVGHL+TCvszMrkLq2TQ8gI0bGzo/vN0y
- ApIq08af58ZBM7fsWW6SPokZAAx9lBL/NhGNWkBr3oxZMx/uUuv9scRLrHi1+PZ65mF1
- je3qctw3hw1EQCaYqG6mtDQe2FQm/GR/mXa826LQu5sAhI4pY2oxE8e+RTnhIwo+vOMj
- zPK4gNA5RsO4nmiisoRwmQYoVpcjlXhgrZl8BpkfxLZBeq8/Em2SUFbA0XwEkP8kie+I
- imiA==
-X-Gm-Message-State: ABy/qLaxBI+cSiEbpLnBSSITEcBTDY4WYNTkfC0HuE8UDa1so9GQJvQo
- 41gn/XsZYAckJ2TfyhHj5AOsqcpy3GVfc6EcFT2clRAn
-X-Google-Smtp-Source: APBJJlEMvcyH9ZXex3ywXk18jFbBc0CodET+fnbeLWDQUctaVJbHZTMwvtITsVZodqjKH5wz1nAo4hnF/svGcBwq5Zo=
-X-Received: by 2002:a05:6808:189b:b0:3a3:652e:8862 with SMTP id
- bi27-20020a056808189b00b003a3652e8862mr352635oib.2.1690234775301; Mon, 24 Jul
- 2023 14:39:35 -0700 (PDT)
+ bh=YMfua460X0apacBl5wqrH5vgW/88RJ55cY6fU8YFXfA=;
+ b=Q7inTPIzrhc7xPzAz8Z0OHrAUUcHXN5TgnRH29mzhL+TqKjXepMB27Y3tXoAvgvTLZ
+ +HZKe8O7ITSMaJ++LBqHnaUvw/HPeqPdwU/20ryEo/hRmCCi90VN6l7g6gJ+dBB8wjGy
+ 8xn5xRAZIFH0n4ZiX4CvMQnHPxoQ0PqkC7d8Tmi9WyD4hIxY4cmuiWk2Wy+GMT2hdiZh
+ DbIjbtHbqkW6wLQwbra6ZT9gY71kqt9k9ZBUfiuaH2xE+y1nq3d3HMmeC4M8EoFsKRvH
+ LPPWvN0IDf1TsySLOBkWJPtySSnxUEPZDVsWqbRigFr3JwzUUseWSYyDf0k/EUU1LZWU
+ LyQA==
+X-Gm-Message-State: ABy/qLZF9Lv/LTxnI2dQ+N9QLML5w09IJDSZ/6NR5e07wkVi9b2pVGhO
+ LiUG1XYGJrlG+TNK/b8RmwFpF8rXOjtpjjFchio=
+X-Google-Smtp-Source: APBJJlE8rJYaFVv1WEucDG903MNh9x+vPzM+y7XkVmyGxftiixebysG6dVf3Mz8h4nHXdpxCd9ypl8ARGVcIR5CCaFU=
+X-Received: by 2002:a4a:7607:0:b0:566:6b6a:e1f with SMTP id
+ t7-20020a4a7607000000b005666b6a0e1fmr8635081ooc.7.1690234826537; Mon, 24 Jul
+ 2023 14:40:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230724032920.7892-1-xujianghui@cdjrlc.com>
- <d88773902f7a8536a8be83ead18981b3@208suo.com>
-In-Reply-To: <d88773902f7a8536a8be83ead18981b3@208suo.com>
+References: <20230724033555.8039-1-xujianghui@cdjrlc.com>
+ <e30b4bea0907fe4f94459e0afd5c24a9@208suo.com>
+In-Reply-To: <e30b4bea0907fe4f94459e0afd5c24a9@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Jul 2023 17:39:24 -0400
-Message-ID: <CADnq5_M7x2js7C4fAUVsOd6YAfExqjVW5AapiqDxRQo2e4stBA@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: add missing spaces after ', ' and else should
- follow close brace '}'
+Date: Mon, 24 Jul 2023 17:40:15 -0400
+Message-ID: <CADnq5_M_Mu+L2HNBbWn5Q1jEmxXSPAd-=0hg9+smWV6oG0i5tA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: that open brace { should be on the previous
+ line
 To: sunran001@208suo.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -77,57 +77,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
-On Sun, Jul 23, 2023 at 11:30=E2=80=AFPM <sunran001@208suo.com> wrote:
+On Sun, Jul 23, 2023 at 11:37=E2=80=AFPM <sunran001@208suo.com> wrote:
 >
-> ERROR: else should follow close brace '}'
->
-> ERROR: space required after that ',' (ctx:VxV)
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->   drivers/gpu/drm/radeon/radeon_connectors.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/radeon/clearstate_si.h | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c
-> b/drivers/gpu/drm/radeon/radeon_connectors.c
-> index 07193cd0c417..4ceceb972e8d 100644
-> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
-> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-> @@ -198,8 +198,7 @@ int radeon_get_monitor_bpc(struct drm_connector
-> *connector)
->                                 DRM_DEBUG("%s: HDMI deep color 10 bpc exc=
-eeds max tmds clock. Using
-> %d bpc.\n",
->                                                   connector->name, bpc);
->                         }
-> -               }
-> -               else if (bpc > 8) {
-> +               } else if (bpc > 8) {
->                         /* max_tmds_clock missing, but hdmi spec mandates=
- it for deep color.
-> */
->                         DRM_DEBUG("%s: Required max tmds clock for HDMI d=
-eep color missing.
-> Using 8 bpc.\n",
->                                           connector->name);
-> @@ -1372,7 +1371,7 @@ radeon_dvi_detect(struct drm_connector *connector,
-> bool force)
->                                         /* assume digital unless load det=
-ected otherwise */
->                                         radeon_connector->use_digital =3D=
- true;
->                                         lret =3D encoder_funcs->detect(en=
-coder, connector);
-> -                                       DRM_DEBUG_KMS("load_detect %x ret=
-urned:
-> %x\n",encoder->encoder_type,lret);
-> +                                       DRM_DEBUG_KMS("load_detect %x ret=
-urned: %x\n",
-> encoder->encoder_type, lret);
->                                         if (lret =3D=3D connector_status_=
-connected)
->                                                 radeon_connector->use_dig=
-ital =3D false;
->                                 }
+> diff --git a/drivers/gpu/drm/radeon/clearstate_si.h
+> b/drivers/gpu/drm/radeon/clearstate_si.h
+> index 356219c6c7f2..7da8418704fe 100644
+> --- a/drivers/gpu/drm/radeon/clearstate_si.h
+> +++ b/drivers/gpu/drm/radeon/clearstate_si.h
+> @@ -23,8 +23,7 @@
+>
+>   #include "clearstate_defs.h"
+>
+> -static const u32 si_SECT_CONTEXT_def_1[] =3D
+> -{
+> +static const u32 si_SECT_CONTEXT_def_1[] =3D {
+>       0x00000000, // DB_RENDER_CONTROL
+>       0x00000000, // DB_COUNT_CONTROL
+>       0x00000000, // DB_DEPTH_VIEW
