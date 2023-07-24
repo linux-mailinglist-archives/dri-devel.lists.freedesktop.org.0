@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9D675EDB8
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:34:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DCB75EDBD
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:35:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF2C10E287;
-	Mon, 24 Jul 2023 08:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C242F89E1D;
+	Mon, 24 Jul 2023 08:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94CA510E286
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:34:46 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R8YPH6P7PzBRx5M
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 16:34:43 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1690187683; x=1692779684; bh=xivezc9+8JHiL00mjjAuXmu9/dh
- 6CnD4VSummcQwwCI=; b=oWaxq45Ozhy0XRIkwsph6ljsedBLPbXkY+NRRSkVFKn
- pGajiMAgayA4DV00tcw6V5clYeTsa3Ykd6DTbajnm1UDDxRRABwdk0D2ScUnVas5
- y5iFjuQcf0Xt3SUBardnqmDWZLfgpWg2EGGpmojPmBkeet8l1dJL7aoo6iY2tcr0
- DJsE8ofwcGrSIs+DcrsfSJ40ktsvCR55NPFblEg2PCRvsd8CDzTS6RDWNpwNBxxd
- RYOHO4qykFKSyEc/9Qo/inAvqSUvWBJ4/wuOSsysNznk9wkg/HDp/ZjAX5qugYcp
- SisL4sERndhJxlskaCvk3DCO2mIa6FibhYW+6kx896A==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id HH4lrdkF6aJW for <dri-devel@lists.freedesktop.org>;
- Mon, 24 Jul 2023 16:34:43 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R8YPH40vFzBR1P0;
- Mon, 24 Jul 2023 16:34:43 +0800 (CST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75FFD89E1D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:35:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B110760FC6;
+ Mon, 24 Jul 2023 08:35:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A99BCC433C8;
+ Mon, 24 Jul 2023 08:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690187722;
+ bh=Z5HY1j3XekN0wuWmc3Gm3XQ0wBUul6TgGJXDB+eNZNs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HOuh8YN5DpUam/j60jnSdNhC+63dFxHoHy2Zk5oTqEVE/HlZ/7d3WO/ImXs/tq18K
+ x7yJxNox45X7BJPu90lZdz7U/l/XZewqHKQnZSLZ5wL0B97k4qd5yLgUlaagCo2cG9
+ gp7BRd7Q6IiBu4Yya45YTkG2WrqFiZ4Z9fpy2JeiTKWiOeFvy1etBCKm3GRnTWhLnL
+ z1Bj5HhE5XVthlPbCOINK3Z/A3ms0wCdIGmP/0DPPri5XeZ6nVZx4sJA0mU0+YLWtW
+ hi0CMmSIzw88J01sNzFn2ABTblavtbfhjobzWHwBkofmhcDYCYDQdxgAtULiCY70fH
+ Xg5OXEONsHp/g==
+From: Robert Foss <rfoss@kernel.org>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Chen-Yu Tsai <wenst@chromium.org>,
+ =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+ <nfraprado@collabora.com>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH RESEND v11] drm/bridge: it6505: Fix Kconfig indentation
+Date: Mon, 24 Jul 2023 10:35:15 +0200
+Message-ID: <169018770962.615452.8291957504440998877.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230712065054.2377278-1-wenst@chromium.org>
+References: <20230712065054.2377278-1-wenst@chromium.org>
 MIME-Version: 1.0
-Date: Mon, 24 Jul 2023 16:34:43 +0800
-From: sunran001@208suo.com
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amd/pm: Clean up errors in
- smu11_driver_if_sienna_cichlid.h
-In-Reply-To: <20230724083344.9285-1-xujianghui@cdjrlc.com>
-References: <20230724083344.9285-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <8e6eda082855e1b928253669fbb49316@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +61,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Robert Foss <rfoss@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+On Wed, 12 Jul 2023 14:50:53 +0800, Chen-Yu Tsai wrote:
+> From: Pin-yen Lin <treapking@chromium.org>
+> 
+> Replace the spaces with tab characters in the Kconfig file.
+> 
+> 
 
-ERROR: trailing whitespace
+Applied, thanks!
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+[1/1] drm/bridge: it6505: Fix Kconfig indentation
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=dd9c1329027d
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h 
-b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-index c5e26d619bf0..8ec588248aac 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-+++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-@@ -30,7 +30,7 @@
 
-  #define ENABLE_DEBUG_FEATURES
 
--// Firmware features
-+// Firmware features
-  // Feature Control Defines
-  #define FEATURE_CCLK_DPM_BIT                 0
-  #define FEATURE_FAN_CONTROLLER_BIT           1
-@@ -92,7 +92,7 @@
-  #define FEATURE_ZSTATES_ECO_BIT             57
-  #define FEATURE_CC6_BIT                     58
-  #define FEATURE_DS_UMCCLK_BIT               59
--#define FEATURE_DS_HSPCLK_BIT               60
-+#define FEATURE_DS_HSPCLK_BIT               60
-  #define NUM_FEATURES                        61
+Rob
 
-  typedef struct {
