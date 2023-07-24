@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B6575F4E4
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 13:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E6A75F584
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 13:56:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4CD10E08E;
-	Mon, 24 Jul 2023 11:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E68510E02E;
+	Mon, 24 Jul 2023 11:56:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7215F10E08E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 11:26:15 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F22F66607033;
- Mon, 24 Jul 2023 12:26:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690197974;
- bh=FPzsokEq60QB6Lq1genijHT7LF37FBTgPWRm/+4nsuE=;
- h=From:To:Cc:Subject:Date:From;
- b=Ga8jaWgB+NGUZHu4RL6KXDwhNU0oK/06Jvv3v7J5z0maoLVTMvA2oDsp7hJQkH8Ci
- pz2y3H1oNVccDKzt0TxIbuMiNfaRFtCupsnaMezxxSzFgv6R9awOEDekQidW64qrq1
- mpzMjvy2BMZUV4vf9i/EG33/rMDnp1zn8Ks4hU1zZFn5RmZEKfvEqKFvOFGi0SaH8F
- Jy6aKXSfwmDt0S8ejvJcdRnZwKZ8pNO15zSsQrFyGYaVn7uyCblxEUo5LSWBRSRlmz
- 6NG1U/I131tskiNqFGsUpOT/6BCDkhz1NZDaqhRPsRSeArX7Cq6dceH/4VU7IPV1BN
- gp2oh5TdYlQuA==
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/shmem-helper: Reset vma->vm_ops before calling
- dma_buf_mmap()
-Date: Mon, 24 Jul 2023 13:26:10 +0200
-Message-ID: <20230724112610.60974-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E16A710E02E;
+ Mon, 24 Jul 2023 11:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690199792; x=1721735792;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OFHM8av7FnYHjD6FMy7IxExOEte9hrt7SWYvxmOSZ78=;
+ b=P5d2rlSot6RHaBfSn89AqziDvrHhkNiiOv/g4lXJSGEbOpY7AzLhiimu
+ UztewEhKPJT7/5U6aWjy2pMjBeGLM6LTUmPvL8ZtzRs44ZUk0D00o1Qo2
+ fMQgxwHzKfETkkFLub94UJTGoNt4RjI+vXee6H1SkU6rHu5FtKM+6jC7n
+ EyTCLuHvVVa68Gfswd1JL4RXC5t5OdeKYdlwEbP+xkrTCdmLufjqZJbDA
+ 7Bpo1Xx2R9NQdGC6conyiVu4g3aUr9/f4QcwefGY0yNqHopc3p/nL+Sxf
+ Q87sFk8g6OeJkgFWDa7GhL1vKLAqVX4BVKJMGYZ3XKqe0test8/ZVbLtF w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="371020642"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="371020642"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2023 04:56:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="725675801"
+X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; d="scan'208";a="725675801"
+Received: from srichara-mobl.amr.corp.intel.com (HELO localhost.localdomain)
+ ([10.209.170.186])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2023 04:56:30 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Tidy for_each_set_bit usage with abox_regs
+Date: Mon, 24 Jul 2023 12:56:24 +0100
+Message-Id: <20230724115624.1485010-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,46 +58,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>, stable@vger.kernel.org,
- Roman Stratiienko <roman.stratiienko@globallogic.com>
+Cc: Aditya Swarup <aditya.swarup@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dma-buf backend is supposed to provide its own vm_ops, but some
-implementation just have nothing special to do and leave vm_ops
-untouched, probably expecting this field to be zero initialized (this
-is the case with the system_heap implementation for instance).
-Let's reset vma->vm_ops to NULL to keep things working with these
-implementations.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Fixes: 26d3ac3cb04d ("drm/shmem-helpers: Redirect mmap for imported dma-buf")
-Cc: <stable@vger.kernel.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reported-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+For_each_set_bit wants the max number of bits to walk and not the byte
+storage size of the source field.
+
+In this case there is no bug since abox_mask can mostly contain bits 0-2.
+
+Another funny thing is that both sizeof(abox_mask), where abox_mask is
+unsigned long, and BITS_PER_TYPE(DISPLAY_INFO->abox_mask)), are 8 (on
+64-bit builds) so there is even less between them.
+
+Anyway, why not make it explicit to what the constraint is.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+References: 62afef2811e4 ("drm/i915/rkl: RKL uses ABOX0 for pixel transfers")
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Aditya Swarup <aditya.swarup@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display_power.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 4ea6507a77e5..baaf0e0feb06 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -623,7 +623,13 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
- 	int ret;
+diff --git a/drivers/gpu/drm/i915/display/intel_display_power.c b/drivers/gpu/drm/i915/display/intel_display_power.c
+index 38225e5d311e..27a484892908 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_power.c
++++ b/drivers/gpu/drm/i915/display/intel_display_power.c
+@@ -1170,7 +1170,8 @@ static void icl_mbus_init(struct drm_i915_private *dev_priv)
+ 	if (DISPLAY_VER(dev_priv) == 12)
+ 		abox_regs |= BIT(0);
  
- 	if (obj->import_attach) {
-+		/* Reset both vm_ops and vm_private_data, so we don't end up with
-+		 * vm_ops pointing to our implementation if the dma-buf backend
-+		 * doesn't set those fields.
-+		 */
- 		vma->vm_private_data = NULL;
-+		vma->vm_ops = NULL;
-+
- 		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
+-	for_each_set_bit(i, &abox_regs, sizeof(abox_regs))
++	for_each_set_bit(i, &abox_regs,
++			 BITS_PER_TYPE(DISPLAY_INFO(dev_priv)->abox_mask))
+ 		intel_de_rmw(dev_priv, MBUS_ABOX_CTL(i), mask, val);
+ }
  
- 		/* Drop the reference drm_gem_mmap_obj() acquired.*/
+@@ -1623,11 +1624,13 @@ static void tgl_bw_buddy_init(struct drm_i915_private *dev_priv)
+ 	if (table[config].page_mask == 0) {
+ 		drm_dbg(&dev_priv->drm,
+ 			"Unknown memory configuration; disabling address buddy logic.\n");
+-		for_each_set_bit(i, &abox_mask, sizeof(abox_mask))
++		for_each_set_bit(i, &abox_mask,
++				 BITS_PER_TYPE(DISPLAY_INFO(dev_priv)->abox_mask))
+ 			intel_de_write(dev_priv, BW_BUDDY_CTL(i),
+ 				       BW_BUDDY_DISABLE);
+ 	} else {
+-		for_each_set_bit(i, &abox_mask, sizeof(abox_mask)) {
++		for_each_set_bit(i, &abox_mask,
++				 BITS_PER_TYPE(DISPLAY_INFO(dev_priv)->abox_mask)) {
+ 			intel_de_write(dev_priv, BW_BUDDY_PAGE_MASK(i),
+ 				       table[config].page_mask);
+ 
 -- 
-2.41.0
+2.39.2
 
