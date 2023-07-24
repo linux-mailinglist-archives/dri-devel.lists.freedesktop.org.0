@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2787601A5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:58:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 636257601B0
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 23:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB7910E388;
-	Mon, 24 Jul 2023 21:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB5010E38A;
+	Mon, 24 Jul 2023 21:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590A210E387;
- Mon, 24 Jul 2023 21:58:37 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- 006d021491bc7-56352146799so3419529eaf.3; 
- Mon, 24 Jul 2023 14:58:37 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1656D10E389;
+ Mon, 24 Jul 2023 21:59:54 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ 46e09a7af769-6b9f46ec07aso3087362a34.1; 
+ Mon, 24 Jul 2023 14:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690235916; x=1690840716;
+ d=gmail.com; s=20221208; t=1690235993; x=1690840793;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8NJFs6oMV2v7s/6JWLw92i8k8fJbTsKr3ji5S2m8KS0=;
- b=iRhyHEHT9v0N25GBiANzkyyDiU2tkhSDVDb+ndq32RtThI/B1SEelfS7MJletWVxMs
- xHSzY/5cMtImbSa3tDKQv3FNId4sQASFMqVIaAANlenBUZIgne88uJuRXqN/PDEuDwS0
- JxX3JA/B8lOOaQFrErfISUrx08U/LwiBB3DMUIVIykUhjmtzyOWSC+KsD+mkvJM0aDUQ
- qmyCQqAThsL44UtNgdztyMHKrQwp90hHcYHlzeFdNZq9oqTJZYQz2JD5ocXRg3Jd3eHc
- y2PadWI0ZL0YSIAIYRIKHLW7YtgMoHMZ6pSO3C4t1v1wVLbL4Gwa/jvrYOwwz4TSoAfE
- xHsA==
+ bh=DKXXQoujPlp56Vu9MiAPxZJv9g2kLPe6/i7I5ujqsT4=;
+ b=HpWLr/cii57x0K56jdIMzaoYubGP5yAArPD4GGbZ7rg3c8zkWyPF8Jo1SZgFHVwYVw
+ Q10GDz3c4jRYxaYxrzoKwaRBW6ocxi0//3MeEbBlMWoqGDzYc/ZaScvKLCD+h7vYIKuy
+ +5RWO5r2eMOWYZDYhHqhtLF6s7eP6Rl+d3ohNAR0yumMY4jBrgKXilWKT8REFw7XZ4dC
+ 8EwezNLdSPpLTftMmFJyiIj67aimFqCUzWU1DlI6RBjqtbQzXovDUgH9g9E3c7t1+bhN
+ ueVsy+UqTF3/k/+7/98C7YJu0qq178s33y2w01scVgj4UC322mxmj9DpdUl6zjZ//sfN
+ 2n1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690235916; x=1690840716;
+ d=1e100.net; s=20221208; t=1690235993; x=1690840793;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8NJFs6oMV2v7s/6JWLw92i8k8fJbTsKr3ji5S2m8KS0=;
- b=DfXzncy+GuNriDVdSqg3cpI+sVRxc2URCkwBntleql5s5DAIFL4aEXTrQHCRvSznVb
- gsIXjRcTC2euHkvgdbz3/mr+kcggLlgWgMnWlsdm345FNZs8Rr8xGMVAelUKdtiEXOSH
- Iq4cF/PmA9nP6JuQdyM42VOx/mepDZig0jTrS0/w5idtVi6LSnhv/luXGyp+TGLSHAsN
- E7dzVQcUZkTV9HX/58meq5ZMUAochvSmMMKi1pQYaEcTXQxjk9SP0CGI+Bcw3XldTT9U
- PNIv0h6FFCE3IdYVZK+PlDAinsX3YdZXrEiiiDAWbDcE9l30/wK2yKyV4QQUKn4ivhfG
- qCAg==
-X-Gm-Message-State: ABy/qLYrqi1S6o+2Ubs0dWBXsFl0/hD7AWYLTIMstBfKQ2qNNtlqO34T
- ceomnNqVEKXM+IGDXUYq+0BiGIYF9RvXlTXdf51ijUbH
-X-Google-Smtp-Source: APBJJlEjAyCLEl3W4KjypzjxkJg0xvoj++O/ICBdF0x8TZ0kBTlIiMDzQZR83k+PaRGpN5MVvoEIjibwSTR2y5mubxM=
-X-Received: by 2002:a4a:750d:0:b0:569:d46a:5c1d with SMTP id
- j13-20020a4a750d000000b00569d46a5c1dmr4477416ooc.4.1690235916477; Mon, 24 Jul
- 2023 14:58:36 -0700 (PDT)
+ bh=DKXXQoujPlp56Vu9MiAPxZJv9g2kLPe6/i7I5ujqsT4=;
+ b=g0newD6ZACpk0l23JznzNJZ6yI27hqJ93GMH8xvIHjNQ0Vf8h5iuMMRO1LQMZpNOyI
+ 3U5jFWLRr1PINoOM/+uV2eqA0S9ZUJ3CXWuRvumWBRqP1ThqSCY3O6S74f7NtN0UC9dx
+ FoiTe9fp+Q+rr1fQX05zSzCljtMP2u4sPsJOMYN4Bj/ccKzGdfVFxGBAv9H1Cd9eJilo
+ K0e6eNmmJzS8sBmQIHkxuGAg5MKoup9NoY4lVMkFlP7DEeMRmuzWrqTlPwHRVmdNd1pP
+ iCiWM91h/ELbmYqEmlHdpQz5G4srFh20GX+T8z4LdJIb/rsnhnxEvsJ9GmWuuEmgCiLR
+ YzVQ==
+X-Gm-Message-State: ABy/qLYLpPXKIWnXowmhEPpMsnNZAXO/Wx1vW7Bv4+LMNnHi0GR8Tn9G
+ QS0aUK2Nqe+M0VBaPqmMGM6m7PdrSwoCRE8Y300=
+X-Google-Smtp-Source: APBJJlHVP3kmdwAl7RB3BmqgixgStZVMBM7WCfOT8KU4DkhTa9aSkSHPsGqnBbYlT3Ii5MIKmGH0b3f+xJAGF0VYE7U=
+X-Received: by 2002:a05:6830:4410:b0:6b7:2ef3:37aa with SMTP id
+ q16-20020a056830441000b006b72ef337aamr463718otv.15.1690235993268; Mon, 24 Jul
+ 2023 14:59:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230724083344.9285-1-xujianghui@cdjrlc.com>
- <7e638628f942fe7989fe2da3da537c28@208suo.com>
-In-Reply-To: <7e638628f942fe7989fe2da3da537c28@208suo.com>
+References: <20230724090624.9699-1-xujianghui@cdjrlc.com>
+ <5ce64e06635dbf038d73452098fd0163@208suo.com>
+In-Reply-To: <5ce64e06635dbf038d73452098fd0163@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 24 Jul 2023 17:58:25 -0400
-Message-ID: <CADnq5_Pj+B8azBwSMAWg5d=UWS9ey-wnVTJWLScHCv--xMLTgw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu_v13_0_1_pmfw.h
+Date: Mon, 24 Jul 2023 17:59:42 -0400
+Message-ID: <CADnq5_M-NaGgzFQB+zcCgCMPXROGFhk+Was+m9JYcvQq=k9u1g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: open brace '{' following struct go on the
+ same line
 To: sunran001@208suo.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,41 +75,101 @@ Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This doesn't apply cleanly.
+Applied.  Thanks!
 
-Alex
-
-On Mon, Jul 24, 2023 at 4:57=E2=80=AFAM <sunran001@208suo.com> wrote:
+On Mon, Jul 24, 2023 at 5:08=E2=80=AFAM <sunran001@208suo.com> wrote:
 >
-> Fix the following errors reported by checkpatch:
->
-> ERROR: trailing whitespace
+> ERROR: open brace '{' following struct go on the same line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->   drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   .../amd/pm/swsmu/inc/smu_v13_0_7_pptable.h    | 21 +++++++------------
+>   1 file changed, 7 insertions(+), 14 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-> b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-> index c5e26d619bf0..8ec588248aac 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/pmfw_if/smu_v13_0_1_pmfw.h
-> @@ -30,7 +30,7 @@
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
+> b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
+> index eadbe0149cae..eb694f9f556d 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
+> @@ -41,8 +41,7 @@
+>   #define SMU_13_0_7_PP_OVERDRIVE_VERSION 0x83        // OverDrive 8
+> Table Version 0.2
+>   #define SMU_13_0_7_PP_POWERSAVINGCLOCK_VERSION 0x01 // Power Saving
+> Clock Table Version 1.00
 >
->   #define ENABLE_DEBUG_FEATURES
+> -enum SMU_13_0_7_ODFEATURE_CAP
+> -{
+> +enum SMU_13_0_7_ODFEATURE_CAP {
+>       SMU_13_0_7_ODCAP_GFXCLK_LIMITS =3D 0,
+>       SMU_13_0_7_ODCAP_UCLK_LIMITS,
+>       SMU_13_0_7_ODCAP_POWER_LIMIT,
+> @@ -62,8 +61,7 @@ enum SMU_13_0_7_ODFEATURE_CAP
+>       SMU_13_0_7_ODCAP_COUNT,
+>   };
 >
-> -// Firmware features
-> +// Firmware features
->   // Feature Control Defines
->   #define FEATURE_CCLK_DPM_BIT                 0
->   #define FEATURE_FAN_CONTROLLER_BIT           1
-> @@ -92,7 +92,7 @@
->   #define FEATURE_ZSTATES_ECO_BIT             57
->   #define FEATURE_CC6_BIT                     58
->   #define FEATURE_DS_UMCCLK_BIT               59
-> -#define FEATURE_DS_HSPCLK_BIT               60
-> +#define FEATURE_DS_HSPCLK_BIT               60
->   #define NUM_FEATURES                        61
+> -enum SMU_13_0_7_ODFEATURE_ID
+> -{
+> +enum SMU_13_0_7_ODFEATURE_ID {
+>       SMU_13_0_7_ODFEATURE_GFXCLK_LIMITS           =3D 1 <<
+> SMU_13_0_7_ODCAP_GFXCLK_LIMITS,           //GFXCLK Limit feature
+>       SMU_13_0_7_ODFEATURE_UCLK_LIMITS             =3D 1 <<
+> SMU_13_0_7_ODCAP_UCLK_LIMITS,             //UCLK Limit feature
+>       SMU_13_0_7_ODFEATURE_POWER_LIMIT             =3D 1 <<
+> SMU_13_0_7_ODCAP_POWER_LIMIT,             //Power Limit feature
+> @@ -85,8 +83,7 @@ enum SMU_13_0_7_ODFEATURE_ID
 >
->   typedef struct {
+>   #define SMU_13_0_7_MAX_ODFEATURE 32 //Maximum Number of OD Features
+>
+> -enum SMU_13_0_7_ODSETTING_ID
+> -{
+> +enum SMU_13_0_7_ODSETTING_ID {
+>       SMU_13_0_7_ODSETTING_GFXCLKFMAX =3D 0,
+>       SMU_13_0_7_ODSETTING_GFXCLKFMIN,
+>       SMU_13_0_7_ODSETTING_UCLKFMIN,
+> @@ -123,8 +120,7 @@ enum SMU_13_0_7_ODSETTING_ID
+>   };
+>   #define SMU_13_0_7_MAX_ODSETTING 64 //Maximum Number of ODSettings
+>
+> -enum SMU_13_0_7_PWRMODE_SETTING
+> -{
+> +enum SMU_13_0_7_PWRMODE_SETTING {
+>       SMU_13_0_7_PMSETTING_POWER_LIMIT_QUIET =3D 0,
+>       SMU_13_0_7_PMSETTING_POWER_LIMIT_BALANCE,
+>       SMU_13_0_7_PMSETTING_POWER_LIMIT_TURBO,
+> @@ -144,8 +140,7 @@ enum SMU_13_0_7_PWRMODE_SETTING
+>   };
+>   #define SMU_13_0_7_MAX_PMSETTING 32 //Maximum Number of PowerMode
+> Settings
+>
+> -struct smu_13_0_7_overdrive_table
+> -{
+> +struct smu_13_0_7_overdrive_table {
+>       uint8_t revision;                             //Revision =3D
+> SMU_13_0_7_PP_OVERDRIVE_VERSION
+>       uint8_t reserve[3];                           //Zero filled field
+> reserved for future use
+>       uint32_t feature_count;                       //Total number of
+> supported features
+> @@ -156,8 +151,7 @@ struct smu_13_0_7_overdrive_table
+>       int16_t pm_setting[SMU_13_0_7_MAX_PMSETTING]; //Optimized power
+> mode feature settings
+>   };
+>
+> -enum SMU_13_0_7_PPCLOCK_ID
+> -{
+> +enum SMU_13_0_7_PPCLOCK_ID {
+>       SMU_13_0_7_PPCLOCK_GFXCLK =3D 0,
+>       SMU_13_0_7_PPCLOCK_SOCCLK,
+>       SMU_13_0_7_PPCLOCK_UCLK,
+> @@ -175,8 +169,7 @@ enum SMU_13_0_7_PPCLOCK_ID
+>   };
+>   #define SMU_13_0_7_MAX_PPCLOCK 16 //Maximum Number of PP Clocks
+>
+> -struct smu_13_0_7_powerplay_table
+> -{
+> +struct smu_13_0_7_powerplay_table {
+>       struct atom_common_table_header header; //For PLUM_BONITO,
+> header.format_revision =3D 15, header.content_revision =3D 0
+>       uint8_t table_revision;                 //For PLUM_BONITO,
+> table_revision =3D 2
+>       uint8_t padding;
