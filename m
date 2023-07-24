@@ -2,62 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D731675EEB6
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 11:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3587075EEB9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 11:08:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B7E10E294;
-	Mon, 24 Jul 2023 09:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC7610E290;
+	Mon, 24 Jul 2023 09:08:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C777310E294;
- Mon, 24 Jul 2023 09:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690189680; x=1721725680;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=I58K0v9UqhRQ1cf0m06D7w6DlOunW6JSlGn5MyOsU2w=;
- b=VfxRGl8BPoi9Tg06GbFjcmBJhQa5x3OfDcfhWhwC/UOdo03d63NTmdWZ
- MEqmBHzaqXrWBstNX0X9VdBSMyEP9379l4RyHsO9482iO7MG+FvTTrrEu
- 0HMQzBjlo6z3lDl35TEAoT6/JX+SsUywHjixtnAkLtJkbDix1q4eZpV4r
- 05kTxyGifDNj+VcP5KOrsUvioYTWkdBn1HnBTI8UD855dxWfVHm2L6Sbd
- 4lPL2vGDIv2LCUaE/OyT8khEYBUUjoz3FiL8TF9myykuU3n0vUCd6JHd5
- Mrd9pBZpujnAml7f/zhCcQW30NexlW/FC5kBsziK+hM5QeFfgBGE+1F3S w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="431185441"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
- d="scan'208,217";a="431185441"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 02:07:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10780"; a="839377225"
-X-IronPort-AV: E=Sophos;i="6.01,228,1684825200"; 
- d="scan'208,217";a="839377225"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.58.138])
- ([10.252.58.138])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 02:07:56 -0700
-Content-Type: multipart/alternative;
- boundary="------------Oh5agQrCsvbftU3HoNcxmD09"
-Message-ID: <dc09292f-e2e8-c800-b39e-99f5364a8a76@linux.intel.com>
-Date: Mon, 24 Jul 2023 11:07:53 +0200
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4E310E297
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 09:08:22 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4R8Z841pJBzBRx5C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 17:08:20 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1690189700; x=1692781701; bh=rd5XJCKeCCCstWQq8oezxVrRBtx
+ 3Uez3owR/99sLpv4=; b=djs+BG8BS/oEA3gUtU2Vs8S/t+VqReo+b8rt5yBVGHx
+ iHxCPZTwbMxtdVlnciZDbAX0WGxJJt9Z3XMNzxub1ropHhojLDs0vLYXY+3Idc8x
+ 5ng32fdc0OGgXpcPVQndvxu6QxUnS1prKErEkwX3dzclqctXVIAmOVIeG0ypYi1f
+ qag+sA+lq7T8Im1GVwjiKNN7RV5VG4e+TKF9n6Hf/7jCZ5n7HqGekoPNyKrd6rpP
+ X3k/AmBehCd9O+yLWNB6Ucalj/GUo3b3GQw8rFsyQi96Gpr6g8TicvPfOlRUkrh6
+ OnqZIRy+XJOPjz+bfjVbHSHWuUlJBrRZcL3kRZDO6Hw==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id JyChrvnuzW0T for <dri-devel@lists.freedesktop.org>;
+ Mon, 24 Jul 2023 17:08:20 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4R8Z836nC2zBKnld;
+ Mon, 24 Jul 2023 17:08:19 +0800 (CST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v8 6/9] drm/i915/gt: Refactor intel_emit_pipe_control_cs()
- in a single function
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, Andrzej Hajda <andrzej.hajda@intel.com>
-References: <20230721161514.818895-1-andi.shyti@linux.intel.com>
- <20230721161514.818895-7-andi.shyti@linux.intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230721161514.818895-7-andi.shyti@linux.intel.com>
+Date: Mon, 24 Jul 2023 17:08:19 +0800
+From: sunran001@208suo.com
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/pm: open brace '{' following struct go on the same
+ line
+In-Reply-To: <20230724090624.9699-1-xujianghui@cdjrlc.com>
+References: <20230724090624.9699-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <5ce64e06635dbf038d73452098fd0163@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,253 +61,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-evel <dri-devel@lists.freedesktop.org>,
- linux-stable <stable@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------Oh5agQrCsvbftU3HoNcxmD09
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ERROR: open brace '{' following struct go on the same line
 
-Hi  Andi,
-
-On 7/21/2023 6:15 PM, Andi Shyti wrote:
-> Just a trivial refactoring for reducing the number of code
-> duplicate. This will come at handy in the next commits.
->
-> Meantime, propagate the error to the above layers if we fail to
-> emit the pipe control.
->
-> Signed-off-by: Andi Shyti<andi.shyti@linux.intel.com>
-> Cc:<stable@vger.kernel.org>  # v5.8+
-> ---
->   drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 47 +++++++++++++-----------
->   1 file changed, 26 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> index 139a7e69f5c4d..5e19b45a5cabe 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-> @@ -7,6 +7,7 @@
->   #include "i915_drv.h"
->   #include "intel_engine_regs.h"
->   #include "intel_gpu_commands.h"
-> +#include "intel_gt_print.h"
->   #include "intel_lrc.h"
->   #include "intel_ring.h"
->   
-> @@ -189,23 +190,30 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
->   	return cs;
->   }
->   
-> +static int gen12_emit_pipe_control_cs(struct i915_request *rq, u32 bit_group_0,
-> +				      u32 bit_group_1, u32 offset)
-> +{
-> +	u32 *cs;
-> +
-> +	cs = intel_ring_begin(rq, 6);
-> +	if (IS_ERR(cs))
-> +		return PTR_ERR(cs);
-> +
-> +	cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
-> +				     LRC_PPHWSP_SCRATCH_ADDR);
-> +	intel_ring_advance(rq, cs);
-> +
-> +	return 0;
-> +}
-> +
->   static int mtl_dummy_pipe_control(struct i915_request *rq)
->   {
->   	/* Wa_14016712196 */
->   	if (IS_MTL_GRAPHICS_STEP(rq->engine->i915, M, STEP_A0, STEP_B0) ||
-> -	    IS_MTL_GRAPHICS_STEP(rq->engine->i915, P, STEP_A0, STEP_B0)) {
-> -		u32 *cs;
-> -
-> -		/* dummy PIPE_CONTROL + depth flush */
-> -		cs = intel_ring_begin(rq, 6);
-> -		if (IS_ERR(cs))
-> -			return PTR_ERR(cs);
-> -		cs = gen12_emit_pipe_control(cs,
-> -					     0,
-> -					     PIPE_CONTROL_DEPTH_CACHE_FLUSH,
-> -					     LRC_PPHWSP_SCRATCH_ADDR);
-> -		intel_ring_advance(rq, cs);
-> -	}
-> +	    IS_MTL_GRAPHICS_STEP(rq->engine->i915, P, STEP_A0, STEP_B0))
-> +		return gen12_emit_pipe_control_cs(rq, 0,
-> +					PIPE_CONTROL_DEPTH_CACHE_FLUSH,
-> +					LRC_PPHWSP_SCRATCH_ADDR);
-
-Don't think this will get backported to 5.8+. I think mtl introduced 
-after that.
-
-If that is not an issue for rest of the series and then
-
-|Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> Regards, Nirmoy |
-
-
->   
->   	return 0;
->   }
-> @@ -222,7 +230,6 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		u32 bit_group_0 = 0;
->   		u32 bit_group_1 = 0;
->   		int err;
-> -		u32 *cs;
->   
->   		err = mtl_dummy_pipe_control(rq);
->   		if (err)
-> @@ -256,13 +263,11 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
->   		else if (engine->class == COMPUTE_CLASS)
->   			bit_group_1 &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
->   
-> -		cs = intel_ring_begin(rq, 6);
-> -		if (IS_ERR(cs))
-> -			return PTR_ERR(cs);
-> -
-> -		cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
-> -					     LRC_PPHWSP_SCRATCH_ADDR);
-> -		intel_ring_advance(rq, cs);
-> +		err = gen12_emit_pipe_control_cs(rq, bit_group_0, bit_group_1,
-> +						 LRC_PPHWSP_SCRATCH_ADDR);
-> +		if (err)
-> +			gt_warn(engine->gt,
-> +				"Failed to emit flush pipe control\n");
->   	}
->   
->   	if (mode & EMIT_INVALIDATE) {
---------------Oh5agQrCsvbftU3HoNcxmD09
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi  Andi,<br>
-    </p>
-    <div class="moz-cite-prefix">On 7/21/2023 6:15 PM, Andi Shyti wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230721161514.818895-7-andi.shyti@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">Just a trivial refactoring for reducing the number of code
-duplicate. This will come at handy in the next commits.
-
-Meantime, propagate the error to the above layers if we fail to
-emit the pipe control.
-
-Signed-off-by: Andi Shyti <a class="moz-txt-link-rfc2396E" href="mailto:andi.shyti@linux.intel.com">&lt;andi.shyti@linux.intel.com&gt;</a>
-Cc: <a class="moz-txt-link-rfc2396E" href="mailto:stable@vger.kernel.org">&lt;stable@vger.kernel.org&gt;</a> # v5.8+
+Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c | 47 +++++++++++++-----------
- 1 file changed, 26 insertions(+), 21 deletions(-)
+  .../amd/pm/swsmu/inc/smu_v13_0_7_pptable.h    | 21 +++++++------------
+  1 file changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 139a7e69f5c4d..5e19b45a5cabe 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -7,6 +7,7 @@
- #include "i915_drv.h"
- #include "intel_engine_regs.h"
- #include "intel_gpu_commands.h"
-+#include "intel_gt_print.h"
- #include "intel_lrc.h"
- #include "intel_ring.h"
- 
-@@ -189,23 +190,30 @@ u32 *gen12_emit_aux_table_inv(struct intel_gt *gt, u32 *cs, const i915_reg_t inv
- 	return cs;
- }
- 
-+static int gen12_emit_pipe_control_cs(struct i915_request *rq, u32 bit_group_0,
-+				      u32 bit_group_1, u32 offset)
-+{
-+	u32 *cs;
-+
-+	cs = intel_ring_begin(rq, 6);
-+	if (IS_ERR(cs))
-+		return PTR_ERR(cs);
-+
-+	cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
-+				     LRC_PPHWSP_SCRATCH_ADDR);
-+	intel_ring_advance(rq, cs);
-+
-+	return 0;
-+}
-+
- static int mtl_dummy_pipe_control(struct i915_request *rq)
- {
- 	/* Wa_14016712196 */
- 	if (IS_MTL_GRAPHICS_STEP(rq-&gt;engine-&gt;i915, M, STEP_A0, STEP_B0) ||
--	    IS_MTL_GRAPHICS_STEP(rq-&gt;engine-&gt;i915, P, STEP_A0, STEP_B0)) {
--		u32 *cs;
--
--		/* dummy PIPE_CONTROL + depth flush */
--		cs = intel_ring_begin(rq, 6);
--		if (IS_ERR(cs))
--			return PTR_ERR(cs);
--		cs = gen12_emit_pipe_control(cs,
--					     0,
--					     PIPE_CONTROL_DEPTH_CACHE_FLUSH,
--					     LRC_PPHWSP_SCRATCH_ADDR);
--		intel_ring_advance(rq, cs);
--	}
-+	    IS_MTL_GRAPHICS_STEP(rq-&gt;engine-&gt;i915, P, STEP_A0, STEP_B0))
-+		return gen12_emit_pipe_control_cs(rq, 0,
-+					PIPE_CONTROL_DEPTH_CACHE_FLUSH,
-+					LRC_PPHWSP_SCRATCH_ADDR);</pre>
-    </blockquote>
-    <p>Don't think this will get backported to 5.8+. I think mtl
-      introduced after that.</p>
-    <p>If that is not an issue for rest of the series and then <br>
-    </p>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">Reviewed-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a>
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h 
+b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
+index eadbe0149cae..eb694f9f556d 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h
+@@ -41,8 +41,7 @@
+  #define SMU_13_0_7_PP_OVERDRIVE_VERSION 0x83        // OverDrive 8 
+Table Version 0.2
+  #define SMU_13_0_7_PP_POWERSAVINGCLOCK_VERSION 0x01 // Power Saving 
+Clock Table Version 1.00
 
-Regards,
-Nirmoy
-</code></pre>
-    <p></p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20230721161514.818895-7-andi.shyti@linux.intel.com">
-      <pre class="moz-quote-pre" wrap="">
- 
- 	return 0;
- }
-@@ -222,7 +230,6 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 		u32 bit_group_0 = 0;
- 		u32 bit_group_1 = 0;
- 		int err;
--		u32 *cs;
- 
- 		err = mtl_dummy_pipe_control(rq);
- 		if (err)
-@@ -256,13 +263,11 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 		else if (engine-&gt;class == COMPUTE_CLASS)
- 			bit_group_1 &amp;= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
- 
--		cs = intel_ring_begin(rq, 6);
--		if (IS_ERR(cs))
--			return PTR_ERR(cs);
--
--		cs = gen12_emit_pipe_control(cs, bit_group_0, bit_group_1,
--					     LRC_PPHWSP_SCRATCH_ADDR);
--		intel_ring_advance(rq, cs);
-+		err = gen12_emit_pipe_control_cs(rq, bit_group_0, bit_group_1,
-+						 LRC_PPHWSP_SCRATCH_ADDR);
-+		if (err)
-+			gt_warn(engine-&gt;gt,
-+				"Failed to emit flush pipe control\n");
- 	}
- 
- 	if (mode &amp; EMIT_INVALIDATE) {
-</pre>
-    </blockquote>
-  </body>
-</html>
+-enum SMU_13_0_7_ODFEATURE_CAP
+-{
++enum SMU_13_0_7_ODFEATURE_CAP {
+      SMU_13_0_7_ODCAP_GFXCLK_LIMITS = 0,
+      SMU_13_0_7_ODCAP_UCLK_LIMITS,
+      SMU_13_0_7_ODCAP_POWER_LIMIT,
+@@ -62,8 +61,7 @@ enum SMU_13_0_7_ODFEATURE_CAP
+      SMU_13_0_7_ODCAP_COUNT,
+  };
 
---------------Oh5agQrCsvbftU3HoNcxmD09--
+-enum SMU_13_0_7_ODFEATURE_ID
+-{
++enum SMU_13_0_7_ODFEATURE_ID {
+      SMU_13_0_7_ODFEATURE_GFXCLK_LIMITS           = 1 << 
+SMU_13_0_7_ODCAP_GFXCLK_LIMITS,           //GFXCLK Limit feature
+      SMU_13_0_7_ODFEATURE_UCLK_LIMITS             = 1 << 
+SMU_13_0_7_ODCAP_UCLK_LIMITS,             //UCLK Limit feature
+      SMU_13_0_7_ODFEATURE_POWER_LIMIT             = 1 << 
+SMU_13_0_7_ODCAP_POWER_LIMIT,             //Power Limit feature
+@@ -85,8 +83,7 @@ enum SMU_13_0_7_ODFEATURE_ID
+
+  #define SMU_13_0_7_MAX_ODFEATURE 32 //Maximum Number of OD Features
+
+-enum SMU_13_0_7_ODSETTING_ID
+-{
++enum SMU_13_0_7_ODSETTING_ID {
+      SMU_13_0_7_ODSETTING_GFXCLKFMAX = 0,
+      SMU_13_0_7_ODSETTING_GFXCLKFMIN,
+      SMU_13_0_7_ODSETTING_UCLKFMIN,
+@@ -123,8 +120,7 @@ enum SMU_13_0_7_ODSETTING_ID
+  };
+  #define SMU_13_0_7_MAX_ODSETTING 64 //Maximum Number of ODSettings
+
+-enum SMU_13_0_7_PWRMODE_SETTING
+-{
++enum SMU_13_0_7_PWRMODE_SETTING {
+      SMU_13_0_7_PMSETTING_POWER_LIMIT_QUIET = 0,
+      SMU_13_0_7_PMSETTING_POWER_LIMIT_BALANCE,
+      SMU_13_0_7_PMSETTING_POWER_LIMIT_TURBO,
+@@ -144,8 +140,7 @@ enum SMU_13_0_7_PWRMODE_SETTING
+  };
+  #define SMU_13_0_7_MAX_PMSETTING 32 //Maximum Number of PowerMode 
+Settings
+
+-struct smu_13_0_7_overdrive_table
+-{
++struct smu_13_0_7_overdrive_table {
+      uint8_t revision;                             //Revision = 
+SMU_13_0_7_PP_OVERDRIVE_VERSION
+      uint8_t reserve[3];                           //Zero filled field 
+reserved for future use
+      uint32_t feature_count;                       //Total number of 
+supported features
+@@ -156,8 +151,7 @@ struct smu_13_0_7_overdrive_table
+      int16_t pm_setting[SMU_13_0_7_MAX_PMSETTING]; //Optimized power 
+mode feature settings
+  };
+
+-enum SMU_13_0_7_PPCLOCK_ID
+-{
++enum SMU_13_0_7_PPCLOCK_ID {
+      SMU_13_0_7_PPCLOCK_GFXCLK = 0,
+      SMU_13_0_7_PPCLOCK_SOCCLK,
+      SMU_13_0_7_PPCLOCK_UCLK,
+@@ -175,8 +169,7 @@ enum SMU_13_0_7_PPCLOCK_ID
+  };
+  #define SMU_13_0_7_MAX_PPCLOCK 16 //Maximum Number of PP Clocks
+
+-struct smu_13_0_7_powerplay_table
+-{
++struct smu_13_0_7_powerplay_table {
+      struct atom_common_table_header header; //For PLUM_BONITO, 
+header.format_revision = 15, header.content_revision = 0
+      uint8_t table_revision;                 //For PLUM_BONITO, 
+table_revision = 2
+      uint8_t padding;
