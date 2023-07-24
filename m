@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4EC75E663
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8590C75E668
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 03:19:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7BA410E227;
-	Mon, 24 Jul 2023 01:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B80B10E225;
+	Mon, 24 Jul 2023 01:19:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E718510E227;
- Mon, 24 Jul 2023 01:19:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD8E10E225;
+ Mon, 24 Jul 2023 01:19:37 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6F6BC60F13;
- Mon, 24 Jul 2023 01:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EB81C433C8;
- Mon, 24 Jul 2023 01:19:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6A0FA60EEB;
+ Mon, 24 Jul 2023 01:19:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14FBAC433C7;
+ Mon, 24 Jul 2023 01:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690161548;
- bh=EwPnsL9H3UOUjHAhusj49+oIxJOPI5c9d2bVikAY6Dg=;
+ s=k20201202; t=1690161576;
+ bh=8mQ1aaxYZKsSAjFd636hvk5zw2O7nhxVxEqOofpTlzo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a/iWlopX2Je5E+bDLP8YbNirWYMX+gN4zkPg8xh2cX0RTbUpDCdDgGk0hZevh8mKB
- blOmv8oGXGJnvWHbqwVktk2jivfXZQCPwKo6BYxvimHv6K1DGhr5imv82UWk8pyYyY
- LQkDwp+m15+oN7QFiRKjeCpchMYvYyQtIW0cNfBoZ9CFKSwaVvDVxrS2tik0EnCc8N
- 5kkLu1Rdml8S1jYdonIPqU2wRGjC7dQxV1hmGThkfvBEkukkHZuN1DMx7L5LnPDcll
- mFeS6MmiP2neA9LiTr5tmQGhUBSTaP/FKetfdsHUScRqqDEySRg1GoNQefKhiULjtm
- tx/tF5bUtLPqg==
+ b=ucP9ohWQ1xjcgIdCFfpq0T5BwNF/yrZ5s+ON0WeRLsDzX0+M0lboQNLemzVzP8cca
+ af8iF8PrA+D9wqSRKveBEnLxIWv/TgZEApR8GK33xsHCJtqQOlaprYYk4/pQKmYqZF
+ QyShiHSpaLVB0XeS2TgqorQ767dmLilsK7Ivr/DSMVX8iI04E6fEdDvnF+qPVFBXjc
+ om0kBwze6Xz9RhLD9pwv32hekidqfbCQ2gbh7DD+ebg5vFfFh+NgR5ypwKFYNpYB5M
+ X7e0G/KwwHupy92bHm9ggq3CRiRwTrR+tyEPPGsy2OuZvvuCmA6KKcqcepXmfX2Eu6
+ k+kRU/mjQ6HWQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 39/58] drm/amd/display: Remove v_startup
- workaround for dcn3+
-Date: Sun, 23 Jul 2023 21:13:07 -0400
-Message-Id: <20230724011338.2298062-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 40/58] drm/amd/display: Trigger DIO FIFO resync on
+ commit streams
+Date: Sun, 23 Jul 2023 21:13:08 -0400
+Message-Id: <20230724011338.2298062-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230724011338.2298062-1-sashal@kernel.org>
 References: <20230724011338.2298062-1-sashal@kernel.org>
@@ -57,103 +58,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, wenjing.liu@amd.com,
+Cc: Iswara.Nagulendran@amd.com, wenjing.liu@amd.com,
  dri-devel@lists.freedesktop.org, hamza.mahfooz@amd.com,
- Jun Lei <jun.lei@amd.com>, Sasha Levin <sashal@kernel.org>,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Alvin.Lee2@amd.com,
- sunpeng.li@amd.com, mwen@igalia.com, Daniel Wheeler <daniel.wheeler@amd.com>,
- sungjoon.kim@amd.com, Daniel Miess <daniel.miess@amd.com>, Xinhui.Pan@amd.com,
- gabe.teeger@amd.com, Alex Deucher <alexander.deucher@amd.com>,
- nicholas.kazlauskas@amd.com
+ Saaem Rizvi <syedsaaem.rizvi@amd.com>, Jun.Lei@amd.com, Jingwen.Zhu@amd.com,
+ Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com, sancchen@amd.com,
+ Rodrigo.Siqueira@amd.com, Syed.Hassan@amd.com, amd-gfx@lists.freedesktop.org,
+ alex.hung@amd.com, michael.strauss@amd.com, Alvin.Lee2@amd.com,
+ jdhillon@amd.com, stylon.wang@amd.com, jiapeng.chong@linux.alibaba.com,
+ sunpeng.li@amd.com, trix@redhat.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Martin.Leung@amd.com, daniel.miess@amd.com, Dillon.Varone@amd.com,
+ Tom Chung <chiahsuan.chung@amd.com>, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, Dmytro.Laktyushkin@amd.com,
+ zhikai.zhai@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Miess <daniel.miess@amd.com>
+From: Saaem Rizvi <syedsaaem.rizvi@amd.com>
 
-[ Upstream commit 3a31e8b89b7240d9a17ace8a1ed050bdcb560f9e ]
+[ Upstream commit 3e8d74cb128fb1a4d56270ffbecea6056c55739a ]
 
-[Why]
-Calls to dcn20_adjust_freesync_v_startup are no longer
-needed as of dcn3+ and can cause underflow in some cases
+[WHY]
+Currently, there is an intermittent issue where a screen can either go
+blank or be corrupted.
 
-[How]
-Move calls to dcn20_adjust_freesync_v_startup up into
-validate_bandwidth for dcn2.x
+[HOW]
+To resolve the issue we trigger the ramping logic for DIO FIFO so that
+it goes back up to the correct speed.
 
-Reviewed-by: Jun Lei <jun.lei@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Daniel Miess <daniel.miess@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Acked-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Saaem Rizvi <syedsaaem.rizvi@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../drm/amd/display/dc/dml/dcn20/dcn20_fpu.c  | 24 +++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ .../display/dc/dce110/dce110_hw_sequencer.c   |  3 +++
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h |  4 ++-
+ .../drm/amd/display/dc/dcn314/dcn314_dccg.c   | 11 ++++++++
+ .../drm/amd/display/dc/dcn314/dcn314_dccg.h   |  5 +++-
+ .../drm/amd/display/dc/dcn314/dcn314_hwseq.c  | 27 +++++++++++++++++++
+ .../drm/amd/display/dc/dcn314/dcn314_hwseq.h  |  2 ++
+ .../drm/amd/display/dc/dcn314/dcn314_init.c   |  1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h  |  3 +++
+ .../amd/display/dc/inc/hw_sequencer_private.h |  2 ++
+ 9 files changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-index f1c1a4b5fcac3..2044c8fe35688 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c
-@@ -1098,10 +1098,6 @@ void dcn20_calculate_dlg_params(struct dc *dc,
- 		context->res_ctx.pipe_ctx[i].plane_res.bw.dppclk_khz =
- 						pipes[pipe_idx].clks_cfg.dppclk_mhz * 1000;
- 		context->res_ctx.pipe_ctx[i].pipe_dlg_param = pipes[pipe_idx].pipe.dest;
--		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
--			dcn20_adjust_freesync_v_startup(
--				&context->res_ctx.pipe_ctx[i].stream->timing,
--				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index 8d2460d06bced..1a0be40d125c6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -2291,6 +2291,9 @@ enum dc_status dce110_apply_ctx_to_hw(
  
- 		pipe_idx++;
+ 		if (DC_OK != status)
+ 			return status;
++
++		if (hws->funcs.resync_fifo_dccg_dio)
++			hws->funcs.resync_fifo_dccg_dio(hws, dc, context);
  	}
-@@ -1915,6 +1911,7 @@ static bool dcn20_validate_bandwidth_internal(struct dc *dc, struct dc_state *co
- 	int vlevel = 0;
- 	int pipe_split_from[MAX_PIPES];
- 	int pipe_cnt = 0;
-+	int i = 0;
- 	display_e2e_pipe_params_st *pipes = kzalloc(dc->res_pool->pipe_count * sizeof(display_e2e_pipe_params_st), GFP_ATOMIC);
- 	DC_LOGGER_INIT(dc->ctx->logger);
  
-@@ -1938,6 +1935,15 @@ static bool dcn20_validate_bandwidth_internal(struct dc *dc, struct dc_state *co
- 	dcn20_calculate_wm(dc, context, pipes, &pipe_cnt, pipe_split_from, vlevel, fast_validate);
- 	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
+ 	if (dc->fbc_compressor)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h
+index 7bdc146f7cb59..c8602bcfa393a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h
+@@ -208,7 +208,9 @@
+ #define DCCG314_REG_FIELD_LIST(type) \
+ 	type DSCCLK3_DTO_PHASE;\
+ 	type DSCCLK3_DTO_MODULO;\
+-	type DSCCLK3_DTO_ENABLE;
++	type DSCCLK3_DTO_ENABLE;\
++	type DENTIST_DISPCLK_RDIVIDER;\
++	type DENTIST_DISPCLK_WDIVIDER;
  
+ #define DCCG32_REG_FIELD_LIST(type) \
+ 	type DPSTREAMCLK0_EN;\
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c
+index de7bfba2c1798..e0e7d32bb1a0e 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.c
+@@ -45,6 +45,16 @@
+ #define DC_LOGGER \
+ 	dccg->ctx->logger
+ 
++static void dccg314_trigger_dio_fifo_resync(
++	struct dccg *dccg)
++{
++	struct dcn_dccg *dccg_dcn = TO_DCN_DCCG(dccg);
++	uint32_t dispclk_rdivider_value = 0;
++
++	REG_GET(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_RDIVIDER, &dispclk_rdivider_value);
++	REG_UPDATE(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_WDIVIDER, dispclk_rdivider_value);
++}
++
+ static void dccg314_get_pixel_rate_div(
+ 		struct dccg *dccg,
+ 		uint32_t otg_inst,
+@@ -357,6 +367,7 @@ static const struct dccg_funcs dccg314_funcs = {
+ 	.disable_dsc = dccg31_disable_dscclk,
+ 	.enable_dsc = dccg31_enable_dscclk,
+ 	.set_pixel_rate_div = dccg314_set_pixel_rate_div,
++	.trigger_dio_fifo_resync = dccg314_trigger_dio_fifo_resync,
+ 	.set_valid_pixel_rate = dccg314_set_valid_pixel_rate,
+ };
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.h b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.h
+index 90687a9e8fddd..8e07d3151f915 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_dccg.h
+@@ -192,7 +192,10 @@
+ 	DCCG_SF(DCCG_GATE_DISABLE_CNTL2, PHYBSYMCLK_GATE_DISABLE, mask_sh),\
+ 	DCCG_SF(DCCG_GATE_DISABLE_CNTL2, PHYCSYMCLK_GATE_DISABLE, mask_sh),\
+ 	DCCG_SF(DCCG_GATE_DISABLE_CNTL2, PHYDSYMCLK_GATE_DISABLE, mask_sh),\
+-	DCCG_SF(DCCG_GATE_DISABLE_CNTL2, PHYESYMCLK_GATE_DISABLE, mask_sh)
++	DCCG_SF(DCCG_GATE_DISABLE_CNTL2, PHYESYMCLK_GATE_DISABLE, mask_sh),\
++	DCCG_SF(HDMISTREAMCLK0_DTO_PARAM, HDMISTREAMCLK0_DTO_MODULO, mask_sh),\
++	DCCG_SF(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_RDIVIDER, mask_sh),\
++	DCCG_SF(DENTIST_DISPCLK_CNTL, DENTIST_DISPCLK_WDIVIDER, mask_sh)
+ 
+ struct dccg *dccg314_create(
+ 	struct dc_context *ctx,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c
+index cc3fe9cac5b53..df5c5117bc9b2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c
+@@ -390,6 +390,33 @@ void dcn314_set_pixels_per_cycle(struct pipe_ctx *pipe_ctx)
+ 				pix_per_cycle);
+ }
+ 
++void dcn314_resync_fifo_dccg_dio(struct dce_hwseq *hws, struct dc *dc, struct dc_state *context)
++{
++	uint8_t i;
++	struct pipe_ctx *pipe = NULL;
++	bool otg_disabled[MAX_PIPES] = {false};
++
 +	for (i = 0; i < dc->res_pool->pipe_count; i++) {
-+		if (!context->res_ctx.pipe_ctx[i].stream)
++		pipe = &dc->current_state->res_ctx.pipe_ctx[i];
++
++		if (pipe->top_pipe || pipe->prev_odm_pipe)
 +			continue;
-+		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
-+			dcn20_adjust_freesync_v_startup(
-+				&context->res_ctx.pipe_ctx[i].stream->timing,
-+				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
++
++		if (pipe->stream && (pipe->stream->dpms_off || dc_is_virtual_signal(pipe->stream->signal))) {
++			pipe->stream_res.tg->funcs->disable_crtc(pipe->stream_res.tg);
++			reset_sync_context_for_pipe(dc, context, i);
++			otg_disabled[i] = true;
++		}
 +	}
 +
- 	BW_VAL_TRACE_END_WATERMARKS();
- 
- 	goto validate_out;
-@@ -2210,6 +2216,7 @@ bool dcn21_validate_bandwidth_fp(struct dc *dc,
- 	int vlevel = 0;
- 	int pipe_split_from[MAX_PIPES];
- 	int pipe_cnt = 0;
-+	int i = 0;
- 	display_e2e_pipe_params_st *pipes = kzalloc(dc->res_pool->pipe_count * sizeof(display_e2e_pipe_params_st), GFP_ATOMIC);
- 	DC_LOGGER_INIT(dc->ctx->logger);
- 
-@@ -2238,6 +2245,15 @@ bool dcn21_validate_bandwidth_fp(struct dc *dc,
- 	dcn21_calculate_wm(dc, context, pipes, &pipe_cnt, pipe_split_from, vlevel, fast_validate);
- 	dcn20_calculate_dlg_params(dc, context, pipes, pipe_cnt, vlevel);
- 
-+	for (i = 0; i < dc->res_pool->pipe_count; i++) {
-+		if (!context->res_ctx.pipe_ctx[i].stream)
-+			continue;
-+		if (context->res_ctx.pipe_ctx[i].stream->adaptive_sync_infopacket.valid)
-+			dcn20_adjust_freesync_v_startup(
-+				&context->res_ctx.pipe_ctx[i].stream->timing,
-+				&context->res_ctx.pipe_ctx[i].pipe_dlg_param.vstartup_start);
-+	}
++	hws->ctx->dc->res_pool->dccg->funcs->trigger_dio_fifo_resync(hws->ctx->dc->res_pool->dccg);
 +
- 	BW_VAL_TRACE_END_WATERMARKS();
++	for (i = 0; i < dc->res_pool->pipe_count; i++) {
++		if (otg_disabled[i])
++			pipe->stream_res.tg->funcs->enable_crtc(pipe->stream_res.tg);
++	}
++}
++
+ void dcn314_dpp_root_clock_control(struct dce_hwseq *hws, unsigned int dpp_inst, bool clock_on)
+ {
+ 	if (!hws->ctx->dc->debug.root_clock_optimization.bits.dpp)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h
+index 6d0b62503caa6..559d71002e8a4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h
+@@ -41,6 +41,8 @@ unsigned int dcn314_calculate_dccg_k1_k2_values(struct pipe_ctx *pipe_ctx, unsig
  
- 	goto validate_out;
+ void dcn314_set_pixels_per_cycle(struct pipe_ctx *pipe_ctx);
+ 
++void dcn314_resync_fifo_dccg_dio(struct dce_hwseq *hws, struct dc *dc, struct dc_state *context);
++
+ void dcn314_hubp_pg_control(struct dce_hwseq *hws, unsigned int hubp_inst, bool power_on);
+ 
+ void dcn314_dpp_root_clock_control(struct dce_hwseq *hws, unsigned int dpp_inst, bool clock_on);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+index a588f46b166f4..6b8586852c0eb 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+@@ -151,6 +151,7 @@ static const struct hwseq_private_funcs dcn314_private_funcs = {
+ 	.setup_hpo_hw_control = dcn31_setup_hpo_hw_control,
+ 	.calculate_dccg_k1_k2_values = dcn314_calculate_dccg_k1_k2_values,
+ 	.set_pixels_per_cycle = dcn314_set_pixels_per_cycle,
++	.resync_fifo_dccg_dio = dcn314_resync_fifo_dccg_dio,
+ };
+ 
+ void dcn314_hw_sequencer_construct(struct dc *dc)
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h b/drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h
+index ad6acd1b34e1d..0b700b3d7d972 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h
+@@ -159,6 +159,9 @@ struct dccg_funcs {
+ 			int otg_inst,
+ 			int pixclk_khz);
+ 
++	void (*trigger_dio_fifo_resync)(
++			struct dccg *dccg);
++
+ 	void (*dpp_root_clock_control)(
+ 			struct dccg *dccg,
+ 			unsigned int dpp_inst,
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw_sequencer_private.h b/drivers/gpu/drm/amd/display/dc/inc/hw_sequencer_private.h
+index 4513544559be2..4ca4192c1e127 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw_sequencer_private.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw_sequencer_private.h
+@@ -160,6 +160,8 @@ struct hwseq_private_funcs {
+ 			unsigned int *k1_div,
+ 			unsigned int *k2_div);
+ 	void (*set_pixels_per_cycle)(struct pipe_ctx *pipe_ctx);
++	void (*resync_fifo_dccg_dio)(struct dce_hwseq *hws, struct dc *dc,
++			struct dc_state *context);
+ 	bool (*is_dp_dig_pixel_rate_div_policy)(struct pipe_ctx *pipe_ctx);
+ #endif
+ };
 -- 
 2.39.2
 
