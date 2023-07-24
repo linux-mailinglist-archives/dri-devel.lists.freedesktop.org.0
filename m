@@ -2,149 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF49B7609ED
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 08:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F801760B7C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0A3F10E390;
-	Tue, 25 Jul 2023 06:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F036C10E3A2;
+	Tue, 25 Jul 2023 07:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC89910E041;
- Tue, 25 Jul 2023 06:01:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690264893; x=1721800893;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=o7fR6wHhOXlZ0+5tyvAPWY1i8JqJz86+h+n8KTRS3ec=;
- b=LNr1qbX4Jc+a9iOV/idRXgxFgWlhnRNOI+iV8Pp6A2KD3bBspy0NnW8Q
- zTKovBOcCGa1BoTS2veawh0CijYr2cycZp9nnOpS9cYr5xQBgaA8D2fZT
- OfuA7Mb/nXpDttEWYwC4PUiCeB/f8eUeHsNmOoptgRX0Ww9rB59jdwJMi
- QihPzsOYxXlI8nHXmoNuhb40ll/LSopi8DemxdQEALFto1OXDaq9+b2tv
- gZtG3coErFwrtEVhrR+HW2N3E2NiMpMd+imh2yieNV7f/0j8YcrnaaMkQ
- GuEXnbgTqM2YvcMjm1gFwrec/0iFf5+nQ+JaJemQjNt00nbuiGuQ102ZH g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="347232895"
-X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; d="scan'208";a="347232895"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2023 23:01:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="703167863"
-X-IronPort-AV: E=Sophos;i="6.01,229,1684825200"; d="scan'208";a="703167863"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga006.jf.intel.com with ESMTP; 24 Jul 2023 23:01:32 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 24 Jul 2023 23:01:32 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 24 Jul 2023 23:01:32 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.47) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 24 Jul 2023 23:01:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iy+ZjK2jJgTZiW9ozGE9wx26VJObh9uvUM6quUI/5ucvZqayMuP4H7tIc+MbKfpzJtDXI+OPGQa1I1GyGKSw5+4fM0I3fotabFKXRQ523naGIaJIlGaGg0biS4Il9l4NTh0NmBZaFwvZ7rVQF8LiZ0YYKkhgE6qcXdpepI7aZeKxTgcBDvgboFQgdqOZhEAP2SfxXxI+ZuVE/dqZ6BYrMa5mKXnIDseZUWfop5eO4IGFQGLE/Tj7pc4Q7KIKyYBugVoV3TrQ2BHAYK3fHH7pPtBx7HUg+AXbQO7w39WGFZTqsIU+3ucYXcq/L7XCg7KkVXMp9ooDX+Bib5eO9FFkog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9VMhz4kRXBHphhJvZNLXaD+MzfLqHBWU1VT/nK9ljOs=;
- b=X+G18GEBknuF3DlRXBB8CHU5ASsvYZZN3pXehY64VJOJJNB+qsUWQGxNhcIxgXbRE08JhzdZaUfbne+KARoqMtngm/OeavosFo4aL8Z1ZPxKPviUDx/ZKpH6l39KV+FdT10+q6Ihf15A2YXhVl2vKvKsplctlFv3D/SiGlZF8uDk0RN4iNrekan5gLc3gCaKKmKLKxTCcaI/qdGThDAXNeRQmTxcOSw8vp26MQS67+AJ2iBrZngh9BOwCcg5i0OBofwOmL99vbfUZgoQmMhmnfRwMVjuDjukAIKtbGz33NEopQWU43y1aVmRo3++y0F+7mcZugvKmwrcFe0q0Hsz2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com (2603:10b6:610:bf::17)
- by CH3PR11MB8139.namprd11.prod.outlook.com (2603:10b6:610:157::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.32; Tue, 25 Jul
- 2023 06:01:27 +0000
-Received: from CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::857:5e95:ed36:4066]) by CH0PR11MB5332.namprd11.prod.outlook.com
- ([fe80::857:5e95:ed36:4066%7]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
- 06:01:27 +0000
-Message-ID: <8f2be7c3-ff34-9134-9d82-c88ab80c1480@intel.com>
-Date: Tue, 25 Jul 2023 11:31:16 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 07/19] drm/i915/intel_cdclk: Add vdsc with bigjoiner
- constraints on min_cdlck
-Content-Language: en-US
-To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-References: <20230713103346.1163315-1-ankit.k.nautiyal@intel.com>
- <20230713103346.1163315-8-ankit.k.nautiyal@intel.com>
- <ZLj9NArcFWXo3G5J@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <ZLj9NArcFWXo3G5J@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0132.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::17) To CH0PR11MB5332.namprd11.prod.outlook.com
- (2603:10b6:610:bf::17)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5332:EE_|CH3PR11MB8139:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01925ffa-b45a-4545-c0ab-08db8cd49562
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: flyjsa1uzRrHs1zl3c1nSF5ZofRydGMYywPOeUbBj48eODq1PES8CYsTAVU342qhEnUaIN2zCPTmoZkcC0b7pnecwnAICVA1egP5HH2WnJkzXLH2jgbdUR8DHZmLgT5eo1AKSzIoVv7F0PwwPfXoOdlO7aWu5cAwuN24ivfMs40xfV6PK+yAPo7ALFsZzzcUpLSMFGTjuuMSzJPQtQ9vBk9F2mkm8DSh3moynLToqTojr+U4V6AdOm5zsCw/L87XZAW2Jzpg9YI7WLP7NVXAyf4gH3VmPHRU7vbFKYbVqLARE3TdVKGM1mtrlveWi0CMrzP2yzU31mq620hxMcC5VGflp48K7T+z3ToKlwPsz2cx0rmh25zAijXRHpU/HQrt61B/ltfWrJ6eMMaoH1E6LOrFGMXI3afstIw+dwNAtzcY6vAIpe9TN1yhGu6Zet7evsRSo39YjUiIWrPP0GKxKdZOtZ93rx+mn0yLIAprYSTvy2lfSxuNR67DBcq9KvhO79ZoeZZXTeMCauoqJDK4kCL/TUdpII0dV84C3xwdWR79ofGAtamyBmlrH6AasWNnFpoBTGC8wwpt8k/nSxYHDsFyYY+UdLDLfE3juvbp2fEsWx4ElWlJp4DiZ/aIZTGlkSPS6eI47lAP4+6ZWi6ZTQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5332.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(136003)(39860400002)(396003)(346002)(376002)(366004)(451199021)(31686004)(86362001)(82960400001)(31696002)(38100700002)(6636002)(37006003)(66556008)(316002)(4326008)(66946007)(478600001)(6862004)(41300700001)(6486002)(5660300002)(8936002)(8676002)(6666004)(66476007)(6512007)(2906002)(186003)(26005)(6506007)(83380400001)(36756003)(53546011)(2616005)(55236004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?clE2TUdxV2xudWNITms4MFdpc2U4MDlCdjlERUp0a2VSNGtuL3FUaUlSUnA0?=
- =?utf-8?B?UDRwQ0NIWCt5b25JNVc3eG1KQWlNVmRsUmlLQmpDM0RLMFhtYy9ZWWJyaXZo?=
- =?utf-8?B?bUFYcDVSMlltTmFpRitYVE1QdHc0N2I1ZDZjZy94Wk5PVVE0TmdLYStRcFR0?=
- =?utf-8?B?RlRxQUh5dGFLV2xDaUx3Qmd4K0JWWnYvc0I0WGZjbmpQcndSbzNudEp6dnEz?=
- =?utf-8?B?SnhSM2w5b3pIcytla3VHeHpJSTZoL082eTRqL3dKSE10WXVNb295d0FvQWNi?=
- =?utf-8?B?Y0pFWG85SVl3MzlreU13R1ZYRlpJRVhLNEJGRWR2YUVud2RPR3M1UmdrQlhE?=
- =?utf-8?B?TWJNSEpTRUl3bzJvZGNVc2J5dllISS92ZUdxVWkyOFR5eWxGRnIxRU10TGZO?=
- =?utf-8?B?OUp0QWxYMkdUSUVCU0JLeFhHRzJDZ0Z4SGhoYnlSN3hGL3FtT0RIMDNVRkNJ?=
- =?utf-8?B?aG0zL21QRDRkUWNxcW9OSk42SXlMQU1od0Irb3RvbUN2bDRONzVnNWdlYU9k?=
- =?utf-8?B?UFRDUVdsM1c5MkR6TWZxU2VLOVhZdXFDblUwVEdGcXBRMmRZcEtUZ3hYMGpr?=
- =?utf-8?B?d1BGTC8yWWlRVjh4L1dmZ3pXMittYStXSWFkOVFySlNiMi9RNndsN3Q5K0pT?=
- =?utf-8?B?UjVqa1hKRjZ5SjdiemhHL3IyVjFHb0FadUZocmpwa3RNemZ5aTJEbWU4bTE1?=
- =?utf-8?B?eHdHLytZQnpYWnlOWDJ4dmU1MmxHUDNhWGFzQWd6YWU1TjA2UTVFYkRERU8z?=
- =?utf-8?B?bUJqSWFlTlFIdU80bStTMWlNdlNsNzdHSWpjcndVaGFpOE5KSlp2UVZqUFBp?=
- =?utf-8?B?Z2lGMnlxd2FVWmxxcVJnYWpHZ1BUOWFUbUYxbTRMamw0SEtFNklqUW9Jd0NT?=
- =?utf-8?B?Z2M5S3ZpZWVtS1g3T0FZMDVDSWpwYXJheWxWSGpQZ05xcWx0Zk5XUVpSUFZX?=
- =?utf-8?B?SEc0L0NTQ3NUMTVoYW5DK0xPa2NOdElxem5ZODJUNEJXQSthS3JXckhIcWtY?=
- =?utf-8?B?QzA4VDFtcy9rbkJJVXYvZ0hDeG5PbXlteDhlVjVQdlFwZGZNUFNDc0s4Z3hR?=
- =?utf-8?B?cTZIUldLVW1GUmtJcUkxdnVwSlZFVUZFbnlKMHYrSTZROHpZbEFHbERBYU1H?=
- =?utf-8?B?eHg2eWsxTzJYUDFqUzZ3N3ppY1B0bUpYbGFia3Y2Q05DbklDQi9wOGpQWktT?=
- =?utf-8?B?Y1NuQjltMmdiZWlpQ2tuT2c1dHhOTnJoUXdNZ3hiaTBFNTVCODB1bzNOdHRt?=
- =?utf-8?B?QTN5VFE5WFUrQXJhTkNBSFBXNHYySWRUanhDZ3NSVE5ZeXpYVmZHY3pRQWdh?=
- =?utf-8?B?ZHZDUWhOZlphbjlUaU1hT3NnNCtaNy9VZjNCZHZjbEpKVEZkZmJDYndEQWlC?=
- =?utf-8?B?RlVWT2VGd3crRWFLQzc5SW9GOC9ya0h0dHhpTmtEaGlHUVE2ZWs2U2R3a0My?=
- =?utf-8?B?dUlDM1BTZzRLNDk5OTBTUlJYc3JqU3F1ZEtGSWV6ZUpKdXMyRFA1cHY2QzRu?=
- =?utf-8?B?RUxGZXlIc2d5c2t0V2wzVk5qSEFxQ3krUkpJVzNvcXNhQ3YwS0RwbVZMMGVB?=
- =?utf-8?B?RldCS0FOY2N6OXJMVEU3RFdYZXlSek5Idnd3SnJIZzFoejQwWjg4U0V5azlR?=
- =?utf-8?B?V1lvZnMxRTJ6VStjWStPcHVBVGZ3cVNUMndla3R4VkwxYXZubXk1NlpXMFVY?=
- =?utf-8?B?bHgzMXVtY0NFbVZiei9nU0RwMmxPd0piZFo5NkRFWlA4Ti9POEoyb29RNUdU?=
- =?utf-8?B?WW5TVkRhOGoxOUpjckttbXF5VWY1OEswTzU1TkhpM3ZGTE1DYm9tVkkvWW1S?=
- =?utf-8?B?MlczdGZTQ3ZKWUJhdTVhT3JMWXhNTFZ0RlNUUzAvelVCNXBqRldOSHVxc01G?=
- =?utf-8?B?Y0d1RmQxSjJpdmo0ODFBUzRuS3Q3SHNPU09HWG9QN3pwVmE0NzBHeTRKbnlz?=
- =?utf-8?B?YzhTREw2T2VMTnplVUZ2VCtaaXNtdkp0blVFZXBtYjN3TlcrdGJjb1pDUEN1?=
- =?utf-8?B?aFgzUmJBQ1dJclIrM2M5SjVVVHBqMXZhNFhXbVZ5Tkd1eU9uOGUyWS9ncjU0?=
- =?utf-8?B?VVhic0tiMEplcWFhSUYwN09YNVZlYUJKbVRwWWlyNXQ4YnI0UkY1MG92Vk9L?=
- =?utf-8?B?TnJYT01jKzhVa2ZhRFZaVkRZL01Kc25WSGZmZU0zZ2VhMDNqQUdiWG9pQUZC?=
- =?utf-8?B?dEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01925ffa-b45a-4545-c0ab-08db8cd49562
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5332.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2023 06:01:27.1962 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: prWB0Hw6OkEtUObikdThrDdb0PUuNMKf/ahOk7q/mNT2MJ/PznLJrjLjEui3c9HOhQtt1fCIirxoDlIxx7uF55oIZkvXSOzHqBDursV9iUY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8139
-X-OriginatorOrg: intel.com
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895D610E339;
+ Mon, 24 Jul 2023 17:16:03 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id F30DA5C0176;
+ Mon, 24 Jul 2023 13:16:00 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+ by compute2.internal (MEProxy); Mon, 24 Jul 2023 13:16:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dymek.me; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1690218960; x=1690305360; bh=id
+ Kj2ASfwZqfnrjhLGpjl4JQ0T7IJDG1zW5qQpC4ECI=; b=QEjCHRoR6eYizkYa+k
+ HmzSrm9w4HKrHrnOuIl2Ng4syPK3n8YLqXP7VyG+Vs5znh0upjGLbH2MgTAxyf5A
+ N3IhpvkAbP5W6AYeEP5iGMrbfHsyBwKi5lPiEoN5Oj2xwa2NUBjeCMOFXNF5NHP9
+ UpxJWUrJ5fVR5lZGa7u0jw/jM5wJjm9owF7/V96NrvRk6ea7KXG3tpLsAx7P+EUG
+ 2wSZzKw3LV96XbkKQCkz3hA3+IAGuuoSFYAK41qexdldzQA0CI7W1zyvNpszbN8o
+ itJex4PGGBSQO05KjoSm4N4bTDnB2ycLyp0op/b388Pt6KhGrHUFxCmRQdk1eS3/
+ hLfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1690218960; x=1690305360; bh=idKj2ASfwZqfn
+ rjhLGpjl4JQ0T7IJDG1zW5qQpC4ECI=; b=OqhOPFFlJAz+CnNuhmlFuClvbjrtd
+ J6m1ASuMFteSdYh1BulFPuSHr54g4Ew1OaAEuuuD/YE6ADqpdh7Pr8dXRUMXSqsu
+ IzM3eUR/82EP9+q/oReZkc9Gh0e77hlKxNnnOENpJguvbPHIFVAW6TfVgNj58JzO
+ 3kgqES2BUHXG/XpcFK5dXMdwPzIB1jVZOV4ClvztoSGGItacyN4ECfWfWtqinfHi
+ HxFnsw3kD1BRzUm/3kdZFCgEGtHB347kheT+CJHEosWANV6skSA+P5QTm0PI8Dst
+ s0uCMkn/CweLBaaOQ3rNT9GLWeb0XvE8HKQwp1dPhHJl5lhMIOL5cPt4g==
+X-ME-Sender: <xms:z7G-ZCOvlgDQWV-ybtxO33cGJ3WPP7iloSuRrJ3kJY9LjKqMY5c03Q>
+ <xme:z7G-ZA8gvLc0jedJImdUZx3dWjtfC6laRbCjrRvw02iHsQPIkmv567cYix7BhZ9uY
+ xmnHy8_RAmB1UhBWA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrheekgddutdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvvefutgesrg
+ dtreerreerjeenucfhrhhomhepfdforghrkhcuffihmhgvkhdfuceomhgrrhhkseguhihm
+ vghkrdhmvgeqnecuggftrfgrthhtvghrnhepgfeuudefveegueelfeekueeuteevuedvff
+ dvkedtveeuteegvddtveetfeefkedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+ rghmpehmrghilhhfrhhomhepmhgrrhhkseguhihmvghkrdhmvg
+X-ME-Proxy: <xmx:0LG-ZJR4G8eXKgBeZJQ9xWT4CfdDJo1hdaj7Fzu3B72Qg-Zo7Dt8Tg>
+ <xmx:0LG-ZCu7WjrDvdn0g5RESpalgzqUOIQeMPwG63J1TadbfatQlvR2OA>
+ <xmx:0LG-ZKcXsm4Z-aq4a42IANf5e5dDJOCE1RxMwp341D2fmP1BUmXzNg>
+ <xmx:0LG-ZCQj6nrVnYyOoHMALlaeQ0T6RstHerfaaMandl0cHPHV6Iy7aQ>
+Feedback-ID: ia4a1448b:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id DE414A60077; Mon, 24 Jul 2023 13:15:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
+Mime-Version: 1.0
+Message-Id: <6f8d6649-5b53-4a44-8b9e-0ffd00af3fb6@app.fastmail.com>
+In-Reply-To: <f25017a660f8a3a4e49258a1d96003dc@208suo.com>
+References: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
+ <f25017a660f8a3a4e49258a1d96003dc@208suo.com>
+Date: Mon, 24 Jul 2023 13:15:39 -0400
+From: "Mark Dymek" <mark@dymek.me>
+To: huzhi001@208suo.com, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+Subject: Re: [Nouveau] [PATCH] drm/nouveau/fifo:Fix Nineteen occurrences of the
+ gk104.c error: ERROR: space prohibited before that ':' (ctx:WxW) ERROR:
+ trailing statements should be on next line ERROR: space prohibited
+ before that ':' (ctx:WxW) ERROR: trailing statements should be on next
+ line ERROR: space prohibited before that ':' (ctx:WxW) ERROR: trailing
+ statements should be on next line ERROR: trailing statements should be
+ on next line ERROR: space prohibited before that ':' (ctx:WxW) ERROR:
+ trailing statements should be on next line ERROR: space prohibited
+ before that ':' (ctx:WxW) ERROR: trailing statements should be on next
+ line ERROR: space prohibited before that ':' (ctx:WxW) ERROR: trailing
+ statements should be on next line ERROR: space prohibited before that
+ ':' (ctx:WxW) ERROR: trailing statements should be on next line ERROR:
+ space prohibited before that ':' (ctx:WxE) ERROR: space prohibited
+ before that ':' (ctx:WxE) ERROR: trailing statements should be on next
+ line ERROR: trailing s tatements should be on next line
+Content-Type: multipart/alternative; boundary=fb81da4b909a46b4a6fb5f653089f9e2
+X-Mailman-Approved-At: Tue, 25 Jul 2023 07:19:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,139 +98,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, anusha.srivatsa@intel.com,
- dri-devel@lists.freedesktop.org, navaremanasi@google.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--fb81da4b909a46b4a6fb5f653089f9e2
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/20/2023 2:54 PM, Lisovskiy, Stanislav wrote:
-> On Thu, Jul 13, 2023 at 04:03:34PM +0530, Ankit Nautiyal wrote:
->> As per Bsepc:49259, Bigjoiner BW check puts restriction on the
->> compressed bpp for a given CDCLK, pixelclock in cases where
->> Bigjoiner + DSC are used.
->>
->> Currently compressed bpp is computed first, and it is ensured that
->> the bpp will work at least with the max CDCLK freq.
->>
->> Since the CDCLK is computed later, lets account for Bigjoiner BW
->> check while calculating Min CDCLK.
->>
->> v2: Use pixel clock in the bw calculations. (Ville)
->>
->> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->> ---
->>   drivers/gpu/drm/i915/display/intel_cdclk.c | 61 +++++++++++++++++-----
->>   1 file changed, 47 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
->> index 701909966545..788dba576294 100644
->> --- a/drivers/gpu/drm/i915/display/intel_cdclk.c
->> +++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
->> @@ -2533,6 +2533,51 @@ static int intel_planes_min_cdclk(const struct intel_crtc_state *crtc_state)
->>   	return min_cdclk;
->>   }
->>   
->> +static int intel_vdsc_min_cdclk(const struct intel_crtc_state *crtc_state)
->> +{
->> +	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
->> +	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
->> +	int num_vdsc_instances = intel_dsc_get_num_vdsc_instances(crtc_state);
->> +	int min_cdclk = 0;
->> +
->> +	/*
->> +	 * When we decide to use only one VDSC engine, since
->> +	 * each VDSC operates with 1 ppc throughput, pixel clock
->> +	 * cannot be higher than the VDSC clock (cdclk)
->> +	 * If there 2 VDSC engines, then pixel clock can't be higher than
->> +	 * VDSC clock(cdclk) * 2 and so on.
->> +	 */
->> +	min_cdclk = max_t(int, min_cdclk,
->> +			  DIV_ROUND_UP(crtc_state->pixel_rate, num_vdsc_instances));
->> +
->> +	if (crtc_state->bigjoiner_pipes) {
->> +		int pixel_clock = crtc_state->hw.adjusted_mode.clock;
->> +
->> +		/*
->> +		 * According to Bigjoiner bw check:
->> +		 * compressed_bpp <= PPC * CDCLK * Big joiner Interface bits / Pixel clock
->> +		 *
->> +		 * We have already computed compressed_bpp, so now compute the min CDCLK that
->> +		 * is required to support this compressed_bpp.
->> +		 *
->> +		 * => CDCLK >= compressed_bpp * Pixel clock / (PPC * Bigjoiner Interface bits)
->> +		 *
->> +		 * Since PPC = 2 with bigjoiner
->> +		 * => CDCLK >= compressed_bpp * Pixel clock  / 2 * Bigjoiner Interface bits
->> +		 *
->> +		 * #TODO Bspec mentions to account for FEC overhead while using pixel clock.
->> +		 * Check if we need to use FEC overhead in the above calculations.
-> There is already some function used in intel_dp.c:
->
-> intel_dp_mode_to_fec_clock(mode_clock) => Should you may be just use that one, to account FEC
-> overhead?
+not sure how i got signed up for this and i don=E2=80=99t see a way to u=
+nsubscribe. this is flooding my email with things i don=E2=80=99t care a=
+bout.=20
 
-Hmm right I agree, I can use that here, thanks!
+On Fri, Jul 14, 2023, at 1:14 AM, huzhi001@208suo.com wrote:
+> Signed-off-by: ZhiHu <huzhi001@208suo.com>
+> ---
+>   .../gpu/drm/nouveau/nvkm/engine/fifo/gk104.c  | 40 ++++++++++++++---=
+--
+>   1 file changed, 29 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c=20
+> b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> index d8a4d773a58c..b99e0a7c96bb 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> @@ -137,15 +137,29 @@ gk104_ectx_bind(struct nvkm_engn *engn, struct=20
+> nvkm_cctx *cctx, struct nvkm_chan
+>       u64 addr =3D 0ULL;
+>=20
+>       switch (engn->engine->subdev.type) {
+> -    case NVKM_ENGINE_SW    : return;
+> -    case NVKM_ENGINE_GR    : ptr0 =3D 0x0210; break;
+> -    case NVKM_ENGINE_SEC   : ptr0 =3D 0x0220; break;
+> -    case NVKM_ENGINE_MSPDEC: ptr0 =3D 0x0250; break;
+> -    case NVKM_ENGINE_MSPPP : ptr0 =3D 0x0260; break;
+> -    case NVKM_ENGINE_MSVLD : ptr0 =3D 0x0270; break;
+> -    case NVKM_ENGINE_VIC   : ptr0 =3D 0x0280; break;
+> -    case NVKM_ENGINE_MSENC : ptr0 =3D 0x0290; break;
+> -    case NVKM_ENGINE_NVDEC :
+> +    case NVKM_ENGINE_SW:
+> +        return;
+> +    case NVKM_ENGINE_GR:
+> +        ptr0 =3D 0x0210;
+> +        break;
+> +    case NVKM_ENGINE_SEC:
+> +        ptr0 =3D 0x0220;
+> +        break;
+> +    case NVKM_ENGINE_MSPDEC:
+> +        ptr0 =3D 0x0250;
+> +        break;
+> +    case NVKM_ENGINE_MSPPP:
+> +        ptr0 =3D 0x0260;
+> +        break;
+> +    case NVKM_ENGINE_MSVLD:
+> +        ptr0 =3D 0x0270;
+> +        break;
+> +    case NVKM_ENGINE_VIC:
+> +        ptr0 =3D 0x0280; break;
+> +    case NVKM_ENGINE_MSENC:
+> +        ptr0 =3D 0x0290;
+> +        break;
+> +    case NVKM_ENGINE_NVDEC:
+>           ptr1 =3D 0x0270;
+>           ptr0 =3D 0x0210;
+>           break;
+> @@ -435,8 +449,12 @@ gk104_runl_commit(struct nvkm_runl *runl, struct=20
+> nvkm_memory *memory, u32 start,
+>       int target;
+>=20
+>       switch (nvkm_memory_target(memory)) {
+> -    case NVKM_MEM_TARGET_VRAM: target =3D 0; break;
+> -    case NVKM_MEM_TARGET_NCOH: target =3D 3; break;
+> +    case NVKM_MEM_TARGET_VRAM:
+> +        target =3D 0;
+> +        break;
+> +    case NVKM_MEM_TARGET_NCOH:
+> +        target =3D 3;
+> +        break;
+>       default:
+>           WARN_ON(1);
+>           return;
+>=20
+--fb81da4b909a46b4a6fb5f653089f9e2
+Content-Type: text/html;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-
->
->> +		 */
->> +		int bigjoiner_interface_bits = DISPLAY_VER(i915) > 13 ? 36 : 24;
->> +		int min_cdclk_bj = (crtc_state->dsc.compressed_bpp * pixel_clock) /
->> +				   (2 * bigjoiner_interface_bits);
-> I would use "num_vdsc_instances" instead of 2, since we even get those explicitly.
-
-Currently for the bigjoiner case, the num_vdsc_instances returns 4 for 
-the pipes. Should we have a function to have num_vdsc_instances_per_pipe?
-
-Or perhaps one function for just getting the PPC which will be 2 for 
-Display>=10 and when dsc_split is used, and 1 otherwise?
-
-
-Thanks & Regards,
-
-Ankit
-
-
->
->> +
->> +		min_cdclk = max(min_cdclk, min_cdclk_bj);
->> +	}
->> +
->> +	return min_cdclk;
->> +}
->> +
->>   int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
->>   {
->>   	struct drm_i915_private *dev_priv =
->> @@ -2604,20 +2649,8 @@ int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
->>   	/* Account for additional needs from the planes */
->>   	min_cdclk = max(intel_planes_min_cdclk(crtc_state), min_cdclk);
->>   
->> -	/*
->> -	 * When we decide to use only one VDSC engine, since
->> -	 * each VDSC operates with 1 ppc throughput, pixel clock
->> -	 * cannot be higher than the VDSC clock (cdclk)
->> -	 * If there 2 VDSC engines, then pixel clock can't be higher than
->> -	 * VDSC clock(cdclk) * 2 and so on.
->> -	 */
->> -	if (crtc_state->dsc.compression_enable) {
->> -		int num_vdsc_instances = intel_dsc_get_num_vdsc_instances(crtc_state);
->> -
->> -		min_cdclk = max_t(int, min_cdclk,
->> -				  DIV_ROUND_UP(crtc_state->pixel_rate,
->> -					       num_vdsc_instances));
->> -	}
->> +	if (crtc_state->dsc.compression_enable)
->> +		min_cdclk = max(min_cdclk, intel_vdsc_min_cdclk(crtc_state));
->
-> With notes above taken care of:
->
-> Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
->
->>   
->>   	/*
->>   	 * HACK. Currently for TGL/DG2 platforms we calculate
->> -- 
->> 2.40.1
->>
+<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
+Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>not sure how i =
+got signed up for this and i don=E2=80=99t see a way to unsubscribe. thi=
+s is flooding my email with things i don=E2=80=99t care about.&nbsp;</di=
+v><div><br></div><div>On Fri, Jul 14, 2023, at 1:14 AM,&nbsp;<a href=3D"=
+mailto:huzhi001@208suo.com">huzhi001@208suo.com</a> wrote:<br></div><blo=
+ckquote type=3D"cite" id=3D"qt" style=3D""><div>Signed-off-by: ZhiHu &lt=
+;<a href=3D"mailto:huzhi001@208suo.com">huzhi001@208suo.com</a>&gt;<br><=
+/div><div>---<br></div><div>&nbsp; .../gpu/drm/nouveau/nvkm/engine/fifo/=
+gk104.c&nbsp; | 40 ++++++++++++++-----<br></div><div>&nbsp; 1 file chang=
+ed, 29 insertions(+), 11 deletions(-)<br></div><div><br></div><div>diff =
+--git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c&nbsp;<br></div>=
+<div>b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c<br></div><div>in=
+dex d8a4d773a58c..b99e0a7c96bb 100644<br></div><div>--- a/drivers/gpu/dr=
+m/nouveau/nvkm/engine/fifo/gk104.c<br></div><div>+++ b/drivers/gpu/drm/n=
+ouveau/nvkm/engine/fifo/gk104.c<br></div><div>@@ -137,15 +137,29 @@ gk10=
+4_ectx_bind(struct nvkm_engn *engn, struct&nbsp;<br></div><div>nvkm_cctx=
+ *cctx, struct nvkm_chan<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u6=
+4 addr =3D 0ULL;<br></div><div><br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp; switch (engn-&gt;engine-&gt;subdev.type) {<br></div><div>-&nbsp;&nb=
+sp;&nbsp; case NVKM_ENGINE_SW&nbsp;&nbsp;&nbsp; : return;<br></div><div>=
+-&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_GR&nbsp;&nbsp;&nbsp; : ptr0 =3D 0x0=
+210; break;<br></div><div>-&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_SEC&nbsp;=
+&nbsp; : ptr0 =3D 0x0220; break;<br></div><div>-&nbsp;&nbsp;&nbsp; case =
+NVKM_ENGINE_MSPDEC: ptr0 =3D 0x0250; break;<br></div><div>-&nbsp;&nbsp;&=
+nbsp; case NVKM_ENGINE_MSPPP : ptr0 =3D 0x0260; break;<br></div><div>-&n=
+bsp;&nbsp;&nbsp; case NVKM_ENGINE_MSVLD : ptr0 =3D 0x0270; break;<br></d=
+iv><div>-&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_VIC&nbsp;&nbsp; : ptr0 =3D =
+0x0280; break;<br></div><div>-&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_MSENC =
+: ptr0 =3D 0x0290; break;<br></div><div>-&nbsp;&nbsp;&nbsp; case NVKM_EN=
+GINE_NVDEC :<br></div><div>+&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_SW:<br><=
+/div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br></div><=
+div>+&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_GR:<br></div><div>+&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ptr0 =3D 0x0210;<br></div><div>+&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;<br></div><div>+&nbsp;&nbsp;&nbs=
+p; case NVKM_ENGINE_SEC:<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; ptr0 =3D 0x0220;<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; break;<br></div><div>+&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_=
+MSPDEC:<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ptr0 =3D=
+ 0x0250;<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break=
+;<br></div><div>+&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_MSPPP:<br></div><di=
+v>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ptr0 =3D 0x0260;<br></div>=
+<div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;<br></div><div>+&=
+nbsp;&nbsp;&nbsp; case NVKM_ENGINE_MSVLD:<br></div><div>+&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp; ptr0 =3D 0x0270;<br></div><div>+&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;<br></div><div>+&nbsp;&nbsp;&nbsp; =
+case NVKM_ENGINE_VIC:<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; ptr0 =3D 0x0280; break;<br></div><div>+&nbsp;&nbsp;&nbsp; case N=
+VKM_ENGINE_MSENC:<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; ptr0 =3D 0x0290;<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; break;<br></div><div>+&nbsp;&nbsp;&nbsp; case NVKM_ENGINE_NVDEC:<=
+br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ptr=
+1 =3D 0x0270;<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; ptr0 =3D 0x0210;<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp; break;<br></div><div>@@ -435,8 +449,12 @@ gk104=
+_runl_commit(struct nvkm_runl *runl, struct&nbsp;<br></div><div>nvkm_mem=
+ory *memory, u32 start,<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int=
+ target;<br></div><div><br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; swi=
+tch (nvkm_memory_target(memory)) {<br></div><div>-&nbsp;&nbsp;&nbsp; cas=
+e NVKM_MEM_TARGET_VRAM: target =3D 0; break;<br></div><div>-&nbsp;&nbsp;=
+&nbsp; case NVKM_MEM_TARGET_NCOH: target =3D 3; break;<br></div><div>+&n=
+bsp;&nbsp;&nbsp; case NVKM_MEM_TARGET_VRAM:<br></div><div>+&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; target =3D 0;<br></div><div>+&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;<br></div><div>+&nbsp;&nbsp;&nbsp; c=
+ase NVKM_MEM_TARGET_NCOH:<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; target =3D 3;<br></div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; break;<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default:=
+<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WA=
+RN_ON(1);<br></div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; return;<br></div><div><br></div></blockquote></body></html>
+--fb81da4b909a46b4a6fb5f653089f9e2--
