@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014EA75FE98
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 19:56:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B875FEA3
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 19:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA26810E344;
-	Mon, 24 Jul 2023 17:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601C810E34D;
+	Mon, 24 Jul 2023 17:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917DB10E0F8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 17:56:53 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id
- 3f1490d57ef6-d129edb8261so1321204276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 10:56:53 -0700 (PDT)
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6DD10E351
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 17:58:57 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id
+ 6a1803df08f44-635f48814b4so22533496d6.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 10:58:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690221412; x=1690826212;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3ZhW5guor5Hz2gkFyNtuQtClYHHtgI1jQRPcPTzIh4g=;
- b=zBP6/yssRg6JfCnUlMmgDV1KxmrqEtLeMzVKSNMKDdWWkEQDA4EoLBuC84wHvotvY2
- Qj2MlscVI3d7nbXefmICVw3aBmPAtP9Iy6/OTwfq6JEkjb4vXpdsdgMPwJNqXjAzM1uA
- MFXXwr7tzsIgdikd7fWjX90eygo11I3J+6EBQEbNzVohHcbLLpYf5mJs93AZcTEDkLv/
- hdXt2SSH2TxvFPMAkJepU3KPocNnmuOF5kJtVZJ3C/4r7axqfcJUGws70DY0u/15kH28
- XUBb7ixKkiCBAf69Y+1BvE4u5wVSXEnY6O/cEOFaacU2bmQL5z3uagVZ7j/bj/sUJSGe
- 7Zlw==
+ d=chromium.org; s=google; t=1690221536; x=1690826336;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0hYwtqaQQRHjpNuj/nxNqpY0yf71VBA+zkmwdqqUX6o=;
+ b=ZtiCkMRToTcWl3ln5tiZtERmjzvDya7wHzLnSkoFDVyOs8Iu2FfhXqtkpLVlDQsG1c
+ 7VF1k+kAe65ce5JgsfIlRYOjQUQjlapvbByklyqAWqjWcjqzHXaBt5rNYyqK539QsGEF
+ 21SUSrd7bM63A0VF8FeOLncawE+xjXhcrXn10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690221412; x=1690826212;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3ZhW5guor5Hz2gkFyNtuQtClYHHtgI1jQRPcPTzIh4g=;
- b=PmpeuxNH5uFpXXFlfhkUZO2Gn65A0iIK/OztQbOYXT0r9tQhegq9arbYQ35PjWDyNS
- KKbg/v67pHLPN8uDRHJjxghUfFGRLklpqzSsIWGv/ZxT4gWeg1oB+90DhK3iLRlDz/v/
- 5bva1BunB7+n//qU0hhBuSjIyaK6mkv7gKtoZkDCYEAvfjD+mifml05ojnNMG39rWQ3B
- dxPYl4gSJou6a4xFLUiY3lzBX5c4DY+DBdKBBIr+U25xi1UP6oUcVRormEQs+LqoLAFB
- 2A8OhMWx+ww1nD5yLezN4Io1TXm9cLGZ50vIRCrAkER+/ogRrZvjApHdmHYy2zttUm8u
- s2+g==
-X-Gm-Message-State: ABy/qLaNiVaoFnCnLbMrbNFEnJOZB9raMxFloenSAkQfx4qm4X/bxEAL
- WwofJJJaXtAaIVa9wtEm5KSGPtYuV+i7JebgP1o9jg==
-X-Google-Smtp-Source: APBJJlEL49lC9Xnmn+AOa8dWCtiGCXwv36+U8j4wMBcZBf0by+9XagUVQLV+jdt1mUay5/9S78Hs2x+mC09ZmIB3kEc=
-X-Received: by 2002:a25:bcc4:0:b0:d07:2183:f547 with SMTP id
- l4-20020a25bcc4000000b00d072183f547mr5274226ybm.32.1690221412745; Mon, 24 Jul
- 2023 10:56:52 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1690221536; x=1690826336;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0hYwtqaQQRHjpNuj/nxNqpY0yf71VBA+zkmwdqqUX6o=;
+ b=hlmS+LpLBjRXnuGsMrYpZa34A0wtWlvViws/A3t5YZNpxId50yiz1zpdgRnIeWwoPh
+ 63A9bcJSEOIhIV4ZU00nIpNMgP+ICMwneqyiQHDTLiiSU4/0pzubxNoDF70dsJgORII/
+ FoqLm/Dzs2/ugBs+mytgU0aaMPH3Cvyfn+Io3BZzkkzg6eRin2nciVVAhjc9ZdqD9d/K
+ hMLdmdNHaNRZjALZBOKQtfMUJbIbcmM9cbk6NbwA3hPQzh28c23zCnFYGHety3VYzJut
+ Rhs4d8uFi1AVehKOY+hoPKc4AId2cVdL79GKCbECylI+YQC2GDZtQeJGDk+4j0RJBG3h
+ NFbQ==
+X-Gm-Message-State: ABy/qLYOdnGamXqU1eskIUK2bHKLZaEoSgh9KOjHGXb5tyh52MWp9MsB
+ fLPZ42G+2RDYBXyHRE033IUZIQ==
+X-Google-Smtp-Source: APBJJlHFz3fuAHrBbwCgtd5velI3s9gljIPxkDNwXxnGrhqzW2SHoTFUWWWQsodZ2VKRbVzpojYVQw==
+X-Received: by 2002:ad4:5cc8:0:b0:625:aa49:19f1 with SMTP id
+ iu8-20020ad45cc8000000b00625aa4919f1mr637809qvb.62.1690221536262; 
+ Mon, 24 Jul 2023 10:58:56 -0700 (PDT)
+Received: from greenjustin3.nyc.corp.google.com
+ ([2620:0:1003:314:610a:ddc2:a6ec:9fe7])
+ by smtp.gmail.com with ESMTPSA id
+ h14-20020a0cf40e000000b0063cf8ae182esm1470939qvl.60.2023.07.24.10.58.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Jul 2023 10:58:56 -0700 (PDT)
+From: Justin Green <greenjustin@chromium.org>
+To: linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH RESEND] drm/mediatek: Add valid modifier check
+Date: Mon, 24 Jul 2023 13:58:39 -0400
+Message-ID: <20230724175839.675911-1-greenjustin@chromium.org>
+X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 MIME-Version: 1.0
-References: <20230719105829.148011-1-luca.ceresoli@bootlin.com>
-In-Reply-To: <20230719105829.148011-1-luca.ceresoli@bootlin.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 24 Jul 2023 19:56:41 +0200
-Message-ID: <CACRpkdYshDD0CmdjdeVk_oG1s1W4BHHFzLmzN9QtZeMaEyvTBg@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: db7430: remove unused variables
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,21 +69,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, Justin Green <greenjustin@chromium.org>,
+ jason-jh.lin@mediatek.com, justin.yeh@mediatek.com, wenst@chromium.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 19, 2023 at 12:59=E2=80=AFPM Luca Ceresoli
-<luca.ceresoli@bootlin.com> wrote:
+Add a check to mtk_drm_mode_fb_create() that rejects any modifier that
+is not the AFBC mode supported by MT8195's display overlays.
 
-> These variables are never referenced in the code.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Tested by booting ChromeOS and verifying the UI works, and by running
+the ChromeOS kms_addfb_basic binary, which has a test called
+"addfb25-bad-modifier" that attempts to create a framebuffer with the
+modifier DRM_FORMAT_MOD_INVALID and verifies the ADDFB2 ioctl returns
+EINVAL.
 
-Patch applied and pushed to drm-misc-next.
+Signed-off-by: Justin Green <greenjustin@chromium.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Yours,
-Linus Walleij
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index cd5b18ef7951..2096e8a794ad 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -51,6 +51,13 @@ mtk_drm_mode_fb_create(struct drm_device *dev,
+ 	if (info->num_planes != 1)
+ 		return ERR_PTR(-EINVAL);
+ 
++	if (cmd->modifier[0] &&
++	    cmd->modifier[0] != DRM_FORMAT_MOD_ARM_AFBC(
++					AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |
++					AFBC_FORMAT_MOD_SPLIT |
++					AFBC_FORMAT_MOD_SPARSE))
++		return ERR_PTR(-EINVAL);
++
+ 	return drm_gem_fb_create(dev, file, cmd);
+ }
+ 
+-- 
+2.41.0.162.gfafddb0af9-goog
+
