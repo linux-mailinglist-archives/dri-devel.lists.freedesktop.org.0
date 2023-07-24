@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B14E75EC0C
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 08:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E6E75ED32
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:17:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6A110E274;
-	Mon, 24 Jul 2023 06:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBB610E1B5;
+	Mon, 24 Jul 2023 08:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1206 seconds by postgrey-1.36 at gabe;
- Mon, 24 Jul 2023 06:55:57 UTC
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7509710E274
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 06:55:57 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R8Vl44jCzzrRjF;
- Mon, 24 Jul 2023 14:34:56 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 24 Jul
- 2023 14:35:46 +0800
-From: Ruan Jinjie <ruanjinjie@huawei.com>
-To: <thierry.reding@gmail.com>, <mperttunen@nvidia.com>, <airlied@gmail.com>, 
- <daniel@ffwll.ch>, <jonathanh@nvidia.com>,
- <dri-devel@lists.freedesktop.org>, 
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] drm/tegra: hdmi: Use devm_platform_ioremap_resource()
-Date: Mon, 24 Jul 2023 14:36:26 +0000
-Message-ID: <20230724143626.2582615-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0AE10E1B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:17:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3C5AC60FB0;
+ Mon, 24 Jul 2023 08:17:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E5A5C433C8;
+ Mon, 24 Jul 2023 08:17:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690186624;
+ bh=Qi/DymkSC6mDUS+3IIFJJcXGnZB5VSfohCNuw53J69s=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=uB9tusxWtz2OC/IP+hp4pJTgoKnHXbz0Cv10cctchAB7XGxmXhWbaRW/VkAHr4Nzr
+ NtKlx9d9REjD3ytXyfGZITZXCkDegadwn/pykN4AUIGZeee7JlG8RWJdW1wJOZHPfo
+ j66WB7tbUntSL/YVboQ2a/NwaCbeQjm6S4FdZ4UP6QiucXN5YjorCysA6qqCGP2NlC
+ El7aokJc3Wj6A7MI8HpMnWP/Ainxq6XrfZm43eNgWC7raE4ZyVQyRqmIbbWpeRtli6
+ w6qrWRjw80cJlN7OgTv+bDpVrqaEMd8YY0xp5KXYfZCvcdXP0750pACYbVW1wteCis
+ 8pmr7cqYg2A7A==
+From: Robert Foss <rfoss@kernel.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Xin Ji <xji@analogixsemi.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
+ <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH v2] drm/bridge: anx7625: Drop device lock before
+ drm_helper_hpd_irq_event()
+Date: Mon, 24 Jul 2023 10:16:56 +0200
+Message-ID: <169018660964.606978.4469347765082724733.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230710085922.1871465-1-wenst@chromium.org>
+References: <20230710085922.1871465-1-wenst@chromium.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ruanjinjie@huawei.com
+Cc: Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ruanjinjie <ruanjinjie@huawei.com>
+On Mon, 10 Jul 2023 16:59:21 +0800, Chen-Yu Tsai wrote:
+> The device lock is used to serialize the low level power sequencing
+> operations. Since drm_helper_hpd_irq_event() could end up calling
+> .atomic_enable, which also calls power sequencing functions through
+> runtime PM, this results in a real deadlock. This was observed on an
+> MT8192-based Chromebook's external display (with appropriate patches [1]
+> and DT changes applied).
+> 
+> [...]
 
-Use the devm_platform_ioremap_resource() helper instead of calling
-platform_get_resource() and devm_ioremap_resource() separately.
+Applied, thanks!
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- drivers/gpu/drm/tegra/hdmi.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+[1/1] drm/bridge: anx7625: Drop device lock before drm_helper_hpd_irq_event()
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=f2cca20f1fa3
 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 6eac54ae1205..f3a44ca87151 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1769,7 +1769,6 @@ static irqreturn_t tegra_hdmi_irq(int irq, void *data)
- static int tegra_hdmi_probe(struct platform_device *pdev)
- {
- 	struct tegra_hdmi *hdmi;
--	struct resource *regs;
- 	int err;
- 
- 	hdmi = devm_kzalloc(&pdev->dev, sizeof(*hdmi), GFP_KERNEL);
-@@ -1831,8 +1830,7 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
- 	if (err < 0)
- 		return err;
- 
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hdmi->regs = devm_ioremap_resource(&pdev->dev, regs);
-+	hdmi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hdmi->regs))
- 		return PTR_ERR(hdmi->regs);
- 
--- 
-2.34.1
+
+
+Rob
 
