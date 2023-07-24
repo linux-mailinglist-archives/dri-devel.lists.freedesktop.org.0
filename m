@@ -1,52 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0567075EDFF
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:42:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E63875EE12
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 10:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09BA310E286;
-	Mon, 24 Jul 2023 08:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A2F10E289;
+	Mon, 24 Jul 2023 08:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CDD310E28B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:42:10 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R8YYq57RlzBRx5M
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 16:42:07 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1690188127; x=1692780128; bh=eE7sNKxG4/rjsPDu9gJ/H3YFqzO
- mN4jtb9Ah4UwXSdc=; b=kxCrOKJ/X6KDq2G5oEObom94SRx7CYjqrqZRkIa/JSN
- w+gWM1YSu4rSANtBoTB5Hl9EqTUk5OIpxorjDfwo6t6qp9EcW+m8j6Tt+/zRvl1B
- k+lkwemajkgxmRlEdM6blOU9BNJsoOPPphNAasDoLyQWFfkpYETFmiaShf2TzYWC
- tEaEOg5skrZsLBL382oYRUlX8nUywcH/go7lkJDlrQ4ncAPLfhUQC62Aweupystc
- OH+KPGzVGT8FEg+gg7j+cmX7mnZTfATZlHH3tbLXX3ugy1qWlEUev5s1+X2aiQuF
- saP9nS8DZCwkzazLOJhvaWPLRiHsZDRtIhbRMWmM2BQ==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id X-iZjR1tDnY5 for <dri-devel@lists.freedesktop.org>;
- Mon, 24 Jul 2023 16:42:07 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R8YYq2NgkzB7Bvn;
- Mon, 24 Jul 2023 16:42:07 +0800 (CST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68EF010E289
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 08:43:16 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A58DF6607029;
+ Mon, 24 Jul 2023 09:43:14 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690188195;
+ bh=+Va/lv+kY8+mB74j/EALrVluhW0bxzE0CAwbF8R0KO8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OMSi/64LbAElUJL4T6UTLVQD7Il2GFk+KZ4ei/CZraSh2Wpkigf1azw5E96NQKroI
+ e/DVJNeTJKwdAyd7iijx7YdT9EtJxHUjFejPF0ApdhaofDoCOQ0WXPWbuTX7mJJaAu
+ u0oUpWySsMsScs5+NBFrOhnwo9ljcgTH8ed51Rk+jQBou13STRgZ1eiEDuo3mc03f/
+ /br4FVRSZ7CknKjli+vyu6KIPQEb82PDCYpvzEnVepvbXlXrH7860++PjplWzkY2XR
+ TK0PqYpsG2/Qm2Zh9etD6pCm2l7bhU75DvqDovULup3ASTYCycoxqle1JErDja/mjh
+ 7FRfTLVwS9yJA==
+Message-ID: <c484069d-f41b-1abe-e17d-2a7624964724@collabora.com>
+Date: Mon, 24 Jul 2023 10:43:11 +0200
 MIME-Version: 1.0
-Date: Mon, 24 Jul 2023 16:42:07 +0800
-From: sunran001@208suo.com
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amd/pm: that open brace { should be on the previous line
-In-Reply-To: <20230724084109.9496-1-xujianghui@cdjrlc.com>
-References: <20230724084109.9496-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <7fde0c4213bf401813918ac05f313fbb@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] drm/panfrost: Sync IRQ by job's timeout handler
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230723000142.206908-1-dmitry.osipenko@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230723000142.206908-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,52 +56,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ERROR: that open brace { should be on the previous line
+Il 23/07/23 02:01, Dmitry Osipenko ha scritto:
+> Panfrost IRQ handler may stuck for a long time, for example this happens
+> when there is a bad HDMI connection and HDMI handler takes a long time to
+> finish processing, holding Panfrost. Make Panfrost's job timeout handler
+> to sync IRQ before checking fence signal status in order to prevent
+> spurious job timeouts due to a slow IRQ processing.
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h | 6 ++----
-  1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h 
-b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-index beab6d7b28b7..630132c4a76b 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-+++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_11_0_cdr_table.h
-@@ -52,8 +52,7 @@ static unsigned int DbiPrbs7[] =
+Also, on MediaTek MT8192 and MT8195 Chromebooks:
 
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-  //4096 bytes, 256 byte aligned
--static unsigned int NoDbiPrbs7[] =
--{
-+static unsigned int NoDbiPrbs7[] = {
-      0x0f0f0f0f, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f00f0f, 0x0f0f0f0f, 
-0x0f0f0f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f00f0f, 0xf0f00f0f, 
-0x0f0f0f0f, 0xf0f0f0f0, 0xf0f0f0f0, 0x0f0f0f0f, 0xf0f00f0f,
-      0x0f0f0f0f, 0xf0f00f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0xf0f0f0f0, 
-0xf0f00f0f, 0xf0f00f0f, 0xf0f00f0f, 0x0f0ff0f0, 0xf0f0f0f0, 0xf0f0f0f0, 
-0x0f0ff0f0, 0x0f0f0f0f, 0x0f0f0f0f, 0xf0f0f0f0, 0xf0f00f0f,
-      0x0f0f0f0f, 0xf0f00f0f, 0x0f0ff0f0, 0x0f0f0f0f, 0xf0f0f0f0, 
-0x0f0ff0f0, 0xf0f00f0f, 0xf0f00f0f, 0xf0f0f0f0, 0x0f0ff0f0, 0xf0f0f0f0, 
-0xf0f00f0f, 0xf0f0f0f0, 0x0f0f0f0f, 0x0f0ff0f0, 0xf0f00f0f,
-@@ -121,8 +120,7 @@ static unsigned int NoDbiPrbs7[] =
-  };
-
-  // 4096 bytes, 256 byte aligned
--static unsigned int DbiPrbs7[] =
--{
-+static unsigned int DbiPrbs7[] = {
-      0xffffffff, 0xffffffff, 0xffffffff, 0x0000ffff, 0xffffffff, 
-0xffffffff, 0x00000000, 0xffffffff, 0xffffffff, 0x0000ffff, 0x0000ffff, 
-0xffffffff, 0x00000000, 0x00000000, 0xffffffff, 0x0000ffff,
-      0xffffffff, 0x0000ffff, 0x00000000, 0xffffffff, 0x00000000, 
-0x0000ffff, 0x0000ffff, 0x0000ffff, 0xffff0000, 0x00000000, 0x00000000, 
-0xffff0000, 0xffffffff, 0xffffffff, 0x00000000, 0x0000ffff,
-      0xffffffff, 0x0000ffff, 0xffff0000, 0xffffffff, 0x00000000, 
-0xffff0000, 0x0000ffff, 0x0000ffff, 0x00000000, 0xffff0000, 0x00000000, 
-0x0000ffff, 0x00000000, 0xffffffff, 0xffff0000, 0x0000ffff,
