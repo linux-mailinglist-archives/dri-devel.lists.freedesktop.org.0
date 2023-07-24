@@ -1,112 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092BC75F859
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 15:35:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B9775F85D
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jul 2023 15:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC9A10E2F2;
-	Mon, 24 Jul 2023 13:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21FCB10E318;
+	Mon, 24 Jul 2023 13:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2041.outbound.protection.outlook.com [40.107.92.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19F7810E319
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 13:35:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fPz2qh0jOICLsAz+Oe6mlDaVhE4cqyc3Fvb7EXP/KBDGeI0SOfM9QSeK81+C5YxzDEgl7jBU+ISKRkLyV+4nhjSZs2IVMEMbgb8fMrrdr7V+Y9p/JuuBTNgoWOFqC/vRRYKDD9LpxM6iMxZvchXbpM4LAd+uoHNETEQ+MD2Op1SGCxG9BC8qtQpiEBhTqzqPe3MWzVW+Djwoq0qYEG32hf4HGqdSueCvaQnUCog2Jl0oUZxdbnsIATypOPHwLp0iZHD7SY5CBP5LlYnJLcnZ0ejl38oJQXvrCydiuOVZZV/sQHtA1kkTKnESDIEjUKDdZOQYGCEGG0pB1SKpdmiIMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A+OPrWGHBwkQ/IhMmIPOClIU0sP4gdBMQ+64hmkWK3k=;
- b=aqVO4QybRp8DG68vg2CJVGNCGd0HJyK7bkcaEC2Y/Bx5qJ8S/SZ3YJ8ev9EP+r1ha4BoEcJ58ah42zOmXY21eAhvlpXgqPKwPcoGKUNCR5dGPgXF3dqVQ10KZB6CznkO+cI4zhS+sNORvbFqDFrKEcvNlcnZT1umcl+qgsWNkzZiJX6zPp35U5aCKL8xkLYbcZ+8sO1oJteJZSa1+9cUSO2vjr8NtFhUQmXOJPynabhdTSMUxvAvoV5snEs4jrh9eLyCc9yzeoYP+sYpMewHyIApxM1i/5748yjrcVvjrul3rflO8t0Q17PQYkIsGe/81zrZMaPdrzyYEkTIDEiirQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A+OPrWGHBwkQ/IhMmIPOClIU0sP4gdBMQ+64hmkWK3k=;
- b=lGDlypGuSC2JhnLGw7sD6wZMdTcr5bqP4qCplRV2/aE+2hg0AAFQ4rwXhKYrIjVpwBt+xHDoowtFDa9csONeVDZqu82ukkI40IpdQ1otMYGLDNmh2p2mBKSHhAaLZWCUHTzKPAPO237dequpanY134hp9XYcQwEZyTY5jIbYcA3w8eJyrL+g13ws+y+SHnxqeA6cFkIi+jumWBNi7hfpXVDQzPHjouydERCsiIHDFafDsD+TmlvBAgjEbI6O/3WkPRISI/E/Te6ZnEA2QsAjra5IQT//CVnXhCqhL4n425UwQG4AZPqDSJMgAqF2Ik9LI6tiilDMmJgsemXMDLIj/A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DS0PR12MB9037.namprd12.prod.outlook.com (2603:10b6:8:f1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Mon, 24 Jul
- 2023 13:35:08 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6609.032; Mon, 24 Jul 2023
- 13:35:08 +0000
-Date: Mon, 24 Jul 2023 10:35:06 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-Message-ID: <ZL5+CiZ6w4RdAt5u@nvidia.com>
-References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
- <20230718082858.1570809-2-vivek.kasireddy@intel.com>
- <87jzuwlkae.fsf@nvdebian.thelocal>
- <IA0PR11MB718527A20068383829DFF6A3F83EA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <87pm4nj6s5.fsf@nvdebian.thelocal>
- <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BL6PEPF00013E05.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1001:0:4) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A8C110E318
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 13:36:13 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1b059dd7c0cso3447075fac.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 06:36:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690205772; x=1690810572;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=X7pnC1ES+TYwq0ogKI05HX1zNouPynL1TkXC7ZriDT0=;
+ b=XVtqpWw7sx0jjDZM62tUWvt29wirwK9CzK5WVw11UVb5VegtxshdsieUJOG9ewVY0I
+ hFKe6sD0Jo41HZ688ptyxI4kN0JiMDGHE3pWflfxRyPYYmCX3mfCwskyHU6Vv79cySj8
+ XoisbhVGZyYRDANQyGya2uBoNwrNzdAUOQXqzEwXbxME86TH21CnQYr/bI5qXPsU5qvj
+ yC9TBiw7CvFI2iuhnf7697f8Ta72FXeW26OSsF1kCTetanmmh2zv2YGEsMN+LjOwnWBb
+ w9rS64LKmcIGjM1N60QX1e27KJSgU0KOEm4r3U0r5rDWFP+5oDy8MUpO0z3jGV2+y3Od
+ 7sBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690205772; x=1690810572;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=X7pnC1ES+TYwq0ogKI05HX1zNouPynL1TkXC7ZriDT0=;
+ b=PsscCAMlTF8n0FkkLcerT3fS0E9dgkL9KSh+r1HU8OZlfs6sQ4fEoYhagKAdgw8WgG
+ dKHm6YqPhRWjc+zltchO4zpzrckjRCfE2GzT985DEwK8rn/iXL2Owov/NKnJFvJwDrCI
+ KnHdrJ5yzdgWMSTF7jnDtPBUE5ONxj63UK0ZO9OcfF/hl8KQn4Fil76ObHhYFeNNZlJs
+ 0IHnuJ4fQr5TNCk/4R4FSqtpMTWGfLKCwxyYhgMKT8V2yTbSFJoMSbzKdRkqXlYy0OH2
+ cECEeQBYv/ftKgffsXIi6lJiPXNq08YdsgPzEwjCS+yUG6n1WSRDikz0ruDNsaO9AL53
+ fgMQ==
+X-Gm-Message-State: ABy/qLbCgdrXIvH/G7WLATYaPgRf9I0dMcKvDeKRZtUATNO2H9Rz9+MN
+ 7b5bXLUdS/fgdbA5KBKC+ugar3g5HGni9SQdHw5G6GiL
+X-Google-Smtp-Source: APBJJlGHHYS+RO8bVzjN28h8WVqDkNOx2zNEZOLX2OwjQDUCn12Nfn2UKkomiDy+1I3iuDjrCAPUXyxRak6SK7kr8ZE=
+X-Received: by 2002:a05:6870:8a09:b0:1b7:8950:c881 with SMTP id
+ p9-20020a0568708a0900b001b78950c881mr11059924oaq.13.1690205772400; Mon, 24
+ Jul 2023 06:36:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DS0PR12MB9037:EE_
-X-MS-Office365-Filtering-Correlation-Id: 37199d59-69d8-4453-4c55-08db8c4acbec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nItllhQIJhi013D+Whd93RWQ8iHKHWRZsNAFaEEOgwg8bgf5xlSZqLU5xrzMjeDtOZDxa/y915iTYXBLqIYZQRgrUmUQar5pzado+1EBc6tg2q25H4EPlIcbmaBEFrk6Z3SqjwFlgQUKIz6I1Qxgz67LnD4bp4LbH8ntD1BbYuyl8NOOrZ7NqBWNGwT9rNj+W87VmMI5lNLMS4So4bnBZaMhEcOo6Af4IC9/jrljfy+r9Z9PTH4SjcdVv9m7zyXHUZLwL9Nqvo3w0rgZpl0rLCtQIOgqIvmsi3PQiKFuKAjOl7AxGTfW5MWSxZbft9zksYIdkzFE6mnzD6LXt2fHmMeZ8KG2choZjOx9pwhCwGKXuQpFM5cggFXcNTUZlQ4ACHSAHvN05oCD84m7k+AkHhPKVIF47tHSz7fGm0vaRRKjgfL0FVob/Xl6O21M38dNQNgocwiN+WhO0/UCK9m/j2Adfh7HR3D7lFDNZT40wCParPOPkEsua2L+MxibGL9UwjuvsRAiQMZlOg4CnJDAYWvV+velL1MPqgHAtCeiWwDFLcKlGNsCq9oEAA4/V6wxNYDkct7x7TPBXgs3Xx4w+Hhcw+9O1G5vFJfsgMi/hxI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(451199021)(186003)(54906003)(478600001)(6512007)(66476007)(6506007)(2616005)(6486002)(6916009)(4326008)(66556008)(66946007)(83380400001)(38100700002)(26005)(5660300002)(86362001)(15650500001)(2906002)(8936002)(8676002)(7416002)(316002)(41300700001)(36756003)(67856001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U1uvtNEX1A4m8Ty7zHk8h4OFTCVzU+YR5UjF2A8nzsqgFbS0UJwO/OaYXimh?=
- =?us-ascii?Q?uMbRq6IqYkled4JcyxYkeD4Ip6SclaYpYvutERfrYiYHuGj4OCAxfgcZHI8x?=
- =?us-ascii?Q?t7ZL/GXDL6NNDBYqcvKmgBdPDdJWUl1yxhYZUbWQDE4ZFGwriRLXhUcZv4q6?=
- =?us-ascii?Q?zXV19Tj2cz+GRKvOO52eg46kPVEHQpSe7XKgYst3kUWJIE6LT8SuEXp5XGHB?=
- =?us-ascii?Q?GSdzKnhZwWPGTGWvIeUa0Kxx5RMUbXOF05WNaljHANC26j1yu4JuTRIJGKYQ?=
- =?us-ascii?Q?j25U9UAqCeOcXGI4UX8+g14BukXRSeFP8a84PVjUTs/0DvvBHeJNr25MvnEo?=
- =?us-ascii?Q?x4YhE3Cde487nOH1gVgAVCr9i6anafaTa6QvBSZo8u7HxFaPIaJwIeABjpqM?=
- =?us-ascii?Q?6bX+1vIiqTGZ8vPoBhI2mMuALlffl1CIOis/qLLy69NFFTP5BMz5lPZOwe8z?=
- =?us-ascii?Q?Vwri7f/kmU9mC4oq/Fqh7iallBpHeOV7+MLbJS0ZPuSoBC/RpHUH7WVemcOH?=
- =?us-ascii?Q?1Zuo3vkEP0IvASvtxLRHP6P1vS0uIu86pa+Vq0+dMqH+vb4mZz4LNibL06GU?=
- =?us-ascii?Q?KfthOAo7pvGVBi9EAXrQtL+IQcwOEd5DNF8YJibAeAGLQ1kO1pjhScvKjYS/?=
- =?us-ascii?Q?log42j9/kxrwAPPw7eKUMoM5hvMszfNRBi6y0u/26qCvhHwn5vCY6P91KlY7?=
- =?us-ascii?Q?+om29/zLW2kmgN4eVI2Oq4O6jSbRmyXLgQCxTjPMDLRyQ7vnkDzjUOivym43?=
- =?us-ascii?Q?0wMMS5MIwZ/+7XDuWdDHYUThsBySCiyzvRqw1F/x6ILeUiiqSgU51mhgQxhE?=
- =?us-ascii?Q?ZHJBbma7CMOvwZptTrC5cnzcem48eq4mfITcb6EdrV+jd7/cS9yjx+cw4Zkj?=
- =?us-ascii?Q?D0dKQAS6TXVJJ6vtVoame5L601rb8e2IeXH8TFjZndbvI90MNY4h1QWeIQv8?=
- =?us-ascii?Q?Jt1nqGGxeM4mlQtivabY5pYiR2Uey/ZyTwEhN8lIgi8cEtegvhaRKrIpGqmK?=
- =?us-ascii?Q?yLVp3BKoNPtPMdK4FPPSV5VyUDUxOFtML/qYacofxY4xzblEXklvRI6b+6NF?=
- =?us-ascii?Q?oc1K07nkvhn9v6QFS2wTyijXTpzvcmpejiuuHp89SmQIj3RGBSRq7CwFFuhC?=
- =?us-ascii?Q?WvgP0JK2mveX/jxb3qmV0s2oVD5PXpo3fcvs0IUQH+8lA8DWS716AsLcje5+?=
- =?us-ascii?Q?WzhGcQRRTrAednyTVJMz2S3UHaP0P9Fwv08S6UXrclCRNb6cYkoXwTiNder+?=
- =?us-ascii?Q?Vmbip13lmmuj8S2rcO5ffD0lZgGOz4AehxB1yWv5C4NZQwGVyWfdup0ugMpA?=
- =?us-ascii?Q?w5LmmY+1Xby66M6Lc7t9PhlRAg3bV8eEja4SmxjaUomxtioPbJD2+8FlLEzO?=
- =?us-ascii?Q?nUVRYwcKTK5DQqM2BnxszLBX5L6eKbH5MH3YnoBh8MfCkj6meegqVDs3ha63?=
- =?us-ascii?Q?l3+zYkAXVmNLbsSZ5H6QzS0Y/u7vb7HpKuz/N62ackgta0+D5kEs+sDmJ0Gj?=
- =?us-ascii?Q?EPFmrnoYtwuDeCp2BuNFqMBu1kAsBPWB4yxWWIwfhqgNsrVbkNdt9MDtSz11?=
- =?us-ascii?Q?DeFa5CRlPCttFN8sSR1ajYCM9zJH3fxowcorBsfF?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37199d59-69d8-4453-4c55-08db8c4acbec
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2023 13:35:08.1420 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DyTRixZ8EvAHR4ac/sjarHlls1kSuehdMy5xs2Bo7P3bUNjfTKT5neys4/zaEt6B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9037
+References: <20230724024229.1118444-1-guchun.chen@amd.com>
+In-Reply-To: <20230724024229.1118444-1-guchun.chen@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 24 Jul 2023 09:36:01 -0400
+Message-ID: <CADnq5_Pfwyen7W6v9-MoT_S=owcRHbu-+TbwJ2KTN-iHcbEY5w@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: check null pointer before accessing when swapping
+To: Guchun Chen <guchun.chen@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,40 +68,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>,
- Peter Xu <peterx@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Mike Kravetz <mike.kravetz@oracle.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 24, 2023 at 07:54:38AM +0000, Kasireddy, Vivek wrote:
+On Sun, Jul 23, 2023 at 10:43=E2=80=AFPM Guchun Chen <guchun.chen@amd.com> =
+wrote:
+>
+> Add a check to avoid null pointer dereference as below:
+>
+> [   90.002283] general protection fault, probably for non-canonical
+> address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN NOPTI
+> [   90.002292] KASAN: null-ptr-deref in range
+> [0x0000000000000000-0x0000000000000007]
+> [   90.002346]  ? exc_general_protection+0x159/0x240
+> [   90.002352]  ? asm_exc_general_protection+0x26/0x30
+> [   90.002357]  ? ttm_bo_evict_swapout_allowable+0x322/0x5e0 [ttm]
+> [   90.002365]  ? ttm_bo_evict_swapout_allowable+0x42e/0x5e0 [ttm]
+> [   90.002373]  ttm_bo_swapout+0x134/0x7f0 [ttm]
+> [   90.002383]  ? __pfx_ttm_bo_swapout+0x10/0x10 [ttm]
+> [   90.002391]  ? lock_acquire+0x44d/0x4f0
+> [   90.002398]  ? ttm_device_swapout+0xa5/0x260 [ttm]
+> [   90.002412]  ? lock_acquired+0x355/0xa00
+> [   90.002416]  ? do_raw_spin_trylock+0xb6/0x190
+> [   90.002421]  ? __pfx_lock_acquired+0x10/0x10
+> [   90.002426]  ? ttm_global_swapout+0x25/0x210 [ttm]
+> [   90.002442]  ttm_device_swapout+0x198/0x260 [ttm]
+> [   90.002456]  ? __pfx_ttm_device_swapout+0x10/0x10 [ttm]
+> [   90.002472]  ttm_global_swapout+0x75/0x210 [ttm]
+> [   90.002486]  ttm_tt_populate+0x187/0x3f0 [ttm]
+> [   90.002501]  ttm_bo_handle_move_mem+0x437/0x590 [ttm]
+> [   90.002517]  ttm_bo_validate+0x275/0x430 [ttm]
+> [   90.002530]  ? __pfx_ttm_bo_validate+0x10/0x10 [ttm]
+> [   90.002544]  ? kasan_save_stack+0x33/0x60
+> [   90.002550]  ? kasan_set_track+0x25/0x30
+> [   90.002554]  ? __kasan_kmalloc+0x8f/0xa0
+> [   90.002558]  ? amdgpu_gtt_mgr_new+0x81/0x420 [amdgpu]
+> [   90.003023]  ? ttm_resource_alloc+0xf6/0x220 [ttm]
+> [   90.003038]  amdgpu_bo_pin_restricted+0x2dd/0x8b0 [amdgpu]
+> [   90.003210]  ? __x64_sys_ioctl+0x131/0x1a0
+> [   90.003210]  ? do_syscall_64+0x60/0x90
+>
+> Fixes: a2848d08742c ("drm/ttm: never consider pinned BOs for eviction&swa=
+p")
+> Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> Signed-off-by: Guchun Chen <guchun.chen@amd.com>
 
-> > I'm not at all familiar with the udmabuf use case but that sounds
-> > brittle and effectively makes this notifier udmabuf specific right?
-> Oh, Qemu uses the udmabuf driver to provide Host Graphics components
-> (such as Spice, Gstreamer, UI, etc) zero-copy access to Guest created
-> buffers. In other words, from a core mm standpoint, udmabuf just
-> collects a bunch of pages (associated with buffers) scattered inside
-> the memfd (Guest ram backed by shmem or hugetlbfs) and wraps
-> them in a dmabuf fd. And, since we provide zero-copy access, we
-> use DMA fences to ensure that the components on the Host and
-> Guest do not access the buffer simultaneously.
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-So why do you need to track updates proactively like this?
-
-Trigger a move when the backing memory changes and re-acquire it with
-hmm_range_fault like everything else does.
-
-> And replace mmu_notifier_update_mapping(vma->vm_mm, address, pte_pfn(*ptep))
-> in the current patch with
-> mmu_notifier_change_pte(vma->vm_mm, address, ptep, false));
-
-It isn't very useful because nothing can do anything meaningful under
-the PTLs. Can't allocate memory for instance. Which makes me wonder
-what it is udmabuf plans to actually do here.
-
-JAson
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 7139a522b2f3..54e3083076b7 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -519,7 +519,8 @@ static bool ttm_bo_evict_swapout_allowable(struct ttm=
+_buffer_object *bo,
+>
+>         if (bo->pin_count) {
+>                 *locked =3D false;
+> -               *busy =3D false;
+> +               if (busy)
+> +                       *busy =3D false;
+>                 return false;
+>         }
+>
+> --
+> 2.25.1
+>
