@@ -1,72 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C7876065A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 05:09:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A96CC76066B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 05:12:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A64B10E156;
-	Tue, 25 Jul 2023 03:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C3AF10E164;
+	Tue, 25 Jul 2023 03:12:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F34410E156
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 03:09:22 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- 98e67ed59e1d1-267711d2b43so714272a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 20:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1690254562; x=1690859362;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZLkcXzJjvvDBLgu5DbJbwRAKtejO8FK7VlKqBEYpGhg=;
- b=T37460khNMPot0VVWdDz4lB6VWzVdicUBxVfz7CttLqrgD8g0MkXpwdKxm81+5qM3E
- yM+KFmnDFeQa0ZY5ZeNvvyumpxFJqPDg3oixgT5YKKGKOt9qmtbXs6vK0nUKy4kqsaDS
- iJ3utK1jXEfJapBrHYjK+SRbiAPBWHkzR4mO0jKk+qC4Stl39POzbhCCP4MwAtpmSso5
- ynGZ9erR4hLoA8pCdH+sRZpUbw1kMvKh2ycfFI2IzmOqd8Zq8Q0hlgUcK6mejCeashGS
- UzcYSPHM74qvjYTTAriMRhyDbW62IR+NfEc7uD2qj/U2RIYLpDl8fGFG28yoLGatJrqh
- GkTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690254562; x=1690859362;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZLkcXzJjvvDBLgu5DbJbwRAKtejO8FK7VlKqBEYpGhg=;
- b=CUsxJASf9nHN8p4bsowDJw7tSQ78mt2ZKrkqqUZgiUyJoGQOmKlGfeEkUID6Qf3kx0
- CVo/V2Ww9TMuoyB3slAzhjekBdH+M35yeHD/Wy+j4mXvDwP4h6nn9SN9gN8wV8lOYPix
- S4RH0yrfctIFNUTjq1fb0mpRxbG73w5yXK9B2NCNqlLD/sWiwsPIk0ExGEAkesBT2LWR
- Q4qEjfMwgk1evZijhBb5jHxAOSR/D+2x1+IgPgut5JYBDpgDMIelxprWEp1hCAismvxj
- 5CTEJnOO4AUI11t/v2i263WP5wNJ0h8AZfIz+Nbyfm2rFZB/5YOyQi7TwyK8ZTTCUtHw
- AA6w==
-X-Gm-Message-State: ABy/qLYkh70Qdxx+nOAiYWEfnn0dGo/Ds5yi7sDCd6XxYUoDpZlYFObG
- elwyLCMjpRmAZtzXXts/mpGaGQ==
-X-Google-Smtp-Source: APBJJlEruF0WFFXXZAOwcLJKfTF/P8Yek4Wx/bwgxp4VRr2IRHJr9OEk7izXq54CPTEEiNehAqKYyg==
-X-Received: by 2002:a17:90a:50f:b0:263:730b:f568 with SMTP id
- h15-20020a17090a050f00b00263730bf568mr10246975pjh.3.1690254562043; 
- Mon, 24 Jul 2023 20:09:22 -0700 (PDT)
-Received: from [10.70.252.135] ([203.208.167.147])
- by smtp.gmail.com with ESMTPSA id
- 21-20020a17090a199500b002633fa95ac2sm9540001pji.13.2023.07.24.20.09.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Jul 2023 20:09:21 -0700 (PDT)
-Message-ID: <d2621ad0-8b99-9154-5ff5-509dec2f32a3@bytedance.com>
-Date: Tue, 25 Jul 2023 11:09:07 +0800
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
+ [61.152.239.71])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C897A10E164
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 03:12:12 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+ by fd01.gateway.ufhost.com (Postfix) with ESMTP id A1E088284;
+ Tue, 25 Jul 2023 11:12:02 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Jul
+ 2023 11:12:02 +0800
+Received: from [192.168.60.113] (180.164.60.184) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Jul
+ 2023 11:12:01 +0800
+Message-ID: <b8e51384-4781-2710-e94f-38a88f43b801@starfivetech.com>
+Date: Tue, 25 Jul 2023 11:12:01 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH v2 01/47] mm: vmscan: move shrinker-related code into a
- separate file
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 3/9] drm/verisilicon: Add basic drm driver
 Content-Language: en-US
-To: Muchun Song <muchun.song@linux.dev>
-References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
- <20230724094354.90817-2-zhengqi.arch@bytedance.com>
- <97E80C37-8872-4C5A-A027-A0B35F39152A@linux.dev>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <97E80C37-8872-4C5A-A027-A0B35F39152A@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Lucas Stach <l.stach@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-4-keith.zhao@starfivetech.com>
+ <e0eeae3b35e8efac7c577ca3159abcf7f43d5082.camel@pengutronix.de>
+From: Keith Zhao <keith.zhao@starfivetech.com>
+In-Reply-To: <e0eeae3b35e8efac7c577ca3159abcf7f43d5082.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,63 +58,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org,
- Roman Gushchin <roman.gushchin@linux.dev>, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Linux Memory Management List <linux-mm@kvack.org>, dm-devel@redhat.com,
- linux-mtd@lists.infradead.org, cel@kernel.org, x86@kernel.org,
- steven.price@arm.com, cluster-devel@redhat.com, xen-devel@lists.xenproject.org,
- linux-ext4@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, yujie.liu@intel.com,
- Vlastimil Babka <vbabka@suse.cz>, linux-raid@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>, tytso@mit.edu,
- Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- Sergey Senozhatsky <senozhatsky@chromium.org>, netdev <netdev@vger.kernel.org>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Emil Renner Berthing <kernel@esmil.dk>, christian.koenig@amd.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, Bjorn
+ Andersson <andersson@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jagan Teki <jagan@edgeble.ai>, Jack Zhu <jack.zhu@starfivetech.com>,
+ Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Shengyang
+ Chen <shengyang.chen@starfivetech.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2023/7/25 10:35, Muchun Song wrote:
+On 2023/6/7 16:53, Lucas Stach wrote:
+> Hi Keith,
 > 
-> 
->> On Jul 24, 2023, at 17:43, Qi Zheng <zhengqi.arch@bytedance.com> wrote:
->>
->> The mm/vmscan.c file is too large, so separate the shrinker-related
->> code from it into a separate file. No functional changes.
->>
->> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> Am Freitag, dem 02.06.2023 um 15:40 +0800 schrieb Keith Zhao:
+>> Add a basic platform driver of the DRM driver for JH7110 SoC.
+>> 
+>> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 >> ---
->> include/linux/shrinker.h |   3 +
->> mm/Makefile              |   4 +-
->> mm/shrinker.c            | 707 +++++++++++++++++++++++++++++++++++++++
->> mm/vmscan.c              | 701 --------------------------------------
->> 4 files changed, 712 insertions(+), 703 deletions(-)
->> create mode 100644 mm/shrinker.c
->>
->> diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
->> index 224293b2dd06..961cb84e51f5 100644
->> --- a/include/linux/shrinker.h
->> +++ b/include/linux/shrinker.h
->> @@ -96,6 +96,9 @@ struct shrinker {
->>   */
->> #define SHRINKER_NONSLAB (1 << 3)
->>
->> +unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
->> +			   int priority);
+>>  MAINTAINERS                          |   2 +
+>>  drivers/gpu/drm/Kconfig              |   2 +
+>>  drivers/gpu/drm/Makefile             |   1 +
+>>  drivers/gpu/drm/verisilicon/Kconfig  |  13 ++
+>>  drivers/gpu/drm/verisilicon/Makefile |   6 +
+>>  drivers/gpu/drm/verisilicon/vs_drv.c | 284 +++++++++++++++++++++++++++
+>>  drivers/gpu/drm/verisilicon/vs_drv.h |  48 +++++
+>>  include/uapi/drm/drm_fourcc.h        |  83 ++++++++
+>>  include/uapi/drm/vs_drm.h            |  50 +++++
+>>  9 files changed, 489 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+>>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+>>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
+>>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
+>>  create mode 100644 include/uapi/drm/vs_drm.h
+>> 
+>> 
+>> [...]
+>> +#endif /* __VS_DRV_H__ */
+>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+>> index de703c6be969..af4fb50f9207 100644
+>> --- a/include/uapi/drm/drm_fourcc.h
+>> +++ b/include/uapi/drm/drm_fourcc.h
+>> @@ -419,6 +419,7 @@ extern "C" {
+>>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+>>  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+>> +#define DRM_FORMAT_MOD_VENDOR_VS      0x0b
+>>  
+>>  /* add more to the end as needed */
+>>  
+>> @@ -1519,6 +1520,88 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>>  #define AMD_FMT_MOD_CLEAR(field) \
+>>  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+>>  
+>> +#define DRM_FORMAT_MOD_VS_TYPE_NORMAL        0x00
+>> +#define DRM_FORMAT_MOD_VS_TYPE_COMPRESSED    0x01
+>> +#define DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT  0x02
+>> +#define DRM_FORMAT_MOD_VS_TYPE_MASK     ((__u64)0x3 << 54)
+>> +
+>> +#define fourcc_mod_vs_code(type, val) \
+>> +	fourcc_mod_code(VS, ((((__u64)type) << 54) | (val)))
+>> +
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_MODE_MASK    0x3F
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_XMAJOR   0x00
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_YMAJOR   0x01
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4     0x02
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4      0x03
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_4X8      0x04
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X4   0x06
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X4     0x07
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4     0x08
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X1  0x09
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X1  0x0A
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X4   0x0B
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X2  0x0C
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X2  0x0D
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X4  0x0E
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X1   0x0F
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X8     0x10
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X16     0x11
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_512X1  0x12
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X4   0x13
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X2   0x14
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X2   0x15
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X1   0x16
+>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X1   0x17
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X4    0x18
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_256X4    0x19
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_512X4    0x1A
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X16    0x1B
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X16    0x1C
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X16    0x1D
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X8    0x1E
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4_S    0x1F
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_S   0x20
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_S   0x21
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_LSB 0x22
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_LSB 0x23
+>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X8     0x24
+>> +
+>> +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_32      (0x01 << 6)
+>> +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_64      (0x01 << 7)
+>> +
+>> +#define fourcc_mod_vs_dec_code(tile, align) \
+>> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_COMPRESSED, \
+>> +				((tile) | (align)))
+>> +
+>> +#define DRM_FORMAT_MOD_VS_NORM_MODE_MASK        0x1F
+>> +#define DRM_FORMAT_MOD_VS_LINEAR                0x00
+>> +#define DRM_FORMAT_MOD_VS_TILED4x4              0x01
+>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR    0x02
+>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR    0x03
+>> +#define DRM_FORMAT_MOD_VS_TILE_8X8              0x04
+>> +#define DRM_FORMAT_MOD_VS_TILE_MODE1            0x05
+>> +#define DRM_FORMAT_MOD_VS_TILE_MODE2            0x06
+>> +#define DRM_FORMAT_MOD_VS_TILE_8X4              0x07
+>> +#define DRM_FORMAT_MOD_VS_TILE_MODE4            0x08
+>> +#define DRM_FORMAT_MOD_VS_TILE_MODE5            0x09
+>> +#define DRM_FORMAT_MOD_VS_TILE_MODE6            0x0A
+>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR_8X4    0x0B
+>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR_4X8    0x0C
+>> +#define DRM_FORMAT_MOD_VS_TILE_Y                0x0D
+>> +#define DRM_FORMAT_MOD_VS_TILE_128X1            0x0F
+>> +#define DRM_FORMAT_MOD_VS_TILE_256X1            0x10
+>> +#define DRM_FORMAT_MOD_VS_TILE_32X1             0x11
+>> +#define DRM_FORMAT_MOD_VS_TILE_64X1             0x12
+>> +#define DRM_FORMAT_MOD_VS_TILE_MODE4X4          0x15
+>> +
+>> +#define fourcc_mod_vs_norm_code(tile) \
+>> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_NORMAL, \
+>> +				(tile))
+>> +
+>> +#define fourcc_mod_vs_custom_code(tile) \
+>> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT, \
+>> +				(tile))
+>> +
 > 
-> A good cleanup, vmscan.c is so huge.
+> You are opening a new namespace for what is effectively the VIVANTE
+> tiling. While your list seems much more exhaustive than the (reverse
+> engineered) list provided under the VIVANTE namespace, this is still
+> unacceptable as it adds new aliases for existing modifiers.
 > 
-> I'd like to introduce a new header in mm/ directory and contains those
-> declarations of functions (like this and other debug function in
-> shrinker_debug.c) since they are used internally across mm.
+hi Lucas:
+I got what you mean , I will check the whether the current existence can be reused.
+In principle, can existing modefiers cover my definition?
 
-How about putting them in the mm/internal.h file?
-
+> Also any modifier additions should be in a separate patch and not
+> buried in another change.
 > 
-> Thanks.
-> 
+ok , no problem
+> Regards,
+> Lucas
