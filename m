@@ -2,82 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CC77626FF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 00:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A27976270F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 00:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBF610E1A9;
-	Tue, 25 Jul 2023 22:44:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CF910E1BD;
+	Tue, 25 Jul 2023 22:53:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C987E10E18E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 22:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690325053; x=1721861053;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=ja7f0RVYcti+NpUW5zGpJGvqcXjePHIioRixBH74xkM=;
- b=j1YdbW/WdV5XXFVJtB89iFkVMMuBgdHEewppnHr6q9aaVhGngS8AiPdP
- Z2hDUNz4xD1aGEEmZmwm+/oQXs5RA+gXFVnIgWMC2hsilk7TdegsODh5p
- O6efS9Yw9xhAYYchxbQzBn5ODpyPZ+05H+djqAFl21NyjBwMEUPvSFT+i
- e6wwuQ8OCTeaHrlDco/t0aokOjzhw+i2TkOJxVf9BZ8GnjbYHfuZsdZKs
- ETxN5YnXBwQCBc4XqxyEvw4rBbT2qtAarCB/LbzfigXapUTV2RdoVeDal
- tohburpVp06DUi4jRt+M8A0gkvjaL6YePHUT1AO+Pyav4ezLWc4dkszj/ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398780129"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; d="scan'208";a="398780129"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 15:44:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="796300500"
-X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; d="scan'208";a="796300500"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga004.fm.intel.com with ESMTP; 25 Jul 2023 15:44:12 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 25 Jul 2023 15:44:12 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 25 Jul 2023 15:44:11 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Tue, 25 Jul 2023 15:44:11 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Tue, 25 Jul 2023 15:44:11 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on20607.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8d::607])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F65010E1BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 22:53:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WegbVv8OXwzzthJnocmIvg4TfytTpuwhmpHuLuSsLqpf3FMPU7WgGYnZOb51jvfqlJ37w8WoXhVksrsQL0SFtT7no9awpOgVSXfNtTL/SRCoRggSl7ykeQ8e2yw6D12KrCVAfOoWYwpt/xAGQhpmIWKxwMw/4hlaMdgBqHJRMHQGGf9O9cUheb1JOIuIxKJwZwDaIP69BapqUVBCW7WoAKQzsHKKtksMY0ad6ZnwfO3MJQyXojeydrjgqyBjyF8n3Z1cXN9c2dMnfvaBkxIAD1mn+N0JJuwojedNCsIJy4BQzczm15Gyd2BoaY+x3ixglQKePz3oWioCRdaygcUmtA==
+ b=Wnwdnoq4K65sOaQqrZVuwWmPS5joEeyM0ekCdU/iF6Hy1bZ4sl9rQureyKYLaYZhFQPdng7jM60gAaLvYtlJ2Cj09JncFZO9I9XShnRQJU1pcc76uo9Q6p0OC2P/EsPpXAooxohpfcKMkSMhG9ihSzPUQLRJTfZa4fapmUvxekLKOMXj7/cgUF74lnQVDBIhNcu+UMIJ9n/d+FYf5kUW/bfB8uoHK9N03axVOncqhFlBytuwEKQXEBqELZInmK6iiruIm2IGoIkOM01abOaIIqKJMOhHOQ3ysoCviQJfnCWDCLWTANxacW5WcsvY7Sz84uEm7GHRpP79CFWUYtcuvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ja7f0RVYcti+NpUW5zGpJGvqcXjePHIioRixBH74xkM=;
- b=iDWwLw3ER7ChWGYDAEIX+CcUWKSi7SvItx9Rslbgobe4lAIF/CesL/ct+mhByKd4DUZSD7ZQGQTNUjgfoQtwdLsVlOa/e2XC/V26pHgJ/FNhwrpCKWMh5zj4eHtYBfoc4j9z4547A3qEL3aGu9kFwchU1MfNdReplo9dJLQACXUeYWuGOQeUYyUv+gr/4kdV8wKziIxTPOVQjadaE0MyzVUlQ37bAG8/bAuysUE5hQ7dUF3OBrikwhPUk5alMx+aElaEoZvLXLumKX88Rgyb8Pyu1TknpRAJq7glocUrhv8KMc7eWcd1SZysBfcRktc/+2+nu6QGRdRxFfEKqu9hgA==
+ bh=IPqDxiopXCIRH2Oo/WqX5FaqPDBIhfaFRSzT1J4ZKx4=;
+ b=oYWy16468mKIuVtv2TipDOYUynFeRAf9BhUMuCRLNJTIkrJPiUhH3FRJO+ZZhovHMkixyWQBvpEZP+eJeR6poxp10u7m8ylVlm/CLAe5fcIE1Hry8H057itaP1Xgm4FIiOtAyF3IKjc0PAaW2IErtCRvNstdTAKPtOIFSVDK/M03lICDtkRpx39D7XvWrJcTP3aMhp0NBbSBCszCPp43Lg+hWRIxXJBb2rpWl/L728vLNSjvg17LPUMul1FoF7qezFK5JxuI6CqIeB8t8AVq0JcgMuDEBYxIi/Rwts/r9H9SC04eoCyZXr4bJisQeFHKtx7EaD/vD6zUHWyPM+X/Ew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH3PR11MB7177.namprd11.prod.outlook.com (2603:10b6:610:153::8)
- by PH7PR11MB7004.namprd11.prod.outlook.com (2603:10b6:510:20b::6)
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IPqDxiopXCIRH2Oo/WqX5FaqPDBIhfaFRSzT1J4ZKx4=;
+ b=rZvPDHuBowwgxsZeiSA2HCpBueuClFlRLZ4VFGaybnsu5dFsomxMQttfViLPR65xxGaYhGsg5L2gvM6bcSqBg63ZSGKZyuSWO7Py3atFj1wPjcElbeNH8CgNKGIHsxkNBUYjI2ayB+zxotmwnBW3nC/dcc1aE2LEjywC/MDkpvP9CutGdB+MSFaUN6kaSxlngWPh+q3OfxtIM9WymMn/0ePnjt9WKSlDt3z5KCHHUYDdiwmzZ4x3vjPguHrsmsiJDuJRkJGgz4CJWGujW0Yox9RchT77m0m/0i9gUCBPIvgTD7MS2NpoEBCrJhVchTVz+sVi9YiFO6y3ojabSBogUw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN0PR12MB5859.namprd12.prod.outlook.com (2603:10b6:208:37a::17)
+ by PH0PR12MB5484.namprd12.prod.outlook.com (2603:10b6:510:eb::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28; Tue, 25 Jul
- 2023 22:44:09 +0000
-Received: from CH3PR11MB7177.namprd11.prod.outlook.com
- ([fe80::9cba:c1de:ea9f:fba7]) by CH3PR11MB7177.namprd11.prod.outlook.com
- ([fe80::9cba:c1de:ea9f:fba7%5]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
- 22:44:09 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Tue, 25 Jul
+ 2023 22:53:16 +0000
+Received: from MN0PR12MB5859.namprd12.prod.outlook.com
+ ([fe80::79ca:2fea:f0a2:d1e9]) by MN0PR12MB5859.namprd12.prod.outlook.com
+ ([fe80::79ca:2fea:f0a2:d1e9%4]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
+ 22:53:16 +0000
+Date: Tue, 25 Jul 2023 19:53:15 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
  updates (new pages)
-Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IABSWKAgABl6EA=
-Date: Tue, 25 Jul 2023 22:44:09 +0000
-Message-ID: <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+Message-ID: <ZMBSWxYnWLlzG3+6@nvidia.com>
 References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
  <20230718082858.1570809-2-vivek.kasireddy@intel.com>
  <87jzuwlkae.fsf@nvdebian.thelocal>
@@ -87,65 +55,63 @@ References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
  <ZL5+CiZ6w4RdAt5u@nvidia.com>
  <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
  <ZL/B6yvO1bIkFRcF@nvidia.com>
-In-Reply-To: <ZL/B6yvO1bIkFRcF@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB7177:EE_|PH7PR11MB7004:EE_
-x-ms-office365-filtering-correlation-id: 6e4448a6-2780-4481-8480-08db8d60a92c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pH5oUWKM/tqSpDqeX2baZYtiLg2FlAzrRELIamzEFa+wbdA8DYELm0Mu8hYAdr7pTjdHfpG4FP0Ui7GNU8SpPL3YfnVJ9wUIQnKaOxSjmsWw+dEgRzWVkEk/B4H3efqnQBmJG50slU2g+6v6wK9MuxdHEqlX3l8tYgkLEeZL/OVlGYN+fa0enb07hfgl4Bz7fx30hEht9VW+yZyh4vHq9E2HFObbjRP9TH3xH+GxnTnjNmPWYfTPEJRF9nKaYC+VQDxAaYJGfumWdTy2ViyoujfeijDKlegRMUc6E/0SAk40Cv+X3HZ0wwJJfJ7gW/4K22DovZI+xhmQQQKe76S03fN66jFaU6PFL5/7Y0z5jw9KRtouotqmH9RQKiWNttWXVj9/8bNm3YflgScKjNwX53gggXVx3ONK7Ftn0uDQyW+sPHsbFvMTsnNNKQwtprMuhAA2D9hUiWOrvK8oOl2c2wMkakrL8QGl1jWI2OeRisJ2uuo9YPCoHf+hWfQdP96io0UfIpGNoN1tqUOP3ViWD6FDvbtGG6cYKHKEcl/PHYSs38AYv1yQgpBWPl75So3hyLsDoCZfXAHZb72aZQxE3bELHag7xzszCE+c+MR3/qhsg1E+C2VhfoJBIuwn7iP1
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR11MB7177.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(396003)(376002)(39860400002)(136003)(366004)(451199021)(83380400001)(71200400001)(66476007)(2906002)(8936002)(478600001)(8676002)(52536014)(41300700001)(66556008)(66899021)(64756008)(316002)(76116006)(54906003)(6916009)(4326008)(66946007)(5660300002)(55016003)(9686003)(26005)(15650500001)(6506007)(186003)(7696005)(66446008)(33656002)(38070700005)(86362001)(122000001)(38100700002)(82960400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?heeMU7x8ojPQ00fub9phD3Oo9qEF8xSsGg5l2KlISU9ZmdkOIDsWAWhNOrrl?=
- =?us-ascii?Q?XU2AjAABa4XiZqkNVPv7T4xD/rc94xzjdHps17ozPrAkfufvWoH5nG3RzcRj?=
- =?us-ascii?Q?YsCBEEFyn1tnPPuEPxbQl6HIgBRlUNOOgdSAB/qzVwDTy296LYQg/+41P+BI?=
- =?us-ascii?Q?is3ebXzAooTuNy5oOCzxvPd74jx9AqNu9n8VtfNlab0G4IEjkXrLpSpQ56Su?=
- =?us-ascii?Q?5axuio6dYrNJINJtNNVE36kZIVzgHfquyMvg+QSdy5+o7OKsGMZgeapk90Xc?=
- =?us-ascii?Q?13PYNxW4eZ88DkKiWwKeUoUOFWIe9FFvGB/o1SRm/8vBOXld4ZFYidxpPHQV?=
- =?us-ascii?Q?nqs6nDIvb9CtwC+BencCIO8H79KpvMPHhHnvlSBfUxSHsUsPQxdfVnTAS31X?=
- =?us-ascii?Q?bc5A/TVUUbvhriMkD994h8sR5yvvU3uWlSpXFe0ZjaSbEzTMXCADeoYhGtU2?=
- =?us-ascii?Q?IrOBEa0C27rlFzEedjPkhPWaCHJDdoBOgJnM5/HgepMnjwMzMxIMKhAVv3GZ?=
- =?us-ascii?Q?eQ+uaxpp5qS3wFXot6sBbZsg+xTbQXQjdfFfETqpq7Vi+drwIgOPPnJcF2vA?=
- =?us-ascii?Q?bVl6YMJGwj8UgwGcPKuQngDW9MnZODiR5qEG4RIjP8bUBbeu3VUBLdZCc49W?=
- =?us-ascii?Q?L/M8XFjVklIQK0faQsshm/G3I+pnY9obaKmIqAC/NS0TjXBWRwyNvZuDoVvE?=
- =?us-ascii?Q?gP0uQK/Q4niK04L+h1Zo7+Up9I9hX/4qRDQ0nb1wncmqOXerWg4g0bulLY79?=
- =?us-ascii?Q?EBLFKixa7c2zeWnt05YyZIIcUKa08KZg4E5RzLKrzHyBtaXAErAJfupEEAuO?=
- =?us-ascii?Q?RUql03dgfOYUOkr16OI/1VI5jxn9wedjJEb1+lb5RSFtzgK6/v3cm/c0QNOT?=
- =?us-ascii?Q?8cPCuTmKvOCXFLoy/H/iArhpC6qrSfmPSJ4E/DOYudnz4J7+okyELmOH22q1?=
- =?us-ascii?Q?sh6u7UHv5Zh6qyWOMKYyue1VHyBryUHUgc29fQnd7xF/mbvF0Uv8zIyo9v/l?=
- =?us-ascii?Q?+z53dJRkZfpPGCYwJjyBcOyXTeF4gz67+Caj7Xvz66aac+nhU+ENyhJU4tfO?=
- =?us-ascii?Q?J07L879lKjYoMAbD6NMHZkAHheg2h9EwXHgKWuCrI4183wPPYG7uLxrUzHQc?=
- =?us-ascii?Q?e22e4csT7L05wQiftnuhD+3SRL4easI0x25fc0LWBoyWEGasSPsgYvMSOR0d?=
- =?us-ascii?Q?v+eM8U7tnOHf/tNrevOvKHWHhFdZtL+8DIanjU07vHZGqpPhwZUJh0DQfHxP?=
- =?us-ascii?Q?DObwWXDPcRasFGsnuTFdFPrU8n9DkWBMpASodMiXozQFfo/qcIhNagBsUF9p?=
- =?us-ascii?Q?UdcJiw6sB+A7y5TxZn+Mnuz8z03KiQmJjv3o1dDbhsPdUMfIjVeG3zO1Q8c9?=
- =?us-ascii?Q?oyfcf0g34x0ef62ZJJJ7/bhRV8ZMAk0XfoxuKbJikFwn6yNC47/IirzULcA4?=
- =?us-ascii?Q?hBIcdeYqF8IpElah62AV588eh08MwwLzGAbXFydfqN1oDezfOU66E/uaM2LQ?=
- =?us-ascii?Q?/9l+JHkWXztpht3T8K6dl7zxhLJKcC3mZRdPweTiVObmahkue+QmlmqYx80s?=
- =?us-ascii?Q?KO6HfQpSqdozhihASVjG4+fUeQnloR46g8KrQAc5?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR18CA0011.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::16) To MN0PR12MB5859.namprd12.prod.outlook.com
+ (2603:10b6:208:37a::17)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB5859:EE_|PH0PR12MB5484:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2db42a4-521f-4ad9-cd2b-08db8d61eee1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sbsLa69tIgfu9WNRD1BQMbPBXjn1BhmLol8/H8TFC7gciWXsi2NTdvG+YY9mrXRXqMQ9z7gYV6yC4hqZkMeUqRTPo1PQd2M0RvfrIBbW9Ewkh8RLV3ygFYlUNOxt5wb2PZEy2wMlMLd6loNT4qDxHNHtvcSp4IGv13R0EWkq6GgULZNMiRlnZ7Q4G/shkGGLRjisUkvMnm4A1Pw+aWM0QPLHxJhuDvoRp007Ydmapd9sgk6uRqZsiNI0UN2EiV0WWYb6HD04eC018hdihUylSkgQcxNZiNZTfN+rnNSAk/lP6k9g2209ERB11uYzpk1OoovUC7tNVUit8raiBU2zzfLBgCcyCQvgaRa3WqkpEJFT+J3eYO7Un740hGbEMlfzQ7RrBGW2Eu6hwazRYbXaWwu0yaCmij5nu1/c7CEX9OYvmOKutVsUR8E543jTzfyoQTlVw0/dGpTqrzcTG6xLoDy6UGCf/45+I5PPYMjh8C1Qzry81S1ZG2hRWIZJYnSt5Pf+VM2fB2lTa+ehQJ7GjyQFYVM1oHYnlbShMpCO4gbsy0krFM20vh4MoCkUZ6I2zrvepnJWurKNgQPHkoRgFJgGJiKyP80CAsliTgUMPOw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB5859.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(39860400002)(396003)(136003)(366004)(376002)(451199021)(54906003)(6512007)(38100700002)(6486002)(478600001)(41300700001)(2616005)(5660300002)(316002)(66476007)(8936002)(8676002)(4326008)(66556008)(6916009)(66946007)(186003)(83380400001)(6506007)(26005)(86362001)(7416002)(2906002)(36756003)(15650500001)(66899021)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?InDYrcH2BQLxQh8FY+3zHbs3XRwQwTCwWcERozUSpFzX8ZUj+lX1CxLVeT3r?=
+ =?us-ascii?Q?TjOvIZjr6HVdsny1cMEBknvknQXsyGS535QVE8hZYo6IgpaWtV40a84q1mk0?=
+ =?us-ascii?Q?xWg1Rxm1NUcoK/ziWsSvH9II779ajN4Br/cfWUGzI9ZnpTm89ECc/a3jOaby?=
+ =?us-ascii?Q?FppaDTCiPEhMg7SPZtrv0pg9A6GK5mmcoL52r2n/RyeM+rRWtO1+ygKMlDcq?=
+ =?us-ascii?Q?+PEOxBZQoTfOAwJXDPnQAt+FRaigOaqvFRCWPPETilsa4VPJ8fRJ8egr3sNp?=
+ =?us-ascii?Q?WBs4W+pF2JRKqWIKtV6pTuOg6hPIaC84C3fKCB7TbfMA6fvSI5Hy1I64hCcd?=
+ =?us-ascii?Q?RxCs3CpH43ILUyqbAs/A5Z7QCnku+SX24oEAo8UDX0NCsEiNC5yGV6ZqGNv5?=
+ =?us-ascii?Q?xF2yFBDdPz1bnxM/dJLMXAZTphw4A7WQ5jrPZvSnXyNcvB9qe4ZSYSb9gFXC?=
+ =?us-ascii?Q?dGzlk6a7+2W9+g4nsRGTLH73ot2I1566YmNzjoY7dXZ6HCTkjaFe934qc7Xt?=
+ =?us-ascii?Q?eQK7WrhU9d+zSDT8P8KyLE+h9gdGCKVEUNuut8WMQqkTyYbK/MrhwOkEobRt?=
+ =?us-ascii?Q?CemZN1qiEqqKYeN30zWgF1AFNbDCf6Q9sRZeoUGGxUzo/ftsl/mNgdK78N0d?=
+ =?us-ascii?Q?CcQRcAqjX5AZCcG6GFQM7mF0LmtWAkaRsMpV7PqH4aTZaWri/CP/1wl+qBg/?=
+ =?us-ascii?Q?W5eVuTEBg5Hddm4dNX32t0Mn7365piTipCqBnPeSiR84G591U2K/Dlkm94ra?=
+ =?us-ascii?Q?MSPP9FdPgjikZpuSoPV14qRUo3KpbekshKjx73AmRYmZVlYGVbsqA0dN+Osr?=
+ =?us-ascii?Q?W4pVscpvs/gDDAYNXVWLlAmI3Ya+H4H2uvmVxrLJJaGKaWI02F2p+CMpQJBK?=
+ =?us-ascii?Q?H0ri41s/RCxRfcbxG88p+ndt9i632COP/nC4KrT4DgwtWgaDtRGpwWIi82q3?=
+ =?us-ascii?Q?LtIrWZbui0fF50zqMHVwPzVydbZWbrRSjPDIi/L9WOVe6UzfPqW4Olltmg9e?=
+ =?us-ascii?Q?+yVG262OgI12g4kFT/dXbx+bEWw/+PxHO/c2mbFJtwHraMwAu6uGoe/6f3Be?=
+ =?us-ascii?Q?X9TG2P0c8GDXPwdzC/+ezsTvui8gCkLGKho8oYkn2wbYZ2VwjfWIeClpPYQB?=
+ =?us-ascii?Q?a/rxlna+Co50X4CyxawYRSENSwApMhVJlK3BvyFcJNOyKO6LXtMTnSuJTpEp?=
+ =?us-ascii?Q?Ht4Q356AgaLEGlKDlrTq3BI1uSGI6rvTlTYpyhugnea58ahBfUA/MnK63Buv?=
+ =?us-ascii?Q?Qa0TjZkYySkvp1QYuvFFSCb1EfnN/A+XiBm2y8BxEpnyI28WMl3Csglh8qj4?=
+ =?us-ascii?Q?MnVwRUiETSUNplBeNO1HH1ZMZOKWWqVjRoqasWFC/3Bo0exD7rzFEAFecezT?=
+ =?us-ascii?Q?AVbhgy9b6drzeicjiS6hnVFAWseB5Ri54clImz9Tr8soV2x+9OxiV0lPO6kP?=
+ =?us-ascii?Q?hgvcWnAK+nX5ktqtlB1fQ45ogA8BtJPhjihw8OQFlc0gu3X+fnthtYeGH6V6?=
+ =?us-ascii?Q?ZrPXyTDYwZIldGFCZXjsLtuqU0scjvb1Tph0cUeYImb2lY1G+syzcWGcIdsZ?=
+ =?us-ascii?Q?uyRKMJ8+BoDvranVbmUljfsGr24c3UV4CuuY+LYq?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2db42a4-521f-4ad9-cd2b-08db8d61eee1
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB5859.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e4448a6-2780-4481-8480-08db8d60a92c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2023 22:44:09.7344 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AWVViPMQ5vfGJquSK/+CTgs6m67gDvYfs6gQfyU9wkT2dwmur4oTlGtMOO/3OOR6VqcKg1ZT2gTrcCow+7r7BdUtVgmeYUcdOZBobPeoY4I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7004
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2023 22:53:16.3796 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rhPC1HQ2c8kMc3wv2Nh+aPn0+B+/YdJRArtRR72Idvwp5Z0BWmlufF++RTA1agi3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5484
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,95 +134,38 @@ Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+On Tue, Jul 25, 2023 at 10:44:09PM +0000, Kasireddy, Vivek wrote:
+> > If you still need the memory mapped then you re-call hmm_range_fault
+> > and re-obtain it. hmm_range_fault will resolve all the races and you
+> > get new pages.
 
-> > >
-> > > > > I'm not at all familiar with the udmabuf use case but that sounds
-> > > > > brittle and effectively makes this notifier udmabuf specific righ=
-t?
-> > > > Oh, Qemu uses the udmabuf driver to provide Host Graphics
-> components
-> > > > (such as Spice, Gstreamer, UI, etc) zero-copy access to Guest creat=
-ed
-> > > > buffers. In other words, from a core mm standpoint, udmabuf just
-> > > > collects a bunch of pages (associated with buffers) scattered insid=
-e
-> > > > the memfd (Guest ram backed by shmem or hugetlbfs) and wraps
-> > > > them in a dmabuf fd. And, since we provide zero-copy access, we
-> > > > use DMA fences to ensure that the components on the Host and
-> > > > Guest do not access the buffer simultaneously.
-> > >
-> > > So why do you need to track updates proactively like this?
-> > As David noted in the earlier series, if Qemu punches a hole in its mem=
-fd
-> > that goes through pages that are registered against a udmabuf fd, then
-> > udmabuf needs to update its list with new pages when the hole gets
-> > filled after (guest) writes. Otherwise, we'd run into the coherency
-> > problem (between udmabuf and memfd) as demonstrated in the selftest
-> > (patch #3 in this series).
->=20
-> Holes created in VMA are tracked by invalidation, you haven't
-> explained why this needs to also see change.
-Oh, the invalidation part is ok and does not need any changes. My concern
-(and the reason for this new notifier patch) is only about the lack of a
-notification when a PTE is updated because of a fault (new page). In other
-words, if something like change_pte() would have been called after
-handle_pte_fault() or hugetlb_fault(), then this patch would not be needed.
+> IIUC, for my udmabuf use-case, it looks like calling hmm_range_fault
+> immediately after an invalidate (range notification) would preemptively fault in
+> new pages before a write. The problem with that is if a read occurs on those
+> new pages, then the data is incorrect as a write may not have
+> happened yet.
 
->=20
-> BTW it is very jarring to hear you talk about files when working with
-> mmu notifiers. MMU notifiers do not track hole punches or memfds, they
-> track VMAs and PTEs. Punching a hole in a mmapped memfd will
-> invalidate the convering PTEs.
-I figured describing the problem in terms of memfds or hole punches would
-provide more context; but, ok, I'll refrain from mentioning memfds or holes
-and limit the discussion of this patch to VMAs and PTEs.=20
+It cannot be, if you use hmm_range_fault correctly you cannot get
+corruption no matter what is done to the mmap'd memfd. If there is
+otherwise it is a hmm_range_fault bug plain and simple.
 
->=20
-> > > Trigger a move when the backing memory changes and re-acquire it with
-> > AFAICS, without this patch or adding new change_pte calls, there is no =
-way
-> to
-> > get notified when a new page is mapped into the backing memory of a
-> memfd
-> > (backed by shmem or hugetlbfs) which happens after a hole punch
-> followed
-> > by writes.
->=20
-> Yes, we have never wanted to do this because is it racy.
->=20
-> If you still need the memory mapped then you re-call hmm_range_fault
-> and re-obtain it. hmm_range_fault will resolve all the races and you
-> get new pages.
-IIUC, for my udmabuf use-case, it looks like calling hmm_range_fault
-immediately after an invalidate (range notification) would preemptively fau=
-lt in
-new pages before a write. The problem with that is if a read occurs on thos=
-e
-new pages, then the data is incorrect as a write may not have happened yet.
-Ideally, what I am looking for is for getting new pages at the time of or a=
-fter
-a write; until then, it is ok to use the old pages given my use-case.
+> Ideally, what I am looking for is for getting new pages at the time of or after
+> a write; until then, it is ok to use the old pages given my use-case.
 
->=20
-> > We can definitely get notified when a hole is punched via the
-> > invalidate notifiers though, but as I described earlier this is not ver=
-y helpful
-> > for the udmabuf use-case.
->=20
-> I still don't understand why, or what makes udmabuf so special
-> compared to all the other places tracking VMA changes and using
-> hmm_range_fault.
-I think the difference comes down to whether we (udmabuf driver) want to
-grab the new pages after getting notified about a PTE update because of a f=
-ault
-triggered by a write vs proactively obtaining the new pages by triggering t=
-he
-fault (since hmm_range_fault() seems to call handle_mm_fault()) before a
-potential write.
+It is wrong, if you are synchronizing the vma then you must use the
+latest copy. If your use case can tolerate it then keep a 'not
+present' indication for the missing pages until you actually need
+them, but dmabuf doesn't really provide an API for that.
 
-Thanks,
-Vivek
+> I think the difference comes down to whether we (udmabuf driver) want to
+> grab the new pages after getting notified about a PTE update because
+> of a fault
 
->=20
-> Jason
+Why? You still haven't explained why you want this.
+
+If you are writing to the pages then you have to do this
+
+If you are reading from the pages then hmm_range_fault should return
+the zero page for a hole until it is written too
+
+Jason
