@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F97A760B43
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0BC760B89
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C8810E39F;
-	Tue, 25 Jul 2023 07:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D211310E3A6;
+	Tue, 25 Jul 2023 07:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E194410E39D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:14:52 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0534C6606FD7;
- Tue, 25 Jul 2023 08:14:50 +0100 (BST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6E510E3A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:20:03 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0C83D6607106;
+ Tue, 25 Jul 2023 08:20:02 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690269291;
- bh=2Up7Q4ggLqZwRNdv/plAaqb8BMBgbL4oTYcjSdMQnow=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GLcosbsF9805iCbE8eMvWlBaeBQxI53nor3WoWEKfZ5Hj/OXrrl3yEPPnLRW+TpRz
- iKuHpSPyTIWyXIT29oO+7L7G+HITZzPd4GlWnb38HINfGIiom/lq3+h9ArzmviwEKp
- WbXCLx+qEhV5lJie++W+SiYk79wKqF3enWPkKVXfXpkajuostTzGKwBGQ2bOnV3sKw
- BWOYiHqmLRPWxmky2VY5WkUB3em82QbGqEQD5rASxpWTChzgkqoQL72TsEvfif2TWq
- 5lPoW74N+x6kXkS6Qp1yk9zEYkaG60R5mPY5EfQv8zb7R5eCfTbNAoVM1tb9i+za3d
- tdd/dDLnHluxA==
-Date: Tue, 25 Jul 2023 09:14:48 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v14 01/12] drm/shmem-helper: Factor out pages
- alloc/release from drm_gem_shmem_get/put_pages()
-Message-ID: <20230725091448.7ac0c4aa@collabora.com>
-In-Reply-To: <20230722234746.205949-2-dmitry.osipenko@collabora.com>
-References: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
- <20230722234746.205949-2-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ s=mail; t=1690269602;
+ bh=vbQ80xzI0mEIKxkOSt1CxW5Uwoqn4TRg4kjpv8ZquGs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TRNrC1Y94J12i/tUhgVJm90x8AImCfDVvjbe0XcCZYvJt5s9x/OD44IQuvFCfBnwG
+ vUhdXESET/1ljhVxvQMaUQwnKJGwNiqR1HywHHJvqwYxIjziCS3DngUgvved42HEYT
+ DbpOs0Xjw9xhmE1xK+rirKMiVLRAOIhX7epYZGd2HT+Onz3nGn3BH3Z7KEHIlaQEfo
+ BBsHt9eIAkGPzH4SqjIXM9oBj7yNpSYNG1/tDEO51NtN1ZEk+sQjlT+hqU9MK3i8zx
+ x7C9b/N8ISjn6CZO02J0WRu0Qr7O36lmKnsivmQmlVd61mIBy2wDue9lGJ4od8R98J
+ R8Ad7JJE6d5Zw==
+Message-ID: <eaeeb44b-b102-1865-9600-58de7f682ee8@collabora.com>
+Date: Tue, 25 Jul 2023 09:19:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 11/11] drm/mediatek: dp: Don't register HPD interrupt
+ handler for eDP case
+Content-Language: en-US
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+References: <20230717141438.274419-1-angelogioacchino.delregno@collabora.com>
+ <20230717141438.274419-12-angelogioacchino.delregno@collabora.com>
+ <16123fef00babcc855c626ff65b5510fdeea6e15.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <16123fef00babcc855c626ff65b5510fdeea6e15.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,140 +58,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 23 Jul 2023 02:47:35 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+Il 25/07/23 08:37, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Mon, 2023-07-17 at 16:14 +0200, AngeloGioacchino Del Regno wrote:
+>>   	
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>   The interrupt handler for HPD is useful only if a display is
+>> actually
+>> supposed to be hotpluggable, as that manages the machinery to perform
+>> cable (un)plug detection, debouncing and setup for re-training.
+>>
+>> Since eDP panels are not supposed to be hotpluggable we can avoid
+>> using the HPD interrupts altogether and rely on HPD polling only
+>> for the suspend/resume case, saving us some spinlocking action and
+>> the overhead of interrupts firing at every suspend/resume cycle,
+>> achieving a faster (even if just slightly) display resume.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_dp.c | 81 ++++++++++++++++++-----------
+>> --
+>>   1 file changed, 46 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c
+>> b/drivers/gpu/drm/mediatek/mtk_dp.c
+>> index e74295ba9707..c06fcc7318e7 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+>> @@ -2182,9 +2182,11 @@ static int mtk_dp_bridge_attach(struct
+>> drm_bridge *bridge,
+>>   
+>>   	mtk_dp->drm_dev = bridge->dev;
+>>   
+>> -	irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
+>> -	enable_irq(mtk_dp->irq);
+>> -	mtk_dp_hwirq_enable(mtk_dp, true);
+>> +	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
+>> +		irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
+>> +		enable_irq(mtk_dp->irq);
+>> +		mtk_dp_hwirq_enable(mtk_dp, true);
+>> +	}
+>>   
+>>   	return 0;
+>>   
+>> @@ -2199,8 +2201,10 @@ static void mtk_dp_bridge_detach(struct
+>> drm_bridge *bridge)
+>>   {
+>>   	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+>>   
+>> -	mtk_dp_hwirq_enable(mtk_dp, false);
+>> -	disable_irq(mtk_dp->irq);
+>> +	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
+>> +		mtk_dp_hwirq_enable(mtk_dp, false);
+>> +		disable_irq(mtk_dp->irq);
+>> +	}
+>>   	mtk_dp->drm_dev = NULL;
+>>   	mtk_dp_poweroff(mtk_dp);
+>>   	drm_dp_aux_unregister(&mtk_dp->aux);
+>> @@ -2579,40 +2583,44 @@ static int mtk_dp_probe(struct
+>> platform_device *pdev)
+>>   	mtk_dp->dev = dev;
+>>   	mtk_dp->data = (struct mtk_dp_data
+>> *)of_device_get_match_data(dev);
+>>   
+>> -	mtk_dp->irq = platform_get_irq(pdev, 0);
+>> -	if (mtk_dp->irq < 0)
+>> -		return dev_err_probe(dev, mtk_dp->irq,
+>> -				     "failed to request dp irq
+>> resource\n");
+>> -
+>> -	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node,
+>> 1, 0);
+>> -	if (IS_ERR(mtk_dp->next_bridge) &&
+>> -	    PTR_ERR(mtk_dp->next_bridge) == -ENODEV)
+>> -		mtk_dp->next_bridge = NULL;
+>> -	else if (IS_ERR(mtk_dp->next_bridge))
+>> -		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
+>> -				     "Failed to get bridge\n");
+>> -
+> 
+> Why remove next_bridge setting?
+> 
 
-> Factor out pages allocation from drm_gem_shmem_get_pages() into
-> drm_gem_shmem_acquire_pages() function and similar for the put_pages()
-> in a preparation for addition of shrinker support to drm-shmem.
-> 
-> Once shrinker will be added, the pages_use_count>0 will no longer determine
-> whether pages are pinned because pages could be swapped out by the shrinker
-> and then pages_use_count will be greater than 0 in this case. We will add
-> new pages_pin_count in a later patch.
-> 
-> The new common drm_gem_shmem_acquire/release_pages() will be used by
-> shrinker code for performing the page swapping.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 65 ++++++++++++++++++++------
->  1 file changed, 52 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index a783d2245599..267153853e2c 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -165,21 +165,26 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
->  
-> -static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-> +static int
-> +drm_gem_shmem_acquire_pages(struct drm_gem_shmem_object *shmem)
->  {
->  	struct drm_gem_object *obj = &shmem->base;
->  	struct page **pages;
->  
->  	dma_resv_assert_held(shmem->base.resv);
+Hello CK,
 
-Not directly related to this patch, but can we start using _locked
-suffixes for any function that's expecting the dma-resv lock to be held?
+Thanks for making me notice that! The removal of this code snippet belongs
+to patch [9/11] `drm/mediatek: dp: Add support for embedded DisplayPort aux-bus`
+because in that patch I am moving the call to devm_drm_of_get_bridge() to function
+mtk_dp_edp_link_panel(), which is called as a .done_probing() callback if the eDP
+panel is on aux-bus, or "manually" if not on aux-bus.
 
->  
-> -	if (shmem->pages_use_count++ > 0)
-> -		return 0;
-> +	if (shmem->madv < 0) {
-> +		drm_WARN_ON(obj->dev, shmem->pages);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	if (drm_WARN_ON(obj->dev, !shmem->pages_use_count))
-> +		return -EINVAL;
->  
->  	pages = drm_gem_get_pages(obj);
->  	if (IS_ERR(pages)) {
->  		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
->  			    PTR_ERR(pages));
-> -		shmem->pages_use_count = 0;
->  		return PTR_ERR(pages);
->  	}
->  
-> @@ -198,6 +203,48 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
->  	return 0;
->  }
->  
-> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-> +{
-> +	int err;
-> +
-> +	dma_resv_assert_held(shmem->base.resv);
-> +
-> +	if (shmem->madv < 0)
-> +		return -ENOMEM;
-> +
-> +	if (shmem->pages_use_count++ > 0)
-> +		return 0;
-> +
-> +	err = drm_gem_shmem_acquire_pages(shmem);
-> +	if (err)
-> +		goto err_zero_use;
-> +
-> +	return 0;
-> +
-> +err_zero_use:
-> +	shmem->pages_use_count = 0;
-> +
-> +	return err;
-> +}
-> +
-> +static void
-> +drm_gem_shmem_release_pages(struct drm_gem_shmem_object *shmem)
-> +{
-> +	struct drm_gem_object *obj = &shmem->base;
-> +
-> +	dma_resv_assert_held(shmem->base.resv);
-> +
-> +#ifdef CONFIG_X86
-> +	if (shmem->map_wc)
-> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> +#endif
-> +
-> +	drm_gem_put_pages(obj, shmem->pages,
-> +			  shmem->pages_mark_dirty_on_put,
-> +			  shmem->pages_mark_accessed_on_put);
-> +	shmem->pages = NULL;
-> +}
-> +
->  /*
->   * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
->   * @shmem: shmem GEM object
-> @@ -216,15 +263,7 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
->  	if (--shmem->pages_use_count > 0)
->  		return;
->  
-> -#ifdef CONFIG_X86
-> -	if (shmem->map_wc)
-> -		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> -#endif
-> -
-> -	drm_gem_put_pages(obj, shmem->pages,
-> -			  shmem->pages_mark_dirty_on_put,
-> -			  shmem->pages_mark_accessed_on_put);
-> -	shmem->pages = NULL;
-> +	drm_gem_shmem_release_pages(shmem);
->  }
->  EXPORT_SYMBOL(drm_gem_shmem_put_pages);
->  
+I'll send a v7 with the removal of this snippet in the right patch.
+
+Thanks again,
+Angelo
 
