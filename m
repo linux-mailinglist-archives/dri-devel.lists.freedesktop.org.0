@@ -2,46 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E171976060C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 04:55:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3D8760625
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 05:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796E810E09C;
-	Tue, 25 Jul 2023 02:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207FB10E10C;
+	Tue, 25 Jul 2023 03:01:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F5410E09C;
- Tue, 25 Jul 2023 02:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:Subject:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=hRjHfDosZ8rZOfOyO2tkZTXG7Fh/6Qded8f9S1Smi/4=; b=mccSt1bWK6XW8GojpJNz1uyVyB
- XiKiXXHePHLaAVfTef6eYFhZIcpRBdYPTA2lq1YgMFiwtZGXEX528Bx6eAuEIyq8c0FbUx7vkqS3q
- eGMN53TSmt7/3XJJRAQ2RJNnqvrGaUagIo1rK0iaq3hKmqxF/WwoYpsGjd8789Q3l6Q1DjfOZOZli
- AOmbCkr2qhRnaPT3lYzU9dNdg91NCOEFnNUuRhjhe6FPfyDGasYBmArF4Ud2EIzxl7aP0u5D3nuOg
- qpswXNoaGRGfKDLY5zF6GeOYluWBwk4joh2yxzANJ/Ig78ALQqFYa1tfDOOlwqASzzZqMcift/8mQ
- ADzboskw==;
-Received: from [189.111.93.147] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qO8Cj-003P6h-OA; Tue, 25 Jul 2023 04:55:18 +0200
-Message-ID: <e292a30f-5cad-1968-de4f-0d43c9c1e943@igalia.com>
-Date: Mon, 24 Jul 2023 23:55:11 -0300
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13D8810E10C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 03:01:21 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-66d6a9851f3so1179269b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 20:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1690254081; x=1690858881;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BOm9JtzAMmxvhoSbX2NtL3QoGfALrOaBCsSuiN3HvS8=;
+ b=S6qTrQW9jNBAqKkMe5A0Cu8+HbQDlzC3TLro07t5ACviirx/XqhnqUPjiclTs78MVw
+ L8tR0RX+uwWODTuNUCn9GO7p4bXpfIsdbkjqpY0PqVfJilI1CACHVzYlY/iV0sWP5V/3
+ T3P+fsJZrl/T8/61jZYJY4PyQofvYiMvXNGAlNPnqvgQIdqIJpCErJLddWxt9/CHMYvA
+ fQfQW01/Y2q+AlIExOo9mNzILsmJhUWs4VPYn88so7T3w1Nn66xNTb/c35K8Neo4b+tp
+ wg91etpXIESM3veFJOsmMl9xQ0iXGYxs+8+DAjrpr00+sWBSXajvrars1puw7bQqkMd4
+ /qUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690254081; x=1690858881;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BOm9JtzAMmxvhoSbX2NtL3QoGfALrOaBCsSuiN3HvS8=;
+ b=kTgt6pUhPHGhVQ/y9GiiPhkj7PtTmJgE0BGYQbJWGp7bjNoOaLR2ShZjayHW/Uihhj
+ leCEMLZnsL8xc81P5LYIgIuausIKjWgEdoegre4C/zJ4FxosN6CXgx+PW6bpZX5kf3FF
+ 5mv1QXPWE+6far1DQWuHp+ZQkabdjQxFRi0qDh3ae10AvA1Yt4i3yrT/M9nI/Wlmp80d
+ JtNMX2lzIZTuJHN/EFAornHKhROrloiwH7gEXay6vFNxdzEfrbE0LnX6zjoJglHlo4Ua
+ QV95uT0cm2ThsQ8NO6nVfPLLo+nhvjzyw4Yzl6kv5dzHHxuPkECAdytMQqVeiYn/WBQT
+ Y+Cw==
+X-Gm-Message-State: ABy/qLZcDyF5hGQcWhmYFbSOZaukgl1fux17c8uHr2MKHTqcBeWgjQ0d
+ UQs2pD0fB856qUCkkSVV8sugZg==
+X-Google-Smtp-Source: APBJJlFM6WPSihXOKl0X4zg92CAAfeqIP/jkVagMNd5II31TO+klkQLkXzKhhJFyUFA6pGL+niCVGA==
+X-Received: by 2002:a05:6a20:160d:b0:111:a0e5:d2b7 with SMTP id
+ l13-20020a056a20160d00b00111a0e5d2b7mr15056320pzj.4.1690254081364; 
+ Mon, 24 Jul 2023 20:01:21 -0700 (PDT)
+Received: from [10.70.252.135] ([203.208.167.147])
+ by smtp.gmail.com with ESMTPSA id
+ fe15-20020a056a002f0f00b0066ccb8e8024sm8472563pfb.30.2023.07.24.20.01.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Jul 2023 20:01:20 -0700 (PDT)
+Message-ID: <9b149dd9-1617-9af4-4252-6d0df01f93b1@bytedance.com>
+Date: Tue, 25 Jul 2023 11:01:06 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Subject: Non-robust apps and resets (was Re: [PATCH v5 1/1] drm/doc: Document
- DRM device reset expectations)
-To: dri-devel@lists.freedesktop.org
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.12.0
+Subject: Re: [PATCH v2 03/47] mm: shrinker: add infrastructure for dynamically
+ allocating shrinker
 Content-Language: en-US
-In-Reply-To: <20230627132323.115440-1-andrealmeid@igalia.com>
+To: Peter Zijlstra <peterz@infradead.org>
+References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
+ <20230724094354.90817-4-zhengqi.arch@bytedance.com>
+ <20230724122549.GA3731903@hirez.programming.kicks-ass.net>
+From: Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <20230724122549.GA3731903@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,98 +79,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
+ david@fromorbit.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+ dm-devel@redhat.com, linux-mtd@lists.infradead.org, cel@kernel.org,
+ x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
+ linux-bcache@vger.kernel.org, yujie.liu@intel.com, vbabka@suse.cz,
+ linux-raid@vger.kernel.org, brauner@kernel.org, tytso@mit.edu,
+ gregkh@linuxfoundation.org, muchun.song@linux.dev,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, senozhatsky@chromium.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+Hi Peter,
 
-It's not clear what we should do about non-robust OpenGL apps after GPU 
-resets, so I'll try to summarize the topic, show some options and my 
-proposal to move forward on that.
+On 2023/7/24 20:25, Peter Zijlstra wrote:
+> On Mon, Jul 24, 2023 at 05:43:10PM +0800, Qi Zheng wrote:
+> 
+>> +void shrinker_unregister(struct shrinker *shrinker)
+>> +{
+>> +	struct dentry *debugfs_entry;
+>> +	int debugfs_id;
+>> +
+>> +	if (!shrinker || !(shrinker->flags & SHRINKER_REGISTERED))
+>> +		return;
+>> +
+>> +	down_write(&shrinker_rwsem);
+>> +	list_del(&shrinker->list);
+>> +	shrinker->flags &= ~SHRINKER_REGISTERED;
+>> +	if (shrinker->flags & SHRINKER_MEMCG_AWARE)
+>> +		unregister_memcg_shrinker(shrinker);
+>> +	debugfs_entry = shrinker_debugfs_detach(shrinker, &debugfs_id);
+>> +	up_write(&shrinker_rwsem);
+>> +
+>> +	shrinker_debugfs_remove(debugfs_entry, debugfs_id);
+> 
+> Should there not be an rcu_barrier() right about here?
 
-Em 27/06/2023 10:23, André Almeida escreveu:
-> +Robustness
-> +----------
-> +
-> +The only way to try to keep an application working after a reset is if it
-> +complies with the robustness aspects of the graphical API that it is using.
-> +
-> +Graphical APIs provide ways to applications to deal with device resets. However,
-> +there is no guarantee that the app will use such features correctly, and the
-> +UMD can implement policies to close the app if it is a repeating offender,
-> +likely in a broken loop. This is done to ensure that it does not keep blocking
-> +the user interface from being correctly displayed. This should be done even if
-> +the app is correct but happens to trigger some bug in the hardware/driver.
-> +
-Depending on the OpenGL version, there are different robustness API 
-available:
+The shrinker_debugfs_remove() will wait for debugfs_file_put() to
+return, so when running here, all shrinker debugfs operations have
+been completed. And the slab shrink will hold the read lock of
+shrinker_rwsem to traverse the shrinker_list, so when we hold the
+write lock of shrinker_rwsem to delete the shrinker from the
+shrinker_list, the shrinker will not be executed again.
 
-- OpenGL ABR extension [0]
-- OpenGL KHR extension [1]
-- OpenGL ES extension  [2]
-
-Apps written in OpenGL should use whatever version is available for them 
-to make the app robust for GPU resets. That usually means calling 
-GetGraphicsResetStatusARB(), checking the status, and if it encounter 
-something different from NO_ERROR, that means that a reset has happened, 
-the context is considered lost and should be recreated. If an app follow 
-this, it will likely succeed recovering a reset.
-
-What should non-robustness apps do then? They certainly will not be 
-notified if a reset happens, and thus can't recover if their context is 
-lost. OpenGL specification does not explicitly define what should be 
-done in such situations[3], and I believe that usually when the spec 
-mandates to close the app, it would explicitly note it.
-
-However, in reality there are different types of device resets, causing 
-different results. A reset can be precise enough to damage only the 
-guilty context, and keep others alive.
-
-Given that, I believe drivers have the following options:
-
-a) Kill all non-robust apps after a reset. This may lead to lose work 
-from innocent applications.
-
-b) Ignore all non-robust apps OpenGL calls. That means that applications 
-would still be alive, but the user interface would be freeze. The user 
-would need to close it manually anyway, but in some corner cases, the 
-app could autosave some work or the user might be able to interact with 
-it using some alternative method (command line?).
-
-c) Kill just the affected non-robust applications. To do that, the 
-driver need to be 100% sure on the impact of its resets.
-
-RadeonSI currently implements a), as can be seen at [4], while Iris 
-implements what I think it's c)[5].
-
-For the user experience point-of-view, c) is clearly the best option, 
-but it's the hardest to archive. There's not much gain on having b) over 
-a), perhaps it could be an optional env var for such corner case 
-applications.
-
-My proposal for the documentation is: implement a) if nothing else is 
-available, have a MESA_NO_RESET_KILL for people that want b), ideally 
-implement c) if the driver is able to know for sure that the non-guilty 
-apps can still work after a reset.
+So I think there is no need to add a rcu_barrier() here. Please let
+me know if I missed something.
 
 Thanks,
-     André
+Qi
 
-[0] https://registry.khronos.org/OpenGL/extensions/ARB/ARB_robustness.txt
-[1] https://registry.khronos.org/OpenGL/extensions/KHR/KHR_robustness.txt
-[2] https://registry.khronos.org/OpenGL/extensions/EXT/EXT_robustness.txt
-[3] https://registry.khronos.org/OpenGL/specs/gl/glspec46.core.pdf
-[4] 
-https://gitlab.freedesktop.org/mesa/mesa/-/blob/23.1/src/gallium/winsys/amdgpu/drm/amdgpu_cs.c#L1657
-[5] 
-https://gitlab.freedesktop.org/mesa/mesa/-/blob/23.1/src/gallium/drivers/iris/iris_batch.c#L842
+> 
+>> +
+>> +	kfree(shrinker->nr_deferred);
+>> +	shrinker->nr_deferred = NULL;
+>> +
+>> +	kfree(shrinker);
+>> +}
+>> +EXPORT_SYMBOL(shrinker_unregister);
+> 
