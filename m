@@ -1,66 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5F0762294
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 21:43:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EF77622B4
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 21:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB28F10E119;
-	Tue, 25 Jul 2023 19:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19D5F10E177;
+	Tue, 25 Jul 2023 19:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D18310E119
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 19:43:47 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C87BB1F8D6;
- Tue, 25 Jul 2023 19:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690314225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB9D410E177
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 19:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690314802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fWxaxfh4fZMBg36nTQymMEDMB3AyPNxL0wSzMXf7Ur8=;
- b=vrDjNVmXS4f5fQoHjfQ6k/NKkwVtf+qqOOwHjEgXLRWN3j3/nb//3W4+bFFFG0eh9P2pp6
- DHNWMmVSpfyEbaQA6vhvDfgRW1G7dYn6YoB6F4MLvR5OmyR9UyYi/xxIS5Mf8ZGVgry9CO
- urw+PSATasWtG31Ugxb+bCGQH5lzNcs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690314225;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fWxaxfh4fZMBg36nTQymMEDMB3AyPNxL0wSzMXf7Ur8=;
- b=C9MzR6FT0hgDPwhX70pSSsw32xnoj9t/5v43aP+Qyg0KWE/dpXyLAgqhb2qWpsvTSvxplm
- ekvJ5K5YbpjWFYAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9B6F413342;
- Tue, 25 Jul 2023 19:43:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lpNoJPElwGT1EwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Jul 2023 19:43:45 +0000
-Message-ID: <c3f4a520-38b2-ac19-3fb9-f222022f4bdc@suse.de>
-Date: Tue, 25 Jul 2023 21:43:44 +0200
+ bh=/ehsQdgWSIS7eeNPhg1juxuHJiisqBuDA4AQKiM8tp4=;
+ b=Jxa3qH7Nzq23o2uU3ENbAED9glFtlDS/5HKEy5qqLH4bFGvihclp3gY/hdzT1SrsuO+nmw
+ etfncHYX7ctAf0AOJzhasJoLGWQ00NIVAvfS7OatYJTLjxN2a+eOwX//7G+Ks/BtI1TcKq
+ uwHi79vhuVUIigvlYBIqRJPGAxuT9qw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-593-cscjKj2ONTK0xmqvYMG3mg-1; Tue, 25 Jul 2023 15:53:18 -0400
+X-MC-Unique: cscjKj2ONTK0xmqvYMG3mg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3158f4d72e9so2840007f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 12:53:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690314797; x=1690919597;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/ehsQdgWSIS7eeNPhg1juxuHJiisqBuDA4AQKiM8tp4=;
+ b=aIGg/MGZjGEVhokGCoaVhAmZYkvmWFZUgi4DkHSIWuLLkczORKIkuo9Vmfa/qbxIZI
+ pRIs8Zr4C80kh3hyYGvWngQtRAn0Z0nAh9RCx5jROY0w0DtZTEA00nNJRY7ehGopacxn
+ 5jGfuBI9jBwx0WNb17aXv1irHdMrI0o6nKDzwuaBEqU6523z3fY+yz1sa7osL5+OBwQl
+ jrQs0HoCwtUPwjR3YrQCucaJv8SMIKNyuGeyg+3+OIBmppUC6zIiyUlKZ57bs5ElUEXA
+ 4QMLeOYpkPsOHixz4nYQLAD+iYe/st7mcgyZwHePDJfILzMusdWS+ZJH8lCVkybT2gZt
+ sGxg==
+X-Gm-Message-State: ABy/qLYmpI4mZ1vhTF80PsfD2FNgvdXlT5p0rTXa5IdHB92OyQalPIOI
+ gi3xgbe1yVNm0sNLzs7H7l5Ge4Lvsxo7oskRXH6iBZgVSuyRvl1K6ZNgcarmv5jGelxDegYVdCQ
+ 15PUscR6l/r//NrUafXc9wgK2LedK
+X-Received: by 2002:a5d:4ccd:0:b0:313:e9dc:44d5 with SMTP id
+ c13-20020a5d4ccd000000b00313e9dc44d5mr8756120wrt.61.1690314797299; 
+ Tue, 25 Jul 2023 12:53:17 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEfpWWBSGVv7qsi/9x0G1/ru7iK4Zf2hflHhR0TYMahLeFmVnfj9mjTHzpX0KH0ux4gaM1qHQ==
+X-Received: by 2002:a5d:4ccd:0:b0:313:e9dc:44d5 with SMTP id
+ c13-20020a5d4ccd000000b00313e9dc44d5mr8756108wrt.61.1690314796971; 
+ Tue, 25 Jul 2023 12:53:16 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ n15-20020a1c720f000000b003fc0505be19sm13825286wmc.37.2023.07.25.12.53.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jul 2023 12:53:16 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Geert Uytterhoeven
+ <geert@linux-m68k.org>
+Subject: Re: [PATCH] video: logo: LOGO should depend on FB_CORE i.s.o. FB
+In-Reply-To: <c10d925b-8d37-caa0-8f66-a0206f948c69@suse.de>
+References: <5ab3d1fe7b67ab10e4bc1bdbc0fa7731f7960965.1690300189.git.geert+renesas@glider.be>
+ <87a5vkj7qe.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdWBznkqYxCWD2uwGtWLqXnBqX1Ycg31fBDc4cq2u8DkNQ@mail.gmail.com>
+ <877cqoj5q5.fsf@minerva.mail-host-address-is-not-set>
+ <c10d925b-8d37-caa0-8f66-a0206f948c69@suse.de>
+Date: Tue, 25 Jul 2023 21:53:16 +0200
+Message-ID: <874jlrkbtf.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: drm/ast: Do not enable PCI resources multiple times
-Content-Language: en-US
-To: suijingfeng <suijingfeng@loongson.cn>, jfalempe@redhat.com,
- airlied@gmail.com, airlied@redhat.com, daniel@ffwll.ch
-References: <20230712130826.3318-1-tzimmermann@suse.de>
- <5d51f17e-138c-fbc1-c1f7-b0d3f09bcf7a@loongson.cn>
- <bb3b4288-9ee0-8d24-4a77-50630a76ac7c@suse.de>
- <bd866246-6b98-44fd-55f6-64e9e6fa22ba@loongson.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <bd866246-6b98-44fd-55f6-64e9e6fa22ba@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------e0SqyTpYuC9qqkNzQhj0wnpP"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,114 +84,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------e0SqyTpYuC9qqkNzQhj0wnpP
-Content-Type: multipart/mixed; boundary="------------pH0qYkKLvzhS4apBy4ik9Esl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: suijingfeng <suijingfeng@loongson.cn>, jfalempe@redhat.com,
- airlied@gmail.com, airlied@redhat.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <c3f4a520-38b2-ac19-3fb9-f222022f4bdc@suse.de>
-Subject: Re: drm/ast: Do not enable PCI resources multiple times
-References: <20230712130826.3318-1-tzimmermann@suse.de>
- <5d51f17e-138c-fbc1-c1f7-b0d3f09bcf7a@loongson.cn>
- <bb3b4288-9ee0-8d24-4a77-50630a76ac7c@suse.de>
- <bd866246-6b98-44fd-55f6-64e9e6fa22ba@loongson.cn>
-In-Reply-To: <bd866246-6b98-44fd-55f6-64e9e6fa22ba@loongson.cn>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
---------------pH0qYkKLvzhS4apBy4ik9Esl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> Hi
+>
 
-SGkNCg0KQW0gMjUuMDcuMjMgdW0gMDM6MTIgc2NocmllYiBzdWlqaW5nZmVuZzoNCj4gSGks
-DQo+IA0KPiBPbiAyMDIzLzcvMjUgMDI6MzQsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0K
-Pj4gSGkNCj4+DQo+PiBBbSAxOC4wNy4yMyB1bSAwNzo0MCBzY2hyaWViIHN1aWppbmdmZW5n
-Og0KPj4+IEhpLA0KPj4+DQo+Pj4NCj4+PiBBY3R1YWxseSzCoCBJJ20gb25seSBhIGxpdHRs
-ZSBiaXQgd29ycnkgYWJvdXQgdGhlIGFzdF9wbV90aGF3KCkgY29kZSANCj4+PiBwYXRoLg0K
-Pj4+DQo+Pj4gfC0gYXN0X3BtX3RoYXcoKQ0KPj4+DQo+Pj4gfC0tIGFzdF9kcm1fdGhhdygp
-DQo+Pj4NCj4+PiB8LS0tIGFzdF9wb3N0X2dwdSgpDQo+Pg0KPiANCj4+IEknbSBub3QgcXVp
-dGUgc3VyZSB3aGF0IG1lYW4gaGVyZSwgYmVjYXVzZSB0aGUgcG9zdC1HUFUgY29kZSBpcyBu
-b3QgDQo+PiBpbnZvbHZlZCBpbiB0aGlzIHBhdGNoLg0KPiANCj4gDQo+IEFoLCBJJ20gZ2V0
-IGNvbmZ1c2VkIHdpdGggYSBwcmV2aW91cyBwYXRjaC4NCg0KT2ssIG5vIHByb2JsZW0uIEkn
-dmUgbm93IG1lcmdlZCB0aGF0IHBhdGNoLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
-IA0KPiBQcmV2aW91c2x5LCB0aGUgZHJtL2FzdCBkcml2ZXIgY2FsbCBhc3RfaW5pdF9wY2lf
-Y29uZmlnKCkgZnVuY3Rpb24gaW4gDQo+IGFzdF9wb3N0X2dwdSgpLg0KPiANCj4gSSBhbHNv
-IGRvbid0IGtub3cgd2h5IGl0IG5lZWQgdG8gZG8gc28uDQo+IA0KPiBPayB0aGVuLCBqdXN0
-IHJlbW92ZSBpdC4NCj4gDQo+IA0KPj4gQWxsIHRoaXMgcGF0Y2ggZG9lcyBpcyB0byByZW1v
-dmUgZHVwbGljYXRlZCBjb2RlLg0KPj4NCj4gDQo+IFllcywgdGhpcyBwYXRjaCBoYXMgbm90
-aGluZyB0byBkbyB3aXRoIHRoZSBhc3RfcG9zdF9ncHUoKSBmdW5jdGlvbi4NCj4gDQo+IA0K
-Pj4gSXMgdGhlcmUgYSBidWcgaW4gdGhlIHBvc3QtR1BVIGhhbmRsaW5nPw0KPj4NCj4gDQo+
-IE5vLCBJJ20gbm90IGZpbmQgb25lIHNvIGZhci4NCj4gDQo+IA0KPj4gQmVzdCByZWdhcmRz
-DQo+PiBUaG9tYXMNCj4+DQo+Pj4NCj4+Pg0KPj4+IEV4Y2VwdCB0aGlzLCBhbGwgb3RoZXIg
-Y29kZSBwYXRoIGhhdmUgcGNpX2VuYWJsZV9kZXZpY2UoKSBvciANCj4+PiBwY2ltX2VuYWJs
-ZV9kZXZpY2UoKSBjYWxsZWQuDQo+Pj4NCj4+PiBTbywgdGhpcyBwYXRjaCBzZWVtcyBPSy4N
-Cj4+Pg0KPj4+DQo+Pj4gT24gMjAyMy83LzEyIDIxOjA4LCBUaG9tYXMgWmltbWVybWFubiB3
-cm90ZToNCj4+Pj4gUmVtb3ZlIGFzdF9pbml0X3BjaV9jb25maWcoKSBhcyB0aGUgYXN0IGRy
-aXZlciBhbHJlYWR5IGVuYWJsZXMgdGhlIFBDSQ0KPj4+PiByZXNvdXJjZXMgYnkgY2FsbGlu
-ZyBwY2ltX2VuYWJsZV9kZXZpY2UoKS4NCj4+Pj4NCj4+Pj4gU3VnZ2VzdGVkLWJ5OiBTdWkg
-SmluZ2ZlbmcgPHN1aWppbmdmZW5nQGxvb25nc29uLmNuPg0KPj4+PiBTaWduZWQtb2ZmLWJ5
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+Pj4gUmV2aWV3
-ZWQtYnk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVtcGVAcmVkaGF0LmNvbT4NCj4+Pj4gLS0t
-DQo+Pj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYyB8IDIxIC0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KPj4+PiDCoCAxIGZpbGUgY2hhbmdlZCwgMjEgZGVsZXRpb25zKC0p
-DQo+Pj4+DQo+Pj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWlu
-LmMgDQo+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jDQo+Pj4+IGluZGV4
-IDhiZmJkZmQ4NmQ3Ny4uZGFlMzY1ZWQzOTY5IDEwMDY0NA0KPj4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vYXN0L2FzdF9tYWluLmMNCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fz
-dC9hc3RfbWFpbi5jDQo+Pj4+IEBAIC0zNSwyMyArMzUsNiBAQA0KPj4+PiDCoCAjaW5jbHVk
-ZSAiYXN0X2Rydi5oIg0KPj4+PiAtc3RhdGljIGludCBhc3RfaW5pdF9wY2lfY29uZmlnKHN0
-cnVjdCBwY2lfZGV2ICpwZGV2KQ0KPj4+PiAtew0KPj4+PiAtwqDCoMKgIGludCBlcnI7DQo+
-Pj4+IC3CoMKgwqAgdTE2IHBjaXMwNDsNCj4+Pj4gLQ0KPj4+PiAtwqDCoMKgIGVyciA9IHBj
-aV9yZWFkX2NvbmZpZ193b3JkKHBkZXYsIFBDSV9DT01NQU5ELCAmcGNpczA0KTsNCj4+Pj4g
-LcKgwqDCoCBpZiAoZXJyKQ0KPj4+PiAtwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7DQo+Pj4+
-IC0NCj4+Pj4gLcKgwqDCoCBwY2lzMDQgfD0gUENJX0NPTU1BTkRfTUVNT1JZIHwgUENJX0NP
-TU1BTkRfSU87DQo+Pj4+IC0NCj4+Pj4gLcKgwqDCoCBlcnIgPSBwY2lfd3JpdGVfY29uZmln
-X3dvcmQocGRldiwgUENJX0NPTU1BTkQsIHBjaXMwNCk7DQo+Pj4+IC0NCj4+Pj4gLW91dDoN
-Cj4+Pj4gLcKgwqDCoCByZXR1cm4gcGNpYmlvc19lcnJfdG9fZXJybm8oZXJyKTsNCj4+Pj4g
-LX0NCj4+Pj4gLQ0KPj4+PiDCoCBzdGF0aWMgYm9vbCBhc3RfaXNfdmdhX2VuYWJsZWQoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldikNCj4+Pj4gwqAgew0KPj4+PiDCoMKgwqDCoMKgIHN0cnVj
-dCBhc3RfZGV2aWNlICphc3QgPSB0b19hc3RfZGV2aWNlKGRldik7DQo+Pj4+IEBAIC00ODMs
-MTAgKzQ2Niw2IEBAIHN0cnVjdCBhc3RfZGV2aWNlICphc3RfZGV2aWNlX2NyZWF0ZShjb25z
-dCANCj4+Pj4gc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4+Pj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgcmV0dXJuIEVSUl9QVFIoLUVJTyk7DQo+Pj4+IMKgwqDCoMKgwqAgfQ0K
-Pj4+PiAtwqDCoMKgIHJldCA9IGFzdF9pbml0X3BjaV9jb25maWcocGRldik7DQo+Pj4+IC3C
-oMKgwqAgaWYgKHJldCkNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKHJl
-dCk7DQo+Pj4+IC0NCj4+Pj4gwqDCoMKgwqDCoCBpZiAoIWFzdF9pc192Z2FfZW5hYmxlZChk
-ZXYpKSB7DQo+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1faW5mbyhkZXYsICJWR0Egbm90
-IGVuYWJsZWQgb24gZW50cnksIHJlcXVlc3RpbmcgY2hpcCANCj4+Pj4gUE9TVFxuIik7DQo+
-Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBuZWVkX3Bvc3QgPSB0cnVlOw0KPj4+DQo+Pg0KPiAN
-Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAx
-NDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15
-ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBO
-dWVybmJlcmcpDQo=
+[...]
 
---------------pH0qYkKLvzhS4apBy4ik9Esl--
+>> 
+>> Yes. I meant to move drivers/video/logo/ to drivers/fbdev/core/logo and to
+>> source its Kconfig from drivers/fbdev/core/Kconfig, since it now depends
+>> on FB_CORE.
+>
+> No, please rather leave it where it is. There's no code dependencies to 
+> the fbdev core; it merely depends on the Kconfig token.
+>
 
---------------e0SqyTpYuC9qqkNzQhj0wnpP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Sure, fine by me. But I disagree that there's merely a Kconfig dependency.
+The include/linux/linux_logo.h header declares both fb_find_logo() and
+fb_append_extra_logo().
 
------BEGIN PGP SIGNATURE-----
+The fb_find_logo() function is defined in drivers/video/logo.c while the
+fb_append_extra_logo() is in drivers/video/fbdev/core/fbmem.c, even though
+only arch/powerpc/platforms/cell/spu_base.c uses fb_append_extra_logo().
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTAJfAFAwAAAAAACgkQlh/E3EQov+Az
-6A/+Oi45pWFcNqxi18U3R0IefuK8cy8fR8H/k/k7q2MSGcMZNapQELpHuVkWVDK6SF8bXhAB4TBt
-ArVvhXHhcCLpXoKCwAKz2VekaUzXlZwAK9iV1SzTzP6Riwx/TE32Ie+ApKwksNy37RZBPQfJUgRl
-KzL5Hva5Snuhkr16aplw2tM0Vn+n0AsIflnaShZF1Pvovrgo0qUfvG85nyccTQjZqJa65PVbm/zO
-o4T1mxSm865mZFoJSwGAfG0VfTDiy2FLSlDysjCbXnbRqRnCMy6Rv1ZteqrwArElLxGZVPaMsQhQ
-qsmGHMVlmSKkKeG/we9PFKdi9I5KlCAvniG5DwIslOn9tvd0evjpkbbMhx3eT6TswffSEZqsi498
-6MdOlo/giBedkDKDdc2C5o/OKgR+WtVREvqbNrlO0GP7Ja00QAX22c93WKioCiA+orqZOzB0F6E9
-mCwbnBKvzz1HG0/yVXTZvbFPw4XY5Kq5+Ik6A4emvfUDYUBWhquu5agkZi8J/qTAip55CYPSMrQl
-hc0nkYT7jehHieV3ugUyV6sddFVTKCUyzCBstRKiDsJ2MwrQtLfoK7eZJF+fSgWP+0z1aWuzukRd
-NKY27TVoBjy9QqF6taJ4F2bF7CghPziWE6gGcWD41Ma7ORDOYsRAvYNi8H2PdsY0d9WNSqb7rX9U
-oUk=
-=6IeW
------END PGP SIGNATURE-----
+So there's a relationship already between logo and fbdev/core, that's why
+I wondered if would make sense to also move drivers/video/logo.c to have
+both functions in there.
 
---------------e0SqyTpYuC9qqkNzQhj0wnpP--
+Yes, as noted drivers/video/console/newport_con.c also uses fb_find_logo()
+but the only other user of that in drivers/video/fbdev/core/fbmem.c.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
