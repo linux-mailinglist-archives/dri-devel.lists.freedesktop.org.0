@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74870761956
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 15:08:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1CE7619F2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 15:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003F910E139;
-	Tue, 25 Jul 2023 13:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C07610E125;
+	Tue, 25 Jul 2023 13:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C944910E139;
- Tue, 25 Jul 2023 13:07:55 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3281910E125;
+ Tue, 25 Jul 2023 13:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690290475; x=1721826475;
+ t=1690291749; x=1721827749;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=nXoPnir6ZLUVtzSW+ufaogqAI+6mPetA31I3T0am5Y0=;
- b=FK3kAn3kZLSwMAdSbTaads3LPTSrD5N2KjB2Vk9uAu9nRK7M/u1ka+vh
- KvcbAU80DN6wbeHDH7vPT07c7ivbNxRk95h32qETG/JzmwofNGQVlAHqd
- S/+SNT2D7+Tjwh2ZyGpTwMASTpHv1+gkhqF5hfQZcYthe2e1BhLaicz6V
- XF1MYkRg9e7dPUpXZSjtKxJHydZpcCSgF3e4qW9TRJpiDZwrm92Bn3ORo
- TsjSWHXwdiHInZSgo8NIVOWiEOuKyrQAY/bJb3qvKRRJRuYiL71RQ7yGO
- LidWD33bc026UxLaejNyHhBmSPO7VIStgIM7mChTb8j1eSk6LyKPRlKU5 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="371324079"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="371324079"
+ mime-version:in-reply-to;
+ bh=bBemODgIWZjkKSkRRfpxFDV/EeYKSvecdQ/ycBdTgx0=;
+ b=cbDEPIq2mKgWiMmA3twM/j6ZjRsoOUr+LD7s1mi8qiYEFVHfYnc3x2C+
+ 5fFu8gMTag3S4R5acEgAknon6WHCNAR0Q1SIA4S6D8d3AIHCW6oxGlLjo
+ 7VSU47lVKK1YcImfDqKpvU5Ilo6gcU2SI0tnypv+9ROiO4H1520xdh80e
+ oxUMDKmvf+SB+8fZfwGCSM7bBnP9jiikcyWzz2dB+hl5tXpya00ODpz3y
+ DS/iUdQxI3oU6qNrBGY6qL1aVkXVeaiz1Oz/GkuMyCd2yB1aAYjlR/f2Z
+ ysQGsJslUhzSYwHn4e1vv6o+WIuUyxtcNmvThN+WmrHyqxGKIdzJGyT2l g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="433972141"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="433972141"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 06:06:56 -0700
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 06:29:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="972676292"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="972676292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="972687787"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="972687787"
 Received: from kshutemo-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.249.37.237])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 06:06:54 -0700
-Date: Tue, 25 Jul 2023 15:06:51 +0200
+ 25 Jul 2023 06:29:06 -0700
+Date: Tue, 25 Jul 2023 15:29:03 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Uwe =?iso-8859-15?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Simplify expression
- &to_i915(dev)->drm
-Message-ID: <ZL/I6zGfNvM/D9t6@ashyti-mobl2.lan>
-References: <20230721212133.271118-1-u.kleine-koenig@pengutronix.de>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use the i915_vma_flush_writes helper
+Message-ID: <ZL/OH6zweRRGr0U6@ashyti-mobl2.lan>
+References: <20230721130741.1306563-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230721212133.271118-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230721130741.1306563-1-tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,25 +58,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
+Hi Tvrtko,
 
-On Fri, Jul 21, 2023 at 11:21:33PM +0200, Uwe Kleine-König wrote:
-> to_i915 is defined as
-> 
-> 	container_of(dev, struct drm_i915_private, drm);
-> 
-> So for a struct drm_device *dev, to_i915(dev)->drm is just dev. Simplify
-> accordingly.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+> @@ -68,10 +68,8 @@ flush_write_domain(struct drm_i915_gem_object *obj, unsigned int flush_domains)
+>  	switch (obj->write_domain) {
+>  	case I915_GEM_DOMAIN_GTT:
+>  		spin_lock(&obj->vma.lock);
+> -		for_each_ggtt_vma(vma, obj) {
+> -			if (i915_vma_unset_ggtt_write(vma))
+> -				intel_gt_flush_ggtt_writes(vma->vm->gt);
+> -		}
+> +		for_each_ggtt_vma(vma, obj)
+> +			i915_vma_flush_writes(vma);
 
-that's correct! Thanks for the cleanup.
+yes, that's some duplicated code removed here! Thanks! I believe
+I'm in time to add my:
 
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
 Andi
+
+>  		spin_unlock(&obj->vma.lock);
+>  
+>  		i915_gem_object_flush_frontbuffer(obj, ORIGIN_CPU);
+> -- 
+> 2.39.2
