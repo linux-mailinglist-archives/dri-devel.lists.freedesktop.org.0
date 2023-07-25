@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0025D760B7E
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD90760B78
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:19:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 151ED10E3A3;
-	Tue, 25 Jul 2023 07:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13B010E3A1;
+	Tue, 25 Jul 2023 07:19:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 566 seconds by postgrey-1.36 at gabe;
- Mon, 24 Jul 2023 21:07:20 UTC
-Received: from mta01.prd.rdg.aluminati.org (mta01.prd.rdg.aluminati.org
- [94.76.243.214])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C93910E356
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jul 2023 21:07:20 +0000 (UTC)
-Received: from mta01.prd.rdg.aluminati.org (localhost [127.0.0.1])
- by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id ACD0120688;
- Mon, 24 Jul 2023 21:57:52 +0100 (BST)
-Authentication-Results: mta01.prd.rdg.aluminati.org; dkim=pass (2048-bit key;
- unprotected) header.d=cantab.net header.i=@cantab.net header.a=rsa-sha256
- header.s=dkim header.b=vXxsfLFD; dkim-atps=neutral
-Received: from localhost (localhost [127.0.0.1])
- by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id 99D1F20560;
- Mon, 24 Jul 2023 21:57:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cantab.net; h=
- user-agent:message-id:date:date:x-mailer:references:in-reply-to
- :subject:subject:from:from:received:received:received; s=dkim;
- t=1690232271; bh=FODVMINyGuqfbO16NcKUTgCRlEZOxDSkZONruhtMCMI=; b=
- vXxsfLFDMvO/tvVvVo5JMVlIJHOoNGlb4K7gZYJExSxAj8buGA9QxAVLhU25in9m
- lSHM+XTGpsPOX16BWV/NJAXvSgLlQPeAST1ZoOthTEa6Jw/tkJHi3+1lA6EwSY/E
- MtcQIX5143y59TJNYaTXCOuWow29eiE+LN/baXL4GcrxP1GOGmZhWDC8LX131OrU
- oChKiLLVJorHjf4jYkOrLN8oFYrl5ic36Mcy+ZXNkaN9Dj6+fnDwjXvTj5m3EWSv
- 3P0JQIuJ4HB1GMI0AjnnCLyVP1dwFR+aVbFBGBegpUugfVpmgx1GHACeRP4UcbLY
- z3atA9R/sxuCa6c8xqPe2Q==
-X-Quarantine-ID: <jidS6taqrfZx>
-X-Virus-Scanned: Debian amavisd-new at mta01.prd.rdg.aluminati.org
-Received: from mta.aluminati.local ([127.0.0.1])
- by localhost (mta01.prd.rdg.aluminati.org [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id jidS6taqrfZx; Mon, 24 Jul 2023 21:57:51 +0100 (BST)
-Received: from revelation.localdomain (static-87-75-118-217.vodafonexdsl.co.uk
- [87.75.118.217])
- by svc01-2.prd.rdg.aluminati.org (Postfix) with ESMTPSA id 0863E780004;
- Mon, 24 Jul 2023 21:57:46 +0100 (BST)
-Received: by revelation.localdomain (Postfix, from userid 1000)
- id 49CAB120348; Mon, 24 Jul 2023 21:57:46 +0100 (BST)
-From: Roger Sewell <roger.sewell@cantab.net>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
-In-reply-to: Your message of Mon, 24 Jul 2023 20:57:31 +0200
- <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
-References: <20230717133037.25941-1-jfalempe@redhat.com>
- <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
- <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
-X-Mailer: MH-E 8.6+git; GNU Mailutils 3.13; GNU Emacs 27.2
-Date: Mon, 24 Jul 2023 21:57:46 +0100
-Message-ID: <20230724215746.10928@revelation.broadband>
-User-Agent: MH (GNU Mailutils 3.13)
+X-Greylist: delayed 437 seconds by postgrey-1.36 at gabe;
+ Tue, 25 Jul 2023 02:43:17 UTC
+Received: from out-7.mta1.migadu.com (out-7.mta1.migadu.com [95.215.58.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93DB110E09C
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 02:43:17 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1690252555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0+VnVPZa4UeOCG7Yrfiew8gKr6k3ViuPV5Oe7aKEwA0=;
+ b=OouSnERnVUq8t87+qMJi+ElF1O+pkB5HJ/XjlEV4XPIdaL5qKz/r9JLMMUeUfOnb3ZMOdj
+ khOpzTQ2idnb6S4y6b+9cHD3wy9I4UTOUPXGpsseW4bB+Gm8jsDjdu3ImL8BlNp++kk+K8
+ DDellGRauVWKhKhaf7FrGB51gwHD7wU=
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 01/47] mm: vmscan: move shrinker-related code into a
+ separate file
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20230724094354.90817-2-zhengqi.arch@bytedance.com>
+Date: Tue, 25 Jul 2023 10:35:01 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <97E80C37-8872-4C5A-A027-A0B35F39152A@linux.dev>
+References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
+ <20230724094354.90817-2-zhengqi.arch@bytedance.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+X-Migadu-Flow: FLOW_OUT
 X-Mailman-Approved-At: Tue, 25 Jul 2023 07:19:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,93 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, jfalempe@redhat.com, dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, djwong@kernel.org,
+ Roman Gushchin <roman.gushchin@linux.dev>, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Linux Memory Management List <linux-mm@kvack.org>, dm-devel@redhat.com,
+ linux-mtd@lists.infradead.org, cel@kernel.org, x86@kernel.org,
+ steven.price@arm.com, cluster-devel@redhat.com, xen-devel@lists.xenproject.org,
+ linux-ext4@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
+ linux-bcache@vger.kernel.org, yujie.liu@intel.com,
+ Vlastimil Babka <vbabka@suse.cz>, linux-raid@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>, tytso@mit.edu,
+ Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, netdev <netdev@vger.kernel.org>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Thomas,
 
-Hello, I'm the user who reported the issue. Definitely happy to help you
-sort this out if I can, though my response speed will decrease when term
-restarts in October.
+> On Jul 24, 2023, at 17:43, Qi Zheng <zhengqi.arch@bytedance.com> =
+wrote:
+>=20
+> The mm/vmscan.c file is too large, so separate the shrinker-related
+> code from it into a separate file. No functional changes.
+>=20
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> ---
+> include/linux/shrinker.h |   3 +
+> mm/Makefile              |   4 +-
+> mm/shrinker.c            | 707 +++++++++++++++++++++++++++++++++++++++
+> mm/vmscan.c              | 701 --------------------------------------
+> 4 files changed, 712 insertions(+), 703 deletions(-)
+> create mode 100644 mm/shrinker.c
+>=20
+> diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
+> index 224293b2dd06..961cb84e51f5 100644
+> --- a/include/linux/shrinker.h
+> +++ b/include/linux/shrinker.h
+> @@ -96,6 +96,9 @@ struct shrinker {
+>  */
+> #define SHRINKER_NONSLAB (1 << 3)
+>=20
+> +unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup =
+*memcg,
+> +			   int priority);
 
-> I'd be interested in the exact model and the unique_rev_id
-> (you said A, rev1 ?) 
+A good cleanup, vmscan.c is so huge.
 
-The machine is an Intel SR1625URR server including an S5520UR
-motherboard. 
+I'd like to introduce a new header in mm/ directory and contains those
+declarations of functions (like this and other debug function in
+shrinker_debug.c) since they are used internally across mm.
 
-Table 10 in the following document says that  1440x900@60Hz is supported:
-https://www.intel.com/content/dam/support/us/en/documents/motherboards/server/s5520ur/sb/e44031012_s5520ur_s5520urt_tps_r1_9.pdf
+Thanks.
 
-lspci -v returns:
-
-07:00.0 VGA compatible controller: Matrox Electronics Systems Ltd. MGA G200e [Pilot] ServerEngines (SEP1) (rev 02) (prog-if 00 [VGA controller])
-	Subsystem: Intel Corporation Device 0101
-	Physical Slot: 5
-	Flags: bus master, fast devsel, latency 0, IRQ 16
-	Memory at b0000000 (32-bit, prefetchable) [size=16M]
-	Memory at b1800000 (32-bit, non-prefetchable) [size=16K]
-	Memory at b1000000 (32-bit, non-prefetchable) [size=8M]
-	Expansion ROM at 000c0000 [disabled] [size=128K]
-	Capabilities: <access denied>
-	Kernel driver in use: mgag200
-	Kernel modules: mgag200
-
-so in particular the chip is said to be a G200e, not the G200SE-A that
-the kernel module seems to be interpreting it as. In the lspci return it
-calls itself "rev 02", but the unique_rev_id returned is 0x01, not 02,
-and not 00. (My originally suggested solution was that "rev 02" might
-correspond to unique_rev_id=0x01 and that one should add 1 to the
-unique_rev_id, but Jocelyn indicated that isn't right.)
-
-I instrumented a version of the new code by adding printk statements to
-a version of the module embodied in a kmod-mgag200 package and observing
-messages in the /var/log/messages file. These tell me that:
-
-> and if the early-out branches in mga_vga_calculate_mode_bandwidth()
-> are being taken. 
-
-In the "old" code the options to return 0 are NOT being taken, and the
-bandwidth returned is the expected value of 30318019. 
-
-In the *new* code the options to return 0 are NOT being taken, and the
-bandwidth returned is the expected value of 30318019. 
-
-> Can you figure out how exactly the CPU moves through
-> mga_vga_mode_valid().
-
-In the "old" code we enter the true part of the if (IS_G200_SE(mdev)),
-then the true part of the if (unique_rev_id == 0x01), then return
-MODE_BANDWIDTH (i.e. MODE_BAD) at the third if statement in that block.
-
-In the *new* code the nearest-named function I could see is
-mgag200_mode_config_mode_valid, which returns MODE_OK at the end of the
-function if the bandwidth limit is increased to 30100, and returns
-MODE_BAD three lines higher up if it is left at 24400.
-
-Moreover if when using the old code we switch to Wayland instead of
-Xorg, it doesn't let me pick the 1440x900@60Hz mode at all, but it does
-with Xorg (one of the reasons I hadn't used Wayland).
-
-Therefore I think the reason that the old code allowed use of
-1440x900@60Hz was that Xorg somehow didn't properly check the return
-value from mga_vga_mode_valid, but Wayland did. Moreover I think that
-the latest version of the Xorg stuff does PARTIALLY check that return
-value, to the extent that it won't let you actually use that mode, but
-does nonetheless present it as a choice when you go to Settings->Display
-- and then saves the values it didn't allow you to take in
-~/.config/monitors.xml, and on relogin refuses to give you any graphics
-at all because it doesn't like those values. But that, of course, is
-nothing to do with the mgag200 driver (if it is indeed true - I haven't
-looked at the Xorg source code at all).
-
-The issue from the point of view of my usage case is that the chip works
-just fine in the 1440x900@60Hz mode, even though 30318019 > 1024*24400. 
-
-If I haven't made anything sufficiently clear, or if you need more info,
-please ask.
-
-Best wishes,
-Roger.
