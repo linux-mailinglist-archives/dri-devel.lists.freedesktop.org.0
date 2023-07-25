@@ -2,74 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64017623B1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 22:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D0C7623D2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 22:44:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66C5C10E3F8;
-	Tue, 25 Jul 2023 20:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB25810E408;
+	Tue, 25 Jul 2023 20:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED0E10E3F8
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 20:41:19 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4fbc0314a7bso9133900e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 13:41:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690317676; x=1690922476;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XDQQ0x4yX7qC7HV6JyhQDa1Oq53Li9ajB2nF2Gu9ICA=;
- b=kMf/RUV/HVIMsWp9I2NqzC2T8Fl3zRsCFJJi15uZ14B8Xj7X9N6IHquo6esnlNU7PU
- d7wEJsVnmBungsjtXEcrTFumBs+x5Unq7MN3dBEUeeAp/lq2DFa2vJ9VuJIW3v2gYV72
- JC99G+gxIb8x2GAXYhS/WH3mTANaApVV0UpSY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690317676; x=1690922476;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XDQQ0x4yX7qC7HV6JyhQDa1Oq53Li9ajB2nF2Gu9ICA=;
- b=G1dSSGzfUcmZxhK36v/9SHZ45MyvdeW6B+TVqi8f+tkDkHtm2em5+Woz2L2WnMLXKh
- yfu0Pr7Au9YQbetppb9gX7CML6Zx/6UW5tJ7HkcTsxaWGiY3vxUtzqcZiMxFc9DLFU9/
- gYYrt3YFePmpmH3NLDuaK3zDE1PKay0oHJyq5ZUE5slH+BrcTMnCLcH7BYAUzVGL8MBs
- nFuyKmG2nJvHTTwk6YDkWZLcpcgfkA0+AwKWi275/ZSSHNCImWl3lPgvd+6+lqRq8w1w
- Jqn88sA2d/95LPqTHB9bFNglldKRvbiHZ9EOiXfIjcbtX9gtJbCm2WYCWrcYhS3Ou/Hv
- GD8w==
-X-Gm-Message-State: ABy/qLajH0ylku8trlZwRTWpCzQegri16UC9lZDsuGIOXrNmrCqUC2NJ
- p0mqtn85GBuZP8cEyVhzcqy59+tDYk96FsplTrvHWN1s
-X-Google-Smtp-Source: APBJJlH22zCSgX+jgR3YO5Rr8xpSupShLPZsnwMetXwubSrysjRQQg0c2rfz8M8dfW+wYTTMbYYDYg==
-X-Received: by 2002:a05:6512:202c:b0:4f7:69b9:fa07 with SMTP id
- s12-20020a056512202c00b004f769b9fa07mr1811lfs.45.1690317675677; 
- Tue, 25 Jul 2023 13:41:15 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- q16-20020aa7cc10000000b0051e0eba608bsm7879345edt.19.2023.07.25.13.41.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jul 2023 13:41:15 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-521e046f6c7so689a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 13:41:14 -0700 (PDT)
-X-Received: by 2002:a50:ccc4:0:b0:521:d274:fc81 with SMTP id
- b4-20020a50ccc4000000b00521d274fc81mr183614edj.2.1690317674563; Tue, 25 Jul
- 2023 13:41:14 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C199310E407;
+ Tue, 25 Jul 2023 20:44:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I1T6VPBeaM1JHWtLPdJNgrvi5eiGg1jZdzyc1JdbI8YwWQ/XHK/uxW8e7ff8SkwQDjON26QbaGTsw4MAFrIz8PfPaNDIAYxT7JzrbypQPx1LA0Tlofc7kAYfOoycMr6gMX+TOWag/iCacAOyildvcqfOErqA6KRvla88ei/2nwZAv/6vUyhn96hkAF3249H0TIWFNhoh7ZHtN4wqWUtczHPS1Lj7PB3qzmmJtivxUS05U973SgF8PCQLiKutZYCSvCDNxBH1pD+ApJrVPqKoRgSXrfG3Yb4heIHHzh/T9B32NzmyqwKKQgBSAalxRNDsWNxbo228V2cXgOuEW2VW9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y6k4EUt8qHCAK9dvSVnWkfkvSJXXZKggAUGnJG3EkyI=;
+ b=OhGX+UPQtounqkMU9m5oCLfMZ+asuYlYP34luvG+r4Cu6YNTQYe4E+ba88BeOF0qZ8rkZn4pXEYUtk4q8XxyDE1saw55YFim/mYIkvViKgm173mm6PAwtdjk0I0FHvpzOqkNqkV8KQhxBkhk7kSd6AFcRCKXCDakJI/zk52IKeuKt2jHQCOcL+I5J7PNSQIpKeb0GzcUAf34IrzK6E2t37qSiEI3Afe98N6ZiLbDhmDzVCoqN6pdjPj9Ddve/nHAWdGpCsD2jT4y9SWCSrjegf/t0416R/4STExjtM0TkJEjET9p32kwk7CoAn3GGLUWQMnhkEcwt9i7V6A6Y9Xd1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y6k4EUt8qHCAK9dvSVnWkfkvSJXXZKggAUGnJG3EkyI=;
+ b=wJ1Qj0a1DafLSiz6bily1OGROkK62ApkfOpgHRChb7XMbqTM0xvcBptnKpIp+rU5Q8eohkt3BUbTPepF44Rjxo/eekBDFX0MUxiugTEKeHfMYkEt3BV4O2oXqVj/A3n4IpduB06hkdc9HC84TTUDjU/BzpjljBMHbUNunTfZzJc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CH0PR12MB5299.namprd12.prod.outlook.com (2603:10b6:610:d6::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Tue, 25 Jul
+ 2023 20:44:37 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::36f9:ffa7:c770:d146]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::36f9:ffa7:c770:d146%7]) with mapi id 15.20.6609.031; Tue, 25 Jul 2023
+ 20:44:36 +0000
+Message-ID: <1f4c1c2f-ba17-63fb-2f55-9265cc3d31fb@amd.com>
+Date: Tue, 25 Jul 2023 15:44:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH V7 4/9] wifi: mac80211: Add support for ACPI WBRF
+Content-Language: en-US
+To: Andrew Lunn <andrew@lunn.ch>
+References: <20230719090020.2716892-1-evan.quan@amd.com>
+ <20230719090020.2716892-5-evan.quan@amd.com>
+ <9b1f45f9-02a3-4c03-b9d5-cc3b9ab3a058@lunn.ch>
+ <7d059aed-fac0-cdcd-63d5-58185bb345db@amd.com>
+ <DM6PR12MB26196A993B3BA93392AA0FEDE403A@DM6PR12MB2619.namprd12.prod.outlook.com>
+ <d4cfbbae-9cd0-4767-8c80-ec09d1dbaf9c@lunn.ch>
+ <6aa9061b-1702-b8f2-9cb8-982895b9def4@amd.com>
+ <5e92b45a-d99b-4a8a-9987-46c75a5fcb3c@lunn.ch>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <5e92b45a-d99b-4a8a-9987-46c75a5fcb3c@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR03CA0043.namprd03.prod.outlook.com
+ (2603:10b6:610:b3::18) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-References: <20230607215224.2067679-1-dianders@chromium.org>
- <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
- <y3l4x3kv7jgog3miexati5wbveaynnryzqvj6sc4ul6625f2if@w7nqgojfavfw>
- <CAD=FV=VbdeomBGbWhppY+5TOSwt64GWBHga68OXFwsnO4gg4UA@mail.gmail.com>
- <CAD=FV=UUdc5xi-HoOye-a1Oki3brcX3V1+=zuxQKLAcrd3iTSA@mail.gmail.com>
-In-Reply-To: <CAD=FV=UUdc5xi-HoOye-a1Oki3brcX3V1+=zuxQKLAcrd3iTSA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 25 Jul 2023 13:41:02 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WmpH6cB0oZOxbL+TUxjLRf3PM+kKvuYRAZSiEhS4o37A@mail.gmail.com>
-Message-ID: <CAD=FV=WmpH6cB0oZOxbL+TUxjLRf3PM+kKvuYRAZSiEhS4o37A@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
-To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CH0PR12MB5299:EE_
+X-MS-Office365-Filtering-Correlation-Id: 27918d82-8500-4a0d-5135-08db8d4ff59e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mJVZxhRVqmI14EhjWYD10LCIrFqyHoXDoB0Vu6qlQCqrY8hE6AKErxnS3ahYJ+68Zl8LEXleFw0jX2yaGM45q2Rf3PnbdN1ls1HfApMSezQNIjJKjp+hMZ1tAeSr5jegN5HBiVGEuzQ16S+YNLMlwlN6+qD7CXY78wlzqIvU5+XfPWF9sC223VbATbaTkzK7vGrDQHtN6RS7jepIFeIxiGTNvCoZhh9qSzJKPdBgGvbgcMBM3E5iUfMLClpZ/etfg47oHrTR1IYpt7F4kUl3g2uzxdwh33cmROWWjCZWYmD+1DdAaAyHHGFktK2ySicU7oGPODpnUcL3Unfd039fZXJNnxTEuI6VnX3M0U0E1wQxpVUBKfy7eJFUVx7efjuYRdH3ZQJM/pUstdYl3Cv6bxXOnjoLaUzShgR/BamriPvOdA4WqQ1ZszKE5ayz0Lrhn2SHZ4pfSWuhpPJl0iUeM0cP2o+OYigZIYQhPkN2EafcCkCU9/b3CwC9H8HmymxuMWOKLLyWQj2X3GKuvWs7vhr/loFRzXxzz0Yl3StWUgtzJArqao/oYEkcOquFFKJe87HFBDlyKRHByq66Et8SDhu1JegSfqHA173R6SEjkiKmOoQOCSPiXirly61jyDZTmd2wc+rSsjbI+k2gtxhAIg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(451199021)(31686004)(7416002)(44832011)(8936002)(8676002)(5660300002)(41300700001)(316002)(6916009)(4326008)(54906003)(2906002)(66476007)(66556008)(66946007)(6486002)(6512007)(53546011)(478600001)(186003)(6506007)(6666004)(31696002)(86362001)(36756003)(2616005)(83380400001)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Vjg1SnhFWVRUQk9wODFuVDNUMlpqOEp1aklBeloyMVd6ekNQNnZPOVpIMFBt?=
+ =?utf-8?B?ZXkrbitNL2ZnVHdwNWNJbjc4YUhGY0pmT2JOUjhPWVB2NGxSeE1IU0V4Q01H?=
+ =?utf-8?B?ZG9JeTViWmNUeXJrd2h1bVJIRVJtbGdIazRLVmVsakI0d3lYMWp2Z0hEaTFH?=
+ =?utf-8?B?ZFdGcThGVHNQYU10TmtmQVk5TytMbFRncjZxSVNNRnlVcU9YczgxYlIwZGxN?=
+ =?utf-8?B?d21rOVJFZHpSNU9nOGdEOFBpQnJRWEpMcVo1VE9BRzBmZDJYc1laVEthZWtX?=
+ =?utf-8?B?d2l0bGpKbkt0MFhhbEU2dG5pVHBhMFZWMk9WNnZJQjI2N3gyVjZsQnhlUWhj?=
+ =?utf-8?B?Y0E5dnJkNHY2TERpN3ZxTVFvNmMzSlpEMHJBeEJKdU9jVjAwS05rTTlITjNq?=
+ =?utf-8?B?emtUM0FWcTNEME42eFdJaTFzdGlHTlkyTTNCNXFBVjYvZnA3SjlFWXpyTnFu?=
+ =?utf-8?B?K1Y1S3A0RjZoNnN4Q1lFWkdXT2FYS00xblRQcnlOdE5aV21sUEVnUmV2VHdx?=
+ =?utf-8?B?QmZuVE5rc2FmcFFaWEh3bHpWL05pZlphMFh3Y0VOWngyTCtGQmExUitmYVg2?=
+ =?utf-8?B?Q1hmdDFHOW96U2RXa2Q4Ym5CUy9pNVhiQ2c2ZGF1QzY2Zk41TngxbVVBZ2J6?=
+ =?utf-8?B?WUU2djE5TmE5US8yQndqVko1NFBzeW1MdmxXSUhIejJxRjhJWnRlL2pOWVZM?=
+ =?utf-8?B?YkVVWExFU3VkZlNNNWVvWHhNTGRZYnBHcHhTR3AwQTY3MHo3S0NHMmgvWEx5?=
+ =?utf-8?B?Q0trc0xKVWZoaEtJN240cm5UT2xQSHpEZUhBTm5Kcy9RRElMcnZGZTR2L09o?=
+ =?utf-8?B?WmtIL0EzL1NOdWh2bW9RZitaalhPUjRBVWh0bnUxMWpPeXF6TEVtRWpWZWl1?=
+ =?utf-8?B?ZS9QdVdWbUNNRHNUSXRCa1RYK3lVVnhGbS8xeTdpRU1vb0xuNkVpaXZsSTJ2?=
+ =?utf-8?B?YmkxMWRBaXdKWmZSL29aa2REOElZNWVOcWlFZEtab3BWVDlSZk1BY2RjY1U5?=
+ =?utf-8?B?bE5DOXJLNmk0U3l2R21zQXpoQUpqRTI1YXpHOWJPbjZJNFdBWWlESW1ldU02?=
+ =?utf-8?B?TUMrQnRaenplWUphTmJFc1ltSVpZemF2TnlTNXpNL1NPZEZmaTI4RWFpeHpC?=
+ =?utf-8?B?L0sxVS9LMXpmeVlNVGhMRjl3MXMvTHJQalQ0NG01ckMvbDZHUXdTZG5DSjNO?=
+ =?utf-8?B?L3VrVVhSM0tMREVOWWtJdU51d2JaT1dPMmpQbjJGZVBNY0Y0WTBsRHdVRVh3?=
+ =?utf-8?B?ek04NWZ0eUVvUUFYZDFlMEZOMldwV09RZXJvMFp5bmltWVZjL1kraGhLTksv?=
+ =?utf-8?B?c0ZiQ2RyeHZsb2d4SncvMG02dUNsb290ZmVkRkJCdkxiM3NuRkxJNkFIczJY?=
+ =?utf-8?B?Z2VvTlczYjRXYS9TRjQ1eEdvTHdHbzlrMzNmNnliRk53MncwSjF3dEdERzZu?=
+ =?utf-8?B?YmR1ZWRvcGg2b0NncEc4aUVHdkRqbUxKalVpNnl3NG5Gc0NSUzNZTzZsQU05?=
+ =?utf-8?B?OUVMY1Zmb29VV1puSWRmQVp6TENISHgyYmxPa2ZXM091cVFaL3BDM2VEMHVO?=
+ =?utf-8?B?cEQ4MkQ4aWRSZGVUUE9zcDV6NnR2VTVJZFFkT3ZaVGlkcE82c1lySGI5V3VD?=
+ =?utf-8?B?S2Z6eTQ2c2l1VkVObTg3MEhmVkh0dkpHT1B6UmFocHlLSWpJSnkrRDRVank1?=
+ =?utf-8?B?UFFRUm0veTlRbFV5NkM4bkNzckE1dVhabmZqL2xMVThnQlQ5OFNUeFRoVFE1?=
+ =?utf-8?B?UWEzRHdKZTF4bHBTSkN3SnVmbzFzelgrdWRuNXU4NVVoZy80aHhJUWJwbTdq?=
+ =?utf-8?B?NVJ2TmhHTmg0cUY1MEpCQ0JjMzA3d0thUFcvVTBJeEp1aC9zRlBIQjJuQXhr?=
+ =?utf-8?B?UW1qR3diNk1xazlCY1lEQjBucjZDQXZoaGxFS2xXNXc5V3hVNStsRURnV0Fw?=
+ =?utf-8?B?NkNWa0FvSkxFclM5Zm0yR0ZidnlkMXRabkpiRzhmYUpPSFZ2Y0ZFMHNxNnBP?=
+ =?utf-8?B?L0Q2Z1lmYVNXUWt1NHJSOU9FZlBHQ2I3RjZBQUpOS05FVXZ2WlhVUDZ6RjJQ?=
+ =?utf-8?B?L3NwVVBlcUhIY2U2bC9uQ2NQYnpPM0hpS2FkWDU2bWxZdUVPMFRjT2NMV0pQ?=
+ =?utf-8?B?N0ZUL213WUZyNUx0ellsNHhMMDB0eU8xaExLMlI0aW1PQW51d3oxR3ZIR0dm?=
+ =?utf-8?Q?FBE63AEvA1/okTCl0B6KovtDJoFVOathJgzG6KCrkUmN?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27918d82-8500-4a0d-5135-08db8d4ff59e
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2023 20:44:36.7004 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XTwf2cy+6E6r2v2Ddk17agf6nop5w0Es3i+trTK1DDcoLY1+HPcH32dlmJ7AVivoc5dqUeOsJqFD7FiGi8KzXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5299
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,151 +132,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "jingyuwang_vip@163.com" <jingyuwang_vip@163.com>,
+ "bellosilicio@gmail.com" <bellosilicio@gmail.com>,
+ "rafael@kernel.org" <rafael@kernel.org>, "trix@redhat.com" <trix@redhat.com>,
+ "Lazar, Lijo" <Lijo.Lazar@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mdaenzer@redhat.com" <mdaenzer@redhat.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+ "lenb@kernel.org" <lenb@kernel.org>,
+ "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
+ "arnd@arndb.de" <arnd@arndb.de>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "Quan, Evan" <Evan.Quan@amd.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "edumazet@google.com" <edumazet@google.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ "johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+ "davem@davemloft.net" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Jul 17, 2023 at 11:15=E2=80=AFAM Doug Anderson <dianders@chromium.o=
-rg> wrote:
+On 7/25/23 15:09, Andrew Lunn wrote:
+>> This comes back to the point that was mentioned by Johannes - you need to
+>> have deep design understanding of the hardware to know whether or not you
+>> will have producers that a consumer need to react to.
+> Yes, this is the policy is keep referring to. I would expect that
+> there is something somewhere in ACPI which says for this machine, the
+> policy is Yes/No.
+It's not yes/no for a "model" or "machine".  It's yes/no for a given 
+*device*
+within a machine.
 >
-> Benjamin,
+> It could well be that AMD based machine has a different ACPI extension
+> to indicate this policy to what Intel machine has. As far as i
+> understand it, you have not submitted this yet for formal approval,
+> this is all vendor specific, so Intel could do it completely
+> differently. Hence i would expect a generic API to tell the core what
+> the policy is, and your glue code can call into ACPI to find out that
+> information, and then tell the core.
+Which is exactly what wbrf_supported_producer() and 
+wbrf_supported_consumer() do.
+If there is another vendor's implementation introduced they can make 
+those functions
+return TRUE for their implementations.
+>> If all producers indicate their frequency and all consumers react to it you
+>> may have activated mitigations that are unnecessary. The hardware designer
+>> may have added extra shielding or done the layout such that they're not
+>> needed.
+> And the policy will indicate No, nothing needs to be done. The core
+> can then tell produces and consumes not to bother telling the core
+> anything.
 >
-> On Mon, Jun 26, 2023 at 3:49=E2=80=AFPM Doug Anderson <dianders@chromium.=
-org> wrote:
-> >
-> > Benjamin,
-> >
-> > On Thu, Jun 8, 2023 at 8:37=E2=80=AFAM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > > +static const struct drm_panel_follower_funcs i2c_hid_core_panel_fo=
-llower_funcs =3D {
-> > > > +     .panel_prepared =3D i2c_hid_core_panel_prepared,
-> > > > +     .panel_unpreparing =3D i2c_hid_core_panel_unpreparing,
-> > > > +};
-> > >
-> > > Can we make that above block at least behind a Kconfig?
-> > >
-> > > i2c-hid is often used for touchpads, and the notion of drm panel has
-> > > nothing to do with them. So I'd be more confident if we could disable
-> > > that code if not required.
-> >
-> > Now that other concerns are addressed, I started trying to write up a
-> > v3 and I found myself writing this as the description of the Kconfig
-> > entry:
-> >
-> > --
-> > config I2C_HID_SUPPORT_PANEL_FOLLOWER
-> > bool "Support i2c-hid devices that must be power sequenced with a panel=
-"
-> >
-> > Say Y here if you want support for i2c-hid devices that need to
-> > coordinate power sequencing with a panel. This is typically important
-> > when you have a panel and a touchscreen that share power rails or
-> > reset GPIOs. If you say N here then the kernel will not try to honor
-> > any shared power sequencing for your hardware. In the best case,
-> > ignoring power sequencing when it's needed will draw extra power. In
-> > the worst case this will prevent your hardware from functioning or
-> > could even damage your hardware.
-> >
-> > If unsure, say Y.
-> >
-> > --
-> >
-> > I can certainly go that way, but I just wanted to truly make sure
-> > that's what we want. Specifically:
-> >
-> > 1. If we put the panel follower code behind a Kconfig then we actually
-> > have no idea if a touchscreen was intended to be a panel follower.
-> > Specifically the panel follower API is the one that detects the
-> > connection between the panel and the i2c-hid device, so without being
-> > able to call the panel follower API we have no idea that an i2c-hid
-> > device was supposed to be a panel follower.
-> >
-> > 2. It is conceivable that power sequencing a device incorrectly could
-> > truly cause hardware damage.
-> >
-> > Together, those points mean that if you turn off the Kconfig entry and
-> > then try to boot on a device that needed that Kconfig setting that you
-> > might damage hardware. I can code it up that way if you want, but it
-> > worries me...
-> >
-> >
-> > Alternatives that I can think of:
-> >
-> > a) I could change the panel follower API so that panel followers are
-> > in charge of detecting the panel that they follow. Today, that looks
-> > like:
-> >
-> >        panel_np =3D of_parse_phandle(dev->of_node, "panel", 0);
-> >        if (panel_np)
-> >                /* It's a panel follower */
-> >        of_node_put(panel_np);
-> >
-> > ...so we could put that code in each touchscreen driver and then fail
-> > to probe i2c-hid if we detect that we're supposed to be a panel
-> > follower but the Kconfig is turned off. The above doesn't seem
-> > massively ideal since it duplicates code. Also, one reason why I put
-> > that code in drm_panel_add_follower() is that I think this concept
-> > will eventually be needed even for non-DT cases. I don't know how to
-> > write the non-DT code right now, though...
-> >
-> >
-> > b) I could open-code detect the panel follower case but leave the
-> > actual linking to the panel follower API. AKA add to i2c-hid:
-> >
-> >        if (of_property_read_bool(dev->of_node, "panel"))
-> >                /* It's a panel follower */
-> >
-> > ...that's a smaller bit of code, but feels like an abstraction
-> > violation. It also would need to be updated if/when we added support
-> > for non-DT panel followers.
-> >
-> >
-> > c) I could add a "static inline" implementation of b) to "drm_panel.h".
-> >
-> > That sounds great and I started doing it. ...but then realized that it
-> > means adding to drm_panel.h:
-> >
-> > #include <linux/device.h>
-> > #include <linux/of.h>
-> >
-> > ...because otherwise of_property_read_bool() isn't defined and "struct
-> > device" can't be dereferenced. That might be OK, but it looks as if
-> > folks have been working hard to avoid things like this in header
-> > files. Presumably it would get uglier if/when we added the non-DT
-> > case, as well. That being said, I can give it a shot...
-> >
-> > --
-> >
-> > At this point, I'm hoping for some advice. How important is it for you
-> > to have a Kconfig for "I2C_HID_SUPPORT_PANEL_FOLLOWER"?
-> >
-> > NOTE: even if I don't add the Kconfig, I could at least create a
-> > function for registering the panel follower that would get most of the
-> > panel follower logic out of the probe function. Would that be enough?
+>> So I don't think we're ever going to be in a situation that the generic
+>> implementation should be turned on by default.  It's a "developer knob".
+> Wrong. You should have a generic core, which your AMD CPU DDR device
+> plugs into. The Intel CPU DDR device can plug into, the nvidea GPU can
+> plug into, your Radeon GPU can plug into, the intel ARC can plug into,
+> the generic WiFi core plugs into, etc.
+It's not a function of "device" though, it's "device within machine".
 >
-> I'd love to send a new version of this patch series, but I'm still
-> stuck with the above issue. I'm hoping you might have a minute to
-> provide your thoughts. If I don't hear anything, I'll try a v3 where I
-> don't have the Kconfig for "I2C_HID_SUPPORT_PANEL_FOLLOWER" but just
-> try to pull a little more of the code out of the probe function.
-
-To provide breadcrumbs, I posted the v3 which pulls a bit more code
-out of the probe function but is otherwise largely unchanged. The
-cover letter for v3 can be found at:
-
-https://lore.kernel.org/r/20230725203545.2260506-1-dianders@chromium.org/
+>> If needed these can then be enabled using the AMD ACPI interface, a DT one
+>> if one is developed or maybe even an allow-list of SMBIOS strings.
+> Notice i've not mentioned DT for a while. I just want a generic core,
+> which AMD, Intel, nvidea, Ampare, Graviton, Qualcomm, Marvell, ...,
+> etc can use. We should be solving this problem once, for everybody,
+> not adding a solution for just one vendor.
+>
+>        Andrew
+I don't see why other implementations can't just come up with other
+platform specific ways to respond affirmatively to
+wbrf_supported_producer() or
+wbrf_supported_consumer().
