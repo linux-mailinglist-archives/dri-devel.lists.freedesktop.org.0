@@ -1,76 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D096A7626C5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 00:34:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CC77626FF
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 00:44:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DDE810E1A6;
-	Tue, 25 Jul 2023 22:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBF610E1A9;
+	Tue, 25 Jul 2023 22:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBCC10E1A6
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 22:34:01 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-2b9b5ee9c5aso671001fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 15:34:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690324439; x=1690929239;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+q0s/DwiqiE6dEjrgVx133qqoVLemgwKwO1eiag9Cds=;
- b=IqG4Dyjra4ijXkZkkf00BQtdu7kBinSMfzCntuaqPgKTDxWokiGRCMumlOa1+jp9aE
- eJvlHFNOnnbKSRM2YowhhSY/ANSGIhVaImnHv5tykj94vLWNZW/AQyr83e6ljfHmNQ7z
- 4hb/rXBsTKwK34a2tv7mN0ikSDJPZ3kYUue7NvdqzSNNuRbd7FZ9/G6ylkbQlXF9O+6V
- AlvBLPmQP7QQXv0jXU51ptOYZeZwJpVunRPQwuXme65IaPxNGuWKDTuMVmtPt0lo4wcU
- cXNXq353yLcoxsMOnQwz90h9ErI02fePZegUNWdo3NUVL6AdRzUtdeCnm8WH7f+g4y70
- xOgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690324439; x=1690929239;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+q0s/DwiqiE6dEjrgVx133qqoVLemgwKwO1eiag9Cds=;
- b=d1LgOHr4BskP8DJVCxYAgZ5iqWG8Rx8OnBKTLY2ulKN24z/GEsyGks2og2LHkSW6JN
- ZUXB6dxg4rpU16Bum4q1MIN8RnK1EZw3/Slal/u5yyw/5vzFm4pBeUkYpy2C4r7b9WU2
- AtKMY40rRSA8aCGDb+N2ib1BbiSwsiNyhU9oKkoIifEC52n2MZ4g/MtWa8KOGzvrYqJy
- e/apW6Oypgk6Rl0zXrwGmszMYfutSUhUbme63xIMa7fRRoT5f3bbmPCiGFbyao37LVFU
- sOzpgn/s2GR2Y/7SsCNLXE0PODsI4u2ZJLHjl2rSkPFQmWfidDkF74T3wswjyLuMGH0I
- yGxg==
-X-Gm-Message-State: ABy/qLZe/9+xtWsPStJPENBI6ateKoThy9Hve/rQOski5u8XOGK/9QyI
- CiX+Q7jx6NxzgbgjisYZ1OX+Ew==
-X-Google-Smtp-Source: APBJJlEbfcO8ew8CL0pNfInmj8EMozGYnVxCgypoVRCtT4kf4ePVJWZs2CQc/WmHBnCiwmiomv/zVQ==
-X-Received: by 2002:a2e:7213:0:b0:2b6:9f95:46d9 with SMTP id
- n19-20020a2e7213000000b002b69f9546d9mr73715ljc.46.1690324438898; 
- Tue, 25 Jul 2023 15:33:58 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- o7-20020a2e90c7000000b002b6c92fa161sm3669937ljg.61.2023.07.25.15.33.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jul 2023 15:33:58 -0700 (PDT)
-Message-ID: <a7405272-6a9e-b0c4-f749-060dbe716148@linaro.org>
-Date: Wed, 26 Jul 2023 01:33:57 +0300
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C987E10E18E
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 22:44:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690325053; x=1721861053;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ja7f0RVYcti+NpUW5zGpJGvqcXjePHIioRixBH74xkM=;
+ b=j1YdbW/WdV5XXFVJtB89iFkVMMuBgdHEewppnHr6q9aaVhGngS8AiPdP
+ Z2hDUNz4xD1aGEEmZmwm+/oQXs5RA+gXFVnIgWMC2hsilk7TdegsODh5p
+ O6efS9Yw9xhAYYchxbQzBn5ODpyPZ+05H+djqAFl21NyjBwMEUPvSFT+i
+ e6wwuQ8OCTeaHrlDco/t0aokOjzhw+i2TkOJxVf9BZ8GnjbYHfuZsdZKs
+ ETxN5YnXBwQCBc4XqxyEvw4rBbT2qtAarCB/LbzfigXapUTV2RdoVeDal
+ tohburpVp06DUi4jRt+M8A0gkvjaL6YePHUT1AO+Pyav4ezLWc4dkszj/ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="398780129"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; d="scan'208";a="398780129"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 15:44:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="796300500"
+X-IronPort-AV: E=Sophos;i="6.01,231,1684825200"; d="scan'208";a="796300500"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga004.fm.intel.com with ESMTP; 25 Jul 2023 15:44:12 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 25 Jul 2023 15:44:12 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 25 Jul 2023 15:44:11 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 25 Jul 2023 15:44:11 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 25 Jul 2023 15:44:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WegbVv8OXwzzthJnocmIvg4TfytTpuwhmpHuLuSsLqpf3FMPU7WgGYnZOb51jvfqlJ37w8WoXhVksrsQL0SFtT7no9awpOgVSXfNtTL/SRCoRggSl7ykeQ8e2yw6D12KrCVAfOoWYwpt/xAGQhpmIWKxwMw/4hlaMdgBqHJRMHQGGf9O9cUheb1JOIuIxKJwZwDaIP69BapqUVBCW7WoAKQzsHKKtksMY0ad6ZnwfO3MJQyXojeydrjgqyBjyF8n3Z1cXN9c2dMnfvaBkxIAD1mn+N0JJuwojedNCsIJy4BQzczm15Gyd2BoaY+x3ixglQKePz3oWioCRdaygcUmtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ja7f0RVYcti+NpUW5zGpJGvqcXjePHIioRixBH74xkM=;
+ b=iDWwLw3ER7ChWGYDAEIX+CcUWKSi7SvItx9Rslbgobe4lAIF/CesL/ct+mhByKd4DUZSD7ZQGQTNUjgfoQtwdLsVlOa/e2XC/V26pHgJ/FNhwrpCKWMh5zj4eHtYBfoc4j9z4547A3qEL3aGu9kFwchU1MfNdReplo9dJLQACXUeYWuGOQeUYyUv+gr/4kdV8wKziIxTPOVQjadaE0MyzVUlQ37bAG8/bAuysUE5hQ7dUF3OBrikwhPUk5alMx+aElaEoZvLXLumKX88Rgyb8Pyu1TknpRAJq7glocUrhv8KMc7eWcd1SZysBfcRktc/+2+nu6QGRdRxFfEKqu9hgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH3PR11MB7177.namprd11.prod.outlook.com (2603:10b6:610:153::8)
+ by PH7PR11MB7004.namprd11.prod.outlook.com (2603:10b6:510:20b::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.28; Tue, 25 Jul
+ 2023 22:44:09 +0000
+Received: from CH3PR11MB7177.namprd11.prod.outlook.com
+ ([fe80::9cba:c1de:ea9f:fba7]) by CH3PR11MB7177.namprd11.prod.outlook.com
+ ([fe80::9cba:c1de:ea9f:fba7%5]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
+ 22:44:09 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IABSWKAgABl6EA=
+Date: Tue, 25 Jul 2023 22:44:09 +0000
+Message-ID: <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
+ <20230718082858.1570809-2-vivek.kasireddy@intel.com>
+ <87jzuwlkae.fsf@nvdebian.thelocal>
+ <IA0PR11MB718527A20068383829DFF6A3F83EA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <87pm4nj6s5.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL5+CiZ6w4RdAt5u@nvidia.com>
+ <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL/B6yvO1bIkFRcF@nvidia.com>
+In-Reply-To: <ZL/B6yvO1bIkFRcF@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR11MB7177:EE_|PH7PR11MB7004:EE_
+x-ms-office365-filtering-correlation-id: 6e4448a6-2780-4481-8480-08db8d60a92c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pH5oUWKM/tqSpDqeX2baZYtiLg2FlAzrRELIamzEFa+wbdA8DYELm0Mu8hYAdr7pTjdHfpG4FP0Ui7GNU8SpPL3YfnVJ9wUIQnKaOxSjmsWw+dEgRzWVkEk/B4H3efqnQBmJG50slU2g+6v6wK9MuxdHEqlX3l8tYgkLEeZL/OVlGYN+fa0enb07hfgl4Bz7fx30hEht9VW+yZyh4vHq9E2HFObbjRP9TH3xH+GxnTnjNmPWYfTPEJRF9nKaYC+VQDxAaYJGfumWdTy2ViyoujfeijDKlegRMUc6E/0SAk40Cv+X3HZ0wwJJfJ7gW/4K22DovZI+xhmQQQKe76S03fN66jFaU6PFL5/7Y0z5jw9KRtouotqmH9RQKiWNttWXVj9/8bNm3YflgScKjNwX53gggXVx3ONK7Ftn0uDQyW+sPHsbFvMTsnNNKQwtprMuhAA2D9hUiWOrvK8oOl2c2wMkakrL8QGl1jWI2OeRisJ2uuo9YPCoHf+hWfQdP96io0UfIpGNoN1tqUOP3ViWD6FDvbtGG6cYKHKEcl/PHYSs38AYv1yQgpBWPl75So3hyLsDoCZfXAHZb72aZQxE3bELHag7xzszCE+c+MR3/qhsg1E+C2VhfoJBIuwn7iP1
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR11MB7177.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(396003)(376002)(39860400002)(136003)(366004)(451199021)(83380400001)(71200400001)(66476007)(2906002)(8936002)(478600001)(8676002)(52536014)(41300700001)(66556008)(66899021)(64756008)(316002)(76116006)(54906003)(6916009)(4326008)(66946007)(5660300002)(55016003)(9686003)(26005)(15650500001)(6506007)(186003)(7696005)(66446008)(33656002)(38070700005)(86362001)(122000001)(38100700002)(82960400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?heeMU7x8ojPQ00fub9phD3Oo9qEF8xSsGg5l2KlISU9ZmdkOIDsWAWhNOrrl?=
+ =?us-ascii?Q?XU2AjAABa4XiZqkNVPv7T4xD/rc94xzjdHps17ozPrAkfufvWoH5nG3RzcRj?=
+ =?us-ascii?Q?YsCBEEFyn1tnPPuEPxbQl6HIgBRlUNOOgdSAB/qzVwDTy296LYQg/+41P+BI?=
+ =?us-ascii?Q?is3ebXzAooTuNy5oOCzxvPd74jx9AqNu9n8VtfNlab0G4IEjkXrLpSpQ56Su?=
+ =?us-ascii?Q?5axuio6dYrNJINJtNNVE36kZIVzgHfquyMvg+QSdy5+o7OKsGMZgeapk90Xc?=
+ =?us-ascii?Q?13PYNxW4eZ88DkKiWwKeUoUOFWIe9FFvGB/o1SRm/8vBOXld4ZFYidxpPHQV?=
+ =?us-ascii?Q?nqs6nDIvb9CtwC+BencCIO8H79KpvMPHhHnvlSBfUxSHsUsPQxdfVnTAS31X?=
+ =?us-ascii?Q?bc5A/TVUUbvhriMkD994h8sR5yvvU3uWlSpXFe0ZjaSbEzTMXCADeoYhGtU2?=
+ =?us-ascii?Q?IrOBEa0C27rlFzEedjPkhPWaCHJDdoBOgJnM5/HgepMnjwMzMxIMKhAVv3GZ?=
+ =?us-ascii?Q?eQ+uaxpp5qS3wFXot6sBbZsg+xTbQXQjdfFfETqpq7Vi+drwIgOPPnJcF2vA?=
+ =?us-ascii?Q?bVl6YMJGwj8UgwGcPKuQngDW9MnZODiR5qEG4RIjP8bUBbeu3VUBLdZCc49W?=
+ =?us-ascii?Q?L/M8XFjVklIQK0faQsshm/G3I+pnY9obaKmIqAC/NS0TjXBWRwyNvZuDoVvE?=
+ =?us-ascii?Q?gP0uQK/Q4niK04L+h1Zo7+Up9I9hX/4qRDQ0nb1wncmqOXerWg4g0bulLY79?=
+ =?us-ascii?Q?EBLFKixa7c2zeWnt05YyZIIcUKa08KZg4E5RzLKrzHyBtaXAErAJfupEEAuO?=
+ =?us-ascii?Q?RUql03dgfOYUOkr16OI/1VI5jxn9wedjJEb1+lb5RSFtzgK6/v3cm/c0QNOT?=
+ =?us-ascii?Q?8cPCuTmKvOCXFLoy/H/iArhpC6qrSfmPSJ4E/DOYudnz4J7+okyELmOH22q1?=
+ =?us-ascii?Q?sh6u7UHv5Zh6qyWOMKYyue1VHyBryUHUgc29fQnd7xF/mbvF0Uv8zIyo9v/l?=
+ =?us-ascii?Q?+z53dJRkZfpPGCYwJjyBcOyXTeF4gz67+Caj7Xvz66aac+nhU+ENyhJU4tfO?=
+ =?us-ascii?Q?J07L879lKjYoMAbD6NMHZkAHheg2h9EwXHgKWuCrI4183wPPYG7uLxrUzHQc?=
+ =?us-ascii?Q?e22e4csT7L05wQiftnuhD+3SRL4easI0x25fc0LWBoyWEGasSPsgYvMSOR0d?=
+ =?us-ascii?Q?v+eM8U7tnOHf/tNrevOvKHWHhFdZtL+8DIanjU07vHZGqpPhwZUJh0DQfHxP?=
+ =?us-ascii?Q?DObwWXDPcRasFGsnuTFdFPrU8n9DkWBMpASodMiXozQFfo/qcIhNagBsUF9p?=
+ =?us-ascii?Q?UdcJiw6sB+A7y5TxZn+Mnuz8z03KiQmJjv3o1dDbhsPdUMfIjVeG3zO1Q8c9?=
+ =?us-ascii?Q?oyfcf0g34x0ef62ZJJJ7/bhRV8ZMAk0XfoxuKbJikFwn6yNC47/IirzULcA4?=
+ =?us-ascii?Q?hBIcdeYqF8IpElah62AV588eh08MwwLzGAbXFydfqN1oDezfOU66E/uaM2LQ?=
+ =?us-ascii?Q?/9l+JHkWXztpht3T8K6dl7zxhLJKcC3mZRdPweTiVObmahkue+QmlmqYx80s?=
+ =?us-ascii?Q?KO6HfQpSqdozhihASVjG4+fUeQnloR46g8KrQAc5?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Freedreno] [PATCH v1 2/5] drm/msm/dp: incorporate pm_runtime
- framework into DP driver
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-3-git-send-email-quic_khsieh@quicinc.com>
- <oc6cohs6pbiuyirdxgepoharuzdra2hzy3kwfqjmdfcq36y367@ah3bal2jqncb>
- <0ac305d2-d0a9-cdfb-9be8-243402d865e7@quicinc.com>
- <44299d05-d411-e9c4-7b96-84efb28d47c9@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <44299d05-d411-e9c4-7b96-84efb28d47c9@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7177.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e4448a6-2780-4481-8480-08db8d60a92c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2023 22:44:09.7344 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AWVViPMQ5vfGJquSK/+CTgs6m67gDvYfs6gQfyU9wkT2dwmur4oTlGtMOO/3OOR6VqcKg1ZT2gTrcCow+7r7BdUtVgmeYUcdOZBobPeoY4I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7004
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,253 +158,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
- quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- marijn.suijten@somainline.org, swboyd@chromium.org,
- linux-kernel@vger.kernel.org
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>,
+ Peter Xu <peterx@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/07/2023 01:25, Kuogee Hsieh wrote:
-> 
-> On 7/10/2023 9:22 AM, Kuogee Hsieh wrote:
->>
->> On 7/8/2023 7:52 PM, Bjorn Andersson wrote:
->>> On Fri, Jul 07, 2023 at 04:52:20PM -0700, Kuogee Hsieh wrote:
->>>> Incorporating pm runtime framework into DP driver so that power
->>>> and clock resource handling can be centralized allowing easier
->>>> control of these resources in preparation of registering aux bus
->>>> uring probe.
->>>>
->>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>> ---
->>>>   drivers/gpu/drm/msm/dp/dp_aux.c     |  3 ++
->>>>   drivers/gpu/drm/msm/dp/dp_display.c | 75 
->>>> +++++++++++++++++++++++++++++--------
->>>>   2 files changed, 63 insertions(+), 15 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
->>>> b/drivers/gpu/drm/msm/dp/dp_aux.c
->>>> index 8e3b677..c592064 100644
->>>> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
->>>> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
->>>> @@ -291,6 +291,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
->>>> *dp_aux,
->>>>           return -EINVAL;
->>>>       }
->>>>   +    pm_runtime_get_sync(dp_aux->dev);
->>>>       mutex_lock(&aux->mutex);
->>>>       if (!aux->initted) {
->>>>           ret = -EIO;
->>>> @@ -364,6 +365,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux 
->>>> *dp_aux,
->>>>     exit:
->>>>       mutex_unlock(&aux->mutex);
->>>> +    pm_runtime_mark_last_busy(dp_aux->dev);
->>>> +    pm_runtime_put_autosuspend(dp_aux->dev);
->>>>         return ret;
->>>>   }
->>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>>> index 76f1395..2c5706a 100644
->>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>> @@ -309,6 +309,10 @@ static int dp_display_bind(struct device *dev, 
->>>> struct device *master,
->>>>           goto end;
->>>>       }
->>>>   +    pm_runtime_enable(dev);
->>>> +    pm_runtime_set_autosuspend_delay(dev, 1000);
->>>> +    pm_runtime_use_autosuspend(dev);
->>>> +
->>>>       return 0;
->>>>   end:
->>>>       return rc;
->>>> @@ -320,9 +324,8 @@ static void dp_display_unbind(struct device 
->>>> *dev, struct device *master,
->>>>       struct dp_display_private *dp = dev_get_dp_display_private(dev);
->>>>       struct msm_drm_private *priv = dev_get_drvdata(master);
->>>>   -    /* disable all HPD interrupts */
->>>> -    if (dp->core_initialized)
->>>> -        dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, 
->>>> false);
->>>> +    pm_runtime_dont_use_autosuspend(dev);
->>>> +    pm_runtime_disable(dev);
->>>>         kthread_stop(dp->ev_tsk);
->>>>   @@ -466,10 +469,12 @@ static void dp_display_host_init(struct 
->>>> dp_display_private *dp)
->>>>           dp->dp_display.connector_type, dp->core_initialized,
->>>>           dp->phy_initialized);
->>>>   -    dp_power_init(dp->power);
->>>> -    dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
->>>> -    dp_aux_init(dp->aux);
->>>> -    dp->core_initialized = true;
->>>> +    if (!dp->core_initialized) {
->>>> +        dp_power_init(dp->power);
->>>> +        dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
->>>> +        dp_aux_init(dp->aux);
->>>> +        dp->core_initialized = true;
->>> There are two cases that queries core_initialized, both of those are
->>> done to avoid accessing the DP block without it first being powered up.
->>> With the introduction of runtime PM, it seems reasonable to just power
->>> up the block in those two code paths (and remove the variable).
->>>
->>>> +    }
->>>>   }
->>>>     static void dp_display_host_deinit(struct dp_display_private *dp)
->>>> @@ -478,10 +483,12 @@ static void dp_display_host_deinit(struct 
->>>> dp_display_private *dp)
->>>>           dp->dp_display.connector_type, dp->core_initialized,
->>>>           dp->phy_initialized);
->>>>   -    dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
->>>> -    dp_aux_deinit(dp->aux);
->>>> -    dp_power_deinit(dp->power);
->>>> -    dp->core_initialized = false;
->>>> +    if (dp->core_initialized) {
->>>> +        dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
->>>> +        dp_aux_deinit(dp->aux);
->>>> +        dp_power_deinit(dp->power);
->>>> +        dp->core_initialized = false;
->>>> +    }
->>>>   }
->>>>     static int dp_display_usbpd_configure_cb(struct device *dev)
->>>> @@ -1304,6 +1311,39 @@ static int dp_display_remove(struct 
->>>> platform_device *pdev)
->>>>       dp_display_deinit_sub_modules(dp);
->>>>         platform_set_drvdata(pdev, NULL);
->>>> +    pm_runtime_put_sync_suspend(&pdev->dev);
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int dp_pm_runtime_suspend(struct device *dev)
->>>> +{
->>>> +    struct platform_device *pdev = to_platform_device(dev);
->>>> +    struct msm_dp *dp_display = platform_get_drvdata(pdev);
->>> platform_get_drvdata() is a wrapper for dev_get_drvdata(&pdev->dev), so
->>> there's no need to resolve the platform_device first...
->>>
->>>> +    struct dp_display_private *dp;
->>>> +
->>>> +    dp = container_of(dp_display, struct dp_display_private, 
->>>> dp_display);
->>>> +
->>>> +    dp_display_host_phy_exit(dp);
->>>> +    dp_catalog_ctrl_hpd_enable(dp->catalog);
->>>> +    dp_display_host_deinit(dp);
->>>> +
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static int dp_pm_runtime_resume(struct device *dev)
->>>> +{
->>>> +    struct platform_device *pdev = to_platform_device(dev);
->>>> +    struct msm_dp *dp_display = platform_get_drvdata(pdev);
->>>> +    struct dp_display_private *dp;
->>>> +
->>>> +    dp = container_of(dp_display, struct dp_display_private, 
->>>> dp_display);
->>>> +
->>>> +    dp_display_host_init(dp);
->>>> +    if (dp_display->is_edp) {
->>>> +        dp_catalog_ctrl_hpd_enable(dp->catalog);
->>>> +        dp_display_host_phy_init(dp);
->>>> +    }
->>>>         return 0;
->>>>   }
->>>> @@ -1409,6 +1449,7 @@ static int dp_pm_suspend(struct device *dev)
->>>>   }
->>>>     static const struct dev_pm_ops dp_pm_ops = {
->>>> +    SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, 
->>>> NULL)
->>>>       .suspend = dp_pm_suspend,
->>>>       .resume =  dp_pm_resume,
->>>>   };
->>>> @@ -1493,10 +1534,6 @@ static int dp_display_get_next_bridge(struct 
->>>> msm_dp *dp)
->>>>       aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
->>>>         if (aux_bus && dp->is_edp) {
->>>> -        dp_display_host_init(dp_priv);
->>>> -        dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
->>>> -        dp_display_host_phy_init(dp_priv);
->>> I'm probably just missing it, but how do we get here with the host
->>> powered up and the phy initialized?
->>
->> if (!dp->core_initialized)  is at dp_display_host_init()
->>
->>>
->>>> -
->>>>           /*
->>>>            * The code below assumes that the panel will finish probing
->>>>            * by the time devm_of_dp_aux_populate_ep_devices() returns.
->>>> @@ -1604,6 +1641,7 @@ void dp_bridge_atomic_enable(struct drm_bridge 
->>>> *drm_bridge,
->>>>           dp_hpd_plug_handle(dp_display, 0);
->>>>         mutex_lock(&dp_display->event_mutex);
->>>> +    pm_runtime_get_sync(&dp_display->pdev->dev);
->>>>         state = dp_display->hpd_state;
->>>>       if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
->>>> @@ -1684,6 +1722,8 @@ void dp_bridge_atomic_post_disable(struct 
->>>> drm_bridge *drm_bridge,
->>>>       }
->>>>         drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
->>>> +
->>>> +    pm_runtime_put_sync(&dp_display->pdev->dev);
->>>>       mutex_unlock(&dp_display->event_mutex);
->>>>   }
->>>>   @@ -1723,6 +1763,8 @@ void dp_bridge_hpd_enable(struct drm_bridge 
->>>> *bridge)
->>>>       struct dp_display_private *dp = container_of(dp_display, 
->>>> struct dp_display_private, dp_display);
->>>>         mutex_lock(&dp->event_mutex);
->>>> +    pm_runtime_get_sync(&dp->pdev->dev);
->>>> +
->>>>       dp_catalog_ctrl_hpd_enable(dp->catalog);
->>>>         /* enable HDP interrupts */
->>>> @@ -1744,6 +1786,9 @@ void dp_bridge_hpd_disable(struct drm_bridge 
->>>> *bridge)
->>>>       dp_catalog_ctrl_hpd_disable(dp->catalog);
->>>>         dp_display->internal_hpd = false;
->>>> +
->>>> +    pm_runtime_mark_last_busy(&dp->pdev->dev);
->>>> +    pm_runtime_put_autosuspend(&dp->pdev->dev);
->>>>       mutex_unlock(&dp->event_mutex);
->>>>   }
->>> The runtime_get/put in dp_bridge_hpd_enable() and disable matches my
->>> expectations. But in the case that we have an external HPD source, where
->>> will the power be turned on?
->>>
->>> Note that you can test this on your device by routing the HPD GPIO to a
->>> display-connector instance and wiring this to the DP node. In the same
->>> way it's done here:
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sa8295p-adp.dts#n28
-> 
-> at sc7280, gpio-47 has function 2 as dp-hot-plug pin. but it does not 
-> has function for general purpose pin.
+Hi Jason,
 
-It has a 'gpio' function, so that the pin can be used as a generic GPIO 
-with a dp-connector device.
+> > >
+> > > > > I'm not at all familiar with the udmabuf use case but that sounds
+> > > > > brittle and effectively makes this notifier udmabuf specific righ=
+t?
+> > > > Oh, Qemu uses the udmabuf driver to provide Host Graphics
+> components
+> > > > (such as Spice, Gstreamer, UI, etc) zero-copy access to Guest creat=
+ed
+> > > > buffers. In other words, from a core mm standpoint, udmabuf just
+> > > > collects a bunch of pages (associated with buffers) scattered insid=
+e
+> > > > the memfd (Guest ram backed by shmem or hugetlbfs) and wraps
+> > > > them in a dmabuf fd. And, since we provide zero-copy access, we
+> > > > use DMA fences to ensure that the components on the Host and
+> > > > Guest do not access the buffer simultaneously.
+> > >
+> > > So why do you need to track updates proactively like this?
+> > As David noted in the earlier series, if Qemu punches a hole in its mem=
+fd
+> > that goes through pages that are registered against a udmabuf fd, then
+> > udmabuf needs to update its list with new pages when the hole gets
+> > filled after (guest) writes. Otherwise, we'd run into the coherency
+> > problem (between udmabuf and memfd) as demonstrated in the selftest
+> > (patch #3 in this series).
+>=20
+> Holes created in VMA are tracked by invalidation, you haven't
+> explained why this needs to also see change.
+Oh, the invalidation part is ok and does not need any changes. My concern
+(and the reason for this new notifier patch) is only about the lack of a
+notification when a PTE is updated because of a fault (new page). In other
+words, if something like change_pte() would have been called after
+handle_pte_fault() or hugetlb_fault(), then this patch would not be needed.
 
-> 
-> Just curious,  to work with external HPD source,
-> 
-> 1) which DRM_BRIDGE_OP_xxx should be used for bridge->ops?
+>=20
+> BTW it is very jarring to hear you talk about files when working with
+> mmu notifiers. MMU notifiers do not track hole punches or memfds, they
+> track VMAs and PTEs. Punching a hole in a mmapped memfd will
+> invalidate the convering PTEs.
+I figured describing the problem in terms of memfds or hole punches would
+provide more context; but, ok, I'll refrain from mentioning memfds or holes
+and limit the discussion of this patch to VMAs and PTEs.=20
 
-There is no difference. The drm_bridge_connector will select the bridges 
-according to the needs. E.g. the dp-connector can provide 
-DRM_BRIDGE_OP_DETECT / OP_HPD (if the hpd-gpios property is configured). 
-If it does, it will be selected for detection/HPD handling. If not, the 
-main dp bridge will handle these operations.
+>=20
+> > > Trigger a move when the backing memory changes and re-acquire it with
+> > AFAICS, without this patch or adding new change_pte calls, there is no =
+way
+> to
+> > get notified when a new page is mapped into the backing memory of a
+> memfd
+> > (backed by shmem or hugetlbfs) which happens after a hole punch
+> followed
+> > by writes.
+>=20
+> Yes, we have never wanted to do this because is it racy.
+>=20
+> If you still need the memory mapped then you re-call hmm_range_fault
+> and re-obtain it. hmm_range_fault will resolve all the races and you
+> get new pages.
+IIUC, for my udmabuf use-case, it looks like calling hmm_range_fault
+immediately after an invalidate (range notification) would preemptively fau=
+lt in
+new pages before a write. The problem with that is if a read occurs on thos=
+e
+new pages, then the data is incorrect as a write may not have happened yet.
+Ideally, what I am looking for is for getting new pages at the time of or a=
+fter
+a write; until then, it is ok to use the old pages given my use-case.
 
-> 
-> 2) are both .hpd_enable and .hpd_disable  have to be populated?
+>=20
+> > We can definitely get notified when a hole is punched via the
+> > invalidate notifiers though, but as I described earlier this is not ver=
+y helpful
+> > for the udmabuf use-case.
+>=20
+> I still don't understand why, or what makes udmabuf so special
+> compared to all the other places tracking VMA changes and using
+> hmm_range_fault.
+I think the difference comes down to whether we (udmabuf driver) want to
+grab the new pages after getting notified about a PTE update because of a f=
+ault
+triggered by a write vs proactively obtaining the new pages by triggering t=
+he
+fault (since hmm_range_fault() seems to call handle_mm_fault()) before a
+potential write.
 
-No, they are both optional.
+Thanks,
+Vivek
 
--- 
-With best wishes
-Dmitry
-
+>=20
+> Jason
