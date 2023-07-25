@@ -2,69 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7BD760B0F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26262760B13
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:02:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7B2910E398;
-	Tue, 25 Jul 2023 07:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEF1910E399;
+	Tue, 25 Jul 2023 07:02:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C312810E398
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:00:33 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id
- ca18e2360f4ac-783549ef058so274680839f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 00:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690268433; x=1690873233;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=O/wCFrYPEzzO/MfkHD0RMinAwo+j9ojz+4k/clTmCNQ=;
- b=ZBuFVmXEW7YkilPPnIblq0+A7eWY3z1OQruHbkBTfKNgzf56kCT+iLBXME3UfsAYI2
- GW9H8is3mSFagrerjjr+5JHrvfQlG4W8KurrdrhppSV0K7Z8PFC8qvNtpnCo61KgAGGf
- ktiJAALe9loUtdKo2hd56Bf80GNjnik4dJkis=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690268433; x=1690873233;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=O/wCFrYPEzzO/MfkHD0RMinAwo+j9ojz+4k/clTmCNQ=;
- b=PDVK4cn6nz8NZgZ9irTyJk44DvrCY/SnjSUcpubcbhhLJ6rGfZnWs9XUkK3LadVXMo
- 4w805GgxMjmRwwmQ8n13Ndw+48lPgu6q/gTDZQAWOPQaMPVxLc+ezF0Uh/dl3Ip5thE+
- ztkThIGkeIM60D5oUxZvrhvz80B3opmqx5Vdzyk7mpN5vrlGc/6XH7JQPJOrDxDCsMd4
- PmRGs4cW8Gd9ImsgxjiuR++V+vBiz1LKwHhO1XjC5pNG1+iRbxNW5syk4YjfeyMNhquy
- 4r1GMgXWcPlBkiERqKdAVApSu0shtEjkevcA95v639x1f9bFy4yhhz67GShzeDu0GPoK
- MiYw==
-X-Gm-Message-State: ABy/qLbsFG6EFhz6nBrKrn4y4YCJ5isecSzGxdzDpaVk2UFv3jDZn2PT
- SGfu0o+MDnUYFmeRI4jsaZdVoN6mlAv/w0Eglgw=
-X-Google-Smtp-Source: APBJJlFs4yCMq8MtbXkm9dw0PbuYE2u/Ln9/3ZIViKSIWEU1iv/3jAH6J21x3MgUZY0+/J/vQ2PvGg==
-X-Received: by 2002:a05:6e02:11b4:b0:345:6ce1:d259 with SMTP id
- 20-20020a056e0211b400b003456ce1d259mr2021952ilj.28.1690268432710; 
- Tue, 25 Jul 2023 00:00:32 -0700 (PDT)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
- [209.85.166.41]) by smtp.gmail.com with ESMTPSA id
- b3-20020a920b03000000b00342093347d8sm3509980ilf.76.2023.07.25.00.00.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jul 2023 00:00:32 -0700 (PDT)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-78363cc070aso275017639f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 00:00:32 -0700 (PDT)
-X-Received: by 2002:a6b:7e06:0:b0:783:6190:f913 with SMTP id
- i6-20020a6b7e06000000b007836190f913mr2051985iom.4.1690268431885; Tue, 25 Jul
- 2023 00:00:31 -0700 (PDT)
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9607F10E399
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:02:36 +0000 (UTC)
+Date: Tue, 25 Jul 2023 07:02:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1690268554; x=1690527754;
+ bh=wDy2s35D0p2BYX5LDcVStPxYTQbKkfPe7M8mZSirl80=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=C/QrTcc6LF7MUrxxEU4w7LuUmfGcP6biTF5cnnbZRRV7yOdC9Hb32Nzep8K18ax47
+ 3IbjBcExeyvR6MlSUPHftJxhFw240B8cxkupHTvD2G5fMsPFIwNm60wfuByX4lmJ2q
+ H6Eqy/mo9oeiYsEA0wkmtGCDUvqeR3RWw64QufcSS+JLcFQeS3m5W8rnCWbA2OM/uP
+ ZZ2yqgTTKz8J/I+NP/X44QomuBhP9Wsm+LkZDuvWZYdxY4wfRf3qQgrh/QWbxmHUwV
+ L7QWHYP910cHxbNBrY8RuxioFjTEywHmf9oPyhZ1s5bG59YQyS33Zbejjk42GLqX+L
+ yXlmDbN1HtJPw==
+To: =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: Non-robust apps and resets (was Re: [PATCH v5 1/1] drm/doc:
+ Document DRM device reset expectations)
+Message-ID: <4ImkvYT8BoTiT_R4YqwMS2k20KRuGBvPF05lQX9R_zDtLKNRP646_V2VnGid__mG_h1cI8cL-uco3aXd9cpFnaBlfbwCaQOVwRYCthEhuQI=@emersion.fr>
+In-Reply-To: <e292a30f-5cad-1968-de4f-0d43c9c1e943@igalia.com>
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <e292a30f-5cad-1968-de4f-0d43c9c1e943@igalia.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-References: <20230724175839.675911-1-greenjustin@chromium.org>
-In-Reply-To: <20230724175839.675911-1-greenjustin@chromium.org>
-From: Fei Shao <fshao@chromium.org>
-Date: Tue, 25 Jul 2023 14:59:55 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nju8_KWG0v=JNh+v9LVBuEVDnnW5JCfbcySBLGEJAMvxg@mail.gmail.com>
-Message-ID: <CAC=S1nju8_KWG0v=JNh+v9LVBuEVDnnW5JCfbcySBLGEJAMvxg@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/mediatek: Add valid modifier check
-To: Justin Green <greenjustin@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,28 +49,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, angelogioacchino.delregno@collabora.com
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?utf-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 25, 2023 at 1:59=E2=80=AFAM Justin Green <greenjustin@chromium.=
-org> wrote:
->
-> Add a check to mtk_drm_mode_fb_create() that rejects any modifier that
-> is not the AFBC mode supported by MT8195's display overlays.
->
-> Tested by booting ChromeOS and verifying the UI works, and by running
-> the ChromeOS kms_addfb_basic binary, which has a test called
-> "addfb25-bad-modifier" that attempts to create a framebuffer with the
-> modifier DRM_FORMAT_MOD_INVALID and verifies the ADDFB2 ioctl returns
-> EINVAL.
->
-> Signed-off-by: Justin Green <greenjustin@chromium.org>
+On Tuesday, July 25th, 2023 at 04:55, Andr=C3=A9 Almeida <andrealmeid@igali=
+a.com> wrote:
 
-Tested-by: Fei Shao <fshao@chromium.org>
+> It's not clear what we should do about non-robust OpenGL apps after GPU
+> resets, so I'll try to summarize the topic, show some options and my
+> proposal to move forward on that.
+>=20
+> Em 27/06/2023 10:23, Andr=C3=A9 Almeida escreveu:
+>=20
+> > +Robustness
+> > +----------
+> > +
+> > +The only way to try to keep an application working after a reset is if=
+ it
+> > +complies with the robustness aspects of the graphical API that it is u=
+sing.
+> > +
+> > +Graphical APIs provide ways to applications to deal with device resets=
+. However,
+> > +there is no guarantee that the app will use such features correctly, a=
+nd the
+> > +UMD can implement policies to close the app if it is a repeating offen=
+der,
+> > +likely in a broken loop. This is done to ensure that it does not keep =
+blocking
+> > +the user interface from being correctly displayed. This should be done=
+ even if
+> > +the app is correct but happens to trigger some bug in the hardware/dri=
+ver.
+> > +
+>=20
+> Depending on the OpenGL version, there are different robustness API
+> available:
+>=20
+> - OpenGL ABR extension [0]
+> - OpenGL KHR extension [1]
+> - OpenGL ES extension [2]
+>=20
+> Apps written in OpenGL should use whatever version is available for them
+> to make the app robust for GPU resets. That usually means calling
+> GetGraphicsResetStatusARB(), checking the status, and if it encounter
+> something different from NO_ERROR, that means that a reset has happened,
+> the context is considered lost and should be recreated. If an app follow
+> this, it will likely succeed recovering a reset.
+>=20
+> What should non-robustness apps do then? They certainly will not be
+> notified if a reset happens, and thus can't recover if their context is
+> lost. OpenGL specification does not explicitly define what should be
+> done in such situations[3], and I believe that usually when the spec
+> mandates to close the app, it would explicitly note it.
+>=20
+> However, in reality there are different types of device resets, causing
+> different results. A reset can be precise enough to damage only the
+> guilty context, and keep others alive.
+>=20
+> Given that, I believe drivers have the following options:
+>=20
+> a) Kill all non-robust apps after a reset. This may lead to lose work
+> from innocent applications.
+>=20
+> b) Ignore all non-robust apps OpenGL calls. That means that applications
+> would still be alive, but the user interface would be freeze. The user
+> would need to close it manually anyway, but in some corner cases, the
+> app could autosave some work or the user might be able to interact with
+> it using some alternative method (command line?).
+>=20
+> c) Kill just the affected non-robust applications. To do that, the
+> driver need to be 100% sure on the impact of its resets.
 
-Tested the UI and with the aforementioned binary on a MT8195
-Chromebook (AFBC supported) and a MT8188 Chromebook (AFBC not
-supported at this moment).
+We've discussed this a while back on #dri-devel IIRC. I think the best
+experience would be for the Wayland compositor to gray out apps which
+lost their GL context, and display an information dialog to explain
+what happened to the user and a button to kill the app. I'm not exactly
+sure how that would translate to a kernel or Mesa uAPI, and if there's
+appetite to do a lot of work to get "the best GPU reset UX" (IOW: maybe
+it's not worth all of the trouble).
