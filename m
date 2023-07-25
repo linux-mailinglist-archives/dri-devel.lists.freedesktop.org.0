@@ -1,51 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65587614E8
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 13:23:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B2C761631
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 13:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F5610E10F;
-	Tue, 25 Jul 2023 11:23:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4FCF10E0CE;
+	Tue, 25 Jul 2023 11:37:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5DECC10E3C4
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 11:23:52 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
- by ex01.ufhost.com (Postfix) with ESMTP id B0D2F24E282;
- Tue, 25 Jul 2023 19:23:46 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Jul
- 2023 19:23:46 +0800
-Received: from [192.168.60.113] (180.164.60.184) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Jul
- 2023 19:23:45 +0800
-Message-ID: <3dd360e2-7521-6305-c543-58830cd60ec0@starfivetech.com>
-Date: Tue, 25 Jul 2023 19:23:45 +0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B308210E00F
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 11:37:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C819C558;
+ Tue, 25 Jul 2023 13:36:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1690284973;
+ bh=goKtL5TeaLpIhqAc9ccfrYvYzQ0K7drvhhiKIDV+Geo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LJedM/I6z/5D9v1PFAbSUuDMODS8kRglzHaC+CxCJBSA+IpiMJYQFl5KESBw0GiT4
+ 4LQLnxm9Wen60oitFTgM/cT9iljtUYfKUzLEtZxNh1fkZxLK+69BzBf77nvmcSBkd0
+ 0hqOo2G/S2VS2RStN8+Kuq3RyKAb8v3tRaJfize0=
+Date: Tue, 25 Jul 2023 14:37:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2] drm/bridge: Add debugfs print for bridge chains
+Message-ID: <20230725113718.GE31069@pendragon.ideasonboard.com>
+References: <20230721-drm-bridge-chain-debugfs-v2-1-76df94347962@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/9] drm/verisilicon: Add basic drm driver
-Content-Language: en-US
-From: Keith Zhao <keith.zhao@starfivetech.com>
-To: Lucas Stach <l.stach@pengutronix.de>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-4-keith.zhao@starfivetech.com>
- <e0eeae3b35e8efac7c577ca3159abcf7f43d5082.camel@pengutronix.de>
- <b8e51384-4781-2710-e94f-38a88f43b801@starfivetech.com>
-In-Reply-To: <b8e51384-4781-2710-e94f-38a88f43b801@starfivetech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230721-drm-bridge-chain-debugfs-v2-1-76df94347962@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,207 +46,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Emil Renner Berthing <kernel@esmil.dk>, christian.koenig@amd.com,
- Thomas Zimmermann <tzimmermann@suse.de>, Bjorn
- Andersson <andersson@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jagan Teki <jagan@edgeble.ai>, Jack Zhu <jack.zhu@starfivetech.com>,
- Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Shengyang
- Chen <shengyang.chen@starfivetech.com>, Shawn Guo <shawnguo@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi,
 
+Thank you for the patch.
 
-On 2023/7/25 11:12, Keith Zhao wrote:
+On Fri, Jul 21, 2023 at 06:01:39PM +0300, Tomi Valkeinen wrote:
+> DRM bridges are not visible to the userspace and it may not be
+> immediately clear if the chain is somehow constructed incorrectly. I
+> have had two separate instances of a bridge driver failing to do a
+> drm_bridge_attach() call, resulting in the bridge connector not being
+> part of the chain. In some situations this doesn't seem to cause issues,
+> but it will if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is used.
 > 
+> Add a debugfs file to print the bridge chains. For me, on this TI AM62
+> based platform, I get the following output:
 > 
-> On 2023/6/7 16:53, Lucas Stach wrote:
->> Hi Keith,
->> 
->> Am Freitag, dem 02.06.2023 um 15:40 +0800 schrieb Keith Zhao:
->>> Add a basic platform driver of the DRM driver for JH7110 SoC.
->>> 
->>> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
->>> ---
->>>  MAINTAINERS                          |   2 +
->>>  drivers/gpu/drm/Kconfig              |   2 +
->>>  drivers/gpu/drm/Makefile             |   1 +
->>>  drivers/gpu/drm/verisilicon/Kconfig  |  13 ++
->>>  drivers/gpu/drm/verisilicon/Makefile |   6 +
->>>  drivers/gpu/drm/verisilicon/vs_drv.c | 284 +++++++++++++++++++++++++++
->>>  drivers/gpu/drm/verisilicon/vs_drv.h |  48 +++++
->>>  include/uapi/drm/drm_fourcc.h        |  83 ++++++++
->>>  include/uapi/drm/vs_drm.h            |  50 +++++
->>>  9 files changed, 489 insertions(+)
->>>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
->>>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
->>>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
->>>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
->>>  create mode 100644 include/uapi/drm/vs_drm.h
->>> 
->>> 
->>> [...]
->>> +#endif /* __VS_DRV_H__ */
->>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
->>> index de703c6be969..af4fb50f9207 100644
->>> --- a/include/uapi/drm/drm_fourcc.h
->>> +++ b/include/uapi/drm/drm_fourcc.h
->>> @@ -419,6 +419,7 @@ extern "C" {
->>>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
->>>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
->>>  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
->>> +#define DRM_FORMAT_MOD_VENDOR_VS      0x0b
->>>  
->>>  /* add more to the end as needed */
->>>  
->>> @@ -1519,6 +1520,88 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->>>  #define AMD_FMT_MOD_CLEAR(field) \
->>>  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
->>>  
->>> +#define DRM_FORMAT_MOD_VS_TYPE_NORMAL        0x00
->>> +#define DRM_FORMAT_MOD_VS_TYPE_COMPRESSED    0x01
->>> +#define DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT  0x02
->>> +#define DRM_FORMAT_MOD_VS_TYPE_MASK     ((__u64)0x3 << 54)
->>> +
->>> +#define fourcc_mod_vs_code(type, val) \
->>> +	fourcc_mod_code(VS, ((((__u64)type) << 54) | (val)))
->>> +
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_MODE_MASK    0x3F
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_XMAJOR   0x00
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_YMAJOR   0x01
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4     0x02
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4      0x03
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_4X8      0x04
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X4   0x06
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X4     0x07
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4     0x08
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X1  0x09
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X1  0x0A
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X4   0x0B
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X2  0x0C
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X2  0x0D
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X4  0x0E
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X1   0x0F
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X8     0x10
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X16     0x11
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_512X1  0x12
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X4   0x13
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X2   0x14
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X2   0x15
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X1   0x16
->>> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X1   0x17
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X4    0x18
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_256X4    0x19
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_512X4    0x1A
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X16    0x1B
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X16    0x1C
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X16    0x1D
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X8    0x1E
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4_S    0x1F
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_S   0x20
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_S   0x21
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_LSB 0x22
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_LSB 0x23
->>> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X8     0x24
->>> +
->>> +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_32      (0x01 << 6)
->>> +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_64      (0x01 << 7)
->>> +
->>> +#define fourcc_mod_vs_dec_code(tile, align) \
->>> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_COMPRESSED, \
->>> +				((tile) | (align)))
->>> +
->>> +#define DRM_FORMAT_MOD_VS_NORM_MODE_MASK        0x1F
->>> +#define DRM_FORMAT_MOD_VS_LINEAR                0x00
->>> +#define DRM_FORMAT_MOD_VS_TILED4x4              0x01
->>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR    0x02
->>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR    0x03
->>> +#define DRM_FORMAT_MOD_VS_TILE_8X8              0x04
->>> +#define DRM_FORMAT_MOD_VS_TILE_MODE1            0x05
->>> +#define DRM_FORMAT_MOD_VS_TILE_MODE2            0x06
->>> +#define DRM_FORMAT_MOD_VS_TILE_8X4              0x07
->>> +#define DRM_FORMAT_MOD_VS_TILE_MODE4            0x08
->>> +#define DRM_FORMAT_MOD_VS_TILE_MODE5            0x09
->>> +#define DRM_FORMAT_MOD_VS_TILE_MODE6            0x0A
->>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR_8X4    0x0B
->>> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR_4X8    0x0C
->>> +#define DRM_FORMAT_MOD_VS_TILE_Y                0x0D
->>> +#define DRM_FORMAT_MOD_VS_TILE_128X1            0x0F
->>> +#define DRM_FORMAT_MOD_VS_TILE_256X1            0x10
->>> +#define DRM_FORMAT_MOD_VS_TILE_32X1             0x11
->>> +#define DRM_FORMAT_MOD_VS_TILE_64X1             0x12
->>> +#define DRM_FORMAT_MOD_VS_TILE_MODE4X4          0x15
->>> +
->>> +#define fourcc_mod_vs_norm_code(tile) \
->>> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_NORMAL, \
->>> +				(tile))
->>> +
->>> +#define fourcc_mod_vs_custom_code(tile) \
->>> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT, \
->>> +				(tile))
->>> +
->> 
->> You are opening a new namespace for what is effectively the VIVANTE
->> tiling. While your list seems much more exhaustive than the (reverse
->> engineered) list provided under the VIVANTE namespace, this is still
->> unacceptable as it adds new aliases for existing modifiers.
->> 
-> hi Lucas:
-> I got what you mean , I will check the whether the current existence can be reused.
-> In principle, can existing modefiers cover my definition?
+> encoder[39]
+> 	bridge[0] type: 0, ops: 0x0
+> 	bridge[1] type: 0, ops: 0x0, OF: /bus@f0000/i2c@20000000/dsi@e:toshiba,tc358778
+> 	bridge[2] type: 0, ops: 0x3, OF: /bus@f0000/i2c@20010000/hdmi@48:lontium,lt8912b
+> 	bridge[3] type: 11, ops: 0x7, OF: /hdmi-connector:hdmi-connector
+
+Names would be more readable than numbers, but I'm not sure that's
+really worth it. It can always be improved on top if desired.
+
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> Changes in v2:
+> - Fixed compilation issue when !CONFIG_OF
+> - Link to v1: https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com
+> ---
+>  drivers/gpu/drm/drm_bridge.c  | 50 +++++++++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_debugfs.c |  3 +++
+>  include/drm/drm_bridge.h      |  5 +++++
+>  3 files changed, 58 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index c3d69af02e79..d3eb62d5ef3b 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -27,8 +27,10 @@
+>  #include <linux/mutex.h>
+>  
+>  #include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_debugfs.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_file.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>  
+> @@ -1345,6 +1347,54 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  EXPORT_SYMBOL(of_drm_find_bridge);
+>  #endif
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +static int drm_bridge_chains_info(struct seq_file *m, void *data)
+> +{
+> +	struct drm_debugfs_entry *entry = m->private;
+> +	struct drm_device *dev = entry->dev;
+> +	struct drm_printer p = drm_seq_file_printer(m);
+> +	struct drm_mode_config *config = &dev->mode_config;
 
-hello Lucas:
-I made it a little simpler: I removed what I didn't use in the code .
-Keep only these:
+As Alexander reported, there's a crash for GPU drivers, as mode_config
+isn't initialized in that case. I would skip creating the debugfs entry
+if DRIVER_MODESET isn't set.
 
-#define DRM_FORMAT_MOD_VS_TYPE_NORMAL        0x00
-#define DRM_FORMAT_MOD_VS_TYPE_COMPRESSED    0x01
-#define DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT  0x02
-#define DRM_FORMAT_MOD_VS_TYPE_MASK     ((__u64)0x3 << 54)
+> +	struct drm_encoder *encoder;
+> +	unsigned int bridge_idx = 0;
+> +
+> +	list_for_each_entry(encoder, &config->encoder_list, head) {
+> +		struct drm_bridge *bridge;
+> +
+> +		drm_printf(&p, "encoder[%u]\n", encoder->base.id);
+> +
+> +		bridge = drm_bridge_chain_get_first_bridge(encoder);
+> +
+> +		while (bridge) {
 
-#define fourcc_mod_vs_code(type, val) \
-	fourcc_mod_code(VS, ((((__u64)type) << 54) | (val)))
+Would drm_for_each_bridge_in_chain() help ?
 
-#define DRM_FORMAT_MOD_VS_NORM_MODE_MASK        0x1F
-#define DRM_FORMAT_MOD_VS_LINEAR                0x00
-#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR    0x02
-#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR    0x03
-#define DRM_FORMAT_MOD_VS_TILE_8X8              0x04
-#define DRM_FORMAT_MOD_VS_TILE_8X4              0x07
-#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR_8X4    0x0B
-#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR_4X8    0x0C
-#define DRM_FORMAT_MOD_VS_TILE_MODE4X4          0x15
+> +			drm_printf(&p, "\tbridge[%u] type: %u, ops: %#x",
+> +				   bridge_idx, bridge->type, bridge->ops);
+> +
+> +#ifdef CONFIG_OF
+> +			if (bridge->of_node)
+> +				drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
+> +#endif
+> +
+> +			drm_printf(&p, "\n");
+> +
+> +			bridge_idx++;
+> +			bridge = drm_bridge_get_next_bridge(bridge);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/* any use in debugfs files to dump individual planes/crtc/etc? */
 
-#define fourcc_mod_vs_norm_code(tile) \
-	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_NORMAL, \
-				(tile))
+Those can easily be listed from userspace, so I don't think that's
+needed.
 
-#define fourcc_mod_vs_custom_code(tile) \
-	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT, \
-				(tile))
+> +static const struct drm_debugfs_info drm_bridge_debugfs_list[] = {
+> +	{"bridge_chains", drm_bridge_chains_info, 0},
 
-I need you help to check what modifiers it should be (for existing modifiers) 
+Missing spaces after '{' and before '}'.
 
-DRM_FORMAT_MOD_VS_LINEAR			----> DRM_FORMAT_MOD_LINEAR
-DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR 		----> ?
-DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR 		----> ?
-DRM_FORMAT_MOD_VS_TILE_8X8           		----> ?  
-DRM_FORMAT_MOD_VS_TILE_8X4              	----> ?                    
-DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR_8X4    	----> ?
-DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR_4X8    	----> ?
-DRM_FORMAT_MOD_VS_TILE_MODE4X4          	----> DRM_FORMAT_MOD_VIVANTE_TILED
+> +};
+> +
+> +void drm_bridge_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_add_files(minor->dev, drm_bridge_debugfs_list,
+> +			      ARRAY_SIZE(drm_bridge_debugfs_list));
+> +}
+> +#endif
+> +
+>  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+>  MODULE_DESCRIPTION("DRM bridge infrastructure");
+>  MODULE_LICENSE("GPL and additional rights");
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index c90dbcffa0dc..3e89559d68cd 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -31,6 +31,7 @@
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_auth.h>
+> +#include <drm/drm_bridge.h>
+>  #include <drm/drm_client.h>
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_device.h>
+> @@ -272,6 +273,8 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>  
+>  	drm_debugfs_add_files(minor->dev, drm_debugfs_list, DRM_DEBUGFS_ENTRIES);
+>  
+> +	drm_bridge_debugfs_init(minor);
+> +
+>  	if (drm_drv_uses_atomic_modeset(dev)) {
+>  		drm_atomic_debugfs_init(minor);
+>  	}
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index bf964cdfb330..60dbee6bd1e6 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -949,4 +949,9 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+>  }
+>  #endif
+>  
+> +#ifdef CONFIG_DEBUG_FS
 
-Thanks a million!!
-Keith
->> Also any modifier additions should be in a separate patch and not
->> buried in another change.
->> 
-> ok , no problem
->> Regards,
->> Lucas
+You could drop the conditional compilation, it wouldn't hurt.
+
+> +struct drm_minor;
+> +void drm_bridge_debugfs_init(struct drm_minor *minor);
+> +#endif
+> +
+>  #endif
+> 
+> ---
+> base-commit: c7a472297169156252a50d76965eb36b081186e2
+> change-id: 20230721-drm-bridge-chain-debugfs-0bbc1522f57a
+
+-- 
+Regards,
+
+Laurent Pinchart
