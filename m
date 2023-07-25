@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96143760FD6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 11:56:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E92FB76104C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 12:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E3A10E07F;
-	Tue, 25 Jul 2023 09:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD8ED10E0A3;
+	Tue, 25 Jul 2023 10:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E278A10E07F
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 09:56:43 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- 98e67ed59e1d1-2680edb9767so399429a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 02:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1690279003; x=1690883803;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/casiWQBa8FLPDyI/Gjog1Q/iFy65e/7JWaM5Gwrppw=;
- b=kzP9jxhdW7EUIP2JpY6nQ4V3KB8KzHZHwXd+bJOEeLU9gCN3lvtKTIOyV+D6pg6POw
- Q2+Agk0fHs6Wf0nJIf8rf8T9VZNFr/hsapg2zga11FSk7AOs0JkWfaLjemq0FDeG0Uw5
- HhEk2mitTuKDolaaQqjf+O9IL+c+U5F1pPsQI+4eucs75jhsRhGM9fqq3uQDPTEvroq0
- /U4/CVAvtL3Xk0W286vaVtW9MXQ1p85A5kNQw+kxMFfLtXWo8Tn1go6QyxS1jqmnrw9a
- uFzHc2WhcIqVkW0xdKzdkJ+42hQ6tNSe2IXCsgIEyfURXIjl60ODrk022w8+JVfo8hQI
- ne/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690279003; x=1690883803;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/casiWQBa8FLPDyI/Gjog1Q/iFy65e/7JWaM5Gwrppw=;
- b=QNk4hIxQf8SOQpgq0f0e8UaxG9cSwl3RemWbeJB5Zr+jG1v+RRsRnJa0+lDTU5bGOe
- fPgwas80hKDucJaDdk1eS1zhQ3QlZXoOdjpfm9/pPFbbf/bmyMCLlbc+WBA1YT1hJ68a
- 1SInGNM6Av+1dJcY1VUG2rKAk7hpShmgVS5DP7+YHGuXR9iPOLHC5r7O3BCZEx7mPrrB
- uFppFethQYVjaerbzmK6WUpAzFSCgyqpJN2wcNhEQ1UcAaZ/h06vn6xrU7GDeE4ZPSnI
- N3NLJL7eGPPUxi6A9rd81Bzxs6yNuUEj8fSgqJCQw4n2ZcvoRdYGmZsL5MO62a7rlod8
- Hu6A==
-X-Gm-Message-State: ABy/qLaWM6hnZfDSQBMfU0vc7Up2DBSfuGcADhsGzdotxQ+b58kjK3Ac
- 5gS5dPtmcDrEd5p7Lk24jRJf6oOf02behGl0v5E=
-X-Google-Smtp-Source: APBJJlE4g3zxacKAsn4H4YysRKAp71VN9gqUpsqodFXfAXxBRsoAel6FjePiWo+WkUy1agkNvA6LJQ==
-X-Received: by 2002:a17:90a:74cf:b0:268:196f:9656 with SMTP id
- p15-20020a17090a74cf00b00268196f9656mr4627258pjl.1.1690279003192; 
- Tue, 25 Jul 2023 02:56:43 -0700 (PDT)
-Received: from [10.70.252.135] ([203.208.167.147])
- by smtp.gmail.com with ESMTPSA id
- j8-20020a170902da8800b001b39ffff838sm10605398plx.25.2023.07.25.02.56.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jul 2023 02:56:42 -0700 (PDT)
-Message-ID: <c1a1952f-0c3e-2fa1-fdf9-8b3b8a592b23@bytedance.com>
-Date: Tue, 25 Jul 2023 17:56:29 +0800
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A85510E0AE;
+ Tue, 25 Jul 2023 10:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690279837; x=1721815837;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=tqEmZ9/sxTy9/Zw+eiFtKjsakiMB9PLzcVDZPBeMklw=;
+ b=X7s7vU3LS+HoKykTYM5mbDx9T3tvqLynf/MUNkrK1C2K8+q11xL7Y9d0
+ IoDkoNG2ia5aihiJx+HulmKkaPSltKnRvtc4tGY7WZMrHLcpliQ3YXtYW
+ PHcTniad+TnAooCj7F4VdN0+Qjut1vQRDtMCdOr1Kjwcx5Z25JRm5Gd2c
+ JFKI7YbqBqqZCrilLw0h3BGP3xS6a3PivHxx76jkMUDOln0Sf1VF6r6E6
+ aTxgO/gxyl+nQ9ehViibx8apBM8zkEIod2j9/qX3xhesVe85oiUuwKNRy
+ L6MNXJ0TCmlCw2nxwcv0Q406yw1OxP4RCFkRQ1tPNe+Rf9Nn57qWY2/j3 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="371287060"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="371287060"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 03:10:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="729296518"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="729296518"
+Received: from unknown (HELO intel.com) ([10.237.72.65])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 03:10:33 -0700
+Date: Tue, 25 Jul 2023 13:10:22 +0300
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Subject: Re: [PATCH 06/19] drm/i915/display: Account for DSC not split case
+ while computing cdclk
+Message-ID: <ZL+fcPALvPpotftH@intel.com>
+References: <20230713103346.1163315-1-ankit.k.nautiyal@intel.com>
+ <20230713103346.1163315-7-ankit.k.nautiyal@intel.com>
+ <ZLj7WIjcjdjCE5Ft@intel.com>
+ <b0af2b8b-9ad7-d598-b7d4-c9aa6dde56c5@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH v2 03/47] mm: shrinker: add infrastructure for dynamically
- allocating shrinker
-Content-Language: en-US
-To: Muchun Song <muchun.song@linux.dev>
-References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
- <20230724094354.90817-4-zhengqi.arch@bytedance.com>
- <3648ca69-d65e-8431-135a-a5738586bc25@linux.dev>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <3648ca69-d65e-8431-135a-a5738586bc25@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b0af2b8b-9ad7-d598-b7d4-c9aa6dde56c5@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,309 +62,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
- david@fromorbit.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- dm-devel@redhat.com, linux-mtd@lists.infradead.org, cel@kernel.org,
- x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
- linux-arm-msm@vger.kernel.org, brauner@kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, yujie.liu@intel.com, vbabka@suse.cz,
- linux-raid@vger.kernel.org, linux-nfs@vger.kernel.org, tytso@mit.edu,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- senozhatsky@chromium.org, gregkh@linuxfoundation.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: intel-gfx@lists.freedesktop.org, anusha.srivatsa@intel.com,
+ dri-devel@lists.freedesktop.org, navaremanasi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Muchun,
+On Tue, Jul 25, 2023 at 11:22:52AM +0530, Nautiyal, Ankit K wrote:
+> 
+> On 7/20/2023 2:46 PM, Lisovskiy, Stanislav wrote:
+> > On Thu, Jul 13, 2023 at 04:03:33PM +0530, Ankit Nautiyal wrote:
+> > > Currently we assume 2 Pixels Per Clock (PPC) while computing
+> > > plane cdclk and min_cdlck. In cases where DSC single engine
+> > > is used the throughput is 1 PPC.
+> > > 
+> > > So account for the above case, while computing cdclk.
+> > > 
+> > > v2: Use helper to get the adjusted pixel rate.
+> > > 
+> > > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/display/intel_cdclk.c         |  2 +-
+> > >   drivers/gpu/drm/i915/display/intel_vdsc.c          | 12 ++++++++++++
+> > >   drivers/gpu/drm/i915/display/intel_vdsc.h          |  2 ++
+> > >   drivers/gpu/drm/i915/display/skl_universal_plane.c |  4 ++--
+> > >   4 files changed, 17 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
+> > > index dcc1f6941b60..701909966545 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_cdclk.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
+> > > @@ -2508,7 +2508,7 @@ static int intel_pixel_rate_to_cdclk(const struct intel_crtc_state *crtc_state)
+> > >   	int pixel_rate = crtc_state->pixel_rate;
+> > >   	if (DISPLAY_VER(dev_priv) >= 10)
+> > > -		return DIV_ROUND_UP(pixel_rate, 2);
+> > > +		return intel_dsc_get_adjusted_pixel_rate(crtc_state, pixel_rate);
+> > >   	else if (DISPLAY_VER(dev_priv) == 9 ||
+> > >   		 IS_BROADWELL(dev_priv) || IS_HASWELL(dev_priv))
+> > >   		return pixel_rate;
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> > > index 9d76c2756784..bbfdbf06da68 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> > > @@ -1038,3 +1038,15 @@ void intel_dsc_get_config(struct intel_crtc_state *crtc_state)
+> > >   out:
+> > >   	intel_display_power_put(dev_priv, power_domain, wakeref);
+> > >   }
+> > > +
+> > > +int intel_dsc_get_adjusted_pixel_rate(const struct intel_crtc_state *crtc_state, int pixel_rate)
+> > > +{
+> > > +	/*
+> > > +	 * If single VDSC engine is used, it uses one pixel per clock
+> > > +	 * otherwise we use two pixels per clock.
+> > > +	 */
+> > > +	if (crtc_state->dsc.compression_enable && !crtc_state->dsc.dsc_split)
+> > > +		return pixel_rate;
+> > > +
+> > > +	return DIV_ROUND_UP(pixel_rate, 2);
+> > > +}
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.h b/drivers/gpu/drm/i915/display/intel_vdsc.h
+> > > index 2cc41ff08909..3bb4b1980b6b 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_vdsc.h
+> > > +++ b/drivers/gpu/drm/i915/display/intel_vdsc.h
+> > > @@ -28,4 +28,6 @@ void intel_dsc_dsi_pps_write(struct intel_encoder *encoder,
+> > >   void intel_dsc_dp_pps_write(struct intel_encoder *encoder,
+> > >   			    const struct intel_crtc_state *crtc_state);
+> > > +int intel_dsc_get_adjusted_pixel_rate(const struct intel_crtc_state *crtc_state, int pixel_rate);
+> > > +
+> > >   #endif /* __INTEL_VDSC_H__ */
+> > > diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > index 6b01a0b68b97..9eeb25ec4be9 100644
+> > > --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > @@ -17,6 +17,7 @@
+> > >   #include "intel_fb.h"
+> > >   #include "intel_fbc.h"
+> > >   #include "intel_psr.h"
+> > > +#include "intel_vdsc.h"
+> > >   #include "skl_scaler.h"
+> > >   #include "skl_universal_plane.h"
+> > >   #include "skl_watermark.h"
+> > > @@ -263,8 +264,7 @@ static int icl_plane_min_cdclk(const struct intel_crtc_state *crtc_state,
+> > >   {
+> > >   	unsigned int pixel_rate = intel_plane_pixel_rate(crtc_state, plane_state);
+> > > -	/* two pixels per clock */
+> > > -	return DIV_ROUND_UP(pixel_rate, 2);
+> > > +	return intel_dsc_get_adjusted_pixel_rate(crtc_state, pixel_rate);
+> > Hi Ankit,
+> > 
+> > I think the thing what you are taking of is already handled here in intel_cdclk.c:
+> > 
+> > 	/*
+> >           * When we decide to use only one VDSC engine, since
+> >           * each VDSC operates with 1 ppc throughput, pixel clock
+> >           * cannot be higher than the VDSC clock (cdclk)
+> >           * If there 2 VDSC engines, then pixel clock can't be higher than
+> >           * VDSC clock(cdclk) * 2 and so on.
+> >           */
+> >          if (crtc_state->dsc.compression_enable) {
+> >                  int num_vdsc_instances = intel_dsc_get_num_vdsc_instances(crtc_state);
+> > 
+> >                  min_cdclk = max_t(int, min_cdclk,
+> >                                    DIV_ROUND_UP(crtc_state->pixel_rate,
+> >                                                 num_vdsc_instances));
+> >          }
+> 
+> As far as I understand this condition is coming from the pixel clock
+> limitation as an input to the splitter (Bspec: 49259):
+> 
+> Pipe BW check:
+> 
+> Pixel clock < PPC * CDCLK frequency * Number of pipes joined
+> 
+> PPC = 1 or 2 depending on number of DSC engines used within the pipe.
+> 
+> So it implies CDCLK frequency > Pixel clock / (PPC * Number of pipes joined)
+> 
+> num_vdsc_instances is actually giving us (PPC * number of pipes joined).
+> 
+> 
+> I completely agree that there will be no effect of the change on the
+> min_cdclk that gets computed in any case, whether DSC, 1 engine, 2 engine,�
+> bigjoiner or no DSC.
+> 
+> Only thing is for the case where 1 DSC engine is used, what
+> intel_pixel_rate_to_cdclk return will be different, and its due to the fact
+> that pipe is driven with 1PPC.
+> 
+> But as I said, the min_cdclk computed will be same as without patch. So we
+> can certainly do away with this change, and I can drop this from the patch.
+> 
+> 
+> But in case of icl_plane_min_cdclk, currently we are dividing the
+> plane_pixel_rate by 2, citing that we use 2 pixel per clock, to get the
+> plane_min_cdclk.
+> 
+> Should this not be 1 PPC in case where single DSC engine is used? In that
+> case plane_min_cdclk will be double. Should we keep the change only for
+> plane_min_cdclk then?
 
-On 2023/7/25 17:02, Muchun Song wrote:
-> 
-> 
-> On 2023/7/24 17:43, Qi Zheng wrote:
->> Currently, the shrinker instances can be divided into the following three
->> types:
->>
->> a) global shrinker instance statically defined in the kernel, such as
->>     workingset_shadow_shrinker.
->>
->> b) global shrinker instance statically defined in the kernel modules, 
->> such
->>     as mmu_shrinker in x86.
->>
->> c) shrinker instance embedded in other structures.
->>
->> For case a, the memory of shrinker instance is never freed. For case b,
->> the memory of shrinker instance will be freed after synchronize_rcu() 
->> when
->> the module is unloaded. For case c, the memory of shrinker instance will
->> be freed along with the structure it is embedded in.
->>
->> In preparation for implementing lockless slab shrink, we need to
->> dynamically allocate those shrinker instances in case c, then the memory
->> can be dynamically freed alone by calling kfree_rcu().
->>
->> So this commit adds the following new APIs for dynamically allocating
->> shrinker, and add a private_data field to struct shrinker to record and
->> get the original embedded structure.
->>
->> 1. shrinker_alloc()
->>
->> Used to allocate shrinker instance itself and related memory, it will
->> return a pointer to the shrinker instance on success and NULL on failure.
->>
->> 2. shrinker_free_non_registered()
->>
->> Used to destroy the non-registered shrinker instance.
-> 
-> At least I don't like this name. I know you want to tell others
-> this function only should be called when shrinker has not been
-> registed but allocated. Maybe shrinker_free() is more simple.
-> And and a comment to tell the users when to use it.
+Those are different cases:
 
-OK, if no one else objects, I will change it to shrinker_free() in
-the next version.
 
-> 
->>
->> 3. shrinker_register()
->>
->> Used to register the shrinker instance, which is same as the current
->> register_shrinker_prepared().
->>
->> 4. shrinker_unregister()
->>
->> Used to unregister and free the shrinker instance.
->>
->> In order to simplify shrinker-related APIs and make shrinker more
->> independent of other kernel mechanisms, subsequent submissions will use
->> the above API to convert all shrinkers (including case a and b) to
->> dynamically allocated, and then remove all existing APIs.
->>
->> This will also have another advantage mentioned by Dave Chinner:
->>
->> ```
->> The other advantage of this is that it will break all the existing
->> out of tree code and third party modules using the old API and will
->> no longer work with a kernel using lockless slab shrinkers. They
->> need to break (both at the source and binary levels) to stop bad
->> things from happening due to using uncoverted shrinkers in the new
->> setup.
->> ```
->>
->> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
->> ---
->>   include/linux/shrinker.h |   6 +++
->>   mm/shrinker.c            | 113 +++++++++++++++++++++++++++++++++++++++
->>   2 files changed, 119 insertions(+)
->>
->> diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
->> index 961cb84e51f5..296f5e163861 100644
->> --- a/include/linux/shrinker.h
->> +++ b/include/linux/shrinker.h
->> @@ -70,6 +70,8 @@ struct shrinker {
->>       int seeks;    /* seeks to recreate an obj */
->>       unsigned flags;
->> +    void *private_data;
->> +
->>       /* These are for internal use */
->>       struct list_head list;
->>   #ifdef CONFIG_MEMCG
->> @@ -98,6 +100,10 @@ struct shrinker {
->>   unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup 
->> *memcg,
->>                 int priority);
->> +struct shrinker *shrinker_alloc(unsigned int flags, const char *fmt, 
->> ...);
->> +void shrinker_free_non_registered(struct shrinker *shrinker);
->> +void shrinker_register(struct shrinker *shrinker);
->> +void shrinker_unregister(struct shrinker *shrinker);
->>   extern int __printf(2, 3) prealloc_shrinker(struct shrinker *shrinker,
->>                           const char *fmt, ...);
->> diff --git a/mm/shrinker.c b/mm/shrinker.c
->> index 0a32ef42f2a7..d820e4cc5806 100644
->> --- a/mm/shrinker.c
->> +++ b/mm/shrinker.c
->> @@ -548,6 +548,119 @@ unsigned long shrink_slab(gfp_t gfp_mask, int 
->> nid, struct mem_cgroup *memcg,
->>       return freed;
->>   }
->> +struct shrinker *shrinker_alloc(unsigned int flags, const char *fmt, 
->> ...)
->> +{
->> +    struct shrinker *shrinker;
->> +    unsigned int size;
->> +    va_list __maybe_unused ap;
->> +    int err;
->> +
->> +    shrinker = kzalloc(sizeof(struct shrinker), GFP_KERNEL);
->> +    if (!shrinker)
->> +        return NULL;
->> +
->> +#ifdef CONFIG_SHRINKER_DEBUG
->> +    va_start(ap, fmt);
->> +    shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
->> +    va_end(ap);
->> +    if (!shrinker->name)
->> +        goto err_name;
->> +#endif
-> 
-> So why not introduce another helper to handle this and declare it
-> as a void function when !CONFIG_SHRINKER_DEBUG? Something like the
-> following:
-> 
-> #ifdef CONFIG_SHRINKER_DEBUG
-> static int shrinker_debugfs_name_alloc(struct shrinker *shrinker, const 
-> char *fmt,
->                                         va_list vargs)
-> 
-> {
->      shrinker->name = kvasprintf_const(GFP_KERNEL, fmt, vargs);
->      return shrinker->name ? 0 : -ENOMEM;
-> }
-> #else
-> static int shrinker_debugfs_name_alloc(struct shrinker *shrinker, const 
-> char *fmt,
->                                         va_list vargs)
-> {
->      return 0;
-> }
-> #endif
+1) When we are not using DSC, we are always processing
+2 pixels per CDCLK, starting from gen 10. It is reflected in both intel_pixel_rate_to_cdclk
+and icl_plane_min_cdclk(which is a bit of a tautology I agree, but anyways we always take 
+all limitations and use max(worst case) of them)
 
-Will do in the next version.
+2) When we are using DSC. In that case we could use 1 or VDSC engines, which would set PPC to
+1 or 2 correspondently. So whenever we happen to use DSC that condition will take max of
+the CDCLK obtained by other requirements and that formula.
+However in non-compressed case when there is no DSC, we should even be insterested in querying
+how many VDSC instances we have, amount of pixels processed per CDCLK isn't related to this in
+that case.
+
+Stan
 
 > 
->> +    shrinker->flags = flags;
->> +
->> +    if (flags & SHRINKER_MEMCG_AWARE) {
->> +        err = prealloc_memcg_shrinker(shrinker);
->> +        if (err == -ENOSYS)
->> +            shrinker->flags &= ~SHRINKER_MEMCG_AWARE;
->> +        else if (err == 0)
->> +            goto done;
->> +        else
->> +            goto err_flags;
->> +    }
->> +
->> +    /*
->> +     * The nr_deferred is available on per memcg level for memcg aware
->> +     * shrinkers, so only allocate nr_deferred in the following cases:
->> +     *  - non memcg aware shrinkers
->> +     *  - !CONFIG_MEMCG
->> +     *  - memcg is disabled by kernel command line
->> +     */
->> +    size = sizeof(*shrinker->nr_deferred);
->> +    if (flags & SHRINKER_NUMA_AWARE)
->> +        size *= nr_node_ids;
->> +
->> +    shrinker->nr_deferred = kzalloc(size, GFP_KERNEL);
->> +    if (!shrinker->nr_deferred)
->> +        goto err_flags;
->> +
->> +done:
->> +    return shrinker;
->> +
->> +err_flags:
->> +#ifdef CONFIG_SHRINKER_DEBUG
->> +    kfree_const(shrinker->name);
->> +    shrinker->name = NULL;
 > 
-> This could be shrinker_debugfs_name_free()
-
-Will do.
-
+> Regards,
 > 
->> +err_name:
->> +#endif
->> +    kfree(shrinker);
->> +    return NULL;
->> +}
->> +EXPORT_SYMBOL(shrinker_alloc);
->> +
->> +void shrinker_free_non_registered(struct shrinker *shrinker)
->> +{
->> +#ifdef CONFIG_SHRINKER_DEBUG
->> +    kfree_const(shrinker->name);
->> +    shrinker->name = NULL;
+> Ankit
 > 
-> This could be shrinker_debugfs_name_free()
 > 
->> +#endif
->> +    if (shrinker->flags & SHRINKER_MEMCG_AWARE) {
->> +        down_write(&shrinker_rwsem);
->> +        unregister_memcg_shrinker(shrinker);
->> +        up_write(&shrinker_rwsem);
->> +    }
->> +
->> +    kfree(shrinker->nr_deferred);
->> +    shrinker->nr_deferred = NULL;
->> +
->> +    kfree(shrinker);
->> +}
->> +EXPORT_SYMBOL(shrinker_free_non_registered);
->> +
->> +void shrinker_register(struct shrinker *shrinker)
->> +{
->> +    down_write(&shrinker_rwsem);
->> +    list_add_tail(&shrinker->list, &shrinker_list);
->> +    shrinker->flags |= SHRINKER_REGISTERED;
->> +    shrinker_debugfs_add(shrinker);
->> +    up_write(&shrinker_rwsem);
->> +}
->> +EXPORT_SYMBOL(shrinker_register);
->> +
->> +void shrinker_unregister(struct shrinker *shrinker)
-> 
-> You have made all shrinkers to be dynamically allocated, so
-> we should prevent users from allocating shrinkers statically and
-> use this function to unregister it. It is better to add a
-> flag like SHRINKER_ALLOCATED which is set in shrinker_alloc(),
-> and check whether it is set in shrinker_unregister(), if not
-> maybe a warning should be added to tell the users what happened.
-
-Make sense, will do.
-
-> 
->> +{
->> +    struct dentry *debugfs_entry;
->> +    int debugfs_id;
->> +
->> +    if (!shrinker || !(shrinker->flags & SHRINKER_REGISTERED))
->> +        return;
->> +
->> +    down_write(&shrinker_rwsem);
->> +    list_del(&shrinker->list);
->> +    shrinker->flags &= ~SHRINKER_REGISTERED;
->> +    if (shrinker->flags & SHRINKER_MEMCG_AWARE)
->> +        unregister_memcg_shrinker(shrinker);
->> +    debugfs_entry = shrinker_debugfs_detach(shrinker, &debugfs_id);
-> 
-> In the internal of this function, you also could use
-> shrinker_debugfs_name_free().
-
-Yeah, will do.
-
-Thanks,
-Qi
-
-> 
-> Thanks.
-> 
->> +    up_write(&shrinker_rwsem);
->> +
->> +    shrinker_debugfs_remove(debugfs_entry, debugfs_id);
->> +
->> +    kfree(shrinker->nr_deferred);
->> +    shrinker->nr_deferred = NULL;
->> +
->> +    kfree(shrinker);
->> +}
->> +EXPORT_SYMBOL(shrinker_unregister);
->> +
->>   /*
->>    * Add a shrinker callback to be called from the vm.
->>    */
-> 
+> > 
+> > Also even if something still have to be done here, I think we should preferrably
+> > deal with anything related to DSC in a single place, to prevent any kind of
+> > confusion(when those checks are scattered in different places, it is way more easy to forget/not notice something)
+> > 
+> > I think intel_pixel_rate_to_cdclk isn't supposed to know anything about DSC or any other specifics like audio checks and etc - it is
+> > just dealing with the "default" uncompressed case.
+> > Any other additional limitations or checks we apply after those, as there are
+> > quite many anyway.
+> > 
+> > Stan
+> > 
+> > 
+> > >   }
+> > >   static void
+> > > -- 
+> > > 2.40.1
+> > > 
