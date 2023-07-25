@@ -2,67 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2918476169D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 13:40:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C03676173B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 13:46:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60E4610E00F;
-	Tue, 25 Jul 2023 11:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD60C10E0DE;
+	Tue, 25 Jul 2023 11:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE89910E00F
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 11:40:40 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-307d58b3efbso4135909f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 04:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690285239; x=1690890039;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oIwK4vNakYsmHhWk3gPu9jeD67klp1zgcobWm0hLfMM=;
- b=qzWmo+ENoePc/UCYjokwm8n28ajtGiHJ8cBotYdjFTxBLJ3ZyGwp4fhCr1uKAe0qgg
- eCHqn/SNWsBHo1OO75pdizfTIc4oGRcS2hA1Nmc4UeW+MqGByA5PCewlnvGbjn89sxLs
- 1028IIY0p9O+5piV+G92YSigAUjgbbkKvVLoImuT+mIcTACzEL1rPKR+Mb2bREQ5VSno
- pprqhzm8/IkUTHEitJwsR9QKc9aiSzDX6ADuw2GNbIaHLlNlgJIVRBcD4L+h8EnEHT1v
- gFYo9UVtuoKT7YI2Yd9nHXrcBo3xrf0gpd701I0UozteYywqEJuyggJI07Dod8VFivHi
- lOTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690285239; x=1690890039;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oIwK4vNakYsmHhWk3gPu9jeD67klp1zgcobWm0hLfMM=;
- b=jaPilWwL4CrISv8zqZsxgOiNao2kx1xISeFnxZcUKxAOJG2JP3vjALrSddnsY5oAR8
- uQTpDm0gKYw/S8JSbj+8iCAT6rLOKRnkO8D5ATg0VuOZu9B/S6Yuhz657BGbK6XtsgSK
- diDb3pFRSzgg8IO+OITVjmHPlA4JHg/pSMg0gPhyS/VDGcOLmRpcKSFTh26/LKQV1HpQ
- VmsbDKY/pUEGQO8xTPRNjmz2xyQ88wNyamkXeehbn4EbW1HG/NvKmG6nUiB83MEIg88N
- 08H09SYG1/WoUtzttqiLIyQno6IQemLciPErSk59na5Bdko1/SHpltRNmGB1He29uvm4
- 8kSw==
-X-Gm-Message-State: ABy/qLbebfPOtP0x7jZm7PBMqcMrCNT83PONJibKhUXfdXPzbH3UIqfo
- nOkM0rqTZ6dwZwEjFVr/A2c=
-X-Google-Smtp-Source: APBJJlEHMeV1GT0gHESC09Zjy+axUc4imX5ZHprKSvGpdZB+jCUtQ1yHI/p8VsPGTg9IdOvMJtAw0g==
-X-Received: by 2002:a05:6000:4c:b0:313:e456:e64a with SMTP id
- k12-20020a056000004c00b00313e456e64amr8961163wrx.21.1690285238976; 
- Tue, 25 Jul 2023 04:40:38 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- q3-20020adfea03000000b0031435c2600esm16177847wrm.79.2023.07.25.04.40.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jul 2023 04:40:38 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] accel/qaic: remove redundant assignment to pointer pexec
-Date: Tue, 25 Jul 2023 12:40:37 +0100
-Message-Id: <20230725114037.36806-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6281E10E0DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 11:46:13 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0C0CC20231;
+ Tue, 25 Jul 2023 13:46:09 +0200 (CEST)
+Date: Tue, 25 Jul 2023 13:46:06 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display: msm: sm6125-mdss: drop unneeded
+ status from examples
+Message-ID: <5w2hvzmwzqm4ffopzewveaviebq2ig7awimeo6ipcehx5a43ae@mlwffkf2ctn5>
+References: <20230725101610.75122-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230725101610.75122-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,30 +43,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pointer pexec is being assigned a value however it is never read. The
-assignment is redundant and can be removed.
+On 2023-07-25 12:16:10, Krzysztof Kozlowski wrote:
+> Example DTS should not have 'status' property.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml   | 6 ------
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/accel/qaic/qaic_data.c | 1 -
- 1 file changed, 1 deletion(-)
+This is not needed: it has already been corrected in v3 and v4 of the
+respective series (among other changes) and the patches were only picked
+to a preliminary (draft) pull to get an overview of the outstanding work
+for this subsystem.  That branch happens to be included in regular -next
+releases though.
 
-diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-index e9a1cb779b30..8a6cb14f490e 100644
---- a/drivers/accel/qaic/qaic_data.c
-+++ b/drivers/accel/qaic/qaic_data.c
-@@ -1320,7 +1320,6 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
- 	user_data = u64_to_user_ptr(args->data);
- 
- 	exec = kcalloc(args->hdr.count, size, GFP_KERNEL);
--	pexec = (struct qaic_partial_execute_entry *)exec;
- 	if (!exec)
- 		return -ENOMEM;
- 
--- 
-2.39.2
+6.6 drm/msm display pull: https://gitlab.freedesktop.org/drm/msm/-/merge_requests/69
+v3: https://lore.kernel.org/linux-arm-msm/20230718-sm6125-dpu-v3-0-6c5a56e99820@somainline.org/
+v4: https://lore.kernel.org/linux-arm-msm/20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org/
 
+- Marijn
+
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml
+> index 2525482424cb..479c82e6a0d8 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6125-mdss.yaml
+> @@ -95,8 +95,6 @@ examples:
+>          #size-cells = <1>;
+>          ranges;
+>  
+> -        status = "disabled";
+> -
+>          display-controller@5e01000 {
+>              compatible = "qcom,sm6125-dpu";
+>              reg = <0x05e01000 0x83208>,
+> @@ -170,8 +168,6 @@ examples:
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>  
+> -            status = "disabled";
+> -
+>              ports {
+>                  #address-cells = <1>;
+>                  #size-cells = <0>;
+> @@ -210,8 +206,6 @@ examples:
+>  
+>              required-opps = <&rpmpd_opp_svs>;
+>              power-domains = <&rpmpd SM6125_VDDMX>;
+> -
+> -            status = "disabled";
+>          };
+>      };
+>  ...
+> -- 
+> 2.34.1
+> 
