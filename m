@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0892676122A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 12:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A275761318
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 13:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED78710E0C9;
-	Tue, 25 Jul 2023 10:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7B310E3CA;
+	Tue, 25 Jul 2023 11:07:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9E3210E0C9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 10:59:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 02EE86164D;
- Tue, 25 Jul 2023 10:59:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174C9C433C8;
- Tue, 25 Jul 2023 10:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1690282787;
- bh=fBwH6do8fLXuBrWtFFFz+C2h8zLxgC0R4Fmj5/GQkjI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o45GTKZkCUbdoRoK8PCkQurIly8z9wvNrMScsadJH/B+SqHlyitUp4gafwE+wra2H
- YHzuy0fPh7SllD572de7IVsFpRo4CbcyctxVW55cqncjsFc6sdWGF3uq8w/YmF/Krp
- ndFOpyzHrGOSrEFlakJTG0RoGd0GowMV3yjhN+zY=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.1 026/183] dma-buf/dma-resv: Stop leaking on krealloc()
- failure
-Date: Tue, 25 Jul 2023 12:44:14 +0200
-Message-ID: <20230725104508.847407285@linuxfoundation.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230725104507.756981058@linuxfoundation.org>
-References: <20230725104507.756981058@linuxfoundation.org>
-User-Agent: quilt/0.67
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE3510E3DD;
+ Tue, 25 Jul 2023 11:07:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690283272; x=1721819272;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=MbwrlzR2nBAf8yW26gKmeIuSipCpJV13OLbSoeJjYVg=;
+ b=L39l/wDm2ekjbkdGXnuZZd4LW2yO5cpxq4aIzk4vx2M5pdzc3KU08gkB
+ ZjL07d1vMd44s1A8zRRCHTSYo+reLU6kiyZoZ4RbfRWSkpinbpfNuwtlS
+ zg6Z3ZhF/OiyBTwKgJrfo+c5nedK6+H5Cl0QW3cznFKH9jwNz53HJStB0
+ zinxXlJEMhGUKToORRqnJS0V3JFFfZ0Fx5JKFofog8uAZjmqOmYHM/cat
+ k5qRIVTrpbq2nLsHmbD+yYEQirpwM5RQJ37vJdtUDHisRtVEKaJAjlDkz
+ g/syq38E62kU4wI5bsJBT9vm8IM9RGaEJXoj+Q6iVRrGHzTR2RTZaYssH A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="454070328"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="454070328"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 04:07:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="755706703"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="755706703"
+Received: from grdarcy-mobl1.ger.corp.intel.com (HELO [10.213.228.4])
+ ([10.213.228.4])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 04:07:48 -0700
+Message-ID: <6bc73c01-a7fc-9a7f-5d26-0dd25ebc4a76@linux.intel.com>
+Date: Tue, 25 Jul 2023 12:07:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/i915: Avoid GGTT flushing on non-GGTT paths of
+ i915_vma_pin_iomap
+Content-Language: en-US
+To: "Sripada, Radhakrishna" <radhakrishna.sripada@intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20230724125633.1490543-1-tvrtko.ursulin@linux.intel.com>
+ <DM4PR11MB5971B9E535C39E2C7F7314BC8702A@DM4PR11MB5971.namprd11.prod.outlook.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <DM4PR11MB5971B9E535C39E2C7F7314BC8702A@DM4PR11MB5971.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,76 +66,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-commit 05abb3be91d8788328231ee02973ab3d47f5e3d2 upstream.
+On 25/07/2023 00:38, Sripada, Radhakrishna wrote:
+> Hi Tvrtko,
+> 
+> The changes makes sense and based on the description looks good.
+> I am bit skeptical about the exec buffer failure reported by ci hence,
+> withholding the r-b for now. If you believe the CI failure is unrelated
+> please feel free to add my r-b.
 
-Currently dma_resv_get_fences() will leak the previously
-allocated array if the fence iteration got restarted and
-the krealloc_array() fails.
+This failure:
+https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_121236v1/shard-snb7/igt@gem_ppgtt@blt-vs-render-ctxn.html
 
-Free the old array by hand, and make sure we still clear
-the returned *fences so the caller won't end up accessing
-freed memory. Some (but not all) of the callers of
-dma_resv_get_fences() seem to still trawl through the
-array even when dma_resv_get_fences() failed. And let's
-zero out *num_fences as well for good measure.
+Test or machine is not entirely stable looking at it's history, but with 
+a couple different failure signatures:
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Cc: stable@vger.kernel.org
-Link: https://patchwork.freedesktop.org/patch/msgid/20230713194745.1751-1-ville.syrjala@linux.intel.com
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/dma-buf/dma-resv.c |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+https://intel-gfx-ci.01.org/tree/drm-tip/igt@gem_ppgtt@blt-vs-render-ctxn.html
 
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -566,6 +566,7 @@ int dma_resv_get_fences(struct dma_resv
- 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 
- 		if (dma_resv_iter_is_restarted(&cursor)) {
-+			struct dma_fence **new_fences;
- 			unsigned int count;
- 
- 			while (*num_fences)
-@@ -574,13 +575,17 @@ int dma_resv_get_fences(struct dma_resv
- 			count = cursor.num_fences + 1;
- 
- 			/* Eventually re-allocate the array */
--			*fences = krealloc_array(*fences, count,
--						 sizeof(void *),
--						 GFP_KERNEL);
--			if (count && !*fences) {
-+			new_fences = krealloc_array(*fences, count,
-+						    sizeof(void *),
-+						    GFP_KERNEL);
-+			if (count && !new_fences) {
-+				kfree(*fences);
-+				*fences = NULL;
-+				*num_fences = 0;
- 				dma_resv_iter_end(&cursor);
- 				return -ENOMEM;
- 			}
-+			*fences = new_fences;
- 		}
- 
- 		(*fences)[(*num_fences)++] = dma_fence_get(fence);
+But agreed that we need to be careful. I requested a re-run for a start.
 
+> On a side note on platforms with non-coherent ggtt do we really
+> need to use the barriers twice under intel_gt_flush_ggtt_writes?
 
+You mean:
+
+intel_gt_flush_ggtt_writes()
+{
+	...
+	wmb();
+	...
+	intel_gt_chipset_flush();
+		wmb();
+
+?
+
+I'd guess it is not needed twice on the intel_gt_flush_ggtt_writes() 
+path, but happens to be like that for direct callers of 
+intel_gt_chipset_flush().
+
+Maybe there is scope to tidy this all, for instance the first direct 
+caller I opened does this:
+
+rpcs_query_batch()
+{
+...
+	__i915_gem_object_flush_map(rpcs, 0, 64);
+	i915_gem_object_unpin_map(rpcs);
+
+	intel_gt_chipset_flush(vma->vm->gt);
+
+Where I think __i915_gem_object_flush_map() could actually do the right 
+thing and issue a flush appropriate for the mapping that was used. But 
+it is work and double flush does not really harm. I don't think it does 
+at least.
+
+Regards,
+
+Tvrtko
+
+> 
+> --Radhakrishna(RK) Sripada
+> 
+>> -----Original Message-----
+>> From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Sent: Monday, July 24, 2023 5:57 AM
+>> To: Intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+>> Cc: Ursulin, Tvrtko <tvrtko.ursulin@intel.com>; Sripada, Radhakrishna
+>> <radhakrishna.sripada@intel.com>; stable@vger.kernel.org
+>> Subject: [PATCH] drm/i915: Avoid GGTT flushing on non-GGTT paths of
+>> i915_vma_pin_iomap
+>>
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Commit 4bc91dbde0da ("drm/i915/lmem: Bypass aperture when lmem is
+>> available")
+>> added a code path which does not map via GGTT, but was still setting the
+>> ggtt write bit, and so triggering the GGTT flushing.
+>>
+>> Fix it by not setting that bit unless the GGTT mapping path was used, and
+>> replace the flush with wmb() in i915_vma_flush_writes().
+>>
+>> This also works for the i915_gem_object_pin_map path added in
+>> d976521a995a ("drm/i915: extend i915_vma_pin_iomap()").
+>>
+>> It is hard to say if the fix has any observable effect, given that the
+>> write-combine buffer gets flushed from intel_gt_flush_ggtt_writes too, but
+>> apart from code clarity, skipping the needless GGTT flushing could be
+>> beneficial on platforms with non-coherent GGTT. (See the code flow in
+>> intel_gt_flush_ggtt_writes().)
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Fixes: 4bc91dbde0da ("drm/i915/lmem: Bypass aperture when lmem is
+>> available")
+>> References: d976521a995a ("drm/i915: extend i915_vma_pin_iomap()")
+>> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+>> Cc: <stable@vger.kernel.org> # v5.14+
+>> ---
+>>   drivers/gpu/drm/i915/i915_vma.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_vma.c
+>> b/drivers/gpu/drm/i915/i915_vma.c
+>> index ffb425ba591c..f2b626cd2755 100644
+>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>> @@ -602,7 +602,9 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma
+>> *vma)
+>>   	if (err)
+>>   		goto err_unpin;
+>>
+>> -	i915_vma_set_ggtt_write(vma);
+>> +	if (!i915_gem_object_is_lmem(vma->obj) &&
+>> +	    i915_vma_is_map_and_fenceable(vma))
+>> +		i915_vma_set_ggtt_write(vma);
+>>
+>>   	/* NB Access through the GTT requires the device to be awake. */
+>>   	return page_mask_bits(ptr);
+>> @@ -617,6 +619,8 @@ void i915_vma_flush_writes(struct i915_vma *vma)
+>>   {
+>>   	if (i915_vma_unset_ggtt_write(vma))
+>>   		intel_gt_flush_ggtt_writes(vma->vm->gt);
+>> +	else
+>> +		wmb(); /* Just flush the write-combine buffer. */
+>>   }
+>>
+>>   void i915_vma_unpin_iomap(struct i915_vma *vma)
+>> --
+>> 2.39.2
+> 
