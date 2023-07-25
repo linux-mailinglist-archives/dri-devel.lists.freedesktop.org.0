@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D655761B04
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 16:08:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDC0761B35
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 16:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A182310E3DD;
-	Tue, 25 Jul 2023 14:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E9310E3D9;
+	Tue, 25 Jul 2023 14:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF97310E3DC;
- Tue, 25 Jul 2023 14:08:48 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA9BF10E3D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 14:17:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690294128; x=1721830128;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Knqc8R0mT6fenbyn7oqDjc0TJDtO4aGF9VcaDoL2Pq8=;
- b=Kw2roxenD2KMHCw+N03NZrl6duCrXAUItgXOWDVwYO/z1lbyGnVIkdEc
- H5VGnLpERcRnVkKTz+EgZPlOTfkzgzFAJ7Zb1o6RaA+IiEbAHlOlOhLER
- U2Y2iYyOU5+DlZ/tNC+Uka5gn4UnOe65t3PQhSrlI2+qH0M5dsL/iic8t
- qor04Kv5O2ag5va8qzmyAme8R7rwarQ+pyLkungroq4VoubRcwtG0CAZV
- KDIrX60BVyZ7ZajsKe6dcwsskwcGRf07leoX6bDainHGJc3w4HhKhhNvE
- sx0nI21Quo3Q9xAtBBJy40qNPYYURl2onAMuftIR8JfFKZRdRXaThk0t6 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="347340886"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="347340886"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 07:08:46 -0700
+ t=1690294629; x=1721830629;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=eVxhmj+VYE1UrACEzYd5gGcDmS4uuwD9qqQr6Lk1mgU=;
+ b=IDd8fV0XL+R1MtVsqw/EwlixJrfJbLy/EOI5vGK4lqqt5bBNOikdHMXr
+ 9lfI4JIaYvkdp2PZWNeK7hNiaVgC8fTW8J3dljpig0lmA2syBmyMrWA48
+ y9nFYhNhzTgl55aC+UP0CBM4JxhkcDPsXMhkIs+9L0HEM2ixvqS5rRVqT
+ yH7UDpI0NR9DPD2IzP6FrAgmQ0aYE9lYfLsOx9PGZ92S7zGhvxlbCZckP
+ r5yLt2HC7c9AjXzkrkU0wXlg+DRHiqJsTBwsAvpJxR6AAyNh3hYNROlyW
+ JqEF5HiMYFCnJIM8v24r3uvAbaAlUfL+XQIqAxDoSbeQTFp0ahq36XfH3 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="352635104"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="352635104"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 07:16:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="816266454"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="816266454"
-Received: from grdarcy-mobl1.ger.corp.intel.com (HELO [10.213.228.4])
- ([10.213.228.4])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 07:08:42 -0700
-Message-ID: <3b96cada-3433-139c-3180-1f050f0f80f3@linux.intel.com>
-Date: Tue, 25 Jul 2023 15:08:40 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="761222802"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="761222802"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+ by orsmga001.jf.intel.com with ESMTP; 25 Jul 2023 07:16:03 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qOIpF-00001R-1E;
+ Tue, 25 Jul 2023 14:15:50 +0000
+Date: Tue, 25 Jul 2023 22:14:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 6/6] drm/format-helper: Add KUnit tests for drm_fb_memcpy()
+Message-ID: <202307252148.wr2nafKj-lkp@intel.com>
+References: <20230721182316.560649-7-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 15/17] cgroup/drm: Expose GPU utilisation
-Content-Language: en-US
-To: Tejun Heo <tj@kernel.org>
-References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
- <20230712114605.519432-16-tvrtko.ursulin@linux.intel.com>
- <ZLsEdJeEAPYWFunT@slm.duckdns.org> <ZLsEomsuxoy-YnkA@slm.duckdns.org>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZLsEomsuxoy-YnkA@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230721182316.560649-7-arthurgrillo@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,60 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
- Eero Tamminen <eero.t.tamminen@intel.com>,
- "T . J . Mercier" <tjmercier@google.com>
+Cc: tzimmermann@suse.de, tales.aparecida@gmail.com, javierm@redhat.com,
+ mairacanal@riseup.net, davidgow@google.com, oe-kbuild-all@lists.linux.dev,
+ jose.exposito89@gmail.com, andrealmeid@riseup.net, arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Arthur,
 
-On 21/07/2023 23:20, Tejun Heo wrote:
-> On Fri, Jul 21, 2023 at 12:19:32PM -1000, Tejun Heo wrote:
->> On Wed, Jul 12, 2023 at 12:46:03PM +0100, Tvrtko Ursulin wrote:
->>> +  drm.active_us
->>> +	GPU time used by the group recursively including all child groups.
->>
->> Maybe instead add drm.stat and have "usage_usec" inside? That'd be more
->> consistent with cpu side.
+kernel test robot noticed the following build warnings:
 
-Could be, but no strong opinion from my side either way. Perhaps it boils down to what could be put in the file, I mean to decide whether keyed format makes sense or not.
-  
-> Also, shouldn't this be keyed by the drm device?
-  
-It could have that too, or it could come later. Fun with GPUs that it not only could be keyed by the device, but also by the type of the GPU engine. (Which are a) vendor specific and b) some aree fully independent, some partially so, and some not at all - so it could get complicated semantics wise really fast.)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If for now I'd go with drm.stat/usage_usec containing the total time spent how would you suggest adding per device granularity? Files as documented are either flag or nested, not both at the same time. So something like:
+url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Grillo/drm-format-helper-Test-default-pitch-fallback/20230722-022649
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230721182316.560649-7-arthurgrillo%40riseup.net
+patch subject: [PATCH 6/6] drm/format-helper: Add KUnit tests for drm_fb_memcpy()
+config: nios2-randconfig-r093-20230723 (https://download.01.org/0day-ci/archive/20230725/202307252148.wr2nafKj-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252148.wr2nafKj-lkp@intel.com/reproduce)
 
-usage_usec 100000
-card0 usage_usec 50000
-card1 usage_usec 50000
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307252148.wr2nafKj-lkp@intel.com/
 
-Would or would not fly? Have two files along the lines of drm.stat and drm.dev_stat?
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __le32 const [usertype] *buf @@     got unsigned int [usertype] *[assigned] buf @@
+   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse:     expected restricted __le32 const [usertype] *buf
+   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse:     got unsigned int [usertype] *[assigned] buf
+   drivers/gpu/drm/tests/drm_format_helper_test.c:1058:34: sparse: sparse: symbol 'fb_build_fourcc_list_cases' was not declared. Should it be static?
+>> drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
+   drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse:     expected unsigned int [usertype] *
+   drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse:     got restricted __le32 [usertype] *
+   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
+   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse:     expected unsigned int [usertype] *
+   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse:     got restricted __le32 [usertype] *
 
-While on this general topic, you will notice that for memory stats I have _sort of_ nested keyed per device format, for example on integrated Intel GPU:
+vim +1566 drivers/gpu/drm/tests/drm_format_helper_test.c
 
-   $ cat drm.memory.stat
-   card0 region=system total=12898304 shared=0 active=0 resident=12111872 purgeable=167936
-   card0 region=stolen-system total=0 shared=0 active=0 resident=0 purgeable=0
+  1539	
+  1540	static void drm_test_fb_memcpy(struct kunit *test)
+  1541	{
+  1542		const struct multi_plane_op_case *params = test->param_value;
+  1543		const struct fb_memcpy_result *result = &params->memcpy_result;
+  1544		size_t dst_size[DRM_FORMAT_MAX_PLANES] = { 0 };
+  1545		u32 *buf[DRM_FORMAT_MAX_PLANES] = { 0 };
+  1546		u32 *src_cp[DRM_FORMAT_MAX_PLANES] = { 0 };
+  1547		u32 *expected[DRM_FORMAT_MAX_PLANES] = { 0 };
+  1548		struct iosys_map dst[DRM_FORMAT_MAX_PLANES];
+  1549		struct iosys_map src[DRM_FORMAT_MAX_PLANES];
+  1550	
+  1551		struct drm_framebuffer fb = {
+  1552			.format = drm_format_info(params->format),
+  1553		};
+  1554	
+  1555		memcpy(fb.pitches, params->src_pitches, DRM_FORMAT_MAX_PLANES * sizeof(int));
+  1556	
+  1557		for (size_t i = 0; i < fb.format->num_planes; i++) {
+  1558			dst_size[i] = conversion_buf_size(params->format, result->dst_pitches[i],
+  1559							  &params->clip, i);
+  1560			KUNIT_ASSERT_GT(test, dst_size[i], 0);
+  1561	
+  1562			buf[i] = kunit_kzalloc(test, dst_size[i], GFP_KERNEL);
+  1563			KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf[i]);
+  1564			iosys_map_set_vaddr(&dst[i], buf[i]);
+  1565	
+> 1566			src_cp[i] = cpubuf_to_le32(test, params->src[i], TEST_BUF_SIZE);
+  1567			iosys_map_set_vaddr(&src[i], src_cp[i]);
+  1568		}
+  1569	
+  1570		if (result->dst_pitches[0] == TEST_USE_DEFAULT_PITCH)
+  1571			drm_fb_memcpy(dst, NULL, src, &fb, &params->clip);
+  1572		else
+  1573			drm_fb_memcpy(dst, result->dst_pitches, src, &fb, &params->clip);
+  1574	
+  1575		for (size_t i = 0; i < fb.format->num_planes; i++) {
+  1576			expected[i] = cpubuf_to_le32(test, result->expected[i], TEST_BUF_SIZE);
+  1577			KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
+  1578					       "Failed expectation on plane %zu", i);
+  1579		}
+  1580	}
+  1581	
 
-If one a discrete Intel GPU two more lines would appear with memory regions of local and local-system. But then on some server class multi-tile GPUs even further regions with more than one device local memory region. And users do want to see this granularity for container use cases at least.
-
-Anyway, this may not be compatible with the nested key format as documented in cgroup-v2.rst, although it does not explicitly say.
-
-Should I cheat and create key names based on device and memory region name and let userspace parse it? Like:
-
-   $ cat drm.memory.stat
-   card0.system total=12898304 shared=0 active=0 resident=12111872 purgeable=167936
-   card0.stolen-system total=0 shared=0 active=0 resident=0 purgeable=0
-
-Regards,
-
-Tvrtko
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
