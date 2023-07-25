@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A939D760B28
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:07:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F97A760B43
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C861610E395;
-	Tue, 25 Jul 2023 07:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C8810E39F;
+	Tue, 25 Jul 2023 07:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5827510E395
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:07:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E194410E39D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:14:52 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DEF836606FD7;
- Tue, 25 Jul 2023 08:07:25 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0534C6606FD7;
+ Tue, 25 Jul 2023 08:14:50 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690268846;
- bh=u6AapRusf8eDzXb/4ah8sQepeL593ZRLW7FlM4jWC+g=;
+ s=mail; t=1690269291;
+ bh=2Up7Q4ggLqZwRNdv/plAaqb8BMBgbL4oTYcjSdMQnow=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hcTYaYJhrp5SypF+nMltehy5RPVRrvBNWKk3LABd3equzoki1ajluNbpjGz3hyQHQ
- pKpulvAmeClPdPjqyIO2p0UvVdt5HOoMvBxlrwJPplJWTmBgJKBIRSXp1ITyUzdbRS
- f5Ri02K1NXlFKrn7T6AhQ9jSkFTu0n0ygZ32z2ti28Y6jFQiXqVJ9DOsnk2J1YqnhS
- G0U+B8i33txQNDz3UlKNJ4iTgfCaJL9hwHzlRKsgWsZa/x1tI6HGkhr0/8NHmE1d1o
- 0PwUa11W9cOm3uPmInLq2cuVF/+W1YhFWeNqVnGhTQlW4ggJe02HP6/lOgy4VEoVM9
- PcGHHf85XNzVw==
-Date: Tue, 25 Jul 2023 09:07:22 +0200
+ b=GLcosbsF9805iCbE8eMvWlBaeBQxI53nor3WoWEKfZ5Hj/OXrrl3yEPPnLRW+TpRz
+ iKuHpSPyTIWyXIT29oO+7L7G+HITZzPd4GlWnb38HINfGIiom/lq3+h9ArzmviwEKp
+ WbXCLx+qEhV5lJie++W+SiYk79wKqF3enWPkKVXfXpkajuostTzGKwBGQ2bOnV3sKw
+ BWOYiHqmLRPWxmky2VY5WkUB3em82QbGqEQD5rASxpWTChzgkqoQL72TsEvfif2TWq
+ 5lPoW74N+x6kXkS6Qp1yk9zEYkaG60R5mPY5EfQv8zb7R5eCfTbNAoVM1tb9i+za3d
+ tdd/dDLnHluxA==
+Date: Tue, 25 Jul 2023 09:14:48 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/shmem-helper: Reset vma->vm_ops before calling
- dma_buf_mmap()
-Message-ID: <20230725090722.379021ea@collabora.com>
-In-Reply-To: <20230724112610.60974-1-boris.brezillon@collabora.com>
-References: <20230724112610.60974-1-boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v14 01/12] drm/shmem-helper: Factor out pages
+ alloc/release from drm_gem_shmem_get/put_pages()
+Message-ID: <20230725091448.7ac0c4aa@collabora.com>
+In-Reply-To: <20230722234746.205949-2-dmitry.osipenko@collabora.com>
+References: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
+ <20230722234746.205949-2-dmitry.osipenko@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -53,53 +54,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Jul 2023 13:26:10 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Sun, 23 Jul 2023 02:47:35 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> The dma-buf backend is supposed to provide its own vm_ops, but some
-> implementation just have nothing special to do and leave vm_ops
-> untouched, probably expecting this field to be zero initialized (this
-> is the case with the system_heap implementation for instance).
-> Let's reset vma->vm_ops to NULL to keep things working with these
-> implementations.
+> Factor out pages allocation from drm_gem_shmem_get_pages() into
+> drm_gem_shmem_acquire_pages() function and similar for the put_pages()
+> in a preparation for addition of shrinker support to drm-shmem.
 > 
-> Fixes: 26d3ac3cb04d ("drm/shmem-helpers: Redirect mmap for imported dma-buf")
-> Cc: <stable@vger.kernel.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Reported-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
-
-Adding Roman's tested-by coming from [1]
-
-Tested-by: Roman Stratiienko <r.stratiienko@gmail.com>
-
-[1]https://gitlab.freedesktop.org/mesa/mesa/-/issues/9416#note_2013722
-
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Once shrinker will be added, the pages_use_count>0 will no longer determine
+> whether pages are pinned because pages could be swapped out by the shrinker
+> and then pages_use_count will be greater than 0 in this case. We will add
+> new pages_pin_count in a later patch.
+> 
+> The new common drm_gem_shmem_acquire/release_pages() will be used by
+> shrinker code for performing the page swapping.
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 65 ++++++++++++++++++++------
+>  1 file changed, 52 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 4ea6507a77e5..baaf0e0feb06 100644
+> index a783d2245599..267153853e2c 100644
 > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -623,7 +623,13 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
->  	int ret;
+> @@ -165,21 +165,26 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
 >  
->  	if (obj->import_attach) {
-> +		/* Reset both vm_ops and vm_private_data, so we don't end up with
-> +		 * vm_ops pointing to our implementation if the dma-buf backend
-> +		 * doesn't set those fields.
-> +		 */
->  		vma->vm_private_data = NULL;
-> +		vma->vm_ops = NULL;
+> -static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+> +static int
+> +drm_gem_shmem_acquire_pages(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  	struct page **pages;
+>  
+>  	dma_resv_assert_held(shmem->base.resv);
+
+Not directly related to this patch, but can we start using _locked
+suffixes for any function that's expecting the dma-resv lock to be held?
+
+>  
+> -	if (shmem->pages_use_count++ > 0)
+> -		return 0;
+> +	if (shmem->madv < 0) {
+> +		drm_WARN_ON(obj->dev, shmem->pages);
+> +		return -ENOMEM;
+> +	}
 > +
->  		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
+> +	if (drm_WARN_ON(obj->dev, !shmem->pages_use_count))
+> +		return -EINVAL;
 >  
->  		/* Drop the reference drm_gem_mmap_obj() acquired.*/
+>  	pages = drm_gem_get_pages(obj);
+>  	if (IS_ERR(pages)) {
+>  		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
+>  			    PTR_ERR(pages));
+> -		shmem->pages_use_count = 0;
+>  		return PTR_ERR(pages);
+>  	}
+>  
+> @@ -198,6 +203,48 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>  	return 0;
+>  }
+>  
+> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+> +{
+> +	int err;
+> +
+> +	dma_resv_assert_held(shmem->base.resv);
+> +
+> +	if (shmem->madv < 0)
+> +		return -ENOMEM;
+> +
+> +	if (shmem->pages_use_count++ > 0)
+> +		return 0;
+> +
+> +	err = drm_gem_shmem_acquire_pages(shmem);
+> +	if (err)
+> +		goto err_zero_use;
+> +
+> +	return 0;
+> +
+> +err_zero_use:
+> +	shmem->pages_use_count = 0;
+> +
+> +	return err;
+> +}
+> +
+> +static void
+> +drm_gem_shmem_release_pages(struct drm_gem_shmem_object *shmem)
+> +{
+> +	struct drm_gem_object *obj = &shmem->base;
+> +
+> +	dma_resv_assert_held(shmem->base.resv);
+> +
+> +#ifdef CONFIG_X86
+> +	if (shmem->map_wc)
+> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> +#endif
+> +
+> +	drm_gem_put_pages(obj, shmem->pages,
+> +			  shmem->pages_mark_dirty_on_put,
+> +			  shmem->pages_mark_accessed_on_put);
+> +	shmem->pages = NULL;
+> +}
+> +
+>  /*
+>   * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
+>   * @shmem: shmem GEM object
+> @@ -216,15 +263,7 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+>  	if (--shmem->pages_use_count > 0)
+>  		return;
+>  
+> -#ifdef CONFIG_X86
+> -	if (shmem->map_wc)
+> -		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> -#endif
+> -
+> -	drm_gem_put_pages(obj, shmem->pages,
+> -			  shmem->pages_mark_dirty_on_put,
+> -			  shmem->pages_mark_accessed_on_put);
+> -	shmem->pages = NULL;
+> +	drm_gem_shmem_release_pages(shmem);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+>  
 
