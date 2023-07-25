@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D81476049B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 03:13:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3481D7604D2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 03:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE9410E03D;
-	Tue, 25 Jul 2023 01:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC62310E00A;
+	Tue, 25 Jul 2023 01:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id C008510E03D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 01:12:56 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxlPCWIb9kzn4JAA--.23863S3;
- Tue, 25 Jul 2023 09:12:54 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxPCOMIb9k8Pc5AA--.6844S3; 
- Tue, 25 Jul 2023 09:12:54 +0800 (CST)
-Message-ID: <bd866246-6b98-44fd-55f6-64e9e6fa22ba@loongson.cn>
-Date: Tue, 25 Jul 2023 09:12:44 +0800
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3CD10E10C;
+ Tue, 25 Jul 2023 01:40:03 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R904Z1H7JztRBW;
+ Tue, 25 Jul 2023 09:36:46 +0800 (CST)
+Received: from cgs.huawei.com (10.244.148.83) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 25 Jul 2023 09:39:58 +0800
+From: Gaosheng Cui <cuigaosheng1@huawei.com>
+To: <liviu.dudau@arm.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>,
+ <sam@ravnborg.org>, <quic_eberman@quicinc.com>, <a39.skl@gmail.com>,
+ <quic_gurus@quicinc.com>, <cuigaosheng1@huawei.com>,
+ <angelogioacchino.delregno@somainline.org>, <james.qian.wang@arm.com>
+Subject: [PATCH v6 0/3] Fix IS_ERR() vs NULL check for drm
+Date: Tue, 25 Jul 2023 09:39:54 +0800
+Message-ID: <20230725013957.1237590-1-cuigaosheng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: drm/ast: Do not enable PCI resources multiple times
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- airlied@gmail.com, airlied@redhat.com, daniel@ffwll.ch
-References: <20230712130826.3318-1-tzimmermann@suse.de>
- <5d51f17e-138c-fbc1-c1f7-b0d3f09bcf7a@loongson.cn>
- <bb3b4288-9ee0-8d24-4a77-50630a76ac7c@suse.de>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <bb3b4288-9ee0-8d24-4a77-50630a76ac7c@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxPCOMIb9k8Pc5AA--.6844S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxWr4kuryDCw15uw4ftF4xuFX_yoW5Wr47pF
- s3JFW0yrW5JF18Gr12vryqyryUtayUta4UWrn8J3WruwsFyF1qqFykXr1F9FyUArZ7ZFy8
- tr1fKFyfZryUJabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
- xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8j-e5UU
- UUU==
+Content-Type: text/plain
+X-Originating-IP: [10.244.148.83]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +50,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+v6:
+- Update the first patch, return dev_err_probe(...), Thanks!
 
-On 2023/7/25 02:34, Thomas Zimmermann wrote:
-> Hi
->
-> Am 18.07.23 um 07:40 schrieb suijingfeng:
->> Hi,
->>
->>
->> Actually,  I'm only a little bit worry about the ast_pm_thaw() code 
->> path.
->>
->> |- ast_pm_thaw()
->>
->> |-- ast_drm_thaw()
->>
->> |--- ast_post_gpu()
->
+v5:
+- Update the third patch, change IS_ERR to IS_ERR_OR_NULL.
+  Thanks!
 
-> I'm not quite sure what mean here, because the post-GPU code is not 
-> involved in this patch.
+v4:
+- 1. Update the second patch's commit messages.
+  2. Update the first patch, use dev_err_probe() instead of dev_err().
 
+  Thanks!
 
-Ah, I'm get confused with a previous patch.
+v3:
+- Update the second patch:
+  1. change IS_ERR to IS_ERR_OR_NULL
+  2. add Dmitry's R-b in this revision:
+  link: https://patchwork.freedesktop.org/patch/511035/?series=110745&rev=1
 
-Previously, the drm/ast driver call ast_init_pci_config() function in 
-ast_post_gpu().
+  Thanks!
 
-I also don't know why it need to do so.
+v2:
+- I'm sorry I missed some emails, these patches were submitted last year,
+  now let me resend it with the following changes:
+  1. remove the patch: "drm/msm: Fix IS_ERR_OR_NULL() vs NULL check in msm_icc_get()"
+  2. remove the patch: "drm/vc4: kms: Fix IS_ERR() vs NULL check for vc4_kms"
+  3. add "Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>" to the second patch.
 
-Ok then, just remove it.
+  Thanks!
 
+v1:
+- This series contains a few fixup patches, to fix IS_ERR() vs NULL check
+  for drm, and avoid a potential null-ptr-defer issue, too. Thanks!
 
-> All this patch does is to remove duplicated code.
->
+Gaosheng Cui (3):
+  drm/panel: Fix IS_ERR() vs NULL check in nt35950_probe()
+  drm/msm: Fix IS_ERR_OR_NULL() vs NULL check in a5xx_submit_in_rb()
+  drm/komeda: Fix IS_ERR_OR_NULL() vs NULL check in
+    komeda_component_get_avail_scaler()
 
-Yes, this patch has nothing to do with the ast_post_gpu() function.
+ drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c | 2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c                      | 2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c              | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-
-> Is there a bug in the post-GPU handling?
->
-
-No, I'm not find one so far.
-
-
-> Best regards
-> Thomas
->
->>
->>
->> Except this, all other code path have pci_enable_device() or 
->> pcim_enable_device() called.
->>
->> So, this patch seems OK.
->>
->>
->> On 2023/7/12 21:08, Thomas Zimmermann wrote:
->>> Remove ast_init_pci_config() as the ast driver already enables the PCI
->>> resources by calling pcim_enable_device().
->>>
->>> Suggested-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> ---
->>>   drivers/gpu/drm/ast/ast_main.c | 21 ---------------------
->>>   1 file changed, 21 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_main.c 
->>> b/drivers/gpu/drm/ast/ast_main.c
->>> index 8bfbdfd86d77..dae365ed3969 100644
->>> --- a/drivers/gpu/drm/ast/ast_main.c
->>> +++ b/drivers/gpu/drm/ast/ast_main.c
->>> @@ -35,23 +35,6 @@
->>>   #include "ast_drv.h"
->>> -static int ast_init_pci_config(struct pci_dev *pdev)
->>> -{
->>> -    int err;
->>> -    u16 pcis04;
->>> -
->>> -    err = pci_read_config_word(pdev, PCI_COMMAND, &pcis04);
->>> -    if (err)
->>> -        goto out;
->>> -
->>> -    pcis04 |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
->>> -
->>> -    err = pci_write_config_word(pdev, PCI_COMMAND, pcis04);
->>> -
->>> -out:
->>> -    return pcibios_err_to_errno(err);
->>> -}
->>> -
->>>   static bool ast_is_vga_enabled(struct drm_device *dev)
->>>   {
->>>       struct ast_device *ast = to_ast_device(dev);
->>> @@ -483,10 +466,6 @@ struct ast_device *ast_device_create(const 
->>> struct drm_driver *drv,
->>>               return ERR_PTR(-EIO);
->>>       }
->>> -    ret = ast_init_pci_config(pdev);
->>> -    if (ret)
->>> -        return ERR_PTR(ret);
->>> -
->>>       if (!ast_is_vga_enabled(dev)) {
->>>           drm_info(dev, "VGA not enabled on entry, requesting chip 
->>> POST\n");
->>>           need_post = true;
->>
->
+-- 
+2.25.1
 
