@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1C47604CE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 03:40:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4102C7604D5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 03:40:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67EDD89186;
-	Tue, 25 Jul 2023 01:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF2F10E143;
+	Tue, 25 Jul 2023 01:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B77A710E0C2;
- Tue, 25 Jul 2023 01:40:02 +0000 (UTC)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4R907J3MRwz1GDw9;
- Tue, 25 Jul 2023 09:39:08 +0800 (CST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0131310E131;
+ Tue, 25 Jul 2023 01:40:03 +0000 (UTC)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R904b2B0bztRd7;
+ Tue, 25 Jul 2023 09:36:47 +0800 (CST)
 Received: from cgs.huawei.com (10.244.148.83) by
  kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 25 Jul 2023 09:39:58 +0800
+ 15.1.2507.27; Tue, 25 Jul 2023 09:39:59 +0800
 From: Gaosheng Cui <cuigaosheng1@huawei.com>
 To: <liviu.dudau@arm.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
  <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
@@ -27,10 +27,10 @@ To: <liviu.dudau@arm.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
  <sam@ravnborg.org>, <quic_eberman@quicinc.com>, <a39.skl@gmail.com>,
  <quic_gurus@quicinc.com>, <cuigaosheng1@huawei.com>,
  <angelogioacchino.delregno@somainline.org>, <james.qian.wang@arm.com>
-Subject: [PATCH v6 1/3] drm/panel: Fix IS_ERR() vs NULL check in
- nt35950_probe()
-Date: Tue, 25 Jul 2023 09:39:55 +0800
-Message-ID: <20230725013957.1237590-2-cuigaosheng1@huawei.com>
+Subject: [PATCH v6 2/3] drm/msm: Fix IS_ERR_OR_NULL() vs NULL check in
+ a5xx_submit_in_rb()
+Date: Tue, 25 Jul 2023 09:39:56 +0800
+Message-ID: <20230725013957.1237590-3-cuigaosheng1@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230725013957.1237590-1-cuigaosheng1@huawei.com>
 References: <20230725013957.1237590-1-cuigaosheng1@huawei.com>
@@ -58,34 +58,32 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mipi_dsi_device_register_full() returns an ERR_PTR() on failure,
-we should use IS_ERR() to check the return value.
+The msm_gem_get_vaddr() returns an ERR_PTR() on failure, and a null
+is catastrophic here, so we should use IS_ERR_OR_NULL() to check
+the return value.
 
-By the way, use dev_err_probe instead of dev_err to print the error code.
-
-Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
+Fixes: 6a8bd08d0465 ("drm/msm: add sudo flag to submit ioctl")
 Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
- drivers/gpu/drm/panel/panel-novatek-nt35950.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-index 8b108ac80b55..eaba0b8d4340 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-@@ -571,9 +571,9 @@ static int nt35950_probe(struct mipi_dsi_device *dsi)
- 		}
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index a99310b68793..bbb1bf33f98e 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -89,7 +89,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
+ 			 * since we've already mapped it once in
+ 			 * submit_reloc()
+ 			 */
+-			if (WARN_ON(!ptr))
++			if (WARN_ON(IS_ERR_OR_NULL(ptr)))
+ 				return;
  
- 		nt->dsi[1] = mipi_dsi_device_register_full(dsi_r_host, info);
--		if (!nt->dsi[1]) {
--			dev_err(dev, "Cannot get secondary DSI node\n");
--			return -ENODEV;
-+		if (IS_ERR(nt->dsi[1])) {
-+			return dev_err_probe(dev, PTR_ERR(nt->dsi[1]),
-+					     "Cannot get secondary DSI node\n");
- 		}
- 		num_dsis++;
- 	}
+ 			for (i = 0; i < dwords; i++) {
 -- 
 2.25.1
 
