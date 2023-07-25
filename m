@@ -1,51 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ADF761FB1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 19:01:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67841761FD6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 19:10:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0253410E3F2;
-	Tue, 25 Jul 2023 17:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB0B10E168;
+	Tue, 25 Jul 2023 17:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76EC510E3EF
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 17:01:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HEYKn4NMMmasVQNcFwCa+HiHodnKGFk+SvBVj8VNFfw=;
- b=A6DQf5Av/0e8e9EBLoEAHflwSlep3BKEYaCQ8x3w8yy18fUjuqioILQ4kcrmtzIGnZSMImZqt0fQd
- Axs2ah8kn6ezQiWIRvbFdIT4NJiIMiFpYK4hiOs72oEDrkZ+EWAZaVpHfddUSZoOjFtqJDlC7A0bDE
- hXWfitYQq6BPSRl9hzdhNhsOOqBtA9SOUbj2ZQ0UN5VSPqC1sxtQp5DgU7bpjcTag54vCmPa9O+UJp
- 45jGC8PgzZSLIMmYZI3VQnQCs5kLKVIN3suAtIDGfVbKp6/zS2W11KoKrvSpGuTNE5BkJ+qnhT7wGV
- +IzVsrL2O1loZCqU2Z7Vp5lGtRuhtyw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HEYKn4NMMmasVQNcFwCa+HiHodnKGFk+SvBVj8VNFfw=;
- b=uh0ldvFXcrw7PKCrKzTWVanDCUzmOkVysrpJQxgzGrITYOjs6QsEC3OQYjLhhQ5wH1lioJT7lDnzL
- L8AZXoNCA==
-X-HalOne-ID: f087e3ad-2b0c-11ee-9e67-99461c6a3fe8
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id f087e3ad-2b0c-11ee-9e67-99461c6a3fe8;
- Tue, 25 Jul 2023 17:01:49 +0000 (UTC)
-Date: Tue, 25 Jul 2023 19:01:47 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Gaosheng Cui <cuigaosheng1@huawei.com>
-Subject: Re: [PATCH v6 1/3] drm/panel: Fix IS_ERR() vs NULL check in
- nt35950_probe()
-Message-ID: <20230725170147.GB838289@ravnborg.org>
-References: <20230725013957.1237590-1-cuigaosheng1@huawei.com>
- <20230725013957.1237590-2-cuigaosheng1@huawei.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2684C10E168;
+ Tue, 25 Jul 2023 17:10:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6C3016181A;
+ Tue, 25 Jul 2023 17:10:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1D9C433C7;
+ Tue, 25 Jul 2023 17:10:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1690305036;
+ bh=gFDIOFJUg+DOfAXFPWC3hL0j9ovfHQMSJqI2XgTzQpk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S+N5g77nllkgBlBRqV1c+fDVHcxuV+oE53LaqoIBIfWcSWr5PXsJzP4RjNKR6/+Ng
+ 9FJ1gf0hM+UBWpUwZ10DoAq9tTEbGL4EjAiIncisE+kGvL17r/cq6Nm0PfGrD1+12Z
+ amKEpM3IfKLNJU6L8nqeg/RcmcoSdVfbfPdrv9zs=
+Date: Tue, 25 Jul 2023 19:10:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v3 1/1] drm/i915: Move abs_diff() to math.h
+Message-ID: <2023072525-gimmick-debatable-0b87@gregkh>
+References: <20230724082511.3225-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230725013957.1237590-2-cuigaosheng1@huawei.com>
+In-Reply-To: <20230724082511.3225-1-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,24 +50,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, quic_eberman@quicinc.com, quic_gurus@quicinc.com,
- sean@poorly.run, linux-arm-msm@vger.kernel.org, a39.skl@gmail.com,
- liviu.dudau@arm.com, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, james.qian.wang@arm.com,
- angelogioacchino.delregno@somainline.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@kernel.org>, Nikita Shubin <nikita.shubin@maquefel.me>,
+ Jiri Slaby <jirislaby@kernel.org>, Helge Deller <deller@gmx.de>,
+ linux-serial@vger.kernel.org,
+ Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Alexey Dobriyan <adobriyan@gmail.com>, Jani Nikula <jani.nikula@intel.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 25, 2023 at 09:39:55AM +0800, Gaosheng Cui wrote:
-> The mipi_dsi_device_register_full() returns an ERR_PTR() on failure,
-> we should use IS_ERR() to check the return value.
+On Mon, Jul 24, 2023 at 11:25:11AM +0300, Andy Shevchenko wrote:
+> abs_diff() belongs to math.h. Move it there.
+> This will allow others to use it.
 > 
-> By the way, use dev_err_probe instead of dev_err to print the error code.
-> 
-> Fixes: 623a3531e9cf ("drm/panel: Add driver for Novatek NT35950 DSI DriverIC panels")
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Jiri Slaby <jirislaby@kernel.org> # tty/serial
 
-Looks good, thanks for the update.
-
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
