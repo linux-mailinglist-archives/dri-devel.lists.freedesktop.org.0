@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730DF761AAE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 15:54:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EC6761ACF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 15:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3A210E3DA;
-	Tue, 25 Jul 2023 13:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CB610E3EA;
+	Tue, 25 Jul 2023 13:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E509F10E3D7;
- Tue, 25 Jul 2023 13:53:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14CCD10E3DC;
+ Tue, 25 Jul 2023 13:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690293238; x=1721829238;
+ t=1690293521; x=1721829521;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=u7X4okrLmQ5gO8SvBkdYjLFmdR0qQe+0q5bDkgBSLwA=;
- b=HU+4B8XVA2Ak1ghVYGcWslhIPwd4XjFQFKngAckMP2oFdfD/bA9vp4nH
- mPX2stoYqIKN6nVfkJE1nkXvyVZvM3TsOW4F6Toe9nHjEZpVDaJE/ugwe
- mnkseIWC7p+DrgTgXz9dT0y+TqbDlnktHXmHrVNWBdoYVnfuFFrSpcTl5
- NTK7RJuT+Xe0j0zkMUBBZeuHbeZ96E17cEwog60v5ilzFmM6i7jya8YS5
- EVNIW+nuQCkKyIsASWnB7+ndmQd91SHTaxtzWy5lUIA57EL/qc0UuyBBd
- /vLEmD8XmJ79BQujIdrY/zPNXo9XU6rKHva8ce3ZhatOALZ1esXftitlD Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431530887"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="431530887"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ mime-version:in-reply-to;
+ bh=pwjarub5hxpqZ9pO2xQXqXecdBzvAsuSVdAbFcrLqaE=;
+ b=BmXKfxcb4B4cLaueSG1FbdpqD5dCVH16Y43LkO38ulFTolOE2oyOuW3w
+ 4x4+bI/1MswjJzsIT0Gmvlfo7JSwxgW37mQVbxtXZU/ML0v0lXw/1Q4rf
+ b0J2kpCDpWKSKrQgjGyxmX7waYgsdbU2MAuwM/ZXq9+lB/Qe9FVWhIKl+
+ HtaDG0VSJfteLK4QVqw8uaqJcSviJGorQP07aLa7APlKWlIftppHOu3NE
+ vS/rn1J+Ol68jnyTrJeKwlnLij6Wk7veAxw5VdfYmMFxK01pYwQXS3WRx
+ DhgyiH9y/8I034h40L3NZi5gg8L6XjFItogFUgo5gPsNGd349ywQrJSR7 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="431532597"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="431532597"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 06:53:56 -0700
+ 25 Jul 2023 06:58:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="796155364"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="796155364"
+X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="791403492"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="791403492"
 Received: from kshutemo-mobl.ger.corp.intel.com (HELO intel.com)
  ([10.249.37.237])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 06:53:54 -0700
-Date: Tue, 25 Jul 2023 15:53:51 +0200
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 06:58:39 -0700
+Date: Tue, 25 Jul 2023 15:58:36 +0200
 From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Uwe =?iso-8859-15?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Simplify expression
- &to_i915(dev)->drm
-Message-ID: <ZL/T70yYbwvSDVWB@ashyti-mobl2.lan>
-References: <20230721212133.271118-1-u.kleine-koenig@pengutronix.de>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/huc: silence injected failure in
+ the load via GSC path
+Message-ID: <ZL/VDHoaQza3YxHx@ashyti-mobl2.lan>
+References: <20230720230505.224659-1-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230721212133.271118-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230720230505.224659-1-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,24 +59,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
+Hi Daniele,
 
-On Fri, Jul 21, 2023 at 11:21:33PM +0200, Uwe Kleine-König wrote:
-> to_i915 is defined as
+On Thu, Jul 20, 2023 at 04:05:05PM -0700, Daniele Ceraolo Spurio wrote:
+> If we can't load the HuC due to an injected failure, we don't want
+> to throw and error and trip CI. Using the gt_probe_error macro for
+> logging ensure that the error is only printed if it wasn't explicitly
+> injected.
 > 
-> 	container_of(dev, struct drm_i915_private, drm);
-> 
-> So for a struct drm_device *dev, to_i915(dev)->drm is just dev. Simplify
-> accordingly.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/7061
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
-pushed to drm-intel-next.
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
 
-Thanks,
 Andi
