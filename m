@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975D6762023
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 19:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315F37620B2
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 19:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5964910E3F5;
-	Tue, 25 Jul 2023 17:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F4610E132;
+	Tue, 25 Jul 2023 17:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AADCF10E3FD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 17:29:47 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 46e09a7af769-6b9b835d302so3658256a34.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 10:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690306187; x=1690910987;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wYTE2oqQMREoQhc08rQlAEBlcvLWLC+TPrtjtfK+Xts=;
- b=oj6lTPnRbCuuRArNHvqR4nn2ZTJ1OpG8vq4JCQm3wOwdyXap4F3cO6hokj8D6RA0I6
- ve7Oa6xHno5tZwuLmHi2d/HJhzw6/4XdnjmRVWB6uRlRofmNNeQt0hhVa9EKhyC7TlP2
- ZicQ2uBCamgky7LPEbwL/XopbjotRaB0+c/ZwLQsgRSh3F5nsVK1Sjaz+i81PyWfqkA9
- yoIahqI2s9bKeypL84y/+kgR05FcTM5t2EH2OWh0WRk3e/B4MpqdcJGXAGcWJx0xFlak
- R6nMu1cg7zga3x8HFOpmHmRXMrjB9vB3LGWYDATEQoKSWiprHps1ykF0EBU1ffjK0xF8
- 36lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690306187; x=1690910987;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wYTE2oqQMREoQhc08rQlAEBlcvLWLC+TPrtjtfK+Xts=;
- b=c9O1aOcIc8Uwase5A+EEVgzY2zBzwhT7sh8w9dab3s07Bb8M5MNJkuqBKBIv6ynzNN
- NzYT/VcGFrDS5hi9nU3TAoelwE8+0v/1FyNebHod0PgoElECCqF9zHqCDPA2eFabtePf
- Xr1IpBKGpw51+eQvdAwq6oa4hHHLATKTF8H/Q7FVMF0Ug0wRKb6pNHPn4HJZeDD+aZGy
- 7azOrAaXZ2vhdgZ5jQ8ulZOkv5SvuI/CTCTb3NciI3ZwV2Qvc3sfFMZmq7IvAF55ceGl
- 6e5CuC/A7BLRbtfxRaQu0ECDPJJBT8rPSJufF4SygrgcSyOYcOme8ha5M1DxnGCj89Nw
- 2x0A==
-X-Gm-Message-State: ABy/qLa9XEBNxgx2qZAjWRS9P129RDZwUvQ7tVC5aduL+YSriHEzGmmo
- eoyVGHg9lJPx2DiuGq+d9rbLL0DyOalVWg==
-X-Google-Smtp-Source: APBJJlGRI93PYnT5GmUmYJT0Fx3XVuDDrSRUs1GPY4FrRLeCbK8oynJsrrYot0BylySE3lOwWvkpWA==
-X-Received: by 2002:a05:6830:1d46:b0:6b8:8f20:4cbc with SMTP id
- p6-20020a0568301d4600b006b88f204cbcmr24007oth.13.1690306186785; 
- Tue, 25 Jul 2023 10:29:46 -0700 (PDT)
-Received: from local.lan ([190.97.20.29]) by smtp.gmail.com with ESMTPSA id
- p6-20020a0568301d4600b006b8b55297b5sm5215201oth.42.2023.07.25.10.29.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jul 2023 10:29:46 -0700 (PDT)
-From: Jorge Maidana <jorgem.linux@gmail.com>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/gma500: remove duplicate macro definitions
-Date: Tue, 25 Jul 2023 14:31:07 -0300
-Message-Id: <20230725173107.9593-1-jorgem.linux@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 470E310E132
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 17:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=b58HxDk4pWLDi3O792SrDwRigi4TNZsbJpTqvdkuXQw=;
+ b=LTkZxPGUiYmTXLYVZ70EIwnAuEoe8IidUv1urjDHVF5DE3iKISkV+wNHqwNX82fb7/9zJB3ERTrWM
+ bklyLi2z/tBAjWAK+ECNdJQMVcvPGEHI2tmGvpL6yBU0ydySDdUcCystBKecmscZoB6pmbc+1MZCtL
+ 7vtFk89c/Ng+awbupm6PbMATPhDFGcdSRHWbqdZnsbSTqo+ZeCnEsBMzLRmHSxvHup0/vCe0AuDWly
+ 1NBfaeOWi9c7IREaldfHCXXuIZxrLJhi4g66bi007ctX+1xa2nNPlcIWZpjU04OQrNpL1uiYbgT59z
+ iutkNuTtxPnmMmlGnnRTtwjTXcki3/Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=b58HxDk4pWLDi3O792SrDwRigi4TNZsbJpTqvdkuXQw=;
+ b=xIWNFOA9Y1e5I+D5BtIac7rX8eyu5PIYXyX3JRjEgiw/PCuSip3XrYqqz7VhOkTpSmuYrJDJcO/KG
+ yvd4QkeAg==
+X-HalOne-ID: 9a250718-2b14-11ee-9efa-99461c6a3fe8
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1 (Halon) with ESMTPSA
+ id 9a250718-2b14-11ee-9efa-99461c6a3fe8;
+ Tue, 25 Jul 2023 17:56:40 +0000 (UTC)
+Date: Tue, 25 Jul 2023 19:56:39 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] video: logo: LOGO should depend on FB_CORE i.s.o. FB
+Message-ID: <20230725175639.GC838289@ravnborg.org>
+References: <5ab3d1fe7b67ab10e4bc1bdbc0fa7731f7960965.1690300189.git.geert+renesas@glider.be>
+ <87a5vkj7qe.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdWBznkqYxCWD2uwGtWLqXnBqX1Ycg31fBDc4cq2u8DkNQ@mail.gmail.com>
+ <877cqoj5q5.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877cqoj5q5.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +59,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jorge Maidana <jorgem.linux@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove identical duplicate block of macro definitions in
-drivers/gpu/drm/gma500/psb_drv.h.
+Hi Javier,
 
-Signed-off-by: Jorge Maidana <jorgem.linux@gmail.com>
----
- drivers/gpu/drm/gma500/psb_drv.h | 8 --------
- 1 file changed, 8 deletions(-)
+> >> >  menuconfig LOGO
+> >> >       bool "Bootup logo"
+> >> > -     depends on FB || SGI_NEWPORT_CONSOLE
+> >> > +     depends on FB_CORE || SGI_NEWPORT_CONSOLE
+> >> >       help
+> >> >         Enable and select frame buffer bootup logos.
+> >>
+> >> Should then move this option to drivers/video/fbdev/core/Kconfig ?
+> >
+> > No, all logo options are in their own file.
+> >
+> 
+> Yes. I meant to move drivers/video/logo/ to drivers/fbdev/core/logo and to
+> source its Kconfig from drivers/fbdev/core/Kconfig, since it now depends
+> on FB_CORE.
+> 
+> But I see now that it also depends on SGI_NEWPORT_CONSOLE, so having those
+> in drivers/video/logo makes sense indeed.
 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index f7f709df9..6204a745d 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -161,14 +161,6 @@
- 
- #define PSB_NUM_VBLANKS 2
- 
--
--#define PSB_2D_SIZE (256*1024*1024)
--#define PSB_MAX_RELOC_PAGES 1024
--
--#define PSB_LOW_REG_OFFS 0x0204
--#define PSB_HIGH_REG_OFFS 0x0600
--
--#define PSB_NUM_VBLANKS 2
- #define PSB_WATCHDOG_DELAY (HZ * 2)
- #define PSB_LID_DELAY (HZ / 10)
- 
--- 
-2.30.2
+The SGI_NEWPORT_CONSOLE should be replaced by some ifdef in the
+newport_con.c code - to do what other drivers do.
+But thats for another day.
 
+	Sam
