@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDC0761B35
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 16:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E0F761B33
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 16:16:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E9310E3D9;
-	Tue, 25 Jul 2023 14:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 508BC10E14A;
+	Tue, 25 Jul 2023 14:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA9BF10E3D9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 14:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690294629; x=1721830629;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=eVxhmj+VYE1UrACEzYd5gGcDmS4uuwD9qqQr6Lk1mgU=;
- b=IDd8fV0XL+R1MtVsqw/EwlixJrfJbLy/EOI5vGK4lqqt5bBNOikdHMXr
- 9lfI4JIaYvkdp2PZWNeK7hNiaVgC8fTW8J3dljpig0lmA2syBmyMrWA48
- y9nFYhNhzTgl55aC+UP0CBM4JxhkcDPsXMhkIs+9L0HEM2ixvqS5rRVqT
- yH7UDpI0NR9DPD2IzP6FrAgmQ0aYE9lYfLsOx9PGZ92S7zGhvxlbCZckP
- r5yLt2HC7c9AjXzkrkU0wXlg+DRHiqJsTBwsAvpJxR6AAyNh3hYNROlyW
- JqEF5HiMYFCnJIM8v24r3uvAbaAlUfL+XQIqAxDoSbeQTFp0ahq36XfH3 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="352635104"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="352635104"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 07:16:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10782"; a="761222802"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="761222802"
-Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
- by orsmga001.jf.intel.com with ESMTP; 25 Jul 2023 07:16:03 -0700
-Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qOIpF-00001R-1E;
- Tue, 25 Jul 2023 14:15:50 +0000
-Date: Tue, 25 Jul 2023 22:14:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 6/6] drm/format-helper: Add KUnit tests for drm_fb_memcpy()
-Message-ID: <202307252148.wr2nafKj-lkp@intel.com>
-References: <20230721182316.560649-7-arthurgrillo@riseup.net>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB92810E14A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 14:16:03 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:212:79f0:c61e:ae3f:a2:fe43] (unknown
+ [IPv6:2a01:e0a:212:79f0:c61e:ae3f:a2:fe43])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: aferraris)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B90126600357;
+ Tue, 25 Jul 2023 15:16:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690294562;
+ bh=8Yx9/u1pnkdZXQC7WxaG0vujP7+zkjx6QBkYxWSjdK4=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=DKA9d51vwnwDR0IWHIyIlJrlyFdB1FrOiuAOkcot4BeSxaJtqlPgUl/j49CZMX3/A
+ 5RGxUFElafn48CtKEsQ7EQNDfmICbl4PzEEap7kmC+ABnqLuiLd1GCt63dSgKsdkv2
+ ICvvh5DNWxCx5TVa3yf0BX93OYISR3MEr5cvqtsCmAc/Rqf/h4FUj7XjmimzpYrQGL
+ QXSdGI/HLcR9NCg5OO8iJ5hkZHnLSwOMImVOh1zg5deR/R4CnILOXhK6AdKShH266h
+ fM8YSW3WblWH+9+5JSg036PP9cdrW7J21dxZzOm0/rZBtndGGlAMrwZzx3BAhNKUwd
+ 9WO2k1in5pOGg==
+Message-ID: <0623ebc5-eef8-2c93-040f-eeeabc79ce17@collabora.com>
+Date: Tue, 25 Jul 2023 16:15:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230721182316.560649-7-arthurgrillo@riseup.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Subject: Re: [PATCH v5 2/2 RESEND] drm: panel: Add novatek nt35596s panel
+ driver
+To: Linus Walleij <linus.walleij@linaro.org>
+References: <20230719152007.197710-1-arnaud.ferraris@collabora.com>
+ <20230719152007.197710-3-arnaud.ferraris@collabora.com>
+ <CACRpkdZ2Fu8jyyyDd4e1yq8g4bDoj2gCd4KnntST8uYvDNKUZw@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CACRpkdZ2Fu8jyyyDd4e1yq8g4bDoj2gCd4KnntST8uYvDNKUZw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,93 +57,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, tales.aparecida@gmail.com, javierm@redhat.com,
- mairacanal@riseup.net, davidgow@google.com, oe-kbuild-all@lists.linux.dev,
- jose.exposito89@gmail.com, andrealmeid@riseup.net, arthurgrillo@riseup.net
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Molly Sophia <mollysophia379@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arthur,
+Hi Linus,
 
-kernel test robot noticed the following build warnings:
+Le 23/07/2023 à 18:45, Linus Walleij a écrit :
+> Hi Arnaud & Molly,
+>
+> overall the driver looks very good!
+>
+> On Wed, Jul 19, 2023 at 5:20 PM Arnaud Ferraris
+> <arnaud.ferraris@collabora.com>  wrote:
+>
+>> From: Molly Sophia<mollysophia379@gmail.com>
+>>
+>> Novatek NT35596s is a generic DSI IC that drives command and video mode
+>> panels. Add the driver for it. Currently add support for the LCD panel
+>> from JDI connected with this IC, as found on Xiaomi Mi Mix2s phones.
+>>
+>> Signed-off-by: Molly Sophia<mollysophia379@gmail.com>
+>> Signed-off-by: Arnaud Ferraris<arnaud.ferraris@collabora.com>
+> (...)
+>
+>>   .../gpu/drm/panel/panel-novatek-nt36672a.c    | 251 ++++++++++++++++--
+> So are you sure the nt35596s panel driver is so similar to nt36672a that
+> they should share the same driver?
+> With all the magic number sequences I'm not so sure, do they really share
+> any of the magic numbers?
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Their magic number sequences are quite different, however all the other 
+bits (power/reset sequences and timings) fit in, which isn't the case of 
+the other novatek panel drivers. Moreover, they have similar (although 
+not identical) resolutions.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Grillo/drm-format-helper-Test-default-pitch-fallback/20230722-022649
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230721182316.560649-7-arthurgrillo%40riseup.net
-patch subject: [PATCH 6/6] drm/format-helper: Add KUnit tests for drm_fb_memcpy()
-config: nios2-randconfig-r093-20230723 (https://download.01.org/0day-ci/archive/20230725/202307252148.wr2nafKj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230725/202307252148.wr2nafKj-lkp@intel.com/reproduce)
+> If not, consider creating a new driver, and then base it on the
+> nt35510 instead.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307252148.wr2nafKj-lkp@intel.com/
+I would gladly make this a new driver, but I'd rather base it on the 
+nt36672a for the reasons mentioned above. I do fear, however, that this 
+would lead to unnecessary code duplication, as 90% of the driver (magic 
+number sequences excluded) would be identical to the nt36672a (and to be 
+fully honest, I don't think I have the needed knowledge to make it 
+"better").
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __le32 const [usertype] *buf @@     got unsigned int [usertype] *[assigned] buf @@
-   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse:     expected restricted __le32 const [usertype] *buf
-   drivers/gpu/drm/tests/drm_format_helper_test.c:856:36: sparse:     got unsigned int [usertype] *[assigned] buf
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1058:34: sparse: sparse: symbol 'fb_build_fourcc_list_cases' was not declared. Should it be static?
->> drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse:     expected unsigned int [usertype] *
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1566:27: sparse:     got restricted __le32 [usertype] *
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse:     expected unsigned int [usertype] *
-   drivers/gpu/drm/tests/drm_format_helper_test.c:1576:29: sparse:     got restricted __le32 [usertype] *
+>> +static const struct nt36672a_panel_cmd jdi_nt35596s_video_on_cmds[] = {
+>> +       { .data = { 0xff, 0x24 } },
+>> +       { .data = { 0x9d, 0x34 } },
+> (...)
+>
+> These are never nice. Do you have a datasheet so you can provide
+> defines for the magic hex values?
 
-vim +1566 drivers/gpu/drm/tests/drm_format_helper_test.c
+I found an old (2012) datasheet for the NT35596 (without the final "S") 
+which is marked "Draft", so I'm really unsure this will be enough to 
+make sense of those numbers.
 
-  1539	
-  1540	static void drm_test_fb_memcpy(struct kunit *test)
-  1541	{
-  1542		const struct multi_plane_op_case *params = test->param_value;
-  1543		const struct fb_memcpy_result *result = &params->memcpy_result;
-  1544		size_t dst_size[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1545		u32 *buf[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1546		u32 *src_cp[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1547		u32 *expected[DRM_FORMAT_MAX_PLANES] = { 0 };
-  1548		struct iosys_map dst[DRM_FORMAT_MAX_PLANES];
-  1549		struct iosys_map src[DRM_FORMAT_MAX_PLANES];
-  1550	
-  1551		struct drm_framebuffer fb = {
-  1552			.format = drm_format_info(params->format),
-  1553		};
-  1554	
-  1555		memcpy(fb.pitches, params->src_pitches, DRM_FORMAT_MAX_PLANES * sizeof(int));
-  1556	
-  1557		for (size_t i = 0; i < fb.format->num_planes; i++) {
-  1558			dst_size[i] = conversion_buf_size(params->format, result->dst_pitches[i],
-  1559							  &params->clip, i);
-  1560			KUNIT_ASSERT_GT(test, dst_size[i], 0);
-  1561	
-  1562			buf[i] = kunit_kzalloc(test, dst_size[i], GFP_KERNEL);
-  1563			KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf[i]);
-  1564			iosys_map_set_vaddr(&dst[i], buf[i]);
-  1565	
-> 1566			src_cp[i] = cpubuf_to_le32(test, params->src[i], TEST_BUF_SIZE);
-  1567			iosys_map_set_vaddr(&src[i], src_cp[i]);
-  1568		}
-  1569	
-  1570		if (result->dst_pitches[0] == TEST_USE_DEFAULT_PITCH)
-  1571			drm_fb_memcpy(dst, NULL, src, &fb, &params->clip);
-  1572		else
-  1573			drm_fb_memcpy(dst, result->dst_pitches, src, &fb, &params->clip);
-  1574	
-  1575		for (size_t i = 0; i < fb.format->num_planes; i++) {
-  1576			expected[i] = cpubuf_to_le32(test, result->expected[i], TEST_BUF_SIZE);
-  1577			KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
-  1578					       "Failed expectation on plane %zu", i);
-  1579		}
-  1580	}
-  1581	
+> The construction with these .data seqence array
+> should be replaces with some open coded sequences
+> I feel, bit this pattern is already in the driver so I guess it's OK.
+> Yours,
+> Linus Walleij
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Arnaud
