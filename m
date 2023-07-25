@@ -2,76 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13120761F7B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 18:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0182761FAD
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 19:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2F910E3E2;
-	Tue, 25 Jul 2023 16:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0792310E3E9;
+	Tue, 25 Jul 2023 17:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA1410E16B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 16:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690303815;
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 679EF10E16A;
+ Tue, 25 Jul 2023 17:00:23 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4R9NZC6kLYz9t5Y;
+ Tue, 25 Jul 2023 19:00:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1690304419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oAGhinzTt2vQmlw7Pe/EEg7jmawFpueHGoP5Q7U/hys=;
- b=a3ufwBYBI9uS4a5lZhxBbyun3aK2NI2T6CJ9+l0kjBExOA49mFbtM/b6UugyOnhg73dPw+
- UfJTswAcZ4FAzYsFu6l8YvQmAg+ZC9UBtYChtAQm5Q0l5J6oyeuX2OQ38ONziGzAec72Tn
- 5MtL5rt6Okc48dwS5FSHQMZ+KyMMyCo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-80-1_D5ljFKO7i-Ew7EoLJtkQ-1; Tue, 25 Jul 2023 12:50:13 -0400
-X-MC-Unique: 1_D5ljFKO7i-Ew7EoLJtkQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3fd2e59bc53so15804775e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 09:50:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690303812; x=1690908612;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ReBcQaJh4ciBZ53LwBH/iMnMAzVIg5ii3SO9ToZLyw4=;
- b=LUYsAIXEOpkJ69QG8dRrTsOmK5tRXVeI3cX4jQ83msetqKreG+bcy7yjkN0iRxcKSG
- 3UhE++RIeH+u35dZ4ncfQY8yY97wMpzDi9PBdFyGmNlOxEnTFYyH6ZKvn4a/Jep3SyQY
- QluXSrQ0qHYG0W/3g/j1+v7R3zX1uocz08VL2EqvmhH9d0wiPVSkJcqMxxnt+dRS/DS8
- tRFBpMmrUrj4IsVEXQjX1CFRZpCzIyo9rxmCN3kcApyXasipY7BHnKxqQ++IHhWroe0Y
- W3YV9epEOHTQGB6BXHx3rOE55XbTqmEjp8xHfTQZS7rUOtbjLxALgDmsj2+/sJDpVKVH
- 9bBQ==
-X-Gm-Message-State: ABy/qLZ7H0NWQk024ZN3UVJN+PyYJoP0s/WsRPV0oiGRZTqYs6hCFKqj
- WjFtn4AWEVcnvgWtqlR3lmohLslGWsfANf309xGl255VUosSCw3cPMOc838PEDGPZzP7CMw/oj6
- 3taJy+rFLNV4RwXcjcGOF5HG3eNmF8K/Vmba0
-X-Received: by 2002:a1c:750f:0:b0:3fb:e4ce:cc65 with SMTP id
- o15-20020a1c750f000000b003fbe4cecc65mr8474614wmc.25.1690303812289; 
- Tue, 25 Jul 2023 09:50:12 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHN82DdekK0zitC8eYAyRNRTQ+aka1Hte/M4lbyqh0MgYS8XBWVNfmNZPV6nkNQ6F6sXzyn3A==
-X-Received: by 2002:a1c:750f:0:b0:3fb:e4ce:cc65 with SMTP id
- o15-20020a1c750f000000b003fbe4cecc65mr8474601wmc.25.1690303811924; 
- Tue, 25 Jul 2023 09:50:11 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c17-20020a7bc851000000b003fc00212c1esm13464147wml.28.2023.07.25.09.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jul 2023 09:50:11 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] video: logo: LOGO should depend on FB_CORE i.s.o. FB
-In-Reply-To: <CAMuHMdWBznkqYxCWD2uwGtWLqXnBqX1Ycg31fBDc4cq2u8DkNQ@mail.gmail.com>
-References: <5ab3d1fe7b67ab10e4bc1bdbc0fa7731f7960965.1690300189.git.geert+renesas@glider.be>
- <87a5vkj7qe.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdWBznkqYxCWD2uwGtWLqXnBqX1Ycg31fBDc4cq2u8DkNQ@mail.gmail.com>
-Date: Tue, 25 Jul 2023 18:50:10 +0200
-Message-ID: <877cqoj5q5.fsf@minerva.mail-host-address-is-not-set>
+ bh=/pQQfYRCDlCBmZdXVr5vu8FxRm/DvMuMVGJa4w/JGdY=;
+ b=KCk2qgSS+AIOhowwapN+Koz2eUV8IhQmMXu3YYKqzvOV+wuLECwVmPr0VOCvgdbe71vNpp
+ 9MUvVo9tncKgrRw8kL3NhUpkDbjd0OBBrwjZXPWlIjC8XBq3Dbhx9/SPaEICLUeNHvfBQr
+ gmcv1TCV3AR4/UMdyHULWxAQn1k97kqbE5K8wGnLb2hGvnoBTdrKHbYFLJQSNrk8ymtk1j
+ Pqakchx2m8n3YtBHNwtOv9yNTAG+3Go1F7YpK4zuQuPhqNOih3DfLsmRHZ0KztaKaxYeop
+ XYwgi4PbWYCs7qHgsi2tWe6YWebFies3l+WBSUnkZum6aBlB5vbOlZxX0m8mIQ==
+Message-ID: <36bc5f30-dc72-10a3-c9cb-de9cb5400eb3@mailbox.org>
+Date: Tue, 25 Jul 2023 19:00:17 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: Non-robust apps and resets (was Re: [PATCH v5 1/1] drm/doc:
+ Document DRM device reset expectations)
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <e292a30f-5cad-1968-de4f-0d43c9c1e943@igalia.com>
+ <45a1e527-f5dc-aa6f-9482-8958566ecb96@mailbox.org>
+ <CAAxE2A6OhFVKSm8VY1iNJx_FvDH-ojfgxvSjTmJUwtcmouoLMw@mail.gmail.com>
+Content-Language: de-CH-frami, en-CA
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <CAAxE2A6OhFVKSm8VY1iNJx_FvDH-ojfgxvSjTmJUwtcmouoLMw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: qynhqbm36kdiz38f1fdiu3tjour1z9xz
+X-MBO-RS-ID: 483f794fbe48f4c4bf9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,79 +59,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
+ dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ alexander.deucher@amd.com,
+ =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
-
-> Hi Javier,
->
-> On Tue, Jul 25, 2023 at 6:07=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> Geert Uytterhoeven <geert+renesas@glider.be> writes:
->> > If CONFIG_FB_CORE=3Dy but CONFIG_FB=3Dn, the frame buffer bootup logos=
- can
->> > no longer be enabled.  Fix this by making CONFIG_LOGO depend on
->> > CONFIG_FB_CORE instead of CONFIG_FB, as there is no good reason for th=
-e
->> > logo code to depend on the presence of real frame buffer device driver=
-s.
+On 7/25/23 17:05, Marek Olšák wrote:
+> On Tue, Jul 25, 2023 at 4:03 AM Michel Dänzer
+> <michel.daenzer@mailbox.org> wrote:
+>> On 7/25/23 04:55, André Almeida wrote:
+>>> Hi everyone,
+>>>
+>>> It's not clear what we should do about non-robust OpenGL apps after GPU resets, so I'll try to summarize the topic, show some options and my proposal to move forward on that.
+>>>
+>>> Em 27/06/2023 10:23, André Almeida escreveu:
+>>>> +Robustness
+>>>> +----------
+>>>> +
+>>>> +The only way to try to keep an application working after a reset is if it
+>>>> +complies with the robustness aspects of the graphical API that it is using.
+>>>> +
+>>>> +Graphical APIs provide ways to applications to deal with device resets. However,
+>>>> +there is no guarantee that the app will use such features correctly, and the
+>>>> +UMD can implement policies to close the app if it is a repeating offender,
+>>>> +likely in a broken loop. This is done to ensure that it does not keep blocking
+>>>> +the user interface from being correctly displayed. This should be done even if
+>>>> +the app is correct but happens to trigger some bug in the hardware/driver.
+>>>> +
+>>> Depending on the OpenGL version, there are different robustness API available:
+>>>
+>>> - OpenGL ABR extension [0]
+>>> - OpenGL KHR extension [1]
+>>> - OpenGL ES extension  [2]
+>>>
+>>> Apps written in OpenGL should use whatever version is available for them to make the app robust for GPU resets. That usually means calling GetGraphicsResetStatusARB(), checking the status, and if it encounter something different from NO_ERROR, that means that a reset has happened, the context is considered lost and should be recreated. If an app follow this, it will likely succeed recovering a reset.
+>>>
+>>> What should non-robustness apps do then? They certainly will not be notified if a reset happens, and thus can't recover if their context is lost. OpenGL specification does not explicitly define what should be done in such situations[3], and I believe that usually when the spec mandates to close the app, it would explicitly note it.
+>>>
+>>> However, in reality there are different types of device resets, causing different results. A reset can be precise enough to damage only the guilty context, and keep others alive.
+>>>
+>>> Given that, I believe drivers have the following options:
+>>>
+>>> a) Kill all non-robust apps after a reset. This may lead to lose work from innocent applications.
+>>>
+>>> b) Ignore all non-robust apps OpenGL calls. That means that applications would still be alive, but the user interface would be freeze. The user would need to close it manually anyway, but in some corner cases, the app could autosave some work or the user might be able to interact with it using some alternative method (command line?).
+>>>
+>>> c) Kill just the affected non-robust applications. To do that, the driver need to be 100% sure on the impact of its resets.
+>>>
+>>> RadeonSI currently implements a), as can be seen at [4], while Iris implements what I think it's c)[5].
+>>>
+>>> For the user experience point-of-view, c) is clearly the best option, but it's the hardest to archive. There's not much gain on having b) over a), perhaps it could be an optional env var for such corner case applications.
 >>
->> Indeed.
+>> I disagree on these conclusions.
 >>
->> > Fixes: 55bffc8170bb5813 ("fbdev: Split frame buffer support in FB and =
-FB_CORE symbols")
->> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> > ---
->> >  drivers/video/Kconfig      | 2 +-
->> >  drivers/video/logo/Kconfig | 2 +-
->> >  2 files changed, 2 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
->> > index e5b1cc54cafa10d5..b694d7669d3200b1 100644
->> > --- a/drivers/video/Kconfig
->> > +++ b/drivers/video/Kconfig
->> > @@ -63,7 +63,7 @@ if VT
->> >       source "drivers/video/console/Kconfig"
->> >  endif
->> >
->> > -if FB || SGI_NEWPORT_CONSOLE
->> > +if FB_CORE || SGI_NEWPORT_CONSOLE
->> >       source "drivers/video/logo/Kconfig"
->> >
->> >  endif
->> > diff --git a/drivers/video/logo/Kconfig b/drivers/video/logo/Kconfig
->> > index 6d6f8c08792dc897..b7d94d1dd1585a84 100644
->> > --- a/drivers/video/logo/Kconfig
->> > +++ b/drivers/video/logo/Kconfig
->> > @@ -5,7 +5,7 @@
->> >
->> >  menuconfig LOGO
->> >       bool "Bootup logo"
->> > -     depends on FB || SGI_NEWPORT_CONSOLE
->> > +     depends on FB_CORE || SGI_NEWPORT_CONSOLE
->> >       help
->> >         Enable and select frame buffer bootup logos.
->>
->> Should then move this option to drivers/video/fbdev/core/Kconfig ?
->
-> No, all logo options are in their own file.
->
+>> c) is certainly better than a), but it's not "clearly the best" in all cases. The OpenGL UMD is not a privileged/special component and is in no position to decide whether or not the process as a whole (only some thread(s) of which may use OpenGL at all) gets to continue running or not.
+> 
+> That's not true.
 
-Yes. I meant to move drivers/video/logo/ to drivers/fbdev/core/logo and to
-source its Kconfig from drivers/fbdev/core/Kconfig, since it now depends
-on FB_CORE.
+Which part of what I wrote are you referring to?
 
-But I see now that it also depends on SGI_NEWPORT_CONSOLE, so having those
-in drivers/video/logo makes sense indeed.
 
---=20
-Best regards,
+> I recommend that you enable b) with your driver and then hang the GPU under different scenarios and see the result.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+I've been doing GPU driver development for over two decades, I'm perfectly aware what it means. It doesn't change what I wrote above.
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
