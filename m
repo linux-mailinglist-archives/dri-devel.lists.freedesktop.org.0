@@ -2,63 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FC17621C9
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 20:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3246E7621DF
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 20:58:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D9310E3EC;
-	Tue, 25 Jul 2023 18:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F5710E16E;
+	Tue, 25 Jul 2023 18:58:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2401410E16E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 18:50:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DD51F1F38C;
- Tue, 25 Jul 2023 18:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690311044; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yflSHrM/7ZrA3cNrHkIst3Ykk290hSPumnqNEi5LzRs=;
- b=ZbBsGU11PvT1+oIS5U9p2+uZmPe3NrsR9Xyc4hTM2tsnXy1wqOA2aPT1aHlPDDEGyUprD+
- Fk4D58VKfaVdSDhe54bN7KqqGvPoz8BQfTD+vKC9c2X1qZ9ks6C2GsdcFZuzRJn3h3AGd5
- XCR+vxPdDBkUz24l3eXV60aqNKPRQd0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690311044;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yflSHrM/7ZrA3cNrHkIst3Ykk290hSPumnqNEi5LzRs=;
- b=Ku61Mn4xUD++n+ZcI0f300XV2tADC+3q4hvNzOsp/PFeAG9dEA1ZXSrIeYRZhO/jSlzPsu
- /R25oZaCicIPmxCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BAB1613487;
- Tue, 25 Jul 2023 18:50:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bLOOLIQZwGQ9fgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Jul 2023 18:50:44 +0000
-Message-ID: <77a41226-b671-1895-6182-457f7fee9bda@suse.de>
-Date: Tue, 25 Jul 2023 20:50:43 +0200
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEA8B10E16E;
+ Tue, 25 Jul 2023 18:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=X0R22BGbmRjXXZscNgSBbP4wiQyyIcB9qX3GclN3VKQ=; b=pMHzyljz3zocsCU3tG8KLgimld
+ AHsticsdDT5NHdPPBL5+fpo+9omp3YmofR8Zwa317kF/DgNvm/9XPvQuXDpOdnfCslAtEAoLt1+zT
+ AURHv8Doe0j2pA0GGUU5hmZWOkOB8hY8lebFHPL7ZVR8qayQsM1yxoXjSN2ClZWLW/J4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1qONEL-002IX2-IB; Tue, 25 Jul 2023 20:57:57 +0200
+Date: Tue, 25 Jul 2023 20:57:57 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Quan, Evan" <Evan.Quan@amd.com>
+Subject: Re: [PATCH V7 4/9] wifi: mac80211: Add support for ACPI WBRF
+Message-ID: <d4cfbbae-9cd0-4767-8c80-ec09d1dbaf9c@lunn.ch>
+References: <20230719090020.2716892-1-evan.quan@amd.com>
+ <20230719090020.2716892-5-evan.quan@amd.com>
+ <9b1f45f9-02a3-4c03-b9d5-cc3b9ab3a058@lunn.ch>
+ <7d059aed-fac0-cdcd-63d5-58185bb345db@amd.com>
+ <DM6PR12MB26196A993B3BA93392AA0FEDE403A@DM6PR12MB2619.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/shmem-helper: Reset vma->vm_ops before calling
- dma_buf_mmap()
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20230724112610.60974-1-boris.brezillon@collabora.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230724112610.60974-1-boris.brezillon@collabora.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------2RAtmm0UdYst3US6QvqHJVbd"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM6PR12MB26196A993B3BA93392AA0FEDE403A@DM6PR12MB2619.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,94 +49,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Roman Stratiienko <roman.stratiienko@globallogic.com>, stable@vger.kernel.org
+Cc: "jingyuwang_vip@163.com" <jingyuwang_vip@163.com>,
+ "bellosilicio@gmail.com" <bellosilicio@gmail.com>,
+ "rafael@kernel.org" <rafael@kernel.org>, "trix@redhat.com" <trix@redhat.com>,
+ "Lazar, Lijo" <Lijo.Lazar@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mdaenzer@redhat.com" <mdaenzer@redhat.com>, "Limonciello,
+ Mario" <Mario.Limonciello@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+ "lenb@kernel.org" <lenb@kernel.org>,
+ "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
+ "arnd@arndb.de" <arnd@arndb.de>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "edumazet@google.com" <edumazet@google.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>,
+ "johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+ "davem@davemloft.net" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------2RAtmm0UdYst3US6QvqHJVbd
-Content-Type: multipart/mixed; boundary="------------ivtOjhe6YB0FypaNcq46p9vk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, stable@vger.kernel.org,
- Roman Stratiienko <roman.stratiienko@globallogic.com>
-Message-ID: <77a41226-b671-1895-6182-457f7fee9bda@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Reset vma->vm_ops before calling
- dma_buf_mmap()
-References: <20230724112610.60974-1-boris.brezillon@collabora.com>
-In-Reply-To: <20230724112610.60974-1-boris.brezillon@collabora.com>
+> > >> @@ -1395,6 +1395,8 @@ int ieee80211_register_hw(struct
+> > ieee80211_hw *hw)
+> > >>    debugfs_hw_add(local);
+> > >>    rate_control_add_debugfs(local);
+> > >>
+> > >> +  ieee80211_check_wbrf_support(local);
+> > >> +
+> > >>    rtnl_lock();
+> > >>    wiphy_lock(hw->wiphy);
+> > >>
+> > >
+> > >> +void ieee80211_check_wbrf_support(struct ieee80211_local *local) {
+> > >> +  struct wiphy *wiphy = local->hw.wiphy;
+> > >> +  struct device *dev;
+> > >> +
+> > >> +  if (!wiphy)
+> > >> +          return;
+> > >> +
+> > >> +  dev = wiphy->dev.parent;
+> > >> +  if (!dev)
+> > >> +          return;
+> > >> +
+> > >> +  local->wbrf_supported = wbrf_supported_producer(dev);
+> > >> +  dev_dbg(dev, "WBRF is %s supported\n",
+> > >> +          local->wbrf_supported ? "" : "not"); }
+> > >
+> > > This seems wrong. wbrf_supported_producer() is about "Should this
+> > > device report the frequencies it is using?" The answer to that depends
+> > > on a combination of: Are there consumers registered with the core, and
+> > > is the policy set so WBRF should take actions. > The problem here is,
+> > > you have no idea of the probe order. It could be this device probes
+> > > before others, so wbrf_supported_producer() reports false, but a few
+> > > second later would report true, once other devices have probed.
+> > >
+> > > It should be an inexpensive call into the core, so can be made every
+> > > time the channel changes. All the core needs to do is check if the
+> > > list of consumers is empty, and if not, check a Boolean policy value.
+> > >
+> > >       Andrew
+> >
+> > No, it's not a combination of whether consumers are registered with the core.
+> > If a consumer probes later it needs to know the current in use frequencies too.
+> >
+> > The reason is because of this sequence of events:
+> > 1) Producer probes.
+> > 2) Producer selects a frequency.
+> > 3) Consumer probes.
+> > 4) Producer stays at same frequency.
+> >
+> > If the producer doesn't notify the frequency because a consumer isn't yet
+> > loaded then the consumer won't be able to get the current frequency.
+> Yes, exactly.
 
---------------ivtOjhe6YB0FypaNcq46p9vk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+So now we are back to, what is the point of wbrf_supported_producer()?
 
-SGkNCg0KQW0gMjQuMDcuMjMgdW0gMTM6MjYgc2NocmllYiBCb3JpcyBCcmV6aWxsb246DQo+
-IFRoZSBkbWEtYnVmIGJhY2tlbmQgaXMgc3VwcG9zZWQgdG8gcHJvdmlkZSBpdHMgb3duIHZt
-X29wcywgYnV0IHNvbWUNCj4gaW1wbGVtZW50YXRpb24ganVzdCBoYXZlIG5vdGhpbmcgc3Bl
-Y2lhbCB0byBkbyBhbmQgbGVhdmUgdm1fb3BzDQo+IHVudG91Y2hlZCwgcHJvYmFibHkgZXhw
-ZWN0aW5nIHRoaXMgZmllbGQgdG8gYmUgemVybyBpbml0aWFsaXplZCAodGhpcw0KPiBpcyB0
-aGUgY2FzZSB3aXRoIHRoZSBzeXN0ZW1faGVhcCBpbXBsZW1lbnRhdGlvbiBmb3IgaW5zdGFu
-Y2UpLg0KPiBMZXQncyByZXNldCB2bWEtPnZtX29wcyB0byBOVUxMIHRvIGtlZXAgdGhpbmdz
-IHdvcmtpbmcgd2l0aCB0aGVzZQ0KPiBpbXBsZW1lbnRhdGlvbnMuDQoNClRoYW5rcyBmb3Ig
-eW91ciBwYXRjaC4gVGhpcyBidWcgY291bGQgYWZmZWN0IGEgbnVtYmVyIG9mIEdFTSANCmlt
-cGxlbWVudGF0aW9ucy4gSW5zdGVhZCBvZiBmaXhpbmcgdGhpcyBpbmRpdmlkdWFsbHksIGNv
-dWxkIHdlIHNldCB0aGUgDQpmaWVsZHMgY29uZGl0aW9uYWxseSBhdA0KDQogDQpodHRwczov
-L2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni40L3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbS5jI0wxMDQyDQoNCj8NCg0KU29tZXRoaW5nIGxpa2UNCg0KICAgaWYgKCFvYmpl
-Y3QtPmltcG9ydF9hdHRhY2gpIHsNCiAgICAgdm1hLT5wcml2ID0NCiAgICAgdm1hLT5vcHMg
-PQ0KICAgfQ0KDQpwbHVzIGEgZGVzY3JpcHRpdmUgY29tbWVudCBsaWtlIHRoZSBvbmUgeW91
-IGhhdmUgaW4geW91ciBwYXRjaC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
-Rml4ZXM6IDI2ZDNhYzNjYjA0ZCAoImRybS9zaG1lbS1oZWxwZXJzOiBSZWRpcmVjdCBtbWFw
-IGZvciBpbXBvcnRlZCBkbWEtYnVmIikNCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3Jn
-Pg0KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4gUmVw
-b3J0ZWQtYnk6IFJvbWFuIFN0cmF0aWllbmtvIDxyb21hbi5zdHJhdGlpZW5rb0BnbG9iYWxs
-b2dpYy5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJl
-emlsbG9uQGNvbGxhYm9yYS5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1f
-Z2VtX3NobWVtX2hlbHBlci5jIHwgNiArKysrKysNCj4gICAxIGZpbGUgY2hhbmdlZCwgNiBp
-bnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9n
-ZW1fc2htZW1faGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxw
-ZXIuYw0KPiBpbmRleCA0ZWE2NTA3YTc3ZTUuLmJhYWYwZTBmZWIwNiAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMNCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMNCj4gQEAgLTYyMyw3ICs2MjMs
-MTMgQEAgaW50IGRybV9nZW1fc2htZW1fbW1hcChzdHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmpl
-Y3QgKnNobWVtLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QNCj4gICAJaW50IHJldDsNCj4gICAN
-Cj4gICAJaWYgKG9iai0+aW1wb3J0X2F0dGFjaCkgew0KPiArCQkvKiBSZXNldCBib3RoIHZt
-X29wcyBhbmQgdm1fcHJpdmF0ZV9kYXRhLCBzbyB3ZSBkb24ndCBlbmQgdXAgd2l0aA0KPiAr
-CQkgKiB2bV9vcHMgcG9pbnRpbmcgdG8gb3VyIGltcGxlbWVudGF0aW9uIGlmIHRoZSBkbWEt
-YnVmIGJhY2tlbmQNCj4gKwkJICogZG9lc24ndCBzZXQgdGhvc2UgZmllbGRzLg0KPiArCQkg
-Ki8NCj4gICAJCXZtYS0+dm1fcHJpdmF0ZV9kYXRhID0gTlVMTDsNCj4gKwkJdm1hLT52bV9v
-cHMgPSBOVUxMOw0KPiArDQo+ICAgCQlyZXQgPSBkbWFfYnVmX21tYXAob2JqLT5kbWFfYnVm
-LCB2bWEsIDApOw0KPiAgIA0KPiAgIAkJLyogRHJvcCB0aGUgcmVmZXJlbmNlIGRybV9nZW1f
-bW1hcF9vYmooKSBhY3F1aXJlZC4qLw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
-aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
-IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpH
-RjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBN
-b2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+I'm talking general case here, not your ACPI implementation. All i'm
+really interested in is the generic API, which is what an Intel CPU,
+combined with a Radieon GPU and a Qualcomm WiFi device will use. Or an
+AMD CPU combined with an nvidia GPU and a Mediatek Wifi, etc. The wbrf
+core should support an combination of produces and consumers in a
+generic way.
 
---------------ivtOjhe6YB0FypaNcq46p9vk--
+If you assume devices can probe in any order, and come and go, it
+seems like the producers need to always report what frequencies they
+are using. Otherwise when a noise generator pops into existence, as
+you say, it has no idea what frequencies the producers are using.
 
---------------2RAtmm0UdYst3US6QvqHJVbd
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The exception is when policy says there is no need to actually do
+anything. If we can assume the policy is fixed, then
+wbrf_supported_producer() could just report the policy which the wbrf
+core should know about.
 
------BEGIN PGP SIGNATURE-----
+    Andrew
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTAGYMFAwAAAAAACgkQlh/E3EQov+CJ
-Fw/+L8VLenUfBFUFhJfRDdgqlUzxi2WdsiD1wI56Pk7rYL5Fw/reJt68Na1jjvnht1mlHiAT6LUS
-wdswkaDLemIurdgsM//0JB0sdMjsMG/T0AghuTOzj+zp1UvbvAw/92y92rrX6QHUagZ+ed/GigjA
-zAPfwTdc2T4KapweDx8imXv/0QLGYxKugWFd6YEvQD2jdIJtZDHFPcVso5W4S2ZeFN0sGWPUJGUf
-QGptSRLu7rNt9w79m5+7SiiKvmgabtWHry9/sRy1V3qr6ej7bF4lap6VDGDv1xKi97whDT7kJe2N
-Hn+tNaD3M4qYBrV4eOmNtHQuUcxnDrQ5tNZTkqKAVhoCDbHk1wyBOiP1FhOC7wbJKo/656civjUf
-YilTLONXQ6NbJixEd9XpINbGnIEHY06FBOzOj/xdN6t+MKoJU+tw8za7glUVFTjE6knb61lEg2+R
-GBUX3vaL4uSys5t30YYYRy0Ts7rKfuzLNJ0j5qgwu4AzZEOamGQDy3DhmZJAoZyJzRJU91IqL02U
-QPE3C01gHzl75MJ6shrMhHsf3DX5RiviBUP6IkS4uD2YKhEiXANBOvJU6B+Bm7HHbvij5dBd0/7n
-o5534eXIMMRcAS1Py35yghnazRjHV+0L8IxbaVplYKMJ4zWpgPA1KV/qPAAEUS/Dei+vc8GAAJF1
-2tE=
-=UAUu
------END PGP SIGNATURE-----
-
---------------2RAtmm0UdYst3US6QvqHJVbd--
