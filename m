@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EF5761D38
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 17:22:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77691761D59
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 17:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEE3F10E140;
-	Tue, 25 Jul 2023 15:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D84C910E3DC;
+	Tue, 25 Jul 2023 15:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8356910E140;
- Tue, 25 Jul 2023 15:22:32 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id
- 5614622812f47-3a5ac84718dso2223432b6e.0; 
- Tue, 25 Jul 2023 08:22:32 -0700 (PDT)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5BC710E3DC;
+ Tue, 25 Jul 2023 15:26:35 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ 006d021491bc7-563439ea4a2so3802695eaf.0; 
+ Tue, 25 Jul 2023 08:26:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690298551; x=1690903351;
+ d=gmail.com; s=20221208; t=1690298795; x=1690903595;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jBTTS5RF7AIv64GVj2b4Qc7prXLaZW3IGjOwlTzQwuo=;
- b=lC8/Fq/kL5m6P1170AK5xtk0Zo8tWN7L+16SdgkjbX0m1p1bFbPzSfDQ85nvq4uhow
- bmVViJgCbKdtExT7yseMBW5Dgkk95aSwnm+v2p0z68A6adWIBwMIDRsV9k1hZ/dh59qT
- BF0ghVJj4PZvV7khI+sdW0LuDoXyU4wk1BiVMCuXHVgKil0C1UT/DgkM0xfscM8tTeDG
- 80FxLV7yGk2PEZb14frViyEbbRlulFObqFm58sHDOU0q2PD9nB6fUMSVGXUhzQtywVTL
- 0xmYZEwS/yVFNlB6tK0+h/hsOBWO8msdpDrRTVeAf/dnWPHREivrqCvqAsSqYpmyma+f
- geOg==
+ bh=0fUeb8wxv7pK70JGK+OzUJpuT5a5QL825TOjXkooBTM=;
+ b=p4SlQTlBOX7qsNpWJHDm7lTzaQL8Y5qyTltfb4csDTCYNaRA8vscclEMiy+WAo9Omu
+ TtGfjFLmQXv5CkZCDyTIjjsOQDvBy9vL2ZYzFzDJdS7Ui02dVc0j9z1FcfMn0tnMFstD
+ fFm3dwv5KHD3NBdbKHxs23YWjZlhEnoiOYjaZcY5RtFrRpaeTizazIjQKOwYiXML99hK
+ bqU8+OyXuPwAOxpDqSrAR7OGJeL4PGwL0aUtfkm5X5K7Eh4nG9yXPRlaHB8Oi4lv4rzE
+ EuztkTxWpR8U+mhUkhUjbZp0aIPYPKRhjX11cc4jnGr/f5gc6mx9uQp2wzScbEGeRvh0
+ ZvYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690298551; x=1690903351;
+ d=1e100.net; s=20221208; t=1690298795; x=1690903595;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jBTTS5RF7AIv64GVj2b4Qc7prXLaZW3IGjOwlTzQwuo=;
- b=hvqVBd/r5xkHZsJIqfQ9iBAgfGSb6DAGsJCNgSP7Rzh+oHzV0JO6xj2A7mw8IjIGbY
- khaoAw5Fu43hWq3s/Jav82pQaRvp0ciQcD5LtAK+bkwGsENDFhqpOZ6jCxUtLiD6zq7X
- Trjr/jxoyh+BKy3NBvcJ+sOo0MFhioFaoVkzU/WGMA0gfdDYqYQtgagRt6ynuVNwMxJL
- JiybNAXXNRYBBsdONsxhdxzTGjmJOM1XPlTEg2iXY6dDnaYJGzFTWdw0GqH2fDd5n8Ca
- 86iE+1cJrz0zRiMLOqzrTHW8ejCZfjTZIBsCwEUgz13IC4OjG7kqSQpT7IN6/YnViXXt
- kSug==
-X-Gm-Message-State: ABy/qLaK8sw+HjAGZZbhvDGP2VbOQfYNNU+N0Vi+4u7FwxFUTqHdqfhu
- 7p72yoAKakwsqSVFU4HRHvdE+vS36NG7BhpIpvs=
-X-Google-Smtp-Source: APBJJlFcdxcbcpR8u6vg6ikZOSDY7y4ippoWDRSFzG6NIvfv+Vvez0j9T9fTaD+gzpr4jjBxct3l5nG4o9AQ9xFFzp0=
-X-Received: by 2002:a05:6808:182a:b0:3a5:a78b:f773 with SMTP id
- bh42-20020a056808182a00b003a5a78bf773mr12122118oib.6.1690298551704; Tue, 25
- Jul 2023 08:22:31 -0700 (PDT)
+ bh=0fUeb8wxv7pK70JGK+OzUJpuT5a5QL825TOjXkooBTM=;
+ b=IDJt9oJ+J1XD3DMEjPv3jgGpOCqG4OLBLvSaMlI41i1AcKpfOyK2h2CFyAva9oY8b1
+ HJH6BSFZsW9m4guwweTtjh0Xq7kKnoWAbIHYTH6u3ShK9KjS/2QGHMpQxb3rKlJKmGDE
+ 4TZCBoz8591F415VnXzsTamrPhjNIfID7+xP/rzVLl+h1pJh7OOdX1JM7oHGa9ln9/Dy
+ BOK3Q6fRxbeVqeE/ws7S3NYdg5TnjMP6ADMEtY93WXHHevmUZCHv2iBugmhdCPQPHPaX
+ +M0y/BRf+pbPd2uiMX41Nh8XSRn7CYXq8GSN1bj+D6UYHbRQC2OpxDLsPHm7sRJDenke
+ Uyfg==
+X-Gm-Message-State: ABy/qLbkSzWb8yniO9BfHKAtuP09hLYDNkGop2mWrsxrqienBY6ELIg4
+ KLAkIH6gKtN0VV2wk37zfUtcnkFS5I5bR7Xpyk0=
+X-Google-Smtp-Source: APBJJlEpTSUxyD+aoX0PG6FBzZg8ZBF0TeoTZhOm/IDSTSaDySFrvJAfT2bgxHD8GdcysYxS7w0r1B6khv4/MuoLp+w=
+X-Received: by 2002:a05:6808:192a:b0:3a3:f237:61db with SMTP id
+ bf42-20020a056808192a00b003a3f23761dbmr18906337oib.11.1690298794976; Tue, 25
+ Jul 2023 08:26:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230725080906.2028-1-zhanglibing@cdjrlc.com>
- <b5933d7391b8e526894316b7e17b9637@208suo.com>
-In-Reply-To: <b5933d7391b8e526894316b7e17b9637@208suo.com>
+References: <20230725043946.33470-1-zhanglibing@cdjrlc.com>
+ <6bf7217253d188c37004e8793bd58c88@208suo.com>
+In-Reply-To: <6bf7217253d188c37004e8793bd58c88@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 25 Jul 2023 11:22:20 -0400
-Message-ID: <CADnq5_NtPtoGDhdx8CwwPUdqrk-goJU4V-FOTPn5_pNv-hbjDg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: ERROR: "foo * bar" should be "foo *bar"
+Date: Tue, 25 Jul 2023 11:26:23 -0400
+Message-ID: <CADnq5_Pk=zvAeHPjFT3=ZdLPKAzyMEyD-uxtfAB84nFtYsM9gA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Fix format error
 To: wuyonggang001@208suo.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,39 +74,51 @@ Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I applied the same patch from Ran yesterday.
+Applied.  Thanks!
 
-Thanks!
-
-Alex
-
-On Tue, Jul 25, 2023 at 9:23=E2=80=AFAM <wuyonggang001@208suo.com> wrote:
+On Tue, Jul 25, 2023 at 3:19=E2=80=AFAM <wuyonggang001@208suo.com> wrote:
 >
 > Fix the error(s):
-> ERROR: "foo * bar" should be "foo *bar"
+>
+> ERROR: space required before the open parenthesis '('
 >
 > Signed-off-by: Yonggang Wu <wuyonggang001@208suo.com>
 > ---
->   drivers/gpu/drm/radeon/atom.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/radeon/r300.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/atom.c
-> b/drivers/gpu/drm/radeon/atom.c
-> index 11a1940bb26d..93acb0e42bd6 100644
-> --- a/drivers/gpu/drm/radeon/atom.c
-> +++ b/drivers/gpu/drm/radeon/atom.c
-> @@ -68,8 +68,8 @@ typedef struct {
->   } atom_exec_context;
+> diff --git a/drivers/gpu/drm/radeon/r300.c
+> b/drivers/gpu/drm/radeon/r300.c
+> index 9c1a92fa2af6..25201b9a5aae 100644
+> --- a/drivers/gpu/drm/radeon/r300.c
+> +++ b/drivers/gpu/drm/radeon/r300.c
+> @@ -249,7 +249,7 @@ void r300_ring_start(struct radeon_device *rdev,
+> struct radeon_ring *ring)
 >
->   int atom_debug =3D 0;
-> -static int atom_execute_table_locked(struct atom_context *ctx, int
-> index, uint32_t * params);
-> -int atom_execute_table(struct atom_context *ctx, int index, uint32_t *
-> params);
-> +static int atom_execute_table_locked(struct atom_context *ctx, int
-> index, uint32_t *params);
-> +int atom_execute_table(struct atom_context *ctx, int index, uint32_t
-> *params);
+>         /* Sub pixel 1/12 so we can have 4K rendering according to doc */
+>         gb_tile_config =3D (R300_ENABLE_TILING | R300_TILE_SIZE_16);
+> -       switch(rdev->num_gb_pipes) {
+> +       switch (rdev->num_gb_pipes) {
+>         case 2:
+>                 gb_tile_config |=3D R300_PIPE_COUNT_R300;
+>                 break;
+> @@ -638,7 +638,7 @@ static int r300_packet0_check(struct
+> radeon_cs_parser *p,
+>         track =3D (struct r100_cs_track *)p->track;
+>         idx_value =3D radeon_get_ib_value(p, idx);
 >
->   static uint32_t atom_arg_mask[8] =3D {
->         0xFFFFFFFF, 0x0000FFFF, 0x00FFFF00, 0xFFFF0000,
+> -       switch(reg) {
+> +       switch (reg) {
+>         case AVIVO_D1MODE_VLINE_START_END:
+>         case RADEON_CRTC_GUI_TRIG_VLINE:
+>                 r =3D r100_cs_packet_parse_vline(p);
+> @@ -1180,7 +1180,7 @@ static int r300_packet3_check(struct
+> radeon_cs_parser *p,
+>         ib =3D p->ib.ptr;
+>         idx =3D pkt->idx + 1;
+>         track =3D (struct r100_cs_track *)p->track;
+> -       switch(pkt->opcode) {
+> +       switch (pkt->opcode) {
+>         case PACKET3_3D_LOAD_VBPNTR:
+>                 r =3D r100_packet3_load_vbpntr(p, pkt, idx);
+>                 if (r)
