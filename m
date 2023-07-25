@@ -2,43 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785337619B6
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 15:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74870761956
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 15:08:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 261DB10E147;
-	Tue, 25 Jul 2023 13:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 003F910E139;
+	Tue, 25 Jul 2023 13:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 907 seconds by postgrey-1.36 at gabe;
- Tue, 25 Jul 2023 13:20:59 UTC
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3957310E147;
- Tue, 25 Jul 2023 13:20:59 +0000 (UTC)
-Received: from dggpemm100006.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4R9HLZ5SPHzrS0c;
- Tue, 25 Jul 2023 21:04:54 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm100006.china.huawei.com (7.185.36.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 25 Jul 2023 21:05:47 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 25 Jul
- 2023 21:05:46 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/display: Fix missing unlock in
- dm_handle_mst_sideband_msg_ready_event()
-Date: Tue, 25 Jul 2023 21:03:17 +0800
-Message-ID: <20230725130317.569535-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C944910E139;
+ Tue, 25 Jul 2023 13:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690290475; x=1721826475;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=nXoPnir6ZLUVtzSW+ufaogqAI+6mPetA31I3T0am5Y0=;
+ b=FK3kAn3kZLSwMAdSbTaads3LPTSrD5N2KjB2Vk9uAu9nRK7M/u1ka+vh
+ KvcbAU80DN6wbeHDH7vPT07c7ivbNxRk95h32qETG/JzmwofNGQVlAHqd
+ S/+SNT2D7+Tjwh2ZyGpTwMASTpHv1+gkhqF5hfQZcYthe2e1BhLaicz6V
+ XF1MYkRg9e7dPUpXZSjtKxJHydZpcCSgF3e4qW9TRJpiDZwrm92Bn3ORo
+ TsjSWHXwdiHInZSgo8NIVOWiEOuKyrQAY/bJb3qvKRRJRuYiL71RQ7yGO
+ LidWD33bc026UxLaejNyHhBmSPO7VIStgIM7mChTb8j1eSk6LyKPRlKU5 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="371324079"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="371324079"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 06:06:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="972676292"
+X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="972676292"
+Received: from kshutemo-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.249.37.237])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2023 06:06:54 -0700
+Date: Tue, 25 Jul 2023 15:06:51 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Uwe =?iso-8859-15?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Simplify expression
+ &to_i915(dev)->drm
+Message-ID: <ZL/I6zGfNvM/D9t6@ashyti-mobl2.lan>
+References: <20230721212133.271118-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20230721212133.271118-1-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,32 +60,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: haoping.liu@amd.com, wayne.lin@amd.com, daniel.wheeler@amd.com,
- jerry.zuo@amd.com, yangyingliang@huawei.com, alexander.deucher@amd.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing mutex_unlock() in error path in
-dm_handle_mst_sideband_msg_ready_event().
+Hi Uwe,
 
-Fixes: 4f6d9e38c4d2 ("drm/amd/display: Add polling method to handle MST reply packet")
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, Jul 21, 2023 at 11:21:33PM +0200, Uwe Kleine-König wrote:
+> to_i915 is defined as
+> 
+> 	container_of(dev, struct drm_i915_private, drm);
+> 
+> So for a struct drm_device *dev, to_i915(dev)->drm is just dev. Simplify
+> accordingly.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 1abdec14344e..cddb91cf3dde 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -707,6 +707,7 @@ void dm_handle_mst_sideband_msg_ready_event(
- 
- 			if (retry == 3) {
- 				DRM_ERROR("Failed to ack MST event.\n");
-+				mutex_unlock(&aconnector->handle_mst_msg_ready);
- 				return;
- 			}
- 
--- 
-2.25.1
+that's correct! Thanks for the cleanup.
 
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> 
+
+Andi
