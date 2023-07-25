@@ -2,52 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C43760C98
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 10:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C200E760D0B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 10:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4DE910E3BD;
-	Tue, 25 Jul 2023 08:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11D9D10E3C1;
+	Tue, 25 Jul 2023 08:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org
- [IPv6:2001:67c:2050:0:465::102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264CD10E3BC;
- Tue, 25 Jul 2023 08:03:46 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 878A610E3C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 08:32:38 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4R98g24n4pz9slt;
- Tue, 25 Jul 2023 10:03:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1690272222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=buprnnb3RBHF65zwm/IwwS5+aARu3i5003bm80ROWy0=;
- b=SMCmyN7j9PVny7FrxgViukvSyWbJbnyin+9i3/syIV7wvZj88g0WycRcQdex1QetW2IciC
- VvV997rgBQ04GtsEi4afak6/oJ82q/EP1Sixhh4AozCWGrfscEbJB5oTuq/drdllrij4U4
- 3zBEKDeJLCCszasmOi80lQfR5HgHc45T8vVfJBdOhs8Wr4zB1nMYunNGiY3+i6xh2vbj9+
- 8cOGV8gNDxujBtcO3eNKtmSJeygLwfbmRJcnC4TOoeO0lWo/7rfBd5Wd+BtvBLFcVT2JCO
- dLGp1OX7zh4wg9xXKCIAcrm5fscLWqpIxn+KTZppI0hJig7zyPFqvZHd+55hig==
-Message-ID: <45a1e527-f5dc-aa6f-9482-8958566ecb96@mailbox.org>
-Date: Tue, 25 Jul 2023 10:03:39 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A006D6607108;
+ Tue, 25 Jul 2023 09:32:36 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690273957;
+ bh=fYsygSwR3iu7mxcj3ju5lzqiPYT3fINyEw+FYMQafkA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=SqAm7vrvN+PEUv3NXhBV9qAufLRUwnMHxPkR/zPcTMYTi0rDj+BGxjPkT24pvyvNq
+ 86yrtnkmqodrtGKOry1iRuEckcwqkOT++jVk/FWwLbV3AD7oC4Owqe4J/A/dWrj5YT
+ Uo7UiSA1pZd0uimOcLxrL8v5KoOyuXyvsEAA0S0AbXO/ayh5C1ZRl8kcqItBSeovvq
+ wsAeWSoQJEB9RI1l1eKt4Z0DppvttCI7hqV6DKTCdKfLKQ09WVzQHC3sSPxqGoKBhF
+ 8PjVIWuwgHqY8o9TYeTfK7SFFhGj4KvpTFgK6LvtLmffobWFFfEQ7IaYkJi22+ta9D
+ 32iOWIcFyfODA==
+Date: Tue, 25 Jul 2023 10:32:34 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v14 02/12] drm/shmem-helper: Add pages_pin_count field
+Message-ID: <20230725103234.0c8923f1@collabora.com>
+In-Reply-To: <20230725092709.51356f39@collabora.com>
+References: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
+ <20230722234746.205949-3-dmitry.osipenko@collabora.com>
+ <20230725092709.51356f39@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: Non-robust apps and resets (was Re: [PATCH v5 1/1] drm/doc:
- Document DRM device reset expectations)
-Content-Language: de-CH-frami, en-CA
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
- <e292a30f-5cad-1968-de4f-0d43c9c1e943@igalia.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <e292a30f-5cad-1968-de4f-0d43c9c1e943@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 5k4x7euhw4r53ugwmd8sug3xp1cxcoqf
-X-MBO-RS-ID: 9afac7eeae3d16ec584
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,73 +55,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/25/23 04:55, André Almeida wrote:
-> Hi everyone,
-> 
-> It's not clear what we should do about non-robust OpenGL apps after GPU resets, so I'll try to summarize the topic, show some options and my proposal to move forward on that.
-> 
-> Em 27/06/2023 10:23, André Almeida escreveu:
->> +Robustness
->> +----------
->> +
->> +The only way to try to keep an application working after a reset is if it
->> +complies with the robustness aspects of the graphical API that it is using.
->> +
->> +Graphical APIs provide ways to applications to deal with device resets. However,
->> +there is no guarantee that the app will use such features correctly, and the
->> +UMD can implement policies to close the app if it is a repeating offender,
->> +likely in a broken loop. This is done to ensure that it does not keep blocking
->> +the user interface from being correctly displayed. This should be done even if
->> +the app is correct but happens to trigger some bug in the hardware/driver.
->> +
-> Depending on the OpenGL version, there are different robustness API available:
-> 
-> - OpenGL ABR extension [0]
-> - OpenGL KHR extension [1]
-> - OpenGL ES extension  [2]
-> 
-> Apps written in OpenGL should use whatever version is available for them to make the app robust for GPU resets. That usually means calling GetGraphicsResetStatusARB(), checking the status, and if it encounter something different from NO_ERROR, that means that a reset has happened, the context is considered lost and should be recreated. If an app follow this, it will likely succeed recovering a reset.
-> 
-> What should non-robustness apps do then? They certainly will not be notified if a reset happens, and thus can't recover if their context is lost. OpenGL specification does not explicitly define what should be done in such situations[3], and I believe that usually when the spec mandates to close the app, it would explicitly note it.
-> 
-> However, in reality there are different types of device resets, causing different results. A reset can be precise enough to damage only the guilty context, and keep others alive.
-> 
-> Given that, I believe drivers have the following options:
-> 
-> a) Kill all non-robust apps after a reset. This may lead to lose work from innocent applications.
-> 
-> b) Ignore all non-robust apps OpenGL calls. That means that applications would still be alive, but the user interface would be freeze. The user would need to close it manually anyway, but in some corner cases, the app could autosave some work or the user might be able to interact with it using some alternative method (command line?).
-> 
-> c) Kill just the affected non-robust applications. To do that, the driver need to be 100% sure on the impact of its resets.
-> 
-> RadeonSI currently implements a), as can be seen at [4], while Iris implements what I think it's c)[5].
-> 
-> For the user experience point-of-view, c) is clearly the best option, but it's the hardest to archive. There's not much gain on having b) over a), perhaps it could be an optional env var for such corner case applications.
+On Tue, 25 Jul 2023 09:27:09 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-I disagree on these conclusions.
+> On Sun, 23 Jul 2023 02:47:36 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> 
+> > And new pages_pin_count field to struct drm_gem_shmem_object that will
+> > determine whether pages are evictable by memory shrinker. The pages will
+> > be evictable only when pages_pin_count=0. This patch prepares code for
+> > addition of the memory shrinker that will utilize the new field.
+> > 
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > ---
+> >  drivers/gpu/drm/drm_gem_shmem_helper.c | 9 +++++++++
+> >  include/drm/drm_gem_shmem_helper.h     | 9 +++++++++
+> >  2 files changed, 18 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > index 267153853e2c..42ba201dda50 100644
+> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > @@ -274,15 +274,24 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+> >  	dma_resv_assert_held(shmem->base.resv);
+> >  
+> >  	ret = drm_gem_shmem_get_pages(shmem);
+> > +	if (!ret)
+> > +		shmem->pages_pin_count++;
+> >  
+> >  	return ret;
+> >  }
+> >  
+> >  static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+> >  {
+> > +	struct drm_gem_object *obj = &shmem->base;
+> > +
+> >  	dma_resv_assert_held(shmem->base.resv);
+> >  
+> > +	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_pin_count))
+> > +		return;
+> > +
+> >  	drm_gem_shmem_put_pages(shmem);
+> > +
+> > +	shmem->pages_pin_count--;
+> >  }
+> >  
+> >  /**
+> > diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> > index bf0c31aa8fbe..7111f5743006 100644
+> > --- a/include/drm/drm_gem_shmem_helper.h
+> > +++ b/include/drm/drm_gem_shmem_helper.h
+> > @@ -39,6 +39,15 @@ struct drm_gem_shmem_object {
+> >  	 */
+> >  	unsigned int pages_use_count;
+> >  
+> > +	/**
+> > +	 * @pages_pin_count:
+> > +	 *
+> > +	 * Reference count on the pinned pages table.
+> > +	 * The pages allowed to be evicted by memory shrinker
+> > +	 * only when the count is zero.
+> > +	 */
+> > +	unsigned int pages_pin_count;  
+> 
+> Can we make it an atomic_t, so we can avoid taking the lock when the
+> GEM has already been pinned. That's something I need to be able to grab
+> a pin-ref in a path where the GEM resv lock is already held[1]. We could
+> of course expose the locked version,
 
-c) is certainly better than a), but it's not "clearly the best" in all cases. The OpenGL UMD is not a privileged/special component and is in no position to decide whether or not the process as a whole (only some thread(s) of which may use OpenGL at all) gets to continue running or not.
+My bad, that's actually not true. The problem is not that I call
+drm_gem_shmem_pin() with the resv lock already held, but that I call
+drm_gem_shmem_pin() in a dma-signaling path where I'm not allowed to
+take a resv lock. I know for sure pin_count > 0, because all GEM objects
+mapped to a VM have their memory pinned right now, and this should
+stand until we decide to add support for live-GEM eviction, at which
+point we'll probably have a way to detect when a GEM is evicted, and
+avoid calling drm_gem_shmem_pin() on it.
 
+TLDR; I can't trade the atomic_t for a drm_gem_shmem_pin_locked(),
+because that wouldn't solve my problem. The other solution would be to
+add an atomic_t at the driver-GEM level, and only call
+drm_gem_shmem_[un]pin() on 0 <-> 1 transitions, but I thought using an
+atomic at the GEM-shmem level, to avoid locking when we can, would be
+beneficial to the rest of the eco-system. Let me know if that's not an
+option, and I'll go back to the driver-specific atomic_t.
 
-> [0] https://registry.khronos.org/OpenGL/extensions/ARB/ARB_robustness.txt
-> [1] https://registry.khronos.org/OpenGL/extensions/KHR/KHR_robustness.txt
-> [2] https://registry.khronos.org/OpenGL/extensions/EXT/EXT_robustness.txt
-> [3] https://registry.khronos.org/OpenGL/specs/gl/glspec46.core.pdf
-> [4] https://gitlab.freedesktop.org/mesa/mesa/-/blob/23.1/src/gallium/winsys/amdgpu/drm/amdgpu_cs.c#L1657
-> [5] https://gitlab.freedesktop.org/mesa/mesa/-/blob/23.1/src/gallium/drivers/iris/iris_batch.c#L842
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+> but in my case, I want to enforce
+> the fact the GEM has been pinned before the drm_gem_shmem_pin() call in
+> the section protected by the resv lock, so catching a "refcount 0 -> 1"
+> situation would be useful. Beside, using an atomic to avoid the
+> lock/unlock dance when refcount > 1 might be beneficial to everyone.
+> 
+> [1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/4420fa0d5768ebdc35b34d58d4ae5fad9fbb93f9
+> 
+> > +
+> >  	/**
+> >  	 * @madv: State for madvise
+> >  	 *  
+> 
 
