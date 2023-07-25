@@ -1,54 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97F6760B77
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 09:19:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13717760A13
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 08:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E60C10E3A0;
-	Tue, 25 Jul 2023 07:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C21F10E38B;
+	Tue, 25 Jul 2023 06:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C453110E1D0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 04:43:54 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R94DQ1QvmzBS5pl
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 12:43:49 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1690260229; x=1692852230; bh=yoXvsWFvf4lKS3sGNABj8yYPLom
- //8oxSw6PzoA5XC0=; b=cfdL1uME29Wi+vu6AB8vmDcXtRTcjiQtd491WU8OtKD
- Eq4UhKsYI78gbMHXrARnLoZCBoPrwDfqXWRup6h7le1dyQ6E9lgJ02hHPDyb22no
- U5aXzR00sAWLmJPF4kAEddNaontPwdns1JtIuQmCzd3jdlk/+EKlYxKHsfVLbWK7
- myVNDmYX19MrjlY/H3ynRg7ha8NmrHk1cib7blpapztwxUXjFJHTJGh8uqvPHfBE
- SCW1C0ceXdeQKLdWXDIFUKZttdnLQa2OdvrCBPfsdNVABlWiBTD6uFCVTDO2dNr4
- QR5cjGrFFvBpWL/zxgkrwnttEY49GI34LGnrChiSACw==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id EfdODzB7YPen for <dri-devel@lists.freedesktop.org>;
- Tue, 25 Jul 2023 12:43:49 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R94DN6rDnzBRDrQ;
- Tue, 25 Jul 2023 12:43:48 +0800 (CST)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD86510E041;
+ Tue, 25 Jul 2023 06:10:53 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-d0e55215aebso2298367276.1; 
+ Mon, 24 Jul 2023 23:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690265453; x=1690870253;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yzkoP5ey5pwsmJYijvvASskshJJCDU0jpldwL8ZyYdg=;
+ b=GEMKLiHtQgtDJKxZk5w0hSoOM47tSnBY9XZwYB/d/bEWqdp4TaZSFueFYg/mopDe+y
+ DitLxU23gDApqirvhBooAlkzF5O5OcKyz1wIjkegLErE/EVBQB+ejzUiydpp8IkLFUFL
+ oYbVAJvyR7HgbJPWuj1FTMmd6pY2yFYiPfTMxMT+hSK58cuGUqE3GtGaXQV1ZbMaFPzk
+ /LmFDEMC5iBhQKsJlWvpjqlqy3Jd1HPTE3QCF6QEXQd9a4N91hIx8iXggcFaBohaR+W9
+ fKPFnEEQ7bBk1joT3X3T6r77DKFOeyd7NT7+ay6Y5j1sdDB40giJGFq0oY5ng/WcfTex
+ bRDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690265453; x=1690870253;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yzkoP5ey5pwsmJYijvvASskshJJCDU0jpldwL8ZyYdg=;
+ b=RR7jG+ddKqZRc8+GFN8rMzS3y2FYJ9lEytCSH2TJhwWI1j2jlbcyhv1rHRrZ0MKXES
+ 619vLFxwYWZckvGEEid8M9SfVPluM4teE8NRVvV62iDImkiklVIwLXUr0Gs4Y811/tOA
+ //KrdxXVCznp1CXkA+xtmSUFU8TvXmrkdEeIRP9bqeBzF5/8Q+6BGMdx0W1vpIOHIE8m
+ 7AytzXWAbUSyHxJwV9PJa40PXvNFxCWJpMv+2y19PJq8maj9KP+W636Wye8UGn/HeCBN
+ ItOvnTBJIZhT4mzzSNly+pcmVxlWwCycgUoRZNmdokNkABrTAVK3A5Wxt2X4ZfGfOI30
+ QUjA==
+X-Gm-Message-State: ABy/qLZd7Am4xLo7oF+xS6mguWYfub/crQHjjNFx7j4EpgELC5ZT3mSm
+ XvjEUNGSX4zC9PsAKH6VUmd8kjRP+v4vhKo3GRg=
+X-Google-Smtp-Source: APBJJlHJn4TebQJtcBhAzd2myzHMTCwwqXO0napcIqfLd8/prsI5p9oZDoN2o6PXE3cdxVIV/WruodNgy9oH0T3QtG4=
+X-Received: by 2002:a25:d1c4:0:b0:cea:b62d:620f with SMTP id
+ i187-20020a25d1c4000000b00ceab62d620fmr9752952ybg.45.1690265452901; Mon, 24
+ Jul 2023 23:10:52 -0700 (PDT)
 MIME-Version: 1.0
-Date: Tue, 25 Jul 2023 12:43:48 +0800
-From: wuyonggang001@208suo.com
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/radeon: Fix format error
-In-Reply-To: <20230725043946.33470-1-zhanglibing@cdjrlc.com>
-References: <20230725043946.33470-1-zhanglibing@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <6bf7217253d188c37004e8793bd58c88@208suo.com>
-X-Sender: wuyonggang001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Tue, 25 Jul 2023 07:19:08 +0000
+References: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
+ <f25017a660f8a3a4e49258a1d96003dc@208suo.com>
+ <6f8d6649-5b53-4a44-8b9e-0ffd00af3fb6@app.fastmail.com>
+In-Reply-To: <6f8d6649-5b53-4a44-8b9e-0ffd00af3fb6@app.fastmail.com>
+From: Luna Jernberg <droidbittin@gmail.com>
+Date: Tue, 25 Jul 2023 08:10:39 +0200
+Message-ID: <CADo9pHiAtQvy4iZrseqM+VnK0VM2meU79UQ7QhQUEoa9RNg=iw@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH] drm/nouveau/fifo:Fix Nineteen occurrences of
+ the gk104.c error: ERROR: space prohibited before that ':' (ctx:WxW) ERROR:
+ trailing statements should be on next line ERROR: space prohibited before
+ that ':' (ctx:WxW) ERROR: trailing statements should be on next line ERROR:
+ space prohibited before that ':' (ctx:WxW) ERROR: trailing statements should
+ be on next line ERROR: trailing statements should be on next line ERROR:
+ space prohibited before that ':' (ctx:WxW) ERROR: trailing statements should
+ be on next line ERROR: space prohibited before that ':' (ctx:WxW) ERROR:
+ trailing statements should be on next line ERROR: space prohibited before
+ that ':' (ctx:WxW) ERROR: trailing statements should be on next line ERROR:
+ space prohibited before that ':' (ctx:WxW) ERROR: trailing statements should
+ be on next line ERROR: space prohibited before that ':' (ctx:WxE) ERROR:
+ space prohibited before that ':' (ctx:WxE) ERROR: trailing statements should
+ be on next line ERROR: trail
+To: Mark Dymek <mark@dymek.me>, Luna Jernberg <droidbittin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +83,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: kherbst@redhat.com, huzhi001@208suo.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com,
+ nouveau@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the error(s):
+You can unsubscribe here: https://lists.freedesktop.org/mailman/listinfo/no=
+uveau
 
-ERROR: space required before the open parenthesis '('
-
-Signed-off-by: Yonggang Wu <wuyonggang001@208suo.com>
----
-  drivers/gpu/drm/radeon/r300.c | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/r300.c 
-b/drivers/gpu/drm/radeon/r300.c
-index 9c1a92fa2af6..25201b9a5aae 100644
---- a/drivers/gpu/drm/radeon/r300.c
-+++ b/drivers/gpu/drm/radeon/r300.c
-@@ -249,7 +249,7 @@ void r300_ring_start(struct radeon_device *rdev, 
-struct radeon_ring *ring)
-
-  	/* Sub pixel 1/12 so we can have 4K rendering according to doc */
-  	gb_tile_config = (R300_ENABLE_TILING | R300_TILE_SIZE_16);
--	switch(rdev->num_gb_pipes) {
-+	switch (rdev->num_gb_pipes) {
-  	case 2:
-  		gb_tile_config |= R300_PIPE_COUNT_R300;
-  		break;
-@@ -638,7 +638,7 @@ static int r300_packet0_check(struct 
-radeon_cs_parser *p,
-  	track = (struct r100_cs_track *)p->track;
-  	idx_value = radeon_get_ib_value(p, idx);
-
--	switch(reg) {
-+	switch (reg) {
-  	case AVIVO_D1MODE_VLINE_START_END:
-  	case RADEON_CRTC_GUI_TRIG_VLINE:
-  		r = r100_cs_packet_parse_vline(p);
-@@ -1180,7 +1180,7 @@ static int r300_packet3_check(struct 
-radeon_cs_parser *p,
-  	ib = p->ib.ptr;
-  	idx = pkt->idx + 1;
-  	track = (struct r100_cs_track *)p->track;
--	switch(pkt->opcode) {
-+	switch (pkt->opcode) {
-  	case PACKET3_3D_LOAD_VBPNTR:
-  		r = r100_packet3_load_vbpntr(p, pkt, idx);
-  		if (r)
+Den m=C3=A5n 24 juli 2023 kl 19:16 skrev Mark Dymek <mark@dymek.me>:
+>
+> not sure how i got signed up for this and i don=E2=80=99t see a way to un=
+subscribe. this is flooding my email with things i don=E2=80=99t care about=
+.
+>
+> On Fri, Jul 14, 2023, at 1:14 AM, huzhi001@208suo.com wrote:
+>
+> Signed-off-by: ZhiHu <huzhi001@208suo.com>
+> ---
+>   .../gpu/drm/nouveau/nvkm/engine/fifo/gk104.c  | 40 ++++++++++++++-----
+>   1 file changed, 29 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> index d8a4d773a58c..b99e0a7c96bb 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
+> @@ -137,15 +137,29 @@ gk104_ectx_bind(struct nvkm_engn *engn, struct
+> nvkm_cctx *cctx, struct nvkm_chan
+>       u64 addr =3D 0ULL;
+>
+>       switch (engn->engine->subdev.type) {
+> -    case NVKM_ENGINE_SW    : return;
+> -    case NVKM_ENGINE_GR    : ptr0 =3D 0x0210; break;
+> -    case NVKM_ENGINE_SEC   : ptr0 =3D 0x0220; break;
+> -    case NVKM_ENGINE_MSPDEC: ptr0 =3D 0x0250; break;
+> -    case NVKM_ENGINE_MSPPP : ptr0 =3D 0x0260; break;
+> -    case NVKM_ENGINE_MSVLD : ptr0 =3D 0x0270; break;
+> -    case NVKM_ENGINE_VIC   : ptr0 =3D 0x0280; break;
+> -    case NVKM_ENGINE_MSENC : ptr0 =3D 0x0290; break;
+> -    case NVKM_ENGINE_NVDEC :
+> +    case NVKM_ENGINE_SW:
+> +        return;
+> +    case NVKM_ENGINE_GR:
+> +        ptr0 =3D 0x0210;
+> +        break;
+> +    case NVKM_ENGINE_SEC:
+> +        ptr0 =3D 0x0220;
+> +        break;
+> +    case NVKM_ENGINE_MSPDEC:
+> +        ptr0 =3D 0x0250;
+> +        break;
+> +    case NVKM_ENGINE_MSPPP:
+> +        ptr0 =3D 0x0260;
+> +        break;
+> +    case NVKM_ENGINE_MSVLD:
+> +        ptr0 =3D 0x0270;
+> +        break;
+> +    case NVKM_ENGINE_VIC:
+> +        ptr0 =3D 0x0280; break;
+> +    case NVKM_ENGINE_MSENC:
+> +        ptr0 =3D 0x0290;
+> +        break;
+> +    case NVKM_ENGINE_NVDEC:
+>           ptr1 =3D 0x0270;
+>           ptr0 =3D 0x0210;
+>           break;
+> @@ -435,8 +449,12 @@ gk104_runl_commit(struct nvkm_runl *runl, struct
+> nvkm_memory *memory, u32 start,
+>       int target;
+>
+>       switch (nvkm_memory_target(memory)) {
+> -    case NVKM_MEM_TARGET_VRAM: target =3D 0; break;
+> -    case NVKM_MEM_TARGET_NCOH: target =3D 3; break;
+> +    case NVKM_MEM_TARGET_VRAM:
+> +        target =3D 0;
+> +        break;
+> +    case NVKM_MEM_TARGET_NCOH:
+> +        target =3D 3;
+> +        break;
+>       default:
+>           WARN_ON(1);
+>           return;
+>
