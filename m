@@ -2,49 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E0F761B33
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 16:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C1D761C34
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 16:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508BC10E14A;
-	Tue, 25 Jul 2023 14:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2C1B10E03A;
+	Tue, 25 Jul 2023 14:46:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB92810E14A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 14:16:03 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:212:79f0:c61e:ae3f:a2:fe43] (unknown
- [IPv6:2a01:e0a:212:79f0:c61e:ae3f:a2:fe43])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: aferraris)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B90126600357;
- Tue, 25 Jul 2023 15:16:01 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690294562;
- bh=8Yx9/u1pnkdZXQC7WxaG0vujP7+zkjx6QBkYxWSjdK4=;
- h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=DKA9d51vwnwDR0IWHIyIlJrlyFdB1FrOiuAOkcot4BeSxaJtqlPgUl/j49CZMX3/A
- 5RGxUFElafn48CtKEsQ7EQNDfmICbl4PzEEap7kmC+ABnqLuiLd1GCt63dSgKsdkv2
- ICvvh5DNWxCx5TVa3yf0BX93OYISR3MEr5cvqtsCmAc/Rqf/h4FUj7XjmimzpYrQGL
- QXSdGI/HLcR9NCg5OO8iJ5hkZHnLSwOMImVOh1zg5deR/R4CnILOXhK6AdKShH266h
- fM8YSW3WblWH+9+5JSg036PP9cdrW7J21dxZzOm0/rZBtndGGlAMrwZzx3BAhNKUwd
- 9WO2k1in5pOGg==
-Message-ID: <0623ebc5-eef8-2c93-040f-eeeabc79ce17@collabora.com>
-Date: Tue, 25 Jul 2023 16:15:58 +0200
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
+ [209.85.128.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D25010E03A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 14:46:53 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-5774335bb2aso63790027b3.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:46:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690296412; x=1690901212;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0kxOdPyZyaJv5gxG+QtuGeWvPDhLsU0ZIVKhTdMmlNw=;
+ b=l1eZ3BOxxv+S6rxNy09QEhoItyI6H73SyCe3OdpN18J9Bh8IZ+hnEEBrvbIw9f7tdq
+ QYIePeB+SM1LDW68pGP8qcoVoMqr8S+bBfyaMi/VfO2I1CuccvwGHsG0wF2HY88ht5uH
+ pLks5cSY/jUIZgJOBMzZqUToCStI7J/wi2zJ6gVEbaz1qzHgbFek0Rb628pz1ZXp+Dg3
+ UmiM2zgABD5vPtpLuWQp0cnVTl6xyKrafGfRMukarHi6bIzNl2cRlmjF6g9qlOVQWma2
+ GJMjQjswuvdAUscbWXaXY2Blishg2ll9HjnZlYDYRez1KuB3C1fxwsjKTnHgv2LnTSmb
+ 0dlw==
+X-Gm-Message-State: ABy/qLZdbHIqXWUmyoYSlDnzjq9UrSnAEpZdPJumN4hsQxY8NyMQHQYF
+ 5iwwpSGibzPGQD73BrM1EoYv50UcNx+K/Q==
+X-Google-Smtp-Source: APBJJlFaIdgWercbzFwt9UPTpaNlscR5NV1Iz1CNjbNA7j/v4aqQuSYTwVGRyVB7OjZA3czinRytlw==
+X-Received: by 2002:a0d:dbce:0:b0:56d:2c60:2f84 with SMTP id
+ d197-20020a0ddbce000000b0056d2c602f84mr7861010ywe.46.1690296412445; 
+ Tue, 25 Jul 2023 07:46:52 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
+ y145-20020a0dd697000000b00583b40d907esm2480253ywd.16.2023.07.25.07.46.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jul 2023 07:46:51 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-c01e1c0402cso4820536276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 07:46:51 -0700 (PDT)
+X-Received: by 2002:a05:6902:1350:b0:c83:27d4:c0d6 with SMTP id
+ g16-20020a056902135000b00c8327d4c0d6mr8607825ybu.37.1690296411349; Tue, 25
+ Jul 2023 07:46:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH v5 2/2 RESEND] drm: panel: Add novatek nt35596s panel
- driver
-To: Linus Walleij <linus.walleij@linaro.org>
-References: <20230719152007.197710-1-arnaud.ferraris@collabora.com>
- <20230719152007.197710-3-arnaud.ferraris@collabora.com>
- <CACRpkdZ2Fu8jyyyDd4e1yq8g4bDoj2gCd4KnntST8uYvDNKUZw@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CACRpkdZ2Fu8jyyyDd4e1yq8g4bDoj2gCd4KnntST8uYvDNKUZw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230511181931.869812-1-tj@kernel.org>
+ <20230511181931.869812-7-tj@kernel.org>
+ <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
+ <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
+ <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
+ <ZK3MBfPS-3-tJgjO@slm.duckdns.org> <ZK30CR196rs-OWLq@slm.duckdns.org>
+ <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
+ <ZLXIvXBvhsnL-ik_@slm.duckdns.org>
+ <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
+ <ZLcLnoAoJmQ9WTuM@slm.duckdns.org>
+In-Reply-To: <ZLcLnoAoJmQ9WTuM@slm.duckdns.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 25 Jul 2023 16:46:38 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUo=17kYsNEYr=qyVceRpJ4D3jMFrMOiqaH--OOhJOM4w@mail.gmail.com>
+Message-ID: <CAMuHMdUo=17kYsNEYr=qyVceRpJ4D3jMFrMOiqaH--OOhJOM4w@mail.gmail.com>
+Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
+ 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
+ mechanism)
+To: Tejun Heo <tj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,71 +80,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Molly Sophia <mollysophia379@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-rtc@vger.kernel.org,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
+ kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
+ <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Tejun,
 
-Le 23/07/2023 à 18:45, Linus Walleij a écrit :
-> Hi Arnaud & Molly,
+On Wed, Jul 19, 2023 at 12:01=E2=80=AFAM Tejun Heo <tj@kernel.org> wrote:
+> On Tue, Jul 18, 2023 at 11:54:58AM +0200, Geert Uytterhoeven wrote:
+> > I gave it a try on a system with an 800 MHz Cortex A9, only to discover
+> > it makes no difference, as that machine has 1600 BogoMIPS:
 >
-> overall the driver looks very good!
+> Oops.
 >
-> On Wed, Jul 19, 2023 at 5:20 PM Arnaud Ferraris
-> <arnaud.ferraris@collabora.com>  wrote:
+> > workqueue: blk_mq_run_work_fn hogged CPU for >10000us 4 times,
+> > consider switching to WQ_UNBOUND
 >
->> From: Molly Sophia<mollysophia379@gmail.com>
->>
->> Novatek NT35596s is a generic DSI IC that drives command and video mode
->> panels. Add the driver for it. Currently add support for the LCD panel
->> from JDI connected with this IC, as found on Xiaomi Mi Mix2s phones.
->>
->> Signed-off-by: Molly Sophia<mollysophia379@gmail.com>
->> Signed-off-by: Arnaud Ferraris<arnaud.ferraris@collabora.com>
-> (...)
+> It could be that we actually want to switch to UNBOUND for some reports b=
+ut
+> the above triggering most likely indicates that the threshold is too
+> aggressive.
 >
->>   .../gpu/drm/panel/panel-novatek-nt36672a.c    | 251 ++++++++++++++++--
-> So are you sure the nt35596s panel driver is so similar to nt36672a that
-> they should share the same driver?
-> With all the magic number sequences I'm not so sure, do they really share
-> any of the magic numbers?
-
-Their magic number sequences are quite different, however all the other 
-bits (power/reset sequences and timings) fit in, which isn't the case of 
-the other novatek panel drivers. Moreover, they have similar (although 
-not identical) resolutions.
-
-> If not, consider creating a new driver, and then base it on the
-> nt35510 instead.
-
-I would gladly make this a new driver, but I'd rather base it on the 
-nt36672a for the reasons mentioned above. I do fear, however, that this 
-would lead to unnecessary code duplication, as 90% of the driver (magic 
-number sequences excluded) would be identical to the nt36672a (and to be 
-fully honest, I don't think I have the needed knowledge to make it 
-"better").
-
->> +static const struct nt36672a_panel_cmd jdi_nt35596s_video_on_cmds[] = {
->> +       { .data = { 0xff, 0x24 } },
->> +       { .data = { 0x9d, 0x34 } },
-> (...)
+> > Artificially low BogoMIPS numbers only happen on systems that have
+> > the related timers (Cortex A7/A15 and later, Cortex A9 MPCore,
+> > and arm64).
 >
-> These are never nice. Do you have a datasheet so you can provide
-> defines for the magic hex values?
+> Ah, I see. Thanks for the explanation.
+>
+> > I will test on more systems, but that will probably not happen until
+> > next week...
+>
+> Thanks, really appreciate it. Can you try the following instead when you
+> have time? I just pushed up the lower boundary to 4000 MIPS. The scaling =
+is
+> still capped at 1s.
 
-I found an old (2012) datasheet for the NT35596 (without the final "S") 
-which is marked "Draft", so I'm really unsure this will be enough to 
-make sense of those numbers.
+Thanks, with the below, I see no more WQ_UNBOUND messages.
 
-> The construction with these .data seqence array
-> should be replaces with some open coded sequences
-> I feel, bit this pattern is already in the driver so I guess it's OK.
-> Yours,
-> Linus Walleij
+> From 8555cbd4b22e5f85eb2bdcb84fd1d1f519a0a0d3 Mon Sep 17 00:00:00 2001
+> From: Tejun Heo <tj@kernel.org>
+> Date: Mon, 17 Jul 2023 12:50:02 -1000
+> Subject: [PATCH] workqueue: Scale up wq_cpu_intensive_thresh_us if BogoMI=
+PS is
+>  below 4000
 
-Cheers,
-Arnaud
+> --- a/kernel/workqueue.c
+> +++ b/kernel/workqueue.c
+
+> @@ -6513,6 +6516,42 @@ void __init workqueue_init_early(void)
+>                !system_freezable_power_efficient_wq);
+>  }
+>
+> +static void __init wq_cpu_intensive_thresh_init(void)
+> +{
+> +       unsigned long thresh;
+> +       unsigned long mips;
+
+This fails to build on mips.
+Apparently mips is a predefined preprocessor macro:
+
+$ echo | mipsel-linux-gnu-gcc -dM -E - | grep -w mips
+#define mips 1
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
