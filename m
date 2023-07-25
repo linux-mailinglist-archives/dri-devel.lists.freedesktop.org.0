@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B343B761155
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 12:50:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0892676122A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 12:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C748310E070;
-	Tue, 25 Jul 2023 10:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED78710E0C9;
+	Tue, 25 Jul 2023 10:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32BE010E070
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 10:49:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E3210E0C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 10:59:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 56AE76166F;
- Tue, 25 Jul 2023 10:49:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6658DC433C8;
- Tue, 25 Jul 2023 10:49:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 02EE86164D;
+ Tue, 25 Jul 2023 10:59:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174C9C433C8;
+ Tue, 25 Jul 2023 10:59:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1690282196;
- bh=mqeWrjRkKEshdY5zvAqc2lyl7BsSe/D42AtpoyJoeE4=;
+ s=korg; t=1690282787;
+ bh=fBwH6do8fLXuBrWtFFFz+C2h8zLxgC0R4Fmj5/GQkjI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XQVwhIoIUY49cragFx1gM6ymIKwa5ilV5ALGKUGGIQiNHgJz93cydVDBMnmxtaSIW
- 7JM3+OhgI1DIekW74AbUm1y+aexaRbKgIgQdZw+gZhKrTXr7YmmJWrfUYYoW8tBIje
- tx/9sed7cFZt5KxMMlPZXCEhzqO6Bu6vpmd8ozsU=
+ b=o45GTKZkCUbdoRoK8PCkQurIly8z9wvNrMScsadJH/B+SqHlyitUp4gafwE+wra2H
+ YHzuy0fPh7SllD572de7IVsFpRo4CbcyctxVW55cqncjsFc6sdWGF3uq8w/YmF/Krp
+ ndFOpyzHrGOSrEFlakJTG0RoGd0GowMV3yjhN+zY=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.4 043/227] dma-buf/dma-resv: Stop leaking on krealloc()
+Subject: [PATCH 6.1 026/183] dma-buf/dma-resv: Stop leaking on krealloc()
  failure
-Date: Tue, 25 Jul 2023 12:43:30 +0200
-Message-ID: <20230725104516.591974295@linuxfoundation.org>
+Date: Tue, 25 Jul 2023 12:44:14 +0200
+Message-ID: <20230725104508.847407285@linuxfoundation.org>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230725104514.821564989@linuxfoundation.org>
-References: <20230725104514.821564989@linuxfoundation.org>
+In-Reply-To: <20230725104507.756981058@linuxfoundation.org>
+References: <20230725104507.756981058@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -94,7 +93,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/dma-buf/dma-resv.c
 +++ b/drivers/dma-buf/dma-resv.c
-@@ -571,6 +571,7 @@ int dma_resv_get_fences(struct dma_resv
+@@ -566,6 +566,7 @@ int dma_resv_get_fences(struct dma_resv
  	dma_resv_for_each_fence_unlocked(&cursor, fence) {
  
  		if (dma_resv_iter_is_restarted(&cursor)) {
@@ -102,7 +101,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			unsigned int count;
  
  			while (*num_fences)
-@@ -579,13 +580,17 @@ int dma_resv_get_fences(struct dma_resv
+@@ -574,13 +575,17 @@ int dma_resv_get_fences(struct dma_resv
  			count = cursor.num_fences + 1;
  
  			/* Eventually re-allocate the array */
