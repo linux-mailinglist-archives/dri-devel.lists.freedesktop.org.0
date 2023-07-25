@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043937624DB
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 23:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DA7762707
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 00:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271C110E1BB;
-	Tue, 25 Jul 2023 21:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD34410E1B8;
+	Tue, 25 Jul 2023 22:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E2D10E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 21:52:12 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id
- 5614622812f47-3a3efebcc24so4167580b6e.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 14:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690321931; x=1690926731;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=w2G/e8y/tvnNGTMmNmnaD68PLNtHT6GiMZvoHdRg+aU=;
- b=R3puFFKq+ZSGzNHmxPCpnTeYSaLCatWyIWrrZry4+8MTe4ZYoHOqQyVLOJkTIO6LdI
- XaZlYEeLZHO5anL2SR2yyCgHJFsLbOnlsLOfAevIYDaKTrV3FP9DSGTEk5umBkS6Q2dO
- +oI4fzhIMqls8oEpa2uNjE7O3BuVthvGynrKXA6FpaRE3528ZMBIrmT8HzY2K9bzVHBT
- wsJmUYGsKcB0Mv3agSU3IhgvbUbt+lS4vYybGAHs4dk0slYivmLKTp8T+FuhMpSadz5g
- kNAWtZkrOSD1djGuw4pc+DumKUy0XZZoyGEvFkgvlVfE7JXlLLixSwTFiGx3FTnuQCoA
- 6Tbw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929FF10E1B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 22:48:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690325329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fqtwPYmHGNsoP1pFuN8jF45AEQfTNG8g69I653X2PAs=;
+ b=AVCI5s8nJEPccZvWl2kUi0C6MZhCVKVzUUXfUYBVEjdv6nqqj4fc2xtLowpLqTSUwinoGf
+ csKYdrYYfzeBzAdRrWROmzYq4ylclirBPAxtqdFeSfppVY2TF3J9JWvEuhrCKSmNcGVIF5
+ 9a3MheHFhbpLJE47RcBNqsML3l+X3uA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-169-1ujoiEB_NBq2mahJJDd5Gg-1; Tue, 25 Jul 2023 18:48:46 -0400
+X-MC-Unique: 1ujoiEB_NBq2mahJJDd5Gg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-997d144f31dso350987966b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 15:48:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690321931; x=1690926731;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w2G/e8y/tvnNGTMmNmnaD68PLNtHT6GiMZvoHdRg+aU=;
- b=XeMkcPPMowpA6Foij9cQHg0SaVWXpOej8DrOjNqw/5GvavIJ73PpJr/KoangHZfbiX
- hEe7ddJWEx3X7LE6QeADaFRfwkidH9DOwLQl1qoXvwB68mXs1oHy6wqAFdoGh0rUWP3e
- 4032yQUtC1zXBgsFLKvFfPieC62qPFy9LbjZzzgFUaqffdlCzxhYvJomz/laTD5wEvvJ
- ayyzgByO53HteLtyAFiHRo7lDzDRdG0KkviX2NdDVeB/QnGhtesJOKf35SNJRPqzUaYy
- A7TTuySj69ibj9grYbChrwnawWEhEY4RvfIltI0vvEB4kf9cYDuS/izqAp7WlZNvggKG
- kHsA==
-X-Gm-Message-State: ABy/qLYlTTNTJOblCr624NH+dkJ8U2o4WZbprv8/WowPRIJQ5nX8KW/+
- 2FtBsSQwYYXmjwd7H1UYOXE=
-X-Google-Smtp-Source: APBJJlG54o8WY98CP+xjRTeR1S+q2Ldy/fPlKKU1BXd7oYHQ/qegEG4jGeoIlI/AUnc8VPS3G6mssQ==
-X-Received: by 2002:a05:6808:e87:b0:3a4:225d:82c0 with SMTP id
- k7-20020a0568080e8700b003a4225d82c0mr179900oil.31.1690321931094; 
- Tue, 25 Jul 2023 14:52:11 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:18d])
+ d=1e100.net; s=20221208; t=1690325325; x=1690930125;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :from:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fqtwPYmHGNsoP1pFuN8jF45AEQfTNG8g69I653X2PAs=;
+ b=M0QnaF8LV4BmPB/AXAtFIe/tkZ05iGaDU966jCrPETzKL3W2e4FoAD6hlT7a3H/ygz
+ VbH5uNK+DVLre0zmcrmUP+jFr6GohfhKcf43pN6zZoJoh5wRqra59I950irWdd6ng4Nl
+ RDxuBHm/d/KoRBSu98SWGz2HRQNjsje5073wXPofOXe6PjjIOt2Mjg3AydS6U/+V2Is1
+ H7qzcALrFHfyb4HdXx8uqjVimpAMfOWii10HS8nA2ctMrWouF0Vy0TJP9EUlo+kzNMAJ
+ 0Rdn+pWgwzpSekmfDfpH3qr0f/H8cA3onr6IrO+EuOyODLzA7fUAy+7iYuy0JVtC6Kzo
+ FYtQ==
+X-Gm-Message-State: ABy/qLbbgQ9r5rt2cUUSVPCVdod6xLkpFOMNzxCNOw7V7q2lDHlHC8sf
+ O0vwzKadTH5Rfyjk7wmrppUYsY/LK16WvSxsFCLZkjTYPrW3nCyVksEtTAAbcc9SjPJns4Qy3PP
+ XFPK9Z7H3ZeYAY5tMNmwGp4KsV3A+
+X-Received: by 2002:a17:907:2be9:b0:982:7545:efb6 with SMTP id
+ gv41-20020a1709072be900b009827545efb6mr158274ejc.66.1690325324931; 
+ Tue, 25 Jul 2023 15:48:44 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFjV59E7oAEbgLcfuvqGzUWbSIkW/kHUTr3BMaofJ0Plmev7uMfuohC5/16L7eW3+4p7WZnVA==
+X-Received: by 2002:a17:907:2be9:b0:982:7545:efb6 with SMTP id
+ gv41-20020a1709072be900b009827545efb6mr158266ejc.66.1690325324597; 
+ Tue, 25 Jul 2023 15:48:44 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- 29-20020a17090a005d00b002612150d958sm57830pjb.16.2023.07.25.14.52.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jul 2023 14:52:10 -0700 (PDT)
-Date: Tue, 25 Jul 2023 11:52:09 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH wq/for-6.5-fixes] workqueue: Drop the special locking rule
- for worker->flags and worker_pool->flags
-Message-ID: <ZMBECezjAixaMccA@slm.duckdns.org>
-References: <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
- <ZK30CR196rs-OWLq@slm.duckdns.org>
- <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
- <ZLXIvXBvhsnL-ik_@slm.duckdns.org>
- <CAMuHMdU8CGhsU-1PZNdWH1xjbWcWSg2s2RFAegXi+vs=d-0t8Q@mail.gmail.com>
- <ZLcLnoAoJmQ9WTuM@slm.duckdns.org>
- <CAMuHMdUo=17kYsNEYr=qyVceRpJ4D3jMFrMOiqaH--OOhJOM4w@mail.gmail.com>
+ lg23-20020a170906f89700b0098733a40bb7sm8814043ejb.155.2023.07.25.15.48.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jul 2023 15:48:44 -0700 (PDT)
+Message-ID: <21ea63fe-33d7-a075-7291-35dd1b2a9b64@redhat.com>
+Date: Tue, 25 Jul 2023 23:00:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUo=17kYsNEYr=qyVceRpJ4D3jMFrMOiqaH--OOhJOM4w@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH drm-misc-next v8 11/12] drm/nouveau: implement new VM_BIND
+ uAPI
+From: Danilo Krummrich <dakr@redhat.com>
+To: Faith Ekstrand <faith@gfxstrand.net>
+References: <20230720001443.2380-1-dakr@redhat.com>
+ <20230720001443.2380-12-dakr@redhat.com>
+ <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
+ <542203c6-781a-dc44-6fa1-13cd20ab9e21@redhat.com>
+ <CAOFGe94sG5==GM+spcTihcAtMCoj2xZYpN8NsYE6CEckdHJ8rQ@mail.gmail.com>
+ <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
+Organization: RedHat
+In-Reply-To: <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,139 +94,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
+ tzimmermann@suse.de, Liam.Howlett@oracle.com, bagasdotme@gmail.com,
+ christian.koenig@amd.com, jason@jlekstrand.net, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From aa6fde93f3a49e42c0fe0490d7f3711bac0d162e Mon Sep 17 00:00:00 2001
-From: Tejun Heo <tj@kernel.org>
-Date: Mon, 17 Jul 2023 12:50:02 -1000
-Subject: [PATCH] workqueue: Scale up wq_cpu_intensive_thresh_us if BogoMIPS is
- below 4000
+On 7/25/23 18:43, Danilo Krummrich wrote:
+> On 7/25/23 18:16, Faith Ekstrand wrote:
+>> Thanks for the detailed write-up! That would definitely explain it. If 
+>> I remember, I'll try to do a single-threaded run or two. If your 
+>> theory is correct, there should be no real perf difference when 
+>> running single-threaded. Those runs will take a long time, though, so 
+>> I'll have to run them over night. I'll let you know in a few days once 
+>> I have the results.
+> 
+> I can also push a separate branch where I just print out a warning 
+> whenever we run into such a condition including the time we were waiting 
+> for things to complete. I can probably push something later today.
 
-wq_cpu_intensive_thresh_us is used to detect CPU-hogging per-cpu work items.
-Once detected, they're excluded from concurrency management to prevent them
-from blocking other per-cpu work items. If CONFIG_WQ_CPU_INTENSIVE_REPORT is
-enabled, repeat offenders are also reported so that the code can be updated.
+https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-track-stalls
 
-The default threshold is 10ms which is long enough to do fair bit of work on
-modern CPUs while short enough to be usually not noticeable. This
-unfortunately leads to a lot of, arguable spurious, detections on very slow
-CPUs. Using the same threshold across CPUs whose performance levels may be
-apart by multiple levels of magnitude doesn't make whole lot of sense.
+It prints out the duration of every wait as well as the total wait time 
+since boot.
 
-This patch scales up wq_cpu_intensive_thresh_us upto 1 second when BogoMIPS
-is below 4000. This is obviously very inaccurate but it doesn't have to be
-accurate to be useful. The mechanism is still useful when the threshold is
-fully scaled up and the benefits of reports are usually shared with everyone
-regardless of who's reporting, so as long as there are sufficient number of
-fast machines reporting, we don't lose much.
+- Danilo
 
-Some (or is it all?) ARM CPUs systemtically report significantly lower
-BogoMIPS. While this doesn't break anything, given how widespread ARM CPUs
-are, it's at least a missed opportunity and it probably would be a good idea
-to teach workqueue about it.
-
-Signed-off-by: Tejun Heo <tj@kernel.org>
-Reported-and-Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
-Hello,
-
-Geert, applied this to wq/for-6.5-fixes. The local variable `mips` is
-renamed to `bogo` to avoid collision.
-
-Thanks for testing!
-
- kernel/workqueue.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 02a8f402eeb5..800b4208dba9 100644
---- a/kernel/workqueue.c
-+++ b/kernel/workqueue.c
-@@ -52,6 +52,7 @@
- #include <linux/sched/debug.h>
- #include <linux/nmi.h>
- #include <linux/kvm_para.h>
-+#include <linux/delay.h>
- 
- #include "workqueue_internal.h"
- 
-@@ -338,8 +339,10 @@ static cpumask_var_t *wq_numa_possible_cpumask;
-  * Per-cpu work items which run for longer than the following threshold are
-  * automatically considered CPU intensive and excluded from concurrency
-  * management to prevent them from noticeably delaying other per-cpu work items.
-+ * ULONG_MAX indicates that the user hasn't overridden it with a boot parameter.
-+ * The actual value is initialized in wq_cpu_intensive_thresh_init().
-  */
--static unsigned long wq_cpu_intensive_thresh_us = 10000;
-+static unsigned long wq_cpu_intensive_thresh_us = ULONG_MAX;
- module_param_named(cpu_intensive_thresh_us, wq_cpu_intensive_thresh_us, ulong, 0644);
- 
- static bool wq_disable_numa;
-@@ -6513,6 +6516,42 @@ void __init workqueue_init_early(void)
- 	       !system_freezable_power_efficient_wq);
- }
- 
-+static void __init wq_cpu_intensive_thresh_init(void)
-+{
-+	unsigned long thresh;
-+	unsigned long bogo;
-+
-+	/* if the user set it to a specific value, keep it */
-+	if (wq_cpu_intensive_thresh_us != ULONG_MAX)
-+		return;
-+
-+	/*
-+	 * The default of 10ms is derived from the fact that most modern (as of
-+	 * 2023) processors can do a lot in 10ms and that it's just below what
-+	 * most consider human-perceivable. However, the kernel also runs on a
-+	 * lot slower CPUs including microcontrollers where the threshold is way
-+	 * too low.
-+	 *
-+	 * Let's scale up the threshold upto 1 second if BogoMips is below 4000.
-+	 * This is by no means accurate but it doesn't have to be. The mechanism
-+	 * is still useful even when the threshold is fully scaled up. Also, as
-+	 * the reports would usually be applicable to everyone, some machines
-+	 * operating on longer thresholds won't significantly diminish their
-+	 * usefulness.
-+	 */
-+	thresh = 10 * USEC_PER_MSEC;
-+
-+	/* see init/calibrate.c for lpj -> BogoMIPS calculation */
-+	bogo = max_t(unsigned long, loops_per_jiffy / 500000 * HZ, 1);
-+	if (bogo < 4000)
-+		thresh = min_t(unsigned long, thresh * 4000 / bogo, USEC_PER_SEC);
-+
-+	pr_debug("wq_cpu_intensive_thresh: lpj=%lu BogoMIPS=%lu thresh_us=%lu\n",
-+		 loops_per_jiffy, bogo, thresh);
-+
-+	wq_cpu_intensive_thresh_us = thresh;
-+}
-+
- /**
-  * workqueue_init - bring workqueue subsystem fully online
-  *
-@@ -6528,6 +6567,8 @@ void __init workqueue_init(void)
- 	struct worker_pool *pool;
- 	int cpu, bkt;
- 
-+	wq_cpu_intensive_thresh_init();
-+
- 	/*
- 	 * It'd be simpler to initialize NUMA in workqueue_init_early() but
- 	 * CPU to node mapping may not be available that early on some
--- 
-2.41.0
+> 
+>>
+>> If this theory holds, then I'm not concerned about the performance of 
+>> the API itself. It would still be good to see if we can find a way to 
+>> reduce the cross-process drag in the implementation but that's a perf 
+>> optimization we can do later.
+> 
+>  From the kernel side I think the only thing we could really do is to 
+> temporarily run a secondary drm_gpu_scheduler instance, one for VM_BINDs 
+> and one for EXECs until we got the new page table handling in place.
+> 
+> However, the UMD could avoid such conditions more effectively, since it 
+> controls the address space. Namely, avoid re-using the same region of 
+> the address space right away in certain cases. For instance, instead of 
+> replacing a sparse region A[0x0, 0x4000000] with a larger sparse region 
+> B[0x0, 0x8000000], replace it with B'[0x4000000, 0xC000000] if possible.
+> 
+> However, just mentioning this for completeness. The UMD surely shouldn't 
+> probably even temporarily work around such a kernel limitation.
+> 
+> Anyway, before doing any of those, let's see if the theory holds and 
+> we're actually running into such cases.
+> 
+>>
+>> Does it actually matter? Yes, it kinda does. No, it probably doesn't 
+>> matter for games because you're typically only running one game at a 
+>> time. From a development PoV, however, if it makes CI take longer then 
+>> that slows down development and that's not good for the users, either.
+> 
+> Fully agree.
+> 
+> - Danilo
+> 
+>>
+>> ~Faith
+>>
+>>     - Danilo
+>>
+>>      >
+>>      > ~Faith
+>>      >
+>>
 
