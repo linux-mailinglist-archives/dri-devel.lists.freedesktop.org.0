@@ -1,57 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFB17617A4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 13:52:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BC6761874
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jul 2023 14:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47DD010E083;
-	Tue, 25 Jul 2023 11:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A6210E3D1;
+	Tue, 25 Jul 2023 12:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25DA210E083;
- Tue, 25 Jul 2023 11:52:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690285937; x=1721821937;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=eeNZxsYZVE0Brk/Q/h9Taab7dCmBLzOz2M0riI0Gq04=;
- b=AuDj12W11T1GHWr9GLE+lqXUtB4h+JbUV3bGduPTYZ853grxp06qMtcx
- lw77e4Swnads8UwsMaHvFodWKHLTUoMX+8Q7g0klPn0j1UdpPXUyMmPY8
- skPNzEs4x8rAIzoZ9iv/DJOeA68gYVcxHVIE9eeb4BKl6XU2id3JtNKND
- 8WsViFrwpFB+MReQy+fZbKfOLc0nKLegaCIh7Nwn34dmUtnd+1Iwv3L3H
- +IB4/PSHvhRo/BvuNsZPFt0bXuRZsfK4zpPsn3VxBAR9ZU6Q9uf7sl/cp
- b116TOAW6wNrB3SFLEiY6fB+itNxi1dtPCaHqUP3mIYL+XMbnakn3taAx A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="370368492"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="370368492"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 04:52:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10781"; a="816224003"
-X-IronPort-AV: E=Sophos;i="6.01,230,1684825200"; d="scan'208";a="816224003"
-Received: from grdarcy-mobl1.ger.corp.intel.com (HELO [10.213.228.4])
- ([10.213.228.4])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jul 2023 04:52:15 -0700
-Message-ID: <d76a8009-0193-9bc9-15d1-e672cb5bd3d6@linux.intel.com>
-Date: Tue, 25 Jul 2023 12:52:12 +0100
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2051.outbound.protection.outlook.com [40.107.212.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B926C10E110
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 12:37:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WH+Yr9r46ABxtLcwW2GX51Bz1tEJOQAFsEpl1scgxfA4qMi9AK4N0lTw0Gnc1y15gDqsH1SVmYI5uUuPMp3a2vUlHlyaXRX3A1WJ5Wk4urZ5J0TuXVYtsOw+0YPErIfVpfiwT4NM9BEjYhQ99jX5sL39uwjv65yQSZ4nnJA77Cb5YdtTYErXz3itTTH4mZpnT02YwGYYXF2Yt7+LoQZmq5HcClThzHjqp+xtYXJcxKlXtiVyERwBSZshbRx/cMczxRok2TeY0pWq3OJh/BFffsyFE/e4h0Q6tQ5lKQcijNztTiBWgVnhFEEwXZQkJo7vtQumU5xNyiy+tyVI8OeXUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FypKwbVjkl2qcC9UTGF5pGp+iU2awiJpkdqg2q+b5OE=;
+ b=n2zFhFr/5xjMKmhejUGV0qd9pSf/qaV9C/C2/qP9zKJw9YGq0yHuD/cdvspq/O4lqbAXo0wKqS51Sj7XkVIxHnIFOdhJwhOgyh1Vssok8EjV93jvH2EwATrcAk4XsiasAsdg95j2Z5fcn6+dO/8vU8DoCmvRdlRFYJBe8z29aKlZjkvQ4Pwj8fWPsaTlwn6EJftt9wBTpLxtEqfmCbFKBkoR6KzrbBlYwCY3UP7prbpZ+hZAPDeGtxKeZ64a6oz/cJJ38JmXWY5GZi5R2OjhpEMDC5xcBs+xzUFBgE8NGJfKGOX8eaX7ZmZ1SG7H1BO3Da/CLTTrS3V0aGR3zMPREw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FypKwbVjkl2qcC9UTGF5pGp+iU2awiJpkdqg2q+b5OE=;
+ b=Tf08WFIVnHk9KS5fF91ZalKYQ2iAR/OMAa+LecPzJM53V9Q8VvCQ7lC47T0KVF7tHwvzxtJvtHlFe/fA78RXKKrqOwQkTidOYTRBMWgcNfioGD+ZQ86hFk7RGGoXC00/JQ7IKepOWRiRSZqIdz7Mc50uwrQ5eWySjHJPin2nPLJxmPurONAok4TJBMpUl5ZamDAVgZ6JVnFksaESJ6cPW96hZX+0a/5x0h49011wmBROHO3PMPyXf+Vybj9FdoI8FBOvo/486FSEE9mjesVFcyhLd5O6Y1nSvoRYSm8vO9q7QZ20dU1VA7XsIwQKUXYjQLsrCQzFdc04Pjzna7PHIg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by PH8PR12MB6794.namprd12.prod.outlook.com (2603:10b6:510:1c5::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Tue, 25 Jul
+ 2023 12:37:01 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6609.032; Tue, 25 Jul 2023
+ 12:37:01 +0000
+Date: Tue, 25 Jul 2023 09:36:59 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Message-ID: <ZL/B6yvO1bIkFRcF@nvidia.com>
+References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
+ <20230718082858.1570809-2-vivek.kasireddy@intel.com>
+ <87jzuwlkae.fsf@nvdebian.thelocal>
+ <IA0PR11MB718527A20068383829DFF6A3F83EA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <87pm4nj6s5.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL5+CiZ6w4RdAt5u@nvidia.com>
+ <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR05CA0042.namprd05.prod.outlook.com
+ (2603:10b6:208:236::11) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Avoid GGTT flushing on non-GGTT
- paths of i915_vma_pin_iomap
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>
-References: <20230724125633.1490543-1-tvrtko.ursulin@linux.intel.com>
- <ZL7cBvXCdtx3yzkB@ashyti-mobl2.lan>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZL7cBvXCdtx3yzkB@ashyti-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH8PR12MB6794:EE_
+X-MS-Office365-Filtering-Correlation-Id: c5036177-9159-41c1-4a7d-08db8d0bd805
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PX5eO0TKF2Q02MG5td/uG44alTo8BczDKXPV6AlhEiKsNe4CVjYSitHXS/+zz9Qm9clXs9OOdY6bXqXSGgptQ2HKZrCcGMCSPpp6NkkcVyylmUxWTLXGtYeZGSgaWPO2GCQr4Qu3XTAb1Ul38eW5zZDIcp13jpvb6P5BaB3Dxx81rvgrs1Cz59+1jWWtUQEBwfDBlW7UQgPdmcruS4b/Kv0G5tVQqDjHNuaj4oPQwoOnYLBvQPxlpeIe2uzsfz3zoD/sNs3clLN3YIt9h0wTt+JTCx5clbwi/Qe/BzYH6znxOGRYzoJLKqeOSdHX+HVm+G4gBgX4pzFeUbFF8B6Fy46kyVoX/yQQG4u6gKsX27dsX2eJqYv6ng/o7pGGr7uqA9WqcD6MerRaaOpXMMvvKY86gIaJnnz7CNzRYeFTW332AsffUnEf2RDtCC5gAmKk235719Mnp49z69dtCeRGH4IlWSkSF18zKQguGkBTFZCeWntKO/OoawXf6am+rPF14bQ5eeuTAnEO8YavHxkwz0LdPZ2hT9jBgC6YvXIi/HansdtsnDV+3ZrmUgMwbzAN
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(396003)(136003)(346002)(376002)(39860400002)(451199021)(6512007)(2616005)(26005)(6506007)(186003)(41300700001)(66476007)(316002)(6486002)(36756003)(7416002)(5660300002)(38100700002)(15650500001)(4326008)(66556008)(6916009)(66946007)(2906002)(8936002)(8676002)(83380400001)(86362001)(54906003)(478600001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/82R9mLtyRwlzBTvEI7I1flVmALUHIMBYG7dRnq51EipRnffopkVBnXWeYgK?=
+ =?us-ascii?Q?fRdKuEAisexPMY5K3ZdrTaC/1cHyAvnfXW45jf/vrjVSRwXSfBynSCxpRld4?=
+ =?us-ascii?Q?e/+4yK9jrH5vtmqO+klsTdV+uzkoVxf1WYK8UNN6HmwEbI4hay/Zoly3ByXb?=
+ =?us-ascii?Q?XDPg/t0XkKgyeg2qHJvMm1titM0hjnkBPl9e4f20i4FigBj0BmLQ43IYPivi?=
+ =?us-ascii?Q?PPU1ANH36X2ESrLg+Pb/kgoLe90WeEnrOWF8ACGHNKsT+1Y+vmjSu4x+9K8T?=
+ =?us-ascii?Q?qSK5AnXr2ila8rtU4Drd+V2Fehy/vtpbUi9QcuhrDsppLY3+CtZjeTxlLBG1?=
+ =?us-ascii?Q?yQC5PoUEWUDaJwS9LWVZTEJs1PXoLdB6+KNbqQU0WK8C7UwOlEVD82YYdIg6?=
+ =?us-ascii?Q?Mg2W4Fe71DAavWJ+gHuOPg3rczb3hQhLaWCoWipj32+7qrkQujXMR8167mS5?=
+ =?us-ascii?Q?tKnbsKZRUOdhfeUFL3SPmOJn1iFj4PWkCaOjAkXY37tIVNXxcNQAfzvkoVX9?=
+ =?us-ascii?Q?+7JLG9QNRjsFhO4hQpZGj4kMtR0+TsFrNReH5/c/d2iZSWKwxmf9oLG2ckXS?=
+ =?us-ascii?Q?xeIeiGQxvYZR2D2lqX+o2SJ6SJU1hUTBSPluZzKzAAjc8VIE6jtUR9E/cKVb?=
+ =?us-ascii?Q?PI6EwLcuhoNlCSX5QPHbdd+SI0lYSCX8yDvmsHaqwPvRUULBiiukn8BrtLXf?=
+ =?us-ascii?Q?bx6WPC5/MRy8BOEZKGRHG3qtU0C3BCEq4vZlYUHUgJVnt24a7hfK2lvm0kHC?=
+ =?us-ascii?Q?FHg784bNIXYirBaiRxQaEGRTkmITmurrlPAQkccOkMuhUVRq0bLqX2UsK2/r?=
+ =?us-ascii?Q?T9vqHQOU6VPmFVmFxljJudkLtr7Xq22MXz56AeAh/WJvzcTa/jMfaPRqRNVV?=
+ =?us-ascii?Q?bybmY5toD0QiA9Gv4Flj+/TdO0E6w+PYl14HRKhIMfzPFmTDQHEl1IvNsmgO?=
+ =?us-ascii?Q?McXs+QAOBc3cnFlcBVTvrhun0/ghkGs5KPYAJt/zXpTHIVFF9L6JMnnWsGVg?=
+ =?us-ascii?Q?3nHx/Zpbv3RrB8+Pz5mEgqZvWPdRkecZmyopUsJft4g95JE9osg3tVIhcuEH?=
+ =?us-ascii?Q?lO0y0El8oj0R8dk9IgJa0sWHftkFl8UANQNpqhcJw23AGJP7dHQnlhIBZJcv?=
+ =?us-ascii?Q?VDgkXpFi70tdudztwKACSUOnh4SgphrMOujAMpLLANokLGr60fTH9aaENr0e?=
+ =?us-ascii?Q?Ub7PMvqRkGuvAiZc+BRabzMsg4p5zv/4UsssNnQdvymRML4UM2aKVxDZM2Yy?=
+ =?us-ascii?Q?bZg2JuY5Ald/FORE1JO0lD8Sj+S/+3zgFyDGPXc92bm7GtmutRx/FXwArX/A?=
+ =?us-ascii?Q?7s96iVaKZsHj+C4Inqq64twm+9GS1KlLduL38hAJ1eY04xt6kPHVXnnGxtPm?=
+ =?us-ascii?Q?inIs9A4JRjzaHDg5ZT5mOkH/TbPBML8KY8zW50VXpeN08XdBKhUZRmZAldVg?=
+ =?us-ascii?Q?45ukvOWUvIBdjlFbfTGnR9Yo7x8JrLOMjc3/Ie4/LaZAPAGxZkCOAl2DsoqQ?=
+ =?us-ascii?Q?uzTMFcw/yNPVsyJhCLB4qmqX39j3owMQ/0At8xVCkAxq2ArPlTPLtKHyfCvO?=
+ =?us-ascii?Q?Olr05e9oCWBjOltPQBwuQwdpOrezPIELY5iU/OXQ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5036177-9159-41c1-4a7d-08db8d0bd805
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2023 12:37:01.3909 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hAyCTJ16dKZiv7wq6bl+nUTT056rnEv5oOZ1lxDu7A6CFKYfw4VxDg1FR9ifrxnc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6794
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,98 +121,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>,
+ Peter Xu <peterx@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/07/2023 21:16, Andi Shyti wrote:
-> Hi Tvrtko,
+On Mon, Jul 24, 2023 at 08:32:45PM +0000, Kasireddy, Vivek wrote:
+> Hi Jason,
 > 
-> On Mon, Jul 24, 2023 at 01:56:33PM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Commit 4bc91dbde0da ("drm/i915/lmem: Bypass aperture when lmem is available")
->> added a code path which does not map via GGTT, but was still setting the
->> ggtt write bit, and so triggering the GGTT flushing.
->>
->> Fix it by not setting that bit unless the GGTT mapping path was used, and
->> replace the flush with wmb() in i915_vma_flush_writes().
->>
->> This also works for the i915_gem_object_pin_map path added in
->> d976521a995a ("drm/i915: extend i915_vma_pin_iomap()").
->>
->> It is hard to say if the fix has any observable effect, given that the
->> write-combine buffer gets flushed from intel_gt_flush_ggtt_writes too, but
->> apart from code clarity, skipping the needless GGTT flushing could be
->> beneficial on platforms with non-coherent GGTT. (See the code flow in
->> intel_gt_flush_ggtt_writes().)
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Fixes: 4bc91dbde0da ("drm/i915/lmem: Bypass aperture when lmem is available")
->> References: d976521a995a ("drm/i915: extend i915_vma_pin_iomap()")
->> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
->> Cc: <stable@vger.kernel.org> # v5.14+
->> ---
->>   drivers/gpu/drm/i915/i915_vma.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
->> index ffb425ba591c..f2b626cd2755 100644
->> --- a/drivers/gpu/drm/i915/i915_vma.c
->> +++ b/drivers/gpu/drm/i915/i915_vma.c
->> @@ -602,7 +602,9 @@ void __iomem *i915_vma_pin_iomap(struct i915_vma *vma)
->>   	if (err)
->>   		goto err_unpin;
->>   
->> -	i915_vma_set_ggtt_write(vma);
->> +	if (!i915_gem_object_is_lmem(vma->obj) &&
->> +	    i915_vma_is_map_and_fenceable(vma))
->> +		i915_vma_set_ggtt_write(vma);
->>   
->>   	/* NB Access through the GTT requires the device to be awake. */
->>   	return page_mask_bits(ptr);
->> @@ -617,6 +619,8 @@ void i915_vma_flush_writes(struct i915_vma *vma)
->>   {
->>   	if (i915_vma_unset_ggtt_write(vma))
->>   		intel_gt_flush_ggtt_writes(vma->vm->gt);
->> +	else
->> +		wmb(); /* Just flush the write-combine buffer. */
-> 
-> is flush the right word? Can you expand more the explanation in
-> this comment and why this point of synchronization is needed
-> here? (I am even wondering if it is really needed).
+> > 
+> > On Mon, Jul 24, 2023 at 07:54:38AM +0000, Kasireddy, Vivek wrote:
+> > 
+> > > > I'm not at all familiar with the udmabuf use case but that sounds
+> > > > brittle and effectively makes this notifier udmabuf specific right?
+> > > Oh, Qemu uses the udmabuf driver to provide Host Graphics components
+> > > (such as Spice, Gstreamer, UI, etc) zero-copy access to Guest created
+> > > buffers. In other words, from a core mm standpoint, udmabuf just
+> > > collects a bunch of pages (associated with buffers) scattered inside
+> > > the memfd (Guest ram backed by shmem or hugetlbfs) and wraps
+> > > them in a dmabuf fd. And, since we provide zero-copy access, we
+> > > use DMA fences to ensure that the components on the Host and
+> > > Guest do not access the buffer simultaneously.
+> > 
+> > So why do you need to track updates proactively like this?
+> As David noted in the earlier series, if Qemu punches a hole in its memfd
+> that goes through pages that are registered against a udmabuf fd, then
+> udmabuf needs to update its list with new pages when the hole gets
+> filled after (guest) writes. Otherwise, we'd run into the coherency 
+> problem (between udmabuf and memfd) as demonstrated in the selftest
+> (patch #3 in this series).
 
-If you are hinting flush isn't the right word then I am not remembering 
-what else do we use for it?
+Holes created in VMA are tracked by invalidation, you haven't
+explained why this needs to also see change.
 
-It is needed because i915_flush_writes()'s point AFAIU is to make sure 
-CPU writes after i915_vma_pin_iomap() have landed in RAM. All three 
-methods the latter can map the buffer are WC, therefore "flushing" of 
-the WC buffer is needed for former to do something (what it promises).
+BTW it is very jarring to hear you talk about files when working with
+mmu notifiers. MMU notifiers do not track hole punches or memfds, they
+track VMAs and PTEs. Punching a hole in a mmapped memfd will
+invalidate the convering PTEs.
 
-Currently the wmb() is in intel_gt_flush_ggtt_writes(). But only one of 
-the three mapping paths is via GGTT. So my logic is that calling it for 
-paths not interacting with GGTT is confusing and not needed.
+> > Trigger a move when the backing memory changes and re-acquire it with
+> AFAICS, without this patch or adding new change_pte calls, there is no way to
+> get notified when a new page is mapped into the backing memory of a memfd
+> (backed by shmem or hugetlbfs) which happens after a hole punch followed
+> by writes. 
 
-> Anyway, it looks good:
-> 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Yes, we have never wanted to do this because is it racy.
 
-Thanks. If you don't see a hole in my logic I can improve the comment. I 
-considered it initially but then thought it is obvious enough from 
-looking at the i915_vma_pin_iomap. I can comment it more.
+If you still need the memory mapped then you re-call hmm_range_fault
+and re-obtain it. hmm_range_fault will resolve all the races and you
+get new pages.
 
-Regards,
+> We can definitely get notified when a hole is punched via the
+> invalidate notifiers though, but as I described earlier this is not very helpful
+> for the udmabuf use-case.
 
-Tvrtko
+I still don't understand why, or what makes udmabuf so special
+compared to all the other places tracking VMA changes and using
+hmm_range_fault.
 
-> 
-> Andi
-> 
->>   }
->>   
->>   void i915_vma_unpin_iomap(struct i915_vma *vma)
->> -- 
->> 2.39.2
+Jason
