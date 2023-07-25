@@ -1,78 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009A176274F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 01:29:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D13762789
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 01:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D939710E1BA;
-	Tue, 25 Jul 2023 23:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E18C10E1B9;
+	Tue, 25 Jul 2023 23:50:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 995B910E1BA
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 23:28:54 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fb73ba3b5dso9732017e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 16:28:54 -0700 (PDT)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1969010E1B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 23:50:58 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id
+ 5614622812f47-3a3fbfb616dso3654387b6e.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jul 2023 16:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690327732; x=1690932532;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gKNjVFoWKLKBYxs8JqJEAaSTFNA8UANH44SbQcDSE3g=;
- b=Er8sAME2zRcJ1hS846CPBBYz5KFBAgzXMq+1aXumnv7evJN5gh/H65nAPtPqitZ3ah
- WPIOo9WeV++WT8ElBLexz5j88+3EnwK3/qZJpQHc1LVPiOAgVMHEG/KrFh0r6+voyL5n
- 6qWVAOE+Ol/uM04SUhRtJSUqOxweYzFgPjYAx6e45XukvYZcj4DjcviN3qT0XF4q6rj5
- /xVn5h3CRJr/WBjTkNfWk/msz88+jWy6KO7SIyBYwh3ZiGoIrIj1ht0tOcJxrNbH0gNI
- NZgfM2NlJuZS+JSA70cBsM3USQWXePClId0nxg34cdBBUrckxMbGomNE4JW5nO0Nawjj
- 1FEw==
+ d=gmail.com; s=20221208; t=1690329057; x=1690933857;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MntZLPg9Q2TkUipdw5URIw2GbDHNmtTpFo/G9AqaGl8=;
+ b=NcnLZAsl/ELgMGRZHqKtVn9uEWSI7mXT9tyTc3vBN6zCSfgBl5nNIoHcUbeHj/1bb1
+ 7TVWKeBXM4LVNKY3H4EEIOjYge9df3vlFwHI5CNoqM7xcvxhsu41x9CyjR/s9+wixj5Q
+ OiUwuFf/2P+3gbuIAhnbc0y6qkVIo/7TPUHbRhhemeQF4w15VIgeziXSgkZuBvGvtxky
+ 75O3kuuW/8j7jeeC/gZJihv/Rj6o7OCKwuC6zsTWPp+SuTkt+qSvgZPDcM7pNgSYv5Dl
+ ukVrDRTuD6SWugwpqvBKVt9kQVcW7K0gpLRcQzBha0H4iC5ImojFMbgRPMdTRzsIYpid
+ 42jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690327732; x=1690932532;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gKNjVFoWKLKBYxs8JqJEAaSTFNA8UANH44SbQcDSE3g=;
- b=fdndKuh28RKE+l75tOmvbOMdv1J2IVdMius69AElCq/3Vbb2MRc24uXXJBOKUFja1r
- Up+nkXiiVgqB6eVF8JogPFxA21397D5XvR9vP8wOmPddBmltEfAATKADcKS66145Ql+Y
- UeRt9RI1omYUkVTpLDBWKtCByCmVf/d1xvx2+4VsvsS1/3HyHNJoPcwzmpE0Ba1pKDPQ
- xFHWdYpnRE5jLHljOLa5mVKXjeO3SQvtxgKhPjMVuWNL3MTAnXATl3ysRwVAx+BO94HA
- +bW/5iebWJ/l4Ohj70MnVI3uUMao2X1Q9LUbsNondk2SaqzgHEvQBLR7xTsE7zA5IKxQ
- +8Dg==
-X-Gm-Message-State: ABy/qLYB2R5RDQrEs6/AHmwyLr9VW+kmeXuPtG8PAQQOJ9QEgC0zpcgd
- 4v0aWRiS7tir8fCaQzckch/wsA==
-X-Google-Smtp-Source: APBJJlGtqm/UJe7nl5jtAdeqkYP3iwlx8WGbC09n5bEnrnR8JibG5g+HPBEEAnSS24uSQYayy4T3TA==
-X-Received: by 2002:ac2:5bc7:0:b0:4f8:8be4:8a82 with SMTP id
- u7-20020ac25bc7000000b004f88be48a82mr169949lfn.22.1690327732100; 
- Tue, 25 Jul 2023 16:28:52 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- l14-20020ac2430e000000b004fdd9d43e05sm3018065lfh.171.2023.07.25.16.28.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jul 2023 16:28:51 -0700 (PDT)
-Message-ID: <3fad4376-b49f-af4f-f350-8d0e28a93b0c@linaro.org>
-Date: Wed, 26 Jul 2023 02:28:50 +0300
+ d=1e100.net; s=20221208; t=1690329057; x=1690933857;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MntZLPg9Q2TkUipdw5URIw2GbDHNmtTpFo/G9AqaGl8=;
+ b=AsIMNifx9gSAsyeMz62OnI3/ru287V0IHYBo6sYFGvFSdAfL108OM0KGnvz8SyKMRd
+ gVtUUAIICMl4V0f36JZ3ibI3Fsxsv1yBBv3NBOwFMs60jvdk/Wdnj5fJEPwIOa2JtqDE
+ Bo2raQ1HMsPE+NV8zG2g8jh0kz5xCHqbsDsODlsqwJTNjlligf6b5CTDMjf4mD1YhgxX
+ oxJaM24SeHO8mWCcFX8K+5P/pehfl5136WwSg1n+kl4JynKK1arTEqJWrpyxcGj/V8uJ
+ Zs2GaaUfgbBOf99ORxeRGr9EUrUe4FJbENv0nLA9X3bV9k6t2NZb/sc3JPo3546BiUbp
+ stHg==
+X-Gm-Message-State: ABy/qLZkOs+6+DIuubZmfsi1wsm/ITuB+g/3Al7iEM7ItRCraSN2C1Ls
+ P9FRDi3VdcNuAe6+9SG69Yg=
+X-Google-Smtp-Source: APBJJlHalXYmOhaEU6n05SNM4i/kOD7ydZDReFjh8w9A4vRIkL/8696/tstPkBJZxOJSkhZD6kYQEg==
+X-Received: by 2002:a05:6808:1588:b0:3a4:232c:5d7e with SMTP id
+ t8-20020a056808158800b003a4232c5d7emr476635oiw.5.1690329056959; 
+ Tue, 25 Jul 2023 16:50:56 -0700 (PDT)
+Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
+ rj14-20020a17090b3e8e00b00267fe43f518sm110915pjb.23.2023.07.25.16.50.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Jul 2023 16:50:56 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id AD3F981944A1; Wed, 26 Jul 2023 06:50:53 +0700 (WIB)
+Date: Wed, 26 Jul 2023 06:50:52 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>,
+ hq.dev+kernel@msdfc.xyz, Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: Fwd: Unexplainable packet drop starting at v6.4
+Message-ID: <ZMBf3Cu+MgXjOpvF@debian.me>
+References: <e79edb0f-de89-5041-186f-987d30e0187c@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Freedreno] [PATCH v1 2/5] drm/msm/dp: incorporate pm_runtime
- framework into DP driver
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-3-git-send-email-quic_khsieh@quicinc.com>
- <oc6cohs6pbiuyirdxgepoharuzdra2hzy3kwfqjmdfcq36y367@ah3bal2jqncb>
- <0ac305d2-d0a9-cdfb-9be8-243402d865e7@quicinc.com>
- <44299d05-d411-e9c4-7b96-84efb28d47c9@quicinc.com>
- <a7405272-6a9e-b0c4-f749-060dbe716148@linaro.org>
- <d52f78f4-f36c-b905-edbc-1795fd7ba96f@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <d52f78f4-f36c-b905-edbc-1795fd7ba96f@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="OUAsi7azhbgmAo1h"
+Content-Disposition: inline
+In-Reply-To: <e79edb0f-de89-5041-186f-987d30e0187c@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,278 +85,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, vkoul@kernel.org, quic_sbillaka@quicinc.com,
- quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- marijn.suijten@somainline.org, swboyd@chromium.org,
- linux-kernel@vger.kernel.org
+Cc: Linux Networking <netdev@vger.kernel.org>,
+ Linux Intel Ethernet Drivers <intel-wired-lan@lists.osuosl.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Regressions <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/07/2023 02:26, Kuogee Hsieh wrote:
-> 
-> On 7/25/2023 3:33 PM, Dmitry Baryshkov wrote:
->> On 26/07/2023 01:25, Kuogee Hsieh wrote:
->>>
->>> On 7/10/2023 9:22 AM, Kuogee Hsieh wrote:
->>>>
->>>> On 7/8/2023 7:52 PM, Bjorn Andersson wrote:
->>>>> On Fri, Jul 07, 2023 at 04:52:20PM -0700, Kuogee Hsieh wrote:
->>>>>> Incorporating pm runtime framework into DP driver so that power
->>>>>> and clock resource handling can be centralized allowing easier
->>>>>> control of these resources in preparation of registering aux bus
->>>>>> uring probe.
->>>>>>
->>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>>> ---
->>>>>>   drivers/gpu/drm/msm/dp/dp_aux.c     |  3 ++
->>>>>>   drivers/gpu/drm/msm/dp/dp_display.c | 75 
->>>>>> +++++++++++++++++++++++++++++--------
->>>>>>   2 files changed, 63 insertions(+), 15 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c 
->>>>>> b/drivers/gpu/drm/msm/dp/dp_aux.c
->>>>>> index 8e3b677..c592064 100644
->>>>>> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
->>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
->>>>>> @@ -291,6 +291,7 @@ static ssize_t dp_aux_transfer(struct 
->>>>>> drm_dp_aux *dp_aux,
->>>>>>           return -EINVAL;
->>>>>>       }
->>>>>>   +    pm_runtime_get_sync(dp_aux->dev);
->>>>>>       mutex_lock(&aux->mutex);
->>>>>>       if (!aux->initted) {
->>>>>>           ret = -EIO;
->>>>>> @@ -364,6 +365,8 @@ static ssize_t dp_aux_transfer(struct 
->>>>>> drm_dp_aux *dp_aux,
->>>>>>     exit:
->>>>>>       mutex_unlock(&aux->mutex);
->>>>>> +    pm_runtime_mark_last_busy(dp_aux->dev);
->>>>>> +    pm_runtime_put_autosuspend(dp_aux->dev);
->>>>>>         return ret;
->>>>>>   }
->>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>>>>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> index 76f1395..2c5706a 100644
->>>>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>>>>> @@ -309,6 +309,10 @@ static int dp_display_bind(struct device 
->>>>>> *dev, struct device *master,
->>>>>>           goto end;
->>>>>>       }
->>>>>>   +    pm_runtime_enable(dev);
->>>>>> +    pm_runtime_set_autosuspend_delay(dev, 1000);
->>>>>> +    pm_runtime_use_autosuspend(dev);
->>>>>> +
->>>>>>       return 0;
->>>>>>   end:
->>>>>>       return rc;
->>>>>> @@ -320,9 +324,8 @@ static void dp_display_unbind(struct device 
->>>>>> *dev, struct device *master,
->>>>>>       struct dp_display_private *dp = 
->>>>>> dev_get_dp_display_private(dev);
->>>>>>       struct msm_drm_private *priv = dev_get_drvdata(master);
->>>>>>   -    /* disable all HPD interrupts */
->>>>>> -    if (dp->core_initialized)
->>>>>> -        dp_catalog_hpd_config_intr(dp->catalog, 
->>>>>> DP_DP_HPD_INT_MASK, false);
->>>>>> +    pm_runtime_dont_use_autosuspend(dev);
->>>>>> +    pm_runtime_disable(dev);
->>>>>>         kthread_stop(dp->ev_tsk);
->>>>>>   @@ -466,10 +469,12 @@ static void dp_display_host_init(struct 
->>>>>> dp_display_private *dp)
->>>>>>           dp->dp_display.connector_type, dp->core_initialized,
->>>>>>           dp->phy_initialized);
->>>>>>   -    dp_power_init(dp->power);
->>>>>> -    dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
->>>>>> -    dp_aux_init(dp->aux);
->>>>>> -    dp->core_initialized = true;
->>>>>> +    if (!dp->core_initialized) {
->>>>>> +        dp_power_init(dp->power);
->>>>>> +        dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
->>>>>> +        dp_aux_init(dp->aux);
->>>>>> +        dp->core_initialized = true;
->>>>> There are two cases that queries core_initialized, both of those are
->>>>> done to avoid accessing the DP block without it first being powered 
->>>>> up.
->>>>> With the introduction of runtime PM, it seems reasonable to just power
->>>>> up the block in those two code paths (and remove the variable).
->>>>>
->>>>>> +    }
->>>>>>   }
->>>>>>     static void dp_display_host_deinit(struct dp_display_private *dp)
->>>>>> @@ -478,10 +483,12 @@ static void dp_display_host_deinit(struct 
->>>>>> dp_display_private *dp)
->>>>>>           dp->dp_display.connector_type, dp->core_initialized,
->>>>>>           dp->phy_initialized);
->>>>>>   -    dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
->>>>>> -    dp_aux_deinit(dp->aux);
->>>>>> -    dp_power_deinit(dp->power);
->>>>>> -    dp->core_initialized = false;
->>>>>> +    if (dp->core_initialized) {
->>>>>> +        dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
->>>>>> +        dp_aux_deinit(dp->aux);
->>>>>> +        dp_power_deinit(dp->power);
->>>>>> +        dp->core_initialized = false;
->>>>>> +    }
->>>>>>   }
->>>>>>     static int dp_display_usbpd_configure_cb(struct device *dev)
->>>>>> @@ -1304,6 +1311,39 @@ static int dp_display_remove(struct 
->>>>>> platform_device *pdev)
->>>>>>       dp_display_deinit_sub_modules(dp);
->>>>>>         platform_set_drvdata(pdev, NULL);
->>>>>> +    pm_runtime_put_sync_suspend(&pdev->dev);
->>>>>> +
->>>>>> +    return 0;
->>>>>> +}
->>>>>> +
->>>>>> +static int dp_pm_runtime_suspend(struct device *dev)
->>>>>> +{
->>>>>> +    struct platform_device *pdev = to_platform_device(dev);
->>>>>> +    struct msm_dp *dp_display = platform_get_drvdata(pdev);
->>>>> platform_get_drvdata() is a wrapper for 
->>>>> dev_get_drvdata(&pdev->dev), so
->>>>> there's no need to resolve the platform_device first...
->>>>>
->>>>>> +    struct dp_display_private *dp;
->>>>>> +
->>>>>> +    dp = container_of(dp_display, struct dp_display_private, 
->>>>>> dp_display);
->>>>>> +
->>>>>> +    dp_display_host_phy_exit(dp);
->>>>>> +    dp_catalog_ctrl_hpd_enable(dp->catalog);
->>>>>> +    dp_display_host_deinit(dp);
->>>>>> +
->>>>>> +    return 0;
->>>>>> +}
->>>>>> +
->>>>>> +static int dp_pm_runtime_resume(struct device *dev)
->>>>>> +{
->>>>>> +    struct platform_device *pdev = to_platform_device(dev);
->>>>>> +    struct msm_dp *dp_display = platform_get_drvdata(pdev);
->>>>>> +    struct dp_display_private *dp;
->>>>>> +
->>>>>> +    dp = container_of(dp_display, struct dp_display_private, 
->>>>>> dp_display);
->>>>>> +
->>>>>> +    dp_display_host_init(dp);
->>>>>> +    if (dp_display->is_edp) {
->>>>>> +        dp_catalog_ctrl_hpd_enable(dp->catalog);
->>>>>> +        dp_display_host_phy_init(dp);
->>>>>> +    }
->>>>>>         return 0;
->>>>>>   }
->>>>>> @@ -1409,6 +1449,7 @@ static int dp_pm_suspend(struct device *dev)
->>>>>>   }
->>>>>>     static const struct dev_pm_ops dp_pm_ops = {
->>>>>> +    SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, 
->>>>>> dp_pm_runtime_resume, NULL)
->>>>>>       .suspend = dp_pm_suspend,
->>>>>>       .resume =  dp_pm_resume,
->>>>>>   };
->>>>>> @@ -1493,10 +1534,6 @@ static int 
->>>>>> dp_display_get_next_bridge(struct msm_dp *dp)
->>>>>>       aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
->>>>>>         if (aux_bus && dp->is_edp) {
->>>>>> -        dp_display_host_init(dp_priv);
->>>>>> -        dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
->>>>>> -        dp_display_host_phy_init(dp_priv);
->>>>> I'm probably just missing it, but how do we get here with the host
->>>>> powered up and the phy initialized?
->>>>
->>>> if (!dp->core_initialized)  is at dp_display_host_init()
->>>>
->>>>>
->>>>>> -
->>>>>>           /*
->>>>>>            * The code below assumes that the panel will finish 
->>>>>> probing
->>>>>>            * by the time devm_of_dp_aux_populate_ep_devices() 
->>>>>> returns.
->>>>>> @@ -1604,6 +1641,7 @@ void dp_bridge_atomic_enable(struct 
->>>>>> drm_bridge *drm_bridge,
->>>>>>           dp_hpd_plug_handle(dp_display, 0);
->>>>>>         mutex_lock(&dp_display->event_mutex);
->>>>>> + pm_runtime_get_sync(&dp_display->pdev->dev);
->>>>>>         state = dp_display->hpd_state;
->>>>>>       if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
->>>>>> @@ -1684,6 +1722,8 @@ void dp_bridge_atomic_post_disable(struct 
->>>>>> drm_bridge *drm_bridge,
->>>>>>       }
->>>>>>         drm_dbg_dp(dp->drm_dev, "type=%d Done\n", 
->>>>>> dp->connector_type);
->>>>>> +
->>>>>> + pm_runtime_put_sync(&dp_display->pdev->dev);
->>>>>>       mutex_unlock(&dp_display->event_mutex);
->>>>>>   }
->>>>>>   @@ -1723,6 +1763,8 @@ void dp_bridge_hpd_enable(struct 
->>>>>> drm_bridge *bridge)
->>>>>>       struct dp_display_private *dp = container_of(dp_display, 
->>>>>> struct dp_display_private, dp_display);
->>>>>>         mutex_lock(&dp->event_mutex);
->>>>>> +    pm_runtime_get_sync(&dp->pdev->dev);
->>>>>> +
->>>>>>       dp_catalog_ctrl_hpd_enable(dp->catalog);
->>>>>>         /* enable HDP interrupts */
->>>>>> @@ -1744,6 +1786,9 @@ void dp_bridge_hpd_disable(struct drm_bridge 
->>>>>> *bridge)
->>>>>>       dp_catalog_ctrl_hpd_disable(dp->catalog);
->>>>>>         dp_display->internal_hpd = false;
->>>>>> +
->>>>>> +    pm_runtime_mark_last_busy(&dp->pdev->dev);
->>>>>> +    pm_runtime_put_autosuspend(&dp->pdev->dev);
->>>>>>       mutex_unlock(&dp->event_mutex);
->>>>>>   }
->>>>> The runtime_get/put in dp_bridge_hpd_enable() and disable matches my
->>>>> expectations. But in the case that we have an external HPD source, 
->>>>> where
->>>>> will the power be turned on?
->>>>>
->>>>> Note that you can test this on your device by routing the HPD GPIO 
->>>>> to a
->>>>> display-connector instance and wiring this to the DP node. In the same
->>>>> way it's done here:
->>>>>
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sa8295p-adp.dts#n28
->>>
->>> at sc7280, gpio-47 has function 2 as dp-hot-plug pin. but it does not 
->>> has function for general purpose pin.
->>
->> It has a 'gpio' function, so that the pin can be used as a generic 
->> GPIO with a dp-connector device.
-> function 0 is for PBL_DEBUG2,  which function # should I use?
 
-does `function = "gpio"` work?
+--OUAsi7azhbgmAo1h
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->>
->>>
->>> Just curious,  to work with external HPD source,
->>>
->>> 1) which DRM_BRIDGE_OP_xxx should be used for bridge->ops?
->>
->> There is no difference. The drm_bridge_connector will select the 
->> bridges according to the needs. E.g. the dp-connector can provide 
->> DRM_BRIDGE_OP_DETECT / OP_HPD (if the hpd-gpios property is 
->> configured). If it does, it will be selected for detection/HPD 
->> handling. If not, the main dp bridge will handle these operations.
-> 
-> can you please point me out where  "hpd-gpios" info get parsed and 
-> during polling where the gpio status get read from?
+On Tue, Jul 18, 2023 at 07:51:24AM +0700, Bagas Sanjaya wrote:
+> Hi,
+>=20
+> I notice a regression report on Bugzilla [1]. Quoting from it:
+>=20
+> > Hi,
+> >=20
+> > After I updated to 6.4 through Archlinux kernel update, suddenly I noti=
+ced random packet losses on my routers like nodes. I have these networking =
+relevant config on my nodes
+> >=20
+> > 1. Using archlinux
+> > 2. Network config through systemd-networkd
+> > 3. Using bird2 for BGP routing, but not relevant to this bug.
+> > 4. Using nftables for traffic control, but seems not relevant to this b=
+ug.=20
+> > 5. Not using fail2ban like dymanic filtering tools, at least at L3/L4 l=
+evel
+> >=20
+> > After I ruled out systemd-networkd, nftables related issues. I tracked =
+down issues to kernel.
+> >=20
+> > Here's the tcpdump I'm seeing on one side of my node ""
+> >=20
+> > ```
+> > sudo tcpdump -i fios_wan port 38851
+> > tcpdump: verbose output suppressed, use -v[v]... for full protocol deco=
+de
+> > listening on fios_wan, link-type EN10MB (Ethernet), snapshot length 262=
+144 bytes
+> > 10:33:06.073236 IP [BOS1_NODE].38851 > [REDACTED_PUBLIC_IPv4_1].38851: =
+UDP, length 148
+> > 10:33:11.406607 IP [BOS1_NODE].38851 > [REDACTED_PUBLIC_IPv4_1].38851: =
+UDP, length 148
+> > 10:33:16.739969 IP [BOS1_NODE].38851 > [REDACTED_PUBLIC_IPv4_1].38851: =
+UDP, length 148
+> > 10:33:21.859856 IP [BOS1_NODE].38851 > [REDACTED_PUBLIC_IPv4_1].38851: =
+UDP, length 148
+> > 10:33:27.193176 IP [BOS1_NODE].38851 > [REDACTED_PUBLIC_IPv4_1].38851: =
+UDP, length 148
+> > 5 packets captured
+> > 5 packets received by filter
+> > 0 packets dropped by kernel
+> > ```
+> >=20
+> > But on the other side "[REDACTED_PUBLIC_IPv4_1]", tcpdump is replying p=
+ackets in this wireguard stream. So packet is lost somewhere in the link.
+> >=20
+> > From the otherside, I can do "mtr" to "[BOS1_NODE]"'s public IP and fou=
+nd the moment the link got lost is right at "[BOS1_NODE]", that means "[BOS=
+1_NODE]"'s networking stack completely drop the inbound packets from specif=
+ic ip addresses.
+> >=20
+> > Some more digging
+> >=20
+> > 1. This situation began after booting in different delays. Sometimes ca=
+n trigger after 30 seconds after booting, and sometimes will be after 18 ho=
+urs or more.
+> > 2. It can envolve into worse case that when I do "ip neigh show", the i=
+pv4 ARP table and ipv6 neighbor discovery start to appear as "invalid", mea=
+ning the internet is completely loss.
+> > 3. When this happened to wan facing interface, it seems OK with lan fac=
+ing interfaces. WAN interface was using Intel X710-T4L using i40e and lan s=
+ide was using virtio
+> > 4. I tried to bisect in between 6.3 and 6.4, and the first bad commit i=
+t reports was "a3efabee5878b8d7b1863debb78cb7129d07a346". But this is not r=
+elevant to networking at all, maybe it's the wrong commit to look at. At th=
+e meantime, because I haven't found a reproducible way of 100% trigger the =
+issue, it may be the case during bisect some "good" commits are actually ba=
+d.=20
+> > 5. I also tried to look at "dmesg", nothing interesting pop up. But I'l=
+l make it available upon request.
+> >=20
+> > This is my first bug reports. Sorry for any confusion it may lead to an=
+d thanks for reading.
+>=20
+> See Bugzilla for the full thread.
+>=20
+> Thorsten: The reporter had a bad bisect (some bad commits were marked as =
+good
+> instead), hence SoB chain for culprit (unrelated) ipvu commit is in To:
+> list. I also asked the reporter (also in To:) to provide dmesg and request
+> rerunning bisection, but he doesn't currently have a reliable reproducer.
+> Is it the best I can do?
+>=20
+> Anyway, I'm adding this regression to be tracked in regzbot:
+>=20
+> #regzbot introduced: a3efabee5878b8 https://bugzilla.kernel.org/show_bug.=
+cgi?id=3D217678
+> #regzbot title: packet drop on Intel X710-T4L due to ipvu boot fix
+>=20
 
-Can you please take a look at the display-controller.c driver?
+This time, the bisection points out to v6.4 networking pull, so:
 
-> 
-> Thanks,
-> 
->>
->>>
->>> 2) are both .hpd_enable and .hpd_disable  have to be populated?
->>
->> No, they are both optional.
->>
+#regzbot introduced: 6e98b09da931a0
 
--- 
-With best wishes
-Dmitry
+(also Cc: Linus.)
 
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--OUAsi7azhbgmAo1h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZMBf0wAKCRD2uYlJVVFO
+o+/YAP0Z6eCcYl71Y1kT2UYGDBIwMXXiM7+aR40lhmu0mcdmbAEA9m/ui3/uZX51
+DmktMr6iQDC9/1h00DKNiilDimu++go=
+=+BBU
+-----END PGP SIGNATURE-----
+
+--OUAsi7azhbgmAo1h--
