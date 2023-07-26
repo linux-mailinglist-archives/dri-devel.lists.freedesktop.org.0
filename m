@@ -2,79 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AEF7637BB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 15:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB83763805
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 15:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2448910E48E;
-	Wed, 26 Jul 2023 13:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D5310E14B;
+	Wed, 26 Jul 2023 13:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC8310E14B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 13:38:10 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36QCEbXL029223; Wed, 26 Jul 2023 13:38:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=xr58Ttl/tZUIt/Rk6PYHYfdDG34LXOshnBUPuif6OfI=;
- b=NSuMPOS7BAsFYtk1ChGXugYPGq7CN+Qyk8bNuhD3EviojnhtvdirdiUohEN9MNcuCQ08
- hnZpdFc18kkQOqIbF/lQLXiv66c1Ih7xRtT1u+AHwajUOEftYHwAB47axL4pHbdE/DLL
- N9uRB4x46KftNGZA0kwJDJ1oiD9En6HYh3RahKtfXgO9ns+C0Y8HSduT4ikgLCiMNDh/
- yZdfixn2zLZlq37A39Z8rJQT0Om2rLpsVzo23lBM4tPQHwqg/jbeSujzvHqGwLzm7ZVS
- 0sS8RiC6j6bAcaIkmMxXiLiDLLNwof2ZrLbGzzW4j13IB2ayrLWkhsSQVE6Mnh2DGu3r qg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s2v4tgyvf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Jul 2023 13:38:07 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36QDc6ZI003783
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Jul 2023 13:38:06 GMT
-Received: from [10.50.21.246] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 26 Jul
- 2023 06:38:03 -0700
-Message-ID: <c0b314db-bd29-7211-2a70-667405eb5bd0@quicinc.com>
-Date: Wed, 26 Jul 2023 19:08:00 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2A2A10E14B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 13:49:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3901A61A44;
+ Wed, 26 Jul 2023 13:49:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CB21C433C8;
+ Wed, 26 Jul 2023 13:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690379351;
+ bh=hzmf8Bij70gVAgodLgWCiWCM75dWhG4k7zTGf0R3g9k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PSkx1fSGpfnBDl0HMa53d5n7KoFrCDxvrEBbCPxSj8j6gN6L1sPs0hCx+z23Fnvdu
+ J9r6C8xITdnMOcMda8V0kaEpbaR7INOBhQAnJ/wng5F/4Fa6FJGdo3kudzXS4Y2NtJ
+ 9biFtwHqDp35QzxlESq6ZrftU0ewwxbxHyFrZpwEs7CH8/acdhSLPZEViaKwQI5vEH
+ uv+SGjReSmrqCzIw75FW6uWJMzB+RKecLDL0CJaeRbUtidvxTsB1dpRNgITaq+Y8LA
+ RU6jAp/ZTCKjcRX7qjFHZmr5Un1k+ZhNKl0Hnnm4KMYo1NdAIJkFaR2RG4WxgJL40i
+ aTOffreeEd6wQ==
+Date: Wed, 26 Jul 2023 15:49:09 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v4] drm/ssd130x: Allocate buffers in the plane's
+ .atomic_check callback
+Message-ID: <ciwm45vwqlzwfywzn55uitsbq4undb7xoau2rbaverra3gyfb3@khr2wdz67d74>
+References: <20230721070955.1170974-1-javierm@redhat.com>
+ <CAMuHMdVxF80mdTaiXA6Y8Gd59Z7pxkoEphB4ohpVcK1q-+Yy=g@mail.gmail.com>
+ <n4fmda4zw4vuezvwva35tgma3yqhdvb253q2tfdyauoxbfqshx@s6fsa7de6g5s>
+ <CAMuHMdXtOozswqujA1h2spL8J86n65Q6=+z=5Jbb0nSXaBwqzA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH][next] accel/qaic: remove redundant assignment to pointer
- pexec
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, Colin Ian King
- <colin.i.king@gmail.com>, Carl Vanderlip <quic_carlv@quicinc.com>, "Oded
- Gabbay" <ogabbay@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20230725114037.36806-1-colin.i.king@gmail.com>
- <e457b416-3e63-0bae-0cd7-7788b43f30c1@quicinc.com>
-Content-Language: en-US
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-In-Reply-To: <e457b416-3e63-0bae-0cd7-7788b43f30c1@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: gNn-ja2ju0Xs11dqy647vzHtwKvYu086
-X-Proofpoint-GUID: gNn-ja2ju0Xs11dqy647vzHtwKvYu086
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_06,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- priorityscore=1501 mlxscore=0 bulkscore=0 impostorscore=0 spamscore=0
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2306200000 definitions=main-2307260120
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="vpnwefjeratdjsnb"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXtOozswqujA1h2spL8J86n65Q6=+z=5Jbb0nSXaBwqzA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,39 +58,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--vpnwefjeratdjsnb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7/26/2023 8:30 AM, Jeffrey Hugo wrote:
-> On 7/25/2023 5:40 AM, Colin Ian King wrote:
->> Pointer pexec is being assigned a value however it is never read. The
->> assignment is redundant and can be removed.
->>
->> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->> ---
->>   drivers/accel/qaic/qaic_data.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/accel/qaic/qaic_data.c 
->> b/drivers/accel/qaic/qaic_data.c
->> index e9a1cb779b30..8a6cb14f490e 100644
->> --- a/drivers/accel/qaic/qaic_data.c
->> +++ b/drivers/accel/qaic/qaic_data.c
->> @@ -1320,7 +1320,6 @@ static int __qaic_execute_bo_ioctl(struct 
->> drm_device *dev, void *data, struct dr
->>       user_data = u64_to_user_ptr(args->data);
->>       exec = kcalloc(args->hdr.count, size, GFP_KERNEL);
->> -    pexec = (struct qaic_partial_execute_entry *)exec;
->>       if (!exec)
->>           return -ENOMEM;
-> 
-> It does look like pexec is not used in this function after it was 
-> refactored.  Shouldn't the declaration at the beginning of the function 
-> also be removed?
+Hi,
 
-Yeah we should remove the declaration as well. Although it is used some 
-where to calculate its size i.e. sizeof(*pexec). We need to directly use 
-the type in sizeof() i.e. sizeof(struct qaic_partial_execute_entry).
+On Wed, Jul 26, 2023 at 01:52:37PM +0200, Geert Uytterhoeven wrote:
+> On Wed, Jul 26, 2023 at 12:00=E2=80=AFPM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> > On Tue, Jul 25, 2023 at 09:21:52PM +0200, Geert Uytterhoeven wrote:
+> > > > --- a/drivers/gpu/drm/solomon/ssd130x.c
+> > > > +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> > > > @@ -141,12 +141,26 @@ const struct ssd130x_deviceinfo ssd130x_varia=
+nts[] =3D {
+> > > >  };
+> > > >  EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
+> > > >
+> > > > +struct ssd130x_plane_state {
+> > > > +       struct drm_plane_state base;
+> > > > +       /* Intermediate buffer to convert pixels from XRGB8888 to R=
+1 */
+> > > > +       u8 *buffer;
+> > > > +       /* Buffer that contains R1 pixels to be written to the pane=
+l */
+> > > > +       u8 *data_array;
+> > >
+> > > The second buffer actually contains pixels in hardware format.
+> > > For now that is a transposed buffer of R1 pixels, but that will change
+> > > when you will add support for greyscale displays.
+> > >
+> > > So I'd write "hardware format" instead of R1 for both.
+> > >
+> > > BTW, I still think data_array should be allocated during probing,
+> > > as it is related to the hardware, not to a plane.
+> >
+> > I somewhat disagree.
+> >
+> > If I understood right during our discussion with Javier, the buffer size
+> > derives from the mode size (height and width).
+> >
+> > In KMS, the mode is tied to the KMS state, and thus you can expect the
+> > mode to change every state commit. So the more logical thing to do is to
+> > tie the buffer size (and thus the buffer pointer) to the state since
+> > it's only valid for that particular state for all we know.
+> >
+> > Of course, our case is allows use to simplify things since it's a fixed
+> > mode, but one of Javier's goal with this driver was to provide a good
+> > example we can refer people to, so I think it's worth keeping.
+>=20
+> The second buffer (containing the hardware format) has a size that
+> depends on the full screen size, not the current mode (I believe that's
+> also the size of the frame buffer backing the plane?).  So its size is
+> fixed.
+
+In KMS in general, no. For that particular case, yes.
+
+And about the framebuffer size =3D=3D full screen size, there's multiple
+sizes involved. I guess what you call full screen size is the CRTC size.
+
+You can't make the assumption in KMS that CRTC size =3D=3D (primary) plane
+size =3D=3D framebuffer size.
+
+If you're using scaling for example, you will have a framebuffer size
+smaller or larger than it plane size. If you're using cropping, then the
+plane size or framebuffer size will be different from the CRTC size.
+Some ways to work around overscan is also to have a smaller plane size
+than the CRTC size.
+
+You don't have to have the CRTC size =3D=3D primary plane size, and then you
+don't have to have plane size =3D=3D framebuffer size.
+
+you can't really make that assumption in the general case either:
+scaling or cropping will have a different framebuffer size than the CRTC
+primary plane size (which doesn't have to be "full screen" either).
+
+> Given the allocations are now done based on plane state, I think the
+> first buffer should be sized according to the frame buffer backing
+> the plane? Currently it uses the full screen size, too (cfr. below).
+
+Yeah, probably.
+
+> > > > @@ -159,23 +173,23 @@ static int ssd130x_buf_alloc(struct ssd130x_d=
+evice *ssd130x)
+> > > >
+> > > >         pitch =3D drm_format_info_min_pitch(fi, 0, ssd130x->width);
+> > > >
+> > > > -       ssd130x->buffer =3D kcalloc(pitch, ssd130x->height, GFP_KER=
+NEL);
+> > > > -       if (!ssd130x->buffer)
+> > > > +       ssd130x_state->buffer =3D kcalloc(pitch, ssd130x->height, G=
+FP_KERNEL);
+>=20
+> Based on full screen width and height.
+>=20
+> > > > +       if (!ssd130x_state->buffer)
+> > > >                 return -ENOMEM;
+> > > >
+> > > > -       ssd130x->data_array =3D kcalloc(ssd130x->width, pages, GFP_=
+KERNEL);
+> > > > -       if (!ssd130x->data_array) {
+> > > > -               kfree(ssd130x->buffer);
+> > > > +       ssd130x_state->data_array =3D kcalloc(ssd130x->width, pages=
+, GFP_KERNEL);
+>=20
+> Based on full screen width and height (hardware page size).
+>=20
+> > > > +       if (!ssd130x_state->data_array) {
+> > > > +               kfree(ssd130x_state->buffer);
+> > >
+> > > Should ssd130x_state->buffer be reset to NULL here?
+> > > I.e. if .atomic_check() fails, will .atomic_destroy_state() be called,
+> > > leading to a double free?
+> >
+> > That's a good question.
+> >
+> > I never really thought of that, but yeah, AFAIK atomic_destroy_state()
+> > will be called when atomic_check() fails.
+> >
+> > Which means that it's probably broken in a lot of drivers.
+> >
+> > Also, Javier pointed me to a discussion you had on IRC about using devm
+> > allocation here. We can't really do that. KMS devices are only freed
+> > once the last userspace application closes its fd to the device file, so
+> > you have an unbounded window during which the driver is still callable
+> > by userspace (and thus can still trigger an atomic commit) but the
+> > buffer would have been freed for a while.
+>=20
+> It should still be safe for (at least) the data_array buffer. That
+> buffer is only used to store pixels in hardware format, and immediately
+> send them to the hardware.  If this can be called that late, it will
+> fail horribly, as you can no longer talk to the hardware at that point
+> (as ssd130x is an i2c driver, it might actually work; but a DRM driver
+>  that calls devm_platform_ioremap_resource() will crash when writing
+>  to its MMIO registers)?!?
+
+Yep, that's exactly why we have drm_dev_enter/drm_dev_exit :)
+
+Not a lot of drivers are using it but all should. vc4 does exactly what
+you are describing for example.
+
+Maxime
+
+--vpnwefjeratdjsnb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMEkVQAKCRDj7w1vZxhR
+xWVDAP4y5VTZuIqxW5+rqkdxd3DgI0a0i7hK9BvwYwzjZT1l3AD/Ugz8n89RVZbk
+AwKQaGtmr5CKK0Lw5mWPGc+d3luMyAY=
+=TwRG
+-----END PGP SIGNATURE-----
+
+--vpnwefjeratdjsnb--
