@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782D57632FF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 12:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C50676332C
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 12:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A2710E450;
-	Wed, 26 Jul 2023 10:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBFB10E460;
+	Wed, 26 Jul 2023 10:09:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F3910E44D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 10:00:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E7BCC61A17;
- Wed, 26 Jul 2023 10:00:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03B43C433C7;
- Wed, 26 Jul 2023 10:00:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690365601;
- bh=QkLFfIXX7QKXCZKwEwSrlhmVUv0XbDTrkJ+oGtM5Z3I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dxqYIoKmIkZKpEnvveTEkQAzUt6sKfLUy7MnlkajdbR4uHHciLFYy7CVrGrFfGgmD
- 84YYuH4OAELFwnbayttE/g1GmgSDZhjTPBGS/Lb+4SgIJqQIxQPv+ebZXg9PmaNLYz
- DtoeQYPisRr3VcDup8b7c5ROZRaNiSVII/FDwZisOIqb1rw2ioLRq6iS5vyy1AW+NW
- fbWRdOhloWz4BPRqGnDWzVNF4G+tkSNGeDAXbh3kAzF7/hg3Up6IkIHNWdpkZeanjY
- Wlir/Zbly8NIOloEyjQE9bi9ARMIWC3YAC6qjDbBOo4SW+BP31vFY7MlYSFOPSZLAN
- YL2eh8qiqevsQ==
-Date: Wed, 26 Jul 2023 11:59:58 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v4] drm/ssd130x: Allocate buffers in the plane's
- .atomic_check callback
-Message-ID: <n4fmda4zw4vuezvwva35tgma3yqhdvb253q2tfdyauoxbfqshx@s6fsa7de6g5s>
-References: <20230721070955.1170974-1-javierm@redhat.com>
- <CAMuHMdVxF80mdTaiXA6Y8Gd59Z7pxkoEphB4ohpVcK1q-+Yy=g@mail.gmail.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBAD10E44D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 10:09:07 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1qObS2-0000qa-MB; Wed, 26 Jul 2023 12:09:02 +0200
+Message-ID: <a86a756c-4b44-1be4-cea6-a6e525970326@leemhuis.info>
+Date: Wed, 26 Jul 2023 12:09:01 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="33ssxdeultiog556"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVxF80mdTaiXA6Y8Gd59Z7pxkoEphB4ohpVcK1q-+Yy=g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+ EOT packet
+Content-Language: en-US, de-DE
+To: Amit Pundir <amit.pundir@linaro.org>, Marek Vasut <marex@denx.de>
+References: <20230403221233.500485-1-marex@denx.de>
+ <20230403221233.500485-2-marex@denx.de>
+ <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
+ <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
+ <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+ <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+ <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
+ <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
+ <4396d197-f16f-92bd-727c-eb8c78016198@quicinc.com>
+ <961b4747-c9f1-a31c-c33c-475b4803f832@denx.de>
+ <64c3352f-c2aa-5260-c6ff-4a607ce219a2@quicinc.com>
+ <f768950b-0406-1f03-86a5-50d5794bb060@denx.de>
+ <CAMi1Hd0LUk__=mz8_+ZTwh=E9wm+abX_4D4XmEO1Jb8uDnPu3A@mail.gmail.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <CAMi1Hd0LUk__=mz8_+ZTwh=E9wm+abX_4D4XmEO1Jb8uDnPu3A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1690366147;
+ 7747602d; 
+X-HE-SMSGID: 1qObS2-0000qa-MB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,134 +59,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: neil.armstrong@linaro.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Michael Walle <michael@walle.cc>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+for once, to make this easily accessible to everyone.
 
---33ssxdeultiog556
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What's the status wrt to this regression (caused by 8ddce13ae69 from
+Marek)? It looks like things are stalled and the regression still is
+unresolved, but I ask because I might be missing something.
 
-On Tue, Jul 25, 2023 at 09:21:52PM +0200, Geert Uytterhoeven wrote:
-> > --- a/drivers/gpu/drm/solomon/ssd130x.c
-> > +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> > @@ -141,12 +141,26 @@ const struct ssd130x_deviceinfo ssd130x_variants[=
-] =3D {
-> >  };
-> >  EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
-> >
-> > +struct ssd130x_plane_state {
-> > +       struct drm_plane_state base;
-> > +       /* Intermediate buffer to convert pixels from XRGB8888 to R1 */
-> > +       u8 *buffer;
-> > +       /* Buffer that contains R1 pixels to be written to the panel */
-> > +       u8 *data_array;
->=20
-> The second buffer actually contains pixels in hardware format.
-> For now that is a transposed buffer of R1 pixels, but that will change
-> when you will add support for greyscale displays.
->=20
-> So I'd write "hardware format" instead of R1 for both.
->
-> BTW, I still think data_array should be allocated during probing,
-> as it is related to the hardware, not to a plane.
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-I somewhat disagree.
+#regzbot poke
 
-If I understood right during our discussion with Javier, the buffer size
-derives from the mode size (height and width).
-
-In KMS, the mode is tied to the KMS state, and thus you can expect the
-mode to change every state commit. So the more logical thing to do is to
-tie the buffer size (and thus the buffer pointer) to the state since
-it's only valid for that particular state for all we know.
-
-Of course, our case is allows use to simplify things since it's a fixed
-mode, but one of Javier's goal with this driver was to provide a good
-example we can refer people to, so I think it's worth keeping.
-
-> > @@ -159,23 +173,23 @@ static int ssd130x_buf_alloc(struct ssd130x_devic=
-e *ssd130x)
-> >
-> >         pitch =3D drm_format_info_min_pitch(fi, 0, ssd130x->width);
-> >
-> > -       ssd130x->buffer =3D kcalloc(pitch, ssd130x->height, GFP_KERNEL);
-> > -       if (!ssd130x->buffer)
-> > +       ssd130x_state->buffer =3D kcalloc(pitch, ssd130x->height, GFP_K=
-ERNEL);
-> > +       if (!ssd130x_state->buffer)
-> >                 return -ENOMEM;
-> >
-> > -       ssd130x->data_array =3D kcalloc(ssd130x->width, pages, GFP_KERN=
-EL);
-> > -       if (!ssd130x->data_array) {
-> > -               kfree(ssd130x->buffer);
-> > +       ssd130x_state->data_array =3D kcalloc(ssd130x->width, pages, GF=
-P_KERNEL);
-> > +       if (!ssd130x_state->data_array) {
-> > +               kfree(ssd130x_state->buffer);
->=20
-> Should ssd130x_state->buffer be reset to NULL here?
-> I.e. if .atomic_check() fails, will .atomic_destroy_state() be called,
-> leading to a double free?
-
-That's a good question.
-
-I never really thought of that, but yeah, AFAIK atomic_destroy_state()
-will be called when atomic_check() fails.
-
-Which means that it's probably broken in a lot of drivers.
-
-Also, Javier pointed me to a discussion you had on IRC about using devm
-allocation here. We can't really do that. KMS devices are only freed
-once the last userspace application closes its fd to the device file, so
-you have an unbounded window during which the driver is still callable
-by userspace (and thus can still trigger an atomic commit) but the
-buffer would have been freed for a while.
-
-The driver could use a bit more work on that area (by adding
-drm_dev_enter/drm_dev_exit) but it still creates unnecessary risks to
-use devm there.
-
-> > +static struct drm_plane_state *ssd130x_primary_plane_duplicate_state(s=
-truct drm_plane *plane)
-> > +{
-> > +       struct ssd130x_plane_state *old_ssd130x_state;
-> > +       struct ssd130x_plane_state *ssd130x_state;
-> > +
-> > +       if (WARN_ON(!plane->state))
-> > +               return NULL;
-> > +
-> > +       old_ssd130x_state =3D to_ssd130x_plane_state(plane->state);
-> > +       ssd130x_state =3D kmemdup(old_ssd130x_state, sizeof(*ssd130x_st=
-ate), GFP_KERNEL);
->=20
-> I know this is the standard pattern, but the "dup" part is a bit
-> silly here:
->   - The ssd130x-specific parts in ssd130x_plane_state are zeroed below,
->   - The base part is copied again in
->     __drm_atomic_helper_plane_duplicate_state).
-> So (for now) you might as well just call kzalloc() ;-)
-
-Still if we ever add a field in the state structure, it will be
-surprising that it's not copied over.
-
-The code is there and looks good to me, so I'd rather keep it.
-
---33ssxdeultiog556
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMDumgAKCRDj7w1vZxhR
-xcgOAP9rbkUy8jWdFUWoMJgWQmcP2f7Bxf5+j2rMz97lyzqaFQD+KlUaiQmYQxpj
-XA/D7Omm1bNzTMaVrtoW/NcGxxU2rww=
-=6Jaw
------END PGP SIGNATURE-----
-
---33ssxdeultiog556--
+On 14.07.23 08:11, Amit Pundir wrote:
+> On Thu, 13 Jul 2023 at 23:58, Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 7/13/23 20:09, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 7/12/2023 10:41 AM, Marek Vasut wrote:
+>>>> On 7/9/23 03:03, Abhinav Kumar wrote:
+>>>>>
+>>>>>
+>>>>> On 7/7/2023 1:47 AM, Neil Armstrong wrote:
+>>>>>> On 07/07/2023 09:18, Neil Armstrong wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On 06/07/2023 11:20, Amit Pundir wrote:
+>>>>>>>> On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
+>>>>>>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>>>>>>
+>>>>>>>>> [Adding freedreno@ to cc list]
+>>>>>>>>>
+>>>>>>>>> On Wed, 5 Jul 2023 at 08:31, Jagan Teki
+>>>>>>>>> <jagan@amarulasolutions.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> Hi Amit,
+>>>>>>>>>>
+>>>>>>>>>> On Wed, Jul 5, 2023 at 10:15 AM Amit Pundir
+>>>>>>>>>> <amit.pundir@linaro.org> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> Hi Marek,
+>>>>>>>>>>>
+>>>>>>>>>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> Do not generate the HS front and back porch gaps, the HSA gap and
+>>>>>>>>>>>> EOT packet, as these packets are not required. This makes the
+>>>>>>>>>>>> bridge
+>>>>>>>>>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
+>>>>>>>>>>>
+>>>>>>>>>>> This patch broke display on Dragonboard 845c (SDM845) devboard
+>>>>>>>>>>> running
+>>>>>>>>>>> AOSP. This is what I see
+>>>>>>>>>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
+>>>>>>>>>>> Reverting this patch fixes this regression for me.
+>>>>>>>>>>
+>>>>>>>>>> Might be msm dsi host require proper handling on these updated
+>>>>>>>>>> mode_flags? did they?
+>>>>>>>>>
+>>>>>>>>> The msm DSI host supports those flags. Also, I'd like to point out
+>>>>>>>>> that the patch didn't change the rest of the driver code. So even if
+>>>>>>>>> drm/msm ignored some of the flags, it should not have caused the
+>>>>>>>>> issue. Most likely the issue is on the lt9611 side. I's suspect that
+>>>>>>>>> additional programming is required to make it work with these flags.
+>>>>>>>>
+>>>>>>>> I spent some time today on smoke testing these flags (individually
+>>>>>>>> and
+>>>>>>>> in limited combination) on DB845c, to narrow down this breakage to
+>>>>>>>> one
+>>>>>>>> or more flag(s) triggering it. Here are my observations in limited
+>>>>>>>> testing done so far.
+>>>>>>>>
+>>>>>>>> There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
+>>>>>>>> alone and system boots to UI as usual.
+>>>>>>>>
+>>>>>>>> MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in
+>>>>>>>> the
+>>>>>>>> screenshot[1] shared earlier as well.
+>>>>>>>>
+>>>>>>>> Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
+>>>>>>>> MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
+>>>>>>>> with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
+>>>>>>>> display as reported.
+>>>>>>>>
+>>>>>>>> In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
+>>>>>>>> added in this commit break the display on DB845c one way or another.
+>>>>>>>
+>>>>>>> I think the investigation would be to understand why samsung-dsim
+>>>>>>> requires
+>>>>>>> such flags and/or what are the difference in behavior between MSM
+>>>>>>> DSI and samsung DSIM
+>>>>>>> for those flags ?
+>>>>>>>
+>>>>>>> If someone has access to the lt9611 datasheet, so it requires
+>>>>>>> HSA/HFP/HBP to be
+>>>>>>> skipped ? and does MSM DSI and samsung DSIM skip them in the same
+>>>>>>> way ?
+>>>>>>
+>>>>>> I think there's a mismatch, where on one side this flags sets the
+>>>>>> link in LP-11 while
+>>>>>> in HSA/HFP/HPB while on the other it completely removes those
+>>>>>> blanking packets.
+>>>>>>
+>>>>>> The name MIPI_DSI_MODE_VIDEO_NO_HBP suggests removal of HPB, not
+>>>>>> LP-11 while HPB.
+>>>>>> the registers used in both controllers are different:
+>>>>>> - samsung-dsim: DSIM_HBP_DISABLE_MODE
+>>>>>> - msm dsi: DSI_VID_CFG0_HBP_POWER_STOP
+>>>>>>
+>>>>>> The first one suggest removing the packet, while the second one
+>>>>>> suggests powering
+>>>>>> off the line while in the blanking packet period.
+>>>>>>
+>>>>>> @Abhinav, can you comment on that ?
+>>>>>>
+>>>>>
+>>>>> I dont get what it means by completely removes blanking packets in DSIM.
+>>>>
+>>>> MIPI_DSI_MODE_VIDEO_NO_HFP means the HBP period is just skipped by DSIM.
+>>>>
+>>>> Maybe there is a need for new set of flags which differentiate between
+>>>> HBP skipped (i.e. NO HBP) and HBP LP11 ?
+>>>>
+>>>
+>>> No, the section of the MIPI DSI spec I posted below clearly states there
+>>> are two options:
+>>>
+>>> 1) send blanking packets during those periods
+>>> 2) transition to LP11 during those periods
+>>>
+>>> There is no 3rd option in the spec of not doing both like what you are
+>>> suggesting. So DSIM should also be only transitioning to LP11 during
+>>> those periods if its not sending the blanking packets with those flags set.
+>>>
+>>> So, there is no need for any new set of flags to differentiate.
+>>>
+>>> The flags and their interpretation is correct in MSM driver. I cannot
+>>> comment on what exactly DSIM does with those flags.
+>>
+>> How do you explain the comment in include/drm/drm_mipi_dsi.h:
+>>
+>> 128 /* disable hback-porch area */
+>> 129 #define MIPI_DSI_MODE_VIDEO_NO_HBP      BIT(6)
+>>
+>> Esp. the "disable" part. That to me reads as "don't send HBP packet".
+>>
+>> Where do you see that quote above in the DSI spec (which chapter and
+>> which version do you read) ?
+>>
+>>>>> It should be replacing those periods with LP11 too.
+>>>>>
+>>>>> The traffic mode being used on this bridge is
+>>>>> MIPI_DSI_MODE_VIDEO_SYNC_PULSE which is "Non-Burst Mode with Sync
+>>>>> Pulses".
+>>>>>
+>>>>> As per this traffic mode in the DSI spec,
+>>>>>
+>>>>> "Normally, periods shown as HSA (Horizontal Sync Active), HBP
+>>>>> (Horizontal Back Porch) and HFP (Horizontal Front Porch) are filled
+>>>>> by Blanking Packets, with lengths (including packet overhead)
+>>>>> calculated to match the period specified by the peripheral’s data
+>>>>> sheet. Alternatively, if there is sufficient time to transition from
+>>>>> HS to LP mode and back again, a timed interval in LP mode may
+>>>>> substitute for a Blanking Packet, thus saving power. During HSA, HBP
+>>>>> and HFP periods, the bus should stay in the LP-11 state."
+>>>>>
+>>>>> So we can either send the blanking packets or transition to LP state
+>>>>> and those 3 flags are controlling exactly that during those periods
+>>>>> for MSM driver.
+>>>>>
+>>>>> If you stop sending the blanking packets, you need to replace that
+>>>>> gap with LP.
+>>>>
+>>>> I don't think that's what MIPI_DSI_MODE_VIDEO_NO_HBP means, the way I
+>>>> understand MIPI_DSI_MODE_VIDEO_NO_HBP is that it skips the HBP
+>>>> completely. So if you want HBP, then do not set
+>>>> MIPI_DSI_MODE_VIDEO_NO_HBP . And if you want LP11 during HBP, that is
+>>>> I think up to the controller (or maybe another new flag?).
+>>>>
+>>>
+>>> No, there is no need of another new flag. There are only two options as
+>>> per the spec.
+>>>
+>>> In fact, as per my checking with more folks, requiring LP11 during those
+>>> periods is something very rare.
+>>>
+>>> Because usually horizontal period is usually a very short period, most
+>>> of the time we do not use the LP11 option and send the blanking packets
+>>> instead.
+>>>
+>>> So its something very unusual for DSIM.
+>>>
+>>> That being said, I still think my previous question is important.
+>>>
+>>> 1) What is the difference between the resolution you are trying Vs what
+>>> Amit is trying?
+>>>
+>>> 2) Are you both using just standard HDMI monitors?
+>>
+>> What is a "standard HDMI monitor" ?
+>> I use DELL U2713HM .
+> 
+> I see this breakage on portable HDMI monitors Viewsonic TD1655 [1] and
+> Cocopar Z173FH7F [2], both running at 1920x1080 resolution.
+> 
+> Regards,
+> Amit Pundir
+> [1] https://www.amazon.in/ViewSonic-TD1655-Portable-Touchscreen-Frameless/dp/B08778F756
+> [2] https://www.amazon.com/Portable-Monitor-FreeSync-Speaker-Nintendo/dp/B07ZLXCVPN
+> 
+>>
+>> [...]
+> 
+> 
