@@ -2,76 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54607763453
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 12:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE845763455
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 12:55:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3769B10E458;
-	Wed, 26 Jul 2023 10:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 397AF10E459;
+	Wed, 26 Jul 2023 10:55:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC5B10E456
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 10:55:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690368903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E3wvUr7a8sNlMjkQjrp9y08VnHFKDhRShbNPZvWniXw=;
- b=JWsE/6iaOQZf9H5h44t4HBKry9l1LFExXrPZqycwtMNlK09EgZZe2Mr9ayaCyYPPvUMEWO
- FYUiW5rlUsne8ROXaiD0JklbNK2xoUZUUEMdcrvPOkwBukryeNSL1gqNqU9Gcaa9bs7Ose
- ZQ+FTrdw9Ul3aU4UU5PP5XiZ/TG/Qj8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-88-w87wMuDTPNyxW8amNH5u6g-1; Wed, 26 Jul 2023 06:55:01 -0400
-X-MC-Unique: w87wMuDTPNyxW8amNH5u6g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-31779e89e39so59660f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 03:55:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690368900; x=1690973700;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E3wvUr7a8sNlMjkQjrp9y08VnHFKDhRShbNPZvWniXw=;
- b=P0k3a9Zm96XtkZuQKMVqFcYj5uCqE7lpNgNfseMrdzfiAn+8CtWIlpk47w0B88ZAof
- AYrgCyZmDRwFKWZnNvxr5cPXf2kLf+OX9V6ezYqdWajhIVZwV/pNo2BtL1iy3Rt/pv6A
- hG4nsLY7Bxn9u1ihA79N2xqXCwF/8ue89D5cVJH6sUdWYXUCzCmJVCUpM7WX+PO6xllj
- Yu+PzydTeRjAZs3AXzJjtPxbOE+vv+MPbIq5a3SYmhjqSGFh1h5Np5PjAv6uGLBK1BoO
- XLTP73wxwKJzWJ6Qy1LkDun7JP92CYV6AlTNUXH7EV/9ke0eo4I2tdxKcW3/yz8wNAXb
- BR8w==
-X-Gm-Message-State: ABy/qLbtOJoWarRVZ3MwKoHiByH+AQnVTcLcTjmQQB4MeXa2f+oD5xPs
- MUodXZFIiNKue2X4t2Y/KyiwgsCx6utoi4FPD43r0en4mfOT6JSoitNWe0qv5Tif3I99B+5ATT/
- R2yrN4bR+bLeApzQP+v80bcddylfF
-X-Received: by 2002:a5d:6203:0:b0:317:6129:a972 with SMTP id
- y3-20020a5d6203000000b003176129a972mr1150650wru.37.1690368900328; 
- Wed, 26 Jul 2023 03:55:00 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlG0atjEk0Mga39JJuleDELysQGmbMHo5TC0mODzKjxONf0i+x+gKsidvIFbvf0aSvtsZw/00w==
-X-Received: by 2002:a5d:6203:0:b0:317:6129:a972 with SMTP id
- y3-20020a5d6203000000b003176129a972mr1150644wru.37.1690368900006; 
- Wed, 26 Jul 2023 03:55:00 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n7-20020adffe07000000b003176c6e87b1sm4894703wrr.81.2023.07.26.03.54.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 03:54:59 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] drm/ssd130x: Allocate buffer in the plane's
- .atomic_check() callback
-Date: Wed, 26 Jul 2023 12:54:28 +0200
-Message-ID: <20230726105433.389740-2-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230726105433.389740-1-javierm@redhat.com>
-References: <20230726105433.389740-1-javierm@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A45110E458
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 10:55:12 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qOcAE-0007Wi-1w; Wed, 26 Jul 2023 12:54:42 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qOcA9-002DKt-3e; Wed, 26 Jul 2023 12:54:37 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qOcA8-007usd-AZ; Wed, 26 Jul 2023 12:54:36 +0200
+Date: Wed, 26 Jul 2023 12:54:36 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Zhu Wang <wangzhu9@huawei.com>
+Subject: Re: [PATCH -next] drm/bridge: fix -Wunused-const-variable= warning
+Message-ID: <20230726105436.h3kqtjzbhvjrg6kp@pengutronix.de>
+References: <20230726100626.167490-1-wangzhu9@huawei.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="n566atc4ik7hamup"
+Content-Disposition: inline
+In-Reply-To: <20230726100626.167490-1-wangzhu9@huawei.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,338 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org
+Cc: kabel@kernel.org, neil.armstrong@linaro.org, benjamin.mugnier@foss.st.com,
+ mripard@kernel.org, rfoss@kernel.org, dri-devel@lists.freedesktop.org,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, duwe@suse.de,
+ javierm@redhat.com, jernej.skrabec@gmail.com, dianders@chromium.org,
+ anarsoul@gmail.com, Arnd Bergmann <arnd@arndb.de>,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers are not allowed to fail after drm_atomic_helper_swap_state() has
-been called and the new atomic state is stored into the current sw state.
 
-Since the struct ssd130x_device .data_array is allocated in the encoder's
-.atomic_enable callback, the operation can fail and this is after the new
-state has been stored. So it can break an atomic mode settings assumption.
+--n566atc4ik7hamup
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fix this by having custom helpers to allocate, duplicate and destroy the
-plane state, that will take care of allocating and freeing these buffers.
+[Cc +=3D Arnd, Andy who did similar changes in the past]
 
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
+Hello,
 
-Changes in v5:
-- Add collected tags from Maxime and Geert.
-- Update commit message to not mention the kernel oops (Geert Uytterhoeven).
-- Drop Reported-by and Fixes tags (Geert Uytterhoeven).
-- Update comment about buffer and data_array fields (Geert Uytterhoeven).
-- Remove superfluous NULL check in ssd130x_fb_blit_rect() (Geert Uytterhoeven).
-- Reset .buffer to NULL if .data_array allocation fails (Geert Uytterhoeven).
-- Inline buffer alloc/free helper functions (Geert Uytterhoeven).
+On Wed, Jul 26, 2023 at 06:06:26PM +0800, Zhu Wang wrote:
+> When building with W=3D1, the following warning occurs.
+>=20
+> drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:48:17: warning: =E2=80=
+=98anx781x_i2c_addresses=E2=80=99 defined but not used [-Wunused-const-vari=
+able=3D]
+>  static const u8 anx781x_i2c_addresses[] =3D {
+>                  ^~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:40:17: warning: =E2=80=
+=98anx7808_i2c_addresses=E2=80=99 defined but not used [-Wunused-const-vari=
+able=3D]
+>  static const u8 anx7808_i2c_addresses[] =3D {
+>=20
+> The definition of above two data variables is included by the
+> macro CONFIG_OF, so we also include the data variable
+> definitions in the macro CONFIG_OF. And in addition the data
+> variable anx78xx_match_table is included in the macro CONFIG_OF,
+> so we add CONFIG_OF to the place where it is used.
+>=20
+> Fixes: 5d97408e0d70 ("drm/bridge: move ANA78xx driver to analogix subdire=
+ctory")
+>=20
+> Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers=
+/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> index 06a3e3243e19..799b33cebdd5 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+> @@ -37,6 +37,7 @@
+> =20
+>  #define XTAL_CLK		270 /* 27M */
+> =20
+> +#if IS_ENABLED(CONFIG_OF)
+>  static const u8 anx7808_i2c_addresses[] =3D {
+>  	[I2C_IDX_TX_P0] =3D 0x78,
+>  	[I2C_IDX_TX_P1] =3D 0x7a,
+> @@ -52,6 +53,7 @@ static const u8 anx781x_i2c_addresses[] =3D {
+>  	[I2C_IDX_RX_P0] =3D 0x7e,
+>  	[I2C_IDX_RX_P1] =3D 0x80,
+>  };
+> +#endif
 
-Changes in v4:
-- Move buffers allocation/free to plane .reset/.destroy helpers (Maxime Ripard).
+You can mark anx7808_i2c_addresses with __maybe_unused, then the #if
+isn't needed.
 
-Changes in v3:
-- Move the buffers allocation to the plane helper funcs .begin_fb_access
-  and the free to .end_fb_access callbacks.
-- Always allocate intermediate buffer because is use in ssd130x_clear_screen().
-- Don't allocate the buffers as device managed resources.
+>  struct anx78xx_platform_data {
+>  	struct regulator *dvdd10;
+> @@ -1387,7 +1389,9 @@ MODULE_DEVICE_TABLE(of, anx78xx_match_table);
+>  static struct i2c_driver anx78xx_driver =3D {
+>  	.driver =3D {
+>  		   .name =3D "anx7814",
+> +#if IS_ENABLED(CONFIG_OF)
+>  		   .of_match_table =3D of_match_ptr(anx78xx_match_table),
+> +#endif
 
-Changes in v2:
-- Move the buffers allocation to .fb_create instead of preventing atomic
-  updates for disable planes.
-- Don't allocate the intermediate buffer when using the native R1 format.
-- Allocate buffers as device managed resources.
+If CONFIG_OF is disabled of_match_ptr(something) evaluates to NULL, so
+you can drop the #if here.
 
- drivers/gpu/drm/solomon/ssd130x.c | 158 +++++++++++++++++++++++-------
- drivers/gpu/drm/solomon/ssd130x.h |   3 -
- 2 files changed, 121 insertions(+), 40 deletions(-)
+Having said that the better fix is probably to just do
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 51472a184ef9..d2f8dd6a6347 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -141,6 +141,19 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
- };
- EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
- 
-+struct ssd130x_plane_state {
-+	struct drm_plane_state base;
-+	/* Intermediate buffer to convert pixels from XRGB8888 to HW format */
-+	u8 *buffer;
-+	/* Buffer to store pixels in HW format and written to the panel */
-+	u8 *data_array;
-+};
-+
-+static inline struct ssd130x_plane_state *to_ssd130x_plane_state(struct drm_plane_state *state)
-+{
-+	return container_of(state, struct ssd130x_plane_state, base);
-+}
-+
- static inline struct ssd130x_device *drm_to_ssd130x(struct drm_device *drm)
- {
- 	return container_of(drm, struct ssd130x_device, drm);
-@@ -434,12 +447,14 @@ static int ssd130x_init(struct ssd130x_device *ssd130x)
- 				 SSD130X_SET_ADDRESS_MODE_HORIZONTAL);
- }
- 
--static int ssd130x_update_rect(struct ssd130x_device *ssd130x, struct drm_rect *rect)
-+static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
-+			       struct ssd130x_plane_state *ssd130x_state,
-+			       struct drm_rect *rect)
- {
- 	unsigned int x = rect->x1;
- 	unsigned int y = rect->y1;
--	u8 *buf = ssd130x->buffer;
--	u8 *data_array = ssd130x->data_array;
-+	u8 *buf = ssd130x_state->buffer;
-+	u8 *data_array = ssd130x_state->data_array;
- 	unsigned int width = drm_rect_width(rect);
- 	unsigned int height = drm_rect_height(rect);
- 	unsigned int line_length = DIV_ROUND_UP(width, 8);
-@@ -535,7 +550,8 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x, struct drm_rect *
- 	return ret;
- }
- 
--static void ssd130x_clear_screen(struct ssd130x_device *ssd130x)
-+static void ssd130x_clear_screen(struct ssd130x_device *ssd130x,
-+				 struct ssd130x_plane_state *ssd130x_state)
- {
- 	struct drm_rect fullscreen = {
- 		.x1 = 0,
-@@ -544,21 +560,21 @@ static void ssd130x_clear_screen(struct ssd130x_device *ssd130x)
- 		.y2 = ssd130x->height,
- 	};
- 
--	ssd130x_update_rect(ssd130x, &fullscreen);
-+	ssd130x_update_rect(ssd130x, ssd130x_state, &fullscreen);
- }
- 
--static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_map *vmap,
-+static int ssd130x_fb_blit_rect(struct drm_plane_state *state,
-+				const struct iosys_map *vmap,
- 				struct drm_rect *rect)
- {
-+	struct drm_framebuffer *fb = state->fb;
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
- 	unsigned int page_height = ssd130x->device_info->page_height;
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(state);
-+	u8 *buf = ssd130x_state->buffer;
- 	struct iosys_map dst;
- 	unsigned int dst_pitch;
- 	int ret = 0;
--	u8 *buf = ssd130x->buffer;
--
--	if (!buf)
--		return 0;
- 
- 	/* Align y to display page boundaries */
- 	rect->y1 = round_down(rect->y1, page_height);
-@@ -575,11 +591,49 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
- 
- 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
- 
--	ssd130x_update_rect(ssd130x, rect);
-+	ssd130x_update_rect(ssd130x, ssd130x_state, rect);
- 
- 	return ret;
- }
- 
-+static int ssd130x_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+						     struct drm_atomic_state *state)
-+{
-+	struct drm_device *drm = plane->dev;
-+	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane_state);
-+	unsigned int page_height = ssd130x->device_info->page_height;
-+	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
-+	const struct drm_format_info *fi;
-+	unsigned int pitch;
-+	int ret;
-+
-+	ret = drm_plane_helper_atomic_check(plane, state);
-+	if (ret)
-+		return ret;
-+
-+	fi = drm_format_info(DRM_FORMAT_R1);
-+	if (!fi)
-+		return -EINVAL;
-+
-+	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
-+
-+	ssd130x_state->buffer = kcalloc(pitch, ssd130x->height, GFP_KERNEL);
-+	if (!ssd130x_state->buffer)
-+		return -ENOMEM;
-+
-+	ssd130x_state->data_array = kcalloc(ssd130x->width, pages, GFP_KERNEL);
-+	if (!ssd130x_state->data_array) {
-+		kfree(ssd130x_state->buffer);
-+		/* Set to prevent a double free in .atomic_destroy_state() */
-+		ssd130x_state->buffer = NULL;
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
- static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						       struct drm_atomic_state *state)
- {
-@@ -602,7 +656,7 @@ static void ssd130x_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 		if (!drm_rect_intersect(&dst_clip, &damage))
- 			continue;
- 
--		ssd130x_fb_blit_rect(plane_state->fb, &shadow_plane_state->data[0], &dst_clip);
-+		ssd130x_fb_blit_rect(plane_state, &shadow_plane_state->data[0], &dst_clip);
- 	}
- 
- 	drm_dev_exit(idx);
-@@ -613,19 +667,69 @@ static void ssd130x_primary_plane_helper_atomic_disable(struct drm_plane *plane,
- {
- 	struct drm_device *drm = plane->dev;
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(plane->state);
- 	int idx;
- 
- 	if (!drm_dev_enter(drm, &idx))
- 		return;
- 
--	ssd130x_clear_screen(ssd130x);
-+	ssd130x_clear_screen(ssd130x, ssd130x_state);
- 
- 	drm_dev_exit(idx);
- }
- 
-+/* Called during init to allocate the plane's atomic state. */
-+static void ssd130x_primary_plane_reset(struct drm_plane *plane)
-+{
-+	struct ssd130x_plane_state *ssd130x_state;
-+
-+	WARN_ON(plane->state);
-+
-+	ssd130x_state = kzalloc(sizeof(*ssd130x_state), GFP_KERNEL);
-+	if (!ssd130x_state)
-+		return;
-+
-+	__drm_atomic_helper_plane_reset(plane, &ssd130x_state->base);
-+}
-+
-+static struct drm_plane_state *ssd130x_primary_plane_duplicate_state(struct drm_plane *plane)
-+{
-+	struct ssd130x_plane_state *old_ssd130x_state;
-+	struct ssd130x_plane_state *ssd130x_state;
-+
-+	if (WARN_ON(!plane->state))
-+		return NULL;
-+
-+	old_ssd130x_state = to_ssd130x_plane_state(plane->state);
-+	ssd130x_state = kmemdup(old_ssd130x_state, sizeof(*ssd130x_state), GFP_KERNEL);
-+	if (!ssd130x_state)
-+		return NULL;
-+
-+	/* The buffers are not duplicated and are allocated in .atomic_check */
-+	ssd130x_state->buffer = NULL;
-+	ssd130x_state->data_array = NULL;
-+
-+	__drm_atomic_helper_plane_duplicate_state(plane, &ssd130x_state->base);
-+
-+	return &ssd130x_state->base;
-+}
-+
-+static void ssd130x_primary_plane_destroy_state(struct drm_plane *plane,
-+						struct drm_plane_state *state)
-+{
-+	struct ssd130x_plane_state *ssd130x_state = to_ssd130x_plane_state(state);
-+
-+	kfree(ssd130x_state->data_array);
-+	kfree(ssd130x_state->buffer);
-+
-+	__drm_atomic_helper_plane_destroy_state(&ssd130x_state->base);
-+
-+	kfree(ssd130x_state);
-+}
-+
- static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs = {
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
--	.atomic_check = drm_plane_helper_atomic_check,
-+	.atomic_check = ssd130x_primary_plane_helper_atomic_check,
- 	.atomic_update = ssd130x_primary_plane_helper_atomic_update,
- 	.atomic_disable = ssd130x_primary_plane_helper_atomic_disable,
- };
-@@ -633,6 +737,9 @@ static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs =
- static const struct drm_plane_funcs ssd130x_primary_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
-+	.reset = ssd130x_primary_plane_reset,
-+	.atomic_duplicate_state = ssd130x_primary_plane_duplicate_state,
-+	.atomic_destroy_state = ssd130x_primary_plane_destroy_state,
- 	.destroy = drm_plane_cleanup,
- 	DRM_GEM_SHADOW_PLANE_FUNCS,
- };
-@@ -677,10 +784,6 @@ static void ssd130x_encoder_helper_atomic_enable(struct drm_encoder *encoder,
- {
- 	struct drm_device *drm = encoder->dev;
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(drm);
--	unsigned int page_height = ssd130x->device_info->page_height;
--	unsigned int pages = DIV_ROUND_UP(ssd130x->height, page_height);
--	const struct drm_format_info *fi;
--	unsigned int pitch;
- 	int ret;
- 
- 	ret = ssd130x_power_on(ssd130x);
-@@ -691,22 +794,6 @@ static void ssd130x_encoder_helper_atomic_enable(struct drm_encoder *encoder,
- 	if (ret)
- 		goto power_off;
- 
--	fi = drm_format_info(DRM_FORMAT_R1);
--	if (!fi)
--		goto power_off;
--
--	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
--
--	ssd130x->buffer = kcalloc(pitch, ssd130x->height, GFP_KERNEL);
--	if (!ssd130x->buffer)
--		goto power_off;
--
--	ssd130x->data_array = kcalloc(ssd130x->width, pages, GFP_KERNEL);
--	if (!ssd130x->data_array) {
--		kfree(ssd130x->buffer);
--		goto power_off;
--	}
--
- 	ssd130x_write_cmd(ssd130x, 1, SSD130X_DISPLAY_ON);
- 
- 	backlight_enable(ssd130x->bl_dev);
-@@ -728,9 +815,6 @@ static void ssd130x_encoder_helper_atomic_disable(struct drm_encoder *encoder,
- 
- 	ssd130x_write_cmd(ssd130x, 1, SSD130X_DISPLAY_OFF);
- 
--	kfree(ssd130x->data_array);
--	kfree(ssd130x->buffer);
--
- 	ssd130x_power_off(ssd130x);
- }
- 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
-index 161588b1cc4d..87968b3e7fb8 100644
---- a/drivers/gpu/drm/solomon/ssd130x.h
-+++ b/drivers/gpu/drm/solomon/ssd130x.h
-@@ -89,9 +89,6 @@ struct ssd130x_device {
- 	u8 col_end;
- 	u8 page_start;
- 	u8 page_end;
--
--	u8 *buffer;
--	u8 *data_array;
- };
- 
- extern const struct ssd130x_deviceinfo ssd130x_variants[];
--- 
-2.41.0
+	.of_match_table =3D anx78xx_match_table,
 
+as systems using ACPI can benefit from the of_match_table, too.
+See b89a9e9890d4 ("gpio: aggregator: Remove CONFIG_OF and of_match_ptr()
+protections") for an example.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--n566atc4ik7hamup
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmTA+2sACgkQj4D7WH0S
+/k5IkQf/UiCNWdf5PQ12tW8jtHdordqEjaTmwCkuIwlNiTVWG9BTSeTBXebKEiJQ
+O5Be9nB362lFl/t8RO/qjuV1/yZ5Kyj93Ytd4BVoO57eMGiJTIyc1agnb9Fy0xry
+WFMqBlhl8Q6o+Zt+pzB9K1dtfKZWb4bL8yTItsYcs1J1FzHi6+72/BbK1749Jqjl
+y4jOCO7jm1TNR5YB1wGr7h+Mq7DIcIb3JUq2JjSucFbJ5TCAGtxVN03knQlLZ5Oi
+azm0Uwn9pqQa2iyGuiprICP1ZM5d16Oqo++TiwLWPUfl05EtFVwaNFqmV9XMCTET
+YPBu6FUJrkuDmyLCnxGdTPSdwlZjww==
+=rwcQ
+-----END PGP SIGNATURE-----
+
+--n566atc4ik7hamup--
