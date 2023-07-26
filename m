@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F72762DA9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82284762DA3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0921210E435;
-	Wed, 26 Jul 2023 07:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0998E10E42E;
+	Wed, 26 Jul 2023 07:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-23.mta0.migadu.com (out-23.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8840E10E0BE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:25:41 +0000 (UTC)
+Received: from out-6.mta0.migadu.com (out-6.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E29110E0BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:26:47 +0000 (UTC)
 Content-Type: text/plain;
 	charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1690356339;
+ t=1690356405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zvdjs6nZtoAJTeUNZnzlMBg+3W9EeQfEjhMJc2aooOM=;
- b=S2kua2S04Evo6/UraSJyk1agL/DLGyhTxgzf2kveiPAUMLzy8KFKZaoPl72LwAbMUUU5KX
- yI90TImY1RmSccSZNS94f8DfCPZ1jkBAfVxRDDBOpVRhB+p5BTP1ltZuaxYaeg0c8hKX8y
- 9ZHbolk78fhzGoCn5zkqLPSgrNIAnzc=
+ bh=x/YPwJU0rwLy+AuHnuxjdCUhH1EzE6WkopZ0kgAJ1Qo=;
+ b=UA4cvi/GGMdckJQ6g4p3+u38P404cT3MaC3q014wQwvll1a4nrZdfsP6/l2xBOvqxQBZnG
+ /GB100BFGEJn37pYrEcJWPkcPwCehM0mCMv1erArHez8P+wU/wx/xg2YNYRHWyz7GvCoJN
+ LWY2Z8xIEtpCzuJK57wk7wbFhJGlyYE=
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 25/47] dm: dynamically allocate the dm-bufio shrinker
+Subject: Re: [PATCH v2 26/47] dm zoned: dynamically allocate the dm-zoned-meta
+ shrinker
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20230724094354.90817-26-zhengqi.arch@bytedance.com>
-Date: Wed, 26 Jul 2023 15:24:47 +0800
+In-Reply-To: <20230724094354.90817-27-zhengqi.arch@bytedance.com>
+Date: Wed, 26 Jul 2023 15:25:47 +0800
 Content-Transfer-Encoding: 7bit
-Message-Id: <BE042CCF-24A0-4311-B245-25C675974173@linux.dev>
+Message-Id: <BAEA7759-FA46-40A3-B37B-AE657905A25F@linux.dev>
 References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
- <20230724094354.90817-26-zhengqi.arch@bytedance.com>
+ <20230724094354.90817-27-zhengqi.arch@bytedance.com>
 To: Qi Zheng <zhengqi.arch@bytedance.com>
 X-Migadu-Flow: FLOW_OUT
 X-Mailman-Approved-At: Wed, 26 Jul 2023 07:30:32 +0000
@@ -74,9 +75,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > On Jul 24, 2023, at 17:43, Qi Zheng <zhengqi.arch@bytedance.com> wrote:
 > 
 > In preparation for implementing lockless slab shrink, use new APIs to
-> dynamically allocate the dm-bufio shrinker, so that it can be freed
+> dynamically allocate the dm-zoned-meta shrinker, so that it can be freed
 > asynchronously using kfree_rcu(). Then it doesn't need to wait for RCU
-> read-side critical section when releasing the struct dm_bufio_client.
+> read-side critical section when releasing the struct dmz_metadata.
 > 
 > Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 
