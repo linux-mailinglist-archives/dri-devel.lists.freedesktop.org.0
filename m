@@ -2,76 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2A676363C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 14:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24785763663
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 14:33:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6B310E46C;
-	Wed, 26 Jul 2023 12:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B435A10E46D;
+	Wed, 26 Jul 2023 12:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDF810E46C
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 12:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690374319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U22bitSkjlOB7+s0Qqc7YUuzfGUohh2nuRolnfSIvEM=;
- b=gS025kjRSpKiYIafqkA0lW5M5I3Dj5Z6qkin3m9/zueeWIj7+DfwvqRvIDuztTCFv6qmvo
- xO6OGMhs/pHLrHomAuR+keH/svOlcisN2sqx5Ywwwuns9tfEzSi4ynUd9NS21IqROAMDGg
- NLcsTCWvGannBqZTQMWADpuXcJ3mobA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-GlIftAMyM66uwGc5Mc8GBQ-1; Wed, 26 Jul 2023 08:25:18 -0400
-X-MC-Unique: GlIftAMyM66uwGc5Mc8GBQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3176c4de5bbso855228f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 05:25:17 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
+ [209.85.128.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C70D10E46D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 12:33:20 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-583f036d50bso41301417b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 05:33:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690374317; x=1690979117;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1690374799; x=1690979599;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RxjFPJ8KobiqywJVUesvkSeJiYPkEsnFPZn7dC9KfSE=;
- b=laoC9XjXH0MOaSYC1tSTuu/XEKTLWsnESj3IINTlyqaVmSoVBtLybpVWON9olFBzUW
- maSMzrhlblWmi60pRy68ENpGAC6j++ErhObYt2cxGMgOo97bZvDY1SkdErF4//Ovu5PO
- D0T0Pg/tpoF6mu+rIlVLwcr2lTn86MlE45LiIG1eDOgTFZ1u/nGpGZTdCKmcvHUWk9na
- HfB5gwxcaGS6Q5Q79+VXdgYDRGgCU/MVuU4kpqDK0TBpGhR7xOwkHIb0wzUdIh+0BW21
- gRHWWy8BUl1LU24Q9KuveTkVEFSLO8UDZFS4NRpnIExfHdL7ENi2qMI550a+HgiZgGuf
- m8NA==
-X-Gm-Message-State: ABy/qLZEjPUYTDbBp8WUQ3BK4qSttYDCWx9ToWpFtQ/YGzVog2w4lwfq
- kghvg8npkBeg3PLiitkCqu53/UdrGvcPHchl/oEaIrAK7qr98o/uo+515FoTlKeJ3jsrHoMepdo
- gWw7sMau9mOv9wQwXl/fVPUcbVfaO
-X-Received: by 2002:adf:d0c9:0:b0:317:6314:96e2 with SMTP id
- z9-20020adfd0c9000000b00317631496e2mr1427854wrh.14.1690374316975; 
- Wed, 26 Jul 2023 05:25:16 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHv7Azp7OdeZjTccYCPfcmAWx+6/xgx8t09mmpf7aV1keH33FUtz2Yvu6bEVJhWhn2+zeVUZA==
-X-Received: by 2002:adf:d0c9:0:b0:317:6314:96e2 with SMTP id
- z9-20020adfd0c9000000b00317631496e2mr1427839wrh.14.1690374316665; 
- Wed, 26 Jul 2023 05:25:16 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x17-20020adfffd1000000b003141f3843e6sm19551465wrs.90.2023.07.26.05.25.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 05:25:16 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5 2/2] drm/ssd130x: Allocate buffer in the plane's
- .atomic_check() callback
-In-Reply-To: <CAMuHMdX1ECG44BMOb5zK_N1cZCpjoKmms2p_80+_F72HH0NBEA@mail.gmail.com>
-References: <20230726105433.389740-1-javierm@redhat.com>
- <20230726105433.389740-2-javierm@redhat.com>
- <CAMuHMdX1ECG44BMOb5zK_N1cZCpjoKmms2p_80+_F72HH0NBEA@mail.gmail.com>
-Date: Wed, 26 Jul 2023 14:25:15 +0200
-Message-ID: <871qgulv10.fsf@minerva.mail-host-address-is-not-set>
+ bh=9LHJHUg6BbctGmVEztBEPwgY6VD1uKA+BUZbOC1niEM=;
+ b=dFxe3ploy0b6T5IHX9RF8gBR4Hq15b7/7KLIR0RLunlnHg/OCIDi08G3OKxzE4Amf6
+ oJS6blwF9eWTMIs7r7+O3pyt99EsmXLVUFKtoP3DlacGwKZJKa/hDV9RUrD6R2SfZmPL
+ zDOggEDakyesrqtBkKvSIG3jXG3w7FMO25rqgbpcmwEieWxp55d9jN519cZrmACsR/ku
+ 1c5XoKAVAJLHuJZjCHE90kxs7Viluf3hR439HRiWGNKWNBbfvSwsslZjCLgbXwKzlyuI
+ jNyGfO/YmABQbIskSMNAIOOCEzZKBgwWIGcRfuMq6+FwGAjyEfeqYP0VK9kD2z3mSfan
+ iKpQ==
+X-Gm-Message-State: ABy/qLZrN0UdkcKL414ZtnqHLXNCf5OsPc4culS+rFZHGSOl/ymd4EI1
+ 9/kdkqD9TYSkkQNycEQUjSiuhRn+E5T/rQ==
+X-Google-Smtp-Source: APBJJlFSJbJ+P4mN933tyqXVEm3vhTftveuDroePeunl/b3YrVNurbTuY/didff0CJ1UV3sAtnSlvg==
+X-Received: by 2002:a81:6743:0:b0:56f:eaef:9d40 with SMTP id
+ b64-20020a816743000000b0056feaef9d40mr2129714ywc.46.1690374799072; 
+ Wed, 26 Jul 2023 05:33:19 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ d123-20020a0ddb81000000b00570589c5aedsm4157335ywe.7.2023.07.26.05.33.18
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jul 2023 05:33:18 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-ccc462deca6so7363780276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 05:33:18 -0700 (PDT)
+X-Received: by 2002:a25:9c08:0:b0:c76:173c:6718 with SMTP id
+ c8-20020a259c08000000b00c76173c6718mr1840007ybo.1.1690374798490; Wed, 26 Jul
+ 2023 05:33:18 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <20230721070955.1170974-1-javierm@redhat.com>
+ <CAMuHMdVxF80mdTaiXA6Y8Gd59Z7pxkoEphB4ohpVcK1q-+Yy=g@mail.gmail.com>
+ <n4fmda4zw4vuezvwva35tgma3yqhdvb253q2tfdyauoxbfqshx@s6fsa7de6g5s>
+ <CAMuHMdXtOozswqujA1h2spL8J86n65Q6=+z=5Jbb0nSXaBwqzA@mail.gmail.com>
+ <874jlqlv5v.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <874jlqlv5v.fsf@minerva.mail-host-address-is-not-set>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 26 Jul 2023 14:33:06 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX+J848ckG2JqsuDkRcWzRypw_Kv=0G+Hc329xstu_nqQ@mail.gmail.com>
+Message-ID: <CAMuHMdX+J848ckG2JqsuDkRcWzRypw_Kv=0G+Hc329xstu_nqQ@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/ssd130x: Allocate buffers in the plane's
+ .atomic_check callback
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,98 +80,131 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+Hi Javier,
 
-> Hi Javier,
+On Wed, Jul 26, 2023 at 2:22=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> > On Wed, Jul 26, 2023 at 12:00=E2=80=AFPM Maxime Ripard <mripard@kernel.=
+org> wrote:
+> >> On Tue, Jul 25, 2023 at 09:21:52PM +0200, Geert Uytterhoeven wrote:
+> >> > > --- a/drivers/gpu/drm/solomon/ssd130x.c
+> >> > > +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> >> > > @@ -141,12 +141,26 @@ const struct ssd130x_deviceinfo ssd130x_vari=
+ants[] =3D {
+> >> > >  };
+> >> > >  EXPORT_SYMBOL_NS_GPL(ssd130x_variants, DRM_SSD130X);
+> >> > >
+> >> > > +struct ssd130x_plane_state {
+> >> > > +       struct drm_plane_state base;
+> >> > > +       /* Intermediate buffer to convert pixels from XRGB8888 to =
+R1 */
+> >> > > +       u8 *buffer;
+> >> > > +       /* Buffer that contains R1 pixels to be written to the pan=
+el */
+> >> > > +       u8 *data_array;
+> >> >
+> >> > The second buffer actually contains pixels in hardware format.
+> >> > For now that is a transposed buffer of R1 pixels, but that will chan=
+ge
+> >> > when you will add support for greyscale displays.
+> >> >
+> >> > So I'd write "hardware format" instead of R1 for both.
+> >> >
+> >> > BTW, I still think data_array should be allocated during probing,
+> >> > as it is related to the hardware, not to a plane.
+> >>
+> >> I somewhat disagree.
+> >>
+> >> If I understood right during our discussion with Javier, the buffer si=
+ze
+> >> derives from the mode size (height and width).
+> >>
+> >> In KMS, the mode is tied to the KMS state, and thus you can expect the
+> >> mode to change every state commit. So the more logical thing to do is =
+to
+> >> tie the buffer size (and thus the buffer pointer) to the state since
+> >> it's only valid for that particular state for all we know.
+> >>
+> >> Of course, our case is allows use to simplify things since it's a fixe=
+d
+> >> mode, but one of Javier's goal with this driver was to provide a good
+> >> example we can refer people to, so I think it's worth keeping.
+> >
+> > The second buffer (containing the hardware format) has a size that
+> > depends on the full screen size, not the current mode (I believe that's
+> > also the size of the frame buffer backing the plane?).  So its size is
+> > fixed.
+> >
 >
-> On Wed, Jul 26, 2023 at 12:55=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> Drivers are not allowed to fail after drm_atomic_helper_swap_state() has
->> been called and the new atomic state is stored into the current sw state=
-.
->>
->> Since the struct ssd130x_device .data_array is allocated in the encoder'=
+> Yes, is fixed. But Maxime's point is that this is a characteristic of thi=
 s
->> .atomic_enable callback, the operation can fail and this is after the ne=
-w
->> state has been stored. So it can break an atomic mode settings assumptio=
-n.
->>
->> Fix this by having custom helpers to allocate, duplicate and destroy the
->> plane state, that will take care of allocating and freeing these buffers=
-.
->>
->> Suggested-by: Maxime Ripard <mripard@kernel.org>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> Acked-by: Maxime Ripard <mripard@kernel.org>
->> Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> ---
->>
->> Changes in v5:
->> - Add collected tags from Maxime and Geert.
->> - Update commit message to not mention the kernel oops (Geert Uytterhoev=
-en).
->> - Drop Reported-by and Fixes tags (Geert Uytterhoeven).
->> - Update comment about buffer and data_array fields (Geert Uytterhoeven)=
-.
->> - Remove superfluous NULL check in ssd130x_fb_blit_rect() (Geert Uytterh=
-oeven).
->> - Reset .buffer to NULL if .data_array allocation fails (Geert Uytterhoe=
-ven).
->> - Inline buffer alloc/free helper functions (Geert Uytterhoeven).
+> particular device and even when the display resolution can't be changed,
+> the correct thing to do is to keep all state related to the mode (even th=
+e
+> buffer used to store the hardware pixels that are written to the display)
 >
-> Thanks for the update!
+> > Given the allocations are now done based on plane state, I think the
+> > first buffer should be sized according to the frame buffer backing
+> > the plane? Currently it uses the full screen size, too (cfr. below).
+> >
 >
+> But can the mode even be changed if ssd130x_connector_helper_get_modes()
+> just adds a single display mode with mode->hdisplay =3D=3D ssd130x->width=
+ and
+> mode->vdisplay =3D=3D ssd130x->height.
 
-You are welcome, and thanks for the review!
+No, the mode cannot be changed.
 
->> --- a/drivers/gpu/drm/solomon/ssd130x.c
->> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+At first, I thought you could still create a smaller frame buffer,
+and attach that to the (single, thus primary) plane, but it turns out
+I was wrong[*], so you can ignore that.
+
+[*] ssd130x_primary_plane_helper_atomic_check() calls
+    drm_plane_helper_atomic_check(), which calls
+    drm_atomic_helper_check_plane_state() with can_position =3D false.
+    As the position of planes is actually a software thing on ssd130x,
+    positioning support could be added later, though...
+
+> >> Also, Javier pointed me to a discussion you had on IRC about using dev=
+m
+> >> allocation here. We can't really do that. KMS devices are only freed
+> >> once the last userspace application closes its fd to the device file, =
+so
+> >> you have an unbounded window during which the driver is still callable
+> >> by userspace (and thus can still trigger an atomic commit) but the
+> >> buffer would have been freed for a while.
+> >
+> > It should still be safe for (at least) the data_array buffer. That
+> > buffer is only used to store pixels in hardware format, and immediately
+> > send them to the hardware.  If this can be called that late, it will
+> > fail horribly, as you can no longer talk to the hardware at that point
+> > (as ssd130x is an i2c driver, it might actually work; but a DRM driver
+> >  that calls devm_platform_ioremap_resource() will crash when writing
+> >  to its MMIO registers)?!?
 >
->> @@ -535,7 +550,8 @@ static int ssd130x_update_rect(struct ssd130x_device=
- *ssd130x, struct drm_rect *
->>         return ret;
->>  }
->>
->> -static void ssd130x_clear_screen(struct ssd130x_device *ssd130x)
->> +static void ssd130x_clear_screen(struct ssd130x_device *ssd130x,
->> +                                struct ssd130x_plane_state *ssd130x_sta=
-te)
->>  {
->>         struct drm_rect fullscreen =3D {
->>                 .x1 =3D 0,
->> @@ -544,21 +560,21 @@ static void ssd130x_clear_screen(struct ssd130x_de=
-vice *ssd130x)
->>                 .y2 =3D ssd130x->height,
->>         };
->>
->> -       ssd130x_update_rect(ssd130x, &fullscreen);
->> +       ssd130x_update_rect(ssd130x, ssd130x_state, &fullscreen);
+> At the very least the SPI driver will fail since the GPIO that is used to
+> toggle the D/C pin is allocated with devm_gpiod_get_optional(), but also
+> the regulator, backlight device, etc.
 >
-> I've just realized another issue: since 49d7d581ceaf4cf8 ("drm/ssd130x:
-> Don't allocate buffers on each plane update"). this no longer
-> clears the screens, but just updates the hardware with the data in
-> ssd130x_device.buffer, i.e. with the last image shown.
-> So this should at least clear all of ssd130x_device.buffer before
-> calling ssd130x_update_rect().
->
+> But in any case, as mentioned it is only relevant if the data_array buffe=
+r
+> is allocated at probe time, and from Maxime's explanation is more correct
+> to do it in the .atomic_check handler.
 
-Oh, you are right. I missed that.
+You need (at least) data_array for clear_screen, too, which is called
+from .atomic_disable().
 
-> As it's a bit pointless to transpose a black image, a better fix would
-> be to just clear ssd130x.data_array, and call the low-level hardware
-> functions like ssd130x_update_rect() does.
->
+Gr{oetje,eeting}s,
 
-Yeah, this is a left over when we used to allocate a buffer here and I
-agree with you that calling ssd130x_update_rect() is a pointless.
-
-We can fix this as a separate follow-up patch though if you agree.
+                        Geert
 
 --=20
-Best regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
