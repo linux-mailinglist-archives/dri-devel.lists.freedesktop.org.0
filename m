@@ -2,51 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C50676332C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 12:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDB4763337
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 12:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EBFB10E460;
-	Wed, 26 Jul 2023 10:09:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C08DF10E1D2;
+	Wed, 26 Jul 2023 10:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBAD10E44D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 10:09:07 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1qObS2-0000qa-MB; Wed, 26 Jul 2023 12:09:02 +0200
-Message-ID: <a86a756c-4b44-1be4-cea6-a6e525970326@leemhuis.info>
-Date: Wed, 26 Jul 2023 12:09:01 +0200
+Received: from mblankhorst.nl (lankhorst.se
+ [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF9EB10E1D2;
+ Wed, 26 Jul 2023 10:14:30 +0000 (UTC)
+Message-ID: <ea64d7bf-c01b-f4ad-a36b-f77e2c2ea931@linux.intel.com>
+Date: Wed, 26 Jul 2023 12:14:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
- EOT packet
-Content-Language: en-US, de-DE
-To: Amit Pundir <amit.pundir@linaro.org>, Marek Vasut <marex@denx.de>
-References: <20230403221233.500485-1-marex@denx.de>
- <20230403221233.500485-2-marex@denx.de>
- <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
- <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
- <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
- <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
- <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
- <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
- <4396d197-f16f-92bd-727c-eb8c78016198@quicinc.com>
- <961b4747-c9f1-a31c-c33c-475b4803f832@denx.de>
- <64c3352f-c2aa-5260-c6ff-4a607ce219a2@quicinc.com>
- <f768950b-0406-1f03-86a5-50d5794bb060@denx.de>
- <CAMi1Hd0LUk__=mz8_+ZTwh=E9wm+abX_4D4XmEO1Jb8uDnPu3A@mail.gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <CAMi1Hd0LUk__=mz8_+ZTwh=E9wm+abX_4D4XmEO1Jb8uDnPu3A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1690366147;
- 7747602d; 
-X-HE-SMSGID: 1qObS2-0000qa-MB
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 16/17] cgroup/drm: Expose memory stats
+Content-Language: en-US
+To: Tejun Heo <tj@kernel.org>, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
+ <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
+ <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,233 +40,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: neil.armstrong@linaro.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Michael Walle <michael@walle.cc>, Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+ Eero Tamminen <eero.t.tamminen@intel.com>,
+ "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-for once, to make this easily accessible to everyone.
+Hey,
 
-What's the status wrt to this regression (caused by 8ddce13ae69 from
-Marek)? It looks like things are stalled and the regression still is
-unresolved, but I ask because I might be missing something.
+On 2023-07-22 00:21, Tejun Heo wrote:
+> On Wed, Jul 12, 2023 at 12:46:04PM +0100, Tvrtko Ursulin wrote:
+>>    $ cat drm.memory.stat
+>>    card0 region=system total=12898304 shared=0 active=0 resident=12111872 purgeable=167936
+>>    card0 region=stolen-system total=0 shared=0 active=0 resident=0 purgeable=0
+>>
+>> Data is generated on demand for simplicty of implementation ie. no running
+>> totals are kept or accounted during migrations and such. Various
+>> optimisations such as cheaper collection of data are possible but
+>> deliberately left out for now.
+>>
+>> Overall, the feature is deemed to be useful to container orchestration
+>> software (and manual management).
+>>
+>> Limits, either soft or hard, are not envisaged to be implemented on top of
+>> this approach due on demand nature of collecting the stats.
+> 
+> So, yeah, if you want to add memory controls, we better think through how
+> the fd ownership migration should work.
+I've taken a look at the series, since I have been working on cgroup 
+memory eviction.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+The scheduling stuff will work for i915, since it has a purely software 
+execlist scheduler, but I don't think it will work for GuC (firmware) 
+scheduling or other drivers that use the generic drm scheduler.
 
-#regzbot poke
+For something like this,  you would probably want it to work inside the 
+drm scheduler first. Presumably, this can be done by setting a weight on 
+each runqueue, and perhaps adding a callback to update one for a running 
+queue. Calculating the weights hierarchically might be fun..
 
-On 14.07.23 08:11, Amit Pundir wrote:
-> On Thu, 13 Jul 2023 at 23:58, Marek Vasut <marex@denx.de> wrote:
->>
->> On 7/13/23 20:09, Abhinav Kumar wrote:
->>>
->>>
->>> On 7/12/2023 10:41 AM, Marek Vasut wrote:
->>>> On 7/9/23 03:03, Abhinav Kumar wrote:
->>>>>
->>>>>
->>>>> On 7/7/2023 1:47 AM, Neil Armstrong wrote:
->>>>>> On 07/07/2023 09:18, Neil Armstrong wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On 06/07/2023 11:20, Amit Pundir wrote:
->>>>>>>> On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
->>>>>>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>>>>>
->>>>>>>>> [Adding freedreno@ to cc list]
->>>>>>>>>
->>>>>>>>> On Wed, 5 Jul 2023 at 08:31, Jagan Teki
->>>>>>>>> <jagan@amarulasolutions.com> wrote:
->>>>>>>>>>
->>>>>>>>>> Hi Amit,
->>>>>>>>>>
->>>>>>>>>> On Wed, Jul 5, 2023 at 10:15 AM Amit Pundir
->>>>>>>>>> <amit.pundir@linaro.org> wrote:
->>>>>>>>>>>
->>>>>>>>>>> Hi Marek,
->>>>>>>>>>>
->>>>>>>>>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
->>>>>>>>>>>>
->>>>>>>>>>>> Do not generate the HS front and back porch gaps, the HSA gap and
->>>>>>>>>>>> EOT packet, as these packets are not required. This makes the
->>>>>>>>>>>> bridge
->>>>>>>>>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
->>>>>>>>>>>
->>>>>>>>>>> This patch broke display on Dragonboard 845c (SDM845) devboard
->>>>>>>>>>> running
->>>>>>>>>>> AOSP. This is what I see
->>>>>>>>>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
->>>>>>>>>>> Reverting this patch fixes this regression for me.
->>>>>>>>>>
->>>>>>>>>> Might be msm dsi host require proper handling on these updated
->>>>>>>>>> mode_flags? did they?
->>>>>>>>>
->>>>>>>>> The msm DSI host supports those flags. Also, I'd like to point out
->>>>>>>>> that the patch didn't change the rest of the driver code. So even if
->>>>>>>>> drm/msm ignored some of the flags, it should not have caused the
->>>>>>>>> issue. Most likely the issue is on the lt9611 side. I's suspect that
->>>>>>>>> additional programming is required to make it work with these flags.
->>>>>>>>
->>>>>>>> I spent some time today on smoke testing these flags (individually
->>>>>>>> and
->>>>>>>> in limited combination) on DB845c, to narrow down this breakage to
->>>>>>>> one
->>>>>>>> or more flag(s) triggering it. Here are my observations in limited
->>>>>>>> testing done so far.
->>>>>>>>
->>>>>>>> There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
->>>>>>>> alone and system boots to UI as usual.
->>>>>>>>
->>>>>>>> MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in
->>>>>>>> the
->>>>>>>> screenshot[1] shared earlier as well.
->>>>>>>>
->>>>>>>> Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
->>>>>>>> MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
->>>>>>>> with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
->>>>>>>> display as reported.
->>>>>>>>
->>>>>>>> In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
->>>>>>>> added in this commit break the display on DB845c one way or another.
->>>>>>>
->>>>>>> I think the investigation would be to understand why samsung-dsim
->>>>>>> requires
->>>>>>> such flags and/or what are the difference in behavior between MSM
->>>>>>> DSI and samsung DSIM
->>>>>>> for those flags ?
->>>>>>>
->>>>>>> If someone has access to the lt9611 datasheet, so it requires
->>>>>>> HSA/HFP/HBP to be
->>>>>>> skipped ? and does MSM DSI and samsung DSIM skip them in the same
->>>>>>> way ?
->>>>>>
->>>>>> I think there's a mismatch, where on one side this flags sets the
->>>>>> link in LP-11 while
->>>>>> in HSA/HFP/HPB while on the other it completely removes those
->>>>>> blanking packets.
->>>>>>
->>>>>> The name MIPI_DSI_MODE_VIDEO_NO_HBP suggests removal of HPB, not
->>>>>> LP-11 while HPB.
->>>>>> the registers used in both controllers are different:
->>>>>> - samsung-dsim: DSIM_HBP_DISABLE_MODE
->>>>>> - msm dsi: DSI_VID_CFG0_HBP_POWER_STOP
->>>>>>
->>>>>> The first one suggest removing the packet, while the second one
->>>>>> suggests powering
->>>>>> off the line while in the blanking packet period.
->>>>>>
->>>>>> @Abhinav, can you comment on that ?
->>>>>>
->>>>>
->>>>> I dont get what it means by completely removes blanking packets in DSIM.
->>>>
->>>> MIPI_DSI_MODE_VIDEO_NO_HFP means the HBP period is just skipped by DSIM.
->>>>
->>>> Maybe there is a need for new set of flags which differentiate between
->>>> HBP skipped (i.e. NO HBP) and HBP LP11 ?
->>>>
->>>
->>> No, the section of the MIPI DSI spec I posted below clearly states there
->>> are two options:
->>>
->>> 1) send blanking packets during those periods
->>> 2) transition to LP11 during those periods
->>>
->>> There is no 3rd option in the spec of not doing both like what you are
->>> suggesting. So DSIM should also be only transitioning to LP11 during
->>> those periods if its not sending the blanking packets with those flags set.
->>>
->>> So, there is no need for any new set of flags to differentiate.
->>>
->>> The flags and their interpretation is correct in MSM driver. I cannot
->>> comment on what exactly DSIM does with those flags.
->>
->> How do you explain the comment in include/drm/drm_mipi_dsi.h:
->>
->> 128 /* disable hback-porch area */
->> 129 #define MIPI_DSI_MODE_VIDEO_NO_HBP      BIT(6)
->>
->> Esp. the "disable" part. That to me reads as "don't send HBP packet".
->>
->> Where do you see that quote above in the DSI spec (which chapter and
->> which version do you read) ?
->>
->>>>> It should be replacing those periods with LP11 too.
->>>>>
->>>>> The traffic mode being used on this bridge is
->>>>> MIPI_DSI_MODE_VIDEO_SYNC_PULSE which is "Non-Burst Mode with Sync
->>>>> Pulses".
->>>>>
->>>>> As per this traffic mode in the DSI spec,
->>>>>
->>>>> "Normally, periods shown as HSA (Horizontal Sync Active), HBP
->>>>> (Horizontal Back Porch) and HFP (Horizontal Front Porch) are filled
->>>>> by Blanking Packets, with lengths (including packet overhead)
->>>>> calculated to match the period specified by the peripheral’s data
->>>>> sheet. Alternatively, if there is sufficient time to transition from
->>>>> HS to LP mode and back again, a timed interval in LP mode may
->>>>> substitute for a Blanking Packet, thus saving power. During HSA, HBP
->>>>> and HFP periods, the bus should stay in the LP-11 state."
->>>>>
->>>>> So we can either send the blanking packets or transition to LP state
->>>>> and those 3 flags are controlling exactly that during those periods
->>>>> for MSM driver.
->>>>>
->>>>> If you stop sending the blanking packets, you need to replace that
->>>>> gap with LP.
->>>>
->>>> I don't think that's what MIPI_DSI_MODE_VIDEO_NO_HBP means, the way I
->>>> understand MIPI_DSI_MODE_VIDEO_NO_HBP is that it skips the HBP
->>>> completely. So if you want HBP, then do not set
->>>> MIPI_DSI_MODE_VIDEO_NO_HBP . And if you want LP11 during HBP, that is
->>>> I think up to the controller (or maybe another new flag?).
->>>>
->>>
->>> No, there is no need of another new flag. There are only two options as
->>> per the spec.
->>>
->>> In fact, as per my checking with more folks, requiring LP11 during those
->>> periods is something very rare.
->>>
->>> Because usually horizontal period is usually a very short period, most
->>> of the time we do not use the LP11 option and send the blanking packets
->>> instead.
->>>
->>> So its something very unusual for DSIM.
->>>
->>> That being said, I still think my previous question is important.
->>>
->>> 1) What is the difference between the resolution you are trying Vs what
->>> Amit is trying?
->>>
->>> 2) Are you both using just standard HDMI monitors?
->>
->> What is a "standard HDMI monitor" ?
->> I use DELL U2713HM .
-> 
-> I see this breakage on portable HDMI monitors Viewsonic TD1655 [1] and
-> Cocopar Z173FH7F [2], both running at 1920x1080 resolution.
-> 
-> Regards,
-> Amit Pundir
-> [1] https://www.amazon.in/ViewSonic-TD1655-Portable-Touchscreen-Frameless/dp/B08778F756
-> [2] https://www.amazon.com/Portable-Monitor-FreeSync-Speaker-Nintendo/dp/B07ZLXCVPN
-> 
->>
->> [...]
-> 
-> 
+I have taken a look at how the rest of cgroup controllers change 
+ownership when moved to a different cgroup, and the answer was: not at 
+all. If we attempt to create the scheduler controls only on the first 
+time the fd is used, you could probably get rid of all the tracking.
+This can be done very easily with the drm scheduler.
+
+WRT memory, I think the consensus is to track system memory like normal 
+memory. Stolen memory doesn't need to be tracked. It's kernel only 
+memory, used for internal bookkeeping  only.
+
+The only time userspace can directly manipulate stolen memory, is by 
+mapping the pinned initial framebuffer to its own address space. The 
+only allocation it can do is when a framebuffer is displayed, and 
+framebuffer compression creates some stolen memory. Userspace is not
+aware of this though, and has no way to manipulate those contents.
+
+Cheers,
+~Maarten
