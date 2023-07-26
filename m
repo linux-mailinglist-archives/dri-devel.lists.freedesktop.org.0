@@ -2,71 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A9176414E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 23:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB9E764156
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 23:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3F2810E4C0;
-	Wed, 26 Jul 2023 21:38:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B531F10E4D4;
+	Wed, 26 Jul 2023 21:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9767D10E4BF
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 21:38:50 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-2b9b904bb04so3311271fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 14:38:50 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26C010E4C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 21:43:22 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4fbc0314a7bso419070e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 14:43:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690407529; x=1691012329;
+ d=linaro.org; s=google; t=1690407801; x=1691012601;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WWZVBHBBuid9HiWLr5K3yDZe2R/FfH0gi6mMKMszV8A=;
- b=y+BEFRDaiZ+UC7E8CoWakjziQNfS6EkjHw0cAQEBTrn/EAUjP/Qm05+a8Pv3VlPa9R
- b9D3NQJJVyWf4ITJhwYMiboHQC/fqKAEKR7WpYrwmlFpZaeh+vWpQA1uJGE7Yq97sJKv
- JBW0bSWj0BQ5CONSnxEeb39uXQM3p3xQB02jhMtfmLlp9DZ9d2DJwwTTE5F9LOdpNjhx
- iTQqu6GKmDuCIZcFpP+8nnDeXwvOp9VH12wlP4fSeFfcRYC0flbR3RSgCDRauh1cNhUG
- y6JviZoe/ylAL9NbGwkkfPI+jT8hfu71uL5EtE+14ffKcd/56BLG3XnDJPqTn7+h1BrU
- UMsg==
+ bh=ZP9CoyVy2pTatmhYQyFqnX1QWLbmjzO1vtHl1NuLxfg=;
+ b=QqR1HjDAhYW+38DvQ9VNeOFpIA2AQt3DoXK90ATtLV+bzNoZmoeREsw1NcwgsHgzkv
+ 1Z8pe6oExwN0OcvkaB2zYDVaGZNgwmsAn2hF/Rh10D58g4ZPWwmxbiRrBG54QgpkU4gu
+ bWQ/8VQqG/J2PAMoOW8jE2Ex8nABmBw8x8qLiOzndUvO2JZnK6v824k6MNrtWLZq+H6e
+ VNsqBcUkVN5B/APUPDngB9Lw8ophyfJdWcKFE4MZ7l1IBffY2SRAJMTpwZ601+3C1Awe
+ 2BprRg4yCWpfWDfDJb8uDbPYTKH2IqHqujelkoOx5dLdnFLE7Ll1Q+isMhXJsi17VO5J
+ Bvjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690407529; x=1691012329;
+ d=1e100.net; s=20221208; t=1690407801; x=1691012601;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WWZVBHBBuid9HiWLr5K3yDZe2R/FfH0gi6mMKMszV8A=;
- b=X67FZ5DseA2HJJ+7yOWMTGHylOE1h3eQEVPdBTeOgXq6bt31KybtUxo+8BNAqEJ8x/
- es2jFAqrRlE4MH0XTvnmfOjWPbwHFcmD+c2aAPa6w5+EN7j6Ijl2SjrMOf/wZv+1w4BL
- B3nZiztxkrkf9DJQF4YnuuUT3ozmbdJTQFEuRo05GrFB29VYCl8q6ngfcqKBs9AUoV3M
- tmKs0Z6Oj4fDFSbaRVOwOVK2H+/c4Uw7AZjJ7pMzLh7rPAfmrjS8BFfkV+aDI2OgJfxv
- H31EjxgVH4SruSVhXTBooqHM3KDVEEzvlGrG2+GWTzKKrkKmeAjKE8Pzur5H7XMagB7r
- 1bXg==
-X-Gm-Message-State: ABy/qLYNOUQFF0J9yBKOLygupA4a0Kd5RK4E+pTSeq8PIXXSkGZLv/yT
- 7dEgqXL1ZNdDyJ1cIvt8aJXhmw==
-X-Google-Smtp-Source: APBJJlGshcStE6CmGpoWxKgEl1aVUHFTLbWnxC/Ja2WM2HB5FHJ7RuJKwNfKIUfnBhZIPlP0pXlw8Q==
-X-Received: by 2002:a2e:9dc1:0:b0:2b6:cad9:75ba with SMTP id
- x1-20020a2e9dc1000000b002b6cad975bamr214114ljj.29.1690407528503; 
- Wed, 26 Jul 2023 14:38:48 -0700 (PDT)
+ bh=ZP9CoyVy2pTatmhYQyFqnX1QWLbmjzO1vtHl1NuLxfg=;
+ b=L8qL5nSaRauwmgGoQWjC+g50rfUyXQMWyU7ddpsn48CIUFdeCTKfEcIVwYZUXadNoG
+ ZCtcYoMmVaE+HBguFiKUVXwPgHXRFmCM1Q3eNLDHChhRpmfZpAa9YqRt92Me1vUEPqEv
+ 3cSdNMzyl0VLCD4rN698MxwZs3H0F1jJT2GjaUaRukHd6Lmvn7Byl2x9RRQTvjgu0hZ3
+ sI6hw8JVBRRLTqm2botXB3E8+s97tslMQ7ko7sRDkX0IqHDiv98QNH2i4dduF8st3+9n
+ YPlkidqEaZXKQOQpNQmsHtRxigZ+exNrNvtL2htPcFzSORWQJ3XaSfLYXVqCQlAoutrs
+ SmWQ==
+X-Gm-Message-State: ABy/qLZfhUgo4P6Ft4Q/j4paoAT2iPPwGzu1euWBPQ0xmwsRpAlRkAyB
+ 32nH4pd2HVd+87XJT5q/jsQVRg==
+X-Google-Smtp-Source: APBJJlE5XrrJytmjId1aWJOQRpas2cyE4xBPQmZqdVNE290cCWhJc5WS4MaPIKd8nVmhTIF0hK0AZw==
+X-Received: by 2002:ac2:5323:0:b0:4fb:8a92:4fba with SMTP id
+ f3-20020ac25323000000b004fb8a924fbamr280735lfh.25.1690407800896; 
+ Wed, 26 Jul 2023 14:43:20 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- y21-20020a2e7d15000000b002b6a163b244sm4365030ljc.3.2023.07.26.14.38.47
+ a26-20020a056512021a00b004fbae51d1a5sm3465411lfo.295.2023.07.26.14.43.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Jul 2023 14:38:47 -0700 (PDT)
-Message-ID: <b9806e33-2094-dd4b-ec63-06dd8dbbd224@linaro.org>
-Date: Thu, 27 Jul 2023 00:38:47 +0300
+ Wed, 26 Jul 2023 14:43:20 -0700 (PDT)
+Message-ID: <f58998c9-82d3-d2fe-6f1c-801e616467be@linaro.org>
+Date: Thu, 27 Jul 2023 00:43:17 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [Freedreno] [PATCH 12/12] drm/msm/adreno: Switch to chip-id for
- identifying GPU
+Subject: Re: [Freedreno] [PATCH 06/12] drm/msm/adreno: Allow SoC specific gpu
+ device table entries
 Content-Language: en-GB
 To: Rob Clark <robdclark@gmail.com>
 References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-13-robdclark@gmail.com>
- <ab9f2c65-deb4-1762-4a32-a7046608311e@linaro.org>
- <CAF6AEGtqw0Pj42jucV7H==81WckYQZxBLSwb_ksB+=6pFmC6fQ@mail.gmail.com>
+ <20230706211045.204925-7-robdclark@gmail.com>
+ <ccbe9ed4-7def-b0d1-2d1c-e2550d212943@linaro.org>
+ <fpwpc7oyxzbfndojr2o2rkv2i66is4ylrtxh4equms7eyu4afc@cwyfgqanhlbo>
+ <CAF6AEGt+qnUBAq3CHS4eTO1YQsbLjj3Urtt2LuSwRJ7XpzPBww@mail.gmail.com>
+ <CAA8EJppJNrcXp8yswDycqA5HuK6bDCKrAkT4ttkGJvsWqD_YMg@mail.gmail.com>
+ <CAF6AEGtLcwKRCMGgLAuABEbSR1CeYKF+D=ffsQLRo-f1BiprbA@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAF6AEGtqw0Pj42jucV7H==81WckYQZxBLSwb_ksB+=6pFmC6fQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGtLcwKRCMGgLAuABEbSR1CeYKF+D=ffsQLRo-f1BiprbA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,533 +84,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/07/2023 00:37, Rob Clark wrote:
-> On Thu, Jul 6, 2023 at 8:45 PM Dmitry Baryshkov
+On 26/07/2023 23:11, Rob Clark wrote:
+> On Wed, Jul 26, 2023 at 1:00 PM Dmitry Baryshkov
 > <dmitry.baryshkov@linaro.org> wrote:
 >>
->> On 07/07/2023 00:10, Rob Clark wrote:
->>> From: Rob Clark <robdclark@chromium.org>
+>> On Wed, 26 Jul 2023 at 21:28, Rob Clark <robdclark@gmail.com> wrote:
 >>>
->>> Since the revision becomes an opaque identifier with future GPUs, move
->>> away from treating different ranges of bits as having a given meaning.
->>> This means that we need to explicitly list different patch revisions in
->>> the device table.
+>>> On Thu, Jul 13, 2023 at 1:26 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>>>>
+>>>> On Fri, Jul 07, 2023 at 05:34:04AM +0300, Dmitry Baryshkov wrote:
+>>>>>
+>>>>> On 07/07/2023 00:10, Rob Clark wrote:
+>>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>>
+>>>>>> There are cases where there are differences due to SoC integration.
+>>>>>> Such as cache-coherency support, and (in the next patch) e-fuse to
+>>>>>> speedbin mappings.
+>>>>>
+>>>>> I have the feeling that we are trying to circumvent the way DT works. I'd
+>>>>> suggest adding explicit SoC-compatible strings to Adreno bindings and then
+>>>>> using of_device_id::data and then of_device_get_match_data().
+>>>>>
+>>>> Just thinking, then how about a unique compatible string which we match
+>>>> to identify gpu->info and drop chip-id check completely here?
 >>>
->>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>> ---
->>>    drivers/gpu/drm/msm/adreno/a4xx_gpu.c      |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |  11 +-
->>>    drivers/gpu/drm/msm/adreno/a5xx_power.c    |   2 +-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  13 ++-
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |   9 +-
->>>    drivers/gpu/drm/msm/adreno/adreno_device.c | 128 ++++++++++-----------
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  16 +--
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  51 ++++----
->>>    8 files changed, 122 insertions(+), 110 deletions(-)
+>>> Ok, I think we could do this, so something like:
 >>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
->>> index 715436cb3996..8b4cdf95f445 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
->>> @@ -145,7 +145,7 @@ static void a4xx_enable_hwcg(struct msm_gpu *gpu)
->>>        gpu_write(gpu, REG_A4XX_RBBM_CLOCK_DELAY_HLSQ, 0x00220000);
->>>        /* Early A430's have a timing issue with SP/TP power collapse;
->>>           disabling HW clock gating prevents it. */
->>> -     if (adreno_is_a430(adreno_gpu) && adreno_gpu->rev.patchid < 2)
->>> +     if (adreno_is_a430(adreno_gpu) && adreno_patchid(adreno_gpu) < 2)
->>>                gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL, 0);
->>>        else
->>>                gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL, 0xAAAAAAAA);
->>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>> index f0803e94ebe5..70d2b5342cd9 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>> @@ -1744,6 +1744,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->>>        struct msm_drm_private *priv = dev->dev_private;
->>>        struct platform_device *pdev = priv->gpu_pdev;
->>>        struct adreno_platform_config *config = pdev->dev.platform_data;
->>> +     const struct adreno_info *info;
->>>        struct a5xx_gpu *a5xx_gpu = NULL;
->>>        struct adreno_gpu *adreno_gpu;
->>>        struct msm_gpu *gpu;
->>> @@ -1770,7 +1771,15 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>>>    compatible = "qcom,sm4350-adreno-619.0", qcom,adreno-619.0", "qcom,adreno"
 >>>
->>>        nr_rings = 4;
+>>> ?
 >>>
->>> -     if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
->>> +     /*
->>> +      * Note that we wouldn't have been able to get this far if there is not
->>> +      * a device table entry for this chip_id
->>> +      */
->>> +     info = adreno_find_info(config->chip_id);
->>> +     if (WARN_ON(!info))
->>> +             return ERR_PTR(-EINVAL);
->>> +
->>> +     if (info->revn == 510)
->>>                nr_rings = 1;
->>>
->>>        ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, nr_rings);
->>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_power.c b/drivers/gpu/drm/msm/adreno/a5xx_power.c
->>> index 0e63a1429189..7705f8010484 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a5xx_power.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_power.c
->>> @@ -179,7 +179,7 @@ static void a540_lm_setup(struct msm_gpu *gpu)
->>>
->>>        /* The battery current limiter isn't enabled for A540 */
->>>        config = AGC_LM_CONFIG_BCL_DISABLED;
->>> -     config |= adreno_gpu->rev.patchid << AGC_LM_CONFIG_GPU_VERSION_SHIFT;
->>> +     config |= adreno_patchid(adreno_gpu) << AGC_LM_CONFIG_GPU_VERSION_SHIFT;
->>>
->>>        /* For now disable GPMU side throttling */
->>>        config |= AGC_LM_CONFIG_THROTTLE_DISABLE;
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> index f1bb20574018..a9ba547a120c 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> @@ -790,10 +790,15 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
->>>        gmu_write(gmu, REG_A6XX_GMU_AHB_FENCE_RANGE_0,
->>>                (1 << 31) | (0xa << 18) | (0xa0));
->>>
->>> -     chipid = adreno_gpu->rev.core << 24;
->>> -     chipid |= adreno_gpu->rev.major << 16;
->>> -     chipid |= adreno_gpu->rev.minor << 12;
->>> -     chipid |= adreno_gpu->rev.patchid << 8;
->>> +     /* Note that the GMU has a slightly different layout for
->>> +      * chip_id, for whatever reason, so a bit of massaging
->>> +      * is needed.  The upper 16b are the same, but minor and
->>> +      * patchid are packed in four bits each with the lower
->>> +      * 8b unused:
->>> +      */
->>> +     chipid  = adreno_gpu->chip_id & 0xffff0000;
->>> +     chipid |= (adreno_gpu->chip_id << 4) & 0xf000; /* minor */
->>> +     chipid |= (adreno_gpu->chip_id << 8) & 0x0f00; /* patchid */
+>>> It looks like we don't have gpu dt bits upstream yet for either sm4350
+>>> or sm6375, so I suppose we could get away with this change
 >>
->> I'd beg for explicit FIELD_GET and FIELD_PREP here.
+>> I think we can even skip the 619.0 part in the SoC compat string.
+>> So it will be:
 >>
->>>
->>>        gmu_write(gmu, REG_A6XX_GMU_HFI_SFR_ADDR, chipid);
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> index 77b23c004b94..ed075729ca09 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> @@ -2344,10 +2344,13 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->>>        /*
->>>         * We need to know the platform type before calling into adreno_gpu_init
->>>         * so that the hw_apriv flag can be correctly set. Snoop into the info
->>> -      * and grab the revision number
->>> +      * and grab the revision number.
->>> +      *
->>> +      * Note that we wouldn't have been able to get this far if there is not
->>> +      * a device table entry for this chip_id
+>> compatible = "qcom,sm4350-adreno", qcom,adreno-619.0", "qcom,adreno";
 >>
->> Having seen this note twice, shouldn't we explicitly pass adreno_info to
->> our aNxx_gpu_init() functions and then further to adreno_gpu_init()?
+>> In future we can drop the chipid part completely and handle that as a
+>> part of SoC data:
 >>
->>>         */
->>> -     info = adreno_info(config->rev);
->>> -     if (!info)
->>> +     info = adreno_find_info(config->chip_id);
->>> +     if (WARN_ON(!info))
->>>                return ERR_PTR(-EINVAL);
->>>
->>>        adreno_gpu->base.hw_apriv = !!(info->quirks & ADRENO_QUIRK_HAS_HW_APRIV);
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> index fd2e183bce60..4a718ff33635 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> @@ -22,7 +22,7 @@ module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
->>>
->>>    static const struct adreno_info gpulist[] = {
->>>        {
->>> -             .rev   = ADRENO_REV(2, 0, 0, 0),
->>> +             .chip_ids = ADRENO_CHIP_IDS(0x02000000),
+>> compatible = "qcom,sm4350-adreno", "qcom,adreno";
 >>
->> This begs to use bit masks, but see below
+>> With the driver knowing that sm4350-adreno means ADRENO_ID(6,1,9,0)
 >>
->>>                .family = ADRENO_2XX_GEN1,
->>>                .revn  = 200,
->>>                .fw = {
->>
->> [skipped]
->>
->>> @@ -77,7 +77,11 @@ static const struct adreno_info gpulist[] = {
->>>                .inactive_period = DRM_MSM_INACTIVE_PERIOD,
->>>                .init  = a3xx_gpu_init,
->>>        }, {
->>> -             .rev   = ADRENO_REV(3, 2, ANY_ID, ANY_ID),
->>> +             .chip_ids = ADRENO_CHIP_IDS(
->>> +                     0x03020000,
->>> +                     0x03020001,
->>> +                     0x03020002
->>
->> definitely a bitmask would help
->>
->>> +             ),
->>>                .family = ADRENO_3XX,
->>>                .revn  = 320,
->>>                .fw = {
->>
->> [skipped the rest]
->>
->>> @@ -494,31 +502,16 @@ MODULE_FIRMWARE("qcom/a630_sqe.fw");
->>>    MODULE_FIRMWARE("qcom/a630_gmu.bin");
->>>    MODULE_FIRMWARE("qcom/a630_zap.mbn");
->>>
->>> -static inline bool _rev_match(uint8_t entry, uint8_t id)
->>> -{
->>> -     return (entry == ANY_ID) || (entry == id);
->>> -}
->>> -
->>> -bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2)
->>> -{
->>> -
->>> -     return _rev_match(rev1.core, rev2.core) &&
->>> -             _rev_match(rev1.major, rev2.major) &&
->>> -             _rev_match(rev1.minor, rev2.minor) &&
->>> -             _rev_match(rev1.patchid, rev2.patchid);
->>> -}
->>> -
->>> -const struct adreno_info *adreno_info(struct adreno_rev rev)
->>> +const struct adreno_info *adreno_find_info(uint32_t chip_id)
->>>    {
->>> -     int i;
->>> -
->>>        /* identify gpu: */
->>> -     for (i = 0; i < ARRAY_SIZE(gpulist); i++) {
->>> +     for (int i = 0; i < ARRAY_SIZE(gpulist); i++) {
->>>                const struct adreno_info *info = &gpulist[i];
->>>                if (info->machine && !of_machine_is_compatible(info->machine))
->>>                        continue;
->>> -             if (adreno_cmp_rev(info->rev, rev))
->>> -                     return info;
->>> +             for (int j = 0; info->chip_ids[j]; j++)
->>> +                     if (info->chip_ids[j] == chip_id)
->>> +                             return info;
->>>        }
->>>
->>>        return NULL;
->>> @@ -598,12 +591,11 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
->>>        return NULL;
->>>    }
->>>
->>> -static int find_chipid(struct device *dev, struct adreno_rev *rev)
->>> +static int find_chipid(struct device *dev, uint32_t *chipid)
->>>    {
->>>        struct device_node *node = dev->of_node;
->>>        const char *compat;
->>>        int ret;
->>> -     u32 chipid;
->>>
->>>        /* first search the compat strings for qcom,adreno-XYZ.W: */
->>>        ret = of_property_read_string_index(node, "compatible", 0, &compat);
->>> @@ -612,32 +604,34 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
->>>
->>>                if (sscanf(compat, "qcom,adreno-%u.%u", &r, &patch) == 2 ||
->>>                    sscanf(compat, "amd,imageon-%u.%u", &r, &patch) == 2) {
->>> -                     rev->core = r / 100;
->>> +                     uint32_t core, major, minor;
->>> +
->>> +                     core = r / 100;
->>>                        r %= 100;
->>> -                     rev->major = r / 10;
->>> +                     major = r / 10;
->>>                        r %= 10;
->>> -                     rev->minor = r;
->>> -                     rev->patchid = patch;
->>> +                     minor = r;
->>> +
->>> +                     *chipid = (core << 24) |
->>> +                             (major << 16) |
->>> +                             (minor << 8) |
->>> +                             patch;
->>
->> This starts to look realy crazy. I'd repeat my suggestion of moving
->> towards of_device match data. This would result in some duplication,
->> we'd have to explicitly list all supported compatibles in the
->> of_match_table. But then we can drop all the CHIPID lists from device
->> table and/or manual parsing of the chipid from the compat field.
->>
->> This way we can have per-SoC overrides, etc.
->>
->>>
->>>                        return 0;
->>>                }
->>> +
->>> +             if (sscanf(compat, "qcom,adreno-%08x", chipid) == 1)
->>> +                     return 0;
->>>        }
->>>
->>>        /* and if that fails, fall back to legacy "qcom,chipid" property: */
->>> -     ret = of_property_read_u32(node, "qcom,chipid", &chipid);
->>> +     ret = of_property_read_u32(node, "qcom,chipid", chipid);
->>>        if (ret) {
->>>                DRM_DEV_ERROR(dev, "could not parse qcom,chipid: %d\n", ret);
->>>                return ret;
->>>        }
->>>
->>> -     rev->core = (chipid >> 24) & 0xff;
->>> -     rev->major = (chipid >> 16) & 0xff;
->>> -     rev->minor = (chipid >> 8) & 0xff;
->>> -     rev->patchid = (chipid & 0xff);
->>> -
->>>        dev_warn(dev, "Using legacy qcom,chipid binding!\n");
->>> -     dev_warn(dev, "Use compatible qcom,adreno-%u%u%u.%u instead.\n",
->>> -             rev->core, rev->major, rev->minor, rev->patchid);
->>>
->>>        return 0;
->>>    }
->>> @@ -651,22 +645,22 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
->>>        struct msm_gpu *gpu;
->>>        int ret;
->>>
->>> -     ret = find_chipid(dev, &config.rev);
->>> +     ret = find_chipid(dev, &config.chip_id);
->>>        if (ret)
->>>                return ret;
->>>
->>>        dev->platform_data = &config;
->>>        priv->gpu_pdev = to_platform_device(dev);
->>>
->>> -     info = adreno_info(config.rev);
->>> +     info = adreno_find_info(config.chip_id);
->>>
->>>        if (!info) {
->>>                dev_warn(drm->dev, "Unknown GPU revision: %"ADRENO_CHIPID_FMT"\n",
->>> -                     ADRENO_CHIPID_ARGS(config.rev));
->>> +                     ADRENO_CHIPID_ARGS(config.chip_id));
->>>                return -ENXIO;
->>>        }
->>>
->>> -     DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.rev));
->>> +     DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.chip_id));
->>>
->>>        priv->is_a2xx = info->family < ADRENO_3XX;
->>>        priv->has_cached_coherent =
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> index 1a982a926f21..1274609a74b1 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> @@ -326,10 +326,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
->>>                *value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
->>>                return 0;
->>>        case MSM_PARAM_CHIP_ID:
->>> -             *value =  (uint64_t)adreno_gpu->rev.patchid |
->>> -                      ((uint64_t)adreno_gpu->rev.minor << 8) |
->>> -                      ((uint64_t)adreno_gpu->rev.major << 16) |
->>> -                      ((uint64_t)adreno_gpu->rev.core  << 24);
->>> +             *value = adreno_gpu->chip_id;
->>>                if (!adreno_gpu->info->revn)
->>>                        *value |= ((uint64_t) adreno_gpu->speedbin) << 32;
->>>                return 0;
->>> @@ -849,7 +846,7 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
->>>
->>>        drm_printf(p, "revision: %u (%"ADRENO_CHIPID_FMT")\n",
->>>                        adreno_gpu->info->revn,
->>> -                     ADRENO_CHIPID_ARGS(adreno_gpu->rev));
->>> +                     ADRENO_CHIPID_ARGS(adreno_gpu->chip_id));
->>>        /*
->>>         * If this is state collected due to iova fault, so fault related info
->>>         *
->>> @@ -922,7 +919,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
->>>
->>>        printk("revision: %u (%"ADRENO_CHIPID_FMT")\n",
->>>                        adreno_gpu->info->revn,
->>> -                     ADRENO_CHIPID_ARGS(adreno_gpu->rev));
->>> +                     ADRENO_CHIPID_ARGS(adreno_gpu->chip_id));
->>>
->>>        for (i = 0; i < gpu->nr_rings; i++) {
->>>                struct msm_ringbuffer *ring = gpu->rb[i];
->>> @@ -1072,14 +1069,13 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>        struct adreno_platform_config *config = dev->platform_data;
->>>        struct msm_gpu_config adreno_gpu_config  = { 0 };
->>>        struct msm_gpu *gpu = &adreno_gpu->base;
->>> -     struct adreno_rev *rev = &config->rev;
->>>        const char *gpu_name;
->>>        u32 speedbin;
->>>        int ret;
->>>
->>>        adreno_gpu->funcs = funcs;
->>> -     adreno_gpu->info = adreno_info(config->rev);
->>> -     adreno_gpu->rev = *rev;
->>> +     adreno_gpu->info = adreno_find_info(config->chip_id);
->>> +     adreno_gpu->chip_id = config->chip_id;
->>>
->>>        /* Only handle the core clock when GMU is not in use (or is absent). */
->>>        if (adreno_has_gmu_wrapper(adreno_gpu) ||
->>> @@ -1104,7 +1100,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>        adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
->>>
->>>        gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT,
->>> -                     ADRENO_CHIPID_ARGS(config->rev));
->>> +                     ADRENO_CHIPID_ARGS(config->chip_id));
->>>        if (!gpu_name)
->>>                return -ENOMEM;
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>> index 73e7155f164c..18f53c7ab589 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>> @@ -54,23 +54,15 @@ enum adreno_family {
->>>    #define ADRENO_QUIRK_HAS_HW_APRIV           BIT(3)
->>>    #define ADRENO_QUIRK_HAS_CACHED_COHERENT    BIT(4)
->>>
->>> -struct adreno_rev {
->>> -     uint8_t  core;
->>> -     uint8_t  major;
->>> -     uint8_t  minor;
->>> -     uint8_t  patchid;
->>> -};
->>> -
->>> -#define ANY_ID 0xff
->>> -
->>> -#define ADRENO_REV(core, major, minor, patchid) \
->>> -     ((struct adreno_rev){ core, major, minor, patchid })
->>> -
->>>    /* Helper for formating the chip_id in the way that userspace tools like
->>>     * crashdec expect.
->>>     */
->>>    #define ADRENO_CHIPID_FMT "u.%u.%u.%u"
->>> -#define ADRENO_CHIPID_ARGS(_r) (_r).core, (_r).major, (_r).minor, (_r).patchid
->>> +#define ADRENO_CHIPID_ARGS(_c) \
->>> +     (((_c) >> 24) & 0xff), \
->>> +     (((_c) >> 16) & 0xff), \
->>> +     (((_c) >> 8)  & 0xff), \
->>> +     ((_c) & 0xff)
->>
->> So, we still have some meaning for chipid?
 > 
-> Only enough to do the inverse of what userspace does when parsing
-> devcoredump to construct chip-id.  Basically it is just a different
-> way to represent a 32b #
+> I don't think we can do that, there are cases where the same SoC had
+> multiple revisions of adreno.
 
-What about passing it in the direct form? The macro adds assumptions.
+Is that the case for the production versions of the SoC? In other 
+subsystems what we usually do is that we add support only for the latest 
+SoC revision (which would probably mean the latest GPU patch revision). 
+Previous GPU revisions can be added in the following way (pure example):
 
+qcom,sm4350-adreno -> 6,1,9,1 // assuming v2.0 or v1.1 is the commercial 
+sample
+qcom,sm4350-v1-adreno -> 6,1,9,0
+
+>  We could possibly do that with future
+> things where we can read the chip-id from fw.
+> 
+> What we _could_ do at the expense of making the compatible parsing a
+> tiny bit more complex is something like:
+> 
+>     compatible = "qcom,sm4350-adreno-619.0", "qcom,adreno"
 > 
 > BR,
 > -R
 > 
 >>>
->>>    struct adreno_gpu_funcs {
->>>        struct msm_gpu_funcs base;
->>> @@ -87,7 +79,12 @@ extern const struct adreno_reglist a660_hwcg[], a690_hwcg[];
+>>> BR,
+>>> -R
 >>>
->>>    struct adreno_info {
->>>        const char *machine;
->>> -     struct adreno_rev rev;
->>> +     /**
->>> +      * @chipids: Table of matching chip-ids
->>> +      *
->>> +      * Terminated with 0 sentinal
->>> +      */
->>> +     uint32_t *chip_ids;
->>>        enum adreno_family family;
->>>        uint32_t revn;
->>>        const char *fw[ADRENO_FW_MAX];
->>> @@ -107,6 +104,8 @@ struct adreno_info {
->>>        uint32_t *speedbins;
->>>    };
->>>
->>> +#define ADRENO_CHIP_IDS(tbl...) (uint32_t[]) { tbl, 0 }
->>> +
->>>    /*
->>>     * Helper to build a speedbin table, ie. the table:
->>>     *      fuse | speedbin
->>> @@ -125,12 +124,12 @@ struct adreno_info {
->>>     */
->>>    #define ADRENO_SPEEDBINS(tbl...) (uint32_t[]) { tbl, UINT_MAX }
->>>
->>> -const struct adreno_info *adreno_info(struct adreno_rev rev);
->>> +const struct adreno_info *adreno_find_info(uint32_t chip_id);
->>>
->>>    struct adreno_gpu {
->>>        struct msm_gpu base;
->>> -     struct adreno_rev rev;
->>>        const struct adreno_info *info;
->>> +     uint32_t chip_id;
->>>        uint16_t speedbin;
->>>        const struct adreno_gpu_funcs *funcs;
->>>
->>> @@ -179,7 +178,7 @@ struct adreno_ocmem {
->>>
->>>    /* platform config data (ie. from DT, or pdata) */
->>>    struct adreno_platform_config {
->>> -     struct adreno_rev rev;
->>> +     uint32_t chip_id;
->>>    };
->>>
->>>    #define ADRENO_IDLE_TIMEOUT msecs_to_jiffies(1000)
->>> @@ -196,7 +195,15 @@ struct adreno_platform_config {
->>>        __ret;                                             \
->>>    })
->>>
->>> -bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
->>> +static inline uint8_t adreno_patchid(const struct adreno_gpu *gpu)
->>> +{
->>> +     /* It is probably ok to assume legacy "adreno_rev" format
->>> +      * for all a6xx devices, but probably best to limit this
->>> +      * to older things.
->>> +      */
->>> +     WARN_ON_ONCE(gpu->info->family >= ADRENO_6XX_GEN1);
->>> +     return gpu->chip_id & 0xff;
->>> +}
->>>
->>>    static inline bool adreno_is_revn(const struct adreno_gpu *gpu, uint32_t revn)
->>>    {
->>> @@ -252,7 +259,7 @@ static inline bool adreno_is_a330(const struct adreno_gpu *gpu)
->>>
->>>    static inline bool adreno_is_a330v2(const struct adreno_gpu *gpu)
->>>    {
->>> -     return adreno_is_a330(gpu) && (gpu->rev.patchid > 0);
->>> +     return adreno_is_a330(gpu) && (adreno_patchid(gpu) > 0);
->>>    }
->>>
->>>    static inline int adreno_is_a405(const struct adreno_gpu *gpu)
->>> @@ -342,8 +349,7 @@ static inline int adreno_is_a650(const struct adreno_gpu *gpu)
->>>
->>>    static inline int adreno_is_7c3(const struct adreno_gpu *gpu)
->>>    {
->>> -     /* The order of args is important here to handle ANY_ID correctly */
->>> -     return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu->rev);
->>> +     return gpu->info->chip_ids[0] == 0x06030500;
+>>>> -Akhil
+>>>>
+>>>>>>
+>>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/msm/adreno/adreno_device.c | 34 +++++++++++++++++++---
+>>>>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
+>>>>>>    2 files changed, 31 insertions(+), 4 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>>>>> index 3c531da417b9..e62bc895a31f 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>>>>> @@ -258,6 +258,32 @@ static const struct adreno_info gpulist[] = {
+>>>>>>              .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>>>>>              .quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+>>>>>>              .init = a6xx_gpu_init,
+>>>>>> +   }, {
+>>>>>> +           .machine = "qcom,sm4350",
+>>>>>> +           .rev = ADRENO_REV(6, 1, 9, ANY_ID),
+>>>>>> +           .revn = 619,
+>>>>>> +           .fw = {
+>>>>>> +                   [ADRENO_FW_SQE] = "a630_sqe.fw",
+>>>>>> +                   [ADRENO_FW_GMU] = "a619_gmu.bin",
+>>>>>> +           },
+>>>>>> +           .gmem = SZ_512K,
+>>>>>> +           .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>>>>> +           .init = a6xx_gpu_init,
+>>>>>> +           .zapfw = "a615_zap.mdt",
+>>>>>> +           .hwcg = a615_hwcg,
+>>>>>> +   }, {
+>>>>>> +           .machine = "qcom,sm6375",
+>>>>>> +           .rev = ADRENO_REV(6, 1, 9, ANY_ID),
+>>>>>> +           .revn = 619,
+>>>>>> +           .fw = {
+>>>>>> +                   [ADRENO_FW_SQE] = "a630_sqe.fw",
+>>>>>> +                   [ADRENO_FW_GMU] = "a619_gmu.bin",
+>>>>>> +           },
+>>>>>> +           .gmem = SZ_512K,
+>>>>>> +           .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>>>>> +           .init = a6xx_gpu_init,
+>>>>>> +           .zapfw = "a615_zap.mdt",
+>>>>>> +           .hwcg = a615_hwcg,
+>>>>>>      }, {
+>>>>>>              .rev = ADRENO_REV(6, 1, 9, ANY_ID),
+>>>>>>              .revn = 619,
+>>>>>> @@ -409,6 +435,8 @@ const struct adreno_info *adreno_info(struct adreno_rev rev)
+>>>>>>      /* identify gpu: */
+>>>>>>      for (i = 0; i < ARRAY_SIZE(gpulist); i++) {
+>>>>>>              const struct adreno_info *info = &gpulist[i];
+>>>>>> +           if (info->machine && !of_machine_is_compatible(info->machine))
+>>>>>> +                   continue;
+>>>>>>              if (adreno_cmp_rev(info->rev, rev))
+>>>>>>                      return info;
+>>>>>>      }
+>>>>>> @@ -563,6 +591,8 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+>>>>>>              config.rev.minor, config.rev.patchid);
+>>>>>>      priv->is_a2xx = config.rev.core == 2;
+>>>>>> +   priv->has_cached_coherent =
+>>>>>> +           !!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT);
+>>>>>>      gpu = info->init(drm);
+>>>>>>      if (IS_ERR(gpu)) {
+>>>>>> @@ -574,10 +604,6 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+>>>>>>      if (ret)
+>>>>>>              return ret;
+>>>>>> -   priv->has_cached_coherent =
+>>>>>> -           !!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT) &&
+>>>>>> -           !adreno_has_gmu_wrapper(to_adreno_gpu(gpu));
+>>>>>> -
+>>>>>>      return 0;
+>>>>>>    }
+>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>>>> index e08d41337169..d5335b99c64c 100644
+>>>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>>>> @@ -61,6 +61,7 @@ extern const struct adreno_reglist a612_hwcg[], a615_hwcg[], a630_hwcg[], a640_h
+>>>>>>    extern const struct adreno_reglist a660_hwcg[], a690_hwcg[];
+>>>>>>    struct adreno_info {
+>>>>>> +   const char *machine;
+>>>>>>      struct adreno_rev rev;
+>>>>>>      uint32_t revn;
+>>>>>>      const char *fw[ADRENO_FW_MAX];
+>>>>>
+>>>>> --
+>>>>> With best wishes
+>>>>> Dmitry
+>>>>>
 >>
->> Ugh. The thing that bugs me isn't even the manual comparison of
->> chip_ids[0], but the fact that these two platforms stand aside. I think
->> at the end we should have a single mechanism for checking GPU's SKUs.
 >>
->> Or maybe we should get rid of that completely.
->>
->> If we get rid of a single gpulist table and move individual GPU info
->> definitions to aNxx_gpu.c, we can subclass a generic info structure with
->> generation-specific data, for example generation-specific quirks,
->> pointers to hcwg or VBIF registers, etc. And then instead of having
->> adreno_is_foo all over the code we can migrate most of these checks to
->> data in the gpu info data.
->>
->>>    }
->>>
->>>    static inline int adreno_is_a660(const struct adreno_gpu *gpu)
->>> @@ -358,8 +364,7 @@ static inline int adreno_is_a680(const struct adreno_gpu *gpu)
->>>
->>>    static inline int adreno_is_a690(const struct adreno_gpu *gpu)
->>>    {
->>> -     /* The order of args is important here to handle ANY_ID correctly */
->>> -     return adreno_cmp_rev(ADRENO_REV(6, 9, 0, ANY_ID), gpu->rev);
->>> +     return gpu->info->chip_ids[0] == 0x06090000;
->>>    };
->>>    /* check for a615, a616, a618, a619 or any a630 derivatives */
->>>    static inline int adreno_is_a630_family(const struct adreno_gpu *gpu)
 >>
 >> --
 >> With best wishes
 >> Dmitry
->>
 
 -- 
 With best wishes
