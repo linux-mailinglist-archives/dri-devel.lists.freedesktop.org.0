@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C45764825
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 09:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14EF764817
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 09:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1BC10E4F9;
-	Thu, 27 Jul 2023 07:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04FB310E4EE;
+	Thu, 27 Jul 2023 07:11:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC2D10E045
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 17:14:36 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-666ecf9a081so70609b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 10:14:36 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F019E10E04B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 18:13:33 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-686efa1804eso94554b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 11:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690391676; x=1690996476;
+ d=gmail.com; s=20221208; t=1690395213; x=1691000013;
  h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y8QZa7qTEmGwCyA0yfHV1JjhyFQSM3L1Bj9irGZtMbI=;
- b=V5ourLyDBFitbj6i3NSu7Ce7nyCxoe4wZz6T48QqcrhwAyGppGZo6/+WkRI9pTCQhc
- ZKv2sR5SfQnbXhe8eslmUHoLwz/Dk2cyZSCWcaACOGBdVZueFvu5ixTwrS09deJZEeCl
- ggNyP8W+/4g2znmswMkpzWrVAtkKCAh36eSKLciRAPRvDQhheqyFytgwdBoZG4Ecxs/y
- JTAnoH6VABAO9MSHILqEdWZ1xznhrFaW/CWQxP6nx0FD9x8BsFJjFQ27EzuMopLeSN/E
- vIUvuUTPiuI3TdlPaDwPH2zPABN0ZDf+Y6vAALJ46Eq9cz21qVSeIhwttVhqxNA3p49O
- evtA==
+ bh=vwiSFj0tl/R+2ypAV/GDIAiCwQG00lhPHhABGlY+Hic=;
+ b=pvxRPcRPGAfCe4SrvnDaqzurhrKOcVas4Tnt6r7ITP3DnKTAdadQeNOZIYtvxZlyDn
+ DozhwK9IGtgCBWi3ffcMC796lhCxm+gzK2j9eyKV95IPGS8xj+8f2FDv/JB5ovIsi5UD
+ qt/8yTjnGNgleKv7v8WrBjBeJogMfejzAlE3SL+rMfERO6ucZIKXksiZVZQxIOZq65B5
+ Te2OlQwqeJbvNcZwIOAr0gAkZbUPY1eCfToHo7n8vHhiGE46COkFmR7//Wu2tE2h1BSV
+ BfhYiR8hECg45x0FqEJYUSKeCgH472DOcTHMgd2T7pCv+vwrYCYh6ITmAN924aXho4lc
+ mJbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690391676; x=1690996476;
+ d=1e100.net; s=20221208; t=1690395213; x=1691000013;
  h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y8QZa7qTEmGwCyA0yfHV1JjhyFQSM3L1Bj9irGZtMbI=;
- b=Gsuootb3DxcKyvVdEXeR6JhwGrOriY6jyFmGL+MkQdKPYKKUzt28cmHcpPlU4KL33k
- 589BjAcrCgiY3WzOwT0BfpzegAscln9+TGJjlIPgMFXtXEVfyCNqrC6gkffDeK58ehKV
- +h0CY5qfJhLDLkMm63Y+bU1hKRr/gObzZKp+gYC9K4x2O6Yzmp1dpa8PA9YkBNnWXPse
- 59bu1PGcwbhOGj3YqIVoOV1dnY3MKhJTHzu+WS8rp7cIiCOcawVzrgzXU1dITtUIuHIS
- V0qf5pm3Mavav/awRUBuBdWMwY9ixo1C+n0J+x9yF9nw4yhhI75RUnmkjFRkB73ZumZW
- X2Rw==
-X-Gm-Message-State: ABy/qLYOHq9ARffeCwqWJXlsaqpcyvATGzH4oI3Y72ElhLglreOf3RjP
- AbcKpbEF+msuyriGGrc6St4ZRjRgA3XRWA==
-X-Google-Smtp-Source: APBJJlF9uZ/TB0GtcuHXezMc7d0QCA7hQiP905LgZ3w0DZ1XDY4QZ9iUrKmEg++RMxvAb8QwPjMcLA==
-X-Received: by 2002:a05:6a00:2d01:b0:686:b662:f303 with SMTP id
- fa1-20020a056a002d0100b00686b662f303mr3540492pfb.0.1690391675815; 
- Wed, 26 Jul 2023 10:14:35 -0700 (PDT)
+ bh=vwiSFj0tl/R+2ypAV/GDIAiCwQG00lhPHhABGlY+Hic=;
+ b=aRN+pQj89/Y912BLAurFQYzVPiK+tA5/N/atZ7IKMRxuoAUDTNuxa/mXJ0ibGLTk+E
+ qWoiLNyq0qFj1RR9lLHmQqA4HRfwzVFge/MxNgG8tUtjd3CUAFpbpKX6rPxOHRUgGB8J
+ i34uTIx7BGBVDNzkfr/l3gIS8Ev24enEBPJx5NEkxkhw/mu7U3WmJbMNTdodU7e5aGFB
+ cXGBHPo4EizkFGqbIjBcTdTz7a+B0BGs8vVAhEyb8Di60AcLMXMfSooovAqVvS5a8QDs
+ UFMY1EAk+v1lF/HdYf9iuscjo/6YCAc7JeyZ8Y9Hw+A1bVFRbZh5rjpugPxVW6ubbd5R
+ W/dg==
+X-Gm-Message-State: ABy/qLZ71vvIrCDiNF2478QCn6AzfV7XDrXJllggj6IifQXMmdcGPiQZ
+ MSQy7Zl6K9/5tZy1YIHS1R0=
+X-Google-Smtp-Source: APBJJlENsKtAIdpEBIKfw+s/pPsgNv0zC1TAnGLqNZq+eoO8cyf+D7Fq22VDKCbbaFYZ8L+dGs9mQA==
+X-Received: by 2002:a17:903:181:b0:1b1:ae33:30de with SMTP id
+ z1-20020a170903018100b001b1ae3330demr2839399plg.13.1690395213483; 
+ Wed, 26 Jul 2023 11:13:33 -0700 (PDT)
 Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk.
  [143.89.191.97]) by smtp.gmail.com with ESMTPSA id
- k196-20020a633dcd000000b005501b24b1c9sm12688361pga.62.2023.07.26.10.14.32
+ c9-20020a170902c1c900b001bb8be10a84sm9100254plc.304.2023.07.26.11.13.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 10:14:35 -0700 (PDT)
+ Wed, 26 Jul 2023 11:13:32 -0700 (PDT)
 From: Chengfeng Ye <dg573847474@gmail.com>
 To: james.smart@broadcom.com, dick.kennedy@broadcom.com, jejb@linux.ibm.com,
  martin.petersen@oracle.com, sumit.semwal@linaro.org,
  christian.koenig@amd.com, justin.tee@broadcom.com
-Subject: [PATCH] scsi: lpfc: Fix potential deadlock on &ndlp->lock
-Date: Wed, 26 Jul 2023 17:14:23 +0000
-Message-Id: <20230726171423.18692-1-dg573847474@gmail.com>
+Subject: [PATCH v2] scsi: lpfc: Fix potential deadlock on &ndlp->lock
+Date: Wed, 26 Jul 2023 18:13:22 +0000
+Message-Id: <20230726181322.26754-1-dg573847474@gmail.com>
 X-Mailer: git-send-email 2.17.1
 X-Mailman-Approved-At: Thu, 27 Jul 2023 07:11:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,7 +77,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 As &ndlp->lock is acquired by timer lpfc_els_retry_delay() under softirq
-context, process context code acquiring the lock &phba->hbalock should
+context, process context code acquiring the lock &ndlp->lock should
 disable irq or bh, otherwise deadlock could happen if the timer preempt
 the execution while the lock is held in process context on the same CPU.
 
