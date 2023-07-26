@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB70762DA8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:31:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D23762D9E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E45F610E43E;
-	Wed, 26 Jul 2023 07:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3F010E42A;
+	Wed, 26 Jul 2023 07:30:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-49.mta1.migadu.com (out-49.mta1.migadu.com
- [IPv6:2001:41d0:203:375::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C1EA10E0BE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:12:22 +0000 (UTC)
+Received: from out-1.mta0.migadu.com (out-1.mta0.migadu.com [91.218.175.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB3A10E0BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:14:04 +0000 (UTC)
 Content-Type: text/plain;
 	charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1690355540;
+ t=1690355641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3alJFErDP2kwm77gyuNSGQkYOJLqXt+yE3nd00upks4=;
- b=vFtGC5wfJTYRsW6KFexwkQT3iRPwDHegF5FOg2h20LJFCKDKgiueZl1TgVj25vGIeLy7ev
- gbMI47WpJ3SatO/WJHqfwuqpLbaPS/nnmDmyz+2u4x5goaLDmfN+L7AmLPQ0S7B/YtBgkI
- d+QZKno/sWpLFHvrrBRFsFnaygfyjd4=
+ bh=PGcKZp3hFkU5xFrSCjAkw6H7DFoCu3eaWoJYWwGl/BE=;
+ b=oAdnd9nZjeI3kyPEsvbWMnutbGwA6A/dnneU8CJq7+Jt5loXWooRhnwIByjGtqjMSkXONA
+ pNjiGN0aO6zYh0sGJrXLfhIGW2JwY9JyCA6cMT7CdHDW/adI6zyBptMVHroPA7pSViOJ/f
+ hCfYb58R4eJqbPwcBX6PzM13HtrcK50=
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 20/47] sunrpc: dynamically allocate the sunrpc_cred
- shrinker
+Subject: Re: [PATCH v2 21/47] mm: workingset: dynamically allocate the
+ mm-shadow shrinker
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20230724094354.90817-21-zhengqi.arch@bytedance.com>
-Date: Wed, 26 Jul 2023 15:11:36 +0800
-Content-Transfer-Encoding: 7bit
-Message-Id: <D2E8BDAB-A8E8-40D2-BCC5-FEF97C9D721D@linux.dev>
+In-Reply-To: <20230724094354.90817-22-zhengqi.arch@bytedance.com>
+Date: Wed, 26 Jul 2023 15:13:37 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <08F2140B-0684-4FB0-8FB9-CEB88882F884@linux.dev>
 References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
- <20230724094354.90817-21-zhengqi.arch@bytedance.com>
+ <20230724094354.90817-22-zhengqi.arch@bytedance.com>
 To: Qi Zheng <zhengqi.arch@bytedance.com>
 X-Migadu-Flow: FLOW_OUT
 X-Mailman-Approved-At: Wed, 26 Jul 2023 07:30:32 +0000
@@ -64,7 +63,7 @@ Cc: kvm@vger.kernel.org, djwong@kernel.org,
  linux-raid@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
  tytso@mit.edu, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
  linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- senozhatsky@chromium.org, netdev@vger.kernel.org,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, netdev@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
  linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -72,12 +71,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> On Jul 24, 2023, at 17:43, Qi Zheng <zhengqi.arch@bytedance.com> wrote:
-> 
-> Use new APIs to dynamically allocate the sunrpc_cred shrinker.
-> 
+> On Jul 24, 2023, at 17:43, Qi Zheng <zhengqi.arch@bytedance.com> =
+wrote:
+>=20
+> Use new APIs to dynamically allocate the mm-shadow shrinker.
+>=20
 > Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+> ---
+> mm/workingset.c | 26 ++++++++++++++------------
+> 1 file changed, 14 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/mm/workingset.c b/mm/workingset.c
+> index 4686ae363000..4bc85f739b13 100644
+> --- a/mm/workingset.c
+> +++ b/mm/workingset.c
+> @@ -762,12 +762,7 @@ static unsigned long scan_shadow_nodes(struct =
+shrinker *shrinker,
+> NULL);
+> }
+>=20
+> -static struct shrinker workingset_shadow_shrinker =3D {
+> -	.count_objects =3D count_shadow_nodes,
+> -	.scan_objects =3D scan_shadow_nodes,
+> -	.seeks =3D 0, /* ->count reports only fully expendable nodes */
+> -	.flags =3D SHRINKER_NUMA_AWARE | SHRINKER_MEMCG_AWARE,
+> -};
+> +static struct shrinker *workingset_shadow_shrinker;
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 
-
+Same as patch #17.=
