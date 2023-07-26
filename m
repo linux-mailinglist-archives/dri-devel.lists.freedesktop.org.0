@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9590763FE9
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 21:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B212763FF1
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 21:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55B8010E4B4;
-	Wed, 26 Jul 2023 19:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0744510E4AD;
+	Wed, 26 Jul 2023 19:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8EC10E4B4;
- Wed, 26 Jul 2023 19:44:47 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-686f1240a22so13958b3a.0; 
- Wed, 26 Jul 2023 12:44:47 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9517110E096;
+ Wed, 26 Jul 2023 19:50:00 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id
+ d9443c01a7336-1bba04b9df3so1470525ad.0; 
+ Wed, 26 Jul 2023 12:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690400686; x=1691005486;
+ d=gmail.com; s=20221208; t=1690401000; x=1691005800;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=VIQUF5pxDq7OaH/cq+/yDjYiLBedFBP8ulSYElZmLwU=;
- b=lABXBtPFwn3FCtQv5Cb3csSuJ2Td+KIqkY5ygJK0lT+9ay/TSKzRV3T/qdi98zeoJe
- oirsG2ATytq9UM5BIwjUrJMCjNvs/M8LRIKHCmOWwOA5XgTn6g/wTI9hbwmoN5jBAyeR
- r+c0pgllRpNRDT39CCHZcjyopLj5wXSO4zaJMbVwNJGLOp1Mrm0vWbBj9kIfL+80Q3/Y
- y4VZiF1TKsaNGhoxjq1SQuk+3lm4Cf73LWjQlG1jt2Ece5jOgByA80o/KGwosJv0zjw8
- AFI2VC6F+beS2/t3y7sKqyAUHeziG+oPhfCT7qB3RLIYWwVJ4q/rAVag/eFqSaSpAe9m
- tx2Q==
+ :reply-to; bh=o0fC+88gZBz8jtA7XWzXX83zAKhjWaVQ+UtgjI6/8g4=;
+ b=oukBQFR9IQO7+GHjeNafPLNndng0nKABjpaczwth9BgzQpiqLcIQmG3R0hQGndcxJm
+ cYdWVh5nwhTZeVggUqY+dTHuIGwyN30/6fp2sp0wyfL72IGfNgg/LyhmK/aOsL0qe9rh
+ hdl08+mPzCse2OTUc3DCOSQQdlnPnOVKbMtUM7PQdS9pjxjPVU1Ss81NUNDkqum4hDE7
+ kbOOH4W3oJ+SWJh62vMxckP4920VO+vrtvTrkBs9b9GwH/Y8ktjUNvzdGAnSNbKu64a/
+ V4UOi3avOQ9xPragbr0BWF/d/6EXsVAYc16BmiSMrYcqsAW0FvN+x0wHlEhYvWG6eIOr
+ cRAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690400686; x=1691005486;
+ d=1e100.net; s=20221208; t=1690401000; x=1691005800;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VIQUF5pxDq7OaH/cq+/yDjYiLBedFBP8ulSYElZmLwU=;
- b=NJFBdwJ2cgPdCvbA69NkW8hOC8NxKZJjaxQO9PtY3nBYJSBynmelyzUA2rFdZ+A5nF
- 9yMeWehI8Fq+p7NG6JzD3/TDWyD/+O81Sud5hA15+eVyhc61O2VKhQxZXoYPa9RKJmqe
- ITNC55YXN1Tcnlz+L1oeKT0yteKirKw5MhIEflsYhKdb10NbsK1+jv8IZn4gpVlBuug9
- GQaGmdQoTlsgPsp6e6WaD/MU3rX3dhsCJCoXLQEzeV9u96WBTJWR/wDREDjzsNSZ7mXy
- 4W1Wlni/Fo5eD402rLzKOaWDoG0kK5PYE9KBam3YoEXpoR0PjS9zYUl7ButGX17szHQy
- xCIQ==
-X-Gm-Message-State: ABy/qLbr1JdVJdK6nJCdrTdExL0S+nQALJqf+bJ7e7VSTtdX/5nAddtE
- sFw1Pput2rjmxLRRdwjhlpU=
-X-Google-Smtp-Source: APBJJlGILMsw8IkBKMxeBLDfBMBy4EilYpIm1syUNg1rCUlwlmh/o60QGTyq7aO0ZkORDLeDnt3Pdg==
-X-Received: by 2002:a05:6a00:b54:b0:668:81c5:2f8d with SMTP id
- p20-20020a056a000b5400b0066881c52f8dmr4063786pfo.3.1690400686414; 
- Wed, 26 Jul 2023 12:44:46 -0700 (PDT)
+ bh=o0fC+88gZBz8jtA7XWzXX83zAKhjWaVQ+UtgjI6/8g4=;
+ b=kSuacYTvIVIXEkd1a3oSLcxSyeXQLctyXfoSETae3iz897qPzE3viCo0Z1wE30PHQ9
+ 0Es7WBMWQorvAR640PvdD/mxLpJ4VAsO7QaNjAhx8Kp6Avc5Pbpa62Nc9VMMDlccuRiR
+ 2EWrC/UD/YJnasTsp2J51lgiTmwcFpVHevDPncpOSnS20CkeGBPkMOnLpWnUNDgLyaBi
+ VUdmDNBBSt0Lmei6NJ3/0+SArMbSiOfHrCnRqEriHh7epoFM6cRe5v27B44cMlHHWESM
+ /zGG7ENe2fITod/oxeBBJnwRbVpSXZAL8VP3x9Drni1tVpoymaUi9fJ/L68GlbhDpG32
+ BUJA==
+X-Gm-Message-State: ABy/qLbBlsixPFXK1wJFLVCApoIydWsHt9hdNJnj+b7X32triS334+YU
+ vSpLnjfXt57NPZdvFmV15z4=
+X-Google-Smtp-Source: APBJJlH9zA2mvZYIt6QxxOCW9WRumbHaz6Bvl8nhJS60Ba3BomJSyn3mO77wiPDJYkyr1sgu1cfIgw==
+X-Received: by 2002:a17:903:2286:b0:1b8:66f6:87a3 with SMTP id
+ b6-20020a170903228600b001b866f687a3mr3538222plh.52.1690400999964; 
+ Wed, 26 Jul 2023 12:49:59 -0700 (PDT)
 Received: from localhost ([2620:10d:c090:400::5:18d])
  by smtp.gmail.com with ESMTPSA id
- d19-20020aa78153000000b0065da94fe917sm1163pfn.36.2023.07.26.12.44.45
+ iy12-20020a170903130c00b001bbb25dd3a7sm5477801plb.187.2023.07.26.12.49.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 12:44:45 -0700 (PDT)
-Date: Wed, 26 Jul 2023 09:44:44 -1000
+ Wed, 26 Jul 2023 12:49:59 -0700 (PDT)
+Date: Wed, 26 Jul 2023 09:49:57 -1000
 From: Tejun Heo <tj@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Subject: Re: [PATCH 16/17] cgroup/drm: Expose memory stats
-Message-ID: <ZMF3rLioJK9QJ0yj@slm.duckdns.org>
+Message-ID: <ZMF45fhrZhiNdn53@slm.duckdns.org>
 References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
  <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
  <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
- <ea64d7bf-c01b-f4ad-a36b-f77e2c2ea931@linux.intel.com>
+ <8959f665-4353-3630-a6c7-5dca60959faa@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ea64d7bf-c01b-f4ad-a36b-f77e2c2ea931@linux.intel.com>
+In-Reply-To: <8959f665-4353-3630-a6c7-5dca60959faa@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,8 +75,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Kenny.Ho@amd.com,
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
  Dave Airlie <airlied@redhat.com>,
  =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
@@ -92,63 +91,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello,
 
-On Wed, Jul 26, 2023 at 12:14:24PM +0200, Maarten Lankhorst wrote:
+On Wed, Jul 26, 2023 at 05:44:28PM +0100, Tvrtko Ursulin wrote:
+...
 > > So, yeah, if you want to add memory controls, we better think through how
 > > the fd ownership migration should work.
->
-> I've taken a look at the series, since I have been working on cgroup memory
-> eviction.
 > 
-> The scheduling stuff will work for i915, since it has a purely software
-> execlist scheduler, but I don't think it will work for GuC (firmware)
-> scheduling or other drivers that use the generic drm scheduler.
+> It would be quite easy to make the implicit migration fail - just the matter
+> of failing the first ioctl, which is what triggers the migration, after the
+> file descriptor access from a new owner.
+
+So, it'd be best if there's no migration involved at all as per the
+discussion with Maarten.
+
+> But I don't think I can really add that in the RFC given I have no hard
+> controls or anything like that.
 > 
-> For something like this,  you would probably want it to work inside the drm
-> scheduler first. Presumably, this can be done by setting a weight on each
-> runqueue, and perhaps adding a callback to update one for a running queue.
-> Calculating the weights hierarchically might be fun..
-
-I don't have any idea on this front. The basic idea of making high level
-distribution decisions in core code and letting individual drivers enforce
-that in a way which fits them the best makes sense to me but I don't know
-enough to have an opinion here.
-
-> I have taken a look at how the rest of cgroup controllers change ownership
-> when moved to a different cgroup, and the answer was: not at all. If we
-
-For persistent resources, that's the general rule. Whoever instantiates a
-resource gets to own it until the resource gets freed. There is an exception
-with the pid controller and there are discussions around whether we want
-some sort of migration behavior with memcg but yes by and large instantiator
-being the owner is the general model cgroup follows.
-
-> attempt to create the scheduler controls only on the first time the fd is
-> used, you could probably get rid of all the tracking.
-> This can be done very easily with the drm scheduler.
->
-> WRT memory, I think the consensus is to track system memory like normal
-> memory. Stolen memory doesn't need to be tracked. It's kernel only memory,
-> used for internal bookkeeping  only.
+> With GPU usage throttling it doesn't really apply, at least I don't think it
+> does, since even when migrated to a lower budget group it would just get
+> immediately de-prioritized.
 > 
-> The only time userspace can directly manipulate stolen memory, is by mapping
-> the pinned initial framebuffer to its own address space. The only allocation
-> it can do is when a framebuffer is displayed, and framebuffer compression
-> creates some stolen memory. Userspace is not
-> aware of this though, and has no way to manipulate those contents.
+> I don't think hard GPU time limits are feasible in general, and while soft
+> might be, again I don't see that any limiting would necessarily have to run
+> immediately on implicit migration.
 
-So, my dumb understanding:
+Yeah, I wouldn't worry about hard allocation of GPU time. CPU RT control
+does that but it's barely used.
 
-* Ownership of an fd can be established on the first ioctl call and doesn't
-  need to be migrated afterwards. There are no persistent resources to
-  migration on the first call.
+> Second part of the story are hypothetical/future memory controls.
+> 
+> I think first thing to say is that implicit migration is important, but it
+> is not really established to use the file descriptor from two places or to
+> migrate more than once. It is simply fresh fd which gets sent to clients
+> from Xorg, which is one of the legacy ways of doing things.
+> 
+> So we probably can just ignore that given no significant amount of memory
+> ownership would be getting migrated.
 
-* Memory then can be tracked in a similar way to memcg. Memory gets charged
-  to the initial instantiator and doesn't need to be moved around
-  afterwards. There may be some discrepancies around stolen memory but the
-  magnitude of inaccuracy introduced that way is limited and bound and can
-  be safely ignored.
+So, if this is the case, it'd be better to clarify this. ie. if the summary is:
 
-Is that correct?
+fd gets assigned to the user with a certain action at which point the fd
+doesn't have significant resources attached to it and the fd can't be moved
+to some other cgroup afterwards.
+
+then, everything is pretty simple. No need to worry about migration at all.
+fd just gets assigned once at the beginning and everything gets accounted
+towards that afterwards.
+
+> And for drm.memory.stat I think what I have is good enough - both private
+> and shared data get accounted, for any clients that have handles to
+> particular buffers.
+> 
+> Maarten was working on memory controls so maybe he would have more thoughts
+> on memory ownership and implicit migration.
+> 
+> But I don't think there is anything incompatible with that and
+> drm.memory.stats as proposed here, given how the categories reported are the
+> established ones from the DRM fdinfo spec, and it is fact of the matter that
+> we can have multiple memory regions per driver.
+> 
+> The main thing that would change between this RFC and future memory controls
+> in the area of drm.memory.stat is the implementation - it would have to get
+> changed under the hood from "collect on query" to "account at
+> allocation/free/etc". But that is just implementation details.
+
+I'd much prefer to straighten out this before adding a prelimiary stat only
+thing. If the previously described ownership model is sufficient, none of
+this is complicated, right? We can just add counters to track the resources
+and print them out.
 
 Thanks.
 
