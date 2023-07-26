@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469BF76427B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 01:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B18E764282
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 01:24:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B9E210E4CB;
-	Wed, 26 Jul 2023 23:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB98F10E4CC;
+	Wed, 26 Jul 2023 23:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 401B710E036;
- Wed, 26 Jul 2023 23:20:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C03E10E036;
+ Wed, 26 Jul 2023 23:24:07 +0000 (UTC)
 Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36QNF7xV019321; Wed, 26 Jul 2023 23:20:21 GMT
+ 36QN6D4D002205; Wed, 26 Jul 2023 23:24:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=VnChlqh0WIUu/bHYAhlRW2H1DRcYa8G2obbcqL/9fn4=;
- b=AF282xdbK5gotQbSoeicw9LeynuedNUtJeCFv/YKxQhqKdk9pAO8V+DrhviOLtlFOye4
- I/ghUo3n4/H0Qd+DD3FG9HNYmA2QRF0gOyXcIeTA0bmdzBc+a4XsBr+3soz5o+uFHeJc
- MROfjxuhuLXh5N7pmFj9+mWiLE6RK4XjnKC7yxqoJSTOqBE4D7Y1psAK4r9gPLt40FJi
- 525pN2RQ9vZcfgHxf5AC/n4WroAJ6XBo6kI6XOSz3KRUBC+0zoYg6wN4F+MNafZBqn+A
- wPGvva6766V/6WOQTrzCgTYp8Sf+GMXWJqCzfmy5SfAlmh12t7bEeFuwKqNZj63LMCQp AA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=WpdmNBlP98xhySGushnDB/8BvB0s7iU/IRM6tj+cJvI=;
+ b=eUONCwmGJOGsZpMpzynL/WjVY7hXiiiQGImNg2qM76Nlx+0DnVVQVHMA8+0+2EGzc+SQ
+ Ro+8grl6SzFXEUDroDSLkSs0BZbS69jHmaLeSrAJNx7RgsqiEJKiechSKHk2KJ2ONync
+ orXOoEl8gfTUTWfM0JPqHS48r8BTz5HwPqnqiqeNvLIMdwDn+5koCRDrz4PfbzOJFyke
+ p/hO+14nIjTT4rtBnOyB/1Z7+XF/jgaIwvK6yp0NGQKgYJmPSVdB1ZBtVUUbtAU1j/zJ
+ NLV/KgpHubHspuP4614gPPBVm1xYC4futrMw6wbIcOkLzgayHGues2AUqa0Ch39rqxSw Fg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s31059h5h-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s31059h9y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Jul 2023 23:20:21 +0000
+ Wed, 26 Jul 2023 23:24:02 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36QNKJDX013394
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36QNO07c027628
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Jul 2023 23:20:19 GMT
+ Wed, 26 Jul 2023 23:24:01 GMT
 Received: from [10.110.29.149] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 26 Jul
- 2023 16:20:18 -0700
-Message-ID: <4e35dabb-640e-8de6-d98a-619b2f80cfb6@quicinc.com>
-Date: Wed, 26 Jul 2023 16:20:16 -0700
+ 2023 16:24:00 -0700
+Message-ID: <1ecb643a-69c9-693a-fb23-4aac016b48dd@quicinc.com>
+Date: Wed, 26 Jul 2023 16:23:59 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 5/6] drm/msm/dpu: use MDSS data for programming SSPP
+Subject: Re: [PATCH 6/6] drm/msm/dpu: drop UBWC configuration
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
 References: <20230521171026.4159495-1-dmitry.baryshkov@linaro.org>
- <20230521171026.4159495-6-dmitry.baryshkov@linaro.org>
+ <20230521171026.4159495-7-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230521171026.4159495-6-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230521171026.4159495-7-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
@@ -61,17 +61,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 7wZyaU3biGmRORyRTIro2EMsJ2wrqavL
-X-Proofpoint-GUID: 7wZyaU3biGmRORyRTIro2EMsJ2wrqavL
+X-Proofpoint-ORIG-GUID: xJOVUIegLofRqWtk4wmcCn32_oc9qIvI
+X-Proofpoint-GUID: xJOVUIegLofRqWtk4wmcCn32_oc9qIvI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
  definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  spamscore=0 clxscore=1015
  impostorscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 mlxlogscore=797
  suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2306200000 definitions=main-2307260208
+ scancount=1 engine=8.12.0-2306200000 definitions=main-2307260209
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,205 +94,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 5/21/2023 10:10 AM, Dmitry Baryshkov wrote:
-> Switch to using data from MDSS driver to program the SSPP fetch and UBWC
-> configuration.
+> As the DPU driver has switched to fetching data from MDSS driver, we can
+> now drop the UBWC and highest_bank_bit parts of the DPU hw catalog.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 18 +++++++++++-------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  7 +++++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 16 +++++++++++++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  3 ++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  2 ++
->   6 files changed, 36 insertions(+), 11 deletions(-)
+>   .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  6 ------
+>   .../drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  6 ------
+>   .../drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  6 ------
+>   .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  6 ------
+>   .../drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  7 -------
+>   .../drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  6 ------
+>   .../drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  7 -------
+>   .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  5 -----
+>   .../drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  6 ------
+>   .../drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  7 -------
+>   .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  7 -------
+>   .../drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  7 -------
+>   .../drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  6 ------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 15 ---------------
+>   14 files changed, 97 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> index cf70a9bd1034..bfd82c2921af 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> @@ -8,6 +8,8 @@
->   #include "dpu_hw_sspp.h"
->   #include "dpu_kms.h"
->   
-> +#include "msm_mdss.h"
-> +
->   #include <drm/drm_file.h>
->   
->   #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
-> @@ -308,26 +310,26 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
->   		DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
->   			DPU_FETCH_CONFIG_RESET_VALUE |
->   			ctx->ubwc->highest_bank_bit << 18);
 
-Does this needs to be protected with if ctx->ubwc check?
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-> -		switch (ctx->ubwc->ubwc_version) {
-> -		case DPU_HW_UBWC_VER_10:
-> +		switch (ctx->ubwc->ubwc_enc_version) {
-> +		case UBWC_1_0:
-
-The values of UBWC_x_x dont match the values of DPU_HW_UBWC_VER_xx.
-What was the reason for the catalog to go with DPU_HW_UBWC_VER_xx in the 
-catalog for the encoder version in the first place? Because looking at 
-the registers UBWC_x_x is the correct value.
-
-If we cannot find the reason why, it should be noted in the commit text 
-that the values we are using did change.
-
->   			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
->   			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
->   					fast_clear | (ctx->ubwc->ubwc_swizzle & 0x1) |
->   					BIT(8) |
->   					(ctx->ubwc->highest_bank_bit << 4));
->   			break;
-> -		case DPU_HW_UBWC_VER_20:
-> +		case UBWC_2_0:
->   			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
->   			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
->   					fast_clear | (ctx->ubwc->ubwc_swizzle) |
->   					(ctx->ubwc->highest_bank_bit << 4));
->   			break;
-> -		case DPU_HW_UBWC_VER_30:
-> +		case UBWC_3_0:
->   			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
->   					BIT(30) | (ctx->ubwc->ubwc_swizzle) |
->   					(ctx->ubwc->highest_bank_bit << 4));
->   			break;
-> -		case DPU_HW_UBWC_VER_40:
-> +		case UBWC_4_0:
->   			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
->   					DPU_FORMAT_IS_YUV(fmt) ? 0 : BIT(30));
->   			break;
-> @@ -793,7 +795,9 @@ static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
->   }
->   
->   struct dpu_hw_sspp *dpu_hw_sspp_init(enum dpu_sspp idx,
-> -		void __iomem *addr, const struct dpu_mdss_cfg *catalog)
-> +				     void __iomem *addr,
-> +				     const struct dpu_mdss_cfg *catalog,
-> +				     const struct msm_mdss_data *mdss_data)
->   {
->   	struct dpu_hw_sspp *hw_pipe;
->   	const struct dpu_sspp_cfg *cfg;
-> @@ -813,7 +817,7 @@ struct dpu_hw_sspp *dpu_hw_sspp_init(enum dpu_sspp idx,
->   
->   	/* Assign ops */
->   	hw_pipe->catalog = catalog;
-> -	hw_pipe->ubwc = catalog->ubwc;
-> +	hw_pipe->ubwc = mdss_data;
->   	hw_pipe->idx = idx;
->   	hw_pipe->cap = cfg;
->   	_setup_layer_ops(hw_pipe, hw_pipe->cap->features);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> index 74b98b6b3bc3..8d4ae9d24674 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> @@ -351,7 +351,7 @@ struct dpu_hw_sspp {
->   	struct dpu_hw_blk base;
->   	struct dpu_hw_blk_reg_map hw;
->   	const struct dpu_mdss_cfg *catalog;
-> -	const struct dpu_ubwc_cfg *ubwc;
-> +	const struct msm_mdss_data *ubwc;
->   
->   	/* Pipe */
->   	enum dpu_sspp idx;
-> @@ -368,9 +368,12 @@ struct dpu_kms;
->    * @idx:  Pipe index for which driver object is required
->    * @addr: Mapped register io address of MDP
->    * @catalog : Pointer to mdss catalog data
-> + * @mdss_data: UBWC / MDSS configuration data
->    */
->   struct dpu_hw_sspp *dpu_hw_sspp_init(enum dpu_sspp idx,
-> -		void __iomem *addr, const struct dpu_mdss_cfg *catalog);
-> +				     void __iomem *addr,
-> +				     const struct dpu_mdss_cfg *catalog,
-> +				     const struct msm_mdss_data *mdss_data);
->   
->   /**
->    * dpu_hw_sspp_destroy(): Destroys SSPP driver context
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 0e7a68714e9e..a4293dc0b61b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -22,6 +22,7 @@
->   
->   #include "msm_drv.h"
->   #include "msm_mmu.h"
-> +#include "msm_mdss.h"
->   #include "msm_gem.h"
->   #include "disp/msm_disp_snapshot.h"
->   
-> @@ -1066,7 +1067,20 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   		goto power_error;
->   	}
->   
-> -	rc = dpu_rm_init(&dpu_kms->rm, dpu_kms->catalog, dpu_kms->mmio);
-> +	dpu_kms->mdss = msm_mdss_get_mdss_data(dpu_kms->pdev->dev.parent);
-> +	if (IS_ERR(dpu_kms->mdss)) {
-> +		rc = PTR_ERR(dpu_kms->mdss);
-> +		DPU_ERROR("failed to get MDSS data: %d\n", rc);
-> +		goto power_error;
-> +	}
-> +
-> +	if (!dpu_kms->mdss) {
-> +		rc = -EINVAL;
-> +		DPU_ERROR("NULL MDSS data\n");
-> +		goto power_error;
-> +	}
-> +
-> +	rc = dpu_rm_init(&dpu_kms->rm, dpu_kms->catalog, dpu_kms->mdss, dpu_kms->mmio);
->   	if (rc) {
->   		DPU_ERROR("rm init failed: %d\n", rc);
->   		goto power_error;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index aca39a4689f4..797b4ff3e806 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -69,6 +69,7 @@ struct dpu_kms {
->   	struct msm_kms base;
->   	struct drm_device *dev;
->   	const struct dpu_mdss_cfg *catalog;
-> +	const struct msm_mdss_data *mdss;
->   
->   	/* io/register spaces: */
->   	void __iomem *mmio, *vbif[VBIF_MAX], *reg_dma;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index f4dda88a73f7..9ee493465c4b 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -100,6 +100,7 @@ int dpu_rm_destroy(struct dpu_rm *rm)
->   
->   int dpu_rm_init(struct dpu_rm *rm,
->   		const struct dpu_mdss_cfg *cat,
-> +		const struct msm_mdss_data *mdss_data,
->   		void __iomem *mmio)
->   {
->   	int rc, i;
-> @@ -268,7 +269,7 @@ int dpu_rm_init(struct dpu_rm *rm,
->   			continue;
->   		}
->   
-> -		hw = dpu_hw_sspp_init(sspp->id, mmio, cat);
-> +		hw = dpu_hw_sspp_init(sspp->id, mmio, cat, mdss_data);
->   		if (IS_ERR(hw)) {
->   			rc = PTR_ERR(hw);
->   			DPU_ERROR("failed sspp object creation: err %d\n", rc);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index d62c2edb2460..2b551566cbf4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -40,11 +40,13 @@ struct dpu_rm {
->    *	for all HW blocks.
->    * @rm: DPU Resource Manager handle
->    * @cat: Pointer to hardware catalog
-> + * @mdss_data: Pointer to MDSS / UBWC configuration
->    * @mmio: mapped register io address of MDP
->    * @Return: 0 on Success otherwise -ERROR
->    */
->   int dpu_rm_init(struct dpu_rm *rm,
->   		const struct dpu_mdss_cfg *cat,
-> +		const struct msm_mdss_data *mdss_data,
->   		void __iomem *mmio);
->   
->   /**
