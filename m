@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EBC763EE7
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 20:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE1A763EE8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 20:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C80610E091;
-	Wed, 26 Jul 2023 18:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8158310E4A0;
+	Wed, 26 Jul 2023 18:49:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF1310E053
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 18:49:04 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-98e39784a85so290274766b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 11:49:03 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4767D10E091
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 18:49:05 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-98e011f45ffso3027666b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 11:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690397342; x=1691002142;
+ d=gmail.com; s=20221208; t=1690397343; x=1691002143;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gPI2zan0vB60L24M8VngPtTHJpRLNCz44Rgi3kK/geg=;
- b=FDEvCueTvD5/2wdPIbWP/l6cfT8RoRQD+x+FwClNM6YqipoTAWhrMoM1khODOU3Ckp
- sT5oiLc0ocdWxQgAWf8XMxo0SkUpf617JRAR8pHYggcRxxiKOsG3yimzwDfJylVCpBmi
- 7yNTY7qj4kkRIqFrA5PaCuUcWorZVXzcMjVry+NvUQXCmxhxnCS5WLj11Yon5KyeoLks
- 9RmV9Gg9H53yyAH7YQORsLKBvm/u1YKIxxqu/RDWSJeNQ7RHyIvcRBx+biV6/xxIvf+w
- aN6C5CoBbPw64D/loWnS7YudOO2rO79LMKPKE4+p92mc9XrE8WTcSMzxozRKuEoyjQAD
- 3Diw==
+ bh=7hDSqhH8BkuxZPIDoURvTqML0NlrWeio/ZXYmGlF4bQ=;
+ b=sefRUsMi4isBuj+0ycXQFXqqdPaY1M/lVY5Uk15V0j89bZKHZ68se03hxBg3ena4fS
+ +wU4f4futLrxq3ksaEyGmIX9QDYI98OHprIH6V4rxFMGs+VCL66gQqRKhnLDoMLRobnM
+ grIVtc7ZoNMgLwuxO0GrMx/i3nvNQftn+GGhVmb0C4cB6+NKfWJOYNjul+LqYZ+HcKog
+ 36iveo8Ew8DKoS/gtMYn8xDPy62Ay0B0OQrIxHN0HT/VdUN6JuLjAn5WJwLWHcNQI/jt
+ +56K3IeeJH7zCtqLoTxchY+nsxSa0KgokJTdmATU9u8HJBHK9AC1N3/cIczyOWakxvS+
+ mIyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690397342; x=1691002142;
+ d=1e100.net; s=20221208; t=1690397343; x=1691002143;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gPI2zan0vB60L24M8VngPtTHJpRLNCz44Rgi3kK/geg=;
- b=CpZJ/sqZyC3KOl8kOqSEqLvsu27P+HOjNKsz+g9w1ukQOoiU6GQ+nvALTgnaUJr6eu
- /RH0hvyY5wAWnnGuv49Dqn0oGRBGTYf8gxvDNcyG4szo1pbZzevx3I6JUUO39GeY6Nla
- /o6EwrdKtdOT4+pD6j9VX5qr9a1DxEQc1uNU9noYdSIZqbw1ZD0dck6nzC2tmDVoUGmu
- jpaMD7vowfCqjAepKoqQbro72x+C5BEuh19EJR6qVqrUn7OEFgE33oqOLCGuPVfGzzRt
- XPp6lkIGMzhb9Euwpt+pHfzb1F6VMcvxD4J8/rJgwRnDHbv5BTm4zA9gOBNFeFpf7Gxj
- DAlw==
-X-Gm-Message-State: ABy/qLZ9ahGXsv5inhnkK88jwAUinrXXryCmLTGrsiJhfnDAsqTV6lmG
- kt/xPSrmlWWkFkWZWbQzSGQ=
-X-Google-Smtp-Source: APBJJlFEz7GEIeoCEWRMaD/WV7pBFz+cf93M9VkO7Zp/n5IIKT4wJtCBN+YSvNT2o8V06RojOJ+TGQ==
-X-Received: by 2002:a17:906:76d2:b0:993:f611:7c97 with SMTP id
- q18-20020a17090676d200b00993f6117c97mr380393ejn.33.1690397342321; 
- Wed, 26 Jul 2023 11:49:02 -0700 (PDT)
+ bh=7hDSqhH8BkuxZPIDoURvTqML0NlrWeio/ZXYmGlF4bQ=;
+ b=Y4yFom5nCMQ1aVBMwvLHAK1/Vit7Jy4pOAwLGn3dxUT1JSqrTiECOJowH9vOrz4H87
+ afJOYR/gTjEwvjlGh+S+Mwi0IyypNCQieYoo6pAEM95j2laEZVfxVSalrt9+ZlBm9pso
+ uWdaU7dvTz5cHI3WK+bUXQEwjhMf0n8nNfJnBd0sZMEl9j5gwQrk9tLfKt1Bpe2RJU3I
+ iuLg5diRq5/Lh/dHM4TAlNsSKQHBIqt6HmgnT78g5WeO8oTv0M4qUKm9SR7K9r/gDYWf
+ rItz9a2CohNiZzolyPnWjulGoSivgNNEsxnxhSIMytW3HHMoTG/OMpVA3dkfmC7n0sJw
+ 35xA==
+X-Gm-Message-State: ABy/qLaNPOASb2mbxWGyye3qgy/ZWpA/IkR4+fHlbgdIwRV0WoZQLeF3
+ 0OPXnBFYXsjUo1jN8C3fXXk=
+X-Google-Smtp-Source: APBJJlFGjeZg8RvubJMrZ3BDxRJelnMBSwW516T9hXbqE08dsKnYwOHQ6rSAkg+xX21G1Pre1NzkFA==
+X-Received: by 2002:a17:907:761b:b0:994:4e9c:30c6 with SMTP id
+ jx27-20020a170907761b00b009944e9c30c6mr18372ejc.57.1690397343189; 
+ Wed, 26 Jul 2023 11:49:03 -0700 (PDT)
 Received: from localhost
  (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- cb14-20020a170906a44e00b00992eabc0ad8sm9875996ejb.42.2023.07.26.11.49.01
+ b11-20020a170906150b00b009786ae9ed50sm9903461ejd.194.2023.07.26.11.49.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 11:49:01 -0700 (PDT)
+ Wed, 26 Jul 2023 11:49:02 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -60,9 +60,9 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH 2/3] drm/panel: Relax porches for HannStar HSD101PWW2
-Date: Wed, 26 Jul 2023 20:48:56 +0200
-Message-ID: <20230726184857.2294570-2-thierry.reding@gmail.com>
+Subject: [PATCH 3/3] ARM: tegra: Use Hannstar HSD101PWW2 on Pegatron Chagall
+Date: Wed, 26 Jul 2023 20:48:57 +0200
+Message-ID: <20230726184857.2294570-3-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230726184857.2294570-1-thierry.reding@gmail.com>
 References: <20230726184857.2294570-1-thierry.reding@gmail.com>
@@ -88,40 +88,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-The porch maximum values for the HannStar HSD101PWW2 are unusually
-small. Make them a bit larger to allow a more flexibility when
-overriding the timings in device tree. Unfortunately the datasheet
-doesn't list porch limits in detail, so this is a bit of guesswork.
+The LVDS bindings require a specific compatible string in addition to
+the generic "panel-lvds". Add the HannStar HSD101PWW2 which is used on
+a similar device (ASUS TF201) and seems to work fine with slightly
+modified timings in DT.
 
+Suggested-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/nvidia/tegra30-pegatron-chagall.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 4badda6570d5..4bab181e9d4b 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2104,13 +2104,13 @@ static const struct panel_desc hannstar_hsd100pxn1 = {
- static const struct display_timing hannstar_hsd101pww2_timing = {
- 	.pixelclock = { 64300000, 71100000, 82000000 },
- 	.hactive = { 1280, 1280, 1280 },
--	.hfront_porch = { 1, 1, 10 },
--	.hback_porch = { 1, 1, 10 },
--	.hsync_len = { 58, 158, 661 },
-+	.hfront_porch = { 1, 1, 64 },
-+	.hback_porch = { 1, 1, 64 },
-+	.hsync_len = { 58, 158, 553 },
- 	.vactive = { 800, 800, 800 },
--	.vfront_porch = { 1, 1, 10 },
--	.vback_porch = { 1, 1, 10 },
--	.vsync_len = { 1, 21, 203 },
-+	.vfront_porch = { 1, 1, 32 },
-+	.vback_porch = { 1, 1, 32 },
-+	.vsync_len = { 1, 21, 159 },
- 	.flags = DISPLAY_FLAGS_DE_HIGH,
- };
+diff --git a/arch/arm/boot/dts/nvidia/tegra30-pegatron-chagall.dts b/arch/arm/boot/dts/nvidia/tegra30-pegatron-chagall.dts
+index c81d5875c31c..4012f9c799a8 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30-pegatron-chagall.dts
++++ b/arch/arm/boot/dts/nvidia/tegra30-pegatron-chagall.dts
+@@ -2628,7 +2628,7 @@ cpu3: cpu@3 {
+ 	};
  
+ 	display-panel {
+-		compatible = "panel-lvds";
++		compatible = "hannstar,hsd101pww2", "panel-lvds";
+ 
+ 		width-mm = <217>;
+ 		height-mm = <136>;
 -- 
 2.41.0
 
