@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389B5762DAB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:31:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 146F7762DA7
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:31:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F60610E448;
-	Wed, 26 Jul 2023 07:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88C1E10E43A;
+	Wed, 26 Jul 2023 07:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-49.mta1.migadu.com (out-49.mta1.migadu.com [95.215.58.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 395E610E418
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:05:10 +0000 (UTC)
+Received: from out-6.mta1.migadu.com (out-6.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 873CE10E418
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:06:07 +0000 (UTC)
 Content-Type: text/plain;
 	charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1690355108;
+ t=1690355165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KXYamYs9irq65yhoLRu1td82YuFMeMDqOuwaU+oDyHM=;
- b=USoqEnOQU6eM3+N9zIAHCDwhNC+8+UNIWLHIgerhexBlGJCaVmSRSO1wU4o3mjHNGYO9Rs
- DYRZMApHrS1Pjvb6NJH1mJ50Vk6voJ6kQPH4oorM80xUHt6/RAFEITooiN15iQlceLlIh+
- 2SDmjYt2iC3yWxkOb7vPU57vNB82awk=
+ bh=qP6Rsnsz9/WW+azSq2vXZZSPSLEyAJb/Z8peE40gYgo=;
+ b=vw9dtxapJigzblTo3NGynfsv+/mQB1bNWjl6Q4rEAUF9PXc7LtA8X1zBeOoHG+17byUEV5
+ rePGXHXPmPLeGOzGrE1/eqTwEdZgvDm17pzQtihT75dgxUeL35Q3sxqIVQekgyvV9/7bXJ
+ pXhSlPCuY6BK9bze6xRNH/dP9jDuXVc=
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 17/47] rcu: dynamically allocate the rcu-lazy shrinker
+Subject: Re: [PATCH v2 18/47] rcu: dynamically allocate the rcu-kfree shrinker
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20230724094354.90817-18-zhengqi.arch@bytedance.com>
-Date: Wed, 26 Jul 2023 15:04:30 +0800
+In-Reply-To: <20230724094354.90817-19-zhengqi.arch@bytedance.com>
+Date: Wed, 26 Jul 2023 15:05:26 +0800
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <3A164818-56E1-4EB4-A927-1B2D23B81659@linux.dev>
+Message-Id: <07191509-5186-487B-96D5-F859498CB93E@linux.dev>
 References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
- <20230724094354.90817-18-zhengqi.arch@bytedance.com>
+ <20230724094354.90817-19-zhengqi.arch@bytedance.com>
 To: Qi Zheng <zhengqi.arch@bytedance.com>
 X-Migadu-Flow: FLOW_OUT
 X-Mailman-Approved-At: Wed, 26 Jul 2023 07:30:32 +0000
@@ -73,30 +74,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > On Jul 24, 2023, at 17:43, Qi Zheng <zhengqi.arch@bytedance.com> =
 wrote:
 >=20
-> Use new APIs to dynamically allocate the rcu-lazy shrinker.
+> Use new APIs to dynamically allocate the rcu-kfree shrinker.
 >=20
 > Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 > ---
-> kernel/rcu/tree_nocb.h | 19 +++++++++++--------
-> 1 file changed, 11 insertions(+), 8 deletions(-)
+> kernel/rcu/tree.c | 21 +++++++++++++--------
+> 1 file changed, 13 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/kernel/rcu/tree_nocb.h b/kernel/rcu/tree_nocb.h
-> index 43229d2b0c44..919f17561733 100644
-> --- a/kernel/rcu/tree_nocb.h
-> +++ b/kernel/rcu/tree_nocb.h
-> @@ -1397,12 +1397,7 @@ lazy_rcu_shrink_scan(struct shrinker *shrink, =
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 1449cb69a0e0..d068ce3567fc 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -3445,12 +3445,7 @@ kfree_rcu_shrink_scan(struct shrinker *shrink, =
 struct shrink_control *sc)
-> return count ? count : SHRINK_STOP;
+> return freed =3D=3D 0 ? SHRINK_STOP : freed;
 > }
 >=20
-> -static struct shrinker lazy_rcu_shrinker =3D {
-> -	.count_objects =3D lazy_rcu_shrink_count,
-> -	.scan_objects =3D lazy_rcu_shrink_scan,
+> -static struct shrinker kfree_rcu_shrinker =3D {
+> -	.count_objects =3D kfree_rcu_shrink_count,
+> -	.scan_objects =3D kfree_rcu_shrink_scan,
 > -	.batch =3D 0,
 > -	.seeks =3D DEFAULT_SEEKS,
 > -};
-> +static struct shrinker *lazy_rcu_shrinker;
+> +static struct shrinker *kfree_rcu_shrinker;
 
-Seems there is no users of this variable, maybe we could drop
-this.
-
+Same as patch #17.=
