@@ -2,49 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E672763CCF
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 18:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8281E763D04
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 18:56:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B4610E49B;
-	Wed, 26 Jul 2023 16:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0B210E49D;
+	Wed, 26 Jul 2023 16:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E8110E49B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 16:45:57 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 081A261BEA;
- Wed, 26 Jul 2023 16:45:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BA1C433C8;
- Wed, 26 Jul 2023 16:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690389956;
- bh=jZXU5ruoejJhbuBwYdY1ZLLXNDtD+W4XvI24g/fO+KE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W2GX0KSPedlzHVDnCDMF579Ei8TNx3SeQuZGttRTDbua0P/7iPBHdQrodkKvKz53q
- ko95RC5W4SGMm2SMMHVOTaobkjO24mJ6Ypy4bSuugKBy7qT+nsdq5DrgpsI52CPR2L
- uwNwruMz9AK4peZEO7k6wY+Iv2Gn482iFMcPojVDYrZp2ivX0pZlrCfk4eMa0fWVIl
- ikzgZSI8G2YAzFObXRsuw7mu9/Ak1aC4V5gzFBUsLntUj3NDhREmvdADY2S83IWzai
- aQM5dMHQuwMgCvkzilvUWxjVyoXqGRdfVX3dIKpw5tgyNoqVMnn6Fzsfz7sZNRBNac
- 4C9OxIis2Sv9A==
-Date: Wed, 26 Jul 2023 18:45:48 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 08/10] HID: i2c-hid: Support being a panel follower
-Message-ID: <bcshx6a3twlvvcwwzndep6gwczlppou3llwqyle6hmp26v57tk@7erwnkxfngse>
-References: <20230725203545.2260506-1-dianders@chromium.org>
- <20230725133443.v3.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
- <rorhwk3jx72twmqnxqb45uhm7azxxfirvferwyznbhbfmdf7ja@6k6ebhehmsn4>
- <CAD=FV=VX=ACR3K+GYAvP8J4ebP4GtTpXQmX21NkJ4BJ7vN+o8w@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C90010E49D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 16:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690390554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MLJxcSfut4Py2OIdbJRnp6SDYEgq1UuV5OQa+35hWVU=;
+ b=Lfl/MzvgNog9XSLmQI/LVfUIR65EWP1Yeg0vBeHEosew1LiIc1Hmq+TjgNsLam+ARHKwkl
+ /iPwbDIe1FBNleotEej3RO7ySmDBNFCN0WqpcKMEtxrHozARPP9M11fNSO09KEe7mBx5XN
+ WxghIMA3z1HOIXf4Dbcy/wsFxzyVdI8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-46-8zAF3uyMO6SjiXWE0vtfvg-1; Wed, 26 Jul 2023 12:55:53 -0400
+X-MC-Unique: 8zAF3uyMO6SjiXWE0vtfvg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3fa8cd898e0so43061725e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 09:55:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690390552; x=1690995352;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MLJxcSfut4Py2OIdbJRnp6SDYEgq1UuV5OQa+35hWVU=;
+ b=NOgZjqletmcddQeCqBGsQub9rKdaDNSlhV1WkYYuSYwcTDUtK5Wy5DM+CPh78gDuOc
+ r9wOhHOxByG6GpoI/xpMR91uxg0Un4zwHHZXY315d6DWc5tWHpWzsSfR/sMW0SsyC/J5
+ AO9zoLXlDRwfL2SHOxzGL22/lNxxSE+Evm7ZCp+zTIZhu48FMdkNB9Pa+4bv5m0rA/7U
+ ga1O+VRjWYiVREgNCZ/8YsJkoUdHlk1fsnq8VCx6pxlQquUyer4ZI2IUmu7cqCTb8ZwM
+ i1qMqxSUufTpqMmw8ipPLtMmWk7bo/BD/Rwi+iqhmrZdmABgey+oRou6R8HDfIpHYS4T
+ KcMg==
+X-Gm-Message-State: ABy/qLbu5igzrzITy1bPXLMXHrtJ+BqEL6Rkt/W8qcNutc13kfcDTR5S
+ 0yT4+z+dT9F2rOdD7dQ/Bq/Abx0DX1R1j5ebhLJJl581A2+lsAZMrCuFyL2m+1QqUlrNFgjgiBv
+ 9saXkqoAvIsSjPCjnDbjdn//J59i1
+X-Received: by 2002:a1c:7903:0:b0:3fb:e4ce:cc7a with SMTP id
+ l3-20020a1c7903000000b003fbe4cecc7amr1908089wme.0.1690390551914; 
+ Wed, 26 Jul 2023 09:55:51 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFTD9pmrbO/ml8E38ALM9xeARSpGzA08yVSiVZL48+nBnbpJ5GbMYRv/lP93rqPE+yDMZJPog==
+X-Received: by 2002:a1c:7903:0:b0:3fb:e4ce:cc7a with SMTP id
+ l3-20020a1c7903000000b003fbe4cecc7amr1908081wme.0.1690390551563; 
+ Wed, 26 Jul 2023 09:55:51 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
+ ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
+ by smtp.gmail.com with ESMTPSA id
+ u17-20020a05600c211100b003f90b9b2c31sm2476741wml.28.2023.07.26.09.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jul 2023 09:55:51 -0700 (PDT)
+Message-ID: <257914ee-a55d-f19d-5b57-b572757bd953@redhat.com>
+Date: Wed, 26 Jul 2023 18:55:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 1/2] drm/ast: Add BMC virtual connector
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
+ jani.nikula@linux.intel.com, dianders@chromium.org
+References: <20230713134316.332502-1-jfalempe@redhat.com>
+ <64d97bb4-e95a-3b03-a2f4-e000930f3ac9@redhat.com>
+ <2404f05b-7acc-2b5c-e3d8-ea1301f186d2@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <2404f05b-7acc-2b5c-e3d8-ea1301f186d2@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=VX=ACR3K+GYAvP8J4ebP4GtTpXQmX21NkJ4BJ7vN+o8w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,107 +90,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Jul 26 2023, Doug Anderson wrote:
-> Hi,
+On 26/07/2023 17:46, Thomas Zimmermann wrote:
+> Hi
 > 
-> On Wed, Jul 26, 2023 at 1:57 AM Benjamin Tissoires <bentiss@kernel.org> wrote:
-> >
-> > > @@ -1143,7 +1208,14 @@ void i2c_hid_core_remove(struct i2c_client *client)
-> > >       struct i2c_hid *ihid = i2c_get_clientdata(client);
-> > >       struct hid_device *hid;
-> > >
-> > > -     i2c_hid_core_power_down(ihid);
-> > > +     /*
-> > > +      * If we're a follower, the act of unfollowing will cause us to be
-> > > +      * powered down. Otherwise we need to manually do it.
-> > > +      */
-> > > +     if (ihid->is_panel_follower)
-> > > +             drm_panel_remove_follower(&ihid->panel_follower);
-> >
-> > That part is concerning, as we are now calling hid_drv->suspend() when removing
-> > the device. It might or not have an impact (I'm not sure of it), but we
-> > are effectively changing the path of commands sent to the device.
-> >
-> > hid-multitouch might call a feature in ->suspend, but the remove makes
-> > that the physical is actually disconnected, so the function will fail,
-> > and I'm not sure what is happening then.
+> Am 26.07.23 um 10:41 schrieb Jocelyn Falempe:
+>> On 13/07/2023 15:41, Jocelyn Falempe wrote:
+>>> Most aspeed devices have a BMC, which allows to remotely see the screen.
+>>> Also in the common use case, those servers don't have a display 
+>>> connected.
+>>> So add a Virtual connector, to reflect that even if no display is
+>>> connected, the framebuffer can still be seen remotely.
+>>> This prepares the work to implement a detect_ctx() for the Display port
+>>> connector.
+>>>
+>>> v4: call drm_add_modes_noedid() with 4096x4096 (Thomas Zimmermann)
+>>>      remove useless struct field init to 0 (Thomas Zimmermann)
+>>>      don't use drm_simple_encoder_init() (Thomas Zimmermann)
+>>>      inline ast_bmc_connector_init() (Thomas Zimmermann)
+>>>
+>>> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID 
+>>> on DP")
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_drv.h  |  4 +++
+>>>   drivers/gpu/drm/ast/ast_mode.c | 58 ++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 62 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
+>>> b/drivers/gpu/drm/ast/ast_drv.h
+>>> index 3f6e0c984523..c9659e72002f 100644
+>>> --- a/drivers/gpu/drm/ast/ast_drv.h
+>>> +++ b/drivers/gpu/drm/ast/ast_drv.h
+>>> @@ -214,6 +214,10 @@ struct ast_device {
+>>>               struct drm_encoder encoder;
+>>>               struct drm_connector connector;
+>>>           } astdp;
+>>> +        struct {
+>>> +            struct drm_encoder encoder;
+>>> +            struct drm_connector connector;
+>>> +        } bmc;
+>>>       } output;
+>>>       bool support_wide_screen;
+>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>>> b/drivers/gpu/drm/ast/ast_mode.c
+>>> index f711d592da52..1a8293162fec 100644
+>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>> @@ -1735,6 +1735,61 @@ static int ast_astdp_output_init(struct 
+>>> ast_device *ast)
+>>>       return 0;
+>>>   }
+>>> +/*
+>>> + * BMC virtual Connector
+>>> + */
+>>> +
+>>> +static int ast_bmc_connector_helper_get_modes(struct drm_connector 
+>>> *connector)
+>>> +{
+>>> +    return drm_add_modes_noedid(connector, 4096, 4096);
+>>> +}
+>>> +
+>>> +static const struct drm_connector_helper_funcs 
+>>> ast_bmc_connector_helper_funcs = {
+>>> +    .get_modes = ast_bmc_connector_helper_get_modes,
+>>> +};
+>>> +
+>>> +static const struct drm_connector_funcs ast_bmc_connector_funcs = {
+>>> +    .reset = drm_atomic_helper_connector_reset,
+>>> +    .fill_modes = drm_helper_probe_single_connector_modes,
+>>> +    .destroy = drm_connector_cleanup,
+>>> +    .atomic_duplicate_state = 
+>>> drm_atomic_helper_connector_duplicate_state,
+>>> +    .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>>> +};
+>>> +
+>>> +static const struct drm_encoder_funcs ast_bmc_encoder_funcs = {
+>>> +    .destroy = drm_encoder_cleanup,
+>>> +};
 > 
-> It's not too hard to change this if we're sure we want to. I could
-> change how the panel follower API works, though I'd rather keep it how
-> it is now for symmetry. Thus, if we want to do this I'd probably just
-> set a boolean at the beginning of i2c_hid_core_remove() to avoid the
-> suspend when the panel follower API calls us back.
+> Can you please move the encoder_funcs struct before the connector stuff?
 
-I was more thinking on a boolean. No need to overload the API.
+Yes, sure.
+> 
+>>> +
+>>> +static int ast_bmc_output_init(struct ast_device *ast)
+>>> +{
+>>> +    struct drm_device *dev = &ast->base;
+>>> +    struct drm_crtc *crtc = &ast->crtc;
+>>> +    struct drm_encoder *encoder = &ast->output.bmc.encoder;
+>>> +    struct drm_connector *connector = &ast->output.bmc.connector;
+>>> +    int ret;
+>>> +
+>>> +
+>>> +    ret = drm_encoder_init(dev, encoder,
+>>> +                &ast_bmc_encoder_funcs,
+>>> +                DRM_MODE_ENCODER_VIRTUAL, "ast_bmc");
+>>> +    if (ret)
+>>> +        return ret;
+>>> +    encoder->possible_crtcs = drm_crtc_mask(crtc);
+>>> +
+>>> +    ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
+>>> +                 DRM_MODE_CONNECTOR_VIRTUAL);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    drm_connector_helper_add(connector, 
+>>> &ast_bmc_connector_helper_funcs);
+>>> +
+>>> +    ret = drm_connector_attach_encoder(connector, encoder);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>>   /*
+>>>    * Mode config
+>>>    */
+>>> @@ -1842,6 +1897,9 @@ int ast_mode_config_init(struct ast_device *ast)
+>>>           if (ret)
+>>>               return ret;
+>>>       }
+>>> +    ret = ast_bmc_output_init(ast);
+>>> +    if (ret)
+>>> +        return ret;
+>>>       drm_mode_config_reset(dev);
+>>>
+>>> base-commit: b32d5a51f3c21843011d68a58e6ac0b897bce9f2
+>>
+>>
+>> I'm missing a review on this patch. The VGA CRD0[7] register check 
+>> doesn't work on my server, so I'm adding the BMC virtual connector for 
+>> all aspeed hardware, but as discussed, it shouldn't have a negative 
+>> impact.
+> 
+> Sorry. I simply missed this patch. With my little nitpick fixed, you can 
+> add
 
+Thanks a lot, I will push it on Friday, if there are no other comments.
 > 
-> That being said, are you sure you want me to do that?
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> 1. My patch doesn't change the behavior of any existing hardware. It
-> will only do anything for hardware that indicates it needs the panel
-> follower logic. Presumably these people could confirm that the logic
-> is OK for them, though I'll also admit that it's likely not many of
-> them will test the remove() case.
+> Thanks for the fix.
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Thanks,
+>>
+> 
 
-Isn't trogdor (patch 10/10) already supported? Though you should be the
-one making tests, so it should be fine ;)
-
-> 
-> 2. Can you give more details about why you say that the function will
-> fail? The first thing that the remove() function will do is to
-> unfollow the panel and that can cause the suspend to happen. At the
-> time this code runs all the normal communications should work and so
-> there should be no problems calling into the suspend code.
-
-Now that I think about it more, maybe I am too biased by USB where the
-device remove would happened *after* the device has been physically
-unplugged. And this doesn't apply of course in the I2C world.
-
-> 
-> 3. You can correct me if I'm wrong, but I'd actually argue that
-> calling the suspend code during remove actually fixes issues and we
-> should probably do it for the non-panel-follower case as well. I think
-> there are at least two benefits. One benefit is that if the i2c-hid
-> device is on a power rail that can't turn off (either an always-on or
-> a shared power rail) that we'll at least get the device in a low power
-> state before we stop managing it with this driver. The second benefit
-> is that it implicitly disables the interrupt and that fixes a
-> potential crash at remove time(). The crash in the old code I'm
-> imagining is:
-> 
-> a) i2c_hid_core_remove() is called.
-> 
-> b) We try to power down the i2c hid device, which might not do
-> anything if the device is on an always-on rail.
-> 
-> c) We call hid_destroy_device(), which frees the hid device.
-> 
-> d) An interrupt comes in before the call to free_irq() and we try to
-> dispatch it to the already freed hid device and crash.
-> 
-> 
-> If you agree that my reasoning makes sense, I can add a separate patch
-> before this one to suspend during remove.
-
-Yep, I agree with you :)
-
-Adding a separate patch would be nice, yes. Thanks!
-
-Cheers,
-Benjamin
