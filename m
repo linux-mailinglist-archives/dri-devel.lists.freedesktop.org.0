@@ -1,53 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E073763821
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 15:54:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24334763853
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 16:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA6D10E47E;
-	Wed, 26 Jul 2023 13:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A08B10E47F;
+	Wed, 26 Jul 2023 14:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1859D10E47E
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 13:54:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6C00461A41;
- Wed, 26 Jul 2023 13:54:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E204C433C8;
- Wed, 26 Jul 2023 13:54:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690379676;
- bh=sGxSXz0cFWUM6mikGWU97zEscdT5IkbZGSscNfphwp8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ia3LVzruSjPX6o2KAMdWmgQmQ2Pl4MAzDbD6mjkIhGw1N4uU6zfcDQJw/4C7R8n6m
- 7NvETzHIqnlrhmCK+wjnNUIN6JnJ+AZV1g2D9yZ3GyFcp2kqbA6HLe7GkMUTMtm8z3
- WRYRWYrJZXtezvXpsOD3GulSSEwsN01iyd7MCbFB7MTxqHvU6DBoydfKxe0Cy8B4rY
- NEsX7oj9A5keo9GjJkf4lCrk1zo5nxJfby91VmBqh6hTfgyKFHFN6iRQEIb78zuZ+H
- nMs/5jBBz0ybQGhwElBguz6RtLPfG/XZXlj2b3+rHyWVElH7/giSlHNKizfW9r5vZ9
- DsvB9HRewAaDw==
-Date: Wed, 26 Jul 2023 15:54:34 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v4] drm/ssd130x: Allocate buffers in the plane's
- .atomic_check callback
-Message-ID: <g6bu3b26evk464x4cn77xnzjiuotsq7pfvyakfvwnir5e3ihnk@2jh4dd56fsza>
-References: <20230721070955.1170974-1-javierm@redhat.com>
- <CAMuHMdVxF80mdTaiXA6Y8Gd59Z7pxkoEphB4ohpVcK1q-+Yy=g@mail.gmail.com>
- <n4fmda4zw4vuezvwva35tgma3yqhdvb253q2tfdyauoxbfqshx@s6fsa7de6g5s>
- <CAMuHMdXtOozswqujA1h2spL8J86n65Q6=+z=5Jbb0nSXaBwqzA@mail.gmail.com>
- <874jlqlv5v.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdX+J848ckG2JqsuDkRcWzRypw_Kv=0G+Hc329xstu_nqQ@mail.gmail.com>
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B74310E47F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 14:06:30 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3fbc12181b6so68067475e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690380388; x=1690985188;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9CExGnNyyTMqIBKgfK9jLWHHsLv2lLgzC/iVvVseu6I=;
+ b=Ht2si9k7sgQ4FHp41Xh1A2JRiS/sAP7mdGhwnc82tNBq2KhiDxPAVt0aK1A2VTj/XL
+ nKkWfon54v9QVETu+4fnEDvnhNnBXu0k5Gjhzmeykacz160OyXbdRQqNNrJCvs+d75cN
+ RJSh8S/UYpiNUYzZn+/dx/NnjJVCLrviDsiyHYAzoIN+cIAGo1Svk3ZBw8tq1EZ6H+NQ
+ S/SvRXJSWsOqTHMKEmeuOyYb2dRTNpYw3qN/MMDIB5QY/2i14OhKwTGiO2iM1F4KAUdk
+ Cbo/9PRDySRvy2vGVOTd42gYrMA3Oig9enZ2Cdbtol9jr7U6zljhvbpXtiXY+B8Y5DWH
+ h0tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690380388; x=1690985188;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9CExGnNyyTMqIBKgfK9jLWHHsLv2lLgzC/iVvVseu6I=;
+ b=RcadfvxOS1QHLNm/i0EUBPh1svRVrXo3anAPTkxSnOtUDgikDENuJ7/GPu2A5y6nv6
+ FmbqBSFfUbzz8/F6U0va1pWU5asbzied+XdmPE+mxnWlWi+ED68vC5u8wyLL2HfXjZ5J
+ KY8OI62+vfBJGSix0NWPPomlS1AtYCrd/A8hdKxw7LZ7m3YGCuJYwlWOX72WgOH+UmCF
+ 9xloS/Mu+tHdh2h840+ch+qYVCgKZkU80PHF0pAbJ1Hqkep3o5B7QXwGx+WBeoCzUDzy
+ 8n+SgfDTWlz3pWP3k02rfAsDMV4fgRr/1TruKOCdHMrxX7k49DF/aNQT5KOjICi/VVJx
+ g/NA==
+X-Gm-Message-State: ABy/qLbo5AE44Hswrb+cvoAu2hnwtkVtNz52PJZ9+mBJyQtETduiOvE5
+ EyrhVXhzzng2Ng1uixLlmdvpotVfgjw=
+X-Google-Smtp-Source: APBJJlGdNjDudSlbDDSi8kE8qRRQF0XYpEHL6Oi54V8yNv6mrteRqEmoKAod05XfMB4/ihqfy+LAQQ==
+X-Received: by 2002:a05:600c:20d3:b0:3fd:3006:410a with SMTP id
+ y19-20020a05600c20d300b003fd3006410amr1444089wmm.25.1690380387879; 
+ Wed, 26 Jul 2023 07:06:27 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ e15-20020a5d4e8f000000b0031432f1528csm20078420wru.45.2023.07.26.07.06.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Jul 2023 07:06:27 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Oded Gabbay <ogabbay@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][V2][next] accel/qaic: remove redundant pointer pexec
+Date: Wed, 26 Jul 2023 15:06:26 +0100
+Message-Id: <20230726140626.264952-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cczvehknair5dagk"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX+J848ckG2JqsuDkRcWzRypw_Kv=0G+Hc329xstu_nqQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,70 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Pointer pexec is being assigned a value however it is never read. The
+assignment is redundant and can be removed. Replace sizeof(*pexec)
+with sizeof the type and remove the declaration of pointer pexec.
 
---cczvehknair5dagk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
 
-On Wed, Jul 26, 2023 at 02:33:06PM +0200, Geert Uytterhoeven wrote:
-> > >> Also, Javier pointed me to a discussion you had on IRC about using d=
-evm
-> > >> allocation here. We can't really do that. KMS devices are only freed
-> > >> once the last userspace application closes its fd to the device file=
-, so
-> > >> you have an unbounded window during which the driver is still callab=
-le
-> > >> by userspace (and thus can still trigger an atomic commit) but the
-> > >> buffer would have been freed for a while.
-> > >
-> > > It should still be safe for (at least) the data_array buffer. That
-> > > buffer is only used to store pixels in hardware format, and immediate=
-ly
-> > > send them to the hardware.  If this can be called that late, it will
-> > > fail horribly, as you can no longer talk to the hardware at that point
-> > > (as ssd130x is an i2c driver, it might actually work; but a DRM driver
-> > >  that calls devm_platform_ioremap_resource() will crash when writing
-> > >  to its MMIO registers)?!?
-> >
-> > At the very least the SPI driver will fail since the GPIO that is used =
-to
-> > toggle the D/C pin is allocated with devm_gpiod_get_optional(), but also
-> > the regulator, backlight device, etc.
-> >
-> > But in any case, as mentioned it is only relevant if the data_array buf=
-fer
-> > is allocated at probe time, and from Maxime's explanation is more corre=
-ct
-> > to do it in the .atomic_check handler.
->=20
-> You need (at least) data_array for clear_screen, too, which is called
-> from .atomic_disable().
+V2: completely remove the declaration of pexec and replace sizeof(*pexec)
+with size of the type.
 
-I'm not sure I get what your concern is?
+---
+ drivers/accel/qaic/qaic_data.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Even if we entirely disable the plane, the state will not have been
-destroyed yet so you still have at least access to the data_array from
-the old state.
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index e9a1cb779b30..a90b64b325b4 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -1292,7 +1292,6 @@ static void update_profiling_data(struct drm_file *file_priv,
+ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv,
+ 				   bool is_partial)
+ {
+-	struct qaic_partial_execute_entry *pexec;
+ 	struct qaic_execute *args = data;
+ 	struct qaic_execute_entry *exec;
+ 	struct dma_bridge_chan *dbc;
+@@ -1312,7 +1311,7 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
+ 
+ 	received_ts = ktime_get_ns();
+ 
+-	size = is_partial ? sizeof(*pexec) : sizeof(*exec);
++	size = is_partial ? sizeof(struct qaic_partial_execute_entry) : sizeof(*exec);
+ 	n = (unsigned long)size * args->hdr.count;
+ 	if (args->hdr.count == 0 || n / args->hdr.count != size)
+ 		return -EINVAL;
+@@ -1320,7 +1319,6 @@ static int __qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct dr
+ 	user_data = u64_to_user_ptr(args->data);
+ 
+ 	exec = kcalloc(args->hdr.count, size, GFP_KERNEL);
+-	pexec = (struct qaic_partial_execute_entry *)exec;
+ 	if (!exec)
+ 		return -ENOMEM;
+ 
+-- 
+2.39.2
 
-Maxime
-
---cczvehknair5dagk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMElmgAKCRDj7w1vZxhR
-xV3/AQDnwMW+Ru8NZqVM/6Uv+aypaEiFS7yM6LQxS3jkrDgCJwEA9l1H6lonPdO4
-pWvLJ9iOIlUU+aoy6YCiZ8LSuDgdYA4=
-=pQQv
------END PGP SIGNATURE-----
-
---cczvehknair5dagk--
