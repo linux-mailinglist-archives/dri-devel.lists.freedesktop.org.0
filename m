@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92248762EEC
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 09:58:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A38762F31
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 10:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B97310E3FB;
-	Wed, 26 Jul 2023 07:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9C010E39B;
+	Wed, 26 Jul 2023 08:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D6310E3FB
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 07:57:55 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0065910E39B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 08:07:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 56C9C6607115;
- Wed, 26 Jul 2023 08:57:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690358273;
- bh=N2O26sXW+3neyTVNvx6UPXNi7HVo1l52a8zTy/Ppwvg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ccKxWSHuBg+g1lGWxk0lMmbj56df5eGcG/vWUxstJFiqMnE8635EgTxGQxLDzTUg5
- LlUUu1DyjpnGBhIa+14ga9P8BKpOIBKQiB+6/ByL6dfL3e4ZY5hOhDRaPpQfatDtgc
- a9OyPl3sJodJSUBnFJzHFVZHu+4Ln6+9VrvWuAveu7q5XuNEvL23d5/C2Dt1Rrsor1
- 7VD7FZK0TSVDbyyW9B75OOR13KTjG/SQDpA1Jx31gumEwxMwmmdGlw7nKruoylbR8N
- dhMyqD0kTaYkJwL8hBjM1di26hKP5fRFSFsMPTiczzYnq/QOaUhN7f7xH34c84i3+s
- Cq6xYXir7u8Pw==
-Date: Wed, 26 Jul 2023 09:57:50 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Reset vma->vm_ops before calling
- dma_buf_mmap()
-Message-ID: <20230726095750.51b1e7e0@collabora.com>
-In-Reply-To: <77a41226-b671-1895-6182-457f7fee9bda@suse.de>
-References: <20230724112610.60974-1-boris.brezillon@collabora.com>
- <77a41226-b671-1895-6182-457f7fee9bda@suse.de>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 15712615D5;
+ Wed, 26 Jul 2023 08:07:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE039C433C7;
+ Wed, 26 Jul 2023 08:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690358828;
+ bh=02/BpPWpwcY6qGVMejurwI2MWG0QRmzw+p5vHPciA24=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Si6mynfF/QLiJ9GIAhKKfRQiDSikeuZ873k10cyiYklhjlNSURbHevhJKwAb+l92S
+ Uf8Kj9aLuzyIeNRdJEPYMETFNTeYV7p1dx2Vzj/Dhtu3ViQam7sFC8KYLXJu3pR/42
+ z52VBElkQ3oAOQwDr5qrKtXFrBhQ9MGMVOlPQOvDKPv/oMiYspXZVkCwbnzcZIWT8a
+ yJ6xNx9UpPdJr/UbbthJW4jj1UAcJzkJy3UJnijsHT3DOx8yCTvAlxetVeb0C+5c9P
+ wfZPGkuZRxqTFUcenD3YoMUSuqJiBBFkMPKCv5urluIJDUJujg9A49V62hu32CLWhE
+ vo4Y0h1mZcXdw==
+Date: Wed, 26 Jul 2023 10:07:00 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <wcilyqbh23xjscsvubxjnkwlctxuvyj5weix2opywkolg7udyb@gad2pmlazxx4>
+References: <20230607215224.2067679-1-dianders@chromium.org>
+ <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
+ <y3l4x3kv7jgog3miexati5wbveaynnryzqvj6sc4ul6625f2if@w7nqgojfavfw>
+ <CAD=FV=VbdeomBGbWhppY+5TOSwt64GWBHga68OXFwsnO4gg4UA@mail.gmail.com>
+ <CAD=FV=UUdc5xi-HoOye-a1Oki3brcX3V1+=zuxQKLAcrd3iTSA@mail.gmail.com>
+ <CAD=FV=WmpH6cB0oZOxbL+TUxjLRf3PM+kKvuYRAZSiEhS4o37A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=WmpH6cB0oZOxbL+TUxjLRf3PM+kKvuYRAZSiEhS4o37A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,123 +58,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Roman Stratiienko <roman.stratiienko@globallogic.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Jul 2023 20:50:43 +0200
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
-
-> Hi
+On Jul 25 2023, Doug Anderson wrote:
+> Hi,
 > 
-> Am 24.07.23 um 13:26 schrieb Boris Brezillon:
-> > The dma-buf backend is supposed to provide its own vm_ops, but some
-> > implementation just have nothing special to do and leave vm_ops
-> > untouched, probably expecting this field to be zero initialized (this
-> > is the case with the system_heap implementation for instance).
-> > Let's reset vma->vm_ops to NULL to keep things working with these
-> > implementations.  
+> On Mon, Jul 17, 2023 at 11:15 AM Doug Anderson <dianders@chromium.org> wrote:
+> >
+> > Benjamin,
+> >
+> > On Mon, Jun 26, 2023 at 3:49 PM Doug Anderson <dianders@chromium.org> wrote:
+> > >
+> > > Benjamin,
+> > >
+> > > On Thu, Jun 8, 2023 at 8:37 AM Benjamin Tissoires
+> > > <benjamin.tissoires@redhat.com> wrote:
+> > > >
+> > > > > +static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
+> > > > > +     .panel_prepared = i2c_hid_core_panel_prepared,
+> > > > > +     .panel_unpreparing = i2c_hid_core_panel_unpreparing,
+> > > > > +};
+> > > >
+> > > > Can we make that above block at least behind a Kconfig?
+> > > >
+> > > > i2c-hid is often used for touchpads, and the notion of drm panel has
+> > > > nothing to do with them. So I'd be more confident if we could disable
+> > > > that code if not required.
+> > >
+> > > Now that other concerns are addressed, I started trying to write up a
+> > > v3 and I found myself writing this as the description of the Kconfig
+> > > entry:
+> > >
+> > > --
+> > > config I2C_HID_SUPPORT_PANEL_FOLLOWER
+> > > bool "Support i2c-hid devices that must be power sequenced with a panel"
+> > >
+> > > Say Y here if you want support for i2c-hid devices that need to
+> > > coordinate power sequencing with a panel. This is typically important
+> > > when you have a panel and a touchscreen that share power rails or
+> > > reset GPIOs. If you say N here then the kernel will not try to honor
+> > > any shared power sequencing for your hardware. In the best case,
+> > > ignoring power sequencing when it's needed will draw extra power. In
+> > > the worst case this will prevent your hardware from functioning or
+> > > could even damage your hardware.
+> > >
+> > > If unsure, say Y.
+> > >
+> > > --
+> > >
+> > > I can certainly go that way, but I just wanted to truly make sure
+> > > that's what we want. Specifically:
+> > >
+> > > 1. If we put the panel follower code behind a Kconfig then we actually
+> > > have no idea if a touchscreen was intended to be a panel follower.
+> > > Specifically the panel follower API is the one that detects the
+> > > connection between the panel and the i2c-hid device, so without being
+> > > able to call the panel follower API we have no idea that an i2c-hid
+> > > device was supposed to be a panel follower.
+> > >
+> > > 2. It is conceivable that power sequencing a device incorrectly could
+> > > truly cause hardware damage.
+> > >
+> > > Together, those points mean that if you turn off the Kconfig entry and
+> > > then try to boot on a device that needed that Kconfig setting that you
+> > > might damage hardware. I can code it up that way if you want, but it
+> > > worries me...
+> > >
+> > >
+> > > Alternatives that I can think of:
+> > >
+> > > a) I could change the panel follower API so that panel followers are
+> > > in charge of detecting the panel that they follow. Today, that looks
+> > > like:
+> > >
+> > >        panel_np = of_parse_phandle(dev->of_node, "panel", 0);
+> > >        if (panel_np)
+> > >                /* It's a panel follower */
+> > >        of_node_put(panel_np);
+> > >
+> > > ...so we could put that code in each touchscreen driver and then fail
+> > > to probe i2c-hid if we detect that we're supposed to be a panel
+> > > follower but the Kconfig is turned off. The above doesn't seem
+> > > massively ideal since it duplicates code. Also, one reason why I put
+> > > that code in drm_panel_add_follower() is that I think this concept
+> > > will eventually be needed even for non-DT cases. I don't know how to
+> > > write the non-DT code right now, though...
+> > >
+> > >
+> > > b) I could open-code detect the panel follower case but leave the
+> > > actual linking to the panel follower API. AKA add to i2c-hid:
+> > >
+> > >        if (of_property_read_bool(dev->of_node, "panel"))
+> > >                /* It's a panel follower */
+> > >
+> > > ...that's a smaller bit of code, but feels like an abstraction
+> > > violation. It also would need to be updated if/when we added support
+> > > for non-DT panel followers.
+> > >
+> > >
+> > > c) I could add a "static inline" implementation of b) to "drm_panel.h".
+> > >
+> > > That sounds great and I started doing it. ...but then realized that it
+> > > means adding to drm_panel.h:
+> > >
+> > > #include <linux/device.h>
+> > > #include <linux/of.h>
+> > >
+> > > ...because otherwise of_property_read_bool() isn't defined and "struct
+> > > device" can't be dereferenced. That might be OK, but it looks as if
+> > > folks have been working hard to avoid things like this in header
+> > > files. Presumably it would get uglier if/when we added the non-DT
+> > > case, as well. That being said, I can give it a shot...
+> > >
+> > > --
+> > >
+> > > At this point, I'm hoping for some advice. How important is it for you
+> > > to have a Kconfig for "I2C_HID_SUPPORT_PANEL_FOLLOWER"?
+> > >
+> > > NOTE: even if I don't add the Kconfig, I could at least create a
+> > > function for registering the panel follower that would get most of the
+> > > panel follower logic out of the probe function. Would that be enough?
+> >
+> > I'd love to send a new version of this patch series, but I'm still
+> > stuck with the above issue. I'm hoping you might have a minute to
+> > provide your thoughts. If I don't hear anything, I'll try a v3 where I
+> > don't have the Kconfig for "I2C_HID_SUPPORT_PANEL_FOLLOWER" but just
+> > try to pull a little more of the code out of the probe function.
 > 
-> Thanks for your patch. This bug could affect a number of GEM 
-> implementations.
+> To provide breadcrumbs, I posted the v3 which pulls a bit more code
+> out of the probe function but is otherwise largely unchanged. The
+> cover letter for v3 can be found at:
 
-The one I found that is probably hit by the same problem is
-exynos_drm_gem.c, but there might be others...
-
-> Instead of fixing this individually, could we set the 
-> fields conditionally at
-> 
->  
-> https://elixir.bootlin.com/linux/v6.4/source/drivers/gpu/drm/drm_gem.c#L1042
-> 
-> ?
-> 
-> Something like
-> 
->    if (!object->import_attach) {
-
-If guess you meant the opposite: if (object->import_attach)
-
->      vma->priv =
->      vma->ops =
->    }
-
-I suspect it will break other drivers relying on the fact vma->vm_ops
-is auto-magically assigned to obj->funcs->vm_ops, even for prime
-buffers. The one I'm looking at right now is amdgpu: it has its own way
-of mapping imported dma-bufs, and resetting vma->vm_ops to NULL means
-the ttm layer will fallback to the default ttm_bo_vm_ops, which is not
-what amdgpu wants.
-
-AFAICT, etnaviv is in the same situtation, though it's probably easier
-to fix, given the open/close hooks for imported objects doesn't do much.
-
-TLDR; yes, it'd be great to have this 'fix' moved at the core level, or
-even have a dedicated path for dma-buf objects, but I fear it's going
-to fall apart if we do that.
-
-One option would be to add a dma_buf_vm_ops field to
-drm_gem_object_funcs, add a
-DRM_GEM_OBJ_FUNCS_SET_VM_OPS(vm_ops, dma_buf_vm_ops) macro that would
-assign both dma_buf_vm_ops and vm_ops, patch all existing drivers
-to use this macro (mechanical change where we assign both fields to the
-same value, so we don't break anything, but don't fix broken
-implementations either). Once this is in place, we can have the
-following in drm_gem_mmap_obj():
-
-	vma->vm_ops = object->import_attach ?
-		      object->funcs->dma_buf_vm_ops :
-		      object->funcs->vm_ops;
-	vma->vm_private_data = vma->vm_ops ? obj : NULL;
-
-And then we can specialize the shmem and exynos implementations
-(actually, any implementation that's entirely deferring the mmap to the
-dma-buf layer), so they explicitly set dma_buf_vm_ops to NULL.
-
-Honestly, I'm not sure this is better than manually assigning
-vma->vm_ops to NULL in the driver mmap function, but at least people
-will have to consider it when they write their driver ('do I want
-the same mmap behavior for dmabuf and !dmabuf?').
-
-Anyway, I think this fix is worth applying, because it's self-contained
-and easy to backport. We can discuss and sort out how we want to fix the
-problem more generically later on.
+Apologies for the delay. Given that you received feedbacks from other
+folks I wanted things to settle down a little bit before returning to
+this discussion. Sorry.
 
 > 
-> plus a descriptive comment like the one you have in your patch.
-> 
-> Best regards
-> Thomas
-> 
-> > 
-> > Fixes: 26d3ac3cb04d ("drm/shmem-helpers: Redirect mmap for imported dma-buf")
-> > Cc: <stable@vger.kernel.org>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Reported-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >   drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ++++++
-> >   1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > index 4ea6507a77e5..baaf0e0feb06 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -623,7 +623,13 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
-> >   	int ret;
-> >   
-> >   	if (obj->import_attach) {
-> > +		/* Reset both vm_ops and vm_private_data, so we don't end up with
-> > +		 * vm_ops pointing to our implementation if the dma-buf backend
-> > +		 * doesn't set those fields.
-> > +		 */
-> >   		vma->vm_private_data = NULL;
-> > +		vma->vm_ops = NULL;
-> > +
-> >   		ret = dma_buf_mmap(obj->dma_buf, vma, 0);
-> >   
-> >   		/* Drop the reference drm_gem_mmap_obj() acquired.*/  
-> 
+> https://lore.kernel.org/r/20230725203545.2260506-1-dianders@chromium.org/
 
+I like the 8th patch of this series much more. If there is a risk of
+damaging the device, then we should not have the Kconfig to disable it.
+
+I have some comments on that particular patch (v3 8/10), but I; ll reply
+inline.
+
+Cheers,
+Benjamin
