@@ -2,78 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7BA7634FB
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 13:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9255A763541
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 13:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7874B10E463;
-	Wed, 26 Jul 2023 11:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51CE510E464;
+	Wed, 26 Jul 2023 11:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7137310E463
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 11:31:13 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id BB3095C0048;
- Wed, 26 Jul 2023 07:31:12 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Wed, 26 Jul 2023 07:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1690371072; x=1690457472; bh=tN1tOIi6LgdYyNWu0Imw1ahtdb+2EI1lLQO
- E3uE4dcc=; b=Ism7zxqTNnubAG9Mfl1QlpNd6eWjoLk9spt6HFx1cFQEvWbxHZ0
- pWaDXHKpVLqv9lVvUq8w4piGVIEu3BJBgCjCKIYPWYXzKvx49RCmFfO6ICOJ4Mc3
- Tnd0GGh3ACh9POkx77WZapoXhspzHZLn6Wcplo1wXYU8nECgs1Ds0rFsuL49Vjzv
- bhiveCvKJCxn3FHqBo2XLbTY6uZ7pLlUdadR076rN39BAaFklLT5C7ylDziEB9b1
- 64pcTA2x8DQpmYCKMoKYoOryD7QvpCp9v9S+X++ZvcBbSW/YUIYK6D5eSduCD+hL
- eUB/K5xeFLtZYlPPeiecnQvgGrk4wn6WWgA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1690371072; x=1690457472; bh=tN1tOIi6LgdYyNWu0Imw1ahtdb+2EI1lLQO
- E3uE4dcc=; b=uboAnPfNz52PjzqONL4HLHIXmaOmMFmFmVTHgg+VS7n1nfglMFZ
- zSezRUf3ny96xibiLrFvbiNokE6GXOSTECb8VbUv0Tq13Knq6Q7n3R6P15+7nv5a
- fyDIQ4py9vTgCKKg/1jksqbsSzFG3n3dltAqPqfZjJMirqYYp9VBp7sD65CEnrqI
- ttkzG5i/RBU+xg5YMTODg2pjG756wrgaoQnmcXAYOOGbwZhtKad9Uf0MCaqIEsGf
- 3R4Gy8dzM4CuJl+O9IKK/4VV3l5AV2KbnuakD59goVdvQoGkuFT0Q+hRFuCW3Add
- j9gS1HusT+dP76MQ3/JdIBoc/Rpk4C/rbEQ==
-X-ME-Sender: <xms:_wPBZJQhXjP4Fz86xB7PJx5HJW_XqyKWIWWotkfT4Tz7V1mW4Jh8kA>
- <xme:_wPBZCxgpQW9YqwIZJp46bxw7aQ9iq2h4cLbpcQPI4nmIjWojl4l_58vxW_dRM34R
- o-ab0fMXfdnHMVbL1E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedriedvgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfg
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:_wPBZO3SwcPgSkl1dGcsN-Qigog45LAmXoeTFT0H7gE2NFeh69n0Sw>
- <xmx:_wPBZBApZ7qQuNK2WUv4s3mfgCoF77jGujremOvvcnMajZESKT8gbw>
- <xmx:_wPBZCig1ANqFipFayWz3ssbk5_CiHmnQtSpp27Hpv2wfgasoK-wtQ>
- <xmx:AATBZNXQdRL4UJDvG0E_0kEicFpclUhkA3svPN0G1cg-N7axc6xENA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5799FB60089; Wed, 26 Jul 2023 07:31:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-592-ga9d4a09b4b-fm-defalarms-20230725.001-ga9d4a09b
-Mime-Version: 1.0
-Message-Id: <e2e5d376-a307-4ddc-bebb-5c00141dcc01@app.fastmail.com>
-In-Reply-To: <20230726105436.h3kqtjzbhvjrg6kp@pengutronix.de>
-References: <20230726100626.167490-1-wangzhu9@huawei.com>
- <20230726105436.h3kqtjzbhvjrg6kp@pengutronix.de>
-Date: Wed, 26 Jul 2023 13:30:49 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "Zhu Wang" <wangzhu9@huawei.com>
-Subject: Re: [PATCH -next] drm/bridge: fix -Wunused-const-variable= warning
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE1A10E464
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 11:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690371565;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1nBurKbPp07JesoyVQ3GmKpdOAlKpPU+rBLmxuc7kg0=;
+ b=X0/XMO0765odXI5WW6Nidm7Y+wQkk1zeN6VKfsHxIbdxNYTFnFrQ7cNk/9+QXF1OObGh5W
+ kOqCW2ZF5ibny4Z6KX/6fFC1A4KFrlMM4nRNvjSVYdoOt6FOLzdoYCnGTT9YiNG6ftOivk
+ 2wCz9ESCz4SERzpJ6Pb2L8T7cFpeSPw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-609-3RflExH6PPmcXyYC2-oQYA-1; Wed, 26 Jul 2023 07:39:23 -0400
+X-MC-Unique: 3RflExH6PPmcXyYC2-oQYA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-31701b27d19so475633f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 04:39:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690371562; x=1690976362;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1nBurKbPp07JesoyVQ3GmKpdOAlKpPU+rBLmxuc7kg0=;
+ b=NntebxLDVImTmmfY0TCEReqWByeaLSVB6SG6UW6e0IpFUmL9rs5twuzJqsN5Wt3zg+
+ VJ9uSG1Ton5SLI1T158DymuYNRinBiQyu/Mur9MXqatJyeHP2SXv6NCJGuz4cwn6YJZV
+ cP7/yHJ3HjYaM6tTkfClyKL1TXqPzPnmcMEafOEuZN5ZngWTeUaRvatFQyO7NoLNrW6/
+ huQUE3XQRYEt7gTB3ZPWoLrWfr9zyLZ9blNhNjJJHT87y+L0iJrdeFcmPSCJrBenttOs
+ V/w6opyKQOMvDg0Yway5TmsZw/J2EuRbajQTC11G6pVWq9guO10zSbeTTen88tIO67QZ
+ znmg==
+X-Gm-Message-State: ABy/qLZyFhf1B9veyD5UbhF0cyBx1DTj4xv0FM7mjQ9NpCH7Zv1mydGS
+ bs5/KS5wVMgPiyJy8axpkEppnmQSGuEqGKt+v3JB/krbjkXxfwRsoDx6E7bw1RtvN9oTjZ1pvdL
+ o7ulpqexl+y45MNaBdGSMHhqwRtda
+X-Received: by 2002:adf:ee51:0:b0:317:36d8:d6e8 with SMTP id
+ w17-20020adfee51000000b0031736d8d6e8mr4214507wro.25.1690371562587; 
+ Wed, 26 Jul 2023 04:39:22 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEey8ZTPhsEi4ZBivO/5K9jghGDJpzkTWthoTmSmVhdVZ4+ZVOJjYnrIkrrAZBTffbOzdbXpg==
+X-Received: by 2002:adf:ee51:0:b0:317:36d8:d6e8 with SMTP id
+ w17-20020adfee51000000b0031736d8d6e8mr4214495wro.25.1690371562314; 
+ Wed, 26 Jul 2023 04:39:22 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:680e:9bf4:b6a9:959b?
+ ([2a01:e0a:d5:a000:680e:9bf4:b6a9:959b])
+ by smtp.gmail.com with ESMTPSA id
+ p15-20020a5d4e0f000000b003142c85fbcdsm19463352wrt.11.2023.07.26.04.39.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jul 2023 04:39:21 -0700 (PDT)
+Message-ID: <0fc5a88e-99df-78d3-ad41-2a7273a02906@redhat.com>
+Date: Wed, 26 Jul 2023 13:39:21 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
+To: Roger Sewell <roger.sewell@cantab.net>
+References: <20230717133037.25941-1-jfalempe@redhat.com>
+ <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
+ <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
+ <20230724215746.10928@revelation.broadband>
+ <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
+ <20230725223127.4184@revelation.broadband>
+ <4e470182-d8da-b727-d163-d9c45bd0dc47@redhat.com>
+ <20230726111114.5287@revelation.broadband>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20230726111114.5287@revelation.broadband>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,90 +93,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, benjamin.mugnier@foss.st.com,
- Maxime Ripard <mripard@kernel.org>, rfoss@kernel.org,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
- duwe@suse.de, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Doug Anderson <dianders@chromium.org>, anarsoul@gmail.com,
- "laurent.pinchart" <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 26, 2023, at 12:54, Uwe Kleine-K=C3=B6nig wrote:
-> On Wed, Jul 26, 2023 at 06:06:26PM +0800, Zhu Wang wrote:
+On 26/07/2023 12:11, Roger Sewell wrote:
+> 
+> Jocelyn,
+> 
+>>> How can I check for sure whether I am using 24 or 32 bits per pixel
+>>> ?
 >>
->> Fixes: 5d97408e0d70 ("drm/bridge: move ANA78xx driver to analogix sub=
-directory")
+>> The easiest solution if you already rebuilt your kernel is to print
+>> the variable bpp here:
+>>
+>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L326
+>>
+>> pr_info("mgag200 bpp %d\n", bpp);
+> 
+> Did that, and I get "mgag200 bpp 32".
+> 
+>> Also if you can run Wayland at 1440x900@60, that would mean the
+>> hardware is indeed able to handle it in 32bit.
+> 
+> I can indeed run Wayland at 1440x900@60.
+> 
+> So I think I'm right in saying that my graphics chip can handle
+> 1440x900@60 with 32 bits per pixel.
 
-This is the wrong commit, the driver was just in a different place
-before that, and the bug was already present in commit 0647e7dd3f7ab
-("drm/bridge: Add Analogix anx78xx support").
+Thanks for confirming that. So either the specification is a bit too 
+conservative, or your specific hardware is above average.
+> 
+> However, while searching /var/log/messages for the bpp output above, I
+> also found these two lines:
+> 
+> /usr/libexec/gdm-x-session[2366]: (==) modeset(0): Depth 24, (==) framebuffer bpp 32
+> /usr/libexec/gdm-x-session[2366]: (==) modeset(0): RGB weight 888
 
->> =20
->> +#if IS_ENABLED(CONFIG_OF)
->>  static const u8 anx7808_i2c_addresses[] =3D {
->>  	[I2C_IDX_TX_P0] =3D 0x78,
->>  	[I2C_IDX_TX_P1] =3D 0x7a,
->> @@ -52,6 +53,7 @@ static const u8 anx781x_i2c_addresses[] =3D {
->>  	[I2C_IDX_RX_P0] =3D 0x7e,
->>  	[I2C_IDX_RX_P1] =3D 0x80,
->>  };
->> +#endif
->
-> You can mark anx7808_i2c_addresses with __maybe_unused, then the #if
-> isn't needed.
+Yes in 32bits, only 24 are actual color, the remaining 8 bits are 
+discarded. In newer monitor, you can have 10 bits per color, but that 
+would still be 32bits per pixel. Thus in your case the color depth is 24 
+and bits_per_pixel is 32, which is the most common.
+> 
+> in case it makes a difference.
+> 
+> Thanks,
+> Roger.
+> 
 
-Neither of these should be needed, as the driver only works with
-CONFIG_OF anyway.
-
->>  struct anx78xx_platform_data {
->>  	struct regulator *dvdd10;
->> @@ -1387,7 +1389,9 @@ MODULE_DEVICE_TABLE(of, anx78xx_match_table);
->>  static struct i2c_driver anx78xx_driver =3D {
->>  	.driver =3D {
->>  		   .name =3D "anx7814",
->> +#if IS_ENABLED(CONFIG_OF)
->>  		   .of_match_table =3D of_match_ptr(anx78xx_match_table),
->> +#endif
->
-> If CONFIG_OF is disabled of_match_ptr(something) evaluates to NULL, so
-> you can drop the #if here.
->
-> Having said that the better fix is probably to just do
->
-> 	.of_match_table =3D anx78xx_match_table,
->
-> as systems using ACPI can benefit from the of_match_table, too.
-> See b89a9e9890d4 ("gpio: aggregator: Remove CONFIG_OF and of_match_ptr=
-()
-> protections") for an example.
-
-Agreed, removing the #ifdef checks and the of_match_ptr()
-wrapper is the right solution here. I see similar things
-in other bridge drivers that could be changed at the same
-time:
-
-$ git grep of_match_ptr drivers/gpu/drm/bridge/
-drivers/gpu/drm/bridge/analogix/analogix-anx6345.c:                .of_m=
-atch_table =3D of_match_ptr(anx6345_match_table),
-drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:                .of_m=
-atch_table =3D of_match_ptr(anx78xx_match_table),
-drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:            .of_matc=
-h_table =3D of_match_ptr(mhdp_ids),
-drivers/gpu/drm/bridge/chrontel-ch7033.c:               .of_match_table =
-=3D of_match_ptr(ch7033_dt_ids),
-drivers/gpu/drm/bridge/sil-sii8620.c:           .of_match_table =3D of_m=
-atch_ptr(sii8620_dt_match),
-drivers/gpu/drm/bridge/ti-tfp410.c:             .of_match_table =3D of_m=
-atch_ptr(tfp410_match),
-
-The other ones are even worse because they use of_match_ptr()
-without the corresponding #ifdef around the match table, so
-the of_match_ptr() does not even have the effect of saving a few
-bytes of .data segment.
-
-     Arnd
