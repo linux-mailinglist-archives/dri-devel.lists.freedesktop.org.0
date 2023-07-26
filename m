@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B956762FA1
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 10:23:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FE8762FF5
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jul 2023 10:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7808010E18A;
-	Wed, 26 Jul 2023 08:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC2210E17E;
+	Wed, 26 Jul 2023 08:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEFC10E18A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 08:23:00 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B99F1660711D;
- Wed, 26 Jul 2023 09:22:58 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690359779;
- bh=7S4BmWWUvw/WhRBHq0ubcEQhqplrJYEMp5mtO/yukgo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eB4ffQornmdszsZQH07HZXx/UkjdjOtxtEKNJnQP0A2s85zmD8fCDh3mTffaAjSIe
- Dtjk8FTcs22EcQWu+G2JDwXOZDa6JBo+dSSkJKek5CHKDAo5G+NRJVW+B6rlgkcN8f
- ofqtFnJllXPMf9yJkKrU3vFqfc5IwHI+C3tQUZlN2PGccdnsIJYu8X1s75oe+PSdiZ
- rmZ3sqrVdFVdue02VMy47Ml6jj5UwM3KLeBF1gcUGJHXpCQe1PxZc1xm7eoMR5+umr
- A17OhzSnfA7zLX5y0RpHG6FQxCdPxTjJpbf9Ap1nGqUyHM5zMrrasODGTe6Binl3iM
- A8kJslQqULGZw==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH v3 6/6] drm/mediatek: mtk_dpi: Compress struct of_device_id
- entries
-Date: Wed, 26 Jul 2023 10:22:45 +0200
-Message-ID: <20230726082245.550929-7-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230726082245.550929-1-angelogioacchino.delregno@collabora.com>
-References: <20230726082245.550929-1-angelogioacchino.delregno@collabora.com>
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E0210E16D
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 08:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=r4dvvFPG61dpi+m5wXOqVQJNPQ8+eRHy9QX8yy71vx8=;
+ b=Jps4sk8eHMcL2LM6qEVk5txAIrGoJels8jZ2yVCw1HiHp3bxlnFEr+C6Av0VxQacs41hOX/ejaJSP
+ 5Vq+QvNHKzE1hy/Y34nCAE0HMQqR7CQzaMMxVn9DZCXl4liYWX/34D+mSiEXvnVTqJcf4Qq9s+jYd2
+ Ror35/ej4d8OxXFWHbJ0g6GxPMSrdMMwUdJnnxATyCWczsPS2CYpUdf0wmsnQ36my+B4QkGbojjySh
+ CebDGH9h/HS2a/n0mvW5Uq4FzTuDd7DMVbuJZeBj+KBOP0EDB+YuDcc6+XAGpEKKs/v2r/MyyFcrh3
+ R41QRYlmQG8sZbYA9i48IaO/BGmf3Ag==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=r4dvvFPG61dpi+m5wXOqVQJNPQ8+eRHy9QX8yy71vx8=;
+ b=Vm5WByldnd82gz8eTojY7srg8mddzQU9H1uSw04x5Fv1MYfeNKpZTR1mOgxTd3U4oswlVraqAYURY
+ eam16l/Cw==
+X-HalOne-ID: 70ef6e65-2b8f-11ee-a266-b90637070a9d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3 (Halon) with ESMTPSA
+ id 70ef6e65-2b8f-11ee-a266-b90637070a9d;
+ Wed, 26 Jul 2023 08:35:58 +0000 (UTC)
+Date: Wed, 26 Jul 2023 10:35:57 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] video: logo: LOGO should depend on FB_CORE i.s.o. FB
+Message-ID: <20230726083557.GA921641@ravnborg.org>
+References: <5ab3d1fe7b67ab10e4bc1bdbc0fa7731f7960965.1690300189.git.geert+renesas@glider.be>
+ <87a5vkj7qe.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdWBznkqYxCWD2uwGtWLqXnBqX1Ycg31fBDc4cq2u8DkNQ@mail.gmail.com>
+ <877cqoj5q5.fsf@minerva.mail-host-address-is-not-set>
+ <c10d925b-8d37-caa0-8f66-a0206f948c69@suse.de>
+ <874jlrkbtf.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874jlrkbtf.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,67 +61,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: fshao@chromium.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce line count by compressing the entries of struct of_device_id;
-while at it, also add the usual /* sentinel */ comment to the last
-entry.
+On Tue, Jul 25, 2023 at 09:53:16PM +0200, Javier Martinez Canillas wrote:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+> 
+> > Hi
+> >
+> 
+> [...]
+> 
+> >> 
+> >> Yes. I meant to move drivers/video/logo/ to drivers/fbdev/core/logo and to
+> >> source its Kconfig from drivers/fbdev/core/Kconfig, since it now depends
+> >> on FB_CORE.
+> >
+> > No, please rather leave it where it is. There's no code dependencies to 
+> > the fbdev core; it merely depends on the Kconfig token.
+> >
+> 
+> Sure, fine by me. But I disagree that there's merely a Kconfig dependency.
+> The include/linux/linux_logo.h header declares both fb_find_logo() and
+> fb_append_extra_logo().
+> 
+> The fb_find_logo() function is defined in drivers/video/logo.c while the
+> fb_append_extra_logo() is in drivers/video/fbdev/core/fbmem.c, even though
+> only arch/powerpc/platforms/cell/spu_base.c uses fb_append_extra_logo().
+> 
+> So there's a relationship already between logo and fbdev/core, that's why
+> I wondered if would make sense to also move drivers/video/logo.c to have
+> both functions in there.
+Or as I also suggested on irc - to pull out all the logo stuff from
+fbmem and put it in video/logo/
+With a bit of refactoring to make it obvious this is logo stuff and
+maybe avoid some of the ifdeffery in the code of the users.
 
-This commit brings no functional changes.
-
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Fei Shao <fshao@chromium.org>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index a6fa26301a58..cc55dbb909ec 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -1090,28 +1090,14 @@ static void mtk_dpi_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id mtk_dpi_of_ids[] = {
--	{ .compatible = "mediatek,mt2701-dpi",
--	  .data = &mt2701_conf,
--	},
--	{ .compatible = "mediatek,mt8173-dpi",
--	  .data = &mt8173_conf,
--	},
--	{ .compatible = "mediatek,mt8183-dpi",
--	  .data = &mt8183_conf,
--	},
--	{ .compatible = "mediatek,mt8186-dpi",
--	  .data = &mt8186_conf,
--	},
--	{ .compatible = "mediatek,mt8188-dp-intf",
--	  .data = &mt8188_dpintf_conf,
--	},
--	{ .compatible = "mediatek,mt8192-dpi",
--	  .data = &mt8192_conf,
--	},
--	{ .compatible = "mediatek,mt8195-dp-intf",
--	  .data = &mt8195_dpintf_conf,
--	},
--	{ },
-+	{ .compatible = "mediatek,mt2701-dpi", .data = &mt2701_conf },
-+	{ .compatible = "mediatek,mt8173-dpi", .data = &mt8173_conf },
-+	{ .compatible = "mediatek,mt8183-dpi", .data = &mt8183_conf },
-+	{ .compatible = "mediatek,mt8186-dpi", .data = &mt8186_conf },
-+	{ .compatible = "mediatek,mt8188-dp-intf", .data = &mt8188_dpintf_conf },
-+	{ .compatible = "mediatek,mt8192-dpi", .data = &mt8192_conf },
-+	{ .compatible = "mediatek,mt8195-dp-intf", .data = &mt8195_dpintf_conf },
-+	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
- 
--- 
-2.41.0
-
+	Sam
