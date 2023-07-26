@@ -2,70 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576E0764260
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 01:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C310D764272
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 01:14:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF3210E09A;
-	Wed, 26 Jul 2023 23:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE1610E4C9;
+	Wed, 26 Jul 2023 23:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1187210E09A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 23:09:47 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-1b9ecf0cb4cso2354565ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 16:09:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1690412986; x=1691017786;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bNBWi9BFA7oJZNyI/XnA5H8tHZCJl01gNE0DBxlvZ40=;
- b=Lnuap/X4mLRvumv8rxik6XXAmLQssX2LaTRnfxOwbhhRA6q+4W8DfrIsG7kVikG4Iw
- ozUx9bZZDKNb4aqqrWuoDs7rpphs2fFB4IjiULQPXjflO/XhZA2vc5TzngrkqmMIM5UL
- tCjpn3hCX/GmJvs5MwDi73VFwiTs9hADB2Cru8fy0ICxuL68/fE/7pFEUcb8ihUp2Ey5
- GxMGCc+rwQuZGeGguv2m2EFaBOeJPE6kWVGxSMJPh4gYWl2FbXQzGnA0u5AYkb1ckWFe
- PYG7wUThiNHKJJU/Kftp/PqqvyLMK20NIq4IuXuyA0M1JDxZWj46ZkNyp0CVDzf4FlQ+
- b/TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690412986; x=1691017786;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bNBWi9BFA7oJZNyI/XnA5H8tHZCJl01gNE0DBxlvZ40=;
- b=CnrNaSBr5lZZDKJNBE1vHFhjFZTE/gnLuMEZsTzW3dL4I39g8dv3Vb9mecskCqrGTg
- mCMlghnm4LIwwK9OYQPrU9zPCAqeIYz1+rYygT+F7MZE+0h3f6hD4FtBm79xDnF9OXSN
- BKmt58sJezB3AYV9SOqwdsn+T0UUwXoUqiulmlKmk2EZHyJYz/Wru9yQWz3u1/3qo1vy
- PbovHInZQcnTL3gTqgViMwoCeOL5/auPemxi2wY7Jq4GOUFTEwRc5Y58tlhoZCMX8ZPR
- x/vrszl6BKWC6N+37qttEoGQA/FRa+Mn4307mGBg6SmbmrZi3HSenDmkDdT38ZAZCYqu
- 2ltw==
-X-Gm-Message-State: ABy/qLaqvnvnYFEQp7iHbDf/Su0Ht0M6pKmZYI1eRksXTCafH2P5sngM
- hXf/gleSJsg5ahSCLTf/BSXUzA==
-X-Google-Smtp-Source: APBJJlHUt9d2hTqe2ud94c6lNUCrPn/cPviOHGLjkBp5h1xJnkt7lTpPKllT1sxo0CM9mi2vK7HwDA==
-X-Received: by 2002:a17:902:c10c:b0:1b8:b382:f6c3 with SMTP id
- 12-20020a170902c10c00b001b8b382f6c3mr2914213pli.13.1690412986476; 
- Wed, 26 Jul 2023 16:09:46 -0700 (PDT)
-Received: from dread.disaster.area (pa49-186-119-116.pa.vic.optusnet.com.au.
- [49.186.119.116]) by smtp.gmail.com with ESMTPSA id
- u9-20020a17090341c900b001ac95be5081sm58846ple.307.2023.07.26.16.09.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 16:09:45 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
- (envelope-from <david@fromorbit.com>) id 1qOndW-00AvaD-0j;
- Thu, 27 Jul 2023 09:09:42 +1000
-Date: Thu, 27 Jul 2023 09:09:42 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH v2 44/47] mm: shrinker: make global slab shrink lockless
-Message-ID: <ZMGnthZAh48JF+eV@dread.disaster.area>
-References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
- <20230724094354.90817-45-zhengqi.arch@bytedance.com>
- <ZMDUkoIXUlTkCSYL@dread.disaster.area>
- <19ad6d06-8a14-6102-5eae-2134dc2c5061@bytedance.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D85710E4C9;
+ Wed, 26 Jul 2023 23:14:18 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36QMqDmO021212; Wed, 26 Jul 2023 23:14:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5YQJKQZuNgBUEpjxaxoyWdIrfgT+lVDaDsWW4xwQ6iY=;
+ b=KlQ9GcesZxviAgScz805x+VImqiN6vsHUQ0S6m/fFR7ncboBHtUG7cWyGah9ZNcUaE9H
+ GpexPvxD8Oy9LJ4L6AhrsX+u2eyUwIfgbLD9p1085htWG8QHHLFJeWyDHrbzmeMc0SG7
+ zmpBlpY8cpySy/iTxYAaKTIQK1S39s1YRTTseY6w8IjTMOasPelQAOdPldosLSc6KLrq
+ 6JAEijgJlwPdt1qfe//lDrfT7UmKfuRMxqtvj8YeLpwy07dtKQxJsxqxybrMDsOuCet7
+ I/gdR1bNAboLEWQkOPRutft0XxWMU9xShn/wRJxpdX+4eD0aGsgzv6UgipyVPZOwKo9I tg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s37g0gkae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jul 2023 23:14:13 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36QNEBYg027251
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Jul 2023 23:14:11 GMT
+Received: from [10.110.29.149] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 26 Jul
+ 2023 16:14:10 -0700
+Message-ID: <13784945-8029-9b21-f226-8692e348ec1e@quicinc.com>
+Date: Wed, 26 Jul 2023 16:14:08 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19ad6d06-8a14-6102-5eae-2134dc2c5061@bytedance.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 4/6] drm/msm/mdss: populate missing data
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230521171026.4159495-1-dmitry.baryshkov@linaro.org>
+ <20230521171026.4159495-5-dmitry.baryshkov@linaro.org>
+ <61b0792d-aa62-03ea-bb2c-aa9392251519@quicinc.com>
+ <CAA8EJpp+uO_BZVQ9A+ZjKe3+b_H=xJc_yCfd8bKSPenU8Mf5FQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpp+uO_BZVQ9A+ZjKe3+b_H=xJc_yCfd8bKSPenU8Mf5FQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ISxJS2vYdcRMXtQQAezN3FhUmGlrs96-
+X-Proofpoint-ORIG-GUID: ISxJS2vYdcRMXtQQAezN3FhUmGlrs96-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 clxscore=1015
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307260207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,273 +85,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
- cel@kernel.org, x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, yujie.liu@intel.com, vbabka@suse.cz,
- linux-raid@vger.kernel.org, brauner@kernel.org, tytso@mit.edu,
- gregkh@linuxfoundation.org, muchun.song@linux.dev,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-xfs@vger.kernel.org, senozhatsky@chromium.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 26, 2023 at 05:14:09PM +0800, Qi Zheng wrote:
-> On 2023/7/26 16:08, Dave Chinner wrote:
-> > On Mon, Jul 24, 2023 at 05:43:51PM +0800, Qi Zheng wrote:
-> > > @@ -122,6 +126,13 @@ void shrinker_free_non_registered(struct shrinker *shrinker);
-> > >   void shrinker_register(struct shrinker *shrinker);
-> > >   void shrinker_unregister(struct shrinker *shrinker);
-> > > +static inline bool shrinker_try_get(struct shrinker *shrinker)
-> > > +{
-> > > +	return READ_ONCE(shrinker->registered) &&
-> > > +	       refcount_inc_not_zero(&shrinker->refcount);
-> > > +}
-> > 
-> > Why do we care about shrinker->registered here? If we don't set
-> > the refcount to 1 until we have fully initialised everything, then
-> > the shrinker code can key entirely off the reference count and
-> > none of the lookup code needs to care about whether the shrinker is
-> > registered or not.
+
+
+On 7/26/2023 3:58 PM, Dmitry Baryshkov wrote:
+> On Thu, 27 Jul 2023 at 01:30, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 5/21/2023 10:10 AM, Dmitry Baryshkov wrote:
+>>> As we are going to use MDSS data for DPU programming, populate missing
+>>> MDSS data. The UBWC 1.0 and no UBWC cases do not require MDSS
+>>> programming, so skip them.
+>>>
+>>
+>> Can you pls point me to the downstream references you used for msm8998?
 > 
-> The purpose of checking shrinker->registered here is to stop running
-> shrinker after calling shrinker_free(), which can prevent the following
-> situations from happening:
+> msm-3.18, drivers/video/msm/mdss/mdss_mdp.c
 > 
-> CPU 0                 CPU 1
+> See the function mdss_mdp_hw_rev_caps_init(). It sets has_ubwc for MDP
+> 1.07 (msm8996), 1.14 (msm8937) / 1.16  (msm8953) and 3.0 (msm8998).
 > 
-> shrinker_try_get()
+
+It sets has_ubwc but I still cannot locate where it says version is 1.0.
+Because the 0x58 register reads 0 and not 1 for msm8998.
+
+>> Was that just taken from catalog? If so I would ask for the reference
+>> for the catalog too.
+>>
+>> As per the register the decoder version is 0x0 and not 1.
+>>
+>> Even encoder version is 0 from what i see and not 1. Thats why a
+>> dec_version of UBWC_1_0 is not doing anything i assume.
+>>
+>> Some additional questions:
+>>
+>> 1) Does the whole chunk in dpu_hw_sspp_setup_format() which handles ubwc
+>> programming need to be protected by if (ctx->ubwc) now ?
 > 
->                        shrinker_try_get()
+> It's hard to discuss the question which is irrelevant for this patch.
+> Nevertheless, yes, it needs to be protected because e.g. qcm2290
+> doesn't have UBWC support.
 > 
-> shrinker_put()
-> shrinker_try_get()
->                        shrinker_put()
 
-I don't see any race here? What is wrong with having multiple active
-users at once?
+Sorry but your commit text made me look into this function and wonder 
+now what happens to that code. But I will continue this in this next 
+patch so that you can see the code and the question together.
 
-> > 
-> > This should use a completion, then it is always safe under
-> > rcu_read_lock().  This also gets rid of the shrinker_lock spin lock,
-> > which only exists because we can't take a blocking lock under
-> > rcu_read_lock(). i.e:
-> > 
-> > 
-> > void shrinker_put(struct shrinker *shrinker)
-> > {
-> > 	if (refcount_dec_and_test(&shrinker->refcount))
-> > 		complete(&shrinker->done);
-> > }
-> > 
-> > void shrinker_free()
-> > {
-> > 	.....
-> > 	refcount_dec(&shrinker->refcount);
+>> 2) The values of UBWC_x_x dont match the values of DPU_HW_UBWC_VER_xx.
+>> What was the reason for the catalog to go with DPU_HW_UBWC_VER_xx in the
+>> catalog for the encoder version in the first place? Because looking at
+>> the registers UBWC_x_x is the correct value.
 > 
-> I guess what you mean is shrinker_put(), because here may be the last
-> refcount.
-
-Yes, I did.
-
-> > 	wait_for_completion(&shrinker->done);
-> > 	/*
-> > 	 * lookups on the shrinker will now all fail as refcount has
-> > 	 * fallen to zero. We can now remove it from the lists and
-> > 	 * free it.
-> > 	 */
-> > 	down_write(shrinker_rwsem);
-> > 	list_del_rcu(&shrinker->list);
-> > 	up_write(&shrinker_rwsem);
-> > 	call_rcu(shrinker->rcu_head, shrinker_free_rcu_cb);
-> > }
-> > 
-> > ....
-> > 
-> > > @@ -686,11 +711,14 @@ EXPORT_SYMBOL(shrinker_free_non_registered);
-> > >   void shrinker_register(struct shrinker *shrinker)
-> > >   {
-> > > -	down_write(&shrinker_rwsem);
-> > > -	list_add_tail(&shrinker->list, &shrinker_list);
-> > > -	shrinker->flags |= SHRINKER_REGISTERED;
-> > > +	refcount_set(&shrinker->refcount, 1);
-> > > +
-> > > +	spin_lock(&shrinker_lock);
-> > > +	list_add_tail_rcu(&shrinker->list, &shrinker_list);
-> > > +	spin_unlock(&shrinker_lock);
-> > > +
-> > >   	shrinker_debugfs_add(shrinker);
-> > > -	up_write(&shrinker_rwsem);
-> > > +	WRITE_ONCE(shrinker->registered, true);
-> > >   }
-> > >   EXPORT_SYMBOL(shrinker_register);
-> > 
-> > This just looks wrong - you are trying to use WRITE_ONCE() as a
-> > release barrier to indicate that the shrinker is now set up fully.
-> > That's not necessary - the refcount is an atomic and along with the
-> > rcu locks they should provides all the barriers we need. i.e.
+> Huh. This definitely should be asked next to the code that you wish to
+> discuss. The DPU_HW_UBWC_VER_xx values come from the first DPU
+> revision.
 > 
-> The reason I used WRITE_ONCE() here is because the shrinker->registered
-> will be read and written concurrently (read in shrinker_try_get() and
-> written in shrinker_free()), which is why I added shrinker::registered
-> field instead of using SHRINKER_REGISTERED flag (this can reduce the
-> addition of WRITE_ONCE()/READ_ONCE()).
 
-Using WRITE_ONCE/READ_ONCE doesn't provide memory barriers needed to
-use the field like this. You need release/acquire memory ordering
-here. i.e. smp_store_release()/smp_load_acquire().
+Sure, so again the next patch.
 
-As it is, the refcount_inc_not_zero() provides a control dependency,
-as documented in include/linux/refcount.h, refcount_dec_and_test()
-provides release memory ordering. The only thing I think we may need
-is a write barrier before refcount_set(), such that if
-refcount_inc_not_zero() sees a non-zero value, it is guaranteed to
-see an initialised structure...
-
-i.e. refcounts provide all the existence and initialisation
-guarantees. Hence I don't see the need to use shrinker->registered
-like this and it can remain a bit flag protected by the
-shrinker_rwsem().
-
-
-> > void shrinker_register(struct shrinker *shrinker)
-> > {
-> > 	down_write(&shrinker_rwsem);
-> > 	list_add_tail_rcu(&shrinker->list, &shrinker_list);
-> > 	shrinker->flags |= SHRINKER_REGISTERED;
-> > 	shrinker_debugfs_add(shrinker);
-> > 	up_write(&shrinker_rwsem);
-> > 
-> > 	/*
-> > 	 * now the shrinker is fully set up, take the first
-> > 	 * reference to it to indicate that lookup operations are
-> > 	 * now allowed to use it via shrinker_try_get().
-> > 	 */
-> > 	refcount_set(&shrinker->refcount, 1);
-> > }
-> > 
-> > > diff --git a/mm/shrinker_debug.c b/mm/shrinker_debug.c
-> > > index f1becfd45853..c5573066adbf 100644
-> > > --- a/mm/shrinker_debug.c
-> > > +++ b/mm/shrinker_debug.c
-> > > @@ -5,6 +5,7 @@
-> > >   #include <linux/seq_file.h>
-> > >   #include <linux/shrinker.h>
-> > >   #include <linux/memcontrol.h>
-> > > +#include <linux/rculist.h>
-> > >   /* defined in vmscan.c */
-> > >   extern struct rw_semaphore shrinker_rwsem;
-> > > @@ -161,17 +162,21 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
-> > >   {
-> > >   	struct dentry *entry;
-> > >   	char buf[128];
-> > > -	int id;
-> > > -
-> > > -	lockdep_assert_held(&shrinker_rwsem);
-> > > +	int id, ret = 0;
-> > >   	/* debugfs isn't initialized yet, add debugfs entries later. */
-> > >   	if (!shrinker_debugfs_root)
-> > >   		return 0;
-> > > +	down_write(&shrinker_rwsem);
-> > > +	if (shrinker->debugfs_entry)
-> > > +		goto fail;
-> > > +
-> > >   	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
-> > > -	if (id < 0)
-> > > -		return id;
-> > > +	if (id < 0) {
-> > > +		ret = id;
-> > > +		goto fail;
-> > > +	}
-> > >   	shrinker->debugfs_id = id;
-> > >   	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-> > > @@ -180,7 +185,8 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
-> > >   	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-> > >   	if (IS_ERR(entry)) {
-> > >   		ida_free(&shrinker_debugfs_ida, id);
-> > > -		return PTR_ERR(entry);
-> > > +		ret = PTR_ERR(entry);
-> > > +		goto fail;
-> > >   	}
-> > >   	shrinker->debugfs_entry = entry;
-> > > @@ -188,7 +194,10 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
-> > >   			    &shrinker_debugfs_count_fops);
-> > >   	debugfs_create_file("scan", 0220, entry, shrinker,
-> > >   			    &shrinker_debugfs_scan_fops);
-> > > -	return 0;
-> > > +
-> > > +fail:
-> > > +	up_write(&shrinker_rwsem);
-> > > +	return ret;
-> > >   }
-> > >   int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
-> > > @@ -243,6 +252,11 @@ struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-> > >   	shrinker->name = NULL;
-> > >   	*debugfs_id = entry ? shrinker->debugfs_id : -1;
-> > > +	/*
-> > > +	 * Ensure that shrinker->registered has been set to false before
-> > > +	 * shrinker->debugfs_entry is set to NULL.
-> > > +	 */
-> > > +	smp_wmb();
-> > >   	shrinker->debugfs_entry = NULL;
-> > >   	return entry;
-> > > @@ -266,14 +280,26 @@ static int __init shrinker_debugfs_init(void)
-> > >   	shrinker_debugfs_root = dentry;
-> > >   	/* Create debugfs entries for shrinkers registered at boot */
-> > > -	down_write(&shrinker_rwsem);
-> > > -	list_for_each_entry(shrinker, &shrinker_list, list)
-> > > +	rcu_read_lock();
-> > > +	list_for_each_entry_rcu(shrinker, &shrinker_list, list) {
-> > > +		if (!shrinker_try_get(shrinker))
-> > > +			continue;
-> > > +		rcu_read_unlock();
-> > > +
-> > >   		if (!shrinker->debugfs_entry) {
-> > > -			ret = shrinker_debugfs_add(shrinker);
-> > > -			if (ret)
-> > > -				break;
-> > > +			/* Paired with smp_wmb() in shrinker_debugfs_detach() */
-> > > +			smp_rmb();
-> > > +			if (READ_ONCE(shrinker->registered))
-> > > +				ret = shrinker_debugfs_add(shrinker);
-> > >   		}
-> > > -	up_write(&shrinker_rwsem);
-> > > +
-> > > +		rcu_read_lock();
-> > > +		shrinker_put(shrinker);
-> > > +
-> > > +		if (ret)
-> > > +			break;
-> > > +	}
-> > > +	rcu_read_unlock();
-> > >   	return ret;
-> > >   }
-> > 
-> > And all this churn and complexity can go away because the
-> > shrinker_rwsem is still used to protect shrinker_register()
-> > entirely....
+>>
+>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/msm_mdss.c | 21 +++++++++++++++++++--
+>>>    1 file changed, 19 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+>>> index ed836c659688..9bb7be4b9ebb 100644
+>>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>>> @@ -264,6 +264,10 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+>>>         * UBWC_n and the rest of params comes from hw data.
+>>>         */
+>>>        switch (msm_mdss->mdss_data->ubwc_dec_version) {
+>>> +     case 0: /* no UBWC */
+>>> +     case UBWC_1_0:
+>>> +             /* do nothing */
+>>> +             break;
+>>>        case UBWC_2_0:
+>>>                msm_mdss_setup_ubwc_dec_20(msm_mdss);
+>>>                break;
+>>> @@ -502,10 +506,22 @@ static int mdss_remove(struct platform_device *pdev)
+>>>        return 0;
+>>>    }
+>>>
+>>> +static const struct msm_mdss_data msm8998_data = {
+>>> +     .ubwc_enc_version = UBWC_1_0,
+>>> +     .ubwc_dec_version = UBWC_1_0,
+>>> +     .highest_bank_bit = 1,
+>>> +};
+>>> +
+>>> +static const struct msm_mdss_data qcm2290_data = {
+>>> +     /* no UBWC */
+>>> +     .highest_bank_bit = 0x2,
+>>> +};
+>>> +
+>>>    static const struct msm_mdss_data sc7180_data = {
+>>>        .ubwc_enc_version = UBWC_2_0,
+>>>        .ubwc_dec_version = UBWC_2_0,
+>>>        .ubwc_static = 0x1e,
+>>> +     .highest_bank_bit = 0x3,
+>>>    };
+>>>
+>>>    static const struct msm_mdss_data sc7280_data = {
+>>> @@ -550,6 +566,7 @@ static const struct msm_mdss_data sm6115_data = {
+>>>        .ubwc_dec_version = UBWC_2_0,
+>>>        .ubwc_swizzle = 7,
+>>>        .ubwc_static = 0x11f,
+>>> +     .highest_bank_bit = 0x1,
+>>>    };
+>>>
+>>>    static const struct msm_mdss_data sm8250_data = {
+>>> @@ -574,8 +591,8 @@ static const struct msm_mdss_data sm8550_data = {
+>>>
+>>>    static const struct of_device_id mdss_dt_match[] = {
+>>>        { .compatible = "qcom,mdss" },
+>>> -     { .compatible = "qcom,msm8998-mdss" },
+>>> -     { .compatible = "qcom,qcm2290-mdss" },
+>>> +     { .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
+>>> +     { .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
+>>>        { .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
+>>>        { .compatible = "qcom,sc7180-mdss", .data = &sc7180_data },
+>>>        { .compatible = "qcom,sc7280-mdss", .data = &sc7280_data },
 > 
-> My consideration is that during this process, there may be a
-> driver probe failure and then shrinker_free() is called (the
-> shrinker_debugfs_init() is called in late_initcall stage). In
-> this case, we need to use RCU+refcount to ensure that the shrinker
-> is not freed.
-
-Yeah, you're trying to work around the lack of a
-wait_for_completion() call in shrinker_free().
-
-With that, this doesn't need RCU at all, and the iteration can be
-done fully under the shrinker_rwsem() safely and so none of this
-code needs to change.
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+> 
+> 
