@@ -1,78 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F54765DA1
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:54:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C78765DA8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:59:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47FB610E603;
-	Thu, 27 Jul 2023 20:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1DE10E153;
+	Thu, 27 Jul 2023 20:58:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A87B810E603
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 20:54:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690491249;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1OcuPUaQjLUkSPF5ziwEuH1gdGw0Y2/mfnEGefK6PuA=;
- b=Bi1FGj0JMFtLtlZGh4/vnOgbj80L8Q+zUBFz3zfuzvQUJFbQ2iCPiVQzaKX5nFZ0Ix/XeK
- lRe5hrucPDD0QoHNj9vHOQprR6j8x3i+DjSNKrEFSKazlSVX2dWKHOBMEF4nYSy5jh4/YZ
- HaOSmx/vOAGRQVtc+tczU0rqO8s7WWU=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-693-qeqgXp4eOi-E6VbTF0cH4A-1; Thu, 27 Jul 2023 16:54:06 -0400
-X-MC-Unique: qeqgXp4eOi-E6VbTF0cH4A-1
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6364867fa8aso3392946d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 13:54:06 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80E0710E153
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 20:58:57 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ 46e09a7af769-6b9edef7993so1128198a34.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 13:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690491536; x=1691096336;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=cgFwAswQmjO6RRJH8C8fVReymuExwqWsXP8PT504854=;
+ b=YsU4iISueu4rbfXdQNbc4xgE322yahzAASiagBjMqU7CW1hDiZVoP6L7GKlWQ1IdhA
+ 4LGKIlk+yoh6+ua09qBiYJAJdkumn8HG2a82pM1S3rCk8KzZYaYvYyRox8MVyy50LBmW
+ WHBu6RRotFuE4gvCag+/lc/OWYUPNZpfZPyvho4QUZoCMSSvaRaC4GI6Gm5jMVRNCtPB
+ 3PcM3c5kX+JNIjbzO48laxJUQi+bDbD2Od31CuOLQTI1qlYT4wN4x46nAJgmmmLc0T1e
+ JDu6cwPSslnI7XQHz7sn9cte/CzKFQdOp2f0+zWj1z8e+M9TrVELSM4VOcOClCweOF1j
+ sf0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690491246; x=1691096046;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1OcuPUaQjLUkSPF5ziwEuH1gdGw0Y2/mfnEGefK6PuA=;
- b=UD4ezl3sj143KQZ7verlYCPY/MjDb2hd9Q1W4+2GmoHRcUWhHfCfALL6mmNHzUqZHP
- 8hpzjewSXTZM2zchkPlCWMMOw2lE5oE1R78Y8lwZSXYg5TAI/pWU7s8oay2XQiInii92
- j1XfWmesEtcxbcwYu0mEGkqKCeB/IuwJhhY6ZlI/t/7vWcrrJTCgPkzh8WLPLO8uEDa2
- +1CUgYXRUNK1z8IMnXW/E7INAfaFYsd8R98aCexk3C99o7s+oClVn0IKjoc3XBFfQxLi
- ArQSqDM2Yj9DWvAKUg0ppKe2NMhinokOuzskl6DIQ6nl6oIpCvpkavfqKHmQN0okhGj7
- r53A==
-X-Gm-Message-State: ABy/qLaQ79b0eZb2szge2ScBaiEnGkdYVd/rKGONWnouDfr5Tnrl4QsH
- 4dvprKyTBu8dpv3LxCPtiMPcja5Zq86sKg+M3226Mrd0aIe6ko5tlMeOF5ILsx4UGQm/mAcScWk
- 0aWLdRqPTIDHAOz8YYodKfl0EYFqy
-X-Received: by 2002:ad4:5d68:0:b0:636:dae2:dc4 with SMTP id
- fn8-20020ad45d68000000b00636dae20dc4mr573597qvb.5.1690491245776; 
- Thu, 27 Jul 2023 13:54:05 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEKlj6SzG8qCOOohZpbpp0o6XbCBjw+9tBDHZ+WPZ7+Z2U5Aj5njYlWBm4lviaIN+XPF+vG5A==
-X-Received: by 2002:ad4:5d68:0:b0:636:dae2:dc4 with SMTP id
- fn8-20020ad45d68000000b00636dae20dc4mr573577qvb.5.1690491245484; 
- Thu, 27 Jul 2023 13:54:05 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com.
- [99.254.144.39]) by smtp.gmail.com with ESMTPSA id
- c14-20020a0ca9ce000000b00632191a70aesm690443qvb.88.2023.07.27.13.54.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 13:54:05 -0700 (PDT)
-Date: Thu, 27 Jul 2023 16:54:03 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v2 2/2] udmabuf: Add back support for mapping hugetlb
- pages (v2)
-Message-ID: <ZMLZa2xF+tMg5t93@x1n>
-References: <20230718082605.1570740-1-vivek.kasireddy@intel.com>
- <20230718082605.1570740-3-vivek.kasireddy@intel.com>
- <20230718234436.GB10413@monkey>
- <IA0PR11MB7185E6C4F0B9F4666A7C5CF7F839A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ d=1e100.net; s=20221208; t=1690491536; x=1691096336;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cgFwAswQmjO6RRJH8C8fVReymuExwqWsXP8PT504854=;
+ b=CSfyMmwILzUlEcFbkPHudNsV0mNuCKYdkVJb38njP8LIItvT19EB6U3Fs95AYlQq5p
+ pyOdPr4UXTxfSlqTg9hu+P+1bM6+Kta/AYA7WdX6zAEEiWX+Ipln3rrwdVtUq33Ok9GH
+ XSxNdpmFD0cf2eH+moc8FFE3mFJBUzSHfwiIekHPSW1cwSN9Ey8LP9dEtOzXcz7dFjsY
+ 2rhRgRw+Ldm2Qm9eoVzvUqbR2bNMFgFgNdE2WG/5un400ZlCo5MM3lGb3LnNwywzot3t
+ nTleLpuPAcOafuEoflpc6HcUP/59zUF6bmhyNTACAFFTMtRpWbQtH1DOyu6YL+xiJ8GB
+ s67A==
+X-Gm-Message-State: ABy/qLZqgDjYuptRIh2o5vd3rm37ba2u+RGXoRZfEESjbKpZET9DnVBN
+ c/nU2stLkbvpHyRC3lRMQI9LQU2Cz04g7F3G8K2FQ7Qt
+X-Google-Smtp-Source: APBJJlHxHwPLGn5g3UhlyNFvJ09TBUMQ2Pwft9qomcqpecI2mkUYflB82D9GvQh/uXrdSaPxXPYacYzNpvRpILCeJN4=
+X-Received: by 2002:a05:6870:f69f:b0:1ba:f098:3278 with SMTP id
+ el31-20020a056870f69f00b001baf0983278mr505281oab.38.1690491536485; Thu, 27
+ Jul 2023 13:58:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <IA0PR11MB7185E6C4F0B9F4666A7C5CF7F839A@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 27 Jul 2023 16:58:45 -0400
+Message-ID: <CADnq5_Pr8Z=vNO3iEpHNqkV0mb8gNzN7Zvf9HSW0Sf3Q0yy=Pw@mail.gmail.com>
+Subject: CPU overhead for drm fdinfo stats
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>, 
+ "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>, Rob Clark <robdclark@gmail.com>, 
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +65,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 19, 2023 at 05:42:54AM +0000, Kasireddy, Vivek wrote:
-> > > +			} else {
-> > > +				page =
-> > shmem_read_mapping_page(mapping, pgoff + pgidx);
-> > 
-> > It may not matter to your users, but the semantics for hugetlb and shmem
-> > pages is different.  hugetlb requires the pages exist in the page cache
-> > while shmem will create/add pages to the cache if necessary.
-> Ok; got it.
-
-Would it be nice to do the same for both (perhaps always try to allocate)?
+We have a number of customers using these stats, but the issue that
+keeps coming up is the CPU overhead to gather them, particularly on
+systems with hundreds of processes using the GPU.  Has anyone given
+any thought to having a single interface to get this information for
+the entire GPU in one place?
 
 Thanks,
 
--- 
-Peter Xu
-
+Alex
