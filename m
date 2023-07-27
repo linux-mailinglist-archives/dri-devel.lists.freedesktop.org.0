@@ -1,62 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14EF764817
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 09:12:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF768764813
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 09:12:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FB310E4EE;
-	Thu, 27 Jul 2023 07:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12C9810E4E9;
+	Thu, 27 Jul 2023 07:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F019E10E04B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 18:13:33 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id
- d2e1a72fcca58-686efa1804eso94554b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 11:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690395213; x=1691000013;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vwiSFj0tl/R+2ypAV/GDIAiCwQG00lhPHhABGlY+Hic=;
- b=pvxRPcRPGAfCe4SrvnDaqzurhrKOcVas4Tnt6r7ITP3DnKTAdadQeNOZIYtvxZlyDn
- DozhwK9IGtgCBWi3ffcMC796lhCxm+gzK2j9eyKV95IPGS8xj+8f2FDv/JB5ovIsi5UD
- qt/8yTjnGNgleKv7v8WrBjBeJogMfejzAlE3SL+rMfERO6ucZIKXksiZVZQxIOZq65B5
- Te2OlQwqeJbvNcZwIOAr0gAkZbUPY1eCfToHo7n8vHhiGE46COkFmR7//Wu2tE2h1BSV
- BfhYiR8hECg45x0FqEJYUSKeCgH472DOcTHMgd2T7pCv+vwrYCYh6ITmAN924aXho4lc
- mJbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690395213; x=1691000013;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vwiSFj0tl/R+2ypAV/GDIAiCwQG00lhPHhABGlY+Hic=;
- b=aRN+pQj89/Y912BLAurFQYzVPiK+tA5/N/atZ7IKMRxuoAUDTNuxa/mXJ0ibGLTk+E
- qWoiLNyq0qFj1RR9lLHmQqA4HRfwzVFge/MxNgG8tUtjd3CUAFpbpKX6rPxOHRUgGB8J
- i34uTIx7BGBVDNzkfr/l3gIS8Ev24enEBPJx5NEkxkhw/mu7U3WmJbMNTdodU7e5aGFB
- cXGBHPo4EizkFGqbIjBcTdTz7a+B0BGs8vVAhEyb8Di60AcLMXMfSooovAqVvS5a8QDs
- UFMY1EAk+v1lF/HdYf9iuscjo/6YCAc7JeyZ8Y9Hw+A1bVFRbZh5rjpugPxVW6ubbd5R
- W/dg==
-X-Gm-Message-State: ABy/qLZ71vvIrCDiNF2478QCn6AzfV7XDrXJllggj6IifQXMmdcGPiQZ
- MSQy7Zl6K9/5tZy1YIHS1R0=
-X-Google-Smtp-Source: APBJJlENsKtAIdpEBIKfw+s/pPsgNv0zC1TAnGLqNZq+eoO8cyf+D7Fq22VDKCbbaFYZ8L+dGs9mQA==
-X-Received: by 2002:a17:903:181:b0:1b1:ae33:30de with SMTP id
- z1-20020a170903018100b001b1ae3330demr2839399plg.13.1690395213483; 
- Wed, 26 Jul 2023 11:13:33 -0700 (PDT)
-Received: from 377044c6c369.cse.ust.hk (191host097.mobilenet.cse.ust.hk.
- [143.89.191.97]) by smtp.gmail.com with ESMTPSA id
- c9-20020a170902c1c900b001bb8be10a84sm9100254plc.304.2023.07.26.11.13.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Jul 2023 11:13:32 -0700 (PDT)
-From: Chengfeng Ye <dg573847474@gmail.com>
-To: james.smart@broadcom.com, dick.kennedy@broadcom.com, jejb@linux.ibm.com,
- martin.petersen@oracle.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com, justin.tee@broadcom.com
-Subject: [PATCH v2] scsi: lpfc: Fix potential deadlock on &ndlp->lock
-Date: Wed, 26 Jul 2023 18:13:22 +0000
-Message-Id: <20230726181322.26754-1-dg573847474@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109C110E0D6;
+ Thu, 27 Jul 2023 04:51:41 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36R3uSqn011167; Thu, 27 Jul 2023 04:51:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc : subject : date : message-id; s=qcppdkim1;
+ bh=ucdcS3omEjTw0/bbVJTZi/+ou0Cd+aGkSsX2Wfl5sEM=;
+ b=ePoc6WveG2fggbXPu+oYgdsw2qurdchUfpGLl8c1gPzpigj5Ar7yarktgVkJve2bvYlM
+ 6gVFe7HkgwCN4FvOJtdaszoUvxuFwzdWuOmrVQpSGARd3ttWDXQq1v83l//OWml79SBp
+ z1iIq0xGI+2JV4JhCWSDzYKEWhQl0vT/ZW5V5KcixpHx5jtU2QQntQT60RL1xbGwJ6my
+ aSNdXe/4Bituq95LP6hUai3gWJHvhHDutp0fQZ5kLV+jGdE+BI+N5c/XJAD8inccpRgZ
+ VPbji89iqfIGXjjSlYHaIgB0DYSfpVpjUMOXfzfQ6hP4aKvlAqWrIUzFsHm24917bcXh 7w== 
+Received: from apblrppmta01.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s32jn1tb2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jul 2023 04:51:30 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 36R4pPlh028301; 
+ Thu, 27 Jul 2023 04:51:25 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 3s086m75yy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 27 Jul 2023 04:51:25 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36R4pPM5028296;
+ Thu, 27 Jul 2023 04:51:25 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-rohiagar-hyd.qualcomm.com
+ [10.213.106.138])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 36R4pOkb028294;
+ Thu, 27 Jul 2023 04:51:24 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+ id EF5B61992; Thu, 27 Jul 2023 10:21:23 +0530 (+0530)
+From: Rohit Agarwal <quic_rohiagar@quicinc.com>
+To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, andersson@kernel.org
+Subject: [PATCH] dt-bindings: qcom: Update RPMHPD entries for some SoCs
+Date: Thu, 27 Jul 2023 10:21:10 +0530
+Message-Id: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: IpuwRIfGZfal9b50q7QBF7zd4dYFKmUT
+X-Proofpoint-ORIG-GUID: IpuwRIfGZfal9b50q7QBF7zd4dYFKmUT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1011 suspectscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ mlxlogscore=822 lowpriorityscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307270043
 X-Mailman-Approved-At: Thu, 27 Jul 2023 07:11:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,68 +82,487 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chengfeng Ye <dg573847474@gmail.com>, linux-scsi@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Cc: ulf.hansson@linaro.org, mturquette@baylibre.com,
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_vgarodia@quicinc.com, marijn.suijten@somainline.org,
+ linux-clk@vger.kernel.org, rfoss@kernel.org, jonathan@marek.ca,
+ stanimir.k.varbanov@gmail.com, agross@kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, bhupesh.sharma@linaro.org,
+ mani@kernel.org, linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ Rohit Agarwal <quic_rohiagar@quicinc.com>, mchehab@kernel.org, sean@poorly.run,
+ neil.armstrong@linaro.org, mathieu.poirier@linaro.org, sboyd@kernel.org,
+ vladimir.zapolskiy@linaro.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org, quic_tdas@quicinc.com,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As &ndlp->lock is acquired by timer lpfc_els_retry_delay() under softirq
-context, process context code acquiring the lock &ndlp->lock should
-disable irq or bh, otherwise deadlock could happen if the timer preempt
-the execution while the lock is held in process context on the same CPU.
+Update the RPMHPD references with new bindings defined in rpmhpd.h
+for Qualcomm SoCs SM8[2345]50.
 
-The two lock acquisition inside lpfc_cleanup_pending_mbox() does not
-disable irq or softirq.
-
-[Deadlock Scenario]
-lpfc_cmpl_els_fdisc()
-    -> lpfc_cleanup_pending_mbox()
-    -> spin_lock(&ndlp->lock);
-        <irq>
-        -> lpfc_els_retry_delay()
-        -> lpfc_nlp_get()
-        -> spin_lock_irqsave(&ndlp->lock, flags); (deadlock here)
-
-This flaw was found by an experimental static analysis tool I am
-developing for irq-related deadlock.
-
-The patch fix the potential deadlock by spin_lock_irq() to disable
-irq.
-
-Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
 ---
- drivers/scsi/lpfc/lpfc_sli.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml    | 3 ++-
+ Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml   | 3 ++-
+ Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml     | 3 ++-
+ Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml    | 3 ++-
+ Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml   | 3 ++-
+ Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml    | 3 ++-
+ Documentation/devicetree/bindings/clock/qcom,videocc.yaml          | 3 ++-
+ Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml | 3 ++-
+ .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml          | 7 ++++---
+ Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml | 3 ++-
+ .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml          | 5 +++--
+ Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml | 3 ++-
+ .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml          | 7 ++++---
+ Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml | 3 ++-
+ .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml          | 7 ++++---
+ Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml     | 3 ++-
+ Documentation/devicetree/bindings/mmc/sdhci-msm.yaml               | 3 ++-
+ Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml  | 5 +++--
+ 18 files changed, 44 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 58d10f8f75a7..8555f6bb9742 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -21049,9 +21049,9 @@ lpfc_cleanup_pending_mbox(struct lpfc_vport *vport)
- 				mb->mbox_flag |= LPFC_MBX_IMED_UNREG;
- 				restart_loop = 1;
- 				spin_unlock_irq(&phba->hbalock);
--				spin_lock(&ndlp->lock);
-+				spin_lock_irq(&ndlp->lock);
- 				ndlp->nlp_flag &= ~NLP_IGNR_REG_CMPL;
--				spin_unlock(&ndlp->lock);
-+				spin_unlock_irq(&ndlp->lock);
- 				spin_lock_irq(&phba->hbalock);
- 				break;
- 			}
-@@ -21067,9 +21067,9 @@ lpfc_cleanup_pending_mbox(struct lpfc_vport *vport)
- 			ndlp = (struct lpfc_nodelist *)mb->ctx_ndlp;
- 			mb->ctx_ndlp = NULL;
- 			if (ndlp) {
--				spin_lock(&ndlp->lock);
-+				spin_lock_irq(&ndlp->lock);
- 				ndlp->nlp_flag &= ~NLP_IGNR_REG_CMPL;
--				spin_unlock(&ndlp->lock);
-+				spin_unlock_irq(&ndlp->lock);
- 				lpfc_nlp_put(ndlp);
- 			}
- 		}
+diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+index d6774db..d6b81c0 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+@@ -83,6 +83,7 @@ examples:
+   - |
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+     clock-controller@af00000 {
+       compatible = "qcom,sm8250-dispcc";
+       reg = <0x0af00000 0x10000>;
+@@ -103,7 +104,7 @@ examples:
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+       #power-domain-cells = <1>;
+-      power-domains = <&rpmhpd SM8250_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+     };
+ ...
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml
+index 23505c8..1ea13eb 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml
+@@ -52,6 +52,7 @@ examples:
+   - |
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     clock-controller@abf0000 {
+       compatible = "qcom,sm8350-videocc";
+@@ -59,7 +60,7 @@ examples:
+       clocks = <&rpmhcc RPMH_CXO_CLK>,
+                <&rpmhcc RPMH_CXO_CLK_A>,
+                <&sleep_clk>;
+-      power-domains = <&rpmhpd SM8350_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml
+index 87ae741..f795132 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml
+@@ -65,6 +65,7 @@ examples:
+     #include <dt-bindings/clock/qcom,gcc-sm8450.h>
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+     clock-controller@ade0000 {
+       compatible = "qcom,sm8450-camcc";
+       reg = <0xade0000 0x20000>;
+@@ -72,7 +73,7 @@ examples:
+                <&rpmhcc RPMH_CXO_CLK>,
+                <&rpmhcc RPMH_CXO_CLK_A>,
+                <&sleep_clk>;
+-      power-domains = <&rpmhpd SM8450_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml
+index 1dd1f69..007464a 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml
+@@ -77,6 +77,7 @@ examples:
+     #include <dt-bindings/clock/qcom,gcc-sm8450.h>
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+     clock-controller@af00000 {
+       compatible = "qcom,sm8450-dispcc";
+       reg = <0x0af00000 0x10000>;
+@@ -91,7 +92,7 @@ examples:
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+       #power-domain-cells = <1>;
+-      power-domains = <&rpmhpd SM8450_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+     };
+ ...
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml
+index f1c6dd5..8e79767 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml
+@@ -65,12 +65,13 @@ examples:
+     #include <dt-bindings/clock/qcom,gcc-sm8450.h>
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+     videocc: clock-controller@aaf0000 {
+       compatible = "qcom,sm8450-videocc";
+       reg = <0x0aaf0000 0x10000>;
+       clocks = <&rpmhcc RPMH_CXO_CLK>,
+                <&gcc GCC_VIDEO_AHB_CLK>;
+-      power-domains = <&rpmhpd SM8450_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml
+index ab25f7c..fe2fba6 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml
+@@ -77,6 +77,7 @@ examples:
+     #include <dt-bindings/clock/qcom,sm8550-gcc.h>
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+     clock-controller@af00000 {
+       compatible = "qcom,sm8550-dispcc";
+       reg = <0x0af00000 0x10000>;
+@@ -99,7 +100,7 @@ examples:
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+       #power-domain-cells = <1>;
+-      power-domains = <&rpmhpd SM8550_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+     };
+ ...
+diff --git a/Documentation/devicetree/bindings/clock/qcom,videocc.yaml b/Documentation/devicetree/bindings/clock/qcom,videocc.yaml
+index 2b07146..269d253 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,videocc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,videocc.yaml
+@@ -125,6 +125,7 @@ examples:
+   - |
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+     clock-controller@ab00000 {
+       compatible = "qcom,sdm845-videocc";
+       reg = <0x0ab00000 0x10000>;
+@@ -133,7 +134,7 @@ examples:
+       #clock-cells = <1>;
+       #reset-cells = <1>;
+       #power-domain-cells = <1>;
+-      power-domains = <&rpmhpd SM8250_MMCX>;
++      power-domains = <&rpmhpd RPMHPD_MMCX>;
+       required-opps = <&rpmhpd_opp_low_svs>;
+     };
+ ...
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+index 687c8c1..0bee237 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml
+@@ -55,6 +55,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8250.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-controller@ae01000 {
+         compatible = "qcom,sm8250-dpu";
+@@ -72,7 +73,7 @@ examples:
+         assigned-clock-rates = <19200000>;
+ 
+         operating-points-v2 = <&mdp_opp_table>;
+-        power-domains = <&rpmhpd SM8250_MMCX>;
++        power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+         interrupt-parent = <&mdss>;
+         interrupts = <0>;
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+index 368d3db..b6ad904 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml
+@@ -77,6 +77,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8250.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-subsystem@ae00000 {
+         compatible = "qcom,sm8250-mdss";
+@@ -121,7 +122,7 @@ examples:
+             assigned-clock-rates = <19200000>;
+ 
+             operating-points-v2 = <&mdp_opp_table>;
+-            power-domains = <&rpmhpd SM8250_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             interrupt-parent = <&mdss>;
+             interrupts = <0>;
+@@ -196,7 +197,7 @@ examples:
+             assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8250_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&dsi0_phy>;
+             phy-names = "dsi";
+@@ -286,7 +287,7 @@ examples:
+             assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8250_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&dsi1_phy>;
+             phy-names = "dsi";
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
+index 1205003..717e43e 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
+@@ -52,6 +52,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8350.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-controller@ae01000 {
+         compatible = "qcom,sm8350-dpu";
+@@ -76,7 +77,7 @@ examples:
+         assigned-clock-rates = <19200000>;
+ 
+         operating-points-v2 = <&mdp_opp_table>;
+-        power-domains = <&rpmhpd SM8350_MMCX>;
++        power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+         interrupt-parent = <&mdss>;
+         interrupts = <0>;
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+index 79a226e..361b727 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+@@ -76,6 +76,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8350.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-subsystem@ae00000 {
+         compatible = "qcom,sm8350-mdss";
+@@ -128,7 +129,7 @@ examples:
+             assigned-clock-rates = <19200000>;
+ 
+             operating-points-v2 = <&mdp_opp_table>;
+-            power-domains = <&rpmhpd SM8350_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             interrupt-parent = <&mdss>;
+             interrupts = <0>;
+@@ -197,7 +198,7 @@ examples:
+                                  <&mdss_dsi0_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8350_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&mdss_dsi0_phy>;
+ 
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
+index 0d17ece..c2ebf0cc 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
+@@ -59,6 +59,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8450.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-controller@ae01000 {
+         compatible = "qcom,sm8450-dpu";
+@@ -83,7 +84,7 @@ examples:
+         assigned-clock-rates = <19200000>;
+ 
+         operating-points-v2 = <&mdp_opp_table>;
+-        power-domains = <&rpmhpd SM8450_MMCX>;
++        power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+         interrupt-parent = <&mdss>;
+         interrupts = <0>;
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+index f26eb56..3007563 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+@@ -69,6 +69,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8450.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-subsystem@ae00000 {
+         compatible = "qcom,sm8450-mdss";
+@@ -122,7 +123,7 @@ examples:
+             assigned-clock-rates = <19200000>;
+ 
+             operating-points-v2 = <&mdp_opp_table>;
+-            power-domains = <&rpmhpd SM8450_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             interrupt-parent = <&mdss>;
+             interrupts = <0>;
+@@ -202,7 +203,7 @@ examples:
+             assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8450_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&dsi0_phy>;
+             phy-names = "dsi";
+@@ -297,7 +298,7 @@ examples:
+             assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8450_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&dsi1_phy>;
+             phy-names = "dsi";
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml
+index ff58a74..bbde68f 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml
+@@ -58,6 +58,7 @@ examples:
+     #include <dt-bindings/clock/qcom,sm8550-gcc.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-controller@ae01000 {
+         compatible = "qcom,sm8550-dpu";
+@@ -82,7 +83,7 @@ examples:
+         assigned-clock-rates = <19200000>;
+ 
+         operating-points-v2 = <&mdp_opp_table>;
+-        power-domains = <&rpmhpd SM8550_MMCX>;
++        power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+         interrupt-parent = <&mdss>;
+         interrupts = <0>;
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
+index 887be33..b501af9 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
+@@ -69,6 +69,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/interconnect/qcom,sm8550-rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     display-subsystem@ae00000 {
+         compatible = "qcom,sm8550-mdss";
+@@ -122,7 +123,7 @@ examples:
+             assigned-clock-rates = <19200000>;
+ 
+             operating-points-v2 = <&mdp_opp_table>;
+-            power-domains = <&rpmhpd SM8550_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             interrupt-parent = <&mdss>;
+             interrupts = <0>;
+@@ -197,7 +198,7 @@ examples:
+             assigned-clock-parents = <&dsi0_phy 0>, <&dsi0_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8550_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&dsi0_phy>;
+             phy-names = "dsi";
+@@ -286,7 +287,7 @@ examples:
+             assigned-clock-parents = <&dsi1_phy 0>, <&dsi1_phy 1>;
+ 
+             operating-points-v2 = <&dsi_opp_table>;
+-            power-domains = <&rpmhpd SM8550_MMCX>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
+ 
+             phys = <&dsi1_phy>;
+             phy-names = "dsi";
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+index 7915dcd..cd3215a 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+@@ -107,6 +107,7 @@ examples:
+     #include <dt-bindings/interconnect/qcom,sm8250.h>
+     #include <dt-bindings/clock/qcom,gcc-sm8250.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     venus: video-codec@aa00000 {
+         compatible = "qcom,sm8250-venus";
+@@ -114,7 +115,7 @@ examples:
+         interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+         power-domains = <&videocc MVS0C_GDSC>,
+                         <&videocc MVS0_GDSC>,
+-                        <&rpmhpd SM8250_MX>;
++                        <&rpmhpd RPMHPD_MX>;
+         power-domain-names = "venus", "vcodec0", "mx";
+ 
+         clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
+diff --git a/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml b/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
+index 6da28e6..146e273 100644
+--- a/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
++++ b/Documentation/devicetree/bindings/mmc/sdhci-msm.yaml
+@@ -216,6 +216,7 @@ examples:
+     #include <dt-bindings/clock/qcom,gcc-sm8250.h>
+     #include <dt-bindings/clock/qcom,rpmh.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     sdhc_2: mmc@8804000 {
+       compatible = "qcom,sm8250-sdhci", "qcom,sdhci-msm-v5";
+@@ -232,7 +233,7 @@ examples:
+       iommus = <&apps_smmu 0x4a0 0x0>;
+       qcom,dll-config = <0x0007642c>;
+       qcom,ddr-config = <0x80040868>;
+-      power-domains = <&rpmhpd SM8250_CX>;
++      power-domains = <&rpmhpd RPMHPD_CX>;
+ 
+       operating-points-v2 = <&sdhc2_opp_table>;
+ 
+diff --git a/Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml b/Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml
+index af24f9a..06cad42 100644
+--- a/Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml
+@@ -140,6 +140,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/irq.h>
+     #include <dt-bindings/mailbox/qcom-ipcc.h>
+     #include <dt-bindings/power/qcom-rpmpd.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
+ 
+     remoteproc@30000000 {
+         compatible = "qcom,sm8450-adsp-pas";
+@@ -160,8 +161,8 @@ examples:
+ 
+         memory-region = <&adsp_mem>;
+ 
+-        power-domains = <&rpmhpd SM8450_LCX>,
+-                        <&rpmhpd SM8450_LMX>;
++        power-domains = <&rpmhpd RPMHPD_LCX>,
++                        <&rpmhpd RPMHPD_LMX>;
+         power-domain-names = "lcx", "lmx";
+ 
+         qcom,qmp = <&aoss_qmp>;
 -- 
-2.17.1
+2.7.4
 
