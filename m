@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8C3765710
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 17:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D4576572C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 17:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F1610E5A5;
-	Thu, 27 Jul 2023 15:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5102110E13C;
+	Thu, 27 Jul 2023 15:17:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFEF110E5A5
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:11:19 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-991da766865so147387966b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690470678; x=1691075478;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rf62hs1ejTaEIoI4FqGDyw6TQJaaolUeJwHL+w88ryc=;
- b=IjlQLHyUnHEu00B7Qy6f+Y30kxLDfQmNfxvNcD9bv1Us+i0FAly0rXozGaKPjyS5x2
- IOLkzjcBw5qe3HpewfeKx9KS0MAVrcK8L4GrBfTtvXmcOYkxqXAAL57Kl3f2ML6NdWRD
- m9uZNIEtj+6VQwA4cOk5eglj64/c+h+WNVwFoYmAnFB7aDuXg6cFv1ZTOzkLfcemeQFT
- JQQeddoqzon5fpmXewvVwuQX2wtF4fYHHLfXlA1jO2DOQGPYA/mlt0CjS7q5AkdUOgiM
- /MX8Prfu0jUq5iqATseYSaWMH0kl2FgG/za6tNKLGy+bqtz705NQW49/Z4n0R4bt0bjt
- EB/g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D9710E13C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690471018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pp7lX2S4BE1VOAd+Ohe4qOsAj8X9hgCenh8uffGy52U=;
+ b=Jkyb2Zbfdmz31mw7R1OZoDzUAeMtT6Y+oO7v3dok5nI9Rs+r5eefqaXr4pfhQUW9Bm8sCY
+ z+scWc6DZC0xKIQ/hkx7flxezC5xSqvnW1VCF8t4XfwON8uTAlp8iSD4bHk5ykfJqSYbQ9
+ 2EyD/McMmOeDIGaUIcXWa3cl8PNcT+8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-672-sUcA-8NpPZ2dcIydF6V6qg-1; Thu, 27 Jul 2023 11:16:56 -0400
+X-MC-Unique: sUcA-8NpPZ2dcIydF6V6qg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3172a94b274so564856f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:16:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690470678; x=1691075478;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rf62hs1ejTaEIoI4FqGDyw6TQJaaolUeJwHL+w88ryc=;
- b=Iv8XToMpSK6xNc3p3YHSIEzZFkkjPcFUMVwXcaNhE+D0qSDkPfM3wW2Ofok8IsZ+VU
- W83MtSHrTNZy5QIswhzOcFc+ZSSGLvgyJSZZr0jIhTFXfdGg6I2yLkD62Qs323e8if9q
- noLAW1zRudt+rWAlXgZnLBWRRvodM3WJ8Yhr47ZZeTvxnPEQsWXecxr6w6+tvJY02fZe
- cuz8yB/hkUCfypYU7zHe1s7foeUh8imht2XPFobW50L5baz54mZvjMjLsYCS/T2Fhqld
- SAr7j513dalxfM8UcReczK2HUdF72eU/JCZO9FQzZrt68Q3McKKvaWjqRllCx5iG2zlU
- PmuA==
-X-Gm-Message-State: ABy/qLamIPpeW6RofECfOUENovqYv/1fpgyIUN/Oyk0f6PsEv3HTHC+x
- a4c5PiOv+3ben4YozbrNMpXKgThlvHU=
-X-Google-Smtp-Source: APBJJlEl+Qg5j7Vyl8VRwP5KwrQQXAuT04cxYsbyyz4Rv/CKQmt3ycUxpq1s6g46wacCBDYhC+c7dQ==
-X-Received: by 2002:a17:906:5a60:b0:974:1ef7:1e88 with SMTP id
- my32-20020a1709065a6000b009741ef71e88mr2260231ejc.13.1690470677961; 
- Thu, 27 Jul 2023 08:11:17 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- j16-20020a170906831000b00993cc1242d4sm869521ejx.151.2023.07.27.08.11.17
+ d=1e100.net; s=20221208; t=1690471015; x=1691075815;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pp7lX2S4BE1VOAd+Ohe4qOsAj8X9hgCenh8uffGy52U=;
+ b=d6osFj9/Hv6y992XD7AXNFR2oGi/pNEZDRMr0gOF7DMbVAAFy/0AON8GMgIGikDu7D
+ 2CftFVPyjM/Rj2DS9QHiPvxwxoT3qLAJi+HjPEewdAGbwxPmVs0eUSbqoMe6gDFi2Vr0
+ iYMWB0Rna4riugyCd+7TgyiwqxU9JuH1CUj3oImLjFu1fAP/5MtXjiqb33kcBvqIGVQA
+ 1dGdXAaZvY0Gcdt57D0f8E9FrMQuHWqtDiX9Jeum3maxnmaW7LxTDWwFAyUiYmb1WXyT
+ uePpEgWUa8Ms3PgAdzosOwRWLOGTAL68o6+MYsUvfmFMSaMY7/aV47LfXwDLCnj7NKtE
+ bkMg==
+X-Gm-Message-State: ABy/qLYi6861WgoWmLvI8AXjkN5JCV9A4gvF//LzJPdQ2uRC9J1sJe9a
+ ORNiLnrYN90j1uw3yHatZ26GRIuY+lqPnI6QrMkGcdWHbzAHBvC9AuG4iPMtid572O2uTBun/R4
+ nu0nfOKznZzfTXpYpqBi7aaVbhmkz
+X-Received: by 2002:adf:fc05:0:b0:317:5de3:86fb with SMTP id
+ i5-20020adffc05000000b003175de386fbmr1932626wrr.10.1690471015016; 
+ Thu, 27 Jul 2023 08:16:55 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGFJTm1x26WKX+ZJ5GVgIV/5/cEhdRTj0qRIs77CCN9iPmG4jfZSNpagqJH+qPLWxdEJ7LocQ==
+X-Received: by 2002:adf:fc05:0:b0:317:5de3:86fb with SMTP id
+ i5-20020adffc05000000b003175de386fbmr1932612wrr.10.1690471014678; 
+ Thu, 27 Jul 2023 08:16:54 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h18-20020adff192000000b003113ed02080sm2265368wro.95.2023.07.27.08.16.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 08:11:17 -0700 (PDT)
-Date: Thu, 27 Jul 2023 17:11:15 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Subject: Re: [PATCH v2 2/2] ARM: tegra: transformers: add connector node
-Message-ID: <ZMKJE1G87-jWeg2_@orome>
-References: <20230618085046.10081-1-clamor95@gmail.com>
- <20230618085046.10081-3-clamor95@gmail.com>
+ Thu, 27 Jul 2023 08:16:54 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/ssd130x: Use shadow-buffer helpers when managing
+ plane's state
+In-Reply-To: <0ce32153-cfc0-e701-3863-803fcdb897ff@suse.de>
+References: <20230727140453.577445-1-javierm@redhat.com>
+ <0ce32153-cfc0-e701-3863-803fcdb897ff@suse.de>
+Date: Thu, 27 Jul 2023 17:16:53 +0200
+Message-ID: <87y1j1tme2.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hlXONs87O1x4A5Mj"
-Content-Disposition: inline
-In-Reply-To: <20230618085046.10081-3-clamor95@gmail.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,78 +81,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
---hlXONs87O1x4A5Mj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Thomas,
 
-On Sun, Jun 18, 2023 at 11:50:46AM +0300, Svyatoslav Ryhel wrote:
-> All ASUS Transformers have micro-HDMI connector directly available.
-> After Tegra HDMI got bridge/connector support, we should use connector
-> framework for proper HW description.
->=20
-> Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # ASUS TF T30
-> Tested-by: Robert Eckelmann <longnoserob@gmail.com> # ASUS TF101 T20
-> Tested-by: Svyatoslav Ryhel <clamor95@gmail.com> # ASUS TF201 T30
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  arch/arm/boot/dts/tegra20-asus-tf101.dts      | 22 ++++++++++++++++---
->  .../dts/tegra30-asus-transformer-common.dtsi  | 21 ++++++++++++++++--
->  2 files changed, 38 insertions(+), 5 deletions(-)
->=20
-> diff --git a/arch/arm/boot/dts/tegra20-asus-tf101.dts b/arch/arm/boot/dts=
-/tegra20-asus-tf101.dts
-> index c2a9c3fb5b33..97350f566539 100644
-> --- a/arch/arm/boot/dts/tegra20-asus-tf101.dts
-> +++ b/arch/arm/boot/dts/tegra20-asus-tf101.dts
-> @@ -82,9 +82,11 @@ hdmi@54280000 {
->  			pll-supply =3D <&hdmi_pll_reg>;
->  			hdmi-supply =3D <&vdd_hdmi_en>;
-> =20
-> -			nvidia,ddc-i2c-bus =3D <&hdmi_ddc>;
-> -			nvidia,hpd-gpio =3D <&gpio TEGRA_GPIO(N, 7)
-> -				GPIO_ACTIVE_HIGH>;
-> +			port@0 {
-> +				hdmi_out: endpoint {
-> +					remote-endpoint =3D <&connector_in>;
-> +				};
-> +			};
+> Hi Javier
+>
+> Am 27.07.23 um 16:04 schrieb Javier Martinez Canillas:
+>> The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's
+>> .atomic_check() callback") moved the buffers allocation to be done in
+>> the primary plane's .atomic_check() callback.
+>> 
+>> But it missed that since the driver uses a shadow-buffered plane, the
+>> __drm_gem_{reset,duplicate,destroy}_shadow_plane() helper functions
+>> must be used in the struct drm_plane_funcs handlers.
+>> 
+>> This was missed because the mentioned commit did not remove the macro
+>> DRM_GEM_SHADOW_PLANE_FUNCS, which leads to the custom plane's atomic
+>> state management handlers to not be used.
+>> 
+>> Fixes: 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's .atomic_check() callback")
+>> Reported-by: Arnd Bergmann <arnd@arndb.de>
+>
+> Reported-by needs to be followed by
+>
+> Closes: <url>
+>
+> where <url> would point to Arnd's bug report on dri-devel.
+>
 
-Does this need a bindings change? nvidia,tegra20-hdmi currently doesn't
-support OF graphs, so this would probably fail to validate if we merge
-it without a corresponding DT bindings update.
+Ah, I thought checkpatch complaining about it but since we already add a
+Link: with dim, didn't know what to add there. Makes sense to add Arnd's
+report indeed.
 
-Thierry
+I can include it when applying instead of posting a v2 if you don't mind.
 
---hlXONs87O1x4A5Mj
-Content-Type: application/pgp-signature; name="signature.asc"
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+> This looks correct now. Thanks for fixing this bug quickly. With the 
+> Close added:
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
 
------BEGIN PGP SIGNATURE-----
+Thanks and to you for pointing that out.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmTCiRMACgkQ3SOs138+
-s6E9qxAAlNVbjPuB+C8Cgsu4EsoY/eiPXDFu2GUEmDJ9NdiJs1gnzIfBd6o53zjW
-58Ozc/9jcrMoqjO8yhCtF/5DxZL3EQnyjIat/VQI5wd8bUjJwqrE8N/TAgcOU9qR
-q3EWJs51pe0QQGImdz5hadlzRHIVIFtMJsCKTEvfytYiRkM5DIAN0JFEPqIWTJ8u
-08aZaATSY16sPtnvu6Kao0tZfCkY5nrrS5/81EJ4cfMxYyhR0WtEr7AQdLOfWh3l
-9p/v3+wZheNbgfy+3Rq2wWVPFoZ6GZgzr+LOSbt9TsV8neyqKTE75PF2Ni3cUhGd
-+KWyVNinysYAkGmsPEhwkNhbBF6re4ZtKL+9VZTMxFNMgrJev8V6wIMZIBjhHseW
-g35apJYPFtnW6JEz108iexlCDOrV9Q5cLnA4eM/8nOoWd9/2oWtPhSYKQDJz1MYf
-7V13e+u11thmiGysZ1SP8SpN7ZV3zyWAxBqx3/vniObofLGkG8mN9/e5kuHblYB4
-S8JVwYmxATIL/gFPwng9xojBWxYyy++QvQI7enHjtRXcS+3wmYOIWYLul+r7AQ+/
-18kdezTzOIEGKtqtIusmMwJN048x48I5fcU6Xea2Ov2Wzwf0LcJx5iK+MJMvt4U5
-j7bk6I8DsMu3/n98qAUGr5ZvBulb6Qp9M5c6e4aS/NEDCbM3gp0=
-=emKT
------END PGP SIGNATURE-----
+-- 
+Best regards,
 
---hlXONs87O1x4A5Mj--
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
