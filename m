@@ -2,51 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B7A765E94
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 23:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF34F765E88
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 23:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B59F10E60C;
-	Thu, 27 Jul 2023 21:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8CD10E1F0;
+	Thu, 27 Jul 2023 21:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from qs51p00im-qukt01080501.me.com (qs51p00im-qukt01080501.me.com
- [17.57.155.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFBF10E60C
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 21:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1690494770; bh=KmnZ+NHz7PM0U1A/IX51H2Bjow4KLdppH5jj9uz/ocI=;
- h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=HfaFosewupSVW4LocN+Fh45yv/yOk7DM9vl1uPwvbMH+nnbcnyarbV9vT40J2YooV
- UYMrQFw1oPX8FyWjC4KfhWDMT1KtcbCydp+3dKYrphHGkml97N29HcFeTPMiZTld/X
- 89F2gfJZ2zapirmPqwaGu2ww6kZ5RvNlTwSRo5ll5x/T4vjkF19qNs9OHlmossenC2
- R607BIJEEV44c0Qg1g2sy27AQFbd4zC1ZbNH8dzq5IQuAPlvuxFAkxIVR1Rl5xxJ0v
- CB1NZXHlgHphrtEdk0ICdE8UKPEYMRiQ0O0P9W3U8nVvq5bPjwbd3NNcOgirSqZxuG
- 0qXkjFvsyO5dQ==
-Received: from localhost (qs51p00im-dlb-asmtp-mailmevip.me.com [17.57.155.28])
- by qs51p00im-qukt01080501.me.com (Postfix) with ESMTPSA id
- 0D14B1980373; Thu, 27 Jul 2023 21:52:49 +0000 (UTC)
-From: Alain Volmat <avolmat@me.com>
-To: Alain Volmat <alain.volmat@foss.st.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 10/14] drm/sti: add compositor support for stih418 platform
-Date: Thu, 27 Jul 2023 21:51:34 +0000
-Message-Id: <20230727215141.53910-11-avolmat@me.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230727215141.53910-1-avolmat@me.com>
-References: <20230727215141.53910-1-avolmat@me.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B765610E1F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 21:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690495056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s9OuLr3u1FKmz7UA09k1shRXalh3/1PXcGGjjo2Ltyc=;
+ b=DWz6HnoxVP/mgWyWVhONuTxAQLj4cJ99VqItZuvRkZ5PUO9A+6cpwHO3O+oRQHsoOE4qdh
+ GQkRBWjIGcwsiLxP1Xjs2i+8pJ6fMB51opGXdBGs/GzfGLC6CP2U6WTq4AffFf+al3vOIz
+ O2qvUAic35LHeu9FCy9HQzdaGBLttq0=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-447-ZlgIuvTzNuuhDm3GjAc_fQ-1; Thu, 27 Jul 2023 17:57:34 -0400
+X-MC-Unique: ZlgIuvTzNuuhDm3GjAc_fQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-76c562323fbso199400685a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:57:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690495054; x=1691099854;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s9OuLr3u1FKmz7UA09k1shRXalh3/1PXcGGjjo2Ltyc=;
+ b=Ghpu1ABrwQ5TE8QsNA3/v3wcOkTQf58Fs6EnfT49TokoFnCYwCWWL6N4ymlQZMgpYT
+ Vn41eeIYUq8dWO9P6QXM7riHlEkSQTQrj6fnyq8uXaem6OIUzvFG5CHgPYyrmfsL1b37
+ IKt28PVtsSuW0VIuTol7HJ09HmEhE/Wkv/+17Z/ezoNR2d/TnJItk9l/Y4m3C30ZXvJy
+ 4aZnwn0GYv2weY/nwllePRNj9wBuQt4FmJQvXw/vRZV3FvHsPjXG4LU0MG5mugRIJjYY
+ 03IZrihc/nEnz2keBKPo+HUpETOhxvVCkW3osE3ZtHel7WxHBB52Vh6QxNFIsyPGBrm7
+ yzcA==
+X-Gm-Message-State: ABy/qLYkZUkVicw//vzrWVuwrLG6c9L4WEosVdzYd/nypGGXERag5b26
+ tV6AtokD/JPRy4RqvyodcGW32XZDNZiSwKjh9O4wlbEzi2vTvROwLSkPdohWdj3yhiQbaJdWrA1
+ QAGYkiFYPahsrYXQ+8ZLNOzprugD3
+X-Received: by 2002:a05:620a:22d6:b0:767:dc58:f256 with SMTP id
+ o22-20020a05620a22d600b00767dc58f256mr576820qki.70.1690495054399; 
+ Thu, 27 Jul 2023 14:57:34 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEzY7IQL3ZyLnsNAB2lwLy/4bDaZV4xaXncyDjJN0h+TlqUMguVN/HH1elUGz4ZzbmQ37uo1Q==
+X-Received: by 2002:a05:620a:22d6:b0:767:dc58:f256 with SMTP id
+ o22-20020a05620a22d600b00767dc58f256mr576803qki.70.1690495054117; 
+ Thu, 27 Jul 2023 14:57:34 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c7d:5f00::feb? ([2600:4040:5c7d:5f00::feb])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020a05620a146800b0076c73ec2f88sm544372qkl.19.2023.07.27.14.57.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jul 2023 14:57:33 -0700 (PDT)
+Message-ID: <badef3d33469d97b01a42da520ad22ae4c9485fe.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/nvkm/dp: Add hack to fix DP 1.3+ DPCD issues
+From: Lyude Paul <lyude@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>
+Date: Thu, 27 Jul 2023 17:57:33 -0400
+In-Reply-To: <CACO55tvfTDu8XcKowWXcSRqp8OMLb8Q4jnPG_Fn5y=yJy-Dqbw@mail.gmail.com>
+References: <20230707215851.590754-1-lyude@redhat.com>
+ <CACO55tvfTDu8XcKowWXcSRqp8OMLb8Q4jnPG_Fn5y=yJy-Dqbw@mail.gmail.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: caJkhSSYKcGWfwaRe3kL8KLlbXUXZNhq
-X-Proofpoint-ORIG-GUID: caJkhSSYKcGWfwaRe3kL8KLlbXUXZNhq
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.790,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-12=5F02:2020-02-14=5F02,2022-01-12=5F02,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0 adultscore=0
- phishscore=0 malwarescore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2307270198
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,130 +85,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alain Volmat <avolmat@me.com>
+Cc: nouveau@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the STiH418, a new clock (proc_mixer) must be enabled in order
-to have the plane mixers properly behaving.  Add a new
-st,stih418-compositor in order to describe the planes/mixers
-available on this platform.
+On Sun, 2023-07-09 at 01:42 +0200, Karol Herbst wrote:
+> On Fri, Jul 7, 2023 at 11:58=E2=80=AFPM Lyude Paul <lyude@redhat.com> wro=
+te:
+> >=20
+> > Currently we use the drm_dp_dpcd_read_caps() helper in the DRM side of
+> > nouveau in order to read the DPCD of a DP connector, which makes sure w=
+e do
+> > the right thing and also check for extended DPCD caps. However, it turn=
+s
+> > out we're not currently doing this on the nvkm side since we don't have
+> > access to the drm_dp_aux structure there - which means that the DRM sid=
+e of
+> > the driver and the NVKM side can end up with different DPCD capabilitie=
+s
+> > for the same connector.
+> >=20
+> > Ideally to fix this, we want to start setting up the drm_dp_aux device =
+in
+> > NVKM before we've made contact with the DRM side - which should be pret=
+ty
+> > easy to accomplish (I'm already working on it!). Until then however, le=
+t's
+> > workaround this problem by porting a copy of drm_dp_read_dpcd_caps() in=
+to
+> > NVKM - which should fix this issue.
+> >=20
+> > Issue: https://gitlab.freedesktop.org/drm/nouveau/-/issues/211
+>=20
+> Should a Fixes: or Cc: stable tag be added so it gets backported?
 
-Signed-off-by: Alain Volmat <avolmat@me.com>
----
- drivers/gpu/drm/sti/sti_compositor.c | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/sti/sti_compositor.h |  2 ++
- drivers/gpu/drm/sti/sti_crtc.c       | 11 +++++++++++
- 3 files changed, 39 insertions(+)
+JFYI I think not adding one is fine nowadays? The stable bot seems to be
+pretty good at catching anything with the words fix/fixes in it
 
-diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-index 4bd7e305ab75..dfea3c1191a6 100644
---- a/drivers/gpu/drm/sti/sti_compositor.c
-+++ b/drivers/gpu/drm/sti/sti_compositor.c
-@@ -43,6 +43,23 @@ static const struct sti_compositor_data stih407_compositor_data = {
- 	},
- };
- 
-+/*
-+ * stiH418 compositor properties
-+ */
-+static const struct sti_compositor_data stih418_compositor_data = {
-+	.nb_subdev = 8,
-+	.subdev_desc = {
-+			{STI_GPDPLUS_SUBDEV, (int)STI_GDP_0, 0x00000},
-+			{STI_GPDPLUS_SUBDEV, (int)STI_GDP_1, 0x10000},
-+			{STI_GPDPLUS_SUBDEV, (int)STI_GDP_2, 0x20000},
-+			{STI_GPDPLUS_SUBDEV, (int)STI_GDP_3, 0x30000},
-+			{STI_GPD_SUBDEV, (int)STI_GDP_4, 0x40000},
-+			{STI_GPD_SUBDEV, (int)STI_GDP_5, 0x50000},
-+			{STI_MIXER_MAIN_SUBDEV, STI_MIXER_MAIN, 0x100000},
-+			{STI_MIXER_AUX_SUBDEV, STI_MIXER_AUX, 0x110000},
-+	},
-+};
-+
- void sti_compositor_debugfs_init(struct sti_compositor *compo,
- 				 struct drm_minor *minor)
- {
-@@ -169,6 +186,9 @@ static const struct of_device_id compositor_of_match[] = {
- 	{
- 		.compatible = "st,stih407-compositor",
- 		.data = &stih407_compositor_data,
-+	}, {
-+		.compatible = "st,stih418-compositor",
-+		.data = &stih418_compositor_data,
- 	}, {
- 		/* end node */
- 	}
-@@ -236,6 +256,12 @@ static int sti_compositor_probe(struct platform_device *pdev)
- 		return PTR_ERR(compo->clk_pix_aux);
- 	}
- 
-+	compo->clk_proc_mixer = devm_clk_get_optional(dev, "proc_mixer");
-+	if (IS_ERR(compo->clk_proc_mixer)) {
-+		DRM_ERROR("Cannot get proc_mixer clock\n");
-+		return PTR_ERR(compo->clk_proc_mixer);
-+	}
-+
- 	/* Get reset resources */
- 	compo->rst_main = devm_reset_control_get_shared(dev, "compo-main");
- 	/* Take compo main out of reset */
-diff --git a/drivers/gpu/drm/sti/sti_compositor.h b/drivers/gpu/drm/sti/sti_compositor.h
-index 62545210b96d..fdc655f78579 100644
---- a/drivers/gpu/drm/sti/sti_compositor.h
-+++ b/drivers/gpu/drm/sti/sti_compositor.h
-@@ -57,6 +57,7 @@ struct sti_compositor_data {
-  * @clk_compo_aux: clock for aux compo
-  * @clk_pix_main: pixel clock for main path
-  * @clk_pix_aux: pixel clock for aux path
-+ * @clk_proc_mixer: clock for the mixers
-  * @rst_main: reset control of the main path
-  * @rst_aux: reset control of the aux path
-  * @mixer: array of mixers
-@@ -72,6 +73,7 @@ struct sti_compositor {
- 	struct clk *clk_compo_aux;
- 	struct clk *clk_pix_main;
- 	struct clk *clk_pix_aux;
-+	struct clk *clk_proc_mixer;
- 	struct reset_control *rst_main;
- 	struct reset_control *rst_aux;
- 	struct sti_mixer *mixer[STI_MAX_MIXER];
-diff --git a/drivers/gpu/drm/sti/sti_crtc.c b/drivers/gpu/drm/sti/sti_crtc.c
-index 3c7154f2d5f3..d93764e99b0e 100644
---- a/drivers/gpu/drm/sti/sti_crtc.c
-+++ b/drivers/gpu/drm/sti/sti_crtc.c
-@@ -67,6 +67,12 @@ sti_crtc_mode_set(struct drm_crtc *crtc, struct drm_display_mode *mode)
- 		pix_clk = compo->clk_pix_aux;
- 	}
- 
-+	/* Enable the mixer processing clock (if applicable) */
-+	if (clk_prepare_enable(compo->clk_proc_mixer)) {
-+		DRM_INFO("Failed to prepare/enable processing mixer clk\n");
-+		goto proc_mixer_error;
-+	}
-+
- 	/* Prepare and enable the compo IP clock */
- 	if (clk_prepare_enable(compo_clk)) {
- 		DRM_INFO("Failed to prepare/enable compositor clk\n");
-@@ -97,6 +103,8 @@ sti_crtc_mode_set(struct drm_crtc *crtc, struct drm_display_mode *mode)
- pix_error:
- 	clk_disable_unprepare(compo_clk);
- compo_error:
-+	clk_disable_unprepare(compo->clk_proc_mixer);
-+proc_mixer_error:
- 	return -EINVAL;
- }
- 
-@@ -122,6 +130,9 @@ static void sti_crtc_disable(struct drm_crtc *crtc)
- 		clk_disable_unprepare(compo->clk_compo_aux);
- 	}
- 
-+	/* Disable the mixer clock (if applicable) */
-+	clk_disable_unprepare(compo->clk_proc_mixer);
-+
- 	mixer->status = STI_MIXER_DISABLED;
- }
- 
--- 
-2.34.1
+>=20
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 48 ++++++++++++++++++-
+> >  1 file changed, 47 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/gp=
+u/drm/nouveau/nvkm/engine/disp/dp.c
+> > index 40c8ea43c42f..b8ac66b4a2c4 100644
+> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+> > @@ -26,6 +26,8 @@
+> >  #include "head.h"
+> >  #include "ior.h"
+> >=20
+> > +#include <drm/display/drm_dp.h>
+> > +
+> >  #include <subdev/bios.h>
+> >  #include <subdev/bios/init.h>
+> >  #include <subdev/gpio.h>
+> > @@ -634,6 +636,50 @@ nvkm_dp_enable_supported_link_rates(struct nvkm_ou=
+tp *outp)
+> >         return outp->dp.rates !=3D 0;
+> >  }
+> >=20
+> > +/* XXX: This is a big fat hack, and this is just drm_dp_read_dpcd_caps=
+()
+>=20
+> Well.. maybe we should rephrase that _if_ we want to see it
+> backported. But is this code really that bad? It kinda looks
+> reasonable enough.
+>=20
+> > + * converted to work inside nvkm. This is a temporary holdover until w=
+e start
+> > + * passing the drm_dp_aux device through NVKM
+> > + */
+> > +static int
+> > +nvkm_dp_read_dpcd_caps(struct nvkm_outp *outp)
+> > +{
+> > +       struct nvkm_i2c_aux *aux =3D outp->dp.aux;
+> > +       u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
+> > +       int ret;
+> > +
+> > +       ret =3D nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, DP_R=
+ECEIVER_CAP_SIZE);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       /*
+> > +        * Prior to DP1.3 the bit represented by
+> > +        * DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT was reserved.
+> > +        * If it is set DP_DPCD_REV at 0000h could be at a value less t=
+han
+> > +        * the true capability of the panel. The only way to check is t=
+o
+> > +        * then compare 0000h and 2200h.
+> > +        */
+> > +       if (!(outp->dp.dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+> > +             DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT))
+> > +               return 0;
+> > +
+> > +       ret =3D nvkm_rdaux(aux, DP_DP13_DPCD_REV, dpcd_ext, sizeof(dpcd=
+_ext));
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       if (outp->dp.dpcd[DP_DPCD_REV] > dpcd_ext[DP_DPCD_REV]) {
+> > +               OUTP_DBG(outp, "Extended DPCD rev less than base DPCD r=
+ev (%d > %d)\n",
+> > +                        outp->dp.dpcd[DP_DPCD_REV], dpcd_ext[DP_DPCD_R=
+EV]);
+> > +               return 0;
+> > +       }
+> > +
+> > +       if (!memcmp(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext)))
+> > +               return 0;
+> > +
+> > +       memcpy(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext));
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  void
+> >  nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
+> >  {
+> > @@ -689,7 +735,7 @@ nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
+> >                         memset(outp->dp.lttpr, 0x00, sizeof(outp->dp.lt=
+tpr));
+> >                 }
+> >=20
+> > -               if (!nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd,=
+ sizeof(outp->dp.dpcd))) {
+> > +               if (!nvkm_dp_read_dpcd_caps(outp)) {
+> >                         const u8 rates[] =3D { 0x1e, 0x14, 0x0a, 0x06, =
+0 };
+> >                         const u8 *rate;
+> >                         int rate_max;
+> > --
+> > 2.40.1
+> >=20
+>=20
+
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
