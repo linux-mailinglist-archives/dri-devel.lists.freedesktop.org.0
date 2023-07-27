@@ -2,75 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D3A764D75
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 10:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9709C764DB7
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 10:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 925B310E04C;
-	Thu, 27 Jul 2023 08:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC24310E1D7;
+	Thu, 27 Jul 2023 08:37:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B562C10E04C
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:34:05 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 21A2E320069B;
- Thu, 27 Jul 2023 04:34:01 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Thu, 27 Jul 2023 04:34:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1690446840; x=1690533240; bh=Kt
- 70aUWRCQiNoYiStp/Mo3gHp9sQpR7A/WtiJssbNbE=; b=M+ThFV+WHuxvXWi+JN
- svub23aKsXg8Po4cl5kYcKXQKk7JIAwPlLqlsti1nXh1rsxE/Mqja5iKs8zqDl1+
- SMl+/ljk5nT4EWjN/CKAundLr5A5/iDyhqeNKopzbCRzOZS+Dyc+w2HjT/pzs6Hv
- 77zLJL51uwnRAVZXL4RLxfJZD8YL58Y3Wwdf4ySrfKGgg7rDbY5wZSM+AFPJFRoU
- ZRXoWyGdltPHzIJQCCJZZ7mTVtjEp0tU84QlDuWLhvxT5pfz6oyZywhx+dcFllk6
- wZQ9u2wqsPztWYDFafVQ5n9i3WGWrpzfFVn0igSk78Dk4FPmz0g3dp20O2RnBIYW
- 6g7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1690446840; x=1690533240; bh=Kt70aUWRCQiNo
- YiStp/Mo3gHp9sQpR7A/WtiJssbNbE=; b=FcMTzQ1AKdZXVDCw5R2pj43HYBQ/6
- W0s/dMYzOx4H00wAxrUHjFDZ7tGhql6YcM1RDFEK9Fo1WaIMVwdlv6p5+9gBPr5g
- kCh9hGQ2v+mHKOLolWJSqF+EOODbblBLrVUxuPLFMTOiI3AqW6HZO7GWU+ONc74b
- 2KpClSxeoAquY3CLuRefVOu/E12FezvX1QdAGvj8HsYYGu/XSu0Cbf3V2pJc0TCe
- BJurzq9LUZVmAVuSCXR2+PSzgE0K4O3Q5dNHSU9NMQ0vkE6G9Pw1SEC8CWI5owmh
- jf+XsSk0hmwRF+AmAwHZOPTQO2QzJ/e/xjcyic5Dt/NnSDHEUBP4hQEQw==
-X-ME-Sender: <xms:-CvCZHIWjRB1POHcnPkdKvIihnigSagvCjqOa0WF0tf_crB3qoNmXQ>
- <xme:-CvCZLIWS6P0zLBVAV-PI9vKxNqbzgrubyHk_W7Ncl0Fr1N1t6iCguI0H1FANPodd
- ZE2asH2JNUT2hYFrRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieefgddufeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:-CvCZPvt1DxLYZ3HVNE_NZx4aI0nE8ucuqJ5-TT11VRnnx1nt3g3FQ>
- <xmx:-CvCZAZCwIbZ3lILeZfZHFjm2H3eAkwyaJA-uV-eegIbHbaM54rwyA>
- <xmx:-CvCZOZE-WiPr6j7hjetZNAvWWwtJJB_iqR9qRRxdRjVrqAHRvWlrA>
- <xmx:-CvCZDP8FOUywRvnP2FA_cUa1xaoLPMgY-YYR3dLf61o9hQE2PM5Gw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5BA55B60089; Thu, 27 Jul 2023 04:34:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-592-ga9d4a09b4b-fm-defalarms-20230725.001-ga9d4a09b
-Mime-Version: 1.0
-Message-Id: <86fcd546-c2db-41ca-a087-74c3cd5ce341@app.fastmail.com>
-In-Reply-To: <20230726220325.278976-1-arthurgrillo@riseup.net>
-References: <20230726220325.278976-1-arthurgrillo@riseup.net>
-Date: Thu, 27 Jul 2023 10:33:40 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Arthur Grillo" <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/tests: Remove CONFIG_DRM_FBDEV_EMULATION on
- .kunitconfig
-Content-Type: text/plain
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1413D10E1D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:37:43 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-cc4f4351ac7so638449276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 01:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690447062; x=1691051862;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pWMWGlQcZrS+qSRQi4fySJuX8GoJmganqqgkAyb3ZRQ=;
+ b=paElh1x1Q7WNWaCwsablC8sigHPxSMEmMiI11BuNLqLhV7w37xfsUjukUaFba0G16D
+ UsZMOe5WDZbZnHo55478HibTcLSCIA4JmQRxKYvECGAScIpKpeHemO2pGuiCkJg3DCHR
+ qr5mVSdBUvWZbrxpO+Mf80etC5PLo9I8CRyQ58nqbq/qA6/0w094/vXgap67wPAMEYsL
+ WoN510uEcbg03im1Xm6iVk7uh9/Ii/Qoml+15cY4qmALiKTnnlYu4Arf8JU0uix34eM5
+ fUx6ZvgoL+uUolo8QM0UZDrzKv207pTC6ZRBS/d+VwL1DQSDK2WyC+vk1/kxYXG1pPev
+ o4vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690447062; x=1691051862;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pWMWGlQcZrS+qSRQi4fySJuX8GoJmganqqgkAyb3ZRQ=;
+ b=EE3zvAtjln81Bc9XFKnAp8oaMbeA9gw1xIEzHp07OaxdcugRuzEJAdevY25pKHo8xo
+ Nu+bFlbsPrAQt8KOP+YtcfZBZClQSxZNobPGhY23AQriL7ec0v/PuvxdpwsFhGjg4zAL
+ DCH5GSh1ypyJ6zmQ7SAmQFSkb/2QJzS8u/xBMXYqCcqcT7nNEQOsRvNNmksm9YmqO19F
+ 17N2fZEEyJ7U0lkLanIFvck6kLblfIDE/coNav5yyNvOJ/VxmZaB8tF4b0Dmj7tPawgV
+ 8Mk6pXXgSm/oOYjYmsTJ8tHaKxBOnupenHJQDTyzr2ENuZOq9pD4T5NPYmKtjALtNbHw
+ PGXQ==
+X-Gm-Message-State: ABy/qLbcdBItBfcSbKFaWZ6Q5xiNRTogypuECDZLGvva5jvlaEV5zTLe
+ L70AAOwHiZv4tLMh7oHYzkmmf4pgg1AYYyHw0nOOpQ==
+X-Google-Smtp-Source: APBJJlF1jpC3f3gk+ztU5YHmd4eGGIE2cxjSaq/QbE6KaSY4NpZgLaWwb5QMQcEbkYY2Ir4qh4wUR49wKLdTYMUHnEE=
+X-Received: by 2002:a25:ca07:0:b0:d0a:fbef:1590 with SMTP id
+ a7-20020a25ca07000000b00d0afbef1590mr4355706ybg.37.1690447062045; Thu, 27 Jul
+ 2023 01:37:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230521171026.4159495-1-dmitry.baryshkov@linaro.org>
+ <20230521171026.4159495-5-dmitry.baryshkov@linaro.org>
+ <61b0792d-aa62-03ea-bb2c-aa9392251519@quicinc.com>
+ <CAA8EJpp+uO_BZVQ9A+ZjKe3+b_H=xJc_yCfd8bKSPenU8Mf5FQ@mail.gmail.com>
+ <13784945-8029-9b21-f226-8692e348ec1e@quicinc.com>
+In-Reply-To: <13784945-8029-9b21-f226-8692e348ec1e@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 27 Jul 2023 11:37:30 +0300
+Message-ID: <CAA8EJpruxo0_BXyJZYGFDBd=rW+KYhywT1z4dPeV+7KTFvX14Q@mail.gmail.com>
+Subject: Re: [PATCH 4/6] drm/msm/mdss: populate missing data
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,49 +70,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>, mairacanal@riseup.net,
- andrealmeid@riseup.net
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023, at 00:03, Arthur Grillo wrote:
-> Using the `kunit_tool` with the command:
+On Thu, 27 Jul 2023 at 02:14, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/tests/
 >
-> Lead to this error[0]. Fix it by expliciting removing the
-> CONFIG_DRM_FBDEV_EMULATION.
 >
-> [0]
-> ERROR:root:
-> WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
->   Depends on [n]: VT [=n] && FB_CORE [=y] && !UML [=y]
->   Selected by [y]:
->   - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM [=y] && !EXPERT [=n]
+> On 7/26/2023 3:58 PM, Dmitry Baryshkov wrote:
+> > On Thu, 27 Jul 2023 at 01:30, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 5/21/2023 10:10 AM, Dmitry Baryshkov wrote:
+> >>> As we are going to use MDSS data for DPU programming, populate missing
+> >>> MDSS data. The UBWC 1.0 and no UBWC cases do not require MDSS
+> >>> programming, so skip them.
+> >>>
+> >>
+> >> Can you pls point me to the downstream references you used for msm8998?
+> >
+> > msm-3.18, drivers/video/msm/mdss/mdss_mdp.c
+> >
+> > See the function mdss_mdp_hw_rev_caps_init(). It sets has_ubwc for MDP
+> > 1.07 (msm8996), 1.14 (msm8937) / 1.16  (msm8953) and 3.0 (msm8998).
+> >
 >
+> It sets has_ubwc but I still cannot locate where it says version is 1.0.
+> Because the 0x58 register reads 0 and not 1 for msm8998.
 
-I think that's a bug in the Kconfig files that should be fixed
-by enforcing the correct set of dependencies. I have not encountered
-this in my randconfig builds (with a lot of other fixes applied)
+What would be the version then? 0.0 sounds strange. I'm yet to check
+whether UBWC works on 8996 / 8998.
 
-In linux-next, CONFIG_VT cannot be disabled if CONFIG_EXPERT=n,
-so this does not happen.
+> >> Was that just taken from catalog? If so I would ask for the reference
+> >> for the catalog too.
+> >>
+> >> As per the register the decoder version is 0x0 and not 1.
+> >>
+> >> Even encoder version is 0 from what i see and not 1. Thats why a
+> >> dec_version of UBWC_1_0 is not doing anything i assume.
+> >>
 
-> diff --git a/drivers/gpu/drm/tests/.kunitconfig 
-> b/drivers/gpu/drm/tests/.kunitconfig
-> index 6ec04b4c979d..c50b5a12faae 100644
-> --- a/drivers/gpu/drm/tests/.kunitconfig
-> +++ b/drivers/gpu/drm/tests/.kunitconfig
-> @@ -1,3 +1,4 @@
->  CONFIG_KUNIT=y
->  CONFIG_DRM=y
->  CONFIG_DRM_KUNIT_TEST=y
-> +CONFIG_DRM_FBDEV_EMULATION=n
->
-> base-commit: 45b58669e532bcdfd6e1593488d1f23eabd55428
 
-Changing the local config should not be required after fixing
-the Kconfig files.
-
-    Arnd
+-- 
+With best wishes
+Dmitry
