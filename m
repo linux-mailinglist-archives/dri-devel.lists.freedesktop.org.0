@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0A47658FA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:41:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC24765908
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:43:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7599C10E1A1;
-	Thu, 27 Jul 2023 16:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83CFA10E5C4;
+	Thu, 27 Jul 2023 16:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2ACD10E1A1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:41:23 +0000 (UTC)
-X-UUID: 68e8361a2c9c11eeb20a276fd37b9834-20230728
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=jU/10Nkq0x+7qlTIxX5UvWSGsecwoSJlB8tqDooA93U=; 
- b=GTSuQAeQGpnIYSYURUQxQS4GvNHopwyavcp7x3Z6Aoi6/1wmTJ4wixezXjz1qnWDlXe2qOh+M4qktADaaTIyX/2AzS1kDto0bRF8RBBirALqzxz78pQXIX6c2wVtkXhSskSYnHa7V/DVYzol9QPCpRQghdsNJTn38LfO7zk/Gcs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.30, REQID:97e54509-3e36-4b15-80c9-6548198e1b33, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:1fcc6f8, CLOUDID:1220ddb3-a467-4aa9-9e04-f584452e3794,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
-X-UUID: 68e8361a2c9c11eeb20a276fd37b9834-20230728
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 14670458; Fri, 28 Jul 2023 00:41:18 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 28 Jul 2023 00:41:16 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 28 Jul 2023 00:41:16 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v7 4/4] drm/mediatek: Add DSI support for mt8188 vdosys0
-Date: Fri, 28 Jul 2023 00:41:14 +0800
-Message-ID: <20230727164114.20638-5-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230727164114.20638-1-jason-jh.lin@mediatek.com>
-References: <20230727164114.20638-1-jason-jh.lin@mediatek.com>
+Received: from mgamail.intel.com (unknown [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA6BF10E5C3;
+ Thu, 27 Jul 2023 16:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690476221; x=1722012221;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=EPPEG5IjRpK3UjK14v1TE0oHNl+auGdkynzlUa5wKQI=;
+ b=KCLBJPEDMythTfgwAbVvrBqE7BYTpkiJ5kaVTI/RQoDiZLc4jp/u0wgx
+ mT7OcAC+oFwR6LdNnMAgWAUOiGKyF/ii+MWpaUfn9YQsbUGJ0TWEuiSgO
+ uFBhCSIh21V45t8BW/0F6W41cjmR5/Kn8jBUIz9LuxMiFJ/dZQzAairvj
+ 2H9SkhTM/XvBbJAcD/U5XwMn47ISa/o15CvKG+nqO9+jylpIF++Jg4BTX
+ e2Q2JxQwATPbqAmyYM5kzUY+/iYRDWaKlYrtFNRMBSzzHVpYDKg3bVoCx
+ gMu5hPhFK89sHshI6OfLOsA+1W6S4nXvel+wPFgMaKGhPoSvkUg8oAlOV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="371996233"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; d="scan'208";a="371996233"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2023 09:43:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="730416549"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; d="scan'208";a="730416549"
+Received: from jlenehan-mobl1.ger.corp.intel.com (HELO [10.213.228.208])
+ ([10.213.228.208])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2023 09:43:36 -0700
+Message-ID: <6ed5478c-8a67-5ad8-3e6d-51c300702cf3@linux.intel.com>
+Date: Thu, 27 Jul 2023 17:43:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 16/17] cgroup/drm: Expose memory stats
+Content-Language: en-US
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Tejun Heo <tj@kernel.org>
+References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
+ <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
+ <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
+ <ea64d7bf-c01b-f4ad-a36b-f77e2c2ea931@linux.intel.com>
+ <ZMF3rLioJK9QJ0yj@slm.duckdns.org>
+ <05178cf3-df1c-80a7-12ad-816fafbc2df7@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <05178cf3-df1c-80a7-12ad-816fafbc2df7@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +68,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+ Eero Tamminen <eero.t.tamminen@intel.com>,
+ "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DSI as main display output for mt8188 vdosys0.
 
-Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_drv.h     | 1 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 1 +
- drivers/gpu/drm/mediatek/mtk_dsi.c          | 9 +++++++++
- 4 files changed, 12 insertions(+)
+On 27/07/2023 14:42, Maarten Lankhorst wrote:
+> On 2023-07-26 21:44, Tejun Heo wrote:
+>> Hello,
+>>
+>> On Wed, Jul 26, 2023 at 12:14:24PM +0200, Maarten Lankhorst wrote:
+>>>> So, yeah, if you want to add memory controls, we better think 
+>>>> through how
+>>>> the fd ownership migration should work.
+>>>
+>>> I've taken a look at the series, since I have been working on cgroup 
+>>> memory
+>>> eviction.
+>>>
+>>> The scheduling stuff will work for i915, since it has a purely software
+>>> execlist scheduler, but I don't think it will work for GuC (firmware)
+>>> scheduling or other drivers that use the generic drm scheduler.
+>>>
+>>> For something like this,  you would probably want it to work inside 
+>>> the drm
+>>> scheduler first. Presumably, this can be done by setting a weight on 
+>>> each
+>>> runqueue, and perhaps adding a callback to update one for a running 
+>>> queue.
+>>> Calculating the weights hierarchically might be fun..
+>>
+>> I don't have any idea on this front. The basic idea of making high level
+>> distribution decisions in core code and letting individual drivers 
+>> enforce
+>> that in a way which fits them the best makes sense to me but I don't know
+>> enough to have an opinion here.
+>>
+>>> I have taken a look at how the rest of cgroup controllers change 
+>>> ownership
+>>> when moved to a different cgroup, and the answer was: not at all. If we
+>>
+>> For persistent resources, that's the general rule. Whoever instantiates a
+>> resource gets to own it until the resource gets freed. There is an 
+>> exception
+>> with the pid controller and there are discussions around whether we want
+>> some sort of migration behavior with memcg but yes by and large 
+>> instantiator
+>> being the owner is the general model cgroup follows.
+>>
+>>> attempt to create the scheduler controls only on the first time the 
+>>> fd is
+>>> used, you could probably get rid of all the tracking.
+>>> This can be done very easily with the drm scheduler.
+>>>
+>>> WRT memory, I think the consensus is to track system memory like normal
+>>> memory. Stolen memory doesn't need to be tracked. It's kernel only 
+>>> memory,
+>>> used for internal bookkeeping  only.
+>>>
+>>> The only time userspace can directly manipulate stolen memory, is by 
+>>> mapping
+>>> the pinned initial framebuffer to its own address space. The only 
+>>> allocation
+>>> it can do is when a framebuffer is displayed, and framebuffer 
+>>> compression
+>>> creates some stolen memory. Userspace is not
+>>> aware of this though, and has no way to manipulate those contents.
+>>
+>> So, my dumb understanding:
+>>
+>> * Ownership of an fd can be established on the first ioctl call and 
+>> doesn't
+>>    need to be migrated afterwards. There are no persistent resources to
+>>    migration on the first call.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 5f07037670e9..fdaa21b6a9da 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -48,6 +48,7 @@ unsigned int mtk_dpi_encoder_index(struct device *dev);
- 
- void mtk_dsi_ddp_start(struct device *dev);
- void mtk_dsi_ddp_stop(struct device *dev);
-+unsigned int mtk_dsi_encoder_index(struct device *dev);
- 
- int mtk_gamma_clk_enable(struct device *dev);
- void mtk_gamma_clk_disable(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index bc7b0a0c20db..e6a7a0b9de6c 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -318,6 +318,7 @@ static const struct mtk_ddp_comp_funcs ddp_dsc = {
- static const struct mtk_ddp_comp_funcs ddp_dsi = {
- 	.start = mtk_dsi_ddp_start,
- 	.stop = mtk_dsi_ddp_stop,
-+	.encoder_index = mtk_dsi_encoder_index,
- };
- 
- static const struct mtk_ddp_comp_funcs ddp_gamma = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index ecd113f9908c..9b7ca8d35f71 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -189,6 +189,7 @@ static const unsigned int mt8188_mtk_ddp_main[] = {
- 
- static const struct mtk_drm_route mt8188_mtk_ddp_main_routes[] = {
- 	{0, DDP_COMPONENT_DP_INTF0},
-+	{0, DDP_COMPONENT_DSI0},
- };
- 
- static const unsigned int mt8192_mtk_ddp_main[] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index 7d5250351193..62d5362916a5 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -865,6 +865,15 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 	return ret;
- }
- 
-+unsigned int mtk_dsi_encoder_index(struct device *dev)
-+{
-+	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-+	unsigned int encoder_index = drm_encoder_index(&dsi->encoder);
-+
-+	dev_dbg(dev, "encoder index:%d", encoder_index);
-+	return encoder_index;
-+}
-+
- static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
- {
- 	int ret;
--- 
-2.18.0
+Yes, keyword is "can". Trouble is migration may or may not happen.
 
+One may choose "Plasma X.org" session type in your login manager and all 
+DRM fds would be under Xorg if not migrated. Or one may choose "Plasma 
+Wayland" and migration wouldn't matter. But former is I think has a huge 
+deployed base so that not supporting implicit migration would be a 
+significant asterisk next to the controller.
+
+>> * Memory then can be tracked in a similar way to memcg. Memory gets 
+>> charged
+>>    to the initial instantiator and doesn't need to be moved around
+>>    afterwards. There may be some discrepancies around stolen memory 
+>> but the
+>>    magnitude of inaccuracy introduced that way is limited and bound 
+>> and can
+>>    be safely ignored.
+>>
+>> Is that correct?
+> 
+> Hey,
+> 
+> Yeah mostly, I think we can stop tracking stolen memory. I stopped doing 
+> that for Xe, there is literally nothing to control for userspace in there.
+
+Right, but for reporting stolen is a red-herring. In this RFC I simply 
+report on all memory regions known by the driver. As I said in the other 
+reply, imagine the keys are 'system' and 'vram0'. Point was just to 
+illustrate multiplicity of regions.
+
+Regards,
+
+Tvrtko
