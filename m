@@ -2,160 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610D276444D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 05:27:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA03E764462
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 05:34:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1FBA10E4D5;
-	Thu, 27 Jul 2023 03:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD6F10E4D3;
+	Thu, 27 Jul 2023 03:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72B7710E4D3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 03:27:12 +0000 (UTC)
-X-UUID: 77cf10e62c2d11eeb20a276fd37b9834-20230727
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=Qco27nASh84msnq4XC8HrzmwwsOWcyr8AEApZbdqbZ0=; 
- b=UbaaSCg8qxT6BfUCTJyi7k2juFEhZO6hRMuiTHf0ljaSexJk/0rk5Jk/gJgLaGUNLwZWpq7rRq2pI1GGLdHND6HIMD1e9iaBq78oFZiqOp2JxCjdMldg7dvOlcgyafN20a18Z0jvVa0lbEjZ6y9Yu1XPsZjBaDip8icXTOGfHLs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.29, REQID:25f44610-7495-483c-9323-ddb927fc0662, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:45
-X-CID-INFO: VERSION:1.1.29, REQID:25f44610-7495-483c-9323-ddb927fc0662, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:45
-X-CID-META: VersionHash:e7562a7, CLOUDID:f6e75fd2-cd77-4e67-bbfd-aa4eaace762f,
- B
- ulkID:23072710532737Z6Q7OY,BulkQuantity:7,Recheck:0,SF:48|38|29|28|17|19|1
- 02,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:41,QS:nil,BEC:nil
- ,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:PA,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_SDM, TF_CID_SPAM_FAS,
- TF_CID_SPAM_FSD, TF_CID_SPAM_ULN
-X-UUID: 77cf10e62c2d11eeb20a276fd37b9834-20230727
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 767861223; Thu, 27 Jul 2023 11:27:09 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 27 Jul 2023 11:27:07 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Thu, 27 Jul 2023 11:27:07 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ipa6LbaT7UxrEZpjDK/Z6j2ez2t2hbSzELQ5R2zBiA63zl1PtQJ10UembpIpxrFV3PLHj8PJ9wpeDy2O5Y0yTCzEFCRoNWnJvsfy8cSMVFHAWvmSUKLStm1l2Q7RK58qxlyEIok41onEUI6MerV363H/dB/nvAgq6pzD/Yh7a7MqWgODi9X0vYn/vTSLDJYKSk/g7rQE8WGWmlSZgCZH4BWpK/9CWSuVuhE8NxGGxtQkabanxI4um0Ju2rheFmK8yq8oXAPMxdwAAhJKQwtptU0NpXLBZfM/AFVOPBTr+SSluk+51YzkSRehOADERQUya3pnoexYCnn0yWZwcwUghw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o3OANIT8BOE1azHxjVZybqFHd5dMPApwTd55W7zQLuQ=;
- b=E1609LInJRykLJZKIPJMciI98Grja0gOiPuNdAV9cVwiVae+gNMSTMNUf73AtiRWbYTNkIa3FC2k5VBYTcOwpsAd6j5FJZS/O0bTyus8TD+i+llr80r54cKKG9GiP+2oRGPcv3g/7wVrq7tyjmrX2qSURGtVwckS6AJ6XhYUJTo5wXh6bEk9fiyl+6cXZKyXb8UcuD+h/ltlPbYERwI0pmQag/qcTpYuJhtjAVpRQHL6Avh86Suv9o4t5+7JAnHWULxjSlRvVvXxM11CV89B3lKku35Tkyw/9rfNUm33Wyf1ZkQoRXa9JSVDHVyeSp9F0qmRi2CIfGxI9/ziBJwDjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C1310E4D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 03:34:46 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-686f6231bdeso51614b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jul 2023 20:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o3OANIT8BOE1azHxjVZybqFHd5dMPApwTd55W7zQLuQ=;
- b=WPWdM8gQdXQyh5BfWjCDmWw4NN1qwLkwafurBq89snL9LOV+2XiYCOWWZe9M4rPRk25nzpOfXtQmWCoLe5Ww/soDxvNipxKpNUT3bncuiSHHsNUcA4FAfAukuWiB3l0LLx7mJ15rvYuhzFXzfRn8TmVKOUVNwQAijd7VcSxNyGk=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SI2PR03MB5769.apcprd03.prod.outlook.com (2603:1096:4:15b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
- 2023 03:27:03 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::d126:7f34:9e4f:a95]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::d126:7f34:9e4f:a95%4]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
- 03:27:03 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v7 08/11] drm/mediatek: dp: Move PHY registration to new
- function
-Thread-Topic: [PATCH v7 08/11] drm/mediatek: dp: Move PHY registration to new
- function
-Thread-Index: AQHZvsqHCJVF6g0BJESGkWpVnAZEYa/M9taA
-Date: Thu, 27 Jul 2023 03:27:03 +0000
-Message-ID: <1533c98764b34896fc959bb03b748830f97437d0.camel@mediatek.com>
-References: <20230725073234.55892-1-angelogioacchino.delregno@collabora.com>
- <20230725073234.55892-9-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230725073234.55892-9-angelogioacchino.delregno@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SI2PR03MB5769:EE_
-x-ms-office365-filtering-correlation-id: f363cb9b-cd45-43a2-2b4f-08db8e5158bd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Z/pFqHh5WjOj3kKZhRYnrRmCSe5hUzBRj4raZgpmSAhWjAcz/BDx8thqWIHsQQJ+vmgJ3LeRLYfS7xK3cN0MmBu/onBOpfUr8IPZsFTk3+IJFphiLQGrmdVHQ33mdDW/N4mjPxKhguWuXDUZKQ9NtMILTPIEfN8EEOSckqLFxm88gPF4VfoUWm5YlfEfntkeMHThvZ3OCsmwlMytVt2Tf8Y2u/BAzasS3dqyl3j5cr/5xK6oBMGg5CZp/TuJMFAYpSO+d4vyUgh0GifQqByEndePE7HmkXzWTMAB/mxAbReU9tef5Wm//dkZgOy/DYH9vqkvb6TLsy7yqNzYq+NTNTQjc38BPC8yLjP084HVRlxbTtS9VbkuICFQOPD3mrRqx75zK4P6SD5BEAp6RptRFNMfvuZgF96SHBZpHxdSMQHReZNzBPsPebO39D6LSORsAdikl7UW8g3YX0L4mkSaWKwWXsCnY2dFEkDeuTvPOEwZ9wukRNMXiaMAA1Q/iDyVynonived/w6UZIKgn9oylzbsa8ENmjzNkcwkD+XHHMG7aKH55U8FSl+8ANR/WexDnqfLSa26ca8UX++MgiFKBBJs5HdSbqo1XJxsbSzM6IbBEL/GQM4+GJvOV7Hzfbilj9rz0sMTUHu97R+syoLKh/Q5sUPClqDbY/4M752ruA4=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(451199021)(2906002)(316002)(41300700001)(86362001)(38070700005)(7416002)(5660300002)(8676002)(8936002)(85182001)(36756003)(6512007)(26005)(6506007)(478600001)(6486002)(71200400001)(83380400001)(186003)(2616005)(76116006)(38100700002)(54906003)(66946007)(122000001)(66446008)(4326008)(66556008)(110136005)(64756008)(66476007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MDk0b3NyMFJQODYvNW9ySEtEU2tUY3NCQ2pSdTJUUHVYUmJqQSs4azhjbVd1?=
- =?utf-8?B?aTB4aHJZcVlBWDNXeW5RSmwreG51SmNtVi9hTk1nbHVWZnJIakJhaUl5OHFW?=
- =?utf-8?B?UThCbFV4WnMvSjZENW9qbGlPR3RoclNzZTNvV1Z3MW9aZWxMK1JNSnk4VHhT?=
- =?utf-8?B?ZmdUNFhRa2ZPN3ZjKzFtWEdhdzkycVBXemx6T2krQTNpOWltVnQrRnhlcFFr?=
- =?utf-8?B?VmJ5U2o3TGlybTlvMlFCR1FiMHdCWlpnQzRMMGRMNXRDTHE2UEpWWENzTlYv?=
- =?utf-8?B?QTJyUm16TTlYOXlXeHpubVZiZkdoUzQ4WHFEMnVuV1lZRDU5QzdLUU1CdUNY?=
- =?utf-8?B?Y0JDTUZITXRyMnNJRjBJVjlBUVIyRFRNOXgyd2NvK3J1VE9MVWRxZ2FUU1Iz?=
- =?utf-8?B?bTNiUFhZbWgzTUNqNEozcnUybWNxTVlBRW5qUGFwTVN4NE9IY2dqaGpVeTQw?=
- =?utf-8?B?V1EzQUVNV2U5ZEdYTHBXM3lNSnF6M0VMUXAzQzlBTVNycnZrTXNEaG45dkpz?=
- =?utf-8?B?YjM0eGE1dGF0WG0xMFFJMUg5eHNJTWZia1h3UmNYYXBOdGl4aHUzMTcxT2VN?=
- =?utf-8?B?NUxvWlVvN2pBNVloQ1NHZ2ZWU2RZSVFIeTFvd2ZBdUZaOUI2V3kvZVluL0xZ?=
- =?utf-8?B?aWhseTFLSjZ1cEdXME9maWF2N1JVd1F6aHhjVllwWGw5cDhIbC9VWFFLSWE0?=
- =?utf-8?B?NGFXd25SNGhGaG1aWm1HMEJ4aW9GaTBHNW5lYzBOUzFCVXBwVzVudU14WDJo?=
- =?utf-8?B?eHVta0JNSWVWZ1FZUTF6WnU4UU9uTGFMTGlzZ2hzOWdOV2h2SWl5WnB1Q2ZF?=
- =?utf-8?B?dWFmUWJSVVZwbWlJWjB3anYzYjBxVjhtOVVVZFFKM1hBQjF0Z2pqbXFIVUhr?=
- =?utf-8?B?bEtLdmdSSWtDR3VaNnVtMDkrNDVhcC92SXlOR1FKTHJYdWFwb3BwQnlKYXdj?=
- =?utf-8?B?eFd3aVAvQTlVL1BVbWlVWStNbVJUUzJUc2w3NFNIaGlQZG1xTFZIVGtrS2d0?=
- =?utf-8?B?UnpLcW5mTHU0cWFBUDR3bGc1RmlFR3R0WHJ1RzBUeHlJZVE4ZFE4VktOcTBN?=
- =?utf-8?B?dERHR0MzUm02Q0wwelRqNGVVekMwMHh6ZmViWkRON2I1TjFORzJkRmtpUGhu?=
- =?utf-8?B?WXB1R1ZWOU13RTdCL0tHUGRCd2dSWktFTC9BNXVxK09JaGhSOCt4RUJLcjF1?=
- =?utf-8?B?Q2dhcXFSMWpCMGZHUnY2SWpaOWhaa0V1TDN3aVE3aStzbFcxazFrc0RGcW9y?=
- =?utf-8?B?ZTRuVzl3TDhFMFQxV3laaFpVdVdTMjFmUk0zZE5LMzN0WG51bTRaeTdtRzVy?=
- =?utf-8?B?SnpVVmo1QlR1QVBOaU85WXBoV3dmV05uN0lnaTVUa1kyeWkySHIyUkE3c2Ny?=
- =?utf-8?B?K0kyMktTcUhFSHJldTd5cHpnZlgzTlFjM1JSUHlrWDVDdGJZbU83SEVSNkEz?=
- =?utf-8?B?VGVONzhJcTlMVEM1RFhlSkw0OFRxYm94cnhFYmhHb3IzNEMwSnFUQzJKcGhu?=
- =?utf-8?B?MWZTQ0dMMnhDeFhUSDZhZ2VweE1zZnhaNk56dTJOZkFrNWVVN2Z0WnJxc0sz?=
- =?utf-8?B?L2pMMnpqT2QvaklWMzVUYUJwaWV4QitiTDMwelZPQTZ3cUp1NWt0bHpKb0Iw?=
- =?utf-8?B?M1N3Y3ZFaXlaV0MyMlFwc1hpKy95UFJYM1hXRGhDZHhveXFYbXRESlU4U0l2?=
- =?utf-8?B?TzZsSWhqSTI5U3VrU3psWU1iZllJNGF1bUFCWW9PRFJ0QldmcW5DK3hqRkVm?=
- =?utf-8?B?UVN4bHZhejFpQzZ1Qm45dzNrQUpwNldOSUVMR3p1U0R5ak0zKy9zYW9mWDNY?=
- =?utf-8?B?ZGloNlYvUllrNzNPT09MaE8yVEU2eFBLWFQ3R1g1QkFkWERkNWFUNTZEYjJN?=
- =?utf-8?B?SVJ5K3o4TjUzTWMxSUZVdFVsamVCc0Q0dU5jSlpQeHp0ejg2SjVva0ltTGxF?=
- =?utf-8?B?K0dKVHRCcVd6V0o0ek9EL1pjMjRZZTNLS1VOR3N6SjFBM21Dd3ZSQUJhLysy?=
- =?utf-8?B?NmZYaCtWV2I1anY0Z09CVjBSQ0NWaks5VjFHZEhTOERjRzFaVEhSbTJTaTZZ?=
- =?utf-8?B?VGdQdFplNTJhbHVtNThkOElyYmN5Mmk0MW9EelkvdjdGdStQN2d5TERpK3RH?=
- =?utf-8?B?SzhDT2xpeUpuK1l3bUhKTkltZkdoV3E4b2JNQWUzRWtLenpFZGVrWW81NmtB?=
- =?utf-8?B?OWc9PQ==?=
-Content-ID: <C683FBDCB5F3F144852B86AA1E6C911E@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ d=bytedance.com; s=google; t=1690428886; x=1691033686;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pSHiqW/1Kwa6XMfrutppYGKtzk0jA+6GZMwxRhGaywI=;
+ b=JH3Gdn8erluTpD0SiBv0fHlvH29QoJbVthZHImXx40T/IvgK0JIjZ0GSYiuzzLmgEA
+ bHXNFFpOY9uD+vNkdeoyqNVINpCZUHYDiHMEBDkcaaYiJnpqdxqxP9HCH+uCZSOxVPaX
+ a40KLwmD/5OmsTBlZF8d2TLCkDFfaCI3tBilLI9wA3S9O/RNu5Wh5IyCFOIuf9bbZc9M
+ BojY8O58Av3dHh2cjAZwQFUo45GIDCrR2qRfQCljzavnidON0gNgsmWW0OgyxUqV3yLa
+ +g0Rro6R0vH8urzZTF9hLw+CTeEMI8A36Bu5e/fFgdet0UR9Esy2HUMsL8V+5OEcbFBS
+ k6XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690428886; x=1691033686;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pSHiqW/1Kwa6XMfrutppYGKtzk0jA+6GZMwxRhGaywI=;
+ b=PLGvUaCrwl+BCRl8waZK5zb4C43w143G1WwXDjvNuUQJWfTYkFsH6ml5RyIY355+pB
+ 9j/ik14dokYQFafIXkbuD79R0AVPXoPJQjJxtajpRvX3yVH2WYsU6PzjRY/xejQs5v8E
+ GHXGRg906MZi1QgNUe1Ta8p04SwdwS38iaJYz6F8YmFWwq9b84Q08YUCVoe+OFHT3vt0
+ QI5wSsFBsw+7zDlfDo8IjWBHcdgdsV2z4+Jyrj7G7kvmg5v+zxZe5cW1rJrm7S9a/u74
+ Hj8QoFHF/kteYYbQM3itAjyqV5sje8dTA0zuqP0uXcJa2dnm2G6VGDmYU5TXogg0MMkJ
+ 61CA==
+X-Gm-Message-State: ABy/qLaUu38Fy5Spn+mv8QPHZR90yMsTGjR0IeOPVBAGtqwtF4mIB5dq
+ wnkAT+gF0DO/vKjBkyMOvcSsYA==
+X-Google-Smtp-Source: APBJJlGnfHXNUKtpZ8goterp0kPe1+GeF2c87BsTqhWXyrNp01VQ9DDS/+17IDHKN7LAqAttouOeag==
+X-Received: by 2002:a05:6a21:339b:b0:137:4fd0:e2e6 with SMTP id
+ yy27-20020a056a21339b00b001374fd0e2e6mr5017607pzb.6.1690428886364; 
+ Wed, 26 Jul 2023 20:34:46 -0700 (PDT)
+Received: from [10.70.252.135] ([203.208.167.147])
+ by smtp.gmail.com with ESMTPSA id
+ z25-20020aa791d9000000b006828ee9fa69sm328803pfa.206.2023.07.26.20.34.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Jul 2023 20:34:46 -0700 (PDT)
+Message-ID: <c942e424-276d-4df7-4917-d61063ab8502@bytedance.com>
+Date: Thu, 27 Jul 2023 11:34:30 +0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f363cb9b-cd45-43a2-2b4f-08db8e5158bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2023 03:27:03.4845 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N50tEi9JFoZOkSvGxmTRugSZS2M9eci2Q8EoXwtpkuvVl+DVAl7DBnAKwWYhs0KOLsv5F4F4gtaRv4jOYLjw1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR03MB5769
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_007_1810936306.1525258531"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.12.0
+Subject: Re: [PATCH v2 44/47] mm: shrinker: make global slab shrink lockless
+Content-Language: en-US
+To: Dave Chinner <david@fromorbit.com>
+References: <20230724094354.90817-1-zhengqi.arch@bytedance.com>
+ <20230724094354.90817-45-zhengqi.arch@bytedance.com>
+ <ZMDUkoIXUlTkCSYL@dread.disaster.area>
+ <19ad6d06-8a14-6102-5eae-2134dc2c5061@bytedance.com>
+ <ZMGnthZAh48JF+eV@dread.disaster.area>
+From: Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <ZMGnthZAh48JF+eV@dread.disaster.area>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,171 +80,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "nfraprado@collabora.com" <nfraprado@collabora.com>,
- "amergnat@baylibre.com" <amergnat@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "ehristev@collabora.com" <ehristev@collabora.com>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
+ cel@kernel.org, x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
+ linux-bcache@vger.kernel.org, yujie.liu@intel.com, vbabka@suse.cz,
+ linux-raid@vger.kernel.org, brauner@kernel.org, tytso@mit.edu,
+ gregkh@linuxfoundation.org, muchun.song@linux.dev,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, senozhatsky@chromium.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_007_1810936306.1525258531
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Dave,
 
-PHByZT4NCkhpLCYjMzI7QW5nZWxvOg0KDQpPbiYjMzI7VHVlLCYjMzI7MjAyMy0wNy0yNSYjMzI7
-YXQmIzMyOzA5OjMyJiMzMjsrMDIwMCwmIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMyO0RlbCYjMzI7
-UmVnbm8mIzMyO3dyb3RlOg0KJmd0OyYjMzI7SW4mIzMyO3ByZXBhcmF0aW9uJiMzMjtmb3ImIzMy
-O2FkZGluZyYjMzI7c3VwcG9ydCYjMzI7Zm9yJiMzMjtlRFAsJiMzMjttb3ZlJiMzMjt0aGUmIzMy
-O1BIWSYjMzI7cmVnaXN0cmF0aW9uDQomZ3Q7JiMzMjtjb2RlJiMzMjt0byYjMzI7YSYjMzI7bmV3
-JiMzMjttdGtfZHBfcmVnaXN0ZXJfcGh5KCkmIzMyO2Z1bmN0aW9uJiMzMjtmb3ImIzMyO2JldHRl
-ciYjMzI7cmVhZGFiaWxpdHkuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1RoaXMmIzMyO2NvbW1pdCYj
-MzI7YnJpbmdzJiMzMjtubyYjMzI7ZnVuY3Rpb25hbCYjMzI7Y2hhbmdlcy4NCg0KUmV2aWV3ZWQt
-Ynk6JiMzMjtDSyYjMzI7SHUmIzMyOyZsdDtjay5odUBtZWRpYXRlay5jb20mZ3Q7DQoNCiZndDsm
-IzMyOw0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMyO0Rl
-bCYjMzI7UmVnbm8mIzMyOyZsdDsNCiZndDsmIzMyO2FuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9A
-Y29sbGFib3JhLmNvbSZndDsNCiZndDsmIzMyO1Rlc3RlZC1ieTomIzMyO0NoZW4tWXUmIzMyO1Rz
-YWkmIzMyOyZsdDt3ZW5zdEBjaHJvbWl1bS5vcmcmZ3Q7DQomZ3Q7JiMzMjtSZXZpZXdlZC1ieTom
-IzMyO0FsZXhhbmRyZSYjMzI7TWVyZ25hdCYjMzI7Jmx0O2FtZXJnbmF0QGJheWxpYnJlLmNvbSZn
-dDsNCiZndDsmIzMyOy0tLQ0KJmd0OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2RwLmMmIzMyO3wmIzMyOzQzJiMzMjsrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0NCiZn
-dDsmIzMyOy0tLS0NCiZndDsmIzMyOyYjMzI7MSYjMzI7ZmlsZSYjMzI7Y2hhbmdlZCwmIzMyOzI2
-JiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MTcmIzMyO2RlbGV0aW9ucygtKQ0KJmd0OyYjMzI7DQom
-Z3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2RwLmMNCiZndDsmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jDQomZ3Q7
-JiMzMjtpbmRleCYjMzI7YzFkMWE4ODJmMWRiLi4xYjQyMTllNmEwMGImIzMyOzEwMDY0NA0KJmd0
-OyYjMzI7LS0tJiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYw0KJmd0OyYj
-MzI7KysrJiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYw0KJmd0OyYjMzI7
-QEAmIzMyOy0yNDc4LDYmIzMyOysyNDc4LDI5JiMzMjtAQCYjMzI7c3RhdGljJiMzMjtpbnQmIzMy
-O210a19kcF9yZWdpc3Rlcl9hdWRpb19kcml2ZXIoc3RydWN0DQomZ3Q7JiMzMjtkZXZpY2UmIzMy
-OypkZXYpDQomZ3Q7JiMzMjsmIzMyO3JldHVybiYjMzI7UFRSX0VSUl9PUl9aRVJPKG10a19kcC0m
-Z3Q7YXVkaW9fcGRldik7DQomZ3Q7JiMzMjsmIzMyO30NCiZndDsmIzMyOyYjMzI7DQomZ3Q7JiMz
-Mjsrc3RhdGljJiMzMjtpbnQmIzMyO210a19kcF9yZWdpc3Rlcl9waHkoc3RydWN0JiMzMjttdGtf
-ZHAmIzMyOyptdGtfZHApDQomZ3Q7JiMzMjsrew0KJmd0OyYjMzI7K3N0cnVjdCYjMzI7ZGV2aWNl
-JiMzMjsqZGV2JiMzMjs9JiMzMjttdGtfZHAtJmd0O2RldjsNCiZndDsmIzMyOysNCiZndDsmIzMy
-OyttdGtfZHAtJmd0O3BoeV9kZXYmIzMyOz0mIzMyO3BsYXRmb3JtX2RldmljZV9yZWdpc3Rlcl9k
-YXRhKGRldiwmIzMyOyZxdW90O21lZGlhdGVrLQ0KJmd0OyYjMzI7ZHAtcGh5JnF1b3Q7LA0KJmd0
-OyYjMzI7K1BMQVRGT1JNX0RFVklEXw0KJmd0OyYjMzI7QVVUTywNCiZndDsmIzMyOysmYW1wO210
-a19kcC0mZ3Q7cmVncywNCiZndDsmIzMyOytzaXplb2Yoc3RydWN0DQomZ3Q7JiMzMjtyZWdtYXAm
-IzMyOyopKTsNCiZndDsmIzMyOytpZiYjMzI7KElTX0VSUihtdGtfZHAtJmd0O3BoeV9kZXYpKQ0K
-Jmd0OyYjMzI7K3JldHVybiYjMzI7ZGV2X2Vycl9wcm9iZShkZXYsJiMzMjtQVFJfRVJSKG10a19k
-cC0mZ3Q7cGh5X2RldiksDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyZxdW90
-O0ZhaWxlZCYjMzI7dG8mIzMyO2NyZWF0ZSYjMzI7ZGV2aWNlJiMzMjttZWRpYXRlay0NCiZndDsm
-IzMyO2RwLXBoeSYjOTI7biZxdW90Oyk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrbXRrX2RwX2dl
-dF9jYWxpYnJhdGlvbl9kYXRhKG10a19kcCk7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsrbXRrX2Rw
-LSZndDtwaHkmIzMyOz0mIzMyO2Rldm1fcGh5X2dldCgmYW1wO210a19kcC0mZ3Q7cGh5X2Rldi0m
-Z3Q7ZGV2LCYjMzI7JnF1b3Q7ZHAmcXVvdDspOw0KJmd0OyYjMzI7K2lmJiMzMjsoSVNfRVJSKG10
-a19kcC0mZ3Q7cGh5KSkmIzMyO3sNCiZndDsmIzMyOytwbGF0Zm9ybV9kZXZpY2VfdW5yZWdpc3Rl
-cihtdGtfZHAtJmd0O3BoeV9kZXYpOw0KJmd0OyYjMzI7K3JldHVybiYjMzI7ZGV2X2Vycl9wcm9i
-ZShkZXYsJiMzMjtQVFJfRVJSKG10a19kcC0mZ3Q7cGh5KSwmIzMyOyZxdW90O0ZhaWxlZA0KJmd0
-OyYjMzI7dG8mIzMyO2dldCYjMzI7cGh5JiM5MjtuJnF1b3Q7KTsNCiZndDsmIzMyOyt9DQomZ3Q7
-JiMzMjsrDQomZ3Q7JiMzMjsrcmV0dXJuJiMzMjswOw0KJmd0OyYjMzI7K30NCiZndDsmIzMyOysN
-CiZndDsmIzMyOyYjMzI7c3RhdGljJiMzMjtpbnQmIzMyO210a19kcF9wcm9iZShzdHJ1Y3QmIzMy
-O3BsYXRmb3JtX2RldmljZSYjMzI7KnBkZXYpDQomZ3Q7JiMzMjsmIzMyO3sNCiZndDsmIzMyOyYj
-MzI7c3RydWN0JiMzMjttdGtfZHAmIzMyOyptdGtfZHA7DQomZ3Q7JiMzMjtAQCYjMzI7LTI1MzYs
-MjMmIzMyOysyNTU5LDkmIzMyO0BAJiMzMjtzdGF0aWMmIzMyO2ludCYjMzI7bXRrX2RwX3Byb2Jl
-KHN0cnVjdCYjMzI7cGxhdGZvcm1fZGV2aWNlDQomZ3Q7JiMzMjsqcGRldikNCiZndDsmIzMyOyYj
-MzI7fQ0KJmd0OyYjMzI7JiMzMjt9DQomZ3Q7JiMzMjsmIzMyOw0KJmd0OyYjMzI7LW10a19kcC0m
-Z3Q7cGh5X2RldiYjMzI7PSYjMzI7cGxhdGZvcm1fZGV2aWNlX3JlZ2lzdGVyX2RhdGEoZGV2LCYj
-MzI7JnF1b3Q7bWVkaWF0ZWstDQomZ3Q7JiMzMjtkcC1waHkmcXVvdDssDQomZ3Q7JiMzMjstUExB
-VEZPUk1fREVWSURfDQomZ3Q7JiMzMjtBVVRPLA0KJmd0OyYjMzI7LSZhbXA7bXRrX2RwLSZndDty
-ZWdzLA0KJmd0OyYjMzI7LXNpemVvZihzdHJ1Y3QNCiZndDsmIzMyO3JlZ21hcCYjMzI7KikpOw0K
-Jmd0OyYjMzI7LWlmJiMzMjsoSVNfRVJSKG10a19kcC0mZ3Q7cGh5X2RldikpDQomZ3Q7JiMzMjst
-cmV0dXJuJiMzMjtkZXZfZXJyX3Byb2JlKGRldiwmIzMyO1BUUl9FUlIobXRrX2RwLSZndDtwaHlf
-ZGV2KSwNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JnF1b3Q7RmFpbGVkJiMz
-Mjt0byYjMzI7Y3JlYXRlJiMzMjtkZXZpY2UmIzMyO21lZGlhdGVrLQ0KJmd0OyYjMzI7ZHAtcGh5
-JiM5MjtuJnF1b3Q7KTsNCiZndDsmIzMyOy0NCiZndDsmIzMyOy1tdGtfZHBfZ2V0X2NhbGlicmF0
-aW9uX2RhdGEobXRrX2RwKTsNCiZndDsmIzMyOy0NCiZndDsmIzMyOy1tdGtfZHAtJmd0O3BoeSYj
-MzI7PSYjMzI7ZGV2bV9waHlfZ2V0KCZhbXA7bXRrX2RwLSZndDtwaHlfZGV2LSZndDtkZXYsJiMz
-MjsmcXVvdDtkcCZxdW90Oyk7DQomZ3Q7JiMzMjstDQomZ3Q7JiMzMjstaWYmIzMyOyhJU19FUlIo
-bXRrX2RwLSZndDtwaHkpKSYjMzI7ew0KJmd0OyYjMzI7LXBsYXRmb3JtX2RldmljZV91bnJlZ2lz
-dGVyKG10a19kcC0mZ3Q7cGh5X2Rldik7DQomZ3Q7JiMzMjstcmV0dXJuJiMzMjtkZXZfZXJyX3By
-b2JlKGRldiwmIzMyO1BUUl9FUlIobXRrX2RwLSZndDtwaHkpLA0KJmd0OyYjMzI7LSYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmcXVvdDtGYWlsZWQmIzMyO3RvJiMzMjtnZXQmIzMyO3BoeSYjOTI7
-biZxdW90Oyk7DQomZ3Q7JiMzMjstfQ0KJmd0OyYjMzI7K3JldCYjMzI7PSYjMzI7bXRrX2RwX3Jl
-Z2lzdGVyX3BoeShtdGtfZHApOw0KJmd0OyYjMzI7K2lmJiMzMjsocmV0KQ0KJmd0OyYjMzI7K3Jl
-dHVybiYjMzI7cmV0Ow0KJmd0OyYjMzI7JiMzMjsNCiZndDsmIzMyOyYjMzI7bXRrX2RwLSZndDti
-cmlkZ2UuZnVuY3MmIzMyOz0mIzMyOyZhbXA7bXRrX2RwX2JyaWRnZV9mdW5jczsNCiZndDsmIzMy
-OyYjMzI7bXRrX2RwLSZndDticmlkZ2Uub2Zfbm9kZSYjMzI7PSYjMzI7ZGV2LSZndDtvZl9ub2Rl
-Ow0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiogTUVE
-SUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioqKg0KVGhlIGlu
-Zm9ybWF0aW9uIGNvbnRhaW5lZCBpbiB0aGlzIGUtbWFpbCBtZXNzYWdlIChpbmNsdWRpbmcgYW55
-IA0KYXR0YWNobWVudHMpIG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxl
-Z2VkLCBvciBvdGhlcndpc2UNCmV4ZW1wdCBmcm9tIGRpc2Nsb3N1cmUgdW5kZXIgYXBwbGljYWJs
-ZSBsYXdzLiBJdCBpcyBpbnRlbmRlZCB0byBiZSANCmNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2ln
-bmF0ZWQgcmVjaXBpZW50KHMpLiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCANCmRpc3RyaWJ1dGlv
-biwgcHJpbnRpbmcsIHJldGFpbmluZyBvciBjb3B5aW5nIG9mIHRoaXMgZS1tYWlsIChpbmNsdWRp
-bmcgaXRzIA0KYXR0YWNobWVudHMpIGJ5IHVuaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHN0cmlj
-dGx5IHByb2hpYml0ZWQgYW5kIG1heSANCmJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBp
-bnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBlLW1haWwsIG9yIGJlbGlldmUgDQp0aGF0IHlvdSBo
-YXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5k
-ZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55
-IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVu
-dHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9m
-IHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19
-LS0+
+On 2023/7/27 07:09, Dave Chinner wrote:
+> On Wed, Jul 26, 2023 at 05:14:09PM +0800, Qi Zheng wrote:
+>> On 2023/7/26 16:08, Dave Chinner wrote:
+>>> On Mon, Jul 24, 2023 at 05:43:51PM +0800, Qi Zheng wrote:
+>>>> @@ -122,6 +126,13 @@ void shrinker_free_non_registered(struct shrinker *shrinker);
+>>>>    void shrinker_register(struct shrinker *shrinker);
+>>>>    void shrinker_unregister(struct shrinker *shrinker);
+>>>> +static inline bool shrinker_try_get(struct shrinker *shrinker)
+>>>> +{
+>>>> +	return READ_ONCE(shrinker->registered) &&
+>>>> +	       refcount_inc_not_zero(&shrinker->refcount);
+>>>> +}
+>>>
+>>> Why do we care about shrinker->registered here? If we don't set
+>>> the refcount to 1 until we have fully initialised everything, then
+>>> the shrinker code can key entirely off the reference count and
+>>> none of the lookup code needs to care about whether the shrinker is
+>>> registered or not.
+>>
+>> The purpose of checking shrinker->registered here is to stop running
+>> shrinker after calling shrinker_free(), which can prevent the following
+>> situations from happening:
+>>
+>> CPU 0                 CPU 1
+>>
+>> shrinker_try_get()
+>>
+>>                         shrinker_try_get()
+>>
+>> shrinker_put()
+>> shrinker_try_get()
+>>                         shrinker_put()
+> 
+> I don't see any race here? What is wrong with having multiple active
+> users at once?
 
---__=_Part_Boundary_007_1810936306.1525258531
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Maybe I'm overthinking. What I think is that if there are multiple users
+at once, it may cause the above-mentioned livelock, which will cause
+shrinker_free() to wait for a long time. But this probability should be
+very low.
 
-SGksIEFuZ2VsbzoNCg0KT24gVHVlLCAyMDIzLTA3LTI1IGF0IDA5OjMyICswMjAwLCBBbmdlbG9H
-aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gSW4gcHJlcGFyYXRpb24gZm9yIGFkZGluZyBz
-dXBwb3J0IGZvciBlRFAsIG1vdmUgdGhlIFBIWSByZWdpc3RyYXRpb24NCj4gY29kZSB0byBhIG5l
-dyBtdGtfZHBfcmVnaXN0ZXJfcGh5KCkgZnVuY3Rpb24gZm9yIGJldHRlciByZWFkYWJpbGl0eS4N
-Cj4gDQo+IFRoaXMgY29tbWl0IGJyaW5ncyBubyBmdW5jdGlvbmFsIGNoYW5nZXMuDQoNClJldmll
-d2VkLWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPg0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
-OiBBbmdlbG9HaW9hY2NoaW5vIERlbCBSZWdubyA8DQo+IGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVn
-bm9AY29sbGFib3JhLmNvbT4NCj4gVGVzdGVkLWJ5OiBDaGVuLVl1IFRzYWkgPHdlbnN0QGNocm9t
-aXVtLm9yZz4NCj4gUmV2aWV3ZWQtYnk6IEFsZXhhbmRyZSBNZXJnbmF0IDxhbWVyZ25hdEBiYXls
-aWJyZS5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jIHwg
-NDMgKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tDQo+IC0tLS0NCj4gIDEgZmlsZSBjaGFuZ2Vk
-LCAyNiBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2RwLmMNCj4gaW5kZXggYzFkMWE4ODJmMWRiLi4xYjQyMTllNmEwMGIgMTAwNjQ0
-DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYw0KPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMNCj4gQEAgLTI0NzgsNiArMjQ3OCwyOSBAQCBz
-dGF0aWMgaW50IG10a19kcF9yZWdpc3Rlcl9hdWRpb19kcml2ZXIoc3RydWN0DQo+IGRldmljZSAq
-ZGV2KQ0KPiAgCXJldHVybiBQVFJfRVJSX09SX1pFUk8obXRrX2RwLT5hdWRpb19wZGV2KTsNCj4g
-IH0NCj4gIA0KPiArc3RhdGljIGludCBtdGtfZHBfcmVnaXN0ZXJfcGh5KHN0cnVjdCBtdGtfZHAg
-Km10a19kcCkNCj4gK3sNCj4gKwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSBtdGtfZHAtPmRldjsNCj4g
-Kw0KPiArCW10a19kcC0+cGh5X2RldiA9IHBsYXRmb3JtX2RldmljZV9yZWdpc3Rlcl9kYXRhKGRl
-diwgIm1lZGlhdGVrLQ0KPiBkcC1waHkiLA0KPiArCQkJCQkJCVBMQVRGT1JNX0RFVklEXw0KPiBB
-VVRPLA0KPiArCQkJCQkJCSZtdGtfZHAtPnJlZ3MsDQo+ICsJCQkJCQkJc2l6ZW9mKHN0cnVjdA0K
-PiByZWdtYXAgKikpOw0KPiArCWlmIChJU19FUlIobXRrX2RwLT5waHlfZGV2KSkNCj4gKwkJcmV0
-dXJuIGRldl9lcnJfcHJvYmUoZGV2LCBQVFJfRVJSKG10a19kcC0+cGh5X2RldiksDQo+ICsJCQkJ
-ICAgICAiRmFpbGVkIHRvIGNyZWF0ZSBkZXZpY2UgbWVkaWF0ZWstDQo+IGRwLXBoeVxuIik7DQo+
-ICsNCj4gKwltdGtfZHBfZ2V0X2NhbGlicmF0aW9uX2RhdGEobXRrX2RwKTsNCj4gKw0KPiArCW10
-a19kcC0+cGh5ID0gZGV2bV9waHlfZ2V0KCZtdGtfZHAtPnBoeV9kZXYtPmRldiwgImRwIik7DQo+
-ICsJaWYgKElTX0VSUihtdGtfZHAtPnBoeSkpIHsNCj4gKwkJcGxhdGZvcm1fZGV2aWNlX3VucmVn
-aXN0ZXIobXRrX2RwLT5waHlfZGV2KTsNCj4gKwkJcmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2LCBQ
-VFJfRVJSKG10a19kcC0+cGh5KSwgIkZhaWxlZA0KPiB0byBnZXQgcGh5XG4iKTsNCj4gKwl9DQo+
-ICsNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKw0KPiAgc3RhdGljIGludCBtdGtfZHBfcHJvYmUo
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gIHsNCj4gIAlzdHJ1Y3QgbXRrX2RwICpt
-dGtfZHA7DQo+IEBAIC0yNTM2LDIzICsyNTU5LDkgQEAgc3RhdGljIGludCBtdGtfZHBfcHJvYmUo
-c3RydWN0IHBsYXRmb3JtX2RldmljZQ0KPiAqcGRldikNCj4gIAkJfQ0KPiAgCX0NCj4gIA0KPiAt
-CW10a19kcC0+cGh5X2RldiA9IHBsYXRmb3JtX2RldmljZV9yZWdpc3Rlcl9kYXRhKGRldiwgIm1l
-ZGlhdGVrLQ0KPiBkcC1waHkiLA0KPiAtCQkJCQkJCVBMQVRGT1JNX0RFVklEXw0KPiBBVVRPLA0K
-PiAtCQkJCQkJCSZtdGtfZHAtPnJlZ3MsDQo+IC0JCQkJCQkJc2l6ZW9mKHN0cnVjdA0KPiByZWdt
-YXAgKikpOw0KPiAtCWlmIChJU19FUlIobXRrX2RwLT5waHlfZGV2KSkNCj4gLQkJcmV0dXJuIGRl
-dl9lcnJfcHJvYmUoZGV2LCBQVFJfRVJSKG10a19kcC0+cGh5X2RldiksDQo+IC0JCQkJICAgICAi
-RmFpbGVkIHRvIGNyZWF0ZSBkZXZpY2UgbWVkaWF0ZWstDQo+IGRwLXBoeVxuIik7DQo+IC0NCj4g
-LQltdGtfZHBfZ2V0X2NhbGlicmF0aW9uX2RhdGEobXRrX2RwKTsNCj4gLQ0KPiAtCW10a19kcC0+
-cGh5ID0gZGV2bV9waHlfZ2V0KCZtdGtfZHAtPnBoeV9kZXYtPmRldiwgImRwIik7DQo+IC0NCj4g
-LQlpZiAoSVNfRVJSKG10a19kcC0+cGh5KSkgew0KPiAtCQlwbGF0Zm9ybV9kZXZpY2VfdW5yZWdp
-c3RlcihtdGtfZHAtPnBoeV9kZXYpOw0KPiAtCQlyZXR1cm4gZGV2X2Vycl9wcm9iZShkZXYsIFBU
-Ul9FUlIobXRrX2RwLT5waHkpLA0KPiAtCQkJCSAgICAgIkZhaWxlZCB0byBnZXQgcGh5XG4iKTsN
-Cj4gLQl9DQo+ICsJcmV0ID0gbXRrX2RwX3JlZ2lzdGVyX3BoeShtdGtfZHApOw0KPiArCWlmIChy
-ZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICANCj4gIAltdGtfZHAtPmJyaWRnZS5mdW5jcyA9ICZt
-dGtfZHBfYnJpZGdlX2Z1bmNzOw0KPiAgCW10a19kcC0+YnJpZGdlLm9mX25vZGUgPSBkZXYtPm9m
-X25vZGU7DQo=
+> 
+>>>
+>>> This should use a completion, then it is always safe under
+>>> rcu_read_lock().  This also gets rid of the shrinker_lock spin lock,
+>>> which only exists because we can't take a blocking lock under
+>>> rcu_read_lock(). i.e:
+>>>
+>>>
+>>> void shrinker_put(struct shrinker *shrinker)
+>>> {
+>>> 	if (refcount_dec_and_test(&shrinker->refcount))
+>>> 		complete(&shrinker->done);
+>>> }
+>>>
+>>> void shrinker_free()
+>>> {
+>>> 	.....
+>>> 	refcount_dec(&shrinker->refcount);
+>>
+>> I guess what you mean is shrinker_put(), because here may be the last
+>> refcount.
+> 
+> Yes, I did.
+> 
+>>> 	wait_for_completion(&shrinker->done);
+>>> 	/*
+>>> 	 * lookups on the shrinker will now all fail as refcount has
+>>> 	 * fallen to zero. We can now remove it from the lists and
+>>> 	 * free it.
+>>> 	 */
+>>> 	down_write(shrinker_rwsem);
+>>> 	list_del_rcu(&shrinker->list);
+>>> 	up_write(&shrinker_rwsem);
+>>> 	call_rcu(shrinker->rcu_head, shrinker_free_rcu_cb);
+>>> }
+>>>
+>>> ....
+>>>
+>>>> @@ -686,11 +711,14 @@ EXPORT_SYMBOL(shrinker_free_non_registered);
+>>>>    void shrinker_register(struct shrinker *shrinker)
+>>>>    {
+>>>> -	down_write(&shrinker_rwsem);
+>>>> -	list_add_tail(&shrinker->list, &shrinker_list);
+>>>> -	shrinker->flags |= SHRINKER_REGISTERED;
+>>>> +	refcount_set(&shrinker->refcount, 1);
+>>>> +
+>>>> +	spin_lock(&shrinker_lock);
+>>>> +	list_add_tail_rcu(&shrinker->list, &shrinker_list);
+>>>> +	spin_unlock(&shrinker_lock);
+>>>> +
+>>>>    	shrinker_debugfs_add(shrinker);
+>>>> -	up_write(&shrinker_rwsem);
+>>>> +	WRITE_ONCE(shrinker->registered, true);
+>>>>    }
+>>>>    EXPORT_SYMBOL(shrinker_register);
+>>>
+>>> This just looks wrong - you are trying to use WRITE_ONCE() as a
+>>> release barrier to indicate that the shrinker is now set up fully.
+>>> That's not necessary - the refcount is an atomic and along with the
+>>> rcu locks they should provides all the barriers we need. i.e.
+>>
+>> The reason I used WRITE_ONCE() here is because the shrinker->registered
+>> will be read and written concurrently (read in shrinker_try_get() and
+>> written in shrinker_free()), which is why I added shrinker::registered
+>> field instead of using SHRINKER_REGISTERED flag (this can reduce the
+>> addition of WRITE_ONCE()/READ_ONCE()).
+> 
+> Using WRITE_ONCE/READ_ONCE doesn't provide memory barriers needed to
+> use the field like this. You need release/acquire memory ordering
+> here. i.e. smp_store_release()/smp_load_acquire().
+> 
+> As it is, the refcount_inc_not_zero() provides a control dependency,
+> as documented in include/linux/refcount.h, refcount_dec_and_test()
+> provides release memory ordering. The only thing I think we may need
+> is a write barrier before refcount_set(), such that if
+> refcount_inc_not_zero() sees a non-zero value, it is guaranteed to
+> see an initialised structure...
+> 
+> i.e. refcounts provide all the existence and initialisation
+> guarantees. Hence I don't see the need to use shrinker->registered
+> like this and it can remain a bit flag protected by the
+> shrinker_rwsem().
 
---__=_Part_Boundary_007_1810936306.1525258531--
+Ah, I didn't consider the memory order with refcount when I added
+WRITE_ONCE/READ_ONCE to shrinker->registered, just didn't want KCSAN
+to complain (there are multiple visitors at the same time, one of which
+is a writer).
 
+And the livelock case mentioned above is indeed unlikely to happen, so
+I will delete shrinker->registered in the next version.
+
+> 
+> 
+>>> void shrinker_register(struct shrinker *shrinker)
+>>> {
+>>> 	down_write(&shrinker_rwsem);
+>>> 	list_add_tail_rcu(&shrinker->list, &shrinker_list);
+>>> 	shrinker->flags |= SHRINKER_REGISTERED;
+>>> 	shrinker_debugfs_add(shrinker);
+>>> 	up_write(&shrinker_rwsem);
+>>>
+>>> 	/*
+>>> 	 * now the shrinker is fully set up, take the first
+>>> 	 * reference to it to indicate that lookup operations are
+>>> 	 * now allowed to use it via shrinker_try_get().
+>>> 	 */
+>>> 	refcount_set(&shrinker->refcount, 1);
+>>> }
+>>>
+>>>> diff --git a/mm/shrinker_debug.c b/mm/shrinker_debug.c
+>>>> index f1becfd45853..c5573066adbf 100644
+>>>> --- a/mm/shrinker_debug.c
+>>>> +++ b/mm/shrinker_debug.c
+>>>> @@ -5,6 +5,7 @@
+>>>>    #include <linux/seq_file.h>
+>>>>    #include <linux/shrinker.h>
+>>>>    #include <linux/memcontrol.h>
+>>>> +#include <linux/rculist.h>
+>>>>    /* defined in vmscan.c */
+>>>>    extern struct rw_semaphore shrinker_rwsem;
+>>>> @@ -161,17 +162,21 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
+>>>>    {
+>>>>    	struct dentry *entry;
+>>>>    	char buf[128];
+>>>> -	int id;
+>>>> -
+>>>> -	lockdep_assert_held(&shrinker_rwsem);
+>>>> +	int id, ret = 0;
+>>>>    	/* debugfs isn't initialized yet, add debugfs entries later. */
+>>>>    	if (!shrinker_debugfs_root)
+>>>>    		return 0;
+>>>> +	down_write(&shrinker_rwsem);
+>>>> +	if (shrinker->debugfs_entry)
+>>>> +		goto fail;
+>>>> +
+>>>>    	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
+>>>> -	if (id < 0)
+>>>> -		return id;
+>>>> +	if (id < 0) {
+>>>> +		ret = id;
+>>>> +		goto fail;
+>>>> +	}
+>>>>    	shrinker->debugfs_id = id;
+>>>>    	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
+>>>> @@ -180,7 +185,8 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
+>>>>    	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
+>>>>    	if (IS_ERR(entry)) {
+>>>>    		ida_free(&shrinker_debugfs_ida, id);
+>>>> -		return PTR_ERR(entry);
+>>>> +		ret = PTR_ERR(entry);
+>>>> +		goto fail;
+>>>>    	}
+>>>>    	shrinker->debugfs_entry = entry;
+>>>> @@ -188,7 +194,10 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
+>>>>    			    &shrinker_debugfs_count_fops);
+>>>>    	debugfs_create_file("scan", 0220, entry, shrinker,
+>>>>    			    &shrinker_debugfs_scan_fops);
+>>>> -	return 0;
+>>>> +
+>>>> +fail:
+>>>> +	up_write(&shrinker_rwsem);
+>>>> +	return ret;
+>>>>    }
+>>>>    int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
+>>>> @@ -243,6 +252,11 @@ struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
+>>>>    	shrinker->name = NULL;
+>>>>    	*debugfs_id = entry ? shrinker->debugfs_id : -1;
+>>>> +	/*
+>>>> +	 * Ensure that shrinker->registered has been set to false before
+>>>> +	 * shrinker->debugfs_entry is set to NULL.
+>>>> +	 */
+>>>> +	smp_wmb();
+>>>>    	shrinker->debugfs_entry = NULL;
+>>>>    	return entry;
+>>>> @@ -266,14 +280,26 @@ static int __init shrinker_debugfs_init(void)
+>>>>    	shrinker_debugfs_root = dentry;
+>>>>    	/* Create debugfs entries for shrinkers registered at boot */
+>>>> -	down_write(&shrinker_rwsem);
+>>>> -	list_for_each_entry(shrinker, &shrinker_list, list)
+>>>> +	rcu_read_lock();
+>>>> +	list_for_each_entry_rcu(shrinker, &shrinker_list, list) {
+>>>> +		if (!shrinker_try_get(shrinker))
+>>>> +			continue;
+>>>> +		rcu_read_unlock();
+>>>> +
+>>>>    		if (!shrinker->debugfs_entry) {
+>>>> -			ret = shrinker_debugfs_add(shrinker);
+>>>> -			if (ret)
+>>>> -				break;
+>>>> +			/* Paired with smp_wmb() in shrinker_debugfs_detach() */
+>>>> +			smp_rmb();
+>>>> +			if (READ_ONCE(shrinker->registered))
+>>>> +				ret = shrinker_debugfs_add(shrinker);
+>>>>    		}
+>>>> -	up_write(&shrinker_rwsem);
+>>>> +
+>>>> +		rcu_read_lock();
+>>>> +		shrinker_put(shrinker);
+>>>> +
+>>>> +		if (ret)
+>>>> +			break;
+>>>> +	}
+>>>> +	rcu_read_unlock();
+>>>>    	return ret;
+>>>>    }
+>>>
+>>> And all this churn and complexity can go away because the
+>>> shrinker_rwsem is still used to protect shrinker_register()
+>>> entirely....
+>>
+>> My consideration is that during this process, there may be a
+>> driver probe failure and then shrinker_free() is called (the
+>> shrinker_debugfs_init() is called in late_initcall stage). In
+>> this case, we need to use RCU+refcount to ensure that the shrinker
+>> is not freed.
+> 
+> Yeah, you're trying to work around the lack of a
+> wait_for_completion() call in shrinker_free().
+> 
+> With that, this doesn't need RCU at all, and the iteration can be
+> done fully under the shrinker_rwsem() safely and so none of this
+> code needs to change.
+
+Oh, indeed, here does not need to be changed.
+
+Thanks,
+Qi
+
+> 
+> Cheers,
+> 
+> Dave.
