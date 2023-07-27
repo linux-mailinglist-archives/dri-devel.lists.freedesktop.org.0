@@ -1,70 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983B0764B95
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 10:15:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6DE764AB5
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 10:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C23EC10E542;
-	Thu, 27 Jul 2023 08:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05F5810E52D;
+	Thu, 27 Jul 2023 08:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B734310E542
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:15:46 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-682eef7d752so205252b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 01:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1690445746; x=1691050546;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V+VUr/yqCBhRzWtIhjCO81y0MQsQ8/nBil0vz0xF6BE=;
- b=TaRPl345AKbrAIMueUHfPwp1x6uI6QP6FYTf0gbRl5pBKvfKuQ+QWduLyPJpV8ScsL
- Q5TivksWMgrstH3HdJCskaPbEKYgZ24uChwqAdIFrOrWwAa2WQwZ8NT8kZyVgbNoH85T
- do2ODt4uNF4INjJdWRp+atPQdybcUxTwq7Q7CB0q5LWN8BolV4yvFIRahlHyro/xVHih
- Vepy/KyZesG0IyAMF6CRgG8Mi1ITRqBiZ02IP7raj5LrBsVY5eCkMeBoD4m40xyPsJDZ
- tcd1kL8KzTvRLgjfGcyP08MdoeQiDGrvVHZmsG1n2bLc4Z4qfZKKlhoGJ8kGn6E5dkaY
- Cwmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690445746; x=1691050546;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V+VUr/yqCBhRzWtIhjCO81y0MQsQ8/nBil0vz0xF6BE=;
- b=jiX+gtDS1gRHHRABB76Djrk0FMrwP9bjSId1z9Cydc801a2lmFy3ain+m3NXdH0H+5
- /lVqitNF+15IMoxzIq4FheU9mvC4VsLWVmvseWKCgRPnh+d1SLPCycgO5okY7Y84Py9S
- N3h7n+VL0y/yhIJiL18WUcXQvKJl4N7YqXXXDseyR2aMrgr18N2V9qUmB7bNBcQWLGzw
- BZ1hgOAmaF7Yzyimz0W6UuIr6RfIt3uOgk2ThEEjChvT8mwCRagO6F+H+T/cl+iKxy+H
- wjsnaj9toFW2VHc5j8cvqI9YVkcgbkDIvWlEROY+7ueAPMGb/9Zi1mU46gVSW8fX1Pi3
- A8Tg==
-X-Gm-Message-State: ABy/qLZrigNYVD10lM+pjTJXNVm1h0Jv6Daa8F778n0Ca2F4nBwfd6/k
- K1zUyvUxh3EVl627KG3aktk5QQ==
-X-Google-Smtp-Source: APBJJlEPnp3RDXXbUxyHg3EG2jnu2Scq2lS38vCuYEIB7nQxuybwzYpkjm+dcqMi61BwYttNjNAkLg==
-X-Received: by 2002:aa7:84d0:0:b0:686:bf43:60fa with SMTP id
- x16-20020aa784d0000000b00686bf4360famr5267613pfn.0.1690445746275; 
- Thu, 27 Jul 2023 01:15:46 -0700 (PDT)
-Received: from C02DW0BEMD6R.bytedance.net ([203.208.167.147])
- by smtp.gmail.com with ESMTPSA id
- j8-20020aa78d08000000b006828e49c04csm885872pfe.75.2023.07.27.01.15.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 01:15:45 -0700 (PDT)
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
- vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
- brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu,
- steven.price@arm.com, cel@kernel.org, senozhatsky@chromium.org,
- yujie.liu@intel.com, gregkh@linuxfoundation.org, muchun.song@linux.dev
-Subject: [PATCH v3 49/49] mm: shrinker: convert shrinker_rwsem to mutex
-Date: Thu, 27 Jul 2023 16:05:02 +0800
-Message-Id: <20230727080502.77895-50-zhengqi.arch@bytedance.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
-References: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2054.outbound.protection.outlook.com [40.107.220.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBCF10E52D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:11:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B+eR6rjRVi4xgJJ/I206ksobTYabdId8OxrX7VSOOdZzTAaHN13bHwDhYxwJzRk0SuPxrL80aZg+8XzhwcLs4DHDWGSwDssmINx2RF1lp8+FM7r9GIoI+2Oz9UhFjyODPMpZ6ErZpZ+rkAz7NuxA54qMAZDikTn6ZPS/36c3W3ZcXkw48542OhhxKEskFoM7eerwhwqhPAm872MZwk544RNKbigTcM8vL51avMCIrQS5YyQ571Nwbu+c/sWYpgB8QZKJ/KVq2l2Pz0SfW7e07TVyV519l7tFvi9dtGZVFlE2iMPg9foZ1Cxq4KVz5TVioIdIj3hhiyg+EVKo99m3aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2fTNGjW2NMlPDivE1YiB1d5AFUazY1JhLIiCv+EJ/gI=;
+ b=W3hEUMOG0vxhqBm9mVOb66NqA4+SAkiJsD9YaUng4cmNyPddBhv6XH21O6jBSXzOwSm0t9bBcU0ClZkoRlTvGJTzwBBcjgrHxb0HPjH+YPV+82cir8PvAM72xuSVP5s7Iq4jUBPi3sJvis/pM73X8TkzkmjLE5wHCfptUYTopuN8AJCx31bBD09BNVFoIkVW2hf/Sw4c5W0HAtJIdL3fcu87edz4t1d/WS2PdNvUoms24TKqJUapayVOl0ALYo3UQ4VyTHXNGU1SAWtlwuoaBkTl5uXWDOjnLYybE+kOavs3CxpyTUtPaFXlfmnD66tUnyivAenj3rEgVi1lLZT7dQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2fTNGjW2NMlPDivE1YiB1d5AFUazY1JhLIiCv+EJ/gI=;
+ b=UuzuCqAQ1+EHh0gDi3c5+sNaknlHE61+zQbAc6+PTyjPZBjt+KD6VWklEKOgfT9xvxJJDB0ZzOCrus8xzZeGFBFOtvRIjmFSV1txCB+jVKvgiiDb/gI2zqlInsbKPsTnlQuXb94LLZNbJi1SyjSuqvV03S4eROAGZspeqO7FsXw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BL1PR12MB5095.namprd12.prod.outlook.com (2603:10b6:208:31b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
+ 2023 08:11:28 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
+ 08:11:28 +0000
+Message-ID: <54d642a4-d8ad-e626-0fe1-4254aa0708da@amd.com>
+Date: Thu, 27 Jul 2023 10:11:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/ttm: check null pointer before accessing when swapping
+Content-Language: en-US
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ "Chen, Guchun" <Guchun.Chen@amd.com>
+References: <20230724024229.1118444-1-guchun.chen@amd.com>
+ <CADnq5_Pfwyen7W6v9-MoT_S=owcRHbu-+TbwJ2KTN-iHcbEY5w@mail.gmail.com>
+ <f401e8b1-d2c1-9837-7a0f-35fd9a4ac64d@amd.com>
+ <DM5PR12MB2469A467CC44134886BD6F9EF101A@DM5PR12MB2469.namprd12.prod.outlook.com>
+ <CABXGCsM_cLPLBJW4Kxk3RBn9UpsMDqLA8bhEOOVyDSERcO-WMw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CABXGCsM_cLPLBJW4Kxk3RBn9UpsMDqLA8bhEOOVyDSERcO-WMw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0268.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b5::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BL1PR12MB5095:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3554f4f-a6d3-4d0f-88ab-08db8e79145b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3mws3tXgTzB0H6tLEd8S+ZWr1muk6f100edBnmZ6rReNmAs10ifGDtwroeRfyxHvBeABvjPxIBCcoH9ksLdsWf6vSvJTxjP95H/p4ajBdGdaPc8D36YwNhpCryZqlhDZLzzIhMnz+Zo/zpXy1B1lJJxzKcxt9wQQpOJWdsgCrqXnMyfS183dRj4Ysay6qMIAXxTdkUkc2HoMRJ85PN1o+5iepZ+7Pv/EA4eVmm5W0OsLYGCYhOiU02stEYOf35OjgFGN0mvinLrnJEa/S0LHVucHwQwHpojc5RPpRmuzk9hQLs1Z3k4hICd/zCuhllhwxsDrzdYmtDLhHkzlxf3cipHksnF7mFk9e4apLPyL6jGlMiAntLddRhkQpO62Av8Ct/ubSP+51BddABw2PEd7fEDazF7TO6+lIUmtkC63Ug2YQ9MzhawydUqSWGz/QLYglFGhZZyoFxRLTcK2YQzZzDO/z+dcZ/77pP9owvR/Ph4VkKoFtf05bX2tSQbTnGWT12VpWk+pq7wzI1ceWZ2V+0+3ePHsGPEvc7gtk/KFbcGWoRUefe9OD2kPIJ9x7qujFY28hjU1F3H16pCr4gOuusZ1SrjkCKMrzgwmvJJHkZYLCM7McDDyWi9DYTMBpuXhkGy0D3fmEVR6crc6+EM7Ew==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(346002)(136003)(376002)(396003)(39860400002)(451199021)(83380400001)(31686004)(54906003)(110136005)(478600001)(31696002)(66574015)(8936002)(5660300002)(36756003)(41300700001)(2616005)(4744005)(2906002)(8676002)(6506007)(4326008)(66946007)(38100700002)(86362001)(66556008)(66476007)(6636002)(316002)(186003)(53546011)(6512007)(6486002)(6666004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGYrNG9aUlRKVzB5VGlKSW9TcFRxUnlYRnA2cFdsdHZjWXYxb3Zqemk4QVNw?=
+ =?utf-8?B?RjE3YU9LY00vRUhwRm1LcnZzRzFveVA2SUMzeDVEOFJsY0xESEVycmJlbkR1?=
+ =?utf-8?B?UWV4bWcvMXlCc050dkFUS3E0ZzAwLy9xQ25zWlFlODZRQmxxSVdFUGhhNzl5?=
+ =?utf-8?B?V3JKci8xVUUvRnRwMlNtUDBMSDZlcWhiUmlJUDYyUzZrelV2czJIN2VlVWdY?=
+ =?utf-8?B?ditNK0cwUkJTYVdZdUE1cHVYSThmOXpmYVN1QndpUHpoRlZPZWFoZ1JscktR?=
+ =?utf-8?B?c0lyYjhzSm9rN2plNkptSmFhZzhwb2hxM1FoRWsvQVpXRFY4akxxcDNPSHU0?=
+ =?utf-8?B?aDhibWlOUTJDc2FxVEJ0Y2tpTTgyZ0lXUDdydXdJckhRNDMxWWdQUjBNOGlp?=
+ =?utf-8?B?aHczSWxJdmNXNmNuenR4ZEF6aWp1YzMxSkhxTmNhUUdkT3FlVXFMWTlqeDhs?=
+ =?utf-8?B?QitQTlFQNHJxanJORGs0NWpMbjRncVJJZkRLMC8wQ0dJN054M2JrbzQ1ZWEy?=
+ =?utf-8?B?eWx3WG5SRlFqL3dNZElmTkI2WWdVMVZnWG9PbGdHbkNyeHU4cldOL05DVGdF?=
+ =?utf-8?B?MTdQanR0VGI1WllSbWpWeHJJOEJmcnJ2N1lxSk1ZdXlHSXh1bGIrbUZNTEZK?=
+ =?utf-8?B?QTY0eDYvYWwzSHROdFJYK2VXNlNBK2RPSVFuYVM4MEM4Uno5MGdwK2dHRnYy?=
+ =?utf-8?B?c0d6NWQxb2hFczJMbnF1Mk9RRU80QnM3bkhnTjRQSUVOU3NLN3lqWm1kSk1s?=
+ =?utf-8?B?TUhrMjUrbjFCYzI0bE1YLysvMmxMYVZ5eUxPN1ZieDBLQ2FLdlpDMTF2c09Y?=
+ =?utf-8?B?bXlPMnN6ZFRraitJUFZVQjAvTCtqcUI1Uk80UHl4VWk0Q2VoeDQvSXZSM2dP?=
+ =?utf-8?B?M05zelNWUW95V1kxL05JaXRTdDdTL25wN3FIakFOT21Xd0FzVklETS8zVzVa?=
+ =?utf-8?B?WWsyTkNpTkR2NHBPM2hxTUZnTE92Y3E1eXVLTjUxQklHZ2tCTXpGMW9oYUxW?=
+ =?utf-8?B?M1ZzdE5xSFBpTm5ieUZDNHhQZXhJRkJtMnlwZzEzVGp0YWhkaHV0Tm9aRTND?=
+ =?utf-8?B?dFpOd1NLVDVSK3JNYTRDYVMwa1laNnhTRGJaTHI0dHdkZm9xS3QzYnVnTElq?=
+ =?utf-8?B?MmgvL2p1bEhHcUY1cjB6VTgzQzFuOUNKako3Qmp6S25SckUzOXYxM1VlSUto?=
+ =?utf-8?B?eklOTWg1ZHpWdHdMTFY3Smd0SEFVYlE3Y0xudmpWOFc4bWdBWE9SUU16QWd6?=
+ =?utf-8?B?b1k2MkxMNExUVEczVHF4T24wRTFMMjkxRzM3UzhxZUxXdWFaU2JTckt6MDFa?=
+ =?utf-8?B?TTQ0eDdQTXJFYnp6ZUFaYUZPSkhpMlhVVWdjdUk3ekdqMk9lNkhSb3dUSmdt?=
+ =?utf-8?B?MUlwMXZVMmdrMk9NSG9SWnljVEVBb3R5U08xeVNYZlY0cUFWQTU0R3R0S1RN?=
+ =?utf-8?B?OTJyaDMyWlpoTXpTalRucktSODNTYlplOTZpQUgzT0xjNiswbW1MM2NhcWNS?=
+ =?utf-8?B?MEh2aWxIazJFVFc2V2t3eE9ITU5WSVZuR05UeDZNWFd4YktibSt1LzJiRWVl?=
+ =?utf-8?B?ZnNpTDFocUY2UTJndVVJVnlZODFTVEZvN1podnVNR2RlWmhtSjM5REZ0bzlJ?=
+ =?utf-8?B?UnI1dlhNbDdqLy9ibTFGR0hNR3E5MUd4Z1NkbXBUU2FvYklUeExleEdXODkx?=
+ =?utf-8?B?Z3p6SHp2WGZmRDNKcEhnY2NSSDA4S0NkUThlcEpSc0IreUk0WTFoTnNRYzdY?=
+ =?utf-8?B?WEdyRHVXYlpUQXNQenNSTG5BSU1wK0VpRm5QSG13YUxsYWVEenlYV3k1cE1K?=
+ =?utf-8?B?cnlYbmV0QUlaUmFqVlNIWEgrNmRycWkyclhrZ3JqZnBKVGczMXhidDI2ZmhJ?=
+ =?utf-8?B?TS93SDh2UHZDdkJTU1JnWVVsMzk4ZGlyM3pkelpWNW1jVnZMNDZZWW5tTkl4?=
+ =?utf-8?B?ZkYvL3J1ZW1oeXh5ZkUrR1F4cklnTlM5TVhnUGFwRG9CbnladjN6am4xSkJO?=
+ =?utf-8?B?bDNiSDJFc29CdjdyU0tlWlNCQ0xOK3RyY3NiaWFzZitEeUpwMVoyLzY2cTRr?=
+ =?utf-8?B?Y3l2SGszb1l4eGFlQXZRb1M0b0lTejRRNG8zZVdBeFYzaHNhVmpUdjRXczFS?=
+ =?utf-8?B?NkdwMCtYZFRLU1lxQzBEZEZqTU1CN21IcFh5YUFNcGpiZHZOT2UrS3pnSjNB?=
+ =?utf-8?Q?Gk8HtyrH4t+d7Um4vnhjLTPMeMcvaT0vXgknuWzJ8FsK?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3554f4f-a6d3-4d0f-88ab-08db8e79145b
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 08:11:28.8709 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CyvD3Yvthin1AiyJodWMpeJHL5zeIeBkaOa/Hjpxd1VKt6AaXKVU3Af51z8gldZ7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,248 +130,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- dm-devel@redhat.com, linux-mtd@lists.infradead.org, x86@kernel.org,
- cluster-devel@redhat.com, xen-devel@lists.xenproject.org,
- linux-ext4@vger.kernel.org, linux-arm-msm@vger.kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>,
- linux-raid@vger.kernel.org, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now there are no readers of shrinker_rwsem, so we can simply replace it
-with mutex lock.
+Am 27.07.23 um 09:39 schrieb Mikhail Gavrilov:
+> On Thu, Jul 27, 2023 at 12:33 PM Chen, Guchun <Guchun.Chen@amd.com> wrote:
+>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>
+>>> Has this already been pushed to drm-misc-next?
+>>>
+>>> Thanks,
+>>> Christian.
+>> Not yet, Christian, as I don't have push permission. I saw you were on vacation, so I would expect to ping you to push after you are back with full recharge.
+> I expect to see it in drm-fixes-6.5 cause the problem appeared during
+> the 6.5 release cycle.
 
-Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
----
- drivers/md/dm-cache-metadata.c |  2 +-
- fs/super.c                     |  2 +-
- mm/shrinker.c                  | 28 ++++++++++++++--------------
- mm/shrinker_debug.c            | 14 +++++++-------
- 4 files changed, 23 insertions(+), 23 deletions(-)
+Good point. The patch introducing the problem had a CC: stable tag as well.
 
-diff --git a/drivers/md/dm-cache-metadata.c b/drivers/md/dm-cache-metadata.c
-index acffed750e3e..9e0c69958587 100644
---- a/drivers/md/dm-cache-metadata.c
-+++ b/drivers/md/dm-cache-metadata.c
-@@ -1828,7 +1828,7 @@ int dm_cache_metadata_abort(struct dm_cache_metadata *cmd)
- 	 * Replacement block manager (new_bm) is created and old_bm destroyed outside of
- 	 * cmd root_lock to avoid ABBA deadlock that would result (due to life-cycle of
- 	 * shrinker associated with the block manager's bufio client vs cmd root_lock).
--	 * - must take shrinker_rwsem without holding cmd->root_lock
-+	 * - must take shrinker_mutex without holding cmd->root_lock
- 	 */
- 	new_bm = dm_block_manager_create(cmd->bdev, DM_CACHE_METADATA_BLOCK_SIZE << SECTOR_SHIFT,
- 					 CACHE_MAX_CONCURRENT_LOCKS);
-diff --git a/fs/super.c b/fs/super.c
-index 68b3877af941..fdde72e2a357 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -54,7 +54,7 @@ static char *sb_writers_name[SB_FREEZE_LEVELS] = {
-  * One thing we have to be careful of with a per-sb shrinker is that we don't
-  * drop the last active reference to the superblock from within the shrinker.
-  * If that happens we could trigger unregistering the shrinker from within the
-- * shrinker path and that leads to deadlock on the shrinker_rwsem. Hence we
-+ * shrinker path and that leads to deadlock on the shrinker_mutex. Hence we
-  * take a passive reference to the superblock to avoid this from occurring.
-  */
- static unsigned long super_cache_scan(struct shrinker *shrink,
-diff --git a/mm/shrinker.c b/mm/shrinker.c
-index a12dede5d21f..3d44a335ef3c 100644
---- a/mm/shrinker.c
-+++ b/mm/shrinker.c
-@@ -8,7 +8,7 @@
- #include "internal.h"
- 
- LIST_HEAD(shrinker_list);
--DECLARE_RWSEM(shrinker_rwsem);
-+DEFINE_MUTEX(shrinker_mutex);
- 
- #ifdef CONFIG_MEMCG
- static int shrinker_nr_max;
-@@ -80,7 +80,7 @@ int alloc_shrinker_info(struct mem_cgroup *memcg)
- 	int nid, ret = 0;
- 	int array_size = 0;
- 
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 	array_size = shrinker_unit_size(shrinker_nr_max);
- 	for_each_node(nid) {
- 		info = kvzalloc_node(sizeof(*info) + array_size, GFP_KERNEL, nid);
-@@ -91,7 +91,7 @@ int alloc_shrinker_info(struct mem_cgroup *memcg)
- 			goto err;
- 		rcu_assign_pointer(memcg->nodeinfo[nid]->shrinker_info, info);
- 	}
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- 
- 	return ret;
- 
-@@ -104,7 +104,7 @@ static struct shrinker_info *shrinker_info_protected(struct mem_cgroup *memcg,
- 						     int nid)
- {
- 	return rcu_dereference_protected(memcg->nodeinfo[nid]->shrinker_info,
--					 lockdep_is_held(&shrinker_rwsem));
-+					 lockdep_is_held(&shrinker_mutex));
- }
- 
- static struct shrinker_info *shrinker_info_rcu(struct mem_cgroup *memcg,
-@@ -161,7 +161,7 @@ static int expand_shrinker_info(int new_id)
- 	if (!root_mem_cgroup)
- 		goto out;
- 
--	lockdep_assert_held(&shrinker_rwsem);
-+	lockdep_assert_held(&shrinker_mutex);
- 
- 	new_size = shrinker_unit_size(new_nr_max);
- 	old_size = shrinker_unit_size(shrinker_nr_max);
-@@ -224,7 +224,7 @@ static int shrinker_memcg_alloc(struct shrinker *shrinker)
- 	if (mem_cgroup_disabled())
- 		return -ENOSYS;
- 
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 	id = idr_alloc(&shrinker_idr, shrinker, 0, 0, GFP_KERNEL);
- 	if (id < 0)
- 		goto unlock;
-@@ -238,7 +238,7 @@ static int shrinker_memcg_alloc(struct shrinker *shrinker)
- 	shrinker->id = id;
- 	ret = 0;
- unlock:
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- 	return ret;
- }
- 
-@@ -248,7 +248,7 @@ static void shrinker_memcg_remove(struct shrinker *shrinker)
- 
- 	BUG_ON(id < 0);
- 
--	lockdep_assert_held(&shrinker_rwsem);
-+	lockdep_assert_held(&shrinker_mutex);
- 
- 	idr_remove(&shrinker_idr, id);
- }
-@@ -299,7 +299,7 @@ void reparent_shrinker_deferred(struct mem_cgroup *memcg)
- 		parent = root_mem_cgroup;
- 
- 	/* Prevent from concurrent shrinker_info expand */
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 	for_each_node(nid) {
- 		child_info = shrinker_info_protected(memcg, nid);
- 		parent_info = shrinker_info_protected(parent, nid);
-@@ -312,7 +312,7 @@ void reparent_shrinker_deferred(struct mem_cgroup *memcg)
- 			}
- 		}
- 	}
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- }
- #else
- static int shrinker_memcg_alloc(struct shrinker *shrinker)
-@@ -708,11 +708,11 @@ void shrinker_register(struct shrinker *shrinker)
- 		return;
- 	}
- 
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 	list_add_tail_rcu(&shrinker->list, &shrinker_list);
- 	shrinker->flags |= SHRINKER_REGISTERED;
- 	shrinker_debugfs_add(shrinker);
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- 
- 	init_completion(&shrinker->done);
- 	/*
-@@ -745,7 +745,7 @@ void shrinker_free(struct shrinker *shrinker)
- 		wait_for_completion(&shrinker->done);
- 	}
- 
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 	if (shrinker->flags & SHRINKER_REGISTERED) {
- 		/*
- 		 * Lookups on the shrinker are over and will fail in the future,
-@@ -760,7 +760,7 @@ void shrinker_free(struct shrinker *shrinker)
- 
- 	if (shrinker->flags & SHRINKER_MEMCG_AWARE)
- 		shrinker_memcg_remove(shrinker);
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- 
- 	if (debugfs_entry)
- 		shrinker_debugfs_remove(debugfs_entry, debugfs_id);
-diff --git a/mm/shrinker_debug.c b/mm/shrinker_debug.c
-index 506257585408..368fa0484a44 100644
---- a/mm/shrinker_debug.c
-+++ b/mm/shrinker_debug.c
-@@ -7,7 +7,7 @@
- #include <linux/memcontrol.h>
- 
- /* defined in vmscan.c */
--extern struct rw_semaphore shrinker_rwsem;
-+extern struct mutex shrinker_mutex;
- extern struct list_head shrinker_list;
- 
- static DEFINE_IDA(shrinker_debugfs_ida);
-@@ -163,7 +163,7 @@ int shrinker_debugfs_add(struct shrinker *shrinker)
- 	char buf[128];
- 	int id;
- 
--	lockdep_assert_held(&shrinker_rwsem);
-+	lockdep_assert_held(&shrinker_mutex);
- 
- 	/* debugfs isn't initialized yet, add debugfs entries later. */
- 	if (!shrinker_debugfs_root)
-@@ -220,7 +220,7 @@ int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
- 	if (!new)
- 		return -ENOMEM;
- 
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 
- 	old = shrinker->name;
- 	shrinker->name = new;
-@@ -238,7 +238,7 @@ int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
- 			shrinker->debugfs_entry = entry;
- 	}
- 
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- 
- 	kfree_const(old);
- 
-@@ -251,7 +251,7 @@ struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
- {
- 	struct dentry *entry = shrinker->debugfs_entry;
- 
--	lockdep_assert_held(&shrinker_rwsem);
-+	lockdep_assert_held(&shrinker_mutex);
- 
- 	shrinker_debugfs_name_free(shrinker);
- 
-@@ -279,14 +279,14 @@ static int __init shrinker_debugfs_init(void)
- 	shrinker_debugfs_root = dentry;
- 
- 	/* Create debugfs entries for shrinkers registered at boot */
--	down_write(&shrinker_rwsem);
-+	mutex_lock(&shrinker_mutex);
- 	list_for_each_entry(shrinker, &shrinker_list, list)
- 		if (!shrinker->debugfs_entry) {
- 			ret = shrinker_debugfs_add(shrinker);
- 			if (ret)
- 				break;
- 		}
--	up_write(&shrinker_rwsem);
-+	mutex_unlock(&shrinker_mutex);
- 
- 	return ret;
- }
--- 
-2.30.2
+So I've added the appropriate tags and pushed it to drm-misc-fixes.
+
+Thanks,
+Christian.
+
+> And yes, I follow all pull requests. This patch was not included in
+> yesterday's pull request :(
 
