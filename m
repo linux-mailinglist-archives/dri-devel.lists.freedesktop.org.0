@@ -1,78 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FD5765657
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:47:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542C2765661
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0FC10E599;
-	Thu, 27 Jul 2023 14:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEFB10E59E;
+	Thu, 27 Jul 2023 14:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D64F810E599
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:47:37 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id C0FEE320014C;
- Thu, 27 Jul 2023 10:47:34 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Thu, 27 Jul 2023 10:47:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1690469254; x=1690555654; bh=yp
- tKnnzdYO9kC3MuWQYqGdVAVznPEvQwg0XTec3AzHc=; b=obg6A7afkIBB8NXonl
- oEUDFq/grYpjoHl0iVvZGVZ1DlInC0xwORwsUWCJ8EwosWxgXqnum7+wiM8lh8QU
- 98+1pFU0Yd245MOvJ0+PYXDNyusI3c61J2sQVaH0J3Lj6O73TdKf2G4cTuPNRLEa
- uSfc0DRjc7KeNndRAB969R+kGPZi0Rgt7EKPO38gC/yUqvucVkWngZIJHhDgKJi9
- FqffqdJkj0I3Fme5VLmAOMfktrWkA9hOXB0z2iysVGnUNH1hvaARybzTHfjd0R7d
- 4cAXIBB7pCfYcbdsMNDoxLoDHoySgzfcBcRlMDdsstQq0ZA+Y5it5p7xNJXdeh48
- NgNA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1690469254; x=1690555654; bh=yptKnnzdYO9kC
- 3MuWQYqGdVAVznPEvQwg0XTec3AzHc=; b=gW1jjtg8ZlOYDA1DFn040bdNw8jQ0
- ktyYkDe6Uo9zX7OTBofNYZgO34YqyZqzqcI9cPYnWhp4Kbe7w/+rppFhUZi2qvrW
- mYQmfe4A1COZZwjFHsTsKeFVi/TRot4Oi9S5F6zDs3NK+xvPTN4B2d11SpzDg26m
- 19bz1ega3JkDNO1b8CIYX9KfbmA0fp4rv70rZP3oj31cqQOLwJldBTx5DRRRedFD
- OF+AWDwZYfRdgVrSthS3nO91xwB18z/ZsCo3/MuUC2akMfzdbCNe22Op4H2KNahL
- +nDv5xPO9sIUZyQICmK7FoKDOV1eW6Hhp/81Iiiqi6gNtQ7YxPcXjQzVA==
-X-ME-Sender: <xms:hYPCZAksbsw8KGzO9uYCKOE1UBcb7vGzhjFfdZRe7PaajMCxVTlafA>
- <xme:hYPCZP3xurT_1AM082b-fj12_DlrWDKCz-DGlz63Kh74ivhes4YuBf7BdETRR02DW
- ML4brAtN8ZgAi0__l4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrieeggdehhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeekudfggedvgfegffeffedvffelgfeludfhueefjeeiveektdevfeehjeffkeeh
- veenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:hYPCZOqunlsZwOJmllGLouZQy_O-e2Q9PxWnmBC5RFLapsy5EJv_iw>
- <xmx:hYPCZMkhUgQ31G7gAXdnZQrTvkHkU2t1A2R5sJZHobZsIE-QAObw9Q>
- <xmx:hYPCZO284lBMOaex3pwl4u99BsArI7cxiBPq3sBYQw2RU9E2gnhIUA>
- <xmx:hoPCZHn1aNKEk60wxLRBI6RK3DXBy_oT9C5pWXhtb9k6djTADeYJ1w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 98090B6008D; Thu, 27 Jul 2023 10:47:33 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-592-ga9d4a09b4b-fm-defalarms-20230725.001-ga9d4a09b
-Mime-Version: 1.0
-Message-Id: <9d549ed7-69ce-428b-a622-c3a43909937e@app.fastmail.com>
-In-Reply-To: <874jlpv45c.fsf@minerva.mail-host-address-is-not-set>
-References: <20230727122412.2464210-1-arnd@kernel.org>
- <874jlpv45c.fsf@minerva.mail-host-address-is-not-set>
-Date: Thu, 27 Jul 2023 16:47:13 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Javier Martinez Canillas" <javierm@redhat.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>, "Maxime Ripard" <mripard@kernel.org>
-Subject: Re: [PATCH] drm/ssd130x: drop DRM_GEM_SHADOW_PLANE_FUNCS override
-Content-Type: text/plain
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1988210E59E;
+ Thu, 27 Jul 2023 14:49:09 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4fe1a35a135so1033570e87.1; 
+ Thu, 27 Jul 2023 07:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690469347; x=1691074147;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=xHyCXN5dCS9uiL6OSLtxb2pFZ7IiVBAlq0dF7GmTCCs=;
+ b=T3VEn+O2ac1TK9dZd9ZNMqbc1ksQ8rw48j7ldx7XcwXEDYDVCVXV0UYoZK7xJCpC2I
+ GDeEE16YvFq+l+wA4N5PhdjvnVgTQ+T3f71BYJi2e6jBcfOCyTNSyDsXp7Irap2owfvn
+ +LYBURrX2eOEO9ZDVFWtpnTLKtWU9OgSu5/h1Dw333vw3zaasIz56gbhL+hMDlztcM/p
+ NOr7rIEEQZoVmrkE/646nGs3CvZ17tiy2a8TOLHJug35TvFZT32jqMPW9f1nFJtkwoVq
+ +YZ3C9aS+qlh3ICWYbQCf7SZjVYgrs/o0zgBIU1KwPTwgTVx0E0e64y5avOcduvHb3OS
+ xp+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690469347; x=1691074147;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xHyCXN5dCS9uiL6OSLtxb2pFZ7IiVBAlq0dF7GmTCCs=;
+ b=WWkBhJwOM+qb3DlgYLSuuPjHvuy3H0sCEsOk4Bbut0nqkhXAHVyzG5YYYM6v3LHk7H
+ nN9qWYN7/CH3kW/cRuvdKs6bD11x0CqyTzGnkBmbhrJ5xYeZKeOUykYu5CvRbS2MdBxJ
+ jX4xIcwBwyegvhs6iIjP5Dkyd35wraJlCRMdAWk/szUnN1Feb62ALH4WfzoRTEMNGmwq
+ qacI8WajRRHcyNwnkf471pZjkTbRFpuPevNH6tolpfH/ZRpNeouOCAWSEoE1zPwFHgdw
+ 17BJZ0irMQ/Hn+THr85IzL6yP876kYGRxJE23MsrVc1rP7TM869F/oGJC8mUirdE2oyI
+ jWpA==
+X-Gm-Message-State: ABy/qLbGKYZy2gIVji6NnDGMAJ1G7iNuwJTXksJOATyCMKjTUIZsGvrY
+ 7SCV/oxg4Xwmd6K8n9abxF7xS0UppsGfEnJ4kXk=
+X-Google-Smtp-Source: APBJJlGNZUApsSG28hLuM3AnA2b2od7aR+h8M12NVIfGICgoYNvzQK1uAAOo/8W3U59nkz2g9vWX5hm6aTftVAZpZ7w=
+X-Received: by 2002:a05:6512:108a:b0:4fe:819:b0ed with SMTP id
+ j10-20020a056512108a00b004fe0819b0edmr2131701lfg.46.1690469346942; Thu, 27
+ Jul 2023 07:49:06 -0700 (PDT)
+MIME-Version: 1.0
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 27 Jul 2023 07:48:54 -0700
+Message-ID: <CAF6AEGs9MwCSfiyv8i7yWAsJKYEzCDyzaTx=ujX80Y23rZd9RA@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2023-07-27 for v6.5-rc4
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,55 +63,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023, at 16:07, Javier Martinez Canillas wrote:
-> Arnd Bergmann <arnd@kernel.org> writes:
->
-> Hello Arnd,
->
-> Thanks a lot for your patch.
->
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> It is not possible for ssd130x_primary_plane_funcs to use both
->> its own reset/duplicate/destroy callbacks and the ones from
->> DRM_GEM_SHADOW_PLANE_FUNCS:
->>
->> In file included from drivers/gpu/drm/solomon/ssd130x.c:29:
->> include/drm/drm_gem_atomic_helper.h:100:18: error: initialized field overwritten [-Werror=override-init]
->>   100 |         .reset = drm_gem_reset_shadow_plane, \
->>   101 |         .atomic_duplicate_state = drm_gem_duplicate_shadow_plane_state, \
->>   102 |         .atomic_destroy_state = drm_gem_destroy_shadow_plane_state
->>       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/solomon/ssd130x.c:744:9: note: in expansion of macro 'DRM_GEM_SHADOW_PLANE_FUNCS'
->>   744 |         DRM_GEM_SHADOW_PLANE_FUNCS,
->>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->>
->
-> Gah, I missed that. I wonder how this compile warning doesn't show up for me.
+The following changes since commit cd036d542afb82adfbbd43c5dbeb7010e8e91ee7:
 
-The warning is normally disabled, I have it turned on in my local
-patch series on top of linux-next.
+  drm/msm/a6xx: Add A610 speedbin support (2023-06-18 11:35:27 -0700)
 
->> Since the custom callbacks were just added, I assume these are the
->> ones it is meant to use, so remvoe the generic overrides.
->>
->> Fixes: 45b58669e532b ("drm/ssd130x: Allocate buffer in the plane's .atomic_check() callback")
->
-> Unfortunately that's not enough, because the plane atomic state handlers
-> that were introduced in that commit are broken so removing the macro will
-> regress the driver.
->
-> I've posted a patch that drops the macro but also fixes the handlers for
-> the driver to work with the custom callbacks:
->
-> https://lists.freedesktop.org/archives/dri-devel/2023-July/415897.html
+are available in the Git repository at:
 
-Ok, makes sense.
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2023-07-27
 
-    Arnd
+for you to fetch changes up to 1b5d0ddcb34a605835051ae2950d5cfed0373dd8:
+
+  drm/msm: Disallow submit with fence id 0 (2023-07-26 10:50:04 -0700)
+
+----------------------------------------------------------------
+Fixes for v6.5-rc4
+
+Display:
++ Fix to correct the UBWC programming for decoder version 4.3 seen
+  on SM8550
++ Add the missing flush and fetch bits for DMA4 and DMA5 SSPPs.
++ Fix to drop the unused dpu_core_perf_data_bus_id enum from the code
++ Drop the unused dsi_phy_14nm_17mA_regulators from QCM 2290 DSI cfg.
+
+GPU:
++ Fix warn splat for newer devices without revn
++ Remove name/revn for a690.. we shouldn't be populating these for
+  newer devices, for consistency, but it slipped through review
++ Fix a6xx gpu snapshot BINDLESS_DATA size (was listed in bytes
+  instead of dwords, causing AHB faults on a6xx gen4/a660-family)
++ Disallow submit with fence id 0
+
+----------------------------------------------------------------
+Dmitry Baryshkov (2):
+      drm/msm/mdss: correct UBWC programming for SM8550
+      drm/msm/dpu: drop enum dpu_core_perf_data_bus_id
+
+Gaosheng Cui (1):
+      drm/msm: Fix IS_ERR_OR_NULL() vs NULL check in a5xx_submit_in_rb()
+
+Jonathan Marek (1):
+      drm/msm/dpu: add missing flush and fetch bits for DMA4/DMA5 planes
+
+Marijn Suijten (1):
+      drm/msm/dsi: Drop unused regulators from QCM2290 14nm DSI PHY config
+
+Rob Clark (5):
+      drm/msm/adreno: Fix warn splat for devices without revn
+      drm/msm/a690: Remove revn and name
+      drm/msm/adreno: Fix snapshot BINDLESS_DATA size
+      drm/msm: Fix hw_fence error path cleanup
+      drm/msm: Disallow submit with fence id 0
+
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h   |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |  2 --
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h       | 12 ++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h | 13 -------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  8 +++++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    |  2 --
+ drivers/gpu/drm/msm/msm_fence.c               |  6 ++++++
+ drivers/gpu/drm/msm/msm_gem_submit.c          | 16 ++++++++++++++--
+ drivers/gpu/drm/msm/msm_mdss.c                | 19 +++++++++++++++++--
+ 10 files changed, 54 insertions(+), 28 deletions(-)
