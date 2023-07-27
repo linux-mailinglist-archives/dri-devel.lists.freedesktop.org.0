@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EEAC7655AA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066CF7655F8
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:30:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BCFA10E592;
-	Thu, 27 Jul 2023 14:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F1410E591;
+	Thu, 27 Jul 2023 14:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA55B10E591
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:13:34 +0000 (UTC)
-Received: from SoMainline.org (82-72-63-87.cable.dynamic.v4.ziggo.nl
- [82.72.63.87])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 43D5B20443;
- Thu, 27 Jul 2023 16:13:30 +0200 (CEST)
-Date: Thu, 27 Jul 2023 16:13:28 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v4 00/17] drm/msm: Add SM6125 MDSS/DPU hardware and
- enable Sony Xperia 10 II panel
-Message-ID: <zvmz7i5jgrx27ildrc3tpcnrfgeivr3itv5qlwidsbr5iu5wwa@y3v2sehpw3vy>
-References: <20230723-sm6125-dpu-v4-0-a3f287dd6c07@somainline.org>
- <169046051039.1413710.12901529844343078449.b4-ty@linaro.org>
- <6c5197c9-e24d-70ac-fd75-2c72369d8b7f@linaro.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96CA210E58F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=0iCjhOni/u1jiZ/HGpF3fwz7NRQaQ01ateivGvD5VaY=; b=qbJV0vB5e0yNu7N6n8vf5Lwp6m
+ HSV0QQTrJSkLLgj5p9nqgz0la8lBhHOS7LmVp7OpJ2dkrPpP8deLFaHOp0VKIrB7Moo3PHq8oinlE
+ wXpkCl0nHHvD/1hC9NeOXeiWUbRPUbYuMjGizXPQ4kQxtv6CHB4hOwLLGtXbRK3hWM/LHO3TJ2gY0
+ 0va5OBkmKJirx1X5PlleB4BNWDqCYSeYQ0QyZn/wk+dGE9cOkiTwU50O8eEm7W2mORDfjSulTUf53
+ hctTB81uabHuGl4wa0R8huMNQx0bOB1WSoL/FcuotXUz2vYl0u+eBkymGXrs5giFhsW0KiVyqIN0T
+ X+opQSJQ==;
+Received: from [187.36.235.191] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qP207-004gQz-Aw; Thu, 27 Jul 2023 16:29:59 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 0/2] drm/v3d: Expose GPU usage stats
+Date: Thu, 27 Jul 2023 11:23:26 -0300
+Message-ID: <20230727142929.1275149-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c5197c9-e24d-70ac-fd75-2c72369d8b7f@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,81 +52,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Andy Gross <agross@kernel.org>,
- Lux Aliaga <they@mint.lgbt>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Loic Poulain <loic.poulain@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, freedreno@lists.freedesktop.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-07-27 16:34:49, Dmitry Baryshkov wrote:
-> On 27/07/2023 15:22, Dmitry Baryshkov wrote:
-> > 
-> > On Sun, 23 Jul 2023 18:08:38 +0200, Marijn Suijten wrote:
-> >> Bring up the SM6125 DPU now that all preliminary series (such as INTF
-> >> TE) have been merged (for me to test the hardware properly), and most
-> >> other conflicting work (barring ongoing catalog *improvements*) has made
-> >> its way in as well or is still being discussed.
-> >>
-> >> The second part of the series complements that by immediately utilizing
-> >> this hardware in DT, and even enabling the MDSS/DSI nodes complete with
-> >> a 6.0" 1080x2520 panel for Sony's Seine PDX201 (Xperia 10 II).
-> >>
-> >> [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [01/17] drm/msm/dsi: Drop unused regulators from QCM2290 14nm DSI PHY config
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/a7e3fda5948a
-> > [02/17] arm64: dts: qcom: sm6125: Pad APPS IOMMU address to 8 characters
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/b7d35a8eae54
-> > [03/17] arm64: dts: qcom: sm6125: Sort spmi_bus node numerically by reg
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/2be52ca96a71
-> 
-> Of course, these two patches sneaked in by the mistake, dropped them now.
+This patchset exposes GPU usages stats both globally and per-file
+descriptor.
 
-Lovely, glad to have that resolved so quickly.  Thanks!
+The first patch exposes the accumulated amount of active time per client
+through the fdinfo infrastructure. The amount of active time is exposed
+for each V3D queue. Moreover, it exposes the number of jobs submitted to
+each queue.
 
-- Marijn
+The second patch exposes the accumulated amount of active time for each
+V3D queue, independent of the client. This data is exposed through the
+debugfs interface.
 
-> 
-> > [04/17] dt-bindings: display/msm: Remove DSI1 ports from SM6350/SM6375 example
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/4be2c19261fc
-> > [05/17] dt-bindings: clock: qcom,dispcc-sm6125: Require GCC PLL0 DIV clock
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/4f86e343f3c6
-> > [06/17] dt-bindings: clock: qcom,dispcc-sm6125: Allow power-domains property
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/91043642f28c
-> > [07/17] dt-bindings: display/msm: dsi-controller-main: Document SM6125
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/cf5859476e5d
-> > [08/17] dt-bindings: display/msm: sc7180-dpu: Describe SM6125
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/04a664dffd19
-> > [09/17] dt-bindings: display/msm: Add SM6125 MDSS
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/3bde3b8f8a04
-> > [10/17] drm/msm/dpu: Add SM6125 support
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/76c5dffd0bc4
-> > [11/17] drm/msm/mdss: Add SM6125 support
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/de50357565d3
-> > [12/17] dt-bindings: msm: dsi-phy-14nm: Document SM6125 variant
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/cdac445883cc
-> > [13/17] drm/msm/dsi: Reuse QCM2290 14nm DSI PHY configuration for SM6125
-> >          https://gitlab.freedesktop.org/lumag/msm/-/commit/7638d8059ace
-> > 
-> > Best regards,
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+With these patches, it is possible to calculate the GPU usage percentage
+per queue globally and per-file descriptor.
+
+* Example fdinfo output:
+
+$ cat /proc/1140/fdinfo/4
+pos:    0
+flags:  02400002
+mnt_id: 24
+ino:    209
+drm-driver:     v3d
+drm-client-id:  44
+drm-engine-bin:         1661076898 ns
+v3d-jobs-bin:   19576 jobs
+drm-engine-render:      31469427170 ns
+v3d-jobs-render:        19575 jobs
+drm-engine-tfu:         5002964 ns
+v3d-jobs-tfu:   13 jobs
+drm-engine-csd:         188038329691 ns
+v3d-jobs-csd:   250393 jobs
+drm-engine-cache_clean:         27736024038 ns
+v3d-jobs-cache_clean:   250392 job
+
+* Example gputop output:
+
+DRM minor 128
+ PID         bin               render               tfu                csd            cache_clean     NAME
+1140 |▎                ||██▋               ||                 ||█████████████▍   ||█▋               | computecloth
+1158 |▍                ||████████▉         ||                 ||                 ||                 | gears
+1002 |▏                ||█▎                ||                 ||                 ||                 | chromium-browse
+
+Best Regards,
+- Maíra
+
+Maíra Canal (2):
+  drm/v3d: Implement show_fdinfo() callback for GPU usage stats
+  drm/v3d: Expose the total GPU usage stats on debugfs
+
+ drivers/gpu/drm/v3d/v3d_debugfs.c | 27 ++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_drv.c     | 30 +++++++++++++++++++++++++-
+ drivers/gpu/drm/v3d/v3d_drv.h     | 26 +++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_gem.c     |  6 +++++-
+ drivers/gpu/drm/v3d/v3d_irq.c     | 33 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_sched.c   | 35 +++++++++++++++++++++++++++++++
+ 6 files changed, 155 insertions(+), 2 deletions(-)
+
+--
+2.41.0
+
