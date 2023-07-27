@@ -1,66 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A8D76538B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 14:22:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F8C7653B7
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 14:24:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 072ED10E57B;
-	Thu, 27 Jul 2023 12:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED2210E346;
+	Thu, 27 Jul 2023 12:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 783C310E0E6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 12:22:21 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-997c4107d62so116663366b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 05:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690460540; x=1691065340;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1SBb6yr6qVk1D7aIwvF+MuMXcq5rUsptu3VpKsdh/uY=;
- b=E/t0YpIRUSdA8qUkKEVwwAbxzJDIw7ZP8JFIlc4qS696AzVGKHZQqeXa5X0v7ynftz
- gWjhCDZ/sxQETJ8KDD0mumZe4SiyyMPQ30LOis/xGakb3U6B5WDQd8yRw9xu73MkEsWA
- vz4knJda8i9mkCBSvKIrANnBbYbWWaaAxjIhLUU5d58Ic+TjSHFelYYLCSlX7YJO+c3M
- nq3lpVGn5sOsQlJ4riCSXqZ2XOmZ7L54K7y5cabw9RIVyZ8BCx2HVtkELtmhASi1FNiP
- 7Ty9Nt7wnId/CX0VfxeopkjJChIWLPn5B7UTa+0HQO7nLKyWgzl9aYPVG4xRtdK17s1Z
- Vdpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690460540; x=1691065340;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1SBb6yr6qVk1D7aIwvF+MuMXcq5rUsptu3VpKsdh/uY=;
- b=TubNhJxZUAoSNGjkPKtQb1Kp9ahq3+oe1F9WXTBXMZTmOKDVh0DE5Jb3fHKxQhO2LX
- E+tvc4G6JXRM5LFdFU1se2C/5BQXINsmJrXGJbt2v9s0O27iFTSc7qyVvcRFlrc+0lm9
- 5Pi3Yk9llUS0aplVrBMmlQSGNiKSt/So34GtMrva7Xx/wnBrhSjGnJagFti81gKhfY2c
- lUER4tKzNfz+X2kI9bwxgwDQW4apY34EKLwpgDvi1ZbsmJsLQzgnOPqunf3N8bbP6j4P
- mLP/qqhRs+uQOaQ1TNGkntudjvatJ8b/2jwe86ekVC96x840KEkMjIYADkgwuGfJO8Ed
- 15QA==
-X-Gm-Message-State: ABy/qLbp6GRkFL8hfm6VhfrHvAF7rjj6PfZap/MQGt7asJvlcwo8+edh
- G9HRfrxckqgJPFpiRNybfp5OGQ==
-X-Google-Smtp-Source: APBJJlGMdqN9pdEZl9yeo9ApSXHdIn1KgioXc6BrkcQ3JO+iOZr18yfYrhhsELVum+BCBEMCfSnItg==
-X-Received: by 2002:a17:907:a057:b0:997:decf:11e7 with SMTP id
- gz23-20020a170907a05700b00997decf11e7mr1850833ejc.12.1690460539893; 
- Thu, 27 Jul 2023 05:22:19 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- v23-20020a1709067d9700b00993860a6d37sm717844ejo.40.2023.07.27.05.22.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 05:22:19 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v5 0/5] drm/msm/dpu: Re-introduce dpu core revision
-Date: Thu, 27 Jul 2023 15:22:16 +0300
-Message-Id: <169046051039.1413710.6891392677797766408.b4-ty@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACDC710E346
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 12:24:18 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2570061E77;
+ Thu, 27 Jul 2023 12:24:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A583DC433C7;
+ Thu, 27 Jul 2023 12:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690460658;
+ bh=I5/OzNyWa4cq5lqW1SUiyYV4KV0DfEq9gMsgUWKzfA4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Wn40rLoxS6gKTnyr8X7QiWA9zo/IOmJfXxG60tMscbeBoJMA+CNIaOzZywmMphcfO
+ DDfis9+PTBq8FYyHycTvonWDT1kQW1nw5M+22GXGDZJprpyFSSma8wtbvOA9jkwI9J
+ MjOLVzTkHfZhQOxI0k19o9wOSIgRpI/WHARfWFO8XY8c/8KrELx7M+2j19uJoD8hws
+ h1PZjri9PtRn+TMHhcSHg3KDRVG5eDe+hqeIimD4q3jK47PT/lkYxYnIBNEWJBKvSQ
+ I0wPqf9/COE8bK2PWJGK18MpLIzatLd0UscbWaVjHd1v54/rck0TVNezXJruCL/wBX
+ 6XsvYfN4N2YoQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH] drm/ssd130x: drop DRM_GEM_SHADOW_PLANE_FUNCS override
+Date: Thu, 27 Jul 2023 14:24:06 +0200
+Message-Id: <20230727122412.2464210-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230712012003.2212-1-quic_abhinavk@quicinc.com>
-References: <20230712012003.2212-1-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,37 +53,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Tue, 11 Jul 2023 18:19:58 -0700, Abhinav Kumar wrote:
-> With commit dac76a0144d31 ("fetch DPU configuration from match data"),
-> dpu core revision was dropped in favor of using the compatible string
-> from the device tree to select the dpu catalog being used in the device.
-> 
-> This approach works well however also necessitates adding catalog
-> entries for small register level details as dpu capabilities and/or
-> features bloating the catalog unnecessarily. Examples include but
-> are not limited to data_compress, interrupt register set, widebus etc.
-> 
-> [...]
+It is not possible for ssd130x_primary_plane_funcs to use both
+its own reset/duplicate/destroy callbacks and the ones from
+DRM_GEM_SHADOW_PLANE_FUNCS:
 
-Applied, thanks!
+In file included from drivers/gpu/drm/solomon/ssd130x.c:29:
+include/drm/drm_gem_atomic_helper.h:100:18: error: initialized field overwritten [-Werror=override-init]
+  100 |         .reset = drm_gem_reset_shadow_plane, \
+  101 |         .atomic_duplicate_state = drm_gem_duplicate_shadow_plane_state, \
+  102 |         .atomic_destroy_state = drm_gem_destroy_shadow_plane_state
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/solomon/ssd130x.c:744:9: note: in expansion of macro 'DRM_GEM_SHADOW_PLANE_FUNCS'
+  744 |         DRM_GEM_SHADOW_PLANE_FUNCS,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[1/5] drm/msm/dpu: re-introduce dpu core revision to the catalog
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/d5ffd30bf168
-[2/5] drm/msm/dpu: use dpu core's major version to enable data compress
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/51e9b25c7818
-[3/5] drm/msm/dpu: rename all hw_intf structs to have dpu_hw prefix
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/4c6df9a40bbc
-[4/5] drm/msm/dpu: rename enable_compression() to program_intf_cmd_cfg()
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/143dfccad3da
-[5/5] drm/msm/dpu: drop DPU_INTF_DATA_COMPRESS from dpu catalog
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/781452286aeb
+Since the custom callbacks were just added, I assume these are the
+ones it is meant to use, so remvoe the generic overrides.
 
-Best regards,
+Fixes: 45b58669e532b ("drm/ssd130x: Allocate buffer in the plane's .atomic_check() callback")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/solomon/ssd130x.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index d2f8dd6a6347a..479de42307c88 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -741,7 +741,6 @@ static const struct drm_plane_funcs ssd130x_primary_plane_funcs = {
+ 	.atomic_duplicate_state = ssd130x_primary_plane_duplicate_state,
+ 	.atomic_destroy_state = ssd130x_primary_plane_destroy_state,
+ 	.destroy = drm_plane_cleanup,
+-	DRM_GEM_SHADOW_PLANE_FUNCS,
+ };
+ 
+ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.2
+
