@@ -1,69 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C6D765703
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 17:09:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AE876570E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 17:11:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 640BC10E598;
-	Thu, 27 Jul 2023 15:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF81E10E111;
+	Thu, 27 Jul 2023 15:11:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78453892E4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:09:26 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-997c4107d62so141671366b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690470565; x=1691075365;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4FB0Mu6CQitl3uGPBuw3gYGWubWUzRLIdyK0yGcHdmk=;
- b=E5gpNNQQSQLUjCxzHZ7XzUFT2lN5Lw9foE+4CAVZYhu0vBciVnxQtzgfUcAJBzDCRk
- JPcB/EAVtUMOdBv7RA4OdpEJFuWt/Gq7u1SMjCtJzKvmqLXZAV4MRYmGNQgfChXHgD6y
- I95+tOQE7x78i/sg1Swf3tdtxfZjkO6xXZ4ubXPIzMWXkTPm8vVItbrAtP4rbqgc1FS5
- 5u3p4bqpFZnSn2bhYVz8I3EG2yEtJZoii7ppgTum84gGgt/0i1IQrIgsWJQbRAZO2Tsf
- JZJQ/1uCxYjsMYaBVLDE1Co4PYERzMbpUvBAoQ9aXJ2Y27mvkT4BHGvjtH1A0nUYtq21
- V1ig==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D417A892E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690470662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zRpHnuh/m9Z5WcIdLWxD2J/N57Pr9bP1dktpTleIGVk=;
+ b=RKrQwQnG3CutXwaNUi84z6wzWB4c34BcSQ1EMtCEzojxz9VoCkFj1i8ju7r8k7tUugLEee
+ qQW3mSyRRtLEfW9xnuybM8WtJOh4/VBriog5nfR92n25IAzgmIsg8h7sPMFGWGOXQOubTR
+ q0Rqv8JJtA/foMmmlvBAFgSYaaFx60c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-573-kY6w-2XZM3GhcjwESnRLPA-1; Thu, 27 Jul 2023 11:11:00 -0400
+X-MC-Unique: kY6w-2XZM3GhcjwESnRLPA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-314256aedcbso572783f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:11:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690470565; x=1691075365;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4FB0Mu6CQitl3uGPBuw3gYGWubWUzRLIdyK0yGcHdmk=;
- b=deq9J9l3h70p6DLyoUyzRTCwWSO2fSfR88L8ES6DNlZduVxwW8btCHH8Qs5BF2s/g6
- 5UuASuh1AbnQh8CUAOthovEQm8J7ZTZYCWC5RivmuWAyNhSghe3/0Y2WUvxE+gDo6kEO
- DqGe222z8RLIEEXQg/NoctRILsLiYGhKKoq2tjkm0QYmoUBmbb30cz+LlqP0YCHRClqQ
- UO4Z4H7i2w4qEE7k1qF1wwGg3F0LIxleKv3bmOI0a0JMAmmPBImRMzalCEssVeIzlUFv
- kb84LUZOmLVkSIckEVdxh6Dd368zfAs4FGS9SjhkvQzqai1rd0S6ms8jIu6zMH/zbuoW
- gk5Q==
-X-Gm-Message-State: ABy/qLYzqt8YvsM0wDTJ9G1TvSHrXjRoCxQR3Mu+36Wba2MQ6dNBTX0b
- zCzkDfFZEykoheuqbuACl4U=
-X-Google-Smtp-Source: APBJJlG8yRxMzYrSipyn4gvwiPU9sImYe1d0p4LVvl4FntQ5ezFymj1AH7T+8eHfQ634k7O6bpgmHA==
-X-Received: by 2002:a17:906:20d4:b0:992:a90a:5d1f with SMTP id
- c20-20020a17090620d400b00992a90a5d1fmr2528350ejc.68.1690470564692; 
- Thu, 27 Jul 2023 08:09:24 -0700 (PDT)
-Received: from orome (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- l6-20020a1709067d4600b00988f168811bsm886621ejp.135.2023.07.27.08.09.23
+ d=1e100.net; s=20221208; t=1690470659; x=1691075459;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zRpHnuh/m9Z5WcIdLWxD2J/N57Pr9bP1dktpTleIGVk=;
+ b=cX3f3DPFc86eROv5zEYmSlELi3rz5mU6RFlD+rTiDklCbAF1vNRhhjhyv/vmgEurmy
+ KkzrLhD22XnyB9F50acMfw6al1Qvs+CcLvF7PLj5bThGeXz3Vh9KYcbXx5NJ5ej3pLyL
+ 4OaqDexfiN5nGLMvUIhSP/laeUcbYqJ4pePNzIs+o/dSX4xCbnA31uhGl5RlWATqlKZ/
+ lDOiX8t1G2BxS8Q/fN2H29YPelSsa57R+CTFzuWeQOYmX/ojHCIvAqE/oz7ZB0nO72T2
+ 5HkJPVU2LTGRWh3r32QFIGwzny/xxIAZkosPn1y8Q3QvdwEnUcdzgYlczDCfhvUWefOE
+ Pp0A==
+X-Gm-Message-State: ABy/qLYdERaYEA2GZU239KvY6MWz+QxJBrJ/ACsg+oNwY5Wtn3cxiQuU
+ 2MBDIwfiSXi3oPoGYaU4OpCVbmC7NxTRt+rJ2xv0sJ2eWBKIdA4cOKjUsAnPslDSaS0FNt3Jbgx
+ rRT93x07V/hH1Y/YbX6kPjnM53fhJ
+X-Received: by 2002:a5d:4806:0:b0:30a:f030:8637 with SMTP id
+ l6-20020a5d4806000000b0030af0308637mr2013462wrq.22.1690470659232; 
+ Thu, 27 Jul 2023 08:10:59 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEauWukhPpyVh/qP3GfLHe9QmCEWuZyjdz3Es5p8gp/pwHFZ4zPP1Xzr5SALUa5q6UOzl7/Ow==
+X-Received: by 2002:a5d:4806:0:b0:30a:f030:8637 with SMTP id
+ l6-20020a5d4806000000b0030af0308637mr2013443wrq.22.1690470658828; 
+ Thu, 27 Jul 2023 08:10:58 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ u5-20020a5d6ac5000000b0031759e6b43fsm2318286wrw.39.2023.07.27.08.10.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 08:09:23 -0700 (PDT)
-Date: Thu, 27 Jul 2023 17:09:22 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Subject: Re: [PATCH v2 0/2] Support bridge/connector by Tegra HDMI
-Message-ID: <ZMKIonuTnoXcuc95@orome>
-References: <20230618085046.10081-1-clamor95@gmail.com>
+ Thu, 27 Jul 2023 08:10:58 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@redhat.com>
+Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
+In-Reply-To: <897822f7-90a8-edd0-9c84-fb5a1f5ce5eb@suse.de>
+References: <20230717133037.25941-1-jfalempe@redhat.com>
+ <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
+ <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
+ <20230724215746.10928@revelation.broadband>
+ <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
+ <7f6fd614-5910-6c94-2c55-110223b61b5f@redhat.com>
+ <8f0ee2da-0a06-a78d-ab74-c552da822b97@suse.de>
+ <hnyzo4cldffz6rzntmuvblissfrw7ig6qidnc2f3iortcdagid@fi5bn44asg2v>
+ <897822f7-90a8-edd0-9c84-fb5a1f5ce5eb@suse.de>
+Date: Thu, 27 Jul 2023 17:10:57 +0200
+Message-ID: <871qgtv18e.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uMCXxZT0Gx+zE47A"
-Content-Disposition: inline
-In-Reply-To: <20230618085046.10081-1-clamor95@gmail.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,59 +87,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Roger Sewell <roger.sewell@cantab.net>, airlied@redhat.com,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
---uMCXxZT0Gx+zE47A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Hi Maxime
+>
+> Am 27.07.23 um 16:33 schrieb Maxime Ripard:
+>> Hi Thomas,
+>> 
+>> On Wed, Jul 26, 2023 at 05:36:15PM +0200, Thomas Zimmermann wrote:
+>>>> I've already sent a patch to use internally 24bit colors, when userspace
+>>>> can use 32bit that would solve this issue as well. In the end, on the
+>>>> VGA link, 24 or 32 bit colors are the same. That would allow modern
+>>>> userspace to work on par with Xorg. So maybe we can reconsider it ?
+>>>
+>>> No way. We've had IRC flamewars over this topic already. People didn't get
+>>> work done that day; others ragequit-ed in frustration. Ask Javier, he'll
+>>> remember. :)
+>>>
+>>> The consent in DRM-land is: we're not going to mess with color formats
+>>> behind the back of userspace. The only exception is the emulation of
+>>> XRGB8888 iff the hardware does not support that. And only because it's the
+>>> fallback format that is universally supported.
+>> 
+>> I'm aware that I might be reviving old heated debates here, but I'm not
+>> sure what is the problem here.
+>> 
+>> I guess part of the problem is that due to the memcpy call, we would
+>> have it in software.
+>> 
+>> But it's not clear to me how we're messing with color formats there: the
+>> memcpy would drop the alpha part that was doing to be dropped by the
+>> hardware anyway (and likely would have done so transparently if it
+>> wasn't for the memcpy).
+>> 
+>> It doesn't affect the userspace at all, it doesn't change the way we
+>> interpret the format either, it just ignores a part of the format that
+>> is supposed to be ignored anyway. And doing so frees up a bunch of
+>> resources?
+>> 
+>> So, AFAIU, it doesn't have any side effect except for the fact that it
+>> consumes less memory bandwidth and allows for more pixels to go through.
+>> That's not really "messing with the formats" in my book.
 
-On Sun, Jun 18, 2023 at 11:50:44AM +0300, Svyatoslav Ryhel wrote:
-> This patch adds support for the bridge/connector attached to the
-> HDMI output, allowing to model the hardware properly. It keeps
-> backwards compatibility with existing bindings and is required
-> by devices which have a simple or MHL bridge connected to HDMI
-> output like ASUS P1801-T or LG P880/P895 or HTC One X.
->=20
-> Tested on ASUS Transformers which have no dedicated bridge but
-> have type d HDMI connector directly available. Tests went smoothly.
+I agree with you Maxime and I believe Thomas also does, but the concensus
+when that topic was (heatedly) dicusssed was that drivers should not fake
+a pixel format. Even if is only about dropping the alpha channel, like in
+the patch that Jocelyn mentioned.
 
-If I understand correctly, we still need the drm/tegra patch to be
-applied before the DT change, otherwise the driver won't know what to do
-about the connector, right?
+>
+> Technically not, but it's still a difference. Even in such cases without 
+> side effects, it was dismissed when discussed in the context of simpledrm.
+>
 
-That shouldn't be big problem, but it means that the patches need to be
-staged in correctly to avoid breaking things.
+Indeed. I remember that discussion.
 
-Thierry
+> The reasoning is that userspace should always be in control of the 
+> format (sans that one exception). If userspace wants packed 24-bits it 
+> can support RGB888 explicitly.  For the color-format transformation, 
+> it's better to do that in userspace with SSE-like instructions than in 
+> the kernel.
+>
+> I wasn't super-happy with this, but I think it's a clear statement with 
+> simple rules to follow. I'd prefer that over relaxed rules where each 
+> driver does its own thing.
+>
 
---uMCXxZT0Gx+zE47A
-Content-Type: application/pgp-signature; name="signature.asc"
+I wasn't super happy either, but if I remember correctly we were the only
+two that had this point of view and everyone else there thought that the
+drivers shouldn't expose a format that don't support (other than XR24) ?.
 
------BEGIN PGP SIGNATURE-----
+-- 
+Best regards,
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmTCiKIACgkQ3SOs138+
-s6GLhQ/8CVmQ+Rk2WO/b4ELhB6NjDctiVYxrILxGYxoX0UjvsPyIZx44re5qkGbt
-IvXSctvz2Dx4GhARbuQOwjCwJO4EhUExjCYPvSyJt9cI+5sLm5Y4/GCPT/AMqQiv
-7yrnGGYhD7s3rvTeTrQtIeCG9dj9x7nEMccEfaqc/Cys4Q3xal7KmbuuFKIs+trq
-GYj0jAEd6tc2FDY7Y2r4aEVzDroBe8dLKTrg4qv7kMGoeLp1e19uzz0aJP1O8F6r
-uXKXDFUPDLDhn9Ktl5vOceuOFozOAn2hTSNP2sLvlbNgWQpBh5PrXtahniN6Vits
-W64TFUeCvoGGT47Dlyn333cM7C66GKumB3eXixhkMoC9djVhXgf+u5hYbxSDlz68
-rn9l6aK1Es8taTnnXW30GZSzmo63151y2fy4/rzZXAVyMswn40O34YoX71HiVBwl
-1pRTf9IwZWE/EucFoYRjP2qlgpvPwmXTaMsYusoZ2KvtAsw6/rnXfxmFqxmQv4bQ
-5j4KoHh+4m/At4rqhPYs/c4TsODFJ+g+K6HN/Fb06zc61c7gOnjzllcYeUeRmmGv
-JJhudKBH15N0hHnn6+IguE+3yMlhM+TBabZnJSX9q6DNl6ofhmlu0qA1ktDKXwaO
-we5XIrIP0UlfDwO9FELcP/KHEACG/LjxKf0qRgJfcQWqjYrey5c=
-=W3/D
------END PGP SIGNATURE-----
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
---uMCXxZT0Gx+zE47A--
