@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC017659EA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:18:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC2D7659EB
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F08DA10E5D0;
-	Thu, 27 Jul 2023 17:18:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6305A10E5DB;
+	Thu, 27 Jul 2023 17:18:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECBD210E1DD
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:44 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-686f1240a22so985996b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:44 -0700 (PDT)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26A9810E1DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:47 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-686f38692b3so869495b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690478324; x=1691083124;
+ d=chromium.org; s=google; t=1690478327; x=1691083127;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ktpWtMwT9dpeC33OUaPHH6/Z5MIjVDj91Q86MN6Mk68=;
- b=e6DcIHEEnnX3iIOWGLqJ7y9zqMALlfXD5b2RWvBK62PzvT1+HUn4sLyb1zwNNYmEv0
- FcT63N8JPGM1eTXDVZt2Hr8pIf9AGYh7ZwpqJOGANz8WWDL8DzJFqgNsAarfmhvMb/xp
- 2ytjgoAe177xfFghUbeJWiyjBs/6yiKjoWV+k=
+ bh=8ons1xxta0swGIAnIwdRLlCbALo+n6y3A/0xk7/m1SU=;
+ b=SfokiBwgQnt8UhhbFv5I1shWcGM9J5SI1rMbCj0QJ2N2vqxr7Tuu5yR7oE6v9wwfuN
+ kwvYkGnN6vSgNPVrTQay3TAFNLA7ADB8mEpmllzNsG0WBMqyL7x99KmN7i5/aymLM6JJ
+ MLsBMjLADes2LL7Erjs0MpyU/roI0hC714rrs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690478324; x=1691083124;
+ d=1e100.net; s=20221208; t=1690478327; x=1691083127;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ktpWtMwT9dpeC33OUaPHH6/Z5MIjVDj91Q86MN6Mk68=;
- b=TDriiJXHTasW9ympKO73Fj3LEFXwtCwnqCEtLZvuiOvs9qT69CTBGcpC30SsnU/Aud
- +9+oLVg+Wb3mGMgXSYBuQPaXjvBt1DVFVIg0mw8eLL3Q0vuNvTGJ1lAjaYjvOHMSspu2
- s/DT47HQhaRbUrGxFKhlIYNpxjnQtGdpgBuY213uGYxZeXJYqaq/+qSYuO5aepC3Uin0
- 51gdkhJxrapZg+L6vgutSI+bJhotnxuIKhrfZjY8ZUWCImyZUIG56jkkl++oDxE4kwHy
- HUQFHOeOSDQ569LlzPXeV1L9CNWEn0Z2f/QmbiMAETnPTu5nzcWJD5Lz0IpQayFCfsrQ
- azlg==
-X-Gm-Message-State: ABy/qLan0NyD4K2FJyYFKktq1YceRcLY2xPJ3wis5yaQbeqsNDtVBN1D
- /oHDxtAr1DO/YAtKaxpGW/lHZg==
-X-Google-Smtp-Source: APBJJlFI4ulREcnYhiYEqiypn/CcfSaWl2pU5xhKDO414/TYYGi809LpHmTqvUM3kKTBTycyzjKtEA==
-X-Received: by 2002:a05:6a20:410:b0:12c:c614:f55 with SMTP id
- a16-20020a056a20041000b0012cc6140f55mr4946150pza.43.1690478324616; 
- Thu, 27 Jul 2023 10:18:44 -0700 (PDT)
+ bh=8ons1xxta0swGIAnIwdRLlCbALo+n6y3A/0xk7/m1SU=;
+ b=TQz/7upfqfvqV51LHNgwhCCOHdTxBU/jxHj03diXNysSQSCE26GOAc+gOGn8UtjYe+
+ KDCt+SyPaCN8/XTwzXFCklXSoTR4gJlsmIT9zk3VTGtAut39FmK3u0aWvzr5bT6HP1BU
+ 0rNg12jU4riLhg7iPHZhopQ7H/yXEf4hLaG/UYDrdAMNQEtIJiScCqQpx7YL7W01g+BI
+ +9OSqxtvcEshzllX3CHXVl+wti8WzDg/qqdoQjILuv8bxGRt1ubz5O+Fcr/nwhn75xGI
+ CVY5jwwEL2cDHQe7FdVue3FrVGclPHl+306RjEIMkoRd9bnyc4/zN3wmTVxJEhcVxZCg
+ MmLg==
+X-Gm-Message-State: ABy/qLb8jvzywYU4asCIUCaGpfqw+ZSlKhlLv5ar9r/V/MdGUVxuUIei
+ 91ei8E1yNfqhRYOfjKV0g9q02Q==
+X-Google-Smtp-Source: APBJJlHHAckGoYXUBhl1ZEzMAmGRJ4AfIdxiVA8Y5wTk4SQjjqdn/7SMOjcbUUpyB2//G6nG0U78BA==
+X-Received: by 2002:a05:6300:8082:b0:120:1baf:e56e with SMTP id
+ ap2-20020a056300808200b001201bafe56emr6349964pzc.19.1690478326828; 
+ Thu, 27 Jul 2023 10:18:46 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:2339:954b:b98f:611a])
  by smtp.gmail.com with ESMTPSA id
- 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.42
+ 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 10:18:44 -0700 (PDT)
+ Thu, 27 Jul 2023 10:18:46 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -61,10 +61,10 @@ To: Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 06/11] HID: i2c-hid: Rearrange probe() to power things up
- later
-Date: Thu, 27 Jul 2023 10:16:33 -0700
-Message-ID: <20230727101636.v4.6.Ifcc9b0a44895d164788966f9b9511fe094ca8cf9@changeid>
+Subject: [PATCH v4 07/11] HID: i2c-hid: Make suspend and resume into helper
+ functions
+Date: Thu, 27 Jul 2023 10:16:34 -0700
+Message-ID: <20230727101636.v4.7.I5c9894789b8b02f029bf266ae9b4f43c7907a173@changeid>
 X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 In-Reply-To: <20230727171750.633410-1-dianders@chromium.org>
 References: <20230727171750.633410-1-dianders@chromium.org>
@@ -91,10 +91,11 @@ Cc: Douglas Anderson <dianders@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In a future patch, we want to change i2c-hid not to necessarily power
-up the touchscreen during probe. In preparation for that, rearrange
-the probe function so that we put as much stuff _before_ powering up
-the device as possible.
+In a future patch we'd like to be able to call the current i2c-hid
+suspend and resume functions from times other than system
+suspend. Move the functions higher up in the file and have them take a
+"struct i2c_hid" to make this simpler. We'll then add tiny wrappers of
+the functions for use with system suspend.
 
 This change is expected to have no functional effect.
 
@@ -102,208 +103,139 @@ Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
-(no changes since v2)
+(no changes since v1)
 
-Changes in v2:
-- i2c_hid_core_initial_power_up() is now static.
-
- drivers/hid/i2c-hid/i2c-hid-core.c | 124 ++++++++++++++++++-----------
- 1 file changed, 77 insertions(+), 47 deletions(-)
+ drivers/hid/i2c-hid/i2c-hid-core.c | 98 +++++++++++++++++-------------
+ 1 file changed, 56 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 19d985c20a5c..d29e6421ecba 100644
+index d29e6421ecba..fa8a1ca43d7f 100644
 --- a/drivers/hid/i2c-hid/i2c-hid-core.c
 +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -855,7 +855,8 @@ static int i2c_hid_init_irq(struct i2c_client *client)
- 		irqflags = IRQF_TRIGGER_LOW;
- 
- 	ret = request_threaded_irq(client->irq, NULL, i2c_hid_irq,
--				   irqflags | IRQF_ONESHOT, client->name, ihid);
-+				   irqflags | IRQF_ONESHOT | IRQF_NO_AUTOEN,
-+				   client->name, ihid);
- 	if (ret < 0) {
- 		dev_warn(&client->dev,
- 			"Could not register for %s interrupt, irq = %d,"
-@@ -940,6 +941,72 @@ static void i2c_hid_core_shutdown_tail(struct i2c_hid *ihid)
+@@ -941,6 +941,57 @@ static void i2c_hid_core_shutdown_tail(struct i2c_hid *ihid)
  	ihid->ops->shutdown_tail(ihid->ops);
  }
  
-+/**
-+ * i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
-+ * @ihid: The ihid object created during probe.
-+ *
-+ * This function is called at probe time.
-+ *
-+ * The initial power on is where we do some basic validation that the device
-+ * exists, where we fetch the HID descriptor, and where we create the actual
-+ * HID devices.
-+ *
-+ * Return: 0 or error code.
-+ */
-+static int i2c_hid_core_initial_power_up(struct i2c_hid *ihid)
++static int i2c_hid_core_suspend(struct i2c_hid *ihid)
 +{
 +	struct i2c_client *client = ihid->client;
 +	struct hid_device *hid = ihid->hid;
 +	int ret;
 +
-+	ret = i2c_hid_core_power_up(ihid);
-+	if (ret)
++	ret = hid_driver_suspend(hid, PMSG_SUSPEND);
++	if (ret < 0)
 +		return ret;
 +
-+	/* Make sure there is something at this address */
-+	ret = i2c_smbus_read_byte(client);
-+	if (ret < 0) {
-+		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
-+		ret = -ENXIO;
-+		goto err;
-+	}
++	/* Save some power */
++	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
 +
-+	ret = i2c_hid_fetch_hid_descriptor(ihid);
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"Failed to fetch the HID Descriptor\n");
-+		goto err;
-+	}
++	disable_irq(client->irq);
++
++	if (!device_may_wakeup(&client->dev))
++		i2c_hid_core_power_down(ihid);
++
++	return 0;
++}
++
++static int i2c_hid_core_resume(struct i2c_hid *ihid)
++{
++	struct i2c_client *client = ihid->client;
++	struct hid_device *hid = ihid->hid;
++	int ret;
++
++	if (!device_may_wakeup(&client->dev))
++		i2c_hid_core_power_up(ihid);
 +
 +	enable_irq(client->irq);
 +
-+	hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
-+	hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
-+	hid->product = le16_to_cpu(ihid->hdesc.wProductID);
++	/* Instead of resetting device, simply powers the device on. This
++	 * solves "incomplete reports" on Raydium devices 2386:3118 and
++	 * 2386:4B33 and fixes various SIS touchscreens no longer sending
++	 * data after a suspend/resume.
++	 *
++	 * However some ALPS touchpads generate IRQ storm without reset, so
++	 * let's still reset them here.
++	 */
++	if (ihid->quirks & I2C_HID_QUIRK_RESET_ON_RESUME)
++		ret = i2c_hid_hwreset(ihid);
++	else
++		ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
 +
-+	hid->initial_quirks |= i2c_hid_get_dmi_quirks(hid->vendor,
-+						      hid->product);
++	if (ret)
++		return ret;
 +
-+	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X",
-+		 client->name, (u16)hid->vendor, (u16)hid->product);
-+	strscpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
-+
-+	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
-+
-+	ret = hid_add_device(hid);
-+	if (ret) {
-+		if (ret != -ENODEV)
-+			hid_err(client, "can't add hid device: %d\n", ret);
-+		goto err;
-+	}
-+
-+	return 0;
-+
-+err:
-+	i2c_hid_core_power_down(ihid);
-+	return ret;
++	return hid_driver_reset_resume(hid);
 +}
 +
- int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 		       u16 hid_descriptor_address, u32 quirks)
- {
-@@ -966,16 +1033,10 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 	if (!ihid)
- 		return -ENOMEM;
+ /**
+  * i2c_hid_core_initial_power_up() - First time power up of the i2c-hid device.
+  * @ihid: The ihid object created during probe.
+@@ -1115,61 +1166,24 @@ void i2c_hid_core_shutdown(struct i2c_client *client)
+ }
+ EXPORT_SYMBOL_GPL(i2c_hid_core_shutdown);
  
--	ihid->ops = ops;
+-static int i2c_hid_core_suspend(struct device *dev)
++static int i2c_hid_core_pm_suspend(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+-	struct hid_device *hid = ihid->hid;
+-	int ret;
 -
--	ret = i2c_hid_core_power_up(ihid);
+-	ret = hid_driver_suspend(hid, PMSG_SUSPEND);
+-	if (ret < 0)
+-		return ret;
+ 
+-	/* Save some power */
+-	i2c_hid_set_power(ihid, I2C_HID_PWR_SLEEP);
+-
+-	disable_irq(client->irq);
+-
+-	if (!device_may_wakeup(&client->dev))
+-		i2c_hid_core_power_down(ihid);
+-
+-	return 0;
++	return i2c_hid_core_suspend(ihid);
+ }
+ 
+-static int i2c_hid_core_resume(struct device *dev)
++static int i2c_hid_core_pm_resume(struct device *dev)
+ {
+-	int ret;
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+-	struct hid_device *hid = ihid->hid;
+ 
+-	if (!device_may_wakeup(&client->dev))
+-		i2c_hid_core_power_up(ihid);
+-
+-	enable_irq(client->irq);
+-
+-	/* Instead of resetting device, simply powers the device on. This
+-	 * solves "incomplete reports" on Raydium devices 2386:3118 and
+-	 * 2386:4B33 and fixes various SIS touchscreens no longer sending
+-	 * data after a suspend/resume.
+-	 *
+-	 * However some ALPS touchpads generate IRQ storm without reset, so
+-	 * let's still reset them here.
+-	 */
+-	if (ihid->quirks & I2C_HID_QUIRK_RESET_ON_RESUME)
+-		ret = i2c_hid_hwreset(ihid);
+-	else
+-		ret = i2c_hid_set_power(ihid, I2C_HID_PWR_ON);
+-
 -	if (ret)
 -		return ret;
 -
- 	i2c_set_clientdata(client, ihid);
- 
-+	ihid->ops = ops;
- 	ihid->client = client;
--
- 	ihid->wHIDDescRegister = cpu_to_le16(hid_descriptor_address);
- 
- 	init_waitqueue_head(&ihid->wait);
-@@ -986,28 +1047,12 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 	 * real computation later. */
- 	ret = i2c_hid_alloc_buffers(ihid, HID_MIN_BUFFER_SIZE);
- 	if (ret < 0)
--		goto err_powered;
--
-+		return ret;
- 	device_enable_async_suspend(&client->dev);
- 
--	/* Make sure there is something at this address */
--	ret = i2c_smbus_read_byte(client);
--	if (ret < 0) {
--		i2c_hid_dbg(ihid, "nothing at this address: %d\n", ret);
--		ret = -ENXIO;
--		goto err_powered;
--	}
--
--	ret = i2c_hid_fetch_hid_descriptor(ihid);
--	if (ret < 0) {
--		dev_err(&client->dev,
--			"Failed to fetch the HID Descriptor\n");
--		goto err_powered;
--	}
--
- 	ret = i2c_hid_init_irq(client);
- 	if (ret < 0)
--		goto err_powered;
-+		goto err_buffers_allocated;
- 
- 	hid = hid_allocate_device();
- 	if (IS_ERR(hid)) {
-@@ -1021,26 +1066,11 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 	hid->ll_driver = &i2c_hid_ll_driver;
- 	hid->dev.parent = &client->dev;
- 	hid->bus = BUS_I2C;
--	hid->version = le16_to_cpu(ihid->hdesc.bcdVersion);
--	hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
--	hid->product = le16_to_cpu(ihid->hdesc.wProductID);
--
- 	hid->initial_quirks = quirks;
--	hid->initial_quirks |= i2c_hid_get_dmi_quirks(hid->vendor,
--						      hid->product);
--
--	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X",
--		 client->name, (u16)hid->vendor, (u16)hid->product);
--	strscpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
--
--	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
- 
--	ret = hid_add_device(hid);
--	if (ret) {
--		if (ret != -ENODEV)
--			hid_err(client, "can't add hid device: %d\n", ret);
-+	ret = i2c_hid_core_initial_power_up(ihid);
-+	if (ret)
- 		goto err_mem_free;
--	}
- 
- 	return 0;
- 
-@@ -1050,9 +1080,9 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- err_irq:
- 	free_irq(client->irq, ihid);
- 
--err_powered:
--	i2c_hid_core_power_down(ihid);
-+err_buffers_allocated:
- 	i2c_hid_free_buffers(ihid);
-+
- 	return ret;
+-	return hid_driver_reset_resume(hid);
++	return i2c_hid_core_resume(ihid);
  }
- EXPORT_SYMBOL_GPL(i2c_hid_core_probe);
-@@ -1062,6 +1092,8 @@ void i2c_hid_core_remove(struct i2c_client *client)
- 	struct i2c_hid *ihid = i2c_get_clientdata(client);
- 	struct hid_device *hid;
  
-+	i2c_hid_core_power_down(ihid);
-+
- 	hid = ihid->hid;
- 	hid_destroy_device(hid);
- 
-@@ -1069,8 +1101,6 @@ void i2c_hid_core_remove(struct i2c_client *client)
- 
- 	if (ihid->bufsize)
- 		i2c_hid_free_buffers(ihid);
--
--	i2c_hid_core_power_down(ihid);
- }
- EXPORT_SYMBOL_GPL(i2c_hid_core_remove);
+ const struct dev_pm_ops i2c_hid_core_pm = {
+-	SYSTEM_SLEEP_PM_OPS(i2c_hid_core_suspend, i2c_hid_core_resume)
++	SYSTEM_SLEEP_PM_OPS(i2c_hid_core_pm_suspend, i2c_hid_core_pm_resume)
+ };
+ EXPORT_SYMBOL_GPL(i2c_hid_core_pm);
  
 -- 
 2.41.0.487.g6d72f3e995-goog
