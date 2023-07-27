@@ -1,49 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB20276561B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:41:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D60AA765636
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B4810E584;
-	Thu, 27 Jul 2023 14:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659AA10E59D;
+	Thu, 27 Jul 2023 14:45:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32A9510E584;
- Thu, 27 Jul 2023 14:41:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 454DC61E95;
- Thu, 27 Jul 2023 14:41:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA913C433C7;
- Thu, 27 Jul 2023 14:41:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690468880;
- bh=aBSoh8vyUSFQygN17NIxATijctvrIz3m9z5UE5Aolwo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QX60Xks3nyqfTY+hUSinT9rcvhFuieEG/0UfencjdPpD4YKKjXei+ZMoZ7X5vexlq
- QUsQ6SKYp1DQzt995n3aBoXP5+NrYSFR3ez4hqljwWBrrP+M6SLOiLVKiDlOEfAxf3
- 6spGwnGhd1+smh/wELppsZjf9dvHHbqKWuW1NDyNLrSXBvkDdA659TUUCSTfgjj6WA
- VReFZElAZWaGsSpRjSIjsT7OULttKhZkxnmo40rpztTXI9O/LWGrrccA6xtcSku+mo
- hF4V21aQW7KBK/58pgIMHcYZUIgYuK2SDjlWcf2ZFQGzvrS8tmQ9rK4N1Lf9nRYY3f
- DKFSWHsKo2e7g==
-Date: Thu, 27 Jul 2023 07:41:18 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Maira Canal <mcanal@igalia.com>
-Subject: Re: [PATCH 1/2] drm/v3d: Avoid -Wconstant-logical-operand in
- nsecs_to_jiffies_timeout()
-Message-ID: <20230727144118.GA2013261@dev-arch.thelio-3990X>
-References: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-0-36ed8fc8faea@kernel.org>
- <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-1-36ed8fc8faea@kernel.org>
- <daaf05b5-3b18-c365-62e8-e7848c403ab7@igalia.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39E210E598
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:45:46 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4fb5bcb9a28so1824498e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 07:45:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690469145; x=1691073945;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AaVR++jkAbk5lOudvbAkb+yuYak09u1ZunnxV6fVwE4=;
+ b=KznsrfP3bnT1LvVctNi3r+GWeMYdM8x8wGXQizIHC4eGlhDAlO5SuCh1+SDJ61/Kpk
+ 55xRPpguyS5txEdcSdp5rkBAschmdj/XB6fW7gGVh/JoFVVOACvi9qa4cLxmer82PpVS
+ ZM9eWMiTXccRHATZmjigTUfClXw8iIWaFEipYO/AdRY22O69A16YWvdcL5fY4h+h5A/2
+ Nq4APVomnRhchWRJHTx2SiIYKqY6Ze199UW1fZnbMn5ZyoIr3JYCWY+yqXYyFMpRhv+f
+ nPJ1IaidhpLmhzYL6WfmH/sOI2q67zkPyF3ITXu3+iENbAnRwDv4B+0OXA9mI3RYQIe7
+ 4zJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690469145; x=1691073945;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AaVR++jkAbk5lOudvbAkb+yuYak09u1ZunnxV6fVwE4=;
+ b=lX4XbnSFOTLTYhDrh8wt1i4ek0sxXql14kXZvbWfqsdH5bRM+5/XMAGKRjPLB2x1cG
+ +QNBRCKggZisKMefJgGW3v0nmlWtC3VKYbuHb/YWYHJu6xO3EM23Ve6piade7lS4VC5K
+ hGseMHjA/pGSWOaqNHRbVnjgGRxyQfXOMBylBCZ5hAW6Thdsd7KCdOqL+ZKrDQCGaFmo
+ E/VYT6l3Idx5/mUdaoJyPqFOmnTa3C/KTeHMARfL6JDkRBmGIU156LDZ070ITNvF4lsH
+ X75pP9K40baIh2wXvqLhE6gZLhPjlCbQklVn9x8u+1dWnYIgYP1pN3b0uVrvYIlhwJFT
+ iLVg==
+X-Gm-Message-State: ABy/qLaffr2O0sW2IWqshZSMTGxqgsRkiTjIguLF6g7XADteKkzqgScc
+ LvsDTqIfFGRT2vMuuwFmykdwH5jtsDTkeisEoe0=
+X-Google-Smtp-Source: APBJJlHcNaVsnq5IxLwKHZK87F69UYwFuKz7uKNszuET8IAmX7/wC5TbZLXxF0i9Uw+NvD4BgLLdrQ==
+X-Received: by 2002:ac2:43ad:0:b0:4fd:f878:c3fe with SMTP id
+ t13-20020ac243ad000000b004fdf878c3femr1744140lfl.43.1690469145136; 
+ Thu, 27 Jul 2023 07:45:45 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ d28-20020ac2545c000000b004fb86662871sm334110lfn.233.2023.07.27.07.45.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jul 2023 07:45:44 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v4 0/5] drm/msm/dpu: rework interrupt handling
+Date: Thu, 27 Jul 2023 17:45:38 +0300
+Message-Id: <20230727144543.1483630-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <daaf05b5-3b18-c365-62e8-e7848c403ab7@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,72 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: justinstitt@google.com, tvrtko.ursulin@linux.intel.com,
- llvm@lists.linux.dev, emma@anholt.net, trix@redhat.com,
- intel-gfx@lists.freedesktop.org, ndesaulniers@google.com,
- patches@lists.linux.dev, mwen@igalia.com, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maira,
+Please exuse me for the spam, I missed the triggered WARN_ON because of
+the dropped patch.
 
-On Thu, Jul 27, 2023 at 11:01:27AM -0300, Maira Canal wrote:
-> Hi Nathan,
-> 
-> On 7/18/23 18:44, Nathan Chancellor wrote:
-> > A proposed update to clang's -Wconstant-logical-operand to warn when the
-> > left hand side is a constant shows the following instance in
-> > nsecs_to_jiffies_timeout() when NSEC_PER_SEC is not a multiple of HZ,
-> > such as CONFIG_HZ=300:
-> > 
-> >    In file included from drivers/gpu/drm/v3d/v3d_debugfs.c:12:
-> >    drivers/gpu/drm/v3d/v3d_drv.h:343:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
-> >      343 |         if (NSEC_PER_SEC % HZ &&
-> >          |             ~~~~~~~~~~~~~~~~~ ^
-> >    drivers/gpu/drm/v3d/v3d_drv.h:343:24: note: use '&' for a bitwise operation
-> >      343 |         if (NSEC_PER_SEC % HZ &&
-> >          |                               ^~
-> >          |                               &
-> >    drivers/gpu/drm/v3d/v3d_drv.h:343:24: note: remove constant to silence this warning
-> >    1 warning generated.
-> > 
-> > Turn this into an explicit comparison against zero to make the
-> > expression a boolean to make it clear this should be a logical check,
-> > not a bitwise one.
-> > 
-> > Link: https://reviews.llvm.org/D142609
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> 
-> Reviewed-by: Maíra Canal <mcanal@igalia.com>
-> 
-> Thanks for all the hard work with clang! Let me know if you need someone
-> to push it to drm-misc-next.
+Declaring the mask of supported interrupts proved to be error-prone. It
+is very easy to add a bit with no corresponding backing block or to miss
+the INTF TE bit. Replace this static configuration with the irq mask
+calculated from the HW catalog data.
 
-Yes I will, I do not have drm commit rights. I think the i915 patch can
-go to drm-misc as well with Tvrtko's ack. Thanks a lot for taking a
-look!
+Changes since v3:
+ - Rework INTF_TE handling. Stop depending on DPU_INTF_TE and enable the
+   relevant interrupt explicitly.
 
-Cheers,
-Nathan
+Changes since v2:
+ - Rebased on top of msm-next-lumag to be able to use core_major_ver
+   instead of adding yet another flag.
+ - Dropped the DPU_INTF_TE movement patch, useless after rebasing.
 
-> Best Regards,
-> - Maíra
-> 
-> > ---
-> >   drivers/gpu/drm/v3d/v3d_drv.h | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> > index b74b1351bfc8..7f664a4b2a75 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> > +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> > @@ -340,7 +340,7 @@ struct v3d_submit_ext {
-> >   static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
-> >   {
-> >   	/* nsecs_to_jiffies64() does not guard against overflow */
-> > -	if (NSEC_PER_SEC % HZ &&
-> > +	if ((NSEC_PER_SEC % HZ) != 0 &&
-> >   	    div_u64(n, NSEC_PER_SEC) >= MAX_JIFFY_OFFSET / HZ)
-> >   		return MAX_JIFFY_OFFSET;
-> > 
+Changes since v1:
+ - Enable dpu_caps::has_7xxx_intr for DPU >= 7.0 (Neil)
+
+Dmitry Baryshkov (5):
+  drm/msm/dpu: inline __intr_offset
+  drm/msm/dpu: split interrupt address arrays
+  drm/msm/dpu: autodetect supported interrupts
+  drm/msm/dpu: drop now-unused mdss_irqs field from hw catalog
+  drm/msm/dpu: drop compatibility INTR defines
+
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |   8 --
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |   9 --
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  11 --
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  13 ---
+ .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |   6 -
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  10 --
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   6 -
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   5 -
+ .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |   6 -
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   5 -
+ .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |   5 -
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  13 +--
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   9 +-
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  18 +--
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  13 +--
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  13 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 106 ++++++++++++------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  18 ++-
+ 19 files changed, 87 insertions(+), 190 deletions(-)
+
+-- 
+2.39.2
+
