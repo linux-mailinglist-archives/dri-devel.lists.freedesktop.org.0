@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F94765D12
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:16:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFF1765D1D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:22:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155B510E5FB;
-	Thu, 27 Jul 2023 20:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE9010E5FE;
+	Thu, 27 Jul 2023 20:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB2AC10E5FA
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 20:16:30 +0000 (UTC)
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3B9D10E5FC;
+ Thu, 27 Jul 2023 20:22:21 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 10D4520471;
- Thu, 27 Jul 2023 22:16:29 +0200 (CEST)
-Date: Thu, 27 Jul 2023 22:16:27 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 07050204A6;
+ Thu, 27 Jul 2023 22:22:19 +0200 (CEST)
+Date: Thu, 27 Jul 2023 22:22:18 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 6/7] drm/msm/dpu: drop useless check from
- dpu_encoder_phys_cmd_te_rd_ptr_irq()
-Message-ID: <irbt5um3wmeqfxtazpaje7mir5vko5ysxx3zpg3vdxwhtdhpkg@y2nzsezlx27n>
+Subject: Re: [PATCH 7/7] drm/msm/dpu: move INTF tearing checks to
+ dpu_encoder_phys_cmd_init
+Message-ID: <bmmqdo6dyewxrgcfk3vcuff3tgrb6iqgzby3ionl4shaido2vw@cqc2qnvu3fnj>
 References: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
- <20230727162104.1497483-7-dmitry.baryshkov@linaro.org>
+ <20230727162104.1497483-8-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230727162104.1497483-7-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230727162104.1497483-8-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,40 +51,94 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-07-27 19:21:03, Dmitry Baryshkov wrote:
-> The dpu_encoder_phys_cmd_te_rd_ptr_irq() function uses neither hw_intf
-> nor hw_pp data, so we can drop the corresponding check.
-
-Maybe because it would catch "bogus" interrupts, or these blocks are
-accessed somewhere down the line in the vblank callback chain?  I have
-no clue :)
-
+On 2023-07-27 19:21:04, Dmitry Baryshkov wrote:
+> As the INTF is fixed at the encoder creation time, we can move the
+> check whether INTF supports tearchck to dpu_encoder_phys_cmd_init().
+> This function can return an error if INTF doesn't have required feature.
+> Performing this check in dpu_encoder_phys_cmd_tearcheck_config() is less
+> useful, as this function returns void.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 8 --------
->  1 file changed, 8 deletions(-)
+>  .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 37 +++++++++++--------
+>  1 file changed, 21 insertions(+), 16 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 60d4dd88725e..04a1106101a7 100644
+> index 04a1106101a7..e1dd0e1b4793 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -108,14 +108,6 @@ static void dpu_encoder_phys_cmd_te_rd_ptr_irq(void *arg)
->  	struct dpu_encoder_phys *phys_enc = arg;
->  	struct dpu_encoder_phys_cmd *cmd_enc;
+> @@ -325,24 +325,17 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
+>  	unsigned long vsync_hz;
+>  	struct dpu_kms *dpu_kms;
 >  
 > -	if (phys_enc->has_intf_te) {
-> -		if (!phys_enc->hw_intf)
+> -		if (!phys_enc->hw_intf ||
+> -		    !phys_enc->hw_intf->ops.enable_tearcheck) {
+> -			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
 > -			return;
-> -	} else {
-> -		if (!phys_enc->hw_pp)
-> -			return;
-> -	}
+> -		}
 > -
->  	DPU_ATRACE_BEGIN("rd_ptr_irq");
->  	cmd_enc = to_dpu_encoder_phys_cmd(phys_enc);
+> -		DPU_DEBUG_CMDENC(cmd_enc, "");
+> -	} else {
+> -		if (!phys_enc->hw_pp ||
+> -		    !phys_enc->hw_pp->ops.enable_tearcheck) {
+> -			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
+> -			return;
+> -		}
+> -
+> -		DPU_DEBUG_CMDENC(cmd_enc, "pp %d\n", phys_enc->hw_pp->idx - PINGPONG_0);
+> +	if (!phys_enc->has_intf_te &&
+> +	    (!phys_enc->hw_pp ||
+> +	     !phys_enc->hw_pp->ops.enable_tearcheck)) {
+
+when is hw_pp assigned?  Can't we also check that somewhere in an init
+phase?
+
+Also, you won't go over 100 chars (not even 80) by having the (!... ||
+!...) on a single line.
+
+> +		DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
+> +		return;
+>  	}
+>  
+> +	DPU_DEBUG_CMDENC(cmd_enc, "intf %d pp %d\n",
+> +			 phys_enc->hw_intf->idx - INTF_0,
+> +			 phys_enc->hw_pp->idx - PINGPONG_0);
+> +
+>  	mode = &phys_enc->cached_mode;
+>  
+>  	dpu_kms = phys_enc->dpu_kms;
+> @@ -768,9 +761,21 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
+>  	phys_enc->intf_mode = INTF_MODE_CMD;
+>  	cmd_enc->stream_sel = 0;
+>  
+> +	if (!phys_enc->hw_intf) {
+> +		DPU_ERROR_CMDENC(cmd_enc, "no INTF provided\n");
+> +
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+>  	if (phys_enc->dpu_kms->catalog->mdss_ver->core_major_ver >= 5)
+>  		phys_enc->has_intf_te = true;
+>  
+> +	if (phys_enc->has_intf_te && !phys_enc->hw_intf->ops.enable_tearcheck) {
+
+Any other callbacks we could check here, and remove the checks
+elsewhere?
+
+As with enable_tearcheck() though, it does make the code less consistent
+with its PP counterpart, which is checked ad-hoc everywhere (but maybe
+that is fixable too).
+
+- Marijn
+
+> +		DPU_ERROR_CMDENC(cmd_enc, "tearcheck not supported\n");
+> +
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+>  	atomic_set(&cmd_enc->pending_vblank_cnt, 0);
+>  	init_waitqueue_head(&cmd_enc->pending_vblank_wq);
 >  
 > -- 
 > 2.39.2
