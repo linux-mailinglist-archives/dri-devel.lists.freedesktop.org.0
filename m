@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F9B765887
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:21:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7280F765896
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:25:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF1810E5CD;
-	Thu, 27 Jul 2023 16:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E72910E5BF;
+	Thu, 27 Jul 2023 16:25:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA5D410E5C8
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:21:15 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-5221f3affe4so1468619a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:21:15 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 790A310E5BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:24:59 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3fbc77e76abso12053675e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690474874; x=1691079674;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FuApF2tyajHL/s2/ZcYG8M2Dg4vS+5aqnQz+jLrEH3M=;
- b=dDEQdWseFklTkgszol5mc6NqRBQPRwcLuQLK8rx3rGK4FeqxoTdKXYnwhPnWtDp+Ue
- Vb7rZKl0pt1DWYdGIrS2KnH9h9Nhk+4EZii0j+3+XBY6T/PaaIIe6ZjTr9gD2gqHgy7Z
- E8f+ezZtcpwiLzwzEfJw6ZeNeEl0Flj3IUZHpGiosy/8tb0USyTYcmDScit6cDG/AbN+
- Vqenz0DZkX2OO9cnEtBadDwisbl28fCqvnDC0jF8PXMy2lH3DmSuMXjtWpXoUiTVOFB8
- 3WB5G/urRdy3T0Y8DXVANKnTJW5sgPQfnN5btRMXrrOnv0xtiTfN415h2fO4O+qz7MB4
- h1OQ==
+ d=gmail.com; s=20221208; t=1690475098; x=1691079898;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=9Dtb8/XWikrPjhh1ZH6jlcJvc4+s8I+X0vtKuEd4mMc=;
+ b=akxN6PqS7K8KjKHHO4u8jzlPtXTSPnqPrDK4GrhDg/d1kWuMxW6wunjd0hoy0JTkiw
+ PYSznbnThXx34aSaXUSyDdWuDuv3IcruuomCIWB0zIwGDb1rg+v1zfS4v4N5FvCDb/1d
+ j/ShUUgf73BKW5aaO9Sktjna54v/Y/QjR6+j2xNB5na4tYsYOl5Zy1XPmi9m29k3h1b/
+ sfOFTRnB5OIgoanLgCpZ0iujZyUwsn3pQxiCgF4qVgZ49O3ndsKl0UaptrkDpDsKuWGm
+ 0CTWkdM1ewgRCIU3g8/Q7DbdwIhC8veOpaXO51Z8yxYCd5efA3Rd888qq9/xUUj+jH14
+ unwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690474874; x=1691079674;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FuApF2tyajHL/s2/ZcYG8M2Dg4vS+5aqnQz+jLrEH3M=;
- b=Hii0y5bbvBfx4LmhyfzqEp+79vKbWzHVYE4AFm316a55IJHG8hFDaDzCI692KVJakt
- tbn95Ga86T21PrXS4Ntvz9bwWJlYhKXxztXea54CgobxYl5lKu/PmnpElO8OaLgZty0N
- S4x4aGBncZLBjC0B6RLSEK2VVKcJXpRYPpWjKB6GOnEdqEDnh0kes1clXDddXGTsjXJ8
- CVwBcmITkVwdgLP+AYjLLnb9ZJQsLKuEzetwjQH8gKAOSbHf8Uv64FbupohcHt3iGqXg
- bAyKRWtkuOU8HTvZXvXHbKnDt3SFWFtxWJYXuv7OIV2hJdjs64a9J++EeGStSmPXMACa
- z3YQ==
-X-Gm-Message-State: ABy/qLbqm3RPsEo8hK2Fic9ix6KLuROL5LPp8e3BrZDwquNiAdGvu3aB
- w5lFwPDkw1ExGXCWi+bRklqh6g==
-X-Google-Smtp-Source: APBJJlGaoWleLDRiMflrFY4jdKgQODEhZRFM+2J6NesFgS8dSuuubTF9uG1sTs08BdI9WELgtgOSjw==
-X-Received: by 2002:a05:6402:341:b0:522:5873:d4aa with SMTP id
- r1-20020a056402034100b005225873d4aamr2411878edw.23.1690474874205; 
- Thu, 27 Jul 2023 09:21:14 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- a15-20020aa7d90f000000b00521953ce6e0sm808027edr.93.2023.07.27.09.21.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 09:21:13 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 7/7] drm/msm/dpu: move INTF tearing checks to
- dpu_encoder_phys_cmd_init
-Date: Thu, 27 Jul 2023 19:21:04 +0300
-Message-Id: <20230727162104.1497483-8-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
-References: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
+ d=1e100.net; s=20221208; t=1690475098; x=1691079898;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9Dtb8/XWikrPjhh1ZH6jlcJvc4+s8I+X0vtKuEd4mMc=;
+ b=HpHXURVEgp//OBSJhZsEuLtxj97i0Jn6hQgmMJ4MY5ZXvSbgPfl7AiQq/DWePY8eLL
+ I/zSd2+T7u7cdO9oe/yO0olyzkwFofIz6td00pVKdBr4Tu2xR538ZngS4RubM8YH9Hqo
+ DdayHPu36HTftl7AnyxnB9ZjZ2yB82gUXlmZB2dJC6r4FJTWCXia7UaY29KZ3uWsr2pf
+ weSt6ZvNCdLJa7SsvfQv7Fi1C6C+vPJvSLaPcY7rArdZRf+20HjgsrV8RHZjw2KIeV6Y
+ RbJfFOUQUW9AQ5tBRRLs2AMklCzI++H9OJb1I6u/HpzK7JycnfulMQp/sk6lyrkkMh/4
+ RKmQ==
+X-Gm-Message-State: ABy/qLYDaIP/ujE9u7VzEv34nsNmTRKejHbf56k0I3G0bN7X/EXq7FQl
+ nHtNQ0MEfcBHn3txxy/EAWU=
+X-Google-Smtp-Source: APBJJlELdV2E51r0DbzX80QIKtgJQqds7CnqjhWhCRk68TR+/SG2Y3BxIAb/3ANSX/BU4owykrCV8Q==
+X-Received: by 2002:a05:600c:2294:b0:3fb:9ef2:157 with SMTP id
+ 20-20020a05600c229400b003fb9ef20157mr2104746wmf.28.1690475097580; 
+ Thu, 27 Jul 2023 09:24:57 -0700 (PDT)
+Received: from [127.0.0.1] ([46.211.28.141]) by smtp.gmail.com with ESMTPSA id
+ 25-20020a05600c025900b003fbb25da65bsm2188169wmj.30.2023.07.27.09.24.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Jul 2023 09:24:57 -0700 (PDT)
+Date: Thu, 27 Jul 2023 19:24:56 +0300
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v2 0/2] Support bridge/connector by Tegra HDMI
+User-Agent: K-9 Mail for Android
+In-Reply-To: <ZMKIonuTnoXcuc95@orome>
+References: <20230618085046.10081-1-clamor95@gmail.com>
+ <ZMKIonuTnoXcuc95@orome>
+Message-ID: <97EE0F0B-D1EE-43B1-A13E-510DB8FA2798@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,83 +75,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Maxim Schwalm <maxim.schwalm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the INTF is fixed at the encoder creation time, we can move the
-check whether INTF supports tearchck to dpu_encoder_phys_cmd_init().
-This function can return an error if INTF doesn't have required feature.
-Performing this check in dpu_encoder_phys_cmd_tearcheck_config() is less
-useful, as this function returns void.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 37 +++++++++++--------
- 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 04a1106101a7..e1dd0e1b4793 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -325,24 +325,17 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
- 	unsigned long vsync_hz;
- 	struct dpu_kms *dpu_kms;
- 
--	if (phys_enc->has_intf_te) {
--		if (!phys_enc->hw_intf ||
--		    !phys_enc->hw_intf->ops.enable_tearcheck) {
--			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
--			return;
--		}
--
--		DPU_DEBUG_CMDENC(cmd_enc, "");
--	} else {
--		if (!phys_enc->hw_pp ||
--		    !phys_enc->hw_pp->ops.enable_tearcheck) {
--			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
--			return;
--		}
--
--		DPU_DEBUG_CMDENC(cmd_enc, "pp %d\n", phys_enc->hw_pp->idx - PINGPONG_0);
-+	if (!phys_enc->has_intf_te &&
-+	    (!phys_enc->hw_pp ||
-+	     !phys_enc->hw_pp->ops.enable_tearcheck)) {
-+		DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
-+		return;
- 	}
- 
-+	DPU_DEBUG_CMDENC(cmd_enc, "intf %d pp %d\n",
-+			 phys_enc->hw_intf->idx - INTF_0,
-+			 phys_enc->hw_pp->idx - PINGPONG_0);
-+
- 	mode = &phys_enc->cached_mode;
- 
- 	dpu_kms = phys_enc->dpu_kms;
-@@ -768,9 +761,21 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
- 	phys_enc->intf_mode = INTF_MODE_CMD;
- 	cmd_enc->stream_sel = 0;
- 
-+	if (!phys_enc->hw_intf) {
-+		DPU_ERROR_CMDENC(cmd_enc, "no INTF provided\n");
-+
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	if (phys_enc->dpu_kms->catalog->mdss_ver->core_major_ver >= 5)
- 		phys_enc->has_intf_te = true;
- 
-+	if (phys_enc->has_intf_te && !phys_enc->hw_intf->ops.enable_tearcheck) {
-+		DPU_ERROR_CMDENC(cmd_enc, "tearcheck not supported\n");
-+
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	atomic_set(&cmd_enc->pending_vblank_cnt, 0);
- 	init_waitqueue_head(&cmd_enc->pending_vblank_wq);
- 
--- 
-2.39.2
+27 =D0=BB=D0=B8=D0=BF=D0=BD=D1=8F 2023 =D1=80=2E 18:09:22 GMT+03:00, Thier=
+ry Reding <thierry=2Ereding@gmail=2Ecom> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
+=B0=D0=B2(-=D0=BB=D0=B0):
+>On Sun, Jun 18, 2023 at 11:50:44AM +0300, Svyatoslav Ryhel wrote:
+>> This patch adds support for the bridge/connector attached to the
+>> HDMI output, allowing to model the hardware properly=2E It keeps
+>> backwards compatibility with existing bindings and is required
+>> by devices which have a simple or MHL bridge connected to HDMI
+>> output like ASUS P1801-T or LG P880/P895 or HTC One X=2E
+>>=20
+>> Tested on ASUS Transformers which have no dedicated bridge but
+>> have type d HDMI connector directly available=2E Tests went smoothly=2E
+>
+>If I understand correctly, we still need the drm/tegra patch to be
+>applied before the DT change, otherwise the driver won't know what to do
+>about the connector, right?
+>
+>That shouldn't be big problem, but it means that the patches need to be
+>staged in correctly to avoid breaking things=2E
 
+Patchset contains drm/tegra patch
+
+>Thierry
