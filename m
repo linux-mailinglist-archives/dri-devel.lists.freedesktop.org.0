@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D2376501C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 11:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1C476501E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 11:46:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1E010E102;
-	Thu, 27 Jul 2023 09:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059A310E554;
+	Thu, 27 Jul 2023 09:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87CA210E102
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:46:39 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7184010E102
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:46:40 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 91674660702D;
- Thu, 27 Jul 2023 10:46:37 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 71F106607038;
+ Thu, 27 Jul 2023 10:46:38 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690451198;
- bh=IH57ZyNRagERKQ5+mMux4tgPKLAjXI0mE3TZqze6Yq4=;
- h=From:To:Cc:Subject:Date:From;
- b=QZuEjo6ntXZiJRNm2OP4NKTzNdBA7bLUEWW8uvpCQR+rbQRgDHl5XNxP4dgLHM+JL
- il/7ORKbFzctrh34rnL+xD9EjQ6yHLajfwsVLIjvymwUs+mymYYpdkY40VyNH9Aq78
- iui4Sf562cqO67VDSmdtI/JbvwyOrYwRSj7kves09hkA6V0R4IpHVGk0VFql4kxL2c
- xTBIlYzRwVUcPlmvINswuTLZ6N7UC4+Ua749RBRj1fMigiRj4gqBQFHkwokXpSGPV9
- Zjz3D1bR72SEKEPT1Tk3sG2vlqqNJaF5v+vQt3RyCypaH7hwfWUIz4I/xbQXMyN2e/
- /XIjDlBtiHp1w==
+ s=mail; t=1690451199;
+ bh=fWabP2S9MKC6+Yi0YWqUcPZxSafl399il5KPixyXdlw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GNDFeRzVs6QPZXYFmo2+Yo+uGRJp5pI8JcZsX/wBAA4zHsAZmUKdT45pdJoRvdiZb
+ wdNNokY6HuV1ejUnZO4snwxb5wD6+y8y8lBavhRmIpPf5yM7aNk080z39PIQs/M6yf
+ jkfzPruKcyN0jdNMSkKSqt3Kx7GUqQMl8vdnX7ZCT5mvHdGQplc2wpgsV3T7syqW/A
+ YqBQQ0AY0shoevDu5mC+zBqeEX7dqRaZ0Ph1y39r1sDFB2zCANjDOxdiAszo4YwrCX
+ B8H1e+Vu3rBqh55vPYJ6176pFTZkThz+F4JDhirCqED1gZZOE6REYwKiiRiqdkVT3j
+ Rb0DXU96qN0zg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH RESEND v6 00/11] MediaTek DDP GAMMA - 12-bit LUT support
-Date: Thu, 27 Jul 2023 11:46:22 +0200
-Message-ID: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH RESEND v6 01/11] drm/mediatek: gamma: Adjust
+ mtk_drm_gamma_set_common parameters
+Date: Thu, 27 Jul 2023 11:46:23 +0200
+Message-ID: <20230727094633.22505-2-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
+References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,75 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, ehristev@collabora.com, wenst@chromium.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in RESEND-v6:
- - None.
+From: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
 
-Changes in v6:
- - Fixed smatch warning in patch 11/11, ref.:
-   https://lore.kernel.org/all/202306101458.lRXHEE0Z-lkp@intel.com/
+Adjust the parameters in mtk_drm_gamma_set_common()
+  - add (struct device *dev) to get lut_diff from gamma's driver data
+  - remove (bool lut_diff) and use false as default value in the function
 
-Changes in v5:
- - Removed incorrect comment on default LUT size and bits
- - Removed useless check for num_lut_banks
- - Added comment about CMDQ implementation on patch 5
- - Evaluated passing lut size/bits from AAL, idea discarded as
-   the implementation would be rather tricky while bringing no
-   benefits.
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 15 +++++++++------
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
-Changes in v4:
- - Fixed assignment typo appeared in v3
-
-Changes in v3:
- - Fixed issues due to variables renaming during cleanup (oops)
- - This is actually the right series, since v2 was taken from the
-   wrong kernel tree.... :-)
-
-Changes in v2:
- - Added explicit inclusion of linux/bitfield.h in patch [06/11]
-
-This series adds support for GAMMA IP requiring and/or supporting
-a 12-bits LUT using a slightly different register layout and programming
-sequence for multiple LUT banks: this IP version is currently found
-on a number of SoCs, not only including the Chromebook/IoT oriented
-Kompanio 1200/1380 MT8195/MT8195T, but also Smartphone chips such as
-the Dimensity 9200 (MT6985) and others.
-
-This series was tested on MT8195, MT8192, MT8173, MT6795:
- * MT6795, MT8192, MT8173: No regression, works fine.
- * MT8195: Color correction is finally working!
-
-AngeloGioacchino Del Regno (10):
-  drm/mediatek: gamma: Reduce indentation in mtk_gamma_set_common()
-  drm/mediatek: gamma: Support SoC specific LUT size
-  drm/mediatek: gamma: Improve and simplify HW LUT calculation
-  drm/mediatek: gamma: Enable the Gamma LUT table only after programming
-  drm/mediatek: gamma: Use bitfield macros
-  drm/mediatek: gamma: Support specifying number of bits per LUT
-    component
-  drm/mediatek: gamma: Support multi-bank gamma LUT
-  drm/mediatek: gamma: Add support for 12-bit LUT and MT8195
-  drm/mediatek: gamma: Make sure relay mode is disabled
-  drm/mediatek: gamma: Program gamma LUT type for descending or rising
-
-Jason-JH.Lin (1):
-  drm/mediatek: gamma: Adjust mtk_drm_gamma_set_common parameters
-
- drivers/gpu/drm/mediatek/mtk_disp_aal.c     |   2 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   3 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 193 ++++++++++++++++----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |   4 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   1 -
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   1 +
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   9 +
- 7 files changed, 177 insertions(+), 36 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+index 434e8a9ce8ab..8ddf7a97e583 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+@@ -67,7 +67,7 @@ void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
+ 	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+ 
+ 	if (aal->data && aal->data->has_gamma)
+-		mtk_gamma_set_common(aal->regs, state, false);
++		mtk_gamma_set_common(NULL, aal->regs, state);
+ }
+ 
+ void mtk_aal_start(struct device *dev)
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+index 2254038519e1..75045932353e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+@@ -54,7 +54,7 @@ void mtk_gamma_config(struct device *dev, unsigned int w,
+ 		      unsigned int h, unsigned int vrefresh,
+ 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
+-void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool lut_diff);
++void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state);
+ void mtk_gamma_start(struct device *dev);
+ void mtk_gamma_stop(struct device *dev);
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+index c844942603f7..99be515a941b 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+@@ -55,14 +55,21 @@ void mtk_gamma_clk_disable(struct device *dev)
+ 	clk_disable_unprepare(gamma->clk);
+ }
+ 
+-void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool lut_diff)
++void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+ {
++	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+ 	unsigned int i, reg;
+ 	struct drm_color_lut *lut;
+ 	void __iomem *lut_base;
++	bool lut_diff;
+ 	u32 word;
+ 	u32 diff[3] = {0};
+ 
++	if (gamma && gamma->data)
++		lut_diff = gamma->data->lut_diff;
++	else
++		lut_diff = false;
++
+ 	if (state->gamma_lut) {
+ 		reg = readl(regs + DISP_GAMMA_CFG);
+ 		reg = reg | GAMMA_LUT_EN;
+@@ -92,12 +99,8 @@ void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state *state, bool
+ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+ {
+ 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+-	bool lut_diff = false;
+-
+-	if (gamma->data)
+-		lut_diff = gamma->data->lut_diff;
+ 
+-	mtk_gamma_set_common(gamma->regs, state, lut_diff);
++	mtk_gamma_set_common(dev, gamma->regs, state);
+ }
+ 
+ void mtk_gamma_config(struct device *dev, unsigned int w,
 -- 
 2.40.1
 
