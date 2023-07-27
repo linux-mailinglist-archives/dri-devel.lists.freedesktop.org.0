@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E157D764E92
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 11:07:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF2E764EAC
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 11:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F0110E1CB;
-	Thu, 27 Jul 2023 09:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62B4F10E1D8;
+	Thu, 27 Jul 2023 09:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 770FD10E1CB
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:07:13 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-2680edb9767so148623a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 02:07:13 -0700 (PDT)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2877510E1D8
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:09:06 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-686f74a8992so86538b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 02:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1690448833; x=1691053633;
+ d=bytedance.com; s=google; t=1690448946; x=1691053746;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UKiGuCYavgdrONYSlKU+hjlx/AzCB2LKMORbFgw7HEo=;
- b=DjrROq91sf6Va+7++jhnZLLfMfZ3NpR+vs103Gffs3+O08HW6byjEgnIqMIjx7XVVU
- 6Esw8LCCRNx5FIzgZD2yLlNtiJ3fWUXbMzLdc62rKZLebfjHSG7L7jgEMl0D1hE7ZoNg
- HZ2c9Q9i+LL0tt0iImhvHFOK+Hduw2G0dP+6wK+guSG8W2Nz3BegBODQY1lmNQJ14Dz4
- uuXi2h/k5/64PvGOHou6Defqpklm1cGUHs8RqpArf+xI1YmvbpRswY34ry3JAORO90Jx
- 4NSzh0j5w+vqWxK/Ia35MiibA4wNxyya8QHOgB3QIdRRJ50Wt48gZu09EVgownqRkh1E
- f6DQ==
+ bh=4HPzHhawuqBHwf73jZH4M+rJ1h4rzhX4x1A5fzulUtE=;
+ b=XVbZZB1bCuIddvCOd7ZdoZjiMRRT7dPd70cLEHChe028013CtZN4CJhyjaofMQGOCp
+ aGQjkAdZJwrw0kO7FWCF+3wJu4Bs3hfpCHjXHte7v9cy4EJx3v2HSegV5fKDUggsvKcE
+ rfw3ctmBIqNX3YVyLliz70Ow03c79YTqviRSUBhyV37ISoYoH05fZe12pteMem3zIYaK
+ h5yTEuui+F8UDLetCnDn4Wd0BNAlUwOjTRf0Uzpr8uRBgvycDrHuoECz5/KoSjtrxNcd
+ VFQA9eIykS0N+Aj/4rgCWZN2Q01gf7n56+E22JNqNX6qv8VxHS7PwBWWAHU3NZ4I85Kn
+ Kvtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690448833; x=1691053633;
+ d=1e100.net; s=20221208; t=1690448946; x=1691053746;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UKiGuCYavgdrONYSlKU+hjlx/AzCB2LKMORbFgw7HEo=;
- b=ko/enWRoA2JhJMW0pfD/yIypoJf+M8JAYUIJOqVlv3jK5PnQR+Jx2KhLy93cwrNckz
- sFf3isQIAsWDsjG2VsT16dp8sC+7iL6x07Nycs1UxGHm0lPcbs2lYp3T2Vc+JRYto7lE
- FQWr8maNZP7MTbYVySSRMVUzn6YjXd3jtT3BzjFlJtnYzChGDSdxSkwWekMGDBPxmlGr
- tGnMDauAe01BuF2457x6m+8yuc0nGP1FKFOjXrk9QCAZGRgb6rwtuG5QmteZ1SDDT0z+
- B4AVuYK1Sj1jCiivgWNFTBZaYsSG32XysjFjuazICgegynTG7CXjIZfVHmSyII1Caf4r
- kfjA==
-X-Gm-Message-State: ABy/qLYUQLcenL8G/UXiDoX/BK84gfRYC7lSVerYpDgV1HIuTqAwq/N6
- FCKH+gcAt52t0izF3ydsnBFOQQ==
-X-Google-Smtp-Source: APBJJlEquEzidizjgrmS1e55j2UU3CMKKyxPnlaVqAXQYQ+ePfvdxx8A4f9JU/BbmCjGKzVhoGuchQ==
-X-Received: by 2002:a17:90a:128e:b0:263:25f9:65b2 with SMTP id
- g14-20020a17090a128e00b0026325f965b2mr4139877pja.4.1690448832920; 
- Thu, 27 Jul 2023 02:07:12 -0700 (PDT)
+ bh=4HPzHhawuqBHwf73jZH4M+rJ1h4rzhX4x1A5fzulUtE=;
+ b=PAea97WNyQgG9PFx9El8EAC3umqSWN5/pXN1wZXnnyc6a1ILVE8DWQrjCtJq8DO0MJ
+ p67gdJk0T2VL1jjC8lt53QaMfybGxQaz58mTqN/+r9KAAl2ATgLFqmQeOsBSFNr2a9k1
+ FOFo6GS2DFYaaTihUeWtJrawPht8bLwiQL0sNTuHdAKWJYmFHwBp5sMZu10You+wBCwR
+ M9yCxq0c8C03lo3YJbYimmS1XfNQFWEtigenTRvJGQsUqHr4tf91y0Rdn+kXy/p0O9Yg
+ NlmHCvTU1vl+ElXM4Ma4k/Ur5w6x1qK5yHqZ487Jrq4io2arB2GXwUKAQcCOaXbV0CPe
+ Iwbg==
+X-Gm-Message-State: ABy/qLZ95sJbqGUVErvCqc3WvE0P5J58JHp7VrA9m5PVgZvkSkJPBqku
+ zQQZ3X3lSBvokmhdjsiLXxonyQ==
+X-Google-Smtp-Source: APBJJlGcM2GBnp4i4GpCfKYembVJdmGwthtzp39QltAoTiMbksVAbVCn2LuGL8UI/2xPGfcHp3vTrQ==
+X-Received: by 2002:a05:6a20:1595:b0:137:30db:bc1e with SMTP id
+ h21-20020a056a20159500b0013730dbbc1emr5836590pzj.3.1690448945731; 
+ Thu, 27 Jul 2023 02:09:05 -0700 (PDT)
 Received: from [10.70.252.135] ([203.208.167.147])
  by smtp.gmail.com with ESMTPSA id
- a11-20020a170902ee8b00b001b7e63cfa19sm1063627pld.234.2023.07.27.02.07.00
+ f17-20020a635551000000b00563ea47c948sm930669pgm.53.2023.07.27.02.08.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jul 2023 02:07:12 -0700 (PDT)
-Message-ID: <19461737-db63-2ab5-110b-e65035881ae2@bytedance.com>
-Date: Thu, 27 Jul 2023 17:06:57 +0800
+ Thu, 27 Jul 2023 02:09:05 -0700 (PDT)
+Message-ID: <8951e9da-15ae-f05e-a9a4-a9354249cee2@bytedance.com>
+Date: Thu, 27 Jul 2023 17:08:52 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH v3 15/49] nfs: dynamically allocate the nfs-acl shrinker
+Subject: Re: [PATCH v3 16/49] nfsd: dynamically allocate the nfsd-filecache
+ shrinker
 Content-Language: en-US
 To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
@@ -64,9 +65,9 @@ To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  cel@kernel.org, senozhatsky@chromium.org, yujie.liu@intel.com,
  gregkh@linuxfoundation.org, muchun.song@linux.dev
 References: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
- <20230727080502.77895-16-zhengqi.arch@bytedance.com>
+ <20230727080502.77895-17-zhengqi.arch@bytedance.com>
 From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <20230727080502.77895-16-zhengqi.arch@bytedance.com>
+In-Reply-To: <20230727080502.77895-17-zhengqi.arch@bytedance.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,60 +98,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 2023/7/27 16:04, Qi Zheng wrote:
-> Use new APIs to dynamically allocate the nfs-acl shrinker.
+> Use new APIs to dynamically allocate the nfsd-filecache shrinker.
 > 
 > Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 > Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 > ---
->   fs/nfs/super.c | 20 ++++++++++++--------
->   1 file changed, 12 insertions(+), 8 deletions(-)
+>   fs/nfsd/filecache.c | 22 ++++++++++++----------
+>   1 file changed, 12 insertions(+), 10 deletions(-)
 > 
-> diff --git a/fs/nfs/super.c b/fs/nfs/super.c
-> index 2284f749d892..072d82e1be06 100644
-> --- a/fs/nfs/super.c
-> +++ b/fs/nfs/super.c
-> @@ -129,11 +129,7 @@ static void nfs_ssc_unregister_ops(void)
+> diff --git a/fs/nfsd/filecache.c b/fs/nfsd/filecache.c
+> index ee9c923192e0..872eb9501965 100644
+> --- a/fs/nfsd/filecache.c
+> +++ b/fs/nfsd/filecache.c
+> @@ -521,11 +521,7 @@ nfsd_file_lru_scan(struct shrinker *s, struct shrink_control *sc)
+>   	return ret;
 >   }
->   #endif /* CONFIG_NFS_V4_2 */
 >   
-> -static struct shrinker acl_shrinker = {
-> -	.count_objects	= nfs_access_cache_count,
-> -	.scan_objects	= nfs_access_cache_scan,
-> -	.seeks		= DEFAULT_SEEKS,
+> -static struct shrinker	nfsd_file_shrinker = {
+> -	.scan_objects = nfsd_file_lru_scan,
+> -	.count_objects = nfsd_file_lru_count,
+> -	.seeks = 1,
 > -};
-> +static struct shrinker *acl_shrinker;
+> +static struct shrinker *nfsd_file_shrinker;
 >   
->   /*
->    * Register the NFS filesystems
-> @@ -153,9 +149,17 @@ int __init register_nfs_fs(void)
->   	ret = nfs_register_sysctl();
->   	if (ret < 0)
->   		goto error_2;
-> -	ret = register_shrinker(&acl_shrinker, "nfs-acl");
-> -	if (ret < 0)
-> +
-> +	acl_shrinker = shrinker_alloc(0, "nfs-acl");
-> +	if (!acl_shrinker)
->   		goto error_3;
+>   /**
+>    * nfsd_file_cond_queue - conditionally unhash and queue a nfsd_file
+> @@ -746,12 +742,18 @@ nfsd_file_cache_init(void)
+>   		goto out_err;
+>   	}
+>   
+> -	ret = register_shrinker(&nfsd_file_shrinker, "nfsd-filecache");
+> -	if (ret) {
+> -		pr_err("nfsd: failed to register nfsd_file_shrinker: %d\n", ret);
+> +	nfsd_file_shrinker = shrinker_alloc(0, "nfsd-filecache");
+> +	if (!nfsd_file_shrinker) {
 
 Here should set ret to -ENOMEM, will fix.
 
+> +		pr_err("nfsd: failed to allocate nfsd_file_shrinker\n");
+>   		goto out_lru;
+>   	}
+>   
+> +	nfsd_file_shrinker->count_objects = nfsd_file_lru_count;
+> +	nfsd_file_shrinker->scan_objects = nfsd_file_lru_scan;
+> +	nfsd_file_shrinker->seeks = 1;
 > +
-> +	acl_shrinker->count_objects = nfs_access_cache_count;
-> +	acl_shrinker->scan_objects = nfs_access_cache_scan;
-> +	acl_shrinker->seeks = DEFAULT_SEEKS;
+> +	shrinker_register(nfsd_file_shrinker);
 > +
-> +	shrinker_register(acl_shrinker);
-> +
->   #ifdef CONFIG_NFS_V4_2
->   	nfs_ssc_register_ops();
->   #endif
-> @@ -175,7 +179,7 @@ int __init register_nfs_fs(void)
->    */
->   void __exit unregister_nfs_fs(void)
->   {
-> -	unregister_shrinker(&acl_shrinker);
-> +	shrinker_free(acl_shrinker);
->   	nfs_unregister_sysctl();
->   	unregister_nfs4_fs();
->   #ifdef CONFIG_NFS_V4_2
+>   	ret = lease_register_notifier(&nfsd_file_lease_notifier);
+>   	if (ret) {
+>   		pr_err("nfsd: unable to register lease notifier: %d\n", ret);
+> @@ -774,7 +776,7 @@ nfsd_file_cache_init(void)
+>   out_notifier:
+>   	lease_unregister_notifier(&nfsd_file_lease_notifier);
+>   out_shrinker:
+> -	unregister_shrinker(&nfsd_file_shrinker);
+> +	shrinker_free(nfsd_file_shrinker);
+>   out_lru:
+>   	list_lru_destroy(&nfsd_file_lru);
+>   out_err:
+> @@ -891,7 +893,7 @@ nfsd_file_cache_shutdown(void)
+>   		return;
+>   
+>   	lease_unregister_notifier(&nfsd_file_lease_notifier);
+> -	unregister_shrinker(&nfsd_file_shrinker);
+> +	shrinker_free(nfsd_file_shrinker);
+>   	/*
+>   	 * make sure all callers of nfsd_file_lru_cb are done before
+>   	 * calling nfsd_file_cache_purge
