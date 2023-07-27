@@ -1,50 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30AE7646F3
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 08:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A41D576481C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 09:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E24510E0DC;
-	Thu, 27 Jul 2023 06:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4B310E4F4;
+	Thu, 27 Jul 2023 07:12:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF6D10E0DC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 06:38:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6BB5A61D4A;
- Thu, 27 Jul 2023 06:38:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53265C433C8;
- Thu, 27 Jul 2023 06:37:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690439879;
- bh=FRjnZpBXyoICml35qRO4Ubw0mh4eZitG61lIBtAT9ZE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fYZL11pKqnmkNulOQe7GL0kffosuY1A0wodOf9CauFTecIaODJGJPhXFxc7GYCnLi
- BER1cf+68K8Sz2Jhsnl4nq4fGGxli2s2LmnmWkmf9kSG75WPIDHdxsThaZ4Nb4s5p7
- pUWoIaAaMZSgVHhutZGd/KWaom/Sli98Q8tiw2zU34EzcqASaA5SNusxS1pyJc4Ua7
- 9AyNvj3j3dUOJimVrImfyr0ZfSgr/zzasFPckHAj9q/VU/kQpXeLodMZmz5RJrVV8l
- c8qxGhe0+v6AvJtH3eCtG/XNvGqjEyYEGHVCQEqYj7/T25emB02p4i6V3iaDfN8UCm
- 99iL9y1DWV5Aw==
-Date: Thu, 27 Jul 2023 08:37:56 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled
- in drm_panel
-Message-ID: <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
-References: <20230725203545.2260506-1-dianders@chromium.org>
- <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
- <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
- <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 469B610E126;
+ Thu, 27 Jul 2023 06:54:37 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36R56NQi013675; Thu, 27 Jul 2023 06:54:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=nh4cklR1APrVPPa2bvf47yHK9cYInyXrXll/6iQHCK4=;
+ b=Chhum91iAkxlwWW1DbciVCRTfcQyDvO0aggc+E0b1yZ5ahvc/CZMfb5eK14VnGE76EvW
+ qLstrCaTY4EFNboOLKd5MPJZ1EU7gEzWjJgrnGBrcaV5Dfo0s3cwKrIfpxlDDDpQ3tuJ
+ V8kWFUfSbmMfetSVOotR1QRG231OTFLAYmgvTi0KK8LmkccnUzymnctzqbr5aoHdKAuh
+ 7V9TpjqrYEY/VBFdkVAl1gm/U5j4WrZtozYTeRzKexGJFgzwxAFl3BbevR9N8lRm1DpB
+ tjQZThTCxJhuw3SPGBr2ottrqrweh9rGjjDpEr9Ba23qKUBZ+Bqpd9yXQOSrwSH3DQXQ yg== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s2fms4e03-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jul 2023 06:54:28 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36R6sQw4029194
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Jul 2023 06:54:26 GMT
+Received: from [10.216.40.41] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 26 Jul
+ 2023 23:54:14 -0700
+Message-ID: <86c6e8b1-d286-6858-5de6-b8faf6557fe4@quicinc.com>
+Date: Thu, 27 Jul 2023 12:24:10 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qmidvgjg6qmglwns"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] dt-bindings: qcom: Update RPMHPD entries for some SoCs
+Content-Language: en-US
+To: Pavan Kondeti <quic_pkondeti@quicinc.com>
+References: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
+ <edac596d-2b3d-4632-9468-4af863aff6f4@quicinc.com>
+From: Rohit Agarwal <quic_rohiagar@quicinc.com>
+In-Reply-To: <edac596d-2b3d-4632-9468-4af863aff6f4@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: gaxiB93QjZMYayGJXBoahVT6HAHoooVe
+X-Proofpoint-ORIG-GUID: gaxiB93QjZMYayGJXBoahVT6HAHoooVe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 spamscore=0 malwarescore=0 mlxlogscore=819
+ clxscore=1015 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307270061
+X-Mailman-Approved-At: Thu, 27 Jul 2023 07:11:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,98 +84,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: ulf.hansson@linaro.org, mturquette@baylibre.com,
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_vgarodia@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
+ marijn.suijten@somainline.org, linux-clk@vger.kernel.org, rfoss@kernel.org,
+ jonathan@marek.ca, stanimir.k.varbanov@gmail.com, agross@kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ bhupesh.sharma@linaro.org, mani@kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, robh+dt@kernel.org, mchehab@kernel.org,
+ sean@poorly.run, neil.armstrong@linaro.org, mathieu.poirier@linaro.org,
+ sboyd@kernel.org, vladimir.zapolskiy@linaro.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org, quic_tdas@quicinc.com,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
+ andersson@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---qmidvgjg6qmglwns
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 7/27/2023 11:06 AM, Pavan Kondeti wrote:
+> On Thu, Jul 27, 2023 at 10:21:10AM +0530, Rohit Agarwal wrote:
+>> Update the RPMHPD references with new bindings defined in rpmhpd.h
+>> for Qualcomm SoCs SM8[2345]50.
+>>
+>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+>> ---
+>>   Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml    | 3 ++-
+>>   Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml   | 3 ++-
+>>   Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml     | 3 ++-
+>>   Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml    | 3 ++-
+>>   Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml   | 3 ++-
+>>   Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml    | 3 ++-
+>>   Documentation/devicetree/bindings/clock/qcom,videocc.yaml          | 3 ++-
+>>   Documentation/devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml | 3 ++-
+>>   .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml          | 7 ++++---
+>>   Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml | 3 ++-
+>>   .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml          | 5 +++--
+>>   Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml | 3 ++-
+>>   .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml          | 7 ++++---
+>>   Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml | 3 ++-
+>>   .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml          | 7 ++++---
+>>   Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml     | 3 ++-
+>>   Documentation/devicetree/bindings/mmc/sdhci-msm.yaml               | 3 ++-
+>>   Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml  | 5 +++--
+>>   18 files changed, 44 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+>> index d6774db..d6b81c0 100644
+>> --- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+>> +++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
+>> @@ -83,6 +83,7 @@ examples:
+>>     - |
+>>       #include <dt-bindings/clock/qcom,rpmh.h>
+>>       #include <dt-bindings/power/qcom-rpmpd.h>
+>> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+>>       clock-controller@af00000 {
+>>         compatible = "qcom,sm8250-dispcc";
+>>         reg = <0x0af00000 0x10000>;
+>> @@ -103,7 +104,7 @@ examples:
+>>         #clock-cells = <1>;
+>>         #reset-cells = <1>;
+>>         #power-domain-cells = <1>;
+>> -      power-domains = <&rpmhpd SM8250_MMCX>;
+>> +      power-domains = <&rpmhpd RPMHPD_MMCX>;
+>>         required-opps = <&rpmhpd_opp_low_svs>;
+>>       };
+>>   ...
+> Does this file still need to include old header? The same is applicable
+> to some of the other files in the patch also.
+>
+> We also discussed on the other thread [1] to move the regulator level
+> definitions to new header. should this change be done after that, so that
+> we don't end up touching the very same files again?
+>
+> [1]
+> https://lore.kernel.org/all/a4zztrn6jhblozdswba7psqtvjt5l765mfr3yl4llsm5gsyqef@7x6q7yabydvm/
+Removing this header directly would also be fine as we are not using any 
+macro defined directly in these
+bindings.
+I already checked with dt_binding_check by removing this header.
 
-Hi,
-
-On Wed, Jul 26, 2023 at 08:10:33AM -0700, Doug Anderson wrote:
-> On Wed, Jul 26, 2023 at 5:41=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Tue, Jul 25, 2023 at 01:34:37PM -0700, Douglas Anderson wrote:
-> > > NOTE: arguably, the right thing to do here is actually to skip this
-> > > patch and simply remove all the extra checks from the individual
-> > > drivers. Perhaps the checks were needed at some point in time in the
-> > > past but maybe they no longer are? Certainly as we continue
-> > > transitioning over to "panel_bridge" then we expect there to be much
-> > > less variety in how these calls are made. When we're called as part of
-> > > the bridge chain, things should be pretty simple. In fact, there was
-> > > some discussion in the past about these checks [1], including a
-> > > discussion about whether the checks were needed and whether the calls
-> > > ought to be refcounted. At the time, I decided not to mess with it
-> > > because it felt too risky.
-> >
-> > Yeah, I'd agree here too. I've never found evidence that it was actually
-> > needed and it really looks like cargo cult to me.
-> >
-> > And if it was needed, then I'm not sure we need refcounting either. We
-> > don't have refcounting for atomic_enable / disable, we have a sound API
-> > design that makes sure we don't fall into that trap :)
-> >
-> > > Looking closer at it now, I'm fairly certain that nothing in the
-> > > existing codebase is expecting these calls to be refcounted. The only
-> > > real question is whether someone is already doing something to ensure
-> > > prepare()/unprepare() match and enabled()/disable() match. I would say
-> > > that, even if there is something else ensuring that things match,
-> > > there's enough complexity that adding an extra bool and an extra
-> > > double-check here is a good idea. Let's add a drm_warn() to let people
-> > > know that it's considered a minor error to take advantage of
-> > > drm_panel's double-checking but we'll still make things work fine.
-> >
-> > I'm ok with this, if we follow-up in a couple of releases and remove it
-> > and all the calls.
-> >
-> > Could you add a TODO item so that we can keep a track of it? A follow-up
-> > is fine if you don't send a new version of that series.
->=20
-> By this, I think you mean to add a "TODO" comment inline in the code?
-
-No, sorry, I meant an entry in our TODO list: Documentation/gpu/todo.rst
-
-> Also: I was thinking that we'd keep the check in "drm_panel.c" with
-> the warning message indefinitely. You think it should be eventually
-> removed? If we are truly thinking of removing it eventually, this
-> feels like it should be a more serious warning message like a WARN(1,
-> ...) to make it really obvious to people that they're relying on
-> behavior that will eventually go away.
-
-Yeah, it really feels like this is cargo-cult to me. Your approach seems
-like a good short-term thing to do to warn everyone but eventually we'll
-want it to go away.
-
-So promoting it to a WARN could be a good thing, or let's say we do a
-drm_warn for now, WARN next release, and gone in two?
-
-Maxime
-
---qmidvgjg6qmglwns
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMIQxAAKCRDj7w1vZxhR
-xS9GAP9BIm0s8ZsLC+bhjElbosmrjvC+nJKq8JPUsWqiC6LCgAEA7zDgSlWYWW1y
-wy47ZmFD7kfSibH3ZXnpNrOTtnnmpQ4=
-=4IGd
------END PGP SIGNATURE-----
-
---qmidvgjg6qmglwns--
+Thanks,
+Rohit.
