@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFF1765D1D
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:22:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F94765D2F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE9010E5FE;
-	Thu, 27 Jul 2023 20:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4F410E5FF;
+	Thu, 27 Jul 2023 20:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3B9D10E5FC;
- Thu, 27 Jul 2023 20:22:21 +0000 (UTC)
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4072310E5FC;
+ Thu, 27 Jul 2023 20:24:14 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 07050204A6;
- Thu, 27 Jul 2023 22:22:19 +0200 (CEST)
-Date: Thu, 27 Jul 2023 22:22:18 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0C2EB204BA;
+ Thu, 27 Jul 2023 22:24:12 +0200 (CEST)
+Date: Thu, 27 Jul 2023 22:24:10 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 7/7] drm/msm/dpu: move INTF tearing checks to
- dpu_encoder_phys_cmd_init
-Message-ID: <bmmqdo6dyewxrgcfk3vcuff3tgrb6iqgzby3ionl4shaido2vw@cqc2qnvu3fnj>
+Subject: Re: [PATCH 5/7] drm/msm/dpu: drop DPU_INTF_TE feature flag
+Message-ID: <xqzczgacnl76m5wsvhfbczpc54svf452azirw24dtqkrtw4ndi@gdvmmrt3u56x>
 References: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
- <20230727162104.1497483-8-dmitry.baryshkov@linaro.org>
+ <20230727162104.1497483-6-dmitry.baryshkov@linaro.org>
+ <bndyttm2ytf7bz2cdok4ewnd7vpv75ud4eqialpleihjs6ahr2@6ehcv3zjpkky>
+ <2a38d144-3a2d-ee61-1554-ae94766b1d36@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230727162104.1497483-8-dmitry.baryshkov@linaro.org>
+In-Reply-To: <2a38d144-3a2d-ee61-1554-ae94766b1d36@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,95 +51,43 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-07-27 19:21:04, Dmitry Baryshkov wrote:
-> As the INTF is fixed at the encoder creation time, we can move the
-> check whether INTF supports tearchck to dpu_encoder_phys_cmd_init().
-> This function can return an error if INTF doesn't have required feature.
-> Performing this check in dpu_encoder_phys_cmd_tearcheck_config() is less
-> useful, as this function returns void.
+On 2023-07-27 23:16:22, Dmitry Baryshkov wrote:
+> On 27/07/2023 23:14, Marijn Suijten wrote:
+> > On 2023-07-27 19:21:02, Dmitry Baryshkov wrote:
+> >> Replace the only user of the DPU_INTF_TE feature flag with the direct
+> >> DPU version comparison.
+> >>
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > 
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 4 ++--
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c       | 1 -
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h       | 2 --
+> >>   3 files changed, 2 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> >> index 9589fe719452..60d4dd88725e 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> >> @@ -776,8 +776,8 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
+> >>   	phys_enc->intf_mode = INTF_MODE_CMD;
+> >>   	cmd_enc->stream_sel = 0;
+> >>   
+> >> -	phys_enc->has_intf_te = test_bit(DPU_INTF_TE,
+> >> -					 &phys_enc->hw_intf->cap->features);
+> >> +	if (phys_enc->dpu_kms->catalog->mdss_ver->core_major_ver >= 5)
+> >> +		phys_enc->has_intf_te = true;
+> > 
+> > We could also check if the INTF block has the callbacks (which it based
+> > on the presence of the interrupt line in the catalog instead), but then
+> > I think we might loose some extra validation which you tidied up in a
+> > later patch in this series?
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 37 +++++++++++--------
->  1 file changed, 21 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> index 04a1106101a7..e1dd0e1b4793 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-> @@ -325,24 +325,17 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
->  	unsigned long vsync_hz;
->  	struct dpu_kms *dpu_kms;
->  
-> -	if (phys_enc->has_intf_te) {
-> -		if (!phys_enc->hw_intf ||
-> -		    !phys_enc->hw_intf->ops.enable_tearcheck) {
-> -			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
-> -			return;
-> -		}
-> -
-> -		DPU_DEBUG_CMDENC(cmd_enc, "");
-> -	} else {
-> -		if (!phys_enc->hw_pp ||
-> -		    !phys_enc->hw_pp->ops.enable_tearcheck) {
-> -			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
-> -			return;
-> -		}
-> -
-> -		DPU_DEBUG_CMDENC(cmd_enc, "pp %d\n", phys_enc->hw_pp->idx - PINGPONG_0);
-> +	if (!phys_enc->has_intf_te &&
-> +	    (!phys_enc->hw_pp ||
-> +	     !phys_enc->hw_pp->ops.enable_tearcheck)) {
+> Almost. The logic was the following: we should be using INTF for DPU >= 
+> 5.0. And if we have DPU >= 5.0 and no callbacks, it's an error.
 
-when is hw_pp assigned?  Can't we also check that somewhere in an init
-phase?
-
-Also, you won't go over 100 chars (not even 80) by having the (!... ||
-!...) on a single line.
-
-> +		DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
-> +		return;
->  	}
->  
-> +	DPU_DEBUG_CMDENC(cmd_enc, "intf %d pp %d\n",
-> +			 phys_enc->hw_intf->idx - INTF_0,
-> +			 phys_enc->hw_pp->idx - PINGPONG_0);
-> +
->  	mode = &phys_enc->cached_mode;
->  
->  	dpu_kms = phys_enc->dpu_kms;
-> @@ -768,9 +761,21 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
->  	phys_enc->intf_mode = INTF_MODE_CMD;
->  	cmd_enc->stream_sel = 0;
->  
-> +	if (!phys_enc->hw_intf) {
-> +		DPU_ERROR_CMDENC(cmd_enc, "no INTF provided\n");
-> +
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
->  	if (phys_enc->dpu_kms->catalog->mdss_ver->core_major_ver >= 5)
->  		phys_enc->has_intf_te = true;
->  
-> +	if (phys_enc->has_intf_te && !phys_enc->hw_intf->ops.enable_tearcheck) {
-
-Any other callbacks we could check here, and remove the checks
-elsewhere?
-
-As with enable_tearcheck() though, it does make the code less consistent
-with its PP counterpart, which is checked ad-hoc everywhere (but maybe
-that is fixable too).
+Indeed.  Let's keep that validation just in case.
 
 - Marijn
-
-> +		DPU_ERROR_CMDENC(cmd_enc, "tearcheck not supported\n");
-> +
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
->  	atomic_set(&cmd_enc->pending_vblank_cnt, 0);
->  	init_waitqueue_head(&cmd_enc->pending_vblank_wq);
->  
-> -- 
-> 2.39.2
-> 
