@@ -2,70 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CBE7652CE
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 13:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866DC7652F2
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 13:54:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4D310E56E;
-	Thu, 27 Jul 2023 11:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEA810E56F;
+	Thu, 27 Jul 2023 11:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E925010E572
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 11:45:20 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-51a52a7d859so4468778a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 04:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690458319; x=1691063119;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1qeXnvcAiq6YWv+BROwmiyjzVjwKIDX/fTfibW2U9Ng=;
- b=haj4JLRqU16kQ/pCAc2zXSfGD4y2xOyhQZRlT94PCb08V82hArXlO7r+VBURosiLYF
- hWxtoN1Q2Qr3zilvKIyJogZjp+ey0Wt9oMCeoZtE0Fq4avoYOoYh0Bey45uEA2+v0IHD
- akKnLl/QQ2Kur95MNKXJTRaVSNjTs+jxxPyhIIIjphYwTWqLm3fjnFBlFMWBsFnXxTd0
- OMVxkX/2AwCbwAq8mQTRKu3hmfYPuQVaZlmhOmT+9M/+Hd10CJb1ErjEQ8t3KsIXZTOM
- DhR9Yk8mZws/ifAa8/gJvYwhRaHEwayj51zlajXVhKLSoBof0i/RPiHRtZYZQB9e4huu
- s8hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690458319; x=1691063119;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1qeXnvcAiq6YWv+BROwmiyjzVjwKIDX/fTfibW2U9Ng=;
- b=k/RcUZ/TZAVz8mwdCRAmdJo/PuSK7m4Q9OmTC/2PaI7mFVm8Q1oERi5W5moi1ZaqqR
- n9ROcYRbts6FDSQWTqu0pDCd5ojz9PVNtt9bD8d9y0P5JBUQQuT+P8TL/BUdxe0+BIuJ
- NavK/Qcx5BL2+TcBMW6hUc48GE8dvFpj6Mdcl+Xh8gYkMcSiLYYECO7iDHscxZcqTNBW
- MVTiufj6uR9pmg3u3XoZqjqMj3BfZzcSc4wjISda5Kbk8Ck0c9rDU5U8ckn2qWUQAgu0
- s9btXCf2fGp29sUrtAnx/gli5Hit61ypEuQjY6eWe/GhCakrFUA8uxvQtsJ++aVU+v4C
- 2b/w==
-X-Gm-Message-State: ABy/qLYH749B+qBgNVxKqKuwBkFlHkAKC8y0Xf4/ov4P5Kvl3lgllz5g
- lRwKxZextq0dp4ukFrG3lgzdhA==
-X-Google-Smtp-Source: APBJJlGkjcM0tXeGSbsXIHSEtxD4pxFRr5EaDSYdzWNrpPx1y6oDJ7i0CJP0zJjVwc+iwJNrOkN8LA==
-X-Received: by 2002:a17:906:2d2:b0:989:450:e565 with SMTP id
- 18-20020a17090602d200b009890450e565mr2267093ejk.23.1690458319274; 
- Thu, 27 Jul 2023 04:45:19 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
- by smtp.gmail.com with ESMTPSA id
- pv24-20020a170907209800b009920e9a3a73sm660346ejb.115.2023.07.27.04.45.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jul 2023 04:45:18 -0700 (PDT)
-Message-ID: <2edb92b8-a6a8-c115-757c-daccef6be5f0@linaro.org>
-Date: Thu, 27 Jul 2023 13:45:15 +0200
+X-Greylist: delayed 92396 seconds by postgrey-1.36 at gabe;
+ Thu, 27 Jul 2023 11:54:25 UTC
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 800D410E33F;
+ Thu, 27 Jul 2023 11:54:25 +0000 (UTC)
+Message-ID: <fb734626-6041-1e68-38d7-221837284cf1@linux.intel.com>
+Date: Thu, 27 Jul 2023 13:54:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] dt-bindings: qcom: Update RPMHPD entries for some SoCs
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 16/17] cgroup/drm: Expose memory stats
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Tejun Heo <tj@kernel.org>
+References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
+ <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
+ <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
+ <ea64d7bf-c01b-f4ad-a36b-f77e2c2ea931@linux.intel.com>
+ <89d7181c-6830-ca6e-0c39-caa49d14d474@linux.intel.com>
 Content-Language: en-US
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>, Rob Herring <robh@kernel.org>
-References: <1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com>
- <169045659774.1058731.6391693092002547810.robh@kernel.org>
- <fa84ec4f-bdb9-dace-c56a-46174a9b47ee@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <fa84ec4f-bdb9-dace-c56a-46174a9b47ee@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <89d7181c-6830-ca6e-0c39-caa49d14d474@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,91 +43,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, mturquette@baylibre.com,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_vgarodia@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
- marijn.suijten@somainline.org, linux-clk@vger.kernel.org, rfoss@kernel.org,
- jonathan@marek.ca, stanimir.k.varbanov@gmail.com, agross@kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
- bhupesh.sharma@linaro.org, mani@kernel.org, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, robh+dt@kernel.org, mchehab@kernel.org,
- sean@poorly.run, neil.armstrong@linaro.org, mathieu.poirier@linaro.org,
- sboyd@kernel.org, andersson@kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org, quic_tdas@quicinc.com,
- dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
- vladimir.zapolskiy@linaro.org
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+ Eero Tamminen <eero.t.tamminen@intel.com>,
+ "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/07/2023 13:19, Rohit Agarwal wrote:
+Hey,
+
+On 2023-07-26 13:41, Tvrtko Ursulin wrote:
 > 
-> On 7/27/2023 4:46 PM, Rob Herring wrote:
->> On Thu, 27 Jul 2023 14:39:13 +0530, Rohit Agarwal wrote:
->>> Update the RPMHPD references with new bindings defined in rpmhpd.h
->>> for Qualcomm SoCs SM8[2345]50.
+> On 26/07/2023 11:14, Maarten Lankhorst wrote:
+>> Hey,
+>>
+>> On 2023-07-22 00:21, Tejun Heo wrote:
+>>> On Wed, Jul 12, 2023 at 12:46:04PM +0100, Tvrtko Ursulin wrote:
+>>>>    $ cat drm.memory.stat
+>>>>    card0 region=system total=12898304 shared=0 active=0 
+>>>> resident=12111872 purgeable=167936
+>>>>    card0 region=stolen-system total=0 shared=0 active=0 resident=0 
+>>>> purgeable=0
+>>>>
+>>>> Data is generated on demand for simplicty of implementation ie. no 
+>>>> running
+>>>> totals are kept or accounted during migrations and such. Various
+>>>> optimisations such as cheaper collection of data are possible but
+>>>> deliberately left out for now.
+>>>>
+>>>> Overall, the feature is deemed to be useful to container orchestration
+>>>> software (and manual management).
+>>>>
+>>>> Limits, either soft or hard, are not envisaged to be implemented on 
+>>>> top of
+>>>> this approach due on demand nature of collecting the stats.
 >>>
->>> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
->>> ---
->>>   Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml   | 4 ++--
->>>   Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml  | 4 ++--
->>>   Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml    | 4 ++--
->>>   Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml   | 4 ++--
->>>   Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml  | 4 ++--
->>>   Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml   | 4 ++--
->>>   Documentation/devicetree/bindings/clock/qcom,videocc.yaml         | 4 ++--
->>>   .../devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml          | 4 ++--
->>>   .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml         | 8 ++++----
->>>   .../devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml          | 4 ++--
->>>   .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml         | 6 +++---
->>>   .../devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml          | 4 ++--
->>>   .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml         | 8 ++++----
->>>   .../devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml          | 4 ++--
->>>   .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml         | 8 ++++----
->>>   Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 4 ++--
->>>   Documentation/devicetree/bindings/mmc/sdhci-msm.yaml              | 4 ++--
->>>   Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml | 6 +++---
->>>   18 files changed, 44 insertions(+), 44 deletions(-)
->>>
->> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
->> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>>> So, yeah, if you want to add memory controls, we better think through 
+>>> how
+>>> the fd ownership migration should work.
+>> I've taken a look at the series, since I have been working on cgroup 
+>> memory eviction.
 >>
->> yamllint warnings/errors:
->>
->> dtschema/dtc warnings/errors:
->> Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dts:21:18: fatal error: dt-bindings/power/qcom,rpmhpd.h: No such file or directory
->>     21 |         #include <dt-bindings/power/qcom,rpmhpd.h>
->>        |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> compilation terminated.
->> make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dtb] Error 1
->> make[2]: *** Waiting for unfinished jobs....
->> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
->> make: *** [Makefile:234: __sub-make] Error 2
->>
->> doc reference errors (make refcheckdocs):
->>
->> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1690448953-23425-1-git-send-email-quic_rohiagar@quicinc.com
->>
->> The base for the series is generally the latest rc1. A different dependency
->> should be noted in *this* patch.
->>
->> If you already ran 'make dt_binding_check' and didn't see the above
->> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->> date:
->>
->> pip3 install dtschema --upgrade
->>
->> Please check and re-submit after running the above command yourself. Note
->> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
->> your schema. However, it must be unset to test all examples with your schema.
-> This should be ignored as the patch that creates the new header is 
-> already applied.
-> Please follow this series
+>> The scheduling stuff will work for i915, since it has a purely 
+>> software execlist scheduler, but I don't think it will work for GuC 
+>> (firmware) scheduling or other drivers that use the generic drm 
+>> scheduler.
 > 
-> https://lore.kernel.org/all/1689744162-9421-1-git-send-email-quic_rohiagar@quicinc.com/
+> It actually works - I used to have a blurb in the cover letter about it 
+> but apparently I dropped it. Just a bit less well with many clients, 
+> since there are fewer priority levels.
+> 
+> All that the design requires from the invididual drivers is some way to 
+> react to the "you are over budget by this much" signal. The rest is 
+> driver and backend specific.
 
-Please mention the dependency in patch changelog ---, so it is obvious
-for people applying it and also for the bot.
+What I mean is that this signal may not be applicable since the drm 
+scheduler just schedules jobs that run. Adding a weight might be done in 
+hardware, since it's responsible for  scheduling which context gets to 
+run. The over budget signal is useless in that case, and you just need 
+to set a scheduling priority for the hardware instead.
 
-Best regards,
-Krzysztof
+>> For something like this,  you would probably want it to work inside 
+>> the drm scheduler first. Presumably, this can be done by setting a 
+>> weight on each runqueue, and perhaps adding a callback to update one 
+>> for a running queue. Calculating the weights hierarchically might be 
+>> fun..
+> 
+> It is not needed to work in drm scheduler first. In fact drm scheduler 
+> based drivers can plug into what I have since it already has the notion 
+> of scheduling priorities.
+> 
+> They would only need to implement a hook which allow the cgroup 
+> controller to query client GPU utilisation and another to received the 
+> over budget signal.
+> 
+> Amdgpu and msm AFAIK could be easy candidates because they both support 
+> per client utilisation and priorities.
+> 
+> Looks like I need to put all this info back into the cover letter.
+> 
+> Also, hierarchic weights and time budgets are all already there. What 
+> could be done later is make this all smarter and respect the time budget 
+> with more precision. That would however, in many cases including Intel, 
+> require co-operation with the firmware. In any case it is only work in 
+> the implementation, while the cgroup control interface remains the same.
+> 
+>> I have taken a look at how the rest of cgroup controllers change 
+>> ownership when moved to a different cgroup, and the answer was: not at 
+>> all. If we attempt to create the scheduler controls only on the first 
+>> time the fd is used, you could probably get rid of all the tracking.
+> 
+> Can you send a CPU file descriptor from process A to process B and have 
+> CPU usage belonging to process B show up in process' A cgroup, or 
+> vice-versa? Nope, I am not making any sense, am I? My point being it is 
+> not like-to-like, model is different.
+> 
+> No ownership transfer would mean in wide deployments all GPU utilisation 
+> would be assigned to Xorg and so there is no point to any of this. No 
+> way to throttle a cgroup with un-important GPU clients for instance.
+If you just grab the current process' cgroup when a drm_sched_entity is 
+created, you don't have everything charged to X.org. No need for 
+complicated ownership tracking in drm_file. The same equivalent should 
+be done in i915 as well when a context is created as it's not using the 
+drm scheduler.
 
+>> This can be done very easily with the drm scheduler.
+>>
+>> WRT memory, I think the consensus is to track system memory like 
+>> normal memory. Stolen memory doesn't need to be tracked. It's kernel 
+>> only memory, used for internal bookkeeping  only.
+>>
+>> The only time userspace can directly manipulate stolen memory, is by 
+>> mapping the pinned initial framebuffer to its own address space. The 
+>> only allocation it can do is when a framebuffer is displayed, and 
+>> framebuffer compression creates some stolen memory. Userspace is not
+>> aware of this though, and has no way to manipulate those contents.
+> 
+> Stolen memory is irrelevant and not something cgroup controller knows 
+> about. Point is drivers say which memory regions they have and their 
+> utilisation.
+> 
+> Imagine instead of stolen it said vram0, or on Intel multi-tile it shows 
+> local0 and local1. People working with containers are interested to see 
+> this breakdown. I guess the parallel and use case here is closer to 
+> memory.numa_stat.
+Correct, but for the same reason, I think it might be more useful to 
+split up the weight too.
+
+A single scheduling weight for the global GPU might be less useful than 
+per engine, or per tile perhaps..
+
+Cheers,
+~Maarten
