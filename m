@@ -2,46 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45127655FB
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49636765606
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:33:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C9510E58F;
-	Thu, 27 Jul 2023 14:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B7210E593;
+	Thu, 27 Jul 2023 14:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5E310E58D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Ki7TDsIt5/qaMsjYoGJKwxTIrZQsmO3aIV0PUEtbysY=; b=qb8b9sbkLbD0mi1ReikTBPVKP0
- jPPmZc77pywfTlNbjAthxTBH/Qq4IXnIGx8NZmVNYxLMtsF/2+2ggWd7pErMNz9s8i5XoFVBS0Yq7
- FFaahW3QnSVc1G5qciyXoceTTdT+HIY7vtKqULcmfdI7GJAc0ib8AR5MlkyI49GVK6/AyZHBUCK3A
- yy7Bw/BQ/z8iKmJCDqUJHHzKcKwZA/IMYglzF/Lgeg5plpRms9jdS+bsdlg5Nqw0I2Xz445EWEDci
- 0TO6MsV8DRdKo0PAQV781cC+SYCrP4Nd1u1mwQ3e+JXWB7PvaTzBFoN7vnSEaOLEBSZ52oT0QyOro
- mha1Qrxw==;
-Received: from [187.36.235.191] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qP20E-004gQz-DN; Thu, 27 Jul 2023 16:30:06 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
- Chema Casanova <jmcasanova@igalia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/v3d: Expose the total GPU usage stats on debugfs
-Date: Thu, 27 Jul 2023 11:23:28 -0300
-Message-ID: <20230727142929.1275149-3-mcanal@igalia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230727142929.1275149-1-mcanal@igalia.com>
-References: <20230727142929.1275149-1-mcanal@igalia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03C0310E593
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 14:33:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690468417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xmf9jFAe74TWDaGbD40cqNuxwvUchwJqCzoa17xaONg=;
+ b=Ghen3dZf6OYcSXDK3Ig/cm6nYbS8bsxwUAD5vAkyOkr58TJsJCRvfbOM601rjPGqzL9XPl
+ AngZXgNFnc19n3oWmenB6OyTHz780Y8pS6rqpc9SOvSkpZBGSGHPiMk/+8Tt1kOJS1ryVn
+ 6U4vqQb3YCesQ0ssRd1UBBxWoraoRK4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-682-690Ow-rEMlGJsL-MRSnkvA-1; Thu, 27 Jul 2023 10:33:33 -0400
+X-MC-Unique: 690Ow-rEMlGJsL-MRSnkvA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3176eb6babbso992630f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 07:33:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690468412; x=1691073212;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xmf9jFAe74TWDaGbD40cqNuxwvUchwJqCzoa17xaONg=;
+ b=UF++/iGrRoNOyEScwwGq7x4DrB9dkGSGqaP1FmJpfolZ0qqs5T9ITNAGeuAlOMKyXL
+ pbISHTpkb8DQ8Su9gcNHmNWKEyfJCGJZr+j8cAkVlRWeaebWh5oWF2t8SR5RcysTMJ8B
+ BfET7LO3NeqdJUV4Rs2+9qELpco53vAZoB1WxiNHLKcK+rzCdOan84/bVpoxAVddVfMo
+ GnO9U1UJYYDZ+IgMX27jUtPVz7LPBKHlLe10OisItX6o+dDicY31fJzRwSus2SGKztYM
+ 0xjP4Nxf0A6KnCTqE/iR9Zw2NgeLbUrosfVncop5SpsoTkSngeWEM/SrofhsanZoLAtQ
+ ju3Q==
+X-Gm-Message-State: ABy/qLbaRQYT5TrZUKMd2VopNK4THyhewv+3Y+QaH1vOo/B9opjf33oC
+ a4CBfpTof2EdBYStxA7ZwhtjAoPNjLkMk593BfGhSvFubdNvjSHWTCGjUKD9eEAYndB6i6n8ETd
+ zenYYWJmVgXGZyAYsyhsdrh06vmmf
+X-Received: by 2002:adf:fb0e:0:b0:317:6579:2b9f with SMTP id
+ c14-20020adffb0e000000b0031765792b9fmr1777440wrr.30.1690468411912; 
+ Thu, 27 Jul 2023 07:33:31 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFfTOoP06MbshJoIl90ALvKdeepxdbnSH9136f3hUEKacs/geA/ZVY8cTC/8mEaNZ2N9hdlmA==
+X-Received: by 2002:adf:fb0e:0:b0:317:6579:2b9f with SMTP id
+ c14-20020adffb0e000000b0031765792b9fmr1777427wrr.30.1690468411545; 
+ Thu, 27 Jul 2023 07:33:31 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ b17-20020adfde11000000b003143765e207sm2232640wrm.49.2023.07.27.07.33.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Jul 2023 07:33:30 -0700 (PDT)
+Date: Thu, 27 Jul 2023 16:33:30 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
+Message-ID: <hnyzo4cldffz6rzntmuvblissfrw7ig6qidnc2f3iortcdagid@fi5bn44asg2v>
+References: <20230717133037.25941-1-jfalempe@redhat.com>
+ <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
+ <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
+ <20230724215746.10928@revelation.broadband>
+ <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
+ <7f6fd614-5910-6c94-2c55-110223b61b5f@redhat.com>
+ <8f0ee2da-0a06-a78d-ab74-c552da822b97@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="t2pe4cowqrtcfmto"
+Content-Disposition: inline
+In-Reply-To: <8f0ee2da-0a06-a78d-ab74-c552da822b97@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,238 +86,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org
+Cc: Roger Sewell <roger.sewell@cantab.net>, airlied@redhat.com,
+ Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous patch exposed the accumulated amount of active time per
-client for each V3D queue. But this doesn't provide a global notion of
-the GPU usage.
 
-Therefore, provide the accumulated amount of active time for each V3D
-queue (BIN, RENDER, CSD, TFU and CACHE_CLEAN), considering all the jobs
-submitted to the queue, independent of the client.
+--t2pe4cowqrtcfmto
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This data is exposed through the debugfs interface, so that if the
-interface is queried at two different points of time the usage percentage
-of each of the queues can be calculated.
+Hi Thomas,
 
-Co-developed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/v3d_debugfs.c | 27 +++++++++++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_drv.h     |  3 +++
- drivers/gpu/drm/v3d/v3d_gem.c     |  5 ++++-
- drivers/gpu/drm/v3d/v3d_irq.c     | 24 ++++++++++++++++++++----
- drivers/gpu/drm/v3d/v3d_sched.c   | 13 ++++++++++++-
- 5 files changed, 66 insertions(+), 6 deletions(-)
+On Wed, Jul 26, 2023 at 05:36:15PM +0200, Thomas Zimmermann wrote:
+> > I've already sent a patch to use internally 24bit colors, when userspace
+> > can use 32bit that would solve this issue as well. In the end, on the
+> > VGA link, 24 or 32 bit colors are the same. That would allow modern
+> > userspace to work on par with Xorg. So maybe we can reconsider it ?
+>=20
+> No way. We've had IRC flamewars over this topic already. People didn't get
+> work done that day; others ragequit-ed in frustration. Ask Javier, he'll
+> remember. :)
+>=20
+> The consent in DRM-land is: we're not going to mess with color formats
+> behind the back of userspace. The only exception is the emulation of
+> XRGB8888 iff the hardware does not support that. And only because it's the
+> fallback format that is universally supported.
 
-diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-index 330669f51fa7..3b7329343649 100644
---- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-@@ -4,6 +4,7 @@
- #include <linux/circ_buf.h>
- #include <linux/ctype.h>
- #include <linux/debugfs.h>
-+#include <linux/sched/clock.h>
- #include <linux/seq_file.h>
- #include <linux/string_helpers.h>
+I'm aware that I might be reviving old heated debates here, but I'm not
+sure what is the problem here.
 
-@@ -236,11 +237,37 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	return 0;
- }
+I guess part of the problem is that due to the memcpy call, we would
+have it in software.
 
-+static int v3d_debugfs_gpu_usage(struct seq_file *m, void *unused)
-+{
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
-+	struct v3d_dev *v3d = to_v3d_dev(dev);
-+	enum v3d_queue queue;
-+	u64 timestamp = local_clock();
-+	u64 active_runtime;
-+
-+	seq_printf(m, "timestamp: %llu\n", timestamp);
-+
-+	for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
-+		if (v3d->queue[queue].start_ns)
-+			active_runtime = timestamp - v3d->queue[queue].start_ns;
-+		else
-+			active_runtime = 0;
-+
-+		seq_printf(m, "%s: %llu ns\n",
-+			   v3d_queue_to_string(queue),
-+			   v3d->queue[queue].enabled_ns + active_runtime);
-+	}
-+
-+	return 0;
-+}
-+
- static const struct drm_debugfs_info v3d_debugfs_list[] = {
- 	{"v3d_ident", v3d_v3d_debugfs_ident, 0},
- 	{"v3d_regs", v3d_v3d_debugfs_regs, 0},
- 	{"measure_clock", v3d_measure_clock, 0},
- 	{"bo_stats", v3d_debugfs_bo_stats, 0},
-+	{"gpu_usage", v3d_debugfs_gpu_usage, 0},
- };
+But it's not clear to me how we're messing with color formats there: the
+memcpy would drop the alpha part that was doing to be dropped by the
+hardware anyway (and likely would have done so transparently if it
+wasn't for the memcpy).
 
- void
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index ee5e12d0db1c..b41b32ecd991 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -38,6 +38,9 @@ struct v3d_queue_state {
+It doesn't affect the userspace at all, it doesn't change the way we
+interpret the format either, it just ignores a part of the format that
+is supposed to be ignored anyway. And doing so frees up a bunch of
+resources?
 
- 	u64 fence_context;
- 	u64 emit_seqno;
-+
-+	u64 start_ns;
-+	u64 enabled_ns;
- };
+So, AFAIU, it doesn't have any side effect except for the fact that it
+consumes less memory bandwidth and allows for more pixels to go through.
+That's not really "messing with the formats" in my book.
 
- /* Performance monitor object. The perform lifetime is controlled by userspace
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 40ed0c7c3fad..630ea2db8f8f 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -1014,8 +1014,11 @@ v3d_gem_init(struct drm_device *dev)
- 	u32 pt_size = 4096 * 1024;
- 	int ret, i;
+Maxime
 
--	for (i = 0; i < V3D_MAX_QUEUES; i++)
-+	for (i = 0; i < V3D_MAX_QUEUES; i++) {
- 		v3d->queue[i].fence_context = dma_fence_context_alloc(1);
-+		v3d->queue[i].start_ns = 0;
-+		v3d->queue[i].enabled_ns = 0;
-+	}
+--t2pe4cowqrtcfmto
+Content-Type: application/pgp-signature; name="signature.asc"
 
- 	spin_lock_init(&v3d->mm_lock);
- 	spin_lock_init(&v3d->job_lock);
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index c898800ae9c2..be4ff7559309 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -102,9 +102,13 @@ v3d_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->bin_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->bin_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_BIN];
+-----BEGIN PGP SIGNATURE-----
 
--		file->enabled_ns[V3D_BIN] += local_clock() - file->start_ns[V3D_BIN];
- 		file->start_ns[V3D_BIN] = 0;
-+		v3d->queue[V3D_BIN].start_ns = 0;
-+
-+		file->enabled_ns[V3D_BIN] += runtime;
-+		v3d->queue[V3D_BIN].enabled_ns += runtime;
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMKAOgAKCRDj7w1vZxhR
+xf3DAP9l7S0YsmVPrrtrWGjvs+OZWJ9AyZnnYYu6UoaLap/IAwD/ahBlTryvhEUe
+LXsOS4i8pgWAVs2CT9HyWRqIdzIijgo=
+=hcv6
+-----END PGP SIGNATURE-----
 
- 		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -115,9 +119,13 @@ v3d_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->render_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->render_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_RENDER];
-
--		file->enabled_ns[V3D_RENDER] += local_clock() - file->start_ns[V3D_RENDER];
- 		file->start_ns[V3D_RENDER] = 0;
-+		v3d->queue[V3D_RENDER].start_ns = 0;
-+
-+		file->enabled_ns[V3D_RENDER] += runtime;
-+		v3d->queue[V3D_RENDER].enabled_ns += runtime;
-
- 		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -128,9 +136,13 @@ v3d_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->csd_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->csd_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_CSD];
-
--		file->enabled_ns[V3D_CSD] += local_clock() - file->start_ns[V3D_CSD];
- 		file->start_ns[V3D_CSD] = 0;
-+		v3d->queue[V3D_CSD].start_ns = 0;
-+
-+		file->enabled_ns[V3D_CSD] += runtime;
-+		v3d->queue[V3D_CSD].enabled_ns += runtime;
-
- 		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -168,9 +180,13 @@ v3d_hub_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->tfu_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->tfu_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_TFU];
-
--		file->enabled_ns[V3D_TFU] += local_clock() - file->start_ns[V3D_TFU];
- 		file->start_ns[V3D_TFU] = 0;
-+		v3d->queue[V3D_TFU].start_ns = 0;
-+
-+		file->enabled_ns[V3D_TFU] += runtime;
-+		v3d->queue[V3D_TFU].enabled_ns += runtime;
-
- 		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index b360709c0765..1a9c7f395862 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -110,6 +110,7 @@ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
- 			    job->start, job->end);
-
- 	file->start_ns[V3D_BIN] = local_clock();
-+	v3d->queue[V3D_BIN].start_ns = file->start_ns[V3D_BIN];
- 	file->jobs_sent[V3D_BIN]++;
-
- 	v3d_switch_perfmon(v3d, &job->base);
-@@ -165,6 +166,7 @@ static struct dma_fence *v3d_render_job_run(struct drm_sched_job *sched_job)
- 			    job->start, job->end);
-
- 	file->start_ns[V3D_RENDER] = local_clock();
-+	v3d->queue[V3D_RENDER].start_ns = file->start_ns[V3D_RENDER];
- 	file->jobs_sent[V3D_RENDER]++;
-
- 	v3d_switch_perfmon(v3d, &job->base);
-@@ -201,6 +203,7 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
-
- 	file->start_ns[V3D_TFU] = local_clock();
-+	v3d->queue[V3D_TFU].start_ns = file->start_ns[V3D_TFU];
- 	file->jobs_sent[V3D_TFU]++;
-
- 	V3D_WRITE(V3D_TFU_IIA, job->args.iia);
-@@ -246,6 +249,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
-
- 	file->start_ns[V3D_CSD] = local_clock();
-+	v3d->queue[V3D_CSD].start_ns = file->start_ns[V3D_CSD];
- 	file->jobs_sent[V3D_CSD]++;
-
- 	v3d_switch_perfmon(v3d, &job->base);
-@@ -264,14 +268,21 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
- 	struct v3d_job *job = to_v3d_job(sched_job);
- 	struct v3d_dev *v3d = job->v3d;
- 	struct v3d_file_priv *file = job->file->driver_priv;
-+	u64 runtime;
-
- 	file->start_ns[V3D_CACHE_CLEAN] = local_clock();
-+	v3d->queue[V3D_CACHE_CLEAN].start_ns = file->start_ns[V3D_CACHE_CLEAN];
- 	file->jobs_sent[V3D_CACHE_CLEAN]++;
-
- 	v3d_clean_caches(v3d);
-
--	file->enabled_ns[V3D_CACHE_CLEAN] += local_clock() - file->start_ns[V3D_CACHE_CLEAN];
-+	runtime = local_clock() - file->start_ns[V3D_CACHE_CLEAN];
-+
-+	file->enabled_ns[V3D_CACHE_CLEAN] += runtime;
-+	v3d->queue[V3D_CACHE_CLEAN].enabled_ns += runtime;
-+
- 	file->start_ns[V3D_CACHE_CLEAN] = 0;
-+	v3d->queue[V3D_CACHE_CLEAN].start_ns = 0;
-
- 	return NULL;
- }
---
-2.41.0
+--t2pe4cowqrtcfmto--
 
