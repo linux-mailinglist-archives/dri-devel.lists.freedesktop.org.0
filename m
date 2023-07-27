@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA04B76567F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:55:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99254765682
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:55:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4677A10E5AC;
-	Thu, 27 Jul 2023 14:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CABF10E5B1;
+	Thu, 27 Jul 2023 14:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (unknown [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 747EA10E5A8;
- Thu, 27 Jul 2023 14:55:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26F7710E5AF;
+ Thu, 27 Jul 2023 14:55:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690469725; x=1722005725;
+ t=1690469727; x=1722005727;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=f2FaxZgYK02GAcdlHnVIXnfNfBRmmzzwwFFaYr6dJMM=;
- b=AqP8imjc2hiiDFQtPUhB7fwKIo74TOKMjJuRa+6ghp4QUV5h2wQSSh+o
- XOAYoNyi/wEsIDngSN+oz1b0xWxQhIRHIVp/ydRfC3LMBKdAq3bKWWETW
- XybtQYAkqVw0Gz6LbnTUTBfjb3hYHjvWGIPh9H50hIjSuFVGJOZuWKZmt
- 8zz4kveAPTYhfJCsDKVpwztGTjWpG4U6g2Q/XAD25qrmAQH5Xxv7eTerK
- L0rDYhcYeVZFSQ6BkE17K3th8sx0kfvMzOYnIMedMnRDEPIoyhnrgr9Ao
- 9iLiKTBMV1U2dtP/28T9LKH2Y458Fyqz369JjU4gcJUhU+1W49H9bs0/+ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399268412"
-X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; d="scan'208";a="399268412"
+ bh=+qbhanDaamxDTlSoYGO+3FKw+hWs29j/CXQ8FdM/mTI=;
+ b=biGruv4XjC7qsxvwUBErRBExSxMdw1oxfCnxr1lBtgfqSKgd29Xp38U+
+ OLik0Z22qCYQrepGWsf1y9uJCMh/KAoe32PxH5XnRSZF7OnyTSjY7SpMb
+ LFIZFAFTLVRdH/5QK5xvMDWsIkXmYihlUXCmF+sBbchj50KT6ReYZYXki
+ UH24fi9AXfeoucXSR1p2/l5nnkrPjBiwc8XUHgOH7MZZs6bifX6GZB4cw
+ kR5BuQwReAzt1jkagHDIelsrAzB4OcyUw0uKFgUSR6FZuwPihubmZjLjo
+ WzM+TWXkeKKpFcDWku5JShygauEZjgya70YE7kruZC36QfAv8K9+ZoZgp A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399268427"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; d="scan'208";a="399268427"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2023 07:55:25 -0700
+ 27 Jul 2023 07:55:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="870433739"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="870433750"
 Received: from jlenehan-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.228.208])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2023 07:55:25 -0700
+ 27 Jul 2023 07:55:26 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 5/8] drm/i915: Improve the vm_fault_gtt user PAT index
- restriction
-Date: Thu, 27 Jul 2023 15:55:01 +0100
-Message-Id: <20230727145504.1919316-6-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 6/8] drm/i915: Lift the user PAT restriction from
+ gpu_write_needs_clflush
+Date: Thu, 27 Jul 2023 15:55:02 +0100
+Message-Id: <20230727145504.1919316-7-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230727145504.1919316-1-tvrtko.ursulin@linux.intel.com>
 References: <20230727145504.1919316-1-tvrtko.ursulin@linux.intel.com>
@@ -66,42 +66,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Now that i915 understands the caching modes behind PAT indices, we can
-refine the check in vm_fault_gtt() to not reject the uncached PAT if it
-was set by userspace on a snoopable platform.
+Now that i915 understands the caching modes behind PAT indices, and having
+also special cased the Meteorlake snooping fully coherent mode, we can
+remove the user PAT check from gpu_write_needs_clflush().
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Cc: Fei Yang <fei.yang@intel.com>
 Cc: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index cd7f8ded0d6f..9aa6ecf68432 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -382,17 +382,9 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
- 		goto err_reset;
- 	}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+index c15f83de33af..bf3a2fa0e539 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+@@ -41,12 +41,6 @@ static bool gpu_write_needs_clflush(struct drm_i915_gem_object *obj)
+ 	if (IS_METEORLAKE(i915))
+ 		return false;
  
 -	/*
--	 * For objects created by userspace through GEM_CREATE with pat_index
--	 * set by set_pat extension, coherency is managed by userspace, make
--	 * sure we don't fail handling the vm fault by calling
--	 * i915_gem_object_has_cache_level() which always return true for such
--	 * objects. Otherwise this helper function would fall back to checking
--	 * whether the object is un-cached.
+-	 * Always flush cache for UMD objects with PAT index set.
 -	 */
--	if (!((obj->pat_set_by_user ||
--	       i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_UC)) ||
--	      HAS_LLC(i915))) {
-+	/* Access to snoopable pages through the GTT is incoherent. */
-+	if (!i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_UC) &&
-+	    !HAS_LLC(i915)) {
- 		ret = -EFAULT;
- 		goto err_unpin;
- 	}
+-	if (obj->pat_set_by_user)
+-		return true;
+-
+ 	/*
+ 	 * Fully coherent cached access may end up with data in the CPU cache
+ 	 * which hasn't hit memory yet.
 -- 
 2.39.2
 
