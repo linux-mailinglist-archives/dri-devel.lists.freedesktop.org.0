@@ -1,74 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D4576572C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 17:17:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6EEC765731
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 17:18:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5102110E13C;
-	Thu, 27 Jul 2023 15:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B71F210E5B3;
+	Thu, 27 Jul 2023 15:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45D9710E13C
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690471018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pp7lX2S4BE1VOAd+Ohe4qOsAj8X9hgCenh8uffGy52U=;
- b=Jkyb2Zbfdmz31mw7R1OZoDzUAeMtT6Y+oO7v3dok5nI9Rs+r5eefqaXr4pfhQUW9Bm8sCY
- z+scWc6DZC0xKIQ/hkx7flxezC5xSqvnW1VCF8t4XfwON8uTAlp8iSD4bHk5ykfJqSYbQ9
- 2EyD/McMmOeDIGaUIcXWa3cl8PNcT+8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-sUcA-8NpPZ2dcIydF6V6qg-1; Thu, 27 Jul 2023 11:16:56 -0400
-X-MC-Unique: sUcA-8NpPZ2dcIydF6V6qg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3172a94b274so564856f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:16:55 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62D3210E5B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:18:05 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-52256241c66so2231436a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 08:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690471084; x=1691075884;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ij0zwrJl+jKzGXRJqhSfCNc7P1MNBHLMCT9rtsyaalg=;
+ b=g+4wi9dcsNhnW2igpaSlliuWgqX01BqJ7EU4IuOBDLrh4d6W17HTLFIcEk/nGYkno1
+ JEEN0UX5LCZsWyHohPUHaX7uCRF0fVGsb1zAFuw+dAqzVlPLyR1UEgWOKrMnoP2ylTAZ
+ 7IDADaoAVUkpH7Svd80TlhaOVlz7JTNT1fs1g3tNos/sjn6M73pwUw6+DeePnvJYjrB5
+ fVr10CodopMcRCStH6nAGRByRII3c6CGL7CgAaUchE5VCy60xV96YWU8C+tVFz7WYkM+
+ HI1JgQB98K5FSei69Be78CoVyH/Pkdf5ZRVKkLo+604FJR1tuxqB/x3N38tbyS9rCmQj
+ drpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690471015; x=1691075815;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pp7lX2S4BE1VOAd+Ohe4qOsAj8X9hgCenh8uffGy52U=;
- b=d6osFj9/Hv6y992XD7AXNFR2oGi/pNEZDRMr0gOF7DMbVAAFy/0AON8GMgIGikDu7D
- 2CftFVPyjM/Rj2DS9QHiPvxwxoT3qLAJi+HjPEewdAGbwxPmVs0eUSbqoMe6gDFi2Vr0
- iYMWB0Rna4riugyCd+7TgyiwqxU9JuH1CUj3oImLjFu1fAP/5MtXjiqb33kcBvqIGVQA
- 1dGdXAaZvY0Gcdt57D0f8E9FrMQuHWqtDiX9Jeum3maxnmaW7LxTDWwFAyUiYmb1WXyT
- uePpEgWUa8Ms3PgAdzosOwRWLOGTAL68o6+MYsUvfmFMSaMY7/aV47LfXwDLCnj7NKtE
- bkMg==
-X-Gm-Message-State: ABy/qLYi6861WgoWmLvI8AXjkN5JCV9A4gvF//LzJPdQ2uRC9J1sJe9a
- ORNiLnrYN90j1uw3yHatZ26GRIuY+lqPnI6QrMkGcdWHbzAHBvC9AuG4iPMtid572O2uTBun/R4
- nu0nfOKznZzfTXpYpqBi7aaVbhmkz
-X-Received: by 2002:adf:fc05:0:b0:317:5de3:86fb with SMTP id
- i5-20020adffc05000000b003175de386fbmr1932626wrr.10.1690471015016; 
- Thu, 27 Jul 2023 08:16:55 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGFJTm1x26WKX+ZJ5GVgIV/5/cEhdRTj0qRIs77CCN9iPmG4jfZSNpagqJH+qPLWxdEJ7LocQ==
-X-Received: by 2002:adf:fc05:0:b0:317:5de3:86fb with SMTP id
- i5-20020adffc05000000b003175de386fbmr1932612wrr.10.1690471014678; 
- Thu, 27 Jul 2023 08:16:54 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h18-20020adff192000000b003113ed02080sm2265368wro.95.2023.07.27.08.16.54
+ d=1e100.net; s=20221208; t=1690471084; x=1691075884;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ij0zwrJl+jKzGXRJqhSfCNc7P1MNBHLMCT9rtsyaalg=;
+ b=SZyRFQPG9ICxLjssK6Kea34qN8+os4SGS8qaRO/2ejt101yee2FVfxMf2+x1/33c6w
+ nz3jjwSL6t/QCAPdBEqBVijnquZCp0cyBQr/1OpTN9axAwMVjY+P3uSOpEK4as3pYUBb
+ o/RIAzCcxYO7nHe2vDG9JZWEz3kC26VE7a/lNmpUy/BG0IFMScZwMZSX+kB7MA7F4i+A
+ 2P+/kIBGSvDYBEe5fclJ770ClJSaulx9SOQaXBMQY6Q6B+jrrTnhPSxQyEanbJGc/VBm
+ /b+ce0LQXnE63+9o4IF6+IX5faY8QCWwR60pAuMlNuqe+10i2HBzWejo6VCUcV1l4Uxn
+ duiw==
+X-Gm-Message-State: ABy/qLZSxVZvYWANNhZEq8JSsh6RcAyLqVupqoVxdzDuZ0qkDgP9pa8A
+ xoe+Jnfi4/aunFWJ9F5BRcc=
+X-Google-Smtp-Source: APBJJlHH7kIanpz17+5reDEWBDHfh9P1YfG0wZ0iyBCYXnjNF9ZW59AN0MXEmDS0ww+TZBn6VtqKog==
+X-Received: by 2002:a05:6402:348b:b0:51e:2e6f:70fb with SMTP id
+ v11-20020a056402348b00b0051e2e6f70fbmr3607953edc.6.1690471083631; 
+ Thu, 27 Jul 2023 08:18:03 -0700 (PDT)
+Received: from localhost
+ (p200300e41f1bd600f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f1b:d600:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ f5-20020a50ee85000000b005227f4530fdsm744337edr.37.2023.07.27.08.18.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 08:16:54 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/ssd130x: Use shadow-buffer helpers when managing
- plane's state
-In-Reply-To: <0ce32153-cfc0-e701-3863-803fcdb897ff@suse.de>
-References: <20230727140453.577445-1-javierm@redhat.com>
- <0ce32153-cfc0-e701-3863-803fcdb897ff@suse.de>
-Date: Thu, 27 Jul 2023 17:16:53 +0200
-Message-ID: <87y1j1tme2.fsf@minerva.mail-host-address-is-not-set>
+ Thu, 27 Jul 2023 08:18:03 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: (subset) [PATCH 1/3] dt-bindings: display: panel: Move Chunghwa
+ CLAA070WP03XG to LVDS
+Date: Thu, 27 Jul 2023 17:17:59 +0200
+Message-ID: <169047096702.3031511.846316777516525998.b4-ty@nvidia.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230726185010.2294709-1-thierry.reding@gmail.com>
+References: <20230726185010.2294709-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,61 +82,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ Svyatoslav Ryhel <clamor95@gmail.com>, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+From: Thierry Reding <treding@nvidia.com>
 
-Hello Thomas,
 
-> Hi Javier
->
-> Am 27.07.23 um 16:04 schrieb Javier Martinez Canillas:
->> The commit 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's
->> .atomic_check() callback") moved the buffers allocation to be done in
->> the primary plane's .atomic_check() callback.
->> 
->> But it missed that since the driver uses a shadow-buffered plane, the
->> __drm_gem_{reset,duplicate,destroy}_shadow_plane() helper functions
->> must be used in the struct drm_plane_funcs handlers.
->> 
->> This was missed because the mentioned commit did not remove the macro
->> DRM_GEM_SHADOW_PLANE_FUNCS, which leads to the custom plane's atomic
->> state management handlers to not be used.
->> 
->> Fixes: 45b58669e532 ("drm/ssd130x: Allocate buffer in the plane's .atomic_check() callback")
->> Reported-by: Arnd Bergmann <arnd@arndb.de>
->
-> Reported-by needs to be followed by
->
-> Closes: <url>
->
-> where <url> would point to Arnd's bug report on dri-devel.
->
+On Wed, 26 Jul 2023 20:50:08 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> The Chunghwa CLAA070WP03XG is an LVDS panel, so move it to the correct
+> bindings file.
+> 
+> 
 
-Ah, I thought checkpatch complaining about it but since we already add a
-Link: with dim, didn't know what to add there. Makes sense to add Arnd's
-report indeed.
+Applied, thanks!
 
-I can include it when applying instead of posting a v2 if you don't mind.
+[3/3] ARM: tegra: Provide specific compatible string for Nexus 7 panel
+      commit: c9a706ab227ef59cc49923358513251ca4965563
 
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> This looks correct now. Thanks for fixing this bug quickly. With the 
-> Close added:
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-
-Thanks and to you for pointing that out.
-
--- 
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+-- 
+Thierry Reding <treding@nvidia.com>
