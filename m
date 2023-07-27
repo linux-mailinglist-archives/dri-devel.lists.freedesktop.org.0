@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2CE76550B
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 15:32:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D9F76550E
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 15:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA5F10E123;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83FF10E583;
 	Thu, 27 Jul 2023 13:31:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A8E10E123
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A43BA10E123
  for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 13:31:57 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-4fe1b00fce2so703507e87.3
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4f95bf5c493so1708085e87.3
  for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 06:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690464715; x=1691069515;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=aVF6Gl1t1mutYFS9NN8YkCozNIb6oFM89YPHjp3dd3o=;
- b=s1dXptnePaBLtDB1/mEJggAgj2cfgysBQ8x1Iki2zCzmMTZVqp4XmrqfgPVnJuUBaz
- uoHuVCuwmveQxah/MjYXmQNUqDOjWdZG+cZ1ypLSM9kY7elsYkVciMRYPIpe1AEk9Bl3
- iYuTrFvr9E4YSI32b3JneOPW4evw7q19KEeA/QshNdcQf2LE8zoFgKrHyiVRaBzMzeXI
- C9Ml6C2OzsugocIZLI/5+FXg4DejmhCKA8Unp+RwU3QcQbV8Io8sJQvWMvxQxji640o5
- swKoWWOZLD1rLGaWKpjbtBJ+4ENrlVjuLikWvU6bGyLcwcNuVF5BT5zqbYJWBrS+JI4H
- 5HGQ==
+ d=linaro.org; s=google; t=1690464716; x=1691069516;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ozXv1DbyX/9IhURbF1Fhd2b0LEweNNt8AgMpeAaCDSs=;
+ b=zb2W3eK/b/MZqCt7dAi/hm5nFrtkgtJjWYhU6x+w9Xxx1XLN4gcWTja2i78xHtff0j
+ 50KrEssFUgnrWqJlZl/qMwA81/4idRnbxvMUV7AdjfIB8e0Gj2stYz5t1KClNeyyicNy
+ d2+qxAlqNenTOok//5/760EMY49VIRAeY7+PTa7roVIYMNbqGwhxZ7+WZo3tBbRt16Up
+ 6WrW0ntZoyxcx0q+lt/0fx0wu1T1I4RCbRkccFhLGP13FX/N9Y+BctFuN2BuG2l9yA+e
+ oEUbZPsnpDXHJoEBqIzSDWHy1jCWeUM67t0GErsjDW4qCsuxT+paBhvJTOjBYDtfR0m7
+ VgtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690464715; x=1691069515;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aVF6Gl1t1mutYFS9NN8YkCozNIb6oFM89YPHjp3dd3o=;
- b=IbrIO4/kHwNkpMrhBiEzInHnAyYTVuoD2fcU79/uSSOoDUbTzuj3TAYvq7Tu1pwBjt
- O3+B2Z6J7QCmxEiuRdCDLA3klggye4sp+6UEyWQxosILZUaOl3q5Rh0Js85zCwkrgemC
- i0KvkF/GQ7l6BPXkGmDfX+ZHTO4b6ew7BfXTDqh1M3Odx7PvItLGvL14uVQQz8R862OK
- MNUpD/6tvimgF2RokfoGthoVBjNXd/qLtvKexQ9bGXoI/e/h1y1BsrvgrGOcH2TaV3Do
- K60gQCpakRdFcski2HzemwHuExBzwltDwD7LVWDZfIXKQA+uCSKxPorI+nS04ZPK4vvO
- im0Q==
-X-Gm-Message-State: ABy/qLYakOMwc7isoeHhpLsf3U02DkFc7sJVtHdCKbeQOnjtX5Q0g+Rv
- aTGhgvYdK21woBtqatr7lzSXrw==
-X-Google-Smtp-Source: APBJJlEkC9CoQoDX2Y18CoZv8e3Tg6vTM4kIP/co/BmAx6SKQSkAAgZysB4OCeNhgPcoA+UJHQ93Xg==
-X-Received: by 2002:ac2:43b2:0:b0:4fd:d044:cb5b with SMTP id
- t18-20020ac243b2000000b004fdd044cb5bmr1690109lfl.55.1690464715148; 
+ d=1e100.net; s=20221208; t=1690464716; x=1691069516;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ozXv1DbyX/9IhURbF1Fhd2b0LEweNNt8AgMpeAaCDSs=;
+ b=NDnhYUAYTl/E+tfRMNMJvjLR2kymcaJwY9F0Q0b01PVyrf69ybBx3l7xuHoDIYW41l
+ ZNsy+3CwRnhq99PGCBrVzaOoJv0RteCGXfivmVkuEIot5FWvEWE1YwIXhI+ue6rFS+ay
+ wdT6r9vU9GA71Rg+NT8W11vT3NOKxhIe3mjvDYQwbMIj2kjcLu5sKd0dRqQzXEyKcZdD
+ D2mpKE3UbeP/fOXBR0mOyONegrZxLI5S0MCMUlrfqovQy4QQiB3OI9NOHVDdEO2BQ3U6
+ UM/vo6Sd+PI/AMTjKidO/v19pVkabpZUUzA+SLpGO0hujo44gn3cdXAvc0Iu/Cm6haFs
+ Jh7Q==
+X-Gm-Message-State: ABy/qLY5B77VSjQX5fIsm0AKltNcx/DdWQ3rPNATGq4sLfkJXBGjulCH
+ ghu5Kav4Tuxtb+A7WOCPbxP0ow==
+X-Google-Smtp-Source: APBJJlF831cH8Viq1+Mko5h4Kwp7fkZvwJT0KjKfc+8mmrWwUZZGZoWb2CRXvfYX6a7ClB6hJqD8hw==
+X-Received: by 2002:ac2:4893:0:b0:4fb:c885:425 with SMTP id
+ x19-20020ac24893000000b004fbc8850425mr1700078lfc.9.1690464715891; 
  Thu, 27 Jul 2023 06:31:55 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- w9-20020a05651204c900b004f85628ec34sm313511lfq.33.2023.07.27.06.31.54
+ w9-20020a05651204c900b004f85628ec34sm313511lfq.33.2023.07.27.06.31.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 06:31:54 -0700 (PDT)
+ Thu, 27 Jul 2023 06:31:55 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 0/5] drm/msm/dpu: rework interrupt handling
-Date: Thu, 27 Jul 2023 16:31:49 +0300
-Message-Id: <20230727133154.1421721-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 1/5] drm/msm/dpu: inline __intr_offset
+Date: Thu, 27 Jul 2023 16:31:50 +0300
+Message-Id: <20230727133154.1421721-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230727133154.1421721-1-dmitry.baryshkov@linaro.org>
+References: <20230727133154.1421721-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,53 +75,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Declaring the mask of supported interrupts proved to be error-prone. It
-is very easy to add a bit with no corresponding backing block or to miss
-the INTF TE bit. Replace this static configuration with the irq mask
-calculated from the HW catalog data.
+Inline __intr_offset(), there is no point in having a separate oneline
+function for setting base block address.
 
-Changes since v2:
- - Rebased on top of msm-next-lumag to be able to use core_major_ver
-   instead of adding yet another flag.
- - Dropped the DPU_INTF_TE movement patch, useless after rebasing.
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-Changes since v1:
- - Enable dpu_caps::has_7xxx_intr for DPU >= 7.0 (Neil)
-
-Dmitry Baryshkov (5):
-  drm/msm/dpu: inline __intr_offset
-  drm/msm/dpu: split interrupt address arrays
-  drm/msm/dpu: autodetect supported interrupts
-  drm/msm/dpu: drop now-unused mdss_irqs field from hw catalog
-  drm/msm/dpu: drop compatibility INTR defines
-
- .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |   8 --
- .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |   9 --
- .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  11 --
- .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  13 ---
- .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |   6 -
- .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  10 --
- .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   6 -
- .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   5 -
- .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |   6 -
- .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   5 -
- .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |   5 -
- .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  13 +--
- .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   9 +-
- .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  18 +--
- .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  13 +--
- .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  13 +--
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   3 -
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 110 ++++++++++++------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  21 ++--
- 19 files changed, 94 insertions(+), 190 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+index 5e2d68ebb113..0776b0f6df4f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+@@ -435,12 +435,6 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
+ 	return intr_status;
+ }
+ 
+-static void __intr_offset(const struct dpu_mdss_cfg *m,
+-		void __iomem *addr, struct dpu_hw_blk_reg_map *hw)
+-{
+-	hw->blk_addr = addr + m->mdp[0].base;
+-}
+-
+ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+ 		const struct dpu_mdss_cfg *m)
+ {
+@@ -454,7 +448,7 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+ 	if (!intr)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	__intr_offset(m, addr, &intr->hw);
++	intr->hw.blk_addr = addr + m->mdp[0].base;
+ 
+ 	intr->total_irqs = nirq;
+ 
 -- 
 2.39.2
 
