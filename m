@@ -2,71 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E258766027
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 01:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AD8766044
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 01:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75F3710E635;
-	Thu, 27 Jul 2023 23:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA7810E00C;
+	Thu, 27 Jul 2023 23:32:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A88910E639
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 23:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690499479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tb22Nt/W/KPFm1/jjlHjB82SYQazipAe29rdTdiORQY=;
- b=Mpgm28IJSGwbQmbjavjB321ZycgUPaCK7+UXLjgIyM945pZshflTAUEG3R00PBF+KO0cro
- xPybifqz5b25ZRHiAKbgcwvBlYB38pqNOCFyI/+bQEQgIYSnfEQn7DO5+/r9XyejLaVh3e
- SgBe4kOLFIMa8tiPQfRRO6E06XY6ViI=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-L-5VtFvsNg2WIk8gdkbFgA-1; Thu, 27 Jul 2023 19:11:18 -0400
-X-MC-Unique: L-5VtFvsNg2WIk8gdkbFgA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4fdfaa288e7so292309e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:11:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690499477; x=1691104277;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Tb22Nt/W/KPFm1/jjlHjB82SYQazipAe29rdTdiORQY=;
- b=MUdYoHViRw62b/WX1UPxdAA5A9uD5o0n2BLt7yKosrDiUxK0GQuuz1k04IVNBcIrh1
- wlOEeh7/V8s3XHA8/VbACQWYekF4ed0EicCMzv/wECmjqYfK8ZgtArdV6fDMPIHlxFgt
- zpnk8wjMkm5UH2hrO1V5bFSoMdhuBUumZa2SxjLGOx4xZoewNDLZzSby4n4+GGpyz+EB
- Y1wu7bHiYalxsv7HjsFy/6W38krg3VCz1fCyTcoGf8REiWQTVDaEacfbgDcEHYQEd01z
- 5OoN+QlPRHdTMk7Ivi05KFRGLRYgxtrl31cov4eNsDzXizBR+5BDsTdNT3nZyDPbF7zS
- x8BQ==
-X-Gm-Message-State: ABy/qLbnDNGGAEMdcYDEfneiW64e2yjOTZw14gOBAgeCDCKeq7fBKbLQ
- S75uCvqeojR/t1SDP5rv7SilMxXJJgSC1+QaUoJJJFpS9Is0JV45mvaoZsbXcuGLgAiZG7h9LF4
- twNUAQljtMOiwPb9M3u0mQTyPo+hLVSUyO6GmqRTDOnHV
-X-Received: by 2002:a05:651c:198d:b0:2b7:3a7e:9e89 with SMTP id
- bx13-20020a05651c198d00b002b73a7e9e89mr244012ljb.2.1690499476970; 
- Thu, 27 Jul 2023 16:11:16 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEja/hy3vaHm3vSbZBtAyKzXXSPo07fZ16cOXMa0gytQPBHCI/ExSdTAPRlFFYetTqV4Ele/4rq2ADaQD9h64s=
-X-Received: by 2002:a05:651c:198d:b0:2b7:3a7e:9e89 with SMTP id
- bx13-20020a05651c198d00b002b73a7e9e89mr244008ljb.2.1690499476532; Thu, 27 Jul
- 2023 16:11:16 -0700 (PDT)
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB34710E00C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 23:32:40 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4RBn9z6rz0z9sy7;
+ Thu, 27 Jul 2023 23:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1690500760; bh=wdNyFgX8tNSgiTSjtaWPJsoMIpJGIOhImHC9DAebsV8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=i5uzMtNhAki5uL/nV7upXpEO/FqRagaUeYYtH+S2clmYp0Avgto6fY+PU576fAZ0s
+ pqxEhFT8ANE+UUMZGH1lswLFtuCwZ1DABj/DgpacuFRjuh0am/bXpqDzq5ISvhXq6m
+ gdtxSLg2DQQQhuRalYN97Dxu1eIUlPmTFlHrAHsk=
+X-Riseup-User-ID: 548203B440F5972CA78A11D43194B385B5FF16E5BD57008BB8400C91E094D637
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RBn9f4gqzzJnsj;
+ Thu, 27 Jul 2023 23:32:22 +0000 (UTC)
+Message-ID: <ae66d2f2-4a9a-f463-f3ee-fb588520a6f7@riseup.net>
+Date: Thu, 27 Jul 2023 20:32:18 -0300
 MIME-Version: 1.0
-References: <20230707215851.590754-1-lyude@redhat.com>
- <CACO55tvfTDu8XcKowWXcSRqp8OMLb8Q4jnPG_Fn5y=yJy-Dqbw@mail.gmail.com>
- <badef3d33469d97b01a42da520ad22ae4c9485fe.camel@redhat.com>
-In-Reply-To: <badef3d33469d97b01a42da520ad22ae4c9485fe.camel@redhat.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 28 Jul 2023 01:11:05 +0200
-Message-ID: <CACO55ttVgw=uuG1i9bNOi5hh-0Xi+WhcR4eL_TQOzjzUKGX1rw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/nvkm/dp: Add hack to fix DP 1.3+ DPCD issues
-To: Lyude Paul <lyude@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5] drm/vkms: Add support to 1D gamma LUT
+Content-Language: en-US
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
+References: <20230709013835.161004-1-arthurgrillo@riseup.net>
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <20230709013835.161004-1-arthurgrillo@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,163 +52,298 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
+ pekka.paalanen@collabora.com, rodrigosiqueiramelo@gmail.com,
+ xaver.hugl@gmail.com, mdaenzer@redhat.com, victoria@system76.com,
+ mwen@igalia.com, jadahl@redhat.com, uma.shankar@intel.com,
+ sebastian.wick@redhat.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023 at 11:57=E2=80=AFPM Lyude Paul <lyude@redhat.com> wrot=
-e:
->
-> On Sun, 2023-07-09 at 01:42 +0200, Karol Herbst wrote:
-> > On Fri, Jul 7, 2023 at 11:58=E2=80=AFPM Lyude Paul <lyude@redhat.com> w=
-rote:
-> > >
-> > > Currently we use the drm_dp_dpcd_read_caps() helper in the DRM side o=
-f
-> > > nouveau in order to read the DPCD of a DP connector, which makes sure=
- we do
-> > > the right thing and also check for extended DPCD caps. However, it tu=
-rns
-> > > out we're not currently doing this on the nvkm side since we don't ha=
-ve
-> > > access to the drm_dp_aux structure there - which means that the DRM s=
-ide of
-> > > the driver and the NVKM side can end up with different DPCD capabilit=
-ies
-> > > for the same connector.
-> > >
-> > > Ideally to fix this, we want to start setting up the drm_dp_aux devic=
-e in
-> > > NVKM before we've made contact with the DRM side - which should be pr=
-etty
-> > > easy to accomplish (I'm already working on it!). Until then however, =
-let's
-> > > workaround this problem by porting a copy of drm_dp_read_dpcd_caps() =
-into
-> > > NVKM - which should fix this issue.
-> > >
-> > > Issue: https://gitlab.freedesktop.org/drm/nouveau/-/issues/211
-> >
-> > Should a Fixes: or Cc: stable tag be added so it gets backported?
->
-> JFYI I think not adding one is fine nowadays? The stable bot seems to be
-> pretty good at catching anything with the words fix/fixes in it
->
+Hi Arthur,
 
-Yeah not sure.. I'd rather be specific and add it just to be sure.
-Anyway, it could also be done while pushing. I think the bigger
-question here was if this fix is good enough for stable or if you plan
-to rework it.
+On 7/8/23 22:38, Arthur Grillo wrote:
+> Support a 1D gamma LUT with interpolation for each color channel on the
+> VKMS driver. Add a check for the LUT length by creating
+> vkms_atomic_check().
+> 
+> Enable VKMS to run the test igt@kms_plane@pixel-format.
+> 
+> Tested with:
+> igt@kms_color@gamma
+> igt@kms_color@legacy-gamma
+> igt@kms_color@invalid-gamma-lut-sizes
+> 
+> v2:
+>      - Add interpolation between the values of the LUT (Simon Ser)
+> 
+> v3:
+>      - s/ratio/delta (Pekka)
+>      - s/color_channel/channel_value (Pekka)
+>      - s/lut_area/lut_channel
+>      - Store the `drm_color_lut`, `lut_length`, and
+>        `channel_value2index_ratio` inside a struct called `vkms_lut`
+>        (Pekka)
+>      - Pre-compute some constants values used through the LUT procedure
+>        (Pekka)
+>      - Change the switch statement to a cast to __u16* (Pekka)
+>      - Make the apply_lut_to_channel_value return the computation result
+>        (Pekka)
+> 
+> v4:
+>      - Add a comment explaining that `enum lut_area` depends on the
+>        layout of `struct drm_color_lut` (Pekka)
+>      - Remove unused variable (kernel test robot)
+> 
+> v5:
+>      - Mention that this will make it possible to run the test
+>        igt@kms_plane@pixel-format (Maíra)
+>      - s/had/has (Maíra)
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
-> >
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > ---
-> > >  drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 48 +++++++++++++++++=
-+-
-> > >  1 file changed, 47 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/=
-gpu/drm/nouveau/nvkm/engine/disp/dp.c
-> > > index 40c8ea43c42f..b8ac66b4a2c4 100644
-> > > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-> > > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-> > > @@ -26,6 +26,8 @@
-> > >  #include "head.h"
-> > >  #include "ior.h"
-> > >
-> > > +#include <drm/display/drm_dp.h>
-> > > +
-> > >  #include <subdev/bios.h>
-> > >  #include <subdev/bios/init.h>
-> > >  #include <subdev/gpio.h>
-> > > @@ -634,6 +636,50 @@ nvkm_dp_enable_supported_link_rates(struct nvkm_=
-outp *outp)
-> > >         return outp->dp.rates !=3D 0;
-> > >  }
-> > >
-> > > +/* XXX: This is a big fat hack, and this is just drm_dp_read_dpcd_ca=
-ps()
-> >
-> > Well.. maybe we should rephrase that _if_ we want to see it
-> > backported. But is this code really that bad? It kinda looks
-> > reasonable enough.
-> >
-> > > + * converted to work inside nvkm. This is a temporary holdover until=
- we start
-> > > + * passing the drm_dp_aux device through NVKM
-> > > + */
-> > > +static int
-> > > +nvkm_dp_read_dpcd_caps(struct nvkm_outp *outp)
-> > > +{
-> > > +       struct nvkm_i2c_aux *aux =3D outp->dp.aux;
-> > > +       u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
-> > > +       int ret;
-> > > +
-> > > +       ret =3D nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, DP=
-_RECEIVER_CAP_SIZE);
-> > > +       if (ret < 0)
-> > > +               return ret;
-> > > +
-> > > +       /*
-> > > +        * Prior to DP1.3 the bit represented by
-> > > +        * DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT was reserved.
-> > > +        * If it is set DP_DPCD_REV at 0000h could be at a value less=
- than
-> > > +        * the true capability of the panel. The only way to check is=
- to
-> > > +        * then compare 0000h and 2200h.
-> > > +        */
-> > > +       if (!(outp->dp.dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
-> > > +             DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT))
-> > > +               return 0;
-> > > +
-> > > +       ret =3D nvkm_rdaux(aux, DP_DP13_DPCD_REV, dpcd_ext, sizeof(dp=
-cd_ext));
-> > > +       if (ret < 0)
-> > > +               return ret;
-> > > +
-> > > +       if (outp->dp.dpcd[DP_DPCD_REV] > dpcd_ext[DP_DPCD_REV]) {
-> > > +               OUTP_DBG(outp, "Extended DPCD rev less than base DPCD=
- rev (%d > %d)\n",
-> > > +                        outp->dp.dpcd[DP_DPCD_REV], dpcd_ext[DP_DPCD=
-_REV]);
-> > > +               return 0;
-> > > +       }
-> > > +
-> > > +       if (!memcmp(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext)))
-> > > +               return 0;
-> > > +
-> > > +       memcpy(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext));
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > >  void
-> > >  nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
-> > >  {
-> > > @@ -689,7 +735,7 @@ nvkm_dp_enable(struct nvkm_outp *outp, bool auxpw=
-r)
-> > >                         memset(outp->dp.lttpr, 0x00, sizeof(outp->dp.=
-lttpr));
-> > >                 }
-> > >
-> > > -               if (!nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpc=
-d, sizeof(outp->dp.dpcd))) {
-> > > +               if (!nvkm_dp_read_dpcd_caps(outp)) {
-> > >                         const u8 rates[] =3D { 0x1e, 0x14, 0x0a, 0x06=
-, 0 };
-> > >                         const u8 *rate;
-> > >                         int rate_max;
-> > > --
-> > > 2.40.1
-> > >
-> >
->
-> --
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
->
+Applied to drm-misc/drm-misc-next. Thanks for your contribution to VKMS!
 
+Best Regards,
+- Maíra
+
+> ---
+> Maíra asked me to run a benchmark on some IGT tests:
+> 
+> Each test ran 100 times. The result with 'X' are tests that were not able to
+> run because of the absence of gamma LUT.
+> 
+> +--------------------------------------------------+-----------+-----------------+---------------+
+> | Test                                             |  No LUT   | Unoptimized LUT | Optimized LUT |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_rotation@primary-rotation-180            | 174.298s  |    181.130s     |   178.800s    |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@pixel-format                       |    X      |    1420.453s    |   1218.229s   |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@pixel-format-source-clamping       |    X      |    704.236s     |   612.318s    |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@plane-position-covered             | 12.535s   |    12.864s      |   12.025s     |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@plane-position-hole                | 11.752s   |    12.873s      |   11.202s     |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@plane-position-hole-dpms           | 15.188s   |    15.238s      |   15.652s     |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@plane-panning-top-left             | 10.797s   |    11.873s      |   11.041s     |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@plane-bottom-right                 | 10.764s   |    11.613s      |   10.053s     |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_plane@plane-panning-bottom-right-suspend | 2011.344s |    2009.410s    |   2011.496s   |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_cursor_crc@cursor-onscreen-512x5112      | 359.209s  |    337.830s     |   308.168s    |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> | igt@kms_color@gamma                              |    X      |    137.702s     |   118.139s    |
+> + -------------------------------------------------+-----------+-----------------+---------------+
+> 
+> ---
+>   drivers/gpu/drm/vkms/vkms_composer.c | 86 ++++++++++++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_crtc.c     |  3 +
+>   drivers/gpu/drm/vkms/vkms_drv.c      | 20 ++++++-
+>   drivers/gpu/drm/vkms/vkms_drv.h      |  9 +++
+>   4 files changed, 117 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 906d3df40cdb..e3a79dcd2e38 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -6,6 +6,7 @@
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_blend.h>
+>   #include <drm/drm_fourcc.h>
+> +#include <drm/drm_fixed.h>
+>   #include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_vblank.h>
+>   #include <linux/minmax.h>
+> @@ -89,6 +90,73 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
+>   		output_buffer->pixels[i] = *background_color;
+>   }
+>   
+> +// lerp(a, b, t) = a + (b - a) * t
+> +static u16 lerp_u16(u16 a, u16 b, s64 t)
+> +{
+> +	s64 a_fp = drm_int2fixp(a);
+> +	s64 b_fp = drm_int2fixp(b);
+> +
+> +	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
+> +
+> +	return drm_fixp2int(a_fp + delta);
+> +}
+> +
+> +static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+> +{
+> +	s64 color_channel_fp = drm_int2fixp(channel_value);
+> +
+> +	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
+> +}
+> +
+> +/*
+> + * This enum is related to the positions of the variables inside
+> + * `struct drm_color_lut`, so the order of both needs to be the same.
+> + */
+> +enum lut_channel {
+> +	LUT_RED = 0,
+> +	LUT_GREEN,
+> +	LUT_BLUE,
+> +	LUT_RESERVED
+> +};
+> +
+> +static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
+> +				      enum lut_channel channel)
+> +{
+> +	s64 lut_index = get_lut_index(lut, channel_value);
+> +
+> +	/*
+> +	 * This checks if `struct drm_color_lut` has any gap added by the compiler
+> +	 * between the struct fields.
+> +	 */
+> +	static_assert(sizeof(struct drm_color_lut) == sizeof(__u16) * 4);
+> +
+> +	u16 *floor_lut_value = (__u16 *)&lut->base[drm_fixp2int(lut_index)];
+> +	u16 *ceil_lut_value = (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
+> +
+> +	u16 floor_channel_value = floor_lut_value[channel];
+> +	u16 ceil_channel_value = ceil_lut_value[channel];
+> +
+> +	return lerp_u16(floor_channel_value, ceil_channel_value,
+> +			lut_index & DRM_FIXED_DECIMAL_MASK);
+> +}
+> +
+> +static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
+> +{
+> +	if (!crtc_state->gamma_lut.base)
+> +		return;
+> +
+> +	if (!crtc_state->gamma_lut.lut_length)
+> +		return;
+> +
+> +	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
+> +		struct pixel_argb_u16 *pixel = &output_buffer->pixels[x];
+> +
+> +		pixel->r = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->r, LUT_RED);
+> +		pixel->g = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->g, LUT_GREEN);
+> +		pixel->b = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->b, LUT_BLUE);
+> +	}
+> +}
+> +
+>   /**
+>    * @wb_frame_info: The writeback frame buffer metadata
+>    * @crtc_state: The crtc state
+> @@ -128,6 +196,8 @@ static void blend(struct vkms_writeback_job *wb,
+>   					    output_buffer);
+>   		}
+>   
+> +		apply_lut(crtc_state, output_buffer);
+> +
+>   		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+>   
+>   		if (wb)
+> @@ -242,6 +312,22 @@ void vkms_composer_worker(struct work_struct *work)
+>   	crtc_state->frame_start = 0;
+>   	crtc_state->frame_end = 0;
+>   	crtc_state->crc_pending = false;
+> +
+> +	if (crtc->state->gamma_lut) {
+> +		s64 max_lut_index_fp;
+> +		s64 u16_max_fp = drm_int2fixp(0xffff);
+> +
+> +		crtc_state->gamma_lut.base = (struct drm_color_lut *)crtc->state->gamma_lut->data;
+> +		crtc_state->gamma_lut.lut_length =
+> +			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
+> +		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length  - 1);
+> +		crtc_state->gamma_lut.channel_value2index_ratio = drm_fixp_div(max_lut_index_fp,
+> +									       u16_max_fp);
+> +
+> +	} else {
+> +		crtc_state->gamma_lut.base = NULL;
+> +	}
+> +
+>   	spin_unlock_irq(&out->composer_lock);
+>   
+>   	/*
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 515f6772b866..61e500b8c9da 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -290,6 +290,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+>   
+>   	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+>   
+> +	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
+> +	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
+> +
+>   	spin_lock_init(&vkms_out->lock);
+>   	spin_lock_init(&vkms_out->composer_lock);
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index e3c9c9571c8d..dd0af086e7fa 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver = {
+>   	.minor			= DRIVER_MINOR,
+>   };
+>   
+> +static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc *crtc;
+> +	struct drm_crtc_state *new_crtc_state;
+> +	int i;
+> +
+> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> +		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
+> +			continue;
+> +
+> +		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
+> +		    > VKMS_LUT_SIZE)
+> +			return -EINVAL;
+> +	}
+> +
+> +	return drm_atomic_helper_check(dev, state);
+> +}
+> +
+>   static const struct drm_mode_config_funcs vkms_mode_funcs = {
+>   	.fb_create = drm_gem_fb_create,
+> -	.atomic_check = drm_atomic_helper_check,
+> +	.atomic_check = vkms_atomic_check,
+>   	.atomic_commit = drm_atomic_helper_commit,
+>   };
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 5f1a0a44a78c..f16b5d7b81ef 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -23,6 +23,8 @@
+>   
+>   #define NUM_OVERLAY_PLANES 8
+>   
+> +#define VKMS_LUT_SIZE 256
+> +
+>   struct vkms_frame_info {
+>   	struct drm_framebuffer *fb;
+>   	struct drm_rect src, dst;
+> @@ -65,6 +67,12 @@ struct vkms_plane {
+>   	struct drm_plane base;
+>   };
+>   
+> +struct vkms_color_lut {
+> +	struct drm_color_lut *base;
+> +	size_t lut_length;
+> +	s64 channel_value2index_ratio;
+> +};
+> +
+>   /**
+>    * vkms_crtc_state - Driver specific CRTC state
+>    * @base: base CRTC state
+> @@ -80,6 +88,7 @@ struct vkms_crtc_state {
+>   	/* stack of active planes for crc computation, should be in z order */
+>   	struct vkms_plane_state **active_planes;
+>   	struct vkms_writeback_job *active_writeback;
+> +	struct vkms_color_lut gamma_lut;
+>   
+>   	/* below four are protected by vkms_output.composer_lock */
+>   	bool crc_pending;
