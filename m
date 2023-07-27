@@ -1,40 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD18765CB7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 21:59:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48210765CCE
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 22:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E862910E5EC;
-	Thu, 27 Jul 2023 19:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023A910E5F1;
+	Thu, 27 Jul 2023 20:03:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 791AC10E5EC
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 19:59:42 +0000 (UTC)
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22FFB10E5F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 20:03:18 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B19A63F1EB;
- Thu, 27 Jul 2023 21:59:40 +0200 (CEST)
-Date: Thu, 27 Jul 2023 21:59:39 +0200
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C1D873F335;
+ Thu, 27 Jul 2023 22:03:15 +0200 (CEST)
+Date: Thu, 27 Jul 2023 22:03:14 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 3/4] drm/msm/dpu: add helper to get IRQ-related data
-Message-ID: <zpzboxlhbsfw7kz5zkthzeuitwvnq4wwbziedgmpuqaghofuag@acg5r76x5vvq>
-References: <20230727150455.1489575-1-dmitry.baryshkov@linaro.org>
- <20230727150455.1489575-4-dmitry.baryshkov@linaro.org>
- <hdenbea53reesjrin4szoq64ja63ryjznsllvmicuzdftmk5u7@lows7neacgm2>
- <7b7e0a8a-392c-19c3-6642-7479c28d4ed8@linaro.org>
- <zilvhfz4qgvnz4thp6wlbg6al7hahen2gw2k5el5o6pi2ysxb6@qhwzla4zmze5>
- <2e20d0ac-0fb5-3f33-910c-438d34d8109e@linaro.org>
+Subject: Re: [PATCH 1/7] drm/msm/dpu: enable PINGPONG TE operations only when
+ supported by HW
+Message-ID: <byxscievxgqwcdu56mebkoy4jpgogzy3euddz73u2qryh3itwb@to3pyltcqqxg>
+References: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
+ <20230727162104.1497483-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e20d0ac-0fb5-3f33-910c-438d34d8109e@linaro.org>
+In-Reply-To: <20230727162104.1497483-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,31 +51,45 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-07-27 22:51:32, Dmitry Baryshkov wrote:
-> On 27/07/2023 22:41, Marijn Suijten wrote:
-> > On 2023-07-27 22:34:59, Dmitry Baryshkov wrote:
-> >> On 27/07/2023 22:29, Marijn Suijten wrote:
-> >>> On 2023-07-27 18:04:54, Dmitry Baryshkov wrote:
-> >>>> In preparation to reworking the IRQ indices, move irq_tbl access to
-> >>>> separate helper.
-> >>>
-> >>> I am not seeing the advantage of the helper, but making every function
-> >>> look up dpu_kms->hw_intr->irq_tbl[irq_idx] only once and storing that in
-> >>> a local dpu_hw_intr_entry pointer is much tidier.
-> >>
-> >> There was a bonus point when I tried to do a irq_idx-1 in the next
-> >> patch. But since that code has gone, maybe I can drop this patch too.
-> > 
-> > Don't drop the whole patch though.  While maybe not necessary, having
-> > the lookup only once is much easier to follow.
+On 2023-07-27 19:20:58, Dmitry Baryshkov wrote:
+> The DPU_PINGPONG_TE bit is set for all PINGPONG blocks on DPU < 5.0.
+> Rather than checking for the flag, check for the presense of the
+> corresponding interrupt line.
 > 
-> Then it's easier to keep it as is.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-While reviewing patch 4/4 though, the -1 might be missing after all.
-You still allocate "nirq = total_irqs" spots in the table, but then
-allow any number 0 < irq_idx <= total_irqs.  Indexing irq_idx ==
-total_irqs would be out of bounds?
+That's a smart use of the interrupt field.  I both like it, and I do
+not.  While we didn't do any validation for consistency previously, this
+means we now have multiple ways of controlling available "features":
 
-- Marijn
+- Feature flags on hardware blocks;
+- Presence of certain IRQs;
+- DPU core revision.
 
-<snip>
+Maybe that is more confusing to follow?  Regardless of that I'm
+convinced that this patch does what it's supposed to and gets rid of
+some ambiguity.  Maybe a comment above the IF explaining the "PP TE"
+feature could alleviate the above concerns thoo.  Hence:
+
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> index 9298c166b213..912a3bdf8ad4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> @@ -296,7 +296,7 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
+>  	c->idx = cfg->id;
+>  	c->caps = cfg;
+>  
+> -	if (test_bit(DPU_PINGPONG_TE, &cfg->features)) {
+> +	if (cfg->intr_rdptr) {
+>  		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
+>  		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
+>  		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
+> -- 
+> 2.39.2
+> 
