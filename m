@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8923E765034
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 11:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD51765064
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 11:55:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2990210E55F;
-	Thu, 27 Jul 2023 09:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E811C10E561;
+	Thu, 27 Jul 2023 09:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71A0410E55D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:46:49 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A9676607175;
- Thu, 27 Jul 2023 10:46:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690451208;
- bh=0Iha/JOTYyfiitNl2/tF672JZIUVhHcbx0vgBiZKTc4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hRUYCKLiNNMNeaZ6LtmbttbslYB06NAh6Ow5BUdEJcf5qkFsiEQ4wVF63i44gy7XQ
- C/4pA+yG0SDMdgseo6EXuzk1b9S4s1cUHw0eLcsNJEwlAwbS8GAfB8Wleuaxkq+NKP
- zCQWBi4c5aR6bTrFr6u1XaicI9C6iCSZoJUggrMl6cJWqvYsstmZVM3bb2gVKlG6SK
- q+yYPqt5I+DkoYV0Urv3VABn6n+TZK16pEv4L6PfdrQEAMEpPOBV6tnq/Vanjf064F
- dkh3gXR4ERN3v/o+otO6qSu9fhfprCPjshYWzkgzARI8VFbZymJlFmAcRlXGDHx6EH
- Kj2+jl03e9YWQ==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH RESEND v6 11/11] drm/mediatek: gamma: Program gamma LUT type
- for descending or rising
-Date: Thu, 27 Jul 2023 11:46:33 +0200
-Message-ID: <20230727094633.22505-12-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
-References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 382FE10E561
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:55:21 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2950E29A;
+ Thu, 27 Jul 2023 11:54:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1690451660;
+ bh=52l2fE698ZVJp/Pwim4ovXviYlJUSpyIEpTqajcG8hk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ug4jKoFzBP5iUCIvhN0PK0CdPHa35wYWjxGDw9KsTCD46ZnvEnhWHO6dRJUD6J41s
+ FpJup+JNNzMIKbc0kRx9WJl+/pEW3odZ0Mg4b7mwUd6CKI1xyA/FRIHfQt2GDTwlwW
+ RDlP2H01fOFTpv4jyN7ccEZDXEPJPebmq5nRGT/A=
+Date: Thu, 27 Jul 2023 12:55:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ruan Jinjie <ruanjinjie@huawei.com>
+Subject: Re: [PATCH -next] drm: omapdrm: dss: Remove redundant DSSERR()
+Message-ID: <20230727095525.GG25174@pendragon.ideasonboard.com>
+References: <20230727113923.3093070-1-ruanjinjie@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230727113923.3093070-1-ruanjinjie@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,69 +46,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: arnd@arndb.de, guozhengkui@vivo.com, tomi.valkeinen@ideasonboard.com,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org, yuancan@huawei.com,
+ u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All of the SoCs that don't have dithering control in the gamma IP
-have got a GAMMA_LUT_TYPE bit that tells to the IP if the LUT is
-"descending" (bit set) or "rising" (bit cleared): make sure to set
-it correctly after programming the LUT.
+Hi Ruan,
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index e9655b661364..020755ae0ec0 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -23,6 +23,7 @@
- #define GAMMA_RELAY_MODE				BIT(0)
- #define GAMMA_LUT_EN					BIT(1)
- #define GAMMA_DITHERING					BIT(2)
-+#define GAMMA_LUT_TYPE					BIT(2)
- #define DISP_GAMMA_SIZE				0x0030
- #define DISP_GAMMA_SIZE_HSIZE				GENMASK(28, 16)
- #define DISP_GAMMA_SIZE_VSIZE				GENMASK(12, 0)
-@@ -89,6 +90,16 @@ unsigned int mtk_gamma_get_lut_size(struct device *dev)
- 	return lut_size;
- }
- 
-+static bool mtk_gamma_lut_is_descending(struct drm_color_lut *lut, u32 lut_size)
-+{
-+	u64 first, last;
-+
-+	first = lut[0].red + lut[0].green + lut[0].blue;
-+	last = lut[lut_size].red + lut[lut_size].green + lut[lut_size].blue;
-+
-+	return !!(first > last);
-+}
-+
- void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
- {
- 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-@@ -178,6 +189,14 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
- 		}
- 	}
- 
-+	if (gamma && gamma->data && !gamma->data->has_dither) {
-+		/* Descending or Rising LUT */
-+		if (mtk_gamma_lut_is_descending(lut, lut_size))
-+			cfg_val |= FIELD_PREP(GAMMA_LUT_TYPE, 1);
-+		else
-+			cfg_val &= ~GAMMA_LUT_TYPE;
-+	}
-+
- 	/* Enable the gamma table */
- 	cfg_val |= FIELD_PREP(GAMMA_LUT_EN, 1);
- 
+On Thu, Jul 27, 2023 at 11:39:23AM +0000, Ruan Jinjie wrote:
+> There is no need to call the DSSERR() function directly to print
+> a custom message when handling an error from platform_get_irq() function
+> as it is going to display an appropriate error message
+> in case of a failure.
+> 
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I expect Tomi to pick this up and push it to drm-misc.
+
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dispc.c | 1 -
+>  drivers/gpu/drm/omapdrm/dss/dsi.c   | 4 +---
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c | 1 -
+>  drivers/gpu/drm/omapdrm/dss/hdmi5.c | 1 -
+>  4 files changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
+> index c26aab4939fa..9209103f5dc5 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
+> @@ -4779,7 +4779,6 @@ static int dispc_bind(struct device *dev, struct device *master, void *data)
+>  
+>  	dispc->irq = platform_get_irq(dispc->pdev, 0);
+>  	if (dispc->irq < 0) {
+> -		DSSERR("platform_get_irq failed\n");
+>  		r = -ENODEV;
+>  		goto err_free;
+>  	}
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index ea63c64d3a1a..63cfe0776788 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -4935,10 +4935,8 @@ static int dsi_probe(struct platform_device *pdev)
+>  		return PTR_ERR(dsi->pll_base);
+>  
+>  	dsi->irq = platform_get_irq(pdev, 0);
+> -	if (dsi->irq < 0) {
+> -		DSSERR("platform_get_irq failed\n");
+> +	if (dsi->irq < 0)
+>  		return -ENODEV;
+> -	}
+>  
+>  	r = devm_request_irq(dev, dsi->irq, omap_dsi_irq_handler,
+>  			     IRQF_SHARED, dev_name(dev), dsi);
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> index a26b77d99d52..d4fd6c680db3 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+> @@ -782,7 +782,6 @@ static int hdmi4_probe(struct platform_device *pdev)
+>  
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq < 0) {
+> -		DSSERR("platform_get_irq failed\n");
+>  		r = -ENODEV;
+>  		goto err_free;
+>  	}
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> index e6611c683857..27c21ff8c4e5 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> @@ -756,7 +756,6 @@ static int hdmi5_probe(struct platform_device *pdev)
+>  
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq < 0) {
+> -		DSSERR("platform_get_irq failed\n");
+>  		r = -ENODEV;
+>  		goto err_free;
+>  	}
+
 -- 
-2.40.1
+Regards,
 
+Laurent Pinchart
