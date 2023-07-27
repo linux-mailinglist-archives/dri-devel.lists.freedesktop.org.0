@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB963765138
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 12:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402FB7651ED
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 13:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895A410E089;
-	Thu, 27 Jul 2023 10:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA55210E569;
+	Thu, 27 Jul 2023 11:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E42310E089
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:32:26 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- 98e67ed59e1d1-2680edb9767so163330a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 03:32:26 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC8E10E569
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 11:03:56 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id
+ 38308e7fff4ca-2b9c907bc68so1829201fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 04:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1690453945; x=1691058745;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690455834; x=1691060634; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4VsKgOIlO7JTMbURB3u+V7Qr/QzOpc+0Bt56AjhAYAM=;
- b=Zr/NhsMbDbdIdSqoueTQTw00LusmUmyLrdR7MeDx+ZO5Q+75jdmzv373GL0Ee5CtKr
- W6fluKiuFJCg5ZU3kW0Km101UvphMU1vBCY7hDEO6TFqab4XzqrIV8fVDPR2Owpqim7U
- N3OX4eAxVQVjc5z6Zvv7YweV9TAIgzv2mVUZoaytYD45Z4tHHiC7Kn023GaYmi5v6RKy
- g9n+r/2KPb5qfD2ZK/MDUQIwCLsfUVl7c4q/2XRu1uefpNinWMEwlZLohyik+zojbFUF
- urJtl81vW3ulTBjRT5ht+WLfC03kh8PaMNuzZ2kESl6uu5dT49u0KrVoAN4kKuQ8SPSD
- k2iA==
+ bh=cZF3XtrIp2bOiTmk2h41l3lxAy20S9f02tlSc0yU7eM=;
+ b=W2K8qz+7PujcvBXOJtpjKU8HGHnsNuuCRo2r+LB0U2bYRQ75DJUW6ayx11pWS84xP5
+ 6/CYqd4Q+USeDvQYGl4cyIRi6UXvlVghF1HK60pkqVCcYPLPKncN4G+GBoWSY9ydl77i
+ LimmOT+vSvt5nwyYBWfJjsb7K/5EhNkQlqX+kOwvoShtqD4xjPnXHGmP2IHFSUVwW0Lv
+ e6+C3NSA5zNkO4dWidxxwylmlTaGWoatKkuMqKlZy3Za3NDcY3psnOMxUhyx9L7NS6pe
+ /bYJBbuVMqzN03BkBxERxBK6HL6eaGVCeBuGiBxRUXOQTRaHlI8YK6YdxvpI/YbkAnaN
+ SQjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690453945; x=1691058745;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1690455834; x=1691060634;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4VsKgOIlO7JTMbURB3u+V7Qr/QzOpc+0Bt56AjhAYAM=;
- b=CTuJ20MHCiUNgCRyx0hJFDxDj2Ub68r9PshSGmr07Gg6uk5M5W0N+gzPhqDumpgUld
- 1BRErKBOduss5bk+qCd+plnlFVWBvmav+sFXJIqhA5KySVsWkEOhEvbEQmBA/V/xox4R
- xQ6i71BdBwzbaQab66epFidCwtlajNtToDYO2Xa2R+fKk9rjRQjKGCDgDbFeYj0sgxMi
- OGr56oInst37QiLdqLj/Ycf4lq1sj75K+EXh95FS1jmQqKa0er5DItw3OXkWoAXhCPEQ
- WTz8r1icqYitWRPv6Lg2DZNLEhERkqt0CQhVGmKFwpfOiLnIgIr1x/C2I5lssiPGgbuF
- b8Xw==
-X-Gm-Message-State: ABy/qLbvhUdjkCPSRaUaKnoWM4DksjImZDAlvKdiHxL2zPAWFZ/blGdz
- ybSXywb1hM+6G8iYktByLQa9JQ==
-X-Google-Smtp-Source: APBJJlGmzPZn88CMJAqpsojyTb97uikW28yo5O3pi8rH8SDlSH8BwjASuoOudfeGFyxgCSRxAf0mLA==
-X-Received: by 2002:a17:90a:1b06:b0:263:2312:60c2 with SMTP id
- q6-20020a17090a1b0600b00263231260c2mr4299433pjq.3.1690453945653; 
- Thu, 27 Jul 2023 03:32:25 -0700 (PDT)
-Received: from [10.70.252.135] ([203.208.167.147])
+ bh=cZF3XtrIp2bOiTmk2h41l3lxAy20S9f02tlSc0yU7eM=;
+ b=jWif+Tyzb7je5rjiVkwarumhErnEIH4DbAYIAfpeIFblohi4PC5lKWO/M9GAUOeL6e
+ x/+og0l0/Zo9yat/wdZxorE3ih0No8h0wU8EGQpq6nFcqR2m0MJMiiTceRVpGNB+MC86
+ MP8TbMfPv0VNhQNUbHdJsNSZREbD3Gcb2dZ3YONDwOiN/kvg2b5dimph+FSih4Ebz72u
+ /8YJoDIcndxqJvbAIoQScSbkxvHkR7URd1qb29HVHA8iJvnAtOGw/g8WZMprIq4a5AD0
+ 032h0O1N70OD8jlzw54fWn/CbjaI2HvfKdP5LohFmYpMPGkm4KdM11RXkWJjjG2zGrUq
+ 1xIA==
+X-Gm-Message-State: ABy/qLZgnn2RQqRtZJm1UYUa+dDpbCu4xm4jBLWhIVb732EAZZe1lQHW
+ 96lrDg12T5/Yvvatk41RcCpSzQ==
+X-Google-Smtp-Source: APBJJlHK3JMIN7o6/6Mbuizxurh3A/QfIfawJ73wXqooHzlUEfbBjgXc17g25yWxQ+DfBbpe8Wk8QA==
+X-Received: by 2002:a2e:804e:0:b0:2b5:7fba:18ac with SMTP id
+ p14-20020a2e804e000000b002b57fba18acmr1516711ljg.48.1690455833779; 
+ Thu, 27 Jul 2023 04:03:53 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
  by smtp.gmail.com with ESMTPSA id
- 8-20020a17090a018800b0026309d57724sm2755058pjc.39.2023.07.27.03.32.13
+ a24-20020a170906245800b0099bcd1fa5b0sm626339ejb.192.2023.07.27.04.03.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jul 2023 03:32:25 -0700 (PDT)
-Message-ID: <cc819e13-cb25-ddaa-e0e3-7328f5ea3a4f@bytedance.com>
-Date: Thu, 27 Jul 2023 18:32:10 +0800
+ Thu, 27 Jul 2023 04:03:53 -0700 (PDT)
+Message-ID: <ec66e067-642e-1512-3e4b-b51065ccc75d@baylibre.com>
+Date: Thu, 27 Jul 2023 13:03:51 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH v3 28/49] dm zoned: dynamically allocate the dm-zoned-meta
- shrinker
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RESEND v6 09/11] drm/mediatek: gamma: Add support for
+ 12-bit LUT and MT8195
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
+ <20230727094633.22505-10-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-To: Damien Le Moal <dlemoal@kernel.org>
-References: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
- <20230727080502.77895-29-zhengqi.arch@bytedance.com>
- <baaf7de4-9a0e-b953-2b6a-46e60c415614@kernel.org>
- <56ee1d92-28ee-81cb-9c41-6ca7ea6556b0@bytedance.com>
- <ba0868b2-9f90-3d81-1c91-8810057fb3ce@kernel.org>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <ba0868b2-9f90-3d81-1c91-8810057fb3ce@kernel.org>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20230727094633.22505-10-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,56 +79,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
- david@fromorbit.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- dm-devel@redhat.com, linux-mtd@lists.infradead.org, cel@kernel.org,
- x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
- linux-arm-msm@vger.kernel.org, brauner@kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
- yujie.liu@intel.com, vbabka@suse.cz, linux-raid@vger.kernel.org,
- linux-nfs@vger.kernel.org, tytso@mit.edu, netdev@vger.kernel.org,
- muchun.song@linux.dev, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- senozhatsky@chromium.org, gregkh@linuxfoundation.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Angelo !
 
-
-On 2023/7/27 18:20, Damien Le Moal wrote:
-> On 7/27/23 17:55, Qi Zheng wrote:
->>>>            goto err;
->>>>        }
->>>>    +    zmd->mblk_shrinker->count_objects = dmz_mblock_shrinker_count;
->>>> +    zmd->mblk_shrinker->scan_objects = dmz_mblock_shrinker_scan;
->>>> +    zmd->mblk_shrinker->seeks = DEFAULT_SEEKS;
->>>> +    zmd->mblk_shrinker->private_data = zmd;
->>>> +
->>>> +    shrinker_register(zmd->mblk_shrinker);
->>>
->>> I fail to see how this new shrinker API is better... Why isn't there a
->>> shrinker_alloc_and_register() function ? That would avoid adding all this code
->>> all over the place as the new API call would be very similar to the current
->>> shrinker_register() call with static allocation.
->>
->> In some registration scenarios, memory needs to be allocated in advance.
->> So we continue to use the previous prealloc/register_prepared()
->> algorithm. The shrinker_alloc_and_register() is just a helper function
->> that combines the two, and this increases the number of APIs that
->> shrinker exposes to the outside, so I choose not to add this helper.
+On 27/07/2023 11:46, AngeloGioacchino Del Regno wrote:
+> Add support for 12-bit gamma lookup tables and introduce the first
+> user for it: MT8195.
+> While at it, also reorder the variables in mtk_gamma_set_common()
+> and rename `lut_base` to `lut0_base` to improve readability.
 > 
-> And that results in more code in many places instead of less code + a simple
-> inline helper in the shrinker header file... So not adding that super simple
-
-It also needs to be exported to the driver for use.
-
-> helper is not exactly the best choice in my opinion.
-
-Hm, either one is fine for me. If no one else objects, I can add this
-helper. ;)
-
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 61 ++++++++++++++++++-----
+>   1 file changed, 48 insertions(+), 13 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> index f1a0b18b6c1a..e0e2d2bdbf59 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> @@ -27,12 +27,20 @@
+>   #define DISP_GAMMA_SIZE_VSIZE				GENMASK(12, 0)
+>   #define DISP_GAMMA_BANK				0x0100
+>   #define DISP_GAMMA_BANK_BANK				GENMASK(1, 0)
+> +#define DISP_GAMMA_BANK_DATA_MODE			BIT(2)
+>   #define DISP_GAMMA_LUT				0x0700
+> +#define DISP_GAMMA_LUT1				0x0b00
+
+Is this offset generic to all MTK SoC which support this driver ?
+
+>   
+> +/* For 10 bit LUT layout, R/G/B are in the same register */
+>   #define DISP_GAMMA_LUT_10BIT_R			GENMASK(29, 20)
+>   #define DISP_GAMMA_LUT_10BIT_G			GENMASK(19, 10)
+>   #define DISP_GAMMA_LUT_10BIT_B			GENMASK(9, 0)
+>   
+> +/* For 12 bit LUT layout, R/G are in LUT, B is in LUT1 */
+
+As I understood from the application processor registers (v0.4), R/G are 
+in LUT, B is in LUT1 for 10bit and 12bit for MT8195. Can you check 
+please to be sure ?
+
+> +#define DISP_GAMMA_LUT_12BIT_R			GENMASK(11, 0)
+> +#define DISP_GAMMA_LUT_12BIT_G			GENMASK(23, 12)
+> +#define DISP_GAMMA_LUT_12BIT_B			GENMASK(11, 0)
+> +
+>   #define LUT_10BIT_MASK				0x03ff
+>   #define LUT_BITS_DEFAULT			10
+>   #define LUT_SIZE_DEFAULT			512
+> @@ -83,14 +91,15 @@ unsigned int mtk_gamma_get_lut_size(struct device *dev)
+>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+>   {
+>   	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+> -	unsigned int i;
+> +	void __iomem *lut0_base = regs + DISP_GAMMA_LUT;
+> +	void __iomem *lut1_base = regs + DISP_GAMMA_LUT1;
+> +	u32 cfg_val, data_mode, lbank_val, word[2];
+> +	int cur_bank, num_lut_banks;
+> +	u16 lut_bank_size, lut_size;
+>   	struct drm_color_lut *lut;
+> -	void __iomem *lut_base;
+> +	unsigned int i;
+>   	bool lut_diff;
+> -	u16 lut_bank_size, lut_size;
+>   	u8 lut_bits;
+> -	u32 cfg_val, lbank_val, word;
+> -	int cur_bank, num_lut_banks;
+>   
+>   	/* If there's no gamma lut there's nothing to do here. */
+>   	if (!state->gamma_lut)
+> @@ -110,14 +119,17 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+>   	num_lut_banks = lut_size / lut_bank_size;
+>   
+>   	cfg_val = readl(regs + DISP_GAMMA_CFG);
+> -	lut_base = regs + DISP_GAMMA_LUT;
+>   	lut = (struct drm_color_lut *)state->gamma_lut->data;
+>   
+> +	/* Switch to 12 bits data mode if supported */
+> +	data_mode = FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(lut_bits == 12));
+> +
+>   	for (cur_bank = 0; cur_bank < num_lut_banks; cur_bank++) {
+>   
+>   		/* Switch gamma bank and set data mode before writing LUT */
+>   		if (num_lut_banks > 1) {
+>   			lbank_val = FIELD_PREP(DISP_GAMMA_BANK_BANK, cur_bank);
+> +			lbank_val |= data_mode;
+>   			writel(lbank_val, regs + DISP_GAMMA_BANK);
+>   		}
+>   
+> @@ -130,9 +142,15 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+>   			hwlut.blue = drm_color_lut_extract(lut[n].blue, lut_bits);
+>   
+>   			if (!lut_diff || (i % 2 == 0)) {
+> -				word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+> -				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+> -				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+> +				if (lut_bits == 12) {
+> +					word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, hwlut.red);
+> +					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, hwlut.green);
+> +					word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, hwlut.blue);
+> +				} else {
+> +					word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+> +					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+> +					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+> +				}
+>   			} else {
+>   				diff.red = lut[n].red - lut[n - 1].red;
+>   				diff.red = drm_color_lut_extract(diff.red, lut_bits);
+> @@ -143,11 +161,19 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+>   				diff.blue = lut[n].blue - lut[n - 1].blue;
+>   				diff.blue = drm_color_lut_extract(diff.blue, lut_bits);
+>   
+> -				word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+> -				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+> -				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+> +				if (lut_bits == 12) {
+> +					word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, diff.red);
+> +					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, diff.green);
+> +					word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, diff.blue);
+> +				} else {
+> +					word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+> +					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+> +					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+> +				}
+>   			}
+> -			writel(word, (lut_base + i * 4));
+> +			writel(word[0], (lut0_base + i * 4));
+> +			if (lut_bits == 12)
+> +				writel(word[1], (lut1_base + i * 4));
+
+ditto
+
+>   		}
+>   	}
+>   
+> @@ -271,11 +297,20 @@ static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
+>   	.lut_size = 512,
+>   };
+>   
+> +static const struct mtk_disp_gamma_data mt8195_gamma_driver_data = {
+> +	.lut_bank_size = 256,
+> +	.lut_bits = 12,
+
+If I'm right, ".lut_bits = 10" will not work properly.
+
+> +	.lut_diff = true,
+> +	.lut_size = 1024,
+> +};
+> +
+>   static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
+>   	{ .compatible = "mediatek,mt8173-disp-gamma",
+>   	  .data = &mt8173_gamma_driver_data},
+>   	{ .compatible = "mediatek,mt8183-disp-gamma",
+>   	  .data = &mt8183_gamma_driver_data},
+> +	{ .compatible = "mediatek,mt8195-disp-gamma",
+> +	  .data = &mt8195_gamma_driver_data},
+>   	{},
+>   };
+>   MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
+
+-- 
+Regards,
+Alexandre
