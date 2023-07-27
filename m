@@ -1,73 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2F97659EE
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:19:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 553F3765A20
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764BB10E5D3;
-	Thu, 27 Jul 2023 17:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3295310E1DC;
+	Thu, 27 Jul 2023 17:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6715A10E5D1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:56 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id
- d2e1a72fcca58-686ba29ccb1so756328b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:56 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02DE10E1DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:24:48 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4fbb281eec6so2146410e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690478336; x=1691083136;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CaruT2MVnDt5o7TOPEFxtNglDYQfaqWPyFiMR9pTN4g=;
- b=hgdda686kZFO1vLHm1NDDQgKMGxF5OW+sQo6xsjQ7tAlKRQ7WakT0MGXqu4LMABAIP
- ou6Q8z90ihSUOsfDh/jx80PQcNvRNylZJxOtIK6Sqil7kXLPW/zQIpv3RwKpyXVUi0K/
- 6ycwk7L+TIw7978Zphy4DbuOi2q9CE8msmui8=
+ d=linaro.org; s=google; t=1690478687; x=1691083487;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cfAY1TAAVVSE5RYq1eJrVRqRcG4OMnAyQ2e2q78Puok=;
+ b=zJOrvtns8Z2vb3m15iyxyxIsZv5J/01emj8duHWsqdLISx1XyUCiKkLYJuz4B3BITs
+ 8W2xFEjr0N+wHHeZ85Z9LMgO6NDz6+FyFl9E7RTrBYUyTkpXnEbwm24tqhKJbA674rTT
+ PIeTwVhXyLUNFyRr37fgRgP+DESvRVnDkJDU1ghOe0b0F9k6iZrtILxmQqKEdEj4lVZz
+ fEEr37gzChxM3wmdOGZqY+lNBcUolBV3y5gCeD3+lVzQOYVlTL1i/mZJz4VNuWwuc1N6
+ br94S/ieY75evK7oLYhMlU8IiTT470veMZ9p2ocWGe0+ISM5LrAJUw06ApyJeQOSnako
+ ENLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690478336; x=1691083136;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CaruT2MVnDt5o7TOPEFxtNglDYQfaqWPyFiMR9pTN4g=;
- b=F7t9kpqQzrNB1Kco4fdByTnS2pDhmw41XD/WTDPufKVGylp0IzQE4VXMSkuv/sjRdI
- hn8lPRhy7R186ks7MZqMlBqjO+uVfSTUyJTUOG8ApFTOZyB9X2Xum8XFZBArg2VOjfEu
- IfE5nOBt/sgC3xh7JEsotkkfLBXDDYsDX3yOS+hORbomMago5/D0oAi7I9a/j2OSb1/n
- /gfkhT0Jy7S0owWpYxc8a3iyRhXyU0a5DCWFNmcOcC6/DHHNqZW8cUpj0DTZoiKKO9Wz
- 2uoaDq4bOtEOeME8SZsLAEZEALZl5/fWXkhXaLgQmVWhka9sas3ZOOgV6XcEYIC4n+0x
- aC2w==
-X-Gm-Message-State: ABy/qLaMuBP2I5fo+XXVbD/FSiBeqQdCIt/n5fMc2OEqrxhL0C+hYymm
- YpkNfFWqn5E/APg4dg7A9zwK2A==
-X-Google-Smtp-Source: APBJJlFsnm2DtG3enU/g8ilsDzl+1tCZj5F1uaYXmvXRTu62nGbTjnuOz1OJlDQDmUcWf3ay9wkdUQ==
-X-Received: by 2002:a05:6a00:3907:b0:668:7292:b2bc with SMTP id
- fh7-20020a056a00390700b006687292b2bcmr3313546pfb.10.1690478335986; 
- Thu, 27 Jul 2023 10:18:55 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:2339:954b:b98f:611a])
+ d=1e100.net; s=20221208; t=1690478687; x=1691083487;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cfAY1TAAVVSE5RYq1eJrVRqRcG4OMnAyQ2e2q78Puok=;
+ b=HRL5uxgubTfut5xu+ubFGZdO7Ch3Oq/kLMOZX9qsEeBo9VkG8kXmg9y91+6n0YZTUJ
+ gU/p10XtxH64vDnN8frBOfHUGPnF+dPQ8C0Vv4OJ9EklELS6L/8N3ST+OmcZbzT2xiz+
+ kCHxqgnHPCXEmuPFYXrYN+wj2D0zk5Oe9EU8XYryMLke3oRrH455zP4jb5r4QdHKoVoj
+ pi+Jx0XEZKwyTAcVcrQL2J85K27mGOoQ/z8pWxb0L3fna72fuiGWhkab50kCwrIPfOeH
+ i/T6V+j4PKuBaSR48XYhbcZhPm2844vnR7wsBG2HmJ9bQDN1gM9j26P3St9+tWPWYf3M
+ AuvQ==
+X-Gm-Message-State: ABy/qLbAu2oua8Yp56hAtrsnedTtUOhinetiuZXspfJlLwfwPHChAWBE
+ 8m/lhkmxZ/rVwMLQa5vYe3hQWQ==
+X-Google-Smtp-Source: APBJJlHEqLtPhJ9YU9jzvL9DPx1acbxY7QDp2LU3wNoBkGODp1JilwG++mcShrJL13Z7BJdDQSvaaw==
+X-Received: by 2002:a19:d61a:0:b0:4f8:6a29:b59b with SMTP id
+ n26-20020a19d61a000000b004f86a29b59bmr2017612lfg.64.1690478686898; 
+ Thu, 27 Jul 2023 10:24:46 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.54
+ p15-20020a19f00f000000b004fdfd4c1fcesm397305lfc.36.2023.07.27.10.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 10:18:55 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 11/11] arm64: dts: qcom: sc7180: Link trogdor touchscreens
- to the panels
-Date: Thu, 27 Jul 2023 10:16:38 -0700
-Message-ID: <20230727101636.v4.11.Ia06c340e3482563e6bfd3106ecd0d3139f173ca4@changeid>
-X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
-In-Reply-To: <20230727171750.633410-1-dianders@chromium.org>
-References: <20230727171750.633410-1-dianders@chromium.org>
+ Thu, 27 Jul 2023 10:24:46 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm: panel: simple: specify bpc for
+ powertip_ph800480t013_idf02
+Date: Thu, 27 Jul 2023 20:24:45 +0300
+Message-Id: <20230727172445.1548834-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,114 +73,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>, devicetree@vger.kernel.org,
- cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
- yangcong5@huaqin.corp-partner.google.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's provide the proper link from the touchscreen to the panel on
-trogdor devices where the touchscreen support it. This allows the OS
-to power sequence the touchscreen more properly.
+Specify bpc value for the powertip_ph800480t013_idf02 panel to stop drm
+code from complaining about unexpected bpc value (0).
 
-For the most part, this is just expected to marginally improve power
-consumption while the screen is off. However, in at least one trogdor
-model (wormdingler) it's suspected that this will fix some behavorial
-corner cases when the panel power cycles (like for a modeset) without
-the touchscreen power cycling.
-
-NOTE: some trogdor variants use touchscreens that don't (yet) support
-linking the touchscreen and the panel. Those variants are left alone.
-
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-(no changes since v1)
-
- arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi        | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi      | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi         | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi        | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi   | 1 +
- 6 files changed, 6 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi
-index 8b8ea8af165d..b4f328d3e1f6 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-coachz.dtsi
-@@ -104,6 +104,7 @@ ap_ts: touchscreen@5d {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
- 
- 		vdd-supply = <&pp3300_ts>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi
-index b3ba23a88a0b..88aeb415bd5b 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-homestar.dtsi
-@@ -116,6 +116,7 @@ ap_ts: touchscreen@14 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
- 
- 		vdd-supply = <&pp3300_touch>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-index 269007d73162..c65f18ea3e5c 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor.dtsi
-@@ -43,6 +43,7 @@ ap_ts: touchscreen@10 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <20>;
- 		hid-descr-addr = <0x0001>;
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi
-index 6c5287bd27d6..d2aafd1ea672 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-pompom.dtsi
-@@ -102,6 +102,7 @@ ap_ts: touchscreen@10 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <20>;
- 		hid-descr-addr = <0x0001>;
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi
-index 62ab6427dd65..e5d6a7898f8c 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-quackingstick.dtsi
-@@ -69,6 +69,7 @@ ap_ts: touchscreen@10 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <20>;
- 		hid-descr-addr = <0x0001>;
- 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi
-index 2efa8a4bcda6..0e2b4d06b490 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-wormdingler.dtsi
-@@ -123,6 +123,7 @@ ap_ts: touchscreen@1 {
- 		interrupt-parent = <&tlmm>;
- 		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
- 
-+		panel = <&panel>;
- 		post-power-on-delay-ms = <70>;
- 		hid-descr-addr = <0x0001>;
- 
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index a247a0e7c799..4c4c24ab4d12 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3207,6 +3207,7 @@ static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
+ static const struct panel_desc powertip_ph800480t013_idf02  = {
+ 	.modes = &powertip_ph800480t013_idf02_mode,
+ 	.num_modes = 1,
++	.bpc = 8,
+ 	.size = {
+ 		.width = 152,
+ 		.height = 91,
 -- 
-2.41.0.487.g6d72f3e995-goog
+2.39.2
 
