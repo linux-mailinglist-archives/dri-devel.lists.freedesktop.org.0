@@ -2,72 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0678765670
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CD8765677
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 16:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC6A10E5A4;
-	Thu, 27 Jul 2023 14:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5016A10E08C;
+	Thu, 27 Jul 2023 14:55:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D8910E5A2;
- Thu, 27 Jul 2023 14:53:01 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fbf09a9139so1844358e87.2; 
- Thu, 27 Jul 2023 07:53:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690469580; x=1691074380;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6LnuWe64Q9tNi3Qqtc8m9M3hlzrjQ54xWguqRqN4jFE=;
- b=aEMRtXr+NhZdiVletlCheu9CmFOhmGyuwWZJiRAIc4m+VuPrpuY6ZjbRI6/EST3kwM
- 4wkmO3hX259eOekJgwvZ0p0wHf5UChUUh2HujZG2jmVx2O3b21z7XyInLBnLOgF6E8mq
- onewKDssa6LlAt/Z78DCeIIbtLqY+9amyoqAb3nWu7gwsOHNQFLxQalNcqayArMaAadq
- dHsKmcV+coIN9iP4DE1YEN1yvyNq9sKNA+VLRlElBlbideTPTbayaJa6urj/rUD5UFq0
- j+Ys8Ll08LfL8VzU6fRBXfQhH+EwcA8hlv60l6JCNRmBmfnJbpk3VE8FMo72ibbVpiZz
- 8QMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690469580; x=1691074380;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6LnuWe64Q9tNi3Qqtc8m9M3hlzrjQ54xWguqRqN4jFE=;
- b=Z1dOcGMG7oEIxWC0AKcI0vLwSj9/TCVInY0S+TYfctm7WJs7URtI8u0aKHWzq5a61t
- hTNSiLYVjz6aRhlNVx0rN+BBdW+okTtaoKzIff1q7W8QquM6MX+Gc4tSlVgAi/BzPyG2
- oGntuUfNyUQc190GOB7nmyKnGkwL/D6TY7XjKYugm9nOlAEr4/PtgqdISWlUY2r/wZYo
- vc+LILnmLaKAWsaVjOoulnzGK1QfWKXCbJtGe/D4BQyOZ8EAjcy9BNb0aHAoYTn2kdrh
- ZwbQWVx/9MIp269bZ7zpMN4wS59UjEXHtQ5RFCTbMnOyEIRSXuqS7tbbY9JnIQC5gFho
- FFbw==
-X-Gm-Message-State: ABy/qLbvKQ7BAKiQ3qwRYDq07DPafqJ7CQxf+AmFyraiEfGQzbL1+qKz
- FmjSxRFbvzaL3i4E/qu9Cupj14mvf6WMNYQaang=
-X-Google-Smtp-Source: APBJJlHWgDkt2GQ967pc0GBsJbfPJiidk45qBVH6tPB2o3LQqT9/D9ifhqG1Rtg09T1mGjLPwZNphDxTCkwjvme8YW4=
-X-Received: by 2002:a19:d61a:0:b0:4f8:6a29:b59b with SMTP id
- n26-20020a19d61a000000b004f86a29b59bmr1726759lfg.64.1690469579986; Thu, 27
- Jul 2023 07:52:59 -0700 (PDT)
+Received: from mgamail.intel.com (unknown [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B546010E08C;
+ Thu, 27 Jul 2023 14:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690469717; x=1722005717;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=lM3FFqlEqekOZi6J4Vm9vD7E/ud2DElHOgeWKeYGC8s=;
+ b=VgJKLDb/D74BGT2ZScl+PGD0m0vFUamld5Zr5KWqoAjqW56UVJWgpp9O
+ 2zoinLtCQ0SwvWGxXpozIkhiUmcfGJKEulM+0KANq7uRojNKfRAku77u3
+ F9oVj39K+j6sK520mWxVB2kasmwW+ft/j5NYrXe4OIhp5O0RQ8l0T7NFa
+ Fxvrl1EJjKJI9lkEKRN8+KIRY+ItyVakzau7wrVhL3RTmFusq7IyZLT8i
+ mK71MNnbHghUNEKRZYs5LK9mPoSku0Ga2cvBSl8TQGppZu8tSy4oJ58M7
+ PAEvyUrR0nqkVERbvotHn32U7bXdCx0kaGjTEuUA7w3PtMVTxz4+FayRD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399268365"
+X-IronPort-AV: E=Sophos;i="6.01,235,1684825200"; d="scan'208";a="399268365"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2023 07:55:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="870433704"
+Received: from jlenehan-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.228.208])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2023 07:55:16 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC 0/8] Another take on PAT/object cache mode refactoring
+Date: Thu, 27 Jul 2023 15:54:56 +0100
+Message-Id: <20230727145504.1919316-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-7-robdclark@gmail.com>
- <ccbe9ed4-7def-b0d1-2d1c-e2550d212943@linaro.org>
- <fpwpc7oyxzbfndojr2o2rkv2i66is4ylrtxh4equms7eyu4afc@cwyfgqanhlbo>
- <CAF6AEGt+qnUBAq3CHS4eTO1YQsbLjj3Urtt2LuSwRJ7XpzPBww@mail.gmail.com>
- <CAA8EJppJNrcXp8yswDycqA5HuK6bDCKrAkT4ttkGJvsWqD_YMg@mail.gmail.com>
- <CAF6AEGtLcwKRCMGgLAuABEbSR1CeYKF+D=ffsQLRo-f1BiprbA@mail.gmail.com>
- <f58998c9-82d3-d2fe-6f1c-801e616467be@linaro.org>
- <CAF6AEGu4_9kWyHCV0TOOU0vCqLBmrtEZDm9fAeMHNeDei7K8aQ@mail.gmail.com>
- <CAA8EJpr7Ed3ZBXfFxPV4u0t5obsP8yL5h3vwPMZSHjAMDQaA9w@mail.gmail.com>
- <CAF6AEGsHw2pkROZoBf=ucMUyk5B_nudHLM0hOJiJbYcawTFNdA@mail.gmail.com>
- <111f5e38-6f6a-33bc-d17c-c85ae4a57aa8@linaro.org>
-In-Reply-To: <111f5e38-6f6a-33bc-d17c-c85ae4a57aa8@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 27 Jul 2023 07:52:48 -0700
-Message-ID: <CAF6AEGuN2D9EdO1JAneF1PqboQ6VGJgHviRyccmY71kUN9oZsg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 06/12] drm/msm/adreno: Allow SoC specific gpu
- device table entries
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,135 +57,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Matt Roper <matthew.d.roper@intel.com>, Fei Yang <fei.yang@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023 at 12:51=E2=80=AFAM Konrad Dybcio <konrad.dybcio@linar=
-o.org> wrote:
->
-> On 27.07.2023 00:53, Rob Clark wrote:
-> > On Wed, Jul 26, 2023 at 3:33=E2=80=AFPM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> >>
-> >> On Thu, 27 Jul 2023 at 01:04, Rob Clark <robdclark@gmail.com> wrote:
-> >>>
-> >>> On Wed, Jul 26, 2023 at 2:43=E2=80=AFPM Dmitry Baryshkov
-> >>> <dmitry.baryshkov@linaro.org> wrote:
-> >>>>
-> >>>> On 26/07/2023 23:11, Rob Clark wrote:
-> >>>>> On Wed, Jul 26, 2023 at 1:00=E2=80=AFPM Dmitry Baryshkov
-> >>>>> <dmitry.baryshkov@linaro.org> wrote:
-> >>>>>>
-> >>>>>> On Wed, 26 Jul 2023 at 21:28, Rob Clark <robdclark@gmail.com> wrot=
-e:
-> >>>>>>>
-> >>>>>>> On Thu, Jul 13, 2023 at 1:26=E2=80=AFPM Akhil P Oommen <quic_akhi=
-lpo@quicinc.com> wrote:
-> >>>>>>>>
-> >>>>>>>> On Fri, Jul 07, 2023 at 05:34:04AM +0300, Dmitry Baryshkov wrote=
-:
-> >>>>>>>>>
-> >>>>>>>>> On 07/07/2023 00:10, Rob Clark wrote:
-> >>>>>>>>>> From: Rob Clark <robdclark@chromium.org>
-> >>>>>>>>>>
-> >>>>>>>>>> There are cases where there are differences due to SoC integra=
-tion.
-> >>>>>>>>>> Such as cache-coherency support, and (in the next patch) e-fus=
-e to
-> >>>>>>>>>> speedbin mappings.
-> >>>>>>>>>
-> >>>>>>>>> I have the feeling that we are trying to circumvent the way DT =
-works. I'd
-> >>>>>>>>> suggest adding explicit SoC-compatible strings to Adreno bindin=
-gs and then
-> >>>>>>>>> using of_device_id::data and then of_device_get_match_data().
-> >>>>>>>>>
-> >>>>>>>> Just thinking, then how about a unique compatible string which w=
-e match
-> >>>>>>>> to identify gpu->info and drop chip-id check completely here?
-> >>>>>>>
-> >>>>>>> Ok, I think we could do this, so something like:
-> >>>>>>>
-> >>>>>>>    compatible =3D "qcom,sm4350-adreno-619.0", qcom,adreno-619.0",=
- "qcom,adreno"
-> >>>>>>>
-> >>>>>>> ?
-> >>>>>>>
-> >>>>>>> It looks like we don't have gpu dt bits upstream yet for either s=
-m4350
-> >>>>>>> or sm6375, so I suppose we could get away with this change
-> >>>>>>
-> >>>>>> I think we can even skip the 619.0 part in the SoC compat string.
-> >>>>>> So it will be:
-> >>>>>>
-> >>>>>> compatible =3D "qcom,sm4350-adreno", qcom,adreno-619.0", "qcom,adr=
-eno";
-> >>>>>>
-> >>>>>> In future we can drop the chipid part completely and handle that a=
-s a
-> >>>>>> part of SoC data:
-> >>>>>>
-> >>>>>> compatible =3D "qcom,sm4350-adreno", "qcom,adreno";
-> >>>>>>
-> >>>>>> With the driver knowing that sm4350-adreno means ADRENO_ID(6,1,9,0=
-)
-> >>>>>>
-> >>>>>
-> >>>>> I don't think we can do that, there are cases where the same SoC ha=
-d
-> >>>>> multiple revisions of adreno.
-> >>>>
-> >>>> Is that the case for the production versions of the SoC? In other
-> >>>> subsystems what we usually do is that we add support only for the la=
-test
-> >>>> SoC revision (which would probably mean the latest GPU patch revisio=
-n).
-> >>>> Previous GPU revisions can be added in the following way (pure examp=
-le):
-> >>>>
-> >>>> qcom,sm4350-adreno -> 6,1,9,1 // assuming v2.0 or v1.1 is the commer=
-cial
-> >>>> sample
-> >>>> qcom,sm4350-v1-adreno -> 6,1,9,0
-> >>>>
-> >>>
-> >>> My recollection was that nexus4 shipped with an early version of 8064
-> >>> which needed userspace workarounds that later 8064 did not.  Not sure
-> >>> if that is the only such example, but it is one that userspace needed
-> >>> to be aware of.
-> >>
-> >> Good question. I don't have nexus4, and both nexus7 and ifc6410 work f=
-ine.
-> >>
-> >> And this is a perfect use case for "qcom,apq8064-v1.1-adreno" compat s=
-tring.
-> >
-> > I no longer have a n4 that boots.. but if I did both it and the later
-> > ones should work properly if they expose the appropriate chip id
-> >
-> > I do still prefer parsing the chip-id out of the compatible.  It
-> > avoids needing separate table entries just to have a different
-> > chip-id.  Maybe the scheme that is used elsewhere makes sense when it
-> > is only the kernel that needs to be aware of the device-id.  And maybe
-> > we could just done matching based on compat-id in userspace as well,
-> > but (a) msm and freedreno pre-date dt, and (b) that ship has already
-> > sailed.
-> I think a per-soc dt would be the better approach..
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-The newer rev of apq8064 would need its own dt w/ compatible override
-in either case.  But if we continue with the current scheme parsing
-the compatible, we don't need an extra gpu table entry for it.
+Good news is that I realized series can be split after all. Bad news is that it
+is still a lot to go through.
 
-BR,
--R
+  drm/i915: Skip clflush after GPU writes on Meteorlake
 
-> We could probably solve the revision issue with a socid readout of
-> the silicon revision and override based on that?
->
-> Konrad
->
+This is based on what Fei found out from hardware architects. If we agree the
+the function this helper should achieve follow up is checking if other snoopable
+platforms are the same.
+
+  drm/i915: Split PTE encode between Gen12 and Meteorlake
+
+Not that much related but I feel we don't need to run impossible code on
+platforms before Meteorlake. Shouldn't be controversial.
+
+  drm/i915: Cache PAT index used by the driver
+
+This one shouldn't be controversial either. Just eliminates a pile of calls to
+i915_gem_get_pat_index().
+
+  drm/i915: Refactor PAT/object cache handling
+
+This is most code and the "table reversal" logic which makes i915 understands
+caching modes behind PAT indices.
+
+Review for taste and general "does it make sense" is needed here. Oh and extra
+care about boolean logic conversion as I was pulling out obj->user_pat_set from
+inside i915_gem_object_has_cache_level to the call sites.
+
+All magic "if user PAT is set assume the worst" are still left in with this
+patch.
+
+  drm/i915: Improve the vm_fault_gtt user PAT index restriction
+  drm/i915: Lift the user PAT restriction from gpu_write_needs_clflush
+  drm/i915: Lift the user PAT restriction from use_cpu_reloc
+  drm/i915: Refine the caching check in i915_gem_object_can_bypass_llc
+
+This bunch is what removes the "user PAT set special casing".
+
+Each of them probably have different reasons why the original cache level check
+was in them so as many extra pair of eyes as possible are needed to verify both
+that I have correctly understood what the underlying reasons why each were
+there, and that I haven't fumbled the logic on the rudimentary level. Or perhaps
+that it is possible to simplify this further. By maybe using more of
+I915_BO_CACHE_COHERENT_FOR_... flags, or something.
+
+Overall, a lot of scrutiny is needed for most of the series since it is
+complicated and I am juggling multiple things.
+
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+
+Tvrtko Ursulin (8):
+  drm/i915: Skip clflush after GPU writes on Meteorlake
+  drm/i915: Split PTE encode between Gen12 and Meteorlake
+  drm/i915: Cache PAT index used by the driver
+  drm/i915: Refactor PAT/object cache handling
+  drm/i915: Improve the vm_fault_gtt user PAT index restriction
+  drm/i915: Lift the user PAT restriction from gpu_write_needs_clflush
+  drm/i915: Lift the user PAT restriction from use_cpu_reloc
+  drm/i915: Refine the caching check in i915_gem_object_can_bypass_llc
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    |  67 ++++++---
+ drivers/gpu/drm/i915/gem/i915_gem_domain.h    |   5 +-
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  11 +-
+ drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  12 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 135 ++++++++++--------
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  11 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 116 +--------------
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |   9 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  46 +++---
+ drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   2 +-
+ .../drm/i915/gem/selftests/huge_gem_object.c  |   2 +-
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   5 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |   4 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  40 ++++--
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  33 ++---
+ drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c     |   4 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   3 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |  11 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   6 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   4 +-
+ drivers/gpu/drm/i915/gt/intel_timeline.c      |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   2 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    |   9 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c      |  14 +-
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |   5 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |   8 +-
+ drivers/gpu/drm/i915/i915_cache.c             |  93 ++++++++++++
+ drivers/gpu/drm/i915/i915_cache.h             |  81 +++++++++++
+ drivers/gpu/drm/i915/i915_debugfs.c           |  53 +------
+ drivers/gpu/drm/i915/i915_driver.c            |   5 +
+ drivers/gpu/drm/i915/i915_drv.h               |   2 +
+ drivers/gpu/drm/i915/i915_gem.c               |  21 +--
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   8 +-
+ drivers/gpu/drm/i915/i915_pci.c               |  84 ++++++-----
+ drivers/gpu/drm/i915/i915_perf.c              |   2 +-
+ drivers/gpu/drm/i915/intel_device_info.h      |   6 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c     |   5 +-
+ .../gpu/drm/i915/selftests/i915_gem_evict.c   |   8 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  11 +-
+ drivers/gpu/drm/i915/selftests/igt_spinner.c  |   2 +-
+ .../drm/i915/selftests/intel_memory_region.c  |   4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  14 +-
+ 48 files changed, 513 insertions(+), 469 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_cache.c
+ create mode 100644 drivers/gpu/drm/i915/i915_cache.h
+
+-- 
+2.39.2
+
