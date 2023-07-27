@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2073C764448
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 05:23:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5AA76447B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 05:38:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBEF10E0D3;
-	Thu, 27 Jul 2023 03:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0126710E4D7;
+	Thu, 27 Jul 2023 03:38:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C35B610E0D3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 03:23:27 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RBGHh59x2zLns3;
- Thu, 27 Jul 2023 11:20:48 +0800 (CST)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B75410E4D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 03:38:44 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RBGcP5K93zNmTG;
+ Thu, 27 Jul 2023 11:35:17 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
  (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 27 Jul
- 2023 11:23:23 +0800
+ 2023 11:38:40 +0800
 From: Ruan Jinjie <ruanjinjie@huawei.com>
-To: <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
- <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
- <marijn.suijten@somainline.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <quic_jesszhan@quicinc.com>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] drm/msm: Remove redundant DRM_DEV_ERROR()
-Date: Thu, 27 Jul 2023 11:24:07 +0000
-Message-ID: <20230727112407.2916029-1-ruanjinjie@huawei.com>
+To: <tomi.valkeinen@ideasonboard.com>, <airlied@gmail.com>, <daniel@ffwll.ch>, 
+ <laurent.pinchart@ideasonboard.com>, <u.kleine-koenig@pengutronix.de>,
+ <guozhengkui@vivo.com>, <dianders@chromium.org>, <yuancan@huawei.com>,
+ <arnd@arndb.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH -next] drm: omapdrm: dss: Remove redundant DSSERR()
+Date: Thu, 27 Jul 2023 11:39:23 +0000
+Message-ID: <20230727113923.3093070-1-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  kwepemi500008.china.huawei.com (7.221.188.139)
 X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,41 +52,71 @@ Cc: ruanjinjie@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no need to call the DRM_DEV_ERROR() function directly to print
+There is no need to call the DSSERR() function directly to print
 a custom message when handling an error from platform_get_irq() function
 as it is going to display an appropriate error message
 in case of a failure.
 
 Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 1 -
- drivers/gpu/drm/msm/msm_gpu.c            | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dispc.c | 1 -
+ drivers/gpu/drm/omapdrm/dss/dsi.c   | 4 +---
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c | 1 -
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c | 1 -
+ 4 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index b6201ae5b42e..700df4040e9a 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -417,7 +417,6 @@ static int mdp4_kms_init(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
+index c26aab4939fa..9209103f5dc5 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dispc.c
++++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
+@@ -4779,7 +4779,6 @@ static int dispc_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	dispc->irq = platform_get_irq(dispc->pdev, 0);
+ 	if (dispc->irq < 0) {
+-		DSSERR("platform_get_irq failed\n");
+ 		r = -ENODEV;
+ 		goto err_free;
+ 	}
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index ea63c64d3a1a..63cfe0776788 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -4935,10 +4935,8 @@ static int dsi_probe(struct platform_device *pdev)
+ 		return PTR_ERR(dsi->pll_base);
+ 
+ 	dsi->irq = platform_get_irq(pdev, 0);
+-	if (dsi->irq < 0) {
+-		DSSERR("platform_get_irq failed\n");
++	if (dsi->irq < 0)
+ 		return -ENODEV;
+-	}
+ 
+ 	r = devm_request_irq(dev, dsi->irq, omap_dsi_irq_handler,
+ 			     IRQF_SHARED, dev_name(dev), dsi);
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+index a26b77d99d52..d4fd6c680db3 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
+@@ -782,7 +782,6 @@ static int hdmi4_probe(struct platform_device *pdev)
+ 
  	irq = platform_get_irq(pdev, 0);
  	if (irq < 0) {
- 		ret = irq;
--		DRM_DEV_ERROR(dev->dev, "failed to get irq: %d\n", ret);
- 		goto fail;
+-		DSSERR("platform_get_irq failed\n");
+ 		r = -ENODEV;
+ 		goto err_free;
  	}
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index e6611c683857..27c21ff8c4e5 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -756,7 +756,6 @@ static int hdmi5_probe(struct platform_device *pdev)
  
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 52db90e34ead..8a9bacc920eb 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -897,7 +897,6 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	gpu->irq = platform_get_irq(pdev, 0);
- 	if (gpu->irq < 0) {
- 		ret = gpu->irq;
--		DRM_DEV_ERROR(drm->dev, "failed to get irq: %d\n", ret);
- 		goto fail;
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+-		DSSERR("platform_get_irq failed\n");
+ 		r = -ENODEV;
+ 		goto err_free;
  	}
- 
 -- 
 2.34.1
 
