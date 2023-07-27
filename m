@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07477659E7
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:18:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0327659E9
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:18:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7076B10E1DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6CF10E5C8;
 	Thu, 27 Jul 2023 17:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7D0F10E1D6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:39 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id
- d2e1a72fcca58-686efb9ee0cso1214579b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:39 -0700 (PDT)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBAC710E1DD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:42 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-6862842a028so949322b3a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690478319; x=1691083119;
+ d=chromium.org; s=google; t=1690478322; x=1691083122;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=B+sJqO38e2gNSysz3Tl3WNQ34X1K+Pprq+XQpM/wPpA=;
- b=XR79+iJg38TdqRqVksssPvqJCfRVppUDJ0SCoIzYZz9E7npJ3QbCrYBR0YtCH1Iwpz
- bh8ddXSBmExnRlwhNEaqyewsrL8WmSIwwp8P2pEYNXLOnclbvGHTfebTxUYiViXnkb3Q
- cJhn2pL+oUoG+Carw6pl4TGtM19+hj0XsDhTo=
+ bh=ZukR9CSekCYtKTsN6DxagPJbUeR97eyTc3MZVOC6Wus=;
+ b=LehozSB0PkZqslyfeU+81VdLb4xGnBIE9Q91g2SB5mCOztpPoV+jzWyeJ3K7cQ3TXL
+ 2NeRYQzg+J1oJlSjDSDkbLzzQnsFrlOGlm3rILR8Ze2X14LBOa3eZxq0zu4F64wbkVFX
+ yH2Xb4Cezq3WnmRWxZ9n0P2ESlXBy8TiW2D0w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690478319; x=1691083119;
+ d=1e100.net; s=20221208; t=1690478322; x=1691083122;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B+sJqO38e2gNSysz3Tl3WNQ34X1K+Pprq+XQpM/wPpA=;
- b=Art+66JXdMkt+9ylTV9BFu6cgQeFqc1ubhWIB1oK31FvcBSFoGKSn6zOqZWLX8AULd
- ivn8d9/vO1ped+rrO3JKQuEHRna/HGKR3HY98Gbgjn4E7Az6z0TQwJB4FloNtew2iT1w
- RJNLpnpiCQ5kw5+VwA29DybdEqxsjWdYbpRvGkMeq3m08bfCeEv8VpW83XDck1KTTiEs
- OwYo395S/PfCsDJRVMIh8SmV4w51c12DB8pIkQyM7a2KqpQ01yMIOEeSRGSWVio+3wqH
- 5Ik3GD6DjwBQ4jaGhB9O1QguB+pDcyjaTx8m00Z05uHMWqm5IHW/NaIh/ogDbHZ9YdQZ
- Dzog==
-X-Gm-Message-State: ABy/qLaTay4jJZCQTaHzK30vT5fzcvFDd0sWTgZnJnIC8IzmquCicPxs
- yJpu3nL8bKGOK0TfVNJd4alA1Q==
-X-Google-Smtp-Source: APBJJlEtdcPHvIy7yXOPJnhlhZ0fZ1vrgQ0KPFYytG6arm/TebgKO/M3EPsrsa35yfXcgeHGVYzcKw==
-X-Received: by 2002:a05:6a21:6d88:b0:134:4f86:7966 with SMTP id
- wl8-20020a056a216d8800b001344f867966mr7749482pzb.9.1690478319489; 
- Thu, 27 Jul 2023 10:18:39 -0700 (PDT)
+ bh=ZukR9CSekCYtKTsN6DxagPJbUeR97eyTc3MZVOC6Wus=;
+ b=UXhUIoz1ws9JkCY/vwfee8oeVKB6EfgSFkbpeZS+w6Yot7HpQ5T+uh/Qi0wCkF3eOg
+ 6xVXIhEyhVYGnOjJMIOoABz86qfTgz/crizP5/Gw2qI5yfxheCnTJgfyisve19Is1gwP
+ ORLs+cBL2w6WF/OhH72lA+Nfl1RJudwUYXo55rKUmQuyn+9sLYuGaffA4o2GFufBC3Ih
+ dkypThJUBzwgYYR6pra/aHX6d76Ip3Zz0LkdfA7p5UJwR/R0POoTB6QyRKntzfzRiEAM
+ Nr1J63Li6S32dmpxSrYn4r5QXc5iK8RSfBI28Qiu0JSjWleC3J4exiuTM9E8wLbjMEDc
+ K6bA==
+X-Gm-Message-State: ABy/qLY1fXtGUgjidnQFgMOj33l3Qz71y5PS19x6zWnos8S2LpFjB3uN
+ DY7mbb8dWzdfTUxfVWGJZHeHMg==
+X-Google-Smtp-Source: APBJJlFU5IsivI5lKrmtYzK327WL6rQ+XVbv/LZPTH5t4heMSRWyV0pSqGzifMaP7GSZQORTiy8paw==
+X-Received: by 2002:a05:6a20:1442:b0:134:6aff:ee6c with SMTP id
+ a2-20020a056a20144200b001346affee6cmr6130826pzi.41.1690478322382; 
+ Thu, 27 Jul 2023 10:18:42 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:2339:954b:b98f:611a])
  by smtp.gmail.com with ESMTPSA id
- 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.37
+ 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 10:18:38 -0700 (PDT)
+ Thu, 27 Jul 2023 10:18:41 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -61,10 +61,9 @@ To: Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 04/11] of: property: fw_devlink: Add a devlink for panel
- followers
-Date: Thu, 27 Jul 2023 10:16:31 -0700
-Message-ID: <20230727101636.v4.4.Ibf8e1342b5b7906279db2365aca45e6253857bb3@changeid>
+Subject: [PATCH v4 05/11] HID: i2c-hid: Switch to SYSTEM_SLEEP_PM_OPS()
+Date: Thu, 27 Jul 2023 10:16:32 -0700
+Message-ID: <20230727101636.v4.5.Ib2a2865bd3c0b068432259dfc7d76cebcbb512be@changeid>
 X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 In-Reply-To: <20230727171750.633410-1-dianders@chromium.org>
 References: <20230727171750.633410-1-dianders@chromium.org>
@@ -91,50 +90,45 @@ Cc: Douglas Anderson <dianders@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inform fw_devlink of the fact that a panel follower (like a
-touchscreen) is effectively a consumer of the panel from the purposes
-of fw_devlink.
+The SYSTEM_SLEEP_PM_OPS() allows us to get rid of '#ifdef
+CONFIG_PM_SLEEP', as talked about in commit 1a3c7bb08826 ("PM: core:
+Add new *_PM_OPS macros, deprecate old ones").
 
-NOTE: this patch isn't required for correctness but instead optimizes
-probe order / helps avoid deferrals.
+This change is expected to have no functional effect.
 
-Acked-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-Since this is so small, I'd presume it's OK for it to go through a DRM
-tree with the proper Ack. That being said, this patch is just an
-optimization and thus it could land completely separately from the
-rest and they could all meet up in mainline.
 
-(no changes since v2)
+(no changes since v1)
 
-Changes in v2:
-- ("Add a devlink for panel followers") new for v2.
+ drivers/hid/i2c-hid/i2c-hid-core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
- drivers/of/property.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index ddc75cd50825..cf8dacf3e3b8 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -1266,6 +1266,7 @@ DEFINE_SIMPLE_PROP(pwms, "pwms", "#pwm-cells")
- DEFINE_SIMPLE_PROP(resets, "resets", "#reset-cells")
- DEFINE_SIMPLE_PROP(leds, "leds", NULL)
- DEFINE_SIMPLE_PROP(backlight, "backlight", NULL)
-+DEFINE_SIMPLE_PROP(panel, "panel", NULL)
- DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
- DEFINE_SUFFIX_PROP(gpio, "-gpio", "#gpio-cells")
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index efbba0465eef..19d985c20a5c 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -1085,7 +1085,6 @@ void i2c_hid_core_shutdown(struct i2c_client *client)
+ }
+ EXPORT_SYMBOL_GPL(i2c_hid_core_shutdown);
  
-@@ -1354,6 +1355,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
- 	{ .parse_prop = parse_resets, },
- 	{ .parse_prop = parse_leds, },
- 	{ .parse_prop = parse_backlight, },
-+	{ .parse_prop = parse_panel, },
- 	{ .parse_prop = parse_gpio_compat, },
- 	{ .parse_prop = parse_interrupts, },
- 	{ .parse_prop = parse_regulators, },
+-#ifdef CONFIG_PM_SLEEP
+ static int i2c_hid_core_suspend(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+@@ -1138,10 +1137,9 @@ static int i2c_hid_core_resume(struct device *dev)
+ 
+ 	return hid_driver_reset_resume(hid);
+ }
+-#endif
+ 
+ const struct dev_pm_ops i2c_hid_core_pm = {
+-	SET_SYSTEM_SLEEP_PM_OPS(i2c_hid_core_suspend, i2c_hid_core_resume)
++	SYSTEM_SLEEP_PM_OPS(i2c_hid_core_suspend, i2c_hid_core_resume)
+ };
+ EXPORT_SYMBOL_GPL(i2c_hid_core_pm);
+ 
 -- 
 2.41.0.487.g6d72f3e995-goog
 
