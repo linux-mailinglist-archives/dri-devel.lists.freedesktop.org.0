@@ -1,75 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A09B765849
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:07:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DCA76584D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:08:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91CD810E5B8;
-	Thu, 27 Jul 2023 16:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEA0410E5BC;
+	Thu, 27 Jul 2023 16:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F1C10E5B8
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690474057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Su0g10iLHEY482b8Otv4NozvAkFc0iayLWU1qcjgX8E=;
- b=ZQruNRK4YmW4MuVvvi2wPeAWHeP3Apyl5ilIXvPVGH2ANfi47vlIq2Y6y6mTdOOMtF5iBG
- t29JhjNg+/Aayrq32skOvQEWnZc43rQUlGj2O47hbp08aaOLcrAPfLQzuJF1m+3W25ZGVD
- gzhLiO/xNS8T7/nCj2mwLVmmtNKHMGw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-253-vac0bwOPOdmJKx7k8SxwRw-1; Thu, 27 Jul 2023 12:07:34 -0400
-X-MC-Unique: vac0bwOPOdmJKx7k8SxwRw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3fd2dec82b7so6645875e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:07:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690474053; x=1691078853;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Su0g10iLHEY482b8Otv4NozvAkFc0iayLWU1qcjgX8E=;
- b=cq59Kr16afnRe3BPTj1Pi5swCz5WRzwsHMXADiRx2TNDbGySYSFnrF9lHJukZBb4Dx
- 5ASWXXmrVVRzlgeRX/FzjuyX0S5n0zZo6tqtGUe8UlHpGqZWbtOWiVylpQwKUDw5CqHC
- LEuEW4mKzPVZClf/wn/yTY8/44cbRkhBTsjUShMx8zvH6GnVZd5KyP13FDK1/By/Y093
- +bQ/nzGjBIQRlF1YkN+qg7bbOzysMaLz4DBbE0ggMsYPkv3bidCqORkeIqZ6EEYo4R/C
- StqdXm3lPyKNJZhyBMf+ScR7mceNYb93AYhmEkiaNfwpyD9w3OMzX5Lj1UqSbhYYkFSG
- 5QLw==
-X-Gm-Message-State: ABy/qLaF5QMthlx8HjS1Vx7EAG9cZC6ySgy+SlMesL65nqrGOpxR8o0w
- 4Ymdj/yrmVzZrPIlkXUIbKmx2BJWi8XorYkJ9KUzLvTQZIu2yrusrum9MZlK1mq0d+GFX33B6bp
- qkFE2pIGDn06gJbWMVIlWebDfQ22s
-X-Received: by 2002:a5d:458a:0:b0:317:6965:ef4d with SMTP id
- p10-20020a5d458a000000b003176965ef4dmr2108305wrq.56.1690474053147; 
- Thu, 27 Jul 2023 09:07:33 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlECAlh3awhpT8gJi2UhFn5aOknusQVfcori49ZdU3m0m/tZnHwiyfBU4kPrb/SeWqKEEpMn5w==
-X-Received: by 2002:a5d:458a:0:b0:317:6965:ef4d with SMTP id
- p10-20020a5d458a000000b003176965ef4dmr2108291wrq.56.1690474052761; 
- Thu, 27 Jul 2023 09:07:32 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t4-20020a0560001a4400b003176053506fsm2388126wry.99.2023.07.27.09.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 09:07:32 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, Arthur Grillo <arthurgrillo@riseup.net>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/tests: Remove CONFIG_DRM_FBDEV_EMULATION on
- .kunitconfig
-In-Reply-To: <86fcd546-c2db-41ca-a087-74c3cd5ce341@app.fastmail.com>
-References: <20230726220325.278976-1-arthurgrillo@riseup.net>
- <86fcd546-c2db-41ca-a087-74c3cd5ce341@app.fastmail.com>
-Date: Thu, 27 Jul 2023 18:07:31 +0200
-Message-ID: <87lef1s5h8.fsf@minerva.mail-host-address-is-not-set>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 823B810E5BA;
+ Thu, 27 Jul 2023 16:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=EQJuMAJSGL6ttEyLaOeJWDVPtC4nPLTazz3w/7T8YEs=; b=iZehVCeZ/aZdcCVwzxFikSCFG2
+ BcyLCLf+Laa1fVdpy4XV/VOvaoENHb9CChj/q9Nbi+q/QYgolctVy9YrQTzdMK6sojLZrCxtnne+M
+ kLLiOnVxckYo2U4KrTm/b57/++cHeaWWWEvO2zHkZRbMtEszjsJWb/a/JAUXA6IbIwH+351cbnkbg
+ L/5f3uTSd09dZaI8/GUGcXz075KfcLYaeFbHxxfcyVZZlF65Qkaw3jPOwr/TucEFgd1zvUSbt+EFL
+ tTPUvxSiFtTqJBvmZziCuogNelVApPFCxDFbOJe8m25U13n4nPRj4Tu3FRF0/TE87Z7x6r1CrYNDF
+ SQkGv7tQ==;
+Received: from [187.36.235.191] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qP3XI-004ilg-WB; Thu, 27 Jul 2023 18:08:21 +0200
+Message-ID: <2b3d9647-b1db-cbb6-2421-b12ec3482eae@igalia.com>
+Date: Thu, 27 Jul 2023 13:08:13 -0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 0/2] Avoid -Wconstant-logical-operand in
+ nsecs_to_jiffies_timeout()
+Content-Language: en-US
+To: Nathan Chancellor <nathan@kernel.org>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, emma@anholt.net, mwen@igalia.com
+References: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-0-36ed8fc8faea@kernel.org>
+From: Maira Canal <mcanal@igalia.com>
+In-Reply-To: <20230718-nsecs_to_jiffies_timeout-constant-logical-operand-v1-0-36ed8fc8faea@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,82 +57,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, Helge Deller <deller@gmx.de>,
- mairacanal@riseup.net, andrealmeid@riseup.net
+Cc: trix@redhat.com, intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ ndesaulniers@google.com, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, justinstitt@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
+On 7/18/23 18:44, Nathan Chancellor wrote:
+> Hi all,
+> 
+> A proposed update to clang's -Wconstant-logical-operand [1] to warn when
+> the left hand side is a constant as well now triggers with the modulo
+> expression in nsecs_to_jiffies_timeout() when NSEC_PER_SEC is not a
+> multiple of HZ, such as CONFIG_HZ=300:
+> 
+>    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+>      189 |         if (NSEC_PER_SEC % HZ &&
+>          |             ~~~~~~~~~~~~~~~~~ ^
+>    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: use '&' for a bitwise operation
+>      189 |         if (NSEC_PER_SEC % HZ &&
+>          |                               ^~
+>          |                               &
+>    drivers/gpu/drm/i915/gem/i915_gem_wait.c:189:24: note: remove constant to silence this warning
+>    1 warning generated.
+> 
+>    In file included from drivers/gpu/drm/v3d/v3d_debugfs.c:12:
+>    drivers/gpu/drm/v3d/v3d_drv.h:343:24: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+>      343 |         if (NSEC_PER_SEC % HZ &&
+>          |             ~~~~~~~~~~~~~~~~~ ^
+>    drivers/gpu/drm/v3d/v3d_drv.h:343:24: note: use '&' for a bitwise operation
+>      343 |         if (NSEC_PER_SEC % HZ &&
+>          |                               ^~
+>          |                               &
+>    drivers/gpu/drm/v3d/v3d_drv.h:343:24: note: remove constant to silence this warning
+>    1 warning generated.
+> 
+> These patches add an explicit comparison to zero to make the
+> expression a boolean, which clears up the warning.
+> 
+> The patches have no real dependency on each other but I felt like they
+> made send together since it is the same code.
+> 
+> If these could go into mainline sooner rather than later to avoid
+> breaking builds that can hit this with CONFIG_WERROR, that would be
+> nice, but I won't insist since I don't think our own CI has builds that
+> has those conditions, but others might.
+> 
+> ---
+> Nathan Chancellor (2):
+>        drm/v3d: Avoid -Wconstant-logical-operand in nsecs_to_jiffies_timeout()
+>        drm/i915: Avoid -Wconstant-logical-operand in nsecs_to_jiffies_timeout()
 
-> On Thu, Jul 27, 2023, at 00:03, Arthur Grillo wrote:
->> Using the `kunit_tool` with the command:
->>
->> tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/tests/
->>
->> Lead to this error[0]. Fix it by expliciting removing the
->> CONFIG_DRM_FBDEV_EMULATION.
->>
->> [0]
->> ERROR:root:
->> WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
->>   Depends on [n]: VT [=n] && FB_CORE [=y] && !UML [=y]
->>   Selected by [y]:
->>   - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM [=y] && !EXPERT [=n]
->>
->
-> I think that's a bug in the Kconfig files that should be fixed
-> by enforcing the correct set of dependencies. I have not encountered
-> this in my randconfig builds (with a lot of other fixes applied)
->
-> In linux-next, CONFIG_VT cannot be disabled if CONFIG_EXPERT=n,
-> so this does not happen.
->
+Applied both patches to drm-misc/drm-misc-next!
 
->> diff --git a/drivers/gpu/drm/tests/.kunitconfig 
->> b/drivers/gpu/drm/tests/.kunitconfig
->> index 6ec04b4c979d..c50b5a12faae 100644
->> --- a/drivers/gpu/drm/tests/.kunitconfig
->> +++ b/drivers/gpu/drm/tests/.kunitconfig
->> @@ -1,3 +1,4 @@
->>  CONFIG_KUNIT=y
->>  CONFIG_DRM=y
->>  CONFIG_DRM_KUNIT_TEST=y
->> +CONFIG_DRM_FBDEV_EMULATION=n
->>
->> base-commit: 45b58669e532bcdfd6e1593488d1f23eabd55428
->
-> Changing the local config should not be required after fixing
-> the Kconfig files.
->
+Best Regards,
+- Maíra
 
-CONFIG_VT can only be disabled if CONFIG_EXPERT=y but I also see that it
-does not default to 'y' if !UML. Also FRAMEBUFFER_CONSOLE depends on !UML
-but DRM_FBDEV_EMULATION selects FRAMEBUFFER_CONSOLE if !EXPERT.
-
-Maybe we should include !UML in that condition to? Something like this:
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 0d499669d653..734332f222ea 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -135,7 +135,7 @@ config DRM_DEBUG_MODESET_LOCK
- config DRM_FBDEV_EMULATION
-        bool "Enable legacy fbdev support for your modesetting driver"
-        depends on DRM
--       select FRAMEBUFFER_CONSOLE if !EXPERT
-+       select FRAMEBUFFER_CONSOLE if (!EXPERT && !UML)
-        select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
-        default y
-        help
-
-
-With that I'm able to run the DRM kunit tests wihtout the mentioned
-problem. But I'm not sure if that is the correct fix or not.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> 
+>   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 2 +-
+>   drivers/gpu/drm/v3d/v3d_drv.h            | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> ---
+> base-commit: fdf0eaf11452d72945af31804e2a1048ee1b574c
+> change-id: 20230718-nsecs_to_jiffies_timeout-constant-logical-operand-4a944690f3e9
+> 
+> Best regards,
