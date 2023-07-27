@@ -1,72 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D65D764815
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 09:12:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFC0764690
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 08:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2EB310E4E8;
-	Thu, 27 Jul 2023 07:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE5A10E0E2;
+	Thu, 27 Jul 2023 06:15:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4853E10E4DB;
- Thu, 27 Jul 2023 05:36:40 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36R5FnFU027445; Thu, 27 Jul 2023 05:36:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=LnO6JVSt8v4KBBrvn0hKrjbS5yc5Y5fnC+BDhyBGdv4=;
- b=Ers8qz/M4XD2XWeBZ4t4RRfcPqQrtuy0tPDwm1aVRlEkdSQfCeWB9D14M5s2GKWcvtvB
- ejYg2LiZ1FtXS3zXYbzK8F2t0EA0c9RUECkg5nOWAfGsTlVI1BPB0hzBUfSuVzVlFJ6p
- 4A1Y+k8pHhwrKu3MPTlfK/cak0TFBZvAyQPPscXV/jGTsozlpYRo0Az1tROMNgBpVv+h
- it1F1mv4PnZWzVhR/pWnf5mwt9Qg0hmmPGhhQR3fqvVRD8xumW+owCSkjcCW42slgu4w
- UXNr091WFXd8iSa47K29vzzc7r0U3ABg9MZH/jnM66J6ujxwJI74k/rJsBF5NAc8L203 kg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s3b0g0q3f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jul 2023 05:36:30 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36R5aT1t009107
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Jul 2023 05:36:29 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Wed, 26 Jul 2023 22:36:19 -0700
-Date: Thu, 27 Jul 2023 11:06:16 +0530
-From: Pavan Kondeti <quic_pkondeti@quicinc.com>
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>
-Subject: Re: [PATCH] dt-bindings: qcom: Update RPMHPD entries for some SoCs
-Message-ID: <edac596d-2b3d-4632-9468-4af863aff6f4@quicinc.com>
-References: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C691810E0DC;
+ Thu, 27 Jul 2023 06:15:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 138F561D30;
+ Thu, 27 Jul 2023 06:15:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA23C433C9;
+ Thu, 27 Jul 2023 06:15:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690438530;
+ bh=0avH5gvbw67Ci8LFP+nYOnJ5qQ+S+HY6Dkvu0dVqhts=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=rMJhdGGgF+AI7bDWkmjrp93bwc1Je+98YwrKdWl1osVO+ouwoXUVtMpb+en7J+nmd
+ lh97XOr+1GWPY+h5JkBnHn2sz00vpvPrltwh6tAGUugdtaSiUGIDGmKjxg7HiLRi6K
+ ADw5OHFKYNkGGL12mdbNZtlfk8GvTHvRSee+yEAa3syZK0DHjXD0Zfr2Fc3M/ZCnku
+ TlnjLYh42zSExLCFsaedek+FU6Ap7Q0WTqvwBidnRs2XTfnWnvM6uKHNGPLnZ1EmAv
+ qAH+KIXBx0Pe5XZxLF34wUhJgnJymfXBOS18NG1x+zmNrIh+45+R+gqYZ/eVlhyMOc
+ OFXnuVSONyurg==
+Received: (nullmailer pid 389051 invoked by uid 1000);
+ Thu, 27 Jul 2023 06:15:20 -0000
 Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Rohit Agarwal <quic_rohiagar@quicinc.com>
 In-Reply-To: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 57CqSPJ2zRgDhBnuohIC8xe-8JXgN930
-X-Proofpoint-ORIG-GUID: 57CqSPJ2zRgDhBnuohIC8xe-8JXgN930
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-26_08,2023-07-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0 mlxlogscore=722
- mlxscore=0 adultscore=0 clxscore=1011 lowpriorityscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307270049
-X-Mailman-Approved-At: Thu, 27 Jul 2023 07:11:21 +0000
+References: <1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com>
+Message-Id: <169043852071.389034.2408155277675671058.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: qcom: Update RPMHPD entries for some SoCs
+Date: Thu, 27 Jul 2023 00:15:20 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,7 +70,8 @@ Cc: ulf.hansson@linaro.org, mturquette@baylibre.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023 at 10:21:10AM +0530, Rohit Agarwal wrote:
+
+On Thu, 27 Jul 2023 10:21:10 +0530, Rohit Agarwal wrote:
 > Update the RPMHPD references with new bindings defined in rpmhpd.h
 > for Qualcomm SoCs SM8[2345]50.
 > 
@@ -121,34 +97,36 @@ On Thu, Jul 27, 2023 at 10:21:10AM +0530, Rohit Agarwal wrote:
 >  Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml  | 5 +++--
 >  18 files changed, 44 insertions(+), 26 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
-> index d6774db..d6b81c0 100644
-> --- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
-> +++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml
-> @@ -83,6 +83,7 @@ examples:
->    - |
->      #include <dt-bindings/clock/qcom,rpmh.h>
->      #include <dt-bindings/power/qcom-rpmpd.h>
-> +    #include <dt-bindings/power/qcom,rpmhpd.h>
->      clock-controller@af00000 {
->        compatible = "qcom,sm8250-dispcc";
->        reg = <0x0af00000 0x10000>;
-> @@ -103,7 +104,7 @@ examples:
->        #clock-cells = <1>;
->        #reset-cells = <1>;
->        #power-domain-cells = <1>;
-> -      power-domains = <&rpmhpd SM8250_MMCX>;
-> +      power-domains = <&rpmhpd RPMHPD_MMCX>;
->        required-opps = <&rpmhpd_opp_low_svs>;
->      };
->  ...
 
-Does this file still need to include old header? The same is applicable
-to some of the other files in the patch also. 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-We also discussed on the other thread [1] to move the regulator level 
-definitions to new header. should this change be done after that, so that 
-we don't end up touching the very same files again?
+yamllint warnings/errors:
 
-[1]
-https://lore.kernel.org/all/a4zztrn6jhblozdswba7psqtvjt5l765mfr3yl4llsm5gsyqef@7x6q7yabydvm/
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dts:22:18: fatal error: dt-bindings/power/qcom,rpmhpd.h: No such file or directory
+   22 |         #include <dt-bindings/power/qcom,rpmhpd.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1500: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/1690433470-24102-1-git-send-email-quic_rohiagar@quicinc.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
