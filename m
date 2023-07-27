@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BA0765470
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 15:00:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52902765483
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 15:06:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E207610E577;
-	Thu, 27 Jul 2023 13:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D897A10E57F;
+	Thu, 27 Jul 2023 13:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2867310E57C
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 13:00:41 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-99bded9d93dso11777466b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 06:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1690462839; x=1691067639;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=P2/1faPsphhRk/mbQ/+XRjgbLbx1PRn0JYNVa9uID+k=;
- b=g7oQEOj54vzX/thxw02+QyWyGKLMJSfBV9AjgfCJKmOrdGyK4KWzhrPyVbfG03nZRg
- CTFkMuRtpC3hsGoLKJYs0LYdJCQxVV1MxS3Q5V6n/nk32GKFQulX29WAXwtnFMENtuMe
- xUCICjMVMjIFnexT6pNt8JJhf2+co0EQZnXHA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690462839; x=1691067639;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P2/1faPsphhRk/mbQ/+XRjgbLbx1PRn0JYNVa9uID+k=;
- b=fYFwV0MksFMAHMFreMNmVbJcFaLe9seDKRzmpkGkwpCQIy5LUQXbfPIueEWb15YCGB
- QkyjewTnSUFpS0UZqnHW258BhUVnU06P08QXVCPqt3qBHqObEhMMz6ndJIN+EGeaXkBg
- p1K4Zi9OD92ubp9ko+IeRaS5mqlkTIQMqHC/DNmmtrBbrIqw4QJoGVQKCvlYyV4j3gj+
- g2DfRX/jQ8Pan39pVLmOi8tdUHjYjzjYPvpsglHoCMY7E55/e2q2yzwDFAIDHmi0uqS+
- H/9QlCwy1/62YfYEUVgv6rtoF3t/mJ//+JMXNiHexG3YXfC5WqBsvmvi2ejRoIPYZW1A
- 04wA==
-X-Gm-Message-State: ABy/qLZDVEeXVFJWXxLVw3bZcKWQPxxG8Inb5Ke+eWF8EDbU60m46SYp
- qz+qLysj4Cb18km1X3d1wgEU8KN7A1moSjbYsMA=
-X-Google-Smtp-Source: APBJJlEMVwnscCIQANk8s0jbzq1Ab/Nb2drYhLpI7f+sy1UYR9ohCCYMGgThMe0O2LbrWD179EHaBg==
-X-Received: by 2002:a17:906:649e:b0:99b:c371:b2d3 with SMTP id
- e30-20020a170906649e00b0099bc371b2d3mr3571993ejm.5.1690462839184; 
- Thu, 27 Jul 2023 06:00:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- va16-20020a17090711d000b009894b476310sm744187ejb.163.2023.07.27.06.00.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 06:00:37 -0700 (PDT)
-Date: Thu, 27 Jul 2023 15:00:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PULL] drm-misc-next
-Message-ID: <ZMJqcwm7e/Fiq3o8@phenom.ffwll.local>
-References: <urs7omo5xnhglztxgwgsslws7duqfj4jhzrtppaenuvdh2lwuz@4htm4iiqhkep>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1031410E595
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 13:06:08 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F0577660713C;
+ Thu, 27 Jul 2023 14:06:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690463166;
+ bh=nIcE3OJoErKYJqW3Zt4z41Rw2r69rJ5mBgVnBs2oAAI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZfH3Abayj+SGW0mhS5XHz1ccb4ljxZJTvq6EtkyrcIWZrt+fDguM16ydkFL+ekzpp
+ gBtRCpPXb73ZXo0o41A3S6x+dgdIJx5xp/oIOcxkuLO8tW3HntEuq7Y1leZMvIMQSq
+ P633yZd5qj1cmUyYOk2yRC55Hkimy7DBCcWKmEecj1/NttH0Skjuqg6uZDR6w5wsWT
+ A/wdDIi1rD8OxvJR9hAFmCPcfc6iO4fiF0ZDVibqHiC9Y2RV60PJy/rMVTc1kEmAz+
+ 4VDJXI58TrlIZkEjdHQxQP8D2ZFX6dMbgyJf+NmYYFwbxfHarqGk8vf4v4/UFHyjKe
+ 7bPagrwjB650g==
+Message-ID: <8b9769f3-8a7c-3607-ca9a-09443cfbc9d9@collabora.com>
+Date: Thu, 27 Jul 2023 15:06:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <urs7omo5xnhglztxgwgsslws7duqfj4jhzrtppaenuvdh2lwuz@4htm4iiqhkep>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RESEND v6 09/11] drm/mediatek: gamma: Add support for
+ 12-bit LUT and MT8195
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>, chunkuang.hu@kernel.org
+References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
+ <20230727094633.22505-10-angelogioacchino.delregno@collabora.com>
+ <ec66e067-642e-1512-3e4b-b51065ccc75d@baylibre.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <ec66e067-642e-1512-3e4b-b51065ccc75d@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,276 +58,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 21, 2023 at 04:50:44PM +0200, Maxime Ripard wrote:
-> Hi,
+Il 27/07/23 13:03, Alexandre Mergnat ha scritto:
+> Hi Angelo !
 > 
-> Here's this week drm-misc-next PR
+> On 27/07/2023 11:46, AngeloGioacchino Del Regno wrote:
+>> Add support for 12-bit gamma lookup tables and introduce the first
+>> user for it: MT8195.
+>> While at it, also reorder the variables in mtk_gamma_set_common()
+>> and rename `lut_base` to `lut0_base` to improve readability.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 61 ++++++++++++++++++-----
+>>   1 file changed, 48 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c 
+>> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> index f1a0b18b6c1a..e0e2d2bdbf59 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+>> @@ -27,12 +27,20 @@
+>>   #define DISP_GAMMA_SIZE_VSIZE                GENMASK(12, 0)
+>>   #define DISP_GAMMA_BANK                0x0100
+>>   #define DISP_GAMMA_BANK_BANK                GENMASK(1, 0)
+>> +#define DISP_GAMMA_BANK_DATA_MODE            BIT(2)
+>>   #define DISP_GAMMA_LUT                0x0700
+>> +#define DISP_GAMMA_LUT1                0x0b00
 > 
-> Thanks!
-> Maxime
+> Is this offset generic to all MTK SoC which support this driver ?
 > 
-> The following changes since commit 36672dda2eb715af99e9abbcdc400d46598b691c:
+>> +/* For 10 bit LUT layout, R/G/B are in the same register */
+>>   #define DISP_GAMMA_LUT_10BIT_R            GENMASK(29, 20)
+>>   #define DISP_GAMMA_LUT_10BIT_G            GENMASK(19, 10)
+>>   #define DISP_GAMMA_LUT_10BIT_B            GENMASK(9, 0)
+>> +/* For 12 bit LUT layout, R/G are in LUT, B is in LUT1 */
 > 
->   drm/loongson: Remove a useless check in cursor_plane_atomic_async_check() (2023-07-13 01:24:42 +0800)
+> As I understood from the application processor registers (v0.4), R/G are in LUT, B 
+> is in LUT1 for 10bit and 12bit for MT8195. Can you check please to be sure ?
 > 
-> are available in the Git repository at:
-> 
->   ssh://git.freedesktop.org/git/drm/drm-misc tags/drm-misc-next-2023-07-21
-> 
-> for you to fetch changes up to d281eeaa4de2636ff0c8e6ae387bb07b50e5fcbb:
-> 
->   drm: adv7511: Fix low refresh rate register for ADV7533/5 (2023-07-21 13:37:18 +0200)
 
-Pulled, thanks.
--Sima
+That's right, but here I'm implying that 10-bit LUT is only for older SoCs, and
+all of them have got the same register layout with one LUT register for R, G, B,
+while all the new SoCs, which have got 12-bits LUT support, have got the new
+register layout with two LUT registers (and multiple banks).
+Infact, the MT8195 SoC was added here with 12-bits LUT support only (as the LUT
+parameters extraction is easily handled by the drm_color_lut_extract() function).
 
-> 
-> ----------------------------------------------------------------
-> drm-misc-next for 6.6:
-> 
-> UAPI Changes:
->   - syncobj: New DRM_IOCTL_SYNCOBJ_EVENTFD ioctl
-> 
-> Cross-subsystem Changes:
->   - Converge to use of_device_uevent()
-> 
-> Core Changes:
->   - GPU VA Manager
->   - improvements to make it clearer that drm_minor_type is uAPI
-> 
-> Driver Changes:
->   - ssd130x: Improve intermediate buffer size computation
->   - bridges:
->     - adv7511: Fix low refresh rate
->     - anx7625: Switch to macros instead of hardcoded values
->   - panel:
->     - ld9040: Backlight support, magic improved
-> 
-> ----------------------------------------------------------------
-> Bogdan Togorean (1):
->       drm: adv7511: Fix low refresh rate register for ADV7533/5
-> 
-> Chen-Yu Tsai (2):
->       drm/bridge: anx7625: Use common macros for DP power sequencing commands
->       drm/bridge: anx7625: Use common macros for HDCP capabilities
-> 
-> Danilo Krummrich (2):
->       drm: manager to keep track of GPUs VA mappings
->       drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-> 
-> Javier Martinez Canillas (1):
->       drm/ssd130x: Change pixel format used to compute the buffer size
-> 
-> Marek Vasut (1):
->       drm/panel: simple: Drop prepared_time
-> 
-> Miquel Raynal (2):
->       of: module: Export of_device_uevent()
->       gpu: host1x: Stop open-coding of_device_uevent()
-> 
-> Paul Cercueil (2):
->       drm/panel: ld9040: Use better magic values
->       drm/panel: ld9040: Register a backlight device
-> 
-> Rob Herring (2):
->       gpu/host1x: Explicitly include correct DT includes
->       drm: Explicitly include correct DT includes
-> 
-> Simon Ser (3):
->       drm/drv: use enum drm_minor_type when appropriate
->       drm/file: use explicit values for enum drm_minor_type
->       drm/syncobj: add IOCTL to register an eventfd
-> 
-> Steven Price (2):
->       drm: manager: Fix printk format for size_t
->       drm: debugfs: Silence warning from cast
-> 
->  Documentation/gpu/drm-mm.rst                       |   36 +
->  drivers/gpu/drm/Makefile                           |    1 +
->  drivers/gpu/drm/arm/display/komeda/komeda_dev.c    |    2 +-
->  drivers/gpu/drm/arm/malidp_drv.c                   |    1 +
->  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c       |    1 -
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   11 +-
->  drivers/gpu/drm/bridge/analogix/anx7625.c          |   12 +-
->  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c     |    3 +-
->  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |    1 -
->  drivers/gpu/drm/bridge/chipone-icn6211.c           |    2 +-
->  drivers/gpu/drm/bridge/display-connector.c         |    1 -
->  drivers/gpu/drm/bridge/fsl-ldb.c                   |    1 -
->  drivers/gpu/drm/bridge/imx/imx8qm-ldb.c            |    2 +-
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |    1 +
->  drivers/gpu/drm/bridge/lontium-lt9211.c            |    1 -
->  drivers/gpu/drm/bridge/lvds-codec.c                |    1 -
->  drivers/gpu/drm/bridge/nwl-dsi.c                   |    2 +-
->  drivers/gpu/drm/bridge/parade-ps8622.c             |    1 -
->  drivers/gpu/drm/bridge/samsung-dsim.c              |    3 +-
->  drivers/gpu/drm/bridge/simple-bridge.c             |    3 +-
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |    2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |    2 +-
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c              |    2 +-
->  drivers/gpu/drm/drm_debugfs.c                      |   40 +
->  drivers/gpu/drm/drm_drv.c                          |    8 +-
->  drivers/gpu/drm/drm_gem.c                          |    3 +
->  drivers/gpu/drm/drm_gpuva_mgr.c                    | 1725 ++++++++++++++++++++
->  drivers/gpu/drm/drm_internal.h                     |    2 +
->  drivers/gpu/drm/drm_ioctl.c                        |    2 +
->  drivers/gpu/drm/drm_mipi_dsi.c                     |    1 +
->  drivers/gpu/drm/drm_syncobj.c                      |  148 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c              |    2 +-
->  drivers/gpu/drm/exynos/exynos5433_drm_decon.c      |    2 +-
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c         |    1 -
->  drivers/gpu/drm/exynos/exynos_drm_dsi.c            |    3 +-
->  drivers/gpu/drm/exynos/exynos_drm_fimd.c           |    1 -
->  drivers/gpu/drm/exynos/exynos_drm_rotator.c        |    2 +-
->  drivers/gpu/drm/exynos/exynos_drm_scaler.c         |    2 +-
->  drivers/gpu/drm/exynos/exynos_hdmi.c               |    2 +-
->  drivers/gpu/drm/exynos/exynos_mixer.c              |    1 -
->  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |    2 +-
->  drivers/gpu/drm/imx/dcss/dcss-dev.c                |    5 +-
->  drivers/gpu/drm/imx/lcdc/imx-lcdc.c                |    2 +-
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |    2 +-
->  drivers/gpu/drm/ingenic/ingenic-ipu.c              |    2 +-
->  drivers/gpu/drm/lima/lima_drv.c                    |    3 +-
->  drivers/gpu/drm/logicvc/logicvc_drm.c              |    2 +-
->  drivers/gpu/drm/mcde/mcde_drv.c                    |    2 +-
->  drivers/gpu/drm/mediatek/mtk_disp_aal.c            |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c          |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_color.c          |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c          |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_merge.c          |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |    3 +-
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |    3 +-
->  drivers/gpu/drm/mediatek/mtk_dpi.c                 |    1 -
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |    1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c             |    3 +-
->  drivers/gpu/drm/mediatek/mtk_ethdr.c               |    2 +-
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c            |    3 +-
->  drivers/gpu/drm/meson/meson_drv.h                  |    1 -
->  drivers/gpu/drm/meson/meson_dw_hdmi.c              |    3 +-
->  drivers/gpu/drm/meson/meson_dw_mipi_dsi.c          |    3 +-
->  drivers/gpu/drm/meson/meson_encoder_dsi.c          |    1 -
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c         |    4 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |    2 +
->  drivers/gpu/drm/msm/dp/dp_audio.c                  |    2 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c                 |    2 +-
->  drivers/gpu/drm/msm/hdmi/hdmi.c                    |    2 +
->  drivers/gpu/drm/msm/hdmi/hdmi_phy.c                |    3 +-
->  drivers/gpu/drm/msm/msm_mdss.c                     |    2 +
->  drivers/gpu/drm/mxsfb/lcdif_drv.c                  |    1 -
->  drivers/gpu/drm/panel/panel-abt-y030xx067a.c       |    3 +-
->  drivers/gpu/drm/panel/panel-auo-a030jtn01.c        |    2 +-
->  drivers/gpu/drm/panel/panel-boe-himax8279d.c       |    1 -
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |    1 -
->  drivers/gpu/drm/panel/panel-dsi-cm.c               |    2 +-
->  drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c  |    1 -
->  .../gpu/drm/panel/panel-feiyang-fy07024di26a30d.c  |    2 +-
->  drivers/gpu/drm/panel/panel-himax-hx8394.c         |    2 +-
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c       |    3 +-
->  drivers/gpu/drm/panel/panel-ilitek-ili9341.c       |    2 +-
->  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      |    2 +-
->  drivers/gpu/drm/panel/panel-innolux-ej030na.c      |    3 +-
->  drivers/gpu/drm/panel/panel-innolux-p079zca.c      |    1 -
->  drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   |    2 +-
->  drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c |    1 -
->  drivers/gpu/drm/panel/panel-lvds.c                 |    2 +-
->  .../gpu/drm/panel/panel-magnachip-d53e6ea8966.c    |    1 -
->  drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c   |    2 +-
->  drivers/gpu/drm/panel/panel-newvision-nv3051d.c    |    2 +-
->  drivers/gpu/drm/panel/panel-newvision-nv3052c.c    |    3 +-
->  drivers/gpu/drm/panel/panel-novatek-nt35510.c      |    2 +-
->  drivers/gpu/drm/panel/panel-novatek-nt35560.c      |    1 -
->  drivers/gpu/drm/panel/panel-novatek-nt35950.c      |    2 +-
->  drivers/gpu/drm/panel/panel-novatek-nt36523.c      |    2 +-
->  drivers/gpu/drm/panel/panel-novatek-nt36672a.c     |    1 -
->  drivers/gpu/drm/panel/panel-novatek-nt39016.c      |    1 -
->  drivers/gpu/drm/panel/panel-orisetech-ota5601a.c   |    1 -
->  .../gpu/drm/panel/panel-raspberrypi-touchscreen.c  |    1 -
->  drivers/gpu/drm/panel/panel-samsung-ld9040.c       |   41 +-
->  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c      |    2 +-
->  drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c      |    1 -
->  drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |    2 +-
->  drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c  |    2 +-
->  drivers/gpu/drm/panel/panel-samsung-sofef00.c      |    1 -
->  drivers/gpu/drm/panel/panel-simple.c               |    4 -
->  drivers/gpu/drm/panel/panel-sitronix-st7701.c      |    2 +-
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c      |    2 +-
->  drivers/gpu/drm/panel/panel-sony-td4353-jdi.c      |    1 -
->  drivers/gpu/drm/panel/panel-truly-nt35597.c        |    2 +-
->  drivers/gpu/drm/panel/panel-visionox-rm69299.c     |    2 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c            |    3 +-
->  drivers/gpu/drm/pl111/pl111_versatile.c            |    1 +
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c      |    2 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c      |    2 +
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c      |    1 +
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |    1 -
->  drivers/gpu/drm/renesas/rcar-du/rzg2l_mipi_dsi.c   |    1 -
->  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |    3 +-
->  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |    2 +
->  drivers/gpu/drm/rockchip/inno_hdmi.c               |    3 +-
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |    1 +
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |    1 -
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |    1 -
->  drivers/gpu/drm/solomon/ssd130x.c                  |    2 +-
->  drivers/gpu/drm/sprd/sprd_dpu.c                    |    4 +-
->  drivers/gpu/drm/sprd/sprd_drm.c                    |    3 +-
->  drivers/gpu/drm/sprd/sprd_dsi.c                    |    6 +-
->  drivers/gpu/drm/sti/sti_drv.c                      |    2 +
->  drivers/gpu/drm/stm/drv.c                          |    3 +-
->  drivers/gpu/drm/stm/ltdc.c                         |    1 -
->  drivers/gpu/drm/sun4i/sun4i_frontend.c             |    2 +-
->  drivers/gpu/drm/sun4i/sun4i_frontend.h             |    1 +
->  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |    2 +-
->  drivers/gpu/drm/sun4i/sun4i_tcon.c                 |    6 +-
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |    2 +-
->  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c             |    3 +-
->  drivers/gpu/drm/sun4i/sun8i_mixer.c                |    2 +
->  drivers/gpu/drm/sun4i/sun8i_tcon_top.c             |    2 +-
->  drivers/gpu/drm/tegra/dc.c                         |    3 +-
->  drivers/gpu/drm/tegra/dpaux.c                      |    2 +-
->  drivers/gpu/drm/tegra/gr2d.c                       |    3 +-
->  drivers/gpu/drm/tegra/gr3d.c                       |    2 +-
->  drivers/gpu/drm/tegra/hdmi.c                       |    3 +-
->  drivers/gpu/drm/tegra/hub.c                        |    2 +-
->  drivers/gpu/drm/tegra/nvdec.c                      |    2 -
->  drivers/gpu/drm/tegra/sor.c                        |    2 +-
->  drivers/gpu/drm/tegra/vic.c                        |    2 -
->  drivers/gpu/drm/tidss/tidss_dispc.c                |    2 -
->  drivers/gpu/drm/tidss/tidss_drv.c                  |    2 +-
->  drivers/gpu/drm/vc4/vc4_crtc.c                     |    3 +-
->  drivers/gpu/drm/vc4/vc4_dpi.c                      |    4 +-
->  drivers/gpu/drm/vc4/vc4_drv.c                      |    2 +-
->  drivers/gpu/drm/vc4/vc4_dsi.c                      |    3 +-
->  drivers/gpu/drm/vc4/vc4_hdmi.c                     |    2 +-
->  drivers/gpu/drm/vc4/vc4_txp.c                      |    4 +-
->  drivers/gpu/drm/vc4/vc4_vec.c                      |    4 +-
->  drivers/gpu/drm/xen/xen_drm_front.c                |    1 -
->  drivers/gpu/host1x/bus.c                           |   29 +-
->  drivers/gpu/host1x/context.c                       |    2 +-
->  drivers/gpu/host1x/dev.c                           |    3 +-
->  drivers/gpu/ipu-v3/ipu-common.c                    |    2 +-
->  drivers/of/device.c                                |    1 +
->  include/drm/drm_debugfs.h                          |   25 +
->  include/drm/drm_drv.h                              |    6 +
->  include/drm/drm_file.h                             |    8 +-
->  include/drm/drm_gem.h                              |   79 +
->  include/drm/drm_gpuva_mgr.h                        |  706 ++++++++
->  include/drm/drm_syncobj.h                          |    6 +-
->  include/uapi/drm/drm.h                             |   23 +
->  172 files changed, 3014 insertions(+), 215 deletions(-)
->  create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
->  create mode 100644 include/drm/drm_gpuva_mgr.h
+The alternative would've been to add two compatibles, like
+"mediatek,mt8195-disp-gamma-10bits" and "mediatek,mt8195-disp-gamma-12bits",
+or a boolean property like "mediatek,lut-12bits" which would appear literally
+everywhere starting from a certain point in time (since there's no reason to
+use 10-bits LUT on MT8195, that starts now!).
+
+Even then, consider the complication in code, where mtk_gamma_set_common()
+would have to handle:
+- 10-bits, layout A
+- 10-bits, layout B -> but fallback to layout A if this is AAL
+- 12-bits layout
+
+is_aal = !(gamma && gamma->data);
+
+for_each_bank()
+{
+	if (num_lut_banks > 1) write_num_bank();
+
+	for (i = 0; i < lut_bank_size; i++) {
+		.......
+
+		if (!lut_diff || (i % 2 == 0)) {
+			if (lut_bits == 12 || (lut_bits == 10 && layout_b)) {
+				... setup word[0],[1] ...
+			} else if (layout_b && !is_aal) {
+				...setup word[0],[1]...
+			} else {
+				...setup word[0]
+			}
+		} else {
+			 ^^^ almost repeat the same ^^^
+		}
+		writel(word[0], (...));
+		if (lut_bits == 12 || (lut_bits == 10 && layout_b) && !is_aal)
+			writel(word[i] (....));
+	}
+}
+
+probe() {
+	if (of_property_read_bool(dev->of_node, "mediatek,lut-12bits") ||
+	    data->supports_only_12bits)
+		priv->lut_bits = 12;
+	else
+		priv->lut_bits = 10;
+}
+
+...at least, that's the implementation that I would do to solve your concern,
+which isn't *too bad*, but still, a big question arises here...
 
 
+Why should we care about supporting *both* 10-bit and 12-bit Gamma LUTs on
+the *same* SoC?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+A 12-bit LUT gives us more precision and there's no penalty if we want to
+convert a 10-bit LUT to a 12-bits one, as we're simply "ignoring" the value
+of two bits per component (no expensive calculation involved)...
+
+Is there anything that I'm underestimating here?
+
+Cheers,
+Angelo
+
+>> +#define DISP_GAMMA_LUT_12BIT_R            GENMASK(11, 0)
+>> +#define DISP_GAMMA_LUT_12BIT_G            GENMASK(23, 12)
+>> +#define DISP_GAMMA_LUT_12BIT_B            GENMASK(11, 0)
+>> +
+>>   #define LUT_10BIT_MASK                0x03ff
+>>   #define LUT_BITS_DEFAULT            10
+>>   #define LUT_SIZE_DEFAULT            512
+>> @@ -83,14 +91,15 @@ unsigned int mtk_gamma_get_lut_size(struct device *dev)
+>>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct 
+>> drm_crtc_state *state)
+>>   {
+>>       struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+>> -    unsigned int i;
+>> +    void __iomem *lut0_base = regs + DISP_GAMMA_LUT;
+>> +    void __iomem *lut1_base = regs + DISP_GAMMA_LUT1;
+>> +    u32 cfg_val, data_mode, lbank_val, word[2];
+>> +    int cur_bank, num_lut_banks;
+>> +    u16 lut_bank_size, lut_size;
+>>       struct drm_color_lut *lut;
+>> -    void __iomem *lut_base;
+>> +    unsigned int i;
+>>       bool lut_diff;
+>> -    u16 lut_bank_size, lut_size;
+>>       u8 lut_bits;
+>> -    u32 cfg_val, lbank_val, word;
+>> -    int cur_bank, num_lut_banks;
+>>       /* If there's no gamma lut there's nothing to do here. */
+>>       if (!state->gamma_lut)
+>> @@ -110,14 +119,17 @@ void mtk_gamma_set_common(struct device *dev, void __iomem 
+>> *regs, struct drm_crt
+>>       num_lut_banks = lut_size / lut_bank_size;
+>>       cfg_val = readl(regs + DISP_GAMMA_CFG);
+>> -    lut_base = regs + DISP_GAMMA_LUT;
+>>       lut = (struct drm_color_lut *)state->gamma_lut->data;
+>> +    /* Switch to 12 bits data mode if supported */
+>> +    data_mode = FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(lut_bits == 12));
+>> +
+>>       for (cur_bank = 0; cur_bank < num_lut_banks; cur_bank++) {
+>>           /* Switch gamma bank and set data mode before writing LUT */
+>>           if (num_lut_banks > 1) {
+>>               lbank_val = FIELD_PREP(DISP_GAMMA_BANK_BANK, cur_bank);
+>> +            lbank_val |= data_mode;
+>>               writel(lbank_val, regs + DISP_GAMMA_BANK);
+>>           }
+>> @@ -130,9 +142,15 @@ void mtk_gamma_set_common(struct device *dev, void __iomem 
+>> *regs, struct drm_crt
+>>               hwlut.blue = drm_color_lut_extract(lut[n].blue, lut_bits);
+>>               if (!lut_diff || (i % 2 == 0)) {
+>> -                word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+>> -                word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+>> -                word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+>> +                if (lut_bits == 12) {
+>> +                    word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, hwlut.red);
+>> +                    word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, hwlut.green);
+>> +                    word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, hwlut.blue);
+>> +                } else {
+>> +                    word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
+>> +                    word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
+>> +                    word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+>> +                }
+>>               } else {
+>>                   diff.red = lut[n].red - lut[n - 1].red;
+>>                   diff.red = drm_color_lut_extract(diff.red, lut_bits);
+>> @@ -143,11 +161,19 @@ void mtk_gamma_set_common(struct device *dev, void __iomem 
+>> *regs, struct drm_crt
+>>                   diff.blue = lut[n].blue - lut[n - 1].blue;
+>>                   diff.blue = drm_color_lut_extract(diff.blue, lut_bits);
+>> -                word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+>> -                word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+>> -                word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+>> +                if (lut_bits == 12) {
+>> +                    word[0] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_R, diff.red);
+>> +                    word[0] |= FIELD_PREP(DISP_GAMMA_LUT_12BIT_G, diff.green);
+>> +                    word[1] = FIELD_PREP(DISP_GAMMA_LUT_12BIT_B, diff.blue);
+>> +                } else {
+>> +                    word[0] = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
+>> +                    word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
+>> +                    word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
+>> +                }
+>>               }
+>> -            writel(word, (lut_base + i * 4));
+>> +            writel(word[0], (lut0_base + i * 4));
+>> +            if (lut_bits == 12)
+>> +                writel(word[1], (lut1_base + i * 4));
+> 
+> ditto
+> 
+>>           }
+>>       }
+>> @@ -271,11 +297,20 @@ static const struct mtk_disp_gamma_data 
+>> mt8183_gamma_driver_data = {
+>>       .lut_size = 512,
+>>   };
+>> +static const struct mtk_disp_gamma_data mt8195_gamma_driver_data = {
+>> +    .lut_bank_size = 256,
+>> +    .lut_bits = 12,
+> 
+> If I'm right, ".lut_bits = 10" will not work properly.
+> 
+>> +    .lut_diff = true,
+>> +    .lut_size = 1024,
+>> +};
+>> +
+>>   static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
+>>       { .compatible = "mediatek,mt8173-disp-gamma",
+>>         .data = &mt8173_gamma_driver_data},
+>>       { .compatible = "mediatek,mt8183-disp-gamma",
+>>         .data = &mt8183_gamma_driver_data},
+>> +    { .compatible = "mediatek,mt8195-disp-gamma",
+>> +      .data = &mt8195_gamma_driver_data},
+>>       {},
+>>   };
+>>   MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
+> 
+
