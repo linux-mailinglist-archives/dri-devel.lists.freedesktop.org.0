@@ -2,80 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C81E765FDF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 00:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EF7765FE0
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 00:47:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F7410E629;
-	Thu, 27 Jul 2023 22:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3482D10E62C;
+	Thu, 27 Jul 2023 22:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE89A10E629
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 22:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690498021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DFaVO9FOTBPy8xJH3jfKPZUyKKxhN9b3pML4LzjHilo=;
- b=hHOBIV6E0nCn7TGgQz+Kt9Fu6M/mMW2d8Kzu3suyEzCvK/Hn1LeSV2x53TwRXRwKIoaVv/
- r+oVPCVKwYKAjeoJUIjTsPkHG8XF9i7RTyopYEhHkDmT6FbiLBAsqP4T3jUr9hrvOrszae
- g97aF3++PfUVGZLu+IDELlR5i7W9nW0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-541-liu7EidGPWuyAqF18YsJLA-1; Thu, 27 Jul 2023 18:46:59 -0400
-X-MC-Unique: liu7EidGPWuyAqF18YsJLA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-5227fb36095so857569a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:46:59 -0700 (PDT)
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
+ [IPv6:2607:f8b0:4864:20::114a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B393A10E62C
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 22:47:14 +0000 (UTC)
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-5847479b559so7483807b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1690498034; x=1691102834;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=h8M17W+SY6LNnIrBQCPmXoDqQ4N8XZNCU3T7YHTRw88=;
+ b=qKt37uGq/wscmlYr8MsZg//pXb6RySyaO4y6NJeuPda08KKiBjtJBS67P14T6qV1M0
+ LL9mjLjQYaJiLnSUF4EWtgT2q06OnX5y+YpaxLHO6f+6a3EIbFNrTc+7RB4U+ZiuyvVa
+ wVuGmAuWeRbHjs/5JgVP2QOlnsY5lyobE6B9bss/BiV7uNJCKRAb8KCsQodxtcNumAeV
+ tfOwogzv3MOn84SrebCIma7DNohFZJb5l213YxgBfudwFCoGEAXHH/L6snpDUdyijney
+ 6+Vc/w4tJvqI9+iRC6+Sw/3tZ8W5zMhUWDBE49fQTskT0ezoLHQgsg5p62+Ls2Lm9eBP
+ fV9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690498018; x=1691102818;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DFaVO9FOTBPy8xJH3jfKPZUyKKxhN9b3pML4LzjHilo=;
- b=G0vL++e/uLmVUlZiKfNvRf4CVz5NsBxeLdxcPZaZ3/C02Qvbsnxb+dkh/ytgKvzdtH
- D/0V0dRekxn4NN8kIyeKLlxmF94HO/CuRbWwgQ9+oqwIps00aYYpoeIwN9f/1m/mth//
- NPPtUylZnJMts6sjrFHMxafLh2njXSniJ448IkwvFRVoTVKgZBtxRtsS31EZioLaRnYm
- 47IDUqXuAXteS7HgQawCjtgIXu8erRDGdt//VaOkJ1yUVm6mDnaW/9kBZorRWaYwH4/s
- bbxcO7wxzB4Mlw66rWXDoEu5enNNmM1K01Ej7npYgNmd3XtHYducMzP6v6K+mOlNaaoa
- XT7Q==
-X-Gm-Message-State: ABy/qLapL3Rq3KxrFG/GbPpEIrcMy1C4eVqNyDjNDg/+g+hZ4P+i8Bh6
- u4Eya/lFhIxBMcheHSOwUsFBNECydC8adCUK+BUIBk1FHbQiBNfvDxp1d5mXPp3rQFkr73nS8Mo
- LLJaQrTAxOqJCM9V5/uUy6+xfhWrJ2CAUiPMx
-X-Received: by 2002:aa7:c683:0:b0:51e:1040:adc3 with SMTP id
- n3-20020aa7c683000000b0051e1040adc3mr239841edq.33.1690498018363; 
- Thu, 27 Jul 2023 15:46:58 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlF6yIMGtc30XLa5Isy6K+B0BQoXVFk19vTgQ0+hSSuj3mbFyBeShRlt6qtsD6jE30vc/SdEFA==
-X-Received: by 2002:aa7:c683:0:b0:51e:1040:adc3 with SMTP id
- n3-20020aa7c683000000b0051e1040adc3mr239827edq.33.1690498017977; 
- Thu, 27 Jul 2023 15:46:57 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a056402134b00b0051dd19d6d6esm1101313edw.73.2023.07.27.15.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jul 2023 15:46:57 -0700 (PDT)
-Message-ID: <d26b2758-f599-b385-2f3b-7ac7aaaaaa45@redhat.com>
-Date: Fri, 28 Jul 2023 00:46:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/tests: Alloc drm_device on drm_exec tests
-To: Arthur Grillo <arthurgrillo@riseup.net>
-References: <20230727192259.237935-1-arthurgrillo@riseup.net>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230727192259.237935-1-arthurgrillo@riseup.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ d=1e100.net; s=20221208; t=1690498034; x=1691102834;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=h8M17W+SY6LNnIrBQCPmXoDqQ4N8XZNCU3T7YHTRw88=;
+ b=Oq4NfbKarVVOEkwnu27YjLyiWrpwy7DOtvuYImOSlqjBPZkfPJXvOUMDJfuWzIbwNk
+ U5suV18uYyb7aei5fE3MeqaTMFeVaxTLZyxScW1XOaU/bg3qkJvcUWVDYMMLhlo5irx3
+ ef97QgWLymKrW4EepLSpJTuvVHxSDeeL5vFHNYADoJQg5Idgc6dVMBNDoiKPm4VauDOX
+ SlvqzQzXA+GQnQEKnqbLr7OLb+ano0Hlzb5heo4jweL4ouhmZeA0jxsaUZ1BxKPlqPq8
+ iZzuZhU58TxcyCBj9lkDcZxxxFeH8fpMMzj8aG5XC3hVzaEdca5fo4RKkuotEs879X3E
+ ifMg==
+X-Gm-Message-State: ABy/qLZ5QJvFYPUbHJpglkDqXNY/Ah8tL51+hsh1lM0LmkSp3CDgI0fp
+ KWUFXhYKnyOecy3ECL0MA9h//5auLy9dX45CGkM=
+X-Google-Smtp-Source: APBJJlFGnVWRLJUkrTVrUmig5mpkfOptKBJYmMCfyEC709K8nbUaHxXMj+WKdKG5zBlRCFhHoXkA4S2rhsmnF/EMJIQ=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com
+ ([2620:15c:2d1:203:659f:4728:cfbb:8cc3])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:690c:721:b0:573:8316:8d04 with
+ SMTP id bt1-20020a05690c072100b0057383168d04mr212ywb.4.1690498033839; Thu, 27
+ Jul 2023 15:47:13 -0700 (PDT)
+Date: Thu, 27 Jul 2023 15:47:09 -0700
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAOzzwmQC/x2MQQqAIBAAvxJ7TjAlwr4SHdS2XCgLpQjEv7d0n
+ GGYAhkTYYaxKZDwoUxnZOjaBnywcUNBCzMoqbQc1CDssWzXLYz2Enstlek74NjZjMIlG33gPN7
+ 7zvJKuNL736e51g9FP1hgbQAAAA==
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519;
+ pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1690498032; l=3429;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject:message-id;
+ bh=h5xjymXwHB0lf01RIpHtYLR4vTj4v+sUfx87gYKkB7Y=;
+ b=N2uJPCF50jFFN4PLKe1RA7MLTy5RlIkmUWI7lMBscLyrcTCLI3tbqj7jsQDczYGb8rXqmc7m4
+ fVVfKltnA+lByM/BerwonDXLZydewq7ck6QpVuol9QtpGTy2Znh+q3q
+X-Mailer: b4 0.12.2
+Message-ID: <20230727-amdgpu-v1-1-a95690e75388@google.com>
+Subject: [PATCH] drm: fix indirect goto into statement expression UB
+From: ndesaulniers@google.com
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,134 +80,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- tales.aparecida@gmail.com, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, boris.brezillon@collabora.com,
- alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/27/23 21:22, Arthur Grillo wrote:
-> The drm_exec tests where crashing[0] because of a null dereference. This
-> is caused by a new access of the `driver` attribute of `struct
-> drm_driver` on drm_gem_private_object_init(). Alloc the drm_device to
-> fix that.
-> 
-> [0]
-> [15:05:24] ================== drm_exec (6 subtests) ===================
-> [15:05:24] [PASSED] sanitycheck
-> ^CERROR:root:Build interruption occurred. Cleaning console.
-> [15:05:50] [ERROR] Test: drm_exec: missing expected subtest!
-> [15:05:50] BUG: kernel NULL pointer dereference, address: 00000000000000b0
-> [15:05:50] #PF: supervisor read access in kernel mode
-> [15:05:50] #PF: error_code(0x0000) - not-present page
-> [15:05:50] PGD 0 P4D 0
-> [15:05:50] Oops: 0000 [#1] PREEMPT NOPTI
-> [15:05:50] CPU: 0 PID: 23 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7-02032-ge6303f323b1a #69
-> [15:05:50] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc37 04/01/2014
-> [15:05:50] RIP: 0010:drm_gem_private_object_init+0x60/0xc0
-> 
-> Fixes: e6303f323b1a ("drm: manager to keep track of GPUs VA mappings")
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+A new diagnostic in clang-17 now produces the following build error:
 
-Tested-by: Danilo Krummrich <dakr@redhat.com>
-Acked-by: Danilo Krummrich <dakr@redhat.com>
+drivers/gpu/drm/tests/drm_exec_test.c:41:3: error: cannot jump from this
+indirect goto statement to one of its possible targets
+   41 |                 drm_exec_retry_on_contention(&exec);
+      |                 ^
+include/drm/drm_exec.h:96:4: note: expanded from macro
+'drm_exec_retry_on_contention'
+   96 |                         goto *__drm_exec_retry_ptr;
+      |                         ^
+drivers/gpu/drm/tests/drm_exec_test.c:39:2: note: possible target of
+indirect goto statement
+   39 |         drm_exec_until_all_locked(&exec) {
+      |         ^
+include/drm/drm_exec.h:79:33: note: expanded from macro
+'drm_exec_until_all_locked'
+   79 |                 __label__ __drm_exec_retry;
+drivers/gpu/drm/tests/drm_exec_test.c:39:2: note: jump enters a
+statement expression
 
-> ---
->   drivers/gpu/drm/tests/drm_exec_test.c | 36 +++++++++++++++++++++------
->   1 file changed, 29 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
-> index 727ac267682e..df31f89a7945 100644
-> --- a/drivers/gpu/drm/tests/drm_exec_test.c
-> +++ b/drivers/gpu/drm/tests/drm_exec_test.c
-> @@ -12,11 +12,31 @@
->   
->   #include <drm/drm_exec.h>
->   #include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
->   #include <drm/drm_gem.h>
-> +#include <drm/drm_kunit_helpers.h>
->   
->   #include "../lib/drm_random.h"
->   
-> -static struct drm_device dev;
-> +static struct device *dev;
-> +static struct drm_device *drm;
-> +
-> +static int test_init(struct kunit *test)
-> +{
-> +	dev = drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +
-> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0,
-> +						  DRIVER_MODESET);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-> +
-> +	return 0;
-> +}
-> +
-> +static void test_exit(struct kunit *test)
-> +{
-> +	drm_kunit_helper_free_device(test, dev);
-> +}
->   
->   static void sanitycheck(struct kunit *test)
->   {
-> @@ -33,7 +53,7 @@ static void test_lock(struct kunit *test)
->   	struct drm_exec exec;
->   	int ret;
->   
-> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
-> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
->   
->   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
->   	drm_exec_until_all_locked(&exec) {
-> @@ -52,7 +72,7 @@ static void test_lock_unlock(struct kunit *test)
->   	struct drm_exec exec;
->   	int ret;
->   
-> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
-> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
->   
->   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
->   	drm_exec_until_all_locked(&exec) {
-> @@ -78,7 +98,7 @@ static void test_duplicates(struct kunit *test)
->   	struct drm_exec exec;
->   	int ret;
->   
-> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
-> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
->   
->   	drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES);
->   	drm_exec_until_all_locked(&exec) {
-> @@ -106,7 +126,7 @@ static void test_prepare(struct kunit *test)
->   	struct drm_exec exec;
->   	int ret;
->   
-> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
-> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
->   
->   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
->   	drm_exec_until_all_locked(&exec) {
-> @@ -127,8 +147,8 @@ static void test_prepare_array(struct kunit *test)
->   	struct drm_exec exec;
->   	int ret;
->   
-> -	drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
-> -	drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
-> +	drm_gem_private_object_init(drm, &gobj1, PAGE_SIZE);
-> +	drm_gem_private_object_init(drm, &gobj2, PAGE_SIZE);
->   
->   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
->   	drm_exec_until_all_locked(&exec)
-> @@ -150,6 +170,8 @@ static struct kunit_case drm_exec_tests[] = {
->   
->   static struct kunit_suite drm_exec_test_suite = {
->   	.name = "drm_exec",
-> +	.init = test_init,
-> +	.exit = test_exit,
->   	.test_cases = drm_exec_tests,
->   };
->   
+The GCC manually currently states that:
+>> Jumping into a statement expression with a computed goto (see Labels
+>> as Values) has undefined behavior.
+
+So the diagnostic appears correct, even if codegen happened to produce
+working code.
+
+Looking closer at this code, while the original combination of statement
+expression, local label, and computed/indirect goto GNU C expressions
+were clever, a simple while loop and continue block might have sufficed.
+
+This approach might not work as expected if drm_exec_until_all_locked
+"loops" can be nested, but that doesn't appear to be an existing use
+case in the codebase.
+
+Fixes: commit 09593216bff1 ("drm: execution context for GEM buffers v7")
+Link: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
+Link: https://github.com/ClangBuiltLinux/linux/issues/1890
+Link: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f5d096eb3aed7b712f5067
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+ include/drm/drm_exec.h | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
+
+diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+index 73205afec162..393ac022ed3a 100644
+--- a/include/drm/drm_exec.h
++++ b/include/drm/drm_exec.h
+@@ -70,18 +70,9 @@ struct drm_exec {
+  * Core functionality of the drm_exec object. Loops until all GEM objects are
+  * locked and no more contention exists. At the beginning of the loop it is
+  * guaranteed that no GEM object is locked.
+- *
+- * Since labels can't be defined local to the loops body we use a jump pointer
+- * to make sure that the retry is only used from within the loops body.
+  */
+ #define drm_exec_until_all_locked(exec)				\
+-	for (void *__drm_exec_retry_ptr; ({			\
+-		__label__ __drm_exec_retry;			\
+-__drm_exec_retry:						\
+-		__drm_exec_retry_ptr = &&__drm_exec_retry;	\
+-		(void)__drm_exec_retry_ptr;			\
+-		drm_exec_cleanup(exec);				\
+-	});)
++	while(drm_exec_cleanup(exec))
+ 
+ /**
+  * drm_exec_retry_on_contention - restart the loop to grap all locks
+@@ -93,7 +84,7 @@ __drm_exec_retry:						\
+ #define drm_exec_retry_on_contention(exec)			\
+ 	do {							\
+ 		if (unlikely(drm_exec_is_contended(exec)))	\
+-			goto *__drm_exec_retry_ptr;		\
++			continue;				\
+ 	} while (0)
+ 
+ /**
+
+---
+base-commit: 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
+change-id: 20230727-amdgpu-93c0e5302951
+
+Best regards,
+-- 
+Nick Desaulniers <ndesaulniers@google.com>
 
