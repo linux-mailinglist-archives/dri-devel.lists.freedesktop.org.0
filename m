@@ -1,36 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866DC7652F2
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 13:54:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F797765303
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 13:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEA810E56F;
-	Thu, 27 Jul 2023 11:54:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3531D10E572;
+	Thu, 27 Jul 2023 11:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 92396 seconds by postgrey-1.36 at gabe;
- Thu, 27 Jul 2023 11:54:25 UTC
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 800D410E33F;
- Thu, 27 Jul 2023 11:54:25 +0000 (UTC)
-Message-ID: <fb734626-6041-1e68-38d7-221837284cf1@linux.intel.com>
-Date: Thu, 27 Jul 2023 13:54:21 +0200
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2062a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1391A10E572
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 11:58:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e7CqUcgtvQTXgS2sNk7Kn99WS8n/KmrvVlm79rBDGeT5NR25FFmf9lFPGeGQU8Z5Cxl6h4YooypA3LdtHUgSs6v30AL60sivOCJCQv5yCvvpz+g9kVWUT8YjYrbfcxQcYtdV5QNgJpuJd895EXemyVuXvEY+ByhMzjWD0qa/L5DDk5sHtrgLU3K6fRZA7yL3uGC0ANQ8kHn+xF117wtKvmRpB1pLQIhPRwopSalPyuK4YZtvHJQ6Ma28zDhXbVUqAiNq86giKUpkgSSj30HsI4ysjt+rtX+0UyxDz6bocbinjLKbx2ZPbrh/UyBCZAXjSKFXtRFDb6yTJ56fEANNVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uut7uMdmYBjtt1hPuoVQKl5dpMrnn2AWjQ1CpNvDx74=;
+ b=CIwTZNBPZBY/0rEGIOUfMaLtMSIHd31za/GMchvhRLbLSGxPwvJB45yq8TOrBpHIxTCmzl80y0CRCwVdNPVczsi+S/TEtg40P1cKgGOViLzDm82m5A1y/v/2HK6oiPly5HE4mQGlFgwgqfuJhoyOimd7XYZBPrPHGd8VaBMEz6Pe3uaInWt2Fv4apVIVzU+cv1gF74OUkR9emvPzldFs7SJH4GvtGSNumE7slK9eI//G0jtOxU+g8/18/8wUsNuyhOfBwL3jCHjAIq3ZKTQ70mb6EkB6yCeW6VmdJVM4jqRoDmAp6ZJTthXjqtdlCYwtCnqzswnCEBybGu9SHBJbiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uut7uMdmYBjtt1hPuoVQKl5dpMrnn2AWjQ1CpNvDx74=;
+ b=PbD+o5uC4pOTMOkO5STcYkcMyPy0fevHaffs+5xlQPuuboZGv1Rzl7hXz3fRaFuWNG2CQTgAAd7sHOOnuvwk+PH6kElbQj1CldneHVuuJDk35c8Lnn5P/9UFhXSEG4F0ADowQcyyc0GVj94nxxO+FSxA2apgzZVbs47KtSEBlYkMAHQ2BhAqqvs01AnkT5/SX1a3oZuSB5iPF1i5bBjb4x4rb9cJximjpQOYaVJCUchh/CzZfBXqcXwMTlUpxtSzZoZc3SK6SU5O1txGJo2s8DCBoRSZYCzFcX2rV+ML+z/Exn6y3LCy6B3s4W3j9TN9Vk2AfZGpGkH7VdweY80oVQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by LV8PR12MB9181.namprd12.prod.outlook.com (2603:10b6:408:18d::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Thu, 27 Jul
+ 2023 11:58:06 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6631.026; Thu, 27 Jul 2023
+ 11:58:06 +0000
+Date: Thu, 27 Jul 2023 08:58:03 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Message-ID: <ZMJbywGYN0QLh3vF@nvidia.com>
+References: <87jzuwlkae.fsf@nvdebian.thelocal>
+ <IA0PR11MB718527A20068383829DFF6A3F83EA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <87pm4nj6s5.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL5+CiZ6w4RdAt5u@nvidia.com>
+ <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL/B6yvO1bIkFRcF@nvidia.com>
+ <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <ZMBSWxYnWLlzG3+6@nvidia.com>
+ <IA0PR11MB71853E11B6C419DC0D043953F801A@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA0PR11MB71853E11B6C419DC0D043953F801A@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-ClientProxiedBy: BYAPR07CA0102.namprd07.prod.outlook.com
+ (2603:10b6:a03:12b::43) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 16/17] cgroup/drm: Expose memory stats
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Tejun Heo <tj@kernel.org>
-References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
- <20230712114605.519432-17-tvrtko.ursulin@linux.intel.com>
- <ZLsFBHqCQdPHoZVw@slm.duckdns.org>
- <ea64d7bf-c01b-f4ad-a36b-f77e2c2ea931@linux.intel.com>
- <89d7181c-6830-ca6e-0c39-caa49d14d474@linux.intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <89d7181c-6830-ca6e-0c39-caa49d14d474@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|LV8PR12MB9181:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b4c8d33-bbec-4f6b-7293-08db8e98bd3c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qgrh5fFCc7Nx844YlJFzFc98hj2gv4Uwb3zLy0wNSNyGE66aLfPf/LJHmWY0a0bo03bvPe2+BhKiskp6dLItA9w1CP8e8rQo7GJMhFlIZK1GnpLgGgqgOW/PPR+Yq/7GJy9ong7P1S1/qiTzTbg5DvSTS888l7bJ2WthmOhKARy2ocqgun0aw6N2pZguH8trsSWmvGH0gS8HsTLqF8yN8koUJ56l9XFbavE93txe4iHvHNp35dg0VgKUZEPJrTes8yJDdGVjbYxHAlFkR+w+iw1T1fJMRXBPJW3pnQdtS08lXzKsgWzaCffpUbHp8W/efw28hUQsuQoK2q0Qhe6WtHaHtQ8IyvQmmaplcH9ts+0twe1zsRCnwfbEFOX6OEhyd3RCUBPed5FZLh6wYjdrw1yDkrcmqLsUHDhf9F9IkBKlgDLLG5VTR5ligpFI8SM6NS40/YIjSbyzRIsMeHWaryEkR31yvEIxrgCkZSlnyi1ndzOEj5Aqn/zx+AKmWWxh2Vf3ySZLM35bS5mO/SvjtNC1jInNlSDkghrDJbYN55nJ6UtnjJamibCKgVYoB3aE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199021)(54906003)(6512007)(38100700002)(6666004)(6486002)(478600001)(316002)(41300700001)(5660300002)(8676002)(4326008)(6916009)(8936002)(66476007)(66556008)(66946007)(2616005)(186003)(83380400001)(26005)(6506007)(86362001)(2906002)(15650500001)(7416002)(36756003)(66899021);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i6DcuQReTwKCsyKCtg6RD/0pxJCCxrTx+SMUTJqfl4HnMduxd2Ek0UJIaDMH?=
+ =?us-ascii?Q?wPakHwmDG8zeSjE0bMIlGFBrMnV5BWnmwr1tY6FfgObLZWsfI2eYcsiPEDse?=
+ =?us-ascii?Q?PLsIbet4Dec/LEIw5wR+GF/dgxNfcaIE8+LaCJqSW/S2OecgyA/1rbwMpkSB?=
+ =?us-ascii?Q?gEThhNwc+20WusWNeF7QsoNDrvBqG4mxzDTwh3O8YCllaJu+y9Qy218N+eac?=
+ =?us-ascii?Q?icGkOF9abNAU/UKj35tqTDQIjX4AdIcPsMlpoSl5seu7VhQjeudjM9ZE2zl0?=
+ =?us-ascii?Q?l6HHtrx5g02RxWKRrrc+R2Erqvj9co+jygFfQ4ryUklx0P4AYAX15qJ1qn/h?=
+ =?us-ascii?Q?OB3olNja+T5LRVCXEgsqGl9ZtfTg8ZEn8aG6oOcAqXEBcL3j18sTNmuQluLs?=
+ =?us-ascii?Q?gxck0pKw/j1rKqpH3HSO5mVGGgocgAv56RxWh/YmoaZhyNbiEPKRUFehhbMw?=
+ =?us-ascii?Q?i+9IfGlfOsgUdQt69H+ZQmjPocoMFEt90Q0mi8Tp5PIHkb/6iO9fLcqVXHsV?=
+ =?us-ascii?Q?UANwEUgXToqJ55NG5nc87dzEHnKVVQ7A2J+xt07cFuchu3/uLG2JbvUZS5vL?=
+ =?us-ascii?Q?JfBn71A+Ocs9gsZD+yYSmkBczGTFbMXYJJzqTjRL+Iv2rN0D+IRa+PNirY5+?=
+ =?us-ascii?Q?kvG3Crac5ybvaGaa6DcWwXN+TKC+WXeM+HGqVSWjuUrlAuB135v/SvVMormM?=
+ =?us-ascii?Q?IyP/2EIl3ztB+hvWbE12Jep+SKEbiyv3QMp0avrvCi81xwH62zGbXL6fSi+Q?=
+ =?us-ascii?Q?g4TCESfq3FBWlgHwqJG4g1Bd9748wSBqNm+mpLpuCYv0daeV95SGBEC8nSB+?=
+ =?us-ascii?Q?lK6AZ2tNw5iljYuNRtlTfHQYXrhXunAnlFuJRudt8illnRq1Qg2j5D/nET1s?=
+ =?us-ascii?Q?WvzxtUADWU+YPGm0EcL1fVtY8jUAOGRe1DdA5ZOSuvDAxmTqA40YNZ6KDx+Y?=
+ =?us-ascii?Q?sTups0ejrrbmn92AvfCiF69dkFvXoJdESiMFtuf7rfriStLP1/VA4sA0KwrA?=
+ =?us-ascii?Q?fpJCv9hWA5eOznPcDcsM4dXoCJcJ6PO6lLKpQKhbG+8MEg6w/KWKk+74MgH8?=
+ =?us-ascii?Q?jb5r+2iOn5PeFnXJWpcT0rLZoacDqUxAAZnDLXJl1wNNVgUwmuYL44+6/3wI?=
+ =?us-ascii?Q?CaB+LDKQdVNZO/iUwwbNAbrzogj/IJKIBynQ1uo17oTS/IKq4LyucPVAZuDT?=
+ =?us-ascii?Q?pSB9Yl+6LsTqtzTISI9uvM8MdeVCEFcWQMK+ZlbE8h0Py9xj4Zf4kWnmf+9J?=
+ =?us-ascii?Q?W24/LSs9O2Iz8wZrEzrFP1P41dcpT/v1zlDaNHT9y+dIc/cs3MwTPRQuzrtA?=
+ =?us-ascii?Q?cFfCz1FaE1E7ZIRtkk4pfA3szTPFXQSHKuyvM7zrjkmRipDJIoUzumqx/YJh?=
+ =?us-ascii?Q?LvSGFUilI9zLiKb1bzzpVjlITpTCOKHrFSMoIdKCOYsTBIYYMR4yUYg4322X?=
+ =?us-ascii?Q?QsavGcHRh+XNGi3zw3i1/5G/mUCp6OYNMAc978HScvnG0K5IBNY2eEg5hQ8+?=
+ =?us-ascii?Q?TR5RMV/Q8rdvMlZCShyse+tddiKhN92rkHWUgyn7loBBzDNZUvKNXkj6uaVj?=
+ =?us-ascii?Q?oZbxoxtJtn4/kC7yhasPnDj9Ut2Ktl306vb7Zquh?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b4c8d33-bbec-4f6b-7293-08db8e98bd3c
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2023 11:58:06.5740 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3fmmcVGZQUk7vWIWHfodG95ECckc0csTboJhLyTDL8b37Ojjpd0UkPsyugVW1pmU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,142 +124,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
- Eero Tamminen <eero.t.tamminen@intel.com>,
- "T . J . Mercier" <tjmercier@google.com>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>,
+ Peter Xu <peterx@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+On Thu, Jul 27, 2023 at 07:34:30AM +0000, Kasireddy, Vivek wrote:
+> Hi Jason,
+> 
+> > 
+> > On Tue, Jul 25, 2023 at 10:44:09PM +0000, Kasireddy, Vivek wrote:
+> > > > If you still need the memory mapped then you re-call hmm_range_fault
+> > > > and re-obtain it. hmm_range_fault will resolve all the races and you
+> > > > get new pages.
+> > 
+> > > IIUC, for my udmabuf use-case, it looks like calling hmm_range_fault
+> > > immediately after an invalidate (range notification) would preemptively
+> > fault in
+> > > new pages before a write. The problem with that is if a read occurs on
+> > those
+> > > new pages, then the data is incorrect as a write may not have
+> > > happened yet.
+> > 
+> > It cannot be, if you use hmm_range_fault correctly you cannot get
+> > corruption no matter what is done to the mmap'd memfd. If there is
+> > otherwise it is a hmm_range_fault bug plain and simple.
+> > 
+> > > Ideally, what I am looking for is for getting new pages at the time of or after
+> > > a write; until then, it is ok to use the old pages given my use-case.
+> > 
+> > It is wrong, if you are synchronizing the vma then you must use the
+> > latest copy. If your use case can tolerate it then keep a 'not
+> > present' indication for the missing pages until you actually need
+> > them, but dmabuf doesn't really provide an API for that.
+> > 
+> > > I think the difference comes down to whether we (udmabuf driver) want to
+> > > grab the new pages after getting notified about a PTE update because
+> > > of a fault
+> > 
+> > Why? You still haven't explained why you want this.
+> Ok, let me explain using one of the udmabuf selftests (added in patch #3)
+> to describe the problem (sorry, I'd have to use the terms memfd, hole, etc)
+> I am trying to solve:
+>         size = MEMFD_SIZE * page_size;
+>         memfd = create_memfd_with_seals(size, false);
+>         addr1 = mmap_fd(memfd, size);
+>         write_to_memfd(addr1, size, 'a');
+>         buf = create_udmabuf_list(devfd, memfd, size);
+>         addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
+>         punch_hole(memfd, MEMFD_SIZE / 2);
+>    -> At this point, if I were to read addr1, it'd still have "a" in relevant areas
+>         because a new write hasn't happened yet. And, since this results in an
+>         invalidation (notification) of the associated VMA range, I could register
+>         a callback in udmabuf driver and get notified but I am not sure how or
+>         why that would be useful.
 
-On 2023-07-26 13:41, Tvrtko Ursulin wrote:
-> 
-> On 26/07/2023 11:14, Maarten Lankhorst wrote:
->> Hey,
->>
->> On 2023-07-22 00:21, Tejun Heo wrote:
->>> On Wed, Jul 12, 2023 at 12:46:04PM +0100, Tvrtko Ursulin wrote:
->>>>    $ cat drm.memory.stat
->>>>    card0 region=system total=12898304 shared=0 active=0 
->>>> resident=12111872 purgeable=167936
->>>>    card0 region=stolen-system total=0 shared=0 active=0 resident=0 
->>>> purgeable=0
->>>>
->>>> Data is generated on demand for simplicty of implementation ie. no 
->>>> running
->>>> totals are kept or accounted during migrations and such. Various
->>>> optimisations such as cheaper collection of data are possible but
->>>> deliberately left out for now.
->>>>
->>>> Overall, the feature is deemed to be useful to container orchestration
->>>> software (and manual management).
->>>>
->>>> Limits, either soft or hard, are not envisaged to be implemented on 
->>>> top of
->>>> this approach due on demand nature of collecting the stats.
->>>
->>> So, yeah, if you want to add memory controls, we better think through 
->>> how
->>> the fd ownership migration should work.
->> I've taken a look at the series, since I have been working on cgroup 
->> memory eviction.
->>
->> The scheduling stuff will work for i915, since it has a purely 
->> software execlist scheduler, but I don't think it will work for GuC 
->> (firmware) scheduling or other drivers that use the generic drm 
->> scheduler.
-> 
-> It actually works - I used to have a blurb in the cover letter about it 
-> but apparently I dropped it. Just a bit less well with many clients, 
-> since there are fewer priority levels.
-> 
-> All that the design requires from the invididual drivers is some way to 
-> react to the "you are over budget by this much" signal. The rest is 
-> driver and backend specific.
+When you get an invalidation you trigger dmabuf move, which revokes
+the importes use of the dmabuf because the underlying memory has
+changed. This is exactly the same as a GPU driver migrating memory
+to/fro CPU memory.
 
-What I mean is that this signal may not be applicable since the drm 
-scheduler just schedules jobs that run. Adding a weight might be done in 
-hardware, since it's responsible for  scheduling which context gets to 
-run. The over budget signal is useless in that case, and you just need 
-to set a scheduling priority for the hardware instead.
+> 
+>         write_to_memfd(addr1, size, 'b');
+>    -> Here, the hole gets refilled as a result of the above writes which trigger
+>         faults and the PTEs are updated to point to new pages. When this happens,
+>         the udmabuf driver needs to be made aware of the new pages that were
+>         faulted in because of the new writes. 
 
->> For something like this,  you would probably want it to work inside 
->> the drm scheduler first. Presumably, this can be done by setting a 
->> weight on each runqueue, and perhaps adding a callback to update one 
->> for a running queue. Calculating the weights hierarchically might be 
->> fun..
-> 
-> It is not needed to work in drm scheduler first. In fact drm scheduler 
-> based drivers can plug into what I have since it already has the notion 
-> of scheduling priorities.
-> 
-> They would only need to implement a hook which allow the cgroup 
-> controller to query client GPU utilisation and another to received the 
-> over budget signal.
-> 
-> Amdgpu and msm AFAIK could be easy candidates because they both support 
-> per client utilisation and priorities.
-> 
-> Looks like I need to put all this info back into the cover letter.
-> 
-> Also, hierarchic weights and time budgets are all already there. What 
-> could be done later is make this all smarter and respect the time budget 
-> with more precision. That would however, in many cases including Intel, 
-> require co-operation with the firmware. In any case it is only work in 
-> the implementation, while the cgroup control interface remains the same.
-> 
->> I have taken a look at how the rest of cgroup controllers change 
->> ownership when moved to a different cgroup, and the answer was: not at 
->> all. If we attempt to create the scheduler controls only on the first 
->> time the fd is used, you could probably get rid of all the tracking.
-> 
-> Can you send a CPU file descriptor from process A to process B and have 
-> CPU usage belonging to process B show up in process' A cgroup, or 
-> vice-versa? Nope, I am not making any sense, am I? My point being it is 
-> not like-to-like, model is different.
-> 
-> No ownership transfer would mean in wide deployments all GPU utilisation 
-> would be assigned to Xorg and so there is no point to any of this. No 
-> way to throttle a cgroup with un-important GPU clients for instance.
-If you just grab the current process' cgroup when a drm_sched_entity is 
-created, you don't have everything charged to X.org. No need for 
-complicated ownership tracking in drm_file. The same equivalent should 
-be done in i915 as well when a context is created as it's not using the 
-drm scheduler.
+You only need this because you are not processing the invalidate.
 
->> This can be done very easily with the drm scheduler.
->>
->> WRT memory, I think the consensus is to track system memory like 
->> normal memory. Stolen memory doesn't need to be tracked. It's kernel 
->> only memory, used for internal bookkeeping  only.
->>
->> The only time userspace can directly manipulate stolen memory, is by 
->> mapping the pinned initial framebuffer to its own address space. The 
->> only allocation it can do is when a framebuffer is displayed, and 
->> framebuffer compression creates some stolen memory. Userspace is not
->> aware of this though, and has no way to manipulate those contents.
-> 
-> Stolen memory is irrelevant and not something cgroup controller knows 
-> about. Point is drivers say which memory regions they have and their 
-> utilisation.
-> 
-> Imagine instead of stolen it said vram0, or on Intel multi-tile it shows 
-> local0 and local1. People working with containers are interested to see 
-> this breakdown. I guess the parallel and use case here is closer to 
-> memory.numa_stat.
-Correct, but for the same reason, I think it might be more useful to 
-split up the weight too.
+>         a way to get notified when the hole is written to, the solution I came up
+>         with is to either add a new notifier or add calls to change_pte() when the
+>         PTEs do get updated. However, considering your suggestion to use
+>         hmm_range_fault(), it is not clear to me how it would help while the hole
+>         is being written to as the writes occur outside of the
+>         udmabuf driver. 
 
-A single scheduling weight for the global GPU might be less useful than 
-per engine, or per tile perhaps..
+You have the design backwards.
 
-Cheers,
-~Maarten
+When a dmabuf importer asks for the dmabuf to be present you call
+hmm_range_fault() and you get back whatever memory is appropriate. The
+importer can then use it.
+
+If the underlying memory changes then you get the invalidation and you
+trigger move. The importer stops using the memory and the underlying
+pages change.
+
+Later the importer decides it needs the memory again so it again asks
+for the dmabuf to be present, which does hmm_range_fault and gets
+whatever is appropriate at the time.
+
+Jason
