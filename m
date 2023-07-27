@@ -1,75 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA48766011
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 00:59:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBC9766022
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 01:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D9010E62E;
-	Thu, 27 Jul 2023 22:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A3CC10E633;
+	Thu, 27 Jul 2023 23:08:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D11F10E62E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 22:59:41 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-686ba29ccb1so940092b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 15:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1690498781; x=1691103581;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=8CTrna5t3S7P99W+zrM1I2ApZYIkXTVQedDFVAI6oIw=;
- b=X7pt5OuyEbf8f6R9fnvI9dxfnaaqjP1RGRY8ZMiJ1wEZkopGyRUZXV3N7HE87n67xj
- XeLWxsKHlNX6ErnVJUF/xO5BY5VT61hhmCqWCbxit+6W6UUMx7WmvB86s0q+wgGSoL6W
- koucWxrpBOYNBJME5+HxRa/lXlSreJXWQaoDeJrNnWxYMUw7bNkMz2551ucFVRtsjQZW
- 0ldvdZqoq1ohkP2t1Jbzv+uf1kwplqapkGN1TtrTmsgZICGsR0gfv1ElN5pvcVjNfGjj
- OPatiCTf9mYCZ8F6QAcUCONXn7kELLjAWaYShbgFOaFFniHTDeIvjRJJRIf4kK+rSYkZ
- RVyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690498781; x=1691103581;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8CTrna5t3S7P99W+zrM1I2ApZYIkXTVQedDFVAI6oIw=;
- b=Tbz8QzJOjXs07EeKFr0yRMGYj4KixrCL8kkG2WFkNubAKxN2tTQFU6TjvL6zNkVVwR
- YCKaf+SBCpl/K/vtFf6WJsdSvaW9VzzRf+v39WA6G/N869WPEIb2HFmLXE1wN2IJLnXL
- BgGDeyEHiMtpfohEtJLJFH3WRE18vx/xn/V3sJaSBAqfcroB2MJNpUhZJft1b91W7FnR
- vLs8Hv8J7nNzpirBHaP5A4XHtqYoymA30vVl/M+MCno8+jnmiDnAHDTbSd9S5Fdu02j4
- y2RdhFsSzZMkb+dyqIszfrWXABD4RWWw2tEODuKrbaysJxxbmCZfCp7SKzxVerU+0RSi
- Rosg==
-X-Gm-Message-State: ABy/qLZzGIX2C2ZgmKrwxLqVP5Sue5GBfPBKFXGtqAj6jPIu9Z2bl3sX
- pbcFRV/JMp0k6y9Rz/hDTv/8bQ==
-X-Google-Smtp-Source: APBJJlGFE8oAcAZu2XvzWjC5bjR81v7OIjjTfZ8m+EaEe6Rjpq3cuwvHN3I08mErFwOZJpneP9Ly1g==
-X-Received: by 2002:a05:6a00:17a8:b0:64d:42b9:6895 with SMTP id
- s40-20020a056a0017a800b0064d42b96895mr61072pfg.5.1690498780930; 
- Thu, 27 Jul 2023 15:59:40 -0700 (PDT)
-Received: from dread.disaster.area (pa49-186-119-116.pa.vic.optusnet.com.au.
- [49.186.119.116]) by smtp.gmail.com with ESMTPSA id
- p24-20020aa78618000000b0068702b66ab1sm1115813pfn.174.2023.07.27.15.59.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 15:59:40 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
- (envelope-from <david@fromorbit.com>) id 1qP9xJ-00BKKZ-1O;
- Fri, 28 Jul 2023 08:59:37 +1000
-Date: Fri, 28 Jul 2023 08:59:37 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH v3 28/49] dm zoned: dynamically allocate the
- dm-zoned-meta shrinker
-Message-ID: <ZML22YJi5vPBDEDj@dread.disaster.area>
-References: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
- <20230727080502.77895-29-zhengqi.arch@bytedance.com>
- <baaf7de4-9a0e-b953-2b6a-46e60c415614@kernel.org>
- <56ee1d92-28ee-81cb-9c41-6ca7ea6556b0@bytedance.com>
- <ba0868b2-9f90-3d81-1c91-8810057fb3ce@kernel.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E834F10E633
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 23:08:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:From
+ :References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=pvnUr51h8WIao2a0o/3EGONfTVoiOLyyOTtzPcgPbU0=; b=e++bgzsOmA5LoHfOD9/iekRyQs
+ Uz4OzYQf9xiRoYrUht8UhgbKFl0AIW59rCXrQU5pkrocQuS+Ct5qFeDD89ne7TOI0hvJJDmP9zEez
+ 2r91mWlcUTbz9t3zgWCCI4hd4TdwcrkJyvJmzkIB9EcAZSbcnWIcrSkvLYqtACsHMPU4z1aGeDbsS
+ QNxUOh5JMhszNuKGab4m9WlRFSDVrXxZXchp96ICTFLY+3Kielvkh0aC7NYAM3hS9Od6hKH42z9B3
+ jdZfJrXgXvAZm7IPxMSF6Qb2awJnj9T5mZfY5PXXRMUac5fh9k2TLAn3pdfyX9BQ96VqBjTxhKjmI
+ 5Xjq7tHQ==;
+Received: from [187.36.235.191] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qPA5c-004sAV-Kr; Fri, 28 Jul 2023 01:08:13 +0200
+Message-ID: <cbf4ccf9-8131-27a0-332c-6942866340d1@igalia.com>
+Date: Thu, 27 Jul 2023 20:08:03 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
+References: <20230727192259.237935-1-arthurgrillo@riseup.net>
+From: Maira Canal <mcanal@igalia.com>
+Subject: Re: [PATCH] drm/tests: Alloc drm_device on drm_exec tests
+In-Reply-To: <20230727192259.237935-1-arthurgrillo@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba0868b2-9f90-3d81-1c91-8810057fb3ce@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +54,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
- Qi Zheng <zhengqi.arch@bytedance.com>,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- dm-devel@redhat.com, linux-mtd@lists.infradead.org, cel@kernel.org,
- x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
- linux-arm-msm@vger.kernel.org, brauner@kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Muchun Song <songmuchun@bytedance.com>, yujie.liu@intel.com, vbabka@suse.cz,
- linux-raid@vger.kernel.org, linux-nfs@vger.kernel.org, tytso@mit.edu,
- netdev@vger.kernel.org, muchun.song@linux.dev, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- senozhatsky@chromium.org, gregkh@linuxfoundation.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ tales.aparecida@gmail.com, boris.brezillon@collabora.com, dakr@redhat.com,
+ alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023 at 07:20:46PM +0900, Damien Le Moal wrote:
-> On 7/27/23 17:55, Qi Zheng wrote:
-> >>> ††††††††† goto err;
-> >>> ††††† }
-> >>> † +††† zmd->mblk_shrinker->count_objects = dmz_mblock_shrinker_count;
-> >>> +††† zmd->mblk_shrinker->scan_objects = dmz_mblock_shrinker_scan;
-> >>> +††† zmd->mblk_shrinker->seeks = DEFAULT_SEEKS;
-> >>> +††† zmd->mblk_shrinker->private_data = zmd;
-> >>> +
-> >>> +††† shrinker_register(zmd->mblk_shrinker);
-> >>
-> >> I fail to see how this new shrinker API is better... Why isn't there a
-> >> shrinker_alloc_and_register() function ? That would avoid adding all this code
-> >> all over the place as the new API call would be very similar to the current
-> >> shrinker_register() call with static allocation.
-> > 
-> > In some registration scenarios, memory needs to be allocated in advance.
-> > So we continue to use the previous prealloc/register_prepared()
-> > algorithm. The shrinker_alloc_and_register() is just a helper function
-> > that combines the two, and this increases the number of APIs that
-> > shrinker exposes to the outside, so I choose not to add this helper.
+Hi Arthur,
+
+On 7/27/23 16:22, Arthur Grillo wrote:
+> The drm_exec tests where crashing[0] because of a null dereference. This
+> is caused by a new access of the `driver` attribute of `struct
+> drm_driver` on drm_gem_private_object_init(). Alloc the drm_device to
+> fix that.
 > 
-> And that results in more code in many places instead of less code + a simple
-> inline helper in the shrinker header file...
+> [0]
+> [15:05:24] ================== drm_exec (6 subtests) ===================
+> [15:05:24] [PASSED] sanitycheck
+> ^CERROR:root:Build interruption occurred. Cleaning console.
+> [15:05:50] [ERROR] Test: drm_exec: missing expected subtest!
+> [15:05:50] BUG: kernel NULL pointer dereference, address: 00000000000000b0
+> [15:05:50] #PF: supervisor read access in kernel mode
+> [15:05:50] #PF: error_code(0x0000) - not-present page
+> [15:05:50] PGD 0 P4D 0
+> [15:05:50] Oops: 0000 [#1] PREEMPT NOPTI
+> [15:05:50] CPU: 0 PID: 23 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7-02032-ge6303f323b1a #69
+> [15:05:50] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc37 04/01/2014
+> [15:05:50] RIP: 0010:drm_gem_private_object_init+0x60/0xc0
+> 
+> Fixes: e6303f323b1a ("drm: manager to keep track of GPUs VA mappings")
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>   drivers/gpu/drm/tests/drm_exec_test.c | 36 +++++++++++++++++++++------
+>   1 file changed, 29 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
+> index 727ac267682e..df31f89a7945 100644
+> --- a/drivers/gpu/drm/tests/drm_exec_test.c
+> +++ b/drivers/gpu/drm/tests/drm_exec_test.c
+> @@ -12,11 +12,31 @@
+>   
+>   #include <drm/drm_exec.h>
+>   #include <drm/drm_device.h>
+> +#include <drm/drm_drv.h>
+>   #include <drm/drm_gem.h>
+> +#include <drm/drm_kunit_helpers.h>
+>   
+>   #include "../lib/drm_random.h"
+>   
+> -static struct drm_device dev;
+> +static struct device *dev;
+> +static struct drm_device *drm;
 
-It's not just a "simple helper" - it's a function that has to take 6
-or 7 parameters with a return value that must be checked and
-handled.
+Maybe we could use test->priv to store those variables.
 
-This was done in the first versions of the patch set - the amount of
-code in each caller does not go down and, IMO, was much harder to
-read and determine "this is obviously correct" that what we have
-now.
+> +
+> +static int test_init(struct kunit *test)
 
-> So not adding that super simple
-> helper is not exactly the best choice in my opinion.
+Nitpick: wouldn't be better to call it drm_exec_test_init()?
 
-Each to their own - I much prefer the existing style/API over having
-to go look up a helper function every time I want to check some
-random shrinker has been set up correctly....
+Anyway, with those fixes or not,
 
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+Reviewed-by: Ma√≠ra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Ma√≠ra
+
+> +{
+> +	dev = drm_kunit_helper_alloc_device(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
+> +
+> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0,
+> +						  DRIVER_MODESET);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
+> +
+> +	return 0;
+> +}
+> +
+> +static void test_exit(struct kunit *test)
+> +{
+> +	drm_kunit_helper_free_device(test, dev);
+> +}
+>   
+>   static void sanitycheck(struct kunit *test)
+>   {
+> @@ -33,7 +53,7 @@ static void test_lock(struct kunit *test)
+>   	struct drm_exec exec;
+>   	int ret;
+>   
+> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
+> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
+>   
+>   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+>   	drm_exec_until_all_locked(&exec) {
+> @@ -52,7 +72,7 @@ static void test_lock_unlock(struct kunit *test)
+>   	struct drm_exec exec;
+>   	int ret;
+>   
+> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
+> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
+>   
+>   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+>   	drm_exec_until_all_locked(&exec) {
+> @@ -78,7 +98,7 @@ static void test_duplicates(struct kunit *test)
+>   	struct drm_exec exec;
+>   	int ret;
+>   
+> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
+> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
+>   
+>   	drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES);
+>   	drm_exec_until_all_locked(&exec) {
+> @@ -106,7 +126,7 @@ static void test_prepare(struct kunit *test)
+>   	struct drm_exec exec;
+>   	int ret;
+>   
+> -	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
+> +	drm_gem_private_object_init(drm, &gobj, PAGE_SIZE);
+>   
+>   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+>   	drm_exec_until_all_locked(&exec) {
+> @@ -127,8 +147,8 @@ static void test_prepare_array(struct kunit *test)
+>   	struct drm_exec exec;
+>   	int ret;
+>   
+> -	drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
+> -	drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
+> +	drm_gem_private_object_init(drm, &gobj1, PAGE_SIZE);
+> +	drm_gem_private_object_init(drm, &gobj2, PAGE_SIZE);
+>   
+>   	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+>   	drm_exec_until_all_locked(&exec)
+> @@ -150,6 +170,8 @@ static struct kunit_case drm_exec_tests[] = {
+>   
+>   static struct kunit_suite drm_exec_test_suite = {
+>   	.name = "drm_exec",
+> +	.init = test_init,
+> +	.exit = test_exit,
+>   	.test_cases = drm_exec_tests,
+>   };
+>   
