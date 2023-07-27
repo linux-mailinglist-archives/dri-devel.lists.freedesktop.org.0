@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7280F765896
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7BB765899
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 18:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E72910E5BF;
-	Thu, 27 Jul 2023 16:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28C6310E19B;
+	Thu, 27 Jul 2023 16:26:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 790A310E5BF
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:24:59 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3fbc77e76abso12053675e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:24:59 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C09DD10E19B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 16:26:31 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3fbc12181b6so13023785e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 09:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690475098; x=1691079898;
+ d=gmail.com; s=20221208; t=1690475190; x=1691079990;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
  :date:message-id:reply-to;
- bh=9Dtb8/XWikrPjhh1ZH6jlcJvc4+s8I+X0vtKuEd4mMc=;
- b=akxN6PqS7K8KjKHHO4u8jzlPtXTSPnqPrDK4GrhDg/d1kWuMxW6wunjd0hoy0JTkiw
- PYSznbnThXx34aSaXUSyDdWuDuv3IcruuomCIWB0zIwGDb1rg+v1zfS4v4N5FvCDb/1d
- j/ShUUgf73BKW5aaO9Sktjna54v/Y/QjR6+j2xNB5na4tYsYOl5Zy1XPmi9m29k3h1b/
- sfOFTRnB5OIgoanLgCpZ0iujZyUwsn3pQxiCgF4qVgZ49O3ndsKl0UaptrkDpDsKuWGm
- 0CTWkdM1ewgRCIU3g8/Q7DbdwIhC8veOpaXO51Z8yxYCd5efA3Rd888qq9/xUUj+jH14
- unwg==
+ bh=tchYlHZMwfEha29OltN4SIaODl/6Qjb64Vc3sLHb8+Y=;
+ b=PXB4tyAG2ehkamoaVnyGUUno9lFYnR4PLwIvLkeH9s+c9DaGYGMFY9sU9EEPhcYp/s
+ C12h9gajnR6cC68M+ooloClgqVAOZCF1NQpy1/GN6EsKIbzsdheC2VZco0Kq3dUcvG8r
+ JibXeFuWi9kOX37MkNjQe+oRYElXvpVPZUR6DugrwiZGDof5PKEcsdbXl2ASC5TraxyH
+ Pw1fDLOp1cGq6QtqPLz1aCqdsv68kEWGLkY8K5T+qPP5jLZOxWlwaZ0OXVSkFHgiDG1n
+ Qi5jK/UUjyLf/Fz8Hu+avkQXHSNxR4penrtFx11PAjDwYeivcYAh/hFZ1mQREaQq9Sj+
+ QXdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690475098; x=1691079898;
+ d=1e100.net; s=20221208; t=1690475190; x=1691079990;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9Dtb8/XWikrPjhh1ZH6jlcJvc4+s8I+X0vtKuEd4mMc=;
- b=HpHXURVEgp//OBSJhZsEuLtxj97i0Jn6hQgmMJ4MY5ZXvSbgPfl7AiQq/DWePY8eLL
- I/zSd2+T7u7cdO9oe/yO0olyzkwFofIz6td00pVKdBr4Tu2xR538ZngS4RubM8YH9Hqo
- DdayHPu36HTftl7AnyxnB9ZjZ2yB82gUXlmZB2dJC6r4FJTWCXia7UaY29KZ3uWsr2pf
- weSt6ZvNCdLJa7SsvfQv7Fi1C6C+vPJvSLaPcY7rArdZRf+20HjgsrV8RHZjw2KIeV6Y
- RbJfFOUQUW9AQ5tBRRLs2AMklCzI++H9OJb1I6u/HpzK7JycnfulMQp/sk6lyrkkMh/4
- RKmQ==
-X-Gm-Message-State: ABy/qLYDaIP/ujE9u7VzEv34nsNmTRKejHbf56k0I3G0bN7X/EXq7FQl
- nHtNQ0MEfcBHn3txxy/EAWU=
-X-Google-Smtp-Source: APBJJlELdV2E51r0DbzX80QIKtgJQqds7CnqjhWhCRk68TR+/SG2Y3BxIAb/3ANSX/BU4owykrCV8Q==
-X-Received: by 2002:a05:600c:2294:b0:3fb:9ef2:157 with SMTP id
- 20-20020a05600c229400b003fb9ef20157mr2104746wmf.28.1690475097580; 
- Thu, 27 Jul 2023 09:24:57 -0700 (PDT)
+ bh=tchYlHZMwfEha29OltN4SIaODl/6Qjb64Vc3sLHb8+Y=;
+ b=FVjdpyEVEz+BJYjiLXZ1Ev//LLRkGG8+27iP3coNP91g9YiFeF7Vsv5BpDdl+nDeoC
+ xh8jv3xxWLIM4jm0+6uUQE9GGMTy4JO8uUMmuQEJQWB4d0QdpTKwqe+JS/Limv67nDd5
+ njGFzBT4dh5r4Jl7elRRxCdPeshBnUfBFCUJ5bJ9f2NeTPEmEEiEd5rcpBVCyWzSFojC
+ G6qSJCJgf6UIpd6QrRu+OLbIJKo69X6a4EFTDKCI8LEgKgpKCn28a/hbnYinatG8Coyi
+ 0a9Ynn8O1YLl4RgZo4eAffjs4ID8NTBrnfzOE91/tPsh+DdFrxQQIqxA2Ta2BthgCqxY
+ cwPg==
+X-Gm-Message-State: ABy/qLaoHbkVFKXT6qr8NweCjX+7HEit1wEWRboXFPNczLvGOibrYAY6
+ ibsp09Dz8sMvwKgoGf7z5c0=
+X-Google-Smtp-Source: APBJJlGawCHttDuITQqdJcf15YH9xdR1nYtbyMSt+zes+gOlZU/94bNaWVZtNPWSoQzctCMMY7lURg==
+X-Received: by 2002:a7b:ce08:0:b0:3fa:99d6:4798 with SMTP id
+ m8-20020a7bce08000000b003fa99d64798mr2126312wmc.37.1690475189887; 
+ Thu, 27 Jul 2023 09:26:29 -0700 (PDT)
 Received: from [127.0.0.1] ([46.211.28.141]) by smtp.gmail.com with ESMTPSA id
- 25-20020a05600c025900b003fbb25da65bsm2188169wmj.30.2023.07.27.09.24.56
+ h14-20020a05600c260e00b003fbca942499sm5118934wma.14.2023.07.27.09.26.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Jul 2023 09:24:57 -0700 (PDT)
-Date: Thu, 27 Jul 2023 19:24:56 +0300
+ Thu, 27 Jul 2023 09:26:29 -0700 (PDT)
+Date: Thu, 27 Jul 2023 19:26:28 +0300
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v2 0/2] Support bridge/connector by Tegra HDMI
+Subject: Re: [PATCH v2 2/2] ARM: tegra: transformers: add connector node
 User-Agent: K-9 Mail for Android
-In-Reply-To: <ZMKIonuTnoXcuc95@orome>
+In-Reply-To: <ZMKJE1G87-jWeg2_@orome>
 References: <20230618085046.10081-1-clamor95@gmail.com>
- <ZMKIonuTnoXcuc95@orome>
-Message-ID: <97EE0F0B-D1EE-43B1-A13E-510DB8FA2798@gmail.com>
+ <20230618085046.10081-3-clamor95@gmail.com> <ZMKJE1G87-jWeg2_@orome>
+Message-ID: <5A2447D3-DB49-4788-AA05-182AF0F04ED2@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
@@ -87,26 +87,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-27 =D0=BB=D0=B8=D0=BF=D0=BD=D1=8F 2023 =D1=80=2E 18:09:22 GMT+03:00, Thier=
+27 =D0=BB=D0=B8=D0=BF=D0=BD=D1=8F 2023 =D1=80=2E 18:11:15 GMT+03:00, Thier=
 ry Reding <thierry=2Ereding@gmail=2Ecom> =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
 =B0=D0=B2(-=D0=BB=D0=B0):
->On Sun, Jun 18, 2023 at 11:50:44AM +0300, Svyatoslav Ryhel wrote:
->> This patch adds support for the bridge/connector attached to the
->> HDMI output, allowing to model the hardware properly=2E It keeps
->> backwards compatibility with existing bindings and is required
->> by devices which have a simple or MHL bridge connected to HDMI
->> output like ASUS P1801-T or LG P880/P895 or HTC One X=2E
+>On Sun, Jun 18, 2023 at 11:50:46AM +0300, Svyatoslav Ryhel wrote:
+>> All ASUS Transformers have micro-HDMI connector directly available=2E
+>> After Tegra HDMI got bridge/connector support, we should use connector
+>> framework for proper HW description=2E
 >>=20
->> Tested on ASUS Transformers which have no dedicated bridge but
->> have type d HDMI connector directly available=2E Tests went smoothly=2E
+>> Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo=2Ecom> # ASUS TF T30
+>> Tested-by: Robert Eckelmann <longnoserob@gmail=2Ecom> # ASUS TF101 T20
+>> Tested-by: Svyatoslav Ryhel <clamor95@gmail=2Ecom> # ASUS TF201 T30
+>> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail=2Ecom>
+>> ---
+>>  arch/arm/boot/dts/tegra20-asus-tf101=2Edts      | 22 ++++++++++++++++-=
+--
+>>  =2E=2E=2E/dts/tegra30-asus-transformer-common=2Edtsi  | 21 +++++++++++=
++++++--
+>>  2 files changed, 38 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/arch/arm/boot/dts/tegra20-asus-tf101=2Edts b/arch/arm/boot=
+/dts/tegra20-asus-tf101=2Edts
+>> index c2a9c3fb5b33=2E=2E97350f566539 100644
+>> --- a/arch/arm/boot/dts/tegra20-asus-tf101=2Edts
+>> +++ b/arch/arm/boot/dts/tegra20-asus-tf101=2Edts
+>> @@ -82,9 +82,11 @@ hdmi@54280000 {
+>>  			pll-supply =3D <&hdmi_pll_reg>;
+>>  			hdmi-supply =3D <&vdd_hdmi_en>;
+>> =20
+>> -			nvidia,ddc-i2c-bus =3D <&hdmi_ddc>;
+>> -			nvidia,hpd-gpio =3D <&gpio TEGRA_GPIO(N, 7)
+>> -				GPIO_ACTIVE_HIGH>;
+>> +			port@0 {
+>> +				hdmi_out: endpoint {
+>> +					remote-endpoint =3D <&connector_in>;
+>> +				};
+>> +			};
 >
->If I understand correctly, we still need the drm/tegra patch to be
->applied before the DT change, otherwise the driver won't know what to do
->about the connector, right?
->
->That shouldn't be big problem, but it means that the patches need to be
->staged in correctly to avoid breaking things=2E
+>Does this need a bindings change? nvidia,tegra20-hdmi currently doesn't
+>support OF graphs, so this would probably fail to validate if we merge
+>it without a corresponding DT bindings update=2E
 
-Patchset contains drm/tegra patch
+drm/tegra patch is backwards compatible and connector node is optional=2E
 
 >Thierry
