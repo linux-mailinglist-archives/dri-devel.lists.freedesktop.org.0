@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19817659E0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:18:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A07477659E7
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jul 2023 19:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381E110E1D6;
-	Thu, 27 Jul 2023 17:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7076B10E1DD;
+	Thu, 27 Jul 2023 17:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5F3F10E1D6
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:37 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-686be28e1a8so878015b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:37 -0700 (PDT)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D0F10E1D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 17:18:39 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-686efb9ee0cso1214579b3a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 10:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690478317; x=1691083117;
+ d=chromium.org; s=google; t=1690478319; x=1691083119;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sKObnOxhKS6BrIWcxa9f6gRD8GnowD5weOErK132RE4=;
- b=TGCEpmBdAiDZzUbKZ1yiuQQF3dg+jtHjEEvyqd5MbrCMqlscwgIoNuqTPWPH2D7y5t
- FULmn5cmb/O9VRm32jjyuq6BpqzsZTk7aVczoiPY2YzCCT9dyPzCCGtlsqRkJGAdgsTU
- 2Wsk1Llolg7ggNSfQzMOmLfQxcPq500Jo7ua8=
+ bh=B+sJqO38e2gNSysz3Tl3WNQ34X1K+Pprq+XQpM/wPpA=;
+ b=XR79+iJg38TdqRqVksssPvqJCfRVppUDJ0SCoIzYZz9E7npJ3QbCrYBR0YtCH1Iwpz
+ bh8ddXSBmExnRlwhNEaqyewsrL8WmSIwwp8P2pEYNXLOnclbvGHTfebTxUYiViXnkb3Q
+ cJhn2pL+oUoG+Carw6pl4TGtM19+hj0XsDhTo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690478317; x=1691083117;
+ d=1e100.net; s=20221208; t=1690478319; x=1691083119;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sKObnOxhKS6BrIWcxa9f6gRD8GnowD5weOErK132RE4=;
- b=gFPEek6NZMz2Rxgc0NBnwiQ8ijQoYR64sJF9kX4FzpqysEvPj7aBK92vBtTdRSF9jn
- 9pt/Pej+GGAmUP2ekC26K6OUpM9bw+Gbuzn6uukkeQKGavJn9FNXWTHSrUZx30GPVGyK
- xGsTCs3pb/ig7cGrIy5tSLBPu6yMJmNQpuENoSR5jSClWIQcjCAHQkBxfA9GkcpAAh5O
- XfO36AQVt5ywBFBLl6a6z8tYDnMWaga64s/L/oMqH5FcJMQ1RuSnn9/NLIveFQErMIV/
- CIGwUYO7QmbaEUvdSsgXX9kn65/oe7T16JRvsGLr5e/mdSVoMXnOwwKu4z/IC2UXkdAd
- bzqg==
-X-Gm-Message-State: ABy/qLb3r9rTm8PGEXxYrnE/ygwGUGQ8BcIkzkc2hvPFD/MT1t7jkhjU
- YChy3ycyBuaGPeSfelz4OeIXbA==
-X-Google-Smtp-Source: APBJJlFQol3YftBaC92yIC9CeLfOGhYg3TqHZzs92Jluyld+thUY/3PW8bGu+UCxnkp5uTQktkEK1A==
-X-Received: by 2002:a05:6a20:7d89:b0:133:712e:f700 with SMTP id
- v9-20020a056a207d8900b00133712ef700mr6187237pzj.51.1690478317166; 
- Thu, 27 Jul 2023 10:18:37 -0700 (PDT)
+ bh=B+sJqO38e2gNSysz3Tl3WNQ34X1K+Pprq+XQpM/wPpA=;
+ b=Art+66JXdMkt+9ylTV9BFu6cgQeFqc1ubhWIB1oK31FvcBSFoGKSn6zOqZWLX8AULd
+ ivn8d9/vO1ped+rrO3JKQuEHRna/HGKR3HY98Gbgjn4E7Az6z0TQwJB4FloNtew2iT1w
+ RJNLpnpiCQ5kw5+VwA29DybdEqxsjWdYbpRvGkMeq3m08bfCeEv8VpW83XDck1KTTiEs
+ OwYo395S/PfCsDJRVMIh8SmV4w51c12DB8pIkQyM7a2KqpQ01yMIOEeSRGSWVio+3wqH
+ 5Ik3GD6DjwBQ4jaGhB9O1QguB+pDcyjaTx8m00Z05uHMWqm5IHW/NaIh/ogDbHZ9YdQZ
+ Dzog==
+X-Gm-Message-State: ABy/qLaTay4jJZCQTaHzK30vT5fzcvFDd0sWTgZnJnIC8IzmquCicPxs
+ yJpu3nL8bKGOK0TfVNJd4alA1Q==
+X-Google-Smtp-Source: APBJJlEtdcPHvIy7yXOPJnhlhZ0fZ1vrgQ0KPFYytG6arm/TebgKO/M3EPsrsa35yfXcgeHGVYzcKw==
+X-Received: by 2002:a05:6a21:6d88:b0:134:4f86:7966 with SMTP id
+ wl8-20020a056a216d8800b001344f867966mr7749482pzb.9.1690478319489; 
+ Thu, 27 Jul 2023 10:18:39 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:2339:954b:b98f:611a])
  by smtp.gmail.com with ESMTPSA id
- 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.35
+ 17-20020aa79111000000b0064f76992905sm1702524pfh.202.2023.07.27.10.18.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Jul 2023 10:18:36 -0700 (PDT)
+ Thu, 27 Jul 2023 10:18:38 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>,
  Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -61,10 +61,10 @@ To: Jiri Kosina <jikos@kernel.org>,
  Sam Ravnborg <sam@ravnborg.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 03/11] drm/panel: Add a way for other devices to follow
- panel state
-Date: Thu, 27 Jul 2023 10:16:30 -0700
-Message-ID: <20230727101636.v4.3.Icd5f96342d2242051c754364f4bee13ef2b986d4@changeid>
+Subject: [PATCH v4 04/11] of: property: fw_devlink: Add a devlink for panel
+ followers
+Date: Thu, 27 Jul 2023 10:16:31 -0700
+Message-ID: <20230727101636.v4.4.Ibf8e1342b5b7906279db2365aca45e6253857bb3@changeid>
 X-Mailer: git-send-email 2.41.0.487.g6d72f3e995-goog
 In-Reply-To: <20230727171750.633410-1-dianders@chromium.org>
 References: <20230727171750.633410-1-dianders@chromium.org>
@@ -91,465 +91,50 @@ Cc: Douglas Anderson <dianders@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These days, it's fairly common to see panels that have touchscreens
-attached to them. The panel and the touchscreen can somewhat be
-thought of as totally separate devices and, historically, this is how
-Linux has treated them. However, treating them as separate isn't
-necessarily the best way to model the two devices, it was just that
-there was no better way. Specifically, there is little practical
-reason to have the touchscreen powered on when the panel is turned
-off, but if we model the devices separately we have no way to keep the
-two devices' power states in sync with each other.
+Inform fw_devlink of the fact that a panel follower (like a
+touchscreen) is effectively a consumer of the panel from the purposes
+of fw_devlink.
 
-The issue described above makes it sound as if the problem here is
-just about efficiency. We're wasting power keeping the touchscreen
-powered up when the screen is off. While that's true, the problem can
-go deeper. Specifically, hardware designers see that there's no reason
-to have the touchscreen on while the screen is off and then build
-hardware assuming that software would never turn the touchscreen on
-while the screen is off.
+NOTE: this patch isn't required for correctness but instead optimizes
+probe order / helps avoid deferrals.
 
-In the very simplest case of hardware designs like this, the
-touchscreen and the panel share some power rails. In most cases, this
-turns out not to be terrible and is, again, just a little less
-efficient. Specifically if we tell Linux that the touchscreen and the
-panel are using the same rails then Linux will keep the rails on when
-_either_ device is turned on. That ends to work OK-ish, but now if you
-turn the panel off not only will the touchscreen remain powered, but
-the power rails for the panel itself won't be switched off, burning
-extra power.
-
-The above two inefficiencies are _extra_ minor when you consider the
-fact that laptops rarely spend much time with the screen off. The main
-use case would be when an external screen (and presumably a power
-supply) is attached.
-
-Unfortunately, it gets worse from here. On sc7180-trogdor-homestar,
-for instance, the display's TCON (timing controller) sometimes crashes
-if you don't power cycle it whenever you stop and restart the video
-stream (like during a modeset). The touchscreen keeping the power
-rails on causes real problems. One proposal in the homestar timeframe
-was to move the touchscreen to an always-on rail, dedicating the main
-power rail to the panel. That caused _different_ problems as talked
-about in commit 557e05fa9fdd ("HID: i2c-hid: goodix: Stop tying the
-reset line to the regulator"). The end result of all of this was to
-add an extra regulator to the board, increasing cost.
-
-Recently, Cong Yang posted a patch [1] where things are even worse.
-The panel and touch controller on that system seem even more
-intimately tied together and really can't be thought of separately.
-
-To address this issue, let's start allowing devices to register
-themselves as "panel followers". These devices will get called after a
-panel has been powered on and before a panel is powered off. This
-makes the panel the primary device in charge of the power state, which
-matches how userspace uses it.
-
-The panel follower API should be fairly straightforward to use. The
-current code assumes that panel followers are using device tree and
-have a "panel" property pointing to the panel to follow. More
-flexibility and non-DT implementations could be added as needed.
-
-Right now, panel followers can follow the prepare/unprepare functions.
-There could be arguments made that, instead, they should follow
-enable/disable. I've chosen prepare/unprepare for now since those
-functions are guaranteed to power up/power down the panel and it seems
-better to start the process earlier.
-
-A bit of explaining about why this is a roll-your-own API instead of
-using something more standard:
-1. In standard APIs in Linux, parent devices are automatically powered
-   on when a child needs power. Applying that here, it would mean that
-   we'd force the panel on any time someone was listening to the
-   touchscreen. That, unfortunately, would have broken homestar's need
-   (if we hadn't changed the hardware, as per above) where the panel
-   absolutely needs to be able to power cycle itself. While one could
-   argue that homestar is broken hardware and we shouldn't have the
-   API do backflips for it, _officially_ the eDP timing guidelines
-   agree with homestar's needs and the panel power sequencing diagrams
-   show power going off. It's nice to be able to support this.
-2. We could, conceibably, try to add a new flag to device_link causing
-   the parent to be in charge of power. Then we could at least use
-   normal pm_runtime APIs. This sounds great, except that we run into
-   problems with initial probe. As talked about in the later patch
-   ("HID: i2c-hid: Support being a panel follower") the initial power
-   on of a panel follower might need to do things (like add
-   sub-devices) that aren't allowed in a runtime_resume function.
-
-The above complexities explain why this API isn't using common
-functions. That being said, this patch is very small and
-self-contained, so if someone was later able to adapt it to using more
-common APIs while solving the above issues then that could happen in
-the future.
-
-[1] https://lore.kernel.org/r/20230519032316.3464732-1-yangcong5@huaqin.corp-partner.google.com
-
+Acked-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
+Since this is so small, I'd presume it's OK for it to go through a DRM
+tree with the proper Ack. That being said, this patch is just an
+optimization and thus it could land completely separately from the
+rest and they could all meet up in mainline.
 
-(no changes since v3)
-
-Changes in v3:
-- Add is_panel_follower() as a convenience for clients.
+(no changes since v2)
 
 Changes in v2:
-- Add even more text to the commit message.
-- A few comment cleanups.
+- ("Add a devlink for panel followers") new for v2.
 
- drivers/gpu/drm/drm_panel.c | 173 +++++++++++++++++++++++++++++++++++-
- include/drm/drm_panel.h     |  80 +++++++++++++++++
- 2 files changed, 249 insertions(+), 4 deletions(-)
+ drivers/of/property.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index 4e1c4e42575b..e814020bbcd3 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -58,6 +58,8 @@ void drm_panel_init(struct drm_panel *panel, struct device *dev,
- 		    const struct drm_panel_funcs *funcs, int connector_type)
- {
- 	INIT_LIST_HEAD(&panel->list);
-+	INIT_LIST_HEAD(&panel->followers);
-+	mutex_init(&panel->follower_lock);
- 	panel->dev = dev;
- 	panel->funcs = funcs;
- 	panel->connector_type = connector_type;
-@@ -105,6 +107,7 @@ EXPORT_SYMBOL(drm_panel_remove);
-  */
- int drm_panel_prepare(struct drm_panel *panel)
- {
-+	struct drm_panel_follower *follower;
- 	int ret;
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index ddc75cd50825..cf8dacf3e3b8 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1266,6 +1266,7 @@ DEFINE_SIMPLE_PROP(pwms, "pwms", "#pwm-cells")
+ DEFINE_SIMPLE_PROP(resets, "resets", "#reset-cells")
+ DEFINE_SIMPLE_PROP(leds, "leds", NULL)
+ DEFINE_SIMPLE_PROP(backlight, "backlight", NULL)
++DEFINE_SIMPLE_PROP(panel, "panel", NULL)
+ DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
+ DEFINE_SUFFIX_PROP(gpio, "-gpio", "#gpio-cells")
  
- 	if (!panel)
-@@ -115,14 +118,27 @@ int drm_panel_prepare(struct drm_panel *panel)
- 		return 0;
- 	}
- 
-+	mutex_lock(&panel->follower_lock);
-+
- 	if (panel->funcs && panel->funcs->prepare) {
- 		ret = panel->funcs->prepare(panel);
- 		if (ret < 0)
--			return ret;
-+			goto exit;
- 	}
- 	panel->prepared = true;
- 
--	return 0;
-+	list_for_each_entry(follower, &panel->followers, list) {
-+		ret = follower->funcs->panel_prepared(follower);
-+		if (ret < 0)
-+			dev_info(panel->dev, "%ps failed: %d\n",
-+				 follower->funcs->panel_prepared, ret);
-+	}
-+
-+	ret = 0;
-+exit:
-+	mutex_unlock(&panel->follower_lock);
-+
-+	return ret;
- }
- EXPORT_SYMBOL(drm_panel_prepare);
- 
-@@ -139,6 +155,7 @@ EXPORT_SYMBOL(drm_panel_prepare);
-  */
- int drm_panel_unprepare(struct drm_panel *panel)
- {
-+	struct drm_panel_follower *follower;
- 	int ret;
- 
- 	if (!panel)
-@@ -149,14 +166,27 @@ int drm_panel_unprepare(struct drm_panel *panel)
- 		return 0;
- 	}
- 
-+	mutex_lock(&panel->follower_lock);
-+
-+	list_for_each_entry(follower, &panel->followers, list) {
-+		ret = follower->funcs->panel_unpreparing(follower);
-+		if (ret < 0)
-+			dev_info(panel->dev, "%ps failed: %d\n",
-+				 follower->funcs->panel_unpreparing, ret);
-+	}
-+
- 	if (panel->funcs && panel->funcs->unprepare) {
- 		ret = panel->funcs->unprepare(panel);
- 		if (ret < 0)
--			return ret;
-+			goto exit;
- 	}
- 	panel->prepared = false;
- 
--	return 0;
-+	ret = 0;
-+exit:
-+	mutex_unlock(&panel->follower_lock);
-+
-+	return ret;
- }
- EXPORT_SYMBOL(drm_panel_unprepare);
- 
-@@ -342,6 +372,141 @@ int of_drm_get_panel_orientation(const struct device_node *np,
- EXPORT_SYMBOL(of_drm_get_panel_orientation);
- #endif
- 
-+/**
-+ * drm_is_panel_follower() - Check if the device is a panel follower
-+ * @dev: The 'struct device' to check
-+ *
-+ * This checks to see if a device needs to be power sequenced together with
-+ * a panel using the panel follower API.
-+ * At the moment panels can only be followed on device tree enabled systems.
-+ * The "panel" property of the follower points to the panel to be followed.
-+ *
-+ * Return: true if we should be power sequenced with a panel; false otherwise.
-+ */
-+bool drm_is_panel_follower(struct device *dev)
-+{
-+	/*
-+	 * The "panel" property is actually a phandle, but for simplicity we
-+	 * don't bother trying to parse it here. We just need to know if the
-+	 * property is there.
-+	 */
-+	return of_property_read_bool(dev->of_node, "panel");
-+}
-+EXPORT_SYMBOL(drm_is_panel_follower);
-+
-+/**
-+ * drm_panel_add_follower() - Register something to follow panel state.
-+ * @follower_dev: The 'struct device' for the follower.
-+ * @follower:     The panel follower descriptor for the follower.
-+ *
-+ * A panel follower is called right after preparing the panel and right before
-+ * unpreparing the panel. It's primary intention is to power on an associated
-+ * touchscreen, though it could be used for any similar devices. Multiple
-+ * devices are allowed the follow the same panel.
-+ *
-+ * If a follower is added to a panel that's already been turned on, the
-+ * follower's prepare callback is called right away.
-+ *
-+ * At the moment panels can only be followed on device tree enabled systems.
-+ * The "panel" property of the follower points to the panel to be followed.
-+ *
-+ * Return: 0 or an error code. Note that -ENODEV means that we detected that
-+ *         follower_dev is not actually following a panel. The caller may
-+ *         choose to ignore this return value if following a panel is optional.
-+ */
-+int drm_panel_add_follower(struct device *follower_dev,
-+			   struct drm_panel_follower *follower)
-+{
-+	struct device_node *panel_np;
-+	struct drm_panel *panel;
-+	int ret;
-+
-+	panel_np = of_parse_phandle(follower_dev->of_node, "panel", 0);
-+	if (!panel_np)
-+		return -ENODEV;
-+
-+	panel = of_drm_find_panel(panel_np);
-+	of_node_put(panel_np);
-+	if (IS_ERR(panel))
-+		return PTR_ERR(panel);
-+
-+	get_device(panel->dev);
-+	follower->panel = panel;
-+
-+	mutex_lock(&panel->follower_lock);
-+
-+	list_add_tail(&follower->list, &panel->followers);
-+	if (panel->prepared) {
-+		ret = follower->funcs->panel_prepared(follower);
-+		if (ret < 0)
-+			dev_info(panel->dev, "%ps failed: %d\n",
-+				 follower->funcs->panel_prepared, ret);
-+	}
-+
-+	mutex_unlock(&panel->follower_lock);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_panel_add_follower);
-+
-+/**
-+ * drm_panel_remove_follower() - Reverse drm_panel_add_follower().
-+ * @follower:     The panel follower descriptor for the follower.
-+ *
-+ * Undo drm_panel_add_follower(). This includes calling the follower's
-+ * unprepare function if we're removed from a panel that's currently prepared.
-+ *
-+ * Return: 0 or an error code.
-+ */
-+void drm_panel_remove_follower(struct drm_panel_follower *follower)
-+{
-+	struct drm_panel *panel = follower->panel;
-+	int ret;
-+
-+	mutex_lock(&panel->follower_lock);
-+
-+	if (panel->prepared) {
-+		ret = follower->funcs->panel_unpreparing(follower);
-+		if (ret < 0)
-+			dev_info(panel->dev, "%ps failed: %d\n",
-+				 follower->funcs->panel_unpreparing, ret);
-+	}
-+	list_del_init(&follower->list);
-+
-+	mutex_unlock(&panel->follower_lock);
-+
-+	put_device(panel->dev);
-+}
-+EXPORT_SYMBOL(drm_panel_remove_follower);
-+
-+static void drm_panel_remove_follower_void(void *follower)
-+{
-+	drm_panel_remove_follower(follower);
-+}
-+
-+/**
-+ * devm_drm_panel_add_follower() - devm version of drm_panel_add_follower()
-+ * @follower_dev: The 'struct device' for the follower.
-+ * @follower:     The panel follower descriptor for the follower.
-+ *
-+ * Handles calling drm_panel_remove_follower() using devm on the follower_dev.
-+ *
-+ * Return: 0 or an error code.
-+ */
-+int devm_drm_panel_add_follower(struct device *follower_dev,
-+				struct drm_panel_follower *follower)
-+{
-+	int ret;
-+
-+	ret = drm_panel_add_follower(follower_dev, follower);
-+	if (ret)
-+		return ret;
-+
-+	return devm_add_action_or_reset(follower_dev,
-+					drm_panel_remove_follower_void, follower);
-+}
-+EXPORT_SYMBOL(devm_drm_panel_add_follower);
-+
- #if IS_REACHABLE(CONFIG_BACKLIGHT_CLASS_DEVICE)
- /**
-  * drm_panel_of_backlight - use backlight device node for backlight
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index c6cf75909389..5ac67eeb0860 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -27,12 +27,14 @@
- #include <linux/err.h>
- #include <linux/errno.h>
- #include <linux/list.h>
-+#include <linux/mutex.h>
- 
- struct backlight_device;
- struct dentry;
- struct device_node;
- struct drm_connector;
- struct drm_device;
-+struct drm_panel_follower;
- struct drm_panel;
- struct display_timing;
- 
-@@ -144,6 +146,45 @@ struct drm_panel_funcs {
- 	void (*debugfs_init)(struct drm_panel *panel, struct dentry *root);
- };
- 
-+struct drm_panel_follower_funcs {
-+	/**
-+	 * @panel_prepared:
-+	 *
-+	 * Called after the panel has been powered on.
-+	 */
-+	int (*panel_prepared)(struct drm_panel_follower *follower);
-+
-+	/**
-+	 * @panel_unpreparing:
-+	 *
-+	 * Called before the panel is powered off.
-+	 */
-+	int (*panel_unpreparing)(struct drm_panel_follower *follower);
-+};
-+
-+struct drm_panel_follower {
-+	/**
-+	 * @funcs:
-+	 *
-+	 * Dependent device callbacks; should be initted by the caller.
-+	 */
-+	const struct drm_panel_follower_funcs *funcs;
-+
-+	/**
-+	 * @list
-+	 *
-+	 * Used for linking into panel's list; set by drm_panel_add_follower().
-+	 */
-+	struct list_head list;
-+
-+	/**
-+	 * @panel
-+	 *
-+	 * The panel we're dependent on; set by drm_panel_add_follower().
-+	 */
-+	struct drm_panel *panel;
-+};
-+
- /**
-  * struct drm_panel - DRM panel object
-  */
-@@ -189,6 +230,20 @@ struct drm_panel {
- 	 */
- 	struct list_head list;
- 
-+	/**
-+	 * @followers:
-+	 *
-+	 * A list of struct drm_panel_follower dependent on this panel.
-+	 */
-+	struct list_head followers;
-+
-+	/**
-+	 * @followers_lock:
-+	 *
-+	 * Lock for followers list.
-+	 */
-+	struct mutex follower_lock;
-+
- 	/**
- 	 * @prepare_prev_first:
- 	 *
-@@ -246,6 +301,31 @@ static inline int of_drm_get_panel_orientation(const struct device_node *np,
- }
- #endif
- 
-+#if defined(CONFIG_DRM_PANEL)
-+bool drm_is_panel_follower(struct device *dev);
-+int drm_panel_add_follower(struct device *follower_dev,
-+			   struct drm_panel_follower *follower);
-+void drm_panel_remove_follower(struct drm_panel_follower *follower);
-+int devm_drm_panel_add_follower(struct device *follower_dev,
-+				struct drm_panel_follower *follower);
-+#else
-+static inline bool drm_is_panel_follower(struct device *dev)
-+{
-+	return false;
-+}
-+static inline int drm_panel_add_follower(struct device *follower_dev,
-+					 struct drm_panel_follower *follower)
-+{
-+	return -ENODEV;
-+}
-+static inline void drm_panel_remove_follower(struct drm_panel_follower *follower) { }
-+static inline int devm_drm_panel_add_follower(struct device *follower_dev,
-+					      struct drm_panel_follower *follower)
-+{
-+	return -ENODEV;
-+}
-+#endif
-+
- #if IS_ENABLED(CONFIG_DRM_PANEL) && (IS_BUILTIN(CONFIG_BACKLIGHT_CLASS_DEVICE) || \
- 	(IS_MODULE(CONFIG_DRM) && IS_MODULE(CONFIG_BACKLIGHT_CLASS_DEVICE)))
- int drm_panel_of_backlight(struct drm_panel *panel);
+@@ -1354,6 +1355,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
+ 	{ .parse_prop = parse_resets, },
+ 	{ .parse_prop = parse_leds, },
+ 	{ .parse_prop = parse_backlight, },
++	{ .parse_prop = parse_panel, },
+ 	{ .parse_prop = parse_gpio_compat, },
+ 	{ .parse_prop = parse_interrupts, },
+ 	{ .parse_prop = parse_regulators, },
 -- 
 2.41.0.487.g6d72f3e995-goog
 
