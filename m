@@ -1,77 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB14A767859
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 00:04:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E40D07678C3
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 00:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67FF710E79A;
-	Fri, 28 Jul 2023 22:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 761A810E79B;
+	Fri, 28 Jul 2023 22:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2FA10E79A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 22:04:03 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-99bed101b70so166092666b.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 15:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1690581842; x=1691186642;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=haX0t9f5hamyUvHUswvSCOkaKoMQnOQJcQIDNPRvdEM=;
- b=dRlwR8eK6YaxNI4Bzu02zh3txrAR6Mj3KrAyZvU5E0bUCA3qsCpsYtHwFgIbvEuS5E
- gSne2rM0czZ7DNGojkAtCsgdl7cnC9wa189YkZQPBdXksELm0elWlSc2NZ+QnBaK2uJW
- UbckgSPW4z/up8bfYmLUiPVsBOlAS7ztD1Ed4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690581842; x=1691186642;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=haX0t9f5hamyUvHUswvSCOkaKoMQnOQJcQIDNPRvdEM=;
- b=F8xJdH6ejbihPtUgxqgZZ3EUVqj+D8TXe0iTV4SVt4p/HvflyJNn3DPaKGlnFBHOb5
- F78wI/2o0euekXsE4MnFpcd0bVXQmwu0qmBJ1+Eksz0OIzgsEOBW4a+2b/OMPvtO/tlJ
- LR1B7QjN6Tawv3Qg2N+dcJUzQb60ErP4P89pniwJSK8L0tmd3jOdpAK0HvrEQB46ms7N
- fZi2gso7Fox6qYwSSiL2U9I+MCHvGwy5PSDkLCKX7x7gIQ82CWAUqHNsPQblYiQUgPmh
- ARX7Fm2zbZ0Wgl0yikMovVbVmUOj6mDOvmzr0xX8VrN4kdfvrJioZAaNdrX8lJd4fQkC
- vvMA==
-X-Gm-Message-State: ABy/qLZLV8d7YMbS7dSrE0z1msCyAimMHvgh3Ns4hCLryR5XqIRZ5vej
- RBrJ7AFzKz0K7uafqdtK+WLvs9ocgt5QkuGaG5UcFQ==
-X-Google-Smtp-Source: APBJJlEKxfHYZp/LFe/s5rgxRSDGCIGl3H9grXYHMUnJNW5crH/LJ4y4oHJ2UeMBpedL0KC7XrPg6A==
-X-Received: by 2002:a17:906:3114:b0:99b:eeeb:84a2 with SMTP id
- 20-20020a170906311400b0099beeeb84a2mr540990ejx.13.1690581841806; 
- Fri, 28 Jul 2023 15:04:01 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- e20-20020a17090681d400b0099b8234a9fesm2502944ejx.1.2023.07.28.15.04.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jul 2023 15:04:01 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-51e24210395so4504a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 15:04:01 -0700 (PDT)
-X-Received: by 2002:a50:8ac1:0:b0:51a:1ffd:10e with SMTP id
- k1-20020a508ac1000000b0051a1ffd010emr12661edk.3.1690581841061; Fri, 28 Jul
- 2023 15:04:01 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFCF10E79B
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 22:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690585144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1z4CG4XPVPLqBvlOoBnJ7hAp50An6oynW+ge2nUWWpM=;
+ b=Ju7/ZBcYuq6LQMhhbpoC6ACIcYnx5TyoxnDDAXU0ZCxMlLzjaaZrEFSPXkZ8qRo83zKkZ0
+ uVKawTCOh9AwYqFrFnzUD0PnvcvhRmdslyG/MBJ90SSGDbESikHAu7qyknJLdoHTjCUITa
+ NCvGkoE0Qt7HMFIpF0nsfDbkUM9K0Os=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-526-UqOiqX9RNoyrlAbE-XyiPA-1; Fri, 28 Jul 2023 18:59:01 -0400
+X-MC-Unique: UqOiqX9RNoyrlAbE-XyiPA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8F011006E31;
+ Fri, 28 Jul 2023 22:59:00 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.16.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86FB54A9004;
+ Fri, 28 Jul 2023 22:58:59 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/nouveau/nvkm/dp: Add workaround to fix DP 1.3+ DPCD
+ issues
+Date: Fri, 28 Jul 2023 18:58:57 -0400
+Message-Id: <20230728225858.350581-1-lyude@redhat.com>
 MIME-Version: 1.0
-References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
- <141b928d-6165-f282-b8e6-f140cb09333d@collabora.com>
- <CAAfnVBnrUotph4TYJVu9Bohqv3m80t90V34TNhh-Tspxwsj-ZQ@mail.gmail.com>
- <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
- <CAAfnVBkLhYVaSG3U_QUZwXLFv-XT=9F2v2pgrCDQQBgNZ3MSWA@mail.gmail.com>
- <a453d562-7e93-aef3-a533-171f572b6ee3@collabora.com>
- <CAAfnVBmwVTBNx4GC2hiYQ9Ya8ufP_D8N0-JOzT2iPV9BYZhD9w@mail.gmail.com>
- <CAF6AEGvWrUN9W9DKv45OT-MfYAS4D_bXa_Sb5ptgrMEf9WSSqA@mail.gmail.com>
- <4c18744d-b6cd-d517-5726-104017d0764b@collabora.com>
-In-Reply-To: <4c18744d-b6cd-d517-5726-104017d0764b@collabora.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Fri, 28 Jul 2023 15:03:47 -0700
-X-Gmail-Original-Message-ID: <CAAfnVB=qOjM1EQUyxdczu9KOGjD0sieoTODohbHz4ZDN0mqojw@mail.gmail.com>
-Message-ID: <CAAfnVB=qOjM1EQUyxdczu9KOGjD0sieoTODohbHz4ZDN0mqojw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: multipart/alternative; boundary="0000000000001a90dd0601934260"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,120 +57,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- David Airlie <airlied@redhat.com>, kernel@collabora.com,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: Karol Herbst <kherbst@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000001a90dd0601934260
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Currently we use the drm_dp_dpcd_read_caps() helper in the DRM side of
+nouveau in order to read the DPCD of a DP connector, which makes sure we do
+the right thing and also check for extended DPCD caps. However, it turns
+out we're not currently doing this on the nvkm side since we don't have
+access to the drm_dp_aux structure there - which means that the DRM side of
+the driver and the NVKM side can end up with different DPCD capabilities
+for the same connector.
 
-On Wed, Jul 19, 2023 at 11:58=E2=80=AFAM Dmitry Osipenko <
-dmitry.osipenko@collabora.com> wrote:
+Ideally in order to fix this, we just want to use the
+drm_dp_read_dpcd_caps() helper in nouveau. That's not currently possible
+though, and is going to depend on having a bunch of the DP code moved out
+of nvkm and into the DRM side of things as part of the GSP enablement work.
 
-> 27.06.2023 20:16, Rob Clark =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
-> >> Now these are just suggestions, and while I think they are good, you
-> can safely ignore them.
-> >>
-> >> But there's also the DRM requirements, which state "userspace side mus=
-t
-> be fully reviewed and tested to the standards of that user-space
-> project.".  So I think to meet the minimum requirements, I think we shoul=
-d
-> at-least have one of the following (not all, just one) reviewed:
-> >>
-> >> 1) venus using the new uapi
-> >> 2) gfxstream vk using the new uapi
-> >> 3) amdgpu nctx out of "draft" mode and using the new uapi.
-> >> 4) virtio-intel using new uapi
-> >> 5) turnip using your new uapi
-> >
-> > forgot to mention this earlier, but
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23533
-> >
-> > Dmitry, you can also add, if you haven't already:
-> >
-> > Tested-by: Rob Clark <robdclark@gmail.com>
->
-> Gurchetan, Turnip Mesa virtio support is ready to be merged upstream,
-> it's using this new syncobj UAPI. Could you please give yours r-b if you
-> don't have objections?
->
+Until then however, let's workaround this problem by porting a copy of
+drm_dp_read_dpcd_caps() into NVKM - which should fix this issue.
 
-Given that Turnip native contexts are reviewed using this UAPI, your change
-does now meet the requirements and is ready to merge.
+Issue: https://gitlab.freedesktop.org/drm/nouveau/-/issues/211
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 48 ++++++++++++++++++-
+ 1 file changed, 47 insertions(+), 1 deletion(-)
 
-One thing I noticed is you might need explicit padding between
-`num_out_syncobjs` and `in_syncobjs`.  Otherwise, feel free to add my
-acked-by.
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+index 40c8ea43c42f2..b8ac66b4a2c4b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+@@ -26,6 +26,8 @@
+ #include "head.h"
+ #include "ior.h"
+ 
++#include <drm/display/drm_dp.h>
++
+ #include <subdev/bios.h>
+ #include <subdev/bios/init.h>
+ #include <subdev/gpio.h>
+@@ -634,6 +636,50 @@ nvkm_dp_enable_supported_link_rates(struct nvkm_outp *outp)
+ 	return outp->dp.rates != 0;
+ }
+ 
++/* XXX: This is a big fat hack, and this is just drm_dp_read_dpcd_caps()
++ * converted to work inside nvkm. This is a temporary holdover until we start
++ * passing the drm_dp_aux device through NVKM
++ */
++static int
++nvkm_dp_read_dpcd_caps(struct nvkm_outp *outp)
++{
++	struct nvkm_i2c_aux *aux = outp->dp.aux;
++	u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
++	int ret;
++
++	ret = nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, DP_RECEIVER_CAP_SIZE);
++	if (ret < 0)
++		return ret;
++
++	/*
++	 * Prior to DP1.3 the bit represented by
++	 * DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT was reserved.
++	 * If it is set DP_DPCD_REV at 0000h could be at a value less than
++	 * the true capability of the panel. The only way to check is to
++	 * then compare 0000h and 2200h.
++	 */
++	if (!(outp->dp.dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
++	      DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT))
++		return 0;
++
++	ret = nvkm_rdaux(aux, DP_DP13_DPCD_REV, dpcd_ext, sizeof(dpcd_ext));
++	if (ret < 0)
++		return ret;
++
++	if (outp->dp.dpcd[DP_DPCD_REV] > dpcd_ext[DP_DPCD_REV]) {
++		OUTP_DBG(outp, "Extended DPCD rev less than base DPCD rev (%d > %d)\n",
++			 outp->dp.dpcd[DP_DPCD_REV], dpcd_ext[DP_DPCD_REV]);
++		return 0;
++	}
++
++	if (!memcmp(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext)))
++		return 0;
++
++	memcpy(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext));
++
++	return 0;
++}
++
+ void
+ nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
+ {
+@@ -689,7 +735,7 @@ nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
+ 			memset(outp->dp.lttpr, 0x00, sizeof(outp->dp.lttpr));
+ 		}
+ 
+-		if (!nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, sizeof(outp->dp.dpcd))) {
++		if (!nvkm_dp_read_dpcd_caps(outp)) {
+ 			const u8 rates[] = { 0x1e, 0x14, 0x0a, 0x06, 0 };
+ 			const u8 *rate;
+ 			int rate_max;
+-- 
+2.40.1
 
-
->
-> --
-> Best regards,
-> Dmitry
->
->
-
---0000000000001a90dd0601934260
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">=C2=A0</div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 19, 2023 at 11:58=E2=80=
-=AFAM Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@collabora.com" =
-target=3D"_blank">dmitry.osipenko@collabora.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">27.06.2023 20:16, Rob Clark =
-=D0=BF=D0=B8=D1=88=D0=B5=D1=82:<br>
-...<br>
-&gt;&gt; Now these are just suggestions, and while I think they are good, y=
-ou can safely ignore them.<br>
-&gt;&gt;<br>
-&gt;&gt; But there&#39;s also the DRM requirements, which state &quot;users=
-pace side must be fully reviewed and tested to the standards of that user-s=
-pace project.&quot;.=C2=A0 So I think to meet the minimum requirements, I t=
-hink we should at-least have one of the following (not all, just one) revie=
-wed:<br>
-&gt;&gt;<br>
-&gt;&gt; 1) venus using the new uapi<br>
-&gt;&gt; 2) gfxstream vk using the new uapi<br>
-&gt;&gt; 3) amdgpu nctx out of &quot;draft&quot; mode and using the new uap=
-i.<br>
-&gt;&gt; 4) virtio-intel using new uapi<br>
-&gt;&gt; 5) turnip using your new uapi<br>
-&gt; <br>
-&gt; forgot to mention this earlier, but<br>
-&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/2=
-3533" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/m=
-esa/mesa/-/merge_requests/23533</a><br>
-&gt; <br>
-&gt; Dmitry, you can also add, if you haven&#39;t already:<br>
-&gt; <br>
-&gt; Tested-by: Rob Clark &lt;<a href=3D"mailto:robdclark@gmail.com" target=
-=3D"_blank">robdclark@gmail.com</a>&gt;<br>
-<br>
-Gurchetan, Turnip Mesa virtio support is ready to be merged upstream,<br>
-it&#39;s using this new syncobj UAPI. Could you please give yours r-b if yo=
-u<br>
-don&#39;t have objections?<br></blockquote><div><br></div><div>Given that T=
-urnip native contexts are reviewed using this UAPI, your change does now me=
-et the requirements and is ready to merge.=C2=A0=C2=A0</div><div><br></div>=
-<div>One thing I noticed is you might need explicit padding between `num_ou=
-t_syncobjs` and `in_syncobjs`.=C2=A0 Otherwise, feel free to add my acked-b=
-y.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
--- <br>
-Best regards,<br>
-Dmitry<br>
-<br>
-</blockquote></div></div>
-
---0000000000001a90dd0601934260--
