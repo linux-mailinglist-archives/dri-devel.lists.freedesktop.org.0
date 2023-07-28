@@ -1,67 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4343B7665B0
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 09:46:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 856A976659D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 09:45:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3AD610E672;
-	Fri, 28 Jul 2023 07:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D8D10E666;
+	Fri, 28 Jul 2023 07:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta01.prd.rdg.aluminati.org (mta01.prd.rdg.aluminati.org
- [94.76.243.214])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC5C10E608
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jul 2023 21:34:45 +0000 (UTC)
-Received: from mta01.prd.rdg.aluminati.org (localhost [127.0.0.1])
- by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id A227420494;
- Thu, 27 Jul 2023 22:34:43 +0100 (BST)
-Authentication-Results: mta01.prd.rdg.aluminati.org; dkim=pass (2048-bit key;
- unprotected) header.d=cantab.net header.i=@cantab.net header.a=rsa-sha256
- header.s=dkim header.b=oVEtuhX/; dkim-atps=neutral
-Received: from localhost (localhost [127.0.0.1])
- by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id 9804020401;
- Thu, 27 Jul 2023 22:34:43 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cantab.net; h=
- user-agent:message-id:date:date:mime-version:x-mailer:references
- :in-reply-to:subject:subject:from:from:received:received
- :received; s=dkim; t=1690493682; bh=olkeFIpENS6gBvoMBIWpyv9oVU6u
- aFKCBVe3Us9ba3w=; b=oVEtuhX/wURBwUIlWlPAcxgN8l5RbWaakA5M5Rf1Y15W
- Ww4GvghqdD3yfpNM1bW50IVZGoQ3II93qWZwSUOcQZ8rfdV/xtQ5phTyiYVAPuA3
- NagUK5sHVCeqLAZULUdDFO0BdkiXfiQQHvcC1zDsjQjM1MOq8SA3n6PtT6+gIast
- Hx2hAmYcDpUlA8W/DFaX2taqRn9rF31X3I6G1NANXsZcdNdd2M+05ELqgwlO/K/e
- IdpFUYkrQ5Kf0jEh08C/Jk511RBSrJ82GxTdmBModvcBoI7Zl2qP3o/c1fslcLgN
- dDwJBSQUrMCgHfeRj0C1JBH5ds3i6K/ybhjZYa4ntg==
-X-Quarantine-ID: <BGjo5IoAmyGM>
-X-Virus-Scanned: Debian amavisd-new at mta01.prd.rdg.aluminati.org
-Received: from mta.aluminati.local ([127.0.0.1])
- by localhost (mta01.prd.rdg.aluminati.org [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id BGjo5IoAmyGM; Thu, 27 Jul 2023 22:34:42 +0100 (BST)
-Received: from revelation.localdomain (static-87-75-118-217.vodafonexdsl.co.uk
- [87.75.118.217])
- by svc01-1.prd.rdg.aluminati.org (Postfix) with ESMTPSA id 5D5441C0002;
- Thu, 27 Jul 2023 22:34:39 +0100 (BST)
-Received: by revelation.localdomain (Postfix, from userid 1000)
- id 9B8F51202D3; Thu, 27 Jul 2023 22:34:38 +0100 (BST)
-From: Roger Sewell <roger.sewell@cantab.net>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
-In-reply-to: Your message of Wed, 26 Jul 2023 17:40:11 +0200
- <9c8a0a5f-fd7f-cf6d-7e6e-ca90bdf957c5@suse.de>
-References: <20230717133037.25941-1-jfalempe@redhat.com>
- <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
- <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
- <20230724215746.10928@revelation.broadband>
- <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
- <20230725223127.4184@revelation.broadband>
- <9c8a0a5f-fd7f-cf6d-7e6e-ca90bdf957c5@suse.de>
-X-Mailer: MH-E 8.6+git; GNU Mailutils 3.13; GNU Emacs 27.2
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177A910E183;
+ Fri, 28 Jul 2023 01:12:48 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36S0iVcO008778; Fri, 28 Jul 2023 01:12:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=KhcCqwVaz3UL4ECXqC1Z980gukwotXZHOchHP5gPpb4=;
+ b=TZ5/s8/B1zClwVxUZen/c+oM7CGAMyIlfTDc4GO2B6CLs6kgOAySpAbfBzL8JYPurNtD
+ EIGwG9ey4BV1cHcuvvZwqr7EHF6PGrx5P/G7Qzc7mNwM5pDdrprfsuOV75mXQ7oAwtk6
+ iMM1qLITLxODDkpgr1uuJKOPT5v3E9dc0wmwu7cJq4W84qcBsRzmzxoCOzUBLIMnK7GO
+ mz5VEXXPZhh3CiSYpJateqY7SBxybOTapm+SFmXhsxotP+quD3fpFeO+PQR9PVFexrye
+ ON2WZye0uzJzWdcY3DjhjuPkif7+y4wmf+Z6OkuZqt6TKqXl1qLh0lZkdXwFDv1QSkAr tA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s336t48aq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jul 2023 01:12:35 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36S1CWvk022058
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jul 2023 01:12:32 GMT
+Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Thu, 27 Jul 2023 18:12:31 -0700
+From: parellan <parellan@quicinc.com>
+To: <neil.armstrong@linaro.org>, <sam@ravnborg.org>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/panel: Enable DSC and CMD mode for Visionox VTDR6130 panel
+Date: Thu, 27 Jul 2023 18:12:15 -0700
+Message-ID: <20230728011218.14630-1-parellan@quicinc.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-=-="
-Date: Thu, 27 Jul 2023 22:34:38 +0100
-Message-ID: <20230727223438.4658@revelation.broadband>
-User-Agent: MH (GNU Mailutils 3.13)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 7hbaKR9C9i608I0ieQIBn3o_E-mVLs7s
+X-Proofpoint-GUID: 7hbaKR9C9i608I0ieQIBn3o_E-mVLs7s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ clxscore=1011 mlxlogscore=999 adultscore=0 lowpriorityscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307280009
 X-Mailman-Approved-At: Fri, 28 Jul 2023 07:44:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,73 +80,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, jfalempe@redhat.com, dri-devel@lists.freedesktop.org
+Cc: marijn.suijten@somainline.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
+ dmitry.baryshkov@linaro.org, Paloma Arellano <quic_parellan@quicinc.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-=-=
-Content-Type: text/plain
+From: Paloma Arellano <quic_parellan@quicinc.com>
 
+Enable display compression (DSC v1.2) and CMD mode for 1080x2400 Visionox
+VTDR6130 AMOLED DSI panel. In addition, this patch will set the default
+to command mode with DSC enabled.
 
-Thomas, Jocelyn,
+Note: This patch has only been validated DSC over command mode as DSC over
+video mode has never been validated for the MSM driver before.
 
-As a result of the collection of the Xorg logs requested by Thomas, I've
-realised that at some long-past point upgrade the 1440x900@60 mode
-disappeared, and in order to get it back I introduced the file
-/etc/X11/xorg.conf.d/20-screen.conf attached.
+Depends on: "Add prepare_prev_first flag to Visionox VTDR6130" [1]
 
-If I remove this file, then with the unmodified new mgag200 module in
-place, on going to Settings->Display I am no longer even offered the
-1440x900 option - presumably as a result of
-mgag200_mode_config_mode_valid returning MODE_BAD.
+[1] https://patchwork.freedesktop.org/series/121337/
 
-With this file in place, and with the unmodified new mgag200 module in
-place, I am offered this setting, but if I pick it then it is not used
-but *is* written into ~/.config/monitors.xml, and then on next login
-graphics fail completely.
+Suggested-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+---
+ .../gpu/drm/panel/panel-visionox-vtdr6130.c   | 77 ++++++++++++++++++-
+ 1 file changed, 73 insertions(+), 4 deletions(-)
 
-Hypothesis: there are two different places in the code where mode_valid
-is potentially checked, both of which use the mgag200 module, and the
-old module only does this check at one of them (deciding which modes to
-offer) (which check is bypassed for modes requested in xorg.conf.d),
-while the new module does it at both (and hence fails invalid modes
-requested in xorg.conf.d) ??
+diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+index e1363e128e7e..5658d39a3a6b 100644
+--- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
++++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+@@ -9,6 +9,7 @@
+ #include <linux/of.h>
+ 
+ #include <drm/display/drm_dsc.h>
++#include <drm/display/drm_dsc_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_panel.h>
+@@ -20,7 +21,8 @@ struct visionox_vtdr6130 {
+ 	struct mipi_dsi_device *dsi;
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator_bulk_data supplies[3];
+-	bool prepared;
++	bool prepared, enabled;
++	bool video_mode;
+ };
+ 
+ static inline struct visionox_vtdr6130 *to_visionox_vtdr6130(struct drm_panel *panel)
+@@ -50,12 +52,18 @@ static int visionox_vtdr6130_on(struct visionox_vtdr6130 *ctx)
+ 	if (ret)
+ 		return ret;
+ 
++	mipi_dsi_dcs_write_seq(dsi, 0x03, 0x01);
+ 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
+ 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS, 0x00, 0x00);
+ 	mipi_dsi_dcs_write_seq(dsi, 0x59, 0x09);
+ 	mipi_dsi_dcs_write_seq(dsi, 0x6c, 0x01);
+ 	mipi_dsi_dcs_write_seq(dsi, 0x6d, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x01);
++	
++	if (ctx->video_mode)
++		mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x01);
++	else
++		mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x02);
++
+ 	mipi_dsi_dcs_write_seq(dsi, 0x70,
+ 			       0x12, 0x00, 0x00, 0xab, 0x30, 0x80, 0x09, 0x60, 0x04,
+ 			       0x38, 0x00, 0x28, 0x02, 0x1c, 0x02, 0x1c, 0x02, 0x00,
+@@ -214,6 +222,42 @@ static const struct drm_display_mode visionox_vtdr6130_mode = {
+ 	.height_mm = 157,
+ };
+ 
++static int visionox_vtdr6130_enable(struct drm_panel *panel)
++{
++	struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct drm_dsc_picture_parameter_set pps;
++	int ret;
++
++	if (ctx->enabled)
++		return 0;
++
++	if (!dsi->dsc) {
++		dev_err(&dsi->dev, "DSC not attached to DSI\n");
++		return -ENODEV;
++	}
++
++	drm_dsc_pps_payload_pack(&pps, dsi->dsc);
++	ret = mipi_dsi_picture_parameter_set(dsi, &pps);
++	if (ret) {
++		dev_err(&dsi->dev, "Failed to set PPS\n");
++		return ret;
++	}
++
++	ctx->enabled = true;
++
++	return 0;
++}
++
++static int visionox_vtdr6130_disable(struct drm_panel *panel)
++{
++	struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
++
++	ctx->enabled = false;
++
++	return 0;
++}
++
+ static int visionox_vtdr6130_get_modes(struct drm_panel *panel,
+ 				       struct drm_connector *connector)
+ {
+@@ -237,6 +281,8 @@ static const struct drm_panel_funcs visionox_vtdr6130_panel_funcs = {
+ 	.prepare = visionox_vtdr6130_prepare,
+ 	.unprepare = visionox_vtdr6130_unprepare,
+ 	.get_modes = visionox_vtdr6130_get_modes,
++	.enable = visionox_vtdr6130_enable,
++	.disable = visionox_vtdr6130_disable,
+ };
+ 
+ static int visionox_vtdr6130_bl_update_status(struct backlight_device *bl)
+@@ -269,11 +315,31 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
+ {
+ 	struct device *dev = &dsi->dev;
+ 	struct visionox_vtdr6130 *ctx;
++	struct drm_dsc_config *dsc;
+ 	int ret;
+ 
+ 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+ 		return -ENOMEM;
++	
++	ctx->video_mode = of_property_read_bool(dev->of_node, "enforce-video-mode");
++
++	dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
++	if (!dsc)
++		return -ENOMEM;
++
++	/* Set DSC params */
++	dsc->dsc_version_major = 0x1;
++	dsc->dsc_version_minor = 0x2;
++
++	dsc->slice_height = 40;
++	dsc->slice_width = 540;
++	dsc->slice_count = 2;
++	dsc->bits_per_component = 8;
++	dsc->bits_per_pixel = 8 << 4;
++	dsc->block_pred_enable = true;
++
++	dsi->dsc = dsc;
+ 
+ 	ctx->supplies[0].supply = "vddio";
+ 	ctx->supplies[1].supply = "vci";
+@@ -294,8 +360,11 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
+ 
+ 	dsi->lanes = 4;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+-	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET |
+-			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
++
++	dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_CLOCK_NON_CONTINUOUS;
++	if (ctx->video_mode)
++		dsi->mode_flags |= MIPI_DSI_MODE_VIDEO;
++
+ 	ctx->panel.prepare_prev_first = true;
+ 
+ 	drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
+-- 
+2.41.0
 
-Looking for possible reasons why this might be the case (and straying
-way beyond my competence), I note that in the old module
-mga_vga_mode_valid is made known to other parts of the system in a
-different way than mgag200_mode_config_mode_valid is in the new module
-(and indeed they have different parameter types). (Might this be
-relevant ?)
-
-Best wishes,
-Roger.
-
-
-
---=-=-=
-Content-Type: text/plain
-Content-Disposition: attachment; filename=20-screen.conf
-Content-Description: Xorg conf file
-
-Section "Monitor"
-        Identifier      "My monitor"
-        Modeline "1440x900" 106.50  1440 1520 1672 1904  900 903 909 934 -hsync +vsync
-        Modeline "1280x800"  83.50  1280 1352 1480 1680  800 803 809 831 +hsync -vsync
-        Modeline "1280x720"  74.44  1280 1336 1472 1664  720 721 724 746 -hsync +vsync
-EndSection
-Section "Screen"
-	Identifier	"Builtin Default mga Screen 0"
-	Device	"Builtin Default Device 0"
-        Monitor "My monitor"
-        SubSection "Display"
-             Virtual 1440 900
-             Modes "1440x900"
-        EndSubSection
-EndSection
-Section "ServerLayout"
-	Identifier	"Builtin Default Layout"
-	Screen	"Builtin Default mga Screen 0"
-EndSection
-
---=-=-=--
