@@ -2,51 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2A976680E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4039976681B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B847810E0A1;
-	Fri, 28 Jul 2023 09:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E910D10E1EB;
+	Fri, 28 Jul 2023 09:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD4610E0A1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:01:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2011462065;
- Fri, 28 Jul 2023 09:01:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D86C433C7;
- Fri, 28 Jul 2023 09:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690534910;
- bh=QFbAxq6StERpZ+KK7xUrlh9LufNoAHMbQ1zTa9eTS9A=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=S6LwPGwK95psSYAKBfRe3YnemnLXtJH1tFmZY2LEnrfl9QzjjDzM947xHZJjJzWSg
- 8Nw5pZS5i7Qtlj3I5BHRld6dyYGG+hgztqHp+h9fm3ZRPZgqza/V7cNT+zz0l8zkDW
- s3R4RLCccGVqBvBdpHMOTnFmLH62VBq2t783K/PHLqAC4L4FIrApZXTk8AdnUti5LT
- Ka73CcgVkVXmh7MkY2a3bMW4ZHYROsCrTgVZxQUFJWdYb+KJp45rsGJ2C9VK6OsUzb
- RLW62+Zi+f4DLTpUk967KT6k916JAaDzGrMouLsCicxyyH142WalportSxAXI1gTDw
- NvfNv/ZQHSJ3A==
-From: Lee Jones <lee@kernel.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- Rob Herring <robh@kernel.org>
-In-Reply-To: <20230714175029.4065326-1-robh@kernel.org>
-References: <20230714175029.4065326-1-robh@kernel.org>
-Subject: Re: (subset) [PATCH] backlight: qcom-wled: Explicitly include
- correct DT includes
-Message-Id: <169053490748.289850.10304540751076738824.b4-ty@kernel.org>
-Date: Fri, 28 Jul 2023 10:01:47 +0100
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D88510E1EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:03:58 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:12b0:7b7e:d1ff:7873])
+ by michel.telenet-ops.be with bizsmtp
+ id SZ3v2A0070d1nm806Z3voj; Fri, 28 Jul 2023 11:03:57 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qPJNt-002lhW-Uw;
+ Fri, 28 Jul 2023 11:03:55 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qPJO7-00AnzN-2F;
+ Fri, 28 Jul 2023 11:03:55 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH v2] drm/atomic-helper: Update reference to
+ drm_crtc_force_disable_all()
+Date: Fri, 28 Jul 2023 11:03:53 +0200
+Message-Id: <b8c9c1a8a05dbf0be8e8be98cfdeafa9cecd8cef.1690535002.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,29 +48,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Jul 2023 11:50:29 -0600, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
-> 
-> [...]
+drm_crtc_force_disable_all() was renamed to
+drm_helper_force_disable_all(), but one reference was not updated.
 
-Applied, thanks!
+Fixes: c2d88e06bcb98540 ("drm: Move the legacy kms disable_all helper to crtc helpers")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+v2:
+  - Add Reviewed-by.
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/1] backlight: qcom-wled: Explicitly include correct DT includes
-      commit: 1bb5187b673208f7191f227249ffe7401e969b97
-
---
-Lee Jones [李琼斯]
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 41b8066f61fff4be..292e38eb621806a0 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -3332,7 +3332,7 @@ EXPORT_SYMBOL(drm_atomic_helper_disable_all);
+  * that also takes a snapshot of the modeset state to be restored on resume.
+  *
+  * This is just a convenience wrapper around drm_atomic_helper_disable_all(),
+- * and it is the atomic version of drm_crtc_force_disable_all().
++ * and it is the atomic version of drm_helper_force_disable_all().
+  */
+ void drm_atomic_helper_shutdown(struct drm_device *dev)
+ {
+-- 
+2.34.1
 
