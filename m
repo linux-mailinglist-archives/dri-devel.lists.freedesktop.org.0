@@ -1,56 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4917666C4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 10:18:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1123F7666C6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 10:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF2810E693;
-	Fri, 28 Jul 2023 08:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2AF10E695;
+	Fri, 28 Jul 2023 08:19:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D71C510E691;
- Fri, 28 Jul 2023 08:18:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690532320; x=1722068320;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=NTEHuhkjMfjLOAOi4RCf/EhydHy9KKKCjF5GbC2yk/c=;
- b=Q0NzPDOEim8C5/vjq/7k0n1N6ZcQI4rsgiWy28KlbXlggEEJdGDW7Lt9
- uRHhIpR9Vyl9qk/2z1fYsWEj/VzSWCeP46B8RcTFMKhgIRevl1Wtr8Jpg
- 4T0DKbMyy4ziJNRwd9C5e4pGQ9bRfO0sCOFCdY/RY6EMIbuFpB+8bNIdU
- 1CfllKQjhXpVbOQWIg/TI4mlPRjmOJkhx4pRfedDpS6ERkmAlAtJz5wjC
- ss3M+mZuuVn3X8S4E3EdlthvCa9Jn0tPnBCaRPwLdAPoXWCiXhdm1gJ4M
- 4ILaoQxNKgc0TM64cShxsz8rYW2w9ORaIC2qQP3VRUnCzqm4AkdWqscxB g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="353444961"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="353444961"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2023 01:18:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="973968383"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="973968383"
-Received: from atoomey-mobl.amr.corp.intel.com (HELO [10.213.197.30])
- ([10.213.197.30])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2023 01:18:38 -0700
-Message-ID: <fcca49f6-158d-1504-bc33-263095690e95@linux.intel.com>
-Date: Fri, 28 Jul 2023 09:18:36 +0100
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD4010E695
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:19:15 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-6862d4a1376so444359b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 01:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1690532355; x=1691137155;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0Vz5i3f1KwBqEHtOj3kkD+u+idA4hMEDLOXYQ/Zmb7I=;
+ b=L2+elQ31DoTndDMbULUpYhAiCoRfDRGWwRsLhePlw7WW3kXFI6RoGNteAO7MNCCxPK
+ FYWrT0NCxgniYdOvtk354oC7lAaEYLaI5+6nbBgCsJS7Z9F7PQNW+ZUGwlLgRq4XIWCd
+ IlyzJlPUeNX37jF32KJvYLJePzYsZ7ze/fbSuG8EqYw256JXY3KCKzS1wluS9KcnHJgS
+ wVJn5VLovDZDoJav6s/8z2Nev3fZMa4BKzS6r7L/dPmXUhh82k37p3M1JnHGLMc145hK
+ MLBcl9i8u/Uj6MSDKzSJ+fdKEdHQ4PpsFlNhyTOhfKom9VA3y6JlxMc/+2lHqKKi6hTK
+ U83g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690532355; x=1691137155;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0Vz5i3f1KwBqEHtOj3kkD+u+idA4hMEDLOXYQ/Zmb7I=;
+ b=JLnMZrjtZIa6XwA0S5r9D/fh2gWA87rLYHekJ6fXWr+GxdFzZ/clq+UUdTukA1633P
+ FjmPo+15Jag9oGjHk6VXqzeX+sBOnX3/fPe20pJkukFScJ+cwkq47/FbG+ba16zxXvyF
+ mPYWfSWkfnPP3wvZRlLKPycEof2qd7YUVXEwL4A+fgbmf1/Hk9c9JaBcKIWydjeW0576
+ yGdl4QABsgImt4dSfPfnWL/19qQA2IFB+VZ7+EW+Sq+fWcVWgx4pyvrm1EI+jD/JFS4O
+ F4Wyu4paZjdCVF+hgvxIhVk9/2cPCrUoP9wYEqWfPg/CSrGhkZfH25OFS0+lsE9IA/Au
+ x/hA==
+X-Gm-Message-State: ABy/qLamXvg9mIjyNbwyVhLx6P/Zodm4NpDvbj9EmitH3zeAQi3UY3Zm
+ oCAz7xHRvyksJP1TiNe7ttewcg==
+X-Google-Smtp-Source: APBJJlFUUUMvBrf6ibd1LKjgOpEN2XEkSNdXdEqaA3c50PeJDSflhjqiMTE27IMY1LDD8QpZTvY8yg==
+X-Received: by 2002:a05:6a21:329f:b0:134:76d6:7f7 with SMTP id
+ yt31-20020a056a21329f00b0013476d607f7mr2068612pzb.4.1690532355159; 
+ Fri, 28 Jul 2023 01:19:15 -0700 (PDT)
+Received: from [10.70.252.135] ([203.208.167.147])
+ by smtp.gmail.com with ESMTPSA id
+ j63-20020a638b42000000b005637030d00csm2862658pge.30.2023.07.28.01.19.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jul 2023 01:19:14 -0700 (PDT)
+Message-ID: <99d0958d-8446-6fe9-a0fb-f562cb04c7c8@bytedance.com>
+Date: Fri, 28 Jul 2023 16:19:01 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Intel-gfx] [RFC 2/8] drm/i915: Split PTE encode between Gen12
- and Meteorlake
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.12.0
+Subject: Re: [PATCH v3 04/49] mm: shrinker: remove redundant shrinker_rwsem in
+ debugfs operations
 Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>
-References: <20230727145504.1919316-1-tvrtko.ursulin@linux.intel.com>
- <20230727145504.1919316-3-tvrtko.ursulin@linux.intel.com>
- <20230727222544.GB138014@mdroper-desk1.amr.corp.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230727222544.GB138014@mdroper-desk1.amr.corp.intel.com>
+To: Simon Horman <simon.horman@corigine.com>
+References: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
+ <20230727080502.77895-5-zhengqi.arch@bytedance.com>
+ <ZMN4mjsF1QEsvW7D@corigine.com>
+From: Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <ZMN4mjsF1QEsvW7D@corigine.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,83 +79,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
+ david@fromorbit.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+ dm-devel@redhat.com, linux-mtd@lists.infradead.org, cel@kernel.org,
+ x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
+ linux-bcache@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
+ yujie.liu@intel.com, vbabka@suse.cz, linux-raid@vger.kernel.org,
+ brauner@kernel.org, tytso@mit.edu, gregkh@linuxfoundation.org,
+ muchun.song@linux.dev, linux-kernel@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+ senozhatsky@chromium.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Simon,
 
-On 27/07/2023 23:25, Matt Roper wrote:
-> On Thu, Jul 27, 2023 at 03:54:58PM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On 2023/7/28 16:13, Simon Horman wrote:
+> On Thu, Jul 27, 2023 at 04:04:17PM +0800, Qi Zheng wrote:
+>> The debugfs_remove_recursive() will wait for debugfs_file_put() to return,
+>> so the shrinker will not be freed when doing debugfs operations (such as
+>> shrinker_debugfs_count_show() and shrinker_debugfs_scan_write()), so there
+>> is no need to hold shrinker_rwsem during debugfs operations.
 >>
->> No need to run extra instructions which will never trigger on platforms
->> before Meteorlake.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+>> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 >> ---
->>   drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 26 ++++++++++++++++++++++++++
->>   1 file changed, 26 insertions(+)
+>>   mm/shrinker_debug.c | 14 --------------
+>>   1 file changed, 14 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
->> index c8568e5d1147..862ac1d2de25 100644
->> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
->> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
->> @@ -63,6 +63,30 @@ static u64 gen12_pte_encode(dma_addr_t addr,
->>   {
->>   	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
+>> diff --git a/mm/shrinker_debug.c b/mm/shrinker_debug.c
+>> index 3ab53fad8876..f1becfd45853 100644
+>> --- a/mm/shrinker_debug.c
+>> +++ b/mm/shrinker_debug.c
+>> @@ -55,11 +55,6 @@ static int shrinker_debugfs_count_show(struct seq_file *m, void *v)
+>>   	if (!count_per_node)
+>>   		return -ENOMEM;
 >>   
->> +	if (unlikely(flags & PTE_READ_ONLY))
->> +		pte &= ~GEN8_PAGE_RW;
->> +
->> +	if (flags & PTE_LM)
->> +		pte |= GEN12_PPGTT_PTE_LM;
->> +
->> +	if (pat_index & BIT(0))
->> +		pte |= GEN12_PPGTT_PTE_PAT0;
->> +
->> +	if (pat_index & BIT(1))
->> +		pte |= GEN12_PPGTT_PTE_PAT1;
->> +
->> +	if (pat_index & BIT(2))
->> +		pte |= GEN12_PPGTT_PTE_PAT2;
->> +
->> +	return pte;
->> +}
->> +
->> +static u64 mtl_pte_encode(dma_addr_t addr,
->> +			  unsigned int pat_index,
->> +			  u32 flags)
->> +{
->> +	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
->> +
+>> -	ret = down_read_killable(&shrinker_rwsem);
+>> -	if (ret) {
+>> -		kfree(count_per_node);
+>> -		return ret;
+>> -	}
+>>   	rcu_read_lock();
 > 
-> Would it be more readable to start with
+> Hi Qi Zheng,
 > 
->          gen8_pte_t pte = gen12_pte_encode(addr, pat_index, flags);
-> 
-> and then |-in only the MTL-specific bit(s) as appropriate?
-> 
->>   	if (unlikely(flags & PTE_READ_ONLY))
->>   		pte &= ~GEN8_PAGE_RW;
->>   
->> @@ -995,6 +1019,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
->>   	 */
->>   	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
->>   
->> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
->> +		ppgtt->vm.pte_encode = mtl_pte_encode;
->>   	if (GRAPHICS_VER(gt->i915) >= 12)
->>   		ppgtt->vm.pte_encode = gen12_pte_encode;
-> 
-> I think you wanted 'else if' here.  Otherwise you clobber the MTL
-> function pointer.
+> As can be seen in the next hunk, this function returns 'ret'.
+> However, with this change 'ret' is uninitialised unless
+> signal_pending() returns non-zero in the while loop below.
 
-Doh this was a strong fail.. Yes and yes.. I even had it like you 
-suggest in that patch I mentioned to you earlier.. 
-https://patchwork.freedesktop.org/patch/546013/?series=120341&rev=2.
-
-Do you have an opinion on that one perhaps?
+Thanks for your feedback, the 'ret' should be initialized to 0,
+will fix it.
 
 Thanks,
+Qi
 
-Tvrtko
+> 
+> This is flagged in a clan-16 W=1 build.
+> 
+>   mm/shrinker_debug.c:87:11: warning: variable 'ret' is used uninitialized whenever 'do' loop exits because its condition is false [-Wsometimes-uninitialized]
+>           } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
+>                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   mm/shrinker_debug.c:92:9: note: uninitialized use occurs here
+>           return ret;
+>                  ^~~
+>   mm/shrinker_debug.c:87:11: note: remove the condition if it is always true
+>           } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
+>                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>                    1
+>   mm/shrinker_debug.c:77:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>                   if (!memcg_aware) {
+>                       ^~~~~~~~~~~~
+>   mm/shrinker_debug.c:92:9: note: uninitialized use occurs here
+>           return ret;
+>                  ^~~
+>   mm/shrinker_debug.c:77:3: note: remove the 'if' if its condition is always false
+>                   if (!memcg_aware) {
+>                   ^~~~~~~~~~~~~~~~~~~
+>   mm/shrinker_debug.c:52:9: note: initialize the variable 'ret' to silence this warning
+>           int ret, nid;
+>                  ^
+>                   = 0
+> 
+>>   
+>>   	memcg_aware = shrinker->flags & SHRINKER_MEMCG_AWARE;
+>> @@ -92,7 +87,6 @@ static int shrinker_debugfs_count_show(struct seq_file *m, void *v)
+>>   	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
+>>   
+>>   	rcu_read_unlock();
+>> -	up_read(&shrinker_rwsem);
+>>   
+>>   	kfree(count_per_node);
+>>   	return ret;
+> 
+> ...
