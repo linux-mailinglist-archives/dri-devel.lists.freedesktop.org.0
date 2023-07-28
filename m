@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE31C7662EA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 06:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643A07662E8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 06:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E4DB10E64C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D5D310E64E;
 	Fri, 28 Jul 2023 04:15:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (unknown [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF33510E64A;
- Fri, 28 Jul 2023 04:15:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAA110E64A;
+ Fri, 28 Jul 2023 04:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690517746; x=1722053746;
+ t=1690517749; x=1722053749;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+do5s7ZKEea54bBf9NzoSuJD0hUzgyUfS8Y+8YdArD4=;
- b=I6fr6rGHEB0KtIxJxoyGkmm62bwaO7CBeAMF/OAhicJspvv0hmCAtQWw
- MaerX1FST+E1/e+LdTJphTmr+2yoj59idMV3LCzs1YWQZVri4x1BcV8GP
- INvrdX2TL1GcTo8lgn1w8x0hR+X995XvxyVpgzBls1LIQu1FLml3uXpJP
- Ga3wdZS1XZU58KgJ9CxYsYjyBBlgXAmTe2NUJvpUuQLFOLiUQl1ATtzi6
- BroAL+F1R0BJbKGDfGyTQ8x9hOF1H3GIpekc4vQrO/IIouvcNlx8hzbIi
- p1zYZIcawrX7NO1lN0Y+4k8av/BdBVUTq0aDlEg14zf5GA8urKnocoSmx g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348104184"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="348104184"
+ bh=sHRyq0GLA3STbtBmqDBIwz9A3tlbiTFduRVlE5lav/0=;
+ b=PXEkWDPpMCZeFn+AaKnVmkh+rwC8lzibRwy9l576BQ7YbnFpRA2EvfTn
+ k53YVu1RgPKuTdH/mbyDCotjaSEoG2i/VPKkgp1DNkBJr/LHN47zMAcUo
+ KwrYyGcCcS/FXElX+riKo0YTMf8QwdgwekJ8uGt+TtgZrMJHDIB42ky4A
+ Toy7ADBFz0r6Jov0pm7BW/lIYKUT2z3o3IYD4EHgLvyrP0ai29y+WDTj9
+ BNj7ikYzOUD+x7Gn64p2nhgmgh7Zn8tqY5Fh2w7VOxmx3AwLGVmJYVXh5
+ 5oKiVTDhq2MUVdN4qe0eL8dAqoo53Qc3RoYVcLzVNGZbz5jf/EY2VjEwU A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="348104186"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="348104186"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2023 21:15:46 -0700
+ 27 Jul 2023 21:15:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="797276331"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="797276331"
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="797276381"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="797276381"
 Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jul 2023 21:15:44 -0700
+ 27 Jul 2023 21:15:46 -0700
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/20] drm/i915/dp: Check min bpc DSC limits for dsc_force_bpc
- also
-Date: Fri, 28 Jul 2023 09:41:41 +0530
-Message-Id: <20230728041150.2524032-12-ankit.k.nautiyal@intel.com>
+Subject: [PATCH 12/20] drm/i915/dp: Avoid left shift of DSC output bpp by 4
+Date: Fri, 28 Jul 2023 09:41:42 +0530
+Message-Id: <20230728041150.2524032-13-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230728041150.2524032-1-ankit.k.nautiyal@intel.com>
 References: <20230728041150.2524032-1-ankit.k.nautiyal@intel.com>
@@ -64,106 +63,64 @@ Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For DSC the min BPC is 8 for ICL+ and so the min pipe_bpp is 24.
-Check this condition for cases where bpc is forced by debugfs flag
-dsc_force_bpc. If the check fails, then WARN and ignore the debugfs
-flag.
-
-For MST case the pipe_bpp is already computed (hardcoded to be 24),
-and this check is not required.
+To make way for fractional bpp support, avoid left shifting the
+output_bpp by 4 in helper intel_dp_dsc_get_output_bpp.
 
 Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp.c | 48 ++++++++++++++++---------
- 1 file changed, 31 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c     | 10 +++-------
+ drivers/gpu/drm/i915/display/intel_dp_mst.c |  2 +-
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index f41de126a8d3..78ac8f4fd348 100644
+index 78ac8f4fd348..c1eb0d1e229e 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -1697,6 +1697,12 @@ u8 intel_dp_dsc_min_src_input_bpc(struct drm_i915_private *i915)
- 	return 0;
+@@ -814,11 +814,7 @@ u16 intel_dp_dsc_get_max_compressed_bpp(struct drm_i915_private *i915,
+ 
+ 	bits_per_pixel = intel_dp_dsc_nearest_valid_bpp(i915, bits_per_pixel, pipe_bpp);
+ 
+-	/*
+-	 * Compressed BPP in U6.4 format so multiply by 16, for Gen 11,
+-	 * fractional part is 0
+-	 */
+-	return bits_per_pixel << 4;
++	return bits_per_pixel;
  }
  
-+static
-+bool is_dsc_pipe_bpp_sufficient(struct drm_i915_private *i915, int pipe_bpp)
-+{
-+	return pipe_bpp >= intel_dp_dsc_min_src_input_bpc(i915) * 3;
-+}
-+
- int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 				struct intel_crtc_state *pipe_config,
- 				struct drm_connector_state *conn_state,
-@@ -1708,7 +1714,6 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
- 	const struct drm_display_mode *adjusted_mode =
- 		&pipe_config->hw.adjusted_mode;
--	int pipe_bpp;
- 	int ret;
+ u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
+@@ -1208,7 +1204,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
+ 								    mode->hdisplay,
+ 								    bigjoiner,
+ 								    output_format,
+-								    pipe_bpp, 64) >> 4;
++								    pipe_bpp, 64);
+ 			dsc_slice_count =
+ 				intel_dp_dsc_get_slice_count(intel_dp,
+ 							     target_clock,
+@@ -1814,7 +1810,7 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+ 							     pipe_config->pipe_bpp);
  
- 	pipe_config->fec_enable = !intel_dp_is_edp(intel_dp) &&
-@@ -1720,28 +1725,37 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 	if (!intel_dp_dsc_supports_format(intel_dp, pipe_config->output_format))
- 		return -EINVAL;
- 
--	if (intel_dp->force_dsc_bpc && compute_pipe_bpp) {
--		pipe_bpp = intel_dp->force_dsc_bpc * 3;
--		drm_dbg_kms(&dev_priv->drm, "Input DSC BPC forced to %d\n",
--			    intel_dp->force_dsc_bpc);
--	} else if (compute_pipe_bpp) {
--		pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, conn_state->max_requested_bpc);
--	} else {
--		pipe_bpp = pipe_config->pipe_bpp;
--	}
-+	if (compute_pipe_bpp) {
-+		int pipe_bpp;
-+		int forced_bpp = intel_dp->force_dsc_bpc * 3;
- 
--	if (pipe_bpp < intel_dp_dsc_min_src_input_bpc(dev_priv) * 3) {
--		drm_dbg_kms(&dev_priv->drm,
--			    "Computed BPC less than min supported by source for DSC\n");
--		return -EINVAL;
-+		if (forced_bpp && is_dsc_pipe_bpp_sufficient(dev_priv, forced_bpp)) {
-+			pipe_bpp = forced_bpp;
-+			drm_dbg_kms(&dev_priv->drm, "Input DSC BPC forced to %d\n",
-+				    intel_dp->force_dsc_bpc);
-+		} else {
-+			drm_WARN(&dev_priv->drm, forced_bpp,
-+				 "Cannot force DSC BPC:%d, due to DSC BPC limits\n",
-+				 intel_dp->force_dsc_bpc);
-+
-+			pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp,
-+							    conn_state->max_requested_bpc);
-+
-+			if (!is_dsc_pipe_bpp_sufficient(dev_priv, pipe_bpp)) {
-+				drm_dbg_kms(&dev_priv->drm,
-+					    "Computed BPC less than min supported by source for DSC\n");
-+				return -EINVAL;
-+			}
-+		}
-+
-+		pipe_config->pipe_bpp = pipe_bpp;
- 	}
- 
- 	/*
--	 * For now enable DSC for max bpp, max link rate, max lane count.
-+	 * For now enable DSC for max link rate, max lane count.
- 	 * Optimize this later for the minimum possible link rate/lane count
- 	 * with DSC enabled for the requested mode.
- 	 */
--	pipe_config->pipe_bpp = pipe_bpp;
- 	pipe_config->port_clock = limits->max_rate;
- 	pipe_config->lane_count = limits->max_lane_count;
- 
-@@ -1770,7 +1784,7 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 								    adjusted_mode->crtc_hdisplay,
- 								    pipe_config->bigjoiner_pipes,
- 								    pipe_config->output_format,
--								    pipe_bpp,
-+								    pipe_config->pipe_bpp,
- 								    timeslots);
- 			if (!dsc_max_compressed_bpp) {
- 				drm_dbg_kms(&dev_priv->drm,
+ 			pipe_config->dsc.compressed_bpp = min_t(u16,
+-								dsc_max_compressed_bpp >> 4,
++								dsc_max_compressed_bpp,
+ 								output_bpp);
+ 		}
+ 		pipe_config->dsc.slice_count = dsc_dp_slice_count;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index dff4717edbd0..4895d6242915 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -982,7 +982,7 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
+ 								    mode->hdisplay,
+ 								    bigjoiner,
+ 								    INTEL_OUTPUT_FORMAT_RGB,
+-								    pipe_bpp, 64) >> 4;
++								    pipe_bpp, 64);
+ 			dsc_slice_count =
+ 				intel_dp_dsc_get_slice_count(intel_dp,
+ 							     target_clock,
 -- 
 2.40.1
 
