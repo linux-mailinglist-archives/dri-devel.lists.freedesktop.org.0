@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377B4766F22
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8B8766F29
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:17:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3527110E6F7;
-	Fri, 28 Jul 2023 14:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C3C10E6F8;
+	Fri, 28 Jul 2023 14:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D1CA10E6F4
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 14:17:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC09610E6F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 14:17:16 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <j.zink@pengutronix.de>)
- id 1qPOHC-0006G4-J8; Fri, 28 Jul 2023 16:17:06 +0200
+ id 1qPOHC-0006G5-J8; Fri, 28 Jul 2023 16:17:06 +0200
 Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <j.zink@pengutronix.de>)
- id 1qPOHA-002jHS-PE; Fri, 28 Jul 2023 16:17:04 +0200
+ id 1qPOHA-002jHV-TX; Fri, 28 Jul 2023 16:17:04 +0200
 Received: from localhost ([::1] helo=dude03.red.stw.pengutronix.de)
  by dude03.red.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <j.zink@pengutronix.de>)
- id 1qPOH9-00APcf-Tb; Fri, 28 Jul 2023 16:17:03 +0200
+ id 1qPOH9-00APcf-UM; Fri, 28 Jul 2023 16:17:03 +0200
 From: Johannes Zink <j.zink@pengutronix.de>
-Date: Fri, 28 Jul 2023 16:16:56 +0200
-Subject: [PATCH v4 2/3] dt-bindings: display: simple: support non-default
- data-mapping
+Date: Fri, 28 Jul 2023 16:16:57 +0200
+Subject: [PATCH v4 3/3] drm/panel-simple: allow LVDS format override
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230523-simplepanel_support_nondefault_datamapping-v4-2-e6e7011f34b5@pengutronix.de>
+Message-Id: <20230523-simplepanel_support_nondefault_datamapping-v4-3-e6e7011f34b5@pengutronix.de>
 References: <20230523-simplepanel_support_nondefault_datamapping-v4-0-e6e7011f34b5@pengutronix.de>
 In-Reply-To: <20230523-simplepanel_support_nondefault_datamapping-v4-0-e6e7011f34b5@pengutronix.de>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
@@ -70,14 +69,12 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some Displays support more than just a single default LVDS data mapping,
-which can be used to run displays on only 3 LVDS lanes in the jeida-18
-data-mapping mode.
+Some panels support multiple LVDS data mapping formats, which can be
+used e.g. run displays on jeida-18 format when only 3 LVDS lanes are
+available.
 
-Add an optional data-mapping property to allow overriding the default
-data mapping. As it does not generally apply to any display and bus, use
-it selectively on the innolux,g101ice-l01, which supports changing the
-data mapping via a strapping pin.
+Add parsing of an optional data-mapping devicetree property, which also
+touches up the bits per color to match the bus format.
 
 Signed-off-by: Johannes Zink <j.zink@pengutronix.de>
 
@@ -85,70 +82,106 @@ Signed-off-by: Johannes Zink <j.zink@pengutronix.de>
 
 Changes:
 
-v3 -> v4: none
+  v3 -> v4: - worked in Dan's feedback (thanks for reviewing my work):
+                - return with a proper error in case the call to
+		  panel_simple_override_nondefault_lvds_datamapping()
+		  fails
+                - drop the unneeded and ambiguous ret variable
 
-v2 -> v3: - worked in Laurent's review findings (thanks for reviewing
-	    my work): fix typos in commit message
+  v2 -> v3: - worked in Laurent's review findings (thanks for reviewing
+              my work):
+	        - extract fixing up the bus format to separate
+		  function
+		- only call function on LVDS panels
+		- fix typos found by Laurent
+		- simplified error handling
 
-v1 -> v2: - worked in Rob's review findings (thanks for reviewing my
-            work): use extracted common property instead of duplicating
-	    the property
-	  - refined commit message
-	  - add an example dts for automated checking
+  v1 -> v2: - fix missing unwind goto found by test robot
+              Reported-by: kernel test robot <lkp@intel.com>
+              Reported-by: Dan Carpenter <error27@gmail.com>
+              Link: https://lore.kernel.org/r/202304160359.4LHmFOlU-lkp@intel.com/
 ---
- .../bindings/display/panel/panel-simple.yaml       | 26 +++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-simple.c | 53 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 1d4936fc5182..e25e33f67d71 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -21,9 +21,9 @@ description: |
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 4badda6570d5..3a164931093e 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -40,6 +40,7 @@
+ #include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_panel.h>
++#include <drm/drm_of.h>
  
- allOf:
-   - $ref: panel-common.yaml#
-+  - $ref: ../lvds-data-mapping.yaml#
+ /**
+  * struct panel_desc - Describes a simple panel.
+@@ -549,6 +550,51 @@ static void panel_simple_parse_panel_timing_node(struct device *dev,
+ 		dev_err(dev, "Reject override mode: No display_timing found\n");
+ }
  
- properties:
--
-   compatible:
-     enum:
-     # compatible must be listed in alphabetical order, ordered by compatible.
-@@ -359,6 +359,17 @@ properties:
-   power-supply: true
-   no-hpd: true
-   hpd-gpios: true
-+  data-mapping: true
++static int panel_simple_override_nondefault_lvds_datamapping(struct device *dev,
++							     struct panel_simple *panel)
++{
++	int ret, bpc;
 +
-+if:
-+  not:
-+    properties:
-+      compatible:
-+        contains:
-+          const: innolux,g101ice-l01
-+then:
-+  properties:
-+    data-mapping: false
- 
- additionalProperties: false
- 
-@@ -378,3 +389,16 @@ examples:
-         };
-       };
-     };
-+  - |
-+    panel_lvds: panel-lvds {
-+      compatible = "innolux,g101ice-l01";
-+      power-supply = <&vcc_lcd_reg>;
++	ret = drm_of_lvds_get_data_mapping(dev->of_node);
++	if (ret < 0) {
++		if (ret == -EINVAL)
++			dev_warn(dev, "Ignore invalid data-mapping property\n");
 +
-+      data-mapping = "jeida-24";
++		/*
++		 * Ignore non-existing or malformatted property, fallback to
++		 * default data-mapping, and return 0.
++		 */
++		return 0;
++	}
 +
-+      port {
-+        panel_in_lvds: endpoint {
-+          remote-endpoint = <&ltdc_out_lvds>;
-+        };
-+      };
-+    };
++	switch (ret) {
++	default:
++		WARN_ON(1);
++		fallthrough;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++		fallthrough;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++		bpc = 8;
++		break;
++	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++		bpc = 6;
++	}
++
++	if (panel->desc->bpc != bpc || panel->desc->bus_format != ret) {
++		struct panel_desc *override_desc;
++
++		override_desc = devm_kmemdup(dev, panel->desc, sizeof(*panel->desc), GFP_KERNEL);
++		if (!override_desc)
++			return -ENOMEM;
++
++		override_desc->bus_format = ret;
++		override_desc->bpc = bpc;
++		panel->desc = override_desc;
++	}
++
++	return 0;
++}
++
+ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ {
+ 	struct panel_simple *panel;
+@@ -601,6 +647,13 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+ 	}
+ 
++	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
++		/* Optional data-mapping property for overriding bus format */
++		err = panel_simple_override_nondefault_lvds_datamapping(dev, panel);
++		if (err)
++			goto free_ddc;
++	}
++
+ 	connector_type = desc->connector_type;
+ 	/* Catch common mistakes for panels. */
+ 	switch (connector_type) {
 
 -- 
 2.39.2
