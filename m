@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE293767911
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 01:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC391767912
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 01:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C025D10E7A4;
-	Fri, 28 Jul 2023 23:32:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92E7010E7A9;
+	Fri, 28 Jul 2023 23:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 379EA10E79F
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEB7C10E7A2
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 23:32:05 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2b9bf52cd08so40520251fa.2
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2b9bb097c1bso40464951fa.0
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 16:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690587123; x=1691191923;
+ d=linaro.org; s=google; t=1690587124; x=1691191924;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3AqFt/vgcTmHPg7yq9CFdAK4wRAWjfEblVVpbr/Fpo8=;
- b=WYqrfny+V/nHtQD7sWa2/rTXPGWPeAAQEbVKzahJVv5VrysYaKDwBxWKoyWqViDN+x
- O4h3KLWHBMDVrFreT9rUHN1TGMYeDqQVb5SigExVXLalDVlZqnzCi4iaqQRHahhbGLdT
- vLdsqEsEJiAOVM4mIv1JHo6/GqafaL6jk6SqqpJWLxBSK0lkwG0sAw3uxF1OIqHZ2E/M
- 7VD/YxVVq8WdfyIzxGDhe1rOoqg0HFIC57+gtAQZ06vEXDmTr5Z7VWhK94QMzJfArYZB
- I6wrXWOlZO2Cr4txewaup3+kdPMzaA1qtgpw4ls9oWYj/ZXOgZoRxCBaf5k+yueb+kfC
- ZbvA==
+ bh=3GkN+pDmjYAUdw1ZCIY5PENQNQ2LenR4opvjJC9F59c=;
+ b=N/Qxd35qWft83sNflQDnr8pD8vcj69nLELQ9GVC5Wgbg46W10bXL/yHywDTZTYJHZ+
+ jL+lW/GiJqFM7ndP14KLcselulr7kYNI0rsDyujWmzDw5kJW1Gbc1jUi4Li+lk1MTUDC
+ NTPps6JLHuvKQ3C8eIUniLMUspSlz/8qfcGUGwHitDQevEmwVp5gcZaowa+MNHlNb0lt
+ uLjm3bBbC8sYw8doQjbBkHsc10HzXOLRh6AdwYY2foFt6xBmuH5x6LaNkeaN1M7UI8OM
+ e0BXs085Lellql9PhMtU7cB64KpNoLs0/cQi+VZ7IGDHvJzQpnrspJR1XBsHSE96RXtG
+ wyOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690587123; x=1691191923;
+ d=1e100.net; s=20221208; t=1690587124; x=1691191924;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3AqFt/vgcTmHPg7yq9CFdAK4wRAWjfEblVVpbr/Fpo8=;
- b=DYTojn60TdQi9J8joyoWtVkVGIl8LTXMIutJ0BSS8yTIu+hqP5JsCeaM0PsZ7ZG099
- S2ovf7azHF+am8An2NQVY351+v1zJP1KeHT4YLl2DjZNqHfSpnQscLXQ7CBswTyrSxMh
- zlnRaZC2yNeToaP/+lmF0dO7G1dHzIlEbWg0iAQdZlQqBpg1QZbXB+fY5RB6ffEFUV0K
- XSw2WVnWOACsFwv5FhYdr+hlmt8JOLB1MXMW1J/0/1OuvBYJpTZNbevH44XDfgBrMz+Q
- kwiBdRoWbfA3SRTfjOhMjFYO8/pht9eYQlV5HZeH1ynfZ6di/CD/06O0xuYuBnYFJ16g
- 7OGA==
-X-Gm-Message-State: ABy/qLauGtZ+hbjJYYifEUoNoiZtbY2Ax810hYkNkEmgJhpw9FnMWxzE
- 4UPJLuMZf8wnsBKy2v1VT2OO0w==
-X-Google-Smtp-Source: APBJJlG+HLLFgONz6d18N4PKt3uruvCglghUD7znmP46fxsXHrIqrEzUapXBRIGesZzGG5rrrsQrrA==
-X-Received: by 2002:a2e:3505:0:b0:2b5:9f54:e290 with SMTP id
- z5-20020a2e3505000000b002b59f54e290mr2699260ljz.0.1690587123516; 
- Fri, 28 Jul 2023 16:32:03 -0700 (PDT)
+ bh=3GkN+pDmjYAUdw1ZCIY5PENQNQ2LenR4opvjJC9F59c=;
+ b=E2IlqC729TDm9x7aK4YSN8hewyvzvDldTGLOXb/96lCBabKdG88G7ptNnMOpoMxHp3
+ PxDHkW3+6wODThx6gR7y/VH4mfGe0311SGqaHq2N2vMqJ/lp8bI4oVWO/zUjJa6tO/zw
+ htJ7J8x3YvYftjCJUFL0OhHZpT+cdOm+nRdrpd4oUg5PiOxnWZDkOiRpB8vau0ABLSon
+ /C8uAstdloqyu/TB7BfIOF9WmUJ8rMLFOKs5cEJvdaWAzjRbKIaUaxFzvyv9hYORvaYX
+ +uJLr0S2akWmLhX8SpqfPrgd4qFdGBaVN3zHvsDIdsC057LCckCfP/sR3cfkUrx2jsfP
+ hEAQ==
+X-Gm-Message-State: ABy/qLY6yoAuE5zgMOY1dFepCMKR5r49xHMBNAI08AnYVpeoH+Y/vPYc
+ m8X27154m7h/nfQzFgtOqV7naA==
+X-Google-Smtp-Source: APBJJlEVGTDF5oZHZHY2dZ0GlFsP5G65hbxsKH7hgLVcgmjmTMjPVIaH9v6EY4oW25yQAQtbrWlJbA==
+X-Received: by 2002:a2e:2c0e:0:b0:2b9:344c:a214 with SMTP id
+ s14-20020a2e2c0e000000b002b9344ca214mr3109534ljs.42.1690587124145; 
+ Fri, 28 Jul 2023 16:32:04 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- x11-20020a2e9dcb000000b002b6c8cf48bfsm1148289ljj.104.2023.07.28.16.32.02
+ x11-20020a2e9dcb000000b002b6c8cf48bfsm1148289ljj.104.2023.07.28.16.32.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 28 Jul 2023 16:32:03 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3 3/6] drm/msm/dpu: add helper to get IRQ-related data
-Date: Sat, 29 Jul 2023 02:31:57 +0300
-Message-Id: <20230728233200.151735-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 4/6] drm/msm/dpu: make the irq table size static
+Date: Sat, 29 Jul 2023 02:31:58 +0300
+Message-Id: <20230728233200.151735-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230728233200.151735-1-dmitry.baryshkov@linaro.org>
 References: <20230728233200.151735-1-dmitry.baryshkov@linaro.org>
@@ -81,190 +81,111 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation to reworking the IRQ indices, move irq_tbl access to
-separate helper.
+The size of the irq table is static, it has MDP_INTR_MAX * 32 interrupt
+entries. Provide the fixed length and drop struct_size() statement.
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 48 +++++++++++++------
- .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 12 +++--
- 2 files changed, 41 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 13 +++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  6 +++---
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index 81d03b6c67d1..14d374de30c5 100644
+index 14d374de30c5..308b122059cd 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -206,6 +206,12 @@ static inline bool dpu_core_irq_is_valid(struct dpu_hw_intr *intr,
- 	return irq_idx >= 0 && irq_idx < intr->total_irqs;
+@@ -203,7 +203,7 @@ static const struct dpu_intr_reg dpu_intr_set_7xxx[] = {
+ static inline bool dpu_core_irq_is_valid(struct dpu_hw_intr *intr,
+ 					 int irq_idx)
+ {
+-	return irq_idx >= 0 && irq_idx < intr->total_irqs;
++	return irq_idx >= 0 && irq_idx < DPU_NUM_IRQS;
  }
  
-+static inline struct dpu_hw_intr_entry *dpu_core_irq_get_entry(struct dpu_hw_intr *intr,
-+							       int irq_idx)
-+{
-+	return &intr->irq_tbl[irq_idx];
-+}
-+
- /**
-  * dpu_core_irq_callback_handler - dispatch core interrupts
-  * @dpu_kms:		Pointer to DPU's KMS structure
-@@ -213,17 +219,19 @@ static inline bool dpu_core_irq_is_valid(struct dpu_hw_intr *intr,
-  */
- static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, int irq_idx)
+ static inline struct dpu_hw_intr_entry *dpu_core_irq_get_entry(struct dpu_hw_intr *intr,
+@@ -470,13 +470,12 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+ 		const struct dpu_mdss_cfg *m)
  {
-+	struct dpu_hw_intr_entry *irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, irq_idx);
-+
- 	VERB("irq_idx=%d\n", irq_idx);
+ 	struct dpu_hw_intr *intr;
+-	int nirq = MDP_INTR_MAX * 32;
+ 	unsigned int i;
  
--	if (!dpu_kms->hw_intr->irq_tbl[irq_idx].cb)
-+	if (!irq_entry->cb)
- 		DRM_ERROR("no registered cb, idx:%d\n", irq_idx);
+ 	if (!addr || !m)
+ 		return ERR_PTR(-EINVAL);
  
--	atomic_inc(&dpu_kms->hw_intr->irq_tbl[irq_idx].count);
-+	atomic_inc(&irq_entry->count);
+-	intr = kzalloc(struct_size(intr, irq_tbl, nirq), GFP_KERNEL);
++	intr = kzalloc(sizeof(*intr), GFP_KERNEL);
+ 	if (!intr)
+ 		return ERR_PTR(-ENOMEM);
  
- 	/*
- 	 * Perform registered function callback
- 	 */
--	dpu_kms->hw_intr->irq_tbl[irq_idx].cb(dpu_kms->hw_intr->irq_tbl[irq_idx].arg);
-+	irq_entry->cb(irq_entry->arg);
- }
+@@ -487,8 +486,6 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
  
- irqreturn_t dpu_core_irq(struct msm_kms *kms)
-@@ -510,6 +518,7 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
- 		void (*irq_cb)(void *arg),
- 		void *irq_arg)
- {
-+	struct dpu_hw_intr_entry *irq_entry;
- 	unsigned long irq_flags;
- 	int ret;
+ 	intr->hw.blk_addr = addr + m->mdp[0].base;
  
-@@ -527,15 +536,16 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
- 
- 	spin_lock_irqsave(&dpu_kms->hw_intr->irq_lock, irq_flags);
- 
--	if (unlikely(WARN_ON(dpu_kms->hw_intr->irq_tbl[irq_idx].cb))) {
-+	irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, irq_idx);
-+	if (unlikely(WARN_ON(irq_entry->cb))) {
- 		spin_unlock_irqrestore(&dpu_kms->hw_intr->irq_lock, irq_flags);
- 
- 		return -EBUSY;
- 	}
- 
- 	trace_dpu_core_irq_register_callback(irq_idx, irq_cb);
--	dpu_kms->hw_intr->irq_tbl[irq_idx].arg = irq_arg;
--	dpu_kms->hw_intr->irq_tbl[irq_idx].cb = irq_cb;
-+	irq_entry->arg = irq_arg;
-+	irq_entry->cb = irq_cb;
- 
- 	ret = dpu_hw_intr_enable_irq_locked(
- 				dpu_kms->hw_intr,
-@@ -552,6 +562,7 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
- 
- int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx)
- {
-+	struct dpu_hw_intr_entry *irq_entry;
- 	unsigned long irq_flags;
- 	int ret;
- 
-@@ -570,8 +581,9 @@ int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx)
- 		DPU_ERROR("Fail to disable IRQ for irq_idx:%d: %d\n",
- 					irq_idx, ret);
- 
--	dpu_kms->hw_intr->irq_tbl[irq_idx].cb = NULL;
--	dpu_kms->hw_intr->irq_tbl[irq_idx].arg = NULL;
-+	irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, irq_idx);
-+	irq_entry->cb = NULL;
-+	irq_entry->arg = NULL;
- 
- 	spin_unlock_irqrestore(&dpu_kms->hw_intr->irq_lock, irq_flags);
- 
-@@ -584,14 +596,16 @@ int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx)
- static int dpu_debugfs_core_irq_show(struct seq_file *s, void *v)
- {
- 	struct dpu_kms *dpu_kms = s->private;
-+	struct dpu_hw_intr_entry *irq_entry;
- 	unsigned long irq_flags;
+-	intr->total_irqs = nirq;
+-
+ 	intr->irq_mask = BIT(MDP_SSPP_TOP0_INTR) |
+ 			 BIT(MDP_SSPP_TOP0_INTR2) |
+ 			 BIT(MDP_SSPP_TOP0_HIST_INTR);
+@@ -601,7 +598,7 @@ static int dpu_debugfs_core_irq_show(struct seq_file *s, void *v)
  	int i, irq_count;
  	void *cb;
  
- 	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
+-	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
++	for (i = 0; i < DPU_NUM_IRQS; i++) {
  		spin_lock_irqsave(&dpu_kms->hw_intr->irq_lock, irq_flags);
--		irq_count = atomic_read(&dpu_kms->hw_intr->irq_tbl[i].count);
--		cb = dpu_kms->hw_intr->irq_tbl[i].cb;
-+		irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, i);
-+		irq_count = atomic_read(&irq_entry->count);
-+		cb = irq_entry->cb;
- 		spin_unlock_irqrestore(&dpu_kms->hw_intr->irq_lock, irq_flags);
- 
- 		if (irq_count || cb)
-@@ -614,6 +628,7 @@ void dpu_debugfs_core_irq_init(struct dpu_kms *dpu_kms,
- void dpu_core_irq_preinstall(struct msm_kms *kms)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-+	struct dpu_hw_intr_entry *irq_entry;
- 	int i;
- 
- 	pm_runtime_get_sync(&dpu_kms->pdev->dev);
-@@ -621,22 +636,27 @@ void dpu_core_irq_preinstall(struct msm_kms *kms)
+ 		irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, i);
+ 		irq_count = atomic_read(&irq_entry->count);
+@@ -636,7 +633,7 @@ void dpu_core_irq_preinstall(struct msm_kms *kms)
  	dpu_disable_all_irqs(dpu_kms);
  	pm_runtime_put_sync(&dpu_kms->pdev->dev);
  
--	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++)
--		atomic_set(&dpu_kms->hw_intr->irq_tbl[i].count, 0);
-+	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
-+		irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, i);
-+		atomic_set(&irq_entry->count, 0);
-+	}
- }
- 
- void dpu_core_irq_uninstall(struct msm_kms *kms)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-+	struct dpu_hw_intr_entry *irq_entry;
- 	int i;
- 
- 	if (!dpu_kms->hw_intr)
+-	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
++	for (i = 0; i < DPU_NUM_IRQS; i++) {
+ 		irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, i);
+ 		atomic_set(&irq_entry->count, 0);
+ 	}
+@@ -652,7 +649,7 @@ void dpu_core_irq_uninstall(struct msm_kms *kms)
  		return;
  
  	pm_runtime_get_sync(&dpu_kms->pdev->dev);
--	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++)
--		if (dpu_kms->hw_intr->irq_tbl[i].cb)
-+	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
-+		irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, i);
-+		if (irq_entry->cb)
+-	for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
++	for (i = 0; i < DPU_NUM_IRQS; i++) {
+ 		irq_entry = dpu_core_irq_get_entry(dpu_kms->hw_intr, i);
+ 		if (irq_entry->cb)
  			DPU_ERROR("irq_idx=%d still enabled/registered\n", i);
-+	}
- 
- 	dpu_clear_irqs(dpu_kms);
- 	dpu_disable_all_irqs(dpu_kms);
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-index e2b00dd32619..391fb268ad90 100644
+index 391fb268ad90..bb775b6a2432 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-@@ -38,6 +38,12 @@ enum dpu_hw_intr_reg {
+@@ -38,6 +38,8 @@ enum dpu_hw_intr_reg {
  
  #define DPU_IRQ_IDX(reg_idx, offset)	(reg_idx * 32 + offset)
  
-+struct dpu_hw_intr_entry {
-+	void (*cb)(void *arg);
-+	void *arg;
-+	atomic_t count;
-+};
++#define DPU_NUM_IRQS		(MDP_INTR_MAX * 32)
 +
- /**
-  * struct dpu_hw_intr: hw interrupts handling data structure
-  * @hw:               virtual address mapping
-@@ -57,11 +63,7 @@ struct dpu_hw_intr {
+ struct dpu_hw_intr_entry {
+ 	void (*cb)(void *arg);
+ 	void *arg;
+@@ -50,7 +52,6 @@ struct dpu_hw_intr_entry {
+  * @ops:              function pointer mapping for IRQ handling
+  * @cache_irq_mask:   array of IRQ enable masks reg storage created during init
+  * @save_irq_status:  array of IRQ status reg storage created during init
+- * @total_irqs: total number of irq_idx mapped in the hw_interrupts
+  * @irq_lock:         spinlock for accessing IRQ resources
+  * @irq_cb_tbl:       array of IRQ callbacks
+  */
+@@ -58,12 +59,11 @@ struct dpu_hw_intr {
+ 	struct dpu_hw_blk_reg_map hw;
+ 	u32 cache_irq_mask[MDP_INTR_MAX];
+ 	u32 *save_irq_status;
+-	u32 total_irqs;
+ 	spinlock_t irq_lock;
  	unsigned long irq_mask;
  	const struct dpu_intr_reg *intr_set;
  
--	struct {
--		void (*cb)(void *arg);
--		void *arg;
--		atomic_t count;
--	} irq_tbl[];
-+	struct dpu_hw_intr_entry irq_tbl[];
+-	struct dpu_hw_intr_entry irq_tbl[];
++	struct dpu_hw_intr_entry irq_tbl[DPU_NUM_IRQS];
  };
  
  /**
