@@ -2,67 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C62C766F65
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F434766F64
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:24:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE4F10E6FF;
-	Fri, 28 Jul 2023 14:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89BA410E6FB;
+	Fri, 28 Jul 2023 14:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mta01.prd.rdg.aluminati.org (mta01.prd.rdg.aluminati.org
- [94.76.243.214])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA3610E6AF
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:11:08 +0000 (UTC)
-Received: from mta01.prd.rdg.aluminati.org (localhost [127.0.0.1])
- by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id A6A9020E3F;
- Fri, 28 Jul 2023 10:11:07 +0100 (BST)
-Authentication-Results: mta01.prd.rdg.aluminati.org; dkim=pass (2048-bit key;
- unprotected) header.d=cantab.net header.i=@cantab.net header.a=rsa-sha256
- header.s=dkim header.b=L+CL2nN+; dkim-atps=neutral
-Received: from localhost (localhost [127.0.0.1])
- by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id 9872B20A63;
- Fri, 28 Jul 2023 10:11:07 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cantab.net; h=
- user-agent:message-id:date:date:x-mailer:references:in-reply-to
- :subject:subject:from:from:received:received:received; s=dkim;
- t=1690535464; bh=cZxLZ1tEBpIhujgoIVogT13OIOH3s7uUxVDPsDsABic=; b=
- L+CL2nN+EW9kpLiWrwot5raHTXxOZ6yv3ZP7c8IgshX+vHv1BiKp2bZbJJ62ZUoZ
- AbEmQK7fszBodfGQ8MrkEQIlnZ3X1/DqeACgYibyzCughw/h9o+iOFpYhSNs5pT/
- ws3I/objkIF0O8OxVBI4VEcM03iq2z5noCop7/gc3vi6vvEkcmzgXbePJaED5fh5
- 6BQr1QQ8fGPvD6CtE19O7lZ/w4U3nn9y2F3kFYTGtVxUnbB5pXpmn1RxVUW0kMOs
- F8YH5UDYpC54fA3/KVCwVgD9gQB1KRvLTTfd6R8VCm3dIbcLUMk8b1efINAUgHBX
- jcrYlGfEY5ppBIbPfewZrA==
-X-Quarantine-ID: <rILQLmbFLLSm>
-X-Virus-Scanned: Debian amavisd-new at mta01.prd.rdg.aluminati.org
-Received: from mta.aluminati.local ([127.0.0.1])
- by localhost (mta01.prd.rdg.aluminati.org [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id rILQLmbFLLSm; Fri, 28 Jul 2023 10:11:04 +0100 (BST)
-Received: from revelation.localdomain (static-87-75-118-217.vodafonexdsl.co.uk
- [87.75.118.217])
- by svc01-2.prd.rdg.aluminati.org (Postfix) with ESMTPSA id 8991D780003;
- Fri, 28 Jul 2023 10:11:01 +0100 (BST)
-Received: by revelation.localdomain (Postfix, from userid 1000)
- id C4DE41202BB; Fri, 28 Jul 2023 10:11:00 +0100 (BST)
-From: Roger Sewell <roger.sewell@cantab.net>
-To: "Jocelyn Falempe" <jfalempe@redhat.com>
-Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
-In-reply-to: Your message of Fri, 28 Jul 2023 10:09:13 +0200
- <3ff67cb3-c477-b834-3d6c-4eb99952d59b@redhat.com>
-References: <20230717133037.25941-1-jfalempe@redhat.com>
- <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
- <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
- <20230724215746.10928@revelation.broadband>
- <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
- <20230725223127.4184@revelation.broadband>
- <9c8a0a5f-fd7f-cf6d-7e6e-ca90bdf957c5@suse.de>
- <20230727223438.4658@revelation.broadband>
- <d5156750-34d4-87dc-41ff-f3c3ca1f48c3@suse.de>
- <3ff67cb3-c477-b834-3d6c-4eb99952d59b@redhat.com>
-X-Mailer: MH-E 8.6+git; GNU Mailutils 3.13; GNU Emacs 27.2
-Date: Fri, 28 Jul 2023 10:11:00 +0100
-Message-ID: <20230728101100.5287@revelation.broadband>
-User-Agent: MH (GNU Mailutils 3.13)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDF710E6AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:12:44 +0000 (UTC)
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RC1zK1khTzNmZJ;
+ Fri, 28 Jul 2023 17:09:17 +0800 (CST)
+Received: from ubuntu1804.huawei.com (10.67.174.202) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 28 Jul 2023 17:12:40 +0800
+From: Zhu Wang <wangzhu9@huawei.com>
+To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <u.kleine-koenig@pengutronix.de>, <arnd@arndb.de>, <dianders@chromium.org>,
+ <javierm@redhat.com>, <sebastian.reichel@collabora.com>,
+ <dmitry.torokhov@gmail.com>, <tzimmermann@suse.de>,
+ <luzmaximilian@gmail.com>, <peda@axentia.se>, <a-bhatia1@ti.com>,
+ <nikhil.nd@ti.com>, <tomi.valkeinen@ti.com>,
+ <penguin-kernel@I-love.SAKURA.ne.jp>, <eballetbo@kernel.org>,
+ <drinkcat@chromium.org>, <treding@nvidia.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH -next v2] drm/bridge: fix -Wunused-const-variable= warning
+Date: Fri, 28 Jul 2023 17:12:08 +0800
+Message-ID: <20230728091208.45506-1-wangzhu9@huawei.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.174.202]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500025.china.huawei.com (7.185.36.35)
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 28 Jul 2023 14:24:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,56 +55,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: wangzhu9@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When building with W=1, the following warning occurs.
 
-Jocelyn, Thomas,
+drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:48:17: warning: ‘anx781x_i2c_addresses’ defined but not used [-Wunused-const-variable=]  static const u8 anx781x_i2c_addresses[] = {
+                 ^~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:40:17: warning: ‘anx7808_i2c_addresses’ defined but not used [-Wunused-const-variable=]  static const u8 anx7808_i2c_addresses[] = {
 
-JF> I think the culprit is probably this patch:
-JF> https://patchwork.freedesktop.org/patch/486242/
-JF> 
-JF> before this patch,
-JF> mgag200_simple_display_pipe_mode_valid() always return MODE_OK
-JF> 
-JF> after this patch, it checks the bandwidth limit too.
+When CONFIG_IO is disabled, above two variables are not used,
+since the place where it is used is inclueded in the macro
+CONFIG_OF.
 
-I can easily test this theory, which sounds entirely reasonable - I will
-do so and let you know the result.
+The drivers under the directory drivers/gpu/drm/bridge depends
+on the macro CONFIG_OF, it is not necessary to use CONFIG_OF
+or of_match_ptr in related files in this directory, so we just
+remove them all.
 
-TZ> I'm not quite sure how to proceed here, as the driver is correct and
-TZ> the problem came from a mismatching config file on your system.
+Fixes: 0647e7dd3f7a ("drm/bridge: Add Analogix anx78xx support")
+Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
 
-In so far as a user's viewpoint is relevant, I would say this: 
+Changes in v2
+- remove CONFIG_OF and of_match_ptr in following files:
+  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+  drivers/gpu/drm/bridge/chrontel-ch7033.c
+  drivers/gpu/drm/bridge/sil-sii8620.c
+  drivers/gpu/drm/bridge/ti-tfp410.c
+---
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c  | 2 +-
+ drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c  | 4 +---
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 2 +-
+ drivers/gpu/drm/bridge/chrontel-ch7033.c            | 2 +-
+ drivers/gpu/drm/bridge/sil-sii8620.c                | 2 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c                  | 2 +-
+ 6 files changed, 6 insertions(+), 8 deletions(-)
 
-A user wants to be able to obtain any mode that actually is usable with
-his hardware. He starts from a position of not having any extra config
-files in place, and it works. He wants a different mode, so he adds a
-config file. If he does that deliberately, then the system should allow
-it, even if it goes over some theoretical limit - as if he gets no
-video, he will then know exactly why he got no video (and can use the
-tty interface after a reboot to remove his config file). (But by all
-means put a warning message in the logs.)
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+index 72ab2ab77081..c9e35731e6a1 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+@@ -813,7 +813,7 @@ MODULE_DEVICE_TABLE(of, anx6345_match_table);
+ static struct i2c_driver anx6345_driver = {
+ 	.driver = {
+ 		   .name = "anx6345",
+-		   .of_match_table = of_match_ptr(anx6345_match_table),
++		   .of_match_table = anx6345_match_table,
+ 		  },
+ 	.probe = anx6345_i2c_probe,
+ 	.remove = anx6345_i2c_remove,
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+index 06a3e3243e19..800555aef97f 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+@@ -1373,7 +1373,6 @@ static const struct i2c_device_id anx78xx_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, anx78xx_id);
+ 
+-#if IS_ENABLED(CONFIG_OF)
+ static const struct of_device_id anx78xx_match_table[] = {
+ 	{ .compatible = "analogix,anx7808", .data = anx7808_i2c_addresses },
+ 	{ .compatible = "analogix,anx7812", .data = anx781x_i2c_addresses },
+@@ -1382,12 +1381,11 @@ static const struct of_device_id anx78xx_match_table[] = {
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, anx78xx_match_table);
+-#endif
+ 
+ static struct i2c_driver anx78xx_driver = {
+ 	.driver = {
+ 		   .name = "anx7814",
+-		   .of_match_table = of_match_ptr(anx78xx_match_table),
++		   .of_match_table = anx78xx_match_table,
+ 		  },
+ 	.probe = anx78xx_i2c_probe,
+ 	.remove = anx78xx_i2c_remove,
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index ecb935e46b62..e434c0b5784e 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -2656,7 +2656,7 @@ MODULE_DEVICE_TABLE(of, mhdp_ids);
+ static struct platform_driver mhdp_driver = {
+ 	.driver	= {
+ 		.name		= "cdns-mhdp8546",
+-		.of_match_table	= of_match_ptr(mhdp_ids),
++		.of_match_table	= mhdp_ids,
+ 	},
+ 	.probe	= cdns_mhdp_probe,
+ 	.remove	= cdns_mhdp_remove,
+diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+index a854eb84e399..483c28c7fc99 100644
+--- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
++++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
+@@ -607,7 +607,7 @@ static struct i2c_driver ch7033_driver = {
+ 	.remove = ch7033_remove,
+ 	.driver = {
+ 		.name = "ch7033",
+-		.of_match_table = of_match_ptr(ch7033_dt_ids),
++		.of_match_table = ch7033_dt_ids,
+ 	},
+ 	.id_table = ch7033_ids,
+ };
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 79b09ccd1353..599164e3877d 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2376,7 +2376,7 @@ MODULE_DEVICE_TABLE(i2c, sii8620_id);
+ static struct i2c_driver sii8620_driver = {
+ 	.driver = {
+ 		.name	= "sii8620",
+-		.of_match_table = of_match_ptr(sii8620_dt_match),
++		.of_match_table = sii8620_dt_match,
+ 	},
+ 	.probe		= sii8620_probe,
+ 	.remove		= sii8620_remove,
+diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+index 22b07260a78e..28848a8eb42e 100644
+--- a/drivers/gpu/drm/bridge/ti-tfp410.c
++++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+@@ -448,7 +448,7 @@ MODULE_DEVICE_TABLE(i2c, tfp410_i2c_ids);
+ static struct i2c_driver tfp410_i2c_driver = {
+ 	.driver = {
+ 		.name	= "tfp410",
+-		.of_match_table = of_match_ptr(tfp410_match),
++		.of_match_table = tfp410_match,
+ 	},
+ 	.id_table	= tfp410_i2c_ids,
+ 	.probe		= tfp410_i2c_probe,
+-- 
+2.17.1
 
-What is really bad is for a mode that used to work to stop working with
-no explanation - and even to stop working in such a manner that the only
-way to get the system back is to force a reboot by removing power rather
-than defaulting to a different mode. (But I think that that behaviour
-results from userspace not expecting a late rejection of the mode.)
-
-Moreover, any decent system that uses a GUI to allow you to change
-screen mode offers you a preview before locking that mode in - and
-automatically reverses the change if the user doesn't confirm it.
-
-So I would prefer a mode chosen by a deliberate xorg config file to not
-be rejectable by the driver, but just give a warning in the logs.
-
-(But I do understand that you will also need to consider other points of
-view.)
-
-I'll confirm the result of the above test shortly.
-
-Thanks,
-Roger.
