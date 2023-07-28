@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F83B767046
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 17:13:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FC0767087
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 17:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E8E10E715;
-	Fri, 28 Jul 2023 15:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3811C10E719;
+	Fri, 28 Jul 2023 15:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE0410E715
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 15:13:08 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- 006d021491bc7-56c74961e0cso304294eaf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:13:08 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE17410E718;
+ Fri, 28 Jul 2023 15:29:33 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4fe1a35a135so3146811e87.1; 
+ Fri, 28 Jul 2023 08:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690557187; x=1691161987;
+ d=gmail.com; s=20221208; t=1690558172; x=1691162972;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0h6ZlaOtrhJAvHzX+indxdgsUCrQ74QcVENca+JdPsc=;
- b=kwvcBGvLtwnQ9WQdmNBDDzy/nDOHjIa1afusglIMBCjFCgNnsKEKiJYxDiRvSkrkts
- CCqjOvEmjNbaIrukQ1a+YtBC8TH6lHCIZCFnWGr1LUOMsWHeXPHg6MRYno3UKj02OLVe
- IpYWYZaxiE10oXD0uKr00KunkC6LplJipYlmv9ki8yg/jse1khhymlSK7iV/SK5SCqf6
- BEKtlzDO/pwIjK0tksbRrd7rhp4Kx8waEfyI0qvmMdga0WrEQbbC6bjFwOcO4fqkTLbi
- neVzLaoflYmQCawopvrJPQ2zEABSB/fPU4ZI0ufb7fr/OfKa3qg/y/O0PwRxf9lCyvMy
- 4R7w==
+ bh=sWY5MitYzqJ4d1bWl5n1gXmIbqPwv+V3mvdT6pw4Joo=;
+ b=spL3/dRcoa3f8wiIiP4KqpRnJi5z+v7W8ANf+zhQjBOBZZo931y9+BgkQkiNBesEtg
+ atYPhabihDsA3VLHbn7Dz08mDbJGqwdJPsliHSHanX0fVDB6WEFf1WnCiJjkrk195LtG
+ WimZisfkapB/STS57H7637OhqQ5SuV1fA3uiQCk5QwCD5Lc/bSizj6/trIl/g6AxU2H2
+ FiUnXlPE6e9l1sKVkqU0w9etFNmp1tDgw/etFEND+xo7SPaVF0cHQe0smbkpyBNQMLHS
+ quujH7k9Vk0rZwusd+jLvaKgIonLmUT/JCeO+57s/O/3oTEGSuPTvF3Khbc8HTkvrCxO
+ gBfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690557187; x=1691161987;
+ d=1e100.net; s=20221208; t=1690558172; x=1691162972;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0h6ZlaOtrhJAvHzX+indxdgsUCrQ74QcVENca+JdPsc=;
- b=IcsNRlEPcAsnzisFiU+affhPQbpkpzk2O7jvqdU+m3XNM3amKYJE+3O5HDHY1iSG/K
- oWQi9DhBa+mk2ZG5DsoDTsbqgTLmN3wCCjnmrrneMGNskFtW+KlQw39e9a8yal5EyRvN
- zEYnAk+Zbr4IW7dmsiEpPGRFwERWLOi5jg27j6zWOqYGYR/6PUIootpSBwl50S635ZfI
- qOWez8CSRDeHmCCdvQa2jym3XvQWP5pQM4K8tXuyqkDNuiSualZETEvo2b8E1oZcgQBl
- RX9EOpyJL3I7zU79WtLMEYdAUbk1/3cb9zdgOXa3OAEF38QNDJZYhmJIQo5HKy/bjVnt
- D9Zw==
-X-Gm-Message-State: ABy/qLZIVP/Hnu1gB0DWnU/aIvez1ETwh2rClCLdIbvg/RvOuUtF9xRS
- QlHO78g5/o747rh7WOFt/fHKlhkIUXm8lTGdE5Q=
-X-Google-Smtp-Source: APBJJlFMn4Pitgr6ec3WDKKwYT4fs6V87S727U/H+ysiBw3Y7fB3NaxzVtyYxYL18QBaQ7OzIE0z1qA7tuwjgSJN6n4=
-X-Received: by 2002:a05:6808:1b0f:b0:3a4:735b:e559 with SMTP id
- bx15-20020a0568081b0f00b003a4735be559mr3540653oib.33.1690557187564; Fri, 28
- Jul 2023 08:13:07 -0700 (PDT)
+ bh=sWY5MitYzqJ4d1bWl5n1gXmIbqPwv+V3mvdT6pw4Joo=;
+ b=LXV/LjVdOsy0ymw7egkcLJRaMz60V1IJpyo98AV2r62abEzsO+RkBoJa5hS0vazKnM
+ hwlXXEIwXOAgJHMOKqEm4Zy6eT6/H6Ad9RfoEmF41s2uRTEZeoxjvzdvPTI1vSsTJQGZ
+ K6Tc5Ebc74hWwEJEyfgyoYhSBLRRndBonrCBmHP+UVg6cZqXUknkk2/FEmB2h5V6L0zP
+ MFr2WiS2z0Q/QY9UyRbgqbaCA0WhpKgkbZ6vaGjaUOCHEGKZ/WwsGMKuTcZ9XxNO2/kq
+ Txe2eOnInUuNm3O/HiAd66nxvwZyKiSTbDLY3REdjU69RBtO4fnORprCMfmVrn/cwwPR
+ BlWg==
+X-Gm-Message-State: ABy/qLYWTQmCh7OvpXfsuJu7AxUoRz+61J6IcckLa64ATW8HYElDeW2c
+ INoR46/TdzYyxxIwwtF6IgN9BQHz8JPeGmvLMZc=
+X-Google-Smtp-Source: APBJJlG9HA1renQSWWmK4jFIFA634+RbkACkuwQYa0S4sEwxKAw6D1WHjQhQGkb90LkAwDcSFZFj21mMVuuM+mbHCA4=
+X-Received: by 2002:a05:6512:2253:b0:4fd:faa5:64ed with SMTP id
+ i19-20020a056512225300b004fdfaa564edmr2283534lfu.11.1690558171553; Fri, 28
+ Jul 2023 08:29:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADnq5_Pr8Z=vNO3iEpHNqkV0mb8gNzN7Zvf9HSW0Sf3Q0yy=Pw@mail.gmail.com>
- <9b86526b-7afd-6335-e68f-3f390f1c3266@linux.intel.com>
- <CAF6AEGvC-1SFrmBY+mitpGPcHNBrJri4HMFXmXMkb4=G3Zrwcw@mail.gmail.com>
-In-Reply-To: <CAF6AEGvC-1SFrmBY+mitpGPcHNBrJri4HMFXmXMkb4=G3Zrwcw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 28 Jul 2023 11:12:56 -0400
-Message-ID: <CADnq5_Nf3J8mdmmMkEOhwpe5AGVOjRPhO_gCFvPXPPuKmSe1iA@mail.gmail.com>
-Subject: Re: CPU overhead for drm fdinfo stats
-To: Rob Clark <robdclark@gmail.com>
+References: <20230727212208.102501-1-robdclark@gmail.com>
+ <20230727212208.102501-13-robdclark@gmail.com>
+ <08cd9bb5-678f-e03e-4598-dd1785f0d7a7@linaro.org>
+In-Reply-To: <08cd9bb5-678f-e03e-4598-dd1785f0d7a7@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 28 Jul 2023 08:29:19 -0700
+Message-ID: <CAF6AEGu-aRzi6ADqCnLU46DC0ZoWmSmhYU2sZj83wTyTbazbxg@mail.gmail.com>
+Subject: Re: [PATCH v2 12/13] dt-bindings: drm/msm/gpu: Extend bindings for
+ chip-id
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,68 +71,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 28, 2023 at 10:35=E2=80=AFAM Rob Clark <robdclark@gmail.com> wr=
-ote:
+On Fri, Jul 28, 2023 at 12:27=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 >
-> On Fri, Jul 28, 2023 at 1:36=E2=80=AFAM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
+> On 27/07/2023 23:20, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
 > >
-> >
-> > On 27/07/2023 21:58, Alex Deucher wrote:
-> > > We have a number of customers using these stats, but the issue that
-> > > keeps coming up is the CPU overhead to gather them, particularly on
-> > > systems with hundreds of processes using the GPU.  Has anyone given
-> > > any thought to having a single interface to get this information for
-> > > the entire GPU in one place?
-> >
-> > Could I have a framed told you so certificate please? :D
-> >
-> > Well at least it depends on how much CPU overhead would your users be
-> > happy to eliminate and how much to keep. So maybe no need for that
-> > certificate just yet.
-> >
-> > I was raising the issue of exponential complexity of walking "total
-> > number of processes" x "total number of file descriptors" on a system
-> > from the inception of fdinfo.
-> >
-> > So for that issue the idea was to perhaps expose a list of pids with DR=
-M
-> > fds open somewhere, maybe sysfs.
+> > Upcoming GPUs use an opaque chip-id for identifying the GPU.
 >
-> We do have something in debugfs (ie. $debugfs/dri/n/clients), would that =
-do?
+> Examples?
 
-I think sysfs would be preferred since debugfs is often not enabled on
-production servers.
+We'll know when we bring up the hw.  But the main point is that we
+shouldn't expect, for example, the high 8 bits to tell us the
+generation, any more than we could if it was a pci id.
 
-Alex
+We may not end up needing to use this new binding much, I _think_ we
+should be able to read it from the fw in most cases, at least for
+android devices.  I'm unsure at this point about windows/chromebooks.
+
+> Anyway, I think we should insist here of using something human-readable,
+> even if Qualcomm/Adreno internally use some weird numbers.
+
+I mean qcom,sc8280cx-adreno is human readable but not really very
+informative.  Encoding the chip-id is just a way to avoid the
+qcom,chipid field in the bindings, which qcom used downstream.  The
+new pattern accomplishes the same thing as the existing one, but
+without trying to imply some meaning that becomes increasingly
+non-existent as qc moves to decouple the id from marketing names.
+
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  Documentation/devicetree/bindings/display/msm/gpu.yaml | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/D=
+ocumentation/devicetree/bindings/display/msm/gpu.yaml
+> > index 58ca8912a8c3..56b9b247e8c2 100644
+> > --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> > +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> > @@ -13,6 +13,12 @@ maintainers:
+> >  properties:
+> >    compatible:
+> >      oneOf:
+> > +      - description: |
+> > +          The driver is parsing the compat string for Adreno to
+> > +          figure out the chip-id.
+> > +        items:
+> > +          - pattern: '^qcom,adreno-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-=
+9a-f][0-9a-f][0-9a-f][0-9a-f]$'
+>
+> {8} should work?
+>
+
+so '^qcom,adreno-[0-9a-f]{8}$'
+
+BR,
+-R
 
 >
-> BR,
-> -R
 >
-> > That would eliminate walking _all_ processes and trying to parse any
-> > their file descriptor.
-> >
-> > But it would still require walking all file descriptors belonging to
-> > processes with DRM fds open.
-> >
-> > If that wouldn't be enough of a saving for your users then no, I am not
-> > aware it was discussed. Assuming at least you were suggesting something
-> > like "read all fdinfo for all clients" in one blob. Also in sysfs? I
-> > think it would be doable by walking the dev->filelist and invoking
-> > drm_show_fdinfo() on them.
-> >
-> > Out of curiosity are they using the fdinfo parsing code from IGT or
-> > something of their own?
-> >
-> > Regards,
-> >
-> > Tvrtko
+> Best regards,
+> Krzysztof
+>
