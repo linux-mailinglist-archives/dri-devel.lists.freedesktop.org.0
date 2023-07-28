@@ -1,72 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1123F7666C6
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 10:19:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5349766736
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 10:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E2AF10E695;
-	Fri, 28 Jul 2023 08:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E64CA10E69A;
+	Fri, 28 Jul 2023 08:33:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD4010E695
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:19:15 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-6862d4a1376so444359b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 01:19:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1690532355; x=1691137155;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0Vz5i3f1KwBqEHtOj3kkD+u+idA4hMEDLOXYQ/Zmb7I=;
- b=L2+elQ31DoTndDMbULUpYhAiCoRfDRGWwRsLhePlw7WW3kXFI6RoGNteAO7MNCCxPK
- FYWrT0NCxgniYdOvtk354oC7lAaEYLaI5+6nbBgCsJS7Z9F7PQNW+ZUGwlLgRq4XIWCd
- IlyzJlPUeNX37jF32KJvYLJePzYsZ7ze/fbSuG8EqYw256JXY3KCKzS1wluS9KcnHJgS
- wVJn5VLovDZDoJav6s/8z2Nev3fZMa4BKzS6r7L/dPmXUhh82k37p3M1JnHGLMc145hK
- MLBcl9i8u/Uj6MSDKzSJ+fdKEdHQ4PpsFlNhyTOhfKom9VA3y6JlxMc/+2lHqKKi6hTK
- U83g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690532355; x=1691137155;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0Vz5i3f1KwBqEHtOj3kkD+u+idA4hMEDLOXYQ/Zmb7I=;
- b=JLnMZrjtZIa6XwA0S5r9D/fh2gWA87rLYHekJ6fXWr+GxdFzZ/clq+UUdTukA1633P
- FjmPo+15Jag9oGjHk6VXqzeX+sBOnX3/fPe20pJkukFScJ+cwkq47/FbG+ba16zxXvyF
- mPYWfSWkfnPP3wvZRlLKPycEof2qd7YUVXEwL4A+fgbmf1/Hk9c9JaBcKIWydjeW0576
- yGdl4QABsgImt4dSfPfnWL/19qQA2IFB+VZ7+EW+Sq+fWcVWgx4pyvrm1EI+jD/JFS4O
- F4Wyu4paZjdCVF+hgvxIhVk9/2cPCrUoP9wYEqWfPg/CSrGhkZfH25OFS0+lsE9IA/Au
- x/hA==
-X-Gm-Message-State: ABy/qLamXvg9mIjyNbwyVhLx6P/Zodm4NpDvbj9EmitH3zeAQi3UY3Zm
- oCAz7xHRvyksJP1TiNe7ttewcg==
-X-Google-Smtp-Source: APBJJlFUUUMvBrf6ibd1LKjgOpEN2XEkSNdXdEqaA3c50PeJDSflhjqiMTE27IMY1LDD8QpZTvY8yg==
-X-Received: by 2002:a05:6a21:329f:b0:134:76d6:7f7 with SMTP id
- yt31-20020a056a21329f00b0013476d607f7mr2068612pzb.4.1690532355159; 
- Fri, 28 Jul 2023 01:19:15 -0700 (PDT)
-Received: from [10.70.252.135] ([203.208.167.147])
- by smtp.gmail.com with ESMTPSA id
- j63-20020a638b42000000b005637030d00csm2862658pge.30.2023.07.28.01.19.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jul 2023 01:19:14 -0700 (PDT)
-Message-ID: <99d0958d-8446-6fe9-a0fb-f562cb04c7c8@bytedance.com>
-Date: Fri, 28 Jul 2023 16:19:01 +0800
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E26310E69A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:33:48 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[127.0.0.1]) by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <j.zink@pengutronix.de>)
+ id 1qPIuf-00089N-KI; Fri, 28 Jul 2023 10:33:29 +0200
+Message-ID: <4ea87f8f-740d-7bea-f82b-54946699ef1d@pengutronix.de>
+Date: Fri, 28 Jul 2023 10:33:24 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH v3 04/49] mm: shrinker: remove redundant shrinker_rwsem in
- debugfs operations
-Content-Language: en-US
-To: Simon Horman <simon.horman@corigine.com>
-References: <20230727080502.77895-1-zhengqi.arch@bytedance.com>
- <20230727080502.77895-5-zhengqi.arch@bytedance.com>
- <ZMN4mjsF1QEsvW7D@corigine.com>
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <ZMN4mjsF1QEsvW7D@corigine.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: move LVDS data-mapping
+ definition to separate file
+Content-Language: en-US, de-DE
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230523-simplepanel_support_nondefault_datamapping-v2-0-87196f0d0b64@pengutronix.de>
+ <20230523-simplepanel_support_nondefault_datamapping-v2-1-87196f0d0b64@pengutronix.de>
+ <20230602153239.GK26944@pendragon.ideasonboard.com>
+From: Johannes Zink <j.zink@pengutronix.de>
+In-Reply-To: <20230602153239.GK26944@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: j.zink@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,102 +50,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
- david@fromorbit.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
- dm-devel@redhat.com, linux-mtd@lists.infradead.org, cel@kernel.org,
- x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
- xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org, paulmck@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-nfs@vger.kernel.org, rcu@vger.kernel.org,
- linux-bcache@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
- yujie.liu@intel.com, vbabka@suse.cz, linux-raid@vger.kernel.org,
- brauner@kernel.org, tytso@mit.edu, gregkh@linuxfoundation.org,
- muchun.song@linux.dev, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
- senozhatsky@chromium.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Dan Carpenter <error27@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, kernel@pengutronix.de,
+ patchwork-jzi@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
+Hi Laurent,
 
-On 2023/7/28 16:13, Simon Horman wrote:
-> On Thu, Jul 27, 2023 at 04:04:17PM +0800, Qi Zheng wrote:
->> The debugfs_remove_recursive() will wait for debugfs_file_put() to return,
->> so the shrinker will not be freed when doing debugfs operations (such as
->> shrinker_debugfs_count_show() and shrinker_debugfs_scan_write()), so there
->> is no need to hold shrinker_rwsem during debugfs operations.
+thank you for your review.
+
+On 6/2/23 17:32, Laurent Pinchart wrote:
+> Hello Johannes,
+> 
+> Thank you for the patch.
+> 
+> On Tue, May 23, 2023 at 10:19:41AM +0200, Johannes Zink wrote:
+>> As the LVDS data-mapping property is required in multiple bindings: move
+>> it to separate file and include instead of duplicating it.
 >>
->> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
->> Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+>> Signed-off-by: Johannes Zink <j.zink@pengutronix.de>
+>>
 >> ---
->>   mm/shrinker_debug.c | 14 --------------
->>   1 file changed, 14 deletions(-)
 >>
->> diff --git a/mm/shrinker_debug.c b/mm/shrinker_debug.c
->> index 3ab53fad8876..f1becfd45853 100644
->> --- a/mm/shrinker_debug.c
->> +++ b/mm/shrinker_debug.c
->> @@ -55,11 +55,6 @@ static int shrinker_debugfs_count_show(struct seq_file *m, void *v)
->>   	if (!count_per_node)
->>   		return -ENOMEM;
+>> Changes:
+>>
+>> v1 -> v2: worked in Rob's review findings (thank you for reviewing my
+>>            work): extract common properties to
+>>            file and include it instead of duplicating it
+>> ---
+>>   .../bindings/display/lvds-data-mapping.yaml        | 84 ++++++++++++++++++++++
+>>   .../devicetree/bindings/display/lvds.yaml          | 75 +++----------------
+>>   2 files changed, 92 insertions(+), 67 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml b/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
+>> new file mode 100644
+>> index 000000000000..17ef5c9a5a90
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
+>> @@ -0,0 +1,84 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/lvds-data-mapping.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: LVDS Data Mapping
+>> +
+>> +maintainers:
+>> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> +  - Thierry Reding <thierry.reding@gmail.com>
+>> +
+>> +description: |+
+>> +  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
+>> +  incompatible data link layers have been used over time to transmit image data
+>> +  to LVDS devices. This bindings supports devices compatible with the following
+>> +  specifications.
+>> +
+>> +  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
+>> +  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
+>> +  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
+>> +  Semiconductor
+>> +  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
+>> +  Electronics Standards Association (VESA)
+>> +
+>> +  Device compatible with those specifications have been marketed under the
+>> +  FPD-Link and FlatLink brands.
+>> +
+>> +properties:
+>> +  data-mapping:
+>> +    enum:
+>> +      - jeida-18
+>> +      - jeida-24
+>> +      - vesa-24
+>> +    description: |
+>> +      The color signals mapping order.
+>> +
+>> +      LVDS data mappings are defined as follows.
+>> +
+>> +      - "jeida-18" - 18-bit data mapping compatible with the [JEIDA], [LDI] and
+>> +        [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
+>> +
+>> +      Slot          0       1       2       3       4       5       6
+>> +                ________________                         _________________
+>> +      Clock                     \_______________________/
+>> +                  ______  ______  ______  ______  ______  ______  ______
+>> +      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+>> +      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+>> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+>> +
+>> +      - "jeida-24" - 24-bit data mapping compatible with the [DSIM] and [LDI]
+>> +        specifications. Data are transferred as follows on 4 LVDS lanes.
+>> +
+>> +      Slot          0       1       2       3       4       5       6
+>> +                ________________                         _________________
+>> +      Clock                     \_______________________/
+>> +                  ______  ______  ______  ______  ______  ______  ______
+>> +      DATA0     ><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
+>> +      DATA1     ><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
+>> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
+>> +      DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
+>> +
+>> +      - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
+>> +        Data are transferred as follows on 4 LVDS lanes.
+>> +
+>> +      Slot          0       1       2       3       4       5       6
+>> +                ________________                         _________________
+>> +      Clock                     \_______________________/
+>> +                  ______  ______  ______  ______  ______  ______  ______
+>> +      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+>> +      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+>> +      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+>> +      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
+>> +
+>> +      Control signals are mapped as follows.
+>> +
+>> +      CTL0: HSync
+>> +      CTL1: VSync
+>> +      CTL2: Data Enable
+>> +      CTL3: 0
+>> +
+>> +additionalProperties: true
+>> +
+>> +...
+>> diff --git a/Documentation/devicetree/bindings/display/lvds.yaml b/Documentation/devicetree/bindings/display/lvds.yaml
+>> index 7cd2ce7e9c33..2200f986c3cf 100644
+>> --- a/Documentation/devicetree/bindings/display/lvds.yaml
+>> +++ b/Documentation/devicetree/bindings/display/lvds.yaml
+>> @@ -6,83 +6,24 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
 >>   
->> -	ret = down_read_killable(&shrinker_rwsem);
->> -	if (ret) {
->> -		kfree(count_per_node);
->> -		return ret;
->> -	}
->>   	rcu_read_lock();
+>>   title: LVDS Display Common Properties
+>>   
+>> +allOf:
+>> +  - $ref: lvds-data-mapping.yaml#
+>> +
+>>   maintainers:
+>>     - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>     - Thierry Reding <thierry.reding@gmail.com>
+>>   
+>>   description: |+
 > 
-> Hi Qi Zheng,
-> 
-> As can be seen in the next hunk, this function returns 'ret'.
-> However, with this change 'ret' is uninitialised unless
-> signal_pending() returns non-zero in the while loop below.
+> You can drop the |+ here.
 
-Thanks for your feedback, the 'ret' should be initialized to 0,
-will fix it.
+ack, gonna change that in V3.
 
-Thanks,
-Qi
+Best regards
+Johannes
 
 > 
-> This is flagged in a clan-16 W=1 build.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
->   mm/shrinker_debug.c:87:11: warning: variable 'ret' is used uninitialized whenever 'do' loop exits because its condition is false [-Wsometimes-uninitialized]
->           } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
->                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   mm/shrinker_debug.c:92:9: note: uninitialized use occurs here
->           return ret;
->                  ^~~
->   mm/shrinker_debug.c:87:11: note: remove the condition if it is always true
->           } while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
->                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->                    1
->   mm/shrinker_debug.c:77:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
->                   if (!memcg_aware) {
->                       ^~~~~~~~~~~~
->   mm/shrinker_debug.c:92:9: note: uninitialized use occurs here
->           return ret;
->                  ^~~
->   mm/shrinker_debug.c:77:3: note: remove the 'if' if its condition is always false
->                   if (!memcg_aware) {
->                   ^~~~~~~~~~~~~~~~~~~
->   mm/shrinker_debug.c:52:9: note: initialize the variable 'ret' to silence this warning
->           int ret, nid;
->                  ^
->                   = 0
+>> -  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
+>> -  incompatible data link layers have been used over time to transmit image data
+>> -  to LVDS devices. This bindings supports devices compatible with the following
+>> -  specifications.
+>> -
+>> -  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
+>> -  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
+>> -  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
+>> -  Semiconductor
+>> -  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
+>> -  Electronics Standards Association (VESA)
+>> -
+>> -  Device compatible with those specifications have been marketed under the
+>> -  FPD-Link and FlatLink brands.
+>> +  This binding extends the data mapping defined in lvds-data-mapping.yaml.
+>> +  It supports reversing the bit order on the formats defined there in order
+>> +  to accomodate for even more specialized data formats, since a variety of
+>> +  data formats and layouts is used to drive LVDS displays.
+>>   
+>>   properties:
+>> -  data-mapping:
+>> -    enum:
+>> -      - jeida-18
+>> -      - jeida-24
+>> -      - vesa-24
+>> -    description: |
+>> -      The color signals mapping order.
+>> -
+>> -      LVDS data mappings are defined as follows.
+>> -
+>> -      - "jeida-18" - 18-bit data mapping compatible with the [JEIDA], [LDI] and
+>> -        [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
+>> -
+>> -      Slot          0       1       2       3       4       5       6
+>> -                ________________                         _________________
+>> -      Clock                     \_______________________/
+>> -                  ______  ______  ______  ______  ______  ______  ______
+>> -      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+>> -      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+>> -      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+>> -
+>> -      - "jeida-24" - 24-bit data mapping compatible with the [DSIM] and [LDI]
+>> -        specifications. Data are transferred as follows on 4 LVDS lanes.
+>> -
+>> -      Slot          0       1       2       3       4       5       6
+>> -                ________________                         _________________
+>> -      Clock                     \_______________________/
+>> -                  ______  ______  ______  ______  ______  ______  ______
+>> -      DATA0     ><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
+>> -      DATA1     ><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
+>> -      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
+>> -      DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
+>> -
+>> -      - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
+>> -        Data are transferred as follows on 4 LVDS lanes.
+>> -
+>> -      Slot          0       1       2       3       4       5       6
+>> -                ________________                         _________________
+>> -      Clock                     \_______________________/
+>> -                  ______  ______  ______  ______  ______  ______  ______
+>> -      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+>> -      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+>> -      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+>> -      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
+>> -
+>> -      Control signals are mapped as follows.
+>> -
+>> -      CTL0: HSync
+>> -      CTL1: VSync
+>> -      CTL2: Data Enable
+>> -      CTL3: 0
+>> -
+>>     data-mirror:
+>>       type: boolean
+>>       description:
+>> -      If set, reverse the bit order described in the data mappings below on all
+>> +      If set, reverse the bit order described in the data mappings on all
+>>         data lanes, transmitting bits for slots 6 to 0 instead of 0 to 6.
+>>   
+>>   additionalProperties: true
+>>
 > 
->>   
->>   	memcg_aware = shrinker->flags & SHRINKER_MEMCG_AWARE;
->> @@ -92,7 +87,6 @@ static int shrinker_debugfs_count_show(struct seq_file *m, void *v)
->>   	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)) != NULL);
->>   
->>   	rcu_read_unlock();
->> -	up_read(&shrinker_rwsem);
->>   
->>   	kfree(count_per_node);
->>   	return ret;
-> 
-> ...
+
+-- 
+Pengutronix e.K.                | Johannes Zink                  |
+Steuerwalder Str. 21            | https://www.pengutronix.de/    |
+31137 Hildesheim, Germany       | Phone: +49-5121-206917-0       |
+Amtsgericht Hildesheim, HRA 2686| Fax:   +49-5121-206917-5555    |
+
