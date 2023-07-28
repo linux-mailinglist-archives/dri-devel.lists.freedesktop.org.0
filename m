@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0688767013
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 17:03:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69542767043
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 17:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31AEA10E714;
-	Fri, 28 Jul 2023 15:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C334310E6EB;
+	Fri, 28 Jul 2023 15:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2A610E713
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 15:03:47 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- 46e09a7af769-6b9defb36a2so1903507a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:03:47 -0700 (PDT)
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
+ [IPv6:2607:f8b0:4864:20::c2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D64E10E6EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 15:12:20 +0000 (UTC)
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ 006d021491bc7-56661fe27cbso1492218eaf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:12:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690556627; x=1691161427;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zhqa2w8iasInJcL6NfmDWggtya4x/gTdfth4NOfkcIA=;
- b=f5EeD/0Qal4yo4m3suCQs3YG1D/VLomBpFDw9xj0A7t07LwN0QPcbpwdPVkFatfl0y
- c9StDwt03B+f8wulscLZx1u8cxIGW3ynQB9ceW46R6wY0PjmYOznOseU+AzmC333avMC
- emrRUkwKimgA+8nNxOQmnE74VFJ4jJ6DrdRHbiR7kZY6nQ6l2mxfpPa/R6BWOiEBQwuU
- qvMKjCNacvaf1FfwaRoKke0da9vxY9rcLlYHOV2Y7FwEuc5/hh030AkVxM0xLy7Rum4w
- 8vj+DqXTH0t3iy6/LzfhCXbmnkFRy51WFnGtN1LcuQhhVXWo/7Zz+MU3TdJjvJI6Qpch
- 3vxA==
+ d=gmail.com; s=20221208; t=1690557139; x=1691161939;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mjaMvthXtyEQYcvkq0bLm9qV8pkq7yulAkHOM+DpXUI=;
+ b=ASVl+frguzcPLx7itWYXGJqq0392xEzilATA4NtPQbxpkaBRiZfZdeHaX9gK+NStY8
+ a4IS8lqv7oUvt6mzHlFfx7JRsMJRmZ52KU5em1+LBRgQe6vx4FUPL4oFqBZhcOy3aoXa
+ mBoWaDHvCXrFQ3NijMydzYQQzZG++CT9X3h6n7r/cIJCYIyZpLGg94Z3uyxmVaS4kfT9
+ GHJxb6qWEGx/qUVcp9glRoiP/h4c0JC6FWR36LSjBfZi9hwUn6e+uqRIZZFLyM+GrfRR
+ mh/bJVpa6F6AjXLhAL3EWpiYpFTHRyqLKaZUdGOHU+DJJKgzij0q/hxPvkRiwMwjvSIu
+ vbBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690556627; x=1691161427;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zhqa2w8iasInJcL6NfmDWggtya4x/gTdfth4NOfkcIA=;
- b=TdILmyWeJwI9nT0h+0Jr/twd+a2eX9ceDMj0oe/gzCPCRJl7HN6cLejflWQuaoyAJF
- aOYPM8ex7gtF8LgT+QLlh5RTKL9IPzUqsbXuLbKvENWoby5yD/67f3AlpkVl9VyVhj5e
- EpuqA1tNXykcNo4QyXGpv2qotkNd47cZjXISWT93DTZnSHZAi+kITWYOY5ncwmm0YaAc
- YFfOODsxbifiCChbLPZ2iuwIhnCDQRMBWTBAAvSY0Q3aNk5XKSC90uhCeqyrGL5BFiXm
- UG9aOuat9feBxqCjA/OuKxeBTFvR5weI1Xg5m0Qj+fhKWb31gmp0B36xJebhjUEnH5Nx
- KJeg==
-X-Gm-Message-State: ABy/qLY9ISlOe+odaqSzcT2n9xeu/uJ85ea37rFq8XHGAeRz8Wfm+XjQ
- GbhM3T9Hr4E6QPGZ99cnxaXWHFGPtsa/DZnBk7gRfw==
-X-Google-Smtp-Source: APBJJlGD5qVFTktEkAOS8dMWSFoYtIk27ZXfPzVdxaTXjsxXLN5k6FzMJcaD8f1NOhEA4FasS5uhbJtxNVtTduied9g=
-X-Received: by 2002:a9d:6205:0:b0:6af:9b42:9794 with SMTP id
- g5-20020a9d6205000000b006af9b429794mr2706273otj.35.1690556626707; Fri, 28 Jul
- 2023 08:03:46 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1690557139; x=1691161939;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mjaMvthXtyEQYcvkq0bLm9qV8pkq7yulAkHOM+DpXUI=;
+ b=k2FxFZS5Aj71mw3gkKS6141hoAFaPnrmus/SvIMtWxR23kxF70zxayYWE+i7sW8Yk7
+ AVRh7F2WaSPrrCn2UBoB6SARicdU3WIAR/E2onCwdeTDD82uI+TwEckoHfTq4llEwTsJ
+ IyjozsFcaWxx2d2y3ex09gtFelPARBpyKT+jYR3n/VGCdvLrTBTL+GHV2ggWNAHcGoI1
+ 5cXyaJra5oWiHW2GC0jpKkQRmvJHfUGHkmjkS1arfejpktvv33ynb4fgnCcgaI/oHjE4
+ 6OWeMgbYRzw0ZjkLdnxrol9sgIjLQypDBIQnTWs8e3f2TZ8T9KAppkLd+ccwiPsloHuP
+ CJgQ==
+X-Gm-Message-State: ABy/qLb0o2dsqQoVRXVvAC0ApKnE0FmfmaUgSR04CblX7gQwppAokKLW
+ 19/rDV61/auW4ZmDZ4/eJPs5Z5K4ojRdJyK98Hg=
+X-Google-Smtp-Source: APBJJlH7CisTxRfSXWi+jtWDoqf2hNi6nvxfCLWV/15fF/BUdMeGWQfLoQv/sTCEi+b70U5K0KozyMQnY4C+Y5XeVrI=
+X-Received: by 2002:a4a:3505:0:b0:566:ff47:2577 with SMTP id
+ l5-20020a4a3505000000b00566ff472577mr2796810ooa.1.1690557139598; Fri, 28 Jul
+ 2023 08:12:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230727150455.1489575-1-dmitry.baryshkov@linaro.org>
- <20230727150455.1489575-5-dmitry.baryshkov@linaro.org>
- <dzqrazaaedomrvdr6xjawzc75zy2whp7nyfuzwsamd22bvbpzq@wdv7k3vpovgf>
-In-Reply-To: <dzqrazaaedomrvdr6xjawzc75zy2whp7nyfuzwsamd22bvbpzq@wdv7k3vpovgf>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 28 Jul 2023 18:03:35 +0300
-Message-ID: <CAA8EJpqPa8uAqQ3r929Js1b8vYfEhjvEXBNCan8faS08AtOZaw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/msm/dpu: shift IRQ indices by 1
-To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <CADnq5_Pr8Z=vNO3iEpHNqkV0mb8gNzN7Zvf9HSW0Sf3Q0yy=Pw@mail.gmail.com>
+ <9b86526b-7afd-6335-e68f-3f390f1c3266@linux.intel.com>
+In-Reply-To: <9b86526b-7afd-6335-e68f-3f390f1c3266@linux.intel.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 28 Jul 2023 11:12:08 -0400
+Message-ID: <CADnq5_Op+W+3gtP9oaihEO7dxj5eNPFvNm=oWgL+zDKZ5qEA8g@mail.gmail.com>
+Subject: Re: CPU overhead for drm fdinfo stats
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,395 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Christian Koenig <christian.koenig@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Jul 2023 at 22:58, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
+On Fri, Jul 28, 2023 at 4:36=E2=80=AFAM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
 >
-> Title nit: How about making this "UP by 1"?
 >
-> On 2023-07-27 18:04:55, Dmitry Baryshkov wrote:
-> > In order to simplify IRQ declarations, shift IRQ indices by 1. This
+> On 27/07/2023 21:58, Alex Deucher wrote:
+> > We have a number of customers using these stats, but the issue that
+> > keeps coming up is the CPU overhead to gather them, particularly on
+> > systems with hundreds of processes using the GPU.  Has anyone given
+> > any thought to having a single interface to get this information for
+> > the entire GPU in one place?
 >
-> Same here, UP by one.
+> Could I have a framed told you so certificate please? :D
 >
-> > makes 0 the 'no IRQ' value. Thanks to this change, we do no longer have
-> > to explicitly set the 'no interrupt' fields in catalog structures.
+> Well at least it depends on how much CPU overhead would your users be
+> happy to eliminate and how much to keep. So maybe no need for that
+> certificate just yet.
 >
-> "explicitly set unused interrupts to -1" or
-> "explicitly signifiy 'no interrupt' fields with -1"?
+> I was raising the issue of exponential complexity of walking "total
+> number of processes" x "total number of file descriptors" on a system
+> from the inception of fdinfo.
 >
-> On the other hand this might be confusing since -1 thanks to this patch
-> no longer means 'no interrupt'.  Also okay to leave it as-is.
+> So for that issue the idea was to perhaps expose a list of pids with DRM
+> fds open somewhere, maybe sysfs.
 >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  4 --
-> >  .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  4 --
-> >  .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  8 ---
-> >  .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 10 ----
-> >  .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |  3 --
-> >  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  8 ---
-> >  .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  3 --
-> >  .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  1 -
-> >  .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  3 --
-> >  .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  1 -
-> >  .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  1 -
-> >  .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  8 ---
-> >  .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  6 ---
-> >  .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 13 -----
-> >  .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 12 -----
-> >  .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 12 -----
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h  |  6 +--
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  2 +-
-> >  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  2 +-
-> >  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 14 +++---
-> >  .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 49 +++++++++----------
-> >  .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |  6 +--
-> >  22 files changed, 39 insertions(+), 137 deletions(-)
-> >
+> That would eliminate walking _all_ processes and trying to parse any
+> their file descriptor.
 >
-> <cut out all the repeated catalog changes>
+> But it would still require walking all file descriptors belonging to
+> processes with DRM fds open.
 >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> > index ba06312cbb16..7c286bafb948 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_irq.h
-> > @@ -37,7 +37,7 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms);
-> >   */
-> >  u32 dpu_core_irq_read(
-> >               struct dpu_kms *dpu_kms,
-> > -             int irq_idx);
-> > +             unsigned int irq_idx);
-> >
-> >  /**
-> >   * dpu_core_irq_register_callback - For registering callback function on IRQ
-> > @@ -52,7 +52,7 @@ u32 dpu_core_irq_read(
-> >   */
-> >  int dpu_core_irq_register_callback(
-> >               struct dpu_kms *dpu_kms,
-> > -             int irq_idx,
-> > +             unsigned int irq_idx,
-> >               void (*irq_cb)(void *arg),
-> >               void *irq_arg);
-> >
-> > @@ -67,7 +67,7 @@ int dpu_core_irq_register_callback(
-> >   */
-> >  int dpu_core_irq_unregister_callback(
-> >               struct dpu_kms *dpu_kms,
-> > -             int irq_idx);
-> > +             unsigned int irq_idx);
-> >
-> >  /**
-> >   * dpu_debugfs_core_irq_init - register core irq debugfs
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > index 051447a3620c..8ccfeb002b5f 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > @@ -2555,7 +2555,7 @@ void dpu_encoder_phys_init(struct dpu_encoder_phys *phys_enc,
-> >       phys_enc->enable_state = DPU_ENC_DISABLED;
-> >
-> >       for (i = 0; i < ARRAY_SIZE(phys_enc->irq); i++)
-> > -             phys_enc->irq[i] = -EINVAL;
-> > +             phys_enc->irq[i] = 0;
->
-> phys_enc seems to always be kzalloc'ed before it is passed here, so
-> maybe we don't need to change the initialization value at all unless you
-> want to be super-specific.  And could memset() otherwise create faster
-> code?
+> If that wouldn't be enough of a saving for your users then no, I am not
+> aware it was discussed. Assuming at least you were suggesting something
+> like "read all fdinfo for all clients" in one blob. Also in sysfs? I
+> think it would be doable by walking the dev->filelist and invoking
+> drm_show_fdinfo() on them.
 
-Sure, I should probably drop this.
+Yes, something like that.  I think generally for telemetry reasons
+they want to see stats of the engine times and memory usage of all of
+the clients on the GPU.  In our case there is also a lot of CPU
+overhead in parsing the memory usage due to the locking of the buffer
+objects to get their location.  I'm not sure of a good way to reduce
+that.  Maybe caching it to reduce the update granularity.
 
 >
-> >
-> >       atomic_set(&phys_enc->vblank_refcount, 0);
-> >       atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> > index f91661a69888..e203f3775ed3 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> > @@ -193,7 +193,7 @@ struct dpu_encoder_phys {
-> >       atomic_t pending_ctlstart_cnt;
-> >       atomic_t pending_kickoff_cnt;
-> >       wait_queue_head_t pending_kickoff_wq;
-> > -     int irq[INTR_IDX_MAX];
-> > +     unsigned int irq[INTR_IDX_MAX];
-> >       bool has_intf_te;
-> >  };
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > index c72ed0e35dce..945b88c5ab58 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > @@ -524,7 +524,7 @@ struct dpu_ubwc_cfg {
-> >   */
-> >  struct dpu_ctl_cfg {
-> >       DPU_HW_BLK_INFO;
-> > -     s32 intr_start;
-> > +     unsigned int intr_start;
-> >  };
-> >
-> >  /**
-> > @@ -587,8 +587,8 @@ struct dpu_dspp_cfg  {
-> >  struct dpu_pingpong_cfg  {
-> >       DPU_HW_BLK_INFO;
-> >       u32 merge_3d;
-> > -     s32 intr_done;
-> > -     s32 intr_rdptr;
-> > +     unsigned int intr_done;
-> > +     unsigned int intr_rdptr;
-> >       const struct dpu_pingpong_sub_blks *sblk;
-> >  };
-> >
-> > @@ -635,9 +635,9 @@ struct dpu_intf_cfg  {
-> >       u32 type;   /* interface type*/
-> >       u32 controller_id;
-> >       u32 prog_fetch_lines_worst_case;
-> > -     s32 intr_underrun;
-> > -     s32 intr_vsync;
-> > -     s32 intr_tear_rd_ptr;
-> > +     unsigned int intr_underrun;
-> > +     unsigned int intr_vsync;
-> > +     unsigned int intr_tear_rd_ptr;
-> >  };
-> >
-> >  /**
-> > @@ -656,7 +656,7 @@ struct dpu_wb_cfg {
-> >       u8 vbif_idx;
-> >       u32 maxlinewidth;
-> >       u32 xin_id;
-> > -     s32 intr_wb_done;
-> > +     unsigned int intr_wb_done;
-> >       const u32 *format_list;
-> >       u32 num_formats;
-> >       enum dpu_clk_ctrl_type clk_ctrl;
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> > index ede7161ae904..47f6912ac39e 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-> > @@ -200,7 +200,7 @@ static const struct dpu_intr_reg dpu_intr_set_7xxx[] = {
-> >  #define DPU_IRQ_MASK(irq_idx)        (BIT(DPU_IRQ_OFFSET(irq_idx)))
-> >
-> >  static inline struct dpu_hw_intr_entry *dpu_core_irq_get_entry(struct dpu_kms *dpu_kms,
-> > -                                                            int irq_idx)
-> > +                                                            unsigned int irq_idx)
-> >  {
-> >       return &dpu_kms->hw_intr->irq_tbl[irq_idx];
->
-> Shouldn't this be -1'd, or should the struct size of this trailing array
-> be incremented by one in the nirq variable in dpu_hw_intr_init()?
->
-> Note that total_irqs = nirq.
+> Out of curiosity are they using the fdinfo parsing code from IGT or
+> something of their own?
 
-Ugh, yes.
+I think it's a mix.
 
->
-> >  }
-> > @@ -210,7 +210,7 @@ static inline struct dpu_hw_intr_entry *dpu_core_irq_get_entry(struct dpu_kms *d
-> >   * @dpu_kms:         Pointer to DPU's KMS structure
-> >   * @irq_idx:         interrupt index
-> >   */
-> > -static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, int irq_idx)
-> > +static void dpu_core_irq_callback_handler(struct dpu_kms *dpu_kms, unsigned int irq_idx)
-> >  {
-> >       struct dpu_hw_intr_entry *irq_entry = dpu_core_irq_get_entry(dpu_kms, irq_idx);
-> >
-> > @@ -232,7 +232,7 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms)
-> >       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-> >       struct dpu_hw_intr *intr = dpu_kms->hw_intr;
-> >       int reg_idx;
-> > -     int irq_idx;
-> > +     unsigned int irq_idx;
-> >       u32 irq_status;
-> >       u32 enable_mask;
-> >       int bit;
-> > @@ -288,7 +288,8 @@ irqreturn_t dpu_core_irq(struct msm_kms *kms)
-> >       return IRQ_HANDLED;
-> >  }
-> >
-> > -static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
-> > +static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr,
-> > +                                      unsigned int irq_idx)
-> >  {
-> >       int reg_idx;
-> >       const struct dpu_intr_reg *reg;
-> > @@ -298,7 +299,7 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
-> >       if (!intr)
-> >               return -EINVAL;
-> >
-> > -     if (irq_idx < 0 || irq_idx >= intr->total_irqs) {
-> > +     if (!irq_idx || irq_idx > intr->total_irqs) {
-> >               pr_err("invalid IRQ index: [%d]\n", irq_idx);
->
-> Logs like this might be harder to interpret (and compare) when the
-> numbering is different.  In addition, all the IRQs in
-> /d/dri/0/debug/core_irq are shifted up by 1 making them harder to
-> compare to downstream.
-> (Which I hope to not have to do again for a while, now that my INTF TE
->  series is finalized and merged)
-
-I hesitated here. Maybe we should log the register and index instead
-of logging the raw index.
-
-As for the core_irq vs downstream, that's a good question. I don't
-like the idea of adding -1 there. Maybe I'll change that again to
-register + index.
-
->
-> Rest looks good, nice cleanup and lightening of the source.
->
-> - Marijn
->
-> >               return -EINVAL;
-> >       }
-> > @@ -341,7 +342,8 @@ static int dpu_hw_intr_enable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
-> >       return 0;
-> >  }
-> >
-> > -static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
-> > +static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr,
-> > +                                       unsigned int irq_idx)
-> >  {
-> >       int reg_idx;
-> >       const struct dpu_intr_reg *reg;
-> > @@ -351,7 +353,7 @@ static int dpu_hw_intr_disable_irq_locked(struct dpu_hw_intr *intr, int irq_idx)
-> >       if (!intr)
-> >               return -EINVAL;
-> >
-> > -     if (irq_idx < 0 || irq_idx >= intr->total_irqs) {
-> > +     if (!irq_idx || irq_idx > intr->total_irqs) {
-> >               pr_err("invalid IRQ index: [%d]\n", irq_idx);
-> >               return -EINVAL;
-> >       }
-> > @@ -426,7 +428,8 @@ static void dpu_disable_all_irqs(struct dpu_kms *dpu_kms)
-> >       wmb();
-> >  }
-> >
-> > -u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
-> > +u32 dpu_core_irq_read(struct dpu_kms *dpu_kms,
-> > +                   unsigned int irq_idx)
-> >  {
-> >       struct dpu_hw_intr *intr = dpu_kms->hw_intr;
-> >       int reg_idx;
-> > @@ -436,13 +439,7 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
-> >       if (!intr)
-> >               return 0;
-> >
-> > -     if (irq_idx < 0) {
-> > -             DPU_ERROR("[%pS] invalid irq_idx=%d\n",
-> > -                             __builtin_return_address(0), irq_idx);
-> > -             return 0;
-> > -     }
-> > -
-> > -     if (irq_idx < 0 || irq_idx >= intr->total_irqs) {
-> > +     if (!irq_idx || irq_idx > intr->total_irqs) {
-> >               pr_err("invalid IRQ index: [%d]\n", irq_idx);
-> >               return 0;
-> >       }
-> > @@ -499,7 +496,7 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
-> >
-> >               intr->irq_mask |= BIT(MDP_INTFn_INTR(intf->id));
-> >
-> > -             if (intf->intr_tear_rd_ptr != -1)
-> > +             if (intf->intr_tear_rd_ptr)
-> >                       intr->irq_mask |= BIT(DPU_IRQ_REG(intf->intr_tear_rd_ptr));
-> >       }
-> >
-> > @@ -513,9 +510,10 @@ void dpu_hw_intr_destroy(struct dpu_hw_intr *intr)
-> >       kfree(intr);
-> >  }
-> >
-> > -int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
-> > -             void (*irq_cb)(void *arg),
-> > -             void *irq_arg)
-> > +int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms,
-> > +                                unsigned int irq_idx,
-> > +                                void (*irq_cb)(void *arg),
-> > +                                void *irq_arg)
-> >  {
-> >       struct dpu_hw_intr_entry *irq_entry;
-> >       unsigned long irq_flags;
-> > @@ -526,7 +524,7 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
-> >               return -EINVAL;
-> >       }
-> >
-> > -     if (irq_idx < 0 || irq_idx >= dpu_kms->hw_intr->total_irqs) {
-> > +     if (!irq_idx || irq_idx > dpu_kms->hw_intr->total_irqs) {
-> >               DPU_ERROR("invalid IRQ index: [%d]\n", irq_idx);
-> >               return -EINVAL;
-> >       }
-> > @@ -559,13 +557,14 @@ int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
-> >       return 0;
-> >  }
-> >
-> > -int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms, int irq_idx)
-> > +int dpu_core_irq_unregister_callback(struct dpu_kms *dpu_kms,
-> > +                                  unsigned int irq_idx)
-> >  {
-> >       struct dpu_hw_intr_entry *irq_entry;
-> >       unsigned long irq_flags;
-> >       int ret;
-> >
-> > -     if (irq_idx < 0 || irq_idx >= dpu_kms->hw_intr->total_irqs) {
-> > +     if (!irq_idx || irq_idx > dpu_kms->hw_intr->total_irqs) {
-> >               DPU_ERROR("invalid IRQ index: [%d]\n", irq_idx);
-> >               return -EINVAL;
-> >       }
-> > @@ -600,7 +599,7 @@ static int dpu_debugfs_core_irq_show(struct seq_file *s, void *v)
-> >       int i, irq_count;
-> >       void *cb;
-> >
-> > -     for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
-> > +     for (i = 1; i <= dpu_kms->hw_intr->total_irqs; i++) {
-> >               spin_lock_irqsave(&dpu_kms->hw_intr->irq_lock, irq_flags);
-> >               irq_entry = dpu_core_irq_get_entry(dpu_kms, i);
-> >               irq_count = atomic_read(&irq_entry->count);
-> > @@ -635,7 +634,7 @@ void dpu_core_irq_preinstall(struct msm_kms *kms)
-> >       dpu_disable_all_irqs(dpu_kms);
-> >       pm_runtime_put_sync(&dpu_kms->pdev->dev);
-> >
-> > -     for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
-> > +     for (i = 1; i <= dpu_kms->hw_intr->total_irqs; i++) {
-> >               irq_entry = dpu_core_irq_get_entry(dpu_kms, i);
-> >               atomic_set(&irq_entry->count, 0);
-> >       }
-> > @@ -651,7 +650,7 @@ void dpu_core_irq_uninstall(struct msm_kms *kms)
-> >               return;
-> >
-> >       pm_runtime_get_sync(&dpu_kms->pdev->dev);
-> > -     for (i = 0; i < dpu_kms->hw_intr->total_irqs; i++) {
-> > +     for (i = 1; i <= dpu_kms->hw_intr->total_irqs; i++) {
-> >               irq_entry = dpu_core_irq_get_entry(dpu_kms, i);
-> >               if (irq_entry->cb)
-> >                       DPU_ERROR("irq_idx=%d still enabled/registered\n", i);
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-> > index 59bde8ab50c8..41a020fd1288 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-> > @@ -36,9 +36,9 @@ enum dpu_hw_intr_reg {
-> >
-> >  #define MDP_INTFn_INTR(intf) (MDP_INTF0_INTR + (intf - INTF_0))
-> >
-> > -#define DPU_IRQ_IDX(reg_idx, offset) (reg_idx * 32 + offset)
-> > -#define DPU_IRQ_REG(irq_idx)         ((irq_idx) / 32)
-> > -#define DPU_IRQ_OFFSET(irq_idx)              ((irq_idx) % 32)
-> > +#define DPU_IRQ_IDX(reg_idx, offset) (reg_idx * 32 + offset + 1)
-> > +#define DPU_IRQ_REG(irq_idx)         ((irq_idx - 1) / 32)
-> > +#define DPU_IRQ_OFFSET(irq_idx)              ((irq_idx - 1) % 32)
-> >
-> >  struct dpu_hw_intr_entry {
-> >       void (*cb)(void *arg);
-> > --
-> > 2.39.2
-> >
-
-
-
--- 
-With best wishes
-Dmitry
+Alex
