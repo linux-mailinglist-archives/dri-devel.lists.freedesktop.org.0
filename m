@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20ED776696C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B05766976
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3379210E6CE;
-	Fri, 28 Jul 2023 09:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D65910E6CD;
+	Fri, 28 Jul 2023 09:55:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F3E810E6CE
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690538060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m0GTcGQClcvNrmkODw/NhrTuC6m7/P69QHPvalFbZeU=;
- b=anLpkI2LUKIE0PLaUj/nVLaSzPbG4bjOUP/0+jeFpk2aFMBuxrxO1SGaw8F81h0EM7yYAp
- 3vC6xGZ3qgW2VQqHpx//cbdGObvv3BRaH3wAgH3fKVgGI0y2wf7hvoeVJtIKL45oLNKlzs
- gUeUWhJhKOZE9tVyz1m3eUT1NRAYxLc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-222-4XgtG8lvO72ippuqkmQsWQ-1; Fri, 28 Jul 2023 05:54:19 -0400
-X-MC-Unique: 4XgtG8lvO72ippuqkmQsWQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3fa9a282fffso10399385e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 02:54:18 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+ [209.85.219.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE63B10E6CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:55:34 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-c01e1c0402cso1752277276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 02:55:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690538058; x=1691142858;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1690538134; x=1691142934;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m0GTcGQClcvNrmkODw/NhrTuC6m7/P69QHPvalFbZeU=;
- b=CSkC2V8T88MuYmdtsnmj53/yfZp+0ZWOfZO0zmWVlETtYj2XBERbywOSEoQVksLhmE
- Lt2zGeXdHc2dKUFHqOT56XBmMQicq834H9bMC4Gz3VeiYptdIIRYzEZRei7Xhlzi8eOQ
- qxqMkM9nb8gwsQOqNxSVROUfhq4WcUlpoSHlc8Af80Wgevupo28VKDAJfEIBIglnHXzH
- U2kxLHX8EIXSw6072gs7EpwdlSkna/XF+66iqoLKTOTGPSEPdYGHO4SzgJOsNwafQ5Zy
- r8tMSTihyuSjOUfuTqolivYvTuHM+lUrLj0/AQMLV0O14NvXXL18b621XkxOU3UUMvsR
- KX0g==
-X-Gm-Message-State: ABy/qLZVdMSa2vAVZHh5uFLMA5sEZWZp2xRrI53VdUKrst0wrt1Yyaa4
- PuKk9zGCiZyXTii0EAXRg3eykOWWVYusE0pbIktpZgmfpWH+332Qdt5qBKhTHqdxrHQHrE4Q0Z9
- J/xGTYwOsPoe5qDVi3e44law/nxzh
-X-Received: by 2002:a05:600c:ac9:b0:3fa:99d6:47a4 with SMTP id
- c9-20020a05600c0ac900b003fa99d647a4mr1286364wmr.22.1690538057913; 
- Fri, 28 Jul 2023 02:54:17 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGRSbPD12+9qFkX5C461+2ZJKRCXjlQ8V4fPwRzoRVUqQ56eiawC1VqKnyP0ssE1MtTyyZaJg==
-X-Received: by 2002:a05:600c:ac9:b0:3fa:99d6:47a4 with SMTP id
- c9-20020a05600c0ac900b003fa99d647a4mr1286356wmr.22.1690538057739; 
- Fri, 28 Jul 2023 02:54:17 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- 19-20020a05600c229300b003fa95890484sm3812623wmf.20.2023.07.28.02.54.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jul 2023 02:54:17 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mcanal@igalia.com>, Ville
- =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2] drm/gem-fb-helper: Consistenly use drm_dbg_kms()
-In-Reply-To: <7d56615fbef2d4d0e5f4c4a23f57269bf8bdb71f.1690535176.git.geert+renesas@glider.be>
-References: <7d56615fbef2d4d0e5f4c4a23f57269bf8bdb71f.1690535176.git.geert+renesas@glider.be>
-Date: Fri, 28 Jul 2023 11:54:16 +0200
-Message-ID: <87mszgtl87.fsf@minerva.mail-host-address-is-not-set>
+ bh=fr+d0SM+t1ll9J/Ut8OphhRP6Lk+iPkNWRIXF2VIFmc=;
+ b=TZZ5s3+yiPXqaOTafgZAiXMNpsMgOXnpXt6KzCXv2n3N/GwRiguGAuz5hu7vj+2pYT
+ 1GExXAov4UFN6sTyLJ/eiLFrx9G98jg5Q4FfP92Glf1/sNFptCI87+RaoRPOD0eaipLL
+ cXg2LsdLISyV7MLjAYpLSgwDAmcHXiG+G+TsfpTsgePq6YKx06GyvejfOiSIXlBGFQok
+ ixa6h32lZQ4U72RHA5nCmRXW+9zmpr7x4RrSCLMD5kUeuKgD1gihPdGLjk/3//SSv/hj
+ 1qfw11o/eMXNJHvP135QCRYaSLnW95hH/sCFlVgW7LL1ozDvwqudMYz1imII/PNB983Q
+ xi2w==
+X-Gm-Message-State: ABy/qLYS6wDmZnssgkIsWfBE74wJHEOx2k4vvIG2To6y+oMmSFM5FFEL
+ mI4+7sU4iXGCtx4b11cxLwDFTqW1WrRqzA==
+X-Google-Smtp-Source: APBJJlFKmOadlzcPqEHGNA/qP036qmsqmN8PyPQ91W+RvwkETsw/57B5r8YE8ar0w+n+KyuL+Y2Vew==
+X-Received: by 2002:a0d:f804:0:b0:57d:24e9:e7f3 with SMTP id
+ i4-20020a0df804000000b0057d24e9e7f3mr1233723ywf.38.1690538133856; 
+ Fri, 28 Jul 2023 02:55:33 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
+ [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
+ l9-20020a81d549000000b0056d31a089e9sm938764ywj.126.2023.07.28.02.55.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jul 2023 02:55:33 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-583a8596e2aso20627147b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 02:55:32 -0700 (PDT)
+X-Received: by 2002:a81:a143:0:b0:56d:de2:94d1 with SMTP id
+ y64-20020a81a143000000b0056d0de294d1mr1328111ywg.24.1690538132157; Fri, 28
+ Jul 2023 02:55:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <b8c9c1a8a05dbf0be8e8be98cfdeafa9cecd8cef.1690535002.git.geert+renesas@glider.be>
+ <87pm4ctl9b.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87pm4ctl9b.fsf@minerva.mail-host-address-is-not-set>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 28 Jul 2023 11:55:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXs47Jt9Kqf-Gm0eoFP8Wpe38cg4POO14GnPZCfWSs_FA@mail.gmail.com>
+Message-ID: <CAMuHMdXs47Jt9Kqf-Gm0eoFP8Wpe38cg4POO14GnPZCfWSs_FA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/atomic-helper: Update reference to
+ drm_crtc_force_disable_all()
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,29 +71,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert+renesas@glider.be> writes:
+Hi Javier,
 
-> All debug messages in drm_gem_framebuffer_helper.c use drm_dbg_kms(),
-> except for one, which uses drm_dbg().
-> Replace the outlier by drm_dbg_kms() to restore consistency.
+On Fri, Jul 28, 2023 at 11:53=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Geert Uytterhoeven <geert+renesas@glider.be> writes:
+> > drm_crtc_force_disable_all() was renamed to
+> > drm_helper_force_disable_all(), but one reference was not updated.
+> >
+> > Fixes: c2d88e06bcb98540 ("drm: Move the legacy kms disable_all helper t=
+o crtc helpers")
 >
-> Fixes: c91acda3a380bcaf ("drm/gem: Check for valid formats")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
+> The dim tool complains that:
+>
+> -:10: WARNING:BAD_FIXES_TAG: Please use correct Fixes: style 'Fixes: <12 =
+chars of sha1> ("<title line>")'
+>
+> So I've fixed it locally to only use the first 12 chars of the sha1.
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Good luck restoring them in the future (you do care about Y2038,
+do you? ;-)
+
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > ---
+>
+> Pushed to drm-misc (drm-misc-next). Thanks!
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 --=20
-Best regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
