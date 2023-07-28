@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8206767539
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:25:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F5F767486
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0840010E768;
-	Fri, 28 Jul 2023 18:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7ED10E73E;
+	Fri, 28 Jul 2023 18:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 450ED10E72A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7591A10E224
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:45 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0D6292199D;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3ECDC2199E;
  Fri, 28 Jul 2023 18:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690568564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gWGKYwyYHjvtaVYb94L2bsO7Egii299CfejyewB3EOc=;
- b=o/8vqwEprrsFG+47kwgm47LxjMvbNjoqf5NNLhtw5QG6xqLACMi5AaDrfXhP8AXlIBgKk/
- A2L0NlUH+/FrGT5Xcz8PWtJL/SBNgNOhlgINUd2sxECzHDRMNAsX2Yj515dv538cvgW5S+
- 6Gzlm5IZHV2XAd3rDvW/yqZioFmEHh0=
+ bh=lmmHcyTiuWPM/9++rXsuc52B6f/WmFxn1DyJ4q6QSPM=;
+ b=bSwJDuUSBNFs12f4FIMWL1JZotqrofhEug7bDyLs0VBLiO/l/2psn4TK7gKJcTOwfQi4Mw
+ G34ZinDLKsDp9lhhwuBi4zfpQWHe33vZRzT1m88Vqy1f7orvM0J6zLJTjZEb9+XnNumbVO
+ K6s+1d0+FBPdi5AqU5Acj7SU2vh3LKE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690568564;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gWGKYwyYHjvtaVYb94L2bsO7Egii299CfejyewB3EOc=;
- b=0zu54U/oprTeatIRErMJQJnLsVn+O4kTWM6YLdjIR2zgAOLEmmwKuPK6QkbUK0AEQl9UH6
- qQnO/UDWMvKapxDA==
+ bh=lmmHcyTiuWPM/9++rXsuc52B6f/WmFxn1DyJ4q6QSPM=;
+ b=rrSN67/FpCi0eSs/s46rkepwgoNu1qlOs2MZHJ2HrR6lrNdUlMw2UcGhOkEcv4tVkV+USv
+ GFiEZVZSvOxweXCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D39CA139BD;
- Fri, 28 Jul 2023 18:22:43 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10CA313276;
+ Fri, 28 Jul 2023 18:22:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8AfVMnMHxGQ3CwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:43 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id WDU9A3QHxGQ3CwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH 32/47] fbdev/pmag-ba-fb: Use fbdev I/O helpers
-Date: Fri, 28 Jul 2023 18:40:15 +0200
-Message-ID: <20230728182234.10680-33-tzimmermann@suse.de>
+Subject: [PATCH 33/47] fbdev/pmag-b-fb: Use fbdev I/O helpers
+Date: Fri, 28 Jul 2023 18:40:16 +0200
+Message-ID: <20230728182234.10680-34-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
@@ -86,34 +86,34 @@ no functional change.
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
  drivers/video/fbdev/Kconfig      | 4 +---
- drivers/video/fbdev/pmag-ba-fb.c | 4 +---
+ drivers/video/fbdev/pmagb-b-fb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index a8e73bbdff68..24789cee3061 100644
+index 24789cee3061..5fdfd3bb05cd 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1527,9 +1527,7 @@ config FB_PMAG_AA
- config FB_PMAG_BA
- 	tristate "PMAG-BA TURBOchannel framebuffer support"
+@@ -1535,9 +1535,7 @@ config FB_PMAG_BA
+ config FB_PMAGB_B
+ 	tristate "PMAGB-B TURBOchannel framebuffer support"
  	depends on FB && TC
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IO_HELPERS
  	help
- 	  Support for the PMAG-BA TURBOchannel framebuffer card (1024x864x8)
- 	  used mainly in the MIPS-based DECstation series.
-diff --git a/drivers/video/fbdev/pmag-ba-fb.c b/drivers/video/fbdev/pmag-ba-fb.c
-index 20a1815279f7..60d3a62c80c9 100644
---- a/drivers/video/fbdev/pmag-ba-fb.c
-+++ b/drivers/video/fbdev/pmag-ba-fb.c
-@@ -119,10 +119,8 @@ static int pmagbafb_setcolreg(unsigned int regno, unsigned int red,
+ 	  Support for the PMAGB-B TURBOchannel framebuffer card used mainly
+ 	  in the MIPS-based DECstation series. The card is currently only
+diff --git a/drivers/video/fbdev/pmagb-b-fb.c b/drivers/video/fbdev/pmagb-b-fb.c
+index 4ab4d6c7a975..861eb2146b81 100644
+--- a/drivers/video/fbdev/pmagb-b-fb.c
++++ b/drivers/video/fbdev/pmagb-b-fb.c
+@@ -123,10 +123,8 @@ static int pmagbbfb_setcolreg(unsigned int regno, unsigned int red,
  
- static const struct fb_ops pmagbafb_ops = {
+ static const struct fb_ops pmagbbfb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IO_OPS,
- 	.fb_setcolreg	= pmagbafb_setcolreg,
+ 	.fb_setcolreg	= pmagbbfb_setcolreg,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
