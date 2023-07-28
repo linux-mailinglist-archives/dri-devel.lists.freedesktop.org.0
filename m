@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410D376682B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:06:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24731766841
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59F5A10E6AC;
-	Fri, 28 Jul 2023 09:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44AFB10E062;
+	Fri, 28 Jul 2023 09:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF0010E6AA
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:06:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44BEC10E6AA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:06:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9859662088;
- Fri, 28 Jul 2023 09:06:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14D09C433C9;
- Fri, 28 Jul 2023 09:06:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C2C9562080;
+ Fri, 28 Jul 2023 09:06:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D706AC433C8;
+ Fri, 28 Jul 2023 09:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690535196;
- bh=rR8033KXv0zZnQXPCqyRQXfcEtV4ucVkU5KdD2FOX+8=;
+ s=k20201202; t=1690535199;
+ bh=glqLVfxH2FzQa0kBwhFP6pFwhRUvrw5EmHCeG8i7sAE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=BfiZkwkXfy7WLkYzfOkdcBv5YfU7F+Q6m2UJj42jABhHfacU3cmqh0PjuF7IS/b4h
- ECdB6oA/6Ko8RKrd2STzJ59Is4h4eGABWIB8cOHccg4ujVpUoNjXL8ABQ8JBnE3G5F
- Pp3Nncbzfqz1BdDA7MdrzZcXmSHWefzo//YKrv2HjQlDrb/A2Q80UN6/AXm9oPVaqa
- pR9DkUc/xt9nqqSfwy1q7iXwM/L6g17WaovnTvK8UBz7hW8JQ2lYCmy4usRFRvT7zo
- GtqwpcxWC4YhZlhjq4DmbZrWn0L/+QC9CfKY2UkwGvpcDBFI5E6w/CEBhgHG9V3WvD
- JTNH2WVH5HIGA==
+ b=TCYuV47WRfvlWfegR/SM0w+A+x4i6UcNBNxpgEIF7c64NvVpcey7vXwaRxaJmxEO3
+ AUvQwahhv8RFEPCJctBmJMbRPc0kFrWkGRW+b1yGkC7s4jYx0+XE7xvS7nfsc9t84k
+ zzSOV4YcQQQIXrvYEYN/i6HiSYkG05zhZsayVNj8BE6nmhBBxDQV0+ojAf9h5KOATk
+ ibosE9qoO+GMlNO3dB8ADIYU/uA6GmJO8OndTgUFlMVT7tbAt4K6js3vS5GFxNCXav
+ 6aMiiYcqMpYw+baKHpyd/zIHJF+Sfqp/BCdpI3OJnZiuHZpVvOrNNiuX924QKCeaf+
+ JWN8ApmyHURGw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 28 Jul 2023 11:06:18 +0200
-Subject: [PATCH v3 05/11] drm/tests: helpers: Create a helper to allocate a
- locking ctx
+Date: Fri, 28 Jul 2023 11:06:19 +0200
+Subject: [PATCH v3 06/11] drm/tests: helpers: Create a helper to allocate
+ an atomic state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230728-kms-kunit-actions-rework-v3-5-952565ccccfe@kernel.org>
+Message-Id: <20230728-kms-kunit-actions-rework-v3-6-952565ccccfe@kernel.org>
 References: <20230728-kms-kunit-actions-rework-v3-0-952565ccccfe@kernel.org>
 In-Reply-To: <20230728-kms-kunit-actions-rework-v3-0-952565ccccfe@kernel.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2703; i=mripard@kernel.org;
- h=from:subject:message-id; bh=rR8033KXv0zZnQXPCqyRQXfcEtV4ucVkU5KdD2FOX+8=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCmHW7muGUf+2Sg4L7NBgcdTNDtDcsE3iZN9HbUC4c+TG
- /SLuRg6SlkYxLgYZMUUWWKEzZfEnZr1upONbx7MHFYmkCEMXJwCMBEpZkaGhn3/ZzSfUDxXMq05
- KVaBT3KeydettTYXL7gt2fjr0R51WYb/HmllL0TeCywrLAhO+H4mcPK31h09E6xz7rTWJZ87PKu
- WAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3075; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=glqLVfxH2FzQa0kBwhFP6pFwhRUvrw5EmHCeG8i7sAE=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCmHW7mul79aduU7b2fpY/Ppz//fnFJ9/rDO/2eaLA4Mm
+ 3e3fp07u6OUhUGMi0FWTJElRth8SdypWa872fjmwcxhZQIZwsDFKQATkV3CyHDzg19N666QrMTT
+ XOcVQn0uZS4+8UqvpMps51YzzawjD7gZGRa0PcnU+a3SsvfR8q55J+++8Fp8J7/S+UKo/RGB4DN
+ H1nMBAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,82 +74,96 @@ Cc: linux-kselftest@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As we get more and more tests, the locking context initialisation
-creates more and more boilerplate, both at creation and destruction.
+As we gain more tests, boilerplate to allocate an atomic state and free
+it starts to be there more and more as well.
 
-Let's create a helper that will allocate, initialise a context, and
-register kunit actions to clean up once the test is done.
+In order to reduce the allocation boilerplate, we can create a helper
+to create that atomic state, and call an action when the test is done.
+This will also clean up the exit path.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tests/drm_kunit_helpers.c | 41 +++++++++++++++++++++++++++++++
- include/drm/drm_kunit_helpers.h           |  2 ++
- 2 files changed, 43 insertions(+)
+ drivers/gpu/drm/tests/drm_kunit_helpers.c | 46 +++++++++++++++++++++++++++++++
+ include/drm/drm_kunit_helpers.h           |  5 ++++
+ 2 files changed, 51 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_kunit_helpers.c b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-index cdf35421e641..35ea4a34909d 100644
+index 35ea4a34909d..3d624ff2f651 100644
 --- a/drivers/gpu/drm/tests/drm_kunit_helpers.c
 +++ b/drivers/gpu/drm/tests/drm_kunit_helpers.c
-@@ -146,5 +146,46 @@ __drm_kunit_helper_alloc_drm_device_with_driver(struct kunit *test,
- }
- EXPORT_SYMBOL_GPL(__drm_kunit_helper_alloc_drm_device_with_driver);
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
  
-+static void action_drm_release_context(void *ptr)
++#include <drm/drm_atomic.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_kunit_helpers.h>
+ #include <drm/drm_managed.h>
+@@ -187,5 +188,50 @@ drm_kunit_helper_acquire_ctx_alloc(struct kunit *test)
+ }
+ EXPORT_SYMBOL_GPL(drm_kunit_helper_acquire_ctx_alloc);
+ 
++static void kunit_action_drm_atomic_state_put(void *ptr)
 +{
-+	struct drm_modeset_acquire_ctx *ctx = ptr;
++	struct drm_atomic_state *state = ptr;
 +
-+	drm_modeset_drop_locks(ctx);
-+	drm_modeset_acquire_fini(ctx);
++	drm_atomic_state_put(state);
 +}
 +
 +/**
-+ * drm_kunit_helper_context_alloc - Allocates an acquire context
++ * drm_kunit_helper_atomic_state_alloc - Allocates an atomic state
 + * @test: The test context object
++ * @drm: The device to alloc the state for
++ * @ctx: Locking context for that atomic update
 + *
-+ * Allocates and initializes a modeset acquire context.
++ * Allocates a empty atomic state.
 + *
-+ * The context is tied to the kunit test context, so we must not call
-+ * drm_modeset_acquire_fini() on it, it will be done so automatically.
++ * The state is tied to the kunit test context, so we must not call
++ * drm_atomic_state_put() on it, it will be done so automatically.
 + *
 + * Returns:
-+ * An ERR_PTR on error, a pointer to the newly allocated context otherwise
++ * An ERR_PTR on error, a pointer to the newly allocated state otherwise
 + */
-+struct drm_modeset_acquire_ctx *
-+drm_kunit_helper_acquire_ctx_alloc(struct kunit *test)
++struct drm_atomic_state *
++drm_kunit_helper_atomic_state_alloc(struct kunit *test,
++				    struct drm_device *drm,
++				    struct drm_modeset_acquire_ctx *ctx)
 +{
-+	struct drm_modeset_acquire_ctx *ctx;
++	struct drm_atomic_state *state;
 +	int ret;
 +
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, ctx);
-+
-+	drm_modeset_acquire_init(ctx, 0);
++	state = drm_atomic_state_alloc(drm);
++	if (!state)
++		return ERR_PTR(-ENOMEM);
 +
 +	ret = kunit_add_action_or_reset(test,
-+					action_drm_release_context,
-+					ctx);
++					kunit_action_drm_atomic_state_put,
++					state);
 +	if (ret)
 +		return ERR_PTR(ret);
 +
-+	return ctx;
++	state->acquire_ctx = ctx;
++
++	return state;
 +}
-+EXPORT_SYMBOL_GPL(drm_kunit_helper_acquire_ctx_alloc);
++EXPORT_SYMBOL_GPL(drm_kunit_helper_atomic_state_alloc);
 +
  MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
  MODULE_LICENSE("GPL");
 diff --git a/include/drm/drm_kunit_helpers.h b/include/drm/drm_kunit_helpers.h
-index ed013fdcc1ff..4ba5e10653c6 100644
+index 4ba5e10653c6..514c8a7a32f0 100644
 --- a/include/drm/drm_kunit_helpers.h
 +++ b/include/drm/drm_kunit_helpers.h
-@@ -87,5 +87,7 @@ __drm_kunit_helper_alloc_drm_device(struct kunit *test,
- 						      sizeof(_type),		\
- 						      offsetof(_type, _member),	\
- 						      _feat))
-+struct drm_modeset_acquire_ctx *
-+drm_kunit_helper_acquire_ctx_alloc(struct kunit *test);
+@@ -90,4 +90,9 @@ __drm_kunit_helper_alloc_drm_device(struct kunit *test,
+ struct drm_modeset_acquire_ctx *
+ drm_kunit_helper_acquire_ctx_alloc(struct kunit *test);
  
++struct drm_atomic_state *
++drm_kunit_helper_atomic_state_alloc(struct kunit *test,
++				    struct drm_device *drm,
++				    struct drm_modeset_acquire_ctx *ctx);
++
  #endif // DRM_KUNIT_HELPERS_H_
 
 -- 
