@@ -1,65 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88422767656
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 21:30:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06005767755
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 23:01:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F0810E783;
-	Fri, 28 Jul 2023 19:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 246FC10E155;
+	Fri, 28 Jul 2023 21:01:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4171C10E783
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 19:30:09 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-d066d72eb12so3441711276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 12:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690572608; x=1691177408;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=i6evbpmMDRBzawlsxlhOXtIwN0WcdqEt1J3AYsgsj0c=;
- b=gA/PPyByF+jM0afGt/9Us4WhAjPEDZEK6EDvYKFteUFZfEpukQIvv0IEcviznA7yRt
- g5fcFV2wcx50aqebbxAZDWXSmDF2SuXDjlMqT8Dx1jXcTNNtvkYSjlGcL8QyHb4EyLoj
- RBKyNk6S57/hwJbtrY+9OgV0N7UHoWNsAD3tVW4Y1d2a+pV95PMOuZBcOVrLbQG6r2xx
- d4OSXtxj8nCJXz2FVXrwhnHB3qeFl7NQRhCjNzD6XU7kaoEsxvRWxyv1vq0deqStFbhU
- 0sRqpJO1MkP43blzL7R01XS5qH3Sswb46EWNKPEhMZIJlOl4T/q5XEygLZL2LKgwUAIx
- 4aaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690572608; x=1691177408;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=i6evbpmMDRBzawlsxlhOXtIwN0WcdqEt1J3AYsgsj0c=;
- b=aU0rEObo5qW1qEpHpd1EhikwSz2WBKOKR9alQWwLIsS59KyS+dihUQCOVNsnftxNHI
- xBmQpPJpUFmqcxFno9bqxWzXfm8CdvpypopkjZZ4OesbvnHpBRR2UFsbki+RuadPXXtR
- pSN8eCjGAxfPKAmmDpY+oTCjbAfffgcSX9BAcSLuOZaGR3EUluGp1MU9bqD1zwR2bGOa
- 5VLtO4txOuH9kHkLtqcIryuDSCpzr/76nQh48/TiU2VcrZjFdip5Mp5QNyREVyDPZPib
- 6xs3z9GJ87OHBFi82oSArwpHcDuvs64ppHMn3jWBmRbzoIM3rV35z/gAvGlI0PkUtMRY
- M/aw==
-X-Gm-Message-State: ABy/qLZ6QFhMrTGiEQ7lcg3dSXwIGKy+53cqN/J7Hw1zcVYDqHlqfIB1
- 4zcY3skSAbAE27wTSethOSX3dkyo6hvODzbaFHL2eQ==
-X-Google-Smtp-Source: APBJJlFkcVjfs4mJhG7uYobs7WEJHWgcXgtb39VUBNzdURL0/o0FxJY2O9UG2mlQeWGlOQ6i/6NXyUlN1UqOZ+E9NBs=
-X-Received: by 2002:a25:26c6:0:b0:d05:2616:3363 with SMTP id
- m189-20020a2526c6000000b00d0526163363mr3148059ybm.26.1690572608035; Fri, 28
- Jul 2023 12:30:08 -0700 (PDT)
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3925A10E117
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 21:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=2M7I6GspW66DQLncO4JKL/r3gVWBlh/Z61h7j/4ZXwQ=;
+ b=VmorxddsvliAc2zCAOdnHcnfpXk3HL6FA27GlnhkXSDoGE0taO0g/r11MTt0+sI0kBn9KF5g/nrJO
+ YBHws5h7tg8z3vU2AXdiQl9zEYuH8U/rlDvV9qOR0LqdOqrOTT8Q280NatZ58QFneNl5qS40d2PF4M
+ EUS5sJGrrFwpIycoYicR9+NrqKdO9dYIH7hOkxrBCPEzDbnuW5lyt3OSZ3qejIsC5BlnWolgnIV57W
+ oWgE09YqMgvptwaf+e3S6UG3fSVu9ZZWZQL0aj4IVi0oMKAI1oKRsI8Jyw+i3pIMQPCcYbWIvLP5Ea
+ 2ZNE/tlQONtqNXH1lFqn6N8xJ+w3WZQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=2M7I6GspW66DQLncO4JKL/r3gVWBlh/Z61h7j/4ZXwQ=;
+ b=dkD1HMHNc3u2lokBeS9EgDAhIVt0/YZ+STE3czXIeWa0urEuoYnPhcLDxQzwHTeu678MjBdhgtiY7
+ JMYlTDXDg==
+X-HalOne-ID: eaf56fd1-2d89-11ee-8d0f-b90637070a9d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3 (Halon) with ESMTPSA
+ id eaf56fd1-2d89-11ee-8d0f-b90637070a9d;
+ Fri, 28 Jul 2023 21:01:29 +0000 (UTC)
+Date: Fri, 28 Jul 2023 23:01:27 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
+Message-ID: <20230728210127.GA1156027@ravnborg.org>
+References: <20230728182234.10680-1-tzimmermann@suse.de>
+ <c1a4b7c9-50f2-c43f-277d-c2af9ccc0b50@gmx.de>
 MIME-Version: 1.0
-References: <20230521171026.4159495-1-dmitry.baryshkov@linaro.org>
- <20230521171026.4159495-6-dmitry.baryshkov@linaro.org>
- <4e35dabb-640e-8de6-d98a-619b2f80cfb6@quicinc.com>
- <CAA8EJpoYc5M7GpTAUggjDhs+UQ8GcFcW7Y7xNs_zrNNN3Th-7A@mail.gmail.com>
- <81e527a4-f394-1bb5-769f-8b1f3eb01f40@quicinc.com>
- <ddb70b1e-57bb-a72f-018a-75da62cedb3a@linaro.org>
- <e9f9c27d-e3a1-0e47-6fc0-27d3755b853c@quicinc.com>
-In-Reply-To: <e9f9c27d-e3a1-0e47-6fc0-27d3755b853c@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 28 Jul 2023 22:29:57 +0300
-Message-ID: <CAA8EJpqw0P6Kx+7qCpEY+iuOke_g4_FXYSCG8VaDzPshsAkBBw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm/msm/dpu: use MDSS data for programming SSPP
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c1a4b7c9-50f2-c43f-277d-c2af9ccc0b50@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,133 +57,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Jul 2023 at 22:25, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 7/27/2023 8:26 AM, Dmitry Baryshkov wrote:
-> > On 27/07/2023 18:24, Abhinav Kumar wrote:
-> >>
-> >>
-> >> On 7/27/2023 1:39 AM, Dmitry Baryshkov wrote:
-> >>> On Thu, 27 Jul 2023 at 02:20, Abhinav Kumar
-> >>> <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 5/21/2023 10:10 AM, Dmitry Baryshkov wrote:
-> >>>>> Switch to using data from MDSS driver to program the SSPP fetch and
-> >>>>> UBWC
-> >>>>> configuration.
-> >>>>>
-> >>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>>>> ---
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 18 +++++++++++-------
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  7 +++++--
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 16 +++++++++++++++-
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  3 ++-
-> >>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  2 ++
-> >>>>>    6 files changed, 36 insertions(+), 11 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> >>>>> index cf70a9bd1034..bfd82c2921af 100644
-> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> >>>>> @@ -8,6 +8,8 @@
-> >>>>>    #include "dpu_hw_sspp.h"
-> >>>>>    #include "dpu_kms.h"
-> >>>>>
-> >>>>> +#include "msm_mdss.h"
-> >>>>> +
-> >>>>>    #include <drm/drm_file.h>
-> >>>>>
-> >>>>>    #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
-> >>>>> @@ -308,26 +310,26 @@ static void dpu_hw_sspp_setup_format(struct
-> >>>>> dpu_sw_pipe *pipe,
-> >>>>>                DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
-> >>>>>                        DPU_FETCH_CONFIG_RESET_VALUE |
-> >>>>>                        ctx->ubwc->highest_bank_bit << 18);
-> >>>>
-> >>>> Does this needs to be protected with if ctx->ubwc check?
-> >>>
-> >>> Yes... And it should have been already.
-> >>>
-> >>>>
-> >>>>> -             switch (ctx->ubwc->ubwc_version) {
-> >>>>> -             case DPU_HW_UBWC_VER_10:
-> >>>>> +             switch (ctx->ubwc->ubwc_enc_version) {
-> >>>>> +             case UBWC_1_0:
-> >>>>
-> >>>> The values of UBWC_x_x dont match the values of DPU_HW_UBWC_VER_xx.
-> >>>> What was the reason for the catalog to go with DPU_HW_UBWC_VER_xx in
-> >>>> the
-> >>>> catalog for the encoder version in the first place? Because looking at
-> >>>> the registers UBWC_x_x is the correct value.
-> >>>>
-> >>>> If we cannot find the reason why, it should be noted in the commit text
-> >>>> that the values we are using did change.
-> >>>
-> >>> Huh? This is just an enum. It isn't a part of uABI, nor it is written
-> >>> to the hardware.
-> >>>
-> >>
-> >> The reason is that, this switch case is moving from comparing one set
-> >> of values to totally different ones. So atleast that should be noted.
-> >>
-> >> First thing that struck me was this point because the enums UBWC_x_x
-> >> and DPU_HW_UBWC_VER_xx dont match.
-> >>
-> >
-> > Do you have any proposed text in mind?
-> >
->
-> I was doing some checking about this. The issue was that when this enum
-> was made, it missed using the SDE_HW_UBWC_VER macro
->
->
-> 75 enum {
-> 76      DPU_HW_UBWC_VER_10 = 0x100,
-> 77      DPU_HW_UBWC_VER_20 = 0x200,
-> 78      DPU_HW_UBWC_VER_30 = 0x300,
-> 79      DPU_HW_UBWC_VER_40 = 0x400,
-> 80 };
-> 81
->
-> so something like this:
->
-> 183  */
-> 184 enum {
-> 185     SDE_HW_UBWC_VER_10 = SDE_HW_UBWC_VER(0x100),
-> 186     SDE_HW_UBWC_VER_20 = SDE_HW_UBWC_VER(0x200),
-> 187     SDE_HW_UBWC_VER_30 = SDE_HW_UBWC_VER(0x300),
-> 188     SDE_HW_UBWC_VER_40 = SDE_HW_UBWC_VER(0x400),
-> 189     SDE_HW_UBWC_VER_43 = SDE_HW_UBWC_VER(0x431),
-> 190 };
->
-> This macro handles that conversion under the hood.
->
-> So I would write something like this
->
-> "This also corrects the usage of UBWC version which was incorrect from
-> the beginning because of the enum storing the DPU_HW_UBWC_*** missed out
-> the conversion to the full UBWC version"
+Hi Helge,
 
-I don't like the word 'correcting', as it makes one think there was an
-issue beforehand. There were no real issues. So I'll try to cook
-something up for the next iteration.
+On Fri, Jul 28, 2023 at 08:46:59PM +0200, Helge Deller wrote:
+> On 7/28/23 18:39, Thomas Zimmermann wrote:
+> > Most fbdev drivers operate on I/O memory.
+> 
+> Just nitpicking here:
+> What is I/O memory?
+> Isn't it either memory, or I/O ?
+> I mean, I would never think of the cfb* draw functions under I/O.
+> 
+> > And most of those use the
+> > default implementations for file I/O and console drawing. Convert all
+> > these low-hanging fruits to the fb_ops initializer macro and Kconfig
+> > token for fbdev I/O helpers.
+> 
+> I do see the motivation for your patch, but I think the
+> macro names are very misleading.
+> 
+> You have:
+> #define __FB_DEFAULT_IO_OPS_RDWR \
+>         .fb_read        = fb_io_read, \
+>         .fb_write       = fb_io_write
+> 
+> #define __FB_DEFAULT_IO_OPS_DRAW \
+>         .fb_fillrect    = cfb_fillrect, \
+>         .fb_copyarea    = cfb_copyarea, \
+>         .fb_imageblit   = cfb_imageblit
+> 
+> #define __FB_DEFAULT_IO_OPS_MMAP \
+>         .fb_mmap        = NULL /* default implementation */
+> 
+> #define FB_DEFAULT_IO_OPS \
+>         __FB_DEFAULT_IO_OPS_RDWR, \
+>         __FB_DEFAULT_IO_OPS_DRAW, \
+>         __FB_DEFAULT_IO_OPS_MMAP
+> 
+> I think FB_DEFAULT_IO_OPS is OK for read/write/mmap.
+> But I would suggest to split out __FB_DEFAULT_IO_OPS_DRAW.
+> Something like:
+> #define FB_DEFAULT_IO_OPS \
+>         __FB_DEFAULT_IO_OPS_RDWR, \
+>         __FB_DEFAULT_IO_OPS_MMAP
 
 
+> #define FB_DEFAULT_CFB_OPS \
+>         .fb_fillrect    = cfb_fillrect, \
+>         .fb_copyarea    = cfb_copyarea, \
+>         .fb_imageblit   = cfb_imageblit
 
--- 
-With best wishes
-Dmitry
+The prefix cfb, I have recently learned, equals color frame buffer.
+They are named such for purely historical reasons.
+
+What is important is where the data are copied as we have two
+implementations of for example copyarea - one using system memory, the
+other using IO memory.
+
+The naming FB_DEFAULT_IO_OPS says this is the defaults to IO memory
+operations, which tell what they do and avoid the strange cfb acronym.
+
+Reserve cfb for color frame buffers only - and maybe in the end rename
+the three cfbcopyarea, cfbfillrect, cfbimgblt to use the io prefix.
+Which is much simpler to do after this series - and nice extra benefit.
+
+I hope this properly explains why I like the current naming and
+acked it when the macros were introduced.
+
+	Sam
