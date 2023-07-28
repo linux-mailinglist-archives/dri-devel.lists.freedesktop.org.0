@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF2B7675A8
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDF476759A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D412E10E76E;
-	Fri, 28 Jul 2023 18:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAB5610E773;
+	Fri, 28 Jul 2023 18:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC58210E775
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=VUh0aFlPbE0R5Fq1OrHOqUL95X24rHdCYRyu0H18kZs=;
- b=nCioZWrNeey8vxCpdX1PS6JYetosi8C9O01ss/HH2HJyQXZSYif+EEXq9NgAX5lnt9PA5zaB1X84Z
- k3xM6obOVGislRz2M/Gu2JcHM+1Q0C2O3AV5w9puCJmFcVLRrxADec0YlHAi45Q8VpsSY7CdLKY+cN
- OaB+/IUMss5pZ3YeVozbedZ0vdXKwm+VudzaZhSSeBAwuxaCvEgACUFad4qD7EoFj/Cyfjm951Xcj/
- cOnDJ+TbfS8IrJiw/cYE+i+eagFKsWC0gPGKxp/Eiedcsg7qzVn4IoYMAFosU21ToLsp5YWa6YQfcd
- VSyuvwb7cX/TTAjNGmbaT5AveVet4hQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=VUh0aFlPbE0R5Fq1OrHOqUL95X24rHdCYRyu0H18kZs=;
- b=kxR6wyzaXh0paaidtMnBto7pO+DGTJZUEWWvVTg8x1oYY2WafA14eiAr3Hh13dnzpbSCA4Lkqj0Oh
- e0DOECCAw==
-X-HalOne-ID: 082225de-2d76-11ee-8c15-592bb1efe9dc
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4 (Halon) with ESMTPSA
- id 082225de-2d76-11ee-8c15-592bb1efe9dc;
- Fri, 28 Jul 2023 18:39:08 +0000 (UTC)
-Date: Fri, 28 Jul 2023 20:39:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
-Message-ID: <20230728183906.GB1144760@ravnborg.org>
-References: <20230728182234.10680-1-tzimmermann@suse.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBBA910E76E
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:39:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3B302621DE;
+ Fri, 28 Jul 2023 18:39:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A0ACBC433C8;
+ Fri, 28 Jul 2023 18:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690569566;
+ bh=ADG46cY+cROEucJsffbJcdaqD8LPvm3wsKqFrJvr6gE=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=DgY2gVqToGX6X0nujoqsilfJ37A+XJEdDsMNjnPgI7XqcoSUwpWTM6Sl6+w5oOgy5
+ MQTGFHvNk+HewcSwUdxkHL06f4Ly+t+14npAfBizEvcgu9MjEMFhDrhYzQU0yg4zVr
+ Pj/kMqKVHmots/AiRPR89g4EPmMrTe71Y+7nmGhixfpKKHTOPY07w+IzvRm0sfS3gK
+ TvZ1vvLtZVDai+kwdLnKXxwCpTnRjrlLO8D1Iqr8ql5p30QCLCmsYnprKoES1vAR2V
+ ke4hg1zahst6RNeT8x7d11JZfX3IAsYK5/32l3WTZHVh5vEbrlxwOJydJJolqktCYr
+ /hM2Kq9ywE7Yw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 8CED8C43169; Fri, 28 Jul 2023 18:39:26 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.5-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twwk0C6kGQXFZdvEhxnLe7DhnwN8doj_yA3a9S3hs7c1w@mail.gmail.com>
+References: <CAPM=9twwk0C6kGQXFZdvEhxnLe7DhnwN8doj_yA3a9S3hs7c1w@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9twwk0C6kGQXFZdvEhxnLe7DhnwN8doj_yA3a9S3hs7c1w@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2023-07-28
+X-PR-Tracked-Commit-Id: 9a767faa9477ef2a5fee6a0c9d69587b95a885df
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 17bf3df9af08c5e87c07a92b811b7f9f8034a32c
+Message-Id: <169056956657.21363.10709736526382075646.pr-tracker-bot@kernel.org>
+Date: Fri, 28 Jul 2023 18:39:26 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,26 +63,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, deller@gmx.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+The pull request you sent on Fri, 28 Jul 2023 12:20:10 +1000:
 
-On Fri, Jul 28, 2023 at 06:39:43PM +0200, Thomas Zimmermann wrote:
-> Most fbdev drivers operate on I/O memory. And most of those use the
-> default implementations for file I/O and console drawing. Convert all
-> these low-hanging fruits to the fb_ops initializer macro and Kconfig
-> token for fbdev I/O helpers.
-> 
-> The fbdev I/O helpers are easily grep-able. In a later patch, they can
-> be left to empty values if the rsp. funtionality, such as file I/O or
-> console, has been disabled.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-07-28
 
-Did you miss sm750 or was it left out on purpose?
-As it hide in staging it is easy to miss.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/17bf3df9af08c5e87c07a92b811b7f9f8034a32c
 
-	Sam
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
