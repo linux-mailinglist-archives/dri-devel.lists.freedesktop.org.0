@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD862766DBF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 15:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465FF766DC1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 15:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067CC10E6E0;
-	Fri, 28 Jul 2023 13:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5371410E6E3;
+	Fri, 28 Jul 2023 13:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E7DC10E6E0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 13:00:35 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3fbc5d5742bso23034965e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 06:00:35 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E7FB10E6E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 13:00:46 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3fe104df822so4444115e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 06:00:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690549234; x=1691154034; 
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690549244; x=1691154044; 
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YRiix5Wbu8cUEwewXZbHXypVIH/8I/HGpsd1Ld0zKcA=;
- b=uHTsjZTdPbQOhN2xXT6vdB0e9iO2q8OEekgi3R6Xo0vBRxfuKAXOdM3HXC2odGRF6g
- 5kH+wW4g1ClRUuR8clAablsRloAM2bbpa9geV5YCXqHdwwC5Ukq2oCs2TF+/zkAT/QQr
- TzlOqqsX4DFI+O0mCYWL76K/Km7TOj96/J4JfrcaOHHN6C+pjBhJxtT90ZZILcP1gsyt
- 5eZHOG+BeJxR8jz9RpVGayWNNxlXU1KpLdNIoM4/nIdlSX73xh3G4E54Q6n4dQKRnh/P
- Rciqu/UaxuYOfL4tfruaUs+27zxYNsTJfKLEhmWxYGce3PoXcwg4MWJ+v9E1kj/ak/RP
- K1Vg==
+ bh=aQ7TENtsQkFhqj90o2fCA4gySBLYYAXohXgU0sJf+S4=;
+ b=TdgjYD7E5glMNvLk6eOm8Wy4ecM1zmFsHffYKx7OaFpA70eMULEUlnhr6EL5yhYphW
+ ZXgzaO13Wjwqi+BroISZ6BxBCOYa39GX3b9vqNLkACsaxu4Rw0XUYwypzCS1i6uPP4fV
+ BZHq9PktFfwqULKVHpjNjOachoMGI7Fs5IbtzmHdqJnmKvQpb3qyXiMYwQtZq5y7pmpP
+ USfLCCn74J/L4j285lKh2BfAh3Q5EgT44fgFVkVj2SW737O2dF2yiCo7MVfUxL/apsgc
+ k5/ZGfkKcLpKJuUzSK00u49bww46McJbYi3k57a/JbSlZObpfe+UmTNo4rJmsYOJRmzM
+ 38tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690549234; x=1691154034;
+ d=1e100.net; s=20221208; t=1690549244; x=1691154044;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YRiix5Wbu8cUEwewXZbHXypVIH/8I/HGpsd1Ld0zKcA=;
- b=Ptk3D54j35n7S9RcFB/v+xFjQro+RblQQFwrJO2S0Xfv7QJWweKfG8PlBG5qWntJQn
- y5gxjzcSG25np7yAPjGklQMsYNk21R0goPbAgJHLaXZRC0BWcDzIDR1/1YNj8FmBCfYN
- lvvhuJoFbCH4Wr8bTiD1Htbgz+Fi1MeP9snT2J+tVSJQnfEqUcDk1iKkYR45KF3KPCMD
- jdi2G587lNKUnstmtNHoeku7PspscrFfJhx7nMpMsRzqbS6sKISWBpFdu46x8cbX6Rec
- 9fahfwhDS1qHrYslzqoiqfJDk+kWZlSG4jaRd/AkpV8NMa055efwo0Zq+GsO1JYX7YpX
- xARQ==
-X-Gm-Message-State: ABy/qLYQCjq+ONxftJyX3TYsw7poaor2OcSUX2UFMj4K+Xkhv2JcovJw
- DnZFTa/ZCVvUJCQTCYM1fu6bIC4cB0tKNo8GBZ0=
-X-Google-Smtp-Source: APBJJlGf644aS69IfHiGjdU78DPSh3l7c3O8DBAe3QaqLPykUWVJ56ZWmKuFuzDN/9JXfQ8Mwtgj9A==
-X-Received: by 2002:adf:f009:0:b0:306:2e62:8d2e with SMTP id
- j9-20020adff009000000b003062e628d2emr2022404wro.1.1690549233876; 
- Fri, 28 Jul 2023 06:00:33 -0700 (PDT)
+ bh=aQ7TENtsQkFhqj90o2fCA4gySBLYYAXohXgU0sJf+S4=;
+ b=M7L1DpKFqRsDN1/D0SdI8ui6OzxIvZ+uH9emSK8/VRiDW2acfacQUYG/tG5qrEs0lQ
+ mwIvmAHkBIhUAg8rAT3yjuUd8t0fnhvI3qKdAtA0yz8LFnSDpUJdzZfIBqEJhJOXHOzR
+ ZSO2HJIKu42UNimfbbs8h4UztMfbSNuo4fZkv5AMzquNbRWFNomdk+UYuSeuUN6vB3h2
+ UJPNXydKPyMnYDm4KU7JDxrUdZaMNY8lnQNpbk+RYD6lyItFB58tn4CDcHmNl/zwn4VO
+ jwoSF0Y8etcZM6MGQP9+5EVwbF4EVPGVOSI5t4C37avLZ8H1/QyuhyauKn0cQUHKoTE4
+ 1SKQ==
+X-Gm-Message-State: ABy/qLakPaMmjslAsI+nYvkw/Xu2woOOaK9FzVQS7f0xaG6OsWEkrG01
+ +MHymtRR+YxpAnB/xbZpswcFiQ==
+X-Google-Smtp-Source: APBJJlEOKfW1ZGAJOsrsnkH2CgAX1ClU5jm83vu2VnugwVvxyESowVTnZPErdgM6iYKniY4urP6VQA==
+X-Received: by 2002:a7b:cd0c:0:b0:3f9:b244:c294 with SMTP id
+ f12-20020a7bcd0c000000b003f9b244c294mr1858283wmj.35.1690549244305; 
+ Fri, 28 Jul 2023 06:00:44 -0700 (PDT)
 Received: from [192.168.1.172] ([93.5.22.158])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600012d200b0031753073abcsm4756456wrx.36.2023.07.28.06.00.32
+ g17-20020adfe411000000b0031437299fafsm4818155wrm.34.2023.07.28.06.00.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jul 2023 06:00:33 -0700 (PDT)
-Message-ID: <550b9775-e11a-7481-4b4a-0f4512d3bd26@baylibre.com>
-Date: Fri, 28 Jul 2023 15:00:32 +0200
+ Fri, 28 Jul 2023 06:00:43 -0700 (PDT)
+Message-ID: <06162f85-bb38-d07a-38f6-e7303c80996c@baylibre.com>
+Date: Fri, 28 Jul 2023 15:00:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH RESEND v6 03/11] drm/mediatek: gamma: Support SoC specific
- LUT size
+Subject: Re: [PATCH RESEND v6 04/11] drm/mediatek: gamma: Improve and simplify
+ HW LUT calculation
 Content-Language: en-US
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  chunkuang.hu@kernel.org
 References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
- <20230727094633.22505-4-angelogioacchino.delregno@collabora.com>
+ <20230727094633.22505-5-angelogioacchino.delregno@collabora.com>
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230727094633.22505-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230727094633.22505-5-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,8 +89,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 
 On 27/07/2023 11:46, AngeloGioacchino Del Regno wrote:
-> Newer SoCs support a bigger Gamma LUT table: wire up a callback
-> to retrieve the correct LUT size for each different Gamma IP.
+> Use drm_color_lut_extract() to avoid open-coding the bits reduction
+> calculations for each color channel and use a struct drm_color_lut
+> to temporarily store the information instead of an array of u32.
+> 
+> Also, slightly improve the precision of the HW LUT calculation in the
+> LUT DIFF case by performing the subtractions on the 16-bits values and
+> doing the 10 bits conversion later.
 
 -- 
 Regards,
