@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F147674BC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:24:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0437674C6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3341310E750;
-	Fri, 28 Jul 2023 18:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D825A10E756;
+	Fri, 28 Jul 2023 18:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B215510E224
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0DD210E70E
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:43 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6334E1F8B9;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 967A12199A;
  Fri, 28 Jul 2023 18:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690568562; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rbf06wYIG/ZbBzVIurx5PwbKTrY+iGC9D+2vEFVfdRE=;
- b=a3IsLt7T4T+nDFyHRPcD2jADQILu6joofMtEiovDrZXUUrGsfkmasUjkbQOUAC3+vXGwGi
- dpZnH5TBqgrK2203HvV1vtkstYvcHuGPKidos6ZCWVoDZsMyECa3kGo1IdrUMVflTwdIhA
- outpYMck71xRyhbotZWZQvEfcotqnls=
+ bh=8WbxhGou89suyYiBMAPkYCpvm0XLx2p+PtogoTewYPM=;
+ b=GWkSqjnScAKHLhNDFcHBPiRUvWGjhOA13PPl/+aceaAVyowdBYzVRnNN41LfXvhydI6cjW
+ jDdv3QkIV3Y4KvuALC8IPn3PKROa3pEd4uECgG+x0oL44n2IS4HFweJv7vETqnCqeP/saF
+ /HwokK2W9Tem4V+kiYAFmRpc1d1VLbo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690568562;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rbf06wYIG/ZbBzVIurx5PwbKTrY+iGC9D+2vEFVfdRE=;
- b=EystBCuTVy5xUhH7NA6Jm4LXkQdQ+pWe0/COeGjaB9J/OOUNshWRYUx0bILvESpd0gMgdE
- BeR/uKWu91M4syBQ==
+ bh=8WbxhGou89suyYiBMAPkYCpvm0XLx2p+PtogoTewYPM=;
+ b=IY6P4Se2sexkvgc2eIOaXaLWrlb6QeNkeNw9Yer88S1s/LOG+TrDE3JCeBOkiXRqzbZS0o
+ QB5GbyRJISooQ7Cg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 33C6B139BD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65F8C13276;
  Fri, 28 Jul 2023 18:22:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MBTdC3IHxGQ3CwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id kBsjGHIHxGQ3CwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH 24/47] fbdev/mb862xxfb: Use fbdev I/O helpers
-Date: Fri, 28 Jul 2023 18:40:07 +0200
-Message-ID: <20230728182234.10680-25-tzimmermann@suse.de>
+Subject: [PATCH 25/47] fbdev/mmpfb: Use fbdev I/O helpers
+Date: Fri, 28 Jul 2023 18:40:08 +0200
+Message-ID: <20230728182234.10680-26-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
@@ -85,45 +85,45 @@ no functional change.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig                | 4 +---
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 4 +---
+ drivers/video/fbdev/mmp/fb/Kconfig | 4 +---
+ drivers/video/fbdev/mmp/fb/mmpfb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 4cca6b008f07..631bc70657db 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1869,9 +1869,7 @@ config FB_MB862XX
- 	tristate "Fujitsu MB862xx GDC support"
+diff --git a/drivers/video/fbdev/mmp/fb/Kconfig b/drivers/video/fbdev/mmp/fb/Kconfig
+index 0ec2e3fb9e17..19420a9b5bc7 100644
+--- a/drivers/video/fbdev/mmp/fb/Kconfig
++++ b/drivers/video/fbdev/mmp/fb/Kconfig
+@@ -2,9 +2,7 @@
+ config MMP_FB
+ 	tristate "fb driver for Marvell MMP Display Subsystem"
  	depends on FB
- 	depends on PCI || (OF && PPC)
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IO_HELPERS
- 	select VIDEO_NOMODESET
+ 	default y
  	help
- 	  Frame buffer driver for Fujitsu Carmine/Coral-P(A)/Lime controllers.
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index 42e909776be2..f03d4be4aea1 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -407,14 +407,12 @@ static int mb862xxfb_ioctl(struct fb_info *fbi, unsigned int cmd,
- /* framebuffer ops */
- static struct fb_ops mb862xxfb_ops = {
+ 		fb driver for Marvell MMP Display Subsystem
+diff --git a/drivers/video/fbdev/mmp/fb/mmpfb.c b/drivers/video/fbdev/mmp/fb/mmpfb.c
+index ac9db01f29f2..df650af84840 100644
+--- a/drivers/video/fbdev/mmp/fb/mmpfb.c
++++ b/drivers/video/fbdev/mmp/fb/mmpfb.c
+@@ -454,14 +454,12 @@ static int mmpfb_blank(int blank, struct fb_info *info)
+ 
+ static const struct fb_ops mmpfb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IO_OPS,
- 	.fb_check_var	= mb862xxfb_check_var,
- 	.fb_set_par	= mb862xxfb_set_par,
- 	.fb_setcolreg	= mb862xxfb_setcolreg,
- 	.fb_blank	= mb862xxfb_blank,
- 	.fb_pan_display	= mb862xxfb_pan,
+ 	.fb_blank	= mmpfb_blank,
+ 	.fb_check_var	= mmpfb_check_var,
+ 	.fb_set_par	= mmpfb_set_par,
+ 	.fb_setcolreg	= mmpfb_setcolreg,
+ 	.fb_pan_display	= mmpfb_pan_display,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
- 	.fb_ioctl	= mb862xxfb_ioctl,
  };
  
+ static int modes_setup(struct mmpfb_info *fbi)
 -- 
 2.41.0
 
