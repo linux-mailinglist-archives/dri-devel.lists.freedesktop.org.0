@@ -2,46 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A805766C41
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92904766C44
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E71E710E0E1;
-	Fri, 28 Jul 2023 11:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09E910E1EA;
+	Fri, 28 Jul 2023 11:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E3210E0E1;
- Fri, 28 Jul 2023 11:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xFu7mnlDXbmlXbWasCgI2PC9m5jQyD3JuPUGhFojfqI=; b=dZAFz116nQgxUH6DhndYf36rcP
- zgt6ImWhZZKDbWXV//Pc9c8kwS9LGj8/h6IPx6HH5L9STwfXMXYyrwliPZXGltlxIt/r81cQikA2+
- suvSboKEeiHfL4PVA/EZLeDI9HA+cuu9dj4U5hlnHYcrF3PNvIZdgQeweZO8pjGgjVggp4uCW7Ryv
- HmjaMVzKU4VWD/P4KAElt4AXkx+tSlck/tUS6Wtzolmmtp+C6I/p+rF0hSrxWxAuuZlTMG1WqTB4H
- Xwq7TN8M2Cu6K+wkPQvjbgAdwOratZawi/KdobO9IkHWoWEpLl+wTD/7Q3DE6PaFbNu1jzgbviQib
- +cZOJRjA==;
-Received: from [187.36.235.191] (helo=[192.168.1.212])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qPM7J-0059q5-GQ; Fri, 28 Jul 2023 13:58:46 +0200
-Message-ID: <a92b05d0-65d4-c37d-c1d0-72366754e6a4@igalia.com>
-Date: Fri, 28 Jul 2023 08:58:34 -0300
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur01on0626.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1f::626])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E3110E1EA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 11:59:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D/7sVhQRd2xxvjBCakt3SPgNS3O6FSJaL8GaF0FxbWGMM106DPd6WLIwBfrnHJKOugMoxyvL/+3yBRoEZ2CRckcgZlLk7dexhKiDMxBg6yowvAF9ZKtj7zcoRnE3aY1luZSElmzzE6il9V6FVKW29zZa+UF5hsKaxZ0TQApuFJIBPF5zsx7HnFanoEgU4u+TgH3CaKLI/FB9LIIztIA/ZETfnfqNHkUmPLhbPEHcSx8mvoq5W11/e5jOiLsijE4JZDY40Iy0HPTOElE0plE5w06S/+b6ca40wC/MmfXM7Hf5ur2ybLsFMRUzfAC6JHyDFnPCJuDQpUx0NRHSYAn4KA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rrxNS3zMgjVrLMZd+hu4TvSU/mCPgQSGDJf8ipjoiMQ=;
+ b=njJiuJCcelC5mMrBc+wp2Qlvzo93hAxUhpldctYNCKGeWcbRUhnGar1CIqvNo4QbU9Qk/jxb4//ANNFjlGbyQufSUjaZh2OFoSqoqHM+4ET09vS8vjLjixo2OkRXxOkeO2sRQgB0yLyXRKdjCh3OPvMy0+yssxvejOWwx4SxCGxXL5g/6OjjiquoUI7N00EHOytMtmjJFmfrMgqAJq/tV0SurR5b3MOf1IpqzLrHTO6P/+csI7NrOqyHSwGRP5SvnmXKyAu1cCQEUFt/6y6dULrFlRxCOdBFIKi3r9lFSu1WhRdtdHU7urHmq/tqeE6y/rBckJm9sJZ0iBg3hhMQog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rrxNS3zMgjVrLMZd+hu4TvSU/mCPgQSGDJf8ipjoiMQ=;
+ b=YUUNE1+uxM03maEmItS73YAK8saRdISa3xXNVuIHCgmsT7GjXaTUE2PfYZDbkbHxbj1to/BJCF3n1eN3pTrps7Vp0ZYTyLj50mkP0c8rpFKCtjfFuyxmcBbeUN4nHW9gW8skXNIOGy4YY3mG7JVqbO3/cdEZt1lZjBbV4KdpJFM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by DBAPR04MB7398.eurprd04.prod.outlook.com
+ (2603:10a6:10:1a0::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Fri, 28 Jul
+ 2023 11:59:02 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::7799:a3a4:4d84:c909]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::7799:a3a4:4d84:c909%7]) with mapi id 15.20.6631.026; Fri, 28 Jul 2023
+ 11:59:01 +0000
+Date: Fri, 28 Jul 2023 14:58:57 +0300
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH 1/1] drm/imx/dcss: Use dev_err_probe
+Message-ID: <20230728115857.ijwy3iyxy4ssf5ik@fsr-ub1664-121.ea.freescale.net>
+References: <20230717092950.448823-1-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230717092950.448823-1-alexander.stein@ew.tq-group.com>
+X-ClientProxiedBy: AS4PR09CA0013.eurprd09.prod.outlook.com
+ (2603:10a6:20b:5e0::19) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v10] drm: Add initial ci/ subdirectory
-Content-Language: en-US
-To: Helen Koike <helen.koike@collabora.com>, dri-devel@lists.freedesktop.org
-References: <20230720152737.102382-1-helen.koike@collabora.com>
-From: Maira Canal <mcanal@igalia.com>
-In-Reply-To: <20230720152737.102382-1-helen.koike@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB3902:EE_|DBAPR04MB7398:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07b39e40-3286-4015-5416-08db8f620882
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ad0lls4srm0R/WpfCglTYE92G3PL/8hN/fewkfCdY1o2mtlsRPp9cDfMogtdr8Rgq9g03dlLbzZ2Z6Wkyju8PKAUQKK+ZbO550ZANXBORcmdBg/HjsFsk1J0jRi3sQ6427McOnbQgVn9jLaBl4tNx1jK0o/62g6ZJipElYwmTrANYqI+GGAkP+I2yEqh8IgavMmvko1kC9s2LIDU/XEFMDaGcWzTzcmu4IL9NusXzVNdxVxpJzMPdDupFQW5AsZ/dlUb9TwCWgILRjpVLTYyeknLmw1oJc1k/LjjBk3XoxdobcqdUFOmBBoOfFIRqARe5lJ4sR62nlwS7ZxVMk2Hns+2EJ7FnYAUnJfbWKZbpvVRZ9axqC81dT7FvNbXoPyvK0RL1Q9J9OOExEMEFo9Rqm9Eh1Ig73gzFFOZyIWWyHydma+ovgoOdVY6dmWeSp1C1htAoJOik/W66WWG6sg4LPhYsqVS5PcVEO9Hpc+JafcvDqRyNvMOXVr0gPmoP0osCFH+uxQZ/Y3IGIrlYPi9cnAyFBmetCFDjXCdtEjyfWGF/qHjU3vZS7CeAWnDtTbQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(366004)(396003)(39860400002)(376002)(346002)(451199021)(7416002)(41300700001)(316002)(66476007)(54906003)(66556008)(66946007)(8676002)(44832011)(4326008)(5660300002)(8936002)(6916009)(2906002)(4744005)(478600001)(9686003)(6486002)(6666004)(6512007)(86362001)(186003)(6506007)(1076003)(26005)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H1e1VIAznJBSzby/QDK/E5uFYND031Gwi6DJ+/pmC4UOO0fzch6P75WaIfrE?=
+ =?us-ascii?Q?tdl7mWLrg/xI4MyWvj1lCsrHXaLGVVqxQFshu6hrxxuY/0KsmogNV4bKkQWc?=
+ =?us-ascii?Q?5g8zCav9D79UmY8s6xku52VixQwicEs5JNeWf1mAZzeWoW6vivn14QMOLAsg?=
+ =?us-ascii?Q?RGJ9Mcrpy9POO/hybaDWlHYt+rYP+o0Agz/3e9A31+2RW73diZZhxbGXQjjB?=
+ =?us-ascii?Q?vNNX3zfKTHub2sqABhnBP9I1Nd1gZRXZrMQfZv+gG8PHePF8/O64fbSzr5+h?=
+ =?us-ascii?Q?sEQKtjQAaJjgWY1LF43JGkYjAB1S8J7C8itR0fk4AoCSOu2hwjQ/AFyw14zk?=
+ =?us-ascii?Q?WYfieemVkfdw37y113dGDyRj8sQzRgxqQPNjIdm1vfvfaYZ5YrR64Y33dBpq?=
+ =?us-ascii?Q?MEAwmpcuSH8AsuZgMGuQ4fRlRzoY8eEM/KSCe/BXQoV5PrVVwCwDUMEekEe9?=
+ =?us-ascii?Q?3Yiipig1+eDM4biB9tY+I/RBjgXb1Ki8cdhJM595NzM90nbsGnYQyc3LKGXN?=
+ =?us-ascii?Q?Vgi7nCMICvmggTBsF13g4+dSuHrwyBv/2psewkRDHLpz7Tb8r6Hd1wfva+yg?=
+ =?us-ascii?Q?rnbVkmJUh7m+/Z5PPP7rxIvlqcpP1IY7qn4cbZrnZftAKdbiNY2Ui39BIKrr?=
+ =?us-ascii?Q?HaAQ8PhV69F16Jrp0tpYZNUi/67RSPOdujTbkg26ETXieCqvjk1jThnApkG/?=
+ =?us-ascii?Q?1rbpm1sDyI5Okalxpm12kOIsLfsWgBz+bn0sDz5UDqfxDMeZu0AMsLK5WH4u?=
+ =?us-ascii?Q?axVG0+67dMvgmV6L/OxPIOKFlss+LPO502ATgAPszthlaT75xshllJe6tQ+V?=
+ =?us-ascii?Q?7X4eHcxoPtGpLvd3PqYdsNZzOOE779lekf8oksniKTZ9ZIKvEkckyndS1Co8?=
+ =?us-ascii?Q?5cSQpgXSsQ7bbNQ7ED7jiwtYSVJUeK5/1H4noCEBgUnxL0y/v853FVVNXrWO?=
+ =?us-ascii?Q?sCqiwnDhlXQ2gV2DbnraZRoEqKo9F+gjqdOBLFSRUzvp6zsilxJBX4Z2ZaMM?=
+ =?us-ascii?Q?RHeeDRXxaI51UvJU/0l/Hf9AyVqaHKY41lvrbK/489ZDbVKl/21n/lPmqlgB?=
+ =?us-ascii?Q?rYdDtdtF38QuLBHz/fsBuOZ4eKe8iFYeI9vifLaiqfU586Dtl4TDqbmAAs/f?=
+ =?us-ascii?Q?CH4YBM29619mODEVl8Ak/dDIQAY9Q8zL6E0+iFWG2WrBp+y7hlCfAtlyCJAr?=
+ =?us-ascii?Q?1eSf+/JZ9aq7cSqAUYhiLXSgflrGSr7NLcm23h6la3lzON9KvsbaCSLKb2g7?=
+ =?us-ascii?Q?zsmcgOFDI7DLreSJtAe63V22T/85A7OIvBrEA6iSNjyI8p4MnJ9rI6HFvJbk?=
+ =?us-ascii?Q?GwzjbgO7vkWWVmX8lXppZBdt4L7xUaWid54kb49zqWXV1l9m2z8IRcT35hCz?=
+ =?us-ascii?Q?Lo2xxJUBjaDAcUe9WeHk5sHBM0/O+0UythOoq54UHZ8or7CySVPSiApb5Oz0?=
+ =?us-ascii?Q?QQWRfRJ6aD+4cJ3YeXAA7bx0qnoTUwsK39Fijt9X95OFSOh3N4IgCOPaKh/m?=
+ =?us-ascii?Q?S6Uf2OMI50y4q7kJQ63AnF2+JGrPRiJy2xd75h6wgWQYuTT+z77tCue+1j+C?=
+ =?us-ascii?Q?T5WR6M9jeh137R/WqB09dKCdmUiU05mtmtsr+5AxAiyxkOQfvXomtJkq5I/c?=
+ =?us-ascii?Q?zw=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07b39e40-3286-4015-5416-08db8f620882
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2023 11:59:01.7948 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: THr/yhRUj4g+evCd0kqo7BrVBKmvTMYvbZ0epI4202Xj0fYWIUvZYFzYToHaopErrvW6HFnqJFNqnQt5RkGrJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7398
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,275 +117,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, linux-doc@vger.kernel.org, jbrunet@baylibre.com,
- robdclark@google.com, corbet@lwn.net, khilman@baylibre.com,
- sergi.blanch.torne@collabora.com, david.heidelberg@collabora.com,
- linux-rockchip@lists.infradead.org, daniels@collabora.com,
- martin.blumenstingl@googlemail.com, robclark@freedesktop.org,
- anholt@google.com, linux-mediatek@lists.infradead.org, mripard@kernel.org,
- matthias.bgg@gmail.com, linux-amlogic@lists.infradead.org,
- gustavo.padovan@collabora.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com, neil.armstrong@linaro.org,
- guilherme.gallo@collabora.com, linux-kernel@vger.kernel.org,
- tzimmermann@suse.de
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helen,
+Hi,
 
-Great to see this coming to the DRM!
+On Mon, Jul 17, 2023 at 11:29:50AM +0200, Alexander Stein wrote:
+> This helps identifying problems with downstream pipeline devices, like
+> HDMI/DP output.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 
-Just wondering, any chance we could add a stage to perform tests on
-VKMS? The main way of validating VKMS is through IGT tests, so I feel
-it would be a perfect match to have VKMS as a stage on the CI. As a
-generic KMS driver, VKMS is also great to validate changes on DRM core.
+Pushed to drm-misc-next.
 
-Another question, could we add V3D to the default arm and arm64 config?
+Thanks,
+Laurentiu
 
-Best Regards,
-- Maíra
-
-On 7/20/23 12:27, Helen Koike wrote:
-> From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> 
-> Developers can easily execute several tests on different devices
-> by just pushing their branch to their fork in a repository hosted
-> on gitlab.freedesktop.org which has an infrastructure to run jobs
-> in several runners and farms with different devices.
-> 
-> There are also other automated tools that uprev dependencies,
-> monitor the infra, and so on that are already used by the Mesa
-> project, and we can reuse them too.
-> 
-> Also, store expectations about what the DRM drivers are supposed
-> to pass in the IGT test suite. By storing the test expectations
-> along with the code, we can make sure both stay in sync with each
-> other so we can know when a code change breaks those expectations.
-> 
-> Also, include a configuration file that points to the out-of-tree
-> CI scripts.
-> 
-> This will allow all contributors to drm to reuse the infrastructure
-> already in gitlab.freedesktop.org to test the driver on several
-> generations of the hardware.
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> 
 > ---
+>  drivers/gpu/drm/imx/dcss/dcss-drv.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Hello,
+> diff --git a/drivers/gpu/drm/imx/dcss/dcss-drv.c b/drivers/gpu/drm/imx/dcss/dcss-drv.c
+> index 4f2291610139..c68b0d93ae9e 100644
+> --- a/drivers/gpu/drm/imx/dcss/dcss-drv.c
+> +++ b/drivers/gpu/drm/imx/dcss/dcss-drv.c
+> @@ -66,6 +66,7 @@ static int dcss_drv_platform_probe(struct platform_device *pdev)
+>         mdrv->kms = dcss_kms_attach(mdrv->dcss);
+>         if (IS_ERR(mdrv->kms)) {
+>                 err = PTR_ERR(mdrv->kms);
+> +               dev_err_probe(dev, err, "Failed to initialize KMS\n");
+>                 goto dcss_shutoff;
+>         }
 > 
-> I'm re-spining this patch sent originally by Tomeu.
+> --
+> 2.34.1
 > 
-> This is meant to be an auxiliary tool where developers and
-> maintainers can just submit their code to fdo and see if
-> tests passes, than they can decide if it is worthy merging
-> it or not.
-> 
-> This tool has proven its value on the Mesa community
-> and it can bring a lot of value here too.
-> 
-> Please review and let me know your thoughts.
-> 
-> You can also see this patch on
-> https://gitlab.freedesktop.org/helen.fornazier/linux/-/tree/drm-ci-tests
-> 
-> Thanks!
-> 
-> v2:
->    - Fix names of result expectation files to match SoC
->    - Don't execute tests that are going to skip on all boards
-> 
-> v3:
->    - Remove tracking of dmesg output during test execution
-> 
-> v4:
->    - Move up to drivers/gpu/drm
->    - Add support for a bunch of other drivers
->    - Explain how to incorporate fixes for CI from a
->      ${TARGET_BRANCH}-external-fixes branch
->    - Remove tests that pass from expected results file, to reduce the
->      size of in-tree files
->    - Add docs about how to deal with outages in automated testing labs
->    - Specify the exact SHA of the CI scripts to be used
-> 
-> v5:
->    - Remove unneeded skips from Meson expectations file
->    - Use a more advanced runner that detects flakes automatically
->    - Use a more succint format for the expectations
->    - Run many more tests (and use sharding to finish in time)
->    - Use skip lists to avoid hanging machines
->    - Add some build testing
->    - Build IGT in each pipeline for faster uprevs
->    - List failures in the GitLab UI
-> 
-> v6:
->    - Rebase on top of latest drm-next
->    - Lower priority of LAVA jobs to not impact Mesa CI as much
->    - Update docs
-> 
-> v7:
->    - Rebase on top of latest drm-next
-> 
-> v8:
->    - Move all files specific to testing the kernel into the kernel tree
->      (thus I have dropped the r-bs I had collected so far)
->    - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->    - Add MAINTAINERS entry
->    - Fix boot on MT8173 by adding some Kconfigs that are now needed
->    - Link to the docs from index.rst and hard-wrap the file
-> 
-> v9:
->    - Only automatically run the pipelines for merge requests
->    - Switch to zstd for the build artifacts to align with Mesa
->    - Add Qcom USB PHYs to config as they are now =m in the defconfig
-> 
-> v10:
->    - Include ci yml files from mesa/mesa (where the development is
->      current active) instead of a spin off project.
->    - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->    - Update MAINTAINERS entry
->    - Uprev igt tool
->    - add LAVA_JOB_PRIORITY: 30
->    - pipeline example:
->    https://gitlab.freedesktop.org/helen.fornazier/linux/-/pipelines/940506
-> ---
->   Documentation/gpu/automated_testing.rst       |  144 +
->   Documentation/gpu/index.rst                   |    1 +
->   MAINTAINERS                                   |    8 +
->   drivers/gpu/drm/ci/arm.config                 |   69 +
->   drivers/gpu/drm/ci/arm64.config               |  199 ++
->   drivers/gpu/drm/ci/build-igt.sh               |   35 +
->   drivers/gpu/drm/ci/build.sh                   |  157 +
->   drivers/gpu/drm/ci/build.yml                  |  110 +
->   drivers/gpu/drm/ci/check-patch.py             |   57 +
->   drivers/gpu/drm/ci/container.yml              |   61 +
->   drivers/gpu/drm/ci/gitlab-ci.yml              |  252 ++
->   drivers/gpu/drm/ci/igt_runner.sh              |   77 +
->   drivers/gpu/drm/ci/image-tags.yml             |   15 +
->   drivers/gpu/drm/ci/lava-submit.sh             |   57 +
->   drivers/gpu/drm/ci/static-checks.yml          |   12 +
->   drivers/gpu/drm/ci/test.yml                   |  335 ++
->   drivers/gpu/drm/ci/testlist.txt               | 2912 +++++++++++++++++
->   drivers/gpu/drm/ci/x86_64.config              |  111 +
->   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   22 +
->   .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   19 +
->   .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |    2 +
->   drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   17 +
->   .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |   32 +
->   drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |    4 +
->   drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   57 +
->   drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    1 +
->   drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |    4 +
->   drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   18 +
->   drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   37 +
->   drivers/gpu/drm/ci/xfails/i915-cml-skips.txt  |    2 +
->   drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   18 +
->   drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   41 +
->   drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |    5 +
->   drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   26 +
->   drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   25 +
->   drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |    5 +
->   drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   37 +
->   drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |    5 +
->   drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |   11 +
->   drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   47 +
->   drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |    1 +
->   drivers/gpu/drm/ci/xfails/i915-whl-skips.txt  |    2 +
->   .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   29 +
->   .../drm/ci/xfails/mediatek-mt8173-flakes.txt  |    0
->   .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   10 +
->   .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |   14 +
->   .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   12 +
->   .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |    4 +
->   .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   15 +
->   .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |    4 +
->   .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    2 +
->   .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    4 +
->   .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |    2 +
->   .../gpu/drm/ci/xfails/msm-sc7180-fails.txt    |   25 +
->   .../gpu/drm/ci/xfails/msm-sc7180-flakes.txt   |    7 +
->   .../gpu/drm/ci/xfails/msm-sc7180-skips.txt    |   23 +
->   .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   68 +
->   .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   11 +
->   .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |    2 +
->   .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   49 +
->   .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |    8 +
->   .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   52 +
->   .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   39 +
->   .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   23 +
->   .../drm/ci/xfails/rockchip-rk3399-skips.txt   |    5 +
->   .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   38 +
->   .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |    0
->   .../drm/ci/xfails/virtio_gpu-none-skips.txt   |    6 +
->   test                                          |    0
->   69 files changed, 5502 insertions(+)
->   create mode 100644 Documentation/gpu/automated_testing.rst
->   create mode 100644 drivers/gpu/drm/ci/arm.config
->   create mode 100644 drivers/gpu/drm/ci/arm64.config
->   create mode 100644 drivers/gpu/drm/ci/build-igt.sh
->   create mode 100644 drivers/gpu/drm/ci/build.sh
->   create mode 100644 drivers/gpu/drm/ci/build.yml
->   create mode 100755 drivers/gpu/drm/ci/check-patch.py
->   create mode 100644 drivers/gpu/drm/ci/container.yml
->   create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
->   create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
->   create mode 100644 drivers/gpu/drm/ci/image-tags.yml
->   create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
->   create mode 100644 drivers/gpu/drm/ci/static-checks.yml
->   create mode 100644 drivers/gpu/drm/ci/test.yml
->   create mode 100644 drivers/gpu/drm/ci/testlist.txt
->   create mode 100644 drivers/gpu/drm/ci/x86_64.config
->   create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
->   create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
->   create mode 100644 test
->
