@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555E8766BB4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:31:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A4D766C10
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:50:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B5F10E1EE;
-	Fri, 28 Jul 2023 11:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D104710E0C7;
+	Fri, 28 Jul 2023 11:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB6410E1EE;
- Fri, 28 Jul 2023 11:31:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 908FA620F6;
- Fri, 28 Jul 2023 11:31:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C216C433C8;
- Fri, 28 Jul 2023 11:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690543899;
- bh=mQamHmOgyjxhff4tf13gl/WJXm01xBH8XpNyYc9u4CU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oEq86SlctDT6n2xRRfUW6BXg07k0GOYkhjEmq11FHtLbCgAdef74cw05oPdwlJMxM
- nMFKaz3L5nKPQEiU/c9j4ostFrLN6rWdsaFn+Tg3bcNhTzdRyFcDzEzmeXulEYunm8
- GZxgykpDgWSNe+PLNwW8xOiTCxWwSoyBE9/aq9OSJj9/cN5dI5yKh35KUDbqp9nCSp
- FzD7ww99o97k5yFbC619m7SskfC2XbDCZTgPthSqUSdVLHsGGeU5z3WFzvqKDea9iO
- tYBWjY4vjuS0WJO0oninAReyBrrpmped45vPoIZgt+kFoOBDqZ+vIQcKAb6xbCaxE0
- tPf0W4jFPJCmA==
-Date: Fri, 28 Jul 2023 13:31:36 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v8 01/12] drm: manager to keep track of
- GPUs VA mappings
-Message-ID: <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
-References: <20230720001443.2380-1-dakr@redhat.com>
- <20230720001443.2380-2-dakr@redhat.com>
+Received: from mgamail.intel.com (unknown [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8FC10E0C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 11:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690545050; x=1722081050;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=tBKe3oOWW6OFuzO262fCr3kLrph1zJVyYCh5e98qIMY=;
+ b=L2yDLWAMX3RY4Jj7Nwok839tC3JQ+56unbwUihSGEJH0tEMkiw1KpsDE
+ jMHJkX6tJEPQ4+E0u+OE6UmV4AhTeiLKPJE/LbUfYtJIN3QlSilfFe6Pr
+ 7/vNPvktorIBv35pcMfIV2ssXQVwPvlD9Q6RbJPLHvegvvWPAJk2COSMK
+ 6jou7jR0pKVm0wyRlzW8l700niVqMkuX6ZFYBBbLA1YO8OoWCpb+J3qFM
+ 4RQeusTRW19nItfipGRu4yMnkTw4sGWVT3nZJ1i21mBSjxD/oLYPWuSWU
+ 78g+bfbsOy4H6qhIeu40h8eAkZPFBGIyWDg4gDoDyzF5Qw6z8E2FaZGax Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="399511084"
+X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; d="scan'208";a="399511084"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2023 04:50:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="797422208"
+X-IronPort-AV: E=Sophos;i="6.01,237,1684825200"; d="scan'208";a="797422208"
+Received: from atoomey-mobl.amr.corp.intel.com (HELO [10.213.197.30])
+ ([10.213.197.30])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2023 04:50:37 -0700
+Message-ID: <b0ecc359-3b04-1593-1edc-3a32e74cf5c0@linux.intel.com>
+Date: Fri, 28 Jul 2023 12:50:35 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3n5o5ss2bit7ecey"
-Content-Disposition: inline
-In-Reply-To: <20230720001443.2380-2-dakr@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/v3d: Expose the total GPU usage stats on debugfs
+Content-Language: en-US
+To: Maira Canal <mcanal@igalia.com>, Emma Anholt <emma@anholt.net>,
+ Melissa Wen <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230727142929.1275149-1-mcanal@igalia.com>
+ <20230727142929.1275149-3-mcanal@igalia.com>
+ <77f25411-52fa-8939-7883-0677b9f13562@linux.intel.com>
+ <72e88535-6a87-f44d-2010-1a513550a5ca@igalia.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <72e88535-6a87-f44d-2010-1a513550a5ca@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,133 +67,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- willy@infradead.org, dri-devel@lists.freedesktop.org, corbet@lwn.net,
- nouveau@lists.freedesktop.org, ogabbay@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Liam.Howlett@oracle.com,
- boris.brezillon@collabora.com, bskeggs@redhat.com, tzimmermann@suse.de,
- Dave Airlie <airlied@redhat.com>, bagasdotme@gmail.com,
- christian.koenig@amd.com, jason@jlekstrand.net, donald.robson@imgtec.com
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3n5o5ss2bit7ecey
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 28/07/2023 12:25, Maira Canal wrote:
+> Hi,
+> 
+> On 7/28/23 07:16, Tvrtko Ursulin wrote:
+>>
+>> Hi,
+>>
+>> On 27/07/2023 15:23, Maíra Canal wrote:
+>>> The previous patch exposed the accumulated amount of active time per
+>>> client for each V3D queue. But this doesn't provide a global notion of
+>>> the GPU usage.
+>>>
+>>> Therefore, provide the accumulated amount of active time for each V3D
+>>> queue (BIN, RENDER, CSD, TFU and CACHE_CLEAN), considering all the jobs
+>>> submitted to the queue, independent of the client.
+>>>
+>>> This data is exposed through the debugfs interface, so that if the
+>>> interface is queried at two different points of time the usage 
+>>> percentage
+>>> of each of the queues can be calculated.
+>>
+>> Just passing observation - I've noticed a mismatch between fdinfo and 
+>> debugfs in terms of ABI stability and production availability.
+>>
+>> Not sure if it matters for your intended use cases, just saying that 
+>> if you plan to have an user facing tool similar to what we have in 
+>> intel_gpu_top, debugfs may not be the best choice.
+> 
+> Do you have a suggestion of a better interface that could be used to
+> expose this data?
+> 
+> It would be nice to have something generic, similar to fdinfo, to expose
+> global GPU stats. This way we could expose global GPU stats on gputop,
+> which would be great.
 
-Hi Danilo,
+I think there is at least two options.
 
-On Thu, Jul 20, 2023 at 02:14:22AM +0200, Danilo Krummrich wrote:
-> Add infrastructure to keep track of GPU virtual address (VA) mappings
-> with a decicated VA space manager implementation.
->=20
-> New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
-> start implementing, allow userspace applications to request multiple and
-> arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
-> intended to serve the following purposes in this context.
->=20
-> 1) Provide infrastructure to track GPU VA allocations and mappings,
->    making using an interval tree (RB-tree).
->=20
-> 2) Generically connect GPU VA mappings to their backing buffers, in
->    particular DRM GEM objects.
->=20
-> 3) Provide a common implementation to perform more complex mapping
->    operations on the GPU VA space. In particular splitting and merging
->    of GPU VA mappings, e.g. for intersecting mapping requests or partial
->    unmap requests.
->=20
-> Acked-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
-> Acked-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Tested-by: Matthew Brost <matthew.brost@intel.com>
-> Tested-by: Donald Robson <donald.robson@imgtec.com>
-> Suggested-by: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+With i915 we use perf/PMU, drawback (or not, depends on the view point) 
+is that it requires CAP_SYS_PERFMON. Fits well for exposing global GPU 
+hardware counters.
 
-For some reason this breaks the drm_exec kunit patches:
+You could go the sysfs route, which would be ABI stable and available in 
+production. This could either be attempted to be somewhat DRM 
+standardized (ala fdinfo), or driver specific.
 
+Maybe someone has more ideas.
 
-$ ./tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/drm/tests =
-  --cross_compile aarch64-linux-gnu- --arch arm64 --raw_output drm_exec.tes=
-t_lock
-[13:31:14] Configuring KUnit Kernel ...
-[13:31:14] Building KUnit Kernel ...
-Populating config with:
-$ make ARCH=3Darm64 O=3D.kunit olddefconfig CROSS_COMPILE=3Daarch64-linux-g=
-nu-
-Building with:
-$ make ARCH=3Darm64 O=3D.kunit --jobs=3D32 CROSS_COMPILE=3Daarch64-linux-gn=
-u-
-[13:31:16] Starting KUnit Kernel (1/1)...
-Running tests with:
-$ qemu-system-aarch64 -nodefaults -m 1024 -kernel .kunit/arch/arm64/boot/Im=
-age.gz -append 'kunit.filter_glob=3Ddrm_exec.test_lock kunit.enable=3D1 con=
-sole=3DttyAMA0 kunit_shutdown=3Dreboot' -no-reboot -nographic -serial stdio=
- -machine virt -cpu cortex-a57
-KTAP version 1
-1..1
-    KTAP version 1
-    # Subtest: drm_exec
-    1..1
-Unable to handle kernel NULL pointer dereference at virtual address 0000000=
-0000000b0
-Mem abort info:
-  ESR =3D 0x0000000096000005
-  EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-  SET =3D 0, FnV =3D 0
-  EA =3D 0, S1PTW =3D 0
-  FSC =3D 0x05: level 1 translation fault
-Data abort info:
-  ISV =3D 0, ISS =3D 0x00000005
-  CM =3D 0, WnR =3D 0
-[00000000000000b0] user address but active_mm is swapper
-Internal error: Oops: 0000000096000005 [#1] SMP
-CPU: 0 PID: 21 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7=
--02032-ge6303f323b1a #17
-Hardware name: linux,dummy-virt (DT)
-pstate: 40000005 (nZcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-pc : drm_gem_private_object_init+0x54/0xa8
-lr : drm_gem_private_object_init+0x44/0xa8
-sp : ffffffc008763c10
-x29: ffffffc008763c10 x28: 0000000000000000 x27: 0000000000000000
-x26: 0000000000000000 x25: 0000000000000000 x24: ffffffc00800bb90
-x23: ffffffc00820d3e4 x22: ffffff8000fb8880 x21: ffffffc008763db8
-x20: ffffffc0086171d8 x19: ffffffc008763cb8 x18: ffffffffffffffff
-x17: ffffffc0085b0da8 x16: 000000005a832b7d x15: 0000000000000000
-x14: 0000000000000001 x13: 0000000000000000 x12: ffffff8000cbe380
-x11: ffffff8000ca0000 x10: 00000000000007b0 x9 : 0000000000000000
-x8 : ffffffc008763cb8 x7 : 0000000000000000 x6 : 000000000000003f
-x5 : 0000000000000040 x4 : 0000000000000008 x3 : 0000000000000030
-x2 : ffffffc0085b9118 x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- drm_gem_private_object_init+0x54/0xa8
- test_lock+0x58/0xf4
- kunit_try_run_case+0x48/0xa8
- kunit_generic_run_threadfn_adapter+0x20/0x2c
- kthread+0xd4/0xd8
- ret_from_fork+0x10/0x20
-Code: f9407e60 b40002a0 f9401a80 b9406a81 (b940b000)
----[ end trace 0000000000000000 ]---
-^CERROR:root:Build interruption occurred. Cleaning console.
-qemu-system-aarch64: terminating on signal 2
-[13:31:17] Elapsed time: 3.396s total, 0.001s configuring, 1.978s building,=
- 1.417s running
+Regards,
 
-Maxime
+Tvrtko
 
---3n5o5ss2bit7ecey
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMOnGAAKCRDj7w1vZxhR
-xSR2AP9tE8/f72q5jHIMHjhhir0PsVypUMPCWXU4fR+59oPfOgD/ZE9aH6tsf2Vd
-FouLH8frZRDzfA2nPV3qd89JLuV60wM=
-=Gn76
------END PGP SIGNATURE-----
-
---3n5o5ss2bit7ecey--
+> 
+> Best Regards,
+> - Maíra
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Co-developed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+>>> Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>>> ---
+>>>   drivers/gpu/drm/v3d/v3d_debugfs.c | 27 +++++++++++++++++++++++++++
+>>>   drivers/gpu/drm/v3d/v3d_drv.h     |  3 +++
+>>>   drivers/gpu/drm/v3d/v3d_gem.c     |  5 ++++-
+>>>   drivers/gpu/drm/v3d/v3d_irq.c     | 24 ++++++++++++++++++++----
+>>>   drivers/gpu/drm/v3d/v3d_sched.c   | 13 ++++++++++++-
+>>>   5 files changed, 66 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c 
+>>> b/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>> index 330669f51fa7..3b7329343649 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+>>> @@ -4,6 +4,7 @@
+>>>   #include <linux/circ_buf.h>
+>>>   #include <linux/ctype.h>
+>>>   #include <linux/debugfs.h>
+>>> +#include <linux/sched/clock.h>
+>>>   #include <linux/seq_file.h>
+>>>   #include <linux/string_helpers.h>
+>>>
+>>> @@ -236,11 +237,37 @@ static int v3d_measure_clock(struct seq_file 
+>>> *m, void *unused)
+>>>       return 0;
+>>>   }
+>>>
+>>> +static int v3d_debugfs_gpu_usage(struct seq_file *m, void *unused)
+>>> +{
+>>> +    struct drm_debugfs_entry *entry = m->private;
+>>> +    struct drm_device *dev = entry->dev;
+>>> +    struct v3d_dev *v3d = to_v3d_dev(dev);
+>>> +    enum v3d_queue queue;
+>>> +    u64 timestamp = local_clock();
+>>> +    u64 active_runtime;
+>>> +
+>>> +    seq_printf(m, "timestamp: %llu\n", timestamp);
+>>> +
+>>> +    for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
+>>> +        if (v3d->queue[queue].start_ns)
+>>> +            active_runtime = timestamp - v3d->queue[queue].start_ns;
+>>> +        else
+>>> +            active_runtime = 0;
+>>> +
+>>> +        seq_printf(m, "%s: %llu ns\n",
+>>> +               v3d_queue_to_string(queue),
+>>> +               v3d->queue[queue].enabled_ns + active_runtime);
+>>> +    }
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>>   static const struct drm_debugfs_info v3d_debugfs_list[] = {
+>>>       {"v3d_ident", v3d_v3d_debugfs_ident, 0},
+>>>       {"v3d_regs", v3d_v3d_debugfs_regs, 0},
+>>>       {"measure_clock", v3d_measure_clock, 0},
+>>>       {"bo_stats", v3d_debugfs_bo_stats, 0},
+>>> +    {"gpu_usage", v3d_debugfs_gpu_usage, 0},
+>>>   };
+>>>
+>>>   void
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h 
+>>> b/drivers/gpu/drm/v3d/v3d_drv.h
+>>> index ee5e12d0db1c..b41b32ecd991 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>>> @@ -38,6 +38,9 @@ struct v3d_queue_state {
+>>>
+>>>       u64 fence_context;
+>>>       u64 emit_seqno;
+>>> +
+>>> +    u64 start_ns;
+>>> +    u64 enabled_ns;
+>>>   };
+>>>
+>>>   /* Performance monitor object. The perform lifetime is controlled 
+>>> by userspace
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c 
+>>> b/drivers/gpu/drm/v3d/v3d_gem.c
+>>> index 40ed0c7c3fad..630ea2db8f8f 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>>> @@ -1014,8 +1014,11 @@ v3d_gem_init(struct drm_device *dev)
+>>>       u32 pt_size = 4096 * 1024;
+>>>       int ret, i;
+>>>
+>>> -    for (i = 0; i < V3D_MAX_QUEUES; i++)
+>>> +    for (i = 0; i < V3D_MAX_QUEUES; i++) {
+>>>           v3d->queue[i].fence_context = dma_fence_context_alloc(1);
+>>> +        v3d->queue[i].start_ns = 0;
+>>> +        v3d->queue[i].enabled_ns = 0;
+>>> +    }
+>>>
+>>>       spin_lock_init(&v3d->mm_lock);
+>>>       spin_lock_init(&v3d->job_lock);
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c 
+>>> b/drivers/gpu/drm/v3d/v3d_irq.c
+>>> index c898800ae9c2..be4ff7559309 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+>>> @@ -102,9 +102,13 @@ v3d_irq(int irq, void *arg)
+>>>           struct v3d_fence *fence =
+>>>               to_v3d_fence(v3d->bin_job->base.irq_fence);
+>>>           struct v3d_file_priv *file = 
+>>> v3d->bin_job->base.file->driver_priv;
+>>> +        u64 runtime = local_clock() - file->start_ns[V3D_BIN];
+>>>
+>>> -        file->enabled_ns[V3D_BIN] += local_clock() - 
+>>> file->start_ns[V3D_BIN];
+>>>           file->start_ns[V3D_BIN] = 0;
+>>> +        v3d->queue[V3D_BIN].start_ns = 0;
+>>> +
+>>> +        file->enabled_ns[V3D_BIN] += runtime;
+>>> +        v3d->queue[V3D_BIN].enabled_ns += runtime;
+>>>
+>>>           trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
+>>>           dma_fence_signal(&fence->base);
+>>> @@ -115,9 +119,13 @@ v3d_irq(int irq, void *arg)
+>>>           struct v3d_fence *fence =
+>>>               to_v3d_fence(v3d->render_job->base.irq_fence);
+>>>           struct v3d_file_priv *file = 
+>>> v3d->render_job->base.file->driver_priv;
+>>> +        u64 runtime = local_clock() - file->start_ns[V3D_RENDER];
+>>>
+>>> -        file->enabled_ns[V3D_RENDER] += local_clock() - 
+>>> file->start_ns[V3D_RENDER];
+>>>           file->start_ns[V3D_RENDER] = 0;
+>>> +        v3d->queue[V3D_RENDER].start_ns = 0;
+>>> +
+>>> +        file->enabled_ns[V3D_RENDER] += runtime;
+>>> +        v3d->queue[V3D_RENDER].enabled_ns += runtime;
+>>>
+>>>           trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
+>>>           dma_fence_signal(&fence->base);
+>>> @@ -128,9 +136,13 @@ v3d_irq(int irq, void *arg)
+>>>           struct v3d_fence *fence =
+>>>               to_v3d_fence(v3d->csd_job->base.irq_fence);
+>>>           struct v3d_file_priv *file = 
+>>> v3d->csd_job->base.file->driver_priv;
+>>> +        u64 runtime = local_clock() - file->start_ns[V3D_CSD];
+>>>
+>>> -        file->enabled_ns[V3D_CSD] += local_clock() - 
+>>> file->start_ns[V3D_CSD];
+>>>           file->start_ns[V3D_CSD] = 0;
+>>> +        v3d->queue[V3D_CSD].start_ns = 0;
+>>> +
+>>> +        file->enabled_ns[V3D_CSD] += runtime;
+>>> +        v3d->queue[V3D_CSD].enabled_ns += runtime;
+>>>
+>>>           trace_v3d_csd_irq(&v3d->drm, fence->seqno);
+>>>           dma_fence_signal(&fence->base);
+>>> @@ -168,9 +180,13 @@ v3d_hub_irq(int irq, void *arg)
+>>>           struct v3d_fence *fence =
+>>>               to_v3d_fence(v3d->tfu_job->base.irq_fence);
+>>>           struct v3d_file_priv *file = 
+>>> v3d->tfu_job->base.file->driver_priv;
+>>> +        u64 runtime = local_clock() - file->start_ns[V3D_TFU];
+>>>
+>>> -        file->enabled_ns[V3D_TFU] += local_clock() - 
+>>> file->start_ns[V3D_TFU];
+>>>           file->start_ns[V3D_TFU] = 0;
+>>> +        v3d->queue[V3D_TFU].start_ns = 0;
+>>> +
+>>> +        file->enabled_ns[V3D_TFU] += runtime;
+>>> +        v3d->queue[V3D_TFU].enabled_ns += runtime;
+>>>
+>>>           trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
+>>>           dma_fence_signal(&fence->base);
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c 
+>>> b/drivers/gpu/drm/v3d/v3d_sched.c
+>>> index b360709c0765..1a9c7f395862 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>>> @@ -110,6 +110,7 @@ static struct dma_fence *v3d_bin_job_run(struct 
+>>> drm_sched_job *sched_job)
+>>>                   job->start, job->end);
+>>>
+>>>       file->start_ns[V3D_BIN] = local_clock();
+>>> +    v3d->queue[V3D_BIN].start_ns = file->start_ns[V3D_BIN];
+>>>       file->jobs_sent[V3D_BIN]++;
+>>>
+>>>       v3d_switch_perfmon(v3d, &job->base);
+>>> @@ -165,6 +166,7 @@ static struct dma_fence 
+>>> *v3d_render_job_run(struct drm_sched_job *sched_job)
+>>>                   job->start, job->end);
+>>>
+>>>       file->start_ns[V3D_RENDER] = local_clock();
+>>> +    v3d->queue[V3D_RENDER].start_ns = file->start_ns[V3D_RENDER];
+>>>       file->jobs_sent[V3D_RENDER]++;
+>>>
+>>>       v3d_switch_perfmon(v3d, &job->base);
+>>> @@ -201,6 +203,7 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
+>>>       trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
+>>>
+>>>       file->start_ns[V3D_TFU] = local_clock();
+>>> +    v3d->queue[V3D_TFU].start_ns = file->start_ns[V3D_TFU];
+>>>       file->jobs_sent[V3D_TFU]++;
+>>>
+>>>       V3D_WRITE(V3D_TFU_IIA, job->args.iia);
+>>> @@ -246,6 +249,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+>>>       trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
+>>>
+>>>       file->start_ns[V3D_CSD] = local_clock();
+>>> +    v3d->queue[V3D_CSD].start_ns = file->start_ns[V3D_CSD];
+>>>       file->jobs_sent[V3D_CSD]++;
+>>>
+>>>       v3d_switch_perfmon(v3d, &job->base);
+>>> @@ -264,14 +268,21 @@ v3d_cache_clean_job_run(struct drm_sched_job 
+>>> *sched_job)
+>>>       struct v3d_job *job = to_v3d_job(sched_job);
+>>>       struct v3d_dev *v3d = job->v3d;
+>>>       struct v3d_file_priv *file = job->file->driver_priv;
+>>> +    u64 runtime;
+>>>
+>>>       file->start_ns[V3D_CACHE_CLEAN] = local_clock();
+>>> +    v3d->queue[V3D_CACHE_CLEAN].start_ns = 
+>>> file->start_ns[V3D_CACHE_CLEAN];
+>>>       file->jobs_sent[V3D_CACHE_CLEAN]++;
+>>>
+>>>       v3d_clean_caches(v3d);
+>>>
+>>> -    file->enabled_ns[V3D_CACHE_CLEAN] += local_clock() - 
+>>> file->start_ns[V3D_CACHE_CLEAN];
+>>> +    runtime = local_clock() - file->start_ns[V3D_CACHE_CLEAN];
+>>> +
+>>> +    file->enabled_ns[V3D_CACHE_CLEAN] += runtime;
+>>> +    v3d->queue[V3D_CACHE_CLEAN].enabled_ns += runtime;
+>>> +
+>>>       file->start_ns[V3D_CACHE_CLEAN] = 0;
+>>> +    v3d->queue[V3D_CACHE_CLEAN].start_ns = 0;
+>>>
+>>>       return NULL;
+>>>   }
+>>> -- 
+>>> 2.41.0
+>>>
