@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2487666AA
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 10:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4917666C4
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 10:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9CC810E68E;
-	Fri, 28 Jul 2023 08:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF2810E693;
+	Fri, 28 Jul 2023 08:18:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14B6110E68E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 08:14:56 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 184C5660704F;
- Fri, 28 Jul 2023 09:14:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690532094;
- bh=2u0/wsFge3BQH+xmqZ62PwLYaH3IHkVQ6bmaZZoo6no=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oBmGVlnP85D1wiHzRNV+MotQljwNcxh32EiHMhpZdOxo+WXXrOGMzTC84cLAo1rvu
- 5WiDzf51juHFVdcu88oRebzt8Em7zwWOPQWkk07sE/EpEV+dR9IHo7/6/mpLuW0hD/
- 2iucveIkR+jcyARHKCwkKwYr2lKoHQ4zPHOkajU/gjVb6JJupApanor54nyI66sG9Z
- NKgNrW6WiHOZ/x5OvbJ2CaUWLm1ZR4X5I9IUhxJV4NhRKePaJiNPdYed6HKjxPDiti
- Mfm+KnEMJOFqSEJ3pFIBQuHe+TTMgAdUpUC4xW+/XiIy1BpGreUlyTAWs/pxi64iXX
- IKuWLbwnA166Q==
-Message-ID: <3dca39b3-b152-34e7-8959-78fe68e1a899@collabora.com>
-Date: Fri, 28 Jul 2023 10:14:51 +0200
+Received: from mgamail.intel.com (unknown [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D71C510E691;
+ Fri, 28 Jul 2023 08:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690532320; x=1722068320;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=NTEHuhkjMfjLOAOi4RCf/EhydHy9KKKCjF5GbC2yk/c=;
+ b=Q0NzPDOEim8C5/vjq/7k0n1N6ZcQI4rsgiWy28KlbXlggEEJdGDW7Lt9
+ uRHhIpR9Vyl9qk/2z1fYsWEj/VzSWCeP46B8RcTFMKhgIRevl1Wtr8Jpg
+ 4T0DKbMyy4ziJNRwd9C5e4pGQ9bRfO0sCOFCdY/RY6EMIbuFpB+8bNIdU
+ 1CfllKQjhXpVbOQWIg/TI4mlPRjmOJkhx4pRfedDpS6ERkmAlAtJz5wjC
+ ss3M+mZuuVn3X8S4E3EdlthvCa9Jn0tPnBCaRPwLdAPoXWCiXhdm1gJ4M
+ 4ILaoQxNKgc0TM64cShxsz8rYW2w9ORaIC2qQP3VRUnCzqm4AkdWqscxB g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="353444961"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="353444961"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2023 01:18:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="973968383"
+X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="973968383"
+Received: from atoomey-mobl.amr.corp.intel.com (HELO [10.213.197.30])
+ ([10.213.197.30])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jul 2023 01:18:38 -0700
+Message-ID: <fcca49f6-158d-1504-bc33-263095690e95@linux.intel.com>
+Date: Fri, 28 Jul 2023 09:18:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v7 4/4] drm/mediatek: Add DSI support for mt8188 vdosys0
+ Thunderbird/102.11.0
+Subject: Re: [Intel-gfx] [RFC 2/8] drm/i915: Split PTE encode between Gen12
+ and Meteorlake
 Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20230727164114.20638-1-jason-jh.lin@mediatek.com>
- <20230727164114.20638-5-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230727164114.20638-5-jason-jh.lin@mediatek.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+References: <20230727145504.1919316-1-tvrtko.ursulin@linux.intel.com>
+ <20230727145504.1919316-3-tvrtko.ursulin@linux.intel.com>
+ <20230727222544.GB138014@mdroper-desk1.amr.corp.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230727222544.GB138014@mdroper-desk1.amr.corp.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,104 +65,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 27/07/23 18:41, Jason-JH.Lin ha scritto:
-> Add DSI as main display output for mt8188 vdosys0.
+
+On 27/07/2023 23:25, Matt Roper wrote:
+> On Thu, Jul 27, 2023 at 03:54:58PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> No need to run extra instructions which will never trigger on platforms
+>> before Meteorlake.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 26 ++++++++++++++++++++++++++
+>>   1 file changed, 26 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+>> index c8568e5d1147..862ac1d2de25 100644
+>> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+>> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+>> @@ -63,6 +63,30 @@ static u64 gen12_pte_encode(dma_addr_t addr,
+>>   {
+>>   	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
+>>   
+>> +	if (unlikely(flags & PTE_READ_ONLY))
+>> +		pte &= ~GEN8_PAGE_RW;
+>> +
+>> +	if (flags & PTE_LM)
+>> +		pte |= GEN12_PPGTT_PTE_LM;
+>> +
+>> +	if (pat_index & BIT(0))
+>> +		pte |= GEN12_PPGTT_PTE_PAT0;
+>> +
+>> +	if (pat_index & BIT(1))
+>> +		pte |= GEN12_PPGTT_PTE_PAT1;
+>> +
+>> +	if (pat_index & BIT(2))
+>> +		pte |= GEN12_PPGTT_PTE_PAT2;
+>> +
+>> +	return pte;
+>> +}
+>> +
+>> +static u64 mtl_pte_encode(dma_addr_t addr,
+>> +			  unsigned int pat_index,
+>> +			  u32 flags)
+>> +{
+>> +	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
+>> +
 > 
+> Would it be more readable to start with
+> 
+>          gen8_pte_t pte = gen12_pte_encode(addr, pat_index, flags);
+> 
+> and then |-in only the MTL-specific bit(s) as appropriate?
+> 
+>>   	if (unlikely(flags & PTE_READ_ONLY))
+>>   		pte &= ~GEN8_PAGE_RW;
+>>   
+>> @@ -995,6 +1019,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+>>   	 */
+>>   	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
+>>   
+>> +	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
+>> +		ppgtt->vm.pte_encode = mtl_pte_encode;
+>>   	if (GRAPHICS_VER(gt->i915) >= 12)
+>>   		ppgtt->vm.pte_encode = gen12_pte_encode;
+> 
+> I think you wanted 'else if' here.  Otherwise you clobber the MTL
+> function pointer.
 
-I would split this commit in two:
+Doh this was a strong fail.. Yes and yes.. I even had it like you 
+suggest in that patch I mentioned to you earlier.. 
+https://patchwork.freedesktop.org/patch/546013/?series=120341&rev=2.
 
-1. drm/mediatek: dsi: Support dynamic connector selection
-2. drm/mediatek: Support DSI on MT8188 VDOSYS0
-
-Where the first one sets up the mtk_dsi driver for .encoder_index(), and
-where the second one is a one-liner simply adding `{0, DDP_COMPONENT_DSI0},`
-to the MT8188 main routes array.
-
-The reason is that if you split it like that, whoever reads the commit history
-will immediately understand how to add dynamic connector selection to a MTK DRM
-driver, and how to perform the SoC-specific connection....
-
-Please!
+Do you have an opinion on that one perhaps?
 
 Thanks,
-Angelo
 
-> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_drv.h     | 1 +
->   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 1 +
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 1 +
->   drivers/gpu/drm/mediatek/mtk_dsi.c          | 9 +++++++++
->   4 files changed, 12 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> index 5f07037670e9..fdaa21b6a9da 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -48,6 +48,7 @@ unsigned int mtk_dpi_encoder_index(struct device *dev);
->   
->   void mtk_dsi_ddp_start(struct device *dev);
->   void mtk_dsi_ddp_stop(struct device *dev);
-> +unsigned int mtk_dsi_encoder_index(struct device *dev);
->   
->   int mtk_gamma_clk_enable(struct device *dev);
->   void mtk_gamma_clk_disable(struct device *dev);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index bc7b0a0c20db..e6a7a0b9de6c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -318,6 +318,7 @@ static const struct mtk_ddp_comp_funcs ddp_dsc = {
->   static const struct mtk_ddp_comp_funcs ddp_dsi = {
->   	.start = mtk_dsi_ddp_start,
->   	.stop = mtk_dsi_ddp_stop,
-> +	.encoder_index = mtk_dsi_encoder_index,
->   };
->   
->   static const struct mtk_ddp_comp_funcs ddp_gamma = {
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index ecd113f9908c..9b7ca8d35f71 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -189,6 +189,7 @@ static const unsigned int mt8188_mtk_ddp_main[] = {
->   
->   static const struct mtk_drm_route mt8188_mtk_ddp_main_routes[] = {
->   	{0, DDP_COMPONENT_DP_INTF0},
-> +	{0, DDP_COMPONENT_DSI0},
->   };
->   
->   static const unsigned int mt8192_mtk_ddp_main[] = {
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 7d5250351193..62d5362916a5 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -865,6 +865,15 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->   	return ret;
->   }
->   
-> +unsigned int mtk_dsi_encoder_index(struct device *dev)
-> +{
-> +	struct mtk_dsi *dsi = dev_get_drvdata(dev);
-> +	unsigned int encoder_index = drm_encoder_index(&dsi->encoder);
-> +
-> +	dev_dbg(dev, "encoder index:%d", encoder_index);
-> +	return encoder_index;
-> +}
-> +
->   static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
->   {
->   	int ret;
-
-
-
+Tvrtko
