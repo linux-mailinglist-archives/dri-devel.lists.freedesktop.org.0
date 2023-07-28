@@ -1,46 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434F8766EBB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 15:49:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C62C766F65
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66F410E6ED;
-	Fri, 28 Jul 2023 13:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE4F10E6FF;
+	Fri, 28 Jul 2023 14:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD7B10E6ED
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 13:48:57 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EE827620FD;
- Fri, 28 Jul 2023 13:48:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9FFCC433C7;
- Fri, 28 Jul 2023 13:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690552136;
- bh=ybAewDSIihhc9NHGhos2fH++UkcTbQSngJl7W7DzYpc=;
- h=From:To:Cc:Subject:Date:From;
- b=oDxPzCSS6ehCZesw8RUEPFEJvyhTJvVh/bwVCf/zMFZ8ahhmcU1v6L0qxMJrJC2L1
- w826i3oZYo16kjtBfSrcWXLvw6+wzJ2+FfBRzoHEUuji3Bv8PjcYMMN/M7wq19U5om
- pTRClACtk8Rf797gBpL8u1ns1MFtNCc1p/zQy208F+rrB4NmB91JIcbgVi4933dC8U
- dsVa93vqJe190+Jrf2LYiyNfjf4nPqBs721jYiR33v0p1IF6WIRgVG4e0ltAL9hYdm
- tH3MGCT6juqTCo29mUJHmtAxdLhsC170M6MBzonGxxguVNCrDMDSXp3MimuOTrf00F
- fwPwf68IjUrHw==
-Received: (nullmailer pid 3224739 invoked by uid 1000);
- Fri, 28 Jul 2023 13:48:55 -0000
-From: Rob Herring <robh@kernel.org>
-To: David Airlie <airlied@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3] char: Explicitly include correct DT includes
-Date: Fri, 28 Jul 2023 07:48:45 -0600
-Message-Id: <20230728134845.3224553-1-robh@kernel.org>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mta01.prd.rdg.aluminati.org (mta01.prd.rdg.aluminati.org
+ [94.76.243.214])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA3610E6AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:11:08 +0000 (UTC)
+Received: from mta01.prd.rdg.aluminati.org (localhost [127.0.0.1])
+ by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id A6A9020E3F;
+ Fri, 28 Jul 2023 10:11:07 +0100 (BST)
+Authentication-Results: mta01.prd.rdg.aluminati.org; dkim=pass (2048-bit key;
+ unprotected) header.d=cantab.net header.i=@cantab.net header.a=rsa-sha256
+ header.s=dkim header.b=L+CL2nN+; dkim-atps=neutral
+Received: from localhost (localhost [127.0.0.1])
+ by mta01.prd.rdg.aluminati.org (Postfix) with ESMTP id 9872B20A63;
+ Fri, 28 Jul 2023 10:11:07 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=cantab.net; h=
+ user-agent:message-id:date:date:x-mailer:references:in-reply-to
+ :subject:subject:from:from:received:received:received; s=dkim;
+ t=1690535464; bh=cZxLZ1tEBpIhujgoIVogT13OIOH3s7uUxVDPsDsABic=; b=
+ L+CL2nN+EW9kpLiWrwot5raHTXxOZ6yv3ZP7c8IgshX+vHv1BiKp2bZbJJ62ZUoZ
+ AbEmQK7fszBodfGQ8MrkEQIlnZ3X1/DqeACgYibyzCughw/h9o+iOFpYhSNs5pT/
+ ws3I/objkIF0O8OxVBI4VEcM03iq2z5noCop7/gc3vi6vvEkcmzgXbePJaED5fh5
+ 6BQr1QQ8fGPvD6CtE19O7lZ/w4U3nn9y2F3kFYTGtVxUnbB5pXpmn1RxVUW0kMOs
+ F8YH5UDYpC54fA3/KVCwVgD9gQB1KRvLTTfd6R8VCm3dIbcLUMk8b1efINAUgHBX
+ jcrYlGfEY5ppBIbPfewZrA==
+X-Quarantine-ID: <rILQLmbFLLSm>
+X-Virus-Scanned: Debian amavisd-new at mta01.prd.rdg.aluminati.org
+Received: from mta.aluminati.local ([127.0.0.1])
+ by localhost (mta01.prd.rdg.aluminati.org [127.0.0.1]) (amavisd-new,
+ port 10026)
+ with ESMTP id rILQLmbFLLSm; Fri, 28 Jul 2023 10:11:04 +0100 (BST)
+Received: from revelation.localdomain (static-87-75-118-217.vodafonexdsl.co.uk
+ [87.75.118.217])
+ by svc01-2.prd.rdg.aluminati.org (Postfix) with ESMTPSA id 8991D780003;
+ Fri, 28 Jul 2023 10:11:01 +0100 (BST)
+Received: by revelation.localdomain (Postfix, from userid 1000)
+ id C4DE41202BB; Fri, 28 Jul 2023 10:11:00 +0100 (BST)
+From: Roger Sewell <roger.sewell@cantab.net>
+To: "Jocelyn Falempe" <jfalempe@redhat.com>
+Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
+In-reply-to: Your message of Fri, 28 Jul 2023 10:09:13 +0200
+ <3ff67cb3-c477-b834-3d6c-4eb99952d59b@redhat.com>
+References: <20230717133037.25941-1-jfalempe@redhat.com>
+ <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
+ <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
+ <20230724215746.10928@revelation.broadband>
+ <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
+ <20230725223127.4184@revelation.broadband>
+ <9c8a0a5f-fd7f-cf6d-7e6e-ca90bdf957c5@suse.de>
+ <20230727223438.4658@revelation.broadband>
+ <d5156750-34d4-87dc-41ff-f3c3ca1f48c3@suse.de>
+ <3ff67cb3-c477-b834-3d6c-4eb99952d59b@redhat.com>
+X-Mailer: MH-E 8.6+git; GNU Mailutils 3.13; GNU Emacs 27.2
+Date: Fri, 28 Jul 2023 10:11:00 +0100
+Message-ID: <20230728101100.5287@revelation.broadband>
+User-Agent: MH (GNU Mailutils 3.13)
+X-Mailman-Approved-At: Fri, 28 Jul 2023 14:24:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,58 +76,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DT of_device.h and of_platform.h date back to the separate
-of_platform_bus_type before it was merged into the regular platform bus.
-As part of that merge prepping Arm DT support 13 years ago, they
-"temporarily" include each other. They also include platform_device.h
-and of.h. As a result, there's a pretty much random mix of those include
-files used throughout the tree. In order to detangle these headers and
-replace the implicit includes with struct declarations, users need to
-explicitly include the correct includes.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v3:
- - Split out hw_random, ipmi and tpm
----
- drivers/char/agp/uninorth-agp.c | 1 +
- drivers/char/bsr.c              | 3 +--
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Jocelyn, Thomas,
 
-diff --git a/drivers/char/agp/uninorth-agp.c b/drivers/char/agp/uninorth-agp.c
-index 62de7f4ba864..84411b13c49f 100644
---- a/drivers/char/agp/uninorth-agp.c
-+++ b/drivers/char/agp/uninorth-agp.c
-@@ -3,6 +3,7 @@
-  * UniNorth AGPGART routines.
-  */
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/pci.h>
- #include <linux/slab.h>
- #include <linux/init.h>
-diff --git a/drivers/char/bsr.c b/drivers/char/bsr.c
-index 12143854aeac..70d31aed9011 100644
---- a/drivers/char/bsr.c
-+++ b/drivers/char/bsr.c
-@@ -6,11 +6,10 @@
-  * Author: Sonny Rao <sonnyrao@us.ibm.com>
-  */
- 
-+#include <linux/device.h>
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_device.h>
--#include <linux/of_platform.h>
- #include <linux/fs.h>
- #include <linux/module.h>
- #include <linux/cdev.h>
--- 
-2.40.1
+JF> I think the culprit is probably this patch:
+JF> https://patchwork.freedesktop.org/patch/486242/
+JF> 
+JF> before this patch,
+JF> mgag200_simple_display_pipe_mode_valid() always return MODE_OK
+JF> 
+JF> after this patch, it checks the bandwidth limit too.
 
+I can easily test this theory, which sounds entirely reasonable - I will
+do so and let you know the result.
+
+TZ> I'm not quite sure how to proceed here, as the driver is correct and
+TZ> the problem came from a mismatching config file on your system.
+
+In so far as a user's viewpoint is relevant, I would say this: 
+
+A user wants to be able to obtain any mode that actually is usable with
+his hardware. He starts from a position of not having any extra config
+files in place, and it works. He wants a different mode, so he adds a
+config file. If he does that deliberately, then the system should allow
+it, even if it goes over some theoretical limit - as if he gets no
+video, he will then know exactly why he got no video (and can use the
+tty interface after a reboot to remove his config file). (But by all
+means put a warning message in the logs.)
+
+What is really bad is for a mode that used to work to stop working with
+no explanation - and even to stop working in such a manner that the only
+way to get the system back is to force a reboot by removing power rather
+than defaulting to a different mode. (But I think that that behaviour
+results from userspace not expecting a late rejection of the mode.)
+
+Moreover, any decent system that uses a GUI to allow you to change
+screen mode offers you a preview before locking that mode in - and
+automatically reverses the change if the user doesn't confirm it.
+
+So I would prefer a mode chosen by a deliberate xorg config file to not
+be rejectable by the driver, but just give a warning in the logs.
+
+(But I do understand that you will also need to consider other points of
+view.)
+
+I'll confirm the result of the above test shortly.
+
+Thanks,
+Roger.
