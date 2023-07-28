@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD69766C2F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C51766C32
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:55:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B001F10E1F8;
-	Fri, 28 Jul 2023 11:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 772CF10E1F3;
+	Fri, 28 Jul 2023 11:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A34288DE5
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F75895CA
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 11:55:04 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <j.zink@pengutronix.de>)
- id 1qPM3Y-0002Lt-RH; Fri, 28 Jul 2023 13:54:52 +0200
+ id 1qPM3Y-0002Ls-RK; Fri, 28 Jul 2023 13:54:52 +0200
 Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <j.zink@pengutronix.de>)
- id 1qPM3X-002hCs-Gs; Fri, 28 Jul 2023 13:54:51 +0200
+ id 1qPM3X-002hCp-1j; Fri, 28 Jul 2023 13:54:51 +0200
 Received: from localhost ([::1] helo=dude03.red.stw.pengutronix.de)
  by dude03.red.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <j.zink@pengutronix.de>)
- id 1qPM3W-008twe-BD; Fri, 28 Jul 2023 13:54:50 +0200
+ id 1qPM3W-008twe-BQ; Fri, 28 Jul 2023 13:54:50 +0200
 From: Johannes Zink <j.zink@pengutronix.de>
-Subject: [PATCH v3 0/3] Support non-default LVDS data mapping for simple panel
-Date: Fri, 28 Jul 2023 13:54:37 +0200
-Message-Id: <20230523-simplepanel_support_nondefault_datamapping-v3-0-78ede374d3d9@pengutronix.de>
+Date: Fri, 28 Jul 2023 13:54:38 +0200
+Subject: [PATCH v3 1/3] dt-bindings: display: move LVDS data-mapping
+ definition to separate file
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAH2sw2QC/52OQW6DMBBFrxJ5HSeOnRLaVe9RRWjAYxgJxiPbo
- FQRdy9klXWX70v/6T1VxkSY1dfhqRIulCnyBu54UN0A3KMmv7GyxjrzYZ3ONMmIAoxjk2eRmEr
- DkT0GmMfSeCgwgQhxry+uc8Ei2DrUahO2kFG3CbgbduVSndy5RKHu/CbV7Zx1iGmCsn8kYaDHK
- /DnvvFAucT0++pd7L7+K22x2uj6dvmsgvGmra7fgtzPJUWmx8mjuq/r+geFgOAaHQEAAA==
+Message-Id: <20230523-simplepanel_support_nondefault_datamapping-v3-1-78ede374d3d9@pengutronix.de>
+References: <20230523-simplepanel_support_nondefault_datamapping-v3-0-78ede374d3d9@pengutronix.de>
+In-Reply-To: <20230523-simplepanel_support_nondefault_datamapping-v3-0-78ede374d3d9@pengutronix.de>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Rob Herring <robh+dt@kernel.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -71,80 +70,213 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some LVDS panels, such as the innolux,g101ice-l01 support multiple LVDS
-data mapping modes, which can be configured by strapping a dataformat
-pin on the display to a specific voltage.
+As the LVDS data-mapping property is required in multiple bindings: move
+it to separate file and include instead of duplicating it.
 
-This can be particularly useful for using the jeida-18 format, which
-requires only 3 instead of 4 LVDS lanes.
-
-This series moves the data-mapping property for LVDS panels in a
-separate file and optionally adds it to simple-panel when matching to
-the innolux,g101ice-l01 compatible. This property allows to override
-the default data mapping set in the panel description in simple-panel.
-
-The last patch in this series actually adds the driver support for
-parsing the data format override device tree property and modifying the
-corresponding values for bit per color and media bus format in the panel
-descriptor.
-
-Best regards
-Johannes
-
----
-
-Changelog:
-
-v2 -> v3:  - dt bindings: Worked in Conor's and Laurent's Feedback
-	     (thanks for your review): Drop the chomping indicator
-	   - dt bindings: Worked in Laurent's Feedback: fix typos
-	   - driver: worked in Laurent's review findings:
-	     - extract function for fixing up the bus format
-	     - only call this function on LVDS panels
-	     - fix typo
-           - Link to v2: https://lore.kernel.org/r/20230523-simplepanel_support_nondefault_datamapping-v2-0-87196f0d0b64@pengutronix.de
-
-v1 -> v2:  - dt bindings: Worked in Rob's review findings (thanks for your
-             review), refactored to use common include instead of duplication
-           - driver: added missing error unwinding goto, as found by Dan
-             Carpenter's test robot:
-             Reported-by: kernel test robot <lkp@intel.com>
-             Reported-by: Dan Carpenter <error27@gmail.com>
-             Link: https://lore.kernel.org/r/202304160359.4LHmFOlU-lkp@intel.com/
-
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Herring <robh+dt@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: patchwork-jzi@pengutronix.de
-Cc: kernel@pengutronix.de
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Johannes Zink <j.zink@pengutronix.de>
 
 ---
-Johannes Zink (3):
-      dt-bindings: display: move LVDS data-mapping definition to separate file
-      dt-bindings: display: simple: support non-default data-mapping
-      drm/panel-simple: allow LVDS format override
 
+Changes:
+v2 -> v3: worked in Conor's and Laurent's review findings (thank you
+          for reviewing my work): drop +| on description
+
+v1 -> v2: worked in Rob's review findings (thank you for reviewing my
+          work): extract common properties to
+          file and include it instead of duplicating it
+---
  .../bindings/display/lvds-data-mapping.yaml        | 84 ++++++++++++++++++++++
  .../devicetree/bindings/display/lvds.yaml          | 77 +++-----------------
- .../bindings/display/panel/panel-simple.yaml       | 26 ++++++-
- drivers/gpu/drm/panel/panel-simple.c               | 55 +++++++++++++-
- 4 files changed, 172 insertions(+), 70 deletions(-)
----
-base-commit: 52920704df878050123dfeb469aa6ab8022547c1
-change-id: 20230523-simplepanel_support_nondefault_datamapping-13c3f2ea28f8
+ 2 files changed, 93 insertions(+), 68 deletions(-)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml b/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
+new file mode 100644
+index 000000000000..d68982fe2e9b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/lvds-data-mapping.yaml
+@@ -0,0 +1,84 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/lvds-data-mapping.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LVDS Data Mapping
++
++maintainers:
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++  - Thierry Reding <thierry.reding@gmail.com>
++
++description: |
++  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
++  incompatible data link layers have been used over time to transmit image data
++  to LVDS devices. This bindings supports devices compatible with the following
++  specifications.
++
++  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
++  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
++  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
++  Semiconductor
++  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
++  Electronics Standards Association (VESA)
++
++  Device compatible with those specifications have been marketed under the
++  FPD-Link and FlatLink brands.
++
++properties:
++  data-mapping:
++    enum:
++      - jeida-18
++      - jeida-24
++      - vesa-24
++    description: |
++      The color signals mapping order.
++
++      LVDS data mappings are defined as follows.
++
++      - "jeida-18" - 18-bit data mapping compatible with the [JEIDA], [LDI] and
++        [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
++
++      Slot          0       1       2       3       4       5       6
++                ________________                         _________________
++      Clock                     \_______________________/
++                  ______  ______  ______  ______  ______  ______  ______
++      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
++      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
++      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
++
++      - "jeida-24" - 24-bit data mapping compatible with the [DSIM] and [LDI]
++        specifications. Data are transferred as follows on 4 LVDS lanes.
++
++      Slot          0       1       2       3       4       5       6
++                ________________                         _________________
++      Clock                     \_______________________/
++                  ______  ______  ______  ______  ______  ______  ______
++      DATA0     ><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
++      DATA1     ><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
++      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
++      DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
++
++      - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
++        Data are transferred as follows on 4 LVDS lanes.
++
++      Slot          0       1       2       3       4       5       6
++                ________________                         _________________
++      Clock                     \_______________________/
++                  ______  ______  ______  ______  ______  ______  ______
++      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
++      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
++      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
++      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
++
++      Control signals are mapped as follows.
++
++      CTL0: HSync
++      CTL1: VSync
++      CTL2: Data Enable
++      CTL3: 0
++
++additionalProperties: true
++
++...
+diff --git a/Documentation/devicetree/bindings/display/lvds.yaml b/Documentation/devicetree/bindings/display/lvds.yaml
+index 7cd2ce7e9c33..224db4932011 100644
+--- a/Documentation/devicetree/bindings/display/lvds.yaml
++++ b/Documentation/devicetree/bindings/display/lvds.yaml
+@@ -6,83 +6,24 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: LVDS Display Common Properties
+ 
++allOf:
++  - $ref: lvds-data-mapping.yaml#
++
+ maintainers:
+   - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+   - Thierry Reding <thierry.reding@gmail.com>
+ 
+-description: |+
+-  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
+-  incompatible data link layers have been used over time to transmit image data
+-  to LVDS devices. This bindings supports devices compatible with the following
+-  specifications.
+-
+-  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
+-  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
+-  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
+-  Semiconductor
+-  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
+-  Electronics Standards Association (VESA)
+-
+-  Device compatible with those specifications have been marketed under the
+-  FPD-Link and FlatLink brands.
++description:
++  This binding extends the data mapping defined in lvds-data-mapping.yaml.
++  It supports reversing the bit order on the formats defined there in order
++  to accomodate for even more specialized data formats, since a variety of
++  data formats and layouts is used to drive LVDS displays.
+ 
+ properties:
+-  data-mapping:
+-    enum:
+-      - jeida-18
+-      - jeida-24
+-      - vesa-24
+-    description: |
+-      The color signals mapping order.
+-
+-      LVDS data mappings are defined as follows.
+-
+-      - "jeida-18" - 18-bit data mapping compatible with the [JEIDA], [LDI] and
+-        [VESA] specifications. Data are transferred as follows on 3 LVDS lanes.
+-
+-      Slot          0       1       2       3       4       5       6
+-                ________________                         _________________
+-      Clock                     \_______________________/
+-                  ______  ______  ______  ______  ______  ______  ______
+-      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+-      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+-      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+-
+-      - "jeida-24" - 24-bit data mapping compatible with the [DSIM] and [LDI]
+-        specifications. Data are transferred as follows on 4 LVDS lanes.
+-
+-      Slot          0       1       2       3       4       5       6
+-                ________________                         _________________
+-      Clock                     \_______________________/
+-                  ______  ______  ______  ______  ______  ______  ______
+-      DATA0     ><__G2__><__R7__><__R6__><__R5__><__R4__><__R3__><__R2__><
+-      DATA1     ><__B3__><__B2__><__G7__><__G6__><__G5__><__G4__><__G3__><
+-      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B7__><__B6__><__B5__><__B4__><
+-      DATA3     ><_CTL3_><__B1__><__B0__><__G1__><__G0__><__R1__><__R0__><
+-
+-      - "vesa-24" - 24-bit data mapping compatible with the [VESA] specification.
+-        Data are transferred as follows on 4 LVDS lanes.
+-
+-      Slot          0       1       2       3       4       5       6
+-                ________________                         _________________
+-      Clock                     \_______________________/
+-                  ______  ______  ______  ______  ______  ______  ______
+-      DATA0     ><__G0__><__R5__><__R4__><__R3__><__R2__><__R1__><__R0__><
+-      DATA1     ><__B1__><__B0__><__G5__><__G4__><__G3__><__G2__><__G1__><
+-      DATA2     ><_CTL2_><_CTL1_><_CTL0_><__B5__><__B4__><__B3__><__B2__><
+-      DATA3     ><_CTL3_><__B7__><__B6__><__G7__><__G6__><__R7__><__R6__><
+-
+-      Control signals are mapped as follows.
+-
+-      CTL0: HSync
+-      CTL1: VSync
+-      CTL2: Data Enable
+-      CTL3: 0
+-
+   data-mirror:
+     type: boolean
+     description:
+-      If set, reverse the bit order described in the data mappings below on all
++      If set, reverse the bit order described in the data mappings on all
+       data lanes, transmitting bits for slots 6 to 0 instead of 0 to 6.
+ 
+ additionalProperties: true
+
 -- 
-Johannes Zink <j.zink@pengutronix.de>
+2.39.2
 
