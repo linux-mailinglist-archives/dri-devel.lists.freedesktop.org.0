@@ -2,63 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86737670D7
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 17:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9007672C0
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 19:03:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FF410E723;
-	Fri, 28 Jul 2023 15:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D8110E72D;
+	Fri, 28 Jul 2023 17:03:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D6010E723;
- Fri, 28 Jul 2023 15:43:19 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4f95bf5c493so3883297e87.3; 
- Fri, 28 Jul 2023 08:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690558997; x=1691163797;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5qUegsQd5geq70uC9trjOu0ai6s0gUokUruDL+wWW60=;
- b=IzSt+uVpLJLxvCeinHyisgxbG7dY9Sc0QMF3eimu9y0phKbWKT9sK+lLaQf9GVJJkh
- Um2v8FwF6AO0vbHNdsxGdeSyKArDFRPiS5476j/GBnuwCetn+EPk3uccSHgUyzorrj0/
- QSsBdrdIBtpzEdKM89Xv2i2+u1iRW2QGO76hLchm/5dmnhtwpbaaHZjhe5qthJZDZQk2
- MijUMOhkXvDXbeShDX9OtoGIk9HUsFL09vx363Xw5emoPB18LozFV2NWR0Fe6yHaJsZj
- uwaEULgufFqYfa+6pGCWxarAg393oHmX7pCifWh9wXhltwNwQdiv/NwKOmWwJAlNfRD8
- fY9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690558997; x=1691163797;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5qUegsQd5geq70uC9trjOu0ai6s0gUokUruDL+wWW60=;
- b=cbeW9KyMPtO5axjTrONT0u74ejyUMwiV7nBxC4I1pcGlFHvSOB18o/L71t9DYkKjxr
- ecf2sFgIf7mHXufcUaZAaqqhzhrXZQjM7+NfWGEd3SrlujJV+RazRpGd/3cwF2m1Kep6
- U2m113K8vLoLH42yXU9k9i8p54qpUMcHx6uFmNSaVABJju3JV0NDBb0/ggFgD8B9zedl
- pQBaYwvNSV09vnVJUIfallqgwlvESpoKCxINqcsQffD9sw/BW01GGIZK2r0/wHPM6b8/
- iYFqir4J/rKB2bzaaLHD/Ftcwp/tpWPxwnd0UDM978JE07RcojQArdbZrmt2nfT13e2u
- GKxQ==
-X-Gm-Message-State: ABy/qLaT4V/yo+HO3GPhYeYgTHMwc70nr59o2N5Q21WuyU7J1w35J3ls
- 33lY2jptmhemw91qhvHVxW4jLRHFQQscOXi0yS4=
-X-Google-Smtp-Source: APBJJlEj5oxZrJF1ebawGSqL1PKm40oC6dlbNJR2YWsyY+WH36f4S34nP+xeFeDa7vGG+CS2r0Ye4ZNKEJHihbUadpg=
-X-Received: by 2002:a05:6512:3caa:b0:4f9:607a:6508 with SMTP id
- h42-20020a0565123caa00b004f9607a6508mr2580891lfv.50.1690558997327; Fri, 28
- Jul 2023 08:43:17 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90FC810E223;
+ Fri, 28 Jul 2023 17:03:07 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36SAusns032214; Fri, 28 Jul 2023 17:02:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=KXSCYP7+Yz0IUZ6whXhB8v5lJ0gHuz9wF7Ctty3CriI=;
+ b=IH80qlZlr9wvmcKTxtmLj13RToKUITpkFjYTY9DmuNT8ngEpX4f3aAdabzGkCDizjliI
+ hvud6rf8O5YkLjTYVfdjMv/VlPbj3ytl4HV30A64+7arrcME3XlXKK0dr+GxXx5HmGDu
+ yQ2Iyqc/pNDz6ZwqziaNr4Eb0nLVYOfCFjbtcCEOz0g/sCNilxX//83I2KG7Zw8d9dU+
+ R4rTQkQOHKuHp3vf+q1Gjw5FtcOjEewyJiE2NESRUM0kLzUbS+MQzp4ZEZCSOJLu38GL
+ xldnotqGNdsFiv4oryV6c5J5cJFBKUY5PqV43qKsmz/fBft168FrAtBjM8KXkaJBjXJO DA== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s468r1h98-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jul 2023 17:02:54 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36SH2qDF024668
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 28 Jul 2023 17:02:52 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Fri, 28 Jul 2023 10:02:52 -0700
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: [PATCH RFC v5 00/10] Support for Solid Fill Planes
+Date: Fri, 28 Jul 2023 10:02:09 -0700
+Message-ID: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
 MIME-Version: 1.0
-References: <20230727212208.102501-1-robdclark@gmail.com>
- <20230727212208.102501-7-robdclark@gmail.com>
- <CAA8EJposUxVoqApJwx0g5D_6Zw0DOs=OVmYwoUNXWYue7w2PQg@mail.gmail.com>
-In-Reply-To: <CAA8EJposUxVoqApJwx0g5D_6Zw0DOs=OVmYwoUNXWYue7w2PQg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 28 Jul 2023 08:43:05 -0700
-Message-ID: <CAF6AEGth6STq8EtS=PX8vybV9_sDb0YTytJG10UxGGFjYc2rsw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/13] drm/msm/adreno: Allow SoC specific gpu device
- table entries
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJH0w2QC/12OQWrDMBBFrxK0zoSRJSuQVSCQA3RbSpHlcT3Bl
+ ltNatIG372yNiFd/vm8ef+uhBKTqMPmrhLNLDzFHOrtRoXexw8CbnNWFVYGLVqQaeAWOh4GwBq
+ 10/u6bYxTGWi8EDTJx9CvyCgjRLpd1+ozUce34nlVL+eTesvHnuU6pZ/innWpikajrYxF43bOO
+ NDw9c3h/UIiv3nRcU0cwy5MY/ky2wf5b+BsAaGzFDB4v7dV+wwvy/IH1t34QAABAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Sean Paul" <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+X-Mailer: b4 0.13-dev-034f2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1690563772; l=6201;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=H9cIRZeTj9IsMtHbA9nnGLoH5yolqXk4MaGPavlu1Y4=;
+ b=eDe7EU48c7R/rK4DJ05+I5BhVNTs2JlisV1j5uNdLADDfDFhBlkh+jzGO7CsY8enJFd5opYv3
+ LOy8k0y87FGBOyPXsBztg/E3ERI58w10VYO+Cw0PonuIxjYvcIMyEOz
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: cqLEe51r3KVyAMP42s2u0gj0GRQB0t9V
+X-Proofpoint-ORIG-GUID: cqLEe51r3KVyAMP42s2u0gj0GRQB0t9V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=999
+ bulkscore=0 adultscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ mlxscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307280154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,138 +94,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ppaalanen@gmail.com, laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ wayland-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 27, 2023 at 3:12=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Fri, 28 Jul 2023 at 00:23, Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > There are cases where there are differences due to SoC integration.
-> > Such as cache-coherency support, and (in the next patch) e-fuse to
-> > speedbin mappings.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 34 +++++++++++++++++++---
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
-> >  2 files changed, 31 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index 3c531da417b9..e62bc895a31f 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -258,6 +258,32 @@ static const struct adreno_info gpulist[] =3D {
-> >                 .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> >                 .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> >                 .init =3D a6xx_gpu_init,
-> > +       }, {
-> > +               .machine =3D "qcom,sm4350",
-> > +               .rev =3D ADRENO_REV(6, 1, 9, ANY_ID),
-> > +               .revn =3D 619,
-> > +               .fw =3D {
-> > +                       [ADRENO_FW_SQE] =3D "a630_sqe.fw",
-> > +                       [ADRENO_FW_GMU] =3D "a619_gmu.bin",
->
-> If those are GMU-less platforms, do we need the ADRENO_FW_GMU firmware?
+Some drivers support hardware that have optimizations for solid fill
+planes. This series aims to expose these capabilities to userspace as
+some compositors have a solid fill flag (ex. SOLID_COLOR in the Android
+hardware composer HAL) that can be set by apps like the Android Gears
+app.
 
-ahh, good point, fixed that locally
+In order to expose this capability to userspace, this series will:
 
-> Other than that:
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+- Introduce solid_fill and pixel_source properties to allow userspace to
+  toggle between FB and solid fill sources
+- Loosen NULL FB checks within the DRM atomic commit callstack to allow
+  for NULL FB when solid fill is enabled.
+- Add NULL FB checks in methods where FB was previously assumed to be
+  non-NULL
+- Have MSM DPU driver use drm_plane_state.solid_fill instead of
+  dpu_plane_state.color_fill
 
-thanks
+Note: The solid fill planes feature depends on both the solid_fill *and*
+pixel_source properties.
 
-BR,
--R
+To use this feature, userspace can set the solid_fill property to a blob
+containing the appropriate version number and solid fill color (in
+RGB323232 format) and and setting the pixel_source property to
+DRM_PLANE_PIXEL_SOURCE_COLOR. This will disable memory fetch and the
+resulting plane will display the color specified by the solid_fill blob.
 
-> > +               },
-> > +               .gmem =3D SZ_512K,
-> > +               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +               .init =3D a6xx_gpu_init,
-> > +               .zapfw =3D "a615_zap.mdt",
-> > +               .hwcg =3D a615_hwcg,
-> > +       }, {
-> > +               .machine =3D "qcom,sm6375",
-> > +               .rev =3D ADRENO_REV(6, 1, 9, ANY_ID),
-> > +               .revn =3D 619,
-> > +               .fw =3D {
-> > +                       [ADRENO_FW_SQE] =3D "a630_sqe.fw",
-> > +                       [ADRENO_FW_GMU] =3D "a619_gmu.bin",
-> > +               },
-> > +               .gmem =3D SZ_512K,
-> > +               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +               .init =3D a6xx_gpu_init,
-> > +               .zapfw =3D "a615_zap.mdt",
-> > +               .hwcg =3D a615_hwcg,
-> >         }, {
-> >                 .rev =3D ADRENO_REV(6, 1, 9, ANY_ID),
-> >                 .revn =3D 619,
-> > @@ -409,6 +435,8 @@ const struct adreno_info *adreno_info(struct adreno=
-_rev rev)
-> >         /* identify gpu: */
-> >         for (i =3D 0; i < ARRAY_SIZE(gpulist); i++) {
-> >                 const struct adreno_info *info =3D &gpulist[i];
-> > +               if (info->machine && !of_machine_is_compatible(info->ma=
-chine))
-> > +                       continue;
-> >                 if (adreno_cmp_rev(info->rev, rev))
-> >                         return info;
-> >         }
-> > @@ -563,6 +591,8 @@ static int adreno_bind(struct device *dev, struct d=
-evice *master, void *data)
-> >                 config.rev.minor, config.rev.patchid);
-> >
-> >         priv->is_a2xx =3D config.rev.core =3D=3D 2;
-> > +       priv->has_cached_coherent =3D
-> > +               !!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT);
-> >
-> >         gpu =3D info->init(drm);
-> >         if (IS_ERR(gpu)) {
-> > @@ -574,10 +604,6 @@ static int adreno_bind(struct device *dev, struct =
-device *master, void *data)
-> >         if (ret)
-> >                 return ret;
-> >
-> > -       priv->has_cached_coherent =3D
-> > -               !!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT) &&
-> > -               !adreno_has_gmu_wrapper(to_adreno_gpu(gpu));
-> > -
-> >         return 0;
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.h
-> > index e08d41337169..d5335b99c64c 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > @@ -61,6 +61,7 @@ extern const struct adreno_reglist a612_hwcg[], a615_=
-hwcg[], a630_hwcg[], a640_h
-> >  extern const struct adreno_reglist a660_hwcg[], a690_hwcg[];
-> >
-> >  struct adreno_info {
-> > +       const char *machine;
-> >         struct adreno_rev rev;
-> >         uint32_t revn;
-> >         const char *fw[ADRENO_FW_MAX];
-> > --
-> > 2.41.0
-> >
->
->
-> --
-> With best wishes
-> Dmitry
+Currently, there's only one version of the solid_fill blob property.
+However if other drivers want to support a similar feature, but require
+more than just the solid fill color, they can extend this feature by
+creating additional versions of the drm_solid_fill struct.
+
+This 2 property approach was chosen because passing in a special 1x1 FB
+with the necessary color information would have unecessary overhead that
+does not reflect the behavior of the solid fill feature. In addition,
+assigning the solid fill blob to FB_ID would require loosening some core
+drm_property checks that might cause unwanted side effects elsewhere.
+
+---
+Changes in v5:
+- Added support for PIXEL_SOURCE_NONE (Sebastian)
+- Added WARN_ON() in drm_plane_has_visible_data() if pixel_source isn't
+  set (Dmitry)
+- Added debugfs support for both properties (Dmitry)
+- Corrected u32 to u8 conversion (Pekka)
+- Moved drm_solid_fill_info struct and related documentation to
+  include/uapi (Pekka)
+- Changed drm_solid_fill_info.version to __u32 for data alignment (Pekka)
+- Added more detailed UAPI and kernel documentation (Pekka)
+- Reordered patch series so that the pixel_source property is introduced
+  before solid_fill (Dmitry)
+- Fixed inconsistent ABGR8888/RGBA8888 format declaration (Pekka)
+- Reset pixel_source to FB in drm_mode_setplane() (Dmitry)
+- Rename supported_sources to extra_sources (Dmitry)
+- Only destroy old solid_fill blob state if new state is valid (Pekka)
+- Link to v4: https://lore.kernel.org/r/20230404-solid-fill-v4-0-f4ec0caa742d@quicinc.com
+
+Changes in v4:
+- Rebased onto latest kernel
+- Reworded cover letter for clarity (Dmitry)
+- Reworded commit messages for clarity
+- Split existing changes into smaller commits
+- Added pixel_source enum property (Dmitry, Pekka, Ville)
+- Updated drm-kms comment docs with pixel_source and solid_fill
+  properties (Dmitry)
+- Inlined drm_atomic_convert_solid_fill_info() (Dmitry)
+- Passed in plane state alpha value to _dpu_plane_color_fill_pipe()
+- Link to v3: https://lore.kernel.org/r/20230104234036.636-1-quic_jesszhan@quicinc.com
+
+Changes in v3:
+- Fixed some logic errors in atomic checks (Dmitry)
+- Introduced drm_plane_has_visible_data() and drm_atomic_check_fb() helper
+  methods (Dmitry)
+- Fixed typo in drm_solid_fill struct documentation
+- Created drm_plane_has_visible_data() helper and corrected CRTC and FB
+  NULL-check logic (Dmitry)
+- Merged `if (fb)` blocks in drm_atomic_plane_check() and abstracted
+  them into helper method (Dmitry)
+- Inverted `if (solid_fill_enabled) else if (fb)` check order (Dmitry)
+- Fixed indentation (Dmitry)
+
+Changes in v2:
+- Dropped SOLID_FILL_FORMAT property (Simon)
+- Switched to implementing solid_fill property as a blob (Simon, Dmitry)
+- Added drm_solid_fill and drm_solid_fill_info structs (Simon)
+- Changed to checks for if solid_fill_blob is set (Dmitry)
+- Abstracted (plane_state && !solid_fill_blob) checks to helper method
+  (Dmitry)
+- Removed DPU_PLANE_COLOR_FILL_FLAG
+- Fixed whitespace and indentation issues (Dmitry)
+- Changed to checks for if solid_fill_blob is set (Dmitry)
+- Abstracted (plane_state && !solid_fill_blob) checks to helper method
+  (Dmitry)
+- Fixed dropped 'const' warning
+- Added helper to convert color fill to BGR888 (Rob)
+- Fixed indentation issue (Dmitry)
+- Added support for solid fill on planes of varying sizes
+
+---
+Jessica Zhang (10):
+      drm: Introduce pixel_source DRM plane property
+      drm: Introduce solid fill DRM plane property
+      drm: Add solid fill pixel source
+      drm/atomic: Add pixel source to plane state dump
+      drm/atomic: Add solid fill data to plane state dump
+      drm/atomic: Move framebuffer checks to helper
+      drm/atomic: Loosen FB atomic checks
+      drm/msm/dpu: Allow NULL FBs in atomic commit
+      drm/msm/dpu: Use DRM solid_fill property
+      drm/msm/dpu: Add solid fill and pixel source properties
+
+ drivers/gpu/drm/drm_atomic.c              | 147 +++++++++++++++++-------------
+ drivers/gpu/drm/drm_atomic_helper.c       |  34 ++++---
+ drivers/gpu/drm/drm_atomic_state_helper.c |  10 ++
+ drivers/gpu/drm/drm_atomic_uapi.c         |  59 ++++++++++++
+ drivers/gpu/drm/drm_blend.c               | 123 +++++++++++++++++++++++++
+ drivers/gpu/drm/drm_crtc_internal.h       |   2 +
+ drivers/gpu/drm/drm_plane.c               |  41 ++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   9 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c |  67 +++++++++-----
+ include/drm/drm_atomic_helper.h           |   4 +-
+ include/drm/drm_blend.h                   |   3 +
+ include/drm/drm_plane.h                   |  89 ++++++++++++++++++
+ include/uapi/drm/drm_mode.h               |  24 +++++
+ 13 files changed, 508 insertions(+), 104 deletions(-)
+---
+base-commit: eab616ad7f56cafc8af85e9774816f0901e1efa2
+change-id: 20230404-solid-fill-05016175db36
+
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
+
