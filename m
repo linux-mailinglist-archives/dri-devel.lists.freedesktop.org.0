@@ -2,38 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C34F76695A
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06566766969
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:53:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7478A10E08D;
-	Fri, 28 Jul 2023 09:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 028ED10E6CC;
+	Fri, 28 Jul 2023 09:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8B7010E064
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:52:48 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:12b0:7b7e:d1ff:7873])
- by albert.telenet-ops.be with bizsmtp
- id SZsm2A00V0d1nm806Zsm1J; Fri, 28 Jul 2023 11:52:47 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qPK9B-002m5W-Jl;
- Fri, 28 Jul 2023 11:52:46 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qPK9O-00ApV6-PV;
- Fri, 28 Jul 2023 11:52:46 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm v3 9/9] modetest: Add SMPTE pattern support for C4
- format
-Date: Fri, 28 Jul 2023 11:52:40 +0200
-Message-Id: <3e799ebd364c6a33224236d8f1247a5b9e10ea25.1690537375.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1690537375.git.geert@linux-m68k.org>
-References: <cover.1690537375.git.geert@linux-m68k.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2CA10E6CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690538023;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bXp6qs20yFk9EnCdEdqi8l6MUy4tyubsvE/mVKYrLNU=;
+ b=ShAv+G4XPGYKtra8PNtTJqTAfwTIYteN9MivMFBLZB1L9+n5vgWdBTnU8Whzc8uBXh1ASm
+ oTgiwzI9zmBxCAnbVo2awmM5oHxcE99DiZhNjUPIy2dZavzLubEy4kDKeJB6M6l4O1KipE
+ EXXFGpmn38YqUvw0l2Mm4uSVGukqgfA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-269-tV1ocSd0PGW4K_n99lzl3Q-1; Fri, 28 Jul 2023 05:53:40 -0400
+X-MC-Unique: tV1ocSd0PGW4K_n99lzl3Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-313c930ee0eso988726f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 02:53:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690538018; x=1691142818;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bXp6qs20yFk9EnCdEdqi8l6MUy4tyubsvE/mVKYrLNU=;
+ b=NxgpuuzxzQwIpPhz+vN7Rt/r5eMyWM4frwE0+UFGrBCU16tohK8vnK2LMhld3CXFij
+ hlijc5meeMRoeM7NYAWpc/VSU7WtURQK8MDQHgSLzvzo40yPXkAp91egvm5/0aaHkFGe
+ 54cS4XhTjcJjHRFnJfNPwZCZoCLjZCW/CqhfXbnr8lWujtMfWuM4GcOmtKLT/z8I9dlf
+ jneDhPa0BNLDvTT9S+FWjJezXPZiGY34c8+GmjVO4LwVy1mX9+rxoJ0zBzzc+RiwFEj5
+ IZNO9S5I73n/58Gvq9amLRj+maX92GXFUKkGBRecVxsViiODRcw07mQh3wZymDRa+zHM
+ xjmA==
+X-Gm-Message-State: ABy/qLaz2IFwpfa4wCHK7cGh9rZp+aiehnffC07uqLapxeApoXPfzlxn
+ aQfBMn6Cg8GDUHEVKhRxqlIWW56yoHUhqsT6kU5FBD0f2S/8r+pN2nlSldN+gqmp9ufuDW8VT4S
+ 7u2D0Jjwerok8cQxKNXiRs82rptiS
+X-Received: by 2002:a5d:60c3:0:b0:317:708e:1c29 with SMTP id
+ x3-20020a5d60c3000000b00317708e1c29mr1393979wrt.40.1690538018141; 
+ Fri, 28 Jul 2023 02:53:38 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGHdh4k9+XqI2M+biACVcTzpApaOdCFQjcSh7sREZeHXtgOn2EBmD38pGCEOnj4stb3RQNh+g==
+X-Received: by 2002:a5d:60c3:0:b0:317:708e:1c29 with SMTP id
+ x3-20020a5d60c3000000b00317708e1c29mr1393966wrt.40.1690538017820; 
+ Fri, 28 Jul 2023 02:53:37 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a056000014500b00314367cf43asm4294848wrx.106.2023.07.28.02.53.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Jul 2023 02:53:37 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>, Alex Deucher
+ <alexander.deucher@amd.com>
+Subject: Re: [PATCH v2] drm/atomic-helper: Update reference to
+ drm_crtc_force_disable_all()
+In-Reply-To: <b8c9c1a8a05dbf0be8e8be98cfdeafa9cecd8cef.1690535002.git.geert+renesas@glider.be>
+References: <b8c9c1a8a05dbf0be8e8be98cfdeafa9cecd8cef.1690535002.git.geert+renesas@glider.be>
+Date: Fri, 28 Jul 2023 11:53:36 +0200
+Message-ID: <87pm4ctl9b.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,89 +84,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: dri-devel@lists.freedesktop.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for drawing the SMPTE pattern in buffers using a
-color-indexed frame buffer formats with two, four, or sixteen colors.
+Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-Note that this still uses 256 as the CLUT size, as
-DRM_IOCTL_MODE_SETGAMMA enforces that the size matches against the
-(fixed) gamma size, while the CLUT size depends on the format.
+Hello Geert,
 
-Move clearing the color LUT entries from util_smpte_index_gamma() to its
-caller, as only the caller knows how many entries there really are
-(currently DRM always assumes 256 entries).
+> drm_crtc_force_disable_all() was renamed to
+> drm_helper_force_disable_all(), but one reference was not updated.
+>
+> Fixes: c2d88e06bcb98540 ("drm: Move the legacy kms disable_all helper to crtc helpers")
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
----
-v3:
-  - Add Acked-by,
+The dim tool complains that:
 
-v2:
-  - Split off changes to tests/modetest/modetest.c,
-  - Add C1 and C2 support.
+-:10: WARNING:BAD_FIXES_TAG: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")'
 
-The linuxdoc comments say userspace can query the gamma size:
+So I've fixed it locally to only use the first 12 chars of the sha1.
 
- * drm_mode_gamma_set_ioctl - set the gamma table
- *
- * Set the gamma table of a CRTC to the one passed in by the user. Userspace can
- * inquire the required gamma table size through drm_mode_gamma_get_ioctl.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
 
- * drm_mode_gamma_get_ioctl - get the gamma table
- *
- * Copy the current gamma table into the storage provided. This also provides
- * the gamma table size the driver expects, which can be used to size the
- * allocated storage.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-but the code doesn't seem to support that in an easy way (like setting
-red/green/blue to NULL on input, retrieving gamma_size on output), only
-by providing big enough buffers for red/green/blue, and looping over
-gamma_size until -EINVAL is no longer returned.
----
- tests/modetest/modetest.c | 9 ++++++---
- tests/util/pattern.c      | 1 -
- 2 files changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-index ce91d404d747beb9..ce334868df7bf12a 100644
---- a/tests/modetest/modetest.c
-+++ b/tests/modetest/modetest.c
-@@ -1116,13 +1116,16 @@ static bool add_property_optional(struct device *dev, uint32_t obj_id,
- static void set_gamma(struct device *dev, unsigned crtc_id, unsigned fourcc)
- {
- 	unsigned blob_id = 0;
-+	const struct util_format_info *info;
- 	/* TODO: support 1024-sized LUTs, when the use-case arises */
- 	struct drm_color_lut gamma_lut[256];
- 	int i, ret;
- 
--	if (fourcc == DRM_FORMAT_C8) {
--		/* TODO: Add C8 support for more patterns */
--		util_smpte_index_gamma(256, gamma_lut);
-+	info = util_format_info_find(fourcc);
-+	if (info->ncolors) {
-+		memset(gamma_lut, 0, sizeof(gamma_lut));
-+		/* TODO: Add index support for more patterns */
-+		util_smpte_index_gamma(info->ncolors, gamma_lut);
- 		drmModeCreatePropertyBlob(dev->fd, gamma_lut, sizeof(gamma_lut), &blob_id);
- 	} else {
- 		for (i = 0; i < 256; i++) {
-diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index 1c6176b41506fa7d..a757d3de76fe4a2d 100644
---- a/tests/util/pattern.c
-+++ b/tests/util/pattern.c
-@@ -990,7 +990,6 @@ void util_smpte_index_gamma(unsigned size, struct drm_color_lut *lut)
- 		printf("Error: gamma too small: %u < 2\n", size);
- 		return;
- 	}
--	memset(lut, 0, size * sizeof(struct drm_color_lut));
- 
- #define FILL_COLOR(idx, r, g, b) \
- 	lut[idx].red = (r) * 0x101; \
 -- 
-2.34.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
