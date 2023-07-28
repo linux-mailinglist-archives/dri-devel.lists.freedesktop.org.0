@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3BE7674CD
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:24:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0345A767485
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:23:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E5A10E75A;
-	Fri, 28 Jul 2023 18:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 597FC10E73D;
+	Fri, 28 Jul 2023 18:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE91810E70E
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0074610E224
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:45 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 721DF219A0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A20D41F8C0;
  Fri, 28 Jul 2023 18:22:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690568564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dO5VtzMBss/GVBi/Gb3P1VK0ZW8U4k0ziBtEygmuddw=;
- b=ncy0uNI6aVoWLkzWLit3Ylw0Awh3y6go7fxIxNC3Bd+oqGQ5779dJtWEap8DGzhSHkkCKe
- FfFZjPhuOao+yqkYsHyr5VWEqXE9GiimLXW3F4XNdBF+4rh1+e6tIyT73Yg+haVqrKe1HC
- +JF3rw8Ranrn2qyFnvnvhIJoXSH2Hlw=
+ bh=Qx6orVKx6/Oz/Kb2MA4RpUrgBMlSqgcuiuE/9y2HpfU=;
+ b=uEI13op5kanJnRQEKXNyIGUYkGFRdosnl+0ZbxhIm86gHA3s7DOrWsQ5SX+HwFUdADB/ha
+ WTw5SZF6tv3DdkCuSc1l6CNExXlLeoHscruq11UNI5fQZFQ0n5MAySUShyHgPkbKGyM4r5
+ HPEY0EiY2nqXEv1tcoMFTW+Pck85QBw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690568564;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dO5VtzMBss/GVBi/Gb3P1VK0ZW8U4k0ziBtEygmuddw=;
- b=E6Po0oZssKxPEW9K0XENoPMaxPtQ7vv62WvWhagOQNO+jH1ayzcEyyiFdJ6XlRcx99hbU0
- M2QZFX/CtX+6boBw==
+ bh=Qx6orVKx6/Oz/Kb2MA4RpUrgBMlSqgcuiuE/9y2HpfU=;
+ b=pln4VYFZMTQj+G2200tAMZjm2/R5EHefgED+izo5vOMGSu1IBvB94RMXPfz9o1Qn1b+8Np
+ mt08Ez0wW9MpxqBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 440B913276;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7395D139BD;
  Fri, 28 Jul 2023 18:22:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IArVD3QHxGQ3CwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id UPF6G3QHxGQ3CwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH 34/47] fbdev/pxa168fb: Use fbdev I/O helpers
-Date: Fri, 28 Jul 2023 18:40:17 +0200
-Message-ID: <20230728182234.10680-35-tzimmermann@suse.de>
+Subject: [PATCH 35/47] fbdev/pxafb: Use fbdev I/O helpers
+Date: Fri, 28 Jul 2023 18:40:18 +0200
+Message-ID: <20230728182234.10680-36-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
@@ -85,45 +85,44 @@ no functional change.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig    | 4 +---
- drivers/video/fbdev/pxa168fb.c | 4 +---
+ drivers/video/fbdev/Kconfig | 4 +---
+ drivers/video/fbdev/pxafb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 5fdfd3bb05cd..bf8261e0f347 100644
+index bf8261e0f347..a085e81276f4 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1572,9 +1572,7 @@ config FB_PXA168
- 	tristate "PXA168/910 LCD framebuffer support"
- 	depends on FB && HAVE_CLK && HAS_IOMEM
- 	depends on CPU_PXA168 || CPU_PXA910 || COMPILE_TEST
+@@ -1580,9 +1580,7 @@ config FB_PXA168
+ config FB_PXA
+ 	tristate "PXA LCD framebuffer support"
+ 	depends on FB && ARCH_PXA
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IO_HELPERS
+ 	select VIDEOMODE_HELPERS if OF
+ 	select FB_MODE_HELPERS if OF
  	help
- 	  Frame buffer driver for the built-in LCD controller in the Marvell
- 	  MMP processor.
-diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
-index 790aa231a593..cd33c9edc1ab 100644
---- a/drivers/video/fbdev/pxa168fb.c
-+++ b/drivers/video/fbdev/pxa168fb.c
-@@ -543,14 +543,12 @@ static irqreturn_t pxa168fb_handle_irq(int irq, void *dev_id)
+diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
+index beffb0602a2c..ffff4275215f 100644
+--- a/drivers/video/fbdev/pxafb.c
++++ b/drivers/video/fbdev/pxafb.c
+@@ -599,13 +599,11 @@ static int pxafb_blank(int blank, struct fb_info *info)
  
- static const struct fb_ops pxa168fb_ops = {
+ static const struct fb_ops pxafb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IO_OPS,
- 	.fb_check_var	= pxa168fb_check_var,
- 	.fb_set_par	= pxa168fb_set_par,
- 	.fb_setcolreg	= pxa168fb_setcolreg,
- 	.fb_blank	= pxa168fb_blank,
- 	.fb_pan_display	= pxa168fb_pan_display,
+ 	.fb_check_var	= pxafb_check_var,
+ 	.fb_set_par	= pxafb_set_par,
+ 	.fb_pan_display	= pxafb_pan_display,
+ 	.fb_setcolreg	= pxafb_setcolreg,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
+ 	.fb_blank	= pxafb_blank,
  };
  
- static void pxa168fb_init_mode(struct fb_info *info,
 -- 
 2.41.0
 
