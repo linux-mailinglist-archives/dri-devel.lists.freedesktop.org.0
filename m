@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CEC76751C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:25:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0AF76753B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:25:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2F4D10E760;
-	Fri, 28 Jul 2023 18:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63CD010E764;
+	Fri, 28 Jul 2023 18:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B4B10E73E
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3DF10E747
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:48 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AC0BE1F8C3;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E49A61F8C4;
  Fri, 28 Jul 2023 18:22:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690568566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/yDpZhvJT+ru/9J92yfXa1kfb+po2U57Pu7agPiL2Zk=;
- b=Uglg1xDdqrpKCVqQEcPhLx/vrTAsVH46nQgqsoCPpG2WIfM8y6FeByUzHad82uElV3Tmc3
- a3Pmjr+VXZtvnf8VFSJjakRA1TH9yVkKFbV6ixaCpkUamaE8n28zpHoPJjNTCpm90NPBNn
- E5kS46tIbffu6NmD78oYD6VuyoPx/GQ=
+ bh=9t49TG3tdz3dclsUxP/ZsniQP+Xid5EeomRIjBjbq1Q=;
+ b=sxRN9sw51QT6SKJ/gxgr8eUqMfn5sDpsPiuG2qQvZKmRD17QPAQ5Wg+qCCoXBmDB8n2ABN
+ vyJI0sdiVCR9UV1vUdTeqpZ1CwbY0dRhp8iXmNUN/EMf58xSUSPQXfcEniwd6oG2xsrgiV
+ 59Tf7WkO7WMvIHC6eCLKeX9AbE0Qe40=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690568566;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/yDpZhvJT+ru/9J92yfXa1kfb+po2U57Pu7agPiL2Zk=;
- b=C8vGFMLdQOp3UluUF1GOVJHv5ChdPCNx1RoUhOr5+L1ny6XzzW1QR4QlNm94vhH4hCHfi/
- 1lB8l8TWybYGA8Cw==
+ bh=9t49TG3tdz3dclsUxP/ZsniQP+Xid5EeomRIjBjbq1Q=;
+ b=8PSL4tAZC7PhOQMe3mh/bEbLL/8XxAWycmXMEJd27XFk3XmSiQR9Pf0ZbI1k/wR1WT0W/n
+ hRsbrUl0vLHyFkCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7740013276;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B0248139BD;
  Fri, 28 Jul 2023 18:22:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qOAoHHYHxGQ3CwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id qCQdKnYHxGQ3CwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:46 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH 44/47] fbdev/valkyriefb: Use fbdev I/O helpers
-Date: Fri, 28 Jul 2023 18:40:27 +0200
-Message-ID: <20230728182234.10680-45-tzimmermann@suse.de>
+Subject: [PATCH 45/47] fbdev/vesafb: Use fbdev I/O helpers
+Date: Fri, 28 Jul 2023 18:40:28 +0200
+Message-ID: <20230728182234.10680-46-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
@@ -85,44 +85,43 @@ no functional change.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig      | 4 +---
- drivers/video/fbdev/valkyriefb.c | 4 +---
+ drivers/video/fbdev/Kconfig  | 4 +---
+ drivers/video/fbdev/vesafb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 9c41a797eafe..d81c376012ad 100644
+index d81c376012ad..b0cb2d38415c 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -328,9 +328,7 @@ config FB_PLATINUM
- config FB_VALKYRIE
- 	bool "Apple \"valkyrie\" display support"
- 	depends on (FB = y) && (MAC || (PPC_PMAC && PPC32))
+@@ -453,9 +453,7 @@ config FB_VESA
+ 	bool "VESA VGA graphics support"
+ 	depends on (FB = y) && X86
+ 	select APERTURE_HELPERS
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IO_HELPERS
- 	select FB_MACMODES
+ 	select SYSFB
  	help
- 	  This driver supports a frame buffer for the "valkyrie" graphics
-diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valkyriefb.c
-index fd4488777032..adf559bc2b86 100644
---- a/drivers/video/fbdev/valkyriefb.c
-+++ b/drivers/video/fbdev/valkyriefb.c
-@@ -110,13 +110,11 @@ static void valkyrie_init_fix(struct fb_fix_screeninfo *fix, struct fb_info_valk
+ 	  This is the frame buffer device driver for generic VESA 2.0
+diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
+index 422a1c53decd..3cad5dd716ed 100644
+--- a/drivers/video/fbdev/vesafb.c
++++ b/drivers/video/fbdev/vesafb.c
+@@ -201,12 +201,10 @@ static void vesafb_destroy(struct fb_info *info)
  
- static const struct fb_ops valkyriefb_ops = {
- 	.owner =	THIS_MODULE,
+ static struct fb_ops vesafb_ops = {
+ 	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IO_OPS,
- 	.fb_check_var =	valkyriefb_check_var,
- 	.fb_set_par =	valkyriefb_set_par,
- 	.fb_setcolreg =	valkyriefb_setcolreg,
- 	.fb_blank =	valkyriefb_blank,
+ 	.fb_destroy     = vesafb_destroy,
+ 	.fb_setcolreg	= vesafb_setcolreg,
+ 	.fb_pan_display	= vesafb_pan_display,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- /* Sets the video mode according to info->var */
+ static int vesafb_setup(char *options)
 -- 
 2.41.0
 
