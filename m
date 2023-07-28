@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E975176753E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F147674BC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:24:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0E210E76B;
-	Fri, 28 Jul 2023 18:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3341310E750;
+	Fri, 28 Jul 2023 18:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7FD10E70E
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B215510E224
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:43 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 31DB81F8B8;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6334E1F8B9;
  Fri, 28 Jul 2023 18:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690568562; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LTQK5KPWoNiteMhFAbNfxNfKXgKtS6mbBnGPF9HfRdU=;
- b=XSrd8GzCDeypYwo+eZSVwKWnarGo4i2GQFoChWPR4srIMzI9mPu95GwW6WMCeoC3o6KBAW
- 9s6Lt40Iw+hLNnnrBH+xHE6qv/xUt6lHF1KZDqUNTCK1KfhZgXAQyFT8Y7TJBxnDvYnYpN
- bguS0GkUqAdOYHZhLZx8PLlTeXoGCEE=
+ bh=rbf06wYIG/ZbBzVIurx5PwbKTrY+iGC9D+2vEFVfdRE=;
+ b=a3IsLt7T4T+nDFyHRPcD2jADQILu6joofMtEiovDrZXUUrGsfkmasUjkbQOUAC3+vXGwGi
+ dpZnH5TBqgrK2203HvV1vtkstYvcHuGPKidos6ZCWVoDZsMyECa3kGo1IdrUMVflTwdIhA
+ outpYMck71xRyhbotZWZQvEfcotqnls=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690568562;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LTQK5KPWoNiteMhFAbNfxNfKXgKtS6mbBnGPF9HfRdU=;
- b=4PBuOQyTWUL4QpblN/49INwzCK3BhKjCg7O94o4ypl0rF24eSYZTNc/GTtpZaFEaVHvYqb
- G+KCWZTpZpDFyGDA==
+ bh=rbf06wYIG/ZbBzVIurx5PwbKTrY+iGC9D+2vEFVfdRE=;
+ b=EystBCuTVy5xUhH7NA6Jm4LXkQdQ+pWe0/COeGjaB9J/OOUNshWRYUx0bILvESpd0gMgdE
+ BeR/uKWu91M4syBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EFF7013276;
- Fri, 28 Jul 2023 18:22:41 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 33C6B139BD;
+ Fri, 28 Jul 2023 18:22:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MD+nOXEHxGQ3CwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:41 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MBTdC3IHxGQ3CwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH 23/47] fbdev/maxinefb: Use fbdev I/O helpers
-Date: Fri, 28 Jul 2023 18:40:06 +0200
-Message-ID: <20230728182234.10680-24-tzimmermann@suse.de>
+Subject: [PATCH 24/47] fbdev/mb862xxfb: Use fbdev I/O helpers
+Date: Fri, 28 Jul 2023 18:40:07 +0200
+Message-ID: <20230728182234.10680-25-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
@@ -85,41 +85,45 @@ no functional change.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig    | 4 +---
- drivers/video/fbdev/maxinefb.c | 4 +---
+ drivers/video/fbdev/Kconfig                | 4 +---
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index abe61098ca04..4cca6b008f07 100644
+index 4cca6b008f07..631bc70657db 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1556,9 +1556,7 @@ config FB_PMAGB_B
- config FB_MAXINE
- 	bool "Maxine (Personal DECstation) onboard framebuffer support"
- 	depends on (FB = y) && MACH_DECSTATION
+@@ -1869,9 +1869,7 @@ config FB_MB862XX
+ 	tristate "Fujitsu MB862xx GDC support"
+ 	depends on FB
+ 	depends on PCI || (OF && PPC)
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IO_HELPERS
+ 	select VIDEO_NOMODESET
  	help
- 	  Support for the onboard framebuffer (1024x768x8) in the Personal
- 	  DECstation series (Personal DECstation 5000/20, /25, /33, /50,
-diff --git a/drivers/video/fbdev/maxinefb.c b/drivers/video/fbdev/maxinefb.c
-index 0ac1873b2acb..d81ed9b25e30 100644
---- a/drivers/video/fbdev/maxinefb.c
-+++ b/drivers/video/fbdev/maxinefb.c
-@@ -107,10 +107,8 @@ static int maxinefb_setcolreg(unsigned regno, unsigned red, unsigned green,
- 
- static const struct fb_ops maxinefb_ops = {
+ 	  Frame buffer driver for Fujitsu Carmine/Coral-P(A)/Lime controllers.
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index 42e909776be2..f03d4be4aea1 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -407,14 +407,12 @@ static int mb862xxfb_ioctl(struct fb_info *fbi, unsigned int cmd,
+ /* framebuffer ops */
+ static struct fb_ops mb862xxfb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IO_OPS,
- 	.fb_setcolreg	= maxinefb_setcolreg,
+ 	.fb_check_var	= mb862xxfb_check_var,
+ 	.fb_set_par	= mb862xxfb_set_par,
+ 	.fb_setcolreg	= mb862xxfb_setcolreg,
+ 	.fb_blank	= mb862xxfb_blank,
+ 	.fb_pan_display	= mb862xxfb_pan,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
+ 	.fb_ioctl	= mb862xxfb_ioctl,
  };
  
- int __init maxinefb_init(void)
 -- 
 2.41.0
 
