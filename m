@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513EE7673AB
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 19:43:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3EF7674D1
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AA010E0ED;
-	Fri, 28 Jul 2023 17:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE2810E758;
+	Fri, 28 Jul 2023 18:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFDC210E0ED
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 17:43:31 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3F0010E219
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4RCFNg35mJzDqDT;
- Fri, 28 Jul 2023 17:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1690566211; bh=HHg1BBSw7w1llYvM2JF9tdL+YHLSwhwrCXY4kPDkOdY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LatLvLwi6o+09BFwBNyF8TDVLGO3qCs20PBujC7NjYVhgxszatQO7DMzvyOeoZ8sg
- 9RT0S2GFsOQp904Qsv23VZ2K7YfjaXikxhdH8ZpoG8ocYlFcRaBWdiC7Lkwll+h/Oo
- Qv/UxWQfLRaFJiPgF86cy6RrT94kBAkM5yxwietE=
-X-Riseup-User-ID: FF30BAF80845D49417401941C3764254641C42DE272DF9BB03E4836C0BEA0549
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RCFNV5TNgzFqgg;
- Fri, 28 Jul 2023 17:43:21 +0000 (UTC)
-Message-ID: <591114cb-88f7-0a43-f2ba-8ab5836571c9@riseup.net>
-Date: Fri, 28 Jul 2023 14:43:14 -0300
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6C0BF21892;
+ Fri, 28 Jul 2023 18:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1690568556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=9xhX/d0nOfcA8qfj6H2EWd8nVvr6t6TOcGSyy7Z6zD4=;
+ b=RQ3HSvcZyfM+2BUVtTgAA4ueCI0+q6Q+uiolZfqwnFwpqHOAnHQl4T8I4vJ0pk0OkwdMMm
+ u6SHVOBOHDQWiwc19fHKtAKTozXF4VCA3tefHLAN5kRSXQTFznhC+rWLxpd4AFZlG9qbYN
+ j4yCV7M6HeD4KZcPJNFbfcT8/Uc8VQ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1690568556;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=9xhX/d0nOfcA8qfj6H2EWd8nVvr6t6TOcGSyy7Z6zD4=;
+ b=peACJPHExXeBvbK16dt3LKUcn3oBHF6g2LfMr/JVEUcIWslGUeexgmQmOGeOTrnGmMrLoL
+ H+kCuy5hud4acWDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3268913276;
+ Fri, 28 Jul 2023 18:22:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Fp1PC2wHxGQ3CwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:36 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	javierm@redhat.com,
+	sam@ravnborg.org
+Subject: [PATCH 00/47] fbdev: Use I/O helpers
+Date: Fri, 28 Jul 2023 18:39:43 +0200
+Message-ID: <20230728182234.10680-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/tests: Alloc drm_device on drm_exec tests
-Content-Language: en-US
-To: Maxime Ripard <mripard@redhat.com>
-References: <20230727192259.237935-1-arthurgrillo@riseup.net>
- <2qt3go2ark5swawiponvvrlnq6tdxtyivaif2svzba4ajoo2zm@bhuv2qsjtytm>
-From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
-In-Reply-To: <2qt3go2ark5swawiponvvrlnq6tdxtyivaif2svzba4ajoo2zm@bhuv2qsjtytm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,93 +63,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- tales.aparecida@gmail.com, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, boris.brezillon@collabora.com, dakr@redhat.com,
- alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Most fbdev drivers operate on I/O memory. And most of those use the
+default implementations for file I/O and console drawing. Convert all
+these low-hanging fruits to the fb_ops initializer macro and Kconfig
+token for fbdev I/O helpers.
+
+The fbdev I/O helpers are easily grep-able. In a later patch, they can
+be left to empty values if the rsp. funtionality, such as file I/O or
+console, has been disabled.
+
+There are no functional changes. The helpers set the defaults that
+the drivers already use.
+
+Thomas Zimmermann (47):
+  media/vivid: Use fbdev I/O helpers
+  fbdev/acornfb: Use fbdev I/O helpers
+  fbdev/asiliantfb: Use fbdev I/O helpers
+  fbdev/atmel_lcdfb: Use fbdev I/O helpers
+  fbdev/aty128fb: Use fbdev I/O helpers
+  fbdev/carminefb: Use fbdev I/O helpers
+  fbdev/chipsfb: Use fbdev I/O helpers
+  fbdev/da8xx-fb: Use fbdev I/O helpers
+  fbdev/efifb: Use fbdev I/O helpers
+  fbdev/fm2fb: Use fbdev I/O helpers
+  fbdev/fsl-diu-fb: Use fbdev I/O helpers
+  fbdev/g364fb: Use fbdev I/O helpers
+  fbdev/geode/gx1fb: Use fbdev I/O helpers
+  fbdev/geode/gxfb: Use fbdev I/O helpers
+  fbdev/geode/lxfb: Use fbdev I/O helpers
+  fbdev/goldfishfb: Use fbdev I/O helpers
+  fbdev/grvga: Use fbdev I/O helpers
+  fbdev/gxt4500: Use fbdev I/O helpers
+  fbdev/i740fb: Use fbdev I/O helpers
+  fbdev/imxfb: Use fbdev I/O helpers
+  fbdev/kyro: Use fbdev I/O helpers
+  fbdev/macfb: Use fbdev I/O helpers
+  fbdev/maxinefb: Use fbdev I/O helpers
+  fbdev/mb862xxfb: Use fbdev I/O helpers
+  fbdev/mmpfb: Use fbdev I/O helpers
+  fbdev/mx3fb: Use fbdev I/O helpers
+  fbdev/ocfb: Use fbdev I/O helpers
+  fbdev/offb: Use fbdev I/O helpers
+  fbdev/omapfb: Use fbdev I/O helpers
+  fbdev/platinumfb: Use fbdev I/O helpers
+  fbdev/pmag-aa-fb: Use fbdev I/O helpers
+  fbdev/pmag-ba-fb: Use fbdev I/O helpers
+  fbdev/pmag-b-fb: Use fbdev I/O helpers
+  fbdev/pxa168fb: Use fbdev I/O helpers
+  fbdev/pxafb: Use fbdev I/O helpers
+  fbdev/q40fb: Use fbdev I/O helpers
+  fbdev/s3cfb: Use fbdev I/O helpers
+  fbdev/sh7760fb: Use fbdev I/O helpers
+  fbdev/simplefb: Use fbdev I/O helpers
+  fbdev/sstfb: Use fbdev I/O helpers
+  fbdev/sunxvr1000: Use fbdev I/O helpers
+  fbdev/sunxvr2500: Use fbdev I/O helpers
+  fbdev/uvesafb: Use fbdev I/O helpers
+  fbdev/valkyriefb: Use fbdev I/O helpers
+  fbdev/vesafb: Use fbdev I/O helpers
+  fbdev/xilinxfb: Use fbdev I/O helpers
+  vfio-dev/mdpy-fb: Use fbdev I/O helpers
+
+ drivers/media/test-drivers/vivid/Kconfig     |   4 +-
+ drivers/media/test-drivers/vivid/vivid-osd.c |   4 +-
+ drivers/video/fbdev/Kconfig                  | 160 +++++--------------
+ drivers/video/fbdev/acornfb.c                |   4 +-
+ drivers/video/fbdev/asiliantfb.c             |   4 +-
+ drivers/video/fbdev/atmel_lcdfb.c            |   4 +-
+ drivers/video/fbdev/aty/aty128fb.c           |   4 +-
+ drivers/video/fbdev/carminefb.c              |   5 +-
+ drivers/video/fbdev/chipsfb.c                |   4 +-
+ drivers/video/fbdev/da8xx-fb.c               |   4 +-
+ drivers/video/fbdev/efifb.c                  |   4 +-
+ drivers/video/fbdev/fm2fb.c                  |   4 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |   4 +-
+ drivers/video/fbdev/g364fb.c                 |   4 +-
+ drivers/video/fbdev/geode/Kconfig            |  12 +-
+ drivers/video/fbdev/geode/gx1fb_core.c       |   5 +-
+ drivers/video/fbdev/geode/gxfb_core.c        |   5 +-
+ drivers/video/fbdev/geode/lxfb_core.c        |   5 +-
+ drivers/video/fbdev/goldfishfb.c             |   4 +-
+ drivers/video/fbdev/grvga.c                  |   4 +-
+ drivers/video/fbdev/gxt4500.c                |   4 +-
+ drivers/video/fbdev/i740fb.c                 |   4 +-
+ drivers/video/fbdev/imxfb.c                  |   4 +-
+ drivers/video/fbdev/kyro/fbdev.c             |   4 +-
+ drivers/video/fbdev/macfb.c                  |   4 +-
+ drivers/video/fbdev/maxinefb.c               |   4 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   4 +-
+ drivers/video/fbdev/mmp/fb/Kconfig           |   4 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c           |   4 +-
+ drivers/video/fbdev/mx3fb.c                  |   4 +-
+ drivers/video/fbdev/ocfb.c                   |   4 +-
+ drivers/video/fbdev/offb.c                   |   4 +-
+ drivers/video/fbdev/omap/Kconfig             |   4 +-
+ drivers/video/fbdev/omap/omapfb_main.c       |   4 +-
+ drivers/video/fbdev/platinumfb.c             |   4 +-
+ drivers/video/fbdev/pmag-aa-fb.c             |   4 +-
+ drivers/video/fbdev/pmag-ba-fb.c             |   4 +-
+ drivers/video/fbdev/pmagb-b-fb.c             |   4 +-
+ drivers/video/fbdev/pxa168fb.c               |   4 +-
+ drivers/video/fbdev/pxafb.c                  |   4 +-
+ drivers/video/fbdev/q40fb.c                  |   4 +-
+ drivers/video/fbdev/s3c-fb.c                 |   4 +-
+ drivers/video/fbdev/sh7760fb.c               |   4 +-
+ drivers/video/fbdev/simplefb.c               |   4 +-
+ drivers/video/fbdev/sstfb.c                  |   4 +-
+ drivers/video/fbdev/sunxvr1000.c             |   4 +-
+ drivers/video/fbdev/sunxvr2500.c             |   4 +-
+ drivers/video/fbdev/uvesafb.c                |   4 +-
+ drivers/video/fbdev/valkyriefb.c             |   4 +-
+ drivers/video/fbdev/vesafb.c                 |   4 +-
+ drivers/video/fbdev/xilinxfb.c               |   4 +-
+ samples/Kconfig                              |   4 +-
+ samples/vfio-mdev/mdpy-fb.c                  |   4 +-
+ 53 files changed, 94 insertions(+), 286 deletions(-)
 
 
-On 28/07/23 11:33, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, Jul 27, 2023 at 04:22:59PM -0300, Arthur Grillo wrote:
->> The drm_exec tests where crashing[0] because of a null dereference. This
->> is caused by a new access of the `driver` attribute of `struct
->> drm_driver` on drm_gem_private_object_init(). Alloc the drm_device to
->> fix that.
->>
->> [0]
->> [15:05:24] ================== drm_exec (6 subtests) ===================
->> [15:05:24] [PASSED] sanitycheck
->> ^CERROR:root:Build interruption occurred. Cleaning console.
->> [15:05:50] [ERROR] Test: drm_exec: missing expected subtest!
->> [15:05:50] BUG: kernel NULL pointer dereference, address: 00000000000000b0
->> [15:05:50] #PF: supervisor read access in kernel mode
->> [15:05:50] #PF: error_code(0x0000) - not-present page
->> [15:05:50] PGD 0 P4D 0
->> [15:05:50] Oops: 0000 [#1] PREEMPT NOPTI
->> [15:05:50] CPU: 0 PID: 23 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7-02032-ge6303f323b1a #69
->> [15:05:50] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc37 04/01/2014
->> [15:05:50] RIP: 0010:drm_gem_private_object_init+0x60/0xc0
->>
->> Fixes: e6303f323b1a ("drm: manager to keep track of GPUs VA mappings")
->> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> 
-> You should Cc the list of people returned by scripts/get_maintainers.pl
-> for all your patches.
-> 
+base-commit: fba8a13ec9ae1a7175cc0dda7235b3d2df0f0f90
+-- 
+2.41.0
 
-The email of my patch that arrived in my inbox has all the people
-returned by scripts/get_maintainers.pl on Cc, but the email on the list
-has some people left out. Maybe is something wrong with my git
-send-email configuration. I will have a look on that.
-
-Best Regards,
-~Arthur Grillo
-
->> ---
->>  drivers/gpu/drm/tests/drm_exec_test.c | 36 +++++++++++++++++++++------
->>  1 file changed, 29 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
->> index 727ac267682e..df31f89a7945 100644
->> --- a/drivers/gpu/drm/tests/drm_exec_test.c
->> +++ b/drivers/gpu/drm/tests/drm_exec_test.c
->> @@ -12,11 +12,31 @@
->>  
->>  #include <drm/drm_exec.h>
->>  #include <drm/drm_device.h>
->> +#include <drm/drm_drv.h>
->>  #include <drm/drm_gem.h>
->> +#include <drm/drm_kunit_helpers.h>
->>  
->>  #include "../lib/drm_random.h"
->>  
->> -static struct drm_device dev;
->> +static struct device *dev;
->> +static struct drm_device *drm;
->> +
->> +static int test_init(struct kunit *test)
->> +{
->> +	dev = drm_kunit_helper_alloc_device(test);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
->> +
->> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0,
->> +						  DRIVER_MODESET);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
->> +
->> +	return 0;
->> +}
->> +
->> +static void test_exit(struct kunit *test)
->> +{
->> +	drm_kunit_helper_free_device(test, dev);
->> +}
-> 
-> You shouldn't be using a global variable here. test->priv is meant for
-> those kind of things.
-> 
-> Maxime
