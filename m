@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9075C766FAE
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:46:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C21766FC7
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C1A10E027;
-	Fri, 28 Jul 2023 14:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A818510E6AB;
+	Fri, 28 Jul 2023 14:47:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B12A10E027;
- Fri, 28 Jul 2023 14:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=oiMutyUMmVTk99ASOanACyUD72nSCbLfCygSg1z4+14=; b=Y1pdF6VAaU5RBGv2OSYBkSpK9G
- qAkOTLW06hJyFxgChOD8q1GLjdJltoz4LI80qJInTti5eo8pZMdho56qPQIYTP+onXpNhM/GtGZfP
- Dg4jJ9eoZao82TSWhPGvDgJi+QWT9deZw0Tzcsyzz6UJldyFIb/1V6Nume99Uij9oT30HM41QGyqX
- 2HxLgbkDqiRLdsAZnuCLny+y0XlxpxxM+Wot3bwpamG2WFb0ZvFhTPUqF6jOnveBmrhbD6x0dRAdK
- vuZZ9PTrYrPPWNajYZ1px+zXpWmtvsfwgE5yCDTAdINWjUhy/c00rJPzt4HuVxOPthR79machWgt3
- jjCw25Lg==;
-Received: from [189.111.93.147] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qPOix-005De2-UM; Fri, 28 Jul 2023 16:45:48 +0200
-Message-ID: <24fc3974-a303-e792-b6d5-5ca634c2bc4b@igalia.com>
-Date: Fri, 28 Jul 2023 11:45:42 -0300
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B68A10E6AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 14:47:38 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1qPOkf-0001kI-5L; Fri, 28 Jul 2023 16:47:33 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1qPOkd-002jMt-Kq; Fri, 28 Jul 2023 16:47:31 +0200
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1qPOkd-000FNm-1H;
+ Fri, 28 Jul 2023 16:47:31 +0200
+Message-ID: <0698fe16001e58f040b87af52416e4fe2903f12d.camel@pengutronix.de>
+Subject: Re: [PATCH 1/1] drm/imx/ipuv-v3: Fix front porch adjustment upon
+ hactive aligning
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Fri, 28 Jul 2023 16:47:31 +0200
+In-Reply-To: <20230503111456.1748511-1-alexander.stein@ew.tq-group.com>
+References: <20230503111456.1748511-1-alexander.stein@ew.tq-group.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] drm/amdgpu: Add new reset option and rework
- coredump
-Content-Language: en-US
-To: christian.koenig@amd.com
-References: <20230714161128.69545-1-andrealmeid@igalia.com>
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20230714161128.69545-1-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,64 +57,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- dri-devel@lists.freedesktop.org, michel.daenzer@mailbox.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian, gently ping here
+On Mi, 2023-05-03 at 13:14 +0200, Alexander Stein wrote:
+> When hactive is not aligned to 8 pixels, it is aligned accordingly and
+> hfront porch needs to be reduced the same amount. Unfortunately the front
+> porch is set to the difference rather than reducing it. There are some
+> Samsung TVs which can't cope with a front porch of instead of 70.
+>=20
+> Fixes: 94dfec48fca7 ("drm/imx: Add 8 pixel alignment fix")
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-Em 14/07/2023 13:11, André Almeida escreveu:
-> Hi,
-> 
-> The goal of this patchset is to improve debugging device resets on amdgpu.
-> 
-> The first patch creates a new module parameter to disable soft recoveries,
-> ensuring every recovery go through the full device reset, making easier to
-> generate resets from userspace tools like [0] and [1]. This is important to
-> validate how the stack behaves on resets, from end-to-end.
-> 
-> The last patches are a rework to alloc devcoredump dynamically and to move it to
-> a better source file.
-> 
-> I have dropped the patches that add more information to devcoredump for now,
-> until I figure out a better way to do so, like storing the IB address in the
-> fence.
-> 
-> Thanks,
-> 	André
-> 
-> [0] https://gitlab.freedesktop.org/andrealmeid/gpu-timeout
-> [1] https://github.com/andrealmeid/vulkan-triangle-v1
-> 
-> Changelog:
-> 
-> v2: https://lore.kernel.org/dri-devel/20230713213242.680944-1-andrealmeid@igalia.com/
-> - Drop the IB and ring patch
-> - Drop patch that limited information from kernel threads
-> - Add patch to move coredump to amdgpu_reset
-> 
-> v1: https://lore.kernel.org/dri-devel/20230711213501.526237-1-andrealmeid@igalia.com/
->   - Drop "Mark contexts guilty for causing soft recoveries" patch
->   - Use GFP_NOWAIT for devcoredump allocation
-> 
-> André Almeida (5):
->    drm/amdgpu: Create a module param to disable soft recovery
->    drm/amdgpu: Allocate coredump memory in a nonblocking way
->    drm/amdgpu: Rework coredump to use memory dynamically
->    drm/amdgpu: Move coredump code to amdgpu_reset file
->    drm/amdgpu: Create version number for coredumps
-> 
->   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  6 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 67 +-----------------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  9 +++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 79 ++++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h  | 14 ++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c   |  6 +-
->   6 files changed, 111 insertions(+), 70 deletions(-)
-> 
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+regards
+Philipp
