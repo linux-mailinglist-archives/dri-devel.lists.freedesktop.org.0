@@ -2,56 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3EF766838
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB4F7668A8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E172A10E6B3;
-	Fri, 28 Jul 2023 09:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70CDE10E6B7;
+	Fri, 28 Jul 2023 09:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4C410E6B0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:06:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A39F262080;
- Fri, 28 Jul 2023 09:06:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09DBC433C7;
- Fri, 28 Jul 2023 09:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690535214;
- bh=gKdr5wVwnd5iV/T89XpwfyfOVoDtad9S9jijN97ZC8k=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=NvZe7XxAeMFcwVssgJ6Po1uWqAX+sCgVKij7qFhyIci/SGs3vgp2Q/BBOKi3Z0ZPe
- NkgrnodZv5N0SBw8D7CAAzyPAHPP88HjYKeXBFavyf7p73bCBtOf7E7Ug9hvCB03DR
- 09ogUjHXuauDqtkIDqVxy3o1vkhX+Fg8BWAlawzxbByn4BspGM3VeceaBf+JFmfJD6
- bQBmClPX88tkzD98Qw6jWrzTlQXV2p+N6NwnFujlwsliJGQ5Nb6pYzZymcIBR9ZPqx
- RB5trmT8o6wLu9h21Dx8XOp14gwDK0ZZx7EKbgu6NIzJXpkCrJVoeVAhGuhxsrbvLc
- qIBALymEZ1nsw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 28 Jul 2023 11:06:24 +0200
-Subject: [PATCH v3 11/11] drm/vc4: tests: pv-muxing: Document test scenario
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D0610E6B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:17:12 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:12b0:7b7e:d1ff:7873])
+ by michel.telenet-ops.be with bizsmtp
+ id SZHA2A0070d1nm806ZHAPB; Fri, 28 Jul 2023 11:17:10 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qPJaj-002lsM-7l;
+ Fri, 28 Jul 2023 11:17:10 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qPJaw-00AoD2-9T;
+ Fri, 28 Jul 2023 11:17:10 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/panel: simple: Simplify matching using
+ of_device_get_match_data()
+Date: Fri, 28 Jul 2023 11:17:09 +0200
+Message-Id: <64ded5b7e809e4c6e915b2c4d8b82e02319cd206.1690535800.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230728-kms-kunit-actions-rework-v3-11-952565ccccfe@kernel.org>
-References: <20230728-kms-kunit-actions-rework-v3-0-952565ccccfe@kernel.org>
-In-Reply-To: <20230728-kms-kunit-actions-rework-v3-0-952565ccccfe@kernel.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2113; i=mripard@kernel.org;
- h=from:subject:message-id; bh=gKdr5wVwnd5iV/T89XpwfyfOVoDtad9S9jijN97ZC8k=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCmHW7k4XCezyX63vvt+s8yL0lWbVvzor5xkd3rR+y22+
- b9YIk3tO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRVV4M/xMMTAy0V6zyXh2u
- lv1N3fX8svR6Ye164d+s73TV2FW3vWBkOBb/NFzo31S1xf+vlFx9EODwu2Zio2P+vlalVS9OTPo
- qzAQA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,68 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org,
- Brendan Higgins <brendan.higgins@linux.dev>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
- Maxime Ripard <mripard@kernel.org>, David Gow <davidgow@google.com>,
- kunit-dev@googlegroups.com
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've had a couple of tests that weren't really obvious, nor did they
-document what they were supposed to test. Document that to make it
-hopefully more obvious.
+Both the patform_driver and mipi_dsi_driver structures contain pointers
+to the match table used, so the custom code to obtain match and match
+data can be replaced by calls to of_device_get_match_data().
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+v2:
+  - Add Reviewed-by.
+---
+ drivers/gpu/drm/panel/panel-simple.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-index 5f9f5626329d..61622e951031 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-@@ -845,6 +845,13 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
- 	KUNIT_EXPECT_NE(test, hdmi0_channel, hdmi1_channel);
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 4badda6570d5d868..f27d5d8cffbf3553 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -4455,13 +4455,13 @@ MODULE_DEVICE_TABLE(of, platform_of_match);
+ 
+ static int panel_simple_platform_probe(struct platform_device *pdev)
+ {
+-	const struct of_device_id *id;
++	const struct panel_desc *desc;
+ 
+-	id = of_match_node(platform_of_match, pdev->dev.of_node);
+-	if (!id)
++	desc = of_device_get_match_data(&pdev->dev);
++	if (!desc)
+ 		return -ENODEV;
+ 
+-	return panel_simple_probe(&pdev->dev, id->data);
++	return panel_simple_probe(&pdev->dev, desc);
  }
  
-+/*
-+ * This test makes sure that we never change the FIFO of an active HVS
-+ * channel if we disable a FIFO with a lower index.
-+ *
-+ * Doing so would result in a FIFO stall and would disrupt an output
-+ * supposed to be unaffected by the commit.
-+ */
- static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
+ static void panel_simple_platform_remove(struct platform_device *pdev)
+@@ -4732,15 +4732,12 @@ MODULE_DEVICE_TABLE(of, dsi_of_match);
+ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
  {
- 	struct drm_modeset_acquire_ctx *ctx;
-@@ -924,6 +931,21 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- 	}
- }
+ 	const struct panel_desc_dsi *desc;
+-	const struct of_device_id *id;
+ 	int err;
  
-+/*
-+ * Test that if we affect a single output, only the CRTC state of that
-+ * output will be pulled in the global atomic state.
-+ *
-+ * This is relevant for two things:
-+ *
-+ *   - If we don't have that state at all, we are unlikely to affect the
-+ *     FIFO muxing. This is somewhat redundant with
-+ *     drm_test_vc5_pv_muxing_bugs_stable_fifo()
-+ *
-+ *   - KMS waits for page flips to occur on all the CRTC found in the
-+ *     CRTC state. Since the CRTC is unaffected, we would over-wait, but
-+ *     most importantly run into corner cases like waiting on an
-+ *     inactive CRTC that never completes.
-+ */
- static void
- drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct kunit *test)
- {
-
+-	id = of_match_node(dsi_of_match, dsi->dev.of_node);
+-	if (!id)
++	desc = of_device_get_match_data(&dsi->dev);
++	if (!desc)
+ 		return -ENODEV;
+ 
+-	desc = id->data;
+-
+ 	err = panel_simple_probe(&dsi->dev, &desc->desc);
+ 	if (err < 0)
+ 		return err;
 -- 
-2.41.0
+2.34.1
 
