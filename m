@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1807767586
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:35:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF2B7675A8
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:40:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE69210E060;
-	Fri, 28 Jul 2023 18:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D412E10E76E;
+	Fri, 28 Jul 2023 18:40:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5725910E76E
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:35:45 +0000 (UTC)
+Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC58210E775
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:40:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=yhlqzaoSJHj1oBhyHOJO58FgrwVTmfOzCSyUIFeQhEY=;
- b=PEcPzlAsab2q5HAQN/yHKrzMYVZOsRy7MUZatuyZWA7uM3kwzi/V0IIXBTqrf8Z4FmZHFIt/HybiZ
- sbbJEqg+zqaWndIpRGziGwRAdnvYp2UskSeh4js0iHCY3oRw+McgFfjI0y7oLnQ5gzU+wULcIwUrBF
- R1R+aeb9KCgPKAuaXafOc0IO4JfNWyvnuuBhLD0J0hshqdj5Vvu+c4ldj/WYrartBW4EK2ktP2/lhf
- bp7IzcQFvT5d79Ly00On30yNXDukjQ+qvpzZLJdP2QU4xD5mCpGPPhj9JCV78AQSNl0UQedmdnBIp0
- WYJ6GjaRnQ7Fz9qCJEPWPwQ3KqH2t6A==
+ bh=VUh0aFlPbE0R5Fq1OrHOqUL95X24rHdCYRyu0H18kZs=;
+ b=nCioZWrNeey8vxCpdX1PS6JYetosi8C9O01ss/HH2HJyQXZSYif+EEXq9NgAX5lnt9PA5zaB1X84Z
+ k3xM6obOVGislRz2M/Gu2JcHM+1Q0C2O3AV5w9puCJmFcVLRrxADec0YlHAi45Q8VpsSY7CdLKY+cN
+ OaB+/IUMss5pZ3YeVozbedZ0vdXKwm+VudzaZhSSeBAwuxaCvEgACUFad4qD7EoFj/Cyfjm951Xcj/
+ cOnDJ+TbfS8IrJiw/cYE+i+eagFKsWC0gPGKxp/Eiedcsg7qzVn4IoYMAFosU21ToLsp5YWa6YQfcd
+ VSyuvwb7cX/TTAjNGmbaT5AveVet4hQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=yhlqzaoSJHj1oBhyHOJO58FgrwVTmfOzCSyUIFeQhEY=;
- b=y6kAh7BLK3FDXVvFJRPS8aaGvGwNkidIQo6yrUNTCXy1VTEvdvSmyPm1YcWkjEAF+PS7eF5bA8xDF
- FKUq6KgBA==
-X-HalOne-ID: 8dec9b7e-2d75-11ee-9837-c5367ef0e45e
+ bh=VUh0aFlPbE0R5Fq1OrHOqUL95X24rHdCYRyu0H18kZs=;
+ b=kxR6wyzaXh0paaidtMnBto7pO+DGTJZUEWWvVTg8x1oYY2WafA14eiAr3Hh13dnzpbSCA4Lkqj0Oh
+ e0DOECCAw==
+X-HalOne-ID: 082225de-2d76-11ee-8c15-592bb1efe9dc
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id 8dec9b7e-2d75-11ee-9837-c5367ef0e45e;
- Fri, 28 Jul 2023 18:35:43 +0000 (UTC)
-Date: Fri, 28 Jul 2023 20:35:41 +0200
+ by mailrelay4 (Halon) with ESMTPSA
+ id 082225de-2d76-11ee-8c15-592bb1efe9dc;
+ Fri, 28 Jul 2023 18:39:08 +0000 (UTC)
+Date: Fri, 28 Jul 2023 20:39:06 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
-Message-ID: <20230728183541.GA1144760@ravnborg.org>
+Message-ID: <20230728183906.GB1144760@ravnborg.org>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -74,10 +74,8 @@ On Fri, Jul 28, 2023 at 06:39:43PM +0200, Thomas Zimmermann wrote:
 > The fbdev I/O helpers are easily grep-able. In a later patch, they can
 > be left to empty values if the rsp. funtionality, such as file I/O or
 > console, has been disabled.
-> 
-> There are no functional changes. The helpers set the defaults that
-> the drivers already use.
 
-I have browsed all patches - they all looks good.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Did you miss sm750 or was it left out on purpose?
+As it hide in staging it is easy to miss.
 
+	Sam
