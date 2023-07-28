@@ -1,30 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698C976635B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 06:48:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FAC76635E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 06:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E138010E63B;
-	Fri, 28 Jul 2023 04:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E6510E63C;
+	Fri, 28 Jul 2023 04:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C0110E63B;
- Fri, 28 Jul 2023 04:48:28 +0000 (UTC)
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C0C210E63B;
+ Fri, 28 Jul 2023 04:48:29 +0000 (UTC)
 Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RBw7J1clyzLnwj;
- Fri, 28 Jul 2023 12:45:48 +0800 (CST)
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RBw9G6bpfz1GDKc;
+ Fri, 28 Jul 2023 12:47:30 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
  dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 28 Jul 2023 12:48:24 +0800
+ 15.1.2507.27; Fri, 28 Jul 2023 12:48:25 +0800
 From: Kefeng Wang <wangkefeng.wang@huawei.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 0/4] mm: convert to vma_is_initial_heap/stack()
-Date: Fri, 28 Jul 2023 13:00:39 +0800
-Message-ID: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
+Subject: [PATCH v3 1/4] mm: factor out VMA stack and heap checks
+Date: Fri, 28 Jul 2023 13:00:40 +0800
+Message-ID: <20230728050043.59880-2-wangkefeng.wang@huawei.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
+References: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -57,31 +59,143 @@ Cc: stephen.smalley.work@gmail.com, Kefeng Wang <wangkefeng.wang@huawei.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vma_is_initial_stack() and vma_is_initial_heap() helper and use
-them to simplify code.
+Factor out VMA stack and heap checks and name them
+vma_is_initial_stack() and vma_is_initial_heap() for
+general use.
 
-v2:
-- add comment for heap helper and remove one more goto cpy_name,
-  per David Hildenbrand
-- add RB
-v2:
-- address comments per David Hildenbrand and Christian Göttsche
-- fix selinux build
+Cc: Christian Göttsche <cgzones@googlemail.com>
+Cc: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ fs/proc/task_mmu.c   | 24 ++++--------------------
+ fs/proc/task_nommu.c | 15 +--------------
+ include/linux/mm.h   | 25 +++++++++++++++++++++++++
+ 3 files changed, 30 insertions(+), 34 deletions(-)
 
-Kefeng Wang (4):
-  mm: factor out VMA stack and heap checks
-  drm/amdkfd: use vma_is_initial_stack() and vma_is_initial_heap()
-  selinux: use vma_is_initial_stack() and vma_is_initial_heap()
-  perf/core: use vma_is_initial_stack() and vma_is_initial_heap()
-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c |  5 +----
- fs/proc/task_mmu.c                   | 24 ++++----------------
- fs/proc/task_nommu.c                 | 15 +------------
- include/linux/mm.h                   | 25 +++++++++++++++++++++
- kernel/events/core.c                 | 33 ++++++++++------------------
- security/selinux/hooks.c             |  7 ++----
- 6 files changed, 44 insertions(+), 65 deletions(-)
-
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 2b434b3fa2ec..3f063201b1ec 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -236,21 +236,6 @@ static int do_maps_open(struct inode *inode, struct file *file,
+ 				sizeof(struct proc_maps_private));
+ }
+ 
+-/*
+- * Indicate if the VMA is a stack for the given task; for
+- * /proc/PID/maps that is the stack of the main task.
+- */
+-static int is_stack(struct vm_area_struct *vma)
+-{
+-	/*
+-	 * We make no effort to guess what a given thread considers to be
+-	 * its "stack".  It's not even well-defined for programs written
+-	 * languages like Go.
+-	 */
+-	return vma->vm_start <= vma->vm_mm->start_stack &&
+-		vma->vm_end >= vma->vm_mm->start_stack;
+-}
+-
+ static void show_vma_header_prefix(struct seq_file *m,
+ 				   unsigned long start, unsigned long end,
+ 				   vm_flags_t flags, unsigned long long pgoff,
+@@ -327,13 +312,12 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
+ 			goto done;
+ 		}
+ 
+-		if (vma->vm_start <= mm->brk &&
+-		    vma->vm_end >= mm->start_brk) {
++		if (vma_is_initial_heap(vma)) {
+ 			name = "[heap]";
+ 			goto done;
+ 		}
+ 
+-		if (is_stack(vma)) {
++		if (vma_is_initial_stack(vma)) {
+ 			name = "[stack]";
+ 			goto done;
+ 		}
+@@ -1975,9 +1959,9 @@ static int show_numa_map(struct seq_file *m, void *v)
+ 	if (file) {
+ 		seq_puts(m, " file=");
+ 		seq_file_path(m, file, "\n\t= ");
+-	} else if (vma->vm_start <= mm->brk && vma->vm_end >= mm->start_brk) {
++	} else if (vma_is_initial_heap(vma)) {
+ 		seq_puts(m, " heap");
+-	} else if (is_stack(vma)) {
++	} else if (vma_is_initial_stack(vma)) {
+ 		seq_puts(m, " stack");
+ 	}
+ 
+diff --git a/fs/proc/task_nommu.c b/fs/proc/task_nommu.c
+index 2c8b62265981..a8ac0dd8041e 100644
+--- a/fs/proc/task_nommu.c
++++ b/fs/proc/task_nommu.c
+@@ -121,19 +121,6 @@ unsigned long task_statm(struct mm_struct *mm,
+ 	return size;
+ }
+ 
+-static int is_stack(struct vm_area_struct *vma)
+-{
+-	struct mm_struct *mm = vma->vm_mm;
+-
+-	/*
+-	 * We make no effort to guess what a given thread considers to be
+-	 * its "stack".  It's not even well-defined for programs written
+-	 * languages like Go.
+-	 */
+-	return vma->vm_start <= mm->start_stack &&
+-		vma->vm_end >= mm->start_stack;
+-}
+-
+ /*
+  * display a single VMA to a sequenced file
+  */
+@@ -171,7 +158,7 @@ static int nommu_vma_show(struct seq_file *m, struct vm_area_struct *vma)
+ 	if (file) {
+ 		seq_pad(m, ' ');
+ 		seq_file_path(m, file, "");
+-	} else if (mm && is_stack(vma)) {
++	} else if (mm && vma_is_initial_stack(vma)) {
+ 		seq_pad(m, ' ');
+ 		seq_puts(m, "[stack]");
+ 	}
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index acaef8d106f0..2fbc6c631764 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -866,6 +866,31 @@ static inline bool vma_is_anonymous(struct vm_area_struct *vma)
+ 	return !vma->vm_ops;
+ }
+ 
++/*
++ * Indicate if the VMA is a heap for the given task; for
++ * /proc/PID/maps that is the heap of the main task.
++ */
++static inline bool vma_is_initial_heap(const struct vm_area_struct *vma)
++{
++       return vma->vm_start <= vma->vm_mm->brk &&
++		vma->vm_end >= vma->vm_mm->start_brk;
++}
++
++/*
++ * Indicate if the VMA is a stack for the given task; for
++ * /proc/PID/maps that is the stack of the main task.
++ */
++static inline bool vma_is_initial_stack(const struct vm_area_struct *vma)
++{
++	/*
++	 * We make no effort to guess what a given thread considers to be
++	 * its "stack".  It's not even well-defined for programs written
++	 * languages like Go.
++	 */
++       return vma->vm_start <= vma->vm_mm->start_stack &&
++	       vma->vm_end >= vma->vm_mm->start_stack;
++}
++
+ static inline bool vma_is_temporary_stack(struct vm_area_struct *vma)
+ {
+ 	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
 -- 
 2.41.0
 
