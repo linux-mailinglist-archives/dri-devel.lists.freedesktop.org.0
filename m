@@ -1,48 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1FE766B84
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:15:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC8F766B9E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 13:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE0810E191;
-	Fri, 28 Jul 2023 11:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F54F10E0D4;
+	Fri, 28 Jul 2023 11:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD6F10E191
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 11:14:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 22FFE620FB;
- Fri, 28 Jul 2023 11:14:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 690B9C433C8;
- Fri, 28 Jul 2023 11:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690542893;
- bh=WS0nmvdraHwRzCUZAn+1znFrZP3+1jWKj9lAGH87O1o=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=vCV6Vamz2Z+3PEuVoJUo0O5Oos52qqZfLuBps7e/4zzDo5/NSWbWx0ndFx80nzT1r
- pSNFH0M8nirFkAzVZHTvI6T0M8NTAA/sfeWWmF/JJ3XIzGMVz/13rRA8QWef/0GH9z
- s3hneMinEtTZa6iF7V/YJGCKD22oibVNQ5Rpjlw+HiQaYUnEqEvEWqGVUhyCE0Ct15
- dQrB27GPQf8dzxKrbep2TTx1wxG60BDJiUJh7QkWCOuuotUsmyIHIRPnYHLV6zVFOW
- AkKZOWbzvfgbfrOY2G34IF/RYC7vYamySUDQ9LvJ4MoDTnTvcSXkQXXdfyrUbEOdyI
- inaIrG0mMYfDQ==
-From: Lee Jones <lee@kernel.org>
-To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Ying Liu <victor.liu@nxp.com>
-In-Reply-To: <20230721093342.1532531-1-victor.liu@nxp.com>
-References: <20230721093342.1532531-1-victor.liu@nxp.com>
-Subject: Re: (subset) [PATCH v4] backlight: gpio_backlight: Drop output
- GPIO direction check for initial power state
-Message-Id: <169054289117.346169.12583682764198130810.b4-ty@kernel.org>
-Date: Fri, 28 Jul 2023 12:14:51 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA16D10E0D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 11:25:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=nzOxa15Da5MUvnkCTn/irra/yrKfmIhzo7DbaVmk5OI=; b=Ay6VWKuMS1Pd47Cz1X0QiPo8Ei
+ WlYImTyjboTWnYurV4DTKBhaWFs+A/r5YFnxDtrql2OXItDpmFTuo/W8v2U89SejnGMMD+uKpemk2
+ LJRThTGiohNsBdRZLp2xtf0/+EO38uqIq7bbieBnjCGtQWrxvDzBRLVVXiyJY/4fCwQLKcxEv40aU
+ DBX+YebwYUzD4FPH6YMBSJgy7bq57HEqQ58mTlujj7BcPkyTNV0Bfc024XjjuTmCbeSUv8THhzqWH
+ Bg41lCNKNCAG/Sf/TNqZ3ZDqw2U8DG636aGHD1cwej8QY0RP4kZ7ZUtGslMOBtkBOMnrDPReBvX5o
+ wpdCXf0g==;
+Received: from [187.36.235.191] (helo=[192.168.1.212])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qPLb4-0059AV-UK; Fri, 28 Jul 2023 13:25:27 +0200
+Message-ID: <72e88535-6a87-f44d-2010-1a513550a5ca@igalia.com>
+Date: Fri, 28 Jul 2023 08:25:21 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 2/2] drm/v3d: Expose the total GPU usage stats on debugfs
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230727142929.1275149-1-mcanal@igalia.com>
+ <20230727142929.1275149-3-mcanal@igalia.com>
+ <77f25411-52fa-8939-7883-0677b9f13562@linux.intel.com>
+From: Maira Canal <mcanal@igalia.com>
+In-Reply-To: <77f25411-52fa-8939-7883-0677b9f13562@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,22 +59,286 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andy@kernel.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
- deller@gmx.de, lee@kernel.org, brgl@bgdev.pl
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Jul 2023 09:29:03 +0000, Ying Liu wrote:
-> So, let's drop output GPIO direction check and only check GPIO value to set
-> the initial power state.
+Hi,
+
+On 7/28/23 07:16, Tvrtko Ursulin wrote:
 > 
+> Hi,
 > 
+> On 27/07/2023 15:23, Maíra Canal wrote:
+>> The previous patch exposed the accumulated amount of active time per
+>> client for each V3D queue. But this doesn't provide a global notion of
+>> the GPU usage.
+>>
+>> Therefore, provide the accumulated amount of active time for each V3D
+>> queue (BIN, RENDER, CSD, TFU and CACHE_CLEAN), considering all the jobs
+>> submitted to the queue, independent of the client.
+>>
+>> This data is exposed through the debugfs interface, so that if the
+>> interface is queried at two different points of time the usage percentage
+>> of each of the queues can be calculated.
+> 
+> Just passing observation - I've noticed a mismatch between fdinfo and 
+> debugfs in terms of ABI stability and production availability.
+> 
+> Not sure if it matters for your intended use cases, just saying that if 
+> you plan to have an user facing tool similar to what we have in 
+> intel_gpu_top, debugfs may not be the best choice.
 
-Applied, thanks!
+Do you have a suggestion of a better interface that could be used to
+expose this data?
 
-[1/1] backlight: gpio_backlight: Drop output GPIO direction check for initial power state
-      commit: fe1328b5b2a087221e31da77e617f4c2b70f3b7f
+It would be nice to have something generic, similar to fdinfo, to expose
+global GPU stats. This way we could expose global GPU stats on gputop,
+which would be great.
 
---
-Lee Jones [李琼斯]
+Best Regards,
+- Maíra
 
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> Co-developed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+>> Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_debugfs.c | 27 +++++++++++++++++++++++++++
+>>   drivers/gpu/drm/v3d/v3d_drv.h     |  3 +++
+>>   drivers/gpu/drm/v3d/v3d_gem.c     |  5 ++++-
+>>   drivers/gpu/drm/v3d/v3d_irq.c     | 24 ++++++++++++++++++++----
+>>   drivers/gpu/drm/v3d/v3d_sched.c   | 13 ++++++++++++-
+>>   5 files changed, 66 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c 
+>> b/drivers/gpu/drm/v3d/v3d_debugfs.c
+>> index 330669f51fa7..3b7329343649 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
+>> @@ -4,6 +4,7 @@
+>>   #include <linux/circ_buf.h>
+>>   #include <linux/ctype.h>
+>>   #include <linux/debugfs.h>
+>> +#include <linux/sched/clock.h>
+>>   #include <linux/seq_file.h>
+>>   #include <linux/string_helpers.h>
+>>
+>> @@ -236,11 +237,37 @@ static int v3d_measure_clock(struct seq_file *m, 
+>> void *unused)
+>>       return 0;
+>>   }
+>>
+>> +static int v3d_debugfs_gpu_usage(struct seq_file *m, void *unused)
+>> +{
+>> +    struct drm_debugfs_entry *entry = m->private;
+>> +    struct drm_device *dev = entry->dev;
+>> +    struct v3d_dev *v3d = to_v3d_dev(dev);
+>> +    enum v3d_queue queue;
+>> +    u64 timestamp = local_clock();
+>> +    u64 active_runtime;
+>> +
+>> +    seq_printf(m, "timestamp: %llu\n", timestamp);
+>> +
+>> +    for (queue = 0; queue < V3D_MAX_QUEUES; queue++) {
+>> +        if (v3d->queue[queue].start_ns)
+>> +            active_runtime = timestamp - v3d->queue[queue].start_ns;
+>> +        else
+>> +            active_runtime = 0;
+>> +
+>> +        seq_printf(m, "%s: %llu ns\n",
+>> +               v3d_queue_to_string(queue),
+>> +               v3d->queue[queue].enabled_ns + active_runtime);
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static const struct drm_debugfs_info v3d_debugfs_list[] = {
+>>       {"v3d_ident", v3d_v3d_debugfs_ident, 0},
+>>       {"v3d_regs", v3d_v3d_debugfs_regs, 0},
+>>       {"measure_clock", v3d_measure_clock, 0},
+>>       {"bo_stats", v3d_debugfs_bo_stats, 0},
+>> +    {"gpu_usage", v3d_debugfs_gpu_usage, 0},
+>>   };
+>>
+>>   void
+>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h 
+>> b/drivers/gpu/drm/v3d/v3d_drv.h
+>> index ee5e12d0db1c..b41b32ecd991 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+>> @@ -38,6 +38,9 @@ struct v3d_queue_state {
+>>
+>>       u64 fence_context;
+>>       u64 emit_seqno;
+>> +
+>> +    u64 start_ns;
+>> +    u64 enabled_ns;
+>>   };
+>>
+>>   /* Performance monitor object. The perform lifetime is controlled by 
+>> userspace
+>> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c 
+>> b/drivers/gpu/drm/v3d/v3d_gem.c
+>> index 40ed0c7c3fad..630ea2db8f8f 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+>> @@ -1014,8 +1014,11 @@ v3d_gem_init(struct drm_device *dev)
+>>       u32 pt_size = 4096 * 1024;
+>>       int ret, i;
+>>
+>> -    for (i = 0; i < V3D_MAX_QUEUES; i++)
+>> +    for (i = 0; i < V3D_MAX_QUEUES; i++) {
+>>           v3d->queue[i].fence_context = dma_fence_context_alloc(1);
+>> +        v3d->queue[i].start_ns = 0;
+>> +        v3d->queue[i].enabled_ns = 0;
+>> +    }
+>>
+>>       spin_lock_init(&v3d->mm_lock);
+>>       spin_lock_init(&v3d->job_lock);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c 
+>> b/drivers/gpu/drm/v3d/v3d_irq.c
+>> index c898800ae9c2..be4ff7559309 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+>> @@ -102,9 +102,13 @@ v3d_irq(int irq, void *arg)
+>>           struct v3d_fence *fence =
+>>               to_v3d_fence(v3d->bin_job->base.irq_fence);
+>>           struct v3d_file_priv *file = 
+>> v3d->bin_job->base.file->driver_priv;
+>> +        u64 runtime = local_clock() - file->start_ns[V3D_BIN];
+>>
+>> -        file->enabled_ns[V3D_BIN] += local_clock() - 
+>> file->start_ns[V3D_BIN];
+>>           file->start_ns[V3D_BIN] = 0;
+>> +        v3d->queue[V3D_BIN].start_ns = 0;
+>> +
+>> +        file->enabled_ns[V3D_BIN] += runtime;
+>> +        v3d->queue[V3D_BIN].enabled_ns += runtime;
+>>
+>>           trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
+>>           dma_fence_signal(&fence->base);
+>> @@ -115,9 +119,13 @@ v3d_irq(int irq, void *arg)
+>>           struct v3d_fence *fence =
+>>               to_v3d_fence(v3d->render_job->base.irq_fence);
+>>           struct v3d_file_priv *file = 
+>> v3d->render_job->base.file->driver_priv;
+>> +        u64 runtime = local_clock() - file->start_ns[V3D_RENDER];
+>>
+>> -        file->enabled_ns[V3D_RENDER] += local_clock() - 
+>> file->start_ns[V3D_RENDER];
+>>           file->start_ns[V3D_RENDER] = 0;
+>> +        v3d->queue[V3D_RENDER].start_ns = 0;
+>> +
+>> +        file->enabled_ns[V3D_RENDER] += runtime;
+>> +        v3d->queue[V3D_RENDER].enabled_ns += runtime;
+>>
+>>           trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
+>>           dma_fence_signal(&fence->base);
+>> @@ -128,9 +136,13 @@ v3d_irq(int irq, void *arg)
+>>           struct v3d_fence *fence =
+>>               to_v3d_fence(v3d->csd_job->base.irq_fence);
+>>           struct v3d_file_priv *file = 
+>> v3d->csd_job->base.file->driver_priv;
+>> +        u64 runtime = local_clock() - file->start_ns[V3D_CSD];
+>>
+>> -        file->enabled_ns[V3D_CSD] += local_clock() - 
+>> file->start_ns[V3D_CSD];
+>>           file->start_ns[V3D_CSD] = 0;
+>> +        v3d->queue[V3D_CSD].start_ns = 0;
+>> +
+>> +        file->enabled_ns[V3D_CSD] += runtime;
+>> +        v3d->queue[V3D_CSD].enabled_ns += runtime;
+>>
+>>           trace_v3d_csd_irq(&v3d->drm, fence->seqno);
+>>           dma_fence_signal(&fence->base);
+>> @@ -168,9 +180,13 @@ v3d_hub_irq(int irq, void *arg)
+>>           struct v3d_fence *fence =
+>>               to_v3d_fence(v3d->tfu_job->base.irq_fence);
+>>           struct v3d_file_priv *file = 
+>> v3d->tfu_job->base.file->driver_priv;
+>> +        u64 runtime = local_clock() - file->start_ns[V3D_TFU];
+>>
+>> -        file->enabled_ns[V3D_TFU] += local_clock() - 
+>> file->start_ns[V3D_TFU];
+>>           file->start_ns[V3D_TFU] = 0;
+>> +        v3d->queue[V3D_TFU].start_ns = 0;
+>> +
+>> +        file->enabled_ns[V3D_TFU] += runtime;
+>> +        v3d->queue[V3D_TFU].enabled_ns += runtime;
+>>
+>>           trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
+>>           dma_fence_signal(&fence->base);
+>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c 
+>> b/drivers/gpu/drm/v3d/v3d_sched.c
+>> index b360709c0765..1a9c7f395862 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>> @@ -110,6 +110,7 @@ static struct dma_fence *v3d_bin_job_run(struct 
+>> drm_sched_job *sched_job)
+>>                   job->start, job->end);
+>>
+>>       file->start_ns[V3D_BIN] = local_clock();
+>> +    v3d->queue[V3D_BIN].start_ns = file->start_ns[V3D_BIN];
+>>       file->jobs_sent[V3D_BIN]++;
+>>
+>>       v3d_switch_perfmon(v3d, &job->base);
+>> @@ -165,6 +166,7 @@ static struct dma_fence *v3d_render_job_run(struct 
+>> drm_sched_job *sched_job)
+>>                   job->start, job->end);
+>>
+>>       file->start_ns[V3D_RENDER] = local_clock();
+>> +    v3d->queue[V3D_RENDER].start_ns = file->start_ns[V3D_RENDER];
+>>       file->jobs_sent[V3D_RENDER]++;
+>>
+>>       v3d_switch_perfmon(v3d, &job->base);
+>> @@ -201,6 +203,7 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
+>>       trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
+>>
+>>       file->start_ns[V3D_TFU] = local_clock();
+>> +    v3d->queue[V3D_TFU].start_ns = file->start_ns[V3D_TFU];
+>>       file->jobs_sent[V3D_TFU]++;
+>>
+>>       V3D_WRITE(V3D_TFU_IIA, job->args.iia);
+>> @@ -246,6 +249,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+>>       trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
+>>
+>>       file->start_ns[V3D_CSD] = local_clock();
+>> +    v3d->queue[V3D_CSD].start_ns = file->start_ns[V3D_CSD];
+>>       file->jobs_sent[V3D_CSD]++;
+>>
+>>       v3d_switch_perfmon(v3d, &job->base);
+>> @@ -264,14 +268,21 @@ v3d_cache_clean_job_run(struct drm_sched_job 
+>> *sched_job)
+>>       struct v3d_job *job = to_v3d_job(sched_job);
+>>       struct v3d_dev *v3d = job->v3d;
+>>       struct v3d_file_priv *file = job->file->driver_priv;
+>> +    u64 runtime;
+>>
+>>       file->start_ns[V3D_CACHE_CLEAN] = local_clock();
+>> +    v3d->queue[V3D_CACHE_CLEAN].start_ns = 
+>> file->start_ns[V3D_CACHE_CLEAN];
+>>       file->jobs_sent[V3D_CACHE_CLEAN]++;
+>>
+>>       v3d_clean_caches(v3d);
+>>
+>> -    file->enabled_ns[V3D_CACHE_CLEAN] += local_clock() - 
+>> file->start_ns[V3D_CACHE_CLEAN];
+>> +    runtime = local_clock() - file->start_ns[V3D_CACHE_CLEAN];
+>> +
+>> +    file->enabled_ns[V3D_CACHE_CLEAN] += runtime;
+>> +    v3d->queue[V3D_CACHE_CLEAN].enabled_ns += runtime;
+>> +
+>>       file->start_ns[V3D_CACHE_CLEAN] = 0;
+>> +    v3d->queue[V3D_CACHE_CLEAN].start_ns = 0;
+>>
+>>       return NULL;
+>>   }
+>> -- 
+>> 2.41.0
+>>
