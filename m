@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD7876747F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84937674D3
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 20:24:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8D110E73C;
-	Fri, 28 Jul 2023 18:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDF910E75E;
+	Fri, 28 Jul 2023 18:24:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6CA10E70E
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C88210E72A
  for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 18:22:41 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AF67D1F8B0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EA4791F8B3;
  Fri, 28 Jul 2023 18:22:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690568559; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MzY4Z7rVG/OphoGTsd56EsvKTsMPfCHipdK3wXe7h1k=;
- b=y1IQG77pq7PUOj25wm8nglLPJI2IYNE5kfXSPXHYRtkodDlep4bwlJKO6tblpjJhkT3iTo
- XZ+NmR2ZBgjLeb38To+wC2BXEzfk13GJ/hH82ZKVTkG6fXPUzMFxTCiWaNVjLI8DioNtT8
- pG7/J97VioWgzbKLoJnujF/zQzHD4vw=
+ bh=/4bzESqGlZmHLhCji3eXbEH2SJnz8hXI7TN3ej0mX4A=;
+ b=posYDzu8AfAk4rSn/1H6M7eCVeaCNLb4JcW8xwJsOeVKb3WMCJQSttVxqZy2secuTddTDn
+ 7gsy7CjBtWRoLeX09VEr6swkDWOYDUGJdeM3kFqLpqr0WWMkG4Lz+iT5u36RPRQ/iujXx5
+ 1uOgoBnW8DjUdGu5iFSlsXYx0xpzAZM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690568559;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MzY4Z7rVG/OphoGTsd56EsvKTsMPfCHipdK3wXe7h1k=;
- b=Pl2zv3Zt2qjyHYC68htaxCLTtJ92EOJDTwrH4ZD/W4Zew8lpbSNlwgy7nK7ZfCPdvcWxp7
- oCxRDk0MwZnTw5Bw==
+ bh=/4bzESqGlZmHLhCji3eXbEH2SJnz8hXI7TN3ej0mX4A=;
+ b=ln3jV/0N0fWht85EnF/j7BWtulFc/QCV2CQoOxiwPQ1+JLajyIvhCQqXqfPCYHSLaJzJeT
+ uBaOgzm1c3fG5ZAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 769F513276;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B3811139BD;
  Fri, 28 Jul 2023 18:22:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IOwOHG8HxGQ3CwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id mBb+Km8HxGQ3CwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 18:22:39 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH 13/47] fbdev/geode/gx1fb: Use fbdev I/O helpers
-Date: Fri, 28 Jul 2023 18:39:56 +0200
-Message-ID: <20230728182234.10680-14-tzimmermann@suse.de>
+Subject: [PATCH 14/47] fbdev/geode/gxfb: Use fbdev I/O helpers
+Date: Fri, 28 Jul 2023 18:39:57 +0200
+Message-ID: <20230728182234.10680-15-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728182234.10680-1-tzimmermann@suse.de>
 References: <20230728182234.10680-1-tzimmermann@suse.de>
@@ -87,17 +87,17 @@ no functional change.
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Andres Salomon <dilinger@queued.net>
 ---
- drivers/video/fbdev/geode/Kconfig      | 4 +---
- drivers/video/fbdev/geode/gx1fb_core.c | 5 +----
+ drivers/video/fbdev/geode/Kconfig     | 4 +---
+ drivers/video/fbdev/geode/gxfb_core.c | 5 +----
  2 files changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/video/fbdev/geode/Kconfig b/drivers/video/fbdev/geode/Kconfig
-index b184085a78c2..511d0b314a1d 100644
+index 511d0b314a1d..216bb54c8101 100644
 --- a/drivers/video/fbdev/geode/Kconfig
 +++ b/drivers/video/fbdev/geode/Kconfig
-@@ -45,9 +45,7 @@ config FB_GEODE_GX
- config FB_GEODE_GX1
- 	tristate "AMD Geode GX1 framebuffer support"
+@@ -29,9 +29,7 @@ config FB_GEODE_LX
+ config FB_GEODE_GX
+ 	tristate "AMD Geode GX framebuffer support"
  	depends on FB && FB_GEODE
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
@@ -106,26 +106,26 @@ index b184085a78c2..511d0b314a1d 100644
  	select VIDEO_NOMODESET
  	help
  	  Framebuffer driver for the display controller integrated into the
-diff --git a/drivers/video/fbdev/geode/gx1fb_core.c b/drivers/video/fbdev/geode/gx1fb_core.c
-index ddec35e3bbeb..db009ddcdfcb 100644
---- a/drivers/video/fbdev/geode/gx1fb_core.c
-+++ b/drivers/video/fbdev/geode/gx1fb_core.c
-@@ -255,14 +255,11 @@ static int parse_panel_option(struct fb_info *info)
+diff --git a/drivers/video/fbdev/geode/gxfb_core.c b/drivers/video/fbdev/geode/gxfb_core.c
+index 4fb13790c528..d0bc2f9cef9a 100644
+--- a/drivers/video/fbdev/geode/gxfb_core.c
++++ b/drivers/video/fbdev/geode/gxfb_core.c
+@@ -268,14 +268,11 @@ static int gxfb_map_video_memory(struct fb_info *info, struct pci_dev *dev)
  
- static const struct fb_ops gx1fb_ops = {
+ static const struct fb_ops gxfb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IO_OPS,
- 	.fb_check_var	= gx1fb_check_var,
- 	.fb_set_par	= gx1fb_set_par,
- 	.fb_setcolreg	= gx1fb_setcolreg,
- 	.fb_blank       = gx1fb_blank,
+ 	.fb_check_var	= gxfb_check_var,
+ 	.fb_set_par	= gxfb_set_par,
+ 	.fb_setcolreg	= gxfb_setcolreg,
+ 	.fb_blank       = gxfb_blank,
 -	/* No HW acceleration for now. */
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- static struct fb_info *gx1fb_init_fbinfo(struct device *dev)
+ static struct fb_info *gxfb_init_fbinfo(struct device *dev)
 -- 
 2.41.0
 
