@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8107A767D36
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 10:40:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 266C5767D37
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 10:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 301D510E040;
-	Sat, 29 Jul 2023 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 522F110E032;
+	Sat, 29 Jul 2023 08:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880C610E134
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 20:07:39 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1bbc7b2133fso16138485ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 13:07:39 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 667CE10E6BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 20:07:49 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1bb81809ca8so19338985ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 13:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20221208.gappssmtp.com; s=20221208; t=1690574859; x=1691179659;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0dGyL1Lliy4sMGhP4x4gJQppxXscqT/ISt433fAY9RA=;
- b=s6U7BS0q7z0qtro9bHXdVq5BC1p3hXjPrOeucRC0GzbIZcbfMKBhOQl/xLux2UIGNO
- thfzCUO7CbcHfM/k8FL1Al1aUMWLa6qIlYfQ54Q+0FE9cuk73AI/+9sBaB69F/+TxWPx
- Cs448XMcw2U6tumGjfZWiKzBH0PAlkmP/i8SNdHJCbKXbDS/7d3nOiB73e9/iEl2T3yH
- IEpKH8O6ewhE8hZ8RVNDiOSy9A+OUMfPvHdYqAqWRauauDOFTzyZETtJcG4n480k0y2y
- Kpc7UPP7RVUszzo9WRnRaFbWx08EfpD0mhSLvpqUqynZKQ7zFk/6Knb6Hp5Nfak7Epsz
- UkTw==
+ d=igel-co-jp.20221208.gappssmtp.com; s=20221208; t=1690574869; x=1691179669;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p5RacAQ+h1XYtfSxQvgrfsN4D9QpF3jxUnp9xUi996I=;
+ b=YkhOH87FDTMpw4vyh+gJwH6I/onZpCyL7sNLAIlSe4tKB3xkRChnc8vMmxWhyRiTsG
+ Km+DjTD+7UfShJmvlz9FcSsP1JsmszzyO/qlcgcpV5okteh16S4/wtQlseYxcpSYHk4P
+ 4burqc66jjjwEfHwxVgX40s/MhprBfMyJsy7PmA1jdAizFT9ci4NH1+g731ktGLRP3rT
+ ErM77mdTkDZgnAmm6NTSKzSlUcIi9h4C57oV/jSskIAQovR0Y4n2qgknPxKIoEDbg7BI
+ GEgB/CMgqCBrjcQn5qvLcVVHNkKClMvnA1DbuRDuJP1uLcbHrpvDdF+rArXc23R6xIC2
+ cSvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690574859; x=1691179659;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0dGyL1Lliy4sMGhP4x4gJQppxXscqT/ISt433fAY9RA=;
- b=UZbL+DrcWY8dO9pNBzMrma5qCMldEwUOFXLe9P96qJg8sZ7KWjc7WFeuniXv90KPZf
- xGywFwOV1PT2+JmgdmTR+vn+2QTWdmv7/lCwuH9WjxitaOY2tiOdxaNnZ93hN1VZ8Diq
- 1R7Iltjyfm9BxpDK3KC3ozapUAQBDGX8kGLjorChXnPqYn+ptI5OKbyvsEmJNNBsgYrT
- FNGGI/Hb4SiIxn26lRCrtfmsVt6FWnYkPm2Gxig6qw816NMjA12NpqfjQFZ/jQrqhTry
- PfNkz16D8J3/MQGn4j/LvQqAHETCiIX7HxMDyhB2ckKRRVVu08486wa4OwuFV/shgqho
- L8HQ==
-X-Gm-Message-State: ABy/qLadnWdZ4/dQ7qHv874ODPrd3niujAlPn9fv4tvaSP/sjDfgkgXr
- KjdL44/0et+wVfl4fKNR6FKXOA==
-X-Google-Smtp-Source: APBJJlF7QzLqxFraslwo86e5wHaek5rbivk5hmKBqyqAKscJabDE4Vi3qBlicb81r5kyjn/cjIZ73w==
-X-Received: by 2002:a17:903:11d0:b0:1b6:bced:1dd6 with SMTP id
- q16-20020a17090311d000b001b6bced1dd6mr2871541plh.35.1690574859061; 
- Fri, 28 Jul 2023 13:07:39 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1690574869; x=1691179669;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p5RacAQ+h1XYtfSxQvgrfsN4D9QpF3jxUnp9xUi996I=;
+ b=Td6F6eaEo0tqCs8plWstjqnWSRBz07c4QFQ5WHWx6592lN5yO2cVNtkbpQHvNueM8i
+ mkoROnA+xJ4PutbN21rwj+0OI8eOx4Nr0ODuwZtJUzYPKgoZvYqt5jaXHUtMHIaV0YFX
+ OJaSquW0aTR/4Gr3xSYOMN9BzM9Ws69TYVzWqOyKGB0+Ix/Wl2Y4IHbjbkIP1vjSjVnL
+ 0teYF4iwFsjn/l6ouDbVMmyxQxUt4DnLWyuJL1IzamMWG8TEA3O4ePD7a8EtnmeD4+eZ
+ DSwf4mvj/wgfQaO50BYXEf4g71BZDMZa7M3WTrf2KTLO/DTECOnKzV8PVPL5yfTHz8SE
+ ye3Q==
+X-Gm-Message-State: ABy/qLbhp+iYO5Wxi9AwOTVfJXBRF2s5iTi1pY1xiBqKxUKtpV1RlceK
+ +4huF+OB/xPH4czqz9sZhpvhcw==
+X-Google-Smtp-Source: APBJJlEtdm4vDsdKp1B47O1dOduvNGOdg+zVREPAkMjxO4J4CBebVHWefhQS4fjMJlvpWmimiA9Vuw==
+X-Received: by 2002:a17:902:a518:b0:1b5:5052:5af7 with SMTP id
+ s24-20020a170902a51800b001b550525af7mr2910838plq.8.1690574868948; 
+ Fri, 28 Jul 2023 13:07:48 -0700 (PDT)
 Received: from D100-Linux.hq.igel.co.jp (69-165-247-94.cable.teksavvy.com.
  [69.165.247.94]) by smtp.gmail.com with ESMTPSA id
- l5-20020a170903120500b001b830d8bc40sm3980848plh.74.2023.07.28.13.07.35
+ l5-20020a170903120500b001b830d8bc40sm3980848plh.74.2023.07.28.13.07.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jul 2023 13:07:38 -0700 (PDT)
+ Fri, 28 Jul 2023 13:07:48 -0700 (PDT)
 From: Damian Hobson-Garcia <dhobsong@igel.co.jp>
 To: laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com
-Subject: [PATCH 1/2] drm: rcar-du: Add more formats to
- DRM_MODE_BLEND_PIXEL_NONE support
-Date: Fri, 28 Jul 2023 16:07:13 -0400
-Message-Id: <20230728200714.2084223-1-dhobsong@igel.co.jp>
+Subject: [PATCH 2/2] drm:rcar-du: Enable ABGR and XBGR formats
+Date: Fri, 28 Jul 2023 16:07:14 -0400
+Message-Id: <20230728200714.2084223-2-dhobsong@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230728200714.2084223-1-dhobsong@igel.co.jp>
+References: <20230728200714.2084223-1-dhobsong@igel.co.jp>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 29 Jul 2023 08:40:40 +0000
@@ -77,91 +79,47 @@ Cc: linux-renesas-soc@vger.kernel.org, taki@igel.co.jp,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add additional pixel formats for which blending is disabling when
-DRM_MODE_BLEND_PIXEL_NONE is set.
-
-Refactor the fourcc selection into a separate function to handle the
-increased number of formats.
+These formats are used by Android so having them available
+allows the DU to be used for composition operations.
 
 Signed-off-by: Damian Hobson-Garcia <dhobsong@igel.co.jp>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 49 ++++++++++++-------
- 1 file changed, 32 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-index 45c05d0ffc70..96241c03b60f 100644
+index 96241c03b60f..d61bb2e44c06 100644
 --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
 +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
-@@ -176,6 +176,37 @@ static const u32 rcar_du_vsp_formats_gen4[] = {
- 	DRM_FORMAT_Y212,
- };
+@@ -122,6 +122,8 @@ static const u32 rcar_du_vsp_formats[] = {
+ 	DRM_FORMAT_RGB888,
+ 	DRM_FORMAT_BGRA8888,
+ 	DRM_FORMAT_BGRX8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_XBGR8888,
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_UYVY,
+@@ -154,6 +156,8 @@ static const u32 rcar_du_vsp_formats_gen4[] = {
+ 	DRM_FORMAT_RGB888,
+ 	DRM_FORMAT_BGRA8888,
+ 	DRM_FORMAT_BGRX8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_XBGR8888,
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_RGBX1010102,
+@@ -194,6 +198,10 @@ static u32 rcar_du_vsp_state_get_format(struct rcar_du_vsp_plane_state *state)
+ 			fourcc = DRM_FORMAT_XRGB8888;
+ 			break;
  
-+static u32 rcar_du_vsp_state_get_format(struct rcar_du_vsp_plane_state *state)
-+{
-+	u32 fourcc = state->format->fourcc;
-+
-+	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
-+		switch (fourcc) {
-+		case DRM_FORMAT_ARGB1555:
-+			fourcc = DRM_FORMAT_XRGB1555;
++		case DRM_FORMAT_ABGR8888:
++			fourcc = DRM_FORMAT_XBGR8888;
 +			break;
 +
-+		case DRM_FORMAT_ARGB4444:
-+			fourcc = DRM_FORMAT_XRGB4444;
-+			break;
-+
-+		case DRM_FORMAT_ARGB8888:
-+			fourcc = DRM_FORMAT_XRGB8888;
-+			break;
-+
-+		case DRM_FORMAT_BGRA8888:
-+			fourcc = DRM_FORMAT_BGRX8888;
-+			break;
-+
-+		case DRM_FORMAT_RGBA1010102:
-+			fourcc = DRM_FORMAT_RGBX1010102;
-+			break;
-+		}
-+	}
-+
-+	return fourcc;
-+}
-+
- static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- {
- 	struct rcar_du_vsp_plane_state *state =
-@@ -189,7 +220,7 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- 		.alpha = state->state.alpha >> 8,
- 		.zpos = state->state.zpos,
- 	};
--	u32 fourcc = state->format->fourcc;
-+	u32 fourcc = rcar_du_vsp_state_get_format(state);
- 	unsigned int i;
- 
- 	cfg.src.left = state->state.src.x1 >> 16;
-@@ -206,22 +237,6 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
- 		cfg.mem[i] = sg_dma_address(state->sg_tables[i].sgl)
- 			   + fb->offsets[i];
- 
--	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
--		switch (fourcc) {
--		case DRM_FORMAT_ARGB1555:
--			fourcc = DRM_FORMAT_XRGB1555;
--			break;
--
--		case DRM_FORMAT_ARGB4444:
--			fourcc = DRM_FORMAT_XRGB4444;
--			break;
--
--		case DRM_FORMAT_ARGB8888:
--			fourcc = DRM_FORMAT_XRGB8888;
--			break;
--		}
--	}
--
- 	format = rcar_du_format_info(fourcc);
- 	cfg.pixelformat = format->v4l2;
- 
+ 		case DRM_FORMAT_BGRA8888:
+ 			fourcc = DRM_FORMAT_BGRX8888;
+ 			break;
 -- 
 2.25.1
 
