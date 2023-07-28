@@ -1,50 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40D07678C3
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 00:59:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C4D7678E4
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 01:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 761A810E79B;
-	Fri, 28 Jul 2023 22:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3EB10E79D;
+	Fri, 28 Jul 2023 23:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFCF10E79B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 22:59:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690585144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=1z4CG4XPVPLqBvlOoBnJ7hAp50An6oynW+ge2nUWWpM=;
- b=Ju7/ZBcYuq6LQMhhbpoC6ACIcYnx5TyoxnDDAXU0ZCxMlLzjaaZrEFSPXkZ8qRo83zKkZ0
- uVKawTCOh9AwYqFrFnzUD0PnvcvhRmdslyG/MBJ90SSGDbESikHAu7qyknJLdoHTjCUITa
- NCvGkoE0Qt7HMFIpF0nsfDbkUM9K0Os=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-UqOiqX9RNoyrlAbE-XyiPA-1; Fri, 28 Jul 2023 18:59:01 -0400
-X-MC-Unique: UqOiqX9RNoyrlAbE-XyiPA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8F011006E31;
- Fri, 28 Jul 2023 22:59:00 +0000 (UTC)
-Received: from emerald.redhat.com (unknown [10.22.16.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86FB54A9004;
- Fri, 28 Jul 2023 22:58:59 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/nouveau/nvkm/dp: Add workaround to fix DP 1.3+ DPCD
- issues
-Date: Fri, 28 Jul 2023 18:58:57 -0400
-Message-Id: <20230728225858.350581-1-lyude@redhat.com>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EC210E79D
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 23:21:26 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-99bf1f632b8so129736466b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 16:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690586485; x=1691191285;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VU71FgufItpAe9P79uaTKO9H7QH05QlgbBDklotULzo=;
+ b=vemgNTR6NtNoy9u+J7GEAdpNdpIFDV05joXBhwXHc/YZ4ADJTx/rf/0i5MgpMjtYFu
+ mBmNd5q+tsTdhbNHKpjezbYYP2HEOFRC3W6gYkqhlq4Ww+LnX6Ir2HSnCD/KmSNcxg3U
+ ZB2pVlyqpuqoUlHIiegyiXMEfg8N2OpN4SDZiXM+rXDdXI3XPHP9lABGUGMePYEgSH+V
+ kE2BDPEvt+QIHduWdXEbmOX5sg7SrcKGJURJFnqyYl7Fp+8j3TdaFUHSlTKIZNE0EHBP
+ XZ2dLZY4BZag0pAIOW2/GQ9bqKpt8iKZjCG7j8R+xG9dLPFBEb5t4KswQ+41h+9Dr/Wg
+ WzyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690586485; x=1691191285;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VU71FgufItpAe9P79uaTKO9H7QH05QlgbBDklotULzo=;
+ b=f3Wqd/apBiGFx3hS1bzbyg+8W4/fIDOxsRSSEIla1frjCUcwb4KZE18qLUmFlWgzjF
+ et8/eBQhTT89qHEaJX6CSe6NeA/HPeJyuw3aopgv2FkiauzmXUjzvjzmbch5HWkmzZ/Y
+ CEZgJxKsKoAJs6tazCYY1djk/S0t8+Ep17mnx4Dr2TfMaQq+CV/L7+UdH21r6z+MOBFM
+ 3sNICpri0oMwyKepysgGxY0U30D28QM66iNc6VSHwGal2VgHhVwyuUnKjQaUdsJu6A8Z
+ 0kiktJ9f30fO23JZvdTgqlMPkhMfRP26LHl6AxKgnhE2+dowSQaaaT4TpcRXx1Ob5Zla
+ twNQ==
+X-Gm-Message-State: ABy/qLZqy8YXXHwQmaMfbeHiExVAjQzZnwbfXGlO34qFB1thLsNLaLB0
+ wCMnXrIUDiGIX/SI6Aeekw9vjQ==
+X-Google-Smtp-Source: APBJJlGZqsd2mYBLFuMjvJCA2YQtko2DmjgMB55M8W3KCCvUboBJ7oPuw3San47k9EUkpJyK44dHCQ==
+X-Received: by 2002:a17:906:844b:b0:99b:415f:2e4f with SMTP id
+ e11-20020a170906844b00b0099b415f2e4fmr539179ejy.57.1690586484553; 
+ Fri, 28 Jul 2023 16:21:24 -0700 (PDT)
+Received: from [10.10.15.130] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ m10-20020a17090607ca00b0099bcf9c2ec6sm2570119ejc.75.2023.07.28.16.21.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jul 2023 16:21:24 -0700 (PDT)
+Message-ID: <32b995e7-e418-f442-f976-8247dd66c578@linaro.org>
+Date: Sat, 29 Jul 2023 02:21:22 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] drm/panel: Enable DSC and CMD mode for Visionox
+ VTDR6130 panel
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Paloma Arellano <quic_parellan@quicinc.com>
+References: <20230728012623.22991-1-quic_parellan@quicinc.com>
+ <CAA8EJpqPgzd4ZSP948MQW=f4EVBHxajj4nwYq5s-OConBP7Vvg@mail.gmail.com>
+ <a03e4ec2-0516-7d4c-180f-e0916c83373b@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <a03e4ec2-0516-7d4c-180f-e0916c83373b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,109 +80,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org,
+ freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently we use the drm_dp_dpcd_read_caps() helper in the DRM side of
-nouveau in order to read the DPCD of a DP connector, which makes sure we do
-the right thing and also check for extended DPCD caps. However, it turns
-out we're not currently doing this on the nvkm side since we don't have
-access to the drm_dp_aux structure there - which means that the DRM side of
-the driver and the NVKM side can end up with different DPCD capabilities
-for the same connector.
+On 29/07/2023 00:44, Jessica Zhang wrote:
+> 
+> 
+> On 7/28/2023 2:37 AM, Dmitry Baryshkov wrote:
+>> On Fri, 28 Jul 2023 at 04:26, Paloma Arellano 
+>> <quic_parellan@quicinc.com> wrote:
+>>>
+>>> Enable display compression (DSC v1.2) and CMD mode for 1080x2400 
+>>> Visionox
+>>> VTDR6130 AMOLED DSI panel. In addition, this patch will set the default
+>>> to command mode with DSC enabled.
+>>>
+>>> Note: This patch has only been validated DSC over command mode as DSC 
+>>> over
+>>> video mode has never been validated for the MSM driver before.
+>>>
+>>> Depends on: "Add prepare_prev_first flag to Visionox VTDR6130" [1]
+>>>
+>>> Changes since v1:
+>>>   - Changed from email address
+>>>
+>>> [1] https://patchwork.freedesktop.org/series/121337/
+>>>
+>>> Suggested-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>> ---
+>>>   .../gpu/drm/panel/panel-visionox-vtdr6130.c   | 77 ++++++++++++++++++-
+>>>   1 file changed, 73 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c 
+>>> b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+>>> index e1363e128e7e..5658d39a3a6b 100644
+>>> --- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+>>> +++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+>>> @@ -9,6 +9,7 @@
+>>>   #include <linux/of.h>
+>>>
+>>>   #include <drm/display/drm_dsc.h>
+>>> +#include <drm/display/drm_dsc_helper.h>
+>>>   #include <drm/drm_mipi_dsi.h>
+>>>   #include <drm/drm_modes.h>
+>>>   #include <drm/drm_panel.h>
+>>> @@ -20,7 +21,8 @@ struct visionox_vtdr6130 {
+>>>          struct mipi_dsi_device *dsi;
+>>>          struct gpio_desc *reset_gpio;
+>>>          struct regulator_bulk_data supplies[3];
+>>> -       bool prepared;
+>>> +       bool prepared, enabled;
+>>> +       bool video_mode;
+>>>   };
+>>>
+>>>   static inline struct visionox_vtdr6130 *to_visionox_vtdr6130(struct 
+>>> drm_panel *panel)
+>>> @@ -50,12 +52,18 @@ static int visionox_vtdr6130_on(struct 
+>>> visionox_vtdr6130 *ctx)
+>>>          if (ret)
+>>>                  return ret;
+>>>
+>>> +       mipi_dsi_dcs_write_seq(dsi, 0x03, 0x01);
+>>>          mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 
+>>> 0x20);
+>>>          mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS, 
+>>> 0x00, 0x00);
+>>>          mipi_dsi_dcs_write_seq(dsi, 0x59, 0x09);
+>>>          mipi_dsi_dcs_write_seq(dsi, 0x6c, 0x01);
+>>>          mipi_dsi_dcs_write_seq(dsi, 0x6d, 0x00);
+>>> -       mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x01);
+>>> +
+>>> +       if (ctx->video_mode)
+>>> +               mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x01);
+>>> +       else
+>>> +               mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x02);
+>>> +
+>>>          mipi_dsi_dcs_write_seq(dsi, 0x70,
+>>>                                 0x12, 0x00, 0x00, 0xab, 0x30, 0x80, 
+>>> 0x09, 0x60, 0x04,
+>>>                                 0x38, 0x00, 0x28, 0x02, 0x1c, 0x02, 
+>>> 0x1c, 0x02, 0x00,
+>>> @@ -214,6 +222,42 @@ static const struct drm_display_mode 
+>>> visionox_vtdr6130_mode = {
+>>>          .height_mm = 157,
+>>>   };
+>>>
+>>> +static int visionox_vtdr6130_enable(struct drm_panel *panel)
+>>> +{
+>>> +       struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
+>>> +       struct mipi_dsi_device *dsi = ctx->dsi;
+>>> +       struct drm_dsc_picture_parameter_set pps;
+>>> +       int ret;
+>>> +
+>>> +       if (ctx->enabled)
+>>> +               return 0;
+>>> +
+>>> +       if (!dsi->dsc) {
+>>> +               dev_err(&dsi->dev, "DSC not attached to DSI\n");
+>>> +               return -ENODEV;
+>>> +       }
+>>
+>> The error message is misleading. Also, if you don't want to enable DSC
+>> for the video mode, this will break.
+>>
+>>> +
+>>> +       drm_dsc_pps_payload_pack(&pps, dsi->dsc);
+>>> +       ret = mipi_dsi_picture_parameter_set(dsi, &pps);
+>>> +       if (ret) {
+>>> +               dev_err(&dsi->dev, "Failed to set PPS\n");
+>>> +               return ret;
+>>> +       }
+>>> +
+>>> +       ctx->enabled = true;
+>>
+>> Do we need this refcount just for PPS upload? What will happen if PPS
+>> is uploaded several times?
+>>
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>> +static int visionox_vtdr6130_disable(struct drm_panel *panel)
+>>> +{
+>>> +       struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
+>>> +
+>>> +       ctx->enabled = false;
+>>> +
+>>> +       return 0;
+>>> +}
+>>> +
+>>>   static int visionox_vtdr6130_get_modes(struct drm_panel *panel,
+>>>                                         struct drm_connector *connector)
+>>>   {
+>>> @@ -237,6 +281,8 @@ static const struct drm_panel_funcs 
+>>> visionox_vtdr6130_panel_funcs = {
+>>>          .prepare = visionox_vtdr6130_prepare,
+>>>          .unprepare = visionox_vtdr6130_unprepare,
+>>>          .get_modes = visionox_vtdr6130_get_modes,
+>>> +       .enable = visionox_vtdr6130_enable,
+>>> +       .disable = visionox_vtdr6130_disable,
+>>>   };
+>>>
+>>>   static int visionox_vtdr6130_bl_update_status(struct 
+>>> backlight_device *bl)
+>>> @@ -269,11 +315,31 @@ static int visionox_vtdr6130_probe(struct 
+>>> mipi_dsi_device *dsi)
+>>>   {
+>>>          struct device *dev = &dsi->dev;
+>>>          struct visionox_vtdr6130 *ctx;
+>>> +       struct drm_dsc_config *dsc;
+>>>          int ret;
+>>>
+>>>          ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+>>>          if (!ctx)
+>>>                  return -ENOMEM;
+>>> +
+>>> +       ctx->video_mode = of_property_read_bool(dev->of_node, 
+>>> "enforce-video-mode");
+>>
+>> Please also add a DT bindings patch.
+>>
+>>> +
+>>> +       dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
+>>> +       if (!dsc)
+>>> +               return -ENOMEM;
+>>
+>> You can add struct drm_dsc_config to struct visionox_vtdr6130 instead
+>> of allocating it.
+>>
+>>> +
+>>> +       /* Set DSC params */
+>>> +       dsc->dsc_version_major = 0x1;
+>>> +       dsc->dsc_version_minor = 0x2;
+>>> +
+>>> +       dsc->slice_height = 40;
+>>> +       dsc->slice_width = 540;
+>>> +       dsc->slice_count = 2;
+>>> +       dsc->bits_per_component = 8;
+>>> +       dsc->bits_per_pixel = 8 << 4;
+>>> +       dsc->block_pred_enable = true;
+>>> +
+>>> +       dsi->dsc = dsc;
+>>
+>> Only in command mode?
+> 
+> Hi Dmitry,
+> 
+> The intention of the patch wasn't to enable DSC for only command mode.
+> 
+> We didn't want to limit DSC to only command mode because, while the MSM 
+> DPU driver isn't able to validate DSC on video mode, other vendors might 
+> have already validated DSC on video mode and would benefit from this patch.
+> 
+> FWIW, inital driver commit [1] notes that the panel is meant to work 
+> with compressed streams in general and DSC support was tob be added 
+> later on.
 
-Ideally in order to fix this, we just want to use the
-drm_dp_read_dpcd_caps() helper in nouveau. That's not currently possible
-though, and is going to depend on having a bunch of the DP code moved out
-of nvkm and into the DRM side of things as part of the GSP enablement work.
+Ack.
 
-Until then however, let's workaround this problem by porting a copy of
-drm_dp_read_dpcd_caps() into NVKM - which should fix this issue.
+> 
+> Thanks,
+> 
+> Jessica Zhang
+> 
+> [1] https://patchwork.freedesktop.org/patch/517483/?series=112369&rev=2
+> 
+>>
+>>>
+>>>          ctx->supplies[0].supply = "vddio";
+>>>          ctx->supplies[1].supply = "vci";
+>>> @@ -294,8 +360,11 @@ static int visionox_vtdr6130_probe(struct 
+>>> mipi_dsi_device *dsi)
+>>>
+>>>          dsi->lanes = 4;
+>>>          dsi->format = MIPI_DSI_FMT_RGB888;
+>>> -       dsi->mode_flags = MIPI_DSI_MODE_VIDEO | 
+>>> MIPI_DSI_MODE_NO_EOT_PACKET |
+>>> -                         MIPI_DSI_CLOCK_NON_CONTINUOUS;
+>>> +
+>>> +       dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET | 
+>>> MIPI_DSI_CLOCK_NON_CONTINUOUS;
+>>
+>> Keep the line split please.
+>>
+>>> +       if (ctx->video_mode)
+>>> +               dsi->mode_flags |= MIPI_DSI_MODE_VIDEO;
+>>> +
+>>>          ctx->panel.prepare_prev_first = true;
+>>>
+>>>          drm_panel_init(&ctx->panel, dev, 
+>>> &visionox_vtdr6130_panel_funcs,
+>>> -- 
+>>> 2.41.0
+>>>
+>>
+>>
+>> -- 
+>> With best wishes
+>> Dmitry
 
-Issue: https://gitlab.freedesktop.org/drm/nouveau/-/issues/211
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 48 ++++++++++++++++++-
- 1 file changed, 47 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-index 40c8ea43c42f2..b8ac66b4a2c4b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-@@ -26,6 +26,8 @@
- #include "head.h"
- #include "ior.h"
- 
-+#include <drm/display/drm_dp.h>
-+
- #include <subdev/bios.h>
- #include <subdev/bios/init.h>
- #include <subdev/gpio.h>
-@@ -634,6 +636,50 @@ nvkm_dp_enable_supported_link_rates(struct nvkm_outp *outp)
- 	return outp->dp.rates != 0;
- }
- 
-+/* XXX: This is a big fat hack, and this is just drm_dp_read_dpcd_caps()
-+ * converted to work inside nvkm. This is a temporary holdover until we start
-+ * passing the drm_dp_aux device through NVKM
-+ */
-+static int
-+nvkm_dp_read_dpcd_caps(struct nvkm_outp *outp)
-+{
-+	struct nvkm_i2c_aux *aux = outp->dp.aux;
-+	u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
-+	int ret;
-+
-+	ret = nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, DP_RECEIVER_CAP_SIZE);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * Prior to DP1.3 the bit represented by
-+	 * DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT was reserved.
-+	 * If it is set DP_DPCD_REV at 0000h could be at a value less than
-+	 * the true capability of the panel. The only way to check is to
-+	 * then compare 0000h and 2200h.
-+	 */
-+	if (!(outp->dp.dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
-+	      DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT))
-+		return 0;
-+
-+	ret = nvkm_rdaux(aux, DP_DP13_DPCD_REV, dpcd_ext, sizeof(dpcd_ext));
-+	if (ret < 0)
-+		return ret;
-+
-+	if (outp->dp.dpcd[DP_DPCD_REV] > dpcd_ext[DP_DPCD_REV]) {
-+		OUTP_DBG(outp, "Extended DPCD rev less than base DPCD rev (%d > %d)\n",
-+			 outp->dp.dpcd[DP_DPCD_REV], dpcd_ext[DP_DPCD_REV]);
-+		return 0;
-+	}
-+
-+	if (!memcmp(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext)))
-+		return 0;
-+
-+	memcpy(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext));
-+
-+	return 0;
-+}
-+
- void
- nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
- {
-@@ -689,7 +735,7 @@ nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
- 			memset(outp->dp.lttpr, 0x00, sizeof(outp->dp.lttpr));
- 		}
- 
--		if (!nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, sizeof(outp->dp.dpcd))) {
-+		if (!nvkm_dp_read_dpcd_caps(outp)) {
- 			const u8 rates[] = { 0x1e, 0x14, 0x0a, 0x06, 0 };
- 			const u8 *rate;
- 			int rate_max;
 -- 
-2.40.1
+With best wishes
+Dmitry
 
