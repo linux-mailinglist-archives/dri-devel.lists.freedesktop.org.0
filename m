@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70FC766364
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 06:48:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E98376635D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 06:48:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25EAC10E646;
-	Fri, 28 Jul 2023 04:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F49710E645;
+	Fri, 28 Jul 2023 04:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5377A10E63C;
- Fri, 28 Jul 2023 04:48:29 +0000 (UTC)
-Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RBw9H5nhFz1GDJX;
- Fri, 28 Jul 2023 12:47:31 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A76210E63B;
+ Fri, 28 Jul 2023 04:48:30 +0000 (UTC)
+Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4RBw9J50qQz1GDKB;
+ Fri, 28 Jul 2023 12:47:32 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
  dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2507.27; Fri, 28 Jul 2023 12:48:26 +0800
 From: Kefeng Wang <wangkefeng.wang@huawei.com>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 2/4] drm/amdkfd: use vma_is_initial_stack() and
+Subject: [PATCH v3 3/4] selinux: use vma_is_initial_stack() and
  vma_is_initial_heap()
-Date: Fri, 28 Jul 2023 13:00:41 +0800
-Message-ID: <20230728050043.59880-3-wangkefeng.wang@huawei.com>
+Date: Fri, 28 Jul 2023 13:00:42 +0800
+Message-ID: <20230728050043.59880-4-wangkefeng.wang@huawei.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
 References: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.175.113.25]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm100001.china.huawei.com (7.185.36.93)
@@ -62,35 +62,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the helpers to simplify code.
 
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
+Cc: Eric Paris <eparis@parisplace.org>
+Acked-by: Paul Moore <paul@paul-moore.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ security/selinux/hooks.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 01c7de2d6e19..308384dbc502 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -2624,10 +2624,7 @@ svm_range_get_range_boundaries(struct kfd_process *p, int64_t addr,
- 		return -EFAULT;
- 	}
- 
--	*is_heap_stack = (vma->vm_start <= vma->vm_mm->brk &&
--			  vma->vm_end >= vma->vm_mm->start_brk) ||
--			 (vma->vm_start <= vma->vm_mm->start_stack &&
--			  vma->vm_end >= vma->vm_mm->start_stack);
-+	*is_heap_stack = vma_is_initial_heap(vma) || vma_is_initial_stack(vma);
- 
- 	start_limit = max(vma->vm_start >> PAGE_SHIFT,
- 		      (unsigned long)ALIGN_DOWN(addr, 2UL << 8));
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index c87b79a29fad..ac582c046c51 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -3800,13 +3800,10 @@ static int selinux_file_mprotect(struct vm_area_struct *vma,
+ 	if (default_noexec &&
+ 	    (prot & PROT_EXEC) && !(vma->vm_flags & VM_EXEC)) {
+ 		int rc = 0;
+-		if (vma->vm_start >= vma->vm_mm->start_brk &&
+-		    vma->vm_end <= vma->vm_mm->brk) {
++		if (vma_is_initial_heap(vma)) {
+ 			rc = avc_has_perm(sid, sid, SECCLASS_PROCESS,
+ 					  PROCESS__EXECHEAP, NULL);
+-		} else if (!vma->vm_file &&
+-			   ((vma->vm_start <= vma->vm_mm->start_stack &&
+-			     vma->vm_end >= vma->vm_mm->start_stack) ||
++		} else if (!vma->vm_file && (vma_is_initial_stack(vma) ||
+ 			    vma_is_stack_for_current(vma))) {
+ 			rc = avc_has_perm(sid, sid, SECCLASS_PROCESS,
+ 					  PROCESS__EXECSTACK, NULL);
 -- 
 2.41.0
 
