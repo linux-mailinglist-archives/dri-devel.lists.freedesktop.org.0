@@ -2,61 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BC0766F8F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BEB766F91
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 16:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D32310E129;
-	Fri, 28 Jul 2023 14:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 086F510E706;
+	Fri, 28 Jul 2023 14:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F2410E129
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 14:35:17 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4fdd31bf179so3779679e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 07:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690554916; x=1691159716;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PMuycaeSJH1VFjMWMvqrIqowm0hdXJu+J1st1dRELqA=;
- b=o91cpNFyJtd7GEOdBjAxmF6SHMLE92gyF8LhyyX7fSuAE7/avPMZWwx56RIO6wcD1C
- +UQ5zMA55EMzaj/ngEpgkPm4Ck8+vy568ey8zYObaHymUmHEqzagAUmVxLvNgv161YlH
- lAQKLDQ8bg1MOJ3z++XCCGuVFgk9FU4yNmQLxcbvk4RQergxJ2XgEUIkKLq2p0+GRPHt
- BFMcb/b4naIt/bh/pZN5RJXCN/PHpzQ5m+Hu9JXrbPdjTWUcRjKbNjT4jUrz8RRtRXmc
- L59prj0oUilc+Abw0fKwrDYVkU6Z3j5r1G3+VotlloQ147ualYyB3XPcK5+ggYfhqCYO
- r8Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690554916; x=1691159716;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PMuycaeSJH1VFjMWMvqrIqowm0hdXJu+J1st1dRELqA=;
- b=TFnLC8x7vQKDfuFBIm7gVh7942Vxhu65JcMR9f8KxIJrVyNASJwX0Q7z3YCYeuIVMA
- Nh0TCF8K4sZh+fNzGG/Pyl/mVirbLZnTgJ4cEPZyZuA+u2JZZC1GXEaiY2lmF+dbddUZ
- wBT8PwHnowNCeAjHGGELp4ndQnXv+lHX4RIC/lrcAsoQM+bbJX6kdfQoJgyeS8Drhld5
- KH9Fq0YTnLB7UWxEH+hVHQeVMMwduhk7tm0NSxwacYmKWW9flhgaAdIKWUDot7fcn2fn
- yCA2da+Cel7gNRLK1zUITdu9uZDG2zgo+phJdJwBNhGf43KHwxcoJcYEMlNRbfinZxrX
- X82Q==
-X-Gm-Message-State: ABy/qLaVFvWsKaSBWCmrbCgzfsqcc2ahEsCc6YRBSuDHSn1y7TaZzCpa
- ZybLNxYKSqaVKGlwVDupH4dw01VI/bQiF/qwY54=
-X-Google-Smtp-Source: APBJJlHbbc2pkRsGbibMdugwgFkM/BYBuhD5N2wwPh1UH2r4Iq0x6U/J8z1mmnSJwx41VQDKG12K+y3WpJeUFNuaKY0=
-X-Received: by 2002:a05:6512:34c9:b0:4fb:7b50:3fc9 with SMTP id
- w9-20020a05651234c900b004fb7b503fc9mr1695293lfr.58.1690554915712; Fri, 28 Jul
- 2023 07:35:15 -0700 (PDT)
+Received: from out28-127.mail.aliyun.com (out28-127.mail.aliyun.com
+ [115.124.28.127])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1749A10E706;
+ Fri, 28 Jul 2023 14:35:24 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08700002|-1;
+ BR=01201311R131S69rulernew998_84748_2000303; CH=blue; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_alarm|0.00311369-0.000355902-0.99653; FP=0|0|0|0|0|-1|-1|-1;
+ HT=ay29a033018047212; MF=sunran001@208suo.com; NM=1; PH=DW; RN=6; RT=6; SR=0;
+ TI=W4_0.2.3_v5_212501EE_1690554907535_o7001c54a; 
+Received: from WS-web
+ (sunran001@208suo.com[W4_0.2.3_v5_212501EE_1690554907535_o7001c54a]) at Fri,
+ 28 Jul 2023 22:35:19 +0800
+Date: Fri, 28 Jul 2023 22:35:19 +0800
+From: "=?UTF-8?B?5a2Z5YaJ?=" <sunran001@208suo.com>
+To: "airlied" <airlied@gmail.com>, "daniel" <daniel@ffwll.ch>,
+ "alexander.deucher" <alexander.deucher@amd.com>
+Message-ID: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vcmFkZW9uOiBQcmVmZXIgJ3Vuc2lnbmVkIGludCcgdG8gYmFyZSB1c2Ug?=
+ =?UTF-8?B?b2YgJ3Vuc2lnbmVkJw==?=
+X-Mailer: [Alimail-Mailagent][W4_0.2.3][v5][Chrome]
 MIME-Version: 1.0
-References: <CADnq5_Pr8Z=vNO3iEpHNqkV0mb8gNzN7Zvf9HSW0Sf3Q0yy=Pw@mail.gmail.com>
- <9b86526b-7afd-6335-e68f-3f390f1c3266@linux.intel.com>
-In-Reply-To: <9b86526b-7afd-6335-e68f-3f390f1c3266@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 28 Jul 2023 07:35:04 -0700
-Message-ID: <CAF6AEGvC-1SFrmBY+mitpGPcHNBrJri4HMFXmXMkb4=G3Zrwcw@mail.gmail.com>
-Subject: Re: CPU overhead for drm fdinfo stats
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+x-aliyun-mail-creator: W4_0.2.3_v5_TCwTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzExNS4wLjAuMCBTYWZhcmkvNTM3LjM2IEVkZy8xMTUuMC4xOTAxLjE4Mw==FR
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,57 +45,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Koenig <christian.koenig@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>
+Reply-To: =?UTF-8?B?5a2Z5YaJ?= <sunran001@208suo.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx <amd-gfx@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 28, 2023 at 1:36=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 27/07/2023 21:58, Alex Deucher wrote:
-> > We have a number of customers using these stats, but the issue that
-> > keeps coming up is the CPU overhead to gather them, particularly on
-> > systems with hundreds of processes using the GPU.  Has anyone given
-> > any thought to having a single interface to get this information for
-> > the entire GPU in one place?
->
-> Could I have a framed told you so certificate please? :D
->
-> Well at least it depends on how much CPU overhead would your users be
-> happy to eliminate and how much to keep. So maybe no need for that
-> certificate just yet.
->
-> I was raising the issue of exponential complexity of walking "total
-> number of processes" x "total number of file descriptors" on a system
-> from the inception of fdinfo.
->
-> So for that issue the idea was to perhaps expose a list of pids with DRM
-> fds open somewhere, maybe sysfs.
-
-We do have something in debugfs (ie. $debugfs/dri/n/clients), would that do=
-?
-
-BR,
--R
-
-> That would eliminate walking _all_ processes and trying to parse any
-> their file descriptor.
->
-> But it would still require walking all file descriptors belonging to
-> processes with DRM fds open.
->
-> If that wouldn't be enough of a saving for your users then no, I am not
-> aware it was discussed. Assuming at least you were suggesting something
-> like "read all fdinfo for all clients" in one blob. Also in sysfs? I
-> think it would be doable by walking the dev->filelist and invoking
-> drm_show_fdinfo() on them.
->
-> Out of curiosity are they using the fdinfo parsing code from IGT or
-> something of their own?
->
-> Regards,
->
-> Tvrtko
+V0FSTklORzogUHJlZmVyICd1bnNpZ25lZCBpbnQnIHRvIGJhcmUgdXNlIG9mICd1bnNpZ25lZCcK
+ClNpZ25lZC1vZmYtYnk6IFJhbiBTdW4gPHN1bnJhbjAwMUAyMDhzdW8uY29tPgotLS0KIGRyaXZl
+cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX29iamVjdC5oIHwgOCArKysrLS0tLQogMSBmaWxlIGNo
+YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuaCBiL2RyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX29iamVjdC5oCmluZGV4IDM5Y2M4N2E1OWE5YS4uOWI1NWE3MTAzY2ZkIDEwMDY0
+NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuaAorKysgYi9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuaApAQCAtMzcsNyArMzcsNyBAQAogICoK
+ICAqIFJldHVybnMgY29ycmVzcG9uZGluZyBkb21haW4gb2YgdGhlIHR0bSBtZW1fdHlwZQogICov
+Ci1zdGF0aWMgaW5saW5lIHVuc2lnbmVkIHJhZGVvbl9tZW1fdHlwZV90b19kb21haW4odTMyIG1l
+bV90eXBlKQorc3RhdGljIGlubGluZSB1bnNpZ25lZCBpbnQgcmFkZW9uX21lbV90eXBlX3RvX2Rv
+bWFpbih1MzIgbWVtX3R5cGUpCiB7CiAgc3dpdGNoIChtZW1fdHlwZSkgewogIGNhc2UgVFRNX1BM
+X1ZSQU06CkBAIC0xMTIsMTIgKzExMiwxMiBAQCBzdGF0aWMgaW5saW5lIHVuc2lnbmVkIGxvbmcg
+cmFkZW9uX2JvX3NpemUoc3RydWN0IHJhZGVvbl9ibyAqYm8pCiAgcmV0dXJuIGJvLT50Ym8uYmFz
+ZS5zaXplOwogfQogCi1zdGF0aWMgaW5saW5lIHVuc2lnbmVkIHJhZGVvbl9ib19uZ3B1X3BhZ2Vz
+KHN0cnVjdCByYWRlb25fYm8gKmJvKQorc3RhdGljIGlubGluZSB1bnNpZ25lZCBpbnQgcmFkZW9u
+X2JvX25ncHVfcGFnZXMoc3RydWN0IHJhZGVvbl9ibyAqYm8pCiB7CiAgcmV0dXJuIGJvLT50Ym8u
+YmFzZS5zaXplIC8gUkFERU9OX0dQVV9QQUdFX1NJWkU7CiB9CiAKLXN0YXRpYyBpbmxpbmUgdW5z
+aWduZWQgcmFkZW9uX2JvX2dwdV9wYWdlX2FsaWdubWVudChzdHJ1Y3QgcmFkZW9uX2JvICpibykK
+K3N0YXRpYyBpbmxpbmUgdW5zaWduZWQgaW50IHJhZGVvbl9ib19ncHVfcGFnZV9hbGlnbm1lbnQo
+c3RydWN0IHJhZGVvbl9ibyAqYm8pCiB7CiAgcmV0dXJuIChiby0+dGJvLnBhZ2VfYWxpZ25tZW50
+IDw8IFBBR0VfU0hJRlQpIC8gUkFERU9OX0dQVV9QQUdFX1NJWkU7CiB9CkBAIC0xODksNyArMTg5
+LDcgQEAgc3RhdGljIGlubGluZSB2b2lkICpyYWRlb25fc2FfYm9fY3B1X2FkZHIoc3RydWN0IGRy
+bV9zdWJhbGxvYyAqc2FfYm8pCiAKIGV4dGVybiBpbnQgcmFkZW9uX3NhX2JvX21hbmFnZXJfaW5p
+dChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwKICAgICAgICAgIHN0cnVjdCByYWRlb25fc2Ff
+bWFuYWdlciAqc2FfbWFuYWdlciwKLSAgICAgICAgIHVuc2lnbmVkIHNpemUsIHUzMiBhbGlnbiwg
+dTMyIGRvbWFpbiwKKyAgICAgICAgIHVuc2lnbmVkIGludCBzaXplLCB1MzIgYWxpZ24sIHUzMiBk
+b21haW4sCiAgICAgICAgICB1MzIgZmxhZ3MpOwogZXh0ZXJuIHZvaWQgcmFkZW9uX3NhX2JvX21h
+bmFnZXJfZmluaShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwKICAgICAgICAgICBzdHJ1Y3Qg
+cmFkZW9uX3NhX21hbmFnZXIgKnNhX21hbmFnZXIpOwotLSAKMi4xNy4xCgo=
