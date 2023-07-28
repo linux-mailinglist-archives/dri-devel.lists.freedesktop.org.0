@@ -2,44 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52547767319
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 19:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B9676733B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 19:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6B4910E1B3;
-	Fri, 28 Jul 2023 17:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0856A10E20C;
+	Fri, 28 Jul 2023 17:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95FBB10E1C7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 17:18:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C4FE86218D;
- Fri, 28 Jul 2023 17:18:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF95BC433C8;
- Fri, 28 Jul 2023 17:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690564680;
- bh=cv/PDocAmxbGFwdA+baufqPji8T3ipwDf7Jyfbvf32c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Rp68SqAMtcXPF33g9ZwvZAV27WFZERhO6B6y8qniOYuaCg78BnEezs/Fp3U/T3Rfd
- YXjXtdwMDdxkzdDV9gSqO/9S1Lj0YO4rcdeGNFts0ufq3VI3FWktGgEXT/d9InCSzI
- 88U3X9u5x1BBrA0Bu2ofG03x8UVE12IAo6OOQ116oQUqnYexC+osAAknRUP2dHnYPg
- Y05se9EQDxWD2VPrf593NRT+NGlLOyUdFWia/gpVnphCe9bDoCuvLFZcGQjLh5SA65
- /8OLqYZtuA7YVSJwJY2BSPdSnTcZn55r3FTvFcHJUDRZNj/K7alTvd1mnzbiiDJtRJ
- LJYlUO+Ela+FA==
-Date: Fri, 28 Jul 2023 10:17:57 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: ndesaulniers@google.com
-Subject: Re: [PATCH v2] drm: fix indirect goto into statement expression UB
-Message-ID: <20230728171757.GA433645@dev-arch.thelio-3990X>
-References: <20230727-amdgpu-v2-1-7fc66bc52bf6@google.com>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A01CF10E20C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 17:24:54 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-5221c6a2d3dso3051090a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 10:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1690565092; x=1691169892;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OksjTSbasaKDlLBRiSbrJQqC1q20sr1fdGQKMyKb9RQ=;
+ b=ioM7av1YzBaFvfjIOPF/f2zM1OSDbDtHwJBng+JaV3GrX8NcGb39/dabdNWrq1XyrR
+ Y4Ex/6wFZL21InBLOLzmmb6ATsrs5s1cfyqmE4MY8MAdNypLB0nDvVs7DRepi9KvJc61
+ mod6RIUS8zYoTctpxzT2aoNAVqUm409uFPR/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690565092; x=1691169892;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OksjTSbasaKDlLBRiSbrJQqC1q20sr1fdGQKMyKb9RQ=;
+ b=BFUbazgaBzmjWQwkmoR1oq5cRu6KH4xJUUVtmONOtUSXFxzXS6YWSphjMF/s8cZN56
+ 9aM2Y2gYHNJUmiWA/hB8Vjxvl+Rohjbj6WSVm31bjnQqpXU/lCYw/yscrRGSNkGebR8c
+ iVeWdV/F3gvw/7Tw2hGLi+dp89Y+6joRrzqycJz6cEFieAoXBpD172k+IZgMIeFkWyUt
+ dy9atfz4QYIlXxLTpzH7sBZS0+BzDTK0Ge/t7p8mC7hPC0hC/BEqHa+Sc8q6hyS/uJhl
+ MsQIHNYKV7fP5XoRLCWKL5hAZnu2hGbG3PpXO/jdd61caHbyEeiwrIEk4myIRW57lU4O
+ ji0w==
+X-Gm-Message-State: ABy/qLaZHNvmiKH9iRYPcb9K2Jb8wp3oxKJCDiZ+Ikb5QjCTXuahbona
+ Ph8usj9MrG3LBuIAOw5554JbGl/5jHyukGkQBSZH/A==
+X-Google-Smtp-Source: APBJJlHVD7WlsaeVE4+WyAYR4v0N5I035ztuymOJ+6TMbBY/uY0ISx7Bu3K8QyN6zNZmsBH95+hiyg==
+X-Received: by 2002:aa7:d995:0:b0:521:77dd:c8d3 with SMTP id
+ u21-20020aa7d995000000b0052177ddc8d3mr2352343eds.27.1690565092497; 
+ Fri, 28 Jul 2023 10:24:52 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
+ [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
+ n10-20020aa7db4a000000b00522584bb58esm1973251edt.24.2023.07.28.10.24.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Jul 2023 10:24:52 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-3fe0e132352so5345e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 10:24:52 -0700 (PDT)
+X-Received: by 2002:a05:600c:690f:b0:3fd:e15:41e3 with SMTP id
+ fo15-20020a05600c690f00b003fd0e1541e3mr5980wmb.2.1690565071086; Fri, 28 Jul
+ 2023 10:24:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230727-amdgpu-v2-1-7fc66bc52bf6@google.com>
+References: <20230727171750.633410-1-dianders@chromium.org>
+ <nn6cs4zvf27cxmtd3qcficyoyalcxi2iry6kgszb5oraplgaxy@sryeyseucdb3>
+In-Reply-To: <nn6cs4zvf27cxmtd3qcficyoyalcxi2iry6kgszb5oraplgaxy@sryeyseucdb3>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 28 Jul 2023 10:24:18 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wo5H-XohCz_sLnV=oT5cRm2tFrSAG9kpCGzK7pjSW_Xg@mail.gmail.com>
+Message-ID: <CAD=FV=Wo5H-XohCz_sLnV=oT5cRm2tFrSAG9kpCGzK7pjSW_Xg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/11] drm/panel and i2c-hid: Allow panels and
+ touchscreens to power sequence together
+To: Benjamin Tissoires <bentiss@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,122 +80,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Tom Rix <trix@redhat.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- boris.brezillon@collabora.com, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ people from trailers of 09593216bff1
+Hi,
 
-On Thu, Jul 27, 2023 at 03:50:58PM -0700, ndesaulniers@google.com wrote:
-> A new diagnostic in clang-17 now produces the following build error:
-> 
-> drivers/gpu/drm/tests/drm_exec_test.c:41:3: error: cannot jump from this
-> indirect goto statement to one of its possible targets
->    41 |                 drm_exec_retry_on_contention(&exec);
->       |                 ^
-> include/drm/drm_exec.h:96:4: note: expanded from macro
-> 'drm_exec_retry_on_contention'
->    96 |                         goto *__drm_exec_retry_ptr;
->       |                         ^
-> drivers/gpu/drm/tests/drm_exec_test.c:39:2: note: possible target of
-> indirect goto statement
->    39 |         drm_exec_until_all_locked(&exec) {
->       |         ^
-> include/drm/drm_exec.h:79:33: note: expanded from macro
-> 'drm_exec_until_all_locked'
->    79 |                 __label__ __drm_exec_retry;
-> drivers/gpu/drm/tests/drm_exec_test.c:39:2: note: jump enters a
-> statement expression
-> 
-> The GCC manually currently states that:
+On Fri, Jul 28, 2023 at 8:31=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
+org> wrote:
+>
+> On Jul 27 2023, Douglas Anderson wrote:
+> >
+> > The big motivation for this patch series is mostly described in the pat=
+ch
+> > ("drm/panel: Add a way for other devices to follow panel state"), but t=
+o
+> > quickly summarize here: for touchscreens that are connected to a panel =
+we
+> > need the ability to power sequence the two device together. This is not=
+ a
+> > new need, but so far we've managed to get by through a combination of
+> > inefficiency, added costs, or perhaps just a little bit of brokenness.
+> > It's time to do better. This patch series allows us to do better.
+> >
+> > Assuming that people think this patch series looks OK, we'll have to
+> > figure out the right way to land it. The panel patches and i2c-hid
+> > patches will go through very different trees and so either we'll need
+> > an Ack from one side or the other or someone to create a tag for the
+> > other tree to pull in. This will _probably_ require the true drm-misc
+> > maintainers to get involved, not a lowly committer. ;-)
+> >
+> > Version 4 of this series adds a new patch that suspends i2c-hid
+> > devices at remove time even for non panel-followers to make things
+> > consistent. It also attempts to isolate the panel follower code a bit
+> > more as per Benjamin's feedback on v3 and adds an item to the DRM todo
+> > list as per Maxime's request. As per Maxime's response to my v3 cover
+> > letter, I added his Reviewed-by tag to all 10 patches that were part
+> > of v3 (but left it off of the new i2c-hid patch in v4).
+> >
+> > Version 3 of this series was a long time coming after v2. Maxime and I
+> > had a very long discussion trying to figure out if there was a beter
+> > way and in the end we didn't find one so he was OK with the series in
+> > general [1]. After that got resolved, I tried to resolve Benjamin's
+> > feedback but got stuck [2]. Eventually I made my best guess. The end
+> > result was a v3 that wasn't that different from v2 but that had a tiny
+> > bit more code split out.
+> >
+> > Version 2 of this patch series didn't change too much. At a high level:
+> > * I added all the forgotten "static" to functions.
+> > * I've hopefully made the bindings better.
+> > * I've integrated into fw_devlink.
+> > * I cleaned up a few descriptions / comments.
+> >
+> > As far as I can tell, as of v4 everyone is on the same page that this
+> > patch series looks like a reasonable solution to the problem and we
+> > just need to get all the nits fixed and figure out how to land it.
+>
+> Thanks a lot for the new version. I like it much more on the HID side:
+>
+> for the HID part:
+> Reviewed-by: Benjamin Tissoires <bentiss@kernel.org>
+>
+> I wouldn't mind having this series taken from the drm tree if that is
+> easier. i2c-hid is a low patch rate driver, so having it updated through
+> DRM should not be an issue.
+>
+> In that case:
+> Acked-by: Benjamin Tissoires <bentiss@kernel.org>
 
-          ^ manual
+Thanks for your reviews and your help getting this whipped into shape.
 
-> >> Jumping into a statement expression with a computed goto (see Labels
-> >> as Values) has undefined behavior.
-> 
-> So the diagnostic appears correct, even if codegen happened to produce
-> working code.
-> 
-> Looking closer at this code, while the original combination of statement
-> expression, local label, and computed/indirect goto GNU C expressions
-> were clever, a simple while loop and continue block might have sufficed.
-> 
-> This approach might not work as expected if drm_exec_until_all_locked
-> "loops" can be nested, but that doesn't appear to be an existing use
-> case in the codebase.
-> 
-> Fixes: commit 09593216bff1 ("drm: execution context for GEM buffers v7")
-> Link: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1890
-> Link: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f5d096eb3aed7b712f5067
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Lading through drm makes sense to me. I'm a drm committer, so with
+your Ack I believe it should be fine for me to land the series (minus
+the dts) in drm-misc-next. This series has been around for a while,
+has been reviewed by relevant folks, and the last few changes haven't
+fundamentally changed anything about the design, so I'm not going to
+twiddle my thumbs too long. That being said, I'll still plan to wait
+until early next week (Tuesday?) before landing to allow for any last
+minute shouts.
 
-Thanks for the patch!
+Given how drm-misc works [1] and the fact that mainline is currently
+at v6.5-rc3 (it will be -rc4 when I land it), I'd expect that these
+commits will find their way into v6.6.
 
-Tested-by: Nathan Chancellor <nathan@kernel.org> # build
-
-> ---
-> Changes in v2:
-> Fix the continue to be outside of the do while
-> - Link to v1: https://lore.kernel.org/r/20230727-amdgpu-v1-1-a95690e75388@google.com
-> ---
->  include/drm/drm_exec.h | 21 +++++----------------
->  1 file changed, 5 insertions(+), 16 deletions(-)
-> 
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> index 73205afec162..fa1cc5c3d021 100644
-> --- a/include/drm/drm_exec.h
-> +++ b/include/drm/drm_exec.h
-> @@ -70,18 +70,8 @@ struct drm_exec {
->   * Core functionality of the drm_exec object. Loops until all GEM objects are
->   * locked and no more contention exists. At the beginning of the loop it is
->   * guaranteed that no GEM object is locked.
-> - *
-> - * Since labels can't be defined local to the loops body we use a jump pointer
-> - * to make sure that the retry is only used from within the loops body.
->   */
-> -#define drm_exec_until_all_locked(exec)				\
-> -	for (void *__drm_exec_retry_ptr; ({			\
-> -		__label__ __drm_exec_retry;			\
-> -__drm_exec_retry:						\
-> -		__drm_exec_retry_ptr = &&__drm_exec_retry;	\
-> -		(void)__drm_exec_retry_ptr;			\
-> -		drm_exec_cleanup(exec);				\
-> -	});)
-> +#define drm_exec_until_all_locked(exec)	while(drm_exec_cleanup(exec))
->  
->  /**
->   * drm_exec_retry_on_contention - restart the loop to grap all locks
-> @@ -90,11 +80,10 @@ __drm_exec_retry:						\
->   * Control flow helper to continue when a contention was detected and we need to
->   * clean up and re-start the loop to prepare all GEM objects.
->   */
-> -#define drm_exec_retry_on_contention(exec)			\
-> -	do {							\
-> -		if (unlikely(drm_exec_is_contended(exec)))	\
-> -			goto *__drm_exec_retry_ptr;		\
-> -	} while (0)
-> +#define drm_exec_retry_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		continue;				\
-> +	do {} while (0)
->  
->  /**
->   * drm_exec_is_contended - check for contention
-> 
-> ---
-> base-commit: 451cc82bd11eb6a374f4dbcfc1cf007eafea91ab
-> change-id: 20230727-amdgpu-93c0e5302951
-> 
-> Best regards,
-> -- 
-> Nick Desaulniers <ndesaulniers@google.com>
-> 
+[1] https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
