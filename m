@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EDB376690E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:37:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 908C6766947
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 11:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8B5F10E6C1;
-	Fri, 28 Jul 2023 09:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADDC10E023;
+	Fri, 28 Jul 2023 09:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E912B10E6C1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:37:28 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-d0b597e7ac1so1796524276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 02:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690537048; x=1691141848;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JlZf2RL3i6UDORQb9mZw6fYIEm2cS2iGuc+pwaym0fI=;
- b=uUz/3R3iJOplNYB1AkkHSjLhoozRziAFHJjM631Jfbue8Cm+UFJjT0tGZCToZB1gcU
- 4IyPWiViAfuq6WdsCO23qHimmlsX0XzNNE7K9OxEU99kmjk/fxyA37ByIf5gDDICcBuZ
- Q3G++K7KkaqCZkMCXAnPkDuDlyX1mjsAf8wyXiPqrLxA/AW9GcLzl6ul3rk4iSreEC2Y
- BUcIoCMXwphAz8I2/h1BC0TWhRmmjf/MaixUsxb72SuMSdj5ejdQ5q5s7usOup9rK+Zk
- XZtxodYYQYsWVhwofTSMzWCoUFFIWxU99JPF7pIOkpCn1Gi67VBlsruBKj9D7FR3Sfiq
- DRLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690537048; x=1691141848;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JlZf2RL3i6UDORQb9mZw6fYIEm2cS2iGuc+pwaym0fI=;
- b=Lmg3HexSzlu8wXc8a+bB+KufNTZgqzeuF/eY0qDYViGcLxp4x6GUyJHXkigvBfsidW
- D0q35U5tqGB99EiH9eGZdB5Xr9PAQ2Y91v0MW5v0Q5SsXmXCh3ZNj5LRKGUfqh9f294P
- Hj/UdhpQoN8DI5W5YFpj+szHp1UzqapScexkbc0H8j9xuWkYftUFi1me7K2hgKGbMTQ8
- X0xFC9TN9z4ksBziy/w8wzHMqgn1T0YNb86hDsCS3ickGGy/eUtcccY3cig9+4Ez8AxK
- pAYtsuIxk+BEk+bBrJJpFfV9HUiDUuu70zrYCC7TKwJP4VGxiC5iaQgmRU7mqJ3PViH0
- +etw==
-X-Gm-Message-State: ABy/qLYVz4hQRm4fuFQG6KZRkB+WD9FeRun5tAb0XSFZVHL2KG7ybCO+
- C/2HSZTbNb8/ortbDKEjojro12lm33nZOrcYXZQdsg==
-X-Google-Smtp-Source: APBJJlHP+0vhBr5pqqSindcVAEKtPZL7T+Mqdb+FcAqoZgG9TNDCetnFMDUrGRwkofjLPfASs0KY9UC1k96BrCfnA5Q=
-X-Received: by 2002:a5b:88c:0:b0:bca:7cd:7f32 with SMTP id
- e12-20020a5b088c000000b00bca07cd7f32mr1208001ybq.48.1690537048006; 
- Fri, 28 Jul 2023 02:37:28 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57FB110E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 09:49:51 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qPK5u-0001Jj-EN; Fri, 28 Jul 2023 11:49:10 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qPK5n-002g3u-Jg; Fri, 28 Jul 2023 11:49:03 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qPK5m-008Spn-RG; Fri, 28 Jul 2023 11:49:02 +0200
+Date: Fri, 28 Jul 2023 11:49:02 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Zhu Wang <wangzhu9@huawei.com>
+Subject: Re: [PATCH -next v2] drm/bridge: fix -Wunused-const-variable= warning
+Message-ID: <20230728094902.cthnfoa5znnht5mc@pengutronix.de>
+References: <20230728091208.45506-1-wangzhu9@huawei.com>
 MIME-Version: 1.0
-References: <20230728012623.22991-1-quic_parellan@quicinc.com>
-In-Reply-To: <20230728012623.22991-1-quic_parellan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 28 Jul 2023 12:37:17 +0300
-Message-ID: <CAA8EJpqPgzd4ZSP948MQW=f4EVBHxajj4nwYq5s-OConBP7Vvg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: Enable DSC and CMD mode for Visionox
- VTDR6130 panel
-To: Paloma Arellano <quic_parellan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="m76qh45nffv6qqsv"
+Content-Disposition: inline
+In-Reply-To: <20230728091208.45506-1-wangzhu9@huawei.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,201 +53,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org, sam@ravnborg.org,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- linux-arm-msm@vger.kernel.org, quic_jesszhan@quicinc.com
+Cc: penguin-kernel@I-love.SAKURA.ne.jp, dri-devel@lists.freedesktop.org,
+ sebastian.reichel@collabora.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, drinkcat@chromium.org, rfoss@kernel.org,
+ a-bhatia1@ti.com, javierm@redhat.com, jernej.skrabec@gmail.com,
+ tomi.valkeinen@ti.com, treding@nvidia.com, nikhil.nd@ti.com,
+ tzimmermann@suse.de, arnd@arndb.de, jonas@kwiboo.se, neil.armstrong@linaro.org,
+ dmitry.torokhov@gmail.com, dianders@chromium.org, luzmaximilian@gmail.com,
+ peda@axentia.se, eballetbo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Jul 2023 at 04:26, Paloma Arellano <quic_parellan@quicinc.com> wrote:
->
-> Enable display compression (DSC v1.2) and CMD mode for 1080x2400 Visionox
-> VTDR6130 AMOLED DSI panel. In addition, this patch will set the default
-> to command mode with DSC enabled.
->
-> Note: This patch has only been validated DSC over command mode as DSC over
-> video mode has never been validated for the MSM driver before.
->
-> Depends on: "Add prepare_prev_first flag to Visionox VTDR6130" [1]
->
-> Changes since v1:
->  - Changed from email address
->
-> [1] https://patchwork.freedesktop.org/series/121337/
->
-> Suggested-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+
+--m76qh45nffv6qqsv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jul 28, 2023 at 05:12:08PM +0800, Zhu Wang wrote:
+> When building with W=3D1, the following warning occurs.
+>=20
+> drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:48:17: warning: =E2=80=
+=98anx781x_i2c_addresses=E2=80=99 defined but not used [-Wunused-const-vari=
+able=3D]  static const u8 anx781x_i2c_addresses[] =3D {
+>                  ^~~~~~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:40:17: warning: =E2=80=
+=98anx7808_i2c_addresses=E2=80=99 defined but not used [-Wunused-const-vari=
+able=3D]  static const u8 anx7808_i2c_addresses[] =3D {
+>=20
+> When CONFIG_IO is disabled, above two variables are not used,
+> since the place where it is used is inclueded in the macro
+> CONFIG_OF.
+>=20
+> The drivers under the directory drivers/gpu/drm/bridge depends
+> on the macro CONFIG_OF, it is not necessary to use CONFIG_OF
+> or of_match_ptr in related files in this directory, so we just
+> remove them all.
+>=20
+> Fixes: 0647e7dd3f7a ("drm/bridge: Add Analogix anx78xx support")
+> Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
+>=20
+> Changes in v2
+> - remove CONFIG_OF and of_match_ptr in following files:
+>   drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+>   drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
+>   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>   drivers/gpu/drm/bridge/chrontel-ch7033.c
+>   drivers/gpu/drm/bridge/sil-sii8620.c
+>   drivers/gpu/drm/bridge/ti-tfp410.c
 > ---
->  .../gpu/drm/panel/panel-visionox-vtdr6130.c   | 77 ++++++++++++++++++-
->  1 file changed, 73 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-> index e1363e128e7e..5658d39a3a6b 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-> @@ -9,6 +9,7 @@
->  #include <linux/of.h>
->
->  #include <drm/display/drm_dsc.h>
-> +#include <drm/display/drm_dsc_helper.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_modes.h>
->  #include <drm/drm_panel.h>
-> @@ -20,7 +21,8 @@ struct visionox_vtdr6130 {
->         struct mipi_dsi_device *dsi;
->         struct gpio_desc *reset_gpio;
->         struct regulator_bulk_data supplies[3];
-> -       bool prepared;
-> +       bool prepared, enabled;
-> +       bool video_mode;
->  };
->
->  static inline struct visionox_vtdr6130 *to_visionox_vtdr6130(struct drm_panel *panel)
-> @@ -50,12 +52,18 @@ static int visionox_vtdr6130_on(struct visionox_vtdr6130 *ctx)
->         if (ret)
->                 return ret;
->
-> +       mipi_dsi_dcs_write_seq(dsi, 0x03, 0x01);
->         mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
->         mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_DISPLAY_BRIGHTNESS, 0x00, 0x00);
->         mipi_dsi_dcs_write_seq(dsi, 0x59, 0x09);
->         mipi_dsi_dcs_write_seq(dsi, 0x6c, 0x01);
->         mipi_dsi_dcs_write_seq(dsi, 0x6d, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x01);
-> +
-> +       if (ctx->video_mode)
-> +               mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x01);
-> +       else
-> +               mipi_dsi_dcs_write_seq(dsi, 0x6f, 0x02);
-> +
->         mipi_dsi_dcs_write_seq(dsi, 0x70,
->                                0x12, 0x00, 0x00, 0xab, 0x30, 0x80, 0x09, 0x60, 0x04,
->                                0x38, 0x00, 0x28, 0x02, 0x1c, 0x02, 0x1c, 0x02, 0x00,
-> @@ -214,6 +222,42 @@ static const struct drm_display_mode visionox_vtdr6130_mode = {
->         .height_mm = 157,
->  };
->
-> +static int visionox_vtdr6130_enable(struct drm_panel *panel)
-> +{
-> +       struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
-> +       struct mipi_dsi_device *dsi = ctx->dsi;
-> +       struct drm_dsc_picture_parameter_set pps;
-> +       int ret;
-> +
-> +       if (ctx->enabled)
-> +               return 0;
-> +
-> +       if (!dsi->dsc) {
-> +               dev_err(&dsi->dev, "DSC not attached to DSI\n");
-> +               return -ENODEV;
-> +       }
 
-The error message is misleading. Also, if you don't want to enable DSC
-for the video mode, this will break.
+Note that the changelog between patch series version usually goes below
+the triple-dash.
 
-> +
-> +       drm_dsc_pps_payload_pack(&pps, dsi->dsc);
-> +       ret = mipi_dsi_picture_parameter_set(dsi, &pps);
-> +       if (ret) {
-> +               dev_err(&dsi->dev, "Failed to set PPS\n");
-> +               return ret;
-> +       }
-> +
-> +       ctx->enabled = true;
+Otherwise looks good to me,
+Acked-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Do we need this refcount just for PPS upload? What will happen if PPS
-is uploaded several times?
+Thanks
+Uwe
 
-> +
-> +       return 0;
-> +}
-> +
-> +static int visionox_vtdr6130_disable(struct drm_panel *panel)
-> +{
-> +       struct visionox_vtdr6130 *ctx = to_visionox_vtdr6130(panel);
-> +
-> +       ctx->enabled = false;
-> +
-> +       return 0;
-> +}
-> +
->  static int visionox_vtdr6130_get_modes(struct drm_panel *panel,
->                                        struct drm_connector *connector)
->  {
-> @@ -237,6 +281,8 @@ static const struct drm_panel_funcs visionox_vtdr6130_panel_funcs = {
->         .prepare = visionox_vtdr6130_prepare,
->         .unprepare = visionox_vtdr6130_unprepare,
->         .get_modes = visionox_vtdr6130_get_modes,
-> +       .enable = visionox_vtdr6130_enable,
-> +       .disable = visionox_vtdr6130_disable,
->  };
->
->  static int visionox_vtdr6130_bl_update_status(struct backlight_device *bl)
-> @@ -269,11 +315,31 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
->  {
->         struct device *dev = &dsi->dev;
->         struct visionox_vtdr6130 *ctx;
-> +       struct drm_dsc_config *dsc;
->         int ret;
->
->         ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
->         if (!ctx)
->                 return -ENOMEM;
-> +
-> +       ctx->video_mode = of_property_read_bool(dev->of_node, "enforce-video-mode");
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Please also add a DT bindings patch.
+--m76qh45nffv6qqsv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +
-> +       dsc = devm_kzalloc(dev, sizeof(*dsc), GFP_KERNEL);
-> +       if (!dsc)
-> +               return -ENOMEM;
+-----BEGIN PGP SIGNATURE-----
 
-You can add struct drm_dsc_config to struct visionox_vtdr6130 instead
-of allocating it.
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmTDjw0ACgkQj4D7WH0S
+/k62vwgAlxqTmjI1ccBbFyijUpVHYPqq22PRYEmYrxOameZLphg4ioYXbnple4C0
+Y1mFEiiIzjdq2xC2TqDtxVrqUS6YkRVMxeM3os3PC8b1TULqBU8UzcH7Fp70YhOZ
+ouAENFEpRRKxnijtXMub1VU5c9bU3wDaEMpH3OoGn8zp9hgzmeIcfaatrEy4OgQ6
+HsBZLY7LjktoH8lm9Ns0E845W0oqT7CfEtPq0aB9aWLCVcx6je1DBHHAVaKSbLtR
+miyBTn9CwM5h9PFxPSmAHT8uHAP2NK/OI0WyrFU4DMGjseYnsQLhm0diiYg9+oOo
+oL+jIMRQbkWydohChfQCBSL0+7Xkag==
+=dAwV
+-----END PGP SIGNATURE-----
 
-> +
-> +       /* Set DSC params */
-> +       dsc->dsc_version_major = 0x1;
-> +       dsc->dsc_version_minor = 0x2;
-> +
-> +       dsc->slice_height = 40;
-> +       dsc->slice_width = 540;
-> +       dsc->slice_count = 2;
-> +       dsc->bits_per_component = 8;
-> +       dsc->bits_per_pixel = 8 << 4;
-> +       dsc->block_pred_enable = true;
-> +
-> +       dsi->dsc = dsc;
-
-Only in command mode?
-
->
->         ctx->supplies[0].supply = "vddio";
->         ctx->supplies[1].supply = "vci";
-> @@ -294,8 +360,11 @@ static int visionox_vtdr6130_probe(struct mipi_dsi_device *dsi)
->
->         dsi->lanes = 4;
->         dsi->format = MIPI_DSI_FMT_RGB888;
-> -       dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET |
-> -                         MIPI_DSI_CLOCK_NON_CONTINUOUS;
-> +
-> +       dsi->mode_flags = MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_CLOCK_NON_CONTINUOUS;
-
-Keep the line split please.
-
-> +       if (ctx->video_mode)
-> +               dsi->mode_flags |= MIPI_DSI_MODE_VIDEO;
-> +
->         ctx->panel.prepare_prev_first = true;
->
->         drm_panel_init(&ctx->panel, dev, &visionox_vtdr6130_panel_funcs,
-> --
-> 2.41.0
->
-
-
--- 
-With best wishes
-Dmitry
+--m76qh45nffv6qqsv--
