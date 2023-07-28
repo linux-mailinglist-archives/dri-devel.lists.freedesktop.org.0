@@ -1,144 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899C07664FE
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 09:14:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E56FE76652A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jul 2023 09:21:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 988EC10E65C;
-	Fri, 28 Jul 2023 07:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31BEA10E05B;
+	Fri, 28 Jul 2023 07:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADEFF10E05B;
- Fri, 28 Jul 2023 07:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690528472; x=1722064472;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=wpjcc0A5TheyWQkwvMWe8N+5IuYWRnbDjX9Yeh3dZ8w=;
- b=dE8fvyC2PeFOJOAbLh0bKKUZAID4KAr5eNtR+KZ869uwWPXb8pdCNQDS
- RMFm4RSEnvEgI+WQVgZhoOQJ7w/Ea4I98hvaqOCDj96+BEu2HVTjD4kKZ
- drP5kiYVH0Wj9oTbtHOYAAn5wKZF0duHXKdfCwKMwzPFUwXWUQs8zEKvv
- XdwgZM2w08htaW/fXil5f6XA05noId7XHZyB7+fexdUNF/Vr6eWU5GD1W
- aV+Et2cl46qzFrjllD19/m5nYn1XlR3GWehH5crC2dK78/4G0ZJPdNIw3
- zuHs0JfDKKBW5LKA5ZlwqsPQHTGbnNKG5X4hvFWMh2IkrJt2u/rKwDxyH w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="371229037"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="371229037"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2023 00:14:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10784"; a="730628469"
-X-IronPort-AV: E=Sophos;i="6.01,236,1684825200"; d="scan'208";a="730628469"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga007.fm.intel.com with ESMTP; 28 Jul 2023 00:14:31 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 28 Jul 2023 00:14:31 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 28 Jul 2023 00:14:31 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 28 Jul 2023 00:14:31 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 28 Jul 2023 00:14:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eMwgh4DI+aPsCISPpii3rnfdH9XVSw+ZLLDZNUYyrx/Jk3EOFXMx2k8ZYSuc5lWOEGSLuG+qiHc+VZKO/nERT5ZVl99NSLweD/7OiEQUv5C/6x+SQzYvSuIIlBQq5eOAtqX2fsgKZyXQ/sIDmifiadDt31x+ZEx9dK8Vsx5khtHGP4bTnDTOGlL91N9GXekv9U2YtTDNAIYrVnn7zM5Au9IgQrb1QEw2wUOgfOtO8QxamnPpqlG2jriXU1ytePxNlF5jjZBnL34lHFK1uAO4BUiOd1FAJkJBCklEkrhM53FUo1HP0aFoO+/6E/Wo7/hjujZBQ94H+zwDgMiGkJs0CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MyURtWFXI3pE5XVEZBdTrNWwZ1Wbvx4fsUKNFl9xrsE=;
- b=gAJ1cbWHawTpRypSK1IVTLDeK5R975P8We8mTOvL0J9Gb40TmeqUw3LxUhCPj5UQAVbd1jWgbiDIUjwlygFUNsJ1YxjyFfFOP6iqljbXWYIrA8RUiN2Yegr2wf63DbpQXy5Ru0d5rV2kEAWVlYKtUkkRhQqiqE2nHmA8Evup40EEcBqPDz5Q5MFYq6VAE/OV5mk5I35NZIq+SdhJv0Ru+LlVfLwetaIAG2uSAsOmrw+cJAysgo4v7QCNvho/26tjXMkqwhd3rDBcjxdPmETFz5c+X45dR+7EFKuqbDv9QTFHFr+6c5BHNjLmACSCTeOqUljJdSyfdIs6+gO29MWI9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
- by IA1PR11MB6148.namprd11.prod.outlook.com (2603:10b6:208:3ec::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Fri, 28 Jul
- 2023 07:14:27 +0000
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::ca92:81a9:39f7:933b]) by BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::ca92:81a9:39f7:933b%4]) with mapi id 15.20.6631.026; Fri, 28 Jul 2023
- 07:14:27 +0000
-From: "Yang, Fei" <fei.yang@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [RFC 4/8] drm/i915: Refactor PAT/object cache handling
-Thread-Topic: [RFC 4/8] drm/i915: Refactor PAT/object cache handling
-Thread-Index: AQHZwJpocc2BM6J4wkK+9Kr4OKVZ2a/OxGGA
-Date: Fri, 28 Jul 2023 07:14:27 +0000
-Message-ID: <BYAPR11MB256702AD6B37216420298B699A06A@BYAPR11MB2567.namprd11.prod.outlook.com>
-References: <20230727145504.1919316-1-tvrtko.ursulin@linux.intel.com>
- <20230727145504.1919316-5-tvrtko.ursulin@linux.intel.com>
-In-Reply-To: <20230727145504.1919316-5-tvrtko.ursulin@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR11MB2567:EE_|IA1PR11MB6148:EE_
-x-ms-office365-filtering-correlation-id: afa23ecc-3c1f-4307-d47d-08db8f3a4768
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ce5jo755YSj1XCZODfMtI//SBhxcNURfQNoyp1FHkOemAu4Fyoejc/JPRbS6lS0nYYiynagzhpUmcwjsFy2lZ88CQeLrx/uRfx4TeEjPnKHz5RX2y/bC9X8ud5ZT+PSQut4YJMGsD7sI8G857gssVKFFBxauwOQb3qL1z1yM51HAngZCE5kQDR0QuThbrA05xaUvCnGPbcHX31j9FEZZNkhhxqhgWS1p2e7mBDK3qFUbnHfZUliSfzI9egVhKlcgOBRKS24e/tM1QatAbMEC2ybyMaPv0X6ydY1axtDZp0/o8wdzNqpPyYtpJkx2KG+5aRnkfPA1Bctll94mXMaijzYKCROnBmdPlfiJFqF6TD7IhtLz5f4RjDBbjgFvoq4ky2gDfTsWH+hYx3R2slNQVVchUXLWqgWgYd3hwlPbOrWuTJUzbYgutmc2LAfchiPdSNxfH1Y7/haOYRW2LJ49H3o57I4cflXK1EAfyPFedYGNNckW02ejNkYRLKZfLIy0qa23OzciJtJhjZSTM1qP5tmFdZ9joiZ3SiUZOxSAzzAh1TRZrlrHskfYHDqFCTiu1H/6NNvfS5tW+uNxcx9hCFPGzQz4SJgRnYiQvsjDp572vqPWdNvTx5ZWr2dVbyqr
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(366004)(346002)(396003)(376002)(136003)(451199021)(2906002)(41300700001)(316002)(38070700005)(8676002)(8936002)(33656002)(86362001)(55016003)(5660300002)(82960400001)(186003)(478600001)(110136005)(54906003)(122000001)(7696005)(71200400001)(9686003)(6506007)(26005)(76116006)(38100700002)(52536014)(66446008)(66476007)(66556008)(66946007)(64756008)(4326008)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Haa1YebWMtBSOVbyT29emT9Hy4D90+mxvmzkCZ1N/P+pueI2OW0ShfuOZ/OX?=
- =?us-ascii?Q?3VeJQIBOIvwtn3hF0sQlPp+ZijnGJcJGJOodnOpiXOp03omoJ+p/U6rcDGWY?=
- =?us-ascii?Q?nUkQxmA1Jlq7k/isjf8OlRlbTtvD7bonFPGYuVEhOCGbmUQFZH9p3ELfPoI8?=
- =?us-ascii?Q?Fn+TSOtZM2Ev13MrCGBjGBERHZZyz3Vny2NJz41GdzB3OJmPG/PtmAcicS1F?=
- =?us-ascii?Q?/CF/qR/ovOp8/8tBc4BCnXYtOluquLiBncYZogZ1Van2uTOG9qxI6VAsNQjg?=
- =?us-ascii?Q?nQ0nZh3+BN3toj9I4ShRl90dOrCWlKmNnaHxQheh4V95qos6rwsObAztOdwi?=
- =?us-ascii?Q?hGoMO1R6kE5dDwh6bdJPAE9L/Ak7khIZOp5cB+VN/PFJLVzzcQjw7Ssft8uI?=
- =?us-ascii?Q?B2qrC+g1njZ+teSuMcSF7xlIpXodlxXggC7XXDRAfLxeEPnhHhsmaxwx47F0?=
- =?us-ascii?Q?4/pkV9DZ3EgKG+KSqXqfumumojD+32gQ2HsPdHIfYQT/GkX3IPlD3Wy8hV3R?=
- =?us-ascii?Q?asM5s+vNWl2Jg4XrEsXWmhO4bW6EcJEkgLgzbuMCa2uDDbVZg+8w6MkmJnYS?=
- =?us-ascii?Q?Z92ifKgomnMxGDtsnNQHmL7Ge/KEV/zD1rHWM+jug5pSMx9Cx4h+TPBc7Fvs?=
- =?us-ascii?Q?CGv292cpSi8JzFG0Xymnw/2b3n7ROW6ewCW1hkqrMsWM0M/5KPDOnnhAvPxg?=
- =?us-ascii?Q?WDBIp+fJk9rlcV1bCflLl3reKNGmfeCcY8NRTv+faXAmoB+Ua4K4uGpMGxiU?=
- =?us-ascii?Q?BhkJnplqkdjifirgirUazEvSTsl5EZY/iX76fRWiGPHWtR880ecABl7/OQ8M?=
- =?us-ascii?Q?JhgvV5UKqKXu/bcZY2gFM4e89dBHhbDj9uaxrxMuCmviEp4q/kBIRGbPQHif?=
- =?us-ascii?Q?sdMaGwsky72UpLUpb8CJsa/uvbzoz+CwnX4SSNuIRXWrAswBoCLR8HPOXZpZ?=
- =?us-ascii?Q?hni/gK13Vf0Tlrnkl4iT+BNBE3T7Q4pKA9f7IvtlsAwepbvGxzA8pOBHO4+9?=
- =?us-ascii?Q?jXt7k0+SPDfcYHkO2FbpC6mdxSTMQWF7JV9CX1ftwtFWJ+UiSLdOvyWfWWEr?=
- =?us-ascii?Q?BS/VpjPrenwZqfOdry4bVcppq+odI6aY5RDL9NsXxI1A4kxGvK1+3vVx4vEl?=
- =?us-ascii?Q?Q/6yj1NYOYkCjJdyTZCl47rtzJFVsUtfejAtUVQ3FA+l7E7r+dEaterUJ5rF?=
- =?us-ascii?Q?XId3LtLY/Al2jbXiefIxnGhED0ygKBxyIkNtdSXfSLLIgJLLu3Lvaa71QktY?=
- =?us-ascii?Q?StEinrr1I2iAB0x8vJW+J6YS0j7u5WG0zsLAcfPlYIjYuYv687bqpWZoMhkS?=
- =?us-ascii?Q?lAt6lEdrFBN9vrOUTV3l1KETMfftLcw9WL8XgamzqgeR0wdJ0o4aKmCVgkMh?=
- =?us-ascii?Q?QY8TB6aFh6r9iioMRySRbRfBa07zlrswBb2TOhnsaq6tEv3LWGvY67+4Hej7?=
- =?us-ascii?Q?alGkF8fr+ECCsVQ4l4akQFMGiJDU1w9tgAg53kx3mdKDuCvy7DuB0v7PvNB+?=
- =?us-ascii?Q?Dtsm9wsdygEFKwscHs2rH+wgCr1mT3px1DPQTDbgZr/CBcuYM0W2jiDixN1z?=
- =?us-ascii?Q?gmdZRrx7hPtGlEisKiiRu5mKpqx2wyKvjNK/mhtN?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A33810E662
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 07:21:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C7FC01F8AB;
+ Fri, 28 Jul 2023 07:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1690528870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GHkExYMR9b50snv/s4plBxP8IlHU4ZZxUReBFh9r11s=;
+ b=0QMwO7+fy0g8LAy11y25cACQjggLT1R1uQR6oUyFkj4KdAjb8tJvQqJ8n2o1oPvOwPD4YJ
+ 0ZOC9ZE7uFKNXwh40suzmH13HtEzvYw9sthMZeSfW3gPXrgdJW2aM2SDHcugAqld8CQWuy
+ rNahr3TiHXhrGO94vzV7TKuuBBP37c8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1690528870;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GHkExYMR9b50snv/s4plBxP8IlHU4ZZxUReBFh9r11s=;
+ b=ZxpigOMMQzsIQdeTGwUyW30xxVdh53wQZpBlH+h6jr1jTuFicOvOn7TGKHMSD2KZVsAGCx
+ XlTMjopwqUIhK3Ag==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9F7FC13276;
+ Fri, 28 Jul 2023 07:21:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Ren4JWZsw2SxRQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 28 Jul 2023 07:21:10 +0000
+Message-ID: <5870e604-1653-73a6-7911-422d82f6bb04@suse.de>
+Date: Fri, 28 Jul 2023 09:21:09 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afa23ecc-3c1f-4307-d47d-08db8f3a4768
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2023 07:14:27.1791 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7rx6hGEekFddwidKdqfh4F2NXvzHA2/b8Jsdl2KvjbxZDU3XiR5uLQ5eWd7oz5vD6oswo0gVQo6Sj64wvi/jIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6148
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
+To: Roger Sewell <roger.sewell@cantab.net>
+References: <20230717133037.25941-1-jfalempe@redhat.com>
+ <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
+ <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
+ <20230724215746.10928@revelation.broadband>
+ <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
+ <20230725223127.4184@revelation.broadband>
+ <9c8a0a5f-fd7f-cf6d-7e6e-ca90bdf957c5@suse.de>
+ <20230727182416.4485@revelation.broadband>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230727182416.4485@revelation.broadband>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------F7psArRPeglxkLwe2J1a0Jmw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,56 +76,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Roper, Matthew D" <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>
+Cc: airlied@redhat.com, jfalempe@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[snip]
-> @@ -41,14 +42,17 @@ static bool gpu_write_needs_clflush(struct drm_i915_g=
-em_object *obj)
->               return false;
->
->       /*
-> -      * For objects created by userspace through GEM_CREATE with pat_ind=
-ex
-> -      * set by set_pat extension, i915_gem_object_has_cache_level() will
-> -      * always return true, because the coherency of such object is mana=
-ged
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------F7psArRPeglxkLwe2J1a0Jmw
+Content-Type: multipart/mixed; boundary="------------kKbNrO6PP3AZ3wgd180L6KhO";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Roger Sewell <roger.sewell@cantab.net>
+Cc: airlied@redhat.com, jfalempe@redhat.com, dri-devel@lists.freedesktop.org
+Message-ID: <5870e604-1653-73a6-7911-422d82f6bb04@suse.de>
+Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
+References: <20230717133037.25941-1-jfalempe@redhat.com>
+ <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
+ <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
+ <20230724215746.10928@revelation.broadband>
+ <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
+ <20230725223127.4184@revelation.broadband>
+ <9c8a0a5f-fd7f-cf6d-7e6e-ca90bdf957c5@suse.de>
+ <20230727182416.4485@revelation.broadband>
+In-Reply-To: <20230727182416.4485@revelation.broadband>
 
-i915_gem_object_has_cache_level() always return true means this function
-always return false.
+--------------kKbNrO6PP3AZ3wgd180L6KhO
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> -      * by userspace. Othereise the call here would fall back to checkin=
-g
-> -      * whether the object is un-cached or write-through.
-> +      * Always flush cache for UMD objects with PAT index set.
+SGkNCg0KQW0gMjcuMDcuMjMgdW0gMTk6MjQgc2NocmllYiBSb2dlciBTZXdlbGw6DQo+IA0K
+PiBUaG9tYXMsDQo+IA0KPj4gQ291bGQgeW91IHByb3ZpZGUgdXMgd2l0aCB0aGUgWG9yZyBs
+b2dzIGZyb20gL3Zhci9sb2cvWG9yZy4wLmxvZyAsDQo+PiBwbGVhc2U/DQo+Pg0KPj4gU3Bl
+Y2lmaWNhbGx5LCBJJ2QgYmUgaW50ZXJlc3RlZCBpbiBkaWZmZXJlbnQgbG9ncyBmcm9tIGNv
+bWJpbmF0aW9ucyBvZg0KPj4gdGhlIG9sZCBhbmQgbmV3IGtlcm5lbCBhbmQgdGhlIG9sZCBh
+bmQgbmV3IHVzZXJzcGFjZS4NCj4gDQo+IEkndmUgbWFuYWdlZCB0byBkbyBzaXggb2YgdGhl
+IGVpZ2h0IHBvc3NpYmxlIGNvbWJpbmF0aW9ucyBvZiBrZXJuZWwsDQo+IG1nYWcyMDAgbW9k
+dWxlLCBhbmQgdXNlcnNwYWNlLiBUaGUgYXR0YWNoZWQgYXJjaGl2ZSBjb250YWlucyBhbGwg
+dGhlDQo+IGNvcnJlc3BvbmRpbmcgWG9yZyBsb2dzIGFzIHdlbGwgYXMgYSBkZXRhaWxlZCBu
+b3RlcyBmaWxlLg0KPiANCj4gSSBjb3VsZG4ndCBkbyB0aGUgcmVtYWluaW5nIHR3byBjb21i
+aW5hdGlvbnMgYmVjYXVzZSBJIGNvdWxkbid0IGdldCB0aGUNCj4gbmV3IG1nYWcyMDAgbW9k
+dWxlIHRvIGNvbXBpbGUgZm9yIHRoZSBvbGQga2VybmVsLg0KPiANCj4gTXkgcHJldmlvdXMg
+dGhlb3J5IHdhcyB3cm9uZywgYnV0IGhvcGVmdWxseSB0aGUgYXR0YWNoZWQgbG9ncyB3aWxs
+IGhlbHANCj4geW91IHdvcmsgb3V0IHdoeSB0aGUgb2xkIGtlcm5lbCBwZXJtaXR0ZWQgdGhl
+IGhpZ2ggYmFuZHdpZHRoIG1vZGUgSQ0KPiBhbHdheXMgdXNlIChkZXNwaXRlIHJldHVybmlu
+ZyBNT0RFX0JBRCkgYW5kIHRoZSBuZXcga2VybmVsIGRvZXNuJ3QuDQoNClRoYW5rcyBmb3Ig
+cHJvdmlkaW5nIGFsbCB0aGVzZSBsb2dzLg0KDQpCdXQgSSBjYW5ub3QgcmVhbGx5IGZpZ3Vy
+ZSBvdXQgd2h5IHRoaXMgd29ya3MgaW4gdGhlIHVubW9kaWZpZWQgb2xkIA0Ka2VybmVsLiBJ
+biBsb2cgOCwgSSBjYW4gc2VlIGFuIGVycm9yIGF0IHRpbWUgNzguNTA5LiAgVGhhdCdzIHRo
+ZSBmYWlsZWQgDQptb2Rlc2V0IG9wZXJhdGlvbi4gV2l0aCB0aGUgbmV3IGRyaXZlciwgeW91
+IGdldCBhIGxvd2VyIHJlc29sdXRpb24gdGhlbj8NCkl0J3Mgbm90IGNsZWFyIHRvIG1lIHdo
+eSBYIGV2ZW4gdHJpZWQgMTQ0MHg5MDAgYXQgYWxsLiBJdCBzaG91bGQgbm90IGJlIA0KaW4g
+dGhlIGxpc3Qgb2YgYXZhaWxhYmxlIG1vZGVzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0K
+DQo+IA0KPiAoVGhlICJvbGQiIGtlcm5lbCBpcyA5LjEsIGkuZS4gNS4xNC4wLTE2Mi42LjEu
+ZWw5XzEuMC4xLCBhbmQgIm5ldyINCj4ga2VybmVsIGlzIDkuMiwgaS5lLiA1LjE0LjAtMjg0
+LjE4LjEuZWw5XzIgLikNCj4gDQo+IEJlc3Qgd2lzaGVzLA0KPiBSb2dlci4NCj4gDQoNCi0t
+IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
+U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5
+MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywg
+QW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5i
+ZXJnKQ0K
 
-(obj->pat_set_by_user =3D=3D true) indicates UMD knows how to handle the co=
-herency,
-forcing clflush in KMD would be redundant.
+--------------kKbNrO6PP3AZ3wgd180L6KhO--
 
->        */
-> -     return !(i915_gem_object_has_cache_level(obj, I915_CACHE_NONE) ||
-> -              i915_gem_object_has_cache_level(obj, I915_CACHE_WT));
-> +     if (obj->pat_set_by_user)
-> +             return true;
+--------------F7psArRPeglxkLwe2J1a0Jmw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-return false;
+-----BEGIN PGP SIGNATURE-----
 
-> +
-> +     /*
-> +      * Fully coherent cached access may end up with data in the CPU cac=
-he
-> +      * which hasn't hit memory yet.
-> +      */
-> +     return i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_WB) &&
-> +            i915_gem_object_has_cache_flag(obj, I915_CACHE_FLAG_COH2W);
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTDbGUFAwAAAAAACgkQlh/E3EQov+D4
+zw/7BmwNwRDc1QW3xizDmcWBLmLVosd9eG9sFZDWdhzhGUJAc/E7e519XwKyArO8HZvKc3s/Kpak
+y7H5AcrXxhkVqm1Pqhh3ZuRbXNXAyhIYFtKW0l7F+ugBsbOJIg/fJf6tyes2f/JRpejfkrTKorAy
+btLH5pG0F/msML0Oyx7JwPOxFrUYSwlEKcp5HMP9oE6WBkPg6TxEJqInIcH+nzsq9svxnWGoeCMu
+4qejx4iji/38J6fwlVBfvTAFt7a8P6wSd1nbnNcPy4/jd7kxGPJoTTT+1ikICd4Ds1neaXx5lYGi
+/o/SFeue8LgeNoBqnzhxqCCrut8VpKX4gbJUQjdiuPSiNhttmxjqq7KhqscLnaNjDixLuQ5VThxi
+j0gbqGZ2E6my5oQ6wKtCB5V71SWPTQZkjd7I9VDBLkjMEc00GM/1j/sMv0B0escbs8yJjE67G/U6
+4IsX2idbPLyOt0lr2UX3Vgn34kRl4LoN+z+ZSspOtJrPZref8w/jU1gARMGkgzwgsybzhZ74CTQR
+qwB6guYFAf1IrnOuIEY0fQgVcCxPKkBrvEoKVLmjTRD4MJD+3/FHBEcPENK3STWY972UswffdVVx
+yeZZy9LMJl8g52L09jnpBjsyYQ9NU6mCBurRO4T4J0fwV29LD4d25jhr7HWb31ts0M9C1Cfr/AD2
+NiI=
+=XE2L
+-----END PGP SIGNATURE-----
 
-Why checking COH2W here? The logic was, if UC or WT return false, otherwise
-return true. So, as long as cache_mode is WB, it's sufficient to say true
-here, right?
-
->  }
+--------------F7psArRPeglxkLwe2J1a0Jmw--
