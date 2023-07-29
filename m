@@ -2,66 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BE5767FC0
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 15:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3173F767FFB
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 16:12:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1E7E10E0CB;
-	Sat, 29 Jul 2023 13:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E13610E15B;
+	Sat, 29 Jul 2023 14:12:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE7210E0CB
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 13:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1690638821; x=1691243621; i=deller@gmx.de;
- bh=SF33N+Kpc/wyG9nSqcNT0LlTEH8fet6dIuByUxd0Cic=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=c7PuZP+dLY/6HRY5CvV47NQ/1RIsow3/wc19NKo0POC7seqZVHaGzIFSamX7HNh7XnPjnSl
- F1MjawpMBcXcdnzTMza184dmiHLoQ0U6JClins9LfVaqdEEXJIiVRsLOJPbISJGXixgWyiYW5
- QSCNlgYwZKRbyksX0e07YuKZKvhr6qIZZbPMkcJc1RfRDke8eTiQJ5dVQil7Hb1lhCdC0ZDYw
- EuoP6E4A4w8cOBbsm77c8riEbqlmGF7Ua9nyI1lRkpsxqdHdT86QKTbxQ+ENcb4kAvujtb7+7
- ehwn+6Pu39M6L8reSF9pRmdeci20dg3mLS1LApTYJ9Bm64IqawMA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.147.68]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzQg6-1pdXSH2mXY-00vLlS; Sat, 29
- Jul 2023 15:53:41 +0200
-Message-ID: <1ab418ae-592f-4347-fa75-bf9b00115afe@gmx.de>
-Date: Sat, 29 Jul 2023 15:53:40 +0200
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6499110E15B;
+ Sat, 29 Jul 2023 14:12:12 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id
+ d9443c01a7336-1bbd03cb7c1so19500205ad.3; 
+ Sat, 29 Jul 2023 07:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690639932; x=1691244732;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+C6jJRc0LdW2x/2DP37k+SaBYlDtw6zn+yIijsr+W6Q=;
+ b=SgAAUN7IvS6GoQAolVEmt8DQxByP2zKnQlfP7HlegvgMjDiBllWXagumXqz3/9FUP2
+ vRC99IgQr7JNLUJuHgwkv0OfAT2uKam4GSSJ8tU568Y6qzLvPoyylGKTNddQVa3TFavK
+ 8Maindl9XQ34rJXNUU62YmirYjJWIaA9y5gYp5fmTiTjTHHSEWMRq0bMRvs4V3UiSiNK
+ V609ozvSKraa47aY2tA7HN/iHNPk1OhLxnyo4o/D3TP4VdhREM1lJ3BtQnEXa6zn8bJf
+ yvrWAWbbYlEofjxWO/14Az53VxzeItAnnHRdKGC++tNraJEB5tW5pZNdCmrJrfCjCH7n
+ MIIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690639932; x=1691244732;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+C6jJRc0LdW2x/2DP37k+SaBYlDtw6zn+yIijsr+W6Q=;
+ b=cEd/vjAfKxXnUC8Ee6seAUyMurS9bOOd7zwSb2KhUjaQ5/xEncZDKu0N5i0hyxB4pG
+ Op5OFHUTf2ypRPPUTeoCGYu6yVdvNxR4WJ9Vcf6GeOiIQPmEwm8WmxHCcxDySZC35ggO
+ eEZbHq+Xhpc+iVei0ANr/oKHywr9AC8Ah2YyQusL80wsafoVCtKV1DR4s1NwxzYbsIQ6
+ QCG8WZ85BfjJOBGSmhQks/dNvYXjur33+dauQA3U+SqpDglnoRzehdiR2S3sfuu6Qe/6
+ wNnY2QNl+2FuevTeHC7wbGobleEm3MrgB2tKckeyl/e03wDq5MpKIeZSSk7KGLl58EF2
+ Pnsg==
+X-Gm-Message-State: ABy/qLZnH3yYxLYM8k/9iNCNonivCcaOGYBEizEddQ7i/CJ9WO54Lugf
+ GFWEQdDBOXEjCsf0lLFGbmk=
+X-Google-Smtp-Source: APBJJlE662Atmiw9uVK/6bA4umUfd5xUgkEOpmu5PWhPABkU0JdjBkBHFOZbngWO40y2M+4W2DCpkQ==
+X-Received: by 2002:a17:903:22d2:b0:1b9:c207:1802 with SMTP id
+ y18-20020a17090322d200b001b9c2071802mr5225754plg.0.1690639931771; 
+ Sat, 29 Jul 2023 07:12:11 -0700 (PDT)
+Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a1709028c8e00b001b1a2c14a4asm5347654plo.38.2023.07.29.07.12.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Jul 2023 07:12:10 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id AC0498AEC1A0; Sat, 29 Jul 2023 21:12:05 +0700 (WIB)
+Date: Sat, 29 Jul 2023 21:12:05 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: =?utf-8?B?5a2Z5YaJ?= <sunran001@208suo.com>,
+ airlied <airlied@gmail.com>, daniel <daniel@ffwll.ch>,
+ "alexander.deucher" <alexander.deucher@amd.com>
+Subject: Re: [PATCH] drm/radeon: Prefer 'unsigned int' to bare use of
+ 'unsigned'
+Message-ID: <ZMUeNehNb52Qu/Cp@debian.me>
+References: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
-References: <20230728182234.10680-1-tzimmermann@suse.de>
- <c1a4b7c9-50f2-c43f-277d-c2af9ccc0b50@gmx.de>
- <20230728210127.GA1156027@ravnborg.org>
- <78da21f8-7d00-797e-363a-736ee53b2eb6@gmx.de>
- <126ac851-2f81-4cfd-b06a-774f8428cc93@suse.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <126ac851-2f81-4cfd-b06a-774f8428cc93@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6NOl6qf6INO7VOFdQE2JnRYWdtQDNRo6M9Ca0Q2Is8v9m4IHvfQ
- ua61qy3N+QL+ov3IpkAlBqWzpRLUFIs6319HjFbUd9mLzNsO+tOGAf1YOPOOClcXwlM6iSp
- kqWdFK7mJFVa4iGcdOkTd27JYbqIFT2XR9R2NcEgYG99BLVOTU1kMY1lltzGzVz3OWKFPW0
- zncOfO05x8K5vTsSIA1Nw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:BEPvo3atSHo=;8ZJQxXtTgZ/i8YZdeod/v+Sx78d
- sV7QGqx5P+XbbewQrCUuMM2mIUX57WAhxzXzPwb8HZtWALbUvGqjBKEquCKElhDra9J1W4FsW
- RSbH37IgKyiEPUuLhO3hYhjxJ1OESVY9l46kaw6MCW9UdBOZL0QiCLmw/NgpdUWUkbmqozflr
- By7lwt8Jh04wVLXvhb6zuHhVkqn+x8zyP1dSWKEmjqz7SAJqedZ6dFLka4W1uQIBQeajseAWd
- 5ukRIAAbk7QTSjOlfu28AH0ZYXZQYZBq87n7EpBjmNO7omIBL2l4LLbYkJ+FR17J03p9rJNY2
- N+ptylEF2CfmhShVYEK3IUGwR89DB6qc1VQFMNgE2YLeo3NzyKMUc8owaCPcxVJ0XlqQXqUdW
- 2h7TrrlowCT34sYOoTuVhJgvPpp2xqvGH7HVOEu3yt0araUQULvDoWaZdHuA6YQOZDQ9duzca
- e8l5pfYPEoRqsaE3V9+PGRcw29X6ajx84Cfbrl/57KlvpV7zNrusmfz5fkcWOCTTVgRmsa95W
- DhCT16EIP6TBdqS89NaaLaZfVXjZ6PsCmx0XvivgFHHxj9urbbRgZnnHEnRN4Qb1AJYl5NsQk
- 6ChMZ/3d1cL6STQ8mKyN1gRVln7d/80QWP3TsmFb/U6U+6pyhQa34AFjePb8AyTuVi1IctBdh
- ySFP8XAk/xMXeMTEuovcs1ejQ+l+yFsPmzQwLZkJDJXang0Ap099PVacpsxmtuD0xzYo223VE
- Zg2DpdJpT+UbYxiYbDB2tFbIO0Yux5/Hcv6cO4F0MpAUCQFScJl3WJ2usEQxHolmDaVeuIcM+
- 4V+NxQDfqrxB31DHnYrS6btho99ZsNzVUsn3i58StsPbsHHis35HLMYnWp5M4Qd/2v/bafmss
- mTwVw/Arwed7vSe6A1gNwVgYmS1esFcNDY+01azGbDr82SsBybEYbP2/sRxiLZBqdwQTLylVg
- uuxFsRNLE56F12ao/HwpC6fJMfA=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="01f/lLxb6k6fTJWx"
+Content-Disposition: inline
+In-Reply-To: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,155 +77,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
- javierm@redhat.com, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx <amd-gfx@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/29/23 15:21, Thomas Zimmermann wrote:
-> Hi Helge
->
-> Am 29.07.23 um 08:51 schrieb Helge Deller:
->> On 7/28/23 23:01, Sam Ravnborg wrote:
->>> Hi Helge,
->>>
->>> On Fri, Jul 28, 2023 at 08:46:59PM +0200, Helge Deller wrote:
->>>> On 7/28/23 18:39, Thomas Zimmermann wrote:
->>>>> Most fbdev drivers operate on I/O memory.
->>>>
->>>> Just nitpicking here:
->>>> What is I/O memory?
->>>> Isn't it either memory, or I/O ?
->>>> I mean, I would never think of the cfb* draw functions under I/O.
->>>>
->>>>> And most of those use the
->>>>> default implementations for file I/O and console drawing. Convert al=
-l
->>>>> these low-hanging fruits to the fb_ops initializer macro and Kconfig
->>>>> token for fbdev I/O helpers.
->>>>
->>>> I do see the motivation for your patch, but I think the
->>>> macro names are very misleading.
->>>>
->>>> You have:
->>>> #define __FB_DEFAULT_IO_OPS_RDWR \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_read=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D fb_io_read, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_write=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D fb_io_write
->>>>
->>>> #define __FB_DEFAULT_IO_OPS_DRAW \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_fillrect=C2=A0=
-=C2=A0=C2=A0 =3D cfb_fillrect, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_copyarea=C2=A0=
-=C2=A0=C2=A0 =3D cfb_copyarea, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_imageblit=C2=A0=
-=C2=A0 =3D cfb_imageblit
->>>>
->>>> #define __FB_DEFAULT_IO_OPS_MMAP \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_mmap=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D NULL /* default implementation */
->>>>
->>>> #define FB_DEFAULT_IO_OPS \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __FB_DEFAULT_IO_OPS_=
-RDWR, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __FB_DEFAULT_IO_OPS_=
-DRAW, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __FB_DEFAULT_IO_OPS_=
-MMAP
->>>>
->>>> I think FB_DEFAULT_IO_OPS is OK for read/write/mmap.
->>>> But I would suggest to split out __FB_DEFAULT_IO_OPS_DRAW.
->>>> Something like:
->>>> #define FB_DEFAULT_IO_OPS \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __FB_DEFAULT_IO_OPS_=
-RDWR, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __FB_DEFAULT_IO_OPS_=
-MMAP
->>>
->>>
->>>> #define FB_DEFAULT_CFB_OPS \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_fillrect=C2=A0=
-=C2=A0=C2=A0 =3D cfb_fillrect, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_copyarea=C2=A0=
-=C2=A0=C2=A0 =3D cfb_copyarea, \
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fb_imageblit=C2=A0=
-=C2=A0 =3D cfb_imageblit
->>>
->>> The prefix cfb, I have recently learned, equals color frame buffer.
->>
->> correct.
->>
->>> They are named such for purely historical reasons.
->>
->> well, they operate on MEMORY which represents a (color) frame buffer,
->> either in host memory or memory on some card on some bus.
->> So, the naming cfb is not historical, but even today correct.
->>
->>> What is important is where the data are copied as we have two
->>> implementations of for example copyarea - one using system memory, the
->>> other using IO memory.
->>
->> sys_copyarea() and cfb_copyarea().
->>
->>> The naming FB_DEFAULT_IO_OPS says this is the defaults to IO memory
->>> operations, which tell what they do
->>
->> This is exactly what I find misleading. IO_OPS sounds that it operates
->> on file I/O (like file read/write), but not on iomem.
->>
->>> and avoid the strange cfb acronym.
->>
->>> Reserve cfb for color frame buffers only - and maybe in the end rename
->>> the three cfbcopyarea, cfbfillrect, cfbimgblt to use the io prefix.
->>
->> Again, the io prefix is what I think is misleading.
->> Why not name it what it really is and what is used in the kernel alread=
-y, e.g.
->> iomem_copyarea() and sysmem_copyarea().
->> which would lead to
->> FB_DEFAULT_IOMEM_OPS and FB_DEFAULT_SYSMEM_OPS.
->
-> Yes there's been a bit of confusion and discussion on the naming before.=
- I'd be happy if we can standardize on sysmem and iomem.
->
-> I can add a patch to this patchset to rename the _IO_ macros and tokens =
-to use _IOMEM_. That's not too much change. A later patchset can address s=
-ysmem and deferred I/O helpers separately.
 
-Sound good.
+--01f/lLxb6k6fTJWx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On motivation: for now it's a cleanup to make the a bit code easier to u=
-nderstand. But once all drivers set their callbacks correctly, we can make=
- the I/O mem code optional. It's currently the default and built-in uncond=
-itionally. But it's not uncommon that it's unused entirely.
+On Fri, Jul 28, 2023 at 10:35:19PM +0800, =E5=AD=99=E5=86=89 wrote:
+> WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+>=20
+> Signed-off-by: Ran Sun <sunran001@208suo.com>
 
-Probably true for x86, on others it might be useful to make the sysmem opt=
-ional as well. I did not checked.
+Your From: address !=3D SoB identity
 
-Anyway, thanks for your work!
+> ---
+>  drivers/gpu/drm/radeon/radeon_object.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/rad=
+eon/radeon_object.h
+> index 39cc87a59a9a..9b55a7103cfd 100644
+> --- a/drivers/gpu/drm/radeon/radeon_object.h
+> +++ b/drivers/gpu/drm/radeon/radeon_object.h
+> @@ -37,7 +37,7 @@
+>   *
+>   * Returns corresponding domain of the ttm mem_type
+>   */
+> -static inline unsigned radeon_mem_type_to_domain(u32 mem_type)
+> +static inline unsigned int radeon_mem_type_to_domain(u32 mem_type)
+>  {
+>   switch (mem_type) {
+>   case TTM_PL_VRAM:
+> @@ -112,12 +112,12 @@ static inline unsigned long radeon_bo_size(struct r=
+adeon_bo *bo)
+>   return bo->tbo.base.size;
+>  }
+> =20
+> -static inline unsigned radeon_bo_ngpu_pages(struct radeon_bo *bo)
+> +static inline unsigned int radeon_bo_ngpu_pages(struct radeon_bo *bo)
+>  {
+>   return bo->tbo.base.size / RADEON_GPU_PAGE_SIZE;
+>  }
+> =20
+> -static inline unsigned radeon_bo_gpu_page_alignment(struct radeon_bo *bo)
+> +static inline unsigned int radeon_bo_gpu_page_alignment(struct radeon_bo=
+ *bo)
+>  {
+>   return (bo->tbo.page_alignment << PAGE_SHIFT) / RADEON_GPU_PAGE_SIZE;
+>  }
+> @@ -189,7 +189,7 @@ static inline void *radeon_sa_bo_cpu_addr(struct drm_=
+suballoc *sa_bo)
+> =20
+>  extern int radeon_sa_bo_manager_init(struct radeon_device *rdev,
+>           struct radeon_sa_manager *sa_manager,
+> -         unsigned size, u32 align, u32 domain,
+> +         unsigned int size, u32 align, u32 domain,
+>           u32 flags);
+>  extern void radeon_sa_bo_manager_fini(struct radeon_device *rdev,
+>            struct radeon_sa_manager *sa_manager);
 
-Helge
+The patch is whitespace-corrupted. Use git-send-email(1) to submit patches.
+Also, your patch is also MIME-encoded, hence the corruption.
 
->
-> Best regards
-> Thomas
->
->>
->>> Which is much simpler to do after this series - and nice extra benefit=
-.
->>>
->>> I hope this properly explains why I like the current naming and
->>> acked it when the macros were introduced.
->>
->> IMHO the naming isn't perfect, but that's just nitpicking.
->> Besides that, Thomas' patches are a nice cleanup.
->> So, if you want add a
->> Acked-by: Helge Deller <deller@gmx.de>
->> to the series.
->>
->> Helge
->
+To Alex: Please don't apply this patch due to reasons above.
 
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--01f/lLxb6k6fTJWx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZMUeMAAKCRD2uYlJVVFO
+o58+AQDBnu90P/KFMkRmE5l99Ib4Tj5NqIUMx+sXAV1aN7lIBgEAqWSXDZxC87Ry
+rWvbVbgDxvYYyf8JS2Ln6A60zFCshwg=
+=ibKj
+-----END PGP SIGNATURE-----
+
+--01f/lLxb6k6fTJWx--
