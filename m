@@ -1,71 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D1F768144
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:15:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB918768148
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 007D610E215;
-	Sat, 29 Jul 2023 19:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F15710E218;
+	Sat, 29 Jul 2023 19:18:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5EB10E215
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:15:08 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B35F10E218
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690658107;
+ s=mimecast20190719; t=1690658318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bKZ/m4E32pk0OxOiOqNXBVn4dQjxooPCr2VH/BSIu+M=;
- b=Z0FyGXwvwd36RVZNzM2owIXk4UQ5pSk1NrwqHQXjMR+MgJRTOI83rd0Ff9JvXl40qMNoRE
- u0HhRgPeCFVC0v2BN2FOpyqyK+vuEOGO1Sbfy7tgoNNu6Q5Fw8j132LNedHh+/zNocnmdo
- i+scpd8elugXkIW4n7RxAZeq9mLha5o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ojrCzz5wYGS/I4ma6JQZlj8trsaVvDQ8Es+pMaAigF0=;
+ b=VqB1P1opOLOpa2WgfheM83iVQ6HyB8F11AndKN+t8iGX06b9NOjPlgTCC54Ory9xjqu2K6
+ CJookr7fS0H/AsG4FL45QHjpI3EYAGy6IW5p/V+/yIRYqS9FXJfaxjVw/nnQ+rraNjdOVo
+ 0hUUin7N9ghyo1namjBX+O9DttCkD4E=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-45-9btOtdDlPFWpCUi0IAtUtA-1; Sat, 29 Jul 2023 15:15:02 -0400
-X-MC-Unique: 9btOtdDlPFWpCUi0IAtUtA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3fe1cdf2024so441925e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:15:02 -0700 (PDT)
+ us-mta-170-S8MStoKkOoOlwubfh_BPkg-1; Sat, 29 Jul 2023 15:18:35 -0400
+X-MC-Unique: S8MStoKkOoOlwubfh_BPkg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-31797adfe97so193030f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:18:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690658101; x=1691262901;
+ d=1e100.net; s=20221208; t=1690658314; x=1691263114;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bKZ/m4E32pk0OxOiOqNXBVn4dQjxooPCr2VH/BSIu+M=;
- b=Qbt4DQmLdUt7ZN5ADPfAJlEu8beFt+I0Abn+cQFrVB9WS2WuA/8fJFIuruO/GoMwLc
- jtkKa4GG2ZjKSOLoQRjqiQXLan8U3S3vQgPxS3s2udr9hXJEdNf3LEh3EoE4y3+u9ExA
- fXXhrwu03ao/KC2hf2u/mG6PIoJmwmNGkVjWnd/bl3Wo+MH+A45fsaNpsaYKNHm/9gHC
- XbhvIf3s4YciwGWoHwuyhLtul7GfBMNuARHijxKwG71WRWesln23thDLA62HWH0SOweQ
- AYTw60LXumYzucCZS9wY+v0OeqS44fvicBiR1hlOMelCIxVd8HLR7HQ5l2ir6TmonaUT
- T5Mg==
-X-Gm-Message-State: ABy/qLYKALdJh+w196ld2mKcv2XxTk08Bhn+1qKrjIBHMG0PXAXsKXm6
- Fbafg08ssoaPYa87aWJY3NKtZW8YAgKCgd7bnxwWxDVYffdKb2xt3czEbpWioPJUWVjGqpvweGQ
- 5uv9Xu0/3FFcXrsvORttvRkLXjLrd
-X-Received: by 2002:a05:600c:2109:b0:3fa:97ad:2ba5 with SMTP id
- u9-20020a05600c210900b003fa97ad2ba5mr2065637wml.31.1690658101111; 
- Sat, 29 Jul 2023 12:15:01 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHLZUj9UpcJLJhL8ZYAVAlut578FF7QHxlwqAv3EfIOrRcqB9xm3wue0QZcrC5Ib1KR/6X0hA==
-X-Received: by 2002:a05:600c:2109:b0:3fa:97ad:2ba5 with SMTP id
- u9-20020a05600c210900b003fa97ad2ba5mr2065633wml.31.1690658100845; 
- Sat, 29 Jul 2023 12:15:00 -0700 (PDT)
+ bh=ojrCzz5wYGS/I4ma6JQZlj8trsaVvDQ8Es+pMaAigF0=;
+ b=CNZAKzRITfCzEybg9opUZ54LQ7IpEEbt8Fmg1wPFUpdT6p03Je4DuwWtctc6k4kCIr
+ brnFLSXoMm2woKSvjA+zoZqQNjki4I2x2Pzd5p2qHpA+9btLeXho7mOdgjrr/x5CAaDr
+ qyyfVgLTtzqRElUjN5r7U2WknvqDTYDQqwOiLaKdeQ5MC3wgHxtKIQPPQxqUoH+vIvTH
+ DmrJTKDa09iBXsCi7C5X9Sqc2l94uS6fCC2J7T8ybBC8IlKlJ3klSN4MOv331/P2ETdq
+ MgaVTGSwqwBIQtabLcBEAxVA6KR+yfcpyT0BHzXi1HTpFSQLeRxh5e/nd/ONZQ3tHbhV
+ m+WQ==
+X-Gm-Message-State: ABy/qLbjx7szsVa8iurbsAxye4TmQ++E7MyZpaqkG9N0cbSx1z09V8s/
+ y0LpRAuTOaqmf34GHfh57pB3/PYXNLV2bS+H1x8tuUQIU+c4ZUk5Umnl1EYR6OPcjC4uBv8zSXJ
+ nWvf3s4PbASk2ydRvnRpZb5Kx2W+s
+X-Received: by 2002:adf:e743:0:b0:317:6cc7:6b21 with SMTP id
+ c3-20020adfe743000000b003176cc76b21mr3846713wrn.69.1690658314142; 
+ Sat, 29 Jul 2023 12:18:34 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGMLsHO2EpY96ESRcSjZaJGCQAF4FMTewpjygCkWri2whqJzjkk8u4900Qu5vniN18Ue1k5Gg==
+X-Received: by 2002:adf:e743:0:b0:317:6cc7:6b21 with SMTP id
+ c3-20020adfe743000000b003176cc76b21mr3846696wrn.69.1690658313885; 
+ Sat, 29 Jul 2023 12:18:33 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l7-20020adfe587000000b00314172ba213sm8122621wrm.108.2023.07.29.12.15.00
+ y18-20020adff152000000b0031779a6b451sm8128412wro.83.2023.07.29.12.18.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 12:15:00 -0700 (PDT)
+ Sat, 29 Jul 2023 12:18:33 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Russell King
- <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 resend 2] drm/armada: Fix off-by-one error in
- armada_overlay_get_property()
-In-Reply-To: <a4d779d954a7515ddbbf31cb0f0d8184c0e7c879.1689600265.git.geert+renesas@glider.be>
-References: <a4d779d954a7515ddbbf31cb0f0d8184c0e7c879.1689600265.git.geert+renesas@glider.be>
-Date: Sat, 29 Jul 2023 21:14:59 +0200
-Message-ID: <871qgqy1fw.fsf@minerva.mail-host-address-is-not-set>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ville =?utf-8?B?U3ly?=
+ =?utf-8?B?asOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v3 2/4] drm/todo: Convert list of fbconv links to footnotes
+In-Reply-To: <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
+References: <cover.1689779916.git.geert+renesas@glider.be>
+ <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
+Date: Sat, 29 Jul 2023 21:18:32 +0200
+Message-ID: <87y1iywmpj.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -82,30 +87,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Russell King <rmk+kernel@armlinux.org.uk>,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-> As ffs() returns one more than the index of the first bit set (zero
-> means no bits set), the color key mode value is shifted one position too
-> much.
+Hello Geert,
+
+> Convert the references to fbconv links to footnotes, so they can be
+> navigated.
 >
-> Fix this by using FIELD_GET() instead.
->
-> Fixes: c96103b6c49ff9a8 ("drm/armada: move colorkey properties into overlay plane state")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 > ---
-> Compile-tested only.
+> v3:
+>   - Make main text read correctly when ignoring the footnotes,
 >
 > v2:
->   - Add Reviewed-by.
+>   - New.
 > ---
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
