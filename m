@@ -2,69 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3173F767FFB
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 16:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328EA7680F7
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 20:28:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E13610E15B;
-	Sat, 29 Jul 2023 14:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1932D10E0E5;
+	Sat, 29 Jul 2023 18:28:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6499110E15B;
- Sat, 29 Jul 2023 14:12:12 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id
- d9443c01a7336-1bbd03cb7c1so19500205ad.3; 
- Sat, 29 Jul 2023 07:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690639932; x=1691244732;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+C6jJRc0LdW2x/2DP37k+SaBYlDtw6zn+yIijsr+W6Q=;
- b=SgAAUN7IvS6GoQAolVEmt8DQxByP2zKnQlfP7HlegvgMjDiBllWXagumXqz3/9FUP2
- vRC99IgQr7JNLUJuHgwkv0OfAT2uKam4GSSJ8tU568Y6qzLvPoyylGKTNddQVa3TFavK
- 8Maindl9XQ34rJXNUU62YmirYjJWIaA9y5gYp5fmTiTjTHHSEWMRq0bMRvs4V3UiSiNK
- V609ozvSKraa47aY2tA7HN/iHNPk1OhLxnyo4o/D3TP4VdhREM1lJ3BtQnEXa6zn8bJf
- yvrWAWbbYlEofjxWO/14Az53VxzeItAnnHRdKGC++tNraJEB5tW5pZNdCmrJrfCjCH7n
- MIIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690639932; x=1691244732;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+C6jJRc0LdW2x/2DP37k+SaBYlDtw6zn+yIijsr+W6Q=;
- b=cEd/vjAfKxXnUC8Ee6seAUyMurS9bOOd7zwSb2KhUjaQ5/xEncZDKu0N5i0hyxB4pG
- Op5OFHUTf2ypRPPUTeoCGYu6yVdvNxR4WJ9Vcf6GeOiIQPmEwm8WmxHCcxDySZC35ggO
- eEZbHq+Xhpc+iVei0ANr/oKHywr9AC8Ah2YyQusL80wsafoVCtKV1DR4s1NwxzYbsIQ6
- QCG8WZ85BfjJOBGSmhQks/dNvYXjur33+dauQA3U+SqpDglnoRzehdiR2S3sfuu6Qe/6
- wNnY2QNl+2FuevTeHC7wbGobleEm3MrgB2tKckeyl/e03wDq5MpKIeZSSk7KGLl58EF2
- Pnsg==
-X-Gm-Message-State: ABy/qLZnH3yYxLYM8k/9iNCNonivCcaOGYBEizEddQ7i/CJ9WO54Lugf
- GFWEQdDBOXEjCsf0lLFGbmk=
-X-Google-Smtp-Source: APBJJlE662Atmiw9uVK/6bA4umUfd5xUgkEOpmu5PWhPABkU0JdjBkBHFOZbngWO40y2M+4W2DCpkQ==
-X-Received: by 2002:a17:903:22d2:b0:1b9:c207:1802 with SMTP id
- y18-20020a17090322d200b001b9c2071802mr5225754plg.0.1690639931771; 
- Sat, 29 Jul 2023 07:12:11 -0700 (PDT)
-Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
- t14-20020a1709028c8e00b001b1a2c14a4asm5347654plo.38.2023.07.29.07.12.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 07:12:10 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
- id AC0498AEC1A0; Sat, 29 Jul 2023 21:12:05 +0700 (WIB)
-Date: Sat, 29 Jul 2023 21:12:05 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: =?utf-8?B?5a2Z5YaJ?= <sunran001@208suo.com>,
- airlied <airlied@gmail.com>, daniel <daniel@ffwll.ch>,
- "alexander.deucher" <alexander.deucher@amd.com>
-Subject: Re: [PATCH] drm/radeon: Prefer 'unsigned int' to bare use of
- 'unsigned'
-Message-ID: <ZMUeNehNb52Qu/Cp@debian.me>
-References: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF7310E0DD
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 18:28:11 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 5668E3F1FA;
+ Sat, 29 Jul 2023 20:28:08 +0200 (CEST)
+Date: Sat, 29 Jul 2023 20:28:06 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 3/7] drm/msm/dpu: inline _setup_intf_ops()
+Message-ID: <kszqijb63rplnqczrw6xuzs5mci33w2qgn6c2ujxeag4x7ych3@7etvtti7ah4x>
+References: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
+ <20230727162104.1497483-4-dmitry.baryshkov@linaro.org>
+ <wv556zme7i33pczp7aqln5xcljz4xuygmqkmcrw2jayrmu4tsh@ohrbffyirknb>
+ <e421a9b0-5943-faff-ebde-dc94cce43e69@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="01f/lLxb6k6fTJWx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
+In-Reply-To: <e421a9b0-5943-faff-ebde-dc94cce43e69@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,90 +44,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx <amd-gfx@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023-07-29 02:45:43, Dmitry Baryshkov wrote:
+> On 27/07/2023 23:10, Marijn Suijten wrote:
+> > On 2023-07-27 19:21:00, Dmitry Baryshkov wrote:
+> >> Inline the _setup_intf_ops() function, it makes it easier to handle
+> >> different conditions involving INTF configuration.
+> >>
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > 
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 47 +++++++++------------
+> >>   1 file changed, 21 insertions(+), 26 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >> index 8ec6505d9e78..7ca772791a73 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >> @@ -524,31 +524,6 @@ static void dpu_hw_intf_program_intf_cmd_cfg(struct dpu_hw_intf *ctx,
+> >>   	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2);
+> >>   }
+> >>   
+> >> -static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
+> >> -		unsigned long cap, const struct dpu_mdss_version *mdss_rev)
+> >> -{
+> >> -	ops->setup_timing_gen = dpu_hw_intf_setup_timing_engine;
+> >> -	ops->setup_prg_fetch  = dpu_hw_intf_setup_prg_fetch;
+> >> -	ops->get_status = dpu_hw_intf_get_status;
+> >> -	ops->enable_timing = dpu_hw_intf_enable_timing_engine;
+> >> -	ops->get_line_count = dpu_hw_intf_get_line_count;
+> >> -	if (cap & BIT(DPU_INTF_INPUT_CTRL))
+> >> -		ops->bind_pingpong_blk = dpu_hw_intf_bind_pingpong_blk;
+> >> -	ops->setup_misr = dpu_hw_intf_setup_misr;
+> >> -	ops->collect_misr = dpu_hw_intf_collect_misr;
+> >> -
+> >> -	if (cap & BIT(DPU_INTF_TE)) {
+> >> -		ops->enable_tearcheck = dpu_hw_intf_enable_te;
+> >> -		ops->disable_tearcheck = dpu_hw_intf_disable_te;
+> >> -		ops->connect_external_te = dpu_hw_intf_connect_external_te;
+> >> -		ops->vsync_sel = dpu_hw_intf_vsync_sel;
+> >> -		ops->disable_autorefresh = dpu_hw_intf_disable_autorefresh;
+> >> -	}
+> >> -
+> >> -	if (mdss_rev->core_major_ver >= 7)
+> >> -		ops->program_intf_cmd_cfg = dpu_hw_intf_program_intf_cmd_cfg;
+> >> -}
+> >> -
+> >>   struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+> >>   		void __iomem *addr, const struct dpu_mdss_version *mdss_rev)
+> >>   {
+> >> @@ -571,7 +546,27 @@ struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+> >>   	 */
+> >>   	c->idx = cfg->id;
+> >>   	c->cap = cfg;
+> >> -	_setup_intf_ops(&c->ops, c->cap->features, mdss_rev);
+> >> +
+> >> +	c->ops.setup_timing_gen = dpu_hw_intf_setup_timing_engine;
+> >> +	c->ops.setup_prg_fetch  = dpu_hw_intf_setup_prg_fetch;
+> >> +	c->ops.get_status = dpu_hw_intf_get_status;
+> >> +	c->ops.enable_timing = dpu_hw_intf_enable_timing_engine;
+> >> +	c->ops.get_line_count = dpu_hw_intf_get_line_count;
+> >> +	if (cfg->features & BIT(DPU_INTF_INPUT_CTRL))
+> >> +		c->ops.bind_pingpong_blk = dpu_hw_intf_bind_pingpong_blk;
+> > 
+> > While at it, could we sort these down with the other conditional
+> > callbacks?
+> 
+> What kind of sorting do you have in mind?
 
---01f/lLxb6k6fTJWx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Moving this conditional ( if (...) ) down with the other conditional
+assignment below, instead of being right in the middle of get_line_count
+and setup_misr, both which are not conditional and make it harder to
+read, especially considering the lack of newlines and/or curly braces.
 
-On Fri, Jul 28, 2023 at 10:35:19PM +0800, =E5=AD=99=E5=86=89 wrote:
-> WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
->=20
-> Signed-off-by: Ran Sun <sunran001@208suo.com>
+> >> +	c->ops.setup_misr = dpu_hw_intf_setup_misr;
+> >> +	c->ops.collect_misr = dpu_hw_intf_collect_misr;
+> >> +
+> >> +	if (cfg->features & BIT(DPU_INTF_TE)) {
+> > 
+> > Any clue why we're not using test_bit()?  Feels a bit inconsistent.
+> 
+> Yes, some files use test_bit(), others just check the bit directly. 
+> Maybe after moving some/most of conditionals to core_major_ver we can 
+> clean that too.
 
-Your From: address !=3D SoB identity
+Sounds good.
 
-> ---
->  drivers/gpu/drm/radeon/radeon_object.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/rad=
-eon/radeon_object.h
-> index 39cc87a59a9a..9b55a7103cfd 100644
-> --- a/drivers/gpu/drm/radeon/radeon_object.h
-> +++ b/drivers/gpu/drm/radeon/radeon_object.h
-> @@ -37,7 +37,7 @@
->   *
->   * Returns corresponding domain of the ttm mem_type
->   */
-> -static inline unsigned radeon_mem_type_to_domain(u32 mem_type)
-> +static inline unsigned int radeon_mem_type_to_domain(u32 mem_type)
->  {
->   switch (mem_type) {
->   case TTM_PL_VRAM:
-> @@ -112,12 +112,12 @@ static inline unsigned long radeon_bo_size(struct r=
-adeon_bo *bo)
->   return bo->tbo.base.size;
->  }
-> =20
-> -static inline unsigned radeon_bo_ngpu_pages(struct radeon_bo *bo)
-> +static inline unsigned int radeon_bo_ngpu_pages(struct radeon_bo *bo)
->  {
->   return bo->tbo.base.size / RADEON_GPU_PAGE_SIZE;
->  }
-> =20
-> -static inline unsigned radeon_bo_gpu_page_alignment(struct radeon_bo *bo)
-> +static inline unsigned int radeon_bo_gpu_page_alignment(struct radeon_bo=
- *bo)
->  {
->   return (bo->tbo.page_alignment << PAGE_SHIFT) / RADEON_GPU_PAGE_SIZE;
->  }
-> @@ -189,7 +189,7 @@ static inline void *radeon_sa_bo_cpu_addr(struct drm_=
-suballoc *sa_bo)
-> =20
->  extern int radeon_sa_bo_manager_init(struct radeon_device *rdev,
->           struct radeon_sa_manager *sa_manager,
-> -         unsigned size, u32 align, u32 domain,
-> +         unsigned int size, u32 align, u32 domain,
->           u32 flags);
->  extern void radeon_sa_bo_manager_fini(struct radeon_device *rdev,
->            struct radeon_sa_manager *sa_manager);
+- Marijn
 
-The patch is whitespace-corrupted. Use git-send-email(1) to submit patches.
-Also, your patch is also MIME-encoded, hence the corruption.
-
-To Alex: Please don't apply this patch due to reasons above.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---01f/lLxb6k6fTJWx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZMUeMAAKCRD2uYlJVVFO
-o58+AQDBnu90P/KFMkRmE5l99Ib4Tj5NqIUMx+sXAV1aN7lIBgEAqWSXDZxC87Ry
-rWvbVbgDxvYYyf8JS2Ln6A60zFCshwg=
-=ibKj
------END PGP SIGNATURE-----
-
---01f/lLxb6k6fTJWx--
+> >> +		c->ops.enable_tearcheck = dpu_hw_intf_enable_te;
+> >> +		c->ops.disable_tearcheck = dpu_hw_intf_disable_te;
+> >> +		c->ops.connect_external_te = dpu_hw_intf_connect_external_te;
+> >> +		c->ops.vsync_sel = dpu_hw_intf_vsync_sel;
+> >> +		c->ops.disable_autorefresh = dpu_hw_intf_disable_autorefresh;
+> >> +	}
+> >> +
+> >> +	if (mdss_rev->core_major_ver >= 7)
+> >> +		c->ops.program_intf_cmd_cfg = dpu_hw_intf_program_intf_cmd_cfg;
+> >>   
+> >>   	return c;
+> >>   }
+> >> -- 
+> >> 2.39.2
+> >>
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
