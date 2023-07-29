@@ -1,78 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CB976814D
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:24:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AB576816D
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEE210E113;
-	Sat, 29 Jul 2023 19:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B9D10E21A;
+	Sat, 29 Jul 2023 19:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47EC910E113
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690658683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hskAr6TIw8osCLe/1nFX1sSnSNJhm4rVeuFgy4UI0XE=;
- b=Z/kSuqMn7XKTGNiW8aLI8+c+q+vGSpKnIxWe1CWhCpbs/JScn34DFPdYOfcnx/tvZfzPbw
- GKCk7EUIXS90S2OTDX88ZRT3MbmSiKQb5XVZpaZWhqXGriUU1XbKfGjnwYKUS5pdBSBfss
- QGD5kzM8AXvFe5hPyGYhEYwUKCahMPw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142-YDMsY9JqOqOBWUvliF813Q-1; Sat, 29 Jul 2023 15:24:41 -0400
-X-MC-Unique: YDMsY9JqOqOBWUvliF813Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-30e4943ca7fso1640878f8f.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:24:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690658680; x=1691263480;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hskAr6TIw8osCLe/1nFX1sSnSNJhm4rVeuFgy4UI0XE=;
- b=HIjoUxSsUTRJyVjS52/vF2SqHl94MTsn5FnqB7VAKIOzfOcZ81o9ymf2ha6GT1APFE
- w3EVR/389Db+uIy7MHQOHrxF7m1PvXUX/YKR0LTArXrEBUrBjcjBLbET4g2+bZBuJ/HX
- DtHY3BrBd9G5oua09fdk6tVp7BZgfMV0y99+e//hGJntJXkr9RjR8k4ReVsf9JvP9PYg
- JxWV+A8XFsgk6zGeWyZG/0EOVUN9k5X/RaAso9k0YgNYzNxJBgF0g8B3AMaIOFbtfMyr
- 2wyrJbbGJMrFqpeAH52Zb9KTfoJwAYecUSOfjKFSwuPIfWgWUc1nBUqX5G63bxhKvvp+
- td1g==
-X-Gm-Message-State: ABy/qLad8sZftnZHLmEx1rt2ag3Q2ZKG9v2F9dbNQmgPuZJgjmO/hGHp
- IcxESUXYvo/XnzbrdA/E+UiaViNYLOgdQpyDXnvwzgpSBxu+oWTwjco1EFQwpZRQjRwRcfZeLdy
- iczQ3XE99rke0++IQBrYch2zq6gFj
-X-Received: by 2002:a5d:50cf:0:b0:317:7068:4997 with SMTP id
- f15-20020a5d50cf000000b0031770684997mr4078889wrt.60.1690658680748; 
- Sat, 29 Jul 2023 12:24:40 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGF9+BR0YBluc/fmTt4zwqTslYE7jm872eX8+d+/+3kkajFyZw/n5oyrZ7FmTRawifJ0nHRmg==
-X-Received: by 2002:a5d:50cf:0:b0:317:7068:4997 with SMTP id
- f15-20020a5d50cf000000b0031770684997mr4078879wrt.60.1690658680474; 
- Sat, 29 Jul 2023 12:24:40 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g17-20020adfe411000000b0031437299fafsm8234533wrm.34.2023.07.29.12.24.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 12:24:40 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Noralf =?utf-8?Q?Tr=C3=B8nnes?=
- <noralf@tronnes.org>
-Subject: Re: [PATCH v2 5/5] drm/repaper: Reduce temporary buffer size in
- repaper_fb_dirty()
-In-Reply-To: <20220317081830.1211400-6-geert@linux-m68k.org>
-References: <20220317081830.1211400-1-geert@linux-m68k.org>
- <20220317081830.1211400-6-geert@linux-m68k.org>
-Date: Sat, 29 Jul 2023 21:24:39 +0200
-Message-ID: <87v8e2wmfc.fsf@minerva.mail-host-address-is-not-set>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0682410E21A
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:32:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 82F481FE99;
+ Sat, 29 Jul 2023 19:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1690659119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Gnmpdvsr88StgXvE9YePSotJhqeLmb0MGwWW956LeGM=;
+ b=JeuHxT0TcjJ3qq5+iRSj6132VV2LM+sdeZGHCSpFcpNr4R9EliQvAYFPq3qD2DN97GIm4i
+ VihV3pb1mWmaBd7Vc7BSneJmM7i2AQZMvOuYBk7atwJuf7PmOiEhJnedL3zIkcSlsdTxEW
+ wgztb6MsUyWCBuPXhTaLRL3d5JHQRC4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1690659119;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Gnmpdvsr88StgXvE9YePSotJhqeLmb0MGwWW956LeGM=;
+ b=/aDIrKIYnkrJEev0Opj3BSLkjMkb0U3JJpiCfvNAxOBVTOvbf5Ykm+hVbCWLb7yE8d7lQU
+ Xddm0H8t89bVyuBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 56C4013596;
+ Sat, 29 Jul 2023 19:31:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id UXOPEy9pxWSGGgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 29 Jul 2023 19:31:59 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	sam@ravnborg.org,
+	javierm@redhat.com
+Subject: [PATCH 0/4] fbdev: Rename helpers for struct fb_ops
+Date: Sat, 29 Jul 2023 21:26:45 +0200
+Message-ID: <20230729193157.15446-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,29 +63,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+As discussed at [1], rename helpers for struct fb_ops to include
+'MEM' in their name to signal that these helpers operate on a
+certain type of memory address; either I/O, system or DMA-able
+ranges. These are trival renames without any functional changes.
 
-> As the temporary buffer is no longer used to store 8-bit grayscale data,
-> its size can be reduced to the size needed to store the monochrome
-> bitmap data.
->
-> Fixes: 24c6bedefbe71de9 ("drm/repaper: Use format helper for xrgb8888 to monochrome conversion")
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+[1] https://lore.kernel.org/dri-devel/1ab418ae-592f-4347-fa75-bf9b00115afe@gmx.de/T/#mcb92691d6131333782cc83190a5fc00bd575a0c5
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Thomas Zimmermann (4):
+  fbdev: Use _IOMEM_ infix for I/O-memory helpers
+  fbdev: Use _SYSMEM_ infix for system-memory helpers
+  fbdev: Use _DMAMEM_ infix for DMA-memory helpers
+  fbdev: Align deferred I/O with naming of helpers
 
+ drivers/gpu/drm/Kconfig                    |  4 ++--
+ drivers/gpu/drm/armada/Kconfig             |  2 +-
+ drivers/gpu/drm/armada/armada_fbdev.c      |  2 +-
+ drivers/gpu/drm/drm_fbdev_dma.c            |  4 ++--
+ drivers/gpu/drm/drm_fbdev_generic.c        |  6 ++---
+ drivers/gpu/drm/exynos/Kconfig             |  2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  |  4 ++--
+ drivers/gpu/drm/gma500/Kconfig             |  2 +-
+ drivers/gpu/drm/gma500/fbdev.c             |  4 ++--
+ drivers/gpu/drm/i915/Kconfig               |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c |  6 ++---
+ drivers/gpu/drm/msm/Kconfig                |  2 +-
+ drivers/gpu/drm/msm/msm_fbdev.c            |  6 ++---
+ drivers/gpu/drm/omapdrm/Kconfig            |  2 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       |  4 ++--
+ drivers/gpu/drm/radeon/Kconfig             |  2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c      |  2 +-
+ drivers/gpu/drm/tegra/Kconfig              |  2 +-
+ drivers/gpu/drm/tegra/fbdev.c              |  4 ++--
+ drivers/video/fbdev/Kconfig                | 10 ++++-----
+ drivers/video/fbdev/broadsheetfb.c         |  6 ++---
+ drivers/video/fbdev/core/Kconfig           | 10 ++++-----
+ drivers/video/fbdev/hecubafb.c             |  6 ++---
+ drivers/video/fbdev/metronomefb.c          |  6 ++---
+ drivers/video/fbdev/ssd1307fb.c            |  6 ++---
+ drivers/video/fbdev/xen-fbfront.c          |  6 ++---
+ include/linux/fb.h                         | 26 +++++++++++-----------
+ 27 files changed, 69 insertions(+), 69 deletions(-)
+
+
+base-commit: fba8a13ec9ae1a7175cc0dda7235b3d2df0f0f90
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.41.0
 
