@@ -1,49 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17E6768171
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:33:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD13E7681DC
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 22:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B7510E21E;
-	Sat, 29 Jul 2023 19:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0B7010E037;
+	Sat, 29 Jul 2023 20:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45CD410E21C;
- Sat, 29 Jul 2023 19:33:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5B461601FE;
- Sat, 29 Jul 2023 19:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526BBC433C8;
- Sat, 29 Jul 2023 19:33:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690659194;
- bh=WoTBW2RInEWVN7BYf6Qj0vtLh2X+0pwyjuY2u3J4390=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uYVNNPMJrTg64eF+spfl+vwH4skqcYBOMk3kuSR/lkoXEOfQshJTY+Ll8rstVQCGY
- AMDTrcQJtLS7P0E80EGyejLSXk19zLdxLx0+QWQ4u3go90th3fXTp7H9tiFCsNprpB
- hYH89px4tQw2QA9jR1pS+wGFeA2T/T6D/uoJJ1vEohY2S1O7+EMJcTrZ4AtLKSXKO+
- jQefcmW/Vb4zma6pOOOpE0fFEs4XJo+ArEEv0efr33bbA2Ixqkv6ECKff5KamFAQ5l
- Vm0eCIvzIfArwrApqSAQCu/XHOV0DL9KFIetjGumiTu1zc1Z84Jqqn8fOKGXvbFKDj
- 6ulLV+FQfbyDg==
-Date: Sat, 29 Jul 2023 12:33:12 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] drm/radeon: Prefer 'unsigned int' to bare use of
- 'unsigned'
-Message-ID: <20230729193312.GA2844869@dev-arch.thelio-3990X>
-References: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
- <ZMUeNehNb52Qu/Cp@debian.me>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA50510E037
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 20:43:11 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4fe1c285690so4119376e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 13:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690663389; x=1691268189;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jDXmcqoxmADeVwH/tIKhJpnlMjbMtWv3iZzEIatWUZw=;
+ b=HkMSKw6/PCLIipl8FiTm78l3ypb7hctz3Xfn/gOmLxJ/fYuTukfw1ejsn/q0zK9UsT
+ SH116GxJEl/Q3dsvRSUzTfiDC/m3WqJJ3uXeM43aHy2kibo+wXbS5rzAV+OUEeggBXAb
+ NoLaD9pQT/8b09UhE7o3an3Z2kFRUna54v5EhMcUJHgw7kNzD2v0NRvJyaP1r9BjbDvx
+ nhd1YOfm7+SDwoa6D+RNDhefq9NwGHjXs0YcGumW1kjNN+gUq4CRXEZ5+jshOemMmtp8
+ 9+yr+9hi3uY1prDiJaMnNe6FofthZLm+kJmx4+Wkcd68hdrIwL/92SRyPp2qmqzMuwu8
+ UxZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690663389; x=1691268189;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jDXmcqoxmADeVwH/tIKhJpnlMjbMtWv3iZzEIatWUZw=;
+ b=HA80iLtSrZw7sxarpmLknpUXbORIgGvrbZ9OA3Fzzbk/eeNWlMpdrghYfpliBgliGo
+ Uz+flKuZvxuHAoJ8KSvuKnaqXTJKpxEsDRm6TaELgghJm+AbmlRvTcPVKN45hZXHBhvi
+ P74Qt3EbLNrVnyUJRfriAXjf7LQ1CLJ9MNsyz3Ra3FYvTRpPIX7ZZkF5KxIxeC96aER/
+ clKbk70AmelRw5sIKPHgdqAqOAxRL/B/JBfn0iuBVKDfAvsP85p5smUd+zQS3QJ16fzu
+ 0SX3dtzKEbU3hCzsz3CIuKEtTHq/1G+OItq61aeXF/eiMQ2zAr95meilp5AOiKmOKOof
+ zJEw==
+X-Gm-Message-State: ABy/qLYb5v2aK28xDwRJSivCi7jSrYtlFkrgOfNYjXyi51MAiHDwwCbh
+ NUtUyCf1tTKbbVktQXWUBfYe6g==
+X-Google-Smtp-Source: APBJJlEG7RXwuvRy6gHyJpQWKQOXsq5ExDxgmuPzEO/9ZMBjN/9HwLfl4RJQVaeeQPngeNEsL7Yydg==
+X-Received: by 2002:a2e:b0d1:0:b0:2b9:4ac9:6071 with SMTP id
+ g17-20020a2eb0d1000000b002b94ac96071mr3844531ljl.10.1690663389536; 
+ Sat, 29 Jul 2023 13:43:09 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ v20-20020a2e9614000000b002b9af8422a8sm1705177ljh.130.2023.07.29.13.43.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Jul 2023 13:43:08 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH 0/3] drm/display: simplify support for transparent DRM bridges
+Date: Sat, 29 Jul 2023 23:43:04 +0300
+Message-Id: <20230729204307.268587-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZMUeNehNb52Qu/Cp@debian.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,77 +76,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?5a2Z5YaJ?= <sunran001@208suo.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx <amd-gfx@lists.freedesktop.org>,
- "alexander.deucher" <alexander.deucher@amd.com>
+Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 29, 2023 at 09:12:05PM +0700, Bagas Sanjaya wrote:
-> On Fri, Jul 28, 2023 at 10:35:19PM +0800, 孙冉 wrote:
-> > WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
-> > 
-> > Signed-off-by: Ran Sun <sunran001@208suo.com>
-> 
-> Your From: address != SoB identity
+Supporting DP/USB-C can result in a chain of several transparent
+bridges (PHY, redrivers, mux, etc). This results in drivers having
+similar boilerplate code for such bridges.
 
-While the comment below is a completely valid complaint, I think this
-comment is being rather pedantic. Google Translate will tell you that
-孙冉 is Sun Ran, so while the name does not strictly match, it is
-clearly the same...
+Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
+bridge can either be probed from the bridge->attach callback, when it is
+too late to return -EPROBE_DEFER, or from the probe() callback, when the
+next bridge might not yet be available, because it depends on the
+resources provided by the probing device.
 
-> > ---
-> >  drivers/gpu/drm/radeon/radeon_object.h | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
-> > index 39cc87a59a9a..9b55a7103cfd 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_object.h
-> > +++ b/drivers/gpu/drm/radeon/radeon_object.h
-> > @@ -37,7 +37,7 @@
-> >   *
-> >   * Returns corresponding domain of the ttm mem_type
-> >   */
-> > -static inline unsigned radeon_mem_type_to_domain(u32 mem_type)
-> > +static inline unsigned int radeon_mem_type_to_domain(u32 mem_type)
-> >  {
-> >   switch (mem_type) {
-> >   case TTM_PL_VRAM:
-> > @@ -112,12 +112,12 @@ static inline unsigned long radeon_bo_size(struct radeon_bo *bo)
-> >   return bo->tbo.base.size;
-> >  }
-> >  
-> > -static inline unsigned radeon_bo_ngpu_pages(struct radeon_bo *bo)
-> > +static inline unsigned int radeon_bo_ngpu_pages(struct radeon_bo *bo)
-> >  {
-> >   return bo->tbo.base.size / RADEON_GPU_PAGE_SIZE;
-> >  }
-> >  
-> > -static inline unsigned radeon_bo_gpu_page_alignment(struct radeon_bo *bo)
-> > +static inline unsigned int radeon_bo_gpu_page_alignment(struct radeon_bo *bo)
-> >  {
-> >   return (bo->tbo.page_alignment << PAGE_SHIFT) / RADEON_GPU_PAGE_SIZE;
-> >  }
-> > @@ -189,7 +189,7 @@ static inline void *radeon_sa_bo_cpu_addr(struct drm_suballoc *sa_bo)
-> >  
-> >  extern int radeon_sa_bo_manager_init(struct radeon_device *rdev,
-> >           struct radeon_sa_manager *sa_manager,
-> > -         unsigned size, u32 align, u32 domain,
-> > +         unsigned int size, u32 align, u32 domain,
-> >           u32 flags);
-> >  extern void radeon_sa_bo_manager_fini(struct radeon_device *rdev,
-> >            struct radeon_sa_manager *sa_manager);
-> 
-> The patch is whitespace-corrupted. Use git-send-email(1) to submit patches.
-> Also, your patch is also MIME-encoded, hence the corruption.
-> 
-> To Alex: Please don't apply this patch due to reasons above.
-> 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+Last, but not least, this results in the the internal knowledge of DRM
+subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
 
+To solve all these issues, define a separate DRM helper, which creates
+separate aux device just for the bridge. During probe such aux device
+doesn't result in the EPROBE_DEFER loops. Instead it allows the device
+drivers to probe properly, according to the actual resource
+dependencies. The bridge auxdevs are then probed when the next bridge
+becomes available, sparing drivers from drm_bridge_attach() returning
+-EPROBE_DEFER.
+
+Proposed merge strategy: immutable branch with the drm commit, which is
+then merged into PHY and USB subsystems together with the corresponding
+patch.
+
+Dmitry Baryshkov (3):
+  drm/display: add transparent bridge helper
+  phy: qcom: qmp-combo: switch to DRM_SIMPLE_BRIDGE
+  usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
+
+ drivers/gpu/drm/display/Kconfig             |   9 ++
+ drivers/gpu/drm/display/Makefile            |   2 +
+ drivers/gpu/drm/display/drm_simple_bridge.c | 120 ++++++++++++++++++++
+ drivers/phy/qualcomm/Kconfig                |   3 +-
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c   |  44 +------
+ drivers/usb/typec/mux/Kconfig               |   3 +-
+ drivers/usb/typec/mux/nb7vpq904m.c          |  44 +------
+ include/drm/display/drm_simple_bridge.h     |  19 ++++
+ 8 files changed, 156 insertions(+), 88 deletions(-)
+ create mode 100644 drivers/gpu/drm/display/drm_simple_bridge.c
+ create mode 100644 include/drm/display/drm_simple_bridge.h
+
+-- 
+2.39.2
 
