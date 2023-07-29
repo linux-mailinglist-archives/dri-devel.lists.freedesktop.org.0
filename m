@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D697682AE
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 01:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8307682BA
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 01:45:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E2310E231;
-	Sat, 29 Jul 2023 23:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E8C910E03E;
+	Sat, 29 Jul 2023 23:45:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBFE710E230
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 23:18:14 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-52227884855so5022380a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 16:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690672693; x=1691277493;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9YBd5+9kNrxjQQ/+IaoqmXKdmoRjBOswyaZ9ByqKpWw=;
- b=ULtE+G7Mfj0WgGd0OV9V4TcQsS3aosjjQtzuyLIEqI9IOmnZNR3/s7PcH3isLV4F+H
- et1qcwS7AE6zBc4h2spZJyv+EKPCLNC9QO0lbN7Wc3pCYavXaYoxAXn6ho/S19GkZeRs
- ZLWXzMQtUxLK1BjSuyoaskc7a06RhLPYAalsitskAhBe9vEZ4TJDRyhcI4kXeLMf+80z
- YShwhEfmQjiGkmXorxHvCE6D2jAMmTr7AbnHvC3GThNgsDSN0PK8ZVgWkv6Bd0jnKMI3
- fqfNY6enPl8ZIft8xXyv9/0MTIUa3qVRbeH2CxN5GJnHEq5zauJ5tI2YdhqNj5bn3Wgh
- 21NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690672693; x=1691277493;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9YBd5+9kNrxjQQ/+IaoqmXKdmoRjBOswyaZ9ByqKpWw=;
- b=OmlXY4C4RtWaercI+VQtfMPRah/x9cgiN5yPHUTRhRcQh8k1x+VB2Yyr/2hhWZCTC3
- 0kSh1HC3hngz+S5xZgefOIdzd37f11Lkf0YKx7TNr7XE0lZw2CHQnhuwf+0N4Bcm8R3I
- 5QVgm8y+BPdjJJtITJ4HNsu9t5ISh3VLk0kpH5lPIrF1R4fY120I/rWuAtt4B18aKPzA
- yLk/nYqYqRfj/PrVNYm+l91Cg/UZQke+5O5ICcHPrXNzkvRCbSrsqrS4uY3NP4JXCgPH
- q/mQ0TrukDZHeYSijmf91sa2V7FpJYYdBavUoi4oKpjQrzJOqB4KIB584k1oeeqiQxHC
- qTmg==
-X-Gm-Message-State: ABy/qLYiq36xToP3yWmJWW8z7b3nar0nFBzvY7wb6D4kdzoZqK3p5hXh
- Fm8cSR9oliYv0IvzlCPvW3UIjg==
-X-Google-Smtp-Source: APBJJlH7KtG+KWUbmIKej+0VkTarA9QEYtaIl/sY5FxN2HJh/DmXLgqQXVmkDHTGEcwbOY05hXqUbA==
-X-Received: by 2002:a17:907:78d3:b0:991:e7c2:d0be with SMTP id
- kv19-20020a17090778d300b00991e7c2d0bemr3999695ejc.63.1690672692994; 
- Sat, 29 Jul 2023 16:18:12 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- jt9-20020a170906dfc900b0098e2969ed44sm3828251ejc.45.2023.07.29.16.18.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Jul 2023 16:18:12 -0700 (PDT)
-Message-ID: <bd59cd28-b3ba-1805-da2c-8ec6b0b2f1b0@linaro.org>
-Date: Sun, 30 Jul 2023 02:18:10 +0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C09910E03E;
+ Sat, 29 Jul 2023 23:45:32 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36TNevCm011920; Sat, 29 Jul 2023 23:45:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ts0t/Mnm8P1Xr0k9TThn434FsJrgUvWS7Ix/Wvcf22k=;
+ b=Fh2ZW6dU0IOErYZhxnTqRGwsw1CaWe8AZ0jfgjC0QcZIjKQE2isAnvcVttWN5KCy3LwJ
+ aAxy/XKKVuKs/7hthZGVLBvHJq9KwwzOX/GC3ENgtnw2TtQAYmj+ge3/wm8imoURIkrc
+ cN6hYC1Hz3gb8G7fSL4Y+5cTF7O+xFVt9lhdc2cGQuPnybchvnLmsWEkqDyf4RYr2hln
+ +KYmX1/ulO0s/0F/8UaB23A2aIacySR/rCvEujUTq0+SpmvobsO+ejeIK5TLtTzh/CcE
+ lGrJwD0hW2PtD3pR3upb7Sg6Y+KO2UoPws+ehdCRwXBVhvIpFs0PRMBkF0EZ/CxowNWC vQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4usrh31c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Jul 2023 23:45:19 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36TNjI6c015791
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Jul 2023 23:45:18 GMT
+Received: from [10.110.77.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sat, 29 Jul
+ 2023 16:45:17 -0700
+Message-ID: <79ff4dce-1dc3-f142-0372-1b0fffa0904d@quicinc.com>
+Date: Sat, 29 Jul 2023 16:45:16 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/7] drm/msm/dpu: enable PINGPONG TE operations only when
- supported by HW
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230727162104.1497483-1-dmitry.baryshkov@linaro.org>
- <20230727162104.1497483-2-dmitry.baryshkov@linaro.org>
- <byxscievxgqwcdu56mebkoy4jpgogzy3euddz73u2qryh3itwb@to3pyltcqqxg>
- <c9d7994d-5781-41b0-6af0-cc45d4ebf6fb@linaro.org>
- <sul276fwfmniat5dlkdj4rlw3dxjmqrg254iteblwbdlhwfxmg@4orla7ystkp4>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <sul276fwfmniat5dlkdj4rlw3dxjmqrg254iteblwbdlhwfxmg@4orla7ystkp4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 7/7] drm/msm/dpu: drop BWC features from DPU_MDP_foo
+ namespace
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230728213320.97309-1-dmitry.baryshkov@linaro.org>
+ <20230728213320.97309-8-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230728213320.97309-8-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: t-VMCwMNAv6hsuJs5NgpjwUhAqszpc_5
+X-Proofpoint-ORIG-GUID: t-VMCwMNAv6hsuJs5NgpjwUhAqszpc_5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 clxscore=1015 impostorscore=0 bulkscore=0 phishscore=0
+ adultscore=0 mlxlogscore=393 malwarescore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307290225
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,85 +86,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/07/2023 21:31, Marijn Suijten wrote:
-> On 2023-07-29 02:59:32, Dmitry Baryshkov wrote:
->> On 27/07/2023 23:03, Marijn Suijten wrote:
->>> On 2023-07-27 19:20:58, Dmitry Baryshkov wrote:
->>>> The DPU_PINGPONG_TE bit is set for all PINGPONG blocks on DPU < 5.0.
->>>> Rather than checking for the flag, check for the presense of the
->>>> corresponding interrupt line.
->>>>
->>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>
->>> That's a smart use of the interrupt field.  I both like it, and I do
->>> not.  While we didn't do any validation for consistency previously, this
->>> means we now have multiple ways of controlling available "features":
->>>
->>> - Feature flags on hardware blocks;
->>> - Presence of certain IRQs;
->>> - DPU core revision.
->>
->> I hesitated here too. For INTF it is clear that there is no other good
->> way to check for the TE feature. For PP we can just check for the DPU
->> revision.
+
+
+On 7/28/2023 2:33 PM, Dmitry Baryshkov wrote:
+> The feature bits DPU_MDP_BWC, DPU_MDP_UBWC_1_0, and DPU_MDP_UBWC_1_5 are
+> not used by the driver, drop them completely as a followup cleanup.
 > 
-> For both we could additionally check the DPU revision, and for INTF we
-> could check for TYPE_DSI.  Both would aid in extra validation, if we
-> require the IRQ to be present or absent under these conditions.
 
-Yep, maybe that's better.
+"as a followup cleanup" is meaning you will do it later. But you are 
+doing it in this patch. You can stop at "Drop them completely"
 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 7 -------
+>   1 file changed, 7 deletions(-)
 > 
-> It might also help to document this, either here and on the respective
-> struct fields so that catalog implementers know when they should supply
-> or leave out an IRQ?
 
-Probably a WARN_ON would be enough.
+With that fixed,
 
-> 
-> - Marijn
-> 
->>> Maybe that is more confusing to follow?  Regardless of that I'm
->>> convinced that this patch does what it's supposed to and gets rid of
->>> some ambiguity.  Maybe a comment above the IF explaining the "PP TE"
->>> feature could alleviate the above concerns thoo.  Hence:
->>>
->>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->>>> index 9298c166b213..912a3bdf8ad4 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
->>>> @@ -296,7 +296,7 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
->>>>    	c->idx = cfg->id;
->>>>    	c->caps = cfg;
->>>>    
->>>> -	if (test_bit(DPU_PINGPONG_TE, &cfg->features)) {
->>>> +	if (cfg->intr_rdptr) {
->>>>    		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
->>>>    		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
->>>>    		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
->>>> -- 
->>>> 2.39.2
->>>>
->>
->> -- 
->> With best wishes
->> Dmitry
->>
 
--- 
-With best wishes
-Dmitry
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
