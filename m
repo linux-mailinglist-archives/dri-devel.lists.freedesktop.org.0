@@ -2,61 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D4F76816C
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782DC768155
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF3410E21B;
-	Sat, 29 Jul 2023 19:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5854110E117;
+	Sat, 29 Jul 2023 19:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A91210E21A
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:32:01 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2D53B1FE9D;
- Sat, 29 Jul 2023 19:32:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690659120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36CF10E117
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:27:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690658832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JG7MtmMnubOK74rFNLA5VmTIeSqmRlnKvRn2ut3IGA4=;
- b=eLEUNuAr0yktf/WsMDzhnnD5lbOlGve3WOZSmrq3QC3sV1SdLSgouNEos7KXZEYV9ZOHYl
- Rur1VXmYB2DgXLnKEAJhtHBsZa9os/X0bhNQGk8kKNW79iP5TKN7YHbYZaVsIxTMHBxWll
- 8xkC3y0Zfu4PR4Z/UQKp7aElUUOZouc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690659120;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JG7MtmMnubOK74rFNLA5VmTIeSqmRlnKvRn2ut3IGA4=;
- b=ntdgsbpbt+m3GW7RWUNVTft3q8D13Jcspmcpu5J5SHkkf24jzrTZleZB82yqMAAoRO9fAN
- CDnrleZ2oxlZKqDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 07A7E13596;
- Sat, 29 Jul 2023 19:32:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uDQIATBpxWSGGgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sat, 29 Jul 2023 19:32:00 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de,
-	sam@ravnborg.org,
-	javierm@redhat.com
-Subject: [PATCH 4/4] fbdev: Align deferred I/O with naming of helpers
-Date: Sat, 29 Jul 2023 21:26:49 +0200
-Message-ID: <20230729193157.15446-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230729193157.15446-1-tzimmermann@suse.de>
-References: <20230729193157.15446-1-tzimmermann@suse.de>
+ bh=FF7YMNnJw4aG4W8Tlud2PZiGmCkxcL5PSVDcb1rl9Nw=;
+ b=EPkr81QF15P9S+KJtX8wACNH99zAwJkLzyCz295ALwVIWKw0LgaGcuHwiQUlknX33luAm0
+ l0SlHbAUw/4DfdtHlz4J0Zxh14Zsed8TjhiZ/3n0taARoKtKdyrZvWPr25+zLNFOCzMCtm
+ 53UnIVsLXtxQv8bgKwE17K0iHrqy/EA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-17-qTvUJjEzPzCDQqQKXZosTw-1; Sat, 29 Jul 2023 15:27:10 -0400
+X-MC-Unique: qTvUJjEzPzCDQqQKXZosTw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-314256aedcbso1650087f8f.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690658829; x=1691263629;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FF7YMNnJw4aG4W8Tlud2PZiGmCkxcL5PSVDcb1rl9Nw=;
+ b=jHEFFKY//62d9C9ZjGF3FY5llAul1gxk02PCj+oen4+uuQ2paN4hb72ZZnpR9NvCJ4
+ F57XPfSVcTWQDBfwIl6vwyoiThumFntOQAI2zwbp78g/i+VbndbAakLuavsz8duGumuT
+ CpqvdhN66iCo42aob0iDJRoX620Up/2SL8L9lqeJ2gagzvm69MNho4dABEKgX+ukBCLs
+ Hiq4Rj9TMrtIu4zrQHLHF8RdM8xXLX8z7E5IiWfr5vM7k0hKM4C6WeVZL8w1vv3sHGYP
+ R2RSY+uulYI8xFciYJUf0Y/RkZoVznGkYVb5eMPTy7r1+0HrN3nSsBnPdBmoP2LL4FrB
+ m/5A==
+X-Gm-Message-State: ABy/qLbYw54e7d35S/hY9TGu2wVO3rS/zvs1yX3IeE6gpQ2hsuT2lUu1
+ AdYIj6E794iaWHyn9pg4+hAL6xFNAqfZDS0uTGzws64khU/xTroIExa0cfPSO18MXF+8HOWpdZB
+ aKJCQ7FzXsNJ0rtble/HTlPpIHbUC
+X-Received: by 2002:adf:ec06:0:b0:317:5948:1fe0 with SMTP id
+ x6-20020adfec06000000b0031759481fe0mr4433300wrn.45.1690658829301; 
+ Sat, 29 Jul 2023 12:27:09 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE4P4YiFhuI4ynzieVdKtm1Z/PFipBTRtmnhicR2Fu7fVK2AwNkVjGHHEaf2sFTV/ye9YNVSA==
+X-Received: by 2002:adf:ec06:0:b0:317:5948:1fe0 with SMTP id
+ x6-20020adfec06000000b0031759481fe0mr4433290wrn.45.1690658828986; 
+ Sat, 29 Jul 2023 12:27:08 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ x1-20020a5d54c1000000b003176f2d9ce5sm8194584wrv.71.2023.07.29.12.27.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Jul 2023 12:27:08 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ville =?utf-8?B?U3ly?=
+ =?utf-8?B?asOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v3 0/4] drm: Atomic modesetting doc and comment
+ improvements
+In-Reply-To: <cover.1689779916.git.geert+renesas@glider.be>
+References: <cover.1689779916.git.geert+renesas@glider.be>
+Date: Sat, 29 Jul 2023 21:27:08 +0200
+Message-ID: <87sf96wmb7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,183 +87,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Deferred-I/O generator macros generate callbacks for struct fb_ops
-that operate on memory ranges in I/O address space or system address
-space. Rename the macros to use the _IOMEM_ and _SYSMEM_ infixes of
-their underlying helpers. Adapt all users. No functional changes.
+Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_fbdev_generic.c        | 6 +++---
- drivers/gpu/drm/i915/display/intel_fbdev.c | 6 +++---
- drivers/gpu/drm/msm/msm_fbdev.c            | 6 +++---
- drivers/video/fbdev/broadsheetfb.c         | 6 +++---
- drivers/video/fbdev/hecubafb.c             | 6 +++---
- drivers/video/fbdev/metronomefb.c          | 6 +++---
- drivers/video/fbdev/ssd1307fb.c            | 6 +++---
- drivers/video/fbdev/xen-fbfront.c          | 6 +++---
- include/linux/fb.h                         | 4 ++--
- 9 files changed, 26 insertions(+), 26 deletions(-)
+Hello Geert,
 
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index a0ea042b1526..d647d89764cb 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -34,9 +34,9 @@ static int drm_fbdev_generic_fb_release(struct fb_info *info, int user)
- 	return 0;
- }
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(drm_fbdev_generic,
--				drm_fb_helper_damage_range,
--				drm_fb_helper_damage_area);
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(drm_fbdev_generic,
-+				   drm_fb_helper_damage_range,
-+				   drm_fb_helper_damage_area);
- 
- static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index e75852f13930..31d0d695d567 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -85,9 +85,9 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
- 	intel_frontbuffer_invalidate(to_frontbuffer(ifbdev), ORIGIN_CPU);
- }
- 
--FB_GEN_DEFAULT_DEFERRED_IO_OPS(intel_fbdev,
--			       drm_fb_helper_damage_range,
--			       drm_fb_helper_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(intel_fbdev,
-+				  drm_fb_helper_damage_range,
-+				  drm_fb_helper_damage_area)
- 
- static int intel_fbdev_set_par(struct fb_info *info)
- {
-diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index bf1e17dc4550..030bedac632d 100644
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -25,9 +25,9 @@ module_param(fbdev, bool, 0600);
-  * fbdev funcs, to implement legacy fbdev interface on top of drm driver
-  */
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(msm_fbdev,
--				drm_fb_helper_damage_range,
--				drm_fb_helper_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(msm_fbdev,
-+				   drm_fb_helper_damage_range,
-+				   drm_fb_helper_damage_area)
- 
- static int msm_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
- {
-diff --git a/drivers/video/fbdev/broadsheetfb.c b/drivers/video/fbdev/broadsheetfb.c
-index bace1f04fc8e..e857b15e9f5d 100644
---- a/drivers/video/fbdev/broadsheetfb.c
-+++ b/drivers/video/fbdev/broadsheetfb.c
-@@ -985,9 +985,9 @@ static void broadsheetfb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
- 	broadsheetfb_dpy_update(par);
- }
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(broadsheetfb,
--				broadsheetfb_defio_damage_range,
--				broadsheetfb_defio_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(broadsheetfb,
-+				   broadsheetfb_defio_damage_range,
-+				   broadsheetfb_defio_damage_area)
- 
- static const struct fb_ops broadsheetfb_ops = {
- 	.owner	= THIS_MODULE,
-diff --git a/drivers/video/fbdev/hecubafb.c b/drivers/video/fbdev/hecubafb.c
-index c4938554ea45..ef526ed4a2d9 100644
---- a/drivers/video/fbdev/hecubafb.c
-+++ b/drivers/video/fbdev/hecubafb.c
-@@ -135,9 +135,9 @@ static void hecubafb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
- 	hecubafb_dpy_update(par);
- }
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(hecubafb,
--				hecubafb_defio_damage_range,
--				hecubafb_defio_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(hecubafb,
-+				   hecubafb_defio_damage_range,
-+				   hecubafb_defio_damage_area)
- 
- static const struct fb_ops hecubafb_ops = {
- 	.owner	= THIS_MODULE,
-diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
-index eb15b9dbdec8..130394616a7c 100644
---- a/drivers/video/fbdev/metronomefb.c
-+++ b/drivers/video/fbdev/metronomefb.c
-@@ -498,9 +498,9 @@ static void metronomefb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
- 	metronomefb_dpy_update(par);
- }
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(metronomefb,
--				metronomefb_defio_damage_range,
--				metronomefb_defio_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(metronomefb,
-+				   metronomefb_defio_damage_range,
-+				   metronomefb_defio_damage_area)
- 
- static const struct fb_ops metronomefb_ops = {
- 	.owner	= THIS_MODULE,
-diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-index a2b939342a4f..5aee62434443 100644
---- a/drivers/video/fbdev/ssd1307fb.c
-+++ b/drivers/video/fbdev/ssd1307fb.c
-@@ -317,9 +317,9 @@ static void ssd1307fb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
- 	ssd1307fb_update_rect(par, x, y, width, height);
- }
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(ssd1307fb,
--				ssd1307fb_defio_damage_range,
--				ssd1307fb_defio_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(ssd1307fb,
-+				   ssd1307fb_defio_damage_range,
-+				   ssd1307fb_defio_damage_area)
- 
- static const struct fb_ops ssd1307fb_ops = {
- 	.owner		= THIS_MODULE,
-diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
-index 9a4c29cb1a80..66d4628a96ae 100644
---- a/drivers/video/fbdev/xen-fbfront.c
-+++ b/drivers/video/fbdev/xen-fbfront.c
-@@ -306,9 +306,9 @@ static void xenfb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
- 	xenfb_refresh(xenfb_info, x, y, width, height);
- }
- 
--FB_GEN_DEFAULT_DEFERRED_SYS_OPS(xenfb,
--				xenfb_defio_damage_range,
--				xenfb_defio_damage_area)
-+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(xenfb,
-+				   xenfb_defio_damage_range,
-+				   xenfb_defio_damage_area)
- 
- static const struct fb_ops xenfb_fb_ops = {
- 	.owner		= THIS_MODULE,
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index d255263c2d1d..16c3e6d6c55d 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -682,11 +682,11 @@ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
- 		__damage_area(info, image->dx, image->dy, image->width, image->height); \
- 	}
- 
--#define FB_GEN_DEFAULT_DEFERRED_IO_OPS(__prefix, __damage_range, __damage_area) \
-+#define FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(__prefix, __damage_range, __damage_area) \
- 	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, io) \
- 	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, cfb)
- 
--#define FB_GEN_DEFAULT_DEFERRED_SYS_OPS(__prefix, __damage_range, __damage_area) \
-+#define FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(__prefix, __damage_range, __damage_area) \
- 	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
- 	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
- 
+>         Hi all,
+>
+> This patch series contains various improvements to the documentation and
+> comments related to atomic modesetting.  Hopefully, it will ease the job
+> of DRM novice who want to tackle the daunting task of converting a
+> legacy DRM driver to atomic modesetting.
+>
+> Changes compared to v2[1]:
+>   - Make main text read correctly when ignoring the footnotes,
+>   - Add Reviewed-by.
+>
+> Changes compared to v1[2]:
+>   - Add Reviewed-by,
+>   - Drop double space after full stop,
+>   - Use footnotes for references,
+>   - Remore reference to unconverted virtual HW drivers,
+>   - New patch [2/4],
+>   - Drop "first part" in drivers/gpu/drm/drm_plane_helper.c.
+>
+> Thanks for applying!
+>
+> [1] https://lore.kernel.org/r/cover.1686318012.git.geert+renesas@glider.be
+> [2] https://lore.kernel.org/r/cover.1685696114.git.geert+renesas@glider.be
+>
+> Geert Uytterhoeven (4):
+>   drm/todo: Add atomic modesetting references
+>   drm/todo: Convert list of fbconv links to footnotes
+>   drm: Remove references to removed transitional helpers
+>   drm: Fix references to drm_plane_helper_check_state()
+>
+
+Pushed to drm-misc (drm-misc-next). Thanks!
+
 -- 
-2.41.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
