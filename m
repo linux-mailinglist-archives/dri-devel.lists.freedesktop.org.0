@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD2676794F
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 02:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB27767957
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 02:05:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07A5B10E7B1;
-	Sat, 29 Jul 2023 00:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 241AA10E7A8;
+	Sat, 29 Jul 2023 00:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941CF10E7A8
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 00:04:11 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-991c786369cso356938666b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 17:04:11 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C78AF10E7A8
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 00:05:35 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-52256241c50so3691297a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 17:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690589050; x=1691193850;
+ d=linaro.org; s=google; t=1690589134; x=1691193934;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dfRG5rD0scPqsV1FykBsfcvR1VHSdVrA0sLu02AnWOM=;
- b=eUzCyV0J1fb+2uOtbl0SEoizsUk8+EHyYPjj46asco+D7r6nKAR5UdkQWLdBTxiBNR
- /kMUlDjX2Nx8COxm2TubVPSp8PwBvk74b0z67yuIFPL/D/Jl7Krlyzkw392cWq6g/5uX
- +k+lFYjONRxxC52gDChAF1VqCdQmWluIid4PmDezq2IuUUfHSlM1wsb3tMBGgRRTI5PR
- k3Fl5NkS71cYjavLyMhl5K65uVMyG/cIc1n03mDNl3KLZfYVSrgglB/AH6BW9XBHubIy
- YuqFnwAAvYtBvBKvofZ3GF5BvXTtr+OfKs0nxO39FO5OsaqA96RQ1YvjWwTmrSwxRswK
- RZDg==
+ bh=6AoRC5Ze9gLmlNt0sk++x0v2iDf5h30oOIYuEKlSQk0=;
+ b=z47WAlqmDTVf/lInB/LW9WNv1MS1ADhXSxrgyVvTpp2StYDR8K4r3oFp+kP/sjcywG
+ GSJKLr6uyGsjxhof28IRJhmzzKaY7I+7voI+YEcDxwJEigCiCFTLijWwTw+CxbO47v2c
+ l5RfCCL5HvIjnFPgrkPt/qk7rFM4fSlKnUahrDoA+hDWPDc7VgOATEaJk+R+PhjVtKCH
+ qPirqh89elNF5X/I+5OEsDGFkI6vs25Q/NI7meErMcCgz60poRETrltK7su9hz/FsX+5
+ /fK3CSVy75CGaQ/F4RDljJFqV+eeNaC/sJnABHk6rPjbbX72+zdOUjTOxJoLIZ58nQ35
+ G40w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690589050; x=1691193850;
+ d=1e100.net; s=20221208; t=1690589134; x=1691193934;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dfRG5rD0scPqsV1FykBsfcvR1VHSdVrA0sLu02AnWOM=;
- b=O8JIyJpg68HJxWr4gBw3h+CKMoFCaDtpW/cc4Pm8S61ldKhBp4CDzX36wFFKKRLR0I
- vUIOD5HR0CP4pRGWIQeNy77KRp3Rc6dlIqi4MwYoBvnQv0mIv1BJdOX8pB5LkivceBXs
- drQDUd6NN8pNcGMc1mphqQyjXnLzjKWX8Gv959Vnbu6KQtGzJBjhsofzSpR2oSzfsSXM
- f/zj/5gtFqtuE7f5kHh/0aGC5rozJ10/cILFiBYj9jqDDro/T+z5mWnqVhEjxneZ+7G+
- jZXigPLFz3CmqvXVN/uFapZ+pdQkkta4lP/DwiPikACDwhByK9ebaAcKO/06VJaNPkw6
- bEqQ==
-X-Gm-Message-State: ABy/qLavaklG5H1p/JnR2pfgGCEvPtC0QmO7rojGu7K+qokAIQBKaswV
- DXMfxmoOkmEoUVInyXTp/+bREw==
-X-Google-Smtp-Source: APBJJlGMAZ6zWddJfPSlsMqE6/T2h9lEEfiEuE7orHv0MziUXyZjseGTaz1a/33UmEYRkyhFTyDMzg==
-X-Received: by 2002:a17:907:7850:b0:99b:44aa:fae0 with SMTP id
- lb16-20020a170907785000b0099b44aafae0mr610136ejc.21.1690589050045; 
- Fri, 28 Jul 2023 17:04:10 -0700 (PDT)
+ bh=6AoRC5Ze9gLmlNt0sk++x0v2iDf5h30oOIYuEKlSQk0=;
+ b=Q8zrW0AzK0DGcrONOWkEJPD6zf7bBbBeKlWd3/8fMAaCOk6+z3rzXhdHMHc41KfZTC
+ 72qeolIVPdqRS94FejeaILTxdpip1fiu19nHw9svxY1FeYfC+ZfdviJQH28Hctqypn94
+ eBU77TCR3YNWwzWc1w3JQ69ctEtw7FK7kL7hfMgFm5UGUamllV/Rt8B5PBV0Nl5+Zjxh
+ 4qKIeprWJfYFFWOC6m5b/z8/fmcZpkJbC1huLhu5j0yK9DRJmIKn5QPiw3CVNHy1TR+h
+ lqcW5L5Bw11QMjXRvaaSGGFed8B+vYYyncpjwc1kBvq3SwLgSTyZN6MR+y/W811qhiEW
+ PY1A==
+X-Gm-Message-State: ABy/qLZ2BhLtvPQHD7E0ufiskolw9mCmwY4tSs9CHHVKNcQz0XK6IIpp
+ swQcb99oOOVqMqBfrO3TNtbENg==
+X-Google-Smtp-Source: APBJJlHwGV/fV5tcFX+2wVYvsCriro0EemjtEEYhiKr/RV/iLJYNeYugWZaYhJnNMgQmctjIwpD2Wg==
+X-Received: by 2002:a17:906:2d6:b0:993:ec0b:1a27 with SMTP id
+ 22-20020a17090602d600b00993ec0b1a27mr801948ejk.24.1690589134205; 
+ Fri, 28 Jul 2023 17:05:34 -0700 (PDT)
 Received: from [10.10.15.130] ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- i18-20020a170906115200b00992665694f7sm2587634eja.107.2023.07.28.17.04.08
+ b14-20020a1709062b4e00b0099290e2c163sm2615799ejg.204.2023.07.28.17.05.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Jul 2023 17:04:09 -0700 (PDT)
-Message-ID: <de6abbcf-9c0d-f51e-b140-938f2c537f74@linaro.org>
-Date: Sat, 29 Jul 2023 03:04:07 +0300
+ Fri, 28 Jul 2023 17:05:33 -0700 (PDT)
+Message-ID: <b3407550-164c-b148-461d-a353eb1ee398@linaro.org>
+Date: Sat, 29 Jul 2023 03:05:31 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH RFC v5 04/10] drm/atomic: Add pixel source to plane state
- dump
+Subject: Re: [PATCH RFC v5 05/10] drm/atomic: Add solid fill data to plane
+ state dump
 Content-Language: en-GB
 To: Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -66,9 +66,9 @@ To: Jessica Zhang <quic_jesszhan@quicinc.com>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>
 References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
- <20230728-solid-fill-v5-4-053dbefa909c@quicinc.com>
+ <20230728-solid-fill-v5-5-053dbefa909c@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230728-solid-fill-v5-4-053dbefa909c@quicinc.com>
+In-Reply-To: <20230728-solid-fill-v5-5-053dbefa909c@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,73 +92,76 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 28/07/2023 20:02, Jessica Zhang wrote:
-> Add pixel source to the atomic plane state dump
+> Add solid_fill property data to the atomic plane state dump.
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->   drivers/gpu/drm/drm_atomic.c        |  1 +
->   drivers/gpu/drm/drm_crtc_internal.h |  2 ++
->   drivers/gpu/drm/drm_plane.c         | 12 ++++++++++++
->   3 files changed, 15 insertions(+)
+>   drivers/gpu/drm/drm_atomic.c |  4 ++++
+>   drivers/gpu/drm/drm_plane.c  | 10 ++++++++++
+>   include/drm/drm_plane.h      |  3 +++
+>   3 files changed, 17 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index b4c6ffc438da..c38014abc590 100644
+> index c38014abc590..1ee7d08041bc 100644
 > --- a/drivers/gpu/drm/drm_atomic.c
 > +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -713,6 +713,7 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
->   
->   	drm_printf(p, "plane[%u]: %s\n", plane->base.id, plane->name);
->   	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
-> +	drm_printf(p, "\tpixel-source=%s\n", drm_plane_get_pixel_source_name(state->pixel_source));
+> @@ -717,6 +717,10 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
 >   	drm_printf(p, "\tfb=%u\n", state->fb ? state->fb->base.id : 0);
 >   	if (state->fb)
 >   		drm_framebuffer_print_info(p, 2, state->fb);
-> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-> index 501a10edd0e1..75b59ec9f1be 100644
-> --- a/drivers/gpu/drm/drm_crtc_internal.h
-> +++ b/drivers/gpu/drm/drm_crtc_internal.h
-> @@ -38,6 +38,7 @@ enum drm_color_encoding;
->   enum drm_color_range;
->   enum drm_connector_force;
->   enum drm_mode_status;
-> +enum drm_plane_pixel_source;
->   
->   struct drm_atomic_state;
->   struct drm_bridge;
-> @@ -267,6 +268,7 @@ int drm_plane_check_pixel_format(struct drm_plane *plane,
->   				 u32 format, u64 modifier);
->   struct drm_mode_rect *
->   __drm_plane_get_damage_clips(const struct drm_plane_state *state);
-> +const char *drm_plane_get_pixel_source_name(enum drm_plane_pixel_source pixel_source);
->   
->   /* drm_bridge.c */
->   void drm_bridge_detach(struct drm_bridge *bridge);
+> +	drm_printf(p, "\tsolid_fill=%u\n",
+> +			state->solid_fill_blob ? state->solid_fill_blob->base.id : 0);
+> +	if (state->solid_fill_blob)
+> +		drm_plane_solid_fill_print_info(p, 2, state);
+>   	drm_printf(p, "\tcrtc-pos=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&dest));
+>   	drm_printf(p, "\tsrc-pos=" DRM_RECT_FP_FMT "\n", DRM_RECT_FP_ARG(&src));
+>   	drm_printf(p, "\trotation=%x\n", state->rotation);
 > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index f342cf15412b..4188b3491625 100644
+> index 4188b3491625..009d3ebd9b39 100644
 > --- a/drivers/gpu/drm/drm_plane.c
 > +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -1487,6 +1487,18 @@ __drm_plane_get_damage_clips(const struct drm_plane_state *state)
->   					state->fb_damage_clips->data : NULL);
+> @@ -1494,11 +1494,21 @@ const char *drm_plane_get_pixel_source_name(enum drm_plane_pixel_source pixel_so
+>   		return "NONE";
+>   	case DRM_PLANE_PIXEL_SOURCE_FB:
+>   		return "fb";
+> +	case DRM_PLANE_PIXEL_SOURCE_SOLID_FILL:
+> +		return "solid_fill";
+>   	default:
+>   		return "";
+>   	}
 >   }
+
+This chunk should be a part of the previous commit. Or dropped 
+completely once DRM_ENUM_NAME_FN is used.
+
+The rest LGTM.
+
 >   
-> +const char *drm_plane_get_pixel_source_name(enum drm_plane_pixel_source pixel_source)
+> +void drm_plane_solid_fill_print_info(struct drm_printer *p, unsigned int indent,
+> +				     const struct drm_plane_state *state)
 > +{
-> +	switch(pixel_source) {
-> +	case DRM_PLANE_PIXEL_SOURCE_NONE:
-> +		return "NONE";
-> +	case DRM_PLANE_PIXEL_SOURCE_FB:
-> +		return "fb";
-> +	default:
-> +		return "";
-> +	}
+> +	drm_printf_indent(p, indent, "r=0x%x\n", state->solid_fill.r);
+> +	drm_printf_indent(p, indent, "g=0x%x\n", state->solid_fill.g);
+> +	drm_printf_indent(p, indent, "b=0x%x\n", state->solid_fill.b);
 > +}
-
-Please use DRM_ENUM_NAME_FN instead.
-
 > +
 >   /**
 >    * drm_plane_get_damage_clips - Returns damage clips.
 >    * @state: Plane state.
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 234fee3d5a95..303f01f0588c 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -1000,6 +1000,9 @@ drm_plane_get_damage_clips_count(const struct drm_plane_state *state);
+>   struct drm_mode_rect *
+>   drm_plane_get_damage_clips(const struct drm_plane_state *state);
+>   
+> +void drm_plane_solid_fill_print_info(struct drm_printer *p, unsigned int indent,
+> +				     const struct drm_plane_state *state);
+> +
+>   int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+>   					     unsigned int supported_filters);
+>   
 > 
 
 -- 
