@@ -1,80 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782DC768155
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:27:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F17E6768171
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:33:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5854110E117;
-	Sat, 29 Jul 2023 19:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B7510E21E;
+	Sat, 29 Jul 2023 19:33:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36CF10E117
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690658832;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FF7YMNnJw4aG4W8Tlud2PZiGmCkxcL5PSVDcb1rl9Nw=;
- b=EPkr81QF15P9S+KJtX8wACNH99zAwJkLzyCz295ALwVIWKw0LgaGcuHwiQUlknX33luAm0
- l0SlHbAUw/4DfdtHlz4J0Zxh14Zsed8TjhiZ/3n0taARoKtKdyrZvWPr25+zLNFOCzMCtm
- 53UnIVsLXtxQv8bgKwE17K0iHrqy/EA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-17-qTvUJjEzPzCDQqQKXZosTw-1; Sat, 29 Jul 2023 15:27:10 -0400
-X-MC-Unique: qTvUJjEzPzCDQqQKXZosTw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-314256aedcbso1650087f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:27:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690658829; x=1691263629;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FF7YMNnJw4aG4W8Tlud2PZiGmCkxcL5PSVDcb1rl9Nw=;
- b=jHEFFKY//62d9C9ZjGF3FY5llAul1gxk02PCj+oen4+uuQ2paN4hb72ZZnpR9NvCJ4
- F57XPfSVcTWQDBfwIl6vwyoiThumFntOQAI2zwbp78g/i+VbndbAakLuavsz8duGumuT
- CpqvdhN66iCo42aob0iDJRoX620Up/2SL8L9lqeJ2gagzvm69MNho4dABEKgX+ukBCLs
- Hiq4Rj9TMrtIu4zrQHLHF8RdM8xXLX8z7E5IiWfr5vM7k0hKM4C6WeVZL8w1vv3sHGYP
- R2RSY+uulYI8xFciYJUf0Y/RkZoVznGkYVb5eMPTy7r1+0HrN3nSsBnPdBmoP2LL4FrB
- m/5A==
-X-Gm-Message-State: ABy/qLbYw54e7d35S/hY9TGu2wVO3rS/zvs1yX3IeE6gpQ2hsuT2lUu1
- AdYIj6E794iaWHyn9pg4+hAL6xFNAqfZDS0uTGzws64khU/xTroIExa0cfPSO18MXF+8HOWpdZB
- aKJCQ7FzXsNJ0rtble/HTlPpIHbUC
-X-Received: by 2002:adf:ec06:0:b0:317:5948:1fe0 with SMTP id
- x6-20020adfec06000000b0031759481fe0mr4433300wrn.45.1690658829301; 
- Sat, 29 Jul 2023 12:27:09 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlE4P4YiFhuI4ynzieVdKtm1Z/PFipBTRtmnhicR2Fu7fVK2AwNkVjGHHEaf2sFTV/ye9YNVSA==
-X-Received: by 2002:adf:ec06:0:b0:317:5948:1fe0 with SMTP id
- x6-20020adfec06000000b0031759481fe0mr4433290wrn.45.1690658828986; 
- Sat, 29 Jul 2023 12:27:08 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- x1-20020a5d54c1000000b003176f2d9ce5sm8194584wrv.71.2023.07.29.12.27.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 12:27:08 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ville =?utf-8?B?U3ly?=
- =?utf-8?B?asOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3 0/4] drm: Atomic modesetting doc and comment
- improvements
-In-Reply-To: <cover.1689779916.git.geert+renesas@glider.be>
-References: <cover.1689779916.git.geert+renesas@glider.be>
-Date: Sat, 29 Jul 2023 21:27:08 +0200
-Message-ID: <87sf96wmb7.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45CD410E21C;
+ Sat, 29 Jul 2023 19:33:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5B461601FE;
+ Sat, 29 Jul 2023 19:33:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526BBC433C8;
+ Sat, 29 Jul 2023 19:33:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690659194;
+ bh=WoTBW2RInEWVN7BYf6Qj0vtLh2X+0pwyjuY2u3J4390=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uYVNNPMJrTg64eF+spfl+vwH4skqcYBOMk3kuSR/lkoXEOfQshJTY+Ll8rstVQCGY
+ AMDTrcQJtLS7P0E80EGyejLSXk19zLdxLx0+QWQ4u3go90th3fXTp7H9tiFCsNprpB
+ hYH89px4tQw2QA9jR1pS+wGFeA2T/T6D/uoJJ1vEohY2S1O7+EMJcTrZ4AtLKSXKO+
+ jQefcmW/Vb4zma6pOOOpE0fFEs4XJo+ArEEv0efr33bbA2Ixqkv6ECKff5KamFAQ5l
+ Vm0eCIvzIfArwrApqSAQCu/XHOV0DL9KFIetjGumiTu1zc1Z84Jqqn8fOKGXvbFKDj
+ 6ulLV+FQfbyDg==
+Date: Sat, 29 Jul 2023 12:33:12 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH] drm/radeon: Prefer 'unsigned int' to bare use of
+ 'unsigned'
+Message-ID: <20230729193312.GA2844869@dev-arch.thelio-3990X>
+References: <3a4bebc5-79fb-4799-8743-14a0dde97a4f.sunran001@208suo.com>
+ <ZMUeNehNb52Qu/Cp@debian.me>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZMUeNehNb52Qu/Cp@debian.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,53 +56,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-doc@vger.kernel.org
+Cc: =?utf-8?B?5a2Z5YaJ?= <sunran001@208suo.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx <amd-gfx@lists.freedesktop.org>,
+ "alexander.deucher" <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert+renesas@glider.be> writes:
+On Sat, Jul 29, 2023 at 09:12:05PM +0700, Bagas Sanjaya wrote:
+> On Fri, Jul 28, 2023 at 10:35:19PM +0800, 孙冉 wrote:
+> > WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+> > 
+> > Signed-off-by: Ran Sun <sunran001@208suo.com>
+> 
+> Your From: address != SoB identity
 
-Hello Geert,
+While the comment below is a completely valid complaint, I think this
+comment is being rather pedantic. Google Translate will tell you that
+孙冉 is Sun Ran, so while the name does not strictly match, it is
+clearly the same...
 
->         Hi all,
->
-> This patch series contains various improvements to the documentation and
-> comments related to atomic modesetting.  Hopefully, it will ease the job
-> of DRM novice who want to tackle the daunting task of converting a
-> legacy DRM driver to atomic modesetting.
->
-> Changes compared to v2[1]:
->   - Make main text read correctly when ignoring the footnotes,
->   - Add Reviewed-by.
->
-> Changes compared to v1[2]:
->   - Add Reviewed-by,
->   - Drop double space after full stop,
->   - Use footnotes for references,
->   - Remore reference to unconverted virtual HW drivers,
->   - New patch [2/4],
->   - Drop "first part" in drivers/gpu/drm/drm_plane_helper.c.
->
-> Thanks for applying!
->
-> [1] https://lore.kernel.org/r/cover.1686318012.git.geert+renesas@glider.be
-> [2] https://lore.kernel.org/r/cover.1685696114.git.geert+renesas@glider.be
->
-> Geert Uytterhoeven (4):
->   drm/todo: Add atomic modesetting references
->   drm/todo: Convert list of fbconv links to footnotes
->   drm: Remove references to removed transitional helpers
->   drm: Fix references to drm_plane_helper_check_state()
->
+> > ---
+> >  drivers/gpu/drm/radeon/radeon_object.h | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+> > index 39cc87a59a9a..9b55a7103cfd 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_object.h
+> > +++ b/drivers/gpu/drm/radeon/radeon_object.h
+> > @@ -37,7 +37,7 @@
+> >   *
+> >   * Returns corresponding domain of the ttm mem_type
+> >   */
+> > -static inline unsigned radeon_mem_type_to_domain(u32 mem_type)
+> > +static inline unsigned int radeon_mem_type_to_domain(u32 mem_type)
+> >  {
+> >   switch (mem_type) {
+> >   case TTM_PL_VRAM:
+> > @@ -112,12 +112,12 @@ static inline unsigned long radeon_bo_size(struct radeon_bo *bo)
+> >   return bo->tbo.base.size;
+> >  }
+> >  
+> > -static inline unsigned radeon_bo_ngpu_pages(struct radeon_bo *bo)
+> > +static inline unsigned int radeon_bo_ngpu_pages(struct radeon_bo *bo)
+> >  {
+> >   return bo->tbo.base.size / RADEON_GPU_PAGE_SIZE;
+> >  }
+> >  
+> > -static inline unsigned radeon_bo_gpu_page_alignment(struct radeon_bo *bo)
+> > +static inline unsigned int radeon_bo_gpu_page_alignment(struct radeon_bo *bo)
+> >  {
+> >   return (bo->tbo.page_alignment << PAGE_SHIFT) / RADEON_GPU_PAGE_SIZE;
+> >  }
+> > @@ -189,7 +189,7 @@ static inline void *radeon_sa_bo_cpu_addr(struct drm_suballoc *sa_bo)
+> >  
+> >  extern int radeon_sa_bo_manager_init(struct radeon_device *rdev,
+> >           struct radeon_sa_manager *sa_manager,
+> > -         unsigned size, u32 align, u32 domain,
+> > +         unsigned int size, u32 align, u32 domain,
+> >           u32 flags);
+> >  extern void radeon_sa_bo_manager_fini(struct radeon_device *rdev,
+> >            struct radeon_sa_manager *sa_manager);
+> 
+> The patch is whitespace-corrupted. Use git-send-email(1) to submit patches.
+> Also, your patch is also MIME-encoded, hence the corruption.
+> 
+> To Alex: Please don't apply this patch due to reasons above.
+> 
+> Thanks.
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
 
-Pushed to drm-misc (drm-misc-next). Thanks!
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
