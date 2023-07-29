@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFE476816E
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:32:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D4F76816C
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:32:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41F5210E21D;
-	Sat, 29 Jul 2023 19:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFF3410E21B;
+	Sat, 29 Jul 2023 19:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 636CA10E0F6
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A91210E21A
  for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:32:01 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 044921FE9C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2D53B1FE9D;
  Sat, 29 Jul 2023 19:32:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690659120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2cqU6SzdUL2b8trn8/AY0WEBMdnUcl0n5WTUsOb4FFg=;
- b=F8AVJh2WSgI1L0F8a5PshfSxvP0wWJvL2jj9bbjTKzE+duHLwLYBWibEdhPP6vNCF8fM0g
- Fz7cKUxmgM+bydfqjw58IzcwfRM85yP8VMcXkes3J3Z8e0nnBqsMxFSPdZh3B3kl2q64ll
- 1Q12pyyfKMayr2o27PT3cwh4vIT3lBI=
+ bh=JG7MtmMnubOK74rFNLA5VmTIeSqmRlnKvRn2ut3IGA4=;
+ b=eLEUNuAr0yktf/WsMDzhnnD5lbOlGve3WOZSmrq3QC3sV1SdLSgouNEos7KXZEYV9ZOHYl
+ Rur1VXmYB2DgXLnKEAJhtHBsZa9os/X0bhNQGk8kKNW79iP5TKN7YHbYZaVsIxTMHBxWll
+ 8xkC3y0Zfu4PR4Z/UQKp7aElUUOZouc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690659120;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2cqU6SzdUL2b8trn8/AY0WEBMdnUcl0n5WTUsOb4FFg=;
- b=MRtghX898sAfyvWTgzKXUsm/aZT5nxALwrvoxlCfipQDmUaDQOVXjn0mdAx/ru7C7UO7m2
- udaaoNkn3NPR45Cw==
+ bh=JG7MtmMnubOK74rFNLA5VmTIeSqmRlnKvRn2ut3IGA4=;
+ b=ntdgsbpbt+m3GW7RWUNVTft3q8D13Jcspmcpu5J5SHkkf24jzrTZleZB82yqMAAoRO9fAN
+ CDnrleZ2oxlZKqDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D13C3139EC;
- Sat, 29 Jul 2023 19:31:59 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 07A7E13596;
+ Sat, 29 Jul 2023 19:32:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qCZAMi9pxWSGGgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sat, 29 Jul 2023 19:31:59 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uDQIATBpxWSGGgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sat, 29 Jul 2023 19:32:00 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	sam@ravnborg.org,
 	javierm@redhat.com
-Subject: [PATCH 3/4] fbdev: Use _DMAMEM_ infix for DMA-memory helpers
-Date: Sat, 29 Jul 2023 21:26:48 +0200
-Message-ID: <20230729193157.15446-4-tzimmermann@suse.de>
+Subject: [PATCH 4/4] fbdev: Align deferred I/O with naming of helpers
+Date: Sat, 29 Jul 2023 21:26:49 +0200
+Message-ID: <20230729193157.15446-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230729193157.15446-1-tzimmermann@suse.de>
 References: <20230729193157.15446-1-tzimmermann@suse.de>
@@ -74,176 +74,178 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the infix for fbdev's DMA-memory helpers from _DMA_ to
-_DMAMEM_. The helpers perform operations within DMA-able memory,
-but they don't perform DMA operations. Naming should make this
-clear. Adapt all users. No functional changes.
+Deferred-I/O generator macros generate callbacks for struct fb_ops
+that operate on memory ranges in I/O address space or system address
+space. Rename the macros to use the _IOMEM_ and _SYSMEM_ infixes of
+their underlying helpers. Adapt all users. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/Kconfig                   | 2 +-
- drivers/gpu/drm/drm_fbdev_dma.c           | 4 ++--
- drivers/gpu/drm/exynos/Kconfig            | 2 +-
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 4 ++--
- drivers/gpu/drm/omapdrm/Kconfig           | 2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c      | 4 ++--
- drivers/gpu/drm/tegra/Kconfig             | 2 +-
- drivers/gpu/drm/tegra/fbdev.c             | 4 ++--
- drivers/video/fbdev/core/Kconfig          | 2 +-
- include/linux/fb.h                        | 4 ++--
- 10 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_fbdev_generic.c        | 6 +++---
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 6 +++---
+ drivers/gpu/drm/msm/msm_fbdev.c            | 6 +++---
+ drivers/video/fbdev/broadsheetfb.c         | 6 +++---
+ drivers/video/fbdev/hecubafb.c             | 6 +++---
+ drivers/video/fbdev/metronomefb.c          | 6 +++---
+ drivers/video/fbdev/ssd1307fb.c            | 6 +++---
+ drivers/video/fbdev/xen-fbfront.c          | 6 +++---
+ include/linux/fb.h                         | 4 ++--
+ 9 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 34da733e8606..b51c6a141dfa 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -224,7 +224,7 @@ config DRM_TTM_HELPER
- config DRM_GEM_DMA_HELPER
- 	tristate
- 	depends on DRM
--	select FB_DMA_HELPERS if DRM_FBDEV_EMULATION
-+	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
- 	help
- 	  Choose this if you need the GEM DMA helper functions
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index a0ea042b1526..d647d89764cb 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -34,9 +34,9 @@ static int drm_fbdev_generic_fb_release(struct fb_info *info, int user)
+ 	return 0;
+ }
  
-diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
-index 6db168f94290..6c9427bb4053 100644
---- a/drivers/gpu/drm/drm_fbdev_dma.c
-+++ b/drivers/gpu/drm/drm_fbdev_dma.c
-@@ -62,9 +62,9 @@ static const struct fb_ops drm_fbdev_dma_fb_ops = {
- 	.owner = THIS_MODULE,
- 	.fb_open = drm_fbdev_dma_fb_open,
- 	.fb_release = drm_fbdev_dma_fb_release,
--	__FB_DEFAULT_DMA_OPS_RDWR,
-+	__FB_DEFAULT_DMAMEM_OPS_RDWR,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	__FB_DEFAULT_DMA_OPS_DRAW,
-+	__FB_DEFAULT_DMAMEM_OPS_DRAW,
- 	.fb_mmap = drm_fbdev_dma_fb_mmap,
- 	.fb_destroy = drm_fbdev_dma_fb_destroy,
- };
-diff --git a/drivers/gpu/drm/exynos/Kconfig b/drivers/gpu/drm/exynos/Kconfig
-index 661b42ad4873..733b109a5095 100644
---- a/drivers/gpu/drm/exynos/Kconfig
-+++ b/drivers/gpu/drm/exynos/Kconfig
-@@ -7,7 +7,7 @@ config DRM_EXYNOS
- 	select DRM_DISPLAY_HELPER if DRM_EXYNOS_DP
- 	select DRM_KMS_HELPER
- 	select VIDEOMODE_HELPERS
--	select FB_DMA_HELPERS if DRM_FBDEV_EMULATION
-+	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	help
- 	  Choose this option if you have a Samsung SoC Exynos chipset.
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index 4ccb385aff52..a379c8ca435a 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -49,9 +49,9 @@ static void exynos_drm_fb_destroy(struct fb_info *info)
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(drm_fbdev_generic,
+-				drm_fb_helper_damage_range,
+-				drm_fb_helper_damage_area);
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(drm_fbdev_generic,
++				   drm_fb_helper_damage_range,
++				   drm_fb_helper_damage_area);
  
- static const struct fb_ops exynos_drm_fb_ops = {
- 	.owner		= THIS_MODULE,
--	__FB_DEFAULT_DMA_OPS_RDWR,
-+	__FB_DEFAULT_DMAMEM_OPS_RDWR,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	__FB_DEFAULT_DMA_OPS_DRAW,
-+	__FB_DEFAULT_DMAMEM_OPS_DRAW,
- 	.fb_mmap        = exynos_drm_fb_mmap,
- 	.fb_destroy	= exynos_drm_fb_destroy,
- };
-diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-index d3c4877e465c..b715301ec79f 100644
---- a/drivers/gpu/drm/omapdrm/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/Kconfig
-@@ -4,7 +4,7 @@ config DRM_OMAP
- 	depends on DRM && OF
- 	depends on ARCH_OMAP2PLUS
- 	select DRM_KMS_HELPER
--	select FB_DMA_HELPERS if DRM_FBDEV_EMULATION
-+	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
- 	select VIDEOMODE_HELPERS
- 	select HDMI
- 	default n
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index 5b33c789e17a..6b08b137af1a 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -106,13 +106,13 @@ static void omap_fbdev_fb_destroy(struct fb_info *info)
+ static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
+ {
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index e75852f13930..31d0d695d567 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -85,9 +85,9 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
+ 	intel_frontbuffer_invalidate(to_frontbuffer(ifbdev), ORIGIN_CPU);
+ }
  
- static const struct fb_ops omap_fb_ops = {
- 	.owner = THIS_MODULE,
--	__FB_DEFAULT_DMA_OPS_RDWR,
-+	__FB_DEFAULT_DMAMEM_OPS_RDWR,
- 	.fb_check_var	= drm_fb_helper_check_var,
- 	.fb_set_par	= drm_fb_helper_set_par,
- 	.fb_setcmap	= drm_fb_helper_setcmap,
- 	.fb_blank	= drm_fb_helper_blank,
- 	.fb_pan_display = omap_fbdev_pan_display,
--	__FB_DEFAULT_DMA_OPS_DRAW,
-+	__FB_DEFAULT_DMAMEM_OPS_DRAW,
- 	.fb_ioctl	= drm_fb_helper_ioctl,
- 	.fb_mmap	= omap_fbdev_fb_mmap,
- 	.fb_destroy	= omap_fbdev_fb_destroy,
-diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
-index 39452c8480c1..84e7e6bc3a0c 100644
---- a/drivers/gpu/drm/tegra/Kconfig
-+++ b/drivers/gpu/drm/tegra/Kconfig
-@@ -12,7 +12,7 @@ config DRM_TEGRA
- 	select DRM_KMS_HELPER
- 	select DRM_MIPI_DSI
- 	select DRM_PANEL
--	select FB_DMA_HELPERS if DRM_FBDEV_EMULATION
-+	select FB_DMAMEM_HELPERS if DRM_FBDEV_EMULATION
- 	select TEGRA_HOST1X
- 	select INTERCONNECT
- 	select IOMMU_IOVA
-diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
-index 206a399c42d6..db6eaac3d30e 100644
---- a/drivers/gpu/drm/tegra/fbdev.c
-+++ b/drivers/gpu/drm/tegra/fbdev.c
-@@ -59,9 +59,9 @@ static void tegra_fbdev_fb_destroy(struct fb_info *info)
+-FB_GEN_DEFAULT_DEFERRED_IO_OPS(intel_fbdev,
+-			       drm_fb_helper_damage_range,
+-			       drm_fb_helper_damage_area)
++FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(intel_fbdev,
++				  drm_fb_helper_damage_range,
++				  drm_fb_helper_damage_area)
  
- static const struct fb_ops tegra_fb_ops = {
- 	.owner = THIS_MODULE,
--	__FB_DEFAULT_DMA_OPS_RDWR,
-+	__FB_DEFAULT_DMAMEM_OPS_RDWR,
- 	DRM_FB_HELPER_DEFAULT_OPS,
--	__FB_DEFAULT_DMA_OPS_DRAW,
-+	__FB_DEFAULT_DMAMEM_OPS_DRAW,
- 	.fb_mmap = tegra_fb_mmap,
- 	.fb_destroy = tegra_fbdev_fb_destroy,
- };
-diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
-index 28e771a46df6..baf7e852c75b 100644
---- a/drivers/video/fbdev/core/Kconfig
-+++ b/drivers/video/fbdev/core/Kconfig
-@@ -136,7 +136,7 @@ config FB_DEFERRED_IO
- 	bool
- 	depends on FB_CORE
- 
--config FB_DMA_HELPERS
-+config FB_DMAMEM_HELPERS
- 	bool
- 	depends on FB_CORE
- 	select FB_SYS_COPYAREA
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 76472482dc30..d255263c2d1d 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -579,11 +579,11 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
-  * Helpers for framebuffers in DMA-able memory
+ static int intel_fbdev_set_par(struct fb_info *info)
+ {
+diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
+index bf1e17dc4550..030bedac632d 100644
+--- a/drivers/gpu/drm/msm/msm_fbdev.c
++++ b/drivers/gpu/drm/msm/msm_fbdev.c
+@@ -25,9 +25,9 @@ module_param(fbdev, bool, 0600);
+  * fbdev funcs, to implement legacy fbdev interface on top of drm driver
   */
  
--#define __FB_DEFAULT_DMA_OPS_RDWR \
-+#define __FB_DEFAULT_DMAMEM_OPS_RDWR \
- 	.fb_read	= fb_sys_read, \
- 	.fb_write	= fb_sys_write
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(msm_fbdev,
+-				drm_fb_helper_damage_range,
+-				drm_fb_helper_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(msm_fbdev,
++				   drm_fb_helper_damage_range,
++				   drm_fb_helper_damage_area)
  
--#define __FB_DEFAULT_DMA_OPS_DRAW \
-+#define __FB_DEFAULT_DMAMEM_OPS_DRAW \
- 	.fb_fillrect	= sys_fillrect, \
- 	.fb_copyarea	= sys_copyarea, \
- 	.fb_imageblit	= sys_imageblit
+ static int msm_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+diff --git a/drivers/video/fbdev/broadsheetfb.c b/drivers/video/fbdev/broadsheetfb.c
+index bace1f04fc8e..e857b15e9f5d 100644
+--- a/drivers/video/fbdev/broadsheetfb.c
++++ b/drivers/video/fbdev/broadsheetfb.c
+@@ -985,9 +985,9 @@ static void broadsheetfb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
+ 	broadsheetfb_dpy_update(par);
+ }
+ 
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(broadsheetfb,
+-				broadsheetfb_defio_damage_range,
+-				broadsheetfb_defio_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(broadsheetfb,
++				   broadsheetfb_defio_damage_range,
++				   broadsheetfb_defio_damage_area)
+ 
+ static const struct fb_ops broadsheetfb_ops = {
+ 	.owner	= THIS_MODULE,
+diff --git a/drivers/video/fbdev/hecubafb.c b/drivers/video/fbdev/hecubafb.c
+index c4938554ea45..ef526ed4a2d9 100644
+--- a/drivers/video/fbdev/hecubafb.c
++++ b/drivers/video/fbdev/hecubafb.c
+@@ -135,9 +135,9 @@ static void hecubafb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
+ 	hecubafb_dpy_update(par);
+ }
+ 
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(hecubafb,
+-				hecubafb_defio_damage_range,
+-				hecubafb_defio_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(hecubafb,
++				   hecubafb_defio_damage_range,
++				   hecubafb_defio_damage_area)
+ 
+ static const struct fb_ops hecubafb_ops = {
+ 	.owner	= THIS_MODULE,
+diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
+index eb15b9dbdec8..130394616a7c 100644
+--- a/drivers/video/fbdev/metronomefb.c
++++ b/drivers/video/fbdev/metronomefb.c
+@@ -498,9 +498,9 @@ static void metronomefb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
+ 	metronomefb_dpy_update(par);
+ }
+ 
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(metronomefb,
+-				metronomefb_defio_damage_range,
+-				metronomefb_defio_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(metronomefb,
++				   metronomefb_defio_damage_range,
++				   metronomefb_defio_damage_area)
+ 
+ static const struct fb_ops metronomefb_ops = {
+ 	.owner	= THIS_MODULE,
+diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
+index a2b939342a4f..5aee62434443 100644
+--- a/drivers/video/fbdev/ssd1307fb.c
++++ b/drivers/video/fbdev/ssd1307fb.c
+@@ -317,9 +317,9 @@ static void ssd1307fb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
+ 	ssd1307fb_update_rect(par, x, y, width, height);
+ }
+ 
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(ssd1307fb,
+-				ssd1307fb_defio_damage_range,
+-				ssd1307fb_defio_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(ssd1307fb,
++				   ssd1307fb_defio_damage_range,
++				   ssd1307fb_defio_damage_area)
+ 
+ static const struct fb_ops ssd1307fb_ops = {
+ 	.owner		= THIS_MODULE,
+diff --git a/drivers/video/fbdev/xen-fbfront.c b/drivers/video/fbdev/xen-fbfront.c
+index 9a4c29cb1a80..66d4628a96ae 100644
+--- a/drivers/video/fbdev/xen-fbfront.c
++++ b/drivers/video/fbdev/xen-fbfront.c
+@@ -306,9 +306,9 @@ static void xenfb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
+ 	xenfb_refresh(xenfb_info, x, y, width, height);
+ }
+ 
+-FB_GEN_DEFAULT_DEFERRED_SYS_OPS(xenfb,
+-				xenfb_defio_damage_range,
+-				xenfb_defio_damage_area)
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(xenfb,
++				   xenfb_defio_damage_range,
++				   xenfb_defio_damage_area)
+ 
+ static const struct fb_ops xenfb_fb_ops = {
+ 	.owner		= THIS_MODULE,
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index d255263c2d1d..16c3e6d6c55d 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -682,11 +682,11 @@ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+ 		__damage_area(info, image->dx, image->dy, image->width, image->height); \
+ 	}
+ 
+-#define FB_GEN_DEFAULT_DEFERRED_IO_OPS(__prefix, __damage_range, __damage_area) \
++#define FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(__prefix, __damage_range, __damage_area) \
+ 	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, io) \
+ 	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, cfb)
+ 
+-#define FB_GEN_DEFAULT_DEFERRED_SYS_OPS(__prefix, __damage_range, __damage_area) \
++#define FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(__prefix, __damage_range, __damage_area) \
+ 	__FB_GEN_DEFAULT_DEFERRED_OPS_RDWR(__prefix, __damage_range, sys) \
+ 	__FB_GEN_DEFAULT_DEFERRED_OPS_DRAW(__prefix, __damage_area, sys)
+ 
 -- 
 2.41.0
 
