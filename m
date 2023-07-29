@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB918768148
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CB976814D
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 21:24:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F15710E218;
-	Sat, 29 Jul 2023 19:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEE210E113;
+	Sat, 29 Jul 2023 19:24:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B35F10E218
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:18:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47EC910E113
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 19:24:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690658318;
+ s=mimecast20190719; t=1690658683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ojrCzz5wYGS/I4ma6JQZlj8trsaVvDQ8Es+pMaAigF0=;
- b=VqB1P1opOLOpa2WgfheM83iVQ6HyB8F11AndKN+t8iGX06b9NOjPlgTCC54Ory9xjqu2K6
- CJookr7fS0H/AsG4FL45QHjpI3EYAGy6IW5p/V+/yIRYqS9FXJfaxjVw/nnQ+rraNjdOVo
- 0hUUin7N9ghyo1namjBX+O9DttCkD4E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hskAr6TIw8osCLe/1nFX1sSnSNJhm4rVeuFgy4UI0XE=;
+ b=Z/kSuqMn7XKTGNiW8aLI8+c+q+vGSpKnIxWe1CWhCpbs/JScn34DFPdYOfcnx/tvZfzPbw
+ GKCk7EUIXS90S2OTDX88ZRT3MbmSiKQb5XVZpaZWhqXGriUU1XbKfGjnwYKUS5pdBSBfss
+ QGD5kzM8AXvFe5hPyGYhEYwUKCahMPw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-170-S8MStoKkOoOlwubfh_BPkg-1; Sat, 29 Jul 2023 15:18:35 -0400
-X-MC-Unique: S8MStoKkOoOlwubfh_BPkg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-31797adfe97so193030f8f.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:18:34 -0700 (PDT)
+ us-mta-142-YDMsY9JqOqOBWUvliF813Q-1; Sat, 29 Jul 2023 15:24:41 -0400
+X-MC-Unique: YDMsY9JqOqOBWUvliF813Q-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-30e4943ca7fso1640878f8f.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 12:24:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690658314; x=1691263114;
+ d=1e100.net; s=20221208; t=1690658680; x=1691263480;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ojrCzz5wYGS/I4ma6JQZlj8trsaVvDQ8Es+pMaAigF0=;
- b=CNZAKzRITfCzEybg9opUZ54LQ7IpEEbt8Fmg1wPFUpdT6p03Je4DuwWtctc6k4kCIr
- brnFLSXoMm2woKSvjA+zoZqQNjki4I2x2Pzd5p2qHpA+9btLeXho7mOdgjrr/x5CAaDr
- qyyfVgLTtzqRElUjN5r7U2WknvqDTYDQqwOiLaKdeQ5MC3wgHxtKIQPPQxqUoH+vIvTH
- DmrJTKDa09iBXsCi7C5X9Sqc2l94uS6fCC2J7T8ybBC8IlKlJ3klSN4MOv331/P2ETdq
- MgaVTGSwqwBIQtabLcBEAxVA6KR+yfcpyT0BHzXi1HTpFSQLeRxh5e/nd/ONZQ3tHbhV
- m+WQ==
-X-Gm-Message-State: ABy/qLbjx7szsVa8iurbsAxye4TmQ++E7MyZpaqkG9N0cbSx1z09V8s/
- y0LpRAuTOaqmf34GHfh57pB3/PYXNLV2bS+H1x8tuUQIU+c4ZUk5Umnl1EYR6OPcjC4uBv8zSXJ
- nWvf3s4PbASk2ydRvnRpZb5Kx2W+s
-X-Received: by 2002:adf:e743:0:b0:317:6cc7:6b21 with SMTP id
- c3-20020adfe743000000b003176cc76b21mr3846713wrn.69.1690658314142; 
- Sat, 29 Jul 2023 12:18:34 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGMLsHO2EpY96ESRcSjZaJGCQAF4FMTewpjygCkWri2whqJzjkk8u4900Qu5vniN18Ue1k5Gg==
-X-Received: by 2002:adf:e743:0:b0:317:6cc7:6b21 with SMTP id
- c3-20020adfe743000000b003176cc76b21mr3846696wrn.69.1690658313885; 
- Sat, 29 Jul 2023 12:18:33 -0700 (PDT)
+ bh=hskAr6TIw8osCLe/1nFX1sSnSNJhm4rVeuFgy4UI0XE=;
+ b=HIjoUxSsUTRJyVjS52/vF2SqHl94MTsn5FnqB7VAKIOzfOcZ81o9ymf2ha6GT1APFE
+ w3EVR/389Db+uIy7MHQOHrxF7m1PvXUX/YKR0LTArXrEBUrBjcjBLbET4g2+bZBuJ/HX
+ DtHY3BrBd9G5oua09fdk6tVp7BZgfMV0y99+e//hGJntJXkr9RjR8k4ReVsf9JvP9PYg
+ JxWV+A8XFsgk6zGeWyZG/0EOVUN9k5X/RaAso9k0YgNYzNxJBgF0g8B3AMaIOFbtfMyr
+ 2wyrJbbGJMrFqpeAH52Zb9KTfoJwAYecUSOfjKFSwuPIfWgWUc1nBUqX5G63bxhKvvp+
+ td1g==
+X-Gm-Message-State: ABy/qLad8sZftnZHLmEx1rt2ag3Q2ZKG9v2F9dbNQmgPuZJgjmO/hGHp
+ IcxESUXYvo/XnzbrdA/E+UiaViNYLOgdQpyDXnvwzgpSBxu+oWTwjco1EFQwpZRQjRwRcfZeLdy
+ iczQ3XE99rke0++IQBrYch2zq6gFj
+X-Received: by 2002:a5d:50cf:0:b0:317:7068:4997 with SMTP id
+ f15-20020a5d50cf000000b0031770684997mr4078889wrt.60.1690658680748; 
+ Sat, 29 Jul 2023 12:24:40 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGF9+BR0YBluc/fmTt4zwqTslYE7jm872eX8+d+/+3kkajFyZw/n5oyrZ7FmTRawifJ0nHRmg==
+X-Received: by 2002:a5d:50cf:0:b0:317:7068:4997 with SMTP id
+ f15-20020a5d50cf000000b0031770684997mr4078879wrt.60.1690658680474; 
+ Sat, 29 Jul 2023 12:24:40 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y18-20020adff152000000b0031779a6b451sm8128412wro.83.2023.07.29.12.18.32
+ g17-20020adfe411000000b0031437299fafsm8234533wrm.34.2023.07.29.12.24.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 12:18:33 -0700 (PDT)
+ Sat, 29 Jul 2023 12:24:40 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Ville =?utf-8?B?U3ly?=
- =?utf-8?B?asOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3 2/4] drm/todo: Convert list of fbconv links to footnotes
-In-Reply-To: <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
-References: <cover.1689779916.git.geert+renesas@glider.be>
- <0761f98d3b6f8df9eea977eae063e35b450fda9e.1689779916.git.geert+renesas@glider.be>
-Date: Sat, 29 Jul 2023 21:18:32 +0200
-Message-ID: <87y1iywmpj.fsf@minerva.mail-host-address-is-not-set>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Noralf =?utf-8?Q?Tr=C3=B8nnes?=
+ <noralf@tronnes.org>
+Subject: Re: [PATCH v2 5/5] drm/repaper: Reduce temporary buffer size in
+ repaper_fb_dirty()
+In-Reply-To: <20220317081830.1211400-6-geert@linux-m68k.org>
+References: <20220317081830.1211400-1-geert@linux-m68k.org>
+ <20220317081830.1211400-6-geert@linux-m68k.org>
+Date: Sat, 29 Jul 2023 21:24:39 +0200
+Message-ID: <87v8e2wmfc.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -87,29 +85,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-doc@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert+renesas@glider.be> writes:
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
-Hello Geert,
-
-> Convert the references to fbconv links to footnotes, so they can be
-> navigated.
+> As the temporary buffer is no longer used to store 8-bit grayscale data,
+> its size can be reduced to the size needed to store the monochrome
+> bitmap data.
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
->   - Make main text read correctly when ignoring the footnotes,
->
-> v2:
->   - New.
+> Fixes: 24c6bedefbe71de9 ("drm/repaper: Use format helper for xrgb8888 to monochrome conversion")
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Pushed to drm-misc (drm-misc-next). Thanks!
 
 -- 
 Best regards,
