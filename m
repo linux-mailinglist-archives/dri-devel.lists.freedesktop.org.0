@@ -1,161 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF48767962
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 02:08:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 355B5767987
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 02:28:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA44610E7AB;
-	Sat, 29 Jul 2023 00:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9A910E7AF;
+	Sat, 29 Jul 2023 00:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC60610E7AB
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 00:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690589317; x=1722125317;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=tpQ4y7GqFSk1S3ZkSAttO3eBCMUT89jKjwyfmIjUDEg=;
- b=ZPhSX0tjrbt1lWHTv9BR+H6Df+4YPNdWnh27YrFzHTkr4FRW1fHaMP0d
- EOO2ZxM8ZFfUhkqskFnOtdDCxrp+y273YpWQHh0TNohuUluZAd3y1K8SC
- qzEQXUi+CU3JbdBBQgJ4Z40G9C0VtJvLA7+2Wx0eK5Kji7XI1fDpuNiGR
- ZivFIzTcDjX+ZrkmT5eqOiD5jAc2fnu2VOucMuszQxyhdO7zHpxcJPWmJ
- CPHMYvUb6EKSWymifwSftfC5aE0cvBEaCvsFpyftYVh4vSznB3o/KMAuR
- Wqu3yc77Sn0n0XrQmLKN7Y9tF8ivS/G6FwAB+2J36ruLwtZ8PPYyQZ9o6 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10785"; a="432519231"
-X-IronPort-AV: E=Sophos;i="6.01,238,1684825200"; d="scan'208";a="432519231"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jul 2023 17:08:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="871006538"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2023 17:08:38 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 28 Jul 2023 17:08:36 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 28 Jul 2023 17:08:36 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Fri, 28 Jul 2023 17:08:36 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Fri, 28 Jul 2023 17:08:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gtEzwWQ58ijFkngHNZ+u8oZtVN+NvPDgP0QzmuGH8Z+HNRBoi0LpG2r/lFdJw1Tztuq5ruM9FyjZh0x961JZZbSjp8LxJSFnrSQG3dFeSBfEtRM1Rt9VGSTW0ImypPSGSXCPJUXVly3YKRWMCFeTSRIdq7FGQhHpCXQepPKxoUMOA5MaDpJhWEHBDXktRkaaoFctmzgiY/w5ouNmTU3ZfR7uQ5iIw28GnbBZcR2UW1+o7jhxezimsY0WZqV3b2RPPInmmKET3p56lkPdl9n82kSjMTPKS/8gejcpLdmkW90ZJWLYq3w+1gqHXSK9b4vuDX3Ai2kvyoGcPFdgCNBKSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tpQ4y7GqFSk1S3ZkSAttO3eBCMUT89jKjwyfmIjUDEg=;
- b=d3M3lLn38YaP62Jsf190Y+rRyudRDzKWX07+gkfM/g0MvslU1Qip+9nAz5rNGlrtchGwx5jX9ABgei4XU+YDddLdxAaTEWfm3iBiG+1OL7Yjd3smxVlDkKl6Epxg51LvcFVbSP9UgJclZXgLRDIU/vXeTmqrduJY7MB87kk5rDCryKLqZEIGiCVqeSMOxMyPBgsN79Fi5PMnf3+g/n0eeet6+1VNQWWY3JIa4tryvpKGIoLOBGQWLxI0EFLeraD2F1sSo4Yze8gL4wlFea/YTBlNgeaQ3qxSsmG+9wC/YoA4qlKOd0sry2QNV47Jj4oHwIhmBVjwWCx3BaIDR855xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH3PR11MB7177.namprd11.prod.outlook.com (2603:10b6:610:153::8)
- by SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Sat, 29 Jul
- 2023 00:08:26 +0000
-Received: from CH3PR11MB7177.namprd11.prod.outlook.com
- ([fe80::9cba:c1de:ea9f:fba7]) by CH3PR11MB7177.namprd11.prod.outlook.com
- ([fe80::9cba:c1de:ea9f:fba7%5]) with mapi id 15.20.6631.026; Sat, 29 Jul 2023
- 00:08:26 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IAAwXOAgADrBVCAA1oygIAAWIfA
-Date: Sat, 29 Jul 2023 00:08:25 +0000
-Message-ID: <CH3PR11MB7177832A92B4F550BF816E0CF807A@CH3PR11MB7177.namprd11.prod.outlook.com>
-References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
- <20230718082858.1570809-2-vivek.kasireddy@intel.com>
- <87jzuwlkae.fsf@nvdebian.thelocal>
- <IA0PR11MB718527A20068383829DFF6A3F83EA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <87pm4nj6s5.fsf@nvdebian.thelocal>
- <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZL5+CiZ6w4RdAt5u@nvidia.com>
- <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <75e3a74a-68f5-df-9a49-a0553c04320@google.com>
- <CH3PR11MB71777432A63D3FAAE7E70F22F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
- <ZMLk8aMmpkK7ZCsW@x1n>
-In-Reply-To: <ZMLk8aMmpkK7ZCsW@x1n>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB7177:EE_|SJ0PR11MB4845:EE_
-x-ms-office365-filtering-correlation-id: 432befbd-ff8b-4f25-7ea0-08db8fc7edcc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: w43UWyJCyS4lkkO1Q0Jha7A4t9+a2JPD8VwGBV2Ho4OBqexX6hvWxiooY7igpCXn7Eh+Un4gTlf4zstTVo2RerG7FIFHk7bEiA+N8LYCxT4KZqzcRsI8iatt4BEhuDYUakGWBO+940E7jh3Ro7eWAie5uFmi7qM+jOasA3/elK54PS4CVLMn/WOXWHbjborQj8cAROes4346qJa5/+AeRKZdat2mVxiHfyx/t6ywgvYfsZXyUE5wYcKCaHNj0G5xVnwu3OL1LBkPrL0x5PrB+fx5arTVftwJOwQc6K+x/xs5E76i8jjpPq7x/EPMcVIp8txOkWc0tkJiNcMP0vY1wnbob87VwLpnrzYClqm0/L6RswAkM60PztyKn9GTSIJy4RYv0LCyH2FrysoYR9BGZNWMU14I2d5t5s9IyQJ5socIeoi9DLQC/uugZkReFy7M3lCkCowoxzTOOCbhncTbhfeKGQuyX9AAy0X4yRDroVARsKoQWNt7vQmCKrZO2Y99stna9adsR53uW/27Cx2Spgnv0R5wzbTBDrjzuot03CYEH7Ci3H3aFJnDSQDHbd/ySpxY0SbKq/ZJIhBc8kX0HZGhW4gHqlMJ1KBY8xrLNbM=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR11MB7177.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(39860400002)(346002)(136003)(376002)(366004)(451199021)(7696005)(71200400001)(26005)(9686003)(6506007)(966005)(478600001)(82960400001)(122000001)(54906003)(186003)(6916009)(4326008)(83380400001)(64756008)(66476007)(66446008)(66946007)(66556008)(76116006)(38100700002)(5660300002)(52536014)(8676002)(8936002)(38070700005)(33656002)(15650500001)(41300700001)(2906002)(316002)(86362001)(55016003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RlhwcExmSTdsNlpaRlNhTldrRlZybks5alRBZVJXT3lub2UxK1F1MGpuanMr?=
- =?utf-8?B?bDd1anlxdWZ3K1ZQbmpGOXJvUXNkL1A0UlJpUDM0QmtxQnVjTkZQU1hueXdG?=
- =?utf-8?B?UFZjVmtQNk9sZlJqQWd1cVNPRlFINGptYXF0QUE5K3JIWjZHQzJBQkhEY3FN?=
- =?utf-8?B?K0JMdWtUTndOUC82azNXc1dtOXZMbWNBK2ZLbHNPT3NBbnlqN2RYYTR2SDE0?=
- =?utf-8?B?QVlUeXdtUHlrSVVNaGhxTkI2cENjb3BlVzBIN1Bxb3M2Zk8wUHB4Mkhyb28z?=
- =?utf-8?B?UXFVdjhLZzArclBwc3NvUHFuSlRpVWpGbTRidlY3Z2xXaHgxaDU3cVMzS0JL?=
- =?utf-8?B?b24rNTUzQVNMZTVaVlkzTEVWekxQOHZtVkxFWThKeHMvWGhrVHkvUktYQi85?=
- =?utf-8?B?cTEweTh1RXZqLzVRMitXT0w0bG9YM2VsMjhidlUvRDV4UVJ1Z1Z5SE5JaXRs?=
- =?utf-8?B?bzRRTXNDbTVvYTd3SllUZWRPSWtxRW5ZbHlRNjZjVUhleXJGa2VZcERpM2Ur?=
- =?utf-8?B?REFuYjdRdyt4YnVXNjY5WFBJRFB3VnNBWEdVbHRqMDgxK0tmdE1rR1BYUTJM?=
- =?utf-8?B?ZURNWlh3THpuRytqWlQyMGY4V0ttY21iNnFnampWc3Z2OXJ6UElKN1NGYlJt?=
- =?utf-8?B?cWR4MGQyRDkwa0hUU2N2cVp1TmNWcWdQSHBQSXowak12NlJEQ0Ivc0Iwa1ht?=
- =?utf-8?B?N2R2bkgyNmtTRDgyVWpOSFhmdXRCVDBCUG9QU2pLdHpqNFZCSkpTQ2kvNFBZ?=
- =?utf-8?B?U05USFFBVUNHK1dYVGxhMyt5ZXZLSXNoRDVJaXVVR0lYZ0ZqZ1lzcHlRMjVX?=
- =?utf-8?B?ajArbU9xSnRGNkoxL1FKbGtNUjIwQUVXSWdtSTZic1RQeWJoOVFnNk5wa05C?=
- =?utf-8?B?N2RMSWhWYm9FSisvUWxoYVFYN3UrczZQTVZES1p4bXp0ZjRUQnBQRG9aVXBN?=
- =?utf-8?B?Vk11M2ZacFlkL0JteXhMMG8yNWpEV3ZCSWhJTU5STk1YQjFKeHZWdnhBbXAr?=
- =?utf-8?B?Q3hOR1hTdi9Da2gvMFZaSzBkY3JuV0dzZVQ5UTYyZ3F2d2dYZTdiMktvQ0l4?=
- =?utf-8?B?YVB1RDJoOUZuTmxEKzNqcXd4NDJDWWpTcWdhSitvN0VqWGJzLzE4M2pyZjhB?=
- =?utf-8?B?ZGVHRHFRRFhQak82OGFBekRUN1FLSmZDblFEem9XRU9INFU5NXBsOU16K2Ry?=
- =?utf-8?B?KzZrbGw1c3J3MXBKd0Faa2ZLUWlmdWQ1ejB3alhEYUdhK3IrUlhEbTkzUkll?=
- =?utf-8?B?M2VsRjZvaHFpKytxV1dUaEFMVlZicW1ScS8yNGFDNHozWWtSNEtWZ0JCMHFZ?=
- =?utf-8?B?TVFnbldwelN4SEkxaWpzMDQ0ei9ycDV3REdUaUt5c0I3enliSjRUenlwKzhP?=
- =?utf-8?B?Qjg0YUVOUUR3TWQ0c1J0SVI0LzhYTmdqRkdHNnFvWEE3Ynd5MjgrL2JPYnFW?=
- =?utf-8?B?cVpiVXNrRkFKR1RjV0ExVkRuUmtsZ2ppR0IxQzVVSEJGY3o4a0dOZjJnZ1VE?=
- =?utf-8?B?K2tnekluekpTdXZ6Q2lHODFvbjEvL0FOVDYwVVVWbjd0TTgrc0tJWnFTVEp5?=
- =?utf-8?B?YjJ1ZHdFUkpnZGlvc3pLQjVkTE9uRWJnc2s5UnFUMW1Vem96RkRrYVJHUHpy?=
- =?utf-8?B?VE1qcFVpUURqMGR5QjIvMTZTRWpTeXRkMHJxRUVoZytvWm1pakY5bU1nVUVy?=
- =?utf-8?B?M3B0MWorS3hsanZKUHhDS29COVQ3bUltUS9xTDYzbWdBWVRKNTFvcWhQejQx?=
- =?utf-8?B?ZXJuRktFamRkaVVxekQ1aWdjVjFERlBNM0dtZGdqaEFyMGRnTGFrUE1ySGh6?=
- =?utf-8?B?Slh0NEJhRXhZNGYzeW8zSS8zUzB1T1ZHRGFDZVpxZ1NjY3NRdlU1L2Vza2tG?=
- =?utf-8?B?NXo3TGVKd2pyd0dKcGxsMVdxcHZpbXd1Z2RseGo0ZzFMcGxCOEkvZWkxUFdX?=
- =?utf-8?B?cmtDb01ZVTZuSmJXWENpL3d5aXpzTFJ4YjAyUEhtVVZ2YUtXUFpMY2Jsek96?=
- =?utf-8?B?RFNzemhDMDVET293Sy9wNU1nZ1h3N0Z1aHd0WUpydlNRVFBhNE5wN2xEZnJr?=
- =?utf-8?B?cW5HelNtbzIwV25wcnNUamE0VnhqT0tMY2ZrcGN2cTZ2YzNJM1U3UlVtZUIy?=
- =?utf-8?Q?hFiuuQJgNS3FJRh6UQ1lUvWCX?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA5810E7AD;
+ Sat, 29 Jul 2023 00:28:37 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36SNobxU020127; Sat, 29 Jul 2023 00:28:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5QAwtwAvYZqXlCMp1Mdz9Jbh30N3QfcyLC7Semj/HOw=;
+ b=JAdKeMGHL7XYuEsCsde6KLDmcm17qjOUPP1Bojus3/7+apsUkqx7wzScW7I1cjQUjMKB
+ q1BzO7Rvo2f0LKI1n1DrqnysChmaWLcXzFZgTSZkpJWmq37V8pkROPqp5+b25P+1tiFR
+ rFoeRhj+Igwz32O73JBtElf68m/vOfxMl69GVeP/MGzbrwom9ZSf1qhapnATArYpNkWM
+ FBsf1m8QQicwJqa9rq3oUJ/BySC9t/cXvPXeUqLpZqQFUNZCAv+OZXaAA8J95lQ048nv
+ RzAiMjSnxV1wORxUrwwMlbxaq64Nm/1S9QaXnc4MifvUjpNfLI+XytlMyxUr6iac9Ci1 ZA== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4ktureed-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Jul 2023 00:28:30 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36T0STua025854
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Jul 2023 00:28:29 GMT
+Received: from [10.110.51.188] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 28 Jul
+ 2023 17:28:28 -0700
+Message-ID: <b851e992-25a5-6eae-2767-02dbcf27de50@quicinc.com>
+Date: Fri, 28 Jul 2023 17:28:27 -0700
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 432befbd-ff8b-4f25-7ea0-08db8fc7edcc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2023 00:08:25.3674 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VzmZwXMvmB0sYYTPOxwflzSOUd3oj+K+mL1DmKK7AVaw7XK3FR00hd66AZV9vNvKSg0F6Q/T7vK2WPeBXSF+yQYk384lIh+ChWy66oLbDv0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4845
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/13] drm/msm/dpu: use devres-managed allocation for
+ HW blocks
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230707231251.3849701-1-dmitry.baryshkov@linaro.org>
+ <20230707231251.3849701-7-dmitry.baryshkov@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230707231251.3849701-7-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vZd1MmO38Ojbn3wMOtUrq_ZStzVDTg1v
+X-Proofpoint-ORIG-GUID: vZd1MmO38Ojbn3wMOtUrq_ZStzVDTg1v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999
+ impostorscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307290002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,124 +85,941 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
- Hugh Dickins <hughd@google.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGV0ZXIsDQoNCj4gPiA+ID4gPiA+ID4gSSdtIG5vdCBhdCBhbGwgZmFtaWxpYXIgd2l0aCB0
-aGUgdWRtYWJ1ZiB1c2UgY2FzZSBidXQgdGhhdCBzb3VuZHMNCj4gPiA+ID4gPiA+ID4gYnJpdHRs
-ZSBhbmQgZWZmZWN0aXZlbHkgbWFrZXMgdGhpcyBub3RpZmllciB1ZG1hYnVmIHNwZWNpZmljIHJp
-Z2h0Pw0KPiA+ID4gPiA+ID4gT2gsIFFlbXUgdXNlcyB0aGUgdWRtYWJ1ZiBkcml2ZXIgdG8gcHJv
-dmlkZSBIb3N0IEdyYXBoaWNzDQo+ID4gPiBjb21wb25lbnRzDQo+ID4gPiA+ID4gPiAoc3VjaCBh
-cyBTcGljZSwgR3N0cmVhbWVyLCBVSSwgZXRjKSB6ZXJvLWNvcHkgYWNjZXNzIHRvIEd1ZXN0IGNy
-ZWF0ZWQNCj4gPiA+ID4gPiA+IGJ1ZmZlcnMuIEluIG90aGVyIHdvcmRzLCBmcm9tIGEgY29yZSBt
-bSBzdGFuZHBvaW50LCB1ZG1hYnVmIGp1c3QNCj4gPiA+ID4gPiA+IGNvbGxlY3RzIGEgYnVuY2gg
-b2YgcGFnZXMgKGFzc29jaWF0ZWQgd2l0aCBidWZmZXJzKSBzY2F0dGVyZWQgaW5zaWRlDQo+ID4g
-PiA+ID4gPiB0aGUgbWVtZmQgKEd1ZXN0IHJhbSBiYWNrZWQgYnkgc2htZW0gb3IgaHVnZXRsYmZz
-KSBhbmQgd3JhcHMNCj4gPiA+ID4gPiA+IHRoZW0gaW4gYSBkbWFidWYgZmQuIEFuZCwgc2luY2Ug
-d2UgcHJvdmlkZSB6ZXJvLWNvcHkgYWNjZXNzLCB3ZQ0KPiA+ID4gPiA+ID4gdXNlIERNQSBmZW5j
-ZXMgdG8gZW5zdXJlIHRoYXQgdGhlIGNvbXBvbmVudHMgb24gdGhlIEhvc3QgYW5kDQo+ID4gPiA+
-ID4gPiBHdWVzdCBkbyBub3QgYWNjZXNzIHRoZSBidWZmZXIgc2ltdWx0YW5lb3VzbHkuDQo+ID4g
-PiA+ID4NCj4gPiA+ID4gPiBTbyB3aHkgZG8geW91IG5lZWQgdG8gdHJhY2sgdXBkYXRlcyBwcm9h
-Y3RpdmVseSBsaWtlIHRoaXM/DQo+ID4gPiA+IEFzIERhdmlkIG5vdGVkIGluIHRoZSBlYXJsaWVy
-IHNlcmllcywgaWYgUWVtdSBwdW5jaGVzIGEgaG9sZSBpbiBpdHMNCj4gbWVtZmQNCj4gPiA+ID4g
-dGhhdCBnb2VzIHRocm91Z2ggcGFnZXMgdGhhdCBhcmUgcmVnaXN0ZXJlZCBhZ2FpbnN0IGEgdWRt
-YWJ1ZiBmZCwgdGhlbg0KPiA+ID4gPiB1ZG1hYnVmIG5lZWRzIHRvIHVwZGF0ZSBpdHMgbGlzdCB3
-aXRoIG5ldyBwYWdlcyB3aGVuIHRoZSBob2xlIGdldHMNCj4gPiA+ID4gZmlsbGVkIGFmdGVyIChn
-dWVzdCkgd3JpdGVzLiBPdGhlcndpc2UsIHdlJ2QgcnVuIGludG8gdGhlIGNvaGVyZW5jeQ0KPiA+
-ID4gPiBwcm9ibGVtIChiZXR3ZWVuIHVkbWFidWYgYW5kIG1lbWZkKSBhcyBkZW1vbnN0cmF0ZWQg
-aW4gdGhlDQo+IHNlbGZ0ZXN0DQo+ID4gPiA+IChwYXRjaCAjMyBpbiB0aGlzIHNlcmllcykuDQo+
-ID4gPg0KPiA+ID4gV291bGRuJ3QgdGhpcyBhbGwgYmUgdmVyeSBtdWNoIGJldHRlciBpZiBRZW11
-IHN0b3BwZWQgcHVuY2hpbmcgaG9sZXMNCj4gdGhlcmU/DQo+ID4gSSB0aGluayBob2xlcyBjYW4g
-YmUgcHVuY2hlZCBhbnl3aGVyZSBpbiB0aGUgbWVtZmQgZm9yIHZhcmlvdXMgcmVhc29ucy4NCj4g
-U29tZQ0KPiANCj4gSSBqdXN0IHN0YXJ0IHRvIHJlYWQgdGhpcyB0aHJlYWQsIGV2ZW4gaGF2ZW4n
-dCBmaW5pc2hlZCBhbGwgb2YgdGhlbS4uIGJ1dA0KPiBzbyBmYXIgSSdtIG5vdCBzdXJlIHdoZXRo
-ZXIgdGhpcyBpcyByaWdodCBhdCBhbGwuLg0KPiANCj4gdWRtYWJ1ZiBpcyBhIGZpbGUsIGl0IG1l
-YW5zIGl0IHNob3VsZCBmb2xsb3cgdGhlIGZpbGUgc2VtYW50aWNzLiBNbXUNClJpZ2h0LCBpdCBp
-cyBhIGZpbGUgYnV0IGEgc3BlY2lhbCB0eXBlIG9mIGZpbGUgZ2l2ZW4gdGhhdCBpdCBpcyBhIGRt
-YWJ1Zi4gU28sIEFGQUlLLA0Kb3BlcmF0aW9ucyBzdWNoIGFzIHRydW5jYXRlLCBGQUxMT0NfRkxf
-UFVOQ0hfSE9MRSwgZXRjIGNhbm5vdCBiZSBkb25lDQpvbiBpdC4gQW5kLCBpbiBvdXIgdXNlLWNh
-c2UsIHNpbmNlIHVkbWFidWYgZHJpdmVyIGlzIHNoYXJpbmcgKG9yIGV4cG9ydGluZykgaXRzDQpi
-dWZmZXIgKHZpYSB0aGUgZmQpLCBjb25zdW1lcnMgKG9yIGltcG9ydGVycykgb2YgdGhlIGRtYWJ1
-ZiBmZCBhcmUgZXhwZWN0ZWQNCnRvIG9ubHkgcmVhZCBmcm9tIGl0Lg0KDQo+IG5vdGlmaWVyIGlz
-IHBlci1tbSwgb3RvaC4NCj4gDQo+IEltYWdpbmUgZm9yIHNvbWUgcmVhc29uIFFFTVUgbWFwcGVk
-IHRoZSBndWVzdCBwYWdlcyB0d2ljZSwgdWRtYWJ1ZiBpcw0KPiBjcmVhdGVkIHdpdGggdm1hMSwg
-c28gdWRtYWJ1ZiByZWdpc3RlcnMgdGhlIG1tIGNoYW5nZXMgb3ZlciB2bWExIG9ubHkuDQpVZG1h
-YnVmcyBhcmUgY3JlYXRlZCB3aXRoIHBhZ2VzIG9idGFpbmVkIGZyb20gdGhlIG1hcHBpbmcgdXNp
-bmcgb2Zmc2V0cw0KcHJvdmlkZWQgYnkgUWVtdS4gDQoNCj4gDQo+IEhvd2V2ZXIgdGhlIHNobWVt
-L2h1Z2V0bGIgcGFnZSBjYWNoZSBjYW4gYmUgcG9wdWxhdGVkIGluIGVpdGhlciB2bWExLCBvcg0K
-PiB2bWEyLiAgSXQgbWVhbnMgd2hlbiBwb3B1bGF0aW5nIG9uIHZtYTIgdWRtYWJ1ZiB3b24ndCBn
-ZXQgdXBkYXRlIG5vdGlmeQ0KPiBhdA0KPiBhbGwsIHVkbWFidWYgcGFnZXMgY2FuIHN0aWxsIGJl
-IG9ic29sZXRlLiAgU2FtZSB0aGluZyB0byB3aGVuIG11bHRpLXByb2Nlc3MNCkluIHRoaXMgKHVu
-bGlrZWx5KSBzY2VuYXJpbyB5b3UgZGVzY3JpYmVkIGFib3ZlLCBJIHRoaW5rIHdlIGNvdWxkIHN0
-aWxsIGZpbmQgYWxsIHRoZQ0KVk1BcyAoYW5kIHJhbmdlcykgd2hlcmUgdGhlIGd1ZXN0IGJ1ZmZl
-ciBwYWdlcyBhcmUgbWFwcGVkIChhbmQgcmVnaXN0ZXINCmZvciBQVEUgdXBkYXRlcykgdXNpbmcg
-UWVtdSdzIG1tX3N0cnVjdC4gVGhlIGJlbG93IGNvZGUgY2FuIGJlIG1vZGlmaWVkDQp0byBjcmVh
-dGUgYSBsaXN0IG9mIFZNQXMgd2hlcmUgdGhlIGd1ZXN0IGJ1ZmZlciBwYWdlcyBhcmUgbWFwcGVk
-Lg0Kc3RhdGljIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqZmluZF9ndWVzdF9yYW1fdm1hKHN0cnVj
-dCB1ZG1hYnVmICp1YnVmLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHN0cnVjdCBtbV9zdHJ1Y3QgKnZtbV9tbSkNCnsNCiAgICAgICAgc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICp2bWEgPSBOVUxMOw0KICAgICAgICBNQV9TVEFURShtYXMsICZ2bW1fbW0t
-Pm1tX210LCAwLCAwKTsNCiAgICAgICAgdW5zaWduZWQgbG9uZyBhZGRyOw0KICAgICAgICBwZ29m
-Zl90IHBnOw0KDQogICAgICAgIG1hc19zZXQoJm1hcywgMCk7DQogICAgICAgIG1tYXBfcmVhZF9s
-b2NrKHZtbV9tbSk7DQogICAgICAgIG1hc19mb3JfZWFjaCgmbWFzLCB2bWEsIFVMT05HX01BWCkg
-ew0KICAgICAgICAgICAgICAgIGZvciAocGcgPSAwOyBwZyA8IHVidWYtPnBhZ2Vjb3VudDsgcGcr
-Kykgew0KICAgICAgICAgICAgICAgICAgICAgICAgYWRkciA9IHBhZ2VfYWRkcmVzc19pbl92bWEo
-dWJ1Zi0+cGFnZXNbcGddLCB2bWEpOw0KICAgICAgICAgICAgICAgICAgICAgICAgaWYgKGFkZHIg
-PT0gLUVGQVVMVCkNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQogICAg
-ICAgICAgICAgICAgfQ0KICAgICAgICAgICAgICAgIGlmIChhZGRyICE9IC1FRkFVTFQpDQogICAg
-ICAgICAgICAgICAgICAgICAgICBicmVhazsNCiAgICAgICAgfQ0KICAgICAgICBtbWFwX3JlYWRf
-dW5sb2NrKHZtbV9tbSk7DQoNCiAgICAgICAgcmV0dXJuIHZtYTsNCn0NCg0KPiBRRU1VIGlzIHVz
-ZWQsIHdoZXJlIHdlIGNhbiBoYXZlIHZtYTEgaW4gUUVNVSB3aGlsZSB2bWEyIGluIHRoZSBvdGhl
-cg0KPiBwcm9jZXNzIGxpa2Ugdmhvc3QtdXNlci4NCj4gDQo+IEkgdGhpbmsgdGhlIHRyaWNrIGhl
-cmUgaXMgd2UgdHJpZWQgdG8gImhpZGUiIHRoZSBmYWN0IHRoYXQgdGhlc2UgYXJlDQo+IGFjdHVh
-bGx5IG5vcm1hbCBmaWxlIHBhZ2VzLCBidXQgd2UncmUgZG9pbmcgUEZOTUFQIG9uIHRoZW0uLi4g
-dGhlbiB3ZSB3YW50DQo+IHRoZSBmaWxlIGZlYXR1cmVzIGJhY2ssIGxpa2UgaG9sZSBwdW5jaGlu
-Zy4uDQo+IA0KPiBJZiB3ZSB1c2VkIG5vcm1hbCBmaWxlIG9wZXJhdGlvbnMsIGV2ZXJ5dGhpbmcg
-d2lsbCBqdXN0IHdvcmsgZmluZTsgVFJVTkNBVEUNCj4gd2lsbCB1bm1hcCB0aGUgaG9zdCBtYXBw
-ZWQgZnJhbWUgYnVmZmVycyB3aGVuIG5lZWRlZCwgYW5kIHdoZW4NCj4gYWNjZXNzZWQNCj4gaXQn
-bGwgZmF1bHQgb24gZGVtYW5kIGZyb20gdGhlIHBhZ2UgY2FjaGUuICBXZSBzZWVtIHRvIGJlIHRy
-eWluZyB0bw0KPiByZWludmVudCAidHJ1bmNhdGlvbiIgZm9yIHBmbm1hcCBidXQgbW11IG5vdGlm
-aWVyIGRvZXNuJ3Qgc291bmQgcmlnaHQgdG8NCj4gdGhpcyBhdCBsZWFzdC4uDQpJZiB3ZSBjYW4g
-ZmlndXJlIG91dCB0aGUgVk1BIHJhbmdlcyB3aGVyZSB0aGUgZ3Vlc3QgYnVmZmVyIHBhZ2VzIGFy
-ZSBtYXBwZWQsDQp3ZSBzaG91bGQgYmUgYWJsZSB0byByZWdpc3RlciBtbXUgbm90aWZpZXJzIGZv
-ciB0aG9zZSByYW5nZXMgcmlnaHQ/DQoNCj4gDQo+ID4gb2YgdGhlIHVzZS1jYXNlcyB3aGVyZSB0
-aGlzIHdvdWxkIGJlIGRvbmUgd2VyZSBpZGVudGlmaWVkIGJ5IERhdmlkLiBIZXJlDQo+IGlzIHdo
-YXQNCj4gPiBoZSBzYWlkIGluIGFuIGVhcmxpZXIgZGlzY3Vzc2lvbjoNCj4gPiAiVGhlcmUgYXJl
-ICpwcm9iYWJseSogbW9yZSBpc3N1ZXMgb24gdGhlIFFFTVUgc2lkZSB3aGVuIHVkbWFidWYgaXMN
-Cj4gcGFpcmVkDQo+ID4gd2l0aCB0aGluZ3MgbGlrZSBNQURWX0RPTlRORUVEL0ZBTExPQ19GTF9Q
-VU5DSF9IT0xFIHVzZWQgZm9yDQo+ID4gdmlydGlvLWJhbGxvb24sIHZpcnRpby1tZW0sIHBvc3Rj
-b3B5IGxpdmUgbWlncmF0aW9uLCAuLi4gZm9yIGV4YW1wbGUsIGluIg0KPiANCj4gTm93IGFmdGVy
-IHNlZXRoaW5nIHRoaXMsIEknbSB0cnVseSB3b25kZXJpbmcgd2hldGhlciB3ZSBjYW4gc3RpbGwg
-c2ltcGx5DQo+IHVzZSB0aGUgZmlsZSBzZW1hbnRpY3Mgd2UgYWxyZWFkeSBoYXZlIChmb3IgZWl0
-aGVyIHNobWVtL2h1Z2V0bGIvLi4uKSwgb3INCj4gaXMgaXQgYSBtdXN0IHdlIG5lZWQgdG8gdXNl
-IGEgc2luZ2xlIGZkIHRvIHJlcHJlc2VudCBhbGw/DQo+IA0KPiBTYXksIGNhbiB3ZSBqdXN0IHVz
-ZSBhIHR1cGxlIChmZCwgcGFnZV9hcnJheSkgcmF0aGVyIHRoYW4gdGhlIHVkbWFidWYNCj4gaXRz
-ZWxmIHRvIGRvIGhvc3QgemVyby1jb3B5IG1hcHBpbmc/ICB0aGUgcGFnZV9hcnJheSBjYW4gYmUg
-ZS5nLiBhIGxpc3Qgb2YNClRoYXQgKHR1cGxlKSBpcyBlc3NlbnRpYWxseSB3aGF0IHdlIGFyZSBk
-b2luZyAod2l0aCB1ZG1hYnVmKSBidXQgaW4gYQ0Kc3RhbmRhcmRpemVkIHdheSB0aGF0IGZvbGxv
-d3MgY29udmVudGlvbiB1c2luZyB0aGUgZG1hYnVmIGJ1ZmZlciBzaGFyaW5nDQpmcmFtZXdvcmsg
-dGhhdCBhbGwgdGhlIGltcG9ydGVycyAob3RoZXIgZHJpdmVycyBhbmQgdXNlcnNwYWNlIGNvbXBv
-bmVudHMpDQprbm93IGFuZCB1bmRlcnN0YW5kLg0KDQo+IGZpbGUgb2Zmc2V0cyB0aGF0IHBvaW50
-cyB0byB0aGUgcGFnZXMgKHJhdGhlciB0aGFuIHBpbm5pbmcgdGhlIHBhZ2VzIHVzaW5nDQpJZiB3
-ZSBhcmUgdXNpbmcgdGhlIGRtYWJ1ZiBmcmFtZXdvcmssIHRoZSBwYWdlcyBtdXN0IGJlIHBpbm5l
-ZCB3aGVuIHRoZQ0KaW1wb3J0ZXJzIG1hcCB0aGVtLg0KDQo+IEZPTExfR0VUKS4gIFRoZSBnb29k
-IHRoaW5nIGlzIHRoZW4gdGhlIGZkIGNhbiBiZSB0aGUgZ3Vlc3QgbWVtb3J5IGZpbGUNCj4gaXRz
-ZWxmLiAgV2l0aCB0aGF0LCB3ZSBjYW4gbW1hcCgpIG92ZXIgdGhlIHNobWVtL2h1Z2V0bGIgaW4g
-d2hhdGV2ZXIgdm1hDQo+IGFuZCB3aGF0ZXZlciBwcm9jZXNzLiAgVHJ1bmNhdGlvbiAoYW5kIGFj
-dHVhbGx5IGV2ZXJ5dGhpbmcuLi4gZS5nLiBwYWdlDQo+IG1pZ3JhdGlvbiwgc3dhcHBpbmcsIC4u
-LiB3aGljaCB3aWxsIGJlIGRpc2FibGVkIGlmIHdlIHVzZSBQRk5NQVAgcGlucykgd2lsbA0KPiBq
-dXN0IGFsbCBzdGFydCB0byB3b3JrLCBhZmFpdS4NCklJVUMsIHdlJ2Qgbm90IGJlIGFibGUgdG8g
-dXNlIHRoZSBmZCBvZiB0aGUgZ3Vlc3QgbWVtb3J5IGZpbGUgYmVjYXVzZSB0aGUNCmRtYWJ1ZiBm
-ZHMgYXJlIGV4cGVjdGVkIHRvIGhhdmUgY29uc3RhbnQgc2l6ZSB0aGF0IHJlZmxlY3RzIHRoZSBz
-aXplIG9mIHRoZQ0KYnVmZmVyIHRoYXQgaXMgYmVpbmcgc2hhcmVkLiBJIGp1c3QgZG9uJ3QgdGhp
-bmsgaXQnZCBiZSBmZWFzaWJsZSBnaXZlbiBhbGwgdGhlDQpvdGhlciByZXN0cmljdGlvbnM6DQpo
-dHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC9kcml2ZXItYXBpL2RtYS1idWYu
-aHRtbD9oaWdobGlnaHQ9ZG1hX2J1ZiN1c2Vyc3BhY2UtaW50ZXJmYWNlLW5vdGVzDQoNClRoYW5r
-cywNClZpdmVrDQoNCg0KPiANCj4gVGhhbmtzLA0KPiANCj4gLS0NCj4gUGV0ZXIgWHUNCg0K
+
+
+On 7/7/2023 4:12 PM, Dmitry Baryshkov wrote:
+> Use devm_kzalloc to create HW block structure. This allows us to remove
+> corresponding kfree and drop all dpu_hw_*_destroy() functions as well as
+> dpu_rm_destroy(), which becomes empty afterwards.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    | 16 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 12 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    | 10 ++-
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c    |  7 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   | 16 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h   | 12 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 15 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   | 12 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     | 14 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h     | 12 +--
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 14 ++-
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 13 +--
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 14 ++-
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 13 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 15 ++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  7 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     | 14 ++-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h     | 12 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  8 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 90 +++----------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        | 11 +--
+>   23 files changed, 119 insertions(+), 238 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index c278fb9d2b5b..d22e3f11ae34 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -4,6 +4,9 @@
+>    */
+>   
+>   #include <linux/delay.h>
+> +
+> +#include <drm/drm_managed.h>
+> +
+>   #include "dpu_hwio.h"
+>   #include "dpu_hw_ctl.h"
+>   #include "dpu_kms.h"
+> @@ -674,14 +677,15 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+>   		ops->set_active_pipes = dpu_hw_ctl_set_fetch_pipe_active;
+>   };
+>   
+> -struct dpu_hw_ctl *dpu_hw_ctl_init(const struct dpu_ctl_cfg *cfg,
+> -		void __iomem *addr,
+> -		u32 mixer_count,
+> -		const struct dpu_lm_cfg *mixer)
+> +struct dpu_hw_ctl *dpu_hw_ctl_init(struct drm_device *dev,
+> +				   const struct dpu_ctl_cfg *cfg,
+> +				   void __iomem *addr,
+> +				   u32 mixer_count,
+> +				   const struct dpu_lm_cfg *mixer)
+>   {
+>   	struct dpu_hw_ctl *c;
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -696,8 +700,3 @@ struct dpu_hw_ctl *dpu_hw_ctl_init(const struct dpu_ctl_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_ctl_destroy(struct dpu_hw_ctl *ctx)
+> -{
+> -	kfree(ctx);
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index 1c242298ff2e..279ebd8dfbff 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -274,20 +274,16 @@ static inline struct dpu_hw_ctl *to_dpu_hw_ctl(struct dpu_hw_blk *hw)
+>   /**
+>    * dpu_hw_ctl_init() - Initializes the ctl_path hw driver object.
+>    * Should be called before accessing any ctl_path register.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  ctl_path catalog entry for which driver object is required
+>    * @addr: mapped register io address of MDP
+>    * @mixer_count: Number of mixers in @mixer
+>    * @mixer: Pointer to an array of Layer Mixers defined in the catalog
+>    */
+> -struct dpu_hw_ctl *dpu_hw_ctl_init(const struct dpu_ctl_cfg *cfg,
+> -		void __iomem *addr,
+> -		u32 mixer_count,
+> -		const struct dpu_lm_cfg *mixer);
+> -
+> -/**
+> - * dpu_hw_ctl_destroy(): Destroys ctl driver context
+> - * should be called to free the context
+> - */
+> -void dpu_hw_ctl_destroy(struct dpu_hw_ctl *ctx);
+> +struct dpu_hw_ctl *dpu_hw_ctl_init(struct drm_device *dev,
+> +				   const struct dpu_ctl_cfg *cfg,
+> +				   void __iomem *addr,
+> +				   u32 mixer_count,
+> +				   const struct dpu_lm_cfg *mixer);
+>   
+>   #endif /*_DPU_HW_CTL_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> index 509dbaa51d87..5e9aad1b2aa2 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> @@ -3,6 +3,8 @@
+>    * Copyright (c) 2020-2022, Linaro Limited
+>    */
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include <drm/display/drm_dsc_helper.h>
+>   
+>   #include "dpu_kms.h"
+> @@ -188,12 +190,13 @@ static void _setup_dsc_ops(struct dpu_hw_dsc_ops *ops,
+>   		ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk;
+>   };
+>   
+> -struct dpu_hw_dsc *dpu_hw_dsc_init(const struct dpu_dsc_cfg *cfg,
+> +struct dpu_hw_dsc *dpu_hw_dsc_init(struct drm_device *dev,
+> +				   const struct dpu_dsc_cfg *cfg,
+>   				   void __iomem *addr)
+>   {
+>   	struct dpu_hw_dsc *c;
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -206,8 +209,3 @@ struct dpu_hw_dsc *dpu_hw_dsc_init(const struct dpu_dsc_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_dsc_destroy(struct dpu_hw_dsc *dsc)
+> -{
+> -	kfree(dsc);
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> index d5b597ab8c5c..989c88d2449b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
+> @@ -64,20 +64,24 @@ struct dpu_hw_dsc {
+>   
+>   /**
+>    * dpu_hw_dsc_init() - Initializes the DSC hw driver object.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  DSC catalog entry for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * Return: Error code or allocated dpu_hw_dsc context
+>    */
+> -struct dpu_hw_dsc *dpu_hw_dsc_init(const struct dpu_dsc_cfg *cfg,
+> -		void __iomem *addr);
+> +struct dpu_hw_dsc *dpu_hw_dsc_init(struct drm_device *dev,
+> +				   const struct dpu_dsc_cfg *cfg,
+> +				   void __iomem *addr);
+>   
+>   /**
+>    * dpu_hw_dsc_init_1_2() - initializes the v1.2 DSC hw driver object
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  DSC catalog entry for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * Returns: Error code or allocated dpu_hw_dsc context
+>    */
+> -struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
+> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(struct drm_device *dev,
+> +				       const struct dpu_dsc_cfg *cfg,
+>   				       void __iomem *addr);
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> index 24fe1d98eb86..ba193b0376fe 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
+> @@ -4,6 +4,8 @@
+>    * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
+>    */
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include <drm/display/drm_dsc_helper.h>
+>   
+>   #include "dpu_kms.h"
+> @@ -367,12 +369,13 @@ static void _setup_dcs_ops_1_2(struct dpu_hw_dsc_ops *ops,
+>   	ops->dsc_bind_pingpong_blk = dpu_hw_dsc_bind_pingpong_blk_1_2;
+>   }
+>   
+> -struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(const struct dpu_dsc_cfg *cfg,
+> +struct dpu_hw_dsc *dpu_hw_dsc_init_1_2(struct drm_device *dev,
+> +				       const struct dpu_dsc_cfg *cfg,
+>   				       void __iomem *addr)
+>   {
+>   	struct dpu_hw_dsc *c;
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> index 9419b2209af8..b1da88e2935f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> @@ -2,6 +2,8 @@
+>   /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>    */
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include "dpu_hwio.h"
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_lm.h"
+> @@ -68,15 +70,16 @@ static void _setup_dspp_ops(struct dpu_hw_dspp *c,
+>   		c->ops.setup_pcc = dpu_setup_dspp_pcc;
+>   }
+>   
+> -struct dpu_hw_dspp *dpu_hw_dspp_init(const struct dpu_dspp_cfg *cfg,
+> -			void __iomem *addr)
+> +struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
+> +				     const struct dpu_dspp_cfg *cfg,
+> +				     void __iomem *addr)
+>   {
+>   	struct dpu_hw_dspp *c;
+>   
+>   	if (!addr)
+>   		return ERR_PTR(-EINVAL);
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -90,10 +93,3 @@ struct dpu_hw_dspp *dpu_hw_dspp_init(const struct dpu_dspp_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_dspp_destroy(struct dpu_hw_dspp *dspp)
+> -{
+> -	kfree(dspp);
+> -}
+> -
+> -
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> index bea965681330..3b435690b6cc 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> @@ -81,18 +81,14 @@ static inline struct dpu_hw_dspp *to_dpu_hw_dspp(struct dpu_hw_blk *hw)
+>   /**
+>    * dpu_hw_dspp_init() - Initializes the DSPP hw driver object.
+>    * should be called once before accessing every DSPP.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  DSPP catalog entry for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * Return: pointer to structure or ERR_PTR
+>    */
+> -struct dpu_hw_dspp *dpu_hw_dspp_init(const struct dpu_dspp_cfg *cfg,
+> -	void __iomem *addr);
+> -
+> -/**
+> - * dpu_hw_dspp_destroy(): Destroys DSPP driver context
+> - * @dspp: Pointer to DSPP driver context
+> - */
+> -void dpu_hw_dspp_destroy(struct dpu_hw_dspp *dspp);
+> +struct dpu_hw_dspp *dpu_hw_dspp_init(struct drm_device *dev,
+> +				     const struct dpu_dspp_cfg *cfg,
+> +				     void __iomem *addr);
+>   
+>   #endif /*_DPU_HW_DSPP_H */
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index 5b0f6627e29b..08304fc3d1d6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -12,6 +12,8 @@
+>   
+>   #include <linux/iopoll.h>
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #define INTF_TIMING_ENGINE_EN           0x000
+>   #define INTF_CONFIG                     0x004
+>   #define INTF_HSYNC_CTL                  0x008
+> @@ -547,8 +549,9 @@ static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
+>   		ops->enable_compression = dpu_hw_intf_enable_compression;
+>   }
+>   
+> -struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+> -		void __iomem *addr)
+> +struct dpu_hw_intf *dpu_hw_intf_init(struct drm_device *dev,
+> +				     const struct dpu_intf_cfg *cfg,
+> +				     void __iomem *addr)
+>   {
+>   	struct dpu_hw_intf *c;
+>   
+> @@ -557,7 +560,7 @@ struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+>   		return NULL;
+>   	}
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -573,9 +576,3 @@ struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_intf_destroy(struct dpu_hw_intf *intf)
+> -{
+> -	kfree(intf);
+> -}
+> -
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> index 99e21c4137f9..79240fbeeb53 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> @@ -125,16 +125,12 @@ struct dpu_hw_intf {
+>   /**
+>    * dpu_hw_intf_init() - Initializes the INTF driver for the passed
+>    * interface catalog entry.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  interface catalog entry for which driver object is required
+>    * @addr: mapped register io address of MDP
+>    */
+> -struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+> -		void __iomem *addr);
+> -
+> -/**
+> - * dpu_hw_intf_destroy(): Destroys INTF driver context
+> - * @intf:   Pointer to INTF driver context
+> - */
+> -void dpu_hw_intf_destroy(struct dpu_hw_intf *intf);
+> +struct dpu_hw_intf *dpu_hw_intf_init(struct drm_device *dev,
+> +				     const struct dpu_intf_cfg *cfg,
+> +				     void __iomem *addr);
+>   
+>   #endif /*_DPU_HW_INTF_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> index d1c3bd8379ea..25af52ab602f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> @@ -4,6 +4,8 @@
+>    * Copyright (c) 2015-2021, The Linux Foundation. All rights reserved.
+>    */
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include "dpu_kms.h"
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hwio.h"
+> @@ -156,8 +158,9 @@ static void _setup_mixer_ops(struct dpu_hw_lm_ops *ops,
+>   	ops->collect_misr = dpu_hw_lm_collect_misr;
+>   }
+>   
+> -struct dpu_hw_mixer *dpu_hw_lm_init(const struct dpu_lm_cfg *cfg,
+> -		void __iomem *addr)
+> +struct dpu_hw_mixer *dpu_hw_lm_init(struct drm_device *dev,
+> +				    const struct dpu_lm_cfg *cfg,
+> +				    void __iomem *addr)
+>   {
+>   	struct dpu_hw_mixer *c;
+>   
+> @@ -166,7 +169,7 @@ struct dpu_hw_mixer *dpu_hw_lm_init(const struct dpu_lm_cfg *cfg,
+>   		return NULL;
+>   	}
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -180,8 +183,3 @@ struct dpu_hw_mixer *dpu_hw_lm_init(const struct dpu_lm_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_lm_destroy(struct dpu_hw_mixer *lm)
+> -{
+> -	kfree(lm);
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
+> index 36992d046a53..8835fd106413 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
+> @@ -95,16 +95,12 @@ static inline struct dpu_hw_mixer *to_dpu_hw_mixer(struct dpu_hw_blk *hw)
+>   /**
+>    * dpu_hw_lm_init() - Initializes the mixer hw driver object.
+>    * should be called once before accessing every mixer.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  mixer catalog entry for which driver object is required
+>    * @addr: mapped register io address of MDP
+>    */
+> -struct dpu_hw_mixer *dpu_hw_lm_init(const struct dpu_lm_cfg *cfg,
+> -		void __iomem *addr);
+> -
+> -/**
+> - * dpu_hw_lm_destroy(): Destroys layer mixer driver context
+> - * @lm:   Pointer to LM driver context
+> - */
+> -void dpu_hw_lm_destroy(struct dpu_hw_mixer *lm);
+> +struct dpu_hw_mixer *dpu_hw_lm_init(struct drm_device *dev,
+> +				    const struct dpu_lm_cfg *cfg,
+> +				    void __iomem *addr);
+>   
+>   #endif /*_DPU_HW_LM_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+> index 90e0e05eff8d..ddfa40a959cb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+> @@ -4,6 +4,8 @@
+>   
+>   #include <linux/iopoll.h>
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hwio.h"
+>   #include "dpu_hw_catalog.h"
+> @@ -37,12 +39,13 @@ static void _setup_merge_3d_ops(struct dpu_hw_merge_3d *c,
+>   	c->ops.setup_3d_mode = dpu_hw_merge_3d_setup_3d_mode;
+>   };
+>   
+> -struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(const struct dpu_merge_3d_cfg *cfg,
+> -		void __iomem *addr)
+> +struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(struct drm_device *dev,
+> +					     const struct dpu_merge_3d_cfg *cfg,
+> +					     void __iomem *addr)
+>   {
+>   	struct dpu_hw_merge_3d *c;
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -55,8 +58,3 @@ struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(const struct dpu_merge_3d_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_merge_3d_destroy(struct dpu_hw_merge_3d *hw)
+> -{
+> -	kfree(hw);
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+> index 19cec5e88722..c192f02ec1ab 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+> @@ -48,18 +48,13 @@ static inline struct dpu_hw_merge_3d *to_dpu_hw_merge_3d(struct dpu_hw_blk *hw)
+>   /**
+>    * dpu_hw_merge_3d_init() - Initializes the merge_3d driver for the passed
+>    * merge3d catalog entry.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  Pingpong catalog entry for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * Return: Error code or allocated dpu_hw_merge_3d context
+>    */
+> -struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(const struct dpu_merge_3d_cfg *cfg,
+> -		void __iomem *addr);
+> -
+> -/**
+> - * dpu_hw_merge_3d_destroy - destroys merge_3d driver context
+> - *	should be called to free the context
+> - * @pp:   Pointer to PP driver context returned by dpu_hw_merge_3d_init
+> - */
+> -void dpu_hw_merge_3d_destroy(struct dpu_hw_merge_3d *pp);
+> +struct dpu_hw_merge_3d *dpu_hw_merge_3d_init(struct drm_device *dev,
+> +					     const struct dpu_merge_3d_cfg *cfg,
+> +					     void __iomem *addr);
+>   
+>   #endif /*_DPU_HW_MERGE3D_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> index 437d9e62a841..72292af91a18 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> @@ -4,6 +4,8 @@
+>   
+>   #include <linux/iopoll.h>
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hwio.h"
+>   #include "dpu_hw_catalog.h"
+> @@ -302,12 +304,13 @@ static void _setup_pingpong_ops(struct dpu_hw_pingpong *c,
+>   		c->ops.setup_dither = dpu_hw_pp_setup_dither;
+>   };
+>   
+> -struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
+> -		void __iomem *addr)
+> +struct dpu_hw_pingpong *dpu_hw_pingpong_init(struct drm_device *dev,
+> +					     const struct dpu_pingpong_cfg *cfg,
+> +					     void __iomem *addr)
+>   {
+>   	struct dpu_hw_pingpong *c;
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -320,8 +323,3 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_pingpong_destroy(struct dpu_hw_pingpong *pp)
+> -{
+> -	kfree(pp);
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> index d3246a9a5808..96eb2b87e7ef 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> @@ -121,18 +121,13 @@ static inline struct dpu_hw_pingpong *to_dpu_hw_pingpong(struct dpu_hw_blk *hw)
+>   /**
+>    * dpu_hw_pingpong_init() - initializes the pingpong driver for the passed
+>    * pingpong catalog entry.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  Pingpong catalog entry for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * Return: Error code or allocated dpu_hw_pingpong context
+>    */
+> -struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
+> -		void __iomem *addr);
+> -
+> -/**
+> - * dpu_hw_pingpong_destroy - destroys pingpong driver context
+> - *	should be called to free the context
+> - * @pp:   Pointer to PP driver context returned by dpu_hw_pingpong_init
+> - */
+> -void dpu_hw_pingpong_destroy(struct dpu_hw_pingpong *pp);
+> +struct dpu_hw_pingpong *dpu_hw_pingpong_init(struct drm_device *dev,
+> +					     const struct dpu_pingpong_cfg *cfg,
+> +					     void __iomem *addr);
+>   
+>   #endif /*_DPU_HW_PINGPONG_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index b364cf75bb3f..fb8ecfb9b922 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -9,6 +9,7 @@
+>   #include "dpu_kms.h"
+>   
+>   #include <drm/drm_file.h>
+> +#include <drm/drm_managed.h>
+>   
+>   #define DPU_FETCH_CONFIG_RESET_VALUE   0x00000087
+>   
+> @@ -669,15 +670,17 @@ int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
+>   }
+>   #endif
+>   
+> -struct dpu_hw_sspp *dpu_hw_sspp_init(const struct dpu_sspp_cfg *cfg,
+> -		void __iomem *addr, const struct dpu_ubwc_cfg *ubwc)
+> +struct dpu_hw_sspp *dpu_hw_sspp_init(struct drm_device *dev,
+> +				     const struct dpu_sspp_cfg *cfg,
+> +				     void __iomem *addr,
+> +				     const struct dpu_ubwc_cfg *ubwc)
+>   {
+>   	struct dpu_hw_sspp *hw_pipe;
+>   
+>   	if (!addr || !ubwc)
+>   		return ERR_PTR(-EINVAL);
+>   
+> -	hw_pipe = kzalloc(sizeof(*hw_pipe), GFP_KERNEL);
+> +	hw_pipe = drmm_kzalloc(dev, sizeof(*hw_pipe), GFP_KERNEL);
+>   	if (!hw_pipe)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -692,9 +695,3 @@ struct dpu_hw_sspp *dpu_hw_sspp_init(const struct dpu_sspp_cfg *cfg,
+>   
+>   	return hw_pipe;
+>   }
+> -
+> -void dpu_hw_sspp_destroy(struct dpu_hw_sspp *ctx)
+> -{
+> -	kfree(ctx);
+> -}
+> -
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index 085f34bc6b88..5dd4f78d424c 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -331,12 +331,15 @@ struct dpu_kms;
+>   /**
+>    * dpu_hw_sspp_init() - Initializes the sspp hw driver object.
+>    * Should be called once before accessing every pipe.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  Pipe catalog entry for which driver object is required
+>    * @addr: Mapped register io address of MDP
+>    * @ubwc: UBWC configuration data
+>    */
+> -struct dpu_hw_sspp *dpu_hw_sspp_init(const struct dpu_sspp_cfg *cfg,
+> -		void __iomem *addr, const struct dpu_ubwc_cfg *ubwc);
+> +struct dpu_hw_sspp *dpu_hw_sspp_init(struct drm_device *dev,
+> +				     const struct dpu_sspp_cfg *cfg,
+> +				     void __iomem *addr,
+> +				     const struct dpu_ubwc_cfg *ubwc);
+>   
+>   /**
+>    * dpu_hw_sspp_destroy(): Destroys SSPP driver context
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> index ebc416400382..106540eee5f7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> @@ -3,6 +3,8 @@
+>     * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved
+>     */
+>   
+> +#include <drm/drm_managed.h>
+> +
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hwio.h"
+>   #include "dpu_hw_catalog.h"
+> @@ -194,15 +196,16 @@ static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
+>   		ops->bind_pingpong_blk = dpu_hw_wb_bind_pingpong_blk;
+>   }
+>   
+> -struct dpu_hw_wb *dpu_hw_wb_init(const struct dpu_wb_cfg *cfg,
+> -		void __iomem *addr)
+> +struct dpu_hw_wb *dpu_hw_wb_init(struct drm_device *dev,
+> +				 const struct dpu_wb_cfg *cfg,
+> +				 void __iomem *addr)
+>   {
+>   	struct dpu_hw_wb *c;
+>   
+>   	if (!addr)
+>   		return ERR_PTR(-EINVAL);
+>   
+> -	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+>   	if (!c)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -216,8 +219,3 @@ struct dpu_hw_wb *dpu_hw_wb_init(const struct dpu_wb_cfg *cfg,
+>   
+>   	return c;
+>   }
+> -
+> -void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb)
+> -{
+> -	kfree(hw_wb);
+> -}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> index 2d7db2efa3d0..98d1129238cc 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> @@ -72,17 +72,13 @@ struct dpu_hw_wb {
+>   
+>   /**
+>    * dpu_hw_wb_init() - Initializes the writeback hw driver object.
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  wb_path catalog entry for which driver object is required
+>    * @addr: mapped register io address of MDP
+>    * Return: Error code or allocated dpu_hw_wb context
+>    */
+> -struct dpu_hw_wb *dpu_hw_wb_init(const struct dpu_wb_cfg *cfg,
+> -		void __iomem *addr);
+> -
+> -/**
+> - * dpu_hw_wb_destroy(): Destroy writeback hw driver object.
+> - * @hw_wb:  Pointer to writeback hw driver object
+> - */
+> -void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb);
+> +struct dpu_hw_wb *dpu_hw_wb_init(struct drm_device *dev,
+> +				 const struct dpu_wb_cfg *cfg,
+> +				 void __iomem *addr);
+>   
+>   #endif /*_DPU_HW_WB_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 48c3f8b6b88f..1e29de32b7c0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -816,10 +816,6 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
+>   		dpu_kms->hw_vbif[i] = NULL;
+>   	}
+>   
+> -	if (dpu_kms->rm_init)
+> -		dpu_rm_destroy(&dpu_kms->rm);
+> -	dpu_kms->rm_init = false;
+> -
+>   	dpu_kms->catalog = NULL;
+>   
+>   	dpu_kms->hw_mdp = NULL;
+> @@ -1041,14 +1037,12 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>   		goto err_pm_put;
+>   	}
+>   
+> -	rc = dpu_rm_init(&dpu_kms->rm, dpu_kms->catalog, dpu_kms->mmio);
+> +	rc = dpu_rm_init(dev, &dpu_kms->rm, dpu_kms->catalog, dpu_kms->mmio);
+>   	if (rc) {
+>   		DPU_ERROR("rm init failed: %d\n", rc);
+>   		goto err_pm_put;
+>   	}
+>   
+> -	dpu_kms->rm_init = true;
+> -
+>   	dpu_kms->hw_mdp = dpu_hw_mdptop_init(dev,
+>   					     dpu_kms->catalog->mdp,
+>   					     dpu_kms->mmio,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> index f3bdd4f11108..2af1767ada9d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> @@ -87,7 +87,6 @@ struct dpu_kms {
+>   	struct drm_private_obj global_state;
+>   
+>   	struct dpu_rm rm;
+> -	bool rm_init;
+>   
+>   	struct dpu_hw_vbif *hw_vbif[VBIF_MAX];
+>   	struct dpu_hw_mdp *hw_mdp;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index e333f4eeafc1..d10025b8f659 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -34,72 +34,8 @@ struct dpu_rm_requirements {
+>   	struct msm_display_topology topology;
+>   };
+>   
+> -int dpu_rm_destroy(struct dpu_rm *rm)
+> -{
+> -	int i;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(rm->dspp_blks); i++) {
+> -		struct dpu_hw_dspp *hw;
+> -
+> -		if (rm->dspp_blks[i]) {
+> -			hw = to_dpu_hw_dspp(rm->dspp_blks[i]);
+> -			dpu_hw_dspp_destroy(hw);
+> -		}
+> -	}
+> -	for (i = 0; i < ARRAY_SIZE(rm->pingpong_blks); i++) {
+> -		struct dpu_hw_pingpong *hw;
+> -
+> -		if (rm->pingpong_blks[i]) {
+> -			hw = to_dpu_hw_pingpong(rm->pingpong_blks[i]);
+> -			dpu_hw_pingpong_destroy(hw);
+> -		}
+> -	}
+> -	for (i = 0; i < ARRAY_SIZE(rm->merge_3d_blks); i++) {
+> -		struct dpu_hw_merge_3d *hw;
+> -
+> -		if (rm->merge_3d_blks[i]) {
+> -			hw = to_dpu_hw_merge_3d(rm->merge_3d_blks[i]);
+> -			dpu_hw_merge_3d_destroy(hw);
+> -		}
+> -	}
+> -	for (i = 0; i < ARRAY_SIZE(rm->mixer_blks); i++) {
+> -		struct dpu_hw_mixer *hw;
+> -
+> -		if (rm->mixer_blks[i]) {
+> -			hw = to_dpu_hw_mixer(rm->mixer_blks[i]);
+> -			dpu_hw_lm_destroy(hw);
+> -		}
+> -	}
+> -	for (i = 0; i < ARRAY_SIZE(rm->ctl_blks); i++) {
+> -		struct dpu_hw_ctl *hw;
+> -
+> -		if (rm->ctl_blks[i]) {
+> -			hw = to_dpu_hw_ctl(rm->ctl_blks[i]);
+> -			dpu_hw_ctl_destroy(hw);
+> -		}
+> -	}
+> -	for (i = 0; i < ARRAY_SIZE(rm->hw_intf); i++)
+> -		dpu_hw_intf_destroy(rm->hw_intf[i]);
+> -
+> -	for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
+> -		struct dpu_hw_dsc *hw;
+> -
+> -		if (rm->dsc_blks[i]) {
+> -			hw = to_dpu_hw_dsc(rm->dsc_blks[i]);
+> -			dpu_hw_dsc_destroy(hw);
+> -		}
+> -	}
+> -
+> -	for (i = 0; i < ARRAY_SIZE(rm->hw_wb); i++)
+> -		dpu_hw_wb_destroy(rm->hw_wb[i]);
+> -
+> -	for (i = 0; i < ARRAY_SIZE(rm->hw_sspp); i++)
+> -		dpu_hw_sspp_destroy(rm->hw_sspp[i]);
+> -
+> -	return 0;
+> -}
+> -
+> -int dpu_rm_init(struct dpu_rm *rm,
+> +int dpu_rm_init(struct drm_device *dev,
+> +		struct dpu_rm *rm,
+>   		const struct dpu_mdss_cfg *cat,
+>   		void __iomem *mmio)
+>   {
+> @@ -118,7 +54,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_mixer *hw;
+>   		const struct dpu_lm_cfg *lm = &cat->mixer[i];
+>   
+> -		hw = dpu_hw_lm_init(lm, mmio);
+> +		hw = dpu_hw_lm_init(dev, lm, mmio);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed lm object creation: err %d\n", rc);
+> @@ -131,7 +67,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_merge_3d *hw;
+>   		const struct dpu_merge_3d_cfg *merge_3d = &cat->merge_3d[i];
+>   
+> -		hw = dpu_hw_merge_3d_init(merge_3d, mmio);
+> +		hw = dpu_hw_merge_3d_init(dev, merge_3d, mmio);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed merge_3d object creation: err %d\n",
+> @@ -145,7 +81,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_pingpong *hw;
+>   		const struct dpu_pingpong_cfg *pp = &cat->pingpong[i];
+>   
+> -		hw = dpu_hw_pingpong_init(pp, mmio);
+> +		hw = dpu_hw_pingpong_init(dev, pp, mmio);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed pingpong object creation: err %d\n",
+> @@ -161,7 +97,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_intf *hw;
+>   		const struct dpu_intf_cfg *intf = &cat->intf[i];
+>   
+> -		hw = dpu_hw_intf_init(intf, mmio);
+> +		hw = dpu_hw_intf_init(dev, intf, mmio);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed intf object creation: err %d\n", rc);
+> @@ -174,7 +110,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_wb *hw;
+>   		const struct dpu_wb_cfg *wb = &cat->wb[i];
+>   
+> -		hw = dpu_hw_wb_init(wb, mmio);
+> +		hw = dpu_hw_wb_init(dev, wb, mmio);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed wb object creation: err %d\n", rc);
+> @@ -187,7 +123,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_ctl *hw;
+>   		const struct dpu_ctl_cfg *ctl = &cat->ctl[i];
+>   
+> -		hw = dpu_hw_ctl_init(ctl, mmio, cat->mixer_count, cat->mixer);
+> +		hw = dpu_hw_ctl_init(dev, ctl, mmio, cat->mixer_count, cat->mixer);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed ctl object creation: err %d\n", rc);
+> @@ -200,7 +136,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_dspp *hw;
+>   		const struct dpu_dspp_cfg *dspp = &cat->dspp[i];
+>   
+> -		hw = dpu_hw_dspp_init(dspp, mmio);
+> +		hw = dpu_hw_dspp_init(dev, dspp, mmio);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed dspp object creation: err %d\n", rc);
+> @@ -214,9 +150,9 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
+>   
+>   		if (test_bit(DPU_DSC_HW_REV_1_2, &dsc->features))
+> -			hw = dpu_hw_dsc_init_1_2(dsc, mmio);
+> +			hw = dpu_hw_dsc_init_1_2(dev, dsc, mmio);
+>   		else
+> -			hw = dpu_hw_dsc_init(dsc, mmio);
+> +			hw = dpu_hw_dsc_init(dev, dsc, mmio);
+>   
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+> @@ -230,7 +166,7 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		struct dpu_hw_sspp *hw;
+>   		const struct dpu_sspp_cfg *sspp = &cat->sspp[i];
+>   
+> -		hw = dpu_hw_sspp_init(sspp, mmio, cat->ubwc);
+> +		hw = dpu_hw_sspp_init(dev, sspp, mmio, cat->ubwc);
+>   		if (IS_ERR(hw)) {
+>   			rc = PTR_ERR(hw);
+>   			DPU_ERROR("failed sspp object creation: err %d\n", rc);
+> @@ -242,8 +178,6 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   	return 0;
+>   
+>   fail:
+> -	dpu_rm_destroy(rm);
+> -
+>   	return rc ? rc : -EFAULT;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index d62c2edb2460..7199a09f3ce3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -38,22 +38,17 @@ struct dpu_rm {
+>   /**
+>    * dpu_rm_init - Read hardware catalog and create reservation tracking objects
+>    *	for all HW blocks.
+> + * @dev:  Corresponding device for devres management
+>    * @rm: DPU Resource Manager handle
+>    * @cat: Pointer to hardware catalog
+>    * @mmio: mapped register io address of MDP
+>    * @Return: 0 on Success otherwise -ERROR
+>    */
+> -int dpu_rm_init(struct dpu_rm *rm,
+> +int dpu_rm_init(struct drm_device *dev,
+> +		struct dpu_rm *rm,
+>   		const struct dpu_mdss_cfg *cat,
+>   		void __iomem *mmio);
+>   
+> -/**
+> - * dpu_rm_destroy - Free all memory allocated by dpu_rm_init
+> - * @rm: DPU Resource Manager handle
+> - * @Return: 0 on Success otherwise -ERROR
+> - */
+> -int dpu_rm_destroy(struct dpu_rm *rm);
+> -
+>   /**
+>    * dpu_rm_reserve - Given a CRTC->Encoder->Connector display chain, analyze
+>    *	the use connections and user requirements, specified through related
+> -- 
+> 2.39.2
+> 
