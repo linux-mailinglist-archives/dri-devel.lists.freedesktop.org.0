@@ -2,72 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3DA767A1C
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 02:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE8F767A1E
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jul 2023 02:49:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6999B10E7C3;
-	Sat, 29 Jul 2023 00:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D865E10E7B7;
+	Sat, 29 Jul 2023 00:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A297610E7B8
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 00:49:19 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4fbaef9871cso4690844e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jul 2023 17:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690591758; x=1691196558;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Z4eWv/RBKDrUWJz/NgxgnDtpmPraqNg6YmnPUdo6m2g=;
- b=N3mjaft3MQV1yRXyfPi2iqaPLWvhVHh4gqB42zE/W1dUgVEnfElR9yNSOnZbcLoE7Z
- 3Wqv8SHYL5qqtavRCDfrJLP12G4A++nHyh2t4tidt4i/Cub5ra/SxzItim7vO+fipwL9
- VAqHEdlWQGd/rrzEj3jmyQNMJ/1UCGP+pja+sYoWicwVjaiOG9KXv1lWan8R6To0qbad
- ylVg1UlCZzLSYYzYMHYkiiGi90iOqcLgzpI2MXJmbbJUBWSp+DHxx2P/67aoVYo72dos
- wR70cBJD7SQVY6+6IHRVLM5PvYfemKGNxQjCXRqerEowaQGBpT0KLOCfMD97UwkOF4/R
- 93mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690591758; x=1691196558;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Z4eWv/RBKDrUWJz/NgxgnDtpmPraqNg6YmnPUdo6m2g=;
- b=ZX2p26AppuLgBZwuLt1BiUVpgOwZvwSY2jBbLpJPxPsJ6SDj5gAQAiB5F7G71nO3f+
- EVdedSKVsD8/LMdYN8SAvhk2/89YphCXfeUWZ7QFu40ce6a8zPAhITHlc+z6hkjDp00q
- 2HMyfh0AEu877yt4DsHaeOqtFk8iwIgvBGmpYlc4z2Z+Xs4jXJbFy7fDu/Gq3hiOBhcJ
- qDtuSdNPFlyoPwbYI/0DKd6MbwxGXb5iDpFbkk+fcberDmgGqZ+pXgCrZHuo6OC0PkTo
- A89lfGDCu+/Xw0BvtUH87JhC0q1B4X1juC7WvEHefYtjUKou1+TQ5DeCrWKR0MAmEnxW
- 95WQ==
-X-Gm-Message-State: ABy/qLYqiVcUzzGLzquPtgnQmIs1konMK2eHV0BuZjHGTl034VAPDrzj
- VuYLFQtSAO5vdo8gvGD4aM1szg==
-X-Google-Smtp-Source: APBJJlH3hanHEvBgr++jOJubmsB65dIQxl3i8dLk9WO0Yl8D2xONZbjmFiJz42HIJIcei2b4Pyrowg==
-X-Received: by 2002:a19:ca15:0:b0:4fe:ee7:a32a with SMTP id
- a21-20020a19ca15000000b004fe0ee7a32amr2516420lfg.16.1690591757890; 
- Fri, 28 Jul 2023 17:49:17 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- a24-20020a19f818000000b004fe20d1b288sm500702lff.159.2023.07.28.17.49.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Jul 2023 17:49:17 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Simon Ser <contact@emersion.fr>,
- Janne Grunau <j@jannau.net>
-Subject: [PATCH 4/4] soc: qcom: pmic_glink: properly describe the DP connector
-Date: Sat, 29 Jul 2023 03:49:13 +0300
-Message-Id: <20230729004913.215872-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
-References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0B4810E7B7;
+ Sat, 29 Jul 2023 00:49:49 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36SNPmPh004179; Sat, 29 Jul 2023 00:49:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=L0qAJAZUF2TZuxT3ixsbyFq8VsBf1MHwL1g3Gwf7Ogg=;
+ b=G3Ke45nX8+kLqxuJhaJssJmAypQOm/VsPY/TjjGloQaxbxnKH5Vgstbb8TNwwC9vEG4V
+ PKxplWDnrWK+fRdBsycLK0U/jSBHlDlZPLOon/ZT4npOHi8Cx0ie/L5Z8slqGLIXqizw
+ 6C6Ygb+bTPxi4WSo6K66nFvKkvcpHoNwS9PnMPesZEE4sueFH7LVM4D47UHJrM1NolJk
+ 21jUbKiwJYbtqb+F7+Cd3ugbG3KSGtIEZCDnEK2EUX6Zu23fxl7cN7/vn0U5/hCctpAt
+ AmXyxKWNr+hve2ej/9Y35Fa4KUqY1m5TAQR69kifJnd/84nniBE3S5DCdUpECarJsjPV Lg== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s4j0g0qj0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Jul 2023 00:49:44 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36T0nhfB010721
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 29 Jul 2023 00:49:43 GMT
+Received: from [10.110.51.188] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 28 Jul
+ 2023 17:49:41 -0700
+Message-ID: <40e6772a-ddda-8d81-f01d-8c5524d40077@quicinc.com>
+Date: Fri, 28 Jul 2023 17:49:40 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/13] drm/msm/dpu: use drmm-managed allocation for
+ dpu_plane
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230707231251.3849701-1-dmitry.baryshkov@linaro.org>
+ <20230707231251.3849701-10-dmitry.baryshkov@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230707231251.3849701-10-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: TyxjSAlo2pp9t27wAssTIKaUoSdoOwM6
+X-Proofpoint-ORIG-GUID: TyxjSAlo2pp9t27wAssTIKaUoSdoOwM6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-27_10,2023-07-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307290005
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,44 +85,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- dri-devel@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the discussion of the DP connectors, it was suggested that USB-C
-DisplayPort connectors should have DRM_MODE_CONNECTOR_DisplayPort
-connector type. This follows the example provided by other drivers
-(AMDGPU, Intel). To distinguish them from native DP ports, they should
-have the freshly defined USB as a subconnector type.
 
-Suggested-by: Simon Ser <contact@emersion.fr>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/soc/qcom/pmic_glink_altmode.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/soc/qcom/pmic_glink_altmode.c b/drivers/soc/qcom/pmic_glink_altmode.c
-index 1dedacc52aea..9094944c6cc0 100644
---- a/drivers/soc/qcom/pmic_glink_altmode.c
-+++ b/drivers/soc/qcom/pmic_glink_altmode.c
-@@ -417,7 +417,8 @@ static int pmic_glink_altmode_probe(struct auxiliary_device *adev,
- 		alt_port->bridge.funcs = &pmic_glink_altmode_bridge_funcs;
- 		alt_port->bridge.of_node = to_of_node(fwnode);
- 		alt_port->bridge.ops = DRM_BRIDGE_OP_HPD;
--		alt_port->bridge.type = DRM_MODE_CONNECTOR_USB;
-+		alt_port->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-+		alt_port->bridge.subtype = DRM_MODE_SUBCONNECTOR_USB;
- 
- 		ret = devm_drm_bridge_add(dev, &alt_port->bridge);
- 		if (ret)
--- 
-2.39.2
+On 7/7/2023 4:12 PM, Dmitry Baryshkov wrote:
+> Change struct dpu_plane allocation to use drmm_universal_plane_alloc().
+> This removes the need to perform any actions on plane destruction.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 46 +++++------------------
+>   1 file changed, 10 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index f114efee1b57..9d9e1cbf0dd7 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1170,20 +1170,6 @@ static void dpu_plane_atomic_update(struct drm_plane *plane,
+>   	}
+>   }
+>   
+> -static void dpu_plane_destroy(struct drm_plane *plane)
+> -{
+> -	struct dpu_plane *pdpu = plane ? to_dpu_plane(plane) : NULL;
+> -
+> -	DPU_DEBUG_PLANE(pdpu, "\n");
+> -
+> -	if (pdpu) {
+> -		/* this will destroy the states as well */
+> -		drm_plane_cleanup(plane);
+> -
+> -		kfree(pdpu);
+> -	}
+> -}
+> -
+>   static void dpu_plane_destroy_state(struct drm_plane *plane,
+>   		struct drm_plane_state *state)
+>   {
+> @@ -1353,7 +1339,6 @@ static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
+>   static const struct drm_plane_funcs dpu_plane_funcs = {
+>   		.update_plane = drm_atomic_helper_update_plane,
+>   		.disable_plane = drm_atomic_helper_disable_plane,
+> -		.destroy = dpu_plane_destroy,
+>   		.reset = dpu_plane_reset,
+>   		.atomic_duplicate_state = dpu_plane_duplicate_state,
+>   		.atomic_destroy_state = dpu_plane_destroy_state,
+> @@ -1381,35 +1366,28 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+>   	struct dpu_hw_sspp *pipe_hw;
+>   	uint32_t num_formats;
+>   	uint32_t supported_rotations;
+> -	int ret = -EINVAL;
+> -
+> -	/* create and zero local structure */
+> -	pdpu = kzalloc(sizeof(*pdpu), GFP_KERNEL);
+> -	if (!pdpu) {
+> -		DPU_ERROR("[%u]failed to allocate local plane struct\n", pipe);
+> -		ret = -ENOMEM;
+> -		return ERR_PTR(ret);
+> -	}
+> -
+> -	/* cache local stuff for later */
+> -	plane = &pdpu->base;
+> -	pdpu->pipe = pipe;
+> +	int ret;
+>   
+>   	/* initialize underlying h/w driver */
+>   	pipe_hw = dpu_rm_get_sspp(&kms->rm, pipe);
+>   	if (!pipe_hw || !pipe_hw->cap || !pipe_hw->cap->sblk) {
+>   		DPU_ERROR("[%u]SSPP is invalid\n", pipe);
+> -		goto clean_plane;
+> +		return ERR_PTR(-EINVAL);
+>   	}
+>   
+>   	format_list = pipe_hw->cap->sblk->format_list;
+>   	num_formats = pipe_hw->cap->sblk->num_formats;
+>   
+> -	ret = drm_universal_plane_init(dev, plane, 0xff, &dpu_plane_funcs,
+> +	pdpu = drmm_universal_plane_alloc(dev, struct dpu_plane, base,
+> +				0xff, &dpu_plane_funcs,
+>   				format_list, num_formats,
+>   				supported_format_modifiers, type, NULL);
+> -	if (ret)
+> -		goto clean_plane;
+> +	if (IS_ERR(pdpu))
+> +		return ERR_CAST(pdpu);
+> +
+> +	/* cache local stuff for later */
+> +	plane = &pdpu->base;
+> +	pdpu->pipe = pipe;
+>   
+>   	pdpu->catalog = kms->catalog;
+>   
+> @@ -1439,8 +1417,4 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+>   	DPU_DEBUG("%s created for pipe:%u id:%u\n", plane->name,
+>   					pipe, plane->base.id);
+>   	return plane;
+> -
+> -clean_plane:
+> -	kfree(pdpu);
+> -	return ERR_PTR(ret);
+>   }
+> -- 
+> 2.39.2
+> 
