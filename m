@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DC0768304
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 03:01:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2CB76830D
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 03:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E77510E12A;
-	Sun, 30 Jul 2023 01:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BBB310E247;
+	Sun, 30 Jul 2023 01:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ECFF10E0DB
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 01:01:06 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b9d3dacb33so23537621fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 18:01:06 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3041B10E127
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 01:01:07 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2b9cdbf682eso29975331fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 18:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690678864; x=1691283664;
+ d=linaro.org; s=google; t=1690678865; x=1691283665;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZC0/5bXEsuHujngkcxb69wPizikqv0P8Uq9N9rSIaSc=;
- b=u5L9B/3bk5OfURJCO+E4E8xTmHGSqRBRotnOZdwavvZIr6CLuElLXApx9guveEO338
- sh5PyX6Xw+mUpdu+2sMHP117cWRf1wuT8X3dT12WmsgctjHjaWMJiSL/yk+ayHtVCX3H
- bZs05EK0SEBhqig/P3wtUa9g7gdBKZt7KQmNuMkJFYprFSOMriahr0PE9F5BTQxI2h/P
- kT80hrroqpL5LjhQDuuTMmlWCmCNopvHEJXCPU5qC7O0+YJo26u1o+8mRWYCrmcNzxyD
- UNtKGlXiRMAg6ZtMbcSJBm9gNAHhmdT5u3xQEiLnZteCYPX+Oa6K86JAcp+npe4PcL8k
- SkGA==
+ bh=xF2cKFE9m7FsBb3Uecjxgnlyz82/CdN+JnUhT4R1oVE=;
+ b=Q9Pl0+9k2xa9ybLP2N69yNEDdIEplHRFobPbzhejgjlailsWjlkTLxAWBu5UnGaW1B
+ v39PfrhE91z2dFw93/xUS9x77Ud9kdQHO+sKt5U8SKTrkBZB8eL6SvchIHwO5qHzJi1F
+ kWSedz6K/wSeuxNmyMG43pOUHIDKoDhjFsmvGxJr01QHbe9rlF8obdQERfaOIPhakHTy
+ gPd6MgL2GlBY2rsyjGutKc0702+Qua81KDOlSwp7m4zIxI3Vz3YnMwZS16AzAX85gJpq
+ 15f7FOnRff9Z0XEoodkklnRm+XLiXLVBK4EG/Tc09yq1GVifZ+oAEYNSZIbyurTrRd8M
+ Id/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690678864; x=1691283664;
+ d=1e100.net; s=20221208; t=1690678865; x=1691283665;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZC0/5bXEsuHujngkcxb69wPizikqv0P8Uq9N9rSIaSc=;
- b=Z+b3htNOP+p6h0Xfgqemm7oHCgYHYo6bjitx1Ho3hVPOoVsCh/PAaOgZaU+lqXkBMA
- qJC0XV0/5BXPdW3z2H1ig39S7ZRlAUnOJBLUJykjjLd2bPNtWPqCj2KfqZGtu8ySt19X
- ikxtyJfrQmhS/BLA/gZPcPhHZOy0QkphKA0XRf01il9T2mE/Oj1ozH9cef9FXFW+IfG+
- 24bsNtjLjcwLXcSKjU3ocLCTutX/MZo7VBGLdyrrDlMcK9pL7Vagc8ApBztsVmybZk2j
- lvCw3FqG7OPH8IwMrh7CE8UTDSrAunZ1kZRKazMfdmh/YMg6dcMyF3vr2491j6tutE7Z
- Akgg==
-X-Gm-Message-State: ABy/qLYykEDtek1yc4aT3ZVJt4BrjVTtFJTTCRPaNWnAvFAXi/AhoTr1
- ZMpYojbU1k5mZIX0wV23clj5qg==
-X-Google-Smtp-Source: APBJJlFoK781J9kOomNbay57OPIT/P+DjfzqSGyXGz5fYGV+p5vTJ7L/vuwbre1VSkLe6Q23a3c+TQ==
-X-Received: by 2002:a2e:88ce:0:b0:2b9:a6a1:f20 with SMTP id
- a14-20020a2e88ce000000b002b9a6a10f20mr4795181ljk.42.1690678864689; 
- Sat, 29 Jul 2023 18:01:04 -0700 (PDT)
+ bh=xF2cKFE9m7FsBb3Uecjxgnlyz82/CdN+JnUhT4R1oVE=;
+ b=hgkkDI+VlGu214F/idx4y39XZJVFYwpDhvxgiKC6X7vv4Wwr75ZWA/JQS7sFL1oWX/
+ g3G2ylH/QsUNkdhsogSmB/f6lSR0rZWHj/1JTrxMc78TbOukMD3taQzPn73WNj1hQwD6
+ zWk5dZHVVJH6JltgYPhnErlDMMH+r7u4nYJ3NIRJqhRpn5HjvM/R21UqA5v5AnayeUIn
+ SnHYesCcsGefbCmcJe63IhQlPAU+NGoIjB+Vjwv8HAIBX6awVhax01FQ6bdNWITGUPuO
+ I++QQtOjDwqXNzhbWPp4JZWWUX+mLtXIC3Vvyues95zVpbtLasi2EBFQfhR5v+ZwJSva
+ q/RA==
+X-Gm-Message-State: ABy/qLZGN3bV2l49Gj0kEXuZHWREygmN7TyDRrd5y+7HQLfdvxfJh6e0
+ r0wwTHfI2qSm55A3Ery+iNxODw==
+X-Google-Smtp-Source: APBJJlFu3afc1uxVCOiDZxyihR1by+qsfw0zL9K8CT5CvGuExBJO/4FsVxSV4gWwkM06sCan/2RW3A==
+X-Received: by 2002:a2e:8083:0:b0:2b6:e105:6174 with SMTP id
+ i3-20020a2e8083000000b002b6e1056174mr4016947ljg.47.1690678865487; 
+ Sat, 29 Jul 2023 18:01:05 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  22-20020a05651c009600b002b9e501a6acsm169898ljq.3.2023.07.29.18.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 18:01:04 -0700 (PDT)
+ Sat, 29 Jul 2023 18:01:05 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v5 01/10] drm/msm/dpu: drop enum dpu_core_perf_data_bus_id
-Date: Sun, 30 Jul 2023 04:00:53 +0300
-Message-Id: <20230730010102.350713-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 02/10] drm/msm/dpu: bail from
+ _dpu_core_perf_crtc_update_bus if there are no ICC paths
+Date: Sun, 30 Jul 2023 04:00:54 +0300
+Message-Id: <20230730010102.350713-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230730010102.350713-1-dmitry.baryshkov@linaro.org>
 References: <20230730010102.350713-1-dmitry.baryshkov@linaro.org>
@@ -77,45 +78,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the leftover of bus-client -> interconnect conversion, the enum
-dpu_core_perf_data_bus_id.
+Skip bandwidth aggregation and return early if there are no interconnect
+paths defined for the DPU device.
 
-Fixes: cb88482e2570 ("drm/msm/dpu: clean up references of DPU custom bus scaling")
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-index e3795995e145..29bb8ee2bc26 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-@@ -14,19 +14,6 @@
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+index 1d9d83d7b99e..3dbd73035a11 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+@@ -217,6 +217,9 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+ 	int i, ret = 0;
+ 	u64 avg_bw;
  
- #define	DPU_PERF_DEFAULT_MAX_CORE_CLK_RATE	412500000
++	if (!kms->num_paths)
++		return 0;
++
+ 	drm_for_each_crtc(tmp_crtc, crtc->dev) {
+ 		if (tmp_crtc->enabled &&
+ 			curr_client_type ==
+@@ -234,9 +237,6 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+ 		}
+ 	}
  
--/**
-- * enum dpu_core_perf_data_bus_id - data bus identifier
-- * @DPU_CORE_PERF_DATA_BUS_ID_MNOC: DPU/MNOC data bus
-- * @DPU_CORE_PERF_DATA_BUS_ID_LLCC: MNOC/LLCC data bus
-- * @DPU_CORE_PERF_DATA_BUS_ID_EBI: LLCC/EBI data bus
-- */
--enum dpu_core_perf_data_bus_id {
--	DPU_CORE_PERF_DATA_BUS_ID_MNOC,
--	DPU_CORE_PERF_DATA_BUS_ID_LLCC,
--	DPU_CORE_PERF_DATA_BUS_ID_EBI,
--	DPU_CORE_PERF_DATA_BUS_ID_MAX,
--};
+-	if (!kms->num_paths)
+-		return 0;
 -
- /**
-  * struct dpu_core_perf_params - definition of performance parameters
-  * @max_per_pipe_ib: maximum instantaneous bandwidth request
+ 	avg_bw = perf.bw_ctl;
+ 	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+ 
 -- 
 2.39.2
 
