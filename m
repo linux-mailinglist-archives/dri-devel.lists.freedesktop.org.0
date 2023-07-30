@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C80476870A
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 20:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B788768708
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 20:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9470510E0EC;
-	Sun, 30 Jul 2023 18:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E69EB10E0DE;
+	Sun, 30 Jul 2023 18:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C5E10E0EC
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 18:08:17 +0000 (UTC)
-X-UUID: 09b555822f0411eeb20a276fd37b9834-20230731
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEDA910E0D0
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 18:08:12 +0000 (UTC)
+X-UUID: 0a6b3bc22f0411ee9cb5633481061a41-20230731
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=7AGOYJf6IgitJjoa7VTj5ABs/QIt0Vp5FPUCdFNSDG0=; 
- b=c/AbBvDmT1rZ4r8WplLNxxdFrimMcbieanc99EULugTYc1uOGz23ALQ4fMaKzhKMyPS7lPw1Dc2ZcXHV2RUlhx2mYvHq6o5JpenxrUu97ghUDK2cl0q7RAsF5T4ATHbremhBnabv/TVvDWfT/wcZZnI2ixLkve7DyM+e9pDoqdM=;
+ bh=5st1uPVswkp7Jf2ahEjpIkqtcT+MrlPvHk5P9itktPg=; 
+ b=XCpqvtcR49Ekyqaj7sAPwu6zR1S5zAS56kjN8ujQwO+8eZQRAaqLKMdkmBfcklrskHsu6MyfypY1QpbElk9rS2uj5B2bN08BcKfwYtof1H7wyrliX7sI5ooC+szcEjudR9RzkcP7Ld5vul740MRN4C+uv3Scu4k7M2m35OOsZcU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.30, REQID:b5aefbfa-0b55-4d4b-8f32-c94e53e4adb8, IP:0,
+X-CID-O-INFO: VERSION:1.1.30, REQID:adef8156-e62f-4c36-81d0-e74ade193316, IP:0,
  U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:1fcc6f8, CLOUDID:0ffe7bd2-cd77-4e67-bbfd-aa4eaace762f,
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:1fcc6f8, CLOUDID:9b94f2b3-a467-4aa9-9e04-f584452e3794,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
  RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
  DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 09b555822f0411eeb20a276fd37b9834-20230731
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
+X-UUID: 0a6b3bc22f0411ee9cb5633481061a41-20230731
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 105999778; Mon, 31 Jul 2023 02:08:08 +0800
+ with ESMTP id 1055043603; Mon, 31 Jul 2023 02:08:09 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 31 Jul 2023 02:08:07 +0800
+ 15.2.1118.26; Mon, 31 Jul 2023 02:08:08 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 31 Jul 2023 02:08:06 +0800
+ 15.2.1118.26 via Frontend Transport; Mon, 31 Jul 2023 02:08:07 +0800
 From: Jiaxin Yu <jiaxin.yu@mediatek.com>
 To: <broonie@kernel.org>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <robert.foss@linaro.org>,
  <Laurent.pinchart@ideasonboard.com>, <kuninori.morimoto.gx@renesas.com>,
  <angelogioacchino.delregno@collabora.com>, <nfraprado@collabora.com>
-Subject: [v3 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
-Date: Mon, 31 Jul 2023 02:08:01 +0800
-Message-ID: <20230730180803.22570-2-jiaxin.yu@mediatek.com>
+Subject: [v3 2/3] ASoC: mediatek: mt8186: correct the HDMI widgets
+Date: Mon, 31 Jul 2023 02:08:02 +0800
+Message-ID: <20230730180803.22570-3-jiaxin.yu@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
 References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
@@ -80,105 +80,41 @@ Cc: alsa-devel@alsa-project.org, chunxu.li@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the speaker and hdmi are connect to the same port of I2S,
-when try to switch to speaker playback, we will find that hdmi
-is always turned on automatically. The connection as follows:
-
-			==> hdmi-codec ==> it6505(HDMI output)
-DL1(FE) ==> I2S3(BE)
-			==> rt1015p(SPEAKER output)
-
-So in order to separately control their power on/off, we have
-added a dapm widget to notify each output. Also the machine driver
-need add a _PIN_SWITCH() on the output of the device that will
-cause DAPM to keep the device powered down when not in use.
-
-The purpose of adding .trigger callback here is to enable hdmi-codec
-to notify the dp output driver to power on or off device.
+Use SND_SOC_DAPM_LINE instead of SND_SOC_DAPM_OUTPUT to trigger
+DAPM events to hdmi-codec when userspace control the DPAM pin.
 
 Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
 ---
- include/sound/hdmi-codec.h    |  6 ++++++
- sound/soc/codecs/hdmi-codec.c | 32 ++++++++++++++++++++++++++++++--
- 2 files changed, 36 insertions(+), 2 deletions(-)
+ sound/soc/mediatek/mt8186/mt8186-mt6366-da7219-max98357.c | 2 +-
+ sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-index 9b162ac1e08e..ea834a838754 100644
---- a/include/sound/hdmi-codec.h
-+++ b/include/sound/hdmi-codec.h
-@@ -81,6 +81,12 @@ struct hdmi_codec_ops {
- 		       struct hdmi_codec_daifmt *fmt,
- 		       struct hdmi_codec_params *hparms);
- 
-+	/*
-+	 * PCM trigger callback.
-+	 * Optional
-+	 */
-+	int (*trigger)(struct device *dev, int cmd);
-+
- 	/*
- 	 * Shuts down the audio stream.
- 	 * Mandatory
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index d21f69f05342..6766b55c9b56 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -276,7 +276,31 @@ struct hdmi_codec_priv {
- 	u8 iec_status[AES_IEC958_STATUS_SIZE];
- };
- 
-+static int hdmi_tx_event(struct snd_soc_dapm_widget *w,
-+		struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct hdmi_codec_priv *hcp = snd_soc_component_get_drvdata(component);
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_PRE_PMU:
-+		if (hcp->hcd.ops->trigger)
-+			hcp->hcd.ops->trigger(component->dev->parent, SNDRV_PCM_TRIGGER_START);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		if (hcp->hcd.ops->trigger)
-+			hcp->hcd.ops->trigger(component->dev->parent, SNDRV_PCM_TRIGGER_STOP);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_dapm_widget hdmi_widgets[] = {
-+	SND_SOC_DAPM_OUT_DRV_E("SDB", SND_SOC_NOPM, 0, 0, NULL, 0, hdmi_tx_event,
-+			       SND_SOC_DAPM_POST_PMD | SND_SOC_DAPM_PRE_PMU),
- 	SND_SOC_DAPM_OUTPUT("TX"),
- 	SND_SOC_DAPM_OUTPUT("RX"),
- };
-@@ -831,9 +855,13 @@ static int hdmi_dai_probe(struct snd_soc_dai *dai)
- 	struct hdmi_codec_daifmt *daifmt;
- 	struct snd_soc_dapm_route route[] = {
- 		{
--			.sink = "TX",
-+			.sink = "SDB",
- 			.source = dai->driver->playback.stream_name,
- 		},
-+		{
-+			.sink = "TX",
-+			.source = "SDB",
-+		},
- 		{
- 			.sink = dai->driver->capture.stream_name,
- 			.source = "RX",
-@@ -848,7 +876,7 @@ static int hdmi_dai_probe(struct snd_soc_dai *dai)
- 		if (!route[i].source || !route[i].sink)
- 			continue;
- 
--		ret = snd_soc_dapm_add_routes(dapm, &route[i], 1);
-+		ret = snd_soc_dapm_add_routes(dapm, route, ARRAY_SIZE(route));
- 		if (ret)
- 			return ret;
- 	}
+diff --git a/sound/soc/mediatek/mt8186/mt8186-mt6366-da7219-max98357.c b/sound/soc/mediatek/mt8186/mt8186-mt6366-da7219-max98357.c
+index 0432f9d89020..ae51d70e2c0b 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-mt6366-da7219-max98357.c
++++ b/sound/soc/mediatek/mt8186/mt8186-mt6366-da7219-max98357.c
+@@ -964,7 +964,7 @@ mt8186_mt6366_da7219_max98357_widgets[] = {
+ 	SND_SOC_DAPM_SPK("Speakers", NULL),
+ 	SND_SOC_DAPM_HP("Headphones", NULL),
+ 	SND_SOC_DAPM_MIC("Headset Mic", NULL),
+-	SND_SOC_DAPM_OUTPUT("HDMI1"),
++	SND_SOC_DAPM_LINE("HDMI1", NULL),
+ 	SND_SOC_DAPM_MIXER(SOF_DMA_DL1, SND_SOC_NOPM, 0, 0, NULL, 0),
+ 	SND_SOC_DAPM_MIXER(SOF_DMA_DL2, SND_SOC_NOPM, 0, 0, NULL, 0),
+ 	SND_SOC_DAPM_MIXER(SOF_DMA_UL1, SND_SOC_NOPM, 0, 0, NULL, 0),
+diff --git a/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c b/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
+index 9c11016f032c..a39e37fa4e02 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
++++ b/sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
+@@ -1032,7 +1032,7 @@ mt8186_mt6366_rt1019_rt5682s_widgets[] = {
+ 	SND_SOC_DAPM_SPK("Speakers", NULL),
+ 	SND_SOC_DAPM_HP("Headphone", NULL),
+ 	SND_SOC_DAPM_MIC("Headset Mic", NULL),
+-	SND_SOC_DAPM_OUTPUT("HDMI1"),
++	SND_SOC_DAPM_LINE("HDMI1", NULL),
+ 	SND_SOC_DAPM_MIXER(SOF_DMA_DL1, SND_SOC_NOPM, 0, 0, NULL, 0),
+ 	SND_SOC_DAPM_MIXER(SOF_DMA_DL2, SND_SOC_NOPM, 0, 0, NULL, 0),
+ 	SND_SOC_DAPM_MIXER(SOF_DMA_UL1, SND_SOC_NOPM, 0, 0, NULL, 0),
 -- 
 2.25.1
 
