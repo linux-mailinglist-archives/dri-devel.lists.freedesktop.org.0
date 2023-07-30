@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B32768485
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 10:55:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 486997684E7
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 13:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B043110E04D;
-	Sun, 30 Jul 2023 08:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A51D910E072;
+	Sun, 30 Jul 2023 11:07:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 137794 seconds by postgrey-1.36 at gabe;
- Sun, 30 Jul 2023 08:55:43 UTC
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:403::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABA510E04D
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 08:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=mFakZeALJNGvZSohmf/wWFUZxBT4BMrnbpl3ezu/8xg=;
- b=BU2t5HBt6AxOY9DWmwd6uVqDKEE6+EORAWwGLRuq4UorA+nAmmNoiWomF9qfvGspOvbS5ZvS18F1t
- sk62CSt8rHuLirMkNIcpKQKLW7KrCzbBDjjwykcMa8eZYeSzO/wWRhEl4ModKf6VdkdQ6HCO+OufGP
- ZQv1d1Ee75zSjQdI2Y3Vhu2MskkhjLvfmey4l70qsJZ1sw2yDfEA6inc15z6WgcmYapS8KN56uoTTq
- SW+OgaZgrWr0daiw5leZG4aHgHGTzRnYv2HkRLTyTJx68fTSbKyyW03gzmi6+T3qJb1begPp9VdUKt
- Z4Pvdt0SX24tWwnnDBMxh5Iu9oHsmZw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=mFakZeALJNGvZSohmf/wWFUZxBT4BMrnbpl3ezu/8xg=;
- b=PuqQNp88Cg2L0KD+9U1TyBW/+zsbjIekPa25mUj+6EtxjJ32lV2tqPeMPZhXBf85jc+srwd8PN3mi
- ADw66rFCA==
-X-HalOne-ID: dbd268c0-2eb6-11ee-a19a-592bb1efe9dc
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4 (Halon) with ESMTPSA
- id dbd268c0-2eb6-11ee-a19a-592bb1efe9dc;
- Sun, 30 Jul 2023 08:55:41 +0000 (UTC)
-Date: Sun, 30 Jul 2023 10:55:40 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
-Message-ID: <20230730085540.GB1322260@ravnborg.org>
-References: <20230728182234.10680-1-tzimmermann@suse.de>
- <20230728183541.GA1144760@ravnborg.org>
+X-Greylist: delayed 346 seconds by postgrey-1.36 at gabe;
+ Sun, 30 Jul 2023 11:07:23 UTC
+Received: from out-71.mta0.migadu.com (out-71.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 952A510E072
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 11:07:23 +0000 (UTC)
+Message-ID: <a2a2180c-62ac-452f-0737-26f01f228c79@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1690714895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YDqItS6TsBITc0ogQeiO9zs2cfijso9HiN6zsa9jo50=;
+ b=XpXFu6WxU3V13MvRIEnz/7Ji7DORifqqz168/epr0ILzyigpBFV+A4z4oGIVSkBtUeOFgh
+ diNqH0zw0JE5/uCXG3B6N+tvcHXMpKZsZ6s0eKFzsZ+X7f+mOxmtYIXl0uv700u7SMTX1R
+ uLBVb66nh3KObdbTdSfDQ/9rS/J3C2k=
+Date: Sun, 30 Jul 2023 19:01:26 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230728183541.GA1144760@ravnborg.org>
+Subject: Re: [PATCH 03/13] scatterlist: Add sg_set_folio()
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, linux-mm@kvack.org,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <20230621164557.3510324-1-willy@infradead.org>
+ <20230621164557.3510324-4-willy@infradead.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20230621164557.3510324-4-willy@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,32 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, deller@gmx.de,
- linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
- javierm@redhat.com, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-afs@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 28, 2023 at 08:35:41PM +0200, Sam Ravnborg wrote:
-> Hi Thomas,
+在 2023/6/22 0:45, Matthew Wilcox (Oracle) 写道:
+> This wrapper for sg_set_page() lets drivers add folios to a scatterlist
+> more easily.  We could, perhaps, do better by using a different page
+> in the folio if offset is larger than UINT_MAX, but let's hope we get
+> a better data structure than this before we need to care about such
+> large folios.
 > 
-> On Fri, Jul 28, 2023 at 06:39:43PM +0200, Thomas Zimmermann wrote:
-> > Most fbdev drivers operate on I/O memory. And most of those use the
-> > default implementations for file I/O and console drawing. Convert all
-> > these low-hanging fruits to the fb_ops initializer macro and Kconfig
-> > token for fbdev I/O helpers.
-> > 
-> > The fbdev I/O helpers are easily grep-able. In a later patch, they can
-> > be left to empty values if the rsp. funtionality, such as file I/O or
-> > console, has been disabled.
-> > 
-> > There are no functional changes. The helpers set the defaults that
-> > the drivers already use.
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>   include/linux/scatterlist.h | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
 > 
-> I have browsed all patches - they all looks good.
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+> index ec46d8e8e49d..77df3d7b18a6 100644
+> --- a/include/linux/scatterlist.h
+> +++ b/include/linux/scatterlist.h
+> @@ -141,6 +141,30 @@ static inline void sg_set_page(struct scatterlist *sg, struct page *page,
+>   	sg->length = len;
+>   }
+>   
+> +/**
+> + * sg_set_folio - Set sg entry to point at given folio
+> + * @sg:		 SG entry
+> + * @folio:	 The folio
+> + * @len:	 Length of data
+> + * @offset:	 Offset into folio
+> + *
+> + * Description:
+> + *   Use this function to set an sg entry pointing at a folio, never assign
+> + *   the folio directly. We encode sg table information in the lower bits
+> + *   of the folio pointer. See sg_page() for looking up the page belonging
+> + *   to an sg entry.
+> + *
+> + **/
+> +static inline void sg_set_folio(struct scatterlist *sg, struct folio *folio,
+> +			       size_t len, size_t offset)
+> +{
+> +	WARN_ON_ONCE(len > UINT_MAX);
+> +	WARN_ON_ONCE(offset > UINT_MAX);
+> +	sg_assign_page(sg, &folio->page);
+> +	sg->offset = offset;
+> +	sg->length = len;
+> +}
+> +
 
-When you post v2 with MEM added the review still holds true.
+https://elixir.bootlin.com/linux/latest/source/lib/scatterlist.c#L451
 
-	Sam
+Does the following function have folio version?
+
+"
+int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
+		struct page **pages, unsigned int n_pages, unsigned int offset,
+		unsigned long size, unsigned int max_segment,
+		unsigned int left_pages, gfp_t gfp_mask)
+"
+
+Thanks a lot.
+Zhu Yanjun
+
+>   static inline struct page *sg_page(struct scatterlist *sg)
+>   {
+>   #ifdef CONFIG_DEBUG_SG
+
