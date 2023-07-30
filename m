@@ -1,45 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48592768877
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 23:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24068768899
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 23:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9579310E13A;
-	Sun, 30 Jul 2023 21:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80E1610E137;
+	Sun, 30 Jul 2023 21:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF8F510E137;
- Sun, 30 Jul 2023 21:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=1Opzr/5dCzOISssMERYtnogRBsg3jiV2CKz9u3Hxb8U=; b=hAIOP77AAzhkO3U6Fw01MZwM+f
- uQkHPzoqWifaVO4Ih3pLtS0kiEYrph2CPjAEv5gSeI6NjkBo3jm05QeCuuPR/Qp8lZrBZYTuvn/v3
- yjSMFohjsPE2GFt+qJmMkgNb4HD3T5NyHAZ7lyKLwBCBl32ZeTt6scjIIptj5ohEk7Qptasy/nMTm
- NaiVnhdxC233zFTLV7S8/1n1vbwJQw9krJYV5/ifLSkMaC/GqO/O2aZTFeAXWpdxDIeh27GKENp8T
- NZIDlol9DwCyOeaLK/bhetFRQknPcZwt4GpikVW7UkSihsKeAeyssRyAgqNCKDiciDDvd3+pE2Ahc
- Fj8Wfqpg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qQEBa-00FpI2-Jq; Sun, 30 Jul 2023 21:42:46 +0000
-Date: Sun, 30 Jul 2023 22:42:46 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH 03/13] scatterlist: Add sg_set_folio()
-Message-ID: <ZMbZVjMaIeI1DSj9@casper.infradead.org>
-References: <20230621164557.3510324-1-willy@infradead.org>
- <20230621164557.3510324-4-willy@infradead.org>
- <a2a2180c-62ac-452f-0737-26f01f228c79@linux.dev>
- <ZMZHH5Xc507OZA1O@casper.infradead.org>
- <40a3ab47-da3e-0d08-b3fa-b4663f3e727d@linux.dev>
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A41F10E137;
+ Sun, 30 Jul 2023 21:58:08 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id
+ ca18e2360f4ac-78374596182so194101039f.0; 
+ Sun, 30 Jul 2023 14:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690754288; x=1691359088;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sbjSrC6Xf1t1eELbOkTAbrw9X9H2Qkj1asQL3Gv+d0E=;
+ b=e78us4E31/EL62UZ/d9+AODTGy4BAUAFfV/mOVAI1f7OuzhGI7L9s9Cffk6GEAGUzj
+ flQmFys6JKiOTGkIbq4G2tiE7U2AFeDQHqkKr8m1Vvsde4OFKFam4d0VqxMmMVVmVj9i
+ ldXocJQ5x5L+N9Xbdrh620sFNpoZhT3sv8uEvZv726Q7w5zbio6nNdBVufDhiRKPoLEp
+ C+lwP2uLHzLPz2itzwwW8nrLbFA52rmYM5HpUGVIgLS/KvK4oJigCTyCv3Qsa5zPJwHN
+ RwtmKzqOy9wAxsw/yD4F/AGTF2IPnVvXyOQfnUZXoCdyoFrsreXjLCeTIv3SiP+14HEO
+ T0pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690754288; x=1691359088;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sbjSrC6Xf1t1eELbOkTAbrw9X9H2Qkj1asQL3Gv+d0E=;
+ b=W3pdx+9Z43sALT6cHMigwQLgp7kZ7W1RI+LGwSk4wF685NGPAzOM3Q2Cl6X/XPivhQ
+ sb1+d8C7Jm21FhDrfI6Zt6C1W10LJa6O45r9HqnzIRmNawftMgvsmPHAuTPoBG2TU4SJ
+ nWYH6pexP1gg5sU615q9GJ/M2UIpXuIkSI2hn2yWCJHNbNzLeTTMkMUkG3i0Xr/WTOf8
+ EId1fafksVXPrjEKQHFA36ptNwWTVMzM/pD//kDqhMMlxj4clR2VjPv4I01fKHrSpqGS
+ tV38S3KiMCpqivD8UZn3t2GXGx62Vgkij+AnsBNabHoRYX1nZvzIUvJQUM0Z5pfYi4AO
+ EQyg==
+X-Gm-Message-State: ABy/qLYwm3oeKi5/wZm6b3g/U+In760Sco0WN2bEefYEXUuLp4Hv1wDZ
+ /A/p7xGvWiGtDzPFmiUNzLY=
+X-Google-Smtp-Source: APBJJlFchddN9xbU7X/x2AFLj9rBNk/j1Rd+vYRHyhhp+pMib63heddhIZTf6UnPFwMoD8dQfYHUPA==
+X-Received: by 2002:a92:cd86:0:b0:348:8da1:891c with SMTP id
+ r6-20020a92cd86000000b003488da1891cmr7544893ilb.24.1690754288186; 
+ Sun, 30 Jul 2023 14:58:08 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ e18-20020a92de52000000b003424b3d6d37sm2747520ilr.24.2023.07.30.14.58.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Jul 2023 14:58:07 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: daniel@ffwll.ch, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/5] drm_dbg: add trailing newlines where missing
+Date: Sun, 30 Jul 2023 15:57:49 -0600
+Message-ID: <20230730215758.54010-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <40a3ab47-da3e-0d08-b3fa-b4663f3e727d@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,59 +72,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-afs@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 30, 2023 at 09:57:06PM +0800, Zhu Yanjun wrote:
-> 
-> 在 2023/7/30 19:18, Matthew Wilcox 写道:
-> > On Sun, Jul 30, 2023 at 07:01:26PM +0800, Zhu Yanjun wrote:
-> > > Does the following function have folio version?
-> > > 
-> > > "
-> > > int sg_alloc_append_table_from_pages(struct sg_append_table *sgt_append,
-> > > 		struct page **pages, unsigned int n_pages, unsigned int offset,
-> > > 		unsigned long size, unsigned int max_segment,
-> > > 		unsigned int left_pages, gfp_t gfp_mask)
-> > > "
-> > No -- I haven't needed to convert anything that uses
-> > sg_alloc_append_table_from_pages() yet.  It doesn't look like it should
-> > be _too_ hard to add a folio version.
-> 
-> In many places, this function is used. So this function needs the folio
-> version.
+Most of the (~1500) DRM.debug callsites provide a trailing newline in
+their format-strings.  Fix the remainder to do the same.
 
-It's not used in very many places.  But the first one that I see it used
-(drivers/infiniband/core/umem.c), you can't do a straightforward folio
-conversion:
+no functional changes
 
-                pinned = pin_user_pages_fast(cur_base,
-                                          min_t(unsigned long, npages,
-                                                PAGE_SIZE /
-                                                sizeof(struct page *)),
-                                          gup_flags, page_list);
-...
-                ret = sg_alloc_append_table_from_pages(
-                        &umem->sgt_append, page_list, pinned, 0,
-                        pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
-                        npages, GFP_KERNEL);
+Jim Cromie (5):
+  drm_dbg: add trailing newlines to remaining callsites
+  drm_dbg: add trailing newlines
+  drm_dbg: add trailing newlines
+  drm_dbg: add trailing newlines
+  drm_dbg: add trailing newlines
 
-That can't be converted to folios.  The GUP might start in the middle of
-the folio, and we have no way to communicate that.
+ drivers/gpu/drm/drm_connector.c                |  4 +++-
+ drivers/gpu/drm/i915/display/intel_ddi.c       |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  4 ++--
+ drivers/gpu/drm/kmb/kmb_crtc.c                 | 10 +++++-----
+ drivers/gpu/drm/kmb/kmb_plane.c                |  6 +++---
+ drivers/gpu/drm/msm/msm_fb.c                   |  6 +++---
+ drivers/gpu/drm/vc4/vc4_crtc.c                 |  4 ++--
+ 7 files changed, 19 insertions(+), 17 deletions(-)
 
-This particular usage really needs the phyr work that Jason is doing so
-we can efficiently communicate physically contiguous ranges from GUP
-to sg.
+-- 
+2.41.0
 
-> Another problem, after folio is used, I want to know the performance after
-> folio is implemented.
-> 
-> How to make tests to get the performance?
-
-You know what you're working on ... I wouldn't know how best to test
-your code.
