@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD35476870C
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 20:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44FA768723
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 20:38:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDFB10E0F1;
-	Sun, 30 Jul 2023 18:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E96310E0FE;
+	Sun, 30 Jul 2023 18:38:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8227010E0D0
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 18:08:13 +0000 (UTC)
-X-UUID: 0a6d24142f0411ee9cb5633481061a41-20230731
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=rUtEDz36Ege3wRJGsZeZHbrLvnL2PPOHhITk/HK+wd0=; 
- b=at7QoIuqMX8n3cyreCSdGqy1h85o7k9lAplZYTz3wrLdW1LIotoI8uAS4wegTuDfaImU8FVaRUm0T8bCHXWgw3yFNxtXl+OOQgrBX0iUO3uJQB1rTBYUtOH253TOz1ftsVwhivOh8AwhXIF721BNPUU+kcLRoq+TWZNrTF8qDmg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.30, REQID:c9e47b98-cd78-4fe9-8a38-dd8f7fbc5fb1, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:1fcc6f8, CLOUDID:9c94f2b3-a467-4aa9-9e04-f584452e3794,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 0a6d24142f0411ee9cb5633481061a41-20230731
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw01.mediatek.com (envelope-from <jiaxin.yu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 584771536; Mon, 31 Jul 2023 02:08:09 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 31 Jul 2023 02:08:09 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 31 Jul 2023 02:08:08 +0800
-From: Jiaxin Yu <jiaxin.yu@mediatek.com>
-To: <broonie@kernel.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <robert.foss@linaro.org>,
- <Laurent.pinchart@ideasonboard.com>, <kuninori.morimoto.gx@renesas.com>,
- <angelogioacchino.delregno@collabora.com>, <nfraprado@collabora.com>
-Subject: [v3 3/3] drm/bridge: it6505: Add audio support
-Date: Mon, 31 Jul 2023 02:08:03 +0800
-Message-ID: <20230730180803.22570-4-jiaxin.yu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
-References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
+ [IPv6:2607:f8b0:4864:20::1136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 246FB10E0FE
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 18:38:43 +0000 (UTC)
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-583d63ca1e9so41650477b3.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 11:38:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1690742322; x=1691347122;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=roA0tWjvqavbQ4acl8taxufGVjwHX3uQinPIePa4MD0=;
+ b=cLHER+FLjgqiPZAD9LL3+9esSOQkimanV8m3rX8/an4cSvj4XpZL0SE4EK4IWzQLPR
+ XIbPlWJN6lNUGs4HIjA0ETKa+fjhu4wJmDxzruMQzHyP+jvdCOtMg5SjOcLsW7jMQDnB
+ G7ymQY0bigZS4Y7XjKaLSoP9lXU6k8D08I6B8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690742322; x=1691347122;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=roA0tWjvqavbQ4acl8taxufGVjwHX3uQinPIePa4MD0=;
+ b=ZZzaQtna31eztakJRB6+5jExealpA5p8yKW1pDfoq4dZTrrarVHVCmCJj2bGcYW+CC
+ QUgB3zZO42mk9q/CekzA3AMke+x3ITJa5ZtgOrASfn6ywcgeOC4zideInRVEKTuC7O+L
+ rD4Hom/4oZrEe/QCcDsR9jEtfaM8V1dWF/0NwacL+EONakb5O/hg0lJP7ZEIyuX96Ghr
+ QUiX5i2zoLsjBkHT3wDCt3CtGd+ioJbAsdTKmVZQSsM9gmyry5Mm4jr3NLAY8O12lrML
+ K20gDeMjEHHdk5RX4CgVRd0WnC/UQ1KyNeQvpbvkHXe2Jx7tmoWz1Ia7UkmeLIpbjyYs
+ BTmQ==
+X-Gm-Message-State: ABy/qLYwuKKpNb4BwH9DvXFAlE9JGr2pc97QRofB/7UegY6hToh/hk6L
+ MBq4TdxC/u7VUaD6rjzwSlsl1yMG8v6/SgMQfJaMiQ==
+X-Google-Smtp-Source: APBJJlEDgCTEsMELmfhJau1t59rKk1J6hEIaKoeDsyL7smaHNlccmT8Uj3eU+lgaqACKVUifo3s4FoAFooRnyuKYaRk=
+X-Received: by 2002:a81:8381:0:b0:577:dddb:c289 with SMTP id
+ t123-20020a818381000000b00577dddbc289mr8487976ywf.7.1690742322158; Sun, 30
+ Jul 2023 11:38:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <20230717061831.1826878-1-victor.liu@nxp.com>
+ <20230717061831.1826878-10-victor.liu@nxp.com>
+ <CAMty3ZAdzASJCz+j4iOTJ+wCXWP2Z48jFL687kxDmJLPU7T6gA@mail.gmail.com>
+ <AM7PR04MB7046BF03266ED1CE21CFC3A99838A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+ <CAMty3ZDy7Ty2AUV+Ab60nvgBzyLB-ejM=Yij9RFyTNvJBG_EvA@mail.gmail.com>
+ <DB8PR04MB7051B5AB0D57BCEF2FBEBAE99838A@DB8PR04MB7051.eurprd04.prod.outlook.com>
+ <CAMty3ZDBSwxFZM0FE2ytvvQ0PXU9WNyWwvd_DOrKpe43HH2x+w@mail.gmail.com>
+ <AM7PR04MB7046B44596C4C331D01F88479839A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+In-Reply-To: <AM7PR04MB7046B44596C4C331D01F88479839A@AM7PR04MB7046.eurprd04.prod.outlook.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 31 Jul 2023 00:08:30 +0530
+Message-ID: <CAMty3ZBmPU9CvbjDt-q_bJbUoWm-SHoDTtzF6gYvpCE0R-A+sw@mail.gmail.com>
+Subject: Re: [PATCH 9/9] drm/bridge: imx: Add i.MX93 MIPI DSI support
+To: Ying Liu <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,149 +72,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, chunxu.li@mediatek.com,
- allen-kh.cheng@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, Jiaxin Yu <jiaxin.yu@mediatek.com>,
- ajye_huang@compal.corp-partner.google.com,
- linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "rfoss@kernel.org" <rfoss@kernel.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, dl-linux-imx <linux-imx@nxp.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add audio support for it6505
+On Wed, Jul 19, 2023 at 2:05=E2=80=AFPM Ying Liu <victor.liu@nxp.com> wrote=
+:
+>
+> On Tuesday, July 18, 2023 6:51 PM Jagan Teki <jagan@amarulasolutions.com>=
+ wrote:
+> >
+> > Hi,
+>
+> Hi,
+>
+> >
+> > On Tue, Jul 18, 2023 at 3:19=E2=80=AFPM Ying Liu <victor.liu@nxp.com> w=
+rote:
+> > >
+> > > On Tuesday, July 18, 2023 5:35 PM Jagan Teki
+> > <jagan@amarulasolutions.com> wrote:
+> > > >
+> > > > >
+> > > > > Hi Jagan,
+> > > > >
+> > > > > On Monday, July 17, 2023 2:44 PM Jagan Teki
+> > > > <jagan@amarulasolutions.com> wrote:
+> > > > > > On Mon, Jul 17, 2023 at 11:44=E2=80=AFAM Liu Ying <victor.liu@n=
+xp.com>
+> > wrote:
+> > > > > > >
+> > > > > > > Freescale i.MX93 SoC embeds a Synopsys Designware MIPI DSI ho=
+st
+> > > > > > > controller and a Synopsys Designware MIPI DPHY.  Some
+> > configurations
+> > > > > > > and extensions to them are controlled by i.MX93 media blk-ctr=
+l.
+> > > > > > >
+> > > > > > > Add a DRM bridge for i.MX93 MIPI DSI by using existing DW MIP=
+I DSI
+> > > > > > > bridge helpers and implementing i.MX93 MIPI DSI specific
+> > extensions.
+> > > > > >
+> > > > > > I think the better way would add compatibility to be part of ex=
+isting
+> > > > > > dw-mipi-dsi.c with specific driver data. This way it avoids all=
+ the
+> > > > > > platform-related helpers(extensions) and makes the driver gener=
+ic to
+> > > > > > all SoCs which use DW DSI IP. It would be a straightforward cha=
+nge as
+> > > > > > the imx93 drm pipeline already supports bridge topology.
+> > > > >
+> > > > > The platform-related stuff is handed over to dw-mipi-dsi.c via st=
+ruct
+> > > > > dw_mipi_dsi_plat_data as an argument of dw_mipi_dsi_probe().  It
+> > looks
+> > > > > ok for vendor drivers to call dw_mipi_dsi_probe() to set the plat=
+form-
+> > > > related
+> > > > > information(rockchip, meson and stm do that), like pdata.phy_ops =
+and
+> > > > > pdata.host_ops.
+> > > >
+> > > > I understand this topology of having soc-platform drivers with
+> > > > dw-mipi-dsi bridge. What I'm suggesting is to not add a soc-platfor=
+m
+> > > > driver for imx93 instead add add support directly on dw-mipi-dsi
+> > > > bridge.
+> > >
+> > > It seems that directly supporting i.MX93 MIPI DSI in dw-mipi-dsi.c is
+> > > not feasible.  The main reason is that struct dw_mipi_dsi_plat_data
+> > > contains phy_ops and each vendor driver provides very different
+> > > methods for phy, while...
+> >
+> > Cannot this phy_ops goes to PHY core somewhere around and even it is
+> > possible to add via driver data for imx93 by untouching existing
+> > handling? I know it is not as direct as I describe but it is worth
+> > maintaining the driver this way to keep control of the future
+> > soc-drivers to include in dw-mipi-dsi instead of handling platform
+> > code separately.
+>
+> Like I said, each vendor driver provides very different methods for phy.
+> The reason is that phy IPs are different and SoC integration things are
+> handled via struct dw_mipi_dsi_phy_ops.  Meson calls devm_phy_get()
+> to get a phy.  Rockchip calls devm_phy_create() to create a phy.  Meson,
+> rockchip and stm have their own struct dw_mipi_dsi_phy_ops
+> implementations, same to i.MX93.  Different pixel format control is
+> implemented in meson's and i.MX93's ->init() callback. Meson additionally
+> handles clocks in ->init() callback.
+>
+> Generally speaking, it's a no-go to put phy_ops into PHY core for all the
+> vendors, IMHO.
+>
+> In particular, i.MX93 MIPI DPHY's PLL can be fully controlled by media
+> blk-ctrl(as a syscon) thru the PLL's SoC control interface, while PHY
+> registers can be controlled by DW MIPI DSI testdin/out control interface
+> alternatively including a part of the PLL registers.  So, adding a PHY
+> driver for i.MX93 MIPI DPHY doesn't make sense since the PLL controlled
+> by media blk-ctrl doesn't constitute a PHY.  Instead, dw_mipi_dsi_phy_ops
+> may cover all the PHY control well.
+>
+> From my PoV, w/wo this series, dw-mipi-dsi.c looks fine to keep being
+> generic and easy to maintain.  All vendor drivers do is to handle platfor=
+m
+> specific stuff, which is good.
 
-1. Bridge to hdmi-codec to support audio feature. At the same time,
-   the function of automatically detecting audio is removed.
-2. It is observed that some DP-to-HDMI dongles will get into bad
-   states if sending InfoFrame without audio data. Defer to enable
-   it6505's audio feature when PCM triggers START or RESUME.
+Thanks for the explanation. I agreed with on you most of the points
+from the perspective of PoV which are difficult to FIT into a common
+bridge. However, I'm still believing that the having bridge does only
+the bridge job, and keeping the PHY or other PoV-specific stuff on
+respective driver subsystems would be great synergy for the bridge
+drivers or any common IP driver's point-of-view.
 
-Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 81 ++++++++++++++++++++++++++---
- 1 file changed, 75 insertions(+), 6 deletions(-)
+Anyway, I might not control i.MX93 PoV stuff, but I can try on it for
+the new DSI which uses this IP, and keep you in CC if it is a possible
+land in the near future.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 504d51c42f79..1cfcb0731288 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2162,7 +2162,6 @@ static void it6505_stop_link_train(struct it6505 *it6505)
- 
- static void it6505_link_train_ok(struct it6505 *it6505)
- {
--	struct device *dev = &it6505->client->dev;
- 
- 	it6505->link_state = LINK_OK;
- 	/* disalbe mute enable avi info frame */
-@@ -2170,11 +2169,6 @@ static void it6505_link_train_ok(struct it6505 *it6505)
- 	it6505_set_bits(it6505, REG_INFOFRAME_CTRL,
- 			EN_VID_CTRL_PKT, EN_VID_CTRL_PKT);
- 
--	if (it6505_audio_input(it6505)) {
--		DRM_DEV_DEBUG_DRIVER(dev, "Enable audio!");
--		it6505_enable_audio(it6505);
--	}
--
- 	if (it6505->hdcp_desired)
- 		it6505_start_hdcp(it6505);
- }
-@@ -2846,6 +2840,45 @@ static void __maybe_unused it6505_audio_shutdown(struct device *dev, void *data)
- 		it6505_disable_audio(it6505);
- }
- 
-+static int it6505_audio_hw_params(struct device *dev, void *data,
-+				  struct hdmi_codec_daifmt *daifmt,
-+				  struct hdmi_codec_params *params)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return it6505_audio_setup_hw_params(it6505, params);
-+}
-+
-+static int it6505_audio_setup_trigger(struct it6505 *it6505, int cmd)
-+{
-+	struct device *dev = &it6505->client->dev;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "event: %d", cmd);
-+
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+		queue_delayed_work(system_wq, &it6505->delayed_audio,
-+				   msecs_to_jiffies(180));
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+		cancel_delayed_work(&it6505->delayed_audio);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int it6505_audio_trigger(struct device *dev, int cmd)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return it6505_audio_setup_trigger(it6505, cmd);
-+}
-+
- static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
- 						       void *data,
- 						       hdmi_codec_plugged_cb fn,
-@@ -2860,6 +2893,36 @@ static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
- 	return 0;
- }
- 
-+static const struct hdmi_codec_ops it6505_audio_codec_ops = {
-+	.hw_params = it6505_audio_hw_params,
-+	.trigger = it6505_audio_trigger,
-+	.audio_shutdown = it6505_audio_shutdown,
-+	.hook_plugged_cb = it6505_audio_hook_plugged_cb,
-+};
-+
-+static int it6505_register_audio_driver(struct device *dev)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+	struct hdmi_codec_pdata codec_data = {
-+		.ops = &it6505_audio_codec_ops,
-+		.max_i2s_channels = 8,
-+		.i2s = 1,
-+		.data = it6505,
-+	};
-+	struct platform_device *pdev;
-+
-+	pdev = platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
-+					     PLATFORM_DEVID_AUTO, &codec_data,
-+					     sizeof(codec_data));
-+	if (IS_ERR(pdev))
-+		return PTR_ERR(pdev);
-+
-+	INIT_DELAYED_WORK(&it6505->delayed_audio, it6505_delayed_audio);
-+	DRM_DEV_DEBUG_DRIVER(dev, "bound to %s", HDMI_CODEC_DRV_NAME);
-+
-+	return 0;
-+}
-+
- static inline struct it6505 *bridge_to_it6505(struct drm_bridge *bridge)
- {
- 	return container_of(bridge, struct it6505, bridge);
-@@ -3421,6 +3484,12 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 		return err;
- 	}
- 
-+	err = it6505_register_audio_driver(dev);
-+	if (err < 0) {
-+		DRM_DEV_ERROR(dev, "Failed to register audio driver: %d", err);
-+		return err;
-+	}
-+
- 	INIT_WORK(&it6505->link_works, it6505_link_training_work);
- 	INIT_WORK(&it6505->hdcp_wait_ksv_list, it6505_hdcp_wait_ksv_list);
- 	INIT_DELAYED_WORK(&it6505->hdcp_work, it6505_hdcp_work);
--- 
-2.25.1
+>
+> >
+> > >
+> > > >
+> > > > >
+> > > > > dw-mipi-dsi.c is generic w/wo this patch series.
+> > > > >
+> > > > > Can you elaborate more about adding compatibility to be part of
+> > existing
+> > > > > dw-mipi-dsi.c with specific driver data?  I don't see clear appro=
+ach to do
+> > > > > that.
+> > > >
+> > > > Please check the above comments, an example of samsung-dsim.c
+> > >
+> > > ... it seems that samsung-dsim.c uses struct samsung_dsim_driver_data=
+ to
+> > > differential platform information and it doesn't contain any callback=
+, which
+> > > means comparing to DW MIPI DSI, Samsung DSIM shows more consistency
+> > > across vendor SoCs from HW IP/SoC integration PoV.
+> >
+> > Yes, but is it possible to adjust struct according to DW MIPI DSI.
+>
+> Looking at the vendor drivers, they show a lot diversity, which cannot be
+> parameterized into a struct like the samsung dsim driver does.
+>
+> struct dw_mipi_dsi_plat_data hides all platform specific information from
+> dw-mipi-dsi.c well, IMHO.
 
+Okay.
+
+Thanks,
+Jagan.
