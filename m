@@ -1,68 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2DE768315
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 03:01:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D8F76831A
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 03:08:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD2110E24B;
-	Sun, 30 Jul 2023 01:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC8E10E0DB;
+	Sun, 30 Jul 2023 01:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A73D010E23C
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 01:01:12 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f95bf5c493so5428477e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jul 2023 18:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690678871; x=1691283671;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HNep56ndTF+1OTRgtfGeSepaCmPgtbT3lMXHlS78A54=;
- b=VP7F69K1wmhrC08b/bwOjgX/Ozq71vZdTK4xi2z3if8ZCsOVtNbz05tjLes7EZXp75
- s4AkQZ2qQX3OyGMzkAXYXz1JUEh0mPxKFsyiMLle3esPH5ZNJykpNdixZaL7N1oOFEP4
- DtBzmgbvJqah+F3oT6qpAIZoxUEx1FKuSfSxpBEgRM1kTkMPNj/g1Bvkc4tede49e6JD
- 1tVFav++zBwtaHDtUDRkaLO1OljHUfALqKMN2FnRwc5IMUzLJrzvTURtER8IsnamvQdJ
- 3oQwC/Dvs71jh5AQZr9Bes8er7pSIB8Yt7BFAexphIEQx4kbU7vGG70dmU9NjYR2WWaM
- KspA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690678871; x=1691283671;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HNep56ndTF+1OTRgtfGeSepaCmPgtbT3lMXHlS78A54=;
- b=brLqRh2xxSBIhWIgGLystS6GVeSRFIlNb3sGHqsUyQKjjIM5bnpGAQd8d70m0RA1DL
- hhPTjAmusa/ZZsFoGnHJzzbC0hloM5m+8QzW+BWeTMNHTlh+TExntr2OO7VvxQRgskvU
- MDtZeuwQAd9pnI3Ty8g4c2wEW64nEq8NvdazDJTx9lxqFNcVWHKmwSH/6Po03GVbI/8A
- GozFwG1igbrtIJZQRpAKVlrh/hiD+zge+OgJJlcdF832taGUiL8vcllgvpv9lHxSZ6P0
- wdXPtqIllbv2bQMUQab+GM+bjdlHQZniyd7fyfNuSmD6sLYyWdwBxaewSMHe+y9xKFdP
- 6kqA==
-X-Gm-Message-State: ABy/qLYt8YAFGRZ3DHGyduq87lU8u3zRLg5k2KMkhyp3MuFXqMuAIUr5
- NVLHyK7ekppl9d50kWHx9XKjOg==
-X-Google-Smtp-Source: APBJJlF2di7vRrBf7NR30qpA4Hxn2ld2JHpvwAIilpyc0cljWhqRV1FHPsQ5pqn3ktry1DW2aw5Ltg==
-X-Received: by 2002:a2e:8197:0:b0:2b6:f1d5:619 with SMTP id
- e23-20020a2e8197000000b002b6f1d50619mr4367771ljg.14.1690678871076; 
- Sat, 29 Jul 2023 18:01:11 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- 22-20020a05651c009600b002b9e501a6acsm169898ljq.3.2023.07.29.18.01.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Jul 2023 18:01:10 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v5 10/10] drm/msm/dpu: drop dpu_core_perf_destroy()
-Date: Sun, 30 Jul 2023 04:01:02 +0300
-Message-Id: <20230730010102.350713-11-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230730010102.350713-1-dmitry.baryshkov@linaro.org>
-References: <20230730010102.350713-1-dmitry.baryshkov@linaro.org>
+Received: from mgamail.intel.com (unknown [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4376710E0DB
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 01:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690679316; x=1722215316;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Pn2YJCGXkyEQ1oZ3DmDf8JjbyCx2Q0Jd+FIiyB3IIoM=;
+ b=iR2phTcuOp4SM7jfM6HU9UvKhxKiVGggT/wHfUkRkCNMQmVD8BzVD6zL
+ X4+3BNM6EV2Mnhn7AtCVmbhT9TbuE1IzlCePQbtFbDpuX3SX0U6z0AX7z
+ J9avwCxglsQNn0HeZE+P52U45Ri8CvfUVW3nP+bTTlqmITAT3v+rp6HhS
+ kYJyXw3Fs86sF2X5t03Yvz507jzlZ7O6SMqjMT24CU4x6Kf4M2KjmeBg8
+ aohWQdc7vA09GaT3ixKi6vzXevPKdUU7QE6jQczBp4HnM32UZffeWMvcR
+ fl/n8Vfjv9FOCww5ZaqEWUO7yC+NQ1LZrnprpiERRzbCmxThGmzUMzw31 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="349100550"
+X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; d="scan'208";a="349100550"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2023 18:08:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10786"; a="762954221"
+X-IronPort-AV: E=Sophos;i="6.01,240,1684825200"; d="scan'208";a="762954221"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+ by orsmga001.jf.intel.com with ESMTP; 29 Jul 2023 18:08:30 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qPuv7-0004Mj-3D;
+ Sun, 30 Jul 2023 01:08:30 +0000
+Date: Sun, 30 Jul 2023 09:08:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
+Message-ID: <202307300803.N6tLICrD-lkp@intel.com>
+References: <20230729204307.268587-4-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230729204307.268587-4-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,73 +66,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This function does nothing, just clears one struct field. Drop it now.
+Hi Dmitry,
 
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 10 ----------
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  6 ------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  1 -
- 3 files changed, 17 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-index 665b7b21a817..0b54a659a940 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-@@ -481,16 +481,6 @@ int dpu_core_perf_debugfs_init(struct dpu_kms *dpu_kms, struct dentry *parent)
- }
- #endif
- 
--void dpu_core_perf_destroy(struct dpu_core_perf *perf)
--{
--	if (!perf) {
--		DPU_ERROR("invalid parameters\n");
--		return;
--	}
--
--	perf->max_core_clk_rate = 0;
--}
--
- int dpu_core_perf_init(struct dpu_core_perf *perf,
- 		const struct dpu_perf_cfg *perf_cfg,
- 		unsigned long max_core_clk_rate)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-index 8cc55752db5e..4186977390bd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-@@ -78,12 +78,6 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
-  */
- void dpu_core_perf_crtc_release_bw(struct drm_crtc *crtc);
- 
--/**
-- * dpu_core_perf_destroy - destroy the given core performance context
-- * @perf: Pointer to core performance context
-- */
--void dpu_core_perf_destroy(struct dpu_core_perf *perf);
--
- /**
-  * dpu_core_perf_init - initialize the given core performance context
-  * @perf: Pointer to core performance context
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 5bfea4868e43..76ba86d3e436 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1212,7 +1212,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 	return 0;
- 
- drm_obj_init_err:
--	dpu_core_perf_destroy(&dpu_kms->perf);
- hw_intr_init_err:
- perf_err:
- power_error:
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc3 next-20230728]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-add-transparent-bridge-helper/20230730-044510
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230729204307.268587-4-dmitry.baryshkov%40linaro.org
+patch subject: [PATCH 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
+config: i386-buildonly-randconfig-r006-20230730 (https://download.01.org/0day-ci/archive/20230730/202307300803.N6tLICrD-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230730/202307300803.N6tLICrD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307300803.N6tLICrD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/display/drm_simple_bridge.c:104:15: error: no member named 'of_node' in 'struct drm_bridge'
+           data->bridge.of_node = data->dev->of_node;
+           ~~~~~~~~~~~~ ^
+   1 error generated.
+--
+>> drivers/gpu/drm/bridge/simple-bridge.c:212:18: error: no member named 'of_node' in 'struct drm_bridge'
+           sbridge->bridge.of_node = pdev->dev.of_node;
+           ~~~~~~~~~~~~~~~ ^
+   1 error generated.
+
+
+vim +104 drivers/gpu/drm/display/drm_simple_bridge.c
+
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   87  
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   88  static int drm_simple_bridge_probe(struct auxiliary_device *auxdev,
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   89  				   const struct auxiliary_device_id *id)
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   90  {
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   91  	struct drm_simple_bridge_data *data;
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   92  
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   93  	data = devm_kzalloc(&auxdev->dev, sizeof(*data), GFP_KERNEL);
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   94  	if (!data)
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   95  		return -ENOMEM;
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   96  
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   97  	data->dev = &auxdev->dev;
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   98  	data->next_bridge = devm_drm_of_get_bridge(&auxdev->dev, auxdev->dev.of_node, 0, 0);
+cd1c726976d298 Dmitry Baryshkov 2023-07-29   99  	if (IS_ERR(data->next_bridge))
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  100  		return dev_err_probe(&auxdev->dev, PTR_ERR(data->next_bridge),
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  101  				     "failed to acquire drm_bridge\n");
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  102  
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  103  	data->bridge.funcs = &drm_simple_bridge_funcs;
+cd1c726976d298 Dmitry Baryshkov 2023-07-29 @104  	data->bridge.of_node = data->dev->of_node;
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  105  
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  106  	return devm_drm_bridge_add(data->dev, &data->bridge);
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  107  }
+cd1c726976d298 Dmitry Baryshkov 2023-07-29  108  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
