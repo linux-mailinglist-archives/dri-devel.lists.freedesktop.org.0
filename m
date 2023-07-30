@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D5D7687A3
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 21:45:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 397517687B2
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jul 2023 21:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3906010E133;
-	Sun, 30 Jul 2023 19:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 560FE10E135;
+	Sun, 30 Jul 2023 19:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 977EF10E12C
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 19:45:18 +0000 (UTC)
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50BF010E135
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 19:52:31 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 4908E203CB;
- Sun, 30 Jul 2023 21:45:16 +0200 (CEST)
-Date: Sun, 30 Jul 2023 21:45:14 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 86A09203AF;
+ Sun, 30 Jul 2023 21:52:29 +0200 (CEST)
+Date: Sun, 30 Jul 2023 21:52:28 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 2/8] drm/msm/dpu: enable PINGPONG TE operations only
- when supported by HW
-Message-ID: <qowcwmoo6h25xkcdsmm2f3celsiwggu4zmn24p4gq3intcku2f@lfwf4f3vhjuq>
+Subject: Re: [PATCH v2 8/8] drm/msm/dpu: move INTF tearing checks to
+ dpu_encoder_phys_cmd_init
+Message-ID: <iicue6zvfcv5jhwhemivl7fjjiil6w7a74owafrztqlc4eakzp@fao3dzsil2tf>
 References: <20230730003518.349197-1-dmitry.baryshkov@linaro.org>
- <20230730003518.349197-3-dmitry.baryshkov@linaro.org>
+ <20230730003518.349197-9-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230730003518.349197-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230730003518.349197-9-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,79 +51,101 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-07-30 03:35:12, Dmitry Baryshkov wrote:
-> The DPU_PINGPONG_TE bit is set for all PINGPONG blocks on DPU < 5.0.
-> Rather than checking for the flag, check for the presense of the
-> corresponding interrupt line.
+On 2023-07-30 03:35:18, Dmitry Baryshkov wrote:
+> As the INTF is fixed at the encoder creation time, we can move the
+> check whether INTF supports tearchck to dpu_encoder_phys_cmd_init().
+> This function can return an error if INTF doesn't have required feature.
+> Performing this check in dpu_encoder_phys_cmd_tearcheck_config() is less
+> useful, as this function returns void.
 > 
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 41 +++++++++++--------
+>  1 file changed, 25 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index 012986cff38c..adbd559a5290 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -325,24 +325,21 @@ static void dpu_encoder_phys_cmd_tearcheck_config(
+>  	unsigned long vsync_hz;
+>  	struct dpu_kms *dpu_kms;
+>  
+> -	if (phys_enc->has_intf_te) {
+> -		if (!phys_enc->hw_intf ||
+> -		    !phys_enc->hw_intf->ops.enable_tearcheck) {
+> -			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
+> -			return;
+> -		}
+> -
+> -		DPU_DEBUG_CMDENC(cmd_enc, "");
+> -	} else {
+> -		if (!phys_enc->hw_pp ||
+> -		    !phys_enc->hw_pp->ops.enable_tearcheck) {
+> -			DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
+> -			return;
+> -		}
+> -
+> -		DPU_DEBUG_CMDENC(cmd_enc, "pp %d\n", phys_enc->hw_pp->idx - PINGPONG_0);
+> +	/*
+> +	 * TODO: if/when resource allocation is refactored, move this to a
+> +	 * place where the driver can actually return an error.
+> +	 */
+> +	if (!phys_enc->has_intf_te &&
+> +	    (!phys_enc->hw_pp ||
+> +	     !phys_enc->hw_pp->ops.enable_tearcheck)) {
 
-This patch changed significantly since the last submission, but it is
-still to my liking so this r-b stays!
+We're probably overdoing it here if I request a WARN_ON when has_intf_te
+is true while enable_tearcheck is also non-NULL?
+
+> +		DPU_DEBUG_CMDENC(cmd_enc, "tearcheck not supported\n");
+> +		return;
+>  	}
+>  
+> +	DPU_DEBUG_CMDENC(cmd_enc, "intf %d pp %d\n",
+> +			 phys_enc->hw_intf->idx - INTF_0,
+> +			 phys_enc->hw_pp->idx - PINGPONG_0);
+
+Note that hw_pp wasn't printed when has_intf_te is true.  And it doesn't
+seem like that pointer is dereferenced anywhere in that case, perhaps
+hw_pp may even be NULL within dpu_encoder_phys_cmd_tearcheck_config() at
+some point.
+
+> +
+>  	mode = &phys_enc->cached_mode;
+>  
+>  	dpu_kms = phys_enc->dpu_kms;
+> @@ -768,10 +765,22 @@ struct dpu_encoder_phys *dpu_encoder_phys_cmd_init(
+>  	phys_enc->intf_mode = INTF_MODE_CMD;
+>  	cmd_enc->stream_sel = 0;
+>  
+> +	if (!phys_enc->hw_intf) {
+> +		DPU_ERROR_CMDENC(cmd_enc, "no INTF provided\n");
+> +
+
+No need for this newline?
+
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+>  	/* DPU before 5.0 use PINGPONG for TE handling */
+>  	if (phys_enc->dpu_kms->catalog->mdss_ver->core_major_ver >= 5)
+>  		phys_enc->has_intf_te = true;
+>  
+> +	if (phys_enc->has_intf_te && !phys_enc->hw_intf->ops.enable_tearcheck) {
+> +		DPU_ERROR_CMDENC(cmd_enc, "tearcheck not supported\n");
+> +
+
+Same here?
 
 - Marijn
 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c | 6 ++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h | 3 ++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c          | 2 +-
->  3 files changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> index 9298c166b213..057cac7f5d93 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
-> @@ -282,7 +282,7 @@ static int dpu_hw_pp_setup_dsc(struct dpu_hw_pingpong *pp)
->  }
->  
->  struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
-> -		void __iomem *addr)
-> +		void __iomem *addr, const struct dpu_mdss_version *mdss_rev)
->  {
->  	struct dpu_hw_pingpong *c;
->  
-> @@ -296,7 +296,9 @@ struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
->  	c->idx = cfg->id;
->  	c->caps = cfg;
->  
-> -	if (test_bit(DPU_PINGPONG_TE, &cfg->features)) {
-> +	if (mdss_rev->core_major_ver < 5) {
-> +		WARN_ON(!cfg->intr_rdptr);
+> +		return ERR_PTR(-EINVAL);
+> +	}
 > +
->  		c->ops.enable_tearcheck = dpu_hw_pp_enable_te;
->  		c->ops.disable_tearcheck = dpu_hw_pp_disable_te;
->  		c->ops.connect_external_te = dpu_hw_pp_connect_external_te;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-> index d3246a9a5808..0d541ca5b056 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
-> @@ -123,10 +123,11 @@ static inline struct dpu_hw_pingpong *to_dpu_hw_pingpong(struct dpu_hw_blk *hw)
->   * pingpong catalog entry.
->   * @cfg:  Pingpong catalog entry for which driver object is required
->   * @addr: Mapped register io address of MDP
-> + * @mdss_rev: dpu core's major and minor versions
->   * Return: Error code or allocated dpu_hw_pingpong context
->   */
->  struct dpu_hw_pingpong *dpu_hw_pingpong_init(const struct dpu_pingpong_cfg *cfg,
-> -		void __iomem *addr);
-> +		void __iomem *addr, const struct dpu_mdss_version *mdss_rev);
+>  	atomic_set(&cmd_enc->pending_vblank_cnt, 0);
+>  	init_waitqueue_head(&cmd_enc->pending_vblank_wq);
 >  
->  /**
->   * dpu_hw_pingpong_destroy - destroys pingpong driver context
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 4a53e2c931d6..9894eea77b5f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -145,7 +145,7 @@ int dpu_rm_init(struct dpu_rm *rm,
->  		struct dpu_hw_pingpong *hw;
->  		const struct dpu_pingpong_cfg *pp = &cat->pingpong[i];
->  
-> -		hw = dpu_hw_pingpong_init(pp, mmio);
-> +		hw = dpu_hw_pingpong_init(pp, mmio, cat->mdss_ver);
->  		if (IS_ERR(hw)) {
->  			rc = PTR_ERR(hw);
->  			DPU_ERROR("failed pingpong object creation: err %d\n",
 > -- 
 > 2.39.2
 > 
