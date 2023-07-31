@@ -2,51 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552F6769436
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 13:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F71B76951D
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 13:42:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1140A10E260;
-	Mon, 31 Jul 2023 11:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCF610E267;
+	Mon, 31 Jul 2023 11:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD90F10E260;
- Mon, 31 Jul 2023 11:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690801603; x=1722337603;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=U22W154T7l+8t1Ma+k1W2jJfVH4CV8G1PTIyGsQ1oME=;
- b=Vfq+FdZNlMCbGudy0Tb87j3ykoFf1HGxv4LTRRmMg0cNb7sORktYa6dA
- JjM649LA+ASPlyQdsxG6D+OlSki6ifb8Mci43jLeHih0p5Wo/k4/MmqPS
- V1dyPYeuKdh7vl5zG1zA731eX0+gVf7Pnj1iMEgpxli4Mie34Px+EHWqG
- eX3KMfDAXr85liQYFSUo3culItEQnpc7NTeJ4ioODjjlM9ey/B4gl6HlF
- Bh4sx7dcNCaRlO0+6rntDUKs89BsL8sf7e5/HodNnlZPrMhAUv/9PzpUi
- 0INPQ/q0TIrt+qfK29mRWG0kiYXkNNrZGonigIZMVCXlzAkEcZUCdwK43 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="369001985"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="369001985"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2023 04:06:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="902076821"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="902076821"
-Received: from naikshri-mobl7.ger.corp.intel.com (HELO localhost)
- ([10.252.36.230])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2023 04:06:40 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti
- <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Replace i915->gt0 with to_gt(i915)
-In-Reply-To: <20230725103330.1041394-1-andi.shyti@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230725103330.1041394-1-andi.shyti@linux.intel.com>
-Date: Mon, 31 Jul 2023 14:06:37 +0300
-Message-ID: <874jlkxruq.fsf@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47FED10E267
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 11:42:27 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
+ [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9668B2E4;
+ Mon, 31 Jul 2023 13:41:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1690803683;
+ bh=kXAeucgHM8pQRaW5d1hxlWWePTwnI/+HQ2wiDfbJf2k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=myQxQ28nNpoPcrTwJUNxEnxaz/PfNtLQ6yH5NSneBXVY/ekqyX6kr2wNcG6cv+x04
+ WM0xB4VI50WMDJDwZ/2LKseroOpun0Oa98zZateS+RBNeNpKI1LxFFSpNB6A0u4o/7
+ fbepTTmDYwRMiZfa6xgOA1Kqn/a6n6ANbiUTZ7eg=
+Message-ID: <f490e6ed-4553-445e-21a8-82f8baeda15b@ideasonboard.com>
+Date: Mon, 31 Jul 2023 14:42:20 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] drm/bridge: Add debugfs print for bridge chains
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230721-drm-bridge-chain-debugfs-v2-1-76df94347962@ideasonboard.com>
+ <20230725113718.GE31069@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230725113718.GE31069@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,108 +50,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Jul 2023, Andi Shyti <andi.shyti@linux.intel.com> wrote:
-> Quite surprised to see that around i915 there are still i915->gt0
-> references. Replace them with the to_gt() helper.
+On 25/07/2023 14:37, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Jul 21, 2023 at 06:01:39PM +0300, Tomi Valkeinen wrote:
+>> DRM bridges are not visible to the userspace and it may not be
+>> immediately clear if the chain is somehow constructed incorrectly. I
+>> have had two separate instances of a bridge driver failing to do a
+>> drm_bridge_attach() call, resulting in the bridge connector not being
+>> part of the chain. In some situations this doesn't seem to cause issues,
+>> but it will if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is used.
+>>
+>> Add a debugfs file to print the bridge chains. For me, on this TI AM62
+>> based platform, I get the following output:
+>>
+>> encoder[39]
+>> 	bridge[0] type: 0, ops: 0x0
+>> 	bridge[1] type: 0, ops: 0x0, OF: /bus@f0000/i2c@20000000/dsi@e:toshiba,tc358778
+>> 	bridge[2] type: 0, ops: 0x3, OF: /bus@f0000/i2c@20010000/hdmi@48:lontium,lt8912b
+>> 	bridge[3] type: 11, ops: 0x7, OF: /hdmi-connector:hdmi-connector
+> 
+> Names would be more readable than numbers, but I'm not sure that's
+> really worth it. It can always be improved on top if desired.
 
-Please remind me why we still have i915->gt0 at all. Why aren't we just
-using i915->gt[0] instead?
+For type and ops? I agree, but it might also make the output more 
+cluttered. To be honest, I'm not sure if type and ops are useful here, I 
+just felt that I should print something else than just the OF node =).
 
-BR,
-Jani.
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>> Changes in v2:
+>> - Fixed compilation issue when !CONFIG_OF
+>> - Link to v1: https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com
+>> ---
+>>   drivers/gpu/drm/drm_bridge.c  | 50 +++++++++++++++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/drm_debugfs.c |  3 +++
+>>   include/drm/drm_bridge.h      |  5 +++++
+>>   3 files changed, 58 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+>> index c3d69af02e79..d3eb62d5ef3b 100644
+>> --- a/drivers/gpu/drm/drm_bridge.c
+>> +++ b/drivers/gpu/drm/drm_bridge.c
+>> @@ -27,8 +27,10 @@
+>>   #include <linux/mutex.h>
+>>   
+>>   #include <drm/drm_atomic_state_helper.h>
+>> +#include <drm/drm_debugfs.h>
+>>   #include <drm/drm_bridge.h>
+>>   #include <drm/drm_encoder.h>
+>> +#include <drm/drm_file.h>
+>>   #include <drm/drm_of.h>
+>>   #include <drm/drm_print.h>
+>>   
+>> @@ -1345,6 +1347,54 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>>   EXPORT_SYMBOL(of_drm_find_bridge);
+>>   #endif
+>>   
+>> +#ifdef CONFIG_DEBUG_FS
+>> +static int drm_bridge_chains_info(struct seq_file *m, void *data)
+>> +{
+>> +	struct drm_debugfs_entry *entry = m->private;
+>> +	struct drm_device *dev = entry->dev;
+>> +	struct drm_printer p = drm_seq_file_printer(m);
+>> +	struct drm_mode_config *config = &dev->mode_config;
+> 
+> As Alexander reported, there's a crash for GPU drivers, as mode_config
+> isn't initialized in that case. I would skip creating the debugfs entry
+> if DRIVER_MODESET isn't set.
 
->
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c       | 2 +-
->  drivers/gpu/drm/i915/gt/intel_gt.c               | 2 +-
->  drivers/gpu/drm/i915/gt/intel_region_lmem.c      | 2 +-
->  drivers/gpu/drm/i915/pxp/intel_pxp.c             | 8 ++++----
->  drivers/gpu/drm/i915/selftests/mock_gem_device.c | 2 +-
->  5 files changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 3b094d36a0b04..5b0a5cf9a98a8 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -892,7 +892,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->  	} else {
->  		resource_size_t lmem_range;
->  
-> -		lmem_range = intel_gt_mcr_read_any(&i915->gt0, XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
-> +		lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
->  		lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
->  		lmem_size *= SZ_1G;
->  	}
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 9f64d61dd5fcd..02886c1eb0f17 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -887,7 +887,7 @@ static int intel_gt_tile_setup(struct intel_gt *gt, phys_addr_t phys_addr)
->  int intel_gt_probe_all(struct drm_i915_private *i915)
->  {
->  	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-> -	struct intel_gt *gt = &i915->gt0;
-> +	struct intel_gt *gt = to_gt(i915);
->  	const struct intel_gt_definition *gtdef;
->  	phys_addr_t phys_addr;
->  	unsigned int mmio_bar;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> index 2a3217e2890fc..f8512aee58a83 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-> @@ -220,7 +220,7 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
->  		resource_size_t lmem_range;
->  		u64 tile_stolen, flat_ccs_base;
->  
-> -		lmem_range = intel_gt_mcr_read_any(&i915->gt0, XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
-> +		lmem_range = intel_gt_mcr_read_any(to_gt(i915), XEHP_TILE0_ADDR_RANGE) & 0xFFFF;
->  		lmem_size = lmem_range >> XEHP_TILE_LMEM_RANGE_SHIFT;
->  		lmem_size *= SZ_1G;
->  
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> index bb2e15329f346..38ec754d0ec8e 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-> @@ -162,8 +162,8 @@ static struct intel_gt *find_gt_for_required_teelink(struct drm_i915_private *i9
->  	 * for HuC authentication. For now, its limited to DG2.
->  	 */
->  	if (IS_ENABLED(CONFIG_INTEL_MEI_PXP) && IS_ENABLED(CONFIG_INTEL_MEI_GSC) &&
-> -	    intel_huc_is_loaded_by_gsc(&i915->gt0.uc.huc) && intel_uc_uses_huc(&i915->gt0.uc))
-> -		return &i915->gt0;
-> +	    intel_huc_is_loaded_by_gsc(&to_gt(i915)->uc.huc) && intel_uc_uses_huc(&to_gt(i915)->uc))
-> +		return to_gt(i915);
->  
->  	return NULL;
->  }
-> @@ -188,8 +188,8 @@ static struct intel_gt *find_gt_for_required_protected_content(struct drm_i915_p
->  	 * Else we rely on mei-pxp module but only on legacy platforms
->  	 * prior to having separate media GTs and has a valid VDBOX.
->  	 */
-> -	if (IS_ENABLED(CONFIG_INTEL_MEI_PXP) && !i915->media_gt && VDBOX_MASK(&i915->gt0))
-> -		return &i915->gt0;
-> +	if (IS_ENABLED(CONFIG_INTEL_MEI_PXP) && !i915->media_gt && VDBOX_MASK(to_gt(i915)))
-> +		return to_gt(i915);
->  
->  	return NULL;
->  }
-> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> index 12aa7fbb07481..da0b269606c51 100644
-> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
-> @@ -114,7 +114,7 @@ static struct dev_pm_domain pm_domain = {
->  
->  static void mock_gt_probe(struct drm_i915_private *i915)
->  {
-> -	i915->gt[0] = &i915->gt0;
-> +	i915->gt[0] = to_gt(i915);
->  	i915->gt[0]->name = "Mock GT";
->  }
+Yes, makes sense.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+>> +	struct drm_encoder *encoder;
+>> +	unsigned int bridge_idx = 0;
+>> +
+>> +	list_for_each_entry(encoder, &config->encoder_list, head) {
+>> +		struct drm_bridge *bridge;
+>> +
+>> +		drm_printf(&p, "encoder[%u]\n", encoder->base.id);
+>> +
+>> +		bridge = drm_bridge_chain_get_first_bridge(encoder);
+>> +
+>> +		while (bridge) {
+> 
+> Would drm_for_each_bridge_in_chain() help ?
+
+Yes.
+
+>> +			drm_printf(&p, "\tbridge[%u] type: %u, ops: %#x",
+>> +				   bridge_idx, bridge->type, bridge->ops);
+>> +
+>> +#ifdef CONFIG_OF
+>> +			if (bridge->of_node)
+>> +				drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
+>> +#endif
+>> +
+>> +			drm_printf(&p, "\n");
+>> +
+>> +			bridge_idx++;
+>> +			bridge = drm_bridge_get_next_bridge(bridge);
+>> +		}
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/* any use in debugfs files to dump individual planes/crtc/etc? */
+> 
+> Those can easily be listed from userspace, so I don't think that's
+> needed.
+
+Oops. That comment is not supposed to be there. It was a copy-paste error.
+
+>> +static const struct drm_debugfs_info drm_bridge_debugfs_list[] = {
+>> +	{"bridge_chains", drm_bridge_chains_info, 0},
+> 
+> Missing spaces after '{' and before '}'.
+
+Yep.
+
+>> +};
+>> +
+>> +void drm_bridge_debugfs_init(struct drm_minor *minor)
+>> +{
+>> +	drm_debugfs_add_files(minor->dev, drm_bridge_debugfs_list,
+>> +			      ARRAY_SIZE(drm_bridge_debugfs_list));
+>> +}
+>> +#endif
+>> +
+>>   MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+>>   MODULE_DESCRIPTION("DRM bridge infrastructure");
+>>   MODULE_LICENSE("GPL and additional rights");
+>> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+>> index c90dbcffa0dc..3e89559d68cd 100644
+>> --- a/drivers/gpu/drm/drm_debugfs.c
+>> +++ b/drivers/gpu/drm/drm_debugfs.c
+>> @@ -31,6 +31,7 @@
+>>   
+>>   #include <drm/drm_atomic.h>
+>>   #include <drm/drm_auth.h>
+>> +#include <drm/drm_bridge.h>
+>>   #include <drm/drm_client.h>
+>>   #include <drm/drm_debugfs.h>
+>>   #include <drm/drm_device.h>
+>> @@ -272,6 +273,8 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>>   
+>>   	drm_debugfs_add_files(minor->dev, drm_debugfs_list, DRM_DEBUGFS_ENTRIES);
+>>   
+>> +	drm_bridge_debugfs_init(minor);
+>> +
+>>   	if (drm_drv_uses_atomic_modeset(dev)) {
+>>   		drm_atomic_debugfs_init(minor);
+>>   	}
+>> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+>> index bf964cdfb330..60dbee6bd1e6 100644
+>> --- a/include/drm/drm_bridge.h
+>> +++ b/include/drm/drm_bridge.h
+>> @@ -949,4 +949,9 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+>>   }
+>>   #endif
+>>   
+>> +#ifdef CONFIG_DEBUG_FS
+> 
+> You could drop the conditional compilation, it wouldn't hurt.
+
+I used the same style as in drm_crtc_internal.h. But you're right, the 
+ifdef doesn't really do much here.
+
+>> +struct drm_minor;
+>> +void drm_bridge_debugfs_init(struct drm_minor *minor);
+>> +#endif
+>> +
+>>   #endif
+>>
+>> ---
+>> base-commit: c7a472297169156252a50d76965eb36b081186e2
+>> change-id: 20230721-drm-bridge-chain-debugfs-0bbc1522f57a
+> 
+
+  Tomi
+
