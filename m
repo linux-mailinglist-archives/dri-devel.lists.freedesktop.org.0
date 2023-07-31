@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF69769622
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:23:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02888769623
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8394910E268;
-	Mon, 31 Jul 2023 12:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5082010E278;
+	Mon, 31 Jul 2023 12:23:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86ED10E268
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 12:23:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFB4310E27A
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 12:23:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 482AF61090;
- Mon, 31 Jul 2023 12:23:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60FDCC433C9;
- Mon, 31 Jul 2023 12:23:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1FAE5610A6;
+ Mon, 31 Jul 2023 12:23:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339B2C433C8;
+ Mon, 31 Jul 2023 12:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690806201;
- bh=vtiNe4G7rXfUPIV0oIeYWpUQbdzfz9IJ3ODvzvMPr8Q=;
+ s=k20201202; t=1690806204;
+ bh=vuba+Vhq5g0pWYAbMHyb5jikpXT3P+OQTVInnYC3tOE=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=sQQ9jYFpJBhowuZb2LUzf3LfMCUxkBWcgAj7cltelwHQIGRX8IQzivkClN2i9rm/f
- IJ/QymMoYhRsdUKhv9A++TBcHETgIU8L5l2UyWlwzM1PNXNnMU/YkD1rpWWrqYUHxF
- Zac3L5TfY5xMHVbqUiFzIveukUXt9R09FAycpqSb7zD1THki2HXttkrSk9uln+/7aU
- bvxsuCDUxLCh8VPp6c85xra3A0LyrSEqrq7nxFKm8smzbeK1/Fh56E4e5jaSboZbDR
- ySqAs2osdE/oMIR+Pue7t64cZ1/uyJy+7uyKXMa4qM7V/xvuLHOVamuH0B5XSzYbRr
- WdUzhGiWmts0g==
+ b=HqBvYQ+OKR/L2+HFOL2swHCVgFG1Xnt7sXVcqOte2mX2t/Gdz7UOwAz447oeObMck
+ ssiba4/SfCWGGGuT3i8K9Hd6GE0p4dEMsN9uUVxvfXltThta9wQO6RA21QV/nmQZZp
+ e7KDcXzyEz+cp2Q2PMXff370JifZjg5xjsQwXA56GG2gXxmBQjivE4/5lwTXU1eHMc
+ /RL/Vld1QklUuizUlHzjcNkUD54+WXyxhbeeLE2tmOOiIQ41iOhNcVLLsZL5ARCUi1
+ jEgKxl5Nc9EoQPd/zo4jWS6vA69oC7E20GMaQ40+WD2nLYYS/PWMRckul49yIthvSl
+ KktQmZMXOoV7Q==
 From: Maxime Ripard <mripard@kernel.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, 
  Maxime Ripard <mripard@kernel.org>
-In-Reply-To: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
-References: <20230720-kms-kunit-actions-rework-v2-0-175017bd56ab@kernel.org>
-Subject: Re: [PATCH v2 00/11] drm: kunit: Switch to kunit actions
-Message-Id: <169080619883.275106.14754848057224430260.b4-ty@kernel.org>
-Date: Mon, 31 Jul 2023 14:23:18 +0200
+In-Reply-To: <20230728-kms-kunit-actions-rework-v3-0-952565ccccfe@kernel.org>
+References: <20230728-kms-kunit-actions-rework-v3-0-952565ccccfe@kernel.org>
+Subject: Re: [PATCH v3 00/11] drm: kunit: Switch to kunit actions
+Message-Id: <169080620207.275106.8542250343147721181.b4-ty@kernel.org>
+Date: Mon, 31 Jul 2023 14:23:22 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -65,7 +66,7 @@ Cc: linux-kselftest@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Jul 2023 13:15:45 +0200, Maxime Ripard wrote:
+On Fri, 28 Jul 2023 11:06:13 +0200, Maxime Ripard wrote:
 > Since v6.5-rc1, kunit gained a devm/drmm-like mechanism that makes tests
 > resources much easier to cleanup.
 > 
