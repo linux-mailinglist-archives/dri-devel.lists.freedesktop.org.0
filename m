@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1039769C03
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A5D769C06
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:13:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9923010E2C5;
-	Mon, 31 Jul 2023 16:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D3410E2CA;
+	Mon, 31 Jul 2023 16:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (unknown [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE00810E2C0
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:13:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA9B10E2C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690819998; x=1722355998;
+ t=1690820002; x=1722356002;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=D7wn5JU4z6JXGq+uGxZ1MXoYuMfTAo1vRpkna6Vked0=;
- b=gaj2T0p0PIYzIn0HmKsJBywIzmrExQrpYWv2WdzZeeTTahEauEd3eUQf
- zDBf7RiVfSXLVacXdRQ0iwpLXfObQFQTgg9i4YuNa8BwJUU6ZdCele6qa
- F4iRvcGwkujoB0hO3vwOn7a2n6gNF5dmg33MJt899LvuyliF9vqqyqncK
- TYg18KkeJpvQT40AIcBLFa2Awarr8jYixreKhD5nyS0vDzjDjgKoZWdrT
- M+FryOuVxmtbvO2bkSAcFQx0SpsZvBAnSWpc5jp7UyeFsjLRauPiC/S3D
- ejXHrpFuo2GwtRqHajI98ruK3GcvSvBfqvtshsLCOpOHmRdIuYbS/KT88 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="400007891"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="400007891"
+ bh=LXg4ZfBzOIP5986zGBqZFBhttCah9NVmS13/SHJcRj8=;
+ b=btIGmFFlfvdsXgY6uFSGcYgMbe7uLRPNDGK34vkeSyTe1LihQTZzZgIR
+ mpjDelmiVPoPSdZawZbJLPmSraamEysKWyZJVN95Sd8IlrRUa6IkvLOKO
+ MkFsA2zVNR2LI9ISOoS1BMa9poflhCnx3ksn65irOmu038ug+iLVbp+TM
+ rhn16qIXfApRAGZind6YVRUxlTU3stGGMkz698+1rZgGy4CXTxRG9onDf
+ luZ5WMSQwl3SAtuAy5kWlWT6cQzaBVQ/hCTV+ym2qycHmtCwMVmkVQ7Ba
+ 49/lPcls7XjP9zxtg3RlQ4/vu7VAXumPTXIqje/FqtqVfF5uuHVpG2JTH w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="400007900"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="400007900"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2023 09:13:18 -0700
+ 31 Jul 2023 09:13:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="818396411"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="818396411"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="818396437"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="818396437"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2023 09:13:17 -0700
+ 31 Jul 2023 09:13:20 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/6] accel/ivpu: Refactor memory ranges logic
-Date: Mon, 31 Jul 2023 18:12:57 +0200
-Message-Id: <20230731161258.2987564-6-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 6/6] accel/ivpu: Add initial support for VPU 4
+Date: Mon, 31 Jul 2023 18:12:58 +0200
+Message-Id: <20230731161258.2987564-7-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230731161258.2987564-1-stanislaw.gruszka@linux.intel.com>
 References: <20230731161258.2987564-1-stanislaw.gruszka@linux.intel.com>
@@ -57,230 +57,1593 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Wachowski <karol.wachowski@linux.intel.com>,
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
  Oded Gabbay <ogabbay@kernel.org>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+ Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Add support VPU 4 - new generation of VPU IP with various
+hardware design improvements. From driver point of view, it differs
+in register set, initialization process and MMU memory ranges.
 
-Add new dma range and change naming convention for virtual address
-memory ranges managed by KMD.
-
-New available ranges are named as follows:
- * global range - global context accessible by FW
- * aliased range - user context accessible by FW
- * dma range - user context accessible by DMA
- * shave range - user context accessible by shaves
- * global shave range - global context accessible by shave nn
-
+Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+Co-developed-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+Signed-off-by: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>
+Co-developed-by: Karol Wachowski <karol.wachowski@linux.intel.com>
 Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c         |  4 ++--
- drivers/accel/ivpu/ivpu_fw.c          | 18 ++++++++----------
- drivers/accel/ivpu/ivpu_gem.c         | 10 ++++++----
- drivers/accel/ivpu/ivpu_hw.h          |  9 ++++-----
- drivers/accel/ivpu/ivpu_hw_37xx.c     |  9 ++++-----
- drivers/accel/ivpu/ivpu_mmu_context.c |  8 ++++----
- include/uapi/drm/ivpu_accel.h         |  5 ++++-
- 7 files changed, 32 insertions(+), 31 deletions(-)
+ drivers/accel/ivpu/Makefile           |    1 +
+ drivers/accel/ivpu/ivpu_drv.c         |   10 +-
+ drivers/accel/ivpu/ivpu_drv.h         |    5 +
+ drivers/accel/ivpu/ivpu_fw.c          |    2 +
+ drivers/accel/ivpu/ivpu_hw.h          |    1 +
+ drivers/accel/ivpu/ivpu_hw_40xx.c     | 1178 +++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_hw_40xx_reg.h |  267 ++++++
+ 7 files changed, 1462 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_40xx.c
+ create mode 100644 drivers/accel/ivpu/ivpu_hw_40xx_reg.h
 
+diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
+index 3179e146e173..e4328b430564 100644
+--- a/drivers/accel/ivpu/Makefile
++++ b/drivers/accel/ivpu/Makefile
+@@ -8,6 +8,7 @@ intel_vpu-y := \
+ 	ivpu_fw_log.o \
+ 	ivpu_gem.o \
+ 	ivpu_hw_37xx.o \
++	ivpu_hw_40xx.o \
+ 	ivpu_ipc.o \
+ 	ivpu_job.o \
+ 	ivpu_jsm_msg.o \
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index d33eb17007bf..3da15890bc59 100644
+index 3da15890bc59..ba79f397c9e8 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -122,7 +122,7 @@ static int ivpu_get_capabilities(struct ivpu_device *vdev, struct drm_ivpu_param
- 		args->value = 0;
- 		break;
- 	case DRM_IVPU_CAP_DMA_MEMORY_RANGE:
--		args->value = 0;
-+		args->value = 1;
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -160,7 +160,7 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
- 		args->value = ivpu_get_context_count(vdev);
- 		break;
- 	case DRM_IVPU_PARAM_CONTEXT_BASE_ADDRESS:
--		args->value = vdev->hw->ranges.user_low.start;
-+		args->value = vdev->hw->ranges.user.start;
- 		break;
- 	case DRM_IVPU_PARAM_CONTEXT_PRIORITY:
- 		args->value = file_priv->priority;
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index 7caf90a169a3..7e75439dec60 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -204,7 +204,7 @@ static int ivpu_fw_update_global_range(struct ivpu_device *vdev)
- 		return -EINVAL;
- 	}
+@@ -501,8 +501,13 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	if (!vdev->pm)
+ 		return -ENOMEM;
  
--	ivpu_hw_init_range(&vdev->hw->ranges.global_low, start, size);
-+	ivpu_hw_init_range(&vdev->hw->ranges.global, start, size);
- 	return 0;
- }
+-	vdev->hw->ops = &ivpu_hw_37xx_ops;
+-	vdev->hw->dma_bits = 38;
++	if (ivpu_hw_gen(vdev) >= IVPU_HW_40XX) {
++		vdev->hw->ops = &ivpu_hw_40xx_ops;
++		vdev->hw->dma_bits = 48;
++	} else {
++		vdev->hw->ops = &ivpu_hw_37xx_ops;
++		vdev->hw->dma_bits = 38;
++	}
  
-@@ -245,7 +245,7 @@ static int ivpu_fw_mem_init(struct ivpu_device *vdev)
- 	}
+ 	vdev->platform = IVPU_PLATFORM_INVALID;
+ 	vdev->context_xa_limit.min = IVPU_USER_CONTEXT_MIN_SSID;
+@@ -629,6 +634,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
  
- 	if (fw->shave_nn_size) {
--		fw->mem_shave_nn = ivpu_bo_alloc_internal(vdev, vdev->hw->ranges.global_high.start,
-+		fw->mem_shave_nn = ivpu_bo_alloc_internal(vdev, vdev->hw->ranges.shave.start,
- 							  fw->shave_nn_size, DRM_IVPU_BO_UNCACHED);
- 		if (!fw->mem_shave_nn) {
- 			ivpu_err(vdev, "Failed to allocate shavenn buffer\n");
-@@ -443,9 +443,9 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 	 * Uncached region of VPU address space, covers IPC buffers, job queues
- 	 * and log buffers, programmable to L2$ Uncached by VPU MTRR
- 	 */
--	boot_params->shared_region_base = vdev->hw->ranges.global_low.start;
--	boot_params->shared_region_size = vdev->hw->ranges.global_low.end -
--					  vdev->hw->ranges.global_low.start;
-+	boot_params->shared_region_base = vdev->hw->ranges.global.start;
-+	boot_params->shared_region_size = vdev->hw->ranges.global.end -
-+					  vdev->hw->ranges.global.start;
+ static struct pci_device_id ivpu_pci_ids[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_MTL) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_LNL) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(pci, ivpu_pci_ids);
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index 5808a4e6bb6d..9e8c075fe9ef 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -23,8 +23,10 @@
+ #define DRIVER_DATE "20230117"
  
- 	boot_params->ipc_header_area_start = ipc_mem_rx->vpu_addr;
- 	boot_params->ipc_header_area_size = ipc_mem_rx->base.size / 2;
-@@ -453,10 +453,8 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 	boot_params->ipc_payload_area_start = ipc_mem_rx->vpu_addr + ipc_mem_rx->base.size / 2;
- 	boot_params->ipc_payload_area_size = ipc_mem_rx->base.size / 2;
+ #define PCI_DEVICE_ID_MTL   0x7d1d
++#define PCI_DEVICE_ID_LNL   0x643e
  
--	boot_params->global_aliased_pio_base =
--		vdev->hw->ranges.global_aliased_pio.start;
--	boot_params->global_aliased_pio_size =
--		ivpu_hw_range_size(&vdev->hw->ranges.global_aliased_pio);
-+	boot_params->global_aliased_pio_base = vdev->hw->ranges.user.start;
-+	boot_params->global_aliased_pio_size = ivpu_hw_range_size(&vdev->hw->ranges.user);
+ #define IVPU_HW_37XX	37
++#define IVPU_HW_40XX	40
  
- 	/* Allow configuration for L2C_PAGE_TABLE with boot param value */
- 	boot_params->autoconfig = 1;
-@@ -464,7 +462,7 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
- 	/* Enable L2 cache for first 2GB of high memory */
- 	boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].use = 1;
- 	boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg =
--		ADDR_TO_L2_CACHE_CFG(vdev->hw->ranges.global_high.start);
-+		ADDR_TO_L2_CACHE_CFG(vdev->hw->ranges.shave.start);
- 
- 	if (vdev->fw->mem_shave_nn)
- 		boot_params->shave_nn_fw_base = vdev->fw->mem_shave_nn->vpu_addr;
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index 52b339aefadc..2981bb32c755 100644
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -279,10 +279,12 @@ ivpu_bo_alloc_vpu_addr(struct ivpu_bo *bo, struct ivpu_mmu_context *ctx,
- 	int ret;
- 
- 	if (!range) {
--		if (bo->flags & DRM_IVPU_BO_HIGH_MEM)
--			range = &vdev->hw->ranges.user_high;
-+		if (bo->flags & DRM_IVPU_BO_SHAVE_MEM)
-+			range = &vdev->hw->ranges.shave;
-+		else if (bo->flags & DRM_IVPU_BO_DMA_MEM)
-+			range = &vdev->hw->ranges.dma;
- 		else
--			range = &vdev->hw->ranges.user_low;
-+			range = &vdev->hw->ranges.user;
- 	}
- 
- 	mutex_lock(&ctx->lock);
-@@ -570,7 +572,7 @@ ivpu_bo_alloc_internal(struct ivpu_device *vdev, u64 vpu_addr, u64 size, u32 fla
- 		fixed_range.end = vpu_addr + size;
- 		range = &fixed_range;
- 	} else {
--		range = &vdev->hw->ranges.global_low;
-+		range = &vdev->hw->ranges.global;
- 	}
- 
- 	bo = ivpu_bo_alloc(vdev, &vdev->gctx, size, flags, &internal_ops, range, 0);
-diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-index 335b7f707752..69e52d21cd10 100644
---- a/drivers/accel/ivpu/ivpu_hw.h
-+++ b/drivers/accel/ivpu/ivpu_hw.h
-@@ -38,11 +38,10 @@ struct ivpu_addr_range {
- struct ivpu_hw_info {
- 	const struct ivpu_hw_ops *ops;
- 	struct {
--		struct ivpu_addr_range global_low;
--		struct ivpu_addr_range global_high;
--		struct ivpu_addr_range user_low;
--		struct ivpu_addr_range user_high;
--		struct ivpu_addr_range global_aliased_pio;
-+		struct ivpu_addr_range global;
-+		struct ivpu_addr_range user;
-+		struct ivpu_addr_range shave;
-+		struct ivpu_addr_range dma;
- 	} ranges;
- 	struct {
- 		u8 min_ratio;
-diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
-index 2cda8e4c4a3d..9eae1c241bc0 100644
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@ -620,11 +620,10 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
- 
- 	ivpu_pll_init_frequency_ratios(vdev);
- 
--	ivpu_hw_init_range(&hw->ranges.global_low, 0x80000000, SZ_512M);
--	ivpu_hw_init_range(&hw->ranges.global_high, 0x180000000, SZ_2M);
--	ivpu_hw_init_range(&hw->ranges.user_low, 0xc0000000, 255 * SZ_1M);
--	ivpu_hw_init_range(&hw->ranges.user_high, 0x180000000, SZ_2G);
--	hw->ranges.global_aliased_pio = hw->ranges.user_low;
-+	ivpu_hw_init_range(&hw->ranges.global, 0x80000000, SZ_512M);
-+	ivpu_hw_init_range(&hw->ranges.user,   0xc0000000, 255 * SZ_1M);
-+	ivpu_hw_init_range(&hw->ranges.shave, 0x180000000, SZ_2G);
-+	ivpu_hw_init_range(&hw->ranges.dma,   0x200000000, SZ_8G);
- 
- 	return 0;
- }
-diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
-index 465a82298476..1d2e554e2c4a 100644
---- a/drivers/accel/ivpu/ivpu_mmu_context.c
-+++ b/drivers/accel/ivpu/ivpu_mmu_context.c
-@@ -431,11 +431,11 @@ ivpu_mmu_context_init(struct ivpu_device *vdev, struct ivpu_mmu_context *ctx, u3
- 		return ret;
- 
- 	if (!context_id) {
--		start = vdev->hw->ranges.global_low.start;
--		end = vdev->hw->ranges.global_high.end;
-+		start = vdev->hw->ranges.global.start;
-+		end = vdev->hw->ranges.shave.end;
- 	} else {
--		start = vdev->hw->ranges.user_low.start;
--		end = vdev->hw->ranges.user_high.end;
-+		start = vdev->hw->ranges.user.start;
-+		end = vdev->hw->ranges.dma.end;
- 	}
- 
- 	drm_mm_init(&ctx->mm, start, end - start);
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index 3e99b74eef04..a58a14c9f222 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -133,8 +133,10 @@ struct drm_ivpu_param {
- 	__u64 value;
+ #define IVPU_GLOBAL_CONTEXT_MMU_SSID 0
+ /* SSID 1 is used by the VPU to represent invalid context */
+@@ -78,6 +80,7 @@ struct ivpu_wa_table {
+ 	bool clear_runtime_mem;
+ 	bool d3hot_after_power_off;
+ 	bool interrupt_clear_with_0;
++	bool disable_clock_relinquish;
  };
  
--#define DRM_IVPU_BO_HIGH_MEM   0x00000001
-+#define DRM_IVPU_BO_SHAVE_MEM  0x00000001
-+#define DRM_IVPU_BO_HIGH_MEM   DRM_IVPU_BO_SHAVE_MEM
- #define DRM_IVPU_BO_MAPPABLE   0x00000002
-+#define DRM_IVPU_BO_DMA_MEM    0x00000004
+ struct ivpu_hw_info;
+@@ -163,6 +166,8 @@ static inline int ivpu_hw_gen(struct ivpu_device *vdev)
+ 	switch (ivpu_device_id(vdev)) {
+ 	case PCI_DEVICE_ID_MTL:
+ 		return IVPU_HW_37XX;
++	case PCI_DEVICE_ID_LNL:
++		return IVPU_HW_40XX;
+ 	default:
+ 		ivpu_err(vdev, "Unknown VPU device\n");
+ 		return 0;
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 7e75439dec60..9827ea4d7b83 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -51,6 +51,8 @@ static struct {
+ 	{ IVPU_HW_37XX, "vpu_37xx.bin" },
+ 	{ IVPU_HW_37XX, "mtl_vpu.bin" },
+ 	{ IVPU_HW_37XX, "intel/vpu/vpu_37xx_v0.0.bin" },
++	{ IVPU_HW_40XX, "vpu_40xx.bin" },
++	{ IVPU_HW_40XX, "intel/vpu/vpu_40xx_v0.0.bin" },
+ };
  
- #define DRM_IVPU_BO_CACHED     0x00000000
- #define DRM_IVPU_BO_UNCACHED   0x00010000
-@@ -144,6 +146,7 @@ struct drm_ivpu_param {
- #define DRM_IVPU_BO_FLAGS \
- 	(DRM_IVPU_BO_HIGH_MEM | \
- 	 DRM_IVPU_BO_MAPPABLE | \
-+	 DRM_IVPU_BO_DMA_MEM | \
- 	 DRM_IVPU_BO_CACHE_MASK)
+ static int ivpu_fw_request(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
+index 69e52d21cd10..ab341237bcf9 100644
+--- a/drivers/accel/ivpu/ivpu_hw.h
++++ b/drivers/accel/ivpu/ivpu_hw.h
+@@ -60,6 +60,7 @@ struct ivpu_hw_info {
+ };
  
- /**
+ extern const struct ivpu_hw_ops ivpu_hw_37xx_ops;
++extern const struct ivpu_hw_ops ivpu_hw_40xx_ops;
+ 
+ static inline int ivpu_hw_info_init(struct ivpu_device *vdev)
+ {
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+new file mode 100644
+index 000000000000..32e018c266bd
+--- /dev/null
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -0,0 +1,1178 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2020-2023 Intel Corporation
++ */
++
++#include "ivpu_drv.h"
++#include "ivpu_fw.h"
++#include "ivpu_hw.h"
++#include "ivpu_hw_40xx_reg.h"
++#include "ivpu_hw_reg_io.h"
++#include "ivpu_ipc.h"
++#include "ivpu_mmu.h"
++#include "ivpu_pm.h"
++
++#include <linux/dmi.h>
++
++#define TILE_MAX_NUM                 6
++#define TILE_MAX_MASK                0x3f
++
++#define LNL_HW_ID                    0x4040
++
++#define SKU_TILE_SHIFT               0u
++#define SKU_TILE_MASK                0x0000ffffu
++#define SKU_HW_ID_SHIFT              16u
++#define SKU_HW_ID_MASK               0xffff0000u
++
++#define PLL_CONFIG_DEFAULT           0x1
++#define PLL_CDYN_DEFAULT             0x80
++#define PLL_EPP_DEFAULT              0x80
++#define PLL_REF_CLK_FREQ	     (50 * 1000000)
++#define PLL_RATIO_TO_FREQ(x)	     ((x) * PLL_REF_CLK_FREQ)
++
++#define PLL_PROFILING_FREQ_DEFAULT   38400000
++#define PLL_PROFILING_FREQ_HIGH      400000000
++
++#define TIM_SAFE_ENABLE		     0xf1d0dead
++#define TIM_WATCHDOG_RESET_VALUE     0xffffffff
++
++#define TIMEOUT_US		     (150 * USEC_PER_MSEC)
++#define PWR_ISLAND_STATUS_TIMEOUT_US (5 * USEC_PER_MSEC)
++#define PLL_TIMEOUT_US		     (1500 * USEC_PER_MSEC)
++
++#define WEIGHTS_DEFAULT              0xf711f711u
++#define WEIGHTS_ATS_DEFAULT          0x0000f711u
++
++#define ICB_0_IRQ_MASK ((REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_2_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_1_INT)))
++
++#define ICB_1_IRQ_MASK ((REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_1, CPU_INT_REDIRECT_2_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_1, CPU_INT_REDIRECT_3_INT)) | \
++			(REG_FLD(VPU_40XX_HOST_SS_ICB_STATUS_1, CPU_INT_REDIRECT_4_INT)))
++
++#define ICB_0_1_IRQ_MASK ((((u64)ICB_1_IRQ_MASK) << 32) | ICB_0_IRQ_MASK)
++
++#define BUTTRESS_IRQ_MASK ((REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE)) | \
++			   (REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR)) | \
++			   (REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, CFI0_ERR)) | \
++			   (REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, CFI1_ERR)) | \
++			   (REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, IMR0_ERR)) | \
++			   (REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, IMR1_ERR)) | \
++			   (REG_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, SURV_ERR)))
++
++#define BUTTRESS_IRQ_ENABLE_MASK ((u32)~BUTTRESS_IRQ_MASK)
++#define BUTTRESS_IRQ_DISABLE_MASK ((u32)-1)
++
++#define ITF_FIREWALL_VIOLATION_MASK ((REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, CSS_ROM_CMX)) | \
++				     (REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, CSS_DBG)) | \
++				     (REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, CSS_CTRL)) | \
++				     (REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, DEC400)) | \
++				     (REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, MSS_NCE)) | \
++				     (REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, MSS_MBI)) | \
++				     (REG_FLD(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, MSS_MBI_CMX)))
++
++static char *ivpu_platform_to_str(u32 platform)
++{
++	switch (platform) {
++	case IVPU_PLATFORM_SILICON:
++		return "IVPU_PLATFORM_SILICON";
++	case IVPU_PLATFORM_SIMICS:
++		return "IVPU_PLATFORM_SIMICS";
++	case IVPU_PLATFORM_FPGA:
++		return "IVPU_PLATFORM_FPGA";
++	default:
++		return "Invalid platform";
++	}
++}
++
++static const struct dmi_system_id ivpu_dmi_platform_simulation[] = {
++	{
++		.ident = "Intel Simics",
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "lnlrvp"),
++			DMI_MATCH(DMI_BOARD_VERSION, "1.0"),
++			DMI_MATCH(DMI_BOARD_SERIAL, "123456789"),
++		},
++	},
++	{
++		.ident = "Intel Simics",
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "Simics"),
++		},
++	},
++	{ }
++};
++
++static void ivpu_hw_read_platform(struct ivpu_device *vdev)
++{
++	if (dmi_check_system(ivpu_dmi_platform_simulation))
++		vdev->platform = IVPU_PLATFORM_SIMICS;
++	else
++		vdev->platform = IVPU_PLATFORM_SILICON;
++
++	ivpu_dbg(vdev, MISC, "Platform type: %s (%d)\n",
++		 ivpu_platform_to_str(vdev->platform), vdev->platform);
++}
++
++static void ivpu_hw_wa_init(struct ivpu_device *vdev)
++{
++	vdev->wa.punit_disabled = ivpu_is_fpga(vdev);
++	vdev->wa.clear_runtime_mem = false;
++
++	if (ivpu_hw_gen(vdev) == IVPU_HW_40XX)
++		vdev->wa.disable_clock_relinquish = true;
++}
++
++static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
++{
++	if (ivpu_is_fpga(vdev)) {
++		vdev->timeout.boot = 100000;
++		vdev->timeout.jsm = 50000;
++		vdev->timeout.tdr = 2000000;
++		vdev->timeout.reschedule_suspend = 1000;
++	} else if (ivpu_is_simics(vdev)) {
++		vdev->timeout.boot = 50;
++		vdev->timeout.jsm = 500;
++		vdev->timeout.tdr = 10000;
++		vdev->timeout.reschedule_suspend = 10;
++	} else {
++		vdev->timeout.boot = 1000;
++		vdev->timeout.jsm = 500;
++		vdev->timeout.tdr = 2000;
++		vdev->timeout.reschedule_suspend = 10;
++	}
++}
++
++static int ivpu_pll_wait_for_cmd_send(struct ivpu_device *vdev)
++{
++	return REGB_POLL_FLD(VPU_40XX_BUTTRESS_WP_REQ_CMD, SEND, 0, PLL_TIMEOUT_US);
++}
++
++static int ivpu_pll_cmd_send(struct ivpu_device *vdev, u16 min_ratio, u16 max_ratio,
++			     u16 target_ratio, u16 epp, u16 config, u16 cdyn)
++{
++	int ret;
++	u32 val;
++
++	ret = ivpu_pll_wait_for_cmd_send(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to sync before WP request: %d\n", ret);
++		return ret;
++	}
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0);
++	val = REG_SET_FLD_NUM(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0, MIN_RATIO, min_ratio, val);
++	val = REG_SET_FLD_NUM(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0, MAX_RATIO, max_ratio, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0, val);
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1);
++	val = REG_SET_FLD_NUM(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1, TARGET_RATIO, target_ratio, val);
++	val = REG_SET_FLD_NUM(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1, EPP, epp, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1, val);
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2);
++	val = REG_SET_FLD_NUM(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2, CONFIG, config, val);
++	val = REG_SET_FLD_NUM(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2, CDYN, cdyn, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2, val);
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_WP_REQ_CMD);
++	val = REG_SET_FLD(VPU_40XX_BUTTRESS_WP_REQ_CMD, SEND, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_WP_REQ_CMD, val);
++
++	ret = ivpu_pll_wait_for_cmd_send(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to sync after WP request: %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_pll_wait_for_status_ready(struct ivpu_device *vdev)
++{
++	return REGB_POLL_FLD(VPU_40XX_BUTTRESS_VPU_STATUS, READY, 1, PLL_TIMEOUT_US);
++}
++
++static void ivpu_pll_init_frequency_ratios(struct ivpu_device *vdev)
++{
++	struct ivpu_hw_info *hw = vdev->hw;
++	u8 fuse_min_ratio, fuse_pn_ratio, fuse_max_ratio;
++	u32 fmin_fuse, fmax_fuse;
++
++	fmin_fuse = REGB_RD32(VPU_40XX_BUTTRESS_FMIN_FUSE);
++	fuse_min_ratio = REG_GET_FLD(VPU_40XX_BUTTRESS_FMIN_FUSE, MIN_RATIO, fmin_fuse);
++	fuse_pn_ratio = REG_GET_FLD(VPU_40XX_BUTTRESS_FMIN_FUSE, PN_RATIO, fmin_fuse);
++
++	fmax_fuse = REGB_RD32(VPU_40XX_BUTTRESS_FMAX_FUSE);
++	fuse_max_ratio = REG_GET_FLD(VPU_40XX_BUTTRESS_FMAX_FUSE, MAX_RATIO, fmax_fuse);
++
++	hw->pll.min_ratio = clamp_t(u8, ivpu_pll_min_ratio, fuse_min_ratio, fuse_max_ratio);
++	hw->pll.max_ratio = clamp_t(u8, ivpu_pll_max_ratio, hw->pll.min_ratio, fuse_max_ratio);
++	hw->pll.pn_ratio = clamp_t(u8, fuse_pn_ratio, hw->pll.min_ratio, hw->pll.max_ratio);
++}
++
++static int ivpu_pll_drive(struct ivpu_device *vdev, bool enable)
++{
++	u16 config = enable ? PLL_CONFIG_DEFAULT : 0;
++	u16 cdyn = enable ? PLL_CDYN_DEFAULT : 0;
++	u16 epp = enable ? PLL_EPP_DEFAULT : 0;
++	struct ivpu_hw_info *hw = vdev->hw;
++	u16 target_ratio = hw->pll.pn_ratio;
++	int ret;
++
++	ivpu_dbg(vdev, PM, "PLL workpoint request: %u Hz, epp: 0x%x, config: 0x%x, cdyn: 0x%x\n",
++		 PLL_RATIO_TO_FREQ(target_ratio), epp, config, cdyn);
++
++	ret = ivpu_pll_cmd_send(vdev, hw->pll.min_ratio, hw->pll.max_ratio,
++				target_ratio, epp, config, cdyn);
++	if (ret) {
++		ivpu_err(vdev, "Failed to send PLL workpoint request: %d\n", ret);
++		return ret;
++	}
++
++	if (enable) {
++		ret = ivpu_pll_wait_for_status_ready(vdev);
++		if (ret) {
++			ivpu_err(vdev, "Timed out waiting for PLL ready status\n");
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int ivpu_pll_enable(struct ivpu_device *vdev)
++{
++	return ivpu_pll_drive(vdev, true);
++}
++
++static int ivpu_pll_disable(struct ivpu_device *vdev)
++{
++	return ivpu_pll_drive(vdev, false);
++}
++
++static void ivpu_boot_host_ss_rst_drive(struct ivpu_device *vdev, bool enable)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_CPR_RST_EN);
++
++	if (enable) {
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_CPR_RST_EN, TOP_NOC, val);
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_CPR_RST_EN, DSS_MAS, val);
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_CPR_RST_EN, CSS_MAS, val);
++	} else {
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_CPR_RST_EN, TOP_NOC, val);
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_CPR_RST_EN, DSS_MAS, val);
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_CPR_RST_EN, CSS_MAS, val);
++	}
++
++	REGV_WR32(VPU_40XX_HOST_SS_CPR_RST_EN, val);
++}
++
++static void ivpu_boot_host_ss_clk_drive(struct ivpu_device *vdev, bool enable)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_CPR_CLK_EN);
++
++	if (enable) {
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_CPR_CLK_EN, TOP_NOC, val);
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_CPR_CLK_EN, DSS_MAS, val);
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_CPR_CLK_EN, CSS_MAS, val);
++	} else {
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_CPR_CLK_EN, TOP_NOC, val);
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_CPR_CLK_EN, DSS_MAS, val);
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_CPR_CLK_EN, CSS_MAS, val);
++	}
++
++	REGV_WR32(VPU_40XX_HOST_SS_CPR_CLK_EN, val);
++}
++
++static int ivpu_boot_noc_qreqn_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_NOC_QREQN);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_HOST_SS_NOC_QREQN, TOP_SOCMMIO, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_NOC_QACCEPTN);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_HOST_SS_NOC_QACCEPTN, TOP_SOCMMIO, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_NOC_QDENY);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_HOST_SS_NOC_QDENY, TOP_SOCMMIO, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_top_noc_qrenqn_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_TOP_NOC_QREQN);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_TOP_NOC_QREQN, CPU_CTRL, exp_val, val) ||
++	    !REG_TEST_FLD_NUM(VPU_40XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_top_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_TOP_NOC_QACCEPTN);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_TOP_NOC_QACCEPTN, CPU_CTRL, exp_val, val) ||
++	    !REG_TEST_FLD_NUM(VPU_40XX_TOP_NOC_QACCEPTN, HOSTIF_L2CACHE, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_top_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_TOP_NOC_QDENY);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_TOP_NOC_QDENY, CPU_CTRL, exp_val, val) ||
++	    !REG_TEST_FLD_NUM(VPU_40XX_TOP_NOC_QDENY, HOSTIF_L2CACHE, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static void ivpu_boot_idle_gen_drive(struct ivpu_device *vdev, bool enable)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_AON_IDLE_GEN);
++
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_AON_IDLE_GEN, EN, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_AON_IDLE_GEN, EN, val);
++
++	REGV_WR32(VPU_40XX_HOST_SS_AON_IDLE_GEN, val);
++}
++
++static int ivpu_boot_host_ss_check(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ret = ivpu_boot_noc_qreqn_check(vdev, 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qreqn check: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_noc_qacceptn_check(vdev, 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_noc_qdeny_check(vdev, 0x0);
++	if (ret)
++		ivpu_err(vdev, "Failed qdeny check %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_boot_host_ss_axi_drive(struct ivpu_device *vdev, bool enable)
++{
++	int ret;
++	u32 val;
++
++	val = REGV_RD32(VPU_40XX_HOST_SS_NOC_QREQN);
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_NOC_QREQN, TOP_SOCMMIO, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_NOC_QREQN, TOP_SOCMMIO, val);
++	REGV_WR32(VPU_40XX_HOST_SS_NOC_QREQN, val);
++
++	ret = ivpu_boot_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_noc_qdeny_check(vdev, 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qdeny check: %d\n", ret);
++		return ret;
++	}
++
++	if (enable) {
++		REGB_WR32(VPU_40XX_BUTTRESS_PORT_ARBITRATION_WEIGHTS, WEIGHTS_DEFAULT);
++		REGB_WR32(VPU_40XX_BUTTRESS_PORT_ARBITRATION_WEIGHTS_ATS, WEIGHTS_ATS_DEFAULT);
++	}
++
++	return ret;
++}
++
++static int ivpu_boot_host_ss_axi_enable(struct ivpu_device *vdev)
++{
++	return ivpu_boot_host_ss_axi_drive(vdev, true);
++}
++
++static int ivpu_boot_host_ss_top_noc_drive(struct ivpu_device *vdev, bool enable)
++{
++	int ret;
++	u32 val;
++
++	val = REGV_RD32(VPU_40XX_TOP_NOC_QREQN);
++	if (enable) {
++		val = REG_SET_FLD(VPU_40XX_TOP_NOC_QREQN, CPU_CTRL, val);
++		val = REG_SET_FLD(VPU_40XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
++	} else {
++		val = REG_CLR_FLD(VPU_40XX_TOP_NOC_QREQN, CPU_CTRL, val);
++		val = REG_CLR_FLD(VPU_40XX_TOP_NOC_QREQN, HOSTIF_L2CACHE, val);
++	}
++	REGV_WR32(VPU_40XX_TOP_NOC_QREQN, val);
++
++	ret = ivpu_boot_top_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_top_noc_qdeny_check(vdev, 0x0);
++	if (ret)
++		ivpu_err(vdev, "Failed qdeny check: %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_boot_host_ss_top_noc_enable(struct ivpu_device *vdev)
++{
++	return ivpu_boot_host_ss_top_noc_drive(vdev, true);
++}
++
++static void ivpu_boot_pwr_island_trickle_drive(struct ivpu_device *vdev, bool enable)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0);
++
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0, CSS_CPU, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0, CSS_CPU, val);
++
++	REGV_WR32(VPU_40XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0, val);
++
++	if (enable)
++		ndelay(500);
++}
++
++static void ivpu_boot_pwr_island_drive(struct ivpu_device *vdev, bool enable)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_AON_PWR_ISLAND_EN0);
++
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_AON_PWR_ISLAND_EN0, CSS_CPU, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_AON_PWR_ISLAND_EN0, CSS_CPU, val);
++
++	REGV_WR32(VPU_40XX_HOST_SS_AON_PWR_ISLAND_EN0, val);
++
++	if (!enable)
++		ndelay(500);
++}
++
++static int ivpu_boot_wait_for_pwr_island_status(struct ivpu_device *vdev, u32 exp_val)
++{
++	if (ivpu_is_fpga(vdev))
++		return 0;
++
++	return REGV_POLL_FLD(VPU_40XX_HOST_SS_AON_PWR_ISLAND_STATUS0, CSS_CPU,
++			     exp_val, PWR_ISLAND_STATUS_TIMEOUT_US);
++}
++
++static void ivpu_boot_pwr_island_isolation_drive(struct ivpu_device *vdev, bool enable)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_SS_AON_PWR_ISO_EN0);
++
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_HOST_SS_AON_PWR_ISO_EN0, CSS_CPU, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_HOST_SS_AON_PWR_ISO_EN0, CSS_CPU, val);
++
++	REGV_WR32(VPU_40XX_HOST_SS_AON_PWR_ISO_EN0, val);
++}
++
++static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES);
++
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, SNOOP_OVERRIDE_EN, val);
++	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AW_SNOOP_OVERRIDE, val);
++	val = REG_CLR_FLD(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, AR_SNOOP_OVERRIDE, val);
++
++	REGV_WR32(VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES, val);
++}
++
++static void ivpu_boot_tbu_mmu_enable(struct ivpu_device *vdev)
++{
++	u32 val = REGV_RD32(VPU_40XX_HOST_IF_TBU_MMUSSIDV);
++
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TBU_MMUSSIDV, TBU0_AWMMUSSIDV, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TBU_MMUSSIDV, TBU0_ARMMUSSIDV, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TBU_MMUSSIDV, TBU1_AWMMUSSIDV, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TBU_MMUSSIDV, TBU1_ARMMUSSIDV, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TBU_MMUSSIDV, TBU2_AWMMUSSIDV, val);
++	val = REG_SET_FLD(VPU_40XX_HOST_IF_TBU_MMUSSIDV, TBU2_ARMMUSSIDV, val);
++
++	REGV_WR32(VPU_40XX_HOST_IF_TBU_MMUSSIDV, val);
++}
++
++static int ivpu_boot_cpu_noc_qacceptn_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_CPU_SS_CPR_NOC_QACCEPTN);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_CPU_SS_CPR_NOC_QACCEPTN, TOP_MMIO, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_cpu_noc_qdeny_check(struct ivpu_device *vdev, u32 exp_val)
++{
++	u32 val = REGV_RD32(VPU_40XX_CPU_SS_CPR_NOC_QDENY);
++
++	if (!REG_TEST_FLD_NUM(VPU_40XX_CPU_SS_CPR_NOC_QDENY, TOP_MMIO, exp_val, val))
++		return -EIO;
++
++	return 0;
++}
++
++static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ivpu_boot_pwr_island_trickle_drive(vdev, true);
++	ivpu_boot_pwr_island_drive(vdev, true);
++
++	ret = ivpu_boot_wait_for_pwr_island_status(vdev, 0x1);
++	if (ret) {
++		ivpu_err(vdev, "Timed out waiting for power island status\n");
++		return ret;
++	}
++
++	ret = ivpu_boot_top_noc_qrenqn_check(vdev, 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qrenqn check %d\n", ret);
++		return ret;
++	}
++
++	ivpu_boot_host_ss_clk_drive(vdev, true);
++	ivpu_boot_host_ss_rst_drive(vdev, true);
++	ivpu_boot_pwr_island_isolation_drive(vdev, false);
++
++	return ret;
++}
++
++static int ivpu_boot_soc_cpu_drive(struct ivpu_device *vdev, bool enable)
++{
++	int ret;
++	u32 val;
++
++	val = REGV_RD32(VPU_40XX_CPU_SS_CPR_NOC_QREQN);
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_CPU_SS_CPR_NOC_QREQN, TOP_MMIO, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_CPU_SS_CPR_NOC_QREQN, TOP_MMIO, val);
++	REGV_WR32(VPU_40XX_CPU_SS_CPR_NOC_QREQN, val);
++
++	ret = ivpu_boot_cpu_noc_qacceptn_check(vdev, enable ? 0x1 : 0x0);
++	if (ret) {
++		ivpu_err(vdev, "Failed qacceptn check: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_cpu_noc_qdeny_check(vdev, 0x0);
++	if (ret)
++		ivpu_err(vdev, "Failed qdeny check: %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_boot_soc_cpu_enable(struct ivpu_device *vdev)
++{
++	return ivpu_boot_soc_cpu_drive(vdev, true);
++}
++
++static int ivpu_boot_soc_cpu_boot(struct ivpu_device *vdev)
++{
++	int ret;
++	u32 val;
++	u64 val64;
++
++	ret = ivpu_boot_soc_cpu_enable(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to enable SOC CPU: %d\n", ret);
++		return ret;
++	}
++
++	val64 = vdev->fw->entry_point;
++	val64 <<= ffs(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IMAGE_LOCATION_MASK) - 1;
++	REGV_WR64(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val64);
++
++	val = REGV_RD32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO);
++	val = REG_SET_FLD(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, DONE, val);
++	REGV_WR32(VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO, val);
++
++	ivpu_dbg(vdev, PM, "Booting firmware, mode: %s\n",
++		 ivpu_fw_is_cold_boot(vdev) ? "cold boot" : "resume");
++
++	return 0;
++}
++
++static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
++{
++	int ret;
++	u32 val;
++
++	ret = REGB_POLL_FLD(VPU_40XX_BUTTRESS_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
++	if (ret) {
++		ivpu_err(vdev, "Failed to sync before D0i3 tansition: %d\n", ret);
++		return ret;
++	}
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_D0I3_CONTROL);
++	if (enable)
++		val = REG_SET_FLD(VPU_40XX_BUTTRESS_D0I3_CONTROL, I3, val);
++	else
++		val = REG_CLR_FLD(VPU_40XX_BUTTRESS_D0I3_CONTROL, I3, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_D0I3_CONTROL, val);
++
++	ret = REGB_POLL_FLD(VPU_40XX_BUTTRESS_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
++	if (ret) {
++		ivpu_err(vdev, "Failed to sync after D0i3 tansition: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static bool ivpu_tile_disable_check(u32 config)
++{
++	/* Allowed values: 0 or one bit from range 0-5 (6 tiles) */
++	if (config == 0)
++		return true;
++
++	if (config > BIT(TILE_MAX_NUM - 1))
++		return false;
++
++	if ((config & (config - 1)) == 0)
++		return true;
++
++	return false;
++}
++
++static int ivpu_hw_40xx_info_init(struct ivpu_device *vdev)
++{
++	struct ivpu_hw_info *hw = vdev->hw;
++	u32 tile_disable;
++	u32 tile_enable;
++	u32 fuse;
++
++	fuse = REGB_RD32(VPU_40XX_BUTTRESS_TILE_FUSE);
++	if (!REG_TEST_FLD(VPU_40XX_BUTTRESS_TILE_FUSE, VALID, fuse)) {
++		ivpu_err(vdev, "Fuse: invalid (0x%x)\n", fuse);
++		return -EIO;
++	}
++
++	tile_disable = REG_GET_FLD(VPU_40XX_BUTTRESS_TILE_FUSE, CONFIG, fuse);
++	if (!ivpu_tile_disable_check(tile_disable)) {
++		ivpu_err(vdev, "Fuse: Invalid tile disable config (0x%x)\n", tile_disable);
++		return -EIO;
++	}
++
++	if (tile_disable)
++		ivpu_dbg(vdev, MISC, "Fuse: %d tiles enabled. Tile number %d disabled\n",
++			 TILE_MAX_NUM - 1, ffs(tile_disable) - 1);
++	else
++		ivpu_dbg(vdev, MISC, "Fuse: All %d tiles enabled\n", TILE_MAX_NUM);
++
++	tile_enable = (~tile_disable) & TILE_MAX_MASK;
++
++	hw->sku = REG_SET_FLD_NUM(SKU, HW_ID, LNL_HW_ID, hw->sku);
++	hw->sku = REG_SET_FLD_NUM(SKU, TILE, tile_enable, hw->sku);
++	hw->tile_fuse = tile_disable;
++	hw->pll.profiling_freq = PLL_PROFILING_FREQ_DEFAULT;
++
++	ivpu_pll_init_frequency_ratios(vdev);
++
++	ivpu_hw_init_range(&vdev->hw->ranges.global, 0x80000000, SZ_512M);
++	ivpu_hw_init_range(&vdev->hw->ranges.user,   0x80000000, SZ_256M);
++	ivpu_hw_init_range(&vdev->hw->ranges.shave,  0x80000000 + SZ_256M, SZ_2G - SZ_256M);
++	ivpu_hw_init_range(&vdev->hw->ranges.dma,   0x200000000, SZ_8G);
++
++	return 0;
++}
++
++static int ivpu_hw_40xx_reset(struct ivpu_device *vdev)
++{
++	int ret;
++	u32 val;
++
++	ret = REGB_POLL_FLD(VPU_40XX_BUTTRESS_IP_RESET, TRIGGER, 0, TIMEOUT_US);
++	if (ret) {
++		ivpu_err(vdev, "Wait for *_TRIGGER timed out\n");
++		return ret;
++	}
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_IP_RESET);
++	val = REG_SET_FLD(VPU_40XX_BUTTRESS_IP_RESET, TRIGGER, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_IP_RESET, val);
++
++	ret = REGB_POLL_FLD(VPU_40XX_BUTTRESS_IP_RESET, TRIGGER, 0, TIMEOUT_US);
++	if (ret)
++		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
++
++	return ret;
++}
++
++static int ivpu_hw_40xx_d0i3_enable(struct ivpu_device *vdev)
++{
++	int ret;
++
++	if (IVPU_WA(punit_disabled))
++		return 0;
++
++	ret = ivpu_boot_d0i3_drive(vdev, true);
++	if (ret)
++		ivpu_err(vdev, "Failed to enable D0i3: %d\n", ret);
++
++	udelay(5); /* VPU requires 5 us to complete the transition */
++
++	return ret;
++}
++
++static int ivpu_hw_40xx_d0i3_disable(struct ivpu_device *vdev)
++{
++	int ret;
++
++	if (IVPU_WA(punit_disabled))
++		return 0;
++
++	ret = ivpu_boot_d0i3_drive(vdev, false);
++	if (ret)
++		ivpu_err(vdev, "Failed to disable D0i3: %d\n", ret);
++
++	return ret;
++}
++
++static void ivpu_hw_40xx_profiling_freq_reg_set(struct ivpu_device *vdev)
++{
++	u32 val = REGB_RD32(VPU_40XX_BUTTRESS_VPU_STATUS);
++
++	if (vdev->hw->pll.profiling_freq == PLL_PROFILING_FREQ_DEFAULT)
++		val = REG_CLR_FLD(VPU_40XX_BUTTRESS_VPU_STATUS, PERF_CLK, val);
++	else
++		val = REG_SET_FLD(VPU_40XX_BUTTRESS_VPU_STATUS, PERF_CLK, val);
++
++	REGB_WR32(VPU_40XX_BUTTRESS_VPU_STATUS, val);
++}
++
++static void ivpu_hw_40xx_ats_print(struct ivpu_device *vdev)
++{
++	ivpu_dbg(vdev, MISC, "Buttress ATS: %s\n",
++		 REGB_RD32(VPU_40XX_BUTTRESS_HM_ATS) ? "Enable" : "Disable");
++}
++
++static void ivpu_hw_40xx_clock_relinquish_disable(struct ivpu_device *vdev)
++{
++	u32 val = REGB_RD32(VPU_40XX_BUTTRESS_VPU_STATUS);
++
++	val = REG_SET_FLD(VPU_40XX_BUTTRESS_VPU_STATUS, DISABLE_CLK_RELINQUISH, val);
++	REGB_WR32(VPU_40XX_BUTTRESS_VPU_STATUS, val);
++}
++
++static int ivpu_hw_40xx_power_up(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ret = ivpu_hw_40xx_reset(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to reset HW: %d\n", ret);
++		return ret;
++	}
++
++	ivpu_hw_read_platform(vdev);
++	ivpu_hw_wa_init(vdev);
++	ivpu_hw_timeouts_init(vdev);
++
++	ret = ivpu_hw_40xx_d0i3_disable(vdev);
++	if (ret)
++		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
++
++	ret = ivpu_pll_enable(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to enable PLL: %d\n", ret);
++		return ret;
++	}
++
++	if (IVPU_WA(disable_clock_relinquish))
++		ivpu_hw_40xx_clock_relinquish_disable(vdev);
++	ivpu_hw_40xx_profiling_freq_reg_set(vdev);
++	ivpu_hw_40xx_ats_print(vdev);
++
++	ret = ivpu_boot_host_ss_check(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to configure host SS: %d\n", ret);
++		return ret;
++	}
++
++	ivpu_boot_idle_gen_drive(vdev, false);
++
++	ret = ivpu_boot_pwr_domain_enable(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to enable power domain: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_host_ss_axi_enable(vdev);
++	if (ret) {
++		ivpu_err(vdev, "Failed to enable AXI: %d\n", ret);
++		return ret;
++	}
++
++	ret = ivpu_boot_host_ss_top_noc_enable(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to enable TOP NOC: %d\n", ret);
++
++	return ret;
++}
++
++static int ivpu_hw_40xx_boot_fw(struct ivpu_device *vdev)
++{
++	int ret;
++
++	ivpu_boot_no_snoop_enable(vdev);
++	ivpu_boot_tbu_mmu_enable(vdev);
++
++	ret = ivpu_boot_soc_cpu_boot(vdev);
++	if (ret)
++		ivpu_err(vdev, "Failed to boot SOC CPU: %d\n", ret);
++
++	return ret;
++}
++
++static bool ivpu_hw_40xx_is_idle(struct ivpu_device *vdev)
++{
++	u32 val;
++
++	if (IVPU_WA(punit_disabled))
++		return true;
++
++	val = REGB_RD32(VPU_40XX_BUTTRESS_VPU_STATUS);
++	return REG_TEST_FLD(VPU_40XX_BUTTRESS_VPU_STATUS, READY, val) &&
++	       REG_TEST_FLD(VPU_40XX_BUTTRESS_VPU_STATUS, IDLE, val);
++}
++
++static int ivpu_hw_40xx_power_down(struct ivpu_device *vdev)
++{
++	int ret = 0;
++
++	if (!ivpu_hw_40xx_is_idle(vdev) && ivpu_hw_40xx_reset(vdev))
++		ivpu_warn(vdev, "Failed to reset the VPU\n");
++
++	if (ivpu_pll_disable(vdev)) {
++		ivpu_err(vdev, "Failed to disable PLL\n");
++		ret = -EIO;
++	}
++
++	if (ivpu_hw_40xx_d0i3_enable(vdev)) {
++		ivpu_err(vdev, "Failed to enter D0I3\n");
++		ret = -EIO;
++	}
++
++	return ret;
++}
++
++static void ivpu_hw_40xx_wdt_disable(struct ivpu_device *vdev)
++{
++	u32 val;
++
++	REGV_WR32(VPU_40XX_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
++	REGV_WR32(VPU_40XX_CPU_SS_TIM_WATCHDOG, TIM_WATCHDOG_RESET_VALUE);
++
++	REGV_WR32(VPU_40XX_CPU_SS_TIM_SAFE, TIM_SAFE_ENABLE);
++	REGV_WR32(VPU_40XX_CPU_SS_TIM_WDOG_EN, 0);
++
++	val = REGV_RD32(VPU_40XX_CPU_SS_TIM_GEN_CONFIG);
++	val = REG_CLR_FLD(VPU_40XX_CPU_SS_TIM_GEN_CONFIG, WDOG_TO_INT_CLR, val);
++	REGV_WR32(VPU_40XX_CPU_SS_TIM_GEN_CONFIG, val);
++}
++
++/* Register indirect accesses */
++static u32 ivpu_hw_40xx_reg_pll_freq_get(struct ivpu_device *vdev)
++{
++	u32 pll_curr_ratio;
++
++	pll_curr_ratio = REGB_RD32(VPU_40XX_BUTTRESS_PLL_FREQ);
++	pll_curr_ratio &= VPU_40XX_BUTTRESS_PLL_FREQ_RATIO_MASK;
++
++	return PLL_RATIO_TO_FREQ(pll_curr_ratio);
++}
++
++static u32 ivpu_hw_40xx_reg_telemetry_offset_get(struct ivpu_device *vdev)
++{
++	return REGB_RD32(VPU_40XX_BUTTRESS_VPU_TELEMETRY_OFFSET);
++}
++
++static u32 ivpu_hw_40xx_reg_telemetry_size_get(struct ivpu_device *vdev)
++{
++	return REGB_RD32(VPU_40XX_BUTTRESS_VPU_TELEMETRY_SIZE);
++}
++
++static u32 ivpu_hw_40xx_reg_telemetry_enable_get(struct ivpu_device *vdev)
++{
++	return REGB_RD32(VPU_40XX_BUTTRESS_VPU_TELEMETRY_ENABLE);
++}
++
++static void ivpu_hw_40xx_reg_db_set(struct ivpu_device *vdev, u32 db_id)
++{
++	u32 reg_stride = VPU_40XX_CPU_SS_DOORBELL_1 - VPU_40XX_CPU_SS_DOORBELL_0;
++	u32 val = REG_FLD(VPU_40XX_CPU_SS_DOORBELL_0, SET);
++
++	REGV_WR32I(VPU_40XX_CPU_SS_DOORBELL_0, reg_stride, db_id, val);
++}
++
++static u32 ivpu_hw_40xx_reg_ipc_rx_addr_get(struct ivpu_device *vdev)
++{
++	return REGV_RD32(VPU_40XX_HOST_SS_TIM_IPC_FIFO_ATM);
++}
++
++static u32 ivpu_hw_40xx_reg_ipc_rx_count_get(struct ivpu_device *vdev)
++{
++	u32 count = REGV_RD32_SILENT(VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT);
++
++	return REG_GET_FLD(VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT, FILL_LEVEL, count);
++}
++
++static void ivpu_hw_40xx_reg_ipc_tx_set(struct ivpu_device *vdev, u32 vpu_addr)
++{
++	REGV_WR32(VPU_40XX_CPU_SS_TIM_IPC_FIFO, vpu_addr);
++}
++
++static void ivpu_hw_40xx_irq_clear(struct ivpu_device *vdev)
++{
++	REGV_WR64(VPU_40XX_HOST_SS_ICB_CLEAR_0, ICB_0_1_IRQ_MASK);
++}
++
++static void ivpu_hw_40xx_irq_enable(struct ivpu_device *vdev)
++{
++	REGV_WR32(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, ITF_FIREWALL_VIOLATION_MASK);
++	REGV_WR64(VPU_40XX_HOST_SS_ICB_ENABLE_0, ICB_0_1_IRQ_MASK);
++	REGB_WR32(VPU_40XX_BUTTRESS_LOCAL_INT_MASK, BUTTRESS_IRQ_ENABLE_MASK);
++	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x0);
++}
++
++static void ivpu_hw_40xx_irq_disable(struct ivpu_device *vdev)
++{
++	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x1);
++	REGB_WR32(VPU_40XX_BUTTRESS_LOCAL_INT_MASK, BUTTRESS_IRQ_DISABLE_MASK);
++	REGV_WR64(VPU_40XX_HOST_SS_ICB_ENABLE_0, 0x0ull);
++	REGV_WR32(VPU_40XX_HOST_SS_FW_SOC_IRQ_EN, 0x0ul);
++}
++
++static void ivpu_hw_40xx_irq_wdt_nce_handler(struct ivpu_device *vdev)
++{
++	/* TODO: For LNN hang consider engine reset instead of full recovery */
++	ivpu_pm_schedule_recovery(vdev);
++}
++
++static void ivpu_hw_40xx_irq_wdt_mss_handler(struct ivpu_device *vdev)
++{
++	ivpu_hw_wdt_disable(vdev);
++	ivpu_pm_schedule_recovery(vdev);
++}
++
++static void ivpu_hw_40xx_irq_noc_firewall_handler(struct ivpu_device *vdev)
++{
++	ivpu_pm_schedule_recovery(vdev);
++}
++
++/* Handler for IRQs from VPU core (irqV) */
++static irqreturn_t ivpu_hw_40xx_irqv_handler(struct ivpu_device *vdev, int irq)
++{
++	u32 status = REGV_RD32(VPU_40XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
++	irqreturn_t ret = IRQ_NONE;
++
++	if (!status)
++		return IRQ_NONE;
++
++	REGV_WR32(VPU_40XX_HOST_SS_ICB_CLEAR_0, status);
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT, status))
++		ivpu_mmu_irq_evtq_handler(vdev);
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
++		ret |= ivpu_ipc_irq_handler(vdev);
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
++		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_2_INT, status))
++		ivpu_mmu_irq_gerr_handler(vdev);
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT, status))
++		ivpu_hw_40xx_irq_wdt_mss_handler(vdev);
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_1_INT, status))
++		ivpu_hw_40xx_irq_wdt_nce_handler(vdev);
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, status))
++		ivpu_hw_40xx_irq_noc_firewall_handler(vdev);
++
++	return ret;
++}
++
++/* Handler for IRQs from Buttress core (irqB) */
++static irqreturn_t ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
++{
++	bool schedule_recovery = false;
++	u32 status = REGB_RD32(VPU_40XX_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
++
++	if (status == 0)
++		return IRQ_NONE;
++
++	REGB_WR32(VPU_40XX_BUTTRESS_INTERRUPT_STAT, status);
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE, status))
++		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE");
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR, status)) {
++		ivpu_err(vdev, "ATS_ERR LOG1 0x%08x ATS_ERR_LOG2 0x%08x\n",
++			 REGB_RD32(VPU_40XX_BUTTRESS_ATS_ERR_LOG1),
++			 REGB_RD32(VPU_40XX_BUTTRESS_ATS_ERR_LOG2));
++		REGB_WR32(VPU_40XX_BUTTRESS_ATS_ERR_CLEAR, 0x1);
++		schedule_recovery = true;
++	}
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, CFI0_ERR, status)) {
++		ivpu_err(vdev, "CFI0_ERR 0x%08x", REGB_RD32(VPU_40XX_BUTTRESS_CFI0_ERR_LOG));
++		REGB_WR32(VPU_40XX_BUTTRESS_CFI0_ERR_CLEAR, 0x1);
++		schedule_recovery = true;
++	}
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, CFI1_ERR, status)) {
++		ivpu_err(vdev, "CFI1_ERR 0x%08x", REGB_RD32(VPU_40XX_BUTTRESS_CFI1_ERR_LOG));
++		REGB_WR32(VPU_40XX_BUTTRESS_CFI1_ERR_CLEAR, 0x1);
++		schedule_recovery = true;
++	}
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, IMR0_ERR, status)) {
++		ivpu_err(vdev, "IMR_ERR_CFI0 LOW: 0x%08x HIGH: 0x%08x",
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI0_LOW),
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI0_HIGH));
++		REGB_WR32(VPU_40XX_BUTTRESS_IMR_ERR_CFI0_CLEAR, 0x1);
++		schedule_recovery = true;
++	}
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, IMR1_ERR, status)) {
++		ivpu_err(vdev, "IMR_ERR_CFI1 LOW: 0x%08x HIGH: 0x%08x",
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI1_LOW),
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI1_HIGH));
++		REGB_WR32(VPU_40XX_BUTTRESS_IMR_ERR_CFI1_CLEAR, 0x1);
++		schedule_recovery = true;
++	}
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, SURV_ERR, status)) {
++		ivpu_err(vdev, "Survivability error detected\n");
++		schedule_recovery = true;
++	}
++
++	if (schedule_recovery)
++		ivpu_pm_schedule_recovery(vdev);
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t ivpu_hw_40xx_irq_handler(int irq, void *ptr)
++{
++	struct ivpu_device *vdev = ptr;
++	irqreturn_t ret = IRQ_NONE;
++
++	ret |= ivpu_hw_40xx_irqv_handler(vdev, irq);
++	ret |= ivpu_hw_40xx_irqb_handler(vdev, irq);
++
++	if (ret & IRQ_WAKE_THREAD)
++		return IRQ_WAKE_THREAD;
++
++	return ret;
++}
++
++static void ivpu_hw_40xx_diagnose_failure(struct ivpu_device *vdev)
++{
++	u32 irqv = REGV_RD32(VPU_40XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
++	u32 irqb = REGB_RD32(VPU_40XX_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
++
++	if (ivpu_hw_40xx_reg_ipc_rx_count_get(vdev))
++		ivpu_err(vdev, "IPC FIFO queue not empty, missed IPC IRQ");
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_0_INT, irqv))
++		ivpu_err(vdev, "WDT MSS timeout detected\n");
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, CPU_INT_REDIRECT_1_INT, irqv))
++		ivpu_err(vdev, "WDT NCE timeout detected\n");
++
++	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, irqv))
++		ivpu_err(vdev, "NOC Firewall irq detected\n");
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR, irqb)) {
++		ivpu_err(vdev, "ATS_ERR_LOG1 0x%08x ATS_ERR_LOG2 0x%08x\n",
++			 REGB_RD32(VPU_40XX_BUTTRESS_ATS_ERR_LOG1),
++			 REGB_RD32(VPU_40XX_BUTTRESS_ATS_ERR_LOG2));
++	}
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, CFI0_ERR, irqb))
++		ivpu_err(vdev, "CFI0_ERR_LOG 0x%08x\n", REGB_RD32(VPU_40XX_BUTTRESS_CFI0_ERR_LOG));
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, CFI1_ERR, irqb))
++		ivpu_err(vdev, "CFI1_ERR_LOG 0x%08x\n", REGB_RD32(VPU_40XX_BUTTRESS_CFI1_ERR_LOG));
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, IMR0_ERR, irqb))
++		ivpu_err(vdev, "IMR_ERR_CFI0 LOW: 0x%08x HIGH: 0x%08x\n",
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI0_LOW),
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI0_HIGH));
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, IMR1_ERR, irqb))
++		ivpu_err(vdev, "IMR_ERR_CFI1 LOW: 0x%08x HIGH: 0x%08x\n",
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI1_LOW),
++			 REGB_RD32(VPU_40XX_BUTTRESS_IMR_ERR_CFI1_HIGH));
++
++	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, SURV_ERR, irqb))
++		ivpu_err(vdev, "Survivability error detected\n");
++}
++
++const struct ivpu_hw_ops ivpu_hw_40xx_ops = {
++	.info_init = ivpu_hw_40xx_info_init,
++	.power_up = ivpu_hw_40xx_power_up,
++	.is_idle = ivpu_hw_40xx_is_idle,
++	.power_down = ivpu_hw_40xx_power_down,
++	.boot_fw = ivpu_hw_40xx_boot_fw,
++	.wdt_disable = ivpu_hw_40xx_wdt_disable,
++	.diagnose_failure = ivpu_hw_40xx_diagnose_failure,
++	.reg_pll_freq_get = ivpu_hw_40xx_reg_pll_freq_get,
++	.reg_telemetry_offset_get = ivpu_hw_40xx_reg_telemetry_offset_get,
++	.reg_telemetry_size_get = ivpu_hw_40xx_reg_telemetry_size_get,
++	.reg_telemetry_enable_get = ivpu_hw_40xx_reg_telemetry_enable_get,
++	.reg_db_set = ivpu_hw_40xx_reg_db_set,
++	.reg_ipc_rx_addr_get = ivpu_hw_40xx_reg_ipc_rx_addr_get,
++	.reg_ipc_rx_count_get = ivpu_hw_40xx_reg_ipc_rx_count_get,
++	.reg_ipc_tx_set = ivpu_hw_40xx_reg_ipc_tx_set,
++	.irq_clear = ivpu_hw_40xx_irq_clear,
++	.irq_enable = ivpu_hw_40xx_irq_enable,
++	.irq_disable = ivpu_hw_40xx_irq_disable,
++	.irq_handler = ivpu_hw_40xx_irq_handler,
++};
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx_reg.h b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+new file mode 100644
+index 000000000000..5139cfe88532
+--- /dev/null
++++ b/drivers/accel/ivpu/ivpu_hw_40xx_reg.h
+@@ -0,0 +1,267 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020-2023 Intel Corporation
++ */
++
++#ifndef __IVPU_HW_40XX_REG_H__
++#define __IVPU_HW_40XX_REG_H__
++
++#include <linux/bits.h>
++
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT				0x00000000u
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_FREQ_CHANGE_MASK		BIT_MASK(0)
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_ATS_ERR_MASK			BIT_MASK(1)
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_CFI0_ERR_MASK			BIT_MASK(2)
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_CFI1_ERR_MASK			BIT_MASK(3)
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_IMR0_ERR_MASK			BIT_MASK(4)
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_IMR1_ERR_MASK			BIT_MASK(5)
++#define VPU_40XX_BUTTRESS_INTERRUPT_STAT_SURV_ERR_MASK			BIT_MASK(6)
++
++#define VPU_40XX_BUTTRESS_LOCAL_INT_MASK				0x00000004u
++#define VPU_40XX_BUTTRESS_GLOBAL_INT_MASK				0x00000008u
++
++#define VPU_40XX_BUTTRESS_HM_ATS					0x0000000cu
++
++#define VPU_40XX_BUTTRESS_ATS_ERR_LOG1					0x00000010u
++#define VPU_40XX_BUTTRESS_ATS_ERR_LOG2					0x00000014u
++#define VPU_40XX_BUTTRESS_ATS_ERR_CLEAR					0x00000018u
++
++#define VPU_40XX_BUTTRESS_CFI0_ERR_LOG					0x0000001cu
++#define VPU_40XX_BUTTRESS_CFI0_ERR_CLEAR				0x00000020u
++
++#define VPU_40XX_BUTTRESS_PORT_ARBITRATION_WEIGHTS_ATS			0x00000024u
++
++#define VPU_40XX_BUTTRESS_CFI1_ERR_LOG					0x00000040u
++#define VPU_40XX_BUTTRESS_CFI1_ERR_CLEAR				0x00000044u
++
++#define VPU_40XX_BUTTRESS_IMR_ERR_CFI0_LOW				0x00000048u
++#define VPU_40XX_BUTTRESS_IMR_ERR_CFI0_HIGH				0x0000004cu
++#define VPU_40XX_BUTTRESS_IMR_ERR_CFI0_CLEAR				0x00000050u
++
++#define VPU_40XX_BUTTRESS_PORT_ARBITRATION_WEIGHTS			0x00000054u
++
++#define VPU_40XX_BUTTRESS_IMR_ERR_CFI1_LOW				0x00000058u
++#define VPU_40XX_BUTTRESS_IMR_ERR_CFI1_HIGH				0x0000005cu
++#define VPU_40XX_BUTTRESS_IMR_ERR_CFI1_CLEAR				0x00000060u
++
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0				0x00000130u
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0_MIN_RATIO_MASK		GENMASK(15, 0)
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD0_MAX_RATIO_MASK		GENMASK(31, 16)
++
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1				0x00000134u
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1_TARGET_RATIO_MASK		GENMASK(15, 0)
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD1_EPP_MASK			GENMASK(31, 16)
++
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2				0x00000138u
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2_CONFIG_MASK			GENMASK(15, 0)
++#define VPU_40XX_BUTTRESS_WP_REQ_PAYLOAD2_CDYN_MASK			GENMASK(31, 16)
++
++#define VPU_40XX_BUTTRESS_WP_REQ_CMD					0x0000013cu
++#define VPU_40XX_BUTTRESS_WP_REQ_CMD_SEND_MASK				BIT_MASK(0)
++
++#define VPU_40XX_BUTTRESS_PLL_FREQ					0x00000148u
++#define VPU_40XX_BUTTRESS_PLL_FREQ_RATIO_MASK				GENMASK(15, 0)
++
++#define VPU_40XX_BUTTRESS_TILE_FUSE					0x00000150u
++#define VPU_40XX_BUTTRESS_TILE_FUSE_VALID_MASK				BIT_MASK(0)
++#define VPU_40XX_BUTTRESS_TILE_FUSE_CONFIG_MASK				GENMASK(6, 1)
++
++#define VPU_40XX_BUTTRESS_VPU_STATUS					0x00000154u
++#define VPU_40XX_BUTTRESS_VPU_STATUS_READY_MASK				BIT_MASK(0)
++#define VPU_40XX_BUTTRESS_VPU_STATUS_IDLE_MASK				BIT_MASK(1)
++#define VPU_40XX_BUTTRESS_VPU_STATUS_DUP_IDLE_MASK			BIT_MASK(2)
++#define VPU_40XX_BUTTRESS_VPU_STATUS_PERF_CLK_MASK			BIT_MASK(11)
++#define VPU_40XX_BUTTRESS_VPU_STATUS_DISABLE_CLK_RELINQUISH_MASK        BIT_MASK(12)
++
++#define VPU_40XX_BUTTRESS_IP_RESET					0x00000160u
++#define VPU_40XX_BUTTRESS_IP_RESET_TRIGGER_MASK				BIT_MASK(0)
++
++#define VPU_40XX_BUTTRESS_D0I3_CONTROL					0x00000164u
++#define VPU_40XX_BUTTRESS_D0I3_CONTROL_INPROGRESS_MASK			BIT_MASK(0)
++#define VPU_40XX_BUTTRESS_D0I3_CONTROL_I3_MASK				BIT_MASK(2)
++
++#define VPU_40XX_BUTTRESS_VPU_TELEMETRY_OFFSET				0x00000168u
++#define VPU_40XX_BUTTRESS_VPU_TELEMETRY_SIZE				0x0000016cu
++#define VPU_40XX_BUTTRESS_VPU_TELEMETRY_ENABLE				0x00000170u
++
++#define VPU_40XX_BUTTRESS_FMIN_FUSE					0x00000174u
++#define VPU_40XX_BUTTRESS_FMIN_FUSE_MIN_RATIO_MASK			GENMASK(7, 0)
++#define VPU_40XX_BUTTRESS_FMIN_FUSE_PN_RATIO_MASK			GENMASK(15, 8)
++
++#define VPU_40XX_BUTTRESS_FMAX_FUSE					0x00000178u
++#define VPU_40XX_BUTTRESS_FMAX_FUSE_MAX_RATIO_MASK			GENMASK(7, 0)
++
++#define VPU_40XX_HOST_SS_CPR_CLK_EN					0x00000080u
++#define VPU_40XX_HOST_SS_CPR_CLK_EN_TOP_NOC_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_CPR_CLK_EN_DSS_MAS_MASK			BIT_MASK(10)
++#define VPU_40XX_HOST_SS_CPR_CLK_EN_CSS_MAS_MASK			BIT_MASK(11)
++
++#define VPU_40XX_HOST_SS_CPR_CLK_SET					0x00000084u
++#define VPU_40XX_HOST_SS_CPR_CLK_SET_TOP_NOC_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_CPR_CLK_SET_DSS_MAS_MASK			BIT_MASK(10)
++#define VPU_40XX_HOST_SS_CPR_CLK_SET_MSS_MAS_MASK			BIT_MASK(11)
++
++#define VPU_40XX_HOST_SS_CPR_RST_EN					0x00000090u
++#define VPU_40XX_HOST_SS_CPR_RST_EN_TOP_NOC_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_CPR_RST_EN_DSS_MAS_MASK			BIT_MASK(10)
++#define VPU_40XX_HOST_SS_CPR_RST_EN_CSS_MAS_MASK			BIT_MASK(11)
++
++#define VPU_40XX_HOST_SS_CPR_RST_SET					0x00000094u
++#define VPU_40XX_HOST_SS_CPR_RST_SET_TOP_NOC_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_CPR_RST_SET_DSS_MAS_MASK			BIT_MASK(10)
++#define VPU_40XX_HOST_SS_CPR_RST_SET_MSS_MAS_MASK			BIT_MASK(11)
++
++#define VPU_40XX_HOST_SS_CPR_RST_CLR					0x00000098u
++#define VPU_40XX_HOST_SS_CPR_RST_CLR_TOP_NOC_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_CPR_RST_CLR_DSS_MAS_MASK			BIT_MASK(10)
++#define VPU_40XX_HOST_SS_CPR_RST_CLR_MSS_MAS_MASK			BIT_MASK(11)
++
++#define VPU_40XX_HOST_SS_HW_VERSION					0x00000108u
++#define VPU_40XX_HOST_SS_HW_VERSION_SOC_REVISION_MASK			GENMASK(7, 0)
++#define VPU_40XX_HOST_SS_HW_VERSION_SOC_NUMBER_MASK			GENMASK(15, 8)
++#define VPU_40XX_HOST_SS_HW_VERSION_VPU_GENERATION_MASK			GENMASK(23, 16)
++
++#define VPU_40XX_HOST_SS_SW_VERSION					0x0000010cu
++
++#define VPU_40XX_HOST_SS_GEN_CTRL					0x00000118u
++#define VPU_40XX_HOST_SS_GEN_CTRL_PS_MASK				GENMASK(31, 29)
++
++#define VPU_40XX_HOST_SS_NOC_QREQN					0x00000154u
++#define VPU_40XX_HOST_SS_NOC_QREQN_TOP_SOCMMIO_MASK			BIT_MASK(0)
++
++#define VPU_40XX_HOST_SS_NOC_QACCEPTN					0x00000158u
++#define VPU_40XX_HOST_SS_NOC_QACCEPTN_TOP_SOCMMIO_MASK			BIT_MASK(0)
++
++#define VPU_40XX_HOST_SS_NOC_QDENY					0x0000015cu
++#define VPU_40XX_HOST_SS_NOC_QDENY_TOP_SOCMMIO_MASK			BIT_MASK(0)
++
++#define VPU_40XX_TOP_NOC_QREQN						0x00000160u
++#define VPU_40XX_TOP_NOC_QREQN_CPU_CTRL_MASK				BIT_MASK(0)
++#define VPU_40XX_TOP_NOC_QREQN_HOSTIF_L2CACHE_MASK			BIT_MASK(2)
++
++#define VPU_40XX_TOP_NOC_QACCEPTN					0x00000164u
++#define VPU_40XX_TOP_NOC_QACCEPTN_CPU_CTRL_MASK				BIT_MASK(0)
++#define VPU_40XX_TOP_NOC_QACCEPTN_HOSTIF_L2CACHE_MASK			BIT_MASK(2)
++
++#define VPU_40XX_TOP_NOC_QDENY						0x00000168u
++#define VPU_40XX_TOP_NOC_QDENY_CPU_CTRL_MASK				BIT_MASK(0)
++#define VPU_40XX_TOP_NOC_QDENY_HOSTIF_L2CACHE_MASK			BIT_MASK(2)
++
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN					0x00000170u
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_CSS_ROM_CMX_MASK			BIT_MASK(0)
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_CSS_DBG_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_CSS_CTRL_MASK			BIT_MASK(2)
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_DEC400_MASK			BIT_MASK(3)
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_MSS_NCE_MASK			BIT_MASK(4)
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_MSS_MBI_MASK			BIT_MASK(5)
++#define VPU_40XX_HOST_SS_FW_SOC_IRQ_EN_MSS_MBI_CMX_MASK			BIT_MASK(6)
++
++#define VPU_40XX_HOST_SS_ICB_STATUS_0					0x00010210u
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_TIMER_0_INT_MASK			BIT_MASK(0)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_TIMER_1_INT_MASK			BIT_MASK(1)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_TIMER_2_INT_MASK			BIT_MASK(2)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_TIMER_3_INT_MASK			BIT_MASK(3)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_HOST_IPC_FIFO_INT_MASK		BIT_MASK(4)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_0_INT_MASK		BIT_MASK(5)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_1_INT_MASK		BIT_MASK(6)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_MMU_IRQ_2_INT_MASK		BIT_MASK(7)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_NOC_FIREWALL_INT_MASK		BIT_MASK(8)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_CPU_INT_REDIRECT_0_INT_MASK	BIT_MASK(30)
++#define VPU_40XX_HOST_SS_ICB_STATUS_0_CPU_INT_REDIRECT_1_INT_MASK	BIT_MASK(31)
++
++#define VPU_40XX_HOST_SS_ICB_STATUS_1					0x00010214u
++#define VPU_40XX_HOST_SS_ICB_STATUS_1_CPU_INT_REDIRECT_2_INT_MASK	BIT_MASK(0)
++#define VPU_40XX_HOST_SS_ICB_STATUS_1_CPU_INT_REDIRECT_3_INT_MASK	BIT_MASK(1)
++#define VPU_40XX_HOST_SS_ICB_STATUS_1_CPU_INT_REDIRECT_4_INT_MASK	BIT_MASK(2)
++
++#define VPU_40XX_HOST_SS_ICB_CLEAR_0					0x00010220u
++#define VPU_40XX_HOST_SS_ICB_CLEAR_1					0x00010224u
++#define VPU_40XX_HOST_SS_ICB_ENABLE_0					0x00010240u
++#define VPU_40XX_HOST_SS_ICB_ENABLE_1					0x00010244u
++
++#define VPU_40XX_HOST_SS_TIM_IPC_FIFO_ATM				0x000200f4u
++
++#define VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT				0x000200fcu
++#define VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT_FILL_LEVEL_MASK		GENMASK(23, 16)
++
++#define VPU_40XX_HOST_SS_AON_PWR_ISO_EN0				0x00030020u
++#define VPU_40XX_HOST_SS_AON_PWR_ISO_EN0_CSS_CPU_MASK			BIT_MASK(3)
++
++#define VPU_40XX_HOST_SS_AON_PWR_ISLAND_EN0				0x00030024u
++#define VPU_40XX_HOST_SS_AON_PWR_ISLAND_EN0_CSS_CPU_MASK		BIT_MASK(3)
++
++#define VPU_40XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0			0x00030028u
++#define VPU_40XX_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0_CSS_CPU_MASK	BIT_MASK(3)
++
++#define VPU_40XX_HOST_SS_AON_PWR_ISLAND_STATUS0				0x0003002cu
++#define VPU_40XX_HOST_SS_AON_PWR_ISLAND_STATUS0_CSS_CPU_MASK		BIT_MASK(3)
++
++#define VPU_40XX_HOST_SS_AON_IDLE_GEN					0x00030200u
++#define VPU_40XX_HOST_SS_AON_IDLE_GEN_EN_MASK				BIT_MASK(0)
++#define VPU_40XX_HOST_SS_AON_IDLE_GEN_HW_PG_EN_MASK			BIT_MASK(1)
++
++#define VPU_40XX_HOST_SS_AON_DPU_ACTIVE					0x00030204u
++#define VPU_40XX_HOST_SS_AON_DPU_ACTIVE_DPU_ACTIVE_MASK			BIT_MASK(0)
++
++#define VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO			0x00040040u
++#define VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_DONE_MASK		BIT_MASK(0)
++#define VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IOSF_RS_ID_MASK	GENMASK(2, 1)
++#define VPU_40XX_HOST_SS_VERIFICATION_ADDRESS_LO_IMAGE_LOCATION_MASK	GENMASK(31, 3)
++
++#define VPU_40XX_HOST_SS_WORKPOINT_CONFIG_MIRROR			0x00082020u
++#define VPU_40XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_FINAL_PLL_FREQ_MASK	GENMASK(15, 0)
++#define VPU_40XX_HOST_SS_WORKPOINT_CONFIG_MIRROR_CONFIG_ID_MASK		GENMASK(31, 16)
++
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES				0x00360000u
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_CACHE_OVERRIDE_EN_MASK	BIT_MASK(0)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_AWCACHE_OVERRIDE_MASK	BIT_MASK(1)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_ARCACHE_OVERRIDE_MASK	BIT_MASK(2)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_SNOOP_OVERRIDE_EN_MASK	BIT_MASK(3)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_AW_SNOOP_OVERRIDE_MASK	BIT_MASK(4)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_AR_SNOOP_OVERRIDE_MASK	BIT_MASK(5)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_PTW_AW_CONTEXT_FLAG_MASK	GENMASK(10, 6)
++#define VPU_40XX_HOST_IF_TCU_PTW_OVERRIDES_PTW_AR_CONTEXT_FLAG_MASK	GENMASK(15, 11)
++
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV					0x00360004u
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU0_AWMMUSSIDV_MASK		BIT_MASK(0)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU0_ARMMUSSIDV_MASK		BIT_MASK(1)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU1_AWMMUSSIDV_MASK		BIT_MASK(2)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU1_ARMMUSSIDV_MASK		BIT_MASK(3)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU2_AWMMUSSIDV_MASK		BIT_MASK(4)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU2_ARMMUSSIDV_MASK		BIT_MASK(5)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU3_AWMMUSSIDV_MASK		BIT_MASK(6)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU3_ARMMUSSIDV_MASK		BIT_MASK(7)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU4_AWMMUSSIDV_MASK		BIT_MASK(8)
++#define VPU_40XX_HOST_IF_TBU_MMUSSIDV_TBU4_ARMMUSSIDV_MASK		BIT_MASK(9)
++
++#define VPU_40XX_CPU_SS_DSU_LEON_RT_BASE				0x04000000u
++#define VPU_40XX_CPU_SS_DSU_LEON_RT_DSU_CTRL				0x04000000u
++#define VPU_40XX_CPU_SS_DSU_LEON_RT_PC_REG				0x04400010u
++#define VPU_40XX_CPU_SS_DSU_LEON_RT_NPC_REG				0x04400014u
++#define VPU_40XX_CPU_SS_DSU_LEON_RT_DSU_TRAP_REG			0x04400020u
++
++#define VPU_40XX_CPU_SS_TIM_WATCHDOG					0x0102009cu
++#define VPU_40XX_CPU_SS_TIM_WDOG_EN					0x010200a4u
++#define VPU_40XX_CPU_SS_TIM_SAFE					0x010200a8u
++
++#define VPU_40XX_CPU_SS_TIM_GEN_CONFIG					0x01021008u
++#define VPU_40XX_CPU_SS_TIM_GEN_CONFIG_WDOG_TO_INT_CLR_MASK		BIT_MASK(9)
++
++#define VPU_40XX_CPU_SS_CPR_NOC_QREQN					0x01010030u
++#define VPU_40XX_CPU_SS_CPR_NOC_QREQN_TOP_MMIO_MASK			BIT_MASK(0)
++
++#define VPU_40XX_CPU_SS_CPR_NOC_QACCEPTN				0x01010034u
++#define VPU_40XX_CPU_SS_CPR_NOC_QACCEPTN_TOP_MMIO_MASK			BIT_MASK(0)
++
++#define VPU_40XX_CPU_SS_CPR_NOC_QDENY					0x01010038u
++#define VPU_40XX_CPU_SS_CPR_NOC_QDENY_TOP_MMIO_MASK			BIT_MASK(0)
++
++#define VPU_40XX_CPU_SS_TIM_IPC_FIFO					0x010200f0u
++#define VPU_40XX_CPU_SS_TIM_PERF_EXT_FREE_CNT				0x01029008u
++
++#define VPU_40XX_CPU_SS_DOORBELL_0					0x01300000u
++#define VPU_40XX_CPU_SS_DOORBELL_0_SET_MASK				BIT_MASK(0)
++
++#define VPU_40XX_CPU_SS_DOORBELL_1					0x01301000u
++
++#endif /* __IVPU_HW_40XX_REG_H__ */
 -- 
 2.25.1
 
