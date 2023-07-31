@@ -1,52 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2E676958E
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:05:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E00167695C6
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:13:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7E4910E26F;
-	Mon, 31 Jul 2023 12:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB2810E272;
+	Mon, 31 Jul 2023 12:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE8D10E26F
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 12:05:49 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C542366020AE;
- Mon, 31 Jul 2023 13:05:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690805148;
- bh=Cp1OUkoq2QcJiLwkZOnkdDS0aVQ4fce+FabJFBEosT0=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=g3F/ITRTQABf7q5YPRM3ABPAL5TG2irUPeqFo+70YXEdW7Z8EfO3oFUQqsFVJF1PU
- a1J4yB2HoMpTo3sC94srJsT/gb6F2I8IXetGrRZWXYDUVZyPi1QkdHYwtVYhYw506E
- QZ6qYPDL53iD39dtAZCaMMjzahi+u83sBUrFjPpWFwF6D9qK94gwdja28NnKIgjaYC
- a7Ld0V+WG+jzPYMjbhucrI+N6sXWZZRlBncQGm22M27CgJIgy2i0YlVzdLv8qvQ9+F
- yDKxyr1Bt1MPfBYAXN7J3qpjQdtq/J6o5y0AiB7fIHGXBiPSWY8SfVv10sknDMP580
- 9eeCo+OxRxXbQ==
-Message-ID: <555a378b-9a35-1f32-4b83-352e4174002a@collabora.com>
-Date: Mon, 31 Jul 2023 14:05:45 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4804910E272
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 12:13:49 +0000 (UTC)
+Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAD045A4;
+ Mon, 31 Jul 2023 14:12:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1690805566;
+ bh=X0B++9ZJoOGXr2Q9dYZmjqsgjlJ16PlZ4syKyoxQEkU=;
+ h=From:Date:Subject:To:Cc:From;
+ b=jQCblDDrSZz+fpDqp24KCffbYEAStw0+unrpLi3Fsz+doawB+Te+cbH+pFj8wBfOv
+ hRM6JPA1dynBc5l8OU7vqDmeF9xi8H7vrBIPnTqU+4wMDhaOwuag0rTU4OW7ihetRj
+ it5zcIb+2lUJirgWyUWbpPOG8nq/0PrpZwqOBif8=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Mon, 31 Jul 2023 15:13:14 +0300
+Subject: [PATCH v3] drm/bridge: Add debugfs print for bridge chains
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RESEND v6 03/11] drm/mediatek: gamma: Support SoC specific
- LUT size
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
- <20230727094633.22505-4-angelogioacchino.delregno@collabora.com>
- <e9bb287ea6177568c16ed0dc91a2d4f2c9d433e3.camel@mediatek.com>
- <a3b55c69-bf80-72b1-013d-8a97d2c211fa@collabora.com>
-In-Reply-To: <a3b55c69-bf80-72b1-013d-8a97d2c211fa@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230731-drm-bridge-chain-debugfs-v3-1-7d0739f3efa3@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAFmlx2QC/43NPQ7DIAwF4KtUzKUC54ekU+9RdYBgEg+BClrUK
+ srdSzJ3yPjs588LSxgJE7ueFhYxU6LgS6jOJzZM2o/IyZbMQEAlFEhu48xNJFs2pUCeWzTv0SU
+ ujBlkA+AapVk5f0Z09Nnp+6PkidIrxO/+KcttegDNkkvetbJ2TmHXC3sjizoFb4KO9jKEmW12h
+ qMeFE+11vV1Vau+hT/euq4/inZWbhcBAAA=
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Francesco Dolcini <francesco.dolcini@toradex.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4740;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=X0B++9ZJoOGXr2Q9dYZmjqsgjlJ16PlZ4syKyoxQEkU=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkx6V3kIlljbcwEkPpF2jYccwrfJf2NhfvfkoG7
+ tcqoT6g4/aJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMeldwAKCRD6PaqMvJYe
+ 9XIFEACiIy/bIIupSs7y53f++sShmKTkED5D7Bt5qFAz3fvk2/RehoLljivqMQZLW6S/8hBtRE1
+ zR1erINCV0M1cuWBnRZU3NBIOVWOtVo2ZGflzu+5TXNnmp2N447JLwEQtFGumBQ63Pf1MY6+qQv
+ IJZazVj8lLFhz607fWrUEAeJ/7B7f2iCc/e8pl+uHSMzcGZ62yhz4/OP6wICuuotSmrhk4JXUtb
+ M28p7hoTH5deQciOi6L/SS1Y/4p82eJtsIYtSPMW9z8548Ct+Ud5I4nZYL3F1vO+5ED/jNVYSsK
+ UQzzhPso0uQJp40dfnQyA1M/2P1T8vsyR9RZHDSonE8f7cxl9lFiNxeCEc2SJVmjjrLYNbxam22
+ yPBJo4bwLtirSTPqHPzmUm/P8r2N1qSSbx0sCStv6Z7a0JIzU/z8opb2T9INuF++AexY7n5C0g6
+ r+Kx/o9vvIfui7Oi9dJDDlVMI7E6E2DOKpPBsCNRsTcYKEN9S1jHqps6217Du8vqZ8v5aL1J7uf
+ B7rtanVfi6s8VWbQcOOXRm8hRDKd5s7sjVHiKbLjITp7am4TMRmHOdNi7Uc/NNOKaOvFIKgVedg
+ dNkvL5gXQClxfCwJ/Crq7TrC5tUQ7PTd8v1wBOnNAMeVGRkDF7InIOaWaWLhUEwvi9CXM79qF/l
+ 1zlw9L+tVGJhF0A==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,229 +74,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "ehristev@collabora.com" <ehristev@collabora.com>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 31/07/23 12:40, AngeloGioacchino Del Regno ha scritto:
-> Il 31/07/23 09:49, CK Hu (胡俊光) ha scritto:
->> Hi, Angelo:
->>
->> On Thu, 2023-07-27 at 11:46 +0200, AngeloGioacchino Del Regno wrote:
->>> Newer SoCs support a bigger Gamma LUT table: wire up a callback
->>> to retrieve the correct LUT size for each different Gamma IP.
->>>
->>> Co-developed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
->>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
->>> [Angelo: Rewritten commit message/description + porting]
->>> Signed-off-by: AngeloGioacchino Del Regno <
->>> angelogioacchino.delregno@collabora.com>
->>> Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
->>> ---
->>>   drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  1 +
->>>   drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 25 ++++++++++++++++++-
->>> -- 
->>>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  4 ++--
->>>   drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  1 -
->>>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  1 +
->>>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  9 ++++++++
->>>   6 files changed, 35 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
->>> b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
->>> index 75045932353e..e554b19f4830 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
->>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
->>> @@ -53,6 +53,7 @@ void mtk_gamma_clk_disable(struct device *dev);
->>>   void mtk_gamma_config(struct device *dev, unsigned int w,
->>>                 unsigned int h, unsigned int vrefresh,
->>>                 unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
->>> +unsigned int mtk_gamma_get_lut_size(struct device *dev);
->>>   void mtk_gamma_set(struct device *dev, struct drm_crtc_state
->>> *state);
->>>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
->>> struct drm_crtc_state *state);
->>>   void mtk_gamma_start(struct device *dev);
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
->>> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
->>> index ce6f2499b891..b25ba209e7a4 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
->>> @@ -25,10 +25,12 @@
->>>   #define DISP_GAMMA_LUT                0x0700
->>>   #define LUT_10BIT_MASK                0x03ff
->>> +#define LUT_SIZE_DEFAULT            512
->>>   struct mtk_disp_gamma_data {
->>>       bool has_dither;
->>>       bool lut_diff;
->>> +    u16 lut_size;
->>>   };
->>>   /*
->>> @@ -55,6 +57,17 @@ void mtk_gamma_clk_disable(struct device *dev)
->>>       clk_disable_unprepare(gamma->clk);
->>>   }
->>> +unsigned int mtk_gamma_get_lut_size(struct device *dev)
->>> +{
->>> +    struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
->>> +    unsigned int lut_size = LUT_SIZE_DEFAULT;
->>> +
->>> +    if (gamma && gamma->data)
->>> +        lut_size = gamma->data->lut_size;
->>> +
->>> +    return lut_size;
->>> +}
->>> +
->>>   void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
->>> struct drm_crtc_state *state)
->>>   {
->>>       struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
->>> @@ -62,6 +75,7 @@ void mtk_gamma_set_common(struct device *dev, void
->>> __iomem *regs, struct drm_crt
->>>       struct drm_color_lut *lut;
->>>       void __iomem *lut_base;
->>>       bool lut_diff;
->>> +    u16 lut_size;
->>>       u32 word;
->>>       u32 diff[3] = {0};
->>> @@ -69,17 +83,20 @@ void mtk_gamma_set_common(struct device *dev,
->>> void __iomem *regs, struct drm_crt
->>>       if (!state->gamma_lut)
->>>           return;
->>> -    if (gamma && gamma->data)
->>> +    if (gamma && gamma->data) {
->>>           lut_diff = gamma->data->lut_diff;
->>> -    else
->>> +        lut_size = gamma->data->lut_size;
->>> +    } else {
->>>           lut_diff = false;
->>> +        lut_size = LUT_SIZE_DEFAULT;
->>> +    }
->>>       reg = readl(regs + DISP_GAMMA_CFG);
->>>       reg = reg | GAMMA_LUT_EN;
->>>       writel(reg, regs + DISP_GAMMA_CFG);
->>>       lut_base = regs + DISP_GAMMA_LUT;
->>>       lut = (struct drm_color_lut *)state->gamma_lut->data;
->>> -    for (i = 0; i < MTK_LUT_SIZE; i++) {
->>> +    for (i = 0; i < lut_size; i++) {
->>>           if (!lut_diff || (i % 2 == 0)) {
->>>               word = (((lut[i].red >> 6) & LUT_10BIT_MASK) <<
->>> 20) +
->>>                   (((lut[i].green >> 6) & LUT_10BIT_MASK)
->>> << 10) +
->>> @@ -196,10 +213,12 @@ static int mtk_disp_gamma_remove(struct
->>> platform_device *pdev)
->>>   static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
->>>       .has_dither = true,
->>> +    .lut_size = 512,
->>>   };
->>>   static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
->>>       .lut_diff = true,
->>> +    .lut_size = 512,
->>>   };
->>>   static const struct of_device_id mtk_disp_gamma_driver_dt_match[] =
->>> {
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->>> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->>> index d40142842f85..0df62b076f49 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->>> @@ -958,8 +958,8 @@ int mtk_drm_crtc_create(struct drm_device
->>> *drm_dev,
->>>           mtk_crtc->ddp_comp[i] = comp;
->>>           if (comp->funcs) {
->>> -            if (comp->funcs->gamma_set)
->>> -                gamma_lut_size = MTK_LUT_SIZE;
->>> +            if (comp->funcs->gamma_set && comp->funcs-
->>>> gamma_get_lut_size)
->>> +                gamma_lut_size =
->>> mtk_ddp_gamma_get_lut_size(comp);
->>
->> In this patch, for AAL, the gamma_lut_size is not defined.
->>
-> 
-> It is defined: AAL will call mtk_gamma_set_common(), which will use
-> the "DEFAULT" (512) LUT size if no platform data was provided and the
-> platform data can only come from the mtk_gamma driver - so, if the
-> call to mtk_gamma_set_common() comes from mtk_aal, it will use 512.
-> 
-> P.S.: The call to drm_mode_crtc_set_gamma_size() is performed only if
->        gamma_lut_size > 0.
-> 
+DRM bridges are not visible to the userspace and it may not be
+immediately clear if the chain is somehow constructed incorrectly. I
+have had two separate instances of a bridge driver failing to do a
+drm_bridge_attach() call, resulting in the bridge connector not being
+part of the chain. In some situations this doesn't seem to cause issues,
+but it will if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is used.
 
-Actually, I see what you mean now. Gets fixed in v7. Thanks!
+Add a debugfs file to print the bridge chains. For me, on this TI AM62
+based platform, I get the following output:
 
-> Regards,
-> Angelo
-> 
->> Regards,
->> CK
->>
->>>               if (comp->funcs->ctm_set)
->>>                   has_ctm = true;
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
->>> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
->>> index 3e9046993d09..b2e50292e57d 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
->>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
->>> @@ -10,7 +10,6 @@
->>>   #include "mtk_drm_ddp_comp.h"
->>>   #include "mtk_drm_plane.h"
->>> -#define MTK_LUT_SIZE    512
->>>   #define MTK_MAX_BPC    10
->>>   #define MTK_MIN_BPC    3
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->>> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->>> index f114da4d36a9..c77af2e4000f 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->>> @@ -322,6 +322,7 @@ static const struct mtk_ddp_comp_funcs ddp_dsi =
->>> {
->>>   static const struct mtk_ddp_comp_funcs ddp_gamma = {
->>>       .clk_enable = mtk_gamma_clk_enable,
->>>       .clk_disable = mtk_gamma_clk_disable,
->>> +    .gamma_get_lut_size = mtk_gamma_get_lut_size,
->>>       .gamma_set = mtk_gamma_set,
->>>       .config = mtk_gamma_config,
->>>       .start = mtk_gamma_start,
->>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->>> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->>> index febcaeef16a1..c1355960e195 100644
->>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->>> @@ -67,6 +67,7 @@ struct mtk_ddp_comp_funcs {
->>>       void (*layer_config)(struct device *dev, unsigned int idx,
->>>                    struct mtk_plane_state *state,
->>>                    struct cmdq_pkt *cmdq_pkt);
->>> +    unsigned int (*gamma_get_lut_size)(struct device *dev);
->>>       void (*gamma_set)(struct device *dev,
->>>                 struct drm_crtc_state *state);
->>>       void (*bgclr_in_on)(struct device *dev);
->>> @@ -186,6 +187,14 @@ static inline void
->>> mtk_ddp_comp_layer_config(struct mtk_ddp_comp *comp,
->>>           comp->funcs->layer_config(comp->dev, idx, state,
->>> cmdq_pkt);
->>>   }
->>> +static inline unsigned int mtk_ddp_gamma_get_lut_size(struct
->>> mtk_ddp_comp *comp)
->>> +{
->>> +    if (comp->funcs && comp->funcs->gamma_get_lut_size)
->>> +        return comp->funcs->gamma_get_lut_size(comp->dev);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>>   static inline void mtk_ddp_gamma_set(struct mtk_ddp_comp *comp,
->>>                        struct drm_crtc_state *state)
->>>   {
-> 
-> 
-> 
+encoder[39]
+	bridge[0] type: 0, ops: 0x0
+	bridge[1] type: 0, ops: 0x0, OF: /bus@f0000/i2c@20000000/dsi@e:toshiba,tc358778
+	bridge[2] type: 0, ops: 0x3, OF: /bus@f0000/i2c@20010000/hdmi@48:lontium,lt8912b
+	bridge[3] type: 11, ops: 0x7, OF: /hdmi-connector:hdmi-connector
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v3:
+- Use drm_for_each_bridge_in_chain()
+- Drop extra comment
+- Fix whitespace issue
+- Call drm_bridge_debugfs_init() only if the driver uses modeset
+- Drop #ifdef for drm_bridge_debugfs_init() declaration
+- Link to v2: https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v2-1-76df94347962@ideasonboard.com
+
+Changes in v2:
+- Fixed compilation issue when !CONFIG_OF
+- Link to v1: https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com
+---
+ drivers/gpu/drm/drm_bridge.c  | 46 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_debugfs.c |  3 +++
+ include/drm/drm_bridge.h      |  3 +++
+ 3 files changed, 52 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index c3d69af02e79..39e68e45bb12 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -27,8 +27,10 @@
+ #include <linux/mutex.h>
+ 
+ #include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_debugfs.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_encoder.h>
++#include <drm/drm_file.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_print.h>
+ 
+@@ -1345,6 +1347,50 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+ EXPORT_SYMBOL(of_drm_find_bridge);
+ #endif
+ 
++#ifdef CONFIG_DEBUG_FS
++static int drm_bridge_chains_info(struct seq_file *m, void *data)
++{
++	struct drm_debugfs_entry *entry = m->private;
++	struct drm_device *dev = entry->dev;
++	struct drm_printer p = drm_seq_file_printer(m);
++	struct drm_mode_config *config = &dev->mode_config;
++	struct drm_encoder *encoder;
++	unsigned int bridge_idx = 0;
++
++	list_for_each_entry(encoder, &config->encoder_list, head) {
++		struct drm_bridge *bridge;
++
++		drm_printf(&p, "encoder[%u]\n", encoder->base.id);
++
++		drm_for_each_bridge_in_chain(encoder, bridge) {
++			drm_printf(&p, "\tbridge[%u] type: %u, ops: %#x",
++				   bridge_idx, bridge->type, bridge->ops);
++
++#ifdef CONFIG_OF
++			if (bridge->of_node)
++				drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
++#endif
++
++			drm_printf(&p, "\n");
++
++			bridge_idx++;
++		}
++	}
++
++	return 0;
++}
++
++static const struct drm_debugfs_info drm_bridge_debugfs_list[] = {
++	{ "bridge_chains", drm_bridge_chains_info, 0 },
++};
++
++void drm_bridge_debugfs_init(struct drm_minor *minor)
++{
++	drm_debugfs_add_files(minor->dev, drm_bridge_debugfs_list,
++			      ARRAY_SIZE(drm_bridge_debugfs_list));
++}
++#endif
++
+ MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+ MODULE_DESCRIPTION("DRM bridge infrastructure");
+ MODULE_LICENSE("GPL and additional rights");
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index a3a488205009..3b1de2c61c89 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -31,6 +31,7 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_auth.h>
++#include <drm/drm_bridge.h>
+ #include <drm/drm_client.h>
+ #include <drm/drm_debugfs.h>
+ #include <drm/drm_device.h>
+@@ -274,6 +275,8 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 
+ 	if (drm_drv_uses_atomic_modeset(dev)) {
+ 		drm_atomic_debugfs_init(minor);
++
++		drm_bridge_debugfs_init(minor);
+ 	}
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index bf964cdfb330..cb10ee108538 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -949,4 +949,7 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+ }
+ #endif
+ 
++struct drm_minor;
++void drm_bridge_debugfs_init(struct drm_minor *minor);
++
+ #endif
+
+---
+base-commit: a0c64d153d687756c8719b8d10e609d62e1cb6fd
+change-id: 20230721-drm-bridge-chain-debugfs-0bbc1522f57a
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
