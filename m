@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BF4769726
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:05:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9353C76970F
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE68B10E2A4;
-	Mon, 31 Jul 2023 13:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B1E10E299;
+	Mon, 31 Jul 2023 13:04:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C329B10E298
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 13:04:48 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C30F510E299
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 13:04:49 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E11856606FD9;
- Mon, 31 Jul 2023 14:04:46 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D1AAE66070F7;
+ Mon, 31 Jul 2023 14:04:47 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690808687;
- bh=kYeyT6HbEedO1YRPTVJsJxzagOYrnms3xwsfF+B40oU=;
+ s=mail; t=1690808688;
+ bh=dRCUBSAJhyuAuYLj+KM0no1asegc1IsekM6rzVKVlw8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l8c1y3zC/lWm5krDtOFSjzYWODsuXyoNNopnvjbO7aBCMCugzrO995ZfSXjAjNhlF
- pl0YV5ygpXOzlu/PDQ8V6uUzPYS+zsHjfETwH17XzNI26oTpX8+fK+x0ZRKoFgAeVU
- yNX83VBuJiBYji/nN4D01cBhIQMNGxKeWZQBLoHnPVnsAdGuMQSRHtC1OiYNtEKDMR
- jN3qSLPiYV5c+fz/iw8yC3/g4WnhIhJXGfY/vxkZtvZ0EESlL/12dsUL89jA2trBo0
- QgYQSr3m4ER4WiGvjFH2MLPgeLPa3nAsEBtkNRiWbiLkYOXL53Gn5iiq8pcZ+oOvh5
- 0KkP4TMVa1XhA==
+ b=lV5WgdN1JlNDhedIKv1Q2b34sNqF7+DiDQRxpZIwCtQIQP0pr8H+x+rUbfJD+BZuN
+ t4FQBtAOrcusjDxs01dZ0vypuY7bx73lD1HjgmA9uPc2ifVnyE7bLwIjSu/loxS1bN
+ fQo5HhRhJmbNd4Dks/zK9bgwvqRvtVg8Mtzv9CY4dPkB3Ve4vbuMoL19qisZ1a68+C
+ rlNBYWjDXwVvuyj9QJpd2QcXgGvCwDBa7MuFMKp9rT5eMbZ2fWr0EgnpS8P8+yYzsG
+ vuRZz+tNjMSEZaQBWmU3DFGdmJdPwR404Q9VcDBG2hVWkVM+2//f3uGLMCMvHwYaYA
+ 56ClMSdXXqYaA==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v7 02/13] drm/mediatek: gamma: Reduce indentation in
- mtk_gamma_set_common()
-Date: Mon, 31 Jul 2023 15:04:30 +0200
-Message-ID: <20230731130441.173960-3-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v7 03/13] drm/mediatek: gamma: Support SoC specific LUT size
+Date: Mon, 31 Jul 2023 15:04:31 +0200
+Message-ID: <20230731130441.173960-4-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230731130441.173960-1-angelogioacchino.delregno@collabora.com>
 References: <20230731130441.173960-1-angelogioacchino.delregno@collabora.com>
@@ -62,83 +60,236 @@ Cc: Alexandre Mergnat <amergnat@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Invert the check for state->gamma_lut and move it at the beginning
-of the function to reduce indentation: this prepares the code for
-keeping readability on later additions.
+Newer SoCs support a bigger Gamma LUT table: wire up a callback
+to retrieve the correct LUT size for each different Gamma IP.
 
-This commit brings no functional changes.
-
+Co-developed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+[Angelo: Rewritten commit message/description + porting]
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 45 ++++++++++++-----------
- 1 file changed, 23 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c     | 17 ++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  2 ++
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 23 ++++++++++++++++++---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  8 +++++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  2 ++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  9 ++++++++
+ 7 files changed, 55 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+index 2f602f1f1c49..e2e4155faf01 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+@@ -19,7 +19,7 @@
+ #define AAL_EN						BIT(0)
+ #define DISP_AAL_SIZE				0x0030
+ #define DISP_AAL_OUTPUT_SIZE			0x04d8
+-
++#define DISP_AAL_LUT_SIZE			512
+ 
+ struct mtk_disp_aal_data {
+ 	bool has_gamma;
+@@ -61,6 +61,21 @@ void mtk_aal_config(struct device *dev, unsigned int w,
+ 	mtk_ddp_write(cmdq_pkt, w << 16 | h, &aal->cmdq_reg, aal->regs, DISP_AAL_OUTPUT_SIZE);
+ }
+ 
++/**
++ * mtk_aal_gamma_get_lut_size() - Get gamma LUT size for AAL
++ * @dev: Pointer to struct device
++ *
++ * Return: 0 if gamma control not supported in AAL or gamma LUT size
++ */
++unsigned int mtk_aal_gamma_get_lut_size(struct device *dev)
++{
++	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
++
++	if (aal->data && aal->data->has_gamma)
++		return DISP_AAL_LUT_SIZE;
++	return 0;
++}
++
+ void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state)
+ {
+ 	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+index 75045932353e..ca377265e5eb 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
++++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+@@ -17,6 +17,7 @@ void mtk_aal_clk_disable(struct device *dev);
+ void mtk_aal_config(struct device *dev, unsigned int w,
+ 		    unsigned int h, unsigned int vrefresh,
+ 		    unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
++unsigned int mtk_aal_gamma_get_lut_size(struct device *dev);
+ void mtk_aal_gamma_set(struct device *dev, struct drm_crtc_state *state);
+ void mtk_aal_start(struct device *dev);
+ void mtk_aal_stop(struct device *dev);
+@@ -53,6 +54,7 @@ void mtk_gamma_clk_disable(struct device *dev);
+ void mtk_gamma_config(struct device *dev, unsigned int w,
+ 		      unsigned int h, unsigned int vrefresh,
+ 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
++unsigned int mtk_gamma_get_lut_size(struct device *dev);
+ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
+ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state);
+ void mtk_gamma_start(struct device *dev);
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index d42cc0698d83..47751864bd5c 100644
+index 47751864bd5c..7575237625d2 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -64,6 +64,10 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+@@ -24,10 +24,12 @@
+ #define DISP_GAMMA_LUT				0x0700
+ 
+ #define LUT_10BIT_MASK				0x03ff
++#define LUT_SIZE_DEFAULT			512
+ 
+ struct mtk_disp_gamma_data {
+ 	bool has_dither;
+ 	bool lut_diff;
++	u16 lut_size;
+ };
+ 
+ /*
+@@ -54,6 +56,15 @@ void mtk_gamma_clk_disable(struct device *dev)
+ 	clk_disable_unprepare(gamma->clk);
+ }
+ 
++unsigned int mtk_gamma_get_lut_size(struct device *dev)
++{
++	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
++
++	if (gamma && gamma->data)
++		return gamma->data->lut_size;
++	return LUT_SIZE_DEFAULT;
++}
++
+ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
+ {
+ 	struct mtk_disp_gamma *gamma;
+@@ -61,6 +72,7 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
+ 	struct drm_color_lut *lut;
+ 	void __iomem *lut_base;
+ 	bool lut_diff;
++	u16 lut_size;
  	u32 word;
  	u32 diff[3] = {0};
  
-+	/* If there's no gamma lut there's nothing to do here. */
-+	if (!state->gamma_lut)
-+		return;
-+
+@@ -71,17 +83,20 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
  	/* If we're called from AAL, dev is NULL */
  	gamma = dev ? dev_get_drvdata(dev) : NULL;
  
-@@ -72,29 +76,26 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crt
- 	else
+-	if (gamma && gamma->data)
++	if (gamma && gamma->data) {
+ 		lut_diff = gamma->data->lut_diff;
+-	else
++		lut_size = gamma->data->lut_size;
++	} else {
  		lut_diff = false;
++		lut_size = LUT_SIZE_DEFAULT;
++	}
  
--	if (state->gamma_lut) {
--		reg = readl(regs + DISP_GAMMA_CFG);
--		reg = reg | GAMMA_LUT_EN;
--		writel(reg, regs + DISP_GAMMA_CFG);
--		lut_base = regs + DISP_GAMMA_LUT;
--		lut = (struct drm_color_lut *)state->gamma_lut->data;
--		for (i = 0; i < MTK_LUT_SIZE; i++) {
--
--			if (!lut_diff || (i % 2 == 0)) {
--				word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
--					(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
--					((lut[i].blue >> 6) & LUT_10BIT_MASK);
--			} else {
--				diff[0] = (lut[i].red >> 6) - (lut[i - 1].red >> 6);
--				diff[1] = (lut[i].green >> 6) - (lut[i - 1].green >> 6);
--				diff[2] = (lut[i].blue >> 6) - (lut[i - 1].blue >> 6);
--
--				word = ((diff[0] & LUT_10BIT_MASK) << 20) +
--					((diff[1] & LUT_10BIT_MASK) << 10) +
--					(diff[2] & LUT_10BIT_MASK);
--			}
--			writel(word, (lut_base + i * 4));
-+	reg = readl(regs + DISP_GAMMA_CFG);
-+	reg = reg | GAMMA_LUT_EN;
-+	writel(reg, regs + DISP_GAMMA_CFG);
-+	lut_base = regs + DISP_GAMMA_LUT;
-+	lut = (struct drm_color_lut *)state->gamma_lut->data;
-+	for (i = 0; i < MTK_LUT_SIZE; i++) {
-+		if (!lut_diff || (i % 2 == 0)) {
-+			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
-+				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
-+				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-+		} else {
-+			diff[0] = (lut[i].red >> 6) - (lut[i - 1].red >> 6);
-+			diff[1] = (lut[i].green >> 6) - (lut[i - 1].green >> 6);
-+			diff[2] = (lut[i].blue >> 6) - (lut[i - 1].blue >> 6);
+ 	reg = readl(regs + DISP_GAMMA_CFG);
+ 	reg = reg | GAMMA_LUT_EN;
+ 	writel(reg, regs + DISP_GAMMA_CFG);
+ 	lut_base = regs + DISP_GAMMA_LUT;
+ 	lut = (struct drm_color_lut *)state->gamma_lut->data;
+-	for (i = 0; i < MTK_LUT_SIZE; i++) {
++	for (i = 0; i < lut_size; i++) {
+ 		if (!lut_diff || (i % 2 == 0)) {
+ 			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) << 20) +
+ 				(((lut[i].green >> 6) & LUT_10BIT_MASK) << 10) +
+@@ -198,10 +213,12 @@ static int mtk_disp_gamma_remove(struct platform_device *pdev)
+ 
+ static const struct mtk_disp_gamma_data mt8173_gamma_driver_data = {
+ 	.has_dither = true,
++	.lut_size = 512,
+ };
+ 
+ static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
+ 	.lut_diff = true,
++	.lut_size = 512,
+ };
+ 
+ static const struct of_device_id mtk_disp_gamma_driver_dt_match[] = {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index 8a43656ecc30..ebe0cc3a1a4c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -959,8 +959,12 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+ 		mtk_crtc->ddp_comp[i] = comp;
+ 
+ 		if (comp->funcs) {
+-			if (comp->funcs->gamma_set)
+-				gamma_lut_size = MTK_LUT_SIZE;
++			if (comp->funcs->gamma_set && comp->funcs->gamma_get_lut_size) {
++				unsigned int lut_sz = mtk_ddp_gamma_get_lut_size(comp);
 +
-+			word = ((diff[0] & LUT_10BIT_MASK) << 20) +
-+				((diff[1] & LUT_10BIT_MASK) << 10) +
-+				(diff[2] & LUT_10BIT_MASK);
- 		}
-+		writel(word, (lut_base + i * 4));
- 	}
++				if (lut_sz)
++					gamma_lut_size = lut_sz;
++			}
+ 
+ 			if (comp->funcs->ctm_set)
+ 				has_ctm = true;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+index 3e9046993d09..b2e50292e57d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
+@@ -10,7 +10,6 @@
+ #include "mtk_drm_ddp_comp.h"
+ #include "mtk_drm_plane.h"
+ 
+-#define MTK_LUT_SIZE	512
+ #define MTK_MAX_BPC	10
+ #define MTK_MIN_BPC	3
+ 
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index f114da4d36a9..f3212e08f2cd 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -271,6 +271,7 @@ static void mtk_ufoe_start(struct device *dev)
+ static const struct mtk_ddp_comp_funcs ddp_aal = {
+ 	.clk_enable = mtk_aal_clk_enable,
+ 	.clk_disable = mtk_aal_clk_disable,
++	.gamma_get_lut_size = mtk_aal_gamma_get_lut_size,
+ 	.gamma_set = mtk_aal_gamma_set,
+ 	.config = mtk_aal_config,
+ 	.start = mtk_aal_start,
+@@ -322,6 +323,7 @@ static const struct mtk_ddp_comp_funcs ddp_dsi = {
+ static const struct mtk_ddp_comp_funcs ddp_gamma = {
+ 	.clk_enable = mtk_gamma_clk_enable,
+ 	.clk_disable = mtk_gamma_clk_disable,
++	.gamma_get_lut_size = mtk_gamma_get_lut_size,
+ 	.gamma_set = mtk_gamma_set,
+ 	.config = mtk_gamma_config,
+ 	.start = mtk_gamma_start,
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+index febcaeef16a1..c1355960e195 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+@@ -67,6 +67,7 @@ struct mtk_ddp_comp_funcs {
+ 	void (*layer_config)(struct device *dev, unsigned int idx,
+ 			     struct mtk_plane_state *state,
+ 			     struct cmdq_pkt *cmdq_pkt);
++	unsigned int (*gamma_get_lut_size)(struct device *dev);
+ 	void (*gamma_set)(struct device *dev,
+ 			  struct drm_crtc_state *state);
+ 	void (*bgclr_in_on)(struct device *dev);
+@@ -186,6 +187,14 @@ static inline void mtk_ddp_comp_layer_config(struct mtk_ddp_comp *comp,
+ 		comp->funcs->layer_config(comp->dev, idx, state, cmdq_pkt);
  }
  
++static inline unsigned int mtk_ddp_gamma_get_lut_size(struct mtk_ddp_comp *comp)
++{
++	if (comp->funcs && comp->funcs->gamma_get_lut_size)
++		return comp->funcs->gamma_get_lut_size(comp->dev);
++
++	return 0;
++}
++
+ static inline void mtk_ddp_gamma_set(struct mtk_ddp_comp *comp,
+ 				     struct drm_crtc_state *state)
+ {
 -- 
 2.41.0
 
