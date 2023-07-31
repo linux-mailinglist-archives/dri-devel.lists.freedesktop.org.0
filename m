@@ -1,40 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D75E769995
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 16:34:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0953A76995C
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 16:22:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAA910E1CF;
-	Mon, 31 Jul 2023 14:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2BD510E199;
+	Mon, 31 Jul 2023 14:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1169 seconds by postgrey-1.36 at gabe;
- Mon, 31 Jul 2023 14:34:17 UTC
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7295210E1CF
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 14:34:17 +0000 (UTC)
-Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4RF0Xh2Lw8z6J6sJ;
- Mon, 31 Jul 2023 22:11:32 +0800 (CST)
-Received: from mscphis00759.huawei.com (10.123.66.134) by
- lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 31 Jul 2023 15:14:44 +0100
-From: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-To: <bskeggs@redhat.com>
-Subject: [PATCH] drivers: gpu: drm: nouveau: fix invalid variable name
-Date: Mon, 31 Jul 2023 22:14:37 +0800
-Message-ID: <20230731141437.3280099-1-konstantin.meskhidze@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2880F10E1AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 14:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1690813333; x=1722349333;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Xk+rV1VysFJ/xOFgC1e08H4mMK1gFscEXdl1Drhgqvo=;
+ b=kF/AQ6m3+PgizUbI7YVpDxV8TcRNRg26jzIY5qBgLPrjzCgTtaSmDJpj
+ AsqotrTOBVsPl1ZQH1rc3Zu1Vv4ZLE3kmZ6iyoHtDxrnXdx0r3eRGZds6
+ 06w/Io+sAG/5x55F2Cvpdwz5aXsTCZzJj/nEfcJ4Lm9D6qPoiONayoPiw
+ wHAFSmz5+rBI9slls9VHcH2FjBPsMaUgw1VifxClEW3M9YvYLY8oeW0kN
+ 9n7vE79kCResli1iL7IESNBc6SjaQ4gVsP/JPdNQxb+yaXGwQ3xmstfmM
+ gk0bRRa8jCfRk3uqEwn3YvgcMgOP/lWeS4KGIYVNv466+t122fgeduQOd Q==;
+X-IronPort-AV: E=Sophos;i="6.01,244,1684792800"; d="scan'208";a="32207455"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 31 Jul 2023 16:22:10 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 69F5D280075;
+ Mon, 31 Jul 2023 16:22:10 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v3] drm/bridge: Add debugfs print for bridge chains
+Date: Mon, 31 Jul 2023 16:22:10 +0200
+Message-ID: <2704185.mvXUDI8C0e@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230731-drm-bridge-chain-debugfs-v3-1-7d0739f3efa3@ideasonboard.com>
+References: <20230731-drm-bridge-chain-debugfs-v3-1-7d0739f3efa3@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.123.66.134]
-X-ClientProxiedBy: mscpeml500002.china.huawei.com (7.188.26.138) To
- lhrpeml500004.china.huawei.com (7.191.163.9)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,33 +65,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, artem.kuzin@huawei.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yusongping@huawei.com
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit fixes logic error in function 'nvkm_dp_train':
-	argument of function nvkm_dp_train_link might be rate, not ret
+Hi Tomi,
 
-Co-developed-by: Ivanov Mikhail <ivanov.mikhail1@huawei-partners.com>
-Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am Montag, 31. Juli 2023, 14:13:14 CEST schrieb Tomi Valkeinen:
+> DRM bridges are not visible to the userspace and it may not be
+> immediately clear if the chain is somehow constructed incorrectly. I
+> have had two separate instances of a bridge driver failing to do a
+> drm_bridge_attach() call, resulting in the bridge connector not being
+> part of the chain. In some situations this doesn't seem to cause issues,
+> but it will if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is used.
+>=20
+> Add a debugfs file to print the bridge chains. For me, on this TI AM62
+> based platform, I get the following output:
+>=20
+> encoder[39]
+> 	bridge[0] type: 0, ops: 0x0
+> 	bridge[1] type: 0, ops: 0x0, OF:
+> /bus@f0000/i2c@20000000/dsi@e:toshiba,tc358778 bridge[2] type: 0, ops: 0x=
+3,
+> OF: /bus@f0000/i2c@20010000/hdmi@48:lontium,lt8912b bridge[3] type: 11,
+> ops: 0x7, OF: /hdmi-connector:hdmi-connector
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-index 40c8ea43c..8740978ac 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
-@@ -455,7 +455,7 @@ nvkm_dp_train(struct nvkm_outp *outp, u32 dataKBps)
- 	if (atomic_read(&outp->dp.lt.done)) {
- 		for (rate = 0; rate < outp->dp.rates; rate++) {
- 			if (outp->dp.rate[rate].rate == ior->dp.bw * 27000)
--				return nvkm_dp_train_link(outp, ret);
-+				return nvkm_dp_train_link(outp, rate);
- 		}
- 		WARN_ON(1);
- 		return -EINVAL;
--- 
-2.34.1
+Looks good:
+$ for dev in /sys/kernel/debug/dri/*; do cat $dev/bridge_chains; done
+cat: /sys/kernel/debug/dri/0/bridge_chains: No such file or directory
+encoder[36]
+        bridge[0] type: 0, ops: 0x0, OF: /soc@0/bus@32c00000/display-
+bridge@32fc4000:fsl,imx8mp-hdmi-pvi
+        bridge[1] type: 0, ops: 0x7, OF: /soc@0/bus@32c00000/
+hdmi@32fd8000:fsl,imx8mp-hdmi
+cat: /sys/kernel/debug/dri/128/bridge_chains: No such file or directory
+encoder[36]
+        bridge[0] type: 16, ops: 0x0, OF: /soc@0/bus@32c00000/
+dsi@32e60000:fsl,imx8mp-mipi-dsim
+        bridge[1] type: 10, ops: 0x3, OF: /soc@0/bus@30800000/i2c@30a30000/
+bridge@f:toshiba,tc9595
+
+
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+> ---
+> Changes in v3:
+> - Use drm_for_each_bridge_in_chain()
+> - Drop extra comment
+> - Fix whitespace issue
+> - Call drm_bridge_debugfs_init() only if the driver uses modeset
+> - Drop #ifdef for drm_bridge_debugfs_init() declaration
+> - Link to v2:
+> https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v2-1-76df9434=
+79
+> 62@ideasonboard.com
+>=20
+> Changes in v2:
+> - Fixed compilation issue when !CONFIG_OF
+> - Link to v1:
+> https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e=
+89
+> 0d@ideasonboard.com ---
+>  drivers/gpu/drm/drm_bridge.c  | 46
+> +++++++++++++++++++++++++++++++++++++++++++ drivers/gpu/drm/drm_debugfs.c=
+ |
+>  3 +++
+>  include/drm/drm_bridge.h      |  3 +++
+>  3 files changed, 52 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index c3d69af02e79..39e68e45bb12 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -27,8 +27,10 @@
+>  #include <linux/mutex.h>
+>=20
+>  #include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_debugfs.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_file.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>=20
+> @@ -1345,6 +1347,50 @@ struct drm_bridge *of_drm_find_bridge(struct
+> device_node *np) EXPORT_SYMBOL(of_drm_find_bridge);
+>  #endif
+>=20
+> +#ifdef CONFIG_DEBUG_FS
+> +static int drm_bridge_chains_info(struct seq_file *m, void *data)
+> +{
+> +	struct drm_debugfs_entry *entry =3D m->private;
+> +	struct drm_device *dev =3D entry->dev;
+> +	struct drm_printer p =3D drm_seq_file_printer(m);
+> +	struct drm_mode_config *config =3D &dev->mode_config;
+> +	struct drm_encoder *encoder;
+> +	unsigned int bridge_idx =3D 0;
+> +
+> +	list_for_each_entry(encoder, &config->encoder_list, head) {
+> +		struct drm_bridge *bridge;
+> +
+> +		drm_printf(&p, "encoder[%u]\n", encoder->base.id);
+> +
+> +		drm_for_each_bridge_in_chain(encoder, bridge) {
+> +			drm_printf(&p, "\tbridge[%u] type: %u, ops:=20
+%#x",
+> +				   bridge_idx, bridge->type, bridge-
+>ops);
+> +
+> +#ifdef CONFIG_OF
+> +			if (bridge->of_node)
+> +				drm_printf(&p, ", OF: %pOFfc", bridge-
+>of_node);
+> +#endif
+> +
+> +			drm_printf(&p, "\n");
+> +
+> +			bridge_idx++;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct drm_debugfs_info drm_bridge_debugfs_list[] =3D {
+> +	{ "bridge_chains", drm_bridge_chains_info, 0 },
+> +};
+> +
+> +void drm_bridge_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_add_files(minor->dev, drm_bridge_debugfs_list,
+> +			      ARRAY_SIZE(drm_bridge_debugfs_list));
+> +}
+> +#endif
+> +
+>  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+>  MODULE_DESCRIPTION("DRM bridge infrastructure");
+>  MODULE_LICENSE("GPL and additional rights");
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index a3a488205009..3b1de2c61c89 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -31,6 +31,7 @@
+>=20
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_auth.h>
+> +#include <drm/drm_bridge.h>
+>  #include <drm/drm_client.h>
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/drm_device.h>
+> @@ -274,6 +275,8 @@ int drm_debugfs_init(struct drm_minor *minor, int
+> minor_id,
+>=20
+>  	if (drm_drv_uses_atomic_modeset(dev)) {
+>  		drm_atomic_debugfs_init(minor);
+> +
+> +		drm_bridge_debugfs_init(minor);
+>  	}
+>=20
+>  	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index bf964cdfb330..cb10ee108538 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -949,4 +949,7 @@ static inline struct drm_bridge
+> *drmm_of_get_bridge(struct drm_device *drm, }
+>  #endif
+>=20
+> +struct drm_minor;
+> +void drm_bridge_debugfs_init(struct drm_minor *minor);
+> +
+>  #endif
+>=20
+> ---
+> base-commit: a0c64d153d687756c8719b8d10e609d62e1cb6fd
+> change-id: 20230721-drm-bridge-chain-debugfs-0bbc1522f57a
+>=20
+> Best regards,
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
