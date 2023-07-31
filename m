@@ -2,115 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA97876893F
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 01:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98F476896B
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 02:57:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5834710E148;
-	Sun, 30 Jul 2023 23:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3F510E085;
+	Mon, 31 Jul 2023 00:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E68E10E148
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 23:09:41 +0000 (UTC)
+Received: from mgamail.intel.com (unknown [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D505610E085;
+ Mon, 31 Jul 2023 00:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690765046; x=1722301046;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=l1z4FzVgQTym9ATs6ptMKNE7dTHnSfhMse/nuQjbjYg=;
+ b=Pd0KKolMuq3EIwvymQte6FkTLo2yowR14+YTxbXjshYwHf8kXzPgXfzf
+ vrMsWhJQZlC0Tu047ZS+B+XhsEdpI/JEbsfQ8b66dM2+Ku4NA5x5EkdD7
+ R+fOLAqPt8KQE4+BT4YgmT/tcH7CCPpbsRjyEqUAcDW8kEEaWVGjFoQSm
+ 5kodS49CdNQiax8tj9h82saoTbosRlJEfDq4NkH5sLHFz9YS2/D96hjyV
+ pL8RHhJja+jiXdOUnsKBdtOEb9WlOqf9VjTmDPXtf43PPD5kUW03Mo2jJ
+ o+HVepcE48G9cMxbupwKTh5xDIvF6LHe/dkEQlpMbcJ0VLY3n60S3n78v A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="368901793"
+X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; d="scan'208";a="368901793"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2023 17:57:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="842028717"
+X-IronPort-AV: E=Sophos;i="6.01,243,1684825200"; d="scan'208";a="842028717"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2023 17:57:23 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Sun, 30 Jul 2023 17:57:23 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Sun, 30 Jul 2023 17:57:23 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Sun, 30 Jul 2023 17:57:23 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Sun, 30 Jul 2023 17:57:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BfvTQ3YV9cc3DdpMAMam9Afh4OG12EaHo+rJCuy7COLq28N/+uf19NiAqRdtPHfcRChR/llWrfMKLn8b6/YiJtYz0zSg0ViHUTBYjGOzzR9xe562Kpy+efZL/7+PhpFVV43c195a1697+BWpqmogIOQsV7hr2bVPl7iNAn/7/F/AK8/OnYW3ZwbIg5OPZNSQ0jeVusLYCZ82K9yTBwFIPAVOsPErkkp/z1enTOBDvdr4Ll9xSl4EVdlwYwDZIvro1b5Bo5HAUODUOSXP9R9+mDJn0PCA9JcChTYBtZdDcxqXatcVxiKMAm9Qth/vkLCfoumkaa6ekP6Kt5M1BtJVlg==
+ b=aqQ8zSapr02sI6Q2qSWR/eddywP4W08QIgcpLcRyU746C50102GAqE5rglkS74Tec03JZE/2gdb0qtGcrnB4rSN0GviZklakjNMY4hDS0sToYIoJuwMmMwprJWEGAtNDj10WshPivEUZ/bsfqR0qTXk2WMY3csx7VYTEXAAEjEC+NuaNg3oZ1pJSnDmCHZd1Z789EoBtqYg11hlskai/MrCM4Rn22vzQi68c6+NOO9fIwHZC4OzgJSd9F+yT56SudqdIGJjnj0btp7zUcA18PmsGF5+LCyG+GMWG7XKzw/rR9VTP2mMky1sdy88/+1oFfIo+/sQL2ouUAa7+mHrHyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S5ECq/IPXrJDIh/ws7hb6ukLjCZ1Em84bICo+I2nT8s=;
- b=gf1oHBlL128ioopkjll/psVzd7XGvO+Qx5gy7MbtNDYd4W01j1zvxh083GyKmZbxx2ekTyCZISGmjHgpuHDaIcMJmdvZP4oFM4BeIWBBzSuU5/NT2kcdPK1L/ai07Npx1CE+V8nzIxNvfr3Vf9YgUfNnMc3mNCev9DiKpmfXlMgZQe67ZQZeiT72aEDSAHCSniUBeb3jX7q/tnU46mYsfSwZa4/4haZ7lXU8VM73KZ/a2/GymUEswEhAO7t2A62MVemVt3jELojIdt2KUTWAODp9UL4+ZRSofVGsctwGlL4pnqJ6KDoUZOfiYjaDKxjk+GvVa+rdAmlOyI0CZlwlLQ==
+ bh=msBuuRlQeoIuMECQxZxFV/0OLmJFgUNJRDth3j2Gorg=;
+ b=dKXYCMDLoWQDa5O6sV8WHgZRS+YGQbAB7j4Kpg00o8Zg2xqoGluPuMi1h3OCHP02qVY6F/vMbmoVSkQ61l7e0nxoeuzHzNiVG79Z0VgXI5ffEx4P8N+fJxjF0nMGmsY5le8xaPPA/kISTiDKbLtYnWheU/Vy/ZdyOPWfGLrFrpuYjhz9kRs+uwmX47aHKjbsmxW8TRte6hXRoghsEmth2VyEEmQvmojtPTji7tbDnxDUVw3y4C7beUVQAlYmHvipyxn64t/+s29Fu/tYvs1aSy7e2dLmP6nYLE6hWlG9CCHc5pAopyYKwZe7kCOvFvg9940RximHHdiM/Sx+bcll7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S5ECq/IPXrJDIh/ws7hb6ukLjCZ1Em84bICo+I2nT8s=;
- b=JtKLoIAUqcxSDW2BCJQSFPGCVwpOg6duIG+AU0k8wtyLIV2L/PhcHVTKEnENrhL5N8A5qTLEO5HIP8bE0hAdHRQb9xAH66DyUrNLgG2x1TjZefnZhL4wRMrTVUOZATf8dTsbJ55JhM/Ugl//DhpRgaEqlW7wH4hhx53oR5nliT+90U5CRtMHNQ0ZIy5FfLNxY1EOAg27X+o34o33qq+DgKlSW6QcirKvxNLd5sON3ztPqSLBTa6TBSNtzreYg0NvtRALE+WKV7PBNuPbG03yaGTxkGyZJIhoa56Uqc6AAJcOO89kCKmM5no6s0wwNkefKCGO93RpPYCs7Nnyv6vEjw==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DM4PR12MB5748.namprd12.prod.outlook.com (2603:10b6:8:5f::19) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DM3PR11MB8757.namprd11.prod.outlook.com (2603:10b6:8:1af::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Sun, 30 Jul
- 2023 23:09:38 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6631.043; Sun, 30 Jul 2023
- 23:09:38 +0000
-Date: Sun, 30 Jul 2023 20:09:37 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-Message-ID: <ZMbtsY4O3Ho3B69J@nvidia.com>
-References: <87pm4nj6s5.fsf@nvdebian.thelocal>
- <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZL5+CiZ6w4RdAt5u@nvidia.com>
- <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZL/B6yvO1bIkFRcF@nvidia.com>
- <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
- <ZMBSWxYnWLlzG3+6@nvidia.com>
- <IA0PR11MB71853E11B6C419DC0D043953F801A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZMJbywGYN0QLh3vF@nvidia.com>
- <CH3PR11MB71779C83F8A0EC6C2F3F4B0CF807A@CH3PR11MB7177.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.33; Mon, 31 Jul
+ 2023 00:57:20 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::538f:8837:abce:4522]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::538f:8837:abce:4522%4]) with mapi id 15.20.6631.042; Mon, 31 Jul 2023
+ 00:57:19 +0000
+Date: Mon, 31 Jul 2023 00:56:31 +0000
+From: Matthew Brost <matthew.brost@intel.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [RFC PATCH 01/10] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+Message-ID: <ZMcGvwVZK7HYPKZF@DUT025-TGLU.fm.intel.com>
+References: <20230404002211.3611376-1-matthew.brost@intel.com>
+ <20230404002211.3611376-2-matthew.brost@intel.com>
+ <20230609085839.3fc9e237@collabora.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <CH3PR11MB71779C83F8A0EC6C2F3F4B0CF807A@CH3PR11MB7177.namprd11.prod.outlook.com>
-X-ClientProxiedBy: CH0PR03CA0273.namprd03.prod.outlook.com
- (2603:10b6:610:e6::8) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+In-Reply-To: <20230609085839.3fc9e237@collabora.com>
+X-ClientProxiedBy: BYAPR02CA0026.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::39) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5748:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99d7181f-483d-46e4-5914-08db91520c87
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM3PR11MB8757:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8df600a0-3f68-41a2-91a9-08db91611741
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cHZvrWLXgGViDDQatDfe9MdtRbKSN9xT2hsNce71E9a0vMjChbiWpxsXUnSjAc2nTbv9n7Eyid43APVKv9J3ZLv88OIRbQiBD4M/Mf4kgAcM0IS52jFh0zmqQ4W8SotkMDqk8uZyAFQK8izxkuI/Goa1WmoD7l6jdxBDSvV9hzUrpVML6VS+nD8HK8Tg2qD3Yvam3uwShvFeGE9ck5d+MUMKIOBBomXfDMzQrBo+okdoO4ApF6ozufLyVIK5AGrTDZ6apfQDQpXaJW6Ynqb+pNeIGDcwgfTvOuWpAmkz52lw8T6Hd9a6iS9tLSoioPDbQiBzODG0hcdOa/AMXaaKdCCwHFUAGdlxGVf6PRNajamv/OgZYVyCMOZ3h31H2bIYA+iGjngYYVdx84wXSVJHVVYu3XeOd0CT4HyrdMFfA7R0H8JYxWN1PIYunAwtCbb6ZpL3CSvu3QAZQ0+VXwKDptKF8MgChBpeseW53NmmrMlI77iXMVY43PVZPm67dWTO9oyBb56AQ6lbo6qVyhiQrRJ0lIw/cUEoxdp+m6XGozzMbuu/tE+flc4xwiUlNAks
+X-Microsoft-Antispam-Message-Info: FpDkhmNnGf1uwS39bn3pefUZ2b+89SbmPiOKeUSM9a1os6iv3DEY8Qlup2w464Amo0bmLL0q6cGgwlPa9QzpKp7uSGm15ng6/0SdBYVuYTvfswNJdZrR9EXhy2Mrw9mQ/QCgqqyPgJS2liz11H/nkQZZEiJZNMuxa1eVlsA/D5wkmru1DYXj5atAGlw5bEVYUPFfgHGMEzmQgQ+2odQ+HG7Exa26n7EIQLIDB4O/aGswPAuqY/R4FHQQ48IFHKC9v2TW2LG/2b/iRPt15L7FrQhsQhZIiZEUhqfbrFbFT8dCtHp7jqitjj8zeWnNFBEJVFQLTnKSNOh5x71iOMeQyIZCVLEGa+p6tXcZdGliOs0D7RAzhcPm1yHuuDRQUnrgIPHPwFyWF05cVqh8mCIFKTVU3C99XA6vaXjrqILTGvnX/uhlqQ3ekXuEPg1JFixW7WS+F7tbB/WjvUFLZ1belseR562wGJhJqoLOA/2jh6kBTyFEFaoZUec3gkgIkHqPUb09HKvaeI59Fl18iYFfpQX0gk0PoooQSZyEeC9c5nf0nAc29DgQ0ImINKrEm8BY
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(451199021)(38100700002)(86362001)(36756003)(6512007)(478600001)(6486002)(2616005)(186003)(6506007)(26005)(8676002)(8936002)(7416002)(5660300002)(4326008)(6916009)(66946007)(66556008)(66476007)(2906002)(54906003)(41300700001)(316002)(83380400001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39850400004)(396003)(376002)(136003)(346002)(366004)(451199021)(86362001)(186003)(82960400001)(6506007)(66946007)(2906002)(478600001)(38100700002)(5660300002)(54906003)(8936002)(26005)(44832011)(66476007)(41300700001)(6512007)(6486002)(8676002)(7416002)(83380400001)(6916009)(6666004)(4326008)(316002)(66556008);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?I9zydEy3vtsOIvOojuTSrQcddVwJhqQOUbh/+un7hDSYZywXXAvxiixfjcEq?=
- =?us-ascii?Q?tVtRO8xeefT1772v2MNqeDPd0RrHDRH85FsUL5C6xJ6I3/gfEmVIefH4CDC/?=
- =?us-ascii?Q?2pF4CebNQsxJDce+AZ1YECgu5/n+JFcletdUVJlESL19vPxKzCK+Ab25LFYe?=
- =?us-ascii?Q?1ip3XqtrUDwgJR/wPdIxcaPBW/R3gZwdMts9pJDMBJlB2OcYk+ea0DjTQgqP?=
- =?us-ascii?Q?PRbI+llkSGxrCBE0Q/Pa8fYaHnKVAY50BLIjFumkW8QM5DM9oIXGz9PqPpro?=
- =?us-ascii?Q?SSElQdsLx6nVtJnrvXvJH7QDj7ca8v+M9CirksahogE0X4/ch7kNXS0XKV6C?=
- =?us-ascii?Q?cumy+NzOVss4EJgRzIrn53L1JcQzSaVbAIwnS89Lx1AUt4YPLD1duOWX8A9J?=
- =?us-ascii?Q?poby9Rz1MViXT7DEeNOYX81rdPJJ+TPVr0e3NAgJZFEM60koO2eQScMOM5CE?=
- =?us-ascii?Q?dbHK/F19QKJFp3yE3+nr0Xpldslm8ob5oZ/nPLLRs3SYKvraItSRdjM5A1au?=
- =?us-ascii?Q?jyvq13B5F23DPzkueeUGmOZr/AlAnAWCo5GMqZH8jGhIZTST1bEOp+9gMqAr?=
- =?us-ascii?Q?8x8SPFI64lJTJ8HC11sDZGmHg+BDB795tQu9HXdcPHJHqBWPxeGMAKWYIclq?=
- =?us-ascii?Q?E3Yref93Oe9bJQNjXXDiQ07yp5ki6gNGbNpPLR4irdiRirwuQgtFFi9bWnUW?=
- =?us-ascii?Q?z4YMr7vbF7JbeR4B3eo8+lBc90NsQb0HtiZ026sXc9U19wqw07Pl5rJs8XZn?=
- =?us-ascii?Q?29d5DceCBbhUgyZD8Kv1N4A+fRafNrjjpFFReZGmj476bcwopkQ+mI7rhEO5?=
- =?us-ascii?Q?RkNOc/Uyd74q7MWEwwGTiyTWu8w4hYgB6MeU7NbzO62VnnlsqSTLNYLgQuWC?=
- =?us-ascii?Q?VxQfdKtaYj5T1yyzGxMgmL4EWuEs06ZMsRvTUKt/4EaKroJt/7mi9HUglPkI?=
- =?us-ascii?Q?KBOVYj2CAUOZSqhooYLIljD1ifsyVqj1N50oQK6oQF6v/7bFFJSq+9Rz4SeM?=
- =?us-ascii?Q?wWdDRdk9+lEFH++OBHrG/P7cQ7AN1a3tEBVhvChMd/nxP99RBPe5cbrz+EhW?=
- =?us-ascii?Q?KOcVU2mSxTw0hoEHeTNTpIrCXh2fap7vlYNFloyPAU0SyS4eRBa1mc+g4Kfg?=
- =?us-ascii?Q?EFFvwyo7+4DVWtrb82iZK/n5WJrI4f34MUwucWlk024sn2n7izvi9UvMqblS?=
- =?us-ascii?Q?94hYe45QdkZ8lsbEs0RrdNfcRtLTWZEoPOqexOrpBgsTDm3FcPOZOewuTVUh?=
- =?us-ascii?Q?zakoNuvTV081tp+McAdQNqAOUIIg0aqckZ6MrqGGC6ccTDQbpZ5WdU4cGQQ/?=
- =?us-ascii?Q?lHCshpu2MLJ2Jt84YGM+xj3yEg1kuio3e35w/bFg55I12fEpUfM7PZ/Ktz5E?=
- =?us-ascii?Q?obArR/REnpF8iah5Ljaln/Z75u+kTuQt+GClYUCrjzbzYB1kcm+5XITn54y9?=
- =?us-ascii?Q?aaYiHZIP6EZg9vi828xkmB85cVBtRwY22EeyJZn9v/y+fVWtWmo0cA4aNAVi?=
- =?us-ascii?Q?PytttnjdOkmktAj9n9dYFMrepwecDT673h2YQEH/NLToHXnmeb4NIx0ZtBOx?=
- =?us-ascii?Q?9ujpc+D/7Yog0rbjeWXsgyN7QrzAUK/zu+Uuqzmm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99d7181f-483d-46e4-5914-08db91520c87
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nqcVqIqwVff/kbD8uH0KyAIX4ZCHPkOXMU44J/GRaAnaAOrx2IsjWBBWptcV?=
+ =?us-ascii?Q?Mur8xz9d3Bvk9UfEcvDuHwxR7/DHEb86u9XUu2EJzXKYDMTi/U7w+paaxTc5?=
+ =?us-ascii?Q?U2xU931d0KOXrFz8MUaaTCdiDEol3Vt6mxPkChCrSBVvkIzUQclTj8PJtQwe?=
+ =?us-ascii?Q?XAIzfk2PHKZvpbEQqHwzPhYO6OR+JvL1vd5t5yCNjr3l0CuYlGkUN9xdFpvf?=
+ =?us-ascii?Q?p2Sar243jbX011Eth0OVnEgSEMJNiL/zQuNV7ip9EXfTE0XZqP0UPxY8kNfE?=
+ =?us-ascii?Q?+1y4kjlAcYNpYat4++nE3RaDqkXxqj3r8VH+09dqRtfeCROfJYj+c5Ou5rQw?=
+ =?us-ascii?Q?YCypDgS9kDDfT80wZInXiH6/3y9ji3zJhEGotnwBSR4+AO3q7xRxv/sUf5aQ?=
+ =?us-ascii?Q?sy0IF480bh2DezJCdFusIv7wN05i2VIv8eOXBYFL1am+cXWGUce+KwFrHbKz?=
+ =?us-ascii?Q?Q/Ub9giT/ajIMTrYbjJgtM1EpyvaWXU0MRGL1SP/WvuBpH3HdFdkL3X8ydbN?=
+ =?us-ascii?Q?gyfY1OKIfGHzJaRAMFKh7qkimw06jfnJddGgh1XIsSUjFE2H5uG8clrvXYLM?=
+ =?us-ascii?Q?IGmN++GtS4QnquBOfPQoXaLTUInQAi9cQgHEOveiQUUeoipKvj6b2jYkF6hb?=
+ =?us-ascii?Q?CRRXFEH5J3e168aMvxYMtLzNDGlF/XWArkdokzH0gPrfXklEo5JAT055p7W1?=
+ =?us-ascii?Q?CC6ocmew8Y5Lc/UIIoCb1M7TaOS5fr+cHiar0wYZzzVHfKHobUWN7kQ1town?=
+ =?us-ascii?Q?/SlHxjOcuzuy2QUdZgwvMJqSF+DHK6X7+qzs5dWmP2QRLvDIRbjYWqPzB+cM?=
+ =?us-ascii?Q?J89GBMvPRPL+Sh3MEUwJLx1zvlt7lYhrxuq5+sMAs4sv+8Cq7ZOCa/wTYAgh?=
+ =?us-ascii?Q?eJxYxWOkhewilo9JG+gt5QrCqAQKrsMW195SLGl/ShMPHb2AloPmrI9jVWr4?=
+ =?us-ascii?Q?4islEUcI98bUzCFLb8eUV/3qMn/NpHjfPh6Nz9Qajp5lX5lHvmDpCVrsHNrf?=
+ =?us-ascii?Q?bVt6wmqo6wKgWl7ZGONndbDQHZ2HgVFUbU/ap10HWwGcE+1BknIkDjqgBITe?=
+ =?us-ascii?Q?b2hlcqzalkCaljpVz+jPNN6f1Z6RW50T7ilXKqKNhOCRh7ttKN8aZj3eKGI3?=
+ =?us-ascii?Q?n7gcqpA/dgvj3zVHkgm9stADMq7xMs1L2NiannI9EX03NATDHUbOzr3eeTP3?=
+ =?us-ascii?Q?m8R+IcZe3TtWBFpoQpy64Ae7A47060kUXvg59Z+mBZwsF9wNedx3smb133Jg?=
+ =?us-ascii?Q?hEotlllsYl5EnyXPDVkNOMbH+8NriMkx7I4MdsrKVLTA6gxn3YLMzh+sST+p?=
+ =?us-ascii?Q?BKTRwMDPiF9uITOJeZfAuyTSG/Kci5P++4KzfTK2/jJ1QzpenqzaCy/BW+Lj?=
+ =?us-ascii?Q?0uyNEEsQrv7eI5fuoIDndTqzYiwqJUzucqz80vE6D3c9d3dAbfWNVJ52GzsF?=
+ =?us-ascii?Q?hEJloq6humWfm5L1JjoTp8PvQTMfJCmGcoJPRvFaXnUjv9/xOj77pR9/tCHD?=
+ =?us-ascii?Q?3YPL+3MDCxUWhXZ2K3eWJLKutJZjZrxclG9uf0ep9I9Lx/QVlBln8tipaS5m?=
+ =?us-ascii?Q?Gs0P/kzRK/mRj+KCgui/BPuI83pBvf9ARp6fxP+YAOHPjOYj4RjvfMBDyxQw?=
+ =?us-ascii?Q?3g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8df600a0-3f68-41a2-91a9-08db91611741
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2023 23:09:38.8148 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2023 00:57:19.2470 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Kezs92cgSM0hh4Ucy7HC0nG+cLGwrH2lR236mSVGOEN7SWMEyxZrmR4MCdtcQO8r
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5748
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2uUqV/5iSAz29HIpWcwDNFt+2rCpAZkHNhGozT4hGOc6BQ1FmeWNRSKeiMxybocbRVhzEeKCp9P80bxW7LI2Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8757
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,65 +149,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alistair Popple <apopple@nvidia.com>, Hugh Dickins <hughd@google.com>,
- Peter Xu <peterx@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Mike Kravetz <mike.kravetz@oracle.com>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ Sarah Walker <sarah.walker@imgtec.com>, airlied@linux.ie, lina@asahilina.net,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com, Donald
+ Robson <donald.robson@imgtec.com>, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 29, 2023 at 12:46:59AM +0000, Kasireddy, Vivek wrote:
-
-> > Later the importer decides it needs the memory again so it again asks
-> > for the dmabuf to be present, which does hmm_range_fault and gets
-> > whatever is appropriate at the time.
-> Unless I am missing something, I think just doing the above still won't solve
-> the problem. Consider this sequence:
->      write_to_memfd(addr1, size, 'a');
->      buf = create_udmabuf_list(devfd, memfd, size);
->      addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
->      read(addr2);
->      write_to_memfd(addr1, size, 'b');
->      punch_hole(memfd, MEMFD_SIZE / 2);
-> -> Since we can process the invalidate at this point, as per your suggestion,
->      we can trigger dmabuf move to let the importers know that the dmabuf's
->      backing memory has changed (or moved).
+On Fri, Jun 09, 2023 at 08:58:39AM +0200, Boris Brezillon wrote:
+> Hi Matthew,
 > 
->      read(addr2);
-> -> Because there is a hole, we can handle the read by either providing the
->      old pages or zero pages (if using hmm_range_fault()) to the
-> importers.
+> On Mon,  3 Apr 2023 17:22:02 -0700
+> Matthew Brost <matthew.brost@intel.com> wrote:
+> 
+> > -static int drm_sched_main(void *param)
+> > +static void drm_sched_main(struct work_struct *w)
+> >  {
+> > -	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
+> > +	struct drm_gpu_scheduler *sched =
+> > +		container_of(w, struct drm_gpu_scheduler, work_run);
+> >  	int r;
+> >  
+> > -	sched_set_fifo_low(current);
+> > -
+> > -	while (!kthread_should_stop()) {
+> > -		struct drm_sched_entity *entity = NULL;
+> > +	while (!READ_ONCE(sched->pause_run_wq)) {
+> 
+> During an informal discussion on IRC I mentioned that this loop might
+> become problematic if all the 1:1 entities share the same wq
+> (especially if it's an ordered wq), and one of them is getting passed a
+> lot of requests. Just wanted to tell you that we've hit that case in
+> PowerVR:
+> 
+> Geometry and fragment queues get passed X requests respectively, each
+> pair of request corresponding to a rendering operation. Because we're
+> using an ordered wq (which I know we shouldn't do, and I intend to
+> fix that, but I think it shows the problem exists by making it more
+> visible), all geometry requests get submitted first, then come the
+> fragment requests. It turns out the submission time is non-negligible
+> compared to the geometry job execution time, and geometry jobs end up
+> generating data for the fragment jobs that are not consumed fast enough
+> by the fragment job to allow the following geom jobs to re-use the same
+> portion of memory, leading to on-demand allocation of extra memory
+> chunks which wouldn't happen if submissions were interleaved.
+> 
+> I know you were not fundamentally opposed to killing this loop and doing
+> one iteration at a time (you even provided a patch doing that), just
+> wanted to share my findings to prove this is not just a theoretical
+> issue, and the lack of fairness in the submission path can cause trouble
+> in practice.
+> 
+> Best Regards,
+> 
+> Boris
+> 
 
-You never provide the old pages. After trunctate the only correct
-value to read is zero.
+Thanks for the info Boris, about to revive this series in a non-RFC form.
 
->      Maybe it is against convention, but I think it makes sense to provide old
->      pages (that were mapped before the hole punch) because the importers
->      have not read the data in these pages ('b' above) yet.
+This loop seems controversial, let me drop it. Going to cook up a patch
+for the Xe branch and get this merged for CI / UMD benchmarks to absorb
+and if there any noticeable differences.
 
-Nope.
+Also be on the lookout for a new rev of this series hopefully this week.
 
->      And, another reason to provide old pages is because the data in
->      these pages is shown in a window on the Host's screen so it
->      doesn't make sense to show zero page data.
+Matt
 
-So why did you trucate it if you want to keep the data?
-
-
-> -> write_to_memfd(addr1, size, 'c');
->      As the hole gets refilled (with new pages) after the above write, AFAIU, we
->      have to tell the importers again that since the backing memory has changed,
->      (new pages) they need to recreate their mappings. But herein lies the problem:
->      from inside the udmabuf driver, we cannot know when this write occurs, so we
->      would not be able to notify the importers of the dmabuf move.
-
-You get another invalidate because the memfd removes the zero pages
-that hmm_range_fault installed in the PTEs before replacing them with
-actual writable pages. Then you do the move, and another
-hmm_range_fault, and basically the whole thing over again. Except this
-time instead of returning zero pages it returns actual writable page.
-
-Jason
+> > +		struct drm_sched_entity *entity;
+> >  		struct drm_sched_fence *s_fence;
+> >  		struct drm_sched_job *sched_job;
+> >  		struct dma_fence *fence;
+> > -		struct drm_sched_job *cleanup_job = NULL;
+> > +		struct drm_sched_job *cleanup_job;
+> >  
+> > -		wait_event_interruptible(sched->wake_up_worker,
+> > -					 (cleanup_job = drm_sched_get_cleanup_job(sched)) ||
+> > -					 (!drm_sched_blocked(sched) &&
+> > -					  (entity = drm_sched_select_entity(sched))) ||
+> > -					 kthread_should_stop());
+> > +		cleanup_job = drm_sched_get_cleanup_job(sched);
+> > +		entity = drm_sched_select_entity(sched);
+> >  
+> >  		if (cleanup_job)
+> >  			sched->ops->free_job(cleanup_job);
+> >  
+> > -		if (!entity)
+> > +		if (!entity) {
+> > +			if (!cleanup_job)
+> > +				break;
+> >  			continue;
+> > +		}
+> >  
+> >  		sched_job = drm_sched_entity_pop_job(entity);
+> >  
+> >  		if (!sched_job) {
+> >  			complete_all(&entity->entity_idle);
+> > +			if (!cleanup_job)
+> > +				break;
+> >  			continue;
+> >  		}
+> >  
+> > @@ -1055,14 +1083,14 @@ static int drm_sched_main(void *param)
+> >  					  r);
+> >  		} else {
+> >  			if (IS_ERR(fence))
+> > -				dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
+> > +				dma_fence_set_error(&s_fence->finished,
+> > +						    PTR_ERR(fence));
+> >  
+> >  			drm_sched_job_done(sched_job);
+> >  		}
+> >  
+> >  		wake_up(&sched->job_scheduled);
+> >  	}
+> > -	return 0;
+> >  }
