@@ -2,54 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E4D769154
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 11:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893C8769192
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 11:22:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB0910E16D;
-	Mon, 31 Jul 2023 09:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32B410E17E;
+	Mon, 31 Jul 2023 09:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7E110E16D
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 09:17:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 426DD60FC4;
- Mon, 31 Jul 2023 09:17:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 540D5C433C8;
- Mon, 31 Jul 2023 09:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690795022;
- bh=cOpj9BlruJjymEMzZIyTXkbD/sRQcn1Id0bW7JPEITE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h53iXvduBELhY/IJ2/w4HEx+LWG5S4V0aErXcogPo7TEVBoz6kDh8QR4K0nK0hWDr
- SAbS8zhdISYmdSEAnQak3jSbbxLlaxZix/5qZmuyX92OQJXvsUB5n+/UuJY2Hrz+Ko
- IvVrtdJcPqAEK4dW3F9Qv3FsVYxg3F7chh/bCTFO6JHqbZCk7cOwxYn1Kvpeud0zK9
- ihlH9e0fXPnVKhDOKyxJseeVYaNagrJhLrOpz6PcMbk/9YCzez/X1Eu6JOkyqUkMju
- 95JVTvOZ5TEj1uJbcIVzZYCPdStrAlHMb6sipLEqQjydFAUOG05sTuWv9PY1Caa4CT
- FvYJ891DPmQFw==
-From: Robert Foss <rfoss@kernel.org>
-To: luzmaximilian@gmail.com, Zhu Wang <wangzhu9@huawei.com>,
- dmitry.torokhov@gmail.com, Laurent.pinchart@ideasonboard.com,
- penguin-kernel@I-love.SAKURA.ne.jp, jernej.skrabec@gmail.com,
- airlied@gmail.com, nikhil.nd@ti.com, neil.armstrong@linaro.org,
- sebastian.reichel@collabora.com, andrzej.hajda@intel.com,
- u.kleine-koenig@pengutronix.de, peda@axentia.se, eballetbo@kernel.org,
- a-bhatia1@ti.com, drinkcat@chromium.org, daniel@ffwll.ch,
- tomi.valkeinen@ti.com, tzimmermann@suse.de, jonas@kwiboo.se,
- dianders@chromium.org, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- treding@nvidia.com, arnd@arndb.de
-Subject: Re: [PATCH -next v3] drm/bridge: fix -Wunused-const-variable= warning
-Date: Mon, 31 Jul 2023 11:16:46 +0200
-Message-ID: <169079499955.1473821.13328071711700830688.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230731021345.219588-1-wangzhu9@huawei.com>
-References: <20230731021345.219588-1-wangzhu9@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from out28-172.mail.aliyun.com (out28-172.mail.aliyun.com
+ [115.124.28.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F43310E17E;
+ Mon, 31 Jul 2023 09:22:43 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07502602|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.461785-0.00373639-0.534478;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047206; MF=sunran001@208suo.com; NM=1;
+ PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.U4lAjtS_1690795270; 
+Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
+ fp:SMTPD_---.U4lAjtS_1690795270) by smtp.aliyun-inc.com;
+ Mon, 31 Jul 2023 17:22:36 +0800
+From: Ran Sun <sunran001@208suo.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/pm: Clean up errors in smu_v11_0_pptable.h
+Date: Mon, 31 Jul 2023 09:21:08 +0000
+Message-Id: <20230731092108.3162-1-sunran001@208suo.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +39,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <rfoss@kernel.org>
+Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 31 Jul 2023 10:13:45 +0800, Zhu Wang wrote:
-> When building with W=1, the following warning occurs.
-> 
-> drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:48:17: warning: ‘anx781x_i2c_addresses’ defined but not used [-Wunused-const-variable=]  static const u8 anx781x_i2c_addresses[] = {
->                  ^~~~~~~~~~~~~~~~~~~~~
-> drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c:40:17: warning: ‘anx7808_i2c_addresses’ defined but not used [-Wunused-const-variable=]  static const u8 anx7808_i2c_addresses[] = {
-> 
-> When CONFIG_IO is disabled, above two variables are not used,
-> since the place where it is used is inclueded in the macro
-> CONFIG_OF.
-> 
-> [...]
+Fix the following errors reported by checkpatch:
 
-Applied, thanks!
+ERROR: trailing whitespace
+ERROR: open brace '{' following struct go on the same line
+ERROR: code indent should use tabs where possible
 
-[1/1] drm/bridge: fix -Wunused-const-variable= warning
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=132b6512e694
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+ .../gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h  | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-
-
-Rob
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h
+index 0116e3d04fad..df7430876e0c 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h
+@@ -101,8 +101,7 @@ enum SMU_11_0_ODSETTING_ID {
+ };
+ #define SMU_11_0_MAX_ODSETTING    32          //Maximum Number of ODSettings
+ 
+-struct smu_11_0_overdrive_table
+-{
++struct smu_11_0_overdrive_table {
+     uint8_t  revision;                                        //Revision = SMU_11_0_PP_OVERDRIVE_VERSION
+     uint8_t  reserve[3];                                      //Zero filled field reserved for future use
+     uint32_t feature_count;                                   //Total number of supported features
+@@ -127,8 +126,7 @@ enum SMU_11_0_PPCLOCK_ID {
+ };
+ #define SMU_11_0_MAX_PPCLOCK      16          //Maximum Number of PP Clocks
+ 
+-struct smu_11_0_power_saving_clock_table
+-{
++struct smu_11_0_power_saving_clock_table {
+     uint8_t  revision;                                        //Revision = SMU_11_0_PP_POWERSAVINGCLOCK_VERSION
+     uint8_t  reserve[3];                                      //Zero filled field reserved for future use
+     uint32_t count;                                           //power_saving_clock_count = SMU_11_0_PPCLOCK_COUNT
+@@ -136,8 +134,7 @@ struct smu_11_0_power_saving_clock_table
+     uint32_t min[SMU_11_0_MAX_PPCLOCK];                       //PowerSavingClock Mode Clock Minimum array In MHz
+ };
+ 
+-struct smu_11_0_powerplay_table
+-{
++struct smu_11_0_powerplay_table {
+       struct atom_common_table_header header;
+       uint8_t  table_revision;
+       uint16_t table_size;                          //Driver portion table size. The offset to smc_pptable including header size
+@@ -145,14 +142,14 @@ struct smu_11_0_powerplay_table
+       uint32_t golden_revision;
+       uint16_t format_id;
+       uint32_t platform_caps;                       //POWERPLAYABLE::ulPlatformCaps
+-                                                    
++
+       uint8_t  thermal_controller_type;             //one of SMU_11_0_PP_THERMALCONTROLLER
+ 
+       uint16_t small_power_limit1;
+       uint16_t small_power_limit2;
+       uint16_t boost_power_limit;
+-      uint16_t od_turbo_power_limit;                //Power limit setting for Turbo mode in Performance UI Tuning. 
+-      uint16_t od_power_save_power_limit;           //Power limit setting for PowerSave/Optimal mode in Performance UI Tuning. 
++      uint16_t od_turbo_power_limit;                //Power limit setting for Turbo mode in Performance UI Tuning.
++      uint16_t od_power_save_power_limit;           //Power limit setting for PowerSave/Optimal mode in Performance UI Tuning.
+       uint16_t software_shutdown_temp;
+ 
+       uint16_t reserve[6];                          //Zero filled field reserved for future use
+-- 
+2.17.1
 
