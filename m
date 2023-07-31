@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60FE8769321
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 12:29:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93251769325
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 12:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6036F10E251;
-	Mon, 31 Jul 2023 10:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D667510E22A;
+	Mon, 31 Jul 2023 10:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AEE710E251;
- Mon, 31 Jul 2023 10:29:36 +0000 (UTC)
+Received: from mgamail.intel.com (unknown [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801C310E22A;
+ Mon, 31 Jul 2023 10:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690799376; x=1722335376;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=qrcUzGPc/mzEUo4ZLeC0gsRlzVMa/7ucsgNmiIe/YQQ=;
- b=ASn3gYEoYid8C1rUZnVmPZ6Sg+L0LHjpj1KyTTDvLQaz+pjRaFBKTYQm
- irTyZj2b5b3CiWHIdsAlW+7NYs45QOpufZRuRlOXHuzQJk/ztg8TdURav
- smKhj9cBBeaTqLmrWfppeqW2FpuJoYTkuVVKZqFJw4tTONGgXuFX3lVBF
- 2t+ZI0sX7PtBRfMH6+EdKlzl40SyZMa64ygkcNqg72OAdOSw9j67HrjPx
- zie3FN08uC88kT+DUMVfFTEImx4QMzdlX3qQf7LG/kZ97Ay0CxI6qEh8V
- Vw5aMznR+/ErfEKHa+D2flgfOy1hMSJ23cA1MusI1qpL5l0pRkU0351cA w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="455353618"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="455353618"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2023 03:29:35 -0700
+ t=1690799516; x=1722335516;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GSd9GxoGHwPaCA4bvjRdNXjWP1v1pNYIpxL4tkqqaGU=;
+ b=F6yQ6fGGUzTxFtWU6VBEAANuKRXhJqaJiEUyzRfgnJHPa5vq6F8Bm2i8
+ DjOTGsFSuHiCTu1bH+eobrAwGBWZPzxYA1desWt3VU1szfH4007r5AZvr
+ pHlJzpzb2EIpJ9JcHpsKAoIiHWL9IdCwbQLxRhtRvGNJwq2Btyza+0Rxy
+ PsCETwX/2oz/IZ8oLUlSqi4MVwBtaydSEz2XhZvLYHcQmGGrYXz27jn4P
+ 0TODjFJK9v7KtAdHsLxEWHbXItBxzE0wdVHF5ZdYb6r+5tS1q+HXd0yiO
+ 5gtmX4RGi4ub2YO4sibRmCeaOHefTPxeRt+KndlbtMQ/oBJavdCeIgqVU w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="353895503"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="353895503"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2023 03:31:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="818294474"
-X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="818294474"
-Received: from naikshri-mobl7.ger.corp.intel.com (HELO localhost)
- ([10.252.36.230])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2023 03:29:29 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Imre Deak
- <imre.deak@intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Jiri Slaby <jirislaby@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ilpo =?utf-8?Q?J=C3=A4rv?=
- =?utf-8?Q?inen?= <ilpo.jarvinen@linux.intel.com>, Alexey
- Dobriyan <adobriyan@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] drm/i915: Move abs_diff() to math.h
-In-Reply-To: <20230724082511.3225-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230724082511.3225-1-andriy.shevchenko@linux.intel.com>
-Date: Mon, 31 Jul 2023 13:29:26 +0300
-Message-ID: <87ila0xtkp.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="728256226"
+X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; d="scan'208";a="728256226"
+Received: from rliulin-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.62.95])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2023 03:31:52 -0700
+Date: Mon, 31 Jul 2023 12:31:49 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH v3] drm/i915: Fix premature release of request's reusable
+ memory
+Message-ID: <ZMeNlZvocr7nVFX4@ashyti-mobl2.lan>
+References: <20230720093543.832147-2-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230720093543.832147-2-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,173 +60,78 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Nikita Shubin <nikita.shubin@maquefel.me>, Stephen Boyd <sboyd@kernel.org>,
- Helge Deller <deller@gmx.de>, Andi Shyti <andi.shyti@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Nikita Shubin via B4 Relay <devnull+nikita.shubin.maquefel.me@kernel.org>
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Jul 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> abs_diff() belongs to math.h. Move it there.
-> This will allow others to use it.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Jiri Slaby <jirislaby@kernel.org> # tty/serial
-> ---
-> v3: added tag (Jiri), removed space after a cast (fdo CI)
->  drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  1 +
->  drivers/gpu/drm/i915/display/intel_dpll_mgr.h |  7 -------
+Hi Janusz,
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+On Thu, Jul 20, 2023 at 11:35:44AM +0200, Janusz Krzysztofik wrote:
+> Infinite waits for completion of GPU activity have been observed in CI,
+> mostly inside __i915_active_wait(), triggered by igt@gem_barrier_race or
+> igt@perf@stress-open-close.  Root cause analysis, based of ftrace dumps
+> generated with a lot of extra trace_printk() calls added to the code,
+> revealed loops of request dependencies being accidentally built,
+> preventing the requests from being processed, each waiting for completion
+> of another one's activity.
+> 
+> After we substitute a new request for a last active one tracked on a
+> timeline, we set up a dependency of our new request to wait on completion
+> of current activity of that previous one.  While doing that, we must take
+> care of keeping the old request still in memory until we use its
+> attributes for setting up that await dependency, or we can happen to set
+> up the await dependency on an unrelated request that already reuses the
+> memory previously allocated to the old one, already released.  Combined
+> with perf adding consecutive kernel context remote requests to different
+> user context timelines, unresolvable loops of await dependencies can be
+> built, leading do infinite waits.
+> 
+> We obtain a pointer to the previous request to wait upon when we
+> substitute it with a pointer to our new request in an active tracker,
+> e.g. in intel_timeline.last_request.  In some processing paths we protect
+> that old request from being freed before we use it by getting a reference
+> to it under RCU protection, but in others, e.g.  __i915_request_commit()
+> -> __i915_request_add_to_timeline() -> __i915_request_ensure_ordering(),
+> we don't.  But anyway, since the requests' memory is SLAB_FAILSAFE_BY_RCU,
+> that RCU protection is not sufficient against reuse of memory.
+> 
+> We could protect i915_request's memory from being prematurely reused by
+> calling its release function via call_rcu() and using rcu_read_lock()
+> consequently, as proposed in v1.  However, that approach leads to
+> significant (up to 10 times) increase of SLAB utilization by i915_request
+> SLAB cache.  Another potential approach is to take a reference to the
+> previous active fence.
+> 
+> When updating an active fence tracker, we first lock the new fence,
+> substitute a pointer of the current active fence with the new one, then we
+> lock the substituted fence.  With this approach, there is a time window
+> after the substitution and before the lock when the request can be
+> concurrently released by an interrupt handler and its memory reused, then
+> we may happen to lock and return a new, unrelated request.
+> 
+> Always get a reference to the current active fence first, before
+> replacing it with a new one.  Having it protected from premature release
+> and reuse, lock it and then replace with the new one but only if not
+> yet signalled via a potential concurrent interrupt nor replaced with
+> another one by a potential concurrent thread, otherwise retry, starting
+> from getting a reference to the new current one.  Adjust users to not
+> get a reference to the previous active fence themselves and always put the
+> reference got by __i915_active_fence_set() when no longer needed.
+> 
+> v3: Fix lockdep splat reports and other issues caused by incorrect use of
+>     try_cmpxchg() (use (cmpxchg() != prev) instead)
+> v2: Protect request's memory by getting a reference to it in favor of
+>     delegating its release to call_rcu() (Chris)
+> 
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8211
+> Fixes: df9f85d8582e ("drm/i915: Serialise i915_active_fence_set() with itself")
+> Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v5.6+
 
-for merging the i915 parts via whichever tree is most convenient for
-you.
+pushed to drm-intel-gt-next... thank you!
 
->  drivers/gpu/ipu-v3/ipu-image-convert.c        | 15 +++++++--------
->  drivers/tty/serial/omap-serial.c              |  7 +------
->  drivers/video/fbdev/core/svgalib.c            |  7 +------
->  include/linux/math.h                          |  7 +++++++
->  6 files changed, 17 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-> index 6b2d8a1e2aa9..290e856fe9e9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-> @@ -21,6 +21,7 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <linux/math.h>
->  #include <linux/string_helpers.h>
->  
->  #include "i915_reg.h"
-> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.h b/drivers/gpu/drm/i915/display/intel_dpll_mgr.h
-> index ba62eb5d7c51..04e6810954b2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.h
-> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.h
-> @@ -29,13 +29,6 @@
->  
->  #include "intel_wakeref.h"
->  
-> -/*FIXME: Move this to a more appropriate place. */
-> -#define abs_diff(a, b) ({			\
-> -	typeof(a) __a = (a);			\
-> -	typeof(b) __b = (b);			\
-> -	(void) (&__a == &__b);			\
-> -	__a > __b ? (__a - __b) : (__b - __a); })
-> -
->  enum tc_port;
->  struct drm_i915_private;
->  struct intel_atomic_state;
-> diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
-> index af1612044eef..841316582ea9 100644
-> --- a/drivers/gpu/ipu-v3/ipu-image-convert.c
-> +++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
-> @@ -7,7 +7,10 @@
->  
->  #include <linux/interrupt.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/math.h>
-> +
->  #include <video/imx-ipu-image-convert.h>
-> +
->  #include "ipu-prv.h"
->  
->  /*
-> @@ -543,7 +546,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
->  		unsigned int in_pos;
->  		unsigned int in_pos_aligned;
->  		unsigned int in_pos_rounded;
-> -		unsigned int abs_diff;
-> +		unsigned int diff;
->  
->  		/*
->  		 * Tiles in the right row / bottom column may not be allowed to
-> @@ -575,15 +578,11 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
->  		    (in_edge - in_pos_rounded) % in_burst)
->  			continue;
->  
-> -		if (in_pos < in_pos_aligned)
-> -			abs_diff = in_pos_aligned - in_pos;
-> -		else
-> -			abs_diff = in_pos - in_pos_aligned;
-> -
-> -		if (abs_diff < min_diff) {
-> +		diff = abs_diff(in_pos, in_pos_aligned);
-> +		if (diff < min_diff) {
->  			in_seam = in_pos_rounded;
->  			out_seam = out_pos;
-> -			min_diff = abs_diff;
-> +			min_diff = diff;
->  		}
->  	}
->  
-> diff --git a/drivers/tty/serial/omap-serial.c b/drivers/tty/serial/omap-serial.c
-> index 82d35dbbfa6c..9be63a1f1f0c 100644
-> --- a/drivers/tty/serial/omap-serial.c
-> +++ b/drivers/tty/serial/omap-serial.c
-> @@ -222,16 +222,11 @@ static inline int calculate_baud_abs_diff(struct uart_port *port,
->  				unsigned int baud, unsigned int mode)
->  {
->  	unsigned int n = port->uartclk / (mode * baud);
-> -	int abs_diff;
->  
->  	if (n == 0)
->  		n = 1;
->  
-> -	abs_diff = baud - (port->uartclk / (mode * n));
-> -	if (abs_diff < 0)
-> -		abs_diff = -abs_diff;
-> -
-> -	return abs_diff;
-> +	return abs_diff(baud, port->uartclk / (mode * n));
->  }
->  
->  /*
-> diff --git a/drivers/video/fbdev/core/svgalib.c b/drivers/video/fbdev/core/svgalib.c
-> index 9e01322fabe3..2cba158888ea 100644
-> --- a/drivers/video/fbdev/core/svgalib.c
-> +++ b/drivers/video/fbdev/core/svgalib.c
-> @@ -14,6 +14,7 @@
->  #include <linux/kernel.h>
->  #include <linux/string.h>
->  #include <linux/fb.h>
-> +#include <linux/math.h>
->  #include <linux/svga.h>
->  #include <asm/types.h>
->  #include <asm/io.h>
-> @@ -372,12 +373,6 @@ EXPORT_SYMBOL(svga_get_caps);
->   *  F_VCO = (F_BASE * M) / N
->   *  F_OUT = F_VCO / (2^R)
->   */
-> -
-> -static inline u32 abs_diff(u32 a, u32 b)
-> -{
-> -	return (a > b) ? (a - b) : (b - a);
-> -}
-> -
->  int svga_compute_pll(const struct svga_pll *pll, u32 f_wanted, u16 *m, u16 *n, u16 *r, int node)
->  {
->  	u16 am, an, ar;
-> diff --git a/include/linux/math.h b/include/linux/math.h
-> index 449a29b73f6d..4459d1786f77 100644
-> --- a/include/linux/math.h
-> +++ b/include/linux/math.h
-> @@ -157,6 +157,13 @@ __STRUCT_FRACT(u32)
->  	__builtin_types_compatible_p(typeof(x), unsigned type),		\
->  	({ signed type __x = (x); __x < 0 ? -__x : __x; }), other)
->  
-> +#define abs_diff(a, b) ({			\
-> +	typeof(a) __a = (a);			\
-> +	typeof(b) __b = (b);			\
-> +	(void)(&__a == &__b);			\
-> +	__a > __b ? (__a - __b) : (__b - __a);	\
-> +})
-> +
->  /**
->   * reciprocal_scale - "scale" a value into range [0, ep_ro)
->   * @val: value
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Andi
