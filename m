@@ -1,76 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECED476955D
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 13:57:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4729769587
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:05:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7967E10E26B;
-	Mon, 31 Jul 2023 11:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBDC10E26E;
+	Mon, 31 Jul 2023 12:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0952B10E26B
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 11:57:44 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3fb4146e8fcso30403305e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 04:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690804663; x=1691409463; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=84p6LuV3kqjsQ38caNmFY0hjFJK8gje0eg9gedCk7+E=;
- b=GTz2z46rZqYVBJe9xcSwdI+7QtxocDHZoo1lTcR4gcdpTVNr5ydA/TjcdzI0hykclb
- L7disChATKsEVPF6u4hk7xRzikjXvpe7rgFduzn65xRa4llxH4UELN6kJHB1RsdqGlnC
- CYQOP6CdntIsoXUlK7fUHOyKLvYhRp4wp0YkCVk0X4cItoCIRXYN8BBD9ouZqBX/EY6P
- ixzwbtZ18fTtR0HzOLz+QOUfZJNH1nHp/u/H3fON9ulfoQlX83OtHvmyg23yYZ7s82Aa
- gIbAA0DTaGmlGjxGumCPYF0TYh0NOvda6E4bScxmSxtoLzgFpY17O2jwV1Ti8pqqvKuP
- 4BQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690804663; x=1691409463;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=84p6LuV3kqjsQ38caNmFY0hjFJK8gje0eg9gedCk7+E=;
- b=YO4nZU72E+1FDBizQyqgkR9RaeN3errYKc9SD8/FYetNb4PqxIUGST0Ls4CW7kGqLI
- LpHkiQbZSiLrgWepioy0GLqii30fT6Q4+6j2pKj6xqjRycBPoUh3vTbP5rxnHgbQxra5
- cXMXcRL40epiFhoqwY6b8wXF76wYnciRF3upKwJG7gPr0WI1A5G/REfmOtL7Mvv4wYDe
- aXqp3rCWpuLsvr5Bij9D9QMIPySIivJVb3UTC0McxseWU4L15hafdanRBuFQuhFiDET7
- RjAuhn0rr6dRy76WW0FVriAlM7lyxnJvtMhG0arkChait4cYQlf1VLjcxkSNcpy/9Vx4
- F37Q==
-X-Gm-Message-State: ABy/qLbJXzU8deGwWcvUra31XmevU8/JVOQldC0rjm5to6aCo3K9dw04
- 2ZZuvicXD6DJyCs+Tmc+lvJqvw==
-X-Google-Smtp-Source: APBJJlEN1GtAehJzUvlmGfJJ54bjKPXWoI0vErW/9yKQPWUAvNebPH2c1X7TzLGxGDgOuuPnzoBd8A==
-X-Received: by 2002:a05:600c:20c4:b0:3f7:e660:cdc5 with SMTP id
- y4-20020a05600c20c400b003f7e660cdc5mr7884275wmm.9.1690804662970; 
- Mon, 31 Jul 2023 04:57:42 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- z19-20020a1c4c13000000b003fe20db88ebsm2894966wmf.31.2023.07.31.04.57.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Jul 2023 04:57:42 -0700 (PDT)
-Message-ID: <0de4d9fe-39ac-5efa-8344-428f0074adeb@baylibre.com>
-Date: Mon, 31 Jul 2023 13:57:41 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1BAA10E26E;
+ Mon, 31 Jul 2023 12:04:59 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4CBF26108E;
+ Mon, 31 Jul 2023 12:04:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FA01C433C8;
+ Mon, 31 Jul 2023 12:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690805098;
+ bh=CxFnYp7q+XxZ7znzGHFxRtOTFd57UjGuXrJBT9Z6jfw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dNP7+QrCm8e46TuickOROLjjoLk92XRMECcE6QClmuWcLojczZGukm8KMESE1qWL8
+ CYxrXkdWiffoaLzos/RLuhWfIAdUqM/Q1pylPvMfbNH8spCCndcH/XDhXCxRQLggiF
+ vgBrGQHEXumy5TAx6WhEAHo1gT1LXoPY6m/epkfeeFQumPrdgl5SdK3jQGgrHF5mq7
+ pvD/f2EG7lAQIaTUn5JiXPWse/LTC4ro5PhsIEbt/I/IqH0PTMZa/o3xLuLyeDE+Ts
+ JhrfTd66S/ROXLq2LHi4ag2u/bghGxZltrDXN2c6wo0BCVdmbyzvetd4DsqUafCH0A
+ cW61RjU8PEI9Q==
+Date: Mon, 31 Jul 2023 14:04:55 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH drm-misc-next v8 01/12] drm: manager to keep track of
+ GPUs VA mappings
+Message-ID: <r7gbbrkn4hjyjyjgapf7jnyswbuvks4ng7uuy7gibsra2xpvzf@iot4rgafaqjn>
+References: <20230720001443.2380-1-dakr@redhat.com>
+ <20230720001443.2380-2-dakr@redhat.com>
+ <hi5magp4icayy5dxmylfyxws52cu63jvlhu4yj5xem3acoaylk@msf7zthcr3lg>
+ <20230728142612.2ecf99ef@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RESEND v6 09/11] drm/mediatek: gamma: Add support for
- 12-bit LUT and MT8195
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-References: <20230727094633.22505-1-angelogioacchino.delregno@collabora.com>
- <20230727094633.22505-10-angelogioacchino.delregno@collabora.com>
- <ec66e067-642e-1512-3e4b-b51065ccc75d@baylibre.com>
- <8b9769f3-8a7c-3607-ca9a-09443cfbc9d9@collabora.com>
- <0b9d62d0-5958-2b0f-03d7-9e91e026c33d@baylibre.com>
- <4e0bcb82-03f7-66de-19ec-9cc23f95ddad@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <4e0bcb82-03f7-66de-19ec-9cc23f95ddad@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wm7cpxvm7mxqxcv7"
+Content-Disposition: inline
+In-Reply-To: <20230728142612.2ecf99ef@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,153 +57,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- ehristev@collabora.com, wenst@chromium.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Cc: matthew.brost@intel.com,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ willy@infradead.org, dri-devel@lists.freedesktop.org, corbet@lwn.net,
+ nouveau@lists.freedesktop.org, ogabbay@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Liam.Howlett@oracle.com,
+ Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com, tzimmermann@suse.de,
+ Dave Airlie <airlied@redhat.com>, bagasdotme@gmail.com,
+ christian.koenig@amd.com, jason@jlekstrand.net, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--wm7cpxvm7mxqxcv7
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 31/07/2023 12:27, AngeloGioacchino Del Regno wrote:
-> Il 28/07/23 14:58, Alexandre Mergnat ha scritto:
->> Hi Angelo
->>
->> On 27/07/2023 15:06, AngeloGioacchino Del Regno wrote:
->>>>> +/* For 10 bit LUT layout, R/G/B are in the same register */
->>>>>   #define DISP_GAMMA_LUT_10BIT_R            GENMASK(29, 20)
->>>>>   #define DISP_GAMMA_LUT_10BIT_G            GENMASK(19, 10)
->>>>>   #define DISP_GAMMA_LUT_10BIT_B            GENMASK(9, 0)
->>>>> +/* For 12 bit LUT layout, R/G are in LUT, B is in LUT1 */
->>>>
->>>> As I understood from the application processor registers (v0.4), R/G 
->>>> are in LUT, B is in LUT1 for 10bit and 12bit for MT8195. Can you 
->>>> check please to be sure ?
->>>>
->>>
->>> That's right, but here I'm implying that 10-bit LUT is only for older 
->>> SoCs, and
->>> all of them have got the same register layout with one LUT register 
->>> for R, G, B,
->>> while all the new SoCs, which have got 12-bits LUT support, have got 
->>> the new
->>> register layout with two LUT registers (and multiple banks).
->>> Infact, the MT8195 SoC was added here with 12-bits LUT support only 
->>> (as the LUT
->>> parameters extraction is easily handled by the 
->>> drm_color_lut_extract() function).
->>>
->>> The alternative would've been to add two compatibles, like
->>> "mediatek,mt8195-disp-gamma-10bits" and 
->>> "mediatek,mt8195-disp-gamma-12bits",
->>> or a boolean property like "mediatek,lut-12bits" which would appear 
->>> literally
->>> everywhere starting from a certain point in time (since there's no 
->>> reason to
->>> use 10-bits LUT on MT8195, that starts now!).
->>>
->>> Even then, consider the complication in code, where 
->>> mtk_gamma_set_common()
->>> would have to handle:
->>> - 10-bits, layout A
->>> - 10-bits, layout B -> but fallback to layout A if this is AAL
->>> - 12-bits layout
->>>
->>> is_aal = !(gamma && gamma->data);
->>>
->>> for_each_bank()
->>> {
->>>      if (num_lut_banks > 1) write_num_bank();
->>>
->>>      for (i = 0; i < lut_bank_size; i++) {
->>>          .......
->>>
->>>          if (!lut_diff || (i % 2 == 0)) {
->>>              if (lut_bits == 12 || (lut_bits == 10 && layout_b)) {
->>>                  ... setup word[0],[1] ...
->>>              } else if (layout_b && !is_aal) {
->>>                  ...setup word[0],[1]...
->>>              } else {
->>>                  ...setup word[0]
->>>              }
->>>          } else {
->>>               ^^^ almost repeat the same ^^^
->>>          }
->>>          writel(word[0], (...));
->>>          if (lut_bits == 12 || (lut_bits == 10 && layout_b) && !is_aal)
->>>              writel(word[i] (....));
->>>      }
->>> }
->>>
->>> probe() {
->>>      if (of_property_read_bool(dev->of_node, "mediatek,lut-12bits") ||
->>>          data->supports_only_12bits)
->>>          priv->lut_bits = 12;
->>>      else
->>>          priv->lut_bits = 10;
->>> }
->>>
->>> ...at least, that's the implementation that I would do to solve your 
->>> concern,
->>> which isn't *too bad*, but still, a big question arises here...
->>>
->>>
->>> Why should we care about supporting *both* 10-bit and 12-bit Gamma 
->>> LUTs on
->>> the *same* SoC?
->>>
->>>
->>> A 12-bit LUT gives us more precision and there's no penalty if we 
->>> want to
->>> convert a 10-bit LUT to a 12-bits one, as we're simply "ignoring" the 
->>> value
->>> of two bits per component (no expensive calculation involved)...
->>>
->>> Is there anything that I'm underestimating here?
->>
->> Thanks for you explanation !
->> I think your choice is not bad, but it's not clear that MT8195 10 bit 
->> LUT isn't supported at all.
->> So, IMHO, the first solution is to support it like you explained it 
->> above, and the second solution is to add comment somewhere to clarify 
->> that driver doesn't support 10 bit LUT if the SoC is able to use 12 
->> bit LUT, like MT8195 10 bit.
->>
->> Is that relevant ? :D
->>
-> 
-> Even though the same as whhat I'm doing here was already done before, as 
-> the
-> current 10-bits LUT support ignores 9-bits LUT support, I can add a 
-> comment to
-> the code:
-> 
-> /*
->   * SoCs supporting 12-bits LUTs are using a new register layout that does
->   * always support (by HW) both 12-bits and 10-bits LUT but, on those, we
->   * ignore the support for 10-bits in this driver and always use 12-bits.
->   *
->   * Summarizing:
->   * - SoC HW support 9/10-bits LUT only
->   *   - Old register layout
->   *     - 10-bits LUT supported
->   *     - 9-bits LUT not supported
->   * - SoC HW support both 10/12bits LUT
->   *   - New register layout
->   *    - 12-bits LUT supported
->   *    - 10-its LUT not supported
->   */
-> 
-> Where the SoCs supporting 9-bits and 10-bits: mt6795, 8173, 8192,others and
-> 12-bits are 8195, 8186, others.. of course.
-> 
-> Would that work for you?
+Hi Boris,
 
-Sound good for me. After that:
+On Fri, Jul 28, 2023 at 02:26:12PM +0200, Boris Brezillon wrote:
+> On Fri, 28 Jul 2023 13:31:36 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi Danilo,
+> >=20
+> > On Thu, Jul 20, 2023 at 02:14:22AM +0200, Danilo Krummrich wrote:
+> > > Add infrastructure to keep track of GPU virtual address (VA) mappings
+> > > with a decicated VA space manager implementation.
+> > >=20
+> > > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+> > > start implementing, allow userspace applications to request multiple =
+and
+> > > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+> > > intended to serve the following purposes in this context.
+> > >=20
+> > > 1) Provide infrastructure to track GPU VA allocations and mappings,
+> > >    making using an interval tree (RB-tree).
+> > >=20
+> > > 2) Generically connect GPU VA mappings to their backing buffers, in
+> > >    particular DRM GEM objects.
+> > >=20
+> > > 3) Provide a common implementation to perform more complex mapping
+> > >    operations on the GPU VA space. In particular splitting and merging
+> > >    of GPU VA mappings, e.g. for intersecting mapping requests or part=
+ial
+> > >    unmap requests.
+> > >=20
+> > > Acked-by: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> > > Acked-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Tested-by: Matthew Brost <matthew.brost@intel.com>
+> > > Tested-by: Donald Robson <donald.robson@imgtec.com>
+> > > Suggested-by: Dave Airlie <airlied@redhat.com>
+> > > Signed-off-by: Danilo Krummrich <dakr@redhat.com> =20
+> >=20
+> > For some reason this breaks the drm_exec kunit patches:
+>=20
+> Fix available here [1].
+>=20
+> [1]https://lore.kernel.org/dri-devel/cbf4ccf9-8131-27a0-332c-6942866340d1=
+@igalia.com/T/#t
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+Thanks for pointing it out :)
 
--- 
-Regards,
-Alexandre
+Maxime
+
+--wm7cpxvm7mxqxcv7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMejZwAKCRDj7w1vZxhR
+xaW5AQCv028JEAAnIb/aFhQc1sYoXrIKQLstpLgP6KnY2r99tAD7BvwHotLO3uHq
+7wsMukvisTg7tcpMtdYRdRiWIaoh+gs=
+=nrso
+-----END PGP SIGNATURE-----
+
+--wm7cpxvm7mxqxcv7--
