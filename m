@@ -1,67 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00167695C6
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:13:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3228B7695F2
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 14:18:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB2810E272;
-	Mon, 31 Jul 2023 12:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E20A110E275;
+	Mon, 31 Jul 2023 12:18:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4804910E272
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 12:13:49 +0000 (UTC)
-Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAD045A4;
- Mon, 31 Jul 2023 14:12:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1690805566;
- bh=X0B++9ZJoOGXr2Q9dYZmjqsgjlJ16PlZ4syKyoxQEkU=;
- h=From:Date:Subject:To:Cc:From;
- b=jQCblDDrSZz+fpDqp24KCffbYEAStw0+unrpLi3Fsz+doawB+Te+cbH+pFj8wBfOv
- hRM6JPA1dynBc5l8OU7vqDmeF9xi8H7vrBIPnTqU+4wMDhaOwuag0rTU4OW7ihetRj
- it5zcIb+2lUJirgWyUWbpPOG8nq/0PrpZwqOBif8=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Mon, 31 Jul 2023 15:13:14 +0300
-Subject: [PATCH v3] drm/bridge: Add debugfs print for bridge chains
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD9E310E275
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 12:18:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EAF5A6106E;
+ Mon, 31 Jul 2023 12:18:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CA0C433C8;
+ Mon, 31 Jul 2023 12:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690805901;
+ bh=rQ7FJqkGeDX2fugIGTDURaI498a99ibW8f64xuQUqhg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QqHovCvMTm/tPzp0I6/OWLL07l00ZNmpg3dsQUbvyaWDC8lJ3NOJqZ0dwJjZhEgpf
+ Zfa81FjNlgeOBb/Dz/r1jH816iAcg/ZyXPmGKGc8w6hv+D5Ww3d7HKLPGJFjsYjjQk
+ tPFfYULlsQC0s3ZCqmqsKAqIotkFoM8q3emJbvDKpeiZ3ilcAeFgTsLIMKl3TC9RLG
+ l6JcqptcqlhYa8gEAj59Xn6UUa8G2Qnyq22aL39XlRxZfy4U7NZ3CgzL2Dzu9cmp4K
+ YY0D8G61F8BfYhBohj348VWPGB2WsEf7WXrNFi6MPbnlCsrgHWLBQC/8WrnwTjmWRX
+ ZVbZV56G+ZRag==
+Date: Mon, 31 Jul 2023 14:18:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: David Gow <davidgow@google.com>
+Subject: Re: [PATCH v5 9/9] drm: selftest: convert drm_mm selftest to KUnit
+Message-ID: <papkxmdqmpmap7jcamxsjmr5rhilris4glqjawhb6ms6da4ogl@ae3l6ffagqft>
+References: <20220708203052.236290-1-maira.canal@usp.br>
+ <20220708203052.236290-10-maira.canal@usp.br>
+ <7yc3fkagtlr4i7qnkulwvfzqjs7v64ddugcc3cxt6g5oawvqoa@ax67ukkrr7jt>
+ <j4twjg4rd74qq6wjr7nrtrtkh6cdxehuw5lmeavu7z5q5lhtih@nofkcrdnwty7>
+ <CABVgOSmtZVfuLNBXymVfeuv_997TanhR3R_=Sk0sJL359jhw7Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230731-drm-bridge-chain-debugfs-v3-1-7d0739f3efa3@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAFmlx2QC/43NPQ7DIAwF4KtUzKUC54ekU+9RdYBgEg+BClrUK
- srdSzJ3yPjs588LSxgJE7ueFhYxU6LgS6jOJzZM2o/IyZbMQEAlFEhu48xNJFs2pUCeWzTv0SU
- ujBlkA+AapVk5f0Z09Nnp+6PkidIrxO/+KcttegDNkkvetbJ2TmHXC3sjizoFb4KO9jKEmW12h
- qMeFE+11vV1Vau+hT/euq4/inZWbhcBAAA=
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Francesco Dolcini <francesco.dolcini@toradex.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4740;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=X0B++9ZJoOGXr2Q9dYZmjqsgjlJ16PlZ4syKyoxQEkU=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkx6V3kIlljbcwEkPpF2jYccwrfJf2NhfvfkoG7
- tcqoT6g4/aJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMeldwAKCRD6PaqMvJYe
- 9XIFEACiIy/bIIupSs7y53f++sShmKTkED5D7Bt5qFAz3fvk2/RehoLljivqMQZLW6S/8hBtRE1
- zR1erINCV0M1cuWBnRZU3NBIOVWOtVo2ZGflzu+5TXNnmp2N447JLwEQtFGumBQ63Pf1MY6+qQv
- IJZazVj8lLFhz607fWrUEAeJ/7B7f2iCc/e8pl+uHSMzcGZ62yhz4/OP6wICuuotSmrhk4JXUtb
- M28p7hoTH5deQciOi6L/SS1Y/4p82eJtsIYtSPMW9z8548Ct+Ud5I4nZYL3F1vO+5ED/jNVYSsK
- UQzzhPso0uQJp40dfnQyA1M/2P1T8vsyR9RZHDSonE8f7cxl9lFiNxeCEc2SJVmjjrLYNbxam22
- yPBJo4bwLtirSTPqHPzmUm/P8r2N1qSSbx0sCStv6Z7a0JIzU/z8opb2T9INuF++AexY7n5C0g6
- r+Kx/o9vvIfui7Oi9dJDDlVMI7E6E2DOKpPBsCNRsTcYKEN9S1jHqps6217Du8vqZ8v5aL1J7uf
- B7rtanVfi6s8VWbQcOOXRm8hRDKd5s7sjVHiKbLjITp7am4TMRmHOdNi7Uc/NNOKaOvFIKgVedg
- dNkvL5gXQClxfCwJ/Crq7TrC5tUQ7PTd8v1wBOnNAMeVGRkDF7InIOaWaWLhUEwvi9CXM79qF/l
- 1zlw9L+tVGJhF0A==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gu25pblv6cnyjr6c"
+Content-Disposition: inline
+In-Reply-To: <CABVgOSmtZVfuLNBXymVfeuv_997TanhR3R_=Sk0sJL359jhw7Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,151 +57,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Arthur Grillo <arthur.grillo@usp.br>, siqueirajordao@riseup.net,
+ David Airlie <airlied@linux.ie>, Daniel Latypov <dlatypov@google.com>,
+ brendanhiggins@google.com, dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, n@nfraprado.net,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ magalilemes00@gmail.com, Javier Martinez Canillas <javierm@redhat.com>,
+ mwen@igalia.com, Shuah Khan <skhan@linuxfoundation.org>,
+ kunit-dev@googlegroups.com, michal.winiarski@intel.com,
+ =?utf-8?B?TWHDrXJh?= Canal <maira.canal@usp.br>, linux-kernel@vger.kernel.org,
+ leandro.ribeiro@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ tales.aparecida@gmail.com,
+ =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM bridges are not visible to the userspace and it may not be
-immediately clear if the chain is somehow constructed incorrectly. I
-have had two separate instances of a bridge driver failing to do a
-drm_bridge_attach() call, resulting in the bridge connector not being
-part of the chain. In some situations this doesn't seem to cause issues,
-but it will if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is used.
 
-Add a debugfs file to print the bridge chains. For me, on this TI AM62
-based platform, I get the following output:
+--gu25pblv6cnyjr6c
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-encoder[39]
-	bridge[0] type: 0, ops: 0x0
-	bridge[1] type: 0, ops: 0x0, OF: /bus@f0000/i2c@20000000/dsi@e:toshiba,tc358778
-	bridge[2] type: 0, ops: 0x3, OF: /bus@f0000/i2c@20010000/hdmi@48:lontium,lt8912b
-	bridge[3] type: 11, ops: 0x7, OF: /hdmi-connector:hdmi-connector
+Hi David,
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
-Changes in v3:
-- Use drm_for_each_bridge_in_chain()
-- Drop extra comment
-- Fix whitespace issue
-- Call drm_bridge_debugfs_init() only if the driver uses modeset
-- Drop #ifdef for drm_bridge_debugfs_init() declaration
-- Link to v2: https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v2-1-76df94347962@ideasonboard.com
+On Tue, Jul 25, 2023 at 05:54:32PM +0800, David Gow wrote:
+> On Tue, 25 Jul 2023 at 16:38, Maxime Ripard <mripard@kernel.org> wrote:
+> > On Thu, Apr 27, 2023 at 03:14:39PM +0200, Maxime Ripard wrote:
+> > > Hi,
+> > >
+> > > On Fri, Jul 08, 2022 at 05:30:52PM -0300, Ma=EDra Canal wrote:
+> > > > From: Arthur Grillo <arthur.grillo@usp.br>
+> > > >
+> > > > Considering the current adoption of the KUnit framework, convert the
+> > > > DRM mm selftest to the KUnit API.
+> > > >
+> > > > Signed-off-by: Arthur Grillo <arthur.grillo@usp.br>
+> > > > Tested-by: David Gow <davidgow@google.com>
+> > > > Acked-by: Daniel Latypov <dlatypov@google.com>
+> > > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> > > > Signed-off-by: Ma=EDra Canal <maira.canal@usp.br>
+> > >
+> > > I'm very late to the party, but I'd like to discuss that patch some m=
+ore.
+> > >
+> > > Two tests (drm_test_mm_reserve, drm_test_mm_insert) in it take a super
+> > > long time to run (about 30s each on my machine).
+> > >
+> > > If we run all the DRM tests and VC4 tests, each of those two are long=
+er
+> > > to run than all the ~300 tests combined. About 100 times longer.
+> > >
+> > > I don't think that running for so long is reasonable, and for multiple
+> > > reasons:
+> > >
+> > >   - While I don't know drm_mm well, it doesn't look like any of those
+> > >     tests do something that really should take this long. I'm especia=
+lly
+> > >     skeptical about the fact that we test each operation 8192 times by
+> > >     default.
+> > >
+> > >   - It makes using kunit more tedious than it should be. Like I said,=
+ on
+> > >     a very capable machine, running the all the DRM and VC4 tests tak=
+es
+> > >     about 50s with those two tests, ~0.4s without.
+> > >
+> > >   - The corollary is that it will get in the way of people that really
+> > >     want to use kunit will just remove those tests before doing so,
+> > >     defeating the original intent.
+> > >
+> > >
+> > > I understand that it came from selftests initially, but I think we
+> > > should rewrite the tests entirely to have smaller, faster tests. It's
+> > > not clear to me why those tests are as complicated as they are though.
+> > >
+> > > Also, going forward we should probably put disencourage tests running
+> > > that long. Could Kunit timeout/warn after a while if a test is taking
+> > > more than X seconds to run?
+> >
+> > I'd still like to address this. We spend ~90% of the DRM kunit tests
+> > execution time executing those two tests, which doesn't seem like a
+> > reasonable thing to do.
+>=20
+> FWIW, KUnit is going to add a "speed" attribute for tests, so that
+> it's easy to skip tests which are slow:
+> https://lore.kernel.org/linux-kselftest/20230724162834.1354164-3-rmoar@go=
+ogle.com/T/#u
+>=20
+> This would allow the slow tests to be marked using KUNIT_CASE_SLOW(),
+> and then be run via kunit.py --filter "speed>slow".
+>=20
+> It obviously doesn't make the tests themselves any faster, but could
+> at least make it possible to run only the fast tests during
+> development, and the full, slower set before sending the patches out
+> (or in CI), for example.
 
-Changes in v2:
-- Fixed compilation issue when !CONFIG_OF
-- Link to v1: https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e890d@ideasonboard.com
----
- drivers/gpu/drm/drm_bridge.c  | 46 +++++++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_debugfs.c |  3 +++
- include/drm/drm_bridge.h      |  3 +++
- 3 files changed, 52 insertions(+)
+That's awesome, thanks
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index c3d69af02e79..39e68e45bb12 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -27,8 +27,10 @@
- #include <linux/mutex.h>
- 
- #include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_debugfs.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_encoder.h>
-+#include <drm/drm_file.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
- 
-@@ -1345,6 +1347,50 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- EXPORT_SYMBOL(of_drm_find_bridge);
- #endif
- 
-+#ifdef CONFIG_DEBUG_FS
-+static int drm_bridge_chains_info(struct seq_file *m, void *data)
-+{
-+	struct drm_debugfs_entry *entry = m->private;
-+	struct drm_device *dev = entry->dev;
-+	struct drm_printer p = drm_seq_file_printer(m);
-+	struct drm_mode_config *config = &dev->mode_config;
-+	struct drm_encoder *encoder;
-+	unsigned int bridge_idx = 0;
-+
-+	list_for_each_entry(encoder, &config->encoder_list, head) {
-+		struct drm_bridge *bridge;
-+
-+		drm_printf(&p, "encoder[%u]\n", encoder->base.id);
-+
-+		drm_for_each_bridge_in_chain(encoder, bridge) {
-+			drm_printf(&p, "\tbridge[%u] type: %u, ops: %#x",
-+				   bridge_idx, bridge->type, bridge->ops);
-+
-+#ifdef CONFIG_OF
-+			if (bridge->of_node)
-+				drm_printf(&p, ", OF: %pOFfc", bridge->of_node);
-+#endif
-+
-+			drm_printf(&p, "\n");
-+
-+			bridge_idx++;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct drm_debugfs_info drm_bridge_debugfs_list[] = {
-+	{ "bridge_chains", drm_bridge_chains_info, 0 },
-+};
-+
-+void drm_bridge_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_add_files(minor->dev, drm_bridge_debugfs_list,
-+			      ARRAY_SIZE(drm_bridge_debugfs_list));
-+}
-+#endif
-+
- MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
- MODULE_DESCRIPTION("DRM bridge infrastructure");
- MODULE_LICENSE("GPL and additional rights");
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index a3a488205009..3b1de2c61c89 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -31,6 +31,7 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_auth.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_client.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_device.h>
-@@ -274,6 +275,8 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
- 
- 	if (drm_drv_uses_atomic_modeset(dev)) {
- 		drm_atomic_debugfs_init(minor);
-+
-+		drm_bridge_debugfs_init(minor);
- 	}
- 
- 	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index bf964cdfb330..cb10ee108538 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -949,4 +949,7 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
- }
- #endif
- 
-+struct drm_minor;
-+void drm_bridge_debugfs_init(struct drm_minor *minor);
-+
- #endif
+Speaking of which, should we detect in kunit.py tests that should be
+marked as (super) slow but aren't?
 
----
-base-commit: a0c64d153d687756c8719b8d10e609d62e1cb6fd
-change-id: 20230721-drm-bridge-chain-debugfs-0bbc1522f57a
+Maxime
 
-Best regards,
--- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+--gu25pblv6cnyjr6c
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMemigAKCRDj7w1vZxhR
+xWesAP4rTXMKvVI99e3spTFF7uMSs4CI04EwUB1wYNvei90PhQEA6DhZGF6RTZr+
+hxJZBu84ZKXD7FHgygKiwKgAbMY0Swc=
+=FyxO
+-----END PGP SIGNATURE-----
+
+--gu25pblv6cnyjr6c--
