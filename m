@@ -2,54 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D7B769FF6
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 20:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F1776A042
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 20:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51EED10E2DD;
-	Mon, 31 Jul 2023 18:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5AB10E2DF;
+	Mon, 31 Jul 2023 18:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91BE210E2DD
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 18:03:17 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A10A10E2DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 18:22:56 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id EF808867C3;
- Mon, 31 Jul 2023 20:03:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1690826595;
- bh=0Yb86X52QY/bwtMd1vI+ELoI+dO8kcLic5SJr4LfYxk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=I7Ap3it/prB9qpVulIGxIqEaCSDDFdEuJ6mtzJK7tHWfK3lDMEjpLdDhxonizYyj9
- D2Eav/gjIr5dKjb6DMOd1Or1jednXRnp69rp8/PED01bnpnIBrj67mZ51X9VfnWn8S
- LLSFnNfUFwxXvD3ZZl0EvpVhDAql6LXY7zlE0APg3Awx3yf+8bgeGfOYuFhMrt/6Co
- uHhP4zQbppGzRJfqxPpGd3fFRpSUI24iuEfJjmYwWfteJXVUpxsLODGneJ7YROk2jB
- /rEAAMGdv8ya2JmpnYaPY2w2gxjay01haI8pXle72yOmtGYJFBb2mHf0aBQSTsV+B2
- O3XGJybJQO+HQ==
-Message-ID: <2a6e338d-36ef-6836-bc9d-ef1f727463a4@denx.de>
-Date: Mon, 31 Jul 2023 20:03:14 +0200
+ by mx1.riseup.net (Postfix) with ESMTPS id 4RF66l4h3SzDr0m;
+ Mon, 31 Jul 2023 18:22:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1690827775; bh=lMpcHSJJmsm7o6vAuiKSBSfA+y9zhBiZzjGQ+FxO7m0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IDuXHKxyd+yaPrTkH9n/dc9G8UJW0ZwwHGzm7SCLpaL5La9bv+PYnv593rlV6BAGy
+ 6pml3varQ1oZTxySbKRuq2ipi3nfbYa0KCKIqyBrR/qNU8PoucgNymHnAcD9xSmex9
+ olSDEDzYo8XmBi0kqpeqk0gklDkTNV86HPJgK4pc=
+X-Riseup-User-ID: 65668602D173629C3A9A8D1848736D762F2282ACE64CE65CF29D7A3894A91BA4
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RF66d4yT3zJn8G;
+ Mon, 31 Jul 2023 18:22:49 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/tests: Alloc drm_device on drm_exec tests
+Date: Mon, 31 Jul 2023 15:22:41 -0300
+Message-ID: <20230731182241.240556-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH] drm/panel: simple: Initialize unprepared_time in probe
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-References: <20230709135231.449636-1-marex@denx.de>
- <CAD=FV=W9qXNaeQ14h8nmvoP3HKhXT8PbAtGikwR4eaQ+svX+ig@mail.gmail.com>
- <a0f83bf2-b125-9474-4316-9df3b6da5ad8@denx.de>
- <CAD=FV=X1Pt4439OT5xjHcP6+BWbQ7z81_nPB+bOiK3xnYNi_rA@mail.gmail.com>
- <34985434-7ee4-d86e-e157-9ad670315315@denx.de>
- <CAD=FV=XAk423Z34ebiooHO874GmUf5BgssyQm4_HieCGhs7E_A@mail.gmail.com>
- <594f8182-b74d-6ef2-0d90-74061b35bc50@denx.de>
- <CAD=FV=VXMsZ-kUOgd32LnjBP4eP-j0rbiDhF6O0wSAQsEB5mng@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAD=FV=VXMsZ-kUOgd32LnjBP4eP-j0rbiDhF6O0wSAQsEB5mng@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +48,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ mripard@redhat.com, tales.aparecida@gmail.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, arthurgrillo@riseup.net,
+ mairacanal@riseup.net, boris.brezillon@collabora.com, dakr@redhat.com,
+ alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/24/23 15:49, Doug Anderson wrote:
+The drm_exec tests where crashing[0] because of a null dereference. This
+is caused by a new access of the `driver` attribute of `struct
+drm_driver` on drm_gem_private_object_init(). Alloc the drm_device to
+fix that.
 
-Hi,
+[0]
+[15:05:24] ================== drm_exec (6 subtests) ===================
+[15:05:24] [PASSED] sanitycheck
+^CERROR:root:Build interruption occurred. Cleaning console.
+[15:05:50] [ERROR] Test: drm_exec: missing expected subtest!
+[15:05:50] BUG: kernel NULL pointer dereference, address: 00000000000000b0
+[15:05:50] #PF: supervisor read access in kernel mode
+[15:05:50] #PF: error_code(0x0000) - not-present page
+[15:05:50] PGD 0 P4D 0
+[15:05:50] Oops: 0000 [#1] PREEMPT NOPTI
+[15:05:50] CPU: 0 PID: 23 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7-02032-ge6303f323b1a #69
+[15:05:50] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc37 04/01/2014
+[15:05:50] RIP: 0010:drm_gem_private_object_init+0x60/0xc0
 
-[...]
+Fixes: e6303f323b1a ("drm: manager to keep track of GPUs VA mappings")
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+Tested-by: Danilo Krummrich <dakr@redhat.com>
+Acked-by: Danilo Krummrich <dakr@redhat.com>
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+---
+v1->v2: https://lore.kernel.org/all/20230727192259.237935-1-arthurgrillo@riseup.net/
+	- s/test_init/drm_exec_test_init/ (Maíra)
+	- s/test_exit/drm_exec_test_exit/ (Maíra)
+	- Use test->priv intead of global variables (Maíra and Maxime)
 
->> Maybe the EPROBE_DEFER actually happens and triggers the failure ?
-> 
-> I could certainly believe that EPROBE_DEFER is involved.
+v2->v3: https://lore.kernel.org/r/20230728183400.306193-1-arthurgrillo@riseup.net
+	- Remove unnecessary call to drm_kunit_helper_free_device() (Maxime)
 
-So no, it is not. It is difficult to set this up and access the signals, 
-but so I did.
+---
+ drivers/gpu/drm/tests/drm_exec_test.c | 44 ++++++++++++++++++++++-----
+ 1 file changed, 37 insertions(+), 7 deletions(-)
 
-What happens is this:
-panel_simple_probe() calls devm_regulator_get()
-   -> If the regulator was ENABLED, then it is now DISABLED
-   -> For regulator-fixed, this means the regulator GPIO goes HIGH->LOW
+diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
+index 727ac267682e..f79c9f0359aa 100644
+--- a/drivers/gpu/drm/tests/drm_exec_test.c
++++ b/drivers/gpu/drm/tests/drm_exec_test.c
+@@ -12,11 +12,35 @@
+ 
+ #include <drm/drm_exec.h>
+ #include <drm/drm_device.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_gem.h>
++#include <drm/drm_kunit_helpers.h>
+ 
+ #include "../lib/drm_random.h"
+ 
+-static struct drm_device dev;
++struct drm_exec_priv {
++	struct device *dev;
++	struct drm_device *drm;
++};
++
++static int drm_exec_test_init(struct kunit *test)
++{
++	struct drm_exec_priv *priv;
++
++	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
++
++	test->priv = priv;
++
++	priv->dev = drm_kunit_helper_alloc_device(test);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->dev);
++
++	priv->drm = __drm_kunit_helper_alloc_drm_device(test, priv->dev, sizeof(*priv->drm), 0,
++							DRIVER_MODESET);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
++
++	return 0;
++}
+ 
+ static void sanitycheck(struct kunit *test)
+ {
+@@ -29,11 +53,12 @@ static void sanitycheck(struct kunit *test)
+ 
+ static void test_lock(struct kunit *test)
+ {
++	struct drm_exec_priv *priv = test->priv;
+ 	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+-	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj, PAGE_SIZE);
+ 
+ 	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+ 	drm_exec_until_all_locked(&exec) {
+@@ -48,11 +73,12 @@ static void test_lock(struct kunit *test)
+ 
+ static void test_lock_unlock(struct kunit *test)
+ {
++	struct drm_exec_priv *priv = test->priv;
+ 	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+-	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj, PAGE_SIZE);
+ 
+ 	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+ 	drm_exec_until_all_locked(&exec) {
+@@ -74,11 +100,12 @@ static void test_lock_unlock(struct kunit *test)
+ 
+ static void test_duplicates(struct kunit *test)
+ {
++	struct drm_exec_priv *priv = test->priv;
+ 	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+-	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj, PAGE_SIZE);
+ 
+ 	drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES);
+ 	drm_exec_until_all_locked(&exec) {
+@@ -102,11 +129,12 @@ static void test_duplicates(struct kunit *test)
+ 
+ static void test_prepare(struct kunit *test)
+ {
++	struct drm_exec_priv *priv = test->priv;
+ 	struct drm_gem_object gobj = { };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+-	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj, PAGE_SIZE);
+ 
+ 	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+ 	drm_exec_until_all_locked(&exec) {
+@@ -121,14 +149,15 @@ static void test_prepare(struct kunit *test)
+ 
+ static void test_prepare_array(struct kunit *test)
+ {
++	struct drm_exec_priv *priv = test->priv;
+ 	struct drm_gem_object gobj1 = { };
+ 	struct drm_gem_object gobj2 = { };
+ 	struct drm_gem_object *array[] = { &gobj1, &gobj2 };
+ 	struct drm_exec exec;
+ 	int ret;
+ 
+-	drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
+-	drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj1, PAGE_SIZE);
++	drm_gem_private_object_init(priv->drm, &gobj2, PAGE_SIZE);
+ 
+ 	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
+ 	drm_exec_until_all_locked(&exec)
+@@ -150,6 +179,7 @@ static struct kunit_case drm_exec_tests[] = {
+ 
+ static struct kunit_suite drm_exec_test_suite = {
+ 	.name = "drm_exec",
++	.init = drm_exec_test_init,
+ 	.test_cases = drm_exec_tests,
+ };
+ 
+-- 
+2.41.0
 
-panel_simple_prepare() triggers panel_simple_resume()
-   -> If this occurs too soon after devm_regulator_get() turned the
-      regulator OFF and thus regulator GPIO low, then unprepare time is
-      not respected => FAIL
-
-Since there is no way to find out in which state the regulator was when 
-devm_regulator_get() was called, we have to wait the full unprepare time 
-before re-enabling that regulator in panel_simple_resume().
