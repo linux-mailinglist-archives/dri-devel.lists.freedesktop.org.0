@@ -2,42 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F5C76A0F8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 21:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7DC76A158
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 21:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE0910E04B;
-	Mon, 31 Jul 2023 19:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3644410E2E7;
+	Mon, 31 Jul 2023 19:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E68410E04B
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 19:16:05 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-586-1j9igSbDPg-9vfI0unmnEg-1; Mon, 31 Jul 2023 15:16:01 -0400
-X-MC-Unique: 1j9igSbDPg-9vfI0unmnEg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D77DC185A78B;
- Mon, 31 Jul 2023 19:16:00 +0000 (UTC)
-Received: from nomad.redhat.com (unknown [10.64.136.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A23DBC57964;
- Mon, 31 Jul 2023 19:15:59 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/nouveau: fixup the uapi header file.
-Date: Tue,  1 Aug 2023 05:15:57 +1000
-Message-ID: <20230731191557.4179175-1-airlied@gmail.com>
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53BFB10E05F
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 19:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=6qASGIsrRTha6LW4nGlFz5hVK9QFyCgkRnIOH/MfmdI=;
+ b=gbD2l+F4txZSKOikg9ULrRxYvmKpodr8viXTZBSfsyRhtbkseAGNq5G/j1Yjw/MChSfPAbovOOckO
+ fDLnWkOt+KM0RrinBws0z3F8YDy4ZK+v8OA63YMgBDwno7Hos7KtKozzN1O0VOr+88mykbAMD9nyem
+ JOtXu92SRr2bmjPmUpaS/v4CXn8TOlB/DULIqsm0bq8fQjbPCL4F1imrCWJD8+zw9e7BtI5nvLQGBr
+ Vvw9pxE+uYxbtboGk5CCcL6EiLab9g7/w/44JEZWP4Pd2Wrvf/kbo+XywEiXBXQWvpKJz31cF8878D
+ 7E3htRYGp0KE2CAKyAhYuzmi55Lpy+w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=6qASGIsrRTha6LW4nGlFz5hVK9QFyCgkRnIOH/MfmdI=;
+ b=lbxy0fAhUsTGM7a0p9jw1JGKiT98vxHJLhFafsTjUZmjfLKS+bkQvy0jxq/0Be1QR1jiE0GoMXFoE
+ wcLb15eBg==
+X-HalOne-ID: 626809cf-2fd9-11ee-8694-c5367ef0e45e
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1 (Halon) with ESMTPSA
+ id 626809cf-2fd9-11ee-8694-c5367ef0e45e;
+ Mon, 31 Jul 2023 19:35:21 +0000 (UTC)
+Date: Mon, 31 Jul 2023 21:35:20 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] fbdev/ps3fb: Build without kernel device
+Message-ID: <20230731193520.GA1463201@ravnborg.org>
+References: <20230731175535.11345-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230731175535.11345-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,181 +56,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, skeggsb@gmail.com
+Cc: dri-devel@lists.freedesktop.org, sfr@canb.auug.org.au,
+ linux-fbdev@vger.kernel.org, regressions@lists.linux.dev, mpe@ellerman.id.au,
+ deller@gmx.de, Randy Dunlap <rdunlap@infradead.org>, javierm@redhat.com,
+ christophe.leroy@csgroup.eu, linux-kernel@vger.kernel.org,
+ linux-next@vger.kernel.org, regressions@leemhuis.info, npiggin@gmail.com,
+ bagasdotme@gmail.com, linuxppc-dev@lists.ozlabs.org, rd.dunlab@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
-
-nouveau > 10 years ago had a plan for new multiplexer inside a multiplexer
-API using nvif. It never fully reached fruition, fast forward 10 years,
-and the new vulkan driver is avoiding libdrm and calling ioctls, and
-these 3 ioctls, getparam, channel alloc + free don't seem to be things
-we'd want to use nvif for.
-
-Undeprecate and put them into the uapi header so we can just copy it
-into mesa later.
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_abi16.h | 41 ---------------------
- include/uapi/drm/nouveau_drm.h          | 48 +++++++++++++++++++++++--
- 2 files changed, 45 insertions(+), 44 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.h b/drivers/gpu/drm/nouv=
-eau/nouveau_abi16.h
-index 27eae85f33e6..d5d80d0d9011 100644
---- a/drivers/gpu/drm/nouveau/nouveau_abi16.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_abi16.h
-@@ -43,28 +43,6 @@ int  nouveau_abi16_usif(struct drm_file *, void *data, u=
-32 size);
- #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
- #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
-=20
--struct drm_nouveau_channel_alloc {
--=09uint32_t     fb_ctxdma_handle;
--=09uint32_t     tt_ctxdma_handle;
--
--=09int          channel;
--=09uint32_t     pushbuf_domains;
--
--=09/* Notifier memory */
--=09uint32_t     notifier_handle;
--
--=09/* DRM-enforced subchannel assignments */
--=09struct {
--=09=09uint32_t handle;
--=09=09uint32_t grclass;
--=09} subchan[8];
--=09uint32_t nr_subchan;
--};
--
--struct drm_nouveau_channel_free {
--=09int channel;
--};
--
- struct drm_nouveau_grobj_alloc {
- =09int      channel;
- =09uint32_t handle;
-@@ -83,31 +61,12 @@ struct drm_nouveau_gpuobj_free {
- =09uint32_t handle;
- };
-=20
--#define NOUVEAU_GETPARAM_PCI_VENDOR      3
--#define NOUVEAU_GETPARAM_PCI_DEVICE      4
--#define NOUVEAU_GETPARAM_BUS_TYPE        5
--#define NOUVEAU_GETPARAM_FB_SIZE         8
--#define NOUVEAU_GETPARAM_AGP_SIZE        9
--#define NOUVEAU_GETPARAM_CHIPSET_ID      11
--#define NOUVEAU_GETPARAM_VM_VRAM_BASE    12
--#define NOUVEAU_GETPARAM_GRAPH_UNITS     13
--#define NOUVEAU_GETPARAM_PTIMER_TIME     14
--#define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
--#define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
--struct drm_nouveau_getparam {
--=09uint64_t param;
--=09uint64_t value;
--};
--
- struct drm_nouveau_setparam {
- =09uint64_t param;
- =09uint64_t value;
- };
-=20
--#define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
- #define DRM_IOCTL_NOUVEAU_SETPARAM           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_SETPARAM, struct drm_nouveau_setparam)
--#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
--#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
- #define DRM_IOCTL_NOUVEAU_GROBJ_ALLOC        DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GROBJ_ALLOC, struct drm_nouveau_grobj_alloc)
- #define DRM_IOCTL_NOUVEAU_NOTIFIEROBJ_ALLOC  DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_NOTIFIEROBJ_ALLOC, struct drm_nouveau_notifierobj_alloc)
- #define DRM_IOCTL_NOUVEAU_GPUOBJ_FREE        DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GPUOBJ_FREE, struct drm_nouveau_gpuobj_free)
-diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.=
-h
-index 853a327433d3..1cd97b3d8eda 100644
---- a/include/uapi/drm/nouveau_drm.h
-+++ b/include/uapi/drm/nouveau_drm.h
-@@ -33,6 +33,44 @@
- extern "C" {
- #endif
-=20
-+#define NOUVEAU_GETPARAM_PCI_VENDOR      3
-+#define NOUVEAU_GETPARAM_PCI_DEVICE      4
-+#define NOUVEAU_GETPARAM_BUS_TYPE        5
-+#define NOUVEAU_GETPARAM_FB_SIZE         8
-+#define NOUVEAU_GETPARAM_AGP_SIZE        9
-+#define NOUVEAU_GETPARAM_CHIPSET_ID      11
-+#define NOUVEAU_GETPARAM_VM_VRAM_BASE    12
-+#define NOUVEAU_GETPARAM_GRAPH_UNITS     13
-+#define NOUVEAU_GETPARAM_PTIMER_TIME     14
-+#define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
-+#define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
-+struct drm_nouveau_getparam {
-+=09uint64_t param;
-+=09uint64_t value;
-+};
-+
-+struct drm_nouveau_channel_alloc {
-+=09uint32_t     fb_ctxdma_handle;
-+=09uint32_t     tt_ctxdma_handle;
-+
-+=09int          channel;
-+=09uint32_t     pushbuf_domains;
-+
-+=09/* Notifier memory */
-+=09uint32_t     notifier_handle;
-+
-+=09/* DRM-enforced subchannel assignments */
-+=09struct {
-+=09=09uint32_t handle;
-+=09=09uint32_t grclass;
-+=09} subchan[8];
-+=09uint32_t nr_subchan;
-+};
-+
-+struct drm_nouveau_channel_free {
-+=09int channel;
-+};
-+
- #define NOUVEAU_GEM_DOMAIN_CPU       (1 << 0)
- #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
- #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
-@@ -126,10 +164,10 @@ struct drm_nouveau_gem_cpu_fini {
- =09__u32 handle;
- };
-=20
--#define DRM_NOUVEAU_GETPARAM           0x00 /* deprecated */
-+#define DRM_NOUVEAU_GETPARAM           0x00
- #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
--#define DRM_NOUVEAU_CHANNEL_ALLOC      0x02 /* deprecated */
--#define DRM_NOUVEAU_CHANNEL_FREE       0x03 /* deprecated */
-+#define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
-+#define DRM_NOUVEAU_CHANNEL_FREE       0x03
- #define DRM_NOUVEAU_GROBJ_ALLOC        0x04 /* deprecated */
- #define DRM_NOUVEAU_NOTIFIEROBJ_ALLOC  0x05 /* deprecated */
- #define DRM_NOUVEAU_GPUOBJ_FREE        0x06 /* deprecated */
-@@ -188,6 +226,10 @@ struct drm_nouveau_svm_bind {
- #define NOUVEAU_SVM_BIND_TARGET__GPU_VRAM               (1UL << 31)
-=20
-=20
-+#define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
-+#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
-+#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
-+
- #define DRM_IOCTL_NOUVEAU_SVM_INIT           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_SVM_INIT, struct drm_nouveau_svm_init)
- #define DRM_IOCTL_NOUVEAU_SVM_BIND           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_SVM_BIND, struct drm_nouveau_svm_bind)
-=20
---=20
-2.41.0
-
+On Mon, Jul 31, 2023 at 07:55:00PM +0200, Thomas Zimmermann wrote:
+> Use fb_info() to print status message at the end of the probe function,
+> which avoids decoding the devices. fb_info() works with or without an
+> fbdev kernel device. Fixes the following error:
+> 
+> ../drivers/video/fbdev/ps3fb.c: In function 'ps3fb_probe':
+> ../drivers/video/fbdev/ps3fb.c:1172:40: error: 'struct fb_info' has no member named 'dev'
+>  1172 |                  dev_driver_string(info->dev), dev_name(info->dev),
+>       |                                        ^~
+> ../include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+>   110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+>       |                                     ^~~~~~~~~~~
+> ../drivers/video/fbdev/ps3fb.c:1171:9: note: in expansion of macro 'dev_info'
+>  1171 |         dev_info(info->device, "%s %s, using %u KiB of video memory\n",
+>       |         ^~~~~~~~
+> ../drivers/video/fbdev/ps3fb.c:1172:61: error: 'struct fb_info' has no member named 'dev'
+>  1172 |                  dev_driver_string(info->dev), dev_name(info->dev),
+>       |                                                             ^~
+> ../include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+>   110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+>       |                                     ^~~~~~~~~~~
+> ../drivers/video/fbdev/ps3fb.c:1171:9: note: in expansion of macro 'dev_info'
+>  1171 |         dev_info(info->device, "%s %s, using %u KiB of video memory\n",
+>       |         ^~~~~~~~
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Closes: https://lore.kernel.org/lkml/ccc63065-2976-88ef-1211-731330bf2866@infradead.org/
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 701d2054fa31 ("fbdev: Make support for userspace interfaces configurable")
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+> Cc: Thorsten Leemhuis <regressions@leemhuis.info>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linuxppc-dev@lists.ozlabs.org
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  drivers/video/fbdev/ps3fb.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/ps3fb.c b/drivers/video/fbdev/ps3fb.c
+> index 5aedc30c5f7e..64d291d6b153 100644
+> --- a/drivers/video/fbdev/ps3fb.c
+> +++ b/drivers/video/fbdev/ps3fb.c
+> @@ -1168,9 +1168,7 @@ static int ps3fb_probe(struct ps3_system_bus_device *dev)
+>  
+>  	ps3_system_bus_set_drvdata(dev, info);
+>  
+> -	dev_info(info->device, "%s %s, using %u KiB of video memory\n",
+> -		 dev_driver_string(info->dev), dev_name(info->dev),
+> -		 info->fix.smem_len >> 10);
+> +	fb_info(info, "using %u KiB of video memory\n", info->fix.smem_len >> 10);
+>  
+>  	task = kthread_run(ps3fbd, info, DEVICE_NAME);
+>  	if (IS_ERR(task)) {
+> -- 
+> 2.41.0
