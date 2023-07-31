@@ -1,57 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2461769C6A
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:27:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DCE769C97
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:33:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9065B10E2CF;
-	Mon, 31 Jul 2023 16:27:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D686A10E2DA;
+	Mon, 31 Jul 2023 16:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6E810E2CE
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:26:59 +0000 (UTC)
-Received: from [192.168.2.174] (109-252-150-127.dynamic.spd-mgts.ru
- [109.252.150.127])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0168E6606FCD;
- Mon, 31 Jul 2023 17:26:56 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690820818;
- bh=3epO/QMQFTjkV49Ea0BqvxuXzjBbmCJzO0QJfElbI6o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iVwVxs574lxQBIXji+t3KapEUuHgAWJm4noZ24H1GkeWlALhA/dhuYRnLHhXn85hr
- 0GsO4CM2/e7uawL9mH+uonCaQakYjYgV5llG0sRHbZxoMo9QKnRBwjTAhpUsLGUBMM
- V93iptL7F/hQcD7Qr8g0C2rpPNHOwBsYohDpbpI7lbLaNSWI6ue9zZdEDL/loka3Vs
- YJUmjFY7Gv9dgbMbnc+/hvi8IXTgEopyP4t3i0wlv0tVX+utY+RTwBVMdtr6rfhdNm
- 1oCshwmBR5EwYLxXuGAtJkkj4hprZqVgTq62aZJzv4V/KDDU37lIwWluGN8RiYfcd9
- 0BZmNQPtT1XdA==
-Message-ID: <ad63d777-b98a-6ca9-16b4-961014c6492f@collabora.com>
-Date: Mon, 31 Jul 2023 19:26:54 +0300
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9386010E2D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:33:34 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ 006d021491bc7-5633b7e5f90so3503636eaf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 09:33:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690821214; x=1691426014;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
+ b=JeXgP+w7CMuDnqpJhcpuPl/dg8X263Gotkpx5bJgsnVSDpsqaUEia+zhP602P2UZtE
+ 9UY0wRDug3iK4MtHi6S0OnH8zrpiqJG5HR7uADrPOe0PGFE+VPdIwcA6Q6xxZkN0JB7Z
+ v63ItBfKXxB8YN2mgKYDqJtUAFFZKv2efUYVoVWcNvEN0IkqmeJt86CK3x22pJZ6O6RT
+ 8Ci33NzRRTUBS8swlUDL13/nYOgBNFh3lQcsDtSS1UcJ8sWB3khon/yuc3p8PTmOwqC9
+ R72kN3Cg2ifyiGg9+sFkO0Bm0oyZ+DY8PWT7ID50lGBMruvL3Bz0iewDP6oLJHkSz4PU
+ Ayug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690821214; x=1691426014;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
+ b=QFMHu1b0ngEUBMqGufPw9sq4ko+LBnpe0Z38bx5/ZVaOCasuDW/b8HKF+lHqOrdGtM
+ HCE61iC4cvR8BzU5g7SmbNqkfKPhYj39EMfY97m74i3reO4jlBmJMNE3Gy/vo5A/1NYh
+ 2387LMNgIn7OJ9XY2dBlkxZ+IT9pE/1i5xr2utEZ1UYYYEf15l774NLhpAnTnYAfB3Fs
+ 8WdRPLY3xF2XLMpXHDbbAlNFByj4ri4Ae4V/Uv8eJSLpTWeYXpBDWGBH12RjXJoCIaVw
+ oVEqygGrpPDe+2SaU53MGrnX8Lz0ipggoQf850EqXXRBPmIXBq6I+OA925/Q9XF8nM2F
+ Amjg==
+X-Gm-Message-State: ABy/qLZvej915ZeBDgGSUBoux31xtUGnewswEftiphq9f/KLBdzaXLnz
+ lNWaTNiPMO8jQ2IoZR8leWUAmOmYK7cl+ljbFEQ=
+X-Google-Smtp-Source: APBJJlE+NhyxBPQz6UuZPDy2bz3lq06zYg5cvEY5G/En7QKVEhlTaMytpwHnqXO8vKyGUOtYN/2HkwtclOZO0YlYWmw=
+X-Received: by 2002:a4a:7548:0:b0:56c:cd0c:1d67 with SMTP id
+ g8-20020a4a7548000000b0056ccd0c1d67mr2626954oof.7.1690821213701; Mon, 31 Jul
+ 2023 09:33:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v6 0/3] Add sync object UAPI support to VirtIO-GPU driver
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
- <141b928d-6165-f282-b8e6-f140cb09333d@collabora.com>
- <CAAfnVBnrUotph4TYJVu9Bohqv3m80t90V34TNhh-Tspxwsj-ZQ@mail.gmail.com>
- <CAF6AEGs4fuq4i8UJdO5hvgHTNhzFMKGZ87+w1oyvL0LAqWio6A@mail.gmail.com>
- <CAAfnVBkLhYVaSG3U_QUZwXLFv-XT=9F2v2pgrCDQQBgNZ3MSWA@mail.gmail.com>
- <a453d562-7e93-aef3-a533-171f572b6ee3@collabora.com>
- <CAAfnVBmwVTBNx4GC2hiYQ9Ya8ufP_D8N0-JOzT2iPV9BYZhD9w@mail.gmail.com>
- <CAF6AEGvWrUN9W9DKv45OT-MfYAS4D_bXa_Sb5ptgrMEf9WSSqA@mail.gmail.com>
- <4c18744d-b6cd-d517-5726-104017d0764b@collabora.com>
- <CAAfnVB=qOjM1EQUyxdczu9KOGjD0sieoTODohbHz4ZDN0mqojw@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAAfnVB=qOjM1EQUyxdczu9KOGjD0sieoTODohbHz4ZDN0mqojw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230725203545.2260506-1-dianders@chromium.org>
+ <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
+ <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
+ <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
+ <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
+In-Reply-To: <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
+From: Chris Morgan <macroalpha82@gmail.com>
+Date: Mon, 31 Jul 2023 11:33:22 -0500
+Message-ID: <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
+Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled in
+ drm_panel
+To: Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +73,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- David Airlie <airlied@redhat.com>, kernel@collabora.com,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
+ linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
+ Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Doug Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/29/23 01:03, Gurchetan Singh wrote:
-> On Wed, Jul 19, 2023 at 11:58 AM Dmitry Osipenko <
-> dmitry.osipenko@collabora.com> wrote:
-> 
->> 27.06.2023 20:16, Rob Clark пишет:
->> ...
->>>> Now these are just suggestions, and while I think they are good, you
->> can safely ignore them.
->>>>
->>>> But there's also the DRM requirements, which state "userspace side must
->> be fully reviewed and tested to the standards of that user-space
->> project.".  So I think to meet the minimum requirements, I think we should
->> at-least have one of the following (not all, just one) reviewed:
->>>>
->>>> 1) venus using the new uapi
->>>> 2) gfxstream vk using the new uapi
->>>> 3) amdgpu nctx out of "draft" mode and using the new uapi.
->>>> 4) virtio-intel using new uapi
->>>> 5) turnip using your new uapi
->>>
->>> forgot to mention this earlier, but
->>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23533
->>>
->>> Dmitry, you can also add, if you haven't already:
->>>
->>> Tested-by: Rob Clark <robdclark@gmail.com>
->>
->> Gurchetan, Turnip Mesa virtio support is ready to be merged upstream,
->> it's using this new syncobj UAPI. Could you please give yours r-b if you
->> don't have objections?
->>
-> 
-> Given that Turnip native contexts are reviewed using this UAPI, your change
-> does now meet the requirements and is ready to merge.
-> 
-> One thing I noticed is you might need explicit padding between
-> `num_out_syncobjs` and `in_syncobjs`.  Otherwise, feel free to add my
-> acked-by.
+In my case a few different panel drivers disable the regulators in the
+unprepare/disable routines. For at least the Rockchip DSI
+implementations for some reason the panel gets unprepared more than
+once, which triggers an unbalanced regulator disable. Obviously though
+the correct course of action is to fix the reason why the panel is
+disabled more than once, but that's at least the root cause of this
+behavior on the few panels I've worked with.
 
-The padding looks okay as-as, all the struct size and u64s are properly
-aligned. I'll merge the patch soon, thanks.
+Thank you.
 
--- 
-Best regards,
-Dmitry
-
+On Thu, Jul 27, 2023 at 1:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+>
+> Hi,
+>
+> On Wed, Jul 26, 2023 at 08:10:33AM -0700, Doug Anderson wrote:
+> > On Wed, Jul 26, 2023 at 5:41=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
+rg> wrote:
+> > > On Tue, Jul 25, 2023 at 01:34:37PM -0700, Douglas Anderson wrote:
+> > > > NOTE: arguably, the right thing to do here is actually to skip this
+> > > > patch and simply remove all the extra checks from the individual
+> > > > drivers. Perhaps the checks were needed at some point in time in th=
+e
+> > > > past but maybe they no longer are? Certainly as we continue
+> > > > transitioning over to "panel_bridge" then we expect there to be muc=
+h
+> > > > less variety in how these calls are made. When we're called as part=
+ of
+> > > > the bridge chain, things should be pretty simple. In fact, there wa=
+s
+> > > > some discussion in the past about these checks [1], including a
+> > > > discussion about whether the checks were needed and whether the cal=
+ls
+> > > > ought to be refcounted. At the time, I decided not to mess with it
+> > > > because it felt too risky.
+> > >
+> > > Yeah, I'd agree here too. I've never found evidence that it was actua=
+lly
+> > > needed and it really looks like cargo cult to me.
+> > >
+> > > And if it was needed, then I'm not sure we need refcounting either. W=
+e
+> > > don't have refcounting for atomic_enable / disable, we have a sound A=
+PI
+> > > design that makes sure we don't fall into that trap :)
+> > >
+> > > > Looking closer at it now, I'm fairly certain that nothing in the
+> > > > existing codebase is expecting these calls to be refcounted. The on=
+ly
+> > > > real question is whether someone is already doing something to ensu=
+re
+> > > > prepare()/unprepare() match and enabled()/disable() match. I would =
+say
+> > > > that, even if there is something else ensuring that things match,
+> > > > there's enough complexity that adding an extra bool and an extra
+> > > > double-check here is a good idea. Let's add a drm_warn() to let peo=
+ple
+> > > > know that it's considered a minor error to take advantage of
+> > > > drm_panel's double-checking but we'll still make things work fine.
+> > >
+> > > I'm ok with this, if we follow-up in a couple of releases and remove =
+it
+> > > and all the calls.
+> > >
+> > > Could you add a TODO item so that we can keep a track of it? A follow=
+-up
+> > > is fine if you don't send a new version of that series.
+> >
+> > By this, I think you mean to add a "TODO" comment inline in the code?
+>
+> No, sorry, I meant an entry in our TODO list: Documentation/gpu/todo.rst
+>
+> > Also: I was thinking that we'd keep the check in "drm_panel.c" with
+> > the warning message indefinitely. You think it should be eventually
+> > removed? If we are truly thinking of removing it eventually, this
+> > feels like it should be a more serious warning message like a WARN(1,
+> > ...) to make it really obvious to people that they're relying on
+> > behavior that will eventually go away.
+>
+> Yeah, it really feels like this is cargo-cult to me. Your approach seems
+> like a good short-term thing to do to warn everyone but eventually we'll
+> want it to go away.
+>
+> So promoting it to a WARN could be a good thing, or let's say we do a
+> drm_warn for now, WARN next release, and gone in two?
+>
+> Maxime
