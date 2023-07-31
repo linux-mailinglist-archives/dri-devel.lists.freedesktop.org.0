@@ -1,67 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7153C769CF0
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:40:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAE3769CF4
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA8210E2CE;
-	Mon, 31 Jul 2023 16:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4025210E2D2;
+	Mon, 31 Jul 2023 16:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBFB10E2D1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:40:05 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-5222bc916acso6172000a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 09:40:05 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC61F10E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:41:42 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2b9c66e2e36so52890421fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 09:41:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gfxstrand-net.20221208.gappssmtp.com; s=20221208; t=1690821603; x=1691426403;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eaA5ZM7YmQZbGm4ybIj4vIWLy+z0rMIf3OT6ejTe1I0=;
- b=Cf3/B2r+2GJc0kWZVCB8+hMNIl+J/77ZvGogoSfii/kcTJdHMa4G6qo4406JFiWonk
- cMQudC/0SydkAKPZuYg1CIxfhQSwIRpJK6aW9MYU/4hZ7d2auHPfP63noCb3k7e8OMPs
- Kwf4r6HGpDgaKUwVvq/dwioY9FnK3rrJkRjjrsVwfd34GUOmxRekWs3GMm24oyM0qE2e
- KAawe78u+0h5HXamDLi6fhTFIC2636lXxNDSsAgbfI4O8VkehY8pyUD5Uu8tHN2IvYzF
- UJGwWmgK1zSJ/rrarFo1z6NNoWezTY6EajzKncJeWBvxIegQ4BecNa7iXQSczR+HgQZP
- EBCQ==
+ d=linaro.org; s=google; t=1690821701; x=1691426501;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RQv86VcHfpMwMS2LVbhjU4S3QgVY8yDLOOaRvsR6rV0=;
+ b=RfbbU2HgmatPwvrC//dbLuQXOVnc667SB4KhJWbEjwvwNyHphbiyTy5nUB+kYihbga
+ ivaBPdWT3ovWMDEEQogTkth+p3Kmgpxmr+f2mDDUPtjIHC60okRWJa9cg+deA9HUqeNB
+ QSR0l8XlR9ENHlsk/VFyPPj2pq7t5AmSUQK6+Ps7mRrCHsae08V2Xe3IWl1G2rFderu9
+ t3mRudo2V52m7g/VLqmFL4cTquPwGbdhlq6ayZiwNaKEUk5Rtt1M5nyzFareG6Tw5SQB
+ 2O5izFF/s11H3vIyVP5fThQwjBuSr1vlBDtiIjcYCaT2eds2Abe6MiumRtuEL8NlHzGO
+ 4nsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690821603; x=1691426403;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eaA5ZM7YmQZbGm4ybIj4vIWLy+z0rMIf3OT6ejTe1I0=;
- b=g56BiM2JEN5UBwiNdBnPMqccgw3B16c+LgFEIg9RrYhem7Tq3ZkUuaEUswaOE54Q6+
- HamrK1NxgOMQUmQIdJ/b8LRNZM7DC8wxXU8K7GpusFu2HwLoZDOWnBIe09n6toT8iBVF
- deCJ4UwHVvNIghRwIP+m43j7fTEZTC1qwO9WCOGnewPYm1OHQj6AUgEjNaD+1ytHllNP
- nU88XxlP4twHn+z02NY2roa9oqGcUSUg8JZXZVQIuDy55A6K+CamsyJ34mo4H13PAVmh
- xQckFr9y+Hu5DW3NJdySvO70LKcn0PlxeWVHZ6g1HOSeitNthrZbT2SP8M2Q6WpQxwxn
- FsUA==
-X-Gm-Message-State: ABy/qLYqEtdQIzkv5EypuH5YJu2SbB+QaiVI+0cOCZQI1lCZYXAjMAfg
- 40Y6MQp1B01ik9kDrZNDcwH1AuYnAwd8qN/KlxLe+A==
-X-Google-Smtp-Source: APBJJlEqqaLz6hJIqsxycCY46ra+wCPIxF+KldeWg0bAmVxCgnZp0VuJkU4C5tcQrhSrYtYxOUAqW6SwrwAvyTjBOnE=
-X-Received: by 2002:aa7:db53:0:b0:522:2af3:4997 with SMTP id
- n19-20020aa7db53000000b005222af34997mr331435edt.15.1690821603472; Mon, 31 Jul
- 2023 09:40:03 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1690821701; x=1691426501;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RQv86VcHfpMwMS2LVbhjU4S3QgVY8yDLOOaRvsR6rV0=;
+ b=MnRW97fta0ZPQfhgEapx0eU8xnfn+VzwOgTXil1Zd4Kicpz0aXlUtn7qXf/53uUVKU
+ HsBn7NQ5djuvraVCJ7iYR9i14+iF1WURZRMCvaW0JpYKT7v3xzelL5McIZ/8vfsuyOuY
+ VXpBAlm6ePZZe0bvyFUdEpjk30hTpRRu2xL9cKmXIBNq6G+go2jwhQ29BQWH4EawW61g
+ eRnbJOcVrfktXkHrztFV34x+yd2hj+FtsM/iUwt2jOq8YA2LW0nJz4R5UZucfkJ0IN2v
+ B8SV+JTQV6G8/RBIHlK6oFdzJkdDWGEWYTDw9QHIRoGrQNQCAVSanHqEAygQiZ0VlVxr
+ 4/dQ==
+X-Gm-Message-State: ABy/qLaZdcyNzMpQyKKmmBvZ4IXReleNE+N82rzkFxaUrkimZxWsQ9yt
+ OUqF/xA0SNmFQb3rAZxXNr5AyQ==
+X-Google-Smtp-Source: APBJJlF2EjET63K8oUdWU3gEtypE5eh3Hae3V6G1xKCpe6AfA4xCM7ppXdhkuHv1u6N59BejlR4nwQ==
+X-Received: by 2002:a05:651c:10b6:b0:2b6:b30f:5bf with SMTP id
+ k22-20020a05651c10b600b002b6b30f05bfmr114908ljn.13.1690821701085; 
+ Mon, 31 Jul 2023 09:41:41 -0700 (PDT)
+Received: from [192.168.1.101] (abyk53.neoplus.adsl.tpnet.pl. [83.9.30.53])
+ by smtp.gmail.com with ESMTPSA id
+ e9-20020a2e9309000000b002b6cdbd9e35sm2617266ljh.55.2023.07.31.09.41.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jul 2023 09:41:40 -0700 (PDT)
+Message-ID: <afccb93b-2db8-97bb-1746-ac78c850b61f@linaro.org>
+Date: Mon, 31 Jul 2023 18:41:38 +0200
 MIME-Version: 1.0
-References: <20230720001443.2380-1-dakr@redhat.com>
- <20230720001443.2380-12-dakr@redhat.com>
- <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
- <542203c6-781a-dc44-6fa1-13cd20ab9e21@redhat.com>
- <CAOFGe94sG5==GM+spcTihcAtMCoj2xZYpN8NsYE6CEckdHJ8rQ@mail.gmail.com>
- <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
- <21ea63fe-33d7-a075-7291-35dd1b2a9b64@redhat.com>
- <CAOFGe949K6iiQDqdxDPkJ2Zxr=iJ5ad-qLEGb=f1iQcvES+H5A@mail.gmail.com>
-In-Reply-To: <CAOFGe949K6iiQDqdxDPkJ2Zxr=iJ5ad-qLEGb=f1iQcvES+H5A@mail.gmail.com>
-From: Faith Ekstrand <faith@gfxstrand.net>
-Date: Mon, 31 Jul 2023 11:39:51 -0500
-Message-ID: <CAOFGe97RJnYD9Z6i=PKEsDxpOcPsobTFSVPztdfjTJWhPWU3FA@mail.gmail.com>
-Subject: Re: [PATCH drm-misc-next v8 11/12] drm/nouveau: implement new VM_BIND
- uAPI
-To: Danilo Krummrich <dakr@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000000dd1050601cb1559"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] Adreno QoL changes
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230517-topic-a7xx_prep-v4-0-b16f273a91d4@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20230517-topic-a7xx_prep-v4-0-b16f273a91d4@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,231 +113,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, willy@infradead.org,
- dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
- ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
- tzimmermann@suse.de, Liam.Howlett@oracle.com, bagasdotme@gmail.com,
- christian.koenig@amd.com, jason@jlekstrand.net, donald.robson@imgtec.com
+Cc: Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000000dd1050601cb1559
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 20.06.2023 13:10, Konrad Dybcio wrote:
+> This series brings some niceties in preparation for A7xx introduction.
+> 
+> It should be fully independent of the GMU wrapper series.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+Bump
 
-On Sun, Jul 30, 2023 at 10:30=E2=80=AFPM Faith Ekstrand <faith@gfxstrand.ne=
-t> wrote:
-
->
-> On Tue, Jul 25, 2023 at 5:48=E2=80=AFPM Danilo Krummrich <dakr@redhat.com=
-> wrote:
->
->> On 7/25/23 18:43, Danilo Krummrich wrote:
->> > On 7/25/23 18:16, Faith Ekstrand wrote:
->> >> Thanks for the detailed write-up! That would definitely explain it. I=
-f
->> >> I remember, I'll try to do a single-threaded run or two. If your
->> >> theory is correct, there should be no real perf difference when
->> >> running single-threaded. Those runs will take a long time, though, so
->> >> I'll have to run them over night. I'll let you know in a few days onc=
-e
->> >> I have the results.
->> >
->> > I can also push a separate branch where I just print out a warning
->> > whenever we run into such a condition including the time we were
->> waiting
->> > for things to complete. I can probably push something later today.
->>
->>
->> https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next=
--track-stalls
->>
->> It prints out the duration of every wait as well as the total wait time
->> since boot.
->>
->> - Danilo
->>
->> >
->> >>
->> >> If this theory holds, then I'm not concerned about the performance of
->> >> the API itself. It would still be good to see if we can find a way to
->> >> reduce the cross-process drag in the implementation but that's a perf
->> >> optimization we can do later.
->> >
->> >  From the kernel side I think the only thing we could really do is to
->> > temporarily run a secondary drm_gpu_scheduler instance, one for
->> VM_BINDs
->> > and one for EXECs until we got the new page table handling in place.
->> >
->> > However, the UMD could avoid such conditions more effectively, since i=
-t
->> > controls the address space. Namely, avoid re-using the same region of
->> > the address space right away in certain cases. For instance, instead o=
-f
->> > replacing a sparse region A[0x0, 0x4000000] with a larger sparse regio=
-n
->> > B[0x0, 0x8000000], replace it with B'[0x4000000, 0xC000000] if possibl=
-e.
->> >
->> > However, just mentioning this for completeness. The UMD surely
->> shouldn't
->> > probably even temporarily work around such a kernel limitation.
->> >
->> > Anyway, before doing any of those, let's see if the theory holds and
->> > we're actually running into such cases.
->> >
->> >>
->> >> Does it actually matter? Yes, it kinda does. No, it probably doesn't
->> >> matter for games because you're typically only running one game at a
->> >> time. From a development PoV, however, if it makes CI take longer the=
-n
->> >> that slows down development and that's not good for the users, either=
-.
->>
->
-> I've run a bunch of tests over the weekend and It's starting to look like
-> the added CTS time might be from the newly enabled synchronization tests
-> themselves.  We enabled timeline semaphores as well as semaphore and fenc=
-e
-> sharing along with the new uAPI and I did not expect those to be nearly
-> that heavy-weight so I didn't think of that as a likely factor. I'm doing=
- a
-> couple more runs to confirm but what I'm seeing right now seems to indica=
-te
-> that the new API with the old feature set has about the same run time now
-> that the submit overhead issue has been fixed.
->
-
-My last two runs have come back and confirmed this theory. With the BO
-fixes, all remaining slow-downs are coming from newly added tests which
-turn out to be very slow tests.
-
-~Faith
-
-
-> I think this means that we can proceed under the assumption that there ar=
-e
-> no more serious perf issues with the new API.  I'm happy to RB/ACK the ne=
-xt
-> version of the API and implementation patches, as long as it has the new
-> NO_SHARE BO create flag and properly rejects exports of NO_SHARE BOs, eve=
-n
-> if not all of the dma_resv plumbing is fully baked.
->
-> ~Faith
->
-
---0000000000000dd1050601cb1559
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sun, Jul 30, 2023 at 10:30=E2=80=AFPM Faith Ekstrand &lt;<a href=
-=3D"mailto:faith@gfxstrand.net">faith@gfxstrand.net</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 2=
-5, 2023 at 5:48=E2=80=AFPM Danilo Krummrich &lt;<a href=3D"mailto:dakr@redh=
-at.com" target=3D"_blank">dakr@redhat.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On 7/25/23 18:43, Danilo Krummrich=
- wrote:<br>
-&gt; On 7/25/23 18:16, Faith Ekstrand wrote:<br>
-&gt;&gt; Thanks for the detailed write-up! That would definitely explain it=
-. If <br>
-&gt;&gt; I remember, I&#39;ll try to do a single-threaded run or two. If yo=
-ur <br>
-&gt;&gt; theory is correct, there should be no real perf difference when <b=
-r>
-&gt;&gt; running single-threaded. Those runs will take a long time, though,=
- so <br>
-&gt;&gt; I&#39;ll have to run them over night. I&#39;ll let you know in a f=
-ew days once <br>
-&gt;&gt; I have the results.<br>
-&gt; <br>
-&gt; I can also push a separate branch where I just print out a warning <br=
->
-&gt; whenever we run into such a condition including the time we were waiti=
-ng <br>
-&gt; for things to complete. I can probably push something later today.<br>
-<br>
-<a href=3D"https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-=
-drm-next-track-stalls" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
-freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-track-stalls</a><=
-br>
-<br>
-It prints out the duration of every wait as well as the total wait time <br=
->
-since boot.<br>
-<br>
-- Danilo<br>
-<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt; If this theory holds, then I&#39;m not concerned about the perform=
-ance of <br>
-&gt;&gt; the API itself. It would still be good to see if we can find a way=
- to <br>
-&gt;&gt; reduce the cross-process drag in the implementation but that&#39;s=
- a perf <br>
-&gt;&gt; optimization we can do later.<br>
-&gt; <br>
-&gt;=C2=A0 From the kernel side I think the only thing we could really do i=
-s to <br>
-&gt; temporarily run a secondary drm_gpu_scheduler instance, one for VM_BIN=
-Ds <br>
-&gt; and one for EXECs until we got the new page table handling in place.<b=
-r>
-&gt; <br>
-&gt; However, the UMD could avoid such conditions more effectively, since i=
-t <br>
-&gt; controls the address space. Namely, avoid re-using the same region of =
-<br>
-&gt; the address space right away in certain cases. For instance, instead o=
-f <br>
-&gt; replacing a sparse region A[0x0, 0x4000000] with a larger sparse regio=
-n <br>
-&gt; B[0x0, 0x8000000], replace it with B&#39;[0x4000000, 0xC000000] if pos=
-sible.<br>
-&gt; <br>
-&gt; However, just mentioning this for completeness. The UMD surely shouldn=
-&#39;t <br>
-&gt; probably even temporarily work around such a kernel limitation.<br>
-&gt; <br>
-&gt; Anyway, before doing any of those, let&#39;s see if the theory holds a=
-nd <br>
-&gt; we&#39;re actually running into such cases.<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt; Does it actually matter? Yes, it kinda does. No, it probably doesn=
-&#39;t <br>
-&gt;&gt; matter for games because you&#39;re typically only running one gam=
-e at a <br>
-&gt;&gt; time. From a development PoV, however, if it makes CI take longer =
-then <br>
-&gt;&gt; that slows down development and that&#39;s not good for the users,=
- either.<br></blockquote><div><br></div><div>I&#39;ve run a bunch of tests =
-over the weekend and It&#39;s starting to look like the added CTS time migh=
-t be from the newly enabled synchronization tests themselves.=C2=A0 We enab=
-led timeline semaphores as well as semaphore and fence sharing along with t=
-he new uAPI and I did not expect those to be nearly that heavy-weight so I =
-didn&#39;t think of that as a likely factor. I&#39;m doing a couple more ru=
-ns to confirm but what I&#39;m seeing right now seems to indicate that the =
-new API with the old feature set has about the same run time now that the s=
-ubmit overhead issue has been fixed.</div></div></div></blockquote><div><br=
-></div><div>My last two runs have come back and confirmed this theory. With=
- the BO fixes, all remaining slow-downs are coming from newly added tests w=
-hich turn out to be very slow tests.</div><div><br></div><div>~Faith<br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div class=3D"gmail_quote"><div>I think this means that we can =
-proceed under the assumption that there are no more serious perf issues wit=
-h the new API.=C2=A0 I&#39;m happy to RB/ACK the next version of the API an=
-d implementation patches, as long as it has the new NO_SHARE BO create flag=
- and properly rejects exports of NO_SHARE BOs, even if not all of the dma_r=
-esv plumbing is fully baked.</div><div><br></div><div>~Faith<br></div></div=
-></div>
-</blockquote></div></div>
-
---0000000000000dd1050601cb1559--
+Konrad
