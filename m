@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0025D76972A
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35731769735
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3AC010E2A2;
-	Mon, 31 Jul 2023 13:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99D6310E2A6;
+	Mon, 31 Jul 2023 13:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5425D10E2A2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 13:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1690808836; x=1691413636; i=deller@gmx.de;
- bh=I5E7In3qLeawhm32r5BW4CB4+4g3GLRaXOk7wIj51uQ=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=jy4RS8jDrPWTY6SPcrgNBJ1FF1cWboSWULhoDUdhJmNGCdgEyaKuo0336hWU3juf3tLZ3vJ
- dzDKhqe6J8yuaOhl5K5WiapKQZCE9sukFIqeizRf+mScsK/loIAcHnYzApgG5puLbS96ynImV
- 9C8o+VgFoDF/0G54ZDu27FXqDdwfWHPe3yX2tJ+vrRHBol0cwG/VwRFUZe5Masxe0xpweZkXB
- oQzG05NQS5T6sx8OY62CkxgPaF5OQ6AmoBgiSaTRJlGxg4VEzb25L3a6yorOjqEajLkf/QvOx
- C9j+101Nsad20clG95wdIH2KluYlnBYQwUHguXtTobC2NgvF4Wrw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.159.238]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfHEP-1pwtId2EpP-00gnhA; Mon, 31
- Jul 2023 15:07:16 +0200
-Message-ID: <0cb2ab66-ca30-b2ab-47f7-04208b2400cd@gmx.de>
-Date: Mon, 31 Jul 2023 15:07:16 +0200
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C45A610E2A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 13:09:19 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-99c1d03e124so88880966b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 06:09:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690808958; x=1691413758;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FfMuxXi5TvQls5fruvhXx6XFvK+TXODXow4SAYLJGyY=;
+ b=YIIFAwIAU89YqdlY5xoXlgtiPTk8CtcKCOl4cnjSq1qVkKNLBjqIdW4ydAnhqTaBFo
+ F4t/Te49WdORIENXOMZDtoqNyM+ulsFDkW5btWkCkwwDmUy2GpbJ3t/GgFJWhgUWJ5jH
+ 1dcPhVgYazqOxASD8ReqJZFR1PEs92yWspK8t0lPzO0oTIEh6vda7zCj20MePrkQFmoH
+ MqORnsj1aKLecUIYMcNgNcNuR0fLKvupdtWed0U2gysGAAH53xsgKlZlVgPH64vMhMru
+ rqAfSSKFg+51TV9MJC5B6X+M8mA6dSBqTd6oTTTzwFyRlRv0GaJFAg9bfTVUM+riOaFS
+ vm0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690808958; x=1691413758;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FfMuxXi5TvQls5fruvhXx6XFvK+TXODXow4SAYLJGyY=;
+ b=CZGCDfTWTnSuzp5fVCzZPXDeZROuuVF23ARTGxalsFVrd2d7bMtQAaaexT14KjVI8/
+ RVcgz1ufLjwZn968xOKA7NtDcWmDjOZQd11puaF2mwJaJ8qoWrXwCmk67TnrPk1vhskF
+ OoMyVoEENKrJuiErMbzK/me2Q0SC1ZbwtqEvOoUbAJhz6sb4lBDh5O7ca7wV+7+tesuG
+ MqyLsrpfFfj0ub5RELcG2+uV6ykNsSyZy6TgHmPGAyIQCjIw2Btvocin7hqvPhQ/4K1E
+ F6JEEpZcdJMKTWzZvJfC7JkQUw47CUD+ddpA+3GrIYFJvL+rq9g+ws00j/9sh+9Y0DK/
+ ndhw==
+X-Gm-Message-State: ABy/qLaI1XIWrpdhM9ZOj0L2mgJZeEOWS4bJWawGStZUOFZg50WFedqG
+ RWcCjsd2hF2sG9KZqpwYjWNDCA==
+X-Google-Smtp-Source: APBJJlFVb9Kpp3kpY6QmBy9WgGIv7M6Ad8CkhSl3Nur0WbmyqeK07KblydLr57EhN5CFADUyfv+srg==
+X-Received: by 2002:a17:906:2c6:b0:99b:499c:ddb6 with SMTP id
+ 6-20020a17090602c600b0099b499cddb6mr6630736ejk.68.1690808958179; 
+ Mon, 31 Jul 2023 06:09:18 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.183])
+ by smtp.gmail.com with ESMTPSA id
+ x23-20020a1709065ad700b009893b06e9e3sm6211722ejs.225.2023.07.31.06.09.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Jul 2023 06:09:17 -0700 (PDT)
+Message-ID: <467bcd2c-19c6-f7c3-44e7-d0c4f8d460f4@linaro.org>
+Date: Mon, 31 Jul 2023 15:09:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] fbdev: fbmem: mark registered_fb static
+ Thunderbird/102.13.1
+Subject: Re: [PATCH -next] drm/exynos: remove redundant of_match_ptr
 Content-Language: en-US
-To: Min-Hua Chen <minhuadotchen@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230714003748.91129-1-minhuadotchen@gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230714003748.91129-1-minhuadotchen@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yveMOZcZH+xrsKsZ6Pi0xpCrONbM7Mh2l8rwBB+bHzDNdZPfLPO
- KeuC8wh1lMClf4wil/HxE7bv8ROOsclvZSc7SbCBxYkCFjLF/FqKAimjnT/+t7pplEMtpr1
- O9abhaQGAaB/xjU8ymui+4ozryAHXFx4nW2pHsriT6bqdsojdrVzbzS9hIkA0BeXxPEePix
- ILKK7B5K/u7hhFTusq9Pg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8SGNccr63Dg=;iqSetT1mEEkMwDOYOlNV+x50HA5
- 94myZ1MfqzceDvtuJCPoAV7EbJquvxs8TIZOOUO9YAwqNFYqSUta47+S+0+MsfVqGGXpH2h84
- xKNjlEaUM1uohHMC1eOzameC0i1XfyjFFhzhygyjsaYjNlBFPvr19t/spzsp5fFbV3HbIyL7K
- 7JN+mOujNxIflMn4F25/TBRL6AO/BuMqPZRBL8/Dt08DjKqkVZbw/JqXG50kqjNWNfV3zj5vI
- yoFGJ7IwJw/kFHeRO0qZsWiGgipDGU7xebMme6buuSjKISoqA3AsjcXpblXYGKgsGWAwjP8PE
- Th4bGivCUcjGz1TfSst70Z8FnFrCA7/aXCWm0C49AlFJf+482x7MK5usdZuGZnHaJQTaaGMux
- uIs3U8Jg4V2XGH94KLgckEKsMTLyqw6HteHJ9YAFrBeXKRc6Vf8jA86z3o79c3Kgkmwq7tTXT
- gEHjYaIgO7cYC7wr7PuyG0rl8fA5Vxv7Z7h7y4gup0rqJNtwjJf+CcPN+EaggfN3uoVXcGH0n
- xcxUVyClKD0eDeVvp4+i+NysAxTqYK5JkWY2Fxekbrj/WJmdQfpf+QS4aBIHGykpcARWxt1ac
- wbilIg1xfU9ZCwuc1Of99q+DMjHDM5zWB4TwQl0mW7x9JUARYLnQfbQNo9RMwWRzwYCFiesVQ
- J0FN9Z4Ema+nOAelOVjJKMT/tD90bmqKkjVgceOL4P7pkqGuvK3qYYuHS2BL66gcBIyQh+Xjx
- GNXp5PJRJt/dPJNONThyKMvJBbZWE5EFYKi2q3bT/8kf87zo1rzCfiyaE8wnqdn5ulT12Q1+G
- ooqmWcx4bYiP83HqtMIEV4UuWy1YnxAp5S1XLfHOTS1bFenHUgn5+Utpl4crTKkA+km8Z6/nw
- CSJvcGrZ90mnDICj6QSKVfH4zuleJ3jvFSy2Qc0X4ZAs/ubkmWUAv7THHkIOMNw6vGkLIDUDV
- fWgheuawauKKUgBy8Si/qpr+Ez0=
+To: Zhu Wang <wangzhu9@huawei.com>, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com, airlied@gmail.com,
+ daniel@ffwll.ch, alim.akhtar@samsung.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ u.kleine-koenig@pengutronix.de, arnd@arndb.de
+References: <20230731123336.55152-1-wangzhu9@huawei.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230731123336.55152-1-wangzhu9@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,28 +80,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/14/23 02:37, Min-Hua Chen wrote:
-> Mark registered_fb, num_registered_fb, fbcon_registered_fb, and
-> fbcon_num_registered_fb static to fix the following sparse
-> warnings:
->
-> drivers/video/fbdev/core/fbmem.c:51:16: sparse: warning: symbol 'registe=
-red_fb' was not declared. Should it be static?
-> drivers/video/fbdev/core/fbmem.c:52:5: sparse: warning: symbol 'num_regi=
-stered_fb' was not declared. Should it be static?
-> drivers/video/fbdev/core/fbcon.c:105:16: sparse: warning: symbol 'fbcon_=
-registered_fb' was not declared. Should it be static?
-> drivers/video/fbdev/core/fbcon.c:106:5: sparse: warning: symbol 'fbcon_n=
-um_registered_fb' was not declared. Should it be static?
->
-> No functional change intended.
+On 31/07/2023 14:33, Zhu Wang wrote:
+> The driver depends on CONFIG_OF, so it is not necessary to use
+> of_match_ptr here.
+> 
+> Even for drivers that do not depend on CONFIG_OF, it's almost always
+> better to leave out the of_match_ptr(), since the only thing it can
+> possibly do is to save a few bytes of .text if a driver can be used both
+> with and without it. Hence we remove of_match_ptr.
+> 
+> Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
 
-num_registered_fb is still used in:
-drivers/staging/olpc_dcon/olpc_dcon.c:  if (num_registered_fb < 1) {
 
-Helge
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
