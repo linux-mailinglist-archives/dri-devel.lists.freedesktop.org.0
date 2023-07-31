@@ -2,121 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB34768A60
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 05:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED29768A87
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 06:01:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7008610E167;
-	Mon, 31 Jul 2023 03:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E033810E177;
+	Mon, 31 Jul 2023 04:01:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04on062e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0e::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E19410E167
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 03:38:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PF9Da6m9jCX2TD2HJxARy+V81WqziDHutGseGUKIHZLfRG+zeArC3N2iM8L0OKDCkJKtS+A73G1t6eUE2jZsFuG8Scrjv5iQ3h06D6wZQZ+igfejOd3hn2+KrrNoXZHIjlVO8gRo7/KQIo7+5FhKK1OrJLnWecyNsyCCx0A3upc1+gf0OzAuReO2CVotgYrVDpZkUvWDNpCJ0k6k1zzaC7KrAV3414DtHGV0bK5MgBBDwe6s19SkuUTz+QdG2rVzrk20b8HkW9OazRyZoMVUCIzSK5wfsGhY1hQM72YpPekFZPEXZVInAtnOB1J7KkxFgXMtpGKTlj4sflYisgEfDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vicoPL4TQjzgT8Hwng28Lgip8vJ8WIUL9L5kftKl6WQ=;
- b=QP5Hec+UNzTKVbtkWn1G66x07rLiWXVQqx08brTiHKl8lID/sr3819x9Bep0CeKi681Rah1EeoK+W5HiG2hzw3ZU2GYIP6tyfcO+yugdT/L+i0uK/9CjdDbrvmpg5yEkS51jHKE5Q/K7rXi439P4Pq+pkUQQpD8TDi0vEjZxydEJBmwptXVfuWbH5bTOjh5ojU9jslTbzzz9Pmzsg4l7tyx76DGucbDhsVH1CfhGPjyVD4X6CtB6XH7czKbQwGJJJv1J/hZBw0vB1zA4mZBTDTgkTMiS/NqCWjtHOQMNYGozFDaJ4gTSubBSsI0oyKbAJo8jUocGS8CQyLKwsp2QMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vicoPL4TQjzgT8Hwng28Lgip8vJ8WIUL9L5kftKl6WQ=;
- b=Qv9ZMC+aC86x42tWlrN/kPxrFXP/1JBSl9DsCZqPDa1anoMcuVMQk2Fv2LpiQUY3D83YfjO8VOls2mKikOU0qm26yZQe5DJ9uDMZnza+HP//ec+JZ7/RMAyzty8Bymxh+O8Nd4Y247sMbWAny/pAqYdsaMtygZN0tQmc6I75qQM=
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AS8PR04MB8852.eurprd04.prod.outlook.com (2603:10a6:20b:42f::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Mon, 31 Jul
- 2023 03:38:53 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6631.043; Mon, 31 Jul 2023
- 03:38:52 +0000
-From: Ying Liu <victor.liu@nxp.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: RE: [PATCH v2 2/9] drm/bridge: synopsys: dw-mipi-dsi: Add input bus
- format negotiation support
-Thread-Topic: [PATCH v2 2/9] drm/bridge: synopsys: dw-mipi-dsi: Add input bus
- format negotiation support
-Thread-Index: Adm62TK6XpKEKypROket2EgKxcczbAIPJSaAABEB5RA=
-Date: Mon, 31 Jul 2023 03:38:52 +0000
-Message-ID: <AM7PR04MB7046D0D27AFE31DB682356DF9805A@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20230720071430.259892-1-victor.liu@nxp.com>
- <20230720071430.259892-3-victor.liu@nxp.com>
- <CAMty3ZABMfRPiXM-N0d=AK8+CJZgBqd4zUeFz5-R8GY3fQQRrA@mail.gmail.com>
-In-Reply-To: <CAMty3ZABMfRPiXM-N0d=AK8+CJZgBqd4zUeFz5-R8GY3fQQRrA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|AS8PR04MB8852:EE_
-x-ms-office365-filtering-correlation-id: 5a480b2b-e86d-461c-cd98-08db9177a91a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: n6ha42sPP4FBeEvGd2iAkANfoklNeRZUqKGC/vN2x2gbghUFcF7SVDX8m2yIa7ZwNM8Cqbcy9OtEYH1lwgDTdL6Fvz7aPCtfDce7LO2I11a7YqLGqj46OYKYUkfufyN1mm9SmRvJ4OUx93MZh+4Ae6CUmCoGhjNtYUkHU8pk84EPw8FmUz6BKxwACIiaSzzyGeEbHA/JCsL6A+3Mudly0DgffaUlQgd/MFvsW8R+Q3wVkd/vxcVu0laI0tvt4qBBYd3jS0gKr04g27tXkR/zf9N7dmFNDw+Wvb5wFqYWt4CojKSebhTs9jbawgPlrDk/s4JecaH5VX8YFxwEBGeX2YgnessKKLd32eog9/uc0RVtqg7iZhbxAiJ4ScL5KKB5qvaz3h4ZbhmlI5Tx0IBDfKis8K4gXT05VatuqB8cof8zIwR598qAnzw4tK48R12HYwgC/ChpDRnTc/n93ApqZwh8H72UumsYcKjvIRMN6u4tf0DBdZKnJ5y0w4LUpKUtyjPfUFoEurqrVF/iXOZcWUY254N1PPZ/TitegKLl/wr28TNlPu3rX07GxPU8tVfOnCVQEpyRsw84d7cBgKcGixuGU5a5PsmF8LDV74LtkR8=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(366004)(346002)(376002)(396003)(136003)(451199021)(9686003)(966005)(7696005)(55016003)(53546011)(6506007)(26005)(186003)(33656002)(76116006)(66946007)(66556008)(52536014)(7416002)(38070700005)(122000001)(54906003)(41300700001)(86362001)(66476007)(316002)(64756008)(66446008)(4326008)(5660300002)(6916009)(8936002)(8676002)(38100700002)(2906002)(71200400001)(66899021)(478600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OU1ZUk4rMmlkMmF5SDZ1K3JFYlpWdzgvRk1hL3hjQUdrMnk4bjZPSDF0YXhs?=
- =?utf-8?B?amZWbEUwK2U2TUduQjU0UWE0ZGdzakNIdUV4QWRSNWd4VkZCQUZPYkVNTWtH?=
- =?utf-8?B?b0d4UVd1Sm9qUGViZzR6dkRDeTZqaWMzZ0RDUzM1R3JMOENxb0JXWFhjb1Zj?=
- =?utf-8?B?QVRVcmU0MHB2a1cxelV0SWxFS2hsczBaKzJQNmltdFcxR2pYWXlzR0RVRGxa?=
- =?utf-8?B?NmVWcWxaNHVYRW5qVDVYb0hXc0xLdTRCWFd0V0d6emx4MlV6UlRLR0s3ck9L?=
- =?utf-8?B?QkJJTkVLTEI5ZXhlZXR5dElWTzZuSjlHVTZMdVBkOFA5OFRqWVFHamIzU0tF?=
- =?utf-8?B?ZGV1VldNdE9Sa2drYWQwZ05oL0t6THk1TUtSa21hOVYzMkd5OHBwaVROZ1VL?=
- =?utf-8?B?YXBIVGFoc0FUQlVkQnBKMGNwWjkyRDY4OVNabkxRRVRyZDNYam5CVHFxRFlp?=
- =?utf-8?B?Rm9Va1RmTWlWSTNVeEVvQ2M5KzJpczQ5c3A4cGhlTXZNaTY3dHBERU5sS0tB?=
- =?utf-8?B?WW5IbnBaYVRkWkY4eEgrSmsxa0FyS2RtVDR4RFNUSGFpNjVpTERSTE1PNHRq?=
- =?utf-8?B?bFVKbE9KS1U4MTNLQmZKN1lPWkhTR1JQcHk3d2lmUm54MkdWZU9mdDRPbTE5?=
- =?utf-8?B?U2NGb3JqUDhoNnBlcnhIcmdFbDd2MDVETU9MbnJJa1RVNXRSOVlPVXdEVENw?=
- =?utf-8?B?VFBXMGNKQVVUZ3gxMHJDZlhSWkpXc2VmYk5WZE9tbUNVck13SGxqKzhvZHZu?=
- =?utf-8?B?S3RjMi8rL0VCM25sNnNZVVVUVXVXS1o0d2JtWjVqV255QlhObFRNQTZYR0RT?=
- =?utf-8?B?bEJwYStlVXQrUjlKNjZBblc5cm9FSGEzZlhvU0IxTUh6Ri85ZURqeEFhaUpC?=
- =?utf-8?B?K0lPTlhySlhDSlNxZkd3M1dVdWFsYkRDYkZ4WWVHNEhyejEvdTltUzRsSzlC?=
- =?utf-8?B?NHNHTXpQWVNuWjVvd1I3V245UmswOVpRTzZpSFEvb1ZjWUU4SmxlbUZyL0Ux?=
- =?utf-8?B?eXdLUVBvbUI5WUpWd0loOHNLWmQrY2JXQWRyeU03YWRIemRLU09QaG54NGZJ?=
- =?utf-8?B?aFFqWGl2aElLczIyaTVrV1lCcFRabUlSdm5TQk1xV2RNanJQQVhtVWs5bjh6?=
- =?utf-8?B?V3htY3psZk1aYitWMVNjemY3S1FDY3BXWjNtTmRHVTNja2l4bnUxYTlBd2E1?=
- =?utf-8?B?WGVzZHhPYStYVjh2Sjl0VjFQaWJOWGpvdFJaVFNoT1FqR3I2YTcrWEpXUFhi?=
- =?utf-8?B?U0lFNWVOSUVLamlHb2dkWitMbVdUUUpmd3ZvZVRmY0ZYZTNFell0WkhYeDRr?=
- =?utf-8?B?UHdOYjArT2pmV0x5UHBpMVREcWVnbzkwM0VPVGlMSm5iYiswcDM2Y1I0Z0NV?=
- =?utf-8?B?Q3FFcG5EYmFveTZac0UvRnRHK1lGbEdON1VtaFg2aHU0SXJtNW0zV1RMd2hm?=
- =?utf-8?B?NklKOGpTMkFDTnZ3cjUwTmU5VkZySUtLMXpEbVE4aXkzMWUrWkJVN0t6S1B1?=
- =?utf-8?B?OVArOWFYNmt5aXhJbUNwWHJidGM5SXFKSERyMjRuc0Y0cnJhQmJLYkdxcFdK?=
- =?utf-8?B?anFrSjlyZGZQcks1WnFYMkdaZmIwbC9zMnhpRjlsbDhTZVNuWVdQRmpNYkNF?=
- =?utf-8?B?UytUbFo4T3pLbnd0SWduSHdZNTVFOE1jd2o3UWVaZ2U3eHNaKzlTUm1UZnFz?=
- =?utf-8?B?SEdtTXF1WFRtRFVLRE5HVEFKaHpCTWttcFVPcUV3bzRLd0lkUWUvZ1RIdzhl?=
- =?utf-8?B?eEhoTmx6UXc0bENBQ0FrVC93R3lXdGlNd1B3Q1h6M2lxY3h1STBkVk10WE5P?=
- =?utf-8?B?VkVFbG00SzRPa09ESEJLK3haNG10T3lpSGJpZVBjZVl0WnVLL3gvVE1QQVdn?=
- =?utf-8?B?Q3I3Ulk1Q0FNN2tXcVJTblozWkFXSnYyMGRXM0FDSXdNQmk0RmxUSUtaZGdX?=
- =?utf-8?B?K1ozOTFyU2E3N0pRN2tyQ05kZThFTmd5aDRPQUtwdEtVWlFacHlKMk9FZXhU?=
- =?utf-8?B?NTR4V0ZOazRYa2NsVWRwSzY1N0FxeC9LRWxVUG1QL2pUSjZYaFpnYnoyeWRO?=
- =?utf-8?B?dkM4KzJxUU9rU1JLc0ZMTmtqTTc3SUo5UlI5QmhPUFBvM0oyNFpDY1lDYTdj?=
- =?utf-8?Q?YHII=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B03710E177
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 04:01:34 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4f95bf5c493so6363413e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 21:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690776092; x=1691380892;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=s8u97lqotaNl/hOcbem4KK1UDnxjWFMW3VzsF7w5Bhw=;
+ b=C/AwymanRSfwefv1q5htgwAx/CvlemfksOfOZvyqZLIb7BkU1JIarJYLxziIpgh6Em
+ wGlcGavpwFmKm+cyBhdM12oDgIPSrpeEzdR0E/p/N7GqwItWstP0dWx/3n5CogdUJitS
+ dlFNgLrQyhn93oIC1F4j0qT3Qgv42HXZPa2HrUOu0rpPxti/FbO1KgZ0gNl7eZ8Sf94o
+ lDq40jZv+pLUImqa8ymyZ5Ft7QkjfY/cv/qKvx43CqNZ9+6UextqG8I7TkzJvaVwOY+/
+ ZvW+qnJOOhDQNChs5yI76mUjOMWh3NRg1DYJqx4OZk34cg6n16Ziu1SC5RkJt0kgblk4
+ aNUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690776092; x=1691380892;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s8u97lqotaNl/hOcbem4KK1UDnxjWFMW3VzsF7w5Bhw=;
+ b=Pa8l4GGi08r7DQLdLiPdHigCSabtL5KWPPklI8hScYHs/WD8l8h5aJiggueKIDFBdg
+ bPQ3CBSyvAbBo5/3dT8p8cEk4KhcFy/3Aa+w4R/xMfnAB1LHbAfAnPn5XSbVcdC/ncrZ
+ c/9AY4z1B9r9otdcYYLS7tj/NXIuR+G7FRgHJPNka3qzmC5Xcd2tG0TUPJvh5DtNQUY6
+ Q/y+BUgRXJzHdxdbMcrkr3rrE4rUtWXqqOV2uJdCzyKHhtx2fLD55933tGB86KJ2953q
+ H7KndxJ5IDuP1ZTdEQAzdBwzxOepPsA2+KHwGdHXXa+MIuyg7KaA+3A3CzYSaXztQuQb
+ /45w==
+X-Gm-Message-State: ABy/qLYW7rXJ3F/FxnOuV9a1nGM8W3lucSZ93b1wTZiZ72KMXAXuNGQy
+ cWw+SC0zt4NIesV+ZeRpGiGTCg==
+X-Google-Smtp-Source: APBJJlFjZVN+phbH8H7grHIe9dFDGro/sLoDXEz5vT4iqsaEYKwetddc4PlFBqaVuoL+kBrA8xHVnQ==
+X-Received: by 2002:a2e:3012:0:b0:2b9:bc5c:1b28 with SMTP id
+ w18-20020a2e3012000000b002b9bc5c1b28mr5166533ljw.49.1690776092236; 
+ Sun, 30 Jul 2023 21:01:32 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ d16-20020a2e96d0000000b002b724063010sm2384544ljj.47.2023.07.30.21.01.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Jul 2023 21:01:31 -0700 (PDT)
+Message-ID: <de8388d2-5625-2737-3997-4fa23baa3693@linaro.org>
+Date: Mon, 31 Jul 2023 07:01:30 +0300
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a480b2b-e86d-461c-cd98-08db9177a91a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2023 03:38:52.7171 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IlHAVS6sC7qq1KdvP3tiZIwzWiutaUEQ4OwstXTlDE20HIAsWlO+vabXylQkTyaX9t53YlG1K6YF0afwHqn6oA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8852
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RFC v5 02/10] drm: Introduce solid fill DRM plane property
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
+ <20230728-solid-fill-v5-2-053dbefa909c@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230728-solid-fill-v5-2-053dbefa909c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,98 +83,315 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "rfoss@kernel.org" <rfoss@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sam@ravnborg.org" <sam@ravnborg.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- dl-linux-imx <linux-imx@nxp.com>
+Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ppaalanen@gmail.com, laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, wayland-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uZGF5LCBKdWx5IDMxLCAyMDIzIDI6NDQgQU0gSmFnYW4gVGVraSA8amFnYW5AYW1hcnVs
-YXNvbHV0aW9ucy5jb20+IHdyb3RlOg0KPiANCj4gT24gVGh1LCBKdWwgMjAsIDIwMjMgYXQgMTI6
-NDDigK9QTSBZaW5nIExpdSA8dmljdG9yLmxpdUBueHAuY29tPiB3cm90ZToNCj4gPg0KPiA+IElu
-dHJvZHVjZSAtPmdldF9pbnB1dF9idXNfZm10cygpIGNhbGxiYWNrIHRvIHN0cnVjdCBkd19taXBp
-X2RzaV9wbGF0X2RhdGENCj4gPiBzbyB0aGF0IHZlbmRvciBkcml2ZXJzIGNhbiBpbXBsZW1lbnQg
-c3BlY2lmaWMgbWV0aG9kcyB0byBnZXQgaW5wdXQgYnVzDQo+ID4gZm9ybWF0cyBmb3IgU3lub3Bz
-eXMgRFcgTUlQSSBEU0kuDQo+ID4NCj4gPiBXaGlsZSBhdCBpdCwgaW1wbGVtZW50IGEgZ2VuZXJp
-YyBjYWxsYmFjayBmb3IgLQ0KPiA+YXRvbWljX2dldF9pbnB1dF9idXNfZm10cygpLA0KPiA+IHdo
-ZXJlIHdlIHRyeSB0byBnZXQgdGhlIGlucHV0IGJ1cyBmb3JtYXRzIHRocm91Z2ggcGRhdGEtDQo+
-ID5nZXRfaW5wdXRfYnVzX2ZtdHMoKQ0KPiA+IGZpcnN0LiAgSWYgaXQncyB1bmF2YWlsYWJsZSwg
-ZmFsbCBiYWNrIHRvIHRoZSBvbmx5IGZvcm1hdCAtDQo+IE1FRElBX0JVU19GTVRfRklYRUQsDQo+
-ID4gd2hpY2ggbWF0Y2hlcyB0aGUgZGVmYXVsdCBiZWhhdmlvciBpZiAtPmF0b21pY19nZXRfaW5w
-dXRfYnVzX2ZtdHMoKSBpcw0KPiBub3QNCj4gPiBpbXBsZW1lbnRlZCBhcyAtPmF0b21pY19nZXRf
-aW5wdXRfYnVzX2ZtdHMoKSdzIGtlcm5lbGRvYyBpbmRpY2F0ZXMuDQo+ID4NCj4gPiBTaWduZWQt
-b2ZmLWJ5OiBMaXUgWWluZyA8dmljdG9yLmxpdUBueHAuY29tPg0KPiA+IC0tLQ0KPiA+IHYxLT52
-MjoNCj4gPiAqIE5vIGNoYW5nZS4NCj4gPg0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5
-bm9wc3lzL2R3LW1pcGktZHNpLmMgfCAzMA0KPiArKysrKysrKysrKysrKysrKysrDQo+ID4gIGlu
-Y2x1ZGUvZHJtL2JyaWRnZS9kd19taXBpX2RzaS5oICAgICAgICAgICAgICB8IDExICsrKysrKysN
-Cj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA0MSBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaS5jDQo+IGIv
-ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaS5jDQo+ID4gaW5kZXgg
-NTdlYWUwZmRkOTcwLi44NTgwYjhhOTdmYjEgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1taXBpLWRzaS5jDQo+ID4gQEAgLTEyLDYgKzEyLDcgQEAN
-Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L2NvbXBvbmVudC5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgv
-ZGVidWdmcy5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvaW9wb2xsLmg+DQo+ID4gKyNpbmNsdWRl
-IDxsaW51eC9tZWRpYS1idXMtZm9ybWF0Lmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC9tb2R1bGUu
-aD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L29mX2RldmljZS5oPg0KPiA+ICAjaW5jbHVkZSA8bGlu
-dXgvcG1fcnVudGltZS5oPg0KPiA+IEBAIC01MzYsNiArNTM3LDM0IEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgbWlwaV9kc2lfaG9zdF9vcHMNCj4gZHdfbWlwaV9kc2lfaG9zdF9vcHMgPSB7DQo+ID4g
-ICAgICAgICAudHJhbnNmZXIgPSBkd19taXBpX2RzaV9ob3N0X3RyYW5zZmVyLA0KPiA+ICB9Ow0K
-PiA+DQo+ID4gK3N0YXRpYyB1MzIgKg0KPiA+ICtkd19taXBpX2RzaV9icmlkZ2VfYXRvbWljX2dl
-dF9pbnB1dF9idXNfZm10cyhzdHJ1Y3QgZHJtX2JyaWRnZQ0KPiAqYnJpZGdlLA0KPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fYnJpZGdl
-X3N0YXRlICpicmlkZ2Vfc3RhdGUsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgc3RydWN0IGRybV9jcnRjX3N0YXRlICpjcnRjX3N0YXRlLA0KPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fY29u
-bmVjdG9yX3N0YXRlICpjb25uX3N0YXRlLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHUzMiBvdXRwdXRfZm10LA0KPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCAqbnVtX2lucHV0X2ZtdHMp
-DQo+ID4gK3sNCj4gPiArICAgICAgIHN0cnVjdCBkd19taXBpX2RzaSAqZHNpID0gYnJpZGdlX3Rv
-X2RzaShicmlkZ2UpOw0KPiA+ICsgICAgICAgY29uc3Qgc3RydWN0IGR3X21pcGlfZHNpX3BsYXRf
-ZGF0YSAqcGRhdGEgPSBkc2ktPnBsYXRfZGF0YTsNCj4gPiArICAgICAgIHUzMiAqaW5wdXRfZm10
-czsNCj4gPiArDQo+ID4gKyAgICAgICBpZiAocGRhdGEtPmdldF9pbnB1dF9idXNfZm10cykNCj4g
-PiArICAgICAgICAgICAgICAgcmV0dXJuIHBkYXRhLT5nZXRfaW5wdXRfYnVzX2ZtdHMocGRhdGEt
-PnByaXZfZGF0YSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgYnJpZGdlLCBicmlkZ2Vfc3RhdGUsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNydGNfc3RhdGUsIGNvbm5fc3RhdGUsDQo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG91dHB1dF9m
-bXQsIG51bV9pbnB1dF9mbXRzKTsNCj4gDQo+IFdoeSBkbyB3ZSBuZWVkIHBsYXRmb3JtLWNvbnRy
-b2xsZWQgYnVzIGZvcm1hdHM/IFRoZSBzdXBwb3J0ZWQgYnJpZGdlDQo+IGZvcm1hdHMgYXJlIGNv
-bW1vbiBhY3Jvc3MgYWxsIHBsYXRmb3JtcyBhbmQgaXQgaXMgc3BlY2lmaWMgdG8gdGhlIGxpc3QN
-Cj4gb2YgZm9ybWF0cyBzdXBwb3J0ZWQgYnkgRFctTUlQSSBEU0kuIGlzbid0IGl0Pw0KDQpJZGVh
-bGx5LCB5ZXMuICBCdXQsIGlmIHdlIGNvbnNpZGVyIHNvbWUgU29DIGxvZ2ljcyBpbnRyb2R1Y2Vk
-IGR1ZSB0bw0KRFcgTUlQSSBEU0kgaW50ZWdyYXRpb24obGlrZSB0aGUgRElTUExBWV9NVVggcmVn
-aXN0ZXIgaW4gaS5NWDkzDQptZWRpYSBibGstY3RybCBhcyBhIHN5c2NvbiksIHRoZW4gcGRhdGEt
-PmdldF9pbnB1dF9idXNfZm10cyBpcyBoYW5keQ0KdG8gY292ZXIgdGhlIGxvZ2ljcy4gTWVzb24n
-cyBNSVBJX0RTSV9UT1BfQ05UTCByZWdpc3RlciBhbmQgc3RtJ3MNCkRTSV9XQ0ZHUiByZWdpc3Rl
-ciBhcmUgdGhlIHNpbWlsYXIgY2FzZXMgZm9yIGludGVncmF0aW9uLiAgUm9ja2NoaXANCmRpcmVj
-dGx5IHNldHMgZGlzcGxheSBjb250cm9sbGVyJ3Mgb3V0cHV0IGJ1cyBmb3JtYXQgaW4gLT5hdG9t
-aWNfY2hlY2soKS4NCg0KR3JhbnRlZCB0aG9zZSBTb0MgbG9naWNzIGNhbiBiZSBhIHN0YW5kYWxv
-bmUgRFJNIGJyaWRnZSBhcyB0aGUgcHJldmlvdXMNCmJyaWRnZSBvZiB0aGUgRFcgTUlQSSBEU0kg
-YnJpZGdlLiAgSG93ZXZlciwgdGhlIHF1ZXN0aW9uIGlzIHRoYXQgYXJlIHRoZQ0KbG9naWNzIHdv
-cnRoIGEgc2VwYXJhdGUgRFJNIGJyaWRnZSBkcml2ZXIsIGNvbnNpZGVyaW5nDQpwZGF0YS0+Z2V0
-X2lucHV0X2J1c19mbXRzIGlzIHF1aXRlIGhhbmR5Pw0KDQpJbXBsZW1lbnRpbmcgYSBzZXBhcmF0
-ZSBEUk0gYnJpZGdlIGRyaXZlciBmb3IgaS5NWDkzIERJU1BMQVlfTVVYDQp0byBhZGQgdHdvIERS
-TSBicmlkZ2VzIGlzIGEgYml0IGhhcmQsIGJlY2F1c2UgdGhlIHNpbmdsZSByZWdpc3RlciBjb250
-cm9scw0KYm90aCBleHRlcm5hbCBwYXJhbGxlbCBkaXNwbGF5IHBpeGVsIGZvcm1hdCBhbmQgRFNJ
-IGNvbnRyb2xsZXIgaW5wdXQgcGl4ZWwNCmZvcm1hdCB3aXRoIGRpZmZlcmVudCBiaXQgZmllbGRz
-LiAgQW5kLCBJJ3ZlIGFscmVhZHkgc2VudCBhIHBhdGNoIHNlcmllc1sxXQ0KdG8gYWRkIGEgRFJN
-IGJyaWRnZSBkcml2ZXIgZm9yIHRoZSBleHRlcm5hbCBwYXJhbGxlbCBkaXNwbGF5IHBpeGVsIGZv
-cm1hdA0KY29udHJvbC4NCg0KWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9z
-ZXJpZXMvMTEzNDU3Lw0KDQpSZWdhcmRzLA0KTGl1IFlpbmcNCg0KPiANCj4gVGhhbmtzLA0KPiBK
-YWdhbi4NCg==
+On 28/07/2023 20:02, Jessica Zhang wrote:
+> Document and add support for solid_fill property to drm_plane. In
+> addition, add support for setting and getting the values for solid_fill.
+> 
+> To enable solid fill planes, userspace must assign a property blob to
+> the "solid_fill" plane property containing the following information:
+> 
+> struct drm_mode_solid_fill {
+> 	u32 version;
+> 	u32 r, g, b;
+> };
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/drm_atomic_state_helper.c |  9 +++++
+>   drivers/gpu/drm/drm_atomic_uapi.c         | 55 +++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/drm_blend.c               | 30 +++++++++++++++++
+>   include/drm/drm_blend.h                   |  1 +
+>   include/drm/drm_plane.h                   | 35 ++++++++++++++++++++
+>   include/uapi/drm/drm_mode.h               | 24 ++++++++++++++
+>   6 files changed, 154 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 01638c51ce0a..86fb876efbe6 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -254,6 +254,11 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
+>   	plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
+>   	plane_state->pixel_source = DRM_PLANE_PIXEL_SOURCE_FB;
+>   
+> +	if (plane_state->solid_fill_blob) {
+> +		drm_property_blob_put(plane_state->solid_fill_blob);
+> +		plane_state->solid_fill_blob = NULL;
+> +	}
+> +
+>   	if (plane->color_encoding_property) {
+>   		if (!drm_object_property_get_default_value(&plane->base,
+>   							   plane->color_encoding_property,
+> @@ -336,6 +341,9 @@ void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
+>   	if (state->fb)
+>   		drm_framebuffer_get(state->fb);
+>   
+> +	if (state->solid_fill_blob)
+> +		drm_property_blob_get(state->solid_fill_blob);
+> +
+>   	state->fence = NULL;
+>   	state->commit = NULL;
+>   	state->fb_damage_clips = NULL;
+> @@ -385,6 +393,7 @@ void __drm_atomic_helper_plane_destroy_state(struct drm_plane_state *state)
+>   		drm_crtc_commit_put(state->commit);
+>   
+>   	drm_property_blob_put(state->fb_damage_clips);
+> +	drm_property_blob_put(state->solid_fill_blob);
+>   }
+>   EXPORT_SYMBOL(__drm_atomic_helper_plane_destroy_state);
+>   
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 454f980e16c9..039686c78c2a 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -316,6 +316,51 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
+>   }
+>   EXPORT_SYMBOL(drm_atomic_set_crtc_for_connector);
+>   
+> +static int drm_atomic_set_solid_fill_prop(struct drm_plane_state *state,
+> +		struct drm_property_blob *blob)
+> +{
+> +	int blob_version;
+> +
+> +	if (blob == state->solid_fill_blob)
+> +		return 0;
+> +
+> +	if (blob) {
+> +		struct drm_mode_solid_fill *user_info = (struct drm_mode_solid_fill *)blob->data;
+> +
+> +		if (blob->length != sizeof(struct drm_mode_solid_fill)) {
+> +			drm_dbg_atomic(state->plane->dev,
+> +				       "[PLANE:%d:%s] bad solid fill blob length: %zu\n",
+> +				       state->plane->base.id, state->plane->name,
+> +				       blob->length);
+> +			return -EINVAL;
+> +		}
+> +
+> +		blob_version = user_info->version;
+
+I remember that we had versioning for quite some time. However it stroke 
+me while reviewing that we do not a way to negotiate supported 
+SOLID_FILL versions. However as we now have support for different 
+pixel_source properties, maybe we can drop version completely. If at 
+some point a driver needs to support different kind of SOLID_FILL 
+property (consider v2), we can add new pixel source to the enum.
+
+> +
+> +		/* Add more versions if necessary */
+> +		if (blob_version == 1) {
+> +			state->solid_fill.r = user_info->r;
+> +			state->solid_fill.g = user_info->g;
+> +			state->solid_fill.b = user_info->b;
+> +		} else {
+> +			drm_dbg_atomic(state->plane->dev,
+> +				       "[PLANE:%d:%s] unsupported solid fill version (version=%d)\n",
+> +				       state->plane->base.id, state->plane->name,
+> +				       blob_version);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	drm_property_blob_put(state->solid_fill_blob);
+> +
+> +	if (blob)
+> +		state->solid_fill_blob = drm_property_blob_get(blob);
+> +	else
+> +		state->solid_fill_blob = NULL;
+> +
+> +	return 0;
+> +}
+> +
+>   static void set_out_fence_for_crtc(struct drm_atomic_state *state,
+>   				   struct drm_crtc *crtc, s32 __user *fence_ptr)
+>   {
+> @@ -546,6 +591,13 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
+>   		state->src_h = val;
+>   	} else if (property == plane->pixel_source_property) {
+>   		state->pixel_source = val;
+> +	} else if (property == plane->solid_fill_property) {
+> +		struct drm_property_blob *solid_fill = drm_property_lookup_blob(dev, val);
+> +
+> +		ret = drm_atomic_set_solid_fill_prop(state, solid_fill);
+> +		drm_property_blob_put(solid_fill);
+> +
+> +		return ret;
+
+Bonus point: dropping version from SOLID_FILL would allow us to use 
+drm_atomic_replace_property_blob_from_id() here.
+
+>   	} else if (property == plane->alpha_property) {
+>   		state->alpha = val;
+>   	} else if (property == plane->blend_mode_property) {
+> @@ -620,6 +672,9 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+>   		*val = state->src_h;
+>   	} else if (property == plane->pixel_source_property) {
+>   		*val = state->pixel_source;
+> +	} else if (property == plane->solid_fill_property) {
+> +		*val = state->solid_fill_blob ?
+> +			state->solid_fill_blob->base.id : 0;
+>   	} else if (property == plane->alpha_property) {
+>   		*val = state->alpha;
+>   	} else if (property == plane->blend_mode_property) {
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index c500310a3d09..c632dfcd8a9b 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -200,6 +200,10 @@
+>    *	"FB":
+>    *		Framebuffer source set by the "FB_ID" property.
+>    *
+> + * solid_fill:
+> + *	solid_fill is set up with drm_plane_create_solid_fill_property(). It
+> + *	contains pixel data that drivers can use to fill a plane.
+> + *
+>    * Note that all the property extensions described here apply either to the
+>    * plane or the CRTC (e.g. for the background color, which currently is not
+>    * exposed and assumed to be black).
+> @@ -700,3 +704,29 @@ int drm_plane_create_pixel_source_property(struct drm_plane *plane,
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_plane_create_pixel_source_property);
+> +
+> +/**
+> + * drm_plane_create_solid_fill_property - create a new solid_fill property
+> + * @plane: drm plane
+> + *
+> + * This creates a new property blob that holds pixel data for solid fill planes.
+> + * The property is exposed to userspace as a property blob called "solid_fill".
+> + *
+> + * For information on what the blob contains, see `drm_mode_solid_fill`.
+> + */
+> +int drm_plane_create_solid_fill_property(struct drm_plane *plane)
+> +{
+> +	struct drm_property *prop;
+> +
+> +	prop = drm_property_create(plane->dev,
+> +			DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
+> +			"solid_fill", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	drm_object_attach_property(&plane->base, prop, 0);
+> +	plane->solid_fill_property = prop;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_create_solid_fill_property);
+> diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
+> index 122bbfbaae33..e7158fbee389 100644
+> --- a/include/drm/drm_blend.h
+> +++ b/include/drm/drm_blend.h
+> @@ -60,4 +60,5 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+>   					 unsigned int supported_modes);
+>   int drm_plane_create_pixel_source_property(struct drm_plane *plane,
+>   					   unsigned long extra_sources);
+> +int drm_plane_create_solid_fill_property(struct drm_plane *plane);
+>   #endif
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 89508b4dea4a..abf1458fa099 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -46,6 +46,17 @@ enum drm_plane_pixel_source {
+>   	DRM_PLANE_PIXEL_SOURCE_MAX
+>   };
+>   
+> +/**
+> + * struct solid_fill_property - RGB values for solid fill plane
+> + *
+> + * Note: This is the V1 for this feature
+> + */
+> +struct drm_solid_fill {
+> +	uint32_t r;
+> +	uint32_t g;
+> +	uint32_t b;
+> +};
+> +
+>   /**
+>    * struct drm_plane_state - mutable plane state
+>    *
+> @@ -130,6 +141,23 @@ struct drm_plane_state {
+>   	 */
+>   	enum drm_plane_pixel_source pixel_source;
+>   
+> +	/**
+> +	 * @solid_fill_blob:
+> +	 *
+> +	 * Blob containing relevant information for a solid fill plane
+> +	 * including pixel format and data. See
+> +	 * drm_plane_create_solid_fill_property() for more details.
+> +	 */
+> +	struct drm_property_blob *solid_fill_blob;
+> +
+> +	/**
+> +	 * @solid_fill:
+> +	 *
+> +	 * Pixel data for solid fill planes. See
+> +	 * drm_plane_create_solid_fill_property() for more details.
+> +	 */
+> +	struct drm_solid_fill solid_fill;
+> +
+>   	/**
+>   	 * @alpha:
+>   	 * Opacity of the plane with 0 as completely transparent and 0xffff as
+> @@ -720,6 +748,13 @@ struct drm_plane {
+>   	 */
+>   	struct drm_property *pixel_source_property;
+>   
+> +	/**
+> +	 * @solid_fill_property:
+> +	 * Optional solid_fill property for this plane. See
+> +	 * drm_plane_create_solid_fill_property().
+> +	 */
+> +	struct drm_property *solid_fill_property;
+> +
+>   	/**
+>   	 * @alpha_property:
+>   	 * Optional alpha property for this plane. See
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 43691058d28f..53c8efa5ad7f 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -259,6 +259,30 @@ struct drm_mode_modeinfo {
+>   	char name[DRM_DISPLAY_MODE_LEN];
+>   };
+>   
+> +/**
+> + * struct drm_mode_solid_fill - User info for solid fill planes
+> + *
+> + * This is the userspace API solid fill information structure.
+> + *
+> + * Userspace can enable solid fill planes by assigning the plane "solid_fill"
+> + * property to a blob containing a single drm_mode_solid_fill struct populated with an RGB323232
+> + * color and setting the pixel source to "SOLID_FILL".
+> + *
+> + * For information on the plane property, see drm_plane_create_solid_fill_property()
+> + *
+> + * @version: Version of the blob. Currently, there is only support for version == 1
+> + * @r: Red color value of single pixel
+> + * @g: Green color value of single pixel
+> + * @b: Blue color value of single pixel
+> + */
+> +struct drm_mode_solid_fill {
+> +	__u32 version;
+> +	__u32 r;
+> +	__u32 g;
+> +	__u32 b;
+> +};
+> +
+> +
+>   struct drm_mode_card_res {
+>   	__u64 fb_id_ptr;
+>   	__u64 crtc_id_ptr;
+> 
+
+-- 
+With best wishes
+Dmitry
+
