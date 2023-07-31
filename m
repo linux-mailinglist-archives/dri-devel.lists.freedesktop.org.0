@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34D576971A
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0025D76972A
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:07:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E8F910E2A0;
-	Mon, 31 Jul 2023 13:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3AC010E2A2;
+	Mon, 31 Jul 2023 13:07:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F02910E29E
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 13:04:59 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3240D6607190;
- Mon, 31 Jul 2023 14:04:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690808697;
- bh=oi90BFzw+vRNJ7SDlZut9Au2BJmQDV5m4O2v1GmjzUo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Neol1ctUBENvx71Ht4UmmXxdW4B/HmSgfgO4UrxYzk4nyv5+yBqiYSWym7rWoplHb
- 1wU0NRRTIHt6lmJKxNLd4tzRfL6rYn9YHIlmIX4yQBKeYdFKQcAojop057QAv1/J7x
- i5KysVJ6F8zps4h31ahGBaNvUsxc+Q+HtynSjyFj5hIJptL7lt/1GtXXKqPvHhLe/6
- GEdUPRHMyIyrq8vErVGJt3YDJN/iFNlr2T0ZVd/VjRHWJwetfRD1ingh4+RKimn33v
- qaIVou/udg7UvsjkZHosSSc3lpn70Fi5zc9gmAd5QRJHLkmbc8ddyW/s6YwuJOn93c
- gjRLJSOgg8jCA==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH v7 13/13] drm/mediatek: gamma: Add kerneldoc for struct
- mtk_disp_gamma
-Date: Mon, 31 Jul 2023 15:04:41 +0200
-Message-ID: <20230731130441.173960-14-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230731130441.173960-1-angelogioacchino.delregno@collabora.com>
-References: <20230731130441.173960-1-angelogioacchino.delregno@collabora.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5425D10E2A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 13:07:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1690808836; x=1691413636; i=deller@gmx.de;
+ bh=I5E7In3qLeawhm32r5BW4CB4+4g3GLRaXOk7wIj51uQ=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=jy4RS8jDrPWTY6SPcrgNBJ1FF1cWboSWULhoDUdhJmNGCdgEyaKuo0336hWU3juf3tLZ3vJ
+ dzDKhqe6J8yuaOhl5K5WiapKQZCE9sukFIqeizRf+mScsK/loIAcHnYzApgG5puLbS96ynImV
+ 9C8o+VgFoDF/0G54ZDu27FXqDdwfWHPe3yX2tJ+vrRHBol0cwG/VwRFUZe5Masxe0xpweZkXB
+ oQzG05NQS5T6sx8OY62CkxgPaF5OQ6AmoBgiSaTRJlGxg4VEzb25L3a6yorOjqEajLkf/QvOx
+ C9j+101Nsad20clG95wdIH2KluYlnBYQwUHguXtTobC2NgvF4Wrw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.159.238]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfHEP-1pwtId2EpP-00gnhA; Mon, 31
+ Jul 2023 15:07:16 +0200
+Message-ID: <0cb2ab66-ca30-b2ab-47f7-04208b2400cd@gmx.de>
+Date: Mon, 31 Jul 2023 15:07:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] fbdev: fbmem: mark registered_fb static
+Content-Language: en-US
+To: Min-Hua Chen <minhuadotchen@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230714003748.91129-1-minhuadotchen@gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230714003748.91129-1-minhuadotchen@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yveMOZcZH+xrsKsZ6Pi0xpCrONbM7Mh2l8rwBB+bHzDNdZPfLPO
+ KeuC8wh1lMClf4wil/HxE7bv8ROOsclvZSc7SbCBxYkCFjLF/FqKAimjnT/+t7pplEMtpr1
+ O9abhaQGAaB/xjU8ymui+4ozryAHXFx4nW2pHsriT6bqdsojdrVzbzS9hIkA0BeXxPEePix
+ ILKK7B5K/u7hhFTusq9Pg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8SGNccr63Dg=;iqSetT1mEEkMwDOYOlNV+x50HA5
+ 94myZ1MfqzceDvtuJCPoAV7EbJquvxs8TIZOOUO9YAwqNFYqSUta47+S+0+MsfVqGGXpH2h84
+ xKNjlEaUM1uohHMC1eOzameC0i1XfyjFFhzhygyjsaYjNlBFPvr19t/spzsp5fFbV3HbIyL7K
+ 7JN+mOujNxIflMn4F25/TBRL6AO/BuMqPZRBL8/Dt08DjKqkVZbw/JqXG50kqjNWNfV3zj5vI
+ yoFGJ7IwJw/kFHeRO0qZsWiGgipDGU7xebMme6buuSjKISoqA3AsjcXpblXYGKgsGWAwjP8PE
+ Th4bGivCUcjGz1TfSst70Z8FnFrCA7/aXCWm0C49AlFJf+482x7MK5usdZuGZnHaJQTaaGMux
+ uIs3U8Jg4V2XGH94KLgckEKsMTLyqw6HteHJ9YAFrBeXKRc6Vf8jA86z3o79c3Kgkmwq7tTXT
+ gEHjYaIgO7cYC7wr7PuyG0rl8fA5Vxv7Z7h7y4gup0rqJNtwjJf+CcPN+EaggfN3uoVXcGH0n
+ xcxUVyClKD0eDeVvp4+i+NysAxTqYK5JkWY2Fxekbrj/WJmdQfpf+QS4aBIHGykpcARWxt1ac
+ wbilIg1xfU9ZCwuc1Of99q+DMjHDM5zWB4TwQl0mW7x9JUARYLnQfbQNo9RMwWRzwYCFiesVQ
+ J0FN9Z4Ema+nOAelOVjJKMT/tD90bmqKkjVgceOL4P7pkqGuvK3qYYuHS2BL66gcBIyQh+Xjx
+ GNXp5PJRJt/dPJNONThyKMvJBbZWE5EFYKi2q3bT/8kf87zo1rzCfiyaE8wnqdn5ulT12Q1+G
+ ooqmWcx4bYiP83HqtMIEV4UuWy1YnxAp5S1XLfHOTS1bFenHUgn5+Utpl4crTKkA+km8Z6/nw
+ CSJvcGrZ90mnDICj6QSKVfH4zuleJ3jvFSy2Qc0X4ZAs/ubkmWUAv7THHkIOMNw6vGkLIDUDV
+ fWgheuawauKKUgBy8Si/qpr+Ez0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +70,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, ehristev@collabora.com, wenst@chromium.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mtk_disp_gamma structure was completely undocumented: add some
-kerneldoc documentation to it.
+On 7/14/23 02:37, Min-Hua Chen wrote:
+> Mark registered_fb, num_registered_fb, fbcon_registered_fb, and
+> fbcon_num_registered_fb static to fix the following sparse
+> warnings:
+>
+> drivers/video/fbdev/core/fbmem.c:51:16: sparse: warning: symbol 'registe=
+red_fb' was not declared. Should it be static?
+> drivers/video/fbdev/core/fbmem.c:52:5: sparse: warning: symbol 'num_regi=
+stered_fb' was not declared. Should it be static?
+> drivers/video/fbdev/core/fbcon.c:105:16: sparse: warning: symbol 'fbcon_=
+registered_fb' was not declared. Should it be static?
+> drivers/video/fbdev/core/fbcon.c:106:5: sparse: warning: symbol 'fbcon_n=
+um_registered_fb' was not declared. Should it be static?
+>
+> No functional change intended.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+num_registered_fb is still used in:
+drivers/staging/olpc_dcon/olpc_dcon.c:  if (num_registered_fb < 1) {
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 6fa3f583f8a1..ee6b06223291 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -54,8 +54,12 @@ struct mtk_disp_gamma_data {
- 	u8 lut_bits;
- };
- 
--/*
-- * struct mtk_disp_gamma - DISP_GAMMA driver structure
-+/**
-+ * struct mtk_disp_gamma - Display Gamma driver structure
-+ * @clk:      clock for DISP_GAMMA block
-+ * @regs:     MMIO registers base
-+ * @cmdq_reg: CMDQ Client register
-+ * @data:     platform data for DISP_GAMMA
-  */
- struct mtk_disp_gamma {
- 	struct clk *clk;
--- 
-2.41.0
-
+Helge
