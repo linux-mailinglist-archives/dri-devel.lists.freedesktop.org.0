@@ -2,72 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31258769B18
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 17:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395BA769BA5
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA2310E2B5;
-	Mon, 31 Jul 2023 15:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3039910E2B4;
+	Mon, 31 Jul 2023 16:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B126010E2B5
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 15:48:06 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3fbf1b82d9cso43305615e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 08:48:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690818485; x=1691423285;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ea29XW2Oj6uA5+J/+a6EhPg6MOWcuGpScRnndteK92U=;
- b=e2ZwWZgLNcH8SGcedF39ZGAunxZFRDJYoJJpY5ulm9q5lgR1UyglSAhgtwgo/JYiAQ
- XV1bYqm3hhqWdk5qj36SgCliJ44gzZ/uAZLBIOQ0izMWQYR+3YeVeun1NKDM1GLHTJGy
- N2K56LMuAFq6F5mOQL3NJSLX1dpDRXvHR5KQDmKjmfOTyCP+QzZW8EiI6cZAU7+en3HM
- +BawqRHXgUFO+bK2pWcBw8RLRNHutC6+hbkptmruNs4LVFIevo4Jyv1z9D9bZHrBTImp
- WDrqSmb5jdAu25MSTtaoRYiwjOEsdkS/HTSmwRUzBkVGrLC9N9SpKtOPo85/NqTufiiU
- chIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690818485; x=1691423285;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ea29XW2Oj6uA5+J/+a6EhPg6MOWcuGpScRnndteK92U=;
- b=evdJMm6XywUKulSfKSSmvec4ERK/qPL/3awnIkeCnjdq8jjeDE6tIxUS/l/tefdyjd
- PK3g+4skQmqkn6nZYNKLLHKNCdb9FFUkuegLIZgICGxcn/1WQE2UFaycJnCfdLv2kieF
- 7ks6BT8IWXozIBsUyJyWMRtmGa5DpEDof3NH+ohciOUST7TC42pxACeEu/wMDjfbrDaZ
- Oj/ZOBIOY51Aln9zjPXGy4fR5Np9uWxw88nE6mkGBR4+bq2ovw3cKnFglEUn68pc2eGM
- vo1/KJ0NFPodw4l90b/k6g6kj12NIzh5nGSQZSV5lRA1DV+uYiVbf7leIRsaAre0v9Z/
- r1Bw==
-X-Gm-Message-State: ABy/qLYFQrucJRNOFhP2H0O4pWsKVEd8GRfddNDZAmo06Klwzp0jfcgR
- MTgSjSqXdX1CrX1ZI1V9gFpm2Q==
-X-Google-Smtp-Source: APBJJlFHABHv2mXYYls1027lw8mNbIKOOxpDTaFUjQSeRtPCCAP0xOgS7nk+2w4RRUx62OlTIVSMzA==
-X-Received: by 2002:a1c:7310:0:b0:3fb:e189:3532 with SMTP id
- d16-20020a1c7310000000b003fbe1893532mr260226wmb.20.1690818485042; 
- Mon, 31 Jul 2023 08:48:05 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
- by smtp.gmail.com with ESMTPSA id
- m10-20020a7bca4a000000b003fbc0a49b57sm11799628wml.6.2023.07.31.08.48.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jul 2023 08:48:04 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230711-startek_display-v4-0-fb1d53bfdef6@baylibre.com>
-References: <20230711-startek_display-v4-0-fb1d53bfdef6@baylibre.com>
-Subject: Re: (subset) [PATCH v4 0/3] Add startek-kd070fhfid015 display support
-Message-Id: <169081848410.590715.3216306012234783278.b4-ty@linaro.org>
-Date: Mon, 31 Jul 2023 17:48:04 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A6610E2B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:00:25 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6727E66018CF;
+ Mon, 31 Jul 2023 17:00:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690819223;
+ bh=JESYBgP90SbmhpiB/iCVLG+3rmUtF6P9tLKvU2lWr7o=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NJDGOxFAIVjCl/H3qL1ragU6dyqFeK7uyghmCyCnSKQNm+3EQ7WmioINpElc3ehkJ
+ Vi3/TD3++NVUTucyzKjQHN9xoLFw9WE52+bNNZTkuRU7wmDCx7F/3O4JERZUnq180l
+ /64rAyXbD9Md0H9GZPb8AXbsiEmV2NUIx/i7apqvx2NToucdeRNwm6qrZWBC2IBw5N
+ +P5qeWYyfID7pYncpSmQhxPXYW8Tn8FzA2b4tibSORDnv1EnxRz32zYoM02iK/I+Q3
+ PjqwTJp5IRZaF9zH3HegCBJBXZM85vIF7+vFCwYdDfn29SlOwtP8xRC2+v0WWKrYxP
+ 6J2Hu1H0nG2mA==
+Date: Mon, 31 Jul 2023 18:00:20 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
+Message-ID: <20230731180020.4c47e0e3@collabora.com>
+In-Reply-To: <20230731153119.GA773004@dev-arch.thelio-3990X>
+References: <20230731123625.3766-1-christian.koenig@amd.com>
+ <20230731153119.GA773004@dev-arch.thelio-3990X>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,34 +54,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Conor Dooley <conor.dooley@microchip.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: ndesaulniers@google.com,
+ Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ naresh.kamboju@linaro.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, dakr@redhat.com, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, trix@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 31 Jul 2023 08:31:19 -0700
+Nathan Chancellor <nathan@kernel.org> wrote:
 
-On Mon, 31 Jul 2023 17:08:55 +0200, Alexandre Mergnat wrote:
-> Add the support of the Startek KD070FHFID015 panel.
-> It's a 7-inch TFT LCD display with a resolution of 1024 x 600 pixels.
-> 
-> I use this display plugged to my mt8365-evk board.
-> 
-> This serie come from a bigger one [1]. Then I addressed the previous
-> comments for the related commits here.
-> 
-> [...]
+> On Mon, Jul 31, 2023 at 02:36:24PM +0200, Christian K=C3=B6nig wrote:
+> > GCC forbids to jump to labels in loop conditions and a new clang
+> > check stumbled over this.
+> >=20
+> > So instead using a local label inside the loop condition use an
+> > unique label outside of it.
+> >=20
+> > Fixes: commit 09593216bff1 ("drm: execution context for GEM buffers v7")
+> > Link: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1890
+> > Link: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f5d=
+096eb3aed7b712f5067
+> > Reported-by: Nathan Chancellor <nathan@kernel.org>
+> > Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> > CC: Boris Brezillon <boris.brezillon@collabora.com>
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-[1/3] dt-bindings: display: panel: add startek kd070fhfid015 support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5ede23d12b442750ba1298913cf3ce572f1b79d3
-[2/3] drm/panel: Support for startek-kd070fhfid015 MIPI-DSI panel
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=69312a77cd13e36f87378dfe83480b671ebf9216
-
--- 
-Neil
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com> =20
+>=20
+> Passes my build tests and I inspected the preprocessed output to make
+> sure it should work. I ran the KUnit tests, which all pass (although [1]
+> is needed to fix a tangential issue):
+>=20
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
+>=20
+> Thanks for fixing this!
+>=20
+> [1]: https://lore.kernel.org/20230728183400.306193-1-arthurgrillo@riseup.=
+net/
+>=20
+> > ---
+> >  include/drm/drm_exec.h | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+> > index 73205afec162..e0462361adf9 100644
+> > --- a/include/drm/drm_exec.h
+> > +++ b/include/drm/drm_exec.h
+> > @@ -3,6 +3,7 @@
+> >  #ifndef __DRM_EXEC_H__
+> >  #define __DRM_EXEC_H__
+> > =20
+> > +#include <linux/compiler.h>
+> >  #include <linux/ww_mutex.h>
+> > =20
+> >  #define DRM_EXEC_INTERRUPTIBLE_WAIT	BIT(0)
+> > @@ -74,13 +75,12 @@ struct drm_exec {
+> >   * Since labels can't be defined local to the loops body we use a jump=
+ pointer
+> >   * to make sure that the retry is only used from within the loops body.
+> >   */
+> > -#define drm_exec_until_all_locked(exec)				\
+> > -	for (void *__drm_exec_retry_ptr; ({			\
+> > -		__label__ __drm_exec_retry;			\
+> > -__drm_exec_retry:						\
+> > -		__drm_exec_retry_ptr =3D &&__drm_exec_retry;	\
+> > -		(void)__drm_exec_retry_ptr;			\
+> > -		drm_exec_cleanup(exec);				\
+> > +#define drm_exec_until_all_locked(exec)					\
+> > +__PASTE(__drm_exec_, __LINE__):						\
+> > +	for (void *__drm_exec_retry_ptr; ({				\
+> > +		__drm_exec_retry_ptr =3D &&__PASTE(__drm_exec_, __LINE__);\
+> > +		(void)__drm_exec_retry_ptr;				\
+> > +		drm_exec_cleanup(exec);					\
+> >  	});)
+> > =20
+> >  /**
+> > --=20
+> > 2.34.1
+> >=20
+> >  =20
 
