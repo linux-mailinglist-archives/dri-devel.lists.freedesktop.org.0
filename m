@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCB7768ABB
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 06:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FF3768D92
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 09:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7608510E195;
-	Mon, 31 Jul 2023 04:15:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9679210E1B1;
+	Mon, 31 Jul 2023 07:15:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F3410E195
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 04:15:45 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4fe1489ced6so6420424e87.0
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 21:15:44 -0700 (PDT)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD4F10E163
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 02:18:25 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-686be3cbea0so3192574b3a.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jul 2023 19:18:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690776943; x=1691381743;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RMYX8jg3dCCRuMtGRbFlfbd9q+spdF7dLaJz3ilyQ9s=;
- b=bYvAXKJfEpm7ZHm7V6ZQYvQ/r3zEqbZqR2jUyTa2M3ANHwwnSUYCuFQWHiMJJLxbxh
- /nhxgAJN7Dn8TffN0Tu6uDmG/R6vsB3vntrYTxd7r/QEkucacPez16QZyNN21IgZdmcn
- 572UoyXFdxJrAvUt1DtZw4KiX82M7w24ajn6WrlG/mIHMHF81d/SDWtbGnupwj+VELyE
- yVwfCecGWLWoABPkzqRt79FUCBfLBoM6DXeenhtuI03gSPaW0N1ZdefdHnmqXr7dIK/i
- zV16CNJk6iOaCEOKV5f/lYQp2WdNP38Hbk/X5WHbdshk7LchrIng+WS6yNDSOWpfskSv
- nnbg==
+ d=gmail.com; s=20221208; t=1690769905; x=1691374705;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YGe7yeLSCJNtOm6KMm1pCwSHsNpi9wZaHI6nfPlQl3c=;
+ b=h5K+DYPqZFC60a4cycOBBwDw5B5aIbHbzVUDTSJ6TmYOhMYUesVIXYk0R0JFkg2WgX
+ BqzQ34i+6GjiKS6oRSCiLl0ic6J9PuUs4c4QS6euPm/SL7qBhmuS6/kg/TKZzh+lNtD5
+ K/cb62Lbuse0dW9UGOxZCzJrJBqDiopp9TjAJysFCOBEUGMBIf6InBjVzAcMwhwVWWjN
+ OzOpHhxABYLhKR/ifh3OWwHVUjQX04a8Yf/2GsLMwiWsRj4Msd08iBqmJZ7caPgi1w9J
+ rV8j/ceCuCZ1VYT+la25Uut6MLD8MoUE5y1wia1maBSuWyvnORxdF6JL1mnTNKn0/Wma
+ xr1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690776943; x=1691381743;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RMYX8jg3dCCRuMtGRbFlfbd9q+spdF7dLaJz3ilyQ9s=;
- b=CixeGyevh/vHlOF1MbyRVeFwB/ZqKJVpF3Aw9F6+y56uVnshrjZvM5O8ub5torXExq
- 1NOr5uwkV6mEOndIMhP3Ywr3JOwT6fhjN12zhj8BjO7ikKtcFU6o/faeZBxGoLRzhkmK
- aplSMR4HAy3/AwiB+icriEt+1GVx1dlWnbJ3oTzR1HwUwbeJcl9FnoPIlK6jHYXQ9PLG
- W1jyIW09OEpZTTX0LrloQr9xTUXBlT/mrlclpc6xyHIlhWsCR7nozjRpRLrzVjwDHr7b
- qquXlIHGMR9sXJvKTQpbgo5CN0Ih3Hb/fQ+fq1ZmyZ/qe7j5hfsKvetx5VRFaSwJ7fDc
- xMxQ==
-X-Gm-Message-State: ABy/qLYZAqMQFRm31mZM61XlXPKUKzsGgOu0l4FvjeWXJbkdiJHwO9di
- AqdLGPZWC8+MUnpDjrCgpaFlmg==
-X-Google-Smtp-Source: APBJJlGonw/NVp753YF2Y9RKp+a5ekUpZME5M2yzcts8myZGrL29w0aXo/ctx0eEWpMecqVnI/Jw1Q==
-X-Received: by 2002:a19:6501:0:b0:4f8:71cc:2b6e with SMTP id
- z1-20020a196501000000b004f871cc2b6emr5022274lfb.33.1690776943055; 
- Sun, 30 Jul 2023 21:15:43 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ d=1e100.net; s=20221208; t=1690769905; x=1691374705;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YGe7yeLSCJNtOm6KMm1pCwSHsNpi9wZaHI6nfPlQl3c=;
+ b=cF1Z6I/tfNjVgg9SXvqkw+DmfcSXbN28mj587kOS2s19nES5fUZKaEkQKVw5uWGbxn
+ MCNIKlabswIcZwPrkOQhMPEIxHa/kDpsNKwd400Y69qvjLbm6g6ZemIbWNG+Ivn8Sr7O
+ o6uVipKdwVwj/5g3D9+k6V3NxPhLI4xQxvp4jwTgSl06NFY3CeXyMULzsMMHlm0OtTmC
+ l4fDVZb7Q7QVgdbCS5oKkdh5SJsRK7m1he7lEnU3uZufFuqogFDQEtIDaTicefxzuUCF
+ uc5S2lISJLYmNZI69YuX/4g7J+i8djKApNCUoBz4qLMtYs07LU9IVNfqja8KYzhsuE8d
+ FzjA==
+X-Gm-Message-State: ABy/qLae84jtjM0XT7nCkeH8gtHTFo23DSAoE+S5oIxHcXcsq9xJhhEx
+ edgjEAuJvIqYT1i3Tljvpjc=
+X-Google-Smtp-Source: APBJJlFEz/QKJPg44Ka8GKBHJeWwG0oxzm4iA/VEL0cm8A0/7em09GsIoQpzhFflx+zfO6TcGfEObQ==
+X-Received: by 2002:a05:6a20:3d21:b0:10b:bf2d:71bb with SMTP id
+ y33-20020a056a203d2100b0010bbf2d71bbmr9643953pzi.27.1690769905200; 
+ Sun, 30 Jul 2023 19:18:25 -0700 (PDT)
+Received: from rajgad.hsd1.ca.comcast.net
+ ([2601:204:df00:9cd0:f50b:8f24:acc4:e5c])
  by smtp.gmail.com with ESMTPSA id
- h11-20020ac25d6b000000b004fa4323ec97sm1899712lft.301.2023.07.30.21.15.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Jul 2023 21:15:42 -0700 (PDT)
-Message-ID: <de406c53-023d-f477-17f2-7d6dabf838bd@linaro.org>
-Date: Mon, 31 Jul 2023 07:15:42 +0300
+ y1-20020aa78041000000b00686bcfb5a34sm6460022pfm.124.2023.07.30.19.18.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Jul 2023 19:18:24 -0700 (PDT)
+From: Atul Raut <rauji.raut@gmail.com>
+To: deller@gmx.de
+Subject: [PATCH] fbdev/amifb: Replace zero-length arrays with
+ DECLARE_FLEX_ARRAY() helper
+Date: Sun, 30 Jul 2023 19:18:08 -0700
+Message-Id: <20230731021808.24997-1-rauji.raut@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RFC v5 09/10] drm/msm/dpu: Use DRM solid_fill property
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
- <20230728-solid-fill-v5-9-053dbefa909c@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230728-solid-fill-v5-9-053dbefa909c@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 31 Jul 2023 07:15:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,98 +73,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- ppaalanen@gmail.com, laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, wayland-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2023 20:02, Jessica Zhang wrote:
-> Drop DPU_PLANE_COLOR_FILL_FLAG and check the DRM solid_fill property to
-> determine if the plane is solid fill. In addition drop the DPU plane
-> color_fill field as we can now use drm_plane_state.solid_fill instead,
-> and pass in drm_plane_state.alpha to _dpu_plane_color_fill_pipe() to
-> allow userspace to configure the alpha value for the solid fill color.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 24 ++++++++++++++++++------
->   1 file changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 114c803ff99b..95fc0394d13e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -42,7 +42,6 @@
->   #define SHARP_SMOOTH_THR_DEFAULT	8
->   #define SHARP_NOISE_THR_DEFAULT	2
->   
-> -#define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
->   #define DPU_ZPOS_MAX 255
->   
->   /*
-> @@ -82,7 +81,6 @@ struct dpu_plane {
->   
->   	enum dpu_sspp pipe;
->   
-> -	uint32_t color_fill;
->   	bool is_error;
->   	bool is_rt_pipe;
->   	const struct dpu_mdss_cfg *catalog;
-> @@ -606,6 +604,20 @@ static void _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
->   	_dpu_plane_setup_scaler(pipe, fmt, true, &pipe_cfg, pstate->rotation);
->   }
->   
-> +static uint32_t _dpu_plane_get_bgr_fill_color(struct drm_solid_fill solid_fill)
+Replacing zero-length arrays with C99 flexible-array members
+because they are deprecated. Use the new DECLARE_FLEX_ARRAY()
+auxiliary macro instead of defining a zero-length array.
 
-As I commented for v4 (please excuse me for not responding to your email 
-at thattime), we can return abgr here, taking plane->state->alpha into 
-account.
+This fixes warnings such as:
+./drivers/video/fbdev/amifb.c:690:6-10: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-> +{
-> +	uint32_t ret = 0;
-> +	uint8_t b = solid_fill.b >> 24;
-> +	uint8_t g = solid_fill.g >> 24;
-> +	uint8_t r = solid_fill.r >> 24;
-> +
-> +	ret |= b << 16;
-> +	ret |= g << 8;
-> +	ret |= r;
-> +
-> +	return ret;
-> +}
-> +
->   /**
->    * _dpu_plane_color_fill - enables color fill on plane
->    * @pdpu:   Pointer to DPU plane object
-> @@ -977,9 +989,9 @@ void dpu_plane_flush(struct drm_plane *plane)
->   	if (pdpu->is_error)
->   		/* force white frame with 100% alpha pipe output on error */
->   		_dpu_plane_color_fill(pdpu, 0xFFFFFF, 0xFF);
-> -	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
-> -		/* force 100% alpha */
-> -		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
-> +	else if (drm_plane_solid_fill_enabled(plane->state))
-> +		_dpu_plane_color_fill(pdpu, _dpu_plane_get_bgr_fill_color(plane->state->solid_fill),
-> +				plane->state->alpha);
->   	else {
->   		dpu_plane_flush_csc(pdpu, &pstate->pipe);
->   		dpu_plane_flush_csc(pdpu, &pstate->r_pipe);
-> @@ -1024,7 +1036,7 @@ static void dpu_plane_sspp_update_pipe(struct drm_plane *plane,
->   	}
->   
->   	/* override for color fill */
-> -	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
-> +	if (drm_plane_solid_fill_enabled(plane->state)) {
->   		_dpu_plane_set_qos_ctrl(plane, pipe, false);
->   
->   		/* skip remaining processing on color fill */
-> 
+Signed-off-by: Atul Raut <rauji.raut@gmail.com>
+---
+ drivers/video/fbdev/amifb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/video/fbdev/amifb.c b/drivers/video/fbdev/amifb.c
+index d88265dbebf4..f216b2c702a1 100644
+--- a/drivers/video/fbdev/amifb.c
++++ b/drivers/video/fbdev/amifb.c
+@@ -687,7 +687,7 @@ struct fb_var_cursorinfo {
+ 	__u16 height;
+ 	__u16 xspot;
+ 	__u16 yspot;
+-	__u8 data[1];			/* field with [height][width]        */
++	DECLARE_FLEX_ARRAY(__u8, data);	/* field with [height][width]        */
+ };
+ 
+ struct fb_cursorstate {
 -- 
-With best wishes
-Dmitry
+2.34.1
 
