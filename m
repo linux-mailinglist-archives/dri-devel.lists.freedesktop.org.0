@@ -2,50 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2A07697F8
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 15:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D75E769995
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 16:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0F710E2A5;
-	Mon, 31 Jul 2023 13:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAA910E1CF;
+	Mon, 31 Jul 2023 14:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF8B10E2A5;
- Mon, 31 Jul 2023 13:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=phaaJIZq1BLWmPqCytuBa+h2XJylFF98eK0c+HuebO4=; b=Fr1NrfcLzdpJVpmcOBL17zaxcV
- zEYs26Dbdcqza8yQ2T/gXt6eJXboPEJDuFGznraLpotq5X7rjBlo3FpAmzHfseZRvk68l8JasNeG0
- +WtScm3eUB5qzFnSVptSpdbfn3qDJe20ysVK0l4UYj/pksK8xkHmndNPZ00AHymM1PT3Pm8xhyoDY
- P+N/gRHEh7Tq3zv150c3HLMnk43p8seEmT9AypoQn+WvEN1JpoUi0OMnBGLkKxGj2S7ARg8vVk7DS
- ncdBCZlrKI1aVZGJJBi4u8phMp2+tpPtCrQZpp5BoEk7L6K4hd2fVmDuvQ7SjuHtMjV1S1M4MQvp1
- CtbLs/0Q==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1qQTEs-001wMI-Lv; Mon, 31 Jul 2023 13:47:11 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0F9B93001DD;
- Mon, 31 Jul 2023 15:47:10 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id EB506203EA053; Mon, 31 Jul 2023 15:47:09 +0200 (CEST)
-Date: Mon, 31 Jul 2023 15:47:09 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v3 0/4] mm: convert to vma_is_initial_heap/stack()
-Message-ID: <20230731134709.GJ29590@hirez.programming.kicks-ass.net>
-References: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
+X-Greylist: delayed 1169 seconds by postgrey-1.36 at gabe;
+ Mon, 31 Jul 2023 14:34:17 UTC
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7295210E1CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 14:34:17 +0000 (UTC)
+Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4RF0Xh2Lw8z6J6sJ;
+ Mon, 31 Jul 2023 22:11:32 +0800 (CST)
+Received: from mscphis00759.huawei.com (10.123.66.134) by
+ lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 15:14:44 +0100
+From: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+To: <bskeggs@redhat.com>
+Subject: [PATCH] drivers: gpu: drm: nouveau: fix invalid variable name
+Date: Mon, 31 Jul 2023 22:14:37 +0800
+Message-ID: <20230731141437.3280099-1-konstantin.meskhidze@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230728050043.59880-1-wangkefeng.wang@huawei.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.123.66.134]
+X-ClientProxiedBy: mscpeml500002.china.huawei.com (7.188.26.138) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,32 +47,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stephen.smalley.work@gmail.com, paul@paul-moore.com,
- David Hildenbrand <david@redhat.com>, selinux@vger.kernel.org,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com, acme@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-perf-users@vger.kernel.org, linux-mm@kvack.org,
- amd-gfx@lists.freedesktop.org, eparis@parisplace.org,
- linux-fsdevel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, christian.koenig@amd.com,
- Christian =?iso-8859-1?Q?G=F6ttsche?= <cgzones@googlemail.com>
+Cc: kherbst@redhat.com, artem.kuzin@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yusongping@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 28, 2023 at 01:00:39PM +0800, Kefeng Wang wrote:
+This commit fixes logic error in function 'nvkm_dp_train':
+	argument of function nvkm_dp_train_link might be rate, not ret
 
-> Kefeng Wang (4):
->   mm: factor out VMA stack and heap checks
->   drm/amdkfd: use vma_is_initial_stack() and vma_is_initial_heap()
->   selinux: use vma_is_initial_stack() and vma_is_initial_heap()
->   perf/core: use vma_is_initial_stack() and vma_is_initial_heap()
-> 
->  drivers/gpu/drm/amd/amdkfd/kfd_svm.c |  5 +----
->  fs/proc/task_mmu.c                   | 24 ++++----------------
->  fs/proc/task_nommu.c                 | 15 +------------
->  include/linux/mm.h                   | 25 +++++++++++++++++++++
->  kernel/events/core.c                 | 33 ++++++++++------------------
->  security/selinux/hooks.c             |  7 ++----
->  6 files changed, 44 insertions(+), 65 deletions(-)
+Co-developed-by: Ivanov Mikhail <ivanov.mikhail1@huawei-partners.com>
+Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+index 40c8ea43c..8740978ac 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+@@ -455,7 +455,7 @@ nvkm_dp_train(struct nvkm_outp *outp, u32 dataKBps)
+ 	if (atomic_read(&outp->dp.lt.done)) {
+ 		for (rate = 0; rate < outp->dp.rates; rate++) {
+ 			if (outp->dp.rate[rate].rate == ior->dp.bw * 27000)
+-				return nvkm_dp_train_link(outp, ret);
++				return nvkm_dp_train_link(outp, rate);
+ 		}
+ 		WARN_ON(1);
+ 		return -EINVAL;
+-- 
+2.34.1
+
