@@ -1,58 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0953A76995C
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 16:22:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E74A769985
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 16:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2BD510E199;
-	Mon, 31 Jul 2023 14:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66E2610E14B;
+	Mon, 31 Jul 2023 14:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2880F10E1AF
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 14:22:12 +0000 (UTC)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645D010E14B
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 14:31:54 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-31765792c7cso4914356f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 07:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1690813333; x=1722349333;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Xk+rV1VysFJ/xOFgC1e08H4mMK1gFscEXdl1Drhgqvo=;
- b=kF/AQ6m3+PgizUbI7YVpDxV8TcRNRg26jzIY5qBgLPrjzCgTtaSmDJpj
- AsqotrTOBVsPl1ZQH1rc3Zu1Vv4ZLE3kmZ6iyoHtDxrnXdx0r3eRGZds6
- 06w/Io+sAG/5x55F2Cvpdwz5aXsTCZzJj/nEfcJ4Lm9D6qPoiONayoPiw
- wHAFSmz5+rBI9slls9VHcH2FjBPsMaUgw1VifxClEW3M9YvYLY8oeW0kN
- 9n7vE79kCResli1iL7IESNBc6SjaQ4gVsP/JPdNQxb+yaXGwQ3xmstfmM
- gk0bRRa8jCfRk3uqEwn3YvgcMgOP/lWeS4KGIYVNv466+t122fgeduQOd Q==;
-X-IronPort-AV: E=Sophos;i="6.01,244,1684792800"; d="scan'208";a="32207455"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 31 Jul 2023 16:22:10 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 69F5D280075;
- Mon, 31 Jul 2023 16:22:10 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Aradhya Bhatia <a-bhatia1@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v3] drm/bridge: Add debugfs print for bridge chains
-Date: Mon, 31 Jul 2023 16:22:10 +0200
-Message-ID: <2704185.mvXUDI8C0e@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230731-drm-bridge-chain-debugfs-v3-1-7d0739f3efa3@ideasonboard.com>
-References: <20230731-drm-bridge-chain-debugfs-v3-1-7d0739f3efa3@ideasonboard.com>
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690813913; x=1691418713; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=C2IHwKYnLNDMWdLQxEd/SU6Gdll+SBIjNHACmkW+1QA=;
+ b=1Qf5eCcJY8sevNEC/HX5WLYyVc+EFCLz9jXCySaH7tyM+geGe1kMnUSZ+/E4BYlCXh
+ W3edA2AXUuC5BKOj8XrvmeNHJ7WP9ifEwtiPu9Tp52dWyoTMnISkGQ2qmyD9p1xONMr5
+ 4Bk0RYDmiJ15bYd4a/yLPTy3t6ButwFW8Nbvo7Jfz2/DmxwFcxSZws9UYQOZwlg7Vh+2
+ Q7hOkVEUUL/dc8XEUfKogGjybD4/mRfnbWugqUafRzXXZPCgu13+WLkgjrSpg6zwrC9k
+ DosdBrNSqNpCpIF9hP6S4tkKVcWLAxPo1+Rb9h/BoUFYP5nABGsShjPI9gJuopM3lz8s
+ UPEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690813913; x=1691418713;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=C2IHwKYnLNDMWdLQxEd/SU6Gdll+SBIjNHACmkW+1QA=;
+ b=gymc2O3DqhP05vpZ3jdBe+jUBy6hxA3SIUiB9BAs+v9q7SCEYe821MXA2tnUDvti7e
+ bQ50uxxcaH/zl6zkfuTlIVKbyzOCAyyE2i/0UZYc4dzk613n14zM7dFjZlucLKGG49rk
+ uf62BrZ36MIqG5sDyoy6JbjqxpQQ2cxqN/fSVlDM1EEQa2hzpYIIFUiYF4LX6fe6FoXq
+ KUP+DCahJogEZyuZntH3SlSs90mGGsLQdnkvbW2/PSNm6h7vs/5qpabp6onJPnFX4ohG
+ HV5oNMh6JiY7QoStDCWh/azFdWVSAXO0Fer2F0e9iLDFD48R+zvwsXqvDQtG5PD/UwEJ
+ Es2w==
+X-Gm-Message-State: ABy/qLYtPNMLWat0IQWGJInhvOoKMdyJEQjOOrIRxdWZlOGoPvp9W9J9
+ qMsv4uLNVqWP0416TIlsRlgj9w==
+X-Google-Smtp-Source: APBJJlH00VTTAnNgAW+4jvAVqrnGVXcPWqJGW20E2ovP93Zlr7ToKwpkPaYdKeXrn2KrLbF/uGp/ZQ==
+X-Received: by 2002:a5d:53d1:0:b0:317:3b13:94c3 with SMTP id
+ a17-20020a5d53d1000000b003173b1394c3mr3768wrw.41.1690813912679; 
+ Mon, 31 Jul 2023 07:31:52 -0700 (PDT)
+Received: from [127.0.1.1] ([93.5.22.158])
+ by smtp.googlemail.com with ESMTPSA id
+ i8-20020adfefc8000000b0030ada01ca78sm13301675wrp.10.2023.07.31.07.31.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Jul 2023 07:31:52 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: [PATCH v3 0/3] Add startek-kd070fhfid015 display support
+Date: Mon, 31 Jul 2023 16:31:44 +0200
+Message-Id: <20230711-startek_display-v3-0-dc847e6b359b@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANDFx2QC/4WNXQuCMBhG/4rsuoWbuGlX/Y+I2MdrvrSmbDYS8
+ b83vQyiy/PAc85CIgSESE7FQgIkjDj4DNWhIKZX/g4UbWbCS16VkjEaJxUmeNwsxtGpmbZ1Y7m
+ oO6GVIvmlVQSqg/Kmzz//ci6PY4AO33vmcs3cY5yGMO/VxLb1dyAxWlImqpZJDbZq6rNWs0Md4
+ GiGJ9l0if9R8KxopDZSWzAC2i/Fuq4f9McorwkBAAA=
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2339; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=i6hwF/bJpJiGLlOquFWKnen03Rk1zyVrmixDTCRPG84=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBkx8XXu3CXuIBVE4+ylx3SVjuGG6Y/iHPbGE8oiaZd
+ ttt09YuJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZMfF1wAKCRArRkmdfjHURUCED/
+ 0dUeD68t5MIIs++03ZpXnCgWOUMbzXPT9Qjuw7VUV4cixKxnp8cjGoF+e8V3RWOTx8y2WuUqcP6kDm
+ PFEWU7yRd6D/vbNIvB07ueoF0Hk2rRRZWHCaGXNAr3KGI2Kb3NIPzQp0m4uk/f32vIUQDX2olHT+hK
+ gRxi6aQVqHPSnvz09aqghcOuLC9z8dF0YAUtdfb4INILqTOfgKT9CEdlwXfpttt02fdofnXtf5u9P1
+ Je1C5yRBe4MDTZuIJDCu5Z5tSqIzkBlIcjLcFVJO3U5KhoCHkMKF+CGOWnIBL4JVjSzPh7QnZ9vdtp
+ Pg6ECNV1fg+ny4AD3JzSQHthyIISd9VTeyMCvY2VHiKMUvEQJqzHsWgME+vK7NOTQ7967dPW1AGha0
+ eSxSrzBgmKHdgR7sfeeOboqGNQsNiJ57dgZB9zJiuuNxbmsC0mVICdjJlM4Ht6x5UhahUBgjeztMe+
+ Lk92bEnejpMUa2tOyHX0SMwOSnM5RoA3Dhor9S2ZyQI8fzUm8BBfQBTsEkU2d9T+f7WBt/pXFIpXfM
+ iYRQ/XeLFDBnTxq3yOqj3nkoseI/VY3aG1xzndpOrdb9u73Uc3y1XLOZ/Ir+GeRC/DAWJ/01ez1xAW
+ 3syFP+w29gsfhsIBwI384Whi0a4UkpYKGxbOBKLib9NvaYcUkk0rAz7pPL3Q==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,192 +97,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Guillaume La Roque <glaroque@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Add the support of the Startek KD070FHFID015 panel.
+It's a 7-inch TFT LCD display with a resolution of 1024 x 600 pixels.
 
-Am Montag, 31. Juli 2023, 14:13:14 CEST schrieb Tomi Valkeinen:
-> DRM bridges are not visible to the userspace and it may not be
-> immediately clear if the chain is somehow constructed incorrectly. I
-> have had two separate instances of a bridge driver failing to do a
-> drm_bridge_attach() call, resulting in the bridge connector not being
-> part of the chain. In some situations this doesn't seem to cause issues,
-> but it will if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is used.
->=20
-> Add a debugfs file to print the bridge chains. For me, on this TI AM62
-> based platform, I get the following output:
->=20
-> encoder[39]
-> 	bridge[0] type: 0, ops: 0x0
-> 	bridge[1] type: 0, ops: 0x0, OF:
-> /bus@f0000/i2c@20000000/dsi@e:toshiba,tc358778 bridge[2] type: 0, ops: 0x=
-3,
-> OF: /bus@f0000/i2c@20010000/hdmi@48:lontium,lt8912b bridge[3] type: 11,
-> ops: 0x7, OF: /hdmi-connector:hdmi-connector
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+I use this display plugged to my mt8365-evk board.
 
-Looks good:
-$ for dev in /sys/kernel/debug/dri/*; do cat $dev/bridge_chains; done
-cat: /sys/kernel/debug/dri/0/bridge_chains: No such file or directory
-encoder[36]
-        bridge[0] type: 0, ops: 0x0, OF: /soc@0/bus@32c00000/display-
-bridge@32fc4000:fsl,imx8mp-hdmi-pvi
-        bridge[1] type: 0, ops: 0x7, OF: /soc@0/bus@32c00000/
-hdmi@32fd8000:fsl,imx8mp-hdmi
-cat: /sys/kernel/debug/dri/128/bridge_chains: No such file or directory
-encoder[36]
-        bridge[0] type: 16, ops: 0x0, OF: /soc@0/bus@32c00000/
-dsi@32e60000:fsl,imx8mp-mipi-dsim
-        bridge[1] type: 10, ops: 0x3, OF: /soc@0/bus@30800000/i2c@30a30000/
-bridge@f:toshiba,tc9595
+This serie come from a bigger one [1]. Then I addressed the previous
+comments for the related commits here.
 
+[1]: https://lore.kernel.org/all/20230220-display-v1-0-45cbc68e188b@baylibre.com/
 
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+Changes in v3:
+- Remove spurious line.
+- Remove useless ops (enable and disable).
+- Remove brightness value init because it is set right after
+  using mipi_dsi_dcs_get_display_brightness(...).
+- Link to v2: https://lore.kernel.org/r/20230711-startek_display-v2-0-87bc7bdec6e9@baylibre.com
 
-> ---
-> Changes in v3:
-> - Use drm_for_each_bridge_in_chain()
-> - Drop extra comment
-> - Fix whitespace issue
-> - Call drm_bridge_debugfs_init() only if the driver uses modeset
-> - Drop #ifdef for drm_bridge_debugfs_init() declaration
-> - Link to v2:
-> https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v2-1-76df9434=
-79
-> 62@ideasonboard.com
->=20
-> Changes in v2:
-> - Fixed compilation issue when !CONFIG_OF
-> - Link to v1:
-> https://lore.kernel.org/r/20230721-drm-bridge-chain-debugfs-v1-1-8614ff7e=
-89
-> 0d@ideasonboard.com ---
->  drivers/gpu/drm/drm_bridge.c  | 46
-> +++++++++++++++++++++++++++++++++++++++++++ drivers/gpu/drm/drm_debugfs.c=
- |
->  3 +++
->  include/drm/drm_bridge.h      |  3 +++
->  3 files changed, 52 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index c3d69af02e79..39e68e45bb12 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -27,8 +27,10 @@
->  #include <linux/mutex.h>
->=20
->  #include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_debugfs.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_file.h>
->  #include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->=20
-> @@ -1345,6 +1347,50 @@ struct drm_bridge *of_drm_find_bridge(struct
-> device_node *np) EXPORT_SYMBOL(of_drm_find_bridge);
->  #endif
->=20
-> +#ifdef CONFIG_DEBUG_FS
-> +static int drm_bridge_chains_info(struct seq_file *m, void *data)
-> +{
-> +	struct drm_debugfs_entry *entry =3D m->private;
-> +	struct drm_device *dev =3D entry->dev;
-> +	struct drm_printer p =3D drm_seq_file_printer(m);
-> +	struct drm_mode_config *config =3D &dev->mode_config;
-> +	struct drm_encoder *encoder;
-> +	unsigned int bridge_idx =3D 0;
-> +
-> +	list_for_each_entry(encoder, &config->encoder_list, head) {
-> +		struct drm_bridge *bridge;
-> +
-> +		drm_printf(&p, "encoder[%u]\n", encoder->base.id);
-> +
-> +		drm_for_each_bridge_in_chain(encoder, bridge) {
-> +			drm_printf(&p, "\tbridge[%u] type: %u, ops:=20
-%#x",
-> +				   bridge_idx, bridge->type, bridge-
->ops);
-> +
-> +#ifdef CONFIG_OF
-> +			if (bridge->of_node)
-> +				drm_printf(&p, ", OF: %pOFfc", bridge-
->of_node);
-> +#endif
-> +
-> +			drm_printf(&p, "\n");
-> +
-> +			bridge_idx++;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_debugfs_info drm_bridge_debugfs_list[] =3D {
-> +	{ "bridge_chains", drm_bridge_chains_info, 0 },
-> +};
-> +
-> +void drm_bridge_debugfs_init(struct drm_minor *minor)
-> +{
-> +	drm_debugfs_add_files(minor->dev, drm_bridge_debugfs_list,
-> +			      ARRAY_SIZE(drm_bridge_debugfs_list));
-> +}
-> +#endif
-> +
->  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
->  MODULE_DESCRIPTION("DRM bridge infrastructure");
->  MODULE_LICENSE("GPL and additional rights");
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index a3a488205009..3b1de2c61c89 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -31,6 +31,7 @@
->=20
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_auth.h>
-> +#include <drm/drm_bridge.h>
->  #include <drm/drm_client.h>
->  #include <drm/drm_debugfs.h>
->  #include <drm/drm_device.h>
-> @@ -274,6 +275,8 @@ int drm_debugfs_init(struct drm_minor *minor, int
-> minor_id,
->=20
->  	if (drm_drv_uses_atomic_modeset(dev)) {
->  		drm_atomic_debugfs_init(minor);
-> +
-> +		drm_bridge_debugfs_init(minor);
->  	}
->=20
->  	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index bf964cdfb330..cb10ee108538 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -949,4 +949,7 @@ static inline struct drm_bridge
-> *drmm_of_get_bridge(struct drm_device *drm, }
->  #endif
->=20
-> +struct drm_minor;
-> +void drm_bridge_debugfs_init(struct drm_minor *minor);
-> +
->  #endif
->=20
-> ---
-> base-commit: a0c64d153d687756c8719b8d10e609d62e1cb6fd
-> change-id: 20230721-drm-bridge-chain-debugfs-0bbc1522f57a
->=20
-> Best regards,
+Changes in v2:
+- Replace "dcdc-gpio" by "enable-gpio" because this pin enable the
+  Power IC supply. Also, this property come from panel-common.
+- Remove height-mm and width-mm since they are useless here.
+- Re-order elements in the stk_panel structure for readability.
+- Link to v1: https://lore.kernel.org/r/20230711-startek_display-v1-0-163917bed385@baylibre.com
 
+Changes in v1:
+- Fix typos in the driver.
+- Merge 2 regulators in one bulk variable in the driver.
+- Remove backlight enable/disable from the driver because it's already
+  managed by the backlight core.
+- Move hardcoded values from function to the generic structure in the
+  driver.
+- Remove unnecessary function (stk_panel_del).
+- Replace some functions by macro to increase the readability.
+- Link to parent serie: [1]
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+---
+Alexandre Mergnat (2):
+      dt-bindings: display: panel: add startek kd070fhfid015 support
+      arm64: defconfig: enable STARTEK KD070FHFID015 panel
 
+Guillaume La Roque (1):
+      drm/panel: Support for startek-kd070fhfid015 MIPI-DSI panel
+
+ .../display/panel/startek,kd070fhfid015.yaml       |  69 ++++
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 412 +++++++++++++++++++++
+ 5 files changed, 494 insertions(+)
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20230711-startek_display-958d265f6baa
+
+Best regards,
+-- 
+Alexandre Mergnat <amergnat@baylibre.com>
 
