@@ -1,48 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C9F768EA4
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 09:26:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C349768EB9
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 09:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F06F510E1B6;
-	Mon, 31 Jul 2023 07:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0340A10E1B8;
+	Mon, 31 Jul 2023 07:30:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC2910E1B4;
- Mon, 31 Jul 2023 07:26:49 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1350910E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 07:30:05 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id ECA5E6600864;
- Mon, 31 Jul 2023 08:26:47 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690788408;
- bh=Dl0D4otBmCPm0beV9BP4LbGNhdrng4k1uCVDAzbYi1g=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=c6Vi0O4DqwvzxWERDfTrKI/oG9A+ef604d707689jOlswgDGcqBpC68fo4ezPP/SX
- jbJv4+0tUbEVoGs+rkP5utWuyGvE54Rlbt9caisfGJFF3qkwpus6lQflXlZRSVljmy
- 9PLPrmypdL0q1XRMasMrJXxCDOyfXtjaSprtMx5t3ksFV+bee4v2YoZgpWkxQZS4/T
- 37162DHzh1WtBpifHYAcT96O4yHAZHPRSjwEaJbH2Y/rZ9K94w2z9k+k25h4Qah+aE
- FccvWmj4yJkAYY8P1YBB/R9dhQ4NCsfFOItP8BdLBToeZqJ2dticpmUvHWM6zbQDfd
- SoGHur9Pu1V7w==
-Date: Mon, 31 Jul 2023 09:26:45 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [RFC PATCH 06/10] drm/sched: Submit job before starting TDR
-Message-ID: <20230731092645.4faf7048@collabora.com>
-In-Reply-To: <ZMcHy4I/KNyZ2Q8k@DUT025-TGLU.fm.intel.com>
-References: <20230404002211.3611376-1-matthew.brost@intel.com>
- <20230404002211.3611376-7-matthew.brost@intel.com>
- <de3c70a2-1831-be00-0df3-4b8d6c593373@amd.com>
- <ZMcHy4I/KNyZ2Q8k@DUT025-TGLU.fm.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7CCEA1F74C;
+ Mon, 31 Jul 2023 07:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1690788604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Ser/Jbt0cOPxs1Q4uF18wjYZIOsNyb+X1QU88SlYdY=;
+ b=WzuRrgq/HUYs4SR7OehQmT2chHht49leM7AsTYNpAF8XywbdhVrEycHYasDGkAsqlDvJiI
+ 8iOO4sJUefyLvRun4Blx4Ji5mNUNOOqtPhxORIL3fP5K5kfV37qsBwnCrHQiXP/oHJ62TW
+ rsCArY3qxDdnogJBTae2ych6Ogkd/ok=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1690788604;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Ser/Jbt0cOPxs1Q4uF18wjYZIOsNyb+X1QU88SlYdY=;
+ b=9AV6xidI7DGcLqyA38E3FCV/CWxtDWfVf9MPbJ4ETSzvTeEei08P2ll1+TvmtBbbTWvadR
+ NPjT54/JRg0X3fCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5A7E91322C;
+ Mon, 31 Jul 2023 07:30:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4N0GFfxix2RDAwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 31 Jul 2023 07:30:04 +0000
+Message-ID: <bd0338f7-d79e-dfff-581b-b16352c5371c@suse.de>
+Date: Mon, 31 Jul 2023 09:30:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH 3/4] fbdev: Use _DMAMEM_ infix for DMA-memory helpers
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, sam@ravnborg.org, javierm@redhat.com
+References: <20230729193157.15446-1-tzimmermann@suse.de>
+ <20230729193157.15446-4-tzimmermann@suse.de>
+ <e25eaae4-dcc9-7864-c655-f9e739db7970@gmx.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <e25eaae4-dcc9-7864-c655-f9e739db7970@gmx.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------JoBUal1S7COniLTsPqXOVNZB"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,61 +71,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- Sarah Walker <sarah.walker@imgtec.com>, airlied@linux.ie, lina@asahilina.net,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- Luben Tuikov <luben.tuikov@amd.com>, Donald Robson <Donald.Robson@imgtec.com>,
- intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+the PVR devs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------JoBUal1S7COniLTsPqXOVNZB
+Content-Type: multipart/mixed; boundary="------------E0nXXJtXJ8k7nFCdY7FswvAL";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Helge Deller <deller@gmx.de>, sam@ravnborg.org, javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <bd0338f7-d79e-dfff-581b-b16352c5371c@suse.de>
+Subject: Re: [PATCH 3/4] fbdev: Use _DMAMEM_ infix for DMA-memory helpers
+References: <20230729193157.15446-1-tzimmermann@suse.de>
+ <20230729193157.15446-4-tzimmermann@suse.de>
+ <e25eaae4-dcc9-7864-c655-f9e739db7970@gmx.de>
+In-Reply-To: <e25eaae4-dcc9-7864-c655-f9e739db7970@gmx.de>
 
-On Mon, 31 Jul 2023 01:00:59 +0000
-Matthew Brost <matthew.brost@intel.com> wrote:
+--------------E0nXXJtXJ8k7nFCdY7FswvAL
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> On Thu, May 04, 2023 at 01:23:05AM -0400, Luben Tuikov wrote:
-> > On 2023-04-03 20:22, Matthew Brost wrote:  
-> > > If the TDR is set to a value, it can fire before a job is submitted in
-> > > drm_sched_main. The job should be always be submitted before the TDR
-> > > fires, fix this ordering.
-> > > 
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/scheduler/sched_main.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index 6ae710017024..4eac02d212c1 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -1150,10 +1150,10 @@ static void drm_sched_main(struct work_struct *w)
-> > >  		s_fence = sched_job->s_fence;
-> > >  
-> > >  		atomic_inc(&sched->hw_rq_count);
-> > > -		drm_sched_job_begin(sched_job);
-> > >  
-> > >  		trace_drm_run_job(sched_job, entity);
-> > >  		fence = sched->ops->run_job(sched_job);
-> > > +		drm_sched_job_begin(sched_job);
-> > >  		complete_all(&entity->entity_idle);
-> > >  		drm_sched_fence_scheduled(s_fence);
-> > >    
-> > 
-> > Not sure if this is correct. In drm_sched_job_begin() we add the job to the "pending_list"
-> > (meaning it is pending execution in the hardware) and we also start a timeout timer. Both
-> > of those should be started before the job is given to the hardware.
-> >   
-> 
-> The correct solution is probably add to pending list before run_job()
-> and kick TDR after run_job().
+SGkNCg0KQW0gMzAuMDcuMjMgdW0gMTg6MjAgc2NocmllYiBIZWxnZSBEZWxsZXI6DQo+IE9u
+IDcvMjkvMjMgMjE6MjYsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gQ2hhbmdlIHRo
+ZSBpbmZpeCBmb3IgZmJkZXYncyBETUEtbWVtb3J5IGhlbHBlcnMgZnJvbSBfRE1BXyB0bw0K
+Pj4gX0RNQU1FTV8uIFRoZSBoZWxwZXJzIHBlcmZvcm0gb3BlcmF0aW9ucyB3aXRoaW4gRE1B
+LWFibGUgbWVtb3J5LA0KPiANCj4gU2luY2UgIkRNQSIgc3RhbmRzIGZvciAiRGlyZWN0IE1l
+bW9yeSBBY2Nlc3MiLCBwZW9wbGUgYWxyZWFkeQ0KPiBrbm93IHRoYXQgaXQgb3BlcmF0ZXMg
+b24gbWVtb3J5LiBJIGRvbid0IHRoaW5rIHdlIG5lZWQNCj4gdG8gYWRkICJNRU0iIGhlcmUu
+DQo+IFNvLCBtYXliZSB3ZSBzaG91bGQgZHJvcCB0aGlzIHBhdGNoIGFuZCBqdXN0IGtlZXAg
+IkRNQSI/DQoNCkkgdGhpbmsgSSdkIHJhdGhlciBsZWF2ZSBpdCB0byBETUFNRU0uIEl0J3Mg
+YSBiaXQgcmVkdW5kYW50LCBidXQgaXQncyANCmNvbnNpc3RlbnQgd2l0aCB0aGUgb3RoZXIg
+bmFtZXMgYW5kIGl0J3MgY2xlYXIuICBPdGhlcndpc2UsIHNvbWVvbmUgDQptaWdodCB0aGlu
+ZyB0aGVzZSBoZWxwZXJzIGFyZSBmb3IgdXNpbmcgRE1BIGVuZ2luZXMgb2Ygc29tZSBraW5k
+Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBPdGhlciB0aGFuIHRoYXQgeW91
+IHBhdGNoIHNlcmllcyBsb29rcyBnb29kIQ0KPiBBY2tlZC1ieTogSGVsZ2UgRGVsbGVyIDxk
+ZWxsZXJAZ214LmRlPg0KPiANCj4gSGVsZ2UNCj4gDQo+IA0KPj4gYnV0IHRoZXkgZG9uJ3Qg
+cGVyZm9ybSBETUEgb3BlcmF0aW9ucy4gTmFtaW5nIHNob3VsZCBtYWtlIHRoaXMNCj4+IGNs
+ZWFyLiBBZGFwdCBhbGwgdXNlcnMuIE5vIGZ1bmN0aW9uYWwgY2hhbmdlcy4NCj4+DQo+PiBT
+aWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4N
+Cj4+IC0tLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL0tjb25maWfCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZiZGV2X2RtYS5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA0ICsrLS0NCj4+IMKgIGRyaXZl
+cnMvZ3B1L2RybS9leHlub3MvS2NvbmZpZ8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICst
+DQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmJkZXYuYyB8IDQg
+KystLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vS2NvbmZpZ8KgwqDCoMKgwqDC
+oMKgwqDCoMKgIHwgMiArLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9m
+YmRldi5jwqDCoMKgwqDCoCB8IDQgKystLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL3RlZ3Jh
+L0tjb25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstDQo+PiDCoCBkcml2ZXJz
+L2dwdS9kcm0vdGVncmEvZmJkZXYuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDQgKyst
+LQ0KPj4gwqAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL0tjb25maWfCoMKgwqDCoMKgwqDC
+oMKgwqAgfCAyICstDQo+PiDCoCBpbmNsdWRlL2xpbnV4L2ZiLmjCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgNCArKy0tDQo+PiDCoCAxMCBmaWxl
+cyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkNCj4+DQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0v
+S2NvbmZpZw0KPj4gaW5kZXggMzRkYTczM2U4NjA2Li5iNTFjNmExNDFkZmEgMTAwNjQ0DQo+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZw0KPj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL0tjb25maWcNCj4+IEBAIC0yMjQsNyArMjI0LDcgQEAgY29uZmlnIERSTV9UVE1fSEVM
+UEVSDQo+PiDCoCBjb25maWcgRFJNX0dFTV9ETUFfSEVMUEVSDQo+PiDCoMKgwqDCoMKgIHRy
+aXN0YXRlDQo+PiDCoMKgwqDCoMKgIGRlcGVuZHMgb24gRFJNDQo+PiAtwqDCoMKgIHNlbGVj
+dCBGQl9ETUFfSEVMUEVSUyBpZiBEUk1fRkJERVZfRU1VTEFUSU9ODQo+PiArwqDCoMKgIHNl
+bGVjdCBGQl9ETUFNRU1fSEVMUEVSUyBpZiBEUk1fRkJERVZfRU1VTEFUSU9ODQo+PiDCoMKg
+wqDCoMKgIGhlbHANCj4+IMKgwqDCoMKgwqDCoMKgIENob29zZSB0aGlzIGlmIHlvdSBuZWVk
+IHRoZSBHRU0gRE1BIGhlbHBlciBmdW5jdGlvbnMNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9mYmRldl9kbWEuYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9mYmRldl9kbWEuYw0KPj4gaW5kZXggNmRiMTY4Zjk0MjkwLi42Yzk0MjdiYjQwNTMgMTAw
+NjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2RtYS5jDQo+PiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2RtYS5jDQo+PiBAQCAtNjIsOSArNjIsOSBA
+QCBzdGF0aWMgY29uc3Qgc3RydWN0IGZiX29wcyBkcm1fZmJkZXZfZG1hX2ZiX29wcyA9IHsN
+Cj4+IMKgwqDCoMKgwqAgLm93bmVyID0gVEhJU19NT0RVTEUsDQo+PiDCoMKgwqDCoMKgIC5m
+Yl9vcGVuID0gZHJtX2ZiZGV2X2RtYV9mYl9vcGVuLA0KPj4gwqDCoMKgwqDCoCAuZmJfcmVs
+ZWFzZSA9IGRybV9mYmRldl9kbWFfZmJfcmVsZWFzZSwNCj4+IC3CoMKgwqAgX19GQl9ERUZB
+VUxUX0RNQV9PUFNfUkRXUiwNCj4+ICvCoMKgwqAgX19GQl9ERUZBVUxUX0RNQU1FTV9PUFNf
+UkRXUiwNCj4+IMKgwqDCoMKgwqAgRFJNX0ZCX0hFTFBFUl9ERUZBVUxUX09QUywNCj4+IC3C
+oMKgwqAgX19GQl9ERUZBVUxUX0RNQV9PUFNfRFJBVywNCj4+ICvCoMKgwqAgX19GQl9ERUZB
+VUxUX0RNQU1FTV9PUFNfRFJBVywNCj4+IMKgwqDCoMKgwqAgLmZiX21tYXAgPSBkcm1fZmJk
+ZXZfZG1hX2ZiX21tYXAsDQo+PiDCoMKgwqDCoMKgIC5mYl9kZXN0cm95ID0gZHJtX2ZiZGV2
+X2RtYV9mYl9kZXN0cm95LA0KPj4gwqAgfTsNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vZXh5bm9zL0tjb25maWcgDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvS2Nv
+bmZpZw0KPj4gaW5kZXggNjYxYjQyYWQ0ODczLi43MzNiMTA5YTUwOTUgMTAwNjQ0DQo+PiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL0tjb25maWcNCj4+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9leHlub3MvS2NvbmZpZw0KPj4gQEAgLTcsNyArNyw3IEBAIGNvbmZpZyBEUk1f
+RVhZTk9TDQo+PiDCoMKgwqDCoMKgIHNlbGVjdCBEUk1fRElTUExBWV9IRUxQRVIgaWYgRFJN
+X0VYWU5PU19EUA0KPj4gwqDCoMKgwqDCoCBzZWxlY3QgRFJNX0tNU19IRUxQRVINCj4+IMKg
+wqDCoMKgwqAgc2VsZWN0IFZJREVPTU9ERV9IRUxQRVJTDQo+PiAtwqDCoMKgIHNlbGVjdCBG
+Ql9ETUFfSEVMUEVSUyBpZiBEUk1fRkJERVZfRU1VTEFUSU9ODQo+PiArwqDCoMKgIHNlbGVj
+dCBGQl9ETUFNRU1fSEVMUEVSUyBpZiBEUk1fRkJERVZfRU1VTEFUSU9ODQo+PiDCoMKgwqDC
+oMKgIHNlbGVjdCBTTkRfU09DX0hETUlfQ09ERUMgaWYgU05EX1NPQw0KPj4gwqDCoMKgwqDC
+oCBoZWxwDQo+PiDCoMKgwqDCoMKgwqDCoCBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IGhh
+dmUgYSBTYW1zdW5nIFNvQyBFeHlub3MgY2hpcHNldC4NCj4+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmJkZXYuYyANCj4+IGIvZHJpdmVycy9n
+cHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZiZGV2LmMNCj4+IGluZGV4IDRjY2IzODVhZmY1
+Mi4uYTM3OWM4Y2E0MzVhIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V4eW5v
+cy9leHlub3NfZHJtX2ZiZGV2LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3Mv
+ZXh5bm9zX2RybV9mYmRldi5jDQo+PiBAQCAtNDksOSArNDksOSBAQCBzdGF0aWMgdm9pZCBl
+eHlub3NfZHJtX2ZiX2Rlc3Ryb3koc3RydWN0IGZiX2luZm8gKmluZm8pDQo+Pg0KPj4gwqAg
+c3RhdGljIGNvbnN0IHN0cnVjdCBmYl9vcHMgZXh5bm9zX2RybV9mYl9vcHMgPSB7DQo+PiDC
+oMKgwqDCoMKgIC5vd25lcsKgwqDCoMKgwqDCoMKgID0gVEhJU19NT0RVTEUsDQo+PiAtwqDC
+oMKgIF9fRkJfREVGQVVMVF9ETUFfT1BTX1JEV1IsDQo+PiArwqDCoMKgIF9fRkJfREVGQVVM
+VF9ETUFNRU1fT1BTX1JEV1IsDQo+PiDCoMKgwqDCoMKgIERSTV9GQl9IRUxQRVJfREVGQVVM
+VF9PUFMsDQo+PiAtwqDCoMKgIF9fRkJfREVGQVVMVF9ETUFfT1BTX0RSQVcsDQo+PiArwqDC
+oMKgIF9fRkJfREVGQVVMVF9ETUFNRU1fT1BTX0RSQVcsDQo+PiDCoMKgwqDCoMKgIC5mYl9t
+bWFwwqDCoMKgwqDCoMKgwqAgPSBleHlub3NfZHJtX2ZiX21tYXAsDQo+PiDCoMKgwqDCoMKg
+IC5mYl9kZXN0cm95wqDCoMKgID0gZXh5bm9zX2RybV9mYl9kZXN0cm95LA0KPj4gwqAgfTsN
+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9LY29uZmlnIA0KPj4g
+Yi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9LY29uZmlnDQo+PiBpbmRleCBkM2M0ODc3ZTQ2
+NWMuLmI3MTUzMDFlYzc5ZiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFw
+ZHJtL0tjb25maWcNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL0tjb25maWcN
+Cj4+IEBAIC00LDcgKzQsNyBAQCBjb25maWcgRFJNX09NQVANCj4+IMKgwqDCoMKgwqAgZGVw
+ZW5kcyBvbiBEUk0gJiYgT0YNCj4+IMKgwqDCoMKgwqAgZGVwZW5kcyBvbiBBUkNIX09NQVAy
+UExVUw0KPj4gwqDCoMKgwqDCoCBzZWxlY3QgRFJNX0tNU19IRUxQRVINCj4+IC3CoMKgwqAg
+c2VsZWN0IEZCX0RNQV9IRUxQRVJTIGlmIERSTV9GQkRFVl9FTVVMQVRJT04NCj4+ICvCoMKg
+wqAgc2VsZWN0IEZCX0RNQU1FTV9IRUxQRVJTIGlmIERSTV9GQkRFVl9FTVVMQVRJT04NCj4+
+IMKgwqDCoMKgwqAgc2VsZWN0IFZJREVPTU9ERV9IRUxQRVJTDQo+PiDCoMKgwqDCoMKgIHNl
+bGVjdCBIRE1JDQo+PiDCoMKgwqDCoMKgIGRlZmF1bHQgbg0KPj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZmJkZXYuYyANCj4+IGIvZHJpdmVycy9ncHUv
+ZHJtL29tYXBkcm0vb21hcF9mYmRldi5jDQo+PiBpbmRleCA1YjMzYzc4OWUxN2EuLjZiMDhi
+MTM3YWYxYSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBf
+ZmJkZXYuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9mYmRldi5j
+DQo+PiBAQCAtMTA2LDEzICsxMDYsMTMgQEAgc3RhdGljIHZvaWQgb21hcF9mYmRldl9mYl9k
+ZXN0cm95KHN0cnVjdCBmYl9pbmZvIA0KPj4gKmluZm8pDQo+Pg0KPj4gwqAgc3RhdGljIGNv
+bnN0IHN0cnVjdCBmYl9vcHMgb21hcF9mYl9vcHMgPSB7DQo+PiDCoMKgwqDCoMKgIC5vd25l
+ciA9IFRISVNfTU9EVUxFLA0KPj4gLcKgwqDCoCBfX0ZCX0RFRkFVTFRfRE1BX09QU19SRFdS
+LA0KPj4gK8KgwqDCoCBfX0ZCX0RFRkFVTFRfRE1BTUVNX09QU19SRFdSLA0KPj4gwqDCoMKg
+wqDCoCAuZmJfY2hlY2tfdmFywqDCoMKgID0gZHJtX2ZiX2hlbHBlcl9jaGVja192YXIsDQo+
+PiDCoMKgwqDCoMKgIC5mYl9zZXRfcGFywqDCoMKgID0gZHJtX2ZiX2hlbHBlcl9zZXRfcGFy
+LA0KPj4gwqDCoMKgwqDCoCAuZmJfc2V0Y21hcMKgwqDCoCA9IGRybV9mYl9oZWxwZXJfc2V0
+Y21hcCwNCj4+IMKgwqDCoMKgwqAgLmZiX2JsYW5rwqDCoMKgID0gZHJtX2ZiX2hlbHBlcl9i
+bGFuaywNCj4+IMKgwqDCoMKgwqAgLmZiX3Bhbl9kaXNwbGF5ID0gb21hcF9mYmRldl9wYW5f
+ZGlzcGxheSwNCj4+IC3CoMKgwqAgX19GQl9ERUZBVUxUX0RNQV9PUFNfRFJBVywNCj4+ICvC
+oMKgwqAgX19GQl9ERUZBVUxUX0RNQU1FTV9PUFNfRFJBVywNCj4+IMKgwqDCoMKgwqAgLmZi
+X2lvY3RswqDCoMKgID0gZHJtX2ZiX2hlbHBlcl9pb2N0bCwNCj4+IMKgwqDCoMKgwqAgLmZi
+X21tYXDCoMKgwqAgPSBvbWFwX2ZiZGV2X2ZiX21tYXAsDQo+PiDCoMKgwqDCoMKgIC5mYl9k
+ZXN0cm95wqDCoMKgID0gb21hcF9mYmRldl9mYl9kZXN0cm95LA0KPj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9LY29uZmlnIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0v
+dGVncmEvS2NvbmZpZw0KPj4gaW5kZXggMzk0NTJjODQ4MGMxLi44NGU3ZTZiYzNhMGMgMTAw
+NjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEvS2NvbmZpZw0KPj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL3RlZ3JhL0tjb25maWcNCj4+IEBAIC0xMiw3ICsxMiw3IEBAIGNv
+bmZpZyBEUk1fVEVHUkENCj4+IMKgwqDCoMKgwqAgc2VsZWN0IERSTV9LTVNfSEVMUEVSDQo+
+PiDCoMKgwqDCoMKgIHNlbGVjdCBEUk1fTUlQSV9EU0kNCj4+IMKgwqDCoMKgwqAgc2VsZWN0
+IERSTV9QQU5FTA0KPj4gLcKgwqDCoCBzZWxlY3QgRkJfRE1BX0hFTFBFUlMgaWYgRFJNX0ZC
+REVWX0VNVUxBVElPTg0KPj4gK8KgwqDCoCBzZWxlY3QgRkJfRE1BTUVNX0hFTFBFUlMgaWYg
+RFJNX0ZCREVWX0VNVUxBVElPTg0KPj4gwqDCoMKgwqDCoCBzZWxlY3QgVEVHUkFfSE9TVDFY
+DQo+PiDCoMKgwqDCoMKgIHNlbGVjdCBJTlRFUkNPTk5FQ1QNCj4+IMKgwqDCoMKgwqAgc2Vs
+ZWN0IElPTU1VX0lPVkENCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGVncmEv
+ZmJkZXYuYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2ZiZGV2LmMNCj4+IGluZGV4
+IDIwNmEzOTljNDJkNi4uZGI2ZWFhYzNkMzBlIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3RlZ3JhL2ZiZGV2LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9m
+YmRldi5jDQo+PiBAQCAtNTksOSArNTksOSBAQCBzdGF0aWMgdm9pZCB0ZWdyYV9mYmRldl9m
+Yl9kZXN0cm95KHN0cnVjdCBmYl9pbmZvIA0KPj4gKmluZm8pDQo+Pg0KPj4gwqAgc3RhdGlj
+IGNvbnN0IHN0cnVjdCBmYl9vcHMgdGVncmFfZmJfb3BzID0gew0KPj4gwqDCoMKgwqDCoCAu
+b3duZXIgPSBUSElTX01PRFVMRSwNCj4+IC3CoMKgwqAgX19GQl9ERUZBVUxUX0RNQV9PUFNf
+UkRXUiwNCj4+ICvCoMKgwqAgX19GQl9ERUZBVUxUX0RNQU1FTV9PUFNfUkRXUiwNCj4+IMKg
+wqDCoMKgwqAgRFJNX0ZCX0hFTFBFUl9ERUZBVUxUX09QUywNCj4+IC3CoMKgwqAgX19GQl9E
+RUZBVUxUX0RNQV9PUFNfRFJBVywNCj4+ICvCoMKgwqAgX19GQl9ERUZBVUxUX0RNQU1FTV9P
+UFNfRFJBVywNCj4+IMKgwqDCoMKgwqAgLmZiX21tYXAgPSB0ZWdyYV9mYl9tbWFwLA0KPj4g
+wqDCoMKgwqDCoCAuZmJfZGVzdHJveSA9IHRlZ3JhX2ZiZGV2X2ZiX2Rlc3Ryb3ksDQo+PiDC
+oCB9Ow0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9LY29uZmln
+IA0KPj4gYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvS2NvbmZpZw0KPj4gaW5kZXggMjhl
+NzcxYTQ2ZGY2Li5iYWY3ZTg1MmM3NWIgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2NvcmUvS2NvbmZpZw0KPj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3Jl
+L0tjb25maWcNCj4+IEBAIC0xMzYsNyArMTM2LDcgQEAgY29uZmlnIEZCX0RFRkVSUkVEX0lP
+DQo+PiDCoMKgwqDCoMKgIGJvb2wNCj4+IMKgwqDCoMKgwqAgZGVwZW5kcyBvbiBGQl9DT1JF
+DQo+Pg0KPj4gLWNvbmZpZyBGQl9ETUFfSEVMUEVSUw0KPj4gK2NvbmZpZyBGQl9ETUFNRU1f
+SEVMUEVSUw0KPj4gwqDCoMKgwqDCoCBib29sDQo+PiDCoMKgwqDCoMKgIGRlcGVuZHMgb24g
+RkJfQ09SRQ0KPj4gwqDCoMKgwqDCoCBzZWxlY3QgRkJfU1lTX0NPUFlBUkVBDQo+PiBkaWZm
+IC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+PiBp
+bmRleCA3NjQ3MjQ4MmRjMzAuLmQyNTUyNjNjMmQxZCAxMDA2NDQNCj4+IC0tLSBhL2luY2x1
+ZGUvbGludXgvZmIuaA0KPj4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+PiBAQCAtNTc5
+LDExICs1NzksMTEgQEAgZXh0ZXJuIHNzaXplX3QgZmJfc3lzX3dyaXRlKHN0cnVjdCBmYl9p
+bmZvIA0KPj4gKmluZm8sIGNvbnN0IGNoYXIgX191c2VyICpidWYsDQo+PiDCoMKgICogSGVs
+cGVycyBmb3IgZnJhbWVidWZmZXJzIGluIERNQS1hYmxlIG1lbW9yeQ0KPj4gwqDCoCAqLw0K
+Pj4NCj4+IC0jZGVmaW5lIF9fRkJfREVGQVVMVF9ETUFfT1BTX1JEV1IgXA0KPj4gKyNkZWZp
+bmUgX19GQl9ERUZBVUxUX0RNQU1FTV9PUFNfUkRXUiBcDQo+PiDCoMKgwqDCoMKgIC5mYl9y
+ZWFkwqDCoMKgID0gZmJfc3lzX3JlYWQsIFwNCj4+IMKgwqDCoMKgwqAgLmZiX3dyaXRlwqDC
+oMKgID0gZmJfc3lzX3dyaXRlDQo+Pg0KPj4gLSNkZWZpbmUgX19GQl9ERUZBVUxUX0RNQV9P
+UFNfRFJBVyBcDQo+PiArI2RlZmluZSBfX0ZCX0RFRkFVTFRfRE1BTUVNX09QU19EUkFXIFwN
+Cj4+IMKgwqDCoMKgwqAgLmZiX2ZpbGxyZWN0wqDCoMKgID0gc3lzX2ZpbGxyZWN0LCBcDQo+
+PiDCoMKgwqDCoMKgIC5mYl9jb3B5YXJlYcKgwqDCoCA9IHN5c19jb3B5YXJlYSwgXA0KPj4g
+wqDCoMKgwqDCoCAuZmJfaW1hZ2VibGl0wqDCoMKgID0gc3lzX2ltYWdlYmxpdA0KPiANCg0K
+LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
+RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYs
+IDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJz
+LCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVy
+bmJlcmcpDQo=
 
-This would make the PVR driver simpler too. Right now, the driver
-iterates over the pending job list to signal jobs done_fences, but
-there's a race between the interrupt handler (that's iterating over
-this list to signal fences) and the drm_sched logic (that's inserting
-the job in the pending_list after run_job() returns). The race is taken
-care of with an addition field that's pointing to the last submitted
-job [1], but if we can get rid of that logic, that's for the best.
+--------------E0nXXJtXJ8k7nFCdY7FswvAL--
 
-[1]https://gitlab.freedesktop.org/frankbinns/powervr/-/blob/powervr-next/drivers/gpu/drm/imagination/pvr_queue.h#L119
+--------------JoBUal1S7COniLTsPqXOVNZB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTHYvsFAwAAAAAACgkQlh/E3EQov+Di
+OhAAmx1Z3Kp2zOKhJ5gw3NCreVrVkf8FqWW++uzPMS7Yz2l98LqPbSwW+FoqBVxh3HOGJa/X9hQM
+08XS8UQIHFIcVNbsiRd6qsFvKltflMQDLV2x58+mb78YipUkwzelIXwJmqSM+nCNXxHDjfjakttO
+dCMpVW9TA/ideSq9mseVAN7xsOZUTmd5x5QL4GkAqqlDPCqV/PZIpD513HMMAR6B4mosqjpH5Qli
+h/3gwAC17pg6QvFybbInB+5ExN1nrLOM80QyjumWIHIOqzKtlwV6+X+rZlXjyHOcF0ENlS6Ksc1b
+JnP2IdyD9U5anApv+U5BwZGAykorbSkxft9zx/Axi8pbRuNqYu7E2hwMJBz7M5C6t0uZ3BanlJpH
+sNM8gRNUpeNNyGZdCITmWahDf4WP5ioKa3czUTTah7NiyBMwX9EAWpQmhpAtmcX+6rHdsNkVP4dl
+GlsqGyvfzq0R5dCq3fu62mxQvPdNSl+rsXs60OHpKpNLqxyw0sHU4jVllhCVbuz+V7Lm13vMU5rV
+1wLLIzeHNpSxG4rJkzcMvSTlN4Tftemj7txPsVfgSOem7jh+UxB+CcRam7a9PdNmSYlOTGrNVUYY
+QPksGEdsrt+XnUZxYwc8DkREOcSpdy/yR/8K5Tf7JakrPaabYj+iDWMBfjHQQC/ZPgN6oH920NCB
+omg=
+=BqrM
+-----END PGP SIGNATURE-----
+
+--------------JoBUal1S7COniLTsPqXOVNZB--
