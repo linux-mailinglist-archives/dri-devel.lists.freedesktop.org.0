@@ -2,88 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256E4769A64
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 17:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1BE769AD0
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 17:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA17D10E2AF;
-	Mon, 31 Jul 2023 15:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD29210E2B3;
+	Mon, 31 Jul 2023 15:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F90A10E2AF
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 15:09:05 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4fb7589b187so7681883e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 08:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1690816143; x=1691420943; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=+GJI50mwxWlMPNP5cWPxpWEEdZG5lOnOefrq0yW+CGM=;
- b=B1DYggB8eGqCpLsilfDjv+CtPtKA8mzBBJiX3DsqfFcVmRD3EHJVa1I3ui/adpLG4o
- 5L0OkqX16kwiG+alYKt7beRdvQIUy6Vqp3fytmEb5t72ZkLKEhGIgX3oVK/qbYP2dIf+
- PcZ/IBYg5fcpqwrCWjYL+XwqkbsE3JJtqktw3OwnCLBUH9VtvguIXX/hX+tgZ2GTjPyB
- R4x/Jm7nX/dzvKoX2oYUEEJP8wTaKuD9XBJLfoKlM1IVbZmntXqZyHRJzDJHiJGj94Ut
- w2Rglkd43okEbIloEuKynBL4GOaTToBhU7MKjHy1yqnf8agEPfjNDDUg+3mo7/l84d8k
- JPpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690816143; x=1691420943;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+GJI50mwxWlMPNP5cWPxpWEEdZG5lOnOefrq0yW+CGM=;
- b=jYj45zY1mcIzfGUlhA2fODI0NiqJ22d5LELcpldN0O4bTG4yBkBl7jBZQAHH6k82Wf
- P4midKOUg3wIhTJq0BHdBchy/hu2it8z+xReLF83BnJyyKqPBfOMTCF8uDESx4MGCz07
- O8I+6WAMz2Dx1ASQICDN2Zllc+E7RiSKdmq6l9cI9SFlEqEVUPBQN/Icod1xLMs355G/
- LlhU6uzY9VgOMlENkldrpsFsdEdWXRYRbAGbkD1U3FH3N6uLGe45zowioJOEhn3BTJ8s
- zP/i6XJOqGz2/IzBYrZe/DUhHq+8tb2pUoda3eU0l2VtPDc9efRQRHFK2o8YRLTn5pmy
- 5Dow==
-X-Gm-Message-State: ABy/qLbSxhMe++gXRUhegPCY0qWdMht9G3zuV/DqPIzbJtZt+Gp126jN
- okwTA/0z780/FuKok3mArGdaMA==
-X-Google-Smtp-Source: APBJJlHa9zHDumGZmnru2O8XwCkJrQtDXNbzYwW+KavipyZYevSoqWizlwsA89+vnBqByZBXimV7aA==
-X-Received: by 2002:a05:6512:5ca:b0:4fe:599:5684 with SMTP id
- o10-20020a05651205ca00b004fe05995684mr71097lfo.34.1690816143625; 
- Mon, 31 Jul 2023 08:09:03 -0700 (PDT)
-Received: from [127.0.1.1] ([93.5.22.158])
- by smtp.googlemail.com with ESMTPSA id
- u22-20020a05600c211600b003fbcdba1a63sm11728791wml.12.2023.07.31.08.09.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Jul 2023 08:09:02 -0700 (PDT)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Mon, 31 Jul 2023 17:08:58 +0200
-Subject: [PATCH v4 3/3] arm64: defconfig: enable STARTEK KD070FHFID015
- panel
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA72C10E2B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 15:31:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1FF246117D;
+ Mon, 31 Jul 2023 15:31:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B7DC433C8;
+ Mon, 31 Jul 2023 15:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690817481;
+ bh=fV5y4+iW+dG0MR3l0sCnIUpZJWAO2cuZQNow3dJK7UE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uUP49ogqd+NXeBDl9Zxi9BkuY0HT+RF2y8VnuiAVvGHvBM+N9iIosP01J74SkxbsM
+ byfY4u1239Ds0LI0iATOr8nkUxINY1dhahsGfIrj5rABN6gJcOvgrjVNBZB7QnotSe
+ 5g+ohqMcNb6MkB70mlGUQgsk8Myi2QTKtKpJarBcQ2dw7ZB9OAn5wwQ1wB75LM/ZTf
+ BCKlYt6MqS16uTijiKhTfHAfJ0wDowxtxWtCMOa1JiVg8rq0ua4/x4YY8j9nkGCTNx
+ lMT7owd6VAwuDLGBsAde3vtAIQc72geTb0eDuX+bZTBYCHVfxPY1j/55hrm7hoYoAy
+ LAPDn+BBDlNZQ==
+Date: Mon, 31 Jul 2023 08:31:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
+Message-ID: <20230731153119.GA773004@dev-arch.thelio-3990X>
+References: <20230731123625.3766-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230711-startek_display-v4-3-fb1d53bfdef6@baylibre.com>
-References: <20230711-startek_display-v4-0-fb1d53bfdef6@baylibre.com>
-In-Reply-To: <20230711-startek_display-v4-0-fb1d53bfdef6@baylibre.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=767; i=amergnat@baylibre.com; 
- h=from:subject:message-id;
- bh=3ewdZnRTwiLei9nYvBO9iEQ33z/6iSvXdTZm6ylJVyY=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBkx86JSWBe/R+WdTNSp+vNLNQkL6rWTTSurE2qm+F8
- Nb0tXdmJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZMfOiQAKCRArRkmdfjHURRqwD/
- 0doxKphu5595hSG80BpEmZ8DzSqvovKlEfgPCJMGL51vVD+dY6e02ieFPrS9uw6FyfIpq13lRYesi6
- DJr6qrgxwbKGSA2d46RkMnc1xYF7GovxIPzU1oevQjr81n3HYn9VJTva6SR0Vq+jgES8mC6jcXOJlY
- emtjChmuuolXVTe1JDMWRmZ/p2kIfVDIfeVZVB0l98kG6QBJit6oYvKix5iU2zuZknzxNDlIu3jn7N
- 9RJ4nLVJyarM43diGm0yzIAS4Kz8qmbIBcwaPMG9ShA4vr+kTNog1efaJnjGnKlqmqMTR66ILli16v
- widOVEVlnhBC5s/YwJnLMdupi4OkDu6oFcH0piuwpcmTH3qxGSGEW3xCV0MotrXj3t+FhsfOHn/R2H
- Nc+8ez34sEGbmqLNAi/Y30ypmLijfbumQr3WRn4AdovudtfBD41aZ0bB0utXD1awsLFyR8XsMaU/mX
- QFYZqfTD/S0UR9VNxvCH0onfYdfKMpZMUfWnwp9sS1/NxeH4DYUkvCwOqDIvx77wByJZcM7D/Ui5dT
- or30NjCl2/P2DLuC/IX6tF7KDBXgfXUBR8+ztt3rOT0kUN637geJRLBPqzp7MKw+ObOrJBilY5sfSi
- JwHqNfF5+QR+4m1I3vy8ZyeaDT/463ZSawnmTJtI7dn42Y7mAM7LDnm1DiMQ==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230731123625.3766-1-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,35 +54,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Guillaume La Roque <glaroque@baylibre.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: ndesaulniers@google.com, naresh.kamboju@linaro.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ boris.brezillon@collabora.com, dakr@redhat.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, trix@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Build Startek KD070FHFID015 panel driver. This MIPI-DSI display
-can be used for the mt8365-evk board for example.
+On Mon, Jul 31, 2023 at 02:36:24PM +0200, Christian König wrote:
+> GCC forbids to jump to labels in loop conditions and a new clang
+> check stumbled over this.
+> 
+> So instead using a local label inside the loop condition use an
+> unique label outside of it.
+> 
+> Fixes: commit 09593216bff1 ("drm: execution context for GEM buffers v7")
+> Link: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1890
+> Link: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f5d096eb3aed7b712f5067
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> CC: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Passes my build tests and I inspected the preprocessed output to make
+sure it should work. I ran the KUnit tests, which all pass (although [1]
+is needed to fix a tangential issue):
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 0777bcae9104..cb24a3d1219b 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -816,6 +816,7 @@ CONFIG_DRM_PANEL_EDP=m
- CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=m
- CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
- CONFIG_DRM_PANEL_SITRONIX_ST7703=m
-+CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
- CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
- CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
- CONFIG_DRM_LONTIUM_LT8912B=m
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
--- 
-2.25.1
+Thanks for fixing this!
 
+[1]: https://lore.kernel.org/20230728183400.306193-1-arthurgrillo@riseup.net/
+
+> ---
+>  include/drm/drm_exec.h | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+> index 73205afec162..e0462361adf9 100644
+> --- a/include/drm/drm_exec.h
+> +++ b/include/drm/drm_exec.h
+> @@ -3,6 +3,7 @@
+>  #ifndef __DRM_EXEC_H__
+>  #define __DRM_EXEC_H__
+>  
+> +#include <linux/compiler.h>
+>  #include <linux/ww_mutex.h>
+>  
+>  #define DRM_EXEC_INTERRUPTIBLE_WAIT	BIT(0)
+> @@ -74,13 +75,12 @@ struct drm_exec {
+>   * Since labels can't be defined local to the loops body we use a jump pointer
+>   * to make sure that the retry is only used from within the loops body.
+>   */
+> -#define drm_exec_until_all_locked(exec)				\
+> -	for (void *__drm_exec_retry_ptr; ({			\
+> -		__label__ __drm_exec_retry;			\
+> -__drm_exec_retry:						\
+> -		__drm_exec_retry_ptr = &&__drm_exec_retry;	\
+> -		(void)__drm_exec_retry_ptr;			\
+> -		drm_exec_cleanup(exec);				\
+> +#define drm_exec_until_all_locked(exec)					\
+> +__PASTE(__drm_exec_, __LINE__):						\
+> +	for (void *__drm_exec_retry_ptr; ({				\
+> +		__drm_exec_retry_ptr = &&__PASTE(__drm_exec_, __LINE__);\
+> +		(void)__drm_exec_retry_ptr;				\
+> +		drm_exec_cleanup(exec);					\
+>  	});)
+>  
+>  /**
+> -- 
+> 2.34.1
+> 
+> 
