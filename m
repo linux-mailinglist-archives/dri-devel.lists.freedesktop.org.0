@@ -1,66 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DCE769C97
-	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:33:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7153C769CF0
+	for <lists+dri-devel@lfdr.de>; Mon, 31 Jul 2023 18:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D686A10E2DA;
-	Mon, 31 Jul 2023 16:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA8210E2CE;
+	Mon, 31 Jul 2023 16:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
- [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9386010E2D1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:33:34 +0000 (UTC)
-Received: by mail-oo1-xc35.google.com with SMTP id
- 006d021491bc7-5633b7e5f90so3503636eaf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 09:33:34 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CBFB10E2D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 16:40:05 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-5222bc916acso6172000a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 31 Jul 2023 09:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690821214; x=1691426014;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
- b=JeXgP+w7CMuDnqpJhcpuPl/dg8X263Gotkpx5bJgsnVSDpsqaUEia+zhP602P2UZtE
- 9UY0wRDug3iK4MtHi6S0OnH8zrpiqJG5HR7uADrPOe0PGFE+VPdIwcA6Q6xxZkN0JB7Z
- v63ItBfKXxB8YN2mgKYDqJtUAFFZKv2efUYVoVWcNvEN0IkqmeJt86CK3x22pJZ6O6RT
- 8Ci33NzRRTUBS8swlUDL13/nYOgBNFh3lQcsDtSS1UcJ8sWB3khon/yuc3p8PTmOwqC9
- R72kN3Cg2ifyiGg9+sFkO0Bm0oyZ+DY8PWT7ID50lGBMruvL3Bz0iewDP6oLJHkSz4PU
- Ayug==
+ d=gfxstrand-net.20221208.gappssmtp.com; s=20221208; t=1690821603; x=1691426403;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eaA5ZM7YmQZbGm4ybIj4vIWLy+z0rMIf3OT6ejTe1I0=;
+ b=Cf3/B2r+2GJc0kWZVCB8+hMNIl+J/77ZvGogoSfii/kcTJdHMa4G6qo4406JFiWonk
+ cMQudC/0SydkAKPZuYg1CIxfhQSwIRpJK6aW9MYU/4hZ7d2auHPfP63noCb3k7e8OMPs
+ Kwf4r6HGpDgaKUwVvq/dwioY9FnK3rrJkRjjrsVwfd34GUOmxRekWs3GMm24oyM0qE2e
+ KAawe78u+0h5HXamDLi6fhTFIC2636lXxNDSsAgbfI4O8VkehY8pyUD5Uu8tHN2IvYzF
+ UJGwWmgK1zSJ/rrarFo1z6NNoWezTY6EajzKncJeWBvxIegQ4BecNa7iXQSczR+HgQZP
+ EBCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690821214; x=1691426014;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hmQIuXbR5JP4gOGoh3m94S+xuhXRrZesJ4DjxqjMHlA=;
- b=QFMHu1b0ngEUBMqGufPw9sq4ko+LBnpe0Z38bx5/ZVaOCasuDW/b8HKF+lHqOrdGtM
- HCE61iC4cvR8BzU5g7SmbNqkfKPhYj39EMfY97m74i3reO4jlBmJMNE3Gy/vo5A/1NYh
- 2387LMNgIn7OJ9XY2dBlkxZ+IT9pE/1i5xr2utEZ1UYYYEf15l774NLhpAnTnYAfB3Fs
- 8WdRPLY3xF2XLMpXHDbbAlNFByj4ri4Ae4V/Uv8eJSLpTWeYXpBDWGBH12RjXJoCIaVw
- oVEqygGrpPDe+2SaU53MGrnX8Lz0ipggoQf850EqXXRBPmIXBq6I+OA925/Q9XF8nM2F
- Amjg==
-X-Gm-Message-State: ABy/qLZvej915ZeBDgGSUBoux31xtUGnewswEftiphq9f/KLBdzaXLnz
- lNWaTNiPMO8jQ2IoZR8leWUAmOmYK7cl+ljbFEQ=
-X-Google-Smtp-Source: APBJJlE+NhyxBPQz6UuZPDy2bz3lq06zYg5cvEY5G/En7QKVEhlTaMytpwHnqXO8vKyGUOtYN/2HkwtclOZO0YlYWmw=
-X-Received: by 2002:a4a:7548:0:b0:56c:cd0c:1d67 with SMTP id
- g8-20020a4a7548000000b0056ccd0c1d67mr2626954oof.7.1690821213701; Mon, 31 Jul
- 2023 09:33:33 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1690821603; x=1691426403;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eaA5ZM7YmQZbGm4ybIj4vIWLy+z0rMIf3OT6ejTe1I0=;
+ b=g56BiM2JEN5UBwiNdBnPMqccgw3B16c+LgFEIg9RrYhem7Tq3ZkUuaEUswaOE54Q6+
+ HamrK1NxgOMQUmQIdJ/b8LRNZM7DC8wxXU8K7GpusFu2HwLoZDOWnBIe09n6toT8iBVF
+ deCJ4UwHVvNIghRwIP+m43j7fTEZTC1qwO9WCOGnewPYm1OHQj6AUgEjNaD+1ytHllNP
+ nU88XxlP4twHn+z02NY2roa9oqGcUSUg8JZXZVQIuDy55A6K+CamsyJ34mo4H13PAVmh
+ xQckFr9y+Hu5DW3NJdySvO70LKcn0PlxeWVHZ6g1HOSeitNthrZbT2SP8M2Q6WpQxwxn
+ FsUA==
+X-Gm-Message-State: ABy/qLYqEtdQIzkv5EypuH5YJu2SbB+QaiVI+0cOCZQI1lCZYXAjMAfg
+ 40Y6MQp1B01ik9kDrZNDcwH1AuYnAwd8qN/KlxLe+A==
+X-Google-Smtp-Source: APBJJlEqqaLz6hJIqsxycCY46ra+wCPIxF+KldeWg0bAmVxCgnZp0VuJkU4C5tcQrhSrYtYxOUAqW6SwrwAvyTjBOnE=
+X-Received: by 2002:aa7:db53:0:b0:522:2af3:4997 with SMTP id
+ n19-20020aa7db53000000b005222af34997mr331435edt.15.1690821603472; Mon, 31 Jul
+ 2023 09:40:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230725203545.2260506-1-dianders@chromium.org>
- <20230725133443.v3.2.I59b417d4c29151cc2eff053369ec4822b606f375@changeid>
- <snx3fzvf3icauri2xuigydvpqxtzhp34mptdxvifi7jswm2evy@sx7jr7zwvjw5>
- <CAD=FV=VcsTik+HD11xeDM2Jq9ispcX0-j5QtK8D1qUkrGabRGg@mail.gmail.com>
- <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
-In-Reply-To: <i3cbgrc365lwscwux2itho6uv74ji3hsjuge4zoxfnlnhacyqc@r73mmifyxffj>
-From: Chris Morgan <macroalpha82@gmail.com>
-Date: Mon, 31 Jul 2023 11:33:22 -0500
-Message-ID: <CADcbR4JB0h8fByM2Z6diByvWaFprW9GDapBNt+YLWr9-vKoe7A@mail.gmail.com>
-Subject: Re: [PATCH v3 02/10] drm/panel: Check for already prepared/enabled in
- drm_panel
-To: Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20230720001443.2380-1-dakr@redhat.com>
+ <20230720001443.2380-12-dakr@redhat.com>
+ <CAOFGe945tp344=g-++=EAT89t0qJHZ=3yeW-k9OTbGNJodvwAg@mail.gmail.com>
+ <542203c6-781a-dc44-6fa1-13cd20ab9e21@redhat.com>
+ <CAOFGe94sG5==GM+spcTihcAtMCoj2xZYpN8NsYE6CEckdHJ8rQ@mail.gmail.com>
+ <75c86224-6183-07fe-da04-6a2101615a50@redhat.com>
+ <21ea63fe-33d7-a075-7291-35dd1b2a9b64@redhat.com>
+ <CAOFGe949K6iiQDqdxDPkJ2Zxr=iJ5ad-qLEGb=f1iQcvES+H5A@mail.gmail.com>
+In-Reply-To: <CAOFGe949K6iiQDqdxDPkJ2Zxr=iJ5ad-qLEGb=f1iQcvES+H5A@mail.gmail.com>
+From: Faith Ekstrand <faith@gfxstrand.net>
+Date: Mon, 31 Jul 2023 11:39:51 -0500
+Message-ID: <CAOFGe97RJnYD9Z6i=PKEsDxpOcPsobTFSVPztdfjTJWhPWU3FA@mail.gmail.com>
+Subject: Re: [PATCH drm-misc-next v8 11/12] drm/nouveau: implement new VM_BIND
+ uAPI
+To: Danilo Krummrich <dakr@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000dd1050601cb1559"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,107 +74,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Doug Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
+ tzimmermann@suse.de, Liam.Howlett@oracle.com, bagasdotme@gmail.com,
+ christian.koenig@amd.com, jason@jlekstrand.net, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In my case a few different panel drivers disable the regulators in the
-unprepare/disable routines. For at least the Rockchip DSI
-implementations for some reason the panel gets unprepared more than
-once, which triggers an unbalanced regulator disable. Obviously though
-the correct course of action is to fix the reason why the panel is
-disabled more than once, but that's at least the root cause of this
-behavior on the few panels I've worked with.
+--0000000000000dd1050601cb1559
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you.
+On Sun, Jul 30, 2023 at 10:30=E2=80=AFPM Faith Ekstrand <faith@gfxstrand.ne=
+t> wrote:
 
-On Thu, Jul 27, 2023 at 1:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
 >
-> Hi,
+> On Tue, Jul 25, 2023 at 5:48=E2=80=AFPM Danilo Krummrich <dakr@redhat.com=
+> wrote:
 >
-> On Wed, Jul 26, 2023 at 08:10:33AM -0700, Doug Anderson wrote:
-> > On Wed, Jul 26, 2023 at 5:41=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > On Tue, Jul 25, 2023 at 01:34:37PM -0700, Douglas Anderson wrote:
-> > > > NOTE: arguably, the right thing to do here is actually to skip this
-> > > > patch and simply remove all the extra checks from the individual
-> > > > drivers. Perhaps the checks were needed at some point in time in th=
+>> On 7/25/23 18:43, Danilo Krummrich wrote:
+>> > On 7/25/23 18:16, Faith Ekstrand wrote:
+>> >> Thanks for the detailed write-up! That would definitely explain it. I=
+f
+>> >> I remember, I'll try to do a single-threaded run or two. If your
+>> >> theory is correct, there should be no real perf difference when
+>> >> running single-threaded. Those runs will take a long time, though, so
+>> >> I'll have to run them over night. I'll let you know in a few days onc=
 e
-> > > > past but maybe they no longer are? Certainly as we continue
-> > > > transitioning over to "panel_bridge" then we expect there to be muc=
-h
-> > > > less variety in how these calls are made. When we're called as part=
- of
-> > > > the bridge chain, things should be pretty simple. In fact, there wa=
-s
-> > > > some discussion in the past about these checks [1], including a
-> > > > discussion about whether the checks were needed and whether the cal=
-ls
-> > > > ought to be refcounted. At the time, I decided not to mess with it
-> > > > because it felt too risky.
-> > >
-> > > Yeah, I'd agree here too. I've never found evidence that it was actua=
-lly
-> > > needed and it really looks like cargo cult to me.
-> > >
-> > > And if it was needed, then I'm not sure we need refcounting either. W=
+>> >> I have the results.
+>> >
+>> > I can also push a separate branch where I just print out a warning
+>> > whenever we run into such a condition including the time we were
+>> waiting
+>> > for things to complete. I can probably push something later today.
+>>
+>>
+>> https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next=
+-track-stalls
+>>
+>> It prints out the duration of every wait as well as the total wait time
+>> since boot.
+>>
+>> - Danilo
+>>
+>> >
+>> >>
+>> >> If this theory holds, then I'm not concerned about the performance of
+>> >> the API itself. It would still be good to see if we can find a way to
+>> >> reduce the cross-process drag in the implementation but that's a perf
+>> >> optimization we can do later.
+>> >
+>> >  From the kernel side I think the only thing we could really do is to
+>> > temporarily run a secondary drm_gpu_scheduler instance, one for
+>> VM_BINDs
+>> > and one for EXECs until we got the new page table handling in place.
+>> >
+>> > However, the UMD could avoid such conditions more effectively, since i=
+t
+>> > controls the address space. Namely, avoid re-using the same region of
+>> > the address space right away in certain cases. For instance, instead o=
+f
+>> > replacing a sparse region A[0x0, 0x4000000] with a larger sparse regio=
+n
+>> > B[0x0, 0x8000000], replace it with B'[0x4000000, 0xC000000] if possibl=
+e.
+>> >
+>> > However, just mentioning this for completeness. The UMD surely
+>> shouldn't
+>> > probably even temporarily work around such a kernel limitation.
+>> >
+>> > Anyway, before doing any of those, let's see if the theory holds and
+>> > we're actually running into such cases.
+>> >
+>> >>
+>> >> Does it actually matter? Yes, it kinda does. No, it probably doesn't
+>> >> matter for games because you're typically only running one game at a
+>> >> time. From a development PoV, however, if it makes CI take longer the=
+n
+>> >> that slows down development and that's not good for the users, either=
+.
+>>
+>
+> I've run a bunch of tests over the weekend and It's starting to look like
+> the added CTS time might be from the newly enabled synchronization tests
+> themselves.  We enabled timeline semaphores as well as semaphore and fenc=
 e
-> > > don't have refcounting for atomic_enable / disable, we have a sound A=
-PI
-> > > design that makes sure we don't fall into that trap :)
-> > >
-> > > > Looking closer at it now, I'm fairly certain that nothing in the
-> > > > existing codebase is expecting these calls to be refcounted. The on=
-ly
-> > > > real question is whether someone is already doing something to ensu=
-re
-> > > > prepare()/unprepare() match and enabled()/disable() match. I would =
-say
-> > > > that, even if there is something else ensuring that things match,
-> > > > there's enough complexity that adding an extra bool and an extra
-> > > > double-check here is a good idea. Let's add a drm_warn() to let peo=
-ple
-> > > > know that it's considered a minor error to take advantage of
-> > > > drm_panel's double-checking but we'll still make things work fine.
-> > >
-> > > I'm ok with this, if we follow-up in a couple of releases and remove =
-it
-> > > and all the calls.
-> > >
-> > > Could you add a TODO item so that we can keep a track of it? A follow=
--up
-> > > is fine if you don't send a new version of that series.
-> >
-> > By this, I think you mean to add a "TODO" comment inline in the code?
+> sharing along with the new uAPI and I did not expect those to be nearly
+> that heavy-weight so I didn't think of that as a likely factor. I'm doing=
+ a
+> couple more runs to confirm but what I'm seeing right now seems to indica=
+te
+> that the new API with the old feature set has about the same run time now
+> that the submit overhead issue has been fixed.
 >
-> No, sorry, I meant an entry in our TODO list: Documentation/gpu/todo.rst
+
+My last two runs have come back and confirmed this theory. With the BO
+fixes, all remaining slow-downs are coming from newly added tests which
+turn out to be very slow tests.
+
+~Faith
+
+
+> I think this means that we can proceed under the assumption that there ar=
+e
+> no more serious perf issues with the new API.  I'm happy to RB/ACK the ne=
+xt
+> version of the API and implementation patches, as long as it has the new
+> NO_SHARE BO create flag and properly rejects exports of NO_SHARE BOs, eve=
+n
+> if not all of the dma_resv plumbing is fully baked.
 >
-> > Also: I was thinking that we'd keep the check in "drm_panel.c" with
-> > the warning message indefinitely. You think it should be eventually
-> > removed? If we are truly thinking of removing it eventually, this
-> > feels like it should be a more serious warning message like a WARN(1,
-> > ...) to make it really obvious to people that they're relying on
-> > behavior that will eventually go away.
+> ~Faith
 >
-> Yeah, it really feels like this is cargo-cult to me. Your approach seems
-> like a good short-term thing to do to warn everyone but eventually we'll
-> want it to go away.
+
+--0000000000000dd1050601cb1559
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Sun, Jul 30, 2023 at 10:30=E2=80=AFPM Faith Ekstrand &lt;<a href=
+=3D"mailto:faith@gfxstrand.net">faith@gfxstrand.net</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 2=
+5, 2023 at 5:48=E2=80=AFPM Danilo Krummrich &lt;<a href=3D"mailto:dakr@redh=
+at.com" target=3D"_blank">dakr@redhat.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 7/25/23 18:43, Danilo Krummrich=
+ wrote:<br>
+&gt; On 7/25/23 18:16, Faith Ekstrand wrote:<br>
+&gt;&gt; Thanks for the detailed write-up! That would definitely explain it=
+. If <br>
+&gt;&gt; I remember, I&#39;ll try to do a single-threaded run or two. If yo=
+ur <br>
+&gt;&gt; theory is correct, there should be no real perf difference when <b=
+r>
+&gt;&gt; running single-threaded. Those runs will take a long time, though,=
+ so <br>
+&gt;&gt; I&#39;ll have to run them over night. I&#39;ll let you know in a f=
+ew days once <br>
+&gt;&gt; I have the results.<br>
+&gt; <br>
+&gt; I can also push a separate branch where I just print out a warning <br=
 >
-> So promoting it to a WARN could be a good thing, or let's say we do a
-> drm_warn for now, WARN next release, and gone in two?
+&gt; whenever we run into such a condition including the time we were waiti=
+ng <br>
+&gt; for things to complete. I can probably push something later today.<br>
+<br>
+<a href=3D"https://gitlab.freedesktop.org/nouvelles/kernel/-/tree/new-uapi-=
+drm-next-track-stalls" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
+freedesktop.org/nouvelles/kernel/-/tree/new-uapi-drm-next-track-stalls</a><=
+br>
+<br>
+It prints out the duration of every wait as well as the total wait time <br=
 >
-> Maxime
+since boot.<br>
+<br>
+- Danilo<br>
+<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt; If this theory holds, then I&#39;m not concerned about the perform=
+ance of <br>
+&gt;&gt; the API itself. It would still be good to see if we can find a way=
+ to <br>
+&gt;&gt; reduce the cross-process drag in the implementation but that&#39;s=
+ a perf <br>
+&gt;&gt; optimization we can do later.<br>
+&gt; <br>
+&gt;=C2=A0 From the kernel side I think the only thing we could really do i=
+s to <br>
+&gt; temporarily run a secondary drm_gpu_scheduler instance, one for VM_BIN=
+Ds <br>
+&gt; and one for EXECs until we got the new page table handling in place.<b=
+r>
+&gt; <br>
+&gt; However, the UMD could avoid such conditions more effectively, since i=
+t <br>
+&gt; controls the address space. Namely, avoid re-using the same region of =
+<br>
+&gt; the address space right away in certain cases. For instance, instead o=
+f <br>
+&gt; replacing a sparse region A[0x0, 0x4000000] with a larger sparse regio=
+n <br>
+&gt; B[0x0, 0x8000000], replace it with B&#39;[0x4000000, 0xC000000] if pos=
+sible.<br>
+&gt; <br>
+&gt; However, just mentioning this for completeness. The UMD surely shouldn=
+&#39;t <br>
+&gt; probably even temporarily work around such a kernel limitation.<br>
+&gt; <br>
+&gt; Anyway, before doing any of those, let&#39;s see if the theory holds a=
+nd <br>
+&gt; we&#39;re actually running into such cases.<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt; Does it actually matter? Yes, it kinda does. No, it probably doesn=
+&#39;t <br>
+&gt;&gt; matter for games because you&#39;re typically only running one gam=
+e at a <br>
+&gt;&gt; time. From a development PoV, however, if it makes CI take longer =
+then <br>
+&gt;&gt; that slows down development and that&#39;s not good for the users,=
+ either.<br></blockquote><div><br></div><div>I&#39;ve run a bunch of tests =
+over the weekend and It&#39;s starting to look like the added CTS time migh=
+t be from the newly enabled synchronization tests themselves.=C2=A0 We enab=
+led timeline semaphores as well as semaphore and fence sharing along with t=
+he new uAPI and I did not expect those to be nearly that heavy-weight so I =
+didn&#39;t think of that as a likely factor. I&#39;m doing a couple more ru=
+ns to confirm but what I&#39;m seeing right now seems to indicate that the =
+new API with the old feature set has about the same run time now that the s=
+ubmit overhead issue has been fixed.</div></div></div></blockquote><div><br=
+></div><div>My last two runs have come back and confirmed this theory. With=
+ the BO fixes, all remaining slow-downs are coming from newly added tests w=
+hich turn out to be very slow tests.</div><div><br></div><div>~Faith<br></d=
+iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr"><div class=3D"gmail_quote"><div>I think this means that we can =
+proceed under the assumption that there are no more serious perf issues wit=
+h the new API.=C2=A0 I&#39;m happy to RB/ACK the next version of the API an=
+d implementation patches, as long as it has the new NO_SHARE BO create flag=
+ and properly rejects exports of NO_SHARE BOs, even if not all of the dma_r=
+esv plumbing is fully baked.</div><div><br></div><div>~Faith<br></div></div=
+></div>
+</blockquote></div></div>
+
+--0000000000000dd1050601cb1559--
