@@ -1,32 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B4B76A73B
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 04:57:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1290F76A746
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 05:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB74A10E0C1;
-	Tue,  1 Aug 2023 02:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58D5A10E301;
+	Tue,  1 Aug 2023 03:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-219.mail.aliyun.com (out28-219.mail.aliyun.com
- [115.124.28.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 288A610E0C1;
- Tue,  1 Aug 2023 02:57:14 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.09616855|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0129007-0.000684149-0.986415;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047202; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5ISByU_1690858625; 
+Received: from out28-121.mail.aliyun.com (out28-121.mail.aliyun.com
+ [115.124.28.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 012BA10E301;
+ Tue,  1 Aug 2023 03:03:44 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07467062|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0381289-0.00205072-0.95982;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=sunran001@208suo.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5JFwAS_1690859016; 
 Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5ISByU_1690858625) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 10:57:07 +0800
+ fp:SMTPD_---.U5JFwAS_1690859016) by smtp.aliyun-inc.com;
+ Tue, 01 Aug 2023 11:03:38 +0800
 From: Ran Sun <sunran001@208suo.com>
 To: alexander.deucher@amd.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/amd/pm: Clean up errors in vega12_hwmgr.c
-Date: Tue,  1 Aug 2023 02:57:03 +0000
-Message-Id: <20230801025703.4979-1-sunran001@208suo.com>
+Subject: [PATCH] drm/amd/pm/powerplay/hwmgr/ppevvmath: Clean up errors in
+ ppevvmath.h
+Date: Tue,  1 Aug 2023 03:03:34 +0000
+Message-Id: <20230801030334.5069-1-sunran001@208suo.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,54 +49,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: need consistent spacing around '/' (ctx:WxV)
-ERROR: code indent should use tabs where possible
+ERROR: return is not a function, parentheses are not required
+ERROR: space required after that ',' (ctx:VxV)
+ERROR: space required before the open parenthesis '('
+ERROR: need consistent spacing around '-' (ctx:WxV)
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
-index 1937be1cf5b4..4bd573d815ff 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c
-@@ -1623,13 +1623,13 @@ static int vega12_notify_smc_display_config_after_ps_adjustment(
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
+index dac29fe6cfc6..6f54c410c2f9 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
+@@ -166,7 +166,7 @@ static fInt fNaturalLog(fInt value)
  
- 	if (data->smu_features[GNLD_DPM_DCEFCLK].supported) {
- 		clock_req.clock_type = amd_pp_dcef_clock;
--		clock_req.clock_freq_in_khz = min_clocks.dcefClock/10;
-+		clock_req.clock_freq_in_khz = min_clocks.dcefClock / 10;
- 		if (!vega12_display_clock_voltage_request(hwmgr, &clock_req)) {
- 			if (data->smu_features[GNLD_DS_DCEFCLK].supported)
- 				PP_ASSERT_WITH_CODE(
- 					!smum_send_msg_to_smc_with_parameter(
- 					hwmgr, PPSMC_MSG_SetMinDeepSleepDcefclk,
--					min_clocks.dcefClockInSR /100,
-+					min_clocks.dcefClockInSR / 100,
- 					NULL),
- 					"Attempt to set divider for DCEFCLK Failed!",
- 					return -1);
-@@ -2354,8 +2354,8 @@ static int vega12_apply_clocks_adjust_rules(struct pp_hwmgr *hwmgr)
- 	uint32_t i, latency;
+ 	error_term = fAdd(fNegativeOne, value);
  
- 	disable_mclk_switching = ((1 < hwmgr->display_config->num_display) &&
--			          !hwmgr->display_config->multi_monitor_in_sync) ||
--			          vblank_too_short;
-+				!hwmgr->display_config->multi_monitor_in_sync) ||
-+				vblank_too_short;
- 	latency = hwmgr->display_config->dce_tolerable_mclk_in_active_latency;
+-	return (fAdd(solution, error_term));
++	return fAdd(solution, error_term);
+ }
  
- 	/* gfxclk */
-@@ -2522,7 +2522,7 @@ static int vega12_set_uclk_to_highest_dpm_level(struct pp_hwmgr *hwmgr,
- 		dpm_table->dpm_state.hard_min_level = dpm_table->dpm_levels[dpm_table->count - 1].value;
- 		PP_ASSERT_WITH_CODE(!(ret = smum_send_msg_to_smc_with_parameter(hwmgr,
- 				PPSMC_MSG_SetHardMinByFreq,
--				(PPCLK_UCLK << 16 ) | dpm_table->dpm_state.hard_min_level,
-+				(PPCLK_UCLK << 16) | dpm_table->dpm_state.hard_min_level,
- 				NULL)),
- 				"[SetUclkToHightestDpmLevel] Set hard min uclk failed!",
- 				return ret);
+ static fInt fDecodeLinearFuse(uint32_t fuse_value, fInt f_min, fInt f_range, uint32_t bitlength)
+@@ -230,7 +230,7 @@ static fInt ConvertToFraction(int X) /*Add all range checking here. Is it possib
+ static fInt fNegate(fInt X)
+ {
+ 	fInt CONSTANT_NEGONE = ConvertToFraction(-1);
+-	return (fMultiply(X, CONSTANT_NEGONE));
++	return fMultiply(X, CONSTANT_NEGONE);
+ }
+ 
+ static fInt Convert_ULONG_ToFraction(uint32_t X)
+@@ -382,14 +382,14 @@ static int ConvertBackToInteger (fInt A) /*THIS is the function that will be use
+ 
+ 	scaledDecimal.full = uGetScaledDecimal(A);
+ 
+-	fullNumber = fAdd(scaledDecimal,scaledReal);
++	fullNumber = fAdd(scaledDecimal, scaledReal);
+ 
+ 	return fullNumber.full;
+ }
+ 
+ static fInt fGetSquare(fInt A)
+ {
+-	return fMultiply(A,A);
++	return fMultiply(A, A);
+ }
+ 
+ /* x_new = x_old - (x_old^2 - C) / (2 * x_old) */
+@@ -447,7 +447,7 @@ static fInt fSqrt(fInt num)
+ 
+ 	} while (uAbs(error) > 0);
+ 
+-	return (x_new);
++	return x_new;
+ }
+ 
+ static void SolveQuadracticEqn(fInt A, fInt B, fInt C, fInt Roots[])
+@@ -459,7 +459,7 @@ static void SolveQuadracticEqn(fInt A, fInt B, fInt C, fInt Roots[])
+ 	f_CONSTANT100 = ConvertToFraction(100);
+ 	f_CONSTANT10 = ConvertToFraction(10);
+ 
+-	while(GreaterThan(A, f_CONSTANT100) || GreaterThan(B, f_CONSTANT100) || GreaterThan(C, f_CONSTANT100)) {
++	while (GreaterThan(A, f_CONSTANT100) || GreaterThan(B, f_CONSTANT100) || GreaterThan(C, f_CONSTANT100)) {
+ 		A = fDivide(A, f_CONSTANT10);
+ 		B = fDivide(B, f_CONSTANT10);
+ 		C = fDivide(C, f_CONSTANT10);
+@@ -515,7 +515,7 @@ static int uGetScaledDecimal (fInt A) /*Converts the fractional portion to whole
+ 		dec[i] = tmp / (1 << SHIFT_AMOUNT);
+ 		tmp = tmp - ((1 << SHIFT_AMOUNT)*dec[i]);
+ 		tmp *= 10;
+-		scaledDecimal = scaledDecimal + dec[i]*uPow(10, PRECISION - 1 -i);
++		scaledDecimal = scaledDecimal + dec[i]*uPow(10, PRECISION - 1 - i);
+ 	}
+ 
+ 	return scaledDecimal;
 -- 
 2.17.1
 
