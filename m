@@ -2,77 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848E376BFA5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 23:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE7C76BFB6
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 23:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADC810E435;
-	Tue,  1 Aug 2023 21:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A2910E442;
+	Tue,  1 Aug 2023 21:58:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic311-24.consmr.mail.gq1.yahoo.com
- (sonic311-24.consmr.mail.gq1.yahoo.com [98.137.65.205])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0AF510E435
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 21:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1690926946; bh=UXmKHAxI8FcpQqNUOkYn2/+u4cfxJmVRmsV+0atGSbE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=kG7/otN36PLmNXYsYMsc8oh8w4eWuLjyowJlOd5olUv4HFT72/M//fH/9+9Q9M5YpIqwXoCIjXn2Dq5c7KJXC48AmFfB6PEgUL6eWRcFyCE7bjktQbdJGIOl2OFfi2HX9SLlSu/qOMWA05DLyL5F8q+fJxGUsvGLTp6gcJds0KB/3qHRRT7eIRRqbFJ9PB/SrIjvEPAEPPCOXMrlC5PTRLYEAUIlMorZ7oO2D14+Vw+Ghy6GVA7AeTUDbEISOoUesMERTKfKJ+tDq9f9YDjDWkGHwNSZ5sdIjx83OWPEs0aQHGKOWnw+a6J3guFLYYMEcttk4S/sgH4YjfAG8cQOVQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1690926946; bh=hahUDcQ0Zy6qaUXUDw+7yszJcn30MyA7JPU1zj9wZ86=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=LTiy5f7ji7vYoRxrBtBe9dYp18oonQ01rT63UEtCiV0IfPezt+qVORAm/R4nrfs7F8Su9nK6jAnS++1o8iWGlJGY3pw7GPrXDklo2dcjLmJpEe2S5d381xBBpH5gdXKqXi3+xyKsBf2fINuEJPX9JU770Gl44Wo5SxI4k8UmzgKB7L+U9/KQYhOUG9Gg9PD/rMs4pqQdP7TxGlS74bGN81yQbX6o1FWo4SARt+4jTDVaH8a1lGxabQ/hi0JgjwVDUukK1Ij1pMLSJJeenzCG8PyOiQzfXPLbWn7MbO8ZcPKgUML71yeSQEt3H3lpKuayZ1cgj7PnlW93K0OzQDYGYg==
-X-YMail-OSG: CeB8NW4VM1kxgCRNT.137CFxcgks5EgRQ4FIH9uLQ.Gu.XFz.YCLWhmwoYgYH9r
- Ne8ik7bvGbWLUf2aOchhmJuN5vQiVCZrcMeyD6g5SiaZIfzyH35EW6d6JOHpRG5T2PaY1wp6GxyV
- nPQSTO9W1bhR_96gpVnumR8Z06G_JQLNCRik4ok5lwGSWj7FIEkETJxdIPr1u3MRz3kktbM7V52Y
- ncn6iQNw3hfG_F1Q8FjmQkkOtfWCeHHEd0sG6Bsrh47dUQQEo3VMqYJ.86i2CXEGXju3sVEIpZkW
- q5MLRSb32asq1cxFSThKUDiARSR2ubCe3ATupilZ4I5J4U9a73igyCt1eB2N9lsCH6wMc.Z8Gp.K
- W23IDNrh1tuBOQlrBKrFDCAeYHr72VbjHZ_wEtzBKF87mpoH44WIuhNx.9Au5AbCdSmiMpJRx_yT
- QQ.w3V9usUGSFJ5Kls2hP60oZGd1dUAUC17AF_dkv5L3gHGS9.6YlfFciM0ULZClBE1jGhN.L1Fc
- bhDeE6suiTfcNR3SIYkSGB4OCWnI9XiosJlFqFzWJgZwMBOSLMpi8tewO.AoAXoql9bJtMUbzViK
- L9nh9kHjwe4E1i.2XGOtF6RciN8R9zxEg813xyor1OfXOib40QdAFCEvDCca2QyrpChgtS6D1scJ
- dwXiDSes74_4GFR.Pz9kmcGlD4WUXUw4HsYNNg85C6vjXz0JANf6X.i4xPS4DYDOitKTOk5i0Js3
- TrTA5zte.Ljm_Drn3m_Jxx_yPpTjmgBMI042d6pHmt87zwy2NBkP1iGI_rq9rJOYR4qjrToybJqe
- RT2AWxdEiO0z.vbO7xh2KU1tR2v_Ln.bhnq9DuHSJ9fV9F6GM8f4wR6b5.kKmbhrlytJenIwiVAH
- LvfpBXCUxI5LnMx57NtnrC_HEkfg62ak5S1z6qGoMh0JDItld8iZB9Q7pHWKnfHwpI2XBEnL5Jm4
- zyN07EyFKbQxO9yEIeoyvgUb4GZxpTKP4zyL9V6LHzMLxDucTzRqL2isTr4_USGfTeoYTekcVsCz
- E8gmVKDyXlF_rWNEjYbK_MuL4dEMI7Ssnmuujv8itdpbURCirokMWNydO4dULojSV4FMt3IvWLtW
- ua_Ep4vAYw1an2jNvqVHzadbmzUZS9lREwPufPSAQzNaW7HqwJJuWpvn9paOV2rOE5BCuDG9c3GS
- wa24Ejg0f147i3kAZd7smmtj86vr5NqL.X23C1TEjaAtuDCIWcBQBZv1pbpEN7j7RUXzVI9zNEzK
- ZyQpVI2ZfrtV0OpbCHtIaswFJaIRagIe8vHCa1nXMAYCeN7RrseNhKJ9MUJUlXk.0tHM3z4GErNu
- YFtJRL2mIMj6nun1zEQX3unvLVlULYH8JXdZ3SLKbsCzCpPYNxf0k9G6nAqISVVmqPWNdMScSGpa
- TCq_O64u2KCmvmDcUO6w.lvkr2YspCTUd77bbRojR65guTFwaAEDV_bTQAPkJHtICUs.LW_quuSh
- jRdfpYbInps5qMZawhcqYqWoodKVTy3dXQuplZP2e.BCWbduwUBhxtcRlZ_Nz5Ji7Dy_H8tYhpPX
- 7bbrBm9bcbXu3IzWNaZ7YRy4ndu_J02EUDkyBvxAyqNg.b4YEzVyn4gXXauv9zCo7DRifABHrpVH
- L35KLWEws.ec4pov2YKAzexp3TsMxAUoRjUnmROpYf1tbYv7ylfJj_Qc.v1EmEBULqN7ff2YTo0_
- Vbf3jt8dzqdu1PT0GeGwSkfwz00wK87jwlV5IhHXnwulH_PyK1nuxc2twjLLwNhYdSC7tY4W_Bn3
- V_6j4OaE5bUpa6RDbQeRBVAP5kOyCoDhIQlIal1OIeFf5umn1oRX9NB9MEApvJR7Kb5OQN0IwycO
- 2fEniVND1FPM7RIbCFQ7Tm64kp3BKH8p.DEQ9mdDO7XO9BNClcVjhr090_EFd1Z7UQSrJ.Rknk2F
- H04b4Cj3_Yf5BFqq.A3NuANYWLgamoGD2ZkPqJdMAHRz_YIYttkCFi0liv8ZEAD3sfPTPZ9NKkVb
- tGJ0hF5rZTMaSJng00owCRVUW.7ITvhzp7J8Rq3Vuhmj2Mglr6w6V0A.V27aQ252PovvECyccUzN
- 4jvcUNf8nBh5SIf6w8Bq4RzWmDkLwyBifJC7DMoOuXNeIL_D0LrRlx0AeuFdn0_6NSS9rV7SKKyr
- MzOhYxd.8oUt6Nf7Qgypt5y4xH.AF0HYctIs4x3sqTPDff0JU1PS_OTnwibczP81IlmU8gCtvqJN
- wdtHPKGnUX44Ee6N92WiKr1ngcgrTrbzIpO5cIlsBNEg-
-X-Sonic-MF: <astrajoan@yahoo.com>
-X-Sonic-ID: 2980e2db-bdae-4ebc-80a7-121cc92a00dc
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic311.consmr.mail.gq1.yahoo.com with HTTP; Tue, 1 Aug 2023 21:55:46 +0000
-Received: by hermes--production-gq1-7d844d8954-q6fhd (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 2133038380f997b8027ffd392dd22e8f; 
- Tue, 01 Aug 2023 21:55:44 +0000 (UTC)
-From: Ziqi Zhao <astrajoan@yahoo.com>
-To: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com, astrajoan@yahoo.com,
- jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ivan.orlov0322@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- skhan@linuxfoundation.org, tzimmermann@suse.de
-Subject: [PATCH v2] drm/modes: Fix division by zero error
-Date: Tue,  1 Aug 2023 14:55:38 -0700
-Message-Id: <20230801215538.105255-1-astrajoan@yahoo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <00000000000034cf5d05fea52dd4@google.com>
-References: <00000000000034cf5d05fea52dd4@google.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDB210E442
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 21:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1690927078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5jP/Uu+OO6juLyXLyEuCWWvaHANLE401zJH/WXu0vI=;
+ b=W3p9eFHIA23d04oQxzFAM/BNZA4vBWTJ47zH5QZYx/rG1K7VCk7J5ylzs8T8hgeyXh5eb2
+ teUicFVo0MDL46cZgIgjYmbfx3e8k51KdZ7hQjnuit47nFj3+LtSyATwsHtzO1u5g8qttr
+ gxmynvAxmd4qS185JEMqEGOKnMYYfAQ=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-402--cHXI1WPMDCEliKi_k8hJQ-1; Tue, 01 Aug 2023 17:57:56 -0400
+X-MC-Unique: -cHXI1WPMDCEliKi_k8hJQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-76cb9958d60so44261685a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 14:57:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690927076; x=1691531876;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/5jP/Uu+OO6juLyXLyEuCWWvaHANLE401zJH/WXu0vI=;
+ b=IEQD3dQCB0ivIUiw1GenmboKKLjAG3OW8Hmv0LbchxysXzoG57Ns47V5mPdGl7AkKb
+ f6d7JTluSZOlYSzCXd7D5/GoGuFgLlxPJCi+NTqWj/BRxR+5Dm1DK9HpQe2R+zh7R36T
+ WtxrriZdO0QIluh3IcXwq0A9sodMLtno2yl9p0Wu6jp8H3XxrzbAI9cmxybqdtRu9v4b
+ D1dOPDJgaOt1hdoLS38euwmo9ZApKs969HoKivaIfsQe59gUBcxIjwI4yxMx3xHpwXpX
+ GUY90lgsowvo8ueJozyoAIB1Spn87qOvQ4ONF7RUT7n77esx92Cblib2HxvCr96WB4Hp
+ /17g==
+X-Gm-Message-State: ABy/qLbGN+er8OPVKbxsFY1W3uiWYpoeE9KtVnKU4mzyikBYyDmmObjv
+ f2nC5UzIO4ajngfvY1TqzScQciYFTaBH8d7FizJv0rsihTFrTy6jnVkKA+PlYgfK/NW1KPwXo4w
+ ERKa3ke0Yq2np8Le/NRoj+1RVlKK2
+X-Received: by 2002:a05:620a:430a:b0:767:346c:4b37 with SMTP id
+ u10-20020a05620a430a00b00767346c4b37mr12848381qko.7.1690927076146; 
+ Tue, 01 Aug 2023 14:57:56 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFazEvf4bQmOL9hX+Oa0KAgFYC+ldTguiGGQJvZBm9XGzTkuKrWjBnYqk48Nd5hj5M/jsxZAg==
+X-Received: by 2002:a05:620a:430a:b0:767:346c:4b37 with SMTP id
+ u10-20020a05620a430a00b00767346c4b37mr12848363qko.7.1690927075876; 
+ Tue, 01 Aug 2023 14:57:55 -0700 (PDT)
+Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com.
+ [99.254.144.39]) by smtp.gmail.com with ESMTPSA id
+ pc22-20020a05620a841600b00767cbd5e942sm4481519qkn.72.2023.08.01.14.57.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Aug 2023 14:57:55 -0700 (PDT)
+Date: Tue, 1 Aug 2023 17:57:53 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Message-ID: <ZMl/4Z1b6ooeE/Pk@x1n>
+References: <87pm4nj6s5.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL5+CiZ6w4RdAt5u@nvidia.com>
+ <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <75e3a74a-68f5-df-9a49-a0553c04320@google.com>
+ <CH3PR11MB71777432A63D3FAAE7E70F22F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <ZMLk8aMmpkK7ZCsW@x1n>
+ <CH3PR11MB7177832A92B4F550BF816E0CF807A@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <ZMfp3q/9osOV4wFO@x1n>
+ <IA0PR11MB7185B093E86CB35EFDFF17EAF80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <IA0PR11MB7185B093E86CB35EFDFF17EAF80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,67 +91,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, dsahern@kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, edumazet@google.com, jiri@nvidia.com,
- jacob.e.keller@intel.com, kuba@kernel.org, pabeni@redhat.com,
- davem@davemloft.net
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the bug reported by Syzbot, the variable `den == (1 << 22)` and
-`mode->vscan == (1 << 10)`, causing the multiplication to overflow and
-accidentally make `den == 0`. To prevent any chance of overflow, we
-replace `num` and `den` with 64-bit unsigned integers, and explicitly
-check if the divisor `den` will overflow. If so, we employ full 64-bit
-division with rounding; otherwise we keep the 64-bit to 32-bit division
-that could potentially be better optimized.
+On Tue, Aug 01, 2023 at 07:11:09AM +0000, Kasireddy, Vivek wrote:
+> Ok, I'll keep your use-case in mind but AFAICS, the process that creates
+> the udmabuf can be considered the owner. So, I think it makes sense that
+> the owner's VMA range can be registered (via mmu_notifiers) for updates.
 
-In order to minimize the performance overhead, the overflow check for
-`den` is wrapped with an `unlikely` condition. Please let me know if
-this usage is appropriate.
+No need to have your special attention on this; my use case is not anything
+useful with details, just wanted to show the idea that virtual address
+range based notification might not work.
 
-Reported-by: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
-Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
----
-V1 -> V2: address style comments suggested by Jani Nikula
-<jani.nikula@linux.intel.com>
+[...]
 
- drivers/gpu/drm/drm_modes.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> What limitation do you see with the usage of mmu notifiers for this use-case?
+> And, if using mmu notifiers is not the right approach, how do you suggest we
+> can solve this problem?
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..137101960690 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1285,13 +1285,13 @@ EXPORT_SYMBOL(drm_mode_set_name);
-  */
- int drm_mode_vrefresh(const struct drm_display_mode *mode)
- {
--	unsigned int num, den;
-+	u64 num, den;
- 
- 	if (mode->htotal == 0 || mode->vtotal == 0)
- 		return 0;
- 
--	num = mode->clock;
--	den = mode->htotal * mode->vtotal;
-+	num = mul_u32_u32(mode->clock, 1000);
-+	den = mul_u32_u32(mode->htotal, mode->vtotal);
- 
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		num *= 2;
-@@ -1300,7 +1300,10 @@ int drm_mode_vrefresh(const struct drm_display_mode *mode)
- 	if (mode->vscan > 1)
- 		den *= mode->vscan;
- 
--	return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(num, 1000), den);
-+	if (unlikely(den > UINT_MAX))
-+		return DIV64_U64_ROUND_CLOSEST(num, den);
-+
-+	return DIV_ROUND_CLOSEST_ULL(num, (u32) den);
- }
- EXPORT_SYMBOL(drm_mode_vrefresh);
- 
+AFAIU, even if there'll be a notification chanism, it needs to be at least
+in per-file address space (probably in file offsets) rather than per-mm for
+a shmem backend, so that any mapping of the file should notify that.
+
+Isn't it already too late though to wait that notification until page is
+installed?  Because here you pinned the page for DMA, I think it means
+before a new page installed (but after the page is invalidated) the device
+can DMA to an invalid buffer.
+
+To come back to the original question: I don't know how that could work at
+all, the userapp should just never do that invalidation, because right
+after it does, the dma buffer will be invalid, and the device can update
+data into trash.  So.. I don't have an easy way to do this right.. besides
+disabling ram discard just like what vfio does already.
+
+Thanks,
+
 -- 
-2.34.1
+Peter Xu
 
