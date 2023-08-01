@@ -1,34 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369BC76ADE7
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:34:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 502CF76AE25
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:36:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02C7810E377;
-	Tue,  1 Aug 2023 09:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1966310E378;
+	Tue,  1 Aug 2023 09:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-52.mail.aliyun.com (out28-52.mail.aliyun.com
- [115.124.28.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E0C10E376;
- Tue,  1 Aug 2023 09:34:23 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07780596|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0155529-0.000498951-0.983948;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5s-8G6_1690882455; 
-Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5s-8G6_1690882455) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 17:34:17 +0800
-From: Ran Sun <sunran001@208suo.com>
-To: alexander.deucher@amd.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/amd/pm: Clean up errors in tonga_baco.c
-Date: Tue,  1 Aug 2023 09:34:14 +0000
-Message-Id: <20230801093414.7673-1-sunran001@208suo.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6359310E383
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 09:36:18 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-314417861b9so4585897f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 02:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690882577; x=1691487377;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=eLYn/Ai9z2gGLmMC7UrWB7JjED0LKn/q81pApdMJnLQ=;
+ b=xluXVputPy65JGa4eRUh/XV1kov+R248VtbZVZ80/FbxIf0hltL9RjipTqHUaQcwc0
+ ZYbxWD9pTFu/LS1oG6Ntikx3PQaBwE0JA6FkgZEI8EODtwxKIc9/anjXuRb9Bwc4vE0w
+ 5b24UAoCXcHk406vUgCDlBtlYBiyH1PAOqV7VGu5o1uGAZ0PfFL6bCyBmkiVQMsIRmCj
+ wbwbS7B4Yr/ll8p7KUaTZWXmsnBp6R/h/EyJmoKIPJJgCtzMUvkuR7TAfc3qcpxRvMfJ
+ +ZLgq1csC22oJJxQblQQz0pYzW8a4M+izQlRacsFciKG9uqJIQ8av4aLEFOYyrad4O/S
+ +JWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690882577; x=1691487377;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eLYn/Ai9z2gGLmMC7UrWB7JjED0LKn/q81pApdMJnLQ=;
+ b=aKatFD/1P7Pm4SfcgB+NsJMKz9x0YliAty6E2MZFI2f+9yOGD3lWIRQE0IU06tXvlN
+ MuhpZqbTEt7fjzUmgfsdkea+Q0XiVdE39UYmDS6MjlVYwJ3xtyKlAKK8WgBfATlL5ei1
+ 7JoQjWjPA/RB0PXISTN9Zw3vQPHeKK9G87lqQnt8hOiWowqpLYrC086jUaaMoiKRTX82
+ DNoILHxR8VRLSbRA56ge9HZb01VXmuWMvrp6uZu+fdO950WZIrxkn6ZP4w2FzI7Nqcf0
+ dzE+bBL5yUaW2f2ZRJ+d5rsllKqGQEDj3+xoSq4yx3L4UeiEVTCpcLraLZJFGBGzo2qG
+ AVYA==
+X-Gm-Message-State: ABy/qLYPxcuhPBvjZPKuK8u+dzctkUCnBiDDF19QKb5BFG9KDI4lmkaK
+ CJZiCXKN0PYof30gdTEK+JS7Tg==
+X-Google-Smtp-Source: APBJJlGrDJFS+Gs3swcFRbJAzeissdjBe44/P1q0oQ7bJ4YiTCcIpsmnqABtt0cbcpi2VRwMnXE54Q==
+X-Received: by 2002:a05:6000:11c5:b0:317:594a:dbde with SMTP id
+ i5-20020a05600011c500b00317594adbdemr1778846wrx.20.1690882576749; 
+ Tue, 01 Aug 2023 02:36:16 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b92a:81a9:df6e:1e3?
+ ([2a01:e0a:982:cbb0:b92a:81a9:df6e:1e3])
+ by smtp.gmail.com with ESMTPSA id
+ x1-20020a5d60c1000000b00317afc7949csm1076202wrt.50.2023.08.01.02.36.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Aug 2023 02:36:16 -0700 (PDT)
+Message-ID: <743b7abb-127d-49c1-f863-1a7d388b8166@linaro.org>
+Date: Tue, 1 Aug 2023 11:36:15 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm: bridge: dw_hdmi: Fix ELD is not updated issue
+Content-Language: en-US
+To: Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230726014833.1647244-1-Sandor.yu@nxp.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230726014833.1647244-1-Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,118 +80,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Reply-To: neil.armstrong@linaro.org
+Cc: the.cheaterman@gmail.com, rfoss@kernel.org, jonas@kwiboo.se,
+ cychiang@chromium.org, shengjiu.wang@nxp.com, adrian.larumbe@collabora.com,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, treding@nvidia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+Hi,
 
-ERROR: that open brace { should be on the previous line
+On 26/07/2023 03:48, Sandor Yu wrote:
+> The ELD (EDID-Like Data) is not updated when the HDMI cable
+> is plugged into different HDMI monitors.
+> This is because the EDID is not updated in the HDMI HPD function.
+> As a result, the ELD data remains unchanged and may not reflect
+> the capabilities of the newly connected HDMI sink device.
+> 
+> To address this issue, the handle_plugged_change function should move to
+> the bridge_atomic_enable and bridge_atomic_disable functions.
+> Make sure the EDID is properly updated before updating ELD.
+> 
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 21 ++++-----------------
+>   1 file changed, 4 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 9a3db5234a0e0..6fa4848591226 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -196,7 +196,6 @@ struct dw_hdmi {
+>   
+>   	hdmi_codec_plugged_cb plugged_cb;
+>   	struct device *codec_dev;
+> -	enum drm_connector_status last_connector_result;
+>   };
+>   
+>   #define HDMI_IH_PHY_STAT0_RX_SENSE \
+> @@ -235,7 +234,7 @@ int dw_hdmi_set_plugged_cb(struct dw_hdmi *hdmi, hdmi_codec_plugged_cb fn,
+>   	mutex_lock(&hdmi->mutex);
+>   	hdmi->plugged_cb = fn;
+>   	hdmi->codec_dev = codec_dev;
+> -	plugged = hdmi->last_connector_result == connector_status_connected;
+> +	plugged = hdmi->connector.status == connector_status_connected;
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
- .../drm/amd/pm/powerplay/hwmgr/tonga_baco.c   | 30 +++++++------------
- 1 file changed, 10 insertions(+), 20 deletions(-)
+Please use curr_conn instead, connector is not always valid.
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/tonga_baco.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/tonga_baco.c
-index ea743bea8e29..432d4fd2a0ba 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/tonga_baco.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/tonga_baco.c
-@@ -36,8 +36,7 @@
- #include "smu/smu_7_1_2_sh_mask.h"
- 
- 
--static const struct baco_cmd_entry gpio_tbl[] =
--{
-+static const struct baco_cmd_entry gpio_tbl[] = {
- 	{ CMD_WRITE, mmGPIOPAD_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_PD_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_PU_EN, 0, 0, 0, 0x0 },
-@@ -50,15 +49,13 @@ static const struct baco_cmd_entry gpio_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmDC_GPIO_SYNCA_MASK, 0, 0, 0, 0x00001111 }
- };
- 
--static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =
--{
-+static const struct baco_cmd_entry enable_fb_req_rej_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0300024 },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x1, 0x0, 0, 0x1 },
- 	{ CMD_WRITE, mmBIF_FB_EN, 0, 0, 0, 0x0 }
- };
- 
--static const struct baco_cmd_entry use_bclk_tbl[] =
--{
-+static const struct baco_cmd_entry use_bclk_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN_MASK, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN__SHIFT, 0, 0x1 },
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL_2 },
-@@ -80,8 +77,7 @@ static const struct baco_cmd_entry use_bclk_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmMPLL_CNTL_MODE, MPLL_CNTL_MODE__MPLL_MCLK_SEL_MASK, MPLL_CNTL_MODE__MPLL_MCLK_SEL__SHIFT, 0, 0x0 }
- };
- 
--static const struct baco_cmd_entry turn_off_plls_tbl[] =
--{
-+static const struct baco_cmd_entry turn_off_plls_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_RESET_MASK, CG_SPLL_FUNC_CNTL__SPLL_RESET__SHIFT, 0, 0x1 },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_PWRON_MASK, CG_SPLL_FUNC_CNTL__SPLL_PWRON__SHIFT, 0, 0x0 },
-@@ -112,8 +108,7 @@ static const struct baco_cmd_entry turn_off_plls_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, THM_CLK_CNTL__TMON_CLK_SEL_MASK,  THM_CLK_CNTL__TMON_CLK_SEL__SHIFT, 0, 0x1 }
- };
- 
--static const struct baco_cmd_entry enter_baco_tbl[] =
--{
-+static const struct baco_cmd_entry enter_baco_tbl[] = {
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_EN_MASK, BACO_CNTL__BACO_EN__SHIFT, 0, 0x01 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK, BACO_CNTL__BACO_BIF_SCLK_SWITCH__SHIFT, 0, 0x01 },
- 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK, 0, 5, 0x40000 },
-@@ -130,8 +125,7 @@ static const struct baco_cmd_entry enter_baco_tbl[] =
- 
- #define BACO_CNTL__PWRGOOD_MASK  BACO_CNTL__PWRGOOD_GPIO_MASK+BACO_CNTL__PWRGOOD_MEM_MASK+BACO_CNTL__PWRGOOD_DVO_MASK
- 
--static const struct baco_cmd_entry exit_baco_tbl[] =
--{
-+static const struct baco_cmd_entry exit_baco_tbl[] = {
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_RESET_EN_MASK, BACO_CNTL__BACO_RESET_EN__SHIFT, 0, 0x01 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BCLK_OFF_MASK, BACO_CNTL__BACO_BCLK_OFF__SHIFT, 0, 0x00 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MASK, BACO_CNTL__BACO_POWER_OFF__SHIFT, 0, 0x00 },
-@@ -146,22 +140,19 @@ static const struct baco_cmd_entry exit_baco_tbl[] =
- 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xffffffff, 0x00 }
- };
- 
--static const struct baco_cmd_entry clean_baco_tbl[] =
--{
-+static const struct baco_cmd_entry clean_baco_tbl[] = {
- 	{ CMD_WRITE, mmBIOS_SCRATCH_6, 0, 0, 0, 0 },
- 	{ CMD_WRITE, mmBIOS_SCRATCH_7, 0, 0, 0, 0 }
- };
- 
--static const struct baco_cmd_entry gpio_tbl_iceland[] =
--{
-+static const struct baco_cmd_entry gpio_tbl_iceland[] = {
- 	{ CMD_WRITE, mmGPIOPAD_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_PD_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_PU_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_MASK, 0, 0, 0, 0xff77ffff }
- };
- 
--static const struct baco_cmd_entry exit_baco_tbl_iceland[] =
--{
-+static const struct baco_cmd_entry exit_baco_tbl_iceland[] = {
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_RESET_EN_MASK, BACO_CNTL__BACO_RESET_EN__SHIFT, 0, 0x01 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BCLK_OFF_MASK, BACO_CNTL__BACO_BCLK_OFF__SHIFT, 0, 0x00 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MASK, BACO_CNTL__BACO_POWER_OFF__SHIFT, 0, 0x00 },
-@@ -177,8 +168,7 @@ static const struct baco_cmd_entry exit_baco_tbl_iceland[] =
- 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xffffffff, 0x00 }
- };
- 
--static const struct baco_cmd_entry clean_baco_tbl_iceland[] =
--{
-+static const struct baco_cmd_entry clean_baco_tbl_iceland[] = {
- 	{ CMD_WRITE, mmBIOS_SCRATCH_7, 0, 0, 0, 0 }
- };
- 
--- 
-2.17.1
+>   	handle_plugged_change(hdmi, plugged);
+>   	mutex_unlock(&hdmi->mutex);
+>   
+> @@ -2446,20 +2445,7 @@ static void dw_hdmi_update_phy_mask(struct dw_hdmi *hdmi)
+>   
+>   static enum drm_connector_status dw_hdmi_detect(struct dw_hdmi *hdmi)
+>   {
+> -	enum drm_connector_status result;
+> -
+> -	result = hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
+> -
+> -	mutex_lock(&hdmi->mutex);
+> -	if (result != hdmi->last_connector_result) {
+> -		dev_dbg(hdmi->dev, "read_hpd result: %d", result);
+> -		handle_plugged_change(hdmi,
+> -				      result == connector_status_connected);
+> -		hdmi->last_connector_result = result;
+> -	}
+> -	mutex_unlock(&hdmi->mutex);
+> -
+> -	return result;
+> +	return hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
+>   }
+>   
+>   static struct edid *dw_hdmi_get_edid(struct dw_hdmi *hdmi,
+> @@ -2958,6 +2944,7 @@ static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
+>   	hdmi->curr_conn = NULL;
+>   	dw_hdmi_update_power(hdmi);
+>   	dw_hdmi_update_phy_mask(hdmi);
+> +	handle_plugged_change(hdmi, false);
+>   	mutex_unlock(&hdmi->mutex);
+>   }
+>   
+> @@ -2976,6 +2963,7 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
+>   	hdmi->curr_conn = connector;
+>   	dw_hdmi_update_power(hdmi);
+>   	dw_hdmi_update_phy_mask(hdmi);
+> +	handle_plugged_change(hdmi, true);
+>   	mutex_unlock(&hdmi->mutex);
+>   }
+>   
+> @@ -3369,7 +3357,6 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+>   	hdmi->rxsense = true;
+>   	hdmi->phy_mask = (u8)~(HDMI_PHY_HPD | HDMI_PHY_RX_SENSE);
+>   	hdmi->mc_clkdis = 0x7f;
+> -	hdmi->last_connector_result = connector_status_disconnected;
+>   
+>   	mutex_init(&hdmi->mutex);
+>   	mutex_init(&hdmi->audio_mutex);
+
+Thanks,
+Neil
 
