@@ -1,33 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E12C76A613
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 03:12:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B847D76A639
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 03:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E29B10E205;
-	Tue,  1 Aug 2023 01:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3720910E2E3;
+	Tue,  1 Aug 2023 01:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-171.mail.aliyun.com (out28-171.mail.aliyun.com
- [115.124.28.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89A0910E205;
- Tue,  1 Aug 2023 01:12:49 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07465538|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.0922483-0.000575133-0.907177;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047192; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=8; RT=8; SR=0; TI=SMTPD_---.U5BYNI3_1690852358; 
-Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5BYNI3_1690852358) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 09:12:41 +0800
-From: Ran Sun <sunran001@208suo.com>
-To: apw@canonical.com,
-	joe@perches.com,
-	alexander.deucher@amd.com
-Subject: [PATCH] drm/amd/pm: Clean up errors in smu_v11_0.h
-Date: Tue,  1 Aug 2023 01:12:37 +0000
-Message-Id: <20230801011237.3913-1-sunran001@208suo.com>
-X-Mailer: git-send-email 2.17.1
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE5810E2E3;
+ Tue,  1 Aug 2023 01:21:52 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RFHLC667YztRhT;
+ Tue,  1 Aug 2023 09:18:27 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemi500008.china.huawei.com (7.221.188.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 1 Aug 2023 09:21:46 +0800
+Message-ID: <ab080438-5281-d314-89a7-1ecb7b96186c@huawei.com>
+Date: Tue, 1 Aug 2023 09:21:41 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH -next] drm/amdgpu: Remove a lot of unnecessary ternary
+ operators
+To: Tom Rix <trix@redhat.com>, <alexander.deucher@amd.com>,
+ <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <Rodrigo.Siqueira@amd.com>, <evan.quan@amd.com>,
+ <srinivasan.shanmugam@amd.com>, <wangxiongfeng2@huawei.com>,
+ <Hawking.Zhang@amd.com>, <James.Zhu@amd.com>,
+ <Veerabadhran.Gopalakrishnan@amd.com>, <saleemkhan.jamadar@amd.com>,
+ <le.ma@amd.com>, <tao.zhou1@amd.com>, <Jane.Jian@amd.com>,
+ <Hongkun.Zhang@amd.com>, <leo.liu@amd.com>, <lijo.lazar@amd.com>,
+ <mario.limonciello@amd.com>, <Lang.Yu@amd.com>, <ruijing.dong@amd.com>,
+ <Suresh.Guttula@amd.com>, <David.Wu3@amd.com>, <sonny.jiang@amd.com>,
+ <wenjing.liu@amd.com>, <Jun.Lei@amd.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <drv@mailo.com>, <Shiwu.Zhang@amd.com>,
+ <aleksei.kodanev@bell-sw.com>, <ye.xingchen@zte.com.cn>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20230731132610.2675314-1-ruanjinjie@huawei.com>
+ <a048aa87-5bac-2032-6d5e-929af5cbc8e1@redhat.com>
+Content-Language: en-US
+From: Ruan Jinjie <ruanjinjie@huawei.com>
+In-Reply-To: <a048aa87-5bac-2032-6d5e-929af5cbc8e1@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,91 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bpf@vger.kernel.org, Ran Sun <sunran001@208suo.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
 
-ERROR: that open brace { should be on the previous line
-ERROR: code indent should use tabs where possible
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0.h |  7 +++---
- scripts/checkpatch.pl                        | 23 --------------------
- 2 files changed, 3 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0.h b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0.h
-index d466db6f0ad4..1b4e0e4716ea 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0.h
-+++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0.h
-@@ -67,8 +67,7 @@ static const __maybe_unused uint16_t link_width[] = {0, 1, 2, 4, 8, 12, 16};
- static const __maybe_unused uint16_t link_speed[] = {25, 50, 80, 160};
- 
- static const
--struct smu_temperature_range __maybe_unused smu11_thermal_policy[] =
--{
-+struct smu_temperature_range __maybe_unused smu11_thermal_policy[] = {
- 	{-273150,  99000, 99000, -273150, 99000, 99000, -273150, 99000, 99000},
- 	{ 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000},
- };
-@@ -96,8 +95,8 @@ struct smu_11_0_dpm_table {
- };
- 
- struct smu_11_0_pcie_table {
--        uint8_t  pcie_gen[MAX_PCIE_CONF];
--        uint8_t  pcie_lane[MAX_PCIE_CONF];
-+	uint8_t  pcie_gen[MAX_PCIE_CONF];
-+	uint8_t  pcie_lane[MAX_PCIE_CONF];
- };
- 
- struct smu_11_0_dpm_tables {
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 85a0598bf723..528f619520eb 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -7449,23 +7449,6 @@ sub process {
- 		}
- 
- # Complain about RCU Tasks Trace used outside of BPF (and of course, RCU).
--<<<<<<< HEAD
--<<<<<<< HEAD
--		if ($line =~ /\brcu_read_lock_trace\s*\(/ ||
--		    $line =~ /\brcu_read_lock_trace_held\s*\(/ ||
--		    $line =~ /\brcu_read_unlock_trace\s*\(/ ||
--		    $line =~ /\bcall_rcu_tasks_trace\s*\(/ ||
--		    $line =~ /\bsynchronize_rcu_tasks_trace\s*\(/ ||
--		    $line =~ /\brcu_barrier_tasks_trace\s*\(/ ||
--		    $line =~ /\brcu_request_urgent_qs_task\s*\(/) {
--			if ($realfile !~ m@^kernel/bpf@ &&
--			    $realfile !~ m@^include/linux/bpf@ &&
--			    $realfile !~ m@^net/bpf@ &&
--			    $realfile !~ m@^kernel/rcu@ &&
--			    $realfile !~ m@^include/linux/rcu@) {
--=======
--=======
-->>>>>>> d7b3af5a77e8d8da28f435f313e069aea5bcf172
- 		our $rcu_trace_funcs = qr{(?x:
- 			rcu_read_lock_trace |
- 			rcu_read_lock_trace_held |
-@@ -7482,14 +7465,8 @@ sub process {
- 			kernel/rcu/ |
- 			include/linux/rcu
- 		)};
--<<<<<<< HEAD
--		if ($line =~ /\b$rcu_trace_funcs\s*\(/) {
--			if ($realfile !~ m@^$rcu_trace_paths@) {
-->>>>>>> 4d2c646ac07cf4a35ef1c4a935a1a4fd6c6b1a36
--=======
- 		if ($line =~ /\b($rcu_trace_funcs)\s*\(/) {
- 			if ($realfile !~ m{^$rcu_trace_paths}) {
-->>>>>>> d7b3af5a77e8d8da28f435f313e069aea5bcf172
- 				WARN("RCU_TASKS_TRACE",
- 				     "use of RCU tasks trace is incorrect outside BPF or core RCU code\n" . $herecurr);
- 			}
--- 
-2.17.1
-
+On 2023/8/1 0:22, Tom Rix wrote:
+> 
+> On 7/31/23 6:26 AM, Ruan Jinjie wrote:
+>> Ther are many ternary operators, the true or false judgement
+>> of which is unnecessary in C language semantics.
+>>
+>> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+>> ---
+> 
+> snip
+>>  	data->registry_data.avfs_support =
+>> -		hwmgr->feature_mask & PP_AVFS_MASK ? true : false;
+>> +		hwmgr->feature_mask & PP_AVFS_MASK;
+>>  	data->registry_data.led_dpm_enabled = 1;
+> 
+> These are not equivalent, consider 0xffff & 0x1000 != 1
+Sorry! these are actually not equivalent，I'll fix it in v2. But the many
+others could be more simplified.
+> 
+> Tom
+> 
+> 
