@@ -1,33 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A072B76A6BC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 04:06:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1096776A6C0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 04:08:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C46E810E043;
-	Tue,  1 Aug 2023 02:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B86010E08B;
+	Tue,  1 Aug 2023 02:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-147.mail.aliyun.com (out28-147.mail.aliyun.com
- [115.124.28.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88B5D10E043;
- Tue,  1 Aug 2023 02:06:38 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08576864|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0754816-0.000674398-0.923844;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5Ek3oJ_1690855589; 
+Received: from out28-122.mail.aliyun.com (out28-122.mail.aliyun.com
+ [115.124.28.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1195510E08B;
+ Tue,  1 Aug 2023 02:08:49 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.4466546|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_alarm|0.0186576-0.00180561-0.979537; FP=0|0|0|0|0|-1|-1|-1;
+ HT=ay29a033018047213; MF=sunran001@208suo.com; NM=1; PH=DS; RN=7; RT=7; SR=0;
+ TI=SMTPD_---.U5DrTdc_1690855720; 
 Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5Ek3oJ_1690855589) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 10:06:31 +0800
+ fp:SMTPD_---.U5DrTdc_1690855720) by smtp.aliyun-inc.com;
+ Tue, 01 Aug 2023 10:08:42 +0800
 From: Ran Sun <sunran001@208suo.com>
 To: alexander.deucher@amd.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/amd/pm: Clean up errors in smu_v13_0_6_ppt.c
-Date: Tue,  1 Aug 2023 02:06:25 +0000
-Message-Id: <20230801020625.4281-1-sunran001@208suo.com>
+Subject: [PATCH] drm/amd/pm: Clean up errors in smu_v13_0_5_ppt.c
+Date: Tue,  1 Aug 2023 02:08:39 +0000
+Message-Id: <20230801020839.4369-1-sunran001@208suo.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,41 +47,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: code indent should use tabs where possible
-ERROR: that open brace { should be on the previous line
+ERROR: space prohibited before that ',' (ctx:WxW)
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-index 1ac552142763..43afa1ee1b4a 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
-@@ -1248,9 +1248,9 @@ static int smu_v13_0_6_get_power_limit(struct smu_context *smu,
- 				       uint32_t *default_power_limit,
- 				       uint32_t *max_power_limit)
- {
--        struct smu_table_context *smu_table = &smu->smu_table;
--        struct PPTable_t *pptable =
--                (struct PPTable_t *)smu_table->driver_pptable;
-+	struct smu_table_context *smu_table = &smu->smu_table;
-+	struct PPTable_t *pptable =
-+		(struct PPTable_t *)smu_table->driver_pptable;
- 	uint32_t power_limit = 0;
- 	int ret;
- 
-@@ -1366,8 +1366,7 @@ static int smu_v13_0_6_set_irq_state(struct amdgpu_device *adev,
- 	return 0;
- }
- 
--static const struct amdgpu_irq_src_funcs smu_v13_0_6_irq_funcs =
--{
-+static const struct amdgpu_irq_src_funcs smu_v13_0_6_irq_funcs = {
- 	.set = smu_v13_0_6_set_irq_state,
- 	.process = smu_v13_0_6_irq_process,
- };
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c
+index 42f110602eb1..87a79e6f983b 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c
+@@ -75,7 +75,7 @@ static struct cmn2asic_msg_mapping smu_v13_0_5_message_map[SMU_MSG_MAX_COUNT] =
+ 	MSG_MAP(SetDriverDramAddrHigh,            PPSMC_MSG_SetDriverDramAddrHigh,      1),
+ 	MSG_MAP(SetDriverDramAddrLow,          PPSMC_MSG_SetDriverDramAddrLow,	1),
+ 	MSG_MAP(TransferTableSmu2Dram,           PPSMC_MSG_TransferTableSmu2Dram,		1),
+-	MSG_MAP(TransferTableDram2Smu,          PPSMC_MSG_TransferTableDram2Smu ,	1),
++	MSG_MAP(TransferTableDram2Smu,          PPSMC_MSG_TransferTableDram2Smu,	1),
+ 	MSG_MAP(GetGfxclkFrequency,          PPSMC_MSG_GetGfxclkFrequency,	1),
+ 	MSG_MAP(GetEnabledSmuFeatures,           PPSMC_MSG_GetEnabledSmuFeatures,		1),
+ 	MSG_MAP(SetSoftMaxVcn,          PPSMC_MSG_SetSoftMaxVcn,	1),
 -- 
 2.17.1
 
