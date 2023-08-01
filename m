@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C4B76C11B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:36:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEC276C11F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C0710E46A;
-	Tue,  1 Aug 2023 23:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5E810E476;
+	Tue,  1 Aug 2023 23:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95CD10E46D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:53 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id
- ca18e2360f4ac-786bb09e595so10007539f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:53 -0700 (PDT)
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABDB910E46A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:54 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id
+ ca18e2360f4ac-790ba9cf42aso52401639f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690932953; x=1691537753;
+ d=gmail.com; s=20221208; t=1690932954; x=1691537754;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dahxVnboO2eOF9q6iQLzZIEkr8U3iWdKsMgzp+Qnxik=;
- b=pvU7ugjuzEJLawEbeUP00B8UI18YQT/B4kWcI2YK9vv7iQms/H2JEVv6KVIC7vZ6Jf
- PM8l+KompBGlLKLZpL4qKKFLlbUNxhKBUzexGrJRhCvm+bwNZMRhtMlAfvW7jwawid2R
- cWIyLzp6VXgHeRcA6QHO/U2h9wWVPyLjaNChEJ1tHxKXwuaMfPoop6tMBzgeaTAEdSfY
- ytLANKW6LHBme98hZq2t2H2X8k70v1lnUtnIJO89FXzqxYAwMXujCqH6AYNaES95pED5
- TstIS4jvJaZgg70jnF0QqnqEurVbPf5OepaEnXyiNssAKk5t2YKbC4pWPGK7rJp0JzWp
- uYLw==
+ bh=7iCNWvd7mdJx34DAX7Wae2aC5uwBwu5nJTt0y8KbTx8=;
+ b=bLc/OD62yNGsaknTN2LSfF7wm4qDMA7XF1hJsijXqExyBhtTYyEgnb9aZQdD9yfGpi
+ FV1f67yZalQI1a3yePxSdRLdvF5QXAOzbhX1eReL0FgLFRmg6auJjD8k9OL1Y01k0iRl
+ QBGro2ZLn93eCFPVg1kCOiefPiTBLuexk9N4JsTkM6c2frBFrxZ84Tyz59PzENbBvG9+
+ cngDbZJqNIAeiEm2pWGbIaWpPh/K204qJmH4IzIfO26fS/UFuNjUKQVLedeXfIsfRbh8
+ Tb9z+XiG1GmL1eQYvcfbP+yg7o74DvVjR4DOLLQvDwWD4t5NzolqCxSGOjNf4uOvIjD7
+ xYbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690932953; x=1691537753;
+ d=1e100.net; s=20221208; t=1690932954; x=1691537754;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dahxVnboO2eOF9q6iQLzZIEkr8U3iWdKsMgzp+Qnxik=;
- b=h2EHiOqSrjfrXIfbmSv5MyZrNYz1NXf2ViWibHfLNed8SGh8W9+ap4/M7ORpn/eefu
- gW9vKWk27qlDacR+neatn7ln6koKnGXHDB7YSB6Ww7OB86Xwn6rbRJmEPHfRWmdojqbD
- +CkKUsF0JhNZCX5Vr5d+u+vMueFjBsZ+HYFVM5q+/jY1BOFYoHUa19GyWVMUElrpnlS6
- RxAqO6/K+NQbYFbhXXhcaiqRhnhT/xeWPgLH7I3RQOIt88cApgVRIKiBBnp8KZzUpPwY
- EhqADd1nqao6s0ilugNdX18q72GfY7h1IOgJb4hS7t6C9d0hkUvE5l2FfAIrXqUp7dZg
- EPSw==
-X-Gm-Message-State: ABy/qLYQ9HiLga0d33A2IwlfOADcgS5g1hFpoQ8VvQSjRVUY7jle0rKG
- XiJjzmfheJYdR6s36nF7C/UyRhINure8BA==
-X-Google-Smtp-Source: APBJJlEscyF9Ct6xSDhimVKwYBJuNxoqlQyenT244EcZE4HhGsZ3bUN36LcqK18+vjKFyv4dJTEGeA==
-X-Received: by 2002:a92:4b01:0:b0:342:28f1:75b5 with SMTP id
- m1-20020a924b01000000b0034228f175b5mr12205916ilg.5.1690932952904; 
- Tue, 01 Aug 2023 16:35:52 -0700 (PDT)
+ bh=7iCNWvd7mdJx34DAX7Wae2aC5uwBwu5nJTt0y8KbTx8=;
+ b=JPE73+/jTzWzWzDiVLdqsFUwBMz8lAVMo1T6IXyfgfV+NEQn5DrdMTA4hFFtO1tBBE
+ xjoWmMTceSJOkZiWQB2r8iYjrVo8/okQ6u16XbSSKQ+ITRjqDfv0O3gkNIbR223k35eq
+ P7BFjq52apzqUXhl9AhsctVXImfzWo86UuGI1fbCQStqI9/K2FaXupPcTsHse25cO3LY
+ O3RjKQauDbObRWYPNfiTyWjkPLlJq1EIvQ9+pZl5Q8YSQkU5VtDl5TQ3TKvZD8Q9RViW
+ 6O6ufc0cEny404YcRiA2eKBc8u1jMBBGuDT4HiYl5IJbE1bMZXLfFVmwhajRYzbAQXoR
+ f1mw==
+X-Gm-Message-State: ABy/qLZQJHO9UjTLloowEaGX4AQ8lyULMl78FmeijFNPbZYH7kzRiZYD
+ GOmGWd9jLlvJCsTYteIERMc=
+X-Google-Smtp-Source: APBJJlHqhtYgS6dRQygk8fBjeI5DUfuNvz9P6ibFHfWkc+R2QpnHb+6E9yO8BmI4l4uYGV5feQCmXw==
+X-Received: by 2002:a05:6e02:13cf:b0:348:7d72:48cf with SMTP id
+ v15-20020a056e0213cf00b003487d7248cfmr12372723ilj.17.1690932953960; 
+ Tue, 01 Aug 2023 16:35:53 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.51
+ t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 16:35:52 -0700 (PDT)
+ Tue, 01 Aug 2023 16:35:53 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 21/22] dyndbg-doc: add classmap info to howto
-Date: Tue,  1 Aug 2023 17:35:12 -0600
-Message-ID: <20230801233515.166971-27-jim.cromie@gmail.com>
+Subject: [PATCH v5 22/22] checkpatch: reword long-line warn about commit-msg
+Date: Tue,  1 Aug 2023 17:35:13 -0600
+Message-ID: <20230801233515.166971-28-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801233515.166971-1-jim.cromie@gmail.com>
 References: <20230801233515.166971-1-jim.cromie@gmail.com>
@@ -73,95 +73,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: apw@canonical.com, joe@perches.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add some basic info on classmap usage and api
+Reword the warning to complain about line length 1st, since thats
+whats actually tested.
 
+Cc: apw@canonical.com
+Cc: joe@perches.com
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 64 ++++++++++++++++++-
- 1 file changed, 63 insertions(+), 1 deletion(-)
+ scripts/checkpatch.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 8dc668cc1216..b8d2a7235cbb 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -224,7 +224,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][flmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-flmpt``.
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index f6b6b2a50dfe..31c55e3ece09 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3272,7 +3272,7 @@ sub process {
+ 					# A Fixes:, link or signature tag line
+ 		      $commit_log_possible_stack_dump)) {
+ 			WARN("COMMIT_LOG_LONG_LINE",
+-			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
++			     "Prefer a maximum 75 chars per line (possible unwrapped commit description?)\n" . $herecurr);
+ 			$commit_log_long_line = 1;
+ 		}
  
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -374,3 +373,66 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+Dyndbg generally selects *prdbg* callsites using structural info:
-+module, file, function, line.  Using classmaps, user modules can
-+organize/select pr_debug()s as they like.
-+
-+- classes coordinates/spans multiple modules
-+- complements the mod,file,func attrs
-+- keeps pr_debug's 0-off-cost JUMP_LABEL goodness
-+- isolates each from other class'd and un-class'd pr_debugs()
-+  (one doesn't intermix 2 clients' bank accounts)
-+
-+  # IOW this doesn't change DRM.debug settings
-+  #> echo -p > /proc/dynamic_debug/control
-+
-+  # change the classes by naming them explicitly (no wildcard here)
-+  #> echo class DRM_UT_CORE +p > /proc/dynamic_debug/control
-+
-+To support DRM.debug (/sys/module/drm/parameters/debug), dyndbg
-+provides DYNDBG_CLASSMAP_PARAM*.  It maps the categories/classes:
-+DRM_UT_CORE.. to bits 0..N, allowing to set all classes at once.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNDBG_CLASSMAP_DEFINE - modules create CLASSMAPs, naming the classes
-+and type, and mapping the class-names to consecutive _class_ids.  By
-+doing so, they tell dyndbg that they are using those class_ids, and
-+authorize dyndbg to manipulate the callsites by their class-names.
-+
-+Its expected that client modules will follow the DRM.debug model:
-+1. define their debug-classes using an enum type, where the enum
-+symbol and its integer value define both the classnames and class-ids.
-+2. use or macro-wrap __pr_debug_cls(ENUM_VAL, "hello world\n")
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+Both these classmap-types use the class-names/ENUM_VALs to validate
-+commands into >control.
-+
-+DYNDBG_CLASSMAP_PARAM - refers to a DEFINEd classmap, exposing the set
-+of defined classes to manipulation as a group.  This interface
-+enforces the relatedness of classes of DD_CLASS_TYPE_LEVEL_NUM typed
-+classmaps; all classes are independent in the >control parser itself.
-+
-+DYNDBG_CLASSMAP_USE - drm drivers use the CLASSMAP that drm DEFINEs.
-+This shares the classmap definition, authorizes coordinated changes
-+amongst the CLASSMAP DEFINEr and multiple USErs, and tells dyndbg
-+how to initialize the user's prdbgs at modprobe.
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones (__pr_debug_cls(id,fmt..)).  This won't be reflected in
-+the PARAM readback value, but the pr_debug callsites can be toggled
-+into agreement with the param.
 -- 
 2.41.0
 
