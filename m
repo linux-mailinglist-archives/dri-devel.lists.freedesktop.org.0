@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBBB176BEC5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 22:51:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BF676BEC3
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 22:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4631710E436;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0723910E433;
 	Tue,  1 Aug 2023 20:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (unknown [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4803210E1E1;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C551310E41A;
  Tue,  1 Aug 2023 20:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1690923073; x=1722459073;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FdGRfPvC9A7+2edmXqNAAKQwJfk4O4+s/Hgwkl1xXh0=;
- b=gFv8S5iHzEdZuxC26hAZmEcrctYCusqzR/ID+lR7ZuDJOGvReAjoGmVn
- Agp1oVSUPGhq5VltfrJIhGTbaAq6hCJ6Ofq9gkoZFMCKATYk+WjxSDV9/
- qpZJFjZQ1z3mASJhBTuFMBkGuiJNSzk75tSSNVpO8PZDE6ZuZE+iUAegK
- UZXnr2Ivzwz2QkUD3zo6KDndjHHB+ITxcxGyyK4oYv00a2fJpwNiMYujT
- PmKvnmwZaSvPomb8Dnt4UJ3zR58Glsmwxf0xjYlrpx6Wy2rbE3BBl4+fK
- 8UETqm7pVigJwpXtMaOLoQWxgV117ExiYKHOIjwGjwgsU+n+7kqVycxdb Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="373051759"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="373051759"
+ bh=DQoIpnI1x5g9Tu0v4cJDT9GXQ8upQSDJsJaCp/suKlo=;
+ b=HpQHtgpce/nSGG+LPkvNRnGRMX9czNYuUCGGuDFCFLmePYcWLwxADQov
+ AptiELNjH/70e1GucD+gc6sCLsFRYiv7mUKOf2yASEjD5rEXBz+PoAR/E
+ XpF8S7yNerP0Z/NBnBc98On76VFvMecAt4lTeiFnbvW0LAaZhl4FgaMF+
+ Xm1uFXSuAyHLmWmhWARUo1PsCv34Hm0h5QinnCMFiyAY5Cu9gQDKfQz6c
+ HU0q9bSunFOCKZLYcU7m+7BStQ3hQSedP1JzYFFnjJKn5U0cllQTi5a+U
+ QoUtVwSIW9NmyCMOHXK8SzJuIMbilnSRi294KJO6+wpWlxEEbjWaFKY87 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="373051769"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="373051769"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Aug 2023 13:51:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="872215414"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="872215419"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  01 Aug 2023 13:51:14 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
-Subject: [PATCH 6/8] drm/sched: Start run wq before TDR in drm_sched_start
-Date: Tue,  1 Aug 2023 13:51:01 -0700
-Message-Id: <20230801205103.627779-7-matthew.brost@intel.com>
+Subject: [PATCH 7/8] drm/sched: Submit job before starting TDR
+Date: Tue,  1 Aug 2023 13:51:02 -0700
+Message-Id: <20230801205103.627779-8-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230801205103.627779-1-matthew.brost@intel.com>
 References: <20230801205103.627779-1-matthew.brost@intel.com>
@@ -65,33 +65,38 @@ Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the TDR is set to a very small value it can fire before the run wq is
-started in the function drm_sched_start. The run wq is expected to
-running when the TDR fires, fix this ordering so this expectation is
-always met.
+If the TDR is set to a value, it can fire before a job is submitted in
+drm_sched_main. The job should be always be submitted before the TDR
+fires, fix this ordering.
+
+v2:
+  - Add to pending list before run_job, start TDR after (Luben, Boris)
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index be963d68a733..2e404a6542ad 100644
+index 2e404a6542ad..9573f13f8459 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -612,10 +612,10 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
- 			drm_sched_job_done(s_job);
- 	}
+@@ -445,7 +445,6 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
  
-+	drm_sched_run_wq_start(sched);
-+
- 	if (full_recovery)
- 		drm_sched_start_timeout_unlocked(sched);
--
--	drm_sched_run_wq_start(sched);
+ 	spin_lock(&sched->job_list_lock);
+ 	list_add_tail(&s_job->list, &sched->pending_list);
+-	drm_sched_start_timeout(sched);
+ 	spin_unlock(&sched->job_list_lock);
  }
- EXPORT_SYMBOL(drm_sched_start);
  
+@@ -1146,6 +1145,7 @@ static void drm_sched_main(struct work_struct *w)
+ 		fence = sched->ops->run_job(sched_job);
+ 		complete_all(&entity->entity_idle);
+ 		drm_sched_fence_scheduled(s_fence);
++		drm_sched_start_timeout_unlocked(sched);
+ 
+ 		if (!IS_ERR_OR_NULL(fence)) {
+ 			drm_sched_fence_set_parent(s_fence, fence);
 -- 
 2.34.1
 
