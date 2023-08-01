@@ -1,47 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B3476AA18
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 09:36:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A0776AA48
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 09:50:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1836E10E312;
-	Tue,  1 Aug 2023 07:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19FBD10E315;
+	Tue,  1 Aug 2023 07:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE5610E312
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 07:35:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAED710E315
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 07:50:26 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 82390614AC;
- Tue,  1 Aug 2023 07:35:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FDE2C433C7;
- Tue,  1 Aug 2023 07:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690875353;
- bh=AQikNOlQWCp2x7FJn2Cn9VEoR/2PqWHH3l3dMxcPtgY=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=aJOd5ELviFpFzoh0J5s52THZhEEVd3E5AVDjIVivwMHq3axo05NXM94wVzqdCU7aJ
- x2mCoTrkIM4K+En+lmMwQxNfkYYBwG4zx6ZbOwK9OSARbd43WnLw7d1DzIU/Y1i0cR
- tWAZNByzGkrbdQPn6xbjH2XwlD+Jz5NMiP9nNfIMzGp0IMadtAaD0DI3X6hKoHOJwj
- 3GKzpjk7r22kRf8DaOZtSuyrRPqqDuwvFKEYaILx1L6fObrxsvPKIWk9zjV7EBUSst
- gwYpYSkAqrSoEal/4sg1jseBwVkeSt0qIWIo7aLoKFQoQG0ynhPUMVK79ZWyBvm79y
- zHMGk25gcBk1w==
-From: Maxime Ripard <mripard@kernel.org>
-To: dri-devel@lists.freedesktop.org, Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20230731182241.240556-1-arthurgrillo@riseup.net>
-References: <20230731182241.240556-1-arthurgrillo@riseup.net>
-Subject: Re: (subset) [PATCH v3] drm/tests: Alloc drm_device on drm_exec tests
-Message-Id: <169087535074.1035208.10252919179734883843.b4-ty@kernel.org>
-Date: Tue, 01 Aug 2023 09:35:50 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 23EDA6607114;
+ Tue,  1 Aug 2023 08:50:25 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690876225;
+ bh=iODfF7XpW1EtsCvou+Devm/e/p/QPQYfgNk+Z1DVjng=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=D/oZP2a5vFfgDDUfIzfF5DzBwrLULG3v1/Sezkd70rrwoX1vyCZzpTc9/f9pmnVct
+ dwCjBNMmEwYbgc7qN6ubpng/JCYGyJ78yQTvAqcawXXJ8kCL/t56opiApGTX+XP3dU
+ DHYmNOJOjSd2Nta4XyX7gZnbQBIdDrfhu+JHRlOYHtvLr5Gh44j3xBN/hOkrfjBNII
+ 4s43I8Hlff1HRwLq9Axi9PN24KENrjDgDJCSraSg7Omae63+qWlHKtixY9GZmQfQcl
+ 5NzI73Hn4xlaJ1gL2LO6jH/QCRCrN8sJzxwx3w98BLqoV1H+T1y3pQFzy9+nfGqQTu
+ 0diEgd1ZKon4g==
+Date: Tue, 1 Aug 2023 09:50:22 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v3] drm/panfrost: Sync IRQ by job's timeout handler
+Message-ID: <20230801095022.2c5e66d6@collabora.com>
+In-Reply-To: <20230801001427.176981-1-dmitry.osipenko@collabora.com>
+References: <20230801001427.176981-1-dmitry.osipenko@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,38 +52,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- mripard@redhat.com, tales.aparecida@gmail.com,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, mairacanal@riseup.net,
- boris.brezillon@collabora.com, dakr@redhat.com, alexander.deucher@amd.com,
- andrealmeid@riseup.net, christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, kernel@collabora.com,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 31 Jul 2023 15:22:41 -0300, Arthur Grillo wrote:
-> The drm_exec tests where crashing[0] because of a null dereference. This
-> is caused by a new access of the `driver` attribute of `struct
-> drm_driver` on drm_gem_private_object_init(). Alloc the drm_device to
-> fix that.
-> 
-> [0]
-> [15:05:24] ================== drm_exec (6 subtests) ===================
-> [15:05:24] [PASSED] sanitycheck
-> ^CERROR:root:Build interruption occurred. Cleaning console.
-> [15:05:50] [ERROR] Test: drm_exec: missing expected subtest!
-> [15:05:50] BUG: kernel NULL pointer dereference, address: 00000000000000b0
-> [15:05:50] #PF: supervisor read access in kernel mode
-> [15:05:50] #PF: error_code(0x0000) - not-present page
-> [15:05:50] PGD 0 P4D 0
-> [15:05:50] Oops: 0000 [#1] PREEMPT NOPTI
-> [15:05:50] CPU: 0 PID: 23 Comm: kunit_try_catch Tainted: G                 N 6.4.0-rc7-02032-ge6303f323b1a #69
-> [15:05:50] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc37 04/01/2014
-> [15:05:50] RIP: 0010:drm_gem_private_object_init+0x60/0xc0
-> 
-> [...]
+On Tue,  1 Aug 2023 03:14:27 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Applied to drm/drm-misc (drm-misc-next).
+> Panfrost IRQ handler may stuck for a long time, for example this happens
+> when there is a bad HDMI connection and HDMI handler takes a long time to
+> finish processing, holding Panfrost. Make Panfrost's job timeout handler
+> to sync IRQ before checking fence signal status in order to prevent
+> spurious job timeouts due to a slow IRQ processing.
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> # MediaTek MT8192 and MT8195 Chromebooks:
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Thanks!
-Maxime
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Just a couple nits below.
+
+> ---
+> 
+> Changelog:
+> 
+> v3: - Added comment to the code as was suggested by Boris
+> 
+>     - Added r-b/t-b from Steven and Angelo
+> 
+> v2: - Moved synchronize_irq() after first signal-check to avoid unnecessary
+>       blocking on syncing.
+> 
+>     - Added warn message about high interrupt latency.
+> 
+>  drivers/gpu/drm/panfrost/panfrost_job.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index dbc597ab46fb..ea1149354f9d 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -720,6 +720,21 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+>  	if (dma_fence_is_signaled(job->done_fence))
+>  		return DRM_GPU_SCHED_STAT_NOMINAL;
+>  
+> +	/*
+> +	 * Panfrost IRQ handler may take long time to process if there is
+
+				^ may take a long time to process an
+	interrupt if there is ...
+
+> +	 * another IRQ handler hogging the processing. For example, HDMI
+> +	 * may stuck in IRQ handler for a significant time in a case of bad
+
+	For example, the HDMI encoder driver might be stuck in the IRQ
+	handler ...
+
+> +	 * cable connection. In order to catch such cases and not report
+> +	 * spurious Panfrost job timeouts, synchronize the IRQ handler and
+> +	 * re-check the fence status.
+> +	 */
+
+
+
+> +	synchronize_irq(pfdev->js->irq);
+> +
+> +	if (dma_fence_is_signaled(job->done_fence)) {
+> +		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +	}
+> +
+>  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+>  		js,
+>  		job_read(pfdev, JS_CONFIG(js)),
 
