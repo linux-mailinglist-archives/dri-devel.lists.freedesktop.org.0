@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14E076B10C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFF176B0FB
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1AF310E3B3;
-	Tue,  1 Aug 2023 10:16:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D92A310E39E;
+	Tue,  1 Aug 2023 10:16:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E7A10E3AB
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:56 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D18010E3AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:57 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8E08221DD6;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C89A61F8A3;
  Tue,  1 Aug 2023 10:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690884955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MF+mRYi1D3l68kVFhi26T94mOYhkMC+/iObjqPLYk5E=;
- b=rCZYOkAOxzkpok5l6RfU6o8m9TRdOUaUSSWF60f+WCBXvTNSfiMXiz66lvwER8z/WsLOye
- CRNGf6wJtd7I8mCnFdvMgoOQkJXelhZ66Prjue69VVxjJgItQxpC40aS3NwG9A4ZtbhTh/
- rHUqqqofjN0I7aoSLX3Sc6obQuADSao=
+ bh=5OizvOV+KGhq1cUeg0Ziu/m3hWWoPLFNF2+FFf00vsg=;
+ b=ZoHnHfcInQBTtO/VrcaJpKmYnOrqQQPEoRRhW0/lWibZpV1O8qWQmY8QvaEJ9cDL30uDrH
+ imDnH7iIRNmDUi1fdzpPZFhgzLVayGRYYEsghzB7cea9Koo/QnJsxFgLzsOLd1q8G15wT/
+ Qbq3y8fhDSsVYza4rQ4G7DpqFyZTFPg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690884955;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MF+mRYi1D3l68kVFhi26T94mOYhkMC+/iObjqPLYk5E=;
- b=F1Aombc5GagIBpJB+rMP/EQZ77crwISLCjV9OE0Pt35VOmds9FcggrUF/Y7rxfDS3eKvK7
- DBBIt3cFEkBCc5Cw==
+ bh=5OizvOV+KGhq1cUeg0Ziu/m3hWWoPLFNF2+FFf00vsg=;
+ b=kR78RlOr9dLeYKfhw8X8qz+e+0UJCfUN0+wUDg1IP9BpJpfM3RF/y8Cy3p1CAEtdseNUBU
+ kM6UDK6G6E2/6PCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5841F139BD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9320B139C8;
  Tue,  1 Aug 2023 10:15:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uH1vFFvbyGQBXQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id +NgLI1vbyGQBXQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:55 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 33/47] fbdev/pmagb-b-fb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:38 +0200
-Message-ID: <20230801101541.900-34-tzimmermann@suse.de>
+Subject: [PATCH v2 34/47] fbdev/pxa168fb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:39 +0200
+Message-ID: <20230801101541.900-35-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -85,47 +85,50 @@ no functional change.
 
 v2:
 	* updated to use _IOMEM_ tokens
-	* fix driver name in commit message
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/Kconfig      | 4 +---
- drivers/video/fbdev/pmagb-b-fb.c | 4 +---
+ drivers/video/fbdev/Kconfig    | 4 +---
+ drivers/video/fbdev/pxa168fb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index f2b8b88d9b69..eeaf82880bb3 100644
+index eeaf82880bb3..329b57c173ad 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1535,9 +1535,7 @@ config FB_PMAG_BA
- config FB_PMAGB_B
- 	tristate "PMAGB-B TURBOchannel framebuffer support"
- 	depends on FB && TC
+@@ -1572,9 +1572,7 @@ config FB_PXA168
+ 	tristate "PXA168/910 LCD framebuffer support"
+ 	depends on FB && HAVE_CLK && HAS_IOMEM
+ 	depends on CPU_PXA168 || CPU_PXA910 || COMPILE_TEST
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
  	help
- 	  Support for the PMAGB-B TURBOchannel framebuffer card used mainly
- 	  in the MIPS-based DECstation series. The card is currently only
-diff --git a/drivers/video/fbdev/pmagb-b-fb.c b/drivers/video/fbdev/pmagb-b-fb.c
-index 4ab4d6c7a975..6432492467d1 100644
---- a/drivers/video/fbdev/pmagb-b-fb.c
-+++ b/drivers/video/fbdev/pmagb-b-fb.c
-@@ -123,10 +123,8 @@ static int pmagbbfb_setcolreg(unsigned int regno, unsigned int red,
+ 	  Frame buffer driver for the built-in LCD controller in the Marvell
+ 	  MMP processor.
+diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+index 790aa231a593..adee34386580 100644
+--- a/drivers/video/fbdev/pxa168fb.c
++++ b/drivers/video/fbdev/pxa168fb.c
+@@ -543,14 +543,12 @@ static irqreturn_t pxa168fb_handle_irq(int irq, void *dev_id)
  
- static const struct fb_ops pmagbbfb_ops = {
+ static const struct fb_ops pxa168fb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_setcolreg	= pmagbbfb_setcolreg,
+ 	.fb_check_var	= pxa168fb_check_var,
+ 	.fb_set_par	= pxa168fb_set_par,
+ 	.fb_setcolreg	= pxa168fb_setcolreg,
+ 	.fb_blank	= pxa168fb_blank,
+ 	.fb_pan_display	= pxa168fb_pan_display,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- 
+ static void pxa168fb_init_mode(struct fb_info *info,
 -- 
 2.41.0
 
