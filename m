@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806CA76A752
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 05:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0315B76A75F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 05:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9C610E304;
-	Tue,  1 Aug 2023 03:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F2B10E0C3;
+	Tue,  1 Aug 2023 03:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-196.mail.aliyun.com (out28-196.mail.aliyun.com
- [115.124.28.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FD410E0CD;
- Tue,  1 Aug 2023 03:09:03 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07528824|-1; CH=green;
+Received: from out28-99.mail.aliyun.com (out28-99.mail.aliyun.com
+ [115.124.28.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C15510E0C3;
+ Tue,  1 Aug 2023 03:16:13 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08137069|-1; CH=green;
  DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.00859234-0.000375804-0.991032;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5IZH8f_1690859332; 
+ DS=CONTINUE|ham_system_inform|0.0160256-0.000551174-0.983423;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047212; MF=sunran001@208suo.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5JBFWQ_1690859764; 
 Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5IZH8f_1690859332) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 11:08:55 +0800
+ fp:SMTPD_---.U5JBFWQ_1690859764) by smtp.aliyun-inc.com;
+ Tue, 01 Aug 2023 11:16:06 +0800
 From: Ran Sun <sunran001@208suo.com>
 To: alexander.deucher@amd.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/amd/pm: Clean up errors in smu10_hwmgr.c
-Date: Tue,  1 Aug 2023 03:08:51 +0000
-Message-Id: <20230801030851.5158-1-sunran001@208suo.com>
+Subject: [PATCH] drm/amd/pm: Clean up errors in fiji_baco.c
+Date: Tue,  1 Aug 2023 03:16:03 +0000
+Message-Id: <20230801031603.5283-1-sunran001@208suo.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,80 +48,95 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the following errors reported by checkpatch:
 
-ERROR: spaces required around that '=' (ctx:VxW)
-ERROR: space required after that ',' (ctx:VxV)
+ERROR: that open brace { should be on the previous line
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ .../drm/amd/pm/powerplay/hwmgr/fiji_baco.c    | 24 +++++++------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-index 86d6e88c7386..02ba68d7c654 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-@@ -430,37 +430,37 @@ static int smu10_apply_state_adjust_rules(struct pp_hwmgr *hwmgr,
- }
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
+index c0368f2dfb21..b3e768fa79f2 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
+@@ -36,8 +36,7 @@
+ #include "smu/smu_7_1_3_sh_mask.h"
  
- /* temporary hardcoded clock voltage breakdown tables */
--static const DpmClock_t VddDcfClk[]= {
-+static const DpmClock_t VddDcfClk[] = {
- 	{ 300, 2600},
- 	{ 600, 3200},
- 	{ 600, 3600},
+ 
+-static const struct baco_cmd_entry gpio_tbl[] =
+-{
++static const struct baco_cmd_entry gpio_tbl[] = {
+ 	{ CMD_WRITE, mmGPIOPAD_EN, 0, 0, 0, 0x0 },
+ 	{ CMD_WRITE, mmGPIOPAD_PD_EN, 0, 0, 0, 0x0 },
+ 	{ CMD_WRITE, mmGPIOPAD_PU_EN, 0, 0, 0, 0x0 },
+@@ -50,15 +49,13 @@ static const struct baco_cmd_entry gpio_tbl[] =
+ 	{ CMD_READMODIFYWRITE, mmDC_GPIO_SYNCA_MASK, 0, 0, 0, 0x00001111 }
  };
  
--static const DpmClock_t VddSocClk[]= {
-+static const DpmClock_t VddSocClk[] = {
- 	{ 478, 2600},
- 	{ 722, 3200},
- 	{ 722, 3600},
+-static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =
+-{
++static const struct baco_cmd_entry enable_fb_req_rej_tbl[] = {
+ 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0300024 },
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x1, 0x0, 0, 0x1 },
+ 	{ CMD_WRITE, mmBIF_FB_EN, 0, 0, 0, 0x0 }
  };
  
--static const DpmClock_t VddFClk[]= {
-+static const DpmClock_t VddFClk[] = {
- 	{ 400, 2600},
- 	{1200, 3200},
- 	{1200, 3600},
+-static const struct baco_cmd_entry use_bclk_tbl[] =
+-{
++static const struct baco_cmd_entry use_bclk_tbl[] = {
+ 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN_MASK, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN__SHIFT, 0, 0x1 },
+ 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL_2 },
+@@ -78,8 +75,7 @@ static const struct baco_cmd_entry use_bclk_tbl[] =
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL_MASK, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL__SHIFT, 0, 0x2 }
  };
  
--static const DpmClock_t VddDispClk[]= {
-+static const DpmClock_t VddDispClk[] = {
- 	{ 435, 2600},
- 	{ 661, 3200},
- 	{1086, 3600},
+-static const struct baco_cmd_entry turn_off_plls_tbl[] =
+-{
++static const struct baco_cmd_entry turn_off_plls_tbl[] = {
+ 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_RESET_MASK, CG_SPLL_FUNC_CNTL__SPLL_RESET__SHIFT, 0,     0x1 },
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_PWRON_MASK, CG_SPLL_FUNC_CNTL__SPLL_PWRON__SHIFT, 0,     0x0 },
+@@ -88,8 +84,7 @@ static const struct baco_cmd_entry turn_off_plls_tbl[] =
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x8000000, 0x1b, 0, 0x0 }
  };
  
--static const DpmClock_t VddDppClk[]= {
-+static const DpmClock_t VddDppClk[] = {
- 	{ 435, 2600},
- 	{ 661, 3200},
- 	{ 661, 3600},
+-static const struct baco_cmd_entry clk_req_b_tbl[] =
+-{
++static const struct baco_cmd_entry clk_req_b_tbl[] = {
+ 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_CLKPIN_CNTL_2 },
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_CLKPIN_CNTL_2__FORCE_BIF_REFCLK_EN_MASK, CG_CLKPIN_CNTL_2__FORCE_BIF_REFCLK_EN__SHIFT, 0, 0x0 },
+ 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixMPLL_BYPASSCLK_SEL },
+@@ -104,8 +99,7 @@ static const struct baco_cmd_entry clk_req_b_tbl[] =
+ 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, THM_CLK_CNTL__TMON_CLK_SEL_MASK, THM_CLK_CNTL__TMON_CLK_SEL__SHIFT, 0, 0x1 }
  };
  
--static const DpmClock_t VddPhyClk[]= {
-+static const DpmClock_t VddPhyClk[] = {
- 	{ 540, 2600},
- 	{ 810, 3200},
- 	{ 810, 3600},
-@@ -1358,7 +1358,7 @@ static int smu10_set_watermarks_for_clocks_ranges(struct pp_hwmgr *hwmgr,
- 	struct amdgpu_device *adev = hwmgr->adev;
- 	int i;
+-static const struct baco_cmd_entry enter_baco_tbl[] =
+-{
++static const struct baco_cmd_entry enter_baco_tbl[] = {
+ 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_EN_MASK, BACO_CNTL__BACO_EN__SHIFT, 0, 0x01 },
+ 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK, BACO_CNTL__BACO_BIF_SCLK_SWITCH__SHIFT, 0, 0x01 },
+ 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK, 0, 5, 0x40000 },
+@@ -122,8 +116,7 @@ static const struct baco_cmd_entry enter_baco_tbl[] =
  
--	smu_set_watermarks_for_clocks_ranges(table,wm_with_clock_ranges);
-+	smu_set_watermarks_for_clocks_ranges(table, wm_with_clock_ranges);
+ #define BACO_CNTL__PWRGOOD_MASK  BACO_CNTL__PWRGOOD_GPIO_MASK+BACO_CNTL__PWRGOOD_MEM_MASK+BACO_CNTL__PWRGOOD_DVO_MASK
  
- 	if (adev->apu_flags & AMD_APU_IS_RAVEN2) {
- 		for (i = 0; i < NUM_WM_RANGES; i++)
-@@ -1461,7 +1461,7 @@ static int smu10_get_power_profile_mode(struct pp_hwmgr *hwmgr, char *buf)
+-static const struct baco_cmd_entry exit_baco_tbl[] =
+-{
++static const struct baco_cmd_entry exit_baco_tbl[] = {
+ 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_RESET_EN_MASK, BACO_CNTL__BACO_RESET_EN__SHIFT, 0, 0x01 },
+ 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BCLK_OFF_MASK, BACO_CNTL__BACO_BCLK_OFF__SHIFT, 0, 0x00 },
+ 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MASK, BACO_CNTL__BACO_POWER_OFF__SHIFT, 0, 0x00 },
+@@ -138,8 +131,7 @@ static const struct baco_cmd_entry exit_baco_tbl[] =
+ 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xffffffff, 0x00 }
+ };
  
- 	phm_get_sysfs_buf(&buf, &size);
- 
--	size += sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n",title[0],
-+	size += sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n", title[0],
- 			title[1], title[2], title[3], title[4], title[5]);
- 
- 	for (i = 0; i <= PP_SMC_POWER_PROFILE_COMPUTE; i++)
+-static const struct baco_cmd_entry clean_baco_tbl[] =
+-{
++static const struct baco_cmd_entry clean_baco_tbl[] = {
+ 	{ CMD_WRITE, mmBIOS_SCRATCH_0, 0, 0, 0, 0 },
+ 	{ CMD_WRITE, mmBIOS_SCRATCH_1, 0, 0, 0, 0 },
+ 	{ CMD_WRITE, mmBIOS_SCRATCH_2, 0, 0, 0, 0 },
 -- 
 2.17.1
 
