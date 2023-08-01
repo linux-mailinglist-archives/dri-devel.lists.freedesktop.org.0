@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE9276B354
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 13:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EDB76B35D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 13:37:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C95810E3DE;
-	Tue,  1 Aug 2023 11:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1478010E3E3;
+	Tue,  1 Aug 2023 11:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4639410E3DE;
- Tue,  1 Aug 2023 11:34:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690889654; x=1722425654;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ZFlr8Ova1lel+95XhQpbpQvUr8pBCW/k2p17P2zQdT0=;
- b=RFyGAsj0aMitqyhvPmMC7hQII6LHphNjPu8F6m4iCfp4V/0WrylEolSz
- m4YdCGydYYPisMhinXbsjBTN2vIsZX525i/MirbkvaGIPlhYYakACU3Oj
- W3zK69rkcHQ9owv+h8RACennMfkOtfJ+Vt7/w2kdHhkt6bXEWcFrKFVnj
- ov89ymtxurl9vZtyDDiJlktmk7ToIKDRC2hDWf+RVVVAxPLrwbMNDrb2W
- bAc5Hh+Aqs4ccM2CKi4A+eq9d76F47J/VRJLBlsBjWFiByCrTQ8V2ng8A
- UATwnn4MqhxpWdCM7i55jnb/fi5+nspeOA0b+Jaw5oxwbldbDc4zK9l8F A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="349568223"
-X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="349568223"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2023 04:34:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="731944500"
-X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="731944500"
-Received: from igorban-mobl1.ccr.corp.intel.com (HELO localhost)
- ([10.252.36.188])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2023 04:34:11 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Ran Sun <sunran001@208suo.com>,
- alexander.deucher@amd.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu73_discrete.h
-In-Reply-To: <ZMjposYeMFxU5nE9@debian.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230801100024.8215-1-sunran001@208suo.com>
- <ZMjposYeMFxU5nE9@debian.me>
-Date: Tue, 01 Aug 2023 14:34:09 +0300
-Message-ID: <87cz07vvwu.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 313D610E3DF
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 11:37:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9CC506154A;
+ Tue,  1 Aug 2023 11:37:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49766C433C7;
+ Tue,  1 Aug 2023 11:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690889834;
+ bh=nDCDGYvtjb1LnlZeSZWFBHuiMyZdQvnHV1UhBHgSAAs=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=ORD4V7a0hezEs+CAdVmhQntOWNo2IHKNAIOCqMGSmVqwZYTfnCq+/hGBmmMPkNn4O
+ 0JjHxpsK9KN5+dzPhFq1YLVZKUxdu42eYM9yNPJ5MeBCi8NYATdNIud1CyoC86+Hz3
+ h3CqZ0AuxHKTh/SzqFz0lCyNhFVeDmpKtQcCa+g+mWB3r4zNnI9loEys2tXBLbXkVb
+ UzhwtjPS1bHIvw8VZzDBBC4O78e0+pgwCthB8qChulFLzJxaSPWEaMRY/OYJhZor5i
+ mb6Hdxxfj2fcJFAyvDNmFvc4x0aCC8J4Z7wd7l+tC5q+b/fJQJCmW592j8oW1rqjvG
+ AeDDE5tHUq/uQ==
+Received: (nullmailer pid 1253242 invoked by uid 1000);
+ Tue, 01 Aug 2023 11:37:10 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain
+From: Rob Herring <robh@kernel.org>
+To: Keith Zhao <keith.zhao@starfivetech.com>
+In-Reply-To: <20230801101030.2040-3-keith.zhao@starfivetech.com>
+References: <20230801101030.2040-1-keith.zhao@starfivetech.com>
+ <20230801101030.2040-3-keith.zhao@starfivetech.com>
+Message-Id: <169088983013.1253226.12148549682473320838.robh@kernel.org>
+Subject: Re: [PATCH v1 v1 2/7] dt-bindings: display: Add yamls for JH7110
+ display system
+Date: Tue, 01 Aug 2023 05:37:10 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,24 +56,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: , Emil Renner Berthing <kernel@esmil.dk>,
+	dri-devel@lists.freedesktop.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-riscv@lists.infradead.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Shengyang Chen <shengyang.chen@starfivetech.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+	linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Bjorn Andersson <andersson@kernel.org>, m@freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	Jack Zhu <jack.zhu@starfivetech.com>,
+	Chris Morgan <macromorgan@hotmail.co>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Aug 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> And it is unfortunate that you and @208suo.com people doesn't reply to
-> review comments (try searching lore.kernel.org)
 
-Essentially a one-way firehose of patches pointed at our general
-direction is not benefitial to the community. It's not participation,
-it's not co-operation. If the review gets ignored, why should we invest
-our time on *any* of the patches?
+On Tue, 01 Aug 2023 18:10:25 +0800, Keith Zhao wrote:
+> StarFive SoCs JH7110 display system:
+> lcd-controller bases verisilicon dc8200 IP,
+> and hdmi bases Innosilicon IP.
+> Add bindings for them.
+> 
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> ---
+>  .../starfive/starfive,display-subsystem.yaml  |  41 +++++++
+>  .../starfive/starfive,jh7110-dc8200.yaml      | 107 ++++++++++++++++++
+>  .../starfive/starfive,jh7110-inno-hdmi.yaml   |  92 +++++++++++++++
+>  3 files changed, 240 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-BR,
-Jani.
+yamllint warnings/errors:
 
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.example.dtb: display-subsystem: ports: [[4294967295]] is not of type 'object'
+	from schema $id: http://devicetree.org/schemas/display/starfive/starfive,display-subsystem.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.example.dtb: display-subsystem: ports: More than one condition true in oneOf schema:
+	{'additionalProperties': False,
+	 'oneOf': [{'required': ['port']},
+	           {'required': ['#address-cells', '#size-cells']}],
+	 'patternProperties': {'^port@[0-9a-f]+$': {'required': ['reg'],
+	                                            'type': 'object'},
+	                       'pinctrl-[0-9]+': True},
+	 'properties': {'#address-cells': {'items': [{'items': [{'const': 1}],
+	                                              'maxItems': 1,
+	                                              'minItems': 1,
+	                                              'type': 'array'}],
+	                                   'maxItems': 1,
+	                                   'minItems': 1,
+	                                   'type': 'array'},
+	                '#size-cells': {'items': [{'items': [{'const': 0}],
+	                                           'maxItems': 1,
+	                                           'minItems': 1,
+	                                           'type': 'array'}],
+	                                'maxItems': 1,
+	                                'minItems': 1,
+	                                'type': 'array'},
+	                '$nodename': True,
+	                'bootph-all': True,
+	                'bootph-pre-ram': True,
+	                'bootph-pre-sram': True,
+	                'bootph-some-ram': True,
+	                'bootph-verify': True,
+	                'phandle': True,
+	                'pinctrl-names': True,
+	                'port': {'type': 'object'},
+	                'secure-status': True,
+	                'status': True},
+	 'type': 'object'}
+	from schema $id: http://devicetree.org/schemas/display/starfive/starfive,display-subsystem.yaml#
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230801101030.2040-3-keith.zhao@starfivetech.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
