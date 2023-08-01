@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F1176C114
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:36:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD8E76C117
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3981810E46C;
-	Tue,  1 Aug 2023 23:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D7010E46D;
+	Tue,  1 Aug 2023 23:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
- [IPv6:2607:f8b0:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB4D10E465
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:45 +0000 (UTC)
-Received: by mail-il1-x12b.google.com with SMTP id
- e9e14a558f8ab-3492c49c649so8053705ab.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:45 -0700 (PDT)
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC97610E465
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:46 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id
+ ca18e2360f4ac-790bed44880so43563439f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690932945; x=1691537745;
+ d=gmail.com; s=20221208; t=1690932946; x=1691537746;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U+CfnRsFNUYXmygRp+lpSqvj59BR1h/rC9xdfPKJnDI=;
- b=h1TGK2ZlXSADc3tN9UPPfIyUQ1E1M7T4qkvwJyraifru5jg/mpl7quH/34yXATnkLT
- ThxWOQU4vNnMeFalaGIP8RStIWvNBrC1zjO+PAG3Niy8t6FRz9HCTdWnO6S2+wBCn05s
- g1aniRMjdHUfHptEnWkaOidWyctiqDlydxjVwIVRs0ZizZNyyOQKSerFu2gXqNF+IE2/
- nAenFvnfglSU32dglovFU+p5qZz2ZDHGy+K8BCl0CC4InTxoWfGyJZ2904hEY1Xd9lF2
- eJ9T5oi1WsZuceMcS3QPSxh8VsJSwiV1fV8PlQ4GQkMV0IqY67AWAaDh6h4boqtYx9eA
- KaIQ==
+ bh=fs8KKrYjZk0r9Wo5TdxMtD6IOfpOECGrCMFsRZEQgtA=;
+ b=ChoEi8LbCC4cHDxX2Juv5dFQPfCzGWzC6WVddBeiUy3chB6YUji5n0rzqb8/2QAia4
+ 5U45w27jywQExyXR9GCfMFPWOEt2GjckxJsZ/8QdIDZ1rds38gL0Rsd79lva4U/IDbcH
+ RW58pHQl5I5NwIKjZ8FeVf3AYZ4Tg/YL5hEMpRvCDxELqWUKNl+oEJKVJbOdVNE3QGYI
+ iRXXnckvP6gus+WOJgsY5BCu0E87OURqJewKP79TOPJNu21WCjubDqfVq1Qm7QDmFK27
+ YfYTNrnCSmXtGSMQ1u88UCi4iTxNDcjz9h7LmddD+IX+Le9h6PAdmUa8j2D0WMYGNPYg
+ cYgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690932945; x=1691537745;
+ d=1e100.net; s=20221208; t=1690932946; x=1691537746;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U+CfnRsFNUYXmygRp+lpSqvj59BR1h/rC9xdfPKJnDI=;
- b=S5NICF2SO9cT1rX9Mg6ZO6Jdgwk+uhe41WA14RzPAFw82sv+a2EtJTSKiGbdsMfNnK
- yTMCPpm1w8YFrjs/aQsqvnxLoumyIOYU44fNZs1N3s9IQzBua2Wm3RT3m/RhTJSe/mrj
- MzLSp65ME9DjxHLxynMwVqPN7z3JUkCq+cAYwppcw561Kh3Nsjl4srWCFLWVXnfu6g5k
- WElGeKwiUI+CLl0iqIkbyw2eJp3uvc2TLps/jvAuDHdBMzvQCntBKZW4fxoP0t8L3AHl
- Qqlb/pVynOziHvblwafg6lYNPJxDMRy2poor0EtkdEhwfAMip9y8pPx+x4Bt/4MVXpzd
- mAPQ==
-X-Gm-Message-State: ABy/qLaGZyqdeciEIJx/9KIO56Yev6DBcqChkKuPUdsUCf/DnQnywASv
- miGGC/HxZOvgN35zx/X+C3A=
-X-Google-Smtp-Source: APBJJlGjn8ASalYCPieBDurdqF3KEU0bFHq1ehRAR3xQCMJMoMqz/nQs8Z+JnQ7s2Zf+uxYThoa05A==
-X-Received: by 2002:a92:c213:0:b0:348:eb44:2a30 with SMTP id
- j19-20020a92c213000000b00348eb442a30mr12016014ilo.15.1690932945248; 
- Tue, 01 Aug 2023 16:35:45 -0700 (PDT)
+ bh=fs8KKrYjZk0r9Wo5TdxMtD6IOfpOECGrCMFsRZEQgtA=;
+ b=k/uQ/uK0jO6E095fUmqFJi5kWjhygQIYK23PiweoJnpqC7lYZgzPg8rxs30ioQjZWn
+ uROZCfl7PcNHVJ00J9sL5tSPFSXCyFB5LrdAYMf1df9LP3JpKz/a8yPMv+ocT059CFG6
+ fKIWdfcJFJySVKwtmqVJFLz+A+Gpr7BX9lXXeYxLkOkZSuiZc229pocNgq23YDc7j0RZ
+ o5tAy7JQTFy/RN7WJgev07xMDGhf7xih1MpGFmMhNJc7JCku9TpjSIF7SATodqnAnUXb
+ Tn+ZkXdhBWYMR50C9yA4211B36gfdDVxgyQYrtN7hq70ORtCUX8NvTjhgpymqIQVJFHo
+ B2JQ==
+X-Gm-Message-State: ABy/qLZi4YcYcSqHYUexGkbwbZlAU+/vdtMp1BVuzQCXhxwxcp8sg42K
+ qhMEg3QFgUyjAbbSmJpzwtA5rhuOe051Xw==
+X-Google-Smtp-Source: APBJJlFoxkaJAR97WFFPFBfijdt81fQOWWcWUhcJ59B6jQne8rh7Ex5Y5y5H7xiwn+BM9nRB4SFyVg==
+X-Received: by 2002:a05:6e02:2188:b0:348:8050:5268 with SMTP id
+ j8-20020a056e02218800b0034880505268mr9884342ila.12.1690932946224; 
+ Tue, 01 Aug 2023 16:35:46 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.44
+ t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 16:35:44 -0700 (PDT)
+ Tue, 01 Aug 2023 16:35:45 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 18/23] parens-on-PARAM
-Date: Tue,  1 Aug 2023 17:35:06 -0600
-Message-ID: <20230801233515.166971-21-jim.cromie@gmail.com>
+Subject: [PATCH v5 19/22] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+Date: Tue,  1 Aug 2023 17:35:07 -0600
+Message-ID: <20230801233515.166971-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801233515.166971-1-jim.cromie@gmail.com>
 References: <20230801233515.166971-1-jim.cromie@gmail.com>
@@ -76,26 +76,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
----
- include/linux/dynamic_debug.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Lots of burn-in testing needed before signing, upstreaming.
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 871de0c32034..9b86c49173f9 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -172,9 +172,9 @@ struct ddebug_class_param {
+NOTE: I set default Y to maximize testing by default.
+Is there a better way to do this ?
+
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ drivers/gpu/drm/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index ba3fb04bb691..ff478fcba67e 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -52,8 +52,7 @@ config DRM_DEBUG_MM
  
- #define __DYNDBG_CLASSMAP_PARAM(_name, _bits, _var, _flags)		\
- 	static struct ddebug_class_param _name##_##_flags = {		\
--		.bits = &_bits,						\
-+		.bits = &(_bits),					\
- 		.flags = #_flags,					\
--		.map = &_var,						\
-+		.map = &(_var),						\
- 	};								\
- 	module_param_cb(_name, &param_ops_dyndbg_classes,		\
- 			&_name##_##_flags, 0600)
+ config DRM_USE_DYNAMIC_DEBUG
+ 	bool "use dynamic debug to implement drm.debug"
+-	default n
+-	depends on BROKEN
++	default y
+ 	depends on DRM
+ 	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+ 	depends on JUMP_LABEL
 -- 
 2.41.0
 
