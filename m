@@ -2,83 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE7C76BFB6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 23:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7B776C028
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 00:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A2910E442;
-	Tue,  1 Aug 2023 21:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D64410E43C;
+	Tue,  1 Aug 2023 22:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CDB210E442
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 21:57:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1690927078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/5jP/Uu+OO6juLyXLyEuCWWvaHANLE401zJH/WXu0vI=;
- b=W3p9eFHIA23d04oQxzFAM/BNZA4vBWTJ47zH5QZYx/rG1K7VCk7J5ylzs8T8hgeyXh5eb2
- teUicFVo0MDL46cZgIgjYmbfx3e8k51KdZ7hQjnuit47nFj3+LtSyATwsHtzO1u5g8qttr
- gxmynvAxmd4qS185JEMqEGOKnMYYfAQ=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-402--cHXI1WPMDCEliKi_k8hJQ-1; Tue, 01 Aug 2023 17:57:56 -0400
-X-MC-Unique: -cHXI1WPMDCEliKi_k8hJQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-76cb9958d60so44261685a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 14:57:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690927076; x=1691531876;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/5jP/Uu+OO6juLyXLyEuCWWvaHANLE401zJH/WXu0vI=;
- b=IEQD3dQCB0ivIUiw1GenmboKKLjAG3OW8Hmv0LbchxysXzoG57Ns47V5mPdGl7AkKb
- f6d7JTluSZOlYSzCXd7D5/GoGuFgLlxPJCi+NTqWj/BRxR+5Dm1DK9HpQe2R+zh7R36T
- WtxrriZdO0QIluh3IcXwq0A9sodMLtno2yl9p0Wu6jp8H3XxrzbAI9cmxybqdtRu9v4b
- D1dOPDJgaOt1hdoLS38euwmo9ZApKs969HoKivaIfsQe59gUBcxIjwI4yxMx3xHpwXpX
- GUY90lgsowvo8ueJozyoAIB1Spn87qOvQ4ONF7RUT7n77esx92Cblib2HxvCr96WB4Hp
- /17g==
-X-Gm-Message-State: ABy/qLbGN+er8OPVKbxsFY1W3uiWYpoeE9KtVnKU4mzyikBYyDmmObjv
- f2nC5UzIO4ajngfvY1TqzScQciYFTaBH8d7FizJv0rsihTFrTy6jnVkKA+PlYgfK/NW1KPwXo4w
- ERKa3ke0Yq2np8Le/NRoj+1RVlKK2
-X-Received: by 2002:a05:620a:430a:b0:767:346c:4b37 with SMTP id
- u10-20020a05620a430a00b00767346c4b37mr12848381qko.7.1690927076146; 
- Tue, 01 Aug 2023 14:57:56 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFazEvf4bQmOL9hX+Oa0KAgFYC+ldTguiGGQJvZBm9XGzTkuKrWjBnYqk48Nd5hj5M/jsxZAg==
-X-Received: by 2002:a05:620a:430a:b0:767:346c:4b37 with SMTP id
- u10-20020a05620a430a00b00767346c4b37mr12848363qko.7.1690927075876; 
- Tue, 01 Aug 2023 14:57:55 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com.
- [99.254.144.39]) by smtp.gmail.com with ESMTPSA id
- pc22-20020a05620a841600b00767cbd5e942sm4481519qkn.72.2023.08.01.14.57.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 14:57:55 -0700 (PDT)
-Date: Tue, 1 Aug 2023 17:57:53 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-Message-ID: <ZMl/4Z1b6ooeE/Pk@x1n>
-References: <87pm4nj6s5.fsf@nvdebian.thelocal>
- <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZL5+CiZ6w4RdAt5u@nvidia.com>
- <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <75e3a74a-68f5-df-9a49-a0553c04320@google.com>
- <CH3PR11MB71777432A63D3FAAE7E70F22F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
- <ZMLk8aMmpkK7ZCsW@x1n>
- <CH3PR11MB7177832A92B4F550BF816E0CF807A@CH3PR11MB7177.namprd11.prod.outlook.com>
- <ZMfp3q/9osOV4wFO@x1n>
- <IA0PR11MB7185B093E86CB35EFDFF17EAF80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-In-Reply-To: <IA0PR11MB7185B093E86CB35EFDFF17EAF80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from sonic307-8.consmr.mail.gq1.yahoo.com
+ (sonic307-8.consmr.mail.gq1.yahoo.com [98.137.64.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B470F10E43C
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 22:09:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1690927788; bh=Qfs51uYu+80oXZtS8CxdHr9jbs9U6glCQawRyyqAHRY=;
+ h=From:Subject:Date:Cc:To:References:From:Subject:Reply-To;
+ b=i762upk6Pjb9Wpvw7x2Iq4C2wSUWB1MfCExVC1qCGsfL93XSQtD/J0WL35NFU+4zPjIxURK2TVeW72K+pDIVkokoekYBe74QLwjGgrlWR/8IlGiWxkOX8TrCT4OrWHzGHzA0mW03PZgWGZlVNqQDxaUkSqet4nTsaY9Tka+H7d5x5q/FH+20X57Rs9dH/qihfN/qj+hAPTTP4fMWW/SsJUuH4ftIgbK7taFlxzb0ZZxNhDasewJFSMVZVnIl/R7EoamLpDr5ISZ6AlUCzj/+9GcNaSPEbMeGiQ8JYIvFJOKFmvMePWmTIPfdvkjiUC7rwZOZZuGdpH4DFKkN78eEeQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1690927788; bh=EXRwWKEC5qdzk+j/RZmwU7ZTgAi+zEYK75VHsAGkjpB=;
+ h=X-Sonic-MF:From:Subject:Date:To:From:Subject;
+ b=J8oJT0pIQN7LPM3Bvb++nQaVWU/LQrGnTQ5mhDW0deGDDb4hil7JPcgNUSbbkO+oDt9nIKxaz1tnp5UXC+CP0Xaj9eJpO/9QPjWKNgujt9EhTkLsqGHEfPqOOqWr2gDh3hRYPYI6Dzm2ITigK5Dgna+YRm7j4NBkXNygIdfmlChMXjjiREK4BHcE23JnNAmuTXFAXAhLSlP31Mj1MbvbCgiRv5BUlmNuNS14NKdlG3xC/RaNUFBAo7ge9RaSRci4zG2cwmmEPc5OM8V50g5SS+rQm+/XwfzZi7NFZwZlNNxgqNFnKdohIeuk2TLajPeUsJ0Ag3Xt25f6B9aEMiYlfQ==
+X-YMail-OSG: wBGB0ZgVM1lwbUzecw48rmA0DF8s7S0qZTcGD1u4FZn_YCWPLS5hxILLehEulQx
+ f07baQr5VRrqPw7dQ07by2paDH0jkq916ALDUQqCaxgRWDVgujFjOcwjwcsCnlvGs0NiqoPhVESp
+ MLCF9hyas4YCnEJ4b7wFoLot1OMYAPCzgVJ1mz95SOAqGl3hDXpOQm7gRJZ_oqfIj4GTTi2Tq54u
+ _gkiR2XoBG1kZk6nDMS1kMnh8Lm_Keg95kYWEoSTkIVgO8bJG8R2d.zSY30yvF7abd0SgsJPLg8u
+ YHvj7Redy84quJrG.pBuroBLcBYKffnQ.J28WjzHqrx8u6ou3gQxAEsaiyRYn.GFOKU15cheIiRR
+ l0j9b9i5tY.PVrlD9UEOkTeIK52.NEjTfOdA2yaHCySFKaJe19XDMfxoxKzvtVLroEMFAQJ5X.03
+ nWwpjwZdtURTDThp9cxrgtZU0zAv5lpAegaLuKCAwmsj9Rzd6Fxg3uKX1NKnmw9zIr0sYCZj.ZV4
+ 24LEEJLyauDg.XsQJO5COQ1RrmQFQCTagPmeyTu44Ftei2rlIkyCBTvcCB9UmWmRd2LQXS1o0i8B
+ .qhQ86gYoBKpDuMITrJSapCi_r9HoWeygPkO5XEJSlzeaRXrdWezoy5l8.cViaVJhB6BJWgz3wjI
+ 5Ty.03G_yJbYUUAEiLXvcWigLpjHqb2cH9Z5tZKnNr876ca6YAyMFKAU2aXhRcXUDg2Re7GVTLuS
+ rsN_X3kh3IN5s2lFkkmBfhajuu23mMT3lfQApQMr9Jh8NO65MPJGDJsKwDBPPS0Ut1Q8_9xJZOYx
+ F6HuEcgpsMHyXFdg3gGPKRyHy5Sn488WNgkpFHaI8ETlF0BXryD3v4lrV4yeLEuGrIPc3l__jOEp
+ XTGFgmsj4ftumed98IJKn2oXLwGNjZWE9fntgPAdVHNVcavs3eC7nP05wZ7ROR0UNWCCEGKio4zu
+ 0pJ6b7t1c0Za4U_LK8o9GZ95IUPn0jRyiWvu0IlasvwRdsxHM.oyyqkr2qwOqbllQ_AbyH07.qXh
+ P3eq4RwuLG1dcsB_ya6DVX0qKHjHzNoFAZB_yw2zqkAw5oUPM1RKmrlmoRcsgMmeNhnO_IW3S66B
+ yVQzhM0jZcsousTRqErMS.qRhhQ6cZ7wLhWhB8ZVIVOfsp7mw4FE7F2ctwyicdCwNMIWno3LCfVT
+ QzylZ4Ssb8QqcjrPKzyu56qTB0W1p.ebTSw07uytDd9dTfNM8aZCkf3DtTmIItaB8lLbGVXcgG2e
+ irwzz5EfT2dCX9rMtR9Cg5KmdfeWGBCDMgUpQ4fBWKQ8EOj1qWRTpGIEiWx457s2N1dCu0m.s7zU
+ sNsHwlo2Pdg83yZIotm0p9TZaPCUQU.dfFCpZG44EfktianeAhIGEicS2rCdiVv6eZPOdiO.d7Zc
+ GZNzq6oYyT.ALfr9_q.UgaFPdn9D62ec_qC91kdNKhS00omFdDN38xHB7t2oVGB.o6CNYYmL7X__
+ Vlwq1x4SaZwp3ydILBc_7YEe9fN98XJNH6tZKN7dL.MSguhGubWxJuN0LR4oBjNEPKokqU5FsQbx
+ pkFhHOCgKO3qmcscXg1T5xbxy7ZjzrwVwK6_rT6y6bJyg46OUWLc0PdY1xCNS2zg9tZnowcwBNE8
+ ZRGqj8QOLsM65NZA5hbots6Ydb1ZSywT6s_Vpo_l7N4RCo3aXszmAMg32tAPzhBrqeuoNz5BbDwz
+ WdcLnDY3FO2AjCpqyJ7kSTq6HiHHOt_jCBult_IqRKXTU7AuS2E0AguUBouLLKjsHC.Np6qLZcjl
+ Ji6uXjdNiRUO..kwlvfIwTPMW.oAsUMfX7oB_jAcwfPoogGUl2k.QkMwOt7wge7lOqo0kRJVakU8
+ xZ7eckG0kf36w2NeUr.cr8VSITL2cTvLiIvglBEgREeSUiMOi_z1BQGfuym4v7nMQjMQcWUyiC9A
+ YAPywd473nC8eNyszvvmJ392G2_FIEg5evZyJDDxgzVxCUyauB5eMWULKpv6NeI5szrSYuFBm488
+ vAHDKktzQJRO6UvuhEaSrcOGFJZTnxIDNlG2DhSAOxP_528gd_pDMQr.fjuckgQaA8YyKuTqXlpg
+ CU7uR9dDcvE5e_sPSOqeq7nOZndJo1cnnY_WDd0qYN9zv1d._Qsv7PkovgMUcA5QNmMJ1q5_aNQm
+ 4ial59Iiy9EuaXF02UA16RqafQam6mIhInvKT418_o3IrhjiU77oLJcdIy8pEMrEeAchfaBDrG62
+ THf21WiunuA11i8kPp1UsygyHnC.3fPw-
+X-Sonic-MF: <astrajoan@yahoo.com>
+X-Sonic-ID: da23da57-081b-4d47-adbc-85879b8d9cf1
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic307.consmr.mail.gq1.yahoo.com with HTTP; Tue, 1 Aug 2023 22:09:48 +0000
+Received: by hermes--production-bf1-7c4db57b6-6jtqd (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 36cb2fc05ceabbc59e58a7be4fe4bf35; 
+ Tue, 01 Aug 2023 22:09:46 +0000 (UTC)
+From: Astra Joan <astrajoan@yahoo.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.600.7\))
+Subject: Re: [PATCH] drm/modes: Fix division by zero error
+Message-Id: <84C84E4F-28DA-4DFF-B2E7-83C45F54C061@yahoo.com>
+Date: Tue, 1 Aug 2023 15:09:32 -0700
+To: jani.nikula@linux.intel.com
+X-Mailer: Apple Mail (2.3731.600.7)
+References: <84C84E4F-28DA-4DFF-B2E7-83C45F54C061.ref@yahoo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,48 +82,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
- Hugh Dickins <hughd@google.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>
+Cc: ivan.orlov0322@gmail.com, tzimmermann@suse.de,
+ Astra Joan <astrajoan@yahoo.com>, dsahern@kernel.org,
+ skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, syzkaller-bugs@googlegroups.com,
+ edumazet@google.com, netdev@vger.kernel.org, mripard@kernel.org,
+ jiri@nvidia.com, jacob.e.keller@intel.com, kuba@kernel.org, pabeni@redhat.com,
+ davem@davemloft.net, syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 01, 2023 at 07:11:09AM +0000, Kasireddy, Vivek wrote:
-> Ok, I'll keep your use-case in mind but AFAICS, the process that creates
-> the udmabuf can be considered the owner. So, I think it makes sense that
-> the owner's VMA range can be registered (via mmu_notifiers) for updates.
+Hi Jani,
 
-No need to have your special attention on this; my use case is not anything
-useful with details, just wanted to show the idea that virtual address
-range based notification might not work.
+Thank you so much for the suggestions! I've submitted a V2 patch with
+the updated code, and also a patch test request which should come back
+soon. Please let me know if the new version looks good.
 
-[...]
-
-> What limitation do you see with the usage of mmu notifiers for this use-case?
-> And, if using mmu notifiers is not the right approach, how do you suggest we
-> can solve this problem?
-
-AFAIU, even if there'll be a notification chanism, it needs to be at least
-in per-file address space (probably in file offsets) rather than per-mm for
-a shmem backend, so that any mapping of the file should notify that.
-
-Isn't it already too late though to wait that notification until page is
-installed?  Because here you pinned the page for DMA, I think it means
-before a new page installed (but after the page is invalidated) the device
-can DMA to an invalid buffer.
-
-To come back to the original question: I don't know how that could work at
-all, the userapp should just never do that invalidation, because right
-after it does, the dma buffer will be invalid, and the device can update
-data into trash.  So.. I don't have an easy way to do this right.. besides
-disabling ram discard just like what vfio does already.
-
-Thanks,
-
--- 
-Peter Xu
-
+Best regards,
+Ziqi
