@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E710D76ADC1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7BB76ACE1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBD010E375;
-	Tue,  1 Aug 2023 09:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF26F10E372;
+	Tue,  1 Aug 2023 09:24:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC1A10E375
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 09:33:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A131310E372
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 09:24:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DA565613E2;
- Tue,  1 Aug 2023 09:33:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5575C433C9;
- Tue,  1 Aug 2023 09:33:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CCAB761506;
+ Tue,  1 Aug 2023 09:24:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D98E8C433C9;
+ Tue,  1 Aug 2023 09:24:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1690882388;
- bh=4hagUchIK6IgqB/H0UMPIh8EqW5NAsEHAHl5TVb7uko=;
+ s=korg; t=1690881852;
+ bh=7bgiO5N7NJOuZuG3Rlc75W6jB4nwmpaBTAdxigSzbX0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TXzDHF+UQFEK6FIcP4OUQU51eE79zF3hJGxRoxRHH6tLBsa9ntzOsMh2DbFp2ZDSq
- /8JqU5ciVs6lmn8zRYSB/Zm3gqCL9HXDo81uGG0oej+2vDfjJ7zgUNex0jaS8xcX/i
- qKH2dK0/pRi8Uaqz4Yc0A98L1AHpneeBx0Aj4dsY=
+ b=cwORnmggyt9ZxOkYovvKtb61YJioyvzZL2F2HErUaAWX7Jva02sH8FajggEAbPzwK
+ zdzwlS+XCfWl9qZkkiXvnx/bTDTfoWa5OhPZ+9lDVD/RWDupmpV/KDu9zEFc3sHzED
+ Npic5yqVj2is/+VbJVIBN2NQ7UHFuXsxctd+Eryg=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.1 049/228] drm/ttm: Dont leak a resource on eviction error
-Date: Tue,  1 Aug 2023 11:18:27 +0200
-Message-ID: <20230801091924.676118500@linuxfoundation.org>
+Subject: [PATCH 5.15 023/155] drm/ttm: Dont leak a resource on eviction error
+Date: Tue,  1 Aug 2023 11:18:55 +0200
+Message-ID: <20230801091911.034163924@linuxfoundation.org>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230801091922.799813980@linuxfoundation.org>
-References: <20230801091922.799813980@linuxfoundation.org>
+In-Reply-To: <20230801091910.165050260@linuxfoundation.org>
+References: <20230801091910.165050260@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -90,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 85f7f5cd4589a..1c891b5839316 100644
+index cf390ab636978..6080f4b5c450c 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -499,18 +499,18 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+@@ -552,18 +552,18 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
  		goto out;
  	}
  
