@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D1376BA7E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 19:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7821176BA85
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 19:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA92110E43B;
-	Tue,  1 Aug 2023 17:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C2F10E44A;
+	Tue,  1 Aug 2023 17:03:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7123210E427;
- Tue,  1 Aug 2023 17:03:33 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id
- e9e14a558f8ab-349099fce6dso21714765ab.2; 
- Tue, 01 Aug 2023 10:03:33 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF43110E433;
+ Tue,  1 Aug 2023 17:03:34 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1bc479cc815so2495747fac.1; 
+ Tue, 01 Aug 2023 10:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690909412; x=1691514212;
+ d=gmail.com; s=20221208; t=1690909414; x=1691514214;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HTIptaY1Q1Cw8tbq8hqtoZUus2V/66qWUMbxjps5ClE=;
- b=DBM1VlojjC1c4IaxOfDZLDxXUxA9E6CwSVUV5iPtJGlh/jhdn+Z1O05pTkM+QpLBGd
- msg8B6RQKG2RxTePtA5nAQBJyXNXbckAw+s0K0Re2jABj6rfI07mGBxEfg5A9UuYDUmM
- +PJWL/pt2POaLEHJd/QKlpgeed76hBWankEcMkTwPSykYwD7m7ifqA59TLeLGxvj0GrK
- N/lh/wouZUbdd3mOIBlmF6L0Okwdh+P4LSQz2TKwF4BB58nZfScsk6lB8ptXZLGEzqTI
- VYoJhmoF0AbGxZPzTXkTK8IIMc1OmgZf7+Hlh7kBaKjps/x00BFy3aXCNb1xNrN2zrTC
- r3qw==
+ bh=gFBA7Lr3JItg7OYfOcjW/1QCQzqvPk7XHacFdueAfEI=;
+ b=fyEaICFFhma8ZDWVxdrVdT9mRYJOqU4wwrKqayrPPIzSX0jgeT8MHqKihpTqpfkPX0
+ AuU1FrgxAstF27oCCP7HObML0aANdtcIuVhVQy/6BcY3Za+6CfR6UZD9RyDXKFmdjeDd
+ j9eVLnXhi+TVfFDHPVlzTPS+WxSeS2sS8V9+k8g2M60r0Yqn//MxO8UkjHL97X1DitKa
+ uNwYK93r5TRV5sMkgolxy0OA7ewh9gqSDelFGBzucaO/d8T3YLjIFtMpJp7R/uIwxsaT
+ QhEiR5Rykzc2qmm1yk+lqFHMii8Za4P2+ZIQ7Ul1pBHT+nM3Di1EFuIgHltaIVEDKoNN
+ xoNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690909412; x=1691514212;
+ d=1e100.net; s=20221208; t=1690909414; x=1691514214;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HTIptaY1Q1Cw8tbq8hqtoZUus2V/66qWUMbxjps5ClE=;
- b=ETWIEAvapceX/DbYi81JbHB3F04KmPfCTWPI1QQrT0IqWop8I1ZvZuLY6oRWmqgzbO
- 76VlAzmuf4RCZvYN/XGCL1xSwqDN6VDXmwfhsH9im6MeTw37vJwfI5yoTwUGKHPE+WHq
- +bE1eHAi8vI7GQp3qtCxhpmMynRpKgayN3NFtU9V2DuYtdirwbmpsQNPik9ltBUlUptG
- IGMlFH1EzbMF5/jl3mFgwmHHUKXT9vSbHlGdmGuMPKING9bpuDJiaJfgh0m1emMYHuzo
- I/KumX1TG88X2MhfFGtyhyWysujAmMZo24ajExYt3XjXvV8IBSF5QYG2PimjPjxkrPv4
- roaA==
-X-Gm-Message-State: ABy/qLarDTVUHkBScSV3K6+BCoQLzpfQZz50ql2eC3vuhNNvue2Rd3cR
- GasQREzEoXocJQiQvY2PoaA=
-X-Google-Smtp-Source: APBJJlEvxEOAmmWhBekjDXEKP44F1wzy+JOf74gmXKw6CXVXw+vjRTBjU6kykBbo/XVcjPeJ6tQHdQ==
-X-Received: by 2002:a05:6e02:1068:b0:348:ec12:fb31 with SMTP id
- q8-20020a056e02106800b00348ec12fb31mr12258462ilj.0.1690909412652; 
- Tue, 01 Aug 2023 10:03:32 -0700 (PDT)
+ bh=gFBA7Lr3JItg7OYfOcjW/1QCQzqvPk7XHacFdueAfEI=;
+ b=WSq859gS/kmtHbdhljzbQt+EdLpdS5c1neTs/iwETcIoE7ayERqVaDjupejSW0bq8N
+ CRK61zQlx/3V5WRMFyxN1x5lOUbhW3PQHC4TVNiswYR34cR8nPJ0tPZHOGHeCXbWXwpJ
+ PtUDBg6W3dv8sKHFmBHshIEJ8pDXNrdQF0z7E9jcCrznK5/PZc5+QoTWhw9zpVC85SpO
+ fG4V6DqOyZUSqbYqrzlmNr6wZ0w4bgVYS3J40fwdn5L0GWVWFq9XohrgBBy0LboduwCQ
+ S44gJXWrXj+kFCbQ/weDh7Wadmg5e+gM0D5r/PBA6htrMHmO9oahEcj/6xIYvk/QDuIY
+ myRw==
+X-Gm-Message-State: ABy/qLZnGAVy8sWvcdktJ5vocqUEGGz6bt4Wp1lesNE5gAEIAkBO9nrR
+ NeD93x/9BNdoZMSpz2+Y+pbIpurZkmvIoihl
+X-Google-Smtp-Source: APBJJlGssyyVGAfHxBiKUeWr+27L5iBh1gEWtkvxA15BwySavPliopjND05fY7zX72MTh1+f20XCag==
+X-Received: by 2002:a05:6870:a548:b0:1be:e066:acc with SMTP id
+ p8-20020a056870a54800b001bee0660accmr7146920oal.50.1690909413929; 
+ Tue, 01 Aug 2023 10:03:33 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- o20-20020a02c6b4000000b0042b144abf71sm3768577jan.179.2023.08.01.10.03.31
+ o20-20020a02c6b4000000b0042b144abf71sm3768577jan.179.2023.08.01.10.03.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 10:03:32 -0700 (PDT)
+ Tue, 01 Aug 2023 10:03:33 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: daniel.vetter@ffwll.ch, daniel@ffwll.ch, jbaron@akamai.com,
  gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 13/22] checkpatch: file-scoped extern special case for
+Subject: [PATCH v5 13/22] checkpatch: special case for file-scoped extern
  linker-symbol
-Date: Tue,  1 Aug 2023 11:02:45 -0600
-Message-ID: <20230801170255.163237-14-jim.cromie@gmail.com>
+Date: Tue,  1 Aug 2023 11:02:46 -0600
+Message-ID: <20230801170255.163237-15-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801170255.163237-1-jim.cromie@gmail.com>
 References: <20230801170255.163237-1-jim.cromie@gmail.com>
@@ -88,8 +88,11 @@ symbols, like those that mark the start, stop of many kernel sections.
 Since code already checks REALNAME to avoid linker-scripts entirely,
 add a new else-if block to look at them instead.  As a simple
 heuristic, treat all words (in the patch-line) as possible symbols,
-and save them to screen the WARN quoted above.  For my test case, this
-included BOUNDED_BY (a macro), which is extra, but not troublesome.
+and save them to screen the WARN quoted above.
+
+For my test case, this included BOUNDED_BY (a macro), which is extra,
+but not troublesome - any extra words collected would have to also be
+symbols the script would otherwise complain about.
 
 Where the WARN is issued, precede it with an else-if block to catch
 one common extern-in-c use case: "extern struct foo bar[]".  Here we
