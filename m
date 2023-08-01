@@ -1,33 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3960176AC95
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:14:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E710D76ADC1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90EC10E36E;
-	Tue,  1 Aug 2023 09:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBD010E375;
+	Tue,  1 Aug 2023 09:33:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-170.mail.aliyun.com (out28-170.mail.aliyun.com
- [115.124.28.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A03E10E368;
- Tue,  1 Aug 2023 09:14:36 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1113862|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_alarm|0.0177519-0.00266611-0.979582; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047212; MF=sunran001@208suo.com; NM=1; PH=DS; RN=7; RT=7; SR=0;
- TI=SMTPD_---.U5qtWqJ_1690881266; 
-Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5qtWqJ_1690881266) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 17:14:30 +0800
-From: Ran Sun <sunran001@208suo.com>
-To: alexander.deucher@amd.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/amd: Clean up errors in processpptables.c
-Date: Tue,  1 Aug 2023 09:14:25 +0000
-Message-Id: <20230801091425.7181-1-sunran001@208suo.com>
-X-Mailer: git-send-email 2.17.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC1A10E375
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 09:33:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DA565613E2;
+ Tue,  1 Aug 2023 09:33:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5575C433C9;
+ Tue,  1 Aug 2023 09:33:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1690882388;
+ bh=4hagUchIK6IgqB/H0UMPIh8EqW5NAsEHAHl5TVb7uko=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TXzDHF+UQFEK6FIcP4OUQU51eE79zF3hJGxRoxRHH6tLBsa9ntzOsMh2DbFp2ZDSq
+ /8JqU5ciVs6lmn8zRYSB/Zm3gqCL9HXDo81uGG0oej+2vDfjJ7zgUNex0jaS8xcX/i
+ qKH2dK0/pRi8Uaqz4Yc0A98L1AHpneeBx0Aj4dsY=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 6.1 049/228] drm/ttm: Dont leak a resource on eviction error
+Date: Tue,  1 Aug 2023 11:18:27 +0200
+Message-ID: <20230801091924.676118500@linuxfoundation.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230801091922.799813980@linuxfoundation.org>
+References: <20230801091922.799813980@linuxfoundation.org>
+User-Agent: quilt/0.67
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,35 +51,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-ERROR: open brace '{' following function definitions go on the next line
-ERROR: code indent should use tabs where possible
-ERROR: space required before the open parenthesis '('
+[ Upstream commit e8188c461ee015ba0b9ab2fc82dbd5ebca5a5532 ]
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
+On eviction errors other than -EMULTIHOP we were leaking a resource.
+Fix.
+
+v2:
+- Avoid yet another goto (Andi Shyti)
+
+Fixes: 403797925768 ("drm/ttm: Fix multihop assert on eviction.")
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.15+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com> #v1
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230626091450.14757-4-thomas.hellstrom@linux.intel.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c
-index 1866fe20f9e2..f05f011c78be 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/processpptables.c
-@@ -676,7 +676,7 @@ static PP_StateClassificationFlags make_classification_flags(
- static int init_non_clock_fields(struct pp_hwmgr *hwmgr,
- 						struct pp_power_state *ps,
- 							    uint8_t version,
--			 const ATOM_PPLIB_NONCLOCK_INFO *pnon_clock_info) 
-+			 const ATOM_PPLIB_NONCLOCK_INFO *pnon_clock_info)
- {
- 	unsigned long rrr_index;
- 	unsigned long tmp;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 85f7f5cd4589a..1c891b5839316 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -499,18 +499,18 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+ 		goto out;
+ 	}
+ 
+-bounce:
+-	ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+-	if (ret == -EMULTIHOP) {
++	do {
++		ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
++		if (ret != -EMULTIHOP)
++			break;
++
+ 		ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
+-		if (ret) {
+-			if (ret != -ERESTARTSYS && ret != -EINTR)
+-				pr_err("Buffer eviction failed\n");
+-			ttm_resource_free(bo, &evict_mem);
+-			goto out;
+-		}
+-		/* try and move to final place now. */
+-		goto bounce;
++	} while (!ret);
++
++	if (ret) {
++		ttm_resource_free(bo, &evict_mem);
++		if (ret != -ERESTARTSYS && ret != -EINTR)
++			pr_err("Buffer eviction failed\n");
+ 	}
+ out:
+ 	return ret;
 -- 
-2.17.1
+2.39.2
+
+
 
