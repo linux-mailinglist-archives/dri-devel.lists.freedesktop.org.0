@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A516776B0E6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2E76B0D9
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EB010E3A1;
-	Tue,  1 Aug 2023 10:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1B410E39D;
+	Tue,  1 Aug 2023 10:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6701010E389
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCECE10E389
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:51 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2E9F31F8A8;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6D24521E34;
  Tue,  1 Aug 2023 10:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690884950; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fUGNB7vYYlsnAp02snNt5qHIxZa0fpN4i9LCEW3d0GI=;
- b=CsOwhz0bRW2hJSl43YmoP52Grx0Tcc0usJJGf2zAIG3yU529oo1pJt+fBFP4F2znw7Mvqu
- KcHZEeNGIdRGxsj6eO0vkRcTypQudIY6BVVpI151fsN0Yv2Efie03zL8Bc39a3WdKcPJBd
- Wghe52Q/MBZGGag9JsAUNXa86E2UmCg=
+ bh=2etEUGCzeGiYzCbeSO7+AJfpWNJoSVAoDCAMu72NWNI=;
+ b=Rukeirz1YekWKPiU654QBfUdCpTPa0EX0A0JfDWdSrijGKeJ/4daoGQ37JJOD+3fQ9VnWg
+ k6wxqv8/7Bt1OJpgpvq7hiP8QgfmemUEqw6vdErkINkej7E2BqEvsUTPOL8dniIPjIcr9r
+ ZYyoJgPNGRjn8AGLhEKtkN8JSFQbj3M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690884950;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fUGNB7vYYlsnAp02snNt5qHIxZa0fpN4i9LCEW3d0GI=;
- b=qyIyFEpD00sblAgassjs6NLhfmPImcqZ9hHd4HZI31qUYDnOh8+wikmSo78GrHS9MParCa
- ueOFNrYtosNUtUAA==
+ bh=2etEUGCzeGiYzCbeSO7+AJfpWNJoSVAoDCAMu72NWNI=;
+ b=H+omQ0CR8AmLuC0BVUYMkwVQBSEv5jhdTDVZYURFvffr8bGctewsqWfxlXJ1qG15b20CRh
+ zcTda4HGMcPKCnBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EBB8B139BD;
- Tue,  1 Aug 2023 10:15:49 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 33415139BD;
+ Tue,  1 Aug 2023 10:15:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EHuWOFXbyGQBXQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:49 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id eBywC1bbyGQBXQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:50 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 12/47] fbdev/g364fb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:17 +0200
-Message-ID: <20230801101541.900-13-tzimmermann@suse.de>
+Subject: [PATCH v2 13/47] fbdev/geode/gx1fb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:18 +0200
+Message-ID: <20230801101541.900-14-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -71,8 +71,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
  linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>, Andres Salomon <dilinger@queued.net>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -89,44 +90,47 @@ v2:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
+Cc: Andres Salomon <dilinger@queued.net>
 ---
- drivers/video/fbdev/Kconfig  | 4 +---
- drivers/video/fbdev/g364fb.c | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/geode/Kconfig      | 4 +---
+ drivers/video/fbdev/geode/gx1fb_core.c | 5 +----
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index d225bd2d47a9..39c8b28cf126 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1577,9 +1577,7 @@ config FB_MAXINE
- config FB_G364
- 	bool "G364 frame buffer support"
- 	depends on (FB = y) && (MIPS_MAGNUM_4000 || OLIVETTI_M700)
+diff --git a/drivers/video/fbdev/geode/Kconfig b/drivers/video/fbdev/geode/Kconfig
+index b184085a78c2..51b1ec5319c4 100644
+--- a/drivers/video/fbdev/geode/Kconfig
++++ b/drivers/video/fbdev/geode/Kconfig
+@@ -45,9 +45,7 @@ config FB_GEODE_GX
+ config FB_GEODE_GX1
+ 	tristate "AMD Geode GX1 framebuffer support"
+ 	depends on FB && FB_GEODE
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
+ 	select VIDEO_NOMODESET
  	help
- 	  The G364 driver is the framebuffer used in MIPS Magnum 4000 and
- 	  Olivetti M700-10 systems.
-diff --git a/drivers/video/fbdev/g364fb.c b/drivers/video/fbdev/g364fb.c
-index 0825cbde116e..7a1013b22fa7 100644
---- a/drivers/video/fbdev/g364fb.c
-+++ b/drivers/video/fbdev/g364fb.c
-@@ -112,12 +112,10 @@ static int g364fb_blank(int blank, struct fb_info *info);
+ 	  Framebuffer driver for the display controller integrated into the
+diff --git a/drivers/video/fbdev/geode/gx1fb_core.c b/drivers/video/fbdev/geode/gx1fb_core.c
+index ddec35e3bbeb..a1919c1934ac 100644
+--- a/drivers/video/fbdev/geode/gx1fb_core.c
++++ b/drivers/video/fbdev/geode/gx1fb_core.c
+@@ -255,14 +255,11 @@ static int parse_panel_option(struct fb_info *info)
  
- static const struct fb_ops g364fb_ops = {
+ static const struct fb_ops gx1fb_ops = {
  	.owner		= THIS_MODULE,
-+	FB_DEFAULT_IOMEM_HELPERS,
- 	.fb_setcolreg	= g364fb_setcolreg,
- 	.fb_pan_display	= g364fb_pan_display,
- 	.fb_blank	= g364fb_blank,
++	FB_DEFAULT_IOMEM_OPS,
+ 	.fb_check_var	= gx1fb_check_var,
+ 	.fb_set_par	= gx1fb_set_par,
+ 	.fb_setcolreg	= gx1fb_setcolreg,
+ 	.fb_blank       = gx1fb_blank,
+-	/* No HW acceleration for now. */
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- /*
+ static struct fb_info *gx1fb_init_fbinfo(struct device *dev)
 -- 
 2.41.0
 
