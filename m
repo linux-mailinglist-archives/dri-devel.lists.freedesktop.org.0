@@ -2,47 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7082176BEF4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 23:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2EE76BF1B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 23:19:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D34C010E1E1;
-	Tue,  1 Aug 2023 21:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D507810E334;
+	Tue,  1 Aug 2023 21:19:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D18310E1E1
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 21:07:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 175F56170D;
- Tue,  1 Aug 2023 21:07:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17414C433C8;
- Tue,  1 Aug 2023 21:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690924048;
- bh=K0rsCfWkpm4/DZighE9w0PX9rgV/Bm9df7670wIl4FI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TgouPXXIzW0OROEdXovJXLRxq5PEsymVh6oJhJR0SpjVfvYJawFd4TNgXvJY5HaQ8
- sq6xjOvapf4D+xf6vXlFcv8hEkhn/8tGlxDq0rdbgHAenJF5GwJURcJiaWgtQjLY/L
- 0Y0eJ/1uYzXUj/lwbjffZ6S9CqS7kmXg/wMM9naTX21Tja6KQCPycu+2hx00IaTJ8w
- 42bO/zujh5psu9kDxa3oOx1te1j5nokNZqh0j+OD0GX+/SWoSqUGFUS2xYRbWJdNKD
- 3LgZsAKykdIEkTIano3ByN1OlhQivydK4Tp7T9oc4Yu61jKBKRmG0t+ZrqUUSuqrpE
- GdgW19uV1k1kw==
-Date: Tue, 1 Aug 2023 22:07:23 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jagan Teki <jagan@edgeble.ai>
-Subject: Re: [PATCH 05/14] dt-bindings: display: rockchip-vop: Document
- rv1126 vop
-Message-ID: <20230801-residue-tractor-5c63e4447f2c@spud>
-References: <20230731110012.2913742-1-jagan@edgeble.ai>
- <20230731110012.2913742-6-jagan@edgeble.ai>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F9B10E153;
+ Tue,  1 Aug 2023 21:19:50 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 371LBAdN014353; Tue, 1 Aug 2023 21:19:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=81GNb06T22jwRtlMzr1yAkkg8CEGO43CWqdMPvWlcA0=;
+ b=B4elaaghT5vjFSDCAqVYD4bNNCOW0j9SYiSw3wymZrlxiYB3RXF3MEWiCacsB0ZWseup
+ x2HWzyun1X8fc89+BYVdnZcWLqDXFCWghE8mZpkBpjvLlyc7cVNVQqSBTBiTU5el/KvS
+ zbi468BSbP8JvcxFJNltMr5/acYsiEWYiW3XFbeZDNVE4ZoDbKGqvgVxV1OQuU8eZqx4
+ 7oGj+p86ZK8NQy3hX5EMasoPEhI75TgYtfK7NkbbkfUvj3ilFWNdjCG4nQ0a1Qg/vZ42
+ uwzbV395mQD1cg0767i33+E9XWxGcFHlbD03SERNBvg2fdm+pf6ql0Inkgzq2jDAxQ1W VQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6d0mv84f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Aug 2023 21:19:47 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 371LJkWq004788
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 1 Aug 2023 21:19:46 GMT
+Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 1 Aug
+ 2023 14:19:45 -0700
+Message-ID: <e63f5ea6-40c1-41af-94df-e7392e2aa818@quicinc.com>
+Date: Tue, 1 Aug 2023 14:19:45 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ndrRpp+GVoLa+YWP"
-Content-Disposition: inline
-In-Reply-To: <20230731110012.2913742-6-jagan@edgeble.ai>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/dpu: Drop encoder vsync_event
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>
+References: <20230801-encoder-cleanup-v1-1-f9e37fe27997@quicinc.com>
+ <1a51020c-162d-1207-0fb3-43844f315699@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <1a51020c-162d-1207-0fb3-43844f315699@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: PY0S6RDNXTboc1BJwwA917FwZTXVrn38
+X-Proofpoint-ORIG-GUID: PY0S6RDNXTboc1BJwwA917FwZTXVrn38
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_18,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=999 mlxscore=0 malwarescore=0 adultscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308010190
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,74 +85,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ndrRpp+GVoLa+YWP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 31, 2023 at 04:30:03PM +0530, Jagan Teki wrote:
-> Document the VOP for Rockchip RV1126.
->=20
-> Signed-off-by: Jagan Teki <jagan@edgeble.ai>
+On 8/1/2023 1:37 PM, Dmitry Baryshkov wrote:
+> On 01/08/2023 23:18, Jessica Zhang wrote:
+>> Drop vsync_event and vsync_event_work handlers as they are unnecessary.
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 65 
+>> +----------------------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   |  4 --
+>>   2 files changed, 1 insertion(+), 68 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index f0a2a1dca741..d34e684a4178 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -152,7 +152,6 @@ enum dpu_enc_rc_states {
+>>    * @crtc_frame_event_cb_data:    callback handler private data
+>>    * @frame_done_timeout_ms:    frame done timeout in ms
+>>    * @frame_done_timer:        watchdog timer for frame done event
+>> - * @vsync_event_timer:        vsync timer
+>>    * @disp_info:            local copy of msm_display_info struct
+>>    * @idle_pc_supported:        indicate if idle power collaps is 
+>> supported
+>>    * @rc_lock:            resource control mutex lock to protect
+>> @@ -160,7 +159,6 @@ enum dpu_enc_rc_states {
+>>    * @rc_state:            resource controller state
+>>    * @delayed_off_work:        delayed worker to schedule disabling of
+>>    *                clks and resources after IDLE_TIMEOUT time.
+>> - * @vsync_event_work:        worker to handle vsync event for 
+>> autorefresh
+>>    * @topology:                   topology of the display
+>>    * @idle_timeout:        idle timeout duration in milliseconds
+>>    * @wide_bus_en:        wide bus is enabled on this interface
+>> @@ -194,7 +192,6 @@ struct dpu_encoder_virt {
+>>       atomic_t frame_done_timeout_ms;
+>>       struct timer_list frame_done_timer;
+>> -    struct timer_list vsync_event_timer;
+>>       struct msm_display_info disp_info;
+>> @@ -202,7 +199,6 @@ struct dpu_encoder_virt {
+>>       struct mutex rc_lock;
+>>       enum dpu_enc_rc_states rc_state;
+>>       struct delayed_work delayed_off_work;
+>> -    struct kthread_work vsync_event_work;
+>>       struct msm_display_topology topology;
+>>       u32 idle_timeout;
+>> @@ -1770,49 +1766,6 @@ int dpu_encoder_vsync_time(struct drm_encoder 
+>> *drm_enc, ktime_t *wakeup_time)
+>>       return 0;
+>>   }
+>> -static void dpu_encoder_vsync_event_handler(struct timer_list *t)
+>> -{
+>> -    struct dpu_encoder_virt *dpu_enc = from_timer(dpu_enc, t,
+>> -            vsync_event_timer);
+>> -    struct drm_encoder *drm_enc = &dpu_enc->base;
+>> -    struct msm_drm_private *priv;
+>> -    struct msm_drm_thread *event_thread;
+>> -
+>> -    if (!drm_enc->dev || !drm_enc->crtc) {
+>> -        DPU_ERROR("invalid parameters\n");
+>> -        return;
+>> -    }
+>> -
+>> -    priv = drm_enc->dev->dev_private;
+>> -
+>> -    if (drm_enc->crtc->index >= ARRAY_SIZE(priv->event_thread)) {
+>> -        DPU_ERROR("invalid crtc index\n");
+>> -        return;
+>> -    }
+>> -    event_thread = &priv->event_thread[drm_enc->crtc->index];
+>> -    if (!event_thread) {
+>> -        DPU_ERROR("event_thread not found for crtc:%d\n",
+>> -                drm_enc->crtc->index);
+>> -        return;
+>> -    }
+>> -
+>> -    del_timer(&dpu_enc->vsync_event_timer);
+>> -}
+>> -
+>> -static void dpu_encoder_vsync_event_work_handler(struct kthread_work 
+>> *work)
+>> -{
+>> -    struct dpu_encoder_virt *dpu_enc = container_of(work,
+>> -            struct dpu_encoder_virt, vsync_event_work);
+>> -    ktime_t wakeup_time;
+>> -
+>> -    if (dpu_encoder_vsync_time(&dpu_enc->base, &wakeup_time))
+>> -        return;
+>> -
+>> -    trace_dpu_enc_vsync_event_work(DRMID(&dpu_enc->base), wakeup_time);
+>> -    mod_timer(&dpu_enc->vsync_event_timer,
+>> -            nsecs_to_jiffies(ktime_to_ns(wakeup_time)));
+>> -}
+>> -
+>>   static u32
+>>   dpu_encoder_dsc_initial_line_calc(struct drm_dsc_config *dsc,
+>>                     u32 enc_ip_width)
+>> @@ -1972,7 +1925,6 @@ void dpu_encoder_kickoff(struct drm_encoder 
+>> *drm_enc)
+>>   {
+>>       struct dpu_encoder_virt *dpu_enc;
+>>       struct dpu_encoder_phys *phys;
+>> -    ktime_t wakeup_time;
+>>       unsigned long timeout_ms;
+>>       unsigned int i;
+>> @@ -1998,14 +1950,6 @@ void dpu_encoder_kickoff(struct drm_encoder 
+>> *drm_enc)
+>>               phys->ops.handle_post_kickoff(phys);
+>>       }
+>> -    if (dpu_enc->disp_info.intf_type == INTF_DSI &&
+>> -            !dpu_encoder_vsync_time(drm_enc, &wakeup_time)) {
+>> -        trace_dpu_enc_early_kickoff(DRMID(drm_enc),
+>> -                        ktime_to_ms(wakeup_time));
+>> -        mod_timer(&dpu_enc->vsync_event_timer,
+>> -                nsecs_to_jiffies(ktime_to_ns(wakeup_time)));
+>> -    }
+>> -
+>>       DPU_ATRACE_END("encoder_kickoff");
+>>   }
+>> @@ -2439,11 +2383,7 @@ struct drm_encoder *dpu_encoder_init(struct 
+>> drm_device *dev,
+>>       timer_setup(&dpu_enc->frame_done_timer,
+>>               dpu_encoder_frame_done_timeout, 0);
+>> -    if (disp_info->intf_type == INTF_DSI)
+>> -        timer_setup(&dpu_enc->vsync_event_timer,
+>> -                dpu_encoder_vsync_event_handler,
+>> -                0);
+>> -    else if (disp_info->intf_type == INTF_DP)
+>> +    if (disp_info->intf_type == INTF_DP)
+>>           dpu_enc->wide_bus_en = msm_dp_wide_bus_available(
+>>                   priv->dp[disp_info->h_tile_instance[0]]);
+>> @@ -2451,9 +2391,6 @@ struct drm_encoder *dpu_encoder_init(struct 
+>> drm_device *dev,
+>>               dpu_encoder_off_work);
+>>       dpu_enc->idle_timeout = IDLE_TIMEOUT;
+>> -    kthread_init_work(&dpu_enc->vsync_event_work,
+>> -            dpu_encoder_vsync_event_work_handler);
+>> -
+>>       memcpy(&dpu_enc->disp_info, disp_info, sizeof(*disp_info));
+>>       DPU_DEBUG_ENC(dpu_enc, "created\n");
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+>> index 1a92d21094f4..7352903eab04 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+>> @@ -467,10 +467,6 @@ DECLARE_EVENT_CLASS(dpu_enc_ktime_template,
+>>       TP_printk("id=%u, time=%lld", __entry->drm_id,
+>>             ktime_to_ms(__entry->time))
+>>   );
+>> -DEFINE_EVENT(dpu_enc_ktime_template, dpu_enc_vsync_event_work,
+>> -    TP_PROTO(uint32_t drm_id, ktime_t time),
+>> -    TP_ARGS(drm_id, time)
+>> -);
+>>   DEFINE_EVENT(dpu_enc_ktime_template, dpu_enc_early_kickoff,
+>>       TP_PROTO(uint32_t drm_id, ktime_t time),
+>>       TP_ARGS(drm_id, time)
+> 
+> This trace event and corresponding event class can also be removed. 
+> Other than that LGTM.
 
-There's no commentary here about compatibility with other, existing,
-devices nor did you CC me on the rest of the series. How am I supposed
-to know if appending to enum is the right thing to do?
+Hi Dmitry,
 
-Ditto the other binding.
+Acked.
 
 Thanks,
-Conor.
 
-> ---
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: devicetree@vger.kernel.org
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
->=20
->  .../devicetree/bindings/display/rockchip/rockchip-vop.yaml       | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-=
-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.=
-yaml
-> index df61cb5f5c54..b339b7e708c6 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> @@ -31,6 +31,7 @@ properties:
->        - rockchip,rk3368-vop
->        - rockchip,rk3399-vop-big
->        - rockchip,rk3399-vop-lit
-> +      - rockchip,rv1126-vop
-> =20
->    reg:
->      minItems: 1
-> --=20
-> 2.25.1
->=20
+Jessica Zhang
 
---ndrRpp+GVoLa+YWP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMl0CwAKCRB4tDGHoIJi
-0sMRAP94AAcG2k+QdviKRNxL+Z2cWoicgNyRkc73TT92zzHevAEAju+k5rogAoDj
-aGIjmgDauCja1IFZGjTf7DzL03fFXAE=
-=mxOH
------END PGP SIGNATURE-----
-
---ndrRpp+GVoLa+YWP--
+> 
+>>
+>> ---
+>> base-commit: eab616ad7f56cafc8af85e9774816f0901e1efa2
+>> change-id: 20230721-encoder-cleanup-49887b263c6c
+>>
+>> Best regards,
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
