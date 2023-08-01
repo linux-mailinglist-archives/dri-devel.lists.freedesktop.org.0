@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A8A76AB2F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 10:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9CE76AB37
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 10:40:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8036610E365;
-	Tue,  1 Aug 2023 08:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C91610E36C;
+	Tue,  1 Aug 2023 08:40:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-53.mail.aliyun.com (out28-53.mail.aliyun.com
- [115.124.28.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57DA410E365;
- Tue,  1 Aug 2023 08:37:21 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1057698|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_alarm|0.0623579-0.000287539-0.937355; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047212; MF=sunran001@208suo.com; NM=1; PH=DS; RN=7; RT=7; SR=0;
- TI=SMTPD_---.U5ob-Yq_1690879031; 
+Received: from out28-100.mail.aliyun.com (out28-100.mail.aliyun.com
+ [115.124.28.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3C5F10E366;
+ Tue,  1 Aug 2023 08:40:33 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436259|-1; CH=green;
+ DM=|CONTINUE|false|; DS=CONTINUE|ham_system_inform|0.167007-0.0010792-0.831913;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=sunran001@208suo.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5oPFEH_1690879225; 
 Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5ob-Yq_1690879031) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 16:37:13 +0800
+ fp:SMTPD_---.U5oPFEH_1690879225) by smtp.aliyun-inc.com;
+ Tue, 01 Aug 2023 16:40:28 +0800
 From: Ran Sun <sunran001@208suo.com>
 To: alexander.deucher@amd.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/amdgpu: Clean up errors in ppatomctrl.h
-Date: Tue,  1 Aug 2023 08:37:10 +0000
-Message-Id: <20230801083710.6738-1-sunran001@208suo.com>
+Subject: [PATCH] drm/amd/pm: Clean up errors in vega10_pptable.h
+Date: Tue,  1 Aug 2023 08:40:24 +0000
+Message-Id: <20230801084024.6826-1-sunran001@208suo.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,32 +51,70 @@ ERROR: open brace '{' following struct go on the same line
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ .../amd/pm/powerplay/hwmgr/vega10_pptable.h    | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
-index b3103bd4be42..1f987e846628 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
-@@ -278,16 +278,14 @@ struct pp_atom_ctrl__avfs_parameters {
- 	uint8_t  ucReserved;
- };
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h
+index 9c479bd9a786..8b0590b834cc 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h
+@@ -317,16 +317,14 @@ typedef struct _ATOM_Vega10_Thermal_Controller {
+     UCHAR ucFlags;          /* to be defined */
+ } ATOM_Vega10_Thermal_Controller;
  
--struct _AtomCtrl_HiLoLeakageOffsetTable
+-typedef struct _ATOM_Vega10_VCE_State_Record
 -{
-+struct _AtomCtrl_HiLoLeakageOffsetTable {
-     USHORT usHiLoLeakageThreshold;
-     USHORT usEdcDidtLoDpm7TableOffset;
-     USHORT usEdcDidtHiDpm7TableOffset;
- };
- typedef struct _AtomCtrl_HiLoLeakageOffsetTable AtomCtrl_HiLoLeakageOffsetTable;
++typedef struct _ATOM_Vega10_VCE_State_Record {
+     UCHAR  ucVCEClockIndex;         /*index into usVCEDependencyTableOffset of 'ATOM_Vega10_MM_Dependency_Table' type */
+     UCHAR  ucFlag;                  /* 2 bits indicates memory p-states */
+     UCHAR  ucSCLKIndex;             /* index into ATOM_Vega10_SCLK_Dependency_Table */
+     UCHAR  ucMCLKIndex;             /* index into ATOM_Vega10_MCLK_Dependency_Table */
+ } ATOM_Vega10_VCE_State_Record;
  
--struct _AtomCtrl_EDCLeakgeTable
+-typedef struct _ATOM_Vega10_VCE_State_Table
 -{
-+struct _AtomCtrl_EDCLeakgeTable {
-     ULONG DIDT_REG[24];
- };
- typedef struct _AtomCtrl_EDCLeakgeTable AtomCtrl_EDCLeakgeTable;
++typedef struct _ATOM_Vega10_VCE_State_Table {
+     UCHAR ucRevId;
+     UCHAR ucNumEntries;
+     ATOM_Vega10_VCE_State_Record entries[1];
+@@ -361,8 +359,7 @@ typedef struct _ATOM_Vega10_PowerTune_Table {
+ 	USHORT usTemperatureLimitTedge;
+ } ATOM_Vega10_PowerTune_Table;
+ 
+-typedef struct _ATOM_Vega10_PowerTune_Table_V2
+-{
++typedef struct _ATOM_Vega10_PowerTune_Table_V2 {
+ 	UCHAR  ucRevId;
+ 	USHORT usSocketPowerLimit;
+ 	USHORT usBatteryPowerLimit;
+@@ -388,8 +385,7 @@ typedef struct _ATOM_Vega10_PowerTune_Table_V2
+ 	USHORT usTemperatureLimitTedge;
+ } ATOM_Vega10_PowerTune_Table_V2;
+ 
+-typedef struct _ATOM_Vega10_PowerTune_Table_V3
+-{
++typedef struct _ATOM_Vega10_PowerTune_Table_V3 {
+ 	UCHAR  ucRevId;
+ 	USHORT usSocketPowerLimit;
+ 	USHORT usBatteryPowerLimit;
+@@ -428,15 +424,13 @@ typedef struct _ATOM_Vega10_Hard_Limit_Record {
+     USHORT usVddMemLimit;
+ } ATOM_Vega10_Hard_Limit_Record;
+ 
+-typedef struct _ATOM_Vega10_Hard_Limit_Table
+-{
++typedef struct _ATOM_Vega10_Hard_Limit_Table {
+     UCHAR ucRevId;
+     UCHAR ucNumEntries;
+     ATOM_Vega10_Hard_Limit_Record entries[1];
+ } ATOM_Vega10_Hard_Limit_Table;
+ 
+-typedef struct _Vega10_PPTable_Generic_SubTable_Header
+-{
++typedef struct _Vega10_PPTable_Generic_SubTable_Header {
+     UCHAR  ucRevId;
+ } Vega10_PPTable_Generic_SubTable_Header;
+ 
 -- 
 2.17.1
 
