@@ -1,60 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E1976B850
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 17:15:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6302076B8DB
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 17:41:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04A110E40B;
-	Tue,  1 Aug 2023 15:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0646B10E40D;
+	Tue,  1 Aug 2023 15:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A68F10E40B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 15:15:36 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-99bf3f59905so649637566b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 08:15:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gfxstrand-net.20221208.gappssmtp.com; s=20221208; t=1690902935; x=1691507735;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=D2fr4llh8QF9+8/MYj5l2qMqH1e+8yQ19n/WF18BWRk=;
- b=maLWNPX/e6luVIOwWin8TSV2gJDc7ItyW2tO0bSezp02Cp/RHPDQpkjp4MFmKdQ/aQ
- fadeR5hfo1l9BPDY1WzmTFXVpUadxp2J7vIfvJ+h82Ua7R8QiadPed8pDK/K6C1gpa7Z
- vvmxtrHWlliGpEiMGy/Gm3EfbF6jlay6NdiBYipiOLZKU/M9m+qa14eN3sJ29U6zd6La
- BLJmjRhbrnIwTRGmlLXGP5Hct0LkLKbBH/kCvJzSn/vcPYZODdJJFpq3Y8UA2fXjxOgq
- 6ObvKM2iYrnXPsUUeALHfkBGW9fiYjYqGyzxORbqJWL4FWSBBLO5t0CWVpQf9k1qYPLs
- cAqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690902935; x=1691507735;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D2fr4llh8QF9+8/MYj5l2qMqH1e+8yQ19n/WF18BWRk=;
- b=K+o227GveRMRv5rM/3QU6tk2CCzW5MnDj4zRPSGlTOskMIR0+IfxPqZ4LVZFHR0g9Q
- /OVJv0awqbg323ry32tcwMIicHn1L8gN6MYpJ+91ZpvKV+Qcev93rJ302eczCKGNBT2M
- GdMvYwGF3CUqISDPdGnDnWIJU4PeINh0bJW6ZCnuSVhOn3nCbeeWi3f3qH7YsrnFpJhL
- W4b3ZYfyRmP3OMErF41fBlnnWBfncGgA135+z2EkNUz4gpLkZ1YrZq1QFLmCKP7mbBNz
- z9rz5316nyk0ErErKBOjvGrjkpl1QXACgcE6MI028Wq5ntZggM3/zvfTcpcovukq0Fgw
- a/5Q==
-X-Gm-Message-State: ABy/qLaDW250ACsztaic9kYaUzwHKETFTPJhf+vBkpLjTwedUDNzbPWe
- Iz6mD+Hah5vGLabhHOGX6kJ3u3ZYSCQdLxlBMp/Eaw==
-X-Google-Smtp-Source: APBJJlE7uox+xSmDrq7sgSGUbkfxmKUkIyPdPNtrWz7hPSia2WgVxQ7934XsxXUZd9LO3/OHZdBBm42C3Xsi0ZjCHSs=
-X-Received: by 2002:a17:906:648e:b0:99b:493b:63b1 with SMTP id
- e14-20020a170906648e00b0099b493b63b1mr3058156ejm.38.1690902934778; Tue, 01
- Aug 2023 08:15:34 -0700 (PDT)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2066.outbound.protection.outlook.com [40.107.244.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0622910E111;
+ Tue,  1 Aug 2023 15:41:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VKTmRUlH7cDhH7ynHGBfgt3LW5553JpegGQMAvgepS2LsroVOuOxUAC3oIsTawLrFc67UBlelN5gW9hXRWJfqcTMz5AjnUfvTxgYWZUf7CvTk9pd+e75+NO5vb/ekxwwKH882jVLS11BuhxTPFEIoKpt9sSCHXlStznqjy7fE/j1rcIx6Wl8a7QktKnmGaQEvbe/D7Y6m3dbuuReFNM1cKxDJjcRAGzkD26pKgLcbOOy7WoNl6JLP0kv8XvUT33JtimxM4Bn1MrGReBLViuwqkAV4R5cdIydXUl5YUioxJaf6s3BBMvkfInLrClVLnSyjUyVDqvuuHjic2MYBFxCRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cc18luWCZl5vEpHP++az1cLPhb8GTa0L0KNtSYOQPT8=;
+ b=hCZ/5oeUZcfS4qMtbqSJqDSNhkF8liHh3BGS1CeRzg07KQx1rioq7rRIWNnyOToTukMCAyvrK94qAP7SJnr6f7DShVpDJnjUq1Gnh8vm3iY/UBEd1+7wnIbC4gkF00rTDnsmJzUmxG3WxWn1ZUFDgFTO18TsbJ/wWl1fMkuIGdDl8F7LVOKpB6Z0mxiHhVixGHWjWmsbHFOvue09Mla1uKyBKIoGV0DQFDSCcH0gq97bgIuKVARLAe5SaoAmMK+SdelPRYvlvp2s+Lx83pJtGpJAxu9lwuJZfUnwvxuMX1fMD6GWzb5wlvBJpv6FTg9QOhdv8/glvuD39Ihq6zJn2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cc18luWCZl5vEpHP++az1cLPhb8GTa0L0KNtSYOQPT8=;
+ b=1tcrKdSJQnzGxLBLKn8nGLfjmckXALEKCqcPoZ5WSI5CQo5gntpKNb1SB8CVziOjs+Zq7wqoLLKxxSjjbZmgr5WVphx9X8qdpZ778M+xrIktPi+vJD2HmDFB5S/CKO6jtgX45XxkhwPZTZ2w2pu4v0KOc6auBBb5XtzwrhBfg6I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BL1PR12MB5825.namprd12.prod.outlook.com (2603:10b6:208:394::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Tue, 1 Aug
+ 2023 15:41:37 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6631.026; Tue, 1 Aug 2023
+ 15:41:37 +0000
+Message-ID: <fae0191c-5b67-63ac-8d87-f8d761df9614@amd.com>
+Date: Tue, 1 Aug 2023 17:41:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next] drm/amdgpu: Remove a lot of unnecessary ternary
+ operators
+Content-Language: en-US
+To: "Limonciello, Mario" <mario.limonciello@amd.com>,
+ Ruan Jinjie <ruanjinjie@huawei.com>, alexander.deucher@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ evan.quan@amd.com, srinivasan.shanmugam@amd.com, wangxiongfeng2@huawei.com,
+ Hawking.Zhang@amd.com, James.Zhu@amd.com,
+ Veerabadhran.Gopalakrishnan@amd.com, saleemkhan.jamadar@amd.com,
+ le.ma@amd.com, tao.zhou1@amd.com, Jane.Jian@amd.com, Hongkun.Zhang@amd.com,
+ leo.liu@amd.com, lijo.lazar@amd.com, Lang.Yu@amd.com, ruijing.dong@amd.com,
+ trix@redhat.com, Suresh.Guttula@amd.com, David.Wu3@amd.com,
+ sonny.jiang@amd.com, wenjing.liu@amd.com, Jun.Lei@amd.com,
+ mripard@kernel.org, tzimmermann@suse.de, drv@mailo.com, Shiwu.Zhang@amd.com,
+ aleksei.kodanev@bell-sw.com, ye.xingchen@zte.com.cn,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230731132610.2675314-1-ruanjinjie@huawei.com>
+ <75d409e6-5ab8-97e8-44c3-a71e5ff1724d@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <75d409e6-5ab8-97e8-44c3-a71e5ff1724d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0065.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20230731191557.4179175-1-airlied@gmail.com>
- <CACO55tuV8A_sLmQ=7yBdmsW7WWGoMs1oLmfszUg+RHW4_P8sNQ@mail.gmail.com>
-In-Reply-To: <CACO55tuV8A_sLmQ=7yBdmsW7WWGoMs1oLmfszUg+RHW4_P8sNQ@mail.gmail.com>
-From: Faith Ekstrand <faith@gfxstrand.net>
-Date: Tue, 1 Aug 2023 10:15:23 -0500
-Message-ID: <CAOFGe94=eT9JUqtdrWb42pRybZ9E5TP2P144eT=pBXu+V2HUyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau: fixup the uapi header file.
-To: Karol Herbst <kherbst@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000c7092f0601de04ec"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BL1PR12MB5825:EE_
+X-MS-Office365-Filtering-Correlation-Id: 196d03e8-fdd8-4cae-7341-08db92a5cac0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4zLvTnto1xEveshgTveejwrsPM0AIs7KkA0nQXOC6McjWj700/U5IkT3h3inFm9f+hkoVqL18n/47AucUdlWIG9U/xdPjA8BF5H61Y8yeA3dQCXSmQrfrv6Sbkc21PplH4vxz+/sUoL7sxVCdxaGD3Du9K3gYnn0lSZy0fu4p5/OC7o28k05BWFr6ZF8fBXg8vpKw0lXkAfJkhZX219LWh463bpgKkWhEVfZHJg/H8QbhPbzYs8q44Z1COVFc/d4M+1i9XX0Zd5AUjgGYpYsAqkt0+CsWN7gPorreDrhNQrPSTuAhAcq6SstXX08uBQE2NzI9uZ1o/qJYrxZ0AGQ9T7Dstcq3fb7S/r1QiJIrShjOObT4C/6dV+gHiGDhMT3YX3Ne0U1sYmadN++BeZhHnqvBw83tNKsIfIdyNdFbBJxPqzdxPauSraI5NwU2dSbE8TiXkhP9BfPNxTmiTQN3hPAlLnO8ePnpTOdOoQULHbtnHFBtl7r7NP+PDV4etcPl5Rl4NwT/pq1eeybn4TbZZKGmllGbTG2gd9cd0h6uegh3+5PatGWiVjvM4HDHf4Mxw+FdIvfh9O3jAIH8cdb6s1AH+exoasIbcMT9XBmNzZiqnGH85glBnWKJ0DJJTMzbPRo9t0SgGJ4WvVHkpfu1BYQz9aNPKiFU1LE+h8J5XM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(366004)(136003)(346002)(39860400002)(396003)(451199021)(66556008)(66946007)(66476007)(2906002)(110136005)(31686004)(5660300002)(30864003)(41300700001)(316002)(7416002)(2616005)(6486002)(6666004)(8936002)(6506007)(8676002)(186003)(53546011)(83380400001)(921005)(478600001)(36756003)(38100700002)(6512007)(31696002)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RU1CNFhTSGltMkRwMlV5NXFkVHJUUUcrTWs0S1VyaTQ1V2Z3OFNjRUQ4d2Vo?=
+ =?utf-8?B?emJoVWlXaGR4VUliSzRjckNIVEFGNWtNMlNiUUZxMGRvWWh4d1dEemJ1UmIx?=
+ =?utf-8?B?QU5KeXM4L2ZYNGtiSG8rOVRUaFdkVzNqd210dDV4QU5JcWxrMkNSYmNYQitX?=
+ =?utf-8?B?dk02RlY5aVByMzF0M0M3TTRkTmJXdk9TMmxhYU5Dd3BJbk5MNjNzcUVsTWR4?=
+ =?utf-8?B?ZW96YXdZeXlySWJpSkNLOXRkdUhDWTJQNWYwVHQzZG1xVUtKdHpJL2U2MmZX?=
+ =?utf-8?B?ZVA1SzArNDE2d1RVcjB1cEh2TVQvY1Y0d0xYSkl5elB0cXIxZTc5eUVyYnYr?=
+ =?utf-8?B?OHhsbmlwdFhzRCswayt2QkVUdVZrejZWYkVmRmdrNC9OUVBmTkRiL1dlNFdp?=
+ =?utf-8?B?N2dHeDNoTEV0ck1sby80cFJsc1hhTXM3NU16VmtEUE8xV0NDNFFDemRPemhx?=
+ =?utf-8?B?Nk9iVW9kbVNGcHUzRDc2eVJpaFlhRkFKNkNxeUZTZlg3OVhLNEs2b2tZaEJk?=
+ =?utf-8?B?MU05QWtsNGJIeHNXdzU0dXl6Mm40dWYrTHhid3Ezbkl1UlY1SnNML2ZzQXdD?=
+ =?utf-8?B?YzJOdG5DczdVNDJxRlRoRUlTUktGV3lEVHJmVFhheVFtM1U3YkUrN1QxM0tW?=
+ =?utf-8?B?N0RKbDVQMlpmQ2N1R3A0dlVmbGE0VFdGN29ENjhhbElVNmtuUGJlVXk1bTY3?=
+ =?utf-8?B?MlI4UzlORFhmZlNkZ0ZTWnltb1ZCMGh2TW4ycnU4MEJPYUM5cDFBaDlzOVRU?=
+ =?utf-8?B?bi8zNmk4UWhrQXQ0dERsNWgzejQwTm5GalJBNjBmNWhRQlNZTzRkdExBb0Y5?=
+ =?utf-8?B?MEc0UHh6emhaWlFYd0NHTmJLcTUyT08zTXhTKytNdURqQlEwR3NGcXhxZmxE?=
+ =?utf-8?B?WkdNcUtRSG53OGN3M3dhN2k3WlV1SWxxVlNyUzRoVU9PSzlJbGxzRG5uWWor?=
+ =?utf-8?B?aUtmQ0dsdlVGY2h5NTBBR0xFWjVGb3lUNXkyaUhJTlVDZVplWnVxM3dRcjZ1?=
+ =?utf-8?B?OEh6azJPeTNSN1lnWUtlRFk2bEd1SVVnc2t6R1RhYWNmaHIwQ3o2L24zdDd0?=
+ =?utf-8?B?M1BkVjdwaWtQUkxOc0N6bVNqclVzWGpLT2tXUWpydXZFYVZNVDFMN0txMTFw?=
+ =?utf-8?B?VHI4YXRCeHQ0OHd4eis1Uk1sZEMrZUJ1K0kwb0xWR0dFUWlzVTc0bS9WMGlU?=
+ =?utf-8?B?bEEvamN6Y3g0OUJ5MkRqTTdhSTYyM1RaZDdBMTROczMvUmoxV3c0UGwyMlZN?=
+ =?utf-8?B?aVdHbW9rQTJMcXcxd2oyMGhLdnhqVURWZy9Zc2M0cytCTEVyQzRYSW80SWp2?=
+ =?utf-8?B?N3JGVWRlVmRNdGpuUkIrV0N4NkpWSGQyTURsOC9JSURQbGQ3L0dkQ2hISHNT?=
+ =?utf-8?B?MkhQbTVHOGI2NURvQ3kxOVNMYU1EZDIzZEN2UTVuaVpHN3kzL3hHZWpEWkVp?=
+ =?utf-8?B?T2svMTFxVm90UVF3dVdKenIwQnlPQTRqNTdTb0dJZDFjcWJ1bnlHZ2xrZDMz?=
+ =?utf-8?B?L3pNSFRHVHRvYlpNNXRORzZ3cXhYKzYrN0FUOHZxWXUvOGJ1ZGtMM0dxclo3?=
+ =?utf-8?B?VFNPeWd2bFd5TEVkUVVkcm9Wd0ZDVW1ENVNURmRmVG52VTRuamRYT2E4a2Q3?=
+ =?utf-8?B?RTlBM2ZiKzlldk5WcXZwckd1ZFpDY2FJOTd6ZTJkSnV0SUg4dU5pRVYreEl0?=
+ =?utf-8?B?Tkt4Zm5MV05ORlorVjhPTHd0MnRhWFFZMm5HM2pwWVg4Z3doSFFSWFVocWc1?=
+ =?utf-8?B?T0lOaWZ4eGhNa3RQZWsvaXRHbGpwVVhuQ3RhM3piRVlvNEd1WFh5WUYrbmhp?=
+ =?utf-8?B?Wi9BZnRjSDFTbUlaTElINzZ6WUNwdzhJQWllWWNwUDVEeS82SW9DT2JuVHV6?=
+ =?utf-8?B?Z2RmVjdBa0ZQbzE5NmI4TGsvSU5yREV3RnNGcWRlNVU5dGlKUngxNUFqMXd6?=
+ =?utf-8?B?RUk4S2p4dHg0bUg1T01OTVZrUFVyRUxlUWdXcDRZbE45WlBwSjNaOXZCQ0Ro?=
+ =?utf-8?B?enFuelNsb2kzU2FFUG1oUUoveThyYWVIQ2xjOGZ5Z3pEUnU3bm5GUnNKRGVl?=
+ =?utf-8?B?MHBHbGZFaFYxOG9DM3lTQzVzU1FOdFJ6MC93ZytCdGVFK2JtUlhGZld0UXdF?=
+ =?utf-8?B?Vm5tTFFZWWRzWFR2aUlYUlJJVnZHNGNzYVE4M05sMDEvcVZKOUc2NVBGZGYv?=
+ =?utf-8?Q?xehFlSce6jUzsAgDEbyr1FM6rp+ysWaIFedEbzz2jyE7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 196d03e8-fdd8-4cae-7341-08db92a5cac0
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2023 15:41:37.5771 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DXPNd0HQ9ICxiYoMvTv2lLGF2UxKuFMX2MyhVXlJBNeAgyHG5W5f9J6IMG3mo1xw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5825
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,471 +140,315 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, skeggsb@gmail.com,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c7092f0601de04ec
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Aug 1, 2023 at 4:37=E2=80=AFAM Karol Herbst <kherbst@redhat.com> wr=
-ote:
-
-> On Mon, Jul 31, 2023 at 9:16=E2=80=AFPM Dave Airlie <airlied@gmail.com> w=
-rote:
-> >
-> > From: Dave Airlie <airlied@redhat.com>
-> >
-> > nouveau > 10 years ago had a plan for new multiplexer inside a
-> multiplexer
-> > API using nvif. It never fully reached fruition, fast forward 10 years,
-> > and the new vulkan driver is avoiding libdrm and calling ioctls, and
-> > these 3 ioctls, getparam, channel alloc + free don't seem to be things
-> > we'd want to use nvif for.
-> >
-> > Undeprecate and put them into the uapi header so we can just copy it
-> > into mesa later.
-> >
-> > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> > ---
-> >  drivers/gpu/drm/nouveau/nouveau_abi16.h | 41 ---------------------
-> >  include/uapi/drm/nouveau_drm.h          | 48 +++++++++++++++++++++++--
-> >  2 files changed, 45 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.h
-> b/drivers/gpu/drm/nouveau/nouveau_abi16.h
-> > index 27eae85f33e6..d5d80d0d9011 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_abi16.h
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_abi16.h
-> > @@ -43,28 +43,6 @@ int  nouveau_abi16_usif(struct drm_file *, void
-> *data, u32 size);
-> >  #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
-> >  #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
-> >
-> > -struct drm_nouveau_channel_alloc {
-> > -       uint32_t     fb_ctxdma_handle;
-> > -       uint32_t     tt_ctxdma_handle;
-> > -
-> > -       int          channel;
-> > -       uint32_t     pushbuf_domains;
-> > -
-> > -       /* Notifier memory */
-> > -       uint32_t     notifier_handle;
-> > -
-> > -       /* DRM-enforced subchannel assignments */
-> > -       struct {
-> > -               uint32_t handle;
-> > -               uint32_t grclass;
-> > -       } subchan[8];
-> > -       uint32_t nr_subchan;
-> > -};
-> > -
-> > -struct drm_nouveau_channel_free {
-> > -       int channel;
-> > -};
-> > -
-> >  struct drm_nouveau_grobj_alloc {
-> >         int      channel;
-> >         uint32_t handle;
-> > @@ -83,31 +61,12 @@ struct drm_nouveau_gpuobj_free {
-> >         uint32_t handle;
-> >  };
-> >
-> > -#define NOUVEAU_GETPARAM_PCI_VENDOR      3
-> > -#define NOUVEAU_GETPARAM_PCI_DEVICE      4
-> > -#define NOUVEAU_GETPARAM_BUS_TYPE        5
-> > -#define NOUVEAU_GETPARAM_FB_SIZE         8
-> > -#define NOUVEAU_GETPARAM_AGP_SIZE        9
-> > -#define NOUVEAU_GETPARAM_CHIPSET_ID      11
-> > -#define NOUVEAU_GETPARAM_VM_VRAM_BASE    12
-> > -#define NOUVEAU_GETPARAM_GRAPH_UNITS     13
-> > -#define NOUVEAU_GETPARAM_PTIMER_TIME     14
-> > -#define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
-> > -#define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
-> > -struct drm_nouveau_getparam {
-> > -       uint64_t param;
-> > -       uint64_t value;
-> > -};
-> > -
-> >  struct drm_nouveau_setparam {
-> >         uint64_t param;
-> >         uint64_t value;
-> >  };
-> >
-> > -#define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
-> >  #define DRM_IOCTL_NOUVEAU_SETPARAM           DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_SETPARAM, struct drm_nouveau_setparam)
-> > -#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
-> > -#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE
-> + DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
-> >  #define DRM_IOCTL_NOUVEAU_GROBJ_ALLOC        DRM_IOW (DRM_COMMAND_BASE
-> + DRM_NOUVEAU_GROBJ_ALLOC, struct drm_nouveau_grobj_alloc)
-> >  #define DRM_IOCTL_NOUVEAU_NOTIFIEROBJ_ALLOC  DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_NOTIFIEROBJ_ALLOC, struct drm_nouveau_notifierobj_alloc)
-> >  #define DRM_IOCTL_NOUVEAU_GPUOBJ_FREE        DRM_IOW (DRM_COMMAND_BASE
-> + DRM_NOUVEAU_GPUOBJ_FREE, struct drm_nouveau_gpuobj_free)
-> > diff --git a/include/uapi/drm/nouveau_drm.h
-> b/include/uapi/drm/nouveau_drm.h
-> > index 853a327433d3..1cd97b3d8eda 100644
-> > --- a/include/uapi/drm/nouveau_drm.h
-> > +++ b/include/uapi/drm/nouveau_drm.h
-> > @@ -33,6 +33,44 @@
-> >  extern "C" {
-> >  #endif
-> >
-> > +#define NOUVEAU_GETPARAM_PCI_VENDOR      3
-> > +#define NOUVEAU_GETPARAM_PCI_DEVICE      4
-> > +#define NOUVEAU_GETPARAM_BUS_TYPE        5
-> > +#define NOUVEAU_GETPARAM_FB_SIZE         8
-> > +#define NOUVEAU_GETPARAM_AGP_SIZE        9
-> > +#define NOUVEAU_GETPARAM_CHIPSET_ID      11
-> > +#define NOUVEAU_GETPARAM_VM_VRAM_BASE    12
-> > +#define NOUVEAU_GETPARAM_GRAPH_UNITS     13
-> > +#define NOUVEAU_GETPARAM_PTIMER_TIME     14
-> > +#define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
-> > +#define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
-> > +struct drm_nouveau_getparam {
-> > +       uint64_t param;
-> > +       uint64_t value;
-> > +};
-> > +
-> > +struct drm_nouveau_channel_alloc {
-> > +       uint32_t     fb_ctxdma_handle;
->
-
-Do we want to use `uint32_t` or `__u32` here? It looks like the original
-headers used `uint32_t` and then it got switched to `__u32` after the
-deprecation happened.  We probably want `__u32` given that this is a uapi
-header.
-
-
-> > +       uint32_t     tt_ctxdma_handle;
-> > +
-> > +       int          channel;
->
-
-IDK what to do about this one. I want to make it __s32. I think that should
-be safe on all the hardware we care about. Having an unsized type in a UAPI
-header is concerning.
-
-~Faith
-
-
-> > +       uint32_t     pushbuf_domains;
-> > +
-> > +       /* Notifier memory */
-> > +       uint32_t     notifier_handle;
-> > +
-> > +       /* DRM-enforced subchannel assignments */
-> > +       struct {
-> > +               uint32_t handle;
-> > +               uint32_t grclass;
-> > +       } subchan[8];
-> > +       uint32_t nr_subchan;
-> > +};
-> > +
-> > +struct drm_nouveau_channel_free {
-> > +       int channel;
-> > +};
-> > +
-> >  #define NOUVEAU_GEM_DOMAIN_CPU       (1 << 0)
-> >  #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
-> >  #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
-> > @@ -126,10 +164,10 @@ struct drm_nouveau_gem_cpu_fini {
-> >         __u32 handle;
-> >  };
-> >
-> > -#define DRM_NOUVEAU_GETPARAM           0x00 /* deprecated */
-> > +#define DRM_NOUVEAU_GETPARAM           0x00
-> >  #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
-> > -#define DRM_NOUVEAU_CHANNEL_ALLOC      0x02 /* deprecated */
-> > -#define DRM_NOUVEAU_CHANNEL_FREE       0x03 /* deprecated */
-> > +#define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
-> > +#define DRM_NOUVEAU_CHANNEL_FREE       0x03
-> >  #define DRM_NOUVEAU_GROBJ_ALLOC        0x04 /* deprecated */
-> >  #define DRM_NOUVEAU_NOTIFIEROBJ_ALLOC  0x05 /* deprecated */
-> >  #define DRM_NOUVEAU_GPUOBJ_FREE        0x06 /* deprecated */
-> > @@ -188,6 +226,10 @@ struct drm_nouveau_svm_bind {
-> >  #define NOUVEAU_SVM_BIND_TARGET__GPU_VRAM               (1UL << 31)
-> >
-> >
-> > +#define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
-> > +#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
-> > +#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE
-> + DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
-> > +
-> >  #define DRM_IOCTL_NOUVEAU_SVM_INIT           DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_SVM_INIT, struct drm_nouveau_svm_init)
-> >  #define DRM_IOCTL_NOUVEAU_SVM_BIND           DRM_IOWR(DRM_COMMAND_BASE
-> + DRM_NOUVEAU_SVM_BIND, struct drm_nouveau_svm_bind)
-> >
-> > --
-> > 2.41.0
-> >
->
-> Reviewed-by: Karol Herbst <kherbst@redhat.com>
+Am 31.07.23 um 18:14 schrieb Limonciello, Mario:
 >
 >
+> On 7/31/2023 8:26 AM, Ruan Jinjie wrote:
+>> Ther are many ternary operators, the true or false judgement
+>> of which is unnecessary in C language semantics.
+> s/Ther/There/
+>
+> Unnecessary; sure.  But don't they improve the readability quite a bit?
 
---000000000000c7092f0601de04ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+No, not at all. Stuff like that is very frowned on upstream.
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, Aug 1, 2023 at 4:37=E2=80=AFAM Karol Herbst &lt;<a href=3D"m=
-ailto:kherbst@redhat.com">kherbst@redhat.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On Mon, Jul 31, 2023 at 9:16=E2=
-=80=AFPM Dave Airlie &lt;<a href=3D"mailto:airlied@gmail.com" target=3D"_bl=
-ank">airlied@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" target=3D"=
-_blank">airlied@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; nouveau &gt; 10 years ago had a plan for new multiplexer inside a mult=
-iplexer<br>
-&gt; API using nvif. It never fully reached fruition, fast forward 10 years=
-,<br>
-&gt; and the new vulkan driver is avoiding libdrm and calling ioctls, and<b=
-r>
-&gt; these 3 ioctls, getparam, channel alloc + free don&#39;t seem to be th=
-ings<br>
-&gt; we&#39;d want to use nvif for.<br>
-&gt;<br>
-&gt; Undeprecate and put them into the uapi header so we can just copy it<b=
-r>
-&gt; into mesa later.<br>
-&gt;<br>
-&gt; Signed-off-by: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" t=
-arget=3D"_blank">airlied@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/nouveau/nouveau_abi16.h | 41 -------------------=
---<br>
-&gt;=C2=A0 include/uapi/drm/nouveau_drm.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- | 48 +++++++++++++++++++++++--<br>
-&gt;=C2=A0 2 files changed, 45 insertions(+), 44 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.h b/drivers/gpu/drm=
-/nouveau/nouveau_abi16.h<br>
-&gt; index 27eae85f33e6..d5d80d0d9011 100644<br>
-&gt; --- a/drivers/gpu/drm/nouveau/nouveau_abi16.h<br>
-&gt; +++ b/drivers/gpu/drm/nouveau/nouveau_abi16.h<br>
-&gt; @@ -43,28 +43,6 @@ int=C2=A0 nouveau_abi16_usif(struct drm_file *, voi=
-d *data, u32 size);<br>
-&gt;=C2=A0 #define NOUVEAU_GEM_DOMAIN_VRAM=C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; =
-1)<br>
-&gt;=C2=A0 #define NOUVEAU_GEM_DOMAIN_GART=C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; =
-2)<br>
-&gt;<br>
-&gt; -struct drm_nouveau_channel_alloc {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0fb_ctxdma_hand=
-le;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0tt_ctxdma_hand=
-le;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chan=
-nel;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0pushbuf_domain=
-s;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Notifier memory */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0notifier_handl=
-e;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0/* DRM-enforced subchannel assignments */<=
-br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0struct {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t handl=
-e;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t grcla=
-ss;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0} subchan[8];<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t nr_subchan;<br>
-&gt; -};<br>
-&gt; -<br>
-&gt; -struct drm_nouveau_channel_free {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0int channel;<br>
-&gt; -};<br>
-&gt; -<br>
-&gt;=C2=A0 struct drm_nouveau_grobj_alloc {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 channel;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t handle;<br>
-&gt; @@ -83,31 +61,12 @@ struct drm_nouveau_gpuobj_free {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t handle;<br>
-&gt;=C2=A0 };<br>
-&gt;<br>
-&gt; -#define NOUVEAU_GETPARAM_PCI_VENDOR=C2=A0 =C2=A0 =C2=A0 3<br>
-&gt; -#define NOUVEAU_GETPARAM_PCI_DEVICE=C2=A0 =C2=A0 =C2=A0 4<br>
-&gt; -#define NOUVEAU_GETPARAM_BUS_TYPE=C2=A0 =C2=A0 =C2=A0 =C2=A0 5<br>
-&gt; -#define NOUVEAU_GETPARAM_FB_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A08<b=
-r>
-&gt; -#define NOUVEAU_GETPARAM_AGP_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 9<br>
-&gt; -#define NOUVEAU_GETPARAM_CHIPSET_ID=C2=A0 =C2=A0 =C2=A0 11<br>
-&gt; -#define NOUVEAU_GETPARAM_VM_VRAM_BASE=C2=A0 =C2=A0 12<br>
-&gt; -#define NOUVEAU_GETPARAM_GRAPH_UNITS=C2=A0 =C2=A0 =C2=A013<br>
-&gt; -#define NOUVEAU_GETPARAM_PTIMER_TIME=C2=A0 =C2=A0 =C2=A014<br>
-&gt; -#define NOUVEAU_GETPARAM_HAS_BO_USAGE=C2=A0 =C2=A0 15<br>
-&gt; -#define NOUVEAU_GETPARAM_HAS_PAGEFLIP=C2=A0 =C2=A0 16<br>
-&gt; -struct drm_nouveau_getparam {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t param;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t value;<br>
-&gt; -};<br>
-&gt; -<br>
-&gt;=C2=A0 struct drm_nouveau_setparam {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t param;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t value;<br>
-&gt;=C2=A0 };<br>
-&gt;<br>
-&gt; -#define DRM_IOCTL_NOUVEAU_GETPARAM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GETPARAM, struct drm_nouveau_=
-getparam)<br>
-&gt;=C2=A0 #define DRM_IOCTL_NOUVEAU_SETPARAM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_SETPARAM, struct drm_n=
-ouveau_setparam)<br>
-&gt; -#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC=C2=A0 =C2=A0 =C2=A0 DRM_IOWR(=
-DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_al=
-loc)<br>
-&gt; -#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_=
-IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channe=
-l_free)<br>
-&gt;=C2=A0 #define DRM_IOCTL_NOUVEAU_GROBJ_ALLOC=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_GROBJ_ALLOC, struct drm_nouveau_gr=
-obj_alloc)<br>
-&gt;=C2=A0 #define DRM_IOCTL_NOUVEAU_NOTIFIEROBJ_ALLOC=C2=A0 DRM_IOWR(DRM_C=
-OMMAND_BASE + DRM_NOUVEAU_NOTIFIEROBJ_ALLOC, struct drm_nouveau_notifierobj=
-_alloc)<br>
-&gt;=C2=A0 #define DRM_IOCTL_NOUVEAU_GPUOBJ_FREE=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- DRM_IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_GPUOBJ_FREE, struct drm_nouveau_gp=
-uobj_free)<br>
-&gt; diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau=
-_drm.h<br>
-&gt; index 853a327433d3..1cd97b3d8eda 100644<br>
-&gt; --- a/include/uapi/drm/nouveau_drm.h<br>
-&gt; +++ b/include/uapi/drm/nouveau_drm.h<br>
-&gt; @@ -33,6 +33,44 @@<br>
-&gt;=C2=A0 extern &quot;C&quot; {<br>
-&gt;=C2=A0 #endif<br>
-&gt;<br>
-&gt; +#define NOUVEAU_GETPARAM_PCI_VENDOR=C2=A0 =C2=A0 =C2=A0 3<br>
-&gt; +#define NOUVEAU_GETPARAM_PCI_DEVICE=C2=A0 =C2=A0 =C2=A0 4<br>
-&gt; +#define NOUVEAU_GETPARAM_BUS_TYPE=C2=A0 =C2=A0 =C2=A0 =C2=A0 5<br>
-&gt; +#define NOUVEAU_GETPARAM_FB_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A08<b=
-r>
-&gt; +#define NOUVEAU_GETPARAM_AGP_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 9<br>
-&gt; +#define NOUVEAU_GETPARAM_CHIPSET_ID=C2=A0 =C2=A0 =C2=A0 11<br>
-&gt; +#define NOUVEAU_GETPARAM_VM_VRAM_BASE=C2=A0 =C2=A0 12<br>
-&gt; +#define NOUVEAU_GETPARAM_GRAPH_UNITS=C2=A0 =C2=A0 =C2=A013<br>
-&gt; +#define NOUVEAU_GETPARAM_PTIMER_TIME=C2=A0 =C2=A0 =C2=A014<br>
-&gt; +#define NOUVEAU_GETPARAM_HAS_BO_USAGE=C2=A0 =C2=A0 15<br>
-&gt; +#define NOUVEAU_GETPARAM_HAS_PAGEFLIP=C2=A0 =C2=A0 16<br>
-&gt; +struct drm_nouveau_getparam {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t param;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t value;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +struct drm_nouveau_channel_alloc {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0fb_ctxdma_hand=
-le;<br></blockquote><div><br></div><div>Do we want to use `uint32_t` or `__=
-u32` here? It looks like the original headers used `uint32_t` and then it g=
-ot switched to `__u32` after the deprecation happened.=C2=A0 We probably wa=
-nt `__u32` given that this is a uapi header.<br></div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0tt_ctxdma_hand=
-le;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chan=
-nel;<br></blockquote><div><br></div><div>IDK what to do about this one. I w=
-ant to make it __s32. I think that should be safe on all the hardware we ca=
-re about. Having an unsized type in a UAPI header is concerning.</div><div>=
-<br></div><div>~Faith<br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0pushbuf_domain=
-s;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Notifier memory */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0notifier_handl=
-e;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* DRM-enforced subchannel assignments */<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0struct {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t handl=
-e;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t grcla=
-ss;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0} subchan[8];<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t nr_subchan;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +struct drm_nouveau_channel_free {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0int channel;<br>
-&gt; +};<br>
-&gt; +<br>
-&gt;=C2=A0 #define NOUVEAU_GEM_DOMAIN_CPU=C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;=
-&lt; 0)<br>
-&gt;=C2=A0 #define NOUVEAU_GEM_DOMAIN_VRAM=C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; =
-1)<br>
-&gt;=C2=A0 #define NOUVEAU_GEM_DOMAIN_GART=C2=A0 =C2=A0 =C2=A0 (1 &lt;&lt; =
-2)<br>
-&gt; @@ -126,10 +164,10 @@ struct drm_nouveau_gem_cpu_fini {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__u32 handle;<br>
-&gt;=C2=A0 };<br>
-&gt;<br>
-&gt; -#define DRM_NOUVEAU_GETPARAM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-0x00 /* deprecated */<br>
-&gt; +#define DRM_NOUVEAU_GETPARAM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-0x00<br>
-&gt;=C2=A0 #define DRM_NOUVEAU_SETPARAM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A00x01 /* deprecated */<br>
-&gt; -#define DRM_NOUVEAU_CHANNEL_ALLOC=C2=A0 =C2=A0 =C2=A0 0x02 /* depreca=
-ted */<br>
-&gt; -#define DRM_NOUVEAU_CHANNEL_FREE=C2=A0 =C2=A0 =C2=A0 =C2=A00x03 /* de=
-precated */<br>
-&gt; +#define DRM_NOUVEAU_CHANNEL_ALLOC=C2=A0 =C2=A0 =C2=A0 0x02<br>
-&gt; +#define DRM_NOUVEAU_CHANNEL_FREE=C2=A0 =C2=A0 =C2=A0 =C2=A00x03<br>
-&gt;=C2=A0 #define DRM_NOUVEAU_GROBJ_ALLOC=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x04 =
-/* deprecated */<br>
-&gt;=C2=A0 #define DRM_NOUVEAU_NOTIFIEROBJ_ALLOC=C2=A0 0x05 /* deprecated *=
-/<br>
-&gt;=C2=A0 #define DRM_NOUVEAU_GPUOBJ_FREE=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x06 =
-/* deprecated */<br>
-&gt; @@ -188,6 +226,10 @@ struct drm_nouveau_svm_bind {<br>
-&gt;=C2=A0 #define NOUVEAU_SVM_BIND_TARGET__GPU_VRAM=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1UL &lt;&lt; 31)<br>
-&gt;<br>
-&gt;<br>
-&gt; +#define DRM_IOCTL_NOUVEAU_GETPARAM=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_GETPARAM, struct drm_nouveau_=
-getparam)<br>
-&gt; +#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC=C2=A0 =C2=A0 =C2=A0 DRM_IOWR(=
-DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_al=
-loc)<br>
-&gt; +#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE=C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_=
-IOW (DRM_COMMAND_BASE + DRM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channe=
-l_free)<br>
-&gt; +<br>
-&gt;=C2=A0 #define DRM_IOCTL_NOUVEAU_SVM_INIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_SVM_INIT, struct drm_n=
-ouveau_svm_init)<br>
-&gt;=C2=A0 #define DRM_IOCTL_NOUVEAU_SVM_BIND=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0DRM_IOWR(DRM_COMMAND_BASE + DRM_NOUVEAU_SVM_BIND, struct drm_n=
-ouveau_svm_bind)<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.41.0<br>
-&gt;<br>
-<br>
-Reviewed-by: Karol Herbst &lt;<a href=3D"mailto:kherbst@redhat.com" target=
-=3D"_blank">kherbst@redhat.com</a>&gt;<br>
-<br>
-</blockquote></div></div>
+Christian.
 
---000000000000c7092f0601de04ec--
+>
+>>
+>> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c       |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c         |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c         |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c       |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c          |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c          |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c        |  2 +-
+>>   .../drm/amd/display/dc/dce/dce_link_encoder.c  |  4 +---
+>>   .../drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c    |  6 +++---
+>>   .../amd/pm/powerplay/hwmgr/smu7_powertune.c    |  2 +-
+>>   .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  | 18 +++++++-----------
+>>   .../amd/pm/powerplay/smumgr/polaris10_smumgr.c |  2 +-
+>>   .../drm/amd/pm/powerplay/smumgr/vegam_smumgr.c |  7 +++----
+>>   13 files changed, 23 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+>> index b582b83c4984..38ccec913f00 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
+>> @@ -460,7 +460,7 @@ bool amdgpu_get_bios(struct amdgpu_device *adev)
+>>       return false;
+>>     success:
+>> -    adev->is_atom_fw = (adev->asic_type >= CHIP_VEGA10) ? true : false;
+>> +    adev->is_atom_fw = adev->asic_type >= CHIP_VEGA10;
+>>       return true;
+>>   }
+>>   diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c 
+>> b/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
+>> index 79791379fc2b..df4440c21bbf 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v3_0.c
+>> @@ -479,7 +479,7 @@ static int jpeg_v3_0_set_clockgating_state(void 
+>> *handle,
+>>                         enum amd_clockgating_state state)
+>>   {
+>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>> -    bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+>> +    bool enable = state == AMD_CG_STATE_GATE;
+>>         if (enable) {
+>>           if (!jpeg_v3_0_is_idle(handle))
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c 
+>> b/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c
+>> index a707d407fbd0..3eb3dcd56b57 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0.c
+>> @@ -626,7 +626,7 @@ static int jpeg_v4_0_set_clockgating_state(void 
+>> *handle,
+>>                         enum amd_clockgating_state state)
+>>   {
+>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>> -    bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+>> +    bool enable = state == AMD_CG_STATE_GATE;
+>>         if (enable) {
+>>           if (!jpeg_v4_0_is_idle(handle))
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c 
+>> b/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c
+>> index ce2b22f7e4e4..153731d6ce8b 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_3.c
+>> @@ -785,7 +785,7 @@ static int jpeg_v4_0_3_set_clockgating_state(void 
+>> *handle,
+>>                         enum amd_clockgating_state state)
+>>   {
+>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>> -    bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+>> +    bool enable = state == AMD_CG_STATE_GATE;
+>>       int i;
+>>         for (i = 0; i < adev->jpeg.num_jpeg_inst; ++i) {
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c 
+>> b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+>> index b76ba21b5a89..9b662b105cc1 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+>> @@ -2095,7 +2095,7 @@ static int vcn_v3_0_set_clockgating_state(void 
+>> *handle,
+>>                         enum amd_clockgating_state state)
+>>   {
+>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>> -    bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+>> +    bool enable = state == AMD_CG_STATE_GATE;
+>>       int i;
+>>         for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c 
+>> b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>> index 6089c7deba8a..7c486745bece 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
+>> @@ -1918,7 +1918,7 @@ static int vcn_v4_0_wait_for_idle(void *handle)
+>>   static int vcn_v4_0_set_clockgating_state(void *handle, enum 
+>> amd_clockgating_state state)
+>>   {
+>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>> -    bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+>> +    bool enable = state == AMD_CG_STATE_GATE;
+>>       int i;
+>>         for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c 
+>> b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
+>> index 550ac040b4be..e62472e6e7b3 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
+>> @@ -1287,7 +1287,7 @@ static int 
+>> vcn_v4_0_3_set_clockgating_state(void *handle,
+>>                         enum amd_clockgating_state state)
+>>   {
+>>       struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+>> -    bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+>> +    bool enable = state == AMD_CG_STATE_GATE;
+>>       int i;
+>>         for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+>> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_link_encoder.c 
+>> b/drivers/gpu/drm/amd/display/dc/dce/dce_link_encoder.c
+>> index fa314493ffc5..e4d65de2d0bb 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_link_encoder.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_link_encoder.c
+>> @@ -941,9 +941,7 @@ bool 
+>> dce110_link_encoder_validate_output_with_stream(
+>>       break;
+>>       case SIGNAL_TYPE_EDP:
+>>       case SIGNAL_TYPE_LVDS:
+>> -        is_valid =
+>> -            (stream->timing.
+>> -                pixel_encoding == PIXEL_ENCODING_RGB) ? true : false;
+>> +        is_valid = stream->timing.pixel_encoding == PIXEL_ENCODING_RGB;
+>>       break;
+>>       case SIGNAL_TYPE_VIRTUAL:
+>>           is_valid = true;
+>> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c 
+>> b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+>> index 1cb402264497..8c73016d2d17 100644
+>> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+>> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+>> @@ -904,7 +904,7 @@ static int smu7_setup_dpm_tables_v1(struct 
+>> pp_hwmgr *hwmgr)
+>>                       dep_sclk_table->entries[i].clk;
+>> data->dpm_table.sclk_table.dpm_levels[data->dpm_table.sclk_table.count].enabled 
+>> =
+>> -                    (i == 0) ? true : false;
+>> +                    i == 0;
+>>               data->dpm_table.sclk_table.count++;
+>>           }
+>>       }
+>> @@ -919,7 +919,7 @@ static int smu7_setup_dpm_tables_v1(struct 
+>> pp_hwmgr *hwmgr)
+>> data->dpm_table.mclk_table.dpm_levels[data->dpm_table.mclk_table.count].value 
+>> =
+>>                               dep_mclk_table->entries[i].clk;
+>> data->dpm_table.mclk_table.dpm_levels[data->dpm_table.mclk_table.count].enabled 
+>> =
+>> -                            (i == 0) ? true : false;
+>> +                            i == 0;
+>>               data->dpm_table.mclk_table.count++;
+>>           }
+>>       }
+>> @@ -1833,7 +1833,7 @@ static void smu7_init_dpm_defaults(struct 
+>> pp_hwmgr *hwmgr)
+>>       data->enable_tdc_limit_feature = true;
+>>       data->enable_pkg_pwr_tracking_feature = true;
+>>       data->force_pcie_gen = PP_PCIEGenInvalid;
+>> -    data->ulv_supported = hwmgr->feature_mask & PP_ULV_MASK ? true : 
+>> false;
+>> +    data->ulv_supported = hwmgr->feature_mask & PP_ULV_MASK;
+>>       data->current_profile_setting.bupdate_sclk = 1;
+>>       data->current_profile_setting.sclk_up_hyst = 0;
+>>       data->current_profile_setting.sclk_down_hyst = 100;
+>> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c 
+>> b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c
+>> index 21be23ec3c79..d6eeef3c58f7 100644
+>> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c
+>> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c
+>> @@ -1103,7 +1103,7 @@ int smu7_enable_smc_cac(struct pp_hwmgr *hwmgr)
+>>           PP_ASSERT_WITH_CODE((0 == smc_result),
+>>                   "Failed to enable CAC in SMC.", result = -1);
+>>   -        data->cac_enabled = (0 == smc_result) ? true : false;
+>> +        data->cac_enabled = smc_result == 0;
+>>       }
+>>       return result;
+>>   }
+>> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c 
+>> b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+>> index c51dd4c74fe9..dfb9573e3f55 100644
+>> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+>> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+>> @@ -135,13 +135,12 @@ static void 
+>> vega10_set_default_registry_data(struct pp_hwmgr *hwmgr)
+>>       }
+>>         data->registry_data.clock_stretcher_support =
+>> -            hwmgr->feature_mask & PP_CLOCK_STRETCH_MASK ? true : false;
+>> +            hwmgr->feature_mask & PP_CLOCK_STRETCH_MASK;
+>>   -    data->registry_data.ulv_support =
+>> -            hwmgr->feature_mask & PP_ULV_MASK ? true : false;
+>> +    data->registry_data.ulv_support = hwmgr->feature_mask & 
+>> PP_ULV_MASK;
+>>         data->registry_data.sclk_deep_sleep_support =
+>> -            hwmgr->feature_mask & PP_SCLK_DEEP_SLEEP_MASK ? true : 
+>> false;
+>> +            hwmgr->feature_mask & PP_SCLK_DEEP_SLEEP_MASK;
+>>         data->registry_data.disable_water_mark = 0;
+>>   @@ -150,7 +149,7 @@ static void 
+>> vega10_set_default_registry_data(struct pp_hwmgr *hwmgr)
+>>       data->registry_data.fw_ctf_enabled = 1;
+>>         data->registry_data.avfs_support =
+>> -        hwmgr->feature_mask & PP_AVFS_MASK ? true : false;
+>> +        hwmgr->feature_mask & PP_AVFS_MASK;
+>>       data->registry_data.led_dpm_enabled = 1;
+>>         data->registry_data.vr0hot_enabled = 1;
+>> @@ -1375,8 +1374,7 @@ static int 
+>> vega10_setup_default_dpm_tables(struct pp_hwmgr *hwmgr)
+>>                           dep_mm_table->entries[i].eclk) {
+>> dpm_table->dpm_levels[dpm_table->count].value =
+>>                       dep_mm_table->entries[i].eclk;
+>> - dpm_table->dpm_levels[dpm_table->count].enabled =
+>> -                    (i == 0) ? true : false;
+>> + dpm_table->dpm_levels[dpm_table->count].enabled = i == 0;
+>>               dpm_table->count++;
+>>           }
+>>       }
+>> @@ -1391,8 +1389,7 @@ static int 
+>> vega10_setup_default_dpm_tables(struct pp_hwmgr *hwmgr)
+>>                           dep_mm_table->entries[i].vclk) {
+>> dpm_table->dpm_levels[dpm_table->count].value =
+>>                       dep_mm_table->entries[i].vclk;
+>> - dpm_table->dpm_levels[dpm_table->count].enabled =
+>> -                    (i == 0) ? true : false;
+>> + dpm_table->dpm_levels[dpm_table->count].enabled = i == 0;
+>>               dpm_table->count++;
+>>           }
+>>       }
+>> @@ -1405,8 +1402,7 @@ static int 
+>> vega10_setup_default_dpm_tables(struct pp_hwmgr *hwmgr)
+>>                           dep_mm_table->entries[i].dclk) {
+>> dpm_table->dpm_levels[dpm_table->count].value =
+>>                       dep_mm_table->entries[i].dclk;
+>> - dpm_table->dpm_levels[dpm_table->count].enabled =
+>> -                    (i == 0) ? true : false;
+>> + dpm_table->dpm_levels[dpm_table->count].enabled = i == 0;
+>>               dpm_table->count++;
+>>           }
+>>       }
+>> diff --git 
+>> a/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c 
+>> b/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
+>> index e7ed2a7adf8f..ff6b563ecbf5 100644
+>> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
+>> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
+>> @@ -1888,7 +1888,7 @@ static int 
+>> polaris10_populate_avfs_parameters(struct pp_hwmgr *hwmgr)
+>> (avfs_params.ucEnableGB_VDROOP_TABLE_CKSOFF << 
+>> BTCGB1_Vdroop_Enable_SHIFT) |
+>> (avfs_params.ucEnableGB_FUSE_TABLE_CKSON << 
+>> AVFSGB0_Vdroop_Enable_SHIFT) |
+>> (avfs_params.ucEnableGB_FUSE_TABLE_CKSOFF << 
+>> AVFSGB1_Vdroop_Enable_SHIFT);
+>> -        data->apply_avfs_cks_off_voltage = 
+>> (avfs_params.ucEnableApplyAVFS_CKS_OFF_Voltage == 1) ? true : false;
+>> +        data->apply_avfs_cks_off_voltage = 
+>> avfs_params.ucEnableApplyAVFS_CKS_OFF_Voltage == 1;
+>>       }
+>>       return result;
+>>   }
+>> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/vegam_smumgr.c 
+>> b/drivers/gpu/drm/amd/pm/powerplay/smumgr/vegam_smumgr.c
+>> index 7d024d3facef..34c9f59b889a 100644
+>> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/vegam_smumgr.c
+>> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/vegam_smumgr.c
+>> @@ -295,9 +295,8 @@ static int vegam_process_firmware_header(struct 
+>> pp_hwmgr *hwmgr)
+>>     static bool vegam_is_dpm_running(struct pp_hwmgr *hwmgr)
+>>   {
+>> -    return (1 == PHM_READ_INDIRECT_FIELD(hwmgr->device,
+>> -            CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROLLER_ON))
+>> -            ? true : false;
+>> +    return 1 == PHM_READ_INDIRECT_FIELD(hwmgr->device,
+>> +            CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROLLER_ON);
+>>   }
+>>     static uint32_t vegam_get_mac_definition(uint32_t value)
+>> @@ -1660,7 +1659,7 @@ static int 
+>> vegam_populate_avfs_parameters(struct pp_hwmgr *hwmgr)
+>>                   (avfs_params.ucEnableGB_FUSE_TABLE_CKSON << 
+>> AVFSGB0_Vdroop_Enable_SHIFT) |
+>>                   (avfs_params.ucEnableGB_FUSE_TABLE_CKSOFF << 
+>> AVFSGB1_Vdroop_Enable_SHIFT);
+>>           data->apply_avfs_cks_off_voltage =
+>> -                (avfs_params.ucEnableApplyAVFS_CKS_OFF_Voltage == 1) 
+>> ? true : false;
+>> +                avfs_params.ucEnableApplyAVFS_CKS_OFF_Voltage == 1;
+>>       }
+>>       return result;
+>>   }
+
