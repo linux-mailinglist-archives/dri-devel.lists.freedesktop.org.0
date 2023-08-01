@@ -2,47 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2885876B6A5
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 16:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0171D76B6C0
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 16:05:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7751D10E0F4;
-	Tue,  1 Aug 2023 14:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E05610E34B;
+	Tue,  1 Aug 2023 14:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED38B10E0F4
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 14:03:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5A6B6615B9;
- Tue,  1 Aug 2023 14:03:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D135C433C8;
- Tue,  1 Aug 2023 14:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690898615;
- bh=J1Kv0/7tNUUdsgbJSV348cn2wjwWWI28VoiCD919J1w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cRKTjP5gMBMuoyifvof5VTmSNc6vDWI9l5DkvIxTqN4QHv+XXe7n40Rbnar0jyB4E
- rhzGXQd0Q8thtuaf289xIFb0DvaVXzgJVlzdMSSBd/iKa+Qsk6cZ4BASCYKiYFl7Lv
- 4LeI9+5CILuHfqT6mu+1xMMp4xTeO/aq+4C5lV+nn+MyUx9K2nZm5fqbFE0jMorNaY
- F4Y0KAz2vf1Y5mAyR0sUaDzx6kSNKGJcFwA2RFubIphJqnavP/xqSqNA6BPYP0PgPL
- xsAaz/2mMR9o2fYVFrN8Ywj0stbVbxxK9a6VfXgdK5h9RXbPUX4BczmD/9tT+6NkRX
- 7BnuQyIex18Pw==
-Date: Tue, 1 Aug 2023 15:03:27 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Subject: Re: [PATCH v1 v1 2/7] dt-bindings: display: Add yamls for JH7110
- display system
-Message-ID: <20230801-cash-squad-8a2e9154af8b@spud>
-References: <20230801101030.2040-1-keith.zhao@starfivetech.com>
- <20230801101030.2040-3-keith.zhao@starfivetech.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE6B10E34B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 14:05:27 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 371Cvufp010226; Tue, 1 Aug 2023 14:05:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=8/KuE7ZebrUGAksmIDm85DsZ0E+iBDP8kfm3m+UuBnQ=;
+ b=MFBLuuUeCC7ra6yUso1HzBfXr5yHqupLIbNeGtK5UDPqVgmL+0Yhwn8DEQulIGluxXKL
+ JajWJL66Hd3nTZu6eYl7nb+q89tRcbWAtbbYkneaesCJiO5RIC9LOqn24bwWytI3cn+X
+ 11W9g+o6yvlhTcg1VLR70+nEv+fEQmsQFxDnek50hdlmvBojZ2O/ZwPoY7qvkOP53jXM
+ P/pxeX5ruatrt7KV/khprG55AVnCk6ROcFL1slE3uAchfF9yuCKG22wilbe+cJ3RtHS+
+ TX4fgXs9eKXBgv8Tz5PgS6iwvPXMrotvKIU8qprW9CHFIkEGAzP44ByCp1zX+/TVclTV xw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s72gqr4t5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Aug 2023 14:05:13 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 371E5CJR010200
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 1 Aug 2023 14:05:12 GMT
+Received: from [10.50.55.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 1 Aug
+ 2023 07:05:10 -0700
+Message-ID: <dc7fdd8a-b3c4-b931-61be-b9bc467c6a85@quicinc.com>
+Date: Tue, 1 Aug 2023 19:35:06 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="e6NUZOkjskRZqTKd"
-Content-Disposition: inline
-In-Reply-To: <20230801101030.2040-3-keith.zhao@starfivetech.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH][V2][next] accel/qaic: remove redundant pointer pexec
+To: Colin Ian King <colin.i.king@gmail.com>, Jeffrey Hugo
+ <quic_jhugo@quicinc.com>, Carl Vanderlip <quic_carlv@quicinc.com>, "Oded
+ Gabbay" <ogabbay@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230726140626.264952-1-colin.i.king@gmail.com>
+Content-Language: en-US
+From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+In-Reply-To: <20230726140626.264952-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: qriaiy6FdSCIUOE9KCRm590KugTW_szM
+X-Proofpoint-ORIG-GUID: qriaiy6FdSCIUOE9KCRm590KugTW_szM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_09,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=624 adultscore=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308010128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,269 +85,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>,
- Jagan Teki <jagan@edgeble.ai>, linaro-mm-sig@lists.linaro.org,
- Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
- christian.koenig@amd.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---e6NUZOkjskRZqTKd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 01, 2023 at 06:10:25PM +0800, Keith Zhao wrote:
-> StarFive SoCs JH7110 display system:
-> lcd-controller bases verisilicon dc8200 IP,
-> and hdmi bases Innosilicon IP.
-> Add bindings for them.
+On 7/26/2023 7:36 PM, Colin Ian King wrote:
+> Pointer pexec is being assigned a value however it is never read. The
+> assignment is redundant and can be removed. Replace sizeof(*pexec)
+> with sizeof the type and remove the declaration of pointer pexec.
+> 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-Please, you can use more than 46 characters in a line!
+Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-Also, "v1 v1" does not a v2 make.
-
->=20
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> ---
->  .../starfive/starfive,display-subsystem.yaml  |  41 +++++++
->  .../starfive/starfive,jh7110-dc8200.yaml      | 107 ++++++++++++++++++
->  .../starfive/starfive,jh7110-inno-hdmi.yaml   |  92 +++++++++++++++
->  3 files changed, 240 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
-arfive,display-subsystem.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
-arfive,jh7110-dc8200.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
-arfive,jh7110-inno-hdmi.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,=
-display-subsystem.yaml b/Documentation/devicetree/bindings/display/starfive=
-/starfive,display-subsystem.yaml
-> new file mode 100644
-> index 000000000..86018a8e6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,display=
--subsystem.yaml
-> @@ -0,0 +1,41 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,display-sub=
-system.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive DRM master device
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +description:
-> +  The Starfive DRM master device is a virtual device needed to list all
-> +  display controller or other display interface nodes that comprise the
-> +  graphics subsystem.
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,display-subsystem
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    description: |
-
-A | is not needed when you do not have formatting to preserve.
-
-> +      Should contain a list of phandles pointing to display interface po=
-rts
-> +      of display controller devices. Display controller definitions as d=
-efined
-> +      in Documentation/devicetree/bindings/display/starfive/
-> +      starfive,jh7110-dc8200.yaml
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    display-subsystem {
-> +        compatible =3D "starfive,display-subsystem";
-> +        ports =3D <&dc_out>;
-> +    };
-
-Given Rob's bot complains, it looks like you never tested this.
-
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,=
-jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/sta=
-rfive,jh7110-dc8200.yaml
-> new file mode 100644
-> index 000000000..bebe2050c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-=
-dc8200.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc82=
-00.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive display controller
-> +
-> +description:
-> +  The StarFive SoC uses the display controller based on Verisilicon IP
-> +  to transfer the image data from a video memory
-> +  buffer to an external LCD interface.
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-dc8200
-> +
-> +  reg:
-> +    maxItems: 3
-
-What do each of these represent?
-
-> +
-> +  interrupts:
-> +    items:
-> +      - description: The interrupt will be generated when DC finish one =
-frame
-> +
-> +  clocks:
-> +    items:
-> +      - description: Clock for display system noc bus.
-> +      - description: Pixel clock for display channel 0.
-> +      - description: Pixel clock for display channel 1.
-> +      - description: Clock for axi interface of display controller.
-> +      - description: Core clock for display controller.
-> +      - description: Clock for ahb interface of display controller.
-> +      - description: External HDMI pixel clock.
-> +      - description: Parent clock for pixel clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: vout_noc_disp
-> +      - const: vout_pix0
-> +      - const: vout_pix1
-> +      - const: vout_axi
-> +      - const: vout_core
-> +      - const: vout_vout_ahb
-> +      - const: hdmitx0_pixel
-> +      - const: vout_dc8200
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset for axi interface of display controller.
-> +      - description: Reset for ahb interface of display controller.
-> +      - description: Core reset of display controller.
-> +
-> +  reset-names:
-> +    items:
-> +      - const: vout_axi
-> +      - const: vout_ahb
-> +      - const: vout_core
-
-Please trim all the vouts from here & the clocks - especially the one
-named "vout_vout_ahb".
-
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description:
-> +      A port node with endpoint definitions as defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
-
-This file is empty, it has been converted to yaml.
-
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,=
-jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/=
-starfive,jh7110-inno-hdmi.yaml
-> new file mode 100644
-> index 000000000..f6927acf6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-=
-inno-hdmi.yaml
-> @@ -0,0 +1,92 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno=
--hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive JH7110 HDMI controller
-> +
-> +description:
-> +  The StarFive JH7110 SoC uses the HDMI signal transmiter based on innos=
-ilicon IP
-> +  to generate HDMI signal from its input and transmit the signal to the =
-screen.
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: "starfive,jh7110-inno-hdmi"
-> +
-> +  reg:
-> +    minItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: The HDMI hot plug detection interrupt.
-> +
-> +  clocks:
-> +    items:
-> +      - description: System clock of HDMI module.
-> +      - description: Mclk clock of HDMI audio.
-> +      - description: Bclk clock of HDMI audio.
-> +      - description: Pixel clock generated by HDMI module.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sysclk
-> +      - const: mclk
-> +      - const: bclk
-> +      - const: pclk
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset for HDMI module.
-
-For this & resets, you don't have a list & don't need items:
-
-Cheers,
-Conor.
-
---e6NUZOkjskRZqTKd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMkQrwAKCRB4tDGHoIJi
-0hF/AQC/1GTXuwyc+w2g9RKifKromVQFlvBvFI0JlmYNLu6I9gEAqVJE6rLiklf3
-jktEbPFxEUmQR4+8/IvlY0DbYWbksgw=
-=bnBb
------END PGP SIGNATURE-----
-
---e6NUZOkjskRZqTKd--
