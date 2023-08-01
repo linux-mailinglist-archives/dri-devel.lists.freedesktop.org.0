@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4C876C102
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:35:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB4E76C104
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8459910E448;
-	Tue,  1 Aug 2023 23:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6309610E451;
+	Tue,  1 Aug 2023 23:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
- [IPv6:2607:f8b0:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE2DF10E048
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:21 +0000 (UTC)
-Received: by mail-il1-x12c.google.com with SMTP id
- e9e14a558f8ab-3492e8fb906so6532005ab.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:21 -0700 (PDT)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29BC10E447
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:22 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id
+ e9e14a558f8ab-3491568afd4so10771095ab.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690932921; x=1691537721;
+ d=gmail.com; s=20221208; t=1690932922; x=1691537722;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2EpDVIlDX2H9hcBKUU2bnV2uAgz8tLVHVeXAEtG+jYc=;
- b=ZfSrUjTlhhWVXmCxpYv0ujUYTgmvuwgWu1MQihiN1/gwsGPB43U9EC39GybOwaK6JI
- TynF4nJHDZmDrAhaMGPf6jnJMWwP3yhkHzEJQmZ2tH5+E98bOkJrr5ngRt9I15Q2T8Vr
- vQn/BSsfWHhZ8yDXxA5VKmfCMp+y3+irtQzQvBKUxAPU14rHUh59w0tIF1TY96JdjaUp
- EAWKd2oNfeeEQMF3wbGGk4Y0rw7ebtjGUdYm1YWYIxBPyk0wlEDc2bSHcAqLlGCjPFDG
- igwYNLZrxwPbH3xubdKLd4PxecD9augGm1pry8pgS+TkYQeZ757rMeopuwvDCrFfFLq+
- wWdQ==
+ bh=e6NIZdlLmgRQPJbwwmBZ102ypc9HsrQnlZpRMUUA7Yk=;
+ b=IJ6QAXuXIiXi3SvbzHARJ3FLVAcAEnI5NT0pLNP0CvusJP196jFnOTOB6xQfY3XuKE
+ A9pcof698ZKaVIQnbtS1+bqPWCGua/R8bj1q5tLpDYG/46Bq8Sbm0OyjJtsdlp5mzOw3
+ dOUNDEfQSq2H9uk0x6LhnlGfvDmtvZ/9a8nWouJcfmYsEwPdXQIYRmGWRj2Wqqx8W0Vh
+ rEbJgr8xSKWh9wz6jmXZM7z9qG4JgZqLX5t3yojNIw6zqp+6GRvZ51hL628ToxCn608W
+ SezECAtnWJVKn5WO9FxlRpVLPiucRwccNSFvGFfDs4TQ/UyGvejhv9kDFQQkVG4PxlFN
+ r7ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690932921; x=1691537721;
+ d=1e100.net; s=20221208; t=1690932922; x=1691537722;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2EpDVIlDX2H9hcBKUU2bnV2uAgz8tLVHVeXAEtG+jYc=;
- b=Qc/N7lCSLFRN3evtKl38hpBm6Qh27FdfcamNm6734w6oPamasyFtw2g3nPczcii98i
- hQKgvzrQrhHZsTUqNu6Q68e28RoH+vLjt8JmANPxLcM/Rr/sSYc7EtK/rWmoMtP+Jrg4
- 1BDXGZfjjfCiAGabLGpdvOjX47VGYnb6nDC+YziF86MvGCZgFBEFs2qt3HlRH6vrXMDf
- UKkLLY9MSO5MJiHSGTiP5FHS3Cm31pHCtU1JlNk9sZZt2Fsh4fkorEk3z4MgI6c0iDvL
- GjsjGzshUpZ7U0pjAuqZhqAezNYdMIIVnxar8B0apzEJ6AVeeenDOxfuGUKaWk3IUhqa
- OFww==
-X-Gm-Message-State: ABy/qLaemRDrJWyv0OW79WvktnZiH+dMHn2XKrnDSOMUsBmOJPZLz83y
- KXATwO55mqZ33CJW7Wq+vA+c4201q3AK3w==
-X-Google-Smtp-Source: APBJJlFWVAtcjCQRb4qaYFPcVc6qQSf7WKA64arSdrXADptzETwL4XFIOJUhKcCQM15hokeTlLOdxQ==
-X-Received: by 2002:a05:6e02:1748:b0:348:90c2:ba0a with SMTP id
- y8-20020a056e02174800b0034890c2ba0amr15569141ill.32.1690932921131; 
- Tue, 01 Aug 2023 16:35:21 -0700 (PDT)
+ bh=e6NIZdlLmgRQPJbwwmBZ102ypc9HsrQnlZpRMUUA7Yk=;
+ b=T7wpDuaPWiO9x0KU9UCLlg3pl7p34UJXL4K3n3uz+8FycgEZc0VY1/0xkXhVg9Nqv+
+ 85KiKWiM/zMsdyUE1Syg8VrKkhVkltBeVupEfBPaRZx4FTELpIblGcvd4ZVVTnNMqDh4
+ /kgJ4xc1RjHfidv5HkfFdwVtRoRex5770lhKYUoHgwe5fRmb1rPSuhStzZma01AyjN25
+ 7VSsXG4IEiqwagqoFT+5wR17CTI+W66m+kgrCaQQrCo4SE8wgXW2ic8VShFMtoUezPnj
+ PkHisjwYtbFev2U3KBdlnUFbcNayhYOM5OShKWLpnvXQ5WbMge7Zy7k4qy0givik+wWz
+ 5P5w==
+X-Gm-Message-State: ABy/qLaaqcmBJXA63SJuXzzPo9VG0x0YhWQ6uPgfyaqYrcYJ5phc4ZlY
+ QTHFvwH/lY7bYQHdejARtJ4=
+X-Google-Smtp-Source: APBJJlEZWaDqvIV7CN+QYfdElXFQ3FClfcI9aZyBJGKZBa8oxAQ6Vur8MMljrmHjgELwLfVXVJXUrA==
+X-Received: by 2002:a05:6e02:1068:b0:348:ba7e:d152 with SMTP id
+ q8-20020a056e02106800b00348ba7ed152mr11957860ilj.6.1690932922155; 
+ Tue, 01 Aug 2023 16:35:22 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.20
+ t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 16:35:20 -0700 (PDT)
+ Tue, 01 Aug 2023 16:35:21 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 01/23] drm: use correct ccflags-y syntax
-Date: Tue,  1 Aug 2023 17:34:47 -0600
-Message-ID: <20230801233515.166971-2-jim.cromie@gmail.com>
+Subject: [PATCH v5 02/23] test-dyndbg: fixup CLASSMAP usage error
+Date: Tue,  1 Aug 2023 17:34:48 -0600
+Message-ID: <20230801233515.166971-3-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801233515.166971-1-jim.cromie@gmail.com>
 References: <20230801233515.166971-1-jim.cromie@gmail.com>
@@ -76,37 +76,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Incorrect CFLAGS- usage failed to add -DDYNAMIC_DEBUG_MODULE,
-which broke builds with:
+more careful reading of test output reveals:
 
-CONFIG_DRM_USE_DYNAMIC_DEBUG=y
-CONFIG_DYNAMIC_DEBUG_CORE=y
-but without DYNAMIC_DEBUG
+lib/test_dynamic_debug.c:103 [test_dynamic_debug]do_cats =pmf "doing categories\n"
+lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
+lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
+lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
 
-Nobody noticed because a larger regression emerged.
+That last line is wrong, the HI class is declared.
 
-Also add subdir-ccflags so that all drivers pick up the addition.
+But the enum's 1st val (explicitly initialized) was wrong; it must be
+_base, not _base+1 (a DECLARE_DYNDBG_CLASSMAP[1] param).  So the last
+enumeration exceeded the range of mapped class-id's, which triggered
+the "class unknown" report.  I intentionally coded in an error, but
+forgot to verify its detection and remove it.
 
-Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro")
+RFC:
+
+This patch fixes a bad usage of DECLARE_DYNDBG_CLASSMAP(), showing
+that it is too error-prone.  As noted in test-mod comments:
+
+ * Using the CLASSMAP api:
+ * - classmaps must have corresponding enum
+ * - enum symbols must match/correlate with class-name strings in the map.
+ * - base must equal enum's 1st value
+ * - multiple maps must set their base to share the 0-62 class_id space !!
+ *   (build-bug-on tips welcome)
+
+Those shortcomings could largely be fixed with a __stringify_list
+(which doesn't exist,) used in DECLARE_DYNDBG_CLASSMAP to stringify
+__VA_ARGS__.  Then, API would accept DRM_UT_* values literally; all
+the categories, in order, and not their stringifications, which
+created all the usage complications above.
+
+[1] name changes later to DYNDBG_CLASSMAP_DEFINE
+
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- drivers/gpu/drm/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ lib/test_dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index a33257d2bc7f..670bf046019e 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -3,7 +3,8 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
+index 8dd250ad022b..a01f0193a419 100644
+--- a/lib/test_dynamic_debug.c
++++ b/lib/test_dynamic_debug.c
+@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
+ DD_SYS_WRAP(disjoint_bits, T);
  
--CFLAGS-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
-+ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)		+= -DDYNAMIC_DEBUG_MODULE
-+subdir-ccflags-$(CONFIG_DRM_USE_DYNAMIC_DEBUG)	+= -DDYNAMIC_DEBUG_MODULE
- 
- drm-y := \
- 	drm_aperture.o \
+ /* symbolic input, independent bits */
+-enum cat_disjoint_names { LOW = 11, MID, HI };
++enum cat_disjoint_names { LOW = 10, MID, HI };
+ DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
+ 			"LOW", "MID", "HI");
+ DD_SYS_WRAP(disjoint_names, p);
 -- 
 2.41.0
 
