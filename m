@@ -2,62 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F8676AB8E
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 10:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0F976AB91
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:00:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D8F410E367;
-	Tue,  1 Aug 2023 08:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7871B10E36A;
+	Tue,  1 Aug 2023 09:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1E410E367
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 08:59:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8176A21DE3;
- Tue,  1 Aug 2023 08:59:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690880374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+n5FyM61czAC0cNQApOWBqsHom9yWlZFCtaioWuc11U=;
- b=X5/FMNpEswYuv0+kpUq7bmzjeGEeX7kgW/bMVqSU3Nj5IjMMsbE+i7IULO/cOCSBEZEq7Y
- Z4HlN5GaTPHjGH4r9WNggLn9O7LXX8IlKKj+26KZKkJ0z1Yh/zs8VNQlLDJHEtKe3ZfcZ7
- ZOosELtHMb2vJ8tTi4pbPtEydkdoniE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690880374;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+n5FyM61czAC0cNQApOWBqsHom9yWlZFCtaioWuc11U=;
- b=SRO93G9RQUBzlaw2K3PuM0JnsVC8tNz0058QbCUqow/EXsZLz9HRvg7LNcm0jEqilewQeu
- Z7AibYscOsue7zDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4616413919;
- Tue,  1 Aug 2023 08:59:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id M2fxD3bJyGTFNAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 08:59:34 +0000
-Message-ID: <262a0b9d-5d9b-11cf-535d-5b00376ae223@suse.de>
-Date: Tue, 1 Aug 2023 10:59:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20230728182234.10680-1-tzimmermann@suse.de>
- <20230728183906.GB1144760@ravnborg.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230728183906.GB1144760@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BzkB9EkYd4VfUqQscAQPwSQh"
+Received: from out28-5.mail.aliyun.com (out28-5.mail.aliyun.com [115.124.28.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B4A10E368;
+ Tue,  1 Aug 2023 09:00:34 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1658784|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0435724-0.000151813-0.956276;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047213; MF=sunran001@208suo.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5p0NjW_1690880424; 
+Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
+ fp:SMTPD_---.U5p0NjW_1690880424) by smtp.aliyun-inc.com;
+ Tue, 01 Aug 2023 17:00:27 +0800
+From: Ran Sun <sunran001@208suo.com>
+To: alexander.deucher@amd.com,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/amd: Clean up errors in smu7_hwmgr.c
+Date: Tue,  1 Aug 2023 09:00:22 +0000
+Message-Id: <20230801090022.6923-1-sunran001@208suo.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +39,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, deller@gmx.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-geode@lists.infradead.org, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BzkB9EkYd4VfUqQscAQPwSQh
-Content-Type: multipart/mixed; boundary="------------aTidrU0u0f9EzPXN2GV9xjyr";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: deller@gmx.de, javierm@redhat.com, linux-media@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-geode@lists.infradead.org,
- linux-omap@vger.kernel.org, kvm@vger.kernel.org
-Message-ID: <262a0b9d-5d9b-11cf-535d-5b00376ae223@suse.de>
-Subject: Re: [PATCH 00/47] fbdev: Use I/O helpers
-References: <20230728182234.10680-1-tzimmermann@suse.de>
- <20230728183906.GB1144760@ravnborg.org>
-In-Reply-To: <20230728183906.GB1144760@ravnborg.org>
+Fix the following errors reported by checkpatch:
 
---------------aTidrU0u0f9EzPXN2GV9xjyr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+ERROR: that open brace { should be on the previous line
+ERROR: spaces required around that '=' (ctx:VxV)
+ERROR: spaces required around that '<' (ctx:VxV)
 
-SGkgU2FtDQoNCkFtIDI4LjA3LjIzIHVtIDIwOjM5IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBGcmksIEp1bCAyOCwgMjAyMyBhdCAwNjozOTo0M1BN
-ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IE1vc3QgZmJkZXYgZHJpdmVy
-cyBvcGVyYXRlIG9uIEkvTyBtZW1vcnkuIEFuZCBtb3N0IG9mIHRob3NlIHVzZSB0aGUNCj4+
-IGRlZmF1bHQgaW1wbGVtZW50YXRpb25zIGZvciBmaWxlIEkvTyBhbmQgY29uc29sZSBkcmF3
-aW5nLiBDb252ZXJ0IGFsbA0KPj4gdGhlc2UgbG93LWhhbmdpbmcgZnJ1aXRzIHRvIHRoZSBm
-Yl9vcHMgaW5pdGlhbGl6ZXIgbWFjcm8gYW5kIEtjb25maWcNCj4+IHRva2VuIGZvciBmYmRl
-diBJL08gaGVscGVycy4NCj4+DQo+PiBUaGUgZmJkZXYgSS9PIGhlbHBlcnMgYXJlIGVhc2ls
-eSBncmVwLWFibGUuIEluIGEgbGF0ZXIgcGF0Y2gsIHRoZXkgY2FuDQo+PiBiZSBsZWZ0IHRv
-IGVtcHR5IHZhbHVlcyBpZiB0aGUgcnNwLiBmdW50aW9uYWxpdHksIHN1Y2ggYXMgZmlsZSBJ
-L08gb3INCj4+IGNvbnNvbGUsIGhhcyBiZWVuIGRpc2FibGVkLg0KPiANCj4gRGlkIHlvdSBt
-aXNzIHNtNzUwIG9yIHdhcyBpdCBsZWZ0IG91dCBvbiBwdXJwb3NlPw0KPiBBcyBpdCBoaWRl
-IGluIHN0YWdpbmcgaXQgaXMgZWFzeSB0byBtaXNzLg0KDQpOb3cgSSByZW1lbWJlcmVkIHdo
-eSBJIGxlZnQgb3V0IHNtNzUwZmIuIEl0IG1vZGlmaWVzIHRoZSBmdW5jdGlvbiANCnBvaW50
-ZXJzIGF0IHNvbWUgcG9pbnQgYXQNCg0KaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGlu
-dXgvbGF0ZXN0L3NvdXJjZS9kcml2ZXJzL3N0YWdpbmcvc203NTBmYi9zbTc1MC5jI0w3NDEN
-Cg0KU28gdGhlIGRyaXZlciB1c2VzIGEgbm9uLXRyaXZpYWwgZmJfb3BzIHNldHVwIGFuZCBp
-cyB3b3J0aCBhIGRpZmZlcmVudCBmaXguDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
-DQo+IAlTYW0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
-c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
-QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
-ODA5IChBRyBOdWVybmJlcmcpDQo=
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+ .../drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c   | 26 +++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
---------------aTidrU0u0f9EzPXN2GV9xjyr--
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+index 1cb402264497..425859682fab 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+@@ -83,15 +83,15 @@
+ #define PCIE_BUS_CLK                10000
+ #define TCLK                        (PCIE_BUS_CLK / 10)
+ 
+-static struct profile_mode_setting smu7_profiling[7] =
+-					{{0, 0, 0, 0, 0, 0, 0, 0},
++static struct profile_mode_setting smu7_profiling[7] = {
++					 {0, 0, 0, 0, 0, 0, 0, 0},
+ 					 {1, 0, 100, 30, 1, 0, 100, 10},
+ 					 {1, 10, 0, 30, 0, 0, 0, 0},
+ 					 {0, 0, 0, 0, 1, 10, 16, 31},
+ 					 {1, 0, 11, 50, 1, 0, 100, 10},
+ 					 {1, 0, 5, 30, 0, 0, 0, 0},
+ 					 {0, 0, 0, 0, 0, 0, 0, 0},
+-					};
++};
+ 
+ #define PPSMC_MSG_SetVBITimeout_VEGAM    ((uint16_t) 0x310)
+ 
+@@ -950,7 +950,7 @@ static int smu7_odn_initial_default_setting(struct pp_hwmgr *hwmgr)
+ 	odn_table->odn_core_clock_dpm_levels.num_of_pl =
+ 						data->golden_dpm_table.sclk_table.count;
+ 	entries = odn_table->odn_core_clock_dpm_levels.entries;
+-	for (i=0; i<data->golden_dpm_table.sclk_table.count; i++) {
++	for (i = 0; i < data->golden_dpm_table.sclk_table.count; i++) {
+ 		entries[i].clock = data->golden_dpm_table.sclk_table.dpm_levels[i].value;
+ 		entries[i].enabled = true;
+ 		entries[i].vddc = dep_sclk_table->entries[i].vddc;
+@@ -962,7 +962,7 @@ static int smu7_odn_initial_default_setting(struct pp_hwmgr *hwmgr)
+ 	odn_table->odn_memory_clock_dpm_levels.num_of_pl =
+ 						data->golden_dpm_table.mclk_table.count;
+ 	entries = odn_table->odn_memory_clock_dpm_levels.entries;
+-	for (i=0; i<data->golden_dpm_table.mclk_table.count; i++) {
++	for (i = 0; i < data->golden_dpm_table.mclk_table.count; i++) {
+ 		entries[i].clock = data->golden_dpm_table.mclk_table.dpm_levels[i].value;
+ 		entries[i].enabled = true;
+ 		entries[i].vddc = dep_mclk_table->entries[i].vddc;
+@@ -1813,13 +1813,13 @@ static void smu7_init_dpm_defaults(struct pp_hwmgr *hwmgr)
+ 	data->static_screen_threshold = SMU7_STATICSCREENTHRESHOLD_DFLT;
+ 	data->static_screen_threshold_unit = SMU7_STATICSCREENTHRESHOLDUNIT_DFLT;
+ 	data->voting_rights_clients[0] = SMU7_VOTINGRIGHTSCLIENTS_DFLT0;
+-	data->voting_rights_clients[1]= SMU7_VOTINGRIGHTSCLIENTS_DFLT1;
++	data->voting_rights_clients[1] = SMU7_VOTINGRIGHTSCLIENTS_DFLT1;
+ 	data->voting_rights_clients[2] = SMU7_VOTINGRIGHTSCLIENTS_DFLT2;
+-	data->voting_rights_clients[3]= SMU7_VOTINGRIGHTSCLIENTS_DFLT3;
+-	data->voting_rights_clients[4]= SMU7_VOTINGRIGHTSCLIENTS_DFLT4;
+-	data->voting_rights_clients[5]= SMU7_VOTINGRIGHTSCLIENTS_DFLT5;
+-	data->voting_rights_clients[6]= SMU7_VOTINGRIGHTSCLIENTS_DFLT6;
+-	data->voting_rights_clients[7]= SMU7_VOTINGRIGHTSCLIENTS_DFLT7;
++	data->voting_rights_clients[3] = SMU7_VOTINGRIGHTSCLIENTS_DFLT3;
++	data->voting_rights_clients[4] = SMU7_VOTINGRIGHTSCLIENTS_DFLT4;
++	data->voting_rights_clients[5] = SMU7_VOTINGRIGHTSCLIENTS_DFLT5;
++	data->voting_rights_clients[6] = SMU7_VOTINGRIGHTSCLIENTS_DFLT6;
++	data->voting_rights_clients[7] = SMU7_VOTINGRIGHTSCLIENTS_DFLT7;
+ 
+ 	data->mclk_dpm_key_disabled = hwmgr->feature_mask & PP_MCLK_DPM_MASK ? false : true;
+ 	data->sclk_dpm_key_disabled = hwmgr->feature_mask & PP_SCLK_DPM_MASK ? false : true;
+@@ -2002,7 +2002,7 @@ static int smu7_calculate_ro_range(struct pp_hwmgr *hwmgr)
+ 	} else if (ASICID_IS_P21(adev->pdev->device, adev->pdev->revision) ||
+ 		   ASICID_IS_P31(adev->pdev->device, adev->pdev->revision)) {
+ 		min = 900;
+-		max= 2100;
++		max = 2100;
+ 	} else if (hwmgr->chip_id == CHIP_POLARIS10) {
+ 		if (adev->pdev->subsystem_vendor == 0x106B) {
+ 			min = 1000;
+@@ -4018,7 +4018,7 @@ static int smu7_read_sensor(struct pp_hwmgr *hwmgr, int idx,
+ 		offset = data->soft_regs_start + smum_get_offsetof(hwmgr,
+ 								SMU_SoftRegisters,
+ 								(idx == AMDGPU_PP_SENSOR_GPU_LOAD) ?
+-								AverageGraphicsActivity:
++								AverageGraphicsActivity :
+ 								AverageMemoryActivity);
+ 
+ 		activity_percent = cgs_read_ind_register(hwmgr->device, CGS_IND_REG__SMC, offset);
+-- 
+2.17.1
 
---------------BzkB9EkYd4VfUqQscAQPwSQh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTIyXUFAwAAAAAACgkQlh/E3EQov+Bn
-HQ/+ODtOPqObgHXWg2w+jOR71p47BMldUjo6XgKZkB828Vd59NnkIn6AHgfNkXjbARd3snAP0jSQ
-wG5X1dHQeWH5lAJjmbWhXtmdS0h3bfKOIJvc9b+v4KpUmjqqg9t56Q9rQTBjRT3/9IvyO5wQsbiz
-r7Nipp5Zmr+Q1xQtA5qEx2qPI1qpAC3koizWr6y9kVaUkgZFgHPHbkgjuI7EB64BXiOo33n70Cn/
-m0gMmn9LHzwOi4qN20gtQkVAbPR5G4GXjaRYS9Rgm1zKb9gPP67oVCXvEUiTRkDOH0hW3cr18g/C
-6wsi+8o+WpxpS5mGcfAL7JV8k+T95WCQKFyNuq1lZ1K9wekGwhvPYJOBsu/HfMtuQiiuH9nM132t
-pn+dKRllAg2oWSEG4SgtwWudNqrY/IR20IjiATLz14Fr4LXkjuBMigwDLHhuHGvImYTP2/BYhm6G
-LEhnqwo7nuPHJTqBfLWrC3hPdqYse65Nx4HqelsqTImGOG1tFosGRGhAgCYgt8lEYgXfvd2cHP1y
-+3cwpix3VXZbgY2IvCDTWaDuLMCJrJGQ4cgAGWfa5qOocVEqvxV8af6QrvcevpO1/oNfdjZMICXL
-S+BvnmOP1pjT8SBa4ghbmWeFmmruFRvU3PiFR+oW/hGfjIzqnQivj+6nD7AFnNoRpBpKemh2VSIz
-2Kg=
-=8Dsu
------END PGP SIGNATURE-----
-
---------------BzkB9EkYd4VfUqQscAQPwSQh--
