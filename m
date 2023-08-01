@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2374576C112
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F1176C114
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 01:36:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E4E10E46E;
-	Tue,  1 Aug 2023 23:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3981810E46C;
+	Tue,  1 Aug 2023 23:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1522B10E463
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBB4D10E465
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 23:35:45 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id
- ca18e2360f4ac-790cadee81bso30435039f.0
+Received: by mail-il1-x12b.google.com with SMTP id
+ e9e14a558f8ab-3492c49c649so8053705ab.3
  for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 16:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690932944; x=1691537744;
+ d=gmail.com; s=20221208; t=1690932945; x=1691537745;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nqTzNELHRtLIMmnQe4IjBi2Pg9cHOtSAwPPFPZ1pbxQ=;
- b=XKRSVjtkGlHX2/DQX3kzzuA8uZ6KdBySMTZetRfAswPQbuwSWIpMFFWuBJFHkqssQV
- vZtaaW9hlAVowtZaRgEUnbV6CXPVCn7Lp2gCz9gMIJfuAN2fWsF8WSq+0DHd2eZRjtNG
- 74tgmgx8EZl5V0i3GuZZ3A5Y0WkszHBeFQUqWqRx8gCD61s4Vo8WZzUzYyFqo1c7n8g5
- mAuRUE2VHsRUs/f7bTyC9hiKqz7FW99Jn5Y8/FZfHdHzH0vn3tMJwYWBLqV6DzbiuX4p
- 2Z78iifiHSerP9RYw6Sa4C9rvsbTDRhbtAXGvw0iPxPnWn+W7LGsfwK2xCJNDh/0GWTS
- NY3Q==
+ bh=U+CfnRsFNUYXmygRp+lpSqvj59BR1h/rC9xdfPKJnDI=;
+ b=h1TGK2ZlXSADc3tN9UPPfIyUQ1E1M7T4qkvwJyraifru5jg/mpl7quH/34yXATnkLT
+ ThxWOQU4vNnMeFalaGIP8RStIWvNBrC1zjO+PAG3Niy8t6FRz9HCTdWnO6S2+wBCn05s
+ g1aniRMjdHUfHptEnWkaOidWyctiqDlydxjVwIVRs0ZizZNyyOQKSerFu2gXqNF+IE2/
+ nAenFvnfglSU32dglovFU+p5qZz2ZDHGy+K8BCl0CC4InTxoWfGyJZ2904hEY1Xd9lF2
+ eJ9T5oi1WsZuceMcS3QPSxh8VsJSwiV1fV8PlQ4GQkMV0IqY67AWAaDh6h4boqtYx9eA
+ KaIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690932944; x=1691537744;
+ d=1e100.net; s=20221208; t=1690932945; x=1691537745;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nqTzNELHRtLIMmnQe4IjBi2Pg9cHOtSAwPPFPZ1pbxQ=;
- b=j+0e8n19dp1eCMT3rJBTfhrNuyT/SVBUKb11RGeuTKdD9VxQZtRBCO00ZI4GocmMQI
- HPgSfoPX88Hb/dluDvJS8EFf1tK/0G9DcaXNFunEXKOWCbXbE4rTLm8fLsY6D3FtJHkM
- HvbK6TRV9QRtH5KEbEXBqV+efUxc4uVviTfY/j97uto7kDE5dMCQQKclFUt5iw+sLtye
- +G3JjXzwULRZ+E8uh/YRgrzBn8Td2z6Kwf3PiBbrbgDUHihdqx+LMd8i2rcRz68I2gPk
- rTfK2tI5V4EgErFNYKNkFQl8gEtaXPL4PbCXNNrYa7KPF7t0sUmb5qqRrYLA/9NCDhYe
- n33g==
-X-Gm-Message-State: ABy/qLaXbcXKjRTgVOR7181zwnjixMxvtaKaHrDk6vI1wEXZ6DpwPz26
- dtYhgY3AE5qhWhbdJDbXNQA=
-X-Google-Smtp-Source: APBJJlEFwb6HndIwTHtisZHLhXxRnyyA43uhdcB/Aynnm/D/qI5WROYkoG7hk0iZYbZ10v1+wWCQYg==
-X-Received: by 2002:a92:c26d:0:b0:345:8373:bf68 with SMTP id
- h13-20020a92c26d000000b003458373bf68mr13558429ild.25.1690932944291; 
- Tue, 01 Aug 2023 16:35:44 -0700 (PDT)
+ bh=U+CfnRsFNUYXmygRp+lpSqvj59BR1h/rC9xdfPKJnDI=;
+ b=S5NICF2SO9cT1rX9Mg6ZO6Jdgwk+uhe41WA14RzPAFw82sv+a2EtJTSKiGbdsMfNnK
+ yTMCPpm1w8YFrjs/aQsqvnxLoumyIOYU44fNZs1N3s9IQzBua2Wm3RT3m/RhTJSe/mrj
+ MzLSp65ME9DjxHLxynMwVqPN7z3JUkCq+cAYwppcw561Kh3Nsjl4srWCFLWVXnfu6g5k
+ WElGeKwiUI+CLl0iqIkbyw2eJp3uvc2TLps/jvAuDHdBMzvQCntBKZW4fxoP0t8L3AHl
+ Qqlb/pVynOziHvblwafg6lYNPJxDMRy2poor0EtkdEhwfAMip9y8pPx+x4Bt/4MVXpzd
+ mAPQ==
+X-Gm-Message-State: ABy/qLaGZyqdeciEIJx/9KIO56Yev6DBcqChkKuPUdsUCf/DnQnywASv
+ miGGC/HxZOvgN35zx/X+C3A=
+X-Google-Smtp-Source: APBJJlGjn8ASalYCPieBDurdqF3KEU0bFHq1ehRAR3xQCMJMoMqz/nQs8Z+JnQ7s2Zf+uxYThoa05A==
+X-Received: by 2002:a92:c213:0:b0:348:eb44:2a30 with SMTP id
+ j19-20020a92c213000000b00348eb442a30mr12016014ilo.15.1690932945248; 
+ Tue, 01 Aug 2023 16:35:45 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.42
+ t13-20020a92ca8d000000b00348d652a6b4sm4157967ilo.48.2023.08.01.16.35.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 16:35:43 -0700 (PDT)
+ Tue, 01 Aug 2023 16:35:44 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 18/22] dyndbg-test: build it with just
- CONFIG_DYNAMIC_DEBUG_CORE
-Date: Tue,  1 Aug 2023 17:35:05 -0600
-Message-ID: <20230801233515.166971-20-jim.cromie@gmail.com>
+Subject: [PATCH v5 18/23] parens-on-PARAM
+Date: Tue,  1 Aug 2023 17:35:06 -0600
+Message-ID: <20230801233515.166971-21-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801233515.166971-1-jim.cromie@gmail.com>
 References: <20230801233515.166971-1-jim.cromie@gmail.com>
@@ -77,52 +76,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the test-module buildable with CONFIG_DYNAMIC_DEBUG_CORE; add
-CFLAGS_$ofile defns to supply -DDYNAMIC_DEBUG_MODULE to cc.  Change
-the Kconfig entry to allow building with just _CORE, and fix the help
-text.
-
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/Kconfig.debug | 10 +++++-----
- lib/Makefile      |  2 ++
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ include/linux/dynamic_debug.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ce51d4dc6803..22e022ceb9a1 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2695,12 +2695,12 @@ config TEST_STATIC_KEYS
- 	  If unsure, say N.
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index 871de0c32034..9b86c49173f9 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -172,9 +172,9 @@ struct ddebug_class_param {
  
- config TEST_DYNAMIC_DEBUG
--	tristate "Test DYNAMIC_DEBUG"
--	depends on DYNAMIC_DEBUG
-+	tristate "Build test-dynamic-debug module"
-+	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
- 	help
--	  This module registers a tracer callback to count enabled
--	  pr_debugs in a 'do_debugging' function, then alters their
--	  enablements, calls the function, and compares counts.
-+	  This module works/demo's the dyndbg's classmap API, by
-+	  creating 2 classes: a DISJOINT classmap (like DRM.debug)
-+	  and a LEVELS/VERBOSE classmap (like verbose2 > verbose1).
- 
- 	  If unsure, say N.
- 
-diff --git a/lib/Makefile b/lib/Makefile
-index f36048371dd2..8411015a57c1 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -233,6 +233,8 @@ obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
- obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
- #ensure exported functions have prototypes
- CFLAGS_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+CFLAGS_test_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+CFLAGS_test_dynamic_debug_submod.o := -DDYNAMIC_DEBUG_MODULE
- 
- obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
- 
+ #define __DYNDBG_CLASSMAP_PARAM(_name, _bits, _var, _flags)		\
+ 	static struct ddebug_class_param _name##_##_flags = {		\
+-		.bits = &_bits,						\
++		.bits = &(_bits),					\
+ 		.flags = #_flags,					\
+-		.map = &_var,						\
++		.map = &(_var),						\
+ 	};								\
+ 	module_param_cb(_name, &param_ops_dyndbg_classes,		\
+ 			&_name##_##_flags, 0600)
 -- 
 2.41.0
 
