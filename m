@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEA976B0E2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EA376B0C5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24DF810E3A2;
-	Tue,  1 Aug 2023 10:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3619F10E395;
+	Tue,  1 Aug 2023 10:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A90A510E390
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F8810E389
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:49 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 66A6921DE2;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A2CF81F8B2;
  Tue,  1 Aug 2023 10:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690884948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vNnMD4aI3WpDOFhKR8FlIsi2xefaxpGkXdXuT6IvU4I=;
- b=eykwveeGeJj+A/vFHWGsS8DP6IxYQ2I3ETmDE3DxGOZd9DJ6ggqJUTffODOFDoz8g7Dnc7
- VD+ZAf/Z2QjrMyEPsgw233LkCNu69ctRiaP4RunXpyoEe9AEiguyJzoEYSeyC84ZtParpa
- pEVi9z0JGpqHb/L9lRh1vVyrZk79Ocg=
+ bh=tsHUYsqdYQwO/Jtx40JU3sYMmrQWbiIXorjGW0pkZGo=;
+ b=kEUJF0RrWRTFK+hhCuqE4CLtJWHosp1dOCUVkTWJRGrz3Qz5kqfBSwjlJkFdYYpKPs1Els
+ RrWDxhF6I0NA+LfXxCivwRKhBp5Wn3/lUbBkCrmewiwbRy1BZ19uZRBQ7Wy6EthHcj0FqI
+ PulnfHmWpWmaYc31qtH74gPkfwSyb1U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690884948;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vNnMD4aI3WpDOFhKR8FlIsi2xefaxpGkXdXuT6IvU4I=;
- b=CMqstDW1cVFr108glxHA3gKX0YzVre7S+I62L4+z/ZleqwZ3MqQkxA7+ChedAtZoFSmRUL
- 4olCTRTmjSCknlAg==
+ bh=tsHUYsqdYQwO/Jtx40JU3sYMmrQWbiIXorjGW0pkZGo=;
+ b=dIAR9Tu+H7rp+ieuYnYkbY4G7smlfBBD6IhnNoBDGonxwlZyOf7IJ9VFSyWf+Gobp3S5zY
+ rNvwaedyUr6t4ACA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 317AE139BD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6BBE7139C8;
  Tue,  1 Aug 2023 10:15:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QE8zC1TbyGQBXQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8ORhGVTbyGQBXQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:48 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 05/47] fbdev/aty128fb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:10 +0200
-Message-ID: <20230801101541.900-6-tzimmermann@suse.de>
+Subject: [PATCH v2 06/47] fbdev/carminefb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:11 +0200
+Message-ID: <20230801101541.900-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -90,48 +90,41 @@ Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/Kconfig        | 4 +---
- drivers/video/fbdev/aty/aty128fb.c | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/Kconfig     | 4 +---
+ drivers/video/fbdev/carminefb.c | 5 +----
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 850d5c07587f..ea24f8114ac7 100644
+index ea24f8114ac7..1fa776cacb89 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1098,10 +1098,8 @@ config FB_RADEON_DEBUG
- config FB_ATY128
- 	tristate "ATI Rage128 display support"
+@@ -1449,9 +1449,7 @@ config FB_PM3
+ config FB_CARMINE
+ 	tristate "Fujitsu carmine frame buffer support"
  	depends on FB && PCI
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
- 	select FB_BACKLIGHT if FB_ATY128_BACKLIGHT
 +	select FB_IOMEM_HELPERS
- 	select FB_MACMODES if PPC_PMAC
  	select VIDEO_NOMODESET
  	help
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index b44fc78ccd4f..f4de11f19235 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -504,6 +504,7 @@ static void aty128_bl_set_power(struct fb_info *info, int power);
+ 	  This is the frame buffer device driver for the Fujitsu Carmine chip.
+diff --git a/drivers/video/fbdev/carminefb.c b/drivers/video/fbdev/carminefb.c
+index 33a03f4ae025..e56065cdba97 100644
+--- a/drivers/video/fbdev/carminefb.c
++++ b/drivers/video/fbdev/carminefb.c
+@@ -530,10 +530,7 @@ static int init_hardware(struct carmine_hw *hw)
  
- static const struct fb_ops aty128fb_ops = {
+ static const struct fb_ops carminefb_ops = {
  	.owner		= THIS_MODULE,
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var	= aty128fb_check_var,
- 	.fb_set_par	= aty128fb_set_par,
- 	.fb_setcolreg	= aty128fb_setcolreg,
-@@ -511,9 +512,6 @@ static const struct fb_ops aty128fb_ops = {
- 	.fb_blank	= aty128fb_blank,
- 	.fb_ioctl	= aty128fb_ioctl,
- 	.fb_sync	= aty128fb_sync,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
- };
- 
-     /*
+-
++	FB_DEFAULT_IOMEM_OPS,
+ 	.fb_check_var	= carmine_check_var,
+ 	.fb_set_par	= carmine_set_par,
+ 	.fb_setcolreg	= carmine_setcolreg,
 -- 
 2.41.0
 
