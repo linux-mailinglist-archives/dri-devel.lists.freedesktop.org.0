@@ -2,150 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541F176B1D2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A68376B293
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 13:03:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3B810E06E;
-	Tue,  1 Aug 2023 10:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC8C10E0CA;
+	Tue,  1 Aug 2023 11:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A1E10E06E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1690885852; x=1722421852;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=AXZNOWsXQFGRgN/CfdKy8knJkQs1QJiVb5bOiuA/Orc=;
- b=O1rsEpMXbcmVZkayiCXjFBKwOdrCENNPm+NnICFX7AAyEJMmrp5B+d6A
- HwDH2I/K73xrZN9HPOwjNQz6iYMomiKC935fEzS7RnJ1z9Ze9LV9wP+hk
- ZsEioN7mTNFkhyfIJEnOL5tKEoxssGfUu3KL9/fc/js7bmikX9KBjrF3a
- qYT2rsRkPfHfA6eTNzd5TC8BULsEmmc3UAIi1pC8ZmSm93Gt7vdiKE0Px
- Zkq/QuRMXeQUT+OBXYaFhF9GF/w+DNT6iisi639gam77U1tIoteStbdZ8
- omq+3N0EApcuKpvpUsgRcs4rsrgfF3iR73WQ4Ocrtw9M5w5t4FWkiu3sp Q==;
-X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="164286827"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 01 Aug 2023 03:30:49 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 1 Aug 2023 03:30:35 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Tue, 1 Aug 2023 03:30:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LzKbMN4xkcBP7FaHjrGLEtu7ANRLLjDjmlLOXXphLpwLTbzKsOrhN4hJT1vIaUn8VP80Z76Eu3QriirYaMEC2Bi3P34ZC/FhOSlLhPa2lOBMkERMbnf4bHKVc8lPd8Vi6am74MpjtEhwDusCp/b0lcTl/hdGucfSIuokf2ALMDJ9j0J+PJLCk4CTujZgnt7Af0+bHMM/8dJ98kNcfDB63Wvi9aBwfQbUwymXi7sxplcgfBtAuQvmy5hkspG8xXrgs185VsaKbm/DqoK8bvPbjFcptvu1aAnQSXNi5GprnIa76K2e7V080QtHp9vduaau7uy2e0qGVDisxVyXhRRWLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AXZNOWsXQFGRgN/CfdKy8knJkQs1QJiVb5bOiuA/Orc=;
- b=MOPYnNlt2zXC4ORSVe6uGI4Psu9UwyUaaB10qLrI7H1GER0ru2XiDmu0djDxhZGiZ1SR1kigTOXPnw4/GblVXv/G2DaXxihqjM4KTGG7Qx+YfyysMjUFVj3CemXh1/FFgLDFr8RPvW+0Sb/zOvDOisKDifY14evs4VI61doRWHjNtUrX3MJ5bKx3C+JkC923ickCWujJBu14VstAM5RaTWr7Me5bqYHHzaAGD6p9FW7pjcpQmzdhKJbVpOix5IhUnAKFuuzebv0hq8LIu0WbenQJV60O806ZZTbfWRQ1PwiUxCPOV2Y8QLmzBx4dby6FujMFtMmf3kJS/edhKZcpAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AXZNOWsXQFGRgN/CfdKy8knJkQs1QJiVb5bOiuA/Orc=;
- b=a2PHsf6WRPNSsydY8TUTUpArl8gSFM6kOJ6hX8mPrR3xp+pRAsHseU965Xd6ECCqCsaMfRPWpnty8bD4m3Jfe/G3ILsIX+qglG4kfUj5ejYIErx08gGuujTwmrpQAOAJrFahr3h+uT3X7vF7edTFAsQQkMWNkTlEYVLcFjzOyLM=
-Received: from IA1PR11MB6193.namprd11.prod.outlook.com (2603:10b6:208:3eb::19)
- by MW4PR11MB6809.namprd11.prod.outlook.com (2603:10b6:303:1e9::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.41; Tue, 1 Aug
- 2023 10:30:33 +0000
-Received: from IA1PR11MB6193.namprd11.prod.outlook.com
- ([fe80::4352:94ae:4654:c4b7]) by IA1PR11MB6193.namprd11.prod.outlook.com
- ([fe80::4352:94ae:4654:c4b7%4]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
- 10:30:30 +0000
-From: <Manikandan.M@microchip.com>
-To: <lee@kernel.org>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
- <Nicolas.Ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <Claudiu.Beznea@microchip.com>, <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 0/9] Add support for XLCDC to sam9x7 SoC family.
-Thread-Topic: [PATCH v2 0/9] Add support for XLCDC to sam9x7 SoC family.
-Thread-Index: AQHZtGpG07WSjSdJ1Uq8b6fdWM+RZK/VXYwA
-Date: Tue, 1 Aug 2023 10:30:30 +0000
-Message-ID: <90631430-c9ec-7424-7679-fe8adbe043cb@microchip.com>
-References: <20230712024017.218921-1-manikandan.m@microchip.com>
-In-Reply-To: <20230712024017.218921-1-manikandan.m@microchip.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB6193:EE_|MW4PR11MB6809:EE_
-x-ms-office365-filtering-correlation-id: b4566d6d-51c7-48ba-3804-08db927a547f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GGleZB0W/9JL79DtstkQ03OuqYKFFEfGmttOj0esbFbXS/0xVQsDQMjF6t8cN2HcGgHv6ICcW59ru6g6Gv4jsg6lEKEOQHxXDU56aKoLJDBB2FdQNcwt+SEtjWmRO2KEb0/SJK86MC7sLRN6icNH1QvZFEgElZx+tgP+t59A6uZG5VujAun68QZ35bz88OBlac4RDB5nfLKlgik1hjZiZdwtLQTRMTTY1Kw+6ufZ4EfKpPmSbn+B1uXIyOF628dCeGiwfSWwKqWif9eb/RVJqtvvTsg0lEfLfkJ4mZVZFaRd4wgRS21l+tShWuIlZye1K627GNoTSDCBsZB4SXwZlc9ZHnOJC20COgrV5NTVFTH/RTUUfGEhps6dEc2tfajYUZidW/0SKmxZYiupkgFngPLopohOOn4Vchntewp+ZcRMDbiA3v4Hr8+keFz3Rdk55c6Rnz87pGq79WOiY8jA21ipjIKncecyy0C02sLtsaxQGTUDFcTt5IW41T+o+Wco/vPQqkyH/wHr+2arnmKoc1U9aK+tniGWSb/lUypnpp5ccpyBvTBDnJmfFbw3DNB64vGvqs7IAlJSMt8NVj6/T/wOIT2NQAZRV4ENM25u0NLsUezxwheTqCAB5RJELyz0rJYArD3bQrJJKfWpZuw3N+8/6yOH52NhHz41IMaBYC0=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR11MB6193.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(136003)(366004)(39860400002)(376002)(346002)(451199021)(2616005)(5660300002)(8936002)(6506007)(186003)(8676002)(53546011)(76116006)(83380400001)(7416002)(316002)(26005)(4326008)(478600001)(54906003)(91956017)(66556008)(66946007)(110136005)(66446008)(64756008)(107886003)(66476007)(86362001)(6486002)(41300700001)(6512007)(71200400001)(38070700005)(36756003)(31696002)(2906002)(38100700002)(921005)(122000001)(31686004)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MzJLbTFPT09XY3Q2OElER3ByL3pUZVZFdU1kOE81QmJjeHpUQWg4cGtoK3By?=
- =?utf-8?B?SkUrVmdEU1dXYVl0S3UvR1gvTy9qTHJIYTJlL1Q5UitSQTA1eXBrdW1jdGUv?=
- =?utf-8?B?UXRNR1QrOHlxUHo4eUR1YmhqemxUdnNTRFM4UnNjOVMxc1RsL0lZK2JLU2Rm?=
- =?utf-8?B?N2piaEdaekZtWEI4eCs4WDJMbmlCNWJQN0JPWjhaakNmWUluRXhFeGg1MUx3?=
- =?utf-8?B?OVA5MjBVaDFocnloT2d6Qm5mNnJHVnd0YW1RNHRZcXQyUUNUTnVsT3pTU1o2?=
- =?utf-8?B?UGphWkczMkxPaVNHU3VWQks3ZWxtVUhMOUt3VFdLWXhUQXhZbFVHZ3pTSnZi?=
- =?utf-8?B?UUYzT1JCSlNwbEJGNHh3ZmZKdzJtN3RTaWcrSWtqMDBxUnBXVys5a0NYSTN0?=
- =?utf-8?B?NHpGZEljOFZyOW01ZWs4YzdQUm82T1V5Z2ZlZmZ4SFFrcFNHWkxybkx0Rjdp?=
- =?utf-8?B?Y0tzOGgvTStya3MrWWxnamFpTHpwVWlDZ2F4RnVMaGRyNitjVTAreFNXby82?=
- =?utf-8?B?MmRUM3ZueDVNVkZzN2NKK2xHUklWNHh2akl6Sm82cGJ0VDFaRmZQQUgvb0FL?=
- =?utf-8?B?RmNZRWxtblNJN0RQUUFUQ1NnN2MzQUN3VlFxd3hwOUo5NkJHR05oZ2FRWEpx?=
- =?utf-8?B?VGQvMDUyUXhwZ1VrMVE1QjJiOU5ZODk0NVFNRTd0d2UwM3hwMDV1RTdHOUgz?=
- =?utf-8?B?RDN0L2lza2E2SHpmVFBBeCsvWGRaV3I1NWhCQkl6WVcvcWlad3pycmM0K25u?=
- =?utf-8?B?Q3ZTVlM3MnNHOGJ5TEhpc2lqRWpVRWtET083VE5kUU5uZjhFMTJQZWZVaWF0?=
- =?utf-8?B?WDlsYnR4dkg3WnRScEYzRjJKMVc2aG1WUzYvNUN5V28wNUVZS3F4SW1paWRC?=
- =?utf-8?B?aXVoaWZENGhSSlBycWU1djNCeDc4dVBVbXRaaWk0emNnd3IvMEtZaVdkWWM1?=
- =?utf-8?B?TkhzeEhiMEgxcURjZ1FIbnM3Q0JoSzl3S24wMHVXS3FmVlZBUlRscHdkSUR4?=
- =?utf-8?B?RVI2RWJ6MHk1WDhsZWJmUUNhWml0a25LcWdUVUtlOGlXWkgveGlSYTgxNUNi?=
- =?utf-8?B?VU1iS3IzUVhzYndpWVM5MlNmSlgrVlRSRXYrNTFibTJyZXZKUm0va0ZCM1d4?=
- =?utf-8?B?RUM2eG9qNW5SRHdEa0NTRVV6Y000dko0UERRUVJqb08zSkszeWxac1FsOTYy?=
- =?utf-8?B?SWNxMDNBUWFYWWl4MVUrZHlYUmFhVTYvdjBHYzVUbWJKSFBLM0NEeDRjemJL?=
- =?utf-8?B?QUUvNW8vbHBwaTEzVW92S1dLNlBHSnEwaUpySUVEdkJWWUJyYnhLQUt2T2l6?=
- =?utf-8?B?S3dtazEyVDdhMTZGOUxzMlVEajZIbjVwWEJZanBwZWdRVHM3cGhsWXM5bTNl?=
- =?utf-8?B?eU9hOUNJanN0TlBOYURFVkpuYWRsWDkzUWNXVlc3UU9iOWZ2SXlYdjJ6TzJG?=
- =?utf-8?B?QnlxVnVxdlB6SmMxOGxDSDlweTYvTGNSM0NMQTQ2elFiMFhOc2hpN0VlMFk1?=
- =?utf-8?B?RFcyWjVJMGVoOVA1a2kvcXRGQTBMbzlBbSsvem1uaWdDeXdTZXV5UlpDWjNo?=
- =?utf-8?B?SFRCcHNGdnh3Ly90Y3dYVnMwZE54bTFicElDNlpacjliNm9aQUlXV0lqSkUv?=
- =?utf-8?B?U0RrYUpoUFdVVXE0OEJUNmtxa1NZSWZnSmIrRml6N0Z4YzA5eHNYTlI4VTUx?=
- =?utf-8?B?ZEtoZ01JamIzYy9PN0F1MTZmaGJJTWlhcXB6MWZoT0ZQZmJ1U01JYklJZk9l?=
- =?utf-8?B?ckVjc1JadUpHZlhzS0psc2hvOTlRVlgzSFRyaXVhZDlndWxHRTFXQUQ0eUda?=
- =?utf-8?B?M3Z3NEthcjRlbW9iTlp3TWI3R0YweDlxanZmR3JKSnNZNFpqRkdFbDJXTDVj?=
- =?utf-8?B?UkpiL1ZrT2p2QXdpOHJGd3JPcXRTK2c0TytHZWFLY3lrZnFEWE5kYzl6K3Fs?=
- =?utf-8?B?Rk5NaFJLV3ZOdlJIQVgyM2ZCdzduY0NGYzVXUjJxcDJGYUZ4RUZDVXFqZjF0?=
- =?utf-8?B?T3NHa0JLZExhdFJxbDhsaEoyR2lCckZMR054a0tHamZqdHc0R096ZE1rZ3Qr?=
- =?utf-8?B?NWlQendOYTRpN29CcnpCWG5OT2ZJVURyczJMaSttQXo4NUhHTFQzcS9HVE5X?=
- =?utf-8?Q?1/EJldGgg+09h/YgYJDVN+Gyp?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <577AED1FCD84524EB8FBEF19249835E4@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F9E610E0CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 11:03:45 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qQn9L-0006er-TG; Tue, 01 Aug 2023 13:02:47 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qQn9G-000MYc-Qz; Tue, 01 Aug 2023 13:02:42 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qQn9F-009bb2-Rs; Tue, 01 Aug 2023 13:02:41 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Johan Hovold <johan+linaro@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Liu Shixin <liushixin2@huawei.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Su Hui <suhui@nfschina.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Rob Herring <robh@kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Danilo Krummrich <dakr@redhat.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Deepak R Varma <drv@mailo.com>,
+ Steven Price <steven.price@arm.com>, Thierry Reding <treding@nvidia.com>,
+ Jani Nikula <jani.nikula@intel.com>, Alexey Brodkin <abrodkin@synopsys.com>
+Subject: [PATCH v2 00/12] drm: Convert to platform remove callback returning
+ void
+Date: Tue,  1 Aug 2023 13:02:27 +0200
+Message-Id: <20230801110239.831099-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6193.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4566d6d-51c7-48ba-3804-08db927a547f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2023 10:30:30.3933 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: T1US2YhpOpQy56p8SQN7uUrsHt8PmfDShckpTR6rwn5QxpYPGWDJGdWpwYIDqMcKAWxN/yX1HNDHxxqajV5vfTn8rpSNDY4svx0wZCRvcXg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6809
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4647;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=lLYOduakdAZPV7h2t7p0GtcJJgBTffjjiGktWPRzcYQ=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkyOWz7AY2J/amMZa1ly1xZnt1qVfdI+rjtzZOC
+ 8JCyUY0p4KJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZMjlswAKCRCPgPtYfRL+
+ ToYFCACzSxwyZvnMzJgJyOkvEePf/ZXRnGrtlXaVQ3ZoUTHkj+i/+jpBQWVCP7WrMGN7DsJJNtK
+ 0JA9E3Yn8ljBPqK2hZbNAJIiaj3l1RjP00t00TVHzUaRcD8bpf0MQbCl7XVh+S1lGpscwAhUhU5
+ EuB/uIagIPze58OicfVqTEO6iH3tvWG6Tiw+Vj2etWniKNEhnyG94qzpKxsJ1UQxqjG+th5ODs2
+ R/fbiH6ltN6uLcrT7oBmUbtwgnmFm0z6KSzEqBKSAi6WhI4Cz6iIb1+Kt+G3TH2c0+5ZjkMcAix
+ V3zjdSfyyffaoQc3LkxVPtw9eSDLh/jJp7lNI4Ci05e+WBPm
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,50 +101,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
- Balamanikandan.Gunasundar@microchip.com, Hari.PrasathGE@microchip.com,
- Dharma.B@microchip.com, Durai.ManickamKR@microchip.com,
- Varshini.Rajendran@microchip.com
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ NXP Linux Team <linux-imx@nxp.com>, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>, nouveau@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTIvMDcvMjMgODoxMCBhbSwgTWFuaWthbmRhbiBNdXJhbGlkaGFyYW4gd3JvdGU6DQo+IEVY
-VEVSTkFMIEVNQUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxl
-c3MgeW91IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4gVGhpcyBwYXRjaCBzZXJpZXMg
-YWltcyB0byBhZGQgc3VwcG9ydCBmb3IgWExDREMgSVAgb2Ygc2FtOXg3IFNvQyBmYW1pbHkNCj4g
-dG8gdGhlIERSTSBzdWJzeXN0ZW0uWExDREMgSVAgaGFzIGFkZGl0aW9uYWwgcmVnaXN0ZXJzIGFu
-ZCBuZXcNCj4gY29uZmlndXJhdGlvbiBiaXRzIGNvbXBhcmVkIHRvIHRoZSBleGlzdGluZyByZWdp
-c3RlciBzZXQgb2YgSExDREMgSVAuDQo+IFRoZSBuZXcgY29tcGF0aWJsZSBzdHJpbmcgIm1pY3Jv
-Y2hpcCxzYW05eDc1LXhsY2RjIiBpcyBkZWZpbmVkIGZvciBzYW05eDc1DQo+IHZhcmlhbnQgb2Yg
-dGhlIHNhbTl4NyBTb0MgZmFtaWx5LlRoZSBpc194bGNkYyBmbGFnIHVuZGVyIGRyaXZlciBkYXRh
-IGhlbHBzDQo+IHRvIGRpZmZlcmVudGlhdGUgdGhlIFhMQ0RDIGFuZCBleGlzdGluZyBITENEQyBj
-b2RlIHdpdGhpbiB0aGUgc2FtZSBkcml2ZXIuDQpIaSBBbGwNCg0KQSBHZW50bGUgcmVtaW5kZXIg
-dG8gcmV2aWV3IHRoaXMgcGF0Y2ggc2VyaWVzIDIvOSB0byA5LzkuDQo+IA0KPiBjaGFuZ2VzIGlu
-IHYyOg0KPiAqIENoYW5nZSB0aGUgZHJpdmVyIGNvbXBhdGlibGUgbmFtZSBmcm9tICJtaWNyb2No
-aXAsc2FtOXg3LXhsY2RjIiB0bw0KPiAibWljcm9jaGlwLHNhbTl4NzUteGxjZGMiLg0KPiAqIE1v
-dmUgaXNfeGxjZGMgZmxhZyB0byBkcml2ZXIgZGF0YS4NCj4gKiBSZW1vdmUgdW5zZWQgTWFjcm8g
-ZGVmaW5pdGlvbnMuDQo+ICogQWRkIGNvLWRldmVsb3BlZC1ieXMgdGFncw0KPiAqIFJlcGxhY2Ug
-cmVnbWFwX3JlYWQoKSB3aXRoIHJlZ21hcF9yZWFkX3BvbGxfdGltZW91dCgpIGNhbGwNCj4gKiBT
-cGxpdCBjb2RlIGludG8gdHdvIGhlbHBlcnMgZm9yIGNvZGUgcmVhZGFibGl0aXR5Lg0KPiANCj4g
-RHVyYWkgTWFuaWNrYW0gS1IgKDEpOg0KPiAgICBkcm06IGF0bWVsLWhsY2RjOiBEZWZpbmUgU0FN
-OVg3IFNvQyBYTENEQyBzcGVjaWZpYyByZWdpc3RlcnMNCj4gDQo+IE1hbmlrYW5kYW4gTXVyYWxp
-ZGhhcmFuICg4KToNCj4gICAgZHQtYmluZGluZ3M6IG1mZDogQWRkIGJpbmRpbmdzIGZvciBTQU05
-WDc1IExDRCBjb250cm9sbGVyDQo+ICAgIG1mZDogYXRtZWwtaGxjZGM6IEFkZCBjb21wYXRpYmxl
-IGZvciBzYW05eDc1IFhMQ0QgY29udHJvbGxlcg0KPiAgICBkcm06IGF0bWVsLWhsY2RjOiBhZGQg
-ZmxhZyB0byBkaWZmZXJlbnRpYXRlIFhMQ0RDIGFuZCBITENEQyBJUA0KPiAgICBkcm06IGF0bWVs
-LWhsY2RjOiBhZGQgTENEIGNvbnRyb2xsZXIgbGF5ZXIgZGVmaW5pdGlvbiBmb3Igc2FtOXg3NQ0K
-PiAgICBkcm06IGF0bWVsX2hsY2RjOiBBZGQgc3VwcG9ydCBmb3IgWExDREMgaW4gYXRtZWwgTENE
-IGRyaXZlcg0KPiAgICBkcm06IGF0bWVsLWhsY2RjOiBhZGQgRFBJIG1vZGUgc3VwcG9ydCBmb3Ig
-WExDREMNCj4gICAgZHJtOiBhdG1lbC1obGNkYzogYWRkIHZlcnRpY2FsIGFuZCBob3Jpem9udGFs
-IHNjYWxpbmcgc3VwcG9ydCBmb3INCj4gICAgICBYTENEQw0KPiAgICBkcm06IGF0bWVsLWhsY2Rj
-OiBhZGQgc3VwcG9ydCBmb3IgRFNJIG91dHB1dCBmb3JtYXRzDQo+IA0KPiAgIC4uLi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL21mZC9hdG1lbC1obGNkYy50eHQgICB8ICAgMSArDQo+ICAgLi4uL2dwdS9k
-cm0vYXRtZWwtaGxjZGMvYXRtZWxfaGxjZGNfY3J0Yy5jICAgIHwgMTcxICsrKysrKystLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19kYy5jICB8ICA5OSArKysr
-Kw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19kYy5oICB8ICA0
-OCArKysNCj4gICAuLi4vZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19wbGFuZS5jICAg
-fCAzNTcgKysrKysrKysrKysrKysrLS0tDQo+ICAgZHJpdmVycy9tZmQvYXRtZWwtaGxjZGMuYyAg
-ICAgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gICBpbmNsdWRlL2xpbnV4L21mZC9hdG1lbC1o
-bGNkYy5oICAgICAgICAgICAgICAgfCAgMTAgKw0KPiAgIDcgZmlsZXMgY2hhbmdlZCwgNTk2IGlu
-c2VydGlvbnMoKyksIDkxIGRlbGV0aW9ucygtKQ0KPiANCj4gLS0NCj4gMi4yNS4xDQo+IA0KDQot
-LSANClRoYW5rcyBhbmQgUmVnYXJkcywNCk1hbmlrYW5kYW4gTS4NCg0K
+Hello,
+
+(implicit) v1 of this series can be found at
+https://lore.kernel.org/dri-devel/20230507162616.1368908-1-u.kleine-koenig@pengutronix.de
+
+Back then the series contained 53 patches. A big bunch was already
+applied to drm-misc, this is the remainder; with only little changes
+compared to v1:
+
+ - rebased to todays drm-misc-next
+ - Squashed together the two mediatek patches
+ - Adapted the subject prefix for the arcpgu as pointed out by Thomas
+   Zimmermann. (This affected two patches originally, one of them was merged
+   already before anyhow (next-20230801~41^2~34^2~179).)
+
+All these patches are pairwise independant of each other and so can be
+applied individually to their respective maintainer trees. I'm open to
+get these all in together via drm-misc, but each maintainer picking the
+individual patches that they are repsonsible for is maybe the easier
+approach?!
+
+Best regards
+Uwe
+   
+
+Uwe Kleine-König (12):
+  drm/armada: Convert to platform remove callback returning void
+  drm/etnaviv: Convert to platform remove callback returning void
+  drm/imx/dcss: Convert to platform remove callback returning void
+  drm/imx/ipuv3: Convert to platform remove callback returning void
+  drm/ingenic: Convert to platform remove callback returning void
+  drm/kmb: Convert to platform remove callback returning void
+  drm/mediatek: Convert to platform remove callback returning void
+  drm/msm: Convert to platform remove callback returning void
+  drm/nouveau: Convert to platform remove callback returning void
+  drm/shmobile: Convert to platform remove callback returning void
+  drm/sprd: Convert to platform remove callback returning void
+  drm/arcpgu: Convert to platform remove callback returning void
+
+ drivers/gpu/drm/armada/armada_crtc.c             | 5 ++---
+ drivers/gpu/drm/armada/armada_drv.c              | 5 ++---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c            | 6 ++----
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c            | 5 ++---
+ drivers/gpu/drm/imx/dcss/dcss-drv.c              | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c          | 6 ++----
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c         | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c              | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c              | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c           | 5 ++---
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c     | 6 ++----
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c        | 6 ++----
+ drivers/gpu/drm/ingenic/ingenic-ipu.c            | 5 ++---
+ drivers/gpu/drm/kmb/kmb_drv.c                    | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_cec.c               | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c          | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_color.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c        | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c          | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c         | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dp.c                | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dpi.c               | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c           | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_dsi.c               | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_hdmi.c              | 5 ++---
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c          | 6 ++----
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c          | 5 ++---
+ drivers/gpu/drm/msm/adreno/adreno_device.c       | 5 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c          | 6 ++----
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c         | 6 ++----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c         | 5 ++---
+ drivers/gpu/drm/msm/dp/dp_display.c              | 6 ++----
+ drivers/gpu/drm/msm/dsi/dsi.c                    | 6 ++----
+ drivers/gpu/drm/msm/hdmi/hdmi.c                  | 6 ++----
+ drivers/gpu/drm/msm/hdmi/hdmi_phy.c              | 6 ++----
+ drivers/gpu/drm/msm/msm_drv.c                    | 6 ++----
+ drivers/gpu/drm/msm/msm_mdss.c                   | 6 ++----
+ drivers/gpu/drm/nouveau/nouveau_platform.c       | 5 ++---
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 6 ++----
+ drivers/gpu/drm/sprd/sprd_dpu.c                  | 6 ++----
+ drivers/gpu/drm/sprd/sprd_drm.c                  | 5 ++---
+ drivers/gpu/drm/sprd/sprd_dsi.c                  | 6 ++----
+ drivers/gpu/drm/tiny/arcpgu.c                    | 6 ++----
+ 45 files changed, 90 insertions(+), 164 deletions(-)
+
+base-commit: 290cdd7959a734a0ef20ec096af7810177c4b9f8
+-- 
+2.39.2
+
