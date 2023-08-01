@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660F976B0E4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE376B0F6
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC7510E3A3;
-	Tue,  1 Aug 2023 10:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2199310E39B;
+	Tue,  1 Aug 2023 10:15:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A2410E389
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2FF710E390
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:50 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 290261F8B5;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6A7901F8B6;
  Tue,  1 Aug 2023 10:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690884949; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XFDINUM7aM874nTSbQmGl0meaU4OAKs/gJLzGpcvQeQ=;
- b=b+kSY73rs4KW2YjFRuVjefrUStEuBB4QhsykLlbH3y2y8C7CV1sx4Qyq9T21Vk39aGcbuw
- PZBgOe5JxaoiEy7t5E2D9dApVjImj0MEPAARIIkX8ew7sZI5Y78FbJbM6KsOPfgfKuVkJ5
- nRswpJKDFgOl1+dVRK7QeQyqR/hYoNY=
+ bh=vfu/BvusoLnQiuFzOL/HlwH4+5mMt3+lbLontKoD3iw=;
+ b=dlFl/SzWWi5cJNuX2zYtvEUuJXwnl3/nsd9fr30doKtmbrkaJXiQgM5hYGhLqpYyX8DcPK
+ 3nnTOn4jNwoE43ZlpGeRT8R7U6xNrPDAWxwlJKNTJVH3fzbsLoq5oTQs7bJQC/pKQVeIcU
+ nugasWT72I+mQIzsy0RSAZOV14KYDF4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690884949;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XFDINUM7aM874nTSbQmGl0meaU4OAKs/gJLzGpcvQeQ=;
- b=Oc61srRLuazg0qkDpaQjYFRmXc5sc2enlNgEhBcY8+OnW6N4cSaYCTJ88x7b8uJu9lcyAr
- yzgCBPMnxdfq8wCg==
+ bh=vfu/BvusoLnQiuFzOL/HlwH4+5mMt3+lbLontKoD3iw=;
+ b=GMPNmlDBzG1SFib/bWFyL1pX/SLVgtLdK+jaESqmFEXRB1jcGSAz89mbFKDorM2+u7L80M
+ 4NC+Q7N0DdLoDUCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E308A139C8;
- Tue,  1 Aug 2023 10:15:48 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E1D3139BD;
+ Tue,  1 Aug 2023 10:15:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aIJSNlTbyGQBXQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:48 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id UMhVClXbyGQBXQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:49 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 08/47] fbdev/da8xx-fb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:13 +0200
-Message-ID: <20230801101541.900-9-tzimmermann@suse.de>
+Subject: [PATCH v2 09/47] fbdev/efifb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:14 +0200
+Message-ID: <20230801101541.900-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -71,8 +71,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
  linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+ Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -89,47 +90,44 @@ v2:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
+Cc: Peter Jones <pjones@redhat.com>
 ---
- drivers/video/fbdev/Kconfig    | 4 +---
- drivers/video/fbdev/da8xx-fb.c | 4 +---
+ drivers/video/fbdev/Kconfig | 4 +---
+ drivers/video/fbdev/efifb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index e5e5a499df8b..e57588c144de 100644
+index e57588c144de..be7c99154d32 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1837,10 +1837,8 @@ config FB_DA8XX
- 	tristate "DA8xx/OMAP-L1xx/AM335x Framebuffer support"
- 	depends on FB && HAVE_CLK && HAS_IOMEM
- 	depends on ARCH_DAVINCI_DA8XX || SOC_AM33XX || COMPILE_TEST
+@@ -486,9 +486,7 @@ config FB_EFI
+ 	depends on (FB = y) && !IA64 && EFI
+ 	select APERTURE_HELPERS
+ 	select DRM_PANEL_ORIENTATION_QUIRKS
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
- 	select FB_CFB_REV_PIXELS_IN_BYTE
 +	select FB_IOMEM_HELPERS
- 	select FB_MODE_HELPERS
- 	select VIDEOMODE_HELPERS
+ 	select SYSFB
  	help
-diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx-fb.c
-index 988dedcf6be8..4ca70a1bdd3b 100644
---- a/drivers/video/fbdev/da8xx-fb.c
-+++ b/drivers/video/fbdev/da8xx-fb.c
-@@ -1295,14 +1295,12 @@ static int da8xxfb_set_par(struct fb_info *info)
+ 	  This is the EFI frame buffer device driver. If the firmware on
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index 3391c8e84210..f9b4ddd592ce 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -277,11 +277,9 @@ static void efifb_destroy(struct fb_info *info)
  
- static const struct fb_ops da8xx_fb_ops = {
- 	.owner = THIS_MODULE,
+ static const struct fb_ops efifb_ops = {
+ 	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var = fb_check_var,
- 	.fb_set_par = da8xxfb_set_par,
- 	.fb_setcolreg = fb_setcolreg,
- 	.fb_pan_display = da8xx_pan_display,
- 	.fb_ioctl = fb_ioctl,
--	.fb_fillrect = cfb_fillrect,
--	.fb_copyarea = cfb_copyarea,
--	.fb_imageblit = cfb_imageblit,
- 	.fb_blank = cfb_blank,
+ 	.fb_destroy	= efifb_destroy,
+ 	.fb_setcolreg	= efifb_setcolreg,
+-	.fb_fillrect	= cfb_fillrect,
+-	.fb_copyarea	= cfb_copyarea,
+-	.fb_imageblit	= cfb_imageblit,
  };
  
+ static int efifb_setup(char *options)
 -- 
 2.41.0
 
