@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9558376BA19
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 18:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B311D76BA35
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 19:03:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F08A10E12B;
-	Tue,  1 Aug 2023 16:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE63510E19B;
+	Tue,  1 Aug 2023 17:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E8B10E12B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 16:55:44 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 675E321C5A;
- Tue,  1 Aug 2023 16:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690908943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2wJGrCodiFacIQZflH9R6dQqAyomHz+cFLPpNk0lajQ=;
- b=TDZ9lKQMhrHc1AR1LuAXp5Tf9AguCo8xpgKK+zjT39q4efiYfn94Cm/Ko5k4J2u1h4VRFR
- w3vB8r/E1dpFLL4dNofINx/9Six8SvZLoppUT2y29YjHdEMfDage5T1VBrtxL0OLlg1drC
- AcBJLYMaXgik1cwS5siI8RxGNGcxHuc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690908943;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2wJGrCodiFacIQZflH9R6dQqAyomHz+cFLPpNk0lajQ=;
- b=U97WmX2iRrPFW29Xxax7UDZILg2veMmwjNvB+tnpBQcLv54/EakR9Ow1Xd6dAkdUZYAXxU
- B3eRzcWwi/4EuzBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1862D139BD;
- Tue,  1 Aug 2023 16:55:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rIn0BA85yWTiMAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 16:55:43 +0000
-Message-ID: <70690ae5-c2eb-6f8e-8335-e5052db5204b@suse.de>
-Date: Tue, 1 Aug 2023 18:55:42 +0200
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3A110E19B;
+ Tue,  1 Aug 2023 17:03:03 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id
+ ca18e2360f4ac-79095499a16so122209739f.2; 
+ Tue, 01 Aug 2023 10:03:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690909383; x=1691514183;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HpLKlPkPuDeZTaydF9hSSkY9Ellw/0x0sPYE01QQjK8=;
+ b=dwZwdTx3LbTEUjrG7cqObNua7f/Y6UApTOfS71NoiM+4B3YWrCLr2w6QEvPLWhDQ82
+ ok+QSNsMDSsGiu47UdPyWXPoOyDyTuozvp5e3kulaStWriPzuNLhXDZHiZFxvO2/uNzf
+ KecRX12r2tzxow1wQSwHlyXAwcXrd6DN3vaOB288qxzuGWTJIPqGKCnh+kXjRo7+d7cl
+ YJy/HTYGtvfXMJJMvEwmrwK6qExfYDLuiSpgauCDrQI+LNAysON/q5beCISdZTol7XVt
+ x0NxJHLAetlZGoKrBTjXmCCJRX4bPGCjmOjSxGm744nOgpviFoHbdKlhLAbdxUCTC3fh
+ 6BCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690909383; x=1691514183;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HpLKlPkPuDeZTaydF9hSSkY9Ellw/0x0sPYE01QQjK8=;
+ b=DWEJH+9eU4jvbPZrwWvrdKJKycq8prN1yihQeBcJHjZ10hYLTjaS5ru9mZhiS+Yt17
+ fifgWM0hRSvW5kE389mRf7upx+sIqvx3Id6b00UjlhnvkoXOicN7CgrD3FLx8keCJsJa
+ 0hM04DMPmJNAytEyH9M4Sg3BK95lQf9EkDDUEFHwsnjNNXqK34Nh5wFav35M9nrpoBAh
+ pfatkZ4v7bF0d2j2Z1JHfy7Da0Rgs3Laqr+WMoFlAonXfJDg4IGuwU4rfmXbklJ0OQTq
+ W1V9WYu7o8w/o82pBCuyDqX9MzeaeFVZWBdPSTJrnwHPhq5U2JPZK1+3eg36YpSiolhR
+ /28w==
+X-Gm-Message-State: ABy/qLbm3r2eX18YgssqPIRugyffGaXlNgdImNpCyagg7KeJizwp+OOu
+ pDNwXeXEJYIR1B1hMFn7SRw=
+X-Google-Smtp-Source: APBJJlFnXDkFGfkVLtL6cxCofA5CYCbk4OYOGIz5bGjX04E7JRgdcDA1DzDAmsNmGGPAU1VpuideFQ==
+X-Received: by 2002:a05:6e02:1aa3:b0:345:66f5:3404 with SMTP id
+ l3-20020a056e021aa300b0034566f53404mr14132076ilv.0.1690909382631; 
+ Tue, 01 Aug 2023 10:03:02 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+ by smtp.googlemail.com with ESMTPSA id
+ o20-20020a02c6b4000000b0042b144abf71sm3768577jan.179.2023.08.01.10.03.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Aug 2023 10:03:02 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: daniel.vetter@ffwll.ch, daniel@ffwll.ch, jbaron@akamai.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 00/22] fix DRM_USE_DYNAMIC_DEBUG regression
+Date: Tue,  1 Aug 2023 11:02:32 -0600
+Message-ID: <20230801170255.163237-1-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH 1/4] vgacon: rework Kconfig dependencies
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>
-References: <20230707095415.1449376-1-arnd@kernel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230707095415.1449376-1-arnd@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------V2Kx07z5UT1mt9SnMBadeWbI"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,109 +73,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- javierm@redhat.com, Palmer Dabbelt <palmer@dabbelt.com>,
- linux-csky@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guo Ren <guoren@kernel.org>, linux-riscv@lists.infradead.org,
- Ard Biesheuvel <ardb@kernel.org>
+Cc: jani.nikula@intel.com, linux@rasmusvillemoes.dk, seanpaul@chromium.org,
+ joe@perches.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------V2Kx07z5UT1mt9SnMBadeWbI
-Content-Type: multipart/mixed; boundary="------------2bQgjjzopkAYok3GbchMEycT";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: javierm@redhat.com, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, Ard Biesheuvel <ardb@kernel.org>,
- Helge Deller <deller@gmx.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Guo Ren <guoren@kernel.org>, linux-riscv@lists.infradead.org,
- linux-csky@vger.kernel.org
-Message-ID: <70690ae5-c2eb-6f8e-8335-e5052db5204b@suse.de>
-Subject: Re: [PATCH 1/4] vgacon: rework Kconfig dependencies
-References: <20230707095415.1449376-1-arnd@kernel.org>
-In-Reply-To: <20230707095415.1449376-1-arnd@kernel.org>
+Hi Jason, Daniel, etal
 
---------------2bQgjjzopkAYok3GbchMEycT
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This is V5, Im hoping to land this one.
+ patchwork will probably call this set v3
+ 113361	fix DRM_USE_DYNAMIC_DEBUG regression - revs 1,2
+ 111652	DRM_USE_DYNAMIC_DEBUG regression - older, also 2 revs
 
-cGluZyEgV2hhdCdzIHRoZSBzdGF0dXMgb2YgdGhpcyBwYXRjaHNldD8NCg0KQW0gMDcuMDcu
-MjMgdW0gMTE6NTIgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBGcm9tOiBBcm5kIEJlcmdt
-YW5uIDxhcm5kQGFybmRiLmRlPg0KPiANCj4gVGhlIGxpc3Qgb2YgZGVwZW5kZW5jaWVzIGhl
-cmUgaXMgcGhyYXNlZCBhcyBhbiBvcHQtb3V0LCBidXQgdGhpcyBpcyBtaXNzaW5nDQo+IGEg
-bG90IG9mIGFyY2hpdGVjdHVyZXMgdGhhdCBkb24ndCBhY3R1YWxseSBzdXBwb3J0IFZHQSBj
-b25zb2xlcywgYW5kIHNvbWUNCj4gb2YgdGhlIGVudHJpZXMgYXJlIHN0YWxlOg0KPiANCj4g
-ICAtIHBvd2VycGMgdXNlZCB0byBzdXBwb3J0IFZHQSBjb25zb2xlcyBpbiB0aGUgb2xkIGFy
-Y2gvcHBjIGNvZGViYXNlLCBidXQNCj4gICAgIHRoZSBtZXJnZWQgYXJjaC9wb3dlcnBjIG5l
-dmVyIGRpZA0KPiANCj4gICAtIGFybSBsaXN0cyBmb290YnJpZGdlLCBpbnRlZ3JhdG9yIGFu
-ZCBuZXR3aW5kZXIsIGJ1dCBuZXR3aW5kZXIgaXMgYWN0dWFsbHkNCj4gICAgIHBhcnQgb2Yg
-Zm9vdGJyaWRnZSwgYW5kIGludGVncmF0b3IgZG9lcyBub3QgYXBwZWFyIHRvIGhhdmUgYW4g
-YWN0dWFsDQo+ICAgICBWR0EgaGFyZHdhcmUsIG9yIGxpc3QgaXQgaW4gaXRzIEFUQUcgb3Ig
-RFQuDQo+IA0KPiAgIC0gbWlwcyBoYXMgYSBmZXcgcGxhdGZvcm1zIChqYXp6LCBzaWJ5dGUs
-IGFuZCBzbmkpIHRoYXQgaW5pdGlhbGl6ZQ0KPiAgICAgc2NyZWVuX2luZm8sIG9uIGV2ZXJ5
-dGhpbmcgZWxzZSB0aGUgY29uc29sZSBpcyBzZWxlY3RlZCBidXQgY2Fubm90DQo+ICAgICBh
-Y3R1YWxseSB3b3JrLg0KPiANCj4gICAtIGNza3ksIGhleGdhZ29uLCBsb29uZ2FyY2gsIG5p
-b3MyLCByaXNjdiBhbmQgeHRlbnNhIGFyZSBub3QgbGlzdGVkDQo+ICAgICBpbiB0aGUgb3B0
-LW91dCB0YWJsZSBhbmQgZGVjbGFyZSBhIHNjcmVlbl9pbmZvIHRvIGFsbG93IGJ1aWxkaW5n
-DQo+ICAgICB2Z2FfY29uLCBidXQgdGhpcyBjYW5ub3Qgd29yayBiZWNhdXNlIHRoZSBjb25z
-b2xlIGlzIG5ldmVyIHNlbGVjdGVkLg0KPiANCj4gUmVwbGFjZSB0aGlzIHdpdGggYW4gb3B0
-LWluIHRhYmxlIHRoYXQgbGlzdHMgb25seSB0aGUgcGxhdGZvcm1zIHRoYXQNCj4gcmVtYWlu
-LiBUaGlzIGlzIGVmZmVjdGl2ZWx5IHg4NiwgcGx1cyBhIGNvdXBsZSBvZiBoaXN0b3JpYyB3
-b3Jrc3RhdGlvbg0KPiBhbmQgc2VydmVyIG1hY2hpbmVzIHRoYXQgcmV1c2VkIHBhcnRzIG9m
-IHRoZSB4ODYgc3lzdGVtIGFyY2hpdGVjdHVyZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFy
-bmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvdmlkZW8v
-Y29uc29sZS9LY29uZmlnIHwgNiArKystLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNl
-cnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-dmlkZW8vY29uc29sZS9LY29uZmlnIGIvZHJpdmVycy92aWRlby9jb25zb2xlL0tjb25maWcN
-Cj4gaW5kZXggYTJhODhkNDJlZGYwYy4uNDdjNDk4ZGVmYzIxMSAxMDA2NDQNCj4gLS0tIGEv
-ZHJpdmVycy92aWRlby9jb25zb2xlL0tjb25maWcNCj4gKysrIGIvZHJpdmVycy92aWRlby9j
-b25zb2xlL0tjb25maWcNCj4gQEAgLTcsOSArNyw5IEBAIG1lbnUgIkNvbnNvbGUgZGlzcGxh
-eSBkcml2ZXIgc3VwcG9ydCINCj4gICANCj4gICBjb25maWcgVkdBX0NPTlNPTEUNCj4gICAJ
-Ym9vbCAiVkdBIHRleHQgY29uc29sZSIgaWYgRVhQRVJUIHx8ICFYODYNCj4gLQlkZXBlbmRz
-IG9uICE0eHggJiYgIVBQQ184eHggJiYgIVNQQVJDICYmICFNNjhLICYmICFQQVJJU0MgJiYg
-ICFTVVBFUkggJiYgXA0KPiAtCQkoIUFSTSB8fCBBUkNIX0ZPT1RCUklER0UgfHwgQVJDSF9J
-TlRFR1JBVE9SIHx8IEFSQ0hfTkVUV0lOREVSKSAmJiBcDQo+IC0JCSFBUk02NCAmJiAhQVJD
-ICYmICFNSUNST0JMQVpFICYmICFPUEVOUklTQyAmJiAhUzM5MCAmJiAhVU1MDQo+ICsJZGVw
-ZW5kcyBvbiBBTFBIQSB8fCBJQTY0IHx8IFg4NiB8fCBcDQo+ICsJCShBUk0gJiYgQVJDSF9G
-T09UQlJJREdFKSB8fCBcDQo+ICsJCShNSVBTICYmIChNSVBTX01BTFRBIHx8IFNJQllURV9C
-Q00xMTJYIHx8IFNJQllURV9TQjEyNTAgfHwgU0lCWVRFX0JDTTF4ODAgfHwgU05JX1JNKSkN
-Cj4gICAJc2VsZWN0IEFQRVJUVVJFX0hFTFBFUlMgaWYgKERSTSB8fCBGQiB8fCBWRklPX1BD
-SV9DT1JFKQ0KPiAgIAlkZWZhdWx0IHkNCj4gICAJaGVscA0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJn
-LCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFs
-ZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+It (patch 14 mainly):
+ Fixes: aad0214f3026 ("dyndbg: add DECLARE_DYNDBG_CLASSMAP macro")
+ Fixes: f158936b60a7 ("drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.")
+ Ref: commit bb2ff6c27bc9 ("drm: Disable dynamic debug as broken")
 
---------------2bQgjjzopkAYok3GbchMEycT--
+It replaces DECLARE_DYNDBG_CLASSMAP macro with 2 new ones;
+DYNDBG_CLASSMAP_DEFINE/_USE, and invokes them from drm.ko and drivers
+respectively.  A new __dyndbg_class_users section contains each
+driver's _USE; dyndbg scans it at driver-module load, finds drm.debug,
+and applies it to the driver's class'd prdbgs.
 
---------------V2Kx07z5UT1mt9SnMBadeWbI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The code it fixes went in here:
+https://lore.kernel.org/lkml/Yy7%2F6oTBW2lqVSK1@kroah.com/
 
------BEGIN PGP SIGNATURE-----
+then Ref: effectively marked DRM_USE_DYNAMIC_DEBUG=y as broken
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTJOQ4FAwAAAAAACgkQlh/E3EQov+C8
-AA/+KnRDuYQRR/mF98DBfmrHT5Ia6xQSG3uvFuQDrbaKBsjqD2QXy1PNFOGyjSmDdFvEkQgLUEF0
-pU8EoGE0mG7m//BybV/hRDjLmylbBIjgjv4uzYT6sQQ2HFgJe5bhU+lTUJ7ou5S72bFvVbrsU2ed
-7ZJth7Gg/0ISIuQ+YvMlNOubgolEVWpb3vv4iFOMwf/Z8OtmWhXe0hae/PhUtJgtGGpDA22NQMWw
-C8Xgy4sj+oDLHOGKljPDTYphn2wnbBHbniQB6+16mkaCbC0jj83h0aglF3doR5+VtsqJlulUGw2L
-o1Da2b1fj6gNd4j+nUCihbmBjEoyW6Z92ObBaIRPJ6mXGHPylW1ilH9TFvvRqzlgngckgNPN2b5y
-P+mLTquYg1QI2DOue03EH+hs4ENNC8UeIJsAAtk8qtN9U/SsKfRgKn04/PG2zkT1NvB68nfm34g4
-B30CeLIVUSrAPt9s3veG6GovLraSTf4jznRAVXrXwB9AxqRexyVN02g7hXqsBgK/OIyyjd81rvyj
-lzzyMjwCnSnHktiLvoS3Chej5vW3kCLbayrLgkGMbztNuD8bbQgaFYtzqMJ+cBF7xKWNq5Ebx3zc
-SQb+HvTRbdT/2HsCEwaJILuWF9xcbkMMk2yJykvBFCmd9JfOZT55CMp27lyUlKqsMy8nYyV+HyZH
-HMA=
-=PJsE
------END PGP SIGNATURE-----
+and https://lore.kernel.org/lkml/Y3XUrOGAV4I7bB3M@kroah.com/
+GregKH opined:
+This should go through the drm tree now.  The rest probably should also
+go that way and not through my tree as well.
 
---------------V2Kx07z5UT1mt9SnMBadeWbI--
+While most of this patchset's churn is still in lib/, DRM is the real
+user for all this classmap stuff, and the real acceptance test is in
+DRM CI.  Hopefully it won't fall over in BAT.
+
+However, theres also a dyndbg patch to add -s flag, I havent seen it
+lately, but it might have a nominal conflict.
+
+I'll happily take reviews/Acks/tested-bys, grumpily breakage reports.
+And some landing instructions, wind-speed, runway assignment, etc from the Tower.
+
+theres also a few drive-by checkpatch tweaks.
+13 fixes a warning that 14 gets about vmlinux.lds.h declared linker-symbols.
+
+
+Jim Cromie (22):
+  drm: use correct ccflags-y syntax
+  test-dyndbg: fixup CLASSMAP usage error
+  dyndbg: make ddebug_class_param union members same size
+  dyndbg: replace classmap list with a vector
+  dyndbg: ddebug_apply_class_bitmap - add module arg, select on it
+  dyndbg: split param_set_dyndbg_classes to module/wrapper fns
+  dyndbg: drop NUM_TYPE_ARRAY
+  dyndbg: reduce verbose/debug clutter
+  dyndbg: silence debugs with no-change updates
+  dyndbg: tighten ddebug_class_name() 1st arg type
+  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
+  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
+  checkpatch: file-scoped extern special case for linker-symbol
+  dyndbg-API: fix CONFIG_DRM_USE_DYNAMIC_DEBUG regression
+  dyndbg: add for_each_boxed_vector
+  dyndbg: refactor ddebug_classparam_clamp_input
+  dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
+  dyndbg-test: build it with just CONFIG_DYNAMIC_DEBUG_CORE
+  drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+  drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+  dyndbg-doc: add classmap info to howto
+  checkpatch: reword long-line warn about commit-msg
+
+ .../admin-guide/dynamic-debug-howto.rst       |  64 ++-
+ MAINTAINERS                                   |   2 +-
+ drivers/gpu/drm/Kconfig                       |   3 +-
+ drivers/gpu/drm/Makefile                      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  12 +-
+ drivers/gpu/drm/display/drm_dp_helper.c       |  12 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |  12 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +
+ drivers/gpu/drm/drm_print.c                   |  35 +-
+ drivers/gpu/drm/gud/gud_drv.c                 |   2 +
+ drivers/gpu/drm/i915/i915_params.c            |  12 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   2 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  12 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   2 +
+ drivers/gpu/drm/radeon/radeon_drv.c           |   2 +
+ drivers/gpu/drm/udl/udl_main.c                |   2 +
+ drivers/gpu/drm/vkms/vkms_drv.c               |   2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +
+ include/asm-generic/vmlinux.lds.h             |   1 +
+ include/drm/drm_print.h                       |  12 +-
+ include/linux/dynamic_debug.h                 | 113 +++--
+ kernel/module/main.c                          |   3 +
+ lib/Kconfig.debug                             |  10 +-
+ lib/Makefile                                  |   4 +-
+ lib/dynamic_debug.c                           | 406 +++++++++++-------
+ lib/test_dynamic_debug.c                      | 127 +++---
+ lib/test_dynamic_debug_submod.c               |  10 +
+ scripts/checkpatch.pl                         |  22 +-
+ 28 files changed, 550 insertions(+), 341 deletions(-)
+ create mode 100644 lib/test_dynamic_debug_submod.c
+
+-- 
+2.41.0
+
