@@ -1,34 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0315B76A75F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 05:16:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C8E76A775
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 05:24:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13F2B10E0C3;
-	Tue,  1 Aug 2023 03:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C620410E0B0;
+	Tue,  1 Aug 2023 03:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-99.mail.aliyun.com (out28-99.mail.aliyun.com
- [115.124.28.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C15510E0C3;
- Tue,  1 Aug 2023 03:16:13 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08137069|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0160256-0.000551174-0.983423;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047212; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.U5JBFWQ_1690859764; 
-Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U5JBFWQ_1690859764) by smtp.aliyun-inc.com;
- Tue, 01 Aug 2023 11:16:06 +0800
-From: Ran Sun <sunran001@208suo.com>
-To: alexander.deucher@amd.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/amd/pm: Clean up errors in fiji_baco.c
-Date: Tue,  1 Aug 2023 03:16:03 +0000
-Message-Id: <20230801031603.5283-1-sunran001@208suo.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mgamail.intel.com (unknown [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFBD110E0B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 03:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690860272; x=1722396272;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=G51An+UOcZdd/1cd0HK6KxXN3B51gud4QnR4LTE8fak=;
+ b=PXgn0xoIPmK8bT3nwf293nDHiJx0DA1N9MJZAWgRkMd5CdUWQWDQLBIr
+ 2jjUdOERrX1ujUp9Umz3teK002ukJm0eBQd8fKav9WBLBo4PKkiIwaBp2
+ 9LziGutqmTfIik28llAdg35YjubahqY8A6YeSHWvJfNz3RQxxc8Ru8WsG
+ 2fgRK1D3p5Av+WvwhLzq5v5/IsjgTUNeitzF0UlG6Ks2bZYc2vZtks/Kb
+ 1K96KXsPdByg8fwY4oR4zm9H1sI25ulKu4p9tMiBZ3mdBOcGQAgkP/XDL
+ QLmuEALjjkZLUcneam6J5EchbBcd5wj54oEDxPuZh4B8YBhJuE1tFvHod A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433022082"
+X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="433022082"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2023 20:24:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="798496273"
+X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="798496273"
+Received: from lkp-server02.sh.intel.com (HELO 953e8cd98f7d) ([10.239.97.151])
+ by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2023 20:24:29 -0700
+Received: from kbuild by 953e8cd98f7d with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qQfzo-0005aE-2n;
+ Tue, 01 Aug 2023 03:24:28 +0000
+Date: Tue, 1 Aug 2023 11:23:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhu Wang <wangzhu9@huawei.com>, linux@armlinux.org.uk,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ u.kleine-koenig@pengutronix.de, arnd@arndb.de
+Subject: Re: [PATCH -next] drm/i2c: tda998x: remove redundant of_match_ptr
+Message-ID: <202308011156.JV5BlEpl-lkp@intel.com>
+References: <20230731130257.94751-1-wangzhu9@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230731130257.94751-1-wangzhu9@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,102 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: wangzhu9@huawei.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+Hi Zhu,
 
-ERROR: that open brace { should be on the previous line
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
- .../drm/amd/pm/powerplay/hwmgr/fiji_baco.c    | 24 +++++++------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+[auto build test ERROR on next-20230731]
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
-index c0368f2dfb21..b3e768fa79f2 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
-@@ -36,8 +36,7 @@
- #include "smu/smu_7_1_3_sh_mask.h"
- 
- 
--static const struct baco_cmd_entry gpio_tbl[] =
--{
-+static const struct baco_cmd_entry gpio_tbl[] = {
- 	{ CMD_WRITE, mmGPIOPAD_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_PD_EN, 0, 0, 0, 0x0 },
- 	{ CMD_WRITE, mmGPIOPAD_PU_EN, 0, 0, 0, 0x0 },
-@@ -50,15 +49,13 @@ static const struct baco_cmd_entry gpio_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmDC_GPIO_SYNCA_MASK, 0, 0, 0, 0x00001111 }
- };
- 
--static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =
--{
-+static const struct baco_cmd_entry enable_fb_req_rej_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0300024 },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x1, 0x0, 0, 0x1 },
- 	{ CMD_WRITE, mmBIF_FB_EN, 0, 0, 0, 0x0 }
- };
- 
--static const struct baco_cmd_entry use_bclk_tbl[] =
--{
-+static const struct baco_cmd_entry use_bclk_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN_MASK, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN__SHIFT, 0, 0x1 },
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL_2 },
-@@ -78,8 +75,7 @@ static const struct baco_cmd_entry use_bclk_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL_MASK, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL__SHIFT, 0, 0x2 }
- };
- 
--static const struct baco_cmd_entry turn_off_plls_tbl[] =
--{
-+static const struct baco_cmd_entry turn_off_plls_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_RESET_MASK, CG_SPLL_FUNC_CNTL__SPLL_RESET__SHIFT, 0,     0x1 },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPLL_PWRON_MASK, CG_SPLL_FUNC_CNTL__SPLL_PWRON__SHIFT, 0,     0x0 },
-@@ -88,8 +84,7 @@ static const struct baco_cmd_entry turn_off_plls_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x8000000, 0x1b, 0, 0x0 }
- };
- 
--static const struct baco_cmd_entry clk_req_b_tbl[] =
--{
-+static const struct baco_cmd_entry clk_req_b_tbl[] = {
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_CLKPIN_CNTL_2 },
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_CLKPIN_CNTL_2__FORCE_BIF_REFCLK_EN_MASK, CG_CLKPIN_CNTL_2__FORCE_BIF_REFCLK_EN__SHIFT, 0, 0x0 },
- 	{ CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixMPLL_BYPASSCLK_SEL },
-@@ -104,8 +99,7 @@ static const struct baco_cmd_entry clk_req_b_tbl[] =
- 	{ CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, THM_CLK_CNTL__TMON_CLK_SEL_MASK, THM_CLK_CNTL__TMON_CLK_SEL__SHIFT, 0, 0x1 }
- };
- 
--static const struct baco_cmd_entry enter_baco_tbl[] =
--{
-+static const struct baco_cmd_entry enter_baco_tbl[] = {
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_EN_MASK, BACO_CNTL__BACO_EN__SHIFT, 0, 0x01 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK, BACO_CNTL__BACO_BIF_SCLK_SWITCH__SHIFT, 0, 0x01 },
- 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK, 0, 5, 0x40000 },
-@@ -122,8 +116,7 @@ static const struct baco_cmd_entry enter_baco_tbl[] =
- 
- #define BACO_CNTL__PWRGOOD_MASK  BACO_CNTL__PWRGOOD_GPIO_MASK+BACO_CNTL__PWRGOOD_MEM_MASK+BACO_CNTL__PWRGOOD_DVO_MASK
- 
--static const struct baco_cmd_entry exit_baco_tbl[] =
--{
-+static const struct baco_cmd_entry exit_baco_tbl[] = {
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_RESET_EN_MASK, BACO_CNTL__BACO_RESET_EN__SHIFT, 0, 0x01 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BCLK_OFF_MASK, BACO_CNTL__BACO_BCLK_OFF__SHIFT, 0, 0x00 },
- 	{ CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MASK, BACO_CNTL__BACO_POWER_OFF__SHIFT, 0, 0x00 },
-@@ -138,8 +131,7 @@ static const struct baco_cmd_entry exit_baco_tbl[] =
- 	{ CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xffffffff, 0x00 }
- };
- 
--static const struct baco_cmd_entry clean_baco_tbl[] =
--{
-+static const struct baco_cmd_entry clean_baco_tbl[] = {
- 	{ CMD_WRITE, mmBIOS_SCRATCH_0, 0, 0, 0, 0 },
- 	{ CMD_WRITE, mmBIOS_SCRATCH_1, 0, 0, 0, 0 },
- 	{ CMD_WRITE, mmBIOS_SCRATCH_2, 0, 0, 0, 0 },
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhu-Wang/drm-i2c-tda998x-remove-redundant-of_match_ptr/20230731-210417
+base:   next-20230731
+patch link:    https://lore.kernel.org/r/20230731130257.94751-1-wangzhu9%40huawei.com
+patch subject: [PATCH -next] drm/i2c: tda998x: remove redundant of_match_ptr
+config: i386-randconfig-i012-20230731 (https://download.01.org/0day-ci/archive/20230801/202308011156.JV5BlEpl-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230801/202308011156.JV5BlEpl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308011156.JV5BlEpl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i2c/tda998x_drv.c:2106:21: error: use of undeclared identifier 'tda998x_dt_ids'; did you mean 'tda998x_ids'?
+                   .of_match_table = tda998x_dt_ids,
+                                     ^~~~~~~~~~~~~~
+                                     tda998x_ids
+   drivers/gpu/drm/i2c/tda998x_drv.c:2095:35: note: 'tda998x_ids' declared here
+   static const struct i2c_device_id tda998x_ids[] = {
+                                     ^
+>> drivers/gpu/drm/i2c/tda998x_drv.c:2106:21: error: incompatible pointer types initializing 'const struct of_device_id *' with an expression of type 'const struct i2c_device_id[2]' [-Werror,-Wincompatible-pointer-types]
+                   .of_match_table = tda998x_dt_ids,
+                                     ^~~~~~~~~~~~~~
+   2 errors generated.
+
+
+vim +2106 drivers/gpu/drm/i2c/tda998x_drv.c
+
+  2100	
+  2101	static struct i2c_driver tda998x_driver = {
+  2102		.probe = tda998x_probe,
+  2103		.remove = tda998x_remove,
+  2104		.driver = {
+  2105			.name = "tda998x",
+> 2106			.of_match_table = tda998x_dt_ids,
+  2107		},
+  2108		.id_table = tda998x_ids,
+  2109	};
+  2110	
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
