@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECEB76B425
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 13:59:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA32676B42B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 13:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D906F10E3EC;
-	Tue,  1 Aug 2023 11:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACEE210E3EF;
+	Tue,  1 Aug 2023 11:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8135C10E11E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 11:59:06 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A68110E3E7
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 11:59:07 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AE44E660718D;
- Tue,  1 Aug 2023 12:59:04 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 93E5C6607190;
+ Tue,  1 Aug 2023 12:59:05 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690891145;
- bh=D8JgjR51ioF8fx7m/fH4EUDsN30Yt9OdM2Jk9HpBU00=;
+ s=mail; t=1690891146;
+ bh=U7o24sdxWuUf0KSP3Kk3p2PcTD6H7BVTWeW9U4Sw7qo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VdVADUYaWzNVJfqjtdMQqkV6N5jXNpykt3jFTjiZA0P/R6eN9GVmjB6u+Ge2cYrs9
- yeKNF06g0qeQYiEv6YKPuIhGzp2jEJ8co0pvVic7k9NrbOyXUV324L30/eo3hK2D+m
- HVZ3VivJg827qEps5HvJMZCoOtajdDbq+DUnJtKApVovYwYvGOFt1YlYo221JMWoeN
- Z/mc/KiYvWJf3p46kO679aVTxRxSlJqbeceK7kGaUPbxWHEdkrrVh8PLOFwEB7RL+l
- BCdUKBl1SHMK2jfozwkLRqMCrQkKgw7+DM1duySn1JL9xodTOaQntf4xh9LGH+cCwQ
- q6oOGj8rxzetA==
+ b=fG5q2AQXBrxpVYXCYE+BbjudouUSaJ9P2NXDIvfFKsF3SIWSjXJAYX0avT3px5QXu
+ r4nhdf8ps3nt2w2100yTvPO3eS9UEWviveoZr3w0Mmz8WaMXxnVQN35HpKrrRTcLkv
+ zdX8eNM0JqN63NCR+726oTfZ+gSjn+MYAooB+Cof6o/oFNGUTy4JWXhraFntwIkoX6
+ 1wCI9Zdmzr+lnQm1nB18vZtUsL7VpN4scd5ejaL7+l/sLibUpwx4NK/MHsSwIfxs5z
+ zXiTCdAln9UEVtuKgE/N6uEtsocF+85uBb7q90uQyk4H/TYSs01PTmaadgtM7sVM7N
+ +WY9A57j1nOVQ==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
-Subject: [PATCH v8 05/13] drm/mediatek: gamma: Enable the Gamma LUT table only
- after programming
-Date: Tue,  1 Aug 2023 13:58:46 +0200
-Message-ID: <20230801115854.150346-6-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v8 06/13] drm/mediatek: gamma: Use bitfield macros
+Date: Tue,  1 Aug 2023 13:58:47 +0200
+Message-ID: <20230801115854.150346-7-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801115854.150346-1-angelogioacchino.delregno@collabora.com>
 References: <20230801115854.150346-1-angelogioacchino.delregno@collabora.com>
@@ -62,65 +60,108 @@ Cc: Alexandre Mergnat <amergnat@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the write to DISP_GAMMA_CFG to enable the Gamma LUT to after
-programming the actual table to avoid potential visual glitches during
-table modification.
-
-Note:
-GAMMA should get enabled in between vblanks, but this requires many
-efforts in order to make this happen, as that requires migrating all
-of the writes to make use of CMDQ instead of cpu writes and that's
-not trivial. For this reason, this patch only moves the LUT enable.
-The CMDQ rework will come at a later time.
+Make the code more robust and improve readability by using bitfield
+macros instead of open coding bit operations.
+While at it, also add a definition for LUT_BITS_DEFAULT.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 41 ++++++++++++++---------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 1e21dd92c88b..b9dc8754187d 100644
+index b9dc8754187d..4f642fed432f 100644
 --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
 +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -66,11 +66,11 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
- 			  struct drm_crtc_state *state, u16 lut_size)
- {
- 	struct mtk_disp_gamma *gamma;
--	unsigned int i, reg;
-+	unsigned int i;
- 	struct drm_color_lut *lut;
- 	void __iomem *lut_base;
- 	bool lut_diff;
--	u32 word;
-+	u32 cfg_val, word;
+@@ -3,6 +3,7 @@
+  * Copyright (c) 2021 MediaTek Inc.
+  */
  
- 	/* If there's no gamma lut there's nothing to do here. */
- 	if (!state->gamma_lut)
-@@ -84,9 +84,7 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
- 	else
- 		lut_diff = false;
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/component.h>
+ #include <linux/module.h>
+@@ -21,9 +22,16 @@
+ #define GAMMA_LUT_EN					BIT(1)
+ #define GAMMA_DITHERING					BIT(2)
+ #define DISP_GAMMA_SIZE				0x0030
++#define DISP_GAMMA_SIZE_HSIZE				GENMASK(28, 16)
++#define DISP_GAMMA_SIZE_VSIZE				GENMASK(12, 0)
+ #define DISP_GAMMA_LUT				0x0700
  
--	reg = readl(regs + DISP_GAMMA_CFG);
--	reg = reg | GAMMA_LUT_EN;
--	writel(reg, regs + DISP_GAMMA_CFG);
-+	cfg_val = readl(regs + DISP_GAMMA_CFG);
- 	lut_base = regs + DISP_GAMMA_LUT;
- 	lut = (struct drm_color_lut *)state->gamma_lut->data;
++#define DISP_GAMMA_LUT_10BIT_R			GENMASK(29, 20)
++#define DISP_GAMMA_LUT_10BIT_G			GENMASK(19, 10)
++#define DISP_GAMMA_LUT_10BIT_B			GENMASK(9, 0)
++
+ #define LUT_10BIT_MASK				0x03ff
++#define LUT_BITS_DEFAULT			10
+ 
+ struct mtk_disp_gamma_data {
+ 	bool has_dither;
+@@ -90,33 +98,33 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
  	for (i = 0; i < lut_size; i++) {
-@@ -116,6 +114,11 @@ void mtk_gamma_set_common(struct device *dev, void __iomem *regs,
+ 		struct drm_color_lut diff, hwlut;
+ 
+-		hwlut.red = drm_color_lut_extract(lut[i].red, 10);
+-		hwlut.green = drm_color_lut_extract(lut[i].green, 10);
+-		hwlut.blue = drm_color_lut_extract(lut[i].blue, 10);
++		hwlut.red = drm_color_lut_extract(lut[i].red, LUT_BITS_DEFAULT);
++		hwlut.green = drm_color_lut_extract(lut[i].green, LUT_BITS_DEFAULT);
++		hwlut.blue = drm_color_lut_extract(lut[i].blue, LUT_BITS_DEFAULT);
+ 
+ 		if (!lut_diff || (i % 2 == 0)) {
+-			word = hwlut.red << 20 +
+-			       hwlut.green << 10 +
+-			       hwlut.red;
++			word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
++			word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
++			word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
+ 		} else {
+ 			diff.red = lut[i].red - lut[i - 1].red;
+-			diff.red = drm_color_lut_extract(diff.red, 10);
++			diff.red = drm_color_lut_extract(diff.red, LUT_BITS_DEFAULT);
+ 
+ 			diff.green = lut[i].green - lut[i - 1].green;
+-			diff.green = drm_color_lut_extract(diff.green, 10);
++			diff.green = drm_color_lut_extract(diff.green, LUT_BITS_DEFAULT);
+ 
+ 			diff.blue = lut[i].blue - lut[i - 1].blue;
+-			diff.blue = drm_color_lut_extract(diff.blue, 10);
++			diff.blue = drm_color_lut_extract(diff.blue, LUT_BITS_DEFAULT);
+ 
+-			word = diff.blue << 20 +
+-			       diff.green << 10 +
+-			       diff.red;
++			word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
++			word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
++			word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
  		}
  		writel(word, (lut_base + i * 4));
  	}
-+
-+	/* Enable the gamma table */
-+	cfg_val = cfg_val | GAMMA_LUT_EN;
-+
-+	writel(cfg_val, regs + DISP_GAMMA_CFG);
- }
  
- void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+ 	/* Enable the gamma table */
+-	cfg_val = cfg_val | GAMMA_LUT_EN;
++	cfg_val |= FIELD_PREP(GAMMA_LUT_EN, 1);
+ 
+ 	writel(cfg_val, regs + DISP_GAMMA_CFG);
+ }
+@@ -133,9 +141,12 @@ void mtk_gamma_config(struct device *dev, unsigned int w,
+ 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+ {
+ 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
++	u32 sz;
++
++	sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
++	sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
+ 
+-	mtk_ddp_write(cmdq_pkt, h << 16 | w, &gamma->cmdq_reg, gamma->regs,
+-		      DISP_GAMMA_SIZE);
++	mtk_ddp_write(cmdq_pkt, sz, &gamma->cmdq_reg, gamma->regs, DISP_GAMMA_SIZE);
+ 	if (gamma->data && gamma->data->has_dither)
+ 		mtk_dither_set_common(gamma->regs, &gamma->cmdq_reg, bpc,
+ 				      DISP_GAMMA_CFG, GAMMA_DITHERING, cmdq_pkt);
 -- 
 2.41.0
 
