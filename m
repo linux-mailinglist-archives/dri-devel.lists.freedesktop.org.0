@@ -1,121 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930DD76A7C6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 06:08:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8095E76A85F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 07:32:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE32610E309;
-	Tue,  1 Aug 2023 04:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5A910E306;
+	Tue,  1 Aug 2023 05:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2062.outbound.protection.outlook.com [40.107.92.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 114A010E0D3;
- Tue,  1 Aug 2023 04:08:29 +0000 (UTC)
+Received: from mgamail.intel.com (unknown [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA94B10E306
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 05:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690867962; x=1722403962;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=PUCBmWmv71UdD7migV6bMlEyBS6SHh4q/IRZi48NK70=;
+ b=a8AqpUzGi1Pafd2bJiICG7vhnahrDGxhRFwcXtbAR7qTXURSEutWLif/
+ kNz4NkCAR/rqi5E6ozg/zXN4NtLoI3DN/ekYegMNWl/DIX0MmU6bl8wsR
+ vHCnwPgNRpU3Nh5bOf2gxvRUz2/SewKyEl6q5VujMeHX6eb9RQ0UTYyp+
+ seQzuOluQj/WgtMCCeHuiDmcxdM2qQOm9jutDCH01fQo5e9WKuUE5IFhz
+ ITjRJg2JXsTkBoojxEMnJtGFHDuYGzIjdWIfLoKGekDc8nnXWMqsySYfw
+ lVGHsjbVRMtlXUjnspVBdak+DuT8gMo9Yjzd/l+dXkVZC/rpUzjOYVUTf w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="372828295"
+X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="372828295"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2023 22:32:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="763625487"
+X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; d="scan'208";a="763625487"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga001.jf.intel.com with ESMTP; 31 Jul 2023 22:32:41 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 22:32:41 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 31 Jul 2023 22:32:41 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 31 Jul 2023 22:32:41 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 31 Jul 2023 22:32:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ocribzdHbVTDRjk3JMwGnci1si4d5nvdrTSE6Z27UJs8CrqJ3lPQq7fyQC/GmM/z5f/wmQPLD9+tz9E9lanSHQGulVeKeUVAS13IbDf3LbIK+KyI0O87IWa4UqPN+udEIeq7opuUHxIhxVvnRMeIwZqMfRq2FUFk5N+XaZyFX9ZRMEzgut7i8U/hZ01rCEzjwsOQBseg2txtkzGpqHOGiVZ4tJHidnUzSKSbX/d2MdNOnFZ7+Qc7DpmimU5gGlNHn4+o63az5vJ1z11YNVhz1XAvYS3UG/2k/oTNx8DRkkefcfVtSA2xoSHv9plOROGwfSgxudHbHApl8aD84yQcag==
+ b=O9W8MOkO0ZOw/wr4Ta0h6Ri/D/Hw0GT7/zSPQ5CwQPoYwpYL87XPpQbePrYVN17meOOS/uWoEV495JFVf6I3JYPqlv8/ZAJtzORek6IG1z2s6tP/bxphQ7+ce6VUozhv19YcVg/5wqeTEXaAPoAtUBzj+Qa5yVNv1rB9JcrefrSEArSo9d7IvXKrPtkqcY7DdMayibMOzC6aGrxwh3u44xtsj5nENj8HqGQTs9uE8T4oKWq3Rf8NhRiU4S1pWjoozuvW549Tvpnx6M98hi2iDCKGLEOjjjqEq51ouRyfLcMtAQx2ZJVV5bBL1Jh/vTjLKjsW5E3/L2b9rgOl6HU6Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d9OxKNzOGcPBwVHJchQcRHAzScpC8c3Ar/4XD2Y8LwU=;
- b=FVWJx51wNcE1J5DssIOWizWzJ1Gh+gW+xnbQhUYpHZ+U7MhZlXJk5L1yC3maz+YVnmt9ycOWdR6EjE77o+okbtSol//EagAmIYCRh79x3i8jzdXhx6ThUEB0eN+m5TN/kqHziGp+P0zHX8CWV/bFnph2hWb7XARCOkoGyNqZab77BBmeaOCCHg8i6Mof/jmeSh3IQiWAERTNaVkvR3xacWWHzdEReLltKoO/qM+Eugsx45osdqbMULPTCgipF2195nAMp77t4FOSpZzbtqmMEv3dsEdTHzyX59DTsMV4prXxmri3BtQdMLJMR3pkdBaxZ2ymehcjSTacaV3Lm41Yxg==
+ bh=YZNMKkoc5JJr6Fifb04CBURNzubmucGBjVyk7/++b+4=;
+ b=TNroI8lgPQxBdf/JIacmNp44MtWt0DKB5Na7Nmo8TDFqlotbvAGt+dWwo3zHTZ0GIx9p36AOBjDXFNP2Cw+TOU5BItdzYUV2lpUFCjLMuHo1au6PSbRQNLKs89MSSGyymA9Lx7XSiKXaGz6AqPXlrO0LmqZXEU/Ol+NFsQnRvN8RDPdyN3XQxzgFwLK2rQdoOjF7Mr8S2/jTvSmN7owRTV6R4lRzoxd0LuwjmJzLjhsNxn3NnXWqqM/vyKWdt2F7aNt/ESGfP4kynUi393LJWM5u/s38CLg9a7LZMriIkKxSjjNSLAYZULMiSFdtP+pjdBtnQnV0k9FMwxQDjbfbNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d9OxKNzOGcPBwVHJchQcRHAzScpC8c3Ar/4XD2Y8LwU=;
- b=AadACUlOfPI76y7CfU7BkxvWaaxI8OwPPQiKceQ+h3QrS/0frOrLS3DPthcRmiOg3bjgVO20dYDW7lL1Zs+geBYifCXNsnw8TzP63E/IA3Cpj95TapZf+PSf4Q7gbn9Up7+9k15h9P2K839knliMod8m6yq6Qw1ZvIE2dKwiJFw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3048.namprd12.prod.outlook.com (2603:10b6:a03:ad::33)
- by CH3PR12MB9218.namprd12.prod.outlook.com (2603:10b6:610:19f::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.43; Tue, 1 Aug
- 2023 04:08:26 +0000
-Received: from BYAPR12MB3048.namprd12.prod.outlook.com
- ([fe80::e888:da3c:d824:1204]) by BYAPR12MB3048.namprd12.prod.outlook.com
- ([fe80::e888:da3c:d824:1204%5]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
- 04:08:26 +0000
-Message-ID: <913fb434-a6f6-5320-bb08-89ddf1b242f9@amd.com>
-Date: Mon, 31 Jul 2023 22:07:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/amd/display: check attr flag before set cursor
- degamma on DCN3+
-To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, Bhawanpreet.Lakha@amd.com
-References: <20230731083505.1500965-1-mwen@igalia.com>
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by CH0PR11MB5283.namprd11.prod.outlook.com (2603:10b6:610:be::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.44; Tue, 1 Aug
+ 2023 05:32:39 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b%3]) with mapi id 15.20.6631.043; Tue, 1 Aug 2023
+ 05:32:38 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IABSWKAgABl6ECAAEZHgIABcLAQgAD86oCAAQfUEIAEas2AgAGbU1A=
+Date: Tue, 1 Aug 2023 05:32:38 +0000
+Message-ID: <IA0PR11MB71857E9D6C3AD311CF698D13F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <87pm4nj6s5.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185EA5ABD21EE7DA900B481F802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL5+CiZ6w4RdAt5u@nvidia.com>
+ <IA0PR11MB7185D67DD07FEF0C92789D7AF802A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZL/B6yvO1bIkFRcF@nvidia.com>
+ <CH3PR11MB7177FA18562FCED8A3171007F803A@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <ZMBSWxYnWLlzG3+6@nvidia.com>
+ <IA0PR11MB71853E11B6C419DC0D043953F801A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMJbywGYN0QLh3vF@nvidia.com>
+ <CH3PR11MB71779C83F8A0EC6C2F3F4B0CF807A@CH3PR11MB7177.namprd11.prod.outlook.com>
+ <ZMbtsY4O3Ho3B69J@nvidia.com>
+In-Reply-To: <ZMbtsY4O3Ho3B69J@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20230731083505.1500965-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0216.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::11) To BYAPR12MB3048.namprd12.prod.outlook.com
- (2603:10b6:a03:ad::33)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|CH0PR11MB5283:EE_
+x-ms-office365-filtering-correlation-id: dc8573a7-dfdf-4845-4d07-08db9250b831
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NSzn+FMC36Y7l2XITCSk1m8a6Lnnrca+Xms6NtOfODL2pr9/x2bKWu/h8lNafuuQ3HB79nZNcaFMGCa+5AgWxukqybm26wePxtGEHo3aN5zsK3xUJNH5NoFMw+v/kenYuK8Yk2rkQmDMCMfPTF99V0gdDfm62DexTLoSq8fgExx9PFfDaZeJDSJgmOtq1kALlqtcmiGRtiA+OLKJ9tmffvWbK9vXonugOVNmo0PolwxSnRGM2MYLb1kIblg+0CBTVf27yrJprtyXJ29yfCTG4p1m7ox0EKYA0+ybll7Q+OdVIo2KeNAWmEQE51RqyjCRB5bHMa+ZQOoYyHVN3l9d0Ftbu1qawbtwWtPaW0BA12MyvSu16wBnbVxGtBTCcKL95+AKIx4jC0kAG1TjnseQtgQAlQ/gtJAH9bzW1SsXg1EXgnBGbwMh/P4leHv6/qCCg9a92COuSQeLAuKHy41fkr+oFpuH4HbV8ESE9xMRaD3it00+0GTVjTVLrISJynwx2sfZ+U9rW5rPlMJ2BwUfutrXptORP/1+Bs7L3R+SUTIqmj5VcfYxt1Gj0fW84ocMTjXfTaEagGlFb4Is1sPfeZh/XscEsKtwfU6Z9eb+GOszbUOB/1XPSFZVCxPyn6yY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(39860400002)(376002)(136003)(366004)(346002)(451199021)(38100700002)(33656002)(6506007)(5660300002)(76116006)(4326008)(6916009)(66946007)(55016003)(66556008)(71200400001)(64756008)(66446008)(66476007)(82960400001)(52536014)(54906003)(9686003)(122000001)(478600001)(2906002)(8936002)(8676002)(38070700005)(41300700001)(7696005)(186003)(316002)(86362001)(26005)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nwrxgEbSIg9VqVy/ZGuYBa5c2054p+WTUVAHRHdqTtsIOS47NurLje5HUS/B?=
+ =?us-ascii?Q?/l712GvXnHTkL+kHYZabpAOlHmhPFDx7uepFBg0MEkA+mcTWfh5MkLEgUUyw?=
+ =?us-ascii?Q?Jf44lt7OPVDgIJ6i/Eutfbj1Mr9o006zcQoOSdWEW+4UCZMo0CPDqT3q1UjU?=
+ =?us-ascii?Q?1RlLupTItVrXaQsiZdDx/ZvvsjDS9MTh1KqjjBaso18kr+P4wH9BalpN1lov?=
+ =?us-ascii?Q?PkDa+0H9BX2DAkPirdrRL1meuVe2Z1sN4Lh4/0PHf/qxDEZjfqFVjcEC/nmi?=
+ =?us-ascii?Q?Yi/a2GwnRAQH3ml03t/rwKOespzsB4R0VlDbI+DB3WKOK3jEkZU9IEdtx7ys?=
+ =?us-ascii?Q?8pfXx/9NR6QBmkg6IYZKAyyWFXDPSGjCtBh/a+nKkkgNm+tbXdON4qLXvqnR?=
+ =?us-ascii?Q?jOGL77L3effnsQWeiNOiM44izp+JCQVVLPe9+sapCblG2jobQioY3alg/kOq?=
+ =?us-ascii?Q?azzNkXFSWviLyJyQkxhzxGTSU04A3NW+P0NKDyOR8N8WJBjZMGx85h9Iha+H?=
+ =?us-ascii?Q?yXxxAGtFoP7nv6f5XaVrJNNsul0NaKermxlZ6FoSNXma4FTdJf5zGKrhoOEA?=
+ =?us-ascii?Q?HANVsp3WpVZqdqRusIf616A22k1RgFoAGylepYEwAP20qIQV8CrwdfpHz1fO?=
+ =?us-ascii?Q?PjRGHIHcn6P4aP3fDS5LqAG3uAtiIllnk+B7UsfSQWyWeSmh2HGOtjywKUJV?=
+ =?us-ascii?Q?IxtdMux0iC/qaBxV+NmkRR7cTlwr6ibAvqlv9wKkKv9QG3AXosGDoe9/NSQA?=
+ =?us-ascii?Q?cQrIpQH9e7pXdXQoRsWDEm0tOU2iYTOeTuHOb7yqRF9xQrbyFwv2boHu3UV+?=
+ =?us-ascii?Q?Y2qDLUQJb9wrpkp6nPPepPH2qHaXVbLTi/w1F0lNOaTic1pCRYa9qGOY/Vxd?=
+ =?us-ascii?Q?I2XWyae4bX+kTW1p6to/60KG7wVZ2LVcwWwPWz9cyqSUOSCtd4apbOIWvLgN?=
+ =?us-ascii?Q?BEIF5sN2ljYhFzOn2O6rMYEJcVfqrw887y7Tttr6b2LmjYjy1qew48kAZNbP?=
+ =?us-ascii?Q?tUBKXlXIG9kpxDBcO0hB50xtSbCnZWg+0uGya0pmzgwAyUdVt6k+P1vpVx1i?=
+ =?us-ascii?Q?mpSujJAtbQ2fLdq7g32Nhy4jy02bCCxnn1LmhjHrgAt6Z6ZGCT0mVOQZDqiI?=
+ =?us-ascii?Q?pUa/OxorccYTTVKp65AeDiODPmvyvhv6FMvCKAFdlMEx1RFpWA4SmqKYn5RN?=
+ =?us-ascii?Q?1KZhY4S+Nxr41RqdGI53sIurwR4lezuJAGFQry9npawdKnR18yujQfRKzlBb?=
+ =?us-ascii?Q?2B8ztNICInxkL2j+f3wktGuDA2Bnt6kdTRoTty1IImIFFclfb/hroIMbY/i5?=
+ =?us-ascii?Q?uLcpP9nxiMKn9Y+PnCPR47VNGjOGb/fcjmlZit0UmauKLi9ob6fymR6gOw8e?=
+ =?us-ascii?Q?rcNVaLnAnLolW3v97kBtgk7fn+2JS3HAk6isaSJoRz2DsbnRYMJQS2OiOEpv?=
+ =?us-ascii?Q?ht1vw4OpfGaCMroE69VgJCqWHfP+fzzVPHYqWYXE0IB7RvaaDJ59M+B2Sc81?=
+ =?us-ascii?Q?saA0GBB17taMKKHbzsdg3H7cr8XZVL5Y/MfXQ68+zBcCkg5fdhs2p9z3O0b+?=
+ =?us-ascii?Q?3H3kC/u1m0CuVaFLlSjqKALOt65X8Ycx0i9qzc5I?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3048:EE_|CH3PR12MB9218:EE_
-X-MS-Office365-Filtering-Correlation-Id: 802071d9-ef18-466f-b04c-08db9244f41f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NqSM3f/dqlj/Ia9LAX1tVt8BH5e4OAAaWBg/J5kkxFGTRI30nVDGB1tlZgMcffyOoZCzuXAURYZCUvdOiHkPA0j3o3UYwRpnKHE/RrGeXBr79YSEGQ7h92aALekL9oGQpn5sM6PavDl94EaKLEO7i04ps01pe4YjrGpkqg6rghYhgEnT/bNfeHkGYBmnnJHiH2uIupoqHbIC3OQK2tIVVTDGyXxFL5R0SqnbfoFlyA81jBSb90++F7bTvEf7JS5fCqiIAsar6GSm4xPetYaHwTxaMUmhP3IoD+cOPjpIDUu8zYv5ba93YtnR5ulW7EQw8la63+1tQX50i/yengNNUG8VgUHBRYR/l0LcXNUbtsYHOjvAaeGkF/V21xtSaohhEfMPLqdQ3/q5GYjNN3yqAXqIZYUpwXCJwM2hfg43jeqzhm/WjcxdghT8mNj9Wfo9wtrtw5zJwd8W//Mo9xJ84VH6Wq4I1dzx5VunfKndvj7fGhiFmmVuzjj1jpkresclFVc2B6k5wWy80X9RJWz5chri76zOVKRj1T+Pkj2NNX6eryNpaPmuqNQ52vv7gmzeUi4ymMHpH71tdwJdn4N6Rc4h9HQycx0J7LRAUIdT0D7Uewc+ADzqw7Y39ZMBGvpFGTiHUiiQEj2LIYVrQHKrog==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3048.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199021)(44832011)(966005)(6512007)(6486002)(36756003)(2616005)(53546011)(6506007)(26005)(83380400001)(186003)(66946007)(66556008)(7416002)(54906003)(921005)(41300700001)(38100700002)(31696002)(86362001)(66476007)(316002)(5660300002)(6636002)(4326008)(8676002)(8936002)(31686004)(2906002)(6666004)(478600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STNHRHI0WGhGOFU0MU44TWxkR1dscGFHeUkwaDFPZ2dObmR4bFZlcWxhSDdU?=
- =?utf-8?B?UTViQzZueVJITUkwRFZPTkE5TGhYS0QweTJaNU1kcE9lMlRrQW1VRnhKL1g4?=
- =?utf-8?B?azhKa0R6YmZLcjN2bHhmTzJIT0hMRDMwZjlQMUxtRm0zdm9CTk5ZbE9RMUJP?=
- =?utf-8?B?a1NVNkZRdjdLWUdRZUNITFQzUUxoT0JRYVdaL2pHWkJBZERiUGYzSWQ5S1hO?=
- =?utf-8?B?M3NMYXdvVytGV1JXNmd2dlVQb1Ntek9rcUlJWis4YlZzQmFMVWRkU0hIckdr?=
- =?utf-8?B?L2lSVEExSlNtd3ZiNXFNaWZMdzhCZHJVa2t1dmNMZXBpSHE1ZXVOa2IxbDhM?=
- =?utf-8?B?ckZwMTdHWVJDMVR2eUcxSkZQMDBsNjlodFZYc3RMT2NnUWprMEMvTUFvbDNz?=
- =?utf-8?B?V1BxcHkrL0h2THlYeUNpenVUeUFYcVFFeW9pbTBGMnkzd1dWcGNjMk1jTkI1?=
- =?utf-8?B?YjhGQktpS0VaMUxCc0d3ekFhbTNWMkdKTXlhN3JicU5EemlUd1A5Wml4N0tN?=
- =?utf-8?B?MkFKVDFWNy91dGw4NmRYSWF4OGowT2RiWTFXREcyY3kyME5DL3FJQ0VXUXI0?=
- =?utf-8?B?UURXcEttMWNQMkRucGh6Z3hFRWlycXFNWkl5QUoxSEZkS3ZUbThEQW1rV0ln?=
- =?utf-8?B?MWJrbkNiY3IveFBGZDhpV2tuUXU4cXA0bkdJUUFjMXZHekZoR3NIbVpqR2Vj?=
- =?utf-8?B?R1FaL2k3WUNrM0E0WXpDZkZEeTBIRjRvYmlsajBkU0dxWVB1elA2Qm0vbys1?=
- =?utf-8?B?Zit1b3gwamlRQUpvKzhkY0MvWTRuUFU1UldESW40eE11dlFwKzJyRVdzWHcy?=
- =?utf-8?B?VUpqMnhJV0kwdlY3Y1EzRjlRNUxaYWdNbWNZSm9NVVV5djcxaXFlQkpIeEUy?=
- =?utf-8?B?ZnZ3QmR1cEpJUnVRczluUzlmTlRNcFJmN3ltTkYvczluZU9aa0NXSEt5ME0v?=
- =?utf-8?B?cDU4cGpJMk8yUzQrTkZjUDVSSHFJZi81R29rRkhoLzBxaFluWDczbjh2M0Nw?=
- =?utf-8?B?MFE0TldldmVuOXVhYWp2TTJ3aFk0Q2Q2MTVlNE4xd1pSQTJybnlXSmhpckZv?=
- =?utf-8?B?MUQxdnQ3eVQ5em5jektkTC9DNzVuMXVSNld4bUE1bGNNcDVKOU1TbFF0Y1Iv?=
- =?utf-8?B?MTFjaExpazNWN2lxeDdNOHN2K0ZxMjh6MHk4U3ZORit4Zzl1a3YrandSN05s?=
- =?utf-8?B?czJWcHZzUTJxZllwRkJNT2NCRHAxSUVCVFNzb0MzSC9XZE9UMHhLdXFEU0F3?=
- =?utf-8?B?V25lbDdkbUhkdmp5cWEzRWxDRS8xUjlGcWFjbzVDTlVWc0tXcjJScFB5Z1lt?=
- =?utf-8?B?S0QzUFdMbkg5aHYzRXYzUDlqWVI5Y1U3SlRTQlp2SzJBbE9VdEsxbkxZcmht?=
- =?utf-8?B?dlkvcFc3NXBBZ21ubW1KWXF2Z2x5UEpPSm9sZ3ZhVEozbk5iUytjVnk5Zmtq?=
- =?utf-8?B?eUs4MVdGdVJjY1l0NHJvelAvdkpXMWtGYUZQS3VGTWZIWHo1NGhIeEZOdEFV?=
- =?utf-8?B?Vi9lOXlXNzM0UDBJSUxaaDF4QTVZdkI0Z0t5cVMzamNMNTJrYTVGekU0TnVs?=
- =?utf-8?B?YS9hd0RnSWpBWVFlZHFtdy91QmoxSSs5cEZuenc3aFZRcTIrcWsva1JTa1NB?=
- =?utf-8?B?Z0NiS3BWcjFEOC9YVkxSNEt1YytDNnNyUjVPdUtwN1ZSV0I3dmxkaFkyZk8z?=
- =?utf-8?B?MVR2dUpDU2pnSTh5K1QrYnNBY1llS2Y4N05GMDRtMmxNVUxxYitvZk9yYWtP?=
- =?utf-8?B?K1B0Vm1XNjBTWmZaaVJYcXNGZWFnVFRjWHhPZ21vdGNkSlI2ZkpJcFZDMGE2?=
- =?utf-8?B?U2NzempxbU5FSTlFdnM0bXRxbzFYbjBKTzIyVFl4UmFtME1hYy9yWDEzcy9q?=
- =?utf-8?B?RzRLMWpJaHFnQ3didi9WY2tPWS95bUlZc2pJaFhQaTRlTUxpL0xRZ1FSVUhw?=
- =?utf-8?B?NktpeFRqbmsycHNPZVcrSU9IVzFWVU9QZjdzbHpETlp0V2hIN0wwT3M0TVRj?=
- =?utf-8?B?M3pEd0k3d3lkNDdDTTZvWFdWUkFpWWxnZUtIUERvTGFOemRKbkxMMitHcUQ3?=
- =?utf-8?B?bHdldnBEOGZLdzEzYzhIU0Y4VW9ublVBcmIyeHdjcXlpRWJYeWE2dXVZWEc5?=
- =?utf-8?Q?QkYcBqxZjS1PpuaXsxQu1NGwK?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 802071d9-ef18-466f-b04c-08db9244f41f
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3048.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2023 04:08:25.6900 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c/eBZACfjh7CrP9yn3w/m5FkbB0WlPBWhruBInYPCnQDLn0olWM7wxyIfmwXpFOR4rNu43uiKUwtf6+7ii9HRA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9218
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc8573a7-dfdf-4845-4d07-08db9250b831
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2023 05:32:38.8080 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wNolo2pck4r082cGsTYXvAgD8JjOSeLE7wyADw9Se6Q3aTFoUwt/hB60GMIEYvmNfX7sNuo1mrj2fQQ6AV+Wj8/vWDvaSeqVbXAcKjW6Zn8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5283
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,49 +160,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krunoslav Kovac <krunoslav.kovac@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, amd-gfx@lists.freedesktop.org,
- Michel Danzer <mdaenzer@redhat.com>, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, Nicholas.Kazlauskas@amd.com,
- Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-by: Alex Hung <alex.hung@amd.com>
+Hi Jason,
 
-On 2023-07-31 02:35, Melissa Wen wrote:
-> Don't set predefined degamma curve to cursor plane if the cursor
-> attribute flag is not set. Applying a degamma curve to the cursor by
-> default breaks userspace expectation. Checking the flag before
-> performing any color transformation prevents too dark cursor gamma in
-> DCN3+ on many Linux desktop environment (KDE Plasma, GNOME,
-> wlroots-based, etc.) as reported at:
-> - https://gitlab.freedesktop.org/drm/amd/-/issues/1513
-> 
-> This is the same approach followed by DCN2 drivers where the issue is
-> not present.
-> 
-> Fixes: 03f54d7d3448 ("drm/amd/display: Add DCN3 DPP")
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> ---
->   drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c
-> index e5b7ef7422b8..50dc83404644 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c
-> @@ -357,8 +357,11 @@ void dpp3_set_cursor_attributes(
->   	int cur_rom_en = 0;
->   
->   	if (color_format == CURSOR_MODE_COLOR_PRE_MULTIPLIED_ALPHA ||
-> -		color_format == CURSOR_MODE_COLOR_UN_PRE_MULTIPLIED_ALPHA)
-> -		cur_rom_en = 1;
-> +		color_format == CURSOR_MODE_COLOR_UN_PRE_MULTIPLIED_ALPHA) {
-> +		if (cursor_attributes->attribute_flags.bits.ENABLE_CURSOR_DEGAMMA) {
-> +			cur_rom_en = 1;
-> +		}
-> +	}
->   
->   	REG_UPDATE_3(CURSOR0_CONTROL,
->   			CUR0_MODE, color_format,
+>=20
+> > > Later the importer decides it needs the memory again so it again asks
+> > > for the dmabuf to be present, which does hmm_range_fault and gets
+> > > whatever is appropriate at the time.
+> > Unless I am missing something, I think just doing the above still won't=
+ solve
+> > the problem. Consider this sequence:
+> >      write_to_memfd(addr1, size, 'a');
+> >      buf =3D create_udmabuf_list(devfd, memfd, size);
+> >      addr2 =3D mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
+> >      read(addr2);
+> >      write_to_memfd(addr1, size, 'b');
+> >      punch_hole(memfd, MEMFD_SIZE / 2);
+> > -> Since we can process the invalidate at this point, as per your sugge=
+stion,
+> >      we can trigger dmabuf move to let the importers know that the
+> dmabuf's
+> >      backing memory has changed (or moved).
+> >
+> >      read(addr2);
+> > -> Because there is a hole, we can handle the read by either providing =
+the
+> >      old pages or zero pages (if using hmm_range_fault()) to the
+> > importers.
+>=20
+> You never provide the old pages. After trunctate the only correct
+> value to read is zero.
+>=20
+> >      Maybe it is against convention, but I think it makes sense to prov=
+ide old
+> >      pages (that were mapped before the hole punch) because the importe=
+rs
+> >      have not read the data in these pages ('b' above) yet.
+>=20
+> Nope.
+>=20
+> >      And, another reason to provide old pages is because the data in
+> >      these pages is shown in a window on the Host's screen so it
+> >      doesn't make sense to show zero page data.
+>=20
+> So why did you trucate it if you want to keep the data?
+>=20
+>=20
+> > -> write_to_memfd(addr1, size, 'c');
+> >      As the hole gets refilled (with new pages) after the above write, =
+AFAIU,
+> we
+> >      have to tell the importers again that since the backing memory has
+> changed,
+> >      (new pages) they need to recreate their mappings. But herein lies =
+the
+> problem:
+> >      from inside the udmabuf driver, we cannot know when this write occ=
+urs,
+> so we
+> >      would not be able to notify the importers of the dmabuf move.
+>=20
+> You get another invalidate because the memfd removes the zero pages
+> that hmm_range_fault installed in the PTEs before replacing them with
+> actual writable pages. Then you do the move, and another
+> hmm_range_fault, and basically the whole thing over again. Except this
+> time instead of returning zero pages it returns actual writable page.
+Ok, when I tested earlier (by registering an invalidate callback) but witho=
+ut
+hmm_range_fault(), I did not find this additional invalidate getting trigge=
+red.
+Let me try with hmm_range_fault() and see if everything works as expected.
+Thank you for your help.
+
+
+Thanks,
+Vivek
+
+>=20
+> Jason
