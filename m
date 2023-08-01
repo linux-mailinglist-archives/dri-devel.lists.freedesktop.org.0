@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD25676B106
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D24A376B134
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910F910E3AF;
-	Tue,  1 Aug 2023 10:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C0C10E3C6;
+	Tue,  1 Aug 2023 10:16:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D20E10E39B
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA02710E3A0
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:55 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 517151F8D9;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8DEB421E4C;
  Tue,  1 Aug 2023 10:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690884954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=27uRg46vZqxWL3C9S1vzoLqaWaUYGblqSyax5ENzK1c=;
- b=B35g05T+wdq2851JULHkGh7IAGwWAMVKSnKoSt8g/Ee8e6nf3klA43I83LhBr5UrmJyQR9
- woZwq3mtm8JrwZRoFgIqGhDK2hKJoxqjqa3xW+03LAuM0K41P5MFvGpt02WilP7qR2DhTg
- 4oBlEfPDL0VXqUFdJS4xtkV+egOiQhc=
+ bh=+t8C88koksqF6KSs9sogLD3BYWxCWZjhCADfdukAIV0=;
+ b=TpRTTIPkTybynn/8cK9ZjvFjXYAbi99mRtYWYGveV0n5WPMl4AHVdPJkqA1/rnbaE7XdvG
+ EqcPAid0S5LS6KHZ9rNcGkNYOTDe6ZBasVt9S3jw85fy7ptbYi4NR7h2ed3MChZi2f+p0w
+ bBkAVSLojSORQpdI7ocY/2BaXiHcGgA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690884954;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=27uRg46vZqxWL3C9S1vzoLqaWaUYGblqSyax5ENzK1c=;
- b=eFs3JaB7zCIPtD8hzhg0MVis8SAOOYAtMIrgcSdg5XLcuEDOMpWT5DUBHQAYpHE9dxa9JB
- d7PHQqgC+u7OE8Ag==
+ bh=+t8C88koksqF6KSs9sogLD3BYWxCWZjhCADfdukAIV0=;
+ b=516yCv01LMOkE/fPYNLn2eNMyH67yu544G/dxA8bP+tdT03xzmTAFvksiyJURt7reQb7N9
+ W4Hvo2af4IyvXoBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18ACB139C8;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 55997139BD;
  Tue,  1 Aug 2023 10:15:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eNgOBVrbyGQBXQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id WPcKFFrbyGQBXQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 28/47] fbdev/offb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:33 +0200
-Message-ID: <20230801101541.900-29-tzimmermann@suse.de>
+Subject: [PATCH v2 29/47] fbdev/omapfb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:34 +0200
+Message-ID: <20230801101541.900-30-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -90,44 +90,44 @@ Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/Kconfig | 4 +---
- drivers/video/fbdev/offb.c  | 4 +---
+ drivers/video/fbdev/omap/Kconfig       | 4 +---
+ drivers/video/fbdev/omap/omapfb_main.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index b358cb5f87eb..a792364419ce 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -301,9 +301,7 @@ config FB_OF
- 	depends on FB && PPC && (!PPC_PSERIES || PCI)
- 	depends on !DRM_OFDRM
- 	select APERTURE_HELPERS
+diff --git a/drivers/video/fbdev/omap/Kconfig b/drivers/video/fbdev/omap/Kconfig
+index a6548283451f..f01278238d50 100644
+--- a/drivers/video/fbdev/omap/Kconfig
++++ b/drivers/video/fbdev/omap/Kconfig
+@@ -3,9 +3,7 @@ config FB_OMAP
+ 	tristate "OMAP frame buffer support"
+ 	depends on FB
+ 	depends on ARCH_OMAP1 || (ARM && COMPILE_TEST)
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
- 	select FB_MACMODES
  	help
- 	  Say Y if you want support with Open Firmware for your graphics
-diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
-index 17f8238262be..dcb1b81d35db 100644
---- a/drivers/video/fbdev/offb.c
-+++ b/drivers/video/fbdev/offb.c
-@@ -293,13 +293,11 @@ static void offb_destroy(struct fb_info *info)
+ 	  Frame buffer driver for OMAP based boards.
  
- static const struct fb_ops offb_ops = {
+diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
+index 783bbe026207..f28cb90947a3 100644
+--- a/drivers/video/fbdev/omap/omapfb_main.c
++++ b/drivers/video/fbdev/omap/omapfb_main.c
+@@ -1216,13 +1216,11 @@ static int omapfb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+  */
+ static struct fb_ops omapfb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_destroy	= offb_destroy,
- 	.fb_setcolreg	= offb_setcolreg,
- 	.fb_set_par	= offb_set_par,
- 	.fb_blank	= offb_blank,
+ 	.fb_open        = omapfb_open,
+ 	.fb_release     = omapfb_release,
+ 	.fb_setcolreg	= omapfb_setcolreg,
+ 	.fb_setcmap	= omapfb_setcmap,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
- };
- 
- static void __iomem *offb_map_reg(struct device_node *np, int index,
+ 	.fb_blank       = omapfb_blank,
+ 	.fb_ioctl	= omapfb_ioctl,
+ 	.fb_check_var	= omapfb_check_var,
 -- 
 2.41.0
 
