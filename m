@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A930276B118
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E4276B100
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADD9A10E3BA;
-	Tue,  1 Aug 2023 10:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BF010E3A8;
+	Tue,  1 Aug 2023 10:16:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB3E10E39E
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61F1310E39B
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:54 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id CC2B021E48;
- Tue,  1 Aug 2023 10:15:52 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0F5B11F8CC;
+ Tue,  1 Aug 2023 10:15:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690884952; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1690884953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AHyxx6FRP5/LpOn4yOlMu31gUHrTEs3HvbYTqZacgUg=;
- b=fHpOUrCWoFLZhiUGS76ri0g3mu1iHWjFqtCxi2WpdHZoMm2TnBMJ/r1wVuYAnIwt/EP0O1
- ootfrq9kUZ0J/4CQA9vJSAJlLYDSPWg18kBqWsnY7ToHQbjK5xNNqdS5BQowE97Y4Szkgo
- icen+x/JcpoItqNIdcVqlh0az0X+eUk=
+ bh=lVzSiiMtZnVf6s9hDBGQ+/WQpdejgakGDl4hPyb8ZVQ=;
+ b=tKj4rL9ijQkGjtN1nLy36lKvZBfCyq81RMA0acIOCn9Px56OGnFAUtKw20j1rya53lYkvu
+ 5gw7tVwYS4Gc3u9CwyIFcELYG3bo9+tE12atfB3LUDVwJIcW29c0h9RFdOybas16908XNn
+ OTds1qnPEEmAtgH6tv/z6oOgRzIhZO8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690884952;
+ s=susede2_ed25519; t=1690884953;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AHyxx6FRP5/LpOn4yOlMu31gUHrTEs3HvbYTqZacgUg=;
- b=rMHFYXeXtmPND9cH/tHYF62FGTWdLkSIBDFPwfzdrJpMxK/ItN0NQhYcoABHqjX7dUXKHN
- u5a9TyZuR9+6oRCA==
+ bh=lVzSiiMtZnVf6s9hDBGQ+/WQpdejgakGDl4hPyb8ZVQ=;
+ b=B+IC+PpkqpRAuyND22sP7evAUr+jkPLGpFE5ArpKFB1sQHSHmQexgJG2pNCHr5doRC/H79
+ /wWk5PA7cwB7wnCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 94888139BD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CDD8B139C8;
  Tue,  1 Aug 2023 10:15:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KFxdI1jbyGQBXQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id OMdRMVjbyGQBXQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:52 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 22/47] fbdev/macfb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:27 +0200
-Message-ID: <20230801101541.900-23-tzimmermann@suse.de>
+Subject: [PATCH v2 23/47] fbdev/maxinefb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:28 +0200
+Message-ID: <20230801101541.900-24-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -90,41 +90,41 @@ Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/Kconfig | 4 +---
- drivers/video/fbdev/macfb.c | 4 +---
+ drivers/video/fbdev/Kconfig    | 4 +---
+ drivers/video/fbdev/maxinefb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 231450ef449f..c7ee242985ed 100644
+index c7ee242985ed..f958290c83e5 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -407,9 +407,7 @@ config FB_STI
- config FB_MAC
- 	bool "Generic Macintosh display support"
- 	depends on (FB = y) && MAC
+@@ -1556,9 +1556,7 @@ config FB_PMAGB_B
+ config FB_MAXINE
+ 	bool "Maxine (Personal DECstation) onboard framebuffer support"
+ 	depends on (FB = y) && MACH_DECSTATION
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
- 	select FB_MACMODES
+ 	help
+ 	  Support for the onboard framebuffer (1024x768x8) in the Personal
+ 	  DECstation series (Personal DECstation 5000/20, /25, /33, /50,
+diff --git a/drivers/video/fbdev/maxinefb.c b/drivers/video/fbdev/maxinefb.c
+index 0ac1873b2acb..52528eb4dfb4 100644
+--- a/drivers/video/fbdev/maxinefb.c
++++ b/drivers/video/fbdev/maxinefb.c
+@@ -107,10 +107,8 @@ static int maxinefb_setcolreg(unsigned regno, unsigned red, unsigned green,
  
- config FB_HP300
-diff --git a/drivers/video/fbdev/macfb.c b/drivers/video/fbdev/macfb.c
-index 5ca208d992cc..887fffdccd24 100644
---- a/drivers/video/fbdev/macfb.c
-+++ b/drivers/video/fbdev/macfb.c
-@@ -498,10 +498,8 @@ static int macfb_setcolreg(unsigned regno, unsigned red, unsigned green,
- 
- static const struct fb_ops macfb_ops = {
+ static const struct fb_ops maxinefb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_setcolreg	= macfb_setcolreg,
+ 	.fb_setcolreg	= maxinefb_setcolreg,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- static void __init macfb_setup(char *options)
+ int __init maxinefb_init(void)
 -- 
 2.41.0
 
