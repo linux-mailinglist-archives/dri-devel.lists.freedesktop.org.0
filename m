@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA0E76B0A8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31C976B0AD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1D610E390;
-	Tue,  1 Aug 2023 10:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 273C210E396;
+	Tue,  1 Aug 2023 10:15:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30ADD10E390
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8F510E389
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:49 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D64BB1F8A3;
- Tue,  1 Aug 2023 10:15:47 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2D16D1F8AB;
+ Tue,  1 Aug 2023 10:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1690884947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1690884948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mny7476JNBt5cq5JqFFLBg4F6U84W031B86T9og3y+8=;
- b=sVWNP84ERhgaXwRoZiLrxRSDxC/jCkPKNCf7p5DIS1YMkvP4MZJUC9XZzv97Wq073TBDWo
- aQjXUG2xbReAimWE1du3qDLLhskgcry7AmhJZ62aT5GJGhnvkeBNgq10aAr+53xJV92tln
- MeZQGR8We9F31nZ+SY/J6WR9B5Fbqrs=
+ bh=iPqMVlUv+00J71x1L8Lj8uh4UA3WumEvGQhWE9wzhGc=;
+ b=FCXXIpuDHbilRgWNDu/cRhBwVcrVsZQNheRJRQokGPd/IgbMX6MaplyhO/LTSbO++3gIzM
+ nG7Kl3VVYBCBzIElkvsbMMOcT0Ezha+0AY/698UwUhnvQ3/WR9UlqHli7ojuaA6EZwDgcN
+ Z3duCeohPdCMopv5aAK7PZtl5fAHBzE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1690884947;
+ s=susede2_ed25519; t=1690884948;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mny7476JNBt5cq5JqFFLBg4F6U84W031B86T9og3y+8=;
- b=j6f4BvggUT3+ECQKME+BH2HHVoO+QbhKxAoKvA8Yne3SpO5TaUlcJkxsnWrcQubmqMI1JN
- Dm/znXiWV6KTNXBA==
+ bh=iPqMVlUv+00J71x1L8Lj8uh4UA3WumEvGQhWE9wzhGc=;
+ b=N9RJSgv3IvALa7X4oouDw3NkVIS8kQEDtMaMfqGJylG6cjithiqcnZ/ccjeYoYuKrsQWTs
+ fe2IcEs+FOA15YAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9E141139BD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB689139C8;
  Tue,  1 Aug 2023 10:15:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wIu7JVPbyGQBXQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id mHGeNFPbyGQBXQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 03/47] fbdev/asiliantfb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:08 +0200
-Message-ID: <20230801101541.900-4-tzimmermann@suse.de>
+Subject: [PATCH v2 04/47] fbdev/atmel_lcdfb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:09 +0200
+Message-ID: <20230801101541.900-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -71,7 +71,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
  linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -89,44 +92,49 @@ v2:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
 ---
- drivers/video/fbdev/Kconfig      | 4 +---
- drivers/video/fbdev/asiliantfb.c | 4 +---
+ drivers/video/fbdev/Kconfig       | 4 +---
+ drivers/video/fbdev/atmel_lcdfb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 0863a2609e1a..83baef1c8379 100644
+index 83baef1c8379..850d5c07587f 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -362,9 +362,7 @@ config FB_CT65550
- config FB_ASILIANT
- 	bool "Asiliant (Chips) 69000 display support"
- 	depends on (FB = y) && PCI
+@@ -713,9 +713,7 @@ config FB_ATMEL
+ 	depends on FB && OF && HAVE_CLK && HAS_IOMEM
+ 	depends on HAVE_FB_ATMEL || COMPILE_TEST
+ 	select FB_BACKLIGHT
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
- 	select VIDEO_NOMODESET
+ 	select FB_MODE_HELPERS
+ 	select VIDEOMODE_HELPERS
  	help
- 	  This is the frame buffer device driver for the Asiliant 69030 chipset
-diff --git a/drivers/video/fbdev/asiliantfb.c b/drivers/video/fbdev/asiliantfb.c
-index 29c232809d5e..bf3c116684dc 100644
---- a/drivers/video/fbdev/asiliantfb.c
-+++ b/drivers/video/fbdev/asiliantfb.c
-@@ -98,12 +98,10 @@ static int asiliantfb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
+diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
+index 3021660b3e87..c75a62287ec4 100644
+--- a/drivers/video/fbdev/atmel_lcdfb.c
++++ b/drivers/video/fbdev/atmel_lcdfb.c
+@@ -806,14 +806,12 @@ static int atmel_lcdfb_blank(int blank_mode, struct fb_info *info)
  
- static const struct fb_ops asiliantfb_ops = {
+ static const struct fb_ops atmel_lcdfb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var	= asiliantfb_check_var,
- 	.fb_set_par	= asiliantfb_set_par,
- 	.fb_setcolreg	= asiliantfb_setcolreg,
+ 	.fb_check_var	= atmel_lcdfb_check_var,
+ 	.fb_set_par	= atmel_lcdfb_set_par,
+ 	.fb_setcolreg	= atmel_lcdfb_setcolreg,
+ 	.fb_blank	= atmel_lcdfb_blank,
+ 	.fb_pan_display	= atmel_lcdfb_pan_display,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- /* Calculate the ratios for the dot clocks without using a single long long
+ static irqreturn_t atmel_lcdfb_interrupt(int irq, void *dev_id)
 -- 
 2.41.0
 
