@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BDA76AEE0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AABA876AEE2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 11:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E93410E37D;
-	Tue,  1 Aug 2023 09:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEE1110E37F;
+	Tue,  1 Aug 2023 09:42:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7747F10E37D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 09:42:42 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3fbc77e76abso50181515e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 02:42:42 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A54410E37E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 09:42:47 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3fbab0d0b88so44238245e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 02:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690882961; x=1691487761;
+ d=linaro.org; s=google; t=1690882966; x=1691487766;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=B8htkPfQN7tDCTKzLvcKLdUtnIHD1CgSdgnE1gTJ9+A=;
- b=GOFohhf7EJlA6jrKUeTDGHDzyuW7gl2OJAwUqkqYQeM8p3uwkHQtamtSxytNvLo5ie
- 3dtsNnrjYJpsfkpJJ3X1biDoOBEzJcRxLsCW3xw1089uR4gJrvQZe4T+JjzKKMMQtMJT
- c1h73M90WwJEXC/cA3GhxA3kyLlJUN38rJXBI/w+FzoZe65JH8TmyaxaHOfnQ0jUpfUJ
- IkMrcpxgXqGjFWzSJeGpYq2xNRJLIEK3UdOl2Wp6Wlr9O3KW+Y4m/hSPiBPdDt+0h2bV
- 3TVSwqECd9JWHfOF8rJWy5jPGvCR3q8tLWBOB2P5MPPEau0rGh9eXch5VRRAKwpW8pHW
- TL6w==
+ bh=spF4IU+DOCl88bX1rso/uViMAiAyL5X5n+sxPi2GuFg=;
+ b=TkX9otIECX+hw5hx1UB7tmWPS4t5tB805GlBzJfIqyJ/LIU22c+5ATQtjStUO5jZf1
+ J30TLHhMn0K18ttRbJd/MhiaQSnKKiv3eYHv4eJqDhUTa6yGA5t5PCrW6ElchexL1BZO
+ 8IRkZJhclDYTeA+9aJ1aC09xnAuRAbC3aREIUEUoSipnjZRwX5oFKH2uNr3pfrKhRvtj
+ BclQ7Ia1O4uB2AR/rgqn1H7pJCCBW8BDTE27CmKsu99qza5c+Arxt3MAyBSu7H8Rgu0P
+ 8oC5RlhpQzk0RiOiKlKw2iZrltoCgoEQ3Py6W1aaCkhexq4y2DljX3bXEcvso0G+/0tA
+ 7t1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690882961; x=1691487761;
+ d=1e100.net; s=20221208; t=1690882966; x=1691487766;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=B8htkPfQN7tDCTKzLvcKLdUtnIHD1CgSdgnE1gTJ9+A=;
- b=H4Xn+U7RXiJ5GBuqCU//Kn+QToSsiqlya9Ycmt3pt1HLiYZ4+tXjTvLGWVxn9gYmUF
- t6W2l78UI3hd81/54nocwd00JOaCT8UUI8R5vXbkEGL/Pej0B8Mcw4i1NSBX7nFvKLGw
- tGB9g5Aj7ZSQm2iN/G7GGOB1jU69hksJf9BQox+HjPmHpdgTx51pmNxXvC3IbNPEH/wg
- KkF/W40nz0QV0Fx/DE6Xq6hLMvj+Bu0UwwoeY56fZ3r8a5fS5QH1mLfA0ognH7Yiy0Ch
- QhmNXdtrrC2yqRs0akuLKL21RekgAYAD/T4H4ZLUyDhGSBz7jRWsLWgFvCXYBON6Uv9u
- QnwQ==
-X-Gm-Message-State: ABy/qLbDV2cRvAJ4Y2qg04T/hXdqvTtRH1QsySWSvv/2kuS+0/Xz1ZoF
- 73O5dwXmPw+74yxy3qo/KSevdQ==
-X-Google-Smtp-Source: APBJJlH8+vyOv7Y4rRY+pMDO1yXUEHYynaydqbSPnfpp1Dyw3Ic6Q3e5j6BfodNBBIcBgpdzjPUK5Q==
-X-Received: by 2002:adf:f206:0:b0:313:e9f6:3378 with SMTP id
- p6-20020adff206000000b00313e9f63378mr1858599wro.4.1690882960821; 
- Tue, 01 Aug 2023 02:42:40 -0700 (PDT)
+ bh=spF4IU+DOCl88bX1rso/uViMAiAyL5X5n+sxPi2GuFg=;
+ b=Ulgog6UBAsMqhYJnxPxjwpneb0Pwb+D8SA1b1csO9bCFxqg08igtETXyWR81OOG6q9
+ XKNFc+e4OeYT16FPjRqNs75ygF/QCLYZv7rIghOHonT939SHO3FtuGAajer8qgwnou3I
+ /jPvU+sXuiZsCMdOheyXJH0Xun9A3Wkvd7/8ZWlFLDg5AxBPI3u44KaNuMmWjo0BTx87
+ jaFooSWBEKWWY4TvbXe6V7Jpbee+Hq2U2k/n1JQ2FVQFnYbW/qXJ3m17zoYfqduo+Tij
+ w9AjIVliTtox06gvChNYVJvAs46DGY5RkXr2EQzxyo1HVhcHM3eSfiynb71CkuqiG6ZT
+ fqVA==
+X-Gm-Message-State: ABy/qLbgRhFTg1Cp/9qOGeZFa1HENYKY9K/PKfv+6AtHDtfJ6ZGxfe+r
+ XtNvGac6qh1Mt8VzphoSVaskrw==
+X-Google-Smtp-Source: APBJJlGnV/bR40erYnmyMF31OZCXGjDstUGU65XA0rEf6F8ew0/xJcZhNxfe8e789SbPjqVfzSdibg==
+X-Received: by 2002:a05:600c:4792:b0:3fe:21f1:aba8 with SMTP id
+ k18-20020a05600c479200b003fe21f1aba8mr1916010wmo.12.1690882965908; 
+ Tue, 01 Aug 2023 02:42:45 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:b92a:81a9:df6e:1e3?
  ([2a01:e0a:982:cbb0:b92a:81a9:df6e:1e3])
  by smtp.gmail.com with ESMTPSA id
- r5-20020a056000014500b0031751d7d8a6sm15609359wrx.18.2023.08.01.02.42.39
+ 3-20020a05600c234300b003fc16ee2864sm13713955wmq.48.2023.08.01.02.42.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Aug 2023 02:42:40 -0700 (PDT)
-Message-ID: <285db5bc-f901-e09f-7f86-6638d260c283@linaro.org>
-Date: Tue, 1 Aug 2023 11:42:39 +0200
+ Tue, 01 Aug 2023 02:42:45 -0700 (PDT)
+Message-ID: <8753afee-e160-8252-9ab2-4b1dad82d432@linaro.org>
+Date: Tue, 1 Aug 2023 11:42:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 5/9] drm/bridge: synopsys: dw-mipi-dsi: Use pixel clock
- rate to calculate lbcc
+Subject: Re: [PATCH 6/9] drm/bridge: synopsys: dw-mipi-dsi: Set minimum lane
+ byte clock cycles for HSA and HBP
 Content-Language: en-US
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20230717061831.1826878-1-victor.liu@nxp.com>
- <20230717061831.1826878-6-victor.liu@nxp.com>
+ <20230717061831.1826878-7-victor.liu@nxp.com>
 Organization: Linaro Developer Services
-In-Reply-To: <20230717061831.1826878-6-victor.liu@nxp.com>
+In-Reply-To: <20230717061831.1826878-7-victor.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,45 +92,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17/07/2023 08:18, Liu Ying wrote:
-> To get better accuration, use pixel clock rate to calculate lbcc instead of
-> lane_mbps since the pixel clock rate is in KHz while lane_mbps is in MHz.
-> Without this, distorted image can be seen on a HDMI monitor connected with
-> i.MX93 11x11 EVK through ADV7535 DSI to HDMI bridge in 1920x1080p@60 video
-> mode.
+> According to Synopsys support channel, each region of HSA, HBP and HFP must
+> have minimum number of 10 bytes where constant 4 bytes are for HSS or HSE
+> and 6 bytes are for blanking packet(header + CRC).  Hence, the below table
+> comes in.
+> 
+> +------------+----------+-------+
+> | data lanes | min lbcc | bytes |
+> +------------+----------+-------+
+> |     1      |    10    |  1*10 |
+> +------------+----------+-------+
+> |     2      |    5     |  2*5  |
+> +------------+----------+-------+
+> |     3      |    4     |  3*4  |
+> +------------+----------+-------+
+> |     4      |    3     |  4*3  |
+> +------------+----------+-------+
+> 
+> Implement the minimum lbcc numbers to make sure that the values programmed
+> into DSI_VID_HSA_TIME and DSI_VID_HBP_TIME registers meet the minimum
+> number requirement.  For DSI_VID_HLINE_TIME register, it seems that the
+> value programmed should be based on mode->htotal as-is, instead of sum up
+> HSA, HBP, HFP and HDISPLAY.
+> 
+> This helps the case where Raydium RM67191 DSI panel is connected, since
+> it's video timing for hsync length is only 2 pixels and without this patch
+> the programmed value for DSI_VID_HSA_TIME is only 2 with 4 data lanes.
 > 
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 14 +++++++++++++-
+>   1 file changed, 13 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index c754d55f71d1..332388fd86da 100644
+> index 332388fd86da..536306ccea5a 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -12,6 +12,7 @@
->   #include <linux/component.h>
->   #include <linux/debugfs.h>
->   #include <linux/iopoll.h>
-> +#include <linux/math64.h>
->   #include <linux/media-bus-format.h>
->   #include <linux/module.h>
->   #include <linux/of_device.h>
-> @@ -762,8 +763,15 @@ static u32 dw_mipi_dsi_get_hcomponent_lbcc(struct dw_mipi_dsi *dsi,
+> @@ -757,12 +757,19 @@ static void dw_mipi_dsi_command_mode_config(struct dw_mipi_dsi *dsi)
+>   	dsi_write(dsi, DSI_MODE_CFG, ENABLE_CMD_MODE);
+>   }
+>   
+> +static const u32 minimum_lbccs[] = {10, 5, 4, 3};
+> +
+> +static inline u32 dw_mipi_dsi_get_minimum_lbcc(struct dw_mipi_dsi *dsi)
+> +{
+> +	return minimum_lbccs[dsi->lanes - 1];
+> +}
+> +
+>   /* Get lane byte clock cycles. */
+>   static u32 dw_mipi_dsi_get_hcomponent_lbcc(struct dw_mipi_dsi *dsi,
+>   					   const struct drm_display_mode *mode,
 >   					   u32 hcomponent)
 >   {
->   	u32 frac, lbcc;
-> +	int bpp;
+> -	u32 frac, lbcc;
+> +	u32 frac, lbcc, minimum_lbcc;
+>   	int bpp;
 >   
-> -	lbcc = hcomponent * dsi->lane_mbps * MSEC_PER_SEC / 8;
-> +	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
-> +	if (bpp < 0) {
-> +		dev_err(dsi->dev, "failed to get bpp\n");
-> +		return 0;
-> +	}
+>   	bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+> @@ -778,6 +785,11 @@ static u32 dw_mipi_dsi_get_hcomponent_lbcc(struct dw_mipi_dsi *dsi,
+>   	if (frac)
+>   		lbcc++;
+>   
+> +	minimum_lbcc = dw_mipi_dsi_get_minimum_lbcc(dsi);
 > +
-> +	lbcc = div_u64((u64)hcomponent * mode->clock * bpp, dsi->lanes * 8);
+> +	if (lbcc < minimum_lbcc)
+> +		lbcc = minimum_lbcc;
+> +
+>   	return lbcc;
+>   }
 >   
->   	frac = lbcc % mode->clock;
->   	lbcc = lbcc / mode->clock;
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
