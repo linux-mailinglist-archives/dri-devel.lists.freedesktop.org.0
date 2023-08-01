@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83B376B114
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD25676B106
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 12:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B99510E3B7;
-	Tue,  1 Aug 2023 10:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 910F910E3AF;
+	Tue,  1 Aug 2023 10:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69BC510E3A6
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D20E10E39B
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 10:15:55 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 154401F8B2;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 517151F8D9;
  Tue,  1 Aug 2023 10:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1690884954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G0qWhQUeICgKv1jW/QBP/nUzWvIZZ+MJDvwZBGJpCIc=;
- b=cNXkYf5JJWA0ap5GsrtOoU9g2puoKuoiULdIMAbMt2mne9Ko+TZuHH3zVavwAhtQmqtP9k
- pklTvkOR5w1gkOw+66ayLln3ciIZi99J0lPZonVaGUxq6Cj66Y1IN5kpmLB5v2syA9YPUu
- feawe+M0XXvbXHCqDPuTtstKLE4RLPQ=
+ bh=27uRg46vZqxWL3C9S1vzoLqaWaUYGblqSyax5ENzK1c=;
+ b=B35g05T+wdq2851JULHkGh7IAGwWAMVKSnKoSt8g/Ee8e6nf3klA43I83LhBr5UrmJyQR9
+ woZwq3mtm8JrwZRoFgIqGhDK2hKJoxqjqa3xW+03LAuM0K41P5MFvGpt02WilP7qR2DhTg
+ 4oBlEfPDL0VXqUFdJS4xtkV+egOiQhc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1690884954;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G0qWhQUeICgKv1jW/QBP/nUzWvIZZ+MJDvwZBGJpCIc=;
- b=A4bbU/gvR0T4e0RGq/SHEgL7fIxrde7XoLAhE8j+wcuWHHjRVvuHG70scO7+NxbF9c/CxZ
- UPj+qsyq3JJ/0fAw==
+ bh=27uRg46vZqxWL3C9S1vzoLqaWaUYGblqSyax5ENzK1c=;
+ b=eFs3JaB7zCIPtD8hzhg0MVis8SAOOYAtMIrgcSdg5XLcuEDOMpWT5DUBHQAYpHE9dxa9JB
+ d7PHQqgC+u7OE8Ag==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAAB2139BD;
- Tue,  1 Aug 2023 10:15:53 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18ACB139C8;
+ Tue,  1 Aug 2023 10:15:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QGSKMFnbyGQBXQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:53 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id eNgOBVrbyGQBXQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 01 Aug 2023 10:15:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v2 27/47] fbdev/ocfb: Use fbdev I/O helpers
-Date: Tue,  1 Aug 2023 12:13:32 +0200
-Message-ID: <20230801101541.900-28-tzimmermann@suse.de>
+Subject: [PATCH v2 28/47] fbdev/offb: Use fbdev I/O helpers
+Date: Tue,  1 Aug 2023 12:13:33 +0200
+Message-ID: <20230801101541.900-29-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230801101541.900-1-tzimmermann@suse.de>
 References: <20230801101541.900-1-tzimmermann@suse.de>
@@ -91,40 +91,43 @@ Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
  drivers/video/fbdev/Kconfig | 4 +---
- drivers/video/fbdev/ocfb.c  | 4 +---
+ drivers/video/fbdev/offb.c  | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 74ec729cd5ef..b358cb5f87eb 100644
+index b358cb5f87eb..a792364419ce 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -672,9 +672,7 @@ config FB_PVR2
- config FB_OPENCORES
- 	tristate "OpenCores VGA/LCD core 2.0 framebuffer support"
- 	depends on FB && HAS_DMA
+@@ -301,9 +301,7 @@ config FB_OF
+ 	depends on FB && PPC && (!PPC_PSERIES || PCI)
+ 	depends on !DRM_OFDRM
+ 	select APERTURE_HELPERS
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
+ 	select FB_MACMODES
  	help
- 	  This enables support for the OpenCores VGA/LCD core.
+ 	  Say Y if you want support with Open Firmware for your graphics
+diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+index 17f8238262be..dcb1b81d35db 100644
+--- a/drivers/video/fbdev/offb.c
++++ b/drivers/video/fbdev/offb.c
+@@ -293,13 +293,11 @@ static void offb_destroy(struct fb_info *info)
  
-diff --git a/drivers/video/fbdev/ocfb.c b/drivers/video/fbdev/ocfb.c
-index 7ebe794583e1..7dc305c67af8 100644
---- a/drivers/video/fbdev/ocfb.c
-+++ b/drivers/video/fbdev/ocfb.c
-@@ -287,10 +287,8 @@ static int ocfb_init_var(struct ocfb_dev *fbdev)
- 
- static const struct fb_ops ocfb_ops = {
+ static const struct fb_ops offb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_setcolreg	= ocfb_setcolreg,
+ 	.fb_destroy	= offb_destroy,
+ 	.fb_setcolreg	= offb_setcolreg,
+ 	.fb_set_par	= offb_set_par,
+ 	.fb_blank	= offb_blank,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- static int ocfb_probe(struct platform_device *pdev)
+ static void __iomem *offb_map_reg(struct device_node *np, int index,
 -- 
 2.41.0
 
