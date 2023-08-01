@@ -1,78 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0171D76B6C0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 16:05:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC04976B72A
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Aug 2023 16:20:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E05610E34B;
-	Tue,  1 Aug 2023 14:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB3FE10E3FF;
+	Tue,  1 Aug 2023 14:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE6B10E34B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 14:05:27 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 371Cvufp010226; Tue, 1 Aug 2023 14:05:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=8/KuE7ZebrUGAksmIDm85DsZ0E+iBDP8kfm3m+UuBnQ=;
- b=MFBLuuUeCC7ra6yUso1HzBfXr5yHqupLIbNeGtK5UDPqVgmL+0Yhwn8DEQulIGluxXKL
- JajWJL66Hd3nTZu6eYl7nb+q89tRcbWAtbbYkneaesCJiO5RIC9LOqn24bwWytI3cn+X
- 11W9g+o6yvlhTcg1VLR70+nEv+fEQmsQFxDnek50hdlmvBojZ2O/ZwPoY7qvkOP53jXM
- P/pxeX5ruatrt7KV/khprG55AVnCk6ROcFL1slE3uAchfF9yuCKG22wilbe+cJ3RtHS+
- TX4fgXs9eKXBgv8Tz5PgS6iwvPXMrotvKIU8qprW9CHFIkEGAzP44ByCp1zX+/TVclTV xw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s72gqr4t5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Aug 2023 14:05:13 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 371E5CJR010200
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 1 Aug 2023 14:05:12 GMT
-Received: from [10.50.55.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 1 Aug
- 2023 07:05:10 -0700
-Message-ID: <dc7fdd8a-b3c4-b931-61be-b9bc467c6a85@quicinc.com>
-Date: Tue, 1 Aug 2023 19:35:06 +0530
+Received: from mgamail.intel.com (unknown [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92C710E3FA;
+ Tue,  1 Aug 2023 14:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690899610; x=1722435610;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=l4J5zsTb7mSM2fk/iTcxzzcaI0h6RjZo3tvY7nEVjkI=;
+ b=OZvUCtjonpCkg8UNLVFV0jZ/Yaj8VEW9BVkjqa8Kyxga4PcM9ptn2qn/
+ DZUgjR6j9FDUxPHSjeYNDZzMO/VqcIVH/edgeLJKWQIeuO0p0k4FRGL6T
+ fv9l+lGFB/UxYTfOz8EPj+/TeUN91O3UkWyrHC9MmT82rx4pbKijHRqkE
+ C7R6d/a6qQ/E7jbVfZxbyI1h4yNNajvhQqxkZYKws/0Ob1+92U4mEbpKn
+ ssbqqWSxuSopG83nxBJ2WHTpCASZGMZ1OSxqt3g/aC4fSOg8ZYV8sSmFb
+ VUa+rF0+PYzhr4zbUBiDiYE08hmgVhmEyQmnRe01I1ndrfsHhCUjH9yyf w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="372023366"
+X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; d="scan'208";a="372023366"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2023 07:20:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="678687193"
+X-IronPort-AV: E=Sophos;i="6.01,247,1684825200"; d="scan'208";a="678687193"
+Received: from jhajducz-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.37.77])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2023 07:20:08 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+Subject: [PATCH 0/4] Invalidate TLB cache for all GT's
+Date: Tue,  1 Aug 2023 16:19:51 +0200
+Message-Id: <20230801141955.383305-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH][V2][next] accel/qaic: remove redundant pointer pexec
-To: Colin Ian King <colin.i.king@gmail.com>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>, Carl Vanderlip <quic_carlv@quicinc.com>, "Oded
- Gabbay" <ogabbay@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20230726140626.264952-1-colin.i.king@gmail.com>
-Content-Language: en-US
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-In-Reply-To: <20230726140626.264952-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: qriaiy6FdSCIUOE9KCRm590KugTW_szM
-X-Proofpoint-ORIG-GUID: qriaiy6FdSCIUOE9KCRm590KugTW_szM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-01_09,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=624 adultscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2308010128
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,18 +57,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+This series revisits a once-trendy topic: TLB invalidation
+support for multi-gt.  It's a theme that's been passed around and
+reshaped by several of us.
 
-On 7/26/2023 7:36 PM, Colin Ian King wrote:
-> Pointer pexec is being assigned a value however it is never read. The
-> assignment is redundant and can be removed. Replace sizeof(*pexec)
-> with sizeof the type and remove the declaration of pointer pexec.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+I've filtered out most of the original changes from this series,
+initially sent by Mauro [1]. His ideas were inspired by some
+changes from Chris, who in turn was inspired by a change from
+me[2], all of which stemmed from offline talks by Chris (it's
+like a game of inspiration tag!).
 
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+What I've done is simply rebase and refactor the patches,
+focusing solely on the changes needed for multi-gt TLB
+invalidation in MMIO memory. The result is a leaner, more
+targeted proposal.
+
+Other patches from the original series might follow.
+
+Thanks,
+Andi
+
+[1] https://patchwork.freedesktop.org/series/106293/
+[2] https://patchwork.freedesktop.org/series/103831/
+
+Andi Shyti (2):
+  i915/drm/gt: Move the gt defines in the gt directory
+  drm/i915: Remove unnecessary include
+
+Chris Wilson (2):
+  drm/i915/gt: Move TLB invalidation to its own file
+  drm/i915: Invalidate the TLBs on each GT
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  15 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 140 +--------------
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  12 --
+ drivers/gpu/drm/i915/gt/intel_gt_defines.h    |  11 ++
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   4 +-
+ drivers/gpu/drm/i915/gt/intel_tlb.c           | 159 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_tlb.h           |  29 ++++
+ drivers/gpu/drm/i915/gt/selftest_tlb.c        |   3 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   1 -
+ drivers/gpu/drm/i915/i915_vma.c               |  15 +-
+ 12 files changed, 231 insertions(+), 163 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_defines.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_tlb.h
+
+-- 
+2.40.1
 
