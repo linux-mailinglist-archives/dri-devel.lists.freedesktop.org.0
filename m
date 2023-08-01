@@ -1,37 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2233E76C082
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 00:44:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3239076C091
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 00:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11B4310E43D;
-	Tue,  1 Aug 2023 22:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F9E10E445;
+	Tue,  1 Aug 2023 22:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 666EB10E43D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Aug 2023 22:44:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D6697D51;
- Wed,  2 Aug 2023 00:43:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1690929825;
- bh=IUenEnv4qq+Zo9OB/2ysbXjWoMYrA1qY3Dlj5m/Rxe0=;
- h=Date:From:To:Cc:Subject:From;
- b=TXv1sewZlAuJMOJDmBgeHyd5F0KCX+Fy4dh6hnEViidB10FGObb6tp3XSmwfeSQDe
- 1//R3hpB9cJtk0pAD6/IQLCksJEvfzfCTIZU7u/WzLScj1PWhohj24vbe4hncpGSYp
- nJmFKwn7HhT2MByFEE9FSAXN5Yea1VEpU64mVC20=
-Date: Wed, 2 Aug 2023 01:44:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [GIT PULL FOR v6.6] drm: xilinx: Miscellaneous fixes
-Message-ID: <20230801224454.GB335@pendragon.ideasonboard.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 339AE10E030;
+ Tue,  1 Aug 2023 22:48:37 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 371MN9RD021288; Tue, 1 Aug 2023 22:48:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=n3XquJvtqxm8VOK7bgZR86v6Z7bolj/OZFMU6knvcek=;
+ b=conCe+JSIQvObmuHKIsoMxZ+99H+2HZ4uDqUSpS4CFWT1itCcZAZG5cA/piCMh/kUEVN
+ Nk4wXtPfiYQvPlwekd+QBc1MBSzCZd2vtzUATol7p2iOPcHca5YwLw8lmyVfUx4WhwpK
+ kHnYS6BbbbLgPCncfk/21QOkn9B755mmfancnKWow18EzCDunAjr06E+wk007spRNp/H
+ Ta9lYJiOqKVEI95Ph3jzd3xzkQ8/+N0CUbtr3ctgxItrxLkP3dFvAy9GpsGPI4VCvs8l
+ kXlzO5AtdLba7Vq29XWMvA6siUgojTHVwae0FJy2ZWABRgXi6LCXP2NFqghF79bJBplz qg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s760c0mdf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Aug 2023 22:48:29 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 371MmSOl015293
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 1 Aug 2023 22:48:28 GMT
+Received: from [10.110.113.146] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 1 Aug
+ 2023 15:48:28 -0700
+Message-ID: <c88034e9-7785-bc9d-ebda-bd441106872e@quicinc.com>
+Date: Tue, 1 Aug 2023 15:48:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5 02/10] drm/msm/dpu: bail from
+ _dpu_core_perf_crtc_update_bus if there are no ICC paths
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230730010102.350713-1-dmitry.baryshkov@linaro.org>
+ <20230730010102.350713-3-dmitry.baryshkov@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230730010102.350713-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 009Uj0GFaBT2Lr1dIqHh3BhsgH1_y4BF
+X-Proofpoint-ORIG-GUID: 009Uj0GFaBT2Lr1dIqHh3BhsgH1_y4BF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_19,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 adultscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0
+ phishscore=0 clxscore=1011 bulkscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308010204
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,46 +86,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
 
-The following changes since commit 52920704df878050123dfeb469aa6ab8022547c1:
 
-  Merge tag 'drm-misc-next-2023-07-27' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-07-27 15:01:26 +0200)
+On 7/29/2023 6:00 PM, Dmitry Baryshkov wrote:
+> Skip bandwidth aggregation and return early if there are no interconnect
+> paths defined for the DPU device.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-are available in the Git repository at:
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/drm-next-xilinx-20230802
-
-for you to fetch changes up to 9bde3bfe24ca09a43b26e4bfcd569edace434cfa:
-
-  drm: xlnx: zynqmp_dpsub: Use devm_platform_ioremap_resource_byname() (2023-08-02 01:36:54 +0300)
-
-----------------------------------------------------------------
-Miscellaneous fixes for the Xilinx zynqmp-dpsub driver
-
-----------------------------------------------------------------
-Jiasheng Jiang (1):
-      drm: xlnx: zynqmp_dpsub: Add missing check for dma_set_mask
-
-Lee Jones (1):
-      drm/xlnx/zynqmp_dp: Fix function name zynqmp_dp_link_train() -> zynqmp_dp_train()
-
-Li Zetao (1):
-      drm: xlnx: zynqmp_dpsub: Use devm_platform_ioremap_resource_byname()
-
-Wang Ming (1):
-      drm: xlnx: zynqmp_dpsub: Use dev_err_probe instead of dev_err
-
- drivers/gpu/drm/xlnx/zynqmp_disp.c  | 14 +++++---------
- drivers/gpu/drm/xlnx/zynqmp_dp.c    |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c |  4 +++-
- 3 files changed, 9 insertions(+), 11 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
