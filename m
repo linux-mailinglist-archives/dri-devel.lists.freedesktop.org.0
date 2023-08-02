@@ -1,63 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBCF76C9D0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:49:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D365B76CA38
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 12:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6023D10E0A1;
-	Wed,  2 Aug 2023 09:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A49710E1EB;
+	Wed,  2 Aug 2023 10:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB87410E0A1
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690969767; x=1722505767;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=YRcGeOxRUJArRb84NlJwrYbu4BywziVVm/fAE8bkyZc=;
- b=JLqN5Gu4txgD2tHIUiLnpMsXRBjOaBQRj82EA9vRBAjz1ggSKrEO3uHu
- /8lnghhBm2c9DRIKlNCUPEOjucRxdFATKXIvQhfBSL1uwIPqZjrZs8eD+
- BgIP1xAEdVul9mtz8YHeqSQlGG821SxdZL8ERTLfR2AzbLh8u8MaBljCr
- 3PJ00BQY336EauVpDJTFe26S+A3omnMk9h1Iqc26EaFzvABBPRloe5uoa
- cdEQwDWMg5cAeQa1F/MEeLiXGwRpgRtAP7glCkDZUiQup9CHzyIHL92SK
- 0I84L9O/lUEaZpez/kYWnQ5boqc35xpMPFO1yGdMurWh9agZsxanybRsC g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="455903014"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="455903014"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2023 02:49:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="902922075"
-X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="902922075"
-Received: from osalyk-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.62.215])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2023 02:49:22 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>,
- "Russell King (Oracle)" <linux@armlinux.org.uk>, Christian =?utf-8?Q?K?=
- =?utf-8?Q?=C3=B6nig?= <christian.koenig@amd.com>, Julia
- Lawall <julia.lawall@inria.fr>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Maxime
- Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>, Luben
- Tuikov <luben.tuikov@amd.com>, Thierry
- Reding <thierry.reding@gmail.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Sean Paul <seanpaul@chromium.org>, Krzysztof
- Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
-In-Reply-To: <874jm8go61.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
- <874jm8go61.fsf@intel.com>
-Date: Wed, 02 Aug 2023 12:49:20 +0300
-Message-ID: <87zg39vknz.fsf@intel.com>
+X-Greylist: delayed 557 seconds by postgrey-1.36 at gabe;
+ Wed, 02 Aug 2023 10:00:40 UTC
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF5310E1EB
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 10:00:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id A27B5FB03;
+ Wed,  2 Aug 2023 11:51:20 +0200 (CEST)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ut6geAuGSTlo; Wed,  2 Aug 2023 11:51:19 +0200 (CEST)
+Date: Wed, 2 Aug 2023 11:51:17 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
+To: David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH] dt-bindings: mxsfb: Exclude i.MX8MQ from power-domains
+ requirement
+Message-ID: <ZMonFSqutQRqs61n@qwark.sigxcpu.org>
+References: <20230730184120.94984-1-david@ixit.cz>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230730184120.94984-1-david@ixit.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,26 +43,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
+Cc: Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, Liu Ying <victor.liu@nxp.com>,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, kernel@puri.sm
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Jul 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> I find it obnoxious to send a new series within 24 hours of the first,
-> while the discussion is still in progress, and it's a misrepresentation
-> of the in-progress dicussion to say most of the feedback was positive.
+Hi,
+On Sun, Jul 30, 2023 at 09:41:20PM +0300, David Heidelberg wrote:
+> i.MX8MQ uses as secondary compatible fsl,imx6sx-lcdif, which triggers
+> requirement of power-domains, thou it's not required.
+> 
+> Fixes: f62678a77d58 ("dt-bindings: mxsfb: Document i.MX8M/i.MX6SX/i.MX6SL power-domains property")
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  .../devicetree/bindings/display/fsl,lcdif.yaml        | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> index fc11ab5fc465..2d868276b0f9 100644
+> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> @@ -129,8 +129,15 @@ allOf:
+>                - fsl,imx8mp-lcdif
+>                - fsl,imx93-lcdif
+>      then:
+> -      required:
+> -        - power-domains
+> +      if:
+> +        properties:
+> +          compatible:
+> +            not:
+> +              contains:
+> +                const: fsl,imx8mq-lcdif
+> +      then:
+> +        required:
+> +          - power-domains
 
-Uwe, all -
+We currently enable the mipi power domain for the mipi dphy and nwl
+bridge only but not for LCDIF itself assuming it's not needed (as there's
+other outputs LCDIF can drive). I *think* this is correct but maybe
+Marek or Liu can confirm?
 
-Back from vacation. In the mean time, it has been brought to my
-attention that "obnoxious" is an extremely strong choice of wording
-here. Apologies. Absolutely no insult was intended. Turns out my command
-of the nuances of the English language is not as good as I like to
-believe it is.
+Cheers,
+ -- Guido
 
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+>  
+>  examples:
+>    - |
+> -- 
+> 2.40.1
+> 
