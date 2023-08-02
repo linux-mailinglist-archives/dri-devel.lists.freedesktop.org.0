@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D11076D6EC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B650E76D6EF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55CB510E569;
-	Wed,  2 Aug 2023 18:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F7110E56B;
+	Wed,  2 Aug 2023 18:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83FC10E20E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:36:58 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2b9a828c920so1593631fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:36:58 -0700 (PDT)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A8A610E20E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:37:00 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-2b9d07a8d84so1412941fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691001417; x=1691606217;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ggtFCyTuEyyo2aD8lzzIhWGX6dKxbHOb8aCo9hV6An8=;
- b=QLbLEl/uQmxlHR8iVmV6INvv4beTNgF4a7Q4OPRlxfF5U7uhwj1PT+iqvVimR4o44H
- Ns/gmcd5wo3/G3ElVpDG8PEJqLKqWmtuXwha8NQdxEISeN6cLYLTtP5HsR9uo5tOncID
- aNrhkhPsfsEHcqB6k0LZ20Fs7kFW2qycblOdkPxEZ7zRW4JIUBK6KpaV9ps/pR+o+lVX
- S4cmlgHV0885see7Vaxxwb10PacpgSHz77SKVSfEMkNzT6hhYh/rf9Ak6uNd2EQbU5ya
- tUPl7ghaeHvUTr9JOQiQeKWyp1kaNyX/cnJyPPEvl+RxY7AiW5HtaeXs7Wkw49jSelki
- +C0w==
+ d=linaro.org; s=google; t=1691001418; x=1691606218;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WtnOSZ3n2/CymjBqeJkQ4cRZMCsGC/V1KtdFyH5+HU4=;
+ b=HTHt+GQw19CduXQ997U6O6LHXJ0/5ydlTWhAhTfMCTlYn8UnXqmkuvVbBECJ9Laqsi
+ hoX3S9N6rAfx3YvsKvSbt/CrJBJSIJBGE9BkH1lJHPT4l23P3A2TfiNTvE8Y13FFbDjJ
+ r1uIjVZFEHPvpdRBDDXtp63vsW41AclSz0sLyG0u1jpcHvnqzz9Q9wSKAnKu8HMbxlQt
+ NZdjAD2cI/EPL1tBylho/14ohGt+bTfzbKfqoNUZ9cTVk9N1MmCIMy1R/B4ug0+p++b7
+ H+D3dXei+diDwKjhL0DjID4dlqxbFSSlmeM78ZLPUajz/odI5xz1JIW7oRWq4OuPHLDw
+ 8v0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691001417; x=1691606217;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ggtFCyTuEyyo2aD8lzzIhWGX6dKxbHOb8aCo9hV6An8=;
- b=ByCYwlyTZ0BRpJB4ho5/GDgukyqOHkD6IX1v3/czDxDbHdI0htWQJS1bFEeHxqpCLk
- 0yUWEfrZcHdb8iP+Twg09BulHnH0SyNLCpuvrL9bdGLP0SqoHs2dYBtg85oZqal0E8jw
- XEsAluvUTtZFmNRIA5gN/cOBzAs6akm2qHDbbhHBA+UtXwNam0q6VUub4+F/UUPIfdnr
- qbBgiYMf9aS7Jxxfwpi06f8i//LM2GMq+KkBN6mPu8V+X6rScvvHUGB5AfqrJSePQF/3
- 6kWvEDg/qAnMlB2JKWd6QPgVC0NCFmjbNLPP4onOHfKbiBkuqY+5NLTgxJXQsNPPsqTH
- cNgw==
-X-Gm-Message-State: ABy/qLbtEtdguGrIIflyCm6yOcSTwniYQP++nfLNlDZSJnR7dlPqAAzi
- 9Ji2xNJbEkZDBU5G2AV2s8u04A==
-X-Google-Smtp-Source: APBJJlGHXsO9Auj7Pm2/sSXEJZtKvS+/HI/5k/EH2ksctqq7fJ1e5OYMMFyIZLfmOoWUjvAVzbV3RA==
-X-Received: by 2002:a2e:8812:0:b0:2b8:3a1e:eec9 with SMTP id
- x18-20020a2e8812000000b002b83a1eeec9mr5699192ljh.36.1691001416795; 
- Wed, 02 Aug 2023 11:36:56 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691001418; x=1691606218;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WtnOSZ3n2/CymjBqeJkQ4cRZMCsGC/V1KtdFyH5+HU4=;
+ b=K0z9DRrEQUFoQ4RrJW5VHa5mLnteJim8ZYHcNc83bCcY63lrNeWtuwEYa/2CuNFf03
+ vVvuwvG7yf8h4zwMYFp1KRagxWFHuVNWjgsC5l/mF4hX8c7dVX7nwg0JNqcyAJPwsQPM
+ R1in3f3WFfeHj9SXaj3JNHntXtX6cDyBMPnPus5s2RySz1UDNzXoPw0iAttSFVeXK/8I
+ FdClPU7AwVaaUWiadlAsxlTzE+biSnLMIiB1n/xTtOrMeQWFN3caPp9Eihd7RVeFqh0k
+ VBE7yD4afZ4+8SBB1wbuHOAcSbvJ1zxphzooytm0dFZUNiI38JlaM4llX/QTeYvgcCOt
+ lRzg==
+X-Gm-Message-State: ABy/qLZNukEwW+h3p8LbEEQVQ6hP9y/eGbMl68Z6adnCoobbex31YLBY
+ K5kfs567WYSf9zkQ15yhlCuagQ==
+X-Google-Smtp-Source: APBJJlEO9/nyUU2Mk3sSMr7Vvaf2bfj3p1EarkZ97421u+6v1iwV9IAMGoD65g4ZUgZFVJmxj6miyA==
+X-Received: by 2002:a2e:9bc3:0:b0:2b6:fa60:85a1 with SMTP id
+ w3-20020a2e9bc3000000b002b6fa6085a1mr5960940ljj.21.1691001417728; 
+ Wed, 02 Aug 2023 11:36:57 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
  h5-20020a2e3a05000000b002b94b355527sm3682821lja.32.2023.08.02.11.36.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Aug 2023 11:36:56 -0700 (PDT)
+ Wed, 02 Aug 2023 11:36:57 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-Date: Wed,  2 Aug 2023 21:36:54 +0300
-Message-Id: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 2/2] drm/msm/dpu: fix DSC 1.2 enc subblock length
+Date: Wed,  2 Aug 2023 21:36:55 +0300
+Message-Id: <20230802183655.4188640-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
+References: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,20 +75,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Ryan McCann <quic_rmccann@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
-This includes the common block itself, enc subblocks and some empty
-space around. Change that to pass 0x4 instead, the length of common
-register block itself.
+Both struct dpu_dsc_sub_blks instances declare enc subblock length to be
+0x100, while the actual length is 0x9c (last register having offset 0x98).
+Reduce subblock length to remove the empty register space from being
+dumped.
 
 Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
-Reported-by: Ryan McCann <quic_rmccann@quicinc.com>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
 
@@ -93,162 +96,29 @@ Changes since v1:
  - Rebased on top of the catalog changes
 
 ---
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  8 ++++----
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  2 +-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  8 ++++----
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  8 ++++----
- 5 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index c906b6864b5e..f8d16f9bf528 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -283,22 +283,22 @@ static const struct dpu_merge_3d_cfg sm8350_merge_3d[] = {
- static const struct dpu_dsc_cfg sm8350_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	},
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index 2bf9f34e54c6..3b5061c4402a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -163,7 +163,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
- static const struct dpu_dsc_cfg sc7280_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	},
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index ccd0477f4877..58f5e25679b1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -286,32 +286,32 @@ static const struct dpu_merge_3d_cfg sc8280xp_merge_3d[] = {
- static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_2_0", .id = DSC_4,
--		.base = 0x82000, .len = 0x29c,
-+		.base = 0x82000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_2_1", .id = DSC_5,
--		.base = 0x82000, .len = 0x29c,
-+		.base = 0x82000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	},
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index 2b2e9d4800f8..1b12178dfbca 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -305,22 +305,22 @@ static const struct dpu_merge_3d_cfg sm8450_merge_3d[] = {
- static const struct dpu_dsc_cfg sm8450_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	},
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-index 833be1167499..f2ab02d04440 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-@@ -320,22 +320,22 @@ static const struct dpu_merge_3d_cfg sm8550_merge_3d[] = {
- static const struct dpu_dsc_cfg sm8550_dsc[] = {
- 	{
- 		.name = "dce_0_0", .id = DSC_0,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_0_1", .id = DSC_1,
--		.base = 0x80000, .len = 0x29c,
-+		.base = 0x80000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2),
- 		.sblk = &dsc_sblk_1,
- 	}, {
- 		.name = "dce_1_0", .id = DSC_2,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_0,
- 	}, {
- 		.name = "dce_1_1", .id = DSC_3,
--		.base = 0x81000, .len = 0x29c,
-+		.base = 0x81000, .len = 0x4,
- 		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
- 		.sblk = &dsc_sblk_1,
- 	},
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 3ff07d7cbf4b..f1bac5e88249 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -456,12 +456,12 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+  * DSC sub blocks config
+  *************************************************************/
+ static const struct dpu_dsc_sub_blks dsc_sblk_0 = {
+-	.enc = {.name = "enc", .base = 0x100, .len = 0x100},
++	.enc = {.name = "enc", .base = 0x100, .len = 0x9c},
+ 	.ctl = {.name = "ctl", .base = 0xF00, .len = 0x10},
+ };
+ 
+ static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
+-	.enc = {.name = "enc", .base = 0x200, .len = 0x100},
++	.enc = {.name = "enc", .base = 0x200, .len = 0x9c},
+ 	.ctl = {.name = "ctl", .base = 0xF80, .len = 0x10},
+ };
+ 
 -- 
 2.39.2
 
