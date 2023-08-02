@@ -1,78 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E23976D8D8
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 22:50:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C5976D96E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 23:24:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A48E010E134;
-	Wed,  2 Aug 2023 20:49:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0532C10E0AC;
+	Wed,  2 Aug 2023 21:24:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C4A10E0AC;
- Wed,  2 Aug 2023 20:49:55 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 372DfL5I019235; Wed, 2 Aug 2023 20:49:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=LJ3/05DaywZuZ4/vziTgFISmUA89IEZ+tH1Ta7LeZns=;
- b=CnqTmOA9VD48EI8M7D+s/9T0nGUlc1bcL+Tt2vWNAhGALcNiUFN9mRIw7QiT2AhEDL6i
- bsxj9v8Zk7iXP8wU5BdOZumksbabmCVHYjQPGy1qyGGX5FtJjNbEU9cn8yp7C67pvJbc
- wf3ZyLj1aafYVWQUBfMVErTE8xa+fT3tEYDCMDlwG5e8jgiefNe2PjXgkd+wJ349Wzfi
- SH7z6Z9COm9Xc7o9EBqMpZw6Elmpd523+D+1ozR8FCr5NG2kJ382UzoqrUkOh67mr1FF
- umPo7eFwJK+y3CAndVer+buR6+glv58MPti8vueH9WK2UiyOaX7SFdjwpGdt1Lq4hdmr rA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s75dgbgb6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Aug 2023 20:49:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 372Knirg029796
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 2 Aug 2023 20:49:44 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 2 Aug
- 2023 13:49:44 -0700
-Message-ID: <e97d37d4-77bb-7e7d-073f-290088b63d5f@quicinc.com>
-Date: Wed, 2 Aug 2023 13:49:40 -0700
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B76010E0AC
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 21:24:14 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id
+ ada2fe7eead31-4476a9e8812so130539137.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 14:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1691011453; x=1691616253;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eGkan6kKOoMuhY5wkLq1cZqXzfolEtrHhlDhYTOBf2Y=;
+ b=5sGr0QQJTvlmwSK/HebXWPOuSSRMw+V+Y6fBEea8/Ap+S1UP1YfovFvbXee1LvbK7k
+ IZxXnEs7lYzWSUcvcCxO5oOPDoHbbVgMOUfwuTbiOXQD2K21XdAq5ooonO+IK0uFLSEE
+ uEGgbNefuMK0eR4dTfhtDowXTpB7cPtCsggWVnzN/fkfCPcZCfc1BWCbnVUZ6SNS1E/9
+ 02goZmzcveviFreHJaqv+9AfkV7IW8EDkdREuxSBNqINkE0fGA//eboZg+juNbySHpFG
+ ZyQu3BLx0t8RC2tMSMjMnY2FxiKcQOX3cyjV5daDFHrTm62xfJ5EvstYdaxTBq5Oq5Gj
+ bKxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691011453; x=1691616253;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eGkan6kKOoMuhY5wkLq1cZqXzfolEtrHhlDhYTOBf2Y=;
+ b=W/0R6thBcWgKgvdZY71MyIiFcT1jDvOLBxIrbFVosmCdOBbZCfR44ZvpgTlpO201HD
+ jzCHsHdMx9RjsVSeumbajK+POuskgUqklIJRHFf0JHmloMBoDvb2DzcpKUwAaM/ruBGK
+ kvkdIvnDgYnLgik6UTuL7G+6R77aafuooaYFFsmXHGay0Zv5c1mz8mIqNQwH5EiGH0+q
+ 8ExNp1CYW5WDZ4kHW6GPNPkSsfGB3iSSk8MRjXWBxDTBnDsK6LEwia6H4NylBFfbNKFS
+ Zfnx/+JIL30KJE7ivnHQ2Nh3aoUX6lISTTBAoqssALSFjBlaSTIPs5OaEFXnUz+59cXn
+ Kv6A==
+X-Gm-Message-State: ABy/qLYJMalXBOXv4ZLMQgNdXMjHxe60jaETzE+WJ1jCvBFyP3Ip3P/I
+ cLN2zqgIKHwm+NoDmk4vK2LwyXCwJgIQeDJ6LnNqIw==
+X-Google-Smtp-Source: APBJJlGZq5UYNgKa8N469Wl7o5dbEEGllcRjv7SqR2bCaUVGIXc3Qc7a6F4MzKYrCq6avEi0oy5NbhAh32s1BZdb2A0=
+X-Received: by 2002:a67:be0b:0:b0:443:6180:778f with SMTP id
+ x11-20020a67be0b000000b004436180778fmr5937813vsq.33.1691011453120; Wed, 02
+ Aug 2023 14:24:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 2/2] drm/msm/dpu: fix DSC 1.2 enc subblock length
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
- <20230802183655.4188640-2-dmitry.baryshkov@linaro.org>
- <qphzjpmmqfhti3tblhtv26xl4erzyi6xi6piyjvdzhji6bdnik@ivsgw364ea5u>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <qphzjpmmqfhti3tblhtv26xl4erzyi6xi6piyjvdzhji6bdnik@ivsgw364ea5u>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: zXLl8UJjNikW4vwiwj39MxHcWVqilb_I
-X-Proofpoint-ORIG-GUID: zXLl8UJjNikW4vwiwj39MxHcWVqilb_I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-02_18,2023-08-01_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
- suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308020183
+References: <20230731123625.3766-1-christian.koenig@amd.com>
+ <CAKwvOdmRm=vOjNXGWeuKw-h78CXMrkcwc5vnCRVqFxMxWzhCcg@mail.gmail.com>
+ <20230802104415.7fe64b67@collabora.com>
+In-Reply-To: <20230802104415.7fe64b67@collabora.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 2 Aug 2023 14:24:02 -0700
+Message-ID: <CAKwvOd=Y2qM+Urh39JDei_STpijUB4wOysTVMuHkShjOsgXZqg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +70,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: tzimmermann@suse.de,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ naresh.kamboju@linaro.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, dakr@redhat.com, dri-devel@lists.freedesktop.org,
+ trix@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Aug 2, 2023 at 1:44=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> On Tue, 1 Aug 2023 13:35:13 -0700
+> Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> > On Mon, Jul 31, 2023 at 5:36=E2=80=AFAM Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > >
+> > > GCC forbids to jump to labels in loop conditions and a new clang
+> > > check stumbled over this.
+> > >
+> > > So instead using a local label inside the loop condition use an
+> > > unique label outside of it.
+> > >
+> > > Fixes: commit 09593216bff1 ("drm: execution context for GEM buffers v=
+7")
+> > > Link: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1890
+> > > Link: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f=
+5d096eb3aed7b712f5067
+> > > Reported-by: Nathan Chancellor <nathan@kernel.org>
+> > > Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> > > CC: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >
+> > Works for me; thanks for the patch!
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> > I suspect it's possible to change the indirect goto into a direct goto
+> > with some further refactoring (macros can take block statements; if
+> > drm_exec_until_all_locked accepted a block statement arg then you
+> > could introduce a new scope, and a new local label to that scope, then
+> > just use direct goto),
+>
+> Maybe I'm wrong, but this sounds like the version I proposed here [1].
+
+Nearly; here's what I was imagining:
+```
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 977e1804718d..3ea8beb159f0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -904,7 +904,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser=
+ *p,
+                e->user_invalidated =3D userpage_invalidated;
+        }
+
+-       drm_exec_until_all_locked(&p->exec) {
++       drm_exec_until_all_locked(&p->exec, {
+                r =3D amdgpu_vm_lock_pd(&fpriv->vm, &p->exec, 1 + p->gang_s=
+ize);
+                drm_exec_retry_on_contention(&p->exec);
+                if (unlikely(r))
+@@ -928,7 +928,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser=
+ *p,
+                        if (unlikely(r))
+                                goto out_free_user_pages;
+                }
+-       }
++       })
+
+        amdgpu_bo_list_for_each_userptr_entry(e, p->bo_list) {
+                struct mm_struct *usermm;
+diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
+index 73205afec162..8e32a9b704e7 100644
+--- a/include/drm/drm_exec.h
++++ b/include/drm/drm_exec.h
+@@ -74,14 +74,13 @@ struct drm_exec {
+  * Since labels can't be defined local to the loops body we use a jump poi=
+nter
+  * to make sure that the retry is only used from within the loops body.
+  */
+-#define drm_exec_until_all_locked(exec)                                \
+-       for (void *__drm_exec_retry_ptr; ({                     \
+-               __label__ __drm_exec_retry;                     \
+-__drm_exec_retry:                                              \
+-               __drm_exec_retry_ptr =3D &&__drm_exec_retry;      \
+-               (void)__drm_exec_retry_ptr;                     \
+-               drm_exec_cleanup(exec);                         \
+-       });)
++#define drm_exec_until_all_locked(exec, block)                         \
++       {       \
++               __label__ __drm_exec_retry;     \
++__drm_exec_retry:      \
++               while (drm_exec_cleanup(exec))  \
++                       block   \
++}
+
+ /**
+  * drm_exec_retry_on_contention - restart the loop to grap all locks
+@@ -93,7 +92,7 @@ __drm_exec_retry:
+         \
+ #define drm_exec_retry_on_contention(exec)                     \
+        do {                                                    \
+                if (unlikely(drm_exec_is_contended(exec)))      \
+-                       goto *__drm_exec_retry_ptr;             \
++                       goto __drm_exec_retry;          \
+        } while (0)
+
+ /**
+```
+(only updated one macro expansion site in
+drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c, didn't add proper trailing
+tabs to macro but you get the gist).
+
+But I think both compilers can optimize out the unnecessary
+indirection when it's obvious, so I don't think it matters much, other
+than the tastes of whoever has to maintain this.
 
 
-On 8/2/2023 12:46 PM, Marijn Suijten wrote:
-> On 2023-08-02 21:36:55, Dmitry Baryshkov wrote:
->> Both struct dpu_dsc_sub_blks instances declare enc subblock length to be
->> 0x100, while the actual length is 0x9c (last register having offset 0x98).
->> Reduce subblock length to remove the empty register space from being
->> dumped.
->>
->> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>
->> Changes since v1:
->>   - Rebased on top of the catalog changes
->>
->> ---
->>
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> index 3ff07d7cbf4b..f1bac5e88249 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> @@ -456,12 +456,12 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
->>    * DSC sub blocks config
->>    *************************************************************/
->>   static const struct dpu_dsc_sub_blks dsc_sblk_0 = {
->> -	.enc = {.name = "enc", .base = 0x100, .len = 0x100},
->> +	.enc = {.name = "enc", .base = 0x100, .len = 0x9c},
->>   	.ctl = {.name = "ctl", .base = 0xF00, .len = 0x10},
-> 
-> For the time being only ctl register 0x00 and 0x04 is touched,
-> DATA_IN_SWAP and CLK_CTRL at 0x08 and 0x0c are defined but not used,
-> though it might still be useful to see their current value in the dump.
-> 
-> - Marijn
-> 
+>
+> > but this will probably apply cleaner. (oh, is
+> > 09593216bff1 only in next at the moment? The AuthorDate threw me.)
+> >
+> > There are some curious cases where __attribute__((cleanup())) doesn't
+> > mesh well with indirect gotos.
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D37722
+> >
+> > May not ever be a problem here...
+>
+> [1]https://patchwork.freedesktop.org/patch/543077/
 
-Yes, we should keep them.
 
->>   };
->>   
->>   static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
->> -	.enc = {.name = "enc", .base = 0x200, .len = 0x100},
->> +	.enc = {.name = "enc", .base = 0x200, .len = 0x9c},
->>   	.ctl = {.name = "ctl", .base = 0xF80, .len = 0x10},
->>   };
->>   
->> -- 
->> 2.39.2
->>
+
+--=20
+Thanks,
+~Nick Desaulniers
