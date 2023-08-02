@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5A576DAB7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 00:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5985876DAB8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 00:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B0510E074;
-	Wed,  2 Aug 2023 22:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF5210E479;
+	Wed,  2 Aug 2023 22:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE99C10E05D;
- Wed,  2 Aug 2023 22:22:32 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-686f8614ce5so280972b3a.3; 
- Wed, 02 Aug 2023 15:22:32 -0700 (PDT)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15C5110E074;
+ Wed,  2 Aug 2023 22:22:35 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-686e0213c0bso228976b3a.1; 
+ Wed, 02 Aug 2023 15:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691014952; x=1691619752;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WqGEoOUd/ESEtcnLMxxkmmF+2HvAWe507ZrVsUYfvB8=;
- b=OZEvcpqTsk5jpWwDIykftqID19fsX3SOufb9DrLDherZlc5274MgSh1+i+496ZqGOk
- as+PSGpWPsvqG871b/RM7rD4jvxmwZKWwhV7RlfvcCgmGdaFqBmMfZhCoF2GqLP/J5dA
- eZcseDJH7xny2uktvB80RgF2OrDF3H5u83lgzvFNTRhA7O2vsCGgXzlssljQREN4IqdR
- QVgE01sreLd2x6WM/9Y6AFQq02dDszg9Fmakfae3IXD8Ne9MpHXGGDX2ApX1pukvx/FC
- RKnJJuFTtaJY5MCGXB4LoAqtTti01fCIiLwY2NLeFLlFOQno+1odnaJVBwlVdc5o9IW6
- rjNw==
+ d=gmail.com; s=20221208; t=1691014954; x=1691619754;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BZNKuTKrcBgRO6bXVxaTsNFykZlM8LhlqXHhRV9iIMg=;
+ b=ZeNQnTSw63gUqdIOiPmnXIl0jX9pddEHQZXlodZ5XGlcKEU4VI8DVud5T5Sncrvzm+
+ sTi+cCt4G2gmYZc96sOEumuGVzZWP/n53luobPPCLPUM/VQfz2zzqFfn1BSrgqlqwgTb
+ cMmaAox48K2vOi/m46kqcc7Xnw0Rp/BCKPcUwitEPj/r11H3GdM0NUN7SwCwBl5d2B5T
+ tBqqXP4ChvxDYQKfXVv138ks9WbvfPU/dOdNf+TeqwYVZmfl7INc8xDCyHFcSxfS4ViK
+ Uwbw+eDR5leGqPeVH/qqdomg8yavyTPpjAeG7H9gIb9mxy+vUghACbc05ID5RPpMLmSm
+ 9lng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691014952; x=1691619752;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WqGEoOUd/ESEtcnLMxxkmmF+2HvAWe507ZrVsUYfvB8=;
- b=Kj290JnmBJRHev3f8cf8EEGoprXW/r3DpWeMWyCssPj+G9lZGicz910pu96zF7DOrb
- tIzDfzd90asMcrI5ASesyVyuZJYJSpEJOV/graV6KioBDgjlfein3iNLY1UagpjGUI6R
- cXzD56nkUXNJIaTWWxV/EH9NYGl0QHC271lsphQEdpIA7dwaPM9epvNKYYXNwsnQ+CL0
- KE2Erl77psXr23iBBS3wC6A193OZY9G5DGqsLzE5KqbKdZ4nXejWG9QwP9Ws2tKe3cWR
- GmRr7sDq6ux2bX3LatIstPPuHCR9KuOllkPh9bSEjZmd96NLsUZfjOjJy1c7pmFNaYKL
- dQ4A==
-X-Gm-Message-State: ABy/qLbvIZ0gR/tI5W+7OVQQO2Ad9FUFqvuKGmYgiXqIQd+JhWVeCZJ0
- b/pfl8Ob02Zmg+RPB3L1bBedLxnh0To=
-X-Google-Smtp-Source: APBJJlEVl/jx8lxgTCVEF4qXOsOTXbqHOZPKR0q9TTQi6IBaid3v2Q0uzFoeq/tX416LiqSgz/urTg==
-X-Received: by 2002:a05:6a00:1887:b0:687:7a30:deb with SMTP id
- x7-20020a056a00188700b006877a300debmr3224479pfh.15.1691014951825; 
- Wed, 02 Aug 2023 15:22:31 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691014954; x=1691619754;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BZNKuTKrcBgRO6bXVxaTsNFykZlM8LhlqXHhRV9iIMg=;
+ b=dz6iOvQTBu2KB8iSCpezEUcVB3vk2DUaVsbGT2yZsAxflkoFWtd3hyxQLchdjKRjwl
+ w1aIDw3z5F39ILCL6+ie1KXB53HkUW+pyAgxlL1/Fu7EmcJH9KsNRz/n2ESEUu1bLyk1
+ IJtiL0Za8Wf46KhakAFOez1+vOFret+f38S9+snHtYvVTqNL43U1hM13AOb/pQevP947
+ 4td8feKxWUyFZ3MS00ZffhGlp8s5DNvw3dNxzGSVNhAo1fjCYb02TEgoRXGBo7V/J+On
+ Ex6M7steeGqEulDq4FazUwVZWNkJweubxY8GeRzF4CPQQbh0VoACy2O8V5c4vs8PvHg3
+ RTMw==
+X-Gm-Message-State: ABy/qLYGwDLMoMztBAfH9ClSVsduvJVdIR3bZb97/mclPK9fiX4WJ6to
+ WPO7s/2Pj9Ci+7lVXohcqYM8yz37gGY=
+X-Google-Smtp-Source: APBJJlG+Tf4GmWBUQWIaN/BFbth8eef9yEFZAVMQd4BC1XPs2NLxeysSzwbkRAkCpLiBfaDWCJ+XGA==
+X-Received: by 2002:a05:6a20:840b:b0:137:514a:9835 with SMTP id
+ c11-20020a056a20840b00b00137514a9835mr20526626pzd.9.1691014953945; 
+ Wed, 02 Aug 2023 15:22:33 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:33de:aac3:fe1d:788])
  by smtp.gmail.com with ESMTPSA id
- y17-20020a62b511000000b006875df47747sm2379495pfe.154.2023.08.02.15.22.30
+ y16-20020aa78550000000b0066a6059d399sm11558227pfn.116.2023.08.02.15.22.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Aug 2023 15:22:31 -0700 (PDT)
+ Wed, 02 Aug 2023 15:22:33 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/4] drm/msm: Submit overhead opts
-Date: Wed,  2 Aug 2023 15:21:48 -0700
-Message-ID: <20230802222158.11838-1-robdclark@gmail.com>
+Subject: [PATCH 1/4] drm/msm: Take lru lock once per job_run
+Date: Wed,  2 Aug 2023 15:21:49 -0700
+Message-ID: <20230802222158.11838-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230802222158.11838-1-robdclark@gmail.com>
+References: <20230802222158.11838-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,40 +73,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Elliot Berman <quic_eberman@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Adam Skladowski <a39.skl@gmail.com>,
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
  open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Guru Das Srinagesh <quic_gurus@quicinc.com>, freedreno@lists.freedesktop.org
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-I recently wrote myself a submitoverhead igt test[1] and spent a bit of
-time profiling.  The end result ranges from 1.6x faster for
-NO_IMPLICIT_SYNC commits with 100 BOs to 2.5x faster for 1000 BOs.
+Rather than acquiring it and dropping it for each individual obj.
 
-[1] https://patchwork.freedesktop.org/series/121909/
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem.c        | 3 ---
+ drivers/gpu/drm/msm/msm_ringbuffer.c | 5 +++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Rob Clark (4):
-  drm/msm: Take lru lock once per job_run
-  drm/msm: Use drm_gem_object in submit bos table
-  drm/msm: Take lru lock once per submit_pin_objects()
-  drm/msm: Remove vma use tracking
-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c |  6 +--
- drivers/gpu/drm/msm/msm_gem.c         | 57 ++++++++++++-----------
- drivers/gpu/drm/msm/msm_gem.h         | 15 ++----
- drivers/gpu/drm/msm/msm_gem_submit.c  | 62 +++++++++++++------------
- drivers/gpu/drm/msm/msm_gem_vma.c     | 67 +--------------------------
- drivers/gpu/drm/msm/msm_gpu.c         | 20 ++++----
- drivers/gpu/drm/msm/msm_rd.c          |  8 ++--
- drivers/gpu/drm/msm/msm_ringbuffer.c  | 10 ++--
- 8 files changed, 91 insertions(+), 154 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 20cfd86d2b32..6d1dbffc3905 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -509,14 +509,11 @@ void msm_gem_unpin_locked(struct drm_gem_object *obj)
+  */
+ void msm_gem_unpin_active(struct drm_gem_object *obj)
+ {
+-	struct msm_drm_private *priv = obj->dev->dev_private;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 
+-	mutex_lock(&priv->lru.lock);
+ 	msm_obj->pin_count--;
+ 	GEM_WARN_ON(msm_obj->pin_count < 0);
+ 	update_lru_active(obj);
+-	mutex_unlock(&priv->lru.lock);
+ }
+ 
+ struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
+index b60199184409..8b8353dcde9f 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.c
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+@@ -16,10 +16,13 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 	struct msm_gem_submit *submit = to_msm_submit(job);
+ 	struct msm_fence_context *fctx = submit->ring->fctx;
+ 	struct msm_gpu *gpu = submit->gpu;
++	struct msm_drm_private *priv = gpu->dev->dev_private;
+ 	int i;
+ 
+ 	msm_fence_init(submit->hw_fence, fctx);
+ 
++	mutex_lock(&priv->lru.lock);
++
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+ 
+@@ -28,6 +31,8 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
+ 		submit->bos[i].flags &= ~(BO_VMA_PINNED | BO_OBJ_PINNED);
+ 	}
+ 
++	mutex_unlock(&priv->lru.lock);
++
+ 	/* TODO move submit path over to using a per-ring lock.. */
+ 	mutex_lock(&gpu->lock);
+ 
 -- 
 2.41.0
 
