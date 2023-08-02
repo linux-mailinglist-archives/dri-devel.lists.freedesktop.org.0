@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02F276CB1D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 12:41:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E02976CB62
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 13:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2249710E08D;
-	Wed,  2 Aug 2023 10:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D61E10E023;
+	Wed,  2 Aug 2023 11:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C8EA10E08D
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 10:41:05 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 76C7A66018CF;
- Wed,  2 Aug 2023 11:41:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690972863;
- bh=TrhwwG3QrrMmg/W1ATIbTGu9eOuiVphNZE4suN3mq0s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MI2ZWz0/dRBbh6O+gTO95tHTji6IthyxgaWUF03Cau2KNopLADiedZ+hedjPNu2p4
- l1ar6/CMwRdRrPr5cCrDmQZPfMP7j30poLK1RzLoW+QGBT9zCi0wCQx4seyXCaGB9h
- ifAV6es/KuEVQHTV9taxu0cSGfEvIoFQ+foDRYfdZXz8GX0foUAfqWgxUDlDyWI8pK
- mnVHXEk6L4mdD5GK9f7ZQ2Szuzax+cwNtOgrMqgUhEUrBS7f6vFnNmaF0L1PuJhER1
- oTApsY0tbDJADzDy35NQOzadUhOPUk32GwDB+1/28KuWIF3RRHBC/vOrvPmGX//AXt
- 2tnvcFzzq0kFg==
-Message-ID: <0acd286d-d4f4-97b2-c296-b2860a00def6@collabora.com>
-Date: Wed, 2 Aug 2023 12:41:00 +0200
+Received: from mgamail.intel.com (unknown [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B7510E023;
+ Wed,  2 Aug 2023 11:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690974026; x=1722510026;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=uL/lMcoIpmA8jyiK1UfZfDEuaaCRn/1fGgpNmc5qjng=;
+ b=EeGJUfoIx+4/8EVjhTtdWz/bzn8uh4iGKpdEzN2osM+QAvU/HgV+sjzZ
+ vTBQIzFFRfWVJChEbPJhpUpeXeWMJGLsR2u3E0Bp7DUrY4vjP70a/rL+v
+ /4s4fasJQAIK729F+TD1wZ+w0SmSIgqMB5U1DUIizxKZNJ7nJh3BQSOH4
+ andlx2+72KyqZ1plzfx0yMivO647e15DYwsh/V4U8PcZRMfzlkA81e2qC
+ ghiIHLCNhUelSohgyFHu0MfsOQ80wzmCTxu6J3DvFcyPXSvWUeBSGdByI
+ 3XgK+s5qUUykNDm4G0OUoAMHUojiJbhFCPuxnOOIf+YL9G5qMpLsV/qE4 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="359589895"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="359589895"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2023 04:00:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="872438426"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga001.fm.intel.com with SMTP; 02 Aug 2023 04:00:19 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Wed, 02 Aug 2023 14:00:16 +0300
+Date: Wed, 2 Aug 2023 14:00:16 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
+Message-ID: <ZMo3QDym4Nteu8Tj@kuha.fi.intel.com>
+References: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
+ <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/3] drm/mediatek: Dynamically allocate CMDQ and use
- helper functions
-Content-Language: en-US
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-References: <20230623094931.117918-1-angelogioacchino.delregno@collabora.com>
- <20230623094931.117918-2-angelogioacchino.delregno@collabora.com>
- <bd19faf644fa80f8fa77ed0841a724aa3ca871f5.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <bd19faf644fa80f8fa77ed0841a724aa3ca871f5.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,86 +58,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 02/08/23 08:24, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
+On Wed, Aug 02, 2023 at 04:18:45AM +0300, Dmitry Baryshkov wrote:
+> Switch to using the new DRM_SIMPLE_BRIDGE helper to create the
+> transparent DRM bridge device instead of handcoding corresponding
+> functionality.
 > 
-> On Fri, 2023-06-23 at 11:49 +0200, AngeloGioacchino Del Regno wrote:
->>   	
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>   Instead of stack allocating the cmdq_client and cmdq_handle
->> structures
->> switch them to pointers, allowing us to migrate this driver to use
->> the
->> common functions provided by mtk-cmdq-helper.
->> In order to do this, it was also necessary to add a `priv` pointer to
->> struct cmdq_client, as that's used to pass (in this case) a mtk_crtc
->> handle to the ddp_cmdq_cb() mailbox RX callback function.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <
->> angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 107 +++++++---------------
->> --
->>   include/linux/soc/mediatek/mtk-cmdq.h   |   1 +
->>   2 files changed, 32 insertions(+), 76 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->> b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->> index 0df62b076f49..b63289ab6787 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
->> @@ -50,8 +50,8 @@ struct mtk_drm_crtc {
->>   	bool				pending_async_planes;
->>   
->>   #if IS_REACHABLE(CONFIG_MTK_CMDQ)
->> -	struct cmdq_client		cmdq_client;
->> -	struct cmdq_pkt			cmdq_handle;
->> +	struct cmdq_client		*cmdq_client;
->> +	struct cmdq_pkt			*cmdq_handle;
->>   	u32				cmdq_event;
->>   	u32				cmdq_vblank_cnt;
->>   	wait_queue_head_t		cb_blocking_queue;
->> @@ -108,47 +108,6 @@ static void mtk_drm_finish_page_flip(struct
->> mtk_drm_crtc *mtk_crtc)
->>   	}
->>   }
->>   
->> -#if IS_REACHABLE(CONFIG_MTK_CMDQ)
->> -static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client,
->> struct cmdq_pkt *pkt,
->> -				   size_t size)
->> -{
->> -	struct device *dev;
->> -	dma_addr_t dma_addr;
->> -
->> -	pkt->va_base = kzalloc(size, GFP_KERNEL);
->> -	if (!pkt->va_base) {
->> -		kfree(pkt);
->> -		return -ENOMEM;
->> -	}
->> -	pkt->buf_size = size;
->> -	pkt->cl = (void *)client;
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> ---
+>  drivers/usb/typec/mux/Kconfig      |  2 +-
+>  drivers/usb/typec/mux/nb7vpq904m.c | 44 ++----------------------------
+>  2 files changed, 3 insertions(+), 43 deletions(-)
 > 
-> I have a plan to remove cl in struct cmdq_pkt. But this modification
-> would make this plan more difficult. So I would pending this patch
-> until cl is removed from struct cmdq_pkt.
-> 
+> diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
+> index 784b9d8107e9..350a7ffce67e 100644
+> --- a/drivers/usb/typec/mux/Kconfig
+> +++ b/drivers/usb/typec/mux/Kconfig
+> @@ -39,7 +39,7 @@ config TYPEC_MUX_NB7VPQ904M
+>  	tristate "On Semiconductor NB7VPQ904M Type-C redriver driver"
+>  	depends on I2C
+>  	depends on DRM || DRM=n
+> -	select DRM_PANEL_BRIDGE if DRM
+> +	select DRM_SIMPLE_BRIDGE if DRM
+>  	select REGMAP_I2C
+>  	help
+>  	  Say Y or M if your system has a On Semiconductor NB7VPQ904M Type-C
+> diff --git a/drivers/usb/typec/mux/nb7vpq904m.c b/drivers/usb/typec/mux/nb7vpq904m.c
+> index 9360b65e8b06..c89a956412ea 100644
+> --- a/drivers/usb/typec/mux/nb7vpq904m.c
+> +++ b/drivers/usb/typec/mux/nb7vpq904m.c
+> @@ -11,7 +11,7 @@
+>  #include <linux/regmap.h>
+>  #include <linux/bitfield.h>
+>  #include <linux/of_graph.h>
+> -#include <drm/drm_bridge.h>
+> +#include <drm/display/drm_simple_bridge.h>
+>  #include <linux/usb/typec_dp.h>
+>  #include <linux/usb/typec_mux.h>
+>  #include <linux/usb/typec_retimer.h>
+> @@ -70,8 +70,6 @@ struct nb7vpq904m {
+>  	bool swap_data_lanes;
+>  	struct typec_switch *typec_switch;
+>  
+> -	struct drm_bridge bridge;
+> -
+>  	struct mutex lock; /* protect non-concurrent retimer & switch */
+>  
+>  	enum typec_orientation orientation;
+> @@ -297,44 +295,6 @@ static int nb7vpq904m_retimer_set(struct typec_retimer *retimer, struct typec_re
+>  	return ret;
+>  }
+>  
+> -#if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
+> -static int nb7vpq904m_bridge_attach(struct drm_bridge *bridge,
+> -				    enum drm_bridge_attach_flags flags)
+> -{
+> -	struct nb7vpq904m *nb7 = container_of(bridge, struct nb7vpq904m, bridge);
+> -	struct drm_bridge *next_bridge;
+> -
+> -	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+> -		return -EINVAL;
+> -
+> -	next_bridge = devm_drm_of_get_bridge(&nb7->client->dev, nb7->client->dev.of_node, 0, 0);
+> -	if (IS_ERR(next_bridge)) {
+> -		dev_err(&nb7->client->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
+> -		return PTR_ERR(next_bridge);
+> -	}
+> -
+> -	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
+> -				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> -}
+> -
+> -static const struct drm_bridge_funcs nb7vpq904m_bridge_funcs = {
+> -	.attach	= nb7vpq904m_bridge_attach,
+> -};
+> -
+> -static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
+> -{
+> -	nb7->bridge.funcs = &nb7vpq904m_bridge_funcs;
+> -	nb7->bridge.of_node = nb7->client->dev.of_node;
+> -
+> -	return devm_drm_bridge_add(&nb7->client->dev, &nb7->bridge);
+> -}
+> -#else
+> -static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
+> -{
+> -	return 0;
+> -}
+> -#endif
+> -
+>  static const struct regmap_config nb7_regmap = {
+>  	.max_register = 0x1f,
+>  	.reg_bits = 8,
+> @@ -461,7 +421,7 @@ static int nb7vpq904m_probe(struct i2c_client *client)
+>  
+>  	gpiod_set_value(nb7->enable_gpio, 1);
+>  
+> -	ret = nb7vpq904m_register_bridge(nb7);
+> +	ret = drm_simple_bridge_register(dev);
+>  	if (ret)
+>  		return ret;
+>  
+> -- 
+> 2.39.2
 
-I think that this ifdef cleanup is more urgent than the removal of `cl` from
-struct cmdq_pkt, as those ifdefs shouldn't have reached upstream in the first
-place, don't you agree?
-
-Regards,
-Angelo
-
+-- 
+heikki
