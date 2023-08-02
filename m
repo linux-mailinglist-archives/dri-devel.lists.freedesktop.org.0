@@ -1,31 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EDA76C2DB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 04:25:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6E976C2E3
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 04:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAB510E481;
-	Wed,  2 Aug 2023 02:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B548610E1E7;
+	Wed,  2 Aug 2023 02:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-135.mail.aliyun.com (out28-135.mail.aliyun.com
- [115.124.28.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB0210E1E7;
- Wed,  2 Aug 2023 02:25:36 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436259|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.00153503-0.000261432-0.998204;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047201; MF=sunran001@208suo.com; NM=1;
- PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.U6M3eIS_1690943127; 
-Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U6M3eIS_1690943127) by smtp.aliyun-inc.com;
- Wed, 02 Aug 2023 10:25:28 +0800
-From: Ran Sun <sunran001@208suo.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amd/pm: Clean up errors in sislands_smc.h
-Date: Wed,  2 Aug 2023 02:25:25 +0000
-Message-Id: <20230802022525.9814-1-sunran001@208suo.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mgamail.intel.com (unknown [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13BC910E1E7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 02:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690943287; x=1722479287;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=00ybSWj/CYZrSLL9FE5JS5iIpOHI720pdL7DCsfZB0A=;
+ b=jHXYQSKf9+2nlbuL9+XvMPAcK7wt8yVOUgxzc2iiYJfc9+ykK48/fwJF
+ jvgcQQzSfUZnMzBkZxYwwdzXx4VYz3L/Sxpzc2Tz/OIfH8hYdSAQ8zFDt
+ LfxbcFO2teNJUFRbHVHuwU/cuzNFdvsxTUtOenLdFMDgfzMXP5whavGes
+ nFmA2B54FoHgixdBI/LNOYP9fwsQE0fjNpG0ex4FC5bqrz0iSoW0rMK78
+ 7viGp9QYrmv+BlnTrtFl3I6fX3oS2ny5PVr7iusKKdxVndSKClR9OvB+N
+ DTf3geX+6sAJe1SClWUKPLVJ8G9aWNd6lE5ssTR27FXyXA82FStNBkTMC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="366925870"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="366925870"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2023 19:28:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="732204942"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="732204942"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 01 Aug 2023 19:28:04 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qR1al-0000mJ-11;
+ Wed, 02 Aug 2023 02:28:03 +0000
+Date: Wed, 2 Aug 2023 10:27:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH] PCI/VGA: Fixup the firmware fb address om demanding time
+Message-ID: <202308021027.rCgALJ5d-lkp@intel.com>
+References: <20230801183706.702567-1-suijingfeng@loongson.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230801183706.702567-1-suijingfeng@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,231 +59,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ loongson-kernel@lists.loongnix.cn, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+Hi Sui,
 
-ERROR: that open brace { should be on the previous line
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
- .../gpu/drm/amd/pm/legacy-dpm/sislands_smc.h  | 63 +++++++------------
- 1 file changed, 21 insertions(+), 42 deletions(-)
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.5-rc4 next-20230801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
-index c7dc117a688c..90ec411c5029 100644
---- a/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
-+++ b/drivers/gpu/drm/amd/pm/legacy-dpm/sislands_smc.h
-@@ -29,8 +29,7 @@
- 
- #define SISLANDS_MAX_SMC_PERFORMANCE_LEVELS_PER_SWSTATE 16
- 
--struct PP_SIslands_Dpm2PerfLevel
--{
-+struct PP_SIslands_Dpm2PerfLevel {
-     uint8_t MaxPS;
-     uint8_t TgtAct;
-     uint8_t MaxPS_StepInc;
-@@ -47,8 +46,7 @@ struct PP_SIslands_Dpm2PerfLevel
- 
- typedef struct PP_SIslands_Dpm2PerfLevel PP_SIslands_Dpm2PerfLevel;
- 
--struct PP_SIslands_DPM2Status
--{
-+struct PP_SIslands_DPM2Status {
-     uint32_t    dpm2Flags;
-     uint8_t     CurrPSkip;
-     uint8_t     CurrPSkipPowerShift;
-@@ -68,8 +66,7 @@ struct PP_SIslands_DPM2Status
- 
- typedef struct PP_SIslands_DPM2Status PP_SIslands_DPM2Status;
- 
--struct PP_SIslands_DPM2Parameters
--{
-+struct PP_SIslands_DPM2Parameters {
-     uint32_t    TDPLimit;
-     uint32_t    NearTDPLimit;
-     uint32_t    SafePowerLimit;
-@@ -78,8 +75,7 @@ struct PP_SIslands_DPM2Parameters
- };
- typedef struct PP_SIslands_DPM2Parameters PP_SIslands_DPM2Parameters;
- 
--struct PP_SIslands_PAPMStatus
--{
-+struct PP_SIslands_PAPMStatus {
-     uint32_t    EstimatedDGPU_T;
-     uint32_t    EstimatedDGPU_P;
-     uint32_t    EstimatedAPU_T;
-@@ -89,8 +85,7 @@ struct PP_SIslands_PAPMStatus
- };
- typedef struct PP_SIslands_PAPMStatus PP_SIslands_PAPMStatus;
- 
--struct PP_SIslands_PAPMParameters
--{
-+struct PP_SIslands_PAPMParameters {
-     uint32_t    NearTDPLimitTherm;
-     uint32_t    NearTDPLimitPAPM;
-     uint32_t    PlatformPowerLimit;
-@@ -100,8 +95,7 @@ struct PP_SIslands_PAPMParameters
- };
- typedef struct PP_SIslands_PAPMParameters PP_SIslands_PAPMParameters;
- 
--struct SISLANDS_SMC_SCLK_VALUE
--{
-+struct SISLANDS_SMC_SCLK_VALUE {
-     uint32_t    vCG_SPLL_FUNC_CNTL;
-     uint32_t    vCG_SPLL_FUNC_CNTL_2;
-     uint32_t    vCG_SPLL_FUNC_CNTL_3;
-@@ -113,8 +107,7 @@ struct SISLANDS_SMC_SCLK_VALUE
- 
- typedef struct SISLANDS_SMC_SCLK_VALUE SISLANDS_SMC_SCLK_VALUE;
- 
--struct SISLANDS_SMC_MCLK_VALUE
--{
-+struct SISLANDS_SMC_MCLK_VALUE {
-     uint32_t    vMPLL_FUNC_CNTL;
-     uint32_t    vMPLL_FUNC_CNTL_1;
-     uint32_t    vMPLL_FUNC_CNTL_2;
-@@ -129,8 +122,7 @@ struct SISLANDS_SMC_MCLK_VALUE
- 
- typedef struct SISLANDS_SMC_MCLK_VALUE SISLANDS_SMC_MCLK_VALUE;
- 
--struct SISLANDS_SMC_VOLTAGE_VALUE
--{
-+struct SISLANDS_SMC_VOLTAGE_VALUE {
-     uint16_t    value;
-     uint8_t     index;
-     uint8_t     phase_settings;
-@@ -138,8 +130,7 @@ struct SISLANDS_SMC_VOLTAGE_VALUE
- 
- typedef struct SISLANDS_SMC_VOLTAGE_VALUE SISLANDS_SMC_VOLTAGE_VALUE;
- 
--struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL
--{
-+struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL {
-     uint8_t                     ACIndex;
-     uint8_t                     displayWatermark;
-     uint8_t                     gen2PCIE;
-@@ -180,8 +171,7 @@ struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL
- 
- typedef struct SISLANDS_SMC_HW_PERFORMANCE_LEVEL SISLANDS_SMC_HW_PERFORMANCE_LEVEL;
- 
--struct SISLANDS_SMC_SWSTATE
--{
-+struct SISLANDS_SMC_SWSTATE {
- 	uint8_t                             flags;
- 	uint8_t                             levelCount;
- 	uint8_t                             padding2;
-@@ -205,8 +195,7 @@ struct SISLANDS_SMC_SWSTATE_SINGLE {
- #define SISLANDS_SMC_VOLTAGEMASK_VDDC_PHASE_SHEDDING 3
- #define SISLANDS_SMC_VOLTAGEMASK_MAX   4
- 
--struct SISLANDS_SMC_VOLTAGEMASKTABLE
--{
-+struct SISLANDS_SMC_VOLTAGEMASKTABLE {
-     uint32_t lowMask[SISLANDS_SMC_VOLTAGEMASK_MAX];
- };
- 
-@@ -214,8 +203,7 @@ typedef struct SISLANDS_SMC_VOLTAGEMASKTABLE SISLANDS_SMC_VOLTAGEMASKTABLE;
- 
- #define SISLANDS_MAX_NO_VREG_STEPS 32
- 
--struct SISLANDS_SMC_STATETABLE
--{
-+struct SISLANDS_SMC_STATETABLE {
- 	uint8_t					thermalProtectType;
- 	uint8_t					systemFlags;
- 	uint8_t					maxVDDCIndexInPPTable;
-@@ -254,8 +242,7 @@ typedef struct SISLANDS_SMC_STATETABLE SISLANDS_SMC_STATETABLE;
- #define SI_SMC_SOFT_REGISTER_svi_rework_gpio_id_svd   0x11c
- #define SI_SMC_SOFT_REGISTER_svi_rework_gpio_id_svc   0x120
- 
--struct PP_SIslands_FanTable
--{
-+struct PP_SIslands_FanTable {
- 	uint8_t  fdo_mode;
- 	uint8_t  padding;
- 	int16_t  temp_min;
-@@ -285,8 +272,7 @@ typedef struct PP_SIslands_FanTable PP_SIslands_FanTable;
- #define SMC_SISLANDS_SCALE_I  7
- #define SMC_SISLANDS_SCALE_R 12
- 
--struct PP_SIslands_CacConfig
--{
-+struct PP_SIslands_CacConfig {
-     uint16_t   cac_lkge_lut[SMC_SISLANDS_LKGE_LUT_NUM_OF_TEMP_ENTRIES][SMC_SISLANDS_LKGE_LUT_NUM_OF_VOLT_ENTRIES];
-     uint32_t   lkge_lut_V0;
-     uint32_t   lkge_lut_Vstep;
-@@ -308,23 +294,20 @@ typedef struct PP_SIslands_CacConfig PP_SIslands_CacConfig;
- #define SMC_SISLANDS_MC_REGISTER_ARRAY_SIZE 16
- #define SMC_SISLANDS_MC_REGISTER_ARRAY_SET_COUNT 20
- 
--struct SMC_SIslands_MCRegisterAddress
--{
-+struct SMC_SIslands_MCRegisterAddress {
-     uint16_t s0;
-     uint16_t s1;
- };
- 
- typedef struct SMC_SIslands_MCRegisterAddress SMC_SIslands_MCRegisterAddress;
- 
--struct SMC_SIslands_MCRegisterSet
--{
-+struct SMC_SIslands_MCRegisterSet {
-     uint32_t value[SMC_SISLANDS_MC_REGISTER_ARRAY_SIZE];
- };
- 
- typedef struct SMC_SIslands_MCRegisterSet SMC_SIslands_MCRegisterSet;
- 
--struct SMC_SIslands_MCRegisters
--{
-+struct SMC_SIslands_MCRegisters {
-     uint8_t                             last;
-     uint8_t                             reserved[3];
-     SMC_SIslands_MCRegisterAddress      address[SMC_SISLANDS_MC_REGISTER_ARRAY_SIZE];
-@@ -333,8 +316,7 @@ struct SMC_SIslands_MCRegisters
- 
- typedef struct SMC_SIslands_MCRegisters SMC_SIslands_MCRegisters;
- 
--struct SMC_SIslands_MCArbDramTimingRegisterSet
--{
-+struct SMC_SIslands_MCArbDramTimingRegisterSet {
-     uint32_t mc_arb_dram_timing;
-     uint32_t mc_arb_dram_timing2;
-     uint8_t  mc_arb_rfsh_rate;
-@@ -344,8 +326,7 @@ struct SMC_SIslands_MCArbDramTimingRegisterSet
- 
- typedef struct SMC_SIslands_MCArbDramTimingRegisterSet SMC_SIslands_MCArbDramTimingRegisterSet;
- 
--struct SMC_SIslands_MCArbDramTimingRegisters
--{
-+struct SMC_SIslands_MCArbDramTimingRegisters {
-     uint8_t                                     arb_current;
-     uint8_t                                     reserved[3];
-     SMC_SIslands_MCArbDramTimingRegisterSet     data[16];
-@@ -353,8 +334,7 @@ struct SMC_SIslands_MCArbDramTimingRegisters
- 
- typedef struct SMC_SIslands_MCArbDramTimingRegisters SMC_SIslands_MCArbDramTimingRegisters;
- 
--struct SMC_SISLANDS_SPLL_DIV_TABLE
--{
-+struct SMC_SISLANDS_SPLL_DIV_TABLE {
-     uint32_t    freq[256];
-     uint32_t    ss[256];
- };
-@@ -374,8 +354,7 @@ typedef struct SMC_SISLANDS_SPLL_DIV_TABLE SMC_SISLANDS_SPLL_DIV_TABLE;
- 
- #define SMC_SISLANDS_DTE_MAX_TEMPERATURE_DEPENDENT_ARRAY_SIZE 16
- 
--struct Smc_SIslands_DTE_Configuration
--{
-+struct Smc_SIslands_DTE_Configuration {
-     uint32_t tau[SMC_SISLANDS_DTE_MAX_FILTER_STAGES];
-     uint32_t R[SMC_SISLANDS_DTE_MAX_FILTER_STAGES];
-     uint32_t K;
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/PCI-VGA-Fixup-the-firmware-fb-address-om-demanding-time/20230802-023743
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230801183706.702567-1-suijingfeng%40loongson.cn
+patch subject: [PATCH] PCI/VGA: Fixup the firmware fb address om demanding time
+config: arm-randconfig-r004-20230731 (https://download.01.org/0day-ci/archive/20230802/202308021027.rCgALJ5d-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230802/202308021027.rCgALJ5d-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308021027.rCgALJ5d-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/pci/vgaarb.c:133:7: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                              old_fb_start, old_fb_end,
+                              ^~~~~~~~~~~~
+   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
+   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
+                                                                   ~~~    ^~~
+   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
+                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
+                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+                                           ~~~    ^~~~~~~~~~~
+   drivers/pci/vgaarb.c:133:21: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                              old_fb_start, old_fb_end,
+                                            ^~~~~~~~~~
+   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
+   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
+                                                                   ~~~    ^~~
+   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
+                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
+                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+                                           ~~~    ^~~~~~~~~~~
+   drivers/pci/vgaarb.c:134:7: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                              firmware_fb.start, firmware_fb.end);
+                              ^~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
+   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
+                                                                   ~~~    ^~~
+   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
+                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
+                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+                                           ~~~    ^~~~~~~~~~~
+   drivers/pci/vgaarb.c:134:26: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
+                              firmware_fb.start, firmware_fb.end);
+                                                 ^~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:13:69: note: expanded from macro 'vgaarb_dbg'
+   #define vgaarb_dbg(dev, fmt, arg...)    dev_dbg(dev, "vgaarb: " fmt, ##arg)
+                                                                   ~~~    ^~~
+   include/linux/dev_printk.h:163:47: note: expanded from macro 'dev_dbg'
+                   dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+                                                       ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:129:34: note: expanded from macro 'dev_printk'
+                   _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+                                           ~~~    ^~~~~~~~~~~
+   4 warnings generated.
+
+
+vim +133 drivers/pci/vgaarb.c
+
+   104	
+   105	static bool vga_arb_get_fb_range_from_tracker(resource_size_t *start,
+   106						      resource_size_t *end)
+   107	{
+   108		struct pci_dev *pdev = firmware_fb.pdev;
+   109		resource_size_t new_vram_base;
+   110		resource_size_t new_fb_start;
+   111		resource_size_t old_fb_start;
+   112		resource_size_t old_fb_end;
+   113	
+   114		/*
+   115		 * No firmware framebuffer support or No aperture that contains the
+   116		 * firmware FB is found, in this case, the firmware_fb.pdev will be
+   117		 * NULL. We will return immediately.
+   118		 */
+   119		if (!pdev)
+   120			return false;
+   121	
+   122		new_vram_base = pdev->resource[firmware_fb.bar].start;
+   123		new_fb_start = new_vram_base + firmware_fb.offset;
+   124		old_fb_start = firmware_fb.start;
+   125		old_fb_end = firmware_fb.end;
+   126	
+   127		if (new_fb_start != old_fb_start) {
+   128			firmware_fb.start = new_fb_start;
+   129			firmware_fb.end = new_fb_start + firmware_fb.size - 1;
+   130			/* Firmware fb address range moved */
+   131			vgaarb_dbg(&pdev->dev,
+   132				   "[0x%llx, 0x%llx] -> [0x%llx, 0x%llx]\n",
+ > 133				   old_fb_start, old_fb_end,
+   134				   firmware_fb.start, firmware_fb.end);
+   135		}
+   136	
+   137		*start = firmware_fb.start;
+   138		*end = firmware_fb.end;
+   139	
+   140		return true;
+   141	}
+   142	
+
 -- 
-2.17.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
