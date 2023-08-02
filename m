@@ -1,77 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CC576CFF9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 16:26:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B4D76D02F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 16:38:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 957BA10E1EA;
-	Wed,  2 Aug 2023 14:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F1710E1F1;
+	Wed,  2 Aug 2023 14:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64EF210E1EA
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 14:25:57 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-99bded9d93dso171424466b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 07:25:57 -0700 (PDT)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4F910E1F1
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 14:38:07 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id
+ 5614622812f47-3a5ac8717c6so5339132b6e.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 07:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1690986356; x=1691591156;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FsVcsCDvamjl31gifaKwLNv2n2Xspa6emd5tT3prZvw=;
- b=eq9qvw/au3DtjNiInHv+/Ks+sX1tL4hda1Ymw/mKWe9H1Dn/0GH3Lkc2XHr2w4hnqh
- szW59lqw7i9lIfZLBs86jn+JmO2jiioTa1/OThHRi93xkN7nQo8rqnOgCYtBmvg7+wtd
- WF753BEgN/emMxve58EPL3p3mFOmrc8E1KGkg=
+ d=edgeble-ai.20221208.gappssmtp.com; s=20221208; t=1690987086; x=1691591886;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=8nmftj9H6QNMjKvC/PHkZC+FCS8/x2xMcYkBxSq4Jqc=;
+ b=Nq1cPX/iQ+SjG++rAIUe4TQ0nEJvKktHyDdQygPW6XGYm6QdZ22VYdWX3Sxia4lv/R
+ YJuSNgBmBsiEtFjKvURlOY+apmhMQxa649KhDz3pit05rVnP0pFw6e83dyFOJJjEQzNM
+ 0vzLw+06LIheQacaf8f6rgsRruNeKoQQOtflwEXzm7ZJ6Z8vIxrKXinDr/ocV89/pImb
+ /JrlZC6lPd7gqvpQrU2n55PHJKSeqQGNf+2cgjc/TscYTTu/dEGp5KDuSJtkvjVeamYh
+ YQk7ZrAMcc0ajRcpiq2ELwz1ytTmjz3kH0rHjga+I055BHA+jcwpeDD7u+ByaQLXgddf
+ mlTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690986356; x=1691591156;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FsVcsCDvamjl31gifaKwLNv2n2Xspa6emd5tT3prZvw=;
- b=how4Am5BlReG1NQQono+sgWkS6b9dMTesOyDr/CuU4aiCPF1ilMaYY6Uy+eepNxuOr
- /vqUat4Z6AJf1/X7MrpwCVWCtiTjbKr9tphlt/v6uAnu0WgYxcjMNnSWWtFtMYyFIBrw
- oyKbb+NpIOf9oOk7I/JUTl0m0MF5Yo4V7LrdlIi2vZ/lS5iR0r0xAn8TbLJkuo6+0+yU
- /TmQ5JRE4nf4VwZ9tHVJzloDCKrBT08xOrOS3rMIeNl16VX1SvzH/etUlHTcH8wvxQbf
- 2DwLSPndPplc10GOOY5vOkA3dESnTKTxXLVLmjApE9AWHXk1n7GOKpXsTMbNI+wsLPOy
- nGYA==
-X-Gm-Message-State: ABy/qLYwl4ghraoSHeyGMBRlGLI4sozlA44dwcP3TmtEh5M/rlAcUhXL
- wYEKpwsvlJHLaxY/JO1oy8Owag==
-X-Google-Smtp-Source: APBJJlEGuIJd0GEks9/vYG2PGf+sSGozgW3aVzw1hHeGDBgQvjzANdpy3n5m6RtZqxVwQKbbxW+z3w==
-X-Received: by 2002:a17:906:73dd:b0:99b:d594:8f89 with SMTP id
- n29-20020a17090673dd00b0099bd5948f89mr10192169ejl.0.1690986355776; 
- Wed, 02 Aug 2023 07:25:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- si15-20020a170906cecf00b00992e265495csm9261942ejb.212.2023.08.02.07.25.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Aug 2023 07:25:55 -0700 (PDT)
-Date: Wed, 2 Aug 2023 16:25:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH 0/4] drm/panel: sitronix-st7789v: add support for partial
- mode
-Message-ID: <ZMpnceQYSuyOmi+F@phenom.ffwll.local>
-Mail-Followup-To: Michael Riesch <michael.riesch@wolfvision.net>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Sebastian Reichel <sre@kernel.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
+ d=1e100.net; s=20221208; t=1690987086; x=1691591886;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8nmftj9H6QNMjKvC/PHkZC+FCS8/x2xMcYkBxSq4Jqc=;
+ b=DTV9wni6aOxFRxmqRWopeI5QwqxIehnPejW321z5eTVVa8S7FaJGuNAHDRvWkNrNJ7
+ efZmh6dPykBt0nT8hjn4fCWT4vQtZibJxp6ntBpgeP7V1oZ7eqM4aR08uUg7L4EBYioO
+ a1tkqVbM0LD0QomWu+cIC6KOvWQ3PhVNVM4n2WritrRlTQ+mShAXSvwsh0xg2LZ99fiW
+ H7JNUf4WaJZZk2SiGTd4ul1jeAV2VIwT0Ms/RxgQtnvZ9mwseYHzuRiMtnYYXTP9KsFO
+ imSNUSettoxjnRlML7R286nCvJAjwSa5EmlE8x2XRLszMrBOEisr94JT11l5NMZ5OJfC
+ CyKg==
+X-Gm-Message-State: ABy/qLaU0Bs48p70KPRMX8pArbGuq5frwc6rm8pU//OaUsAU6SiBGaOU
+ q4XfVrnwE3th0VVoS+w7FUuN8HVt5TY0bIvH6Skp2w==
+X-Google-Smtp-Source: APBJJlEzTjl6RKml+LdRCmbwAb2hGX3y19EwwY+i1muMiAb8Luqi1vw3YUfBLtHOB1vz1+aCnlEV0Yzu1qxjbKqjsqw=
+X-Received: by 2002:a05:6808:3010:b0:3a3:ed41:5ab with SMTP id
+ ay16-20020a056808301000b003a3ed4105abmr18113315oib.9.1690987086380; Wed, 02
+ Aug 2023 07:38:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+References: <20230731110012.2913742-1-jagan@edgeble.ai>
+ <20230731110012.2913742-6-jagan@edgeble.ai>
+ <20230801-residue-tractor-5c63e4447f2c@spud>
+In-Reply-To: <20230801-residue-tractor-5c63e4447f2c@spud>
+From: Jagan Teki <jagan@edgeble.ai>
+Date: Wed, 2 Aug 2023 20:07:55 +0530
+Message-ID: <CA+VMnFyh-ctPbf_j=CEXxPNKY+sUymV64Sdqqs-kY7dTojQYUA@mail.gmail.com>
+Subject: Re: [PATCH 05/14] dt-bindings: display: rockchip-vop: Document rv1126
+ vop
+To: Conor Dooley <conor@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,80 +69,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 18, 2023 at 05:31:49PM +0200, Michael Riesch wrote:
-> Hi all,
-> 
-> This series adds support for the partial display mode to the Sitronix
-> ST7789V panel driver. This is useful for panels that are partially
-> occluded by design, such as the Jasonic JT240MHQS-HWT-EK-E3. Support
-> for this particular panel is added as well.
-> 
-> Note: This series is already based on
-> https://lore.kernel.org/lkml/20230714013756.1546769-1-sre@kernel.org/
-> 
-> Looking forward to your comments!
+On Wed, 2 Aug 2023 at 02:37, Conor Dooley <conor@kernel.org> wrote:
+>
+> On Mon, Jul 31, 2023 at 04:30:03PM +0530, Jagan Teki wrote:
+> > Document the VOP for Rockchip RV1126.
+> >
+> > Signed-off-by: Jagan Teki <jagan@edgeble.ai>
+>
+> There's no commentary here about compatibility with other, existing,
+> devices nor did you CC me on the rest of the series. How am I supposed
+> to know if appending to enum is the right thing to do?
 
-Summary of my take from a fairly long (and kinda still on-going) irc
-discussion:
+I had past comments not to add all people in the entire series and add
+one relevant developer on respective patches. On that note, I tried to
+CC the developers only involved in the respective areas. But, you are
+CCed to the DT patch that affected this binding.
+"[PATCH 10/14] ARM: dts: rockchip: rv1126: Add VOP_LITE support"
 
-- Where we do know the exact overscan, the kernel should expose correct
-  modes and adjust the display pipeline to match if needed when
-  programming the hardware. Meaning the approach in this patch series.
+Please let me know if I missed anything.
 
-- For hdmi overscan there's a lot of automagic overscan happening by
-  default. Drivers can mostly fix this by setting all the right
-  infoframes, but unfortuantely a very big pile of infoframes is needed.
-  Assuming drivers actually use the helpers I think only i915 gets them
-  all, so intel_hdmi_compute_config() at the bottom would be the example
-  to follow, and maybe some more code to extract from and share.
-
-- That /should/ only leave the really old analog TV and similar horrors
-  leftover. For those we simply can't even guess the right amount of
-  overscan (because back then no one cared back then about really seeing
-  everything), and so that's the only case where we should rely on the
-  overscan properties. And that case only works when the compositor stack
-  passes these properties all the way to the user, since only they can
-  check when the settings are good.
-
-The overscan properties should _not_ be used to fix issues of the previous
-kind, that really should all work out of the box as much as possible.
-
-Cheers, Sima
-
-
-> 
-> ---
-> Michael Riesch (4):
->       dt-bindings: vendor-prefixes: add jasonic
->       dt-bindings: display: st7789v: add jasonic jt240mhqs-hwt-ek-e3 display
->       drm/panel: sitronix-st7789v: add support for partial mode
->       drm/panel: sitronix-st7789v: add jasonic jt240mhqs-hwt-ek-e3 support
-> 
->  .../bindings/display/panel/sitronix,st7789v.yaml   |  1 +
->  .../devicetree/bindings/vendor-prefixes.yaml       |  2 +
->  drivers/gpu/drm/panel/panel-sitronix-st7789v.c     | 67 +++++++++++++++++++++-
->  3 files changed, 68 insertions(+), 2 deletions(-)
-> ---
-> base-commit: b43dae411767f34288aa347f26b5ed2dade39469
-> change-id: 20230718-feature-lcd-panel-26d9f29a7830
-> 
-> Best regards,
-> -- 
-> Michael Riesch <michael.riesch@wolfvision.net>
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks,
+Jagan.
