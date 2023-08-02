@@ -1,65 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA55A76D728
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:49:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1665476D718
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:47:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A093E10E566;
-	Wed,  2 Aug 2023 18:49:23 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459FC10E566
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:49:22 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-31768ce2e81so118107f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691002161; x=1691606961;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bzkEv/3BHlJ7OlVSOsOfKszQ06QQoksYW+Yc+Lwcq1g=;
- b=eM7cvHdLlEmipjj5bjVSWJ7vvM0wSmlIcCGrUUbkBT4W4Y18KcgOCeto03Fw/KNenb
- vMQP3pFw1n287gm52hMaERB3nJUdbEi3lGmqGZbJHzpe2mhO31Kgj9FeZn/h/wkVph4+
- KIuq97Ugwxk4tX5L0WkNbMJGGn4LCHlEK4xNmBNIiiEtNXPM5CMNwkcFuOn7HA3LHh9m
- wdmyBVRsRUC4h+JKR+taQB0Sfjp4j7mxM+k2QRTf3L/45Xxmj9bkT/OFPw5GU1IR1v3I
- Xviy7FWy1CUVGIE7q3SB2XW4HzLqIRo+U821YGZdYPkrx/M3JNL+X31pUCsWXfwy5fw8
- dXHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691002161; x=1691606961;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bzkEv/3BHlJ7OlVSOsOfKszQ06QQoksYW+Yc+Lwcq1g=;
- b=DyY/iSvOaGiBOgrx+JfMPDp0iQ+wY+9kuyC8ecPbjke0Bx62HEIuMWVWZadUgzq1TM
- g40TRTB3nk0hN4CQlWoCzHirIsH3tEdobdB1tNHwonZ2iI7SnR60p6h8aTaYWoghQMYP
- VV6vO56aAu/K7jyZrXR/wEoIar5OUH5ZnpTSOBGqN+Hd6CGaEoJCIghy/PDPGvv0FUVz
- YTcatX5h67f2UyMGvW4zBPKJZPEThq1GuNQ2qlz0m+altQ+YAk6JJoqOGtxGMjgCmK3w
- sJIvpbVrvSXD4gnWwtB2riWJc1hlNDjy+KrdLUyzVW3eclpJxAmb8hk1EWHIEHo31Bb+
- +IAA==
-X-Gm-Message-State: ABy/qLaWXkj0G2y1Ct6M8JobI015NTWVRc2LqtfQJKVV97Oo4b+479bJ
- mlarNU1i2qIkgjdXWfNEDx05WFtGbNy0Y4JnZkw=
-X-Google-Smtp-Source: APBJJlHxs3vm91BnQfSBM/V0+ohNoREMDZXZEXgezlX/a+Jn4TtqurKFcVEelhRXc037y4DXlljGE+FglqW/7ok7RoA=
-X-Received: by 2002:adf:f1d1:0:b0:313:ee2e:dae5 with SMTP id
- z17-20020adff1d1000000b00313ee2edae5mr5708514wro.21.1691002160424; Wed, 02
- Aug 2023 11:49:20 -0700 (PDT)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 510FC10E568;
+	Wed,  2 Aug 2023 18:47:28 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (unknown [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188A010E566;
+ Wed,  2 Aug 2023 18:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691002046; x=1722538046;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=WZ7yYLbWFt2YGTY+WJucB/7wmSX97uoEaOxvN3SILJk=;
+ b=hKUkm1gneO9vnR7+3cdJNQ9a2nVkjrsISjKFejq1Ss/tTDCAXN0XG7nP
+ +m4QY47L40oyTFyabRk8/d4dsiuZkNw/b54UHdB+St5ETtjC73Y4eJAjm
+ N8DT5oam2fr5BwbsLHmQU140GXHF1pDXlL3TYc8SFkdUF8wxB+H7MMRUU
+ PtHJgRQNgvGwuYgWrHwpNPVUfax98MdqC7xkYp8ntoWoePk/fyeSII/I4
+ rxxX2p6IcBoWu1w872DSg0fH0dNRweKyhGASr5iN1Udb3M8wwyLZwn9bU
+ PC6p5Jn75kL4dEzGRo9C9GYdrIeWeYSJD0KN/yCBrhFflteBwTovaklbn Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="349966724"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="349966724"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2023 11:47:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="852975141"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="852975141"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga004.jf.intel.com with ESMTP; 02 Aug 2023 11:47:25 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH] drm/i915/guc: Fix potential null pointer deref in GuC 'steal
+ id' test
+Date: Wed,  2 Aug 2023 11:49:40 -0700
+Message-Id: <20230802184940.911753-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
- <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
- <bf95af44-2510-1835-dec9-183144de8413@denx.de>
- <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
-In-Reply-To: <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 2 Aug 2023 11:49:08 -0700
-Message-ID: <CAF6AEGsfbUMCS4QTfqoyYetqea_ov-AET-iM54B-HvYpwwZvmg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,105 +57,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Amit Pundir <amit.pundir@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 2, 2023 at 11:16=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Wed, 2 Aug 2023 at 20:34, Marek Vasut <marex@denx.de> wrote:
-> >
-> > On 8/2/23 15:38, Dmitry Baryshkov wrote:
-> > > On 02/08/2023 11:52, Neil Armstrong wrote:
-> > >> This reverts commit [1] to fix display regression on the Dragonboard=
- 845c
-> > >> (SDM845) devboard.
-> > >>
-> > >> There's a mismatch on the real action of the following flags:
-> > >> - MIPI_DSI_MODE_VIDEO_NO_HSA
-> > >> - MIPI_DSI_MODE_VIDEO_NO_HFP
-> > >> - MIPI_DSI_MODE_VIDEO_NO_HBP
-> > >> which leads to a non-working display on qcom platforms.
-> > >>
-> > >> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA a=
-nd
-> > >> EOT packet")
-> > >>
-> > >> Cc: Marek Vasut <marex@denx.de>
-> > >> Cc: Robert Foss <rfoss@kernel.org>
-> > >> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > >> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > >> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA
-> > >> and EOT packet")
-> > >> Reported-by: Amit Pundir <amit.pundir@linaro.org>
-> > >> Link:
-> > >> https://lore.kernel.org/r/CAMi1Hd0TD=3D2z_=3DbcDrht3H_wiLvAFcv8Z-U_r=
-_KUOoeMc6UMjw@mail.gmail.com/
-> > >> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > >> ---
-> > >>   drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
-> > >>   1 file changed, 1 insertion(+), 3 deletions(-)
-> > >>
-> > > Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
-> > >
-> > > The boards broken by [1] are used in production by different parties
-> > > since 5.10, breaking them doesn't seem more acceptable than breaking =
-the
-> > > new out-of-tree iMX8m hardware.
-> >
-> > The MX8M is also in-tree, so this does not apply.
->
-> v6.5-rc4:
->
-> $ git grep lontium,lt9611 | grep -v 9611uxc
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
-> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->     - lontium,lt9611
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->       compatible =3D "lontium,lt9611";
-> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible =3D "lontium,lt961=
-1";
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible =3D "lontium,lt961=
-1" },
->
-> next-20230802:
->
-> $ git grep lontium,lt9611 | grep -v 9611uxc
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
-> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->     - lontium,lt9611
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->       compatible =3D "lontium,lt9611";
-> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible =3D "lontium,lt961=
-1";
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible =3D "lontium,lt961=
-1" },
->
-> Your device is not in the tree. Your commit broke existing users.
->
-> Can we please end the argument, land the fix (this revert) for 6.5 and
-> work on the solution for 6.6 or 6.7?
->
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Even if they were in-tree, breaking existing hw means revert and
-try-again.  Especially as we get into later -rc's
+It was noticed that if the very first 'stealing' request failed to
+create for some reason then the 'steal all ids' loop would immediately
+exit with 'last' still being NULL. The test would attempt to continue
+but using a null pointer. Fix that by aborting the test if it fails to
+create any requests at all.
 
-BR,
--R
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> --
-> With best wishes
-> Dmitry
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+index 1fd760539f77b..bfb72143566f6 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+@@ -204,9 +204,9 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 		if (IS_ERR(rq)) {
+ 			ret = PTR_ERR(rq);
+ 			rq = NULL;
+-			if (ret != -EAGAIN) {
+-				guc_err(guc, "Failed to create request %d: %pe\n",
+-					context_index, ERR_PTR(ret));
++			if ((ret != -EAGAIN) || !last) {
++				guc_err(guc, "Failed to create %srequest %d: %pe\n",
++					last ? "" : "first ", context_index, ERR_PTR(ret));
+ 				goto err_spin_rq;
+ 			}
+ 		} else {
+-- 
+2.39.1
+
