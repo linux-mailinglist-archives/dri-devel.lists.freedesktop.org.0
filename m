@@ -1,51 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E02976CB62
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 13:00:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D3476CBA7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 13:20:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D61E10E023;
-	Wed,  2 Aug 2023 11:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C0510E09D;
+	Wed,  2 Aug 2023 11:20:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B7510E023;
- Wed,  2 Aug 2023 11:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1690974026; x=1722510026;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=uL/lMcoIpmA8jyiK1UfZfDEuaaCRn/1fGgpNmc5qjng=;
- b=EeGJUfoIx+4/8EVjhTtdWz/bzn8uh4iGKpdEzN2osM+QAvU/HgV+sjzZ
- vTBQIzFFRfWVJChEbPJhpUpeXeWMJGLsR2u3E0Bp7DUrY4vjP70a/rL+v
- /4s4fasJQAIK729F+TD1wZ+w0SmSIgqMB5U1DUIizxKZNJ7nJh3BQSOH4
- andlx2+72KyqZ1plzfx0yMivO647e15DYwsh/V4U8PcZRMfzlkA81e2qC
- ghiIHLCNhUelSohgyFHu0MfsOQ80wzmCTxu6J3DvFcyPXSvWUeBSGdByI
- 3XgK+s5qUUykNDm4G0OUoAMHUojiJbhFCPuxnOOIf+YL9G5qMpLsV/qE4 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="359589895"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="359589895"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2023 04:00:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="872438426"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga001.fm.intel.com with SMTP; 02 Aug 2023 04:00:19 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Wed, 02 Aug 2023 14:00:16 +0300
-Date: Wed, 2 Aug 2023 14:00:16 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
-Message-ID: <ZMo3QDym4Nteu8Tj@kuha.fi.intel.com>
-References: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
- <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9440910E171
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 11:20:41 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F059361935;
+ Wed,  2 Aug 2023 11:20:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B07C433C7;
+ Wed,  2 Aug 2023 11:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690975240;
+ bh=WD+SSKvIiKPnRV7ZbrF3+/bXbHW9DvArsnTM6PE24VM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Tek8esPJJh9XQS8B0tcf6QyBaku+4neVNlvdcUr/r74juDQhTl4aW4iMsWU0e3hDG
+ p8WdPuk67yh/hYUeefVfwit7ExitogrqiEbizRLV//AQah0M4lPH29dSXjxkjn1lL3
+ O7y307dB7ku3LXBbKrQGbRPaAcJjt0lgfPveVmOTUTbSCFBkaEGwZLesZhtUCsq7/g
+ rJH2n2quyjf66jDdFaCZQ0Z443pExWqhfA8t0r9UNs6G0MbInknzXQxSaC7JqR3LNa
+ mxbz99QcP5eQAD9i2jhdl9cvc6byz5+8wT3rxNlBNSM/s57Begy/Q/3sfchOMgQrWi
+ J6sUZoFLomOtw==
+Date: Wed, 2 Aug 2023 16:50:28 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v2 0/2] Add MHI quirk for QAIC
+Message-ID: <20230802112028.GG57374@thinkpad>
+References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+ <20230608115928.GA5672@thinkpad>
+ <507f4cc2-15c2-8323-878e-4da00505bc45@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <507f4cc2-15c2-8323-878e-4da00505bc45@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,122 +56,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Andy Gross <agross@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mhi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 02, 2023 at 04:18:45AM +0300, Dmitry Baryshkov wrote:
-> Switch to using the new DRM_SIMPLE_BRIDGE helper to create the
-> transparent DRM bridge device instead of handcoding corresponding
-> functionality.
+On Mon, Jun 26, 2023 at 11:15:56AM -0600, Jeffrey Hugo wrote:
+> On 6/8/2023 5:59 AM, Manivannan Sadhasivam wrote:
+> > On Fri, May 19, 2023 at 10:39:00AM -0600, Jeffrey Hugo wrote:
+> > > With the QAIC driver in -next, I'd like to suggest some MHI changes that
+> > > specific to AIC100 devices, but perhaps provide a framework for other
+> > > device oddities.
+> > > 
+> > > AIC100 devices technically violate the MHI spec in two ways. Sadly, these
+> > > issues comes from the device hardware, so host SW needs to work around
+> > > them.
+> > > 
+> > > Thie first issue, presented in this series, has to do with the
+> > > SOC_HW_VERSION register. This register is suposed to be initialized by the
+> > > hardware prior to the MHI being accessable by the host to contain a
+> > > version string for the SoC of the device. This could be used by the host
+> > > MHI controller software to identify and handle version to version changes.
+> > > The AIC100 hardware does not initialize this register, and thus it
+> > > contains garbage.
+> > > 
+> > > This would not be much of a problem normally - the QAIC driver would just
+> > > never use it. However the MHI stack uses this register as part of the init
+> > > sequence and if the controller reports that the register is inaccessable
+> > > then the init sequence fails.  On some AIC100 cards, the garbage value
+> > > ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
+> > > indicating the access failed.  The MHI controller cannot tell if that
+> > > value is a PCIe link issue, or just garbage.
+> > > 
+> > > QAIC needs a way to tell MHI not to use this register. Other buses have a
+> > > quirk mechanism - a way to describe oddities in a particular
+> > > implementation that have some kind of workaround. Since this seems to be
+> > > the first need for such a thing in MHI, introduce a quirk framework.
+> > > 
+> > > The second issue AIC100 has involves the PK Hash registers. A solution for
+> > > this is expected to be proposed in the near future and is anticipated to
+> > > make use of the quirk framework proposed here. With PK Hash, there are two
+> > > oddities to handle. AIC100 does not initialize these registers until the
+> > > SBL is running, which is later than the spec indicates, and in practice
+> > > is after MHI reads/caches them. Also, AIC100 does not have enough
+> > > registers defined to fully report the 5 PK Hash slots, so a custom
+> > > reporting format is defined by the device.
+> > > 
+> > 
+> > Looking at the two issues you reported above, it looks to me that they can be
+> > handled inside the aic100 mhi_controller driver itself. Since the MHI stack
+> > exports the read_reg callback to controller drivers, if some registers are not
+> > supported by the device, then the callback can provide some fixed dummy data
+> > emulating the register until the issue is fixed in the device (if at all).
+> > 
+> > Quirk framework could be useful if the device misbehaves against the protocol
+> > itself but for the register issues like this, I think the controller driver can
+> > handle itself.
+> > 
+> > What do you think?
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
->  drivers/usb/typec/mux/Kconfig      |  2 +-
->  drivers/usb/typec/mux/nb7vpq904m.c | 44 ++----------------------------
->  2 files changed, 3 insertions(+), 43 deletions(-)
+> I think for the HW_VERSION register, your suggestion is very good, and
+> something I plan to adopt.
 > 
-> diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
-> index 784b9d8107e9..350a7ffce67e 100644
-> --- a/drivers/usb/typec/mux/Kconfig
-> +++ b/drivers/usb/typec/mux/Kconfig
-> @@ -39,7 +39,7 @@ config TYPEC_MUX_NB7VPQ904M
->  	tristate "On Semiconductor NB7VPQ904M Type-C redriver driver"
->  	depends on I2C
->  	depends on DRM || DRM=n
-> -	select DRM_PANEL_BRIDGE if DRM
-> +	select DRM_SIMPLE_BRIDGE if DRM
->  	select REGMAP_I2C
->  	help
->  	  Say Y or M if your system has a On Semiconductor NB7VPQ904M Type-C
-> diff --git a/drivers/usb/typec/mux/nb7vpq904m.c b/drivers/usb/typec/mux/nb7vpq904m.c
-> index 9360b65e8b06..c89a956412ea 100644
-> --- a/drivers/usb/typec/mux/nb7vpq904m.c
-> +++ b/drivers/usb/typec/mux/nb7vpq904m.c
-> @@ -11,7 +11,7 @@
->  #include <linux/regmap.h>
->  #include <linux/bitfield.h>
->  #include <linux/of_graph.h>
-> -#include <drm/drm_bridge.h>
-> +#include <drm/display/drm_simple_bridge.h>
->  #include <linux/usb/typec_dp.h>
->  #include <linux/usb/typec_mux.h>
->  #include <linux/usb/typec_retimer.h>
-> @@ -70,8 +70,6 @@ struct nb7vpq904m {
->  	bool swap_data_lanes;
->  	struct typec_switch *typec_switch;
->  
-> -	struct drm_bridge bridge;
-> -
->  	struct mutex lock; /* protect non-concurrent retimer & switch */
->  
->  	enum typec_orientation orientation;
-> @@ -297,44 +295,6 @@ static int nb7vpq904m_retimer_set(struct typec_retimer *retimer, struct typec_re
->  	return ret;
->  }
->  
-> -#if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
-> -static int nb7vpq904m_bridge_attach(struct drm_bridge *bridge,
-> -				    enum drm_bridge_attach_flags flags)
-> -{
-> -	struct nb7vpq904m *nb7 = container_of(bridge, struct nb7vpq904m, bridge);
-> -	struct drm_bridge *next_bridge;
-> -
-> -	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-> -		return -EINVAL;
-> -
-> -	next_bridge = devm_drm_of_get_bridge(&nb7->client->dev, nb7->client->dev.of_node, 0, 0);
-> -	if (IS_ERR(next_bridge)) {
-> -		dev_err(&nb7->client->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
-> -		return PTR_ERR(next_bridge);
-> -	}
-> -
-> -	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
-> -				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> -}
-> -
-> -static const struct drm_bridge_funcs nb7vpq904m_bridge_funcs = {
-> -	.attach	= nb7vpq904m_bridge_attach,
-> -};
-> -
-> -static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
-> -{
-> -	nb7->bridge.funcs = &nb7vpq904m_bridge_funcs;
-> -	nb7->bridge.of_node = nb7->client->dev.of_node;
-> -
-> -	return devm_drm_bridge_add(&nb7->client->dev, &nb7->bridge);
-> -}
-> -#else
-> -static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
-> -{
-> -	return 0;
-> -}
-> -#endif
-> -
->  static const struct regmap_config nb7_regmap = {
->  	.max_register = 0x1f,
->  	.reg_bits = 8,
-> @@ -461,7 +421,7 @@ static int nb7vpq904m_probe(struct i2c_client *client)
->  
->  	gpiod_set_value(nb7->enable_gpio, 1);
->  
-> -	ret = nb7vpq904m_register_bridge(nb7);
-> +	ret = drm_simple_bridge_register(dev);
->  	if (ret)
->  		return ret;
->  
-> -- 
-> 2.39.2
+> For the PK Hash registers, I don't think it quite works.
+> 
+> HW_VERSION I can hard code to a valid value, or just stub out to 0 since
+> that appears to be only consumed by the MHI Controller, and we don't use it.
+> 
+> The PK Hash registers are programmed into the SoC, and can be unique from
+> SoC to SoC.  I don't see how the driver can provide valid, but faked
+> information for them.  Also, the user consumes this data via sysfs.  We'd
+> like to give the data to the user, and we can't fake it. Also the data is
+> dynamic.
+> 
+> Lets start with the dynamic data issue.  Right now MHI reads these registers
+> once, and caches the values.  I would propose a quirk to change that
+> behavior for AIC100, but does MHI really need to operate in a "read once"
+> mode?  Would something actually break if MHI read the registers every time
+> the sysfs node is accessed?  Then sysfs would display the latest data, which
+> would be beneficial to AIC100 and should not be a behavior change for other
+> devices which have static data (MHI just displays the same data because it
+> hasn't changed).
+> 
+> Do you recall the reason behind making the PK Hash registers read once and
+> cached?
+> 
+
+I don't see an issue with reading the PK hash dynamically. I think the intention
+for caching mostly come from the fact it was a static data.
+
+So you can dynamically read it all the time.
+
+- Mani
+
+> > 
+> > - Mani
+> > 
+> > > v2:
+> > > -Fix build error
+> > > -Fix typo in commit text
+> > > 
+> > > Jeffrey Hugo (2):
+> > >    bus: mhi: host: Add quirk framework and initial quirk
+> > >    accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+> > > 
+> > >   drivers/accel/qaic/mhi_controller.c |  1 +
+> > >   drivers/bus/mhi/host/init.c         | 13 +++++++++----
+> > >   include/linux/mhi.h                 | 18 ++++++++++++++++++
+> > >   3 files changed, 28 insertions(+), 4 deletions(-)
+> > > 
+> > > -- 
+> > > 2.40.1
+> > > 
+> > > 
+> > 
+> 
+> 
 
 -- 
-heikki
+மணிவண்ணன் சதாசிவம்
