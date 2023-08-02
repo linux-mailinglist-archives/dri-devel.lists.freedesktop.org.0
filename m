@@ -2,45 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE5776C892
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 10:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9766F76C8BE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 10:52:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9F4610E522;
-	Wed,  2 Aug 2023 08:44:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7876C10E524;
+	Wed,  2 Aug 2023 08:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 629DE10E522
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 08:44:20 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 71AFC6601F5E;
- Wed,  2 Aug 2023 09:44:18 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690965858;
- bh=nwhyDlk6TAwpAhBI3YFnIgFq7eJSx5UC/NeXeHfryAk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GssfvuMohyVAsC3K3gUBIXV/rDYVKejdiVwfIKe4BYGKoMOjQc4IuSHolUc4EZJ6X
- z7xyFKJxsH44UrdQzxLnkpo8zynVZhOzxLGH/rxhM+I1t57+ogHK+sZV4ZxBYygp3a
- 7wfp8mkoNfpQWMJ0NV1YagtKAOkrdqQBoqxddcz2ai+gN5HDeSCbSqEfY3pl9jEpM1
- YSpsAfSU8lA+2a73zpQ2VAlwZeiohftwYsFY1miCyeIrDOWa3m9H5gnR04xfOLwjky
- NPU/pEIOmGbxul2ja7BsAmpLV0eFWy9hDyij5qrsv8oM//txir2CIAY55Eapj+7KIz
- 1oSlEZndz5mPQ==
-Date: Wed, 2 Aug 2023 10:44:15 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
-Message-ID: <20230802104415.7fe64b67@collabora.com>
-In-Reply-To: <CAKwvOdmRm=vOjNXGWeuKw-h78CXMrkcwc5vnCRVqFxMxWzhCcg@mail.gmail.com>
-References: <20230731123625.3766-1-christian.koenig@amd.com>
- <CAKwvOdmRm=vOjNXGWeuKw-h78CXMrkcwc5vnCRVqFxMxWzhCcg@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 973C010E524
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 08:52:33 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fe1a17f983so32420425e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 01:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690966352; x=1691571152;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6wsrvVf1Tq2vaUhYtAT2JkjgDSEB22fZNeeTE0a5xSU=;
+ b=IVOBTjzguAcA8nzoBa7REcOzJwvUR/3BndO0bPmLQRkwUFH4N3RsPRbfz6wGzY8mX/
+ vT11GLqVCGmMrD4TewyaQm6InaYrjTG+NV7nnFiPgetuYQYqmKDafmNfd5Kyt7S+N9RY
+ ym8em805p4ceawjLf1PRU1ox5Za/b7VP5iemiHUYFC9m+GHCV9YBFZzL3NiwVD9/ulbQ
+ +XzmqlwlmOHi8eDo8BLneVJ6VVwOOdmR5ksuIvntNfEgaWQoc6A3fQcv4asPbn5wJGl0
+ xFoTZ3ivECi9+kPDKKftXzkzX+BCKFLmJH0HymQZanARtu4ItLCgutNnh/us46DDWhde
+ JGbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690966352; x=1691571152;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6wsrvVf1Tq2vaUhYtAT2JkjgDSEB22fZNeeTE0a5xSU=;
+ b=c0XF8Hy778pGXZMkV7O2ePP/wjRzeS3qIn+wmMdKWQ/xK19umk7dnZUNMvTAgLT75+
+ FqH8n/+5haB231MVuhZqD8moQOTiWUNS1wHCfmRZnYXIb05moMlNr6iSU89YoGe87AB5
+ T9ml511OsNPDBfeKT7iPdyniuoQDtLtmMb0AkXbN+okjVz+fb6/pNGB18TcpFUU90ySL
+ uz2YodgjJxa4Xggx4UzGJD9K3VhA+WAdhdDA1nVgV8bouBIj4SNGwypiPIjQnX8HDMGg
+ MNUP/c0tAmtFk7dXsSEhMpG9+y3cid1p9pd9cea3ihY0le0GcPDwAS0oK1ulyVpB+mL/
+ aTcA==
+X-Gm-Message-State: ABy/qLZ523RXKaHae+u4hcZ46qLaUFGfqdCWk4LGLaJzUWAQSbZBixdo
+ kdKETFFXv3cUUr+EUdcM6hs6aQ==
+X-Google-Smtp-Source: APBJJlFBrp0L1ElAj3/o+Jo3C6rZJBSvJPabmqO9SI7o9s+MUcvicTG8Z9gr1Gc4Ww2MLgt4RhW52g==
+X-Received: by 2002:a05:600c:2159:b0:3fe:1f93:8cf4 with SMTP id
+ v25-20020a05600c215900b003fe1f938cf4mr4223087wml.8.1690966351956; 
+ Wed, 02 Aug 2023 01:52:31 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020a1c7c04000000b003fa973e6612sm1094035wmc.44.2023.08.02.01.52.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Aug 2023 01:52:31 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Wed, 02 Aug 2023 10:52:22 +0200
+Subject: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+ and EOT packet"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAEUZymQC/x2NwQrDIBBEfyXsuQtqSgn9ldKDJmOUgsoqJRDy7
+ 116mMNjHjMndUhGp+d0kuCbe65Fwd4mWpMvOzhvyuSMm81iHKsEGbxVLnXwjgLxA5xi4xQ03TO
+ 0aH79YPAjmrsLNvjFzqSbTRDz8f97va/rBwbXaYZ/AAAA
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Marek Vasut <marex@denx.de>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1936;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=e9tUV/g8uW3iJGQla2yximmXQmIZ4VqzDUhHU5HlWnQ=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkyhlOPAxfJvCKRFgFs7eo6UzvGsJ/l1XX6BklteG9
+ 88m6BGyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZMoZTgAKCRB33NvayMhJ0cmAD/
+ 4xEICh1qTqtu2jreftXCG4HpmJWmOW9vxu5esdTN960Zi4rZDQnO3dTtJn/JQz88MItdN1NsICzWiq
+ oUBBHD/ZYREyV1+oGOCmRxkkJ7n4SgB+GW1euwJeLsnxUXOWOPwiton1GHVm0vLZ80wmMMdHtdaBXf
+ t3fqPdaaLD0XumzBQnXOSnU6IJ31TemVwkFbZIUJ2v9rXtNfnu5Oyd8n6wOVS54cag4Ffi61T9KmVp
+ ktX+ET+Ysu87MD1PohBj5ccuANrVpcbLcH7zhStTmMkIX4ml4ipkEIU+mVuQirjjitt6ALXay+CoIz
+ CsBvo/P5Neb8f3AlzSFMUxCRli4b51geO36qb2P3ETWLElTTwsTAljJ6Mhr4ToDb4xohxc2TphiA1K
+ pClXYCQdb0F4cS6ce141ZRL/parRNNGUJnZAS2xlHEzRWNwYKm6YxMkZxO7QUa6JVF7Elr9s5ephD4
+ 9gx8q1bDXV3V9a7bosSOtyvxAtWXAIxaYliGDYJlFBUYy0SVqnR+uebZtppw9K6G5tMG5XtqntZ0lS
+ 8FTQxKb8TwC66ZvQJccqFTiv3Lx2HIFFXCiT33CDxwyeoKmEfU9G5RGuOW79tjMX9dYA0UAuzOXi6a
+ oQdFtZ8Gth6/03IUD97/e/nC9v6oIQQmjceqDQDv1bu6nndW76cUj3mFhZoA==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +95,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- naresh.kamboju@linaro.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- mripard@kernel.org, dakr@redhat.com, dri-devel@lists.freedesktop.org,
- trix@redhat.com
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 1 Aug 2023 13:35:13 -0700
-Nick Desaulniers <ndesaulniers@google.com> wrote:
+This reverts commit [1] to fix display regression on the Dragonboard 845c
+(SDM845) devboard.
 
-> On Mon, Jul 31, 2023 at 5:36=E2=80=AFAM Christian K=C3=B6nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >
-> > GCC forbids to jump to labels in loop conditions and a new clang
-> > check stumbled over this.
-> >
-> > So instead using a local label inside the loop condition use an
-> > unique label outside of it.
-> >
-> > Fixes: commit 09593216bff1 ("drm: execution context for GEM buffers v7")
-> > Link: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1890
-> > Link: https://github.com/llvm/llvm-project/commit/20219106060208f0c2f5d=
-096eb3aed7b712f5067
-> > Reported-by: Nathan Chancellor <nathan@kernel.org>
-> > Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> > CC: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com> =20
->=20
-> Works for me; thanks for the patch!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->=20
-> I suspect it's possible to change the indirect goto into a direct goto
-> with some further refactoring (macros can take block statements; if
-> drm_exec_until_all_locked accepted a block statement arg then you
-> could introduce a new scope, and a new local label to that scope, then
-> just use direct goto),
+There's a mismatch on the real action of the following flags:
+- MIPI_DSI_MODE_VIDEO_NO_HSA
+- MIPI_DSI_MODE_VIDEO_NO_HFP
+- MIPI_DSI_MODE_VIDEO_NO_HBP
+which leads to a non-working display on qcom platforms.
 
-Maybe I'm wrong, but this sounds like the version I proposed here [1].
+[1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
 
-> but this will probably apply cleaner. (oh, is
-> 09593216bff1 only in next at the moment? The AuthorDate threw me.)
->=20
-> There are some curious cases where __attribute__((cleanup())) doesn't
-> mesh well with indirect gotos.
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D37722
->=20
-> May not ever be a problem here...
+Cc: Marek Vasut <marex@denx.de>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
+Reported-by: Amit Pundir <amit.pundir@linaro.org>
+Link: https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-[1]https://patchwork.freedesktop.org/patch/543077/
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 5163e5224aad..9663601ce098 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -774,9 +774,7 @@ static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+ 	dsi->lanes = 4;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+-			  MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO_NO_HSA |
+-			  MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
+-			  MIPI_DSI_MODE_NO_EOT_PACKET;
++			  MIPI_DSI_MODE_VIDEO_HSE;
+ 
+ 	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0) {
+
+---
+base-commit: f590814603bf2dd8620584b7d59ae94d7c186c69
+change-id: 20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-6f042b1ba813
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
