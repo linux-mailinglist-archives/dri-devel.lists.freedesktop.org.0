@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3159C76D6F8
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:39:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D471976D70C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F74310E20E;
-	Wed,  2 Aug 2023 18:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2765B10E224;
+	Wed,  2 Aug 2023 18:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE9F10E20E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:39:51 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- 006d021491bc7-56ce1bd7fc4so32990eaf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691001590; x=1691606390;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=haU7i7v25ac1CcQqTdM2/jDIKeY/5oFZ+LnWdM9648E=;
- b=lnFvofE/wYHei35mFlKi8Xf//VbtJKBGdqzrnyN9KaPWhwHqn1VK6tEyPQR1JqzGjo
- QHge13v5S/t1xw+ddkZGNOE34iaJ1EnHH2Sh5S/J7IxMyZlhLb3pj6xeo//daa5wkoSX
- Dv+NZPh2px1Q/fklxY+OagWSeCviVmnvp6BRnR3vbJz5KsCMSTv7SdOYR6A2U6HhS0ca
- N3YBLPnQA9el3v7MUY5FbR2Eqfp1r6QSfQgu7Sl/lkMYH6Hla/0EKpERAJQy5cCNhKdG
- DL3J6clr1Jdkx2zZO6xF8ry07fNhKX71OeB1lyIk+PxWeWqrbJ44Rd9s0r0encDhFP2T
- n/XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691001590; x=1691606390;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=haU7i7v25ac1CcQqTdM2/jDIKeY/5oFZ+LnWdM9648E=;
- b=gtFBB8u3WmLeV5bZiBB7e8Lve+JsPepcuvRB9dTRwdGzY4b/8TptM6fqLbuVUmf6Nv
- ghq2pw4o+91LpbF3AyIjfCtAjzjVMZiBQmHpSIahaBX+0USm9C+UOfEAsx4duA+HthRN
- X4v4cEiyVWe/mIV1Y+mvCHpuoKE4VLsoJUASmXGCcIuZpL9NC7Vx3eNygaTYTcl47cbm
- mrI86vyEHn/s67I9ggH0UFZGV0jQxr9ao1YvGtqsf2BvCBerXIEnWDiWDMEKntmQpV8k
- 7EKv9PzEuECMqAk3APLFqQqek0kuUPqjcaRQJluCw2+G07vwp/Vqw2sx4Q7vp8AhndQt
- D7nQ==
-X-Gm-Message-State: ABy/qLZgVsKs6WycdmWo0x8I8MNBUqQQ9EG80VLf2+UjR+JfVos70h7J
- 4TUy74WakzGrcMDoPlQ6VkhNRIFDrT8Yb76coPp9cA==
-X-Google-Smtp-Source: APBJJlFZV7qFYrarT7AAvLTE6+iQLBZszrYCKxyA/UNyRG6vAJP43Ba+1dHGGSlaT6+6Nu+eFuhIDK498fYoxPbhpyc=
-X-Received: by 2002:a05:6358:6f8a:b0:134:ce27:223c with SMTP id
- s10-20020a0563586f8a00b00134ce27223cmr7027612rwn.27.1691001590159; Wed, 02
- Aug 2023 11:39:50 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F4310E217
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:45:25 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id CAD41868BC;
+ Wed,  2 Aug 2023 20:45:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1691001923;
+ bh=HkVsvctANfjqtRCNkMupEsziCBW5UjbjHe7T2eo0Uag=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WcktwjYhIDrk+RAb0/adNBVtIPfJ93HpDGKHxWcyqyGHOeEgIDCpGZxiLbqEKu82P
+ U4rRrIq5V63WOH8SHETWlFSvj3KPMZ1hccdP16Lv4JEEesc0LxIu0yZ7twcQbZM1/a
+ e/TK/JSEVSR+0bQkfRzJO7jON0LnzLBcPeD9Z+2Epr6yAgSWwI5ykeS90J/GgJ+LXF
+ CrO6fOKaIfeeuHRDwCN6U0HonjP/DjqDjnyNYrWvHFvde/yLl4j50yv5PTtzDPhRCU
+ dSDe+KXWdRAEQtcI1PnJi55I1oGBqc8PZQjc2j1XrtmbhLr/uQaWGAwEbMJQOQRS5M
+ L0WonwG52DIww==
+Message-ID: <c5597c50-d41c-9f7e-fb85-4e4a1bc29f15@denx.de>
+Date: Wed, 2 Aug 2023 20:45:21 +0200
 MIME-Version: 1.0
-References: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 2 Aug 2023 21:39:39 +0300
-Message-ID: <CAA8EJprY-MzO4S130VRqSavxOuB8d5tG-0yghEeY60niQysdMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+ and EOT packet"
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
+ <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
+ <bf95af44-2510-1835-dec9-183144de8413@denx.de>
+ <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,196 +59,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Ryan McCann <quic_rmccann@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Aug 2023 at 21:36, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
-> This includes the common block itself, enc subblocks and some empty
-> space around. Change that to pass 0x4 instead, the length of common
-> register block itself.
->
-> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
-> Reported-by: Ryan McCann <quic_rmccann@quicinc.com>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+On 8/2/23 20:16, Dmitry Baryshkov wrote:
+> On Wed, 2 Aug 2023 at 20:34, Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 8/2/23 15:38, Dmitry Baryshkov wrote:
+>>> On 02/08/2023 11:52, Neil Armstrong wrote:
+>>>> This reverts commit [1] to fix display regression on the Dragonboard 845c
+>>>> (SDM845) devboard.
+>>>>
+>>>> There's a mismatch on the real action of the following flags:
+>>>> - MIPI_DSI_MODE_VIDEO_NO_HSA
+>>>> - MIPI_DSI_MODE_VIDEO_NO_HFP
+>>>> - MIPI_DSI_MODE_VIDEO_NO_HBP
+>>>> which leads to a non-working display on qcom platforms.
+>>>>
+>>>> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+>>>> EOT packet")
+>>>>
+>>>> Cc: Marek Vasut <marex@denx.de>
+>>>> Cc: Robert Foss <rfoss@kernel.org>
+>>>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+>>>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+>>>> and EOT packet")
+>>>> Reported-by: Amit Pundir <amit.pundir@linaro.org>
+>>>> Link:
+>>>> https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
+>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>> ---
+>>>>    drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
+>>>>    1 file changed, 1 insertion(+), 3 deletions(-)
+>>>>
+>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
+>>>
+>>> The boards broken by [1] are used in production by different parties
+>>> since 5.10, breaking them doesn't seem more acceptable than breaking the
+>>> new out-of-tree iMX8m hardware.
+>>
+>> The MX8M is also in-tree, so this does not apply.
+> 
+> v6.5-rc4:
+> 
+> $ git grep lontium,lt9611 | grep -v 9611uxc
+> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
+> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
+> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+>      - lontium,lt9611
+> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+>        compatible = "lontium,lt9611";
+> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
+> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
+> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
+> 
+> next-20230802:
+> 
+> $ git grep lontium,lt9611 | grep -v 9611uxc
+> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
+> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
+> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+>      - lontium,lt9611
+> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+>        compatible = "lontium,lt9611";
+> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
+> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
+> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
+> 
+> Your device is not in the tree. Your commit broke existing users.
 
-Of course, it should have been v3, with the v2 having been sent on
-July 8th. Confusion is the price of sending a series with no cover
-letter. Please excuse me.
+These devices are in tree:
+arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc.dts
+arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dts
 
->
-> Changes since v1:
->  - Rebased on top of the catalog changes
->
-> ---
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  8 ++++----
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  2 +-
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  8 ++++----
->  .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  8 ++++----
->  5 files changed, 19 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> index c906b6864b5e..f8d16f9bf528 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> @@ -283,22 +283,22 @@ static const struct dpu_merge_3d_cfg sm8350_merge_3d[] = {
->  static const struct dpu_dsc_cfg sm8350_dsc[] = {
->         {
->                 .name = "dce_0_0", .id = DSC_0,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_0_1", .id = DSC_1,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_1,
->         }, {
->                 .name = "dce_1_0", .id = DSC_2,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_1_1", .id = DSC_3,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_1,
->         },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index 2bf9f34e54c6..3b5061c4402a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -163,7 +163,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
->  static const struct dpu_dsc_cfg sc7280_dsc[] = {
->         {
->                 .name = "dce_0_0", .id = DSC_0,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_0,
->         },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> index ccd0477f4877..58f5e25679b1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> @@ -286,32 +286,32 @@ static const struct dpu_merge_3d_cfg sc8280xp_merge_3d[] = {
->  static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
->         {
->                 .name = "dce_0_0", .id = DSC_0,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_0_1", .id = DSC_1,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_1,
->         }, {
->                 .name = "dce_1_0", .id = DSC_2,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_1_1", .id = DSC_3,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_1,
->         }, {
->                 .name = "dce_2_0", .id = DSC_4,
-> -               .base = 0x82000, .len = 0x29c,
-> +               .base = 0x82000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_2_1", .id = DSC_5,
-> -               .base = 0x82000, .len = 0x29c,
-> +               .base = 0x82000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_1,
->         },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index 2b2e9d4800f8..1b12178dfbca 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -305,22 +305,22 @@ static const struct dpu_merge_3d_cfg sm8450_merge_3d[] = {
->  static const struct dpu_dsc_cfg sm8450_dsc[] = {
->         {
->                 .name = "dce_0_0", .id = DSC_0,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_0_1", .id = DSC_1,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_1,
->         }, {
->                 .name = "dce_1_0", .id = DSC_2,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_1_1", .id = DSC_3,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_1,
->         },
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> index 833be1167499..f2ab02d04440 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> @@ -320,22 +320,22 @@ static const struct dpu_merge_3d_cfg sm8550_merge_3d[] = {
->  static const struct dpu_dsc_cfg sm8550_dsc[] = {
->         {
->                 .name = "dce_0_0", .id = DSC_0,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_0_1", .id = DSC_1,
-> -               .base = 0x80000, .len = 0x29c,
-> +               .base = 0x80000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2),
->                 .sblk = &dsc_sblk_1,
->         }, {
->                 .name = "dce_1_0", .id = DSC_2,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_0,
->         }, {
->                 .name = "dce_1_1", .id = DSC_3,
-> -               .base = 0x81000, .len = 0x29c,
-> +               .base = 0x81000, .len = 0x4,
->                 .features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
->                 .sblk = &dsc_sblk_1,
->         },
-> --
-> 2.39.2
->
+The LT9211 and LT9611 are both expansion modules handled by DTOs and 
+bound to the DSIM (which is also in tree).
 
+> Can we please end the argument, land the fix (this revert) for 6.5 and
+> work on the solution for 6.6 or 6.7?
 
--- 
-With best wishes
-Dmitry
+I would much prefer a solution which does not break my existing use 
+case. It is still not even clear whether the problem really is on MX8M 
+side at all, or whether it is QCOM misinterpreting flags. I cannot debug 
+the later, since I have no access to that platform, nor its documentation.
