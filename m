@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499DB76CEED
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 15:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C138A76CF36
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 15:51:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8D110E189;
-	Wed,  2 Aug 2023 13:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499BF10E191;
+	Wed,  2 Aug 2023 13:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9CE10E189
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 13:38:20 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-2b9cd6a554cso88418321fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 06:38:20 -0700 (PDT)
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC2710E191
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 13:51:48 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id
+ af79cd13be357-7658430eb5dso647520785a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 06:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690983499; x=1691588299;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pMJcLgqq+qsMssEfJ2CwIRiJpFGbiB0yAWJkA5kXxOU=;
- b=tuWtLApQI+lJ9MCuv940aXrM7xsyVP5NFmuEK4Pr05+2YTVnoffT80ISBeUFH2ITdU
- DsA8KS1ixGcx0g4iIB1/8h2J39Wd/iznNHJm4E8o5NwJVVOgjjJiw32i8/sKCti8uQrM
- UkEVRZeVXFSLuGAK5IYdH9QWjvsJ/tdSo1Hv2zoErgEhmxwBMxRQM+rktUTWWn8+4DWq
- nCQ8vUksJCgNv6MUec2HbR2TmVA0T7IEi0YKaOPaKmJZwckoFnWo1UNMPwguYklaCFiO
- CtmaCPxt2NS5qKbh0c0E7tiI4s+lzDWkBrCEfNScLGUf63yvPnx0XmRNXSOG2RYqthxm
- puDA==
+ d=marek-ca.20221208.gappssmtp.com; s=20221208; t=1690984307; x=1691589107;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=l1zIwGQ1HZMb0pN+mUSGNHuePnalac4Pl8tVWYqsfVw=;
+ b=nn/5AxkS768/jvAiPhVwNmrYfMymkvIhBxizk84LoThX/jtNxpq5b3gruU6lrYUmjS
+ yLmNxZXOnJ3yALNI2clOe97krKwCf2yvznzlmKTEau/BsR4mntw25XMynGRXjWaqFMip
+ 9wsASCi70GrftHbVGekSQyLRUqFTiLc8d0SP9o/SUo2LaJxwl8WP4H0xoEDgCTcnSD41
+ Eo2U3DmxIJtXBOsUv3C6VCAIGn3iThTkb+50kSPenb3KkBl/wW73UfggTC6N31jeoVzr
+ Ya5YIK3zv0vx0gF9aPvVnsErWu3NXu4jqH/N1DE1pJCkZBwkAL2HUOv1g/M88qwPd9LB
+ K5vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690983499; x=1691588299;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pMJcLgqq+qsMssEfJ2CwIRiJpFGbiB0yAWJkA5kXxOU=;
- b=R0oa24gVjxvCcxdKwB413eXXPbCTiL/kkDLFQqo+OMerBbCeCRrnnepdN3EUYGTMV3
- 658r0CW09HZE61KN6Ll3128ryV6VhPgUcJr+UTPBRWCAwET0GZOx+VdV0ncH/cLdWiYt
- npfX6hCrTVtQOHk9KQKQniMwdUNVqM7LTpBNRcQxucpENhk0UFc7OXMaKlWUU4wPu3Ti
- BLPDdaugDh28Y0kEBtFUh92bQwkDjCmGh7LAzjlRYF9I2omZrXs6IpGNNMptpjPZLgQv
- /7JB5mmcAnNOzKxgxbWZrezzQswqV/pb6LvdGYBbLaH9itSxbU/sBIS67noGyNev7g0A
- xnoA==
-X-Gm-Message-State: ABy/qLYLijCLaXEesIFaOriwyvQQufY3luFxO90kvHcyyL/2beugC8Us
- 7MZ7IAdDonDh/91i8aUndhoaAA==
-X-Google-Smtp-Source: APBJJlHzyf/zEcrCxTCJVBOveSBn5qEYuzHmJSmt5lAZM8FgyvRHeoYIVOW4SGs/6XhBbP37lGkKrw==
-X-Received: by 2002:a05:651c:1028:b0:2b6:a763:5d13 with SMTP id
- w8-20020a05651c102800b002b6a7635d13mr4864222ljm.27.1690983498799; 
- Wed, 02 Aug 2023 06:38:18 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ d=1e100.net; s=20221208; t=1690984307; x=1691589107;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l1zIwGQ1HZMb0pN+mUSGNHuePnalac4Pl8tVWYqsfVw=;
+ b=bqM73QG/uPH7yAPsi6Rg6hEr4pT6W9Wvbaq6d4H3dKAXNehVGJB9L4+BcZqUV39dKO
+ XetswNPpxbETEWNZ5BhrjMs+WNIy5dwnTBiZa7XPhehL4zkYsqcjknbY7GXFVSbvgW1X
+ DwyXQQncX9fmgvoCfXink9AeVyXgKnDGdymGEU12c0d+dDYExVkgoLz5fpdsxD7f8go8
+ VAv2UxaCmvK5F8Kfx5qfjEMrAEXKzhovg6rZDrtZVNGA6jejckJiEEoK0ras4bgb2UNJ
+ NwfGUmVoxUVmMn9NBo7Ob15XHlBdJ5IjxGgTUDi5rWdYBCjDRa7CZ/p3CEYin+zXBvP+
+ Tp6g==
+X-Gm-Message-State: ABy/qLaVUcd8A/Q1XOu0m7u4hLaMOm1+jxgf69T+FCrMGt9bKXyrxI5l
+ ivbH87Od3zbJVFZtKLKd6KrvgA==
+X-Google-Smtp-Source: APBJJlFmLcYtLxH6sMGVtzSX8BEJweW9TY6EYu1M71HYfJNUqmKuzhIUPnezEohxfEVeACGveZXtog==
+X-Received: by 2002:a0c:e448:0:b0:63d:4a9b:b29f with SMTP id
+ d8-20020a0ce448000000b0063d4a9bb29fmr14482083qvm.65.1690984307163; 
+ Wed, 02 Aug 2023 06:51:47 -0700 (PDT)
+Received: from localhost.localdomain
+ (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
  by smtp.gmail.com with ESMTPSA id
- j8-20020a2eb708000000b002b9e65912cesm1842077ljo.140.2023.08.02.06.38.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Aug 2023 06:38:18 -0700 (PDT)
-Message-ID: <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
-Date: Wed, 2 Aug 2023 16:38:17 +0300
+ k24-20020a05620a143800b0076c9e981b6bsm3492191qkj.57.2023.08.02.06.51.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Aug 2023 06:51:46 -0700 (PDT)
+From: Jonathan Marek <jonathan@marek.ca>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/dpu: increase memtype count to 16 for sm8550
+Date: Wed,  2 Aug 2023 09:48:53 -0400
+Message-Id: <20230802134900.30435-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-Content-Language: en-GB
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Marek Vasut <marex@denx.de>
-References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,44 +71,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Amit Pundir <amit.pundir@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/08/2023 11:52, Neil Armstrong wrote:
-> This reverts commit [1] to fix display regression on the Dragonboard 845c
-> (SDM845) devboard.
-> 
-> There's a mismatch on the real action of the following flags:
-> - MIPI_DSI_MODE_VIDEO_NO_HSA
-> - MIPI_DSI_MODE_VIDEO_NO_HFP
-> - MIPI_DSI_MODE_VIDEO_NO_HBP
-> which leads to a non-working display on qcom platforms.
-> 
-> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
-> 
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
-> Reported-by: Amit Pundir <amit.pundir@linaro.org>
-> Link: https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->   drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
->
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
+sm8550 has 16 vbif clients.
 
-The boards broken by [1] are used in production by different parties 
-since 5.10, breaking them doesn't seem more acceptable than breaking the 
-new out-of-tree iMX8m hardware.
+This fixes the extra 2 clients (DMA4/DMA5) not having their memtype
+initialized. This fixes DMA4/DMA5 planes not displaying correctly.
 
+Fixes: efcd0107 ("drm/msm/dpu: add support for SM8550")
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  4 ++--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 20 +++++++++++++++++++
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index f17b9a7fee85..89a2ac1e840d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -245,8 +245,8 @@ const struct dpu_mdss_cfg dpu_sm8550_cfg = {
+ 	.merge_3d = sm8550_merge_3d,
+ 	.intf_count = ARRAY_SIZE(sm8550_intf),
+ 	.intf = sm8550_intf,
+-	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+-	.vbif = sdm845_vbif,
++	.vbif_count = ARRAY_SIZE(sm8550_vbif),
++	.vbif = sm8550_vbif,
+ 	.perf = &sm8550_perf_data,
+ 	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
+ 		     BIT(MDP_SSPP_TOP0_INTR2) | \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 0de507d4d7b7..8b17a4a9b438 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -663,6 +663,26 @@ static const struct dpu_vbif_cfg sdm845_vbif[] = {
+ 	},
+ };
+ 
++static const struct dpu_vbif_cfg sm8550_vbif[] = {
++	{
++	.name = "vbif_rt", .id = VBIF_RT,
++	.base = 0, .len = 0x1040,
++	.features = BIT(DPU_VBIF_QOS_REMAP),
++	.xin_halt_timeout = 0x4000,
++	.qos_rp_remap_size = 0x40,
++	.qos_rt_tbl = {
++		.npriority_lvl = ARRAY_SIZE(sdm845_rt_pri_lvl),
++		.priority_lvl = sdm845_rt_pri_lvl,
++		},
++	.qos_nrt_tbl = {
++		.npriority_lvl = ARRAY_SIZE(sdm845_nrt_pri_lvl),
++		.priority_lvl = sdm845_nrt_pri_lvl,
++		},
++	.memtype_count = 16,
++	.memtype = {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3},
++	},
++};
++
+ /*************************************************************
+  * PERF data config
+  *************************************************************/
 -- 
-With best wishes
-Dmitry
+2.26.1
 
