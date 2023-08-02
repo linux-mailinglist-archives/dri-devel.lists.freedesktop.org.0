@@ -2,50 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87EB76D125
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 17:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F044076D194
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 17:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B130310E0D9;
-	Wed,  2 Aug 2023 15:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB52510E175;
+	Wed,  2 Aug 2023 15:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14ACC10E0D9
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 15:12:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 306D5619D7;
- Wed,  2 Aug 2023 15:12:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E5B7C433C7;
- Wed,  2 Aug 2023 15:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690989140;
- bh=xZJ60KhjGlCXAjVcQyAig/Own6TKqmNUYONhjp4eRKs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ARRQ6fosNAQroEW3lWfbXzEVtm38OnSt+tVAjAMqxJTq6UkL+7jOV2qlCI8YsucCW
- 9uis9PajnhhsXsfxrBcLL3ozhLm4p3qtRbgxKqnxwIIDLgI4NLcelEFgSgKaUvtCeY
- U+sEu03a5guX851zT06Dk9dYWZfUib9viPFXZSHuhIq8lzfpLT7cMGDHyB2bYngD2N
- I/0T/X8DI6LRziJJQDBBta4Cr3VlAW8AD9O7/thnoWdjZyqNOV1RRFYTIhK4niFiO9
- gUOR0/1GMxfV1pt53Fy3wirbIrauQXfk3lSk9Sri292D/eALqHdCn/25rR7IIPiz34
- wGl3cqkw+Y8CA==
-Date: Wed, 2 Aug 2023 16:12:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jagan Teki <jagan@edgeble.ai>
-Subject: Re: [PATCH 05/14] dt-bindings: display: rockchip-vop: Document
- rv1126 vop
-Message-ID: <20230802-kinetic-doze-cc4c014fd65f@spud>
-References: <20230731110012.2913742-1-jagan@edgeble.ai>
- <20230731110012.2913742-6-jagan@edgeble.ai>
- <20230801-residue-tractor-5c63e4447f2c@spud>
- <CA+VMnFyh-ctPbf_j=CEXxPNKY+sUymV64Sdqqs-kY7dTojQYUA@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D748410E175
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 15:16:08 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 372E7f1i028328; Wed, 2 Aug 2023 15:16:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=l27L1z+fYh8L3ZhSSl3etbSXBI7anqfGlqjXvz1VcQM=;
+ b=cUrJgIK4QWL8orqSU9cB9WcD9MoUcdP7a+IgT2POv4gUjWMRWLRWbXRzlOZF0Bjl9MRM
+ MbbshXB43bGPH3uRIKQqoCxPWRp6twV8GkC4+6ShWffxyjjReBDxSfsTWrjc9M0mgaHO
+ aallzm6bWIeHUxQs/He2Vq74229RhIvFdmOvoxQGtp95T5l34EP2aj7EjUCGiwq3qOjF
+ NTTaIxpZtwkpO8tFM9CUz/yhcDjqP/OKv0nGiw26HoJq4tVz1U1hbmxy+ccVtatczamM
+ 0PD1oNNlUrQr7YLrAFLiGoAUJoeiP4UQMwr83DYQWlRqyzvvE453e8KJZ5w3kPpDsRq8 /w== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s75dgasd1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Aug 2023 15:16:04 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 372FG32r000824
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 2 Aug 2023 15:16:03 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 2 Aug
+ 2023 08:16:02 -0700
+Message-ID: <a36af0d6-f6bf-39f8-825d-c743dbd6e84e@quicinc.com>
+Date: Wed, 2 Aug 2023 09:16:01 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WeTEyi+GuWka5zrg"
-Content-Disposition: inline
-In-Reply-To: <CA+VMnFyh-ctPbf_j=CEXxPNKY+sUymV64Sdqqs-kY7dTojQYUA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH][V2][next] accel/qaic: remove redundant pointer pexec
+Content-Language: en-US
+To: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>, Colin Ian King
+ <colin.i.king@gmail.com>, Carl Vanderlip <quic_carlv@quicinc.com>, "Oded
+ Gabbay" <ogabbay@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230726140626.264952-1-colin.i.king@gmail.com>
+ <dc7fdd8a-b3c4-b931-61be-b9bc467c6a85@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <dc7fdd8a-b3c4-b931-61be-b9bc467c6a85@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 71YLkLg0-fdy5LzX6hH5l4uUHqpY7jSM
+X-Proofpoint-ORIG-GUID: 71YLkLg0-fdy5LzX6hH5l4uUHqpY7jSM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-02_11,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
+ suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
+ mlxlogscore=752 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308020135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,62 +86,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/1/2023 8:05 AM, Pranjal Ramajor Asha Kanojiya wrote:
+> 
+> 
+> On 7/26/2023 7:36 PM, Colin Ian King wrote:
+>> Pointer pexec is being assigned a value however it is never read. The
+>> assignment is redundant and can be removed. Replace sizeof(*pexec)
+>> with sizeof the type and remove the declaration of pointer pexec.
+>>
+>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> 
+> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> 
 
---WeTEyi+GuWka5zrg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-On Wed, Aug 02, 2023 at 08:07:55PM +0530, Jagan Teki wrote:
-> On Wed, 2 Aug 2023 at 02:37, Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Mon, Jul 31, 2023 at 04:30:03PM +0530, Jagan Teki wrote:
-> > > Document the VOP for Rockchip RV1126.
-> > >
-> > > Signed-off-by: Jagan Teki <jagan@edgeble.ai>
-> >
-> > There's no commentary here about compatibility with other, existing,
-> > devices nor did you CC me on the rest of the series. How am I supposed
-> > to know if appending to enum is the right thing to do?
->=20
-> I had past comments not to add all people in the entire series and add
-> one relevant developer on respective patches. On that note, I tried to
-> CC the developers only involved in the respective areas. But, you are
-> CCed to the DT patch that affected this binding.
-> "[PATCH 10/14] ARM: dts: rockchip: rv1126: Add VOP_LITE support"
+Applied to drm-misc-next
 
-> Please let me know if I missed anything.
+Thanks!
 
-I suppose you missed saying in the commit message that this is
-incompatible with existing vop implementations? Don't need to CC me on
-all patches (although it is useful), but please let the patches explain
-themselves if you don't.
-
-Anyway, I went on lore and had a look, so with an improved commit
-message,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
-
---WeTEyi+GuWka5zrg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZMpyTwAKCRB4tDGHoIJi
-0tuWAP9mY7zkacp6M47unEG/3AvV43m4BEtY1X+hyTMYIPMIzAD7BzYIayp+DNjp
-P5LIeT4KksQwpyU+R3sWinH07SzTVQI=
-=28Ak
------END PGP SIGNATURE-----
-
---WeTEyi+GuWka5zrg--
+-Jeff
