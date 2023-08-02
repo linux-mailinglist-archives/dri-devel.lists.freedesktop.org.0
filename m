@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C78376C20D
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 03:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BDE76C218
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 03:19:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 973C210E463;
-	Wed,  2 Aug 2023 01:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E382210E47C;
+	Wed,  2 Aug 2023 01:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A082F10E14E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 01:18:49 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4fe2503e3easo7069522e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 18:18:49 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72C8910E406
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 01:18:50 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2b9b9f0387dso98165621fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 18:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1690939128; x=1691543928;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=prG8zaTCxCmOYhLMj8L/mJstXroO5EIKvx4tl+wA6H4=;
- b=QTL8kacDrJN2dKkgS9qL0ela9TkebQqioHm00mmaY8X1HJxQQZDhTQVWVNK0PdZ/Tr
- i3/fYbxeSfqhekTGaRaexWBRL224W50eh9FTPoO71tBa7cDaLbTXfFKFHFigfISFZ3t9
- cQkLzAsTK70GZOLhb9UdiE95Ik9jJ0iMxEmue/UaK0sCrGZMHCv/0G+VWcSYzBH3Gh/O
- VBIAZ1D2uZ6SILR5i0Ao2CDINk9BLhU7gXMK1T6t4tjub4VB/6ykGAGUG8Hi0kMlSz/K
- jan5lC46ETDmA73PkpMekHOkm7NAR0QkXO56kLzkOBzCSk7IYuUKx1M6tEwbsQLMm9Ei
- 0L1Q==
+ bh=tPDyf9F6oxuLJnO7P0WewXMQuxcYf+gVC6ZTzYByK+E=;
+ b=IU6NP0WgZSXz1sRbVhG5dBG1YNHoBoNwWr70pPMsJsXg17Jp1Am/wWay+h5nzZkYL+
+ 1mwfaJ4DUSyEujrJTaxRu9t/5OChj1H3ILUja8T2dFUGUvYB6Dz5+iGG9XgvCajMNblC
+ Pz3TKv3NKth7BW6vEG8jIpTMp5T4xcQ67fHavgCrmnJPxg3XVI5j2ZpeKeGlgXWG26AI
+ LagT2gTft8Ap0mKXzfFIdjduL8rZjsBkaj2siP2vS0AeMqptxTXi8T21BBuwcJyO+FlY
+ 5r4uuEGta3p42oUgY+pRzPWXqXlvbSNklie9ZuStHcKfPKLKJaevdeO3I4z3Ox0LJvZU
+ f7iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1690939128; x=1691543928;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=prG8zaTCxCmOYhLMj8L/mJstXroO5EIKvx4tl+wA6H4=;
- b=du2wDyupRInl7KiIqe/pQw0g38grM+k2YZC2RndAFxx8rnrzE4q/LN9X+03EtjpGZO
- DGN9fwnlbLWE1VPW+RQzr1loMAc2CAirNUWx5Jg77lrlI/dIrvPDLbqDisCJvbBRsMJM
- jhshOK8HNDp+jB8aokfb0mKvS2hTZV2lKTXKs40onr3lyz3NW6qE4MneC+YWzkHKp9i3
- 5IylHj2m/myEF/daXeBNwHuirKvLdUtccSZNf52BfVd1U3xVsR8BSl0T0KuP+gkxUtr2
- NVOXm69YZkF9butDUpmcSq5OODcpwzMPXMFoxeULtB9KNUaf9+25nbZFImv+ckAK7pIF
- uMeA==
-X-Gm-Message-State: ABy/qLZ9fSeiN0krlzmhLL+8TsCsmbYQ9YFk/R1Vm7PEdisTVjsrCMKk
- 15QogZCrfmW9hgnSP9bM+8Dtsg==
-X-Google-Smtp-Source: APBJJlG7bj9ZR1MQqNhlwB2//hMQIp56VcR1vZUL0RLpRmo9O3tRdpQJ2BDpr/B+acT2X7asSFIeCw==
-X-Received: by 2002:a19:9111:0:b0:4fb:8a92:4fba with SMTP id
- t17-20020a199111000000b004fb8a924fbamr3175637lfd.25.1690939127790; 
- Tue, 01 Aug 2023 18:18:47 -0700 (PDT)
+ bh=tPDyf9F6oxuLJnO7P0WewXMQuxcYf+gVC6ZTzYByK+E=;
+ b=D+u0ODZ2L92zkIS6mhtibOCTevBt4/XV4F1EOfPLo52nMQkmH3xj4qX7hPB2yOG5Zk
+ gwzu/djVPg8UxL+Vcjr78iOVlx3yx9CLG311Ah65pQ5eGhlZoscCkFwG2JEfuL/Vhn+U
+ SBoWtpHlCJ92ImfL/jMUqNU7SzUHYslT3LtlSfEmq+a45FZmk5e2p8PhqYZelodHmiXN
+ yuV/dL2CRfD8BTluwFUJpa6+YpZDhGmcGE0E2mp2Yh6guR+x2gZYopBsNPPDmrjHU9Nd
+ TgAurEN+GQva11y7MngdOvPqYT6SoO2NgykndBHI/7ymKztd0+aHq4NwBKADY5HHvqHn
+ XTnQ==
+X-Gm-Message-State: ABy/qLaKbz81IKX49LCqp+6kHEASh3HHGyaJtxDzUevxGPWlz6tMyKUf
+ J1B/1K4eWinaSEkkDUnY0FzHqw==
+X-Google-Smtp-Source: APBJJlEUQJ/AnZzyL3KdBQ7o7SJXRQXwvk7qtSvFOG23+VtHx8zobSUfRfaVwMlnWzrAGh0GG+bIKw==
+X-Received: by 2002:a19:6910:0:b0:4fb:8a90:396c with SMTP id
+ e16-20020a196910000000b004fb8a90396cmr3202416lfc.38.1690939128584; 
+ Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.46
+ n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 18:18:47 -0700 (PDT)
+ Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -59,9 +59,9 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v3 1/3] drm/display: add transparent bridge helper
-Date: Wed,  2 Aug 2023 04:18:43 +0300
-Message-Id: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 2/3] phy: qcom: qmp-combo: switch to DRM_SIMPLE_BRIDGE
+Date: Wed,  2 Aug 2023 04:18:44 +0300
+Message-Id: <20230802011845.4176631-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
 References: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
@@ -85,207 +85,105 @@ Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define a helper for creating simple transparent bridges which serve the
-only purpose of linking devices into the bridge chain up to the last
-bridge representing the connector. This is especially useful for
-DP/USB-C bridge chains, which can span across several devices, but do
-not require any additional functionality from the intermediate bridges.
+Switch to using the new DRM_SIMPLE_BRIDGE helper to create the
+transparent DRM bridge device instead of handcoding corresponding
+functionality.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/display/Kconfig             |   9 ++
- drivers/gpu/drm/display/Makefile            |   2 +
- drivers/gpu/drm/display/drm_simple_bridge.c | 127 ++++++++++++++++++++
- include/drm/display/drm_simple_bridge.h     |  19 +++
- 4 files changed, 157 insertions(+)
- create mode 100644 drivers/gpu/drm/display/drm_simple_bridge.c
- create mode 100644 include/drm/display/drm_simple_bridge.h
+ drivers/phy/qualcomm/Kconfig              |  2 +-
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 44 ++---------------------
+ 2 files changed, 3 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index 09712b88a5b8..a6132984b9e3 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -49,3 +49,12 @@ config DRM_DP_CEC
+diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
+index ced603806375..fb03e3b3f637 100644
+--- a/drivers/phy/qualcomm/Kconfig
++++ b/drivers/phy/qualcomm/Kconfig
+@@ -63,7 +63,7 @@ config PHY_QCOM_QMP_COMBO
+ 	depends on DRM || DRM=n
+ 	select GENERIC_PHY
+ 	select MFD_SYSCON
+-	select DRM_PANEL_BRIDGE if DRM
++	select DRM_SIMPLE_BRIDGE if DRM
+ 	help
+ 	  Enable this to support the QMP Combo PHY transceiver that is used
+ 	  with USB3 and DisplayPort controllers on Qualcomm chips.
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+index 9c3de41ecedb..5c7615edb161 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+@@ -21,7 +21,7 @@
+ #include <linux/usb/typec.h>
+ #include <linux/usb/typec_mux.h>
  
- 	  Note: not all adapters support this feature, and even for those
- 	  that do support this they often do not hook up the CEC pin.
-+
-+config DRM_SIMPLE_BRIDGE
-+	tristate
-+	depends on DRM
-+	select AUXILIARY_BUS
-+	select DRM_PANEL_BRIDGE
-+	help
-+	  Simple transparent bridge that is used by several drivers to build
-+	  bridges chain.
-diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-index 17ac4a1006a8..6e2b0d7f24b3 100644
---- a/drivers/gpu/drm/display/Makefile
-+++ b/drivers/gpu/drm/display/Makefile
-@@ -16,3 +16,5 @@ drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
- drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
- 
- obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
-+
-+obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += drm_simple_bridge.o
-diff --git a/drivers/gpu/drm/display/drm_simple_bridge.c b/drivers/gpu/drm/display/drm_simple_bridge.c
-new file mode 100644
-index 000000000000..9e80efe67b93
---- /dev/null
-+++ b/drivers/gpu/drm/display/drm_simple_bridge.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+ */
-+#include <linux/auxiliary_bus.h>
-+#include <linux/module.h>
-+
-+#include <drm/drm_bridge.h>
+-#include <drm/drm_bridge.h>
 +#include <drm/display/drm_simple_bridge.h>
-+
-+static DEFINE_IDA(simple_bridge_ida);
-+
-+static void drm_simple_bridge_release(struct device *dev)
-+{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-+
-+	kfree(adev);
-+}
-+
-+static void drm_simple_bridge_unregister_adev(void *_adev)
-+{
-+	struct auxiliary_device *adev = _adev;
-+
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+}
-+
-+int drm_simple_bridge_register(struct device *parent)
-+{
-+	struct auxiliary_device *adev;
-+	int ret;
-+
-+	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
-+	if (!adev)
-+		return -ENOMEM;
-+
-+	ret = ida_alloc(&simple_bridge_ida, GFP_KERNEL);
-+	if (ret < 0)
-+		return ret;
-+
-+	adev->id = ret;
-+	adev->name = "simple_bridge";
-+	adev->dev.parent = parent;
-+	adev->dev.of_node = parent->of_node;
-+	adev->dev.release = drm_simple_bridge_release;
-+
-+	ret = auxiliary_device_init(adev);
-+	if (ret) {
-+		kfree(adev);
-+		return ret;
-+	}
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret) {
-+		auxiliary_device_uninit(adev);
-+		return ret;
-+	}
-+
-+	return devm_add_action_or_reset(parent, drm_simple_bridge_unregister_adev, adev);
-+}
-+EXPORT_SYMBOL_GPL(drm_simple_bridge_register);
-+
-+struct drm_simple_bridge_data {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct device *dev;
-+};
-+
-+static int drm_simple_bridge_attach(struct drm_bridge *bridge,
-+				    enum drm_bridge_attach_flags flags)
-+{
-+	struct drm_simple_bridge_data *data;
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
-+
-+	data = container_of(bridge, struct drm_simple_bridge_data, bridge);
-+
-+	return drm_bridge_attach(bridge->encoder, data->next_bridge, bridge,
-+				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+}
-+
-+static const struct drm_bridge_funcs drm_simple_bridge_funcs = {
-+	.attach	= drm_simple_bridge_attach,
-+};
-+
-+static int drm_simple_bridge_probe(struct auxiliary_device *auxdev,
-+				   const struct auxiliary_device_id *id)
-+{
-+	struct drm_simple_bridge_data *data;
-+
-+	data = devm_kzalloc(&auxdev->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->dev = &auxdev->dev;
-+	data->next_bridge = devm_drm_of_get_bridge(&auxdev->dev, auxdev->dev.of_node, 0, 0);
-+	if (IS_ERR(data->next_bridge))
-+		return dev_err_probe(&auxdev->dev, PTR_ERR(data->next_bridge),
-+				     "failed to acquire drm_bridge\n");
-+
-+	data->bridge.funcs = &drm_simple_bridge_funcs;
-+#ifdef CONFIG_OF
-+	data->bridge.of_node = data->dev->of_node;
-+#endif
-+
-+	return devm_drm_bridge_add(data->dev, &data->bridge);
-+}
-+
-+static const struct auxiliary_device_id drm_simple_bridge_table[] = {
-+	{ .name = KBUILD_MODNAME ".simple_bridge" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(auxiliary, drm_simple_bridge_table);
-+
-+struct auxiliary_driver drm_simple_bridge_drv = {
-+	.name = "simple_bridge",
-+	.id_table = drm_simple_bridge_table,
-+	.probe = drm_simple_bridge_probe,
-+};
-+module_auxiliary_driver(drm_simple_bridge_drv);
-+
-+MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
-+MODULE_DESCRIPTION("DRM simple bridge helper");
-+MODULE_LICENSE("GPL");
-diff --git a/include/drm/display/drm_simple_bridge.h b/include/drm/display/drm_simple_bridge.h
-new file mode 100644
-index 000000000000..3da8e1fb1137
---- /dev/null
-+++ b/include/drm/display/drm_simple_bridge.h
-@@ -0,0 +1,19 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2023 Linaro Ltd.
-+ *
-+ * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+ */
-+#ifndef DRM_SIMPLE_BRIDGE_H
-+#define DRM_SIMPLE_BRIDGE_H
-+
-+#if IS_ENABLED(CONFIG_DRM_SIMPLE_BRIDGE)
-+int drm_simple_bridge_register(struct device *parent);
-+#else
-+static inline int drm_simple_bridge_register(struct device *parent)
-+{
-+	return 0;
-+}
-+#endif
-+
-+#endif
+ 
+ #include <dt-bindings/phy/phy-qcom-qmp.h>
+ 
+@@ -1419,8 +1419,6 @@ struct qmp_combo {
+ 	struct clk_hw dp_link_hw;
+ 	struct clk_hw dp_pixel_hw;
+ 
+-	struct drm_bridge bridge;
+-
+ 	struct typec_switch_dev *sw;
+ 	enum typec_orientation orientation;
+ };
+@@ -3193,44 +3191,6 @@ static int qmp_combo_typec_switch_register(struct qmp_combo *qmp)
+ }
+ #endif
+ 
+-#if IS_ENABLED(CONFIG_DRM)
+-static int qmp_combo_bridge_attach(struct drm_bridge *bridge,
+-				   enum drm_bridge_attach_flags flags)
+-{
+-	struct qmp_combo *qmp = container_of(bridge, struct qmp_combo, bridge);
+-	struct drm_bridge *next_bridge;
+-
+-	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+-		return -EINVAL;
+-
+-	next_bridge = devm_drm_of_get_bridge(qmp->dev, qmp->dev->of_node, 0, 0);
+-	if (IS_ERR(next_bridge)) {
+-		dev_err(qmp->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
+-		return PTR_ERR(next_bridge);
+-	}
+-
+-	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
+-				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-}
+-
+-static const struct drm_bridge_funcs qmp_combo_bridge_funcs = {
+-	.attach	= qmp_combo_bridge_attach,
+-};
+-
+-static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
+-{
+-	qmp->bridge.funcs = &qmp_combo_bridge_funcs;
+-	qmp->bridge.of_node = qmp->dev->of_node;
+-
+-	return devm_drm_bridge_add(qmp->dev, &qmp->bridge);
+-}
+-#else
+-static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
+-{
+-	return 0;
+-}
+-#endif
+-
+ static int qmp_combo_parse_dt_lecacy_dp(struct qmp_combo *qmp, struct device_node *np)
+ {
+ 	struct device *dev = qmp->dev;
+@@ -3436,7 +3396,7 @@ static int qmp_combo_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = qmp_combo_dp_register_bridge(qmp);
++	ret = drm_simple_bridge_register(dev);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.39.2
 
