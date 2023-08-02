@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1A576D3C3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 18:33:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAFB76D3DF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 18:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA19810E552;
-	Wed,  2 Aug 2023 16:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9B010E553;
+	Wed,  2 Aug 2023 16:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2EB10E552
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 16:33:24 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 372GXH0Y040683;
- Wed, 2 Aug 2023 11:33:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1690993997;
- bh=aj36lQFcLGyLFCI4TdSoefHrWZpxlble72FTUSoXD1M=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=tfUzKdjeTKEr9zzRx+ue3Gqs13hUAQZxXMUxI+a/zgO2YfdmPJhPP0HHrErpEVNsK
- ZpblM8HX/rCMwWw+yTI1QwqXas8WHDiMEkn28ShVFzQYvMr/NTOrYYBORTcLQNfI43
- 1d/JpLc9j94Z9FVsuLyNfY1P3+ZRhWSvRMDPT+W4=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 372GXHBn068377
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 2 Aug 2023 11:33:17 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 2
- Aug 2023 11:33:17 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 2 Aug 2023 11:33:17 -0500
-Received: from [10.250.36.161] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 372GXGFr126074;
- Wed, 2 Aug 2023 11:33:16 -0500
-Message-ID: <a3764397-ec79-0bb6-e3f4-179f92e1e45c@ti.com>
-Date: Wed, 2 Aug 2023 11:33:16 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 355D010E553
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 16:39:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3FBD861A0D;
+ Wed,  2 Aug 2023 16:39:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B890C433C8;
+ Wed,  2 Aug 2023 16:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1690994346;
+ bh=gCY+4gKYJPLF0buq2e8TbUdOApYVtpsq9Zqk1Krfyaw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RMbKnCXUKPxbMj4iwpC9jTo7Gz3KbbcElkrCmtY/3vKhMWDEIYzXSGaSEv1FUxEF4
+ A4tj4qNtYOlTzoYJthKfwK/2tFybou4h1FPDGN5P+6CmPn0Zv+XoJpQEeiVnZuD/sW
+ EvBrwudBUz9vJbGng3wZUNseR1nvpOr4+/2cRg51u8BGZm+yT1mqZkiOoeyfXMX2ui
+ 11VgGFA2MEkjLMUdGBNMSmbx5nw7OqS1hz/36q0MvpLYPQ5I/rRKvVBKe0l2yz42oB
+ L0wOzrnFlJUUhJGQS6kj2FT/M4uMNdBs3CDJoLEDnJfM2fYWoQxJm+DWGyVivfd1jI
+ V8z7b8fVO7v0g==
+Date: Wed, 2 Aug 2023 17:38:59 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jiaxin Yu =?utf-8?B?KOS/nuWutumRqyk=?= <Jiaxin.Yu@mediatek.com>
+Subject: Re: [v3 2/3] ASoC: mediatek: mt8186: correct the HDMI widgets
+Message-ID: <089fe457-1c61-4b7b-ad37-a67e7f46cb56@sirena.org.uk>
+References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
+ <20230730180803.22570-3-jiaxin.yu@mediatek.com>
+ <25e6ab45-ecad-4bc3-bf4d-983243c939ad@sirena.org.uk>
+ <c6ae8630d06138b6d0156c19323afebf0718f522.camel@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20230713191316.116019-1-afd@ti.com>
- <2023071344-skinhead-send-33f7@gregkh>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <2023071344-skinhead-send-33f7@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="esxvPNSC1jmy+MV2"
+Content-Disposition: inline
+In-Reply-To: <c6ae8630d06138b6d0156c19323afebf0718f522.camel@mediatek.com>
+X-Cookie: Humpty Dumpty was pushed.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,37 +58,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ Chunxu Li =?utf-8?B?KOadjuaYpeaXrSk=?= <Chunxu.Li@mediatek.com>,
+ Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsik=?= <Allen-KH.Cheng@mediatek.com>,
+ "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "ajye_huang@compal.corp-partner.google.com"
+ <ajye_huang@compal.corp-partner.google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/13/23 2:27 PM, Greg Kroah-Hartman wrote:
-> On Thu, Jul 13, 2023 at 02:13:16PM -0500, Andrew Davis wrote:
->> +int sram_add_dma_heap(struct sram_dev *sram,
->> +		      struct sram_reserve *block,
->> +		      phys_addr_t start,
->> +		      struct sram_partition *part)
->> +{
->> +	struct sram_dma_heap *sram_dma_heap;
->> +	struct dma_heap_export_info exp_info;
->> +
->> +	dev_info(sram->dev, "Exporting SRAM Heap '%s'\n", block->label);
-> 
-> When drivers are working properly, they are quiet.
-> 
 
-This should only be printed once in early boot when the memory is added,
-I was wanting this to match the other memory exporters/output at the
-beginning of boot logs.
+--esxvPNSC1jmy+MV2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But quiet is fine too, will change this to dev_dbg() for v4.
+On Wed, Aug 02, 2023 at 02:52:57PM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=E9=
+=91=AB) wrote:
+> On Mon, 2023-07-31 at 12:50 +0100, Mark Brown wrote:
+> > On Mon, Jul 31, 2023 at 02:08:02AM +0800, Jiaxin Yu wrote:
 
-Thanks,
-Andrew
+> > > Use SND_SOC_DAPM_LINE instead of SND_SOC_DAPM_OUTPUT to trigger
+> > > DAPM events to hdmi-codec when userspace control the DPAM pin.
 
-> thanks,
-> 
-> greg k-h
+> > Why?
+
+> I have defined an SOC_DAPM_PIN_SWITCH that named as "HDMI1", if I use
+> SND_SOC_DAPM_OUTPUT, it can't be controlled by HDMI1's PIN_SWITCH.
+
+=2E..
+
+> 2762                 if (w->dapm->card->fully_routed)
+> 2763                         return;
+> 2764                 ep =3D SND_SOC_DAPM_EP_SINK;
+> 2765                 snd_soc_dapm_widget_for_each_sink_path(w, p) {
+> 2766                         if (p->sink->id =3D=3D snd_soc_dapm_spk ||
+> 2767                                 p->sink->id =3D=3D snd_soc_dapm_hp ||
+> 2768                                 p->sink->id =3D=3D snd_soc_dapm_line
+> ||
+> 2769                                 p->sink->id =3D=3D snd_soc_dapm_inpu=
+t)
+> {
+> 2770                                         ep =3D 0;
+
+The expectation here is that you'll connect the output to a widget that
+corresponds to the physical output on your board and put the pin switch
+on that, ideally with a label that corresponds to case markings or what
+the physical output is called on the board.
+
+--esxvPNSC1jmy+MV2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTKhqIACgkQJNaLcl1U
+h9BL/gf/YGDdkzd1Hoqak9skMbqWOPWuNgOeP/0fj0q8HB3qg7eQOy8Y5REObrFC
+wfPs8VX6jpzF/JmEzkWRpOdFMMx/c4rTlYB/d/Jojfhh4wslOJCqxe8hfAK/8aZs
+WZ3GLf9fCdrPoKRnB0DebPt8Fp8LVMuf+H3dHtd6DsEUDsfAieGnMYAixcFbSezq
+NEuViV+xWHzEwpYW1Jwve8rMnAkUPNK/nzZcUb7isbVQd+7J3jIcGi2VTB2FG7GF
+BM3gl4wysF0zVCyQTVmQCmlzzU/Rc0JZ5UrBkBXukhce7kZlETx9Y/WFgzFqh1Da
+zArLRsDtbRyWE98VC1QS9ZU8ZAAk5A==
+=N0bb
+-----END PGP SIGNATURE-----
+
+--esxvPNSC1jmy+MV2--
