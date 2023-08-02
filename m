@@ -2,51 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D471976D70C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8974576D70F
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2765B10E224;
-	Wed,  2 Aug 2023 18:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B835410E564;
+	Wed,  2 Aug 2023 18:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F4310E217
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:45:25 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id CAD41868BC;
- Wed,  2 Aug 2023 20:45:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1691001923;
- bh=HkVsvctANfjqtRCNkMupEsziCBW5UjbjHe7T2eo0Uag=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WcktwjYhIDrk+RAb0/adNBVtIPfJ93HpDGKHxWcyqyGHOeEgIDCpGZxiLbqEKu82P
- U4rRrIq5V63WOH8SHETWlFSvj3KPMZ1hccdP16Lv4JEEesc0LxIu0yZ7twcQbZM1/a
- e/TK/JSEVSR+0bQkfRzJO7jON0LnzLBcPeD9Z+2Epr6yAgSWwI5ykeS90J/GgJ+LXF
- CrO6fOKaIfeeuHRDwCN6U0HonjP/DjqDjnyNYrWvHFvde/yLl4j50yv5PTtzDPhRCU
- dSDe+KXWdRAEQtcI1PnJi55I1oGBqc8PZQjc2j1XrtmbhLr/uQaWGAwEbMJQOQRS5M
- L0WonwG52DIww==
-Message-ID: <c5597c50-d41c-9f7e-fb85-4e4a1bc29f15@denx.de>
-Date: Wed, 2 Aug 2023 20:45:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-Content-Language: en-US
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23D8010E217;
+ Wed,  2 Aug 2023 18:46:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D88F9CA;
+ Wed,  2 Aug 2023 20:45:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1691001913;
+ bh=6lMIvnUDmcbkmqo6E/Xm2zfqir/+TekU2+85+m1X+qo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DRhGCqAhLNEY1+DwW1JlMQyZnqagkG6GpLtr+9d5fVZ5c6vTuwXf17B8Gyxuinsoi
+ fWCiDEVmckZVwy4p5G6qt3uqgpiKWVRKDX8j40iG+pkFztNecCmk6CTuZR7yZvWXGb
+ SpJEUnyGymyhvG89qZ/s7mdq4fdbPr3wXW/NaG6E=
+Date: Wed, 2 Aug 2023 21:46:22 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
- <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
- <bf95af44-2510-1835-dec9-183144de8413@denx.de>
- <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Subject: Re: [PATCH 2/4] drm/bridge-connector: handle subconnector types
+Message-ID: <20230802184622.GA32500@pendragon.ideasonboard.com>
+References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
+ <20230729004913.215872-3-dmitry.baryshkov@linaro.org>
+ <0cc04d99-d7aa-68ff-b304-7d42ae7f0dde@linaro.org>
+ <CAA8EJpoMC-YbWvyfCsdAHOL9aw3nfQ=g8BgLp2mb9iozeRgBpg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpoMC-YbWvyfCsdAHOL9aw3nfQ=g8BgLp2mb9iozeRgBpg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,96 +49,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ neil.armstrong@linaro.org, Bjorn Andersson <andersson@kernel.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/2/23 20:16, Dmitry Baryshkov wrote:
-> On Wed, 2 Aug 2023 at 20:34, Marek Vasut <marex@denx.de> wrote:
->>
->> On 8/2/23 15:38, Dmitry Baryshkov wrote:
->>> On 02/08/2023 11:52, Neil Armstrong wrote:
->>>> This reverts commit [1] to fix display regression on the Dragonboard 845c
->>>> (SDM845) devboard.
->>>>
->>>> There's a mismatch on the real action of the following flags:
->>>> - MIPI_DSI_MODE_VIDEO_NO_HSA
->>>> - MIPI_DSI_MODE_VIDEO_NO_HFP
->>>> - MIPI_DSI_MODE_VIDEO_NO_HBP
->>>> which leads to a non-working display on qcom platforms.
->>>>
->>>> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
->>>> EOT packet")
->>>>
->>>> Cc: Marek Vasut <marex@denx.de>
->>>> Cc: Robert Foss <rfoss@kernel.org>
->>>> Cc: Jagan Teki <jagan@amarulasolutions.com>
->>>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA
->>>> and EOT packet")
->>>> Reported-by: Amit Pundir <amit.pundir@linaro.org>
->>>> Link:
->>>> https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>>    drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
->>>>    1 file changed, 1 insertion(+), 3 deletions(-)
->>>>
->>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
->>>
->>> The boards broken by [1] are used in production by different parties
->>> since 5.10, breaking them doesn't seem more acceptable than breaking the
->>> new out-of-tree iMX8m hardware.
->>
->> The MX8M is also in-tree, so this does not apply.
+On Wed, Aug 02, 2023 at 12:05:50PM +0300, Dmitry Baryshkov wrote:
+> On Wed, 2 Aug 2023 at 11:35, Neil Armstrong wrote:
+> > On 29/07/2023 02:49, Dmitry Baryshkov wrote:
+> > > If the created connector type supports subconnector type property,
+> > > create and attach corresponding it. The default subtype value is 0,
+> > > which maps to the DRM_MODE_SUBCONNECTOR_Unknown type.
+> > >
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >   drivers/gpu/drm/drm_bridge_connector.c | 33 +++++++++++++++++++++++++-
+> > >   include/drm/drm_bridge.h               |  4 ++++
+> > >   2 files changed, 36 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
+> > > index 07b5930b1282..a7b92f0d2430 100644
+> > > --- a/drivers/gpu/drm/drm_bridge_connector.c
+> > > +++ b/drivers/gpu/drm/drm_bridge_connector.c
+> > > @@ -329,7 +329,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> > >       struct drm_connector *connector;
+> > >       struct i2c_adapter *ddc = NULL;
+> > >       struct drm_bridge *bridge, *panel_bridge = NULL;
+> > > +     enum drm_mode_subconnector subconnector;
+> > >       int connector_type;
+> > > +     int ret;
+> > >
+> > >       bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
+> > >       if (!bridge_connector)
+> > > @@ -365,8 +367,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> > >               if (bridge->ops & DRM_BRIDGE_OP_MODES)
+> > >                       bridge_connector->bridge_modes = bridge;
+> > >
+> > > -             if (!drm_bridge_get_next_bridge(bridge))
+> > > +             if (!drm_bridge_get_next_bridge(bridge)) {
+> > >                       connector_type = bridge->type;
+> > > +                     subconnector = bridge->subtype;
+> > > +             }
+> > >
+> > >   #ifdef CONFIG_OF
+> > >               if (!drm_bridge_get_next_bridge(bridge) &&
+> > > @@ -399,6 +403,33 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+> > >       if (panel_bridge)
+> > >               drm_panel_bridge_set_orientation(connector, panel_bridge);
+> > >
+> > > +     if (connector_type == DRM_MODE_CONNECTOR_DisplayPort) {
+> > > +             drm_connector_attach_dp_subconnector_property(connector, subconnector);
+> > > +     } else if (connector_type == DRM_MODE_CONNECTOR_DVII) {
+> > > +             ret = drm_mode_create_dvi_i_properties(drm);
+> > > +             if (ret)
+> > > +                     return ERR_PTR(ret);
+> > > +
+> > > +             drm_object_attach_property(&connector->base,
+> > > +                                        drm->mode_config.dvi_i_subconnector_property,
+> > > +                                        subconnector);
+> > > +     } else if (connector_type == DRM_MODE_CONNECTOR_TV) {
+> > > +             ret = drm_mode_create_tv_properties(drm,
+> > > +                                                 BIT(DRM_MODE_TV_MODE_NTSC) |
+> > > +                                                 BIT(DRM_MODE_TV_MODE_NTSC_443) |
+> > > +                                                 BIT(DRM_MODE_TV_MODE_NTSC_J) |
+> > > +                                                 BIT(DRM_MODE_TV_MODE_PAL) |
+> > > +                                                 BIT(DRM_MODE_TV_MODE_PAL_M) |
+> > > +                                                 BIT(DRM_MODE_TV_MODE_PAL_N) |
+> > > +                                                 BIT(DRM_MODE_TV_MODE_SECAM));
+> > > +             if (ret)
+> > > +                     return ERR_PTR(ret);
+> >
+> > I don't think this is right, this should be called from the appropriate encoder
+> > device depending on the analog tv mode capabilities.
 > 
-> v6.5-rc4:
-> 
-> $ git grep lontium,lt9611 | grep -v 9611uxc
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
-> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->      - lontium,lt9611
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->        compatible = "lontium,lt9611";
-> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
-> 
-> next-20230802:
-> 
-> $ git grep lontium,lt9611 | grep -v 9611uxc
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
-> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->      - lontium,lt9611
-> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->        compatible = "lontium,lt9611";
-> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
-> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
-> 
-> Your device is not in the tree. Your commit broke existing users.
+> Good question. My logic was the following: the DRM device can have
+> different TV out ports with different capabilities (yeah, pure
+> theoretical construct). In this case it might be impossible to create
+> a single subset of values. Thus it is more correct to create the
+> property listing all possible values. The property is immutable anyway
+> (and so the user doesn't have control over the value).
 
-These devices are in tree:
-arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc.dts
-arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dts
+Those ports would correspond to different connectors, so I agree with
+Neil, I don't think it's right to create a single property with all
+modes and attach it to all analog output connectors.
 
-The LT9211 and LT9611 are both expansion modules handled by DTOs and 
-bound to the DSIM (which is also in tree).
+If you want to support multiple analog outputs that have different
+capabilities, this will need changes to drm_mode_create_tv_properties()
+to allow creating multiple properties. If you don't want to do so now,
+and prefer limiting support to devices where all ports support the same
+modes (which includes devices with a single analog output), then the
+modes should reflect what the device supports.
 
-> Can we please end the argument, land the fix (this revert) for 6.5 and
-> work on the solution for 6.6 or 6.7?
+> > > +
+> > > +             drm_object_attach_property(&connector->base,
+> > > +                                        drm->mode_config.tv_subconnector_property,
+> > > +                                        subconnector);
+> >
+> > Here, only add the property if drm->mode_config.tv_subconnector_property exists,
+> > and perhaps add a warning if not.
+> 
+> This property is created in the previous call,
+> drm_mode_create_tv_properties() ->
+> drm_mode_create_tv_properties_legacy().
+> 
+> > AFAIK same for DRM_MODE_CONNECTOR_DVII.
+> >
+> > > +     }
+> > > +
+> > >       return connector;
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
+> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> > > index bf964cdfb330..68b14ac5ac0d 100644
+> > > --- a/include/drm/drm_bridge.h
+> > > +++ b/include/drm/drm_bridge.h
+> > > @@ -739,6 +739,10 @@ struct drm_bridge {
+> > >        * identifies the type of connected display.
+> > >        */
+> > >       int type;
+> > > +     /**
+> > > +      * @subtype: the subtype of the connector for the DP/TV/DVI-I cases.
+> > > +      */
+> > > +     enum drm_mode_subconnector subtype;
+> > >       /**
+> > >        * @interlace_allowed: Indicate that the bridge can handle interlaced
+> > >        * modes.
 
-I would much prefer a solution which does not break my existing use 
-case. It is still not even clear whether the problem really is on MX8M 
-side at all, or whether it is QCOM misinterpreting flags. I cannot debug 
-the later, since I have no access to that platform, nor its documentation.
+-- 
+Regards,
+
+Laurent Pinchart
