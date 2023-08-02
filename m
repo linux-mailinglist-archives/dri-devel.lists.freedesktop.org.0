@@ -1,50 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA4D76CD6B
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 14:47:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D15676CDED
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 15:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49A0F10E0E1;
-	Wed,  2 Aug 2023 12:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CF010E179;
+	Wed,  2 Aug 2023 13:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D71A710E169
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 12:47:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2747E61986;
- Wed,  2 Aug 2023 12:47:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76FEDC433C8;
- Wed,  2 Aug 2023 12:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690980428;
- bh=LhXZRg0afv0qB+yKsYUZTxyHFk+cS+imz+tvV17ALoc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QTQYiQ7fa5yF+bGKtFjjkeZsRgj023SmHrPh1SfQtR/gdZqn9Y09deOoViq4CLyn+
- 8QdV6tFx9vOqD93irNUGKGv8Kszx+AnQ/fRUA3OQkdXc0qUIo/OyjBT/9Vq5PkL0sn
- H+jloeUziBgeM78fA/VQ63/U3eAdQhLyzTY9FMJtJjzPsa2Ghxzwf0xGPIAKb3zzNp
- du0rTUejIYu/l80vQt+NFzq1BC4NzsYj9bNuLV45aQeO42ggXdeh5YaRdU1MwTFKEw
- yIixZpaUDMVVK086i8LZUvCBeVetB9+nyaMYMX5Sd0cErg2tx6GdFlBzxclByIWOpB
- wzAZ3nnKY8rMg==
-Date: Wed, 2 Aug 2023 14:47:04 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH 3/4] drm/panel: sitronix-st7789v: add support for partial
- mode
-Message-ID: <jfmsb4tmgx5rej4ae4npzq4zjh2dnydukxuk34oejbqdpe4a42@a2bbo3bwa3yq>
-References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
- <20230718-feature-lcd-panel-v1-3-e9a85d5374fd@wolfvision.net>
- <tbdwgfr4rqgytttoxhidsil42mda77qj3qmhw2do3k5rmwsaeh@qronuzdubv6q>
- <097de164-6d62-6a1d-f7b5-cbd7d4408ab7@wolfvision.net>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C941F10E171
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 13:08:44 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3fe2fb9b4d7so8635475e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 06:08:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690981723; x=1691586523;
+ h=content-transfer-encoding:in-reply-to:subject:organization
+ :references:cc:to:content-language:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=2gKqfx6Ptiw0IBGAk/3SH2zWXJ1w9LfF+qPC02xaE30=;
+ b=P/EWJoARx3LF+9GRRrMNDO5ED5UI+uBEVUm/4dN9aG/einEUFd3LJPgFt6J1yY2A1R
+ 21KN7UiekIiFUxocGJ8aX0bfEzvP+bqAXKZMQrugVgu/2m0dOnBnEi9W4G4tTSFDjbej
+ Kqjcm94Qs3QYQRvgvW01wYn9ySkuBCm9qoeycc5TMTPfSQdF8XoR64AhaR5z6r/9GLxb
+ qJ9jFJN7CKIaYSOcUJfopvQsXpgDVrOM3UAb2mYBwt52S6bQQQ4ZgN15T1L3mBCN23Ku
+ JAQA8XjpaVIKQiPRj66vCrsRfOQQf0RoT2vsnLeWMI8dwfynmRG00J3d6tgnuig29I9C
+ SKiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690981723; x=1691586523;
+ h=content-transfer-encoding:in-reply-to:subject:organization
+ :references:cc:to:content-language:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=2gKqfx6Ptiw0IBGAk/3SH2zWXJ1w9LfF+qPC02xaE30=;
+ b=LROP9Yr+AUGz846NDZ58H2PZz34d8dpksrh4sUeT6ZiCAzPPbC4qJzY/JkTzar4HQH
+ A1XaxK2PuNFgg1gwxbLQ2rcQ4ZJ6Y32ku+5n3HSnzblAn3X4St0w13JqLyVf8VOTTKah
+ spMEXtbxbEv6TcLDayrnn8/o9hYK3ySiqYd71MYQ16qgBg3KobuTNuV2Dp7Nzgk+vDmA
+ hyVg2sOZZmUQRfRV8SYQlw4RsziXrTrK3U2be7N3lJVtvkUMJkZxF+NvwaodJd4TiCwY
+ 2Q7Rd9XW/AnfwiN8pJEm/qOoB7wqbwm2lW9B1FDWOtmBP2HricyUA4NhdgsOGCrMR9Fy
+ nOoA==
+X-Gm-Message-State: ABy/qLZQVrBXDGCYNO1gqMgWC5iTgRVyxLQfL9p23xFdxlOo7QzV9DwC
+ xTFFE8708f9HrVj0xiyOSG6Aig==
+X-Google-Smtp-Source: APBJJlG8sr5jUWBVjL3BRFAbmn29x9oHMrYNBecenH9BIKBdXscxcFgCB56BCi9tNLKpz3rMG31rBg==
+X-Received: by 2002:adf:face:0:b0:313:f07b:801f with SMTP id
+ a14-20020adfface000000b00313f07b801fmr4563714wrs.44.1690981722963; 
+ Wed, 02 Aug 2023 06:08:42 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:c5bb:5b4:61e3:d196?
+ ([2a01:e0a:982:cbb0:c5bb:5b4:61e3:d196])
+ by smtp.gmail.com with ESMTPSA id
+ m12-20020adff38c000000b00313f031876esm19063623wro.43.2023.08.02.06.08.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Aug 2023 06:08:42 -0700 (PDT)
+Message-ID: <d4b778f6-35b6-fc1b-014d-eaa9b3b900a4@linaro.org>
+Date: Wed, 2 Aug 2023 15:08:41 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7wiv5tnbzr6rtjkg"
-Content-Disposition: inline
-In-Reply-To: <097de164-6d62-6a1d-f7b5-cbd7d4408ab7@wolfvision.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: neil.armstrong@linaro.org
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Amit Pundir <amit.pundir@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230403221233.500485-1-marex@denx.de>
+ <20230403221233.500485-2-marex@denx.de>
+ <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
+ <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
+ <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+ <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+ <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
+ <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
+ <4396d197-f16f-92bd-727c-eb8c78016198@quicinc.com>
+ <961b4747-c9f1-a31c-c33c-475b4803f832@denx.de>
+ <64c3352f-c2aa-5260-c6ff-4a607ce219a2@quicinc.com>
+ <f768950b-0406-1f03-86a5-50d5794bb060@denx.de>
+ <51d782c4-3539-c3d3-6844-d6b9a39c09eb@linaro.org>
+ <88a49ed7-8132-3212-1f7a-9378eb640d68@denx.de>
+Organization: Linaro Developer Services
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+ EOT packet
+In-Reply-To: <88a49ed7-8132-3212-1f7a-9378eb640d68@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,77 +95,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Robert Foss <rfoss@kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michael Walle <michael@walle.cc>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marek,
 
---7wiv5tnbzr6rtjkg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 02/08/2023 14:25, Marek Vasut wrote:
+> On 8/2/23 10:39, neil.armstrong@linaro.org wrote:
+>> Hi Marek,
+> 
+> Hi,
+> 
+>> On 13/07/2023 20:28, Marek Vasut wrote:
+>>
+>> <snip>
+>>
+>>>>>
+>>>>> MIPI_DSI_MODE_VIDEO_NO_HFP means the HBP period is just skipped by DSIM.
+>>>>>
+>>>>> Maybe there is a need for new set of flags which differentiate between HBP skipped (i.e. NO HBP) and HBP LP11 ?
+>>>>>
+>>>>
+>>>> No, the section of the MIPI DSI spec I posted below clearly states there are two options:
+>>>>
+>>>> 1) send blanking packets during those periods
+>>>> 2) transition to LP11 during those periods
+>>>>
+>>>> There is no 3rd option in the spec of not doing both like what you are suggesting. So DSIM should also be only transitioning to LP11 during those periods if its not sending the blanking packets with those flags set.
+>>>>
+>>>> So, there is no need for any new set of flags to differentiate.
+>>>>
+>>>> The flags and their interpretation is correct in MSM driver. I cannot comment on what exactly DSIM does with those flags.
+>>>
+>>> How do you explain the comment in include/drm/drm_mipi_dsi.h:
+>>>
+>>> 128 /* disable hback-porch area */
+>>> 129 #define MIPI_DSI_MODE_VIDEO_NO_HBP      BIT(6)
+>>
+>> Can you specify how you determined those flags were needed on DSIM ? a vendor tree ? a datasheet ?
+> 
+> The following upstream commit:
+> 
+> 996e1defca344 ("drm: exynos: dsi: Fix MIPI_DSI*_NO_* mode flags")
+> 
+>> In the meantime, we should revert this patch because it regresses some Qcom
+>> based platforms until we figure out what's missing to make DSIM based boards
+>> happy.
+>>
+>> I'll send a revert change afterwards.
+> 
+> That change would break existing use case on i.MX8M then, I disagree with that revert.
 
-Hi,
+As I understand the timeline is :
 
-On Wed, Aug 02, 2023 at 02:34:28PM +0200, Michael Riesch wrote:
-> On 7/19/23 08:39, Maxime Ripard wrote:
-> > On Tue, Jul 18, 2023 at 05:31:52PM +0200, Michael Riesch wrote:
-> >> The ST7789V controller features support for the partial mode. Here,
-> >> the area to be displayed can be restricted in one direction (by defaul=
-t,
-> >> in vertical direction). This is useful for panels that are partially
-> >> occluded by design. Add support for the partial mode.
-> >>
-> >> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> >=20
-> > We already had that discussion, but I think we shouldn't treat this any
-> > differently than overscan for other output.
->=20
-> Indeed we had that discussion. For reference, it can be found here:
-> https://lore.kernel.org/dri-devel/20230329091636.mu6ml3gvw5mvkhm4@penduic=
-k/#t
-> The thing is that I am still clueless how the overscan approach could wor=
-k.
->=20
-> I found some DRM properties related to overscan/margins and I guess
-> userspace needs to set those. On my system weston is running. Is weston
-> in charge of configuring the corresponding output so that the correct
-> margins are applied? If so, how can this be achieved?
+- 996e1defca344 was merged in v6.2-rc2 and caused regression on NXP platforms
 
-I don't really know Weston, but my guess would be based on some
-configuration or user feedback, depending on which case we're in.
+- 8ddce13ae696 was merged in v6.5-rc1 to fix that but caused regression on QCOM platforms
 
-We also set the default using some kernel command-line options.
+Did I miss something ?
 
-> Will DRM handle the properties generically or does the driver need to do
-> some work as well?
+I don't know how to handle this apart reverting 8ddce13ae696 and trying to find a proper fix that doesn't regress QCOM.
 
-What do you mean by generically?
+So, The main issue is around the real meaning of the IPI_DSI_MODE_VIDEO_NO_* flags,
+Exynos DRM removed the HSA, HBP and HFP packets, Qcom DSI moves the DSI lanes
+state to LP-11 during the period.
 
-> In any case it could make sense to write the partial mode registers and
-> enter the effective dimensions. At least I have seen this in other panel
-> drivers.
+The behavior is significantly different and the naming doesn't suggest any
+correct behavior.
 
-Sure, it makes sense. It shouldn't come from the DT and be fixed though.
+The only solution is to find out why :
+- On Qcom platforms, having the HSA, HBP and HFP periods is OK, but not on DSIM
+- On DSIM, removing the HSA, HBP and HFP periods is fine
+- What's the exact requirement of the lt9611 bridge concerning those periods
 
-Maxime
-
---7wiv5tnbzr6rtjkg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMpQSAAKCRDj7w1vZxhR
-xVzFAP9kilsZBbm6W92vMaew8O9CoKFITr2sHAY3YtrjXN+BMwD8CFk1GalP9DqQ
-xK2JsT/QInfbGyojc95pU1mtGD0S+Q8=
-=2hFM
------END PGP SIGNATURE-----
-
---7wiv5tnbzr6rtjkg--
+Neil
