@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB91876C1DF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 03:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FDB76C215
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 03:19:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F4710E07C;
-	Wed,  2 Aug 2023 01:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4595310E46B;
+	Wed,  2 Aug 2023 01:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A607510E07C;
- Wed,  2 Aug 2023 01:06:57 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1b8b2886364so39236635ad.0; 
- Tue, 01 Aug 2023 18:06:57 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E925910E406
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 01:18:48 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2b9a828c920so97724031fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690938417; x=1691543217;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+PdQZNMSX4BWd7GfGQsgkbSU4z+LmFph5fAsS9Mb/8E=;
- b=LiiY6SIY57LUWIarlaRfiiG5slzPSiWyCTrNC10J1X6bDP306y+pZtT4CiOn9V2+QH
- 5O4LpUeNPytWKhbHYu/aEVdn43Kouub92jKz1O33BAJrvN7jdqzIusQV3wXDKxQeDzdQ
- Q5EdAnfrwHW7fzo7lcGuH0AZelAvIOOVO7MGlFsm1dvIWD/g5tvkk3KpCj76xKclykHe
- tu9Ukv+OeUJLyP7fW4VTh9Vmkh6u4R8m0DYnbjdt8PThMHhosNfl7pOSk+A1FN2Jlf+n
- /SWqkEaxG3mISL+aJWqUXOl7rdOnbmGYvESMtlVtQSXaAUksiod8bW3ZupB+1zXc672G
- RnXQ==
+ d=linaro.org; s=google; t=1690939127; x=1691543927;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=V+gWA/tO3az5qnPtCpr5Q7+4MvP6fpYV/Vi7gO7EqLw=;
+ b=WkuenX1ZTdY/VOYXWxbQJV8Vc00bZbCUdBzSDngguxOoG6ibp25OywDJSSx75jNId8
+ jEp4UwttDm1pFZfJzhWp2WIC26nRfduG+Xj1bwckcg87vt1Rv5z+dyqKqMtVMWv/fk1r
+ 8eCoraLT1t5H4p7VcZUH7mNNXZi5x3qcTSK7qeTzNSBlEae8I15/yGpZW1cKnJQxdXRt
+ Cf54hC/ZeMUw2oCwHMmhkZapJFk8YDQr0HSpMrvpR9Uua+ODp+fWyy69iFkIXzWmDZE6
+ bqzMpzt1MyzIfu8TXYeFCny+buMiUmGpa+ZU2Ws+bfzwyo0Yvq+KRWYBlzB4F9nuXUXo
+ /1cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690938417; x=1691543217;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+PdQZNMSX4BWd7GfGQsgkbSU4z+LmFph5fAsS9Mb/8E=;
- b=f+1ejwe1vIX4OHRZ0uV2NCjKsV2VBBWEti+odGEcD3i3Hr39AvBN+lu1d4Uu9BEmmD
- LMtY2XmnBtiQuW+27eqEazddG/EQOmp9F0BwlgusXAJOUCNkkP+U3g+ssWH1WqCTpfzK
- yCJIvqXkhHi45ViefnIKGOAUAWHHmLA8VHS7VKHvUDC4BQS6196zW/J/8cu5/0b8cy46
- RnvQmNEOP+KGaQthR6JlZ30AOA+MDJUA4EiQAI8UlokpB1P/N5neqewDrg2tbTJ3smC7
- mvlV2t5ZXoh/RCE0LqsNRDu4bUuXi3EBAT+bnwMFPUYbVLWDBzxIoCP3hn74tyOQikys
- QQbA==
-X-Gm-Message-State: ABy/qLYfLfnS1YFxCYB5CbSqM2S9BECK+VEIGgItLSHlsWHiSDGBbdJr
- 29hHbBKZEThdpcMwU38jtWI=
-X-Google-Smtp-Source: APBJJlFPO24E4YncgqAZho5j6BS4ESZz3zlESgIJC4yejRGuMT93LjBIrPlB6A5DdR6DXK6Z7FVJpQ==
-X-Received: by 2002:a17:902:7086:b0:1ae:10bc:4ae8 with SMTP id
- z6-20020a170902708600b001ae10bc4ae8mr12904705plk.26.1690938416930; 
- Tue, 01 Aug 2023 18:06:56 -0700 (PDT)
-Received: from [192.168.0.105] ([103.131.18.64])
+ d=1e100.net; s=20221208; t=1690939127; x=1691543927;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=V+gWA/tO3az5qnPtCpr5Q7+4MvP6fpYV/Vi7gO7EqLw=;
+ b=l2UzceNsL7RsiT5O6T3m858KPMQFLQPurUhnHMDU0DKptVljhh1ZWUSHR2sft5upaC
+ 9TZa9fhEtBaeNIDAqEkYVatmItBljhbIe5pbLxBypNcVWHdx4WrepUgqj6D1xqBEyh3K
+ /l1/sJ9uVeIFpVvN50xC3+PQRkkTKvKlO1zWk9e25BpMCeErsqlAdVo6g2XVKFpPpE+A
+ YLGIBz06jMd/gV7IXk8p4jNR97Lg44uG8bSLSdT8HwGTjxiEoXdHu/+Lzb5HPSEiNq+N
+ Vpn0HAFCEuZSBclna8tmxd8Jn21rfforPFCsh+Gvq+8qXjmrevtNsutWb8kMyZmVLDzD
+ T3xA==
+X-Gm-Message-State: ABy/qLbr2ZRmKiJBzgkMGAwEqBXwCNvW7gpWIlBjS9ZJjvmSCLOzWo69
+ +WR9rLty/49Es/XU9Iv8Vbj/EQ==
+X-Google-Smtp-Source: APBJJlGTXU+qU/iB+Qs91qxaj6dsnClWjqfDO9bvss9c5WHdTTrVKMq8s3kynB6XVZ1Gf6nY1uUfuw==
+X-Received: by 2002:a19:2d4b:0:b0:4fb:89e3:5ac6 with SMTP id
+ t11-20020a192d4b000000b004fb89e35ac6mr3626211lft.62.1690939126825; 
+ Tue, 01 Aug 2023 18:18:46 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- h9-20020a170902748900b001b54a88e4a6sm11017738pll.51.2023.08.01.18.06.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Aug 2023 18:06:56 -0700 (PDT)
-Message-ID: <2f4f53e2-b12b-c77c-e7cb-8c0436a209e5@gmail.com>
-Date: Wed, 2 Aug 2023 08:06:51 +0700
+ n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Aug 2023 18:18:46 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v3 0/3] drm/display: simplify support for transparent DRM
+ bridges
+Date: Wed,  2 Aug 2023 04:18:42 +0300
+Message-Id: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu73_discrete.h
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, Ran Sun
- <sunran001@208suo.com>, alexander.deucher@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
-References: <20230801100024.8215-1-sunran001@208suo.com>
- <ZMjposYeMFxU5nE9@debian.me> <87cz07vvwu.fsf@intel.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87cz07vvwu.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +77,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-usb@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/08/2023 18:34, Jani Nikula wrote:
-> On Tue, 01 Aug 2023, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->> And it is unfortunate that you and @208suo.com people doesn't reply to
->> review comments (try searching lore.kernel.org)
-> 
-> Essentially a one-way firehose of patches pointed at our general
-> direction is not benefitial to the community. It's not participation,
-> it's not co-operation. If the review gets ignored, why should we invest
-> our time on *any* of the patches?
-> 
-> 
+Supporting DP/USB-C can result in a chain of several transparent
+bridges (PHY, redrivers, mux, etc). This results in drivers having
+similar boilerplate code for such bridges.
 
-Well, I guess this is the kind of "hey, some new orgs spam us tens
-of trivial patches, then we review them as usual, but people from
-that org are deaf in regards of our reviews (maybe deliberately?)".
-The exact same situation happened last year with @cdjrlc.com
-people, when they were notoriously known for spell-fixing and
-redundant word fixing patches. Many of these patches were correct,
-but some of them were not, triggering reviews requesting changes.
-Yet, they also ignore the reviews.
+Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
+bridge can either be probed from the bridge->attach callback, when it is
+too late to return -EPROBE_DEFER, or from the probe() callback, when the
+next bridge might not yet be available, because it depends on the
+resources provided by the probing device.
 
-Thanks.
+Last, but not least, this results in the the internal knowledge of DRM
+subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
+
+To solve all these issues, define a separate DRM helper, which creates
+separate aux device just for the bridge. During probe such aux device
+doesn't result in the EPROBE_DEFER loops. Instead it allows the device
+drivers to probe properly, according to the actual resource
+dependencies. The bridge auxdevs are then probed when the next bridge
+becomes available, sparing drivers from drm_bridge_attach() returning
+-EPROBE_DEFER.
+
+Proposed merge strategy: immutable branch with the drm commit, which is
+then merged into PHY and USB subsystems together with the corresponding
+patch.
+
+Changes since v2:
+ - ifdef'ed bridge->of_node access (LKP)
+
+Changes since v1:
+ - Added EXPORT_SYMBOL_GPL / MODULE_LICENSE / etc. to drm_simple_bridge
+
+Dmitry Baryshkov (3):
+  drm/display: add transparent bridge helper
+  phy: qcom: qmp-combo: switch to DRM_SIMPLE_BRIDGE
+  usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
+
+ drivers/gpu/drm/display/Kconfig             |   9 ++
+ drivers/gpu/drm/display/Makefile            |   2 +
+ drivers/gpu/drm/display/drm_simple_bridge.c | 127 ++++++++++++++++++++
+ drivers/phy/qualcomm/Kconfig                |   2 +-
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c   |  44 +------
+ drivers/usb/typec/mux/Kconfig               |   2 +-
+ drivers/usb/typec/mux/nb7vpq904m.c          |  44 +------
+ include/drm/display/drm_simple_bridge.h     |  19 +++
+ 8 files changed, 163 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/gpu/drm/display/drm_simple_bridge.c
+ create mode 100644 include/drm/display/drm_simple_bridge.h
 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.39.2
 
