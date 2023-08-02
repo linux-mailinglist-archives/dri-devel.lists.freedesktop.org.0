@@ -2,71 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4445E76D75C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 21:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A4A76D765
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 21:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31AA810E576;
-	Wed,  2 Aug 2023 19:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9307B10E575;
+	Wed,  2 Aug 2023 19:06:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB8D10E576
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 19:01:43 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-99c4923195dso20654166b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 12:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691002901; x=1691607701;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/uiXLFyqi0TndokC8iIHz7AB81dmdZPxdDe2lbHBIzg=;
- b=xH5Jx9JeUwB4GKaJHzrgaIT/rj7R0LF5NIlk0zUNeO3OO5E+5ha1rO3JAwqGYNwwKK
- a5Hk6WyByeQ4psaheJn/mUzrEVZTmtfgmxf57fcTUmSWE1cFBpwL/UBSE1pACxpH535t
- vTZAufALnNiIqoL5TibeGRK4Yy5ysdveiFnn3f+pnRrFwSVsWoaaq6H9MB1/TxsIiSUJ
- yPtc3UlHszp5DozN9hmfCR1Xbe9u+wIg958zyp12OtPgi3rTNs/+LSw132hs3bmZJhCF
- iBlC+ZfFBfhwxT3QtZQhGbPOhEDpoQ1eOQ+33xHIwYnAndFBS2o51vjSmTfQPWKIHq3n
- 43Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691002901; x=1691607701;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/uiXLFyqi0TndokC8iIHz7AB81dmdZPxdDe2lbHBIzg=;
- b=DaZVQKAbXOfH1HVVmegpkIxxdaZ8NRaoovsMBo8ugPoYgiY4E+Zj9iiM13CnNAoaZ2
- It3gABpmjqfqEaeZmwPm6KOYlzBQDzOkAhVg0Y00mKtXLsZx201aAZSa2NJLqal8csQU
- X9j6R1tT8Dz/gqd2AtGP04ApoRFZQKj6cWEF9cTiU3pMYPiS6ojkIUG3uvwUWxUHSYo6
- pgbzhw9D0elDb6mTpbz3OKoqg7/ivFKSRe88VDXhJIIhO1rS9i/9w/Y6KPZN4wNUPvD6
- +/YZ5eh14FIpacnwV60wiXRvPMEYr7Z3EYif0kRNExiZaXhloYXfOK+/3V1mV+PBqU/O
- ijpg==
-X-Gm-Message-State: ABy/qLY4XayY3SrOCUwu/ZBo2odU6eiFiUeoPc8zxBK+IEHxHvspGY4j
- mg/CkSVdNhUwO5a+ZETiZa6nBA==
-X-Google-Smtp-Source: APBJJlE0H43SsQYhz99YLYTzxIw5ENQZXyxljRBlHAGwbqHbO06ZdJLEg9WMvEDC4tAwWU+YeOVzcQ==
-X-Received: by 2002:a17:906:31c2:b0:98e:419b:4cbc with SMTP id
- f2-20020a17090631c200b0098e419b4cbcmr5254910ejf.12.1691002901628; 
- Wed, 02 Aug 2023 12:01:41 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- ks18-20020a170906f85200b00977ca5de275sm9663559ejb.13.2023.08.02.12.01.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Aug 2023 12:01:41 -0700 (PDT)
-Message-ID: <3ddc1074-a428-c253-d630-2257de28ade2@linaro.org>
-Date: Wed, 2 Aug 2023 22:01:39 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B9010E574;
+ Wed,  2 Aug 2023 19:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691003173; x=1722539173;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=oXlLcds2yr8Kozo2pST3gmHdvN1EN7T9aa9BSWIe10M=;
+ b=kSIOWejzFqA0oZS+26bU9V570Gtq5FF6+DnY50gEMoMy9onVCNAIa/op
+ 27sCT0wX0t4XVfmcbandeQXL5gamT+5DJUSC154Comk9EZjiSXSJP3UPv
+ vJMQyZvcBiOhk2+rkio5wadT5Xxir5d7EQR1HRi+ETP6F6sKedncu5tZ5
+ UnFQh4nwKqbvXzChdwpJ+udx11o8SM8epIyYu1/KR87nfkIlNTzcLBUem
+ NTwUTjoCzF6Bv54ZIjJM+xrLLxeeNronjcZ1XtdpGosy/f2J1s/rGrqth
+ RIh7HboNCAcFLm3eWEx8/N3jW/tKmkNBfJfUL1LsLwVOqC8m34PZfgTpM Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="369678870"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="369678870"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2023 12:06:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="764318747"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="764318747"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga001.jf.intel.com with ESMTP; 02 Aug 2023 12:06:12 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/1] drm/i915/pxp/mtl: intel_pxp_init_hw needs runtime-pm
+ inside pm-complete
+Date: Wed,  2 Aug 2023 12:06:11 -0700
+Message-Id: <20230802190611.1639371-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/4] drm: allow specifying default subtype for the DP
- subconnector property
-Content-Language: en-GB
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
- <20230729004913.215872-2-dmitry.baryshkov@linaro.org>
- <20230802185454.GA29718@pendragon.ideasonboard.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230802185454.GA29718@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,138 +55,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/08/2023 21:54, Laurent Pinchart wrote:
-> Hi Dmitry,
-> 
-> Thank you for the patch.
-> 
-> On Sat, Jul 29, 2023 at 03:49:10AM +0300, Dmitry Baryshkov wrote:
->> In the embedded usecases the default subtype depends on the bridge
->> chain, so it is easier to specify the subtype at the proprety attachment
-> 
-> s/proprety/property/
-> 
->> type rather than specifying it later.
-> 
-> Did you mean s/type/time/ ?
-> 
-> I think I understand why you need this, looking at patch 2/4, but the
-> commit message isn't very clear. It would benefit from being reworded.
+In the case of failed suspend flow or cases where the kernel does not go
+into full suspend but goes from suspend_prepare back to resume_complete,
+we get called for a pm_complete but without runtime_pm guaranteed.
 
-Ack, thanks for the feedback.
+Thus, ensure we take the runtime_pm when calling intel_pxp_init_hw
+from within intel_pxp_resume_complete.
 
-> 
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c              | 3 ++-
->>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 3 ++-
->>   drivers/gpu/drm/drm_connector.c                             | 6 ++++--
->>   drivers/gpu/drm/i915/display/intel_dp.c                     | 3 ++-
->>   include/drm/drm_connector.h                                 | 3 ++-
->>   5 files changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
->> index d34037b85cf8..c18459ecd4be 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
->> @@ -2022,7 +2022,8 @@ amdgpu_connector_add(struct amdgpu_device *adev,
->>   
->>   	if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
->>   	    connector_type == DRM_MODE_CONNECTOR_eDP) {
->> -		drm_connector_attach_dp_subconnector_property(&amdgpu_connector->base);
->> +		drm_connector_attach_dp_subconnector_property(&amdgpu_connector->base,
->> +							      DRM_MODE_SUBCONNECTOR_Unknown);
->>   	}
->>   
->>   	return;
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> index 943959012d04..297321f0199e 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> @@ -759,7 +759,8 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->>   	drm_dp_mst_topology_mgr_init(&aconnector->mst_mgr, adev_to_drm(dm->adev),
->>   				     &aconnector->dm_dp_aux.aux, 16, 4, aconnector->connector_id);
->>   
->> -	drm_connector_attach_dp_subconnector_property(&aconnector->base);
->> +	drm_connector_attach_dp_subconnector_property(&aconnector->base,
->> +						      DRM_MODE_SUBCONNECTOR_Unknown);
->>   }
->>   
->>   int dm_mst_get_pbn_divider(struct dc_link *link)
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index a3d3e7dc08b2..a6066e4a5e9a 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -1577,10 +1577,12 @@ EXPORT_SYMBOL(drm_mode_create_dvi_i_properties);
->>   /**
->>    * drm_connector_attach_dp_subconnector_property - create subconnector property for DP
->>    * @connector: drm_connector to attach property
->> + * @subtype: initial value for the subconnector type
->>    *
->>    * Called by a driver when DP connector is created.
->>    */
->> -void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector)
->> +void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector,
->> +						   enum drm_mode_subconnector subtype)
->>   {
->>   	struct drm_mode_config *mode_config = &connector->dev->mode_config;
->>   
->> @@ -1594,7 +1596,7 @@ void drm_connector_attach_dp_subconnector_property(struct drm_connector *connect
->>   
->>   	drm_object_attach_property(&connector->base,
->>   				   mode_config->dp_subconnector_property,
->> -				   DRM_MODE_SUBCONNECTOR_Unknown);
->> +				   subtype);
->>   }
->>   EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
->>   
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
->> index 474785110662..5819105187f6 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -5391,7 +5391,8 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connect
->>   	enum port port = dp_to_dig_port(intel_dp)->base.port;
->>   
->>   	if (!intel_dp_is_edp(intel_dp))
->> -		drm_connector_attach_dp_subconnector_property(connector);
->> +		drm_connector_attach_dp_subconnector_property(connector,
->> +							      DRM_MODE_SUBCONNECTOR_Unknown);
->>   
->>   	if (!IS_G4X(dev_priv) && port != PORT_A)
->>   		intel_attach_force_audio_property(connector);
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 5a8115dca359..a130a78f6e0f 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -1990,7 +1990,8 @@ const char *drm_get_hdcp_content_type_name(int val);
->>   int drm_get_tv_mode_from_name(const char *name, size_t len);
->>   
->>   int drm_mode_create_dvi_i_properties(struct drm_device *dev);
->> -void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector);
->> +void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector,
->> +						   enum drm_mode_subconnector subtype);
->>   
->>   int drm_mode_create_tv_margin_properties(struct drm_device *dev);
->>   int drm_mode_create_tv_properties_legacy(struct drm_device *dev,
-> 
+v2: resume_complete and runtime_resume should abstract a common
+    helper with different wakeref requirements. (Daniele)
 
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+---
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c | 18 +++++++++++++++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h |  5 +++--
+ 2 files changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+index 1a04067f61fc..6dfd24918953 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+@@ -34,8 +34,10 @@ void intel_pxp_suspend(struct intel_pxp *pxp)
+ 	}
+ }
+ 
+-void intel_pxp_resume_complete(struct intel_pxp *pxp)
++static void _pxp_resume(struct intel_pxp *pxp, bool take_wakeref)
+ {
++	intel_wakeref_t wakeref;
++
+ 	if (!intel_pxp_is_enabled(pxp))
+ 		return;
+ 
+@@ -48,7 +50,21 @@ void intel_pxp_resume_complete(struct intel_pxp *pxp)
+ 	if (!HAS_ENGINE(pxp->ctrl_gt, GSC0) && !pxp->pxp_component)
+ 		return;
+ 
++	if (take_wakeref)
++		wakeref = intel_runtime_pm_get(&pxp->ctrl_gt->i915->runtime_pm);
+ 	intel_pxp_init_hw(pxp);
++	if (take_wakeref)
++		intel_runtime_pm_put(&pxp->ctrl_gt->i915->runtime_pm, wakeref);
++}
++
++void intel_pxp_resume_complete(struct intel_pxp *pxp)
++{
++	_pxp_resume(pxp, true);
++}
++
++void intel_pxp_runtime_resume(struct intel_pxp *pxp)
++{
++	_pxp_resume(pxp, false);
+ }
+ 
+ void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+index 06b46f535b42..8695889b8380 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+@@ -13,6 +13,7 @@ void intel_pxp_suspend_prepare(struct intel_pxp *pxp);
+ void intel_pxp_suspend(struct intel_pxp *pxp);
+ void intel_pxp_resume_complete(struct intel_pxp *pxp);
+ void intel_pxp_runtime_suspend(struct intel_pxp *pxp);
++void intel_pxp_runtime_resume(struct intel_pxp *pxp);
+ #else
+ static inline void intel_pxp_suspend_prepare(struct intel_pxp *pxp)
+ {
+@@ -29,9 +30,9 @@ static inline void intel_pxp_resume_complete(struct intel_pxp *pxp)
+ static inline void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
+ {
+ }
+-#endif
++
+ static inline void intel_pxp_runtime_resume(struct intel_pxp *pxp)
+ {
+-	intel_pxp_resume_complete(pxp);
+ }
++#endif
+ #endif /* __INTEL_PXP_PM_H__ */
+
+base-commit: d7a437067a2146e1035a5609dae08b9595773a16
 -- 
-With best wishes
-Dmitry
+2.39.0
 
