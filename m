@@ -1,78 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86ABB76D5E9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 19:48:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3241D76D600
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 19:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4360110E176;
-	Wed,  2 Aug 2023 17:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C198E10E20C;
+	Wed,  2 Aug 2023 17:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic301-22.consmr.mail.gq1.yahoo.com
- (sonic301-22.consmr.mail.gq1.yahoo.com [98.137.64.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF34110E1B3
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 17:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1690998473; bh=OvuQPE46agxmaX4ufGOdmLd8LE0zMezBwedxqC/ssqw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=M6aPuYefANa5Jsgpuq2nTXNRT5F3V7cBj53s61a4dPwDw4iHxsofdSskTnbQ7I8Tm7XwO0DfTj8LwEpGbRbkImF4fbrgQ0fKAMOEDfyr2fQXR1zv/IC5uazhNJb75P5ZMSs8E5Dpl5I1LDU9yq1mKL1QABWRh2PBaGX9Z9i+S/u9RX9Vxl6P4Efm4Jbajbfkbk6ys/jHbKrTKIAONGnNO0zSacS4jr4Ylu//2CrG3hHFlsRzEoz1f+7zxKWDeoAPnizzMrub78XDF70FJWgmjXt4ZqPBQxX9J23e8AL01d3sxExbwt1ABlKJtinNseyMlR/myafLsW2t+MszhB0UbQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1690998473; bh=FvQKECw4HKjVLkGGj4p6k9A3opvxAU8ZaWBeQTbDO1Q=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=RDugM32pV+Uk12puK8hDM1B9hUbhh1TuHniH2Zp11e47BxZUft5DH8D5/04eD+B6v6HgQ05RMwHdR5eiRzNEQbG3XeicSFammzp+0XUvO+tdMuzn5qFt2AQtPEoAW2q6eM5KhQv11DNtaZNKhp4ukZQB9zxolIPns4+ld+IF5KPhX2nDSiRUP4Bhmmq0ApjCrKPjmeLwNjQVYnGyrdQX8M221Alj2Ihna9x8xQArHzxNxvWt/n9bMtkaD9KBuX3NmDPDg7m/TaY0NOpz0N79pEH/dmKGgBri/j/IjlfVTzLVhWX4ekXn3YfBJhKq1lYSMwQ9Wt7OW09lIrnnOu392Q==
-X-YMail-OSG: iWFIk8UVM1l6bIZ3uCO2wLC_eGhTV_F3Mf3yRyQRuLzxL8vZlHWqLcGDqxA.5Ss
- AWUV2chj4Gs6Px1w4TkRgmc7BhS4N7uVk791I_rHXdyT2nDV2unT75MQBkQm7dGfyB8fIFdazhjh
- eEifOlaslOa25.ARP8XKd8DRoQYEX7rDoPSJV5z6HnSqlxH.VNn69pGHyv7_EFwPeyyESy1wIhbs
- DC7_T1OKGaZdDSZME9V2FDxu4dvEGq4tzEa7vfCpYxQCANJvzKfbpshyU76qN9xSOB9CCihAnBpA
- 906mOM6Za1QtEXGbBO3erekoL4jZTUTPfWY7gVYKWalwLDSDLJ3.3Ptzc8UbpDCvzKf7tA6YArYM
- rw8INImzeFoexHvo6XN6H0QsUcwLvBxU7rjJRZbUlN4OSHbW1Ly4aQD7fcmaMqkVBii6G1EjEAuT
- gpLY5SBfO.KbY6WgsfaMxJM4PWaEIaxlBCWrTf1snJuLjyubAyoL70Dyedc7hMkRznGMNcDXKQcb
- vGmkSNNAv8G8W1NNv3zJV0Lscdh9iaSWiFElyvq0xKHqtI.bSLuugnqW65yYjMPtVhGHlf_v9EGX
- G2zu1Qj5HM8inwQXEpJz8YaQxmms6r9nHlXFNmKR.nvsjU636Mzn5xNWtZwY45JJvhqLd4Ye1WZG
- UlM1HtMGwsAh7NULeOIpDUJkDvItV4nAehEFeSfX_JnBfElLtxmjztLeKyYnHVmXRyrNpjJPCKNI
- v38i3uePHnU3opzX1iGJLim7L.KqApTKKW5Wuz3PRMhHNGq6HmhTfJYi.x6El59Gv7chg9yzMG1F
- s44EdVk8EydIE0FTPri_EmXMi5ULKadRW3dLU3cDKpX7bJLTn6ErWjCG2ADyQrwKSTtzl3XEvMqE
- eM6yhW7Uvm4FsxnWycxhZBPVF_SgGNsBfGVWbl_59vvFYcAtkr.bNoWYvf7CQUOueIfgu1n_IxGA
- 4P1l6ZY4fyofTDm0Fi7PJgmqUmbCSiYsnfuJo7cWCsHezygmmsbg3EO7_FCYRYqgJ0IoJ2BKc.e9
- FUoqFlkYpfvtbjDFVmS2KO5vF_y5NjTJtnseXzXFvnSANvnWOPS2FTAeWNPzv6I.l020iwyCg.RD
- gF4sWosWkFF1_GUZaPv4hDXjyJUjv_zQMuukGgPssUxxanAssaPk4Tfyha5XkmqULvOLk6IOAUW6
- SkRaq.DiSKUDwcpTjmo62Klvl4GuMfEgij5g6J_rBRbjWEwmEr4P1CqP8T0DtPKag7wyy9apGRrQ
- V.Rsp1n2JIjxRn46KjugiTzvpyx51pLjqlSLfCxu_A52IL0y2yX8GA9PZLTGSV2gT1M6armcPnmG
- aiHv5KjDcdNCbxy2kAkvfUTFqJBtIQrJzcFsXSIANdapyN3190L2JQtqYLZq_AQNERLngWS5ym8x
- .wxdKjTHo4qOi73iULxEyK36kD0Yr1F2cx1NRu5ZWrOk9.a1XO_2cqzG3HE1s1JLmA5aP4CCcwSa
- uUsQZeqMYWW8Y5ROi.yQgIe6yl_p5PZE6ae5dEuu0mLQAa8cH_uPR7m8vwtck7LhevGAzvFsnD4Q
- v3Qj2CxgZC_Ea1ATbWEqYaDxZKFMJB3to6.xwHqsgrpFlrZ3d.Y3Pm89KvPWIFoClDej14xPSfqi
- lb7PTS3ZiBV_W0OtqQ4egR3eEsQQYBhEthY97H1ITiHiBUXw5L5iw4aEsc4alqi7IuyhvQ6b1JNP
- 6NdOzLj7yDIPKzhg55h9TGtjQaFsdpdyEIs5B8ZMda2dEDPR8_s3inl7WneRTZSi.hV08yVo3n4M
- TgTlMfiUfL9x4SamrC5_rId53s8nG0nOskz_lwCJsNMjAx9WxfjFLE3xoevVwWtycpn0OgdWHcWP
- CZWPFVE0SucP73Bz__pMWc2RE5ihlX4n3qXrpdb_nzKBvD3B16NUwzMg0Cn4h3qnBL126Vfi9E8g
- Mc7KyOal2hrWXatGGV07grNs7LwGQu918KSrUVYWOEfRu07WuGs7ISN9Y18Xsyjspq4KphcHQzos
- pdsRm_.SjXDxd.S85iefBphliQbOLEiHfybX6QaBL6AMFnBVj93wJR7_X_7t1oUvY5ARufoZlo3t
- UOFZk73w8pO_FQrZC8SJ6swWB1kkgnD_Fjme6VGSQEyOSYRF_VFXyehwFrZV.uAX16jGzAmlMN17
- v7Vmp1c8JLmSEmgePHFpo.d.6a4lCPS9ISKB.hGwWyLW8mnPvuYzgGcsJsGuOOvFT0uP5SVrE2Wv
- lCkX9wNuQ44_axNWXaOUEerIwggYBk1iAMWTPnuhz7.bDLg--
-X-Sonic-MF: <astrajoan@yahoo.com>
-X-Sonic-ID: b2ff0c9c-1ec2-4d56-a5fe-eb4080422660
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic301.consmr.mail.gq1.yahoo.com with HTTP; Wed, 2 Aug 2023 17:47:53 +0000
-Received: by hermes--production-gq1-7d844d8954-l5pzx (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID d660ccb3d71ff4bfca7672ad34843e29; 
- Wed, 02 Aug 2023 17:47:49 +0000 (UTC)
-From: Ziqi Zhao <astrajoan@yahoo.com>
-To: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com, astrajoan@yahoo.com,
- jani.nikula@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, ivan.orlov0322@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- skhan@linuxfoundation.org, tzimmermann@suse.de
-Subject: [PATCH v3] drm/modes: Fix division by zero due to overflow
-Date: Wed,  2 Aug 2023 10:47:46 -0700
-Message-Id: <20230802174746.2256-1-astrajoan@yahoo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <00000000000034cf5d05fea52dd4@google.com>
-References: <00000000000034cf5d05fea52dd4@google.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 460AB10E1B3;
+ Wed,  2 Aug 2023 17:49:18 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 372DO9o1026791; Wed, 2 Aug 2023 17:49:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/h5iN9dUI/LoZOiwTjf8345ud477edgZpv5BBlPCv7A=;
+ b=CoAECWefA/Szyp4QPHeJvvYuSZWgoRgSGWZbUokzvHktUriMjtNZdlx5F8TRViJxr8dU
+ nlV+yfgnJVKuV4hDnl/stfK2utfe1MqpiehNVQR2Ukug1NLvSSSG3DnRQfLGbDSkvAr/
+ 9qAaE/8V6nIx2H/XbUJ0doOt7bEJnhEnrNuW76LCBr2Zrn6P/OXTUVoHGCFupxP4a1Y7
+ O4lj4Dsbl8D2Qk1ob5ZvrvJfO467iO8xIUYTmigC4fdhw48Dpr1PJklAmrxVsiUafEXa
+ 2P+dJLmBKr/eeqsiz2eV6Wm/gaTy60AJ6bXP8KEAj/Lon1gnF1SyYinB+DND9sbNi324 KQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s75dgb3wf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Aug 2023 17:49:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 372Hn4M4011685
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 2 Aug 2023 17:49:04 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 2 Aug
+ 2023 10:49:03 -0700
+Message-ID: <9fae9cc5-7de0-7a65-8400-bb55263c0377@quicinc.com>
+Date: Wed, 2 Aug 2023 10:49:02 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+ EOT packet
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, <neil.armstrong@linaro.org>, Amit Pundir
+ <amit.pundir@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230403221233.500485-1-marex@denx.de>
+ <20230403221233.500485-2-marex@denx.de>
+ <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
+ <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
+ <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+ <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+ <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
+ <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
+ <4396d197-f16f-92bd-727c-eb8c78016198@quicinc.com>
+ <961b4747-c9f1-a31c-c33c-475b4803f832@denx.de>
+ <64c3352f-c2aa-5260-c6ff-4a607ce219a2@quicinc.com>
+ <f768950b-0406-1f03-86a5-50d5794bb060@denx.de>
+ <51d782c4-3539-c3d3-6844-d6b9a39c09eb@linaro.org>
+ <88a49ed7-8132-3212-1f7a-9378eb640d68@denx.de>
+ <d4b778f6-35b6-fc1b-014d-eaa9b3b900a4@linaro.org>
+ <c9e42b81-f0b4-05a7-03db-786fa7d38135@denx.de>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <c9e42b81-f0b4-05a7-03db-786fa7d38135@denx.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ECGW1qWEatLmkMpazbtMdmmABW7dPkqk
+X-Proofpoint-ORIG-GUID: ECGW1qWEatLmkMpazbtMdmmABW7dPkqk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-02_14,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 priorityscore=1501 clxscore=1011 malwarescore=0
+ suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
+ mlxlogscore=882 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308020157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,69 +99,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, dsahern@kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org, edumazet@google.com, jiri@nvidia.com,
- jacob.e.keller@intel.com, kuba@kernel.org, pabeni@redhat.com,
- davem@davemloft.net
+Cc: Robert Foss <rfoss@kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michael Walle <michael@walle.cc>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the bug reported by Syzbot, the variable `den == (1 << 22)` and
-`mode->vscan == (1 << 10)`, causing the multiplication to overflow and
-accidentally make `den == 0`. To prevent any chance of overflow, we
-replace `num` and `den` with 64-bit unsigned integers, and explicitly
-check if the divisor `den` will overflow. If so, we employ full 64-bit
-division with rounding; otherwise we keep the 64-bit to 32-bit division
-that could potentially be better optimized.
+Hi Marek
 
-In order to minimize the performance overhead, the overflow check for
-`den` is wrapped with an `unlikely` condition. Please let me know if
-this usage is appropriate.
+On 8/2/2023 10:25 AM, Marek Vasut wrote:
+> On 8/2/23 15:08, neil.armstrong@linaro.org wrote:
+>> Hi Marek,
+>>
+>> On 02/08/2023 14:25, Marek Vasut wrote:
+>>> On 8/2/23 10:39, neil.armstrong@linaro.org wrote:
+>>>> Hi Marek,
+>>>
+>>> Hi,
+>>>
+>>>> On 13/07/2023 20:28, Marek Vasut wrote:
+>>>>
+>>>> <snip>
+>>>>
+>>>>>>>
+>>>>>>> MIPI_DSI_MODE_VIDEO_NO_HFP means the HBP period is just skipped 
+>>>>>>> by DSIM.
+>>>>>>>
+>>>>>>> Maybe there is a need for new set of flags which differentiate 
+>>>>>>> between HBP skipped (i.e. NO HBP) and HBP LP11 ?
+>>>>>>>
+>>>>>>
+>>>>>> No, the section of the MIPI DSI spec I posted below clearly states 
+>>>>>> there are two options:
+>>>>>>
+>>>>>> 1) send blanking packets during those periods
+>>>>>> 2) transition to LP11 during those periods
+>>>>>>
+>>>>>> There is no 3rd option in the spec of not doing both like what you 
+>>>>>> are suggesting. So DSIM should also be only transitioning to LP11 
+>>>>>> during those periods if its not sending the blanking packets with 
+>>>>>> those flags set.
+>>>>>>
+>>>>>> So, there is no need for any new set of flags to differentiate.
+>>>>>>
+>>>>>> The flags and their interpretation is correct in MSM driver. I 
+>>>>>> cannot comment on what exactly DSIM does with those flags.
+>>>>>
+>>>>> How do you explain the comment in include/drm/drm_mipi_dsi.h:
+>>>>>
+>>>>> 128 /* disable hback-porch area */
+>>>>> 129 #define MIPI_DSI_MODE_VIDEO_NO_HBP      BIT(6)
+>>>>
+>>>> Can you specify how you determined those flags were needed on DSIM ? 
+>>>> a vendor tree ? a datasheet ?
+>>>
+>>> The following upstream commit:
+>>>
+>>> 996e1defca344 ("drm: exynos: dsi: Fix MIPI_DSI*_NO_* mode flags")
+>>>
+>>>> In the meantime, we should revert this patch because it regresses 
+>>>> some Qcom
+>>>> based platforms until we figure out what's missing to make DSIM 
+>>>> based boards
+>>>> happy.
+>>>>
+>>>> I'll send a revert change afterwards.
+>>>
+>>> That change would break existing use case on i.MX8M then, I disagree 
+>>> with that revert.
+>>
+>> As I understand the timeline is :
+>>
+>> - 996e1defca344 was merged in v6.2-rc2 and caused regression on NXP 
+>> platforms
+>>
+>> - 8ddce13ae696 was merged in v6.5-rc1 to fix that but caused 
+>> regression on QCOM platforms
+>>
+>> Did I miss something ?
+> 
+> That looks about right.
+> 
+>> I don't know how to handle this apart reverting 8ddce13ae696 and 
+>> trying to find a proper fix that doesn't regress QCOM.
+> 
+> I provided a suggestion above -- I believe QCOM is misinterpreting the 
+> NO_H* flags and it needs separate flags for its behavior. The NXP 
+> hardware per MX8M{M,N,P} reference manual (which is available at 
+> NXP.com) skips the H* areas in the transfer, which matches the flags 
+> description:
+> 
+> include/drm/drm_mipi_dsi.h-/* disable hback-porch area */
+> include/drm/drm_mipi_dsi.h:#define MIPI_DSI_MODE_VIDEO_NO_HBP   BIT(6)
+> 
+> If the QCOM hardware does something else, it should introduce its own 
+> set of flags for that something else and that would be problem solved, 
+> for both platforms.
+> 
+> I don't have access to the QCOM hardware or datasheet however, is either 
+> available ?
+> 
 
-Reported-by: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
-Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
----
-V1 -> V2: address style comments suggested by Jani Nikula
-<jani.nikula@linux.intel.com>
-V2 -> V3: change title to include context on overflow causing the
-division by zero
+Like I have written above, the DSI spec gives two options which we can 
+do in the HBP/HSA/HFP periods:
 
- drivers/gpu/drm/drm_modes.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+1) Transition to LP11 which means blanking packets will not be sent
+2) Send blanking packets during those periods
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..137101960690 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1285,13 +1285,13 @@ EXPORT_SYMBOL(drm_mode_set_name);
-  */
- int drm_mode_vrefresh(const struct drm_display_mode *mode)
- {
--	unsigned int num, den;
-+	u64 num, den;
- 
- 	if (mode->htotal == 0 || mode->vtotal == 0)
- 		return 0;
- 
--	num = mode->clock;
--	den = mode->htotal * mode->vtotal;
-+	num = mul_u32_u32(mode->clock, 1000);
-+	den = mul_u32_u32(mode->htotal, mode->vtotal);
- 
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		num *= 2;
-@@ -1300,7 +1300,10 @@ int drm_mode_vrefresh(const struct drm_display_mode *mode)
- 	if (mode->vscan > 1)
- 		den *= mode->vscan;
- 
--	return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(num, 1000), den);
-+	if (unlikely(den > UINT_MAX))
-+		return DIV64_U64_ROUND_CLOSEST(num, den);
-+
-+	return DIV_ROUND_CLOSEST_ULL(num, (u32) den);
- }
- EXPORT_SYMBOL(drm_mode_vrefresh);
- 
--- 
-2.34.1
+That flag controls exactly that and thats what MSM does.
 
+There is no third option in the spec to not do either.
+
+Now, are you saying that those flags are providing some other third 
+option which is not even there in the DSI spec?
+
+
+>> So, The main issue is around the real meaning of the 
+>> IPI_DSI_MODE_VIDEO_NO_* flags,
+>> Exynos DRM removed the HSA, HBP and HFP packets, Qcom DSI moves the 
+>> DSI lanes
+>> state to LP-11 during the period.
+>>
+>> The behavior is significantly different and the naming doesn't suggest 
+>> any
+>> correct behavior.
+>>
+>> The only solution is to find out why :
+>> - On Qcom platforms, having the HSA, HBP and HFP periods is OK, but 
+>> not on DSIM
+>> - On DSIM, removing the HSA, HBP and HFP periods is fine
+>> - What's the exact requirement of the lt9611 bridge concerning those 
+>> periods
+> 
+> See above.
