@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA5176D6A6
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:16:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EE676D6B8
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:21:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8BE410E20B;
-	Wed,  2 Aug 2023 18:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A6410E561;
+	Wed,  2 Aug 2023 18:21:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 690A710E20B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:16:51 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-ca4a6e11f55so97049276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:16:51 -0700 (PDT)
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2769410E55E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:20:58 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id
+ 3f1490d57ef6-c5f98fc4237so89346276.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:20:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691000210; x=1691605010;
+ d=linaro.org; s=google; t=1691000457; x=1691605257;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pXrsjRwbQ0i9WYPA2zZDm0hKTxjaNDtODB5//GV9BKg=;
- b=Wc2PQOqapUpcm9cw2WmudF0rziszOymA/cnrsah2sRinuo4/OhGhCDy5qJs4yAEDtU
- PM1UMmk7lucKnmoqjnpbznHCWvJ2dhyr8F3vFKGbo72j5lTshMoOtunXZmKtIKM/RAmj
- NblVTDUYBj4Wojz3NNXVCZM134/DUX/qGeV/AgNrP7xltwh+gfEJ+fK2MKkY36r3oYMo
- a3uRWZueUZp/RDK7DcFP8AbB+LvINcOxOR/lj6QUkU/cjxkh3reZSN8QVTtsc1R3lumy
- DBUIsymru6WvPhHNLuJ0hWrg6d0+q7/2Kdg1JR6etY8eH/4AVRiMWn2bDpgGCdIJ36D3
- uc3A==
+ bh=Homk9fjzMS9bRt7+JLpaV1MTVogVxSAQQC2/ioeMDYs=;
+ b=cglIoM6sjH+zBmascjr/gM8vL+7gGGCZUdjV7mtnF4yV93Ty1l53erEyXgHv12bEbu
+ pGBzH8Vc+EfShQRn+4dhoS9n8u3BWsfRj1iPSR1StLh7wfqj9zBS2BxrpS159whlJxnS
+ 7igu1uBdIQZmyX5FUSm95WTDBuA+DQdQzA88TLo0kFBaqvp/39CX+1885MQbkKmumIyj
+ N+bjctQEtPoHBBKONrWT37KN+X0+n3X47G50DXRFIbP+oEZLc2mQeBeDdEjcL1DcqUE7
+ /HUW1SKIx1jsTQnc2UrbYAq2Q55WP63D25gB0VeIzPVYByqE1SPvhEodu0WjfvK94SiF
+ SbVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691000210; x=1691605010;
+ d=1e100.net; s=20221208; t=1691000457; x=1691605257;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pXrsjRwbQ0i9WYPA2zZDm0hKTxjaNDtODB5//GV9BKg=;
- b=SRBg7GHuDrSsm6OBLOCjU3OEvrjekzGvjifHK/EKzcD5bVBW0fN27GO40xgnVm2sfI
- b0H5E5qxP3tnOomNZuwoR7baNS1s8QJ56Jy9123RnsxzHvMKXrKz+HjH4xGe3MIEEi9A
- TPbfnvXF7ybYCB6PSenpyZ7bX1TzAEPQKk8RA8NogODV8RXQyIS3TjXztzQWYVF+7zH3
- vLqM+QF3I0z13GSz0aKB6dzGc3KUZ9g6uKgwQnCNBjfhOtL1G+ibKtfqHa/a4HVj4Fpc
- fpHYY/EKu7CWKLo3sBaANVWP1HJbqh9m9ul0ziHZNvH5/NNktLmD6xtQKPg+R9eVv9fu
- CJ3Q==
-X-Gm-Message-State: AOJu0YwYRB2ZfmDJviNnmRK4PzfFhpw6sKwdrI8rUsWWzeXoaKbKbks/
- R43lHw63Wofh5QRcU7WHopregI3lTQMIA2o3hLpi8w==
-X-Google-Smtp-Source: AGHT+IFyFGtRP+XqcacYiefZAE6cjaQRA61VxSBcnHHyEu24yGmybugGIsHGUh0vKfetYBrQ/QSMTkASgf6PVQhDsLk=
-X-Received: by 2002:a25:938d:0:b0:d0d:4910:cf08 with SMTP id
- a13-20020a25938d000000b00d0d4910cf08mr849153ybm.41.1691000210550; Wed, 02 Aug
- 2023 11:16:50 -0700 (PDT)
+ bh=Homk9fjzMS9bRt7+JLpaV1MTVogVxSAQQC2/ioeMDYs=;
+ b=i3NKpXRthXKih3e1p+qoor5Eh6K6OmaFwAoiZ0G9heHpMjphMxqR810uq/SVtyoszJ
+ YtnWXdV1/p6YN/ZXmQs/BLZu2kSoQO2QHlDOhmCo5CH2iwrGS34dUEDeck/datYTlBqh
+ fOcA92P/f+i+RyAUxALC/lFIoRbVd7HPHYVV1V5gCfJhoigUYhCGPv6lpkLtmFI7nIA/
+ OMYGxA2C868ElMIrVgu+wp0PG21KwpWdkZfbT6aWGjJtnvnQHtDNnx5yJ5N/k81tBZpO
+ b5lcb0lKXAdmSrH+YK0LuF5+BJzMxZNOf9pesWqr7K4Fyp/lfi8Ml1oAA+502akFzhxO
+ S6Yw==
+X-Gm-Message-State: ABy/qLafxbchWLCPwLFiV/ZLB9qyHjQhJLhV+zvTeHTepGBZE/dEPXev
+ Cvam9hYrZ7cNvzsnIMISVkAzIbDUSoiNr3lqDuhCew==
+X-Google-Smtp-Source: APBJJlGdRkk9ZTw77IAlIa2EQ5+EbP7+f/MNQsqxMuzb2A7BYiWokn6e+q+V79qBOo+lQb7f/hDZkW2TA/vLhi6yLSY=
+X-Received: by 2002:a25:4d87:0:b0:d35:7c2a:e912 with SMTP id
+ a129-20020a254d87000000b00d357c2ae912mr6332121ybb.3.1691000457217; Wed, 02
+ Aug 2023 11:20:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
- <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
- <bf95af44-2510-1835-dec9-183144de8413@denx.de>
-In-Reply-To: <bf95af44-2510-1835-dec9-183144de8413@denx.de>
+References: <20230802-add-widebus-support-v3-0-2661706be001@quicinc.com>
+ <20230802-add-widebus-support-v3-2-2661706be001@quicinc.com>
+In-Reply-To: <20230802-add-widebus-support-v3-2-2661706be001@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 2 Aug 2023 21:16:39 +0300
-Message-ID: <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-To: Marek Vasut <marex@denx.de>
+Date: Wed, 2 Aug 2023 21:20:46 +0300
+Message-ID: <CAA8EJpoPd_T+vLVrJ6RpCrYY6H1xLF4eFYVGV4N-wS3g+5cR-w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm/msm/dpu: Enable widebus for DSI INTF
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,86 +67,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Aug 2023 at 20:34, Marek Vasut <marex@denx.de> wrote:
+On Wed, 2 Aug 2023 at 21:09, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
 >
-> On 8/2/23 15:38, Dmitry Baryshkov wrote:
-> > On 02/08/2023 11:52, Neil Armstrong wrote:
-> >> This reverts commit [1] to fix display regression on the Dragonboard 845c
-> >> (SDM845) devboard.
-> >>
-> >> There's a mismatch on the real action of the following flags:
-> >> - MIPI_DSI_MODE_VIDEO_NO_HSA
-> >> - MIPI_DSI_MODE_VIDEO_NO_HFP
-> >> - MIPI_DSI_MODE_VIDEO_NO_HBP
-> >> which leads to a non-working display on qcom platforms.
-> >>
-> >> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
-> >> EOT packet")
-> >>
-> >> Cc: Marek Vasut <marex@denx.de>
-> >> Cc: Robert Foss <rfoss@kernel.org>
-> >> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> >> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA
-> >> and EOT packet")
-> >> Reported-by: Amit Pundir <amit.pundir@linaro.org>
-> >> Link:
-> >> https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
-> >> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> >> ---
-> >>   drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
-> >>   1 file changed, 1 insertion(+), 3 deletions(-)
-> >>
-> > Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
-> >
-> > The boards broken by [1] are used in production by different parties
-> > since 5.10, breaking them doesn't seem more acceptable than breaking the
-> > new out-of-tree iMX8m hardware.
+> DPU supports a data-bus widen mode for DSI INTF.
 >
-> The MX8M is also in-tree, so this does not apply.
+> Enable this mode for all supported chipsets if widebus is enabled for DSI.
+>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 11 ++++++++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  4 +++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          |  3 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          |  1 +
+>  drivers/gpu/drm/msm/msm_drv.h                        |  6 +++++-
+>  5 files changed, 20 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 3dcd37c48aac..de08aad39e15 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1196,15 +1196,20 @@ static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
+>         struct drm_display_mode *cur_mode = NULL;
+>         struct msm_drm_private *priv = drm_enc->dev->dev_private;
+>         struct msm_display_info *disp_info;
+> +       int index;
+>
+>         dpu_enc = to_dpu_encoder_virt(drm_enc);
+>         disp_info = &dpu_enc->disp_info;
+>
+> +       disp_info = &dpu_enc->disp_info;
+> +       index = disp_info->h_tile_instance[0];
+> +
+>         dpu_enc->dsc = dpu_encoder_get_dsc_config(drm_enc);
+>
+> -       if (disp_info->intf_type == INTF_DP)
+> -               dpu_enc->wide_bus_en = msm_dp_wide_bus_available(
+> -                               priv->dp[disp_info->h_tile_instance[0]]);
+> +       if (disp_info->intf_type == INTF_DSI)
+> +               dpu_enc->wide_bus_en = msm_dsi_is_widebus_enabled(priv->dsi[index]);
+> +       else if (disp_info->intf_type == INTF_DP)
+> +               dpu_enc->wide_bus_en = msm_dp_wide_bus_available(priv->dp[index]);
 
-v6.5-rc4:
+If you change the order, you won't have to touch DP lines.
 
-$ git grep lontium,lt9611 | grep -v 9611uxc
-Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
-http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
-Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
-    - lontium,lt9611
-Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
-      compatible = "lontium,lt9611";
-arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
-drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
-drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
+>
+>         mutex_lock(&dpu_enc->enc_lock);
+>         cur_mode = &dpu_enc->base.crtc->state->adjusted_mode;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index df88358e7037..dace6168be2d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -69,8 +69,10 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>                                 phys_enc->hw_intf,
+>                                 phys_enc->hw_pp->idx);
+>
+> -       if (intf_cfg.dsc != 0)
+> +       if (intf_cfg.dsc != 0) {
+>                 cmd_mode_cfg.data_compress = true;
+> +               cmd_mode_cfg.wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
+> +       }
 
-next-20230802:
+This embeds the knowledge that a wide bus can only be enabled when DSC
+is in use. Please move the wide_bus_en assignment out of conditional
+code.
 
-$ git grep lontium,lt9611 | grep -v 9611uxc
-Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
-http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
-Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
-    - lontium,lt9611
-Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
-      compatible = "lontium,lt9611";
-arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
-drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
-drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
+>
+>         if (phys_enc->hw_intf->ops.program_intf_cmd_cfg)
+>                 phys_enc->hw_intf->ops.program_intf_cmd_cfg(phys_enc->hw_intf, &cmd_mode_cfg);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index 8ec6505d9e78..dc6f3febb574 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -521,6 +521,9 @@ static void dpu_hw_intf_program_intf_cmd_cfg(struct dpu_hw_intf *ctx,
 
-Your device is not in the tree. Your commit broke existing users.
+This function is only enabled for DPU >= 7.0, while IIRC wide bus can
+be enabled even for some of the earlier chipsets.
 
-Can we please end the argument, land the fix (this revert) for 6.5 and
-work on the solution for 6.6 or 6.7?
+>         if (cmd_mode_cfg->data_compress)
+>                 intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+>
+> +       if (cmd_mode_cfg->wide_bus_en)
+> +               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
+> +
+>         DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2);
+>  }
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> index 77f80531782b..c539025c418b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> @@ -50,6 +50,7 @@ struct dpu_hw_intf_status {
+>
+>  struct dpu_hw_intf_cmd_mode_cfg {
+>         u8 data_compress;       /* enable data compress between dpu and dsi */
+> +       u8 wide_bus_en;         /* enable databus widen mode */
+>  };
+>
+>  /**
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 9d9d5e009163..e4f706b16aad 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -344,6 +344,7 @@ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi
+>  bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
+>  bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
+>  bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi);
+> +bool msm_dsi_is_widebus_enabled(struct msm_dsi *msm_dsi);
+>  struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi);
+>  #else
+>  static inline void __init msm_dsi_register(void)
+> @@ -373,7 +374,10 @@ static inline bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi)
+>  {
+>         return false;
+>  }
+> -
+> +static inline bool msm_dsi_is_widebus_enabled(struct msm_dsi *msm_dsi)
+> +{
+> +       return false;
+> +}
+
+Empty line, please.
+
+>  static inline struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
+>  {
+>         return NULL;
+>
+> --
+> 2.41.0
+>
+
 
 -- 
 With best wishes
