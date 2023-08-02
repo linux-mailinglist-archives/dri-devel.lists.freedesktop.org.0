@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A4A76D765
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 21:06:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C07876D783
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 21:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9307B10E575;
-	Wed,  2 Aug 2023 19:06:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D320D10E56F;
+	Wed,  2 Aug 2023 19:12:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65B9010E574;
- Wed,  2 Aug 2023 19:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691003173; x=1722539173;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=oXlLcds2yr8Kozo2pST3gmHdvN1EN7T9aa9BSWIe10M=;
- b=kSIOWejzFqA0oZS+26bU9V570Gtq5FF6+DnY50gEMoMy9onVCNAIa/op
- 27sCT0wX0t4XVfmcbandeQXL5gamT+5DJUSC154Comk9EZjiSXSJP3UPv
- vJMQyZvcBiOhk2+rkio5wadT5Xxir5d7EQR1HRi+ETP6F6sKedncu5tZ5
- UnFQh4nwKqbvXzChdwpJ+udx11o8SM8epIyYu1/KR87nfkIlNTzcLBUem
- NTwUTjoCzF6Bv54ZIjJM+xrLLxeeNronjcZ1XtdpGosy/f2J1s/rGrqth
- RIh7HboNCAcFLm3eWEx8/N3jW/tKmkNBfJfUL1LsLwVOqC8m34PZfgTpM Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="369678870"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="369678870"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2023 12:06:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="764318747"
-X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="764318747"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga001.jf.intel.com with ESMTP; 02 Aug 2023 12:06:12 -0700
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 1/1] drm/i915/pxp/mtl: intel_pxp_init_hw needs runtime-pm
- inside pm-complete
-Date: Wed,  2 Aug 2023 12:06:11 -0700
-Message-Id: <20230802190611.1639371-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9150510E56F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 19:12:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93AC429A;
+ Wed,  2 Aug 2023 21:11:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1691003490;
+ bh=79gCi+ljQNxU5kGfbaU4eODO3ztjzxCR2y1UIHcBH+A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SPEG/sa7I0CPMVolb6AYy5D/t2GM+kTk/VrYzBMUVpHC/7u45CCt4N1iDdakbFR6D
+ 5bJZWgd5TvYP3IVWRifufmCS01sQguhRL+w74YoP2NLWw7lnFH0XzoL9Mf9wDYehR0
+ f6LGCI4oHEwAEOh+K3Kd8f1klINbupJ8eREDknUY=
+Date: Wed, 2 Aug 2023 22:12:39 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+ and EOT packet"
+Message-ID: <20230802191239.GA1142@pendragon.ideasonboard.com>
+References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
+ <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
+ <bf95af44-2510-1835-dec9-183144de8413@denx.de>
+ <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
+ <c5597c50-d41c-9f7e-fb85-4e4a1bc29f15@denx.de>
+ <69900221-503a-693a-f52e-cfa5841230a6@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <69900221-503a-693a-f52e-cfa5841230a6@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,92 +53,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Marek Vasut <marex@denx.de>, Amit Pundir <amit.pundir@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the case of failed suspend flow or cases where the kernel does not go
-into full suspend but goes from suspend_prepare back to resume_complete,
-we get called for a pm_complete but without runtime_pm guaranteed.
+On Wed, Aug 02, 2023 at 09:49:42PM +0300, Dmitry Baryshkov wrote:
+> On 02/08/2023 21:45, Marek Vasut wrote:
+> > On 8/2/23 20:16, Dmitry Baryshkov wrote:
+> >> On Wed, 2 Aug 2023 at 20:34, Marek Vasut wrote:
+> >>> On 8/2/23 15:38, Dmitry Baryshkov wrote:
+> >>>> On 02/08/2023 11:52, Neil Armstrong wrote:
+> >>>>> This reverts commit [1] to fix display regression on the 
+> >>>>> Dragonboard 845c
+> >>>>> (SDM845) devboard.
+> >>>>>
+> >>>>> There's a mismatch on the real action of the following flags:
+> >>>>> - MIPI_DSI_MODE_VIDEO_NO_HSA
+> >>>>> - MIPI_DSI_MODE_VIDEO_NO_HFP
+> >>>>> - MIPI_DSI_MODE_VIDEO_NO_HBP
+> >>>>> which leads to a non-working display on qcom platforms.
+> >>>>>
+> >>>>> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+> >>>>> EOT packet")
+> >>>>>
+> >>>>> Cc: Marek Vasut <marex@denx.de>
+> >>>>> Cc: Robert Foss <rfoss@kernel.org>
+> >>>>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> >>>>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >>>>> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+> >>>>> and EOT packet")
+> >>>>> Reported-by: Amit Pundir <amit.pundir@linaro.org>
+> >>>>> Link:
+> >>>>> https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
+> >>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> >>>>> ---
+> >>>>>    drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
+> >>>>>    1 file changed, 1 insertion(+), 3 deletions(-)
+> >>>>>
+> >>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
+> >>>>
+> >>>> The boards broken by [1] are used in production by different parties
+> >>>> since 5.10, breaking them doesn't seem more acceptable than breaking the
+> >>>> new out-of-tree iMX8m hardware.
+> >>>
+> >>> The MX8M is also in-tree, so this does not apply.
+> >>
+> >> v6.5-rc4:
+> >>
+> >> $ git grep lontium,lt9611 | grep -v 9611uxc
+> >> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
+> >> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
+> >> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+> >>      - lontium,lt9611
+> >> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+> >>        compatible = "lontium,lt9611";
+> >> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
+> >> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
+> >> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
+> >>
+> >> next-20230802:
+> >>
+> >> $ git grep lontium,lt9611 | grep -v 9611uxc
+> >> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
+> >> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
+> >> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+> >>      - lontium,lt9611
+> >> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
+> >>        compatible = "lontium,lt9611";
+> >> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
+> >> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
+> >> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
+> >>
+> >> Your device is not in the tree. Your commit broke existing users.
+> > 
+> > These devices are in tree:
+> > arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc.dts
+> > arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dts
+> > 
+> > The LT9211 and LT9611 are both expansion modules handled by DTOs and 
+> > bound to the DSIM (which is also in tree).
+> 
+> And they DT for them is not in the tree, that was my point. You have 
+> broken the existing user for the DTBO that is not present even in 
+> linux-next.
+> 
+> >> Can we please end the argument, land the fix (this revert) for 6.5 and
+> >> work on the solution for 6.6 or 6.7?
+> > 
+> > I would much prefer a solution which does not break my existing use 
+> > case. It is still not even clear whether the problem really is on MX8M 
+> > side at all, or whether it is QCOM misinterpreting flags. I cannot debug 
+> > the later, since I have no access to that platform, nor its documentation.
+> 
+> You can get the RB1 for $199 and check the DSI behaviour on that 
+> platform. It has newer bridge, but the DSI controller is (mostly) the same.
 
-Thus, ensure we take the runtime_pm when calling intel_pxp_init_hw
-from within intel_pxp_resume_complete.
+Could everybody please get away from the keyboard for a few hours, take
+a deep breath, and resume the discussion in a less aggressive and more
+constructive way ?
 
-v2: resume_complete and runtime_resume should abstract a common
-    helper with different wakeref requirements. (Daniele)
+Without judging the technical merits of the arguments, and which
+platform gets it wrong, the commit being reverted landed in v6.5-rc1,
+and breaks in-tree users. Reverting and retrying thus seems the usual
+practice to me, as we are getting too close to the v6.5 release to
+ensure a correct fix can be developed and merged in time. This will not
+cause a regression on i.MX8M, as the commit has never appeared in a
+release kernel.
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.c | 18 +++++++++++++++++-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.h |  5 +++--
- 2 files changed, 20 insertions(+), 3 deletions(-)
+This is however an unfortunate event. It is not a nice feeling to work
+on enabling features for a platform and see the work being reverted at
+the last minute. Neil, Dmitry, could you please help Marek figuring out
+a good solution for v6.6 ? I don't think it's reasonable to ask him to
+buy an RB1 and investigate the MSM side, when Linaro has access to
+hardware and support.
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-index 1a04067f61fc..6dfd24918953 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-@@ -34,8 +34,10 @@ void intel_pxp_suspend(struct intel_pxp *pxp)
- 	}
- }
- 
--void intel_pxp_resume_complete(struct intel_pxp *pxp)
-+static void _pxp_resume(struct intel_pxp *pxp, bool take_wakeref)
- {
-+	intel_wakeref_t wakeref;
-+
- 	if (!intel_pxp_is_enabled(pxp))
- 		return;
- 
-@@ -48,7 +50,21 @@ void intel_pxp_resume_complete(struct intel_pxp *pxp)
- 	if (!HAS_ENGINE(pxp->ctrl_gt, GSC0) && !pxp->pxp_component)
- 		return;
- 
-+	if (take_wakeref)
-+		wakeref = intel_runtime_pm_get(&pxp->ctrl_gt->i915->runtime_pm);
- 	intel_pxp_init_hw(pxp);
-+	if (take_wakeref)
-+		intel_runtime_pm_put(&pxp->ctrl_gt->i915->runtime_pm, wakeref);
-+}
-+
-+void intel_pxp_resume_complete(struct intel_pxp *pxp)
-+{
-+	_pxp_resume(pxp, true);
-+}
-+
-+void intel_pxp_runtime_resume(struct intel_pxp *pxp)
-+{
-+	_pxp_resume(pxp, false);
- }
- 
- void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-index 06b46f535b42..8695889b8380 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-@@ -13,6 +13,7 @@ void intel_pxp_suspend_prepare(struct intel_pxp *pxp);
- void intel_pxp_suspend(struct intel_pxp *pxp);
- void intel_pxp_resume_complete(struct intel_pxp *pxp);
- void intel_pxp_runtime_suspend(struct intel_pxp *pxp);
-+void intel_pxp_runtime_resume(struct intel_pxp *pxp);
- #else
- static inline void intel_pxp_suspend_prepare(struct intel_pxp *pxp)
- {
-@@ -29,9 +30,9 @@ static inline void intel_pxp_resume_complete(struct intel_pxp *pxp)
- static inline void intel_pxp_runtime_suspend(struct intel_pxp *pxp)
- {
- }
--#endif
-+
- static inline void intel_pxp_runtime_resume(struct intel_pxp *pxp)
- {
--	intel_pxp_resume_complete(pxp);
- }
-+#endif
- #endif /* __INTEL_PXP_PM_H__ */
-
-base-commit: d7a437067a2146e1035a5609dae08b9595773a16
 -- 
-2.39.0
+Regards,
 
+Laurent Pinchart
