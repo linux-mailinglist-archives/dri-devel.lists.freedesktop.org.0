@@ -1,31 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D3176C55F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 08:40:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5EC76C634
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 09:14:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85F6010E4A2;
-	Wed,  2 Aug 2023 06:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C57D10E4CC;
+	Wed,  2 Aug 2023 07:14:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-146.mail.aliyun.com (out28-146.mail.aliyun.com
- [115.124.28.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F30210E4A2;
- Wed,  2 Aug 2023 06:40:37 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.2407244|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_alarm|0.00221003-7.23864e-05-0.997718; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047204; MF=sunran001@208suo.com; NM=1; PH=DS; RN=5; RT=5; SR=0;
- TI=SMTPD_---.U6YguAj_1690958427; 
-Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U6YguAj_1690958427) by smtp.aliyun-inc.com;
- Wed, 02 Aug 2023 14:40:29 +0800
-From: Ran Sun <sunran001@208suo.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amdgpu: Clean up errors in amdgpu_psp.h
-Date: Wed,  2 Aug 2023 06:40:24 +0000
-Message-Id: <20230802064024.11806-1-sunran001@208suo.com>
-X-Mailer: git-send-email 2.17.1
+Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4976610E4A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 06:41:54 +0000 (UTC)
+Received: from authenticated-user (box.trvn.ru [194.87.146.52])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by box.trvn.ru (Postfix) with ESMTPSA id 9A87E40016;
+ Wed,  2 Aug 2023 11:41:44 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+ t=1690958505; bh=V6C249y+rFRMuzRrVSpIXCIkln6wPAivQtiZCxA0Wds=;
+ h=From:Date:Subject:To:Cc:From;
+ b=YweWWvBA54xvQvNnP2PtRPq48JQSoKL6dwYfPKdJoqrw9Ho/10cMkrmHlumdBe/FS
+ UjBKYExPD2H4LXTlKywWzkfSnB6C2WaQqhD8EcMLDLFgca2/JwO7RSnXTQH0WIWnYS
+ zFeGPZepiLxnvdxWb1UqbnYqWi/XhvSH2bW585PZLDpIjXsjje6vW0AJBXUp0SCiQV
+ o1AstQq4w6NVDjXeYx4EepuxjVqIfMmP27WEtot9+FCQ10GpZnxdYLrmqFsb6z1U00
+ /c4fgOh0gQtfYFEm/g9mjZJJmxhJg/mtDuOokCkJkDxdXEfNrBDV6Mu22qOrl7r+pL
+ na2Wt0QorLCfA==
+From: Nikita Travkin <nikita@trvn.ru>
+Date: Wed, 02 Aug 2023 11:41:22 +0500
+Subject: [PATCH] drm/panel: samsung-s6d7aa0: Add MODULE_DEVICE_TABLE
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230802-gt5-panel-dtable-v1-1-c0a765c175e2@trvn.ru>
+X-B4-Tracking: v=1; b=H4sIAJH6yWQC/x3MSwqAMAwA0atI1gZq/XsVcRFtrIFSpRURxLtbX
+ L7FzAORg3CEIXsg8CVRdp9Q5BksG3nLKCYZtNKl6pRGe9Z4kGeH5qTZMZreNAtVql11Ayk7Aq9
+ y/8txet8PmAHwZ2IAAAA=
+To: Artur Weber <aweber.kernel@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=nikita@trvn.ru;
+ h=from:subject:message-id; bh=V6C249y+rFRMuzRrVSpIXCIkln6wPAivQtiZCxA0Wds=;
+ b=owEBbQKS/ZANAwAIAUMc7O4oGb91AcsmYgBkyfqnoFNkzGTraRzk5XVjG6mjPoMrdXvBVuL4I
+ LqAPlaw2J6JAjMEAAEIAB0WIQTAhK9UUj+qg34uxUdDHOzuKBm/dQUCZMn6pwAKCRBDHOzuKBm/
+ dWPMD/9XUk+/DNuZMQrI61M0bp334E5KlVK/trMHhzW60X9ksS0T+NAkuD4bjx5lyz56iD8ZdEY
+ lYKBU4moO7u2dsXLZ8qmmN6EmATZbox780002YZms0Z4T7aKKZj6Xz1BC9K0iuRk77D4Q2RfQqG
+ JcCJfBZXKLuK2TLDYVOcWm43zY3r00ug50enenA9+R5ZY3sRsDc5LJK0nDA8J8rxqHRU3HCE5Mq
+ P18ivVYA5s2DabpDFN0H2M9Z31n5GA39ub5MqEJ+sZdXmf5uNTjWKM+LYpEh28NFkl4JCELWoUJ
+ O/H/Vl+m/Mr1P7L3iDcaWNYn0EAFQdRvWnifJgqIiFWyUqAdBMpa7IRO80eJzsV75y2+7jpYHIQ
+ 4ynOeuctThFYnwT0XnaioEwF38ktfW47eNcZunHOjPADoJhuEf1nwV3Gkn/gzH5o4OVPlgFrkKl
+ VGD4BauHUwFhx63isIXpZLcfbvLPJzehdP8iuf+0xjPhjhkLTI4lULj1Dy7M1/mVbz10iY6frsZ
+ +yYforsOVL0LTxflsPxT6w5DY+vDUNoAj2ARmaQcyciOVzOUqc5hcd3b3TpuCNwQEcXdxorCCGm
+ 9Ye34sOnSam8l8FKIGOwnbPYuKHJNGz2t2Y78HwiNpdVw51sK0Rv8ID2doE5fsPpX1jLYycfOne
+ iRvOlx29xRCsBFA==
+X-Developer-Key: i=nikita@trvn.ru; a=openpgp;
+ fpr=C084AF54523FAA837E2EC547431CECEE2819BF75
+X-Mailman-Approved-At: Wed, 02 Aug 2023 07:14:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,65 +68,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ran Sun <sunran001@208suo.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nikita Travkin <nikita@trvn.ru>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following errors reported by checkpatch:
+The driver can be built as a module, however the lack of the
+MODULE_DEVICE_TABLE macro prevents it from being automatically probed
+from the DT in such case.
 
-ERROR: open brace '{' following struct go on the same line
-ERROR: open brace '{' following enum go on the same line
+Add the missed macro to make sure the module can load automatically.
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
+Fixes: 6810bb390282 ("drm/panel: Add Samsung S6D7AA0 panel controller driver")
+Signed-off-by: Nikita Travkin <nikita@trvn.ru>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
-index c3203de4a007..feef988bf0c1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
-@@ -78,8 +78,7 @@ enum psp_bootloader_cmd {
- 	PSP_BL__LOAD_TOS_SPL_TABLE	= 0x10000000,
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+index 0583360b1280..ea5a85779382 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
+@@ -567,6 +567,7 @@ static const struct of_device_id s6d7aa0_of_match[] = {
+ 	},
+ 	{ /* sentinel */ }
  };
++MODULE_DEVICE_TABLE(of, s6d7aa0_of_match);
  
--enum psp_ring_type
--{
-+enum psp_ring_type {
- 	PSP_RING_TYPE__INVALID = 0,
- 	/*
- 	 * These values map to the way the PSP kernel identifies the
-@@ -89,8 +88,7 @@ enum psp_ring_type
- 	PSP_RING_TYPE__KM = 2  /* Kernel mode ring (formerly called GPCOM) */
- };
- 
--struct psp_ring
--{
-+struct psp_ring {
- 	enum psp_ring_type		ring_type;
- 	struct psp_gfx_rb_frame		*ring_mem;
- 	uint64_t			ring_mem_mc_addr;
-@@ -107,8 +105,7 @@ enum psp_reg_prog_id {
- 	PSP_REG_LAST
- };
- 
--struct psp_funcs
--{
-+struct psp_funcs {
- 	int (*init_microcode)(struct psp_context *psp);
- 	int (*bootloader_load_kdb)(struct psp_context *psp);
- 	int (*bootloader_load_spl)(struct psp_context *psp);
-@@ -307,8 +304,7 @@ struct psp_runtime_scpm_entry {
- 	enum psp_runtime_scpm_authentication scpm_status;
- };
- 
--struct psp_context
--{
-+struct psp_context {
- 	struct amdgpu_device		*adev;
- 	struct psp_ring			km_ring;
- 	struct psp_gfx_cmd_resp		*cmd;
+ static struct mipi_dsi_driver s6d7aa0_driver = {
+ 	.probe = s6d7aa0_probe,
+
+---
+base-commit: 626c67169f9972fffcdf3bc3864de421f162ebf5
+change-id: 20230802-gt5-panel-dtable-d9d6ca407f26
+
+Best regards,
 -- 
-2.17.1
+Nikita Travkin <nikita@trvn.ru>
 
