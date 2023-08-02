@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FF276C2BD
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 04:15:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6F076C2C3
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 04:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5340E10E183;
-	Wed,  2 Aug 2023 02:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A37CA10E1E6;
+	Wed,  2 Aug 2023 02:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-126.mail.aliyun.com (out28-126.mail.aliyun.com
- [115.124.28.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7EEB10E183;
- Wed,  2 Aug 2023 02:15:16 +0000 (UTC)
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.4795925|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_alarm|0.198135-0.00156503-0.8003; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047188; MF=sunran001@208suo.com; NM=1; PH=DS; RN=5; RT=5; SR=0;
- TI=SMTPD_---.U6L.8nL_1690942507; 
+Received: from out28-104.mail.aliyun.com (out28-104.mail.aliyun.com
+ [115.124.28.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710CF10E1E6;
+ Wed,  2 Aug 2023 02:18:47 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07438655|-1; CH=blue; DM=|OVERLOAD|false|;
+ DS=CONTINUE|ham_system_inform|0.0479609-0.010653-0.941386;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=sunran001@208suo.com; NM=1;
+ PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.U6LWAvK_1690942718; 
 Received: from localhost.localdomain(mailfrom:sunran001@208suo.com
- fp:SMTPD_---.U6L.8nL_1690942507) by smtp.aliyun-inc.com;
- Wed, 02 Aug 2023 10:15:09 +0800
+ fp:SMTPD_---.U6LWAvK_1690942718) by smtp.aliyun-inc.com;
+ Wed, 02 Aug 2023 10:18:40 +0800
 From: Ran Sun <sunran001@208suo.com>
 To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amd/pm: Clean up errors in r600_dpm.h
-Date: Wed,  2 Aug 2023 02:15:04 +0000
-Message-Id: <20230802021504.9439-1-sunran001@208suo.com>
+Subject: [PATCH] drm/amd/pm: Clean up errors in kv_dpm.c
+Date: Wed,  2 Aug 2023 02:18:36 +0000
+Message-Id: <20230802021836.9724-1-sunran001@208suo.com>
 X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,26 +46,144 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Fix the following errors reported by checkpatch:
 
 ERROR: that open brace { should be on the previous line
+ERROR: space prohibited before that ',' (ctx:WxW)
+ERROR: need consistent spacing around '-' (ctx:WxV)
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- drivers/gpu/drm/amd/pm/legacy-dpm/r600_dpm.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c | 48 ++++++++--------------
+ 1 file changed, 17 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/r600_dpm.h b/drivers/gpu/drm/amd/pm/legacy-dpm/r600_dpm.h
-index 055321f61ca7..3e7caa715533 100644
---- a/drivers/gpu/drm/amd/pm/legacy-dpm/r600_dpm.h
-+++ b/drivers/gpu/drm/amd/pm/legacy-dpm/r600_dpm.h
-@@ -117,8 +117,7 @@ enum r600_display_watermark {
- 	R600_DISPLAY_WATERMARK_HIGH = 1,
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+index 36c831b280ed..5d28c951a319 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/kv_dpm.c
+@@ -191,8 +191,7 @@ static void sumo_construct_vid_mapping_table(struct amdgpu_device *adev,
+ }
+ 
+ #if 0
+-static const struct kv_lcac_config_values sx_local_cac_cfg_kv[] =
+-{
++static const struct kv_lcac_config_values sx_local_cac_cfg_kv[] = {
+ 	{  0,       4,        1    },
+ 	{  1,       4,        1    },
+ 	{  2,       5,        1    },
+@@ -204,32 +203,27 @@ static const struct kv_lcac_config_values sx_local_cac_cfg_kv[] =
+ 	{ 0xffffffff }
  };
  
--enum r600_display_gap
+-static const struct kv_lcac_config_values mc0_local_cac_cfg_kv[] =
 -{
-+enum r600_display_gap {
-     R600_PM_DISPLAY_GAP_VBLANK_OR_WM = 0,
-     R600_PM_DISPLAY_GAP_VBLANK       = 1,
-     R600_PM_DISPLAY_GAP_WATERMARK    = 2,
++static const struct kv_lcac_config_values mc0_local_cac_cfg_kv[] = {
+ 	{  0,       4,        1    },
+ 	{ 0xffffffff }
+ };
+ 
+-static const struct kv_lcac_config_values mc1_local_cac_cfg_kv[] =
+-{
++static const struct kv_lcac_config_values mc1_local_cac_cfg_kv[] = {
+ 	{  0,       4,        1    },
+ 	{ 0xffffffff }
+ };
+ 
+-static const struct kv_lcac_config_values mc2_local_cac_cfg_kv[] =
+-{
++static const struct kv_lcac_config_values mc2_local_cac_cfg_kv[] = {
+ 	{  0,       4,        1    },
+ 	{ 0xffffffff }
+ };
+ 
+-static const struct kv_lcac_config_values mc3_local_cac_cfg_kv[] =
+-{
++static const struct kv_lcac_config_values mc3_local_cac_cfg_kv[] = {
+ 	{  0,       4,        1    },
+ 	{ 0xffffffff }
+ };
+ 
+-static const struct kv_lcac_config_values cpl_local_cac_cfg_kv[] =
+-{
++static const struct kv_lcac_config_values cpl_local_cac_cfg_kv[] = {
+ 	{  0,       4,        1    },
+ 	{  1,       4,        1    },
+ 	{  2,       5,        1    },
+@@ -260,39 +254,32 @@ static const struct kv_lcac_config_values cpl_local_cac_cfg_kv[] =
+ 	{ 0xffffffff }
+ };
+ 
+-static const struct kv_lcac_config_reg sx0_cac_config_reg[] =
+-{
++static const struct kv_lcac_config_reg sx0_cac_config_reg[] = {
+ 	{ 0xc0400d00, 0x003e0000, 17, 0x3fc00000, 22, 0x0001fffe, 1, 0x00000001, 0 }
+ };
+ 
+-static const struct kv_lcac_config_reg mc0_cac_config_reg[] =
+-{
++static const struct kv_lcac_config_reg mc0_cac_config_reg[] = {
+ 	{ 0xc0400d30, 0x003e0000, 17, 0x3fc00000, 22, 0x0001fffe, 1, 0x00000001, 0 }
+ };
+ 
+-static const struct kv_lcac_config_reg mc1_cac_config_reg[] =
+-{
++static const struct kv_lcac_config_reg mc1_cac_config_reg[] = {
+ 	{ 0xc0400d3c, 0x003e0000, 17, 0x3fc00000, 22, 0x0001fffe, 1, 0x00000001, 0 }
+ };
+ 
+-static const struct kv_lcac_config_reg mc2_cac_config_reg[] =
+-{
++static const struct kv_lcac_config_reg mc2_cac_config_reg[] = {
+ 	{ 0xc0400d48, 0x003e0000, 17, 0x3fc00000, 22, 0x0001fffe, 1, 0x00000001, 0 }
+ };
+ 
+-static const struct kv_lcac_config_reg mc3_cac_config_reg[] =
+-{
++static const struct kv_lcac_config_reg mc3_cac_config_reg[] = {
+ 	{ 0xc0400d54, 0x003e0000, 17, 0x3fc00000, 22, 0x0001fffe, 1, 0x00000001, 0 }
+ };
+ 
+-static const struct kv_lcac_config_reg cpl_cac_config_reg[] =
+-{
++static const struct kv_lcac_config_reg cpl_cac_config_reg[] = {
+ 	{ 0xc0400d80, 0x003e0000, 17, 0x3fc00000, 22, 0x0001fffe, 1, 0x00000001, 0 }
+ };
+ #endif
+ 
+-static const struct kv_pt_config_reg didt_config_kv[] =
+-{
++static const struct kv_pt_config_reg didt_config_kv[] = {
+ 	{ 0x10, 0x000000ff, 0, 0x0, KV_CONFIGREG_DIDT_IND },
+ 	{ 0x10, 0x0000ff00, 8, 0x0, KV_CONFIGREG_DIDT_IND },
+ 	{ 0x10, 0x00ff0000, 16, 0x0, KV_CONFIGREG_DIDT_IND },
+@@ -1173,9 +1160,9 @@ static void kv_calculate_dfs_bypass_settings(struct amdgpu_device *adev)
+ 					pi->graphics_level[i].ClkBypassCntl = 2;
+ 				else if (kv_get_clock_difference(table->entries[i].clk, 26600) < 200)
+ 					pi->graphics_level[i].ClkBypassCntl = 7;
+-				else if (kv_get_clock_difference(table->entries[i].clk , 20000) < 200)
++				else if (kv_get_clock_difference(table->entries[i].clk, 20000) < 200)
+ 					pi->graphics_level[i].ClkBypassCntl = 6;
+-				else if (kv_get_clock_difference(table->entries[i].clk , 10000) < 200)
++				else if (kv_get_clock_difference(table->entries[i].clk, 10000) < 200)
+ 					pi->graphics_level[i].ClkBypassCntl = 8;
+ 				else
+ 					pi->graphics_level[i].ClkBypassCntl = 0;
+@@ -1825,7 +1812,7 @@ static void kv_set_valid_clock_range(struct amdgpu_device *adev,
+ 			if ((new_ps->levels[0].sclk -
+ 			     table->entries[pi->highest_valid].sclk_frequency) >
+ 			    (table->entries[pi->lowest_valid].sclk_frequency -
+-			     new_ps->levels[new_ps->num_levels -1].sclk))
++			     new_ps->levels[new_ps->num_levels - 1].sclk))
+ 				pi->highest_valid = pi->lowest_valid;
+ 			else
+ 				pi->lowest_valid =  pi->highest_valid;
+@@ -3333,8 +3320,7 @@ static const struct amd_ip_funcs kv_dpm_ip_funcs = {
+ 	.set_powergating_state = kv_dpm_set_powergating_state,
+ };
+ 
+-const struct amdgpu_ip_block_version kv_smu_ip_block =
+-{
++const struct amdgpu_ip_block_version kv_smu_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_SMC,
+ 	.major = 1,
+ 	.minor = 0,
 -- 
 2.17.1
 
