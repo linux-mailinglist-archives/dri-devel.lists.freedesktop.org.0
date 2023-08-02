@@ -1,51 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAFB76D3DF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 18:39:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA7E76D3E1
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 18:41:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C9B010E553;
-	Wed,  2 Aug 2023 16:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4E910E038;
+	Wed,  2 Aug 2023 16:40:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 355D010E553
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 16:39:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3FBD861A0D;
- Wed,  2 Aug 2023 16:39:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B890C433C8;
- Wed,  2 Aug 2023 16:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690994346;
- bh=gCY+4gKYJPLF0buq2e8TbUdOApYVtpsq9Zqk1Krfyaw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RMbKnCXUKPxbMj4iwpC9jTo7Gz3KbbcElkrCmtY/3vKhMWDEIYzXSGaSEv1FUxEF4
- A4tj4qNtYOlTzoYJthKfwK/2tFybou4h1FPDGN5P+6CmPn0Zv+XoJpQEeiVnZuD/sW
- EvBrwudBUz9vJbGng3wZUNseR1nvpOr4+/2cRg51u8BGZm+yT1mqZkiOoeyfXMX2ui
- 11VgGFA2MEkjLMUdGBNMSmbx5nw7OqS1hz/36q0MvpLYPQ5I/rRKvVBKe0l2yz42oB
- L0wOzrnFlJUUhJGQS6kj2FT/M4uMNdBs3CDJoLEDnJfM2fYWoQxJm+DWGyVivfd1jI
- V8z7b8fVO7v0g==
-Date: Wed, 2 Aug 2023 17:38:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jiaxin Yu =?utf-8?B?KOS/nuWutumRqyk=?= <Jiaxin.Yu@mediatek.com>
-Subject: Re: [v3 2/3] ASoC: mediatek: mt8186: correct the HDMI widgets
-Message-ID: <089fe457-1c61-4b7b-ad37-a67e7f46cb56@sirena.org.uk>
-References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
- <20230730180803.22570-3-jiaxin.yu@mediatek.com>
- <25e6ab45-ecad-4bc3-bf4d-983243c939ad@sirena.org.uk>
- <c6ae8630d06138b6d0156c19323afebf0718f522.camel@mediatek.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 248A410E038
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 16:40:39 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 372CQApf011234; Wed, 2 Aug 2023 16:40:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=mg2WHja6ofsTH0l8oE1bTBovcHm3m7oHI3H+MgA2Guk=;
+ b=Y2diiDKJTTC2wRovh4NOzAiw2qcn1pjD5aSah0qO8LJ8y86rQiwdcaVivLRqhOoPoXoG
+ lHBQLRBL12c0UrH9MGKSdfvhxISqvsQYBKACCzoCBINrA/gHkxTOePcTW8P8Xc/49/Fh
+ XmuQN5mOJXlQIroYMXCTzKH3bITFDpEkQQzqg3cqHWSXR+IM4g7NMLLuDlMsYrOuSsAs
+ H0sM55AABYtsPdQsSCRrCTzvNxSSfrBMJSLye7KkRweLGVgKVGRWoR/q/j/mZNuIX6Q0
+ rV1gwa5n7jc8PbBamx1HY9KihQrtHa/+zJ3rnkEc1AcBy2g5lykl+XCKozu3LBHUl9l2 RQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s75b32y30-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Aug 2023 16:40:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 372GeWVw023545
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 2 Aug 2023 16:40:32 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 2 Aug
+ 2023 09:40:31 -0700
+Message-ID: <e74bf174-897f-c808-2db7-93c891a3b38b@quicinc.com>
+Date: Wed, 2 Aug 2023 10:40:30 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="esxvPNSC1jmy+MV2"
-Content-Disposition: inline
-In-Reply-To: <c6ae8630d06138b6d0156c19323afebf0718f522.camel@mediatek.com>
-X-Cookie: Humpty Dumpty was pushed.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/6] accel/ivpu: Rename sources to use generation based
+ names
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230731161258.2987564-1-stanislaw.gruszka@linux.intel.com>
+ <20230731161258.2987564-2-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230731161258.2987564-2-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: aNeagmTgzSgdZf2PJVcdpdPNlihaS3me
+X-Proofpoint-ORIG-GUID: aNeagmTgzSgdZf2PJVcdpdPNlihaS3me
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-02_12,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308020147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,80 +85,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "nfraprado@collabora.com" <nfraprado@collabora.com>,
- Chunxu Li =?utf-8?B?KOadjuaYpeaXrSk=?= <Chunxu.Li@mediatek.com>,
- Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsik=?= <Allen-KH.Cheng@mediatek.com>,
- "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "ajye_huang@compal.corp-partner.google.com"
- <ajye_huang@compal.corp-partner.google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/31/2023 10:12 AM, Stanislaw Gruszka wrote:
+> From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> 
+> Given that VPU generation can be used by multiple platforms, driver should
+> use VPU IP generation in names instead of a platform names.
 
---esxvPNSC1jmy+MV2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think just "platform." instead of "platform names" reads better.
 
-On Wed, Aug 02, 2023 at 02:52:57PM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=E9=
-=91=AB) wrote:
-> On Mon, 2023-07-31 at 12:50 +0100, Mark Brown wrote:
-> > On Mon, Jul 31, 2023 at 02:08:02AM +0800, Jiaxin Yu wrote:
+> 
+> Change naming for sources files.
+> 
+> Use 37XX format, where:
+>    3 - major VPU IP generation version
+>    7 - minor VPU IP generation version
+>    XX - postfix indicating this is a architecture and not marketing name
 
-> > > Use SND_SOC_DAPM_LINE instead of SND_SOC_DAPM_OUTPUT to trigger
-> > > DAPM events to hdmi-codec when userspace control the DPAM pin.
+"an architecture"
 
-> > Why?
+> 
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-> I have defined an SOC_DAPM_PIN_SWITCH that named as "HDMI1", if I use
-> SND_SOC_DAPM_OUTPUT, it can't be controlled by HDMI1's PIN_SWITCH.
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-=2E..
+> ---
+>   drivers/accel/ivpu/Makefile                                  | 2 +-
+>   drivers/accel/ivpu/{ivpu_hw_mtl.c => ivpu_hw_37xx.c}         | 2 +-
+>   drivers/accel/ivpu/{ivpu_hw_mtl_reg.h => ivpu_hw_37xx_reg.h} | 0
+>   drivers/accel/ivpu/ivpu_mmu.c                                | 2 +-
+>   4 files changed, 3 insertions(+), 3 deletions(-)
+>   rename drivers/accel/ivpu/{ivpu_hw_mtl.c => ivpu_hw_37xx.c} (99%)
+>   rename drivers/accel/ivpu/{ivpu_hw_mtl_reg.h => ivpu_hw_37xx_reg.h} (100%)
+> 
+> diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
+> index 9858d9fea36e..3179e146e173 100644
+> --- a/drivers/accel/ivpu/Makefile
+> +++ b/drivers/accel/ivpu/Makefile
+> @@ -7,7 +7,7 @@ intel_vpu-y := \
+>   	ivpu_fw.o \
+>   	ivpu_fw_log.o \
+>   	ivpu_gem.o \
+> -	ivpu_hw_mtl.o \
+> +	ivpu_hw_37xx.o \
+>   	ivpu_ipc.o \
+>   	ivpu_job.o \
+>   	ivpu_jsm_msg.o \
+> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> similarity index 99%
+> rename from drivers/accel/ivpu/ivpu_hw_mtl.c
+> rename to drivers/accel/ivpu/ivpu_hw_37xx.c
+> index f1211e74017d..495be81840ac 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> @@ -5,7 +5,7 @@
+>   
+>   #include "ivpu_drv.h"
+>   #include "ivpu_fw.h"
+> -#include "ivpu_hw_mtl_reg.h"
+> +#include "ivpu_hw_37xx_reg.h"
+>   #include "ivpu_hw_reg_io.h"
+>   #include "ivpu_hw.h"
+>   #include "ivpu_ipc.h"
+> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl_reg.h b/drivers/accel/ivpu/ivpu_hw_37xx_reg.h
+> similarity index 100%
+> rename from drivers/accel/ivpu/ivpu_hw_mtl_reg.h
+> rename to drivers/accel/ivpu/ivpu_hw_37xx_reg.h
+> diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+> index 53878e77aad3..b64eb094343b 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu.c
+> +++ b/drivers/accel/ivpu/ivpu_mmu.c
+> @@ -7,7 +7,7 @@
+>   #include <linux/highmem.h>
+>   
+>   #include "ivpu_drv.h"
+> -#include "ivpu_hw_mtl_reg.h"
+> +#include "ivpu_hw_37xx_reg.h"
+>   #include "ivpu_hw_reg_io.h"
+>   #include "ivpu_mmu.h"
+>   #include "ivpu_mmu_context.h"
 
-> 2762                 if (w->dapm->card->fully_routed)
-> 2763                         return;
-> 2764                 ep =3D SND_SOC_DAPM_EP_SINK;
-> 2765                 snd_soc_dapm_widget_for_each_sink_path(w, p) {
-> 2766                         if (p->sink->id =3D=3D snd_soc_dapm_spk ||
-> 2767                                 p->sink->id =3D=3D snd_soc_dapm_hp ||
-> 2768                                 p->sink->id =3D=3D snd_soc_dapm_line
-> ||
-> 2769                                 p->sink->id =3D=3D snd_soc_dapm_inpu=
-t)
-> {
-> 2770                                         ep =3D 0;
-
-The expectation here is that you'll connect the output to a widget that
-corresponds to the physical output on your board and put the pin switch
-on that, ideally with a label that corresponds to case markings or what
-the physical output is called on the board.
-
---esxvPNSC1jmy+MV2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTKhqIACgkQJNaLcl1U
-h9BL/gf/YGDdkzd1Hoqak9skMbqWOPWuNgOeP/0fj0q8HB3qg7eQOy8Y5REObrFC
-wfPs8VX6jpzF/JmEzkWRpOdFMMx/c4rTlYB/d/Jojfhh4wslOJCqxe8hfAK/8aZs
-WZ3GLf9fCdrPoKRnB0DebPt8Fp8LVMuf+H3dHtd6DsEUDsfAieGnMYAixcFbSezq
-NEuViV+xWHzEwpYW1Jwve8rMnAkUPNK/nzZcUb7isbVQd+7J3jIcGi2VTB2FG7GF
-BM3gl4wysF0zVCyQTVmQCmlzzU/Rc0JZ5UrBkBXukhce7kZlETx9Y/WFgzFqh1Da
-zArLRsDtbRyWE98VC1QS9ZU8ZAAk5A==
-=N0bb
------END PGP SIGNATURE-----
-
---esxvPNSC1jmy+MV2--
