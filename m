@@ -1,60 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75A276D6D3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:25:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D384076D6D7
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 20:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 773E210E0E0;
-	Wed,  2 Aug 2023 18:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FEAA10E562;
+	Wed,  2 Aug 2023 18:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 463DF10E55E
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 18:25:17 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id
- 3f1490d57ef6-d066d72eb12so222061276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 11:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691000716; x=1691605516;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5rqnhpukvnuroNpgIhuZ9KfllzGzBjkAWHO7GNn33Zk=;
- b=tdRmHORtrVoProVKvDSNsGAlMh6mwrIM4BGH/OGo+JVYBufe7LKoaKZCOFd71mVztY
- 6xkHD5yCeVF6KBSYOy+BWCcf72ACYn40XNHI/oZocmLWnrgaKX9IDmQNicEhOdZO4vTJ
- QXM6flWto7fGK8mbbKG1CuYY9hDOcIBiGyVkqMopus0PR+4p7NzhIKat8qPeepBJIkfA
- oBSOD1LnxQ4uoN/TkOL+IgLy/I8OyZClvbmizvM+c1wrUm2/IIz2THu9ca4L94pByOcO
- NtXJcb2FxwGlBF4c4Z+QSlS/saM30gG2XtmZhBdp0kCH8l+SviR2gVLCkSg6s+RuMIxX
- fSBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691000716; x=1691605516;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5rqnhpukvnuroNpgIhuZ9KfllzGzBjkAWHO7GNn33Zk=;
- b=N40HgKd5k4Py6Nwpmi3rEf3lXqC29gNnV+JePrldForKTQmoNkQrLkVOZTJUk95jr3
- JIc/k1rTpD5PGvmV1swHMBx5ss37CVvT6YPjPbbsgOJ1/8rOW3lf4GfeiKaIBi2dIzVu
- Y07BtQI3j8K2YycTpn2ADEYJ9JfwMEkT6vYjrEf7mgV3B6MzfCj/EKohmo4DLS00G6lD
- DYYsWbXkjOtPBVbmZ44FGaVp2Fk7ltjxiU2B2CNxf8GarNqRDbnsJ/UehvPh5AjMzIvB
- KMMGtHFkI7OURvTpgHF9Ge9maNGTOhDLDyE+odKat1oVDFNRRXL3CAAszLTjNTb8/4NV
- Er7g==
-X-Gm-Message-State: ABy/qLYpsHLrhnD8kIJ5CR5264waDL9zyfo7eOKi8uhO7rid7BAXV9kI
- nnV/+nHKI/g9GC67C0edoubMEH35YZ6mQCIYAbCSHw==
-X-Google-Smtp-Source: APBJJlGURMqux6vjsKCyEZh5uiiRc2JPbZFyh118s++aogxKu7iUDz2oUe6gsb+DYPZiJrvV3yPjpFvKrpB5WxbFELI=
-X-Received: by 2002:a25:d3d0:0:b0:d0e:3831:fa26 with SMTP id
- e199-20020a25d3d0000000b00d0e3831fa26mr21044770ybf.9.1691000716085; Wed, 02
- Aug 2023 11:25:16 -0700 (PDT)
+Received: from mgamail.intel.com (unknown [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8CFE10E55E;
+ Wed,  2 Aug 2023 18:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691000753; x=1722536753;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9WarRPwi/OZGZsiVhMTi5GRaTUUu4h8eVCaYPk6+tLw=;
+ b=LppiMoXBDWAjapq2FNXdqzG0xn84iDFMIdGAMy1tPG/RdzRUfeGInJNi
+ qoPTreR9lEiWNXChGrlGadcUj+Dc/4E1ayC1v9lcyNiXl+9D4AJCMgcRF
+ xvRvf8EzTL1HuMtvBFASkGVKYfJkCC+z+vik0kxD+bt0jBBoKL2f3geDe
+ OaGPoqPJamnaw1oMCfOYRN+p3rxf2C1/Qymz+5aV+Dkmxqt24RvfnwmNd
+ M63XpAL9mqKBS2a7eEWO7MxgxLGU0mpI1yFvyxcegXlQTwqP7hIKYbPjy
+ LS8nXEkcXzgWkBf2BKvyQ54doO+GKSQJ4wgF9UD1B2W4xf5m7jvJ7pPhp g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="349262620"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="349262620"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2023 11:25:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="799216239"
+X-IronPort-AV: E=Sophos;i="6.01,249,1684825200"; d="scan'208";a="799216239"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga004.fm.intel.com with ESMTP; 02 Aug 2023 11:25:52 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 1/1] drm/i915/pxp: Optimize GET_PARAM:PXP_STATUS
+Date: Wed,  2 Aug 2023 11:25:50 -0700
+Message-Id: <20230802182550.1592926-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230802-add-widebus-support-v3-0-2661706be001@quicinc.com>
- <20230802-add-widebus-support-v3-4-2661706be001@quicinc.com>
-In-Reply-To: <20230802-add-widebus-support-v3-4-2661706be001@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 2 Aug 2023 21:25:05 +0300
-Message-ID: <CAA8EJpoodqcWXsvjjpfMhMxmmvjNfYu5KUM6iOxqxYRH6wxsRA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] drm/msm/dsi: Enable widebus for DSI
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,139 +54,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: Vivaik Balasubrawmanian <vivaik.balasubrawmanian@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Aug 2023 at 21:09, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->
-> DSI 6G v2.5.x+ supports a data-bus widen mode that allows DSI to send
-> 48 bits of compressed data instead of 24.
->
-> Enable this mode whenever DSC is enabled for supported chipsets.
->
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi.c      |  5 +++++
->  drivers/gpu/drm/msm/dsi/dsi.h      |  1 +
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 30 ++++++++++++++++++++++++++----
->  3 files changed, 32 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index baab79ab6e74..4fa738dea680 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -17,6 +17,11 @@ struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
->         return msm_dsi_host_get_dsc_config(msm_dsi->host);
->  }
->
-> +bool msm_dsi_is_widebus_enabled(struct msm_dsi *msm_dsi)
-> +{
-> +       return msm_dsi_host_is_widebus_enabled(msm_dsi->host);
-> +}
+After recent discussions with Mesa folks, it was requested
+that we optimize i915's GET_PARAM for the PXP_STATUS without
+changing the UAPI spec.
 
-If this function is not provided at the time of the previous patch,
-compilation will break. I'd suggest to provide a stub first and then
-change it in this patch.
+Add these additional optimizations:
+   - If any PXP initializatoin flow failed, then ensure that
+     we catch it so that we can change the returned PXP_STATUS
+     from "2" (i.e. 'PXP is supported but not yet ready')
+     to "-ENODEV". This typically should not happen and if it
+     does, we have a platform configuration issue.
+   - If a PXP arbitration session creation event failed
+     due to incorrect firmware version or blocking SOC fusing
+     or blocking BIOS configuration (platform reasons that won't
+     change if we retry), then reflect that blockage by also
+     returning -ENODEV in the GET_PARAM:PXP_STATUS.
+   - GET_PARAM:PXP_STATUS should not wait at all if PXP is
+     supported but non-i915 dependencies (component-driver /
+     firmware) we are still pending to complete the init flows.
+     In this case, just return "2" immediately (i.e. 'PXP is
+     supported but not yet ready').
 
-> +
->  static int dsi_get_phy(struct msm_dsi *msm_dsi)
->  {
->         struct platform_device *pdev = msm_dsi->pdev;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> index bd3763a5d723..a557d2c1aaff 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> @@ -134,6 +134,7 @@ int dsi_calc_clk_rate_6g(struct msm_dsi_host *msm_host, bool is_bonded_dsi);
->  void msm_dsi_host_snapshot(struct msm_disp_state *disp_state, struct mipi_dsi_host *host);
->  void msm_dsi_host_test_pattern_en(struct mipi_dsi_host *host);
->  struct drm_dsc_config *msm_dsi_host_get_dsc_config(struct mipi_dsi_host *host);
-> +bool msm_dsi_host_is_widebus_enabled(struct mipi_dsi_host *host);
->
->  /* dsi phy */
->  struct msm_dsi_phy;
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 645927214871..231b02e5ab6e 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -710,6 +710,14 @@ static void dsi_ctrl_disable(struct msm_dsi_host *msm_host)
->         dsi_write(msm_host, REG_DSI_CTRL, 0);
->  }
->
-> +bool msm_dsi_host_is_widebus_enabled(struct mipi_dsi_host *host)
-> +{
-> +       struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> +
-> +       return msm_host->dsc && (msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
+Difference from prio revs:
+  v3: - Rebase with latest tip that has pulled in setting the
+        gsc fw load to fail if proxy init fails.
+  v2: - Use a #define for the default readiness timeout (Vivaik).
+      - Improve comments around the failing of proxy-init.
+  v1: - Change the commit msg style to be imperative. (Jani)
+      - Rename timeout to timeout_ms. (Jani)
+      - Fix is_fw_err_platform_config to use higher order
+        param (pxp) first. (Jani)
 
-Please add a line break after the first &&. Compare two following statements:
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+---
+ drivers/gpu/drm/i915/i915_getparam.c       |  2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp.c       | 40 ++++++++++++++++++----
+ drivers/gpu/drm/i915/pxp/intel_pxp.h       |  2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c |  7 ++--
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c   |  7 ++--
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h |  9 +++++
+ 6 files changed, 52 insertions(+), 15 deletions(-)
 
-> +                       msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V2_5_0);
-> +}
-> +
->  static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
->                         struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
->  {
-> @@ -753,10 +761,16 @@ static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
->                 data |= DSI_CMD_CFG1_INSERT_DCS_COMMAND;
->                 dsi_write(msm_host, REG_DSI_CMD_CFG1, data);
->
-> -               if (msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
-> -                   msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3) {
-> +               if (cfg_hnd->major == MSM_DSI_VER_MAJOR_6G) {
->                         data = dsi_read(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2);
-> -                       data |= DSI_CMD_MODE_MDP_CTRL2_BURST_MODE;
-> +
-> +                       if (cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3)
-> +                               data |= DSI_CMD_MODE_MDP_CTRL2_BURST_MODE;
-> +
-> +                       /* TODO: Allow for video-mode support once tested/fixed */
-> +                       if (msm_dsi_host_is_widebus_enabled(&msm_host->base))
-> +                               data |= DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN;
-> +
->                         dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2, data);
->                 }
->         }
-> @@ -894,6 +908,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->         u32 hdisplay = mode->hdisplay;
->         u32 wc;
->         int ret;
-> +       bool widebus_enabled = msm_dsi_host_is_widebus_enabled(&msm_host->base);
->
->         DBG("");
->
-> @@ -914,6 +929,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->
->         if (msm_host->dsc) {
->                 struct drm_dsc_config *dsc = msm_host->dsc;
-> +               u32 bytes_per_pclk;
->
->                 /* update dsc params with timing params */
->                 if (!dsc || !mode->hdisplay || !mode->vdisplay) {
-> @@ -937,7 +953,13 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->                  * pulse width same
->                  */
->                 h_total -= hdisplay;
-> -               hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
-> +               if (widebus_enabled && !(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO))
-> +                       bytes_per_pclk = 6;
-> +               else
-> +                       bytes_per_pclk = 3;
-> +
-> +               hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), bytes_per_pclk);
-> +
->                 h_total += hdisplay;
->                 ha_end = ha_start + hdisplay;
->         }
->
-> --
-> 2.41.0
->
+diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+index 890f2b382bee..5c3fec63cb4c 100644
+--- a/drivers/gpu/drm/i915/i915_getparam.c
++++ b/drivers/gpu/drm/i915/i915_getparam.c
+@@ -109,7 +109,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 			return value;
+ 		break;
+ 	case I915_PARAM_PXP_STATUS:
+-		value = intel_pxp_get_readiness_status(i915->pxp);
++		value = intel_pxp_get_readiness_status(i915->pxp, 0);
+ 		if (value < 0)
+ 			return value;
+ 		break;
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+index 38ec754d0ec8..dc327cf40b5a 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+@@ -359,22 +359,46 @@ void intel_pxp_end(struct intel_pxp *pxp)
+ 	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
+ }
+ 
++static bool pxp_required_fw_failed(struct intel_pxp *pxp)
++{
++	if (__intel_uc_fw_status(&pxp->ctrl_gt->uc.huc.fw) == INTEL_UC_FIRMWARE_LOAD_FAIL)
++		return true;
++	if (HAS_ENGINE(pxp->ctrl_gt, GSC0) &&
++	    __intel_uc_fw_status(&pxp->ctrl_gt->uc.gsc.fw) == INTEL_UC_FIRMWARE_LOAD_FAIL)
++		return true;
++
++	return false;
++}
++
++static bool pxp_fw_dependencies_completed(struct intel_pxp *pxp)
++{
++	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
++		return intel_pxp_gsccs_is_ready_for_sessions(pxp);
++
++	return pxp_component_bound(pxp);
++}
++
+ /*
+  * this helper is used by both intel_pxp_start and by
+  * the GET_PARAM IOCTL that user space calls. Thus, the
+  * return values here should match the UAPI spec.
+  */
+-int intel_pxp_get_readiness_status(struct intel_pxp *pxp)
++int intel_pxp_get_readiness_status(struct intel_pxp *pxp, int timeout_ms)
+ {
+ 	if (!intel_pxp_is_enabled(pxp))
+ 		return -ENODEV;
+ 
+-	if (HAS_ENGINE(pxp->ctrl_gt, GSC0)) {
+-		if (wait_for(intel_pxp_gsccs_is_ready_for_sessions(pxp), 250))
+-			return 2;
+-	} else {
+-		if (wait_for(pxp_component_bound(pxp), 250))
++	if (pxp_required_fw_failed(pxp))
++		return -ENODEV;
++
++	if (pxp->platform_cfg_is_bad)
++		return -ENODEV;
++
++	if (timeout_ms) {
++		if (wait_for(pxp_fw_dependencies_completed(pxp), timeout_ms))
+ 			return 2;
++	} else if (!pxp_fw_dependencies_completed(pxp)) {
++		return 2;
+ 	}
+ 	return 1;
+ }
+@@ -383,11 +407,13 @@ int intel_pxp_get_readiness_status(struct intel_pxp *pxp)
+  * the arb session is restarted from the irq work when we receive the
+  * termination completion interrupt
+  */
++#define PXP_READINESS_TIMEOUT 250
++
+ int intel_pxp_start(struct intel_pxp *pxp)
+ {
+ 	int ret = 0;
+ 
+-	ret = intel_pxp_get_readiness_status(pxp);
++	ret = intel_pxp_get_readiness_status(pxp, PXP_READINESS_TIMEOUT);
+ 	if (ret < 0)
+ 		return ret;
+ 	else if (ret > 1)
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+index 17254c3f1267..d9372f6f7797 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+@@ -26,7 +26,7 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp);
+ void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
+ void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 arb_session_id);
+ 
+-int intel_pxp_get_readiness_status(struct intel_pxp *pxp);
++int intel_pxp_get_readiness_status(struct intel_pxp *pxp, int timeout_ms);
+ int intel_pxp_get_backend_timeout_ms(struct intel_pxp *pxp);
+ int intel_pxp_start(struct intel_pxp *pxp);
+ void intel_pxp_end(struct intel_pxp *pxp);
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+index c7df47364013..97ad58d6aff1 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+@@ -17,12 +17,13 @@
+ #include "intel_pxp_types.h"
+ 
+ static bool
+-is_fw_err_platform_config(u32 type)
++is_fw_err_platform_config(struct intel_pxp *pxp, u32 type)
+ {
+ 	switch (type) {
+ 	case PXP_STATUS_ERROR_API_VERSION:
+ 	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
+ 	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
++		pxp->platform_cfg_is_bad = true;
+ 		return true;
+ 	default:
+ 		break;
+@@ -225,7 +226,7 @@ int intel_pxp_gsccs_create_session(struct intel_pxp *pxp,
+ 	if (ret) {
+ 		drm_err(&i915->drm, "Failed to init session %d, ret=[%d]\n", arb_session_id, ret);
+ 	} else if (msg_out.header.status != 0) {
+-		if (is_fw_err_platform_config(msg_out.header.status)) {
++		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
+ 			drm_info_once(&i915->drm,
+ 				      "PXP init-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
+ 				      arb_session_id, msg_out.header.status,
+@@ -268,7 +269,7 @@ void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
+ 		drm_err(&i915->drm, "Failed to inv-stream-key-%u, ret=[%d]\n",
+ 			session_id, ret);
+ 	} else if (msg_out.header.status != 0) {
+-		if (is_fw_err_platform_config(msg_out.header.status)) {
++		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
+ 			drm_info_once(&i915->drm,
+ 				      "PXP inv-stream-key-%u failed due to BIOS/SOC :0x%08x:%s\n",
+ 				      session_id, msg_out.header.status,
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+index 1ce07d7e8769..1de054126c6d 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+@@ -20,12 +20,13 @@
+ #include "intel_pxp_types.h"
+ 
+ static bool
+-is_fw_err_platform_config(u32 type)
++is_fw_err_platform_config(struct intel_pxp *pxp, u32 type)
+ {
+ 	switch (type) {
+ 	case PXP_STATUS_ERROR_API_VERSION:
+ 	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
+ 	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
++		pxp->platform_cfg_is_bad = true;
+ 		return true;
+ 	default:
+ 		break;
+@@ -339,7 +340,7 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
+ 	if (ret) {
+ 		drm_err(&i915->drm, "Failed to send tee msg init arb session, ret=[%d]\n", ret);
+ 	} else if (msg_out.header.status != 0) {
+-		if (is_fw_err_platform_config(msg_out.header.status)) {
++		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
+ 			drm_info_once(&i915->drm,
+ 				      "PXP init-arb-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
+ 				      arb_session_id, msg_out.header.status,
+@@ -387,7 +388,7 @@ void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
+ 		drm_err(&i915->drm, "Failed to send tee msg for inv-stream-key-%u, ret=[%d]\n",
+ 			session_id, ret);
+ 	} else if (msg_out.header.status != 0) {
+-		if (is_fw_err_platform_config(msg_out.header.status)) {
++		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
+ 			drm_info_once(&i915->drm,
+ 				      "PXP inv-stream-key-%u failed due to BIOS/SOC :0x%08x:%s\n",
+ 				      session_id, msg_out.header.status,
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+index 1a8765866b8b..7e11fa8034b2 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+@@ -26,6 +26,15 @@ struct intel_pxp {
+ 	 */
+ 	struct intel_gt *ctrl_gt;
+ 
++	/**
++	 * @platform_cfg_is_bad: used to track if any prior arb session creation resulted
++	 * in a failure that was caused by a platform configuration issue, meaning that
++	 * failure will not get resolved without a change to the platform (not kernel)
++	 * such as BIOS configuration, firwmware update, etc. This bool gets reflected when
++	 * GET_PARAM:I915_PARAM_PXP_STATUS is called.
++	 */
++	bool platform_cfg_is_bad;
++
+ 	/**
+ 	 * @kcr_base: base mmio offset for the KCR engine which is different on legacy platforms
+ 	 * vs newer platforms where the KCR is inside the media-tile.
 
-
+base-commit: d7a437067a2146e1035a5609dae08b9595773a16
 -- 
-With best wishes
-Dmitry
+2.39.0
+
