@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D3476CBA7
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 13:20:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AC176CBC2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 13:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C0510E09D;
-	Wed,  2 Aug 2023 11:20:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1C5110E066;
+	Wed,  2 Aug 2023 11:26:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9440910E171
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 11:20:41 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F059361935;
- Wed,  2 Aug 2023 11:20:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B07C433C7;
- Wed,  2 Aug 2023 11:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690975240;
- bh=WD+SSKvIiKPnRV7ZbrF3+/bXbHW9DvArsnTM6PE24VM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tek8esPJJh9XQS8B0tcf6QyBaku+4neVNlvdcUr/r74juDQhTl4aW4iMsWU0e3hDG
- p8WdPuk67yh/hYUeefVfwit7ExitogrqiEbizRLV//AQah0M4lPH29dSXjxkjn1lL3
- O7y307dB7ku3LXBbKrQGbRPaAcJjt0lgfPveVmOTUTbSCFBkaEGwZLesZhtUCsq7/g
- rJH2n2quyjf66jDdFaCZQ0Z443pExWqhfA8t0r9UNs6G0MbInknzXQxSaC7JqR3LNa
- mxbz99QcP5eQAD9i2jhdl9cvc6byz5+8wT3rxNlBNSM/s57Begy/Q/3sfchOMgQrWi
- J6sUZoFLomOtw==
-Date: Wed, 2 Aug 2023 16:50:28 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH v2 0/2] Add MHI quirk for QAIC
-Message-ID: <20230802112028.GG57374@thinkpad>
-References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
- <20230608115928.GA5672@thinkpad>
- <507f4cc2-15c2-8323-878e-4da00505bc45@quicinc.com>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3006::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD32D10E066
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 11:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202212;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KtyXEDjRXykfMMI9e+J/s9T/m9ueAOCtjWNluDP+qUY=; b=b3xoIh/8c+vzvIpTRWizszzCo2
+ JRIUcR+cGF0x8Klqq6y0cqYWFfKrVCvEimrSNkbAb2zIgzNCzmTLJtSiOtXORdTn4PXyKO4P3OOv+
+ oUWTthnsk2sPdZN+AqJaHO5NMO2KzpUa32stdjRTk2bUbCwx/tkukwxMlbDuxmc7EEUkEGYzRu35W
+ 5r0r2o69x8rrc57Ub/99xud0PL1grYfGSTHapLZvMIZR7CpA79wan7ABCSpUjRSveXKD4YDbyw09D
+ BOizTMtwnqBsMgl5QD8Xk2C3+b97G/9Nzph7JVPZHWfn69VoV1zNHa1nGUt0LjV0/0ln3Kzg20dqy
+ DLjGQ9Jg==;
+Received: from [2a01:799:95f:2800:2fb5:c6db:11b1:a10f] (port=54492)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1qR9zr-00Bx5W-5A;
+ Wed, 02 Aug 2023 13:26:31 +0200
+Message-ID: <00821258-6393-6717-8923-45b9b03a82ce@tronnes.org>
+Date: Wed, 2 Aug 2023 13:26:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 0/2] drm/mipi-dbi: Allow using same the D/C GPIO for
+ multiple displays
+Content-Language: en-US
+To: =?UTF-8?Q?Otto_Pfl=c3=bcger?= <otto.pflueger@abscue.de>,
+ dri-devel@lists.freedesktop.org
+References: <20230724065654.5269-1-otto.pflueger@abscue.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20230724065654.5269-1-otto.pflueger@abscue.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <507f4cc2-15c2-8323-878e-4da00505bc45@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,122 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- mhi@lists.linux.dev
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ noralf@tronnes.org, Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ David Lechner <david@lechnology.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 26, 2023 at 11:15:56AM -0600, Jeffrey Hugo wrote:
-> On 6/8/2023 5:59 AM, Manivannan Sadhasivam wrote:
-> > On Fri, May 19, 2023 at 10:39:00AM -0600, Jeffrey Hugo wrote:
-> > > With the QAIC driver in -next, I'd like to suggest some MHI changes that
-> > > specific to AIC100 devices, but perhaps provide a framework for other
-> > > device oddities.
-> > > 
-> > > AIC100 devices technically violate the MHI spec in two ways. Sadly, these
-> > > issues comes from the device hardware, so host SW needs to work around
-> > > them.
-> > > 
-> > > Thie first issue, presented in this series, has to do with the
-> > > SOC_HW_VERSION register. This register is suposed to be initialized by the
-> > > hardware prior to the MHI being accessable by the host to contain a
-> > > version string for the SoC of the device. This could be used by the host
-> > > MHI controller software to identify and handle version to version changes.
-> > > The AIC100 hardware does not initialize this register, and thus it
-> > > contains garbage.
-> > > 
-> > > This would not be much of a problem normally - the QAIC driver would just
-> > > never use it. However the MHI stack uses this register as part of the init
-> > > sequence and if the controller reports that the register is inaccessable
-> > > then the init sequence fails.  On some AIC100 cards, the garbage value
-> > > ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
-> > > indicating the access failed.  The MHI controller cannot tell if that
-> > > value is a PCIe link issue, or just garbage.
-> > > 
-> > > QAIC needs a way to tell MHI not to use this register. Other buses have a
-> > > quirk mechanism - a way to describe oddities in a particular
-> > > implementation that have some kind of workaround. Since this seems to be
-> > > the first need for such a thing in MHI, introduce a quirk framework.
-> > > 
-> > > The second issue AIC100 has involves the PK Hash registers. A solution for
-> > > this is expected to be proposed in the near future and is anticipated to
-> > > make use of the quirk framework proposed here. With PK Hash, there are two
-> > > oddities to handle. AIC100 does not initialize these registers until the
-> > > SBL is running, which is later than the spec indicates, and in practice
-> > > is after MHI reads/caches them. Also, AIC100 does not have enough
-> > > registers defined to fully report the 5 PK Hash slots, so a custom
-> > > reporting format is defined by the device.
-> > > 
-> > 
-> > Looking at the two issues you reported above, it looks to me that they can be
-> > handled inside the aic100 mhi_controller driver itself. Since the MHI stack
-> > exports the read_reg callback to controller drivers, if some registers are not
-> > supported by the device, then the callback can provide some fixed dummy data
-> > emulating the register until the issue is fixed in the device (if at all).
-> > 
-> > Quirk framework could be useful if the device misbehaves against the protocol
-> > itself but for the register issues like this, I think the controller driver can
-> > handle itself.
-> > 
-> > What do you think?
-> 
-> I think for the HW_VERSION register, your suggestion is very good, and
-> something I plan to adopt.
-> 
-> For the PK Hash registers, I don't think it quite works.
-> 
-> HW_VERSION I can hard code to a valid value, or just stub out to 0 since
-> that appears to be only consumed by the MHI Controller, and we don't use it.
-> 
-> The PK Hash registers are programmed into the SoC, and can be unique from
-> SoC to SoC.  I don't see how the driver can provide valid, but faked
-> information for them.  Also, the user consumes this data via sysfs.  We'd
-> like to give the data to the user, and we can't fake it. Also the data is
-> dynamic.
-> 
-> Lets start with the dynamic data issue.  Right now MHI reads these registers
-> once, and caches the values.  I would propose a quirk to change that
-> behavior for AIC100, but does MHI really need to operate in a "read once"
-> mode?  Would something actually break if MHI read the registers every time
-> the sysfs node is accessed?  Then sysfs would display the latest data, which
-> would be beneficial to AIC100 and should not be a behavior change for other
-> devices which have static data (MHI just displays the same data because it
-> hasn't changed).
-> 
-> Do you recall the reason behind making the PK Hash registers read once and
-> cached?
-> 
 
-I don't see an issue with reading the PK hash dynamically. I think the intention
-for caching mostly come from the fact it was a static data.
 
-So you can dynamically read it all the time.
+On 7/24/23 08:56, Otto Pflüger wrote:
+> When multiple displays are connected to the same SPI bus, the data/command
+> switch is sometimes considered part of the bus and is shared among the
+> displays.
+> 
+> This series adds the GPIO_FLAGS_BIT_NONEXCLUSIVE flag for this GPIO and
+> SPI bus locking to the panel-mipi-dbi/drm_mipi_dbi drivers to support
+> this hardware setup.
+> 
+> ---
 
-- Mani
+Thanks, applied to drm-misc-next.
 
-> > 
-> > - Mani
-> > 
-> > > v2:
-> > > -Fix build error
-> > > -Fix typo in commit text
-> > > 
-> > > Jeffrey Hugo (2):
-> > >    bus: mhi: host: Add quirk framework and initial quirk
-> > >    accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
-> > > 
-> > >   drivers/accel/qaic/mhi_controller.c |  1 +
-> > >   drivers/bus/mhi/host/init.c         | 13 +++++++++----
-> > >   include/linux/mhi.h                 | 18 ++++++++++++++++++
-> > >   3 files changed, 28 insertions(+), 4 deletions(-)
-> > > 
-> > > -- 
-> > > 2.40.1
-> > > 
-> > > 
-> > 
+Noralf.
+
+> Changes in v3:
+> - add comment and remove unnecessary line break as suggested by Noralf
+> Changes in v2:
+> - fix uses of mipi_dbi_spi_transfer outside drm_mipi_dbi.c (errors
+>   reported by kernel test robot)
+> - remove the is_locked argument introduced in v1 which was always set to
+>   true
+> 
+> Otto Pflüger (2):
+>   drm/mipi-dbi: Lock SPI bus before setting D/C GPIO
+>   drm/tiny: panel-mipi-dbi: Allow sharing the D/C GPIO
+> 
+>  drivers/gpu/drm/drm_mipi_dbi.c        | 17 +++++++++++++----
+>  drivers/gpu/drm/tiny/ili9225.c        |  7 ++++++-
+>  drivers/gpu/drm/tiny/ili9486.c        |  4 ++++
+>  drivers/gpu/drm/tiny/panel-mipi-dbi.c |  3 ++-
+>  4 files changed, 25 insertions(+), 6 deletions(-)
 > 
 > 
-
--- 
-மணிவண்ணன் சதாசிவம்
+> base-commit: ae867bc97b713121b2a7f5fcac68378a0774739b
