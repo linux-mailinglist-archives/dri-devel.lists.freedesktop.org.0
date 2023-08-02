@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C03176D086
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 16:48:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DD676D080
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 16:48:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAEA710E1FA;
-	Wed,  2 Aug 2023 14:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF20810E202;
+	Wed,  2 Aug 2023 14:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B1010E1FA
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 14:48:14 +0000 (UTC)
-X-UUID: 965fe362314311eeb20a276fd37b9834-20230802
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D65DF10E20F
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 14:48:13 +0000 (UTC)
+X-UUID: 968c4f1a314311eeb20a276fd37b9834-20230802
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=cAu69axKcG/sCRm+98orQm4HuFnITUEM5KPKS6qi7xs=; 
- b=umnzFxRMT6qFVKNqWjNcuE3BygaNy9sX7scbT9z0USeZ4Tmm1fOvrfRXqWaMlEJLa7P4GfYxOGRS3flrAj9mKy/OUevSCBlEwJsGKR9/NBBsvWgSaROA5oWqFeiIclPY+sjasNnANap+x1Wy5hw0yvlRCfsxe1HCGb3FWyl+vxU=;
+ bh=aUhX4vm7/YwxpZ4R5IgDTC1j/2pYbB/emjeIzE3ZJpI=; 
+ b=nNRmNcLJnezH5Xo4YW8VLPowU8hYB+6Bodr8/H/TcUhQMd6V1tYNR+GUcmrJo32Tz0VKNmC9O7xpR/JLGQHCh82ZxWs9zd4ksWmPvTtABEZUFBaM2nSzDME3liWbXC4zza+rSTaeZALAU92lkIWdJ30cXGtha0/9J5MDUKtTzw4=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.30, REQID:11d59ad3-a29c-4ccb-8b48-3eb021415e8c, IP:0,
+X-CID-O-INFO: VERSION:1.1.30, REQID:b9325386-0f6c-42a5-9503-85a4e0edbf76, IP:0,
  U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:70
-X-CID-INFO: VERSION:1.1.30, REQID:11d59ad3-a29c-4ccb-8b48-3eb021415e8c, IP:0,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.30, REQID:b9325386-0f6c-42a5-9503-85a4e0edbf76, IP:0,
  URL
- :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
- ON:quarantine,TS:70
-X-CID-META: VersionHash:1fcc6f8, CLOUDID:f987d1a0-0933-4333-8d4f-6c3c53ebd55b,
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:1fcc6f8, CLOUDID:551f9dd2-cd77-4e67-bbfd-aa4eaace762f,
  B
- ulkID:230802224806KWMI6316,BulkQuantity:1,Recheck:0,SF:38|29|28|17|19|48,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,
- OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ASC, TF_CID_SPAM_FAS, TF_CID_SPAM_FSD,
- TF_CID_SPAM_SNR, TF_CID_SPAM_SDM
-X-UUID: 965fe362314311eeb20a276fd37b9834-20230802
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+ ulkID:2308022248067SK72J6U,BulkQuantity:1,Recheck:0,SF:48|38|29|28|17|19,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:40,QS:nil,BEC:nil,COL
+ :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SDM, TF_CID_SPAM_ASC, TF_CID_SPAM_FAS,
+ TF_CID_SPAM_FSD, TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
+X-UUID: 968c4f1a314311eeb20a276fd37b9834-20230802
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
  mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 927463546; Wed, 02 Aug 2023 22:48:05 +0800
+ with ESMTP id 1426893558; Wed, 02 Aug 2023 22:48:05 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 2 Aug 2023 22:48:03 +0800
+ 15.2.1118.26; Wed, 2 Aug 2023 22:48:04 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 2 Aug 2023 22:48:03 +0800
+ 15.2.1118.26 via Frontend Transport; Wed, 2 Aug 2023 22:48:04 +0800
 From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Eugen Hristev
  <eugen.hristev@collabora.com>
-Subject: [PATCH v8 2/8] drm/mediatevk: Add crtc path enum for all_drm_priv
- array
-Date: Wed, 2 Aug 2023 22:47:56 +0800
-Message-ID: <20230802144802.751-3-jason-jh.lin@mediatek.com>
+Subject: [PATCH v8 3/8] drm/mediatek: Fix using wrong drm private data to bind
+ mediatek-drm
+Date: Wed, 2 Aug 2023 22:47:57 +0800
+Message-ID: <20230802144802.751-4-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20230802144802.751-1-jason-jh.lin@mediatek.com>
 References: <20230802144802.751-1-jason-jh.lin@mediatek.com>
@@ -85,69 +85,57 @@ Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add mtk_drm_crtc_path enum for eatch display path.
+In mtk_drm_kms_init(), each element in all_drm_priv should has one
+display path private data only, such as:
+all_drm_priv[CRTC_MAIN] should has main_path data only
+all_drm_priv[CRTC_EXT] should has ext_path data only
+all_drm_priv[CRTC_THIRD] should has third_path data only
 
-Instead of using array index of all_drm_priv in mtk_drm_kms_init(),
-mtk_drm_crtc_path enum can make more readable.
+So we need to add the length checking for each display path before
+assigning their drm private data into all_drm_priv array.
 
+Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support")
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 6 +++---
- drivers/gpu/drm/mediatek/mtk_drm_drv.h | 8 +++++++-
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 249c9fd6347e..89a38561ba27 100644
+index 89a38561ba27..c12886f31e54 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -465,21 +465,21 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 		for (j = 0; j < private->data->mmsys_dev_num; j++) {
- 			priv_n = private->all_drm_private[j];
+@@ -351,6 +351,7 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+ {
+ 	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
+ 	struct mtk_drm_private *all_drm_priv[MAX_CRTC];
++	struct mtk_drm_private *temp_drm_priv;
+ 	struct device_node *phandle = dev->parent->of_node;
+ 	const struct of_device_id *of_id;
+ 	struct device_node *node;
+@@ -373,9 +374,18 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+ 		if (!drm_dev || !dev_get_drvdata(drm_dev))
+ 			continue;
  
--			if (i == 0 && priv_n->data->main_len) {
-+			if (i == CRTC_MAIN && priv_n->data->main_len) {
- 				ret = mtk_drm_crtc_create(drm, priv_n->data->main_path,
- 							  priv_n->data->main_len, j);
- 				if (ret)
- 					goto err_component_unbind;
- 
- 				continue;
--			} else if (i == 1 && priv_n->data->ext_len) {
-+			} else if (i == CRTC_EXT && priv_n->data->ext_len) {
- 				ret = mtk_drm_crtc_create(drm, priv_n->data->ext_path,
- 							  priv_n->data->ext_len, j);
- 				if (ret)
- 					goto err_component_unbind;
- 
- 				continue;
--			} else if (i == 2 && priv_n->data->third_len) {
-+			} else if (i == CRTC_THIRD && priv_n->data->third_len) {
- 				ret = mtk_drm_crtc_create(drm, priv_n->data->third_path,
- 							  priv_n->data->third_len, j);
- 				if (ret)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index eb2fd45941f0..f4de8bb27685 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -9,11 +9,17 @@
- #include <linux/io.h>
- #include "mtk_drm_ddp_comp.h"
- 
--#define MAX_CRTC	3
- #define MAX_CONNECTOR	2
- #define DDP_COMPONENT_DRM_OVL_ADAPTOR (DDP_COMPONENT_ID_MAX + 1)
- #define DDP_COMPONENT_DRM_ID_MAX (DDP_COMPONENT_DRM_OVL_ADAPTOR + 1)
- 
-+enum mtk_drm_crtc_path {
-+	CRTC_MAIN,
-+	CRTC_EXT,
-+	CRTC_THIRD,
-+	MAX_CRTC,
-+};
+-		all_drm_priv[cnt] = dev_get_drvdata(drm_dev);
+-		if (all_drm_priv[cnt] && all_drm_priv[cnt]->mtk_drm_bound)
+-			cnt++;
++		temp_drm_priv = dev_get_drvdata(drm_dev);
++		if (temp_drm_priv) {
++			if (temp_drm_priv->mtk_drm_bound)
++				cnt++;
 +
- struct device;
- struct device_node;
- struct drm_crtc;
++			if (temp_drm_priv->data->main_len)
++				all_drm_priv[CRTC_MAIN] = temp_drm_priv;
++			else if (temp_drm_priv->data->ext_len)
++				all_drm_priv[CRTC_EXT] = temp_drm_priv;
++			else if (temp_drm_priv->data->third_len)
++				all_drm_priv[CRTC_THIRD] = temp_drm_priv;
++		}
+ 	}
+ 
+ 	if (drm_priv->data->mmsys_dev_num == cnt) {
 -- 
 2.18.0
 
