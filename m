@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9B776C8F0
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5CE76C8F3
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:06:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64A0E10E527;
-	Wed,  2 Aug 2023 09:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C08F10E528;
+	Wed,  2 Aug 2023 09:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D1B10E528
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:06:02 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-579de633419so65251957b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 02:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690967162; x=1691571962;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zJo1GDVdxjuEF3GZ0h8NCedqxxr4bUpTzfP363f04Q4=;
- b=xRGySJsX/O0+HhQkS9s1TftOkx+w+jubWByoUFUKefpw2nDpcBsHdp4/xIaD7QpT9W
- TiwMdHCvVtHdYongyJOBpuXq9XO/tcdXjHuZFW04WbnaXyUddsEFo4j6pnIcKkNUIE/3
- fKXlk2nD7GNIo/jtR9qQKQu6WBZdrsKXUHJDp7kQd2ObGjRwkn63H9quVg2vCFUd2RvC
- 0+12chHxSUHVCM9NV0pIyZyEV6PgBAC3PZLtGCrweEf+xP1wmH2U4WsqScSnaLwx5sz1
- sVQ60Cud/S6wfOFT8336s4uRw25oh8Eu2f34Izfj+y+t35fWiGxgniykI0EU0+L76kGS
- Q7fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690967162; x=1691571962;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zJo1GDVdxjuEF3GZ0h8NCedqxxr4bUpTzfP363f04Q4=;
- b=K4rbAMBYgPRvv8DL7C5Rxx8khSUjVH2LTORZdLz9V92jwDXbJ9XLcwAQ1hPCwwDta/
- jZMpXetDi2eDlqQcu9VsUryyEoUq+Qs2Ogfya9YE7Z8dyRSYRMVHF2v/wojwK+FwsNrK
- yxvkqhwmsqKHoP5sZI7h7M2pX/w9u+OxUAyAz5sGvUW0auN0ovekbTQa/rV9vsgt9X5+
- JquXZ/X9I2hVrbdkUwexVpFDvnfDJKf2/qslP3PUiKsFp4GHEhDL7UVYBzy3FRmYcVSq
- HhDRkpAge10CqJ0PTCrfDlO2AU/y9IA+YDWMrFtGiWUWAkrShT0cwuvgutH+E3InVH9+
- yuxw==
-X-Gm-Message-State: ABy/qLY50MWjRNvBDXuycNb7DoRmfPDqTH5KFoxP5gSF+V4BoVe50t+/
- 3OgvusRdFhYbMZyC627zDch7/3N9CrCKe4wGQ99T8g==
-X-Google-Smtp-Source: APBJJlHe54V6RwR/aD4wxBit+WMtsfxJlYINs/ZT5LNjHwEGqkD1LUetUBnjUZ1FiOdGz7XZoUX8Xtdd8QI/8ZkfVZQ=
-X-Received: by 2002:a81:6c52:0:b0:573:9e0a:b8bf with SMTP id
- h79-20020a816c52000000b005739e0ab8bfmr13033940ywc.9.1690967161816; Wed, 02
- Aug 2023 02:06:01 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC1710E528
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:06:31 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 408F16607150;
+ Wed,  2 Aug 2023 10:06:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1690967189;
+ bh=w3kzvQfCfw77/XpFJLMzgdydPMR8fw6a28RJHdL3lf8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=SIZF+7Zr4BVlRezCVuZZcRKhPJ0SsfrlIciW6jRo7igydOEP509Gge8L1X6jwq5Zd
+ kdfNIbEq45RBwEyAa6TwchSSlpWG/soggncVuBgglFMze8j3jL4X+2JMhhZr4XHlh0
+ zGRcHq2LDLlzr7a4HDTIG/nsKe+iCBJbTY7QoJhMZfHQCAKhRaluk6GMmhyaCVOc1W
+ FnzCybMlRiLVVBqRWAAyNNZkFcaaAqo7kOxy48yVEkAk40N5T3z1xaOdmddiEgJj5P
+ rz+t1elHPFVHQxA8dsMW5NIi1aGJabB1O2kMe1wkeMr+NZEMvAfwV2ez7yzNQ5dEjb
+ tXFOO3SAR0hOg==
+Date: Wed, 2 Aug 2023 11:06:26 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH v14 02/12] drm/shmem-helper: Add pages_pin_count field
+Message-ID: <20230802110626.5035c228@collabora.com>
+In-Reply-To: <156f9560-b219-7459-d06a-5a8fe07f24cf@redhat.com>
+References: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
+ <20230722234746.205949-3-dmitry.osipenko@collabora.com>
+ <20230725092709.51356f39@collabora.com>
+ <20230725103234.0c8923f1@collabora.com>
+ <4c5fa735-9bfd-f92a-8deb-888c7368f89e@collabora.com>
+ <20230731153551.7365daa4@collabora.com>
+ <156f9560-b219-7459-d06a-5a8fe07f24cf@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
- <20230729004913.215872-3-dmitry.baryshkov@linaro.org>
- <0cc04d99-d7aa-68ff-b304-7d42ae7f0dde@linaro.org>
-In-Reply-To: <0cc04d99-d7aa-68ff-b304-7d42ae7f0dde@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 2 Aug 2023 12:05:50 +0300
-Message-ID: <CAA8EJpoMC-YbWvyfCsdAHOL9aw3nfQ=g8BgLp2mb9iozeRgBpg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/bridge-connector: handle subconnector types
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,136 +59,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, amd-gfx@lists.freedesktop.org,
- Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Aug 2023 at 11:35, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> On 29/07/2023 02:49, Dmitry Baryshkov wrote:
-> > If the created connector type supports subconnector type property,
-> > create and attach corresponding it. The default subtype value is 0,
-> > which maps to the DRM_MODE_SUBCONNECTOR_Unknown type.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/drm_bridge_connector.c | 33 +++++++++++++++++++++++++-
-> >   include/drm/drm_bridge.h               |  4 ++++
-> >   2 files changed, 36 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-> > index 07b5930b1282..a7b92f0d2430 100644
-> > --- a/drivers/gpu/drm/drm_bridge_connector.c
-> > +++ b/drivers/gpu/drm/drm_bridge_connector.c
-> > @@ -329,7 +329,9 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >       struct drm_connector *connector;
-> >       struct i2c_adapter *ddc = NULL;
-> >       struct drm_bridge *bridge, *panel_bridge = NULL;
-> > +     enum drm_mode_subconnector subconnector;
-> >       int connector_type;
-> > +     int ret;
-> >
-> >       bridge_connector = kzalloc(sizeof(*bridge_connector), GFP_KERNEL);
-> >       if (!bridge_connector)
-> > @@ -365,8 +367,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >               if (bridge->ops & DRM_BRIDGE_OP_MODES)
-> >                       bridge_connector->bridge_modes = bridge;
-> >
-> > -             if (!drm_bridge_get_next_bridge(bridge))
-> > +             if (!drm_bridge_get_next_bridge(bridge)) {
-> >                       connector_type = bridge->type;
-> > +                     subconnector = bridge->subtype;
-> > +             }
-> >
-> >   #ifdef CONFIG_OF
-> >               if (!drm_bridge_get_next_bridge(bridge) &&
-> > @@ -399,6 +403,33 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >       if (panel_bridge)
-> >               drm_panel_bridge_set_orientation(connector, panel_bridge);
-> >
-> > +     if (connector_type == DRM_MODE_CONNECTOR_DisplayPort) {
-> > +             drm_connector_attach_dp_subconnector_property(connector, subconnector);
-> > +     } else if (connector_type == DRM_MODE_CONNECTOR_DVII) {
-> > +             ret = drm_mode_create_dvi_i_properties(drm);
-> > +             if (ret)
-> > +                     return ERR_PTR(ret);
-> > +
-> > +             drm_object_attach_property(&connector->base,
-> > +                                        drm->mode_config.dvi_i_subconnector_property,
-> > +                                        subconnector);
-> > +     } else if (connector_type == DRM_MODE_CONNECTOR_TV) {
-> > +             ret = drm_mode_create_tv_properties(drm,
-> > +                                                 BIT(DRM_MODE_TV_MODE_NTSC) |
-> > +                                                 BIT(DRM_MODE_TV_MODE_NTSC_443) |
-> > +                                                 BIT(DRM_MODE_TV_MODE_NTSC_J) |
-> > +                                                 BIT(DRM_MODE_TV_MODE_PAL) |
-> > +                                                 BIT(DRM_MODE_TV_MODE_PAL_M) |
-> > +                                                 BIT(DRM_MODE_TV_MODE_PAL_N) |
-> > +                                                 BIT(DRM_MODE_TV_MODE_SECAM));
-> > +             if (ret)
-> > +                     return ERR_PTR(ret);
->
-> I don't think this is right, this should be called from the appropriate encoder
-> device depending on the analog tv mode capabilities.
+On Wed, 2 Aug 2023 04:31:52 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-Good question. My logic was the following: the DRM device can have
-different TV out ports with different capabilities (yeah, pure
-theoretical construct). In this case it might be impossible to create
-a single subset of values. Thus it is more correct to create the
-property listing all possible values. The property is immutable anyway
-(and so the user doesn't have control over the value).
+> On 7/31/23 15:35, Boris Brezillon wrote:
+> > +Danilo, to confirm my understanding of the gpuva remap operation is
+> > correct.  
+> 
+> Your understanding is correct.
+> 
+> Unfortunately, re-mapping things has such implications.
+> 
+> I'm currently working on tracking external GEM objects in the GPUVA 
+> manager, where, ideally, you'd want to add the extobj to the VM when the 
+> first mapping being backed by this GEM is created and removed when the 
+> last mapping being backed by this GEM is removed. Hence, extobjs need to 
+> be ref-counted based on how many mappings they back.
 
+Uh, right. I went for a much simpler (but also less efficient) approach
+where I basically track things at the mapping level (my panthor_vma
+object, which inherits from drm_gpuva, has a list node so it can be
+inserted in a shared_bos list tracked at the VM level), instead of the
+GEM level. So we'd basically be trying to acquire resv locks multiple
+times and reserving multiple slots if the same shared GEM is mapped
+multiple times. With the IGNORE_DUPLICATES flag passed to drm_exec,
+that works, but it might not be ideal if we expect shared BOs to be
+mapped multiple times in the same VM.
 
-> > +
-> > +             drm_object_attach_property(&connector->base,
-> > +                                        drm->mode_config.tv_subconnector_property,
-> > +                                        subconnector);
->
-> Here, only add the property if drm->mode_config.tv_subconnector_property exists,
-> and perhaps add a warning if not.
+> 
+> However, when re-mapping such a mapping, the reference counter might 
+> drop to 0 temporarily and the slot of the data structure tracking the 
+> extobj is cleaned up and needs to be re-allocated. Surely, we could just 
+> increase the reference count while re-mapping or for the whole 
+> transaction (job), but this would make the API kinda bulky.
 
-This property is created in the previous call,
-drm_mode_create_tv_properties() ->
-drm_mode_create_tv_properties_legacy().
-
->
-> AFAIK same for DRM_MODE_CONNECTOR_DVII.
->
-> > +     }
-> > +
-> >       return connector;
-> >   }
-> >   EXPORT_SYMBOL_GPL(drm_bridge_connector_init);
-> > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > index bf964cdfb330..68b14ac5ac0d 100644
-> > --- a/include/drm/drm_bridge.h
-> > +++ b/include/drm/drm_bridge.h
-> > @@ -739,6 +739,10 @@ struct drm_bridge {
-> >        * identifies the type of connected display.
-> >        */
-> >       int type;
-> > +     /**
-> > +      * @subtype: the subtype of the connector for the DP/TV/DVI-I cases.
-> > +      */
-> > +     enum drm_mode_subconnector subtype;
-> >       /**
-> >        * @interlace_allowed: Indicate that the bridge can handle interlaced
-> >        * modes.
->
-
-
--- 
-With best wishes
-Dmitry
+With things happening in the dma-signaling path, we'd need to
+pre-allocate this shared-bo container object anyway, because we can't
+assume there will be one available by the time we get to run the VM
+operation. So I think it's safe to assume that, even if the unmap part
+of the remap operation drops the last ref of this container object, when
+you get to map the same BO again, you'll have another container to play
+with. It's just a matter of pre-allocating one more thing when
+bo_is_shared==true && op==map, I think.
