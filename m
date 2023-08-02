@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5CE76C8F3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:06:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A086E76C8FE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:08:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C08F10E528;
-	Wed,  2 Aug 2023 09:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6E0510E069;
+	Wed,  2 Aug 2023 09:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC1710E528
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:06:31 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 408F16607150;
- Wed,  2 Aug 2023 10:06:29 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1690967189;
- bh=w3kzvQfCfw77/XpFJLMzgdydPMR8fw6a28RJHdL3lf8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=SIZF+7Zr4BVlRezCVuZZcRKhPJ0SsfrlIciW6jRo7igydOEP509Gge8L1X6jwq5Zd
- kdfNIbEq45RBwEyAa6TwchSSlpWG/soggncVuBgglFMze8j3jL4X+2JMhhZr4XHlh0
- zGRcHq2LDLlzr7a4HDTIG/nsKe+iCBJbTY7QoJhMZfHQCAKhRaluk6GMmhyaCVOc1W
- FnzCybMlRiLVVBqRWAAyNNZkFcaaAqo7kOxy48yVEkAk40N5T3z1xaOdmddiEgJj5P
- rz+t1elHPFVHQxA8dsMW5NIi1aGJabB1O2kMe1wkeMr+NZEMvAfwV2ez7yzNQ5dEjb
- tXFOO3SAR0hOg==
-Date: Wed, 2 Aug 2023 11:06:26 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH v14 02/12] drm/shmem-helper: Add pages_pin_count field
-Message-ID: <20230802110626.5035c228@collabora.com>
-In-Reply-To: <156f9560-b219-7459-d06a-5a8fe07f24cf@redhat.com>
-References: <20230722234746.205949-1-dmitry.osipenko@collabora.com>
- <20230722234746.205949-3-dmitry.osipenko@collabora.com>
- <20230725092709.51356f39@collabora.com>
- <20230725103234.0c8923f1@collabora.com>
- <4c5fa735-9bfd-f92a-8deb-888c7368f89e@collabora.com>
- <20230731153551.7365daa4@collabora.com>
- <156f9560-b219-7459-d06a-5a8fe07f24cf@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
+ [IPv6:2607:f8b0:4864:20::1129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82FDD10E069
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:08:48 +0000 (UTC)
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-583e91891aeso75584687b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 02:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1690967327; x=1691572127;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=V4JyHfiibRFYZGtLi4yuv7+iKXcqBb0CdEPjLP4kQ2Y=;
+ b=l53X+3415Ye0gUqITzWhdICHp8ql0L5zj2ofJ39sRbUcud8MnyMZgGmPl7PPDknW7W
+ ZxxoEPUuMBdk17JHUt9HX5v15+ccj7h0e+yFcA20u3XLYNfHLw8clpq7ZEw1ygK7+gYA
+ 0qo1CTVGDJucmA/jBxri1xVKFYadOCd19EX/h3qGuuk650EaC07c55xddL1cseC34KoZ
+ sS/QblvBhHmXAHjRYALBlqOroSPVF7k0gmUu7ZG7TRnK+iHHZQk7S5SnJwxBvhvI1Mqi
+ aru1yuNg+DHksd06u6DZcaU3JyqWm4/Z9cf0lSPrBGDnAMT2Gr88QDLjI0cEJamW80t5
+ +vyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690967327; x=1691572127;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=V4JyHfiibRFYZGtLi4yuv7+iKXcqBb0CdEPjLP4kQ2Y=;
+ b=enCMHKPGfwHswoivqojRO/LLb556B9YxON7pfkpMhsteVz+JP2/doT+Uo8bC+ZycUA
+ UfEGeK1IecprVNev+o7jcB3xRvCPyHIdKchZmqGV0dPXr/g9XESsQfatC2yY/IEsjDEK
+ 9UCEKDZS8htWcke+kERVxZJMgmSYSN0k+BgN9frt/Ka59Q8xS8EGuCPFrBIre3RWH7rK
+ L3dJCGqPvE/IQpKm4Kwcsn4TgsvEhRyGm9mL2j5+nO57iJYSbFhJrn9NQlw4XSaGFJrN
+ ALZLTvAhjjDd2w7GuVyd377yfAUucgnh/iqWRk5m+XES7qAduR597wyWsv6XX79MtyNx
+ fTcA==
+X-Gm-Message-State: ABy/qLZM8hLBfSsHUShVjGdYCyEwIQ95Uj0SoNmQ9yc31ksf1VK7F0Uw
+ 9BaiHYOEKX9nJzaxqzs+/y4+BxVYejsbgKzD9WPfSQ==
+X-Google-Smtp-Source: APBJJlFAfrBBrLo31ENsKKGz80A86bC7eYZ0qRII1yo+K9xeF/aUOlOrLSstsENHwHA6hSEg+zwlHKiH/6hRv+kDKhg=
+X-Received: by 2002:a25:ac42:0:b0:d15:cbbb:d44a with SMTP id
+ r2-20020a25ac42000000b00d15cbbbd44amr16311636ybd.42.1690967326014; Wed, 02
+ Aug 2023 02:08:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
+In-Reply-To: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 2 Aug 2023 12:08:35 +0300
+Message-ID: <CAA8EJportnT-xHFH8QP+aiomXMLbm1r=02HMB-eNDEU+JqgEoQ@mail.gmail.com>
+Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+ and EOT packet"
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Marek Vasut <marex@denx.de>, Amit Pundir <amit.pundir@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Aug 2023 04:31:52 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+On Wed, 2 Aug 2023 at 11:52, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>
+> This reverts commit [1] to fix display regression on the Dragonboard 845c
+> (SDM845) devboard.
+>
+> There's a mismatch on the real action of the following flags:
+> - MIPI_DSI_MODE_VIDEO_NO_HSA
+> - MIPI_DSI_MODE_VIDEO_NO_HFP
+> - MIPI_DSI_MODE_VIDEO_NO_HBP
+> which leads to a non-working display on qcom platforms.
+>
+> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
 
-> On 7/31/23 15:35, Boris Brezillon wrote:
-> > +Danilo, to confirm my understanding of the gpuva remap operation is
-> > correct.  
-> 
-> Your understanding is correct.
-> 
-> Unfortunately, re-mapping things has such implications.
-> 
-> I'm currently working on tracking external GEM objects in the GPUVA 
-> manager, where, ideally, you'd want to add the extobj to the VM when the 
-> first mapping being backed by this GEM is created and removed when the 
-> last mapping being backed by this GEM is removed. Hence, extobjs need to 
-> be ref-counted based on how many mappings they back.
+Nit: I think the preferred form is to write `... reverts commit abcdef
+("foo and bar")', but I might be wrong.
 
-Uh, right. I went for a much simpler (but also less efficient) approach
-where I basically track things at the mapping level (my panthor_vma
-object, which inherits from drm_gpuva, has a list node so it can be
-inserted in a shared_bos list tracked at the VM level), instead of the
-GEM level. So we'd basically be trying to acquire resv locks multiple
-times and reserving multiple slots if the same shared GEM is mapped
-multiple times. With the IGNORE_DUPLICATES flag passed to drm_exec,
-that works, but it might not be ideal if we expect shared BOs to be
-mapped multiple times in the same VM.
+Other than that:
 
-> 
-> However, when re-mapping such a mapping, the reference counter might 
-> drop to 0 temporarily and the slot of the data structure tracking the 
-> extobj is cleaned up and needs to be re-allocated. Surely, we could just 
-> increase the reference count while re-mapping or for the whole 
-> transaction (job), but this would make the API kinda bulky.
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-With things happening in the dma-signaling path, we'd need to
-pre-allocate this shared-bo container object anyway, because we can't
-assume there will be one available by the time we get to run the VM
-operation. So I think it's safe to assume that, even if the unmap part
-of the remap operation drops the last ref of this container object, when
-you get to map the same BO again, you'll have another container to play
-with. It's just a matter of pre-allocating one more thing when
-bo_is_shared==true && op==map, I think.
+>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
+> Reported-by: Amit Pundir <amit.pundir@linaro.org>
+> Link: https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index 5163e5224aad..9663601ce098 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -774,9 +774,7 @@ static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+>         dsi->lanes = 4;
+>         dsi->format = MIPI_DSI_FMT_RGB888;
+>         dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+> -                         MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO_NO_HSA |
+> -                         MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
+> -                         MIPI_DSI_MODE_NO_EOT_PACKET;
+> +                         MIPI_DSI_MODE_VIDEO_HSE;
+>
+>         ret = devm_mipi_dsi_attach(dev, dsi);
+>         if (ret < 0) {
+>
+> ---
+> base-commit: f590814603bf2dd8620584b7d59ae94d7c186c69
+> change-id: 20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-6f042b1ba813
+>
+> Best regards,
+> --
+> Neil Armstrong <neil.armstrong@linaro.org>
+>
+
+
+-- 
+With best wishes
+Dmitry
