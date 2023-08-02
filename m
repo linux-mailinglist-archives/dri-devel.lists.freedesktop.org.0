@@ -1,72 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360A376C217
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 03:19:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F55376C21A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 03:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D17310E478;
-	Wed,  2 Aug 2023 01:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4866010E406;
+	Wed,  2 Aug 2023 01:20:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25F7410E463
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 01:18:51 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2b9b9f0387dso98165741fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Aug 2023 18:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690939129; x=1691543929;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aArr+Z0OOAMh7dLqu6+G5gaqEsgGaXff5br4Ze76jN4=;
- b=GHbhHHg/4LhqZi0zrU9RoqtSZK8ZxAXQlxUPd7LYsEclWuu185qefZ1aXwmnY4+eJF
- lzaalg+BsHe+pmhN7SBABwvDDwFiA2ibLXZXJjOd0/dOnXaexYT7EZIL3ESRiTQiAEhf
- q9zQtLY6T+RfEDG4NrKZhLY5MEXuO6ALpn/XkBxHpxDQbglmt8qnBhBVABxzMCkXTO3q
- bCRWL0e9T9Ey/33q+tZsJj2cu17pj/yla2X13+dRgsIpP55ZlFw4PlCx5v2XcebIRUEO
- R89hmUs8oosLFd3gtk8GJYw+evsJIgl1WpUKgALfN8UoqPkms36VcSCDhr/YUsU5XOiX
- Nnew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690939129; x=1691543929;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aArr+Z0OOAMh7dLqu6+G5gaqEsgGaXff5br4Ze76jN4=;
- b=icJ1LDhudwfLOwvH9mAkXHum2HwA4+aeHrCKShcd50YNVc/win1o/5UU6Kw4ALv7dP
- Fr5vKTsKZz27q5B4OfoUS8USuVySTAc6pFdzXQlyW3eF4JGS35ey9kMymDwSvdO0ZQbF
- QmL6wZNsV3nlGSpQtaLgRM95tN74KHy/b78fLvdsSc5r2aMkg1hSFJb9r4jzT2NAyzoA
- ENbzf44bJrpfT2mgD6Kqz6fEuUtktmu1COcysCUv1GjeL4AqIJs9zDuNpOvSrPx7uFQG
- 94P3N1+FoaQ4u9bLslIG3B1gyz1MCy26SdHOIOCks97mu7G0oKbit7emmCWiQUOiQS0b
- s+ow==
-X-Gm-Message-State: ABy/qLbubgmsiAX29XEMBYOn6ZXLtEasEqopTwdqFZoG55PuTpH13wqx
- 9K/l+bhCnxZapFmpM9YGk5Bs1Q==
-X-Google-Smtp-Source: APBJJlGF9VjtHiIJj7mtUiT79ggwGdmUojsfRzX3NmzReExgfLqeNoCRsP3Yuwa1QarhnNkvDHtOYQ==
-X-Received: by 2002:a19:430f:0:b0:4fb:889c:c53d with SMTP id
- q15-20020a19430f000000b004fb889cc53dmr3312081lfa.10.1690939129505; 
- Tue, 01 Aug 2023 18:18:49 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- n14-20020a056512388e00b004faeedbb29dsm2775842lft.64.2023.08.01.18.18.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Aug 2023 18:18:48 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v3 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
-Date: Wed,  2 Aug 2023 04:18:45 +0300
-Message-Id: <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
-References: <20230802011845.4176631-1-dmitry.baryshkov@linaro.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2C310E14E;
+ Wed,  2 Aug 2023 01:20:25 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3720fW1f000317; Wed, 2 Aug 2023 01:20:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7Rr+DuaXsOncoGdgCsdHGHxcn4nuqKl5sdu7gXDRjRY=;
+ b=FDRBUTKR3tj8ONOKrLev1vs9hX6RuOo6UBcSn1XUCpQBhNlTGFhuRlbZGLT7Bo9oXod6
+ WjW4Z28uT1MA4MhWcx+CTmOSJnpvVlN8lfnGerTo86KPu2ZLYDLyo6OMuZsuqjbqSCoV
+ t1T/hIerU87kw5XS+2hjLwl2NfZPxCKyEi4ZTIYRUOn4YlI3dAYNiazoWji1uxYKOQg0
+ LaKHVat+vq4A9wkB3xb+XcP9hwNo91AMS+nrDAfq9grfwJzkY72Q7jgn8f359GnVCyiV
+ +5n7kZr1DNkOGH+C5PJyW8pDk28MHjlb8ap8vhrMNWASuwBIFMkf1gCDIP8110gXba4M pg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s6j4eubfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Aug 2023 01:20:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3721KHW8008079
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 2 Aug 2023 01:20:17 GMT
+Received: from [10.110.113.146] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 1 Aug
+ 2023 18:20:17 -0700
+Message-ID: <ae204341-6401-b98b-719a-5cb26788b780@quicinc.com>
+Date: Tue, 1 Aug 2023 18:20:17 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 4/7] drm/msm/mdss: populate missing data
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230728213320.97309-1-dmitry.baryshkov@linaro.org>
+ <20230728213320.97309-5-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230728213320.97309-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: gtO-qeO4ohJ8C5-SKipkuahpP28KxpZl
+X-Proofpoint-ORIG-GUID: gtO-qeO4ohJ8C5-SKipkuahpP28KxpZl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-01_22,2023-08-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ adultscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2308020010
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,111 +85,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-usb@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to using the new DRM_SIMPLE_BRIDGE helper to create the
-transparent DRM bridge device instead of handcoding corresponding
-functionality.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/usb/typec/mux/Kconfig      |  2 +-
- drivers/usb/typec/mux/nb7vpq904m.c | 44 ++----------------------------
- 2 files changed, 3 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/usb/typec/mux/Kconfig b/drivers/usb/typec/mux/Kconfig
-index 784b9d8107e9..350a7ffce67e 100644
---- a/drivers/usb/typec/mux/Kconfig
-+++ b/drivers/usb/typec/mux/Kconfig
-@@ -39,7 +39,7 @@ config TYPEC_MUX_NB7VPQ904M
- 	tristate "On Semiconductor NB7VPQ904M Type-C redriver driver"
- 	depends on I2C
- 	depends on DRM || DRM=n
--	select DRM_PANEL_BRIDGE if DRM
-+	select DRM_SIMPLE_BRIDGE if DRM
- 	select REGMAP_I2C
- 	help
- 	  Say Y or M if your system has a On Semiconductor NB7VPQ904M Type-C
-diff --git a/drivers/usb/typec/mux/nb7vpq904m.c b/drivers/usb/typec/mux/nb7vpq904m.c
-index 9360b65e8b06..c89a956412ea 100644
---- a/drivers/usb/typec/mux/nb7vpq904m.c
-+++ b/drivers/usb/typec/mux/nb7vpq904m.c
-@@ -11,7 +11,7 @@
- #include <linux/regmap.h>
- #include <linux/bitfield.h>
- #include <linux/of_graph.h>
--#include <drm/drm_bridge.h>
-+#include <drm/display/drm_simple_bridge.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
- #include <linux/usb/typec_retimer.h>
-@@ -70,8 +70,6 @@ struct nb7vpq904m {
- 	bool swap_data_lanes;
- 	struct typec_switch *typec_switch;
- 
--	struct drm_bridge bridge;
--
- 	struct mutex lock; /* protect non-concurrent retimer & switch */
- 
- 	enum typec_orientation orientation;
-@@ -297,44 +295,6 @@ static int nb7vpq904m_retimer_set(struct typec_retimer *retimer, struct typec_re
- 	return ret;
- }
- 
--#if IS_ENABLED(CONFIG_OF) && IS_ENABLED(CONFIG_DRM_PANEL_BRIDGE)
--static int nb7vpq904m_bridge_attach(struct drm_bridge *bridge,
--				    enum drm_bridge_attach_flags flags)
--{
--	struct nb7vpq904m *nb7 = container_of(bridge, struct nb7vpq904m, bridge);
--	struct drm_bridge *next_bridge;
--
--	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
--		return -EINVAL;
--
--	next_bridge = devm_drm_of_get_bridge(&nb7->client->dev, nb7->client->dev.of_node, 0, 0);
--	if (IS_ERR(next_bridge)) {
--		dev_err(&nb7->client->dev, "failed to acquire drm_bridge: %pe\n", next_bridge);
--		return PTR_ERR(next_bridge);
--	}
--
--	return drm_bridge_attach(bridge->encoder, next_bridge, bridge,
--				 DRM_BRIDGE_ATTACH_NO_CONNECTOR);
--}
--
--static const struct drm_bridge_funcs nb7vpq904m_bridge_funcs = {
--	.attach	= nb7vpq904m_bridge_attach,
--};
--
--static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
--{
--	nb7->bridge.funcs = &nb7vpq904m_bridge_funcs;
--	nb7->bridge.of_node = nb7->client->dev.of_node;
--
--	return devm_drm_bridge_add(&nb7->client->dev, &nb7->bridge);
--}
--#else
--static int nb7vpq904m_register_bridge(struct nb7vpq904m *nb7)
--{
--	return 0;
--}
--#endif
--
- static const struct regmap_config nb7_regmap = {
- 	.max_register = 0x1f,
- 	.reg_bits = 8,
-@@ -461,7 +421,7 @@ static int nb7vpq904m_probe(struct i2c_client *client)
- 
- 	gpiod_set_value(nb7->enable_gpio, 1);
- 
--	ret = nb7vpq904m_register_bridge(nb7);
-+	ret = drm_simple_bridge_register(dev);
- 	if (ret)
- 		return ret;
- 
--- 
-2.39.2
+On 7/28/2023 2:33 PM, Dmitry Baryshkov wrote:
+> As we are going to use MDSS data for DPU programming, populate missing
+> MDSS data. The UBWC 1.0 and no UBWC cases do not require MDSS
+> programming, so skip them.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/msm_mdss.c | 21 +++++++++++++++++++--
+>   1 file changed, 19 insertions(+), 2 deletions(-)
+> 
+
+I checked more internal docs on this. Was very hard to get hold of the 
+docs having this information on msm8998.
+
+Version is indeed 1.0 but register is not reflecting that.
+
+Hence I am going to go ahead and ack this.
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
