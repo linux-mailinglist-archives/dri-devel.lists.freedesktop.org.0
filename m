@@ -2,73 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED2476C98C
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:35:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBCF76C9D0
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:49:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8108E10E062;
-	Wed,  2 Aug 2023 09:35:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6023D10E0A1;
+	Wed,  2 Aug 2023 09:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E28E10E062
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:35:52 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4fe1344b707so10589917e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 02:35:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690968950; x=1691573750;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pohg9zSaMOJCBUazSnms5q/h+HApb0cmdo5z/ZK/mUQ=;
- b=ZC+Grn4yM3PgtUUEkhcgq4sTNTV+3REq8KjNQiY1swdBRWPGO3kM790yIOM832qrp0
- nFwJMjrgw9cXxoLFcNhPmV4TmmCujAh85rXMbvW0RDAai+cuLYpsHqiLWOuUnGrE4o8M
- CG3tlLBcmXglNsuW9MjYctyhnvDq6qtHyS8AmzJTTn6GZULEradARsrD5gZkINDvC5qL
- m/7nuSeWzA1qccmWZcCEYR0LwNOojikWz2tTv4cOEB5FbizxJZIQMPo4xHJqKTZlgOi6
- spaF+F4YD5qgUeMGcUos8qO5FSiZqL0d+p0IYy59QfsK7oiiKCa4lFzK114iZi+3X6QN
- uVUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690968950; x=1691573750;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pohg9zSaMOJCBUazSnms5q/h+HApb0cmdo5z/ZK/mUQ=;
- b=F6bZzNaldWZTzgVKk8ou7LyfD0UapFYHombriys6tWnnwBM5bxS+ov0Dgl5Qq3ZVrM
- BPwJMCtlUbJ4tryphnuc5xnYy7Ul2S5JxIDf5l4sRf5TQhT7kTgKVug19c/NvWKVwA5R
- BkKKv5pV2by+QBDJKDq8/uEP0YYnawLMqzsTBLlkrg3ekbSJdO8pju8dH+dJQrleLKuj
- XnkCxK2x4fQRVf5HVkA/iMgpjhPJJ2PgGOmEZfGKjDJ7XQiSy9srVuxRCA1aLFg7wJ1e
- Vf5u6EAiEMxM4mzjzVLiJmJAj1O0phaweDgnjpUZ4QebLwjHSMHW8JKVKhjMdDDkMi/d
- xOww==
-X-Gm-Message-State: ABy/qLbNK5APp263z0gIgAvCDqiCgxSQhtRI/2paVOzHc0yvc7trkplq
- PkRBmwCUpY8ItkzXP6PTjIIrCw==
-X-Google-Smtp-Source: APBJJlHJTVMe30C4pbnicvRVJ2SsKv2DoOIoce/FePG1RZbhSiexihUJ5NXl7ZGcJyuxBNgNRnGWHg==
-X-Received: by 2002:a05:6512:3b2:b0:4fe:df7:bcf5 with SMTP id
- v18-20020a05651203b200b004fe0df7bcf5mr3523141lfp.8.1690968950204; 
- Wed, 02 Aug 2023 02:35:50 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- k19-20020ac257d3000000b004fb8c31c8desm2909996lfo.208.2023.08.02.02.35.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Aug 2023 02:35:49 -0700 (PDT)
-Message-ID: <131f9c51-10d6-c4b4-4e7f-c3c30480d385@linaro.org>
-Date: Wed, 2 Aug 2023 12:35:49 +0300
+Received: from mgamail.intel.com (unknown [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB87410E0A1
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1690969767; x=1722505767;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=YRcGeOxRUJArRb84NlJwrYbu4BywziVVm/fAE8bkyZc=;
+ b=JLqN5Gu4txgD2tHIUiLnpMsXRBjOaBQRj82EA9vRBAjz1ggSKrEO3uHu
+ /8lnghhBm2c9DRIKlNCUPEOjucRxdFATKXIvQhfBSL1uwIPqZjrZs8eD+
+ BgIP1xAEdVul9mtz8YHeqSQlGG821SxdZL8ERTLfR2AzbLh8u8MaBljCr
+ 3PJ00BQY336EauVpDJTFe26S+A3omnMk9h1Iqc26EaFzvABBPRloe5uoa
+ cdEQwDWMg5cAeQa1F/MEeLiXGwRpgRtAP7glCkDZUiQup9CHzyIHL92SK
+ 0I84L9O/lUEaZpez/kYWnQ5boqc35xpMPFO1yGdMurWh9agZsxanybRsC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="455903014"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="455903014"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2023 02:49:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10789"; a="902922075"
+X-IronPort-AV: E=Sophos;i="6.01,248,1684825200"; d="scan'208";a="902922075"
+Received: from osalyk-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.215])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2023 02:49:22 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ "Russell King (Oracle)" <linux@armlinux.org.uk>, Christian =?utf-8?Q?K?=
+ =?utf-8?Q?=C3=B6nig?= <christian.koenig@amd.com>, Julia
+ Lawall <julia.lawall@inria.fr>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Maxime
+ Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>, Luben
+ Tuikov <luben.tuikov@amd.com>, Thierry
+ Reding <thierry.reding@gmail.com>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Sean Paul <seanpaul@chromium.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
+In-Reply-To: <874jm8go61.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
+ <874jm8go61.fsf@intel.com>
+Date: Wed, 02 Aug 2023 12:49:20 +0300
+Message-ID: <87zg39vknz.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH -next] drm/msm: Remove redundant DRM_DEV_ERROR()
-Content-Language: en-GB
-To: Ruan Jinjie <ruanjinjie@huawei.com>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, marijn.suijten@somainline.org,
- airlied@gmail.com, daniel@ffwll.ch, quic_jesszhan@quicinc.com,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230727112407.2916029-1-ruanjinjie@huawei.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230727112407.2916029-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,24 +70,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/07/2023 14:24, Ruan Jinjie wrote:
-> There is no need to call the DRM_DEV_ERROR() function directly to print
-> a custom message when handling an error from platform_get_irq() function
-> as it is going to display an appropriate error message
-> in case of a failure.
-> 
-> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
-> ---
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 1 -
->   drivers/gpu/drm/msm/msm_gpu.c            | 1 -
->   2 files changed, 2 deletions(-)
+On Thu, 13 Jul 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> I find it obnoxious to send a new series within 24 hours of the first,
+> while the discussion is still in progress, and it's a misrepresentation
+> of the in-progress dicussion to say most of the feedback was positive.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Uwe, all -
+
+Back from vacation. In the mean time, it has been brought to my
+attention that "obnoxious" is an extremely strong choice of wording
+here. Apologies. Absolutely no insult was intended. Turns out my command
+of the nuances of the English language is not as good as I like to
+believe it is.
+
+BR,
+Jani.
+
 
 -- 
-With best wishes
-Dmitry
-
+Jani Nikula, Intel Open Source Graphics Center
