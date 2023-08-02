@@ -1,60 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66D576C935
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:16:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AED2476C98C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Aug 2023 11:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E68F10E52B;
-	Wed,  2 Aug 2023 09:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8108E10E062;
+	Wed,  2 Aug 2023 09:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D65510E52B
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:16:36 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id
- af79cd13be357-7672073e7b9so416559885a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 02:16:36 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E28E10E062
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Aug 2023 09:35:52 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4fe1344b707so10589917e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Aug 2023 02:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1690967795; x=1691572595;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4RqvQQdJp1hFdbPf4OMSlvaFhWgja7uGQCZmj+KNPJo=;
- b=WWYRFt6UWcgMzlZL5nC3JdxOCVTJWdxzp0Jxn+KUdVY2M25MT0FVMkmrj/SEp/wTRg
- Tr0AKXCZd1Z2T/qWRVdazVCF4NO3qllZzMyNQRZJgLTPiqX8VDxF5Af6o/xF6HEz0tHX
- Sa8uhIMgc46GeDVp2TSipQ7kXiW1+sfQSzYtC/J2AaomnjimbYgJiZJyP55T5NM+Rx3v
- Uxqr7WbFgFbefjxNkImg9rL5O3n4TiD4Gz0XA9yyiZv4OODGqqA1zGPjYMvApwWAOwOQ
- BQChS4H0f/MurUPwDccnGZzSNdeY6SaWa8CaL1odlR1rEiZsZ8JMXkZdDe68ABXNbJp4
- imhA==
+ d=linaro.org; s=google; t=1690968950; x=1691573750;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pohg9zSaMOJCBUazSnms5q/h+HApb0cmdo5z/ZK/mUQ=;
+ b=ZC+Grn4yM3PgtUUEkhcgq4sTNTV+3REq8KjNQiY1swdBRWPGO3kM790yIOM832qrp0
+ nFwJMjrgw9cXxoLFcNhPmV4TmmCujAh85rXMbvW0RDAai+cuLYpsHqiLWOuUnGrE4o8M
+ CG3tlLBcmXglNsuW9MjYctyhnvDq6qtHyS8AmzJTTn6GZULEradARsrD5gZkINDvC5qL
+ m/7nuSeWzA1qccmWZcCEYR0LwNOojikWz2tTv4cOEB5FbizxJZIQMPo4xHJqKTZlgOi6
+ spaF+F4YD5qgUeMGcUos8qO5FSiZqL0d+p0IYy59QfsK7oiiKCa4lFzK114iZi+3X6QN
+ uVUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690967795; x=1691572595;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4RqvQQdJp1hFdbPf4OMSlvaFhWgja7uGQCZmj+KNPJo=;
- b=ELB4R0MAkonMDRnm2GOe3+RmvtUHblm5f3wADyuvfOcA41Js+m2h5JorniIvGsw7+W
- URZ+/KaDnPfW8ZT3RCgF63ksBtAuKYzQLqlY/vBCV4eIFYbpegoy6kRdhpYVdPYsxP5S
- YBvH7oKaOgd09OEzzXIf5A0EjUBM4TSzMAu082+fxrVr3IOgOAFMVIxj/bgbPijTBqua
- eCjnd4xVMVOOC7ii4jC3Z4IGks61DKpJ5rqm+R1qVU9AL3EldG4ckaZTErVZvZaShkBw
- 3e5PnxOWQr14cqLLh8MQCQnD5423f7+XKi0p9RUKtKzTO9cv4//yMWhJIh6llKtgRqLP
- z3hw==
-X-Gm-Message-State: ABy/qLZEeXYgtZUNe4eIjOh1beghqWki6sLjleb+1IdrRnYE/dfwxTQm
- Xszty2a37OJfCt6K7adBwGKF8QNOLGuJ4SW3fx+Yjg==
-X-Google-Smtp-Source: APBJJlHNhb6YQYwgaQkW+eQSgd89TWqGTpASPIjO4FBQatVAtmJ/oaGPRCiRuTtehzFZJx+nyEw7ycYC5dIh2IsESJI=
-X-Received: by 2002:a0c:eace:0:b0:63c:fb87:625d with SMTP id
- y14-20020a0ceace000000b0063cfb87625dmr13972844qvp.3.1690967795200; Wed, 02
- Aug 2023 02:16:35 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1690968950; x=1691573750;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pohg9zSaMOJCBUazSnms5q/h+HApb0cmdo5z/ZK/mUQ=;
+ b=F6bZzNaldWZTzgVKk8ou7LyfD0UapFYHombriys6tWnnwBM5bxS+ov0Dgl5Qq3ZVrM
+ BPwJMCtlUbJ4tryphnuc5xnYy7Ul2S5JxIDf5l4sRf5TQhT7kTgKVug19c/NvWKVwA5R
+ BkKKv5pV2by+QBDJKDq8/uEP0YYnawLMqzsTBLlkrg3ekbSJdO8pju8dH+dJQrleLKuj
+ XnkCxK2x4fQRVf5HVkA/iMgpjhPJJ2PgGOmEZfGKjDJ7XQiSy9srVuxRCA1aLFg7wJ1e
+ Vf5u6EAiEMxM4mzjzVLiJmJAj1O0phaweDgnjpUZ4QebLwjHSMHW8JKVKhjMdDDkMi/d
+ xOww==
+X-Gm-Message-State: ABy/qLbNK5APp263z0gIgAvCDqiCgxSQhtRI/2paVOzHc0yvc7trkplq
+ PkRBmwCUpY8ItkzXP6PTjIIrCw==
+X-Google-Smtp-Source: APBJJlHJTVMe30C4pbnicvRVJ2SsKv2DoOIoce/FePG1RZbhSiexihUJ5NXl7ZGcJyuxBNgNRnGWHg==
+X-Received: by 2002:a05:6512:3b2:b0:4fe:df7:bcf5 with SMTP id
+ v18-20020a05651203b200b004fe0df7bcf5mr3523141lfp.8.1690968950204; 
+ Wed, 02 Aug 2023 02:35:50 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ k19-20020ac257d3000000b004fb8c31c8desm2909996lfo.208.2023.08.02.02.35.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Aug 2023 02:35:49 -0700 (PDT)
+Message-ID: <131f9c51-10d6-c4b4-4e7f-c3c30480d385@linaro.org>
+Date: Wed, 2 Aug 2023 12:35:49 +0300
 MIME-Version: 1.0
-References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
-In-Reply-To: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Wed, 2 Aug 2023 14:45:59 +0530
-Message-ID: <CAMi1Hd31A53-87EdnupZio_FCjgMRyPRxvsfzeY=q-iT=3qBfA@mail.gmail.com>
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next] drm/msm: Remove redundant DRM_DEV_ERROR()
+Content-Language: en-GB
+To: Ruan Jinjie <ruanjinjie@huawei.com>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, sean@poorly.run, marijn.suijten@somainline.org,
+ airlied@gmail.com, daniel@ffwll.ch, quic_jesszhan@quicinc.com,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230727112407.2916029-1-ruanjinjie@huawei.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230727112407.2916029-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,70 +81,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2 Aug 2023 at 14:22, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> This reverts commit [1] to fix display regression on the Dragonboard 845c
-> (SDM845) devboard.
-
-Tested-by: Amit Pundir <amit.pundir@linaro.org>
-
-Regards,
-Amit Pundir
-
->
-> There's a mismatch on the real action of the following flags:
-> - MIPI_DSI_MODE_VIDEO_NO_HSA
-> - MIPI_DSI_MODE_VIDEO_NO_HFP
-> - MIPI_DSI_MODE_VIDEO_NO_HBP
-> which leads to a non-working display on qcom platforms.
->
-> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
->
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
-> Reported-by: Amit Pundir <amit.pundir@linaro.org>
-> Link: https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 27/07/2023 14:24, Ruan Jinjie wrote:
+> There is no need to call the DRM_DEV_ERROR() function directly to print
+> a custom message when handling an error from platform_get_irq() function
+> as it is going to display an appropriate error message
+> in case of a failure.
+> 
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 > ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 5163e5224aad..9663601ce098 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -774,9 +774,7 @@ static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
->         dsi->lanes = 4;
->         dsi->format = MIPI_DSI_FMT_RGB888;
->         dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-> -                         MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO_NO_HSA |
-> -                         MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
-> -                         MIPI_DSI_MODE_NO_EOT_PACKET;
-> +                         MIPI_DSI_MODE_VIDEO_HSE;
->
->         ret = devm_mipi_dsi_attach(dev, dsi);
->         if (ret < 0) {
->
-> ---
-> base-commit: f590814603bf2dd8620584b7d59ae94d7c186c69
-> change-id: 20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-6f042b1ba813
->
-> Best regards,
-> --
-> Neil Armstrong <neil.armstrong@linaro.org>
->
+>   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 1 -
+>   drivers/gpu/drm/msm/msm_gpu.c            | 1 -
+>   2 files changed, 2 deletions(-)
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
+
