@@ -1,66 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2734B76F566
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 00:02:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7798F76F582
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 00:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F27010E691;
-	Thu,  3 Aug 2023 22:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71D7A10E67E;
+	Thu,  3 Aug 2023 22:13:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34F4710E691;
- Thu,  3 Aug 2023 22:02:38 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id
- 41be03b00d2f7-56433b1b0e0so991511a12.0; 
- Thu, 03 Aug 2023 15:02:38 -0700 (PDT)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90A4310E67E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 22:13:27 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-c4cb4919bb9so1627913276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 15:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691100157; x=1691704957;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nXZWjfN9jRVe+H33im5sYKdcYpl83+nexah9W681kvs=;
- b=Af4HYsP21mKSBHrPbKz2NpveemF6uwBT1sqWwDLsPtvM3YsxUwa5D+L114TsYL9LJF
- qGKv+qE5ecIQtCimduvkKUI6DAwH0wMa7scKIszgw/LUohFbIQuwXJNGIghRVtOM+swX
- edw4kN4ZMGakALGBXyEWOX/uJpyC686aQwCNpXvu2KXbMPHNoCZu2m7qCQEO5KdEk3LH
- iAAXYxNpxcu01fJOZJDMeLSftYmzn92ekYN8aRYg5uaLeOcgXqNWcJ5ttwAudypA7dJI
- RtB8bhKQ+DDQRR2XGbZIrrf1GeGXbIPP9rS4tG9gL9H5b/WVdZ+aIaPWaPxDNl/8xyam
- 8Cuw==
+ d=linaro.org; s=google; t=1691100806; x=1691705606;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pKrgIpuXRGic6b6C+k3mhH+LzXEqNBKYd3T00BcALmA=;
+ b=jPKgu+iiT2nEak06cLi5GKVS0paWCjfjSa8tgHxQjtr3eIHOBCiQN2V7RkbMu4Wff2
+ QovtecUd9NiigJRkm2kqlPn36VyKhaOFaMeLwKT8VlJdT4fpQWUKN/QSZF5kFv5TvO5x
+ GevgBbGfzvoCyN2QkM+87T5++4frW5rkkUYZK4FQiNYqGimVjVZeWLVhUI75+98lLgKy
+ Ky/GJc+J731K10FMbY0KIS5VwWht98Z2sB5uskZx4WTdaDeC89ZAIueiLLTjkX1FSOlv
+ TQeh4MEmI/AzppxZxXUIoW14tqQU4YLNd/MdHfvZznwp8zKU5sdyjgZir9OGC9i+nHRk
+ Dqaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691100157; x=1691704957;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nXZWjfN9jRVe+H33im5sYKdcYpl83+nexah9W681kvs=;
- b=f/Iy4DMUC4iZ4J7e4V6HbpduK4gGO8FagP1khefooyogSG1pgyje3Z5yuBHRzhOddV
- wzx/P0FdbDO+asSWPQaFJ090PqdETpfhiJPkNGMhMeqKjH57bdnQjUDxxBb3dqUeIW2s
- LcHoEp9pFzIC/7K/GTWbqlwxhOTlYZCVc7dIesGRSf9QBt0+s/gKT9qHBqVUlrQfZvQg
- scylKYmsGqMsbqXSE4O9i7pvOCnj2CpoLwnOUYlXqIodIABlPB4YGveTc1szPbaecpF4
- MKeuNxNk/MnzzddJCdjk71JdLOpPSkBoZFgjPBk3/2NQoVj15hhRHJ+5YzxIIQ60Fa1J
- qKxw==
-X-Gm-Message-State: AOJu0Yzh1sjY6qm6Xi1o7M8EsT4udNPSKeD/E3SCDS5PsLGaRnTQPeTN
- 4ZRc+KIP/8YErRm+NFJ+x6MXcJJGf9M=
-X-Google-Smtp-Source: AGHT+IGl2tGbAFvssGQqeZ1wP6XLECY7/4WzZoYSgAMqTT2kydzqs2HGdiQ8789wcCkrTEohoNh2QA==
-X-Received: by 2002:a17:90a:764a:b0:263:6e10:7cdd with SMTP id
- s10-20020a17090a764a00b002636e107cddmr9864pjl.38.1691100157236; 
- Thu, 03 Aug 2023 15:02:37 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a170902b10900b001b8622c1ad2sm317439plr.130.2023.08.03.15.02.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 15:02:36 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 9/9] drm/msm: Enable fence signalling annotations
-Date: Thu,  3 Aug 2023 15:01:57 -0700
-Message-ID: <20230803220202.78036-10-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230803220202.78036-1-robdclark@gmail.com>
-References: <20230803220202.78036-1-robdclark@gmail.com>
+ d=1e100.net; s=20221208; t=1691100806; x=1691705606;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pKrgIpuXRGic6b6C+k3mhH+LzXEqNBKYd3T00BcALmA=;
+ b=EYpCforfzc3V4LmFD4FPhMurDRFDwstlNE9+EfGGOOPACjD8Z00oTuK/SjbUJd45RK
+ CRk4DxW1m3PlW+ZuW4vn5svg69dEMktEvmsEAqPmU9OJflkCIj9uXkGAH8hekYu6gcIr
+ zKYzXyj9tCt6TNZMT2wf0GZ66u45bAxslLaRBKndrWFzslbH7td8jUmAxXYYwqicoIPI
+ KmswJL+hDduig7UPjbENJRiD1uFXSypV3PGp6jwZyqiinnAFkksd4O4xYTCmrH7mNncg
+ OBpRuzDYySfcQ5yHxj/w07y9I8URx++FQTLx3TIxOQRg55I/zIZAqQAw55wK8GqynXPw
+ ruPQ==
+X-Gm-Message-State: ABy/qLYfDd8bdfQGHXoyLCy7TwDREiw1hyJh9MKMz6E/vP6/kjJI8pzU
+ SSN+z09Dv0Se8sA8ia3fuERHVek52AGID3VHoCb5Bw==
+X-Google-Smtp-Source: APBJJlHZ7yvBgzplN6wNzGDnzG/pCcR0AGkTrE8Gsc0Q677Ie2EiJpTWqq5VDD/PB1rxSTWDCvZtg/T3zp3k8g0au60=
+X-Received: by 2002:a05:6902:1895:b0:d05:f537:da99 with SMTP id
+ cj21-20020a056902189500b00d05f537da99mr20258859ybb.46.1691100806499; Thu, 03
+ Aug 2023 15:13:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230803194724.154591-1-danila@jiaxyga.com>
+ <20230803194724.154591-3-danila@jiaxyga.com>
+ <CAA8EJpoBZBLYQ5RUW7nGo+wsma2XiON9+rK8N-gjnfWTkb-7rA@mail.gmail.com>
+ <1691097186.296866515@f749.i.mail.ru>
+In-Reply-To: <1691097186.296866515@f749.i.mail.ru>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 4 Aug 2023 01:13:15 +0300
+Message-ID: <CAA8EJpqdQ84wq03swhOd6Qz11QzdhBbW=r0cLNuoXsEY=vT9uA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/msm/dpu: Add SM7150 support
+To: Danila Tikhonov <danila@jiaxyga.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: quic_rmccann@quicinc.com, dri-devel@lists.freedesktop.org,
+ liushixin2@huawei.com, krzysztof.kozlowski+dt@linaro.org,
+ marijn.suijten@somainline.org, quic_vpolimer@quicinc.com, rfoss@kernel.org,
+ davidwronek@gmail.com, quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, robh+dt@kernel.org, sean@poorly.run,
+ neil.armstrong@linaro.org, andersson@kernel.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Fri, 4 Aug 2023 at 00:13, Danila Tikhonov <danila@jiaxyga.com> wrote:
+>
+> So here too I add new sm7150_vig_sblk_0 and sm7150_vig_sblk_1 with v3lite?
+>
+> static const struct dpu_sspp_sub_blks sm7150_vig_sblk_0 =
+>     _VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3LITE);
+> static const struct dpu_sspp_sub_blks sm7150_vig_sblk_1 =
+>     _VIG_SBLK(6, DPU_SSPP_SCALER_QSEED3LITE);
 
-Now that the runpm/qos/interconnect lockdep vs reclaim issues are
-solved, we can enable the fence signalling annotations without lockdep
-making it's immediate displeasure known.
+Yes, please, close to other sblk variables.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_ringbuffer.c | 1 +
- 1 file changed, 1 insertion(+)
+But the priorities should be 4 and 5 (and 1, 2, 3 for DMA).
 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 7f5e0a961bba..cb9cf41bcb9b 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -97,6 +97,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 	 /* currently managing hangcheck ourselves: */
- 	sched_timeout = MAX_SCHEDULE_TIMEOUT;
- 
-+	ring->sched.fence_signalling = true;
- 	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
- 			num_hw_submissions, 0, sched_timeout,
- 			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
+>
+> > +static const struct dpu_sspp_cfg sm7150_sspp[] = {
+> > + {
+> > + .name = "sspp_0", .id = SSPP_VIG0,
+> > + .base = 0x4000, .len = 0x1f0,
+> > + .features = VIG_SDM845_MASK,
+> > - .sblk = &sm8250_vig_sblk_0, // &sm7150_vig_sblk_0
+> > + .xin_id = 0,
+> > + .type = SSPP_TYPE_VIG,
+> > + .clk_ctrl = DPU_CLK_CTRL_VIG0,
+> > + }, {
+> > + .name = "sspp_1", .id = SSPP_VIG1,
+> > + .base = 0x6000, .len = 0x1f0,
+> > + .features = VIG_SDM845_MASK,
+> > + .sblk = &sm8250_vig_sblk_1,  // &sm7150_vig_sblk_1
+> > + .xin_id = 4,
+> > + .type = SSPP_TYPE_VIG,
+> > + .clk_ctrl = DPU_CLK_CTRL_VIG1,
+> > + }, {
+>
+> --
+> Best regards,
+> Danila
+>
+
+
+
 -- 
-2.41.0
-
+With best wishes
+Dmitry
