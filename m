@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B9976EA39
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 15:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC98376E9FB
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 15:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BC9C10E1C3;
-	Thu,  3 Aug 2023 13:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1022A10E078;
+	Thu,  3 Aug 2023 13:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (unknown [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4238010E1C3;
- Thu,  3 Aug 2023 13:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691069333; x=1722605333;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=W1vGWvXnwAY/f51FTl0188tECkxF+EFRNzlkxGetUxc=;
- b=Mg+RCcC36fO1Cz6nE7dQr+nyqloSBjHHOy9U2cKmPWwfgwvs78AYtCMN
- uW6UF3Yd8v/BBHFw4TLodPeqVRck3HwKwVGZFZboaq+F0TWQg52rDM2Eu
- VkQWOEn8GVyi3TquVpZr3eDJTkeuRC9H+ox1qSeIvsszn3e23UVvqi2r4
- SgcKZB8iTDQh6IzOklgoiAH7CRcY1ELSxuZSwOzbwoe0anrPIUTNIblod
- 3W4rG5kuM4VGwhMluw/k4LwFyXq5+EcL7JBff7jBbW44OikyRQlYGiN0i
- acCPN9oOJC0AsPz8WfQB5RWEXcy+j3KyfOSVlafx7m3MTJzpC+V6BnlIY g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373499607"
-X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; d="scan'208";a="373499607"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2023 06:19:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="794985503"
-X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; d="scan'208";a="794985503"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmsmga008.fm.intel.com with ESMTP; 03 Aug 2023 06:19:10 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id DC3932AB; Thu,  3 Aug 2023 16:19:21 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, Imre Deak <imre.deak@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Andi Shyti <andi.shyti@linux.intel.com>, Jiri Slaby <jirislaby@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alexey Dobriyan <adobriyan@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH v4 1/1] drm/i915: Move abs_diff() to math.h
-Date: Thu,  3 Aug 2023 16:19:18 +0300
-Message-Id: <20230803131918.53727-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA04B10E078
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 13:22:50 +0000 (UTC)
+Received: from [192.168.0.125] (unknown [82.76.24.202])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: ehristev)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 932BA66003AA;
+ Thu,  3 Aug 2023 14:22:48 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1691068969;
+ bh=QjOypgF2tjYzN7SWK9FWCkeF0m/mCGr8viJpxU+QpfU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QRhY6RjuYvQYrtIjk7tguUaphwsxhkMgvaV5aXqsta5ceFPkEv3CpeM5u+E+MyWQC
+ 2q4o3TYK6QQUY4SbYMwEkO+d6Y0k3JmwehKBKEKqDZdHm5JHPl+BhAuYYVY5cNc9mF
+ qF3u/ztJjpNcnzfOjDVqsQ3y9Tf5NEgWUeEAk/t5OocMl1tZS2u1PRETUzd39cm+vq
+ E9SBCEZMkNKmJHuCleyHVAMoAbwb5PA6YIxrGFVWHElaLpFHbUGVuFo7Z6+3A8p23a
+ tztmQQhw5Rsxno+eL4PQbNJstMoaAX+auT90i6P+GF71g7g7ci3hZGrwIDGWCyMTxf
+ hu7c45LAT5jQA==
+Message-ID: <3d5de892-8311-86e8-b962-0e564903b0e6@collabora.com>
+Date: Thu, 3 Aug 2023 16:22:45 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v8 3/8] drm/mediatek: Fix using wrong drm private data to
+ bind mediatek-drm
+Content-Language: en-US
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230802144802.751-1-jason-jh.lin@mediatek.com>
+ <20230802144802.751-4-jason-jh.lin@mediatek.com>
+From: Eugen Hristev <eugen.hristev@collabora.com>
+In-Reply-To: <20230802144802.751-4-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,172 +58,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-abs_diff() belongs to math.h. Move it there.
-This will allow others to use it.
+On 8/2/23 17:47, Jason-JH.Lin wrote:
+> In mtk_drm_kms_init(), each element in all_drm_priv should has one
+> display path private data only, such as:
+> all_drm_priv[CRTC_MAIN] should has main_path data only
+> all_drm_priv[CRTC_EXT] should has ext_path data only
+> all_drm_priv[CRTC_THIRD] should has third_path data only
 
-Reviewed-by: Jiri Slaby <jirislaby@kernel.org> # tty/serial
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de> # gpu/ipu-v3
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v4:
-- Cc'ed to Andrew (as Jani told he is okay to route it via other tree)
-- added tags
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  1 +
- drivers/gpu/drm/i915/display/intel_dpll_mgr.h |  7 -------
- drivers/gpu/ipu-v3/ipu-image-convert.c        | 15 +++++++--------
- drivers/tty/serial/omap-serial.c              |  7 +------
- drivers/video/fbdev/core/svgalib.c            |  7 +------
- include/linux/math.h                          |  7 +++++++
- 6 files changed, 17 insertions(+), 27 deletions(-)
+s/should has/should have/ ?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-index 6b2d8a1e2aa9..290e856fe9e9 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-@@ -21,6 +21,7 @@
-  * DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/math.h>
- #include <linux/string_helpers.h>
- 
- #include "i915_reg.h"
-diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.h b/drivers/gpu/drm/i915/display/intel_dpll_mgr.h
-index ba62eb5d7c51..04e6810954b2 100644
---- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.h
-+++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.h
-@@ -29,13 +29,6 @@
- 
- #include "intel_wakeref.h"
- 
--/*FIXME: Move this to a more appropriate place. */
--#define abs_diff(a, b) ({			\
--	typeof(a) __a = (a);			\
--	typeof(b) __b = (b);			\
--	(void) (&__a == &__b);			\
--	__a > __b ? (__a - __b) : (__b - __a); })
--
- enum tc_port;
- struct drm_i915_private;
- struct intel_atomic_state;
-diff --git a/drivers/gpu/ipu-v3/ipu-image-convert.c b/drivers/gpu/ipu-v3/ipu-image-convert.c
-index af1612044eef..841316582ea9 100644
---- a/drivers/gpu/ipu-v3/ipu-image-convert.c
-+++ b/drivers/gpu/ipu-v3/ipu-image-convert.c
-@@ -7,7 +7,10 @@
- 
- #include <linux/interrupt.h>
- #include <linux/dma-mapping.h>
-+#include <linux/math.h>
-+
- #include <video/imx-ipu-image-convert.h>
-+
- #include "ipu-prv.h"
- 
- /*
-@@ -543,7 +546,7 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
- 		unsigned int in_pos;
- 		unsigned int in_pos_aligned;
- 		unsigned int in_pos_rounded;
--		unsigned int abs_diff;
-+		unsigned int diff;
- 
- 		/*
- 		 * Tiles in the right row / bottom column may not be allowed to
-@@ -575,15 +578,11 @@ static void find_best_seam(struct ipu_image_convert_ctx *ctx,
- 		    (in_edge - in_pos_rounded) % in_burst)
- 			continue;
- 
--		if (in_pos < in_pos_aligned)
--			abs_diff = in_pos_aligned - in_pos;
--		else
--			abs_diff = in_pos - in_pos_aligned;
--
--		if (abs_diff < min_diff) {
-+		diff = abs_diff(in_pos, in_pos_aligned);
-+		if (diff < min_diff) {
- 			in_seam = in_pos_rounded;
- 			out_seam = out_pos;
--			min_diff = abs_diff;
-+			min_diff = diff;
- 		}
- 	}
- 
-diff --git a/drivers/tty/serial/omap-serial.c b/drivers/tty/serial/omap-serial.c
-index 3dc14dcb01ca..0ead88c5a19a 100644
---- a/drivers/tty/serial/omap-serial.c
-+++ b/drivers/tty/serial/omap-serial.c
-@@ -222,16 +222,11 @@ static inline int calculate_baud_abs_diff(struct uart_port *port,
- 				unsigned int baud, unsigned int mode)
- {
- 	unsigned int n = port->uartclk / (mode * baud);
--	int abs_diff;
- 
- 	if (n == 0)
- 		n = 1;
- 
--	abs_diff = baud - (port->uartclk / (mode * n));
--	if (abs_diff < 0)
--		abs_diff = -abs_diff;
--
--	return abs_diff;
-+	return abs_diff(baud, port->uartclk / (mode * n));
- }
- 
- /*
-diff --git a/drivers/video/fbdev/core/svgalib.c b/drivers/video/fbdev/core/svgalib.c
-index 9e01322fabe3..2cba158888ea 100644
---- a/drivers/video/fbdev/core/svgalib.c
-+++ b/drivers/video/fbdev/core/svgalib.c
-@@ -14,6 +14,7 @@
- #include <linux/kernel.h>
- #include <linux/string.h>
- #include <linux/fb.h>
-+#include <linux/math.h>
- #include <linux/svga.h>
- #include <asm/types.h>
- #include <asm/io.h>
-@@ -372,12 +373,6 @@ EXPORT_SYMBOL(svga_get_caps);
-  *  F_VCO = (F_BASE * M) / N
-  *  F_OUT = F_VCO / (2^R)
-  */
--
--static inline u32 abs_diff(u32 a, u32 b)
--{
--	return (a > b) ? (a - b) : (b - a);
--}
--
- int svga_compute_pll(const struct svga_pll *pll, u32 f_wanted, u16 *m, u16 *n, u16 *r, int node)
- {
- 	u16 am, an, ar;
-diff --git a/include/linux/math.h b/include/linux/math.h
-index 2d388650c556..336e3e3678e7 100644
---- a/include/linux/math.h
-+++ b/include/linux/math.h
-@@ -155,6 +155,13 @@ __STRUCT_FRACT(u32)
- 	__builtin_types_compatible_p(typeof(x), unsigned type),		\
- 	({ signed type __x = (x); __x < 0 ? -__x : __x; }), other)
- 
-+#define abs_diff(a, b) ({			\
-+	typeof(a) __a = (a);			\
-+	typeof(b) __b = (b);			\
-+	(void)(&__a == &__b);			\
-+	__a > __b ? (__a - __b) : (__b - __a);	\
-+})
-+
- /**
-  * reciprocal_scale - "scale" a value into range [0, ep_ro)
-  * @val: value
--- 
-2.40.0.1.gaa8946217a0b
+> 
+> So we need to add the length checking for each display path before
+> assigning their drm private data into all_drm_priv array.
+> 
+> Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 16 +++++++++++++---
+>   1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index 89a38561ba27..c12886f31e54 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -351,6 +351,7 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+>   {
+>   	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
+>   	struct mtk_drm_private *all_drm_priv[MAX_CRTC];
+> +	struct mtk_drm_private *temp_drm_priv;
+>   	struct device_node *phandle = dev->parent->of_node;
+>   	const struct of_device_id *of_id;
+>   	struct device_node *node;
+> @@ -373,9 +374,18 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+>   		if (!drm_dev || !dev_get_drvdata(drm_dev))
+>   			continue;
+>   
+> -		all_drm_priv[cnt] = dev_get_drvdata(drm_dev);
+> -		if (all_drm_priv[cnt] && all_drm_priv[cnt]->mtk_drm_bound)
+> -			cnt++;
+> +		temp_drm_priv = dev_get_drvdata(drm_dev);
+> +		if (temp_drm_priv) {
+
+This is inside a 'for' loop right ?
+Why don't you just 'continue' if temp_drm_priv is null ?
+
+
+> +			if (temp_drm_priv->mtk_drm_bound)
+> +				cnt++;
+> +
+> +			if (temp_drm_priv->data->main_len)
+> +				all_drm_priv[CRTC_MAIN] = temp_drm_priv;
+> +			else if (temp_drm_priv->data->ext_len)
+> +				all_drm_priv[CRTC_EXT] = temp_drm_priv;
+> +			else if (temp_drm_priv->data->third_len)
+> +				all_drm_priv[CRTC_THIRD] = temp_drm_priv;
+> +		}
+>   	}
+>   
+>   	if (drm_priv->data->mmsys_dev_num == cnt) {
 
