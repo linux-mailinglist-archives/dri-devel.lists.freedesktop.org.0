@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622E676F36F
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 21:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34F176F373
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 21:33:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A734E10E112;
-	Thu,  3 Aug 2023 19:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 916F810E0DD;
+	Thu,  3 Aug 2023 19:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44F9B10E19D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 19:32:57 +0000 (UTC)
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-aP8L2P19PIy5oO1vpL4x1A-1; Thu, 03 Aug 2023 15:32:44 -0400
-X-MC-Unique: aP8L2P19PIy5oO1vpL4x1A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BAF910E0DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 19:33:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD18D380052A;
- Thu,  3 Aug 2023 19:32:43 +0000 (UTC)
-Received: from nomad.redhat.com (unknown [10.64.136.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7725E1454143;
- Thu,  3 Aug 2023 19:32:42 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/nouveau: fixup the uapi header file.
-Date: Fri,  4 Aug 2023 05:32:40 +1000
-Message-ID: <20230803193240.137555-1-airlied@gmail.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D82FE61E58;
+ Thu,  3 Aug 2023 19:33:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1C3AC433C7;
+ Thu,  3 Aug 2023 19:33:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691091202;
+ bh=Na39kC0nP6XiW875V274Re2PU/Nlj2wRY/n4Ot8HLjM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vq2BHfXd0gAouZIkgnzf1DfzUa8NZDzU1x8y7+3dNLTFUILMcNkIJvKYBfYJQSzW3
+ RYYZmW45VHl7DbGGghUJpfaBpUH7es8pY2cMU1BfFMZQEQ0Iqz4ZnMGRTfEr/XRwBy
+ 1bvtHux6jRaWV01Q2gCrU44FeWfqiLUgX1Qmj6zGCNRK+gxK98jY1X++g7wIfP24If
+ a0E9MgRAXWgIB39M4D8d9tda3B8eJkLwYUhbevvI8+k6Nuu8n7GvRO8ULiKUfic2JV
+ G3TZQwTX9hYfUSjPpfhPafGmOTpya0qnfqCkV8UxYslk+fOkc8JquUxObDallXK/R7
+ /lKiMhto7KJrg==
+Date: Thu, 3 Aug 2023 20:33:15 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jiaxin Yu =?utf-8?B?KOS/nuWutumRqyk=?= <Jiaxin.Yu@mediatek.com>
+Subject: Re: [v3 2/3] ASoC: mediatek: mt8186: correct the HDMI widgets
+Message-ID: <9c90185c-9cd4-4a08-9925-be5d460af54d@sirena.org.uk>
+References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
+ <20230730180803.22570-3-jiaxin.yu@mediatek.com>
+ <25e6ab45-ecad-4bc3-bf4d-983243c939ad@sirena.org.uk>
+ <c6ae8630d06138b6d0156c19323afebf0718f522.camel@mediatek.com>
+ <089fe457-1c61-4b7b-ad37-a67e7f46cb56@sirena.org.uk>
+ <6aa6947865795fc534b61f5b8a80b3c42fd5a0cd.camel@mediatek.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="+mbNnAHmVhFc8DSv"
+Content-Disposition: inline
+In-Reply-To: <6aa6947865795fc534b61f5b8a80b3c42fd5a0cd.camel@mediatek.com>
+X-Cookie: One Bell System - it works.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,183 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, skeggsb@gmail.com
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ Chunxu Li =?utf-8?B?KOadjuaYpeaXrSk=?= <Chunxu.Li@mediatek.com>,
+ Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsik=?= <Allen-KH.Cheng@mediatek.com>,
+ "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>,
+ "ajye_huang@compal.corp-partner.google.com"
+ <ajye_huang@compal.corp-partner.google.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
 
-nouveau > 10 years ago had a plan for new multiplexer inside a multiplexer
-API using nvif. It never fully reached fruition, fast forward 10 years,
-and the new vulkan driver is avoiding libdrm and calling ioctls, and
-these 3 ioctls, getparam, channel alloc + free don't seem to be things
-we'd want to use nvif for.
+--+mbNnAHmVhFc8DSv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Undeprecate and put them into the uapi header so we can just copy it
-into mesa later.
+On Thu, Aug 03, 2023 at 07:20:15AM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=E9=
+=91=AB) wrote:
 
-v2: use uapi types.
+> I agree with you, in fact the speaker is indeed doing this way. But
+> about the hdmi that on the board, I did not find a defination link
+> snd_soc_dapm_hdmi, so I use snd_soc_dapm_line to replace. The purpose
+> is to control it link speaker. Or what do you suggest I should do?=20
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_abi16.h | 41 ---------------------
- include/uapi/drm/nouveau_drm.h          | 48 +++++++++++++++++++++++--
- 2 files changed, 45 insertions(+), 44 deletions(-)
+I think the sensible thing here is to define a DIGITAL_OUTPUT() which
+can be used for HDMI, S/PDIF and anything else that comes up and isn't
+clearly wrong like reusing one of the analog descriptions is.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.h b/drivers/gpu/drm/nouv=
-eau/nouveau_abi16.h
-index 27eae85f33e6..d5d80d0d9011 100644
---- a/drivers/gpu/drm/nouveau/nouveau_abi16.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_abi16.h
-@@ -43,28 +43,6 @@ int  nouveau_abi16_usif(struct drm_file *, void *data, u=
-32 size);
- #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
- #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
-=20
--struct drm_nouveau_channel_alloc {
--=09uint32_t     fb_ctxdma_handle;
--=09uint32_t     tt_ctxdma_handle;
--
--=09int          channel;
--=09uint32_t     pushbuf_domains;
--
--=09/* Notifier memory */
--=09uint32_t     notifier_handle;
--
--=09/* DRM-enforced subchannel assignments */
--=09struct {
--=09=09uint32_t handle;
--=09=09uint32_t grclass;
--=09} subchan[8];
--=09uint32_t nr_subchan;
--};
--
--struct drm_nouveau_channel_free {
--=09int channel;
--};
--
- struct drm_nouveau_grobj_alloc {
- =09int      channel;
- =09uint32_t handle;
-@@ -83,31 +61,12 @@ struct drm_nouveau_gpuobj_free {
- =09uint32_t handle;
- };
-=20
--#define NOUVEAU_GETPARAM_PCI_VENDOR      3
--#define NOUVEAU_GETPARAM_PCI_DEVICE      4
--#define NOUVEAU_GETPARAM_BUS_TYPE        5
--#define NOUVEAU_GETPARAM_FB_SIZE         8
--#define NOUVEAU_GETPARAM_AGP_SIZE        9
--#define NOUVEAU_GETPARAM_CHIPSET_ID      11
--#define NOUVEAU_GETPARAM_VM_VRAM_BASE    12
--#define NOUVEAU_GETPARAM_GRAPH_UNITS     13
--#define NOUVEAU_GETPARAM_PTIMER_TIME     14
--#define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
--#define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
--struct drm_nouveau_getparam {
--=09uint64_t param;
--=09uint64_t value;
--};
--
- struct drm_nouveau_setparam {
- =09uint64_t param;
- =09uint64_t value;
- };
-=20
--#define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
- #define DRM_IOCTL_NOUVEAU_SETPARAM           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_SETPARAM, struct drm_nouveau_setparam)
--#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
--#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
- #define DRM_IOCTL_NOUVEAU_GROBJ_ALLOC        DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GROBJ_ALLOC, struct drm_nouveau_grobj_alloc)
- #define DRM_IOCTL_NOUVEAU_NOTIFIEROBJ_ALLOC  DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_NOTIFIEROBJ_ALLOC, struct drm_nouveau_notifierobj_alloc)
- #define DRM_IOCTL_NOUVEAU_GPUOBJ_FREE        DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GPUOBJ_FREE, struct drm_nouveau_gpuobj_free)
-diff --git a/include/uapi/drm/nouveau_drm.h b/include/uapi/drm/nouveau_drm.=
-h
-index 853a327433d3..ca917e55b38f 100644
---- a/include/uapi/drm/nouveau_drm.h
-+++ b/include/uapi/drm/nouveau_drm.h
-@@ -33,6 +33,44 @@
- extern "C" {
- #endif
-=20
-+#define NOUVEAU_GETPARAM_PCI_VENDOR      3
-+#define NOUVEAU_GETPARAM_PCI_DEVICE      4
-+#define NOUVEAU_GETPARAM_BUS_TYPE        5
-+#define NOUVEAU_GETPARAM_FB_SIZE         8
-+#define NOUVEAU_GETPARAM_AGP_SIZE        9
-+#define NOUVEAU_GETPARAM_CHIPSET_ID      11
-+#define NOUVEAU_GETPARAM_VM_VRAM_BASE    12
-+#define NOUVEAU_GETPARAM_GRAPH_UNITS     13
-+#define NOUVEAU_GETPARAM_PTIMER_TIME     14
-+#define NOUVEAU_GETPARAM_HAS_BO_USAGE    15
-+#define NOUVEAU_GETPARAM_HAS_PAGEFLIP    16
-+struct drm_nouveau_getparam {
-+=09__u64 param;
-+=09__u64 value;
-+};
-+
-+struct drm_nouveau_channel_alloc {
-+=09__u32     fb_ctxdma_handle;
-+=09__u32     tt_ctxdma_handle;
-+
-+=09__s32     channel;
-+=09__u32     pushbuf_domains;
-+
-+=09/* Notifier memory */
-+=09__u32     notifier_handle;
-+
-+=09/* DRM-enforced subchannel assignments */
-+=09struct {
-+=09=09__u32 handle;
-+=09=09__u32 grclass;
-+=09} subchan[8];
-+=09__u32 nr_subchan;
-+};
-+
-+struct drm_nouveau_channel_free {
-+=09__s32 channel;
-+};
-+
- #define NOUVEAU_GEM_DOMAIN_CPU       (1 << 0)
- #define NOUVEAU_GEM_DOMAIN_VRAM      (1 << 1)
- #define NOUVEAU_GEM_DOMAIN_GART      (1 << 2)
-@@ -126,10 +164,10 @@ struct drm_nouveau_gem_cpu_fini {
- =09__u32 handle;
- };
-=20
--#define DRM_NOUVEAU_GETPARAM           0x00 /* deprecated */
-+#define DRM_NOUVEAU_GETPARAM           0x00
- #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
--#define DRM_NOUVEAU_CHANNEL_ALLOC      0x02 /* deprecated */
--#define DRM_NOUVEAU_CHANNEL_FREE       0x03 /* deprecated */
-+#define DRM_NOUVEAU_CHANNEL_ALLOC      0x02
-+#define DRM_NOUVEAU_CHANNEL_FREE       0x03
- #define DRM_NOUVEAU_GROBJ_ALLOC        0x04 /* deprecated */
- #define DRM_NOUVEAU_NOTIFIEROBJ_ALLOC  0x05 /* deprecated */
- #define DRM_NOUVEAU_GPUOBJ_FREE        0x06 /* deprecated */
-@@ -188,6 +226,10 @@ struct drm_nouveau_svm_bind {
- #define NOUVEAU_SVM_BIND_TARGET__GPU_VRAM               (1UL << 31)
-=20
-=20
-+#define DRM_IOCTL_NOUVEAU_GETPARAM           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_GETPARAM, struct drm_nouveau_getparam)
-+#define DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC      DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_ALLOC, struct drm_nouveau_channel_alloc)
-+#define DRM_IOCTL_NOUVEAU_CHANNEL_FREE       DRM_IOW (DRM_COMMAND_BASE + D=
-RM_NOUVEAU_CHANNEL_FREE, struct drm_nouveau_channel_free)
-+
- #define DRM_IOCTL_NOUVEAU_SVM_INIT           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_SVM_INIT, struct drm_nouveau_svm_init)
- #define DRM_IOCTL_NOUVEAU_SVM_BIND           DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_NOUVEAU_SVM_BIND, struct drm_nouveau_svm_bind)
-=20
---=20
-2.41.0
+--+mbNnAHmVhFc8DSv
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTMAPoACgkQJNaLcl1U
+h9CWewf/XtBsII8aM+PvwnIJ4Sr4fN16oOfY1UY32SAMvG5kfv55GzqucnYVEkQW
+a1Xs2el6AlSouSelQ12FvpaBAXjHAlQpyUoMwI0BYjncBoJ1aHZEGgwE54710y5H
+eRQmJH2oarBgD4MbO5N1pqUVbajjCg4mtU61yWgPhYlniAMILOmzyF5jxcpE7EET
+7cd0djgpIZHR/osfIG3EA7WQKjuZyMtB/0YKncA1qRoUP0pqZQfetbeHqtchfqJy
+3YvmkidEFoaROm7dSZWbNImhDbRVPNal4iot/8JUghN+yo867eidr/0i1kgzgJ8j
++A+PCUclKZDIDoGbmL2M5hlTe+Ihbg==
+=3kqt
+-----END PGP SIGNATURE-----
+
+--+mbNnAHmVhFc8DSv--
