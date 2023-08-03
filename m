@@ -1,85 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5382D76E464
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 11:31:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4431F76E487
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 11:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 771B410E0DF;
-	Thu,  3 Aug 2023 09:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5177B10E0C8;
+	Thu,  3 Aug 2023 09:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADB510E0DF
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 09:30:56 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-3175d5ca8dbso597696f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 02:30:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691055054; x=1691659854;
- h=content-transfer-encoding:in-reply-to:organization:references:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=LkIHcBr4D3AWyeFHkNvp/kzN1jYSpCMGS1AHF/o5c9A=;
- b=KaTNqcmMU8XrC4AlTAK7GLUb0OVSgvQmMe1GzwuMaGkT1bC6Ar+eB8Bex5fmM2UfAs
- XYnfFEgWij0eey3gAObflxdGhrH7lMy3wuc3h/7KTqOqKAzYIg0OovTKhZAELasTaMIR
- 4/SAmd53zay0A67BoVIri5qIuqAQ0qXSU7wkUcXoqbCQRehQFnuJkzTdlCuG11FXpsZ4
- 4yyQf19kWgnz5e+OCij04nDpXhqGgSWZ83fYkmgwOyeSIqyyku1X240LwQ9TEkwJeLLO
- QQVDDmJ5EcpRkf7SiK4ipizrKRj3ubccJLF48c27rEwzHbYS31G4mJsH1eSHKm1Ygt6S
- z/hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691055054; x=1691659854;
- h=content-transfer-encoding:in-reply-to:organization:references:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LkIHcBr4D3AWyeFHkNvp/kzN1jYSpCMGS1AHF/o5c9A=;
- b=LygtkVQ6lBnzVoF1SvEsJEoIvyxlv57cqq8cKt5+cgykueq5023GJrQDQLp2UuXqdP
- Kyex8HrGymC7MrYBVWVd5TsdvKmPai3N6VoU/B4TKcnVYx85au6ZHX4rB5zT7rq3O7zV
- 05zPxviVl1FHUIIAqPbH2vC9V9RghVD4Jk1T9sMffmmxIYQsJcOdp37u/NaEUzmSBeHh
- W1DC1FShKXkmTkrLguhJmJwz62afYSByNWNwIcZYHVKuyO8uxxD2VNb1lziaYfRGzzEh
- gW9IDXqLXpx8NA30vMqI1tgJerSwTBMzl8BxNYBHyfUT9m49PaX8t2sRoNSp+L37mERV
- O8Ew==
-X-Gm-Message-State: ABy/qLajappAnRs5pUjpGf9xFjH0kPYk1FNeQ8I+TMowF6xQwF+Sk3JN
- bw1m0daaXjW8zhI05YzgVCJAkw==
-X-Google-Smtp-Source: APBJJlFZEiNSoW7XP3KC4CMX4RvkaDRIpCL6qNHmhmh7S6W+5L/Q6Ko5fmVchCDSe4efmQUf8OGYPg==
-X-Received: by 2002:a5d:6782:0:b0:314:182a:3d96 with SMTP id
- v2-20020a5d6782000000b00314182a3d96mr6148630wru.28.1691055054566; 
- Thu, 03 Aug 2023 02:30:54 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8656:583:d034:d966?
- ([2a01:e0a:982:cbb0:8656:583:d034:d966])
- by smtp.gmail.com with ESMTPSA id
- p16-20020a5d68d0000000b003140f47224csm21286033wrw.15.2023.08.03.02.30.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Aug 2023 02:30:53 -0700 (PDT)
-Message-ID: <9f0670a7-6ef6-7823-19c2-de10683f303f@linaro.org>
-Date: Thu, 3 Aug 2023 11:30:52 +0200
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A3710E071;
+ Thu,  3 Aug 2023 09:35:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mY8KPB96MgrPeOrl5C1kRnIfAooSTJ73wE4RQXa0WMxn1FFSeoao78W5SHY/7/d9gjy6XJcInbmswRovXpjbW87O3Sdb5YJQSO5CwPVaTlacC0su8OXaobbcdaWJp/TNMHqVH7zxFWD6L/6hw5jquhGlxjzmgbqzysu5pKwrSC7vCx4mP1Vx9W/WifVh0pfsUQVoX2dwpEU/i07aBSO1w/FIKthlXi3FEb6Mio/KS6JvFpLcUOF3ed4fBr459j/txH/BnFlR9M7ghcUJZd2sjnl29/ech+bv9R4XJm9pn0Z4H2kf44OqU1/9PpdpenRAbQ7Cj0asvfAS9CjVtQxDRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MZkYZ7H5kesEErWAFEFHUD/onit1J5DcrrB4ncXST7g=;
+ b=SLsN+eoUHfj33tfax0G6u9r1zXevJdIln6k5gC1niMWym1dMkkQfIIVFxWb9TH/8oq2+cAuvvRzcg9jBlkGAPGnypzbIDx8vwR+nnkOhCYjo8QluKphBOJiU1TdgptfJH+CrZehHgLRaywhco+JQRDQkuwnsGBf7vrrhNLHXeuGxA5Bb2TrG526RsjJEcszkE/xZ+zdsb/hliIaw+va1oVP4cTwVCgoB95vdquvn9bscJ6S5wzptcpm27nYeoMeLYDjKORFBUE9cKj/DANAoMkEel7ShdOpdEfTIciQtjvlW0gPgMZi9nf+oWo/+pQzek+KoLa7l/GFGwYtRvTDcJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MZkYZ7H5kesEErWAFEFHUD/onit1J5DcrrB4ncXST7g=;
+ b=OF2raHEHKykIj87F9y6hYiQprlbhxzTxt87UW11H4qOYti8RabTfdQEHmnInzbO+fxj+ge3ha4S/KW1oLHYFjtJG3sdflw6qkEpICKQN1NBaDuHBzWxKuptUbrRblo5xt8q/x0h7PjkaFNvOrENuWqUWP6/RuBwfJqwdDplHslo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY8PR12MB8297.namprd12.prod.outlook.com (2603:10b6:930:79::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Thu, 3 Aug
+ 2023 09:35:36 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6631.046; Thu, 3 Aug 2023
+ 09:35:36 +0000
+Message-ID: <88b40106-e24f-e286-c3a3-363a6b2462ee@amd.com>
+Date: Thu, 3 Aug 2023 11:35:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/4] drm/panel: sitronix-st7789v: add support for partial
- mode
+Subject: Re: [PATCH 4/8] drm/sched: Add generic scheduler message interface
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- David Airlie <airlied@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
- <292c3e7d-82ea-2631-bd4b-ef747f56287c@linaro.org>
- <ekmwiy3iuvtqtb6hwjbba2ia3aemt3dxmx6dj3zh6ljfmuim4w@4jzhqdenxth4>
- <ZMtqraOyGN9JvVj9@phenom.ffwll.local>
- <qmwtcungahbe2bhty7v2rso2kf3vai6k47muwipifbybmi7o6s@oj6lngnhyhtg>
-Organization: Linaro Developer Services
-In-Reply-To: <qmwtcungahbe2bhty7v2rso2kf3vai6k47muwipifbybmi7o6s@oj6lngnhyhtg>
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230801205103.627779-1-matthew.brost@intel.com>
+ <20230801205103.627779-5-matthew.brost@intel.com>
+ <efabdbaf-4f38-ae62-3d4e-da5660558886@amd.com>
+ <CAKMK7uEdyV+Swtk50KqYUeCr5sOAceT_asB69_Ynz=Nx_z+HkQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAKMK7uEdyV+Swtk50KqYUeCr5sOAceT_asB69_Ynz=Nx_z+HkQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0180.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b4::10) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY8PR12MB8297:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5317c025-50ab-4e66-452e-08db9404fd98
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jDctwElXAvPGZsf2vVNBzkPKFEMwuNKSt2rgOOlIShcd2moFZ2PUEIf4ZFtcWInnG12fH9E2JLlv6sNliouMI6RXqqXinceoOarhxe/+6PSIwl6QIoTTSRnwcd5uXb1iznU4xzVuuM5eZavbE1ugqhtKlo687UpAinyamv60E0Q/p8znUHJnV28B15ggiGtxyIQbT1ZNfD2ip2ZGaeUMOFfGkzuoitD63jpKHShcqjIt0fv/Nk4vSZ84jy1QYxHSs6tKnWd1uaSQZQZqWPvENkGjWicisk+487GO98S0leYEca2Rilyiz38wnhZwX3iqmflKbSgV997AQxohRrd4dLmb4OjTN0RLxD5YlI1h555/Hj95hoC4hCjqUuVNq9v/Bn6Zal5tncdMv6UbuZIndGRvstrz4AnkmRWPZW4LnM8Fvqu5MROoRLclkWxajR0Gj8eMIT2p7zOYXAszGiYhE5Nb83YJUpBVcUlvqVAr/r2BIXDgCf6InBSWjrLIKzT+6kTWYTYSPkX/EXmciEi/N1SIBQ6GuLFoeFOtq33HPvHPMk2+gDRKqO94QMVw/3L+LT676ezxd8S9Nl2gjRQR4P/ckKpjsjYMpTa3UG26QLI2KEcv8lMtlGbYr8WjNkZVeNEA0Lue0hdlsGtPj63PnN82CzfHgI2+ZQwSPP71OdE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(396003)(366004)(136003)(39860400002)(346002)(451199021)(2616005)(83380400001)(6506007)(186003)(41300700001)(2906002)(66946007)(4326008)(66476007)(66556008)(5660300002)(6916009)(316002)(7416002)(8676002)(8936002)(6666004)(6486002)(15650500001)(6512007)(478600001)(66574015)(38100700002)(36756003)(31696002)(86362001)(31686004)(41533002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3VLamJEaUp0ZkxxengwOVBuSSsxdGNFejhWcmRxdFIxK3hDcjFpekZEa1d1?=
+ =?utf-8?B?YjNZZnNqVDFrVi9BSG5pZzJodjA2NEhtS0MvNklIa1BjamhtM3laR0VFUi8v?=
+ =?utf-8?B?ZUM3aEZLOGh6K1p6RHhvMk1PMlJIeFdkaVRXdzJSa24zZkV2QTdiaXJaOVhq?=
+ =?utf-8?B?Wjl0WnNrSmszZm1BMWFBbDllVHpUSys2WGo0S2dkZm5LU2FaSjVPenVYS2h5?=
+ =?utf-8?B?NzU1OWFYZlVpeTVCVzVzSU1jdWNGSVpyUk1lT1hER0ZvMmM0Q3MzTFFsRlVq?=
+ =?utf-8?B?UytRSHltUmNVRnNPb29CanRKTVBMbXdhTHRXdE5NelJiUmFlU3BsNEl6MFJ0?=
+ =?utf-8?B?VWtxYnBFMmQzVVU4a3pVakxiZnZHODk2WW91RVNqS3NvblhxbFc4ZTNKVWxt?=
+ =?utf-8?B?eG1SRUJvNDh5UGZrbTg1SFBtVEc3OFgzb0hOT2NCQnRjK2s2WFdHSGQzNlpy?=
+ =?utf-8?B?SWIva1Vmb3ovaS9QeUQ1U1BabEZoRSsxYkdVRnZsVW9SVStBR3ZBeFBEOGNh?=
+ =?utf-8?B?M051VFk2eE9sZ0ViVG0vVGwzQ2N5S0NJUlFkTzFLZXl5bEhLY2EwUzFDanJ5?=
+ =?utf-8?B?ck5HTitaOERLSkZTanpuVS9kNWR1WWZjV1lNaFQyS0ZlVDBZU0o3dzFLMXRU?=
+ =?utf-8?B?YjJjUGRVZEhnSjRKZDFvOVVJb290NXA4NjZUQVFhY2l5eG1SUkE4WWs3MmVW?=
+ =?utf-8?B?dURwRFVrSDFoeEZNV25iM0RRTGtsWXhJbTI3V3R5NmpXTVgxTUZiTDcydWRv?=
+ =?utf-8?B?V04rSWdmKzQ5ZUtIeU8wcEN6a1BOUnJVLzFJTUFidmxjUG1hdWRCN3k4MUNY?=
+ =?utf-8?B?bTlRamcvellwWGd2RXROWXlNZW5IdFo0bG9yanBQeEJBQWJERldsU0ROcGxY?=
+ =?utf-8?B?NG9PR29XZEFCSXZZSUJCNDkxRXB0bStwSCs1R1NzaTdWMUxUSEhuYUt0Y0Vj?=
+ =?utf-8?B?ckJMWjhZRWt6QTJZTngyZlZNN2hsbDRENDRrUmttZU5uSVVYMTl6NGFnamhI?=
+ =?utf-8?B?NWZXZENRd1ZkdkFVMC9iMzE4UjY5N0xCY2x6YXFSV1BDdXMxdVZwZjFVQ2dZ?=
+ =?utf-8?B?QXYzem1FWTljZnA2OUJCc3BEMGVwYkxtb2JpWFhrbmFTZmdtd1VpbG1MQXFL?=
+ =?utf-8?B?MGJDUjN6Q0FBTnRwUjdXcW9uYUhCOUFhTVBNSDA5K1RXM2lLY0Z5UGtZaE9w?=
+ =?utf-8?B?azA3S0JRczZXd0lmUzNnUndOSSsraDY5ODlRdS9YWHdBd2p6dXpSZ3pzdmw2?=
+ =?utf-8?B?Q1FyMXg2ZkYzdXVOQXVNOXFmTnhCcnAwNmRYZ3JLazUyZm5aeGFkQkYxdC91?=
+ =?utf-8?B?L0JDcW41VlFHZWtwV21sNEpVamVOVTQyMTBTNHkyeDNvMDhsWFlXekRaaGtK?=
+ =?utf-8?B?dk1nL0h0QlV4Y1FxSFZKdmwxZlJZcDZpYzd4UjRHU01pbXZHZzZ5WEl6dm5J?=
+ =?utf-8?B?SUx2T3k1QzVvMUF4YXVFT0NoUDV5QzFqRWRCK05pV1dPZWRzTWpnWkVwRURJ?=
+ =?utf-8?B?SlhHR2Myb2pSaXlZamllSGcrVlhLYmo3Y0RDYVlGUm9JK3YyRzd4U3VIVXhB?=
+ =?utf-8?B?b2loeUtDbitTSDlUbVQzQXJPbm4wOVdkN2hxQ0JSa1BpOXFrWFIwSmlZNmJD?=
+ =?utf-8?B?VmFvY2NqdjJWSE9FV2htdmxGaU1mNHYxVmZLck4rcUtSc1VSVlBSVElkY2Zp?=
+ =?utf-8?B?MzkvQzRZdkppUVk0MmpGUXNtU3BWU2xTRHdxVGxaZjVDMVFsMm8wWFJTS3Jo?=
+ =?utf-8?B?NCswWm50VWhWdStZQndMV3VSYzQ2cWl1M09DU1lCL2NMZ09pYitUMUtVb2do?=
+ =?utf-8?B?NWlWKzVYQ21FaTJ5REhYMXVIbDBKWCs5UFZyRDdVTDhYbUV3d2RyYmdJMWxS?=
+ =?utf-8?B?QkhHWWRBNUIyczBHSVlmbmR1UGRTbXppbkZxMjNRejRHd1RuYXpvU2lNTlZJ?=
+ =?utf-8?B?bXByWE41WHFZOG0vUHhEZVhZTHhsNjMrNlFpUVFLU1lrdkEyanhhV3huYlVt?=
+ =?utf-8?B?SE5TSHN3cEdTVTBnT1IrSHpjcVZCVzFmbU1adVowVDcySkRSdUlhYStxQXcx?=
+ =?utf-8?B?Lzh1SU92ZVJRK0k4dHdhNlZqd2tlcjB2S0tuQUxRSVAxN3dzVFpYOS9xdHRL?=
+ =?utf-8?B?azhlNVEvRHpMOEIveFVZTWl3TEJ1UGh0UzhObUFJOXprT0hCV0k0M0ZLMXph?=
+ =?utf-8?Q?RoUmEx9IRcTc87btINV8vQMLbgjA4bSo+gMvhn1/ZWv7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5317c025-50ab-4e66-452e-08db9404fd98
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2023 09:35:36.1973 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IumTsIrwQmLhylk2fKgwDdSBJbfmhCtfxHQj1OOdDISYRTk9UO5+JTpTTvWb90Td
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8297
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,83 +128,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
+Cc: Matthew Brost <matthew.brost@intel.com>, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ dri-devel@lists.freedesktop.org, luben.tuikov@amd.com, lina@asahilina.net,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ robdclark@chromium.org, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/08/2023 11:22, Maxime Ripard wrote:
-> On Thu, Aug 03, 2023 at 10:51:57AM +0200, Daniel Vetter wrote:
->> On Thu, Aug 03, 2023 at 10:48:57AM +0200, Maxime Ripard wrote:
->>> On Thu, Aug 03, 2023 at 10:11:22AM +0200, Neil Armstrong wrote:
->>>> Hi,
->>>>
->>>> On 18/07/2023 17:31, Michael Riesch wrote:
->>>>> Hi all,
->>>>>
->>>>> This series adds support for the partial display mode to the Sitronix
->>>>> ST7789V panel driver. This is useful for panels that are partially
->>>>> occluded by design, such as the Jasonic JT240MHQS-HWT-EK-E3. Support
->>>>> for this particular panel is added as well.
->>>>>
->>>>> Note: This series is already based on
->>>>> https://lore.kernel.org/lkml/20230714013756.1546769-1-sre@kernel.org/
->>>>
->>>> I understand Maxime's arguments, but by looking closely at the code,
->>>> this doesn't look like an hack at all and uses capabilities of the
->>>> panel controller to expose a smaller area without depending on any
->>>> changes or hacks on the display controller side which is coherent.
->>>>
->>>> Following's Daniel's summary we cannot compare it to TV overscan
->>>> because overscan is only on *some* displays, we can still get 100%
->>>> of the picture from the signal.
+Am 03.08.23 um 10:58 schrieb Daniel Vetter:
+> On Thu, 3 Aug 2023 at 10:53, Christian König <christian.koenig@amd.com> wrote:
+>> Am 01.08.23 um 22:50 schrieb Matthew Brost:
+>>> Add generic schedule message interface which sends messages to backend
+>>> from the drm_gpu_scheduler main submission thread. The idea is some of
+>>> these messages modify some state in drm_sched_entity which is also
+>>> modified during submission. By scheduling these messages and submission
+>>> in the same thread their is not race changing states in
+>>> drm_sched_entity.
 >>>
->>> Still disagree on the fact that it only affects some display. But it's
->>> not really relevant for that series.
+>>> This interface will be used in XE, new Intel GPU driver, to cleanup,
+>>> suspend, resume, and change scheduling properties of a drm_sched_entity.
+>>>
+>>> The interface is designed to be generic and extendable with only the
+>>> backend understanding the messages.
+>> I'm still extremely frowned on this.
 >>
->> See my 2nd point, from a quick grep aside from i915 hdmi support, no one
->> else sets all the required hdmi infoframes correctly. Which means on a
->> compliant hdmi tv, you _should_ get overscan. That's how that stuff is
->> speced.
+>> If you need this functionality then let the drivers decide which
+>> runqueue the scheduler should use.
 >>
->> Iirc you need to at least set both the VIC and the content type, maybe
->> even more stuff.
+>> When you then create a single threaded runqueue you can just submit work
+>> to it and serialize this with the scheduler work.
 >>
->> Unless all that stuff is set I'd say it's a kms driver bug if you get
->> overscan on a hdmi TV.
-> 
-> I have no doubt that i915 works there. The source of my disagreement is
-> that if all drivers but one don't do that, then userspace will have to
-> care. You kind of said it yourself, i915 is kind of the exception there.
-> 
-> The exception can be (and I'm sure it is) right, but still, it deviates
-> from the norm.
+>> This way we wouldn't duplicate this core kernel function inside the
+>> scheduler.
+> Yeah that's essentially the design we picked for the tdr workers,
+> where some drivers have requirements that all tdr work must be done on
+> the same thread (because of cross-engine coordination issues). But
+> that would require that we rework the scheduler as a pile of
+> self-submitting work items, and I'm not sure that actually fits all
+> that well into the core workqueue interfaces either.
 
-HDMI spec is hidden behind a paywall, HDMI testing is a mess, HDMI real
-implementation on TVs and Displays is mostly broken, and HDMI certification
-devices are too expensive... this is mainly why only i915 handles it correctly.
+There were already patches floating around which did exactly that.
 
-> 
->>> I think I'll still like to have something clarified before we merge it:
->>> if userspace forces a mode, does it contain the margins or not? I don't
->>> have an opinion there, I just think it should be documented.
+Last time I checked those were actually looking pretty good.
+
+Additional to message passing advantage the real big issue with the 
+scheduler and 1 to 1 mapping is that we create a kernel thread for each 
+instance, which results in tons on overhead.
+
+Just using a work item which is submitted to a work queue completely 
+avoids that.
+
+Regards,
+Christian.
+
+>
+> Worst case I think this isn't a dead-end and can be refactored to
+> internally use the workqueue services, with the new functions here
+> just being dumb wrappers until everyone is converted over. So it
+> doesn't look like an expensive mistake, if it turns out to be a
+> mistake.
+> -Daniel
+>
+>
+>> Regards,
+>> Christian.
 >>
->> The mode comes with the margins, so if userspace does something really
->> funny then either it gets garbage (as in, part of it's crtc area isn't
->> visible, or maybe black bars on the screen), or the driver rejects it
->> (which I think is the case for panels, they only take their mode and
->> nothing else).
-> 
-> Panels can usually be quite flexible when it comes to the timings they
-> accept, and we could actually use that to our advantage, but even if we
-> assume that they have a single mode, I don't think we have anything that
-> enforces that, either at the framework or documentation levels?
-
-Yep, this is why we would need a better atomic based panel API that would
-permit us handling dynamic timings for panel and get out of the single-mode
-for modern panels.
-
-Neil
-
-> 
-> Maxime
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_main.c | 52 +++++++++++++++++++++++++-
+>>>    include/drm/gpu_scheduler.h            | 29 +++++++++++++-
+>>>    2 files changed, 78 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 2597fb298733..84821a124ca2 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -1049,6 +1049,49 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+>>>    }
+>>>    EXPORT_SYMBOL(drm_sched_pick_best);
+>>>
+>>> +/**
+>>> + * drm_sched_add_msg - add scheduler message
+>>> + *
+>>> + * @sched: scheduler instance
+>>> + * @msg: message to be added
+>>> + *
+>>> + * Can and will pass an jobs waiting on dependencies or in a runnable queue.
+>>> + * Messages processing will stop if schedule run wq is stopped and resume when
+>>> + * run wq is started.
+>>> + */
+>>> +void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
+>>> +                    struct drm_sched_msg *msg)
+>>> +{
+>>> +     spin_lock(&sched->job_list_lock);
+>>> +     list_add_tail(&msg->link, &sched->msgs);
+>>> +     spin_unlock(&sched->job_list_lock);
+>>> +
+>>> +     drm_sched_run_wq_queue(sched);
+>>> +}
+>>> +EXPORT_SYMBOL(drm_sched_add_msg);
+>>> +
+>>> +/**
+>>> + * drm_sched_get_msg - get scheduler message
+>>> + *
+>>> + * @sched: scheduler instance
+>>> + *
+>>> + * Returns NULL or message
+>>> + */
+>>> +static struct drm_sched_msg *
+>>> +drm_sched_get_msg(struct drm_gpu_scheduler *sched)
+>>> +{
+>>> +     struct drm_sched_msg *msg;
+>>> +
+>>> +     spin_lock(&sched->job_list_lock);
+>>> +     msg = list_first_entry_or_null(&sched->msgs,
+>>> +                                    struct drm_sched_msg, link);
+>>> +     if (msg)
+>>> +             list_del(&msg->link);
+>>> +     spin_unlock(&sched->job_list_lock);
+>>> +
+>>> +     return msg;
+>>> +}
+>>> +
+>>>    /**
+>>>     * drm_sched_main - main scheduler thread
+>>>     *
+>>> @@ -1060,6 +1103,7 @@ static void drm_sched_main(struct work_struct *w)
+>>>                container_of(w, struct drm_gpu_scheduler, work_run);
+>>>        struct drm_sched_entity *entity;
+>>>        struct drm_sched_job *cleanup_job;
+>>> +     struct drm_sched_msg *msg;
+>>>        int r;
+>>>
+>>>        if (READ_ONCE(sched->pause_run_wq))
+>>> @@ -1067,12 +1111,15 @@ static void drm_sched_main(struct work_struct *w)
+>>>
+>>>        cleanup_job = drm_sched_get_cleanup_job(sched);
+>>>        entity = drm_sched_select_entity(sched);
+>>> +     msg = drm_sched_get_msg(sched);
+>>>
+>>> -     if (!entity && !cleanup_job)
+>>> +     if (!entity && !cleanup_job && !msg)
+>>>                return; /* No more work */
+>>>
+>>>        if (cleanup_job)
+>>>                sched->ops->free_job(cleanup_job);
+>>> +     if (msg)
+>>> +             sched->ops->process_msg(msg);
+>>>
+>>>        if (entity) {
+>>>                struct dma_fence *fence;
+>>> @@ -1082,7 +1129,7 @@ static void drm_sched_main(struct work_struct *w)
+>>>                sched_job = drm_sched_entity_pop_job(entity);
+>>>                if (!sched_job) {
+>>>                        complete_all(&entity->entity_idle);
+>>> -                     if (!cleanup_job)
+>>> +                     if (!cleanup_job && !msg)
+>>>                                return; /* No more work */
+>>>                        goto again;
+>>>                }
+>>> @@ -1177,6 +1224,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>>
+>>>        init_waitqueue_head(&sched->job_scheduled);
+>>>        INIT_LIST_HEAD(&sched->pending_list);
+>>> +     INIT_LIST_HEAD(&sched->msgs);
+>>>        spin_lock_init(&sched->job_list_lock);
+>>>        atomic_set(&sched->hw_rq_count, 0);
+>>>        INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>>> index df1993dd44ae..267bd060d178 100644
+>>> --- a/include/drm/gpu_scheduler.h
+>>> +++ b/include/drm/gpu_scheduler.h
+>>> @@ -394,6 +394,23 @@ enum drm_gpu_sched_stat {
+>>>        DRM_GPU_SCHED_STAT_ENODEV,
+>>>    };
+>>>
+>>> +/**
+>>> + * struct drm_sched_msg - an in-band (relative to GPU scheduler run queue)
+>>> + * message
+>>> + *
+>>> + * Generic enough for backend defined messages, backend can expand if needed.
+>>> + */
+>>> +struct drm_sched_msg {
+>>> +     /** @link: list link into the gpu scheduler list of messages */
+>>> +     struct list_head                link;
+>>> +     /**
+>>> +      * @private_data: opaque pointer to message private data (backend defined)
+>>> +      */
+>>> +     void                            *private_data;
+>>> +     /** @opcode: opcode of message (backend defined) */
+>>> +     unsigned int                    opcode;
+>>> +};
+>>> +
+>>>    /**
+>>>     * struct drm_sched_backend_ops - Define the backend operations
+>>>     *  called by the scheduler
+>>> @@ -471,6 +488,12 @@ struct drm_sched_backend_ops {
+>>>             * and it's time to clean it up.
+>>>         */
+>>>        void (*free_job)(struct drm_sched_job *sched_job);
+>>> +
+>>> +     /**
+>>> +      * @process_msg: Process a message. Allowed to block, it is this
+>>> +      * function's responsibility to free message if dynamically allocated.
+>>> +      */
+>>> +     void (*process_msg)(struct drm_sched_msg *msg);
+>>>    };
+>>>
+>>>    /**
+>>> @@ -482,6 +505,7 @@ struct drm_sched_backend_ops {
+>>>     * @timeout: the time after which a job is removed from the scheduler.
+>>>     * @name: name of the ring for which this scheduler is being used.
+>>>     * @sched_rq: priority wise array of run queues.
+>>> + * @msgs: list of messages to be processed in @work_run
+>>>     * @job_scheduled: once @drm_sched_entity_do_release is called the scheduler
+>>>     *                 waits on this wait queue until all the scheduled jobs are
+>>>     *                 finished.
+>>> @@ -489,7 +513,7 @@ struct drm_sched_backend_ops {
+>>>     * @job_id_count: used to assign unique id to the each job.
+>>>     * @run_wq: workqueue used to queue @work_run
+>>>     * @timeout_wq: workqueue used to queue @work_tdr
+>>> - * @work_run: schedules jobs and cleans up entities
+>>> + * @work_run: schedules jobs, cleans up jobs, and processes messages
+>>>     * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
+>>>     *            timeout interval is over.
+>>>     * @pending_list: the list of jobs which are currently in the job queue.
+>>> @@ -513,6 +537,7 @@ struct drm_gpu_scheduler {
+>>>        long                            timeout;
+>>>        const char                      *name;
+>>>        struct drm_sched_rq             sched_rq[DRM_SCHED_PRIORITY_COUNT];
+>>> +     struct list_head                msgs;
+>>>        wait_queue_head_t               job_scheduled;
+>>>        atomic_t                        hw_rq_count;
+>>>        atomic64_t                      job_id_count;
+>>> @@ -566,6 +591,8 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>>>
+>>>    void drm_sched_job_cleanup(struct drm_sched_job *job);
+>>>    void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+>>> +void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
+>>> +                    struct drm_sched_msg *msg);
+>>>    void drm_sched_run_wq_stop(struct drm_gpu_scheduler *sched);
+>>>    void drm_sched_run_wq_start(struct drm_gpu_scheduler *sched);
+>>>    void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+>
 
