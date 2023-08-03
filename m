@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EECB76EA34
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 15:27:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7856E76EA79
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 15:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD5A10E098;
-	Thu,  3 Aug 2023 13:27:22 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9018D10E098
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 13:27:21 +0000 (UTC)
-Received: from [192.168.0.125] (unknown [82.76.24.202])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: ehristev)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6F24966015A0;
- Thu,  3 Aug 2023 14:27:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1691069240;
- bh=GKxVpL2htb4W/V44J3R/Ch3TGxu315qMlN6i5BaRp1I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Oo7mc+GB6YB9oHQ4koa2nFWMb8g7v4RNgRYnrJHXmeh30XNsgyn8zplPvdMUNDlFO
- BdmZbGx13CeVWR+/isBu7FirOF9+o5xQ4uWaz4789oqKXDk4F5PujVr3zb3idQbDD8
- eJ/l8O50Hbnolo2AOvdECXDijID+AdjplSkKF+I3BOagFtr1pu3SkH4sia0BCikRBi
- W/dn8xJk4OMFa/U6h8+tq+iqGv/KbbodwNPsUOcJrYcysqnKchFj0Vh7Aeuw50hEJr
- +lzzCdiTECDbV2dumyS0ec2Y2lKvt3kHZ47gfP/7bPn6EamnwGNec0ZYR033sBNKa/
- o2VDfs0neynLw==
-Message-ID: <a0b5ab0a-4c2e-d14c-508c-09a981d7087b@collabora.com>
-Date: Thu, 3 Aug 2023 16:27:16 +0300
+	by gabe.freedesktop.org (Postfix) with ESMTP id 153E210E216;
+	Thu,  3 Aug 2023 13:33:04 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (unknown [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F6210E1AE;
+ Thu,  3 Aug 2023 13:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691069582; x=1722605582;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qOrih1jiYxlbUokyDmYtkY4b+TEofzrba+mxe36q6kU=;
+ b=M5/G7uxr/ohf5XBl+HMVl4FKTSMpJdx+ebuji1EJJ4odqMHCYWO2bCf2
+ xsrIlqALu+l/Gp/QFLUgTaLKpYHDU4+1J85BFTFonT762nqbG3v/v6uOF
+ r99dp5bgfPmdD7oREeAS2Y4a17EoZD0rtuh7lqpMQBbnCwXDQN3utz75W
+ 4N2s52SVUI7rmV9DE2dZ42XG7Iy0fo5wftqa5s7MIVvbWikEiRLFBoou/
+ Q9yaA1Eup1ZFTlAJkphvaAWjfTHz4xjspFokDFEf91zPrTKbN/gfOScdF
+ 2ooEfZwcXz/ZQdQ0XnWlI4jIz/NuJOV+wjc0rRVyPlJwbFLAgkvwJESU+ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="368773485"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; d="scan'208";a="368773485"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2023 06:28:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="819653818"
+X-IronPort-AV: E=Sophos;i="6.01,252,1684825200"; d="scan'208";a="819653818"
+Received: from cavram-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.210.12])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2023 06:28:32 -0700
+Date: Thu, 3 Aug 2023 15:28:29 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Fix potential null pointer
+ deref in GuC 'steal id' test
+Message-ID: <ZMurfYjREPl5NIGB@ashyti-mobl2.lan>
+References: <20230802184940.911753-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v8 4/8] drm/mediatek: Add encoder_index function to
- mtk_ddp_comp_funcs
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230802144802.751-1-jason-jh.lin@mediatek.com>
- <20230802144802.751-5-jason-jh.lin@mediatek.com>
-From: Eugen Hristev <eugen.hristev@collabora.com>
-In-Reply-To: <20230802144802.751-5-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230802184940.911753-1-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,71 +59,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/2/23 17:47, Jason-JH.Lin wrote:
-> 1. Add encoder_index function to mtk_ddp_comp_funcs to support dynamic
-> connector selection for some ddp_comp who has encoder_index.
-> 2. Add mtk_ddp_comp_encoder_index_set function to set encoder_index to
-> each comp.
+Hi John,
+
+On Wed, Aug 02, 2023 at 11:49:40AM -0700, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
 > 
-
-Usually a commit that does two things in a list is supposed to be two 
-actual commits.
-
-
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> It was noticed that if the very first 'stealing' request failed to
+> create for some reason then the 'steal all ids' loop would immediately
+> exit with 'last' still being NULL. The test would attempt to continue
+> but using a null pointer. Fix that by aborting the test if it fails to
+> create any requests at all.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 > ---
->   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>  drivers/gpu/drm/i915/gt/uc/selftest_guc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> index febcaeef16a1..8428baca70f4 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -80,6 +80,7 @@ struct mtk_ddp_comp_funcs {
->   	void (*disconnect)(struct device *dev, struct device *mmsys_dev, unsigned int next);
->   	void (*add)(struct device *dev, struct mtk_mutex *mutex);
->   	void (*remove)(struct device *dev, struct mtk_mutex *mutex);
-> +	unsigned int (*encoder_index)(struct device *dev);
->   };
->   
->   struct mtk_ddp_comp {
-> @@ -87,6 +88,7 @@ struct mtk_ddp_comp {
->   	int irq;
->   	unsigned int id;
->   	const struct mtk_ddp_comp_funcs *funcs;
-> +	unsigned int encoder_index;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> index 1fd760539f77b..bfb72143566f6 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> @@ -204,9 +204,9 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  		if (IS_ERR(rq)) {
+>  			ret = PTR_ERR(rq);
+>  			rq = NULL;
+> -			if (ret != -EAGAIN) {
+> -				guc_err(guc, "Failed to create request %d: %pe\n",
+> -					context_index, ERR_PTR(ret));
+> +			if ((ret != -EAGAIN) || !last) {
 
-For better alignment I would suggest variables to be declared together 
-and pointers afterwards, not mixed up
+isn't last alway NULL here?
 
->   };
->   
->   static inline int mtk_ddp_comp_clk_enable(struct mtk_ddp_comp *comp)
-> @@ -275,6 +277,12 @@ static inline bool mtk_ddp_comp_disconnect(struct mtk_ddp_comp *comp, struct dev
->   	return false;
->   }
->   
-> +static inline void mtk_ddp_comp_encoder_index_set(struct mtk_ddp_comp *comp)
-> +{
-> +	if (comp->funcs && comp->funcs->encoder_index)
-> +		comp->encoder_index = comp->funcs->encoder_index(comp->dev);
-> +}
+Andi
 
-it's also a bit strange that you added a function that is not used 
-anywhere. Don't you get like a compiler warning for it ?
-
-> +
->   int mtk_ddp_comp_get_id(struct device_node *node,
->   			enum mtk_ddp_comp_type comp_type);
->   unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm,
-
+> +				guc_err(guc, "Failed to create %srequest %d: %pe\n",
+> +					last ? "" : "first ", context_index, ERR_PTR(ret));
+>  				goto err_spin_rq;
+>  			}
+>  		} else {
+> -- 
+> 2.39.1
