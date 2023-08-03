@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45F476E393
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:49:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E92D76E399
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0254A10E5DD;
-	Thu,  3 Aug 2023 08:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6328D10E5DA;
+	Thu,  3 Aug 2023 08:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36A8310E5E5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:49:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7030C61CDB;
- Thu,  3 Aug 2023 08:49:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57432C433C8;
- Thu,  3 Aug 2023 08:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691052539;
- bh=Y0NT9+jhy+SVCkNdodtcTuuD4m428dSBnf4RYExMCVI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hHSTdN7CY3d5RkxhKKUgxwBcIL10XDgXnREDhjjZryufbi7C0wF4l6SlExsQqxxQj
- xg+t2ORgMKOv0KYPjlEAQgKT5HK0o3evOXpdnBOcYQVtPCGXVXG7j5jRdCRDMZGqXG
- 6HN5DnhVWpql+3EltG4mKh5iAhCM/V774rBWvN169MQmbQ4k2ejwbRxXZTRi4tTjEZ
- 9hIxXmLiLi3P/f1nNSSKg3MgCtxL5g28aVxxBVNBEFuZJKFQiU4Tx7Na2UGaz0nVUB
- r5xWJyw2X9S0w+CRYDRXsyUK2SGiH1yB+U2lGHEkQPxOmx/heU9fP2RsVI4xSK9S+S
- uuszv6UIh1+xw==
-Date: Thu, 3 Aug 2023 10:48:57 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/4] drm/panel: sitronix-st7789v: add support for partial
- mode
-Message-ID: <ekmwiy3iuvtqtb6hwjbba2ia3aemt3dxmx6dj3zh6ljfmuim4w@4jzhqdenxth4>
-References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
- <292c3e7d-82ea-2631-bd4b-ef747f56287c@linaro.org>
+Received: from mgamail.intel.com (unknown [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0E010E5D9;
+ Thu,  3 Aug 2023 08:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691052604; x=1722588604;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=syY0BtLD97OIprqfM/dn9Th4zV4J0yr71K+w/x8xDQs=;
+ b=EfKdgrq6N2qayPcfrifHssvqjclNp7QSZbEnWDtt7WfnAboVrB4A3O9M
+ DSfIGp6EqjSHw7/Nb15hxv6fhG1uguK8iyUwpV3xrx7qCbERmY+tFYmVS
+ m15FURU76tTfqMhpNUFEMQdddXvCmsw4z4+hh0+vkrrTRvQdZoRhgdawj
+ SdCquUSz76GWmXrrNbuM6+2UfJ6OYmqV3EsmkAc1fsdJwPEjuBpGiuNGC
+ 4M1FVWebbw7cjJSyeNVyOZ0lDQLdUQo2o2OhUWLJ7NI2L2nbdILUXeIzw
+ zPjJnyTLpgsp3KmRtK0jj7JFrwFIFX/O+KIVjA6ORvFklThMO1fY3nweD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="436124211"
+X-IronPort-AV: E=Sophos;i="6.01,251,1684825200"; d="scan'208";a="436124211"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2023 01:50:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10790"; a="764512671"
+X-IronPort-AV: E=Sophos;i="6.01,251,1684825200"; d="scan'208";a="764512671"
+Received: from rrybakov-mobl1.ger.corp.intel.com (HELO [10.213.197.207])
+ ([10.213.197.207])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2023 01:49:58 -0700
+Message-ID: <b5904977-9693-34bc-55bf-28387b69e06a@linux.intel.com>
+Date: Thu, 3 Aug 2023 09:49:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2sas7p43tngc2au2"
-Content-Disposition: inline
-In-Reply-To: <292c3e7d-82ea-2631-bd4b-ef747f56287c@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 5/5] drm/i915: Implement fdinfo memory stats printing
+Content-Language: en-US
+To: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230727101352.1899466-1-tvrtko.ursulin@linux.intel.com>
+ <20230727101352.1899466-6-tvrtko.ursulin@linux.intel.com>
+ <fffae148-a609-4f1d-eae4-dbe253f43650@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <fffae148-a609-4f1d-eae4-dbe253f43650@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,64 +65,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---2sas7p43tngc2au2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 03/08/2023 06:15, Iddamsetty, Aravind wrote:
+> On 27-07-2023 15:43, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Use the newly added drm_print_memory_stats helper to show memory
+>> utilisation of our objects in drm/driver specific fdinfo output.
+>>
+>> To collect the stats we walk the per memory regions object lists
+>> and accumulate object size into the respective drm_memory_stats
+>> categories.
+>>
+>> Objects with multiple possible placements are reported in multiple
+>> regions for total and shared sizes, while other categories are
+>> counted only for the currently active region.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>> Cc: Rob Clark <robdclark@gmail.com>> ---
+>>   drivers/gpu/drm/i915/i915_drm_client.c | 85 ++++++++++++++++++++++++++
+>>   1 file changed, 85 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+>> index a61356012df8..9e7a6075ee25 100644
+>> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+>> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+>> @@ -45,6 +45,89 @@ void __i915_drm_client_free(struct kref *kref)
+>>   }
+>>   
+>>   #ifdef CONFIG_PROC_FS
+>> +static void
+>> +obj_meminfo(struct drm_i915_gem_object *obj,
+>> +	    struct drm_memory_stats stats[INTEL_REGION_UNKNOWN])
+>> +{
+>> +	struct intel_memory_region *mr;
+>> +	u64 sz = obj->base.size;
+>> +	enum intel_region_id id;
+>> +	unsigned int i;
+>> +
+>> +	/* Attribute size and shared to all possible memory regions. */
+>> +	for (i = 0; i < obj->mm.n_placements; i++) {
+>> +		mr = obj->mm.placements[i];
+>> +		id = mr->id;
+>> +
+>> +		if (obj->base.handle_count > 1)
+>> +			stats[id].shared += sz;
+>> +		else
+>> +			stats[id].private += sz;
+>> +	}
+>> +
+>> +	/* Attribute other categories to only the current region. */
+>> +	mr = obj->mm.region;
+>> +	if (mr)
+>> +		id = mr->id;
+>> +	else
+>> +		id = INTEL_REGION_SMEM;
+>> +
+>> +	if (!obj->mm.n_placements) {
+> 
+> I guess we do not expect to have n_placements set to public objects, is
+> that right?
 
-On Thu, Aug 03, 2023 at 10:11:22AM +0200, Neil Armstrong wrote:
-> Hi,
->=20
-> On 18/07/2023 17:31, Michael Riesch wrote:
-> > Hi all,
-> >=20
-> > This series adds support for the partial display mode to the Sitronix
-> > ST7789V panel driver. This is useful for panels that are partially
-> > occluded by design, such as the Jasonic JT240MHQS-HWT-EK-E3. Support
-> > for this particular panel is added as well.
-> >=20
-> > Note: This series is already based on
-> > https://lore.kernel.org/lkml/20230714013756.1546769-1-sre@kernel.org/
->=20
-> I understand Maxime's arguments, but by looking closely at the code,
-> this doesn't look like an hack at all and uses capabilities of the
-> panel controller to expose a smaller area without depending on any
-> changes or hacks on the display controller side which is coherent.
->=20
-> Following's Daniel's summary we cannot compare it to TV overscan
-> because overscan is only on *some* displays, we can still get 100%
-> of the picture from the signal.
+I think they are the only ones which can have placements. It is via 
+I915_GEM_CREATE_EXT_MEMORY_REGIONS userspace is able to create them.
 
-Still disagree on the fact that it only affects some display. But it's
-not really relevant for that series.
+My main conundrum in this patch is a few lines above, the loop which 
+adds shared and private.
 
-I think I'll still like to have something clarified before we merge it:
-if userspace forces a mode, does it contain the margins or not? I don't
-have an opinion there, I just think it should be documented.
+Question is, if an object can be either smem or lmem, how do we want to 
+report it? This patch adds the size for all possible regions and 
+resident and active only to the currently active. But perhaps that is 
+wrong. Maybe I should change it is only against the active region and 
+multiple regions are just ignored. Then if object is migrated do access 
+patterns or memory pressure, the total size would migrate too.
 
-Maxime
+I think I was trying to achieve something here (have more visibility on 
+what kind of backing store clients are allocating) which maybe does not 
+work to well with the current categories.
 
---2sas7p43tngc2au2
-Content-Type: application/pgp-signature; name="signature.asc"
+Namely if userspace allocates say one 1MiB object with placement in 
+either smem or lmem, and it is currently resident in lmem, I wanted it 
+to show as:
 
------BEGIN PGP SIGNATURE-----
+  total-smem: 1 MiB
+  resident-smem: 0
+  total-lmem: 1 MiB
+  resident-lmem: 1 MiB
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZMtp+AAKCRDj7w1vZxhR
-xYu2AP9gN0xpGj30YXB2Oo/JNDobI7gGge8/IziOAnjHaTA73gEAnn8sMJU25ESF
-ljJwLfmQB/zyjUPIdhEsxmn1uQD9sAg=
-=IrPc
------END PGP SIGNATURE-----
+To constantly show how in theory client could be using memory from 
+either region. Maybe that is misleading and should instead be:
 
---2sas7p43tngc2au2--
+  total-smem: 0
+  resident-smem: 0
+  total-lmem: 1 MiB
+  resident-lmem: 1 MiB
+
+?
+
+And then if/when the same object gets migrated to smem it changes to 
+(lets assume it is also not resident any more but got swapped out):
+
+  total-smem: 1 MiB
+  resident-smem: 0
+  total-lmem: 0
+  resident-lmem: 0
+
+Regards,
+
+Tvrtko
+
+>> +		if (obj->base.handle_count > 1)
+>> +			stats[id].shared += sz;
+>> +		else
+>> +			stats[id].private += sz;
+>> +	}
+>> +
+>> +	if (i915_gem_object_has_pages(obj)) {
+>> +		stats[id].resident += sz;
+>> +
+>> +		if (!dma_resv_test_signaled(obj->base.resv,
+>> +					    dma_resv_usage_rw(true)))
+>> +			stats[id].active += sz;
+>> +		else if (i915_gem_object_is_shrinkable(obj) &&
+>> +			 obj->mm.madv == I915_MADV_DONTNEED)
+>> +			stats[id].purgeable += sz;
+>> +	}
+>> +}
+>> +
+>> +static void show_meminfo(struct drm_printer *p, struct drm_file *file)
+>> +{
+>> +	struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
+>> +	struct drm_i915_file_private *fpriv = file->driver_priv;
+>> +	struct i915_drm_client *client = fpriv->client;
+>> +	struct drm_i915_private *i915 = fpriv->i915;
+>> +	struct drm_i915_gem_object *obj;
+>> +	struct intel_memory_region *mr;
+>> +	struct list_head *pos;
+>> +	unsigned int id;
+>> +
+>> +	/* Public objects. */
+>> +	spin_lock(&file->table_lock);
+>> +	idr_for_each_entry(&file->object_idr, obj, id)
+>> +		obj_meminfo(obj, stats);
+>> +	spin_unlock(&file->table_lock);
+>> +
+>> +	/* Internal objects. */
+>> +	rcu_read_lock();
+>> +	list_for_each_rcu(pos, &client->objects_list) {
+>> +		obj = i915_gem_object_get_rcu(list_entry(pos, typeof(*obj),
+>> +							 client_link));
+>> +		if (!obj)
+>> +			continue;
+>> +		obj_meminfo(obj, stats);
+>> +		i915_gem_object_put(obj);
+>> +	}
+>> +	rcu_read_unlock();
+>> +
+>> +	for_each_memory_region(mr, i915, id)
+>> +		drm_print_memory_stats(p,
+>> +				       &stats[id],
+>> +				       DRM_GEM_OBJECT_RESIDENT |
+>> +				       DRM_GEM_OBJECT_PURGEABLE,
+>> +				       mr->name);
+>> +}
+>> +
+>>   static const char * const uabi_class_names[] = {
+>>   	[I915_ENGINE_CLASS_RENDER] = "render",
+>>   	[I915_ENGINE_CLASS_COPY] = "copy",
+>> @@ -106,6 +189,8 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
+>>   	 * ******************************************************************
+>>   	 */
+>>   
+>> +	show_meminfo(p, file);
+>> +
+>>   	if (GRAPHICS_VER(i915) < 8)
+>>   		return;
+>>
+> 
+> 
+> 
