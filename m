@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF17376F237
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BA076F245
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C891F10E652;
-	Thu,  3 Aug 2023 18:40:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0EB10E64F;
+	Thu,  3 Aug 2023 18:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB4AE10E11D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6F310E049
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:41 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8BA9321958;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C9A1521959;
  Thu,  3 Aug 2023 18:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1691088039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSPbuHhn46eXZikii/Fdzk1aULKoemiLjxK1winrGWA=;
- b=VFlYadRSqMb35b3v8f/OLWxCfrWNJw948x5wDHn3bR0alvTlutS9DKJJ4Emup3vqJHRr+/
- cE6X2rkl8CZd53+sNujNW3opUhu7YOPRkXUWmHZMPPK3Kwz81HssKHpVDXMo6R1V9HSp1E
- AL2B3Hv9RSNEwwSUDTnTW1zmDKFxPoM=
+ bh=UZra5aSxq5ftN18Dm98Mo92Tvqbh0xZkgd/Ms0opUeo=;
+ b=dCQsJRet/I7D3WJx3H2WeNxO48qFv7e7pAlo7FcqETRjvus5fIe16+wk1/E5kJLkzCKsQ5
+ rf2A5/EE+/9ot+94O9E0jYMLFaAnib6s5X/QpxWTnoeF1m1v0ggYuS4lKt/1uzrXazfNCx
+ YCYHqEkStpfudhcN4rfVq27jQ3MVYBQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1691088039;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSPbuHhn46eXZikii/Fdzk1aULKoemiLjxK1winrGWA=;
- b=W4wNfqLpUpGso+4dXJ7qWOdHWbh6ZFgiDSLnN893kS+tmlhDpYK8C1WbsCrAb4Z4DNf767
- NNpTPVeYVw0bU5Cg==
+ bh=UZra5aSxq5ftN18Dm98Mo92Tvqbh0xZkgd/Ms0opUeo=;
+ b=DJTamc8YLRg+AfMEQtpflEfOyUVSeRQfAwsq9uwNqAYt6zRqV0rOmtyCHpEkTr8O86x/K0
+ Lqn/boaRhBZbBvCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 554C51333C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 91F2F1333C;
  Thu,  3 Aug 2023 18:40:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mFIBFKf0y2TLGAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6BWoIqf0y2TLGAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:39 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v3 06/47] fbdev/carminefb: Use fbdev I/O helpers
-Date: Thu,  3 Aug 2023 20:35:31 +0200
-Message-ID: <20230803184034.6456-7-tzimmermann@suse.de>
+Subject: [PATCH v3 07/47] fbdev/chipsfb: Use fbdev I/O helpers
+Date: Thu,  3 Aug 2023 20:35:32 +0200
+Message-ID: <20230803184034.6456-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230803184034.6456-1-tzimmermann@suse.de>
 References: <20230803184034.6456-1-tzimmermann@suse.de>
@@ -92,41 +92,44 @@ Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/Kconfig     | 4 +---
- drivers/video/fbdev/carminefb.c | 5 +----
- 2 files changed, 2 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/Kconfig   | 4 +---
+ drivers/video/fbdev/chipsfb.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index ea24f8114ac7..1fa776cacb89 100644
+index 1fa776cacb89..e5e5a499df8b 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1449,9 +1449,7 @@ config FB_PM3
- config FB_CARMINE
- 	tristate "Fujitsu carmine frame buffer support"
- 	depends on FB && PCI
+@@ -351,9 +351,7 @@ config FB_VALKYRIE
+ config FB_CT65550
+ 	bool "Chips 65550 display support"
+ 	depends on (FB = y) && PPC32 && PCI
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
  	select VIDEO_NOMODESET
  	help
- 	  This is the frame buffer device driver for the Fujitsu Carmine chip.
-diff --git a/drivers/video/fbdev/carminefb.c b/drivers/video/fbdev/carminefb.c
-index 33a03f4ae025..e56065cdba97 100644
---- a/drivers/video/fbdev/carminefb.c
-+++ b/drivers/video/fbdev/carminefb.c
-@@ -530,10 +530,7 @@ static int init_hardware(struct carmine_hw *hw)
+ 	  This is the frame buffer device driver for the Chips & Technologies
+diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
+index d5f43454ccd7..b80711f13df8 100644
+--- a/drivers/video/fbdev/chipsfb.c
++++ b/drivers/video/fbdev/chipsfb.c
+@@ -82,13 +82,11 @@ static int chipsfb_blank(int blank, struct fb_info *info);
  
- static const struct fb_ops carminefb_ops = {
+ static const struct fb_ops chipsfb_ops = {
  	.owner		= THIS_MODULE,
++	FB_DEFAULT_IOMEM_OPS,
+ 	.fb_check_var	= chipsfb_check_var,
+ 	.fb_set_par	= chipsfb_set_par,
+ 	.fb_setcolreg	= chipsfb_setcolreg,
+ 	.fb_blank	= chipsfb_blank,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
--
-+	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var	= carmine_check_var,
- 	.fb_set_par	= carmine_set_par,
- 	.fb_setcolreg	= carmine_setcolreg,
+ };
+ 
+ static int chipsfb_check_var(struct fb_var_screeninfo *var,
 -- 
 2.41.0
 
