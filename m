@@ -1,71 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12E476E294
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:12:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1F476E2A4
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A26010E5C0;
-	Thu,  3 Aug 2023 08:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6C410E5C1;
+	Thu,  3 Aug 2023 08:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFBD910E5C0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:12:31 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3fe110de46dso6881985e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:12:31 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9E410E5C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:14:16 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fe24dd8898so6827435e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691050350; x=1691655150;
+ d=linaro.org; s=google; t=1691050455; x=1691655255;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=6Und5YZ86VldXU2R2EeUENrtdoW05YhCbc25DsdIRgY=;
- b=e10Hdd/1RX4n3g1L0Ssf8Bcgo1AdrbDlJ0yS4kr5wa/EUQT26mx/b3aEBK5jeeiji9
- CJrIq9qkvUvY5kRK2bWJ/6cFj0Wy9doMDcMp14ba0qW11+sLOKcTGb3YgskArmeJy8dX
- MKafxbCgFiOCvk4yW1Tkr04dgB8WL/Y9+OmDKY5Q15ZsJlH4FVVWK5MEmI1lQTUt3I3N
- quQMHCkvJdbSC4S4Tfe0XKqaB8NPq0c2C3fWGcVvWN2TMXIN0vQSGqcWr/12v+AkAl4h
- Va5cqXgv5f+z+d2gOcmc93hckl9m6pceZJNDl5oP+vr85yQcw0fV+ieVWe8Nvvf/6qz4
- PXiQ==
+ bh=NqGaWIotnKqKyzVdO4mnhnn37JZzzgHfkaj/9pvpDBI=;
+ b=ZOwjQWAn7JHFjvwUzCCaWOHFoV4nYBigZDxL/pA53A8MmqPc98WhkWB8eKdDp1OZKb
+ HcoFU2/1PWdxhxf+VIgg2OJV9ovta9q+8rV+34rPjs9nhrkvlLexUxH10+8ZX1gzINTS
+ byYzHarpU0kESe4wPMGatxISUIFO32Frcj5qZyW7dRIBfh43sh6FGUBDLmyoTPsta8Mr
+ kRlmIaqzy7oAGbektaYUDXMUxVcMwIWzb1ZzLQG24QNflszZ+HfXkK4XRTqw+yFDd5/v
+ PgB7ztMdy3NqlvBPEzvM1hqR9n8BBqDU8Hx2Sxfj70ZlMOd5IOZ1pzsyjI+fghEzQYze
+ 9Gdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691050350; x=1691655150;
+ d=1e100.net; s=20221208; t=1691050455; x=1691655255;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=6Und5YZ86VldXU2R2EeUENrtdoW05YhCbc25DsdIRgY=;
- b=L1sXCwGpdqRMT2CvYD4K3y1mbQLCRFORV3iu3BhnzLXw29BUmg1xe7fAh/cGF9czvL
- AG/03e2Oj09GsDngKwLL/VfwoVwDzqFmrEUYFOEfMqjU1ZTZHlMjyt0PaZCs2P6cdQgM
- 5o4r2DCX1xTs6rR5x1jBxj10/5637T8+FkW8LDh432UiYFCqIx0cBg5LLFMcYuIQ6Mgj
- 8xPhFNiNDg2nsSNXcDgxhlQl4/ZClU1UoteZWeU9ekTVuFxqHmilmgfiTt9saGrdcRIV
- qOqPj4/ALZj0tRecHg/dZCPwKu1r4o58LthnZZTArpJY5mXwUy9saAW+X0LC+q9/pO5v
- /NHg==
-X-Gm-Message-State: ABy/qLb5/inNQfH3bGzyLepzzyzL7pVDlXD8SEXsnrmmX6ltMw8k7g0Y
- XLR1LjI3kpBpZF2FyJzaB3deeg==
-X-Google-Smtp-Source: APBJJlG/YOO+u6HT6L5SMevwes6eeDd3CFOIIeZioqBlEygdRg1hzggi+IFVem11pMYzMCZjVloYQA==
-X-Received: by 2002:a7b:c40a:0:b0:3fe:2102:8085 with SMTP id
- k10-20020a7bc40a000000b003fe21028085mr6664138wmi.8.1691050350175; 
- Thu, 03 Aug 2023 01:12:30 -0700 (PDT)
+ bh=NqGaWIotnKqKyzVdO4mnhnn37JZzzgHfkaj/9pvpDBI=;
+ b=JpF9ZZbsY3TXTVgfCtOzsZuZgWaHbG2HVfCH1tmh3PcZPQkMAT0PMj6RVhAJXEBP22
+ QyU7UZKiWkpNpk/cJSlQZejfg9iRHGAFCPW2jPIGulwWBiol6x3i6ZQjOP15+E4jVerD
+ 5mHZBseTlJ3iRS7lj9VLZePLcXshmGsKDUL6F1n3xhm4g2zWakf9Lp5kFA5760xu5+bq
+ 0+py2AX8Ds1DBLo8GrIThii5R9zcXDszVfhM8I5/EjfsVsKCiKw11Oib2jjgQB2Bhli3
+ /Pexr49QXEGa+qZA+WtQRiCdHnP55USx4HD2bqJgsrJ+vBUzhk8bHrd0uk5Vx9IHBj0R
+ n+mg==
+X-Gm-Message-State: ABy/qLaS5bSPwe6XX5fXDx838OSfSUifX3wRH9K48qI0xxJVSJuxUmW+
+ b7b1YvRR82ytkYWNk0KQsqJc6g==
+X-Google-Smtp-Source: APBJJlHG7TGw7P8HEiLdxgaTyrTJbdQEUF5FJHRQOuTIptudXZcmxU7cKeKFDJfovphAgYX5+VJ/wA==
+X-Received: by 2002:a05:600c:2a54:b0:3fa:934c:8350 with SMTP id
+ x20-20020a05600c2a5400b003fa934c8350mr6677648wme.27.1691050454645; 
+ Thu, 03 Aug 2023 01:14:14 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:8656:583:d034:d966?
  ([2a01:e0a:982:cbb0:8656:583:d034:d966])
  by smtp.gmail.com with ESMTPSA id
- l10-20020a5d410a000000b00317495f88fasm20989785wrp.112.2023.08.03.01.12.29
+ u3-20020a7bcb03000000b003fbb06af219sm3567818wmj.32.2023.08.03.01.14.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Aug 2023 01:12:29 -0700 (PDT)
-Message-ID: <2c671efa-4550-3749-395d-621dd3153279@linaro.org>
-Date: Thu, 3 Aug 2023 10:12:28 +0200
+ Thu, 03 Aug 2023 01:14:14 -0700 (PDT)
+Message-ID: <7e8202d9-3207-bb22-d69d-b2c80eca2a02@linaro.org>
+Date: Thu, 3 Aug 2023 10:14:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] drm/panel: Fix kernel-doc typo for `follower_lock`
+Subject: Re: [PATCH 2/2] drm/panel: Fix todo indentation for panel
+ prepared/enabled cleanup
 Content-Language: en-US
 To: Douglas Anderson <dianders@chromium.org>,
  dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 References: <20230802074727.1.I4036706ad5e7f45e80d41b777164258e52079cd8@changeid>
+ <20230802074727.2.Iaeb7b0f7951aee6b8c090364bbc87b1ae198a857@changeid>
 Organization: Linaro Developer Services
-In-Reply-To: <20230802074727.1.I4036706ad5e7f45e80d41b777164258e52079cd8@changeid>
+In-Reply-To: <20230802074727.2.Iaeb7b0f7951aee6b8c090364bbc87b1ae198a857@changeid>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,43 +84,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
 Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
  Linux Next Mailing List <linux-next@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 02/08/2023 16:47, Douglas Anderson wrote:
-> In the kernel doc for the `follower_lock` member of `struct drm_panel`
-> there was a typo where it was called `followers_lock`. This resulted
-> in a warning when making "htmldocs":
+> In commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled
+> in drm_panel") the formatting for a code block was not quite
+> right. This caused an error when building htmldocs:
 > 
->    ./include/drm/drm_panel.h:270: warning:
->    Function parameter or member 'follower_lock' not described in 'drm_panel'
+>    Documentation/gpu/todo.rst:469: ERROR: Unexpected indentation.
 > 
-> Fix the typo.
+> Fix the error by using the proper syntax for a code block.
 > 
-> Fixes: de0874165b83 ("drm/panel: Add a way for other devices to follow panel state")
+> Fixes: d2aacaf07395 ("drm/panel: Check for already prepared/enabled in drm_panel")
 > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/r/20230802142136.0f67b762@canb.auug.org.au
+> Closes: https://lore.kernel.org/r/20230802141724.0edce253@canb.auug.org.au
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
 > 
->   include/drm/drm_panel.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   Documentation/gpu/todo.rst | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index d6c73f79c131..10015891b056 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -238,7 +238,7 @@ struct drm_panel {
->   	struct list_head followers;
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index aa0052f9b93b..139980487ccf 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -465,7 +465,8 @@ Clean up checks for already prepared/enabled in panels
 >   
->   	/**
-> -	 * @followers_lock:
-> +	 * @follower_lock:
->   	 *
->   	 * Lock for followers list.
->   	 */
+>   In a whole pile of panel drivers, we have code to make the
+>   prepare/unprepare/enable/disable callbacks behave as no-ops if they've already
+> -been called. To get some idea of the duplicated code, try:
+> +been called. To get some idea of the duplicated code, try::
+> +
+>     git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+>     git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+>   
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
