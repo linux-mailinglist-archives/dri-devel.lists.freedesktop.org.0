@@ -2,71 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B79676F409
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 22:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ABD576F420
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 22:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C84C210E1F5;
-	Thu,  3 Aug 2023 20:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1E010E113;
+	Thu,  3 Aug 2023 20:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE11D10E113
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 20:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691094619;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z3CFgGOgP9O/o8Jr9VZXMJJ8J/clTiGmzIo1gFvhvOU=;
- b=fqx5arLwJ3waVjvj/mS8nAQ3GV66HEqZSRwsSjuUyzgqwsMDQUdBpOqN3QIQ8ZniaWLcUg
- dMB7l3vEx3b1cqzYHP12EdP/CQ1o7u61cmw/QRb+SNGaqFnA+bp9oKmFfZXqMe7sBsoJXc
- Ndjn/2xhOHAyVAVGPahHe1R6EoH9RFc=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-3-b8T0CEUuOsmM8NhpKZuUEA-1; Thu, 03 Aug 2023 16:30:18 -0400
-X-MC-Unique: b8T0CEUuOsmM8NhpKZuUEA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2ba1949656bso3032971fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 13:30:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691094617; x=1691699417;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Z3CFgGOgP9O/o8Jr9VZXMJJ8J/clTiGmzIo1gFvhvOU=;
- b=b+dTjHzeGC50hJTCbG+swI1xBKettVYTRYOdplwRgCnbHNCx/mCZpRbgOPhBJotp5P
- fC+uot+gSsyY2qlt8TTdYbwEl7qK1nq5BQBH5C5wDYCe0ATbZ3GDwyHVH+HojSHk2nMz
- kMyFC2Aw4YG0UQm/xfITE29yAG2IgWEDyLzXwNfOir+c/LXCUt1k2TnNnYzRoOhAodHi
- 7H4X5LKQgo2gl2ZBAGqL7am0oOeMh62nxxMF0U1XJ3Q/lEONMhDqPvy7Ih2ZWZMiY694
- pOqgs5Ugi6w8bRJPr5TKe00lgDdw4w/s5M6k+GHPlxjX6WAjPGyQbChgjdiwBRrD39GR
- 1PnA==
-X-Gm-Message-State: ABy/qLZRUjzfWOYqPC8WBpYHdGA0HUo1vEDyV9Zwtvp9Gv3jLTn/Jgsr
- DR/s1aFRF7qFUVNOhcm1NgJjnchRBCjpCLP1zakIiMoYm7y3NX0Pu3vW/qfhfCQz1Nn76u2ZZEy
- z6L+0n/2nPulJUuBjOAI7GolSL/QxVxpknK0Rla7PbjVR
-X-Received: by 2002:a05:651c:201:b0:2b9:ee3e:2412 with SMTP id
- y1-20020a05651c020100b002b9ee3e2412mr9032194ljn.22.1691094616904; 
- Thu, 03 Aug 2023 13:30:16 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFM4juzjmI/t4LIfnWZp4pccCs9/wTL0bDPxsm4o+yqeKOP9b5fXamEn0GjXpG4q5lVC9pLiWFObW4UxjOMP80=
-X-Received: by 2002:a05:651c:201:b0:2b9:ee3e:2412 with SMTP id
- y1-20020a05651c020100b002b9ee3e2412mr9032184ljn.22.1691094616597; Thu, 03 Aug
- 2023 13:30:16 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D911F10E113;
+ Thu,  3 Aug 2023 20:44:54 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 625A58C1;
+ Thu,  3 Aug 2023 22:43:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1691095428;
+ bh=LWzMEFgrC/PlVsgJUx4AkW/o073y3IloiFtC+MVjNYo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=htZTfD0VD+z3VFAZGYDuiQdDo5xVWEbeOBhNwfGKc9LSk3PLbSVgkCtCkjM/j9BxB
+ 8E5WnhtCUzr1uXSi06u7uVCt7vB6c1QPpGZ7D0gtqlhSJXze9SobkS2nZtv1Qcnef/
+ l1oHArjkLnBuI+DbSS/WNT7hvS4yOlhpzZ/ukXSM=
+Date: Thu, 3 Aug 2023 23:44:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 3/4] drm/uapi: document the USB subconnector type
+Message-ID: <20230803204459.GD27752@pendragon.ideasonboard.com>
+References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
+ <20230729004913.215872-4-dmitry.baryshkov@linaro.org>
+ <20230802185547.GC32500@pendragon.ideasonboard.com>
+ <a32ce695-038f-0ef8-3584-5bd1ba528131@linaro.org>
+ <20230802191351.GA1407@pendragon.ideasonboard.com>
+ <DE2B4523-D16C-4AFC-8352-212B23548DD5@linaro.org>
+ <b6oOVz2YMIG4hJDWhq9lTh6R2HYcrpRwHENhplig9KSQMD8dIjTgC5KdH1Ij3URgV2HESp67Ax7QUsByGjMLouvbs-5q7PiPRdLkgJz6Fwk=@emersion.fr>
+ <ADjuOeqA6575DKutMPaR9mW9rLhm-wjLc4ruoUkNwImf-GB90FdwDB7v7y6LFdzVG3BC4R52A0RUtStK4_smmGYTUs3UPDOX4T4Zl2YHkxE=@emersion.fr>
 MIME-Version: 1.0
-References: <20210905122742.86029-1-daniels@collabora.com>
- <20230803154908.105124-2-daniels@collabora.com>
-In-Reply-To: <20230803154908.105124-2-daniels@collabora.com>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Thu, 3 Aug 2023 22:30:05 +0200
-Message-ID: <CA+hFU4yAb=kx18AQpSLQGV37vTt44rmzt+n5XzPee9uWCEg_fA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] doc: uapi: Document dma-buf interop design &
- semantics
-To: Daniel Stone <daniels@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ADjuOeqA6575DKutMPaR9mW9rLhm-wjLc4ruoUkNwImf-GB90FdwDB7v7y6LFdzVG3BC4R52A0RUtStK4_smmGYTUs3UPDOX4T4Zl2YHkxE=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +54,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For what it's worth this series is
+On Thu, Aug 03, 2023 at 03:31:16PM +0000, Simon Ser wrote:
+> On Thursday, August 3rd, 2023 at 17:22, Simon Ser <contact@emersion.fr> wrote:
+> 
+> > The KMS docs describe "subconnector" to be defined as "downstream port" for DP.
+> > Can USB-C (or USB) be seen as a DP downstream port?
+> 
+> To expand on this a bit: I'm wondering if we're mixing apples and
+> oranges here. The current values of "subconnector" typically describe
+> the lower-level protocol tunneled inside DP. For instance, VGA can be
+> tunneled inside the DP cable when using DP → VGA adapter.
 
-Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+Doesn't this contradict the example use case you gave in your previous
+e-mail, with wlroots stating "DP-3 via DVI-D" ? I understand that as DP
+carried over a DVI-D physical connector, did I get it wrong ?
 
-On Thu, Aug 3, 2023 at 5:49=E2=80=AFPM Daniel Stone <daniels@collabora.com>=
- wrote:
->
-> Hi all,
-> This is v2 to the linked patch series; thanks to everyone for reviewing
-> the initial version. I've moved this out of a pure DRM scope and into
-> the general userspace-API design section. Hopefully it helps others and
-> answers a bunch of questions.
->
-> I think it'd be great to have input/links/reflections from other
-> subsystems as well here.
->
-> Cheers,
-> Daniel
->
->
+> However, in the USB-C case, DP itself is tunneled inside USB-C. And you
+> might use a USB-C → DP adapter. So it's not really *sub*connector, it's
+> more of a *super*connector, right?
+> 
+> I think [1] is somewhat related, since it also allows user-space to
+> discover whether a connector uses USB-C. But relying on sysfs to figure
+> this out isn't super optimal perhaps.
+> 
+> [1]: https://lore.kernel.org/dri-devel/20221108185004.2263578-1-wonchung@google.com/
 
+-- 
+Regards,
+
+Laurent Pinchart
