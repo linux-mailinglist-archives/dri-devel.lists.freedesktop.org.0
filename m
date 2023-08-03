@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C980976F4B8
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 23:45:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 727FA76F4CF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 23:47:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B0610E229;
-	Thu,  3 Aug 2023 21:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B035E10E674;
+	Thu,  3 Aug 2023 21:47:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8184B10E229;
- Thu,  3 Aug 2023 21:45:04 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-99bcfe28909so190316966b.3; 
- Thu, 03 Aug 2023 14:45:04 -0700 (PDT)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 312CA10E66C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 21:47:44 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-51e429e1eabso1772544a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 14:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691099103; x=1691703903;
+ d=gfxstrand-net.20221208.gappssmtp.com; s=20221208; t=1691099262; x=1691704062;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HaYuvNho82/3JoIW9uMM5DA1w2BZFEEN1dpOn4dOCYA=;
- b=LEQB97gs15C5drjFPsRX6pNFUhJGKZn6eMeQrdeX6RjGV90W75skz29QmAIUZSpjnF
- DckI8rCCgo/OckbHuFmUUpTchAcesH1E7h7qwLhmb3jPDimwShZ/3NE6bgfeiylM1vFU
- QwxvjHZ/IrVcxv5yHZdsaaiQGdvyiF3F+lbX1cq9WZ9k6CxolLqPM3K6sCPrRgJqvnQF
- KcLZoZ6wHPTqFQhhDsSi8Ttynylva+zEdRH9ddjaXRJA0Ve7LilnOthVF2oF7o24u7XI
- MojGiZYOzIc5po41zrXFtG4AYp3ey6tlZKR16r2YGNg1G/SdiOL+XHfXYVXzJYumXSK+
- +y4w==
+ bh=4FMgSn5VFxgRU277o8laJttReSir5sFxEcS6n5PQUNY=;
+ b=MG/62O0LVbb0a1LzPJXtC87/memEvVMANxCd46uGDNEvA5EZ0K40CwQ7exvKVeafrh
+ YjTeNdWsnojfAO2uFyWWq2Ts7srZHx4KpMsiRQYaFqEEy/6miwiO4jE+U177C65ie/Xv
+ ncmZ2PcoLcj/gsVYwDuBMmo1DogH8y6QyH95BkFnyxZ5+ofKru0HDLL9sODuytz1H0wX
+ 3BNdfPhLoYXfBvdfUxsaQ/248sTRJjMyhCIG0Wi1JlT+tOwZg4qKVfCAiFB6JjG+O5Qa
+ KNeqWMzxAT6hV+kUAThAyoOWkrPAzxnLzNH4LuGxjVcuStI3VIXTtpFtmg+iDh3Q9hpA
+ ktuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691099103; x=1691703903;
+ d=1e100.net; s=20221208; t=1691099262; x=1691704062;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=HaYuvNho82/3JoIW9uMM5DA1w2BZFEEN1dpOn4dOCYA=;
- b=WKZvZznUFodqvCqI66PQiA3bFycwTNHyXidCprNg/cEuh4e72P4RjOtPo/SDbkqDMG
- GPwOd+VvBk5EopNmXw7R3FKY9anL0LNxXVHRV1t1oqrr+x/LB9WEpUQYzivsH5IBO4Hk
- ylwawEphz9NimP6mzYj+HoYgC6N62BRONbFfqb77rkpbCeUD4ejFhSTH2KSV9vY7R84l
- mnooYgtR1pRDD679tfrb9ZczPNgTy3dRGLKHtfCNIVmnc+MgXLTuVCSgaD/XAMjGOPPy
- zR3WyNKnfyyveDARZ3+J6o9CjovYZJH9gw6clVTm20SSuWzfW0P0rz6nJ+a0fq/r8Kq7
- 5rMQ==
-X-Gm-Message-State: ABy/qLbfC5vzjoiB4IR6rHOmBQ1CP0gMYNVWGXYwdgFS0CEIRuIX39B4
- xxPA2ZuyOMi976ETS6BM0l85MMpakbCbKJn75AkUOEbpPIQ=
-X-Google-Smtp-Source: APBJJlHLoJ0PkDsLRAMOkZtbDvcgvvv90dTf90+lzyvmgHkOa6lr/3F5tgLbEzninHt+i8hbZRMAwZ9c1jrVaieJPAs=
-X-Received: by 2002:a17:907:760d:b0:99b:f3d1:7735 with SMTP id
- jx13-20020a170907760d00b0099bf3d17735mr7746784ejc.29.1691099102603; Thu, 03
- Aug 2023 14:45:02 -0700 (PDT)
+ bh=4FMgSn5VFxgRU277o8laJttReSir5sFxEcS6n5PQUNY=;
+ b=VRcuSm0bEg3Vi/91Cq23elJchv4NuCGQojBOifYoiFd8tz/N7HIJmBRG+zfuGNRonk
+ wdOwA1kWYJ9SB28c4FXSzRXpdz4tuLrVKvjoHzoifm6xPJwJ9JdY3NCvA6wdKZ0ocGSV
+ 86ozrSdG9JO544L1te4BtBERki19sh6JVFonHZoTKO3tHZilYQoPCDF48lvCMwYP3h4P
+ fj0JwwcXwuLdgtj61uiqkZ94yWZOR7d/j1seKk1gjTJxizq+bO9HMz7xpsmHhkwnORE9
+ jZHvfdem4a216SXaCezakUbvCcWPbtFire6qDXqa4XhPp56U3QBtM4MNzmHcb2vHgPPl
+ KjOQ==
+X-Gm-Message-State: ABy/qLa9xZKBMb/vQIA/JvJ//v9FrZcT9U82TQT3aMRdjEko73nP/MIi
+ do9dZNqITJQmUNZgI5eUaMbDnP+CrUhTtx7lvLsong==
+X-Google-Smtp-Source: AGHT+IHlsqcEOvWWsWX/uq9RscGM6ZHBIySCGAKfphpK86CcPRT1Nfh+5oreHHX+C12ZFy6KcN7sgFN9iSPzKIADYXo=
+X-Received: by 2002:a17:906:9f25:b0:99c:55c0:ad15 with SMTP id
+ fy37-20020a1709069f2500b0099c55c0ad15mr3559612ejc.38.1691099261927; Thu, 03
+ Aug 2023 14:47:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230803165238.8798-1-dakr@redhat.com>
-In-Reply-To: <20230803165238.8798-1-dakr@redhat.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 4 Aug 2023 07:44:50 +1000
-Message-ID: <CAPM=9tyAD=ZGvgdNDrNpa7BOUnUv7T+6MuTbbtL4jy_ZzXRGkw@mail.gmail.com>
+ <CAPM=9tyAD=ZGvgdNDrNpa7BOUnUv7T+6MuTbbtL4jy_ZzXRGkw@mail.gmail.com>
+In-Reply-To: <CAPM=9tyAD=ZGvgdNDrNpa7BOUnUv7T+6MuTbbtL4jy_ZzXRGkw@mail.gmail.com>
+From: Faith Ekstrand <faith@gfxstrand.net>
+Date: Thu, 3 Aug 2023 16:47:30 -0500
+Message-ID: <CAOFGe94k7yvPuU+XgDscZQG-UwBHE+Vq+mVrBBkXZoFG311_cQ@mail.gmail.com>
 Subject: Re: [PATCH drm-misc-next v9 00/11] Nouveau VM_BIND UAPI & DRM GPUVA
  Manager (merged)
-To: Danilo Krummrich <dakr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c997d906020bbaf0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,28 +71,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: matthew.brost@intel.com, willy@infradead.org,
  dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
  ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
- tzimmermann@suse.de, Liam.Howlett@oracle.com, bagasdotme@gmail.com,
- christian.koenig@amd.com, jason@jlekstrand.net, donald.robson@imgtec.com
+ mripard@kernel.org, boris.brezillon@collabora.com,
+ Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, bagasdotme@gmail.com, christian.koenig@amd.com,
+ jason@jlekstrand.net, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 4 Aug 2023 at 02:52, Danilo Krummrich <dakr@redhat.com> wrote:
+--000000000000c997d906020bbaf0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Aug 3, 2023 at 4:45=E2=80=AFPM Dave Airlie <airlied@gmail.com> wrot=
+e:
+
+> On Fri, 4 Aug 2023 at 02:52, Danilo Krummrich <dakr@redhat.com> wrote:
+> >
+> > This patch series provides a new UAPI for the Nouveau driver in order t=
+o
+> > support Vulkan features, such as sparse bindings and sparse residency.
+> >
 >
-> This patch series provides a new UAPI for the Nouveau driver in order to
-> support Vulkan features, such as sparse bindings and sparse residency.
+> Now that Faith has reviewed the uAPI and userspace work, I think we
+> should try and steer this in.
+>
+> I think the only thing I see is the SPDX + MIT header in some places,
+> I think we can drop the MIT bits where SPDX is there, and leave
+> copyright and authorship (if you like), personally I've been leaving
+> authorship up to git, as it saves trouble with people randomly
+> emailing you about things you wrote 10 years ago.
+>
+> Otherwise for the series:
+> Reviewed-by: Dave Airlie <airlied@redhat.com>
 >
 
-Now that Faith has reviewed the uAPI and userspace work, I think we
-should try and steer this in.
+FYI: There's a small, easily resolved conflict with the uapi fixup patch. I
+don't care too much which goes in first but I'd like both to land before I
+merge NVK so I don't have to deal with a nouveau_deprecated.h.
 
-I think the only thing I see is the SPDX + MIT header in some places,
-I think we can drop the MIT bits where SPDX is there, and leave
-copyright and authorship (if you like), personally I've been leaving
-authorship up to git, as it saves trouble with people randomly
-emailing you about things you wrote 10 years ago.
+~Faith
 
-Otherwise for the series:
-Reviewed-by: Dave Airlie <airlied@redhat.com>
 
-Dave.
+> Dave.
+>
+
+--000000000000c997d906020bbaf0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, Aug 3, 2023 at 4:45=E2=80=AFPM Dave Airlie &lt;<a href=3D"ma=
+ilto:airlied@gmail.com">airlied@gmail.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On Fri, 4 Aug 2023 at 02:52, Danil=
+o Krummrich &lt;<a href=3D"mailto:dakr@redhat.com" target=3D"_blank">dakr@r=
+edhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; This patch series provides a new UAPI for the Nouveau driver in order =
+to<br>
+&gt; support Vulkan features, such as sparse bindings and sparse residency.=
+<br>
+&gt;<br>
+<br>
+Now that Faith has reviewed the uAPI and userspace work, I think we<br>
+should try and steer this in.<br>
+<br>
+I think the only thing I see is the SPDX + MIT header in some places,<br>
+I think we can drop the MIT bits where SPDX is there, and leave<br>
+copyright and authorship (if you like), personally I&#39;ve been leaving<br=
+>
+authorship up to git, as it saves trouble with people randomly<br>
+emailing you about things you wrote 10 years ago.<br>
+<br>
+Otherwise for the series:<br>
+Reviewed-by: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" target=
+=3D"_blank">airlied@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
+FYI: There&#39;s a small, easily resolved conflict with the uapi fixup patc=
+h. I don&#39;t care too much which goes in first but I&#39;d like both to l=
+and before I merge NVK so I don&#39;t have to deal with a nouveau_deprecate=
+d.h.</div><div><br></div><div>~Faith<br></div><div>=C2=A0</div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+Dave.<br>
+</blockquote></div></div>
+
+--000000000000c997d906020bbaf0--
