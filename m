@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C39076F297
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD0976F23C
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A33C10E66F;
-	Thu,  3 Aug 2023 18:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6CED10E64E;
+	Thu,  3 Aug 2023 18:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D6710E655
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 563F310E64E
  for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:47 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D74871F8A3;
- Thu,  3 Aug 2023 18:40:45 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1EBE82197F;
+ Thu,  3 Aug 2023 18:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1691088045; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1691088046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=44hXuNwDGuc6/O9L27ma6TeKPA0l/O3TkckULNfxEwc=;
- b=TY5n7DNR0khsPkBm79hTCBvTBBLEvHXzrGvTMaWFRultTiZ+zpwE4I2immbjzpDCDxl9In
- GMgpBSua75+Cx31VifY7l5IcrCyomg7gZTPPux0VX9L4dLr+vc1F+otGDNHefKhPvG18PQ
- ie6skFQlkOBgkyd2ZYSeaZiAfTyCE8Q=
+ bh=63ytzobJrc8QpnP1MdGvoXddV8+e5PCzwWjBbMht2/M=;
+ b=l609ji7s1dtFPeeddp4UQeq+xdoDR3LRkkgOchqkeJZDJoQmSp6mzb0BKUD+IWkIqDxHRU
+ agUDf8xEpUq9kNHA7IU9K5mtGwYdQgU7T0FGYUm1/omkPUVp/NCZ+or5QW6DZJRAz33mTc
+ TYSR6bw9In9uSAUoyHFii8y2mLll3oo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1691088045;
+ s=susede2_ed25519; t=1691088046;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=44hXuNwDGuc6/O9L27ma6TeKPA0l/O3TkckULNfxEwc=;
- b=cdEWzABJxtwSUTP2ABYdbaBRKDGODO+NspkG//h3YJGdAwpR/fgIYBXDzKDgQl9on6Gm6d
- RY3zC896HZyymwBQ==
+ bh=63ytzobJrc8QpnP1MdGvoXddV8+e5PCzwWjBbMht2/M=;
+ b=hf0n+NPaJVMNjkbkP4oVsZsX2e7I2GZ7+4mFPQrgyB1yrNsodg/jzr6cW9LayJ1/V7rhnk
+ 4wjGWDHuRm6LoeDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A109C1333C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC33A1333C;
  Thu,  3 Aug 2023 18:40:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iAlrJq30y2TLGAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id YInhNK30y2TLGAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:45 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v3 31/47] fbdev/pmag-aa-fb: Use fbdev I/O helpers
-Date: Thu,  3 Aug 2023 20:35:56 +0200
-Message-ID: <20230803184034.6456-32-tzimmermann@suse.de>
+Subject: [PATCH v3 32/47] fbdev/pmag-ba-fb: Use fbdev I/O helpers
+Date: Thu,  3 Aug 2023 20:35:57 +0200
+Message-ID: <20230803184034.6456-33-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230803184034.6456-1-tzimmermann@suse.de>
 References: <20230803184034.6456-1-tzimmermann@suse.de>
@@ -93,39 +93,39 @@ Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
  drivers/video/fbdev/Kconfig      | 4 +---
- drivers/video/fbdev/pmag-aa-fb.c | 4 +---
+ drivers/video/fbdev/pmag-ba-fb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 3e249e5188e9..0f416d384d03 100644
+index 0f416d384d03..f2b8b88d9b69 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -1519,9 +1519,7 @@ config FB_HIT
- config FB_PMAG_AA
- 	tristate "PMAG-AA TURBOchannel framebuffer support"
+@@ -1527,9 +1527,7 @@ config FB_PMAG_AA
+ config FB_PMAG_BA
+ 	tristate "PMAG-BA TURBOchannel framebuffer support"
  	depends on FB && TC
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
  	help
- 	  Support for the PMAG-AA TURBOchannel framebuffer card (1280x1024x1)
+ 	  Support for the PMAG-BA TURBOchannel framebuffer card (1024x864x8)
  	  used mainly in the MIPS-based DECstation series.
-diff --git a/drivers/video/fbdev/pmag-aa-fb.c b/drivers/video/fbdev/pmag-aa-fb.c
-index 7ee20db9ceb8..acfc8c70c410 100644
---- a/drivers/video/fbdev/pmag-aa-fb.c
-+++ b/drivers/video/fbdev/pmag-aa-fb.c
-@@ -149,10 +149,8 @@ static int aafb_blank(int blank, struct fb_info *info)
+diff --git a/drivers/video/fbdev/pmag-ba-fb.c b/drivers/video/fbdev/pmag-ba-fb.c
+index 20a1815279f7..1e010520b335 100644
+--- a/drivers/video/fbdev/pmag-ba-fb.c
++++ b/drivers/video/fbdev/pmag-ba-fb.c
+@@ -119,10 +119,8 @@ static int pmagbafb_setcolreg(unsigned int regno, unsigned int red,
  
- static const struct fb_ops aafb_ops = {
+ static const struct fb_ops pmagbafb_ops = {
  	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_blank	= aafb_blank,
+ 	.fb_setcolreg	= pmagbafb_setcolreg,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
- 	.fb_cursor	= aafb_cursor,
  };
+ 
  
 -- 
 2.41.0
