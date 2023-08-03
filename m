@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA2576F234
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5D476F239
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE5B10E649;
-	Thu,  3 Aug 2023 18:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3C210E653;
+	Thu,  3 Aug 2023 18:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE40610E049
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:41 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D72A10E646
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:42 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8D57D2195F;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CED6721961;
  Thu,  3 Aug 2023 18:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1691088040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dBHlJ3qUmyFW9lB1hOawQrcmlFc9EGd+f7Ou7xWNJWc=;
- b=wwNiiGfEUdx+gN3BRsc1bqS2CJzgDIJrOm7YgRDeCouDy3Zy6HMVzKWuGj0DW1RL7x17U7
- oaHGdE2Yvgipg7o1j7fLSI54LADk8PwZOZgS5TonoZ6HMAZERCvVS0HQ+AqjZARLB4kbTH
- RZHkUGROTr/7gBTOA3gPu/Yt2YLtfsM=
+ bh=u4hyLDffgxX8MaoqP+aM8L4r/f+Hj6B2Sa5mgvfheYE=;
+ b=ICf9E5eGpXfLqnSJzQ+9b7t79kSkJLEEJ9NlbgbQP1pMy8BKxsQks2corSoMgsplfRa43a
+ PiIWtPvjbwBCJYokzDptwlDD8o/DEzDr65R/t4ESfQIhTZsUwe+xL/F6g7Iw1q2SZldJIX
+ vXxJwXYZDx3Tdzk0rLXDCywRAGL9AVo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1691088040;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dBHlJ3qUmyFW9lB1hOawQrcmlFc9EGd+f7Ou7xWNJWc=;
- b=8gUQujCOuPT6VulfNA29nTAgYi19JXZykOCJWxCHVJNtcEUIfunkLApawi1oVU5YVdc4yX
- BobYKnwgZd7IIoDQ==
+ bh=u4hyLDffgxX8MaoqP+aM8L4r/f+Hj6B2Sa5mgvfheYE=;
+ b=Q/4Hp0F+yfmLTEJLfLq/6nG0PNY+bWcogv/3+NwQ31f0iVKtTN+1LLHJzw2PBXIOBXDsqL
+ 6tIFXVXyrMv5l6Bw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 532A51333C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 922951333C;
  Thu,  3 Aug 2023 18:40:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aJdlE6j0y2TLGAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id kKreIqj0y2TLGAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:40 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v3 10/47] fbdev/fm2fb: Use fbdev I/O helpers
-Date: Thu,  3 Aug 2023 20:35:35 +0200
-Message-ID: <20230803184034.6456-11-tzimmermann@suse.de>
+Subject: [PATCH v3 11/47] fbdev/fsl-diu-fb: Use fbdev I/O helpers
+Date: Thu,  3 Aug 2023 20:35:36 +0200
+Message-ID: <20230803184034.6456-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230803184034.6456-1-tzimmermann@suse.de>
 References: <20230803184034.6456-1-tzimmermann@suse.de>
@@ -69,10 +69,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Timur Tabi <timur@kernel.org>,
+ kvm@vger.kernel.org, linux-geode@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -91,43 +92,47 @@ v2:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
+Cc: Timur Tabi <timur@kernel.org>
 ---
- drivers/video/fbdev/Kconfig | 4 +---
- drivers/video/fbdev/fm2fb.c | 4 +---
+ drivers/video/fbdev/Kconfig      | 4 +---
+ drivers/video/fbdev/fsl-diu-fb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index be7c99154d32..fe62de330326 100644
+index fe62de330326..d225bd2d47a9 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -269,9 +269,7 @@ config FB_AMIGA_AGA
- config FB_FM2
- 	bool "Amiga FrameMaster II/Rainbow II support"
- 	depends on (FB = y) && ZORRO
+@@ -1661,10 +1661,8 @@ config PXA3XX_GCU
+ config FB_FSL_DIU
+ 	tristate "Freescale DIU framebuffer support"
+ 	depends on FB && FSL_SOC
++	select FB_IOMEM_HELPERS
+ 	select FB_MODE_HELPERS
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
-+	select FB_IOMEM_HELPERS
+ 	select PPC_LIB_RHEAP
  	help
- 	  This is the frame buffer device driver for the Amiga FrameMaster
- 	  card from BSC (exhibited 1992 but not shipped as a CBM product).
-diff --git a/drivers/video/fbdev/fm2fb.c b/drivers/video/fbdev/fm2fb.c
-index 4dcb9dd79bf8..25d2e716edf2 100644
---- a/drivers/video/fbdev/fm2fb.c
-+++ b/drivers/video/fbdev/fm2fb.c
-@@ -167,11 +167,9 @@ static int fm2fb_blank(int blank, struct fb_info *info);
+ 	  Framebuffer driver for the Freescale SoC DIU
+diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
+index c62b48f27ba9..7fbd9f069ac2 100644
+--- a/drivers/video/fbdev/fsl-diu-fb.c
++++ b/drivers/video/fbdev/fsl-diu-fb.c
+@@ -1451,13 +1451,11 @@ static int fsl_diu_release(struct fb_info *info, int user)
  
- static const struct fb_ops fm2fb_ops = {
- 	.owner		= THIS_MODULE,
+ static const struct fb_ops fsl_diu_ops = {
+ 	.owner = THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_setcolreg	= fm2fb_setcolreg,
- 	.fb_blank	= fm2fb_blank,
--	.fb_fillrect	= cfb_fillrect,
--	.fb_copyarea	= cfb_copyarea,
--	.fb_imageblit	= cfb_imageblit,
- };
- 
-     /*
+ 	.fb_check_var = fsl_diu_check_var,
+ 	.fb_set_par = fsl_diu_set_par,
+ 	.fb_setcolreg = fsl_diu_setcolreg,
+ 	.fb_pan_display = fsl_diu_pan_display,
+-	.fb_fillrect = cfb_fillrect,
+-	.fb_copyarea = cfb_copyarea,
+-	.fb_imageblit = cfb_imageblit,
+ 	.fb_ioctl = fsl_diu_ioctl,
+ 	.fb_open = fsl_diu_open,
+ 	.fb_release = fsl_diu_release,
 -- 
 2.41.0
 
