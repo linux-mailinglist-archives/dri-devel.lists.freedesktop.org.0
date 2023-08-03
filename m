@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A5F76F3FF
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 22:21:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B79676F409
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 22:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D07110E21A;
-	Thu,  3 Aug 2023 20:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C84C210E1F5;
+	Thu,  3 Aug 2023 20:30:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com
- [IPv6:2607:f8b0:4864:20::a35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C68610E1F5;
- Thu,  3 Aug 2023 20:21:40 +0000 (UTC)
-Received: by mail-vk1-xa35.google.com with SMTP id
- 71dfb90a1353d-4865d994991so557239e0c.0; 
- Thu, 03 Aug 2023 13:21:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691094099; x=1691698899;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SSaRAjLMTa67lFk5QZwB/CpwmOcN1LDlBkoWiiPNHX0=;
- b=S2LXdDKSgccv1prhAF8Z0oKo1xmicxyewP0ylBhuICK2rO/fsSjef3jFU/28NJ3Vh1
- WyXNOi2jAPT0ODKE80piyhpf+XC+KO14qoq4Zoq9pxkFvuS+D2a8yfb562h8HIX6AEVF
- ch5p1S7/7QdkjxqxTnXku3kQTsVPaQDaUh5EfbRUaCprqY2YJTNY+lFJ8hQOdhtnnyJ8
- QqTaODyCa/GBNPH6fxj5g2iNTLieOqvxoez8ocqemnPGBtsl+ns4zbS4tkGe113R9mG/
- EmWP7hTP8mPWwhpZzOshyk7rlRKtsUMGcRFGAd1dhHj6GV5xqfNRF4asRtTybLNxarB7
- Y1MQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE11D10E113
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 20:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691094619;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z3CFgGOgP9O/o8Jr9VZXMJJ8J/clTiGmzIo1gFvhvOU=;
+ b=fqx5arLwJ3waVjvj/mS8nAQ3GV66HEqZSRwsSjuUyzgqwsMDQUdBpOqN3QIQ8ZniaWLcUg
+ dMB7l3vEx3b1cqzYHP12EdP/CQ1o7u61cmw/QRb+SNGaqFnA+bp9oKmFfZXqMe7sBsoJXc
+ Ndjn/2xhOHAyVAVGPahHe1R6EoH9RFc=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-3-b8T0CEUuOsmM8NhpKZuUEA-1; Thu, 03 Aug 2023 16:30:18 -0400
+X-MC-Unique: b8T0CEUuOsmM8NhpKZuUEA-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2ba1949656bso3032971fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 13:30:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691094099; x=1691698899;
+ d=1e100.net; s=20221208; t=1691094617; x=1691699417;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SSaRAjLMTa67lFk5QZwB/CpwmOcN1LDlBkoWiiPNHX0=;
- b=Jwk+z+IS5JxL9H/cXTD3Jf3xFMlF9xGwDE7i7oO5cfmSm7gmVMf8Hf18axZR5/VmZ+
- QK9HYMCDcbMhJ/H0I32sNM6i8qnPoX49MAbcxi0EpZBogyMP8S7wxVa3XVPB9Ht2wILQ
- Eb7+DLMZSHH44KO1VjUxnUH856tTY19nW7nnILZSl+JDxE1cUEvw0KHNV4T2vjwxYdhI
- nC7MoQD7wJ3Hd/wr98vdnAqGCzctIN7yPemtxS+ryPfxetrSF9izlfV3oK8fqDt6zX1B
- Z8FIZxNGZ7RwSoNYj4QLYZ2BZH/pyP3//mVk9io6tLBFUgThnCrxVGIiaGquV/ZXwkRe
- DTww==
-X-Gm-Message-State: ABy/qLZtECSPLyOGMuGf4aCtWx7p2MnBjb/RD3pYDfQxA7GvRd6H88uz
- Jz8p1ErucE4Z/iS2l1WBPB90guuc2bKXjGPypx8=
-X-Google-Smtp-Source: APBJJlG1CySCstG+XEKldbhygdyS13vjgjak8avQeTacOxbhbG8cLi/Juych8hTizx9FjNhgErCFMh1d0Escb3V3rHQ=
-X-Received: by 2002:a67:bb04:0:b0:443:895d:1b53 with SMTP id
- m4-20020a67bb04000000b00443895d1b53mr8351230vsn.10.1691094099065; Thu, 03 Aug
- 2023 13:21:39 -0700 (PDT)
+ bh=Z3CFgGOgP9O/o8Jr9VZXMJJ8J/clTiGmzIo1gFvhvOU=;
+ b=b+dTjHzeGC50hJTCbG+swI1xBKettVYTRYOdplwRgCnbHNCx/mCZpRbgOPhBJotp5P
+ fC+uot+gSsyY2qlt8TTdYbwEl7qK1nq5BQBH5C5wDYCe0ATbZ3GDwyHVH+HojSHk2nMz
+ kMyFC2Aw4YG0UQm/xfITE29yAG2IgWEDyLzXwNfOir+c/LXCUt1k2TnNnYzRoOhAodHi
+ 7H4X5LKQgo2gl2ZBAGqL7am0oOeMh62nxxMF0U1XJ3Q/lEONMhDqPvy7Ih2ZWZMiY694
+ pOqgs5Ugi6w8bRJPr5TKe00lgDdw4w/s5M6k+GHPlxjX6WAjPGyQbChgjdiwBRrD39GR
+ 1PnA==
+X-Gm-Message-State: ABy/qLZRUjzfWOYqPC8WBpYHdGA0HUo1vEDyV9Zwtvp9Gv3jLTn/Jgsr
+ DR/s1aFRF7qFUVNOhcm1NgJjnchRBCjpCLP1zakIiMoYm7y3NX0Pu3vW/qfhfCQz1Nn76u2ZZEy
+ z6L+0n/2nPulJUuBjOAI7GolSL/QxVxpknK0Rla7PbjVR
+X-Received: by 2002:a05:651c:201:b0:2b9:ee3e:2412 with SMTP id
+ y1-20020a05651c020100b002b9ee3e2412mr9032194ljn.22.1691094616904; 
+ Thu, 03 Aug 2023 13:30:16 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFM4juzjmI/t4LIfnWZp4pccCs9/wTL0bDPxsm4o+yqeKOP9b5fXamEn0GjXpG4q5lVC9pLiWFObW4UxjOMP80=
+X-Received: by 2002:a05:651c:201:b0:2b9:ee3e:2412 with SMTP id
+ y1-20020a05651c020100b002b9ee3e2412mr9032184ljn.22.1691094616597; Thu, 03 Aug
+ 2023 13:30:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801170255.163237-21-jim.cromie@gmail.com>
- <202308031432.fcb4197-oliver.sang@intel.com>
-In-Reply-To: <202308031432.fcb4197-oliver.sang@intel.com>
-From: jim.cromie@gmail.com
-Date: Thu, 3 Aug 2023 14:21:13 -0600
-Message-ID: <CAJfuBxzq_5skGRkcdK9kJBE_qL8X_waq88XsUO-FHyVQkQUb4w@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v5 19/22] drm: restore
- CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-To: kernel test robot <oliver.sang@intel.com>
+References: <20210905122742.86029-1-daniels@collabora.com>
+ <20230803154908.105124-2-daniels@collabora.com>
+In-Reply-To: <20230803154908.105124-2-daniels@collabora.com>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Thu, 3 Aug 2023 22:30:05 +0200
+Message-ID: <CA+hFU4yAb=kx18AQpSLQGV37vTt44rmzt+n5XzPee9uWCEg_fA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] doc: uapi: Document dma-buf interop design &
+ semantics
+To: Daniel Stone <daniels@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,36 +79,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, jani.nikula@intel.com, daniel.vetter@ffwll.ch,
- intel-gfx@lists.freedesktop.org, linux@rasmusvillemoes.dk,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, joe@perches.com,
- jbaron@akamai.com, seanpaul@chromium.org, amd-gfx@lists.freedesktop.org,
- gregkh@linuxfoundation.org, oe-lkp@lists.linux.dev,
- intel-gvt-dev@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 3, 2023 at 1:14=E2=80=AFAM kernel test robot <oliver.sang@intel=
-.com> wrote:
+For what it's worth this series is
+
+Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+
+On Thu, Aug 3, 2023 at 5:49=E2=80=AFPM Daniel Stone <daniels@collabora.com>=
+ wrote:
 >
+> Hi all,
+> This is v2 to the linked patch series; thanks to everyone for reviewing
+> the initial version. I've moved this out of a pure DRM scope and into
+> the general userspace-API design section. Hopefully it helps others and
+> answers a bunch of questions.
 >
-> hi, Jim Cromie,
+> I think it'd be great to have input/links/reflections from other
+> subsystems as well here.
 >
-> we send this report to you to consult that if there is any limitation to =
-use
-> this CONFIG_DRM_USE_DYNAMIC_DEBUG?
-> attached config is a randconfig which has CONFIG_DRM_USE_DYNAMIC_DEBUG, t=
-he
-> kernel built with it failed to boot in our tests, but we also tested with=
- some
-> other config then the issue cannot reproduce.
+> Cheers,
+> Daniel
+>
 >
 
-Theres no limitation I know of - particularly not CONFIG related
-
-on an earlier version, I saw some odd transient / red-herring
-linker-errors (collisions on __UNIQUE_ID constructs)
-on s390, mips, older gcc (iirc - I could go find it in lkp-reports if
-its meaningful)
-that had me hacking at the fallback which uses __LINE__
-But this seems different.
