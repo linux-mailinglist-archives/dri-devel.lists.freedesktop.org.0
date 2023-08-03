@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1D076F1E6
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FA676F23B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5762E10E0D1;
-	Thu,  3 Aug 2023 18:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8178A10E651;
+	Thu,  3 Aug 2023 18:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DAB210E0D1;
- Thu,  3 Aug 2023 18:32:54 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-686daaa5f1fso917009b3a.3; 
- Thu, 03 Aug 2023 11:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691087573; x=1691692373;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KxYWsR/qBx7u0rlGx8cPewdgRo7+05nTk90UjKvSraQ=;
- b=ft0QlCKua4WY9Pn8iWwzQQXBiU+H9dyyhpm/EwB6z2K1YBVlLsPsSk4dwTfih1XIyo
- OcDT94J3GJWIZle2duHYEW4a/sWBSq4uDCPo/zG+cNjussXQF0rJ0VOLxQgqp1uX4KMH
- T4mcfXvSAHT2H5faKOPukAMsmshUpyjQpACw2MKA98KoLxVueYzVprjHj2ELI/grNE6v
- 3i5bCKjCB4nA99JE2sXAHynFjiqzTmIP/YFN/1uFJ6cB5zmE3VqZEmarP6PB75w/PuIB
- Fgc/JnGzY7ZEWLgZM+KizCllGoX4VU7TBm/kH9+u1gsjNU2hQmzJmAg+XlUrzaKBHwce
- mRYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691087573; x=1691692373;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KxYWsR/qBx7u0rlGx8cPewdgRo7+05nTk90UjKvSraQ=;
- b=dqSYD1TkbgS6fmTGXGdbEIf7OnvBBtjPWmhdcQ3MqxeOPZJTehIsSP/4oWbAEyE+0p
- MbEQDhQzG6DBRkg+tKqQ5V1rMY9eAZOLdesUy1YP/eafFplR8v40tnefQj9cpyVlQ+/N
- N88s8baHXK/ohLn7mYrQQudHHI9CFVIZAOtCmiE6tttvHGDP0dL7Sa5XOcvMfrw4f1KU
- HgWUfqYjSY2UBX9jbGSq5c0R3UUPIkoKWKMwWRyh5+Gqi773LUmoH0EKpz7dPY3dCvKU
- pAPcQr5vDuRxQH+/LVLgGpKaxtBC1BVyr8AZlzZxNPJImnOGw1qxIjXiy9L5cMi5lXTB
- KFBw==
-X-Gm-Message-State: ABy/qLZ/p7oDb1+iYqa92Zp5/utvG7BWBBnlTxEVSn4+N6+vDiCxr1q6
- fU9aQoL9Wsl3I4tEFCeAuuGh8Qo6wqk=
-X-Google-Smtp-Source: APBJJlH+WYqSik0uDX9MGJWI3BewG9Fg4j0HvhhNYQcyaBEInV4WF3yaR/S1PhvKAjZwZeROh1BY3g==
-X-Received: by 2002:a05:6a00:3916:b0:686:f84d:a4ec with SMTP id
- fh22-20020a056a00391600b00686f84da4ecmr18624822pfb.27.1691087573322; 
- Thu, 03 Aug 2023 11:32:53 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
- by smtp.gmail.com with ESMTPSA id
- f26-20020aa782da000000b00682b2fbd20fsm174547pfn.31.2023.08.03.11.32.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 11:32:52 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Disallow relocs on a6xx+
-Date: Thu,  3 Aug 2023 11:32:45 -0700
-Message-ID: <20230803183247.57492-1-robdclark@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453A110E049
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E8B232189D;
+ Thu,  3 Aug 2023 18:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1691088037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OtTqFXBQhlrG+PZAvHxivPSqb0Fo/vxr7QReG0BjreQ=;
+ b=uqV8yhMEb4iL193tfXjqv5+X4ARxnhBjn/KyK/krKa931N538DnrW6jSuuJbdPMnqVWEz6
+ rG1Lwbat9vFKhDkieHbSaBNKRflX54LJgot4HF7ACTyA3TL1Jl/ubURaeNxTelysKhUcL8
+ tfSLHdEolxQ8h09FzS78SYwc1diPX+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1691088037;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OtTqFXBQhlrG+PZAvHxivPSqb0Fo/vxr7QReG0BjreQ=;
+ b=du5u9+OHtnBg+RMsEpDMTVwG8N1kRebeeHEvq+egzUBYpUTgNJW0CiqTllKzfzFEcZEXR+
+ FAn2X86CkwCkf6AQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE7491333C;
+ Thu,  3 Aug 2023 18:40:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 7zagKaX0y2TLGAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:37 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	javierm@redhat.com,
+	sam@ravnborg.org
+Subject: [PATCH v3 00/47] fbdev: Use I/O helpers
+Date: Thu,  3 Aug 2023 20:35:25 +0200
+Message-ID: <20230803184034.6456-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,87 +63,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Most fbdev drivers operate on I/O memory. And most of those use the
+default implementations for file I/O and console drawing. Convert all
+these low-hanging fruits to the fb_ops initializer macro and Kconfig
+token for fbdev I/O helpers.
 
-Mesa stopped using these pretty early in a6xx bringup[1].  Take advantage
-of this to disallow some legacy UABI.
+The fbdev I/O helpers are easily grep-able. In a later patch, they can
+be left to empty values if the rsp. functionality, such as file I/O or
+console, has been disabled.
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/commit/7ef722861b691ce99be3827ed05f8c0ddf2cd66e
+There are no functional changes. The helpers set the defaults that
+the drivers already use. The fb_io_*() functions that the initializer
+macro sets are the defaults if struct fb_ops.fb_read or .fb_write are
+NULL. After all drivers have been updated to set them explicitly, the
+defaults can be dropped and the functions can be made optional.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c |  2 ++
- drivers/gpu/drm/msm/msm_gem_submit.c    | 10 ++++++++++
- drivers/gpu/drm/msm/msm_gpu.h           |  9 +++++++++
- 3 files changed, 21 insertions(+)
+v3:
+	* use _IOMEM_ in commit message
+v2:
+	* updated to use _IOMEM_ tokens
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index ba35c2a87021..695cce82d914 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -1078,6 +1078,8 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	adreno_gpu->info = config->info;
- 	adreno_gpu->chip_id = config->chip_id;
- 
-+	gpu->allow_relocs = config->info->family < ADRENO_6XX_GEN1;
-+
- 	/* Only handle the core clock when GMU is not in use (or is absent). */
- 	if (adreno_has_gmu_wrapper(adreno_gpu) ||
- 	    adreno_gpu->info->family < ADRENO_6XX_GEN1) {
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 63c96416e183..3b908f9f5493 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -882,6 +882,16 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 		if (submit->valid)
- 			continue;
- 
-+		if (!gpu->allow_relocs) {
-+			if (submit->cmd[i].nr_relocs) {
-+				DRM_ERROR("relocs not allowed\n");
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+
-+			continue;
-+		}
-+
- 		ret = submit_reloc(submit, msm_obj, submit->cmd[i].offset * 4,
- 				submit->cmd[i].nr_relocs, submit->cmd[i].relocs);
- 		if (ret)
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 7a4fa1b8655b..4252e3839fbc 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -285,6 +285,15 @@ struct msm_gpu {
- 	/* True if the hardware supports expanded apriv (a650 and newer) */
- 	bool hw_apriv;
- 
-+	/**
-+	 * @allow_relocs: allow relocs in SUBMIT ioctl
-+	 *
-+	 * Mesa won't use relocs for driver version 1.4.0 and later.  This
-+	 * switch-over happened early enough in mesa a6xx bringup that we
-+	 * can disallow relocs for a6xx and newer.
-+	 */
-+	bool allow_relocs;
-+
- 	struct thermal_cooling_device *cooling;
- };
- 
+Thomas Zimmermann (47):
+  media/vivid: Use fbdev I/O helpers
+  fbdev/acornfb: Use fbdev I/O helpers
+  fbdev/asiliantfb: Use fbdev I/O helpers
+  fbdev/atmel_lcdfb: Use fbdev I/O helpers
+  fbdev/aty128fb: Use fbdev I/O helpers
+  fbdev/carminefb: Use fbdev I/O helpers
+  fbdev/chipsfb: Use fbdev I/O helpers
+  fbdev/da8xx-fb: Use fbdev I/O helpers
+  fbdev/efifb: Use fbdev I/O helpers
+  fbdev/fm2fb: Use fbdev I/O helpers
+  fbdev/fsl-diu-fb: Use fbdev I/O helpers
+  fbdev/g364fb: Use fbdev I/O helpers
+  fbdev/geode/gx1fb: Use fbdev I/O helpers
+  fbdev/geode/gxfb: Use fbdev I/O helpers
+  fbdev/geode/lxfb: Use fbdev I/O helpers
+  fbdev/goldfishfb: Use fbdev I/O helpers
+  fbdev/grvga: Use fbdev I/O helpers
+  fbdev/gxt4500: Use fbdev I/O helpers
+  fbdev/i740fb: Use fbdev I/O helpers
+  fbdev/imxfb: Use fbdev I/O helpers
+  fbdev/kyro: Use fbdev I/O helpers
+  fbdev/macfb: Use fbdev I/O helpers
+  fbdev/maxinefb: Use fbdev I/O helpers
+  fbdev/mb862xxfb: Use fbdev I/O helpers
+  fbdev/mmpfb: Use fbdev I/O helpers
+  fbdev/mx3fb: Use fbdev I/O helpers
+  fbdev/ocfb: Use fbdev I/O helpers
+  fbdev/offb: Use fbdev I/O helpers
+  fbdev/omapfb: Use fbdev I/O helpers
+  fbdev/platinumfb: Use fbdev I/O helpers
+  fbdev/pmag-aa-fb: Use fbdev I/O helpers
+  fbdev/pmag-ba-fb: Use fbdev I/O helpers
+  fbdev/pmagb-b-fb: Use fbdev I/O helpers
+  fbdev/pxa168fb: Use fbdev I/O helpers
+  fbdev/pxafb: Use fbdev I/O helpers
+  fbdev/q40fb: Use fbdev I/O helpers
+  fbdev/s3cfb: Use fbdev I/O helpers
+  fbdev/sh7760fb: Use fbdev I/O helpers
+  fbdev/simplefb: Use fbdev I/O helpers
+  fbdev/sstfb: Use fbdev I/O helpers
+  fbdev/sunxvr1000: Use fbdev I/O helpers
+  fbdev/sunxvr2500: Use fbdev I/O helpers
+  fbdev/uvesafb: Use fbdev I/O helpers
+  fbdev/valkyriefb: Use fbdev I/O helpers
+  fbdev/vesafb: Use fbdev I/O helpers
+  fbdev/xilinxfb: Use fbdev I/O helpers
+  vfio-dev/mdpy-fb: Use fbdev I/O helpers
+
+ drivers/media/test-drivers/vivid/Kconfig     |   4 +-
+ drivers/media/test-drivers/vivid/vivid-osd.c |   4 +-
+ drivers/video/fbdev/Kconfig                  | 160 +++++--------------
+ drivers/video/fbdev/acornfb.c                |   4 +-
+ drivers/video/fbdev/asiliantfb.c             |   4 +-
+ drivers/video/fbdev/atmel_lcdfb.c            |   4 +-
+ drivers/video/fbdev/aty/aty128fb.c           |   4 +-
+ drivers/video/fbdev/carminefb.c              |   5 +-
+ drivers/video/fbdev/chipsfb.c                |   4 +-
+ drivers/video/fbdev/da8xx-fb.c               |   4 +-
+ drivers/video/fbdev/efifb.c                  |   4 +-
+ drivers/video/fbdev/fm2fb.c                  |   4 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |   4 +-
+ drivers/video/fbdev/g364fb.c                 |   4 +-
+ drivers/video/fbdev/geode/Kconfig            |  12 +-
+ drivers/video/fbdev/geode/gx1fb_core.c       |   5 +-
+ drivers/video/fbdev/geode/gxfb_core.c        |   5 +-
+ drivers/video/fbdev/geode/lxfb_core.c        |   5 +-
+ drivers/video/fbdev/goldfishfb.c             |   4 +-
+ drivers/video/fbdev/grvga.c                  |   4 +-
+ drivers/video/fbdev/gxt4500.c                |   4 +-
+ drivers/video/fbdev/i740fb.c                 |   4 +-
+ drivers/video/fbdev/imxfb.c                  |   4 +-
+ drivers/video/fbdev/kyro/fbdev.c             |   4 +-
+ drivers/video/fbdev/macfb.c                  |   4 +-
+ drivers/video/fbdev/maxinefb.c               |   4 +-
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c   |   4 +-
+ drivers/video/fbdev/mmp/fb/Kconfig           |   4 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c           |   4 +-
+ drivers/video/fbdev/mx3fb.c                  |   4 +-
+ drivers/video/fbdev/ocfb.c                   |   4 +-
+ drivers/video/fbdev/offb.c                   |   4 +-
+ drivers/video/fbdev/omap/Kconfig             |   4 +-
+ drivers/video/fbdev/omap/omapfb_main.c       |   4 +-
+ drivers/video/fbdev/platinumfb.c             |   4 +-
+ drivers/video/fbdev/pmag-aa-fb.c             |   4 +-
+ drivers/video/fbdev/pmag-ba-fb.c             |   4 +-
+ drivers/video/fbdev/pmagb-b-fb.c             |   4 +-
+ drivers/video/fbdev/pxa168fb.c               |   4 +-
+ drivers/video/fbdev/pxafb.c                  |   4 +-
+ drivers/video/fbdev/q40fb.c                  |   4 +-
+ drivers/video/fbdev/s3c-fb.c                 |   4 +-
+ drivers/video/fbdev/sh7760fb.c               |   4 +-
+ drivers/video/fbdev/simplefb.c               |   4 +-
+ drivers/video/fbdev/sstfb.c                  |   4 +-
+ drivers/video/fbdev/sunxvr1000.c             |   4 +-
+ drivers/video/fbdev/sunxvr2500.c             |   4 +-
+ drivers/video/fbdev/uvesafb.c                |   4 +-
+ drivers/video/fbdev/valkyriefb.c             |   4 +-
+ drivers/video/fbdev/vesafb.c                 |   4 +-
+ drivers/video/fbdev/xilinxfb.c               |   4 +-
+ samples/Kconfig                              |   4 +-
+ samples/vfio-mdev/mdpy-fb.c                  |   4 +-
+ 53 files changed, 94 insertions(+), 286 deletions(-)
+
+
+base-commit: 194cd63362db9ed2cbdd3deaa7a8752b86d95f3b
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: 9e45f32f01ebd4d3a927038e52b91a389673b9bb
+prerequisite-patch-id: b0b735b6e10a12816cea5ea15e3292c6342ed2f2
+prerequisite-patch-id: 3997b2a71240d34ccf6990cf133cad39d4efc8f4
+prerequisite-patch-id: d64b3896ffd91137df0c4311a8b7aa0d5fa40a11
+prerequisite-patch-id: 5c8669f6947f5a44d19f4f8bd36b77c31163eda7
 -- 
 2.41.0
 
