@@ -2,64 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C3176E441
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 11:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5382D76E464
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 11:31:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFBF410E05E;
-	Thu,  3 Aug 2023 09:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771B410E0DF;
+	Thu,  3 Aug 2023 09:30:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 177F810E05E
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 09:23:55 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fe2d152f62so1282217e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 02:23:54 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADB510E0DF
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 09:30:56 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-3175d5ca8dbso597696f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 02:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=semihalf.com; s=google; t=1691054633; x=1691659433;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DKE5RPCVa4ZdeYnCra9n15ebxdPiozynuD4jWbZ/+EU=;
- b=Fl5doOIX4WD/qvdR+ht1Wd1QHAIDUlpDjXH/YRXlTANpbCIZ8AbkIE65tOb+ZaA1ol
- DKcZeCM5YBmjp2AmbNLj9kGa0x8UIe9hfqfvK9hCWUdoEtvCaQgogCQRWmovC5PVcF/T
- 05xE9fzq2Pqlu55FnPXJ73/YS5Cn6r46OBJdLgLvbzDz1pYSw+XVECDU8VBRsOglZ83E
- FBlQysam9VW5iHy1N44Xrzg5965F7mlwNQ+AMGxRa2xP0qUNbWkaeOzohS+8PCqX6T5P
- dYzJtp7QPr+foHHCIGVSUSDreQsPxO9/Zi85C6H6U5mcQFOuO7LNKVgZjy1JzXbDHkrL
- roVg==
+ d=linaro.org; s=google; t=1691055054; x=1691659854;
+ h=content-transfer-encoding:in-reply-to:organization:references:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=LkIHcBr4D3AWyeFHkNvp/kzN1jYSpCMGS1AHF/o5c9A=;
+ b=KaTNqcmMU8XrC4AlTAK7GLUb0OVSgvQmMe1GzwuMaGkT1bC6Ar+eB8Bex5fmM2UfAs
+ XYnfFEgWij0eey3gAObflxdGhrH7lMy3wuc3h/7KTqOqKAzYIg0OovTKhZAELasTaMIR
+ 4/SAmd53zay0A67BoVIri5qIuqAQ0qXSU7wkUcXoqbCQRehQFnuJkzTdlCuG11FXpsZ4
+ 4yyQf19kWgnz5e+OCij04nDpXhqGgSWZ83fYkmgwOyeSIqyyku1X240LwQ9TEkwJeLLO
+ QQVDDmJ5EcpRkf7SiK4ipizrKRj3ubccJLF48c27rEwzHbYS31G4mJsH1eSHKm1Ygt6S
+ z/hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691054633; x=1691659433;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1691055054; x=1691659854;
+ h=content-transfer-encoding:in-reply-to:organization:references:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=DKE5RPCVa4ZdeYnCra9n15ebxdPiozynuD4jWbZ/+EU=;
- b=YG4dbTDfJVj7cc4bkHeP02ZY3kEaJgPCCaFY7KxUVfNmCR6G+a5S0I5WtnI4Mr/C8u
- +vRR2Nae6K7LpmzFFZM+mkGcjQ4kgEXiE5MKlwVAhtne+HPQF9yHNgS6qZvtVyWmmPXw
- kvEHh2kXNBpv+TEnkDOLhsMDvthtx40Qx4pi/SUFeEb+m5SIwhBcpo7NV4CLEcLzymlk
- eU9g/YsToQmpyFbeqjLYh7x1KieGPEyAVQ0Qvs8FNcejNkApf7D8x31pZ/1EIkA+kBpz
- uN5U+vXZzYim6IvCZwJUVV5+TiVVlniqzoWH/3rBBp0gObHfGsCtELbmj+s4lCNPCYup
- jwLA==
-X-Gm-Message-State: ABy/qLax0U7/X+G6tyJ/fvaqdlAVtIwVav77kdy56Cawc5bnX0KStHdm
- tvcjya3+Tzw3oHNir1KNTR9p27zGtceLgmel70A=
-X-Google-Smtp-Source: APBJJlGcKEvuwsZDe77Nz1Pb30gbPEvm1CNLmx3c4bRUnw9Q3s/GD77kQYFkTGOXIxrIYkh9KPUcsg==
-X-Received: by 2002:a05:6512:546:b0:4f6:6b:a43b with SMTP id
- h6-20020a056512054600b004f6006ba43bmr5967812lfl.52.1691054633058; 
- Thu, 03 Aug 2023 02:23:53 -0700 (PDT)
-Received: from lmajczak1-l.roam.corp.google.com ([83.142.187.84])
+ bh=LkIHcBr4D3AWyeFHkNvp/kzN1jYSpCMGS1AHF/o5c9A=;
+ b=LygtkVQ6lBnzVoF1SvEsJEoIvyxlv57cqq8cKt5+cgykueq5023GJrQDQLp2UuXqdP
+ Kyex8HrGymC7MrYBVWVd5TsdvKmPai3N6VoU/B4TKcnVYx85au6ZHX4rB5zT7rq3O7zV
+ 05zPxviVl1FHUIIAqPbH2vC9V9RghVD4Jk1T9sMffmmxIYQsJcOdp37u/NaEUzmSBeHh
+ W1DC1FShKXkmTkrLguhJmJwz62afYSByNWNwIcZYHVKuyO8uxxD2VNb1lziaYfRGzzEh
+ gW9IDXqLXpx8NA30vMqI1tgJerSwTBMzl8BxNYBHyfUT9m49PaX8t2sRoNSp+L37mERV
+ O8Ew==
+X-Gm-Message-State: ABy/qLajappAnRs5pUjpGf9xFjH0kPYk1FNeQ8I+TMowF6xQwF+Sk3JN
+ bw1m0daaXjW8zhI05YzgVCJAkw==
+X-Google-Smtp-Source: APBJJlFZEiNSoW7XP3KC4CMX4RvkaDRIpCL6qNHmhmh7S6W+5L/Q6Ko5fmVchCDSe4efmQUf8OGYPg==
+X-Received: by 2002:a5d:6782:0:b0:314:182a:3d96 with SMTP id
+ v2-20020a5d6782000000b00314182a3d96mr6148630wru.28.1691055054566; 
+ Thu, 03 Aug 2023 02:30:54 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:8656:583:d034:d966?
+ ([2a01:e0a:982:cbb0:8656:583:d034:d966])
  by smtp.gmail.com with ESMTPSA id
- q19-20020ac25293000000b004fe0ab60530sm3306750lfm.49.2023.08.03.02.23.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 02:23:52 -0700 (PDT)
-From: Lukasz Majczak <lma@semihalf.com>
-To: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/dp_mst: Fix NULL deref in
- get_mst_branch_device_by_guid_helper()
-Date: Thu,  3 Aug 2023 11:23:08 +0200
-Message-ID: <20230803092308.79197-1-lma@semihalf.com>
-X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
+ p16-20020a5d68d0000000b003140f47224csm21286033wrw.15.2023.08.03.02.30.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Aug 2023 02:30:53 -0700 (PDT)
+Message-ID: <9f0670a7-6ef6-7823-19c2-de10683f303f@linaro.org>
+Date: Thu, 3 Aug 2023 11:30:52 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 0/4] drm/panel: sitronix-st7789v: add support for partial
+ mode
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ David Airlie <airlied@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
+ <292c3e7d-82ea-2631-bd4b-ef747f56287c@linaro.org>
+ <ekmwiy3iuvtqtb6hwjbba2ia3aemt3dxmx6dj3zh6ljfmuim4w@4jzhqdenxth4>
+ <ZMtqraOyGN9JvVj9@phenom.ffwll.local>
+ <qmwtcungahbe2bhty7v2rso2kf3vai6k47muwipifbybmi7o6s@oj6lngnhyhtg>
+Organization: Linaro Developer Services
+In-Reply-To: <qmwtcungahbe2bhty7v2rso2kf3vai6k47muwipifbybmi7o6s@oj6lngnhyhtg>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,75 +92,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: upstream@semihalf.com, Guenter Roeck <linux@roeck-us.net>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lukasz Majczak <lma@semihalf.com>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check mgr->mst_primary, before passing it to
-the get_mst_branch_device_by_guid_helper(), otherwise NULL dereference
-may occur in the call to memcpy() and cause:
+On 03/08/2023 11:22, Maxime Ripard wrote:
+> On Thu, Aug 03, 2023 at 10:51:57AM +0200, Daniel Vetter wrote:
+>> On Thu, Aug 03, 2023 at 10:48:57AM +0200, Maxime Ripard wrote:
+>>> On Thu, Aug 03, 2023 at 10:11:22AM +0200, Neil Armstrong wrote:
+>>>> Hi,
+>>>>
+>>>> On 18/07/2023 17:31, Michael Riesch wrote:
+>>>>> Hi all,
+>>>>>
+>>>>> This series adds support for the partial display mode to the Sitronix
+>>>>> ST7789V panel driver. This is useful for panels that are partially
+>>>>> occluded by design, such as the Jasonic JT240MHQS-HWT-EK-E3. Support
+>>>>> for this particular panel is added as well.
+>>>>>
+>>>>> Note: This series is already based on
+>>>>> https://lore.kernel.org/lkml/20230714013756.1546769-1-sre@kernel.org/
+>>>>
+>>>> I understand Maxime's arguments, but by looking closely at the code,
+>>>> this doesn't look like an hack at all and uses capabilities of the
+>>>> panel controller to expose a smaller area without depending on any
+>>>> changes or hacks on the display controller side which is coherent.
+>>>>
+>>>> Following's Daniel's summary we cannot compare it to TV overscan
+>>>> because overscan is only on *some* displays, we can still get 100%
+>>>> of the picture from the signal.
+>>>
+>>> Still disagree on the fact that it only affects some display. But it's
+>>> not really relevant for that series.
+>>
+>> See my 2nd point, from a quick grep aside from i915 hdmi support, no one
+>> else sets all the required hdmi infoframes correctly. Which means on a
+>> compliant hdmi tv, you _should_ get overscan. That's how that stuff is
+>> speced.
+>>
+>> Iirc you need to at least set both the VIC and the content type, maybe
+>> even more stuff.
+>>
+>> Unless all that stuff is set I'd say it's a kms driver bug if you get
+>> overscan on a hdmi TV.
+> 
+> I have no doubt that i915 works there. The source of my disagreement is
+> that if all drivers but one don't do that, then userspace will have to
+> care. You kind of said it yourself, i915 is kind of the exception there.
+> 
+> The exception can be (and I'm sure it is) right, but still, it deviates
+> from the norm.
 
-[12579.365869] BUG: kernel NULL pointer dereference, address: 0000000000000049
-[12579.365878] #PF: supervisor read access in kernel mode
-[12579.365880] #PF: error_code(0x0000) - not-present page
-[12579.365882] PGD 0 P4D 0
-[12579.365887] Oops: 0000 [#1] PREEMPT SMP NOPTI
-...
-[12579.365895] Workqueue: events_long drm_dp_mst_up_req_work
-[12579.365899] RIP: 0010:memcmp+0xb/0x29
-[12579.365921] Call Trace:
-[12579.365927] get_mst_branch_device_by_guid_helper+0x22/0x64
-[12579.365930] drm_dp_mst_up_req_work+0x137/0x416
-[12579.365933] process_one_work+0x1d0/0x419
-[12579.365935] worker_thread+0x11a/0x289
-[12579.365938] kthread+0x13e/0x14f
-[12579.365941] ? process_one_work+0x419/0x419
-[12579.365943] ? kthread_blkcg+0x31/0x31
-[12579.365946] ret_from_fork+0x1f/0x30
+HDMI spec is hidden behind a paywall, HDMI testing is a mess, HDMI real
+implementation on TVs and Displays is mostly broken, and HDMI certification
+devices are too expensive... this is mainly why only i915 handles it correctly.
 
-Similar check is done in e.g: drm_dp_mst_topology_get_mstb_validated().
+> 
+>>> I think I'll still like to have something clarified before we merge it:
+>>> if userspace forces a mode, does it contain the margins or not? I don't
+>>> have an opinion there, I just think it should be documented.
+>>
+>> The mode comes with the margins, so if userspace does something really
+>> funny then either it gets garbage (as in, part of it's crtc area isn't
+>> visible, or maybe black bars on the screen), or the driver rejects it
+>> (which I think is the case for panels, they only take their mode and
+>> nothing else).
+> 
+> Panels can usually be quite flexible when it comes to the timings they
+> accept, and we could actually use that to our advantage, but even if we
+> assume that they have a single mode, I don't think we have anything that
+> enforces that, either at the framework or documentation levels?
 
-Fixes: 5e93b8208d3c ("drm/dp/mst: move GUID storage from mgr, port to only mst branch")
-Cc: <stable@vger.kernel.org> # 4.14+
-Signed-off-by: Lukasz Majczak <lma@semihalf.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Yep, this is why we would need a better atomic based panel API that would
+permit us handling dynamic timings for panel and get out of the single-mode
+for modern panels.
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index ed96cfcfa304..703cd97b1d11 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -2595,19 +2595,19 @@ static struct drm_dp_mst_branch *
- drm_dp_get_mst_branch_device_by_guid(struct drm_dp_mst_topology_mgr *mgr,
- 				     const uint8_t *guid)
- {
--	struct drm_dp_mst_branch *mstb;
-+	struct drm_dp_mst_branch *mstb = NULL;
- 	int ret;
- 
- 	/* find the port by iterating down */
- 	mutex_lock(&mgr->lock);
--
--	mstb = get_mst_branch_device_by_guid_helper(mgr->mst_primary, guid);
--	if (mstb) {
--		ret = drm_dp_mst_topology_try_get_mstb(mstb);
--		if (!ret)
--			mstb = NULL;
-+	if (mgr->mst_primary) {
-+		mstb = get_mst_branch_device_by_guid_helper(mgr->mst_primary, guid);
-+		if (mstb) {
-+			ret = drm_dp_mst_topology_try_get_mstb(mstb);
-+			if (!ret)
-+				mstb = NULL;
-+		}
- 	}
--
- 	mutex_unlock(&mgr->lock);
- 	return mstb;
- }
--- 
-2.41.0.640.ga95def55d0-goog
+Neil
+
+> 
+> Maxime
 
