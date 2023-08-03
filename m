@@ -1,68 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01D176E2DB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401C676E2DE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:24:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F9910E0FB;
-	Thu,  3 Aug 2023 08:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F97910E5C5;
+	Thu,  3 Aug 2023 08:24:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE9D10E0FB
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:23:19 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3fe24b794e5so6872815e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:23:18 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 555BD10E5C3
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:24:04 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-5216095a698so187459a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691050997; x=1691655797;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QJMrHXaDI2jXZZ4fTi2siSIHXafUBuzV5Qg1y6pooWA=;
- b=y+v/u9a7vIxXIW2+GWqMqxQYR1oinKq8Lgt/a4XqTLYX6clqRNeDzKwBT6e7peNEyH
- LqH+n6XD1UBTjbps2wOdvzFSFDpnjJ4dhUxDgYbJtOu+GXL+6X7K14MO10V3BCHRHNgq
- baM5dcDL+xrVgho+xCSJR6iMbS2TvnOYCAkq9gY2i1FoTGnYB4auJy/+NLku08cGj+dA
- ddjxnRCD6A9uci2aiT12WIBl8CubNbkHoFJ9p0nodGL4Wt7lDgUytiSwWLJLkhNRJ6xJ
- qM4kHGsJ4bBOuqF1i0tEA8rgXih1OEXoqeeV3bNSACQcaxWTyFmi3dDG7h2R/K9Ce6fi
- kTNA==
+ d=ffwll.ch; s=google; t=1691051043; x=1691655843;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nbTnDk6xm8bXsJTdMm/u5KzN9buEZoXHsYvGilXN/vg=;
+ b=bneCMVzipA/D/51dwZGjvL4lizIX2tke0yFhsH7g4BVayRJ4/dhIhy35lwTqmV1wow
+ yIxbU+ZzR1zICMiO+fkFG7QjXP8iN9AceuitqhBWmNchJ7Ei3H7Z6+oPEw9O3vh00l2p
+ pRMso+mGPdC/Jptnc21GaaXxBVORbrgUyC7OY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691050997; x=1691655797;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QJMrHXaDI2jXZZ4fTi2siSIHXafUBuzV5Qg1y6pooWA=;
- b=l6wuL2yYS4zK96dM+LbIUuUuI/UGUVwr8qgp6CwlAztzlptHPVgwRoiP3b5IhEekEp
- CcVv7ad39mQBdXTqsB01H4gF3t+UBR9dBhIVqoTm2KP5CMOBSR4WF5Rtr+zQiKi8oYvp
- iazJA65rNv7Y02cGHTJ5msqemioWvkEzd345L+3rx3sRF7HWZFpSxWH9DGYDtVDVKLC2
- IsifuLsQXo3AGWOQXwAidX4CTfp0mcPIE0ry42SsH/Bx0UBRSTa/zaiy1dmnQsSckLMy
- OnJTf9zPqC8l4gU1AdQPLaLiRdKKX77ntIF8vNEixm5I47+1DZheo6Qyu38JXzz7R5zz
- 68Jg==
-X-Gm-Message-State: ABy/qLbkZaHoOtsGB6jQFrHcHtnEyGP/Og/XtyO5kLOe8G/ZX5JFUuEB
- EqOreKMjtBHvIDyMHbjzsDuVog==
-X-Google-Smtp-Source: APBJJlFMwEOpdx47TLNsl1lN03YDYUVk04bqgSbetYihaLvp4UQmnUd9EUCO/APSD+4OITuhnwpEhA==
-X-Received: by 2002:a05:600c:40c:b0:3f9:70f:8b99 with SMTP id
- q12-20020a05600c040c00b003f9070f8b99mr6716325wmb.7.1691050997459; 
- Thu, 03 Aug 2023 01:23:17 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ d=1e100.net; s=20221208; t=1691051043; x=1691655843;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nbTnDk6xm8bXsJTdMm/u5KzN9buEZoXHsYvGilXN/vg=;
+ b=gQ8lmiHNEliwrPs4QPNqUvMb3F3FpbwI7rEU5qSjBqHmZkiT5YBLBP5p3MlVCO7DzW
+ hL8/d5hhNbkOsbKBcf9WXCYiLr2Zjip6dDc0aW+NTBZDKFIxAeJi4gY4ardgZCv4uiLD
+ LPGsEx2WbRcIOKtfmeku/hOSmp87JQM+snYPqnXyRNgA0uyPJImyHefyLQawmxgMMHmn
+ PKZMudj9s6YfnPlVIApV7p1CoNpmcaKE8ENYB4CCiSaHO4pcAJlmf2jTe1N+9ZkevpC3
+ eTFDMTFZhyVMQh8bZNsom1o3jBujzGsptoj36rsGdHEQXZD/GK9MoBrR6aAaRhOBTOpE
+ dRKg==
+X-Gm-Message-State: ABy/qLZ47+s3s+hgIiRFGFRI9X807onvC+/VANvhpjylPeTMjDV/3nsp
+ woEl1+IR/5VszPAwfHBhkuZanA==
+X-Google-Smtp-Source: APBJJlHLFD2eZSNkRmGTYcicJHy3ZlecbYJADNzo18jX1yclgyf54H93esOpSSGvRtGepaDZ+LbKIA==
+X-Received: by 2002:a05:6402:35d4:b0:522:28b9:e85f with SMTP id
+ z20-20020a05640235d400b0052228b9e85fmr13889998edc.1.1691051042729; 
+ Thu, 03 Aug 2023 01:24:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- k1-20020a05600c0b4100b003fe11148055sm3539994wmr.27.2023.08.03.01.23.16
+ v15-20020aa7dbcf000000b0050488d1d376sm9726889edt.0.2023.08.03.01.24.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 01:23:17 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Douglas Anderson <dianders@chromium.org>
-In-Reply-To: <20230802074727.1.I4036706ad5e7f45e80d41b777164258e52079cd8@changeid>
-References: <20230802074727.1.I4036706ad5e7f45e80d41b777164258e52079cd8@changeid>
-Subject: Re: [PATCH 1/2] drm/panel: Fix kernel-doc typo for `follower_lock`
-Message-Id: <169105099663.2484653.2634988255195420764.b4-ty@linaro.org>
-Date: Thu, 03 Aug 2023 10:23:16 +0200
+ Thu, 03 Aug 2023 01:24:01 -0700 (PDT)
+Date: Thu, 3 Aug 2023 10:24:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Justin Green <greenjustin@chromium.org>
+Subject: Re: [PATCH RESEND] drm/mediatek: Add valid modifier check
+Message-ID: <ZMtkIHkfhbOCodhw@phenom.ffwll.local>
+References: <20230724175839.675911-1-greenjustin@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230724175839.675911-1-greenjustin@chromium.org>
+X-Operating-System: Linux phenom 6.3.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +70,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: chunkuang.hu@kernel.org, jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Wed, 02 Aug 2023 07:47:27 -0700, Douglas Anderson wrote:
-> In the kernel doc for the `follower_lock` member of `struct drm_panel`
-> there was a typo where it was called `followers_lock`. This resulted
-> in a warning when making "htmldocs":
+On Mon, Jul 24, 2023 at 01:58:39PM -0400, Justin Green wrote:
+> Add a check to mtk_drm_mode_fb_create() that rejects any modifier that
+> is not the AFBC mode supported by MT8195's display overlays.
 > 
->   ./include/drm/drm_panel.h:270: warning:
->   Function parameter or member 'follower_lock' not described in 'drm_panel'
+> Tested by booting ChromeOS and verifying the UI works, and by running
+> the ChromeOS kms_addfb_basic binary, which has a test called
+> "addfb25-bad-modifier" that attempts to create a framebuffer with the
+> modifier DRM_FORMAT_MOD_INVALID and verifies the ADDFB2 ioctl returns
+> EINVAL.
 > 
-> [...]
+> Signed-off-by: Justin Green <greenjustin@chromium.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index cd5b18ef7951..2096e8a794ad 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -51,6 +51,13 @@ mtk_drm_mode_fb_create(struct drm_device *dev,
+>  	if (info->num_planes != 1)
+>  		return ERR_PTR(-EINVAL);
+>  
+> +	if (cmd->modifier[0] &&
+> +	    cmd->modifier[0] != DRM_FORMAT_MOD_ARM_AFBC(
+> +					AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |
+> +					AFBC_FORMAT_MOD_SPLIT |
+> +					AFBC_FORMAT_MOD_SPARSE))
+> +		return ERR_PTR(-EINVAL);
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+If you set the modifiers/format properties correctly and use all the
+helpers then the drm core should already validate that only formats you
+can use are allowed.
 
-[1/2] drm/panel: Fix kernel-doc typo for `follower_lock`
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c0571b20fca4acebd4cb5fcfd07ca4654e9d63dd
-[2/2] drm/panel: Fix todo indentation for panel prepared/enabled cleanup
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1ab2ddc4afdd84632c24b23dbe67eb4ca423dcc5
+See c91acda3a380 ("drm/gem: Check for valid formats") and the related gem
+fb helper functions to see how this is supposed to be done. These kind of
+checks in driver code for gem drivers (which really is everyone at this
+point) should not be needed at all.
+
+Cheers, Sima
+
+> +
+>  	return drm_gem_fb_create(dev, file, cmd);
+>  }
+>  
+> -- 
+> 2.41.0.162.gfafddb0af9-goog
+> 
 
 -- 
-Neil
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
