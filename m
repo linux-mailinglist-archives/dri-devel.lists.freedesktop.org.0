@@ -1,74 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8514876E28D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:11:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12E476E294
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:12:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB4110E5BF;
-	Thu,  3 Aug 2023 08:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A26010E5C0;
+	Thu,  3 Aug 2023 08:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4040510E5BF
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:11:25 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-317716a4622so583945f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:11:25 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFBD910E5C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:12:31 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3fe110de46dso6881985e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691050283; x=1691655083;
- h=content-transfer-encoding:in-reply-to:subject:organization
- :references:cc:to:content-language:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=0ccPdz93R2ktglChLK92GsVW4oztvWhZvA2sF5gQ4E4=;
- b=Xk3NwDYu/IWY5bxvTmJUzlnKk0MJgrIyWoWVmPtWHROPtQU5f6g103KazMrNOC6IN9
- WhENeO7HTGwFmnMBfzLBC4nBBXcXKCaN4YN1wdjPpF4IODjdqzGMzbtXY/+WpfG8Jptg
- 33iA5eKlkCFYM/VvxIowE+LuYumRaOOSNVptfpkVL7JZWfYNSOswXFp2eRrwZmfYFNCi
- 2rYN6kBFdgl1+I92huKXp7xG5K8UBvfjDSCWq0QpGT2+uxfMVpS51sXh59M5xbWTT63z
- cq114zttfsDap+T6LOuVWq8WMIXkqP8zRNjra23n8PzE7MHbJEt34gtVgK5qABA1FPL5
- QYLg==
+ d=linaro.org; s=google; t=1691050350; x=1691655150;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=6Und5YZ86VldXU2R2EeUENrtdoW05YhCbc25DsdIRgY=;
+ b=e10Hdd/1RX4n3g1L0Ssf8Bcgo1AdrbDlJ0yS4kr5wa/EUQT26mx/b3aEBK5jeeiji9
+ CJrIq9qkvUvY5kRK2bWJ/6cFj0Wy9doMDcMp14ba0qW11+sLOKcTGb3YgskArmeJy8dX
+ MKafxbCgFiOCvk4yW1Tkr04dgB8WL/Y9+OmDKY5Q15ZsJlH4FVVWK5MEmI1lQTUt3I3N
+ quQMHCkvJdbSC4S4Tfe0XKqaB8NPq0c2C3fWGcVvWN2TMXIN0vQSGqcWr/12v+AkAl4h
+ Va5cqXgv5f+z+d2gOcmc93hckl9m6pceZJNDl5oP+vr85yQcw0fV+ieVWe8Nvvf/6qz4
+ PXiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691050283; x=1691655083;
- h=content-transfer-encoding:in-reply-to:subject:organization
- :references:cc:to:content-language:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=0ccPdz93R2ktglChLK92GsVW4oztvWhZvA2sF5gQ4E4=;
- b=l6254LKk4Y2/0Lkdjdve0rrwX9iaNt2xnFoFYgHeV1k2w5Lmbkh0X+NtwhyOwtIyCm
- 7+6lAVSmJyXBKj7R8wL4OW4okBblgKU9SPPqWcsihYfqrlQui+ftQrX66pdJqFv41Zwk
- iVVLRO6aEviADsDHwug6c/9Q1ObewsS3tyamF/QaBIn+rktdZvPnaCoyBxaNIIcw1Aes
- NSZx3yB7MdKOyHopGquFyOdIHf+U8rtqVKtNY6qBBH+vsEFJ5zlPbtdICa56DR7Pqhb8
- vJwxGyHq0SZ2ekDSZvyX/10Whq7V/pYxRFm1QNKRDvFzqRS6c9KeAzVBN7IDHYVT6q9A
- yzbw==
-X-Gm-Message-State: ABy/qLZ1BY+dfH9hEvfazhNUu2LM9+a75tkgBxMSiebyVGZ8mOHVpGXB
- cKhy24Nyk5tFt+/yAaaFmdWJvA==
-X-Google-Smtp-Source: APBJJlG9vqYlLa8TO1V125NzyUWy8dv5qhbsaq1Wlu0Ug4Tj9TeUDSeNSlV5glf13iso5ElI9rTb2Q==
-X-Received: by 2002:a05:6000:1371:b0:317:5e22:3ed4 with SMTP id
- q17-20020a056000137100b003175e223ed4mr6414482wrz.49.1691050283581; 
- Thu, 03 Aug 2023 01:11:23 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691050350; x=1691655150;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6Und5YZ86VldXU2R2EeUENrtdoW05YhCbc25DsdIRgY=;
+ b=L1sXCwGpdqRMT2CvYD4K3y1mbQLCRFORV3iu3BhnzLXw29BUmg1xe7fAh/cGF9czvL
+ AG/03e2Oj09GsDngKwLL/VfwoVwDzqFmrEUYFOEfMqjU1ZTZHlMjyt0PaZCs2P6cdQgM
+ 5o4r2DCX1xTs6rR5x1jBxj10/5637T8+FkW8LDh432UiYFCqIx0cBg5LLFMcYuIQ6Mgj
+ 8xPhFNiNDg2nsSNXcDgxhlQl4/ZClU1UoteZWeU9ekTVuFxqHmilmgfiTt9saGrdcRIV
+ qOqPj4/ALZj0tRecHg/dZCPwKu1r4o58LthnZZTArpJY5mXwUy9saAW+X0LC+q9/pO5v
+ /NHg==
+X-Gm-Message-State: ABy/qLb5/inNQfH3bGzyLepzzyzL7pVDlXD8SEXsnrmmX6ltMw8k7g0Y
+ XLR1LjI3kpBpZF2FyJzaB3deeg==
+X-Google-Smtp-Source: APBJJlG/YOO+u6HT6L5SMevwes6eeDd3CFOIIeZioqBlEygdRg1hzggi+IFVem11pMYzMCZjVloYQA==
+X-Received: by 2002:a7b:c40a:0:b0:3fe:2102:8085 with SMTP id
+ k10-20020a7bc40a000000b003fe21028085mr6664138wmi.8.1691050350175; 
+ Thu, 03 Aug 2023 01:12:30 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:8656:583:d034:d966?
  ([2a01:e0a:982:cbb0:8656:583:d034:d966])
  by smtp.gmail.com with ESMTPSA id
- y18-20020adff152000000b0031779a6b451sm21101418wro.83.2023.08.03.01.11.22
+ l10-20020a5d410a000000b00317495f88fasm20989785wrp.112.2023.08.03.01.12.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Aug 2023 01:11:23 -0700 (PDT)
-Message-ID: <292c3e7d-82ea-2631-bd4b-ef747f56287c@linaro.org>
-Date: Thu, 3 Aug 2023 10:11:22 +0200
+ Thu, 03 Aug 2023 01:12:29 -0700 (PDT)
+Message-ID: <2c671efa-4550-3749-395d-621dd3153279@linaro.org>
+Date: Thu, 3 Aug 2023 10:12:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/2] drm/panel: Fix kernel-doc typo for `follower_lock`
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Sebastian Reichel <sre@kernel.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>
-References: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+References: <20230802074727.1.I4036706ad5e7f45e80d41b777164258e52079cd8@changeid>
 Organization: Linaro Developer Services
-Subject: Re: [PATCH 0/4] drm/panel: sitronix-st7789v: add support for partial
- mode
-In-Reply-To: <20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net>
+In-Reply-To: <20230802074727.1.I4036706ad5e7f45e80d41b777164258e52079cd8@changeid>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,60 +81,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 18/07/2023 17:31, Michael Riesch wrote:
-> Hi all,
+On 02/08/2023 16:47, Douglas Anderson wrote:
+> In the kernel doc for the `follower_lock` member of `struct drm_panel`
+> there was a typo where it was called `followers_lock`. This resulted
+> in a warning when making "htmldocs":
 > 
-> This series adds support for the partial display mode to the Sitronix
-> ST7789V panel driver. This is useful for panels that are partially
-> occluded by design, such as the Jasonic JT240MHQS-HWT-EK-E3. Support
-> for this particular panel is added as well.
+>    ./include/drm/drm_panel.h:270: warning:
+>    Function parameter or member 'follower_lock' not described in 'drm_panel'
 > 
-> Note: This series is already based on
-> https://lore.kernel.org/lkml/20230714013756.1546769-1-sre@kernel.org/
-
-I understand Maxime's arguments, but by looking closely at the code,
-this doesn't look like an hack at all and uses capabilities of the
-panel controller to expose a smaller area without depending on any
-changes or hacks on the display controller side which is coherent.
-
-Following's Daniel's summary we cannot compare it to TV overscan
-because overscan is only on *some* displays, we can still get 100%
-of the picture from the signal.
-While here, we cannot, there's physically less pixels on the panel.
-
-If there's no more still a strong nack or pending comments,
-I plan to apply those tomorrow.
-
-Thanks,
-Neil
-
+> Fix the typo.
 > 
-> Looking forward to your comments!
-> 
+> Fixes: de0874165b83 ("drm/panel: Add a way for other devices to follow panel state")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/r/20230802142136.0f67b762@canb.auug.org.au
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
-> Michael Riesch (4):
->        dt-bindings: vendor-prefixes: add jasonic
->        dt-bindings: display: st7789v: add jasonic jt240mhqs-hwt-ek-e3 display
->        drm/panel: sitronix-st7789v: add support for partial mode
->        drm/panel: sitronix-st7789v: add jasonic jt240mhqs-hwt-ek-e3 support
 > 
->   .../bindings/display/panel/sitronix,st7789v.yaml   |  1 +
->   .../devicetree/bindings/vendor-prefixes.yaml       |  2 +
->   drivers/gpu/drm/panel/panel-sitronix-st7789v.c     | 67 +++++++++++++++++++++-
->   3 files changed, 68 insertions(+), 2 deletions(-)
-> ---
-> base-commit: b43dae411767f34288aa347f26b5ed2dade39469
-> change-id: 20230718-feature-lcd-panel-26d9f29a7830
+>   include/drm/drm_panel.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Best regards,
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index d6c73f79c131..10015891b056 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -238,7 +238,7 @@ struct drm_panel {
+>   	struct list_head followers;
+>   
+>   	/**
+> -	 * @followers_lock:
+> +	 * @follower_lock:
+>   	 *
+>   	 * Lock for followers list.
+>   	 */
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
