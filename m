@@ -2,76 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E6176E32D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE4976E32F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:33:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2362510E5CA;
-	Thu,  3 Aug 2023 08:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3807C10E5D1;
+	Thu,  3 Aug 2023 08:33:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7DA210E5CA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:32:48 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-99c4e426714so19323066b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:32:48 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426B010E5D1
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:32:59 +0000 (UTC)
+X-UUID: 586610b431d811eeb20a276fd37b9834-20230803
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=yhbcE8L9YYRpjFoeNKzPuRqwU+lSOc8sA5rYHYlBadE=; 
+ b=NXPPT5V4J090fGJ4EwTxGQzu2R2/vdoGmGIy5SwXXNZwap14GxVVT0dlHqfkKjKWI8//2rpbSqyWx7V84pgMs+aH/Wom2Jdh1WU5lz8rd7dGrCikfS/UFucgXtn7QznS6x4IheDs/3+PB7g2kmRigAuhUDOxMOto6R/7c7bXaAw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.30, REQID:70cb4ce3-be62-44fc-be6f-a9dc42595542, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:1fcc6f8, CLOUDID:71991ab4-a467-4aa9-9e04-f584452e3794,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 586610b431d811eeb20a276fd37b9834-20230803
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 88224360; Thu, 03 Aug 2023 16:32:56 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 3 Aug 2023 16:32:55 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 3 Aug 2023 16:32:54 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XpLWST64F1QNsNAk5Mln1IsBkV+rTlm/FvsB3pVMJ2I2CK7sxAY95TNOPpsTN3W68/eyHlJ8DCRnBHZbTDXtnEROao3GIfCJyf6E4SsOSCFgSGNf93/7I5qaoBlYry9o/qawo+ngjtiIFo3NUVJAT6oQfk1J73KRitaLI+/bMkTNU2rEEVvNxFEhNsGMJm95Q+TaDuDKp3iagNEMiMY49qoKpoZOGH/zWwalsPlfLm4sEKbeXAb5awmkdId85E+ipI3ICvMnIWUW8PX0fUB59dFc53Ng85+qTXBq73cQYw7uOKMoWOfL0g7iB02qEMG7gadk8yLTOSs/z6CMjSd2gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8UauAPglruVzPTeL1vqBzuPGZ4I2xYduAu/C+s80cd8=;
+ b=dcCFsOuQBL1rmEIcplY7w0iDvaod8c6th96OeQX9TqY5ljPdFzfXFYcUMF5EZxO8FX3kfo1zOcaj8g/Tk8Sa690wDEDhuYGCUMBt1UabO+OgXyPSk9WR8jEDtG5r288h+9U9Ne+QeXgmkn4PQB4fuRimU53d4uR2NasKKwdYedYMeeOaA8ExrSSPg73Kc6hOm6LNR3DuzDft0szjG09JvgegxOcjYl5o0oCMPoEIv7YOGDjCUk+1wulMPRLgk1FVveDaddb+kt+8pWcKBkLVoY4buLaopXrTrz1Dwg4SUqViz06SquFV9QP5jQDbQcBA6Jcdkl//0h69PJVFHkWw2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1691051567; x=1691656367;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pAuYs/QLB03KHLO4kdZKV+yQgSaaMVS+owEl2g8UVew=;
- b=OinXHeMd1J3TBhjnEJAorVBhcxGC5qSG+hUjMeuzVE2EC54SfmvGt85V16q8/E8TSw
- C8cd8MuV27mKRQyCSQhqjtXbu32WTMV4vfCmNe+LVfa8/Lo960ImVgJEZdZw6FZD8tWe
- gCqCMOQqzxfv1l/nuNvquFsqVViEZfSMEKRzo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691051567; x=1691656367;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pAuYs/QLB03KHLO4kdZKV+yQgSaaMVS+owEl2g8UVew=;
- b=CPXOvH42uF18eUKl/fZ8xK4yDWWevomK5H1MaEMjqjHjrO5qyCSdYC0qVah/93HuIs
- VrA0cTzNod7IdeMq6aR1Fn6TMa+uAX+GIJYIuBVN5NJBw8Zf+FbI4v53XKj5jbul2WzR
- b8ipH3GCMl5kVudrRBQFQsc5h0593Z/+HIeF2FhtX38cLqZL6t5jnkuGej98+1KqiZv9
- ZiCKyGsShTPQsOF0MC3ufdD7cMpX2/SwZxhrn4b+dcfhSUNS3W8wHouLsCmLau2XkWg1
- EDiUEg2PUjiwc5ZJ88jXvjLDifZlHCvWdgoc1jSq/pQtKGyr1ZBA3HBFcwN56or2Hs0h
- IBOQ==
-X-Gm-Message-State: ABy/qLZolgIl386ukH+KbNOoM19rk19QuPaKk9SicZfhP0n9etGHUw9X
- YM9jQkkPfS7O/m2/PUS7BHLfhw==
-X-Google-Smtp-Source: APBJJlEzpqwQtx1kmMczULPSvuYG77OrcY8I3p5ckaYrRJ+QUk4Nz+w0rmrKMaE9Kfm2V17UDeA/SQ==
-X-Received: by 2002:a17:906:11a:b0:993:f349:c989 with SMTP id
- 26-20020a170906011a00b00993f349c989mr10926795eje.7.1691051567156; 
- Thu, 03 Aug 2023 01:32:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- x24-20020a170906135800b009930308425csm10124169ejb.31.2023.08.03.01.32.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 01:32:46 -0700 (PDT)
-Date: Thu, 3 Aug 2023 10:32:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Subject: Re: [RFC v1 2/3] udmabuf: Replace pages when there is
- FALLOC_FL_PUNCH_HOLE in memfd
-Message-ID: <ZMtmLAL5XucMtJDV@phenom.ffwll.local>
-Mail-Followup-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>,
- "Chang, Junxiao" <junxiao.chang@intel.com>,
- Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
-References: <20230718082858.1570809-1-vivek.kasireddy@intel.com>
- <20230718082858.1570809-3-vivek.kasireddy@intel.com>
- <ZMpOwgUgYLplUc1j@phenom.ffwll.local>
- <IA0PR11MB7185DFC97B8234F4F46B42F9F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8UauAPglruVzPTeL1vqBzuPGZ4I2xYduAu/C+s80cd8=;
+ b=NkRGhW94kJWcI/V9ULEnqCj7UyCTMuu+MdyTf9bfEHcQXQXyqIq+8Sh0EM9cSP6uc1Uwg29MMCz/8Yq8bFm352wQo6RentXaMgp1OBssubT8eof0AMr5I3B2/h1JhRQrcklWiOJh7aqh2lOwmhe+tTckKgLdXJCVX9TkvUqx38M=
+Received: from SEZPR03MB7616.apcprd03.prod.outlook.com (2603:1096:101:123::9)
+ by SEZPR03MB7375.apcprd03.prod.outlook.com (2603:1096:101:10d::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Thu, 3 Aug
+ 2023 08:32:52 +0000
+Received: from SEZPR03MB7616.apcprd03.prod.outlook.com
+ ([fe80::2310:62b8:e345:dae4]) by SEZPR03MB7616.apcprd03.prod.outlook.com
+ ([fe80::2310:62b8:e345:dae4%7]) with mapi id 15.20.6631.046; Thu, 3 Aug 2023
+ 08:32:52 +0000
+From: =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>
+To: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "fshao@chromium.org" <fshao@chromium.org>
+Subject: Re: [PATCH v2] drm/mediatek: fix uninitialized symbol
+Thread-Topic: [PATCH v2] drm/mediatek: fix uninitialized symbol
+Thread-Index: AQHZc/dVWUY2pJ1cl0a+Yt4DL3ZbCa+5gtAAgARbdwCABPgaAIAWC96A
+Date: Thu, 3 Aug 2023 08:32:51 +0000
+Message-ID: <ecedbe0bd06a67654bc90421569ad6e6bd9ddfe7.camel@mediatek.com>
+References: <20230421021609.7730-1-nancy.lin@mediatek.com>
+ <ae96299cffaacdbf51beae96e3a257c95a04ac95.camel@mediatek.com>
+ <CAC=S1njEG2sV28XAWDw8FoQ0p5w=-sU4i+D-ESfapHMQC1ZW3Q@mail.gmail.com>
+ <7e1124a15395dbb6906c17e240e5011a4274a9b5.camel@mediatek.com>
+In-Reply-To: <7e1124a15395dbb6906c17e240e5011a4274a9b5.camel@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEZPR03MB7616:EE_|SEZPR03MB7375:EE_
+x-ms-office365-filtering-correlation-id: 1035d5ca-b0ec-4523-74fb-08db93fc3a39
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: O32J/DTluzFoqNq/kx67DkFXIafJdFqFzP4LeRueMSniY9vDPOFy9jVQ9mbAqdEl/vUIEMsG6ChmieZjxCYsakPMDRExQIE0IFUP5LwXsqKAzJwP60TSvW82ygU8/Nf3yqFc8uokIz5dpoHjYRgFyAvtWP7k06Dxi6UtugaEpe9UnBB/c8Fqxj7oDgt8aUijLpm/u2oLtovDGQDL3+lnw8jf8AzryFFwYStICghs/oGDtlg6at9WO41+6OGoOUr/mrXlNk4b0xYbya8DXschyAX5lsz+gd0x4Rmajsz0JAzwHT6731fpcdER/asx3lOQREoxCIm1qlWGaHSAmRIQcfl2BElUwmP9qaGiun5a822m/ISM49V88aJ4UbgQJSbfRLs5UuyQJapn/dDIgJHIM1qVxVYy6evVDqly4Bcjnlbq5d5U4Kh3Fbissh+JadoF0rNgydKZ/jLtmE5aFtVlyednvjJSo6KCWv9V0q36oLZLQnVKz1Z0C4kuCH+YeK/+ihqNMWjLfwFA5pju0ptkBc6o1EAmRjP3d1DEOKaQHRQd9cFuWQmqT1Ww2dyIq5+iMBVjdLbkHjTlJpsigZmbD3mX2lqNvsEsPttkGwwJF3S5z9kkRF4Az3Py1yvD1O9xeZj6YhJlGHTVL2K1NKkUwrl+eQFM//7dM8Mr8VUGiyA=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR03MB7616.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(396003)(136003)(346002)(366004)(39860400002)(451199021)(122000001)(53546011)(6506007)(26005)(38100700002)(186003)(38070700005)(2616005)(83380400001)(2906002)(85182001)(36756003)(5660300002)(7416002)(8676002)(478600001)(110136005)(86362001)(6512007)(54906003)(71200400001)(6486002)(41300700001)(316002)(91956017)(8936002)(64756008)(66446008)(66476007)(76116006)(66946007)(66556008)(4326008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZXQvcTYxclJPTnZieVJxVm9aRmFSbWlxSzdlSjBYR2NBK2ozL3JuZlptcmRp?=
+ =?utf-8?B?YTBwakJNaTFLMWhFMzVoYXFvckxaaGcvdGh2MEhqRmh6MlZYMFFqcjZEOVpJ?=
+ =?utf-8?B?cFFud3k1ZkkzM2M1WGFRL3hLaDhab01ucTNTeHlWU1BFdGtFU01oTGxXSUpN?=
+ =?utf-8?B?QVNkcHp3dEgyY3Zydi9MRnBoTC9qYmNRNlVDSHBTU1lJNk5ERTg3UER3UWc5?=
+ =?utf-8?B?N2EwZHlvUktUSmNENGdPc0JTNmQwVGxQZm04SVlTVUNOZzVqZ1F6VHFQZFha?=
+ =?utf-8?B?OVlOTjNrclV4bTAxQWc3RTFPbGo4UjBhbnRRUVRXQ3d4eG1sbHJ5WVAyVVZt?=
+ =?utf-8?B?aHhlRVN0R1Yzc2tmQ1NPd2cxc0RrTGg5Q3JrVzZ1cnhaVW0ybi92Ym1OeFVE?=
+ =?utf-8?B?bVZCOE9KWUZvSGVVWEpja3VYd2JzVTIwSXcxM0hmVUtLMzAxRXQ0N2dIK2Vn?=
+ =?utf-8?B?cVJ3QTNBS0trdzhsUUpCUmFlaE55N3MvczUrN1NveTJxanRTMy85bHovL2NX?=
+ =?utf-8?B?N3M5S2hzMVI0WDMxa3FGemtuelVjYWZmYktnNnN5L0hwVmpudVQvSnRRcnox?=
+ =?utf-8?B?a2V6T3MrMWdVTHNEeDJJNFpXYnVpZHdTRlhZWlMrN29hMGhWTkZhM2o1VFN2?=
+ =?utf-8?B?dXYwWWp1UDZmbWtxenlZczJGRGs0ODVDQ09jcHhEd3ovWnNmRVVjUGl1cktw?=
+ =?utf-8?B?WXBVYUw3M2NqWWNXU0VFdE1DZVBOWDI5eGhSRHVrK1cxWkszZzJLaGN1N0hX?=
+ =?utf-8?B?cVpsVTlpOENkMHY0YzVzNXM2d0MxcDlpSmFDYVZLb2d4NnZvSTI1VnJxaVE5?=
+ =?utf-8?B?TCtXbnR0dHh5dFUvd3pOVEVtYlBEbFdncHNEQXBKS0svb0daZG9Ccy82WFRZ?=
+ =?utf-8?B?OURSaVE2VmRhRi9qNG5ETHIzL050RWdET3NHY0FWdmovQkg1dUh2bXcyYzVn?=
+ =?utf-8?B?WkIzaWZRSEJvSEVGUVJRanhxbEdDamtEQU5SQUJTR0hoTUFrak13dXY4L09j?=
+ =?utf-8?B?WDdlMjYzNFVPODZXOXY0aU9iL0Uvclg4RDY0aC9oZ25qVUprRURyTWgxN3V5?=
+ =?utf-8?B?T3lBNEtTVGVza3JsMG50TjBQS0QyUFgyZDFxNFJsWWVZZmp1SDhoMDhHWFFP?=
+ =?utf-8?B?dDA1YWFRK2ZUblR1YVlCeEdTUUE1dC9hWnlIM2p0M2FlQXNzOVZWVW9MMUtp?=
+ =?utf-8?B?QUFyNUlBajJUbWxvd1lpbGQ3eHBCMlNtZXZwdWU3YTRKNFNYOFNSVWdoaTFs?=
+ =?utf-8?B?VFRmaFNkR3N2Mm5NSVJUM05GTmtSMG5uZXp1NDFRSVppR284eXA4VUhET1dQ?=
+ =?utf-8?B?Qmt3MkxPUHpEUkl6enlCdmRVMDFmczR1VDR4YjkxeC8xejhZSHl4ZXJxUnRv?=
+ =?utf-8?B?N0Rkd1liS2FKYnVFd2d1dyszcHYxWnJoM2hUanllQkR3ZWRrUmxzdjVHMWsx?=
+ =?utf-8?B?eVA0MGJwR1RUM3ZMdUViRENKTHVEckpQaS9KRi9NZWNCOXZyYVM3Q2pmZDNV?=
+ =?utf-8?B?MFVESzRPNHhIVzNiYXNXV3BqTU1oNDR3ZUdNZ3RSZFhSMXp6MHhBU2VjbWgw?=
+ =?utf-8?B?WjBLL2hrM1RVV0l4dmJNWHZBZ0hPVDZFdTFVTk12b1JtLyt4MW1rci8rNml1?=
+ =?utf-8?B?ekQ3M2JXSmI0Nkgyd1B6REpwZCtlMDNxOWRVQVhCVE4wa2g4bTgwL29SQnVV?=
+ =?utf-8?B?OGVPdzBPaHFOcnZjMmxvc0t0UGxpVFhqVk9kYWRjK2pPUzcxTDFncm5UNzBK?=
+ =?utf-8?B?WG11ZmxtKzdLZ0JqanpkTTROUFBKMWVRbkQ4OVZvNTN5N0cwOEhYN0w2RG1Z?=
+ =?utf-8?B?SUMzek95cmhTKytDOCtDTUx0NFNoSGJoTzJOQ05QcHBGMzFJOTAweHRMQ0ds?=
+ =?utf-8?B?Tk9jTEZaUWpwMVJnUDIyNVFPUWd3SitHVXljZW8vS3JLdmhiU09FZUlXWlgz?=
+ =?utf-8?B?TS9yMU5HS1VFQWQ1TFhuRmp6R0FaUFJ4d2FOYzlOaTJ4bVcxS2VPcGUrQ0da?=
+ =?utf-8?B?SWdVZEZyOWdKVEVtKzB3dG54ZGhHaERrZld6V3ZvT3Z1MGhhdkQvRkluZUhm?=
+ =?utf-8?B?c3lhZUF1Z0lEMWxDYWRtakxxN3pCaFdlMHdIU0NhbEUzL1ZpRzRKdmwrMjZv?=
+ =?utf-8?B?MERUUXZHT2lOdkgwOEF1V3R3VnUzV2xIOGVzOFliYjNXTTdCS0FNWUxKU1kz?=
+ =?utf-8?B?eGc9PQ==?=
+Content-ID: <DFDBC3588F495C49B1B0E8ED31381835@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB7185DFC97B8234F4F46B42F9F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR03MB7616.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1035d5ca-b0ec-4523-74fb-08db93fc3a39
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Aug 2023 08:32:52.0918 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: h5yQjOouypQdiItFoZeDh/nbrPOPpYC+e51DVm2HgS0EsS0cHHi5cuMEFcTSehCbhzGhjDmIqPZQ+3j9WH+bdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB7375
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_002_1801065578.374948272"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,417 +162,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
+Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 03, 2023 at 08:24:07AM +0000, Kasireddy, Vivek wrote:
-> Hi Daniel,
-> 
-> > 
-> > On Tue, Jul 18, 2023 at 01:28:57AM -0700, Vivek Kasireddy wrote:
-> > > When a hole is punched in the memfd or when a page is replaced for
-> > > any reason, the udmabuf driver needs to get notified in order to
-> > > update its list of pages with the new page. To accomplish this, we
-> > > first identify the vma ranges where pages associated with a given
-> > > udmabuf are mapped to and then register a handler for update_mapping
-> > > mmu notifier for receiving mapping updates.
-> > >
-> > > Once we get notified about a new page faulted in at a given offset
-> > > in the mapping (backed by shmem or hugetlbfs), the list of pages
-> > > is updated and we also zap the relevant PTEs associated with the
-> > > vmas that have mmap'd the udmabuf fd.
-> > >
-> > > Cc: David Hildenbrand <david@redhat.com>
-> > > Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> > > Cc: Hugh Dickins <hughd@google.com>
-> > > Cc: Peter Xu <peterx@redhat.com>
-> > > Cc: Jason Gunthorpe <jgg@nvidia.com>
-> > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > Cc: Dongwon Kim <dongwon.kim@intel.com>
-> > > Cc: Junxiao Chang <junxiao.chang@intel.com>
-> > > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> > 
-> > I think the long thread made it clear already, so just for the record:
-> > This wont work. udmabuf is very intentionally about pin_user_page
-> > semantics, if you change the underlying mapping, you get to keep all the
-> > pieces.
-> > 
-> > The _only_ way to make this work by implementing the dma_buf move
-> > notification infrastructure, and most importers can't cope with such
-> > dynamic dma-buf. And so most likely will not solve your use-case.
-> Right, we do have to call move_notify() at some point to let the importers
-> know about the backing memory changes but as you suggest, unfortunately,
-> most importers don't handle moves. However, I guess I could try implementing
-> it in i915 and also add a helper in GEM.
-> 
-> > 
-> > Everything else races in a fundamental and unfixable way.
-> I think there might still be some options to address this use-case in a safe
-> and race-free way particularly given the fact that with udmabuf driver,
-> the writes and reads do not occur simultaneously. We use DMA fences
-> in both the Host and Guest to ensure this synchronization.
+--__=_Part_Boundary_002_1801065578.374948272
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-One more I've forgotten. You cannot combine udmabuf with move_notify, the
-locking doesn't work. There's only three ways to make this happen:
+PHByZT4NCkhpJiMzMjtDSyYjMzI7YW5kJiMzMjtGZWksDQoNClRoYW5rcyYjMzI7Zm9yJiMzMjt0
+aGUmIzMyO3Jldmlldy4NCg0KT24mIzMyO1RodSwmIzMyOzIwMjMtMDctMjAmIzMyO2F0JiMzMjsw
+Nzo1MiYjMzI7KzAwMDAsJiMzMjtDSyYjMzI7SHUmIzMyOygmIzMyOTkzOyYjMjA0MjY7JiMyMDgw
+OTspJiMzMjt3cm90ZToNCiZndDsmIzMyO0hpLCYjMzI7RmVpOg0KJmd0OyYjMzI7DQomZ3Q7JiMz
+MjtPbiYjMzI7TW9uLCYjMzI7MjAyMy0wNy0xNyYjMzI7YXQmIzMyOzExOjU5JiMzMjsrMDgwMCwm
+IzMyO0ZlaSYjMzI7U2hhbyYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYj
+MzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtzJiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0
+YWNobWVudHMNCiZndDsmIzMyOyZndDsmIzMyO3VudGlsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjt5b3Um
+IzMyO2hhdmUmIzMyO3ZlcmlmaWVkJiMzMjt0aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYj
+MzI7Y29udGVudC4NCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7SGkmIzMyO0NLLA0KJmd0OyYjMzI7
+Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtPbiYjMzI7RnJpLCYjMzI7SnVsJiMzMjsxNCwm
+IzMyOzIwMjMmIzMyO2F0JiMzMjs1OjI3JiM4MjM5O1BNJiMzMjtDSyYjMzI7SHUmIzMyOygmIzMy
+OTkzOyYjMjA0MjY7JiMyMDgwOTspJiMzMjsmbHQ7Y2suaHVAbWVkaWF0ZWsuY29tJmd0Ow0KJmd0
+OyYjMzI7Jmd0OyYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsm
+IzMyOyZndDsmIzMyOyZndDsmIzMyO0hpLCYjMzI7TmFuY3k6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Z3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO09uJiMzMjtGcmksJiMzMjsyMDIz
+LTA0LTIxJiMzMjthdCYjMzI7MTA6MTYmIzMyOyswODAwLCYjMzI7TmFuY3kuTGluJiMzMjt3cm90
+ZToNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7c25pcA0KJmd0OyYjMzI7
+Jmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtJbiYjMzI7bGlu
+ZSYjMzI7NTY2LCYjMzI7dGhlJiMzMjtzdGF0ZW1lbnQmIzMyO2lzDQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO2lmJiMzMjsobm9kbykmIzMy
+O3sNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjtjb21wX3BkZXYmIzMyOz0mIzMyOy4uLg0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Jmd0OyYjMzI7fQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsmZ3Q7JiMzMjtUaGUmIzMyO2NvbW1lbnQmIzMyO3NheXMmIzMyO3RoYXQmIzMyO29ubHkmIzMy
+O292bF9hZGFwdG9lciYjMzI7aGFzJiMzMjtubyYjMzI7ZGV2aWNlJiMzMjtub2RlLCYjMzI7c28N
+CiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO3RoZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
+MzI7Y2hlY2tpbmcmIzMyO3Nob3VsZCYjMzI7YmUNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMy
+Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7aWYmIzMyOyh0eXBlJiMzMjshPSYjMzI7TVRL
+X0RJU1BfT1ZMX0FEQVBUT1IpJiMzMjt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Y29tcF9wZGV2JiMzMjs9JiMzMjsu
+Li4NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO30NCiZndDsmIzMyOyZndDsmIzMyOyZndDsm
+IzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7YW5kJiMzMjtsYXRlciYjMzI7aXQmIzMy
+O3dvdWxkJiMzMjtyZXR1cm4mIzMyO3doZW4mIzMyO3R5cGUmIzMyOz0mIzMyO01US19ESVNQX09W
+TF9BREFQVE9SLA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7c28mIzMyO3RoZXJlJiMzMjt3
+b3VsZCYjMzI7YmUmIzMyO25vJiMzMjtwcm9ibGVtJiMzMjtvZiYjMzI7dW5pbml0aWFsaXplZCYj
+MzI7c3ltYm9sLg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtUaGF0JiMz
+Mjtzb3VuZHMmIzMyO2ZhaXIsJiMzMjtidXQmIzMyO0lJVUMmIzMyO3doYXQmIzMyO05hbmN5JiMz
+Mjt0cmllcyYjMzI7dG8mIzMyO3Jlc29sdmUmIzMyO2hlcmUmIzMyO2lzJiMzMjt0aGUNCiZndDsm
+IzMyOyZndDsmIzMyO2ZhbHNlLXBvc2l0aXZlJiMzMjtTbWF0Y2gmIzMyO3dhcm5pbmcuDQomZ3Q7
+JiMzMjsmZ3Q7JiMzMjtIb3cmIzMyO2Fib3V0JiMzMjt0aGlzOiYjMzI7Z2l2ZW4mIzMyO3RoZSYj
+MzI7JiM5NjtpZiYjMzI7KG5vZGUpJiM5NjsmIzMyO2Jsb2NrJiMzMjt3YXMmIzMyO2V4Y2x1c2l2
+ZWx5JiMzMjthZGRlZA0KJmd0OyYjMzI7Jmd0OyYjMzI7Zm9yDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtv
+dmxfYWRhcHRvciYjMzI7aW4mIzMyO1sxXSwmIzMyO3BsdXMmIzMyO3RoZSYjMzI7aW5pdCYjMzI7
+ZnVuY3Rpb24mIzMyO3dpbGwmIzMyO2ltbWVkaWF0ZWx5JiMzMjtyZXR1cm4NCiZndDsmIzMyOyZn
+dDsmIzMyO2FmdGVyJiMzMjt0aGF0JiMzMjtpbiYjMzI7dGhpcyYjMzI7Y2FzZSwmIzMyO2l0JiMz
+MjtzaG91bGQmIzMyO2JlJiMzMjtzYWZlJiMzMjt0byYjMzI7ZG8mIzMyO3RoZSYjMzI7Zm9sbG93
+aW5nDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyYjOTY7JiM5NjsmIzk2
+Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7LyomIzMyO05vdCYjMzI7YWxsJiMzMjtkcm0mIzMyO2NvbXBv
+bmVudHMmIzMyO2hhdmUmIzMyO2EmIzMyO0RUUyYjMzI7ZGV2aWNlJiMzMjtub2RlLi4uJiMzMjsq
+Lw0KJmd0OyYjMzI7Jmd0OyYjMzI7aWYmIzMyOyhub2RlJiMzMjs9PSYjMzI7TlVMTCkNCiZndDsm
+IzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMzMjswOw0KJmd0OyYjMzI7
+Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtjb21wX3BkZXYmIzMyOz0mIzMyO29mX2ZpbmRf
+ZGV2aWNlX2J5X25vZGUobm9kZSk7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsuLi4NCiZndDsmIzMyOyZn
+dDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7aWYmIzMyOyh0eXBlJiMzMjs9PSYjMzI7TVRLX0RJ
+U1BfQUFMJiMzMjt8fA0KJmd0OyYjMzI7Jmd0OyYjMzI7Li4uDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
+Izk2OyYjOTY7JiM5NjsNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7d2hp
+Y2gmIzMyO2lzJiMzMjtlcXVpdmFsZW50JiMzMjt0byYjMzI7YWRkaW5nJiMzMjthJiMzMjsmIzk2
+O25vZGUmIzMyOz09JiMzMjtOVUxMJiM5NjsmIzMyO2NoZWNrJiMzMjtiZWZvcmUmIzMyO1sxXS4N
+CiZndDsmIzMyOyZndDsmIzMyO1RoaXMmIzMyO3Nob3VsZCYjMzI7c3VwcHJlc3MmIzMyO3RoZSYj
+MzI7U21hdGNoJiMzMjt3YXJuaW5nJiMzMjtiZWNhdXNlJiMzMjsmIzk2O2NvbXBfcGRldiYjOTY7
+JiMzMjt3aWxsJiMzMjtiZQ0KJmd0OyYjMzI7Jmd0OyYjMzI7KGFnYWluKSYjMzI7dW5jb25kaXRp
+b25hbGx5JiMzMjthc3NpZ25lZCYjMzI7dG8mIzMyO3NvbWV0aGluZywmIzMyO2FuZCYjMzI7dGhl
+JiMzMjsmIzk2O3R5cGUmIzMyOz09DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtNVEtfRElTUF9PVkxfQURB
+UFRPUiYjOTY7JiMzMjtsaW5lJiMzMjtjYW4mIzMyO2JlJiMzMjtkcm9wcGVkJiMzMjthbHNvJiMz
+Mjsob3B0aW9uYWwmIzYzOykuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1RoaXMmIzMyO3NvbHV0aW9u
+JiMzMjthbHNvJiMzMjtsb29rcyYjMzI7Z29vZCYjMzI7dG8mIzMyO21lLg0KJmd0OyYjMzI7DQom
+Z3Q7JiMzMjtSZWdhcmRzLA0KJmd0OyYjMzI7Q0sNCiZndDsmIzMyOw0KSSYjMzI7d2lsbCYjMzI7
+c2VuZCYjMzI7dGhlJiMzMjtuZXh0JiMzMjt2ZXJzaW9uJiMzMjtvZiYjMzI7bW9kaWZpY2F0aW9u
+cyYjMzI7YmFzZWQmIzMyO29uJiMzMjt5b3VyDQpzdWdnZXN0aW9ucy4NCg0KVGhhbmtzLA0KTmFu
+Y3kNCg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtbMV06JiMzMjtjb21t
+aXQmIzMyOzBkOWVlZTkxMThiNyYjMzI7KCZxdW90O2RybS9tZWRpYXRlazomIzMyO0FkZCYjMzI7
+ZHJtJiMzMjtvdmxfYWRhcHRvciYjMzI7c3ViDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtkcml2ZXImIzMy
+O2ZvciYjMzI7TVQ4MTk1JnF1b3Q7KQ0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjtSZWdhcmRzLA0KJmd0OyYjMzI7Jmd0OyYjMzI7RmVpDQoNCjwvcHJlPjwhLS10eXBlOnRl
+eHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkg
+Tm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGlu
+IHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJl
+IGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhl
+bXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVk
+IHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFu
+eSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5n
+IG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykg
+YnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5
+IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0
+aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1h
+aWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSBy
+ZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0
+aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwg
+YW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90
+aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-- You put the mmu_notifier into each driver, which means these (usually
-  called userptr memory areas) are _not_ shareable as dma-buf. Every
-  driver has to set up their own userptr mapping to make this work.
+--__=_Part_Boundary_002_1801065578.374948272
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-- pin_user_pages, which is what udmabuf does
+SGkgQ0sgYW5kIEZlaSwNCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQpPbiBUaHUsIDIwMjMt
+MDctMjAgYXQgMDc6NTIgKzAwMDAsIENLIEh1ICjog6Hkv4rlhYkpIHdyb3RlOg0KPiBIaSwgRmVp
+Og0KPiANCj4gT24gTW9uLCAyMDIzLTA3LTE3IGF0IDExOjU5ICswODAwLCBGZWkgU2hhbyB3cm90
+ZToNCj4gPiAgCSANCj4gPiBFeHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBub3QgY2xpY2sgbGlu
+a3Mgb3Igb3BlbiBhdHRhY2htZW50cw0KPiA+IHVudGlsDQo+ID4geW91IGhhdmUgdmVyaWZpZWQg
+dGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gPiAgSGkgQ0ssDQo+ID4gDQo+ID4gT24gRnJp
+LCBKdWwgMTQsIDIwMjMgYXQgNToyN+KAr1BNIENLIEh1ICjog6Hkv4rlhYkpIDxjay5odUBtZWRp
+YXRlay5jb20+DQo+ID4gd3JvdGU6DQo+ID4gPiANCj4gPiA+IEhpLCBOYW5jeToNCj4gPiA+IA0K
+PiA+ID4gT24gRnJpLCAyMDIzLTA0LTIxIGF0IDEwOjE2ICswODAwLCBOYW5jeS5MaW4gd3JvdGU6
+DQo+ID4gDQo+ID4gc25pcA0KPiA+ID4gDQo+ID4gPiBJbiBsaW5lIDU2NiwgdGhlIHN0YXRlbWVu
+dCBpcw0KPiA+ID4gDQo+ID4gPiBpZiAobm9kbykgew0KPiA+ID4gICAgICAgICBjb21wX3BkZXYg
+PSAuLi4NCj4gPiA+IH0NCj4gPiA+IA0KPiA+ID4gVGhlIGNvbW1lbnQgc2F5cyB0aGF0IG9ubHkg
+b3ZsX2FkYXB0b2VyIGhhcyBubyBkZXZpY2Ugbm9kZSwgc28NCj4gPiA+IHRoZQ0KPiA+ID4gY2hl
+Y2tpbmcgc2hvdWxkIGJlDQo+ID4gPiANCj4gPiA+IGlmICh0eXBlICE9IE1US19ESVNQX09WTF9B
+REFQVE9SKSB7DQo+ID4gPiAgICAgICAgIGNvbXBfcGRldiA9IC4uLg0KPiA+ID4gfQ0KPiA+ID4g
+DQo+ID4gPiBhbmQgbGF0ZXIgaXQgd291bGQgcmV0dXJuIHdoZW4gdHlwZSA9IE1US19ESVNQX09W
+TF9BREFQVE9SLA0KPiA+ID4gc28gdGhlcmUgd291bGQgYmUgbm8gcHJvYmxlbSBvZiB1bmluaXRp
+YWxpemVkIHN5bWJvbC4NCj4gPiANCj4gPiBUaGF0IHNvdW5kcyBmYWlyLCBidXQgSUlVQyB3aGF0
+IE5hbmN5IHRyaWVzIHRvIHJlc29sdmUgaGVyZSBpcyB0aGUNCj4gPiBmYWxzZS1wb3NpdGl2ZSBT
+bWF0Y2ggd2FybmluZy4NCj4gPiBIb3cgYWJvdXQgdGhpczogZ2l2ZW4gdGhlIGBpZiAobm9kZSlg
+IGJsb2NrIHdhcyBleGNsdXNpdmVseSBhZGRlZA0KPiA+IGZvcg0KPiA+IG92bF9hZGFwdG9yIGlu
+IFsxXSwgcGx1cyB0aGUgaW5pdCBmdW5jdGlvbiB3aWxsIGltbWVkaWF0ZWx5IHJldHVybg0KPiA+
+IGFmdGVyIHRoYXQgaW4gdGhpcyBjYXNlLCBpdCBzaG91bGQgYmUgc2FmZSB0byBkbyB0aGUgZm9s
+bG93aW5nDQo+ID4gDQo+ID4gYGBgDQo+ID4gLyogTm90IGFsbCBkcm0gY29tcG9uZW50cyBoYXZl
+IGEgRFRTIGRldmljZSBub2RlLi4uICovDQo+ID4gaWYgKG5vZGUgPT0gTlVMTCkNCj4gPiAgICAg
+cmV0dXJuIDA7DQo+ID4gDQo+ID4gY29tcF9wZGV2ID0gb2ZfZmluZF9kZXZpY2VfYnlfbm9kZShu
+b2RlKTsNCj4gPiAuLi4NCj4gPiANCj4gPiBpZiAodHlwZSA9PSBNVEtfRElTUF9BQUwgfHwNCj4g
+PiAuLi4NCj4gPiBgYGANCj4gPiANCj4gPiB3aGljaCBpcyBlcXVpdmFsZW50IHRvIGFkZGluZyBh
+IGBub2RlID09IE5VTExgIGNoZWNrIGJlZm9yZSBbMV0uDQo+ID4gVGhpcyBzaG91bGQgc3VwcHJl
+c3MgdGhlIFNtYXRjaCB3YXJuaW5nIGJlY2F1c2UgYGNvbXBfcGRldmAgd2lsbCBiZQ0KPiA+IChh
+Z2FpbikgdW5jb25kaXRpb25hbGx5IGFzc2lnbmVkIHRvIHNvbWV0aGluZywgYW5kIHRoZSBgdHlw
+ZSA9PQ0KPiA+IE1US19ESVNQX09WTF9BREFQVE9SYCBsaW5lIGNhbiBiZSBkcm9wcGVkIGFsc28g
+KG9wdGlvbmFsPykuDQo+IA0KPiBUaGlzIHNvbHV0aW9uIGFsc28gbG9va3MgZ29vZCB0byBtZS4N
+Cj4gDQo+IFJlZ2FyZHMsDQo+IENLDQo+IA0KSSB3aWxsIHNlbmQgdGhlIG5leHQgdmVyc2lvbiBv
+ZiBtb2RpZmljYXRpb25zIGJhc2VkIG9uIHlvdXINCnN1Z2dlc3Rpb25zLg0KDQpUaGFua3MsDQpO
+YW5jeQ0KDQo+ID4gDQo+ID4gWzFdOiBjb21taXQgMGQ5ZWVlOTExOGI3ICgiZHJtL21lZGlhdGVr
+OiBBZGQgZHJtIG92bF9hZGFwdG9yIHN1Yg0KPiA+IGRyaXZlciBmb3IgTVQ4MTk1IikNCj4gPiAN
+Cj4gPiBSZWdhcmRzLA0KPiA+IEZlaQ0K
 
-- You make the dma-buf export allocator specific, because then you can
-  more directly tie into the locking and bypass the gup/mmu_notifer rules.
-  Might need a full rewrite of the allocator though, but at least in
-  theory it should be possible to have a memfd ioctl to export as a dmabuf
-  (with the only requirement that it needs to be size-sealed, because
-  dma-buf never change size).
+--__=_Part_Boundary_002_1801065578.374948272--
 
-Trying to pull off what you're trying to do with udmabuf either races or
-deadlocks.
-
-Cheers, Daniel
-
-> 
-> Thanks,
-> Vivek
-> 
-> > -Daniel
-> > 
-> > > ---
-> > >  drivers/dma-buf/udmabuf.c | 172
-> > ++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 172 insertions(+)
-> > >
-> > > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > > index 10c47bf77fb5..189a36c41906 100644
-> > > --- a/drivers/dma-buf/udmabuf.c
-> > > +++ b/drivers/dma-buf/udmabuf.c
-> > > @@ -4,6 +4,8 @@
-> > >  #include <linux/dma-buf.h>
-> > >  #include <linux/dma-resv.h>
-> > >  #include <linux/highmem.h>
-> > > +#include <linux/rmap.h>
-> > > +#include <linux/mmu_notifier.h>
-> > >  #include <linux/init.h>
-> > >  #include <linux/kernel.h>
-> > >  #include <linux/memfd.h>
-> > > @@ -30,6 +32,23 @@ struct udmabuf {
-> > >  	struct sg_table *sg;
-> > >  	struct miscdevice *device;
-> > >  	pgoff_t *offsets;
-> > > +	struct udmabuf_vma_range *ranges;
-> > > +	unsigned int num_ranges;
-> > > +	struct mmu_notifier notifier;
-> > > +	struct mutex mn_lock;
-> > > +	struct list_head mmap_vmas;
-> > > +};
-> > > +
-> > > +struct udmabuf_vma_range {
-> > > +	struct file *memfd;
-> > > +	pgoff_t ubufindex;
-> > > +	unsigned long start;
-> > > +	unsigned long end;
-> > > +};
-> > > +
-> > > +struct udmabuf_mmap_vma {
-> > > +	struct list_head vma_link;
-> > > +	struct vm_area_struct *vma;
-> > >  };
-> > >
-> > >  static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
-> > > @@ -42,28 +61,54 @@ static vm_fault_t udmabuf_vm_fault(struct
-> > vm_fault *vmf)
-> > >  	if (pgoff >= ubuf->pagecount)
-> > >  		return VM_FAULT_SIGBUS;
-> > >
-> > > +	mutex_lock(&ubuf->mn_lock);
-> > >  	pfn = page_to_pfn(ubuf->pages[pgoff]);
-> > >  	if (ubuf->offsets) {
-> > >  		pfn += ubuf->offsets[pgoff] >> PAGE_SHIFT;
-> > >  	}
-> > > +	mutex_unlock(&ubuf->mn_lock);
-> > >
-> > >  	return vmf_insert_pfn(vma, vmf->address, pfn);
-> > >  }
-> > >
-> > > +static void udmabuf_vm_close(struct vm_area_struct *vma)
-> > > +{
-> > > +	struct udmabuf *ubuf = vma->vm_private_data;
-> > > +	struct udmabuf_mmap_vma *mmap_vma;
-> > > +
-> > > +	list_for_each_entry(mmap_vma, &ubuf->mmap_vmas, vma_link) {
-> > > +		if (mmap_vma->vma == vma) {
-> > > +			list_del(&mmap_vma->vma_link);
-> > > +			kfree(mmap_vma);
-> > > +			break;
-> > > +		}
-> > > +	}
-> > > +}
-> > > +
-> > >  static const struct vm_operations_struct udmabuf_vm_ops = {
-> > >  	.fault = udmabuf_vm_fault,
-> > > +	.close = udmabuf_vm_close,
-> > >  };
-> > >
-> > >  static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct
-> > *vma)
-> > >  {
-> > >  	struct udmabuf *ubuf = buf->priv;
-> > > +	struct udmabuf_mmap_vma *mmap_vma;
-> > >
-> > >  	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
-> > >  		return -EINVAL;
-> > >
-> > > +	mmap_vma = kmalloc(sizeof(*mmap_vma), GFP_KERNEL);
-> > > +	if (!mmap_vma)
-> > > +		return -ENOMEM;
-> > > +
-> > >  	vma->vm_ops = &udmabuf_vm_ops;
-> > >  	vma->vm_private_data = ubuf;
-> > >  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND |
-> > VM_DONTDUMP);
-> > > +
-> > > +	mmap_vma->vma = vma;
-> > > +	list_add(&mmap_vma->vma_link, &ubuf->mmap_vmas);
-> > > +
-> > >  	return 0;
-> > >  }
-> > >
-> > > @@ -109,6 +154,7 @@ static struct sg_table *get_sg_table(struct device
-> > *dev, struct dma_buf *buf,
-> > >  	if (ret < 0)
-> > >  		goto err_alloc;
-> > >
-> > > +	mutex_lock(&ubuf->mn_lock);
-> > >  	for_each_sg(sg->sgl, sgl, ubuf->pagecount, i) {
-> > >  		offset = ubuf->offsets ? ubuf->offsets[i] : 0;
-> > >  		sg_set_page(sgl, ubuf->pages[i], PAGE_SIZE, offset);
-> > > @@ -116,9 +162,12 @@ static struct sg_table *get_sg_table(struct device
-> > *dev, struct dma_buf *buf,
-> > >  	ret = dma_map_sgtable(dev, sg, direction, 0);
-> > >  	if (ret < 0)
-> > >  		goto err_map;
-> > > +
-> > > +	mutex_unlock(&ubuf->mn_lock);
-> > >  	return sg;
-> > >
-> > >  err_map:
-> > > +	mutex_unlock(&ubuf->mn_lock);
-> > >  	sg_free_table(sg);
-> > >  err_alloc:
-> > >  	kfree(sg);
-> > > @@ -157,6 +206,9 @@ static void release_udmabuf(struct dma_buf *buf)
-> > >
-> > >  	for (pg = 0; pg < ubuf->pagecount; pg++)
-> > >  		put_page(ubuf->pages[pg]);
-> > > +
-> > > +	mmu_notifier_unregister(&ubuf->notifier, ubuf->notifier.mm);
-> > > +	kfree(ubuf->ranges);
-> > >  	kfree(ubuf->offsets);
-> > >  	kfree(ubuf->pages);
-> > >  	kfree(ubuf);
-> > > @@ -208,6 +260,93 @@ static const struct dma_buf_ops udmabuf_ops = {
-> > >  	.end_cpu_access    = end_cpu_udmabuf,
-> > >  };
-> > >
-> > > +static void invalidate_mmap_vmas(struct udmabuf *ubuf,
-> > > +				 struct udmabuf_vma_range *range,
-> > > +				 unsigned long address, unsigned long size)
-> > > +{
-> > > +	struct udmabuf_mmap_vma *vma;
-> > > +	unsigned long start = range->ubufindex << PAGE_SHIFT;
-> > > +
-> > > +	start += address - range->start;
-> > > +	list_for_each_entry(vma, &ubuf->mmap_vmas, vma_link) {
-> > > +		zap_vma_ptes(vma->vma, vma->vma->vm_start + start,
-> > size);
-> > > +	}
-> > > +}
-> > > +
-> > > +static struct udmabuf_vma_range *find_udmabuf_range(struct udmabuf
-> > *ubuf,
-> > > +						    unsigned long address)
-> > > +{
-> > > +	struct udmabuf_vma_range *range;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < ubuf->num_ranges; i++) {
-> > > +		range = &ubuf->ranges[i];
-> > > +		if (address >= range->start && address < range->end)
-> > > +			return range;
-> > > +	}
-> > > +
-> > > +	return NULL;
-> > > +}
-> > > +
-> > > +static void update_udmabuf(struct mmu_notifier *mn, struct mm_struct
-> > *mm,
-> > > +			   unsigned long address, unsigned long pfn)
-> > > +{
-> > > +	struct udmabuf *ubuf = container_of(mn, struct udmabuf, notifier);
-> > > +	struct udmabuf_vma_range *range = find_udmabuf_range(ubuf,
-> > address);
-> > > +	struct page *old_page, *new_page;
-> > > +	pgoff_t pgoff, pgshift = PAGE_SHIFT;
-> > > +	unsigned long size = 0;
-> > > +
-> > > +	if (!range || !pfn_valid(pfn))
-> > > +		return;
-> > > +
-> > > +	if (is_file_hugepages(range->memfd))
-> > > +		pgshift = huge_page_shift(hstate_file(range->memfd));
-> > > +
-> > > +	mutex_lock(&ubuf->mn_lock);
-> > > +	pgoff = range->ubufindex + ((address - range->start) >> pgshift);
-> > > +	old_page = ubuf->pages[pgoff];
-> > > +	new_page = pfn_to_page(pfn);
-> > > +
-> > > +	do {
-> > > +		ubuf->pages[pgoff] = new_page;
-> > > +		get_page(new_page);
-> > > +		put_page(old_page);
-> > > +		size += PAGE_SIZE;
-> > > +	} while (ubuf->pages[++pgoff] == old_page);
-> > > +
-> > > +	mutex_unlock(&ubuf->mn_lock);
-> > > +	invalidate_mmap_vmas(ubuf, range, address, size);
-> > > +}
-> > > +
-> > > +static const struct mmu_notifier_ops udmabuf_update_ops = {
-> > > +	.update_mapping = update_udmabuf,
-> > > +};
-> > > +
-> > > +static struct vm_area_struct *find_guest_ram_vma(struct udmabuf *ubuf,
-> > > +						 struct mm_struct
-> > *vmm_mm)
-> > > +{
-> > > +	struct vm_area_struct *vma = NULL;
-> > > +	MA_STATE(mas, &vmm_mm->mm_mt, 0, 0);
-> > > +	unsigned long addr;
-> > > +	pgoff_t pg;
-> > > +
-> > > +	mas_set(&mas, 0);
-> > > +	mmap_read_lock(vmm_mm);
-> > > +	mas_for_each(&mas, vma, ULONG_MAX) {
-> > > +		for (pg = 0; pg < ubuf->pagecount; pg++) {
-> > > +			addr = page_address_in_vma(ubuf->pages[pg], vma);
-> > > +			if (addr == -EFAULT)
-> > > +				break;
-> > > +		}
-> > > +		if (addr != -EFAULT)
-> > > +			break;
-> > > +	}
-> > > +	mmap_read_unlock(vmm_mm);
-> > > +
-> > > +	return vma;
-> > > +}
-> > > +
-> > >  #define SEALS_WANTED (F_SEAL_SHRINK)
-> > >  #define SEALS_DENIED (F_SEAL_WRITE)
-> > >
-> > > @@ -218,6 +357,7 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> > >  	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> > >  	struct file *memfd = NULL;
-> > >  	struct address_space *mapping = NULL;
-> > > +	struct vm_area_struct *guest_ram;
-> > >  	struct udmabuf *ubuf;
-> > >  	struct dma_buf *buf;
-> > >  	pgoff_t pgoff, pgcnt, pgidx, pgbuf = 0, pglimit;
-> > > @@ -252,6 +392,13 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> > >  		goto err;
-> > >  	}
-> > >
-> > > +	ubuf->ranges = kmalloc_array(head->count, sizeof(*ubuf->ranges),
-> > > +				    GFP_KERNEL);
-> > > +	if (!ubuf->ranges) {
-> > > +		ret = -ENOMEM;
-> > > +		goto err;
-> > > +	}
-> > > +
-> > >  	pgbuf = 0;
-> > >  	for (i = 0; i < head->count; i++) {
-> > >  		ret = -EBADFD;
-> > > @@ -270,6 +417,8 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> > >  			goto err;
-> > >  		pgoff = list[i].offset >> PAGE_SHIFT;
-> > >  		pgcnt = list[i].size   >> PAGE_SHIFT;
-> > > +		ubuf->ranges[i].ubufindex = pgbuf;
-> > > +		ubuf->ranges[i].memfd = memfd;
-> > >  		if (is_file_hugepages(memfd)) {
-> > >  			if (!ubuf->offsets) {
-> > >  				ubuf->offsets = kmalloc_array(ubuf-
-> > >pagecount,
-> > > @@ -299,6 +448,7 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> > >  				get_page(hpage);
-> > >  				ubuf->pages[pgbuf] = hpage;
-> > >  				ubuf->offsets[pgbuf++] = chunkoff <<
-> > PAGE_SHIFT;
-> > > +
-> > >  				if (++chunkoff == maxchunks) {
-> > >  					put_page(hpage);
-> > >  					hpage = NULL;
-> > > @@ -334,6 +484,25 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> > >  		goto err;
-> > >  	}
-> > >
-> > > +	guest_ram = find_guest_ram_vma(ubuf, current->mm);
-> > > +	if (!guest_ram)
-> > > +		goto err;
-> > > +
-> > > +	ubuf->notifier.ops = &udmabuf_update_ops;
-> > > +	ret = mmu_notifier_register(&ubuf->notifier, current->mm);
-> > > +	if (ret)
-> > > +		goto err;
-> > > +
-> > > +	ubuf->num_ranges = head->count;
-> > > +	for (i = 0; i < ubuf->num_ranges; i++) {
-> > > +		page = ubuf->pages[ubuf->ranges[i].ubufindex];
-> > > +		ubuf->ranges[i].start = page_address_in_vma(page,
-> > guest_ram);
-> > > +		ubuf->ranges[i].end = ubuf->ranges[i].start + list[i].size;
-> > > +	}
-> > > +
-> > > +	INIT_LIST_HEAD(&ubuf->mmap_vmas);
-> > > +	mutex_init(&ubuf->mn_lock);
-> > > +
-> > >  	flags = 0;
-> > >  	if (head->flags & UDMABUF_FLAGS_CLOEXEC)
-> > >  		flags |= O_CLOEXEC;
-> > > @@ -344,6 +513,9 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> > >  		put_page(ubuf->pages[--pgbuf]);
-> > >  	if (memfd)
-> > >  		fput(memfd);
-> > > +	if (ubuf->notifier.mm)
-> > > +		mmu_notifier_unregister(&ubuf->notifier, ubuf-
-> > >notifier.mm);
-> > > +	kfree(ubuf->ranges);
-> > >  	kfree(ubuf->offsets);
-> > >  	kfree(ubuf->pages);
-> > >  	kfree(ubuf);
-> > > --
-> > > 2.39.2
-> > >
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
