@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F6C76E356
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CB276E38D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 10:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0653D10E5D3;
-	Thu,  3 Aug 2023 08:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C2110E5D6;
+	Thu,  3 Aug 2023 08:48:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE3AD10E5D3
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:40:39 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-99c3ca08c09so20848066b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:40:39 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0EA210E5D9
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 08:48:06 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4fe0c566788so1221226e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 01:48:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1691052038; x=1691656838;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jQgEg5B5Jwbom41puO2crNqoRpzcJxGGs9a7kVHaqcM=;
- b=LOyJKTqR4y7Z8JdQe+Q/05Hvg3zCDREbBf8/T2hZE9gArOA+jF5Qfke/SWLOXbcdOg
- Ei2I60ArUa4wOVdGCqW9jexmhyLX42hnF1AjSgTu+PusK6TnT6esl2ZgS6KCuHAtsb7S
- ietNAFIEFpWqlIeVr9VU5jEDl4TFww0ekJ/zw=
+ d=linaro.org; s=google; t=1691052485; x=1691657285;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=2/hdxh3xj6iR4Yykv7Dt+Q7h/174Nys/IxjYgXNUnVA=;
+ b=raY2Go5vuMFc5/QctA0YSLUQfciPAf69VmtKHUgoDQgoDMgllytied97OkQyodbuFH
+ WnuF5FtIu+mEvtDjgQOII/EPcaYPFO+DIpEIoOQf+tPB4ELKZK3KRffieZB7STmoID9J
+ oaAobXQhjz3bhLHfh940OTRpowIEG1A9uUutgFIG60UoB3AYaijRERQ5si6ATqcz6yWY
+ RLfxHfMladH/225xS2vBh/cuwkn00q5AJ5d7Cp64ZG6eZm2Dpdin76rBw22afBUFLqSQ
+ myp8Dhf7pQbaRNjh24Se+Z/Kogxgeh0FFHSeEzuWatwJ1ngDyFlFx7JrD9fNO2dV4q29
+ yfCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691052038; x=1691656838;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20221208; t=1691052485; x=1691657285;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:reply-to:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jQgEg5B5Jwbom41puO2crNqoRpzcJxGGs9a7kVHaqcM=;
- b=S6tLWe9T/6q4TDxAufZmkePDiHPsK5p2wWNqdu2XZSMkZbvm6oVDpKwLZPoj4cz1nu
- 8FCguRfh4zYKL9ecfowJ0hyUSoddVdrHqjYRNGxEzTPNxZQmJsRfpBDwR7lpIP+ducVO
- 8v/0F1ZECS7ntQdMAs+qq2UdqFpxPMX2/60nXHlfWLT/5Mxpun8V1XBl4FSMnEJysHkh
- aJpQYqT18rjmeBgdS0XoNRfCO7ol41cBgZXDgs0ktXNWAky/4hgbcFq/1tH4/uPAn5CE
- 935/+w4D8pfytwvi2Qm76QhVqggtUOh70JcssGM02Z5EpKUWvdJjuRLbjdQZQEzfPNVu
- hGSA==
-X-Gm-Message-State: ABy/qLapRbdicWU3TPZWKFmXLNt3Z50Y6cfXadlwzkMJXMhFXv2VO9tD
- DVzU1zNrIVe1VCUoWmg1xriuZn+cjCanH+ZzWl8=
-X-Google-Smtp-Source: APBJJlER/Lh8OCkWnRKwDqViYiJoVhvhRnV+caX0CdFJEvlO3FsZx1fRLprcQVnnsb3V0W+2W4tPPg==
-X-Received: by 2002:a17:906:77d5:b0:993:d54b:3e4b with SMTP id
- m21-20020a17090677d500b00993d54b3e4bmr12710490ejn.0.1691052038416; 
- Thu, 03 Aug 2023 01:40:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ bh=2/hdxh3xj6iR4Yykv7Dt+Q7h/174Nys/IxjYgXNUnVA=;
+ b=jj4y9NbCah/RVisSy4hrmsqUU5BYVL3Bta08WbUy26/KlhB8gLtauo8eLTUUmw7/BX
+ 8qEz7XZ6N6xOq3x+Oh2Sxc2fDw1hQGC1rkrZQ0BdSAVWDO7E50pzuOxD/6eu33A09P1R
+ uwsaCS6GOb9NoxDa7Ug1Svv6j9XlqsDGZZhKnHWLWcsYILd0s73PQ8u7irYhFrU+dL+y
+ mAgM3qAwdkUOq/BfEQ4VMHQfwh9WoQVR+iC7hsUfGz7CzARLz3f1yTRBMsAXEP0q8naj
+ 233mQnrYol2/iyeYhWupeSfkvgn2NUcrFC3BVGd8dFwyvWQMBDKC/PqHR3K430kPX8w+
+ 3Hdw==
+X-Gm-Message-State: ABy/qLaKCRW2pRnbrxLVtIlxZ3raVzWh88gbwEooxvXJqQjY1l9+Kde6
+ KzP/zI+BCZSaAng+/XjlJZTCBw==
+X-Google-Smtp-Source: APBJJlG1TSXmbhUXV6vd3PGIBBYcghGyWllyDz062a86gUJzBx9qMnh2oD2yAfzL++WwiCd4hkhqKw==
+X-Received: by 2002:ac2:518a:0:b0:4fb:9497:b2a5 with SMTP id
+ u10-20020ac2518a000000b004fb9497b2a5mr5653512lfi.21.1691052485036; 
+ Thu, 03 Aug 2023 01:48:05 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:8656:583:d034:d966?
+ ([2a01:e0a:982:cbb0:8656:583:d034:d966])
  by smtp.gmail.com with ESMTPSA id
- jp21-20020a170906f75500b00988c0c175c6sm10163014ejb.189.2023.08.03.01.40.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 01:40:37 -0700 (PDT)
-Date: Thu, 3 Aug 2023 10:40:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: GUO Zihua <guozihua@huawei.com>
-Subject: Re: [PATCH] fbcon: Make fbcon_registered_fb and
- fbcon_num_registered_fb static
-Message-ID: <ZMtoA/cYt6rtTpAD@phenom.ffwll.local>
-References: <20230803020939.491-1-guozihua@huawei.com>
+ i17-20020a5d55d1000000b003143be36d99sm21265332wrw.58.2023.08.03.01.48.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Aug 2023 01:48:04 -0700 (PDT)
+Message-ID: <5aab1846-5d3c-7010-56ca-556db1f74e92@linaro.org>
+Date: Thu, 3 Aug 2023 10:48:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230803020939.491-1-guozihua@huawei.com>
-X-Operating-System: Linux phenom 6.3.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 00/14] A7xx support
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20230628-topic-a7xx_drmmsm-v1-0-a7f4496e0c12@linaro.org>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230628-topic-a7xx_drmmsm-v1-0-a7f4496e0c12@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +85,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, deller@gmx.de, linux-fbdev@vger.kernel.org
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 03, 2023 at 10:09:39AM +0800, GUO Zihua wrote:
-> fbcon_registered_fb and fbcon_num_registered_fb is not referred outside
-> drivers/video/fbdev/core/fbcon.c, so make them static.
+On 28/06/2023 22:35, Konrad Dybcio wrote:
+> This series attempts to introduce Adreno 700 support (with A730 and A740
+> found on SM8450 and SM8550 respectively), reusing much of the existing
+> A6xx code. This submission largely lays the groundwork for expansion and
+> more or less gives us feature parity (on the kernel side, that is) with
+> existing A6xx parts.
 > 
-> Signed-off-by: GUO Zihua <guozihua@huawei.com>
-
-Applied both of your patches to drm-misc-next.
--Daniel
-
+> On top of introducing a very messy set of three (!) separate and
+> obfuscated deivce identifiers for each 7xx part, this generation
+> introduces very sophisticated hardware multi-threading and (on some SKUs)
+> hardware ray-tracing (not supported yet).
+> 
+> After this series, a long-overdue cleanup of drm/msm/adreno is planned
+> in preparation for adding more features and removing some hardcoding.
+> 
+> The last patch is a hack that may or may not be necessary depending
+> on your board's humour.. eh.. :/
+> 
+> Developed atop (and hence depends on) [1]
+> 
+> The corresponding devicetree patches are initially available at [2] and
+> will be posted after this series gets merged. To test it, you'll also need
+> firmware that you need to obtain from your board (there's none with a
+> redistributable license, sorry..). Most likely it will be in one of
+> these directories on your stock android installation:
+> 
+> * /vendor/firmware
+> * /vendor/firmware_mnt
+> * /system
+> 
+> ..but some vendors make it hard and you have to do some grepping ;)
+> 
+> Requires [3] to work on the userspace side. You'll almost cerainly want
+> to test it alongside Zink with a lot of debug flags (early impl), like:
+> 
+> TU_DEBUG=sysmem,nolrz,flushall,noubwc MESA_LOADER_DRIVER_OVERRIDE=zink kmscube
+> 
+> [1] https://lore.kernel.org/linux-arm-msm/20230517-topic-a7xx_prep-v4-0-b16f273a91d4@linaro.org/
+> [2] https://github.com/SoMainline/linux/commits/topic/a7xx_dt
+> [3] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23217
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/video/fbdev/core/fbcon.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Konrad Dybcio (14):
+>        dt-bindings: display/msm/gmu: Add Adreno 7[34]0 GMU
+>        dt-bindings: display/msm/gmu: Allow passing QMP handle
+>        dt-bindings: display/msm/gpu: Allow A7xx SKUs
+>        drm/msm/a6xx: Add missing regs for A7XX
+>        drm/msm/a6xx: Introduce a6xx_llc_read
+>        drm/msm/a6xx: Move LLC accessors to the common header
+>        drm/msm/a6xx: Bail out early if setting GPU OOB fails
+>        drm/msm/a6xx: Add skeleton A7xx support
+>        drm/msm/a6xx: Send ACD state to QMP at GMU resume
+>        drm/msm/a6xx: Mostly implement A7xx gpu_state
+>        drm/msm/a6xx: Add A730 support
+>        drm/msm/a6xx: Add A740 support
+>        drm/msm/a6xx: Vastly increase HFI timeout
+>        [RFC] drm/msm/a6xx: Poll for GBIF unhalt status in hw_init
 > 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 887fad44e7ec..976900d6893c 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -102,8 +102,8 @@ enum {
->  
->  static struct fbcon_display fb_display[MAX_NR_CONSOLES];
->  
-> -struct fb_info *fbcon_registered_fb[FB_MAX];
-> -int fbcon_num_registered_fb;
-> +static struct fb_info *fbcon_registered_fb[FB_MAX];
-> +static int fbcon_num_registered_fb;
->  
->  #define fbcon_for_each_registered_fb(i)		\
->  	for (i = 0; WARN_CONSOLE_UNLOCKED(), i < FB_MAX; i++)		\
-> -- 
-> 2.17.1
+>   .../devicetree/bindings/display/msm/gmu.yaml       |  47 +-
+>   .../devicetree/bindings/display/msm/gpu.yaml       |   4 +-
+>   drivers/gpu/drm/msm/adreno/a6xx.xml.h              |   9 +
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 188 ++++--
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   3 +
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   8 +
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 658 ++++++++++++++++++---
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |  15 +
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  52 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  61 +-
+>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  90 ++-
+>   drivers/gpu/drm/msm/adreno/adreno_device.c         |  26 +
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   7 +-
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  24 +-
+>   drivers/gpu/drm/msm/msm_ringbuffer.h               |   2 +
+>   15 files changed, 1070 insertions(+), 124 deletions(-)
+> ---
+> base-commit: 6f9b660e9cbb30669fcfec83288d527c0844717d
+> change-id: 20230628-topic-a7xx_drmmsm-123f30d76cf7
 > 
+> Best regards,
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
