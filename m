@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9145C76F2C3
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:42:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E6676F2B6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D61A810E679;
-	Thu,  3 Aug 2023 18:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 852AD10E671;
+	Thu,  3 Aug 2023 18:40:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 870F910E650
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BC810E654
  for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:50 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 500F91F8AA;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8F05A1F8AB;
  Thu,  3 Aug 2023 18:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1691088049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=62xQ71QOXV500/MwPQghiTsd8yQOOyY/vk5PmbjJluc=;
- b=wRe+cpvzF+SwaW02f5jiJiq+mHlkgqQ2mjfmKoJ0cMy4oIoGWjec5AHSLlPFTsHEPwfl/J
- WGDRObtLvfnqAfXhvmLx/nBTroRA3UK5uMqU3j2PibPtcCSN+i5socKCltucX5OzrZUr2m
- gbBYl+0fnU91+4jkWNW3MkJyQbH4Utk=
+ bh=P0/TzlIvspwd0wnP36aBdJdkJ2T87dM9Ptd/GByClDo=;
+ b=cgt00w0RB1mJdS8GVoPWEHIHWlTJfEpKtx7fgmvjbp2Jy0ExLkw6BCfwibGOAKGwKnPWyY
+ Z19+Ph7E1BwRCbk+D0tLA8l6IxFAwJK6RDxVpjuSDKtz/ksHjqq4Dh7LLX1XaPACx28s6M
+ W40JDZR9839b4NA498pRzixrfmU5gh8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1691088049;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=62xQ71QOXV500/MwPQghiTsd8yQOOyY/vk5PmbjJluc=;
- b=oCW/yGJ6+rehMsdtdMFW2w8jJ3PYWt4/7bDxiGM+6uz981UbyQW8rQaZ6aP0S6rKL7PMSC
- DXXrh8Z+emYrUcAA==
+ bh=P0/TzlIvspwd0wnP36aBdJdkJ2T87dM9Ptd/GByClDo=;
+ b=4nEDKZR4mB4gLahdjKlWuI0o9j+JAFEjYMzXTrHIXptrAK1z+P8NeGRMxjUMrem/O+GekO
+ mGsLq9YFVd01MSBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1BE831333C;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5565D1333C;
  Thu,  3 Aug 2023 18:40:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EMjWBbH0y2TLGAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id oFH6E7H0y2TLGAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:49 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v3 45/47] fbdev/vesafb: Use fbdev I/O helpers
-Date: Thu,  3 Aug 2023 20:36:10 +0200
-Message-ID: <20230803184034.6456-46-tzimmermann@suse.de>
+Subject: [PATCH v3 46/47] fbdev/xilinxfb: Use fbdev I/O helpers
+Date: Thu,  3 Aug 2023 20:36:11 +0200
+Message-ID: <20230803184034.6456-47-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230803184034.6456-1-tzimmermann@suse.de>
 References: <20230803184034.6456-1-tzimmermann@suse.de>
@@ -72,7 +72,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
  linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+ Michal Simek <michal.simek@amd.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -91,44 +92,44 @@ v2:
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
+Cc: Michal Simek <michal.simek@amd.com>
 ---
- drivers/video/fbdev/Kconfig  | 4 +---
- drivers/video/fbdev/vesafb.c | 4 +---
+ drivers/video/fbdev/Kconfig    | 4 +---
+ drivers/video/fbdev/xilinxfb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index b8395ff04f98..29e59979b2bd 100644
+index 29e59979b2bd..5d93ecc01f6a 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -453,9 +453,7 @@ config FB_VESA
- 	bool "VESA VGA graphics support"
- 	depends on (FB = y) && X86
- 	select APERTURE_HELPERS
+@@ -1742,9 +1742,7 @@ config FB_PS3_DEFAULT_SIZE_M
+ config FB_XILINX
+ 	tristate "Xilinx frame buffer support"
+ 	depends on FB && (MICROBLAZE || ARCH_ZYNQ || ARCH_ZYNQMP)
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
- 	select SYSFB
  	help
- 	  This is the frame buffer device driver for generic VESA 2.0
-diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
-index 422a1c53decd..c0edceea0a79 100644
---- a/drivers/video/fbdev/vesafb.c
-+++ b/drivers/video/fbdev/vesafb.c
-@@ -201,12 +201,10 @@ static void vesafb_destroy(struct fb_info *info)
+ 	  Include support for the Xilinx ML300/ML403 reference design
+ 	  framebuffer. ML300 carries a 640*480 LCD display on the board,
+diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinxfb.c
+index ee6c65902694..33d20910cb41 100644
+--- a/drivers/video/fbdev/xilinxfb.c
++++ b/drivers/video/fbdev/xilinxfb.c
+@@ -250,11 +250,9 @@ xilinx_fb_blank(int blank_mode, struct fb_info *fbi)
  
- static struct fb_ops vesafb_ops = {
- 	.owner		= THIS_MODULE,
+ static const struct fb_ops xilinxfb_ops = {
+ 	.owner			= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_destroy     = vesafb_destroy,
- 	.fb_setcolreg	= vesafb_setcolreg,
- 	.fb_pan_display	= vesafb_pan_display,
--	.fb_fillrect	= cfb_fillrect,
--	.fb_copyarea	= cfb_copyarea,
--	.fb_imageblit	= cfb_imageblit,
+ 	.fb_setcolreg		= xilinx_fb_setcolreg,
+ 	.fb_blank		= xilinx_fb_blank,
+-	.fb_fillrect		= cfb_fillrect,
+-	.fb_copyarea		= cfb_copyarea,
+-	.fb_imageblit		= cfb_imageblit,
  };
  
- static int vesafb_setup(char *options)
+ /* ---------------------------------------------------------------------
 -- 
 2.41.0
 
