@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B33C76F2AC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:41:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9145C76F2C3
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB3310E67F;
-	Thu,  3 Aug 2023 18:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D61A810E679;
+	Thu,  3 Aug 2023 18:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3BA10E64F
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870F910E650
  for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:40:50 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 158C121986;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 500F91F8AA;
  Thu,  3 Aug 2023 18:40:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1691088049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wUG1eeO3WkFtq5yxXcPnLijMd3eguPo9Siizm7guf4I=;
- b=F0c+4ksLJoLC12gqty6qbR1lxrUYGZjNfErbTcxwfbAqPJgYsVaJRCAbXuYXnMTlB0vbuT
- F9RNcvqb/UDSL3H2dTyG9dGLOdRXkAFuJzyRv2D1pcP0HDXLRu7AbyPm+Lvo3QNDPxYkGW
- Ws0noBvB8R4iohcwpIC1YCmC1oPuxHM=
+ bh=62xQ71QOXV500/MwPQghiTsd8yQOOyY/vk5PmbjJluc=;
+ b=wRe+cpvzF+SwaW02f5jiJiq+mHlkgqQ2mjfmKoJ0cMy4oIoGWjec5AHSLlPFTsHEPwfl/J
+ WGDRObtLvfnqAfXhvmLx/nBTroRA3UK5uMqU3j2PibPtcCSN+i5socKCltucX5OzrZUr2m
+ gbBYl+0fnU91+4jkWNW3MkJyQbH4Utk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1691088049;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wUG1eeO3WkFtq5yxXcPnLijMd3eguPo9Siizm7guf4I=;
- b=LRKdQib0jFqeXXZSJRXyWv6opIwOnxKjKbDsp9JDXskfCAKAyzb6mVvKzCnjoLck0RQHje
- 2yqhR663cmqim0Dw==
+ bh=62xQ71QOXV500/MwPQghiTsd8yQOOyY/vk5PmbjJluc=;
+ b=oCW/yGJ6+rehMsdtdMFW2w8jJ3PYWt4/7bDxiGM+6uz981UbyQW8rQaZ6aP0S6rKL7PMSC
+ DXXrh8Z+emYrUcAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D14A31333C;
- Thu,  3 Aug 2023 18:40:48 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1BE831333C;
+ Thu,  3 Aug 2023 18:40:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qKoqMrD0y2TLGAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:48 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id EMjWBbH0y2TLGAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 03 Aug 2023 18:40:49 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de,
 	javierm@redhat.com,
 	sam@ravnborg.org
-Subject: [PATCH v3 44/47] fbdev/valkyriefb: Use fbdev I/O helpers
-Date: Thu,  3 Aug 2023 20:36:09 +0200
-Message-ID: <20230803184034.6456-45-tzimmermann@suse.de>
+Subject: [PATCH v3 45/47] fbdev/vesafb: Use fbdev I/O helpers
+Date: Thu,  3 Aug 2023 20:36:10 +0200
+Message-ID: <20230803184034.6456-46-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230803184034.6456-1-tzimmermann@suse.de>
 References: <20230803184034.6456-1-tzimmermann@suse.de>
@@ -92,44 +92,43 @@ Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/Kconfig      | 4 +---
- drivers/video/fbdev/valkyriefb.c | 4 +---
+ drivers/video/fbdev/Kconfig  | 4 +---
+ drivers/video/fbdev/vesafb.c | 4 +---
  2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index e6ca54347272..b8395ff04f98 100644
+index b8395ff04f98..29e59979b2bd 100644
 --- a/drivers/video/fbdev/Kconfig
 +++ b/drivers/video/fbdev/Kconfig
-@@ -328,9 +328,7 @@ config FB_PLATINUM
- config FB_VALKYRIE
- 	bool "Apple \"valkyrie\" display support"
- 	depends on (FB = y) && (MAC || (PPC_PMAC && PPC32))
+@@ -453,9 +453,7 @@ config FB_VESA
+ 	bool "VESA VGA graphics support"
+ 	depends on (FB = y) && X86
+ 	select APERTURE_HELPERS
 -	select FB_CFB_FILLRECT
 -	select FB_CFB_COPYAREA
 -	select FB_CFB_IMAGEBLIT
 +	select FB_IOMEM_HELPERS
- 	select FB_MACMODES
+ 	select SYSFB
  	help
- 	  This driver supports a frame buffer for the "valkyrie" graphics
-diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valkyriefb.c
-index fd4488777032..91d070ef6989 100644
---- a/drivers/video/fbdev/valkyriefb.c
-+++ b/drivers/video/fbdev/valkyriefb.c
-@@ -110,13 +110,11 @@ static void valkyrie_init_fix(struct fb_fix_screeninfo *fix, struct fb_info_valk
+ 	  This is the frame buffer device driver for generic VESA 2.0
+diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
+index 422a1c53decd..c0edceea0a79 100644
+--- a/drivers/video/fbdev/vesafb.c
++++ b/drivers/video/fbdev/vesafb.c
+@@ -201,12 +201,10 @@ static void vesafb_destroy(struct fb_info *info)
  
- static const struct fb_ops valkyriefb_ops = {
- 	.owner =	THIS_MODULE,
+ static struct fb_ops vesafb_ops = {
+ 	.owner		= THIS_MODULE,
 +	FB_DEFAULT_IOMEM_OPS,
- 	.fb_check_var =	valkyriefb_check_var,
- 	.fb_set_par =	valkyriefb_set_par,
- 	.fb_setcolreg =	valkyriefb_setcolreg,
- 	.fb_blank =	valkyriefb_blank,
+ 	.fb_destroy     = vesafb_destroy,
+ 	.fb_setcolreg	= vesafb_setcolreg,
+ 	.fb_pan_display	= vesafb_pan_display,
 -	.fb_fillrect	= cfb_fillrect,
 -	.fb_copyarea	= cfb_copyarea,
 -	.fb_imageblit	= cfb_imageblit,
  };
  
- /* Sets the video mode according to info->var */
+ static int vesafb_setup(char *options)
 -- 
 2.41.0
 
