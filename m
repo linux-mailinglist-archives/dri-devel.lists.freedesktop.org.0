@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B875776EC76
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 16:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DFA76ECA5
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 16:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF3C10E1A5;
-	Thu,  3 Aug 2023 14:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4414A10E60B;
+	Thu,  3 Aug 2023 14:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D251710E1A5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 14:25:40 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA8A10E60A;
+ Thu,  3 Aug 2023 14:34:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 23F4D84698;
- Thu,  3 Aug 2023 16:25:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1691072738;
- bh=dzsMtwHFfR21i5ns4QmpIdyGZAnmLgbPoVQIuyj4pKU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=xMJMbXLR3cicJswcqiMBKXfBRU0+cc3ZmFQEu+j/P5d85/BSDNG1dor94DjgOwyvq
- 90cs9ZHGulkfgTll2D6t0t6lyXuwQVetVDmlNT62KelaOx96uo7aaPyMcCT7msnIhP
- PEtvLSmIhxPJAfbIM6c7JDOpfvTdBWJ+MBvw2RmSTNdnGuyqjRM1WTuWIEyIpMfURf
- /z+MTnDnnLHb96UA23bdDK+CRZAFcwKQqF+utB6H7Ny0TOP8Q1oNNxKAIbWnfZwGTu
- WAmetm3KX1zSIdxfOJ5sNWEdZY/XA0lFN0LA9Il8WxMiBJ8E0FHBV6RF2otZufVjh+
- GI+WQJxYf9CSw==
-Message-ID: <9b236561-36af-da7a-2caf-892be68e2b76@denx.de>
-Date: Thu, 3 Aug 2023 16:25:37 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5C47C61DC3;
+ Thu,  3 Aug 2023 14:34:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01B67C433C8;
+ Thu,  3 Aug 2023 14:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691073277;
+ bh=0DpbPzG9n23TZQeqpKKQPbDUpRX8JjTwBICXpo5IiuE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=rh87W65xGsDgaEj+p3vHUxCrL38a2Z8HUDTO7uEoRnRDJA1oBiKC5WEQ1n0cNmlIy
+ M9CBQi7dfHpjtWngHcTYTmR1hCsbbytl4YpaudAAytGg/GwbmBfLT68qa82xBSdOpo
+ lhATEu/FizKT3Py0aCK8wy+/ZmZ1LMh2sqPKM3eszeLGtjDeKQt5l6jybIFTVHU0Si
+ SuAikNmL3ou9Bqrj21w/+/DAHFvC0Hksk5Aah6kSVVe5ajgnwuHFNDPRPy9HNFCyoN
+ pF6KaViF/Aj2WhmhgsdfuIR37iD62/2x68Oo3IGhAggWg9RjsOotKjyEA45F6gZ/Dj
+ QlsDvYfMJa1BQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] [RESEND] drm/nouveau: remove unused tu102_gr_load() function
+Date: Thu,  3 Aug 2023 16:33:48 +0200
+Message-Id: <20230803143358.13563-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH 2/2] drm/panel-simple: Add Innolux G156HCE-L01 panel entry
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-References: <20230731210258.256152-1-marex@denx.de>
- <20230731210258.256152-2-marex@denx.de> <20230803162314.122fab64@booty>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230803162314.122fab64@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,39 +53,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
+ Gourav Samaiya <gsamaiya@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/3/23 16:23, Luca Ceresoli wrote:
-> Hi Marek,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Hi,
+tu102_gr_load() is completely unused and can be removed to address
+this warning:
 
-> On Mon, 31 Jul 2023 23:02:58 +0200
-> Marek Vasut <marex@denx.de> wrote:
-> 
->> Add support for Innolux G156HCE-L01 15.6" 1920x1080 24bpp
->> dual-link LVDS TFT panel. Documentation is available at [1].
-> 
-> Interesting, I'm bringing up this exact panel right now and found your
-> patch.
-> 
->> The middle frequency is tuned slightly upward from 70.93 MHz
->> to 72 MHz, otherwise the panel shows slight flicker.
-> 
-> Using 70.93 MHz here does not show any flickering. I even tried going
-> in the opposite direction and set 70 MHz, and to use different
-> backlight settings, all without any flickering.
-> 
-> Do you think you might be using a defective device? Would you have a
-> chance of testing another sample?
+drivers/gpu/drm/nouveau/dispnv50/disp.c:2517:1: error: no previous prototype for 'nv50_display_create'
 
-I have literally one such display.
+Another patch was sent in the meantime to mark the function static but
+that would just cause a different warning about an unused function.
 
-Which SoC do you use (and if applicable, which bridge) ?
+Fixes: 1cd97b5490c8 ("drm/nouveau/gr/tu102-: use sw_veid_bundle_init from firmware")
+Link: https://lore.kernel.org/all/CACO55tuaNOYphHyB9+ygi9AnXVuF49etsW7x2X5K5iEtFNAAyw@mail.gmail.com/
+Link: https://lore.kernel.org/all/20230417210310.2443152-1-arnd@kernel.org/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+I send this one back in April, and Lee Jones sent a similar patch in May.
+Please apply so we can enable the warning by default.
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
+index 3b6c8100a242..a7775aa18541 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
+@@ -206,19 +206,6 @@ tu102_gr_av_to_init_veid(struct nvkm_blob *blob, struct gf100_gr_pack **ppack)
+ 	return gk20a_gr_av_to_init_(blob, 64, 0x00100000, ppack);
+ }
+ 
+-int
+-tu102_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *fwif)
+-{
+-	int ret;
+-
+-	ret = gm200_gr_load(gr, ver, fwif);
+-	if (ret)
+-		return ret;
+-
+-	return gk20a_gr_load_net(gr, "gr/", "sw_veid_bundle_init", ver, tu102_gr_av_to_init_veid,
+-				 &gr->bundle_veid);
+-}
+-
+ static const struct gf100_gr_fwif
+ tu102_gr_fwif[] = {
+ 	{  0, gm200_gr_load, &tu102_gr, &gp108_gr_fecs_acr, &gp108_gr_gpccs_acr },
+-- 
+2.39.2
+
