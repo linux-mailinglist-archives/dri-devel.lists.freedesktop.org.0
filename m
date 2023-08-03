@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8FD76EE38
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 17:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E6276EE43
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 17:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2152B10E61B;
-	Thu,  3 Aug 2023 15:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E60D10E61D;
+	Thu,  3 Aug 2023 15:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51D0610E61D
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 15:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691076899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GAn60s5VL8+3FWf4gqWswaZZmaZpliVGHrn8c7NwxLc=;
- b=XMko2/FTpWk3uF8HQK3qtdMgGvWeTrVlKKy22Ks5Z+16RfEDvFT47iqoLWNbMjXedLoDFO
- RNJogvQTRzr+ohBY34VhxHHO0m+eC5M9gZPVc1iNBA6PzdwquI9uJilo+vNMH8AEE4onRo
- f0Tan4IfCrQAXqJ4sYQ2ufuSkhBX5q0=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-_6ZwvazcOnCfz_dRfhF7BQ-1; Thu, 03 Aug 2023 11:34:56 -0400
-X-MC-Unique: _6ZwvazcOnCfz_dRfhF7BQ-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-4fe56825815so87891e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 08:34:55 -0700 (PDT)
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C360810E61F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 15:36:35 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id
+ 3f1490d57ef6-d414540af6bso600678276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 08:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691076995; x=1691681795;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F0RiJFEC2TyWpgAWWlJd3Y77KTp5pRBuPs5ibASU4PI=;
+ b=msm0BrH5ifzTm01PEG8loMj+Dv1GrOKfhgu/XSIx1g+nFlN4UO80QOmhBgbUGHLOET
+ maNjsAY+vGJJgwH/4V+q274S7lxVJ/o1g++CATTAcBMW68NExx464ohZxTreY1fYRZL9
+ JbA/OcyXEEyywWi2COfWs6+oNKRJ06biZaviM8/KGRJfrpmWZWNddjeqEDPGvdDyXIdq
+ onfSG/O6E5wBSjEE4dpknFYoFiabzYeUYTekvYoYg1mkfzN879EnqlJ1Z25Iul8WbTXR
+ 7wEeb8bfakbUlapSQzWb7Twa/r6JvEBEYvwDEoi+KyEk7sG3EuSL9+cYm2WtLuKINiY3
+ 2wGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691076894; x=1691681694;
+ d=1e100.net; s=20221208; t=1691076995; x=1691681795;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GAn60s5VL8+3FWf4gqWswaZZmaZpliVGHrn8c7NwxLc=;
- b=gmh5XXreTdx5ZmHS2aIkFtsE9OyELuUnlVwiMZT/x8g0BB5bF4GHHaSrehLqA5IHJE
- CJKOZNJP9KxEQReM/YNd9kxFmgA728COkOTOrJmsPK39OXkv3LmIlPXztAo/8Xdf2wiJ
- fEuIVKdNe0EOt1Ncl5gxgL9ORLwS7QInspOALrOKFe22Kc3z2TiTKbzgwGg5bIT0fQRd
- mzr3Ysxq66CbXnOoIawVfMYsGohdekkIrQ7kXgPIirNkyGWEy6OCptKvMZUX657rfQk6
- in9uw4HslMaQsg0NbgDHL+qhRAIKZQhq7ReS9JRl2ec7DrsuLqBeBlsHCLCOB1MLzLXk
- qG1A==
-X-Gm-Message-State: ABy/qLYdPa3hJ4WWIk8MaAW3ZY2vxqeywzqLp6BepFvGppXZ/c5QNbhl
- DPcHIjQDtBJoEDxgyfLJB1+U8XbgaGji7lSqfzdIK/4P+ixYu8dN2CvTQUGLN2DIRJJ/h+p8yZS
- MsHQQLH2eEP6EvxK7/+bvmL8tAuVIqjucOSgdcXvOJzQj
-X-Received: by 2002:a2e:a7cf:0:b0:2b6:9969:d0ab with SMTP id
- x15-20020a2ea7cf000000b002b69969d0abmr12388651ljp.4.1691076894708; 
- Thu, 03 Aug 2023 08:34:54 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEz/wDErpCcQsXauXulvVlKBxx8fIp7/uctE6vRdS4DBK25r+JCF/5qhcGyR21XS9Fl91S59IuTEBpqIWDsIHQ=
-X-Received: by 2002:a2e:a7cf:0:b0:2b6:9969:d0ab with SMTP id
- x15-20020a2ea7cf000000b002b69969d0abmr12388632ljp.4.1691076894406; Thu, 03
- Aug 2023 08:34:54 -0700 (PDT)
+ bh=F0RiJFEC2TyWpgAWWlJd3Y77KTp5pRBuPs5ibASU4PI=;
+ b=Br5KlWzLudwFvTDNLHUo47KD3cNQtin6GRfET48dfeA6+GH9/n0p/1VN1Ve6tOVt99
+ 2/u0GvWvgjeq7d6ijFz6Wst3FKNOihf6UlzhGM53PtsysAvqxHHj9fy1dMkJqkroQiu0
+ DmY+HZRR+h4bniQ8bjuUdblvLdqD0ePGdvLe2K5C2IcuJ19FT6dHaKYx/iivcHtFntrF
+ xgDNFR24+/7obUBvoIpj6Z0qiL0WoZZuYA5sAfMlaewo0+Zm6nj3vaRJxY3EC8YQmT4y
+ 9DRqFCiE1+wF3nyTlvHdG3uYA8TpLgFZMBpH9u2b7PygQx19MZnk3s+XukwEaPolr6PL
+ xSUg==
+X-Gm-Message-State: ABy/qLZ4ha1Culj0p9DgUxtn81FHJuSDnkyKxgU4RLdJVXa50xRWJuDn
+ x0M9WMZiFbl95cOEqI6g0sFdXag90eOPuD4Vkd+PaA==
+X-Google-Smtp-Source: APBJJlFYQquHXzrsKhhJGfCCxFrZ+hdH5p9FtN6ueneVgQ9/HLwNKPKeUcb1fuSTmM6kdAbJLQt1skEwUHmvVNRluF4=
+X-Received: by 2002:a25:738f:0:b0:d04:caf3:261e with SMTP id
+ o137-20020a25738f000000b00d04caf3261emr16385250ybc.53.1691076994786; Thu, 03
+ Aug 2023 08:36:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230803143358.13563-1-arnd@kernel.org>
-In-Reply-To: <20230803143358.13563-1-arnd@kernel.org>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 3 Aug 2023 17:34:43 +0200
-Message-ID: <CACO55tskNHHpEjQK-+wBR+nVgz+Fq31U0_FKmNGSL2JDCMnJUA@mail.gmail.com>
-Subject: Re: [PATCH] [RESEND] drm/nouveau: remove unused tu102_gr_load()
- function
-To: Arnd Bergmann <arnd@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230729004913.215872-1-dmitry.baryshkov@linaro.org>
+ <20230729004913.215872-4-dmitry.baryshkov@linaro.org>
+ <20230802185547.GC32500@pendragon.ideasonboard.com>
+ <a32ce695-038f-0ef8-3584-5bd1ba528131@linaro.org>
+ <20230802191351.GA1407@pendragon.ideasonboard.com>
+ <DE2B4523-D16C-4AFC-8352-212B23548DD5@linaro.org>
+ <b6oOVz2YMIG4hJDWhq9lTh6R2HYcrpRwHENhplig9KSQMD8dIjTgC5KdH1Ij3URgV2HESp67Ax7QUsByGjMLouvbs-5q7PiPRdLkgJz6Fwk=@emersion.fr>
+ <ADjuOeqA6575DKutMPaR9mW9rLhm-wjLc4ruoUkNwImf-GB90FdwDB7v7y6LFdzVG3BC4R52A0RUtStK4_smmGYTUs3UPDOX4T4Zl2YHkxE=@emersion.fr>
+In-Reply-To: <ADjuOeqA6575DKutMPaR9mW9rLhm-wjLc4ruoUkNwImf-GB90FdwDB7v7y6LFdzVG3BC4R52A0RUtStK4_smmGYTUs3UPDOX4T4Zl2YHkxE=@emersion.fr>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 3 Aug 2023 18:36:23 +0300
+Message-ID: <CAA8EJppCECObEe5UG3LsHUsmYfKzakWzVw33S4nVc=DB9sA0ig@mail.gmail.com>
+Subject: Re: [PATCH 3/4] drm/uapi: document the USB subconnector type
+To: Simon Ser <contact@emersion.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,74 +75,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
+ Robert Foss <rfoss@kernel.org>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andy Gross <agross@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Leo Li <sunpeng.li@amd.com>, intel-gfx@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, amd-gfx@lists.freedesktop.org,
+ Bjorn Andersson <andersson@kernel.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 3, 2023 at 4:34=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
+On Thu, 3 Aug 2023 at 18:31, Simon Ser <contact@emersion.fr> wrote:
 >
-> From: Arnd Bergmann <arnd@arndb.de>
+> On Thursday, August 3rd, 2023 at 17:22, Simon Ser <contact@emersion.fr> w=
+rote:
 >
-> tu102_gr_load() is completely unused and can be removed to address
-> this warning:
+> > The KMS docs describe "subconnector" to be defined as "downstream port"=
+ for DP.
+> > Can USB-C (or USB) be seen as a DP downstream port?
 >
-> drivers/gpu/drm/nouveau/dispnv50/disp.c:2517:1: error: no previous protot=
-ype for 'nv50_display_create'
->
-> Another patch was sent in the meantime to mark the function static but
-> that would just cause a different warning about an unused function.
->
-> Fixes: 1cd97b5490c8 ("drm/nouveau/gr/tu102-: use sw_veid_bundle_init from=
- firmware")
-> Link: https://lore.kernel.org/all/CACO55tuaNOYphHyB9+ygi9AnXVuF49etsW7x2X=
-5K5iEtFNAAyw@mail.gmail.com/
-> Link: https://lore.kernel.org/all/20230417210310.2443152-1-arnd@kernel.or=
-g/
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> I send this one back in April, and Lee Jones sent a similar patch in May.
-> Please apply so we can enable the warning by default.
-> ---
->  drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c | 13 -------------
->  1 file changed, 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c b/drivers/gpu=
-/drm/nouveau/nvkm/engine/gr/tu102.c
-> index 3b6c8100a242..a7775aa18541 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c
-> @@ -206,19 +206,6 @@ tu102_gr_av_to_init_veid(struct nvkm_blob *blob, str=
-uct gf100_gr_pack **ppack)
->         return gk20a_gr_av_to_init_(blob, 64, 0x00100000, ppack);
->  }
->
-> -int
-> -tu102_gr_load(struct gf100_gr *gr, int ver, const struct gf100_gr_fwif *=
-fwif)
-> -{
-> -       int ret;
-> -
-> -       ret =3D gm200_gr_load(gr, ver, fwif);
-> -       if (ret)
-> -               return ret;
-> -
-> -       return gk20a_gr_load_net(gr, "gr/", "sw_veid_bundle_init", ver, t=
-u102_gr_av_to_init_veid,
-> -                                &gr->bundle_veid);
-> -}
-> -
->  static const struct gf100_gr_fwif
->  tu102_gr_fwif[] =3D {
->         {  0, gm200_gr_load, &tu102_gr, &gp108_gr_fecs_acr, &gp108_gr_gpc=
-cs_acr },
-> --
-> 2.39.2
->
+> To expand on this a bit: I'm wondering if we're mixing apples and
+> oranges here. The current values of "subconnector" typically describe
+> the lower-level protocol tunneled inside DP. For instance, VGA can be
+> tunneled inside the DP cable when using DP =E2=86=92 VGA adapter.
 
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+My opinion hasn't changed: I think this should be the USB connector
+with proper DP / DVI / HDMI / etc. subconnector type (or lack of it).
+In the end, the physical connector on the side of laptop is USB-C.
 
-Will push to drm-misc in a sec
+If we want to make it different from GUD, we might want to define a
+USB-DP connector type (which would also include SlimPort).
 
+>
+> However, in the USB-C case, DP itself is tunneled inside USB-C. And you
+> might use a USB-C =E2=86=92 DP adapter. So it's not really *sub*connector=
+, it's
+> more of a *super*connector, right?
+>
+> I think [1] is somewhat related, since it also allows user-space to
+> discover whether a connector uses USB-C. But relying on sysfs to figure
+> this out isn't super optimal perhaps.
+>
+> [1]: https://lore.kernel.org/dri-devel/20221108185004.2263578-1-wonchung@=
+google.com/
+
+
+
+--=20
+With best wishes
+Dmitry
