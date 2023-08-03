@@ -1,54 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD45476F175
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:10:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1D076F1E6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 20:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF35A10E644;
-	Thu,  3 Aug 2023 18:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5762E10E0D1;
+	Thu,  3 Aug 2023 18:32:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB7110E644
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 18:10:13 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id C4A3E86839;
- Thu,  3 Aug 2023 20:10:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1691086211;
- bh=fpuHp8OO6h5mevOgIeHsP5FLeL9qrPSYZmeq+L8xvLk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EF1Sp2Z46iR/82qNBP9O0RKnEctp3wFsIYKTiMoZeGS7DoLm8WQRqjiYL3YnnZ7t5
- pI9yEQap9hzBdXcoM3IQXyJhuEt9F9l9Y/6mzmmI1FQG9OdHE0YBGUJbDLoYfKbuJ3
- d9g24kE5vjJSRvN/hNBY9mpRmM3oX7cn/5rvNT3TvN5raEgyA63GoDJtpwjNVc2wYJ
- dvW3IxwagPu0NZ1F1WXc/n66UM7N6oP/1P6v1k0dg7AggfPcRekwXr2O+BbiRNQdWV
- 80TLtTw0fpBuijkV1cx+O60LKIO5QPA5oCHH9z/3+xv6T5jw2p6G7zsmRmOqX8p6sB
- H/CihvJUVzR5w==
-Message-ID: <25f3026f-3d97-a5ac-862a-da6dc5f8d830@denx.de>
-Date: Thu, 3 Aug 2023 20:10:10 +0200
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DAB210E0D1;
+ Thu,  3 Aug 2023 18:32:54 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-686daaa5f1fso917009b3a.3; 
+ Thu, 03 Aug 2023 11:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691087573; x=1691692373;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KxYWsR/qBx7u0rlGx8cPewdgRo7+05nTk90UjKvSraQ=;
+ b=ft0QlCKua4WY9Pn8iWwzQQXBiU+H9dyyhpm/EwB6z2K1YBVlLsPsSk4dwTfih1XIyo
+ OcDT94J3GJWIZle2duHYEW4a/sWBSq4uDCPo/zG+cNjussXQF0rJ0VOLxQgqp1uX4KMH
+ T4mcfXvSAHT2H5faKOPukAMsmshUpyjQpACw2MKA98KoLxVueYzVprjHj2ELI/grNE6v
+ 3i5bCKjCB4nA99JE2sXAHynFjiqzTmIP/YFN/1uFJ6cB5zmE3VqZEmarP6PB75w/PuIB
+ Fgc/JnGzY7ZEWLgZM+KizCllGoX4VU7TBm/kH9+u1gsjNU2hQmzJmAg+XlUrzaKBHwce
+ mRYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691087573; x=1691692373;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KxYWsR/qBx7u0rlGx8cPewdgRo7+05nTk90UjKvSraQ=;
+ b=dqSYD1TkbgS6fmTGXGdbEIf7OnvBBtjPWmhdcQ3MqxeOPZJTehIsSP/4oWbAEyE+0p
+ MbEQDhQzG6DBRkg+tKqQ5V1rMY9eAZOLdesUy1YP/eafFplR8v40tnefQj9cpyVlQ+/N
+ N88s8baHXK/ohLn7mYrQQudHHI9CFVIZAOtCmiE6tttvHGDP0dL7Sa5XOcvMfrw4f1KU
+ HgWUfqYjSY2UBX9jbGSq5c0R3UUPIkoKWKMwWRyh5+Gqi773LUmoH0EKpz7dPY3dCvKU
+ pAPcQr5vDuRxQH+/LVLgGpKaxtBC1BVyr8AZlzZxNPJImnOGw1qxIjXiy9L5cMi5lXTB
+ KFBw==
+X-Gm-Message-State: ABy/qLZ/p7oDb1+iYqa92Zp5/utvG7BWBBnlTxEVSn4+N6+vDiCxr1q6
+ fU9aQoL9Wsl3I4tEFCeAuuGh8Qo6wqk=
+X-Google-Smtp-Source: APBJJlH+WYqSik0uDX9MGJWI3BewG9Fg4j0HvhhNYQcyaBEInV4WF3yaR/S1PhvKAjZwZeROh1BY3g==
+X-Received: by 2002:a05:6a00:3916:b0:686:f84d:a4ec with SMTP id
+ fh22-20020a056a00391600b00686f84da4ecmr18624822pfb.27.1691087573322; 
+ Thu, 03 Aug 2023 11:32:53 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
+ by smtp.gmail.com with ESMTPSA id
+ f26-20020aa782da000000b00682b2fbd20fsm174547pfn.31.2023.08.03.11.32.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Aug 2023 11:32:52 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Disallow relocs on a6xx+
+Date: Thu,  3 Aug 2023 11:32:45 -0700
+Message-ID: <20230803183247.57492-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
- <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
- <bf95af44-2510-1835-dec9-183144de8413@denx.de>
- <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
- <CAF6AEGsfbUMCS4QTfqoyYetqea_ov-AET-iM54B-HvYpwwZvmg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAF6AEGsfbUMCS4QTfqoyYetqea_ov-AET-iM54B-HvYpwwZvmg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,95 +70,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/2/23 20:49, Rob Clark wrote:
-> On Wed, Aug 2, 2023 at 11:16 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On Wed, 2 Aug 2023 at 20:34, Marek Vasut <marex@denx.de> wrote:
->>>
->>> On 8/2/23 15:38, Dmitry Baryshkov wrote:
->>>> On 02/08/2023 11:52, Neil Armstrong wrote:
->>>>> This reverts commit [1] to fix display regression on the Dragonboard 845c
->>>>> (SDM845) devboard.
->>>>>
->>>>> There's a mismatch on the real action of the following flags:
->>>>> - MIPI_DSI_MODE_VIDEO_NO_HSA
->>>>> - MIPI_DSI_MODE_VIDEO_NO_HFP
->>>>> - MIPI_DSI_MODE_VIDEO_NO_HBP
->>>>> which leads to a non-working display on qcom platforms.
->>>>>
->>>>> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
->>>>> EOT packet")
->>>>>
->>>>> Cc: Marek Vasut <marex@denx.de>
->>>>> Cc: Robert Foss <rfoss@kernel.org>
->>>>> Cc: Jagan Teki <jagan@amarulasolutions.com>
->>>>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA
->>>>> and EOT packet")
->>>>> Reported-by: Amit Pundir <amit.pundir@linaro.org>
->>>>> Link:
->>>>> https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
->>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>> ---
->>>>>    drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
->>>>>    1 file changed, 1 insertion(+), 3 deletions(-)
->>>>>
->>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #fix db845c
->>>>
->>>> The boards broken by [1] are used in production by different parties
->>>> since 5.10, breaking them doesn't seem more acceptable than breaking the
->>>> new out-of-tree iMX8m hardware.
->>>
->>> The MX8M is also in-tree, so this does not apply.
->>
->> v6.5-rc4:
->>
->> $ git grep lontium,lt9611 | grep -v 9611uxc
->> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
->> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
->> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->>      - lontium,lt9611
->> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->>        compatible = "lontium,lt9611";
->> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
->> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
->> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
->>
->> next-20230802:
->>
->> $ git grep lontium,lt9611 | grep -v 9611uxc
->> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:$id:
->> http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
->> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->>      - lontium,lt9611
->> Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml:
->>        compatible = "lontium,lt9611";
->> arch/arm64/boot/dts/qcom/sdm845-db845c.dts: compatible = "lontium,lt9611";
->> drivers/gpu/drm/bridge/lontium-lt9611.c: { "lontium,lt9611", 0 },
->> drivers/gpu/drm/bridge/lontium-lt9611.c: { .compatible = "lontium,lt9611" },
->>
->> Your device is not in the tree. Your commit broke existing users.
->>
->> Can we please end the argument, land the fix (this revert) for 6.5 and
->> work on the solution for 6.6 or 6.7?
->>
-> 
-> Even if they were in-tree, breaking existing hw means revert and
-> try-again.  Especially as we get into later -rc's
+From: Rob Clark <robdclark@chromium.org>
 
-Then just apply the revert, I don't have time to debug this right this 
-moment, and it is anyway meaningless until I can look at the bus with 
-DSI bus analyzer.
+Mesa stopped using these pretty early in a6xx bringup[1].  Take advantage
+of this to disallow some legacy UABI.
+
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/commit/7ef722861b691ce99be3827ed05f8c0ddf2cd66e
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  2 ++
+ drivers/gpu/drm/msm/msm_gem_submit.c    | 10 ++++++++++
+ drivers/gpu/drm/msm/msm_gpu.h           |  9 +++++++++
+ 3 files changed, 21 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index ba35c2a87021..695cce82d914 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -1078,6 +1078,8 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 	adreno_gpu->info = config->info;
+ 	adreno_gpu->chip_id = config->chip_id;
+ 
++	gpu->allow_relocs = config->info->family < ADRENO_6XX_GEN1;
++
+ 	/* Only handle the core clock when GMU is not in use (or is absent). */
+ 	if (adreno_has_gmu_wrapper(adreno_gpu) ||
+ 	    adreno_gpu->info->family < ADRENO_6XX_GEN1) {
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 63c96416e183..3b908f9f5493 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -882,6 +882,16 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		if (submit->valid)
+ 			continue;
+ 
++		if (!gpu->allow_relocs) {
++			if (submit->cmd[i].nr_relocs) {
++				DRM_ERROR("relocs not allowed\n");
++				ret = -EINVAL;
++				goto out;
++			}
++
++			continue;
++		}
++
+ 		ret = submit_reloc(submit, msm_obj, submit->cmd[i].offset * 4,
+ 				submit->cmd[i].nr_relocs, submit->cmd[i].relocs);
+ 		if (ret)
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 7a4fa1b8655b..4252e3839fbc 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -285,6 +285,15 @@ struct msm_gpu {
+ 	/* True if the hardware supports expanded apriv (a650 and newer) */
+ 	bool hw_apriv;
+ 
++	/**
++	 * @allow_relocs: allow relocs in SUBMIT ioctl
++	 *
++	 * Mesa won't use relocs for driver version 1.4.0 and later.  This
++	 * switch-over happened early enough in mesa a6xx bringup that we
++	 * can disallow relocs for a6xx and newer.
++	 */
++	bool allow_relocs;
++
+ 	struct thermal_cooling_device *cooling;
+ };
+ 
+-- 
+2.41.0
+
