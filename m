@@ -1,63 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DB976EE91
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 17:47:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D3776EE9C
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 17:49:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9FD310E621;
-	Thu,  3 Aug 2023 15:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5572110E624;
+	Thu,  3 Aug 2023 15:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D2D10E621
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 15:47:01 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id
- af79cd13be357-76ca8921c6cso56013185a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 08:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20221208.gappssmtp.com; s=20221208; t=1691077620; x=1691682420;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BR95KYRW8gjLWmj5n1GrAER+G2eIWp3ay4JBNBU6gJ8=;
- b=0bbF3wBBxw+ApJM1bSULNxPzeIu8AWzYPBt1rdb1LWJyi4ZyLxEhHOgWCmg24+v/bX
- e73+6ZVFPAOJBfb4Il5wJuoktFHqJviWxQ0ucAN47nzImxfWMBKcJ0kmuPeAcOR1XUd7
- NuHQHb1m21IC8lRfXbqUkDw89tjlbA/wEwHSlc/CNi8cPIOIY+woRuVSaeOtbZhakOEG
- UiYuRmUlyjFY+dbd9YXqvr0OKdogIVY972whDOQoacqF1y3HDeH/BWnkWF3c+p1dLRbF
- 16OVXwPhwVRyaJW0y4Kjxj6Bsg37zlkCv0nhwqoVYd3AxRWs/WtLwPfKFVTC8y3CxXkq
- gDag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691077620; x=1691682420;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BR95KYRW8gjLWmj5n1GrAER+G2eIWp3ay4JBNBU6gJ8=;
- b=drBTKDlmpJaOswqLsL5HDxinb/w0VUByzT6TBNMDQK+1VjvzTUFXqux+1HEBFA3Kt8
- 9zhwPIvsuCy4dGkLcAM4DNw98/mXVi5sS7YhSpGSKeGuuoLdYB6Jd7yVFKtxA9ClhAwH
- LhNVNZR7E3JfQGYWM7SayxDYYHfVb5l4vxDzhe+LojoB4ow9mcK23/GFQ2tDmBC7VSXC
- o2d1lT6cNO+CkHdehWj0Z9sx2BRj5c8cwlR3zO/BY/ioti5+WiXOiUKsIuueZI9Wlh6D
- ouOhVRHOPLd4zt88y+6Oy1t2MJUVarMFSvPU9YqT/f95cSLa1KSlzNBZztlq6W4dPkEH
- trEA==
-X-Gm-Message-State: ABy/qLa40Rnjx5SUALmtnvIySuTZpn+7uZKZR5ekZOl0c+Uumfc9uFGv
- ODl4OmewuHewkGuq2dEvkg97wDjAzT+OMf48Tj3Cbw==
-X-Google-Smtp-Source: APBJJlGw4ETm5GfVCR4LUhH6OiHpNa0fHLB0u1/uKg534tppEH6ps07NMLhpPvDi+d1HQzPVrckvZ7yCFleuqk9jVu8=
-X-Received: by 2002:a05:620a:4311:b0:76c:9769:9e1a with SMTP id
- u17-20020a05620a431100b0076c97699e1amr17874088qko.17.1691077620369; Thu, 03
- Aug 2023 08:47:00 -0700 (PDT)
-MIME-Version: 1.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4323B10E624
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 15:49:35 +0000 (UTC)
+Received: from strictly.printclub (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: daniels)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 47171660719E;
+ Thu,  3 Aug 2023 16:49:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1691077773;
+ bh=1utPjd4nZ+4QB9HS6ftCxv82n8kl2ZtzpHU962/E6rE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=SQU0Uu5AYqLN0uIinurSjZx1HaX+nIKQo7UMy5gKDFm805tu3uuhA1MlUo/eF9l1L
+ 5s6X0YNyVEkqjzr+koD539VbUlAiDo9relnPeDiyBQnw+kFM6Bq9KiNN0JuyFoUC/i
+ am+vkZ4+gWqlppMfpgPe6S3dhbvJkDqWQ9NltCuaGRQgLKy2D836iUHbqGPeak6Igt
+ Aij3am8eAYWhfDUTNZLF1cUIw+Oq3O0scunydRQjvWaVFZWkrw30/eTxc64Xmohccw
+ 97tGO/fNQDaYkUfRZT6Qm/9q2wmtfqyCgNqbQpmArN5a6mAGL3kIMy9B4VpTGPzp5C
+ shiKdzaWWrDjQ==
+From: Daniel Stone <daniels@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/2] doc: uapi: Document dma-buf interop design & semantics
+Date: Thu,  3 Aug 2023 16:47:27 +0100
+Message-ID: <20230803154908.105124-2-daniels@collabora.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20210905122742.86029-1-daniels@collabora.com>
 References: <20210905122742.86029-1-daniels@collabora.com>
- <AqG6tXWB4u3qhQs6QV8AkOhbOhpAsenbzEKPlyG4IRBDtqevEHfx61dGX80b1U49N-nnoovcWzW1smGRlK6OhRrFkonCSFMalVxbhgdoNuE=@emersion.fr>
- <f27654e4-3abb-3950-1629-c32b881332ed@nvidia.com>
- <YYo7wHBACwgwy3W+@phenom.ffwll.local>
- <CAPj87rPaGtRirzB3-Gk+3i-=xrdA4O9LR6dV36smCgJH9JU3EA@mail.gmail.com>
-In-Reply-To: <CAPj87rPaGtRirzB3-Gk+3i-=xrdA4O9LR6dV36smCgJH9JU3EA@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 3 Aug 2023 16:46:49 +0100
-Message-ID: <CAPj87rOU7wOXSJnwq8UqSOXvv5VuaSS7LRST1e+TphL2gscxew@mail.gmail.com>
-Subject: Re: [PATCH] doc: gpu: Add document describing buffer exchange
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,21 +50,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, Daniel Stone <daniels@collabora.com>,
- dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 3 Aug 2023 at 16:46, Daniel Stone <daniel@fooishbar.org> wrote:
-> On Tue, 9 Nov 2021 at 09:13, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > Seconded on just landing this without trying to perfect it first, because
-> > I was just looking for it and didn't find it anywhere :-/
->
-> Swing and a miss ...
->
-> I've just sent out v2 with - AFAICT - all the changes from all
+Hi all,
+This is v2 to the linked patch series; thanks to everyone for reviewing
+the initial version. I've moved this out of a pure DRM scope and into
+the general userspace-API design section. Hopefully it helps others and
+answers a bunch of questions.
 
-.. all of you in this thread. Thanks a lot for the review!
+I think it'd be great to have input/links/reflections from other
+subsystems as well here.
 
 Cheers,
 Daniel
+
+
