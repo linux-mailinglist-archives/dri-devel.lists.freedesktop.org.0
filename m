@@ -2,64 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075E676E666
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 13:10:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500CA76E6A2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 13:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD7D10E5EA;
-	Thu,  3 Aug 2023 11:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13B1610E5EB;
+	Thu,  3 Aug 2023 11:18:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBA0510E5EA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 11:10:25 +0000 (UTC)
-X-UUID: 56366f4e31ee11ee9cb5633481061a41-20230803
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=y1/bPs/BxFNXGqv9H1rzERGNtX0OyJ3swYdBbl4atw8=; 
- b=PiwlT4zTQLrBxUTvpO2LqKe3RXbRHrZI5s7jRxkt1Li47C31rASohhHiZ09f8cmFkVQR6Fuq6nimT9R6CgSYGWBLH/m0wH1pkYHLlny1CqPH4dheqMiuw2NwuQiG+oK6Imx+fRN7KtdcrReOXdWjGr5ImyVE2K6V60t1zO9B47k=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.30, REQID:3ca707d5-4d6d-44b1-9403-71d81f6d01a6, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:1fcc6f8, CLOUDID:99a6d9a0-0933-4333-8d4f-6c3c53ebd55b,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
- NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 56366f4e31ee11ee9cb5633481061a41-20230803
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <xiaoyong.lu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1716315439; Thu, 03 Aug 2023 19:10:21 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 3 Aug 2023 19:10:19 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 3 Aug 2023 19:10:18 +0800
-From: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
- Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [v3] media: mediatek: vcodec: fix AV1 decoding on MT8188
-Date: Thu, 3 Aug 2023 19:10:17 +0800
-Message-ID: <20230803111017.2418-1-xiaoyong.lu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 099B010E5EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 11:18:36 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4fe457ec6e7so1483195e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 04:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691061514; x=1691666314;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yVMtPnE0Jb/J9QxlUytkL4duX4FZWHFBp/OP8kiAwAA=;
+ b=kal3dk9nda2u/3tB1viAQMR0L+3pUMGDhUd2QCFVid4mUMGAdEKYuavISSPyIKokFD
+ TgC/qi7ryRCd9vbKYXe34j0lFy5wG2FzNyEGiT//5VEW3KsPlLqEinqDhh0pu8tALa4k
+ itRxbwI6lzjTXRBckCh4wCZU8FZJubZKt4TN3ga8ZIY1dWZYv54f3hKxAQhozdag9pKw
+ NjPXZuM2ErBdtqp2Ac5BfFjAqIa6GRSgOZlNXihJpqxdPuOfMl7muoxEpHau7j6mmewH
+ glCZas8+O4ga/Lxx4jIWsYZr3aD4Q1alTWeeUUrGbvWIQdINQ2CaAkxCU9TeqBktG/9P
+ V3gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691061514; x=1691666314;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yVMtPnE0Jb/J9QxlUytkL4duX4FZWHFBp/OP8kiAwAA=;
+ b=d6bq2gXx8JNJIhm/w0imNbVZisGy6CdWlh10XKncg5hdSykJEETTavCOb8BagKP7JI
+ Jv0FpdHw0p3k9xTNCjk6wzDozksek+OQXf/yybSBrP/FVsKyq4+NXWd4QyYVTsVdbBuA
+ e+JPffuwvlfWcV2WSQIwrONEn/3DoYU5xkQYMnbVyANP5MmgBAVpGgUg2v8wLY50s54A
+ x+7wiwB6GjeLbXO1c2Dr+g4poBfZX4pNf+kTJ1OOcJxFaHqVRR/uOMB2RgVWfwOpKTEM
+ NODuGuQu2oab6uu/Cp9t1qIflFSq69M2CzF+om42HaTZsTcvNKPS/jKRwkjQTRF4zsxQ
+ UkuA==
+X-Gm-Message-State: ABy/qLZqdHILNxyOJtfS+EZaFSFxS+TF/h3hfy1pFUa9eTEk2X6ZYtpm
+ YfxhTnBRXYBige04H/UzD4NnCA==
+X-Google-Smtp-Source: APBJJlH0pAA+7qtJlp2hvnz725PBTJoYabs1TKO9v3OgLTpxg8UmqkP9rCFsq0g7E9dMQnMgVshsdQ==
+X-Received: by 2002:a19:e008:0:b0:4f8:8be4:8a82 with SMTP id
+ x8-20020a19e008000000b004f88be48a82mr6449087lfg.22.1691061514124; 
+ Thu, 03 Aug 2023 04:18:34 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ f14-20020a056512092e00b004edc72be17csm3296417lft.2.2023.08.03.04.18.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Aug 2023 04:18:33 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
+Date: Thu,  3 Aug 2023 14:18:32 +0300
+Message-Id: <169106148046.4192382.8826688814736988415.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
+References: <20230802183655.4188640-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,73 +77,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Ryan McCann <quic_rmccann@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix AV1 decoding failure when the iova is 36bit.
 
-Before this fix, the decoder was accessing incorrect addresses with 36bit
-iova tile buffer, leading to iommu faults.
+On Wed, 02 Aug 2023 21:36:54 +0300, Dmitry Baryshkov wrote:
+> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
+> This includes the common block itself, enc subblocks and some empty
+> space around. Change that to pass 0x4 instead, the length of common
+> register block itself.
+> 
+> 
 
-Fixes: 2f5d0aef37c6 ("media: mediatek: vcodec: support stateless AV1 decoder")
-Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
----
-Changes from v2:
+Applied, thanks!
 
-- refine commit subject and message
+[1/2] drm/msm/dpu: fix DSC 1.2 block lengths
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/e550ad0e5c3d
+[2/2] drm/msm/dpu: fix DSC 1.2 enc subblock length
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/57a1ca6cf73b
 
-Changes from v1:
-
-- prefer '|' rather than '+'
-- prefer '&' rather than shift operation
-- add comments for address operations
-
-v1:
-- VDEC HW can access tile buffer and decode normally.
-- Test ok by mt8195 32bit and mt8188 36bit iova.
-
----
- .../mediatek/vcodec/vdec/vdec_av1_req_lat_if.c       | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-index 404a1a23fd402..e9f2393f6a883 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-@@ -1658,9 +1658,9 @@ static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *ins
- 	u32 allow_update_cdf = 0;
- 	u32 sb_boundary_x_m1 = 0, sb_boundary_y_m1 = 0;
- 	int tile_info_base;
--	u32 tile_buf_pa;
-+	u64 tile_buf_pa;
- 	u32 *tile_info_buf = instance->tile.va;
--	u32 pa = (u32)bs->dma_addr;
-+	u64 pa = (u64)bs->dma_addr;
- 
- 	if (uh->disable_cdf_update == 0)
- 		allow_update_cdf = 1;
-@@ -1673,8 +1673,12 @@ static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *ins
- 		tile_info_buf[tile_info_base + 0] = (tile_group->tile_size[tile_num] << 3);
- 		tile_buf_pa = pa + tile_group->tile_start_offset[tile_num];
- 
--		tile_info_buf[tile_info_base + 1] = (tile_buf_pa >> 4) << 4;
--		tile_info_buf[tile_info_base + 2] = (tile_buf_pa % 16) << 3;
-+		/* save av1 tile high 4bits(bit 32-35) address in lower 4 bits position
-+		 * and clear original for hw requirement.
-+		 */
-+		tile_info_buf[tile_info_base + 1] = (tile_buf_pa & 0xFFFFFFF0ull) |
-+			((tile_buf_pa & 0xF00000000ull) >> 32);
-+		tile_info_buf[tile_info_base + 2] = (tile_buf_pa & 0xFull) << 3;
- 
- 		sb_boundary_x_m1 =
- 			(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - 1) &
+Best regards,
 -- 
-2.18.0
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
