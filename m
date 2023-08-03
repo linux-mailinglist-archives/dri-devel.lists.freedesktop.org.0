@@ -1,41 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69EA76F4D6
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 23:53:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7200776F4F1
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Aug 2023 23:58:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA45510E67A;
-	Thu,  3 Aug 2023 21:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7257110E68A;
+	Thu,  3 Aug 2023 21:58:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12FAC10E67A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Aug 2023 21:52:56 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5DF12CF;
- Thu,  3 Aug 2023 23:51:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1691099510;
- bh=4nr+pCFvRIDbDtYoKOpZHa11XbIzghHLOacwxCPgWv0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OGUpWfWmlbDM/JBOqZX1yp/eoV/Rcz/Zn23aC6MnCRuqPimeo3C+zvWkqj5pmsWsF
- qv0j+Fh16ePKbMCewYGqMvxtSv439imwpmCOJFWYpqy22mz/We9dKU4kmGbLhtt0OS
- bhhdQ0NafJU6hdCRH2blWEIsRatPNcAPMTU3f7HU=
-Date: Fri, 4 Aug 2023 00:53:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 1/2] pwm: Manage owner assignment implicitly for drivers
-Message-ID: <20230803215300.GH27752@pendragon.ideasonboard.com>
-References: <20230803140633.138165-1-u.kleine-koenig@pengutronix.de>
- <20230803140633.138165-2-u.kleine-koenig@pengutronix.de>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666F910E684;
+ Thu,  3 Aug 2023 21:58:14 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 900123F21D;
+ Thu,  3 Aug 2023 23:58:11 +0200 (CEST)
+Date: Thu, 3 Aug 2023 23:58:09 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Danila Tikhonov <danila@jiaxyga.com>
+Subject: Re: [PATCH 2/2] drm/msm/dpu: Add SM7150 support
+Message-ID: <7csm4rg5um22jfrwkm5wbcsnabiunks5xi72rmmilr2afv2cxj@ve3codulbwk6>
+References: <20230803194724.154591-1-danila@jiaxyga.com>
+ <20230803194724.154591-3-danila@jiaxyga.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230803140633.138165-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230803194724.154591-3-danila@jiaxyga.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,282 +43,372 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-staging@lists.linux.dev, Andrzej Hajda <andrzej.hajda@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Johan Hovold <johan@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Paul Cercueil <paul@crapouillou.net>, linux-tegra@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Guenter Roeck <groeck@chromium.org>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Michal Simek <michal.simek@amd.com>, linux-riscv@lists.infradead.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>,
- chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, linux-stm32@st-md-mailman.stormreply.com,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Samuel Holland <samuel@sholland.org>, Sean Anderson <sean.anderson@seco.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
- Michael Walle <michael@walle.cc>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org,
- Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-pwm@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Vladimir Zapolskiy <vz@mleia.com>, linux-gpio@vger.kernel.org,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Sven Peter <sven@svenpeter.dev>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Andy Shevchenko <andy@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Alex Elder <elder@kernel.org>, Alexander Shiyan <shc_work@mail.ru>,
- Scott Branden <sbranden@broadcom.com>, greybus-dev@lists.linaro.org,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
- Hector Martin <marcan@marcan.st>, Douglas Anderson <dianders@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, asahi@lists.linux.dev,
- Kevin Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-rpi-kernel@lists.infradead.org
+Cc: quic_rmccann@quicinc.com, dri-devel@lists.freedesktop.org,
+ liushixin2@huawei.com, krzysztof.kozlowski+dt@linaro.org,
+ quic_vpolimer@quicinc.com, rfoss@kernel.org, davidwronek@gmail.com,
+ quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com, devicetree@vger.kernel.org,
+ conor+dt@kernel.org, linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ robh+dt@kernel.org, sean@poorly.run, neil.armstrong@linaro.org,
+ andersson@kernel.org, linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
-
-Thank you for the patch.
-
-On Thu, Aug 03, 2023 at 04:06:31PM +0200, Uwe Kleine-König wrote:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
-
-While technically speaking the ops and pwm chip could be provided by
-different modules, such a use case would likely require a high level of
-self-inflicted pain, so I think the change is fine.
-
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
-> module.
+On 2023-08-03 22:47:24, Danila Tikhonov wrote:
+> Add definitions for the display hardware used on the Qualcomm SM7150
+> platform.
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 > ---
->  drivers/gpio/gpio-mvebu.c             |  1 -
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->  drivers/leds/rgb/leds-qcom-lpg.c      |  1 -
->  drivers/pwm/core.c                    | 20 +++++++++++---------
->  drivers/pwm/pwm-ab8500.c              |  1 -
->  drivers/pwm/pwm-apple.c               |  1 -
->  drivers/pwm/pwm-atmel-hlcdc.c         |  1 -
->  drivers/pwm/pwm-atmel-tcb.c           |  1 -
->  drivers/pwm/pwm-atmel.c               |  1 -
->  drivers/pwm/pwm-bcm-iproc.c           |  1 -
->  drivers/pwm/pwm-bcm-kona.c            |  1 -
->  drivers/pwm/pwm-bcm2835.c             |  1 -
->  drivers/pwm/pwm-berlin.c              |  1 -
->  drivers/pwm/pwm-brcmstb.c             |  1 -
->  drivers/pwm/pwm-clk.c                 |  1 -
->  drivers/pwm/pwm-clps711x.c            |  1 -
->  drivers/pwm/pwm-cros-ec.c             |  1 -
->  drivers/pwm/pwm-dwc.c                 |  1 -
->  drivers/pwm/pwm-ep93xx.c              |  1 -
->  drivers/pwm/pwm-fsl-ftm.c             |  1 -
->  drivers/pwm/pwm-hibvt.c               |  1 -
->  drivers/pwm/pwm-img.c                 |  1 -
->  drivers/pwm/pwm-imx-tpm.c             |  1 -
->  drivers/pwm/pwm-imx1.c                |  1 -
->  drivers/pwm/pwm-imx27.c               |  1 -
->  drivers/pwm/pwm-intel-lgm.c           |  1 -
->  drivers/pwm/pwm-iqs620a.c             |  1 -
->  drivers/pwm/pwm-jz4740.c              |  1 -
->  drivers/pwm/pwm-keembay.c             |  1 -
->  drivers/pwm/pwm-lp3943.c              |  1 -
->  drivers/pwm/pwm-lpc18xx-sct.c         |  1 -
->  drivers/pwm/pwm-lpc32xx.c             |  1 -
->  drivers/pwm/pwm-lpss.c                |  1 -
->  drivers/pwm/pwm-mediatek.c            |  1 -
->  drivers/pwm/pwm-meson.c               |  1 -
->  drivers/pwm/pwm-microchip-core.c      |  1 -
->  drivers/pwm/pwm-mtk-disp.c            |  1 -
->  drivers/pwm/pwm-mxs.c                 |  1 -
->  drivers/pwm/pwm-ntxec.c               |  1 -
->  drivers/pwm/pwm-omap-dmtimer.c        |  1 -
->  drivers/pwm/pwm-pca9685.c             |  1 -
->  drivers/pwm/pwm-pxa.c                 |  1 -
->  drivers/pwm/pwm-raspberrypi-poe.c     |  1 -
->  drivers/pwm/pwm-rcar.c                |  1 -
->  drivers/pwm/pwm-renesas-tpu.c         |  1 -
->  drivers/pwm/pwm-rockchip.c            |  1 -
->  drivers/pwm/pwm-rz-mtu3.c             |  1 -
->  drivers/pwm/pwm-samsung.c             |  1 -
->  drivers/pwm/pwm-sifive.c              |  1 -
->  drivers/pwm/pwm-sl28cpld.c            |  1 -
->  drivers/pwm/pwm-spear.c               |  1 -
->  drivers/pwm/pwm-sprd.c                |  1 -
->  drivers/pwm/pwm-sti.c                 |  1 -
->  drivers/pwm/pwm-stm32-lp.c            |  1 -
->  drivers/pwm/pwm-stm32.c               |  1 -
->  drivers/pwm/pwm-stmpe.c               |  1 -
->  drivers/pwm/pwm-sun4i.c               |  1 -
->  drivers/pwm/pwm-sunplus.c             |  1 -
->  drivers/pwm/pwm-tegra.c               |  1 -
->  drivers/pwm/pwm-tiecap.c              |  1 -
->  drivers/pwm/pwm-tiehrpwm.c            |  1 -
->  drivers/pwm/pwm-twl-led.c             |  2 --
->  drivers/pwm/pwm-twl.c                 |  2 --
->  drivers/pwm/pwm-visconti.c            |  1 -
->  drivers/pwm/pwm-vt8500.c              |  1 -
->  drivers/pwm/pwm-xilinx.c              |  1 -
->  drivers/staging/greybus/pwm.c         |  1 -
->  include/linux/pwm.h                   |  8 +++++---
->  68 files changed, 16 insertions(+), 80 deletions(-)
-
-[snip]
-
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index dc66e3405bf5..96069c6d3d69 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -89,13 +89,13 @@ static int pwm_device_request(struct pwm_device *pwm, const char *label)
->  	if (test_bit(PWMF_REQUESTED, &pwm->flags))
->  		return -EBUSY;
->  
-> -	if (!try_module_get(pwm->chip->ops->owner))
-> +	if (!try_module_get(pwm->chip->owner))
->  		return -ENODEV;
->  
->  	if (pwm->chip->ops->request) {
->  		err = pwm->chip->ops->request(pwm->chip, pwm);
->  		if (err) {
-> -			module_put(pwm->chip->ops->owner);
-> +			module_put(pwm->chip->owner);
->  			return err;
->  		}
->  	}
-> @@ -253,14 +253,14 @@ static bool pwm_ops_check(const struct pwm_chip *chip)
->  }
->  
->  /**
-> - * pwmchip_add() - register a new PWM chip
-> + * __pwmchip_add() - register a new PWM chip
->   * @chip: the PWM chip to add
-
-Missing documentation for the new owner parameter.
-
->   *
->   * Register a new PWM chip.
->   *
->   * Returns: 0 on success or a negative error code on failure.
->   */
-> -int pwmchip_add(struct pwm_chip *chip)
-> +int __pwmchip_add(struct pwm_chip *chip, struct module *owner)
->  {
->  	struct pwm_device *pwm;
->  	unsigned int i;
-> @@ -272,6 +272,8 @@ int pwmchip_add(struct pwm_chip *chip)
->  	if (!pwm_ops_check(chip))
->  		return -EINVAL;
->  
-> +	chip->owner = owner;
+>  .../msm/disp/dpu1/catalog/dpu_5_2_sm7150.h    | 277 ++++++++++++++++++
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   1 +
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
+>  4 files changed, 280 insertions(+)
+>  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+> new file mode 100644
+> index 000000000000..5823879a705a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+> @@ -0,0 +1,277 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2018-2019, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
+> + */
 > +
->  	chip->pwms = kcalloc(chip->npwm, sizeof(*pwm), GFP_KERNEL);
->  	if (!chip->pwms)
->  		return -ENOMEM;
-> @@ -306,7 +308,7 @@ int pwmchip_add(struct pwm_chip *chip)
->  
->  	return 0;
->  }
-> -EXPORT_SYMBOL_GPL(pwmchip_add);
-> +EXPORT_SYMBOL_GPL(__pwmchip_add);
->  
->  /**
->   * pwmchip_remove() - remove a PWM chip
-> @@ -338,17 +340,17 @@ static void devm_pwmchip_remove(void *data)
->  	pwmchip_remove(chip);
->  }
->  
-> -int devm_pwmchip_add(struct device *dev, struct pwm_chip *chip)
-> +int __devm_pwmchip_add(struct device *dev, struct pwm_chip *chip, struct module *owner)
->  {
->  	int ret;
->  
-> -	ret = pwmchip_add(chip);
-> +	ret = __pwmchip_add(chip, owner);
->  	if (ret)
->  		return ret;
->  
->  	return devm_add_action_or_reset(dev, devm_pwmchip_remove, chip);
->  }
-> -EXPORT_SYMBOL_GPL(devm_pwmchip_add);
-> +EXPORT_SYMBOL_GPL(__devm_pwmchip_add);
->  
->  /**
->   * pwm_request_from_chip() - request a PWM device relative to a PWM chip
-> @@ -979,7 +981,7 @@ void pwm_put(struct pwm_device *pwm)
->  	pwm_set_chip_data(pwm, NULL);
->  	pwm->label = NULL;
->  
-> -	module_put(pwm->chip->ops->owner);
-> +	module_put(pwm->chip->owner);
->  out:
->  	mutex_unlock(&pwm_lock);
->  }
+> +#ifndef _DPU_5_2_SM7150_H
+> +#define _DPU_5_2_SM7150_H
+> +
+> +static const struct dpu_caps sm7150_dpu_caps = {
+> +	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> +	.max_mixer_blendstages = 0xb,
+> +	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+> +	.has_src_split = true,
+> +	.has_dim_layer = true,
+> +	.has_idle_pc = true,
+> +	.has_3d_merge = true,
+> +	.max_linewidth = 4096,
+> +	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> +	.max_hdeci_exp = MAX_HORZ_DECIMATION,
+> +	.max_vdeci_exp = MAX_VERT_DECIMATION,
+> +};
+> +
+> +static const struct dpu_mdp_cfg sm7150_mdp[] = {
+> +	{
+> +	.name = "top_0",
+> +	.base = 0x0, .len = 0x45c,
+> +	.features = BIT(DPU_MDP_AUDIO_SELECT),
+> +	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
+> +	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
+> +	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
+> +	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
+> +	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
+> +	.clk_ctrls[DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
 
-[snip]
+This array can be written more concisely, as done in the other catalog
+files:
 
-> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-> index d2f9f690a9c1..d9fa0114edfa 100644
-> --- a/include/linux/pwm.h
-> +++ b/include/linux/pwm.h
-> @@ -278,7 +278,6 @@ struct pwm_ops {
->  		     const struct pwm_state *state);
->  	int (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
->  			 struct pwm_state *state);
-> -	struct module *owner;
->  };
->  
->  /**
+	.clk_ctrls = {
+		[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
+		[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
+		[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
+		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
+		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
+		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
+	},
 
-Missing documentation update here too, for both pwm_ops and pwm_chip.
 
-> @@ -295,6 +294,7 @@ struct pwm_ops {
->  struct pwm_chip {
->  	struct device *dev;
->  	const struct pwm_ops *ops;
-> +	struct module *owner;
->  	int base;
->  	unsigned int npwm;
->  
-> @@ -386,10 +386,12 @@ int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
->  int pwm_set_chip_data(struct pwm_device *pwm, void *data);
->  void *pwm_get_chip_data(struct pwm_device *pwm);
->  
-> -int pwmchip_add(struct pwm_chip *chip);
-> +int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
-> +#define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
->  void pwmchip_remove(struct pwm_chip *chip);
->  
-> -int devm_pwmchip_add(struct device *dev, struct pwm_chip *chip);
-> +int __devm_pwmchip_add(struct device *dev, struct pwm_chip *chip, struct module *owner);
-> +#define devm_pwmchip_add(dev, chip) __devm_pwmchip_add(dev, chip, THIS_MODULE)
->  
->  struct pwm_device *pwm_request_from_chip(struct pwm_chip *chip,
->  					 unsigned int index,
+> +	},
+> +};
+> +
+> +static const struct dpu_sspp_cfg sm7150_sspp[] = {
+> +	{
+> +		.name = "sspp_0", .id = SSPP_VIG0,
+> +		.base = 0x4000, .len = 0x1f0,
+> +		.features = VIG_SDM845_MASK,
+> +		.sblk = &sm8250_vig_sblk_0,
+> +		.xin_id = 0,
+> +		.type = SSPP_TYPE_VIG,
+> +		.clk_ctrl = DPU_CLK_CTRL_VIG0,
+> +	}, {
+> +		.name = "sspp_1", .id = SSPP_VIG1,
+> +		.base = 0x6000, .len = 0x1f0,
+> +		.features = VIG_SDM845_MASK,
+> +		.sblk = &sm8250_vig_sblk_1,
+> +		.xin_id = 4,
+> +		.type = SSPP_TYPE_VIG,
+> +		.clk_ctrl = DPU_CLK_CTRL_VIG1,
+> +	}, {
+> +		.name = "sspp_2", .id = SSPP_DMA0,
+> +		.base = 0x24000, .len = 0x1f0,
+> +		.features = DMA_SDM845_MASK,
+> +		.sblk = &sdm845_dma_sblk_0,
+> +		.xin_id = 1,
+> +		.type = SSPP_TYPE_DMA,
+> +		.clk_ctrl = DPU_CLK_CTRL_DMA0,
+> +	}, {
+> +		.name = "sspp_9", .id = SSPP_DMA1,
+> +		.base = 0x26000, .len = 0x1f0,
+> +		.features = DMA_SDM845_MASK,
+> +		.sblk = &sdm845_dma_sblk_1,
+> +		.xin_id = 5,
+> +		.type = SSPP_TYPE_DMA,
+> +		.clk_ctrl = DPU_CLK_CTRL_DMA1,
+> +	}, {
+> +		.name = "sspp_10", .id = SSPP_DMA2,
+> +		.base = 0x28000, .len = 0x1f0,
+> +		.features = DMA_CURSOR_SDM845_MASK,
+> +		.sblk = &sdm845_dma_sblk_2,
+> +		.xin_id = 9,
+> +		.type = SSPP_TYPE_DMA,
+> +		.clk_ctrl = DPU_CLK_CTRL_DMA2,
+> +	},
+> +};
+> +
+> +static const struct dpu_lm_cfg sm7150_lm[] = {
+> +	{
+> +		.name = "lm_0", .id = LM_0,
+> +		.base = 0x44000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_1,
+> +		.pingpong = PINGPONG_0,
+> +		.dspp = DSPP_0,
+> +	}, {
+> +		.name = "lm_1", .id = LM_1,
+> +		.base = 0x45000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_0,
+> +		.pingpong = PINGPONG_1,
+> +		.dspp = DSPP_1,
+> +	}, {
+> +		.name = "lm_2", .id = LM_2,
+> +		.base = 0x46000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_3,
+> +		.pingpong = PINGPONG_2,
+> +	}, {
+> +		.name = "lm_3", .id = LM_3,
+> +		.base = 0x47000, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = LM_2,
+> +		.pingpong = PINGPONG_3,
+> +	}, {
+> +		.name = "lm_4", .id = LM_4,
+> +		.base = 0x0, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = 0,
 
--- 
-Regards,
+Default values can be omitted, that's how the catalog rework was
+designed.
 
-Laurent Pinchart
+> +		.pingpong = PINGPONG_4,
+> +	}, {
+> +		.name = "lm_5", .id = LM_5,
+> +		.base = 0x0, .len = 0x320,
+> +		.features = MIXER_SDM845_MASK,
+> +		.sblk = &sdm845_lm_sblk,
+> +		.lm_pair = 0,
+
+Same here.
+
+- Marijn
+
+> +		.pingpong = PINGPONG_5,
+> +	},
+> +};
+> +
+> +static const struct dpu_dspp_cfg sm7150_dspp[] = {
+> +	{
+> +		.name = "dspp_0", .id = DSPP_0,
+> +		.base = 0x54000, .len = 0x1800,
+> +		.features = DSPP_SC7180_MASK,
+> +		.sblk = &sdm845_dspp_sblk,
+> +	}, {
+> +		.name = "dspp_1", .id = DSPP_1,
+> +		.base = 0x56000, .len = 0x1800,
+> +		.features = DSPP_SC7180_MASK,
+> +		.sblk = &sdm845_dspp_sblk,
+> +	},
+> +};
+> +
+> +static const struct dpu_pingpong_cfg sm7150_pp[] = {
+> +	{
+> +		.name = "pingpong_0", .id = PINGPONG_0,
+> +		.base = 0x70000, .len = 0xd4,
+> +		.features = PINGPONG_SM8150_MASK,
+> +		.sblk = &sdm845_pp_sblk,
+> +		.merge_3d = MERGE_3D_0,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
+> +		.intr_rdptr = -1,
+> +	}, {
+> +		.name = "pingpong_1", .id = PINGPONG_1,
+> +		.base = 0x70800, .len = 0xd4,
+> +		.features = PINGPONG_SM8150_MASK,
+> +		.sblk = &sdm845_pp_sblk,
+> +		.merge_3d = MERGE_3D_0,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
+> +		.intr_rdptr = -1,
+> +	}, {
+> +		.name = "pingpong_2", .id = PINGPONG_2,
+> +		.base = 0x71000, .len = 0xd4,
+> +		.features = PINGPONG_SM8150_MASK,
+> +		.sblk = &sdm845_pp_sblk,
+> +		.merge_3d = MERGE_3D_1,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
+> +		.intr_rdptr = -1,
+> +	}, {
+> +		.name = "pingpong_3", .id = PINGPONG_3,
+> +		.base = 0x71800, .len = 0xd4,
+> +		.features = PINGPONG_SM8150_MASK,
+> +		.sblk = &sdm845_pp_sblk,
+> +		.merge_3d = MERGE_3D_1,
+> +		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
+> +		.intr_rdptr = -1,
+> +	},
+> +};
+> +
+> +static const struct dpu_merge_3d_cfg sm7150_merge_3d[] = {
+> +	{
+> +		.name = "merge_3d_0", .id = MERGE_3D_0,
+> +		.base = 0x83000, .len = 0x8,
+> +	}, {
+> +		.name = "merge_3d_1", .id = MERGE_3D_1,
+> +		.base = 0x83100, .len = 0x8,
+> +	},
+> +};
+> +
+> +static const struct dpu_dsc_cfg sm7150_dsc[] = {
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x140,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x140,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	},
+> +};
+> +
+> +static const struct dpu_wb_cfg sm7150_wb[] = {
+> +	{
+> +		.name = "wb_2", .id = WB_2,
+> +		.base = 0x65000, .len = 0x2c8,
+> +		.features = WB_SM8250_MASK,
+> +		.format_list = wb2_formats,
+> +		.num_formats = ARRAY_SIZE(wb2_formats),
+> +		.clk_ctrl = DPU_CLK_CTRL_WB2,
+> +		.xin_id = 6,
+> +		.vbif_idx = VBIF_RT,
+> +		.maxlinewidth = 4096,
+> +		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
+> +	},
+> +};
+> +
+> +static const struct dpu_perf_cfg sm7150_perf_data = {
+> +	.max_bw_low = 7100000,
+> +	.max_bw_high = 7100000,
+> +	.min_core_ib = 2400000,
+> +	.min_llcc_ib = 800000,
+> +	.min_dram_ib = 800000,
+> +	.min_prefill_lines = 24,
+> +	.danger_lut_tbl = {0xff, 0xffff, 0x0},
+> +	.safe_lut_tbl = {0xfff8, 0xf000, 0xffff},
+> +	.qos_lut_tbl = {
+> +		{.nentry = ARRAY_SIZE(sm8150_qos_linear),
+> +		.entries = sm8150_qos_linear
+> +		},
+> +		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
+> +		.entries = sc7180_qos_macrotile
+> +		},
+> +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
+> +		.entries = sc7180_qos_nrt
+> +		},
+> +	},
+> +	.cdp_cfg = {
+> +		{.rd_enable = 1, .wr_enable = 1},
+> +		{.rd_enable = 1, .wr_enable = 0}
+> +	},
+> +	.clk_inefficiency_factor = 105,
+> +	.bw_inefficiency_factor = 120,
+> +};
+> +
+> +static const struct dpu_mdss_version sm7150_mdss_ver = {
+> +	.core_major_ver = 5,
+> +	.core_minor_ver = 2,
+> +};
+> +
+> +const struct dpu_mdss_cfg dpu_sm7150_cfg = {
+> +	.mdss_ver = &sm7150_mdss_ver,
+> +	.caps = &sm7150_dpu_caps,
+> +	.mdp = sm7150_mdp,
+> +	.ctl_count = ARRAY_SIZE(sm8150_ctl),
+> +	.ctl = sm8150_ctl,
+> +	.sspp_count = ARRAY_SIZE(sm7150_sspp),
+> +	.sspp = sm7150_sspp,
+> +	.mixer_count = ARRAY_SIZE(sm7150_lm),
+> +	.mixer = sm7150_lm,
+> +	.dspp_count = ARRAY_SIZE(sm7150_dspp),
+> +	.dspp = sm7150_dspp,
+> +	.pingpong_count = ARRAY_SIZE(sm7150_pp),
+> +	.pingpong = sm7150_pp,
+> +	.merge_3d_count = ARRAY_SIZE(sm7150_merge_3d),
+> +	.merge_3d = sm7150_merge_3d,
+> +	.dsc_count = ARRAY_SIZE(sm7150_dsc),
+> +	.dsc = sm7150_dsc,
+> +	.intf_count = ARRAY_SIZE(sm8150_intf),
+> +	.intf = sm8150_intf,
+> +	.wb_count = ARRAY_SIZE(sm7150_wb),
+> +	.wb = sm7150_wb,
+> +	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+> +	.vbif = sdm845_vbif,
+> +	.perf = &sm7150_perf_data,
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index ce369eeffa7d..fea1253cab0a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -658,6 +658,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
+>  
+>  #include "catalog/dpu_5_0_sm8150.h"
+>  #include "catalog/dpu_5_1_sc8180x.h"
+> +#include "catalog/dpu_5_2_sm7150.h"
+>  #include "catalog/dpu_5_4_sm6125.h"
+>  
+>  #include "catalog/dpu_6_0_sm8250.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 6c9634209e9f..86b354ef45e6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -833,6 +833,7 @@ extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sdm845_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm8150_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
+> +extern const struct dpu_mdss_cfg dpu_sm7150_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sc7180_cfg;
+>  extern const struct dpu_mdss_cfg dpu_sm6115_cfg;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index aa6ba2cf4b84..50ec008b7d56 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1371,6 +1371,7 @@ static const struct of_device_id dpu_dt_match[] = {
+>  	{ .compatible = "qcom,sm6125-dpu", .data = &dpu_sm6125_cfg, },
+>  	{ .compatible = "qcom,sm6350-dpu", .data = &dpu_sm6350_cfg, },
+>  	{ .compatible = "qcom,sm6375-dpu", .data = &dpu_sm6375_cfg, },
+> +	{ .compatible = "qcom,sm7150-dpu", .data = &dpu_sm7150_cfg, },
+>  	{ .compatible = "qcom,sm8150-dpu", .data = &dpu_sm8150_cfg, },
+>  	{ .compatible = "qcom,sm8250-dpu", .data = &dpu_sm8250_cfg, },
+>  	{ .compatible = "qcom,sm8350-dpu", .data = &dpu_sm8350_cfg, },
+> -- 
+> 2.41.0
+> 
