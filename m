@@ -1,68 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DD276FAEF
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:18:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEAE76FAF3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3DE10E698;
-	Fri,  4 Aug 2023 07:17:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7497D10E693;
+	Fri,  4 Aug 2023 07:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fallback24.i.mail.ru (fallback24.i.mail.ru [79.137.243.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6F3010E108;
- Thu,  3 Aug 2023 20:08:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929B410E664;
+ Thu,  3 Aug 2023 21:13:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com;
  s=mailru; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=/Fv6//zYQ8hHhjfzP+mBDrRjyPegam4EZOiBSMo8WDI=; 
- t=1691093336;x=1691183336; 
- b=z3e3HTsWtrOHrwZhF9TAZjPqF6EmIeM6EMlB9Qytz8q3FZ1EKSYDHDFaQxC6bGIEVgEQb8kuVE9TZutgljN32IaHiArwryJpBbYC7+P5vvzZsKWlv7llY31gHKQOstSWga6Jp104W6qwpwFkj3wqkIFMzzfPn31N7uW7vy8tH3I=;
-Received: from [10.12.4.30] (port=37854 helo=smtp55.i.mail.ru)
+ h=References:In-Reply-To:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=0NnggU8lURmUqIU213qW9ZzCnWbYbv0ADtPDp8remYk=; 
+ t=1691097229;x=1691187229; 
+ b=tkXNk9wy8K/m0XgvncgpK4MO+9EacNxhAXXVGlf1178Ds7jDfjKslhjj1AH+EbkM5rSJSxzOJNaCjXcnBUNHKPIkzb8vypIalXfDV6oF56tGW/zePs/5axHDkTDEUTuehAPIUg5M+0+LFV910IdOj4YdwuHiZYu3QavMkAtb+aM=;
+Received: from [10.14.54.97] (port=56982 helo=f191.i.mail.ru)
  by fallback24.i.mail.ru with esmtp (envelope-from <danila@jiaxyga.com>)
- id 1qReIZ-00HFEd-PE; Thu, 03 Aug 2023 22:47:51 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
- ; s=mailru;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
- X-Cloud-Ids:Disposition-Notification-To;
- bh=/Fv6//zYQ8hHhjfzP+mBDrRjyPegam4EZOiBSMo8WDI=; t=1691092071; x=1691182071; 
- b=akZd9QNCIQLv0DZu/oOBI8z9NaDOOmhvjpOOS2K8WUbgl1JONcgOPiBCrGOj6Dnw+nwib5JDag0
- ZdyYenWSKH6vmqpfPjjZnw4DAO011kO+W9sINKVEGVhXL2AmGChLOOVyjsREL6xMLNedL1hivijVH
- xvczhA3rkEZIUnjrS3g=;
-Received: by smtp55.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
- id 1qReIP-000Y8b-0U; Thu, 03 Aug 2023 22:47:41 +0300
-From: Danila Tikhonov <danila@jiaxyga.com>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- konrad.dybcio@linaro.org, neil.armstrong@linaro.org, rfoss@kernel.org,
- andersson@kernel.org, quic_khsieh@quicinc.com, quic_vpolimer@quicinc.com,
- quic_rmccann@quicinc.com, quic_jesszhan@quicinc.com, liushixin2@huawei.com
-Subject: [PATCH 2/2] drm/msm/dpu: Add SM7150 support
-Date: Thu,  3 Aug 2023 22:47:24 +0300
-Message-ID: <20230803194724.154591-3-danila@jiaxyga.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230803194724.154591-1-danila@jiaxyga.com>
-References: <20230803194724.154591-1-danila@jiaxyga.com>
+ id 1qRfdj-000geQ-8L; Fri, 04 Aug 2023 00:13:47 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com;
+ s=mailru; 
+ h=References:In-Reply-To:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=0NnggU8lURmUqIU213qW9ZzCnWbYbv0ADtPDp8remYk=; 
+ t=1691097227;x=1691187227; 
+ b=DUX/XWOEDqIsRn2UBHFdm6Xi9AakQKtNJtFv9P43w3ZQWEJaz31EkEZ46c0ZyfGwi+xB81zXqLntk3GVt2yAYQOPPFzQ6DDBQtPH7kReaUPzyaacvkioTPzWThivh7uvgFQBMEAxoQlNEmr10yzgIy5bPV2SR5XDWrrc1fMn+vE=;
+Received: by f191.i.mail.ru with local (envelope-from <danila@jiaxyga.com>)
+ id 1qRfd4-0002AG-Ho; Fri, 04 Aug 2023 00:13:07 +0300
+Received: by e.mail.ru with HTTP;
+	Fri, 04 Aug 2023 00:13:06 +0300
+From: =?UTF-8?B?RGFuaWxhIFRpa2hvbm92?= <danila@jiaxyga.com>
+To: =?UTF-8?B?RG1pdHJ5IEJhcnlzaGtvdg==?= <dmitry.baryshkov@linaro.org>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCAyLzJdIGRybS9tc20vZHB1OiBBZGQgU003MTUwIHN1cHBv?=
+ =?UTF-8?B?cnQ=?=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD969E04B5EED670DC86EE92E42F0C271DDDF6A6B73F41FC074182A05F53808504023C2F6D301898F6E0A7C06F167306F4C67F4D113E137A824A8502D4A2F1823D8
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7CB1C1CF81BFF4FD8EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637525B22DCF689D4638638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8E998A34250954F66C2F14F2022333820117882F4460429724CE54428C33FAD305F5C1EE8F4F765FCF77088377309FF52A471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F44604297287769387670735200AC5B80A05675ACDBDFBBEFFF4125B51D2E47CDBA5A96583BA9C0B312567BB2376E601842F6C81A19E625A9149C048EE437C869540D2AB0F269E641683F5DD3FD8FC6C240DEA76429C9F4D5AE37F343AA9539A8B242431040A6AB1C7CE11FEE3E6BDB36F057AC83C302FCEF25BFAB345C4224003CC836476E2F48590F00D11D6E2021AF6380DFAD1A18204E546F3947CB11811A4A51E3B096D1867E19FE1407978DA827A17800CE705056152E029236E2DBA43225CD8A89F1B3F1E879BC1E2F16D8C47C27EEC5E9FB5C8C57E37DE458BEDA766A37F9254B7
-X-C1DE0DAB: 0D63561A33F958A52409681541621A36C6B9CF6467323EFFF2450E2079F45EA6F87CCE6106E1FC07E67D4AC08A07B9B0251EFD5447B32ED69C5DF10A05D560A950611B66E3DA6D700B0A020F03D25A0997E3FB2386030E77
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFF6A43A44C47494477AF85A435732593FA2067516DC6B94AA84CA6FAE112578A98D4FFD5EE53653998553022043D0BC9A4085C7A0F8E3792FFD9F7E1B811E80DCD8EBEDE01CE1B1DA4C41F94D744909CE4BCAC77546666B612CC0CD5AA9A1B9887EE09F5AAA95A50543082AE146A756F3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojcir52QaMQ804yi0SdwB1iA==
-X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981B7B6FBA8BC57466699BFA8AA5DFE6DFAFFF4D93F285358E1643683D8C0F3ED1CA3C71A376745D86BBE86167304C7680C3980CE5AAA35C7CD60F22E8815EDE5EAEAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mailer: Mail.Ru Mailer 1.0
+X-SenderField-ReMsg: 16910958701597488906
+X-SenderField-Remind: 0
+Date: Fri, 04 Aug 2023 00:13:06 +0300
+X-Priority: 3 (Normal)
+Message-ID: <1691097186.296866515@f749.i.mail.ru>
+Content-Type: multipart/alternative;
+ boundary="--ALT--9380e319e2Ad3f5E44Fb1cC997d1Ef491691097186"
+In-Reply-To: <CAA8EJpoBZBLYQ5RUW7nGo+wsma2XiON9+rK8N-gjnfWTkb-7rA@mail.gmail.com>
+References: <20230803194724.154591-1-danila@jiaxyga.com>
+ <20230803194724.154591-3-danila@jiaxyga.com>
+ <CAA8EJpoBZBLYQ5RUW7nGo+wsma2XiON9+rK8N-gjnfWTkb-7rA@mail.gmail.com>
+X-4EC0790: 10
+X-7564579A: 646B95376F6C166E
+X-77F55803: 119C1F4DF6A9251CF01119E910A4A68D376AA3D6E63C9152EF0622A6E682ADAE8FD872164937FA4CC2DBD6DB276B52CD9BCD5B8F3A9B9BDF8FFA13DA12AA55AF6A452C106B6BA130
+X-7FA49CB5: 70AAF3C13DB70168C09775C1D3CA48CF7FD72A714C671D63B2086D80B0504778CF19DD082D7633A0ACBFF42033827DA764CD17681C2FEB7A1661749BA6B977358D6152ECDF6E3AA0C4224003CC836476ABE134FDCE4E2725BFD28B28ED4578739E625A9149C048EE7FDB4CBE5285FCB982BFA309970D60C2B287FD4696A6DC2FA8DF7F3B2552694A4E2F5AFA99E116B42401471946AA11AF1661749BA6B97735E338B9D28515FD488F08D7030A58E5AD1A62830130A00468AEEEE3FBA3A834EE7353EFBB55337566F2C4C6B33C2F6F435A11F0BEBC24CB68663A70F111426A68A471835C12D1D9774AD6D5ED66289B5278DA827A17800CE73AFA331E307B52169FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C3303003AC7AA20DD0117882F4460429728AD0CFFFB425014E868A13BD56FB6657E2021AF6380DFAD1A18204E546F3947CB11811A4A51E3B096D1867E19FE1407978DA827A17800CE7FCEEFFE83360B3FE2DBA43225CD8A89F616AD31D0D18CD5CCE5475246E174218B5C8C57E37DE458BEDA766A37F9254B7
+X-C1DE0DAB: 0D63561A33F958A536299A840DD66FDB61D5EC543879CC043168D9814204E93BF87CCE6106E1FC07E67D4AC08A07B9B0A6C7FFFE744CA7FBCB5012B2E24CD356
+X-C8649E89: 1C3962B70DF3F0ADE2815F1F17DA7190F22D334B9B612B432CCB5A6D6581D03D0776B5B2C279835F17BCBE6708A5A68D02015372BE9702A2BB8894133896BA1BD60E08E906196EC77941DECAC5604B47E540C681EFE6DE9A91599FE42993C6659B815B7972F6FBBE5A95BC2F197036998EB0900DEDBC85938CD93680B12512CF39915B21A011C8DD0AABF6830182CDC9E1F4741733316EBDB0B8481A162AEBC83FCF178C6DD14203
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDhPtK/MjTiW7KC59k4ZXvNow==
+X-Mailru-Sender: 9EB879F2C80682A09F26F806C7394981AAF1B352F7F1B4EDB692DC675E04947FEF6E8747E6A31A484173A5B075F6185ACE8A2F3DBBBC97BDE9B87AE30867F65D7C36821DA1248F511E60DA90B68B17485C53A21392A0CCF5CA6C87A068E2D173C003600472B6CB9B67EA787935ED9F1B
 X-Mras: Ok
+X-Spam: undefined
 X-7564579A: B8F34718100C35BD
-X-77F55803: 6242723A09DB00B4C2CC63398298511D1E4750FD930E01DF28F9632845AEBDC5049FFFDB7839CE9E588CC25E272B312A2D8694833E40EA1B6F9CBB237BCA508A46EA42ECDDC8E1D1
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFd3RriuhA+6EboYtJCDiDjPg==
+X-77F55803: 6242723A09DB00B4C2CC63398298511D1E4750FD930E01DF7F6374089918249B049FFFDB7839CE9E588CC25E272B312A1F0CC06AB8FA0727A1FFBB12D8A8ABA956C015F64AC5799D
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFd3RriuhA+6EZhY63z5jpVCQ==
 X-Mailru-MI: C000000000000800
 X-Mras: Ok
 X-Mailman-Approved-At: Fri, 04 Aug 2023 07:17:40 +0000
@@ -78,344 +76,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- davidwronek@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, danila@jiaxyga.com,
- freedreno@lists.freedesktop.org
+Reply-To: =?UTF-8?B?RGFuaWxhIFRpa2hvbm92?= <danila@jiaxyga.com>
+Cc: quic_rmccann@quicinc.com, dri-devel@lists.freedesktop.org,
+ liushixin2@huawei.com, krzysztof.kozlowski+dt@linaro.org,
+ marijn.suijten@somainline.org, quic_vpolimer@quicinc.com, rfoss@kernel.org,
+ davidwronek@gmail.com, quic_khsieh@quicinc.com, quic_jesszhan@quicinc.com,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, robh+dt@kernel.org, sean@poorly.run,
+ neil.armstrong@linaro.org, andersson@kernel.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@linaro.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add definitions for the display hardware used on the Qualcomm SM7150
-platform.
 
-Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
----
- .../msm/disp/dpu1/catalog/dpu_5_2_sm7150.h    | 277 ++++++++++++++++++
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |   1 +
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 +
- 4 files changed, 280 insertions(+)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
+----ALT--9380e319e2Ad3f5E44Fb1cC997d1Ef491691097186
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
-new file mode 100644
-index 000000000000..5823879a705a
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h
-@@ -0,0 +1,277 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2018-2019, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
-+ */
-+
-+#ifndef _DPU_5_2_SM7150_H
-+#define _DPU_5_2_SM7150_H
-+
-+static const struct dpu_caps sm7150_dpu_caps = {
-+	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
-+	.max_mixer_blendstages = 0xb,
-+	.qseed_type = DPU_SSPP_SCALER_QSEED4,
-+	.has_src_split = true,
-+	.has_dim_layer = true,
-+	.has_idle_pc = true,
-+	.has_3d_merge = true,
-+	.max_linewidth = 4096,
-+	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-+	.max_hdeci_exp = MAX_HORZ_DECIMATION,
-+	.max_vdeci_exp = MAX_VERT_DECIMATION,
-+};
-+
-+static const struct dpu_mdp_cfg sm7150_mdp[] = {
-+	{
-+	.name = "top_0",
-+	.base = 0x0, .len = 0x45c,
-+	.features = BIT(DPU_MDP_AUDIO_SELECT),
-+	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0 },
-+	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0 },
-+	.clk_ctrls[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
-+	.clk_ctrls[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
-+	.clk_ctrls[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
-+	.clk_ctrls[DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
-+	},
-+};
-+
-+static const struct dpu_sspp_cfg sm7150_sspp[] = {
-+	{
-+		.name = "sspp_0", .id = SSPP_VIG0,
-+		.base = 0x4000, .len = 0x1f0,
-+		.features = VIG_SDM845_MASK,
-+		.sblk = &sm8250_vig_sblk_0,
-+		.xin_id = 0,
-+		.type = SSPP_TYPE_VIG,
-+		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-+	}, {
-+		.name = "sspp_1", .id = SSPP_VIG1,
-+		.base = 0x6000, .len = 0x1f0,
-+		.features = VIG_SDM845_MASK,
-+		.sblk = &sm8250_vig_sblk_1,
-+		.xin_id = 4,
-+		.type = SSPP_TYPE_VIG,
-+		.clk_ctrl = DPU_CLK_CTRL_VIG1,
-+	}, {
-+		.name = "sspp_2", .id = SSPP_DMA0,
-+		.base = 0x24000, .len = 0x1f0,
-+		.features = DMA_SDM845_MASK,
-+		.sblk = &sdm845_dma_sblk_0,
-+		.xin_id = 1,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA0,
-+	}, {
-+		.name = "sspp_9", .id = SSPP_DMA1,
-+		.base = 0x26000, .len = 0x1f0,
-+		.features = DMA_SDM845_MASK,
-+		.sblk = &sdm845_dma_sblk_1,
-+		.xin_id = 5,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA1,
-+	}, {
-+		.name = "sspp_10", .id = SSPP_DMA2,
-+		.base = 0x28000, .len = 0x1f0,
-+		.features = DMA_CURSOR_SDM845_MASK,
-+		.sblk = &sdm845_dma_sblk_2,
-+		.xin_id = 9,
-+		.type = SSPP_TYPE_DMA,
-+		.clk_ctrl = DPU_CLK_CTRL_DMA2,
-+	},
-+};
-+
-+static const struct dpu_lm_cfg sm7150_lm[] = {
-+	{
-+		.name = "lm_0", .id = LM_0,
-+		.base = 0x44000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_1,
-+		.pingpong = PINGPONG_0,
-+		.dspp = DSPP_0,
-+	}, {
-+		.name = "lm_1", .id = LM_1,
-+		.base = 0x45000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_0,
-+		.pingpong = PINGPONG_1,
-+		.dspp = DSPP_1,
-+	}, {
-+		.name = "lm_2", .id = LM_2,
-+		.base = 0x46000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_3,
-+		.pingpong = PINGPONG_2,
-+	}, {
-+		.name = "lm_3", .id = LM_3,
-+		.base = 0x47000, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = LM_2,
-+		.pingpong = PINGPONG_3,
-+	}, {
-+		.name = "lm_4", .id = LM_4,
-+		.base = 0x0, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = 0,
-+		.pingpong = PINGPONG_4,
-+	}, {
-+		.name = "lm_5", .id = LM_5,
-+		.base = 0x0, .len = 0x320,
-+		.features = MIXER_SDM845_MASK,
-+		.sblk = &sdm845_lm_sblk,
-+		.lm_pair = 0,
-+		.pingpong = PINGPONG_5,
-+	},
-+};
-+
-+static const struct dpu_dspp_cfg sm7150_dspp[] = {
-+	{
-+		.name = "dspp_0", .id = DSPP_0,
-+		.base = 0x54000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &sdm845_dspp_sblk,
-+	}, {
-+		.name = "dspp_1", .id = DSPP_1,
-+		.base = 0x56000, .len = 0x1800,
-+		.features = DSPP_SC7180_MASK,
-+		.sblk = &sdm845_dspp_sblk,
-+	},
-+};
-+
-+static const struct dpu_pingpong_cfg sm7150_pp[] = {
-+	{
-+		.name = "pingpong_0", .id = PINGPONG_0,
-+		.base = 0x70000, .len = 0xd4,
-+		.features = PINGPONG_SM8150_MASK,
-+		.sblk = &sdm845_pp_sblk,
-+		.merge_3d = MERGE_3D_0,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 8),
-+		.intr_rdptr = -1,
-+	}, {
-+		.name = "pingpong_1", .id = PINGPONG_1,
-+		.base = 0x70800, .len = 0xd4,
-+		.features = PINGPONG_SM8150_MASK,
-+		.sblk = &sdm845_pp_sblk,
-+		.merge_3d = MERGE_3D_0,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 9),
-+		.intr_rdptr = -1,
-+	}, {
-+		.name = "pingpong_2", .id = PINGPONG_2,
-+		.base = 0x71000, .len = 0xd4,
-+		.features = PINGPONG_SM8150_MASK,
-+		.sblk = &sdm845_pp_sblk,
-+		.merge_3d = MERGE_3D_1,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
-+		.intr_rdptr = -1,
-+	}, {
-+		.name = "pingpong_3", .id = PINGPONG_3,
-+		.base = 0x71800, .len = 0xd4,
-+		.features = PINGPONG_SM8150_MASK,
-+		.sblk = &sdm845_pp_sblk,
-+		.merge_3d = MERGE_3D_1,
-+		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
-+		.intr_rdptr = -1,
-+	},
-+};
-+
-+static const struct dpu_merge_3d_cfg sm7150_merge_3d[] = {
-+	{
-+		.name = "merge_3d_0", .id = MERGE_3D_0,
-+		.base = 0x83000, .len = 0x8,
-+	}, {
-+		.name = "merge_3d_1", .id = MERGE_3D_1,
-+		.base = 0x83100, .len = 0x8,
-+	},
-+};
-+
-+static const struct dpu_dsc_cfg sm7150_dsc[] = {
-+	{
-+		.name = "dsc_0", .id = DSC_0,
-+		.base = 0x80000, .len = 0x140,
-+		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-+	}, {
-+		.name = "dsc_1", .id = DSC_1,
-+		.base = 0x80400, .len = 0x140,
-+		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-+	},
-+};
-+
-+static const struct dpu_wb_cfg sm7150_wb[] = {
-+	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-+	},
-+};
-+
-+static const struct dpu_perf_cfg sm7150_perf_data = {
-+	.max_bw_low = 7100000,
-+	.max_bw_high = 7100000,
-+	.min_core_ib = 2400000,
-+	.min_llcc_ib = 800000,
-+	.min_dram_ib = 800000,
-+	.min_prefill_lines = 24,
-+	.danger_lut_tbl = {0xff, 0xffff, 0x0},
-+	.safe_lut_tbl = {0xfff8, 0xf000, 0xffff},
-+	.qos_lut_tbl = {
-+		{.nentry = ARRAY_SIZE(sm8150_qos_linear),
-+		.entries = sm8150_qos_linear
-+		},
-+		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
-+		.entries = sc7180_qos_macrotile
-+		},
-+		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
-+		.entries = sc7180_qos_nrt
-+		},
-+	},
-+	.cdp_cfg = {
-+		{.rd_enable = 1, .wr_enable = 1},
-+		{.rd_enable = 1, .wr_enable = 0}
-+	},
-+	.clk_inefficiency_factor = 105,
-+	.bw_inefficiency_factor = 120,
-+};
-+
-+static const struct dpu_mdss_version sm7150_mdss_ver = {
-+	.core_major_ver = 5,
-+	.core_minor_ver = 2,
-+};
-+
-+const struct dpu_mdss_cfg dpu_sm7150_cfg = {
-+	.mdss_ver = &sm7150_mdss_ver,
-+	.caps = &sm7150_dpu_caps,
-+	.mdp = sm7150_mdp,
-+	.ctl_count = ARRAY_SIZE(sm8150_ctl),
-+	.ctl = sm8150_ctl,
-+	.sspp_count = ARRAY_SIZE(sm7150_sspp),
-+	.sspp = sm7150_sspp,
-+	.mixer_count = ARRAY_SIZE(sm7150_lm),
-+	.mixer = sm7150_lm,
-+	.dspp_count = ARRAY_SIZE(sm7150_dspp),
-+	.dspp = sm7150_dspp,
-+	.pingpong_count = ARRAY_SIZE(sm7150_pp),
-+	.pingpong = sm7150_pp,
-+	.merge_3d_count = ARRAY_SIZE(sm7150_merge_3d),
-+	.merge_3d = sm7150_merge_3d,
-+	.dsc_count = ARRAY_SIZE(sm7150_dsc),
-+	.dsc = sm7150_dsc,
-+	.intf_count = ARRAY_SIZE(sm8150_intf),
-+	.intf = sm8150_intf,
-+	.wb_count = ARRAY_SIZE(sm7150_wb),
-+	.wb = sm7150_wb,
-+	.vbif_count = ARRAY_SIZE(sdm845_vbif),
-+	.vbif = sdm845_vbif,
-+	.perf = &sm7150_perf_data,
-+};
-+
-+#endif
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index ce369eeffa7d..fea1253cab0a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -658,6 +658,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
- 
- #include "catalog/dpu_5_0_sm8150.h"
- #include "catalog/dpu_5_1_sc8180x.h"
-+#include "catalog/dpu_5_2_sm7150.h"
- #include "catalog/dpu_5_4_sm6125.h"
- 
- #include "catalog/dpu_6_0_sm8250.h"
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 6c9634209e9f..86b354ef45e6 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -833,6 +833,7 @@ extern const struct dpu_mdss_cfg dpu_msm8998_cfg;
- extern const struct dpu_mdss_cfg dpu_sdm845_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8150_cfg;
- extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
-+extern const struct dpu_mdss_cfg dpu_sm7150_cfg;
- extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
- extern const struct dpu_mdss_cfg dpu_sc7180_cfg;
- extern const struct dpu_mdss_cfg dpu_sm6115_cfg;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index aa6ba2cf4b84..50ec008b7d56 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1371,6 +1371,7 @@ static const struct of_device_id dpu_dt_match[] = {
- 	{ .compatible = "qcom,sm6125-dpu", .data = &dpu_sm6125_cfg, },
- 	{ .compatible = "qcom,sm6350-dpu", .data = &dpu_sm6350_cfg, },
- 	{ .compatible = "qcom,sm6375-dpu", .data = &dpu_sm6375_cfg, },
-+	{ .compatible = "qcom,sm7150-dpu", .data = &dpu_sm7150_cfg, },
- 	{ .compatible = "qcom,sm8150-dpu", .data = &dpu_sm8150_cfg, },
- 	{ .compatible = "qcom,sm8250-dpu", .data = &dpu_sm8250_cfg, },
- 	{ .compatible = "qcom,sm8350-dpu", .data = &dpu_sm8350_cfg, },
--- 
-2.41.0
+ClNvIGhlcmUgdG9vIEkgYWRkIG5ldyBzbTcxNTBfdmlnX3NibGtfMCBhbmQgc203MTUwX3ZpZ19z
+YmxrXzEgd2l0aCB2M2xpdGU/CsKgCnN0YXRpYyBjb25zdCBzdHJ1Y3QgZHB1X3NzcHBfc3ViX2Js
+a3Mgc203MTUwX3ZpZ19zYmxrXzAgPQrCoCDCoMKgX1ZJR19TQkxLKDUsIERQVV9TU1BQX1NDQUxF
+Ul9RU0VFRDNMSVRFKTsKc3RhdGljIGNvbnN0IHN0cnVjdCBkcHVfc3NwcF9zdWJfYmxrcyBzbTcx
+NTBfdmlnX3NibGtfMSA9CsKgIMKgwqBfVklHX1NCTEsoNiwgRFBVX1NTUFBfU0NBTEVSX1FTRUVE
+M0xJVEUpOwo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRwdV9zc3BwX2NmZyBzbTcxNTBfc3NwcFtd
+ID0gewo+ICsgewo+ICsgLm5hbWUgPSAic3NwcF8wIiwgLmlkID0gU1NQUF9WSUcwLAo+ICsgLmJh
+c2UgPSAweDQwMDAsIC5sZW4gPSAweDFmMCwKPiArIC5mZWF0dXJlcyA9IFZJR19TRE04NDVfTUFT
+SywKPiAtIC5zYmxrID0gJnNtODI1MF92aWdfc2Jsa18wLMKgLy/CoCZzbTcxNTBfdmlnX3NibGtf
+MAo+ICsgLnhpbl9pZCA9IDAsCj4gKyAudHlwZSA9IFNTUFBfVFlQRV9WSUcsCj4gKyAuY2xrX2N0
+cmwgPSBEUFVfQ0xLX0NUUkxfVklHMCwKPiArIH0sIHsKPiArIC5uYW1lID0gInNzcHBfMSIsIC5p
+ZCA9IFNTUFBfVklHMSwKPiArIC5iYXNlID0gMHg2MDAwLCAubGVuID0gMHgxZjAsCj4gKyAuZmVh
+dHVyZXMgPSBWSUdfU0RNODQ1X01BU0ssCj4gKyAuc2JsayA9ICZzbTgyNTBfdmlnX3NibGtfMSzC
+oMKgLy/CoCZzbTcxNTBfdmlnX3NibGtfMQo+ICsgLnhpbl9pZCA9IDQsCj4gKyAudHlwZSA9IFNT
+UFBfVFlQRV9WSUcsCj4gKyAuY2xrX2N0cmwgPSBEUFVfQ0xLX0NUUkxfVklHMSwKPiArIH0sIHsK
+Ci0tCkJlc3QgcmVnYXJkcywKRGFuaWxhCsKg
 
+----ALT--9380e319e2Ad3f5E44Fb1cC997d1Ef491691097186
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+CjxIVE1MPjxCT0RZPjxkaXYgY2xhc3M9ImpzLWhlbHBlciBqcy1yZWFkbXNnLW1zZyI+PGRpdiBp
+ZD0ic3R5bGVfMTY5MTA5NjcxNTE0MjExOTY3ODAiPjxkaXYgaWQ9InN0eWxlXzE2OTEwOTY3MTUx
+NDIxMTk2NzgwX0JPRFkiPjxkaXYgY2xhc3M9ImNsXzEyMDgxOSI+PGRpdj5TbyBoZXJlIHRvbyBJ
+IGFkZCBuZXcgc203MTUwX3ZpZ19zYmxrXzAgYW5kIHNtNzE1MF92aWdfc2Jsa18xIHdpdGggdjNs
+aXRlPzxicj4mbmJzcDs8ZGl2PjxkaXY+c3RhdGljIGNvbnN0IHN0cnVjdCBkcHVfc3NwcF9zdWJf
+YmxrcyBzbTcxNTBfdmlnX3NibGtfMCA9PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7Jm5ic3A7X1ZJ
+R19TQkxLKDUsIERQVV9TU1BQX1NDQUxFUl9RU0VFRDNMSVRFKTs8L2Rpdj48ZGl2PnN0YXRpYyBj
+b25zdCBzdHJ1Y3QgZHB1X3NzcHBfc3ViX2Jsa3Mgc203MTUwX3ZpZ19zYmxrXzEgPTwvZGl2Pjxk
+aXY+Jm5ic3A7ICZuYnNwOyZuYnNwO19WSUdfU0JMSyg2LCBEUFVfU1NQUF9TQ0FMRVJfUVNFRUQz
+TElURSk7PC9kaXY+PC9kaXY+PGJyPiZndDsgK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHB1X3NzcHBf
+Y2ZnIHNtNzE1MF9zc3BwW10gPSB7PGJyPiZndDsgKyB7PGJyPiZndDsgKyAubmFtZSA9ICJzc3Bw
+XzAiLCAuaWQgPSBTU1BQX1ZJRzAsPGJyPiZndDsgKyAuYmFzZSA9IDB4NDAwMCwgLmxlbiA9IDB4
+MWYwLDxicj4mZ3Q7ICsgLmZlYXR1cmVzID0gVklHX1NETTg0NV9NQVNLLDxicj4mZ3Q7IC0gLnNi
+bGsgPSAmYW1wO3NtODI1MF92aWdfc2Jsa18wLCZuYnNwOy8vJm5ic3A7JmFtcDtzbTcxNTBfdmln
+X3NibGtfMDxicj4mZ3Q7ICsgLnhpbl9pZCA9IDAsPGJyPiZndDsgKyAudHlwZSA9IFNTUFBfVFlQ
+RV9WSUcsPGJyPiZndDsgKyAuY2xrX2N0cmwgPSBEUFVfQ0xLX0NUUkxfVklHMCw8YnI+Jmd0OyAr
+IH0sIHs8YnI+Jmd0OyArIC5uYW1lID0gInNzcHBfMSIsIC5pZCA9IFNTUFBfVklHMSw8YnI+Jmd0
+OyArIC5iYXNlID0gMHg2MDAwLCAubGVuID0gMHgxZjAsPGJyPiZndDsgKyAuZmVhdHVyZXMgPSBW
+SUdfU0RNODQ1X01BU0ssPGJyPiZndDsgKyAuc2JsayA9ICZhbXA7c204MjUwX3ZpZ19zYmxrXzEs
+Jm5ic3A7Jm5ic3A7Ly8mbmJzcDsmYW1wO3NtNzE1MF92aWdfc2Jsa18xPGJyPiZndDsgKyAueGlu
+X2lkID0gNCw8YnI+Jmd0OyArIC50eXBlID0gU1NQUF9UWVBFX1ZJRyw8YnI+Jmd0OyArIC5jbGtf
+Y3RybCA9IERQVV9DTEtfQ1RSTF9WSUcxLDxicj4mZ3Q7ICsgfSwgezxicj48YnI+LS08YnI+QmVz
+dCByZWdhcmRzLDxicj5EYW5pbGE8L2Rpdj48ZGl2PiZuYnNwOzwvZGl2PjwvZGl2PjwvZGl2Pjwv
+ZGl2PjwvZGl2PjwvQk9EWT48L0hUTUw+Cg==
+
+----ALT--9380e319e2Ad3f5E44Fb1cC997d1Ef491691097186--
