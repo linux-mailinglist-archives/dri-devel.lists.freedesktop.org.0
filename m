@@ -1,41 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D85C76FAF2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:18:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E69E976FAED
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3266410E69D;
-	Fri,  4 Aug 2023 07:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462D110E692;
+	Fri,  4 Aug 2023 07:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1134 seconds by postgrey-1.36 at gabe;
- Fri, 04 Aug 2023 01:51:10 UTC
 Received: from mail03.siengine.com (unknown [43.240.192.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A0DB10E0DB
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 01:51:09 +0000 (UTC)
-Received: from mail03.siengine.com (localhost [127.0.0.2] (may be forged))
- by mail03.siengine.com with ESMTP id 3741WGxw023494
- for <dri-devel@lists.freedesktop.org>; Fri, 4 Aug 2023 09:32:16 +0800 (+08)
- (envelope-from menghui.huang@siengine.com)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08EB310E12A
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 02:06:53 +0000 (UTC)
 Received: from dsgsiengine01 ([10.8.1.61])
- by mail03.siengine.com with ESMTPS id 3741VlxM023457
+ by mail03.siengine.com with ESMTPS id 37426MwZ028923
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 4 Aug 2023 09:31:47 +0800 (+08)
+ Fri, 4 Aug 2023 10:06:22 +0800 (+08)
  (envelope-from menghui.huang@siengine.com)
 Received: from SEEXMB04-2019.siengine.com (SEEXMB04-2019.siengine.com
  [10.8.1.34])
- by dsgsiengine01 (SkyGuard) with ESMTPS id 4RH7V95qvtz7ZMWF;
- Fri,  4 Aug 2023 09:31:45 +0800 (CST)
+ by dsgsiengine01 (SkyGuard) with ESMTPS id 4RH8G52jfGz7ZMhS;
+ Fri,  4 Aug 2023 10:06:21 +0800 (CST)
 Received: from localhost.localdomain (10.12.6.21) by
  SEEXMB04-2019.siengine.com (10.8.1.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1258.16; Fri, 4 Aug 2023 09:31:45 +0800
+ 15.2.1258.16; Fri, 4 Aug 2023 10:06:21 +0800
 From: "menghui.huang" <menghui.huang@siengine.com>
-To: <airlied@gmail.com>, <daniel@ffwll.ch>
+To: <airlied@gmail.com>, <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
 Subject: [PATCH] drm/komeda: drop all currently held locks if deadlock happens
-Date: Fri, 4 Aug 2023 09:31:17 +0800
-Message-ID: <20230804013117.6870-1-menghui.huang@siengine.com>
+Date: Fri, 4 Aug 2023 10:05:53 +0800
+Message-ID: <20230804020553.39292-1-menghui.huang@siengine.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -44,8 +38,8 @@ X-ClientProxiedBy: SEEXMB03-2019.siengine.com (10.8.1.33) To
 X-DKIM-Results: [10.8.1.61]; dkim=none;
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL: mail03.siengine.com 3741WGxw023494
-X-Mailman-Approved-At: Fri, 04 Aug 2023 07:17:40 +0000
+X-MAIL: mail03.siengine.com 37426MwZ028923
+X-Mailman-Approved-At: Fri, 04 Aug 2023 07:17:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,9 +52,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "baozhu.liu" <lucas.liu@siengine.com>, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org,
- "menghui . huang" <menghui.huang@siengine.com>
+Cc: "baozhu.liu" <lucas.liu@siengine.com>, liviu.dudau@arm.com, "menghui .
+ huang" <menghui.huang@siengine.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
