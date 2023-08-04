@@ -2,63 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C8477021C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 15:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F64B77024B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 15:51:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF73010E713;
-	Fri,  4 Aug 2023 13:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E8D10E70C;
+	Fri,  4 Aug 2023 13:50:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68A310E70B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 13:44:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 32DB962030
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 13:44:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9BF82C433C7
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 13:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691156693;
- bh=6Rwkf4FA/80fgTrHgvmYaQ38VzDSmaXeEMZYAzpdbQA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=DDSljKcbGL8xRO1c2kepyAiRUG6fYOmEHBNm923K2BWa/VP0X7l2ZJ74DfHxt442m
- onEwo97hrQhYSqvH6PUdXjL2jpgMD0pJjNH6HZFZi8l92w7Tll/PRYiTRdSi7kCHAY
- fQo2qIBIv+WXO4T7tBMW+/1BCy/WOJKJRcK8WcBXu3DxAO/EUuE2P22Wv+3R7ziilK
- P/OgeXrgUrI7lXeZrBASesaPoQgae3OqAngCPl0bvT6TmKZi7ArSexmmRWaWUbAvNA
- Ex+Jbn3AMgg1ijmvVrv2mfFqFisgsOtoATAU3p3cgnLjOEbAx395QT3GFr0C6Zx3He
- WcYG0JsyPMHSg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 7E2B7C53BD1; Fri,  4 Aug 2023 13:44:53 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Fri, 04 Aug 2023 13:44:53 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: colombojrj@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-217664-2300-9NeBcMomrI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
-References: <bug-217664-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD9210E70B
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 13:50:29 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C72722E4;
+ Fri,  4 Aug 2023 15:49:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1691156963;
+ bh=PzI4mzdQbBo7dqgyXhXRYV0kIZNKcUK5DdEZVp1gg1I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HwnZSx2cwso4DOSftqjTWgl9+XQlM0Kj4HYaMGACN+HhVb8W/7DjF33x68VfRYKMP
+ w1Z+hXa2GLoUP8LSC2hhk7USsZiXlm8d9+UDxYAf4AwQWXB+8YcD34Gvm3ykTH99lq
+ ST/63o/yLnXNdlqdAh2VFoCt+/Y3L4Vn9r79JALc=
+Date: Fri, 4 Aug 2023 16:50:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 1/2] drm/drm_file: fix use of uninitialized variable
+Message-ID: <20230804135032.GG12951@pendragon.ideasonboard.com>
+References: <20230804-uninit-fixes-v1-0-a60772c04db5@ideasonboard.com>
+ <20230804-uninit-fixes-v1-1-a60772c04db5@ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230804-uninit-fixes-v1-1-a60772c04db5@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,34 +47,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
+On Fri, Aug 04, 2023 at 01:57:39PM +0300, Tomi Valkeinen wrote:
+> smatch reports:
+> 
+> drivers/gpu/drm/drm_file.c:967 drm_show_memory_stats() error: uninitialized symbol 'supported_status'.
+> 
+> 'supported_status' is only set in one code path. I'm not familiar with
+> the code to say if that path will always be ran in real life, but
+> whether that is the case or not, I think it is good to initialize
+> 'supported_status' to 0 to silence the warning (and possibly fix a bug).
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Jose Roberto (colombojrj@gmail.com) changed:
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |colombojrj@gmail.com
+> ---
+>  drivers/gpu/drm/drm_file.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index 883d83bc0e3d..cc06e1836bf5 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -924,7 +924,7 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+>  {
+>  	struct drm_gem_object *obj;
+>  	struct drm_memory_stats status = {};
+> -	enum drm_gem_object_status supported_status;
+> +	enum drm_gem_object_status supported_status = 0;
+>  	int id;
+>  
+>  	spin_lock(&file->table_lock);
+> 
 
---- Comment #8 from Jose Roberto (colombojrj@gmail.com) ---
-Hi, I am having the same problem. My laptop is Thinkpad T480 with intel gpu=
-. I
-discovered that it suspends and wake-up properly with AC pluged. But it fai=
-ls
-to wake-up in battery mode.
+-- 
+Regards,
 
-OpenSuse Leap and Tumbleweed -> dead
-Debian 12                    -> dead
-Gentoo with kernel 6         -> dead
-
-I will try with gentoo kernel 5.
-
-Any ideas of how to debug this?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Laurent Pinchart
