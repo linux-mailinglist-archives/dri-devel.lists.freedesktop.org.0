@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0A177049C
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 17:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE7C7704C9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 17:32:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884BA10E093;
-	Fri,  4 Aug 2023 15:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A1C10E724;
+	Fri,  4 Aug 2023 15:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89F4310E093
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 15:28:26 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-d066d72eb12so3256788276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 08:28:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691162905; x=1691767705;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bOp+t06WK94f00hVoOjlTqLRBmqA68qFwjlm/n5u6Ec=;
- b=xHyAU5gFLrQk/gFvvaEuvE4iL524vBoq3VFKmFGmMrJmlrLhZ8ekaq6F3/eh661EnK
- UJx8eo2HkhJY/2v3qR0pPpqKEkGXXLOzA/IvPPkd+5jaEPwY1Ngv3Ljw4B/mGDWp6aJK
- U2OEf6+L1JpngBNlD6LdMhd5wf8Rx7GSYyBh3eQtosM8yz2CH69AJQohmY3pnrKAv2zn
- Yu6NCNB4LW4fzH5xJj4Kkt3EPcv8LFnL16A+0GbnMWkHwa6PHFgSRbJlFmYNrQTwnFCw
- fQwlAwv2JxvwaL/Gi26pgvLI04zes8zfaEXA0T6hfuDa/bxieF4/dpfgGKWORaWxaDyO
- bvQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691162905; x=1691767705;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bOp+t06WK94f00hVoOjlTqLRBmqA68qFwjlm/n5u6Ec=;
- b=kyBmS4El2faodsuNPkQFCQRix79rLDGdwZb0t6AB1DsboUS40VMVX1RV4nJlt1yNsk
- 8kSGDRSPKT7M3iif5ZcV13Ny0dIqMQ75HfEKCvlxuLoaYLrwCgKXNkmWp/ebF4ZOfjf+
- eYF+567Ikm4jd/h5fN5st3yLq2CikcXVW5ZDDhEtjwFDyWgKAK7m9W0OcBqhtAobymnK
- Qd/m9a0Bl/pbe6H3Vjc1rSBGdhUtZB5Chz/DALqGJEcjCW4DhV+6j7iEjNFuCPvZnOuB
- /hMy+ev5t1v54LRSJqyorbuxaHl9izErtdxKy5/0y8P/BuJLg4DxjXvm6iIbhiw/prT9
- XFtQ==
-X-Gm-Message-State: AOJu0Yz5Bvgj3P0gObz+uhSvQjhZkEIOdGhLWmgT8/+vH8jZgSg627DO
- QLuqfQlcFpr8yEaSoh4PSnMHsjNToJewI9gXJpkY/w==
-X-Google-Smtp-Source: AGHT+IHqkYFEA1xwnINMzjY1othogdYg+XLYUdXpv/bsW9GIOBmficGrOej0iBqP7HOWy9w0haZ7t5epondlOjOTEac=
-X-Received: by 2002:a25:fc5:0:b0:cee:639a:be94 with SMTP id
- 188-20020a250fc5000000b00cee639abe94mr78778ybp.0.1691162905601; Fri, 04 Aug
- 2023 08:28:25 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC8C310E0C5;
+ Fri,  4 Aug 2023 15:32:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691163158; x=1722699158;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=Xb8yKtM+P1EZtxlbOf9O0+4Qcu87XixSy3+hsmzNVtA=;
+ b=nK//X+67O/qPYYbWIHX1zmqp1n6VW08N+Rfv+EgidiGfYdPgB//Onxtn
+ Z+TKRniRVoxzo3+lYu7f2AhT1SXhyGkr8bMhzUvTvSWOOpElksdB0WuwV
+ nPS11fgQJQzGuN2HpOi5XDQ1SizQulTCkSRxG7dzUR/lA8LRfM+A2hKPp
+ L/oJnjsZTJlxtpIcqxJuvOLVEDT2rr93e6jIZB59HyKKX3tig5z2l3kSp
+ 5rxQpP7FHo3EB3sqXSbzZrrCnxK8Uu9uk9A+jcmMgypnb/P+cXIGQqG/r
+ SFCoPl9wg2ewf9EkAxefJ6FBjq3WND1zxQ/ss6YLmeyePSdPcxS8HTTqr g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="350486554"
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; d="scan'208";a="350486554"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2023 08:31:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10792"; a="765154169"
+X-IronPort-AV: E=Sophos;i="6.01,255,1684825200"; d="scan'208";a="765154169"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2023 08:31:30 -0700
+Date: Fri, 4 Aug 2023 18:31:42 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Wayne Lin <Wayne.Lin@amd.com>
+Subject: Re: [PATCH 3/3] drm/mst: adjust the function
+ drm_dp_remove_payload_part2()
+Message-ID: <ZM0Z3sZEYMcMTnuP@ideak-desk.fi.intel.com>
+References: <20230804062029.5686-1-Wayne.Lin@amd.com>
+ <20230804062029.5686-4-Wayne.Lin@amd.com>
 MIME-Version: 1.0
-References: <20230727212208.102501-1-robdclark@gmail.com>
- <20230727212208.102501-14-robdclark@gmail.com>
-In-Reply-To: <20230727212208.102501-14-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 4 Aug 2023 18:28:14 +0300
-Message-ID: <CAA8EJpq-Z7vNJjQML6waeHOAvQ_1EtU0Zx5-9f_q9j-KyOq4Tg@mail.gmail.com>
-Subject: Re: [PATCH v2 13/13] drm/msm/adreno: Switch to chip-id for
- identifying GPU
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230804062029.5686-4-Wayne.Lin@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,43 +59,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Elliot Berman <quic_eberman@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Adam Skladowski <a39.skl@gmail.com>,
- open list <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Liu Ying <victor.liu@nxp.com>, Mukesh Ojha <quic_mojha@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Reply-To: imre.deak@intel.com
+Cc: jani.nikula@intel.com, amd-gfx@lists.freedesktop.org, jerry.zuo@amd.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Jul 2023 at 00:23, Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Since the revision becomes an opaque identifier with future GPUs, move
-> away from treating different ranges of bits as having a given meaning.
-> This means that we need to explicitly list different patch revisions in
-> the device table.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.c      |   2 +-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |   2 +-
->  drivers/gpu/drm/msm/adreno/a5xx_power.c    |   2 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  14 ++-
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 137 +++++++++++----------
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  14 +--
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  49 ++++----
->  7 files changed, 115 insertions(+), 105 deletions(-)
+On Fri, Aug 04, 2023 at 02:20:29PM +0800, Wayne Lin wrote:
+> [...]
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index e04f87ff755a..4270178f95f6 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -3382,8 +3382,7 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part1);
+>   * drm_dp_remove_payload_part2() - Remove an MST payload locally
+>   * @mgr: Manager to use.
+>   * @mst_state: The MST atomic state
+> - * @old_payload: The payload with its old state
+> - * @new_payload: The payload with its latest state
+> + * @payload: The payload with its latest state
+>   *
+>   * Updates the starting time slots of all other payloads which would have been shifted towards
+>   * the start of the payload ID table as a result of removing a payload. Driver should call this
+> @@ -3392,25 +3391,36 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part1);
+>   */
+>  void drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+>  				 struct drm_dp_mst_topology_state *mst_state,
+> -				 const struct drm_dp_mst_atomic_payload *old_payload,
+> -				 struct drm_dp_mst_atomic_payload *new_payload)
+> +				 struct drm_dp_mst_atomic_payload *payload)
+>  {
+>  	struct drm_dp_mst_atomic_payload *pos;
+> +	u8 time_slots_to_remove;
+> +	u8 next_payload_vc_start = mgr->next_start_slot;
+> +
+> +	/* Find the current allocated time slot number of the payload */
+> +	list_for_each_entry(pos, &mst_state->payloads, next) {
+> +		if (pos != payload &&
+> +		    pos->vc_start_slot > payload->vc_start_slot &&
+> +		    pos->vc_start_slot < next_payload_vc_start)
+> +			next_payload_vc_start = pos->vc_start_slot;
+> +	}
+> +
+> +	time_slots_to_remove = next_payload_vc_start - payload->vc_start_slot;
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Imo, the intuitive way would be to pass the old payload state to this
+function - which already contains the required time_slots param - and
+refactor things instead moving vc_start_slot from the payload state to
+mgr suggested by Ville earlier.
 
+--Imre
 
--- 
-With best wishes
-Dmitry
+>  	/* Remove local payload allocation */
+>  	list_for_each_entry(pos, &mst_state->payloads, next) {
+> -		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
+> -			pos->vc_start_slot -= old_payload->time_slots;
+> +		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
+> +			pos->vc_start_slot -= time_slots_to_remove;
+>  	}
+> -	new_payload->vc_start_slot = -1;
+> +	payload->vc_start_slot = -1;
+>  
+>  	mgr->payload_count--;
+> -	mgr->next_start_slot -= old_payload->time_slots;
+> +	mgr->next_start_slot -= time_slots_to_remove;
+>  
+> -	if (new_payload->delete)
+> -		drm_dp_mst_put_port_malloc(new_payload->port);
+> +	if (payload->delete)
+> +		drm_dp_mst_put_port_malloc(payload->port);
+>  
+> -	new_payload->payload_allocation_status = DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
+> +	payload->payload_allocation_status = DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
+>  }
