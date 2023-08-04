@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AFA76FD46
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 11:29:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1F476FD6F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 11:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 759B810E6BF;
-	Fri,  4 Aug 2023 09:29:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A49510E046;
+	Fri,  4 Aug 2023 09:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E007810E6BF
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 09:29:20 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-2b9a2033978so29763931fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 02:29:20 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63A9110E719
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 09:35:39 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3fe2d620d17so70605e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 02:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691141359; x=1691746159;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
- b=LSoxPSq6PqUSUyUwQor3UO7ej1NFQ1w4NXKg0U9UgkTQuNs7Wc5AVke2/McAMrWT+4
- /DtkaJ4zVQshHs/utXvU0hppM4B988NMvyyIH3sk1n0Vq4mrLnt8dQ4oa8goPba7vExa
- vx2slalXu7r2P1NFZ2LlJ1BDujQihTqO19ZhgRyF1Vb6ZVovAFIEI6Ujb6w+vQBiKb2Z
- urt5JNTo3bq83k1jYouWXynVOT80QpAKIYfO4qigVB7bRH8siqUZLzd3wXljoqbGC3R7
- aL43JH45KlCDdUmPkbCb2oNJ4Ea3wLh1ubtIOAj/QGX/sNXtlNGZd5JADjXRL/Thgpe9
- 23CQ==
+ d=google.com; s=20221208; t=1691141738; x=1691746538;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gG/hBNu1GQAj2OK0xpKDkaIiZaaGafuOT1wyHJ92KUE=;
+ b=NxzXN8kae6zug4q6tWPIQXj58WTnWDUNK2etKvXWpMe8V9M2VrJFR1dYIvtuKa1UB4
+ kRFN4jzXjGxIMhDwJjPxhvKtSYho5msJ9A0X6BpHcInDzBH0D091X8+QDwkD2PYZw+N7
+ sJKGCQGSzBNxNlgzZNHpMqej8EGrEVmjYMHcm6JiPFIyj5FZyAKF0JIf3r3xcWpBSQka
+ z+vKIK7O2g1trqKFsS7JSNDLWBr4RzT53cedmf/5nE5LhQzNDneVMXVzsyccQkNfeSnl
+ zrk6ey0FACp+G9oq87nbNjvljvxmXNwuNrtkiwk2Cm3XNA7cljhoSygLAafz6YBuDkBP
+ 8NJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691141359; x=1691746159;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Dnn3YjqK0gYS2d3cBmIF54I2GW/nHeks1WnBWbPsCqA=;
- b=IxIJoNRtJI7yybsYnITKn6J9idsZonnk1TQ5AKqR7YSui3u6LOmaJL4YsAlYlrLgeb
- wvFxldHbkgFDksI7Zd9WV5mhQLHUh5VGjcADUqEgviAi3Gr2BvVW/Wov11LI52FoGLk5
- IkfDMGdG61nwtySfCPkfaweyGMvzX/jWK7kaBKUDGrEWS/puCu4inUq69siMnr9qt0Y9
- Sgc+IX9nJ+YeSLu13VDrrNQs1OQCrbIDMN1ggWdVIiubMwAf4n/bYE0/gh0hk46PqJU7
- iEIN9rJmXBfI6U6D988PUsff0V7ftsNmadkKbFnmx/p7n3GrU43ZhdHi1S5AOiMM7S6a
- CvCw==
-X-Gm-Message-State: AOJu0YyDKY9HpGHqd7Xv29KyMiyzPEOSzq/Q5BpJEVVn2KVEm+0WLxRB
- /+TURT0yuiXdDiGpA5/Ub1ZNbg==
-X-Google-Smtp-Source: AGHT+IEHiVe4K3MqLOjm+DVCGQ3jTlV9XKFXZSedQKFKvv1j9d815up6QRwY2QCphNtBD8WAdX0iUw==
-X-Received: by 2002:a05:651c:102a:b0:2b6:fc60:776f with SMTP id
- w10-20020a05651c102a00b002b6fc60776fmr972258ljm.30.1691141359043; 
- Fri, 04 Aug 2023 02:29:19 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- b13-20020a05600c11cd00b003fba6709c68sm1877070wmi.47.2023.08.04.02.29.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 02:29:18 -0700 (PDT)
-Date: Fri, 4 Aug 2023 12:29:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 4/9] PM / QoS: Decouple request alloc from
- dev_pm_qos_mtx
-Message-ID: <1085ed08-ac8f-4847-b232-0dcea6a61d77@kadam.mountain>
+ d=1e100.net; s=20221208; t=1691141738; x=1691746538;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gG/hBNu1GQAj2OK0xpKDkaIiZaaGafuOT1wyHJ92KUE=;
+ b=UDTxQCxQ7g+byWLetBeCNFWn7W/tFT0N1vmhGM66uRxthxQprkUawrC3NgYc1EutGO
+ Qc8s7WzBA02HnLasRTB5If7a3oRwn54Nj/8N+eBKNonBvweG+TjCFUbE5rzq3JfHxN0G
+ btyYFJdj/aUSsB0kvQNws9Qvep/tzgu/9JZYnQg+GOefLXH2hNTP72xcLIQ3uknIsYxY
+ WBQK/r8hLiNjjCpG5asUnaTbkqI2eFS8ae6O/GNhTTX6h0sF5yF0r9SBz+YzCY4DGKCj
+ m6ALEFY5KKLUFJ0USno+Rh1op6WiEQxhXuO17zN8raE322dKRbxKWAxGKvqUoAELU766
+ x8dQ==
+X-Gm-Message-State: AOJu0Yx+kokIMUf3ppaabteMwBtf1hTufP8t4Lca6xLNUqDNBp5VGXs1
+ t+ftf80eKJl/IBqXQKNhtyCKy9B6dYSsUfcylWMY3g==
+X-Google-Smtp-Source: AGHT+IEwo+ZtUuqQhcrazD8v+nNjuIoQZOhMJIRaf2kxpQIbs0CjisNKpq8sTDUzeUT/HeKKQIaMrZT+owjkAQx9b2k=
+X-Received: by 2002:a05:600c:3ba9:b0:3f4:fb7:48d4 with SMTP id
+ n41-20020a05600c3ba900b003f40fb748d4mr48822wms.3.1691141737646; Fri, 04 Aug
+ 2023 02:35:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230803220202.78036-5-robdclark@gmail.com>
+References: <20230804030140.21395-1-rdunlap@infradead.org>
+ <ZMyq9e/On2wzSJWj@qwark.sigxcpu.org>
+In-Reply-To: <ZMyq9e/On2wzSJWj@qwark.sigxcpu.org>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Fri, 4 Aug 2023 11:35:25 +0200
+Message-ID: <CANp29Y6AnNeouWgAevBEDZcYcOjzDQwxLDfLxe41Lp3BC=h8bA@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: for GENERIC_PHY_MIPI_DPHY also select
+ GENERIC_PHY
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,98 +70,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
- lkp@intel.com, "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-arm-msm@vger.kernel.org,
- "open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>,
- oe-kbuild-all@lists.linux.dev, freedreno@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Adam Ford <aford173@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Thank you for resolving this issue so quickly!
 
-kernel test robot noticed the following build warnings:
+I've applied the patch locally and gone through the reproduction
+steps. The kernel builds fine now.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Tested-by: Aleksandr Nogikh <nogikh@google.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/PM-devfreq-Drop-unneed-locking-to-appease-lockdep/20230804-060505
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230803220202.78036-5-robdclark%40gmail.com
-patch subject: [PATCH v3 4/9] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
-config: i386-randconfig-m021-20230730 (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041725.Npwswh0L-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202308041725.Npwswh0L-lkp@intel.com/
-
-smatch warnings:
-drivers/base/power/qos.c:973 dev_pm_qos_update_user_latency_tolerance() warn: possible memory leak of 'req'
-
-vim +/req +973 drivers/base/power/qos.c
-
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
-b5ac35ff4296f7 Rob Clark         2023-08-03  925  	struct dev_pm_qos_request *req = NULL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
-211fb32e3a0547 Rob Clark         2023-08-03  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
-211fb32e3a0547 Rob Clark         2023-08-03  929  	if (ret)
-211fb32e3a0547 Rob Clark         2023-08-03  930  		return ret;
-211fb32e3a0547 Rob Clark         2023-08-03  931  
-b5ac35ff4296f7 Rob Clark         2023-08-03  932  	if (!dev->power.qos->latency_tolerance_req)
-b5ac35ff4296f7 Rob Clark         2023-08-03  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
-b5ac35ff4296f7 Rob Clark         2023-08-03  934  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
-211fb32e3a0547 Rob Clark         2023-08-03  937  	if (!dev->power.qos->latency_tolerance_req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		if (val < 0) {
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  939  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  940  				ret = 0;
-80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			else
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  942  				ret = -EINVAL;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  943  			goto out;
-
-kfree(req);?
-
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  		if (!req) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  			ret = -ENOMEM;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  947  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		if (ret < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  			kfree(req);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  			goto out;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  		dev->power.qos->latency_tolerance_req = req;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  	} else {
-b5ac35ff4296f7 Rob Clark         2023-08-03  956  		/*
-b5ac35ff4296f7 Rob Clark         2023-08-03  957  		 * If we raced with another thread to allocate the request,
-b5ac35ff4296f7 Rob Clark         2023-08-03  958  		 * simply free the redundant allocation and move on.
-b5ac35ff4296f7 Rob Clark         2023-08-03  959  		 */
-b5ac35ff4296f7 Rob Clark         2023-08-03  960  		if (req)
-b5ac35ff4296f7 Rob Clark         2023-08-03  961  			kfree(req);
-b5ac35ff4296f7 Rob Clark         2023-08-03  962  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  963  		if (val < 0) {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  964  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  			ret = 0;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  		} else {
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  	}
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  971   out:
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  	mutex_unlock(&dev_pm_qos_mtx);
-2d984ad132a87c Rafael J. Wysocki 2014-02-11 @973  	return ret;
-2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+On Fri, Aug 4, 2023 at 9:38=E2=80=AFAM Guido G=C3=BCnther <agx@sigxcpu.org>=
+ wrote:
+>
+> Hi,
+> On Thu, Aug 03, 2023 at 08:01:37PM -0700, Randy Dunlap wrote:
+> > Three DRM bridge drivers select GENERIC_PHY_MIPI_DPHY when GENERIC_PHY
+> > might not be set.  This causes Kconfig warnings and a build error.
+> >
+> > WARNING: unmet direct dependencies detected for GENERIC_PHY_MIPI_DPHY
+> >   Depends on [n]: GENERIC_PHY [=3Dn]
+> >   Selected by [y]:
+> >   - DRM_NWL_MIPI_DSI [=3Dy] && DRM_BRIDGE [=3Dy] && DRM [=3Dy] && COMMO=
+N_CLK [=3Dy] && OF [=3Dy] && HAS_IOMEM [=3Dy]
+> >   - DRM_SAMSUNG_DSIM [=3Dy] && DRM [=3Dy] && DRM_BRIDGE [=3Dy] && COMMO=
+N_CLK [=3Dy] && OF [=3Dy] && HAS_IOMEM [=3Dy]
+> >
+> > (drm/bridge/cadence/Kconfig was found by inspection.)
+> >
+> > aarch64-linux-ld: drivers/gpu/drm/bridge/samsung-dsim.o: in function `s=
+amsung_dsim_set_phy_ctrl':
+> > drivers/gpu/drm/bridge/samsung-dsim.c:731: undefined reference to `phy_=
+mipi_dphy_get_default_config_for_hsclk'
+> >
+> > Prevent these warnings and build error by also selecting GENERIC_PHY
+> n> whenever selecting GENERIC_PHY_MIPI_DPHY.
+> >
+> > Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+> > Fixes: 44cfc6233447 ("drm/bridge: Add NWL MIPI DSI host controller supp=
+ort")
+> > Fixes: 171b3b1e0f8b ("drm: bridge: samsung-dsim: Select GENERIC_PHY_MIP=
+I_DPHY")
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Reported-by: Aleksandr Nogikh <nogikh@google.com>
+> > Link: lore.kernel.org/r/20230803144227.2187749-1-nogikh@google.com
+> > Cc: Adam Ford <aford173@gmail.com>
+> > Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> > Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
+> > Cc: Robert Chiras <robert.chiras@nxp.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > Cc: Robert Foss <rfoss@kernel.org>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: dri-devel@lists.freedesktop.org
+> > ---
+> >  drivers/gpu/drm/bridge/Kconfig         |    2 ++
+> >  drivers/gpu/drm/bridge/cadence/Kconfig |    1 +
+> >  2 files changed, 3 insertions(+)
+> >
+> > diff -- a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/brid=
+ge/cadence/Kconfig
+> > --- a/drivers/gpu/drm/bridge/cadence/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+> > @@ -4,6 +4,7 @@ config DRM_CDNS_DSI
+> >       select DRM_KMS_HELPER
+> >       select DRM_MIPI_DSI
+> >       select DRM_PANEL_BRIDGE
+> > +     select GENERIC_PHY
+> >       select GENERIC_PHY_MIPI_DPHY
+> >       depends on OF
+> >       help
+> > diff -- a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconf=
+ig
+> > --- a/drivers/gpu/drm/bridge/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > @@ -181,6 +181,7 @@ config DRM_NWL_MIPI_DSI
+> >       select DRM_KMS_HELPER
+> >       select DRM_MIPI_DSI
+> >       select DRM_PANEL_BRIDGE
+> > +     select GENERIC_PHY
+> >       select GENERIC_PHY_MIPI_DPHY
+> >       select MFD_SYSCON
+> >       select MULTIPLEXER
+> > @@ -227,6 +228,7 @@ config DRM_SAMSUNG_DSIM
+> >       select DRM_KMS_HELPER
+> >       select DRM_MIPI_DSI
+> >       select DRM_PANEL_BRIDGE
+> > +     select GENERIC_PHY
+> >       select GENERIC_PHY_MIPI_DPHY
+> >       help
+> >         The Samsung MIPI DSIM bridge controller driver.
+> >
+>
+> For NWL:
+>
+> Reviewed-by: Guido G=C3=BCnther <agx@sigxcpu.org>
+>
+> Cheers,
+>   -- Guido
