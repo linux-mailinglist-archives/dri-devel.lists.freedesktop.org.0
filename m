@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3686F770A6F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 23:07:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB041770A70
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 23:07:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9721510E12D;
-	Fri,  4 Aug 2023 21:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5083410E135;
+	Fri,  4 Aug 2023 21:07:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B1F10E12C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 21:07:15 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id
- d2e1a72fcca58-686f25d045cso1961929b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 14:07:15 -0700 (PDT)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07F2710E12F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 21:07:17 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-686f38692b3so2418395b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 14:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1691183234; x=1691788034;
+ d=chromium.org; s=google; t=1691183237; x=1691788037;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VrVsSAYx25sDv9lFVoDtvszHTPMnF37tDWONYbWLGR8=;
- b=bjtuOkhvCsvKCv6YFVVUneXqB8dbj9NYo2prCIKW5jzlYf1sMgNWNmMgg3RmhJj9tQ
- RSvxrlSscMOBT2hSiivH2oP7EDhXQYbblnVomJpvUtHRY+t0E9nZr7nJ0+3zPsAz9Xx4
- KggSiAqyZHCICJjvHlVpQWwtE8TOMa0jzVsuo=
+ bh=+K4pAadzRZN083YWndwfDzadQIgjy+stzVGii5iIJGU=;
+ b=T1UYVJsN721ozkISMV86q9Yazgfhma0y3bUeJgLTkokFM2FXoQfsXSElONE+8QorfW
+ 6KJCMyYa6HwgGob86Pamhm3mAAKLOuEG/C24hVShpaprAQaj9ga275WVxyVBsuNTp4Xq
+ 4YsIw1eOx9vVerNFIlXmAaIu6WLUGVO5/Ovsk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691183234; x=1691788034;
+ d=1e100.net; s=20221208; t=1691183237; x=1691788037;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VrVsSAYx25sDv9lFVoDtvszHTPMnF37tDWONYbWLGR8=;
- b=bHQEGZWXjX4K9nVTnxvhN7y7foFq2TwJPA0JEQM991dHSxilv5BeDiyLUAofYroE44
- FhelreMrzJxALce+cbAuWmxEHsI/tUvcUcKuhQfka8/NjtKViCxByFRM/eZEzxnorPKB
- wGEdU0Q9ESvC5D90UfiEgJRUE4HSZsyiWymPy/Tgk4p8ZFOgt8xy8iAekEYO2nHgVTQN
- fvdH+vgExEO2JQvvy3A/E+Wux1lopaQDvGFiBckTWTprVu2O3UcmHy3Y+oNAQiWpKOhw
- nmhFJ7eKhEge/uiYctohQkB1/VDkUNH7j3P+O4YOribLDKDsTJ7eqiXAcI3naILOeRAV
- iIFQ==
-X-Gm-Message-State: AOJu0YzZvt5g3HB1aKpy3kkIwyDsDuSVaZLxdx5WQ78ApVqGtXBhNRar
- 6DBz256ugAZPdSno3xaxWRpub8IDLAIm+Q52ktJtM0RN
-X-Google-Smtp-Source: AGHT+IHYQ51e/CivapyciI1+hD02W3UfpPJfQDmaKN6zZCtfn6om9w5oAZmcoi6ZXw9xG5OSlWqsBQ==
-X-Received: by 2002:a05:6a00:130f:b0:66d:514c:cb33 with SMTP id
- j15-20020a056a00130f00b0066d514ccb33mr2928832pfu.6.1691183233978; 
- Fri, 04 Aug 2023 14:07:13 -0700 (PDT)
+ bh=+K4pAadzRZN083YWndwfDzadQIgjy+stzVGii5iIJGU=;
+ b=XOgz9Xdffhx7hoisX7Jx88rLOXru2lg66QvORvw+3BLiTc/B1UPJcY8HsQouPW4Osk
+ 4lw4dCavgoVicuaiOAcIDf/OjNaX7E3MhC4UujuTBfQdFoR0xJ2AfefpPaxu0ly1VMfc
+ ZEEbFDc8+H+wVPzsqc2DmFXxL33zrNPqqrKZnYE5wMyQhr7k2Dt302glbSFKq2x0M/mK
+ gQGdMQ6CMB/KT1uO3broVrIzvMh24NvIuTNSSWNgFYL/4rnYymc01t1Hd/pUab2Nwyjv
+ ok1dGXlJyHPIRCwF5vyYzX48nbxU/E7hKu/41NYaIW6MfLoPcNNjmNsWkiB2UBEHB74k
+ 68nQ==
+X-Gm-Message-State: AOJu0YwSd3/XZUVe3I1tpU0Pz/KnOb4F7iGrFs5PFraWJDkWYGJt13F6
+ 9Kb7w6cSfmQSjD+ZcQVOZAmEbC6DKPGAvtMiRrxaTAuq
+X-Google-Smtp-Source: AGHT+IGmH6I8v9mGTkjyzHcFPAzmzyunDSLA0TNtyofGKN5WngoOgQ9qT4q8whBF8qocjpEoAnGaUA==
+X-Received: by 2002:a05:6a21:7189:b0:133:f860:ac42 with SMTP id
+ wq9-20020a056a21718900b00133f860ac42mr3100626pzb.34.1691183236984; 
+ Fri, 04 Aug 2023 14:07:16 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:e186:e5d2:e60:bad3])
  by smtp.gmail.com with ESMTPSA id
- n22-20020aa78a56000000b0068664ace38asm2037584pfa.19.2023.08.04.14.07.12
+ n22-20020aa78a56000000b0068664ace38asm2037584pfa.19.2023.08.04.14.07.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 14:07:13 -0700 (PDT)
+ Fri, 04 Aug 2023 14:07:15 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFC PATCH 01/10] drm/panel: Don't store+check prepared/enabled for
- simple cases
-Date: Fri,  4 Aug 2023 14:06:04 -0700
-Message-ID: <20230804140605.RFC.1.Ia54954fd2f7645c1b86597494902973f57feeb71@changeid>
+Subject: [RFC PATCH 02/10] drm/panel: s6e63m0: Don't store+check
+ prepared/enabled
+Date: Fri,  4 Aug 2023 14:06:05 -0700
+Message-ID: <20230804140605.RFC.2.Iabafd062e70f6b6b554cf23eeb75f57a80f7e985@changeid>
 X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
 In-Reply-To: <20230804210644.1862287-1-dianders@chromium.org>
 References: <20230804210644.1862287-1-dianders@chromium.org>
@@ -72,9 +72,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Jianhua Lu <lujianhua000@gmail.com>
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -85,929 +85,116 @@ prepared/enabled state. Even if someone was relying on the
 double-check before, that double-check is now in the core and not
 needed in individual drivers.
 
-This pile of panel drivers appears to be simple to handle. Based on
-code inspection they seemed to be using the prepared/enabled state
-simply for double-checking that nothing else in the kernel called them
-inconsistently. Now that the core drm_panel is doing the double
-checking (and warning) it should be very clear that these devices
-don't need their own double-check.
+For the s6e63m0 panel driver, this actually fixes a subtle/minor error
+handling bug in s6e63m0_prepare(). In one error case s6e63m0_prepare()
+called s6e63m0_unprepare() directly if there was an error. This call
+to s6e63m0_unprepare() would have been a no-op since ctx->prepared
+wasn't set yet.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  |  9 -----
- .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    |  9 -----
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c  |  9 -----
- drivers/gpu/drm/panel/panel-novatek-nt35950.c |  9 -----
- drivers/gpu/drm/panel/panel-novatek-nt36523.c | 12 ------
- drivers/gpu/drm/panel/panel-raydium-rm68200.c | 38 -------------------
- .../panel/panel-samsung-s6e88a0-ams452ef01.c  | 10 -----
- drivers/gpu/drm/panel/panel-samsung-sofef00.c |  9 -----
- .../gpu/drm/panel/panel-sharp-ls060t1sx01.c   | 10 -----
- drivers/gpu/drm/panel/panel-sony-td4353-jdi.c |  9 -----
- .../panel/panel-sony-tulip-truly-nt35521.c    | 18 ---------
- .../drm/panel/panel-startek-kd070fhfid015.c   | 11 ------
- drivers/gpu/drm/panel/panel-truly-nt35597.c   | 20 ----------
- drivers/gpu/drm/panel/panel-visionox-r66451.c | 16 --------
- .../gpu/drm/panel/panel-visionox-rm69299.c    |  8 ----
- .../gpu/drm/panel/panel-visionox-vtdr6130.c   |  9 -----
- 16 files changed, 206 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 25 -------------------
+ 1 file changed, 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-index 075a7af81eff..bcaa63d1955f 100644
---- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-+++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-@@ -16,7 +16,6 @@ struct tm5p5_nt35596 {
- 	struct mipi_dsi_device *dsi;
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+index b34fa4d5de07..a0e5698275a5 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+@@ -270,9 +270,6 @@ struct s6e63m0 {
  	struct regulator_bulk_data supplies[2];
  	struct gpio_desc *reset_gpio;
+ 
 -	bool prepared;
- };
- 
- static inline struct tm5p5_nt35596 *to_tm5p5_nt35596(struct drm_panel *panel)
-@@ -112,9 +111,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-@@ -132,7 +128,6 @@ static int tm5p5_nt35596_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -142,9 +137,6 @@ static int tm5p5_nt35596_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = tm5p5_nt35596_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -153,7 +145,6 @@ static int tm5p5_nt35596_unprepare(struct drm_panel *panel)
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
- 			       ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-index 90098b753e3b..e77db8597eb7 100644
---- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-+++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-@@ -34,7 +34,6 @@ struct boe_bf060y8m_aj0 {
- 	struct mipi_dsi_device *dsi;
- 	struct regulator_bulk_data vregs[BF060Y8M_VREG_MAX];
- 	struct gpio_desc *reset_gpio;
--	bool prepared;
- };
- 
- static inline
-@@ -129,9 +128,6 @@ static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
- 	struct device *dev = &boe->dsi->dev;
- 	int ret;
- 
--	if (boe->prepared)
--		return 0;
+-	bool enabled;
 -
  	/*
- 	 * Enable EL Driving Voltage first - doing that at the beginning
- 	 * or at the end of the power sequence doesn't matter, so enable
-@@ -166,7 +162,6 @@ static int boe_bf060y8m_aj0_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	boe->prepared = true;
- 	return 0;
- 
- err_vci:
-@@ -186,9 +181,6 @@ static int boe_bf060y8m_aj0_unprepare(struct drm_panel *panel)
- 	struct device *dev = &boe->dsi->dev;
- 	int ret;
- 
--	if (!boe->prepared)
--		return 0;
--
- 	ret = boe_bf060y8m_aj0_off(boe);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -196,7 +188,6 @@ static int boe_bf060y8m_aj0_unprepare(struct drm_panel *panel)
- 	gpiod_set_value_cansleep(boe->reset_gpio, 1);
- 	ret = regulator_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vregs);
- 
--	boe->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-index 8912757a6f42..3e0a8e0d58a0 100644
---- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -21,7 +21,6 @@ struct jdi_fhd_r63452 {
- 	struct drm_panel panel;
- 	struct mipi_dsi_device *dsi;
- 	struct gpio_desc *reset_gpio;
--	bool prepared;
- };
- 
- static inline struct jdi_fhd_r63452 *to_jdi_fhd_r63452(struct drm_panel *panel)
-@@ -157,9 +156,6 @@ static int jdi_fhd_r63452_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	jdi_fhd_r63452_reset(ctx);
- 
- 	ret = jdi_fhd_r63452_on(ctx);
-@@ -169,7 +165,6 @@ static int jdi_fhd_r63452_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -179,16 +174,12 @@ static int jdi_fhd_r63452_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = jdi_fhd_r63452_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
- 
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-index 412ca84d0581..648ce9201426 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-@@ -59,7 +59,6 @@ struct nt35950 {
- 
- 	int cur_mode;
- 	u8 last_page;
--	bool prepared;
- };
- 
- struct nt35950_panel_mode {
-@@ -431,9 +430,6 @@ static int nt35950_prepare(struct drm_panel *panel)
- 	struct device *dev = &nt->dsi[0]->dev;
- 	int ret;
- 
--	if (nt->prepared)
--		return 0;
--
- 	ret = regulator_enable(nt->vregs[0].consumer);
- 	if (ret)
- 		return ret;
-@@ -460,7 +456,6 @@ static int nt35950_prepare(struct drm_panel *panel)
- 		dev_err(dev, "Failed to initialize panel: %d\n", ret);
- 		goto end;
- 	}
--	nt->prepared = true;
- 
- end:
- 	if (ret < 0) {
-@@ -477,9 +472,6 @@ static int nt35950_unprepare(struct drm_panel *panel)
- 	struct device *dev = &nt->dsi[0]->dev;
- 	int ret;
- 
--	if (!nt->prepared)
--		return 0;
--
- 	ret = nt35950_off(nt);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to deinitialize panel: %d\n", ret);
-@@ -487,7 +479,6 @@ static int nt35950_unprepare(struct drm_panel *panel)
- 	gpiod_set_value_cansleep(nt->reset_gpio, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(nt->vregs), nt->vregs);
- 
--	nt->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-index 9632b9e95b71..9b9a7eb1bc60 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-@@ -38,8 +38,6 @@ struct panel_info {
- 	struct gpio_desc *reset_gpio;
- 	struct backlight_device *backlight;
- 	struct regulator *vddio;
--
--	bool prepared;
- };
- 
- struct panel_desc {
-@@ -1046,9 +1044,6 @@ static int nt36523_prepare(struct drm_panel *panel)
- 	struct panel_info *pinfo = to_panel_info(panel);
- 	int ret;
- 
--	if (pinfo->prepared)
--		return 0;
--
- 	ret = regulator_enable(pinfo->vddio);
- 	if (ret) {
- 		dev_err(panel->dev, "failed to enable vddio regulator: %d\n", ret);
-@@ -1064,8 +1059,6 @@ static int nt36523_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	pinfo->prepared = true;
--
- 	return 0;
- }
- 
-@@ -1095,14 +1088,9 @@ static int nt36523_unprepare(struct drm_panel *panel)
+ 	 * This field is tested by functions directly accessing bus before
+ 	 * transfer, transfer is skipped if it is set. In case of transfer
+@@ -502,9 +499,6 @@ static int s6e63m0_disable(struct drm_panel *panel)
  {
- 	struct panel_info *pinfo = to_panel_info(panel);
- 
--	if (!pinfo->prepared)
--		return 0;
--
- 	gpiod_set_value_cansleep(pinfo->reset_gpio, 1);
- 	regulator_disable(pinfo->vddio);
- 
--	pinfo->prepared = false;
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-index 5f9b340588fb..7b7fe987e292 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-@@ -77,8 +77,6 @@ struct rm68200 {
- 	struct drm_panel panel;
- 	struct gpio_desc *reset_gpio;
- 	struct regulator *supply;
--	bool prepared;
--	bool enabled;
- };
- 
- static const struct drm_display_mode default_mode = {
-@@ -231,27 +229,12 @@ static void rm68200_init_sequence(struct rm68200 *ctx)
- 	dcs_write_seq(ctx, MCS_CMD_MODE_SW, MCS_CMD1_UCS);
- }
- 
--static int rm68200_disable(struct drm_panel *panel)
--{
--	struct rm68200 *ctx = panel_to_rm68200(panel);
--
--	if (!ctx->enabled)
--		return 0;
--
--	ctx->enabled = false;
--
--	return 0;
--}
--
- static int rm68200_unprepare(struct drm_panel *panel)
- {
- 	struct rm68200 *ctx = panel_to_rm68200(panel);
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = mipi_dsi_dcs_set_display_off(dsi);
- 	if (ret)
- 		dev_warn(panel->dev, "failed to set display off: %d\n", ret);
-@@ -269,8 +252,6 @@ static int rm68200_unprepare(struct drm_panel *panel)
- 
- 	regulator_disable(ctx->supply);
- 
--	ctx->prepared = false;
--
- 	return 0;
- }
- 
-@@ -280,9 +261,6 @@ static int rm68200_prepare(struct drm_panel *panel)
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_enable(ctx->supply);
- 	if (ret < 0) {
- 		dev_err(ctx->dev, "failed to enable supply: %d\n", ret);
-@@ -310,20 +288,6 @@ static int rm68200_prepare(struct drm_panel *panel)
- 
- 	msleep(20);
- 
--	ctx->prepared = true;
--
--	return 0;
--}
--
--static int rm68200_enable(struct drm_panel *panel)
--{
--	struct rm68200 *ctx = panel_to_rm68200(panel);
--
--	if (ctx->enabled)
--		return 0;
--
--	ctx->enabled = true;
--
- 	return 0;
- }
- 
-@@ -352,10 +316,8 @@ static int rm68200_get_modes(struct drm_panel *panel,
- }
- 
- static const struct drm_panel_funcs rm68200_drm_funcs = {
--	.disable = rm68200_disable,
- 	.unprepare = rm68200_unprepare,
- 	.prepare = rm68200_prepare,
--	.enable = rm68200_enable,
- 	.get_modes = rm68200_get_modes,
- };
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index 7431cae7427e..d2df227abbea 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -18,8 +18,6 @@ struct s6e88a0_ams452ef01 {
- 	struct mipi_dsi_device *dsi;
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *reset_gpio;
--
--	bool prepared;
- };
- 
- static inline struct
-@@ -115,9 +113,6 @@ static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-@@ -135,7 +130,6 @@ static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -145,9 +139,6 @@ static int s6e88a0_ams452ef01_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = s6e88a0_ams452ef01_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -155,7 +146,6 @@ static int s6e88a0_ams452ef01_unprepare(struct drm_panel *panel)
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index cbf9607dd576..04ce925b3d9d 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -23,7 +23,6 @@ struct sofef00_panel {
- 	struct regulator *supply;
- 	struct gpio_desc *reset_gpio;
- 	const struct drm_display_mode *mode;
--	bool prepared;
- };
- 
- static inline
-@@ -113,9 +112,6 @@ static int sofef00_panel_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_enable(ctx->supply);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulator: %d\n", ret);
-@@ -131,7 +127,6 @@ static int sofef00_panel_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -141,16 +136,12 @@ static int sofef00_panel_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = sofef00_panel_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
- 
- 	regulator_disable(ctx->supply);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-index 68f52eaaf4fa..74c760ee0c2d 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-@@ -24,7 +24,6 @@ struct sharp_ls060 {
- 	struct regulator *avdd_supply;
- 	struct regulator *avee_supply;
- 	struct gpio_desc *reset_gpio;
--	bool prepared;
- };
- 
- static inline struct sharp_ls060 *to_sharp_ls060(struct drm_panel *panel)
-@@ -101,9 +100,6 @@ static int sharp_ls060_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_enable(ctx->vddi_supply);
- 	if (ret < 0)
- 		return ret;
-@@ -134,8 +130,6 @@ static int sharp_ls060_prepare(struct drm_panel *panel)
- 		goto err_on;
- 	}
- 
--	ctx->prepared = true;
--
- 	return 0;
- 
- err_on:
-@@ -163,9 +157,6 @@ static int sharp_ls060_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = sharp_ls060_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -181,7 +172,6 @@ static int sharp_ls060_unprepare(struct drm_panel *panel)
- 
- 	regulator_disable(ctx->vddi_supply);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-index 1bde2f01786b..472195d4bbbe 100644
---- a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-+++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-@@ -36,7 +36,6 @@ struct sony_td4353_jdi {
- 	struct regulator_bulk_data supplies[3];
- 	struct gpio_desc *panel_reset_gpio;
- 	struct gpio_desc *touch_reset_gpio;
--	bool prepared;
- 	int type;
- };
- 
-@@ -150,9 +149,6 @@ static int sony_td4353_jdi_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-@@ -171,7 +167,6 @@ static int sony_td4353_jdi_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -181,9 +176,6 @@ static int sony_td4353_jdi_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = sony_td4353_jdi_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to power off panel: %d\n", ret);
-@@ -191,7 +183,6 @@ static int sony_td4353_jdi_unprepare(struct drm_panel *panel)
- 	sony_td4353_assert_reset_gpios(ctx, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-index ee5d20ecc577..6d44970dccd9 100644
---- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-+++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-@@ -23,8 +23,6 @@ struct truly_nt35521 {
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *blen_gpio;
--	bool prepared;
--	bool enabled;
- };
- 
- static inline
-@@ -296,9 +294,6 @@ static int truly_nt35521_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-@@ -314,7 +309,6 @@ static int truly_nt35521_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -324,9 +318,6 @@ static int truly_nt35521_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = truly_nt35521_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -335,7 +326,6 @@ static int truly_nt35521_unprepare(struct drm_panel *panel)
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
- 			       ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-@@ -343,12 +333,8 @@ static int truly_nt35521_enable(struct drm_panel *panel)
- {
- 	struct truly_nt35521 *ctx = to_truly_nt35521(panel);
- 
--	if (ctx->enabled)
--		return 0;
--
- 	gpiod_set_value_cansleep(ctx->blen_gpio, 1);
- 
--	ctx->enabled = true;
- 	return 0;
- }
- 
-@@ -356,12 +342,8 @@ static int truly_nt35521_disable(struct drm_panel *panel)
- {
- 	struct truly_nt35521 *ctx = to_truly_nt35521(panel);
+ 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
  
 -	if (!ctx->enabled)
 -		return 0;
 -
- 	gpiod_set_value_cansleep(ctx->blen_gpio, 0);
+ 	backlight_disable(ctx->bl_dev);
+ 
+ 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_OFF);
+@@ -512,8 +506,6 @@ static int s6e63m0_disable(struct drm_panel *panel)
+ 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_ENTER_SLEEP_MODE);
+ 	msleep(120);
  
 -	ctx->enabled = false;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
-index 6e77a2d71d81..0156689f41cd 100644
---- a/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
-+++ b/drivers/gpu/drm/panel/panel-startek-kd070fhfid015.c
-@@ -35,7 +35,6 @@ enum {
- };
- 
- struct stk_panel {
--	bool prepared;
- 	const struct drm_display_mode *mode;
- 	struct backlight_device *backlight;
- 	struct drm_panel base;
-@@ -145,16 +144,11 @@ static int stk_panel_unprepare(struct drm_panel *panel)
- {
- 	struct stk_panel *stk = to_stk_panel(panel);
- 
--	if (!stk->prepared)
--		return 0;
--
- 	stk_panel_off(stk);
- 	regulator_bulk_disable(ARRAY_SIZE(stk->supplies), stk->supplies);
- 	gpiod_set_value(stk->reset_gpio, 0);
- 	gpiod_set_value(stk->enable_gpio, 1);
- 
--	stk->prepared = false;
 -
  	return 0;
  }
  
-@@ -164,9 +158,6 @@ static int stk_panel_prepare(struct drm_panel *panel)
- 	struct device *dev = &stk->dsi->dev;
+@@ -522,17 +514,12 @@ static int s6e63m0_unprepare(struct drm_panel *panel)
+ 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
  	int ret;
- 
--	if (stk->prepared)
--		return 0;
--
- 	gpiod_set_value(stk->reset_gpio, 0);
- 	gpiod_set_value(stk->enable_gpio, 0);
- 	ret = regulator_enable(stk->supplies[IOVCC].consumer);
-@@ -195,8 +186,6 @@ static int stk_panel_prepare(struct drm_panel *panel)
- 		goto poweroff;
- 	}
- 
--	stk->prepared = true;
--
- 	return 0;
- 
- poweroff:
-diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-index 4f4009f9fe25..b73448cf349d 100644
---- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
-+++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-@@ -64,8 +64,6 @@ struct truly_nt35597 {
- 	struct mipi_dsi_device *dsi[2];
- 
- 	const struct nt35597_config *config;
--	bool prepared;
--	bool enabled;
- };
- 
- static inline struct truly_nt35597 *panel_to_ctx(struct drm_panel *panel)
-@@ -313,16 +311,12 @@ static int truly_nt35597_disable(struct drm_panel *panel)
- 	struct truly_nt35597 *ctx = panel_to_ctx(panel);
- 	int ret;
- 
--	if (!ctx->enabled)
--		return 0;
--
- 	if (ctx->backlight) {
- 		ret = backlight_disable(ctx->backlight);
- 		if (ret < 0)
- 			dev_err(ctx->dev, "backlight disable failed %d\n", ret);
- 	}
- 
--	ctx->enabled = false;
- 	return 0;
- }
- 
-@@ -331,9 +325,6 @@ static int truly_nt35597_unprepare(struct drm_panel *panel)
- 	struct truly_nt35597 *ctx = panel_to_ctx(panel);
- 	int ret = 0;
  
 -	if (!ctx->prepared)
 -		return 0;
 -
- 	ctx->dsi[0]->mode_flags = 0;
- 	ctx->dsi[1]->mode_flags = 0;
+ 	s6e63m0_clear_error(ctx);
  
-@@ -354,7 +345,6 @@ static int truly_nt35597_unprepare(struct drm_panel *panel)
+ 	ret = s6e63m0_power_off(ctx);
  	if (ret < 0)
- 		dev_err(ctx->dev, "power_off failed ret = %d\n", ret);
+ 		return ret;
  
 -	ctx->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -541,9 +528,6 @@ static int s6e63m0_prepare(struct drm_panel *panel)
+ 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+ 	int ret;
+ 
+-	if (ctx->prepared)
+-		return 0;
+-
+ 	ret = s6e63m0_power_on(ctx);
+ 	if (ret < 0)
+ 		return ret;
+@@ -564,8 +548,6 @@ static int s6e63m0_prepare(struct drm_panel *panel)
+ 	if (ret < 0)
+ 		s6e63m0_unprepare(panel);
+ 
+-	ctx->prepared = true;
+-
  	return ret;
  }
  
-@@ -367,9 +357,6 @@ static int truly_nt35597_prepare(struct drm_panel *panel)
- 	const struct nt35597_config *config;
- 	u32 num_cmds;
+@@ -573,9 +555,6 @@ static int s6e63m0_enable(struct drm_panel *panel)
+ {
+ 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
  
--	if (ctx->prepared)
+-	if (ctx->enabled)
 -		return 0;
 -
- 	ret = truly_35597_power_on(ctx);
- 	if (ret < 0)
- 		return ret;
-@@ -409,8 +396,6 @@ static int truly_nt35597_prepare(struct drm_panel *panel)
- 	/* Per DSI spec wait 120ms after sending set_display_on DCS command */
+ 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_EXIT_SLEEP_MODE);
  	msleep(120);
+ 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_ON);
+@@ -588,8 +567,6 @@ static int s6e63m0_enable(struct drm_panel *panel)
  
--	ctx->prepared = true;
--
- 	return 0;
- 
- power_off:
-@@ -424,17 +409,12 @@ static int truly_nt35597_enable(struct drm_panel *panel)
- 	struct truly_nt35597 *ctx = panel_to_ctx(panel);
- 	int ret;
- 
--	if (ctx->enabled)
--		return 0;
--
- 	if (ctx->backlight) {
- 		ret = backlight_enable(ctx->backlight);
- 		if (ret < 0)
- 			dev_err(ctx->dev, "backlight enable failed %d\n", ret);
- 	}
+ 	backlight_enable(ctx->bl_dev);
  
 -	ctx->enabled = true;
 -
  	return 0;
  }
  
-diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c b/drivers/gpu/drm/panel/panel-visionox-r66451.c
-index 00fc28ad3d07..fbb73464de33 100644
---- a/drivers/gpu/drm/panel/panel-visionox-r66451.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
-@@ -22,7 +22,6 @@ struct visionox_r66451 {
- 	struct mipi_dsi_device *dsi;
- 	struct gpio_desc *reset_gpio;
- 	struct regulator_bulk_data supplies[2];
--	bool prepared, enabled;
- };
+@@ -709,8 +686,6 @@ int s6e63m0_probe(struct device *dev, void *trsp,
+ 	dev_set_drvdata(dev, ctx);
  
- static inline struct visionox_r66451 *to_visionox_r66451(struct drm_panel *panel)
-@@ -124,9 +123,6 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
- 	struct device *dev = &dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
- 				    ctx->supplies);
- 	if (ret < 0)
-@@ -144,7 +140,6 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
- 
- 	mipi_dsi_compression_mode(ctx->dsi, true);
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -154,9 +149,6 @@ static int visionox_r66451_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = visionox_r66451_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -164,7 +156,6 @@ static int visionox_r66451_unprepare(struct drm_panel *panel)
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
-@@ -190,9 +181,6 @@ static int visionox_r66451_enable(struct drm_panel *panel)
- 	struct drm_dsc_picture_parameter_set pps;
- 	int ret;
- 
--	if (ctx->enabled)
--		return 0;
--
- 	if (!dsi->dsc) {
- 		dev_err(&dsi->dev, "DSC not attached to DSI\n");
- 		return -ENODEV;
-@@ -219,8 +207,6 @@ static int visionox_r66451_enable(struct drm_panel *panel)
- 	}
- 	msleep(20);
- 
--	ctx->enabled = true;
--
- 	return 0;
- }
- 
-@@ -231,8 +217,6 @@ static int visionox_r66451_disable(struct drm_panel *panel)
- 	struct device *dev = &dsi->dev;
- 	int ret;
- 
+ 	ctx->dev = dev;
 -	ctx->enabled = false;
--
- 	ret = mipi_dsi_dcs_set_display_off(dsi);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to set display off: %d\n", ret);
-diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-index c2806e4fd553..775144695283 100644
---- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -20,8 +20,6 @@ struct visionox_rm69299 {
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *reset_gpio;
- 	struct mipi_dsi_device *dsi;
--	bool prepared;
--	bool enabled;
- };
- 
- static inline struct visionox_rm69299 *panel_to_ctx(struct drm_panel *panel)
-@@ -80,7 +78,6 @@ static int visionox_rm69299_unprepare(struct drm_panel *panel)
- 
- 	ret = visionox_rm69299_power_off(ctx);
- 
 -	ctx->prepared = false;
- 	return ret;
- }
  
-@@ -89,9 +86,6 @@ static int visionox_rm69299_prepare(struct drm_panel *panel)
- 	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = visionox_rm69299_power_on(ctx);
- 	if (ret < 0)
- 		return ret;
-@@ -140,8 +134,6 @@ static int visionox_rm69299_prepare(struct drm_panel *panel)
- 	/* Per DSI spec wait 120ms after sending set_display_on DCS command */
- 	msleep(120);
- 
--	ctx->prepared = true;
--
- 	return 0;
- 
- power_off:
-diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-index bb0dfd86ea67..a23407b9f6fb 100644
---- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-@@ -20,7 +20,6 @@ struct visionox_vtdr6130 {
- 	struct mipi_dsi_device *dsi;
- 	struct gpio_desc *reset_gpio;
- 	struct regulator_bulk_data supplies[3];
--	bool prepared;
- };
- 
- static inline struct visionox_vtdr6130 *to_visionox_vtdr6130(struct drm_panel *panel)
-@@ -157,9 +156,6 @@ static int visionox_vtdr6130_prepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (ctx->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
- 				    ctx->supplies);
- 	if (ret < 0)
-@@ -175,7 +171,6 @@ static int visionox_vtdr6130_prepare(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	ctx->prepared = true;
- 	return 0;
- }
- 
-@@ -185,9 +180,6 @@ static int visionox_vtdr6130_unprepare(struct drm_panel *panel)
- 	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	ret = visionox_vtdr6130_off(ctx);
- 	if (ret < 0)
- 		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-@@ -196,7 +188,6 @@ static int visionox_vtdr6130_unprepare(struct drm_panel *panel)
- 
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 
--	ctx->prepared = false;
- 	return 0;
- }
- 
+ 	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
+ 	if (ret)
 -- 
 2.41.0.585.gd2178a4bd4-goog
 
