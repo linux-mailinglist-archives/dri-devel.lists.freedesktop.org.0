@@ -1,65 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CB27716D2
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 23:44:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7947716D9
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 23:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E26210E126;
-	Sun,  6 Aug 2023 21:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9560D10E197;
+	Sun,  6 Aug 2023 21:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B8010E6E5
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 11:32:43 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1bc411e9d17so11503925ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 04:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691148763; x=1691753563;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=VfvBijsO2sMlDrlMC7AyPHbFWwb0ahNV79UVj+FEisM=;
- b=U70dWupWM2FxVvKo+UYn/YBIE4+3RwWguzMzX9YZgY3H5HcliIY1JdK6NyTrSCMCtl
- 7uR5IN+PMCPAtQVuYB11ypayUnXrLZ2/RUJj4Ml1i34TkQWrcahCY5axBckLdhuyuDtJ
- sy/KqPOssCahHDs7pdlwmffWMDxq2ivladpzNutqTNuUzcuVzc+r8BhX0KsdUKYmC73i
- K2vedwwlHSCOCWT3CKXRAnSUqu1RJkkUYaDhs6kP08BxWCXXFhZexd3srflWOoEiuZfb
- 1UEc4KS9p32fF6SEyJNM8Xtdv37f0t99VQ0GgJWaZ1Q9Tnf1JoYaqAUxCRHt+W6OvuDM
- 15jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691148763; x=1691753563;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VfvBijsO2sMlDrlMC7AyPHbFWwb0ahNV79UVj+FEisM=;
- b=AbWVhzG9+T/UWcOazUqexrY0hN3fHrvFrYs3by+mjDWhSlf3J28B1rGFNjRSWCBOpt
- amB9/Libhecvopy4c8u4+hqva0QVoy/kC01GJGu5RXis6UamD9F0xNA1+C91VDx9Xvx+
- TW5xnQGXYlXwPXsC7WwDOw0DWedr1TStbx7U7kcmqVeuA9c57meJ/qZiiexryEGIJrTV
- 5KQVWB7Rutwy0E1KqsLjlAlJPfDg3yyZWk1r0P47uWL/4BkSLCp5YQ2gnzjm/y97P7bk
- Zq9u8ZXasqM/Nlh3oUJ3QIb9l/iduJIdPQy+G4puG36DcbVEbWas8hu534W0TBs3H2bS
- gz1A==
-X-Gm-Message-State: AOJu0YyPZV76ADHOlVxyJns7OcisDhx11HNklrB4NWaYUlTAR3ClizH/
- hN61qUATZD4SkGxQhcNzaJI=
-X-Google-Smtp-Source: AGHT+IG9dvCYmEptOFC9VjllrZMWd5c+brV4DTFKrmiuaeUagZRje6Mdh2k+6LaXQABWjnvTuQ3P7g==
-X-Received: by 2002:a17:902:f94e:b0:1b3:f5c3:7682 with SMTP id
- kx14-20020a170902f94e00b001b3f5c37682mr1049005plb.68.1691148762695; 
- Fri, 04 Aug 2023 04:32:42 -0700 (PDT)
-Received: from ubuntu777.domain.name (36-228-73-13.dynamic-ip.hinet.net.
- [36.228.73.13]) by smtp.gmail.com with ESMTPSA id
- iw3-20020a170903044300b001b857352285sm1536501plb.247.2023.08.04.04.32.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 04:32:42 -0700 (PDT)
-From: Min-Hua Chen <minhuadotchen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>
-Subject: [PATCH v2] fbcon: mark fbcon_registered_fb static
-Date: Fri,  4 Aug 2023 19:32:35 +0800
-Message-Id: <20230804113237.51653-1-minhuadotchen@gmail.com>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: delayed 141449 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Aug 2023 12:48:39 UTC
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1656410E6E7;
+ Fri,  4 Aug 2023 12:48:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1691153230; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=fPPfv7Wf/FPOe0PdLkcNWUDqB504GCex5b6XdweL4YxnJv+RFTy4CwiRsab2hEgo/L
+ es3BMNAc2VeihGIszGXKR4L7dDPDX9mg7cCIpPki0BjjqFQEuuxdwTT/0uNJWF/KK/rN
+ HuEZ1S98YS+p+rnr8OULRTSi8+/Uymuinq/pp6n5fUGIOfrygdQY4a31VmSD1wkN5cYP
+ KXhwQ/MyqXFkOS2l0LwCXL4gOUcPFyNzBRudAk1NMrY8kgaTAvQBjXRUTS+8hPxt6bmZ
+ ZhHbqf5F81dYQkZ7a8SpjNRl2kD3P2wQDseDluqln8M1Bs8gIPL2KdUIeJZ08k+Q6dz4
+ TABQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1691153230;
+ s=strato-dkim-0002; d=strato.com;
+ h=References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=9EYPZh3bK4/rfwAilTxfULasm0qSCr/n1iUN2yQEIqw=;
+ b=ODI6w+7xrbc1jEyW1ONt9mGBMp9KjaXKL5ffdUkSVo9d2yQaHChirp30CJu3CBvGUE
+ 9HmBtNCMoFtU8EEKcrx1exVtasMuv3z2Y1w15Ii/X+zVPP9Psv/jeTPe8Br8LeoatpEo
+ n47unxX1OU6e6d8BWzp5LtTuwYfOBgXjHRCpeqtpYnfYg9Vqt5sP96DGLLyTHcAGIUSK
+ Mh0EUo2PAPrs0zdIA2SK0/PHwbHFo8qkOgvbwRJF0SeNWxdQe8LAC8ekGc2HV70ULHuu
+ Dihv6z/GtdjVGxi8KaHjcKnj4fpf/N9NZ99eGgKQVdgybuqKiJEYZwKuTpa85SI7htZh
+ 6aKw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1691153230;
+ s=strato-dkim-0002; d=kravcenko.com;
+ h=References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=9EYPZh3bK4/rfwAilTxfULasm0qSCr/n1iUN2yQEIqw=;
+ b=TqP2h85NJh2aEUoJOlpNH4jD4fVeXC9Q6PdsyJuA/BG7vvkQCKJrfA9Hcfy9G7Ay7R
+ /I6a3O5rvESDswGGPi7vz8RSM9d0osvWgtrYqy8oY4Ym7r40oYwH8tJLm4uKqziyIhQp
+ vqk5El8IZEpNO62k/kt7Fsub/ClLMmzMjH9FBHWswEinm6q2RrP3vDDDMN90IpBxhd3d
+ dGwSSrkPrgTwcUbxbLDyK9x4fZGz5Z5Qlc4oslNa/OyvH0ay7RyqHbVKSFUE1AO08Dso
+ fZhb751cJoUjZs+mI0PZIZdCywMeeKUCJH8shC5+gXsA/dQnmFmCl2UzfVJ/6awrbTVt
+ T0ug==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1691153230;
+ s=strato-dkim-0003; d=kravcenko.com;
+ h=References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=9EYPZh3bK4/rfwAilTxfULasm0qSCr/n1iUN2yQEIqw=;
+ b=HDQWQS8l+d70MoVSgEaj3hlj6tipBNWp3rmySPugmybXsoFbfiuW4pdizNDCMZWTJW
+ RkaT62lHLgj7q6st+NBQ==
+X-RZG-AUTH: ":I2AFc2Cjaf5HiRB0lhnvZ9elhwku56KjVuxY6AZJWRy8C0aEhFGbVIvMVnbXlOZqFTX/PnlW"
+Received: from duane.cam.uni-heidelberg.de
+ by smtp.strato.de (RZmta 49.6.6 AUTH) with ESMTPSA id dd2654z74ClAWsx
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 4 Aug 2023 14:47:10 +0200 (CEST)
+Date: Fri, 4 Aug 2023 14:46:54 +0200 (CEST)
+From: Olaf Skibbe <news@kravcenko.com>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: nouveau bug in linux/6.1.38-2
+In-Reply-To: <CACO55ttcUEUjdVgx4y7pv26VAGeHS5q1wVKWrMw5=o9QLaJLZw@mail.gmail.com>
+Message-ID: <0a5084b7-732b-6658-653e-7ece4c0768c9@kravcenko.com>
+References: <20be6650-5db3-b72a-a7a8-5e817113cff5@kravcenko.com>
+ <c27fb4dd-b2dc-22de-4425-6c7db5f543ba@leemhuis.info>
+ <CACO55ttcUEUjdVgx4y7pv26VAGeHS5q1wVKWrMw5=o9QLaJLZw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 06 Aug 2023 21:43:48 +0000
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sun, 06 Aug 2023 21:43:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +87,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Min-Hua Chen <minhuadotchen@gmail.com>
+Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
+ nouveau@lists.freedesktop.org, 1042753@bugs.debian.org,
+ dri-devel@lists.freedesktop.org, Thorsten Leemhuis <regressions@leemhuis.info>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark fbcon_registered_fb, and fbcon_num_registered_fb static
-to fix the following sparse warnings:
+On Fri, 4 Aug 2023 at 14:15, Karol Herbst wrote:
 
-drivers/video/fbdev/core/fbcon.c:105:16: sparse: warning: symbol 'fbcon_registered_fb' was not declared. Should it be static?
-drivers/video/fbdev/core/fbcon.c:106:5: sparse: warning: symbol 'fbcon_num_registered_fb' was not declared. Should it be static?
+> mind retrying with only fb725beca62d and 62aecf23f3d1 reverted?
 
-No functional change intended.
+I will do this later this day (takes some time, it is a slow machine).
 
-Cc: Helge Deller <deller@gmx.de>
-Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+> Would be weird if the other two commits are causing it. If that's the 
+> case, it's a bit worrying that reverting either of the those causes 
+> issues, but maybe there is a good reason for it. Anyway, mind figuring 
+> out which of the two you need reverted to fix your issue? Thanks!
 
----
+I can do this. But if I build two kernels anyway, isn't it faster to 
+build each with only one of the patches applied? Or do you expect the 
+patches to interact (so that the bug would only be present when both are 
+applied)?
 
-change since v1:
-1. registered_fb and num_registered_fb are still used in drivers/staging/olpc_dcon,
-so do keep them as-is.
-2. change the subject to fbcon: mark fbcon_registered_fb static
----
- drivers/video/fbdev/core/fbcon.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 887fad44e7ec..976900d6893c 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -102,8 +102,8 @@ enum {
- 
- static struct fbcon_display fb_display[MAX_NR_CONSOLES];
- 
--struct fb_info *fbcon_registered_fb[FB_MAX];
--int fbcon_num_registered_fb;
-+static struct fb_info *fbcon_registered_fb[FB_MAX];
-+static int fbcon_num_registered_fb;
- 
- #define fbcon_for_each_registered_fb(i)		\
- 	for (i = 0; WARN_CONSOLE_UNLOCKED(), i < FB_MAX; i++)		\
--- 
-2.34.1
-
+Cheers,
+Olaf
