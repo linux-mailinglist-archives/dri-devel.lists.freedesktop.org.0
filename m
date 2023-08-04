@@ -1,66 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D0B770638
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 18:45:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF23B770655
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 18:51:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D07C810E738;
-	Fri,  4 Aug 2023 16:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB0B10E03A;
+	Fri,  4 Aug 2023 16:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C66CA10E73B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 16:45:14 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-58688a0adbbso25025907b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 09:45:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691167514; x=1691772314;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=heTCs7dsv6GvWxFtBKhqH5NxQvlDCWaKtVOhiBVjHzo=;
- b=TInh3hRhBr8KOCnYQq6q9//bUQoBDfdSnKFkkt6lsRUqjHDHQNzbzIlmnsOV/9Qf4P
- 2Z/RY6OHVz5wbEi8WHJBmec7UlgqiI4r+HkPWHG4s4W+DP39VSW535rAq7E1aeV4tpz3
- lMTQJcB/Bo8AxaYlPGfCazvrs2xNvWA225Gf5OQdqfVyaB+mFbdmsI4Ts/0y7tui3EtC
- idl4MmJLHhJ8aBbyRvlpkUJaWWK7bwPHioS01TIpK7Q7x13w6+x5xd1qgHepyFoTvyT6
- G7w7ylsi48NQwrkA3o8ET+qTiVNKcR11AsW31D6aKnT3uilFj+UW5CYgqszaaKoFgOfN
- NXLg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7648B10E03A
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 16:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691167905;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+vP0dlW9cj+ApxHox6i9vs6i/QXMBGte1ysC4SvGPpc=;
+ b=iE5Nxw9fMVwDHCCL6d/j5NQnN21fA8VXu49S4F7bc/p0bczRw6fGvd/YVedMXbyyYWPp9d
+ VQ29/d5BUj+qYYmVLWns0888urZm6AWGg4DpWZJOM5ahRC/x1jXcfKj6DDEzvmfNRzj4PR
+ QSIaSMDFdI3S3VYql5VGOsQkSuWli0M=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689-2RznOHqGORaUlZuTim0KUg-1; Fri, 04 Aug 2023 12:51:42 -0400
+X-MC-Unique: 2RznOHqGORaUlZuTim0KUg-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ 5614622812f47-3a72b2a52e5so3729183b6e.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 09:51:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691167514; x=1691772314;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=heTCs7dsv6GvWxFtBKhqH5NxQvlDCWaKtVOhiBVjHzo=;
- b=cazT+UQKAnfRgWFWKAXEYkHpqbaJYKaGUMDQ3Gj82rXMsZwaDClFFyjkDX1R7B+1RN
- 5S+CRcPD6b4ApZCkUXE0yai4ILoOr1pZrJVQh4yoOvucMXS2w2GXVxVwqEWO8kY3qv02
- SpDsuPlXj1S/wvbt0BJbZX0F/TuGOOk21gUsSqKzGwhY+N1Q46fJjYvwNJ+X4vrI6vYp
- EUYKEwuebGzdDRYMCQhaK1loEJ+uSeXgONQPpaAXj7XgNtvSdet6XCw5akI//ZobVcAF
- Eg9bxbh8RloCkRXnLYXNt1FDb8OGtC1xpDO4Q/grG7fA9/bpcDDR+QOBQRZq0w5zH3uc
- RpSQ==
-X-Gm-Message-State: AOJu0Ywf+IcBQtQ9rpxNtZy5pszJRkT1Z9Pu+FLDBP6TTXCzmba/980Z
- 0erKv9ib4UfV/jReH++rPZDv1X1YwLE=
-X-Google-Smtp-Source: AGHT+IHTGB14ZbpyJgjwdEyv82+UY4dSBA5dU/gamPpHwG27emZI22leB43lLUAhHDLmUfdr5lKneg==
-X-Received: by 2002:a0d:f6c4:0:b0:583:523e:6569 with SMTP id
- g187-20020a0df6c4000000b00583523e6569mr2104490ywf.17.1691167513746; 
- Fri, 04 Aug 2023 09:45:13 -0700 (PDT)
-Received: from localhost.localdomain ([75.28.21.198])
- by smtp.gmail.com with ESMTPSA id
- j63-20020a816e42000000b00582fae92aa7sm825248ywc.93.2023.08.04.09.45.13
+ d=1e100.net; s=20221208; t=1691167901; x=1691772701;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+vP0dlW9cj+ApxHox6i9vs6i/QXMBGte1ysC4SvGPpc=;
+ b=Xkc9fKRMjIJo5gF1W27GSfNBvIxB1VeNRLWfCDsQEFYWgIOHJpVvUh9kOV3GLlI8mw
+ z/oARxF/SwvE06GBRituxNjHXUmVU/GNV2916XK1c163BeJqsGKY/ouUuO5+QMah4y8u
+ Dr8gs4zPyQKqWQYyAVNwcmf9QXvW/eSRfB14GDa1N46Dvz4Yj4qWpzkX+vHPnrm7Bi9R
+ So+3S76JUgxnIu2Q/uaVGgB93GCwoKEjykyCxAREXLb84R7xsspa7JSAXbMhr4DTanxB
+ UlCSLcZVG1RMBMqXD0ayNIhoxy6fe9yt4JFhsmj31s77XRg8yUwc9EHQcHC90vl6GZ1J
+ Pw8g==
+X-Gm-Message-State: AOJu0YwOjMxkr0k8UgqtwUbVRfFESeLT9YDVF3/zIga5RW3tn534MK+o
+ 0IT9lXyPRGpsc7lJD+RiT8gEYe3YS+Yw3ucHx7C29O8h5fRAeh6JLeVivnrrv8ehURo9UMEeGlQ
+ 1tqD/O25awj6tT2cbS7ALlHTpTlnjdbROoUdc
+X-Received: by 2002:a05:6808:e88:b0:3a1:d1d9:d59c with SMTP id
+ k8-20020a0568080e8800b003a1d1d9d59cmr3264673oil.33.1691167901377; 
+ Fri, 04 Aug 2023 09:51:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTPxIsm1c2cbX9Vb17Ch6ysG77QB/wTtj/fSLqgqSPY1KXpy+17/4mg3wGKDD4xNAKQ91FXg==
+X-Received: by 2002:a05:6808:e88:b0:3a1:d1d9:d59c with SMTP id
+ k8-20020a0568080e8800b003a1d1d9d59cmr3264664oil.33.1691167901150; 
+ Fri, 04 Aug 2023 09:51:41 -0700 (PDT)
+Received: from localhost ([181.120.144.238]) by smtp.gmail.com with ESMTPSA id
+ i10-20020a056808030a00b003a3611eb6ddsm1203016oie.19.2023.08.04.09.51.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 09:45:13 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/panel: nv3051d: Add Support for Anbernic 351V
-Date: Fri,  4 Aug 2023 11:45:03 -0500
-Message-Id: <20230804164503.135169-3-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230804164503.135169-1-macroalpha82@gmail.com>
-References: <20230804164503.135169-1-macroalpha82@gmail.com>
+ Fri, 04 Aug 2023 09:51:40 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: Drop select FRAMEBUFFER_CONSOLE for
+ DRM_FBDEV_EMULATION
+In-Reply-To: <7950bcea-0f15-da2e-e4f7-4bfa474a420f@riseup.net>
+References: <20230804125156.1387542-1-javierm@redhat.com>
+ <7950bcea-0f15-da2e-e4f7-4bfa474a420f@riseup.net>
+Date: Fri, 04 Aug 2023 18:51:38 +0200
+Message-ID: <87pm42g38l.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,78 +80,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Arthur Grillo <arthurgrillo@riseup.net> writes:
 
-Add support for the Anbernic 351V. Just like the 353 series the
-underlying vendor is unknown/unmarked (at least not visible in a
-non-destructive manner). The panel had slightly different init
-sequences and timings in the BSP kernel, but works fine with the
-same ones used in the existing driver. The panel will not work without
-the inclusion of the MIPI_DSI_CLOCK_NON_CONTINUOUS flag, and this flag
-prevents the 353 series from working correctly, so a new compatible
-string is added.
+> On 04/08/23 09:51, Javier Martinez Canillas wrote:
+>> The commit c242f48433e7 ("drm: Make FB_CORE to be selected if DRM fbdev
+>> emulation is enabled") changed DRM_FBDEV_EMULATION from 'depends on FB'
+>> to an effective 'select FB_CORE', so any config that previously had DRM=y
+>> and FB=n now has FB_CORE=y and FRAMEBUFFER_CONSOLE=y.
+>> 
+>> This leads to unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
+>> as reported by Arthur Grillo, e.g:
+>> 
+>> WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
+>>   Depends on [n]: VT [=n] && FB_CORE [=y] && !UML [=y]
+>>   Selected by [y]:
+>>   - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM [=y] && !EXPERT [=n]
+>> 
+>> Arnd Bergmann suggests to drop the select FRAMEBUFFER_CONSOLE for the
+>> DRM_FBDEV_EMULATION Kconfig symbol, since a possible use case could
+>> be to enable DRM fbdev emulation but without a framebuffer console.
+>> 
+>> Fixes: c242f48433e7 ("drm: Make FB_CORE to be selected if DRM fbdev emulation is enabled")
+>> Reported-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> Closes: https://lore.kernel.org/dri-devel/20230726220325.278976-1-arthurgrillo@riseup.net
+>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
+>
+> Greate patch! I was about to send the same one XD.
+>
+> Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
+>
 
-Tested colors and timings using modetest and all seem to work identical
-to the 353 otherwise.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../gpu/drm/panel/panel-newvision-nv3051d.c    | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-index a07958038ffd..dc0d6dcca683 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-@@ -28,6 +28,7 @@ struct nv3051d_panel_info {
- 	unsigned int num_modes;
- 	u16 width_mm, height_mm;
- 	u32 bus_flags;
-+	unsigned long mode_flags;
- };
- 
- struct panel_nv3051d {
-@@ -385,8 +386,7 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
- 
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
-+	dsi->mode_flags = ctx->panel_info->mode_flags;
- 
- 	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
-@@ -480,10 +480,24 @@ static const struct nv3051d_panel_info nv3051d_rgxx3_info = {
- 	.width_mm = 70,
- 	.height_mm = 57,
- 	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
-+};
-+
-+static const struct nv3051d_panel_info nv3051d_rg351v_info = {
-+	.display_modes = nv3051d_rgxx3_modes,
-+	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
-+	.width_mm = 70,
-+	.height_mm = 57,
-+	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET |
-+		      MIPI_DSI_CLOCK_NON_CONTINUOUS,
- };
- 
- static const struct of_device_id newvision_nv3051d_of_match[] = {
- 	{ .compatible = "newvision,nv3051d", .data = &nv3051d_rgxx3_info },
-+	{ .compatible = "anbernic,rg351v-panel", .data = &nv3051d_rg351v_info },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, newvision_nv3051d_of_match);
 -- 
-2.34.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
