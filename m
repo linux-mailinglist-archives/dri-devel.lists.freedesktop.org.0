@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452F876FED3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 12:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D1976FED4
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 12:48:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF58A10E6D5;
-	Fri,  4 Aug 2023 10:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E97FB10E6C9;
+	Fri,  4 Aug 2023 10:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 101BB10E6C9
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 10:48:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2368810E6C9
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 10:48:31 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34D182E4;
- Fri,  4 Aug 2023 12:47:23 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 419C112E4;
+ Fri,  4 Aug 2023 12:47:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1691146044;
- bh=NyaBzWSTtq2qSJj6mTZ7oYg0vWlG6MVQyE0tsCk6WrM=;
- h=From:Subject:Date:To:Cc:From;
- b=QdG2zpKxN4o6vioaOLpLpgJ6vGe/csQC3NnqhNiZlv3ZOI0yvFiEnF7q1ioNAx0Ax
- GskneNYh2dn/qeol2FbHTvM8oviEa9kJLta0tyj59A4Y7hFkedaD9CnaWGR9RW2i8B
- x1C4Y+Q90edxdMT89HQpRbtQDet3Gxlcf6gkCPZw=
+ s=mail; t=1691146045;
+ bh=WPn1AxdTbVK2rBt8KyZ5pLuKTboKnk0kbLICj2/CxXg=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=eZPgyRl4fhOR+GjfERv8LQ4n8rOr3iNptbLXIhIQn8p9LFWyICnMy95ykPXVxiygY
+ HOPTHnB0hKxAmsNHrLl5HkvnmMwUnVsKZ+ZCqLfP1uOC0Bxhr6IXt1FWhqQUWfn2fO
+ +Ivmo+m828wLDo5bb1YGVb7xhfTuj73DF+R0g9N4=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 0/4] drm/bridge: lt8912b: Init & remove related fixes
-Date: Fri, 04 Aug 2023 13:48:09 +0300
-Message-Id: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
+Date: Fri, 04 Aug 2023 13:48:10 +0300
+Subject: [PATCH 1/4] drm/bridge: lt8912b: Fix bridge_detach
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGnXzGQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCwMT3ZwSC0tDoyRdy+SkJHNLA0MLM2MjJaDqgqLUtMwKsEnRsbW1ANA
- 6CwZZAAAA
+Message-Id: <20230804-lt8912b-v1-1-c542692c6a2f@ideasonboard.com>
+References: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
+In-Reply-To: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
 To: Adrien Grassein <adrien.grassein@gmail.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
@@ -42,21 +41,21 @@ To: Adrien Grassein <adrien.grassein@gmail.com>,
  Francesco Dolcini <francesco.dolcini@toradex.com>, 
  Stefan Eichenberger <stefan.eichenberger@toradex.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=676;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2251;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=NyaBzWSTtq2qSJj6mTZ7oYg0vWlG6MVQyE0tsCk6WrM=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkzNd5dFA68l08OCZc/LASCE1Lf8FuiAA956OOE
- uwIB043CyWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMzXeQAKCRD6PaqMvJYe
- 9fNgD/9o5Pcr0M/Xnuy6Xl3chYqVFkorlZOV9HoIykYfMWDJMBQ+PdBljrATvkERTif0O4j72ut
- LS5ztW7/Rlidd5b+W5WcMe65LwLobadi0aGx9/o2ydP00bhQHHo0Vqr+46iRnYNQe/IoqnrpXUJ
- EYYVk9tQY8H0vj3nObHe33dANj1+OfINnYMw+9cnA3VaXfYc0WKtzJmFUC7R4IBjcgyJ4riifp+
- 6CC1Uml9TfVe5qLFKDcRdrB9VEosS/WI4PRq7sXXhTJ4+d0NEe9Ld9UarU9/Yof4MzChdeFgkh5
- P/2Wa0hfvlILthdZ5rCW+/U8NNCsGVYoWc+iQ5g9P9Hie2lVRk2sjt/OpdwwV3FpWEUotb4GdVY
- Im9xZP4Q2lN3HhLXmwJ1WwNzY/8VxY4UImoFyJNxkCOnn0s9Vhi8YdXOeT/kOCC0gZlBdVBIUg4
- TP9KmCLvxYeX/nJT2kosp3EPyMaSKZshM8ZrguCfb/Gi/8aBoO+/5OCKyq8iPnDGjnzm/50vNi8
- Yp9uTzqdG3sy3zEjc6KsryDVr09zBlhli9h3S0W5ZujvkClUFGpSLt4PF2RPjzpCZK5QE0H8Vh3
- uTPXp7ogasxXJtXS6I1se6FiqB9ZpLyaghP3dnT8yusL+IJHWwFvujIAr2zshv1tRzpmiN4eRtn
- +x7WCVVUAvG+4Tg==
+ bh=WPn1AxdTbVK2rBt8KyZ5pLuKTboKnk0kbLICj2/CxXg=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkzNd6CzQGoXs4vpPoOgcUqTbWmS76ZzxcS1XCy
+ my0BlS41TaJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMzXegAKCRD6PaqMvJYe
+ 9To5D/96c/eG+8WqJSaQP/PFgeAK5pwqit3+cPaRGEwlYyyG66X1ZsQsfn8Dv0hTEyvTFi4bajt
+ kylDxWgIMMg83AsbK15AgglIlbs4C6EQPQEDBdnawhQTG6VIr3RQ052k4nJi37NRs6enTbPOFfp
+ 6lhf9RsXD5BXEjMk0hHUyV7wxbKvHMMcyoGU3/iRjsTmMPGlhfY9eJEBrFX1I96g+jqwYEjgHb0
+ 4mmlfHL2V5O/Fss0b2K8DbND/7rJmUiICpfpUX/+FlTNjTx/UkUwW7ppA/y69U4kbe9GNSa5Nny
+ vQ33WcfItsgYwSgTAeRs5FCCvYWe1TrM3dTPxjV7g31q3fvGF9t0+IG1mTPc98o3wRknlogBQ+D
+ T0Az2AGczXGERLuHrfOk7k6PTk+OsJui5ES0ve/mk3nkQz3sbNgatiXAi3PxX/ItbJJN4UVuIFn
+ Uk386nTJv2ZVyUqCVw6sbm47dCbTi9o7j55i/YoqoVVLY2RW8ey7w5tCnkoSZr+Fwgr2dZV6H+5
+ OV60X0aJeR7ze7zSh5GtfIEqQ9FKMKV4EfpaAM1gHXzOqWHnRfRA4fMgvuR84UZ9pJKPXV6lYbc
+ cuOk3nZZh1hiotPRwqBkN1taHArTlGl2wjetqh3du9cxUkcDOZAP2beOI7gAoXkQO/CtEZtGk8a
+ o2chkjn15jPTDDQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,25 +75,73 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix various issues in lt8912b driver.
+The driver calls lt8912_bridge_detach() from its lt8912_remove()
+function. As the DRM core detaches bridges automatically, this leads to
+calling lt8912_bridge_detach() twice. The code probably has tried to
+manage the double-call with the 'is_attached' variable, but the driver
+never sets the variable to false, so its of no help.
 
- Tomi
+Fix the issue by dropping the call to lt8912_bridge_detach() from
+lt8912_remove(), as the DRM core will handle the detach call for us,
+and also drop the useless is_attached field.
 
+Fixes: 88abfc2b9e61 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Tomi Valkeinen (4):
-      drm/bridge: lt8912b: Fix bridge_detach
-      drm/bridge: lt8912b: Fix crash on bridge detach
-      drm/bridge: lt8912b: Manually disable HPD only if it was enabled
-      drm/bridge: lt8912b: Add missing drm_bridge_attach call
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
----
-base-commit: b0e9267d4ccce9be9217337f4bc364ca24cf7f73
-change-id: 20230804-lt8912b-9cbb79018632
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index 4eaea67fb71c..0e581f6e3c88 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -45,7 +45,6 @@ struct lt8912 {
+ 
+ 	u8 data_lanes;
+ 	bool is_power_on;
+-	bool is_attached;
+ };
+ 
+ static int lt8912_write_init_config(struct lt8912 *lt)
+@@ -575,8 +574,6 @@ static int lt8912_bridge_attach(struct drm_bridge *bridge,
+ 	if (ret)
+ 		goto error;
+ 
+-	lt->is_attached = true;
+-
+ 	return 0;
+ 
+ error:
+@@ -588,15 +585,13 @@ static void lt8912_bridge_detach(struct drm_bridge *bridge)
+ {
+ 	struct lt8912 *lt = bridge_to_lt8912(bridge);
+ 
+-	if (lt->is_attached) {
+-		lt8912_hard_power_off(lt);
++	lt8912_hard_power_off(lt);
+ 
+-		if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
+-			drm_bridge_hpd_disable(lt->hdmi_port);
++	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
++		drm_bridge_hpd_disable(lt->hdmi_port);
+ 
+-		drm_connector_unregister(&lt->connector);
+-		drm_connector_cleanup(&lt->connector);
+-	}
++	drm_connector_unregister(&lt->connector);
++	drm_connector_cleanup(&lt->connector);
+ }
+ 
+ static enum drm_connector_status
+@@ -750,7 +745,6 @@ static void lt8912_remove(struct i2c_client *client)
+ {
+ 	struct lt8912 *lt = i2c_get_clientdata(client);
+ 
+-	lt8912_bridge_detach(&lt->bridge);
+ 	drm_bridge_remove(&lt->bridge);
+ 	lt8912_free_i2c(lt);
+ 	lt8912_put_dt(lt);
 
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.34.1
 
