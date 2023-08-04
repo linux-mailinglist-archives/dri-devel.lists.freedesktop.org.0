@@ -2,96 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1328576FB0A
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C68076FB0F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89C9D10E696;
-	Fri,  4 Aug 2023 07:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0CA10E6A3;
+	Fri,  4 Aug 2023 07:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEC2689CCE
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 07:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691133828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X0SDuWX0PVJtjYbmSJGuOQKYEPGZD7rqG2wXMixgOng=;
- b=dQedoIMqRlDkMV380V9iemiV3qu0wJ2GbE89wk3Sz0Hr+CWtqf2sxA710QDCyteaF6DCxl
- spRxnBdx8KwfqXw+5+bLuLRDwdsZQS3/Bq5uCkzapYkUfNXSo5kfDK6RA4/0dY0G7W6NiB
- HWkfzo2SMNPj480KMPrtiObDGExz4NE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-511-lPnB6zkxND2LWa1QtlzJ7w-1; Fri, 04 Aug 2023 03:23:47 -0400
-X-MC-Unique: lPnB6zkxND2LWa1QtlzJ7w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3179f70a6bdso1049928f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 00:23:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691133826; x=1691738626;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=X0SDuWX0PVJtjYbmSJGuOQKYEPGZD7rqG2wXMixgOng=;
- b=FbxjTmfUyCULjnTmrG0NuOO5yeLxC1qr5cxVXjErrZVWb8btitXPrdAuRSvau6eL+h
- DvyoWDGvEyLviJR5gp1jsDjZwuXz7fVS6XCrJQ6nzxTd0BeKZlMdcG71DzPvkix/O+8o
- WX5uQW1dA1VuaehWE8E31tf6ZNWb+4san4HB5MQ/cjvmUMOJ9xeijmETOTSFpBQj1pPl
- vooa5+2TLCmQbuQKCF1GAdZv5+fSMSBP6D7XZ6Vv+hamvMWZw/Mv/o3tAGDuHwJVkEQx
- JuYUq4XhM+b3gRdiiniRZ5tSpa844aRnKV2uNRdd0PZcLN/RfTlYRWKEc0XE3/0HHMn3
- eBKg==
-X-Gm-Message-State: AOJu0YwwNP5BTFtniyb39mWaixlEAHQSbaYOkhiI/oD2B1/F/jbSVDFs
- kTvHkeWObrhGKBatnGV/Ea5AM12wC9BXL5cvjp8tfkMnExGfSD7y2GQ7V/VW9wtfL6XRmKQ2Kix
- k+YUDWRDySq6SIwuhGHirpqrMMX4J
-X-Received: by 2002:a05:6000:10cc:b0:313:df08:7b7e with SMTP id
- b12-20020a05600010cc00b00313df087b7emr706548wrx.14.1691133826147; 
- Fri, 04 Aug 2023 00:23:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFRwRNR51hbvYFIT6vOA55mQLzv8RpfVuaFFCwVgPE4ZVELsqeyAcuZh0skiXntG1j72b0zzQ==
-X-Received: by 2002:a05:6000:10cc:b0:313:df08:7b7e with SMTP id
- b12-20020a05600010cc00b00313df087b7emr706537wrx.14.1691133825702; 
- Fri, 04 Aug 2023 00:23:45 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c724:5900:10b9:2373:11c6:216c?
- (p200300cbc724590010b9237311c6216c.dip0.t-ipconnect.de.
- [2003:cb:c724:5900:10b9:2373:11c6:216c])
- by smtp.gmail.com with ESMTPSA id
- k14-20020adfd84e000000b003177e9b2e64sm1741887wrl.90.2023.08.04.00.23.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Aug 2023 00:23:45 -0700 (PDT)
-Message-ID: <ed332536-6ee0-df36-c42a-5a1b5b12c71b@redhat.com>
-Date: Fri, 4 Aug 2023 09:23:43 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8B910E6A4
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 07:28:58 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9325E66071B9;
+ Fri,  4 Aug 2023 08:28:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1691134137;
+ bh=OO4xQVlm9fTIRYNGK06twfFCgfkhEwXH1EpmqFhUZNQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=kvDT6QLGgsseFwqRMy1/3AdT4L831Qi3w9trPx7cOoKqf5G6pQZxJMQ3uY9uSaGrs
+ 0nMF5E8og82PpIhIXzwhlIlN1qTzNnUbbIk8Lweb9AHPkfUUSQ5Sq9lFil4CkRtwDy
+ sr2YKbAL1ScrotvokBix2M6R8JwQRquMrWcbvVdFd15dY5fT22w2bcg36wdyR+L3g4
+ lPm3HHo8b2hTxjLrLxieC4bueHYCnKssPLq4MFz5gALT/E2NXweztY1A7pVRdERIrW
+ DMUDtkYlzHRGzRYge8H8dM4Wpw7M/I1Dd+Kftmt05BSZKeHj4NkqCy97pX5QWGFZZI
+ XswQBs+gjw7tQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v10 00/16] MediaTek DDP GAMMA - 12-bit LUT support
+Date: Fri,  4 Aug 2023 09:28:34 +0200
+Message-ID: <20230804072850.89365-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
- updates (new pages)
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Alistair Popple <apopple@nvidia.com>
-References: <IA0PR11MB71857E9D6C3AD311CF698D13F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZMj4Og063T6T/okI@nvidia.com>
- <d4bae5e4-ff92-bee9-d585-9f30e34ef646@redhat.com>
- <ZMj5MvQGk2PQiJn+@nvidia.com>
- <48f22686-2c1b-fd9d-91ba-da6105d410db@redhat.com>
- <ZMj5+7sgkPqHT5Vt@nvidia.com>
- <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
- <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZMlMoRIkPoO0gG3B@nvidia.com>
- <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZMuaQ4vpv03GTPbF@nvidia.com>
- <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
- <87cz0364kx.fsf@nvdebian.thelocal>
- <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,68 +50,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, ehristev@collabora.com, wenst@chromium.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04.08.23 08:39, Kasireddy, Vivek wrote:
-> Hi Alistair, David, Jason,
-> 
->>>>>>>> Right, the "the zero pages are changed into writable pages" in your
->>>>>>>> above comment just might not apply, because there won't be any
->> page
->>>>>>>> replacement (hopefully :) ).
->>>>>>
->>>>>>> If the page replacement does not happen when there are new writes
->> to the
->>>>>>> area where the hole previously existed, then would we still get an
->>>>>> invalidate
->>>>>>> when this happens? Is there any other way to get notified when the
->> zeroed
->>>>>>> page is written to if the invalidate does not get triggered?
->>>>>>
->>>>>> What David is saying is that memfd does not use the zero page
->>>>>> optimization for hole punches. Any access to the memory, including
->>>>>> read-only access through hmm_range_fault() will allocate unique
->>>>>> pages. Since there is no zero page and no zero-page replacement there
->>>>>> is no issue with invalidations.
->>>>
->>>>> It looks like even with hmm_range_fault(), the invalidate does not get
->>>>> triggered when the hole is refilled with new pages because of writes.
->>>>> This is probably because hmm_range_fault() does not fault in any pages
->>>>> that get invalidated later when writes occur.
->>>> hmm_range_fault() returns the current content of the VMAs, or it
->>>> faults. If it returns pages then it came from one of these two places.
->>>> If your VMA is incoherent with what you are doing then you have
->>>> bigger
->>>> problems, or maybe you found a bug.
->>
->> Note it will only fault in pages if HMM_PFN_REQ_FAULT is specified. You
->> are setting that however you aren't setting HMM_PFN_REQ_WRITE which is
->> what would trigger a fault to bring in the new pages. Does setting that
->> fix the issue you are seeing?
-> No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue.
-> Although, I do not have THP enabled (or built-in), shmem does not evict
-> the pages after hole punch as noted in the comment in shmem_fallocate():
->                  if ((u64)unmap_end > (u64)unmap_start)
->                          unmap_mapping_range(mapping, unmap_start,
->                                              1 + unmap_end - unmap_start, 0);
->                  shmem_truncate_range(inode, offset, offset + len - 1);
->                  /* No need to unmap again: hole-punching leaves COWed pages */
-> 
-> As a result, the pfn is still valid and the pte is pte_present() and pte_write().
-> This is the reason why adding in HMM_PFN_REQ_WRITE does not help;
+Changes in v10:
+ - Moved snippet from patch [7/15] to patch [6/15] as that was
+   intended to be there instead; fixes build issue for patch [6/15]
+   as pointed out by the kernel text robot (oops, sorry!)
 
-Just to understand your setup: you are definitely using a MAP_SHARED 
-shmem mapping, and not accidentally a MAP_PRIVATE mapping?
+Changes in v9:
+ - As per previous conversation with CK Hu, added a commit that
+   de-commonizes the gamma setting function that was used in
+   both DISP_AAL and DISP_GAMMA, now each of them have their
+   own .gamma_set() callback (mtk_disp_gamma_set_common() has
+   been removed).
+ - Added a change to use bitfield macros in mtk_disp_aal.c
+ - Added a change to compress of_device_id entries in mtk_disp_aal.c
+ - Tested again on MT6795, MT8173, MT8186, MT8192, MT8195
+
+Changes in v8:
+ - Changed lut_size to be a mtk_disp_gamma_set_common() function
+   parameter to pass lut size from AAL
+
+Changes in v7:
+ - Added check for NULL dev for AAL-gamma case
+ - Added get_lut_size callback for AAL-gamma
+ - Added comment to clarify SoC 10/12 bits support and old vs new
+   register layout as suggested by Alexandre M.
+
+Changes in v6:
+ - Fixed smatch warning in patch 11/11, ref.:
+   https://lore.kernel.org/all/202306101458.lRXHEE0Z-lkp@intel.com/
+
+Changes in v5:
+ - Removed incorrect comment on default LUT size and bits
+ - Removed useless check for num_lut_banks
+ - Added comment about CMDQ implementation on patch 5
+ - Evaluated passing lut size/bits from AAL, idea discarded as
+   the implementation would be rather tricky while bringing no
+   benefits.
+
+Changes in v4:
+ - Fixed assignment typo appeared in v3
+
+Changes in v3:
+ - Fixed issues due to variables renaming during cleanup (oops)
+ - This is actually the right series, since v2 was taken from the
+   wrong kernel tree.... :-)
+
+Changes in v2:
+ - Added explicit inclusion of linux/bitfield.h in patch [06/11]
+
+This series adds support for GAMMA IP requiring and/or supporting
+a 12-bits LUT using a slightly different register layout and programming
+sequence for multiple LUT banks: this IP version is currently found
+on a number of SoCs, not only including the Chromebook/IoT oriented
+Kompanio 1200/1380 MT8195/MT8195T, but also Smartphone chips such as
+the Dimensity 9200 (MT6985) and others.
+
+This series was tested on MT8195, MT8192, MT8173, MT6795:
+ * MT6795, MT8192, MT8173: No regression, works fine.
+ * MT8195: Color correction is finally working!
+
+AngeloGioacchino Del Regno (15):
+  drm/mediatek: gamma: Reduce indentation in mtk_gamma_set_common()
+  drm/mediatek: gamma: Support SoC specific LUT size
+  drm/mediatek: gamma: Improve and simplify HW LUT calculation
+  drm/mediatek: gamma: Enable the Gamma LUT table only after programming
+  drm/mediatek: gamma: Use bitfield macros
+  drm/mediatek: aal: Use bitfield macros
+  drm/mediatek: De-commonize disp_aal/disp_gamma gamma_set functions
+  drm/mediatek: gamma: Support specifying number of bits per LUT
+    component
+  drm/mediatek: gamma: Support multi-bank gamma LUT
+  drm/mediatek: gamma: Add support for 12-bit LUT and MT8195
+  drm/mediatek: gamma: Make sure relay mode is disabled
+  drm/mediatek: gamma: Program gamma LUT type for descending or rising
+  drm/mediatek: aal: Rewrite kerneldoc for struct mtk_disp_aal
+  drm/mediatek: gamma: Add kerneldoc for struct mtk_disp_gamma
+  drm/mediatek: aal: Compress of_device_id entries and add sentinel
+
+Jason-JH.Lin (1):
+  drm/mediatek: gamma: Adjust mtk_drm_gamma_set_common parameters
+
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c     |  84 ++++++--
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |   3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c   | 203 ++++++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |   8 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   9 +
+ 7 files changed, 256 insertions(+), 54 deletions(-)
 
 -- 
-Cheers,
-
-David / dhildenb
+2.41.0
 
