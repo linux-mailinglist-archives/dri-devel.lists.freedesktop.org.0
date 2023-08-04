@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFAD76FEC3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 12:45:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 452F876FED3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 12:48:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB7C189AAE;
-	Fri,  4 Aug 2023 10:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF58A10E6D5;
+	Fri,  4 Aug 2023 10:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A658710E6D4
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 10:44:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 101BB10E6C9
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 10:48:30 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FFA81AB3;
- Fri,  4 Aug 2023 12:43:44 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34D182E4;
+ Fri,  4 Aug 2023 12:47:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1691145824;
- bh=NVGv48ZsaW1J2ePUXosAluIgk8qR+1DrF7efAr7lM4w=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=dGDYFKiRY3ejkAX1kWBtrueu0SEW5lxRwH92ud9Fe8DbjpkvBgjWLhXcumV9/AJfF
- KF19+EBtC0ql19kWEcAO9xd1NdMKirgUIF5Ax3zAbA57x3H0cZ9iKndFzEVAVhzD3f
- +vSaM3Qz6n0tbhbNt7mDycPPs3CPG8wv26aLTXdk=
+ s=mail; t=1691146044;
+ bh=NyaBzWSTtq2qSJj6mTZ7oYg0vWlG6MVQyE0tsCk6WrM=;
+ h=From:Subject:Date:To:Cc:From;
+ b=QdG2zpKxN4o6vioaOLpLpgJ6vGe/csQC3NnqhNiZlv3ZOI0yvFiEnF7q1ioNAx0Ax
+ GskneNYh2dn/qeol2FbHTvM8oviEa9kJLta0tyj59A4Y7hFkedaD9CnaWGR9RW2i8B
+ x1C4Y+Q90edxdMT89HQpRbtQDet3Gxlcf6gkCPZw=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 04 Aug 2023 13:44:16 +0300
-Subject: [PATCH 11/11] drm/bridge: tc358768: Add
- DRM_BRIDGE_ATTACH_NO_CONNECTOR support
+Subject: [PATCH 0/4] drm/bridge: lt8912b: Init & remove related fixes
+Date: Fri, 04 Aug 2023 13:48:09 +0300
+Message-Id: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230804-tc358768-v1-11-1afd44b7826b@ideasonboard.com>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
-In-Reply-To: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+X-B4-Tracking: v=1; b=H4sIAGnXzGQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDCwMT3ZwSC0tDoyRdy+SkJHNLA0MLM2MjJaDqgqLUtMwKsEnRsbW1ANA
+ 6CwZZAAAA
+To: Adrien Grassein <adrien.grassein@gmail.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
- Francesco Dolcini <francesco@dolcini.it>
+ Francesco Dolcini <francesco.dolcini@toradex.com>, 
+ Stefan Eichenberger <stefan.eichenberger@toradex.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3311;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=676;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=NVGv48ZsaW1J2ePUXosAluIgk8qR+1DrF7efAr7lM4w=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkzNaUTL0ctCqlqan7C6QJgIPS0jOOK19pqZh0f
- tnCtHFYzGWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMzWlAAKCRD6PaqMvJYe
- 9Z3oD/9GvdukB96G4adIbYXsQ7SSiIRzmYQYNiFOUQW55h6eof6UJRwPyXL+5wiOP9/MyFGtsLv
- Uk32KzqAHGJChrf2erw9ZGghKeZG0M/UQ8GJeQ+BjTSMGgOh0ySP/+bSgqvic65dsayZ5Fmg11b
- CVhophTt8Q4uCahRYBjQgc06ueGYQPKj8Qw0p6kJY1D3KhLvHxCDjQj4i+gFd9++hbPBw+wg0zc
- +n4vi3WG/S7vytZLqJvhZV3pKqteZw+SRNYux7kWeLOpQ2QIBOntlPm6KJi7ymcsAYBYFusDwiz
- 6Lscmd9PudbiBvPA+8vCcIZUaMuBNkZLYIlUtMtrBZHb9qlzKyRpoKtOeB0hql8j16N0b4DTg4C
- x7MR3m3NjuqvTdloSLRHfydtvDH9MJQhUdkxQRIPO++KLyQX9uVsN4OFnYfockwKfsSGvSxQQX6
- YKAb5vw0FCx00uBHGxjZoFlhCBphTFmen4hmo9qU8+8wfP2dLt6Xj9189q8KSTUueFOX+gGJZGS
- 7tC54hRSst9FBUaZYC00YPgXkjAlWMcdNARl2zQXEJU/jJFWHjt22UXsiftwPgdei9SjR8fiamp
- 6cci8rii7FfrhOWFYz2a+31j4hZGvVaxW6Dnqxwl5aJPzLMFy7lGfj5Ap/TuxpQiywsljV50Aez
- Yqj74AJoa4QYsSw==
+ bh=NyaBzWSTtq2qSJj6mTZ7oYg0vWlG6MVQyE0tsCk6WrM=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkzNd5dFA68l08OCZc/LASCE1Lf8FuiAA956OOE
+ uwIB043CyWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMzXeQAKCRD6PaqMvJYe
+ 9fNgD/9o5Pcr0M/Xnuy6Xl3chYqVFkorlZOV9HoIykYfMWDJMBQ+PdBljrATvkERTif0O4j72ut
+ LS5ztW7/Rlidd5b+W5WcMe65LwLobadi0aGx9/o2ydP00bhQHHo0Vqr+46iRnYNQe/IoqnrpXUJ
+ EYYVk9tQY8H0vj3nObHe33dANj1+OfINnYMw+9cnA3VaXfYc0WKtzJmFUC7R4IBjcgyJ4riifp+
+ 6CC1Uml9TfVe5qLFKDcRdrB9VEosS/WI4PRq7sXXhTJ4+d0NEe9Ld9UarU9/Yof4MzChdeFgkh5
+ P/2Wa0hfvlILthdZ5rCW+/U8NNCsGVYoWc+iQ5g9P9Hie2lVRk2sjt/OpdwwV3FpWEUotb4GdVY
+ Im9xZP4Q2lN3HhLXmwJ1WwNzY/8VxY4UImoFyJNxkCOnn0s9Vhi8YdXOeT/kOCC0gZlBdVBIUg4
+ TP9KmCLvxYeX/nJT2kosp3EPyMaSKZshM8ZrguCfb/Gi/8aBoO+/5OCKyq8iPnDGjnzm/50vNi8
+ Yp9uTzqdG3sy3zEjc6KsryDVr09zBlhli9h3S0W5ZujvkClUFGpSLt4PF2RPjzpCZK5QE0H8Vh3
+ uTPXp7ogasxXJtXS6I1se6FiqB9ZpLyaghP3dnT8yusL+IJHWwFvujIAr2zshv1tRzpmiN4eRtn
+ +x7WCVVUAvG+4Tg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,122 +72,29 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix various issues in lt8912b driver.
+
+ Tomi
+
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 64 +++++++++++++++++++++++++++------------
- 1 file changed, 45 insertions(+), 19 deletions(-)
+Tomi Valkeinen (4):
+      drm/bridge: lt8912b: Fix bridge_detach
+      drm/bridge: lt8912b: Fix crash on bridge detach
+      drm/bridge: lt8912b: Manually disable HPD only if it was enabled
+      drm/bridge: lt8912b: Add missing drm_bridge_attach call
 
-diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index ea19de5509ed..a567f136ddc7 100644
---- a/drivers/gpu/drm/bridge/tc358768.c
-+++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -131,8 +131,17 @@ static const char * const tc358768_supplies[] = {
- 
- struct tc358768_dsi_output {
- 	struct mipi_dsi_device *dev;
-+
-+	/* Legacy field if DRM_BRIDGE_ATTACH_NO_CONNECTOR is not used */
- 	struct drm_panel *panel;
--	struct drm_bridge *bridge;
-+
-+	/*
-+	 * If DRM_BRIDGE_ATTACH_NO_CONNECTOR is not used and a panel is attached
-+	 * to tc358768, 'next_bridge' contains the bridge the driver created
-+	 * with drm_panel_bridge_add_typed(). Otherwise 'next_bridge' contains
-+	 * the next bridge the driver found.
-+	 */
-+	struct drm_bridge *next_bridge;
- };
- 
- struct tc358768_priv {
-@@ -391,8 +400,6 @@ static int tc358768_dsi_host_attach(struct mipi_dsi_host *host,
- 				    struct mipi_dsi_device *dev)
- {
- 	struct tc358768_priv *priv = dsi_host_to_tc358768(host);
--	struct drm_bridge *bridge;
--	struct drm_panel *panel;
- 	struct device_node *ep;
- 	int ret;
- 
-@@ -420,21 +427,7 @@ static int tc358768_dsi_host_attach(struct mipi_dsi_host *host,
- 		return -ENOTSUPP;
- 	}
- 
--	ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0, &panel,
--					  &bridge);
--	if (ret)
--		return ret;
--
--	if (panel) {
--		bridge = drm_panel_bridge_add_typed(panel,
--						    DRM_MODE_CONNECTOR_DSI);
--		if (IS_ERR(bridge))
--			return PTR_ERR(bridge);
--	}
--
- 	priv->output.dev = dev;
--	priv->output.bridge = bridge;
--	priv->output.panel = panel;
- 
- 	priv->dsi_lanes = dev->lanes;
- 	priv->dsi_bpp = mipi_dsi_pixel_format_to_bpp(dev->format);
-@@ -463,7 +456,7 @@ static int tc358768_dsi_host_detach(struct mipi_dsi_host *host,
- 
- 	drm_bridge_remove(&priv->bridge);
- 	if (priv->output.panel)
--		drm_panel_bridge_remove(priv->output.bridge);
-+		drm_panel_bridge_remove(priv->output.next_bridge);
- 
- 	return 0;
- }
-@@ -544,7 +537,40 @@ static int tc358768_bridge_attach(struct drm_bridge *bridge,
- 		return -ENOTSUPP;
- 	}
- 
--	return drm_bridge_attach(bridge->encoder, priv->output.bridge, bridge,
-+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-+		struct device_node *node;
-+
-+		/* Get the next bridge, connected to port@1. */
-+		node = of_graph_get_remote_node(priv->dev->of_node, 1, -1);
-+		if (!node)
-+			return -ENODEV;
-+
-+		priv->output.next_bridge = of_drm_find_bridge(node);
-+		of_node_put(node);
-+		if (!priv->output.next_bridge)
-+			return -EPROBE_DEFER;
-+	} else {
-+		struct drm_bridge *bridge;
-+		struct drm_panel *panel;
-+		int ret;
-+
-+		ret = drm_of_find_panel_or_bridge(priv->dev->of_node, 1, 0,
-+						  &panel, &bridge);
-+		if (ret)
-+			return ret;
-+
-+		if (panel) {
-+			bridge = drm_panel_bridge_add_typed(panel,
-+				DRM_MODE_CONNECTOR_DSI);
-+			if (IS_ERR(bridge))
-+				return PTR_ERR(bridge);
-+		}
-+
-+		priv->output.next_bridge = bridge;
-+		priv->output.panel = panel;
-+	}
-+
-+	return drm_bridge_attach(bridge->encoder, priv->output.next_bridge, bridge,
- 				 flags);
- }
- 
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
+---
+base-commit: b0e9267d4ccce9be9217337f4bc364ca24cf7f73
+change-id: 20230804-lt8912b-9cbb79018632
 
+Best regards,
 -- 
-2.34.1
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
