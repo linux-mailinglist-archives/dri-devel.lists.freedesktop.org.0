@@ -2,91 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBE376FA8E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 08:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD0476FB04
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:19:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79D7D10E25E;
-	Fri,  4 Aug 2023 06:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E2B10E684;
+	Fri,  4 Aug 2023 07:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2041.outbound.protection.outlook.com [40.107.96.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D4210E25D;
- Fri,  4 Aug 2023 06:57:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DKummgBS0ISIe/v6yxUBETESTJDkY+Dt6z5JCmCbLI07GgUQ/VdeIDdZMOEtXk0Q9JAgCbiyvZDjpey2Z0Eet6KMIYMEOpvorMNMX9BAlU6RLQoBEQZxEzInR+S/NpFQHgi35mqIoNLz9ur73OvKk7RN7bh8yW9SPRXT4st7j36U9TnU+PgYHQNYkHk/XyHh+tdG+LPXK8SelRaiTCwLPPvC7xu15UryPmAyZb5Blg2DQxtTxCH59wGU1BcP/h9Qo9yegjdWiuRT7pF35e5AHXGMxnhVZI1rz7Sz/OZ8LELw4pTC2PKJjPMNV16B0rs04/x1LkuRa1hAOIspbav53w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5fqgTVDRn77SaRUq7q01GF/e8Dhdpcruf084U87kQIA=;
- b=C2vhlQrDVDKNvuitwIFmu6Jppn5weMkTEDYT5JvK/TT8Vp9MaT6Dh+7ZAkGWmk5hsSs+m0eSZU2qKSbE7c3xddgyxug4ge2uV/TI354bOumFXvSuiKsD8Vj7ig+iMG+p6OAUxC4N8yZX9OLaaINOEHVSQ4Txeomi+01Xi30g2Z9m6Qn5bQqRja/DFJLbHOvLjOEOdjB6N7pL4t/58+EuFZm6KKvBOpx0DvhZq2QCIkUXJe3if/jNCfQSm7Hd3mKtxrEhpCisQp5NEazgBmRVqMGILNlBU/wTmrVgKHEM5NDwAnzMjkDAAuqcrzqE70CIaVTSw//RUSDS5XwdEkfX5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5fqgTVDRn77SaRUq7q01GF/e8Dhdpcruf084U87kQIA=;
- b=VYykxby6kQ7XFc/1PdwoyYeT0tHZIzFRG1zbe5ERVPH/uwPsRJa5TCR2wMkkZw5xa17/twPWsUY2WgjZCWDr9S10TyRYh0jSwWSyyipI9FNaIcjYXxz0CZLhuxG3So0vbLwgG6lh9iQWRo131retAuaZydKH2tc5/OmJLidIy84=
-Received: from SA9PR13CA0070.namprd13.prod.outlook.com (2603:10b6:806:23::15)
- by SA1PR12MB6947.namprd12.prod.outlook.com (2603:10b6:806:24e::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
- 2023 06:57:41 +0000
-Received: from SN1PEPF00026369.namprd02.prod.outlook.com
- (2603:10b6:806:23:cafe::99) by SA9PR13CA0070.outlook.office365.com
- (2603:10b6:806:23::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.10 via Frontend
- Transport; Fri, 4 Aug 2023 06:57:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF00026369.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6652.19 via Frontend Transport; Fri, 4 Aug 2023 06:57:41 +0000
-Received: from majun-mlse-vm.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
- 2023 01:57:39 -0500
-From: Ma Jun <Jun.Ma2@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <christian.koenig@amd.com>
-Subject: [PATCH] drm/buddy: Fix drm buddy info output format
-Date: Fri, 4 Aug 2023 14:56:47 +0800
-Message-ID: <20230804065647.4096957-1-Jun.Ma2@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABB010E69C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 07:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691133553; x=1722669553;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BDuVT36s7rZhAHeXZPbnbKNVyVqHUNqlGW4Nm9uSNYM=;
+ b=aG2WEULvsqOTamEEPWMbH5JqH05phEk79t7s83ZJji/xwuem+WMt5Q2c
+ PrmoEZXJDYWmWIaSoCONbZ3QBgYl9KGiGDxmV1fzEm3GWtCJWfuBJPEzF
+ TCUsgxyRmIZxVIG0ZRgBBDXtVFW6R/V4Fg+22BLY6D8IZo5Yr5T7goD7i
+ FVeO3rZAYh7334O0Yl9XkhS7SXy5iIvYtXCixB8yjLc4C9+efNbbAsFz2
+ j8OreQFtUhvtEDe6F1+jUHb/cKt1s2mgky/X86Pog2eU5vPgO+t4sT5VK
+ pDYjqMSDmPoXwTGuILWwarSsmhx45UY6DYui1k9NuVWKz5lhCR908vSPO Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373737468"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="373737468"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2023 00:19:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759451252"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="759451252"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 04 Aug 2023 00:19:08 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qRp5X-0002ij-2o;
+ Fri, 04 Aug 2023 07:19:07 +0000
+Date: Fri, 4 Aug 2023 15:18:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Subject: Re: [PATCH v9 07/16] drm/mediatek: aal: Use bitfield macros
+Message-ID: <202308041431.xXkaXQ8u-lkp@intel.com>
+References: <20230803110214.163645-8-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00026369:EE_|SA1PR12MB6947:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9452bcdf-8bc6-4dcf-1c6a-08db94b818ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AuYE786BP+IYQXkhJLdqmpHpi12u4TEZNw+vgD2oDl+jwuxdlzLjF20/jnl/gd1f4wvxc2X23j2Y+jd//2np9iBG0izdNnmqesSehfzCsKw3EFgBYpWnsMsGg+gOSHVR6hS05fHVP5A66OSfazYOZcJZZ82OY2ZwIcNUUo72DbnLU/4hfsLduigb5+jvITQ/BM8dukHYTsCTrq9nAU1CJ26WNnnf7r+lEX79EAU6uA7AkVJgd9XugjPCTSp+VsShzMvoTIelQVM2czGJl7SiKlNhCtA1QM0qhXy/23AF8ObF/WbaxfZe5NcwZX+u5FaafxDvIX2UHNtnNDjoOQBHClFk9M5ZJtkXv2xjP3jLtetzW6pnmrFm2oeb2Dzb4fs5JkmbWoL5tB0ExMjNPkhRe94z9DgsHtE0ci//lxvAc+wgoS2B2oJjAzGpyzJedsNGpa8qevwTxEeMB/pAF36UjdviFseoEL7mjI+ZSGXAqXDVeYH4yrGT35v0Trd4hGflWMaqqOFX/1Q1AyauDwiMQYrAd/acTKSie6htDy9wl5K17WT7rylmcrMULRnB/E41s41tVop4Eupp+6IQjZgud3E4lABlOKhCDQeJAyUhGo8lFFiT1sX3VqNu1a2gztaU3GpMn0B017LW78ex6bKcNHxtNEltH2EyBQlHIh1JU/RFNT3nCL3lz7iB9AJaBYujA0taYnAbT76FhOMHgRKmPyRgIEcI4+qCEsMeluqgmY79N48yAhZM1HKx5gnU0EYoWM3I0Db2UVmZVV5G6P+w/Q==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(396003)(39860400002)(136003)(376002)(451199021)(1800799003)(186006)(82310400008)(46966006)(36840700001)(40470700004)(40460700003)(16526019)(2616005)(426003)(1076003)(83380400001)(336012)(26005)(47076005)(8676002)(36860700001)(316002)(2906002)(6636002)(70206006)(5660300002)(70586007)(4326008)(450100002)(41300700001)(8936002)(6666004)(7696005)(4744005)(54906003)(478600001)(110136005)(40480700001)(356005)(81166007)(86362001)(36756003)(82740400003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 06:57:41.1389 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9452bcdf-8bc6-4dcf-1c6a-08db94b818ae
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026369.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6947
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803110214.163645-8-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,42 +60,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ma Jun <Jun.Ma2@amd.com>, majun@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ ehristev@collabora.com, linux-mediatek@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[1] Change pages to blocks to avoid confusion.
-[2] Fix output format to align the output info.
+Hi AngeloGioacchino,
 
-Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
----
- drivers/gpu/drm/drm_buddy.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 3d1f50f481cf..ef3dd15c334a 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -781,15 +781,15 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
- 			count++;
- 		}
- 
--		drm_printf(p, "order-%d ", order);
-+		drm_printf(p, "order-%2d ", order);
- 
- 		free = count * (mm->chunk_size << order);
- 		if (free < SZ_1M)
--			drm_printf(p, "free: %lluKiB", free >> 10);
-+			drm_printf(p, "free: %8llu KiB", free >> 10);
- 		else
--			drm_printf(p, "free: %lluMiB", free >> 20);
-+			drm_printf(p, "free: %8llu MiB", free >> 20);
- 
--		drm_printf(p, ", pages: %llu\n", count);
-+		drm_printf(p, ", blocks: %llu\n", count);
- 	}
- }
- EXPORT_SYMBOL(drm_buddy_print);
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on pza/reset/next]
+[cannot apply to pza/imx-drm/next mbgg-mediatek/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230803-190918
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230803110214.163645-8-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v9 07/16] drm/mediatek: aal: Use bitfield macros
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230804/202308041431.xXkaXQ8u-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041431.xXkaXQ8u-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308041431.xXkaXQ8u-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/mediatek/mtk_disp_aal.c: In function 'mtk_aal_config':
+>> drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:14: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+      63 |         sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
+         |              ^~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:25: error: 'DISP_GAMMA_SIZE_HSIZE' undeclared (first use in this function); did you mean 'DISP_AAL_SIZE_HSIZE'?
+      63 |         sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+         |                         DISP_AAL_SIZE_HSIZE
+   drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:25: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/mediatek/mtk_disp_aal.c:64:26: error: 'DISP_GAMMA_SIZE_VSIZE' undeclared (first use in this function); did you mean 'DISP_AAL_SIZE_VSIZE'?
+      64 |         sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+         |                          DISP_AAL_SIZE_VSIZE
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +63 drivers/gpu/drm/mediatek/mtk_disp_aal.c
+
+    55	
+    56	void mtk_aal_config(struct device *dev, unsigned int w,
+    57				   unsigned int h, unsigned int vrefresh,
+    58				   unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+    59	{
+    60		struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+    61		u32 sz;
+    62	
+  > 63		sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
+    64		sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
+    65	
+    66		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
+    67		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_OUTPUT_SIZE);
+    68	}
+    69	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
