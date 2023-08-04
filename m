@@ -1,57 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704D1770417
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 17:10:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D878770419
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 17:10:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F307E10E71F;
-	Fri,  4 Aug 2023 15:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA2610E722;
+	Fri,  4 Aug 2023 15:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB88A10E71F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 15:10:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4A8566206C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 15:10:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E5CC433CD
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 15:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691161812;
- bh=k/WEV4wChuXrYdiVjfZQg92NekohcL6BMfLucYkhImI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DeqIpYcYPsJrb5GoacN0Bs+9uHCfU0qlOXefyRIw345uQW+COgwQECJGhZLwO6oX9
- NaMp+PQGGsKq3Nk1G17T4KJspQgLBpKj2OPesmFXhaWlTY6qeCA7nF+2jN+EsezlHZ
- IWGQOi9d23l2uwqOdptBKqKjUZ20qQfVfSBsvb7AQQHTfTrII6k0e4CuhsXW9150KP
- EG83O95mTUJw5XHZzDdQHMSZ4n1+1Du4uQB1b82S6zuDFC/v4rxzAY3zKn13edqom/
- Oy+RyimmjBoNBQDzZmEXP62o+KVcUmm1+VJKS99rM40pkEilOG2LNaZEWAhJXzp/3v
- yenJZ/ZH6dBcw==
-Received: by mail-pg1-f175.google.com with SMTP id
- 41be03b00d2f7-563f8e8a53dso1222069a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 08:10:12 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzPFakmhz5finIZB1nEVlbuyeK3QmjWWDxfFMMVgwdYjxttKfZP
- smM2UqqWtu0V8zAvRCgxgnCCcNibNF23cx11wTfSeg==
-X-Google-Smtp-Source: AGHT+IElvAxN2zei6BanZFW0NwWKaaCidPWt1sbwnVPv5pTqIYIdvy4XQVOTTtbdkHsd177fmMf8SmGydpiw77jCVmM=
-X-Received: by 2002:a17:90a:1bc6:b0:267:e011:3e9a with SMTP id
- r6-20020a17090a1bc600b00267e0113e9amr1495780pjr.3.1691161811724; Fri, 04 Aug
- 2023 08:10:11 -0700 (PDT)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::225])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41A8110E721
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 15:10:19 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id E82DE1C0003;
+ Fri,  4 Aug 2023 15:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1691161818;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nwlqseqskDNjzuWWUqN4ODDJjpTVWn6NU0l72pzeoK8=;
+ b=VJ3+2Iipwpe+7bbRgZ3Mo67/svscBp1VM/IOxmXTYkyXxPjyEmtxd/Hky19XhZ5oL9fCLu
+ t7Gq3LmgnoAGGBYDZE9M3hH23wH+aOCjMPBUgv3+Ceq5jjReDtthR2I/f5P6wu+1k8YcrD
+ eZ9tLWMUSvkUu/drZksipTTqowzEM0Wxi9T2Aooi0ZQR7mizfrLpEDL4AJgSsZcxWo6z2c
+ 00cmITNpOfY5J9uq636y8vBF4H0oAJfzR5835PRXjsyD00P+HmktpLX2TnRq2FSPMrH7X+
+ fTu9WGVlYoa55oHc/feQRnvujlYU8yA+RnLwOOi/61mcDBMEVvT7Ecrxf2Fx3g==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: simple: Fix Innolux G156HCE-L01 LVDS clock
+Date: Fri,  4 Aug 2023 17:10:10 +0200
+Message-Id: <20230804151010.834990-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
- <20230804-lt8912b-v1-1-c542692c6a2f@ideasonboard.com>
-In-Reply-To: <20230804-lt8912b-v1-1-c542692c6a2f@ideasonboard.com>
-From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 4 Aug 2023 17:10:01 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi7yxLNvXTVz-xzksr-E9SRmB5Hscc=Hue1G5T+5QZb5HA@mail.gmail.com>
-Message-ID: <CAN6tsi7yxLNvXTVz-xzksr-E9SRmB5Hscc=Hue1G5T+5QZb5HA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/bridge: lt8912b: Fix bridge_detach
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,93 +47,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Stefan Eichenberger <stefan.eichenberger@toradex.com>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-kernel@vger.kernel.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 4, 2023 at 12:48=E2=80=AFPM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> The driver calls lt8912_bridge_detach() from its lt8912_remove()
-> function. As the DRM core detaches bridges automatically, this leads to
-> calling lt8912_bridge_detach() twice. The code probably has tried to
-> manage the double-call with the 'is_attached' variable, but the driver
-> never sets the variable to false, so its of no help.
->
-> Fix the issue by dropping the call to lt8912_bridge_detach() from
-> lt8912_remove(), as the DRM core will handle the detach call for us,
-> and also drop the useless is_attached field.
->
-> Fixes: 88abfc2b9e61 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt8912b.c | 16 +++++-----------
->  1 file changed, 5 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/b=
-ridge/lontium-lt8912b.c
-> index 4eaea67fb71c..0e581f6e3c88 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> @@ -45,7 +45,6 @@ struct lt8912 {
->
->         u8 data_lanes;
->         bool is_power_on;
-> -       bool is_attached;
->  };
->
->  static int lt8912_write_init_config(struct lt8912 *lt)
-> @@ -575,8 +574,6 @@ static int lt8912_bridge_attach(struct drm_bridge *br=
-idge,
->         if (ret)
->                 goto error;
->
-> -       lt->is_attached =3D true;
-> -
->         return 0;
->
->  error:
-> @@ -588,15 +585,13 @@ static void lt8912_bridge_detach(struct drm_bridge =
-*bridge)
->  {
->         struct lt8912 *lt =3D bridge_to_lt8912(bridge);
->
-> -       if (lt->is_attached) {
-> -               lt8912_hard_power_off(lt);
-> +       lt8912_hard_power_off(lt);
->
-> -               if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
-> -                       drm_bridge_hpd_disable(lt->hdmi_port);
-> +       if (lt->hdmi_port->ops & DRM_BRIDGE_OP_HPD)
-> +               drm_bridge_hpd_disable(lt->hdmi_port);
->
-> -               drm_connector_unregister(&lt->connector);
-> -               drm_connector_cleanup(&lt->connector);
-> -       }
-> +       drm_connector_unregister(&lt->connector);
-> +       drm_connector_cleanup(&lt->connector);
->  }
->
->  static enum drm_connector_status
-> @@ -750,7 +745,6 @@ static void lt8912_remove(struct i2c_client *client)
->  {
->         struct lt8912 *lt =3D i2c_get_clientdata(client);
->
-> -       lt8912_bridge_detach(&lt->bridge);
->         drm_bridge_remove(&lt->bridge);
->         lt8912_free_i2c(lt);
->         lt8912_put_dt(lt);
->
-> --
-> 2.34.1
->
+This panel has been implemented in commit 225213f24c79 ("drm/panel-simple:
+Add Innolux G156HCE-L01 panel entry") with a higher clock than the typical
+one mentioned on the documentation to avoid flickering on the unit
+tested. Testing on a different unit shows that the panel actually works
+with the intended 70.93 MHz clock and even lower frequencies so the
+flickering is likely caused either by a defective unit or by other
+different components such as the bridge.
 
+Fixes: 225213f24c79 ("drm/panel-simple: Add Innolux G156HCE-L01 panel entry")
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 56854f78441e..ec3a73bbfe30 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2379,7 +2379,7 @@ static const struct panel_desc innolux_g121x1_l03 = {
+ };
+ 
+ static const struct display_timing innolux_g156hce_l01_timings = {
+-	.pixelclock = { 120000000, 144000000, 150000000 },
++	.pixelclock = { 120000000, 141860000, 150000000 },
+ 	.hactive = { 1920, 1920, 1920 },
+ 	.hfront_porch = { 80, 90, 100 },
+ 	.hback_porch = { 80, 90, 100 },
+-- 
+2.34.1
+
