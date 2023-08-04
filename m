@@ -1,76 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F2E770279
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 16:02:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2894E77027C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 16:03:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2FFB10E70E;
-	Fri,  4 Aug 2023 14:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38DBE10E711;
+	Fri,  4 Aug 2023 14:03:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D63FF10E70E
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 14:02:33 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B8AA10E711
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 14:03:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691157753;
+ s=mimecast20190719; t=1691157801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=808Pd+nQU4BkLxg8bbOo/RqERzTi+N/8pkzZaM8IuxA=;
- b=SIOI+Z3GNDA7USJbMCOm/q3jaqBcHiClPwgL6Rsf+RFDJokfB15xpVl2/9QxZWmgVFek9D
- nSpCCe5I0ZGiJvvT28Ic9ResC7MvCklfbXpz6VbVCNWAG40DV0WDsL+WqOezG+esThVaWD
- zk8gZg3o7ScYyXHd1WevHomC1RXcZzM=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rM0KkvOUv4Nz/Z5qH0iBKJPwNP5wSyX/+jjNpzRgOhU=;
+ b=V/drah5YBOKDkHWsLCQJ0v0/Wvr6U53OsQQmx26OE++Rw8Rn+oEJ1V448EJb8mhZ1HYudM
+ 7qUuwZD1GndQqVRkPrJygNSebpHpym9jWCC33A2NubdX9FjYBlpvCjxZ4UiDWi7DbcPTLP
+ YtPC3liyr1xvbLBUbgQvhQLyU/14Dtw=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-RiNZ6LU0NX-e9DWReWUpiQ-1; Fri, 04 Aug 2023 10:02:31 -0400
-X-MC-Unique: RiNZ6LU0NX-e9DWReWUpiQ-1
-Received: by mail-oi1-f197.google.com with SMTP id
- 5614622812f47-3a44a32d3b5so2843485b6e.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 07:02:31 -0700 (PDT)
+ us-mta-175-anLLqdE4OQe6-zWpZwpp6g-1; Fri, 04 Aug 2023 10:03:19 -0400
+X-MC-Unique: anLLqdE4OQe6-zWpZwpp6g-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ 46e09a7af769-6bb23d4b3b7so3330458a34.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 07:03:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691157751; x=1691762551;
+ d=1e100.net; s=20221208; t=1691157799; x=1691762599;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=808Pd+nQU4BkLxg8bbOo/RqERzTi+N/8pkzZaM8IuxA=;
- b=Q0BT907iAamnm1K9MxK1S6qCCARKkO3nW28IW5f2QWO6oq+HXY4FGld4SnVK6N33Ya
- XEDPeroTk+Mgg69xGcIyREC2H2pY25eyOqeyjyDNXf6c8s3EYzI/pIhb/g20a33QI7jS
- AfIKfpnMsjlKCjvPgb6v+LNW1Tl3VyNAqTLnjA2qywfilE+S1wxcjihsGbgFKjapYQuA
- reuQmJj08IZLdCCrQE23UvlbbBu8kt33LL97WsDCI9qsPJ57F/L8+r4eSpN+QcXDyzLT
- af+/5hUzo2uLmyBCjUYYL5k8to4+5y/LuSLzZ3fbbLa44+OS9zbUgBAa40hO8oorYLtl
- ri5Q==
-X-Gm-Message-State: AOJu0Yy0ZobG03Z2cu1HLTWbNgG+CpqR2WF4ifEO2+LW8GqXz0M/1pNC
- B8Ujc29Q+9xOog3M92ZaDoOTKaYgUVZQ2PZlSWEudFUKa+I5sh7qPv3nOva4eW7qFN086LnHlQ+
- a9dDdZ0UyiY2TgM2Brc7STWNmnQL1
-X-Received: by 2002:a05:6808:1446:b0:3a3:e638:78d2 with SMTP id
- x6-20020a056808144600b003a3e63878d2mr2209988oiv.12.1691157750889; 
- Fri, 04 Aug 2023 07:02:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgyv5Dk1Uh5fEOhYZouKg0eqJVUmldKb5Lo6fBnh9uURKlLXWP87ffEY+fXtJsEJbTQPGc/w==
-X-Received: by 2002:a05:6808:1446:b0:3a3:e638:78d2 with SMTP id
- x6-20020a056808144600b003a3e63878d2mr2209953oiv.12.1691157750560; 
- Fri, 04 Aug 2023 07:02:30 -0700 (PDT)
+ bh=rM0KkvOUv4Nz/Z5qH0iBKJPwNP5wSyX/+jjNpzRgOhU=;
+ b=FycfJDZ4Wnf/dnTPJ+4JYGxRW8f0dLqh+qAq2YGtKB/WpnUK3N8L3gwk+qX61v6FlJ
+ PLHvFJQCAcpXGkeAK9k1+WT4lBLdjpMab8QNwfjZO8BrklK9G2T8Nk4qWdsf7Toek/Tm
+ eGkrfU68F/yyfhcZ2f2Sbx8jBKC26YZ9OmVXp3laVYCavv0i0Grlqfvsb+vpvzLC3rBJ
+ W/cxmLeKDr2stHUXGbUsmKqmGv0aC7TLPaGHurmxpzZtp64xPHIcJxylHt9vCE9UWbYS
+ pkpa52fPHAXmEuVqcAeJzIqE/bdTxwHwiseDqa0GtOr0Hwf5SHA/bMolLJg1+uRLeeoA
+ fPuA==
+X-Gm-Message-State: AOJu0YzyCjT0hDcs2mOLHA/m6l5ALhGPX/waMYeWgFqxxGBO7LWZTwiN
+ 0IjZ+q0gI9QBTVMcy4V2pPusJ54e7svr22mTtHxTmLbtH/qBZkHIRukGvUbC2osXRJDMUiFQWpI
+ CbaMzoRSOTYu4N9/w37oNckeVw/Ar
+X-Received: by 2002:a05:6870:2320:b0:1b7:89b5:7c11 with SMTP id
+ w32-20020a056870232000b001b789b57c11mr2102328oao.9.1691157798824; 
+ Fri, 04 Aug 2023 07:03:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGUV/leL4jrrZoKlc3LvgjHnG2JMNaqpN35nghURvLsFst5MZv4asGQ4fgwScpSVrKsB7d8LA==
+X-Received: by 2002:a05:6870:2320:b0:1b7:89b5:7c11 with SMTP id
+ w32-20020a056870232000b001b789b57c11mr2102301oao.9.1691157798536; 
+ Fri, 04 Aug 2023 07:03:18 -0700 (PDT)
 Received: from localhost ([181.120.144.238]) by smtp.gmail.com with ESMTPSA id
- bq7-20020a05680823c700b003a3bf96e055sm1005466oib.8.2023.08.04.07.02.29
+ y1-20020a056870388100b001b047298a44sm1111240oan.52.2023.08.04.07.03.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 07:02:30 -0700 (PDT)
+ Fri, 04 Aug 2023 07:03:18 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@redhat.com>
-Subject: Re: [PATCH] drm/mgag200: Increase bandwidth for G200se A rev1
-In-Reply-To: <871qgtv18e.fsf@minerva.mail-host-address-is-not-set>
-References: <20230717133037.25941-1-jfalempe@redhat.com>
- <69a9ee2e-bd03-2a63-6651-0680475d7025@suse.de>
- <4f5d262c-527f-0fa6-45e3-a75aa22fcf0d@suse.de>
- <20230724215746.10928@revelation.broadband>
- <ca6cd674-d268-6210-c66d-4750e28a5c77@suse.de>
- <7f6fd614-5910-6c94-2c55-110223b61b5f@redhat.com>
- <8f0ee2da-0a06-a78d-ab74-c552da822b97@suse.de>
- <hnyzo4cldffz6rzntmuvblissfrw7ig6qidnc2f3iortcdagid@fi5bn44asg2v>
- <897822f7-90a8-edd0-9c84-fb5a1f5ce5eb@suse.de>
- <871qgtv18e.fsf@minerva.mail-host-address-is-not-set>
-Date: Fri, 04 Aug 2023 16:02:27 +0200
-Message-ID: <87v8dugb2k.fsf@minerva.mail-host-address-is-not-set>
+To: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: Drop select FRAMEBUFFER_CONSOLE for
+ DRM_FBDEV_EMULATION
+In-Reply-To: <19a2a2a0-2f35-4c4e-926c-47b75e6f9353@app.fastmail.com>
+References: <20230804125156.1387542-1-javierm@redhat.com>
+ <CAKMK7uH=7m=2Y0SxPm2Q1J+u2MRWHNQrYy7M5se7Ua9ZA19y=A@mail.gmail.com>
+ <19a2a2a0-2f35-4c4e-926c-47b75e6f9353@app.fastmail.com>
+Date: Fri, 04 Aug 2023 16:03:15 +0200
+Message-ID: <87sf8ygb18.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -87,52 +81,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roger Sewell <roger.sewell@cantab.net>, airlied@redhat.com,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Helge Deller <deller@gmx.de>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+"Arnd Bergmann" <arnd@arndb.de> writes:
 
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
->
-
-[...]
-
->> The reasoning is that userspace should always be in control of the 
->> format (sans that one exception). If userspace wants packed 24-bits it 
->> can support RGB888 explicitly.  For the color-format transformation, 
->> it's better to do that in userspace with SSE-like instructions than in 
->> the kernel.
+> On Fri, Aug 4, 2023, at 15:07, Daniel Vetter wrote:
+>> On Fri, 4 Aug 2023 at 14:52, Javier Martinez Canillas
+>> <javierm@redhat.com> wrote:
+>>>
+>>> The commit c242f48433e7 ("drm: Make FB_CORE to be selected if DRM fbdev
+>>> emulation is enabled") changed DRM_FBDEV_EMULATION from 'depends on FB'
+>>> to an effective 'select FB_CORE', so any config that previously had DRM=y
+>>> and FB=n now has FB_CORE=y and FRAMEBUFFER_CONSOLE=y.
+>>>
+>>> This leads to unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
+>>> as reported by Arthur Grillo, e.g:
+>>>
+>>> WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
+>>>   Depends on [n]: VT [=n] && FB_CORE [=y] && !UML [=y]
+>>>   Selected by [y]:
+>>>   - DRM_FBDEV_EMULATION [=y] && HAS_IOMEM [=y] && DRM [=y] && !EXPERT [=n]
+>>>
+>>> Arnd Bergmann suggests to drop the select FRAMEBUFFER_CONSOLE for the
+>>> DRM_FBDEV_EMULATION Kconfig symbol, since a possible use case could
+>>> be to enable DRM fbdev emulation but without a framebuffer console.
+>>>
+>>> Fixes: c242f48433e7 ("drm: Make FB_CORE to be selected if DRM fbdev emulation is enabled")
+>>> Reported-by: Arthur Grillo <arthurgrillo@riseup.net>
+>>> Closes: https://lore.kernel.org/dri-devel/20230726220325.278976-1-arthurgrillo@riseup.net
+>>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+>>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 >>
->> I wasn't super-happy with this, but I think it's a clear statement with 
->> simple rules to follow. I'd prefer that over relaxed rules where each 
->> driver does its own thing.
->>
+>> Yeah originally this was just to help people not misconfigure their
+>> kernels and end up with a black screen. But select is really not a
+>> nice way to do that, imo we could drop the FB_CORE select too :-)
 >
-> I wasn't super happy either, but if I remember correctly we were the only
-> two that had this point of view and everyone else there thought that the
-> drivers shouldn't expose a format that don't support (other than XR24) ?.
+> Droping the 'FB_CORE' select only works if we make FB_CORE user
+> visible and add a 'depends on' for it instead. Not sure this
+> is any better since this would only ever be used when either
+> CONFIG_FB or CONFIG_DRM_FBDEV_EMULATION is enabled.
 >
 
-I think that this unwritten rule must be documented somewhere so that we
-could know what the rule really is instead of people making assumptions.
-
-Because my understanding from the discussion was that user-space has no
-way to know if a format is "native" or "fake" and it shouldn't pay for the
-performance penalty of doing these format conversions in the drivers.
-
-But the irony here is that enforcing such a rule in this particular case
-would prevent to have a performance gain. So it seems to me as if it's the
-opposite to what such a rule wanted to achieve.
-
-My proposal is to write a doc patch explicitly stating that drivers must
-only expose a "virtual" XRGB8888 format for compatibility and that it is
-allowed to drop the alpha channel in the driver if that would improve the
-performance for a particular device (e.g: slow DMA as is the case here).
-
-That way, the spirit of the rule would be to make the driver/device as
-performant as possible. What do you think ? Does this make sense to you ?
+Agreed.
 
 -- 
 Best regards,
