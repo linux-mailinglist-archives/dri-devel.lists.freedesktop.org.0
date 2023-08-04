@@ -1,53 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD0476FB04
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:19:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1328576FB0A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 09:23:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E2B10E684;
-	Fri,  4 Aug 2023 07:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C9D10E696;
+	Fri,  4 Aug 2023 07:23:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABB010E69C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 07:19:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691133553; x=1722669553;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BDuVT36s7rZhAHeXZPbnbKNVyVqHUNqlGW4Nm9uSNYM=;
- b=aG2WEULvsqOTamEEPWMbH5JqH05phEk79t7s83ZJji/xwuem+WMt5Q2c
- PrmoEZXJDYWmWIaSoCONbZ3QBgYl9KGiGDxmV1fzEm3GWtCJWfuBJPEzF
- TCUsgxyRmIZxVIG0ZRgBBDXtVFW6R/V4Fg+22BLY6D8IZo5Yr5T7goD7i
- FVeO3rZAYh7334O0Yl9XkhS7SXy5iIvYtXCixB8yjLc4C9+efNbbAsFz2
- j8OreQFtUhvtEDe6F1+jUHb/cKt1s2mgky/X86Pog2eU5vPgO+t4sT5VK
- pDYjqMSDmPoXwTGuILWwarSsmhx45UY6DYui1k9NuVWKz5lhCR908vSPO Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373737468"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="373737468"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2023 00:19:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="759451252"
-X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="759451252"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 04 Aug 2023 00:19:08 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qRp5X-0002ij-2o;
- Fri, 04 Aug 2023 07:19:07 +0000
-Date: Fri, 4 Aug 2023 15:18:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Subject: Re: [PATCH v9 07/16] drm/mediatek: aal: Use bitfield macros
-Message-ID: <202308041431.xXkaXQ8u-lkp@intel.com>
-References: <20230803110214.163645-8-angelogioacchino.delregno@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEC2689CCE
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 07:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691133828;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X0SDuWX0PVJtjYbmSJGuOQKYEPGZD7rqG2wXMixgOng=;
+ b=dQedoIMqRlDkMV380V9iemiV3qu0wJ2GbE89wk3Sz0Hr+CWtqf2sxA710QDCyteaF6DCxl
+ spRxnBdx8KwfqXw+5+bLuLRDwdsZQS3/Bq5uCkzapYkUfNXSo5kfDK6RA4/0dY0G7W6NiB
+ HWkfzo2SMNPj480KMPrtiObDGExz4NE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-lPnB6zkxND2LWa1QtlzJ7w-1; Fri, 04 Aug 2023 03:23:47 -0400
+X-MC-Unique: lPnB6zkxND2LWa1QtlzJ7w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3179f70a6bdso1049928f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 00:23:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691133826; x=1691738626;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=X0SDuWX0PVJtjYbmSJGuOQKYEPGZD7rqG2wXMixgOng=;
+ b=FbxjTmfUyCULjnTmrG0NuOO5yeLxC1qr5cxVXjErrZVWb8btitXPrdAuRSvau6eL+h
+ DvyoWDGvEyLviJR5gp1jsDjZwuXz7fVS6XCrJQ6nzxTd0BeKZlMdcG71DzPvkix/O+8o
+ WX5uQW1dA1VuaehWE8E31tf6ZNWb+4san4HB5MQ/cjvmUMOJ9xeijmETOTSFpBQj1pPl
+ vooa5+2TLCmQbuQKCF1GAdZv5+fSMSBP6D7XZ6Vv+hamvMWZw/Mv/o3tAGDuHwJVkEQx
+ JuYUq4XhM+b3gRdiiniRZ5tSpa844aRnKV2uNRdd0PZcLN/RfTlYRWKEc0XE3/0HHMn3
+ eBKg==
+X-Gm-Message-State: AOJu0YwwNP5BTFtniyb39mWaixlEAHQSbaYOkhiI/oD2B1/F/jbSVDFs
+ kTvHkeWObrhGKBatnGV/Ea5AM12wC9BXL5cvjp8tfkMnExGfSD7y2GQ7V/VW9wtfL6XRmKQ2Kix
+ k+YUDWRDySq6SIwuhGHirpqrMMX4J
+X-Received: by 2002:a05:6000:10cc:b0:313:df08:7b7e with SMTP id
+ b12-20020a05600010cc00b00313df087b7emr706548wrx.14.1691133826147; 
+ Fri, 04 Aug 2023 00:23:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFRwRNR51hbvYFIT6vOA55mQLzv8RpfVuaFFCwVgPE4ZVELsqeyAcuZh0skiXntG1j72b0zzQ==
+X-Received: by 2002:a05:6000:10cc:b0:313:df08:7b7e with SMTP id
+ b12-20020a05600010cc00b00313df087b7emr706537wrx.14.1691133825702; 
+ Fri, 04 Aug 2023 00:23:45 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c724:5900:10b9:2373:11c6:216c?
+ (p200300cbc724590010b9237311c6216c.dip0.t-ipconnect.de.
+ [2003:cb:c724:5900:10b9:2373:11c6:216c])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020adfd84e000000b003177e9b2e64sm1741887wrl.90.2023.08.04.00.23.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Aug 2023 00:23:45 -0700 (PDT)
+Message-ID: <ed332536-6ee0-df36-c42a-5a1b5b12c71b@redhat.com>
+Date: Fri, 4 Aug 2023 09:23:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230803110214.163645-8-angelogioacchino.delregno@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Alistair Popple <apopple@nvidia.com>
+References: <IA0PR11MB71857E9D6C3AD311CF698D13F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMj4Og063T6T/okI@nvidia.com>
+ <d4bae5e4-ff92-bee9-d585-9f30e34ef646@redhat.com>
+ <ZMj5MvQGk2PQiJn+@nvidia.com>
+ <48f22686-2c1b-fd9d-91ba-da6105d410db@redhat.com>
+ <ZMj5+7sgkPqHT5Vt@nvidia.com>
+ <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,74 +104,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- ehristev@collabora.com, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, wenst@chromium.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi AngeloGioacchino,
+On 04.08.23 08:39, Kasireddy, Vivek wrote:
+> Hi Alistair, David, Jason,
+> 
+>>>>>>>> Right, the "the zero pages are changed into writable pages" in your
+>>>>>>>> above comment just might not apply, because there won't be any
+>> page
+>>>>>>>> replacement (hopefully :) ).
+>>>>>>
+>>>>>>> If the page replacement does not happen when there are new writes
+>> to the
+>>>>>>> area where the hole previously existed, then would we still get an
+>>>>>> invalidate
+>>>>>>> when this happens? Is there any other way to get notified when the
+>> zeroed
+>>>>>>> page is written to if the invalidate does not get triggered?
+>>>>>>
+>>>>>> What David is saying is that memfd does not use the zero page
+>>>>>> optimization for hole punches. Any access to the memory, including
+>>>>>> read-only access through hmm_range_fault() will allocate unique
+>>>>>> pages. Since there is no zero page and no zero-page replacement there
+>>>>>> is no issue with invalidations.
+>>>>
+>>>>> It looks like even with hmm_range_fault(), the invalidate does not get
+>>>>> triggered when the hole is refilled with new pages because of writes.
+>>>>> This is probably because hmm_range_fault() does not fault in any pages
+>>>>> that get invalidated later when writes occur.
+>>>> hmm_range_fault() returns the current content of the VMAs, or it
+>>>> faults. If it returns pages then it came from one of these two places.
+>>>> If your VMA is incoherent with what you are doing then you have
+>>>> bigger
+>>>> problems, or maybe you found a bug.
+>>
+>> Note it will only fault in pages if HMM_PFN_REQ_FAULT is specified. You
+>> are setting that however you aren't setting HMM_PFN_REQ_WRITE which is
+>> what would trigger a fault to bring in the new pages. Does setting that
+>> fix the issue you are seeing?
+> No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue.
+> Although, I do not have THP enabled (or built-in), shmem does not evict
+> the pages after hole punch as noted in the comment in shmem_fallocate():
+>                  if ((u64)unmap_end > (u64)unmap_start)
+>                          unmap_mapping_range(mapping, unmap_start,
+>                                              1 + unmap_end - unmap_start, 0);
+>                  shmem_truncate_range(inode, offset, offset + len - 1);
+>                  /* No need to unmap again: hole-punching leaves COWed pages */
+> 
+> As a result, the pfn is still valid and the pte is pte_present() and pte_write().
+> This is the reason why adding in HMM_PFN_REQ_WRITE does not help;
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on pza/reset/next]
-[cannot apply to pza/imx-drm/next mbgg-mediatek/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230803-190918
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230803110214.163645-8-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v9 07/16] drm/mediatek: aal: Use bitfield macros
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230804/202308041431.xXkaXQ8u-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230804/202308041431.xXkaXQ8u-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308041431.xXkaXQ8u-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c: In function 'mtk_aal_config':
->> drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:14: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      63 |         sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-         |              ^~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:25: error: 'DISP_GAMMA_SIZE_HSIZE' undeclared (first use in this function); did you mean 'DISP_AAL_SIZE_HSIZE'?
-      63 |         sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         DISP_AAL_SIZE_HSIZE
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c:63:25: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/mediatek/mtk_disp_aal.c:64:26: error: 'DISP_GAMMA_SIZE_VSIZE' undeclared (first use in this function); did you mean 'DISP_AAL_SIZE_VSIZE'?
-      64 |         sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-         |                          DISP_AAL_SIZE_VSIZE
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +63 drivers/gpu/drm/mediatek/mtk_disp_aal.c
-
-    55	
-    56	void mtk_aal_config(struct device *dev, unsigned int w,
-    57				   unsigned int h, unsigned int vrefresh,
-    58				   unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
-    59	{
-    60		struct mtk_disp_aal *aal = dev_get_drvdata(dev);
-    61		u32 sz;
-    62	
-  > 63		sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-    64		sz |= FIELD_PREP(DISP_GAMMA_SIZE_VSIZE, h);
-    65	
-    66		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_SIZE);
-    67		mtk_ddp_write(cmdq_pkt, sz, &aal->cmdq_reg, aal->regs, DISP_AAL_OUTPUT_SIZE);
-    68	}
-    69	
+Just to understand your setup: you are definitely using a MAP_SHARED 
+shmem mapping, and not accidentally a MAP_PRIVATE mapping?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+
+David / dhildenb
+
