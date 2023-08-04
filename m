@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0FC770A76
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 23:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AADF770A78
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 23:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C14110E75E;
-	Fri,  4 Aug 2023 21:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4008710E762;
+	Fri,  4 Aug 2023 21:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6AD10E16A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 21:07:31 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-686b91c2744so1904414b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 14:07:31 -0700 (PDT)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98E910E14C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 21:07:33 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-68783b2e40bso1882630b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 14:07:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1691183250; x=1691788050;
+ d=chromium.org; s=google; t=1691183252; x=1691788052;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gL/sXBJdtn+1Uor6JvF4nJ5jjuwE/sb94QyRSIeFTvk=;
- b=NjgM8gn4+41Cl2kOZSDhkZdOjQsKJZkSC2KoMd9AQ/7c+FyUco3qIkYJMY8ThPH8E/
- RJ5PVgal91E/XthgoRC6cYkwVkTfj+eJKUzLcfdHTwur4fEaLZPCLLsnzXb9ktJSjIe5
- MYN/Dr/6x7zHt0dZU8gcVMu46BPJSaQWuFptk=
+ bh=0DN4Kph2d52NwkUkezdGerL8g/M4NBzXeSqtlHdxPYg=;
+ b=c0rxX+Yrg+dyfOnew5Ieiiys+dsK64kVflUDWPMqOLSqOa7AXCAkL9ZLuvhpCcYEwo
+ ZC3P/M+gRT+PFUqg5xmhZkOoF7Q5HHhcUenQv7V7LMrtsIzl1fBv8mufuFYamOLuNo9I
+ syWN8E49ZMFpB+DcE3YOsvZKlz413yPXfJaGg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691183250; x=1691788050;
+ d=1e100.net; s=20221208; t=1691183252; x=1691788052;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gL/sXBJdtn+1Uor6JvF4nJ5jjuwE/sb94QyRSIeFTvk=;
- b=DyP3jp2chXhrkXn/y67bgqDlH5pp5DTkxpJV0/pzGrsP0M3rjC/bAfX0Knv76pDAh3
- OHdg83ezXJEVO4jvzIEEIKrqget5cO4tygTSBrQz+qAVkiz8dBGQJxonr9AqiY07Piq2
- G8l2yEuKVeJHjtGRHu47gRa9U792rmHVPhu+tSXKXErmTb3iHnvlcWrNMKTNNmedaQW/
- irIFgkthvSW17MM0QIP/IOkpobGZz6vvLL4ED7l0NXDE57bQNl7Ct0jOErl22Ruj2cGb
- dcf8/4K1V6zxVEWDlg5q8eiG0x68xdIuRtAdFj03M7vqMan0WNq9i+p6qJSrGRkrDzdx
- JNqQ==
-X-Gm-Message-State: AOJu0Yxk6VeyQiBo16EgL8U0KPGsKgwHcVAwhm2ZeT9AX8YoayttAwsT
- gzjc9E1RCxB+VZUrg6u3aVEaZ/cT5fTLb0ccGJdhR+cQ
-X-Google-Smtp-Source: AGHT+IEih+uOAkCq31go8vF6sdRAx2yYeDg6nXMEh1c23VwcSuWPhJLtT3stk87AFNkWc+s0luMorg==
-X-Received: by 2002:a05:6a20:6a22:b0:134:6839:c497 with SMTP id
- p34-20020a056a206a2200b001346839c497mr2793784pzk.11.1691183250648; 
- Fri, 04 Aug 2023 14:07:30 -0700 (PDT)
+ bh=0DN4Kph2d52NwkUkezdGerL8g/M4NBzXeSqtlHdxPYg=;
+ b=SE1cXhlSYod9M9/YZBzKfNL0fMrFAMCWJ0YclBr4EbUysd9wNmIDzTPvEx4qV/mZ/U
+ ycev8v57QS4YtxWH8NBvyKBqsZtbyvNtt4zXL5/g6XFpzELx6tkOOvXheGDz9HWn/fn7
+ f8ijchRNPrNXK1hH6Roq9YGYPXJEdxJojFoNCyjS05WfZic9vSyWk0X9V+B2SM7ZHhnx
+ oY1wNfLVEla48YOe+0CjcVmionFXHIWtMzV7ZcXaYqMMLToybQuZlEBVD7UwI2A10t5y
+ xt3ErBD4GC+MIkY08S1YyQ/33oaGzCE3TVNUH5Nk91Qleq0bsRfl9ve0eqr4lhcNRhbJ
+ v9TQ==
+X-Gm-Message-State: AOJu0Yw4bz1M5Q5cW92fjR/0FvZZC0DqOTXMfgFKVtgbCMVwmwdDxTmN
+ OlE0qbNmRMeBH7k3rhE3TWKDMVRMPPdIShkc0kR0dAuR
+X-Google-Smtp-Source: AGHT+IFj/Pm4r4SGNE9coQEi+WSMYBsfkipwkLIG42HxYlnCboyKqNLbhsyPIpW6j5objN61Kcq27Q==
+X-Received: by 2002:a05:6a21:7795:b0:13f:2187:c51a with SMTP id
+ bd21-20020a056a21779500b0013f2187c51amr2605066pzc.34.1691183252742; 
+ Fri, 04 Aug 2023 14:07:32 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:e186:e5d2:e60:bad3])
  by smtp.gmail.com with ESMTPSA id
- n22-20020aa78a56000000b0068664ace38asm2037584pfa.19.2023.08.04.14.07.29
+ n22-20020aa78a56000000b0068664ace38asm2037584pfa.19.2023.08.04.14.07.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 14:07:30 -0700 (PDT)
+ Fri, 04 Aug 2023 14:07:32 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFC PATCH 08/10] drm/panel: rm67191: Don't store+check enabled
-Date: Fri,  4 Aug 2023 14:06:11 -0700
-Message-ID: <20230804140605.RFC.8.I20f82e9dd1597a14ae37a64c6b8275add60fbdb1@changeid>
+Subject: [RFC PATCH 09/10] drm/panel: sony-acx565akm: Don't double-check
+ enabled state in disable
+Date: Fri,  4 Aug 2023 14:06:12 -0700
+Message-ID: <20230804140605.RFC.9.I6a51b36831a5c7b2b82bccf8c550cf0d076aa541@changeid>
 X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
 In-Reply-To: <20230804210644.1862287-1-dianders@chromium.org>
 References: <20230804210644.1862287-1-dianders@chromium.org>
@@ -71,9 +72,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Robert Chiras <robert.chiras@nxp.com>
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -84,117 +85,56 @@ prepared/enabled state. Even if someone was relying on the
 double-check before, that double-check is now in the core and not
 needed in individual drivers.
 
-The conversion of the rm67191 panel driver follows many of the other
-panel drivers but is separated out because it has a few differences
-that need to be called out.
+The acx565akm seems to do some unique stuff with the "enabled"
+state. Specifically:
+1. It seems to detect the enabled state based on how the bootloader
+   left the panel.
+2. It uses the enabled state to prevent certain sysfs files from
+   accessing a disabled panel.
 
-Like otm8009a, this panel also uses the "prepared" flag to prevent the
-backlight functions from running when the panel is powered off. This
-is probably not the safest thing to do but the old behavior was
-preserved. See the discussion in the patch ("drm/panel: otm8009a:
-Don't double check prepared/enabled"). Because of this, I've left the
-driver tracking "prepared" but removed its tracking of "enabled".
-
-This panel also used to directly call its disable/unprepare functions
-at shutdown time instead of calling into drm_panel. Now we're calling
-drm_panel_helper_shutdown() which in turn calls
-drm_panel_unprepare()/drm_panel_disable(). That paves the way if
-anyone wants to use a the panel follower APIs with this panel.
+We'll leave the "enabled" state tracking for this. However, we can at
+least get rid of the double-check when trying to disable. In order to
+do this we use the new drm_panel_helper_shutdown() from remove() which
+double-checks for us.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- drivers/gpu/drm/panel/panel-raydium-rm67191.c | 21 ++-----------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-index dbb1ed4efbed..fb378924c0b3 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_mipi_dsi.h>
+diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+index 3d6a286056a0..8a8326a94d72 100644
+--- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
++++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+@@ -30,6 +30,7 @@
+ #include <drm/drm_connector.h>
+ #include <drm/drm_modes.h>
  #include <drm/drm_panel.h>
 +#include <drm/drm_panel_helper.h>
  
- /* Panel specific color-format bits */
- #define COL_FMT_16BPP 0x55
-@@ -205,7 +206,6 @@ struct rad_panel {
- 	unsigned int num_supplies;
+ #define CTRL_DISP_BRIGHTNESS_CTRL_ON		BIT(5)
+ #define CTRL_DISP_AMBIENT_LIGHT_CTRL_ON		BIT(4)
+@@ -454,9 +455,6 @@ static int acx565akm_power_on(struct acx565akm_panel *lcd)
  
- 	bool prepared;
--	bool enabled;
- };
- 
- static const struct drm_display_mode default_mode = {
-@@ -267,9 +267,6 @@ static int rad_panel_prepare(struct drm_panel *panel)
- 	struct rad_panel *rad = to_rad_panel(panel);
- 	int ret;
- 
--	if (rad->prepared)
--		return 0;
--
- 	ret = regulator_bulk_enable(rad->num_supplies, rad->supplies);
- 	if (ret)
- 		return ret;
-@@ -291,9 +288,6 @@ static int rad_panel_unprepare(struct drm_panel *panel)
- 	struct rad_panel *rad = to_rad_panel(panel);
- 	int ret;
- 
--	if (!rad->prepared)
--		return 0;
--
- 	/*
- 	 * Right after asserting the reset, we need to release it, so that the
- 	 * touch driver can have an active connection with the touch controller
-@@ -322,9 +316,6 @@ static int rad_panel_enable(struct drm_panel *panel)
- 	int color_format = color_format_from_dsi_format(dsi->format);
- 	int ret;
- 
--	if (rad->enabled)
--		return 0;
--
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
- 	ret = rad_panel_push_cmd_list(dsi);
-@@ -389,8 +380,6 @@ static int rad_panel_enable(struct drm_panel *panel)
- 
- 	backlight_enable(rad->backlight);
- 
--	rad->enabled = true;
--
- 	return 0;
- 
- fail:
-@@ -406,9 +395,6 @@ static int rad_panel_disable(struct drm_panel *panel)
- 	struct device *dev = &dsi->dev;
- 	int ret;
- 
--	if (!rad->enabled)
--		return 0;
--
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
- 	backlight_disable(rad->backlight);
-@@ -429,8 +415,6 @@ static int rad_panel_disable(struct drm_panel *panel)
- 		return ret;
- 	}
- 
--	rad->enabled = false;
--
- 	return 0;
- }
- 
-@@ -633,8 +617,7 @@ static void rad_panel_shutdown(struct mipi_dsi_device *dsi)
+ static void acx565akm_power_off(struct acx565akm_panel *lcd)
  {
- 	struct rad_panel *rad = mipi_dsi_get_drvdata(dsi);
+-	if (!lcd->enabled)
+-		return;
+-
+ 	acx565akm_set_display_state(lcd, 0);
+ 	acx565akm_set_sleep_mode(lcd, 1);
+ 	lcd->enabled = false;
+@@ -656,8 +654,7 @@ static void acx565akm_remove(struct spi_device *spi)
+ 	if (lcd->has_bc)
+ 		acx565akm_backlight_cleanup(lcd);
  
--	rad_panel_disable(&rad->panel);
--	rad_panel_unprepare(&rad->panel);
-+	drm_panel_helper_shutdown(&rad->panel);
+-	drm_panel_disable(&lcd->panel);
+-	drm_panel_unprepare(&lcd->panel);
++	drm_panel_helper_shutdown(&lcd->panel);
  }
  
- static const struct of_device_id rad_of_match[] = {
+ static const struct of_device_id acx565akm_of_match[] = {
 -- 
 2.41.0.585.gd2178a4bd4-goog
 
