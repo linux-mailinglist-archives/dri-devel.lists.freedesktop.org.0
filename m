@@ -2,49 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536137706B5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 19:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB36770719
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 19:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC4210E73C;
-	Fri,  4 Aug 2023 17:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 831D310E73F;
+	Fri,  4 Aug 2023 17:29:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com
- [209.85.161.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C844B10E73C;
- Fri,  4 Aug 2023 17:07:32 +0000 (UTC)
-Received: by mail-oo1-f48.google.com with SMTP id
- 006d021491bc7-56c9f7830c2so283038eaf.0; 
- Fri, 04 Aug 2023 10:07:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691168852; x=1691773652;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z1CXsgfrjEAWep9hI/ctvaaP8FIhfUSQJg+TJpDHVxQ=;
- b=GRsppDftlY0+lVsPoXiTO4VuH8OuW+iH5LO2xXJg7ZViEarl1uFw31fA9ezN0KeYI3
- pCeHGoflqRxt9vrRVBF9rzCoMqZ7ZjPvai6o+9prplB3N7AUjkBiyuPhJ+07IOVp1Mwc
- 0HSeNF0nUC2lLVQ9fvjqZcST2qMSVdiZOUXAcw1HBwxyGD8LzQFyss3Pz3rnhmnuFp/9
- WCCs6vj8m2LAHWgXLmzIik38ZasOSNVoU94eiSyUGp8Tnh7066c+CRCiSkGvgqxTLTnt
- gAp0guiuoJD9u31K8bp5S7UXl566XL+d4HjP+zZT9N1sCbHn49OASPAV1UolOcEA0nsv
- CJtQ==
-X-Gm-Message-State: ABy/qLbUmYxrfdv3imtDv87LoWv57oF6TusAjgBtAKCuEZDYUMfoXdX7
- 4LPDpyRDALmEuUtA5Nt6ynAOwN9Y6jfG9vV3SNQ=
-X-Google-Smtp-Source: APBJJlFCJhoiui5Hxa1jzIDk2waWFhczbVSi6aneX2Ij8bD/evEWwOn5+icDcP1ALUzOlsu6rNLTPwSB3X1p4UiH+gU=
-X-Received: by 2002:a05:6820:1686:b0:56c:5e21:c730 with SMTP id
- bc6-20020a056820168600b0056c5e21c730mr18404719oob.1.1691168851909; Fri, 04
- Aug 2023 10:07:31 -0700 (PDT)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A60D10E73E;
+ Fri,  4 Aug 2023 17:29:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Tyd6UftbNxuwg8tGzuLcuT7AnHZw7G5sYhxNX1HkizbMfPQFtMVNey3QzyDzWb7ZvwWzEGIrvRwFQ5su52IwHIrsqOJZItE0hcP+b+Qy4nUgz90ckuz3aWrGZlHcz6LNw/IF/EgBy+tINSKLU7cF7u3L6SDV+rffC3UjzSxu295C00ukcJLdAaL4fOYSXHlzJzsygRIqcgUDBuNWVguSYV19BXPldHRyrNHsTWwkMPGBcLhtUCIkGWhW/a/+C4hTCwR0T7yBzRRiLmW5cQE7GDVNa3BIDLRSZvC+bI/2DmTX57UIGv9+pkTCpctZAO6cvTEUG1Qnj+6YlfY1faSVHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9UeRA0V/IUjHtKcSqukMXqoPmIiycka/e1phoSv0vBI=;
+ b=LEPbH5DTxvoqA+QQKlSJUd7Anjd/x0ltrsJtSNmA1meXUYL45SnQLO6Uav+J5nOFlQuwXZjsovtm74tGWGAjPj7XxBIF5LaqgQ7fiqe49awhfhz2PzXQPwfqFxohnl5MOYo0sG3qloIf49JLCf8DXTONxks37rYBqh15nGwZdJC32+Rd3JeeHDdm85OfjXkv68Pk64MC3lHswvdkwF9m7gLHe2slvYJ/Ip94/TtEpG2BbBGyq7RtLCYlsNLi3ODeUMSb3iyCl+MJGBjT9G+tCxLotUfb27st1cgE6cTuzsY42LhGG/T4F9MT6Q8Ab1uFaiD1ZFssfYpyxJUKphL8sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9UeRA0V/IUjHtKcSqukMXqoPmIiycka/e1phoSv0vBI=;
+ b=HgdvEp9OK7NMaRv/2AZTv0CUEFE2XF4cgmGBfffMGTqXw33X15sxNs+xVxSBRdWKpdJMpSt3ltJ4Dp43W+5Sl86Gjr0FwETqnD10G3ZHZ0D8hd1WrrW7kFaru7OcjYAXGS5qBHaxvadUbZummj4qxpR43qO6CQpTuyrcJ4luDo0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by DM4PR12MB5843.namprd12.prod.outlook.com (2603:10b6:8:66::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
+ 2023 17:29:27 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::236b:d4e2:6fbf:6c2b]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::236b:d4e2:6fbf:6c2b%5]) with mapi id 15.20.6652.021; Fri, 4 Aug 2023
+ 17:29:27 +0000
+Message-ID: <047be9da-5757-4793-a288-90e51fd0d899@amd.com>
+Date: Fri, 4 Aug 2023 13:29:08 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: ensure async flips are only accepted for
+ fast updates
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20230804155613.117310-1-hamza.mahfooz@amd.com>
+Content-Language: en-US
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20230804155613.117310-1-hamza.mahfooz@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT1PR01CA0146.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::25) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-References: <20230803220202.78036-1-robdclark@gmail.com>
- <20230803220202.78036-4-robdclark@gmail.com>
-In-Reply-To: <20230803220202.78036-4-robdclark@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 4 Aug 2023 19:07:19 +0200
-Message-ID: <CAJZ5v0jV+Da+kw5JuGAhuGA6QJKmteCfnjGCk8DrNOe8Gvdg5w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/9] PM / QoS: Fix constraints alloc vs reclaim locking
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM4PR12MB5843:EE_
+X-MS-Office365-Filtering-Correlation-Id: 36b18842-0fd4-44b5-0ac7-08db95105a39
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v3QE5C9Ww0oLmm2AFn/vUKhPkp5+3zWBwvbuLVTdk6noyGaK7WADAD8L+HQoU7IAmmLrqim2qhDajZcnHnfsW+Lymyki1MKt+j+u8Aqsr0uiOh2NMKpgkHDQcWx2rHkP1H9uTEoGIQJCgGx9c6jFkDtMrjzGFv6bQIKCSglT8zCVRpiby4OwGIW6GVQwlKmhPryZkROmBLlY/D60ajjYrOeuY5jH1LEiONRB+Ntc49cGV6oCx/nKvUrC9b3ZsfT2dz90OZQQCsYwm+aoYaJckJAySpH7/llgmuMOC3KZ++iHqzp4mks4NjbWmQTmel4qfswdhryJXsjRA8tqYvZYwV+iRZzY3+6/SwRRl7dgVE7Hvjm8dLnk2ko2nlpD6qRG5XU1YtpOmYJO0JUOWOQP2JWPkkYEZTtJYYJbSe12xbHYrrfS5+KGHMEMbeo963ZQY6JXLr9HD5NuU6TnLkG0FWbpK885zsi/RpDrzoC6JNYP9h8ZsTnpDFXhe46W6PEAekQLrfSpFANcTxPhkZG/xrbpL7jfyOLaKLJaINC700DUV+HVv9NFye1EzK7ZBl26ZyuCUMG6etmIGgttmDn4YK31tdV+S5NK/eO9XxNlD4QX7WdDSg/sTrOiY0je7j6nE7TykNhAcBWNW3ZFHBCcsg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(376002)(136003)(366004)(396003)(39860400002)(186006)(451199021)(1800799003)(44832011)(66476007)(66946007)(66556008)(4326008)(2906002)(38100700002)(2616005)(53546011)(6506007)(7416002)(83380400001)(54906003)(86362001)(6512007)(31696002)(26005)(478600001)(36756003)(6486002)(6666004)(8936002)(8676002)(5660300002)(15650500001)(41300700001)(316002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVJwL05nMFlHaENrTVNWaE9wUTZ0blkwc1NhRmEvWW5rUXdvbVlnY1pMYlVl?=
+ =?utf-8?B?NkpCMFBXTlNMQU1xN0RDZFVMc0s3S0t5clpJZXJqRGNxUWN3T1VKeTIvOUVS?=
+ =?utf-8?B?UFVGY2s1NUlIMk40anROa216aklGVUcxdGNTS1N5RVJnMVBwQVJnM240alVh?=
+ =?utf-8?B?NnYwRW16dC9tT1d4SUNubWNjRllGaXhmNmJwWDJmQkF2NU54RGtJakNiSWY3?=
+ =?utf-8?B?Tktza2JIVFdmdHhVTVZCMlFLdTEvby9zL3NDRTVNOENuR0tmeDhFeU9SYXM1?=
+ =?utf-8?B?YkRPTkY5Rmhxb01PbXhod1BwZHpJVjhrU2pRUElSVGZzWGd3YTlnVS83SHhi?=
+ =?utf-8?B?UU1hQ29GVU5uS3cxRnJ2OHZUVlQ0dUM4ZEhDd2hSejJKaTA4WmlBcmthWFkx?=
+ =?utf-8?B?R1BSdStzVmlZeU9PZlNmN3VBVUFqMkQ5elhHQzFGdXZkN1BvZ0htY3NaUmw1?=
+ =?utf-8?B?a250eCtZaFNGMHBFZExtZXpRR3VXRUxOWjNLWjdLd1ZHd1NGZFhnRWVseWcv?=
+ =?utf-8?B?SGgvVXNEc1gzeTBVMHlFZWx0RW1YNnJ0dDdhWHhRemxQRGd5VVFSUE1FTXNk?=
+ =?utf-8?B?K3hzWURqUUI4N0d6TkRiSStWV0FLYlpZWFFOdlUyb0RoMS9SK29ZN3NmM09T?=
+ =?utf-8?B?SjI2WFZmblVTUFJQZTR1MzZkN2VLRllDQXlFNFNMRmQ0aEkwY3ViOVU0K2V5?=
+ =?utf-8?B?dTFXQzVHaGhvTERqM05kVjRNSmtuZ0JyYVZlZjVBRWVCTFFKT2krNm5SMjBI?=
+ =?utf-8?B?T3dGSXZYQjVpL3FhczNUQmNWRjNzYmhSa1B5Um9RM3pCejNIajIzZjMzVXpn?=
+ =?utf-8?B?aFhJalVzTnV2QjdmN04wUWRicHdtOWV4NGNodWVaZHp1OVl2ZTl2WjY4Rjll?=
+ =?utf-8?B?V0tSRGkrcHlKblovSkhxcGlHTjZqbU9tcFpOeENMTExBMlBsQUpSOFIxa05O?=
+ =?utf-8?B?N3JOdlJSdzRwWE5pRHdsZ2JvQUY1SVpvMHJ1U2NGbmNaelY4SHArN0dzQnN6?=
+ =?utf-8?B?SUl2ZTNMRUswS2ovSGpzMTUvQlZobEZCTlEzaWdhL0FlbXo3Wko2SFZDbzdy?=
+ =?utf-8?B?L0JZaVQrbUlKRUtzcWRSbkE1aTZwK3ZEYUlBT2FYKytUQWhka29jZVNuSjJS?=
+ =?utf-8?B?RlNBR2RoVWVhZjdBVVkxNGp3RStHRnBaYkxEUXFxZTBvZERzYnpiZ1RKYlJ2?=
+ =?utf-8?B?RGxyODJwTkJqOVlUL2h6cWhLQ2ZONDJHTWxHalBGc1MzMXBnd0kyRXlkVUtv?=
+ =?utf-8?B?ei9uaVZ1K1JWMmVxc0xFTkllYzNSUFZVVUdUVHFWemd4MkxNZEpxRDNSRW5T?=
+ =?utf-8?B?aDZvQXZCUXJEVjQva3VxSHVNRFVNQm44QnNOd3BGUG4zTitPcGpDdmxmVmlm?=
+ =?utf-8?B?SW42dkF1M2VmZ1V5VE0xMTl6NE5GbS9LeVNIN1ZMbFVlYnNPalhqTS94UHBI?=
+ =?utf-8?B?aDdjNlp5bTF1dys5cUszdm1jY3hJYkFXaWlIM244QnBpMUhZSDFUMkpVZm5r?=
+ =?utf-8?B?UnNEdE8yOEdqdVFXSDhpSjVTRnZ2dWNsUWpwc2NRelJ3M0x4MVBzYW9TN0Zp?=
+ =?utf-8?B?M2M4OVhqZjU4N0RuRFMxSzl5cHVoVXE2alIyVHppVkp3RWtGYkZjaDNQSENz?=
+ =?utf-8?B?U1IwdGxVUVc2ODFjVC8rNitPWkxjMnNWY3NsOXQyNVNZamlwYWFNMDZYS1Bk?=
+ =?utf-8?B?Qmh5clJOSXQ2eTVRVS8xUkhzUEN3SWpxckhidll1UFRtY3NKbDY3Rnp1aXYx?=
+ =?utf-8?B?N2hjMkhTZjJ4YWN0NHUxVXNoZWptRmI3WGlvV0hQV3Z2Slo3VjQ1b1Z0Ynpr?=
+ =?utf-8?B?QmE5UVZycUczTGUzMVFyOGZXSTk5SFNFUzdveExTWnpJTDFySStkUEtBSXpO?=
+ =?utf-8?B?OHQvTnVCakRzYUl5MklnVW9rMnphT2VGVlB3d3VQd3RieWVWQjBhTEFEMm13?=
+ =?utf-8?B?WUdLUnQ5bmxjMmwyMndncTN5RGdFMlJxYkZzNnl0NmZSOE52L1ROM3FwK0dJ?=
+ =?utf-8?B?VG4ydGNnbXA1a0dieWlRaGN1bERpWTgzTEtNelZGcml5M0JzaG1aV09IQXlp?=
+ =?utf-8?B?dWpwZ08xUnpETk5HUVNSTWh3S0pjcjZ3bDNzSk9iWlFaWWpWbDlRL2xHODBG?=
+ =?utf-8?Q?pwFmDRxM0PkiuTWPGdvvG1s1o?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36b18842-0fd4-44b5-0ac7-08db95105a39
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 17:29:27.1093 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c6GvBynyZ/dWiO/8wcEbL+OoXAskdAyNKhynI/dAIrCfVieOIcLk5YMq7xymS1trF3ntXpJ0GuCXPtqzM1/6BQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5843
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,316 +124,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- "open list:HIBERNATION \(aka Software Suspend,
- aka swsusp\)" <linux-pm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Pavel Machek <pavel@ucw.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- freedreno@lists.freedesktop.org
+Cc: Alan Liu <haoping.liu@amd.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Stylon Wang <stylon.wang@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Melissa Wen <mwen@igalia.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, Marcus Seyfarth <m.seyfarth@gmail.com>,
+ David Tadokoro <davidbtadokoro@usp.br>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Wayne Lin <wayne.lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 4, 2023 at 12:02=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> In the process of adding lockdep annotation for drm GPU scheduler's
-> job_run() to detect potential deadlock against shrinker/reclaim, I hit
-> this lockdep splat:
->
->    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->    WARNING: possible circular locking dependency detected
->    6.2.0-rc8-debug+ #558 Tainted: G        W
->    ------------------------------------------------------
->    ring0/125 is trying to acquire lock:
->    ffffffd6d6ce0f28 (dev_pm_qos_mtx){+.+.}-{3:3}, at: dev_pm_qos_update_r=
-equest+0x38/0x68
->
->    but task is already holding lock:
->    ffffff8087239208 (&gpu->active_lock){+.+.}-{3:3}, at: msm_gpu_submit+0=
-xec/0x178
->
->    which lock already depends on the new lock.
->
->    the existing dependency chain (in reverse order) is:
->
->    -> #4 (&gpu->active_lock){+.+.}-{3:3}:
->           __mutex_lock+0xcc/0x3c8
->           mutex_lock_nested+0x30/0x44
->           msm_gpu_submit+0xec/0x178
->           msm_job_run+0x78/0x150
->           drm_sched_main+0x290/0x370
->           kthread+0xf0/0x100
->           ret_from_fork+0x10/0x20
->
->    -> #3 (dma_fence_map){++++}-{0:0}:
->           __dma_fence_might_wait+0x74/0xc0
->           dma_resv_lockdep+0x1f4/0x2f4
->           do_one_initcall+0x104/0x2bc
->           kernel_init_freeable+0x344/0x34c
->           kernel_init+0x30/0x134
->           ret_from_fork+0x10/0x20
->
->    -> #2 (mmu_notifier_invalidate_range_start){+.+.}-{0:0}:
->           fs_reclaim_acquire+0x80/0xa8
->           slab_pre_alloc_hook.constprop.0+0x40/0x25c
->           __kmem_cache_alloc_node+0x60/0x1cc
->           __kmalloc+0xd8/0x100
->           topology_parse_cpu_capacity+0x8c/0x178
->           get_cpu_for_node+0x88/0xc4
->           parse_cluster+0x1b0/0x28c
->           parse_cluster+0x8c/0x28c
->           init_cpu_topology+0x168/0x188
->           smp_prepare_cpus+0x24/0xf8
->           kernel_init_freeable+0x18c/0x34c
->           kernel_init+0x30/0x134
->           ret_from_fork+0x10/0x20
->
->    -> #1 (fs_reclaim){+.+.}-{0:0}:
->           __fs_reclaim_acquire+0x3c/0x48
->           fs_reclaim_acquire+0x54/0xa8
->           slab_pre_alloc_hook.constprop.0+0x40/0x25c
->           __kmem_cache_alloc_node+0x60/0x1cc
->           kmalloc_trace+0x50/0xa8
->           dev_pm_qos_constraints_allocate+0x38/0x100
->           __dev_pm_qos_add_request+0xb0/0x1e8
->           dev_pm_qos_add_request+0x58/0x80
->           dev_pm_qos_expose_latency_limit+0x60/0x13c
->           register_cpu+0x12c/0x130
->           topology_init+0xac/0xbc
->           do_one_initcall+0x104/0x2bc
->           kernel_init_freeable+0x344/0x34c
->           kernel_init+0x30/0x134
->           ret_from_fork+0x10/0x20
->
->    -> #0 (dev_pm_qos_mtx){+.+.}-{3:3}:
->           __lock_acquire+0xe00/0x1060
->           lock_acquire+0x1e0/0x2f8
->           __mutex_lock+0xcc/0x3c8
->           mutex_lock_nested+0x30/0x44
->           dev_pm_qos_update_request+0x38/0x68
->           msm_devfreq_boost+0x40/0x70
->           msm_devfreq_active+0xc0/0xf0
->           msm_gpu_submit+0x10c/0x178
->           msm_job_run+0x78/0x150
->           drm_sched_main+0x290/0x370
->           kthread+0xf0/0x100
->           ret_from_fork+0x10/0x20
->
->    other info that might help us debug this:
->
->    Chain exists of:
->      dev_pm_qos_mtx --> dma_fence_map --> &gpu->active_lock
->
->     Possible unsafe locking scenario:
->
->           CPU0                    CPU1
->           ----                    ----
->      lock(&gpu->active_lock);
->                                   lock(dma_fence_map);
->                                   lock(&gpu->active_lock);
->      lock(dev_pm_qos_mtx);
->
->     *** DEADLOCK ***
->
->    3 locks held by ring0/123:
->     #0: ffffff8087251170 (&gpu->lock){+.+.}-{3:3}, at: msm_job_run+0x64/0=
-x150
->     #1: ffffffd00b0e57e8 (dma_fence_map){++++}-{0:0}, at: msm_job_run+0x6=
-8/0x150
->     #2: ffffff8087251208 (&gpu->active_lock){+.+.}-{3:3}, at: msm_gpu_sub=
-mit+0xec/0x178
->
->    stack backtrace:
->    CPU: 6 PID: 123 Comm: ring0 Not tainted 6.2.0-rc8-debug+ #559
->    Hardware name: Google Lazor (rev1 - 2) with LTE (DT)
->    Call trace:
->     dump_backtrace.part.0+0xb4/0xf8
->     show_stack+0x20/0x38
->     dump_stack_lvl+0x9c/0xd0
->     dump_stack+0x18/0x34
->     print_circular_bug+0x1b4/0x1f0
->     check_noncircular+0x78/0xac
->     __lock_acquire+0xe00/0x1060
->     lock_acquire+0x1e0/0x2f8
->     __mutex_lock+0xcc/0x3c8
->     mutex_lock_nested+0x30/0x44
->     dev_pm_qos_update_request+0x38/0x68
->     msm_devfreq_boost+0x40/0x70
->     msm_devfreq_active+0xc0/0xf0
->     msm_gpu_submit+0x10c/0x178
->     msm_job_run+0x78/0x150
->     drm_sched_main+0x290/0x370
->     kthread+0xf0/0x100
->     ret_from_fork+0x10/0x20
->
-> The issue is that dev_pm_qos_mtx is held in the runpm suspend/resume (or
-> freq change) path, but it is also held across allocations that could
-> recurse into shrinker.
->
-> Solve this by changing dev_pm_qos_constraints_allocate() into a function
-> that can be called unconditionally before the device qos object is
-> needed and before aquiring dev_pm_qos_mtx.  This way the allocations can
-> be done without holding the mutex.  In the case that we raced with
-> another thread to allocate the qos object, detect this *after* acquiring
-> the dev_pm_qos_mtx and simply free the redundant allocations.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+
+On 2023-08-04 11:56, Hamza Mahfooz wrote:
+> We should be checking to see if async flips are supported in
+> amdgpu_dm_atomic_check() (i.e. not dm_crtc_helper_atomic_check()). Also,
+> async flipping isn't supported if a plane's framebuffer changes memory
+> domains during an atomic commit. So, move the check from
+> dm_crtc_helper_atomic_check() to amdgpu_dm_atomic_check() and check if
+> the memory domain has changed in amdgpu_dm_atomic_check().
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 3f86b60691e6 ("drm/amd/display: only accept async flips for fast updates")
+> Tested-by: Marcus Seyfarth <m.seyfarth@gmail.com>
+> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
 > ---
->  drivers/base/power/qos.c | 60 +++++++++++++++++++++++++++-------------
->  1 file changed, 41 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/base/power/qos.c b/drivers/base/power/qos.c
-> index 8e93167f1783..f3e0c6b65635 100644
-> --- a/drivers/base/power/qos.c
-> +++ b/drivers/base/power/qos.c
-> @@ -185,18 +185,24 @@ static int apply_constraint(struct dev_pm_qos_reque=
-st *req,
->  }
->
->  /*
-> - * dev_pm_qos_constraints_allocate
-> + * dev_pm_qos_constraints_ensure_allocated
->   * @dev: device to allocate data for
->   *
-> - * Called at the first call to add_request, for constraint data allocati=
-on
-> - * Must be called with the dev_pm_qos_mtx mutex held
-> + * Called to ensure that devices qos is allocated, before acquiring
-> + * dev_pm_qos_mtx.
->   */
-> -static int dev_pm_qos_constraints_allocate(struct device *dev)
-> +static int dev_pm_qos_constraints_ensure_allocated(struct device *dev)
->  {
->         struct dev_pm_qos *qos;
->         struct pm_qos_constraints *c;
->         struct blocking_notifier_head *n;
->
-> +       if (!dev)
-> +               return -ENODEV;
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 25 ++++++++++++++++---
+>  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 12 ---------
+>  2 files changed, 21 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 32fb551862b0..e561d99b3f40 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -8086,7 +8086,8 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+>  		 * fast updates.
+>  		 */
+>  		if (crtc->state->async_flip &&
+> -		    acrtc_state->update_type != UPDATE_TYPE_FAST)
+> +		    (acrtc_state->update_type != UPDATE_TYPE_FAST ||
+> +		     get_mem_type(old_plane_state->fb) != get_mem_type(fb)))
+>  			drm_warn_once(state->dev,
+>  				      "[PLANE:%d:%s] async flip with non-fast update\n",
+>  				      plane->base.id, plane->name);
+> @@ -10050,12 +10051,18 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>  
+>  	/* Remove exiting planes if they are modified */
+>  	for_each_oldnew_plane_in_state_reverse(state, plane, old_plane_state, new_plane_state, i) {
+> +		if (old_plane_state->fb && new_plane_state->fb &&
+> +		    get_mem_type(old_plane_state->fb) !=
+> +		    get_mem_type(new_plane_state->fb))
+> +			lock_and_validation_needed = true;
 > +
-> +       if (!IS_ERR_OR_NULL(dev->power.qos))
-> +               return 0;
-> +
->         qos =3D kzalloc(sizeof(*qos), GFP_KERNEL);
->         if (!qos)
->                 return -ENOMEM;
-> @@ -227,10 +233,26 @@ static int dev_pm_qos_constraints_allocate(struct d=
-evice *dev)
->
->         INIT_LIST_HEAD(&qos->flags.list);
->
-> +       mutex_lock(&dev_pm_qos_mtx);
-> +
-> +       if (!IS_ERR_OR_NULL(dev->power.qos)) {
-> +               /*
-> +                * We have raced with another task to create the qos.
-> +                * No biggie, just free the resources we've allocated
-> +                * outside of dev_pm_qos_mtx and move on with life.
-> +                */
-> +               kfree(n);
-> +               kfree(qos);
-> +               goto unlock;
-> +       }
-> +
->         spin_lock_irq(&dev->power.lock);
->         dev->power.qos =3D qos;
->         spin_unlock_irq(&dev->power.lock);
->
-> +unlock:
-> +       mutex_unlock(&dev_pm_qos_mtx);
-> +
->         return 0;
->  }
->
-> @@ -331,17 +353,15 @@ static int __dev_pm_qos_add_request(struct device *=
-dev,
->  {
->         int ret =3D 0;
->
-> -       if (!dev || !req || dev_pm_qos_invalid_req_type(dev, type))
-> +       if (!req || dev_pm_qos_invalid_req_type(dev, type))
->                 return -EINVAL;
->
->         if (WARN(dev_pm_qos_request_active(req),
->                  "%s() called for already added request\n", __func__))
->                 return -EINVAL;
->
-> -       if (IS_ERR(dev->power.qos))
-> +       if (IS_ERR_OR_NULL(dev->power.qos))
->                 ret =3D -ENODEV;
-> -       else if (!dev->power.qos)
-> -               ret =3D dev_pm_qos_constraints_allocate(dev);
->
->         trace_dev_pm_qos_add_request(dev_name(dev), type, value);
->         if (ret)
-> @@ -390,6 +410,10 @@ int dev_pm_qos_add_request(struct device *dev, struc=
-t dev_pm_qos_request *req,
->  {
->         int ret;
->
-> +       ret =3D dev_pm_qos_constraints_ensure_allocated(dev);
-> +       if (ret)
-> +               return ret;
+>  		ret = dm_update_plane_state(dc, state, plane,
+>  					    old_plane_state,
+>  					    new_plane_state,
+>  					    false,
+>  					    &lock_and_validation_needed,
+>  					    &is_top_most_overlay);
 > +
 
-It is a bit unfortunate that the mutex is dropped and then immediately
-re-acquired again.  I don't think that this is strictly necessary.
+nit: extraneous newline
 
->         mutex_lock(&dev_pm_qos_mtx);
->         ret =3D __dev_pm_qos_add_request(dev, req, type, value);
->         mutex_unlock(&dev_pm_qos_mtx);
-> @@ -537,15 +561,11 @@ int dev_pm_qos_add_notifier(struct device *dev, str=
-uct notifier_block *notifier,
->  {
->         int ret =3D 0;
->
-> -       mutex_lock(&dev_pm_qos_mtx);
-> -
-> -       if (IS_ERR(dev->power.qos))
-> -               ret =3D -ENODEV;
-> -       else if (!dev->power.qos)
-> -               ret =3D dev_pm_qos_constraints_allocate(dev);
-> -
-> +       ret =3D dev_pm_qos_constraints_ensure_allocated(dev);
->         if (ret)
-> -               goto unlock;
-> +               return ret;
+>  		if (ret) {
+>  			DRM_DEBUG_DRIVER("dm_update_plane_state() failed\n");
+>  			goto fail;
+> @@ -10069,6 +10076,7 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>  					   new_crtc_state,
+>  					   false,
+>  					   &lock_and_validation_needed);
 > +
-> +       mutex_lock(&dev_pm_qos_mtx);
->
->         switch (type) {
->         case DEV_PM_QOS_RESUME_LATENCY:
-> @@ -565,7 +585,6 @@ int dev_pm_qos_add_notifier(struct device *dev, struc=
-t notifier_block *notifier,
->                 ret =3D -EINVAL;
->         }
->
-> -unlock:
->         mutex_unlock(&dev_pm_qos_mtx);
->         return ret;
->  }
-> @@ -905,10 +924,13 @@ int dev_pm_qos_update_user_latency_tolerance(struct=
- device *dev, s32 val)
->  {
->         int ret;
->
-> +       ret =3D dev_pm_qos_constraints_ensure_allocated(dev);
-> +       if (ret)
-> +               return ret;
-> +
->         mutex_lock(&dev_pm_qos_mtx);
->
-> -       if (IS_ERR_OR_NULL(dev->power.qos)
-> -           || !dev->power.qos->latency_tolerance_req) {
-> +       if (!dev->power.qos->latency_tolerance_req) {
->                 struct dev_pm_qos_request *req;
->
->                 if (val < 0) {
-> --
-> 2.41.0
->
+
+nit: extraneous newline
+
+>  		if (ret) {
+>  			DRM_DEBUG_DRIVER("DISABLE: dm_update_crtc_state() failed\n");
+>  			goto fail;
+> @@ -10297,9 +10305,18 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>  		struct dm_crtc_state *dm_new_crtc_state =
+>  			to_dm_crtc_state(new_crtc_state);
+>  
+> -		dm_new_crtc_state->update_type = lock_and_validation_needed ?
+> -							 UPDATE_TYPE_FULL :
+> -							 UPDATE_TYPE_FAST;
+> +		/*
+> +		 * Only allow async flips for fast updates that don't change
+> +		 * the FB pitch, the DCC state, rotation, etc.
+> +		 */
+> +		if (new_crtc_state->async_flip && lock_and_validation_needed) {
+> +			drm_dbg_atomic(crtc->dev,
+> +				       "[CRTC:%d:%s] async flips are only supported for fast updates\n",
+> +				       crtc->base.id, crtc->name);
+> +			ret = -EINVAL;
+> +			goto fail;
+> +		} else
+
+nit: Add braces here as well
+
+> +			dm_new_crtc_state->update_type = UPDATE_TYPE_FAST;
+
+If async_flip is false you'll be setting update_type to FAST here
+uncoditionally.
+
+You'll still need the lock_and_validation check here, i.e. this:
+
+> 		dm_new_crtc_state->update_type = lock_and_validation_needed ?
+> 							 UPDATE_TYPE_FULL :
+> 							 UPDATE_TYPE_FAST;
+
+Harry
+
+>  	}
+>  
+>  	/* Must be success */
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> index 30d4c6fd95f5..440fc0869a34 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> @@ -398,18 +398,6 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>  		return -EINVAL;
+>  	}
+>  
+> -	/*
+> -	 * Only allow async flips for fast updates that don't change the FB
+> -	 * pitch, the DCC state, rotation, etc.
+> -	 */
+> -	if (crtc_state->async_flip &&
+> -	    dm_crtc_state->update_type != UPDATE_TYPE_FAST) {
+> -		drm_dbg_atomic(crtc->dev,
+> -			       "[CRTC:%d:%s] async flips are only supported for fast updates\n",
+> -			       crtc->base.id, crtc->name);
+> -		return -EINVAL;
+> -	}
+> -
+>  	/* In some use cases, like reset, no stream is attached */
+>  	if (!dm_crtc_state->stream)
+>  		return 0;
+
