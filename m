@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DBF770623
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 18:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7CB770637
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 18:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A89D710E737;
-	Fri,  4 Aug 2023 16:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C9410E0CE;
+	Fri,  4 Aug 2023 16:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3776D10E737
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 16:38:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7701F620B5;
- Fri,  4 Aug 2023 16:38:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2A0C433C7;
- Fri,  4 Aug 2023 16:38:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691167093;
- bh=Eby5n4ZE0AMvm51ITihJARaywMHTaI7+TdCZEB4JlBI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=EkYEymErHlsBYfc6voP/I5ipDUFZRX2PW1a0Dzn5Z52S+nlaFxKTFbCDZ4nzjTEAs
- G9AGKljmTcXzTTcO3fyjbOdtCB5aa31CKRvKZxZjx4q2zX1d55WJeuC8A1uhEBJ7Cr
- DfZ2z5kevHi7QuwwYHc+1qFUSoqRf1nlpS4mLi9gSStEHd/XFFbYG8X6qvz4Nbq8RF
- PVwLGTO47E8PcYGKpQeGGRIFrUMqbgKmkMd0zrW+NSUMKhsq+CEPqdOKkV7PX91S8n
- Ebw6qL0cZ/EEMaC9X3sqcZ/Y/stiL8kaZFgl1leJs3ZA7jVac9poDnPJJkwaxxKWMs
- 7lMKwPPtVLU0A==
-Date: Fri, 4 Aug 2023 11:38:11 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: suijingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH] PCI/VGA: Make the vga_is_firmware_default()
- arch-independent
-Message-ID: <20230804163811.GA144900@bhelgaas>
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C42210E739
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 16:45:13 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-583f65806f8so25441357b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 09:45:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691167512; x=1691772312;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Gce3GksSyfK6ArVao849Q4zbn4ZS8EDW8/xWLe2xoow=;
+ b=dJ+pWZlXWiqD83EvTF5Wldumlru/zTKTEJGN9K0GeVOyF0p+g3V0HmCm6JVBhR0tDk
+ nF9JrwRXj8ObyiEA5YbzB4mpRPt9rdfbTCJJ2KMs7H7I/k5/yUmyor/g/SGOvbR3H3C9
+ JkUFCd6aiFv3N+fXo8CP5PaKmTCEa9YLWZGgv6B74m6kJrz+dnicBdHaNYHW6bIRThcz
+ Z08In0ItVQfA9eWx4Qw16n0HPG4l2+knznjpsMN/qmZotAaUWSJb61nlkIkMIhNmIaDr
+ M72UpCBUQ71NFdXqSP0ejtZ//yZ1rPurGZhxt06jnSVhikfpInzir7O0lWk76117gTZ/
+ sInQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691167512; x=1691772312;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Gce3GksSyfK6ArVao849Q4zbn4ZS8EDW8/xWLe2xoow=;
+ b=H1ghIeem5qWbc9C153hGU4YoxY0842T7ZW90EZH0y9N7YDWjBY1O/6l23q9aPF5Xva
+ gOMz28CY/Vnt88emO/6AL98LljmhRa0NsMJlgOVf1J16u+qV3nDQ38eahw6xfBeRzkXM
+ M4dcnxU7VpOCfQdgR+pEdTM8K+a0vyGJE3xrctEd9q09RGlDqEc66xtejgsgWm+0z23c
+ yM9XGMTNuoGhDXJea2iLTzeAfr55RXOMC/OgYh+YS+pGlJxqwZO11Ii1ShgOKnjNcyW+
+ n1bCqXg/iQUnzC/vyjmY9OHLHFZ4EPn/jz+eH4Wq293kVDczCwX4lg1T8ViC4AlVHCNr
+ 4iWg==
+X-Gm-Message-State: AOJu0YwRzuozyhvswjJSgNDb6AoUDDiSEccFW4SECaerpi+zYwlWS5M7
+ Wf1jpEvlh+oiQGGgtBQ/Qy9sCbHutEM=
+X-Google-Smtp-Source: AGHT+IHELRicqMAiJC/xalDHV8MXFzkF2eGisVKk74KdSF4VX7ITLZiOTRPyH85xOmo1e+LXH34pqg==
+X-Received: by 2002:a81:a186:0:b0:583:e92c:d9cf with SMTP id
+ y128-20020a81a186000000b00583e92cd9cfmr2493659ywg.23.1691167512185; 
+ Fri, 04 Aug 2023 09:45:12 -0700 (PDT)
+Received: from localhost.localdomain ([75.28.21.198])
+ by smtp.gmail.com with ESMTPSA id
+ j63-20020a816e42000000b00582fae92aa7sm825248ywc.93.2023.08.04.09.45.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Aug 2023 09:45:11 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] Support Anbernic RG351V Panel
+Date: Fri,  4 Aug 2023 11:45:01 -0500
+Message-Id: <20230804164503.135169-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e51eb50-aa7b-f771-e53b-499bf899e22e@loongson.cn>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,77 +70,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, linux-pci@vger.kernel.org,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, loongson-kernel@lists.loongnix.cn,
- oe-kbuild-all@lists.linux.dev, bhelgaas@google.com
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
+ Chris Morgan <macromorgan@hotmail.com>, robh+dt@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 04, 2023 at 11:11:12AM +0800, suijingfeng wrote:
-> On 2023/8/3 20:25, kernel test robot wrote:
-> > Hi Sui,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on pci/next]
-> > [also build test ERROR on pci/for-linus linus/master v6.5-rc4 next-20230803]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/PCI-VGA-Make-the-vga_is_firmware_default-arch-independent/20230803-161838
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> > patch link:    https://lore.kernel.org/r/20230803081758.968742-1-suijingfeng%40loongson.cn
-> > patch subject: [PATCH] PCI/VGA: Make the vga_is_firmware_default() arch-independent
-> > config: arm64-randconfig-r026-20230731 (https://download.01.org/0day-ci/archive/20230803/202308032022.yiZngbbk-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.yiZngbbk-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202308032022.yiZngbbk-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> > > > ld.lld: error: undefined symbol: screen_info
-> >     >>> referenced by vgaarb.c:86 (drivers/pci/vgaarb.c:86)
-> >     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
-> >     >>> referenced by vgaarb.c:86 (drivers/pci/vgaarb.c:86)
-> >     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
-> >     >>> referenced by vgaarb.c:88 (drivers/pci/vgaarb.c:88)
-> >     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
-> >     >>> referenced 3 more times
-> > 
-> This is a more like arch-specific problem, It will be pain at many places on platforms
-> that do not export the screen_info symbol. Not only here.
-> 
-> I have already explained that screen_info is arch-dependent many times, but no one cares about me.
-> By using (looking at) screen_info, vgaarb gets infected, and becomes arch-dependent as well.
-> vgaarb deals with VGA class (pdev->class == 0x0300XX) devices only, This makes it device-dependent.
-> Hence, It only works correctly for a small set of PCIe devices on x86.
+From: Chris Morgan <macromorgan@hotmail.com>
 
-This build error report is from an automated service; there's nothing
-personal about it and the automated service isn't going to respond to
-you.
+Add support for the Anbernic RG351V panel. This panel is mostly
+identical to the one used in the 353 series, except it has a different
+panel ID when queried (0x4000 for the 351V, 0x3052 for the 353 panel)
+and will not work without the inclusion of the
+MIPI_DSI_CLOCK_NON_CONTINUOUS flag.
 
-The build issue is just something that will have to be resolved before
-we can consider merging the patch.
+Chris Morgan (2):
+  dt-bindings: display: newvision,nv3051d: Add Anbernic 351V Support
+  drm/panel: nv3051d: Add Support for Anbernic 351V
 
-Any explanation needs to go in the commit logs for the relevant
-patches.
+ .../display/panel/newvision,nv3051d.yaml       | 18 +++++++++++-------
+ .../gpu/drm/panel/panel-newvision-nv3051d.c    | 18 ++++++++++++++++--
+ 2 files changed, 27 insertions(+), 9 deletions(-)
 
-> arch-dependent, device-dependent, subsystem-dependent (part of it rely on ACPI) and
-> loading order dependent, those dependent itself are the problems.
-> It results in various undefined (uncertain) behaviors on non-x86 architectures.
-> 
-> Even on x86, some platform choose to relay on the firmware to solve the multiple GPU coexist problem.
-> so it is also firmware-dependent.
-> 
-> This patch solves part of the above problems listed, target at the *device level*, as early as possible.
-> while they still a few problems could be only solved at the *driver level*.
-> For an example, The display controller in Intel N2000 and d2000 series don't has a dedicated VRAM bar.
-> they use the "stolen memory", which is carve out by somebody (either bios or kernel?).
-> 
-> 
+-- 
+2.34.1
+
