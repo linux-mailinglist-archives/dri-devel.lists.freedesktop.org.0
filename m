@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA117716D7
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 23:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597067716D8
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 23:44:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43ACB10E190;
-	Sun,  6 Aug 2023 21:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55A1610E19B;
+	Sun,  6 Aug 2023 21:44:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
- [IPv6:2607:f8b0:4864:20::f2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA80B10E731
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 15:49:34 +0000 (UTC)
-Received: by mail-qv1-xf2a.google.com with SMTP id
- 6a1803df08f44-63cf4827630so12723736d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 08:49:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20221208.gappssmtp.com; s=20221208; t=1691164174; x=1691768974;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nc76YnTwPgAoVYIjVt7VEqf3H+jooR3FLBPpdziZ4Jw=;
- b=I/a1775xZvZmGkMzLjOsn/YWIVsCv/Z2uO8H/h+WliUhMgz08j8hrG8s/ZvxMTYuu7
- 2s3SGaaa6dUVUfFg5jpLxXDnVUbnfLhUqu96fVMbNLMtumByKPpgLZQUprKHFWNKsV2w
- xeTR9cCmzWRWI5Gw1BfOpV5tSN+Tz+R6k8zWSzKk+/HsL6dAeUnHYVilvg3PpSelzifV
- 3z979SFDdU4uUxwAqUbmacuMlvoFV2Ohx7YagsiM0usIUFW3ejU1Zd4OfbtCsfuK6m6u
- YdSiZYUyPCbkzlpZB7fzqqen6i9iGan9xV5+VkTD6P/HW3qerXb4E0BrmHc6Bsth5j/8
- 2Kaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691164174; x=1691768974;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nc76YnTwPgAoVYIjVt7VEqf3H+jooR3FLBPpdziZ4Jw=;
- b=H9eJQ2CMIkTi/RCjhpHGgeK1fUgWPPkoxt1wxxICHKZ7WNi6bVdApG8FujwAXwHr8F
- w7RROFJKwPfZc5to8+YpRy99+tzTeVBnIa/RZ2DqQ092T6tZSHw3y1wu+8VjEBo6/JQF
- +GJZXEHyZ30SLVBY5KO+w1Lt+a3JbMg3SbnrJoflX1ZqiuQjHJ6fbRsEzUHPma6WU28A
- 3+meR0VCWmMFmMLVuA74aXOOw7emCK43xCyirLfjYv7p2RA9NNLKgeM8Mtdh7F4aP70Q
- EJq88mgCcV51K9c/2j8roW+xJDJ3FdvmdbuVZ9UbDLYMeJvwYdJLUeBAwmQ4YmiU77vc
- SOBA==
-X-Gm-Message-State: AOJu0YzHsFuha17fEJROK5OeJzjNthZlKmb1ehAdvbHWdoG99kY0AmVn
- 8mMBjF6mfEEU1Ln+QdGyFjXM3Q==
-X-Google-Smtp-Source: AGHT+IGGdOpnWgSnKj+s3cetUBVrgvG7bH8Rpmt8mJEyqbz5bn4hIDmbwzrHyLGFa67jWuB6elEM+w==
-X-Received: by 2002:a0c:de13:0:b0:634:20f:471c with SMTP id
- t19-20020a0cde13000000b00634020f471cmr1365092qvk.14.1691164173740; 
- Fri, 04 Aug 2023 08:49:33 -0700 (PDT)
-Received: from [192.168.68.66] (69-165-247-94.cable.teksavvy.com.
- [69.165.247.94]) by smtp.gmail.com with ESMTPSA id
- l7-20020a0ce507000000b0063d2ea55018sm748271qvm.125.2023.08.04.08.49.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Aug 2023 08:49:32 -0700 (PDT)
-Message-ID: <bf2001af-00f2-3a1e-8b79-5747e6607a12@igel.co.jp>
-Date: Fri, 4 Aug 2023 11:49:32 -0400
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38CA810E021;
+ Fri,  4 Aug 2023 18:09:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1691172518; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=fLf+nk6TZ5/qH5xbTHujlQihJ+fdkpdlkHtvB5tAYn+mDVLQU9cQz2LGRlQWX6t7qU
+ PIsg8zwSyXA9qHaEn1pC2HmGu2soyr2QvHIxUHzwizMggUSVt8w7PRc01H6tCC/DTjb6
+ 11ZVN+Kjh1jfu2Ey4Il5LU250qBWCxKZLWJ70jkBEW/gMaIwhbTSoF9HxE7jz186BQaO
+ +rsVlRE8ZMq15tFixuxz+6quYGZEyf7QLN4OiXvpi3OXbzGj22iaEwoAr7hFOiA3xNF4
+ Nia2ihmYMo4f5vpga810CpnuDsEsdvzThiUSmlvmSgdpn1bEeY5JJJ1vPogmTsV5nhBG
+ Ay/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1691172518;
+ s=strato-dkim-0002; d=strato.com;
+ h=References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=KbTSG9OgTKvRp1/Rflsl/+c1/jWgayXkjXruRYIH3Xw=;
+ b=Uk8PNA/duUTotcZ3Frn3wKQfOv+CgK5MVlj8aJ/OQHGQCASRaWUw7zq6iGkZG2rKPu
+ PozBVKfSX+HaCBWKfH095cp5iHAJSSc3LaBOO5zMIIPo9vLyYh0fZUQ2xTb7wRufLxW2
+ YU9lKA0F1ICmYNagjtmM3vF44n1Sn36f00tytfc3uN+64FkXXwr+iOjR1czrZKwRp1Xv
+ bn7gjANuPrTjbG6tK1cvNp3hArnRGOlqHgdKcUNh17bJA+VnAoNZ6TsRsWdYBdcB+PPn
+ HSF8a0fzrzjPA+P5GTW1boaHYWSYVLxPkE/GfR4sZwL2PZUa1Pa4p9N+dQmEp2frKFdE
+ j4+A==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1691172518;
+ s=strato-dkim-0002; d=kravcenko.com;
+ h=References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=KbTSG9OgTKvRp1/Rflsl/+c1/jWgayXkjXruRYIH3Xw=;
+ b=A0opKnKoCEgKBI3styBUJ26OhIZbUV77w1z0cXQobnxZspsnnl4IJloSs3q+pOTnis
+ TBjWAuOwWQUMoq4y7thXEPm7K6b2xpjs/dc5zPMlA/ArB2Rrlt88fIy9oPR/pp/CFIS0
+ OFY32W3WZTpFr0ETQ+gPhh4i5D9lv6xOQ1VxFPGDnFWxOqmOd632fmVt4XroIgpSvrxm
+ Zef73QJ97qvcv/9m2uBoXMSCn/GhJwbvs/pQWZSnhzVkupL5Q6JB+EA5xPhWr315CbVv
+ Sx+WcqF9lTOWZFtE/qJpasi7D1lHcdpAz/AnKAKMdsdR2nak60XvGmskeXv4H33qVSZA
+ foQw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1691172518;
+ s=strato-dkim-0003; d=kravcenko.com;
+ h=References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=KbTSG9OgTKvRp1/Rflsl/+c1/jWgayXkjXruRYIH3Xw=;
+ b=0an8gO4fImtydXd66lp/kXKz3RH+alieDeZJc2Zln8/f9ldqZYpcQvqjsXwz7TnmmI
+ rkO5nLWsUfOL3PrF7hDw==
+X-RZG-AUTH: ":I2AFc2Cjaf5HiRB0lhnvZ9elhwku56KjVuxY6AZJWRy8C0aEhFGYVtZdsoywGOIVpSHY0o63PckPhiSO1IhQGG0mBjo18W4hBO/Ijw=="
+Received: from p200300c7f704d301468a5bfffe84f964.dip0.t-ipconnect.de
+ by smtp.strato.de (RZmta 49.6.6 AUTH) with ESMTPSA id dd2654z74I8cXS7
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 4 Aug 2023 20:08:38 +0200 (CEST)
+Date: Fri, 4 Aug 2023 20:08:30 +0200 (CEST)
+From: Olaf Skibbe <news@kravcenko.com>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: nouveau bug in linux/6.1.38-2
+In-Reply-To: <CACO55ttcUEUjdVgx4y7pv26VAGeHS5q1wVKWrMw5=o9QLaJLZw@mail.gmail.com>
+Message-ID: <977ac5b0-4ab8-7782-10e1-b4bee6b58030@kravcenko.com>
+References: <20be6650-5db3-b72a-a7a8-5e817113cff5@kravcenko.com>
+ <c27fb4dd-b2dc-22de-4425-6c7db5f543ba@leemhuis.info>
+ <CACO55ttcUEUjdVgx4y7pv26VAGeHS5q1wVKWrMw5=o9QLaJLZw@mail.gmail.com>
+User-Agent: Alpine 2.26 (DEB 649 2022-06-02)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH 1/2] drm: rcar-du: Add more formats to
- DRM_MODE_BLEND_PIXEL_NONE support
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230728200714.2084223-1-dhobsong@igel.co.jp>
- <20230803234703.GJ9722@pendragon.ideasonboard.com>
- <20230803235315.GL9722@pendragon.ideasonboard.com>
- <20230804000615.GN9722@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Damian Hobson-Garcia <dhobsong@igel.co.jp>
-In-Reply-To: <20230804000615.GN9722@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed;
+ boundary="-1463786238-675451933-1691172518=:22036"
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Sun, 06 Aug 2023 21:43:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,101 +87,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
- taki@igel.co.jp, dri-devel@lists.freedesktop.org
+Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
+ nouveau@lists.freedesktop.org, 1042753@bugs.debian.org,
+ dri-devel@lists.freedesktop.org, Thorsten Leemhuis <regressions@leemhuis.info>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Thank you for the review.
+---1463786238-675451933-1691172518=:22036
+Content-Type: text/plain; format=flowed; charset=US-ASCII
 
-On 2023/08/03 20:06, Laurent Pinchart wrote:
-> On Fri, Aug 04, 2023 at 02:53:17AM +0300, Laurent Pinchart wrote:
->> On Fri, Aug 04, 2023 at 02:47:04AM +0300, Laurent Pinchart wrote:
->>> Hi Damian,
->>>
->>> Thank you for the patch.
->>>
->>> On Fri, Jul 28, 2023 at 04:07:13PM -0400, Damian Hobson-Garcia wrote:
->>>> Add additional pixel formats for which blending is disabling when
->>> Did you mean "disabled" instead of "disabling" ?
+Dear all,
 
+On Fri, 4 Aug 2023 at 14:15, Karol Herbst wrote:
 
-Oops.  Yes, that's exactly what I meant.
-
-
->>>
->>>> DRM_MODE_BLEND_PIXEL_NONE is set.
->>>>
->>>> Refactor the fourcc selection into a separate function to handle the
->>>> increased number of formats.
->>>>
->>>> Signed-off-by: Damian Hobson-Garcia <dhobsong@igel.co.jp>
->>>> ---
->>>>   drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 49 ++++++++++++-------
->>>>   1 file changed, 32 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
->>>> index 45c05d0ffc70..96241c03b60f 100644
->>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
->>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
->>>> @@ -176,6 +176,37 @@ static const u32 rcar_du_vsp_formats_gen4[] = {
->>>>   	DRM_FORMAT_Y212,
->>>>   };
->>>>   
->>>> +static u32 rcar_du_vsp_state_get_format(struct rcar_du_vsp_plane_state *state)
->>>> +{
->>>> +	u32 fourcc = state->format->fourcc;
->>>> +
->>>> +	if (state->state.pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
->>>> +		switch (fourcc) {
->>>> +		case DRM_FORMAT_ARGB1555:
->>>> +			fourcc = DRM_FORMAT_XRGB1555;
->>>> +			break;
->>>> +
->>>> +		case DRM_FORMAT_ARGB4444:
->>>> +			fourcc = DRM_FORMAT_XRGB4444;
->>>> +			break;
->>>> +
->>>> +		case DRM_FORMAT_ARGB8888:
->>>> +			fourcc = DRM_FORMAT_XRGB8888;
->>>> +			break;
->>>> +
->>>> +		case DRM_FORMAT_BGRA8888:
->>>> +			fourcc = DRM_FORMAT_BGRX8888;
->>>> +			break;
->>>> +
->>>> +		case DRM_FORMAT_RGBA1010102:
->>>> +			fourcc = DRM_FORMAT_RGBX1010102;
->>>> +			break;
->>> Should DRM_FORMAT_ARGB2101010 be added as well, or did you leave it out
->>> intentionally ?
-
-Yes, it was intentionally left out for the time being for the
-reason that you noted (i.e. DRM_FORMAT_XRGB2101010 not
-being handled by the DU driver).
-
->> It looks like DRM_FORMAT_ARGB2101010 will require a bit more work, as
->> DRM_FORMAT_XRGB2101010 is not handled by the DU driver at the moment.
->> Let's do so with a patch on top of this series.
-Yes, I was thinking the same thing.
-> Replying to myself again, the datasheet doesn't explicitly list
-> DRM_FORMAT_XRGB2101010 as supported, but the generic mechanism to
-> specify the location of the components should work fine for that format.
-> Is this something you would be able to test ?
-
-Unfortunately I don't have a Gen 4 system on hand to test the 2-10-10-10 
-formats with.
-I will double-check with the office in Japan, but I don't think that 
-they have one either.
-
+>>> 62aecf23f3d1 drm/nouveau: add nv_encoder pointer check for NULL
+>>> fb725beca62d drm/nouveau/dp: check for NULL nv_connector->native_mode
+>>> 90748be0f4f3 drm/nouveau: don't detect DSM for non-NVIDIA device
+>>> 5a144bad3e75 nouveau: fix client work fence deletion race
 >
->> There's no need to send
->> a v2, I can handle the simple change in the commit message if you let me
->> know whether my comment is right or wrong.
+> mind retrying with only fb725beca62d and 62aecf23f3d1 reverted? Would 
+> be weird if the other two commits are causing it. If that's the case, 
+> it's a bit worrying that reverting either of the those causes issues, 
+> but maybe there is a good reason for it. Anyway, mind figuring out 
+> which of the two you need reverted to fix your issue? Thanks!
 
+The result is:
 
-Thank you,
-Damian
+Patch with commit fb725beca62d reverted: Graphics works. I attached the 
+respective patch again to this mail.
 
+Patch with commit 62aecf23f3d1 reverted: Screen remains black, error 
+message:
+
+# dmesg | grep -A 36 "cut here"
+[    2.921358] ------------[ cut here ]------------
+[    2.921361] WARNING: CPU: 1 PID: 176 at drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c:460 nvkm_dp_acquire+0x26a/0x490 [nouveau]
+[    2.921627] Modules linked in: sd_mod(E) t10_pi(E) crc64_rocksoft(E) sr_mod(E) crc64(E) crc_t10dif(E) crct10dif_generic(E) cdrom(E) nouveau(E+) mxm_wmi(E) i2c_algo_bit(E) drm_display_helper(E) cec(E) ahci(E) rc_core(E) drm_ttm_helper(E) libahci(E) ttm(E) ehci_pci(E) crct10dif_pclmul(E) crct10dif_common(E) ehci_hcd(E) drm_kms_helper(E) crc32_pclmul(E) firewire_ohci(E) sdhci_pci(E) cqhci(E) libata(E) e1000e(E) sdhci(E) psmouse(E) crc32c_intel(E) lpc_ich(E) ptp(E) i2c_i801(E) scsi_mod(E) i2c_smbus(E) firewire_core(E) scsi_common(E) usbcore(E) crc_itu_t(E) mmc_core(E) drm(E) pps_core(E) usb_common(E) battery(E) video(E) wmi(E) button(E)
+[    2.921695] CPU: 1 PID: 176 Comm: kworker/u16:5 Tainted: G            E      6.1.0-0.a.test-amd64 #1  Debian 6.1.38-2a~test
+[    2.921701] Hardware name: Dell Inc. Latitude E6510/0N5KHN, BIOS A17 05/12/2017
+[    2.921705] Workqueue: nvkm-disp nv50_disp_super [nouveau]
+[    2.921948] RIP: 0010:nvkm_dp_acquire+0x26a/0x490 [nouveau]
+[    2.922192] Code: 48 8b 44 24 58 65 48 2b 04 25 28 00 00 00 0f 85 37 02 00 00 48 83 c4 60 44 89 e0 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc cc <0f> 0b c1 e8 03 41 88 6d 62 44 89 fe 48 89 df 48 69 c0 cf 0d d6 26
+[    2.922196] RSP: 0018:ffffc077c04dfd60 EFLAGS: 00010246
+[    2.922201] RAX: 0000000000041eb0 RBX: ffff9a8482624c00 RCX: 0000000000041eb0
+[    2.922204] RDX: ffffffffc0b47760 RSI: 0000000000000000 RDI: ffffc077c04dfcf0
+[    2.922206] RBP: 0000000000000001 R08: ffffc077c04dfc64 R09: 0000000000005b76
+[    2.922209] R10: 000000000000000d R11: ffffc077c04dfde0 R12: 00000000ffffffea
+[    2.922212] R13: ffff9a8517541e00 R14: 0000000000044d45 R15: 0000000000000000
+[    2.922215] FS:  0000000000000000(0000) GS:ffff9a85a3c40000(0000) knlGS:0000000000000000
+[    2.922219] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    2.922222] CR2: 000055f660bcb3a8 CR3: 0000000197610000 CR4: 00000000000006e0
+[    2.922226] Call Trace:
+[    2.922231]  <TASK>
+[    2.922235]  ? __warn+0x7d/0xc0
+[    2.922244]  ? nvkm_dp_acquire+0x26a/0x490 [nouveau]
+[    2.922487]  ? report_bug+0xe6/0x170
+[    2.922494]  ? handle_bug+0x41/0x70
+[    2.922501]  ? exc_invalid_op+0x13/0x60
+[    2.922505]  ? asm_exc_invalid_op+0x16/0x20
+[    2.922512]  ? init_reset_begun+0x20/0x20 [nouveau]
+[    2.922708]  ? nvkm_dp_acquire+0x26a/0x490 [nouveau]
+[    2.922954]  nv50_disp_super_2_2+0x70/0x430 [nouveau]
+[    2.923200]  nv50_disp_super+0x113/0x210 [nouveau]
+[    2.923445]  process_one_work+0x1c7/0x380
+[    2.923456]  worker_thread+0x4d/0x380
+[    2.923463]  ? rescuer_thread+0x3a0/0x3a0
+[    2.923469]  kthread+0xe9/0x110
+[    2.923476]  ? kthread_complete_and_exit+0x20/0x20
+[    2.923482]  ret_from_fork+0x22/0x30
+[    2.923493]  </TASK>
+[    2.923494] ---[ end trace 0000000000000000 ]---
+
+(Maybe it's worth to mention that the LED back-light is on, while the 
+screen appears black.)
+
+Cheers,
+Olaf
+
+P.S.: By the way: as a linux user for more than 20 years, I am very 
+pleased to have the opportunity to contribute at least a little bit to 
+the improvement. I'd like to use the chance to thank you all very much 
+for building and developing this great operating system.
+---1463786238-675451933-1691172518=:22036
+Content-Type: text/x-diff; name=0002-Revert-drm-nouveau-dp-check-for-NULL-nv_connector-na.patch
+Content-Transfer-Encoding: BASE64
+Content-ID: <6f94cf73-1a71-90ac-9374-6c19b6d5ca06@cam.uni-heidelberg.de>
+Content-Description: 
+Content-Disposition: attachment; filename=0002-Revert-drm-nouveau-dp-check-for-NULL-nv_connector-na.patch
+
+RnJvbSA0N2MwZTkzOGJlZWY3MzM1ZmZhMTc5ZjEwMDY3NTRmOTY2NGM2YzRk
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KRnJvbTogRGllZGVyaWsgZGUg
+SGFhcyA8ZGlkaS5kZWJpYW5AY2tub3cub3JnPg0KRGF0ZTogTW9uLCAzMSBK
+dWwgMjAyMyAxOTo1NTo1NCArMDIwMA0KU3ViamVjdDogW1BBVENIIDIvNF0g
+UmV2ZXJ0ICJkcm0vbm91dmVhdS9kcDogY2hlY2sgZm9yIE5VTEwNCiBudl9j
+b25uZWN0b3ItPm5hdGl2ZV9tb2RlIg0KDQpUaGlzIHJldmVydHMgY29tbWl0
+IGZiNzI1YmVjYTYyZDE3NWMwMmNhNjE5YzI3MDM3YzE0ZjdhYjhlN2MuDQot
+LS0NCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rv
+ci5jIHwgNCArKy0tDQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5jDQppbmRleCBmZDk4
+NDczM2I4ZTYuLjE5OTFiYmIxZDA1YyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmMNCisrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmMNCkBA
+IC05NjYsNyArOTY2LDcgQEAgbm91dmVhdV9jb25uZWN0b3JfZ2V0X21vZGVz
+KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQogCS8qIERldGVy
+bWluZSBkaXNwbGF5IGNvbG91ciBkZXB0aCBmb3IgZXZlcnl0aGluZyBleGNl
+cHQgTFZEUyBub3csDQogCSAqIERQIHJlcXVpcmVzIHRoaXMgYmVmb3JlIG1v
+ZGVfdmFsaWQoKSBpcyBjYWxsZWQuDQogCSAqLw0KLQlpZiAoY29ubmVjdG9y
+LT5jb25uZWN0b3JfdHlwZSAhPSBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUyAm
+JiBudl9jb25uZWN0b3ItPm5hdGl2ZV9tb2RlKQ0KKwlpZiAoY29ubmVjdG9y
+LT5jb25uZWN0b3JfdHlwZSAhPSBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUykN
+CiAJCW5vdXZlYXVfY29ubmVjdG9yX2RldGVjdF9kZXB0aChjb25uZWN0b3Ip
+Ow0KIA0KIAkvKiBGaW5kIHRoZSBuYXRpdmUgbW9kZSBpZiB0aGlzIGlzIGEg
+ZGlnaXRhbCBwYW5lbCwgaWYgd2UgZGlkbid0DQpAQCAtOTg3LDcgKzk4Nyw3
+IEBAIG5vdXZlYXVfY29ubmVjdG9yX2dldF9tb2RlcyhzdHJ1Y3QgZHJtX2Nv
+bm5lY3RvciAqY29ubmVjdG9yKQ0KIAkgKiAibmF0aXZlIiBtb2RlIGFzIHNv
+bWUgVkJJT1MgdGFibGVzIHJlcXVpcmUgdXMgdG8gdXNlIHRoZQ0KIAkgKiBw
+aXhlbCBjbG9jayBhcyBwYXJ0IG9mIHRoZSBsb29rdXAuLi4NCiAJICovDQot
+CWlmIChjb25uZWN0b3ItPmNvbm5lY3Rvcl90eXBlID09IERSTV9NT0RFX0NP
+Tk5FQ1RPUl9MVkRTICYmIG52X2Nvbm5lY3Rvci0+bmF0aXZlX21vZGUpDQor
+CWlmIChjb25uZWN0b3ItPmNvbm5lY3Rvcl90eXBlID09IERSTV9NT0RFX0NP
+Tk5FQ1RPUl9MVkRTKQ0KIAkJbm91dmVhdV9jb25uZWN0b3JfZGV0ZWN0X2Rl
+cHRoKGNvbm5lY3Rvcik7DQogDQogCWlmIChudl9lbmNvZGVyLT5kY2ItPnR5
+cGUgPT0gRENCX09VVFBVVF9UVikNCi0tIA0KMi40MC4xDQoNCg==
+
+---1463786238-675451933-1691172518=:22036--
