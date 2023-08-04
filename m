@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB041770A70
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 23:07:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B30770A72
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 23:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5083410E135;
-	Fri,  4 Aug 2023 21:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA6FA10E133;
+	Fri,  4 Aug 2023 21:07:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07F2710E12F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 21:07:17 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-686f38692b3so2418395b3a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 14:07:17 -0700 (PDT)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF88110E12F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 21:07:19 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-686f94328a4so1744051b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 14:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1691183237; x=1691788037;
+ d=chromium.org; s=google; t=1691183239; x=1691788039;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+K4pAadzRZN083YWndwfDzadQIgjy+stzVGii5iIJGU=;
- b=T1UYVJsN721ozkISMV86q9Yazgfhma0y3bUeJgLTkokFM2FXoQfsXSElONE+8QorfW
- 6KJCMyYa6HwgGob86Pamhm3mAAKLOuEG/C24hVShpaprAQaj9ga275WVxyVBsuNTp4Xq
- 4YsIw1eOx9vVerNFIlXmAaIu6WLUGVO5/Ovsk=
+ bh=Zs0Gv4Fg+9bXbPDS+x5MeuiOn4j7KTC6rQDcvADWb+8=;
+ b=TFhIf+Y92Yutq1q3r5QXOVtSDF6+EmNeMvB5c54nDo5/RLID3p2uAWC+vf3ZkgRLgr
+ 5lVq8JsIHNr5sA1uIXxUjC0RY8/VDxXP02vT4SK9+Cx6ej0mEB22eYcCWFY8MFDlmbTm
+ vgGaUnrtDEb268mi/DcLufyaS3DzHeChCP1/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691183237; x=1691788037;
+ d=1e100.net; s=20221208; t=1691183239; x=1691788039;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+K4pAadzRZN083YWndwfDzadQIgjy+stzVGii5iIJGU=;
- b=XOgz9Xdffhx7hoisX7Jx88rLOXru2lg66QvORvw+3BLiTc/B1UPJcY8HsQouPW4Osk
- 4lw4dCavgoVicuaiOAcIDf/OjNaX7E3MhC4UujuTBfQdFoR0xJ2AfefpPaxu0ly1VMfc
- ZEEbFDc8+H+wVPzsqc2DmFXxL33zrNPqqrKZnYE5wMyQhr7k2Dt302glbSFKq2x0M/mK
- gQGdMQ6CMB/KT1uO3broVrIzvMh24NvIuTNSSWNgFYL/4rnYymc01t1Hd/pUab2Nwyjv
- ok1dGXlJyHPIRCwF5vyYzX48nbxU/E7hKu/41NYaIW6MfLoPcNNjmNsWkiB2UBEHB74k
- 68nQ==
-X-Gm-Message-State: AOJu0YwSd3/XZUVe3I1tpU0Pz/KnOb4F7iGrFs5PFraWJDkWYGJt13F6
- 9Kb7w6cSfmQSjD+ZcQVOZAmEbC6DKPGAvtMiRrxaTAuq
-X-Google-Smtp-Source: AGHT+IGmH6I8v9mGTkjyzHcFPAzmzyunDSLA0TNtyofGKN5WngoOgQ9qT4q8whBF8qocjpEoAnGaUA==
-X-Received: by 2002:a05:6a21:7189:b0:133:f860:ac42 with SMTP id
- wq9-20020a056a21718900b00133f860ac42mr3100626pzb.34.1691183236984; 
- Fri, 04 Aug 2023 14:07:16 -0700 (PDT)
+ bh=Zs0Gv4Fg+9bXbPDS+x5MeuiOn4j7KTC6rQDcvADWb+8=;
+ b=ZQYPYuXIihaUMFUkJUSj/XrCSaBqo/+vf26Pgecyu+nAD/p9d12Q3AUFoq8/zo+avg
+ 8LFXhWqU94W2aAL2zR7STWeUwLczq05a45xSr7w0fP970neCXYAZYWyDfo/Qrnc1MSjq
+ XEhWKa1fBtODCii/jR3y/8sbZyrq/yrvqwj+oXGjIPyz6M4m9YXOeXDNX29VfCut26er
+ ZMU0HxYHdcZCzm6Ukp9FOYLtW/Zz+Aimtp93i2fK1Lzpcs8S3mI9Vek1esvus/dBFo5n
+ f4pRXNKRLxkYcL5EcqggvTavvO4otk8s3jtA1KYBC3C3GMLNWIaGbsCqGMqtu5p6eC0K
+ HVBA==
+X-Gm-Message-State: AOJu0YyoeQIKrITABr5ACZciw5ll7SWJLuwUgZzNSy3wwBPiSIikPMd1
+ lma6+kY9d7RMj/QoKbiU8CRKdKz9iEwVn+ulPpciwXd6
+X-Google-Smtp-Source: AGHT+IH+1u2vz/+hPiEdDmFCaY5UcWnHhuoQ/4+7m/iN7gksQgGInNJt1xM7GfEqn1Jrxnt9mXGsqw==
+X-Received: by 2002:a05:6a20:2587:b0:137:c971:6a0c with SMTP id
+ k7-20020a056a20258700b00137c9716a0cmr852950pzd.31.1691183238826; 
+ Fri, 04 Aug 2023 14:07:18 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:e186:e5d2:e60:bad3])
  by smtp.gmail.com with ESMTPSA id
- n22-20020aa78a56000000b0068664ace38asm2037584pfa.19.2023.08.04.14.07.14
+ n22-20020aa78a56000000b0068664ace38asm2037584pfa.19.2023.08.04.14.07.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 14:07:15 -0700 (PDT)
+ Fri, 04 Aug 2023 14:07:18 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
-Subject: [RFC PATCH 02/10] drm/panel: s6e63m0: Don't store+check
+Subject: [RFC PATCH 03/10] drm/panel: otm8009a: Don't double check
  prepared/enabled
-Date: Fri,  4 Aug 2023 14:06:05 -0700
-Message-ID: <20230804140605.RFC.2.Iabafd062e70f6b6b554cf23eeb75f57a80f7e985@changeid>
+Date: Fri,  4 Aug 2023 14:06:06 -0700
+Message-ID: <20230804140605.RFC.3.I6a4a3c81c78acf5acdc2e5b5d936e19bf57ec07a@changeid>
 X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
 In-Reply-To: <20230804210644.1862287-1-dianders@chromium.org>
 References: <20230804210644.1862287-1-dianders@chromium.org>
@@ -85,44 +85,63 @@ prepared/enabled state. Even if someone was relying on the
 double-check before, that double-check is now in the core and not
 needed in individual drivers.
 
-For the s6e63m0 panel driver, this actually fixes a subtle/minor error
-handling bug in s6e63m0_prepare(). In one error case s6e63m0_prepare()
-called s6e63m0_unprepare() directly if there was an error. This call
-to s6e63m0_unprepare() would have been a no-op since ctx->prepared
-wasn't set yet.
+For the "otm8009a" driver we fully remove the storing of the "enabled"
+state and we remove the double-checking, but we still keep the storing
+of the "prepared" state since the backlight code in the driver checks
+it. This backlight code may not be perfectly safe since there doesn't
+appear to be sufficient synchronization between the backlight driver
+(which userspace can call into directly) and the code that's
+unpreparing the panel. However, this lack of safety is not new and can
+be addressed in a future patch.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
+From quick inspection, I think the right way to handle the backlight
+properly is:
+1. Start calling backlight_get_brightness() instead of directly
+   getting "bd->props.brightness" and bd->props.power. This should
+   return 0 for a disabled (or blanked or powered off) backlight.
+2. Cache the backlight level in "struct otm8009a"
+3. If the backlight isn't changing compared to the cached value, make
+   otm8009a_backlight_update_status() a no-op.
+4. Remove the caching of the "prepared" value.
 
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 25 -------------------
- 1 file changed, 25 deletions(-)
+That should work and always be safe because we always enable/disable
+the backlight in the panel's enable() and disable() functions. The
+backlight core has proper locking in this case. A disabled backlight
+will always return a level of 0 which will always make the backlight's
+update_status a no-op when the panel is disabled and keep us from
+trying to talk to the panel when it's off. Userspace can't directly
+cause a backlight to be enabled/disabled, it can only affect the other
+blanking modes.
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-index b34fa4d5de07..a0e5698275a5 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-@@ -270,9 +270,6 @@ struct s6e63m0 {
- 	struct regulator_bulk_data supplies[2];
+ .../gpu/drm/panel/panel-orisetech-otm8009a.c    | 17 -----------------
+ 1 file changed, 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+index 898b892f1143..93183f30d7d6 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -70,7 +70,6 @@ struct otm8009a {
  	struct gpio_desc *reset_gpio;
- 
--	bool prepared;
+ 	struct regulator *supply;
+ 	bool prepared;
 -	bool enabled;
--
- 	/*
- 	 * This field is tested by functions directly accessing bus before
- 	 * transfer, transfer is skipped if it is set. In case of transfer
-@@ -502,9 +499,6 @@ static int s6e63m0_disable(struct drm_panel *panel)
- {
- 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+ };
+ 
+ static const struct drm_display_mode modes[] = {
+@@ -267,9 +266,6 @@ static int otm8009a_disable(struct drm_panel *panel)
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+ 	int ret;
  
 -	if (!ctx->enabled)
--		return 0;
+-		return 0; /* This is not an issue so we return 0 here */
 -
  	backlight_disable(ctx->bl_dev);
  
- 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_OFF);
-@@ -512,8 +506,6 @@ static int s6e63m0_disable(struct drm_panel *panel)
- 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_ENTER_SLEEP_MODE);
+ 	ret = mipi_dsi_dcs_set_display_off(dsi);
+@@ -282,8 +278,6 @@ static int otm8009a_disable(struct drm_panel *panel)
+ 
  	msleep(120);
  
 -	ctx->enabled = false;
@@ -130,55 +149,33 @@ index b34fa4d5de07..a0e5698275a5 100644
  	return 0;
  }
  
-@@ -522,17 +514,12 @@ static int s6e63m0_unprepare(struct drm_panel *panel)
- 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
- 	int ret;
+@@ -291,9 +285,6 @@ static int otm8009a_unprepare(struct drm_panel *panel)
+ {
+ 	struct otm8009a *ctx = panel_to_otm8009a(panel);
  
 -	if (!ctx->prepared)
 -		return 0;
 -
- 	s6e63m0_clear_error(ctx);
- 
- 	ret = s6e63m0_power_off(ctx);
- 	if (ret < 0)
- 		return ret;
- 
--	ctx->prepared = false;
--
- 	return 0;
- }
- 
-@@ -541,9 +528,6 @@ static int s6e63m0_prepare(struct drm_panel *panel)
- 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+ 	if (ctx->reset_gpio) {
+ 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 		msleep(20);
+@@ -311,9 +302,6 @@ static int otm8009a_prepare(struct drm_panel *panel)
+ 	struct otm8009a *ctx = panel_to_otm8009a(panel);
  	int ret;
  
 -	if (ctx->prepared)
 -		return 0;
 -
- 	ret = s6e63m0_power_on(ctx);
- 	if (ret < 0)
- 		return ret;
-@@ -564,8 +548,6 @@ static int s6e63m0_prepare(struct drm_panel *panel)
- 	if (ret < 0)
- 		s6e63m0_unprepare(panel);
- 
--	ctx->prepared = true;
--
- 	return ret;
- }
- 
-@@ -573,9 +555,6 @@ static int s6e63m0_enable(struct drm_panel *panel)
+ 	ret = regulator_enable(ctx->supply);
+ 	if (ret < 0) {
+ 		dev_err(panel->dev, "failed to enable supply: %d\n", ret);
+@@ -341,13 +329,8 @@ static int otm8009a_enable(struct drm_panel *panel)
  {
- 	struct s6e63m0 *ctx = panel_to_s6e63m0(panel);
+ 	struct otm8009a *ctx = panel_to_otm8009a(panel);
  
 -	if (ctx->enabled)
 -		return 0;
 -
- 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_EXIT_SLEEP_MODE);
- 	msleep(120);
- 	s6e63m0_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_ON);
-@@ -588,8 +567,6 @@ static int s6e63m0_enable(struct drm_panel *panel)
- 
  	backlight_enable(ctx->bl_dev);
  
 -	ctx->enabled = true;
@@ -186,15 +183,6 @@ index b34fa4d5de07..a0e5698275a5 100644
  	return 0;
  }
  
-@@ -709,8 +686,6 @@ int s6e63m0_probe(struct device *dev, void *trsp,
- 	dev_set_drvdata(dev, ctx);
- 
- 	ctx->dev = dev;
--	ctx->enabled = false;
--	ctx->prepared = false;
- 
- 	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
- 	if (ret)
 -- 
 2.41.0.585.gd2178a4bd4-goog
 
