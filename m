@@ -1,97 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797AF76F9FD
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 08:22:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B476FA42
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 08:39:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C52C110E25B;
-	Fri,  4 Aug 2023 06:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8961C10E24C;
+	Fri,  4 Aug 2023 06:39:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2076.outbound.protection.outlook.com [40.107.93.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BECD10E249;
- Fri,  4 Aug 2023 06:22:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F3010E24C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 06:39:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691131167; x=1722667167;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=3Yq6LgrZRFhoHd084+EU7dOu5CdnUpJl/dp08YeOM2E=;
+ b=Nyld1pbEtHR14uvHePtva9PZrNouDRAXGopYjBjzNp+mfH/G8oghODZ4
+ S82wVaDR7RAE4FWU61FT0OEcA4zMB4KP+67y0ZE+l1z2aDoXTjrpPVgQv
+ IPRS2e89v6cCmQLeMEDmkglU3xCWG8NKdBo6ZUm4b2cQ6ttr8MrDQY5ur
+ b7QW6tMfCFjUn85hXBRghdnVul6wjeUQdhRvWtSOkwa2gZkUob3yGqonf
+ ZLS3HBa+Gd74q3K/ARJ0jBAvF8WcGiWpep4GyDslAQlThhU7yGEEXJoql
+ //+M53ZuFwiusu/Xqz43eXbIN4qfPwFvKkwKBl4sQfAlCULt5rgbkrHTU A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="373729008"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="373729008"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2023 23:39:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="679792869"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="679792869"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga003.jf.intel.com with ESMTP; 03 Aug 2023 23:39:26 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 3 Aug 2023 23:39:25 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 3 Aug 2023 23:39:25 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Thu, 3 Aug 2023 23:39:25 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.47) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Thu, 3 Aug 2023 23:39:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xo2ZnTICBynuafwcEF7MVeirY3T0uHgZSpI9mgAEWXA9/lUEt3jUywDUXziyVLD13JH4L8qMM8GsdRdw2sx9Wj+zgp2+l93jjuoAifnNILaI7Qmr27/hOUo4Af8nlN1dJEgdeN2Q7TNEHtMO4m4we065b9ZTv3hkk1CXniKk7kaz1oAedHhumNtQDc/chcYnV1+17KZMr5MZxwncs/7VBFH6LO4FC7QdM7z0WTeWXvDkcTkW7ev7SaZKOSYBsRj9nAmQB9K2jAcZ0HAa1H5D8DVB6mxZ8WuFh2K+RunHKVvXkMPysd2DQ9QYVgptBV80RxqCs7wEFcLGksxdT0KFkg==
+ b=TE7fQGCtpiglyA95mZCjdhNX9WGPzUc6iIbHbzQPAfg1ok0W7yoE0chNk7gOgsq/sA3a1Fb/ZD37f6QH/qgvj7FS8YvgPMQQQMoMibiFHlYv7K2OPEWN8TA7LSTB8KB6JJJymNwlundnOXk8FeOJU0q/mWdTAfZ7iQULMU6GlJ5apXYl4P9JwSxjXN31hwPf3G6HiX9+/eSlk4eTVGMMQpumsNbIF+ViNrZaArvx+eLQ80hzjleM+O+gzQmmd/z6pyzTjY0Wa0wThQ6bPDBaPznTOHD6c9IAKUCLuH+2b6LMFrwvKpNlzF5+Jo+wVnjtbDSItlOXElvcyS2xXW+6jQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cg98hOyAvU4RkhcN5LARaYbAVj0AzIp/Lf/+Z5zSM2M=;
- b=PMHX57R+pP4CXLssyQZqAH8qaV6IK1nKLEeqsYqu3mX9Q3+lcszswPWi7aOunvngtoPoxnx/Fh0E+FvM6tQ4mWfEmInAOnUeOXsA6myl+lH7/C2wHFrFyaqNX9ze6gTOF62Jov1sAxJWCjaoefcalBBFCnjAkPdX85LPU+U7lITRIfC6tjr6eBtt+kf93PklPrm2Hs6W/sumZrC69xYS7nr4PGc2pW+VKCGAvsA/zscM+lkNmcWo4Bv9DFWxvOHU1hKN7ZcL5nWC6pJHKcF2pBs3JbKqKIl0x2/1cVvGPhllXfKzLr33G0BQWrylqk3B+cXtspUlv0KjhJ4mtHK16w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cg98hOyAvU4RkhcN5LARaYbAVj0AzIp/Lf/+Z5zSM2M=;
- b=QPFB3VIB5SZQ3VaWZprmUYeUdp8J1b4biDW1ebe3pwNEXhZ2GayyyocPOx9omBI4xsY0rmiN8BtlypKMZ0z+IkqEHn43GdRwqu+vsOAKxsms4HbdfEBAqjGLKHZoLZtFHUUILYlqyclELMl2/jLMMsoJjS2qS9Powe/2SnZlnwc=
-Received: from PH7PR10CA0024.namprd10.prod.outlook.com (2603:10b6:510:23d::13)
- by PH7PR12MB5831.namprd12.prod.outlook.com (2603:10b6:510:1d6::13)
+ bh=NdRG47coMOMMBPf2FCrbPUrNIdjiSvG5d8gO8tU9fjk=;
+ b=SgwKipoMj0Abuc9RUJL/ZLDkbxAUESMoofpDGFZylWAJJsTKaOtMDAsLfT4oO0Ow6S1/XdcAxNom6rY1gENa0av1U33MDZ5kNskZtL+pU8k/l5wuEKVays8w9LnGf/qkq0MTRjwPT1BdsmGk4Kkfd2P02GjQ3ES1r0BNNeiq5NOamgc+9HhdFNYOoP+VGbEpgwZPwu1JpINeVIJQ5KO3S019bUsMdQ2hrnR4OYZNivLyPj2+HvEYps3KSRKEIdzSoHHFLTZI2uuS2QRIeKZNv9RaPj7W5MxjmLf4x6ZbGkZrJrae8GRiCfPkRsxDeNcUGFbQ9IrWKSYhlOAU4xZdBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by CY5PR11MB6389.namprd11.prod.outlook.com (2603:10b6:930:3a::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
- 2023 06:21:19 +0000
-Received: from SN1PEPF000252A1.namprd05.prod.outlook.com
- (2603:10b6:510:23d:cafe::a7) by PH7PR10CA0024.outlook.office365.com
- (2603:10b6:510:23d::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21 via Frontend
- Transport; Fri, 4 Aug 2023 06:21:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF000252A1.mail.protection.outlook.com (10.167.242.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6652.20 via Frontend Transport; Fri, 4 Aug 2023 06:21:19 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
- 2023 01:21:16 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
- 2023 01:21:15 -0500
-Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
- Transport; Fri, 4 Aug 2023 01:21:11 -0500
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH 3/3] drm/mst: adjust the function drm_dp_remove_payload_part2()
-Date: Fri, 4 Aug 2023 14:20:29 +0800
-Message-ID: <20230804062029.5686-4-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20230804062029.5686-1-Wayne.Lin@amd.com>
-References: <20230804062029.5686-1-Wayne.Lin@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
+ 2023 06:39:22 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b%3]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
+ 06:39:22 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Alistair Popple <apopple@nvidia.com>, David Hildenbrand <david@redhat.com>
+Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IABSWKAgABl6ECAAEZHgIABcLAQgAD86oCAAQfUEIAEas2AgAGbU1CAANOWAIAAAN4AgAAASgCAAADJgIAAACaAgAAAiQCAAFefQIAACl6AgAICCrCAALzcgIAABQIAgADEKYCAAD264A==
+Date: Fri, 4 Aug 2023 06:39:22 +0000
+Message-ID: <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <IA0PR11MB71857E9D6C3AD311CF698D13F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMj4Og063T6T/okI@nvidia.com>
+ <d4bae5e4-ff92-bee9-d585-9f30e34ef646@redhat.com>
+ <ZMj5MvQGk2PQiJn+@nvidia.com>
+ <48f22686-2c1b-fd9d-91ba-da6105d410db@redhat.com>
+ <ZMj5+7sgkPqHT5Vt@nvidia.com>
+ <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+In-Reply-To: <87cz0364kx.fsf@nvdebian.thelocal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|CY5PR11MB6389:EE_
+x-ms-office365-filtering-correlation-id: d3a670e0-3ea6-4542-10c7-08db94b589cd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: A9NIJLEyrioglCkdj5YgxeaugOMJMCBfz41vpthTTHemev0flZVPjjLHJj4F9fS9gQPSHRByWvEPh/gGlEmrGKLxRdv30wnaWnI8MxvSt6QkXc5wt5zIyrjAPF4Q6+f0w5EKbpTOgWWDpiXuh6FYQiJv/y5Nor1ZUKL3yenJCCty+PawpXBs/w3yGT91xQJ0ifd+aZmS3BcOPf/C7SExUkY+KiiO5xLGVb/8ydxHKVy8Gp/JqTtM6bKbvZNPxnkgpN5piKRtwbjWmqyZXVzCEztJGJEQ7jXJqD2POxvr0hyO+U2kUxUz2mB7MA8POWmJHYyXRSFWInqapLEHRPjInWxL+++eW+EZN5Fsx/yzmJimahOeGjDkyxOgZG9qk9vaerfRWDiUx/bgsCqinwlDla4lR6v3MHT1KwOn6DoE+3bosRlQUP4+WUowqtlcVD+mas4nnmDadeT7PWyxX6OwNly3p6wbD4yaj0Es3NN4p5LoV9jRDj/zvRyI/cGNewncyKSbrxfUeCMsa1qCvbaNzOiMsnLYAYIXGF+tewvazZpYas9KiDWFqPJQBxwmWSd7bzAuKBKtJ5xmgvEO5bEaqZTp78XfSl9Y8YYrfvC86zQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(136003)(376002)(346002)(366004)(396003)(186006)(451199021)(1800799003)(7696005)(38070700005)(9686003)(966005)(86362001)(71200400001)(55016003)(6506007)(26005)(83380400001)(38100700002)(122000001)(82960400001)(33656002)(66556008)(66476007)(66446008)(64756008)(66946007)(4326008)(76116006)(2906002)(316002)(5660300002)(52536014)(15650500001)(41300700001)(8936002)(8676002)(478600001)(54906003)(110136005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?v494EVXa4bDpSrE0PQVEbLOhSob5aTiHgblCy0d+bbnsMMo6q+Z2DJdr3kB3?=
+ =?us-ascii?Q?YpPMEKR0HAwPEn8hNUOC2+7FHK0qMSRXEON9PJVcapQxgP0HlbyxCUdUebpo?=
+ =?us-ascii?Q?629b21mejVJXLgfXBrETtW0y+O3Si3vXi4+6wSVYy8xsNrllwFRdN1HqO/9x?=
+ =?us-ascii?Q?0ADfmOgRRHDT4kZcoVUeygPr/esmRm0937bg348Fd5uk08JQpHSq3CiygYku?=
+ =?us-ascii?Q?zHLKqC6HkqwWrKycPLAfbSuYSj6/DCArJY97PtAjkI8bM90jnyw1DB06ZO+l?=
+ =?us-ascii?Q?S2LEYWJROQUr89Mj+CjKO1gS0+1gNe0j4Cwbfsrn8S7K2IuErhWpzFHB8F3i?=
+ =?us-ascii?Q?q+tS7kpD8tsISslEqf1uR83UWykmYgR6S15POeiDxE+hkdxinH/rWGHgA4Xu?=
+ =?us-ascii?Q?YR6JzrQOAA/u6SIcIhPoB4to9XIiJbS5LuJoh+ZqVS6St+1vC9MSymRP+qiI?=
+ =?us-ascii?Q?ZlnbcBx/vRc6OqpMX1XGxDjMnBup9gSpJ5ugDUHCqpMX/PjEDXmT4huq8SVS?=
+ =?us-ascii?Q?RQjhi+h7+eLG19mp0OtZdDSY5haydDACHUn+fMcwiSZli3g7zmpv8qzgVpPD?=
+ =?us-ascii?Q?iZC1X1fBR6lqiKH6TMa7KArYDa40AAVj5FEpp2xGNNvQAbON5OeICe32FVQb?=
+ =?us-ascii?Q?KQ0K53JELuwA0BE0Nt2AVBkcvoUnQMn6oSAbASOBo0d0yeBzXjRceXzWL3g6?=
+ =?us-ascii?Q?0iZTLxHGLXJ22p2U8FVZuW82eM3ucwICXb92QklinBcKY9SfknYbrCfxTN8w?=
+ =?us-ascii?Q?E1yEPNG9SAfLGR4xMUzWD/C79s11JE1ciDnE/IgFZbYDacAUL9nIPpLgk7h5?=
+ =?us-ascii?Q?ImPZ16PriH5mJQpkBYzoSZZbDA4/IQRYuBeQN3Q2I/yLnLRGJ1h+z6Y7F5Ro?=
+ =?us-ascii?Q?MrGk8LRWzLKJl/r9ed+4mJhzAFFA7ij/OOo+rdvpi5zjxJcCgv7EtVKYnE/F?=
+ =?us-ascii?Q?YqjSMB7RmVZiEDBpFXztM2tDJz26ZcGiCa8oFq5oS5fgBEjWLxM2lwxTy+2l?=
+ =?us-ascii?Q?oXfN05Rak56U0/W+SK0y9Knmm04I+n6kRDgSKb2TXWhRtod6nQh7KZxel5sP?=
+ =?us-ascii?Q?Z2+YzkRvMK+biKWCHZNKwMA7yLRDFV9d3ZFUI/M4HZl9Ixuz5Zy8i80JrV+Y?=
+ =?us-ascii?Q?BvGFQn05KTuqZbkb1rYrWAkzFrukYMyhrTPCfh+D3uCvXqz4UqBmslyJO6Ya?=
+ =?us-ascii?Q?mo95q+5zo3v1kqnHPVcAksf0feuU0siYrFtqNlNm0WW82cZBkx31brNhl4nP?=
+ =?us-ascii?Q?/xvHL0Rm8IY1+qV5qYhDLzR4j55UTXeitt1hQcc/6jrM1YArlKgSs31eX+mJ?=
+ =?us-ascii?Q?ASZiNwJ6n3YSaKkA0g/9Jcv8DW3vJUL7WdoEEHyjftfTx3AemO90wqTj0jDg?=
+ =?us-ascii?Q?z32/J3AbSt6uOGwEVnBwQA+fZB4OpdBYQVJV9vf8JjvVh2SrjjDI6nm0bNYy?=
+ =?us-ascii?Q?qj8QV2BLAmIXG3ubb1fY6G7sOd9QD/FeqiMgq9xloMN6pL4LPcEwLds4bDDq?=
+ =?us-ascii?Q?MkmEI2cqLZAJUSnMRGJnZvNLnYsVgPcGZ59ghhdXEbU73pMg/7p8fo7Z33Qs?=
+ =?us-ascii?Q?1Z89FygKbuNhRB4CPtzWOBpXu5aXs/IIvtkNlBks?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A1:EE_|PH7PR12MB5831:EE_
-X-MS-Office365-Filtering-Correlation-Id: 106afb4b-04e7-46ad-e1c9-08db94b30451
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: diSCp1Qx19BlHeRxxk0uA8tTfCs1izzUpj97Vw1Hmwk2XnH94p1Vpjl75s0AmRvYkFVCeRiaNxdpUjG3Xv1hjO7pffEqSkSgD0LMCNQ4QAnp0Z2366tiPhdHtNyBBjReeymcljRbrjNa9o/A17D6K02zAbz87hYoRSNqUm6Y8VZGBWIdM+0GVhwUzU0VljtAW2E/5Foaiho+/K9v4UKPvvwpxbCi7UBVFDhsen/gsvTu5c5Q/ZSpLoFcvSLn5yKPATEvpmY5nKTiWl8LHsjUDMj8FJaQ3FUQSNsrcMgNdGG9QcvCxMvfv/5E4dAb2B5bqUTIUh7ddkI6bLP3jE6Yak6x+wca+iEt+SzciHOBPOCvsErsje7k2eJLY7je4FOMjmBcy6ojR+Xjivt1+u5fYCl5sak1vDCIyMJKTQ7jzCApIkatSqEkTQmQS/1uhWUTnx2rxFzFuX0rxlBq3a+Yb75CwBSLwz5O1T5+/CMHCjoDZReq+Aa2H+HUf4bXzgllRH/YeEoKpczHJ+rHzVBa/4deBD/eIzUAZdZj3Hy855A71PEJclt4Uq7n3//JKbA/IyDD9MfpKr+foIPqAgZzjhihTIKzH9JU8i265UmXF7Lq0IPQjSCiB34k8dYmp7JUcoiSO1tf1fGH3VkxYbMnA2Jt7YQSMmsDrbiEbozVXV3HRKaJWtTu0WYt/8XIG98ArK7J/wn7yUYgsFBfMMKzog==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(186006)(451199021)(1800799003)(82310400008)(36840700001)(46966006)(7696005)(6666004)(86362001)(1076003)(26005)(36860700001)(336012)(426003)(2616005)(36756003)(83380400001)(47076005)(356005)(81166007)(70586007)(70206006)(4326008)(2906002)(30864003)(316002)(5660300002)(8936002)(8676002)(508600001)(54906003)(110136005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 06:21:19.4651 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 106afb4b-04e7-46ad-e1c9-08db94b30451
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000252A1.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5831
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3a670e0-3ea6-4542-10c7-08db94b589cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2023 06:39:22.4429 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iWQsbwH/rw25k6v8BVCMzyn83Se+wowX7tA76ro0F4xXzGzpWMVYePgM1EiuY+9wJEBx2jMPY3BNuU6+y2HKmAlRZP0Fh1/3sMX5WWeUZ3o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6389
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,288 +162,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Mike Kravetz <mike.kravetz@oracle.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-Now in drm_dp_remove_payload_part2(), it utilizes the time slot number
-of the payload in old state to represent the one in the payload table
-at the moment.
+Hi Alistair, David, Jason,
 
-It would be better to clarify the idea by using the latest allocated
-time slot number for the port at the moment instead and which info is
-already included in new mst_state. By this, we can also remove redundant
-workaround for amdgpu driver.
+> >>>>>> Right, the "the zero pages are changed into writable pages" in you=
+r
+> >>>>>> above comment just might not apply, because there won't be any
+> page
+> >>>>>> replacement (hopefully :) ).
+> >>>>
+> >>>>> If the page replacement does not happen when there are new writes
+> to the
+> >>>>> area where the hole previously existed, then would we still get an
+> >>>> invalidate
+> >>>>> when this happens? Is there any other way to get notified when the
+> zeroed
+> >>>>> page is written to if the invalidate does not get triggered?
+> >>>>
+> >>>> What David is saying is that memfd does not use the zero page
+> >>>> optimization for hole punches. Any access to the memory, including
+> >>>> read-only access through hmm_range_fault() will allocate unique
+> >>>> pages. Since there is no zero page and no zero-page replacement ther=
+e
+> >>>> is no issue with invalidations.
+> >>
+> >>> It looks like even with hmm_range_fault(), the invalidate does not ge=
+t
+> >>> triggered when the hole is refilled with new pages because of writes.
+> >>> This is probably because hmm_range_fault() does not fault in any page=
+s
+> >>> that get invalidated later when writes occur.
+> >> hmm_range_fault() returns the current content of the VMAs, or it
+> >> faults. If it returns pages then it came from one of these two places.
+> >> If your VMA is incoherent with what you are doing then you have
+> >> bigger
+> >> problems, or maybe you found a bug.
+>=20
+> Note it will only fault in pages if HMM_PFN_REQ_FAULT is specified. You
+> are setting that however you aren't setting HMM_PFN_REQ_WRITE which is
+> what would trigger a fault to bring in the new pages. Does setting that
+> fix the issue you are seeing?
+No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue.
+Although, I do not have THP enabled (or built-in), shmem does not evict
+the pages after hole punch as noted in the comment in shmem_fallocate():
+                if ((u64)unmap_end > (u64)unmap_start)
+                        unmap_mapping_range(mapping, unmap_start,
+                                            1 + unmap_end - unmap_start, 0)=
+;
+                shmem_truncate_range(inode, offset, offset + len - 1);
+                /* No need to unmap again: hole-punching leaves COWed pages=
+ */
 
-[How]
-Remove "old_payload" input of drm_dp_remove_payload_part2() and get the
-latest number of allocated time slot for the port from new mst_state
-instead.
+As a result, the pfn is still valid and the pte is pte_present() and pte_wr=
+ite().
+This is the reason why adding in HMM_PFN_REQ_WRITE does not help;
+because, it fails the below condition in hmm_pte_need_fault():
+        if ((pfn_req_flags & HMM_PFN_REQ_WRITE) &&
+            !(cpu_flags & HMM_PFN_WRITE))
+                return HMM_NEED_FAULT | HMM_NEED_WRITE_FAULT;
 
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
----
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 70 ++++---------------
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 32 ++++++---
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  7 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c       |  6 +-
- include/drm/display/drm_dp_mst_helper.h       |  9 ++-
- 5 files changed, 40 insertions(+), 84 deletions(-)
+If I force it to read-fault or write-fault (by hacking hmm_pte_need_fault()=
+),
+it gets indefinitely stuck in the do while loop in hmm_range_fault().
+AFAIU, unless there is a way to fault-in zero pages (or any scratch pages)
+after hole punch that get invalidated because of writes, I do not see how
+using hmm_range_fault() can help with my use-case.=20
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 9ad509279b0a..e852da686c26 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -203,40 +203,6 @@ void dm_helpers_dp_update_branch_info(
- 	const struct dc_link *link)
- {}
- 
--static void dm_helpers_construct_old_payload(
--			struct dc_link *link,
--			int pbn_per_slot,
--			struct drm_dp_mst_atomic_payload *new_payload,
--			struct drm_dp_mst_atomic_payload *old_payload)
--{
--	struct link_mst_stream_allocation_table current_link_table =
--									link->mst_stream_alloc_table;
--	struct link_mst_stream_allocation *dc_alloc;
--	int i;
--
--	*old_payload = *new_payload;
--
--	/* Set correct time_slots/PBN of old payload.
--	 * other fields (delete & dsc_enabled) in
--	 * struct drm_dp_mst_atomic_payload are don't care fields
--	 * while calling drm_dp_remove_payload_part2()
--	 */
--	for (i = 0; i < current_link_table.stream_count; i++) {
--		dc_alloc =
--			&current_link_table.stream_allocations[i];
--
--		if (dc_alloc->vcp_id == new_payload->vcpi) {
--			old_payload->time_slots = dc_alloc->slot_count;
--			old_payload->pbn = dc_alloc->slot_count * pbn_per_slot;
--			break;
--		}
--	}
--
--	/* make sure there is an old payload*/
--	ASSERT(i != current_link_table.stream_count);
--
--}
--
- /*
-  * Writes payload allocation table in immediate downstream device.
-  */
-@@ -248,7 +214,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
- {
- 	struct amdgpu_dm_connector *aconnector;
- 	struct drm_dp_mst_topology_state *mst_state;
--	struct drm_dp_mst_atomic_payload *target_payload, *new_payload, old_payload;
-+	struct drm_dp_mst_atomic_payload *payload;
- 	struct drm_dp_mst_topology_mgr *mst_mgr;
- 
- 	aconnector = (struct amdgpu_dm_connector *)stream->dm_stream_context;
-@@ -262,27 +228,20 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
- 
- 	mst_mgr = &aconnector->mst_root->mst_mgr;
- 	mst_state = to_drm_dp_mst_topology_state(mst_mgr->base.state);
--	new_payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->mst_output_port);
--
--	if (enable) {
--		target_payload = new_payload;
-+	payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->mst_output_port);
- 
-+	if (enable)
- 		/* It's OK for this to fail */
--		drm_dp_add_payload_part1(mst_mgr, mst_state, new_payload);
--	} else {
--		/* construct old payload by VCPI*/
--		dm_helpers_construct_old_payload(stream->link, mst_state->pbn_div,
--						new_payload, &old_payload);
--		target_payload = &old_payload;
-+		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
-+	else
- 
--		drm_dp_remove_payload_part1(mst_mgr, mst_state, new_payload);
--	}
-+		drm_dp_remove_payload_part1(mst_mgr, mst_state, payload);
- 
- 	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
- 	 * AUX message. The sequence is slot 1-63 allocated sequence for each
- 	 * stream. AMD ASIC stream slot allocation should follow the same
- 	 * sequence. copy DRM MST allocation to dc */
--	fill_dc_mst_payload_table_from_drm(stream->link, enable, target_payload, proposed_table);
-+	fill_dc_mst_payload_table_from_drm(stream->link, enable, payload, proposed_table);
- 
- 	return true;
- }
-@@ -341,7 +300,7 @@ bool dm_helpers_dp_mst_send_payload_allocation(
- 	struct amdgpu_dm_connector *aconnector;
- 	struct drm_dp_mst_topology_state *mst_state;
- 	struct drm_dp_mst_topology_mgr *mst_mgr;
--	struct drm_dp_mst_atomic_payload *new_payload, *old_payload;
-+	struct drm_dp_mst_atomic_payload *payload;
- 	enum mst_progress_status set_flag = MST_ALLOCATE_NEW_PAYLOAD;
- 	enum mst_progress_status clr_flag = MST_CLEAR_ALLOCATED_PAYLOAD;
- 	int ret = 0;
-@@ -354,20 +313,17 @@ bool dm_helpers_dp_mst_send_payload_allocation(
- 	mst_mgr = &aconnector->mst_root->mst_mgr;
- 	mst_state = to_drm_dp_mst_topology_state(mst_mgr->base.state);
- 
--	new_payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->mst_output_port);
-+	payload = drm_atomic_get_mst_payload_state(mst_state, aconnector->mst_output_port);
- 
- 	if (!enable) {
- 		set_flag = MST_CLEAR_ALLOCATED_PAYLOAD;
- 		clr_flag = MST_ALLOCATE_NEW_PAYLOAD;
- 	}
- 
--	if (enable) {
--		ret = drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, new_payload);
--	} else {
--		dm_helpers_construct_old_payload(stream->link, mst_state->pbn_div,
--						 new_payload, old_payload);
--		drm_dp_remove_payload_part2(mst_mgr, mst_state, old_payload, new_payload);
--	}
-+	if (enable)
-+		ret = drm_dp_add_payload_part2(mst_mgr, mst_state->base.state, payload);
-+	else
-+		drm_dp_remove_payload_part2(mst_mgr, mst_state, payload);
- 
- 	if (ret) {
- 		amdgpu_dm_set_mst_status(&aconnector->mst_status,
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index e04f87ff755a..4270178f95f6 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3382,8 +3382,7 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part1);
-  * drm_dp_remove_payload_part2() - Remove an MST payload locally
-  * @mgr: Manager to use.
-  * @mst_state: The MST atomic state
-- * @old_payload: The payload with its old state
-- * @new_payload: The payload with its latest state
-+ * @payload: The payload with its latest state
-  *
-  * Updates the starting time slots of all other payloads which would have been shifted towards
-  * the start of the payload ID table as a result of removing a payload. Driver should call this
-@@ -3392,25 +3391,36 @@ EXPORT_SYMBOL(drm_dp_remove_payload_part1);
-  */
- void drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
- 				 struct drm_dp_mst_topology_state *mst_state,
--				 const struct drm_dp_mst_atomic_payload *old_payload,
--				 struct drm_dp_mst_atomic_payload *new_payload)
-+				 struct drm_dp_mst_atomic_payload *payload)
- {
- 	struct drm_dp_mst_atomic_payload *pos;
-+	u8 time_slots_to_remove;
-+	u8 next_payload_vc_start = mgr->next_start_slot;
-+
-+	/* Find the current allocated time slot number of the payload */
-+	list_for_each_entry(pos, &mst_state->payloads, next) {
-+		if (pos != payload &&
-+		    pos->vc_start_slot > payload->vc_start_slot &&
-+		    pos->vc_start_slot < next_payload_vc_start)
-+			next_payload_vc_start = pos->vc_start_slot;
-+	}
-+
-+	time_slots_to_remove = next_payload_vc_start - payload->vc_start_slot;
- 
- 	/* Remove local payload allocation */
- 	list_for_each_entry(pos, &mst_state->payloads, next) {
--		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
--			pos->vc_start_slot -= old_payload->time_slots;
-+		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
-+			pos->vc_start_slot -= time_slots_to_remove;
- 	}
--	new_payload->vc_start_slot = -1;
-+	payload->vc_start_slot = -1;
- 
- 	mgr->payload_count--;
--	mgr->next_start_slot -= old_payload->time_slots;
-+	mgr->next_start_slot -= time_slots_to_remove;
- 
--	if (new_payload->delete)
--		drm_dp_mst_put_port_malloc(new_payload->port);
-+	if (payload->delete)
-+		drm_dp_mst_put_port_malloc(payload->port);
- 
--	new_payload->payload_allocation_status = DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
-+	payload->payload_allocation_status = DRM_DP_MST_PAYLOAD_ALLOCATION_NONE;
- }
- EXPORT_SYMBOL(drm_dp_remove_payload_part2);
- /**
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 5f73cdabe7a1..91750c1dfc48 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -583,12 +583,8 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
- 	struct intel_dp *intel_dp = &dig_port->dp;
- 	struct intel_connector *connector =
- 		to_intel_connector(old_conn_state->connector);
--	struct drm_dp_mst_topology_state *old_mst_state =
--		drm_atomic_get_old_mst_topology_state(&state->base, &intel_dp->mst_mgr);
- 	struct drm_dp_mst_topology_state *new_mst_state =
- 		drm_atomic_get_new_mst_topology_state(&state->base, &intel_dp->mst_mgr);
--	const struct drm_dp_mst_atomic_payload *old_payload =
--		drm_atomic_get_mst_payload_state(old_mst_state, connector->port);
- 	struct drm_dp_mst_atomic_payload *new_payload =
- 		drm_atomic_get_mst_payload_state(new_mst_state, connector->port);
- 	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-@@ -611,8 +607,7 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
- 
- 	wait_for_act_sent(encoder, old_crtc_state);
- 
--	drm_dp_remove_payload_part2(&intel_dp->mst_mgr, new_mst_state,
--				    old_payload, new_payload);
-+	drm_dp_remove_payload_part2(&intel_dp->mst_mgr, new_mst_state, new_payload);
- 
- 	intel_ddi_disable_transcoder_func(old_crtc_state);
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 6f1b7fcb98e6..63e2a286fffc 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -889,17 +889,13 @@ nv50_msto_cleanup(struct drm_atomic_state *state,
- 	struct nouveau_drm *drm = nouveau_drm(msto->encoder.dev);
- 	struct drm_dp_mst_atomic_payload *new_payload =
- 		drm_atomic_get_mst_payload_state(new_mst_state, msto->mstc->port);
--	struct drm_dp_mst_topology_state *old_mst_state =
--		drm_atomic_get_old_mst_topology_state(state, mgr);
--	const struct drm_dp_mst_atomic_payload *old_payload =
--		drm_atomic_get_mst_payload_state(old_mst_state, msto->mstc->port);
- 
- 	NV_ATOMIC(drm, "%s: msto cleanup\n", msto->encoder.name);
- 
- 	if (msto->disabled) {
- 		msto->mstc = NULL;
- 		msto->disabled = false;
--		drm_dp_remove_payload_part2(mgr, new_mst_state, old_payload, new_payload);
-+		drm_dp_remove_payload_part2(mgr, new_mst_state, new_payload);
- 	} else if (msto->enabled) {
- 		drm_dp_add_payload_part2(mgr, state, new_payload);
- 		msto->enabled = false;
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 4429d3b1745b..3f8ad28c77b1 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -853,12 +853,11 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
- 			     struct drm_atomic_state *state,
- 			     struct drm_dp_mst_atomic_payload *payload);
- void drm_dp_remove_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
--				 struct drm_dp_mst_topology_state *mst_state,
--				 struct drm_dp_mst_atomic_payload *payload);
-+				  struct drm_dp_mst_topology_state *mst_state,
-+				  struct drm_dp_mst_atomic_payload *payload);
- void drm_dp_remove_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
--				 struct drm_dp_mst_topology_state *mst_state,
--				 const struct drm_dp_mst_atomic_payload *old_payload,
--				 struct drm_dp_mst_atomic_payload *new_payload);
-+				  struct drm_dp_mst_topology_state *mst_state,
-+				  struct drm_dp_mst_atomic_payload *payload);
- 
- int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
- 
--- 
-2.37.3
+Thanks,
+Vivek
+
+>=20
+> >>> The above log messages are seen immediately after the hole is punched=
+.
+> As
+> >>> you can see, hmm_range_fault() returns the pfns of old pages and not
+> zero
+> >>> pages. And, I see the below messages (with patch #2 in this series
+> applied)
+> >>> as the hole is refilled after writes:
+> >> I don't know what you are doing, but it is something wrong or you've
+> >> found a bug in the memfds.
+> >
+> >
+> > Maybe THP is involved? I recently had to dig that out for an internal
+> > discussion:
+> >
+> > "Currently when truncating shmem file, if the range is partial of THP
+> > (start or end is in the middle of THP), the pages actually will just ge=
+t
+> > cleared rather than being freed unless the range cover the whole THP.
+> > Even though all the subpages are truncated (randomly or sequentially),
+> > the THP may still be kept in page cache.  This might be fine for some
+> > usecases which prefer preserving THP."
+> >
+> > My recollection is that this behavior was never changed.
+> >
+> > https://lore.kernel.org/all/1575420174-19171-1-git-send-email-
+> yang.shi@linux.alibaba.com/
 
