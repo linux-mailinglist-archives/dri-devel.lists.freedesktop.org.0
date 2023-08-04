@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7201A76FBDA
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:23:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECE076FBFC
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BB710E013;
-	Fri,  4 Aug 2023 08:23:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3EE010E041;
+	Fri,  4 Aug 2023 08:27:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3FAE10E013
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:22:58 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3fbea14706eso17665535e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:22:58 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E9F10E041
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:27:35 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-317744867a6so1518106f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:27:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691137377; x=1691742177;
+ d=linaro.org; s=google; t=1691137654; x=1691742454;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=gqxlgcpfhwpFaXOSuUXztrVkPV/filJ7HPI5vUJFn3E=;
- b=la56hkmB5KE/vOZuUxcRaQmvZ9MPF1D/ZT7jq21xwwgHzFLMD4dPW5/wJdduQftQwQ
- NMa883gmLxCK3Lya0Fb1kEgjoxoAb5MehiBui6PLmTFKp4gD8hhFUIWi2K1HcGEea1Cr
- vXkv6la4FfyMKuPogb6rVlOJqZdHZaIFRxqVMHDWs/tdOgVsLZe0ZmXERhgVDQreNyhp
- 8R5xi2VL809H4dHkjecL0tCJCTtYKs7af13o8yoncFirEPjET66BiNeALHjgit16amwL
- e9B4WL7jZSs/paDR8b1lIAvUMgvgfABlMUFoYYwji/kzjOQ87Y52KPQGv/XLli4dPEz6
- qZIg==
+ bh=9wgTUQn0TUv85U4NzlTuNM4xsF5mRqXaVcUR2Ag3v48=;
+ b=OQI01q6T8aWKBPx8fpasMUlWadmKwxaKkRt2WPRQvVM8/dxCkrDWFCOlB6J4on399q
+ q+yVNeVquC4PD3/cQq9PCvjsUVN4iMNgmGwXLWQmvXSb2wBaeTjoaFVQiLeVb4nHiaLn
+ xA0ABmgsQ5LegV6/F4sDwExQCoy4VKzhTZYSPyHYyLLhlj917ufGSgqvqlvzhsgUCS8F
+ ac519QRNlw6EgYBBd6fM5FJr4MdfMPvsQC51Gu36hP21Z7x4XtKDesyULefrtOYi/nxU
+ mR1hThJbrXMdngfG6vTeBPISvPlYDzTE+hXQnPYZku1C+qF0006qRbCr5TCR5zZl9rtd
+ /Hnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691137377; x=1691742177;
+ d=1e100.net; s=20221208; t=1691137654; x=1691742454;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=gqxlgcpfhwpFaXOSuUXztrVkPV/filJ7HPI5vUJFn3E=;
- b=T8gUMDKrsiVgWc7R7H3ojKtWFqpHVMdLRXdV2DvYJZBKghq+kuPjXgC0tmKu0bwWu3
- YyeJE0m0/Iq+kSBTvGqA9T1ZK2dBiSxS421+pXGZFLbxRxa5FV1O4CmdIesfMXPHJfiB
- Yo7R1kN77EXemT5W/PAtflGFG2y34KT8MV1vJkL7IHeZCllTXh2lAiAM+71K3AseJ1is
- Rnm7RCn1Ep9CZK4lEFNTj+yrDCBpzE41N3HmktohOuzuM9lk2Qcgacz3POeA5K4Mlemj
- 1/IcS7MlfLOcyrD60SB/IK7XVFM5yJg6qXqZBRBU3w8wq9F/T3q9yhxu9Q2wQs7qe37X
- icLw==
-X-Gm-Message-State: AOJu0YxP9CfzMuIewZnlQ2M52gVAQb/TO0hzQAwReoz6yUYJMiq7S4hO
- eomCTZM31DcECC0FYXxJUKg9WQ==
-X-Google-Smtp-Source: AGHT+IG2FD99zjQl1RKbp122WjUmU7duUYTnuzjwbWYiAUstk12U3P1aLTLGGMkCF2ZwFb7pd/4o2A==
-X-Received: by 2002:a7b:c7cc:0:b0:3fb:ffa8:6d78 with SMTP id
- z12-20020a7bc7cc000000b003fbffa86d78mr945295wmk.36.1691137377113; 
- Fri, 04 Aug 2023 01:22:57 -0700 (PDT)
+ bh=9wgTUQn0TUv85U4NzlTuNM4xsF5mRqXaVcUR2Ag3v48=;
+ b=LI0z1343IXi0ARbuc3yeEEOfcAf/VVp6HDYjyYTvAVMWQwqobXtRzwQytCABU2T+qx
+ af+La6PflFlUneiCqmaxRrMNS7RlcfBf/8X3tK7VrSMmnnbkmln5tk+cxCuUZ4n4oFu5
+ +WeiMr3XadyupVFfkrLgAWb0Fp2ibu90+OMKZmobplpnnX5FR03n6sdGONGBvxZhfi8F
+ zS/jVej7+ALDSfC76VDwGbBVEkafrhk+2pOhA0BKtzwFwCqrExXjX0TVvQbYImIBTdgt
+ nbcgV0PpPyPf1o9sZwgb0qyE2bf4WcYBmiAknnxjI2hn5pr20rYa9uVDAZMCv7JYOWSu
+ dDCA==
+X-Gm-Message-State: AOJu0YwfApQXH/Q5UWMdmK7LzvK3xMCyH1ZSjZkGeQDS7DzR2ZctdO33
+ KtV4WrRylmmgdLOodBJbAkrl3w==
+X-Google-Smtp-Source: AGHT+IFvwzimT7kRHpEasj8HMGvxUFZJqMsy+rVWiIcU9lnQxLv1cng1oltuluScMA5L/0uG0BvCXQ==
+X-Received: by 2002:adf:e40a:0:b0:314:37e7:efb4 with SMTP id
+ g10-20020adfe40a000000b0031437e7efb4mr699960wrm.11.1691137654228; 
+ Fri, 04 Aug 2023 01:27:34 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:b526:9083:f5a6:4af1?
  ([2a01:e0a:982:cbb0:b526:9083:f5a6:4af1])
  by smtp.gmail.com with ESMTPSA id
- h6-20020a5d6e06000000b0031435731dfasm1884500wrz.35.2023.08.04.01.22.56
+ n9-20020a5d4009000000b00317a04131c5sm1905558wrp.57.2023.08.04.01.27.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Aug 2023 01:22:56 -0700 (PDT)
-Message-ID: <4912be5e-99c8-588c-9fb4-0d8a404c4b62@linaro.org>
-Date: Fri, 4 Aug 2023 10:22:55 +0200
+ Fri, 04 Aug 2023 01:27:33 -0700 (PDT)
+Message-ID: <142025e0-9ee2-36d6-2600-085db71a3f0a@linaro.org>
+Date: Fri, 4 Aug 2023 10:27:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2] drm: bridge: dw_hdmi: Fix ELD is not updated issue
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
+ and EOT packet"
 Content-Language: en-US
-To: Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230804061145.2824843-1-Sandor.yu@nxp.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
+ <CAA8EJportnT-xHFH8QP+aiomXMLbm1r=02HMB-eNDEU+JqgEoQ@mail.gmail.com>
 Organization: Linaro Developer Services
-In-Reply-To: <20230804061145.2824843-1-Sandor.yu@nxp.com>
+In-Reply-To: <CAA8EJportnT-xHFH8QP+aiomXMLbm1r=02HMB-eNDEU+JqgEoQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,71 +82,82 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: the.cheaterman@gmail.com, rfoss@kernel.org, jonas@kwiboo.se,
- cychiang@chromium.org, shengjiu.wang@nxp.com, adrian.larumbe@collabora.com,
- jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, treding@nvidia.com
+Cc: Marek Vasut <marex@denx.de>, Amit Pundir <amit.pundir@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/08/2023 08:11, Sandor Yu wrote:
-> The ELD (EDID-Like Data) is not updated when the HDMI cable
-> is plugged into different HDMI monitors.
-> This is because the EDID is not updated in the HDMI HPD function.
-> As a result, the ELD data remains unchanged and may not reflect
-> the capabilities of the newly connected HDMI sink device.
+On 02/08/2023 11:08, Dmitry Baryshkov wrote:
+> On Wed, 2 Aug 2023 at 11:52, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+>>
+>> This reverts commit [1] to fix display regression on the Dragonboard 845c
+>> (SDM845) devboard.
+>>
+>> There's a mismatch on the real action of the following flags:
+>> - MIPI_DSI_MODE_VIDEO_NO_HSA
+>> - MIPI_DSI_MODE_VIDEO_NO_HFP
+>> - MIPI_DSI_MODE_VIDEO_NO_HBP
+>> which leads to a non-working display on qcom platforms.
+>>
+>> [1] 8ddce13ae696 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
 > 
-> To address this issue, the handle_plugged_change function should move to
-> the bridge_atomic_enable and bridge_atomic_disable functions.
-> Make sure the EDID is properly updated before updating ELD.
-> 
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> 
-> ---
-> v2:
->    - Add the variable of last_connector_result back to driver.
->      It will only be used to initialize audio codec jack status when audio codec driver probe.
-> 
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 +++---------
->   1 file changed, 3 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index aa51c61a78c7..963050de42c3 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2463,15 +2463,7 @@ static enum drm_connector_status dw_hdmi_detect(struct dw_hdmi *hdmi)
->   	enum drm_connector_status result;
->   
->   	result = hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
-> -
-> -	mutex_lock(&hdmi->mutex);
-> -	if (result != hdmi->last_connector_result) {
-> -		dev_dbg(hdmi->dev, "read_hpd result: %d", result);
-> -		handle_plugged_change(hdmi,
-> -				      result == connector_status_connected);
-> -		hdmi->last_connector_result = result;
-> -	}
-> -	mutex_unlock(&hdmi->mutex);
-> +	hdmi->last_connector_result = result;
->   
->   	return result;
->   }
-> @@ -2971,6 +2963,7 @@ static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
->   	hdmi->curr_conn = NULL;
->   	dw_hdmi_update_power(hdmi);
->   	dw_hdmi_update_phy_mask(hdmi);
-> +	handle_plugged_change(hdmi, false);
->   	mutex_unlock(&hdmi->mutex);
->   }
->   
-> @@ -2989,6 +2982,7 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
->   	hdmi->curr_conn = connector;
->   	dw_hdmi_update_power(hdmi);
->   	dw_hdmi_update_phy_mask(hdmi);
-> +	handle_plugged_change(hdmi, true);
->   	mutex_unlock(&hdmi->mutex);
->   }
->   
+> Nit: I think the preferred form is to write `... reverts commit abcdef
+> ("foo and bar")', but I might be wrong.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Yep, I'll fix all that while applying.
+
+Thanks,
+Neil
+
+> 
+> Other than that:
+> 
+> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+>>
+>> Cc: Marek Vasut <marex@denx.de>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Fixes: 8ddce13ae69 ("drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet")
+>> Reported-by: Amit Pundir <amit.pundir@linaro.org>
+>> Link: https://lore.kernel.org/r/CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com/
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +---
+>>   1 file changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+>> index 5163e5224aad..9663601ce098 100644
+>> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+>> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+>> @@ -774,9 +774,7 @@ static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+>>          dsi->lanes = 4;
+>>          dsi->format = MIPI_DSI_FMT_RGB888;
+>>          dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+>> -                         MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO_NO_HSA |
+>> -                         MIPI_DSI_MODE_VIDEO_NO_HFP | MIPI_DSI_MODE_VIDEO_NO_HBP |
+>> -                         MIPI_DSI_MODE_NO_EOT_PACKET;
+>> +                         MIPI_DSI_MODE_VIDEO_HSE;
+>>
+>>          ret = devm_mipi_dsi_attach(dev, dsi);
+>>          if (ret < 0) {
+>>
+>> ---
+>> base-commit: f590814603bf2dd8620584b7d59ae94d7c186c69
+>> change-id: 20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-6f042b1ba813
+>>
+>> Best regards,
+>> --
+>> Neil Armstrong <neil.armstrong@linaro.org>
+>>
+> 
+> 
+
