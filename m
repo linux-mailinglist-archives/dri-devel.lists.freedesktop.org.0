@@ -1,79 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995DE76FC0E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:31:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2913776FC11
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:31:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA7410E683;
-	Fri,  4 Aug 2023 08:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56DA410E6BA;
+	Fri,  4 Aug 2023 08:31:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEE210E683
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:30:42 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-313e742a787so1093768f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:30:42 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA6E10E6B7
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:30:47 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3fe2ba3e260so18012275e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691137840; x=1691742640;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=QYrStqEM0cThZwoI/cPXMGOMxkPAFk/7V/s5s/EM5cA=;
- b=KjQAdFIEn7Ro3hrZPKzuvP5ENbD/1v+6fbdMUiYhWbsIWi7LI7xi5v5pdv+rryRX/F
- f+Svl9p8OzyUgCcv4r1/a2vlHsg0qfsT6pVTwBbP5ohmeYfI8MrOJTrIQFAXVPuYIMVr
- 29f9fdFn50dUDq9JoFczTMyMb0ow4uCrQ/8STAU/nVxdslsmK3TjrRyVLt/iTzNh+Ns+
- 7GNYP4PusvqjkXCaEk7MpBSTIjsgUWUL8GjsIfN+cemFzhIiqSLzZzrehiZMm477iEez
- CjuxiYuMTFjRkGBg/ALnsFVSfQEX3ZzIsSzsnRYfz2ctJvGNcedtln8HIgURbS0aXN9H
- nJrQ==
+ d=linaro.org; s=google; t=1691137846; x=1691742646;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JAckcGQZs5adpjiStERN8wHvnjgweyITFA752Ae1t+M=;
+ b=k/zVqT9T/LPYLDqyCC9ETpvweUt2i2pat5y+TuNqqYF1tBMDNfIh11FYXQb/o9FVVa
+ Z3fng86fILMtLnynLJhMvopKO3aJd7glro6Umn/4/hx3H9gmVSrMnnxu1O8qANBf9FK4
+ ZwC3q8qYDAT44YYXHTEK6JNosDn1/w7GHDnnoaLHvbb82xUZybjnjGBOnlVK4kCKt1ck
+ td5niSI7/NvgI4SfmuG0fi69k/0C2SS3+RWVlsKOPdN1GobghuyDqc6Bqz4cPJUC7rxW
+ 6qRKDLz1jrwP261QDyxJhHWTP8X1jPSrSKtt1TggLlCjr18Vb818Kr/8dQ5Ft7xSH5aj
+ 2C1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691137840; x=1691742640;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QYrStqEM0cThZwoI/cPXMGOMxkPAFk/7V/s5s/EM5cA=;
- b=UsEam8xpoeY9/3qEb9GFta19NxUOKctX5CPE0nDzgi9O5jsjGvq3Mn6qZoV1LamtYk
- n4koKZgDglHOTTwPzdwVujIzmu9336nWQG7u65/OeiseVbw/k6+reC88wmwAh3u6c/1U
- HZ/sAZhtjK/SJuofa2gy9VlkSEfmutRTs68CTbwpaq7L0RlHf/Js4wnC7QB6kNKBzhCv
- CUZzUx78C1drA5p8E9mlORg9i2vEJEVGeRWkGX2rmy6yyRNTBvyHV4dYNDG4GRUecVEo
- AiLf616R+VpWNsPCuK/I5H1f1zwUyxdEtsi5h4L22lCj03iuWUTfox7axxJkNSRkwqaP
- /v8Q==
-X-Gm-Message-State: AOJu0Yxo/fN2nldJNuRceNzfqVCXLr/vODleVBm4b38zPA+8Cps/CvJV
- +EBiX+K8mxD0X8dYCNaeybjCEA==
-X-Google-Smtp-Source: AGHT+IGmsm/JtL8yLdEbpyXwX4F3kWfcIGHPa2uTtbJSiv32jPeo95BTCrjkn3fXjABnyLsbFZgumA==
-X-Received: by 2002:adf:f008:0:b0:314:1228:c4c1 with SMTP id
- j8-20020adff008000000b003141228c4c1mr1242706wro.23.1691137840638; 
- Fri, 04 Aug 2023 01:30:40 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:b526:9083:f5a6:4af1?
- ([2a01:e0a:982:cbb0:b526:9083:f5a6:4af1])
+ d=1e100.net; s=20221208; t=1691137846; x=1691742646;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JAckcGQZs5adpjiStERN8wHvnjgweyITFA752Ae1t+M=;
+ b=b2ro8idfLjMikDtLG1Zn3/6iRxeTrJ1svqo/R12t7WzwSRzPfEuf8TivYicfDREJVi
+ XfV+amNzEYSMA8vphrPapaEcG5r7kdZWhCMdkub6IAbqBGCj7B3io8R2ZeyaCCYK6Av7
+ vGhSYEL5hR/J55HDVJVMzEYlhFzi+8gEjxxDBkG17U5vsSEpZfyTw1oklDhugqUxp2d+
+ SqY0VTBHmBxOD5s3R9dN8ALjkcQD3/KCSlJymHu+KdZjpCbm6OpvZPMtPMSHhaTEijqo
+ SmLvPXcqUO7INpuD50DEL2IZxfJcAXdOvgFnrjg4g8S5YAFPo1fzGkR3K2UGsFFh/Lbx
+ 6eFw==
+X-Gm-Message-State: AOJu0YzhdnA2NKyeA6kYPEzwxQiSEtJEVcaIsnIp+VQbEHga+WqoTNJg
+ wVJPRalgvTIF9bjP2oN/xe6RfA==
+X-Google-Smtp-Source: AGHT+IF9eAaJqnipO7W5MkWr5ZEFwnTeucI4Vruud1vG7qTA5kMfrWewbQZg2JIJGVcr7RgKiLIaRA==
+X-Received: by 2002:a5d:668e:0:b0:317:58a8:baa with SMTP id
+ l14-20020a5d668e000000b0031758a80baamr704840wru.28.1691137846053; 
+ Fri, 04 Aug 2023 01:30:46 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- s18-20020adfeb12000000b0031779a6b451sm1894770wrn.83.2023.08.04.01.30.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Aug 2023 01:30:40 -0700 (PDT)
-Message-ID: <cc854764-805c-a46a-0210-edf7dafde0d1@linaro.org>
-Date: Fri, 4 Aug 2023 10:30:39 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+ o11-20020a5d670b000000b0031753073abcsm1892476wru.36.2023.08.04.01.30.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Aug 2023 01:30:45 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA
- and EOT packet"
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
 References: <20230802-revert-do-not-generate-hfp-hbp-hsa-eot-packet-v1-1-f8a20084e15a@linaro.org>
- <5cf0e3fa-f66d-06c4-cfda-c48efd8c6508@linaro.org>
- <bf95af44-2510-1835-dec9-183144de8413@denx.de>
- <CAA8EJppp_ZJr-DcoZGd1GZmWuo=AECNS+X9zx0dNB4Edn8M2zg@mail.gmail.com>
- <CAF6AEGsfbUMCS4QTfqoyYetqea_ov-AET-iM54B-HvYpwwZvmg@mail.gmail.com>
- <25f3026f-3d97-a5ac-862a-da6dc5f8d830@denx.de>
-Organization: Linaro Developer Services
-In-Reply-To: <25f3026f-3d97-a5ac-862a-da6dc5f8d830@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] Revert "drm/bridge: lt9611: Do not generate
+ HFP/HBP/HSA and EOT packet"
+Message-Id: <169113784495.3155201.7552146882174275208.b4-ty@linaro.org>
+Date: Fri, 04 Aug 2023 10:30:44 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +79,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Cc: Amit Pundir <amit.pundir@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ linux-kernel@vger.kernel.org, Jagan Teki <jagan@amarulasolutions.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi,
 
-On 03/08/2023 20:10, Marek Vasut wrote:
-> On 8/2/23 20:49, Rob Clark wrote:
->> On Wed, Aug 2, 2023 at 11:16 AM Dmitry Baryshkov
->> <dmitry.baryshkov@linaro.org> wrote:
->>>
-
-<snip>
-
->>>
->>> Can we please end the argument, land the fix (this revert) for 6.5 and
->>> work on the solution for 6.6 or 6.7?
->>>
->>
->> Even if they were in-tree, breaking existing hw means revert and
->> try-again.  Especially as we get into later -rc's
+On Wed, 02 Aug 2023 10:52:22 +0200, Neil Armstrong wrote:
+> This reverts commit [1] to fix display regression on the Dragonboard 845c
+> (SDM845) devboard.
 > 
-> Then just apply the revert, I don't have time to debug this right this moment, and it is anyway meaningless until I can look at the bus with DSI bus analyzer.
+> There's a mismatch on the real action of the following flags:
+> - MIPI_DSI_MODE_VIDEO_NO_HSA
+> - MIPI_DSI_MODE_VIDEO_NO_HFP
+> - MIPI_DSI_MODE_VIDEO_NO_HBP
+> which leads to a non-working display on qcom platforms.
+> 
+> [...]
 
-I'm applying it, then I'll like to find an explanation when you'll be able to run the DSI bus analyzer.
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
 
-I'll be able to test for regressions on the db845c board if you require, just ping me on irc.
+[1/1] Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet"
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3c6bd1b7e2043fb00ce6b622709d176609431406
 
-We should clearly define those flags actions and probably add new flags to reflect the way the qcom
-dsi controller acts.
-
-Thanks,
+-- 
 Neil
+
