@@ -1,131 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92AC76FF67
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 13:23:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CC276FF76
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 13:26:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF30B10E6E1;
-	Fri,  4 Aug 2023 11:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3FD10E072;
+	Fri,  4 Aug 2023 11:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR02-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur02on2089.outbound.protection.outlook.com [40.107.241.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBBC10E6DE
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 11:23:24 +0000 (UTC)
+ (mail-vi1eur02on2088.outbound.protection.outlook.com [40.107.241.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF14510E6DE
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 11:25:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VgpmMjQJ7GgoB5VA3rYleH/07TApfSsJpSs1vV0/66QTKTAq7EU02DRQVeL3iyGzGC1mqL2a2Z1ohaH03SXkaLPQdhNvUPxJUi3h4n9xLhtw6Ydc+IumvePURXvA0Kw1n0kgQvce1pZdT+jpgUufWWPLXHxZXfyPm+jNpZYs6nfmX27yeaC3e9Nj+x1/CMpSqTVWY4IjjbZh3SneY3YtDQ174n4Iyr6weEH+dewE0Tn9KmHkPPNPj5IwTrrMr8VJDpCeGmjM86PUYaz1Z7C7wkcwInILBBMCfI8UMuvA8vsFiN6STKM5H8GT5WzuyOyai65IaGdr01C1zj8DZwVmdQ==
+ b=NxbZJbcLQ9PjdTbzan9MUwcvVjq5vFVG44BzmxYfJATF4WkBeAmK9vJnIKTiG8Sz7T58VxuKTH6Z/SzlZV5uqdCStd84Htgxo+Yfp3XsIdCfWCfJjWCsDdDQLBv4KF5irNrln41VihtMyzL/K+gmxgDRaMfMRocntxJxjNeGlVrPIKym/iqfSY9gSktrciduRYUcQSIctXejWIJBXBMnw+TEBWTifPjvEj3BtJB2uqG5RdasXRhx4PzgHpd11BANZsKP1q9lZ7JG0NmMIZ6R0y2TXhu1Hz3uGkjqKdn3JQmhSv3cDL7NonjMAddVTa/v4pJgKu6vkoV7ciu9FtLwUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vpva6H/WX4nNEtyd9z8f+zfvIpnlZwf99+l2CohkpTc=;
- b=MpKU9FbvuKhbjb0YH0nMGk6mzvJz/hL9nbRrxRWeaLuGAXi1T28d8fX/JhCbG6W2RYGFZJ0yX34Q1BxQnTG9wvc8OIiw48hHfcNUem994QKxNDwBnKHLzUQaMrwXSUBAgN7U2aJGKmC441IaTHD7PQOxmZ6CfMLsrtnsD0T7BtFwvSUhqZUh0IS5E8HtEKJT6WuJrIzbMP9Hgt6NnDBG0fDV2So5CmtSpAFiU2HJYod7L4fOZUMVupwFXc48nnyUU+jktRhuaMguproVHL67gGeTnTSGrrbqYx2MoASHDCTpsatqNkmZpOo768H+tATqhw/maKBm9Vi6Hw4ZYHcejQ==
+ bh=HtsTVL3ZwL5d3E70TDusVMzVmB+3lU5y6/H1Pwz98UA=;
+ b=SBK307d6vgnLTG11pvf1SswcPT4fInJcrmGxJzYgdEkwkJ/290goDBvG5bs/gvGKsju53dfAyRJGpyTjeu4AKwShhUlYJ+M9EN+4UAHEmE6b6Zp66d9nHbG51uhGt3lu0+z7rsLtYO18zwk8bEFSVWJ6FgKqkGb6YhdM1ZMCK0HlWhhBeOsrZV3ew+xzHkPVvdPfesmtp+jPZ09jpF7Zd5+Ae+d6VWNWxf8BjnDLoF0x6N4HGnWHPb7IElKNcZFB082/TdKE2jaQ1wOnnzCXA/mkoCpSblUZV4nIsZLnVGPabwZgfV4Wdww2PRqgiwGBNFtsdpyzC+PoN3JJcksW7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vpva6H/WX4nNEtyd9z8f+zfvIpnlZwf99+l2CohkpTc=;
- b=jZrTJlqMw6C1A/gTZt8qe+IsC+b3gbVzHqDUYJIxgF8vyMH8+D+IbBIJqVrarRlzG6G6Vb7ZvIKs6srzDd1KA91E4CMREmVlDja2jSNuxSGr5WrqH/oTWVZrRip9DzgbMF6+/Mm1HkuSWRgR/gwR0y79IFvCMk7dEkFDYpNsKzY=
+ bh=HtsTVL3ZwL5d3E70TDusVMzVmB+3lU5y6/H1Pwz98UA=;
+ b=wznBTfVCXKQyhbmLKgso1IoRoTXoE5c4t8W5AWvyeJUyDAj9TCrzcSepBYVkbbQ/LNpAPHv7qHO4IBw0Lzka7v7X4iSm9rdG8scDlbWhWFKnuk0+t/zWNPGK9FPi3l7a8dt41fCY26lrL4Zg0WbkwBOYZ6aHEsrz2pA8eQKbt3k=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
  by DB5PR08MB10214.eurprd08.prod.outlook.com (2603:10a6:10:4a9::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
- 2023 11:23:21 +0000
+ 2023 11:25:06 +0000
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::9d1a:4539:a8f8:dd60]) by DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::9d1a:4539:a8f8:dd60%7]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
- 11:23:21 +0000
+ 11:25:06 +0000
+Message-ID: <f71a8729-57a8-f45f-7db2-41ab543405de@wolfvision.net>
+Date: Fri, 4 Aug 2023 13:24:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 2/3] drm/panel: sitronix-st7789v: add panel orientation
+ support
+Content-Language: en-US
+To: neil.armstrong@linaro.org, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sebastian Reichel
+ <sre@kernel.org>, Gerald Loacker <gerald.loacker@wolfvision.net>
+References: <20230718-feature-st7789v-v2-0-207cb1baea0f@wolfvision.net>
+ <20230718-feature-st7789v-v2-2-207cb1baea0f@wolfvision.net>
+ <b2407b1d-23fb-3284-c4bb-b3a952d361dd@linaro.org>
 From: Michael Riesch <michael.riesch@wolfvision.net>
-Date: Fri, 04 Aug 2023 13:23:10 +0200
-Subject: [PATCH v3 3/3] dt-bindings: display: add rotation property to
- sitronix,st7789v
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230718-feature-st7789v-v3-3-157d68fb63e2@wolfvision.net>
-References: <20230718-feature-st7789v-v3-0-157d68fb63e2@wolfvision.net>
-In-Reply-To: <20230718-feature-st7789v-v3-0-157d68fb63e2@wolfvision.net>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Sebastian Reichel <sre@kernel.org>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691148197; l=1194;
- i=michael.riesch@wolfvision.net; s=20230425; h=from:subject:message-id;
- bh=51+dgMyblZdHf78k+gy2tvc9DDFORxX5ESbyVNy9IKw=;
- b=wogxheDo6OXh1+f0go41wAED7Pb5aMECwTDeOUGB0BsnMhuzAiXib59aezaLVwRSUdLXl5iun
- h7wGKWVztBABSqjrQEQ7ldGeF/vjGFc62WuUYHWkCeeD2GQ/RM/3EyK
-X-Developer-Key: i=michael.riesch@wolfvision.net; a=ed25519;
- pk=1QQdXA2QbwdxaQn/VQK0hz04C8IBYhDowbK0hlNU4Ng=
-X-ClientProxiedBy: VI1PR07CA0281.eurprd07.prod.outlook.com
- (2603:10a6:803:b4::48) To DU0PR08MB9155.eurprd08.prod.outlook.com
+In-Reply-To: <b2407b1d-23fb-3284-c4bb-b3a952d361dd@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR07CA0271.eurprd07.prod.outlook.com
+ (2603:10a6:803:b4::38) To DU0PR08MB9155.eurprd08.prod.outlook.com
  (2603:10a6:10:416::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DB5PR08MB10214:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a23ffec-bafa-47e4-f732-08db94dd35dc
+X-MS-Office365-Filtering-Correlation-Id: 1748d296-a217-4039-af4b-08db94dd748e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2kRz4OlHSeVncYP5KMFWMKexhS27+knV+zcWHGjZCvP7CwoXJRo3oJQgA/5oZFryTzs3pSdqpbBt4f+03Ozoq0LIVthyeEGSpAcrC1eUebYnjsgcpVKXkt4r3ml8GQicHow74Yc4pAW99OVxZ6VwP8izUGiPRzVxJIXsjCV1LdUXWuwDSVLWFonFMn7PrcWVqMEagr8YksA8AL1lpfErSy9snAh9jpPerIhMALSY6nlVMjiFbsDCHR+VvVANfGbV20PG4RSnhA2cgWSOaMdLIdKfpfVKnGo0f6FPzn8pHG9WAkZxACOabL9XYckugQc4SnlV+dw0RtZXXioQnJo1hEsoIfSzHTrbSxMKBSf9P5vhWvhFfnKbjgcHfztvqy8DLODEkAagL0qKsJYDOwiWc3DDkHAy7NRj48WWGB6ydYG2qhcEyZO8NECf5395xYsZlHD1sx63BzdHwhCHvNNMMzQgMM0fuR41e9NZ0+EF3VSXfc5MWF07VzkRUueeOqmXmSURnpiZSNXOtT+enF6000c+lE531OyLvXX42l1omW06imuZ9CVDcnQRpAFnc99KjzptvfLid5RrzEGd5DpBKHAk4s6jdaQayiUPJOXbyieEItPF/0OJAs0/K10JenHJD3tdq1tOGUWqXEfdfnwpLQ==
+X-Microsoft-Antispam-Message-Info: N0Gu7zaRZstlxo2r2VEsZgtyjPJ1N1787Q03KGUmXwTuhVcIKHXCnZinCv4XyTx2SbErK1oOYahj/lX9W9+shrFXw3KnXL8P1zRHt9uLrL0O0foMwzwClOhEjXPDMi9iYGvv3Av36yahjWV3ytwE59LxiApmZkxekC/zHhl2/EPmF8WQ8fiu7W6/MIH3KZUYAPVdlg8+wfHpRGqBmDD1kZKEvAmcXBQulw4gbOmmIp9a2b/Y+ECX6R2ZdJqbCAwEpL3SZB/sLA5aIxki797N8O31HrloYlll5vD+jcpHGhh7LVVfbb04ttDSjTR4fPuYETUWcYmQABq3BxDXC6k+pDnvx7/cIZ8v082CNSIx0vcsyvMuFf+M6F/jZs1RdBPLSHEexHJPNJNqvnSbtlxuLfw/2ABlZZbV49HmJHZ4biMP6MLAKSGduHK4RSzZ/gLg/zXPxcb80ey28DZLRZ6XN/Zf6X9cnZtfkIZj60lLa0n8yhS6/0ilxGt01szJx4LjXJrfXoUGISbXaTA+6B+OJUsAGPL0aFo0Jr76xvC2z+2s90BpuxyPRVn8bV6gNbNzxJDB3oSStpBD/OEcyM/mfLIDnN+2AEy97XW9ewSQZgoLWdttfRZgZLG97JG64WhGDgXZCY9c9YtNA39FGnT3r98nAKbosu/y9u7HiONVtG8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(39840400004)(366004)(346002)(396003)(451199021)(186006)(1800799003)(52116002)(6666004)(6486002)(6512007)(86362001)(6506007)(26005)(107886003)(36756003)(2616005)(38100700002)(38350700002)(921005)(5660300002)(41300700001)(8936002)(8676002)(6636002)(4326008)(2906002)(66556008)(66476007)(66946007)(316002)(7416002)(478600001)(44832011)(110136005)(54906003);
+ SFS:(13230028)(4636009)(136003)(376002)(39840400004)(366004)(346002)(396003)(451199021)(186006)(1800799003)(6666004)(6486002)(6512007)(86362001)(31696002)(6506007)(36756003)(2616005)(53546011)(38100700002)(921005)(5660300002)(41300700001)(8936002)(8676002)(31686004)(6636002)(4326008)(2906002)(66556008)(66476007)(66946007)(316002)(7416002)(478600001)(44832011)(110136005)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVVxWHlIS2JlRDZ0Zy9acmZ0NXZua1ZjcFp6cHZyKzR2WnI4OEJQKzM3VmNH?=
- =?utf-8?B?MVpOeEt0THM0MEFQWGk3NTdpaTVuUU1GQVdKc0dsMjV2V0RYYmNkRFMwSGZ6?=
- =?utf-8?B?S3JQVjNNTTc5UUpJQTJoQUJ0dGNMME5LZkhSOFpWZklUendHcFdmK1BWaUJr?=
- =?utf-8?B?alRET2tlUitOalByNjBFUWNnT3UvM0NteU5xMk1PWDJTUUp5Sm4vaVdMSklh?=
- =?utf-8?B?eEV6OGo3ajJBb2RIR25qeWFPSCs4eHg2TG1WVTBPanRhZjlmSzk0UG5hU2pU?=
- =?utf-8?B?ZExaajlVdzZnRVQxMlN5Snc0STUxVnRhcThsV0pJbTgwenQxZTYyRkJhaWhU?=
- =?utf-8?B?cUtYaml6T2hRdGUycnNsL0lKZFd0L0dFazA3WSt1UWMzRHphQ3R0cmJhZTVD?=
- =?utf-8?B?aDFHM3NCYVBHZ2dkME1UT0R6TXlYZzVMMEhCUHRJYlAyV0wzQVA1aERPRC9i?=
- =?utf-8?B?RitITU5xNndUd0poL0FGbDRPdXRmRjU2bys5SnNVMHFWRFh4TlB3cUJ5eUxK?=
- =?utf-8?B?V3pVeGtxdHBoTXFlbTUxMkI5eFZQVHhMeDdPeTAxd2xrQWxEcnpCQmIzbzdi?=
- =?utf-8?B?MFJLQWxPWGQrcU9ZMWpoODhveDlzVzhYTi9vUGdhVHorNXRwQlpqWi9PaFcz?=
- =?utf-8?B?OUFyMjJXZ0Z2UzB6N001aDRzZTZzeFB5RUVTakhMYURHb3A4ZWpFR25HV0hv?=
- =?utf-8?B?Q2diQytwWjNIZVluSzdpTzJVNkpqWkhueWZCZmpqTUN4VktjNERjT0svN3lm?=
- =?utf-8?B?QURoRWtLVG5oK0RSZkwvM3RsbThOOEVYcnNBZmlyKzNoTi9yWGZYWFBycm9U?=
- =?utf-8?B?ZEdhd1FvTFhqUHZXRFNlc0c0OHl6QXJSaVRZbDFxNFhKOVUvckIvd0tldGFm?=
- =?utf-8?B?M1VLd0xaLzgxTm1ISW9GK21YK2dGTWtrYkpqS2ppNndjdzZDenZQWEVoOXN5?=
- =?utf-8?B?V2ZONlVQVU1mcndVM3NCMXIrcUpBaTlNOWp4MDJxdG5aTVpoVDMzd0o5NUhx?=
- =?utf-8?B?Uk5BUWxxOEFJbG02S0lhRVZvaGk5SFA4dkNSUlNlY3hVd0JBUCtKVXVHWjdH?=
- =?utf-8?B?NlJBL3Rsa01ZWFFuU3BaYlRCRjM4ZXhjUjFBendIaTRtQ3NBMkt1aHJEUEsx?=
- =?utf-8?B?YTk0WEMvcThiR2I2TFhDR2xUck9vRzE2U2Y0N01US1NqeGxPV1d5QXRHc1c2?=
- =?utf-8?B?amNENWg1VVZRSkQrWUlWQmRqcTZyNnJnTzZOMmJVTjludG4rby9yRVBpZnVB?=
- =?utf-8?B?R1FHcEZ5WXVqT0RzUi82akF5QnpTczFKWFNLUHVINHlQMTM4K2tlODlEMWxa?=
- =?utf-8?B?UWYydTVDa2MwSEpoOTcrZE83dUcrTVplQ2RTMHZGd1VFb2RWeUpKS2lBYnI5?=
- =?utf-8?B?N1dXNllNTnErbmVBT1lXVVdkVW5BNC9SK2NlVGNuSFNiNDlaZkxuRW01SEcw?=
- =?utf-8?B?Q1dQTk5aWFR2Z3FyeFBYejBBaG5OOWFoZHA0MU5nMWpHWml5MkZSdHc0bGNo?=
- =?utf-8?B?V0M4amRXR0hjcFVOQkxSNE1qMTdZdXVQTjlYZ3pULzhVNi9mU2cyZHFHSmNq?=
- =?utf-8?B?VjdKeWUydmlhSDZjUEJmbkFSQlNKRW5JSXVPa29IajZDY1kvT0E3V0g2TGtt?=
- =?utf-8?B?RlFJZS9yWG8rQjBmd3VzRTN2MUtFOE5NMWFFMkZxNWozMHJKZVdnczNJZFAy?=
- =?utf-8?B?aFpsSnc4aGxOcGcwd0pFMm5DZWFYUzlpOStiNE1Xb0tJV0NkU0IyR1o4eG12?=
- =?utf-8?B?a3NxMEJRNHNXQzBJOWRmcjkzMmxnRDA1QUc4anNLWmF6SllDYjJJdC9jTnJO?=
- =?utf-8?B?U3pta3Mrai9wQTBiZThlc0pub083L2ZrMFFudjEwNElEN2k2ZDUwV2lOa0x3?=
- =?utf-8?B?RjhWeEp4ek81Z3NkeGt4Ukw1WENlL25GcXdUaGp4QWZGSFFwcktGcFlpc2Nq?=
- =?utf-8?B?WE9GSS9pNE1EZjNyaXd1VllpMjl5dDJTdHI3eDNJOEhNMFZGSUhkVjhMY253?=
- =?utf-8?B?OTNaOVRlVHB2ajYwNnI4ZXdwL2VTVU0wSkFKZml4bmdPZytqTW1KYmw1c3pN?=
- =?utf-8?B?Y2c2RzdlV0pINFhXK3RBMFVBRmVkRHdCandkYzdmMzJQWVB2OGhYc1VoT1gx?=
- =?utf-8?B?WnNhbjhhNGV4NHpkRm9LM3RNMkJkbEd6VlFuQUx2Ung3Q2NJMWlidysxd3U2?=
- =?utf-8?B?dGc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVlSMDlNem9CazRnZWppUkVSY1lLeFUrTXZ4U1RBNGYxOWdDaEZpRHlKTXhF?=
+ =?utf-8?B?bmdYWGpJR1hPY2FnSWluNnJjSTRGYmdNRks2bGR5TUwxSlpWUnN3YjNVTS9Y?=
+ =?utf-8?B?QXhEYkVBMSt1UWRzS1JWYWxRVlZteXlQWlBzb3NVakZmK29Hd1c1T2p6NTRv?=
+ =?utf-8?B?bjBGSGNZTGZFS2VWS1hYbVFVUU9JcXZDeU0zNklEcVB0b0ZQOGFOc1pOUktK?=
+ =?utf-8?B?MUYvMTJGa25YTkxQVHRVbjlHOU1qNDJDYXhJaTdvbEhmSFZHaG0wcENOMStr?=
+ =?utf-8?B?a1VMOUtjQU4rTHdFWG1vQWZVRVZjenZ3N2pWQWJPQWg3M2hiei9CRmFvTGpj?=
+ =?utf-8?B?N0VhemxZU2NQeE9vcnZoekhWV0xvNS9wM3BSTjRTK1lxOVU4bnNMUXBTSUdS?=
+ =?utf-8?B?K0hFTHQwUmU0UHA1VEF2Yk5FTXVtTFBDSGdCZXM5SnBLQlk0V2x6dlM3OVpl?=
+ =?utf-8?B?RGFDNXllQklOdnlQaU5GRmd1N2FvcVFaTEJRa2Y0RCsvajFGd3ZMOFVtU1R0?=
+ =?utf-8?B?L1lnSFFaeHNjU2hkQktsMDY0K2hGZmJ4Q2dWaXNLZjhYS05MQWtIcE5wcU01?=
+ =?utf-8?B?clZpcHVkQ2VkbjdtSXVTNy83SkU0OThnR0V5K0YveHFWdWFsWHl6MFI3SkFu?=
+ =?utf-8?B?K3VxWjdTYXp3UmZoVmNaYWkwQ24xOTVWMkRCOTRjbVR5TWhCL2dpUEEzdFdr?=
+ =?utf-8?B?SWIvMEYzSFFQbEtZN01Xc1U1RU5mZW9mM3ZmMmpCcnRyUkxPN1ZRWnV6OVM2?=
+ =?utf-8?B?RDFRczh5VWl0TVAzZ1pmdURKd3NaS08xMXhjUmxlUURTbVBNK2owTnRXQmhj?=
+ =?utf-8?B?QytjYXhvNURrM3JtdFJ6dFlOSStEdUEybTFSdXNNenlDcC9qTjJXbUdIaGds?=
+ =?utf-8?B?WG9VZFhLcHpybE5CY2dCYWk4Z0F6UDJuelkwaHRTczZkWWt2SHFDU28wQWgr?=
+ =?utf-8?B?Vk9rNHIxQWZrNHlvbHNNNG5idnM0T3Q0U0RIUFpRTVVQblFSQXNGK25qeVJt?=
+ =?utf-8?B?ZzBQbmMzd1A1Q0ZTdkJGcktZZDJmVzlCaU4zakxsY25HWm1kbzUrR3VKT041?=
+ =?utf-8?B?emZCVTFmbUxlOWNsVnZQYzNvRjVMMUpVeHI5KzVBQWZZVjRBc1JsRlNXNlJL?=
+ =?utf-8?B?OXZYeVBMYitTYkxoU3pKSGRLQkFUNURzZC91bHZMZ3ZES2V4cGRZVWVON1Nr?=
+ =?utf-8?B?Z1oxcVh3Z1ViNlRhenFVeUFvemFJcldtZEROTVIvRGRORXhlYkhCOGE0S0xz?=
+ =?utf-8?B?Q2NKYmdkYzZqSVgzSEdMZkdOZlJ0Z3ZHS0RjMk8rM080UGZDem9YcDNnRVhr?=
+ =?utf-8?B?dnlHczdkZHpEblloK0NiL2tvUEM4aU1nWTRYVzFiaEhTNERONlY0VWwydzUw?=
+ =?utf-8?B?ZFp2YlVZWmIrY3lyZUliTXZCeW95TWU4bldhdDVpclpYRnJ6S09Hdkpva2h4?=
+ =?utf-8?B?MVZOT0VVOCtPbkpDK2lrbWJza1VCQkhyYWJ6TWV4MGtJanEvQ1ZwYWFqMzhy?=
+ =?utf-8?B?eGlqZ055WDNHMVo2eENyTEJXUkdXZ1NMWmlsTWVhMWI0QklIY0h4TXpjVVJF?=
+ =?utf-8?B?NW5WL2NHNnJLOTN3K0RJN0prTFQwTVdxU1o2YXNiVE9oZ2NzNUZ4Nk5PT1hq?=
+ =?utf-8?B?bkE0RVdXSVNQNC9PamJmUU1vNUgxa1hwa0tTRXBiZFQ0ZXZmR0tkREppa2k0?=
+ =?utf-8?B?YkFmeUQxdy9BbXQ5cW53U0x6US9CVVBndWtLNjFiVHlhaVpsZHE0OTVMV3ZW?=
+ =?utf-8?B?MCtTMUhQMG1HSXBQSCtYQytCRXdDS3pQZFNKK3pQc3RlUXNxcmpuem9mRG9P?=
+ =?utf-8?B?a3pnRDdXM0YveTdsMWRPNllOWld6Y3ppeVhLSGFwd0pOemN6OHpYOGVZTWIx?=
+ =?utf-8?B?S0hpWW1oL3p5TWdJWEZ2THhsTmhnTHZIZzNLN1Nsc29mRGVTNWNJbHpURkxP?=
+ =?utf-8?B?bUh3Mkh0Q2pBU0xzY2JXb0I2Slk5dU5ER2RCbTBRZFM2OFFnVlJpRjhDc0t6?=
+ =?utf-8?B?K25tMEdleFlSNktOMEUrOUE5ekFDbG1TSE04TkQzWEhoYlN5TUZ6NnV0MDBn?=
+ =?utf-8?B?V3JwdEp3NEhaWGU2V3VxYmdGRllwQlR3VmpUNEpmT0hieUxPVHJXRE9EUU9D?=
+ =?utf-8?B?a2x4enNBNzZXYzE2cUdUbHcwakhzZmMzaVkva2crNW52VjNiWjdGMFBPSVg1?=
+ =?utf-8?B?UTlyMG82WUVCY2JjNTBQdmxobWVBdm11REgyUk1LdXRkdkNpWkR4dDdEMnpJ?=
+ =?utf-8?B?ODY5YVFhUEE2YXZkTTVQOGYxMVVBPT0=?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a23ffec-bafa-47e4-f732-08db94dd35dc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1748d296-a217-4039-af4b-08db94dd748e
 X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 11:23:21.6372 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 11:25:06.8829 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0lGE5Xj5zTkwZwP/wsylZYaC4zG3v4kLc5OgL+2w3jlwJ6fFWkdpgQdYFTnJqVup6ZvN9NPtKT35cgY3DWwLoBsvhoZtidvmu5Nler13QXY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9srQwKQVGkopVEaRSu1duR7GJWicnCvhM4nG71tpxzbZSs6X52JTwXbVLIZ0DL1U1LVMzEfDSW9NC7hKoq71mFISwri4sxuzHz+L2KyjcbU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10214
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -139,43 +136,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sitronix-st7789v driver now considers the rotation property.
-Add the property to the documentation.
+Hi Neil,
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Sebastian Reichel <sre@kernel.org>
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
----
- Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+On 8/4/23 10:40, Neil Armstrong wrote:
+> Hi,
+> 
+> On 03/08/2023 22:13, Michael Riesch wrote:
+>> Determine the orientation of the display based on the device tree and
+>> propagate it.
+>>
+>> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+>> ---
+>>   drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+>> b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+>> index c7cbfe6ca82c..6575f07d49e3 100644
+>> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+>> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+>> @@ -116,6 +116,7 @@ struct st7789v {
+>>       struct spi_device *spi;
+>>       struct gpio_desc *reset;
+>>       struct regulator *power;
+>> +    enum drm_panel_orientation orientation;
+>>   };
+>>     enum st7789v_prefix {
+>> @@ -170,6 +171,7 @@ static const struct drm_display_mode default_mode = {
+>>   static int st7789v_get_modes(struct drm_panel *panel,
+>>                    struct drm_connector *connector)
+>>   {
+>> +    struct st7789v *ctx = panel_to_st7789v(panel);
+>>       struct drm_display_mode *mode;
+>>         mode = drm_mode_duplicate(connector->dev, &default_mode);
+>> @@ -188,9 +190,22 @@ static int st7789v_get_modes(struct drm_panel
+>> *panel,
+>>       connector->display_info.width_mm = 61;
+>>       connector->display_info.height_mm = 103;
+>>   +    /*
+>> +     * TODO: Remove once all drm drivers call
+>> +     * drm_connector_set_orientation_from_panel()
+>> +     */
+>> +    drm_connector_set_panel_orientation(connector, ctx->orientation);
+>> +
+>>       return 1;
+>>   }
+>>   +static enum drm_panel_orientation st7789v_get_orientation(struct
+>> drm_panel *p)
+>> +{
+>> +    struct st7789v *ctx = panel_to_st7789v(p);
+>> +
+>> +    return ctx->orientation;
+>> +}
+>> +
+>>   static int st7789v_prepare(struct drm_panel *panel)
+>>   {
+>>       struct st7789v *ctx = panel_to_st7789v(panel);
+>> @@ -349,6 +364,7 @@ static const struct drm_panel_funcs
+>> st7789v_drm_funcs = {
+>>       .disable = st7789v_disable,
+>>       .enable    = st7789v_enable,
+>>       .get_modes = st7789v_get_modes,
+>> +    .get_orientation = st7789v_get_orientation,
+>>       .prepare = st7789v_prepare,
+>>       .unprepare = st7789v_unprepare,
+>>   };
+>> @@ -382,6 +398,8 @@ static int st7789v_probe(struct spi_device *spi)
+>>       if (ret)
+>>           return ret;
+>>   +    of_drm_get_panel_orientation(spi->dev.of_node, &ctx->orientation);
+>> +
+>>       drm_panel_add(&ctx->panel);
+>>         return 0;
+>>
+> 
+> This patch doesn't apply clean on drm-misc-next, could you rebase and
+> resend ?
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-index 905c064cd106..0da4c7e05097 100644
---- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-@@ -25,6 +25,7 @@ properties:
-   power-supply: true
-   backlight: true
-   port: true
-+  rotation: true
- 
-   spi-cpha: true
-   spi-cpol: true
-@@ -58,6 +59,7 @@ examples:
-             reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>;
-             backlight = <&pwm_bl>;
-             power-supply = <&power>;
-+            rotation = <180>;
-             spi-max-frequency = <100000>;
-             spi-cpol;
-             spi-cpha;
+Sure! v3 is out.
 
--- 
-2.37.2
+Best regards,
+Michael
 
+> 
+> Thanks,
+> Neil
