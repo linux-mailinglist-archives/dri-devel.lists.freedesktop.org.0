@@ -2,80 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E33576FC44
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F152B76FC8A
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 009CB10E6C3;
-	Fri,  4 Aug 2023 08:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5F810E6CF;
+	Fri,  4 Aug 2023 08:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4EC10E6C2
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:46:16 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3fe1a17f983so17795715e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:46:16 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B30A89496
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:50:41 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-94ea38c90ccso49318566b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:50:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691138774; x=1691743574;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=8/2epN71DffLwBWhZlwSr6qgtOgEJN1dllV/1/DX8b4=;
- b=T1rvrGSHsbHhc2NkBJrzGuI/Z2XJzkQP8vMpV2km3yg17tnd2qj4b4KVA8viOkVK4y
- UrqIIamqmT8WZmM9/H8KlAgYdCLWrwqfqyPNMMYfeRAojXhx1+dCLiYL/V/MpNaVNhxn
- PfpxG9VqMHldniAan8t8+DiCTMk3Irn7ygCipIp0vigjzDZn3h/dl+ECBVvUSCPdHtSx
- aXymiTv8WIxC0sW8TSNYy76XQFKlZRUhwpkeIyMzq8o7gBWnKgW8AJxHDRgmb2bjJnok
- d3PymPfj/qHb4w9NdhNc/1XZ5CMZAA6JeA0xl7oKlU38TL1YJfpxrTm1kQvn5NpJQYQ4
- aGIg==
+ d=ffwll.ch; s=google; t=1691139040; x=1691743840;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=HA8dbKkV7nV4nxCBGGCJH4RgKZVHt3H6M9C/kpJrdcg=;
+ b=fXpQvO2AkzkSySccabIQDFNO5YBZwEroMK29XNhDFjayW3ZVYzYq00PMqz4Yld9RTH
+ W4Qdj/Y2M7TNm7rGNrbT2byCSSHob9O9acm7FlUdU7eWAhylL1C+Hz/KCXd+xkJ7drfe
+ FrAstohgooW3ESY84uODVH40yIoxllbCOb1MM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691138774; x=1691743574;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8/2epN71DffLwBWhZlwSr6qgtOgEJN1dllV/1/DX8b4=;
- b=DmPoBztzgZGBpMhF1GHAhtSL5V7DjAo36WhIPLcYQK0mOb9Y+Qv24H0Z3K0CQK3uj8
- k82Fl4HVJuJz0KZBHe1h3oLjWlrNtwaPjg1XVdjFLnJPMebnvd18vxh6wFV22u0/LgwW
- MvQAcMQPpXkGBofrUc0/ePEbZU1qvu9jvQxghwzi5p1Auuxi60+78xwu9JUuObLdOH/E
- 4Oise91+XWzuDibmMapee3kY6fF+6NeHWwEQk4KYnuDvO7b4BTxjxmjQXQ9NFLDCj009
- 3f/51CVS8AZ8Onz0U50bKuSB3tC5fDRqa4NX0bnjR547U/AEtZFdO46swoVHWpWf4CIq
- xhRA==
-X-Gm-Message-State: AOJu0YxkjQJa68AKAZnEoOghu5Yvoh7gJu0MM/jEaGjPGDYe6bftgscb
- tRdOvN2ayEJCFnAb9G57leMt/w==
-X-Google-Smtp-Source: AGHT+IEXfc2HyMKRUwROboiBvMsrvQ2EBr3c0K0nVutboAbfHnMsN4bJm+HSXSoaklbeeraThsaQxA==
-X-Received: by 2002:a05:600c:208:b0:3fb:4055:1ddd with SMTP id
- 8-20020a05600c020800b003fb40551dddmr962143wmi.28.1691138774486; 
- Fri, 04 Aug 2023 01:46:14 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:b526:9083:f5a6:4af1?
- ([2a01:e0a:982:cbb0:b526:9083:f5a6:4af1])
+ d=1e100.net; s=20221208; t=1691139040; x=1691743840;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HA8dbKkV7nV4nxCBGGCJH4RgKZVHt3H6M9C/kpJrdcg=;
+ b=G29fUz6xp2QltY7Hyhx2iH4ABvUpZp+C0i0K3fUhtWC49il8Hzt0qJ2ur1YQ2ujugv
+ gIyqophlYO6tk4hK4DEurc1iz5pm653zT3lYRqZJNz1gud8EI9ced+PivhJjeULyeAk9
+ BvVS+6ecvhkGtE9ji7ibFy0H2ceBFA9c0PXCtb1AO0aEfAHqNYiqwPja3IKk2ATn0twc
+ m9kqBeZW5iOa867McMFpJFeLz0R8pdkZmyNetgndmjGTxEdCzgNriabdXoZ5vnKOlZld
+ ih67I36iyVDCJZPBYYSp5bMSWLCwM+uO56D8W2FnAjI2JjXg3OZ9RRhQoPcwqW4Uuise
+ oRdw==
+X-Gm-Message-State: AOJu0Yy+Spo75t+UUmm4Qm6vi2Gdefg1cNkgsxEnuVxlF/G1B+Qq56W4
+ /6PzKu5i5hzL2kp6i1H/MhqpHw==
+X-Google-Smtp-Source: AGHT+IFS6fOk9WopnXlbIKLDAm0stoGlfbO8InvtypDnWiKgXkVyalJBk0y2RmFSFd6Hx0xiORvgUA==
+X-Received: by 2002:a17:906:2d3:b0:99c:adfb:713 with SMTP id
+ 19-20020a17090602d300b0099cadfb0713mr119454ejk.5.1691139039641; 
+ Fri, 04 Aug 2023 01:50:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- a25-20020a05600c225900b003fc00892c13sm1807034wmm.35.2023.08.04.01.46.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Aug 2023 01:46:13 -0700 (PDT)
-Message-ID: <cdc50fd9-fbc8-81b2-18b9-94be60eda375@linaro.org>
-Date: Fri, 4 Aug 2023 10:46:12 +0200
+ lt1-20020a170906fa8100b009934707378fsm987667ejb.87.2023.08.04.01.50.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Aug 2023 01:50:38 -0700 (PDT)
+Date: Fri, 4 Aug 2023 10:50:36 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 4/8] drm/sched: Add generic scheduler message interface
+Message-ID: <ZMy73BrH55NGq6Ba@phenom.ffwll.local>
+References: <20230801205103.627779-1-matthew.brost@intel.com>
+ <20230801205103.627779-5-matthew.brost@intel.com>
+ <efabdbaf-4f38-ae62-3d4e-da5660558886@amd.com>
+ <CAKMK7uEdyV+Swtk50KqYUeCr5sOAceT_asB69_Ynz=Nx_z+HkQ@mail.gmail.com>
+ <88b40106-e24f-e286-c3a3-363a6b2462ee@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v7 3/9] clk: meson: add vclk driver
-Content-Language: en-US
-To: Jerome Brunet <jbrunet@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jagan Teki <jagan@amarulasolutions.com>, Nicolas Belin <nbelin@baylibre.com>
-References: <20230803-amlogic-v6-4-upstream-dsi-ccf-vim3-v7-0-762219fc5b28@linaro.org>
- <20230803-amlogic-v6-4-upstream-dsi-ccf-vim3-v7-3-762219fc5b28@linaro.org>
- <1j5y5vp88v.fsf@starbuckisacylon.baylibre.com>
-Organization: Linaro Developer Services
-In-Reply-To: <1j5y5vp88v.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <88b40106-e24f-e286-c3a3-363a6b2462ee@amd.com>
+X-Operating-System: Linux phenom 6.3.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,309 +76,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Matthew Brost <matthew.brost@intel.com>, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, Liviu.Dudau@arm.com,
+ dri-devel@lists.freedesktop.org, luben.tuikov@amd.com, lina@asahilina.net,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ robdclark@chromium.org, intel-xe@lists.freedesktop.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/08/2023 09:33, Jerome Brunet wrote:
+On Thu, Aug 03, 2023 at 11:35:30AM +0200, Christian König wrote:
+> Am 03.08.23 um 10:58 schrieb Daniel Vetter:
+> > On Thu, 3 Aug 2023 at 10:53, Christian König <christian.koenig@amd.com> wrote:
+> > > Am 01.08.23 um 22:50 schrieb Matthew Brost:
+> > > > Add generic schedule message interface which sends messages to backend
+> > > > from the drm_gpu_scheduler main submission thread. The idea is some of
+> > > > these messages modify some state in drm_sched_entity which is also
+> > > > modified during submission. By scheduling these messages and submission
+> > > > in the same thread their is not race changing states in
+> > > > drm_sched_entity.
+> > > > 
+> > > > This interface will be used in XE, new Intel GPU driver, to cleanup,
+> > > > suspend, resume, and change scheduling properties of a drm_sched_entity.
+> > > > 
+> > > > The interface is designed to be generic and extendable with only the
+> > > > backend understanding the messages.
+> > > I'm still extremely frowned on this.
+> > > 
+> > > If you need this functionality then let the drivers decide which
+> > > runqueue the scheduler should use.
+> > > 
+> > > When you then create a single threaded runqueue you can just submit work
+> > > to it and serialize this with the scheduler work.
+> > > 
+> > > This way we wouldn't duplicate this core kernel function inside the
+> > > scheduler.
+> > Yeah that's essentially the design we picked for the tdr workers,
+> > where some drivers have requirements that all tdr work must be done on
+> > the same thread (because of cross-engine coordination issues). But
+> > that would require that we rework the scheduler as a pile of
+> > self-submitting work items, and I'm not sure that actually fits all
+> > that well into the core workqueue interfaces either.
 > 
-> On Thu 03 Aug 2023 at 14:03, Neil Armstrong <neil.armstrong@linaro.org> wrote:
+> There were already patches floating around which did exactly that.
 > 
->> The VCLK and VCLK_DIV clocks have supplementary bits.
->>
->> The VCLK has a "SOFT RESET" bit to toggle after the whole
->> VCLK sub-tree rate has been set, this is implemented in
->> the gate enable callback.
->>
->> The VCLK_DIV clocks as enable and reset bits used to disable
->> and reset the divider, associated with CLK_SET_RATE_GATE it ensures
->> the rate is set while the divider is disabled and in reset mode.
->>
->> The VCLK_DIV enable bit isn't implemented as a gate since it's part
->> of the divider logic and vendor does this exact sequence to ensure
->> the divider is correctly set.
+> Last time I checked those were actually looking pretty good.
 > 
-> Unless there is reason, I'd prefer if this driver was using 'struct
-> parm', like the rest of amlogic custom clock drivers, for consistency.
+> Additional to message passing advantage the real big issue with the
+> scheduler and 1 to 1 mapping is that we create a kernel thread for each
+> instance, which results in tons on overhead.
+> 
+> Just using a work item which is submitted to a work queue completely avoids
+> that.
 
-Ack
+Hm I should have read the entire series first, since that does the
+conversion still. Apologies for the confusion, and yeah we should be able
+to just submit other work to the same wq with the first patch? And so
+hand-rolling this infra here isn't needed at all?
 
-thx,
-Neil
+Or what am I missing?
 
+> Regards,
+> Christian.
 > 
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   drivers/clk/meson/Kconfig  |   5 ++
->>   drivers/clk/meson/Makefile |   1 +
->>   drivers/clk/meson/vclk.c   | 146 +++++++++++++++++++++++++++++++++++++++++++++
->>   drivers/clk/meson/vclk.h   |  68 +++++++++++++++++++++
->>   4 files changed, 220 insertions(+)
->>
->> diff --git a/drivers/clk/meson/Kconfig b/drivers/clk/meson/Kconfig
->> index 135da8f2d0b1..83f629515e96 100644
->> --- a/drivers/clk/meson/Kconfig
->> +++ b/drivers/clk/meson/Kconfig
->> @@ -30,6 +30,10 @@ config COMMON_CLK_MESON_VID_PLL_DIV
->>   	tristate
->>   	select COMMON_CLK_MESON_REGMAP
->>   
->> +config COMMON_CLK_MESON_VCLK
->> +	tristate
->> +	select COMMON_CLK_MESON_REGMAP
->> +
->>   config COMMON_CLK_MESON_CLKC_UTILS
->>   	tristate
->>   
->> @@ -140,6 +144,7 @@ config COMMON_CLK_G12A
->>   	select COMMON_CLK_MESON_EE_CLKC
->>   	select COMMON_CLK_MESON_CPU_DYNDIV
->>   	select COMMON_CLK_MESON_VID_PLL_DIV
->> +	select COMMON_CLK_MESON_VCLK
->>   	select MFD_SYSCON
->>   	help
->>   	  Support for the clock controller on Amlogic S905D2, S905X2 and S905Y2
->> diff --git a/drivers/clk/meson/Makefile b/drivers/clk/meson/Makefile
->> index cd961cc4f4db..6efeb8c7bd2a 100644
->> --- a/drivers/clk/meson/Makefile
->> +++ b/drivers/clk/meson/Makefile
->> @@ -12,6 +12,7 @@ obj-$(CONFIG_COMMON_CLK_MESON_PLL) += clk-pll.o
->>   obj-$(CONFIG_COMMON_CLK_MESON_REGMAP) += clk-regmap.o
->>   obj-$(CONFIG_COMMON_CLK_MESON_SCLK_DIV) += sclk-div.o
->>   obj-$(CONFIG_COMMON_CLK_MESON_VID_PLL_DIV) += vid-pll-div.o
->> +obj-$(CONFIG_COMMON_CLK_MESON_VCLK) += vclk.o
->>   
->>   # Amlogic Clock controllers
->>   
->> diff --git a/drivers/clk/meson/vclk.c b/drivers/clk/meson/vclk.c
->> new file mode 100644
->> index 000000000000..0df84403b17f
->> --- /dev/null
->> +++ b/drivers/clk/meson/vclk.c
->> @@ -0,0 +1,146 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2023 Neil Armstrong <neil.armstrong@linaro.org>
->> + */
->> +
->> +#include <linux/module.h>
->> +#include "vclk.h"
->> +
->> +/* The VCLK gate has a supplementary reset bit to pulse after ungating */
->> +
->> +static int clk_regmap_vclk_enable(struct clk_hw *hw)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_data *vclk = clk_get_regmap_vclk_data(clk);
->> +
->> +	regmap_set_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
->> +
->> +	/* Do a reset pulse */
->> +	regmap_set_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
->> +	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
->> +
->> +	return 0;
->> +}
->> +
->> +static void clk_regmap_vclk_disable(struct clk_hw *hw)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_data *vclk = clk_get_regmap_vclk_data(clk);
->> +
->> +	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
->> +}
->> +
->> +static int clk_regmap_vclk_is_enabled(struct clk_hw *hw)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_data *vclk = clk_get_regmap_vclk_data(clk);
->> +	unsigned int val;
->> +
->> +	regmap_read(clk->map, vclk->offset, &val);
->> +
->> +	return val & BIT(vclk->enable_bit_idx) ? 1 : 0;
->> +}
->> +
->> +const struct clk_ops clk_regmap_vclk_ops = {
->> +	.enable = clk_regmap_vclk_enable,
->> +	.disable = clk_regmap_vclk_disable,
->> +	.is_enabled = clk_regmap_vclk_is_enabled,
->> +};
->> +EXPORT_SYMBOL_GPL(clk_regmap_vclk_ops);
->> +
->> +/* The VCLK Divider has supplementary reset & enable bits */
->> +
->> +static unsigned long clk_regmap_vclk_div_recalc_rate(struct clk_hw *hw,
->> +						     unsigned long prate)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
->> +	unsigned int val;
->> +	int ret;
->> +
->> +	ret = regmap_read(clk->map, vclk->offset, &val);
->> +	if (ret)
->> +		/* Gives a hint that something is wrong */
->> +		return 0;
->> +
->> +	val >>= vclk->shift;
->> +	val &= clk_div_mask(vclk->width);
->> +
->> +	return divider_recalc_rate(hw, prate, val, vclk->table, vclk->flags,
->> +				   vclk->width);
->> +}
->> +
->> +static int clk_regmap_vclk_div_determine_rate(struct clk_hw *hw,
->> +					      struct clk_rate_request *req)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
->> +
->> +	return divider_determine_rate(hw, req, vclk->table, vclk->width,
->> +				      vclk->flags);
->> +}
->> +
->> +static int clk_regmap_vclk_div_set_rate(struct clk_hw *hw, unsigned long rate,
->> +					unsigned long parent_rate)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
->> +	unsigned int val;
->> +	int ret;
->> +
->> +	ret = divider_get_val(rate, parent_rate, vclk->table, vclk->width,
->> +			      vclk->flags);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	val = (unsigned int)ret << vclk->shift;
->> +	return regmap_update_bits(clk->map, vclk->offset,
->> +				  clk_div_mask(vclk->width) << vclk->shift, val);
->> +};
->> +
->> +static int clk_regmap_vclk_div_enable(struct clk_hw *hw)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
->> +
->> +	/* Unreset the divider when ungating */
->> +	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
->> +
->> +	return regmap_set_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
->> +}
->> +
->> +static void clk_regmap_vclk_div_disable(struct clk_hw *hw)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
->> +
->> +	/* Reset the divider when gating */
->> +	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
->> +
->> +	regmap_set_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
->> +}
->> +
->> +static int clk_regmap_vclk_div_is_enabled(struct clk_hw *hw)
->> +{
->> +	struct clk_regmap *clk = to_clk_regmap(hw);
->> +	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
->> +	unsigned int val;
->> +
->> +	regmap_read(clk->map, vclk->offset, &val);
->> +
->> +	return val & BIT(vclk->enable_bit_idx) ? 1 : 0;
->> +}
->> +
->> +const struct clk_ops clk_regmap_vclk_div_ops = {
->> +	.recalc_rate = clk_regmap_vclk_div_recalc_rate,
->> +	.determine_rate = clk_regmap_vclk_div_determine_rate,
->> +	.set_rate = clk_regmap_vclk_div_set_rate,
->> +	.enable = clk_regmap_vclk_div_enable,
->> +	.disable = clk_regmap_vclk_div_disable,
->> +	.is_enabled = clk_regmap_vclk_div_is_enabled,
->> +};
->> +EXPORT_SYMBOL_GPL(clk_regmap_vclk_div_ops);
->> +
->> +MODULE_DESCRIPTION("Amlogic vclk clock driver");
->> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
->> +MODULE_LICENSE("GPL v2");
->> diff --git a/drivers/clk/meson/vclk.h b/drivers/clk/meson/vclk.h
->> new file mode 100644
->> index 000000000000..90786552a7f3
->> --- /dev/null
->> +++ b/drivers/clk/meson/vclk.h
->> @@ -0,0 +1,68 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Copyright (c) 2023 Neil Armstrong <neil.armstrong@linaro.org>
->> + */
->> +
->> +#ifndef __VCLK_H
->> +#define __VCLK_H
->> +
->> +#include "clk-regmap.h"
->> +
->> +/**
->> + * struct clk_regmap_vclk_data - vclk regmap backed specific data
->> + *
->> + * @offset:		offset of the register controlling gate
->> + * @enable_bit_idx:	single bit controlling vclk enable
->> + * @reset_bit_idx:	single bit controlling vclk reset
->> + * @flags:		hardware-specific flags
->> + *
->> + * Flags:
->> + * Same as clk_gate except CLK_GATE_HIWORD_MASK which is ignored
->> + */
->> +struct clk_regmap_vclk_data {
->> +	unsigned int	offset;
->> +	u8		enable_bit_idx;
->> +	u8		reset_bit_idx;
->> +	u8		flags;
->> +};
->> +
->> +static inline struct clk_regmap_vclk_data *
->> +clk_get_regmap_vclk_data(struct clk_regmap *clk)
->> +{
->> +	return (struct clk_regmap_vclk_data *)clk->data;
->> +}
->> +
->> +extern const struct clk_ops clk_regmap_vclk_ops;
->> +
->> +/**
->> + * struct clk_regmap_vclk_div_data - vclk_div regmap back specific data
->> + *
->> + * @offset:	offset of the register controlling the divider
->> + * @shift:	shift to the divider bit field
->> + * @width:	width of the divider bit field
->> + * @enable_bit_idx:	single bit controlling vclk divider enable
->> + * @reset_bit_idx:	single bit controlling vclk divider reset
->> + * @table:	array of value/divider pairs, last entry should have div = 0
->> + *
->> + * Flags:
->> + * Same as clk_divider except CLK_DIVIDER_HIWORD_MASK which is ignored
->> + */
->> +struct clk_regmap_vclk_div_data {
->> +	unsigned int	offset;
->> +	u8		shift;
->> +	u8		width;
->> +	u8		enable_bit_idx;
->> +	u8		reset_bit_idx;
->> +	const struct clk_div_table      *table;
->> +	u8		flags;
->> +};
->> +
->> +static inline struct clk_regmap_vclk_div_data *
->> +clk_get_regmap_vclk_div_data(struct clk_regmap *clk)
->> +{
->> +	return (struct clk_regmap_vclk_div_data *)clk->data;
->> +}
->> +
->> +extern const struct clk_ops clk_regmap_vclk_div_ops;
->> +
->> +#endif /* __VCLK_H */
+> > 
+> > Worst case I think this isn't a dead-end and can be refactored to
+> > internally use the workqueue services, with the new functions here
+> > just being dumb wrappers until everyone is converted over. So it
+> > doesn't look like an expensive mistake, if it turns out to be a
+> > mistake.
+> > -Daniel
+> > 
+> > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >    drivers/gpu/drm/scheduler/sched_main.c | 52 +++++++++++++++++++++++++-
+> > > >    include/drm/gpu_scheduler.h            | 29 +++++++++++++-
+> > > >    2 files changed, 78 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > index 2597fb298733..84821a124ca2 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > @@ -1049,6 +1049,49 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+> > > >    }
+> > > >    EXPORT_SYMBOL(drm_sched_pick_best);
+> > > > 
+> > > > +/**
+> > > > + * drm_sched_add_msg - add scheduler message
+> > > > + *
+> > > > + * @sched: scheduler instance
+> > > > + * @msg: message to be added
+> > > > + *
+> > > > + * Can and will pass an jobs waiting on dependencies or in a runnable queue.
+> > > > + * Messages processing will stop if schedule run wq is stopped and resume when
+> > > > + * run wq is started.
+> > > > + */
+> > > > +void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
+> > > > +                    struct drm_sched_msg *msg)
+> > > > +{
+> > > > +     spin_lock(&sched->job_list_lock);
+> > > > +     list_add_tail(&msg->link, &sched->msgs);
+> > > > +     spin_unlock(&sched->job_list_lock);
+> > > > +
+> > > > +     drm_sched_run_wq_queue(sched);
+> > > > +}
+> > > > +EXPORT_SYMBOL(drm_sched_add_msg);
+> > > > +
+> > > > +/**
+> > > > + * drm_sched_get_msg - get scheduler message
+> > > > + *
+> > > > + * @sched: scheduler instance
+> > > > + *
+> > > > + * Returns NULL or message
+> > > > + */
+> > > > +static struct drm_sched_msg *
+> > > > +drm_sched_get_msg(struct drm_gpu_scheduler *sched)
+> > > > +{
+> > > > +     struct drm_sched_msg *msg;
+> > > > +
+> > > > +     spin_lock(&sched->job_list_lock);
+> > > > +     msg = list_first_entry_or_null(&sched->msgs,
+> > > > +                                    struct drm_sched_msg, link);
+> > > > +     if (msg)
+> > > > +             list_del(&msg->link);
+> > > > +     spin_unlock(&sched->job_list_lock);
+> > > > +
+> > > > +     return msg;
+> > > > +}
+> > > > +
+> > > >    /**
+> > > >     * drm_sched_main - main scheduler thread
+> > > >     *
+> > > > @@ -1060,6 +1103,7 @@ static void drm_sched_main(struct work_struct *w)
+> > > >                container_of(w, struct drm_gpu_scheduler, work_run);
+> > > >        struct drm_sched_entity *entity;
+> > > >        struct drm_sched_job *cleanup_job;
+> > > > +     struct drm_sched_msg *msg;
+> > > >        int r;
+> > > > 
+> > > >        if (READ_ONCE(sched->pause_run_wq))
+> > > > @@ -1067,12 +1111,15 @@ static void drm_sched_main(struct work_struct *w)
+> > > > 
+> > > >        cleanup_job = drm_sched_get_cleanup_job(sched);
+> > > >        entity = drm_sched_select_entity(sched);
+> > > > +     msg = drm_sched_get_msg(sched);
+> > > > 
+> > > > -     if (!entity && !cleanup_job)
+> > > > +     if (!entity && !cleanup_job && !msg)
+> > > >                return; /* No more work */
+> > > > 
+> > > >        if (cleanup_job)
+> > > >                sched->ops->free_job(cleanup_job);
+> > > > +     if (msg)
+> > > > +             sched->ops->process_msg(msg);
+> > > > 
+> > > >        if (entity) {
+> > > >                struct dma_fence *fence;
+> > > > @@ -1082,7 +1129,7 @@ static void drm_sched_main(struct work_struct *w)
+> > > >                sched_job = drm_sched_entity_pop_job(entity);
+> > > >                if (!sched_job) {
+> > > >                        complete_all(&entity->entity_idle);
+> > > > -                     if (!cleanup_job)
+> > > > +                     if (!cleanup_job && !msg)
+> > > >                                return; /* No more work */
+> > > >                        goto again;
+> > > >                }
+> > > > @@ -1177,6 +1224,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+> > > > 
+> > > >        init_waitqueue_head(&sched->job_scheduled);
+> > > >        INIT_LIST_HEAD(&sched->pending_list);
+> > > > +     INIT_LIST_HEAD(&sched->msgs);
+> > > >        spin_lock_init(&sched->job_list_lock);
+> > > >        atomic_set(&sched->hw_rq_count, 0);
+> > > >        INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+> > > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > > > index df1993dd44ae..267bd060d178 100644
+> > > > --- a/include/drm/gpu_scheduler.h
+> > > > +++ b/include/drm/gpu_scheduler.h
+> > > > @@ -394,6 +394,23 @@ enum drm_gpu_sched_stat {
+> > > >        DRM_GPU_SCHED_STAT_ENODEV,
+> > > >    };
+> > > > 
+> > > > +/**
+> > > > + * struct drm_sched_msg - an in-band (relative to GPU scheduler run queue)
+> > > > + * message
+> > > > + *
+> > > > + * Generic enough for backend defined messages, backend can expand if needed.
+> > > > + */
+> > > > +struct drm_sched_msg {
+> > > > +     /** @link: list link into the gpu scheduler list of messages */
+> > > > +     struct list_head                link;
+> > > > +     /**
+> > > > +      * @private_data: opaque pointer to message private data (backend defined)
+> > > > +      */
+> > > > +     void                            *private_data;
+> > > > +     /** @opcode: opcode of message (backend defined) */
+> > > > +     unsigned int                    opcode;
+> > > > +};
+> > > > +
+> > > >    /**
+> > > >     * struct drm_sched_backend_ops - Define the backend operations
+> > > >     *  called by the scheduler
+> > > > @@ -471,6 +488,12 @@ struct drm_sched_backend_ops {
+> > > >             * and it's time to clean it up.
+> > > >         */
+> > > >        void (*free_job)(struct drm_sched_job *sched_job);
+> > > > +
+> > > > +     /**
+> > > > +      * @process_msg: Process a message. Allowed to block, it is this
+> > > > +      * function's responsibility to free message if dynamically allocated.
+> > > > +      */
+> > > > +     void (*process_msg)(struct drm_sched_msg *msg);
+> > > >    };
+> > > > 
+> > > >    /**
+> > > > @@ -482,6 +505,7 @@ struct drm_sched_backend_ops {
+> > > >     * @timeout: the time after which a job is removed from the scheduler.
+> > > >     * @name: name of the ring for which this scheduler is being used.
+> > > >     * @sched_rq: priority wise array of run queues.
+> > > > + * @msgs: list of messages to be processed in @work_run
+> > > >     * @job_scheduled: once @drm_sched_entity_do_release is called the scheduler
+> > > >     *                 waits on this wait queue until all the scheduled jobs are
+> > > >     *                 finished.
+> > > > @@ -489,7 +513,7 @@ struct drm_sched_backend_ops {
+> > > >     * @job_id_count: used to assign unique id to the each job.
+> > > >     * @run_wq: workqueue used to queue @work_run
+> > > >     * @timeout_wq: workqueue used to queue @work_tdr
+> > > > - * @work_run: schedules jobs and cleans up entities
+> > > > + * @work_run: schedules jobs, cleans up jobs, and processes messages
+> > > >     * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
+> > > >     *            timeout interval is over.
+> > > >     * @pending_list: the list of jobs which are currently in the job queue.
+> > > > @@ -513,6 +537,7 @@ struct drm_gpu_scheduler {
+> > > >        long                            timeout;
+> > > >        const char                      *name;
+> > > >        struct drm_sched_rq             sched_rq[DRM_SCHED_PRIORITY_COUNT];
+> > > > +     struct list_head                msgs;
+> > > >        wait_queue_head_t               job_scheduled;
+> > > >        atomic_t                        hw_rq_count;
+> > > >        atomic64_t                      job_id_count;
+> > > > @@ -566,6 +591,8 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+> > > > 
+> > > >    void drm_sched_job_cleanup(struct drm_sched_job *job);
+> > > >    void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+> > > > +void drm_sched_add_msg(struct drm_gpu_scheduler *sched,
+> > > > +                    struct drm_sched_msg *msg);
+> > > >    void drm_sched_run_wq_stop(struct drm_gpu_scheduler *sched);
+> > > >    void drm_sched_run_wq_start(struct drm_gpu_scheduler *sched);
+> > > >    void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+> > 
 > 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
