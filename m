@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFED76F82F
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 05:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B6E76F840
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 05:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A35210E231;
-	Fri,  4 Aug 2023 03:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9DDB10E235;
+	Fri,  4 Aug 2023 03:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 728FD10E231
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 03:04:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E50CB61F1D;
- Fri,  4 Aug 2023 03:04:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABD1C433C9;
- Fri,  4 Aug 2023 03:04:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691118259;
- bh=E5AW+8FOiatGFHegkfNTd5xukRWfVLb/sZxc4H0rl7o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AVIIzXBdhWzsRhwMhioiliS0MBfh9cwBNNhxxYv/BsDbMQGrbORvwnGZoQkJkuUC6
- jQE5d2Tn8sweTkUmjFWAlty/QZZo7Pc/bUOZNFXszINiZ347GyHomYCqX8FnF0oYaU
- 2YdwABPGTSovU8P5l1uKTi3dWWGbeCTWRXnJPUxxenu/6H6hV49uGd7qhoSvAKymvu
- 7zDSTm1LMiTfxagQ1vZEpY1xLoliDZ3G7777HXYEEUMH/DeB6qDRqa/Y4jz+o6Tf3u
- VZs8huE0A/pcX+CpaFGG9QMQZcn4OvFXYmsiVQ8o936T3ZFGA3saPjEnrvtAlo9Vqs
- cJZLDiVGHThkA==
-Received: by mercury (Postfix, from userid 1000)
- id 085591061B64; Fri,  4 Aug 2023 05:04:15 +0200 (CEST)
-Date: Fri, 4 Aug 2023 05:04:15 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH v2 3/3] dt-bindings: display: add rotation property to
- sitronix,st7789v
-Message-ID: <20230804030415.yrvbq3kc6r2lj3jc@mercury.elektranox.org>
-References: <20230718-feature-st7789v-v2-0-207cb1baea0f@wolfvision.net>
- <20230718-feature-st7789v-v2-3-207cb1baea0f@wolfvision.net>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C737710E235
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 03:11:42 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxDOtrbMxkoAEQAA--.31593S3;
+ Fri, 04 Aug 2023 11:11:40 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxJ81QbMxkdMpHAA--.52126S3; 
+ Fri, 04 Aug 2023 11:11:34 +0800 (CST)
+Message-ID: <8e51eb50-aa7b-f771-e53b-499bf899e22e@loongson.cn>
+Date: Fri, 4 Aug 2023 11:11:12 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jrx2f36fuc4chij4"
-Content-Disposition: inline
-In-Reply-To: <20230718-feature-st7789v-v2-3-207cb1baea0f@wolfvision.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] PCI/VGA: Make the vga_is_firmware_default()
+ arch-independent
+To: kernel test robot <lkp@intel.com>
+References: <20230803081758.968742-1-suijingfeng@loongson.cn>
+ <202308032022.yiZngbbk-lkp@intel.com>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <202308032022.yiZngbbk-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8DxJ81QbMxkdMpHAA--.52126S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFWDCryktr47tw15AFW3CFX_yoW5tFWkpF
+ W8JF1ayF4kGr4fK392gryUur1Yvws8XFy3WrsxC3sruFyDZry0qr4SkrZ0gr9Ikr4xCF1j
+ yrnxtry0ka4kAagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+ xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
+ 6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+ JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8fsqJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,88 +65,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Conor Dooley <conor.dooley@microchip.com>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: linux-pci@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ loongson-kernel@lists.loongnix.cn, oe-kbuild-all@lists.linux.dev,
+ bhelgaas@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---jrx2f36fuc4chij4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
 Hi,
 
-On Thu, Aug 03, 2023 at 10:13:50PM +0200, Michael Riesch wrote:
-> The sitronix-st7789v driver now considers the rotation property.
-> Add the property to the documentation.
->=20
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> ---
+On 2023/8/3 20:25, kernel test robot wrote:
+> Hi Sui,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on pci/next]
+> [also build test ERROR on pci/for-linus linus/master v6.5-rc4 next-20230803]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/PCI-VGA-Make-the-vga_is_firmware_default-arch-independent/20230803-161838
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/20230803081758.968742-1-suijingfeng%40loongson.cn
+> patch subject: [PATCH] PCI/VGA: Make the vga_is_firmware_default() arch-independent
+> config: arm64-randconfig-r026-20230731 (https://download.01.org/0day-ci/archive/20230803/202308032022.yiZngbbk-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.yiZngbbk-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202308032022.yiZngbbk-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> ld.lld: error: undefined symbol: screen_info
+>     >>> referenced by vgaarb.c:86 (drivers/pci/vgaarb.c:86)
+>     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
+>     >>> referenced by vgaarb.c:86 (drivers/pci/vgaarb.c:86)
+>     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
+>     >>> referenced by vgaarb.c:88 (drivers/pci/vgaarb.c:88)
+>     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
+>     >>> referenced 3 more times
+>
+This is a more like arch-specific problem, It will be pain at many places on platforms
+that do not export the screen_info symbol. Not only here.
 
-Reviewed-by: Sebastian Reichel <sre@kernel.org>
+I have already explained that screen_info is arch-dependent many times, but no one cares about me.
+By using (looking at) screen_info, vgaarb gets infected, and becomes arch-dependent as well.
+vgaarb deals with VGA class (pdev->class == 0x0300XX) devices only, This makes it device-dependent.
+Hence, It only works correctly for a small set of PCIe devices on x86.
 
--- Sebastian
+arch-dependent, device-dependent, subsystem-dependent (part of it rely on ACPI) and
+loading order dependent, those dependent itself are the problems.
+It results in various undefined (uncertain) behaviors on non-x86 architectures.
 
->  Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml | =
-2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7=
-789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789=
-v.yaml
-> index fa6556363cca..694d7f771d0c 100644
-> --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.ya=
-ml
-> @@ -22,6 +22,7 @@ properties:
->    power-supply: true
->    backlight: true
->    port: true
-> +  rotation: true
-> =20
->    spi-cpha: true
->    spi-cpol: true
-> @@ -52,6 +53,7 @@ examples:
->              reset-gpios =3D <&pio 6 11 GPIO_ACTIVE_LOW>;
->              backlight =3D <&pwm_bl>;
->              power-supply =3D <&power>;
-> +            rotation =3D <180>;
->              spi-max-frequency =3D <100000>;
->              spi-cpol;
->              spi-cpha;
->=20
-> --=20
-> 2.37.2
->=20
+Even on x86, some platform choose to relay on the firmware to solve the multiple GPU coexist problem.
+so it is also firmware-dependent.
 
---jrx2f36fuc4chij4
-Content-Type: application/pgp-signature; name="signature.asc"
+This patch solves part of the above problems listed, target at the *device level*, as early as possible.
+while they still a few problems could be only solved at the *driver level*.
+For an example, The display controller in Intel N2000 and d2000 series don't has a dedicated VRAM bar.
+they use the "stolen memory", which is carve out by somebody (either bios or kernel?).
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmTMaq4ACgkQ2O7X88g7
-+prVHBAAnranxr8+661icCSUonDadVce0QrTh8fLIimhGKFW3nLjk29h77sHwGHO
-JuZwJzIOj6uvfLDRFgavN6NT/R+IW1W+cJ4UfgwaXBTvByIK7RtXDq8FtcHJvdxn
-0ub3F2PIEu1FXsme6r7kCcDD6vpef7VRCtHcmscv+FghdN8xT+Qj5lDIdNTQ4a/v
-z+HKkmxBTf425t7yZDr6drLqf9q6jdSJDib94svyvzANnHX1CzobRFSRChMpODrR
-RT52i4WV6hoPTTdHL/l710QG0okd+kiA7PgiKXCEXeDi90nHlriHNFci4XowT+8h
-gDoHXYmc5Mj/+bJdL+2SqO/bNeXLOuVlN0IW1I8M3b0tks4HgduPLalYHhyXxL4p
-ATKJbCsdO7cLrll4llAaF/1UVDhzdKZnSeTpbMAgm4ix6LZYO3Habgv1AsZZ9/EM
-C07imC5o9bxyIfo7KhiP/aOEywZhLYFBiCvCRIWm1x+IeJsiat4Xp9ONjlZVoQQc
-X5zf1vYmB5UPFq0F09gjMoFZxk0vC8LTBBrSxJq+FuhPwWtg4HQ4sfydvnC2XTgG
-9/ava273kLsmnOwE+vTmapZOmrRhDIYxfRA8w8/akBqVWlRtBsanleKlBxS6hDbb
-PBT3R9iuh9BeX1tpXJUIyz/J5d+aEipYg7nsRx0349vOn+/oD5Y=
-=qDfw
------END PGP SIGNATURE-----
-
---jrx2f36fuc4chij4--
