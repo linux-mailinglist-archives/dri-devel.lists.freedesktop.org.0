@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB2B76FF62
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 13:23:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E92AC76FF67
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 13:23:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 624A710E6E0;
-	Fri,  4 Aug 2023 11:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF30B10E6E1;
+	Fri,  4 Aug 2023 11:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR02-VI1-obe.outbound.protection.outlook.com
  (mail-vi1eur02on2089.outbound.protection.outlook.com [40.107.241.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1CAF10E6DD
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 11:23:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBBC10E6DE
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 11:23:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JYtss5FUF1v+/cGdQHTINZ3MWhXoD46jgUQqmE1vCZ13aegRQXm1IyGyFL30ouQA1//mzum56Gj/tVPwoOLWruFS0LuutwuyjSP4I3UYYoGAnLMi6iSRIxYcH01OPUdS8R4Nln4e+Kha89YqDHkxRo0DfJE+cNl6YahIoJCKmWkewBlue9vecVH9nypfA7U1Yuly0BD6V9YizwFPQnhOk6h6vxwUcxIZ9nKbp1e9QlohNCIxEpS9VfvPYGvMbaN+KdniUmJT74hQLjI3ux42QuHhK5LcOe73C+6pcYhpojt+GWZRWULL3nHlJiX6d2xHOEacO5j2ucCr0Btbz24JYg==
+ b=VgpmMjQJ7GgoB5VA3rYleH/07TApfSsJpSs1vV0/66QTKTAq7EU02DRQVeL3iyGzGC1mqL2a2Z1ohaH03SXkaLPQdhNvUPxJUi3h4n9xLhtw6Ydc+IumvePURXvA0Kw1n0kgQvce1pZdT+jpgUufWWPLXHxZXfyPm+jNpZYs6nfmX27yeaC3e9Nj+x1/CMpSqTVWY4IjjbZh3SneY3YtDQ174n4Iyr6weEH+dewE0Tn9KmHkPPNPj5IwTrrMr8VJDpCeGmjM86PUYaz1Z7C7wkcwInILBBMCfI8UMuvA8vsFiN6STKM5H8GT5WzuyOyai65IaGdr01C1zj8DZwVmdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b9VBwqeIfG64Bdp5SOwixYwqJZmxKloYIiJ7xGDWDnY=;
- b=hydYNJyIJe/Em6InLBj6j2UyYGDzB+C/3YPyHtPf1Oc0R0tGRayHYg7U0xDK3Rsr+epx1R1/E+6L3IWPo5IMSJHhPBaTjsDbUPejQfut67c3rAzwp8uuhBoyP0loFF95bzNT+eroNtCfp0/+JFmb+3Ut2dXmEev+9w2/QFnPCR9gpSfGjiT3e0Gy60q/sy6NIFKkvnz1L8+kmRPeZMta3fdGX4Qen0l2GsP1ey8b1uBZ5mtCCKOIky84lxQe1Vp1LsCG8NcL7ElGUZbj432krR9CFkfUBriFjdsygow8UVnfUY4YJN134QlwvbnpA96pgxblBm20LWRG/0CKw3bBBQ==
+ bh=Vpva6H/WX4nNEtyd9z8f+zfvIpnlZwf99+l2CohkpTc=;
+ b=MpKU9FbvuKhbjb0YH0nMGk6mzvJz/hL9nbRrxRWeaLuGAXi1T28d8fX/JhCbG6W2RYGFZJ0yX34Q1BxQnTG9wvc8OIiw48hHfcNUem994QKxNDwBnKHLzUQaMrwXSUBAgN7U2aJGKmC441IaTHD7PQOxmZ6CfMLsrtnsD0T7BtFwvSUhqZUh0IS5E8HtEKJT6WuJrIzbMP9Hgt6NnDBG0fDV2So5CmtSpAFiU2HJYod7L4fOZUMVupwFXc48nnyUU+jktRhuaMguproVHL67gGeTnTSGrrbqYx2MoASHDCTpsatqNkmZpOo768H+tATqhw/maKBm9Vi6Hw4ZYHcejQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b9VBwqeIfG64Bdp5SOwixYwqJZmxKloYIiJ7xGDWDnY=;
- b=EKZSj7MuKxLEy7hwT53J/gHcEKvnQqFTewZBHZzxssxf1FVdGkeC1VNVS3K5c6uTZ4eTUy22MPzZXEdOy/SfxLEhBM+mTM9/bLNxr7yeGGvAA7gNTh0YxoBdxE1p5abcK2vJ6mjJiCCnmOvTsY2K8Fva2vTAUKTceUn0k9fqi+k=
+ bh=Vpva6H/WX4nNEtyd9z8f+zfvIpnlZwf99+l2CohkpTc=;
+ b=jZrTJlqMw6C1A/gTZt8qe+IsC+b3gbVzHqDUYJIxgF8vyMH8+D+IbBIJqVrarRlzG6G6Vb7ZvIKs6srzDd1KA91E4CMREmVlDja2jSNuxSGr5WrqH/oTWVZrRip9DzgbMF6+/Mm1HkuSWRgR/gwR0y79IFvCMk7dEkFDYpNsKzY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
  by DB5PR08MB10214.eurprd08.prod.outlook.com (2603:10a6:10:4a9::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
- 2023 11:23:20 +0000
+ 2023 11:23:21 +0000
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::9d1a:4539:a8f8:dd60]) by DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::9d1a:4539:a8f8:dd60%7]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
- 11:23:20 +0000
+ 11:23:21 +0000
 From: Michael Riesch <michael.riesch@wolfvision.net>
-Date: Fri, 04 Aug 2023 13:23:09 +0200
-Subject: [PATCH v3 2/3] drm/panel: sitronix-st7789v: add panel orientation
- support
+Date: Fri, 04 Aug 2023 13:23:10 +0200
+Subject: [PATCH v3 3/3] dt-bindings: display: add rotation property to
+ sitronix,st7789v
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230718-feature-st7789v-v3-2-157d68fb63e2@wolfvision.net>
+Message-Id: <20230718-feature-st7789v-v3-3-157d68fb63e2@wolfvision.net>
 References: <20230718-feature-st7789v-v3-0-157d68fb63e2@wolfvision.net>
 In-Reply-To: <20230718-feature-st7789v-v3-0-157d68fb63e2@wolfvision.net>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -57,11 +57,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Sebastian Reichel <sre@kernel.org>, 
  Gerald Loacker <gerald.loacker@wolfvision.net>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691148197; l=2056;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691148197; l=1194;
  i=michael.riesch@wolfvision.net; s=20230425; h=from:subject:message-id;
- bh=vuZDK/ATsMHht5Q8uxKOQjXxmrTzLm7WsFyZBdFz4Po=;
- b=MmLlCwJPinoPV99u+Qk32aTdLZGbhhohfqn0Ub7warC/lM9pxEbUHuHvLUWKm5JT8Z2kSgDKa
- c2q7er0Q92JAaQcQ1qjpQ0vbcudaQZGwDsJNI1HIsz5CGnSqSeVYU9b
+ bh=51+dgMyblZdHf78k+gy2tvc9DDFORxX5ESbyVNy9IKw=;
+ b=wogxheDo6OXh1+f0go41wAED7Pb5aMECwTDeOUGB0BsnMhuzAiXib59aezaLVwRSUdLXl5iun
+ h7wGKWVztBABSqjrQEQ7ldGeF/vjGFc62WuUYHWkCeeD2GQ/RM/3EyK
 X-Developer-Key: i=michael.riesch@wolfvision.net; a=ed25519;
  pk=1QQdXA2QbwdxaQn/VQK0hz04C8IBYhDowbK0hlNU4Ng=
 X-ClientProxiedBy: VI1PR07CA0281.eurprd07.prod.outlook.com
@@ -70,62 +70,62 @@ X-ClientProxiedBy: VI1PR07CA0281.eurprd07.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DB5PR08MB10214:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1fd9a35-6e8f-440c-a37e-08db94dd353f
+X-MS-Office365-Filtering-Correlation-Id: 4a23ffec-bafa-47e4-f732-08db94dd35dc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yxDhC3Wt3cLTz2+yqk+VjX581y1Y3giK1sbnBWIxhZ36Yj9uuzB80okkdbYijJNjxrVlxBQjUDLaYXf19S+hL+yDeZvvrwRhywHq4DD3gva6STfV6RPZ7Kc8mV61Fheh5t0KEOoo5qVaB/cvOtk1dxwM1WViW8kc1L29AHdhMoP3ZS3Hf97lPNRY6WTJnBiTt0BsKQqfzMihX+b+rMfNGP2GCjtFo9L2IUpkk8BRhU0XLo0q6RrQ8jLpWcCGLZQep5ku9rklwumkQUsbqIYlDrDYcA9dijS3W2RxKJcNwJ9OpVgEkkRRo5nXIuLdhWf/IST738HE+qZ3MOmSstyBCXSPlkBECjNrjMBwOmd96LGaTSXKbGCbuajfm3j0cz3ekXKroZ/TdgtJK3vESd5ipv5pjhqcZ1IZdUThv6mk/e1/UbD0F/LAH5gkWgZ4naFkyFJoOUKNwJlSQR75XTMKG2T3o/Y2mHP2/hpRVFkpyjei0dh/KNb7RULpQvT+KtYAziXf0KopMdikvPGgXDuoXb0qD+irEEGYXitzluyDyd5kxSvToGCBPD9LuKWKwXK7UdgsHJWYbDmV8GaGitvoeKaciBQKxXNdbDAis5yCVL/2tA9DI1HRil29q7+804KiShHrSLs2lDA6DSiXwss6qw==
+X-Microsoft-Antispam-Message-Info: 2kRz4OlHSeVncYP5KMFWMKexhS27+knV+zcWHGjZCvP7CwoXJRo3oJQgA/5oZFryTzs3pSdqpbBt4f+03Ozoq0LIVthyeEGSpAcrC1eUebYnjsgcpVKXkt4r3ml8GQicHow74Yc4pAW99OVxZ6VwP8izUGiPRzVxJIXsjCV1LdUXWuwDSVLWFonFMn7PrcWVqMEagr8YksA8AL1lpfErSy9snAh9jpPerIhMALSY6nlVMjiFbsDCHR+VvVANfGbV20PG4RSnhA2cgWSOaMdLIdKfpfVKnGo0f6FPzn8pHG9WAkZxACOabL9XYckugQc4SnlV+dw0RtZXXioQnJo1hEsoIfSzHTrbSxMKBSf9P5vhWvhFfnKbjgcHfztvqy8DLODEkAagL0qKsJYDOwiWc3DDkHAy7NRj48WWGB6ydYG2qhcEyZO8NECf5395xYsZlHD1sx63BzdHwhCHvNNMMzQgMM0fuR41e9NZ0+EF3VSXfc5MWF07VzkRUueeOqmXmSURnpiZSNXOtT+enF6000c+lE531OyLvXX42l1omW06imuZ9CVDcnQRpAFnc99KjzptvfLid5RrzEGd5DpBKHAk4s6jdaQayiUPJOXbyieEItPF/0OJAs0/K10JenHJD3tdq1tOGUWqXEfdfnwpLQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(39840400004)(366004)(346002)(396003)(451199021)(186006)(1800799003)(52116002)(6666004)(6486002)(6512007)(86362001)(6506007)(26005)(107886003)(36756003)(2616005)(38100700002)(38350700002)(921005)(5660300002)(41300700001)(8936002)(8676002)(6636002)(4326008)(2906002)(66556008)(66476007)(66946007)(316002)(7416002)(478600001)(44832011)(110136005);
+ SFS:(13230028)(4636009)(136003)(376002)(39840400004)(366004)(346002)(396003)(451199021)(186006)(1800799003)(52116002)(6666004)(6486002)(6512007)(86362001)(6506007)(26005)(107886003)(36756003)(2616005)(38100700002)(38350700002)(921005)(5660300002)(41300700001)(8936002)(8676002)(6636002)(4326008)(2906002)(66556008)(66476007)(66946007)(316002)(7416002)(478600001)(44832011)(110136005)(54906003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0lNL0V3bkdMRENmdHA3SUdENFkwcm9WcDJaVlRSdXJFWFplRmZRT2dkSFNR?=
- =?utf-8?B?R1Z1OHR3RmhKRHB0eU94UlB3VmRPWndOZHl3aEMwYUlGUGhtY2wvYnhneUdw?=
- =?utf-8?B?dGV0MXVsVXp3WEJ0dXBFQzhMaVpaYWtBSWpsUExtaXh4UU9FM2V5YVpMbm1H?=
- =?utf-8?B?a1hMTkQ3YVZFYkdBU01OV1lXQ0QvRElpZFR5Tk0xZ2FCQ09WRHFGMTJaRXda?=
- =?utf-8?B?RGdHYTBTN09HTlJIQXpQOThSVjVod01oa1BFazVnUVAxVXMxUmtFaFI3SHE0?=
- =?utf-8?B?Rlh0T0VSQUtwRzZVT0JqVkovOWlEWExqY1Z1a2s1NVBlWE4wYXQrOHhXTUxy?=
- =?utf-8?B?YzRlenBwWm9yaTBiYVRKV25DbkQzSVRaL0pPMzdQN1doSlI0MFBJang0RU1z?=
- =?utf-8?B?bWlpSUV1b2F0UU11MVlUN1B6RGZieVlpUmtHYUxBWVViNS84djg0bVdSQTQ3?=
- =?utf-8?B?UFV2a2RoZElGclJkMVkvUWc1cUVyMUJmVTgvNnVPalBYQWtZd01TSHEvbEQv?=
- =?utf-8?B?emp6TEsva2lzTmRHVDBrcXAzYzJzVEpwNjErSHFWWXBaSmg1dUZTWXFlSTRz?=
- =?utf-8?B?MkdkQTBTVVh4U0ZwQzVzZDhUb2pqSXBZNThnRjg2Z1BkRjRMWnR4WjlNQ0tF?=
- =?utf-8?B?SS9OSDRlLy9FWDZHVml3TDJOUjZGOUFzczdTdzJ3RUJ0L0V3NG5zUUd5WUtu?=
- =?utf-8?B?eFRJSmxIaTZWVWsrdmR2cS9zYnhFdG5CK3ZvQm4zN2VJR0hIUmxpNWpBUG9l?=
- =?utf-8?B?S3ZkS3ZSUDAyc3FYWmlodWZuQjZVOWxsYmc3WnJ3NFpuM0hUa0dYbHpqemZH?=
- =?utf-8?B?b1lSYXBGMFRpT2wzRE94UU1XcnBMa04xdVQrWTdOckQzQkRwUVNmYURtWnVL?=
- =?utf-8?B?ZnFLaEx6RzVlZzJpYnhQNW1zZGdxN0dyUWlEMDhjSzdWbTRxTmwwTEYzS2t1?=
- =?utf-8?B?UUxCVW13NmltNFRIWmhEbGs3VzBCVVV3dk9PeTNBb0RaM01LTTc1RUM4bTg0?=
- =?utf-8?B?QlZMb0hrQnc2Tm9KMHJSejY1TFNRRFlnQXdyZ3V4TUZ5YXNtMCtOa2dnYU1w?=
- =?utf-8?B?cHIyK0g4T3FEWUF5elQzWjdYRVJQR1NscVdsejlJL0lZdGhNUk5oT2tVTnBj?=
- =?utf-8?B?VE5mREZZTTB5OGQxSkxoWmdEdFZ1aDAyRVVaWFBXcUVlaUJMLy9wQUNVM0U1?=
- =?utf-8?B?WHdBSVdNZG5peVNJVkF4NTNtamFwVHNUV1NDenI1UGk4Wms4NzJkWFJrVE03?=
- =?utf-8?B?V0V5V3hUSzZUZjVCSk12b1RPWnpsdXpDakNrSjBtcGYwUXFhTTB0RjhhTi9C?=
- =?utf-8?B?SGR1YmtXV2ZVa1I1ZXpXVnVnQnR2SXlna3ptU3hWS3pjMlBJWEwyL3ZaNHg3?=
- =?utf-8?B?RU1wdUw3L3g0STFST29oUnlvNUljYW4wbmx4S2ZJMUhOam1VQlptenc5SUtU?=
- =?utf-8?B?WC9nS2xsZ3FHcGF0U2ZkMnR0N2pjQUFUNUM1RWYyUWF2THkxeUFCbnVralE0?=
- =?utf-8?B?S0lWTlJRcldTbG5KdlQzL1I4S3lTRzRRNHdzN1J0YnVpeFQwU2JkeDYvamQ5?=
- =?utf-8?B?b2o0enVmMmVGZkxaN1BmdkMwbjUyUHVERUNoMjFrNWdMWmhWUlhnbzFrVkx1?=
- =?utf-8?B?eG5HVit2bXFqbHVjeUFIMDM4eVZkTW1nYUgvTVhFRHFjWlNjdkNEMTQvNGM5?=
- =?utf-8?B?VTJtaG8zMjErWGVHTlZmY3ozT2hXRnd0V051S1RYRTNkcFpLRTFBbjgrbVBT?=
- =?utf-8?B?TkFCYWNqc2pVV1phejRSMTVzUkV1UVJrbU43S1loOFZuUEVpK2t2a3FDMUd4?=
- =?utf-8?B?MkRxcHVneko2Q0FPZWxwakF3ME5lSFQ0L0w0QkJrMmJNYld1ci9VOGVaM2JZ?=
- =?utf-8?B?dXhaMHQ3aXBDNVhzYzdhVURKdmloaHlGMkdCeExKdEcwOHdxMW1DUmZ5NFd1?=
- =?utf-8?B?REdPT2g3cDdsVTdXWnRPNmNsUlQvdkY2KzRpUDhtYzdKa1BwMW1IdVlnVnNZ?=
- =?utf-8?B?dDM4UmxLaXNKTE1NQXRMSnRSQlFKMjlENzEzNXdoZnZ6VTFuT0lGVHg2dEFV?=
- =?utf-8?B?V2YxYmRRdkV6Zyt3MUlGU2o3Qmphc1hiQUkybTc3cWZKc0EwUTZ0czJFMzMx?=
- =?utf-8?B?aTFDUWM1M1h0NXpuWVBLZldKR3NPR3Exd2RGSXU4K1FaQVNPTDl0WTgwZ0x6?=
- =?utf-8?B?anc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NVVxWHlIS2JlRDZ0Zy9acmZ0NXZua1ZjcFp6cHZyKzR2WnI4OEJQKzM3VmNH?=
+ =?utf-8?B?MVpOeEt0THM0MEFQWGk3NTdpaTVuUU1GQVdKc0dsMjV2V0RYYmNkRFMwSGZ6?=
+ =?utf-8?B?S3JQVjNNTTc5UUpJQTJoQUJ0dGNMME5LZkhSOFpWZklUendHcFdmK1BWaUJr?=
+ =?utf-8?B?alRET2tlUitOalByNjBFUWNnT3UvM0NteU5xMk1PWDJTUUp5Sm4vaVdMSklh?=
+ =?utf-8?B?eEV6OGo3ajJBb2RIR25qeWFPSCs4eHg2TG1WVTBPanRhZjlmSzk0UG5hU2pU?=
+ =?utf-8?B?ZExaajlVdzZnRVQxMlN5Snc0STUxVnRhcThsV0pJbTgwenQxZTYyRkJhaWhU?=
+ =?utf-8?B?cUtYaml6T2hRdGUycnNsL0lKZFd0L0dFazA3WSt1UWMzRHphQ3R0cmJhZTVD?=
+ =?utf-8?B?aDFHM3NCYVBHZ2dkME1UT0R6TXlYZzVMMEhCUHRJYlAyV0wzQVA1aERPRC9i?=
+ =?utf-8?B?RitITU5xNndUd0poL0FGbDRPdXRmRjU2bys5SnNVMHFWRFh4TlB3cUJ5eUxK?=
+ =?utf-8?B?V3pVeGtxdHBoTXFlbTUxMkI5eFZQVHhMeDdPeTAxd2xrQWxEcnpCQmIzbzdi?=
+ =?utf-8?B?MFJLQWxPWGQrcU9ZMWpoODhveDlzVzhYTi9vUGdhVHorNXRwQlpqWi9PaFcz?=
+ =?utf-8?B?OUFyMjJXZ0Z2UzB6N001aDRzZTZzeFB5RUVTakhMYURHb3A4ZWpFR25HV0hv?=
+ =?utf-8?B?Q2diQytwWjNIZVluSzdpTzJVNkpqWkhueWZCZmpqTUN4VktjNERjT0svN3lm?=
+ =?utf-8?B?QURoRWtLVG5oK0RSZkwvM3RsbThOOEVYcnNBZmlyKzNoTi9yWGZYWFBycm9U?=
+ =?utf-8?B?ZEdhd1FvTFhqUHZXRFNlc0c0OHl6QXJSaVRZbDFxNFhKOVUvckIvd0tldGFm?=
+ =?utf-8?B?M1VLd0xaLzgxTm1ISW9GK21YK2dGTWtrYkpqS2ppNndjdzZDenZQWEVoOXN5?=
+ =?utf-8?B?V2ZONlVQVU1mcndVM3NCMXIrcUpBaTlNOWp4MDJxdG5aTVpoVDMzd0o5NUhx?=
+ =?utf-8?B?Uk5BUWxxOEFJbG02S0lhRVZvaGk5SFA4dkNSUlNlY3hVd0JBUCtKVXVHWjdH?=
+ =?utf-8?B?NlJBL3Rsa01ZWFFuU3BaYlRCRjM4ZXhjUjFBendIaTRtQ3NBMkt1aHJEUEsx?=
+ =?utf-8?B?YTk0WEMvcThiR2I2TFhDR2xUck9vRzE2U2Y0N01US1NqeGxPV1d5QXRHc1c2?=
+ =?utf-8?B?amNENWg1VVZRSkQrWUlWQmRqcTZyNnJnTzZOMmJVTjludG4rby9yRVBpZnVB?=
+ =?utf-8?B?R1FHcEZ5WXVqT0RzUi82akF5QnpTczFKWFNLUHVINHlQMTM4K2tlODlEMWxa?=
+ =?utf-8?B?UWYydTVDa2MwSEpoOTcrZE83dUcrTVplQ2RTMHZGd1VFb2RWeUpKS2lBYnI5?=
+ =?utf-8?B?N1dXNllNTnErbmVBT1lXVVdkVW5BNC9SK2NlVGNuSFNiNDlaZkxuRW01SEcw?=
+ =?utf-8?B?Q1dQTk5aWFR2Z3FyeFBYejBBaG5OOWFoZHA0MU5nMWpHWml5MkZSdHc0bGNo?=
+ =?utf-8?B?V0M4amRXR0hjcFVOQkxSNE1qMTdZdXVQTjlYZ3pULzhVNi9mU2cyZHFHSmNq?=
+ =?utf-8?B?VjdKeWUydmlhSDZjUEJmbkFSQlNKRW5JSXVPa29IajZDY1kvT0E3V0g2TGtt?=
+ =?utf-8?B?RlFJZS9yWG8rQjBmd3VzRTN2MUtFOE5NMWFFMkZxNWozMHJKZVdnczNJZFAy?=
+ =?utf-8?B?aFpsSnc4aGxOcGcwd0pFMm5DZWFYUzlpOStiNE1Xb0tJV0NkU0IyR1o4eG12?=
+ =?utf-8?B?a3NxMEJRNHNXQzBJOWRmcjkzMmxnRDA1QUc4anNLWmF6SllDYjJJdC9jTnJO?=
+ =?utf-8?B?U3pta3Mrai9wQTBiZThlc0pub083L2ZrMFFudjEwNElEN2k2ZDUwV2lOa0x3?=
+ =?utf-8?B?RjhWeEp4ek81Z3NkeGt4Ukw1WENlL25GcXdUaGp4QWZGSFFwcktGcFlpc2Nq?=
+ =?utf-8?B?WE9GSS9pNE1EZjNyaXd1VllpMjl5dDJTdHI3eDNJOEhNMFZGSUhkVjhMY253?=
+ =?utf-8?B?OTNaOVRlVHB2ajYwNnI4ZXdwL2VTVU0wSkFKZml4bmdPZytqTW1KYmw1c3pN?=
+ =?utf-8?B?Y2c2RzdlV0pINFhXK3RBMFVBRmVkRHdCandkYzdmMzJQWVB2OGhYc1VoT1gx?=
+ =?utf-8?B?WnNhbjhhNGV4NHpkRm9LM3RNMkJkbEd6VlFuQUx2Ung3Q2NJMWlidysxd3U2?=
+ =?utf-8?B?dGc9PQ==?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1fd9a35-6e8f-440c-a37e-08db94dd353f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a23ffec-bafa-47e4-f732-08db94dd35dc
 X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 11:23:20.6284 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 11:23:21.6372 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BuLR83R44fcr0aQ4KZW0NlSJwy4T8H8/CWCHnQKFyhN7GmAKwij0y/RD8qCL0ulMEWOEWIWKfK291d7c97ygZh3zFs6/+SQ4pWj6NHhAlI8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0lGE5Xj5zTkwZwP/wsylZYaC4zG3v4kLc5OgL+2w3jlwJ6fFWkdpgQdYFTnJqVup6ZvN9NPtKT35cgY3DWwLoBsvhoZtidvmu5Nler13QXY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR08MB10214
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -139,74 +139,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Michael Riesch <michael.riesch@wolfvision.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Determine the orientation of the display based on the device tree and
-propagate it.
+The sitronix-st7789v driver now considers the rotation property.
+Add the property to the documentation.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Reviewed-by: Sebastian Reichel <sre@kernel.org>
 Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index bc8df51224de..0ded72ed2fcd 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -126,6 +126,7 @@ struct st7789v {
- 	struct spi_device *spi;
- 	struct gpio_desc *reset;
- 	struct regulator *power;
-+	enum drm_panel_orientation orientation;
- };
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+index 905c064cd106..0da4c7e05097 100644
+--- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+@@ -25,6 +25,7 @@ properties:
+   power-supply: true
+   backlight: true
+   port: true
++  rotation: true
  
- enum st7789v_prefix {
-@@ -325,9 +326,22 @@ static int st7789v_get_modes(struct drm_panel *panel,
- 	drm_display_info_set_bus_formats(&connector->display_info,
- 					 &ctx->info->bus_format, 1);
- 
-+	/*
-+	 * TODO: Remove once all drm drivers call
-+	 * drm_connector_set_orientation_from_panel()
-+	 */
-+	drm_connector_set_panel_orientation(connector, ctx->orientation);
-+
- 	return 1;
- }
- 
-+static enum drm_panel_orientation st7789v_get_orientation(struct drm_panel *p)
-+{
-+	struct st7789v *ctx = panel_to_st7789v(p);
-+
-+	return ctx->orientation;
-+}
-+
- static int st7789v_prepare(struct drm_panel *panel)
- {
- 	struct st7789v *ctx = panel_to_st7789v(panel);
-@@ -522,6 +536,7 @@ static const struct drm_panel_funcs st7789v_drm_funcs = {
- 	.disable = st7789v_disable,
- 	.enable	= st7789v_enable,
- 	.get_modes = st7789v_get_modes,
-+	.get_orientation = st7789v_get_orientation,
- 	.prepare = st7789v_prepare,
- 	.unprepare = st7789v_unprepare,
- };
-@@ -563,6 +578,8 @@ static int st7789v_probe(struct spi_device *spi)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to get backlight\n");
- 
-+	of_drm_get_panel_orientation(spi->dev.of_node, &ctx->orientation);
-+
- 	drm_panel_add(&ctx->panel);
- 
- 	return 0;
+   spi-cpha: true
+   spi-cpol: true
+@@ -58,6 +59,7 @@ examples:
+             reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>;
+             backlight = <&pwm_bl>;
+             power-supply = <&power>;
++            rotation = <180>;
+             spi-max-frequency = <100000>;
+             spi-cpol;
+             spi-cpha;
 
 -- 
 2.37.2
