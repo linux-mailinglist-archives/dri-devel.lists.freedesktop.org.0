@@ -2,78 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5BD770090
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 14:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F337A7700B1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 15:02:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B4010E6EC;
-	Fri,  4 Aug 2023 12:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2B110E6ED;
+	Fri,  4 Aug 2023 13:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3714910E6EC
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 12:53:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691153631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e38aKOY9ohssU55r1r5yyvxyMVSM82r+WKB1POCd67A=;
- b=JWeVLpLdAFtXr9BeAwPnjZux/SnuPi+icijkUO7TgvSOERn4oYdjNj57uRUFZiGSmOwbuw
- rJGiTmG/IH1AiYHB1Kd1pEHw3l7mFds4+tf+RuoK/C/THbmQWLGW3/qK3pZqQiyyX/Ls+B
- fQovuF+pflDDFLlkIoga/m0NIkb9ea0=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-306-yvX2dKZ6MH6jsGHSiH6asg-1; Fri, 04 Aug 2023 08:53:50 -0400
-X-MC-Unique: yvX2dKZ6MH6jsGHSiH6asg-1
-Received: by mail-ot1-f70.google.com with SMTP id
- 46e09a7af769-6b9e6a0c2ffso3359000a34.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 05:53:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691153629; x=1691758429;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e38aKOY9ohssU55r1r5yyvxyMVSM82r+WKB1POCd67A=;
- b=PlralyIF2UrKTWe+nKENeePotFZQAw3iBg6kpc8vJsQJ1WQO5AXtoDCyb/oOCwwl0B
- il3ijSR1403RtdUjFNz8LFpRmtHbHUtnZSdBHUyJR9xs3+PSIidsO33s/fV22ZO4nqFY
- 8PrA2BxPlbYaQ4wCPI0uLT4w7p9ch/ayf17QNXrD0ukYq8H6PB7GmPBYyD8lARAeF2qG
- Xguqai2Rkx9dw85p9J88zYSmMfl0L1GD/Zx46IrfwAD+17yu5KvPdTk8MjKcaT1TXKZ+
- ay448Ts79ekYOk8WuOqtaCcOrvRgs4K5GjFh9zXOmXJp43Q6JGb+FI7iTRm7y06O/TFL
- xt7A==
-X-Gm-Message-State: AOJu0Yyl+WynpWP4VGWIJfsvplwIrk/ajc+cRjCEZ9Tgj2Y9cHbZ4T88
- ta2n1Jot7G2x2iynnr0BqcrbM+yMux31gGtIScs5GNRfejj1fWPjpEnMM7Q5defc9OBAisfkv2f
- rkjcVUOVS8Ot7P+raXGGHwasYtdsIYC/KWgiT
-X-Received: by 2002:a05:6830:1094:b0:6b8:958f:36ea with SMTP id
- y20-20020a056830109400b006b8958f36eamr1607056oto.0.1691153629269; 
- Fri, 04 Aug 2023 05:53:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnQC3de5IJkvLrjTLS7w7A1VLS5lu4tBk6Em0Eg0JJaYuDPxfj6QG4wt94kFkzEGRL/72hhA==
-X-Received: by 2002:a05:6830:1094:b0:6b8:958f:36ea with SMTP id
- y20-20020a056830109400b006b8958f36eamr1607049oto.0.1691153629039; 
- Fri, 04 Aug 2023 05:53:49 -0700 (PDT)
-Received: from localhost ([181.120.144.238]) by smtp.gmail.com with ESMTPSA id
- d17-20020a9d4f11000000b006af7580c84csm1044554otl.60.2023.08.04.05.53.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 05:53:48 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, Arthur Grillo <arthurgrillo@riseup.net>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/tests: Remove CONFIG_DRM_FBDEV_EMULATION on
- .kunitconfig
-In-Reply-To: <87r0osxqrf.fsf@minerva.mail-host-address-is-not-set>
-References: <20230726220325.278976-1-arthurgrillo@riseup.net>
- <86fcd546-c2db-41ca-a087-74c3cd5ce341@app.fastmail.com>
- <87lef1s5h8.fsf@minerva.mail-host-address-is-not-set>
- <bef940cb-b079-72ce-692c-3b6c6d283265@riseup.net>
- <87v8e5tia8.fsf@minerva.mail-host-address-is-not-set>
- <c02a7694-00f1-48d2-9299-13c0a40dc0ae@app.fastmail.com>
- <87r0osxqrf.fsf@minerva.mail-host-address-is-not-set>
-Date: Fri, 04 Aug 2023 14:53:46 +0200
-Message-ID: <871qgjge91.fsf@minerva.mail-host-address-is-not-set>
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2086.outbound.protection.outlook.com [40.107.20.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 352A410E0B1
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 13:02:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D7OcVCqF5n7ckHkc2bq6RRGRQj3v0ohkkNQuVk/F1wu3KV4YQA7TMIcZ1z6zb2iM+qT366AhthIBGJD8EWFviHZ63oMxtbuUNOIrKtk4X66CdmZ5/ZUlDe9if1B11f5z/mdCoL1wk1b25yddTsnmSkhOKTAX7ttx6oAtXUP2FzJwr5AxAIuimy3FLamY32E2EAwXtGlmpOuSH8nnzJDiQiBj/itX3zusawPXPSciVTzru2Zg5vTvLn9aU63QhxWG2ruzcDeSpTSdyW/8FcmirYreyKhl04uNfqb+8tll8VdKwqvknoN3jPBj8f6BBoBcJ1sEnJqh12Fj4CzZyNz7Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1AjY8tLPl+UeolIhnYooEwdpMBJTzG7Omsc1oajt5iQ=;
+ b=lbRt5dMu5m6gEMeOSfoWjhxCHeTXf/NQ6g7HzBS5QNHd4tMDJsWJJFR7SlCD5rJXJfRJY4jNbKfntKKGAG1rkkHwoDErWuRyKOxafjX00EpiDcWUFR+lv88o+YWY7kO7V0ydg/vBzIa3XC2IP5vcjePlcuUk4Zgx6mHuF56NNSyNsWhY7CwTl3js+u32XHK5KbpBcuUDadcePoD9q1eslPwI7Q1/gFoDPhW9I0AB7IURk3yfiaZeeQAY5BYbAkRI+RE4WT+OgHn9x/ts+XO5EBV7YcE1W7dDrfeRJngfYpFOC1kssAJV8zyeenCcM8CNg0+P+2MmcbuvsV2hFNsqjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1AjY8tLPl+UeolIhnYooEwdpMBJTzG7Omsc1oajt5iQ=;
+ b=cHEPdguNYWhqWtrJo90U4S5jL1DFVtXS3jQtZEckX2x2pvcj9hOeR41QNfLKHG7Ul0SW7R+phSBkELhZnLZVRj9xFPC6Qw3Y1Bdwnnnn4NRbWeAmUwZd/S/89+cNcBNrn1V7xtznPrh8RMyNsgFXOI7gIrHHnGgFLJX+hV9jxZ8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by PAVPR08MB9353.eurprd08.prod.outlook.com (2603:10a6:102:302::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
+ 2023 13:02:40 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::9d1a:4539:a8f8:dd60]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::9d1a:4539:a8f8:dd60%7]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
+ 13:02:40 +0000
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Subject: [PATCH v2 0/4] drm/panel: sitronix-st7789v: add support for
+ partial mode
+Date: Fri, 04 Aug 2023 15:02:31 +0200
+Message-Id: <20230718-feature-lcd-panel-v2-0-2485ca07b49d@wolfvision.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOf2zGQC/32Oyw6CMBBFf4XM2jGliDxW/odhMdCpNGkKaQtqC
+ P9uxb3Lc5KbczcI7A0HaLMNPK8mmMklkKcMhpHcg9GoxCCFLESV16iZ4uIZ7aBwJscW5VU1WjZ
+ U1YWAtOspMPae3DCmpVusTXL2rM3rCN27xKMJcfLvo7vmX/svseYokBuqS1UW1UWr23Oy+vf27
+ DhCt+/7Bztz8kfMAAAA
+To: Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Sebastian Reichel <sre@kernel.org>, 
+ Gerald Loacker <gerald.loacker@wolfvision.net>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691154158; l=1212;
+ i=michael.riesch@wolfvision.net; s=20230425; h=from:subject:message-id;
+ bh=LGY0KAlrWbMMIjTqYlEAbb45+zIBUZ9W+xLiNxjSsNY=;
+ b=/i4ADlsnp3ia45F0G3F0a+5QR2UZZqMOWWLETQTCdDlqwWgt6zDUqUyj2NXC9O0OQU/ZeTtbK
+ HGgY5qbbN78Cy8veUcpJwj6dr6ymjzKi8dJfz8mmbHk60SmSa58ZRib
+X-Developer-Key: i=michael.riesch@wolfvision.net; a=ed25519;
+ pk=1QQdXA2QbwdxaQn/VQK0hz04C8IBYhDowbK0hlNU4Ng=
+X-ClientProxiedBy: VI1P189CA0023.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:802:2a::36) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|PAVPR08MB9353:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f71cd6c-1fd6-4c15-c2f1-08db94eb1545
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4EHeZv30NIwH4UiZuyQfeu+PLYmDiobu5KCIMaMj+PYwLo6U6yBu0EQ01Ebqa3DEI+7ewWDmk+C0Vr6PEMFFs+UAHaDQkQh7OMBh5GZhFoFu1j99HJCNybNQ0pyMdZN7B7YHFchlmAwXQ77Qy+l3ZqIF2oCdFj04SQagh2aACP+VB/P5lg8YOXpZvbM/mkS5fz+0RjFE2qYwralJXaizPPRhKesSTzGEDeVjlP8s/pwJaBRe6WWEPGzP7+0fUQJslonxlZlZV+qSn0wyIjZl5FRvEWVhiBxofi0pKWA+hycs95K3sbSc49n9FX8qrrlqbJTxNzUzXAyJDWOA5t6K9lJygmwvkqParMg236QUttv/AXlneUc2Rj+l+viRxUCbMakNeYbyhzxP8916eWXeU4s5HVuiWPlIHH4eVeokYwzjBKSQGbgtuaoje6nhez/jOtK6JaJ0yVZqdl4qt/zJGaJdyF1bbYkiuNmqSGbmdhhHGrdkOSLVPMuUOOw6K0RoF8AowQg+7jbi2oe9ja9YGNRf7ogdTzTgKd6rKp4ZCCbzbzBmu/kryQThF5ha14I855LcCobjqqfItObjQ5HepfS6dBtrKhK01LGiD4951IA5ANC5T71Emt5nqTJfiqup
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39850400004)(366004)(136003)(396003)(376002)(346002)(1800799003)(186006)(451199021)(2616005)(107886003)(8676002)(26005)(6506007)(83380400001)(4326008)(2906002)(66476007)(316002)(6636002)(66946007)(5660300002)(66556008)(44832011)(7416002)(8936002)(41300700001)(966005)(6666004)(6486002)(6512007)(52116002)(110136005)(478600001)(54906003)(921005)(38350700002)(38100700002)(36756003)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wk9FcHBuVW10eDVKWGowNkNRREp4eG1SZzQxQmpMY0QwQTU4RFJ5MmF5NVVU?=
+ =?utf-8?B?d2luYjVWM2VTenRjZGs3ZHp6Rkg3YVludXFnOTB5cHREeTc0N0J5VVFpaGZn?=
+ =?utf-8?B?aEhRZHJmU21zNkxTUWNUVnEySnJhdEZmVEttdVg0RjlJNm13K1FYUzJycE9y?=
+ =?utf-8?B?cTR6UVpxYlpNUWZ0bDE4RVpvZDRDUHdjNXVjWUVHWW1YOW5PQTN1clV6N0dI?=
+ =?utf-8?B?QWVqa0JFREtkWDR3dXQybFJYVzJodzIrOXNJT1gzSE13WWZ0V2l3QWtMeWll?=
+ =?utf-8?B?RmFKcXhiK1NUR2pNTzZTZWNHdmVLdjFLRjhkVjIzVWEzNk5TenBWYjZkK0Vu?=
+ =?utf-8?B?NEoyd2dvY2hHNVk5VE5IOEpoWE5raXExMUp3Qyt0eTA3aDBjVk9PZ2pkL3pL?=
+ =?utf-8?B?MUdEellNdU1KYzd4QUk2YmE2OXI2OE9UWmozSjBmMzR6YmNkMUxiN003alV1?=
+ =?utf-8?B?QTFscUFLUm5ZL2xFMUZTSzAydnpDVVUzbzVEdmdNKzdPdEh2VDQ1dWI3Y2Mz?=
+ =?utf-8?B?Mk40R1RrUE9ac3VZUHRmYml5RTMyZnNXdWNXOGhrMGpjVjZpOEtId3dvNk9E?=
+ =?utf-8?B?N3JWYjlrbnZZYUJUUDBlay9BN2NyNm9YbEdGeFYzMzNnLzZXQjYxdTRadGtT?=
+ =?utf-8?B?ai9xd3BJUHN5dWE3ZEpqMU5CM09PVkJULzNNRHU5MDE5eGVSN2RSZDBtRUl4?=
+ =?utf-8?B?UmVIQk1BMjNZWXdxay9FSG5pSy96bVlyMXdSWWp0ZzFkYVBlN2YzSjlZOUl5?=
+ =?utf-8?B?eXNRT3RJeGp1dC9hTTRndHdpdnNwZ2ovV2ZFSlRURDA3bURjUHAwTjhGdTMx?=
+ =?utf-8?B?ZHZuWFQybnFFOW5nLzNrWHcwLzhnenh3Rk85bkNXM3ltd3o2MGQ3YVhnRzNT?=
+ =?utf-8?B?KzhmRnVXRWVicGowcjJDL2krVlZEemloc05KRmU2L3RhZnB2Nm5tNis3U3Q1?=
+ =?utf-8?B?ODNac05GaXZEZWlXdGZIU0xxSWM5SE1uMnVLVU80cHM0YmlSRWF0Z2lDZzJN?=
+ =?utf-8?B?NXI1SVZqdVlvY3JhRDFmZTdBNm5nMDFjUE1GTmJvNUd1aEpRVmx3Nlh5bmR3?=
+ =?utf-8?B?bS9VSHlYQVVGcE5TS1UzVkZlc0g2MnBRUXZmRlVOQVEzMEY0UXVFb0VtVi90?=
+ =?utf-8?B?MWZNZVd0SHZSRERnYTVtSnFTWDFDNU5WUFU3WTBNclhDWXpMeGxFTFU2U2NN?=
+ =?utf-8?B?K3BOVkwrU2tOWFZMUUhQdkdkQzRnNXZ1WThVUXlzYmcwZU1iclBKR2N1cmxH?=
+ =?utf-8?B?R0luVjQxbGtjKzd3Qmk2eHJwZWYrL3kxNXZ2a05nOWJ3UHNHUFM5U3dzcHk0?=
+ =?utf-8?B?M2xMOHRWb2plWUQydjl2S2VVcGRRUFlnM29RSEdMZGdhVjhMNGtMc3FjN1RL?=
+ =?utf-8?B?OUh1VjdjbDE5alBjSDRnZSszMW5JNmhvaHllNmhxQklyQW1UUXgxMldtdlhU?=
+ =?utf-8?B?R2tCakVHYkdzNlJQTTEwc1ZaUXJYN041KzlHWTloNVlITjlOMkNPV3hnNWpo?=
+ =?utf-8?B?RWlhRFNvbWVybEtpcU9Gc1R2RC95MlFOQlczK0ZiY2lTUm10enZTV1FNeGZO?=
+ =?utf-8?B?R21HeVo0cy94bDRVNE1oVVl0V1A3S1RRanRXYlMwdFFXbmFGYzFJejNvdWZy?=
+ =?utf-8?B?VlFpTUxLT2pEVjhEdysyeDZpWkNxSWZCQ29hN05GcHU1bDlWL3VNcnh3elpr?=
+ =?utf-8?B?VlZQSUoxam5XNWZiY29xVEluRXFwM0RFbTZ4SkUwVnQrRDVybTBYSGQ0WC94?=
+ =?utf-8?B?UVNMS0swd1IrZ2QyR2x3TDVsVnhjTVNrMGhKb3h4UXNWcWl0SzlWMDlnVTlN?=
+ =?utf-8?B?cXVDUVpUSUZJN0dJRDVyYUdyNktuRkRNYXJKSnd0a21mbWVmK2dra3lsSmdR?=
+ =?utf-8?B?bDhsSHZYdEp3bGFNWnNCU3VBajhCMHZKbkRidzMyYkltVStDQklONVY5WjdK?=
+ =?utf-8?B?TUQ0NVQyVEZMc1VNRTdMUDZKSFBJSVdsejlVdjlyUU02K0dIUHhlNEhLNzM2?=
+ =?utf-8?B?aGRmNWxDNVEwYU1yaTNUT2lpYkNnOXkvam9NZEs4KzZHYlllVDR0L1RNVXJE?=
+ =?utf-8?B?d0VxNUhlRWhMMXpqMVJKUGdiM2JrMzJZYU1DSDlSSy9kVEJ5bnY4R3hOMmw2?=
+ =?utf-8?B?VDFxOEhnQ1lpVGJyYlRLRisxNlhWOUxIMndwTjhvaUVVQzdsZzB1amlUa3hi?=
+ =?utf-8?Q?9nvEVfnTIy4Uw/8dYB9MdHY=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f71cd6c-1fd6-4c15-c2f1-08db94eb1545
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 13:02:39.9323 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i2AhiAmD9rK4Wc0dZJkBJy6qjPcUp+E+1doDwCZjGp+9ouyxRLdpoQU2LXIu2TUr9N68w1gkyXLXQhIBvceX9rC7s3UGhcLnvN+q35ABSoo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,71 +142,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, Helge Deller <deller@gmx.de>,
- Randy Dunlap <rdunlap@infradead.org>, mairacanal@riseup.net,
- andrealmeid@riseup.net
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michael Riesch <michael.riesch@wolfvision.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+Hi all,
 
-> "Arnd Bergmann" <arnd@arndb.de> writes:
->
-> [adding Randy Dunlap who also reported the same issue]
->
-> Hello Arnd,
->
->> On Thu, Jul 27, 2023, at 18:45, Javier Martinez Canillas wrote:
->>> Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net> writes:
->>>> On 27/07/23 13:07, Javier Martinez Canillas wrote:
->>>>> "Arnd Bergmann" <arnd@arndb.de> writes:
->>>>>> Changing the local config should not be required after fixing
->>>>>> the Kconfig files.
->>>>>>
->>>>> 
->>>>> CONFIG_VT can only be disabled if CONFIG_EXPERT=y but I also see that it
->>>>> does not default to 'y' if !UML. Also FRAMEBUFFER_CONSOLE depends on !UML
->>>>> but DRM_FBDEV_EMULATION selects FRAMEBUFFER_CONSOLE if !EXPERT.
->>>>> 
->>>>> Maybe we should include !UML in that condition to? Something like this:
->>>>> 
->>>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>>>> index 0d499669d653..734332f222ea 100644
->>>>> --- a/drivers/gpu/drm/Kconfig
->>>>> +++ b/drivers/gpu/drm/Kconfig
->>>>> @@ -135,7 +135,7 @@ config DRM_DEBUG_MODESET_LOCK
->>>>>  config DRM_FBDEV_EMULATION
->>>>>         bool "Enable legacy fbdev support for your modesetting driver"
->>>>>         depends on DRM
->>>>> -       select FRAMEBUFFER_CONSOLE if !EXPERT
->>>>> +       select FRAMEBUFFER_CONSOLE if (!EXPERT && !UML)
->>
->> Yes, that should work. Was the original bug report about UML then?
->>
->
-> By original do you mean Arthur's report or Randy's? But yes, in both cases
-> CONFIG_UML=y when the issue was seen.
->
->> I'm not actually sure we need the select at all. When I tried
->> to narrow down how fbdev is used in the previous
->> thread, the answer was pretty much that it could be used
->> in any possible way, so there might be users that only want
->> the /dev/fb0 interface but not the console, or even just
->> the logo.
->>
->
-> Yes, I agree with you. Maybe then the fix could be to just drop that select?
->
+This series adds support for the partial display mode to the Sitronix
+ST7789V panel driver. This is useful for panels that are partially
+occluded by design, such as the Jasonic JT240MHQS-HWT-EK-E3. Support
+for this particular panel is added as well.
 
-I've posted a patch [0] doing this as suggested by Arnd. Let me know what
-you think.
+Looking forward to your comments!
 
-[0]: https://lists.freedesktop.org/archives/dri-devel/2023-August/417565.html
+---
+Changes in v2:
+- Add comment w.r.t. modes (as requested by Maxime)
+- Link to v1: https://lore.kernel.org/r/20230718-feature-lcd-panel-v1-0-e9a85d5374fd@wolfvision.net
 
--- 
+---
+Michael Riesch (4):
+      dt-bindings: vendor-prefixes: add jasonic
+      dt-bindings: display: st7789v: add jasonic jt240mhqs-hwt-ek-e3 display
+      drm/panel: sitronix-st7789v: add support for partial mode
+      drm/panel: sitronix-st7789v: add jasonic jt240mhqs-hwt-ek-e3 support
+
+ .../bindings/display/panel/sitronix,st7789v.yaml   |  1 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |  2 +
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c     | 72 +++++++++++++++++++++-
+ 3 files changed, 73 insertions(+), 2 deletions(-)
+---
+base-commit: e83172ec548d420f2e0b01e80a9a8cbae39bbe29
+change-id: 20230718-feature-lcd-panel-26d9f29a7830
+
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-- 
+Michael Riesch <michael.riesch@wolfvision.net>
 
