@@ -1,105 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9954F76F9E5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 08:12:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCD176F9F0
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 08:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7CE10E248;
-	Fri,  4 Aug 2023 06:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1308B10E24E;
+	Fri,  4 Aug 2023 06:21:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2062.outbound.protection.outlook.com [40.107.21.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653B910E249
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 06:12:32 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on20620.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7ea9::620])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0487610E249;
+ Fri,  4 Aug 2023 06:21:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d9SUWZgb1fk1Pojr+DTWhZO8pDc0gS0yM49wbmXNaSoOu5CYRk0U5jirizwTmYYEi28PeZ5pH2S4jW0MT9Tck5fC8kCmDmC5IqUsA8jZYDc1vPF/Qj7Gz78zuOALR2OEFBCDwjwKQF9mpLJNybGJAGb9nMjW0Lj+HOndHYpDXQIjBQyP7Ky+sRRsOqj+60Xg8b0XIUSufAeRrg1G3hWfXtPKv6ND4zyOcSoQqXP35a6iGy/pNyVYIYB/2w9N3mM6AQsXsuZqhBUTrYn9SlnLc2aeAiSE4c0GajMKORr1Fu2VozVRJ6hrk1qCrZHIvtGSejf4EKl/LO+Gb7KZftXoUg==
+ b=mfGJzQMEdhqhEXtGv5lZDhc7DTlrhVh0FLiMyuLKHk8PRxOz5lDCXyq/2a9ncc1f0xfKlqUC0gu0ALpgIoZL89QXd+q4J/sKgXfUPIdmnr0pOPesZb9awxpsDase6ba9/kIWLkTNrga8N8xdV+h82yleaOzH/gKM25jqDuoD6UzTpxy0jYFN3gwKKWrhll8csh+tHLZB0fJPY9hXMxOoalkbDfWkE8ycTqqGTFFyginge1OE5NL2IH3F+sJFOuVnkQe5+Vw4DA1ATDucsk0QDR16d1Zhf+yvSxidJk08QxLxvDwJld11uEpldX8bvrhGCvjL6OUtPIUiUHhHreNw5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9pqDlp8NbSJUqyvctfy+3VuNilza2OTPgQRYXfOcw34=;
- b=jiveFtumVtDobD1eJrRaizVB21dzi+8kETJYIiSj1Q5Rn1KwRJy5TuY7sH5iCXgb3p7GynKqSJ6Yy7bO7QfSOoCqLEPHdtMbwZ5eNJlOeTf2wrKHZy51638Z+CSoSttQv+FP8QV34uSbznWB9S1tdMP9VZLWKNhX6v9xyQTHf1sD3NA+wZsXznoTVArWY2rOALP02Al4x6A79XbnvrQ9BvyriY+rMcTUivnPWj+lV+NBWq30Ym/IyDfk3miHT/zva/swdSDV2hPPLfMgD+fTcHPC0lhLrdp2qQ+EECBNrBaH8NpRopxudCTOs6V+NzXcLvJtmCkdBAupIAzqBPb2zA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ bh=r2bcSKrnn9Iyh7/KN7IFBu9Npu7/ZSAOtTD8Fsyy1wg=;
+ b=IdjPG6d3obinS6dvoNo5MDVFhhZIFjIe+k1tVnBwKUzECfpqRCoJ9ZfZCcYpQbYt73lyTS9GvYC+Z2H9QsfhsBKzZA5+rbhtOd9ZXJhrvdIWz+Tyv+vEWWDObfTu62l5i7Vh+1qK4Z34Mx7NMeV35MMJABWMHQRpej5uimSqEPbLwKyyZXNRWpwqF4Bd7iwx9+/BQavFU30XUz3Y0fqhQV2BYmLrAbznCJirJCW17VMiRP48XiR2RHq+ft2TcgLohoi5CmPDg6v2I/ZcGbfTY4Nef1O8H4v/fucJWZEgfpQZ4ZWFGb/7fu+2FowOcR7wQPwVvdDJqKw18yZi6Sy3iQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9pqDlp8NbSJUqyvctfy+3VuNilza2OTPgQRYXfOcw34=;
- b=QokvSIOyro8eSwzHht/Qy1G7cOeVUxU06CzCC5W8ObevweHAfrsVxYIkIJ38vjhg6R9QpUCW3kDauntJmS60JUQf0J2N405HQRxOTE/fnPXSgfQVjU6qKRrEO+t1BG2mU922fkHHcGXGfRov8pDze+9fCdvNpqcP8/kjWaFak+Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com (2603:10a6:102:2b1::21)
- by DB9PR04MB8493.eurprd04.prod.outlook.com (2603:10a6:10:2c5::18)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=r2bcSKrnn9Iyh7/KN7IFBu9Npu7/ZSAOtTD8Fsyy1wg=;
+ b=33+ZMz9Gnv1v7jKHoKbQdpFTflaWLcjydauz7qcNhWtM+i+9jpCUTyYVv572/YzYUzaSGAM/5kHabWyTaCr0qr9qIhicJt2gHMeZOShNKZ8voyD7qqNop/ZD2KeRqTVmvB1bNe1DGagayRUcScQdT3e2jo22aORy39s1/PgGO8E=
+Received: from MW4PR04CA0153.namprd04.prod.outlook.com (2603:10b6:303:85::8)
+ by DM6PR12MB4973.namprd12.prod.outlook.com (2603:10b6:5:1b7::14) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Fri, 4 Aug
- 2023 06:12:29 +0000
-Received: from PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::3505:c499:96d4:1429]) by PAXPR04MB9448.eurprd04.prod.outlook.com
- ([fe80::3505:c499:96d4:1429%4]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
- 06:12:29 +0000
-From: Sandor Yu <Sandor.yu@nxp.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm: bridge: dw_hdmi: Fix ELD is not updated issue
-Date: Fri,  4 Aug 2023 14:11:45 +0800
-Message-Id: <20230804061145.2824843-1-Sandor.yu@nxp.com>
-X-Mailer: git-send-email 2.34.1
+ 2023 06:21:02 +0000
+Received: from CO1PEPF000044F0.namprd05.prod.outlook.com
+ (2603:10b6:303:85:cafe::bd) by MW4PR04CA0153.outlook.office365.com
+ (2603:10b6:303:85::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21 via Frontend
+ Transport; Fri, 4 Aug 2023 06:21:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1PEPF000044F0.mail.protection.outlook.com (10.167.241.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6652.19 via Frontend Transport; Fri, 4 Aug 2023 06:21:01 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 4 Aug
+ 2023 01:21:00 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 3 Aug
+ 2023 23:21:00 -0700
+Received: from wayne-dev-lnx.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
+ Transport; Fri, 4 Aug 2023 01:20:56 -0500
+From: Wayne Lin <Wayne.Lin@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH 0/3] Refactor and clean up codes of mst
+Date: Fri, 4 Aug 2023 14:20:26 +0800
+Message-ID: <20230804062029.5686-1-Wayne.Lin@amd.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0040.apcprd02.prod.outlook.com
- (2603:1096:4:196::6) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
-MIME-Version: 1.0
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9448:EE_|DB9PR04MB8493:EE_
-X-MS-Office365-Filtering-Correlation-Id: f389d3cd-6b43-4e9a-703a-08db94b1c811
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F0:EE_|DM6PR12MB4973:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcef7ae1-893e-453f-b099-08db94b2f9db
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zVJ48XHmZW5f0LUgL8KvZGLWbW/Xj2SrKpcW9y/Aa3cIjUNKWGoiBB6uA72vDu4unC8hIryC7Yi9+YBcw4NhpYh4HOiIFoaPwqWUGVrBJwueJ3pDmHvXAzBmo+e8dy1dnUO5smLMuKg45vgsp0eJNC1b9UecyLpRe6BpTpXBPAf4RMhGvq1KXgN7/jSOR5q4O8KeJWZByqGVwUSxIB4KYO+na8vShAeeWFX0SvJObyPIujw6GjE+IT1c9HthvJNZ7Rb04oG3gFRgbSza/kiuipQ7XQL6w3YogLU1fIh6xV6PtH01apWfIgh3KX73qKZPMsZOFP/lLf8g3LZyYrbvMwtGW04fJaDB71MUlF16kKe2FYhJ+31NvYk/bN+7pJFsSCL8A9wNv5F7HyeMlNzws4NxrZoGh0N9PBG69YkxkyrIpX7dSPd4UFE1Luhd5rewiNdM0Gzs7pgP2ZLzeXnM45q1ZejV4UnTAIziiVbmTv5lKWrYi0MhSP0q0rg+qR6z+C/B8iwHHpT3n1nCnubdjsKz9sT/XDEdoQgN0NZREO6KD8Fx4CdEP90EpX0hAjF5Z1ymYpFqYtljUKb5UB6ukoSkgYpcRMJa1VKo/a0hiBr/sexRfN+dDtcMqhTZ0IFg
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9448.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(346002)(376002)(39860400002)(396003)(366004)(186006)(451199021)(1800799003)(66476007)(66946007)(66556008)(4326008)(2906002)(38100700002)(38350700002)(2616005)(1076003)(6506007)(7416002)(83380400001)(86362001)(6512007)(26005)(478600001)(36756003)(6486002)(52116002)(6666004)(8936002)(8676002)(5660300002)(15650500001)(41300700001)(316002);
+X-Microsoft-Antispam-Message-Info: nH5kRCAzMwFbTRrIkBwXMVph6PBDVqKtxIECOLY+FqsOcPPnCqGcg8pNDkO/2pBoidySy9/SQkDNjmTukWFzInaihlxXZCMVEDOSUKq3P+kM1o/PjPTSef2gT3SME3s6ro2iNZMO/XMWOwSqwzHGDoY2+MclJBUG1Hc+bfC2A9MnPQoJlXkvXWCF1G6F534cO0URU+D1MrQuoGTl6WaR2JdJGkkG3GpZP6mlWttUOhQ2Je+F6ms0MAv7x5OrSxWPAtu1QKNHbSe7vKIgkE8mB+aVu5Thzxh5BJrvoJNKTRYBPyX095fhU40eVm6b5kemI54uEbTiLhWuibSdKeL1arUxBlm8QTMrnvXKNGKojbADhH5I4ymht0Arf3cjOIUyxi2dZTEMK/diYfJks42ySvUEl0VWPtQ/7WdLZ3hpXdISJgND0wYzCmo0MKUMUnp9rd9UJA9OmymXb6LNGX5HVM2biqQHJPfWgeSjCxOrjCJIAav9ED1qAGUjUIUB//i4WsuSZiXpRRe7m7dIrujSSyc+J2MqVUXm2/2o0Lds1lRcscPW34xXO3yWH5oA6qaOO2p8JEnEVTaI7mdl7kFaxgEHcqrGC5m/IVMlH2ZyxvGpMT1ukFfsycVXp8E6ENxGvIpmedA1Hlf9uNFi/o2GOe7YbNrJXVk0CI8othGsCFr7FZJIL/uiTXrHUDbpuOf5d3iybabvYZixXEAdddeDYhIY/7Zh4XF39zS/s6yRTMZMCB4sv0k5oC1HVyUyhSsDKAUVmzJkPKB8TlmlsJC1Gg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(39860400002)(136003)(396003)(346002)(82310400008)(1800799003)(451199021)(186006)(46966006)(36840700001)(40470700004)(40460700003)(86362001)(336012)(2906002)(1076003)(26005)(47076005)(2616005)(426003)(36756003)(83380400001)(40480700001)(316002)(4326008)(70206006)(8676002)(8936002)(41300700001)(7696005)(6666004)(70586007)(81166007)(478600001)(356005)(110136005)(54906003)(82740400003)(36860700001)(5660300002)(36900700001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BWzZiDwwDQnwUT2HmXA3/pYbuM0zleAZ/FpmWhm11vxcqpjLiwAhnu94LZJC?=
- =?us-ascii?Q?dkOcoQmBwzID1ggA/whWQnj/d+PoYq3YAC7O1cZFNbaBYzLWCc9gj0qX7c8z?=
- =?us-ascii?Q?Nw/wOqszstMAtPT8Xu5AaqCJKTskf0dxjshYrzsc0PSSivd9oZnH0lYdnTrv?=
- =?us-ascii?Q?fmBUYaSXHIYhjorYXL9IpNdd8g2TxfnEjX1EFBihEEPtjEW2JyUZo22mqxGH?=
- =?us-ascii?Q?eeSvgOVLUEd/PKbockkNeKIwvQ25Tho8HZPBnCwrxL29IIGCkb1rOjHdqDVi?=
- =?us-ascii?Q?cjXS+jM38KqGrIp8iDQC63HfVPCQUUcaiJC8f3krI+YfyOIpk3eHYJjwzQOf?=
- =?us-ascii?Q?Onc9/hlNgGhGIlo5fRmQMfFNCF3U3tH0svdJ65At1b0yBRiHYqkCCuGEOovt?=
- =?us-ascii?Q?ojljmf+CFHcCPEuKzutCOnNhXSgmxrKBd1soGu8OcZOPls0iIbHIqHc2S4RZ?=
- =?us-ascii?Q?9mnQovno5qmOIdhnJc9c3dCQuEMHw6BXwtnW97e48lDJwT8OmnO6WEcucKAP?=
- =?us-ascii?Q?O1dNmyVYaJoyfGLElc9w0vZjEzt7lkTLbtygmfzQv4nyiFvd9iv9iVK6JaFj?=
- =?us-ascii?Q?h3ytwybRxugqCQ/u3JnUd5bfGaV6Vtp4HGingi3KjfJjDAqxhbVg26SDbWwK?=
- =?us-ascii?Q?x+PSpepjXiUqYXtYkjEvKJKpdeIPbgbuz8H2KvzOVpzMBw765SQrk3taRXX6?=
- =?us-ascii?Q?V8K1ncfiyQ2i+UyXKBiU1hFqcMrgc9gLkx013MlFt4DyUvg1xSTotc+W6j0Y?=
- =?us-ascii?Q?0W+mS6E5brRiE96tPYaLWgXDngHl0W5AFyLefZybjNW7dzpo6fBxU6IRd/4d?=
- =?us-ascii?Q?7evhcAbFl3osXcCVYbQohtHuM9SnnI4HAhOahG7Z7OKpMRu22qZpGIHVMT9Y?=
- =?us-ascii?Q?xfNyzaP3evacsBRVXD2Ot0BUXiPlX/DB7ion23FI8aVyIWfAq1lCEHhKNTST?=
- =?us-ascii?Q?kOn/FQAWVKDwKT3bzVJDu9SpKoi+//DwdiS3LhmqIvi0VRHlGr5q8PASSUY6?=
- =?us-ascii?Q?97HouDO4ivGr7HywCodunZ4CIE6m1WjrQqDxmp+LbL++oFWrJr5UUX3lB66f?=
- =?us-ascii?Q?1sSjI6NY/zHo/Jd0RJsGNcH6NFT12x6mlkv8JG37CPEPIXdQcvgwNqGIvMd0?=
- =?us-ascii?Q?MNBydameESHvavlS+SUShXheOXkmLSaFFPjsVQIHcZS1FvPQol0/uEAwp57x?=
- =?us-ascii?Q?+so4BRzcyRMrYB6lfQKVjbEDc7AyW11/o7r9J6OpQw98KKkTDS4qYPkOTjkZ?=
- =?us-ascii?Q?FHO4sLmmK6OAVjxK5mut6PkZrRsoIeyjhe0dFEfyi5H+5335MSP4PjGKKfSm?=
- =?us-ascii?Q?uzI7QAYpXLPVuRrjgdPVoA6OWR/FN80sDd2G7Yi21Ab0Q+PqkjezolgSXj9J?=
- =?us-ascii?Q?IpSzaspk4yIEZCEwmWuvqL2+lsDVbxVfwRmKcAzQzpAq/PxiQHBM5C9V4kSq?=
- =?us-ascii?Q?/6jwPjTpqXUyy+5ZptDnpCIs+ajScUVQabDObeDt2Zt2pZ/tjO9d5gJMzm7V?=
- =?us-ascii?Q?faqayPEZyoxKTJX5ys8eA1OvDPI4AkSd4K/AQOoorY6/OA9e8Ff+j2VG86Yx?=
- =?us-ascii?Q?TU0nS2adVhCfRyn9Izzs3yZr7zH+osOalK10vxdq?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f389d3cd-6b43-4e9a-703a-08db94b1c811
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 06:12:29.2609 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 75cFUlSvfV4qUxuV8btBHScVbXa3HyHTAqcXUWv3W1yQQhzl2zPrpSbITn2A9qoi2eYYbQHJ4ZzlDyPJOZCjqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8493
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 06:21:01.8664 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcef7ae1-893e-453f-b099-08db94b2f9db
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4973
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,71 +103,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, the.cheaterman@gmail.com, rfoss@kernel.org,
- jonas@kwiboo.se, cychiang@chromium.org, Sandor.yu@nxp.com,
- shengjiu.wang@nxp.com, adrian.larumbe@collabora.com, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, treding@nvidia.com
+Cc: jani.nikula@intel.com, jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ELD (EDID-Like Data) is not updated when the HDMI cable
-is plugged into different HDMI monitors.
-This is because the EDID is not updated in the HDMI HPD function.
-As a result, the ELD data remains unchanged and may not reflect
-the capabilities of the newly connected HDMI sink device.
+This patch set is mainly trying to organize the mst code today a bit.
+Like to clarify and organize the sequence of mst payload allocation and
+removement.And also clean up some redundant codes today.
 
-To address this issue, the handle_plugged_change function should move to
-the bridge_atomic_enable and bridge_atomic_disable functions.
-Make sure the EDID is properly updated before updating ELD.
+The main refactor one is the patch
+"drm/mst: Refactor the flow for payload allocation/removement"
+which is adding a new enum variable in stuct drm_dp_mst_atomic_payload
+to represent the status of paylad alloction, and then handle the payload
+accordingly. Besides, rename some drm mst fnctions to better express the
+behind idea.
 
-Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+The other two patches are mainly to clean up unnecessary codes.
 
----
-v2:
-  - Add the variable of last_connector_result back to driver.
-    It will only be used to initialize audio codec jack status when audio codec driver probe.
+Wayne Lin (3):
+  drm/mst: delete unnecessary case in drm_dp_add_payload_part2()
+  drm/mst: Refactor the flow for payload allocation/removement
+  drm/mst: adjust the function drm_dp_remove_payload_part2()
 
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  60 +-----
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 189 +++++++++++-------
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  13 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  11 +-
+ include/drm/display/drm_dp_mst_helper.h       |  22 +-
+ 5 files changed, 158 insertions(+), 137 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index aa51c61a78c7..963050de42c3 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2463,15 +2463,7 @@ static enum drm_connector_status dw_hdmi_detect(struct dw_hdmi *hdmi)
- 	enum drm_connector_status result;
- 
- 	result = hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
--
--	mutex_lock(&hdmi->mutex);
--	if (result != hdmi->last_connector_result) {
--		dev_dbg(hdmi->dev, "read_hpd result: %d", result);
--		handle_plugged_change(hdmi,
--				      result == connector_status_connected);
--		hdmi->last_connector_result = result;
--	}
--	mutex_unlock(&hdmi->mutex);
-+	hdmi->last_connector_result = result;
- 
- 	return result;
- }
-@@ -2971,6 +2963,7 @@ static void dw_hdmi_bridge_atomic_disable(struct drm_bridge *bridge,
- 	hdmi->curr_conn = NULL;
- 	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
-+	handle_plugged_change(hdmi, false);
- 	mutex_unlock(&hdmi->mutex);
- }
- 
-@@ -2989,6 +2982,7 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	hdmi->curr_conn = connector;
- 	dw_hdmi_update_power(hdmi);
- 	dw_hdmi_update_phy_mask(hdmi);
-+	handle_plugged_change(hdmi, true);
- 	mutex_unlock(&hdmi->mutex);
- }
- 
 -- 
-2.34.1
+2.37.3
 
