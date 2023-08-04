@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B6E76F840
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 05:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F20276F8C5
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 06:07:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DDB10E235;
-	Fri,  4 Aug 2023 03:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3354E10E236;
+	Fri,  4 Aug 2023 04:07:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id C737710E235
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 03:11:42 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxDOtrbMxkoAEQAA--.31593S3;
- Fri, 04 Aug 2023 11:11:40 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxJ81QbMxkdMpHAA--.52126S3; 
- Fri, 04 Aug 2023 11:11:34 +0800 (CST)
-Message-ID: <8e51eb50-aa7b-f771-e53b-499bf899e22e@loongson.cn>
-Date: Fri, 4 Aug 2023 11:11:12 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C348E10E236;
+ Fri,  4 Aug 2023 04:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691122042; x=1722658042;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Nct1OPaQWyF0NLQQ6u7Wq7eG9CS3igaS6y0hh8xq7cc=;
+ b=P+mTRk0pXznlqitB1u0k4IgWqFzHW6Q69Y7LD1EgJiZ8s32Wnp8jexBh
+ Q6npLYLmmP8Zcu0bFVOGXi0sO06FlbQ9qliXd2+TXhQ0CA0Jr4qf1QaRC
+ EgHc8X+NyeUeWym7wWggt60pVhftfk+EEQA3d1x1JezGZM60vivSeIlu/
+ CId8NjVOlGe+KCrhctoIsk5z8z5NikS9P+c7dIjCrcxzn7Gms3NCjzjPE
+ fQrBvR3KjCSkL3CO0XxZ7JzWT7pCCc2z60e9Y6DVv4zTKaNiQOxWePeQS
+ Oaxvh5VVxvvBYG6abP4ob7hwKQRoVC30JXaN74Poyk6wZTevn0Kxx3mIb w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="368962274"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="368962274"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2023 21:07:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="679758521"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; d="scan'208";a="679758521"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga003.jf.intel.com with ESMTP; 03 Aug 2023 21:07:16 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1qRm5q-008pgS-0y; Fri, 04 Aug 2023 07:07:14 +0300
+Date: Fri, 4 Aug 2023 07:07:14 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v4 1/1] drm/i915: Move abs_diff() to math.h
+Message-ID: <ZMx5cp1u5noAH0Zg@smile.fi.intel.com>
+References: <20230803131918.53727-1-andriy.shevchenko@linux.intel.com>
+ <20230803102446.8edf94acc77e81ab2e09cee3@linux-foundation.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] PCI/VGA: Make the vga_is_firmware_default()
- arch-independent
-To: kernel test robot <lkp@intel.com>
-References: <20230803081758.968742-1-suijingfeng@loongson.cn>
- <202308032022.yiZngbbk-lkp@intel.com>
-Content-Language: en-US
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <202308032022.yiZngbbk-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxJ81QbMxkdMpHAA--.52126S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxGFWDCryktr47tw15AFW3CFX_yoW5tFWkpF
- W8JF1ayF4kGr4fK392gryUur1Yvws8XFy3WrsxC3sruFyDZry0qr4SkrZ0gr9Ikr4xCF1j
- yrnxtry0ka4kAagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
- xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
- 6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
- JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
- vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
- xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
- wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8fsqJUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230803102446.8edf94acc77e81ab2e09cee3@linux-foundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,68 +61,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- loongson-kernel@lists.loongnix.cn, oe-kbuild-all@lists.linux.dev,
- bhelgaas@google.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ linux-fbdev@vger.kernel.org, linux-serial@vger.kernel.org,
+ Jani Nikula <jani.nikula@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ Jiri Slaby <jirislaby@kernel.org>, Alexey Dobriyan <adobriyan@gmail.com>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Aug 03, 2023 at 10:24:46AM -0700, Andrew Morton wrote:
+> On Thu,  3 Aug 2023 16:19:18 +0300 Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-On 2023/8/3 20:25, kernel test robot wrote:
-> Hi Sui,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on pci/next]
-> [also build test ERROR on pci/for-linus linus/master v6.5-rc4 next-20230803]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/PCI-VGA-Make-the-vga_is_firmware_default-arch-independent/20230803-161838
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20230803081758.968742-1-suijingfeng%40loongson.cn
-> patch subject: [PATCH] PCI/VGA: Make the vga_is_firmware_default() arch-independent
-> config: arm64-randconfig-r026-20230731 (https://download.01.org/0day-ci/archive/20230803/202308032022.yiZngbbk-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230803/202308032022.yiZngbbk-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202308032022.yiZngbbk-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> ld.lld: error: undefined symbol: screen_info
->     >>> referenced by vgaarb.c:86 (drivers/pci/vgaarb.c:86)
->     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
->     >>> referenced by vgaarb.c:86 (drivers/pci/vgaarb.c:86)
->     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
->     >>> referenced by vgaarb.c:88 (drivers/pci/vgaarb.c:88)
->     >>>               drivers/pci/vgaarb.o:(vga_arb_firmware_fb_addr_tracker) in archive vmlinux.a
->     >>> referenced 3 more times
->
-This is a more like arch-specific problem, It will be pain at many places on platforms
-that do not export the screen_info symbol. Not only here.
+...
 
-I have already explained that screen_info is arch-dependent many times, but no one cares about me.
-By using (looking at) screen_info, vgaarb gets infected, and becomes arch-dependent as well.
-vgaarb deals with VGA class (pdev->class == 0x0300XX) devices only, This makes it device-dependent.
-Hence, It only works correctly for a small set of PCIe devices on x86.
+> > +#define abs_diff(a, b) ({			\
+> > +	typeof(a) __a = (a);			\
+> > +	typeof(b) __b = (b);			\
+> > +	(void)(&__a == &__b);			\
+> > +	__a > __b ? (__a - __b) : (__b - __a);	\
+> > +})
+> 
+> Can we document it please?
+> 
+> Also, the open-coded type comparison could be replaced with __typecheck()?
+> 
+> And why the heck isn't __typecheck() in typecheck.h, to be included by
+> minmax.h.
+> 
+> etcetera.  Sigh.  I'll grab it, but please at least send along some
+> kerneldoc?
 
-arch-dependent, device-dependent, subsystem-dependent (part of it rely on ACPI) and
-loading order dependent, those dependent itself are the problems.
-It results in various undefined (uncertain) behaviors on non-x86 architectures.
+Sure and thank you!
 
-Even on x86, some platform choose to relay on the firmware to solve the multiple GPU coexist problem.
-so it is also firmware-dependent.
-
-This patch solves part of the above problems listed, target at the *device level*, as early as possible.
-while they still a few problems could be only solved at the *driver level*.
-For an example, The display controller in Intel N2000 and d2000 series don't has a dedicated VRAM bar.
-they use the "stolen memory", which is carve out by somebody (either bios or kernel?).
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
