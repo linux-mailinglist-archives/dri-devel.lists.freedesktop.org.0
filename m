@@ -2,67 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC81076FC15
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D221976FC1F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 10:40:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5407410E250;
-	Fri,  4 Aug 2023 08:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE3310E6B7;
+	Fri,  4 Aug 2023 08:40:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8460B10E6B7
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:33:34 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fe0eb0ca75so2968922e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:33:34 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1130488A3E
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 08:40:06 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-3178dd81ac4so1578948f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 01:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691138013; x=1691742813;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=N6nwwHLkVG+OtVOcxb9BDvvn6MafDWFcOyabImoFU+A=;
- b=KBmq3vL5fNLVwTa2+FypT8jrqb/g0EPTJ0TXq7MBZHYuDaO8AOPDLQvuYxTnZpqs9a
- lM2eY0uKw3jxL4Hivc5wAEY+5ITe4Or1zycqN35knpYLItevTVQhJTj7QMw7lG/9iG/q
- iP9G2m8Ml297DZntW2QiGm9kLraT/4BmBSVz4vXou6HpmjuUhrkWZ+rqc8RrBSDHuOgX
- qymE+pHPfvk5x+EzKSpPTntei2KIqWWmpFHAW8f07ZovbOpBPTPSTnkJBwfgMxIvvJB5
- hF6To5tCf8s05szuXYDeUsc08HXMVi4GIp76nSPKoZ5CS+3HNTzALHTMT8B/5mH4eMEV
- t0Tg==
+ d=linaro.org; s=google; t=1691138404; x=1691743204;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=wdx3f+50DISgPPdeHaF0Mb88wToJy9z92MXQTy2q84c=;
+ b=hB9V8I0glM0cDRfG7+8UN4Ubaid2OSD46rTP9V16nGgVB4fsisVPZ7KCVDB/EZLW+V
+ yKJ4rv++74jOrxUO0L7w3SYVbQ609CWQe28Dcut/Jv7yChXGuFlX7TQs+3hjeJQN69Xm
+ D55fS1N4pa8iYPY0KZur9KoPD2yIdHlFrvvnegD1QiI+clS3aUcwLuO9wFsn5QNrbewp
+ OxXUflTWArgs7DRGM8HYBUqY4xyBBkT+l5yH44jNChIY+CbuhFQX4j8iOiuI1xVh4kSY
+ UrhJWBYK1KW277SOUKRcnJbk07f70ohDxoGQdkd8EOTpQbyCajLjZZTshgxEeZwZ5KKQ
+ DkFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691138013; x=1691742813;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=N6nwwHLkVG+OtVOcxb9BDvvn6MafDWFcOyabImoFU+A=;
- b=ZliWR4obzkWkVV17pSwqJb8HelQ3KSuuMsw7f99L5j1R16xgoF6ItN4ULdUHo9sHUi
- IpPpHPpjFdpi2bG9l3Xgahd67lmTCy0l8IoTPaKv17JegNKSDG2/ghtpDy50SXqeX/yZ
- PiA4QzlSYz/teEvP/rTvMoOU/f2AKLPK+AnBVqABO6G5NHvvhuL2aGJSXh0+8jepVg33
- RTnLN7QONx5V5dmLoH+/9klcYFWphNzp4S+ISx4x0eVUH3KuHQZjddrOOFKTjHzxUccW
- oxQVT8LvpUdcnigK306uWszhV1N8ma3Iox06gCXQfgzSHNT78p57OjCfmLJ0SPQPoByr
- l1XQ==
-X-Gm-Message-State: AOJu0YyFdjqzWVhFVvtzJI9Hb6StQ7VNZaCkj5PSKEC9q94P17MSlHRD
- L4ox2etWvVjHHYBQWzcMjrEgggecrU+GgNXUJ81Vng==
-X-Google-Smtp-Source: AGHT+IEMeJXfONqMoY3iVQdO66rqCDGbo3R40rjhpbKanJglhxYE5V5UlpOohZC6WXxoVCJPbivftA==
-X-Received: by 2002:a19:9116:0:b0:4fb:78b1:1cd4 with SMTP id
- t22-20020a199116000000b004fb78b11cd4mr692530lfd.49.1691138012596; 
- Fri, 04 Aug 2023 01:33:32 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ d=1e100.net; s=20221208; t=1691138404; x=1691743204;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wdx3f+50DISgPPdeHaF0Mb88wToJy9z92MXQTy2q84c=;
+ b=jX/8Q4JCEVu3RcWDvHkIjx2EH7HpXrEebDUcASXRUs48GktTKw1eaxvWNhZquO0uhC
+ TGNw+YbFXE7c8z6CNCKCmNpvwG6y8WiMQm/nJodY7BlBGvaw+Jww/XI7mhhwStfZ/frA
+ jfhCs/FqyfCrlVgSFqzzOsJeFpOUZDhyRArH8nuC+7j1IpyZcUdi8K+l7NBFv2x4S7OF
+ 6ZSgkIcwykMR8Y6kmAheIN0Gt+yTbM9SNapGJ8xI1OWguygg0Ha5Ok9rPtHIEOvWAqgM
+ z3IzFx71CII9KIh7ccVro5nz2CaKf/0hPNvCVdYzSCMD2qL0eVT5ubBFTyOxYOqgdOiL
+ BZig==
+X-Gm-Message-State: AOJu0Yx757xj1O1U0yQnina9W09kchNcKxeuElHJEWRHtofdP5rx0owB
+ 5GjRNsPfeMdU+yOvgcEir2CXAA==
+X-Google-Smtp-Source: AGHT+IHZJjfZzR14MYOvYq7wNubxQq7a16qY4NsGBsLLUeTuQhj3Q57WLx2xslUl8/d9+Zez0BZtPA==
+X-Received: by 2002:adf:dfcf:0:b0:313:f429:f6e9 with SMTP id
+ q15-20020adfdfcf000000b00313f429f6e9mr824781wrn.60.1691138404492; 
+ Fri, 04 Aug 2023 01:40:04 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b526:9083:f5a6:4af1?
+ ([2a01:e0a:982:cbb0:b526:9083:f5a6:4af1])
  by smtp.gmail.com with ESMTPSA id
- y16-20020adff150000000b0031762e89f94sm1880871wro.117.2023.08.04.01.33.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 01:33:32 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Sandor Yu <Sandor.yu@nxp.com>
-In-Reply-To: <20230804061145.2824843-1-Sandor.yu@nxp.com>
-References: <20230804061145.2824843-1-Sandor.yu@nxp.com>
-Subject: Re: [PATCH v2] drm: bridge: dw_hdmi: Fix ELD is not updated issue
-Message-Id: <169113801157.3169525.1095046691218420995.b4-ty@linaro.org>
-Date: Fri, 04 Aug 2023 10:33:31 +0200
+ w17-20020adff9d1000000b00301a351a8d6sm1930082wrr.84.2023.08.04.01.40.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Aug 2023 01:40:04 -0700 (PDT)
+Message-ID: <b2407b1d-23fb-3284-c4bb-b3a952d361dd@linaro.org>
+Date: Fri, 4 Aug 2023 10:40:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 2/3] drm/panel: sitronix-st7789v: add panel orientation
+ support
+Content-Language: en-US
+To: Michael Riesch <michael.riesch@wolfvision.net>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sebastian Reichel
+ <sre@kernel.org>, Gerald Loacker <gerald.loacker@wolfvision.net>
+References: <20230718-feature-st7789v-v2-0-207cb1baea0f@wolfvision.net>
+ <20230718-feature-st7789v-v2-2-207cb1baea0f@wolfvision.net>
+Organization: Linaro Developer Services
+In-Reply-To: <20230718-feature-st7789v-v2-2-207cb1baea0f@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,33 +87,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: the.cheaterman@gmail.com, rfoss@kernel.org, jonas@kwiboo.se,
- cychiang@chromium.org, shengjiu.wang@nxp.com, adrian.larumbe@collabora.com,
- jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, treding@nvidia.com
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 04 Aug 2023 14:11:45 +0800, Sandor Yu wrote:
-> The ELD (EDID-Like Data) is not updated when the HDMI cable
-> is plugged into different HDMI monitors.
-> This is because the EDID is not updated in the HDMI HPD function.
-> As a result, the ELD data remains unchanged and may not reflect
-> the capabilities of the newly connected HDMI sink device.
+On 03/08/2023 22:13, Michael Riesch wrote:
+> Determine the orientation of the display based on the device tree and
+> propagate it.
 > 
-> To address this issue, the handle_plugged_change function should move to
-> the bridge_atomic_enable and bridge_atomic_disable functions.
-> Make sure the EDID is properly updated before updating ELD.
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> ---
+>   drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> index c7cbfe6ca82c..6575f07d49e3 100644
+> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+> @@ -116,6 +116,7 @@ struct st7789v {
+>   	struct spi_device *spi;
+>   	struct gpio_desc *reset;
+>   	struct regulator *power;
+> +	enum drm_panel_orientation orientation;
+>   };
+>   
+>   enum st7789v_prefix {
+> @@ -170,6 +171,7 @@ static const struct drm_display_mode default_mode = {
+>   static int st7789v_get_modes(struct drm_panel *panel,
+>   			     struct drm_connector *connector)
+>   {
+> +	struct st7789v *ctx = panel_to_st7789v(panel);
+>   	struct drm_display_mode *mode;
+>   
+>   	mode = drm_mode_duplicate(connector->dev, &default_mode);
+> @@ -188,9 +190,22 @@ static int st7789v_get_modes(struct drm_panel *panel,
+>   	connector->display_info.width_mm = 61;
+>   	connector->display_info.height_mm = 103;
+>   
+> +	/*
+> +	 * TODO: Remove once all drm drivers call
+> +	 * drm_connector_set_orientation_from_panel()
+> +	 */
+> +	drm_connector_set_panel_orientation(connector, ctx->orientation);
+> +
+>   	return 1;
+>   }
+>   
+> +static enum drm_panel_orientation st7789v_get_orientation(struct drm_panel *p)
+> +{
+> +	struct st7789v *ctx = panel_to_st7789v(p);
+> +
+> +	return ctx->orientation;
+> +}
+> +
+>   static int st7789v_prepare(struct drm_panel *panel)
+>   {
+>   	struct st7789v *ctx = panel_to_st7789v(panel);
+> @@ -349,6 +364,7 @@ static const struct drm_panel_funcs st7789v_drm_funcs = {
+>   	.disable = st7789v_disable,
+>   	.enable	= st7789v_enable,
+>   	.get_modes = st7789v_get_modes,
+> +	.get_orientation = st7789v_get_orientation,
+>   	.prepare = st7789v_prepare,
+>   	.unprepare = st7789v_unprepare,
+>   };
+> @@ -382,6 +398,8 @@ static int st7789v_probe(struct spi_device *spi)
+>   	if (ret)
+>   		return ret;
+>   
+> +	of_drm_get_panel_orientation(spi->dev.of_node, &ctx->orientation);
+> +
+>   	drm_panel_add(&ctx->panel);
+>   
+>   	return 0;
+> 
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+This patch doesn't apply clean on drm-misc-next, could you rebase and resend ?
 
-[1/1] drm: bridge: dw_hdmi: Fix ELD is not updated issue
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=6db96c7703edd6e37da8ca571dfe5e1ecb6010c1
-
--- 
+Thanks,
 Neil
-
