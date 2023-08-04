@@ -1,71 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E6D770007
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 14:16:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F5C770086
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 14:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7567D10E6E9;
-	Fri,  4 Aug 2023 12:15:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B08610E6F1;
+	Fri,  4 Aug 2023 12:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42FAF10E6E7
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 12:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691151343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iifFgJWlEJ/tR+OujI8Y2TfWF+bx6PDIwYvuFmvjx8E=;
- b=XgX/0jdy0qwU/vP3gf5AppPjjmJLNjIycnYl9ipXd+K9Y9eUNw3jt3gET3B+LzyMSCv1IZ
- CLsXFm0kURHbXoqafCB1dB+sjZBwVmx4Ig4IzWBZoQup0I4OHfEfXHB2Vc/ziFGgVzIZfp
- onfdXHS3jjhJgNTNfozmsyTU8HbjbhQ=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-606-9wM1Qg2ZNeWEBygpHU0tGQ-1; Fri, 04 Aug 2023 08:15:42 -0400
-X-MC-Unique: 9wM1Qg2ZNeWEBygpHU0tGQ-1
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-2a7a6393ba6so4562481fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Aug 2023 05:15:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691151341; x=1691756141;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iifFgJWlEJ/tR+OujI8Y2TfWF+bx6PDIwYvuFmvjx8E=;
- b=BGuKmVzS9ACN6/70f163VrwG1E+UCofrQIwT5tb91yf51B/NLS5FJ+MMm64b2Ea1NU
- 1X0tOWpJFsTgRmY4sQdkb6EniOUCGDqWCY2EMQ/ZCYf7JoZ+G04ULBsivGWTSoHH4CkS
- 0rqHdjKvp+u8YvAVRVNO6S87bZcbuALtKsi8iAE/0xQlE0yJUyTgu5aGWrjCULbQMQTO
- SjA+SOANk0FgKuvkjyxue+Eer8zs41Wt2+xP2ZnVLsXuRJVvFfRK5Iuvhnge+BDZ7ofh
- k9lmJIQAjrpHZREC+dSMVf2kdlojtsydAtbcZ5yeROFjuvJLZ9JZDtxq/eEe7MEPIElk
- DlzA==
-X-Gm-Message-State: ABy/qLZLNVw2c3mpANTclywD33BTHMz+MEatS1j5CzDgPo8I6xv+0m2n
- EEtTKuJxn3l98p8A7co8l0C6NuMDrke6dqcnqS7lRiX2pqb5XGANZq9gIuFoDxBVl0wyRbdAFwk
- tQ7Q5t5GszhQlS+ZUbisEmo6YSF81QyaM0eOMe+IuGCu6
-X-Received: by 2002:a2e:bc13:0:b0:2b6:af68:6803 with SMTP id
- b19-20020a2ebc13000000b002b6af686803mr15501665ljf.4.1691151340757; 
- Fri, 04 Aug 2023 05:15:40 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlF5SVdiNkOzR43HfHpXWgsB7QQe4iqK1CZLGLKsmHdTGSgH5EDmZaORZ3VyZOGxA65bhGchzMQWssgOluwgvnI=
-X-Received: by 2002:a2e:bc13:0:b0:2b6:af68:6803 with SMTP id
- b19-20020a2ebc13000000b002b6af686803mr15501646ljf.4.1691151340361; Fri, 04
- Aug 2023 05:15:40 -0700 (PDT)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2088.outbound.protection.outlook.com [40.107.96.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D251610E6F0
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 12:49:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kJ3oJm/rGjlzfwwf0Fq0/USH5076WgiS0ROvhYeLQd117vmGu+VCgnA9mgw0ThS3Bh40wJm3CmC4ClQYpI51ToW8z7fl64FgpL3XFrXaRcUHh6fb1PktSG0TfLs4rpDP9hIuJzsDtC5Ot3cb8/Y0l9rTJ1k5anztd61JOKI3rJZGNCItOfKCNC07onSzSRGaitoIJT0wfFuec5Rz1FgYgZSbuY+ZdSAsUEO75OE4VaIzFvwQCdUdz+2mAhFGCH1i9HBNOWWAZnZGXKyTyQ1PrkndOTxqQGs53x86FqxRBTIL+ylMoSzmbfdk3w8AYSm/L/rN+hM9cCsOmCjFut3jBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t4jQwjNrlVgbYyMmMV+hiOCOKiYKRY1pCiASrw2DJOM=;
+ b=OD66iDlTXtQ6oyzg0bxNM5JZQpkRFaHIGRaxLq2Qb0FrYiGNTjsESFbx+Jggo5XtKD71LPILVEWkri/5TmRRWlSG+iXPiIj+Z2rtkA/uXHSzSKBJPptr7Mvn28N29TH3m0pvnDDtrZlL/2ESilSfXV34YVIk+PLAB5XQqIOPwXmt7xE6DMal9NnGllsMZfqqBOcfKqMP00ib+mtCl7IbD131ExHDgpYBiaNqIcFBCdDgZaqcbvpwETYPDoOd+s6Kfi5LCRkGXGrdgsBhHWzPoMP6HvI9GQz/h9Mii5VEiHriIsNJUw7XqSAbDcnw3yjWt44+OO9RDOjiON+BFsW5sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t4jQwjNrlVgbYyMmMV+hiOCOKiYKRY1pCiASrw2DJOM=;
+ b=Marm16MNMUOnQfz3UYj1XEYYnk7fyWY0wMFqrIpO76LA4LOccdozgM9OimfYi0tGivbkDbLLBibt36EwGgAoCol6odISeRMDkym5ktTWVrA2XljIYN8fsXmH6yVBlbm0MHuB8YWyiFzUrR0rgpY7uJyJlDjWg7em+PRuEnaZfQr4d9QWwG8IsHqeL9w0RcMYBBNhleZb4fJFyqu6/laY0KTC+Vz2v/W8IBpblJ0jPolq74S1aDtmaQN6J2nW6ZQbAJ0V8qnREKgXNzLZ8tw9mwBbGcq3M9v0r9pjdWdWvaprs62eONqo0Hw24JlwzL4ZzzEzSvbapMJUI5L9FvrpNA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SJ0PR12MB5437.namprd12.prod.outlook.com (2603:10b6:a03:302::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.20; Fri, 4 Aug
+ 2023 12:49:29 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
+ 12:49:29 +0000
+Date: Fri, 4 Aug 2023 09:49:28 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Message-ID: <ZMzz2OKbmiD6SKPE@nvidia.com>
+References: <48f22686-2c1b-fd9d-91ba-da6105d410db@redhat.com>
+ <ZMj5+7sgkPqHT5Vt@nvidia.com>
+ <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR05CA0066.namprd05.prod.outlook.com
+ (2603:10b6:208:236::35) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-References: <20be6650-5db3-b72a-a7a8-5e817113cff5@kravcenko.com>
- <c27fb4dd-b2dc-22de-4425-6c7db5f543ba@leemhuis.info>
-In-Reply-To: <c27fb4dd-b2dc-22de-4425-6c7db5f543ba@leemhuis.info>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Fri, 4 Aug 2023 14:15:29 +0200
-Message-ID: <CACO55ttcUEUjdVgx4y7pv26VAGeHS5q1wVKWrMw5=o9QLaJLZw@mail.gmail.com>
-Subject: Re: nouveau bug in linux/6.1.38-2
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB5437:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28b61035-409d-4949-d65f-08db94e93e2d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nqs+QlZ6kZlYfGa6+fla4GgYuWBRLPt8Rvyl6Nx66t+Nkg9AfmtYLF/j9MwU8BIlGMUkmAbXc0/k6q1C+gW0YXvbIilNf6gSz5bFzTsojwDMGrFhlnq3AI98gUSTek+dFGVDYJ/NRM9kQVWlba03npZDMMeEVNlOYPmSTJCzZx3rMdab8fShIDbkijTA2BfirSG6+YjYCGEoxP80N1juHi3EOYmFwcQ0UnsIuKWgxuXC+E+fkqf/4p79snk4bP1w1vHZWAO7YdD1jbTQ1QP8UrliaVjUlvHHt99dL+i7gEhbusChdY3apYGP4XvzME4zBryK/h88Kpiww4VuoQ2/qkEE5VcupM4ZaQThIHRcf6iSNd9Hh8YOuO+JmLoUca6xQHqyJ7zvAYglV0MXs46y0L+IFTujdAHWCKNty3kPNZdZ8Kt6LjgI8VS2K88nTF8PVkKV9CoMmeRRROVRjCMcas6H5xGjG3dYciPqOHTxAfXvcWfQ5masEmAqTckxeGCflc7OgPyMRCT96N+uGVPRgEXHF/0FW+5XzoRQPY/QbIpFsubN9ZBKz6ye3Jzyqpre
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(366004)(136003)(376002)(346002)(451199021)(1800799003)(186006)(41300700001)(8936002)(8676002)(83380400001)(26005)(6506007)(38100700002)(2616005)(86362001)(316002)(6916009)(478600001)(6486002)(6512007)(54906003)(66556008)(66476007)(4326008)(36756003)(15650500001)(2906002)(5660300002)(66946007)(7416002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qX+R6qB7OLru6NXSrvu6MIElACB6DUDuZHfgUQRHXkfOIGu8zxf/bb8PToUo?=
+ =?us-ascii?Q?snKwdAuvdu+zUzlJV9ZmQUAg9UUj9m2rCwsrwykOdV8Kk8v9oekxmbJVvsH7?=
+ =?us-ascii?Q?e3XTypxPt1Me0v7JTgyd4sR/0Dj3qQS2KAfC3vorxLwrYMvsL/9wBmlGf/kw?=
+ =?us-ascii?Q?z+XWTUIJSoQG3FUYYN3PcYFvaanBhYFGladR80aRFz/tMzf+WErOGoKiQ/G/?=
+ =?us-ascii?Q?KOTttMm7BXcbCVK/kVoJcg/X6VkpbtVH/QkmxcZtPV5wdg3wBHAPhMigNJUH?=
+ =?us-ascii?Q?WTpBTDoFjRQpHSQSCz75hh7wH0pZU/jkHfUd9lBhddFXP0CmgwS+JfO832zR?=
+ =?us-ascii?Q?Zz02PGIdk1hRfAO/41UXiJ0R2ej8jlp8/UhV6VFN0S+BycryuKGnD9U7YRNd?=
+ =?us-ascii?Q?82KGpIXzZm9zuyPOgQ9kj6vSOL7rSAQ6wucgZPD4mB9qLwYYilfOmegXKQep?=
+ =?us-ascii?Q?XnjqBPVIqCiWGxZ6ZBP4iHamXo+/6HA8+nwMbvGBKlFCbUzmEVxfnq1Hfa0k?=
+ =?us-ascii?Q?ItamcyGsZmjiqWvcwFwoR8ltTS+IdmsVLi1GnNnVUUWLnvSsewt8dP3ai+Io?=
+ =?us-ascii?Q?57W5GuUEyDzW0/iIO3jb6Mvph9iOWGPuUHF17vpggBDhecHQi4nHJYkkmWDX?=
+ =?us-ascii?Q?+hJmM0bTpGKnGV3mFEh4J24Bvxq/7yYdOxul4XsoOm42SVMlm/h44W7w/H6+?=
+ =?us-ascii?Q?ySSGxZv733XVjl+QoQukGT34gjd0FzXluY7J/27x/QCdrz5EDeV+miRErWAg?=
+ =?us-ascii?Q?bjbg01K2VmOYQdpU/u+Fnlk1CGUa6bl+ctfpnugojcfJtMPNvwylrAL59UQS?=
+ =?us-ascii?Q?jOiSZ2bQwSvCu4AogqiqylhJDMzz5oh62agBgFCjGEPZsp1y+pQYWioETMry?=
+ =?us-ascii?Q?LwX5kH2Dh1Kn7fpYuWjT17cCBKEKDrF74hsgJem7ZAEzOGUAC9RCZjApQOvB?=
+ =?us-ascii?Q?85OE/HZEuc6xqz2JS/Nh/u7cIZxrgzIEtz+vWD3GXIIwWBzepH2JREOrVBvy?=
+ =?us-ascii?Q?szjQ0ZXNwf/pOxAJqSQPk0tgKR1olN0R3hMHNRcsX3KJUtPHXm4D+D6MhmIk?=
+ =?us-ascii?Q?0JIG/kbPZVcvV+UdK65NGog7DoKKL8lKb8vHo13jWYDjw1AAlYuRn5FX8xXH?=
+ =?us-ascii?Q?Qn/tj1Z2c2DaIcy4cuzI04LrIcThGse/sqoLdl2W7DpJRRlGlxm5DlG4ABfy?=
+ =?us-ascii?Q?20mi6a5SoQ3pJycFG2D7fyosPOa6l/z8mVZgiiNPiBo81UkcHWzzMrW2vlcX?=
+ =?us-ascii?Q?9J4HPclKjVQBKhVv9lJOrcNRRqAymnzfiH7JZRZ+vA7DFPrGF7OYXQhVd1o1?=
+ =?us-ascii?Q?YD1sJ4nDECI5g3syiSR+t1GFJz8WbHcLIJ9byX+QCFv0fbUU/SrLcRYRL2Yh?=
+ =?us-ascii?Q?MCYzWqa8X7BA00fR5PPqWuuA+Rd1Mb76YQpj/5AysvsixKv4xfm2+TslBoXy?=
+ =?us-ascii?Q?PefERuSIbhY+h+L1VN9dFWBsF3R62Qg/aWZdzbVOOwi8IaUikeSv8qF3Ea2O?=
+ =?us-ascii?Q?6ljD0t2sr0b8Ml6Dz5lbstJdmilc9EtyEthM046jdcYYeRVu7tCY1k6s5dse?=
+ =?us-ascii?Q?FNzhp6BkDbs6XmwSfJMk8G0wNfPizo6WRMfTnZ2E?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28b61035-409d-4949-d65f-08db94e93e2d
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 12:49:29.6988 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U5cGi2NQuCo7rAffXu79arhguPoZn6LqojISd3D4jBhJNobTZC/J4fRYZ8JFKAVt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5437
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,166 +123,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
- Olaf Skibbe <news@kravcenko.com>, nouveau@lists.freedesktop.org,
- 1042753@bugs.debian.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 4, 2023 at 2:02=E2=80=AFPM Thorsten Leemhuis
-<regressions@leemhuis.info> wrote:
->
-> Hi!
->
-> On 02.08.23 23:28, Olaf Skibbe wrote:
-> > Dear Maintainers,
-> >
-> > Hereby I would like to report an apparent bug in the nouveau driver in
-> > linux/6.1.38-2.
->
-> Thx for your report. Maybe your problem is caused by a incomplete
-> backport. I Cced the maintainers for the drivers (and the regressions
-> and the stable list), maybe one of them has an idea, as they know the
-> driver.
->
-> If they don't reply in the next few days, please check if the problem is
-> also present in mainline. If not, check if the latest 6.1.y. release
-> already fixes this. If not, try to check which of the four patches you
-> reverted to make things going is actually causing this (e.g. first only
-> revert the one that was applied last; then the two last ones; ...).
->
-> > Running a current debian stable on a Dell Latitude E6510 with a
-> > "NVIDIA Corporation GT218M" graphic card, the monitor turns black
-> > after the grub screen. Also switching to a console (Strg-Alt-F2) shows
-> > just a black screen. Access via ssh is possible.
-> >
-> > ~# uname -r
-> > 6.1.0-10-amd64
-> >
-> > demesg shows the following error message:
-> >
-> > [    3.560153] WARNING: CPU: 0 PID: 176 at
-> > drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c:460
-> > nvkm_dp_acquire+0x26a/0x490 [nouveau]
-> > [    3.560287] Modules linked in: sd_mod t10_pi sr_mod crc64_rocksoft
-> > cdrom crc64 crc_t10dif crct10dif_generic nouveau(+) ahci libahci mxm_wm=
-i
-> > i2c_algo_bit drm_display_helper libata cec rc_core drm_ttm_helper ttm
-> > scsi_mod e1000e drm_kms_helper ptp firewire_ohci sdhci_pci cqhci
-> > ehci_pci sdhci ehci_hcd firewire_core i2c_i801 crct10dif_pclmul
-> > crct10dif_common drm crc32_pclmul crc32c_intel psmouse usbcore mmc_core
-> > crc_itu_t pps_core scsi_common i2c_smbus lpc_ich usb_common battery
-> > video wmi button
-> > [    3.560322] CPU: 0 PID: 176 Comm: kworker/u16:5 Not tainted
-> > 6.1.0-10-amd64 #1  Debian 6.1.38-2
-> > [    3.560325] Hardware name: Dell Inc. Latitude E6510/0N5KHN, BIOS A17
-> > 05/12/2017
-> > [    3.560327] Workqueue: nvkm-disp nv50_disp_super [nouveau]
-> > [    3.560433] RIP: 0010:nvkm_dp_acquire+0x26a/0x490 [nouveau]
-> > [    3.560538] Code: 48 8b 44 24 58 65 48 2b 04 25 28 00 00 00 0f 85 37
-> > 02 00 00 48 83 c4 60 44 89 e0 5b 5d 41 5c 41 5d 41 5e 41 5f c3 cc cc cc
-> > cc <0f> 0b c1 e8 03 41 88 6d 62 44 89 fe 48 89 df 48 69 c0 cf 0d d6 26
-> > [    3.560541] RSP: 0018:ffff9899c048bd60 EFLAGS: 00010246
-> > [    3.560542] RAX: 0000000000041eb0 RBX: ffff88e0209d2600 RCX:
-> > 0000000000041eb0
-> > [    3.560544] RDX: ffffffffc079f760 RSI: 0000000000000000 RDI:
-> > ffff9899c048bcf0
-> > [    3.560545] RBP: 0000000000000001 R08: ffff9899c048bc64 R09:
-> > 0000000000005b76
-> > [    3.560546] R10: 000000000000000d R11: ffff9899c048bde0 R12:
-> > 00000000ffffffea
-> > [    3.560548] R13: ffff88e00b39e480 R14: 0000000000044d45 R15:
-> > 0000000000000000
-> > [    3.560549] FS:  0000000000000000(0000) GS:ffff88e123c00000(0000)
-> > knlGS:0000000000000000
-> > [    3.560551] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [    3.560552] CR2: 00007f57f4e90451 CR3: 0000000181410000 CR4:
-> > 00000000000006f0
-> > [    3.560554] Call Trace:
-> > [    3.560558]  <TASK>
-> > [    3.560560]  ? __warn+0x7d/0xc0
-> > [    3.560566]  ? nvkm_dp_acquire+0x26a/0x490 [nouveau]
-> > [    3.560671]  ? report_bug+0xe6/0x170
-> > [    3.560675]  ? handle_bug+0x41/0x70
-> > [    3.560679]  ? exc_invalid_op+0x13/0x60
-> > [    3.560681]  ? asm_exc_invalid_op+0x16/0x20
-> > [    3.560685]  ? init_reset_begun+0x20/0x20 [nouveau]
-> > [    3.560769]  ? nvkm_dp_acquire+0x26a/0x490 [nouveau]
-> > [    3.560888]  nv50_disp_super_2_2+0x70/0x430 [nouveau]
-> > [    3.560997]  nv50_disp_super+0x113/0x210 [nouveau]
-> > [    3.561103]  process_one_work+0x1c7/0x380
-> > [    3.561109]  worker_thread+0x4d/0x380
-> > [    3.561113]  ? rescuer_thread+0x3a0/0x3a0
-> > [    3.561116]  kthread+0xe9/0x110
-> > [    3.561120]  ? kthread_complete_and_exit+0x20/0x20
-> > [    3.561122]  ret_from_fork+0x22/0x30
-> > [    3.561130]  </TASK>
-> >
-> > Further information:
-> >
-> > $ lspci -v -s $(lspci | grep -i vga | awk '{ print $1 }')
-> > 01:00.0 VGA compatible controller: NVIDIA Corporation GT218M [NVS 3100M=
-]
-> > (rev a2) (prog-if 00 [VGA controller])
-> >     Subsystem: Dell Latitude E6510
-> >     Flags: bus master, fast devsel, latency 0, IRQ 27
-> >     Memory at e2000000 (32-bit, non-prefetchable) [size=3D16M]
-> >     Memory at d0000000 (64-bit, prefetchable) [size=3D256M]
-> >     Memory at e0000000 (64-bit, prefetchable) [size=3D32M]
-> >     I/O ports at 7000 [size=3D128]
-> >     Expansion ROM at 000c0000 [disabled] [size=3D128K]
-> >     Capabilities: <access denied>
-> >     Kernel driver in use: nouveau
-> >     Kernel modules: nouveau
-> >
-> > I reported this bug to debian already, see
-> > https://bugs.debian.org/1042753 for context.
-> >
-> > With support (thanks Diederik!) I managed to figure out that the cause
-> > was a regression between upstream kernel version 6.1.27 and 6.1.38.
-> >
-> > I build a new 6.1.38 kernel with these commits reverted:
-> >
-> > 62aecf23f3d1 drm/nouveau: add nv_encoder pointer check for NULL
-> > fb725beca62d drm/nouveau/dp: check for NULL nv_connector->native_mode
-> > 90748be0f4f3 drm/nouveau: don't detect DSM for non-NVIDIA device
-> > 5a144bad3e75 nouveau: fix client work fence deletion race
-> >
+On Fri, Aug 04, 2023 at 06:39:22AM +0000, Kasireddy, Vivek wrote:
 
-mind retrying with only fb725beca62d and 62aecf23f3d1 reverted? Would
-be weird if the other two commits are causing it. If that's the case,
-it's a bit worrying that reverting either of the those causes issues,
-but maybe there is a good reason for it. Anyway, mind figuring out
-which of the two you need reverted to fix your issue? Thanks!
+> No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue.
+> Although, I do not have THP enabled (or built-in), shmem does not evict
+> the pages after hole punch as noted in the comment in shmem_fallocate():
 
-> > With that kernel the graphic works again.
-> >
-> > Please inform me if further tests are required.
->
-> FWIW, to be sure the issue doesn't fall through the cracks unnoticed,
-> I'm adding it to regzbot, the Linux kernel regression tracking bot:
->
-> #regzbot ^introduced v6.1.27..v6.1.38
-> #regzbot title drm/nouveau: display stays black
-> #regzbot ignore-activity
->
-> This isn't a regression? This issue or a fix for it are already
-> discussed somewhere else? It was fixed already? You want to clarify when
-> the regression started to happen? Or point out I got the title or
-> something else totally wrong? Then just reply and tell me -- ideally
-> while also telling regzbot about it, as explained by the page listed in
-> the footer of this mail.
->
-> Developers: When fixing the issue, remember to add 'Link:' tags pointing
-> to the report (the parent of this mail). See page linked in footer for
-> details.
->
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> That page also explains what to do if mails like this annoy you.
->
+This is the source of all your problems.
 
+Things that are mm-centric are supposed to track the VMAs and changes to
+the PTEs. If you do something in userspace and it doesn't cause the
+CPU page tables to change then it certainly shouldn't cause any mmu
+notifiers or hmm_range_fault changes.
+
+There should still be an invalidation notifier at some point when the
+CPU tables do eventually change, whenever that is. Missing that
+notification would be a bug.
+
+> If I force it to read-fault or write-fault (by hacking hmm_pte_need_fault()),
+> it gets indefinitely stuck in the do while loop in hmm_range_fault().
+> AFAIU, unless there is a way to fault-in zero pages (or any scratch pages)
+> after hole punch that get invalidated because of writes, I do not see how
+> using hmm_range_fault() can help with my use-case. 
+
+hmm_range_fault() is the correct API to use if you are working with
+notifiers. Do not hack something together using pin_user_pages.
+
+Jason
