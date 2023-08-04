@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC91876FED5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 12:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1504D76FF14
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 12:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AB7410E6D7;
-	Fri,  4 Aug 2023 10:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA5310E02A;
+	Fri,  4 Aug 2023 10:57:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BD7F10E6D9
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 10:48:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8635910E02A
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 10:57:55 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6299F1BAD;
- Fri,  4 Aug 2023 12:47:27 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC7642E4;
+ Fri,  4 Aug 2023 12:56:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1691146048;
- bh=wWBZWiT0oUkuBhlljvcPfDGweqQW3nGwmkQPCsaA5Vo=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=EqUPkYNaZfDDCDY6q/bvUzfiH177DTQIYGWGLt+YJ7gTR5MuEkuW1reL3elT3R4/B
- 08tCCc0b8ZCpWDhj0QOMKdxod9okn6nm63Afosmz+nGMaRlYktlWFPF8ZKpke38AN4
- Ft6YnhfuxCKkIEs3xhNyJ+25v61M0t2NFQCuZsME=
+ s=mail; t=1691146609;
+ bh=2xH8BFLdtXeXvTOfhye94ba30yDscr1R4VyzuaQczrU=;
+ h=From:Subject:Date:To:Cc:From;
+ b=wDMyYg3US9vsw2CQk/7cRHCr5amz8SOUx1LcT10DGKx2bXLqc1OinUNMU+hPioxbx
+ BmY26m6B78JsXS/8Ua4vRyL9lI8fJWU9DwOYGRNwdGb6AUE2eHHVxjRFTXml4fubwo
+ UU4fA2j9inEfnyDlFzDlC0UEdvaovTuentJEUdWY=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 04 Aug 2023 13:48:13 +0300
-Subject: [PATCH 4/4] drm/bridge: lt8912b: Add missing drm_bridge_attach
- call
+Subject: [PATCH 0/2] drm: Fix errors about uninitialized variables
+Date: Fri, 04 Aug 2023 13:57:38 +0300
+Message-Id: <20230804-uninit-fixes-v1-0-a60772c04db5@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230804-lt8912b-v1-4-c542692c6a2f@ideasonboard.com>
-References: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
-In-Reply-To: <20230804-lt8912b-v1-0-c542692c6a2f@ideasonboard.com>
-To: Adrien Grassein <adrien.grassein@gmail.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+X-B4-Tracking: v=1; b=H4sIAKLZzGQC/x3LTQqAIBBA4avIrBvwJ8K6SrQQHWs2FloRhHdPW
+ n483guFMlOBSbyQ6ebCe2pQnQC/ubQScmgGLbWRVvZ4JU58YuSHCipr46jDIJ030JYj0x/aMS+
+ 1fmoO9KNeAAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Francesco Dolcini <francesco.dolcini@toradex.com>, 
- Stefan Eichenberger <stefan.eichenberger@toradex.com>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1199;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=605;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=wWBZWiT0oUkuBhlljvcPfDGweqQW3nGwmkQPCsaA5Vo=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkzNd7/XHP9tGXxHiTXMJmJFkR3wv/kVdAl1HQk
- 1EWlPEUruGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMzXewAKCRD6PaqMvJYe
- 9TksD/kBNffp85lXTu9sLgSmeOZqRazAJ3G3IkXbZbjX/G1+zevQp7wRgWCjS1uB+7rpsmpF0mY
- EsJmSQ6k/oUG0AwZfPQ4rgQiINe4rA6QHh5xOE793rl8ahyhf3tv4v7/yGl/m52SwVHm3tqFy+v
- LJTghF5RZxxDL7HSgv1LYK+38q9pF+v2DhkOOXtPwLxAeN61jtngSpZztzFRWOUKV5aIeyQEbi9
- FYTctfPh6zq1jN1IKMo7754SbBb/2ftLq+wWeaTDBE1AILg3J6VKopJUixt4wsvqp5sFtjV+m7y
- 0hw2t8zhG+jC+blWL9zdfyTzyyg4IFQTQCNLIB4rqmJE7Q1qG7j9E0rael1+47v0WMPfPFQTvFH
- DDyK7JSBI9F9FA/AeivgbM7M7PqvcEKpcx1eAP6nkdO6tM34ToALLDzduAkMz2Emn5qvt5/mGGq
- HYL6yzEwMFGatseQHnyb+C31YlkqixNKUGPvZ1fVRvDLUp7ymwUGZaMLWPUfr5XCanrSrkw+z5n
- INifX2p5sRAAkuqB7O9Yfeq/LQW9e29KBSDYLLvBMXIffb1CwZz1Q2m8gS8p+Tr25vASn3ECGQz
- /e1NBg+HY45zHyE34cXMD9aE0p4KsYH7sd1kX4GQvginwbDS9JvpRPhEc2Qkt2grvaC0Cq9F1Vn
- o0NR/Nhe0RZlMrQ==
+ bh=2xH8BFLdtXeXvTOfhye94ba30yDscr1R4VyzuaQczrU=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBkzNmwUYgCBLt9WfYfPQrKEScAsg6zd2GwWS6Ms
+ sxUS/QtfzmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZMzZsAAKCRD6PaqMvJYe
+ 9cL0D/9cQZr9FCZmkYpHu7h2D+yQnbuUK6gPqfbDMVhxF2IVEisTZsiObJ/fzA82YnNlZiZ4grl
+ YQBdEdZxWZtYEDNAeBumtM/M3ADUCwEUT2VqgCdSe4PUJ/H2M/mBPiz4FhXWGf/bdHYZiW3eGni
+ rhKiPZvshAOdFWawbxjJ6o6NMS1CY9xAuyTvMrWUCoBKp+n2huCIwtRJpTajQ7G0netPHnN7jAI
+ wJbiApXemetlRHWos2V75Aahx7hfCLTp/tJprDCZwuGYQkNiXt1VBh4q91id31vm8+Mp2KA+Q7A
+ zDIq3kX29vVkX3JNPWbVdvmL4OqQ++YK3I2P2OUMIjXD976PMgRecdS3VTxL/xfjrcW0BP1/4QH
+ wHE6c8QSL6zyy6rf6ZyDAxoBVPTKQ5rFh4FF5U7MO/UH0Oy92PsgtXeR9fV26BlYcaZcDd+OP95
+ vl0teMNDkxQQj2SVJ4RN1iit70klpEHe80xJ10g4O8LYD/wogRBOfGhr0SjwNQ+1bxG9KpSB9iO
+ xFAtj/uCyDOTst4EGTR2txOD7A2wkblvw6rcD9k+5f9RQthX6B/FTqslv6HlSSj8S5Jllko4b88
+ T7aTde3bgInnsJ+K/ENc4Sg25trJ7hRq25F9k8u7uxkWAVsRZmc4/dMGbeCG01lvRxSoddvy9uA
+ R7fTBXxSa+dxdTw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,37 +73,24 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver does not call drm_bridge_attach(), which causes the next
-bridge to not be added to the bridge chain. This causes the pipeline
-init to fail when DRM_BRIDGE_ATTACH_NO_CONNECTOR is used.
+Fix two cases where smatch reports a use of an uninitialized variable.
 
-Add the call to drm_bridge_attach().
+ Tomi
 
-Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Tomi Valkeinen (2):
+      drm/drm_file: fix use of uninitialized variable
+      drm/framebuffer: Fix use of uninitialized variable
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index 9ee639e75a1c..03532efb893b 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -558,6 +558,13 @@ static int lt8912_bridge_attach(struct drm_bridge *bridge,
- 	struct lt8912 *lt = bridge_to_lt8912(bridge);
- 	int ret;
- 
-+	ret = drm_bridge_attach(bridge->encoder, lt->hdmi_port, bridge,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+	if (ret < 0) {
-+		dev_err(lt->dev, "Failed to attach next bridge (%d)\n", ret);
-+		return ret;
-+	}
-+
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
- 		ret = lt8912_bridge_connector_init(bridge);
- 		if (ret) {
+ drivers/gpu/drm/drm_file.c        | 2 +-
+ drivers/gpu/drm/drm_framebuffer.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+---
+base-commit: b0e9267d4ccce9be9217337f4bc364ca24cf7f73
+change-id: 20230804-uninit-fixes-188f92d60ac3
 
+Best regards,
 -- 
-2.34.1
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
