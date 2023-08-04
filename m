@@ -1,74 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630CD76F913
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 06:43:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD23176F947
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Aug 2023 07:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 220F010E238;
-	Fri,  4 Aug 2023 04:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBADC10E240;
+	Fri,  4 Aug 2023 05:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
- [IPv6:2607:f8b0:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFFB710E238
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 04:43:40 +0000 (UTC)
-Received: by mail-il1-x12d.google.com with SMTP id
- e9e14a558f8ab-349099fce6dso6249845ab.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 21:43:40 -0700 (PDT)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3773310E23C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Aug 2023 05:08:10 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-5221cf2bb8cso2173660a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 22:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1691124220; x=1691729020;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9UTWHLndGeXwlwFxJfP692jPfynwn2x9U2iKvEF971w=;
- b=dDOn4jen7D2FSeI5qe7zmIjUi5bp7bqRTm1TT7lupA7wnP61sKRJxiF6m44iE8hM6z
- gkY/ToZPsP88o+o/vPHogeLwIT8OSeZ9VUybix4P2E9sEYK5P2MR+kLhifNeU8G+poxi
- DrkLzsIQw1ZtTEyTMqgPChkpUgclKykJrMayo=
+ d=gmail.com; s=20221208; t=1691125688; x=1691730488;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=5nqqRfBNPBQ+VMaK2HsDYoXmhmlAtvK4SXNfFFGzlpo=;
+ b=lACS6lI/ekoOHa/nyz59RAxxBRYorYg619oLE4WoJ+0tHRIgbsotkGfTrETXBdJ90K
+ YLnSGJgpcAwEc9JknkHlswmASGDd1UEwpJeGg9Fvl49cbVJuiTX16G5Isdg4fVPg4oPl
+ veMGoNBjt6umC24dlFxaL/I/2vljGKTAUH5hxF71qLZ5N7oal9OKMFBa+avD2IpFFS3p
+ 5M/xEYCP99dE/MiOLV5yDNC2gDsytIsIrTx3I0owIRf5NxEFW1W0UMmm4Tn1wWnPB/2A
+ V2EuGzRFrcc6mAAjv4HsB296hjBHh9kbyCc5fH7s3xHuzU9eljjl780gbVpI6KPYgsVu
+ 4xvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691124220; x=1691729020;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9UTWHLndGeXwlwFxJfP692jPfynwn2x9U2iKvEF971w=;
- b=Z0GcSuEyT3RZ8uWoGPQeV/Hc8mXKOYh+jGrJHqCkJvYBBwA4rMBFQ1C5kTsdffztk5
- OAbZUc0Sn2idjNgnQvW4nWwE/S6zPTH+eBvOpVIVAqar8xIq4gD6KhZR24u+zfocJ+1g
- pwBdOamCn1xkYT4m5RuDceuEMRgDcoDSZkPjgOV8AijEd5xJGEwlp0rxXbsUFmEGdClQ
- plsgpAwruYrvPyFmV4d7y44Tnp5vBnYgTXnL89R+gZpMRhwamyxAmjv/a+m193kwhUAM
- vVxnBRF1st7K1lbwAS+32/BrUH2nrSa1RQTaGFK40rR8pqsEYQiLTQYtxnobwYBy9sMo
- zRwQ==
-X-Gm-Message-State: AOJu0YylvFNRdIyYPH82XfiGUGkVwo1NdITfxyCWY67r5LWxsVVQRxLV
- nF1EK5TqOtV0cRReGaOwcsiPDZRgEIDxqf6O76c=
-X-Google-Smtp-Source: AGHT+IFkHN7uedLQlAGcEdKXXv9lclDlILqMzS6g2WuaGP3u4i9mXplcwUOAKv0VO3J+Y9o2+lvGqw==
-X-Received: by 2002:a05:6e02:12e1:b0:349:48eb:4e2f with SMTP id
- l1-20020a056e0212e100b0034948eb4e2fmr1236699iln.22.1691124219837; 
- Thu, 03 Aug 2023 21:43:39 -0700 (PDT)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
- [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
- r17-20020a92d451000000b0034607609251sm422446ilm.87.2023.08.03.21.43.35
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Aug 2023 21:43:35 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id
- ca18e2360f4ac-79095499a17so62870439f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Aug 2023 21:43:35 -0700 (PDT)
-X-Received: by 2002:a5e:a815:0:b0:790:bf09:55b7 with SMTP id
- c21-20020a5ea815000000b00790bf0955b7mr715779ioa.6.1691124214863; Thu, 03 Aug
- 2023 21:43:34 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691125688; x=1691730488;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5nqqRfBNPBQ+VMaK2HsDYoXmhmlAtvK4SXNfFFGzlpo=;
+ b=ZKPXXSFiRwZ1cYBkDVVvBxa6MPIAIFT+C+5xItkiDl6b+HQgJFyhdSRf4cG2H7FO8L
+ dvDDzuO3ywTavoTIUHAwg2mKFZSuA5O7vw9ves9LPI7/F9g8Hr3rNNlnyp5O1lSmE438
+ /vBYB3WmBscXJFEUJWwIhk4PQKadb3wWRNrr/pjS2+Zsyda7+XhmDu8vFJ6xT2VLh4ci
+ 50IZCgqDKs7okKJQX7hXjV/vmSkM4qKFiqjrtiJ/xRAqGzPewWAgBEm+t7Sig/Cz+Sd5
+ UJAnXCCyFv0OXXSQTeno2XkwTkPaI75kL6c3j/05BdbubbouPVPid2gywUXHKB6wJIi8
+ Stag==
+X-Gm-Message-State: AOJu0Yx9RICpR1gGm1Gh9zjUHZsPb72YpCBL0EWCaw6X8BV6pPAOcoz8
+ e1ShMq1JZEl9NXI6Tjgi+Lgx8T27/QWsIlGsZW5mI6eholp6hw==
+X-Google-Smtp-Source: AGHT+IEEFONMLQ+vBml2My8FR537suOeUVDgX4piJXXblwaS9SHtCdQfAVRo6JcqNmAlLjUPfTOHkrPlZKOGl2+aFPU=
+X-Received: by 2002:a17:907:78c5:b0:99b:ef8a:d64a with SMTP id
+ kv5-20020a17090778c500b0099bef8ad64amr612269ejc.0.1691125688392; Thu, 03 Aug
+ 2023 22:08:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230724175839.675911-1-greenjustin@chromium.org>
- <ZMtkIHkfhbOCodhw@phenom.ffwll.local>
- <CAHC42Rfz6jjY9RfVsrrPuENgXiaCB7EecH=-Dnfzm0KynGFNjA@mail.gmail.com>
- <ZMvAV42bm7ZTKXfv@phenom.ffwll.local>
-In-Reply-To: <ZMvAV42bm7ZTKXfv@phenom.ffwll.local>
-From: Fei Shao <fshao@chromium.org>
-Date: Fri, 4 Aug 2023 12:42:58 +0800
-X-Gmail-Original-Message-ID: <CAC=S1ngh4z5vbKYQ0yEULfmmQLA-deadJYKvvKcPyyaVOEcbdw@mail.gmail.com>
-Message-ID: <CAC=S1ngh4z5vbKYQ0yEULfmmQLA-deadJYKvvKcPyyaVOEcbdw@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/mediatek: Add valid modifier check
-To: Daniel Vetter <daniel@ffwll.ch>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 4 Aug 2023 15:07:56 +1000
+Message-ID: <CAPM=9ty0b5R=rfu21PD=V1dh91XMit2wzAuAcrJA0E8h2EuUng@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.5-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +64,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, Justin Green <greenjustin@chromium.org>,
- jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, angelogioacchino.delregno@collabora.com
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 3, 2023 at 10:57=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
->
-> On Thu, Aug 03, 2023 at 08:48:56AM -0400, Justin Green wrote:
-> > > See c91acda3a380 ("drm/gem: Check for valid formats") and the related=
- gem
-> > fb helper functions to see how this is supposed to be done.
+Hi Linus,
 
-Thanks for shedding the light, Sima.
-I think that change is exactly what we need here, which is somehow
-recent and we don't have that in our downstream kernels.
-Applying that also fixes the test failure I saw, so I agree with you
-that this patch is not needed for the mainline kernel.
+Small set of fixes this week, i915 and a few misc ones. I didn't see
+an amd pull so maybe next week it'll have a few more on that driver.
 
-Thanks,
-Fei
+Dave.
 
+drm-fixes-2023-08-04:
+drm fixes for 6.5-rc5
 
-> >
-> > Oh that's interesting, so does this imply that the infrastructure
-> > automatically calls format_mod_supported() during framebuffer
-> > creation? In that case, this entire patch might be unnecessary in the
-> > tip of tree kernel.
->
-> It /should/, but maybe a wheel fell off somewhere. So please double-check
-> that it doesn indeed work.
->
-> Also because we had to put the check into gem helpers, if your driver
-> doesn't use those but hand-rolls a bit of that code (the helpers predate =
-a
-> bunch of drivers, not sure all got converted), then you might also have a
-> validation gap here.
->
-> Cheers, Sima
+ttm:
+- NULL ptr deref fix
+
+panel:
+- add missing MODULE_DEVICE_TABLE
+
+imx/ipuv3:
+- timing fix
+
+i915:
+- Fix bug in getting msg length in AUX CH registers handler
+- Gen12 AUX invalidation fixes
+- Fix premature release of request's reusable memory
+The following changes since commit 5d0c230f1de8c7515b6567d9afba1f196fb4e2f4:
+
+  Linux 6.5-rc4 (2023-07-30 13:23:47 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-08-04
+
+for you to fetch changes up to 1958b0f95a35e4443573c4c3ec2efd89d2d00d82:
+
+  Merge tag 'drm-intel-fixes-2023-08-03' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2023-08-04
+09:38:38 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.5-rc5
+
+ttm:
+- NULL ptr deref fix
+
+panel:
+- add missing MODULE_DEVICE_TABLE
+
+imx/ipuv3:
+- timing fix
+
+i915:
+- Fix bug in getting msg length in AUX CH registers handler
+- Gen12 AUX invalidation fixes
+- Fix premature release of request's reusable memory
+
+----------------------------------------------------------------
+Alexander Stein (1):
+      drm/imx/ipuv3: Fix front porch adjustment upon hactive aligning
+
+Andi Shyti (5):
+      drm/i915/gt: Cleanup aux invalidation registers
+      drm/i915: Add the gen12_needs_ccs_aux_inv helper
+      drm/i915/gt: Rename flags with bit_group_X according to the datasheet
+      drm/i915/gt: Enable the CCS_FLUSH bit in the pipe control and in the CS
+      drm/i915/gt: Support aux invalidation on all engines
+
+Dave Airlie (2):
+      Merge tag 'drm-misc-fixes-2023-08-03' of
+ssh://git.freedesktop.org/git/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-08-03' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Guchun Chen (1):
+      drm/ttm: check null pointer before accessing when swapping
+
+Janusz Krzysztofik (1):
+      drm/i915: Fix premature release of request's reusable memory
+
+Jonathan Cavitt (2):
+      drm/i915/gt: Ensure memory quiesced before invalidation
+      drm/i915/gt: Poll aux invalidation register bit on invalidation
+
+Nikita Travkin (1):
+      drm/panel: samsung-s6d7aa0: Add MODULE_DEVICE_TABLE
+
+Tvrtko Ursulin (1):
+      Merge tag 'gvt-fixes-2023-08-02' of
+https://github.com/intel/gvt-linux into drm-intel-fixes
+
+Yan Zhao (1):
+      drm/i915/gvt: Fix bug in getting msg length in AUX CH registers handler
+
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 140 +++++++++++++++++---------
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h      |  21 ++--
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       |  16 +--
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  17 +---
+ drivers/gpu/drm/i915/gvt/edid.c               |   2 +-
+ drivers/gpu/drm/i915/i915_active.c            |  99 ++++++++++++------
+ drivers/gpu/drm/i915/i915_request.c           |  11 ++
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c        |   2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c |   1 +
+ drivers/gpu/drm/ttm/ttm_bo.c                  |   3 +-
+ 11 files changed, 203 insertions(+), 111 deletions(-)
