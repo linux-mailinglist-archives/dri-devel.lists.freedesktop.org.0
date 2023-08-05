@@ -1,50 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F79E770FFC
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:52:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BA6771002
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:58:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBBE10E1A4;
-	Sat,  5 Aug 2023 13:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C623810E1A6;
+	Sat,  5 Aug 2023 13:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CEE10E1A4
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:52:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691243554; x=1722779554;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=BT4EVbm/Xd97Q23srPDkAK2n9Z78c+n/3Cuj4BupOR4=;
- b=QNKKtLTAubBu7KfkmeYlQX5XzK79JIPyq5z5RVUf+x2pon8oQJb2r/NG
- LXQ/bGQzVkDtNXC79t+wFwHlP7o8nqzpYVJzHTMi9gyVp/SY2AEgPaYTS
- /Qn1bKr2iKXEToF+OWj0vuVZ3J5RG4Huc27CMGw7zWIC5q0cIVbnxlzWD
- fwmvpuyg2BMq8VU6SdrCHQWg3ITzWQrkHQnl/kkfjeZWgMKMgGVcVxYSf
- Hk1NU1MY87KUK+Def9gQCUn+5JVld9k+P29Af/zqpgTaukTKd5vq84SNg
- qcDNTR4dGKqVerFIgdLEhh4mAaSjAI1KkF8riehRcYTGwr8Tnllz+rfLw Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="350624211"
-X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; d="scan'208";a="350624211"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2023 06:52:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="854124030"
-X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; d="scan'208";a="854124030"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 05 Aug 2023 06:52:32 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qSHhn-0003Xb-1v;
- Sat, 05 Aug 2023 13:52:31 +0000
-Date: Sat, 5 Aug 2023 21:52:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: [drm-misc:for-linux-next 7/12]
- drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared
-Message-ID: <202308052132.ZChgsQnz-lkp@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE2CE10E1A7
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:58:06 +0000 (UTC)
+X-UUID: 16b06fe0339811eeb20a276fd37b9834-20230805
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=IP+acsE3RHl4zI7GdXWUg/GZYhDWt6M5CSaQkqn6B+4=; 
+ b=D3P3CXVnDQU/ZYEbR82mfhySusExeirOcVZcZ2HFr2COT7mVlNr3OaMKIe9QMsIPEZyy+b0feEXEv4zenUEZwCtwf846amZ5hQrr6VGF7o6w/4d4Ijjr0Jqibxil/xYZBac+oUshSvKzexdTOPDcKw2rGUY4vTjBvbxBZ4MA4VQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.30, REQID:e835cc27-2f20-4e3a-8b12-5203666be0e9, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.30, REQID:e835cc27-2f20-4e3a-8b12-5203666be0e9, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:1fcc6f8, CLOUDID:541db7d2-cd77-4e67-bbfd-aa4eaace762f,
+ B
+ ulkID:230805215801YH832MDA,BulkQuantity:0,Recheck:0,SF:17|19|48|38|29|28,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+ ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_SDM, TF_CID_SPAM_ASC,
+ TF_CID_SPAM_FAS, TF_CID_SPAM_FSD
+X-UUID: 16b06fe0339811eeb20a276fd37b9834-20230805
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 841675858; Sat, 05 Aug 2023 21:58:00 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 5 Aug 2023 21:57:59 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 5 Aug 2023 21:57:59 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
+ <amergnat@baylibre.com>
+Subject: [PATCH v4 0/2] Fix OVL iommu fault in cursor plane
+Date: Sat, 5 Aug 2023 21:57:55 +0800
+Message-ID: <20230805135757.6625-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +71,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   82d750e9d2f5d0594c8f7057ce59127e701af781
-commit: 7f2a0b50b2b20308a19602b51c647566c62e144c [7/12] drm/nouveau: fence: separate fence alloc and emit
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308052132.ZChgsQnz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230805/202308052132.ZChgsQnz-lkp@intel.com/reproduce)
+Fix some IGT tests fail at iommu fault in OVL cursor plane.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308052132.ZChgsQnz-lkp@intel.com/
+Change in v4:
+1. Change disable all layer method to update mtk_plane_state stored
+   in mtk_crtc by drm_atomic_state from mtk_drm_crtc_atomic_enable().
 
-All errors (new ones prefixed by >>):
+Change in v3:
+1. Add Fixes tag before s.o.b.
 
-   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
->> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
-     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
-         |                                           ^~~~~
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
+Change in v2:
+1. Add Fixes tag.
 
+Jason-JH.Lin (2):
+  drm/mediatek: Fix iommu fault by swapping FBs after updating plane
+    state
+  drm/mediatek: Fix iommu fault during crtc enabling
 
-vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
-
-   664	
-   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
-   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
-   667			dma_addr_t *dma_addrs, u64 *pfns)
-   668	{
-   669		struct nouveau_fence *fence;
-   670		unsigned long addr = args->start, nr_dma = 0, i;
-   671	
-   672		for (i = 0; addr < args->end; i++) {
-   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
-   674					args->src[i], dma_addrs + nr_dma, pfns + i);
-   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
-   676				nr_dma++;
-   677			addr += PAGE_SIZE;
-   678		}
-   679	
-   680		if (!nouveau_fence_new(&fence))
- > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
-   682		migrate_vma_pages(args);
-   683		nouveau_dmem_fence_done(&fence);
-   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
-   685	
-   686		while (nr_dma--) {
-   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
-   688					DMA_BIDIRECTIONAL);
-   689		}
-   690		migrate_vma_finalize(args);
-   691	}
-   692	
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 15 +++++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 13 +++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h |  2 ++
+ 3 files changed, 22 insertions(+), 8 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.18.0
+
