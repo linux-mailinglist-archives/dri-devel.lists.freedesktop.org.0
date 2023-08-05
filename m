@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E7F770FE8
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7D3770FE9
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 842F410E19E;
-	Sat,  5 Aug 2023 13:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A4610E19A;
+	Sat,  5 Aug 2023 13:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F105610E19A
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:21:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D8110E19A
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:23:11 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4RJ3C63yKFz9tFY;
- Sat,  5 Aug 2023 13:21:54 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4RJ3DZ5YVjz9tFY;
+ Sat,  5 Aug 2023 13:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1691241714; bh=6R2ofscL5IAFKeK5RCdEaZlndHRe2xshCHiKBrKh5IE=;
+ t=1691241790; bh=alYajrSJCUq0aPIvmDFpxPdaSNW9BoMlFHz3jeFVtvY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bkUsTfoDrR0xbqwW2bDCmXjPUZpplhqXu3y3zQVGEFWSOUt/sOBEExMAhbf4OumiO
- JWnkusi0qPD6Dw2OGnp7SUnNWQLenGzrh7mjBrTGny9bq5I+WSF4nT1zvyC/45KM4G
- z7V6MwXfgyZzBf8/uxLA/I5F9T3E7A4Ui5i+7+pc=
-X-Riseup-User-ID: 6443A523E768F8854D370A8242CBA34FAA2EC0771A847EEB1483182A6AC65052
+ b=lGwguMbNEAknZeaSdYyws9Zce91iVZBPs5zW/bX4g0H8FgztwYLTW3xaUzMdPHSbm
+ 6iCUtSOetUW9oYGVEDbCKAhHNns1gPVtRH1belEXFjKnCe8RtHlNBzxtGmI2lkO1Vp
+ oU2sEFOBMdf4Ga+/sqdssy7ImnMHkUJU8jPcCJ/o=
+X-Riseup-User-ID: FC4982659CF245DC8642B21A2994F0E43024F666CE0A5A638FC27A6CA37F664F
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RJ3C32z6nzFpnZ;
- Sat,  5 Aug 2023 13:21:51 +0000 (UTC)
-Message-ID: <8f33a808-b7a9-246e-52aa-3a35a0095991@riseup.net>
-Date: Sat, 5 Aug 2023 10:21:49 -0300
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RJ3DJ2TmYzFrHr;
+ Sat,  5 Aug 2023 13:22:56 +0000 (UTC)
+Message-ID: <858b86ed-5428-2839-2833-faf32f5e997e@riseup.net>
+Date: Sat, 5 Aug 2023 10:22:54 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/6] drm/format-helper: Add KUnit tests for
- drm_fb_build_fourcc_list()
+Subject: Re: [PATCH 5/6] drm/format-helper-test: Add multi-plane support to
+ conversion_buf_size()
 Content-Language: en-US
 To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
 References: <20230721182316.560649-1-arthurgrillo@riseup.net>
- <20230721182316.560649-5-arthurgrillo@riseup.net>
+ <20230721182316.560649-6-arthurgrillo@riseup.net>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230721182316.560649-5-arthurgrillo@riseup.net>
+In-Reply-To: <20230721182316.560649-6-arthurgrillo@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,203 +53,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, javierm@redhat.com, mairacanal@riseup.net,
- tzimmermann@suse.de, davidgow@google.com, jose.exposito89@gmail.com,
- andrealmeid@riseup.net
+Cc: tales.aparecida@gmail.com, javierm@redhat.com, tzimmermann@suse.de,
+ davidgow@google.com, jose.exposito89@gmail.com, andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/21/23 15:23, Arthur Grillo wrote:> Insert parameterized test for 
-the drm_fb_build_fourcc_list() to ensure
-> correctness and prevent future regressions.
+On 7/21/23 15:23, Arthur Grillo wrote:
+> The drm_fb_memcpy() supports multi-plane formats. To fully test it in
+> the future, add multi-plane support to the conversion_buf_size() helper.
 > 
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->   .../gpu/drm/tests/drm_format_helper_test.c    | 143 ++++++++++++++++++
->   1 file changed, 143 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 2e1c5463f063..de4677868647 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -3,6 +3,7 @@
->   #include <kunit/test.h>
->   
->   #include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_format_helper.h>
->   #include <drm/drm_fourcc.h>
-> @@ -11,6 +12,7 @@
->   #include <drm/drm_mode.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_rect.h>
-> +#include <drm/drm_kunit_helpers.h>
->   
->   #include "../drm_crtc_internal.h"
->   
-> @@ -1047,6 +1049,146 @@ static void drm_test_fb_clip_offset(struct kunit *test)
->   	KUNIT_EXPECT_EQ(test, offset, params->expected_offset);
->   }
->   
-> +struct fb_build_fourcc_list_case {
-> +	const char *name;
-> +	u32 native_fourccs[TEST_BUF_SIZE];
-> +	u32 expected[TEST_BUF_SIZE];
-> +};
-> +
-> +struct fb_build_fourcc_list_case fb_build_fourcc_list_cases[] = {
-> +	{
-> +		.name = "no native formats",
-> +		.native_fourccs = { },
-> +		.expected = { DRM_FORMAT_XRGB8888 },
-> +	},
-> +	{
-> +		.name = "XRGB8888 as native format",
-> +		.native_fourccs = { DRM_FORMAT_XRGB8888 },
-> +		.expected = { DRM_FORMAT_XRGB8888 },
-> +	},
-> +	{
-> +		.name = "remove duplicates",
-> +		.native_fourccs = {
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB565,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB565,
-> +			DRM_FORMAT_RGB565,
-> +			DRM_FORMAT_XRGB8888,
-> +		},
-> +		.expected = {
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB565,
-> +		},
-> +	},
-> +	{
-> +		.name = "convert alpha formats",
-> +		.native_fourccs = {
-> +			DRM_FORMAT_ARGB1555,
-> +			DRM_FORMAT_ABGR1555,
-> +			DRM_FORMAT_RGBA5551,
-> +			DRM_FORMAT_BGRA5551,
-> +			DRM_FORMAT_ARGB8888,
-> +			DRM_FORMAT_ABGR8888,
-> +			DRM_FORMAT_RGBA8888,
-> +			DRM_FORMAT_BGRA8888,
-> +			DRM_FORMAT_ARGB2101010,
-> +			DRM_FORMAT_ABGR2101010,
-> +			DRM_FORMAT_RGBA1010102,
-> +			DRM_FORMAT_BGRA1010102,
-> +		},
-> +		.expected = {
-> +			DRM_FORMAT_XRGB1555,
-> +			DRM_FORMAT_XBGR1555,
-> +			DRM_FORMAT_RGBX5551,
-> +			DRM_FORMAT_BGRX5551,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_XBGR8888,
-> +			DRM_FORMAT_RGBX8888,
-> +			DRM_FORMAT_BGRX8888,
-> +			DRM_FORMAT_XRGB2101010,
-> +			DRM_FORMAT_XBGR2101010,
-> +			DRM_FORMAT_RGBX1010102,
-> +			DRM_FORMAT_BGRX1010102,
-> +		},
-> +	},
-> +	{
-> +		.name = "random formats",
-> +		.native_fourccs = {
-> +			DRM_FORMAT_Y212,
-> +			DRM_FORMAT_ARGB1555,
-> +			DRM_FORMAT_ABGR16161616F,
-> +			DRM_FORMAT_C8,
-> +			DRM_FORMAT_BGR888,
-> +			DRM_FORMAT_XRGB1555,
-> +			DRM_FORMAT_RGBA5551,
-> +			DRM_FORMAT_BGR565_A8,
-> +			DRM_FORMAT_R10,
-> +			DRM_FORMAT_XYUV8888,
-> +		},
-> +		.expected = {
-> +			DRM_FORMAT_Y212,
-> +			DRM_FORMAT_XRGB1555,
-> +			DRM_FORMAT_ABGR16161616F,
-> +			DRM_FORMAT_C8,
-> +			DRM_FORMAT_BGR888,
-> +			DRM_FORMAT_RGBX5551,
-> +			DRM_FORMAT_BGR565_A8,
-> +			DRM_FORMAT_R10,
-> +			DRM_FORMAT_XYUV8888,
-> +			DRM_FORMAT_XRGB8888,
-> +		},
-> +	},
-> +};
-> +
-> +static void fb_build_fourcc_list_case_desc(struct fb_build_fourcc_list_case *t, char *desc)
-> +{
-> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(fb_build_fourcc_list, fb_build_fourcc_list_cases, fb_build_fourcc_list_case_desc);
-> +
-> +static size_t get_nfourccs(const u32 *fourccs)
-> +{
-> +	size_t i;
-> +
-> +	for (i = 0; i < TEST_BUF_SIZE && fourccs[i]; ++i)
-> +		;
-> +
-> +	return i;
-> +}
-> +
-> +static void drm_test_fb_build_fourcc_list(struct kunit *test)
-> +{
-> +	const struct fb_build_fourcc_list_case *params = test->param_value;
-> +	u32 fourccs_out[TEST_BUF_SIZE];
-> +	size_t nfourccs_out;
-> +	struct drm_device *drm;
-> +	struct device *dev;
-> +
-> +	dev = drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +
-> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-> +
-> +	nfourccs_out = drm_fb_build_fourcc_list(drm, params->native_fourccs,
-> +						get_nfourccs(params->native_fourccs),
-> +						fourccs_out, TEST_BUF_SIZE);
-> +
-> +	drm_kunit_helper_free_device(test, dev);
 
-I believe that this function is no longer needed after Maxime's patches.
-
-> +	KUNIT_EXPECT_EQ(test, nfourccs_out, get_nfourccs(params->expected));
-
-Instead of using this get_fourccs() functions, wouldn't it be better to
-hardcode the number of expected fourccs in the cases?
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
 Best Regards,
 - Maíra
 
-> +	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
-> +}
-> +
->   static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-> @@ -1061,6 +1203,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
->   	{}
->   };
+> ---
+>   .../gpu/drm/tests/drm_format_helper_test.c    | 28 +++++++++----------
+>   1 file changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index de4677868647..6ecd92898e8e 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -472,7 +472,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>    * The size of the destination buffer or negative value on error.
+>    */
+>   static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
+> -				  const struct drm_rect *clip)
+> +				  const struct drm_rect *clip, int plane)
+>   {
+>   	const struct drm_format_info *dst_fi = drm_format_info(dst_format);
+>   
+> @@ -480,7 +480,7 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
+>   		return -EINVAL;
+>   
+>   	if (!dst_pitch)
+> -		dst_pitch = drm_format_info_min_pitch(dst_fi, 0, drm_rect_width(clip));
+> +		dst_pitch = drm_format_info_min_pitch(dst_fi, plane, drm_rect_width(clip));
+>   
+>   	return dst_pitch * drm_rect_height(clip);
+>   }
+> @@ -554,7 +554,7 @@ static void drm_test_fb_xrgb8888_to_gray8(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_R8, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -587,7 +587,7 @@ static void drm_test_fb_xrgb8888_to_rgb332(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_RGB332, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -620,7 +620,7 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_RGB565, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -663,7 +663,7 @@ static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_XRGB1555, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -697,7 +697,7 @@ static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_ARGB1555, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -731,7 +731,7 @@ static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_RGBA5551, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -765,7 +765,7 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_RGB888, result->dst_pitch,
+> -				       &params->clip);
+> +				       &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -803,7 +803,7 @@ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_ARGB8888,
+> -				       result->dst_pitch, &params->clip);
+> +				       result->dst_pitch, &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -838,7 +838,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_XRGB2101010,
+> -				       result->dst_pitch, &params->clip);
+> +				       result->dst_pitch, &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -872,7 +872,7 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
+>   	};
+>   
+>   	dst_size = conversion_buf_size(DRM_FORMAT_ARGB2101010,
+> -				       result->dst_pitch, &params->clip);
+> +				       result->dst_pitch, &params->clip, 0);
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+>   	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> @@ -906,7 +906,7 @@ static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
+>   		.pitches = { params->pitch, 0, 0 },
+>   	};
+>   
+> -	dst_size = conversion_buf_size(DRM_FORMAT_C1, result->dst_pitch, &params->clip);
+> +	dst_size = conversion_buf_size(DRM_FORMAT_C1, result->dst_pitch, &params->clip, 0);
+>   
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
+>   
+> @@ -939,7 +939,7 @@ static void drm_test_fb_swab(struct kunit *test)
+>   		.pitches = { params->pitch, 0, 0 },
+>   	};
+>   
+> -	dst_size = conversion_buf_size(DRM_FORMAT_XRGB8888, result->dst_pitch, &params->clip);
+> +	dst_size = conversion_buf_size(DRM_FORMAT_XRGB8888, result->dst_pitch, &params->clip, 0);
+>   
+>   	KUNIT_ASSERT_GT(test, dst_size, 0);
 >   
