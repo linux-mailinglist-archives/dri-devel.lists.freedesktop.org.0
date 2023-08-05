@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED184770F3D
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 12:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35638770F5D
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 12:50:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE6F310E0BE;
-	Sat,  5 Aug 2023 10:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB5188961D;
+	Sat,  5 Aug 2023 10:50:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14F2310E0BE
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 10:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691230699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EDl8FKi4TmGBJc8DUiagN0W08gSz4Sjm38M3DkmH1A8=;
- b=hn8ktiUJxERlzo0deOKj3fEEeB/MrVCD945S92yeLLGzhvvF/Ls8osj8AjdaaZwnsueyza
- S7b8bZ4kj8DP5y8cYK9Ayhbz7HH5+xtbcULuatp8/CdA8MgO+6bJIfk1mz3m0i4Lo1UfBn
- 294WyyMvpu8xb2gcpTPqu3JG3x8GL8g=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-25-SzpViEHMOEK5idIE98tbAA-1; Sat, 05 Aug 2023 06:18:18 -0400
-X-MC-Unique: SzpViEHMOEK5idIE98tbAA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-63cebe9238bso7597296d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Aug 2023 03:18:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691230698; x=1691835498;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EDl8FKi4TmGBJc8DUiagN0W08gSz4Sjm38M3DkmH1A8=;
- b=LH3uVmXYJ0ku8OsW10Ij9R7KlNHpHVEhE5bJ5t/Xy1k3iahtrkbsAcuGGGx4Z0uCma
- VdvgkIM9dMVARE/i+ZoYM9y+TJZmfeQ8ZSUhv2nOY8K08k6UtBWX6KNZtnoAn5QUbw6o
- bkPGuSX20U6s6d0g1lqAB2YK/iapHWx0ZvSX0Ke1PHupm6P0eGIXVjrNS3S+8Zr++GXO
- TpA/UsrSBMv5wBopw/bLsyLcbPzlqUG822kRVQpCUZajtqXUNp7cDnaaizugPKqA+YN7
- lxnuDWZk/rrIpBYWE3i6hJ9WkJYL08nrTEPQqMF+QA5Gx/Puh6Qrh4nYqWElV8POJJyj
- c8bw==
-X-Gm-Message-State: ABy/qLYjSZFSoeror6h5FXd4KFtVueUxe1CX5fjxdJC8ncCcoVjS6IjZ
- 5nRnXwIl6aVEB63hNwBtyCOKtAnFfu3FOzBVAsOqjuUMGmaYn9+SH3S/+bvuNs/ECSU0pNY44zn
- aklqEcNWfWPQp17OGkJYr4mJbDUuF
-X-Received: by 2002:ac8:5c05:0:b0:40f:a5bb:5276 with SMTP id
- i5-20020ac85c05000000b0040fa5bb5276mr21244865qti.1.1691230697927; 
- Sat, 05 Aug 2023 03:18:17 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGxbKkXSoa09vwMpsK5fJJErUueAZzn6Eyh8re2STw/wxSsOI0uRnQzLEtQYQPJQ+wGIPPrkA==
-X-Received: by 2002:ac8:5c05:0:b0:40f:a5bb:5276 with SMTP id
- i5-20020ac85c05000000b0040fa5bb5276mr21244843qti.1.1691230697692; 
- Sat, 05 Aug 2023 03:18:17 -0700 (PDT)
-Received: from kherbst.pingu.com ([31.17.16.107])
- by smtp.gmail.com with ESMTPSA id
- dq15-20020a05622a520f00b0040c72cae9f9sm1247325qtb.93.2023.08.05.03.18.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Aug 2023 03:18:16 -0700 (PDT)
-From: Karol Herbst <kherbst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/disp: Revert a NULL check inside
- nouveau_connector_get_modes
-Date: Sat,  5 Aug 2023 12:18:13 +0200
-Message-ID: <20230805101813.2603989-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E79610E180
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 10:50:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5D4EF601D0
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 10:50:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A6FA9C433C7
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 10:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691232618;
+ bh=erc0DqIXAp+okqEz1hvZaNFXnesWneUgSA0B+X/PafE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=dUSi14kDg+XZ+4J+JNtZ7mEwgP1OiuCy+sLz9mRWcrpIS783tE747XqMStR2euyZx
+ fgIjMYly1NqmBrUYMsjy4Y1LrMQDVdXCinaVh5RNjPpCDT6USwQ9vCh6TXAPayYVbZ
+ yA253z5tpG8sz9FlLOnlAhsgEjcHT/ixPCOwuuwlBS/YkEa67cRD9iXQIzTtOWJ5LG
+ TCvxjmljzfGUd2s/V5lcCVpRmgmn84rFuNc8laEZvuKVtHzf3isQqMOm4LtP9RBU7T
+ FXDNFE8BzjwKg/7+MIYvhuXvt8uX0aB7o0qowGUzEYOsAfmeQqa7w/KLx/hHcv9VlZ
+ GNSY4BhfvwwUw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8F40AC53BC6; Sat,  5 Aug 2023 10:50:18 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217764] nouveau: system hangs when changing pstate on GeForce
+ GT 320M (NVAF (MCP89))
+Date: Sat, 05 Aug 2023 10:50:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dswdev@outlook.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217764-2300-qhCMifDjyi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217764-2300@https.bugzilla.kernel.org/>
+References: <bug-217764-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,42 +73,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, Olaf Skibbe <news@kravcenko.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The original commit adding that check tried to protect the kenrel against
-a potential invalid NULL pointer access.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217764
 
-However we call nouveau_connector_detect_depth once without a native_mode
-set on purpose for non LVDS connectors and this broke DP support in a few
-cases.
+--- Comment #2 from dswdev (dswdev@outlook.com) ---
+Sure, thank you for answer.
 
-Cc: Olaf Skibbe <news@kravcenko.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/238
-Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/245
-Fixes: 20a2ce87fbaf8 ("drm/nouveau/dp: check for NULL nv_connector->native_mode")
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--=20
+You may reply to this email to add a comment.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index f75c6f09dd2af..a2e0033e8a260 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -967,7 +967,7 @@ nouveau_connector_get_modes(struct drm_connector *connector)
- 	/* Determine display colour depth for everything except LVDS now,
- 	 * DP requires this before mode_valid() is called.
- 	 */
--	if (connector->connector_type != DRM_MODE_CONNECTOR_LVDS && nv_connector->native_mode)
-+	if (connector->connector_type != DRM_MODE_CONNECTOR_LVDS)
- 		nouveau_connector_detect_depth(connector);
- 
- 	/* Find the native mode if this is a digital panel, if we didn't
--- 
-2.41.0
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
