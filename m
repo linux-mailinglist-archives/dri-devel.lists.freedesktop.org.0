@@ -1,75 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EAA3771066
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 18:01:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 090DC7710A2
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 18:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2379B10E199;
-	Sat,  5 Aug 2023 16:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B1A10E18B;
+	Sat,  5 Aug 2023 16:46:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C7F10E174
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 16:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691251235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=94zmfgo0irut0mqrSKRpC00gDlp8lHtPNk77GMVRJ94=;
- b=GLQDichAVSrMwwxNionJ8KFvg2UlWdCVigW2txAGwdX6B1E8D2vC96n/qgGB6zLIAR882r
- Rn2SDyKpXp1dMN+MXvE7cgo03fKSYCmhBVjXnbivCdTYd3a5Z1DPbV9sYKRQIlUDCij9mm
- lCbxN7S7yP47vlqid5ZwIINO0sshOvY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-TgKnx763O2CdQaZVuKqs_g-1; Sat, 05 Aug 2023 12:00:33 -0400
-X-MC-Unique: TgKnx763O2CdQaZVuKqs_g-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-99c8bbc902eso135955866b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Aug 2023 09:00:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691251232; x=1691856032;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=94zmfgo0irut0mqrSKRpC00gDlp8lHtPNk77GMVRJ94=;
- b=VXSNT8LNSyGZInNDiFooxAt6nwE5nrXSS8O8/HWKgiDPbwbY4Te9jyIE5VMkrVfpWJ
- KyT1Z97smqxKR5QJnWwPWx++bt0qgcEJAtoHGSiyzsW9zezkDykagMTZBVYwsOc5c2Wr
- ktje7WWu1dHlWR/xQdT4nsRWF81QmizBp9XSK8WyE6LU+8QhbfNxeQXF53JpM2MlVyUY
- cCLU2lvL8mV01jDjO7jvYI55+bInB7LnQvtAp6SB1ScMuOdRULb8LKPG2BibtpGlilXK
- mqKP+Ae1vZ27kw/SN8lGWCAY9DvsNWMI/Yztf0h9j5dSwtBHPc+TVtgJC3ZsGRGLpuj9
- iJjw==
-X-Gm-Message-State: AOJu0YxkU5fA+IiD+Dbj3fywFRLC2ZtSkSVSjzEACrpZGeSht5xTqeeS
- WueBnZE4odEbHBTIhgoHbsScFbcKV1sOJGEuK7V/VVjUrJgMIEdG5m1vVZskr6gCgfpQwVQN8XU
- d/06AnYy4DWqqDTNSSvG2ncW9xlGA
-X-Received: by 2002:a17:906:51d7:b0:994:9ed:300b with SMTP id
- v23-20020a17090651d700b0099409ed300bmr4797606ejk.16.1691251232459; 
- Sat, 05 Aug 2023 09:00:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGlgipzP1IYg7V0bplG+SRR8mHBM0tv5PNbAHj2TUpHdzAhtZ4nJ+lrwfRjJt+2AhCBvJ0oSg==
-X-Received: by 2002:a17:906:51d7:b0:994:9ed:300b with SMTP id
- v23-20020a17090651d700b0099409ed300bmr4797582ejk.16.1691251232105; 
- Sat, 05 Aug 2023 09:00:32 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- x2-20020a1709060a4200b00993b381f808sm2856900ejf.38.2023.08.05.09.00.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Aug 2023 09:00:30 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
- lyude@redhat.com
-Subject: [PATCH drm-misc-next] nouveau/dmem: fix copy-paste error in
- nouveau_dmem_migrate_chunk()
-Date: Sat,  5 Aug 2023 18:00:15 +0200
-Message-ID: <20230805160027.88116-1-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01ABB10E18B
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 16:46:21 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 1C0EF861E6;
+ Sat,  5 Aug 2023 18:46:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1691253979;
+ bh=RQdRw6SVFAdDjEY7wpgCCM0vKULqBhFkkBBjbtqn5aA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Plf+ZjZPlaPvGj0bCS8eK/kSM7QSub1DewuuyRh/qVNZ4kiXLl3BPzVDcjgyGdq9n
+ zVdE1SXgCKokrlufcZTOpbjdlSwQFJYCi3jhYilPHRIOzYvxmUZwmwQqsPouJMQAwy
+ oP0pSkxWoFYeSaJ61t/wfxM4lL44PE9jIg4F5NUIwWNymAj9cZR/IphcxTLZPDNNju
+ uNLlKMme4sjxDuq+C2r+gBzdV9sxrZnWgzUkC+FaBQxID2zp1O2+B5O3qBkqVPZF5n
+ OaSQZmpmwwkk5ig4Y9nh/t/ToP1rRCWg3F6P35vgyo4kpxqRiI8XjvNl/xw1yn9A99
+ L6jzw4pTBBSEg==
+Message-ID: <5f2f22f5-340b-fdf7-585d-3665a0e8a087@denx.de>
+Date: Sat, 5 Aug 2023 18:46:18 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH] drm/panel: simple: Fix Innolux G156HCE-L01 LVDS clock
+Content-Language: en-US
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, dri-devel@lists.freedesktop.org
+References: <20230804151010.834990-1-luca.ceresoli@bootlin.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230804151010.834990-1-luca.ceresoli@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,34 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix call to nouveau_fence_emit() with wrong channel parameter.
+On 8/4/23 17:10, Luca Ceresoli wrote:
+> This panel has been implemented in commit 225213f24c79 ("drm/panel-simple:
+> Add Innolux G156HCE-L01 panel entry") with a higher clock than the typical
+> one mentioned on the documentation to avoid flickering on the unit
+> tested. Testing on a different unit shows that the panel actually works
+> with the intended 70.93 MHz clock and even lower frequencies so the
+> flickering is likely caused either by a defective unit or by other
+> different components such as the bridge.
+> 
+> Fixes: 225213f24c79 ("drm/panel-simple: Add Innolux G156HCE-L01 panel entry")
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 56854f78441e..ec3a73bbfe30 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2379,7 +2379,7 @@ static const struct panel_desc innolux_g121x1_l03 = {
+>   };
+>   
+>   static const struct display_timing innolux_g156hce_l01_timings = {
+> -	.pixelclock = { 120000000, 144000000, 150000000 },
+> +	.pixelclock = { 120000000, 141860000, 150000000 },
+>   	.hactive = { 1920, 1920, 1920 },
+>   	.hfront_porch = { 80, 90, 100 },
+>   	.hback_porch = { 80, 90, 100 },
 
-Fixes: 7f2a0b50b2b2 ("drm/nouveau: fence: separate fence alloc and emit")
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Odd, now I don't see the flicker anymore.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 4ad40e42cae1..61e84562094a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -678,7 +678,7 @@ static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
- 	}
- 
- 	if (!nouveau_fence_new(&fence))
--		nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
-+		nouveau_fence_emit(fence, drm->dmem->migrate.chan);
- 	migrate_vma_pages(args);
- 	nouveau_dmem_fence_done(&fence);
- 	nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+Tested-by: Marek Vasut <marex@denx.de> # MX8MM with LT9211
+Reviewed-by: Marek Vasut <marex@denx.de>
 
-base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781
--- 
-2.41.0
-
+Thanks !
