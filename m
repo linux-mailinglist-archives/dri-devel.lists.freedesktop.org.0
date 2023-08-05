@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1DB770FC9
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E4B770FE4
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3FE10E194;
-	Sat,  5 Aug 2023 13:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9E810E198;
+	Sat,  5 Aug 2023 13:17:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B79A610E194
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:02:30 +0000 (UTC)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9F6310E198
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:17:07 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4RJ2mk2BrZz9tDS;
- Sat,  5 Aug 2023 13:02:30 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4RJ35Z70DBzDqWx;
+ Sat,  5 Aug 2023 13:17:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1691240550; bh=BaqRS9KSIhijb2JY1YW1Wcot9xQr7C6q1Hh9J7CAnjw=;
+ t=1691241427; bh=SxDiHQ1tPlExkDLcMOBXaLf/fvoHyRjE3qQJOFBTq5I=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pkLeSKaICt6/45+pGwuStOv/gNSHR/cb/A6W22DETzHaGobCEyIeNBByymSjvOasq
- 5Bq5gb7PAQ/iyu6s+Cf+lRgxXz+bp1Iu3Wg5QciegCXZJMJ3G1O9cT5dE/UKbloCe4
- sVJ+vvuojLSXMx8PS5rDJzeOsG6fNndEVBUonfW0=
-X-Riseup-User-ID: 3050C99303D6EBB802495304DAFADE5CA88D0CB9DCFC8059BAA04AC6702ED2E0
+ b=jlxTaau1+tc5DTfQu1QBDYjTPFlsZ7X/2evW4X7UprJ36p2ivAufNcVbgHzAwHH99
+ bCIW63r67dF3JKeyf03B/R7zijtpxHwYZNmG54N7kGbBhELRIONs7eSJnPtTL7rcO7
+ 3afdhujls+oA4Z+rYQF458ixmKYeqS4PvvPVE+6c=
+X-Riseup-User-ID: 8A3518A686DDF608E3A4698DDB991B920FE6AE149D1B085EBA172E572912AAEB
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RJ2mf4vNlzFqgn;
- Sat,  5 Aug 2023 13:02:26 +0000 (UTC)
-Message-ID: <40b1bb48-64c0-8d8d-1ea8-23354703880c@riseup.net>
-Date: Sat, 5 Aug 2023 10:02:24 -0300
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RJ35J4Cg2zFqgg;
+ Sat,  5 Aug 2023 13:16:52 +0000 (UTC)
+Message-ID: <baa72a51-9fd2-433a-f93d-1dc0d37a54dd@riseup.net>
+Date: Sat, 5 Aug 2023 10:16:50 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/6] drm/format-helper: Add KUnit tests for drm_fb_swab()
+Subject: Re: [PATCH 3/6] drm/format-helper: Add KUnit tests for
+ drm_fb_clip_offset()
 Content-Language: en-US
 To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
 References: <20230721182316.560649-1-arthurgrillo@riseup.net>
- <20230721182316.560649-3-arthurgrillo@riseup.net>
+ <20230721182316.560649-4-arthurgrillo@riseup.net>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230721182316.560649-3-arthurgrillo@riseup.net>
+In-Reply-To: <20230721182316.560649-4-arthurgrillo@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,12 +59,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 7/21/23 15:23, Arthur Grillo wrote:
-> Insert parameterized test for the drm_fb_swab() to ensure correctness
-> and prevent future regressions.
+> Insert parameterized test for the drm_fb_clip_offset() to ensure
+> correctness and prevent future regressions.
 > 
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 
-With the nit I pointed in patch #1 addressed,
+Could you please use the prefix drm/tests in the commit message for all
+patches? Besides that:
 
 Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
@@ -71,132 +73,115 @@ Best Regards,
 - Maíra
 
 > ---
->   .../gpu/drm/tests/drm_format_helper_test.c    | 66 +++++++++++++++++++
->   1 file changed, 66 insertions(+)
+>   .../gpu/drm/tests/drm_format_helper_test.c    | 91 +++++++++++++++++++
+>   1 file changed, 91 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index bc6894f0a202..abeda642d84a 100644
+> index abeda642d84a..2e1c5463f063 100644
 > --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 > +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -74,6 +74,11 @@ struct convert_to_mono_result {
->   	const u8 expected[TEST_BUF_SIZE];
->   };
->   
-> +struct fb_swab_result {
-> +	unsigned int dst_pitch;
-> +	const u32 expected[TEST_BUF_SIZE];
-> +};
-> +
->   struct convert_xrgb8888_case {
->   	const char *name;
->   	unsigned int pitch;
-> @@ -90,6 +95,7 @@ struct convert_xrgb8888_case {
->   	struct convert_to_xrgb2101010_result xrgb2101010_result;
->   	struct convert_to_argb2101010_result argb2101010_result;
->   	struct convert_to_mono_result mono_result;
-> +	struct fb_swab_result swab_result;
->   };
->   
->   static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
-> @@ -143,6 +149,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->   			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
->   			.expected = { 0b0 },
->   		},
-> +		.swab_result = {
-> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
-> +			.expected = { 0x0000FF01 },
-> +		},
->   	},
->   	{
->   		.name = "single_pixel_clip_rectangle",
-> @@ -197,6 +207,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->   			.dst_pitch = TEST_USE_DEFAULT_PITCH,
->   			.expected = { 0b0 },
->   		},
-> +		.swab_result = {
-> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
-> +			.expected = { 0x0000FF10 },
-> +		},
->   	},
->   	{
->   		/* Well known colors: White, black, red, green, blue, magenta,
-> @@ -318,6 +332,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->   				0b11,
->   			},
->   		},
-> +		.swab_result = {
-> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
-> +			.expected = {
-> +				0xFFFFFF11, 0x00000022,
-> +				0x0000FF33, 0x00FF0044,
-> +				0xFF000055, 0xFF00FF66,
-> +				0x00FFFF77, 0xFFFF0088,
-> +			},
-> +		},
->   	},
->   	{
->   		/* Randomly picked colors. Full buffer within the clip area. */
-> @@ -425,6 +448,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->   				0b010, 0b000,
->   			},
->   		},
-> +		.swab_result = {
-> +			.dst_pitch =  20,
-> +			.expected = {
-> +				0x9C440EA1, 0x054D11B1, 0x03F3A8C1, 0x00000000, 0x00000000,
-> +				0x73F06CD1, 0x9C440EA2, 0x054D11B2, 0x00000000, 0x00000000,
-> +				0x0303A8C2, 0x73F06CD2, 0x9C440EA3, 0x00000000, 0x00000000,
-> +			},
-> +		},
->   	},
->   };
->   
-> @@ -892,6 +923,40 @@ static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
+> @@ -957,6 +957,96 @@ static void drm_test_fb_swab(struct kunit *test)
 >   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
 >   }
 >   
-> +static void drm_test_fb_swab(struct kunit *test)
+> +struct clip_offset_case {
+> +	const char *name;
+> +	unsigned int pitch;
+> +	u32 format;
+> +	struct drm_rect clip;
+> +	unsigned int expected_offset;
+> +};
+> +
+> +static struct clip_offset_case clip_offset_cases[] = {
+> +	{
+> +		.name = "pass through",
+> +		.pitch = TEST_USE_DEFAULT_PITCH,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
+> +		.expected_offset = 0
+> +	},
+> +	{
+> +		.name = "horizontal offset",
+> +		.pitch = TEST_USE_DEFAULT_PITCH,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(1, 0, 3, 3),
+> +		.expected_offset = 4,
+> +	},
+> +	{
+> +		.name = "vertical offset",
+> +		.pitch = TEST_USE_DEFAULT_PITCH,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(0, 1, 3, 3),
+> +		.expected_offset = 12,
+> +	},
+> +	{
+> +		.name = "horizontal and vertical offset",
+> +		.pitch = TEST_USE_DEFAULT_PITCH,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(1, 1, 3, 3),
+> +		.expected_offset = 16,
+> +	},
+> +	{
+> +		.name = "horizontal offset (custom pitch)",
+> +		.pitch = 20,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(1, 0, 3, 3),
+> +		.expected_offset = 4,
+> +	},
+> +	{
+> +		.name = "vertical offset (custom pitch)",
+> +		.pitch = 20,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(0, 1, 3, 3),
+> +		.expected_offset = 20,
+> +	},
+> +	{
+> +		.name = "horizontal and vertical offset (custom pitch)",
+> +		.pitch = 20,
+> +		.format = DRM_FORMAT_XRGB8888,
+> +		.clip = DRM_RECT_INIT(1, 1, 3, 3),
+> +		.expected_offset = 24,
+> +	},
+> +};
+> +
+> +static void clip_offset_case_desc(struct clip_offset_case *t, char *desc)
 > +{
-> +	const struct convert_xrgb8888_case *params = test->param_value;
-> +	const struct fb_swab_result *result = &params->swab_result;
-> +	size_t dst_size;
-> +	u32 *buf = NULL;
-> +	__le32 *xrgb8888 = NULL;
-> +	struct iosys_map dst, src;
+> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
+> +}
 > +
-> +	struct drm_framebuffer fb = {
-> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-> +		.pitches = { params->pitch, 0, 0 },
-> +	};
+> +KUNIT_ARRAY_PARAM(clip_offset, clip_offset_cases, clip_offset_case_desc);
 > +
-> +	dst_size = conversion_buf_size(DRM_FORMAT_XRGB8888, result->dst_pitch, &params->clip);
+> +static void drm_test_fb_clip_offset(struct kunit *test)
+> +{
+> +	const struct clip_offset_case *params = test->param_value;
+> +	const struct drm_format_info *format_info = drm_format_info(params->format);
 > +
-> +	KUNIT_ASSERT_GT(test, dst_size, 0);
+> +	unsigned int offset = -1;
 > +
-> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-> +	iosys_map_set_vaddr(&dst, buf);
+> +	unsigned int pitch = params->pitch;
 > +
-> +	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-> +	iosys_map_set_vaddr(&src, xrgb8888);
+> +	if (pitch == TEST_USE_DEFAULT_PITCH)
+> +		pitch = drm_format_info_min_pitch(format_info, 0,
+> +						  drm_rect_width(&params->clip));
 > +
-> +	if (result->dst_pitch == TEST_USE_DEFAULT_PITCH)
-> +		drm_fb_swab(&dst, NULL, &src, &fb, &params->clip, false);
-> +	else
-> +		drm_fb_swab(&dst, &result->dst_pitch, &src, &fb, &params->clip, false);
-> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
-> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +	/* Assure that the pitch is not zero, because this will inevitable cause the
+> +	 * wrong expected result
+> +	 */
+> +	KUNIT_ASSERT_NE(test, pitch, 0);
+> +
+> +	offset = drm_fb_clip_offset(pitch, format_info, &params->clip);
+> +
+> +	KUNIT_EXPECT_EQ(test, offset, params->expected_offset);
 > +}
 > +
 >   static struct kunit_case drm_format_helper_test_cases[] = {
 >   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
 >   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-> @@ -904,6 +969,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
+> @@ -970,6 +1060,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
 >   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
 >   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
 >   	{}
 >   };
 >   
