@@ -2,44 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494A5770FEA
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F79E770FFC
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:52:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18DAB10E19F;
-	Sat,  5 Aug 2023 13:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBBE10E1A4;
+	Sat,  5 Aug 2023 13:52:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 223F410E19F
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:26:52 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4RJ3Jq5KPSz9sv7;
- Sat,  5 Aug 2023 13:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1691242011; bh=MBiLBbhmRduB4Uze/cyP9h7srUSqhxixjvf2LBJAcsg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MPOpfcrWFrMN6goH1QHrNSxmbKikepWJ5VS0MXO962sIHhyd5lKu4tNT8hMGFTCHW
- 2wNkS7qKzVtusr9OAdquJYMjhx9/P4j/M1UGMPxU9QJZZIOqfVilOxbFfoZWcGn8dH
- 8v7Pv7B0xFE3DjgwEphIBzA3krL8w0bZmE3LgEYg=
-X-Riseup-User-ID: 940FBF040A98511C8582F3B77E36D5635BBD4963EB2F7815E92A2D3C2B43171E
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RJ3Jm1MJPzFqgb;
- Sat,  5 Aug 2023 13:26:47 +0000 (UTC)
-Message-ID: <3c33fe66-a1b8-7b4b-9bdf-2afbbfbabb4a@riseup.net>
-Date: Sat, 5 Aug 2023 10:26:46 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55CEE10E1A4
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691243554; x=1722779554;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=BT4EVbm/Xd97Q23srPDkAK2n9Z78c+n/3Cuj4BupOR4=;
+ b=QNKKtLTAubBu7KfkmeYlQX5XzK79JIPyq5z5RVUf+x2pon8oQJb2r/NG
+ LXQ/bGQzVkDtNXC79t+wFwHlP7o8nqzpYVJzHTMi9gyVp/SY2AEgPaYTS
+ /Qn1bKr2iKXEToF+OWj0vuVZ3J5RG4Huc27CMGw7zWIC5q0cIVbnxlzWD
+ fwmvpuyg2BMq8VU6SdrCHQWg3ITzWQrkHQnl/kkfjeZWgMKMgGVcVxYSf
+ Hk1NU1MY87KUK+Def9gQCUn+5JVld9k+P29Af/zqpgTaukTKd5vq84SNg
+ qcDNTR4dGKqVerFIgdLEhh4mAaSjAI1KkF8riehRcYTGwr8Tnllz+rfLw Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="350624211"
+X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; d="scan'208";a="350624211"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2023 06:52:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="854124030"
+X-IronPort-AV: E=Sophos;i="6.01,257,1684825200"; d="scan'208";a="854124030"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 05 Aug 2023 06:52:32 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qSHhn-0003Xb-1v;
+ Sat, 05 Aug 2023 13:52:31 +0000
+Date: Sat, 5 Aug 2023 21:52:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: [drm-misc:for-linux-next 7/12]
+ drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared
+Message-ID: <202308052132.ZChgsQnz-lkp@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 6/6] drm/format-helper: Add KUnit tests for drm_fb_memcpy()
-Content-Language: en-US
-To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
-References: <20230721182316.560649-1-arthurgrillo@riseup.net>
- <20230721182316.560649-7-arthurgrillo@riseup.net>
-From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230721182316.560649-7-arthurgrillo@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,435 +57,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, javierm@redhat.com, mairacanal@riseup.net,
- tzimmermann@suse.de, davidgow@google.com, jose.exposito89@gmail.com,
- andrealmeid@riseup.net
+Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/21/23 15:23, Arthur Grillo wrote:
-> Insert parameterized test for the drm_fb_memcpy() to ensure correctness
-> and prevent future regressions. The test case can accept different
-> formats.
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->   .../gpu/drm/tests/drm_format_helper_test.c    | 391 ++++++++++++++++++
->   1 file changed, 391 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 6ecd92898e8e..3db4b95f3a98 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -1189,6 +1189,396 @@ static void drm_test_fb_build_fourcc_list(struct kunit *test)
->   	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
->   }
->   
-> +struct fb_memcpy_result {
-> +	unsigned int dst_pitches[DRM_FORMAT_MAX_PLANES];
-> +	const u32 expected[DRM_FORMAT_MAX_PLANES][TEST_BUF_SIZE];
-> +};
-> +
-> +struct multi_plane_op_case {
-> +	const char *name;
-> +	u32 format;
-> +	struct drm_rect clip;
-> +	unsigned int src_pitches[DRM_FORMAT_MAX_PLANES];
-> +	const u32 src[DRM_FORMAT_MAX_PLANES][TEST_BUF_SIZE];
-> +	struct fb_memcpy_result memcpy_result;
-> +};
-> +
-> +/* The `src` and `expected` buffers are u32 arrays. To deal with planes that
-> + * have a cpp != 4 the values are stored together on the same u32 number in a
-> + * way so the order in memory is correct in a little-endian machine.
-> + *
-> + * Because of that, on some occasions, parts of a u32 will not be part of the
-> + * test, to make this explicit the 0xFF byte is used on those parts.
-> + */
-> +
-> +static struct multi_plane_op_case multi_plane_op_cases[] = {
-> +	{
-> +		.name = "single_pixel_source_buffer",
-> +		.format = DRM_FORMAT_XRGB8888,
-> +		.clip = DRM_RECT_INIT(0, 0, 1, 1),
-> +		.src_pitches = { 1 * 4 },
-> +		.src = {{ 0x01020304 }},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {{ 0x01020304 }},
-> +		}
-> +	},
-> +	{
-> +		.name = "single_pixel_source_buffer",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(0, 0, 1, 1),
-> +		.src_pitches = { 1 * 4, 1 },
-> +		.src = {
-> +			{ 0x01020304 },
-> +			{ 0xFFFFFF01 },
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x01020304 },
-> +				{ 0x00000001 },
-> +			},
-> +		},
-> +	},
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   82d750e9d2f5d0594c8f7057ce59127e701af781
+commit: 7f2a0b50b2b20308a19602b51c647566c62e144c [7/12] drm/nouveau: fence: separate fence alloc and emit
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230805/202308052132.ZChgsQnz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230805/202308052132.ZChgsQnz-lkp@intel.com/reproduce)
 
-Some tests have the same description name. Could you distinct them with
-different names?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308052132.ZChgsQnz-lkp@intel.com/
 
-Best Regards,
-- Maíra
+All errors (new ones prefixed by >>):
 
-> +	{
-> +		.name = "single_pixel_source_buffer",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(0, 0, 1, 1),
-> +		.src_pitches = { 1, 1, 1 },
-> +		.src = {
-> +			{ 0xFFFFFF01 },
-> +			{ 0xFFFFFF01 },
-> +			{ 0xFFFFFF01 },
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "single_pixel_clip_rectangle",
-> +		.format = DRM_FORMAT_XBGR8888,
-> +		.clip = DRM_RECT_INIT(1, 1, 1, 1),
-> +		.src_pitches = { 2 * 4 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000,
-> +				0x00000000, 0x01020304,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x01020304 },
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "single_pixel_clip_rectangle",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(1, 1, 1, 1),
-> +		.src_pitches = { 2 * 4, 2 * 1 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000,
-> +				0x00000000, 0x01020304,
-> +			},
-> +			{ 0x01000000 },
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x01020304 },
-> +				{ 0x00000001 },
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "single_pixel_clip_rectangle",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(1, 1, 1, 1),
-> +		.src_pitches = { 2 * 1, 2 * 1, 2 * 1 },
-> +		.src = {
-> +			{ 0x01000000 },
-> +			{ 0x01000000 },
-> +			{ 0x01000000 },
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "well_known_colors",
-> +		.format = DRM_FORMAT_XBGR8888,
-> +		.clip = DRM_RECT_INIT(1, 1, 2, 4),
-> +		.src_pitches = { 4 * 4 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000, 0x00000000, 0x00000000,
-> +				0x00000000, 0x11FFFFFF, 0x22000000, 0x00000000,
-> +				0x00000000, 0x33FF0000, 0x4400FF00, 0x00000000,
-> +				0x00000000, 0x550000FF, 0x66FF00FF, 0x00000000,
-> +				0x00000000, 0x77FFFF00, 0x8800FFFF, 0x00000000,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{
-> +					0x11FFFFFF, 0x22000000,
-> +					0x33FF0000, 0x4400FF00,
-> +					0x550000FF, 0x66FF00FF,
-> +					0x77FFFF00, 0x8800FFFF,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "well_known_colors",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(1, 1, 2, 4),
-> +		.src_pitches = { 4 * 4, 4 * 1 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000, 0x00000000, 0x00000000,
-> +				0x00000000, 0xFFFFFFFF, 0xFF000000, 0x00000000,
-> +				0x00000000, 0xFFFF0000, 0xFF00FF00, 0x00000000,
-> +				0x00000000, 0xFF0000FF, 0xFFFF00FF, 0x00000000,
-> +				0x00000000, 0xFFFFFF00, 0xFF00FFFF, 0x00000000,
-> +			},
-> +			{
-> +				0x00000000,
-> +				0x00221100,
-> +				0x00443300,
-> +				0x00665500,
-> +				0x00887700,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{
-> +					0xFFFFFFFF, 0xFF000000,
-> +					0xFFFF0000, 0xFF00FF00,
-> +					0xFF0000FF, 0xFFFF00FF,
-> +					0xFFFFFF00, 0xFF00FFFF,
-> +				},
-> +				{
-> +					0x44332211,
-> +					0x88776655,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "well_known_colors",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(1, 1, 2, 4),
-> +		.src_pitches = { 4 * 1, 4 * 1, 4 * 1 },
-> +		.src = {
-> +			{
-> +				0x00000000,
-> +				0x0000FF00,
-> +				0x00954C00,
-> +				0x00691D00,
-> +				0x00B2E100,
-> +			},
-> +			{
-> +				0x00000000,
-> +				0x00000000,
-> +				0x00BEDE00,
-> +				0x00436500,
-> +				0x00229B00,
-> +			},
-> +			{
-> +				0x00000000,
-> +				0x00000000,
-> +				0x007E9C00,
-> +				0x0083E700,
-> +				0x00641A00,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{
-> +					0x954C00FF,
-> +					0xB2E1691D,
-> +				},
-> +				{
-> +					0xBEDE0000,
-> +					0x229B4365,
-> +				},
-> +				{
-> +					0x7E9C0000,
-> +					0x641A83E7,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "destination_pitch",
-> +		.format = DRM_FORMAT_XBGR8888,
-> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
-> +		.src_pitches = { 3 * 4 },
-> +		.src = {
-> +			{
-> +				0xA10E449C, 0xB1114D05, 0xC1A8F303,
-> +				0xD16CF073, 0xA20E449C, 0xB2114D05,
-> +				0xC2A80303, 0xD26CF073, 0xA30E449C,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { 5 * 4 },
-> +			.expected = {
-> +				{
-> +					0xA10E449C, 0xB1114D05, 0xC1A8F303, 0x00000000, 0x00000000,
-> +					0xD16CF073, 0xA20E449C, 0xB2114D05, 0x00000000, 0x00000000,
-> +					0xC2A80303, 0xD26CF073, 0xA30E449C, 0x00000000, 0x00000000,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "destination_pitch",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
-> +		.src_pitches = { 3 * 4, 3 * 1 },
-> +		.src = {
-> +			{
-> +				0xFF0E449C, 0xFF114D05, 0xFFA8F303,
-> +				0xFF6CF073, 0xFF0E449C, 0xFF114D05,
-> +				0xFFA80303, 0xFF6CF073, 0xFF0E449C,
-> +			},
-> +			{
-> +				0xB2C1B1A1,
-> +				0xD2A3D1A2,
-> +				0xFFFFFFC2,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { 5 * 4, 5 * 1 },
-> +			.expected = {
-> +				{
-> +					0xFF0E449C, 0xFF114D05, 0xFFA8F303, 0x00000000, 0x00000000,
-> +					0xFF6CF073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
-> +					0xFFA80303, 0xFF6CF073, 0xFF0E449C, 0x00000000, 0x00000000,
-> +				},
-> +				{
-> +					0x00C1B1A1,
-> +					0xD1A2B200,
-> +					0xD2A30000,
-> +					0xFF0000C2,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "destination_pitch",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
-> +		.src_pitches = { 3 * 1, 3 * 1, 3 * 1 },
-> +		.src = {
-> +			{
-> +				0xBAC1323D,
-> +				0xBA34323D,
-> +				0xFFFFFF3D,
-> +			},
-> +			{
-> +				0xE1ABEC2A,
-> +				0xE1EAEC2A,
-> +				0xFFFFFF2A,
-> +			},
-> +			{
-> +				0xBCEBE4D7,
-> +				0xBC65E4D7,
-> +				0xFFFFFFD7,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { 5 * 1, 5 * 1, 5 * 1 },
-> +			.expected = {
-> +				{
-> +					0x00C1323D,
-> +					0x323DBA00,
-> +					0xBA340000,
-> +					0xFF00003D,
-> +				},
-> +				{
-> +					0x00ABEC2A,
-> +					0xEC2AE100,
-> +					0xE1EA0000,
-> +					0xFF00002A,
-> +				},
-> +				{
-> +					0x00EBE4D7,
-> +					0xE4D7BC00,
-> +					0xBC650000,
-> +					0xFF0000D7,
-> +				},
-> +			},
-> +		},
-> +	},
-> +};
-> +
-> +static void multi_plane_op_case_desc(struct multi_plane_op_case *t, char *desc)
-> +{
-> +	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s: %p4cc", t->name, &t->format);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(multi_plane_op, multi_plane_op_cases, multi_plane_op_case_desc);
-> +
-> +static void drm_test_fb_memcpy(struct kunit *test)
-> +{
-> +	const struct multi_plane_op_case *params = test->param_value;
-> +	const struct fb_memcpy_result *result = &params->memcpy_result;
-> +	size_t dst_size[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	u32 *buf[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	u32 *src_cp[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	u32 *expected[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	struct iosys_map dst[DRM_FORMAT_MAX_PLANES];
-> +	struct iosys_map src[DRM_FORMAT_MAX_PLANES];
-> +
-> +	struct drm_framebuffer fb = {
-> +		.format = drm_format_info(params->format),
-> +	};
-> +
-> +	memcpy(fb.pitches, params->src_pitches, DRM_FORMAT_MAX_PLANES * sizeof(int));
-> +
-> +	for (size_t i = 0; i < fb.format->num_planes; i++) {
-> +		dst_size[i] = conversion_buf_size(params->format, result->dst_pitches[i],
-> +						  &params->clip, i);
-> +		KUNIT_ASSERT_GT(test, dst_size[i], 0);
-> +
-> +		buf[i] = kunit_kzalloc(test, dst_size[i], GFP_KERNEL);
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf[i]);
-> +		iosys_map_set_vaddr(&dst[i], buf[i]);
-> +
-> +		src_cp[i] = cpubuf_to_le32(test, params->src[i], TEST_BUF_SIZE);
-> +		iosys_map_set_vaddr(&src[i], src_cp[i]);
-> +	}
-> +
-> +	if (result->dst_pitches[0] == TEST_USE_DEFAULT_PITCH)
-> +		drm_fb_memcpy(dst, NULL, src, &fb, &params->clip);
-> +	else
-> +		drm_fb_memcpy(dst, result->dst_pitches, src, &fb, &params->clip);
-> +
-> +	for (size_t i = 0; i < fb.format->num_planes; i++) {
-> +		expected[i] = cpubuf_to_le32(test, result->expected[i], TEST_BUF_SIZE);
-> +		KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
-> +				       "Failed expectation on plane %zu", i);
-> +	}
-> +}
-> +
->   static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-> @@ -1204,6 +1594,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_memcpy, multi_plane_op_gen_params),
->   	{}
->   };
->   
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
+>> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
+     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+         |                                           ^~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
+
+   664	
+   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
+   667			dma_addr_t *dma_addrs, u64 *pfns)
+   668	{
+   669		struct nouveau_fence *fence;
+   670		unsigned long addr = args->start, nr_dma = 0, i;
+   671	
+   672		for (i = 0; addr < args->end; i++) {
+   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+   674					args->src[i], dma_addrs + nr_dma, pfns + i);
+   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
+   676				nr_dma++;
+   677			addr += PAGE_SIZE;
+   678		}
+   679	
+   680		if (!nouveau_fence_new(&fence))
+ > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+   682		migrate_vma_pages(args);
+   683		nouveau_dmem_fence_done(&fence);
+   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+   685	
+   686		while (nr_dma--) {
+   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
+   688					DMA_BIDIRECTIONAL);
+   689		}
+   690		migrate_vma_finalize(args);
+   691	}
+   692	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
