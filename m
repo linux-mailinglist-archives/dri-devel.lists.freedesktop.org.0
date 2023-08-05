@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54628771003
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 15:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EAA3771066
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 18:01:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D91D110E1A8;
-	Sat,  5 Aug 2023 13:58:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2379B10E199;
+	Sat,  5 Aug 2023 16:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E587310E1A6
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 13:58:07 +0000 (UTC)
-X-UUID: 16eaf9b2339811eeb20a276fd37b9834-20230805
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=w/KTqwPYHXtpoGBRquaClm3SGFQV5jdQqQch2mviivQ=; 
- b=H+mZdvZDal2qFrJhglvBp68dIdmH/CyrzjZlEk8UvxLuNItkVuDGOzVCwmgcIi5t3vusJ/4Jr+MGEOT9Vqi0cewieNVg+vtTtDaurWO/uCVkU3PuSEGkDKR5/kHD+/P4ppY3KrcEKyyC4WKk3FrZIl1xagPjZxpR4f8pwP+o4xo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.30, REQID:7bb3834b-8d37-4316-b49e-f570b2183e76, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:1fcc6f8, CLOUDID:2aa62db4-a467-4aa9-9e04-f584452e3794,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 16eaf9b2339811eeb20a276fd37b9834-20230805
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1205180027; Sat, 05 Aug 2023 21:58:00 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 5 Aug 2023 21:57:59 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 5 Aug 2023 21:57:59 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
- <amergnat@baylibre.com>
-Subject: [PATCH v4 2/2] drm/mediatek: Fix iommu fault during crtc enabling
-Date: Sat, 5 Aug 2023 21:57:57 +0800
-Message-ID: <20230805135757.6625-3-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230805135757.6625-1-jason-jh.lin@mediatek.com>
-References: <20230805135757.6625-1-jason-jh.lin@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C7F10E174
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 16:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691251235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=94zmfgo0irut0mqrSKRpC00gDlp8lHtPNk77GMVRJ94=;
+ b=GLQDichAVSrMwwxNionJ8KFvg2UlWdCVigW2txAGwdX6B1E8D2vC96n/qgGB6zLIAR882r
+ Rn2SDyKpXp1dMN+MXvE7cgo03fKSYCmhBVjXnbivCdTYd3a5Z1DPbV9sYKRQIlUDCij9mm
+ lCbxN7S7yP47vlqid5ZwIINO0sshOvY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-554-TgKnx763O2CdQaZVuKqs_g-1; Sat, 05 Aug 2023 12:00:33 -0400
+X-MC-Unique: TgKnx763O2CdQaZVuKqs_g-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-99c8bbc902eso135955866b.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Aug 2023 09:00:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691251232; x=1691856032;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=94zmfgo0irut0mqrSKRpC00gDlp8lHtPNk77GMVRJ94=;
+ b=VXSNT8LNSyGZInNDiFooxAt6nwE5nrXSS8O8/HWKgiDPbwbY4Te9jyIE5VMkrVfpWJ
+ KyT1Z97smqxKR5QJnWwPWx++bt0qgcEJAtoHGSiyzsW9zezkDykagMTZBVYwsOc5c2Wr
+ ktje7WWu1dHlWR/xQdT4nsRWF81QmizBp9XSK8WyE6LU+8QhbfNxeQXF53JpM2MlVyUY
+ cCLU2lvL8mV01jDjO7jvYI55+bInB7LnQvtAp6SB1ScMuOdRULb8LKPG2BibtpGlilXK
+ mqKP+Ae1vZ27kw/SN8lGWCAY9DvsNWMI/Yztf0h9j5dSwtBHPc+TVtgJC3ZsGRGLpuj9
+ iJjw==
+X-Gm-Message-State: AOJu0YxkU5fA+IiD+Dbj3fywFRLC2ZtSkSVSjzEACrpZGeSht5xTqeeS
+ WueBnZE4odEbHBTIhgoHbsScFbcKV1sOJGEuK7V/VVjUrJgMIEdG5m1vVZskr6gCgfpQwVQN8XU
+ d/06AnYy4DWqqDTNSSvG2ncW9xlGA
+X-Received: by 2002:a17:906:51d7:b0:994:9ed:300b with SMTP id
+ v23-20020a17090651d700b0099409ed300bmr4797606ejk.16.1691251232459; 
+ Sat, 05 Aug 2023 09:00:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGlgipzP1IYg7V0bplG+SRR8mHBM0tv5PNbAHj2TUpHdzAhtZ4nJ+lrwfRjJt+2AhCBvJ0oSg==
+X-Received: by 2002:a17:906:51d7:b0:994:9ed:300b with SMTP id
+ v23-20020a17090651d700b0099409ed300bmr4797582ejk.16.1691251232105; 
+ Sat, 05 Aug 2023 09:00:32 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020a1709060a4200b00993b381f808sm2856900ejf.38.2023.08.05.09.00.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Aug 2023 09:00:30 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com
+Subject: [PATCH drm-misc-next] nouveau/dmem: fix copy-paste error in
+ nouveau_dmem_migrate_chunk()
+Date: Sat,  5 Aug 2023 18:00:15 +0200
+Message-ID: <20230805160027.88116-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,125 +82,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The plane_state of drm_atomic_state is not sync to the mtk_plane_state
-stored in mtk_crtc during crtc enabling.
+Fix call to nouveau_fence_emit() with wrong channel parameter.
 
-So we need to update the mtk_plane_state stored in mtk_crtc by the
-drm_atomic_state carried from mtk_drm_crtc_atomic_enable().
-
-While updating mtk_plane_state, OVL layer should be disabled when the fb
-in plane_state of drm_atomic_state is NULL.
-
-Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC MT8173.")
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Fixes: 7f2a0b50b2b2 ("drm/nouveau: fence: separate fence alloc and emit")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 15 +++++++++++----
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 11 ++++++++---
- drivers/gpu/drm/mediatek/mtk_drm_plane.h |  2 ++
- 3 files changed, 21 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_dmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index d40142842f85..06f34b304dca 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -328,7 +328,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- }
- #endif
- 
--static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
-+static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc, struct drm_atomic_state *state)
- {
- 	struct drm_crtc *crtc = &mtk_crtc->base;
- 	struct drm_connector *connector;
-@@ -405,11 +405,18 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
- 	/* Initially configure all planes */
- 	for (i = 0; i < mtk_crtc->layer_nr; i++) {
- 		struct drm_plane *plane = &mtk_crtc->planes[i];
--		struct mtk_plane_state *plane_state;
-+		struct drm_plane_state *new_state;
-+		struct mtk_plane_state *plane_state = to_mtk_plane_state(plane->state);
- 		struct mtk_ddp_comp *comp;
- 		unsigned int local_layer;
- 
--		plane_state = to_mtk_plane_state(plane->state);
-+		/* sync the new plane state from drm_atomic_state */
-+		if (state->planes[i].ptr) {
-+			new_state = drm_atomic_get_new_plane_state(state, state->planes[i].ptr);
-+			plane_state = to_mtk_plane_state(mtk_crtc->planes[i].state);
-+			mtk_plane_update_new_state(new_state, plane_state);
-+		}
-+
- 		comp = mtk_drm_ddp_comp_for_plane(crtc, plane, &local_layer);
- 		if (comp)
- 			mtk_ddp_comp_layer_config(comp, local_layer,
-@@ -687,7 +694,7 @@ static void mtk_drm_crtc_atomic_enable(struct drm_crtc *crtc,
- 		return;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+index 4ad40e42cae1..61e84562094a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -678,7 +678,7 @@ static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
  	}
  
--	ret = mtk_crtc_ddp_hw_init(mtk_crtc);
-+	ret = mtk_crtc_ddp_hw_init(mtk_crtc, state);
- 	if (ret) {
- 		pm_runtime_put(comp->dev);
- 		return;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index b1a918ffe457..ef4460f98c07 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -134,8 +134,8 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
- 						   true, true);
- }
- 
--static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
--				       struct mtk_plane_state *mtk_plane_state)
-+void mtk_plane_update_new_state(struct drm_plane_state *new_state,
-+				struct mtk_plane_state *mtk_plane_state)
- {
- 	struct drm_framebuffer *fb = new_state->fb;
- 	struct drm_gem_object *gem;
-@@ -146,6 +146,11 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
- 	dma_addr_t hdr_addr = 0;
- 	unsigned int hdr_pitch = 0;
- 
-+	if (!fb) {
-+		mtk_plane_state->pending.enable = false;
-+		return;
-+	}
-+
- 	gem = fb->obj[0];
- 	mtk_gem = to_mtk_gem_obj(gem);
- 	addr = mtk_gem->dma_addr;
-@@ -180,7 +185,7 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
- 		       fb->format->cpp[0] * (x_offset_in_blocks + 1);
- 	}
- 
--	mtk_plane_state->pending.enable = true;
-+	mtk_plane_state->pending.enable = new_state->visible;
- 	mtk_plane_state->pending.pitch = pitch;
- 	mtk_plane_state->pending.hdr_pitch = hdr_pitch;
- 	mtk_plane_state->pending.format = format;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-index 99aff7da0831..0a7d70d13e43 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-@@ -46,6 +46,8 @@ to_mtk_plane_state(struct drm_plane_state *state)
- 	return container_of(state, struct mtk_plane_state, base);
- }
- 
-+void mtk_plane_update_new_state(struct drm_plane_state *new_state,
-+				struct mtk_plane_state *mtk_plane_state);
- int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		   unsigned long possible_crtcs, enum drm_plane_type type,
- 		   unsigned int supported_rotations, const u32 *formats,
+ 	if (!nouveau_fence_new(&fence))
+-		nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
++		nouveau_fence_emit(fence, drm->dmem->migrate.chan);
+ 	migrate_vma_pages(args);
+ 	nouveau_dmem_fence_done(&fence);
+ 	nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+
+base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781
 -- 
-2.18.0
+2.41.0
 
