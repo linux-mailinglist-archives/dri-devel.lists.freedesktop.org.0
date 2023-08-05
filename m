@@ -1,42 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B627770F4A
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 12:36:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED184770F3D
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Aug 2023 12:18:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79AE310E17E;
-	Sat,  5 Aug 2023 10:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE6F310E0BE;
+	Sat,  5 Aug 2023 10:18:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1157 seconds by postgrey-1.36 at gabe;
- Sat, 05 Aug 2023 10:36:18 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6D2F10E17E;
- Sat,  5 Aug 2023 10:36:18 +0000 (UTC)
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RHz1k3TnhzGpwP;
- Sat,  5 Aug 2023 18:13:30 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Sat, 5 Aug
- 2023 18:16:57 +0800
-From: Chen Jiahao <chenjiahao16@huawei.com>
-To: <bskeggs@redhat.com>, <kherbst@redhat.com>, <lyude@redhat.com>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <jani.nikula@intel.com>,
- <Wayne.Lin@amd.com>, <ruanjinjie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH -next] drm/nouveau/disp: fix incompatible types in subtraction
-Date: Sat, 5 Aug 2023 18:16:31 +0800
-Message-ID: <20230805101631.2342148-1-chenjiahao16@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F2310E0BE
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Aug 2023 10:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691230699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EDl8FKi4TmGBJc8DUiagN0W08gSz4Sjm38M3DkmH1A8=;
+ b=hn8ktiUJxERlzo0deOKj3fEEeB/MrVCD945S92yeLLGzhvvF/Ls8osj8AjdaaZwnsueyza
+ S7b8bZ4kj8DP5y8cYK9Ayhbz7HH5+xtbcULuatp8/CdA8MgO+6bJIfk1mz3m0i4Lo1UfBn
+ 294WyyMvpu8xb2gcpTPqu3JG3x8GL8g=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-25-SzpViEHMOEK5idIE98tbAA-1; Sat, 05 Aug 2023 06:18:18 -0400
+X-MC-Unique: SzpViEHMOEK5idIE98tbAA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-63cebe9238bso7597296d6.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Aug 2023 03:18:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691230698; x=1691835498;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EDl8FKi4TmGBJc8DUiagN0W08gSz4Sjm38M3DkmH1A8=;
+ b=LH3uVmXYJ0ku8OsW10Ij9R7KlNHpHVEhE5bJ5t/Xy1k3iahtrkbsAcuGGGx4Z0uCma
+ VdvgkIM9dMVARE/i+ZoYM9y+TJZmfeQ8ZSUhv2nOY8K08k6UtBWX6KNZtnoAn5QUbw6o
+ bkPGuSX20U6s6d0g1lqAB2YK/iapHWx0ZvSX0Ke1PHupm6P0eGIXVjrNS3S+8Zr++GXO
+ TpA/UsrSBMv5wBopw/bLsyLcbPzlqUG822kRVQpCUZajtqXUNp7cDnaaizugPKqA+YN7
+ lxnuDWZk/rrIpBYWE3i6hJ9WkJYL08nrTEPQqMF+QA5Gx/Puh6Qrh4nYqWElV8POJJyj
+ c8bw==
+X-Gm-Message-State: ABy/qLYjSZFSoeror6h5FXd4KFtVueUxe1CX5fjxdJC8ncCcoVjS6IjZ
+ 5nRnXwIl6aVEB63hNwBtyCOKtAnFfu3FOzBVAsOqjuUMGmaYn9+SH3S/+bvuNs/ECSU0pNY44zn
+ aklqEcNWfWPQp17OGkJYr4mJbDUuF
+X-Received: by 2002:ac8:5c05:0:b0:40f:a5bb:5276 with SMTP id
+ i5-20020ac85c05000000b0040fa5bb5276mr21244865qti.1.1691230697927; 
+ Sat, 05 Aug 2023 03:18:17 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGxbKkXSoa09vwMpsK5fJJErUueAZzn6Eyh8re2STw/wxSsOI0uRnQzLEtQYQPJQ+wGIPPrkA==
+X-Received: by 2002:ac8:5c05:0:b0:40f:a5bb:5276 with SMTP id
+ i5-20020ac85c05000000b0040fa5bb5276mr21244843qti.1.1691230697692; 
+ Sat, 05 Aug 2023 03:18:17 -0700 (PDT)
+Received: from kherbst.pingu.com ([31.17.16.107])
+ by smtp.gmail.com with ESMTPSA id
+ dq15-20020a05622a520f00b0040c72cae9f9sm1247325qtb.93.2023.08.05.03.18.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Aug 2023 03:18:16 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau/disp: Revert a NULL check inside
+ nouveau_connector_get_modes
+Date: Sat,  5 Aug 2023 12:18:13 +0200
+Message-ID: <20230805101813.2603989-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,48 +81,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chenjiahao16@huawei.com
+Cc: Karol Herbst <kherbst@redhat.com>, Olaf Skibbe <news@kravcenko.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fixes the following sparse error:
+The original commit adding that check tried to protect the kenrel against
+a potential invalid NULL pointer access.
 
-drivers/gpu/drm/nouveau/dispnv50/disp.c:134:31: error: subtraction of different types can't work (different address spaces)
-drivers/gpu/drm/nouveau/dispnv50/disp.c:197:31: error: subtraction of different types can't work (different address spaces)
+However we call nouveau_connector_detect_depth once without a native_mode
+set on purpose for non LVDS connectors and this broke DP support in a few
+cases.
 
-In struct nvif_push, "cur" is of type u32 *, whereas
-dmac->_push.mem.object.map.ptr is of type void __iomem *.
-Converting push->cur to u32 __iomem * to fix above sparse
-error.
-
-Fixes: 9cf06d6ef7fd ("drm/nouveau/disp: fix cast removes address space of expression warnings")
-Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
+Cc: Olaf Skibbe <news@kravcenko.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/238
+Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/245
+Fixes: 20a2ce87fbaf8 ("drm/nouveau/dp: check for NULL nv_connector->native_mode")
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 4e7c9c353c51..3e95d82ce900 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -131,7 +131,7 @@ nv50_dmac_kick(struct nvif_push *push)
- {
- 	struct nv50_dmac *dmac = container_of(push, typeof(*dmac), _push);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+index f75c6f09dd2af..a2e0033e8a260 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.c
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+@@ -967,7 +967,7 @@ nouveau_connector_get_modes(struct drm_connector *connector)
+ 	/* Determine display colour depth for everything except LVDS now,
+ 	 * DP requires this before mode_valid() is called.
+ 	 */
+-	if (connector->connector_type != DRM_MODE_CONNECTOR_LVDS && nv_connector->native_mode)
++	if (connector->connector_type != DRM_MODE_CONNECTOR_LVDS)
+ 		nouveau_connector_detect_depth(connector);
  
--	dmac->cur = push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
-+	dmac->cur = (u32 __iomem *)push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
- 	if (dmac->put != dmac->cur) {
- 		/* Push buffer fetches are not coherent with BAR1, we need to ensure
- 		 * writes have been flushed right through to VRAM before writing PUT.
-@@ -194,7 +194,7 @@ nv50_dmac_wait(struct nvif_push *push, u32 size)
- 	if (WARN_ON(size > dmac->max))
- 		return -EINVAL;
- 
--	dmac->cur = push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
-+	dmac->cur = (u32 __iomem *)push->cur - (u32 __iomem *)dmac->_push.mem.object.map.ptr;
- 	if (dmac->cur + size >= dmac->max) {
- 		int ret = nv50_dmac_wind(dmac);
- 		if (ret)
+ 	/* Find the native mode if this is a digital panel, if we didn't
 -- 
-2.34.1
+2.41.0
 
