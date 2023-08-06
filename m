@@ -1,59 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6805977150A
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 14:31:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB7E77151A
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 14:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25CFA10E0EF;
-	Sun,  6 Aug 2023 12:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6371C10E0FA;
+	Sun,  6 Aug 2023 12:48:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FEFA10E0EF;
- Sun,  6 Aug 2023 12:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691325076; x=1722861076;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=WG+jMRSs1giuugV7/S2AhBZlclIgxIwrnVuxY1rUKxk=;
- b=BCs3+kiehhqOrCpV/Z/f5S97PlFN1A6wYhpy6ORsv1eYKL5Qxvvcbzgc
- caO3EQuLYbuEeMlYMKK1o4x2RZZ2ybGuxHiuDNjA3QDr7lXngLWKdwt+Y
- +8I6GOPVC7kVJs09gOlIc6vTL4OBIxyjKGHVOfZ9YbtGiM2GL+VP96DJl
- Y//+dXqN5TZGthzUJHWOxEj7ReZbF9DQFMbhkLyceG2pN7nshgdvBA/mz
- foa8pbZC0ZNae8zSuHlP94ElxG8CAtWlg3+lOp05SjyGhQB/GbPJiUbSO
- AwbTJ0xClkBmPduyu3+FGQhHxL6ifQN8MzB7eaPd03L0W8Lejulfk84bE Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="434222194"
-X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; d="scan'208";a="434222194"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Aug 2023 05:31:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="760144574"
-X-IronPort-AV: E=Sophos;i="6.01,259,1684825200"; d="scan'208";a="760144574"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 06 Aug 2023 05:31:11 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qScub-0004Df-34;
- Sun, 06 Aug 2023 12:31:09 +0000
-Date: Sun, 6 Aug 2023 20:30:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 1/3] drm/display: add transparent bridge helper
-Message-ID: <202308062017.iKU92hML-lkp@intel.com>
-References: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
+X-Greylist: delayed 420 seconds by postgrey-1.36 at gabe;
+ Sun, 06 Aug 2023 12:48:57 UTC
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 822A110E0FA
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Aug 2023 12:48:57 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4RJfGT5mgkz9sRp;
+ Sun,  6 Aug 2023 14:41:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1691325713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l5bGuLQf0dzx5HPPTXqVXub5F3MX0e1mxf1U4l21018=;
+ b=z+Hk/sNqjFw8m42RjE6jdNzHuzeDK5sE0jbd9McQLT+rryR2TA7pyli7kH3pid9b+dRSoR
+ 9OG2cNKcz33xsuU+ArCqkJrUR5+KdQL59Y/J2LdoTJF/7unIQEfIzQFNY+mu/ivxsdAZg2
+ LecK6K8y2nctpJmmQi8/KH+G4vJpz4vwl5fFnoFpXCXtL+exXcKItJdm6L9NDGTpINq5l/
+ DL7rL4ABvoJpgDr4IwBfngBKr73e4cufOarpm/uLqYZXm0JPD0BCvuxESvxmudkp/9tVhj
+ uYOWCCm3kMWJMNNj/r34HEFa6XRvOcnwQ8FXnMV6frJcsEp/u+CDFx/eh2NqFQ==
+References: <20230426143213.4178586-4-macroalpha82@gmail.com>
+ <20230426143213.4178586-3-macroalpha82@gmail.com>
+ <20230426143213.4178586-2-macroalpha82@gmail.com>
+ <ZEk7NlMKKTIG8amo@qwark.sigxcpu.org> <8735352h0q.fsf@oltmanns.dev>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Guido =?utf-8?Q?G=C3=BCnther?= <guido.gunther@puri.sm>, Chris Morgan
+ <macroalpha82@gmail.com>
+Subject: Re: [PATCH V3 1/3] dt-bindings: panel: Add Anbernic RG353V-V2 panel
+ compatible
+In-reply-to: <8735352h0q.fsf@oltmanns.dev>
+Date: Sun, 06 Aug 2023 14:41:40 +0200
+Message-ID: <87leeo9wcb.fsf@oltmanns.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230802011845.4176631-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +59,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
- linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Chris,
+hi Guido,
 
-kernel test robot noticed the following build warnings:
+On 2023-06-06 at 08:12:36 +0200, Frank Oltmanns <frank@oltmanns.dev> wrote:
+> Hi Chris,
+> hi Guido,
+>
+> On 2023-04-26 at 16:54:46 +0200, Guido G=C3=BCnther <guido.gunther@puri.s=
+m> wrote:
+>> Hi Chris,
+>> could you check if these two modifications by Frank of the init sequence
+>>
+>>    https://lore.kernel.org/dri-devel/20230211171748.36692-2-frank@oltman=
+ns.dev/
+>>    https://lore.kernel.org/dri-devel/20230213123238.76889-2-frank@oltman=
+ns.dev/
+>>
+>> work for your panel too?
+>
+> I saw that Chris' patchset got accepted into drm-next, and I'm glad that
+> more panels will therefore work out of the box. But: Did anyone check if
+> the modifications I submitted in February and that Guido referenced
+> above work with the new panel?
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on usb/usb-testing usb/usb-next usb/usb-linus drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc4 next-20230804]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Chris, could you please check that the new rg353v-panel-v2 works with
+the changes I proposed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-add-transparent-bridge-helper/20230802-091932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230802011845.4176631-2-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v3 1/3] drm/display: add transparent bridge helper
-config: i386-randconfig-r072-20230806 (https://download.01.org/0day-ci/archive/20230806/202308062017.iKU92hML-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230806/202308062017.iKU92hML-lkp@intel.com/reproduce)
+Guido, could you please check that the jh057n00900 panel works with the
+changes I proposed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308062017.iKU92hML-lkp@intel.com/
+Without these patches the XBD599 panel does not work reliably, so in the
+long run it's desirable to include them in mainline. Currently, the only
+user of the XBD599 panel that I'm aware of is the pinephone. Therefore,
+all distributions supporting the pinephone rely on out-of-tree patches
+to support the XDB599 panel.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/display/drm_simple_bridge.c:118:25: sparse: sparse: symbol 'drm_simple_bridge_drv' was not declared. Should it be static?
+I'd appreciate if we could rectify this situation.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you both for your support,
+  Frank
+
+> Thanks,
+>   Frank
+>
+>> Cheers,
+>>  -- Guido
+>>
+>> On Wed, Apr 26, 2023 at 09:32:11AM -0500, Chris Morgan wrote:
+>>> From: Chris Morgan <macromorgan@hotmail.com>
+>>>
+>>> The Anbernic RG353V-V2 panel is a 3.5 inch 640x480 MIPI-DSI LCD panel.
+>>> It's based on the ST7703 LCD controller just like rocktech,jh057n00900.
+>>> It's used in a 2nd revision of the Anbernic RG353V handheld gaming
+>>> device. Like the first revision of the RG353V the control chip is known
+>>> but the panel itself is unknown, so name it for the device.
+>>>
+>>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> Acked-by: Guido G=C3=BCnther <agx@sigxcpu.org>
+>>> ---
+>>>  .../devicetree/bindings/display/panel/rocktech,jh057n00900.yaml | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,j=
+h057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,=
+jh057n00900.yaml
+>>> index 09b5eb7542f8..150e81090af2 100644
+>>> --- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00=
+900.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00=
+900.yaml
+>>> @@ -20,6 +20,8 @@ allOf:
+>>>  properties:
+>>>    compatible:
+>>>      enum:
+>>> +      # Anberic RG353V-V2 5.0" 640x480 TFT LCD panel
+>>> +      - anbernic,rg353v-panel-v2
+>>>        # Rocktech JH057N00900 5.5" 720x1440 TFT LCD panel
+>>>        - rocktech,jh057n00900
+>>>        # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
+>>> --
+>>> 2.34.1
+>>>
+>>
+>> On Wed, Apr 26, 2023 at 09:32:12AM -0500, Chris Morgan wrote:
+>>> From: Chris Morgan <macromorgan@hotmail.com>
+>>>
+>>> A later revision of the datasheet for the ST7703 refers to this command
+>>> as "SETECO".
+>>>
+>>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>>> Reviewed-by: Guido G=C3=BCnther <agx@sigxcpu.org>
+>>> ---
+>>>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 5 ++---
+>>>  1 file changed, 2 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gp=
+u/drm/panel/panel-sitronix-st7703.c
+>>> index 6747ca237ced..fc55b5fbb67f 100644
+>>> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+>>> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+>>> @@ -41,8 +41,8 @@
+>>>  #define ST7703_CMD_UNKNOWN_BF	 0xBF
+>>>  #define ST7703_CMD_SETSCR	 0xC0
+>>>  #define ST7703_CMD_SETPOWER	 0xC1
+>>> +#define ST7703_CMD_SETECO	 0xC6
+>>>  #define ST7703_CMD_SETPANEL	 0xCC
+>>> -#define ST7703_CMD_UNKNOWN_C6	 0xC6
+>>>  #define ST7703_CMD_SETGAMMA	 0xE0
+>>>  #define ST7703_CMD_SETEQ	 0xE3
+>>>  #define ST7703_CMD_SETGIP1	 0xE9
+>>> @@ -249,8 +249,7 @@ static int xbd599_init_sequence(struct st7703 *ctx)
+>>>  				      * ESD_DET_TIME_SEL =3D 0 frames
+>>>  				      */);
+>>>
+>>> -	/* Undocumented command. */
+>>> -	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_C6, 0x01, 0x00, 0xFF, =
+0xFF, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETECO, 0x01, 0x00, 0xFF, 0xFF=
+, 0x00);
+>>>
+>>>  	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER,
+>>>  			       0x74, /* VBTHS, VBTLS: VGH =3D 17V, VBL =3D -11V */
+>>> --
+>>> 2.34.1
+>>>
+>>
+>> On Wed, Apr 26, 2023 at 09:32:13AM -0500, Chris Morgan wrote:
+>>> From: Chris Morgan <macromorgan@hotmail.com>
+>>>
+>>> The Anbernic RG353V-V2 is a 5 inch panel used in a new revision of the
+>>> Anbernic RG353V handheld gaming device. Add support for it.
+>>>
+>>> Unfortunately it appears this controller is not able to support 120hz
+>>> or 100hz mode like the first revision panel.
+>>>
+>>> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+>>> Reviewed-by: Guido G=C3=BCnther <agx@sigxcpu.org>
+>>> ---
+>>>  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 97 +++++++++++++++++++
+>>>  1 file changed, 97 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gp=
+u/drm/panel/panel-sitronix-st7703.c
+>>> index fc55b5fbb67f..3aa31f3d6157 100644
+>>> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+>>> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+>>> @@ -28,6 +28,7 @@
+>>>  /* Manufacturer specific Commands send via DSI */
+>>>  #define ST7703_CMD_ALL_PIXEL_OFF 0x22
+>>>  #define ST7703_CMD_ALL_PIXEL_ON	 0x23
+>>> +#define ST7703_CMD_SETAPID	 0xB1
+>>>  #define ST7703_CMD_SETDISP	 0xB2
+>>>  #define ST7703_CMD_SETRGBIF	 0xB3
+>>>  #define ST7703_CMD_SETCYC	 0xB4
+>>> @@ -42,11 +43,14 @@
+>>>  #define ST7703_CMD_SETSCR	 0xC0
+>>>  #define ST7703_CMD_SETPOWER	 0xC1
+>>>  #define ST7703_CMD_SETECO	 0xC6
+>>> +#define ST7703_CMD_SETIO	 0xC7
+>>> +#define ST7703_CMD_SETCABC	 0xC8
+>>>  #define ST7703_CMD_SETPANEL	 0xCC
+>>>  #define ST7703_CMD_SETGAMMA	 0xE0
+>>>  #define ST7703_CMD_SETEQ	 0xE3
+>>>  #define ST7703_CMD_SETGIP1	 0xE9
+>>>  #define ST7703_CMD_SETGIP2	 0xEA
+>>> +#define ST7703_CMD_UNKNOWN_EF	 0xEF
+>>>
+>>>  struct st7703 {
+>>>  	struct device *dev;
+>>> @@ -337,6 +341,98 @@ static const struct st7703_panel_desc xbd599_desc =
+=3D {
+>>>  	.init_sequence =3D xbd599_init_sequence,
+>>>  };
+>>>
+>>> +static int rg353v2_init_sequence(struct st7703 *ctx)
+>>> +{
+>>> +	struct mipi_dsi_device *dsi =3D to_mipi_dsi_device(ctx->dev);
+>>> +
+>>> +	/*
+>>> +	 * Init sequence was supplied by the panel vendor.
+>>> +	 */
+>>> +
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEXTC, 0xf1, 0x12, 0x83);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETAPID, 0x00, 0x00, 0x00,
+>>> +			       0xda, 0x80);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETDISP, 0x00, 0x13, 0x70);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETRGBIF, 0x10, 0x10, 0x28,
+>>> +			       0x28, 0x03, 0xff, 0x00, 0x00, 0x00, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCYC, 0x80);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP, 0x0a, 0x0a);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM, 0x92, 0x92);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER_EXT, 0x25, 0x22,
+>>> +			       0xf0, 0x63);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETMIPI, 0x33, 0x81, 0x05,
+>>> +			       0xf9, 0x0e, 0x0e, 0x20, 0x00, 0x00, 0x00, 0x00,
+>>> +			       0x00, 0x00, 0x00, 0x44, 0x25, 0x00, 0x90, 0x0a,
+>>> +			       0x00, 0x00, 0x01, 0x4f, 0x01, 0x00, 0x00, 0x37);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVDC, 0x47);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_BF, 0x02, 0x11, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETSCR, 0x73, 0x73, 0x50, 0x50,
+>>> +			       0x00, 0x00, 0x12, 0x50, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPOWER, 0x53, 0xc0, 0x32,
+>>> +			       0x32, 0x77, 0xe1, 0xdd, 0xdd, 0x77, 0x77, 0x33,
+>>> +			       0x33);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETECO, 0x82, 0x00, 0xbf, 0xff,
+>>> +			       0x00, 0xff);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETIO, 0xb8, 0x00, 0x0a, 0x00,
+>>> +			       0x00, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETCABC, 0x10, 0x40, 0x1e,
+>>> +			       0x02);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETPANEL, 0x0b);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGAMMA, 0x00, 0x07, 0x0d,
+>>> +			       0x37, 0x35, 0x3f, 0x41, 0x44, 0x06, 0x0c, 0x0d,
+>>> +			       0x0f, 0x11, 0x10, 0x12, 0x14, 0x1a, 0x00, 0x07,
+>>> +			       0x0d, 0x37, 0x35, 0x3f, 0x41, 0x44, 0x06, 0x0c,
+>>> +			       0x0d, 0x0f, 0x11, 0x10, 0x12, 0x14, 0x1a);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETEQ, 0x07, 0x07, 0x0b, 0x0b,
+>>> +			       0x0b, 0x0b, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00,
+>>> +			       0xc0, 0x10);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP1, 0xc8, 0x10, 0x02, 0x0=
+0,
+>>> +			       0x00, 0xb0, 0xb1, 0x11, 0x31, 0x23, 0x28, 0x80,
+>>> +			       0xb0, 0xb1, 0x27, 0x08, 0x00, 0x04, 0x02, 0x00,
+>>> +			       0x00, 0x00, 0x00, 0x04, 0x02, 0x00, 0x00, 0x00,
+>>> +			       0x88, 0x88, 0xba, 0x60, 0x24, 0x08, 0x88, 0x88,
+>>> +			       0x88, 0x88, 0x88, 0x88, 0x88, 0xba, 0x71, 0x35,
+>>> +			       0x18, 0x88, 0x88, 0x88, 0x88, 0x88, 0x00, 0x00,
+>>> +			       0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>>> +			       0x00, 0x00, 0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETGIP2, 0x97, 0x0a, 0x82, 0x0=
+2,
+>>> +			       0x03, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>>> +			       0x81, 0x88, 0xba, 0x17, 0x53, 0x88, 0x88, 0x88,
+>>> +			       0x88, 0x88, 0x88, 0x80, 0x88, 0xba, 0x06, 0x42,
+>>> +			       0x88, 0x88, 0x88, 0x88, 0x88, 0x88, 0x23, 0x00,
+>>> +			       0x00, 0x02, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
+>>> +			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>>> +			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>>> +			       0x00);
+>>> +	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_UNKNOWN_EF, 0xff, 0xff, 0x01);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static const struct drm_display_mode rg353v2_mode =3D {
+>>> +	.hdisplay	=3D 640,
+>>> +	.hsync_start	=3D 640 + 40,
+>>> +	.hsync_end	=3D 640 + 40 + 2,
+>>> +	.htotal		=3D 640 + 40 + 2 + 80,
+>>> +	.vdisplay	=3D 480,
+>>> +	.vsync_start	=3D 480 + 18,
+>>> +	.vsync_end	=3D 480 + 18 + 2,
+>>> +	.vtotal		=3D 480 + 18 + 2 + 28,
+>>> +	.clock		=3D 24150,
+>>> +	.flags		=3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+>>> +	.width_mm	=3D 70,
+>>> +	.height_mm	=3D 57,
+>>> +};
+>>> +
+>>> +static const struct st7703_panel_desc rg353v2_desc =3D {
+>>> +	.mode =3D &rg353v2_mode,
+>>> +	.lanes =3D 4,
+>>> +	.mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+>>> +		      MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_LPM,
+>>> +	.format =3D MIPI_DSI_FMT_RGB888,
+>>> +	.init_sequence =3D rg353v2_init_sequence,
+>>> +};
+>>> +
+>>>  static int st7703_enable(struct drm_panel *panel)
+>>>  {
+>>>  	struct st7703 *ctx =3D panel_to_st7703(panel);
+>>> @@ -597,6 +693,7 @@ static void st7703_remove(struct mipi_dsi_device *d=
+si)
+>>>  }
+>>>
+>>>  static const struct of_device_id st7703_of_match[] =3D {
+>>> +	{ .compatible =3D "anbernic,rg353v-panel-v2", .data =3D &rg353v2_desc=
+ },
+>>>  	{ .compatible =3D "rocktech,jh057n00900", .data =3D &jh057n00900_pane=
+l_desc },
+>>>  	{ .compatible =3D "xingbangda,xbd599", .data =3D &xbd599_desc },
+>>>  	{ /* sentinel */ }
+>>> --
+>>> 2.34.1
+>>>
