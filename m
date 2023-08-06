@@ -1,68 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D298B7716D6
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 23:44:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7147A7716D3
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Aug 2023 23:44:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA1B10E13C;
-	Sun,  6 Aug 2023 21:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475A010E12B;
+	Sun,  6 Aug 2023 21:43:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 310 seconds by postgrey-1.36 at gabe;
- Sun, 06 Aug 2023 01:49:53 UTC
-Received: from mail03.siengine.com (unknown [43.240.192.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8297210E08F
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Aug 2023 01:49:53 +0000 (UTC)
-Received: from dsgsiengine01 ([10.8.1.61])
- by mail03.siengine.com with ESMTPS id 3761nZ2M067497
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
- for <dri-devel@lists.freedesktop.org>; Sun, 6 Aug 2023 09:49:35 +0800 (+08)
- (envelope-from lucas.liu@siengine.com)
-Received: from SEEXMB03-2019.siengine.com (SEEXMB03-2019.siengine.com
- [10.8.1.33])
- by dsgsiengine01 (SkyGuard) with ESMTPS id 4RJMnq0qZqz7ZMcb
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Aug 2023 09:49:35 +0800 (CST)
-Received: from SEEXMB04-2019.siengine.com (10.8.1.34) by
- SEEXMB03-2019.siengine.com (10.8.1.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.1258.16; Sun, 6 Aug 2023 09:49:34 +0800
-Received: from SEEXMB04-2019.siengine.com ([fe80::ebda:7f0d:8ee8:ab8f]) by
- SEEXMB04-2019.siengine.com ([fe80::ebda:7f0d:8ee8:ab8f%14]) with mapi id
- 15.02.1258.016; Sun, 6 Aug 2023 09:49:34 +0800
-From: =?utf-8?B?TGl1IEx1Y2FzL+WImOS/neafsQ==?= <lucas.liu@siengine.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: =?utf-8?B?6L2s5Y+ROiDlm57lpI06IOWbnuWkjTog5Zue5aSNOiBbUEFUQ0hdIGRybS9r?=
- =?utf-8?B?b21lZGE6IGRyb3AgYWxsIGN1cnJlbnRseSBoZWxkIGxvY2tzIGlmIGRlYWRs?=
- =?utf-8?Q?ock_happens?=
-Thread-Topic: =?utf-8?B?5Zue5aSNOiDlm57lpI06IOWbnuWkjTogW1BBVENIXSBkcm0va29tZWRhOiBk?=
- =?utf-8?B?cm9wIGFsbCBjdXJyZW50bHkgaGVsZCBsb2NrcyBpZiBkZWFkbG9jayBoYXBw?=
- =?utf-8?Q?ens?=
-Thread-Index: AQHZxFceerh+0I10wUeTAjPLHyYxZq/UpugAgACGfeD//5H/AIAAsfBQ//+qsoCAArNKAIAA1EcAgAEfEoCAAsUdwA==
-Date: Sun, 6 Aug 2023 01:49:34 +0000
-Message-ID: <460049acaae14eb59c973a9fb3cddc75@siengine.com>
-References: <20230801090355.10238-1-menghui.huang@siengine.com>
- <ZMjQxp210Kasy8aw@e110455-lin.cambridge.arm.com>
- <a5be110cc4fa4f23baaad8501e383d96@siengine.com>
- <ZMjlUC32nYO--UUT@e110455-lin.cambridge.arm.com>
- <7230624dc8884ac6ba213a79f39fe1b5@siengine.com>
- <ZMkzBSk0lihCtjFO@e110455-lin.cambridge.arm.com>
- <eb2598bd6d304550a44462490b97507a@siengine.com>
- <ZMwo_L0d_0oMeMRt@e110455-lin.cambridge.arm.com>
- <0213dbd34a6d4b05bfa14e2e3f29b1d9@siengine.com>
-In-Reply-To: <0213dbd34a6d4b05bfa14e2e3f29b1d9@siengine.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.20.20.14]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-Greylist: delayed 504 seconds by postgrey-1.36 at gabe;
+ Sun, 06 Aug 2023 10:05:54 UTC
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB98F10E0B6
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Aug 2023 10:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=t-8ch.de; s=mail;
+ t=1691315848; bh=UOudPQ3/CO6UhHrP74TKs9Fd6sG7RIO9+W6jZ5EZKi0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hwj4q8X/jYU7lMagWk7uy6UBEsuN65oXebuyeYiheicALLfN3o7K4Z0ZURgDjCwYp
+ DJtTf4THoC5fueJi3OLA5dixDLlNr/ptVHEIX9ei33PC+KHz+5+YZ6oCKgcWf9hqbG
+ TOu8w0t1iDFeYuRiOHRxzZceVolzOlXeboo9RsvI=
+Date: Sun, 6 Aug 2023 11:57:27 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+To: Julius Zint <julius@zint.sh>
+Subject: Re: [PATCH v2 1/1] backlight: hid_bl: Add VESA virtual control panel
+ HID backlight driver
+Message-ID: <c5795366-f018-431d-bea4-a7f7bcc39d9d@t-8ch.de>
+References: <20230806091403.10002-1-julius@zint.sh>
+ <20230806091403.10002-2-julius@zint.sh>
 MIME-Version: 1.0
-X-DKIM-Results: [10.8.1.61]; dkim=none;
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL: mail03.siengine.com 3761nZ2M067497
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230806091403.10002-2-julius@zint.sh>
 X-Mailman-Approved-At: Sun, 06 Aug 2023 21:43:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,281 +45,389 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCi0tLS0t6YKu5Lu25Y6f5Lu2LS0tLS0NCuWPkeS7tuS6ujogTGl1IEx1Y2FzL+WImOS/neaf
-sSANCuWPkemAgeaXtumXtDogMjAyM+W5tDjmnIg05pelIDE1OjQ3DQrmlLbku7bkuro6ICdMaXZp
-dSBEdWRhdScgPGxpdml1LmR1ZGF1QGFybS5jb20+DQrmioTpgIE6IEh1YW5nIE1lbmdodWkv6buE
-5qKm6L6JIDxtZW5naHVpLmh1YW5nQHNpZW5naW5lLmNvbT47IGFpcmxpZWRAZ21haWwuY29tOyBk
-YW5pZWxAZmZ3bGwuY2gNCuS4u+mimDog5Zue5aSNOiDlm57lpI06IOWbnuWkjTog5Zue5aSNOiBb
-UEFUQ0hdIGRybS9rb21lZGE6IGRyb3AgYWxsIGN1cnJlbnRseSBoZWxkIGxvY2tzIGlmIGRlYWRs
-b2NrIGhhcHBlbnMNCg0KSGkgTGl2aXUsDQoNCglJIGhhdmUgcmVzZW5kIHRoYXQgcGF0Y2ggYW5k
-IGNjIHRvIHRoZSBkcmktZGV2ZWwgbWFpbGluZyBsaXN0IHdoaWNoIHB1YmxpYyBpbmZvcm1hdGlv
-biBhYm91dCBpdCBjYW4gYmUgbG9va2VkIHVwIG5vdyAuIFBsZWFzZSB0cnkgdG8gZGVhbCB3aXRo
-IHRoaXMgcGF0Y2ggd2hlbiB5b3UgYXJlIGF2YWlsYWJsZS4NCg0KQmVzdCByZWdhcmRzLA0KDQot
-LS0tLemCruS7tuWOn+S7ti0tLS0tDQrlj5Hku7bkuro6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRh
-dUBhcm0uY29tPg0K5Y+R6YCB5pe26Ze0OiAyMDIz5bm0OOaciDTml6UgNjoyNA0K5pS25Lu25Lq6
-OiBMaXUgTHVjYXMv5YiY5L+d5p+xIDxsdWNhcy5saXVAc2llbmdpbmUuY29tPg0K5oqE6YCBOiBI
-dWFuZyBNZW5naHVpL+m7hOaipui+iSA8bWVuZ2h1aS5odWFuZ0BzaWVuZ2luZS5jb20+OyBhaXJs
-aWVkQGdtYWlsLmNvbTsgZGFuaWVsQGZmd2xsLmNoDQrkuLvpopg6IFJlOiDlm57lpI06IOWbnuWk
-jTog5Zue5aSNOiBbUEFUQ0hdIGRybS9rb21lZGE6IGRyb3AgYWxsIGN1cnJlbnRseSBoZWxkIGxv
-Y2tzIGlmIGRlYWRsb2NrIGhhcHBlbnMNCg0KT24gVGh1LCBBdWcgMDMsIDIwMjMgYXQgMDE6NDc6
-MDhBTSArMDAwMCwgTGl1IEx1Y2FzL+WImOS/neafsSB3cm90ZToNCj4gSGkgTGl2aXUsDQoNCkhp
-IExpdSwNCg0KPiAJSSByZXNlbmQgbXkgcGF0Y2ggdXNpbmcgdGhlIGVtYWlsIGFkZHJlc3Mgb2Yg
-Imh1YW5nbWVuZ2h1aSIgYW5kIGFkZCB0aGUgU2lnbmVkLW9mZi1ieSBvZiAiaHVhbmdtZW5naHVp
-Ii4gQ291bGQgeW91IHBsZWFzZSBjaGVjayB3aGV0aGVyIGl0IG1lZXRzIHRoZSByZXF1aXJlbWVu
-dD8NCg0KV2hlbiB0cnlpbmcgdG8gYXBwbHkgdGhlIHBhdGNoIHRvIGRybS1taXNjLW5leHQgdXNp
-bmcgdGhlIGRpbSB0b29sIEkndmUgcmVhbGlzZWQgdGhhdCB5b3UgaGF2ZSBuZXZlciBDYy1lZCBk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0Lg0KQmVjYXVzZSBvZiB0aGF0IEkgZG9uJ3QgaGF2ZSBhbnkg
-cHVibGljIHJlY29yZCBvZiB5b3VyIHBhdGNoIHRoYXQgSSBjYW4gbGluayBpbnRvLiBJZiB5b3Ug
-bG9vayBhdCB0aGUgY29tbWl0cyBpbiBkcml2ZXJzL2RybSwgdGhleSBhbGwgaGF2ZSBhICJMaW5r
-IiBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgdGhhdCBsZWFkcyB0byBhIHBhdGNod29yayBwYWdlIHdo
-ZXJlIHlvdSBjYW4gc2VlIHRoZSBwYXRjaCAoYW5kIHRoZSBkaXNjdXNzaW9ucyBpbiB0aGUgdGhy
-ZWFkKS4NCg0KWW91IGNhbiByZXNlbmQgdGhlIHBhdGNoIENjLWluZyBkcmktZGV2ZWwsIGhvd2V2
-ZXIgSSdtIGFib3V0IHRvIGdvIG9uIGhvbGlkYXkuIEkgd2lsbCBwcm9iYWJseSBjaGVjayBteSBl
-bWFpbHMgZnJvbSB0aW1lIHRvIHRpbWUgYnV0IEkgY2Fubm90IHByb21pc2UgdGhhdCBJJ20gZ29p
-bmcgdG8gbWVyZ2UgdGhlIHBhdGNoIHVudGlsIEknbSBiYWNrIG9uIDI4dGggb2YgQXVndXN0Lg0K
-DQpTb3JyeSBhYm91dCB0aGUgZGVsYXlzLg0KDQpCZXN0IHJlZ2FyZHMsDQpMaXZpdQ0KDQo+IA0K
-PiBCZXN0IHJlZ2FyZHMsDQo+IA0KPiAtLS0tLemCruS7tuWOn+S7ti0tLS0tDQo+IOWPkeS7tuS6
-ujogTGl2aXUgRHVkYXUgPGxpdml1LmR1ZGF1QGFybS5jb20+DQo+IOWPkemAgeaXtumXtDogMjAy
-M+W5tDjmnIgy5pelIDA6MzANCj4g5pS25Lu25Lq6OiBMaXUgTHVjYXMv5YiY5L+d5p+xIDxsdWNh
-cy5saXVAc2llbmdpbmUuY29tPg0KPiDmioTpgIE6IEh1YW5nIE1lbmdodWkv6buE5qKm6L6JIDxt
-ZW5naHVpLmh1YW5nQHNpZW5naW5lLmNvbT47IGFpcmxpZWRAZ21haWwuY29tOyANCj4gZGFuaWVs
-QGZmd2xsLmNoDQo+IOS4u+mimDogUmU6IOWbnuWkjTog5Zue5aSNOiBbUEFUQ0hdIGRybS9rb21l
-ZGE6IGRyb3AgYWxsIGN1cnJlbnRseSBoZWxkIGxvY2tzIGlmIA0KPiBkZWFkbG9jayBoYXBwZW5z
-DQo+IA0KPiBPbiBUdWUsIEF1ZyAwMSwgMjAyMyBhdCAwMTo0Mjo1OFBNICswMDAwLCBMaXUgTHVj
-YXMv5YiY5L+d5p+xIHdyb3RlOg0KPiA+IEhpIExpdml1LA0KPiA+IA0KPiA+IFRoZSBhdXRob3Ig
-b2YgdGhpcyBwYXRjaCBpcyBtZSwgYnV0IGl0IG5lZWRzIHRvIGFkZCB0aGUgc2lnbi1vZmYtYnkg
-dGFnIG9mIGh1YW5nIG1lbmdodWksIGFzIGZvbGxvd3M6DQo+ID4gU2lnbmVkLW9mZi1ieTogYmFv
-emh1LmxpdSA8bHVjYXMubGl1QHNpZW5naW5lLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBtZW5n
-aHVpLmh1YW5nPG1lbmdodWkuaHVhbmdAc2llbmdpbmUuY29tPg0KPiA+IENhbiBJIGFkZCB0d28g
-IlMtby1iIiBhdCB0aGUgc2FtZSB0aW1lPw0KPiANCj4gWWVzLg0KPiANCj4gPiBJbiB0aGF0IGNh
-c2UsIGFtIEkgc3RpbGwgdGhlIGF1dGhvciBvZiB0aGlzIHBhdGNoPw0KPiANCj4gWWVzLCB5b3Ug
-YXJlLCBhcyBsb25nIGFzIHlvdSBrZWVwIHRoZSAiRnJvbTogIiBsaW5lIGF0IHRoZSB0b3AuDQo+
-IA0KPiBBbHNvLCB0aGUgb3JkZXIgaXMgY29ycmVjdC4gRmlyc3QgUy1vLWIgaXMgZnJvbSBhdXRo
-b3IgKHlvdSksIG5leHQgUy1vLWIgaXMgZnJvbSB0aGUgc2VuZGVyIG9mIHRoZSBlbWFpbCAoSHVh
-bmcpLg0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBMaXZpdQ0KPiANCj4gPiANCj4gPiBCZXN0IHJl
-Z2FyZHMsDQo+ID4gLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0KPiA+IOWPkeS7tuS6ujogTGl2aXUg
-RHVkYXUgPGxpdml1LmR1ZGF1QGFybS5jb20+DQo+ID4g5Y+R6YCB5pe26Ze0OiAyMDIz5bm0OOac
-iDHml6UgMTg6NTgNCj4gPiDmlLbku7bkuro6IExpdSBMdWNhcy/liJjkv53mn7EgPGx1Y2FzLmxp
-dUBzaWVuZ2luZS5jb20+DQo+ID4g5oqE6YCBOiBIdWFuZyBNZW5naHVpL+m7hOaipui+iSA8bWVu
-Z2h1aS5odWFuZ0BzaWVuZ2luZS5jb20+OyANCj4gPiBhaXJsaWVkQGdtYWlsLmNvbTsgZGFuaWVs
-QGZmd2xsLmNoDQo+ID4g5Li76aKYOiBSZTog5Zue5aSNOiBbUEFUQ0hdIGRybS9rb21lZGE6IGRy
-b3AgYWxsIGN1cnJlbnRseSBoZWxkIGxvY2tzIGlmIA0KPiA+IGRlYWRsb2NrIGhhcHBlbnMNCj4g
-PiANCj4gPiBPbiBUdWUsIEF1ZyAwMSwgMjAyMyBhdCAwOTozOToyMkFNICswMDAwLCBMaXUgTHVj
-YXMv5YiY5L+d5p+xIHdyb3RlOg0KPiA+ID4gSGkgTGl2aXUgRHVkYXUgLA0KPiA+IA0KPiA+IEhp
-IExpdSwNCj4gPiANCj4gPiA+IA0KPiA+ID4gU2luY2UgdGhlcmUgd2FzIHNvbWUgcHJvYmxlbSB3
-aXRoIG15IGVtYWlsIGFjY291bnQgd2hlbiBnaXQgDQo+ID4gPiBzZW5kLWVtYWlsIHdhcyBzZW50
-LCBJIGJvcnJvd2VkIGh1YW5nIG1lbmdodWkncyBlbWFpbCBhZGRyZXNzIHRvIHNlbmQgaXQsIHNv
-IHRoZXJlIHdhcyBubyBuZWVkIHRvIGFkZCBoaXMgU2lnbmVkLW9mZi1ieSB0YWcuDQo+ID4gDQo+
-ID4gSSdtIGFmcmFpZCB0aGF0J3Mgbm90IGhvdyAnZ2l0IGFtJyB3b3JrcyBhbmQgSSBhbHNvIG5l
-ZWQgdG8gcHV0IGEgbGluayB0byBwYXRjaHdvcmsgdGhhdCB3aWxsIGFsc28gc2hvdyBhIGRpZmZl
-cmVudCBuYW1lIGZvciB0aGUgc3VibWl0dGVyLiBJZiB5b3UgbG9vayBpbnRvIERvY3VtZW50YXRp
-b24vcHJvY2Vzcy9zdWJtaXR0aW5nLXBhdGNoZXMucnN0LCBpdCBkb2VzIHN0YXRlIHVuZGVyICJT
-aWduIHlvdXIgd29yayAtIHRoZSBEZXZlbG9wZXIncyBDZXJ0aWZpY2F0ZSBvZiBPcmlnaW4iOg0K
-PiA+IA0KPiA+ICAgIEFueSBmdXJ0aGVyIFNvQnMgKFNpZ25lZC1vZmYtYnk6J3MpIGZvbGxvd2lu
-ZyB0aGUgYXV0aG9yJ3MgU29CIGFyZSBmcm9tDQo+ID4gICAgcGVvcGxlIGhhbmRsaW5nIGFuZCB0
-cmFuc3BvcnRpbmcgdGhlIHBhdGNoLCBidXQgd2VyZSBub3QgaW52b2x2ZWQgaW4gaXRzDQo+ID4g
-ICAgZGV2ZWxvcG1lbnQuIFNvQiBjaGFpbnMgc2hvdWxkIHJlZmxlY3QgdGhlICoqcmVhbCoqIHJv
-dXRlIGEgcGF0Y2ggdG9vaw0KPiA+ICAgIGFzIGl0IHdhcyBwcm9wYWdhdGVkIHRvIHRoZSBtYWlu
-dGFpbmVycyBhbmQgdWx0aW1hdGVseSB0byBMaW51cywgd2l0aA0KPiA+ICAgIHRoZSBmaXJzdCBT
-b0IgZW50cnkgc2lnbmFsbGluZyBwcmltYXJ5IGF1dGhvcnNoaXAgb2YgYSBzaW5nbGUgYXV0aG9y
-Lg0KPiA+IA0KPiA+IA0KPiA+IFNvIGlmIHlvdSBoYXZlIHVzZWQgSHVhbmcncyBlbWFpbCwgeW91
-IG5lZWQgaGlzIFMtby1iLiBBbHRlcm5hdGl2ZWx5LCByZXNlbmQgdGhlIHBhdGNoIGZyb20geW91
-ciBlbWFpbCBhZGRyZXNzLg0KPiA+IA0KPiA+IEJlc3QgcmVnYXJkcywNCj4gPiBMaXZpdQ0KPiA+
-IA0KPiA+ID4gDQo+ID4gPiBUaGFuayB5b3UgZm9yIHRoZSByZWNvZ25pdGlvbiBvZiB0aGlzIHBh
-dGNoLg0KPiA+ID4gDQo+ID4gPiAtLS0tLemCruS7tuWOn+S7ti0tLS0tDQo+ID4gPiDlj5Hku7bk
-uro6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPg0KPiA+ID4g5Y+R6YCB5pe26Ze0
-OiAyMDIz5bm0OOaciDHml6UgMTc6MzENCj4gPiA+IOaUtuS7tuS6ujogSHVhbmcgTWVuZ2h1aS/p
-u4TmoqbovokgPG1lbmdodWkuaHVhbmdAc2llbmdpbmUuY29tPg0KPiA+ID4g5oqE6YCBOiBhaXJs
-aWVkQGdtYWlsLmNvbTsgZGFuaWVsQGZmd2xsLmNoOyBMaXUgTHVjYXMv5YiY5L+d5p+xDQo+ID4g
-PiA8bHVjYXMubGl1QHNpZW5naW5lLmNvbT4NCj4gPiA+IOS4u+mimDogUmU6IFtQQVRDSF0gZHJt
-L2tvbWVkYTogZHJvcCBhbGwgY3VycmVudGx5IGhlbGQgbG9ja3MgaWYgDQo+ID4gPiBkZWFkbG9j
-ayBoYXBwZW5zDQo+ID4gPiANCj4gPiA+IE9uIFR1ZSwgQXVnIDAxLCAyMDIzIGF0IDA1OjAzOjU1
-UE0gKzA4MDAsIG1lbmdodWkuaHVhbmcgd3JvdGU6DQo+ID4gPiA+IEZyb206ICJiYW96aHUubGl1
-IiA8bHVjYXMubGl1QHNpZW5naW5lLmNvbT4NCj4gPiA+ID4gDQo+ID4gPiA+IElmIGtvbWVkYV9w
-aXBlbGluZV91bmJvdW5kX2NvbXBvbmVudHMoKSByZXR1cm5zIC1FREVBRExLLCBpdCANCj4gPiA+
-ID4gbWVhbnMgdGhhdCBhIGRlYWRsb2NrIGhhcHBlbmVkIGluIHRoZSBsb2NraW5nIGNvbnRleHQu
-DQo+ID4gPiA+IEN1cnJlbnRseSwga29tZWRhIGlzIG5vdCBkZWFsaW5nIHdpdGggdGhlIGRlYWRs
-b2NrIA0KPiA+ID4gPiBwcm9wZXJseSxwcm9kdWNpbmcgdGhlIGZvbGxvd2luZyBvdXRwdXQgd2hl
-biBDT05GSUdfREVCVUdfV1dfTVVURVhfU0xPV1BBVEggaXMgZW5hYmxlZDoNCj4gPiA+ID4gDQo+
-ID4gPiA+ICAtLS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0NCj4gPiA+ID4gWyAg
-IDI2LjEwMzk4NF0gV0FSTklORzogQ1BVOiAyIFBJRDogMzQ1IGF0IGRyaXZlcnMvZ3B1L2RybS9h
-cm0vZGlzcGxheS9rb21lZGEva29tZWRhX3BpcGVsaW5lX3N0YXRlLmM6MTI0OA0KPiA+ID4gPiAJ
-ICAgICAgIGtvbWVkYV9yZWxlYXNlX3VuY2xhaW1lZF9yZXNvdXJjZXMrMHgxM2MvMHgxNzANCj4g
-PiA+ID4gWyAgIDI2LjExNzQ1M10gTW9kdWxlcyBsaW5rZWQgaW46DQo+ID4gPiA+IFsgICAyNi4x
-MjA1MTFdIENQVTogMiBQSUQ6IDM0NSBDb21tOiBjb21wb3NlckAyLjEtc2UgS2R1bXA6IGxvYWRl
-ZCBUYWludGVkOiBHICAgVyAgNS4xMC4xMTAtU0UtU0RLMS44LWRpcnR5ICMxNg0KPiA+ID4gPiBb
-ICAgMjYuMTMxMzc0XSBIYXJkd2FyZSBuYW1lOiBTaWVuZ2luZSBTZTEwMDAgRXZhbHVhdGlvbiBi
-b2FyZCAoRFQpDQo+ID4gPiA+IFsgICAyNi4xMzczNzldIHBzdGF0ZTogMjA0MDAwMDkgKG56Q3Yg
-ZGFpZiArUEFOIC1VQU8gLVRDTyBCVFlQRT0tLSkNCj4gPiA+ID4gWyAgIDI2LjE0MzM4NV0gcGMg
-OiBrb21lZGFfcmVsZWFzZV91bmNsYWltZWRfcmVzb3VyY2VzKzB4MTNjLzB4MTcwDQo+ID4gPiA+
-IFsgICAyNi4xNDkzMDFdIGxyIDoga29tZWRhX3JlbGVhc2VfdW5jbGFpbWVkX3Jlc291cmNlcysw
-eGJjLzB4MTcwDQo+ID4gPiA+IFsgICAyNi4xNTUxMzBdIHNwIDogZmZmZjgwMDAxN2I4YjhkMA0K
-PiA+ID4gPiBbICAgMjYuMTU4NDQyXSBwbXJfc2F2ZTogMDAwMDAwZTANCj4gPiA+ID4gWyAgIDI2
-LjE2MTQ5M10geDI5OiBmZmZmODAwMDE3YjhiOGQwIHgyODogZmZmZjAwMGNmMmY5NjIwMA0KPiA+
-ID4gPiBbICAgMjYuMTY2ODA1XSB4Mjc6IGZmZmYwMDBjOGY1YTg4MDAgeDI2OiAwMDAwMDAwMDAw
-MDAwMDAwDQo+ID4gPiA+IFsgICAyNi4xNzIxMTZdIHgyNTogMDAwMDAwMDAwMDAwMDAzOCB4MjQ6
-IGZmZmY4MDAwMTE2YTAxNDANCj4gPiA+ID4gWyAgIDI2LjE3NzQyOF0geDIzOiAwMDAwMDAwMDAw
-MDAwMDM4IHgyMjogZmZmZjAwMGNmMmY5NjIwMA0KPiA+ID4gPiBbICAgMjYuMTgyNzM5XSB4MjE6
-IGZmZmYwMDBjZmMzMDAzMDAgeDIwOiBmZmZmMDAwYzhhYjc3MDgwDQo+ID4gPiA+IFsgICAyNi4x
-ODgwNTFdIHgxOTogMDAwMDAwMDAwMDAwMDAwMyB4MTg6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiA+
-ID4gWyAgIDI2LjE5MzM2Ml0geDE3OiAwMDAwMDAwMDAwMDAwMDAwIHgxNjogMDAwMDAwMDAwMDAw
-MDAwMA0KPiA+ID4gPiBbICAgMjYuMTk4NjcyXSB4MTU6IGI0MDBlNjM4ZjczOGJhMzggeDE0OiAw
-MDAwMDAwMDAwMDAwMDAwDQo+ID4gPiA+IFsgICAyNi4yMDM5ODNdIHgxMzogMDAwMDAwMDEwNjQw
-MGEwMCB4MTI6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiA+ID4gWyAgIDI2LjIwOTI5NF0geDExOiAw
-MDAwMDAwMDAwMDAwMDAwIHgxMDogMDAwMDAwMDAwMDAwMDAwMA0KPiA+ID4gPiBbICAgMjYuMjE0
-NjA0XSB4OSA6IGZmZmY4MDAwMTJmODAwMDAgeDggOiBmZmZmMDAwY2EzMzA4MDAwDQo+ID4gPiA+
-IFsgICAyNi4yMTk5MTVdIHg3IDogMDAwMDAwMGZmMzAwMDAwMCB4NiA6IGZmZmY4MDAwMTA4NDAz
-NGMNCj4gPiA+ID4gWyAgIDI2LjIyNTIyNl0geDUgOiBmZmZmODAwMDE3YjhiYzQwIHg0IDogMDAw
-MDAwMDAwMDAwMDAwZg0KPiA+ID4gPiBbICAgMjYuMjMwNTM2XSB4MyA6IGZmZmYwMDBjYTMzMDgw
-MDAgeDIgOiAwMDAwMDAwMDAwMDAwMDAwDQo+ID4gPiA+IFsgICAyNi4yMzU4NDddIHgxIDogMDAw
-MDAwMDAwMDAwMDAwMCB4MCA6IGZmZmZmZmZmZmZmZmZmZGQNCj4gPiA+ID4gWyAgIDI2LjI0MTE1
-OF0gQ2FsbCB0cmFjZToNCj4gPiA+ID4gWyAgIDI2LjI0MzYwNF0ga29tZWRhX3JlbGVhc2VfdW5j
-bGFpbWVkX3Jlc291cmNlcysweDEzYy8weDE3MA0KPiA+ID4gPiBbICAgMjYuMjQ5MTc1XSBrb21l
-ZGFfY3J0Y19hdG9taWNfY2hlY2srMHg2OC8weGYwDQo+ID4gPiA+IFsgICAyNi4yNTM3MDZdIGRy
-bV9hdG9taWNfaGVscGVyX2NoZWNrX3BsYW5lcysweDEzOC8weDFmNA0KPiA+ID4gPiBbICAgMjYu
-MjU4OTI5XSBrb21lZGFfa21zX2NoZWNrKzB4Mjg0LzB4MzZjDQo+ID4gPiA+IFsgICAyNi4yNjI5
-MzldIGRybV9hdG9taWNfY2hlY2tfb25seSsweDQwYy8weDcxNA0KPiA+ID4gPiBbICAgMjYuMjY3
-MzgxXSBkcm1fYXRvbWljX25vbmJsb2NraW5nX2NvbW1pdCsweDFjLzB4NjANCj4gPiA+ID4gWyAg
-IDI2LjI3MjM0NF0gZHJtX21vZGVfYXRvbWljX2lvY3RsKzB4YTNjLzB4YjhjDQo+ID4gPiA+IFsg
-ICAyNi4yNzY3ODddIGRybV9pb2N0bF9rZXJuZWwrMHhjNC8weDEyMA0KPiA+ID4gPiBbICAgMjYu
-MjgwNzA4XSBkcm1faW9jdGwrMHgyNjgvMHg1MzQNCj4gPiA+ID4gWyAgIDI2LjI4NDEwOV0gX19h
-cm02NF9zeXNfaW9jdGwrMHhhOC8weGYwDQo+ID4gPiA+IFsgICAyNi4yODgwMzBdIGVsMF9zdmNf
-Y29tbW9uLmNvbnN0cHJvcC4wKzB4ODAvMHgyNDANCj4gPiA+ID4gWyAgIDI2LjI5MjgxN10gZG9f
-ZWwwX3N2YysweDI0LzB4OTANCj4gPiA+ID4gWyAgIDI2LjI5NjEzMl0gZWwwX3N2YysweDIwLzB4
-MzANCj4gPiA+ID4gWyAgIDI2LjI5OTE4NV0gZWwwX3N5bmNfaGFuZGxlcisweGU4LzB4ZjANCj4g
-PiA+ID4gWyAgIDI2LjMwMzAxOF0gZWwwX3N5bmMrMHgxYTQvMHgxYzANCj4gPiA+ID4gWyAgIDI2
-LjMwNjMzMF0gaXJxIGV2ZW50IHN0YW1wOiAwDQo+ID4gPiA+IFsgICAyNi4zMDkzODRdIGhhcmRp
-cnFzIGxhc3QgIGVuYWJsZWQgYXQgKDApOiBbPDAwMDAwMDAwMDAwMDAwMDA+XSAweDANCj4gPiA+
-ID4gWyAgIDI2LjMxNTY1MF0gaGFyZGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoMCk6IFs8ZmZmZjgw
-MDAxMDA1NmQzND5dIGNvcHlfcHJvY2VzcysweDVkMC8weDE4M2MNCj4gPiA+ID4gWyAgIDI2LjMy
-MzgyNV0gc29mdGlycXMgbGFzdCAgZW5hYmxlZCBhdCAoMCk6IFs8ZmZmZjgwMDAxMDA1NmQzND5d
-IGNvcHlfcHJvY2VzcysweDVkMC8weDE4M2MNCj4gPiA+ID4gWyAgIDI2LjMzMTk5N10gc29mdGly
-cXMgbGFzdCBkaXNhYmxlZCBhdCAoMCk6IFs8MDAwMDAwMDAwMDAwMDAwMD5dIDB4MA0KPiA+ID4g
-PiBbICAgMjYuMzM4MjYxXSAtLS1bIGVuZCB0cmFjZSAyMGFlOTg0ZmE4NjAxODRhIF0tLS0NCj4g
-PiA+ID4gWyAgIDI2LjM0MzAyMV0gLS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0t
-DQo+ID4gPiA+IFsgICAyNi4zNDc2NDZdIFdBUk5JTkc6IENQVTogMyBQSUQ6IDM0NSBhdCBkcml2
-ZXJzL2dwdS9kcm0vZHJtX21vZGVzZXRfbG9jay5jOjIyOCBkcm1fbW9kZXNldF9kcm9wX2xvY2tz
-KzB4ODQvMHg5MA0KPiA+ID4gPiBbICAgMjYuMzU3NzI3XSBNb2R1bGVzIGxpbmtlZCBpbjoNCj4g
-PiA+ID4gWyAgIDI2LjM2MDc4M10gQ1BVOiAzIFBJRDogMzQ1IENvbW06IGNvbXBvc2VyQDIuMS1z
-ZSBLZHVtcDogbG9hZGVkIFRhaW50ZWQ6IEcgICBXICA1LjEwLjExMC1TRS1TREsxLjgtZGlydHkg
-IzE2DQo+ID4gPiA+IFsgICAyNi4zNzE2NDVdIEhhcmR3YXJlIG5hbWU6IFNpZW5naW5lIFNlMTAw
-MCBFdmFsdWF0aW9uIGJvYXJkIChEVCkNCj4gPiA+ID4gWyAgIDI2LjM3NzY0N10gcHN0YXRlOiAy
-MDQwMDAwOSAobnpDdiBkYWlmICtQQU4gLVVBTyAtVENPIEJUWVBFPS0tKQ0KPiA+ID4gPiBbICAg
-MjYuMzgzNjQ5XSBwYyA6IGRybV9tb2Rlc2V0X2Ryb3BfbG9ja3MrMHg4NC8weDkwDQo+ID4gPiA+
-IFsgICAyNi4zODgzNTFdIGxyIDogZHJtX21vZGVfYXRvbWljX2lvY3RsKzB4ODYwLzB4YjhjDQo+
-ID4gPiA+IFsgICAyNi4zOTMxMzddIHNwIDogZmZmZjgwMDAxN2I4YmIxMA0KPiA+ID4gPiBbICAg
-MjYuMzk2NDQ3XSBwbXJfc2F2ZTogMDAwMDAwZTANCj4gPiA+ID4gWyAgIDI2LjM5OTQ5N10geDI5
-OiBmZmZmODAwMDE3YjhiYjEwIHgyODogMDAwMDAwMDAwMDAwMDAwMQ0KPiA+ID4gPiBbICAgMjYu
-NDA0ODA3XSB4Mjc6IDAwMDAwMDAwMDAwMDAwMzggeDI2OiAwMDAwMDAwMDAwMDAwMDAyDQo+ID4g
-PiA+IFsgICAyNi40MTAxMTVdIHgyNTogZmZmZjAwMGNlY2JlZmEwMCB4MjQ6IGZmZmYwMDBjZjJm
-OTYyMDANCj4gPiA+ID4gWyAgIDI2LjQxNTQyM10geDIzOiAwMDAwMDAwMDAwMDAwMDAxIHgyMjog
-MDAwMDAwMDAwMDAwMDAxOA0KPiA+ID4gPiBbICAgMjYuNDIwNzMxXSB4MjE6IDAwMDAwMDAwMDAw
-MDAwMDEgeDIwOiBmZmZmODAwMDE3YjhiYzEwDQo+ID4gPiA+IFsgICAyNi40MjYwMzldIHgxOTog
-MDAwMDAwMDAwMDAwMDAwMCB4MTg6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiA+ID4gWyAgIDI2LjQz
-MTM0N10geDE3OiAwMDAwMDAwMDAyZThiZjJjIHgxNjogMDAwMDAwMDAwMmU5NGM2Yg0KPiA+ID4g
-PiBbICAgMjYuNDM2NjU1XSB4MTU6IDAwMDAwMDAwMDJlYTQ4YjkgeDE0OiBmZmZmODAwMDEyMWYw
-MzAwDQo+ID4gPiA+IFsgICAyNi40NDE5NjNdIHgxMzogMDAwMDAwMDAwMmVlMmNhOCB4MTI6IGZm
-ZmY4MDAwMTEyOWNhZTANCj4gPiA+ID4gWyAgIDI2LjQ0NzI3Ml0geDExOiBmZmZmODAwMDEyNDM1
-MDAwIHgxMDogZmZmZjAwMGVkNDZiNWU4OA0KPiA+ID4gPiBbICAgMjYuNDUyNTgwXSB4OSA6IGZm
-ZmYwMDBjOTkzNWU2MDAgeDggOiAwMDAwMDAwMDAwMDAwMDAwDQo+ID4gPiA+IFsgICAyNi40NTc4
-ODhdIHg3IDogMDAwMDAwMDA4MDIwMDAxZSB4NiA6IDAwMDAwMDAwODAyMDAwMWYNCj4gPiA+ID4g
-WyAgIDI2LjQ2MzE5Nl0geDUgOiBmZmZmODAwMDEwODVmYmUwIHg0IDogZmZmZmZlMDAzM2E1OWYy
-MA0KPiA+ID4gPiBbICAgMjYuNDY4NTA0XSB4MyA6IDAwMDAwMDAwODAyMDAwMWUgeDIgOiAwMDAw
-MDAwMDAwMDAwMDAwDQo+ID4gPiA+IFsgICAyNi40NzM4MTNdIHgxIDogMDAwMDAwMDAwMDAwMDAw
-MCB4MCA6IGZmZmYwMDBjOGY1OTYwOTANCj4gPiA+ID4gWyAgIDI2LjQ3OTEyMl0gQ2FsbCB0cmFj
-ZToNCj4gPiA+ID4gWyAgIDI2LjQ4MTU2Nl0gZHJtX21vZGVzZXRfZHJvcF9sb2NrcysweDg0LzB4
-OTANCj4gPiA+ID4gWyAgIDI2LjQ4NTkxOF0gZHJtX21vZGVfYXRvbWljX2lvY3RsKzB4ODYwLzB4
-YjhjDQo+ID4gPiA+IFsgICAyNi40OTAzNTldIGRybV9pb2N0bF9rZXJuZWwrMHhjNC8weDEyMA0K
-PiA+ID4gPiBbICAgMjYuNDk0Mjc4XSBkcm1faW9jdGwrMHgyNjgvMHg1MzQNCj4gPiA+ID4gWyAg
-IDI2LjQ5NzY3N10gX19hcm02NF9zeXNfaW9jdGwrMHhhOC8weGYwDQo+ID4gPiA+IFsgICAyNi41
-MDE1OThdIGVsMF9zdmNfY29tbW9uLmNvbnN0cHJvcC4wKzB4ODAvMHgyNDANCj4gPiA+ID4gWyAg
-IDI2LjUwNjM4NF0gZG9fZWwwX3N2YysweDI0LzB4OTANCj4gPiA+ID4gWyAgIDI2LjUwOTY5N10g
-ZWwwX3N2YysweDIwLzB4MzANCj4gPiA+ID4gWyAgIDI2LjUxMjc0OF0gZWwwX3N5bmNfaGFuZGxl
-cisweGU4LzB4ZjANCj4gPiA+ID4gWyAgIDI2LjUxNjU4MF0gZWwwX3N5bmMrMHgxYTQvMHgxYzAN
-Cj4gPiA+ID4gWyAgIDI2LjUxOTg5MV0gaXJxIGV2ZW50IHN0YW1wOiAwDQo+ID4gPiA+IFsgICAy
-Ni41MjI5NDNdIGhhcmRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDApOiBbPDAwMDAwMDAwMDAwMDAw
-MDA+XSAweDANCj4gPiA+ID4gWyAgIDI2LjUyOTIwN10gaGFyZGlycXMgbGFzdCBkaXNhYmxlZCBh
-dCAoMCk6IFs8ZmZmZjgwMDAxMDA1NmQzND5dIGNvcHlfcHJvY2VzcysweDVkMC8weDE4M2MNCj4g
-PiA+ID4gWyAgIDI2LjUzNzM3OV0gc29mdGlycXMgbGFzdCAgZW5hYmxlZCBhdCAoMCk6IFs8ZmZm
-ZjgwMDAxMDA1NmQzND5dIGNvcHlfcHJvY2VzcysweDVkMC8weDE4M2MNCj4gPiA+ID4gWyAgIDI2
-LjU0NTU1MF0gc29mdGlycXMgbGFzdCBkaXNhYmxlZCBhdCAoMCk6IFs8MDAwMDAwMDAwMDAwMDAw
-MD5dIDB4MA0KPiA+ID4gPiBbICAgMjYuNTUxODEyXSAtLS1bIGVuZCB0cmFjZSAyMGFlOTg0ZmE4
-NjAxODRiIF0tLS0NCj4gPiA+ID4gDQo+ID4gPiA+IEFjY29yZGluZyB0byB0aGUgY2FsbCB0cmFj
-ZSBpbmZvcm1hdGlvbiwgaXQgY2FuIGJlIGxvY2F0ZWQgdG8gYmUNCj4gPiA+ID4gV0FSTl9PTihJ
-U19FUlIoY19zdCkpIGluIHRoZSBrb21lZGFfcGlwZWxpbmVfdW5ib3VuZF9jb21wb25lbnRzIGZ1
-bmN0aW9uOyBUaGVuIGZvbGxvdyB0aGUgZnVuY3Rpb24uDQo+ID4gPiA+IGtvbWVkYV9waXBlbGlu
-ZV91bmJvdW5kX2NvbXBvbmVudHMNCj4gPiA+ID4gLT4ga29tZWRhX2NvbXBvbmVudF9nZXRfc3Rh
-dGVfYW5kX3NldF91c2VyDQo+ID4gPiA+ICAgLT4ga29tZWRhX3BpcGVsaW5lX2dldF9zdGF0ZV9h
-bmRfc2V0X2NydGMNCj4gPiA+ID4gICAgIC0+IGtvbWVkYV9waXBlbGluZV9nZXRfc3RhdGUNCj4g
-PiA+ID4gICAgICAgLT5kcm1fYXRvbWljX2dldF9wcml2YXRlX29ial9zdGF0ZQ0KPiA+ID4gPiAg
-ICAgICAgIC0+IGRybV9hdG9taWNfZ2V0X3ByaXZhdGVfb2JqX3N0YXRlDQo+ID4gPiA+ICAgICAg
-ICAgICAtPiBkcm1fbW9kZXNldF9sb2NrDQo+ID4gPiA+IA0KPiA+ID4gPiBrb21lZGFfcGlwZWxp
-bmVfdW5ib3VuZF9jb21wb25lbnRzDQo+ID4gPiA+IC0+IGtvbWVkYV9jb21wb25lbnRfZ2V0X3N0
-YXRlX2FuZF9zZXRfdXNlcg0KPiA+ID4gPiAgIC0+IGtvbWVkYV9jb21wb25lbnRfZ2V0X3N0YXRl
-DQo+ID4gPiA+ICAgICAtPiBkcm1fYXRvbWljX2dldF9wcml2YXRlX29ial9zdGF0ZQ0KPiA+ID4g
-PiAgICAgIC0+IGRybV9tb2Rlc2V0X2xvY2sNCj4gPiA+ID4gDQo+ID4gPiA+IHJldCA9IGRybV9t
-b2Rlc2V0X2xvY2soJm9iai0+bG9jaywgc3RhdGUtPmFjcXVpcmVfY3R4KTsgaWYgKHJldCkNCj4g
-PiA+ID4gCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ID4gPiA+IEhlcmUgaXQgcmV0dXJuIC1FREVB
-RExLLg0KPiA+ID4gPiANCj4gPiA+ID4gZGVhbCB3aXRoIHRoZSBkZWFkbG9jayBhcyBzdWdnZXN0
-ZWQgYnkgWzFdLCB1c2luZyB0aGUgZnVuY3Rpb24gDQo+ID4gPiA+IGRybV9tb2Rlc2V0X2JhY2tv
-ZmYoKS4NCj4gPiA+ID4gWzFdDQo+ID4gPiA+IGh0dHBzOi8vZG9jcy5rZXJuZWwub3JnL2dwdS9k
-cm0ta21zLmh0bWw/aGlnaGxpZ2h0PWttcyNrbXMtbG9ja2kNCj4gPiA+ID4gbmcNCj4gPiA+ID4g
-DQo+ID4gPiA+IFRoZXJlZm9yZSwgaGFuZGxpbmcgdGhpcyBwcm9ibGVtIGNhbiBiZSBzb2x2ZWQg
-YnkgYWRkaW5nIHJldHVybiANCj4gPiA+ID4gLUVERUFETEsgYmFjayB0byB0aGUgZHJtX21vZGVz
-ZXRfYmFja29mZiBwcm9jZXNzaW5nIGZsb3cgaW4gdGhlIA0KPiA+ID4gPiBkcm1fbW9kZV9hdG9t
-aWNfaW9jdGwgZnVuY3Rpb24uDQo+ID4gPiA+IA0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBiYW96
-aHUubGl1IDxsdWNhcy5saXVAc2llbmdpbmUuY29tPg0KPiA+ID4gDQo+ID4gPiBIaSBNZW5naHVp
-LA0KPiA+ID4gDQo+ID4gPiBDYW4geW91IGFkZCB5b3VyIFNpZ25lZC1vZmYtYnkgdGFnIGFzIHdl
-bGw/IFdpdGggdGhhdCB1cGRhdGVkLCBJIHdpbGwgcHVsbCB0aGUgcGF0Y2ggaW50byBkcm0tbWlz
-Yy1uZXh0IGJ5IEZyaWRheS4NCj4gPiA+IA0KPiA+ID4gQmVzdCByZWdhcmRzLA0KPiA+ID4gTGl2
-aXUNCj4gPiA+IA0KPiA+ID4gPiBSZXZpZXdlZC1ieTogTGl2aXUgRHVkYXUgPGxpdml1LmR1ZGF1
-QGFybS5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiAgLi4uL2dwdS9kcm0vYXJtL2Rpc3BsYXkv
-a29tZWRhL2tvbWVkYV9waXBlbGluZV9zdGF0ZS5jICAgfCA5ICsrKysrKy0tLQ0KPiA+ID4gPiAg
-MSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4gPiA+ID4g
-DQo+ID4gPiA+IGRpZmYgLS1naXQNCj4gPiA+ID4gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3Bs
-YXkva29tZWRhL2tvbWVkYV9waXBlbGluZV9zdGF0ZS5jDQo+ID4gPiA+IGIvZHJpdmVycy9ncHUv
-ZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGlwZWxpbmVfc3RhdGUuYw0KPiA+ID4gPiBp
-bmRleCAzMjc2YTNlODJjNjIuLjkxNmYyYzM2YmYyZiAxMDA2NDQNCj4gPiA+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGlwZWxpbmVfc3RhdGUuYw0K
-PiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9w
-aXBlbGluZV9zdGF0ZS5jDQo+ID4gPiA+IEBAIC0xMjIzLDcgKzEyMjMsNyBAQCBpbnQga29tZWRh
-X2J1aWxkX2Rpc3BsYXlfZGF0YV9mbG93KHN0cnVjdCBrb21lZGFfY3J0YyAqa2NydGMsDQo+ID4g
-PiA+ICAJcmV0dXJuIDA7DQo+ID4gPiA+ICB9DQo+ID4gPiA+ICANCj4gPiA+ID4gLXN0YXRpYyB2
-b2lkDQo+ID4gPiA+ICtzdGF0aWMgaW50DQo+ID4gPiA+ICBrb21lZGFfcGlwZWxpbmVfdW5ib3Vu
-ZF9jb21wb25lbnRzKHN0cnVjdCBrb21lZGFfcGlwZWxpbmUgKnBpcGUsDQo+ID4gPiA+ICAJCQkJ
-ICAgc3RydWN0IGtvbWVkYV9waXBlbGluZV9zdGF0ZSAqbmV3KSAgeyBAQCAtMTI0Myw4DQo+ID4g
-PiA+ICsxMjQzLDEyIEBAIGtvbWVkYV9waXBlbGluZV91bmJvdW5kX2NvbXBvbmVudHMoc3RydWN0
-IA0KPiA+ID4gPiAra29tZWRhX3BpcGVsaW5lICpwaXBlLA0KPiA+ID4gPiAgCQljID0ga29tZWRh
-X3BpcGVsaW5lX2dldF9jb21wb25lbnQocGlwZSwgaWQpOw0KPiA+ID4gPiAgCQljX3N0ID0ga29t
-ZWRhX2NvbXBvbmVudF9nZXRfc3RhdGVfYW5kX3NldF91c2VyKGMsDQo+ID4gPiA+ICAJCQkJZHJt
-X3N0LCBOVUxMLCBuZXctPmNydGMpOw0KPiA+ID4gPiArCQlpZiAoUFRSX0VSUihjX3N0KSA9PSAt
-RURFQURMSykNCj4gPiA+ID4gKwkJCXJldHVybiAtRURFQURMSzsNCj4gPiA+ID4gIAkJV0FSTl9P
-TihJU19FUlIoY19zdCkpOw0KPiA+ID4gPiAgCX0NCj4gPiA+ID4gKw0KPiA+ID4gPiArCXJldHVy
-biAwOw0KPiA+ID4gPiAgfQ0KPiA+ID4gPiAgDQo+ID4gPiA+ICAvKiByZWxlYXNlIHVuY2xhaW1l
-ZCBwaXBlbGluZSByZXNvdXJjZSAqLyBAQCAtMTI2Niw5ICsxMjcwLDggQEAgDQo+ID4gPiA+IGlu
-dCBrb21lZGFfcmVsZWFzZV91bmNsYWltZWRfcmVzb3VyY2VzKHN0cnVjdCBrb21lZGFfcGlwZWxp
-bmUgKnBpcGUsDQo+ID4gPiA+ICAJaWYgKFdBUk5fT04oSVNfRVJSX09SX05VTEwoc3QpKSkNCj4g
-PiA+ID4gIAkJcmV0dXJuIC1FSU5WQUw7DQo+ID4gPiA+ICANCj4gPiA+ID4gLQlrb21lZGFfcGlw
-ZWxpbmVfdW5ib3VuZF9jb21wb25lbnRzKHBpcGUsIHN0KTsNCj4gPiA+ID4gKwlyZXR1cm4ga29t
-ZWRhX3BpcGVsaW5lX3VuYm91bmRfY29tcG9uZW50cyhwaXBlLCBzdCk7DQo+ID4gPiA+ICANCj4g
-PiA+ID4gLQlyZXR1cm4gMDsNCj4gPiA+ID4gIH0NCj4gPiA+ID4gIA0KPiA+ID4gPiAgLyogU2lu
-Y2Ugc3RhbmRhbG9uZSBkaXNhYmxlZCBjb21wb25lbnRzIG11c3QgYmUgZGlzYWJsZWQgDQo+ID4g
-PiA+IHNlcGFyYXRlbHkgYW5kIGluIHRoZQ0KPiA+ID4gPiAtLQ0KPiA+ID4gPiAyLjE3LjENCj4g
-PiA+ID4gDQo+ID4gPiANCj4gPiA+IC0tDQo+ID4gPiA9PT09PT09PT09PT09PT09PT09PQ0KPiA+
-ID4gfCBJIHdvdWxkIGxpa2UgdG8gfA0KPiA+ID4gfCBmaXggdGhlIHdvcmxkLCAgfA0KPiA+ID4g
-fCBidXQgdGhleSdyZSBub3QgfA0KPiA+ID4gfCBnaXZpbmcgbWUgdGhlICAgfA0KPiA+ID4gIFwg
-c291cmNlIGNvZGUhICAvDQo+ID4gPiAgIC0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gICAgIMKvXF8o
-44OEKV8vwq8NCj4gPiANCj4gPiAtLQ0KPiA+ID09PT09PT09PT09PT09PT09PT09DQo+ID4gfCBJ
-IHdvdWxkIGxpa2UgdG8gfA0KPiA+IHwgZml4IHRoZSB3b3JsZCwgIHwNCj4gPiB8IGJ1dCB0aGV5
-J3JlIG5vdCB8DQo+ID4gfCBnaXZpbmcgbWUgdGhlICAgfA0KPiA+ICBcIHNvdXJjZSBjb2RlISAg
-Lw0KPiA+ICAgLS0tLS0tLS0tLS0tLS0tDQo+ID4gICAgIMKvXF8o44OEKV8vwq8NCj4gDQo+IC0t
-DQo+ID09PT09PT09PT09PT09PT09PT09DQo+IHwgSSB3b3VsZCBsaWtlIHRvIHwNCj4gfCBmaXgg
-dGhlIHdvcmxkLCAgfA0KPiB8IGJ1dCB0aGV5J3JlIG5vdCB8DQo+IHwgZ2l2aW5nIG1lIHRoZSAg
-IHwNCj4gIFwgc291cmNlIGNvZGUhICAvDQo+ICAgLS0tLS0tLS0tLS0tLS0tDQo+ICAgICDCr1xf
-KOODhClfL8KvDQoNCi0tDQo9PT09PT09PT09PT09PT09PT09PQ0KfCBJIHdvdWxkIGxpa2UgdG8g
-fA0KfCBmaXggdGhlIHdvcmxkLCAgfA0KfCBidXQgdGhleSdyZSBub3QgfA0KfCBnaXZpbmcgbWUg
-dGhlICAgfA0KIFwgc291cmNlIGNvZGUhICAvDQogIC0tLS0tLS0tLS0tLS0tLQ0KICAgIMKvXF8o
-44OEKV8vwq8NCg==
+Hi,
+
+this should probably also go to the maintainers of the "HID CORE LAYER"
+for review:
+
+HID CORE LAYER
+M:	Jiri Kosina <jikos@kernel.org>
+M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+L:	linux-input@vger.kernel.org
+
+And maybe it would better fit to be in  drivers/hid/ ?
+(Something for the maintainers to figure out)
+
+Some tiny review comments inline.
+
+On 2023-08-06 11:14:03+0200, Julius Zint wrote:
+> The HID spec defines the following Usage IDs (p. 345 ff):
+> 
+> - Monitor Page (0x80) -> Monitor Control (0x01)
+> - VESA Virtual Controls Page (0x82) -> Brightness (0x10)
+> 
+> Apple made use of them in their Apple Studio Display and most likely on
+> other external displays (LG UltraFine 5k, Pro Display XDR).
+> 
+> The driver will work for any HID device with a report, where the
+> application matches the Monitor Control Usage ID and:
+> 
+> 1. An Input field in this report with the Brightness Usage ID (to get
+>    the current brightness)
+> 2. A Feature field in this report with the Brightness Usage ID (to
+>    set the current brightness)
+> 
+> This driver has been developed and tested with the Apple Studio Display.
+> Here is a small excerpt from the decoded HID descriptor showing the
+> feature field for setting the brightness:
+> 
+>   Usage Page (Monitor VESA VCP),  ; Monitor VESA VPC (82h, monitor page)
+>   Usage (10h, Brightness),
+>   Logical Minimum (400),
+>   Logical Maximum (60000),
+>   Unit (Centimeter^-2 * Candela),
+>   Unit Exponent (14),
+>   Report Size (32),
+>   Report Count (1),
+>   Feature (Variable, Null State),
+> 
+> The full HID descriptor dump is available as a comment in the source
+> code.
+> 
+> Signed-off-by: Julius Zint <julius@zint.sh>
+> ---
+>  drivers/video/backlight/Kconfig  |   8 +
+>  drivers/video/backlight/Makefile |   1 +
+>  drivers/video/backlight/hid_bl.c | 267 +++++++++++++++++++++++++++++++
+>  3 files changed, 276 insertions(+)
+>  create mode 100644 drivers/video/backlight/hid_bl.c
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index 51387b1ef012..b964a820956d 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -472,6 +472,14 @@ config BACKLIGHT_LED
+>  	  If you have a LCD backlight adjustable by LED class driver, say Y
+>  	  to enable this driver.
+>  
+> +config BACKLIGHT_HID
+> +	tristate "VESA VCP HID Backlight Driver"
+> +	depends on HID
+> +	help
+> +	  If you have an external display with VESA compliant HID brightness
+> +	  controls then say Y to enable this backlight driver. Currently the
+> +	  only supported device is the Apple Studio Display.
+> +
+>  endif # BACKLIGHT_CLASS_DEVICE
+>  
+>  endmenu
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index f72e1c3c59e9..835f9b8772c7 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -58,3 +58,4 @@ obj-$(CONFIG_BACKLIGHT_WM831X)		+= wm831x_bl.o
+>  obj-$(CONFIG_BACKLIGHT_ARCXCNN) 	+= arcxcnn_bl.o
+>  obj-$(CONFIG_BACKLIGHT_RAVE_SP)		+= rave-sp-backlight.o
+>  obj-$(CONFIG_BACKLIGHT_LED)		+= led_bl.o
+> +obj-$(CONFIG_BACKLIGHT_HID)		+= hid_bl.o
+> diff --git a/drivers/video/backlight/hid_bl.c b/drivers/video/backlight/hid_bl.c
+> new file mode 100644
+> index 000000000000..1b9cbaa1551c
+> --- /dev/null
+> +++ b/drivers/video/backlight/hid_bl.c
+> @@ -0,0 +1,267 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include <linux/device.h>
+> +#include <linux/hid.h>
+> +#include <linux/module.h>
+> +#include <linux/backlight.h>
+> +
+> +#define APPLE_STUDIO_DISPLAY_VENDOR_ID  0x05ac
+> +#define APPLE_STUDIO_DISPLAY_PRODUCT_ID 0x1114
+> +
+> +#define HID_USAGE_MONITOR_CTRL			0x800001
+> +#define HID_USAGE_VESA_VCP_BRIGHTNESS		0x820010
+> +
+> +/*
+> + * Apple Studio Display HID report descriptor
+> + *
+> + * Usage Page (Monitor),               ; USB monitor (80h, monitor page)
+> + * Usage (01h),
+> + * Collection (Application),
+> + *     Report ID (1),
+> + *
+> + *     Usage Page (Monitor VESA VCP),  ; Monitor VESA virtual control panel (82h, monitor page)
+> + *     Usage (10h, Brightness),
+> + *     Logical Minimum (400),
+> + *     Logical Maximum (60000),
+> + *     Unit (Centimeter^-2 * Candela),
+> + *     Unit Exponent (14),
+> + *     Report Size (32),
+> + *     Report Count (1),
+> + *     Feature (Variable, Null State),
+> + *
+> + *     Usage Page (PID),               ; Physical interface device (0Fh)
+> + *     Usage (50h),
+> + *     Logical Minimum (0),
+> + *     Logical Maximum (20000),
+> + *     Unit (1001h),
+> + *     Unit Exponent (13),
+> + *     Report Size (16),
+> + *     Feature (Variable, Null State),
+> + *
+> + *     Usage Page (Monitor VESA VCP),  ; Monitor VESA virtual control panel (82h, monitor page)
+> + *     Usage (10h, Brightness),
+> + *     Logical Minimum (400),
+> + *     Logical Maximum (60000),
+> + *     Unit (Centimeter^-2 * Candela),
+> + *     Unit Exponent (14),
+> + *     Report Size (32),
+> + *     Report Count (1),
+> + *     Input (Variable),
+> + * End Collection
+> + */
+> +
+> +struct hid_bl_data {
+> +	struct hid_device *hdev;
+> +	unsigned int min_brightness;
+> +	unsigned int max_brightness;
+> +	struct hid_field *input_field;
+> +	struct hid_field *feature_field;
+> +};
+> +
+> +static struct hid_field *hid_get_usage_field(struct hid_device *hdev,
+> +					     unsigned int report_type,
+> +					     unsigned int application, unsigned int usage)
+> +{
+> +	struct hid_report_enum *re = &hdev->report_enum[report_type];
+> +	struct hid_report *report;
+> +	int i, j;
+> +
+> +	list_for_each_entry(report, &re->report_list, list) {
+> +		if (report->application != application)
+> +			continue;
+> +
+> +		for (i = 0; i < report->maxfield; i++) {
+> +			struct hid_field *field = report->field[i];
+> +
+> +			for (j = 0; j < field->maxusage; j++)
+> +				if (field->usage[j].hid == usage)
+> +					return field;
+> +		}
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static void hid_bl_remove(struct hid_device *hdev)
+> +{
+> +	struct backlight_device *bl;
+> +	struct hid_bl_data *data;
+> +
+> +	hid_dbg(hdev, "remove\n");
+> +	bl = hid_get_drvdata(hdev);
+> +	data = bl_get_data(bl);
+> +
+> +	devm_backlight_device_unregister(&hdev->dev, bl);
+> +	hid_hw_close(hdev);
+> +	hid_hw_stop(hdev);
+> +	hid_set_drvdata(hdev, NULL);
+> +	devm_kfree(&hdev->dev, data);
+
+Are these explicit devm_ cleanups needed, shouldn't the driver core take
+care of it?
+I'm not sure myself.
+
+> +}
+> +
+> +static int hid_get_brightness(struct hid_bl_data *data)
+> +{
+> +	struct hid_field *field;
+> +	int result;
+> +
+> +	field = data->input_field;
+> +	hid_hw_request(data->hdev, field->report, HID_REQ_GET_REPORT);
+> +	hid_hw_wait(data->hdev);
+> +	result = *field->new_value;
+> +	hid_dbg(data->hdev, "get brightness: %d\n", result);
+> +
+> +	return result;
+> +}
+> +
+> +static int hid_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct hid_bl_data *data;
+> +	int brightness;
+> +
+> +	data = bl_get_data(bl);
+> +	brightness = hid_get_brightness(data);
+> +	return brightness - data->min_brightness;
+> +}
+> +
+> +static void hid_set_brightness(struct hid_bl_data *data, int brightness)
+
+Some functions are using the generic hid_ prefix instead of the more
+specific hid_bl_, is that intentional?
+
+> +{
+> +	struct hid_field *field;
+> +
+> +	field = data->feature_field;
+> +	*field->value = brightness;
+> +	hid_hw_request(data->hdev, field->report, HID_REQ_SET_REPORT);
+> +	hid_hw_wait(data->hdev);
+> +	hid_dbg(data->hdev, "set brightness: %d\n", brightness);
+> +}
+> +
+> +static int hid_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct hid_bl_data *data;
+> +	int brightness;
+> +
+> +	data = bl_get_data(bl);
+> +	brightness = backlight_get_brightness(bl);
+> +	brightness += data->min_brightness;
+> +	hid_set_brightness(data, brightness);
+> +	return 0;
+> +}
+> +
+> +static const struct backlight_ops hid_bl_ops = {
+> +	.update_status  = hid_bl_update_status,
+> +	.get_brightness = hid_bl_get_brightness,
+> +};
+> +
+> +static int hid_bl_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +	int ret;
+> +	struct hid_field *input_field;
+> +	struct hid_field *feature_field;
+> +	struct hid_bl_data *data;
+> +	struct backlight_properties props;
+> +	struct backlight_device *bl;
+> +
+> +	hid_dbg(hdev, "probe\n");
+> +
+> +	ret = hid_parse(hdev);
+> +	if (ret)
+> +		hid_err(hdev, "parse failed\n");
+
+If this fails should the probe continue?
+
+The errorcodes would be useful to log, too.
+(Also in other places)
+
+> +
+> +	ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
+> +	if (ret) {
+> +		hid_err(hdev, "hw start failed\n");
+> +		return ret;
+> +	}
+> +
+> +	input_field = hid_get_usage_field(hdev, HID_INPUT_REPORT,
+> +					  HID_USAGE_MONITOR_CTRL,
+> +					  HID_USAGE_VESA_VCP_BRIGHTNESS);
+> +	if (input_field == NULL) {
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	feature_field = hid_get_usage_field(hdev, HID_FEATURE_REPORT,
+> +					    HID_USAGE_MONITOR_CTRL,
+> +					    HID_USAGE_VESA_VCP_BRIGHTNESS);
+> +	if (feature_field == NULL) {
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	if (input_field->logical_minimum != feature_field->logical_minimum) {
+> +		hid_warn(hdev, "minimums do not match: %d / %d\n",
+> +			 input_field->logical_minimum,
+> +			 feature_field->logical_minimum);
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	if (input_field->logical_maximum != feature_field->logical_maximum) {
+> +		hid_warn(hdev, "maximums do not match: %d / %d\n",
+> +			 input_field->logical_maximum,
+> +			 feature_field->logical_maximum);
+> +		ret = -ENODEV;
+> +		goto exit_stop;
+> +	}
+> +
+> +	hid_dbg(hdev, "Monitor VESA VCP with brightness control\n");
+> +
+> +	ret = hid_hw_open(hdev);
+> +	if (ret) {
+> +		hid_err(hdev, "hw open failed\n");
+> +		goto exit_stop;
+> +	}
+> +
+> +	data = devm_kzalloc(&hdev->dev, sizeof(struct hid_bl_data), GFP_KERNEL);
+
+sizeof(*data)
+
+> +	if (data == NULL) {
+> +		ret = -ENOMEM;
+> +		goto exit_stop;
+> +	}
+> +	data->hdev = hdev;
+> +	data->min_brightness = input_field->logical_minimum;
+> +	data->max_brightness = input_field->logical_maximum;
+> +	data->input_field = input_field;
+> +	data->feature_field = feature_field;
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_RAW;
+> +	props.max_brightness = data->max_brightness - data->min_brightness;
+> +
+> +	bl = devm_backlight_device_register(&hdev->dev, "vesa_vcp",
+> +					    &hdev->dev, data,
+> +					    &hid_bl_ops,
+> +					    &props);
+> +	if (IS_ERR(bl)) {
+> +		hid_err(hdev, "failed to register backlight\n");
+> +		ret = PTR_ERR(bl);
+> +		goto exit_free;
+> +	}
+> +
+> +	hid_set_drvdata(hdev, bl);
+> +
+> +	return 0;
+> +
+> +exit_free:
+> +	hid_hw_close(hdev);
+> +	devm_kfree(&hdev->dev, data);
+> +
+> +exit_stop:
+> +	hid_hw_stop(hdev);
+> +	return ret;
+> +}
+> +
+> +static const struct hid_device_id hid_bl_devices[] = {
+> +	{ HID_USB_DEVICE(APPLE_STUDIO_DISPLAY_VENDOR_ID,
+> +			 APPLE_STUDIO_DISPLAY_PRODUCT_ID) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, hid_bl_devices);
+> +
+> +static struct hid_driver hid_bl_driver = {
+> +	.name = "hid_backlight",
+> +	.id_table = hid_bl_devices,
+> +	.probe = hid_bl_probe,
+> +	.remove = hid_bl_remove,
+> +};
+> +module_hid_driver(hid_bl_driver);
+> +
+> +MODULE_AUTHOR("Julius Zint <julius@zint.sh>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Backlight driver for HID devices");
+> -- 
+> 2.41.0
+> 
