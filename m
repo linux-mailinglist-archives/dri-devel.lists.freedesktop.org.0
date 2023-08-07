@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D70B772B11
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:36:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 684CE772B28
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:38:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F7710E2CD;
-	Mon,  7 Aug 2023 16:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B06B10E2DC;
+	Mon,  7 Aug 2023 16:38:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2A510E2DC;
- Mon,  7 Aug 2023 16:36:04 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1bc479cc815so3692895fac.1; 
- Mon, 07 Aug 2023 09:36:04 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D392610E2DB;
+ Mon,  7 Aug 2023 16:38:01 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 46e09a7af769-6bceaed7abbso1806254a34.0; 
+ Mon, 07 Aug 2023 09:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691426163; x=1692030963;
+ d=gmail.com; s=20221208; t=1691426281; x=1692031081;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/X2RI7KjH5Yx+MU8RevEmyA0pwRz4NFKlvWhA6KHUgM=;
- b=P+G6uB23xPqDxt5w3eH9Aw5PuuUCNxmoRZ86hj8p1Rr9oOF8Ckq4HpTWplRoy46eSr
- kW4bMZhjnXhCSbIBlk/Z3vqRhjnabPJIo2KuIq0DdPCIv4O14uEED7mWmiBNcmGqmlSA
- JcUyQ8zEC8xBwReEFVXBx24nG9CMPrr6R5+z2hjAMlpwkeA304bu8+CuXYuuSWtY5rqn
- UKS48b/dh+WxZdLT2It0+WCKvBOU/ZUmj+8fbmp6KEByIGeXo16i7s9XKk6wBlyy/icD
- UNxfmP99ttz64JvMe/ZwMEKcj5fO74CsYuI3AfWYFsv+6rgZ05XjGU27b6c425xfhmDS
- bS0w==
+ bh=rtzkyKDB15+3Mt70/7SpzjEUZ2ea1IYU12fbFIu9dOM=;
+ b=H7ynB/gPElacr7v8xHKXcLr1yAlNCZdxr5nU8mrd8AMeaV8YijEoQ117HBPKbJR2kz
+ S7wLd51gynS2JAIY6OMoZuoRC7yVkIB0j0dDdzQ3U0CkRBnwCHAv7lxQcQ/BIjukvFkf
+ SmHVyZHfpCInLwBwCRcGuPC0MLWBGXMvSqFq+/khGupKkMCwSX7VT69iEMAcwMVnZh93
+ /xkuFbqgGaEvNkEpjr8GHQiADEvZTeOBfSA10oWNUJ8VZGzlO6R+ABN729bkPAk14/gj
+ keYGGb4XNW6d6HoUj+IYFnTIOrR/h31l1veYQYJG3T8ExGtK4CKcGjC6ytcmlTwPYLP8
+ xFuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691426163; x=1692030963;
+ d=1e100.net; s=20221208; t=1691426281; x=1692031081;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/X2RI7KjH5Yx+MU8RevEmyA0pwRz4NFKlvWhA6KHUgM=;
- b=Pco9oqDW3FPru90AsNP4qIIIsdPi8dikU7MOMl94bKqpu5B6z5eMNQJeX431vsElQp
- j0IQSGlM5/5Q0gZlqV1/6c35PvXXjszajagHIyy4JKBwUotmomo6NxkV2uqA1UaJu1qu
- xarcomXRCRK5skdh/1Us49yy2M+5UxyBLaOfSmW9k5zpyaNu7gAQ8X0g2BSfSDxg/X9C
- ig4CnOlosTsJIyMwaQfhPz5Wh5V4NWHhYpix2t56m/e0kwEiSYAHnn3oMWmwHF2VY/ke
- lIMxbf2UZb1g/cMK6oHETwZ24qNxtl6Rqza3pIJ8zU2lmXrgJxl0JlcQflW0S0XGp2Lh
- oxQg==
-X-Gm-Message-State: AOJu0YxJIkCWDMPn2mmrfotlCEXo6VytXk1nprGyLVTrY0ICQkPiHrt7
- XhoAftGdg35aOzKg0CpOqXh73cY3viKWVwGv1Z8=
-X-Google-Smtp-Source: AGHT+IHxav8wq0MkdwiAu07noGH5tXWTHhZ4OcQv3DFcN9zfoRPcjrC38lMKmPF563QGU2Wz26RfLuwAGk4KiDBGSrI=
-X-Received: by 2002:a05:6871:5c6:b0:1be:c688:1c0 with SMTP id
- v6-20020a05687105c600b001bec68801c0mr12543916oan.47.1691426163362; Mon, 07
- Aug 2023 09:36:03 -0700 (PDT)
+ bh=rtzkyKDB15+3Mt70/7SpzjEUZ2ea1IYU12fbFIu9dOM=;
+ b=OTt+LSJ1owW+XLnJXQO4v7BoD0lKLED8TzMzbbwI8zI2l1GyWFSw8/GorycyPGl1de
+ PiF4hlphCYq99chC+gu0Ya6WmcEwVQuIJ75S6eLe10Mphv4FunweZBsSvTUxJ6Ls9yMr
+ MiXZBSIto+AESpcMgg+Wqfhj8OhOpbL4wef5+CErawk38l2cTz7ubny58Yb4XNP/PWvT
+ 1golIR+8HVMTCz2CrXoGYd8piQrVml6xaNGtIC4PuPJuQTNl/ofIvUGSbHkOop3Bjesd
+ lTZr32lArVx8PEIdug8CzIK2lnbIEDKDio4TdHEaCzJKlgO1WpkuaqqukbSCHL7sHQVY
+ +z+A==
+X-Gm-Message-State: AOJu0YztSleAImfSvrhuT4gW0IpQ0FdD5ccnZBwul5Av1iTs5Ex2NnEN
+ DcfjwRzPg8D5Q6JTPtMqcfpVQJak5e5HuoHMtgk=
+X-Google-Smtp-Source: AGHT+IE8ONW21pbbjXSZYEQ4gzJQbgPMlPYnptto6HsDJxOhmFEM3i4JpJxz2crBEhwO2JR3T51qw1YZPj5lwnogFAw=
+X-Received: by 2002:a05:6871:89e:b0:1b3:eec8:fa90 with SMTP id
+ r30-20020a056871089e00b001b3eec8fa90mr12937916oaq.6.1691426281110; Mon, 07
+ Aug 2023 09:38:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801075951.6467-1-sunran001@208suo.com>
-In-Reply-To: <20230801075951.6467-1-sunran001@208suo.com>
+References: <20230801083710.6738-1-sunran001@208suo.com>
+In-Reply-To: <20230801083710.6738-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:35:52 -0400
-Message-ID: <CADnq5_Oao-NQ2zJkYvA9Xyd10O4eUYe8CKmsyf8TzwgHrj2R8A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in smu_helper.c
+Date: Mon, 7 Aug 2023 12:37:50 -0400
+Message-ID: <CADnq5_M7j0McrtPf6Zj=f_sxMLUOXgfWUmc-12NOjQ-+gFs14A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in ppatomctrl.h
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,36 +75,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 4:00=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Tue, Aug 1, 2023 at 4:37=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: spaces required around that '=3D' (ctx:VxV)
-> ERROR: spaces required around that '<' (ctx:VxV)
+> ERROR: open brace '{' following struct go on the same line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c b/driver=
-s/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
-> index d0b1ab6c4523..79a566f3564a 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu_helper.c
-> @@ -696,7 +696,7 @@ int smu_get_voltage_dependency_table_ppt_v1(
->                                 return -EINVAL);
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h b/driver=
+s/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
+> index b3103bd4be42..1f987e846628 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
+> @@ -278,16 +278,14 @@ struct pp_atom_ctrl__avfs_parameters {
+>         uint8_t  ucReserved;
+>  };
 >
->         dep_table->count =3D allowed_dep_table->count;
-> -       for (i=3D0; i<dep_table->count; i++) {
-> +       for (i =3D 0; i < dep_table->count; i++) {
->                 dep_table->entries[i].clk =3D allowed_dep_table->entries[=
-i].clk;
->                 dep_table->entries[i].vddInd =3D allowed_dep_table->entri=
-es[i].vddInd;
->                 dep_table->entries[i].vdd_offset =3D allowed_dep_table->e=
-ntries[i].vdd_offset;
+> -struct _AtomCtrl_HiLoLeakageOffsetTable
+> -{
+> +struct _AtomCtrl_HiLoLeakageOffsetTable {
+>      USHORT usHiLoLeakageThreshold;
+>      USHORT usEdcDidtLoDpm7TableOffset;
+>      USHORT usEdcDidtHiDpm7TableOffset;
+>  };
+>  typedef struct _AtomCtrl_HiLoLeakageOffsetTable AtomCtrl_HiLoLeakageOffs=
+etTable;
+>
+> -struct _AtomCtrl_EDCLeakgeTable
+> -{
+> +struct _AtomCtrl_EDCLeakgeTable {
+>      ULONG DIDT_REG[24];
+>  };
+>  typedef struct _AtomCtrl_EDCLeakgeTable AtomCtrl_EDCLeakgeTable;
 > --
 > 2.17.1
 >
