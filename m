@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFA3772C6E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:13:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBCE772C6F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:14:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 182CB10E333;
-	Mon,  7 Aug 2023 17:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792C410E330;
+	Mon,  7 Aug 2023 17:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8C10E326;
- Mon,  7 Aug 2023 17:13:33 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1bff2d2c141so597185fac.1; 
- Mon, 07 Aug 2023 10:13:33 -0700 (PDT)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DE110E330;
+ Mon,  7 Aug 2023 17:14:07 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ 46e09a7af769-6b9e478e122so3952569a34.1; 
+ Mon, 07 Aug 2023 10:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428413; x=1692033213;
+ d=gmail.com; s=20221208; t=1691428446; x=1692033246;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nNT2pPzXo/+0oZm3DAtNl1Zdp8iCzJdD2Cg8qDW5Fmc=;
- b=Sau5uY4A4SOGreJsBXpdzR0RFtMroS+Xw/+Dd2z/O2K7zss8phvshitDjUeP4uIwfh
- BsbzhMeT7vsslDRSoCacSCa+ovbnQlw8rBoXC7K0wP+Wy+1KI7q09Sf6LS+vm4ulke3O
- sxUFFmnLuLY871Ai+1BlzRHBxCGAmIsVSMt7LYSjy0nv8uswR5JEG07J0g3YBVq3bsze
- ctrP5wRMQwzyLdIiJ0LW/P1+JRc53bp8m3qHcw3Z8er45mGugQnf4BMUthx8gQWffOf6
- VYgIRSicd50rPgSqTM80X4YUl82qfBzE3xs+dJlKf1EPYcS1adX+hOjfXwV6B2I58kg3
- uN2w==
+ bh=3EBbZKi3RkEqdqagrdNXc65Wt2bOkGGaDnR6Sxbz/TU=;
+ b=Qk5swv/rGyqvsGjlOFfJ0Eay/dnLGQMDdxpB7Z+8yqfQuDyGpSyqB6bDT158gP1Njg
+ /GG+KK2Js0vHJmMHmMKKQN8IRMf6wGIbPw5z29lUjzsavTXUyVPT0BLOQBDZ6Phtp5Er
+ WMQdzQ4PcGeLGF+gEZyv6Q5JvvB00w5oYLzayYnDNtQ7AKKn9wBtlFLWCy+PJFmmYUcm
+ sYZ2eV6JaCXSvGcsrlAUQRyEhNXq2g/zmmy0qkoX+WBiGn2vjBhmKXpdNQ9172k4wLj/
+ 8cM8GBR4uyZ02T7GkCJyNNNVpHdD46XUBb6B7hJ2D1Cpq0uekYwByOV98M+VNgwHtpQj
+ Jodw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428413; x=1692033213;
+ d=1e100.net; s=20221208; t=1691428446; x=1692033246;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nNT2pPzXo/+0oZm3DAtNl1Zdp8iCzJdD2Cg8qDW5Fmc=;
- b=fA4VBZYqqYMbNWvT0+bE0azYI8QrkfxfRwSujVt9YpgOOnL6PTKvbjJeQ/xRv4MhjM
- kT6ekCU6HcYSajUlRiqwMLe/ChXhsev2Z/7+sGRZ5/eUaLkGT49I+HCkasiMxZ93o6r2
- k4fulE6cpnG5o9azsA18nyt9MCNqtjTJ50kaTKeLpE8LaPLlXlnQ+Pf2h1cvz/xhnSL1
- 9OqkZsEJ/5zHAX/6yaMHMGyBvkYvrxAuzTb45YwRWGZOaIGJ/1zoJ6fq2kpy5w5ETplV
- kBEVVbQ65xU+CdR9FFZNaKqHugy93fpX17GI1qYDgGLdrbn+Us7aeAuWuwPcL/+c6r7x
- WonQ==
-X-Gm-Message-State: AOJu0YxdxLMEtIvt62Kg1IB2xSj6BteQeGj7xzVNOcyqVw40rVnPp6rm
- ZTKy38dyUk2MSkKB8+VREhJs7zL2hv9FKvJQ5Kw=
-X-Google-Smtp-Source: AGHT+IGS0Hk2RkjYc2XJl6PanoOJZBzzEKeL5gjMguhmRAjwN/TWLHSj1ySl0gMy7ZRMsLbC9a0Re42pzE3JGeNmyzo=
-X-Received: by 2002:a05:6870:148f:b0:1bb:c946:b80e with SMTP id
- k15-20020a056870148f00b001bbc946b80emr9826593oab.28.1691428412855; Mon, 07
- Aug 2023 10:13:32 -0700 (PDT)
+ bh=3EBbZKi3RkEqdqagrdNXc65Wt2bOkGGaDnR6Sxbz/TU=;
+ b=BxeZbGEA152OUkiOoj1mHBtinuTT98KeSfUuu3xhvKmNZfuCb5bmqzmL89b/LF1Y8F
+ 2hW+bYlRCGig0vn4WiEUNcMA99pkkQbUXGxvpJFxjRgqXUWDdnA5B+xK4EtpDRQU3I/P
+ yg7rhbuSTp2riS5NbY8QT7gGcAt/NtR2mamGe/pmn3BJOde9CQ3ZBJyaB6ZrGlvCY9xu
+ sK+XK5RYwL1/NDItrv4DJra15VmnpS6pypIWci0RXpIYJRw9+taLPEXDGu/C7887JcFI
+ diYn8JkQgmGgkuQD0/f/FXQo5aKP6+rjNezDaMMcRD5JJCcUn1KIShl/0VFi4BM5h7Gu
+ Pv8g==
+X-Gm-Message-State: AOJu0YwqT0i3VVKtmeFhf07sDIGtoZXzMFcrSl3UMxcNl2rPBRXEa/dJ
+ 1EUNKb/UlZc7XY+raZC2xGU3PxGVc9SUVHWLEuw=
+X-Google-Smtp-Source: AGHT+IFc0NAbYU5nU/5o1tjMWmuS8uQgHR8QgnNK+2Zu4oa67IfIMb8gua5e9zY5SdJnbhTMerc9FVwW6XDxVCPgFS8=
+X-Received: by 2002:a05:6870:42d0:b0:1bb:84f4:d787 with SMTP id
+ z16-20020a05687042d000b001bb84f4d787mr11938381oah.10.1691428446578; Mon, 07
+ Aug 2023 10:14:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802032256.10846-1-sunran001@208suo.com>
-In-Reply-To: <20230802032256.10846-1-sunran001@208suo.com>
+References: <20230802061423.11155-1-sunran001@208suo.com>
+In-Reply-To: <20230802061423.11155-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:13:22 -0400
-Message-ID: <CADnq5_O5FY_eYetryQ47FRwhh4-w=ifakZy0GNkvswQccuef2g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Clean up errors in bios_parser2.c
+Date: Mon, 7 Aug 2023 13:13:55 -0400
+Message-ID: <CADnq5_Ob=reocYAdj8QhB03bREr-3xRY0uTt3EQtA3Ld-exBeQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Clean up errors in dc_stream.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,106 +75,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-As a follow up patch, care to drop the break statements after a return?
-
-On Tue, Aug 1, 2023 at 11:23=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrot=
-e:
+On Wed, Aug 2, 2023 at 2:14=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+:
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: switch and case should be at the same indent
-> ERROR: code indent should use tabs where possible
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  .../drm/amd/display/dc/bios/bios_parser2.c    | 32 +++++++++----------
->  1 file changed, 16 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers=
-/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> index 540d19efad8f..033ce2638eb2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-> @@ -772,20 +772,20 @@ static enum bp_result bios_parser_get_device_tag(
->                 return BP_RESULT_BADINPUT;
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
+u/drm/amd/display/dc/core/dc_stream.c
+> index ea3d4b328e8e..05bb23bc122d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
+> @@ -71,8 +71,7 @@ static bool dc_stream_construct(struct dc_stream_state =
+*stream,
 >
->         switch (bp->object_info_tbl.revision.minor) {
-> -           case 4:
-> -           default:
-> +       case 4:
-> +       default:
->                 /* getBiosObject will return MXM object */
-> -               object =3D get_bios_object(bp, connector_object_id);
-> +               object =3D get_bios_object(bp, connector_object_id);
->
->                 if (!object) {
->                         BREAK_TO_DEBUGGER(); /* Invalid object id */
->                         return BP_RESULT_BADINPUT;
->                 }
->
-> -               info->acpi_device =3D 0; /* BIOS no longer provides this =
-*/
-> -               info->dev_id =3D device_type_from_device_id(object->devic=
-e_tag);
-> -               break;
-> -           case 5:
-> +               info->acpi_device =3D 0; /* BIOS no longer provides this =
-*/
-> +               info->dev_id =3D device_type_from_device_id(object->devic=
-e_tag);
-> +               break;
-> +       case 5:
->                 object_path_v3 =3D get_bios_object_from_path_v3(bp, conne=
-ctor_object_id);
->
->                 if (!object_path_v3) {
-> @@ -1580,13 +1580,13 @@ static bool bios_parser_is_device_id_supported(
->         uint32_t mask =3D get_support_mask_for_device_id(id);
->
->         switch (bp->object_info_tbl.revision.minor) {
-> -           case 4:
-> -           default:
-> -               return (le16_to_cpu(bp->object_info_tbl.v1_4->supportedde=
-vices) & mask) !=3D 0;
-> -                       break;
-> -           case 5:
-> -                       return (le16_to_cpu(bp->object_info_tbl.v1_5->sup=
-porteddevices) & mask) !=3D 0;
-> -                       break;
-> +       case 4:
-> +       default:
-> +               return (le16_to_cpu(bp->object_info_tbl.v1_4->supportedde=
-vices) & mask) !=3D 0;
-> +               break;
-> +       case 5:
-> +               return (le16_to_cpu(bp->object_info_tbl.v1_5->supportedde=
-vices) & mask) !=3D 0;
-> +               break;
->         }
->
->         return false;
-> @@ -1755,7 +1755,7 @@ static enum bp_result bios_parser_get_firmware_info=
-(
->                         case 2:
->                         case 3:
->                                 result =3D get_firmware_info_v3_2(bp, inf=
-o);
-> -                                break;
-> +                       break;
->                         case 4:
->                                 result =3D get_firmware_info_v3_4(bp, inf=
-o);
->                                 break;
-> @@ -2225,7 +2225,7 @@ static enum bp_result bios_parser_get_disp_connecto=
-r_caps_info(
->                 return BP_RESULT_BADINPUT;
->
->         switch (bp->object_info_tbl.revision.minor) {
-> -           case 4:
-> +       case 4:
->             default:
->                     object =3D get_bios_object(bp, object_id);
->
+>         /* Copy audio modes */
+>         /* TODO - Remove this translation */
+> -       for (i =3D 0; i < (dc_sink_data->edid_caps.audio_mode_count); i++=
+)
+> -       {
+> +       for (i =3D 0; i < (dc_sink_data->edid_caps.audio_mode_count); i++=
+) {
+>                 stream->audio_info.modes[i].channel_count =3D dc_sink_dat=
+a->edid_caps.audio_modes[i].channel_count;
+>                 stream->audio_info.modes[i].format_code =3D dc_sink_data-=
+>edid_caps.audio_modes[i].format_code;
+>                 stream->audio_info.modes[i].sample_rates.all =3D dc_sink_=
+data->edid_caps.audio_modes[i].sample_rate;
 > --
 > 2.17.1
 >
