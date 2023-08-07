@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6008D771D9A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 11:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F15771DDD
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 12:22:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9654589E33;
-	Mon,  7 Aug 2023 09:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7403710E1EB;
+	Mon,  7 Aug 2023 10:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5663589E33;
- Mon,  7 Aug 2023 09:55:59 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-1bc05bece1dso489536fac.1; 
- Mon, 07 Aug 2023 02:55:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691402158; x=1692006958;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HM29zdZVBVOCSCNWC+N4/pn42HvEOpSp0FjiUfhyV+c=;
- b=eHLtyYlojSCvGycSK5EHhtygzrQ1N+0oSZys+UwzL4EtZ5uj+k951+1D73/AjNrQHT
- uMzfsTq+txlu9VRHfWzcyfSzeKocQrQqTij3LPLyxHVT0GZoqrKtCH5X1LoExtJUExvO
- YzEM8MgK+ewJ1w5MlmgGf4y8BHiOMtEUrrYUJtu8T+yDo+RXHtl/069cOyfJhEn5oH5I
- qscej8okKOV78e7fEoi0GnrOX32Gz52Ld1m5SVIchcMhHefcdrfTPh2tzs1+YtgT32dR
- UnYoYICbkX2aTrXCZU+TVsdmffBQVCqEL7Fb5IN+WluWONIJ3oLcPyzF43KqZxPzxSru
- tXrQ==
-X-Gm-Message-State: AOJu0YxvIjtfV7+SWo1bEuthyG2rKm0xqg/qz6HwxfbaiL/3ZMSZwQGQ
- stSqcE25kzbwJHn8Ep4jdh59CCpyvGjKTZDn2jw=
-X-Google-Smtp-Source: AGHT+IFHIvYl74pw4UZh36FUG3o40lXvym9lMWxwRL/SxHlVB7wTSMG9tn/tEdRQ5gFzwoxUxtwe3BVZMSdpSLITRrE=
-X-Received: by 2002:a05:6870:c091:b0:1bf:9170:89ef with SMTP id
- c17-20020a056870c09100b001bf917089efmr9642566oad.4.1691402158480; Mon, 07 Aug
- 2023 02:55:58 -0700 (PDT)
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A98710E1EB
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 10:21:54 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4RKC6Q649Kz9sTM;
+ Mon,  7 Aug 2023 12:21:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1691403710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sQzi2S+q3MI0M2bjrRlM38JTCqMPl5w8t6f8TRBRm7U=;
+ b=QwHrtU5CETeaZrUwf1mIBWZp8n945TPDsjMrcsmASsdxhxPN2YDAVo0MotLIHl07/9RxtO
+ dcGIr6Om5QLrMvbWMKHAw10RkGSuNLSsAWDLRnyemDGe6cSsBYcQyOcyuEy539HM30Lidz
+ Yy8IjPTJ9RtXwhcGZQ3RDGdJhyV1m9/oFeAYPUefuWnFhTfz8Ls4Md0Iohnh/6Hpre9nvU
+ k2etkJX9fQJ2/fxEalijvtVFyi5WvX0LfIfFsw4cNqgLWqjC3QKNawMtvSyUNhGDLstrtG
+ QhbuA26GvE7B/rOYQyOFhhwvcZD0MPq2j0bH1VzUAGSQpmX4oGSx09mDwguyJw==
+References: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
+ <20230807-a64_pll_video0_notifier-v1-1-8a7ccdc14c79@oltmanns.dev>
+ <27d09ea33c085d6a2ea9efb91a8cdd7e7464fda7.camel@icenowy.me>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH 1/3] clk: sunxi-ng: add support for rate resetting notifier
+In-reply-to: <27d09ea33c085d6a2ea9efb91a8cdd7e7464fda7.camel@icenowy.me>
+Date: Mon, 07 Aug 2023 12:21:47 +0200
+Message-ID: <87edkftao4.fsf@oltmanns.dev>
 MIME-Version: 1.0
-References: <20230804214051.136268-1-robdclark@gmail.com>
-In-Reply-To: <20230804214051.136268-1-robdclark@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 7 Aug 2023 11:55:43 +0200
-Message-ID: <CAJZ5v0iy+qD7J+UvFkG+ErLmYGk7ZvG2HY2vvWFiwA95jQ-yPA@mail.gmail.com>
-Subject: Re: [RFC] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
- (alternative solution)
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 4RKC6Q649Kz9sTM
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,108 +56,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
- "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Pavel Machek <pavel@ucw.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ Ond?0?0ej Jirman <x@xnux.eu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 4, 2023 at 11:41=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Similar to the previous patch, move the allocation out from under
-> dev_pm_qos_mtx, by speculatively doing the allocation and handle
-> any race after acquiring dev_pm_qos_mtx by freeing the redundant
-> allocation.
->
-> Suggested-by: Rafael J. Wysocki <rafael@kernel.org>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
-> This is an alternative to https://patchwork.freedesktop.org/patch/551417/=
-?series=3D115028&rev=3D4
->
-> So, this does _slightly_ change error paths, for ex
-> dev_pm_qos_update_user_latency_tolerance() will now allocate
-> dev->power.qos in some error cases.  But this seems harmless?
 
-It is harmless AFAICS.
+On 2023-08-07 at 17:42:22 +0800, Icenowy Zheng <uwu@icenowy.me> wrote:
+> =E5=9C=A8 2023-08-07=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 11:36 +0200=EF=
+=BC=8CFrank Oltmanns=E5=86=99=E9=81=93=EF=BC=9A
+>> From: Icenowy Zheng <icenowy@aosc.io>
+>>
+>> In some situaitons, we will want a clock rate be kept while its
+>> parent
+>> can change, for example, to make dual-head work on A64, TCON0 clock
+>> needs to be kept for LCD display and its parent (or grandparent)
+>> PLL-Video0 need to be changed for HDMI display. (There's a quirk on
+>> A64
+>> that HDMI PHY can only use PLL-Video0, not PLL-Video1).
+>>
+>> Add a notifier helper to create such kind of rate keeping notifier by
+>> reset the rate after the parent changed.
+>>
+>> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+>> ---
+>> =C2=A0drivers/clk/sunxi-ng/ccu_common.c | 22 ++++++++++++++++++++++
+>> =C2=A0drivers/clk/sunxi-ng/ccu_common.h | 12 ++++++++++++
+>> =C2=A02 files changed, 34 insertions(+)
+>>
+>> diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-
+>> ng/ccu_common.c
+>> index 8d28a7a079d0..434fa46ad460 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_common.c
+>> +++ b/drivers/clk/sunxi-ng/ccu_common.c
+>> @@ -87,6 +87,28 @@ int ccu_pll_notifier_register(struct ccu_pll_nb
+>> *pll_nb)
+>> =C2=A0}
+>> =C2=A0EXPORT_SYMBOL_NS_GPL(ccu_pll_notifier_register, SUNXI_CCU);
+>> =C2=A0
+>> +static int ccu_rate_reset_notifier_cb(struct notifier_block *nb,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 un=
+signed long event, void
+>> *data)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ccu_rate_reset_nb *rat=
+e_reset =3D
+>> to_ccu_rate_reset_nb(nb);
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (event =3D=3D PRE_RATE_CHA=
+NGE) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0rate_reset->saved_rate =3D clk_get_rate(rate_reset-
+>> >target_clk);
+>
+> In fact I think we should have a better way to save the intended clock
+> rate ;-)
+>
 
-> A slightly more complicated version of this could conserve the
-> previous error path behavior, but I figured I'd try the simpler
-> thing first.
+Are you referring to struct clk_core's clk_req member [1]? Maxime Ripard
+also mentioned it to me [2]? Or do you have something else in mind?
 
-Good choice!
+Note that I have a patchset on the way [3], that will improve rate
+selection for pll-video0 and its descendants. I'll double-check if that
+improves the situation in a way so that the clk_get_rate() might be good
+enough.
 
->  drivers/base/power/qos.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/base/power/qos.c b/drivers/base/power/qos.c
-> index 1b73a704aac1..c7ba85e89c42 100644
-> --- a/drivers/base/power/qos.c
-> +++ b/drivers/base/power/qos.c
-> @@ -920,8 +920,12 @@ s32 dev_pm_qos_get_user_latency_tolerance(struct dev=
-ice *dev)
->  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val=
-)
->  {
->         struct dev_pm_qos *qos =3D dev_pm_qos_constraints_allocate();
-> +       struct dev_pm_qos_request *req =3D NULL;
->         int ret =3D 0;
->
-> +       if (!dev->power.qos->latency_tolerance_req)
-> +               req =3D kzalloc(sizeof(*req), GFP_KERNEL);
-> +
->         mutex_lock(&dev_pm_qos_mtx);
->
->         dev_pm_qos_constraints_set(dev, qos);
-> @@ -935,8 +939,6 @@ int dev_pm_qos_update_user_latency_tolerance(struct d=
-evice *dev, s32 val)
->                 goto out;
->
->         if (!dev->power.qos->latency_tolerance_req) {
-> -               struct dev_pm_qos_request *req;
-> -
->                 if (val < 0) {
->                         if (val =3D=3D PM_QOS_LATENCY_TOLERANCE_NO_CONSTR=
-AINT)
->                                 ret =3D 0;
-> @@ -944,17 +946,15 @@ int dev_pm_qos_update_user_latency_tolerance(struct=
- device *dev, s32 val)
->                                 ret =3D -EINVAL;
->                         goto out;
->                 }
-> -               req =3D kzalloc(sizeof(*req), GFP_KERNEL);
->                 if (!req) {
->                         ret =3D -ENOMEM;
->                         goto out;
->                 }
->                 ret =3D __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LAT=
-ENCY_TOLERANCE, val);
-> -               if (ret < 0) {
-> -                       kfree(req);
-> +               if (ret < 0)
->                         goto out;
-> -               }
->                 dev->power.qos->latency_tolerance_req =3D req;
-> +               req =3D NULL;
->         } else {
->                 if (val < 0) {
->                         __dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LA=
-TENCY_TOLERANCE);
-> @@ -966,6 +966,7 @@ int dev_pm_qos_update_user_latency_tolerance(struct d=
-evice *dev, s32 val)
->
->   out:
->         mutex_unlock(&dev_pm_qos_mtx);
-> +       kfree(req);
->         return ret;
->  }
->  EXPORT_SYMBOL_GPL(dev_pm_qos_update_user_latency_tolerance);
-> --
+Thanks,
+  Frank
 
-Yes, something like this, please!
+[1]: https://elixir.bootlin.com/linux/latest/source/drivers/clk/clk.c#L68
+[2]: https://lore.kernel.org/linux-clk/xcgmqvdoip53yao4sfoznnppauhmsmdablwo=
+ewh43zjv3bhidp@d7pxqohxydve/
+[3]: https://lore.kernel.org/linux-clk/20230806-pll-mipi_set_rate_parent-v5=
+-0-db4f5ca33fc3@oltmanns.dev/
+
+>
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if (event =3D=3D POST_=
+RATE_CHANGE) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0clk_set_rate(rate_reset->target_clk, rate_reset-
+>> >saved_rate);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return NOTIFY_DONE;
+>> +}
+>> +
+>> +int ccu_rate_reset_notifier_register(struct ccu_rate_reset_nb
+>> *rate_reset_nb)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rate_reset_nb->clk_nb.notifie=
+r_call =3D
+>> ccu_rate_reset_notifier_cb;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return clk_notifier_register(=
+rate_reset_nb->common->hw.clk,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &rate_re=
+set_nb->clk_nb);
+>> +}
+>> +
+>> =C2=A0static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device
+>> *dev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 struct device_node *node, void __iomem
+>> *reg,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 const struct sunxi_ccu_desc *desc)
+>> diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-
+>> ng/ccu_common.h
+>> index fbf16c6b896d..6b0b05fae123 100644
+>> --- a/drivers/clk/sunxi-ng/ccu_common.h
+>> +++ b/drivers/clk/sunxi-ng/ccu_common.h
+>> @@ -69,4 +69,16 @@ int devm_sunxi_ccu_probe(struct device *dev, void
+>> __iomem *reg,
+>> =C2=A0void of_sunxi_ccu_probe(struct device_node *node, void __iomem *re=
+g,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0con=
+st struct sunxi_ccu_desc *desc);
+>> =C2=A0
+>> +struct ccu_rate_reset_nb {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct notifier_block=C2=A0=
+=C2=A0=C2=A0clk_nb;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ccu_common=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0*common;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct clk=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0*target_c=
+lk;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned long=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0saved_rate;
+>> +};
+>> +
+>> +#define to_ccu_rate_reset_nb(_nb) container_of(_nb, struct
+>> ccu_rate_reset_nb, clk_nb)
+>> +
+>> +int ccu_rate_reset_notifier_register(struct ccu_rate_reset_nb
+>> *rate_reset_nb);
+>> +
+>> =C2=A0#endif /* _COMMON_H_ */
+>>
