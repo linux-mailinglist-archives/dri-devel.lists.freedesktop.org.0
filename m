@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3843D772566
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 15:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EDF77262A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 15:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B03189EBB;
-	Mon,  7 Aug 2023 13:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B909810E2B9;
+	Mon,  7 Aug 2023 13:41:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 956 seconds by postgrey-1.36 at gabe;
- Mon, 07 Aug 2023 13:21:58 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6AA889EBB;
- Mon,  7 Aug 2023 13:21:58 +0000 (UTC)
-Received: from dggpemm500002.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RKGjf5Dd1zVk29;
- Mon,  7 Aug 2023 21:04:06 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 7 Aug 2023 21:05:58 +0800
-From: Xiongfeng Wang <wangxiongfeng2@huawei.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <mario.limonciello@amd.com>, <lijo.lazar@amd.com>, <tim.huang@amd.com>,
- <le.ma@amd.com>, <Bokun.Zhang@amd.com>, <srinivasan.shanmugam@amd.com>
-Subject: [PATCH] drm/amd: Use pci_dev_id() to simplify the code
-Date: Mon, 7 Aug 2023 21:17:59 +0800
-Message-ID: <20230807131759.107914-1-wangxiongfeng2@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A7410E298
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 13:40:10 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 8D8BA6001426;
+ Mon,  7 Aug 2023 14:33:23 +0100 (WEST)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id STvPeWNl-IzL; Mon,  7 Aug 2023 14:33:20 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
+ [IPv6:2001:690:2100:1::b3dd:b9ac])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id B8182600142A;
+ Mon,  7 Aug 2023 14:33:20 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1691415200;
+ bh=ooWXrncGNgQ0pd99/KFiATYuY4KmdIUl5YVhzHGeVfE=;
+ h=From:To:Cc:Subject:Date;
+ b=qwGuGDNQ1Tu4jm7HjeaGm4sjEAimurq3v0ih345hiAXZecYt23/d2UefErvLKSzrr
+ +vHvUSgyzt8difQc/t23ibKCo/CWHBXuRUmct8kEQF1VJMv5GOzP4UGXC7r15pTPUV
+ isDC+FCBpoh/bJJs+IqfnD0NjpAMwTVkUHuN855g=
+Received: from diogo-gram.Home (unknown
+ [IPv6:2001:8a0:fbe7:6700:e50a:b22:79be:5827])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 55DE0360077;
+ Mon,  7 Aug 2023 14:33:19 +0100 (WEST)
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: neil.armstrong@linaro.org, sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, thierry.reding@gmail.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+Subject: [PATCH v3 0/5] Add JDI LPM102A188A display panel support
+Date: Mon,  7 Aug 2023 14:33:00 +0100
+Message-ID: <20230807133307.27456-1-diogo.ivo@tecnico.ulisboa.pt>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,60 +61,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wangxiongfeng2@huawei.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, yangyingliang@huawei.com
+Cc: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PCI core API pci_dev_id() can be used to get the BDF number for a pci
-device. We don't need to compose it mannually. Use pci_dev_id() to
-simplify the code a little bit.
+Hello,
 
-Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+These patches add support for the JDI LPM102A188A display panel,
+found in the Google Pixel C.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index 385c6acb5728..aee0cfdc6da3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -706,7 +706,7 @@ int amdgpu_acpi_pcie_performance_request(struct amdgpu_device *adev,
- 
- 	atcs_input.size = sizeof(struct atcs_pref_req_input);
- 	/* client id (bit 2-0: func num, 7-3: dev num, 15-8: bus num) */
--	atcs_input.client_id = adev->pdev->devfn | (adev->pdev->bus->number << 8);
-+	atcs_input.client_id = pci_dev_id(adev->pdev);
- 	atcs_input.valid_flags_mask = ATCS_VALID_FLAGS_MASK;
- 	atcs_input.flags = ATCS_WAIT_FOR_COMPLETION;
- 	if (advertise)
-@@ -776,7 +776,7 @@ int amdgpu_acpi_power_shift_control(struct amdgpu_device *adev,
- 
- 	atcs_input.size = sizeof(struct atcs_pwr_shift_input);
- 	/* dGPU id (bit 2-0: func num, 7-3: dev num, 15-8: bus num) */
--	atcs_input.dgpu_id = adev->pdev->devfn | (adev->pdev->bus->number << 8);
-+	atcs_input.dgpu_id = pci_dev_id(adev->pdev);
- 	atcs_input.dev_acpi_state = dev_state;
- 	atcs_input.drv_state = drv_state;
- 
-@@ -1141,7 +1141,7 @@ int amdgpu_acpi_get_tmr_info(struct amdgpu_device *adev, u64 *tmr_offset,
- 	if (!tmr_offset || !tmr_size)
- 		return -EINVAL;
- 
--	bdf = (adev->pdev->bus->number << 8) | adev->pdev->devfn;
-+	bdf = pci_dev_id(adev->pdev);
- 	dev_info = amdgpu_acpi_get_dev(bdf);
- 	if (!dev_info)
- 		return -ENOENT;
-@@ -1162,7 +1162,7 @@ int amdgpu_acpi_get_mem_info(struct amdgpu_device *adev, int xcc_id,
- 	if (!numa_info)
- 		return -EINVAL;
- 
--	bdf = (adev->pdev->bus->number << 8) | adev->pdev->devfn;
-+	bdf = pci_dev_id(adev->pdev);
- 	dev_info = amdgpu_acpi_get_dev(bdf);
- 	if (!dev_info)
- 		return -ENOENT;
+Patch 1 adds the DT bindings for the panel.
+
+Patch 2 adds the panel driver, which is based on the downstream
+kernel driver published by Google and developed by Sean Paul.
+
+Patches 3-5 add DT nodes for the regulator, backlight controller and
+display panel. 
+
+The first version of this patch series can be found at:
+https://lore.kernel.org/all/20220929170502.1034040-1-diogo.ivo@tecnico.ulisboa.pt/
+
+The first submission of v2 can be found at:
+https://lore.kernel.org/all/20221025153746.101278-1-diogo.ivo@tecnico.ulisboa.pt/
+
+Changes in v2:
+ - Patch 1: remove touchscreen reset gpio property
+ - Patch 2: clear register based on its value rather than a DT property
+ - Patch 3: tune backlight delay values
+ - Patch 4: add generic node names, remove underscores
+
+Changes in v3:
+ - Patch 1: add Reviewed-by
+ - Patch 2: fix error handling, remove enabled/prepared booleans, add
+   dc/dc setting
+ - Patches 3-5: Split previous patch 3 into three different patches,
+   each adding a separate node 
+ - removed previous patch 2 pertaining to Tegra DSI reset as it was upstreamed
+
+Diogo Ivo (5):
+  dt-bindings: display: Add bindings for JDI LPM102A188A
+  drm/panel: Add driver for JDI LPM102A188A
+  arm64: dts: smaug: Add DSI/CSI regulator
+  arm64: dts: smaug: Add backlight node
+  arm64: dts: smaug: Add display panel node
+
+ .../display/panel/jdi,lpm102a188a.yaml        |  94 +++
+ arch/arm64/boot/dts/nvidia/tegra210-smaug.dts |  66 +++
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 551 ++++++++++++++++++
+ 5 files changed, 723 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/jdi,lpm102a188a.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
+
 -- 
-2.20.1
+2.41.0
 
