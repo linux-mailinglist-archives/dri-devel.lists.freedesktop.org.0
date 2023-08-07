@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CA4772AE9
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B63772AEB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:33:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC4610E2C0;
-	Mon,  7 Aug 2023 16:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A931A10E2C5;
+	Mon,  7 Aug 2023 16:33:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBAD210E2C1
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 16:32:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA9CB10E2C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 16:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691425969;
+ s=mimecast20190719; t=1691425976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IfDXzRQJmq7hjHOSakYboiQj+aP0Hf7JLmie7OP7ZJg=;
- b=N0osMx9ikyfZApFfWzSlj4j5shhjINUgcAufA4J2jFR8gRM3ONk99yi762jKOZRDF7GKJ4
- nR5f6wx1lOh47ErIEJCEFFkBvPPoHDFe6/t8mIutrckr/FWko2PL6cbceNW+xkBsNUkCpX
- F19hdIeQqW344rrum+zY/adSLtd5fL4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FSJyklWcOYLh1Y7SYk3LyH530BHSBws8fX+6+9YjAp4=;
+ b=ec/ZqnoZGHOiijvlH0hBAudZ5q2bAGp8RMbNHebzyj0SgdPdyghAhxZ7Pow3RBzfwPJN3x
+ YvOILrlKf+cve0WAC9+zvYgxm5c5tcYi2v6g+O6nycsSozA2xptjjtJBg2MRN6lnGJZBF7
+ NFWaPJjc4ZJgwUlzcQoAkYruESZwuLQ=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-486-WUfh6ysTPGyLRH9B6lHm2w-1; Mon, 07 Aug 2023 12:32:47 -0400
-X-MC-Unique: WUfh6ysTPGyLRH9B6lHm2w-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-99cc32f2ec5so135795766b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 09:32:47 -0700 (PDT)
+ us-mta-338-oS4t6aVONLCN-HJyo3OqxA-1; Mon, 07 Aug 2023 12:32:52 -0400
+X-MC-Unique: oS4t6aVONLCN-HJyo3OqxA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ 2adb3069b0e04-4fe275023d4so4464406e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 09:32:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425966; x=1692030766;
+ d=1e100.net; s=20221208; t=1691425971; x=1692030771;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IfDXzRQJmq7hjHOSakYboiQj+aP0Hf7JLmie7OP7ZJg=;
- b=Sey0Gp0EM11H8V23rQb8HI81cGEWoQYyrU6hBd/sIuK9ZJJqlZ6BylL0a+nMGGAltI
- uRqldXRF4RCxrW2bkEkrH4AHm2Max2SQAptDaDOUi+dCGZnsRXxosbgsWhFIc04egTR5
- B6Uhq/P6uCTdqi20SuuPn+Q2m3wUNYjOE0zwaDCzwGGc65CZ02n3ugponxIHX5Q3pnwa
- XClfrW/ejZbBlGDQ/kv4X5UhzonxXQqW4vjGfUlX/X4cP7rgS1O4bN6AAids8m6X+qo9
- DFnZiijgNmj3qJuvamVu474S7LPoWa8Y4fZHp+7viIHKpJqVvy2nIMJFVWaodvj3bwIt
- Nm/w==
-X-Gm-Message-State: AOJu0YzOhA/tJipuCtmfDtvI/KNe8oCJPgBt/RsuiToIRvtSOsWzUfXt
- v9wOpKbwrs/YJFpXMUqG8mR1dOBgUH4LqvNKx6iPB5j6M2zzDp+oQbh0yW+Ut8mkC/8Mg8tVOX7
- Y+9zk0THFMNnc/4ChQLj1p/xxIkF4
-X-Received: by 2002:a17:906:31c1:b0:99b:c0f0:77fe with SMTP id
- f1-20020a17090631c100b0099bc0f077femr8075280ejf.69.1691425966377; 
- Mon, 07 Aug 2023 09:32:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHdZuNVePss2xGOu78Sr/qq+zLojadIk9YBj7opOTUz4DKdRdl9uzjpJuWytvQBggwWEfgpTg==
-X-Received: by 2002:a17:906:31c1:b0:99b:c0f0:77fe with SMTP id
- f1-20020a17090631c100b0099bc0f077femr8075269ejf.69.1691425966094; 
- Mon, 07 Aug 2023 09:32:46 -0700 (PDT)
+ bh=FSJyklWcOYLh1Y7SYk3LyH530BHSBws8fX+6+9YjAp4=;
+ b=iaxYjNKSMX3BYSvd0reFXNhtNW/CuE7wCzo7FQ+nCJvT0zQqZvH1qHW3DPcqT/evyh
+ nZzAI+i7oDz8SrBdU0hB3qr2Jni8T8C/XwF/oTWkxkqmF480BU9mbTzWg3fJvs2+M9wp
+ gW6Pt/w0J2c5sdUMwYBvvzbDUxqFd+uTIzyFYniPsWD6XArW3rKd30mPTpukH/J/bTyE
+ GEP0by/qMUNTxL7CK31XmuCKtU7iL956gPUtf7l1AZ1+TnS3UMSoIBowLCAYw5SqVa6V
+ xcgxZ/m1S6j5Qd5lnEMyH2qmxcivAc2qWPX+0IDDNjc+OymY3FuKE0nPLN7taSxyM+7j
+ bAvA==
+X-Gm-Message-State: AOJu0YyBGXffsi1IIO8JCxPwQGjjaiFNnAyUprPZAhh48VKqG43D8bFx
+ RXpn7kplmWwB9L9oLMdFngBzlAXLaIh1AhHm7VV5/FjNxdDIS+AmIY/F62Mv/iCqtvqJLEHq7P3
+ ReIn/H8fRa0V/OXONSiR4FajNqZLd
+X-Received: by 2002:a05:6512:280c:b0:4fb:744e:17db with SMTP id
+ cf12-20020a056512280c00b004fb744e17dbmr7711097lfb.1.1691425971022; 
+ Mon, 07 Aug 2023 09:32:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGFTmw8BlSLd66bLQQphUvYc14k91eYxq6U+Y6ebxxfanOvKoolnZuNuEXZTLdCuMfe0V95eA==
+X-Received: by 2002:a05:6512:280c:b0:4fb:744e:17db with SMTP id
+ cf12-20020a056512280c00b004fb744e17dbmr7711084lfb.1.1691425970741; 
+ Mon, 07 Aug 2023 09:32:50 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- o17-20020a17090608d100b00988dbbd1f7esm5397484eje.213.2023.08.07.09.32.44
+ e26-20020a50ec9a000000b0051873c201a0sm5377862edr.26.2023.08.07.09.32.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 09:32:45 -0700 (PDT)
+ Mon, 07 Aug 2023 09:32:50 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
  lyude@redhat.com, sfr@canb.auug.org.au
-Subject: [PATCH drm-misc-next 1/5] nouveau/dmem: fix copy-paste error in
- nouveau_dmem_migrate_chunk()
-Date: Mon,  7 Aug 2023 18:32:22 +0200
-Message-ID: <20230807163238.2091-2-dakr@redhat.com>
+Subject: [PATCH drm-misc-next 2/5] drm/nouveau: nvkm: vmm: silence warning
+ from cast
+Date: Mon,  7 Aug 2023 18:32:23 +0200
+Message-ID: <20230807163238.2091-3-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230807163238.2091-1-dakr@redhat.com>
 References: <20230807163238.2091-1-dakr@redhat.com>
@@ -91,30 +91,40 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix call to nouveau_fence_emit() with wrong channel parameter.
+Cast the integer to a pointer-sized type first to keep the compiler
+happy.
 
-Fixes: 7f2a0b50b2b2 ("drm/nouveau: fence: separate fence alloc and emit")
+Fixes: 6b252cf42281 ("drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm")
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_dmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-index 4ad40e42cae1..61e84562094a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
-@@ -678,7 +678,7 @@ static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
+index 38b7ced934b1..46cbd4cedb78 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
+@@ -399,6 +399,8 @@ nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
+ 		.no_comp = true,
+ 	};
+ 	struct nvkm_memory *memory;
++	void *argv = (void *)(uintptr_t)args->argv;
++	int argc = args->argc;
+ 	u64 handle = args->memory;
+ 	u8 refd;
+ 	int ret;
+@@ -418,8 +420,7 @@ nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
+ 		return PTR_ERR(memory);
  	}
  
- 	if (!nouveau_fence_new(&fence))
--		nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
-+		nouveau_fence_emit(fence, drm->dmem->migrate.chan);
- 	migrate_vma_pages(args);
- 	nouveau_dmem_fence_done(&fence);
- 	nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+-	ret = nvkm_memory_map(memory, args->offset, vmm, &vma,
+-			      (void *)args->argv, args->argc);
++	ret = nvkm_memory_map(memory, args->offset, vmm, &vma, argv, argc);
+ 
+ 	nvkm_memory_unref(&vma.memory);
+ 	nvkm_memory_unref(&memory);
 -- 
 2.41.0
 
