@@ -2,76 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9424772D4D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF23772D49
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66F0310E374;
-	Mon,  7 Aug 2023 17:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1854910E02C;
+	Mon,  7 Aug 2023 17:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7252310E02C;
- Mon,  7 Aug 2023 17:52:13 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 377Hp2m7004859; Mon, 7 Aug 2023 17:51:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=wGnefafxofA/RVQ+OffCzfRbL3qD9TS2E/5iOEgKjVI=;
- b=LhgBwzcz08mzMWy/osBRlzAXy6nsEWKO9+n8kYrBABipg8e+cWE7bAG3RY4phehz7Isj
- BhBE98DxmBSOqj0bISa2+J+0HHBW2PGwZxGnoODiKZd6GlGhn1bXpJOpXsycm0w+dqeR
- /76t/OdySSkgO//LeXQTLsUDI1xp/6z8D8cgm/ovjjp/yvnUvC4ZiwBzDnUB0F5/cqnC
- dIOcNwKxcpRZ6iXv0orajWtLbGF0ZBqcUgFDlL7P4pWfk5y9uwgtH/fI3beDjrua68tz
- +rawpSLbuWUQHkF4w0hFAA0knEskIrB8Fje0uSYsHKnH2pdVQ5suRYoHQra/SGy9Q+6Z IQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3saw0r97qx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Aug 2023 17:51:51 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 377HpotR027651
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 7 Aug 2023 17:51:50 GMT
-Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
- 2023 10:51:49 -0700
-Message-ID: <71e9cc67-3aed-f1b7-33b7-1bf9faa0d6ae@quicinc.com>
-Date: Mon, 7 Aug 2023 10:51:49 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 454F4895EE;
+ Mon,  7 Aug 2023 17:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691430730; x=1722966730;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=DMxofzGXP2lonmEXD9FV2NWV4aT+vOGYjpqGCa9nwt0=;
+ b=O0rlKvahEAqpNxWfOFC0JEGQ+oIFrqfuHYTK2ZvuNq2E14W/Kt3zzqbz
+ WnZMG2OEisz1bcwV5kehvHHkUKtcgXUodUW4phIVP0nm7Ycpf4OKf7Ugy
+ E/7S8RXFWKaq/X6K6lvGjXqZIXwyE8Dv+eVX2nm2mIDfAJoZ/M7Wgr6Mh
+ MWJg4kIwujH8M/oQo+mwiQJeixbQ9nLirEvxWWjVe2142r+vOUJSElGNK
+ KN3zcmNaNWS/DJmOid/NBxHbJYxx9++jRAQzBkiUSgGVqZ6iQad32vPwA
+ bVsDzuV28tjnsaLrJ5aFI+JDyhfVHDnYgDkcVDQkbl/qTrHe9Yyq93En8 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373366253"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="373366253"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2023 10:52:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="731059248"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="731059248"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga002.jf.intel.com with ESMTP; 07 Aug 2023 10:52:09 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 7 Aug 2023 10:52:09 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 7 Aug 2023 10:52:08 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 7 Aug 2023 10:52:08 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 7 Aug 2023 10:52:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hfnEpH7E0EgkAgizTltRlaEUbFV0RJxjCyPfPimRWsrT27tLhC3jUBBFXCqEylWuMjR0xcw2I9u9lZFPd6WYnpN7MH7dlKPMqae7BVZ1dJ/DqA6ZxOtSQV6GXuZ70GKNNFYLL/6GQWLeGy06p6i5IP28gf2ynb/iu2L3tfbvBZPvsUDkQtWtTouM4oCLVcTWv2o1AOIqrJJ857ivRSU/tYlFeZGX3c4x7vKr9ziFUQukUMtdPWtUsLAnrFM6D1xsetWFycZcnBOXY9eOJT+AAKatYHopzvR10ApCDP5/XauQJ7ZFo7YnsOss5WEYWt+OXE9sgaXkpUtZ5LUOlBumDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EGmsYoFYHox/xU3OPU7zN9nqgzVXbYC915be3pK0g24=;
+ b=ICYmcOchWK0fFpPuQE9lhtaO6V7g4zcRhJq5l9wYkhkdZI362GzsaY8bbgxX1vSgNyNcWk/G/sfNGPUUfvVx812TuA7UMjRgFOH9CR3VrAXuxDhTs3ENOBIy87xojxbUYSm7fx1dxl6EWbIVu9B1CpOqbOo46Olbxgixi8Dk6aaKaYAQ6cgU1a73DeZPhaIsRnZCgb3ZsfEpvwQEc5QNJTUXBFtrBDhj25oQg+apyHSlRT1SSfm3NphOYnwZ0MefgTstpCahtWsn4NzK7sFZjvLSuR/lbX8/ZJDQA9Rold3Y8VBvSYoOqT/mNIX0QPgZq4wYkgMKpEztFzGz5v22rQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by CY8PR11MB7921.namprd11.prod.outlook.com (2603:10b6:930:7d::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
+ 2023 17:52:07 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
+ 17:52:07 +0000
+Date: Mon, 7 Aug 2023 13:52:02 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Alan Previn <alan.previn.teres.alexis@intel.com>
+Subject: Re: [PATCH v1 1/3] drm/i915/guc: Flush context destruction worker at
+ suspend
+Message-ID: <ZNEvQqeZgvd1XHPV@intel.com>
+References: <20230802233501.17074-1-alan.previn.teres.alexis@intel.com>
+ <20230802233501.17074-2-alan.previn.teres.alexis@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230802233501.17074-2-alan.previn.teres.alexis@intel.com>
+X-ClientProxiedBy: BYAPR02CA0036.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::49) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v5 01/10] drm: Introduce pixel_source DRM plane
- property
-Content-Language: en-US
-To: Sebastian Wick <sebastian.wick@redhat.com>
-References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
- <20230728-solid-fill-v5-1-053dbefa909c@quicinc.com>
- <CA+hFU4ywNbK77Nj+AVkRbgnomyP-YHhP6pKvNhFG-6HXwAY=Yw@mail.gmail.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <CA+hFU4ywNbK77Nj+AVkRbgnomyP-YHhP6pKvNhFG-6HXwAY=Yw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Q7sAW3KP6Or0ZrdsZP-Lur5ymK01wbPl
-X-Proofpoint-ORIG-GUID: Q7sAW3KP6Or0ZrdsZP-Lur5ymK01wbPl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-07_19,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- phishscore=0 adultscore=0 impostorscore=0 mlxlogscore=999 clxscore=1015
- spamscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308070163
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CY8PR11MB7921:EE_
+X-MS-Office365-Filtering-Correlation-Id: 892ff5d6-2052-4dec-3fb0-08db976f03d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xB9YOpSdcKLZWIykvxLjdXkE/50N6CUMoky7Wq5dPJKW7m8VpR4h7ke89hwl4QXOEGtbfTlfFMrsxyeS72VQce2isPYC/OwutTDM4NExb3txmZJUiQBS1MIHTgmCi/S3+++QsSPU03pu4/1cpwXH5Tvy6SRuDlbTJMX33UngVfvlIFupKbF7B2mZVEePRufBUZFEMm4MY/QIxEG1Q3Kf94IlyXjzklOIAWWlmgrysm0ZnlZxqarK+2pLj7lBM02nPdSDWo+1J7YzSz5JwdfVl2KsKuXnxAbzSV9qt8ux4Jcl8ClQmR7HrsNWXEha75PAgKp8HXY+qXdXNf7Y/4OAd4W6QGh0JyhMEVh73xBKm9vegG6BZplpzqooj6niiPEmH/YEXvRJG1Eg/4Orowp9mWE9RU1qHNQVRle+hlWCZes3FXA6wELZghsaRMJ/tIUiF8LMY93U0sSdCYidDuvHk+aH7ZMVQ6RtuXEhTxGYbuTN0camFwU+egejep+QiwiJzya1/QFBplExAu94fum6iJvUk/6b4IjJCb4PueyzT3//KXWCmlkdpwUIzIsK96aw
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(396003)(136003)(346002)(39860400002)(376002)(451199021)(186006)(1800799003)(2616005)(36756003)(6512007)(4326008)(316002)(86362001)(6636002)(38100700002)(54906003)(66946007)(6666004)(478600001)(66556008)(66476007)(6486002)(37006003)(450100002)(6506007)(82960400001)(41300700001)(26005)(15650500001)(8676002)(8936002)(6862004)(2906002)(83380400001)(5660300002)(44832011);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aVcW+jEYDg0IxGp3LBkSMK5FLLO8VUy1gEuSrT+Kqr3KKFCUC/+jYAxBryBs?=
+ =?us-ascii?Q?X8L4UOV6E9/UDUJ7xWAvaif6Sptefx/jqh0GFO0LxUPrJlrCyzKK2FG485do?=
+ =?us-ascii?Q?BYKLYcxBSrN/3nD4qxXMryNY5wupfa5hNwsDk8qmVrbfD3srNBXTMoB/BOJk?=
+ =?us-ascii?Q?wc4KSRLn/jij43GfhEOsH2mJCPUFeKaM59zBSU5a6jiZrtzkU8ANceF+yIGQ?=
+ =?us-ascii?Q?g625lmt7m60EMsWKIquTZ7QSAa/s81m9JNZf1U/IJf+RGgdglIjJQrcaeupo?=
+ =?us-ascii?Q?+osgljE6sugIqbBCJKYK8Hmj4U0pXTyNe8D8+3KXreAwy5nwavLE58adwFNf?=
+ =?us-ascii?Q?d0Z1thY2Dw125XDsl2XI6z4XhCvyHXoLRr8axAwE+7ILUEgs2E7msFvBdOAj?=
+ =?us-ascii?Q?fdupmJ6lpJxfWXlPI0GiRwW1vwNrxp2KvlfL64XvZMELvFBMZ3j1du4Cm9Dp?=
+ =?us-ascii?Q?KKVElMP/1NQY1DA/aOA2TrTrbbb1OgARmM/FdKNYaVHJFq1h5N4Eq78p41Uo?=
+ =?us-ascii?Q?m5SDJaVO4UGPJKKvFvphgWlFrVP6/QkSxqXEVZNFarWeBfBPxbqTARHxlyLX?=
+ =?us-ascii?Q?ukPR9jYpVkPoAvwPCSk2RYdqgV/veEEc5Psxi2jnxX/PdjPwVdoZbReb2Q2G?=
+ =?us-ascii?Q?oDFE+f0Juq1osXGFBwiyeJw+9cBVvF9TrkIrtEIecq7eKRNSyjqJPrmJVy+P?=
+ =?us-ascii?Q?hc1WgjkaZWkYnGo6+oQom/IwegC7HPaZhRcdc4SwfpI1pyv5d51t6jRsrS3X?=
+ =?us-ascii?Q?VmSzgg1mwkYcNIwKpJQ6VDoKCk05Jk6bc4ynpzrKw9BrcyskkeBTDzC4FiYJ?=
+ =?us-ascii?Q?vynAxsoxHymBIA9k54fMtmKa8rgeQBhBTh6ZyKkNxY4T4t6+lDoCR9AzeCcE?=
+ =?us-ascii?Q?H0UWQ2JuaT2kBwOXPEj/OmG0Mh8nz8jWJQOIkF2qvW2hC6jo0GM393HHqAcJ?=
+ =?us-ascii?Q?NrM364Oz3Cg2i7Zhk3r3K06AjwtgWg5Bf3e6FyA332zocpv0Xhx/E1lgftU+?=
+ =?us-ascii?Q?fu8z42T86I4noUJqFN12YgqQQTWRuf46jMH0ZziigI+6FuJsqHL9MYM/21Ix?=
+ =?us-ascii?Q?QhSco7deh0Mn1wPam3IFndNi6uNOy0VAh80r/bVIOMpcrbXs4QpLMP7j+vHk?=
+ =?us-ascii?Q?5gljFjtwT/oLAuAP9Ipn2LMSW9FTxweOA5U5/iLvT1DSoL3AnMDWFYE4JWvA?=
+ =?us-ascii?Q?pZtWn27Kc56AIL8r2bx7adBUyRTZSU0vfxfUkx+hPnnJVAzQHsrmp0LvGMyY?=
+ =?us-ascii?Q?yTm/TuTUz3t95po3/2MEvCDwQvu/p2ZVLCk8ZA1i9l9eF8msqFGHZDfahxGE?=
+ =?us-ascii?Q?Fisf91VFvNoEUrzrGOhknSl42kmCAK7vqMlTGk/3TcdgTQ6/aRjVzkH0vvbm?=
+ =?us-ascii?Q?tQc7RC4iyhVixMYlNv+iUPeyvHH97BCYrX71xm4LACbqrAlZBo+zQhnP3xBZ?=
+ =?us-ascii?Q?2Vc2NLyrSA+eWsUV7lKqXsVJxNGBCmXSWNAKa6QGEB0g1e2j6HfxAskUf6Cj?=
+ =?us-ascii?Q?U08AwVXX69bPCJSnGLuVNC3FtdTppTSDu5BJsamZpfj3sMoYTn2CKbwXQFHw?=
+ =?us-ascii?Q?kAJnnCBm0DV6orbaqD8tftvQxMk7XEprys3ZDhhB?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 892ff5d6-2052-4dec-3fb0-08db976f03d1
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 17:52:06.9530 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PlDHYxF0tRYFdv69NZhIQIaT3LC3Hz/5tviNd3b2WK6Ea48ggpUdpQLu03FYv5ShYgftjA7nAA2qaw+byxIXVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7921
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,276 +147,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- ppaalanen@gmail.com, Thomas Zimmermann <tzimmermann@suse.de>, Sean
- Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- wayland-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org, John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Aug 02, 2023 at 04:34:59PM -0700, Alan Previn wrote:
+> Suspend is not like reset, it can unroll, so we have to properly
+> flush pending context-guc-id deregistrations to complete before
+> we return from suspend calls.
 
-
-On 8/4/2023 6:15 AM, Sebastian Wick wrote:
-> On Fri, Jul 28, 2023 at 7:03 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>
->> Add support for pixel_source property to drm_plane and related
->> documentation. In addition, force pixel_source to
->> DRM_PLANE_PIXEL_SOURCE_FB in DRM_IOCTL_MODE_SETPLANE as to not break
->> legacy userspace.
->>
->> This enum property will allow user to specify a pixel source for the
->> plane. Possible pixel sources will be defined in the
->> drm_plane_pixel_source enum.
->>
->> The current possible pixel sources are DRM_PLANE_PIXEL_SOURCE_NONE and
->> DRM_PLANE_PIXEL_SOURCE_FB with *_PIXEL_SOURCE_FB being the default value.
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
->>   drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
->>   drivers/gpu/drm/drm_blend.c               | 85 +++++++++++++++++++++++++++++++
->>   drivers/gpu/drm/drm_plane.c               |  3 ++
->>   include/drm/drm_blend.h                   |  2 +
->>   include/drm/drm_plane.h                   | 21 ++++++++
->>   6 files changed, 116 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
->> index 784e63d70a42..01638c51ce0a 100644
->> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
->> @@ -252,6 +252,7 @@ void __drm_atomic_helper_plane_state_reset(struct drm_plane_state *plane_state,
->>
->>          plane_state->alpha = DRM_BLEND_ALPHA_OPAQUE;
->>          plane_state->pixel_blend_mode = DRM_MODE_BLEND_PREMULTI;
->> +       plane_state->pixel_source = DRM_PLANE_PIXEL_SOURCE_FB;
->>
->>          if (plane->color_encoding_property) {
->>                  if (!drm_object_property_get_default_value(&plane->base,
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->> index d867e7f9f2cd..454f980e16c9 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -544,6 +544,8 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
->>                  state->src_w = val;
->>          } else if (property == config->prop_src_h) {
->>                  state->src_h = val;
->> +       } else if (property == plane->pixel_source_property) {
->> +               state->pixel_source = val;
->>          } else if (property == plane->alpha_property) {
->>                  state->alpha = val;
->>          } else if (property == plane->blend_mode_property) {
->> @@ -616,6 +618,8 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
->>                  *val = state->src_w;
->>          } else if (property == config->prop_src_h) {
->>                  *val = state->src_h;
->> +       } else if (property == plane->pixel_source_property) {
->> +               *val = state->pixel_source;
->>          } else if (property == plane->alpha_property) {
->>                  *val = state->alpha;
->>          } else if (property == plane->blend_mode_property) {
->> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
->> index 6e74de833466..c500310a3d09 100644
->> --- a/drivers/gpu/drm/drm_blend.c
->> +++ b/drivers/gpu/drm/drm_blend.c
->> @@ -185,6 +185,21 @@
->>    *              plane does not expose the "alpha" property, then this is
->>    *              assumed to be 1.0
->>    *
->> + * pixel_source:
->> + *     pixel_source is set up with drm_plane_create_pixel_source_property().
->> + *     It is used to toggle the active source of pixel data for the plane.
->> + *     The plane will only display data from the set pixel_source -- any
->> + *     data from other sources will be ignored.
->> + *
->> + *     Possible values:
->> + *
->> + *     "NONE":
->> + *             No active pixel source.
->> + *             Committing with a NONE pixel source will disable the plane.
->> + *
->> + *     "FB":
->> + *             Framebuffer source set by the "FB_ID" property.
->> + *
->>    * Note that all the property extensions described here apply either to the
->>    * plane or the CRTC (e.g. for the background color, which currently is not
->>    * exposed and assumed to be black).
->> @@ -615,3 +630,73 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
->>          return 0;
->>   }
->>   EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
->> +
->> +/**
->> + * drm_plane_create_pixel_source_property - create a new pixel source property
->> + * @plane: DRM plane
->> + * @extra_sources: Bitmask of additional supported pixel_sources for the driver.
->> + *                DRM_PLANE_PIXEL_SOURCE_FB always be enabled as a supported
->> + *                source.
->> + *
->> + * This creates a new property describing the current source of pixel data for the
->> + * plane. The pixel_source will be initialized as DRM_PLANE_PIXEL_SOURCE_FB by default.
->> + *
->> + * Drivers can set a custom default source by overriding the pixel_source value in
->> + * drm_plane_funcs.reset()
->> + *
->> + * The property is exposed to userspace as an enumeration property called
->> + * "pixel_source" and has the following enumeration values:
->> + *
->> + * "NONE":
->> + *      No active pixel source
->> + *
->> + * "FB":
->> + *     Framebuffer pixel source
->> + *
->> + * Returns:
->> + * Zero on success, negative errno on failure.
->> + */
->> +int drm_plane_create_pixel_source_property(struct drm_plane *plane,
->> +                                          unsigned long extra_sources)
->> +{
->> +       struct drm_device *dev = plane->dev;
->> +       struct drm_property *prop;
->> +       static const struct drm_prop_enum_list enum_list[] = {
->> +               { DRM_PLANE_PIXEL_SOURCE_NONE, "NONE" },
->> +               { DRM_PLANE_PIXEL_SOURCE_FB, "FB" },
->> +       };
->> +       static const unsigned int valid_source_mask = BIT(DRM_PLANE_PIXEL_SOURCE_FB);
->> +       int i;
->> +
->> +       /* FB is supported by default */
->> +       unsigned long supported_sources = extra_sources | BIT(DRM_PLANE_PIXEL_SOURCE_FB);
-> 
-> The DRM_PLANE_PIXEL_SOURCE_NONE property should also be enabled by
-> default and in the valid_source_mask. 
-
-Hi Sebastian,
-
-Acked.
-
-
-> In a later patch you implement
-> the DRM_PLANE_PIXEL_SOURCE_NONE logic in drm core so everyone gets the
-> enum value for free. Might want to pull that logic into its own patch
-> and move it before this one.
-
-Can you elaborate on this? Are you referring to the "Loosen FB atomic 
-checks" patch?
-
-Not sure why it would make sense to loosen the checks before non-FB 
-pixel sources are introduced.
-
-Thanks,
-
-Jessica Zhang
+But if is 'unrolls' the execution should just continue, no?!
+In other words, why is this flush needed? What happens if we
+don't flush, but resume doesn't proceed? in in which case
+of resume you are thinking that it returns and not having flushed?
 
 > 
->> +
->> +       if (WARN_ON(supported_sources & ~valid_source_mask))
->> +               return -EINVAL;
->> +
->> +       prop = drm_property_create(dev, DRM_MODE_PROP_ENUM | DRM_MODE_PROP_ATOMIC, "pixel_source",
->> +                       hweight32(supported_sources));
->> +
->> +       if (!prop)
->> +               return -ENOMEM;
->> +
->> +       for (i = 0; i < ARRAY_SIZE(enum_list); i++) {
->> +               int ret;
->> +
->> +               if (!test_bit(enum_list[i].type, &supported_sources))
->> +                       continue;
->> +
->> +               ret = drm_property_add_enum(prop, enum_list[i].type, enum_list[i].name);
->> +               if (ret) {
->> +                       drm_property_destroy(dev, prop);
->> +
->> +                       return ret;
->> +               }
->> +       }
->> +
->> +       drm_object_attach_property(&plane->base, prop, DRM_PLANE_PIXEL_SOURCE_FB);
->> +       plane->pixel_source_property = prop;
->> +
->> +       return 0;
->> +}
->> +EXPORT_SYMBOL(drm_plane_create_pixel_source_property);
->> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
->> index 24e7998d1731..f342cf15412b 100644
->> --- a/drivers/gpu/drm/drm_plane.c
->> +++ b/drivers/gpu/drm/drm_plane.c
->> @@ -987,6 +987,9 @@ int drm_mode_setplane(struct drm_device *dev, void *data,
->>                  return -ENOENT;
->>          }
->>
->> +       if (plane->state && plane->state->pixel_source != DRM_PLANE_PIXEL_SOURCE_FB)
->> +               plane->state->pixel_source = DRM_PLANE_PIXEL_SOURCE_FB;
->> +
->>          if (plane_req->fb_id) {
->>                  fb = drm_framebuffer_lookup(dev, file_priv, plane_req->fb_id);
->>                  if (!fb) {
->> diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
->> index 88bdfec3bd88..122bbfbaae33 100644
->> --- a/include/drm/drm_blend.h
->> +++ b/include/drm/drm_blend.h
->> @@ -58,4 +58,6 @@ int drm_atomic_normalize_zpos(struct drm_device *dev,
->>                                struct drm_atomic_state *state);
->>   int drm_plane_create_blend_mode_property(struct drm_plane *plane,
->>                                           unsigned int supported_modes);
->> +int drm_plane_create_pixel_source_property(struct drm_plane *plane,
->> +                                          unsigned long extra_sources);
->>   #endif
->> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
->> index 51291983ea44..89508b4dea4a 100644
->> --- a/include/drm/drm_plane.h
->> +++ b/include/drm/drm_plane.h
->> @@ -40,6 +40,12 @@ enum drm_scaling_filter {
->>          DRM_SCALING_FILTER_NEAREST_NEIGHBOR,
->>   };
->>
->> +enum drm_plane_pixel_source {
->> +       DRM_PLANE_PIXEL_SOURCE_NONE,
->> +       DRM_PLANE_PIXEL_SOURCE_FB,
->> +       DRM_PLANE_PIXEL_SOURCE_MAX
->> +};
->> +
->>   /**
->>    * struct drm_plane_state - mutable plane state
->>    *
->> @@ -116,6 +122,14 @@ struct drm_plane_state {
->>          /** @src_h: height of visible portion of plane (in 16.16) */
->>          uint32_t src_h, src_w;
->>
->> +       /**
->> +        * @pixel_source:
->> +        *
->> +        * Source of pixel information for the plane. See
->> +        * drm_plane_create_pixel_source_property() for more details.
->> +        */
->> +       enum drm_plane_pixel_source pixel_source;
->> +
->>          /**
->>           * @alpha:
->>           * Opacity of the plane with 0 as completely transparent and 0xffff as
->> @@ -699,6 +713,13 @@ struct drm_plane {
->>           */
->>          struct drm_plane_state *state;
->>
->> +       /*
->> +        * @pixel_source_property:
->> +        * Optional pixel_source property for this plane. See
->> +        * drm_plane_create_pixel_source_property().
->> +        */
->> +       struct drm_property *pixel_source_property;
->> +
->>          /**
->>           * @alpha_property:
->>           * Optional alpha property for this plane. See
->>
->> --
->> 2.41.0
->>
+> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c             | 6 +++++-
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 5 +++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h | 2 ++
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.c             | 7 +++++++
+>  drivers/gpu/drm/i915/gt/uc/intel_uc.h             | 1 +
+>  5 files changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index 5a942af0a14e..3162d859ed68 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -289,8 +289,10 @@ int intel_gt_resume(struct intel_gt *gt)
+>  
+>  static void wait_for_suspend(struct intel_gt *gt)
+>  {
+> -	if (!intel_gt_pm_is_awake(gt))
+> +	if (!intel_gt_pm_is_awake(gt)) {
+> +		intel_uc_suspend_prepare(&gt->uc);
+
+why only on idle?
+
+Well, I know, if we are in idle it is because all the requests had
+already ended and gt will be wedged, but why do we need to do anything
+if we are in idle?
+
+And why here and not some upper layer? like in prepare....
+
+>  		return;
+> +	}
+>  
+>  	if (intel_gt_wait_for_idle(gt, I915_GT_SUSPEND_IDLE_TIMEOUT) == -ETIME) {
+>  		/*
+> @@ -299,6 +301,8 @@ static void wait_for_suspend(struct intel_gt *gt)
+>  		 */
+>  		intel_gt_set_wedged(gt);
+>  		intel_gt_retire_requests(gt);
+> +	} else {
+> +		intel_uc_suspend_prepare(&gt->uc);
+>  	}
+>  
+>  	intel_gt_pm_wait_for_idle(gt);
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index a0e3ef1c65d2..dc7735a19a5a 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -1578,6 +1578,11 @@ static void guc_flush_submissions(struct intel_guc *guc)
+>  	spin_unlock_irqrestore(&sched_engine->lock, flags);
+>  }
+>  
+> +void intel_guc_submission_suspend_prepare(struct intel_guc *guc)
+> +{
+> +	flush_work(&guc->submission_state.destroyed_worker);
+> +}
+> +
+>  static void guc_flush_destroyed_contexts(struct intel_guc *guc);
+>  
+>  void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> index c57b29cdb1a6..7f0705ece74b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+> @@ -38,6 +38,8 @@ int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
+>  				   bool interruptible,
+>  				   long timeout);
+>  
+> +void intel_guc_submission_suspend_prepare(struct intel_guc *guc);
+> +
+>  static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
+>  {
+>  	return guc->submission_supported;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> index 18250fb64bd8..468d7b397927 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> @@ -679,6 +679,13 @@ void intel_uc_runtime_suspend(struct intel_uc *uc)
+>  	guc_disable_communication(guc);
+>  }
+>  
+> +void intel_uc_suspend_prepare(struct intel_uc *uc)
+> +{
+> +	struct intel_guc *guc = &uc->guc;
+> +
+> +	intel_guc_submission_suspend_prepare(guc);
+> +}
+> +
+>  void intel_uc_suspend(struct intel_uc *uc)
+>  {
+>  	struct intel_guc *guc = &uc->guc;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+> index 014bb7d83689..036877a07261 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
+> @@ -49,6 +49,7 @@ void intel_uc_reset_prepare(struct intel_uc *uc);
+>  void intel_uc_reset(struct intel_uc *uc, intel_engine_mask_t stalled);
+>  void intel_uc_reset_finish(struct intel_uc *uc);
+>  void intel_uc_cancel_requests(struct intel_uc *uc);
+> +void intel_uc_suspend_prepare(struct intel_uc *uc);
+>  void intel_uc_suspend(struct intel_uc *uc);
+>  void intel_uc_runtime_suspend(struct intel_uc *uc);
+>  int intel_uc_resume(struct intel_uc *uc);
+> -- 
+> 2.39.0
 > 
