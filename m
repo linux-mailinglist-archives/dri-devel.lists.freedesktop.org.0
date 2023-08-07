@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67715772CBD
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4EF772CC2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6CDE10E351;
-	Mon,  7 Aug 2023 17:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0079C10E352;
+	Mon,  7 Aug 2023 17:23:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4961510E34E;
- Mon,  7 Aug 2023 17:23:08 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1bff2d2c141so603842fac.1; 
- Mon, 07 Aug 2023 10:23:08 -0700 (PDT)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F8410E35E;
+ Mon,  7 Aug 2023 17:23:48 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1bb7a1c2fe5so3529924fac.2; 
+ Mon, 07 Aug 2023 10:23:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428987; x=1692033787;
+ d=gmail.com; s=20221208; t=1691429027; x=1692033827;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sHe5wFpuck9FxbQdSwbkpcG9X/3F59XkMZTvwR3jHW0=;
- b=I35OvquxuMieROZKO1UAIz0eH/wAeTrZ3CxA4JRMN5XbO7l53ynGb9/JtssTBXZzgn
- f29cMN7MaxRjgIn6qBbioCXVTOn/ShqRulmra84eVLmomuvK0neQsnkl47G5L8AClxIs
- 2avL8zHT22UO48nkML1ckjGEwcnnr6uhDhi9YcNgTisHgGVWhTO06zjPTSLfbRZcLZ6r
- siujggA/TAUy8n1DYLoSoR1Ybc5ugx4Izuu6SYIoHFRkFLEaFMLFjfh8Nu5w5xctP3K1
- AT24QRmhw6qajS+7kbjLerMtI7K2dyBjMaz2iu4jXef/oAsZkli0Bh115phTRsDpHUuk
- MHpA==
+ bh=hnSUl1DSZr5Fls6ZOpvWGsqmImbGUDT7mTUl9oquTSs=;
+ b=cC64se7BOTXW8iN4bttq/0ZioKeGOfYwXCHPFF4BDg0bC1qSuGMzUIlfe1iDbiED9e
+ k2ycA/RfdVCWN7ljdaaDN2ecFOF1jf0jXxB4df8BcmNPMqIV2EOp7wyW5T+NJ6vlkNKi
+ G1XwTfr32I0mUnzoregb6SpbkIgtuHr6l595IAEtDySDIbjkvOHyREuT8rykA1VyXQgw
+ dZv8mNwtX/Z284T5mTH18PSbjqjLkRK5eqB9aGPf0wlXzFnOhdRxRrHZD2JEW/aTYe91
+ SOyYcXBWD1AkbuBMHtNgZR5KDmqv1UOI1YKqag1hCV6j7uIs8mXqLff1Olsj/6Ai0ztM
+ gnpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428987; x=1692033787;
+ d=1e100.net; s=20221208; t=1691429027; x=1692033827;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sHe5wFpuck9FxbQdSwbkpcG9X/3F59XkMZTvwR3jHW0=;
- b=EsHkKj+0Ct/UyZ1rLQyr283ZCaB/SUFuEIfvPNqBikWNnhqBVtTkRxsEZm3xyWoQDM
- EzpGYy6U+ZbohKlzPqiuokbxIgQodyAr20gnjdD2U2ai8ZmzFckW1tt+HIYCRFJ2s1NP
- NVM1A3kskrfq9yqam3HQ+aH9TG4l6BSAvi3IhdOrS741pmNHimKViW6QmfPFsjzPgulf
- A+c1hq2e1nQ/tjmVH7L1cmkeQpmYxr60pcmmcEvlB5QSw2g/ziTMtPYuwvRT1UHIwA3h
- 4Qi8NKwMQD/7lB5eK6Awv/Mgm92jfVCx3DKGVaYq2C8d4wbXyCPFM92KsTnV6MI+pP3f
- +9FA==
-X-Gm-Message-State: AOJu0YxUbEfmF9umX/s+pLIisqKvqqVM2An4NusafsOnX81X+KFYOeIK
- HdTMsBQR4L7Jbe6J1IcXQ5ehE+b2rrYeiXg0ucQ=
-X-Google-Smtp-Source: AGHT+IEqpYfiuoRzZYazqnVHJZFegWBzehLFDJ25obToxUn4mP6Lf0P1qd3skeEa9rUa1TjeH5uUc29E25kfbyZ34qs=
-X-Received: by 2002:a05:6870:65ab:b0:1bf:597b:2343 with SMTP id
- fp43-20020a05687065ab00b001bf597b2343mr9676547oab.30.1691428987442; Mon, 07
- Aug 2023 10:23:07 -0700 (PDT)
+ bh=hnSUl1DSZr5Fls6ZOpvWGsqmImbGUDT7mTUl9oquTSs=;
+ b=RL3EO62Sbbc2gG7pwpfCDHaHmhQIbBQsSb3jPzm9pxcAwwVMQuYbr7QmxQroZx6Umm
+ cUEJ6a4uKizjL2GysiRkS+gKhg7TrjJE0RitrlEqluxxAgLbQIq3ESdjoOD4ykJGH8SA
+ wAD85AjKn93WekzaMnt32dER/0jATKuM/kDfpzr3z4EWEWArHSNDaN6xWib9c41wnC1U
+ hvdGPzZ+xQuML6XaI6dr/mvbqGoLGJTPO01YMMVZ6mABVa0G5nBlHN/TAzAbM1R7rjdH
+ YHbY67C9mTjCOyRdAcm6QYWLivEwTjAjlko3Cys8P5x6YJLnPDlz5H0ue4FvF3DsU8Gq
+ 9D1A==
+X-Gm-Message-State: AOJu0Yy4kXmltTwxP0PqUE7W5HkuTu+uvRFHZF4dWjtPUATPTZq79J2f
+ 6EP1RbTcR7Xaona0obd/HMPZbRQG63VSdDyZVjLtmK2N
+X-Google-Smtp-Source: AGHT+IGJBJkTtqCZ7hXNDy1AMmlhV69JSCio42nXPS+htexa0SnMKdOfQzoS5i8rtwe18oVXCg5JwhMw/9HpV+CRZOY=
+X-Received: by 2002:a05:6870:e387:b0:1bf:8033:69a0 with SMTP id
+ x7-20020a056870e38700b001bf803369a0mr12176484oad.30.1691429027572; Mon, 07
+ Aug 2023 10:23:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802065958.12449-1-sunran001@208suo.com>
-In-Reply-To: <20230802065958.12449-1-sunran001@208suo.com>
+References: <20230802070348.12538-1-sunran001@208suo.com>
+In-Reply-To: <20230802070348.12538-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:22:56 -0400
-Message-ID: <CADnq5_MiXEV7xLWbjsQOiuLn_Xn5z11jDP_xFS+4s+deWnt5rw@mail.gmail.com>
-Subject: Re: [PATCH] drm/jpeg: Clean up errors in jpeg_v2_0.c
+Date: Mon, 7 Aug 2023 13:23:36 -0400
+Message-ID: <CADnq5_PaOovxLpa+8XZO1-AMFXyqNAg_VBNNGjvaVhRe=di0cQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in dce_v10_0.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,7 +75,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 3:00=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 3:04=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
@@ -84,25 +84,114 @@ On Wed, Aug 2, 2023 at 3:00=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c | 30 +++++++++-----------------
+>  1 file changed, 10 insertions(+), 20 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c b/drivers/gpu/drm/amd=
-/amdgpu/jpeg_v2_0.c
-> index c25d4a07350b..1c8116d75f63 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
-> @@ -807,8 +807,7 @@ static void jpeg_v2_0_set_irq_funcs(struct amdgpu_dev=
-ice *adev)
->         adev->jpeg.inst->irq.funcs =3D &jpeg_v2_0_irq_funcs;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd=
+/amdgpu/dce_v10_0.c
+> index 9a24ed463abd..584cd5277f92 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+> @@ -52,8 +52,7 @@
+>  static void dce_v10_0_set_display_funcs(struct amdgpu_device *adev);
+>  static void dce_v10_0_set_irq_funcs(struct amdgpu_device *adev);
+>
+> -static const u32 crtc_offsets[] =3D
+> -{
+> +static const u32 crtc_offsets[] =3D {
+>         CRTC0_REGISTER_OFFSET,
+>         CRTC1_REGISTER_OFFSET,
+>         CRTC2_REGISTER_OFFSET,
+> @@ -63,8 +62,7 @@ static const u32 crtc_offsets[] =3D
+>         CRTC6_REGISTER_OFFSET
+>  };
+>
+> -static const u32 hpd_offsets[] =3D
+> -{
+> +static const u32 hpd_offsets[] =3D {
+>         HPD0_REGISTER_OFFSET,
+>         HPD1_REGISTER_OFFSET,
+>         HPD2_REGISTER_OFFSET,
+> @@ -121,30 +119,26 @@ static const struct {
+>         .hpd =3D DISP_INTERRUPT_STATUS_CONTINUE5__DC_HPD6_INTERRUPT_MASK
+>  } };
+>
+> -static const u32 golden_settings_tonga_a11[] =3D
+> -{
+> +static const u32 golden_settings_tonga_a11[] =3D {
+>         mmDCI_CLK_CNTL, 0x00000080, 0x00000000,
+>         mmFBC_DEBUG_COMP, 0x000000f0, 0x00000070,
+>         mmFBC_MISC, 0x1f311fff, 0x12300000,
+>         mmHDMI_CONTROL, 0x31000111, 0x00000011,
+>  };
+>
+> -static const u32 tonga_mgcg_cgcg_init[] =3D
+> -{
+> +static const u32 tonga_mgcg_cgcg_init[] =3D {
+>         mmXDMA_CLOCK_GATING_CNTL, 0xffffffff, 0x00000100,
+>         mmXDMA_MEM_POWER_CNTL, 0x00000101, 0x00000000,
+>  };
+>
+> -static const u32 golden_settings_fiji_a10[] =3D
+> -{
+> +static const u32 golden_settings_fiji_a10[] =3D {
+>         mmDCI_CLK_CNTL, 0x00000080, 0x00000000,
+>         mmFBC_DEBUG_COMP, 0x000000f0, 0x00000070,
+>         mmFBC_MISC, 0x1f311fff, 0x12300000,
+>         mmHDMI_CONTROL, 0x31000111, 0x00000011,
+>  };
+>
+> -static const u32 fiji_mgcg_cgcg_init[] =3D
+> -{
+> +static const u32 fiji_mgcg_cgcg_init[] =3D {
+>         mmXDMA_CLOCK_GATING_CNTL, 0xffffffff, 0x00000100,
+>         mmXDMA_MEM_POWER_CNTL, 0x00000101, 0x00000000,
+>  };
+> @@ -1425,8 +1419,7 @@ static void dce_v10_0_audio_enable(struct amdgpu_de=
+vice *adev,
+>                            enable ? AZALIA_F0_CODEC_PIN_CONTROL_HOT_PLUG_=
+CONTROL__AUDIO_ENABLED_MASK : 0);
 >  }
 >
-> -const struct amdgpu_ip_block_version jpeg_v2_0_ip_block =3D
+> -static const u32 pin_offsets[] =3D
 > -{
-> +const struct amdgpu_ip_block_version jpeg_v2_0_ip_block =3D {
->                 .type =3D AMD_IP_BLOCK_TYPE_JPEG,
->                 .major =3D 2,
->                 .minor =3D 0,
+> +static const u32 pin_offsets[] =3D {
+>         AUD0_REGISTER_OFFSET,
+>         AUD1_REGISTER_OFFSET,
+>         AUD2_REGISTER_OFFSET,
+> @@ -1811,8 +1804,7 @@ static void dce_v10_0_afmt_fini(struct amdgpu_devic=
+e *adev)
+>         }
+>  }
+>
+> -static const u32 vga_control_regs[6] =3D
+> -{
+> +static const u32 vga_control_regs[6] =3D {
+>         mmD1VGA_CONTROL,
+>         mmD2VGA_CONTROL,
+>         mmD3VGA_CONTROL,
+> @@ -3651,8 +3643,7 @@ static void dce_v10_0_set_irq_funcs(struct amdgpu_d=
+evice *adev)
+>         adev->hpd_irq.funcs =3D &dce_v10_0_hpd_irq_funcs;
+>  }
+>
+> -const struct amdgpu_ip_block_version dce_v10_0_ip_block =3D
+> -{
+> +const struct amdgpu_ip_block_version dce_v10_0_ip_block =3D {
+>         .type =3D AMD_IP_BLOCK_TYPE_DCE,
+>         .major =3D 10,
+>         .minor =3D 0,
+> @@ -3660,8 +3651,7 @@ const struct amdgpu_ip_block_version dce_v10_0_ip_b=
+lock =3D
+>         .funcs =3D &dce_v10_0_ip_funcs,
+>  };
+>
+> -const struct amdgpu_ip_block_version dce_v10_1_ip_block =3D
+> -{
+> +const struct amdgpu_ip_block_version dce_v10_1_ip_block =3D {
+>         .type =3D AMD_IP_BLOCK_TYPE_DCE,
+>         .major =3D 10,
+>         .minor =3D 1,
 > --
 > 2.17.1
 >
