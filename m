@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C57E772AA3
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8F5772AB4
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:28:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB99A10E2B6;
-	Mon,  7 Aug 2023 16:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E59710E2BA;
+	Mon,  7 Aug 2023 16:28:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8540810E2B6;
- Mon,  7 Aug 2023 16:27:09 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- 006d021491bc7-56cca35d8c3so2427194eaf.3; 
- Mon, 07 Aug 2023 09:27:09 -0700 (PDT)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D986110E2B8;
+ Mon,  7 Aug 2023 16:28:11 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1bc479cc815so3686627fac.1; 
+ Mon, 07 Aug 2023 09:28:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691425629; x=1692030429;
+ d=gmail.com; s=20221208; t=1691425691; x=1692030491;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Xl2DiaD0s9sQaa1SCOAndOp0tHDVWN37eY0r1ePst1o=;
- b=njMVpHsYhL2VBL3zZH3RRrgun72OfQOP6X0/aLXBs7VpxEzzeikNKFDV/DhXnUZPNl
- MwGXg2CUpktyJhfFnHLruDoYJcUkhJtc6q1PWy6RoVTvpx7uMcGOT0D5IxClfxXHGTRw
- pZvRwx3fUB71Wmm07dOO9Fy+x3bKF3NOjkSZ/20uHbM9TixUA1CFQF22a/lHCQDFCvDa
- dhEKA1j309oMNL0AfuuhHPtjmkkgr4CVKr2xd2JVxS2aOp/p/Cc6S0LoYSCnAumbhhes
- TsRz60g/40cyiUrpeggAy/Y1oOBBbYZjyCQf7WPvEhlF1BZ0pgGLS+0zbuJiWKcWWBLa
- WytA==
+ bh=IBBuDI+9splS1pnBc+KXC2tvqjZTNnwYYin+vd+ZusA=;
+ b=TyEXAOeXsOHZJSdCLFjJOts0i1CUzU4U2kZa0bd6SlgoVASnjLfib6uCG8HcFHlC1V
+ py44hX/0m8a/l7Q0tNPyvoDnrYqlfZnBBcrOWF241VffmiVTF9lz8i4jtuhHFJIu9yAX
+ OnwvGoERLcUVfhfbIuvqUbDF0OXAADJSK0ncHzZtlQbDAZ2+0UJFTLDzcRdCW8uB2xHK
+ 7G0IOSkR0ADMeXY6j+1SdEqEPfLOHSX1CBsQWcGNLgAgXKXSUbyMGrZCjdFP6XivvVXX
+ x4kP/9Nl7lWQ9vVL9UTI/aGEB4uulCIAqFUpvZkyoMiDRJkjGPYFQyRqpEbCguMYwg5r
+ F/tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425629; x=1692030429;
+ d=1e100.net; s=20221208; t=1691425691; x=1692030491;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Xl2DiaD0s9sQaa1SCOAndOp0tHDVWN37eY0r1ePst1o=;
- b=OjzjdFEuaXgSrwffVgfWOkwg2iGxPkhs2bPz9ROKSc4g7Q+6ulHMSrvV+q2aB9gxUJ
- ECIngTtQYPsuboHWvBYs56C4zx14H09OiBFgfIN24eNa5o+B5Kt2/NmbmPQ+vvI485Ru
- u8VDm1oPpCjOrV781r30JxY7hpH1GwgauUDKp9EZxnD5Rc2p5TwUH6x2H+Ie29vgvc7o
- ByS5gF11/nmj8prtWl+GvzphvnsdN6fiYamVo9HJkW0DCedbqeu7igh2WBfVwXYq2R76
- SWzEWFKlsXhzPhJPcS20jIroFrOTlU1Mr8CXvSbaM/ud4DgpLk6CD3mwMfE3xZ6ajN8j
- zsRg==
-X-Gm-Message-State: AOJu0YxXqoSlM0DIH0/pTXoTdD84FzMiGwhuDg1zEVE5pSL6LkO328J9
- zx+5hGJwiy8bfi5AvBjl9gbIzZCiK8HAUZIwf1Y=
-X-Google-Smtp-Source: AGHT+IGA12XTo+wO2CuNQhuwnZhSDv9RtIxAERcuRVoVohfV3PqzlU5Sf7PWlTaNdJ42RO4VAM7cuxqiEwxqdIKn5eQ=
-X-Received: by 2002:a05:6870:148f:b0:1bb:c946:b80e with SMTP id
- k15-20020a056870148f00b001bbc946b80emr9673552oab.28.1691425628716; Mon, 07
- Aug 2023 09:27:08 -0700 (PDT)
+ bh=IBBuDI+9splS1pnBc+KXC2tvqjZTNnwYYin+vd+ZusA=;
+ b=Vd0sn7DoKAl+i4hs6wOTRYPI1bvQssOpvavphugr4mAnbI5W/QlbfqbQ64LzmTYjf8
+ fBdX6PdnrbguJvn7TEV6yQw05Tw+Na5kN8DquVOsPpvjJunxYOFXBOFBQOM6IC4R0alG
+ v1Vpp/7BxmExBY2IkZU0uoXG+JCF6GJMsDnWyFNKJ4Kj4nqZDSSgEMxAHBKwB+SGyXx5
+ znLOVZhihVZ1tzunkPvN5hZsyMpiprfd5P6rm/sZhNC2VrFigXaQfbx/ebb02KRJNaLI
+ iQQIaMf1P3xS/LnYfJgP/F1tg+8H43Uph5m6UG6/sgiiTmSJxnoSXO/LE0JTAiuInMoK
+ ooNA==
+X-Gm-Message-State: AOJu0YyPea4QaobtSMKH+jtLq4xvvFJvHrvqMc27UpCpnYEY2vs7/tFD
+ WPuGC20K//FynTdstQXWgF2cm/UzlG42UnkPgb0=
+X-Google-Smtp-Source: AGHT+IFwaosLDH0Ba5G6pXQk30jVkppAo725i0nFFwHkn7bEe8zkkOgguoqmJ8vCc7Xakh5eRP/drsdqlfvUc0qWsFg=
+X-Received: by 2002:a05:6871:521e:b0:1bf:607:e0ed with SMTP id
+ ht30-20020a056871521e00b001bf0607e0edmr13625803oac.39.1691425691082; Mon, 07
+ Aug 2023 09:28:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801030851.5158-1-sunran001@208suo.com>
-In-Reply-To: <20230801030851.5158-1-sunran001@208suo.com>
+References: <20230801031603.5283-1-sunran001@208suo.com>
+In-Reply-To: <20230801031603.5283-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:26:57 -0400
-Message-ID: <CADnq5_OnifyV7Debd_GsGFA1yPkr454GLLb0d5Wsd00tg=V1aA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu10_hwmgr.c
+Date: Mon, 7 Aug 2023 12:28:00 -0400
+Message-ID: <CADnq5_MuE1-K100y0GzBrycuG5as90bfxewZG+2_U_2-yw1gGw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in fiji_baco.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,93 +75,123 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Mon, Jul 31, 2023 at 11:09=E2=80=AFPM Ran Sun <sunran001@208suo.com> wro=
+On Mon, Jul 31, 2023 at 11:16=E2=80=AFPM Ran Sun <sunran001@208suo.com> wro=
 te:
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: spaces required around that '=3D' (ctx:VxW)
-> ERROR: space required after that ',' (ctx:VxV)
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  .../drm/amd/pm/powerplay/hwmgr/fiji_baco.c    | 24 +++++++------------
+>  1 file changed, 8 insertions(+), 16 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drive=
-rs/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> index 86d6e88c7386..02ba68d7c654 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> @@ -430,37 +430,37 @@ static int smu10_apply_state_adjust_rules(struct pp=
-_hwmgr *hwmgr,
->  }
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c b/drivers=
+/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
+> index c0368f2dfb21..b3e768fa79f2 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/fiji_baco.c
+> @@ -36,8 +36,7 @@
+>  #include "smu/smu_7_1_3_sh_mask.h"
 >
->  /* temporary hardcoded clock voltage breakdown tables */
-> -static const DpmClock_t VddDcfClk[]=3D {
-> +static const DpmClock_t VddDcfClk[] =3D {
->         { 300, 2600},
->         { 600, 3200},
->         { 600, 3600},
+>
+> -static const struct baco_cmd_entry gpio_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry gpio_tbl[] =3D {
+>         { CMD_WRITE, mmGPIOPAD_EN, 0, 0, 0, 0x0 },
+>         { CMD_WRITE, mmGPIOPAD_PD_EN, 0, 0, 0, 0x0 },
+>         { CMD_WRITE, mmGPIOPAD_PU_EN, 0, 0, 0, 0x0 },
+> @@ -50,15 +49,13 @@ static const struct baco_cmd_entry gpio_tbl[] =3D
+>         { CMD_READMODIFYWRITE, mmDC_GPIO_SYNCA_MASK, 0, 0, 0, 0x00001111 =
+}
 >  };
 >
-> -static const DpmClock_t VddSocClk[]=3D {
-> +static const DpmClock_t VddSocClk[] =3D {
->         { 478, 2600},
->         { 722, 3200},
->         { 722, 3600},
+> -static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0300024 },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x1, 0x0, 0, 0x1 },
+>         { CMD_WRITE, mmBIF_FB_EN, 0, 0, 0, 0x0 }
 >  };
 >
-> -static const DpmClock_t VddFClk[]=3D {
-> +static const DpmClock_t VddFClk[] =3D {
->         { 400, 2600},
->         {1200, 3200},
->         {1200, 3600},
+> -static const struct baco_cmd_entry use_bclk_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry use_bclk_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPL=
+L_BYPASS_EN_MASK, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN__SHIFT, 0, 0x1 },
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL_2 =
+},
+> @@ -78,8 +75,7 @@ static const struct baco_cmd_entry use_bclk_tbl[] =3D
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, MPLL_BYPASSCLK_SEL__MP=
+LL_CLKOUT_SEL_MASK, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL__SHIFT, 0, 0x2 }
 >  };
 >
-> -static const DpmClock_t VddDispClk[]=3D {
-> +static const DpmClock_t VddDispClk[] =3D {
->         { 435, 2600},
->         { 661, 3200},
->         {1086, 3600},
+> -static const struct baco_cmd_entry turn_off_plls_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry turn_off_plls_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPL=
+L_RESET_MASK, CG_SPLL_FUNC_CNTL__SPLL_RESET__SHIFT, 0,     0x1 },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPL=
+L_PWRON_MASK, CG_SPLL_FUNC_CNTL__SPLL_PWRON__SHIFT, 0,     0x0 },
+> @@ -88,8 +84,7 @@ static const struct baco_cmd_entry turn_off_plls_tbl[] =
+=3D
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x8000000, 0x1b, 0, 0x=
+0 }
 >  };
 >
-> -static const DpmClock_t VddDppClk[]=3D {
-> +static const DpmClock_t VddDppClk[] =3D {
->         { 435, 2600},
->         { 661, 3200},
->         { 661, 3600},
+> -static const struct baco_cmd_entry clk_req_b_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry clk_req_b_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_CLKPIN_CNTL_2 },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_CLKPIN_CNTL_2__FORC=
+E_BIF_REFCLK_EN_MASK, CG_CLKPIN_CNTL_2__FORCE_BIF_REFCLK_EN__SHIFT, 0, 0x0 =
+},
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixMPLL_BYPASSCLK_SEL }=
+,
+> @@ -104,8 +99,7 @@ static const struct baco_cmd_entry clk_req_b_tbl[] =3D
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, THM_CLK_CNTL__TMON_CLK=
+_SEL_MASK, THM_CLK_CNTL__TMON_CLK_SEL__SHIFT, 0, 0x1 }
 >  };
 >
-> -static const DpmClock_t VddPhyClk[]=3D {
-> +static const DpmClock_t VddPhyClk[] =3D {
->         { 540, 2600},
->         { 810, 3200},
->         { 810, 3600},
-> @@ -1358,7 +1358,7 @@ static int smu10_set_watermarks_for_clocks_ranges(s=
-truct pp_hwmgr *hwmgr,
->         struct amdgpu_device *adev =3D hwmgr->adev;
->         int i;
+> -static const struct baco_cmd_entry enter_baco_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry enter_baco_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_EN_MASK, BACO=
+_CNTL__BACO_EN__SHIFT, 0, 0x01 },
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWIT=
+CH_MASK, BACO_CNTL__BACO_BIF_SCLK_SWITCH__SHIFT, 0, 0x01 },
+>         { CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK,=
+ 0, 5, 0x40000 },
+> @@ -122,8 +116,7 @@ static const struct baco_cmd_entry enter_baco_tbl[] =
+=3D
 >
-> -       smu_set_watermarks_for_clocks_ranges(table,wm_with_clock_ranges);
-> +       smu_set_watermarks_for_clocks_ranges(table, wm_with_clock_ranges)=
-;
+>  #define BACO_CNTL__PWRGOOD_MASK  BACO_CNTL__PWRGOOD_GPIO_MASK+BACO_CNTL_=
+_PWRGOOD_MEM_MASK+BACO_CNTL__PWRGOOD_DVO_MASK
 >
->         if (adev->apu_flags & AMD_APU_IS_RAVEN2) {
->                 for (i =3D 0; i < NUM_WM_RANGES; i++)
-> @@ -1461,7 +1461,7 @@ static int smu10_get_power_profile_mode(struct pp_h=
-wmgr *hwmgr, char *buf)
+> -static const struct baco_cmd_entry exit_baco_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry exit_baco_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_RESET_EN_MASK=
+, BACO_CNTL__BACO_RESET_EN__SHIFT, 0, 0x01 },
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BCLK_OFF_MASK=
+, BACO_CNTL__BACO_BCLK_OFF__SHIFT, 0, 0x00 },
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MAS=
+K, BACO_CNTL__BACO_POWER_OFF__SHIFT, 0, 0x00 },
+> @@ -138,8 +131,7 @@ static const struct baco_cmd_entry exit_baco_tbl[] =
+=3D
+>         { CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xfffff=
+fff, 0x00 }
+>  };
 >
->         phm_get_sysfs_buf(&buf, &size);
->
-> -       size +=3D sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n",title[=
-0],
-> +       size +=3D sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n", title=
-[0],
->                         title[1], title[2], title[3], title[4], title[5])=
-;
->
->         for (i =3D 0; i <=3D PP_SMC_POWER_PROFILE_COMPUTE; i++)
+> -static const struct baco_cmd_entry clean_baco_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry clean_baco_tbl[] =3D {
+>         { CMD_WRITE, mmBIOS_SCRATCH_0, 0, 0, 0, 0 },
+>         { CMD_WRITE, mmBIOS_SCRATCH_1, 0, 0, 0, 0 },
+>         { CMD_WRITE, mmBIOS_SCRATCH_2, 0, 0, 0, 0 },
 > --
 > 2.17.1
 >
