@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C82D77195E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 07:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE3E771960
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 07:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C0710E1BD;
-	Mon,  7 Aug 2023 05:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD65110E1C0;
+	Mon,  7 Aug 2023 05:22:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR03-AM7-obe.outbound.protection.outlook.com
- (mail-am7eur03on2072.outbound.protection.outlook.com [40.107.105.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 656DE10E1BD
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 05:22:03 +0000 (UTC)
+ (mail-am7eur03on2061c.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaf::61c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27ACB10E1BF
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 05:22:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kDIeV9VMdYbaMtfpzA4kfIHZVT2iw/+emYSY+uABZyju7RDu8WfNmgh/7NB3Qplz/9UdvJEQKuteYDDPejCnkMyMa2Okhu6Fax/RPm3tZiK9dtawVk7AJqlqLJKb+2mdRcyCGjg+dAXfn3NZu/A9hFIVpiwIeLB4z+GNUQBnomQ3JVgF9fX4/oy0R+A63I8aZyZSUvuw+pN2aM5MCimQEwzRdVuGZ/+kor5ESRDEJm71E7cOn6ZAZCDDutzYpjIQGv6XLVjhXC1+Ld8G5cHpfaeebe3oG3/awyFfwLv8fkd6jgOPRMYWhGixfqRZl+/3G6N5e/vddXu65iLuhwyB6g==
+ b=Xxj84PKW2oIczMMrRlQ2dEr0101++3qv6ThRH0HFk6DyJXzFFiMRWGHrkevSMzxdKVQ5p58TSeOM8lkn0GdygiiZf4hSGooj8aEv4TxraEwdLJrOkGhRMM/x19Jkf3o8aH7Ux0quCHmGDCPNKvj4/NdXol+V7C+gvQnvExeZRkZ/IcnUpIpc5+Q+QhvifdXRFjVMjwEdk3ZAQHg09EgEX9FRTmck8rwrM8QU90J8OGTygglevnpyFtWql4TqCGJBsT3UKIk5wzwDdSvcKhHiSDzMBnpRW75H7pJM0PT0pp7j0ii+uMwRvwJb7qgvvNtxR/3LLWzBJEbCy3cZWP+LVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SzECK82M9MNzisvsalW9kbKoYfziy5bbytBxt4RYry4=;
- b=eNKO4yiiL6b/2CR0hG2M2QDUbMMW01ZSN/yT7eoONcoZby+tb1SWj2PBUpw7pwvLuzSn/Wrp2hMv+kWsoQgqD3peopC2L9dPQXeRfSzK4R/aVdHT8Z78IXuTVOJ7iVCFQ7hk3PG3nSMabF7FDF+X5/gDnKJ2iw25aNcNzkwGez4u7fjSTO4FCHMpH7vaNsnh1dtLWu9xreSehGSg98cvB9lhAq9V9/crmuAYQRclwlqnPwm1qkNe+20noBMmVtrQ0OVrRbBYaN0NCcE9ALd2XXv0sJbAqrJVCahcfBdDvbwe5d9Vs1epI3pIyW+fnk7n8m0bIkbvHmjA06eesmUmpQ==
+ bh=HviIkpnOLXPijI+yHIE9CMnfmFAZqe/94FMKZnsVQWI=;
+ b=RhqrP4fj8AEcpfGHdIOO1NphU+mKIVVmM2IxEBllKzdJrzTHToXMx8aPSwsrIhwxGzlFdTL3oLuz0QPCEZIIleaknODY/hIQWIWF/oB/1hJcCKrMrYm/KT42R6zRMCEuahVdn8OdgSouh5pTWhZa1ee1PKuuJOPyHrTAzzoZInocZ6kaOBPrAnT8qD9yn9qHrLbWvX0AhdgEAwubff3rswQM2X+iLo9y03in3Z2zqbQWTmkhNCqKJG9jrT4SVsbVLTBqBjkTp1xOLtHwyR3IdscsaphBDHgiLzekDKA/6hJV3bfXSyMjx4rIFFIyWIwRtlQy+zcGRbMEdfMp1SbVIA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SzECK82M9MNzisvsalW9kbKoYfziy5bbytBxt4RYry4=;
- b=SjAjujmO7DQnN3AAV1TUwXmqQTsH62F6FDKyGh06tEJixAAPqRTqrVoLgyqxMd5V1feF8MPXm9yZFIFctvK347a4rzoekoyUpUPOsiQAfuHv4BgmQV65LZ8Yqi/+X8FMKPQA/neFPXaUcb/eD2XikAHQGaoKzv2pGilN6LkF72w=
+ bh=HviIkpnOLXPijI+yHIE9CMnfmFAZqe/94FMKZnsVQWI=;
+ b=SMRsJNC5zsdBM4IfmTn7/CxFxJaj/kd0PQF5fvX0O4d7jULaa9+86d7eWH94Pl3fHosofW+szMmHpRhOmnM7Lam0u5zgh4mMP3dlOzU9Os2D7ULDiI5e2VqDFEVDENWu81dZ0LPg5XMQYNPKkPM+GV7OQpZ/JPpkkJGvFHN0A68=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by PA4PR04MB9390.eurprd04.prod.outlook.com (2603:10a6:102:2a9::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.25; Mon, 7 Aug
- 2023 05:22:00 +0000
+ 2023 05:22:08 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::9018:e395:332c:e24b%4]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
- 05:22:00 +0000
+ 05:22:08 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 2/9] drm/bridge: synopsys: dw-mipi-dsi: Add input bus
- format negotiation support
-Date: Mon,  7 Aug 2023 13:26:01 +0800
-Message-Id: <20230807052608.3038698-3-victor.liu@nxp.com>
+Subject: [PATCH v3 3/9] drm/bridge: synopsys: dw-mipi-dsi: Force input bus
+ flags
+Date: Mon,  7 Aug 2023 13:26:02 +0800
+Message-Id: <20230807052608.3038698-4-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230807052608.3038698-1-victor.liu@nxp.com>
 References: <20230807052608.3038698-1-victor.liu@nxp.com>
@@ -56,52 +57,52 @@ X-ClientProxiedBy: SI2PR01CA0006.apcprd01.prod.exchangelabs.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9390:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52bb36b2-9e50-4386-75bd-08db97063a3a
+X-MS-Office365-Filtering-Correlation-Id: dd7446db-1d5c-4dd6-6e76-08db97063eb7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5yVQlxMemxuv6xTTq18Hmg/TFbpCkF2A/KWAz8GoJCjgi7SDDjG5trcqBqO/fmmUlSyRxXIpnibPUi9QmcRJpDmw4+lHTG/BKQFMO3sij/vFr7siHfhCGEmMH6xNMO1IDtpif97Nf9gZ2KG/K1qHrRuvJ+9VSlb1PzRj3+1ff7Uy6HOGtgCLrlw3xMk2RtlLt8OElYeMQ717cTceIB1fg8fi4FuIqIyiGxoHSiZOvlqlmr0CwG9rj46VdUv7BkjCXVALuupTr+hiUm+6UNb1iLGnY9r5cVVF2OEZNUarN2DZ6QFotU790KeeLzu7tVgTh1JQmeCzYmONNdrJyhMCp8DqJweuWrhM5LsM1l9DuOpYvs+g1jhLUXDEAqspRX5O5myebbN/1o/RrJRMn/2oJODf8I30v7JqZMdr9HOwib2N6GJPEW81m2xhGjigwac02TpFpT6OeT5f6erGou5BmuIZVFaYbmtDaEpu0DBmRj2K6/h/0A/4e9QJS+YTUzu/HMaM8BNEApxLI6e/1aBDCMoW9xJP9WO6ac4pyAfUPhhWoE9PvOFRIcB3kL213rUzCEb9iLMOpQ3nld/f5uDMIL9uQOxw1f0mvoYuFsUaWhfItg9aiBdhqxndGv5sGPWH
+X-Microsoft-Antispam-Message-Info: gKcKTPkV5I4ugsDLEBMd2W3kALaPmgDRIT4L/6OXexRMbmwACmE+yyGJrO14PMVRYETEFfbVIkh2rM6k3lTs667PBpKzOb+wm5pBbGKg0wLaP8ngaPEzyLjKB3v4T/jXwKo5SM8ppCGjCkULODDUahJUI+eKm3eT08pvLLFw0FKBUI7JwH8bl5qtJKEk63JIdoBw63SWAp/EJ134+EvKjKyxr9Z2J46cAU1yIE45pMz5LVPXWc1T1MbAjFrZql+GhnS561yCUwsf08cDYa/Y/Ehiaw6B5C/bpbcDZfAbeHYt6HJybuoVK/pzWeatiwSKK5lhpMqeFpVInl59/bYz1fSL4CnpUOAvn6SOg95KOBU4iXdlFzn37VFxgpnbMENwlnYrOIt3a6efArF1Ro2cen9JXxNKBfHAmBodtfDXeVdjbrW41iwMLKfGYwVPc/9p1ZmNNhasyRzuwheBpiPc32fJioNzheD3U6bdIuEO9wur/DSN/HlO8pwiTz1GV58e9Ixij60eXmTtuZ6vmfbUbGseRcV05xhhTZvQF7nREsJlHsqPqn4ZND+CaznxtXJtLy5IsW3PmCqD8Km0uUDwCj2Ye9Ppo6q7qAgTaSUvL14YEIEqNw6xS7do5+4Mq738
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(39860400002)(376002)(366004)(396003)(346002)(451199021)(1800799003)(186006)(2616005)(6486002)(52116002)(6512007)(478600001)(86362001)(26005)(36756003)(1076003)(6506007)(41300700001)(316002)(8936002)(5660300002)(8676002)(7416002)(38350700002)(4326008)(2906002)(66946007)(66556008)(66476007)(38100700002);
+ SFS:(13230028)(4636009)(136003)(39860400002)(376002)(366004)(396003)(346002)(451199021)(1800799003)(186006)(2616005)(6486002)(52116002)(6666004)(6512007)(478600001)(86362001)(26005)(36756003)(1076003)(6506007)(41300700001)(316002)(8936002)(5660300002)(8676002)(7416002)(38350700002)(4326008)(2906002)(66946007)(66556008)(66476007)(38100700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Os7Y3jVUoG10PQM665CXZkZb6J6dwp0ypVhd9eFYvuvnLWdIInWOzkGhBCN8?=
- =?us-ascii?Q?Q3M18BOGhWTivudWRYVf9Ui3h1Hk9isZhDXPiX35ZCdvLWcjgPZE3dWPDBLq?=
- =?us-ascii?Q?Rbjim2cWboiGdMHWK6CQnlqySlLE7alCLLAFxdTmT5YN7losIBdd3Z1r1GBg?=
- =?us-ascii?Q?3x+Kwh/sayDYUgHmBArDLKx3FbIRWvy2VytDl7YXKuDEuo1w34Nxs+KtRoM5?=
- =?us-ascii?Q?HI552H6T/iVcPI7xpjs17Qp2qYAv5gzN5wP38ZzLi5N4i8/3mRwnvkN49nuO?=
- =?us-ascii?Q?7oGCwZFSsux7i4CzSqq1lpa4fOZ+dzcOwuq/YjUmp4OD3+X/OoOjwsRwL4FH?=
- =?us-ascii?Q?+kOGe0NLVoTvetpWfpyX1d4g0tCyXmn9KOmHa2QXFT8ZIKS+e5lVqcvx9XQ9?=
- =?us-ascii?Q?RPfY6okhg3+8BcUBNWkBKCNJ8VjTgdQUtdT4V32F5lDWgrRLDc6t4dGnO94u?=
- =?us-ascii?Q?FIx69XPV7fPvMhdSx7FvhRl3Ec5wVBpA6sR4rLM0FDN8l3BZJaulmQ0B7MX/?=
- =?us-ascii?Q?OVM3veq5Q4c6z5ZaoLdaBUKPFrJTdcgkI+PvjstmKTmMg7zq0U/EX/ro00vq?=
- =?us-ascii?Q?hynvUI00fJfoKjPO4E2+1BZoh/TOIQJtoEs34dxYWfNGfTbBFyBzfL+bwCKY?=
- =?us-ascii?Q?vsz4Xab3BvacGiIRW2GtHnJPNb9WlXdXNy37Yj/Bi4D0K6zV0FH7sqCv2Z4p?=
- =?us-ascii?Q?qO9KHg0fY+vU7asDJOJOYPw/H/iFPsOhnuaD7RreX2BoD6kfw9UeY96XqL0O?=
- =?us-ascii?Q?fRivemajx/39SO2TfqCJWD4Kp8dmKx8/kmLo6w11vTgL20MEC4G1uRGxBEIK?=
- =?us-ascii?Q?EALrFDrbmsNGHQYDPoj5khdlIIg7zTf8FzNJW/I+NcREkPcLGaVqRF0U70Jr?=
- =?us-ascii?Q?fSszs7kH+gK67CWBeno89SUJvvAqQWpcRFJpEy841WQYk8+XzvkY2QnROHZS?=
- =?us-ascii?Q?2ZV6K6/Csrb6M0hQFhIluaCe25o0iw5oBuswfx5pP693bRaQA/pIvLBRchCE?=
- =?us-ascii?Q?oSJeCvySCI54OIwz2486UxCbn+XhZzdjMATImYKvRwr9J8bNzvgUCutorinM?=
- =?us-ascii?Q?Tl5hDi8fOIiVch+uO/TzEZJZWNQYa7g3PsFwB9emYjx3uO5pDG6DhKIpIZPY?=
- =?us-ascii?Q?j1D8OAAx4/Q7nfAHnCYev79A2taj+vnrq4H+t970waLk82+wiw3VqodUBzTk?=
- =?us-ascii?Q?FTUxcKQSdUBM1zim2lq2b1YIgtFjQm1qyijtq4ycm2p/hWFSaNAtqwZNt+S0?=
- =?us-ascii?Q?D45nipO0JLoV+KCvgI6hwFEiI2rPNNobqCdpEsv6pY3pkqQq98fq2dWRND09?=
- =?us-ascii?Q?6+RjfuYbVamW6JmLV6IsT0zHZ7yQq3jYEkDVhsBbnaDy83daq1Yrlyriz1rq?=
- =?us-ascii?Q?byeIVBTVX7O9SJ/qtyixt8TNDGG41joYoesyU1Ml8PHTpXxdUhnHOoCoe2zM?=
- =?us-ascii?Q?epMPlDczDOTtxPfhqIW2BilUsWIdUbqUJfNCLazNcjM404yRNaSk46FR+SMs?=
- =?us-ascii?Q?n7jbuqWtFi9unxCBq2xLpEIZCCp+ZmTi/4p57Ed+12rhX8hMj3PgEtqZFc9n?=
- =?us-ascii?Q?FitzKrPMWM9qFoVWZ4cNNRsNF3dHIuMurb7NpFBr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a0H1NRZMmH28puT8xHmaTlYU9GcXSsLTSLmBf8BZkGMqFysQCF5Kb96Q/449?=
+ =?us-ascii?Q?DUtOmvRejMP+8CuLKap8rkrvIda5piKR05AuRZvqiEaRrrinHhmqbX4a2Wxc?=
+ =?us-ascii?Q?CyldQB0zfbbvdSZKx5tevYFGeoB9wmEsFUrYLWS/AnHSEKqK0ScP7TqrBXdk?=
+ =?us-ascii?Q?qClICEpFDEAdZp1FXbH4x6MoQQmIECwb1debF0HpcG/7KyxH67cfxMOqZKlx?=
+ =?us-ascii?Q?ejpIlxobWt+bFvSOXbsiftVaxlbC8qNQgrfCsf0iRWw7S4RCHGHCfBUmSVsk?=
+ =?us-ascii?Q?LQmGl5qdQ1gSRzFYsf3mDDiY9kEPqP02GceHR3W3qH1ZjejhCt01VNqT6QN+?=
+ =?us-ascii?Q?/jDggmAlstJkXQJT2G3PcxC6bo3sSYm7cYXQBCLIaA6D0HtNfNoIgJUefP2W?=
+ =?us-ascii?Q?AEM19avkV5tpkgM0j8q60RWub5ino8anS/eokX2I3iysgQm5vi89AiWJXTvT?=
+ =?us-ascii?Q?jcuBfdpJbzsf44Uq19Y5ukWM5dXZahiFMABUsXHGPRxGHJ+maH2O5bbIb2ak?=
+ =?us-ascii?Q?XbIY13EliknGlMRq4C93sz+lTH3IODM8pMUeD4/AMdohGLTsvzJ/odYW5rzy?=
+ =?us-ascii?Q?0QooOomdmLB7mzMOz5WXm2Dht6SsFImd/TnUs5GdaRSHMPn/Q5yLuxp8ogsn?=
+ =?us-ascii?Q?u5VnJ0UK0O0ayJeT6gA7k19oJ8qvSuBJmrQ8VBuvenL5uzIZKIecCkuEeIe/?=
+ =?us-ascii?Q?tFQs6B4y046Zj2Hhe5QBsPfu62HEpamY5L7SH8wIaoQyPQhZKwshCmTeeOdY?=
+ =?us-ascii?Q?48S/WkAhRRIfL0KsLs6IDREp2JCv1JbHavTBVsxayFrYbDVZHqaC92h+KqWg?=
+ =?us-ascii?Q?931aTDsGxcy1zexGzt85YssR3wjWiBBLPl5PjSmQ80vhYAXXUNEnXk8K6g3s?=
+ =?us-ascii?Q?Xjldk7BtH8PfJVD7gd9lp+mmUBc3pCje1vpxirrR++7josNd6Ixe3GEmeCGr?=
+ =?us-ascii?Q?Y4m1MW6bJaLHH27Ht91RfCtJiPMVPWTtyT3/kNjcs2W7X+e7EAUYr60WGVVS?=
+ =?us-ascii?Q?+LhDXEYLB5VbpPFzStcuphYXFjSY8OwnsknNktr3ypRs7uz1qmQI67Tmxc5p?=
+ =?us-ascii?Q?6JhDDqb/cQ15zLv7x9c6zKYaJuZi1l2tb0SztgqjF9RAhgpbzFRe8f5ksyxJ?=
+ =?us-ascii?Q?VNBi4zYplb2U9p88Zkl0+Qtm/bQi00fMDSQRkYZ9qaZBfBCFo0lbDGGnGdPm?=
+ =?us-ascii?Q?Usz1Qml1j78eDBiCL1HtihBkJqs9+0qQxYp6W2LU+Lbbax4vPnWc3wvlIKAW?=
+ =?us-ascii?Q?V6gTimxTeBYToi7AiK2qHS/CQl6n8boq7ngJFIcnaulqAUjES5ad4+/GhMrb?=
+ =?us-ascii?Q?LrpuzGFT4PA5yDxgsDA0JFKG1UeS/qSEa1kc1txaRrI1nb5w1x3EOG1yPDh7?=
+ =?us-ascii?Q?2sKuXyw+KkgPl2AfUvQzTRG2mr+u/pMp19mXU6HWWrc2hHJ+046EecsERndK?=
+ =?us-ascii?Q?8DnyGhMHp5AmuyDuN2L+jbWjGlYaCjkvQ5XF4n2wx1E5Edu8mkDZlXrf5wG8?=
+ =?us-ascii?Q?e2WBUlvunMfWS3eLq7B0iXRb0HDg77ogIAmZvHIFXoBf2QamRh2moovYWZT3?=
+ =?us-ascii?Q?q0SDj0FXW5KVlNP1DcsJBTt/RILICjEHxyNjKMLS?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52bb36b2-9e50-4386-75bd-08db97063a3a
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd7446db-1d5c-4dd6-6e76-08db97063eb7
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 05:22:00.7605 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 05:22:08.3106 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7QfuvpvhlR/hEufSeou9PFhmN3qJESUBZqnxHX9cw3zzdz7HtlNNzijK1Es3X/vf1mrTBdbECM6GJH5Rw+eEhQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: uNq0YassAHSpF7VKDB6xQJtkUDVxdO07Ek7CCA8HeguhzdvlwD7qygYjru9dE7IURztWepDkwqJg0Hathw7gMg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9390
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,110 +127,62 @@ Cc: andrzej.hajda@intel.com, alexander.stein@ew.tq-group.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce ->get_input_bus_fmts() callback to struct dw_mipi_dsi_plat_data
-so that vendor drivers can implement specific methods to get input bus
-formats for Synopsys DW MIPI DSI.
-
-While at it, implement a generic callback for ->atomic_get_input_bus_fmts(),
-where we try to get the input bus formats through pdata->get_input_bus_fmts()
-first.  If it's unavailable, fall back to the only format - MEDIA_BUS_FMT_FIXED,
-which matches the default behavior if ->atomic_get_input_bus_fmts() is not
-implemented as ->atomic_get_input_bus_fmts()'s kerneldoc indicates.
+The DATAEN_ACTIVE_LOW bit in DSI_DPI_CFG_POL register is set to zero,
+so set the DRM_BUS_FLAG_DE_HIGH flag in input_bus_cfg.flags.  It appears
+that the DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE flag also makes sense, so
+set it in input_bus_cfg.flags too.  With this patch, the flags set by
+drm_atomic_bridge_propagate_bus_flags() are overridden (see comment in
+that function) in case any downstream bridges propagates invalid flags
+to this bridge.  A real problematic case is to connect a RM67191 MIPI
+DSI panel whose driver sets DRM_BUS_FLAG_DE_LOW and
+DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE bus flags.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v1->v3:
 * No change.
 
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 30 +++++++++++++++++++
- include/drm/bridge/dw_mipi_dsi.h              | 11 +++++++
- 2 files changed, 41 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 57eae0fdd970..8580b8a97fb1 100644
+index 8580b8a97fb1..8cd89a63b5f2 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -12,6 +12,7 @@
- #include <linux/component.h>
- #include <linux/debugfs.h>
- #include <linux/iopoll.h>
-+#include <linux/media-bus-format.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
- #include <linux/pm_runtime.h>
-@@ -536,6 +537,34 @@ static const struct mipi_dsi_host_ops dw_mipi_dsi_host_ops = {
- 	.transfer = dw_mipi_dsi_host_transfer,
- };
+@@ -23,6 +23,7 @@
+ #include <drm/bridge/dw_mipi_dsi.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_modes.h>
+@@ -565,6 +566,17 @@ dw_mipi_dsi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+ 	return input_fmts;
+ }
  
-+static u32 *
-+dw_mipi_dsi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					     struct drm_bridge_state *bridge_state,
-+					     struct drm_crtc_state *crtc_state,
-+					     struct drm_connector_state *conn_state,
-+					     u32 output_fmt,
-+					     unsigned int *num_input_fmts)
++static int dw_mipi_dsi_bridge_atomic_check(struct drm_bridge *bridge,
++					   struct drm_bridge_state *bridge_state,
++					   struct drm_crtc_state *crtc_state,
++					   struct drm_connector_state *conn_state)
 +{
-+	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
-+	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
-+	u32 *input_fmts;
++	bridge_state->input_bus_cfg.flags =
++		DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE;
 +
-+	if (pdata->get_input_bus_fmts)
-+		return pdata->get_input_bus_fmts(pdata->priv_data,
-+						 bridge, bridge_state,
-+						 crtc_state, conn_state,
-+						 output_fmt, num_input_fmts);
-+
-+	/* Fall back to MEDIA_BUS_FMT_FIXED as the only input format. */
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+	input_fmts[0] = MEDIA_BUS_FMT_FIXED;
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
++	return 0;
 +}
 +
  static void dw_mipi_dsi_video_mode_config(struct dw_mipi_dsi *dsi)
  {
  	u32 val;
-@@ -1003,6 +1032,7 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
- static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
+@@ -1033,6 +1045,7 @@ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
  	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
  	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_get_input_bus_fmts = dw_mipi_dsi_bridge_atomic_get_input_bus_fmts,
+ 	.atomic_get_input_bus_fmts = dw_mipi_dsi_bridge_atomic_get_input_bus_fmts,
++	.atomic_check		= dw_mipi_dsi_bridge_atomic_check,
  	.atomic_reset		= drm_atomic_helper_bridge_reset,
  	.atomic_enable		= dw_mipi_dsi_bridge_atomic_enable,
  	.atomic_post_disable	= dw_mipi_dsi_bridge_post_atomic_disable,
-diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-index f54621b17a69..246650f2814f 100644
---- a/include/drm/bridge/dw_mipi_dsi.h
-+++ b/include/drm/bridge/dw_mipi_dsi.h
-@@ -11,7 +11,10 @@
- 
- #include <linux/types.h>
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_crtc.h>
- #include <drm/drm_modes.h>
- 
- struct drm_display_mode;
-@@ -56,6 +59,14 @@ struct dw_mipi_dsi_plat_data {
- 					   unsigned long mode_flags,
- 					   u32 lanes, u32 format);
- 
-+	u32 *(*get_input_bus_fmts)(void *priv_data,
-+				   struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state,
-+				   u32 output_fmt,
-+				   unsigned int *num_input_fmts);
-+
- 	const struct dw_mipi_dsi_phy_ops *phy_ops;
- 	const struct dw_mipi_dsi_host_ops *host_ops;
- 
 -- 
 2.37.1
 
