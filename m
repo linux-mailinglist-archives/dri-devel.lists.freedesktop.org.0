@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80565771FA5
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 13:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324B5771FB2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 13:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBB4D10E261;
-	Mon,  7 Aug 2023 11:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F97110E24A;
+	Mon,  7 Aug 2023 11:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02A6310E261
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 11:11:39 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id
- 41be03b00d2f7-56462258cdeso525478a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 04:11:38 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8FA10E24A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 11:11:52 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id
+ d9443c01a7336-1bb91c20602so9342315ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 04:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1691406698; x=1692011498;
+ d=bytedance.com; s=google; t=1691406712; x=1692011512;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bO4yc6b0222dRNj48HoFyPuU9QjRVolFKKVhhMGpLKw=;
- b=V+0c3qPhJ3OvHdRK0zt0jjicV8eIk4mcEJBfZa3lpQkwu54lWNVPIEieS4PtRydxoC
- SOQosWaNmtA5ijvBvBTHzjmbD0d0j9BAeGMmaW/jH6uvD6Ej2n/njXM3uIqGlzrBkh1f
- 4pNHqPhVUKAnLp7tAzH1vcGObvmfuMOiL8NrO6wDjhRhzYUa1svLTbbXU3r4juxNC7M+
- zvZ3SM7T/9w0Je9dQGJ4Z6qlkuAYn1bir+6JxlC1Qr6arztdDyFiMoqBolNxM3VBbd9i
- jsX4xXrnwmvTP/fkwCWNcOiK6G4rP96fjoeNSyiOnE04LmSKfInS+5dfsRm42DUoM8bY
- LffQ==
+ bh=ubpyp4SIhGXjO6/VTKiZvWjlRzyN8ANvKHVN5xSGnIw=;
+ b=G6tJn+16QVti2qtu2hqYljseIE/XGpe1Yhsul4LFU6R/aCDAM7lceOlES83Z0B/Pue
+ 2irlih/PCzGRhADqlmxdT4ZmTPg/rDw2XT4QeZKx/Tui9xhVWAtyJogqiocaYi2mPJVJ
+ JfsH0RSoKbpVavaYBWWtyo/mJh8W+H0WFTE4SVefHn6UoqHLIS8l90Z//i2iVib88cLh
+ SO8x9HJ9eijOF2Obr6A8OaZNG3N0xetNtsejNB5r0CVLeObeV8ZzJa8r4m2G8/H610tO
+ JRFiieD8eIQL4G+uzuFBv5AMDY6TbkMqFwB+fegzuV4xQGReerwz1d1NP8JNZHZ17Zsd
+ g+Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691406698; x=1692011498;
+ d=1e100.net; s=20221208; t=1691406712; x=1692011512;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bO4yc6b0222dRNj48HoFyPuU9QjRVolFKKVhhMGpLKw=;
- b=YwcpPuOGd/uPGtzzR+9WnMOptNTE2BHFdoVVwcp3TCwTjq8zdl1InY6ZQ6Ly3YCHvQ
- olzhamUTXRO0MryqvmtYr/5RsH39cC5tVBrlrqGnrq033xxDoHQaGxBOylIo84Pe7WvE
- o7oRoR0F4QQn4WRhvQEDsBlY3ShmZKucd22huQ52RK15TBeO4QErXIZ6k4CICGH65Y9I
- KN5r4JiqvUpY5SXMZpTEuu2ij8KbCuTBTDJp6LmTA+kMyKdID6BT4kPD6EMS5ACFR0Co
- bQdi8WjVMHGZOr6SOGTvRrCAQ7JNwxGwNxRyaMzEI4tFjaV8ML+O0WZSMVfTj40fw9dZ
- NVYQ==
-X-Gm-Message-State: ABy/qLadDfJT26UmJPBWK7Xlazyj4X55dKcct/c1nuxMCyXh73QZBFHs
- NAdzhrQNMMQb8dez1BnaVDjWDQ==
-X-Google-Smtp-Source: APBJJlHTPEiI4d70NxX2nHst3XkAfiDRggXx1NmGRpA10Zf8iDezZWW8ih32EzxQIqpHPiYHvUOM5w==
-X-Received: by 2002:a17:90a:1f83:b0:268:3dc6:f0c5 with SMTP id
- x3-20020a17090a1f8300b002683dc6f0c5mr25027705pja.0.1691406698603; 
- Mon, 07 Aug 2023 04:11:38 -0700 (PDT)
+ bh=ubpyp4SIhGXjO6/VTKiZvWjlRzyN8ANvKHVN5xSGnIw=;
+ b=BaaA+h/a3gGekYigaL0nRpF9nA/dNsBKhpx0CJnc4Xc2sredfKIZ4L22yzVbR0G01t
+ JO59wJp7/2YE2ZwfapCmRs9XnWdzXPr/eJpsC1yayixBStZyp6HkROXGALoesWqfQk7/
+ sUa3An1zIws68taKW+WkjkrjgOmgbZM7gVH0YpsVV+4s+j07Av92JFus+BwC32SRa8Pp
+ y+Ob8sJU8XpCGEy6OmMTgWmA/39vspRottXerpqlTHaqEJHVRhua6NwyTr6/woNqLtp3
+ To+/p3Cg/mIGLJKr0OvXPuMtjPA0hGr8ZGFjB4DPzAmGVWFsuQd4tXaVgMyxPphv4B3O
+ t+Xg==
+X-Gm-Message-State: ABy/qLbtx+fJbsWmgGy6wVRJoTP/oRtI7+dIJ+zZuq21VYejvWxOiSbM
+ kHXly+m+gfV+ukPznw0bClKrTw==
+X-Google-Smtp-Source: APBJJlGAdl0ewhYUg6UhJdRJKXIwq0U3XoR/AJshcbF16xE0A4mgQC4Umc8PgwnpC/Hq6tl8ikCZEw==
+X-Received: by 2002:a17:902:ea04:b0:1b8:17e8:547e with SMTP id
+ s4-20020a170902ea0400b001b817e8547emr32460173plg.1.1691406712196; 
+ Mon, 07 Aug 2023 04:11:52 -0700 (PDT)
 Received: from C02DW0BEMD6R.bytedance.net ([203.208.167.146])
  by smtp.gmail.com with ESMTPSA id
- y13-20020a17090aca8d00b0025be7b69d73sm5861191pjt.12.2023.08.07.04.11.26
+ y13-20020a17090aca8d00b0025be7b69d73sm5861191pjt.12.2023.08.07.04.11.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 04:11:38 -0700 (PDT)
+ Mon, 07 Aug 2023 04:11:51 -0700 (PDT)
 From: Qi Zheng <zhengqi.arch@bytedance.com>
 To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
@@ -58,10 +58,9 @@ To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  steven.price@arm.com, cel@kernel.org, senozhatsky@chromium.org,
  yujie.liu@intel.com, gregkh@linuxfoundation.org, muchun.song@linux.dev,
  simon.horman@corigine.com, dlemoal@kernel.org
-Subject: [PATCH v4 08/48] xenbus/backend: dynamically allocate the xen-backend
- shrinker
-Date: Mon,  7 Aug 2023 19:08:56 +0800
-Message-Id: <20230807110936.21819-9-zhengqi.arch@bytedance.com>
+Subject: [PATCH v4 09/48] erofs: dynamically allocate the erofs-shrinker
+Date: Mon,  7 Aug 2023 19:08:57 +0800
+Message-Id: <20230807110936.21819-10-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
 References: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
@@ -93,52 +92,51 @@ Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use new APIs to dynamically allocate the xen-backend shrinker.
+Use new APIs to dynamically allocate the erofs-shrinker.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 ---
- drivers/xen/xenbus/xenbus_probe_backend.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ fs/erofs/utils.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/xen/xenbus/xenbus_probe_backend.c b/drivers/xen/xenbus/xenbus_probe_backend.c
-index da96c260e26b..929c41a5ccee 100644
---- a/drivers/xen/xenbus/xenbus_probe_backend.c
-+++ b/drivers/xen/xenbus/xenbus_probe_backend.c
-@@ -284,13 +284,9 @@ static unsigned long backend_shrink_memory_count(struct shrinker *shrinker,
- 	return 0;
+diff --git a/fs/erofs/utils.c b/fs/erofs/utils.c
+index cc6fb9e98899..6e1a828e6ca3 100644
+--- a/fs/erofs/utils.c
++++ b/fs/erofs/utils.c
+@@ -270,19 +270,25 @@ static unsigned long erofs_shrink_scan(struct shrinker *shrink,
+ 	return freed;
  }
  
--static struct shrinker backend_memory_shrinker = {
--	.count_objects = backend_shrink_memory_count,
+-static struct shrinker erofs_shrinker_info = {
+-	.scan_objects = erofs_shrink_scan,
+-	.count_objects = erofs_shrink_count,
 -	.seeks = DEFAULT_SEEKS,
 -};
--
- static int __init xenbus_probe_backend_init(void)
++static struct shrinker *erofs_shrinker_info;
+ 
+ int __init erofs_init_shrinker(void)
  {
-+	struct shrinker *backend_memory_shrinker;
- 	static struct notifier_block xenstore_notifier = {
- 		.notifier_call = backend_probe_and_watch
- 	};
-@@ -305,8 +301,16 @@ static int __init xenbus_probe_backend_init(void)
- 
- 	register_xenstore_notifier(&xenstore_notifier);
- 
--	if (register_shrinker(&backend_memory_shrinker, "xen-backend"))
--		pr_warn("shrinker registration failed\n");
-+	backend_memory_shrinker = shrinker_alloc(0, "xen-backend");
-+	if (!backend_memory_shrinker) {
-+		pr_warn("shrinker allocation failed\n");
-+		return 0;
-+	}
+-	return register_shrinker(&erofs_shrinker_info, "erofs-shrinker");
++	erofs_shrinker_info = shrinker_alloc(0, "erofs-shrinker");
++	if (!erofs_shrinker_info)
++		return -ENOMEM;
 +
-+	backend_memory_shrinker->count_objects = backend_shrink_memory_count;
-+	backend_memory_shrinker->seeks = DEFAULT_SEEKS;
++	erofs_shrinker_info->count_objects = erofs_shrink_count;
++	erofs_shrinker_info->scan_objects = erofs_shrink_scan;
++	erofs_shrinker_info->seeks = DEFAULT_SEEKS;
 +
-+	shrinker_register(backend_memory_shrinker);
- 
- 	return 0;
++	shrinker_register(erofs_shrinker_info);
++
++	return 0;
  }
+ 
+ void erofs_exit_shrinker(void)
+ {
+-	unregister_shrinker(&erofs_shrinker_info);
++	shrinker_free(erofs_shrinker_info);
+ }
+ #endif	/* !CONFIG_EROFS_FS_ZIP */
 -- 
 2.30.2
 
