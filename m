@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F323772C8A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46205772C8E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3311C10E342;
-	Mon,  7 Aug 2023 17:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 340D910E344;
+	Mon,  7 Aug 2023 17:17:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB90410E33C;
- Mon,  7 Aug 2023 17:17:02 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 46e09a7af769-6bca6c06e56so4276662a34.1; 
- Mon, 07 Aug 2023 10:17:02 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D207010E340;
+ Mon,  7 Aug 2023 17:17:33 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1a1fa977667so3629531fac.1; 
+ Mon, 07 Aug 2023 10:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428622; x=1692033422;
+ d=gmail.com; s=20221208; t=1691428653; x=1692033453;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gw1/lE3oDwvMAgGbwq37rEFlQSYTjYJZy4ndo+1nhtE=;
- b=PYa4DP2yxIeyhlwZu/rPWrm5u8/LOyHx8Wb3WN0mNHawTQHz5v9jXQbcEkNSE17cT0
- MwCCxHEXQUTYcwf1zR6JMVKl9Pai4WqzciT8CtwuX2/fLyJf/ZLONz9S3IpfBmyf6yEG
- eLWpw+x82hKB42Cox596LNm/VEkU61DbCvQwfpSWlq+1r1SOxbNMtNVc153qcrrntALf
- RY7xYgGqEv2I5XdwUXfA8V4RI9ipPdZqTO7kqi+R6xhPG4mil90QlRbVLk98WRhP8G53
- CFYX6xPVdYGlRN9q5CNRzxs+Ktrc6cmXcw9fx80NezPK8h1vgS5BiKzLXHGgcCvouVnh
- HQPQ==
+ bh=x941QFRlMNZmZDZM2xkbsmo9UZJniXSX6pOd9x9J2Qs=;
+ b=blhY82Z2TAD9PejRmNdoxblYK6rGOr/pG9QeXBKDotxEHgZe3gVEfLcZBrhIKZ5CMk
+ +N2OA83ILZ5n4KkKb6F/f7u7cI3CpdvCspz8dTAS6Bo5H/E93db8IndBORsE2glQH0cf
+ n4wmdIn3ThQ671Q/vRQ5jw3JJE/7jgzDA7OkdKebIL4aEgmsFwtFiIQYSuDHdQ5ZRGXz
+ KtfKW0Lj8Ds925SH18glTANjFG6z5sV69sQnWP3TWiVgTtoAV9uz9iN9fOcQ+v314H6p
+ yyiLDhNqNmocQbt8kMZv74QFJBaW9Ts0H393Vy8Tw3b8GlHViwpEI893Yig2LwGVxVTb
+ +18g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428622; x=1692033422;
+ d=1e100.net; s=20221208; t=1691428653; x=1692033453;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gw1/lE3oDwvMAgGbwq37rEFlQSYTjYJZy4ndo+1nhtE=;
- b=BCt0xlxZicXg7+WN8aZRAHVwj0dfr9uLZEC0JYay2n6kLiDuOtq+bv17MxNh1lSY+F
- TMDBP0RBYs3Eh1PwPhBoNQxaQ8BOmLEo5tPLqXM5DlfkGoT4Y+r9waTmlIALPRLSYxI6
- cInOf6u1azxR8JStPtUJyBS1Ltooh9BdM6x4wPWLnIaTRe3FSSBLoB7wN4vLp1x/0TUr
- rwcz7o2gzfRPt/CjxJR1d0Co+L/oceyVkKay+/gFzDP2phEOnFepSQ0YGcUYN+06BhEr
- 008/tsJ3m4yFbVXiR1SFzGIBTGsuycJQT1gl2qRJ9rjcR5wQKmjC0+DE7tubTBuXf/1e
- W89g==
-X-Gm-Message-State: AOJu0YyciqK78E6d+lXSaiV/odCwPdR8TtAtRaYBYvBcm93UhNh2j49I
- 19Lohm0TSsiblED/7P3jr7IRV8auDrlXL++aV/w=
-X-Google-Smtp-Source: AGHT+IEOzJSLELMOxOLp3WGomkZUhV4gON0TULeLPfu0jawep70yBs3PRuPqpq4e9U+cKPawF6dpxljuyAtFpqhp0kc=
-X-Received: by 2002:a05:6871:82a:b0:1bf:174b:a17e with SMTP id
- q42-20020a056871082a00b001bf174ba17emr11432280oap.22.1691428622112; Mon, 07
- Aug 2023 10:17:02 -0700 (PDT)
+ bh=x941QFRlMNZmZDZM2xkbsmo9UZJniXSX6pOd9x9J2Qs=;
+ b=BO6CS9uK6qvI0QUCRu7+kAnp37Em6XaMPfR1mFPqw8eZ6bghx5jvBHbwcdsjFZ+BwK
+ eN6r+9f/DFxIBjv7HmGnrXt8HZTf1Ret4361TpA8NSKnUBKm3cHL6fnjwSELXpahba//
+ avFCcpiK8iJr9wF+lb0VbQJJD9A/nUu7Hd8W19078jn7lrbxkp4jSDY7yzYSEattNI+q
+ KbtYaLH59vVsU+bN7c1FX0t0nsnnYm/G/rXGotghlLMNRtBjXQrYjbBgnGAp/fuYZU+k
+ JL+qvP/u5AvRs9AvLmA4lwO65SenXDuM7FvkCp4yAgvXKqUlEj9j+qdz9joylWws/Ls9
+ TjhQ==
+X-Gm-Message-State: AOJu0Yz3OCd2hIyrjKRylF8TPPX0BrbR6MDn7mY0afLZ7SIrIffdAabd
+ ih5yWokXTfn/ANT52TH4gkkwRcE3erzk5b553F0=
+X-Google-Smtp-Source: AGHT+IHaA9hJV6vOMsXo4/1MdAleuqC1jj0XAUUTOZfjJpB83+O/s/QZSipeKBkSC0UZCxCc7qSr5BJUnGwHnuIA/vQ=
+X-Received: by 2002:a05:6870:c1cb:b0:1bf:4a66:d54f with SMTP id
+ i11-20020a056870c1cb00b001bf4a66d54fmr11775593oad.56.1691428653044; Mon, 07
+ Aug 2023 10:17:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802063742.11697-1-sunran001@208suo.com>
-In-Reply-To: <20230802063742.11697-1-sunran001@208suo.com>
+References: <20230802064024.11806-1-sunran001@208suo.com>
+In-Reply-To: <20230802064024.11806-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:16:51 -0400
-Message-ID: <CADnq5_PFn8bsHGJw0s72VuAMo4UWx_Rr=1dZ_=hOD3cpQvzNpQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in vce_v3_0.c
+Date: Mon, 7 Aug 2023 13:17:22 -0400
+Message-ID: <CADnq5_Nk_kyK2SViK3cPKvkXQOgsW+tGCwz+4uFveCUBk0BjkQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in amdgpu_psp.h
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,56 +75,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 2:38=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 2:40=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: that open brace { should be on the previous line
+> ERROR: open brace '{' following struct go on the same line
+> ERROR: open brace '{' following enum go on the same line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/vce_v3_0.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vce_v3_0.c b/drivers/gpu/drm/amd/=
-amdgpu/vce_v3_0.c
-> index 8def62c83ffd..18f6e62af339 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vce_v3_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vce_v3_0.c
-> @@ -998,8 +998,7 @@ static void vce_v3_0_set_irq_funcs(struct amdgpu_devi=
-ce *adev)
->         adev->vce.irq.funcs =3D &vce_v3_0_irq_funcs;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_psp.h
+> index c3203de4a007..feef988bf0c1 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h
+> @@ -78,8 +78,7 @@ enum psp_bootloader_cmd {
+>         PSP_BL__LOAD_TOS_SPL_TABLE      =3D 0x10000000,
 >  };
 >
-> -const struct amdgpu_ip_block_version vce_v3_0_ip_block =3D
+> -enum psp_ring_type
 > -{
-> +const struct amdgpu_ip_block_version vce_v3_0_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_VCE,
->         .major =3D 3,
->         .minor =3D 0,
-> @@ -1007,8 +1006,7 @@ const struct amdgpu_ip_block_version vce_v3_0_ip_bl=
-ock =3D
->         .funcs =3D &vce_v3_0_ip_funcs,
+> +enum psp_ring_type {
+>         PSP_RING_TYPE__INVALID =3D 0,
+>         /*
+>          * These values map to the way the PSP kernel identifies the
+> @@ -89,8 +88,7 @@ enum psp_ring_type
+>         PSP_RING_TYPE__KM =3D 2  /* Kernel mode ring (formerly called GPC=
+OM) */
 >  };
 >
-> -const struct amdgpu_ip_block_version vce_v3_1_ip_block =3D
+> -struct psp_ring
 > -{
-> +const struct amdgpu_ip_block_version vce_v3_1_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_VCE,
->         .major =3D 3,
->         .minor =3D 1,
-> @@ -1016,8 +1014,7 @@ const struct amdgpu_ip_block_version vce_v3_1_ip_bl=
-ock =3D
->         .funcs =3D &vce_v3_0_ip_funcs,
+> +struct psp_ring {
+>         enum psp_ring_type              ring_type;
+>         struct psp_gfx_rb_frame         *ring_mem;
+>         uint64_t                        ring_mem_mc_addr;
+> @@ -107,8 +105,7 @@ enum psp_reg_prog_id {
+>         PSP_REG_LAST
 >  };
 >
-> -const struct amdgpu_ip_block_version vce_v3_4_ip_block =3D
+> -struct psp_funcs
 > -{
-> +const struct amdgpu_ip_block_version vce_v3_4_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_VCE,
->         .major =3D 3,
->         .minor =3D 4,
+> +struct psp_funcs {
+>         int (*init_microcode)(struct psp_context *psp);
+>         int (*bootloader_load_kdb)(struct psp_context *psp);
+>         int (*bootloader_load_spl)(struct psp_context *psp);
+> @@ -307,8 +304,7 @@ struct psp_runtime_scpm_entry {
+>         enum psp_runtime_scpm_authentication scpm_status;
+>  };
+>
+> -struct psp_context
+> -{
+> +struct psp_context {
+>         struct amdgpu_device            *adev;
+>         struct psp_ring                 km_ring;
+>         struct psp_gfx_cmd_resp         *cmd;
 > --
 > 2.17.1
 >
