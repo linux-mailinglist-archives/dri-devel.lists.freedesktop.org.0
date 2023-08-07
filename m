@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BD6772CB7
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67715772CBD
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0395110E34B;
-	Mon,  7 Aug 2023 17:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6CDE10E351;
+	Mon,  7 Aug 2023 17:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE92010E34B;
- Mon,  7 Aug 2023 17:22:31 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- 006d021491bc7-56cc461f34fso2822167eaf.0; 
- Mon, 07 Aug 2023 10:22:31 -0700 (PDT)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4961510E34E;
+ Mon,  7 Aug 2023 17:23:08 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1bff2d2c141so603842fac.1; 
+ Mon, 07 Aug 2023 10:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428951; x=1692033751;
+ d=gmail.com; s=20221208; t=1691428987; x=1692033787;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tdiT4VDFwEWB7gXAPktsqljyYxoKDZsI+pliCIWNBKQ=;
- b=sq0kRQ+cYhoTN4ibTazfI3lKdSnU5a9uzGkj1ndxEhIbDKbavoAD0G1dE5zZ+F0X3J
- x7DXk4NLGQyj+ps3xDE6TdwL2TeeVjHXGpV6DIOagKlPNfNiqK5yso4W7d7w/TDjCqeD
- v96FwIeBKk8g6MaAhbEQ1B16PTDrabTq+doldAUbRQRcewkL4fYYQ1a2E9f/w+li3NvE
- nLTMhI0iSvdayvRthG10b+nl/ZKYIU7dhurR8pOnliiy9YS0UJhoVFbFLTs5vE1nvaBV
- fc6YSG/J16ANEEE+V2nKQD0vA0zbCeElVNcG1Q0R7Wk0O4Yca/gzGLo1J2DK9j05eTO1
- F2aA==
+ bh=sHe5wFpuck9FxbQdSwbkpcG9X/3F59XkMZTvwR3jHW0=;
+ b=I35OvquxuMieROZKO1UAIz0eH/wAeTrZ3CxA4JRMN5XbO7l53ynGb9/JtssTBXZzgn
+ f29cMN7MaxRjgIn6qBbioCXVTOn/ShqRulmra84eVLmomuvK0neQsnkl47G5L8AClxIs
+ 2avL8zHT22UO48nkML1ckjGEwcnnr6uhDhi9YcNgTisHgGVWhTO06zjPTSLfbRZcLZ6r
+ siujggA/TAUy8n1DYLoSoR1Ybc5ugx4Izuu6SYIoHFRkFLEaFMLFjfh8Nu5w5xctP3K1
+ AT24QRmhw6qajS+7kbjLerMtI7K2dyBjMaz2iu4jXef/oAsZkli0Bh115phTRsDpHUuk
+ MHpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428951; x=1692033751;
+ d=1e100.net; s=20221208; t=1691428987; x=1692033787;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tdiT4VDFwEWB7gXAPktsqljyYxoKDZsI+pliCIWNBKQ=;
- b=H5w4YFvYTykRQdU4iLXXg9Oh/9+BpDJ8ug8L3xHvSaoU1e5qPY3tdka7GqY2hirqBx
- tHzBG/mG7DTJsTZe4cjbs/VEP7pGfeDF3WHMzITPQy9P/p3IxaVKW0HMJ235HEEa48Ii
- 4wiHlaChk5fgLCFAop0rcOUOYpc4LmXdvwJslTw73CauzqDLdNVdF7v2f1r2ZVS48lbd
- 0T4MgPjKj5FVD8oGh5DCBL0HL1DHxrCxrUkWwVgaLcE+uQfXH04vQqGOfVRgYFdwXgq/
- aQeaT4oz6RJ76ZDfa89alNktMZsCn0e4eeNCr9accXP5K+Nlh4862vuLYNX9ACW944UJ
- dMPw==
-X-Gm-Message-State: AOJu0Yx83we+VJXTPG5i4ousbaaqGKFHh3mDo7kFGi2g0VWvdoSq5Myf
- /bz6ZDHQz3cDDJv6YNsl4qMJub+zI9kj6v3qxhY=
-X-Google-Smtp-Source: AGHT+IF9DSieLDJ6wkuhVPEfT0WAsY+ArX+WPqVB+kikaHFxvekHPQvooC1UarJCEEPloluOY2IppngCAPeUPb1xJlo=
-X-Received: by 2002:a05:6808:189b:b0:3a7:2a94:73f6 with SMTP id
- bi27-20020a056808189b00b003a72a9473f6mr13171907oib.49.1691428950972; Mon, 07
- Aug 2023 10:22:30 -0700 (PDT)
+ bh=sHe5wFpuck9FxbQdSwbkpcG9X/3F59XkMZTvwR3jHW0=;
+ b=EsHkKj+0Ct/UyZ1rLQyr283ZCaB/SUFuEIfvPNqBikWNnhqBVtTkRxsEZm3xyWoQDM
+ EzpGYy6U+ZbohKlzPqiuokbxIgQodyAr20gnjdD2U2ai8ZmzFckW1tt+HIYCRFJ2s1NP
+ NVM1A3kskrfq9yqam3HQ+aH9TG4l6BSAvi3IhdOrS741pmNHimKViW6QmfPFsjzPgulf
+ A+c1hq2e1nQ/tjmVH7L1cmkeQpmYxr60pcmmcEvlB5QSw2g/ziTMtPYuwvRT1UHIwA3h
+ 4Qi8NKwMQD/7lB5eK6Awv/Mgm92jfVCx3DKGVaYq2C8d4wbXyCPFM92KsTnV6MI+pP3f
+ +9FA==
+X-Gm-Message-State: AOJu0YxUbEfmF9umX/s+pLIisqKvqqVM2An4NusafsOnX81X+KFYOeIK
+ HdTMsBQR4L7Jbe6J1IcXQ5ehE+b2rrYeiXg0ucQ=
+X-Google-Smtp-Source: AGHT+IEqpYfiuoRzZYazqnVHJZFegWBzehLFDJ25obToxUn4mP6Lf0P1qd3skeEa9rUa1TjeH5uUc29E25kfbyZ34qs=
+X-Received: by 2002:a05:6870:65ab:b0:1bf:597b:2343 with SMTP id
+ fp43-20020a05687065ab00b001bf597b2343mr9676547oab.30.1691428987442; Mon, 07
+ Aug 2023 10:23:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802065804.12360-1-sunran001@208suo.com>
-In-Reply-To: <20230802065804.12360-1-sunran001@208suo.com>
+References: <20230802065958.12449-1-sunran001@208suo.com>
+In-Reply-To: <20230802065958.12449-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:22:20 -0400
-Message-ID: <CADnq5_Ntw2+Ett+JVPtye1RH4yi8WBD3si7_CqfErvC9keUi1A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in uvd_v7_0.c
+Date: Mon, 7 Aug 2023 13:22:56 -0400
+Message-ID: <CADnq5_MiXEV7xLWbjsQOiuLn_Xn5z11jDP_xFS+4s+deWnt5rw@mail.gmail.com>
+Subject: Re: [PATCH] drm/jpeg: Clean up errors in jpeg_v2_0.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,58 +75,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 2:58=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 3:00=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: spaces required around that ':' (ctx:VxE)
-> that open brace { should be on the previous line
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/=
-amdgpu/uvd_v7_0.c
-> index abaa4463e906..86d1d46e1e5e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
-> @@ -679,11 +679,11 @@ static void uvd_v7_0_mc_resume(struct amdgpu_device=
- *adev)
->                 if (adev->firmware.load_type =3D=3D AMDGPU_FW_LOAD_PSP) {
->                         WREG32_SOC15(UVD, i, mmUVD_LMI_VCPU_CACHE_64BIT_B=
-AR_LOW,
->                                 i =3D=3D 0 ?
-> -                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
-.tmr_mc_addr_lo:
-> +                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
-.tmr_mc_addr_lo :
->                                 adev->firmware.ucode[AMDGPU_UCODE_ID_UVD1=
-].tmr_mc_addr_lo);
->                         WREG32_SOC15(UVD, i, mmUVD_LMI_VCPU_CACHE_64BIT_B=
-AR_HIGH,
->                                 i =3D=3D 0 ?
-> -                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
-.tmr_mc_addr_hi:
-> +                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
-.tmr_mc_addr_hi :
->                                 adev->firmware.ucode[AMDGPU_UCODE_ID_UVD1=
-].tmr_mc_addr_hi);
->                         WREG32_SOC15(UVD, i, mmUVD_VCPU_CACHE_OFFSET0, 0)=
-;
->                         offset =3D 0;
-> @@ -1908,8 +1908,7 @@ static void uvd_v7_0_set_irq_funcs(struct amdgpu_de=
-vice *adev)
->         }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c b/drivers/gpu/drm/amd=
+/amdgpu/jpeg_v2_0.c
+> index c25d4a07350b..1c8116d75f63 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c
+> @@ -807,8 +807,7 @@ static void jpeg_v2_0_set_irq_funcs(struct amdgpu_dev=
+ice *adev)
+>         adev->jpeg.inst->irq.funcs =3D &jpeg_v2_0_irq_funcs;
 >  }
 >
-> -const struct amdgpu_ip_block_version uvd_v7_0_ip_block =3D
+> -const struct amdgpu_ip_block_version jpeg_v2_0_ip_block =3D
 > -{
-> +const struct amdgpu_ip_block_version uvd_v7_0_ip_block =3D {
->                 .type =3D AMD_IP_BLOCK_TYPE_UVD,
->                 .major =3D 7,
+> +const struct amdgpu_ip_block_version jpeg_v2_0_ip_block =3D {
+>                 .type =3D AMD_IP_BLOCK_TYPE_JPEG,
+>                 .major =3D 2,
 >                 .minor =3D 0,
 > --
 > 2.17.1
