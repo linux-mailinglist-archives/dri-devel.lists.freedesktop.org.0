@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B151C771D30
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 11:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A38771D33
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 11:36:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4317010E069;
-	Mon,  7 Aug 2023 09:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D6310E1DF;
+	Mon,  7 Aug 2023 09:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org
- [IPv6:2001:67c:2050:0:465::202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F4810E069
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 09:36:36 +0000 (UTC)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
+ [IPv6:2001:67c:2050:0:465::101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D32EB10E069
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 09:36:37 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org
  [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RKB6951V2z9t3w;
- Mon,  7 Aug 2023 11:36:33 +0200 (CEST)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4RKB6B5mCjz9sqk;
+ Mon,  7 Aug 2023 11:36:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1691400993;
+ s=MBO0001; t=1691400994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9mcKw0MQbZkvm0T+PFFVFLAfn9YV5vMZt9S5qAO8u3w=;
- b=nYD32b3cl2o2XRKiOIjuFmP3C1h943i1tnDtmksfHQgqONVrb+ZcFdzkd4HHONHtTPrSiB
- 2icAOSWcEIZ/jIV31X40e+gDXLDV7QwG3AztwqMUxtiptryWtKLdUDXT/i+bMP9vNo9IoK
- 62J4cS0sLIy6dHoVS0mVRmNk29FwOgGp7XU3x3RCp7kRR1ykRg6FH5izSg2qtyF9+479EG
- jM2uBkWHkXpbffGQq6A5igGofusXZIsNlbrrNE+DWeI+C8DxI166QVKyGbBsOzrRQ4RGR3
- g9htKvHHE4krzwWdr4LIzxPZIP59julw8cnjzRKcmwl4YUe1Zx6qYAMbBJ8HiQ==
+ bh=EY96Z0dfNbj9D7OtHPj33gJtAy9tbxjlYgYjaDYshMA=;
+ b=mmwswZUdz1diNy0S1nyUP/8zTDg54vIiIiDrfeQ4qiVk0f6fOmBpd3MeifzRJbEgngWWFO
+ bfH1iSkQ6PMR1Btb1HrXvUysZ+t7oOHSkqrKfdmoKo1BgiTShp7RbPtkb5ijYNjBcpyfpZ
+ LwyKsKMw9IJ+bhzMGVR1Nn3N0Zd6Hhb2yrooSOTR8CndcR7NMmfCr1EbrmwearOS1qJy7G
+ epA4J/9cJ68Cu2XFfonw1z2OJd1GFD+t35XM1Yl7v7k6YOYSSf/DJukZeMsWGB2SMSo4Cv
+ 1vldR9xF/OHxNxCxC5jmhgr2MQNu4MB77FKazXAPyeCxYVX3UyRNCjuzv9OH1Q==
 From: Frank Oltmanns <frank@oltmanns.dev>
-Date: Mon, 07 Aug 2023 11:36:02 +0200
-Subject: [PATCH 1/3] clk: sunxi-ng: add support for rate resetting notifier
+Date: Mon, 07 Aug 2023 11:36:03 +0200
+Subject: [PATCH 2/3] clk: sunxi-ng: a64: keep tcon0 clock rate when
+ pll-video0's rate changes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230807-a64_pll_video0_notifier-v1-1-8a7ccdc14c79@oltmanns.dev>
+Message-Id: <20230807-a64_pll_video0_notifier-v1-2-8a7ccdc14c79@oltmanns.dev>
 References: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
 In-Reply-To: <20230807-a64_pll_video0_notifier-v1-0-8a7ccdc14c79@oltmanns.dev>
 To: Icenowy Zheng <uwu@icenowy.me>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2665; i=frank@oltmanns.dev;
- h=from:subject:message-id; bh=9faTPbBKuBTerUTXnHS4DVgg2yfWOLyR6ZaZUiOk+UI=;
- b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk0LseXHpd8Z3TXbEcbPia20eeAkB4rGNQVVGkN
- fe6lM7xGkGJAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZNC7HgAKCRCaaaIIlErT
- xw+FC/0YMAPcK0tlMeo9CZd0InSaZ4tX5KCf/0AbmnPq3MAxLIc6ZQ+S9XYMxdmeYby46DykSME
- EdZyK0m6aFG4EFm9WePsr2kvtMPQdd9yNS/gnxJBYOZtTyB3w7/lROFkGrUNLQpbCyn4JuoCxHJ
- puqvjxnq5QPlUSnJGrinOHDxhgPgT7a7OmFh4Qdiq0eCnJLIuHsAWWmDngzSuBpyJUJgefc33zg
- wfzygR0dRdY+cxWgkJWSm/7eV/1DFbUsDWDCYuy70uOxK9nZe97R0ZiP2Oq57/g7mwzwWgQxDVy
- 64yxX6AN3Sarpx6W4QTlgHdVR3ANKFS1o5IFZKcI3MUn01G0dlrekIWbbt9KmMLY1d01FqeOTn3
- xKiNqP0Vvuo6qDPGb1S9an8FOiGP7bc1jL1fgW7okHyodnisK3OIubFy5JZIZ01kYXvH8lGAmLJ
- zXPrT8mAzWuptmpcAYXyoTkKy0fUtTAEvikCy+NkDla3faDPh6t+J+NnPP8SR4+fL7Ev4=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1640; i=frank@oltmanns.dev;
+ h=from:subject:message-id; bh=aDg7/CRtrn+6JJ4alLY6y3h7XB0nt+J7IH95OgLMJKw=;
+ b=owEB7QES/pANAwAIAZppogiUStPHAcsmYgBk0LsekSh6MoJObKpB32rc7ZrOHnmVWVp95sEC9
+ YolCtyfgY2JAbMEAAEIAB0WIQQC/SV7f5DmuaVET5aaaaIIlErTxwUCZNC7HgAKCRCaaaIIlErT
+ x9KTDACUO0qteQLPbnuHCyz496Sv3+SY+nP4+E+HM2nQhrwvbXJ87x0ynJqbx2r3KxAt7Z1u2p7
+ EktHOVso8TRBGoZJXcrc2QpaOMBKDrWGEdihtSUv/tI0QUYiaH33X8pRSVW/LWzWRIZB8gjvjCg
+ 0ezBTRmZLY76GsTPQZzghplsnJwdV8ex7UYZVWse77AR/MEthVQIPumjChJH4eYotlTvLr/6zoG
+ 2/8lr3T8d6BMmLjZXoWX1yLGzBMEwuccAKzJ5ekiRRNY1ulr7rKHNL7BLloyhZ9wZn2LTT2HW7i
+ /uTkXaSo9AqnaWFvyRne+L4M8GbNPvbtalWmM26gCPKGR4C818DAEN6cH3+gBVcT/rDLeRGmJsj
+ K/if6dcJ0xFn8ROSDN8CA/B6Pb0qziOPwnF6NIJ6xbRs1CBhWPWzhWoi69SoWjHLT/dxH4i/ggu
+ /STGxQqbwbENkivDNOBTzsBo17rfsbglhQ7edPxyLMRnvL+h4BU2frlsajwG8DaXLi96Q=
 X-Developer-Key: i=frank@oltmanns.dev; a=openpgp;
  fpr=02FD257B7F90E6B9A5444F969A69A208944AD3C7
-X-Rspamd-Queue-Id: 4RKB6951V2z9t3w
+X-Rspamd-Queue-Id: 4RKB6B5mCjz9sqk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,75 +77,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Icenowy Zheng <icenowy@aosc.io>
 
-In some situaitons, we will want a clock rate be kept while its parent
-can change, for example, to make dual-head work on A64, TCON0 clock
-needs to be kept for LCD display and its parent (or grandparent)
-PLL-Video0 need to be changed for HDMI display. (There's a quirk on A64
-that HDMI PHY can only use PLL-Video0, not PLL-Video1).
-
-Add a notifier helper to create such kind of rate keeping notifier by
-reset the rate after the parent changed.
-
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Notify TCON0 clock (and in consequence PLL-MIPI by CLK_SET_RATE_PARENT)
+to reset when PLL-Video0 changes (because of HDMI PHY clk which is a
+child of PLL-Video0 and has CLK_SET_RATE_PARENT set). In this way we can
+get clock tree to satisfy both pipelines.
 ---
- drivers/clk/sunxi-ng/ccu_common.c | 22 ++++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu_common.h | 12 ++++++++++++
- 2 files changed, 34 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
-index 8d28a7a079d0..434fa46ad460 100644
---- a/drivers/clk/sunxi-ng/ccu_common.c
-+++ b/drivers/clk/sunxi-ng/ccu_common.c
-@@ -87,6 +87,28 @@ int ccu_pll_notifier_register(struct ccu_pll_nb *pll_nb)
- }
- EXPORT_SYMBOL_NS_GPL(ccu_pll_notifier_register, SUNXI_CCU);
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+index ef567775fc95..93beedb0428e 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-a64.c
+@@ -943,6 +943,17 @@ static struct ccu_mux_nb sun50i_a64_cpu_nb = {
+ 	.bypass_index	= 1, /* index of 24 MHz oscillator */
+ };
  
-+static int ccu_rate_reset_notifier_cb(struct notifier_block *nb,
-+				      unsigned long event, void *data)
-+{
-+	struct ccu_rate_reset_nb *rate_reset = to_ccu_rate_reset_nb(nb);
-+
-+	if (event == PRE_RATE_CHANGE) {
-+		rate_reset->saved_rate = clk_get_rate(rate_reset->target_clk);
-+	} else if (event == POST_RATE_CHANGE) {
-+		clk_set_rate(rate_reset->target_clk, rate_reset->saved_rate);
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+int ccu_rate_reset_notifier_register(struct ccu_rate_reset_nb *rate_reset_nb)
-+{
-+	rate_reset_nb->clk_nb.notifier_call = ccu_rate_reset_notifier_cb;
-+
-+	return clk_notifier_register(rate_reset_nb->common->hw.clk,
-+				     &rate_reset_nb->clk_nb);
-+}
-+
- static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 			   struct device_node *node, void __iomem *reg,
- 			   const struct sunxi_ccu_desc *desc)
-diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
-index fbf16c6b896d..6b0b05fae123 100644
---- a/drivers/clk/sunxi-ng/ccu_common.h
-+++ b/drivers/clk/sunxi-ng/ccu_common.h
-@@ -69,4 +69,16 @@ int devm_sunxi_ccu_probe(struct device *dev, void __iomem *reg,
- void of_sunxi_ccu_probe(struct device_node *node, void __iomem *reg,
- 			const struct sunxi_ccu_desc *desc);
- 
-+struct ccu_rate_reset_nb {
-+	struct notifier_block	clk_nb;
-+	struct ccu_common	*common;
-+
-+	struct clk		*target_clk;
-+	unsigned long		saved_rate;
++/*
++ * Since PLL-Video0 is an ancestor of both tcon0 and HDMI PYH, tcon0 clock will
++ * conflict with HDMI PHY clock which is on another display pipeline.
++ *
++ * Therefore, a notifier is required to restore the rate of TCON0 when the rate
++ * of PLL-Video0 changed.
++ */
++static struct ccu_rate_reset_nb sun50i_a64_pll_video0_reset_tcon0_nb = {
++	.common		= &pll_video0_clk.common,
 +};
 +
-+#define to_ccu_rate_reset_nb(_nb) container_of(_nb, struct ccu_rate_reset_nb, clk_nb)
+ static int sun50i_a64_ccu_probe(struct platform_device *pdev)
+ {
+ 	void __iomem *reg;
+@@ -978,6 +989,10 @@ static int sun50i_a64_ccu_probe(struct platform_device *pdev)
+ 	ccu_mux_notifier_register(pll_cpux_clk.common.hw.clk,
+ 				  &sun50i_a64_cpu_nb);
+ 
++	/* Reset the rate of TCON0 clock when PLL-VIDEO0 is changed */
++	sun50i_a64_pll_video0_reset_tcon0_nb.target_clk = tcon0_clk.common.hw.clk;
++	ccu_rate_reset_notifier_register(&sun50i_a64_pll_video0_reset_tcon0_nb);
 +
-+int ccu_rate_reset_notifier_register(struct ccu_rate_reset_nb *rate_reset_nb);
-+
- #endif /* _COMMON_H_ */
+ 	return 0;
+ }
+ 
 
 -- 
 2.41.0
