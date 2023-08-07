@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBCE772C6F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:14:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8EF772C74
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792C410E330;
-	Mon,  7 Aug 2023 17:14:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18ABC10E334;
+	Mon,  7 Aug 2023 17:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52DE110E330;
- Mon,  7 Aug 2023 17:14:07 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 46e09a7af769-6b9e478e122so3952569a34.1; 
- Mon, 07 Aug 2023 10:14:07 -0700 (PDT)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE1A10E334;
+ Mon,  7 Aug 2023 17:14:40 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-1bf08ca187cso3525834fac.3; 
+ Mon, 07 Aug 2023 10:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428446; x=1692033246;
+ d=gmail.com; s=20221208; t=1691428479; x=1692033279;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3EBbZKi3RkEqdqagrdNXc65Wt2bOkGGaDnR6Sxbz/TU=;
- b=Qk5swv/rGyqvsGjlOFfJ0Eay/dnLGQMDdxpB7Z+8yqfQuDyGpSyqB6bDT158gP1Njg
- /GG+KK2Js0vHJmMHmMKKQN8IRMf6wGIbPw5z29lUjzsavTXUyVPT0BLOQBDZ6Phtp5Er
- WMQdzQ4PcGeLGF+gEZyv6Q5JvvB00w5oYLzayYnDNtQ7AKKn9wBtlFLWCy+PJFmmYUcm
- sYZ2eV6JaCXSvGcsrlAUQRyEhNXq2g/zmmy0qkoX+WBiGn2vjBhmKXpdNQ9172k4wLj/
- 8cM8GBR4uyZ02T7GkCJyNNNVpHdD46XUBb6B7hJ2D1Cpq0uekYwByOV98M+VNgwHtpQj
- Jodw==
+ bh=bWD6TxvdwSAH/B9jUxdL6rJdTRaVEm9tb0ibIt4x1Y4=;
+ b=AQH7GqBt/UT+Q1k+/kh20XyTPgdDGza18M0j8AVGijLPA7XvfvjiKyi7JIKWUsv3lt
+ fkWVLoAXk9SB6IKJjCgTMDTg4TiumV37XFx3n3uqS6VayjEpgOZbM8c7Pq2/mKCtgDEa
+ aeJZjnUkxVaSfiq9nf3SkuCOrqhAZhs8D+O/YW29zzRuHcgs1zY3YsubQ9jz3Rfm7+2f
+ kZJ213yEGjGjYgUFK79NZK7CrZRUf6lsbK9Z0XzsV8wcPnwPmaOdqp9NaT6UxrwYNkZt
+ shn/XTI+c4MxxbWAtGvb3mCsDgPavYWAO5W/lWiOxj0wfHbhj9asvWgUQxN1VxiYKvNT
+ uu8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428446; x=1692033246;
+ d=1e100.net; s=20221208; t=1691428479; x=1692033279;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3EBbZKi3RkEqdqagrdNXc65Wt2bOkGGaDnR6Sxbz/TU=;
- b=BxeZbGEA152OUkiOoj1mHBtinuTT98KeSfUuu3xhvKmNZfuCb5bmqzmL89b/LF1Y8F
- 2hW+bYlRCGig0vn4WiEUNcMA99pkkQbUXGxvpJFxjRgqXUWDdnA5B+xK4EtpDRQU3I/P
- yg7rhbuSTp2riS5NbY8QT7gGcAt/NtR2mamGe/pmn3BJOde9CQ3ZBJyaB6ZrGlvCY9xu
- sK+XK5RYwL1/NDItrv4DJra15VmnpS6pypIWci0RXpIYJRw9+taLPEXDGu/C7887JcFI
- diYn8JkQgmGgkuQD0/f/FXQo5aKP6+rjNezDaMMcRD5JJCcUn1KIShl/0VFi4BM5h7Gu
- Pv8g==
-X-Gm-Message-State: AOJu0YwqT0i3VVKtmeFhf07sDIGtoZXzMFcrSl3UMxcNl2rPBRXEa/dJ
- 1EUNKb/UlZc7XY+raZC2xGU3PxGVc9SUVHWLEuw=
-X-Google-Smtp-Source: AGHT+IFc0NAbYU5nU/5o1tjMWmuS8uQgHR8QgnNK+2Zu4oa67IfIMb8gua5e9zY5SdJnbhTMerc9FVwW6XDxVCPgFS8=
-X-Received: by 2002:a05:6870:42d0:b0:1bb:84f4:d787 with SMTP id
- z16-20020a05687042d000b001bb84f4d787mr11938381oah.10.1691428446578; Mon, 07
- Aug 2023 10:14:06 -0700 (PDT)
+ bh=bWD6TxvdwSAH/B9jUxdL6rJdTRaVEm9tb0ibIt4x1Y4=;
+ b=B7yOPtvtlNrX90u4yKNBpL2zvz6VLiyQF6snASlp8v+t3YjZbaMa3Y+FZ0PFFZdlUe
+ VWk6mz86XaK3ti0wTeV8dB+6cIvbmLb01Q73etKPlFMpJOi/IOwUWybI/sqeD2gQfB5+
+ hWaZiacDhrnL1KkuKBeJS97rYyZEiEGgc3LO6r86NL91t+3t9evlL5rHyrFU0ygorT6a
+ GTbQs5Nt4/La+tdeB3q2eXyga3I4Bxl7SWPZenGNu51NHtMuAoB9Fsy1+fhS2pjXzOK4
+ SCXACbUzSkA6Nr1+DJ5/8Uxy+Dy7KMzqy97a57ZvbghRkEUB8uL2LoS160laO55PbEFt
+ sv7w==
+X-Gm-Message-State: AOJu0YxVf69FtV0/HSTdffTyFUiz9gY4axibvSCPnPN66cR2rhPCFPX7
+ Z6SzW7IqxbbL2HxQ5ct/ERd5I66rXTiUnqEdSHI=
+X-Google-Smtp-Source: AGHT+IE+ptLVBkibVh5g1Pp3F+dxRftBDAb7kEDscU/+Vga6QjAdNv9SbXnNPKKp77IsK5KFrgqzXxisWYrLw4tvEGU=
+X-Received: by 2002:a05:6870:6392:b0:1b3:d457:f27a with SMTP id
+ t18-20020a056870639200b001b3d457f27amr12770303oap.50.1691428479622; Mon, 07
+ Aug 2023 10:14:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802061423.11155-1-sunran001@208suo.com>
-In-Reply-To: <20230802061423.11155-1-sunran001@208suo.com>
+References: <20230802061635.11243-1-sunran001@208suo.com>
+In-Reply-To: <20230802061635.11243-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:13:55 -0400
-Message-ID: <CADnq5_Ob=reocYAdj8QhB03bREr-3xRY0uTt3EQtA3Ld-exBeQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Clean up errors in dc_stream.c
+Date: Mon, 7 Aug 2023 13:14:28 -0400
+Message-ID: <CADnq5_PwxZ1-0K=AR7DTdZb6vuTT66h_Op5hVnRW_VAqHP3bng@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Clean up errors in dcn10_dpp_dscl.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,39 +75,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 2:14=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 2:16=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: that open brace { should be on the previous line
+> ERROR: else should follow close brace '}'
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 3 +--
+>  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c | 3 +--
 >  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gp=
-u/drm/amd/display/dc/core/dc_stream.c
-> index ea3d4b328e8e..05bb23bc122d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> @@ -71,8 +71,7 @@ static bool dc_stream_construct(struct dc_stream_state =
-*stream,
->
->         /* Copy audio modes */
->         /* TODO - Remove this translation */
-> -       for (i =3D 0; i < (dc_sink_data->edid_caps.audio_mode_count); i++=
-)
-> -       {
-> +       for (i =3D 0; i < (dc_sink_data->edid_caps.audio_mode_count); i++=
-) {
->                 stream->audio_info.modes[i].channel_count =3D dc_sink_dat=
-a->edid_caps.audio_modes[i].channel_count;
->                 stream->audio_info.modes[i].format_code =3D dc_sink_data-=
->edid_caps.audio_modes[i].format_code;
->                 stream->audio_info.modes[i].sample_rates.all =3D dc_sink_=
-data->edid_caps.audio_modes[i].sample_rate;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c b/driv=
+ers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
+> index 7e140c35a0ce..5ca9ab8a76e8 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c
+> @@ -197,8 +197,7 @@ static void dpp1_dscl_set_lb(
+>                         DITHER_EN, 0, /* Dithering enable: Disabled */
+>                         INTERLEAVE_EN, lb_params->interleave_en, /* Inter=
+leave source enable */
+>                         LB_DATA_FORMAT__ALPHA_EN, lb_params->alpha_en); /=
+* Alpha enable */
+> -       }
+> -       else {
+> +       } else {
+>                 /* DSCL caps: pixel data processed in float format */
+>                 REG_SET_2(LB_DATA_FORMAT, 0,
+>                         INTERLEAVE_EN, lb_params->interleave_en, /* Inter=
+leave source enable */
 > --
 > 2.17.1
 >
