@@ -2,60 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA5D7730CE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 22:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16015773121
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 23:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 303F410E380;
-	Mon,  7 Aug 2023 20:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7F1E10E37D;
+	Mon,  7 Aug 2023 21:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC5010E380
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 20:59:27 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id
- 3f1490d57ef6-d2b8437d825so5015147276.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 13:59:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691441967; x=1692046767;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1TB24omLK1FlKgOCqNqP19I66aXL7vl5SkLes22X3sI=;
- b=ppm24rYK/BKZHa37pLXK0YkOokF7GCCrIRUwj4JSwIuIemYzGjn8XL6h3Yk3/mSu54
- QIULEmv9V8MMb0fNjl+R/JMA2SLBL6JcnQyv6QSh4bn4YtIG9Fwy0MtyosFOBwmfRIr4
- RKJgs1GLh5O4nWrhobx7Q4CQG+J4VKD8L740/f9VRE/7wipxBmbS97g5NdP/Sec9yPAB
- VzbgxxzQ1VcaOA0SgPAvkkIO0syIZJBt2HKDW7gVSEKqNeoBYj/b4wjRkFnR3eQ3irew
- DEwLMfkbRKcyLS2eUQD8VLQXZDF4eopzgvqW2e9+OPj8On0pzPPrv7jwvQNto66I26qy
- p4NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691441967; x=1692046767;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1TB24omLK1FlKgOCqNqP19I66aXL7vl5SkLes22X3sI=;
- b=DnPENnA6TMM1RoPXDL62K2UMMvm0IqqfIJMrSoz+87Dx429lRVbT5Tr6TLQfM7ds/6
- c8zu6yRxJSBzNBWmt10gPSbOT5a+hdheY6XIPSRicLXCQz84SUm7HKoeDmUeU9Zg4Ft2
- gjqsZSHTrHpxMg0fOUWLkHpn3woorehQaKPLfFpJkR/m4Buv+O7sVgoawYXMQ/liw3iA
- zbgaX/st1oU0Kv2jBdEkhJp20OBiFZvEv1ZHpEWmhiqe4eoRGqVgraGQ5TZce6Pfy6a+
- G7vq3345rkCwW6H9AiqHrWlpQX8SYN0Ptqb28YncNL7sqKs2b+QYjED4/lObvDPutW5Y
- jI6Q==
-X-Gm-Message-State: AOJu0Yxlkc6Uxl0Kuw3RX58N845s0SmgpcIpQ5tggLrADe4P8uJ8A6yQ
- 5nzmVZFkzTkgIZL02RJd6/oRkEdVIPuw0BSeKWoWuQ==
-X-Google-Smtp-Source: AGHT+IGMBg+B//EL+G4WJP9rq3qQofAf0mYrKqZqe66/aYe9NZ2nYEORKSvft3JjPUvy4dGfRg7eJoe1epzmtp8el54=
-X-Received: by 2002:a25:240a:0:b0:d10:c4ea:a6b1 with SMTP id
- k10-20020a25240a000000b00d10c4eaa6b1mr10565680ybk.38.1691441966829; Mon, 07
- Aug 2023 13:59:26 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECA910E382
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 21:19:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1B0Ej7TobdhprMENYb/HfXDNypmNnCAX9hWYxsODeT8=; b=jGDkCtcmm7wgLuDfNLmk98SQZc
+ qtyQ6jvaTceJo72i72bfRlCYYoV2JaN8dCtCAnqtBTXLGg4mMd9RnmA2U5zolSCh2wWpnpLkybmnw
+ LDyszwa04GXkAdgu/QFa1iC065WZ6wYY3Ct75s2+TdX8HTn3tAd2ng8bgYNblsVE9qhKF83lpUrIh
+ C2e11pIeRhPc5O22t8Dh/KrLHTgUJDvGcavJUYAQ3VjL773fjYoM5EafefLnbpa079aFZb9EHwz90
+ 2R3z7903Lc+30nv3Fv3KoxI1S3FsxE1xS2pQ8I4CK8o/xK5/WPENtyvuL/+TLgow9cr3UujTJ9uLq
+ sOUgR+jw==;
+Received: from [177.34.168.16] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qT7dG-00F1NC-Vc; Mon, 07 Aug 2023 23:19:19 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v2 0/2] drm/v3d: Expose GPU usage stats
+Date: Mon,  7 Aug 2023 18:12:53 -0300
+Message-ID: <20230807211849.49867-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230731131810.103379-1-wangzhu9@huawei.com>
-In-Reply-To: <20230731131810.103379-1-wangzhu9@huawei.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 7 Aug 2023 22:59:15 +0200
-Message-ID: <CACRpkdYA8kcggu_4jZUj0nP9040wNbCZw8gB6t=z-giaWRprsw@mail.gmail.com>
-Subject: Re: [PATCH -next] drm/mcde: remove redundant of_match_ptr
-To: Zhu Wang <wangzhu9@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,25 +54,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: arnd@arndb.de, dri-devel@lists.freedesktop.org,
- u.kleine-koenig@pengutronix.de
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 31, 2023 at 3:19=E2=80=AFPM Zhu Wang <wangzhu9@huawei.com> wrot=
-e:
+This patchset exposes GPU usages stats both globally and per-file
+descriptor.
 
-> The driver depends on CONFIG_OF, so it is not necessary to use
-> of_match_ptr here.
->
-> Even for drivers that do not depend on CONFIG_OF, it's almost always
-> better to leave out the of_match_ptr(), since the only thing it can
-> possibly do is to save a few bytes of .text if a driver can be used both
-> with and without it. Hence we remove of_match_ptr.
->
-> Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
+The first patch exposes the accumulated amount of active time per client
+through the fdinfo infrastructure. The amount of active time is exposed
+for each V3D queue. Moreover, it exposes the number of jobs submitted to
+each queue.
 
-Patch applied!
+The second patch exposes the accumulated amount of active time for each
+V3D queue, independent of the client. This data is exposed through the
+sysfs interface.
 
-Yours,
-Linus Walleij
+With these patches, it is possible to calculate the GPU usage percentage
+per queue globally and per-file descriptor.
+
+* Example fdinfo output:
+
+$ cat /proc/1140/fdinfo/4
+pos:    0
+flags:  02400002
+mnt_id: 24
+ino:    209
+drm-driver:     v3d
+drm-client-id:  44
+drm-engine-bin:         1661076898 ns
+v3d-jobs-bin:   19576 jobs
+drm-engine-render:      31469427170 ns
+v3d-jobs-render:        19575 jobs
+drm-engine-tfu:         5002964 ns
+v3d-jobs-tfu:   13 jobs
+drm-engine-csd:         188038329691 ns
+v3d-jobs-csd:   250393 jobs
+drm-engine-cache_clean:         27736024038 ns
+v3d-jobs-cache_clean:   250392 job
+
+* Example gputop output:
+
+DRM minor 128
+ PID         bin               render               tfu                csd            cache_clean     NAME
+1140 |▎                ||██▋               ||                 ||█████████████▍   ||█▋               | computecloth
+1158 |▍                ||████████▉         ||                 ||                 ||                 | gears
+1002 |▏                ||█▎                ||                 ||                 ||                 | chromium-browse
+
+Best Regards,
+- Maíra
+---
+
+v1 -> v2: https://lore.kernel.org/dri-devel/20230727142929.1275149-1-mcanal@igalia.com/T/
+
+* Use sysfs to expose global GPU stats (Tvrtko Ursulin)
+
+Maíra Canal (2):
+  drm/v3d: Implement show_fdinfo() callback for GPU usage stats
+  drm/v3d: Expose the total GPU usage stats on sysfs
+
+ drivers/gpu/drm/v3d/Makefile    |   3 +-
+ drivers/gpu/drm/v3d/v3d_drv.c   |  39 +++++++++++-
+ drivers/gpu/drm/v3d/v3d_drv.h   |  30 ++++++++++
+ drivers/gpu/drm/v3d/v3d_gem.c   |   6 +-
+ drivers/gpu/drm/v3d/v3d_irq.c   |  33 +++++++++++
+ drivers/gpu/drm/v3d/v3d_sched.c |  35 +++++++++++
+ drivers/gpu/drm/v3d/v3d_sysfs.c | 101 ++++++++++++++++++++++++++++++++
+ 7 files changed, 244 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/v3d/v3d_sysfs.c
+
+--
+2.41.0
+
