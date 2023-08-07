@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D500977203C
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 13:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E916772048
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 13:14:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD9710E26D;
-	Mon,  7 Aug 2023 11:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5899610E26E;
+	Mon,  7 Aug 2023 11:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
  [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D00910E26D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 11:14:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4610010E26E
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 11:14:40 +0000 (UTC)
 Received: by mail-pj1-x1031.google.com with SMTP id
- 98e67ed59e1d1-265c94064b8so592693a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 04:14:27 -0700 (PDT)
+ 98e67ed59e1d1-2680edb9767so930632a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 04:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1691406867; x=1692011667;
+ d=bytedance.com; s=google; t=1691406880; x=1692011680;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=igblsYgdIrcTAL0swCZj529c9jjsKo5CwfFS1Qcng2s=;
- b=E/hLPt4J9XwFdy6Q/ScFkKAboS35nT/aVetijUs1uOyzpCdXJrzvux0WuTkbJahYDU
- HJ4RnOFgFoSV4vIvUSABYCFS8MT8O5BBdFRn/e0d22QvpkBHCvD7k0jL91l8VKqh/AnF
- pNO49bmGYrjFLlyM+it2E7+BjcoRQ4qvC4Z3zAnwRx4Mtu2gDzO6KjINZG5u37W7YPwR
- rd9mA5oeLZ1tw0ARUeeWuqEeVLZXyyZpLkD+mkbNh9jB2r9y+xHrPRtEaxpg/6wzvL2p
- pP/svPPe0egiR6EyNxAsA97H1SimGEidDNnScRjB0NSGHk7qAYW8vH7pvvrUaRXF4mmo
- 0r3w==
+ bh=uDu/4z0sff3MNLq2Hem41DvJLtW9HR7Ht2OY0+o3IBw=;
+ b=B1CW4rX5HR96iE4C61mcE8Vf6RLeUtYXgDxnwBceT7ft1IC5S++icQmFIFvrt4cG/L
+ 0c/u6FKIvYpbVXU295bMslZ7j2rgVaXwSjJRaIMLa4dIqq6HefzeIHqMKw0/Lo0rsfaU
+ nsC5mn0wc4B6AcTwpHE7UQo4S/4ZAugQvuMvQEsWqhRZLmPoe9oa0Q7yCYFnuuapzCun
+ SWccc4DpmmmlhTogFq9P0LyJEl3ZRZ2cm803+AIasPp033eu68uxaCfAoKnHA+NQuDMw
+ Rtim+7y0rt6vcYQJO+qKgz5xgBY8yFO2AMQKXPDTy0z1fvoO5gByJOuvIrJQUEDpduII
+ rIFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691406867; x=1692011667;
+ d=1e100.net; s=20221208; t=1691406880; x=1692011680;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=igblsYgdIrcTAL0swCZj529c9jjsKo5CwfFS1Qcng2s=;
- b=X+0sta+1gZI/DUk2nwW1CydExUAeKi80TsHnYWlikGMSz1/5LI2uadj/bTj7Sfj3zB
- 9UEbEyn2vFsLVLrThEXRWqF6kfTa9I/VjWSEcg7G7vFM5uvMWmZoZCBD8ap8TNjJNNcC
- x1yG7DCdiyZ4ok1AsJvhbUdBhoBiuQsaHIK0MGdr/VhdQHV3IOfSv/UXNRAe4K8uq4we
- sLRvINK0YnDxsBv/GePSqUKlHUl7woiil4+gRR4lq51+namvim9mMP2cc9OwsrfdNmwt
- gWtBq55x6fvzakP5jhb+i1pY+pxhJf/0CgFPsSLkVXTkWGdf9MxZ5FzlBszxzUzkhiAc
- O6/w==
-X-Gm-Message-State: ABy/qLbhlNIbV/WMPjNwqRoyACBXplfjf/Dd4aQ1BBnL1+SmzKL4ZY5c
- 6+iB6EkDFiIVm4w04R4rxtj6Ow==
-X-Google-Smtp-Source: APBJJlGEDKqK4nyUWs8xE2EOJL+ODt25deDnA1/u8sHRAURqC7uD6bjxMDwwed+SXn6y84Un7sE7wA==
-X-Received: by 2002:a17:90a:1090:b0:268:126c:8a8b with SMTP id
- c16-20020a17090a109000b00268126c8a8bmr24570134pja.3.1691406867003; 
- Mon, 07 Aug 2023 04:14:27 -0700 (PDT)
+ bh=uDu/4z0sff3MNLq2Hem41DvJLtW9HR7Ht2OY0+o3IBw=;
+ b=Ar5GWlMI3eGEZcc4X7xJxk1dHkmLuvp6Y4tIWsymaPUbJrjMEkCx1h1paia/i/9fbO
+ Gh7+p1jVmh2FHUK/fngwcdLaecwhEB1uGd1dy7K+3YLTv/9+U2SOOL0DFsUqV/VZXxGn
+ ld7zw7fzEEqoKqE4gPM96mzV70dcAWftwiC0u0IseycDKLOO7HFUIIEqSvoVpabEEtFn
+ GWEdSKIFj2VRmZso9MFJEc77YpIgJ4p5ZEooXR3taHtH6W1OIqx/AEsru/tRo1P9YHad
+ yupBuZ3JpS/gVb4FIMzDnccugUN+F/3dmB64aigNLsFnLrCYBF0p9UN10tXqo9FZmDKN
+ JuKA==
+X-Gm-Message-State: ABy/qLaxCxngIbZDeX4grEdO8HmeIoE3X8cGdYJWbTxxg0aGc95lGv4m
+ N2dT4/Mf/rv2Zhz0ToNVyOfJaA==
+X-Google-Smtp-Source: APBJJlE+JUQU2KnCMqxKRhVbnyE7g/MjXwiwJL23ihCwbN9GtK/yS0Snkx/m2fq2fyEzRCC+VQ52VA==
+X-Received: by 2002:a17:90a:1f83:b0:268:3dc6:f0c5 with SMTP id
+ x3-20020a17090a1f8300b002683dc6f0c5mr25034377pja.0.1691406879873; 
+ Mon, 07 Aug 2023 04:14:39 -0700 (PDT)
 Received: from C02DW0BEMD6R.bytedance.net ([203.208.167.146])
  by smtp.gmail.com with ESMTPSA id
- y13-20020a17090aca8d00b0025be7b69d73sm5861191pjt.12.2023.08.07.04.14.14
+ y13-20020a17090aca8d00b0025be7b69d73sm5861191pjt.12.2023.08.07.04.14.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 04:14:26 -0700 (PDT)
+ Mon, 07 Aug 2023 04:14:39 -0700 (PDT)
 From: Qi Zheng <zhengqi.arch@bytedance.com>
 To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
@@ -58,9 +58,10 @@ To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  steven.price@arm.com, cel@kernel.org, senozhatsky@chromium.org,
  yujie.liu@intel.com, gregkh@linuxfoundation.org, muchun.song@linux.dev,
  simon.horman@corigine.com, dlemoal@kernel.org
-Subject: [PATCH v4 21/48] sunrpc: dynamically allocate the sunrpc_cred shrinker
-Date: Mon,  7 Aug 2023 19:09:09 +0800
-Message-Id: <20230807110936.21819-22-zhengqi.arch@bytedance.com>
+Subject: [PATCH v4 22/48] mm: workingset: dynamically allocate the mm-shadow
+ shrinker
+Date: Mon,  7 Aug 2023 19:09:10 +0800
+Message-Id: <20230807110936.21819-23-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
 References: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
@@ -84,66 +85,79 @@ Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  cluster-devel@redhat.com, xen-devel@lists.xenproject.org,
  linux-ext4@vger.kernel.org, linux-arm-msm@vger.kernel.org, rcu@vger.kernel.org,
  linux-bcache@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>,
- Muchun Song <songmuchun@bytedance.com>, linux-raid@vger.kernel.org,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
  linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use new APIs to dynamically allocate the sunrpc_cred shrinker.
+Use new APIs to dynamically allocate the mm-shadow shrinker.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 ---
- net/sunrpc/auth.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ mm/workingset.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/net/sunrpc/auth.c b/net/sunrpc/auth.c
-index 2f16f9d17966..0cc52e39f859 100644
---- a/net/sunrpc/auth.c
-+++ b/net/sunrpc/auth.c
-@@ -861,11 +861,7 @@ rpcauth_uptodatecred(struct rpc_task *task)
- 		test_bit(RPCAUTH_CRED_UPTODATE, &cred->cr_flags) != 0;
+diff --git a/mm/workingset.c b/mm/workingset.c
+index da58a26d0d4d..3c53138903a7 100644
+--- a/mm/workingset.c
++++ b/mm/workingset.c
+@@ -763,13 +763,6 @@ static unsigned long scan_shadow_nodes(struct shrinker *shrinker,
+ 					NULL);
  }
  
--static struct shrinker rpc_cred_shrinker = {
--	.count_objects = rpcauth_cache_shrink_count,
--	.scan_objects = rpcauth_cache_shrink_scan,
--	.seeks = DEFAULT_SEEKS,
+-static struct shrinker workingset_shadow_shrinker = {
+-	.count_objects = count_shadow_nodes,
+-	.scan_objects = scan_shadow_nodes,
+-	.seeks = 0, /* ->count reports only fully expendable nodes */
+-	.flags = SHRINKER_NUMA_AWARE | SHRINKER_MEMCG_AWARE,
 -};
-+static struct shrinker *rpc_cred_shrinker;
+-
+ /*
+  * Our list_lru->lock is IRQ-safe as it nests inside the IRQ-safe
+  * i_pages lock.
+@@ -778,9 +771,10 @@ static struct lock_class_key shadow_nodes_key;
  
- int __init rpcauth_init_module(void)
+ static int __init workingset_init(void)
  {
-@@ -874,9 +870,18 @@ int __init rpcauth_init_module(void)
- 	err = rpc_init_authunix();
- 	if (err < 0)
- 		goto out1;
--	err = register_shrinker(&rpc_cred_shrinker, "sunrpc_cred");
--	if (err < 0)
-+	rpc_cred_shrinker = shrinker_alloc(0, "sunrpc_cred");
-+	if (!rpc_cred_shrinker) {
-+		err = -ENOMEM;
- 		goto out2;
-+	}
++	struct shrinker *workingset_shadow_shrinker;
+ 	unsigned int timestamp_bits;
+ 	unsigned int max_order;
+-	int ret;
++	int ret = -ENOMEM;
+ 
+ 	BUILD_BUG_ON(BITS_PER_LONG < EVICTION_SHIFT);
+ 	/*
+@@ -797,17 +791,24 @@ static int __init workingset_init(void)
+ 	pr_info("workingset: timestamp_bits=%d max_order=%d bucket_order=%u\n",
+ 	       timestamp_bits, max_order, bucket_order);
+ 
+-	ret = prealloc_shrinker(&workingset_shadow_shrinker, "mm-shadow");
+-	if (ret)
++	workingset_shadow_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE |
++						    SHRINKER_MEMCG_AWARE,
++						    "mm-shadow");
++	if (!workingset_shadow_shrinker)
+ 		goto err;
 +
-+	rpc_cred_shrinker->count_objects = rpcauth_cache_shrink_count;
-+	rpc_cred_shrinker->scan_objects = rpcauth_cache_shrink_scan;
-+	rpc_cred_shrinker->seeks = DEFAULT_SEEKS;
+ 	ret = __list_lru_init(&shadow_nodes, true, &shadow_nodes_key,
+-			      &workingset_shadow_shrinker);
++			      workingset_shadow_shrinker);
+ 	if (ret)
+ 		goto err_list_lru;
+-	register_shrinker_prepared(&workingset_shadow_shrinker);
 +
-+	shrinker_register(rpc_cred_shrinker);
++	workingset_shadow_shrinker->count_objects = count_shadow_nodes;
++	workingset_shadow_shrinker->scan_objects = scan_shadow_nodes;
 +
++	shrinker_register(workingset_shadow_shrinker);
  	return 0;
- out2:
- 	rpc_destroy_authunix();
-@@ -887,5 +892,5 @@ int __init rpcauth_init_module(void)
- void rpcauth_remove_module(void)
- {
- 	rpc_destroy_authunix();
--	unregister_shrinker(&rpc_cred_shrinker);
-+	shrinker_free(rpc_cred_shrinker);
+ err_list_lru:
+-	free_prealloced_shrinker(&workingset_shadow_shrinker);
++	shrinker_free(workingset_shadow_shrinker);
+ err:
+ 	return ret;
  }
 -- 
 2.30.2
