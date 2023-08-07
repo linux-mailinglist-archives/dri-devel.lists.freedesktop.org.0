@@ -1,61 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC900772AE2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:32:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4452772AE7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D330310E2BB;
-	Mon,  7 Aug 2023 16:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 832DA10E2BE;
+	Mon,  7 Aug 2023 16:32:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03F910E1DD;
- Mon,  7 Aug 2023 16:32:25 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 46e09a7af769-6bc9254a1baso3838775a34.2; 
- Mon, 07 Aug 2023 09:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691425945; x=1692030745;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ygTIUkZv7ZsC1Ak6vtB58w1LRxko3ruoE1DG7vp7o7g=;
- b=LAXiJfRVuW487oHewQhGBJPinFMxMoTRw/6b/moPXJpsf1IV75KV9K92HO/autzoOR
- rRg0qd7U7Rch7Wyf05kMunfAcflWrTpZGS9VV080lDEDu+ZywvmMy7A8gT0slXNWrPOe
- VGhzlgOl2baKd3H6Y0Dqk1IvndoCx0uzmJ5fYVvf10TVZ9mIbR3WgwKEoIf15uhtr396
- g8OpYuIEtz1oW37MOQbIRoZUsuF9g6VwQHNKQpH0H2IF/L9A0cZ6mmMT9DXr5lwXXGXT
- dmvkYZG6pmghrVNBKPdjcPL8+A5MZfAaP7jF0+JZrPvfYJvw9ZtPhd8VI7tmcNLTh3A6
- Xl2Q==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3F3B10E2BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 16:32:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691425965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8RzhR0Defsn9yPdyrBq2FgdXanmnGOPFDzct4NabJUc=;
+ b=C+/CyL6DWmJ97DvzadNxN/4lkkgbk7hRr9Zj4E1hmAdSuzbgFhJXbaLPqoRQZ2II9WaIxO
+ m7EasRiv0PRVjFn8teXb4HaZDs0Hwr6jVAu/kIjrxLNAiwJ3dMHwqe7XqJDB4SKPAWQHCP
+ AIO/QqAOj/nbEn1Ej8k7nPDvDK/qhUo=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-171-RoW8FnpvP0-zyeHXxHpUHA-1; Mon, 07 Aug 2023 12:32:44 -0400
+X-MC-Unique: RoW8FnpvP0-zyeHXxHpUHA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ 2adb3069b0e04-4fe0e1dfdbaso4476621e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 09:32:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425945; x=1692030745;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ygTIUkZv7ZsC1Ak6vtB58w1LRxko3ruoE1DG7vp7o7g=;
- b=HjP2fiEViIDnEhVRKOcCZ59bZeNgMG6W9yEZKcCeesAhKmtjKyjQeVI+gvsL2Qgz/w
- jZQnLs2QY6BRXz5bOvryYbmLmqqSJyIxHNTvJQmlFt6n2BXAoEn5C5kTfZe7VMvcgdaF
- sYzw1zmstL/Zu+8ZLKMwq1eyy0cOpROT0wqZlq/TrRd9Kg2LyhQ7beLknc0PPzKpSxUI
- 4PJHuCvi2vnAbnToV9pt+WGnSULfl6azgr0saXTDDah8srtvRkG8tR/0tHEdZCW4XKFj
- 4Lf3bycsrWjh2ws9uYhsTcX8MqXpyI9Oh3+jiKR0fTVl/EikgSTsV3NPCBnt4tMQ9a70
- GF0g==
-X-Gm-Message-State: AOJu0YwMhI6mJ/RtGcBH4Hk+Oecs6l6L7vLmwo/rv6DH4In2EXNAGu5x
- 7TF218MFvBSNA/qNEzp9zefwPhFa8vRtZ34lYQs=
-X-Google-Smtp-Source: AGHT+IFADLzDrmJBNqD0h6jZKZIbu6BHvz8y++9SQhxMWpdkTVMzHfELTGfP1WMkMgGjfOdSRul6Lm9Zr3/E55f5C9o=
-X-Received: by 2002:a05:6870:8294:b0:1bb:8333:ab8a with SMTP id
- q20-20020a056870829400b001bb8333ab8amr10538221oae.4.1691425945123; Mon, 07
- Aug 2023 09:32:25 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691425962; x=1692030762;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8RzhR0Defsn9yPdyrBq2FgdXanmnGOPFDzct4NabJUc=;
+ b=XLLNzDkcxGj/QwS+rd8NwAupsxb8qj/8rxjU4h+Jg6L9VL/gfDgc6gsWsUCCk9jKgw
+ JMAWmxG6hzpCq0sbqCUsWYtjT6xIJslSozgfQ/dSfViu75KzZjeYKaPInvtDXnJG3D+5
+ kUsH+HqydyhrbZsI5PEVSUvq52DGjl4LFKugAFDyldSWE+I0cZBjhl4qP0jLKhOl0dAR
+ KzrAqau/lEzGU7kT7yxcTBcqKbnpLF+hk6Lie69DcoK52Q285Xv/+Di2YZlkHbo1CaaU
+ ETM9+kw0GE9gDiAn/bLusX1bV73KJkVMZKo1ukEsOSAKFUSHy4J924mDxydEixR8hVt2
+ XbOA==
+X-Gm-Message-State: AOJu0YybZsX8VoOlOL9zB6XhSHuMJ74pne9iEgTWB+lTvehg6L5+R+hB
+ fZxt88/xERGlumkI1ySI9CoAlQvJNJ+NmAXpomxFh/UxxD/ETv0e9x/AP6JzTM29OybTef/+318
+ wGt3V9fwQ1tw9cfSQu27gXm4aGw1f
+X-Received: by 2002:ac2:5e90:0:b0:4fb:c657:3376 with SMTP id
+ b16-20020ac25e90000000b004fbc6573376mr5710686lfq.29.1691425962408; 
+ Mon, 07 Aug 2023 09:32:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGoveHUcxmtOtYeVGuvV0X+WYxTBKr9SEAQjhSbownwD6MHWzDQxtVUZ5WIVK3lj030C9Zegw==
+X-Received: by 2002:ac2:5e90:0:b0:4fb:c657:3376 with SMTP id
+ b16-20020ac25e90000000b004fbc6573376mr5710669lfq.29.1691425962042; 
+ Mon, 07 Aug 2023 09:32:42 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ by smtp.gmail.com with ESMTPSA id
+ d17-20020a50fb11000000b00522572f323dsm5394761edq.16.2023.08.07.09.32.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Aug 2023 09:32:41 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
+ lyude@redhat.com, sfr@canb.auug.org.au
+Subject: [PATCH drm-misc-next 0/5] Nouveau VM_BIND uAPI Fixes
+Date: Mon,  7 Aug 2023 18:32:21 +0200
+Message-ID: <20230807163238.2091-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230801055826.6000-1-sunran001@208suo.com>
-In-Reply-To: <20230801055826.6000-1-sunran001@208suo.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:32:14 -0400
-Message-ID: <CADnq5_PJZ-vS+p8ky1C2LFPEfp6bVfTMveL7wFeKKytwvqePgw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in vega10_hwmgr.c
-To: Ran Sun <sunran001@208suo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,66 +81,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
+Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This one doesn't apply due to whitespace differences.
+The patch series provides a few fixes for the recently merged VM_BIND uAPI
+mostly addressing a couple of warnings.
 
-Alex
+It also contains one patch to slightly reduce the memory footprint of
+struct nouveau_uvma.
 
-On Tue, Aug 1, 2023 at 1:58=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
-:
->
-> Fix the following errors reported by checkpatch:
->
-> ERROR: trailing statements should be on next line
-> ERROR: space required before the open brace '{'
-> ERROR: space required before the open parenthesis '('
-> ERROR: space required after that ',' (ctx:VxV)
->
-> Signed-off-by: Ran Sun <sunran001@208suo.com>
-> ---
->  .../drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c  | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c b/driv=
-ers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> index 08518bc1cbbe..ba7294daddfe 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
-> @@ -670,17 +670,23 @@ static int vega10_patch_voltage_dependency_tables_w=
-ith_lookup_table(
->         for (i =3D 0; i < 6; i++) {
->                 struct phm_ppt_v1_clock_voltage_dependency_table *vdt;
->                 switch (i) {
-> -               case 0: vdt =3D table_info->vdd_dep_on_socclk;
-> +               case 0:
-> +                       vdt =3D table_info->vdd_dep_on_socclk;
->                         break;
-> -               case 1: vdt =3D table_info->vdd_dep_on_sclk;
-> +               case 1:
-> +                       vdt =3D table_info->vdd_dep_on_sclk;
->                         break;
-> -               case 2: vdt =3D table_info->vdd_dep_on_dcefclk;
-> +               case 2:
-> +                       vdt =3D table_info->vdd_dep_on_dcefclk;
->                         break;
-> -               case 3: vdt =3D table_info->vdd_dep_on_pixclk;
-> +               case 3:
-> +                       vdt =3D table_info->vdd_dep_on_pixclk;
->                         break;
-> -               case 4: vdt =3D table_info->vdd_dep_on_dispclk;
-> +               case 4:
-> +                       vdt =3D table_info->vdd_dep_on_dispclk;
->                         break;
-> -               case 5: vdt =3D table_info->vdd_dep_on_phyclk;
-> +               case 5:
-> +                       vdt =3D table_info->vdd_dep_on_phyclk;
->                         break;
->                 }
->
-> --
-> 2.17.1
->
+Danilo Krummrich (5):
+  nouveau/dmem: fix copy-paste error in nouveau_dmem_migrate_chunk()
+  drm/nouveau: nvkm: vmm: silence warning from cast
+  drm/nouveau: remove incorrect __user annotations
+  drm/nouveau: uvmm: remove incorrect calls to mas_unlock()
+  drm/nouveau: uvmm: remove dedicated VM pointer from VMAs
+
+ drivers/gpu/drm/nouveau/nouveau_dmem.c        |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_exec.c        |  6 ++---
+ drivers/gpu/drm/nouveau/nouveau_exec.h        |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 23 ++++++++-----------
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h        | 14 +++++------
+ .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  5 ++--
+ 6 files changed, 24 insertions(+), 28 deletions(-)
+
+
+base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781
+-- 
+2.41.0
+
