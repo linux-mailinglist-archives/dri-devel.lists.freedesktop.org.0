@@ -2,76 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8AA773054
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 22:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5F67730C9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 22:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65BA710E0F0;
-	Mon,  7 Aug 2023 20:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E30F10E10D;
+	Mon,  7 Aug 2023 20:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B06610E0F0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 20:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691440377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=feydv8gzqlPAj6AHa2Vc58a8yXOwJJf6YmsxhyRJzEg=;
- b=PcQSPMUmB+vUrfK8s51P4lABfqP9a74C9i9iFvZhos2l6LcKAUEg2UKgdHezEbo3e6MXzp
- 6FMBlUQepn5kBa2/qYxvSs2bFa6mzvgyktp01/dYZmiLMssdFpA21LpegdwmshReBEyVvE
- qWb2mIwcajrHdm+KcZI+AlL9zVSkK1Y=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-110--4Hp9EEuOoeEIvGBr3bkOg-1; Mon, 07 Aug 2023 16:32:56 -0400
-X-MC-Unique: -4Hp9EEuOoeEIvGBr3bkOg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-40fb76bd50aso40975111cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 13:32:56 -0700 (PDT)
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E69510E10D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 20:58:41 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id
+ 3f1490d57ef6-ccc462deca6so5403079276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 13:58:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691441920; x=1692046720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=T3Phr/qBjna65dSbgC9HNPvXBfrTrOh8y71Gnukdgxs=;
+ b=M+AWhNElFxz4pAjSLCvt1ZnlOlNfZyBNfhvCqb1HeRGpLnoTT74yzpChjlWZgJbXDT
+ Ghneba3qc2Y/+um+uq8VYTocDvgVjSsGMXEP8AKdlTD8GM3ZAl3I3SKfFpukq4Q6fYWY
+ 72dX7Ylm0eGD25PL2zBwf0+GTpHD62WskWluY80X5ltM0KqdPUqUtmRYn1B2ztazxVmY
+ QvuVLWouKl/JCROhJnuTAigN92pSjWVELDj+dazyLh5dWC4ZueZadxxSJQ+DE4T5XBjX
+ L+eskiYt8uLY6zwROaCL/CJluQlh2WzWRzAdoisgFjw+z/okdyoTh+gWAzJbOeNOI5ee
+ dkOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691440376; x=1692045176;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ef2qFHsqfq9w04kkUFwpr5VGp6ZXP1q9+YtKoiAHED8=;
- b=G2VeBRO+sWmYuEJnaF/kv7bzOZN/OPVroHvg/BZy35e4PjnG5ilA5DurCox9eHLLNx
- tepkKLe98hkDWaRPYUlxkmvT4zzIsxoCyZg8jxvv2um2gLCTBrDSbJDNXRxgVP2Z4bVl
- 1y6nA9ROLL4n+4zqm1qO+q3QXwyUaDSnod1dM5CT8VVYEec2n2BwtHPc55Gt5vR5ZNji
- zttPEVJuGdKf8KYYTa5NIzkFjrBAhCGGdiw8OSJSCHTwfcjYwOq/5ka+WKfN+m8XkhJj
- QGKTFaf2P3ZTAxzf4YLU0qdd/9ZF1SPdKX1n/MibCKX0zpPBlgXEqF5kjTq65I+Hv9vt
- qBPw==
-X-Gm-Message-State: AOJu0Yw05ItsYiO/0QDJurB1DAdq0mUfNg0JfRme6QcIQ0Lz1RyuIqLv
- 2ZE+voXmnu+RlgXfumXMXoT2sjo1HPF3aGoTaH8+KiePur3srqzAOxP1nZ02qForBqaRe8mlMsq
- 80WcpGkQ/gtm3SFQsJHFE5Izu4+iO
-X-Received: by 2002:a05:622a:1301:b0:410:682:972c with SMTP id
- v1-20020a05622a130100b004100682972cmr6058595qtk.62.1691440375836; 
- Mon, 07 Aug 2023 13:32:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHPqPsJ9+KhVuwjTgj9i7DT2wVC/+erfl77JxIrDG0C82kOepjLE2//seLYHR3tPeHf0bg4Kg==
-X-Received: by 2002:a05:622a:1301:b0:410:682:972c with SMTP id
- v1-20020a05622a130100b004100682972cmr6058576qtk.62.1691440375600; 
- Mon, 07 Aug 2023 13:32:55 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c7d:5f00:6966:42dc:c4a4:dad3?
- ([2600:4040:5c7d:5f00:6966:42dc:c4a4:dad3])
- by smtp.gmail.com with ESMTPSA id
- r17-20020ac87951000000b00401217aa51dsm2894075qtt.76.2023.08.07.13.32.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 13:32:54 -0700 (PDT)
-Message-ID: <b350fd1e60cc0fa24a81be512e35f9b6a2358f94.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: Revert a NULL check inside
- nouveau_connector_get_modes
-From: Lyude Paul <lyude@redhat.com>
-To: Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org
-Date: Mon, 07 Aug 2023 16:32:53 -0400
-In-Reply-To: <20230805101813.2603989-1-kherbst@redhat.com>
-References: <20230805101813.2603989-1-kherbst@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38)
+ d=1e100.net; s=20221208; t=1691441920; x=1692046720;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=T3Phr/qBjna65dSbgC9HNPvXBfrTrOh8y71Gnukdgxs=;
+ b=cxgVLEi0EBersDSJ3kHK0xXcqbpKeYN55f+obcMd6c4CT5M5MAcgABfYd/Rsv326jc
+ tHU/YF+alFPnvdWEeGLw1qiO5gksJ6KfS6aHU2BJH5fOy4IoMoyoZfunyEu5KqBDTo2S
+ 9aUqFBT6fLKQly7TMIYAMHgKEAcsuznutEvBGZjeQNM+GrN9L87c+GZdZibPXopKxM1G
+ eoHb/x9eHNhMV6gp+1+tiEMXNMBS0Zazw0ws6POVfb7tIcVi9oVbFwVyUjOHh7hiUDUS
+ 1NHgQoC8U7cMoE+yXJe+9T001Y3FDCJ5W16ul6yz9MwUWVjtuFGJgilYbMH8IWBDA6UJ
+ SrEg==
+X-Gm-Message-State: AOJu0YyX9ab7aJYjUYzPwm110wIozETf1ooaR1gkMU79/nei3hl91OpL
+ 5FyLTbS0I3sCt36uP7Uy7Qbn1C09+0wZA7VJ2dfjkyP2nENWLhfk
+X-Google-Smtp-Source: AGHT+IEPbfMU6FnbM2nuPmSSAfLdNHlZn/23luLcc6pcHAAANUMauW+J5vYh+YbMRY3LfIfizFYX6YAl+st36+onh7w=
+X-Received: by 2002:a25:8404:0:b0:d3f:2238:8872 with SMTP id
+ u4-20020a258404000000b00d3f22388872mr10755050ybk.63.1691441920632; Mon, 07
+ Aug 2023 13:58:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230731124222.78643-1-wangzhu9@huawei.com>
+In-Reply-To: <20230731124222.78643-1-wangzhu9@huawei.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 7 Aug 2023 22:58:29 +0200
+Message-ID: <CACRpkdYspy4VWJ5PBBc4Dxpo2VU2eZm-WXwPNKHBM1aXXGQKgw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/tve200: remove redundant of_match_ptr
+To: Zhu Wang <wangzhu9@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,53 +68,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Olaf Skibbe <news@kravcenko.com>, nouveau@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: arnd@arndb.de, dri-devel@lists.freedesktop.org,
+ u.kleine-koenig@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ugh, thanks for catching this!
+On Mon, Jul 31, 2023 at 2:43=E2=80=AFPM Zhu Wang <wangzhu9@huawei.com> wrot=
+e:
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+> The driver depends on CONFIG_OF, so it is not necessary to use
+> of_match_ptr here.
+>
+> Even for drivers that do not depend on CONFIG_OF, it's almost always
+> better to leave out the of_match_ptr(), since the only thing it can
+> possibly do is to save a few bytes of .text if a driver can be used both
+> with and without it. Hence we remove of_match_ptr.
+>
+> Signed-off-by: Zhu Wang <wangzhu9@huawei.com>
 
-On Sat, 2023-08-05 at 12:18 +0200, Karol Herbst wrote:
-> The original commit adding that check tried to protect the kenrel against
-> a potential invalid NULL pointer access.
->=20
-> However we call nouveau_connector_detect_depth once without a native_mode
-> set on purpose for non LVDS connectors and this broke DP support in a few
-> cases.
->=20
-> Cc: Olaf Skibbe <news@kravcenko.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/238
-> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/245
-> Fixes: 20a2ce87fbaf8 ("drm/nouveau/dp: check for NULL nv_connector->nativ=
-e_mode")
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/dr=
-m/nouveau/nouveau_connector.c
-> index f75c6f09dd2af..a2e0033e8a260 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -967,7 +967,7 @@ nouveau_connector_get_modes(struct drm_connector *con=
-nector)
->  =09/* Determine display colour depth for everything except LVDS now,
->  =09 * DP requires this before mode_valid() is called.
->  =09 */
-> -=09if (connector->connector_type !=3D DRM_MODE_CONNECTOR_LVDS && nv_conn=
-ector->native_mode)
-> +=09if (connector->connector_type !=3D DRM_MODE_CONNECTOR_LVDS)
->  =09=09nouveau_connector_detect_depth(connector);
-> =20
->  =09/* Find the native mode if this is a digital panel, if we didn't
+Patch applied!
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+Yours,
+Linus Walleij
