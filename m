@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21CA772A9F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:26:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C57E772AA3
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE8810E2B5;
-	Mon,  7 Aug 2023 16:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB99A10E2B6;
+	Mon,  7 Aug 2023 16:27:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90DA810E2B4;
- Mon,  7 Aug 2023 16:26:28 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-1bc479cc815so3685303fac.1; 
- Mon, 07 Aug 2023 09:26:28 -0700 (PDT)
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
+ [IPv6:2607:f8b0:4864:20::c30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8540810E2B6;
+ Mon,  7 Aug 2023 16:27:09 +0000 (UTC)
+Received: by mail-oo1-xc30.google.com with SMTP id
+ 006d021491bc7-56cca35d8c3so2427194eaf.3; 
+ Mon, 07 Aug 2023 09:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691425588; x=1692030388;
+ d=gmail.com; s=20221208; t=1691425629; x=1692030429;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=e+y0EPgsXPYGqDhgU0ly4Js9jdJ8CVWq1QGImohPTzg=;
- b=U26wNKBXF4TXIYytCM7pRJjJtOffhyxeALBgdZu6WaxOb8+SG/25jUDmFTbHxPnyYZ
- lt+MTlSgweJIXIdbjj//oJAVAAywyV+zHEN+wq/ySVgOIhApxP4nYF82RnxmVytwABe2
- U0wFcJ4GJ9mzWAVr3wAMUrXw6qMWXGszMsUXm73xSHZFxB7Ywv+QXEnbZGYoYdJSLDR9
- Xp3jqle9ZgMQ0TG3RdtJCvPSKvQ8+WxhZdhFl3FGhly7/4aQXf5vyHTnXqTfNsQSz2D5
- FytNZmrc2ncRWZ7zshSAzaIh4nDHaEhcX7qwm8NnGVBBrMgUi19I9XVs8lU1kKTKBpwg
- 2Oow==
+ bh=Xl2DiaD0s9sQaa1SCOAndOp0tHDVWN37eY0r1ePst1o=;
+ b=njMVpHsYhL2VBL3zZH3RRrgun72OfQOP6X0/aLXBs7VpxEzzeikNKFDV/DhXnUZPNl
+ MwGXg2CUpktyJhfFnHLruDoYJcUkhJtc6q1PWy6RoVTvpx7uMcGOT0D5IxClfxXHGTRw
+ pZvRwx3fUB71Wmm07dOO9Fy+x3bKF3NOjkSZ/20uHbM9TixUA1CFQF22a/lHCQDFCvDa
+ dhEKA1j309oMNL0AfuuhHPtjmkkgr4CVKr2xd2JVxS2aOp/p/Cc6S0LoYSCnAumbhhes
+ TsRz60g/40cyiUrpeggAy/Y1oOBBbYZjyCQf7WPvEhlF1BZ0pgGLS+0zbuJiWKcWWBLa
+ WytA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425588; x=1692030388;
+ d=1e100.net; s=20221208; t=1691425629; x=1692030429;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=e+y0EPgsXPYGqDhgU0ly4Js9jdJ8CVWq1QGImohPTzg=;
- b=irBYZp1xpjgzRosu3jE2+tYwcczcQYISinc5pC+MGUNvh5xN3GBYfoAIgIvIwAOvBc
- sGnI/axWygt5FKlJPxQkgIsu4FW+Qv5JA30Bg4Gu/L7es2S331y4bcXuD9VtNEkd2r1p
- K4oHoftPGIs7pXp4gczoHkLxUo2fXt2eguNZ8z4vU8PVOYqPlQXKD+q/XKAJyssThGz8
- nYvb66G6AoIlFk8S2mGGg36+HFPB0m9jgnAlLQuefmmQsgYDfbVMQ1Zh6B81ifbX5cgh
- k6hR8ntoPpU8aOE648a82uQ7RQ1NlR8r0ys9BQ2PT/flKxY0nAVMf0cZnfwvVl+TSL0e
- Oh/Q==
-X-Gm-Message-State: AOJu0YzfNHX6l9RlHCUuM0bLzDrkKvmBlA2DtLTpjl8pSyLFjtIjqlFp
- Q1ACMHt9rQr6xWIXIa8yEBQEVINjAW/dTLmWfgg=
-X-Google-Smtp-Source: AGHT+IHtXN34eo/D+WLHPMKn8uFbvoUL7yxU34VnYFA/V9sKmSdzupmYHvysUFwQ9U2POQsuhyD6WyVpyFJMVk+Tctw=
-X-Received: by 2002:a05:6870:c087:b0:1bb:8ab6:6642 with SMTP id
- c7-20020a056870c08700b001bb8ab66642mr11612014oad.8.1691425587807; Mon, 07 Aug
- 2023 09:26:27 -0700 (PDT)
+ bh=Xl2DiaD0s9sQaa1SCOAndOp0tHDVWN37eY0r1ePst1o=;
+ b=OjzjdFEuaXgSrwffVgfWOkwg2iGxPkhs2bPz9ROKSc4g7Q+6ulHMSrvV+q2aB9gxUJ
+ ECIngTtQYPsuboHWvBYs56C4zx14H09OiBFgfIN24eNa5o+B5Kt2/NmbmPQ+vvI485Ru
+ u8VDm1oPpCjOrV781r30JxY7hpH1GwgauUDKp9EZxnD5Rc2p5TwUH6x2H+Ie29vgvc7o
+ ByS5gF11/nmj8prtWl+GvzphvnsdN6fiYamVo9HJkW0DCedbqeu7igh2WBfVwXYq2R76
+ SWzEWFKlsXhzPhJPcS20jIroFrOTlU1Mr8CXvSbaM/ud4DgpLk6CD3mwMfE3xZ6ajN8j
+ zsRg==
+X-Gm-Message-State: AOJu0YxXqoSlM0DIH0/pTXoTdD84FzMiGwhuDg1zEVE5pSL6LkO328J9
+ zx+5hGJwiy8bfi5AvBjl9gbIzZCiK8HAUZIwf1Y=
+X-Google-Smtp-Source: AGHT+IGA12XTo+wO2CuNQhuwnZhSDv9RtIxAERcuRVoVohfV3PqzlU5Sf7PWlTaNdJ42RO4VAM7cuxqiEwxqdIKn5eQ=
+X-Received: by 2002:a05:6870:148f:b0:1bb:c946:b80e with SMTP id
+ k15-20020a056870148f00b001bbc946b80emr9673552oab.28.1691425628716; Mon, 07
+ Aug 2023 09:27:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801030334.5069-1-sunran001@208suo.com>
-In-Reply-To: <20230801030334.5069-1-sunran001@208suo.com>
+References: <20230801030851.5158-1-sunran001@208suo.com>
+In-Reply-To: <20230801030851.5158-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:26:16 -0400
-Message-ID: <CADnq5_OVqaYzv6_y20axW+dmx1+_x9M9A29R8dKnM8rVNjh-=g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm/powerplay/hwmgr/ppevvmath: Clean up errors in
- ppevvmath.h
+Date: Mon, 7 Aug 2023 12:26:57 -0400
+Message-ID: <CADnq5_OnifyV7Debd_GsGFA1yPkr454GLLb0d5Wsd00tg=V1aA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu10_hwmgr.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -76,97 +75,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Mon, Jul 31, 2023 at 11:03=E2=80=AFPM Ran Sun <sunran001@208suo.com> wro=
+On Mon, Jul 31, 2023 at 11:09=E2=80=AFPM Ran Sun <sunran001@208suo.com> wro=
 te:
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: return is not a function, parentheses are not required
+> ERROR: spaces required around that '=3D' (ctx:VxW)
 > ERROR: space required after that ',' (ctx:VxV)
-> ERROR: space required before the open parenthesis '('
-> ERROR: need consistent spacing around '-' (ctx:WxV)
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h b/drivers=
-/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
-> index dac29fe6cfc6..6f54c410c2f9 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppevvmath.h
-> @@ -166,7 +166,7 @@ static fInt fNaturalLog(fInt value)
->
->         error_term =3D fAdd(fNegativeOne, value);
->
-> -       return (fAdd(solution, error_term));
-> +       return fAdd(solution, error_term);
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drive=
+rs/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+> index 86d6e88c7386..02ba68d7c654 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
+> @@ -430,37 +430,37 @@ static int smu10_apply_state_adjust_rules(struct pp=
+_hwmgr *hwmgr,
 >  }
 >
->  static fInt fDecodeLinearFuse(uint32_t fuse_value, fInt f_min, fInt f_ra=
-nge, uint32_t bitlength)
-> @@ -230,7 +230,7 @@ static fInt ConvertToFraction(int X) /*Add all range =
-checking here. Is it possib
->  static fInt fNegate(fInt X)
->  {
->         fInt CONSTANT_NEGONE =3D ConvertToFraction(-1);
-> -       return (fMultiply(X, CONSTANT_NEGONE));
-> +       return fMultiply(X, CONSTANT_NEGONE);
->  }
+>  /* temporary hardcoded clock voltage breakdown tables */
+> -static const DpmClock_t VddDcfClk[]=3D {
+> +static const DpmClock_t VddDcfClk[] =3D {
+>         { 300, 2600},
+>         { 600, 3200},
+>         { 600, 3600},
+>  };
 >
->  static fInt Convert_ULONG_ToFraction(uint32_t X)
-> @@ -382,14 +382,14 @@ static int ConvertBackToInteger (fInt A) /*THIS is =
-the function that will be use
+> -static const DpmClock_t VddSocClk[]=3D {
+> +static const DpmClock_t VddSocClk[] =3D {
+>         { 478, 2600},
+>         { 722, 3200},
+>         { 722, 3600},
+>  };
 >
->         scaledDecimal.full =3D uGetScaledDecimal(A);
+> -static const DpmClock_t VddFClk[]=3D {
+> +static const DpmClock_t VddFClk[] =3D {
+>         { 400, 2600},
+>         {1200, 3200},
+>         {1200, 3600},
+>  };
 >
-> -       fullNumber =3D fAdd(scaledDecimal,scaledReal);
-> +       fullNumber =3D fAdd(scaledDecimal, scaledReal);
+> -static const DpmClock_t VddDispClk[]=3D {
+> +static const DpmClock_t VddDispClk[] =3D {
+>         { 435, 2600},
+>         { 661, 3200},
+>         {1086, 3600},
+>  };
 >
->         return fullNumber.full;
->  }
+> -static const DpmClock_t VddDppClk[]=3D {
+> +static const DpmClock_t VddDppClk[] =3D {
+>         { 435, 2600},
+>         { 661, 3200},
+>         { 661, 3600},
+>  };
 >
->  static fInt fGetSquare(fInt A)
->  {
-> -       return fMultiply(A,A);
-> +       return fMultiply(A, A);
->  }
+> -static const DpmClock_t VddPhyClk[]=3D {
+> +static const DpmClock_t VddPhyClk[] =3D {
+>         { 540, 2600},
+>         { 810, 3200},
+>         { 810, 3600},
+> @@ -1358,7 +1358,7 @@ static int smu10_set_watermarks_for_clocks_ranges(s=
+truct pp_hwmgr *hwmgr,
+>         struct amdgpu_device *adev =3D hwmgr->adev;
+>         int i;
 >
->  /* x_new =3D x_old - (x_old^2 - C) / (2 * x_old) */
-> @@ -447,7 +447,7 @@ static fInt fSqrt(fInt num)
+> -       smu_set_watermarks_for_clocks_ranges(table,wm_with_clock_ranges);
+> +       smu_set_watermarks_for_clocks_ranges(table, wm_with_clock_ranges)=
+;
 >
->         } while (uAbs(error) > 0);
+>         if (adev->apu_flags & AMD_APU_IS_RAVEN2) {
+>                 for (i =3D 0; i < NUM_WM_RANGES; i++)
+> @@ -1461,7 +1461,7 @@ static int smu10_get_power_profile_mode(struct pp_h=
+wmgr *hwmgr, char *buf)
 >
-> -       return (x_new);
-> +       return x_new;
->  }
+>         phm_get_sysfs_buf(&buf, &size);
 >
->  static void SolveQuadracticEqn(fInt A, fInt B, fInt C, fInt Roots[])
-> @@ -459,7 +459,7 @@ static void SolveQuadracticEqn(fInt A, fInt B, fInt C=
-, fInt Roots[])
->         f_CONSTANT100 =3D ConvertToFraction(100);
->         f_CONSTANT10 =3D ConvertToFraction(10);
+> -       size +=3D sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n",title[=
+0],
+> +       size +=3D sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n", title=
+[0],
+>                         title[1], title[2], title[3], title[4], title[5])=
+;
 >
-> -       while(GreaterThan(A, f_CONSTANT100) || GreaterThan(B, f_CONSTANT1=
-00) || GreaterThan(C, f_CONSTANT100)) {
-> +       while (GreaterThan(A, f_CONSTANT100) || GreaterThan(B, f_CONSTANT=
-100) || GreaterThan(C, f_CONSTANT100)) {
->                 A =3D fDivide(A, f_CONSTANT10);
->                 B =3D fDivide(B, f_CONSTANT10);
->                 C =3D fDivide(C, f_CONSTANT10);
-> @@ -515,7 +515,7 @@ static int uGetScaledDecimal (fInt A) /*Converts the =
-fractional portion to whole
->                 dec[i] =3D tmp / (1 << SHIFT_AMOUNT);
->                 tmp =3D tmp - ((1 << SHIFT_AMOUNT)*dec[i]);
->                 tmp *=3D 10;
-> -               scaledDecimal =3D scaledDecimal + dec[i]*uPow(10, PRECISI=
-ON - 1 -i);
-> +               scaledDecimal =3D scaledDecimal + dec[i]*uPow(10, PRECISI=
-ON - 1 - i);
->         }
->
->         return scaledDecimal;
+>         for (i =3D 0; i <=3D PP_SMC_POWER_PROFILE_COMPUTE; i++)
 > --
 > 2.17.1
 >
