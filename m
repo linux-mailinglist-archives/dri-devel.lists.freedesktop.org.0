@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95F3772C12
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D908E772C19
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6B610E31A;
-	Mon,  7 Aug 2023 17:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 950BA10E31C;
+	Mon,  7 Aug 2023 17:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3CD210E31A;
- Mon,  7 Aug 2023 17:08:27 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1a28de15c8aso3612243fac.2; 
- Mon, 07 Aug 2023 10:08:27 -0700 (PDT)
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
+ [IPv6:2607:f8b0:4864:20::c2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C5810E31B;
+ Mon,  7 Aug 2023 17:09:02 +0000 (UTC)
+Received: by mail-oo1-xc2e.google.com with SMTP id
+ 006d021491bc7-56d6879dcaaso1353483eaf.3; 
+ Mon, 07 Aug 2023 10:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428107; x=1692032907;
+ d=gmail.com; s=20221208; t=1691428142; x=1692032942;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xdH85ugcEgXLHyGrQRpZvP78lrIUwr56Sl8IQ0GRO88=;
- b=Ka+wLc1EWmyXGz8qPF+rmM2i6oBNtNMsELdKHf7S1L7UP7AalgAReU0XQ57ZWdIXH5
- BoLdcfAdYMK8kw06KcnIPL4zPRCTRDmH6zyBgc6hu7uTD0eUv2ZbWsldY9HZnEhN4x2z
- i0ESleSHM/LUMFGIf1/qiV6vQJk3amS+RKT3qh2yOHtLM8uONwYxMIJoDJ606Q3gsAAr
- wneVxQvL+u1Uh2fOCN2aajnaPXOsVTG6Na0BnGPvORO3nX+au8nPVuUC3LMc09DP6cbz
- 4NfLjrD7DYeTn0LKmgtT+SBCKn9+L9+0KChOfEfCPin8XngNTE+s0LqXTjOvi5DVxRLi
- 6zmA==
+ bh=eYtI8iCPC1kn3LKTZ1hvcBGhCgY8szmyxcIcuYezdzg=;
+ b=LH43e8ewo6Q0OlUAnGbyvmHFDDCRyTjgIxIXzeCMJnjk8oOaCAlGN6m1ATWzL4gqqZ
+ vEkF1AJJ2g9NLduquQm/WoTa/40/jk15YNlpBwKxcxK+MJPhIGhdZ74fFZf3+0EsxpIS
+ OulJ6CQWeNuDr70UzQGezZcZAfF+eu/9hlVf8Db6UXlMDHUw62CKbGjbUJSxc/5kkob9
+ yqBwm/ogK7UthRQ+0ArEuhFPQRfgb6xRyPsGknCS9G5DMu7h3DwcSbkl+k8D6a3u1tPQ
+ AuLgdyzM70G6lsOskSv9sZbdO7umHZ1zG+RNa8/88uGGYqYyIoJ8XwfD6C5Ynp15wxZv
+ hlNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428107; x=1692032907;
+ d=1e100.net; s=20221208; t=1691428142; x=1692032942;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xdH85ugcEgXLHyGrQRpZvP78lrIUwr56Sl8IQ0GRO88=;
- b=CYFjgSMRvUKlAtRtunMM6C9hHl+EsMdDX2qHsCwD6+QsPXzbHvQ6OTt5v70Q4x7Fur
- y7nYkhrguN1VWf/tM+jORG87nBmBCpH3KHdtFUyQ4f7miTNsTda5p+5OT7SWTvnM6jFR
- JYETbMArkSe3w2fHvV+aKSPwVDDPE+wmWgl157G9iu52n7ALi34ePLFTNtdtaaN7JQx8
- mK0PQainMuKMJgzJWLM+VZir3L5K3cRl6pAAinvQiJbVRThvdWuJ9N1SgEAe9JR8EpNq
- 3yTvTvHTTlYFTd+clTG4BL150DwBHEsmTIGzrzct+vigZ3LDm9W26XzDUbW5bl2dfjpO
- XiQQ==
-X-Gm-Message-State: AOJu0YwAl0/s1wtkYNw7K4FbylTS6xde0xDnAIg940d8ua+O18wKWj2u
- 2BoAPIEDb/m+W4NQxsPchu0PYkoCZIWO6XR467g=
-X-Google-Smtp-Source: AGHT+IFg0f4fC0DsVOgW1GBDh+CWQNIFu6A8Is4zKYRgHi2S1GQnxQZp2dxCuhh5Uh404vG5UVZ0XtmAnHoqib//q4E=
-X-Received: by 2002:a05:6870:c0c9:b0:1be:f7d8:e7af with SMTP id
- e9-20020a056870c0c900b001bef7d8e7afmr11024744oad.39.1691428106950; Mon, 07
- Aug 2023 10:08:26 -0700 (PDT)
+ bh=eYtI8iCPC1kn3LKTZ1hvcBGhCgY8szmyxcIcuYezdzg=;
+ b=d7wzydSMqPJnfjN2ADqHLR5naDmffXZV0yxrQzM5qLK1Es1NwjDxvm2/EALynbkz19
+ gYjWXlLVmOgXNGNaxPum3HUuEghtoVoR4wsedya3zOYzTtEDd+MeHgKZ6doAlATy6Ipv
+ tgPIpq+lDwgwrxJHVD5kmjKh4jigqM1vfXkzUtNTXkdaoaAprqEQtRu7XUSu1LHq+Z2q
+ w05eQ6E6A2YFEuRZqwRB3RWKqLY4Nec+khgiW59eBcEgT7nd1cDi4moOT6KLugUBt3QX
+ rzojwTnbJBaICkV/8ieODEx1rXod++owne6zwAbaKg63/ajJAPFJRw7UG3BgsmgEEmxX
+ 8Fug==
+X-Gm-Message-State: AOJu0Yyi1+6/3tJCT+Ha4Xuzq0CRjuQSLJk7CLWlpwvKkACof/1Yo3gE
+ Wv2TB4c5htk9fFYX4LKwwISDo41mdpwCKAGeyFItecUC
+X-Google-Smtp-Source: AGHT+IHIbguMOYbr/p6kStc4b8MneXaZ13fmPnWPKhux18thHDfWxJRPQ+Cz301UTH2V5ZPJoendg9F3yA6BpJeWJTQ=
+X-Received: by 2002:a05:6870:d248:b0:1be:f973:efcd with SMTP id
+ h8-20020a056870d24800b001bef973efcdmr11273905oac.43.1691428141796; Mon, 07
+ Aug 2023 10:09:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802024725.10192-1-sunran001@208suo.com>
-In-Reply-To: <20230802024725.10192-1-sunran001@208suo.com>
+References: <20230802025202.10282-1-sunran001@208suo.com>
+In-Reply-To: <20230802025202.10282-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:08:15 -0400
-Message-ID: <CADnq5_Pb9yEKSTaA1hTM1G5yLjCa5QeDKmB7BdbJykVyK9XTdg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/dc: Clean up errors in hpd_regs.h
+Date: Mon, 7 Aug 2023 13:08:50 -0400
+Message-ID: <CADnq5_P-E63fZnjm-cgyz4HScOvvvtpm_MTdXfLBrVZe3MCe+w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Clean up errors in
+ dce110_timing_generator.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,48 +76,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 10:47=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrot=
+On Tue, Aug 1, 2023 at 10:52=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrot=
 e:
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: space required after that ',' (ctx:VxV)
+> ERROR: spaces required around that '=3D' (ctx:WxV)
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/gpio/hpd_regs.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  .../gpu/drm/amd/display/dc/dce110/dce110_timing_generator.c   | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/gpio/hpd_regs.h b/drivers/gpu=
-/drm/amd/display/dc/gpio/hpd_regs.h
-> index dcfdd71b2304..debb363cfcf4 100644
-> --- a/drivers/gpu/drm/amd/display/dc/gpio/hpd_regs.h
-> +++ b/drivers/gpu/drm/amd/display/dc/gpio/hpd_regs.h
-> @@ -36,17 +36,17 @@
->  #define ONE_MORE_5 6
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_timing_generato=
+r.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_timing_generator.c
+> index 27cbb5b42c7e..6424e7f279dc 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_timing_generator.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_timing_generator.c
+> @@ -288,7 +288,7 @@ bool dce110_timing_generator_program_timing_generator=
+(
 >
+>         uint32_t vsync_offset =3D dc_crtc_timing->v_border_bottom +
+>                         dc_crtc_timing->v_front_porch;
+> -       uint32_t v_sync_start =3Ddc_crtc_timing->v_addressable + vsync_of=
+fset;
+> +       uint32_t v_sync_start =3D dc_crtc_timing->v_addressable + vsync_o=
+ffset;
 >
-> -#define HPD_GPIO_REG_LIST_ENTRY(type,cd,id) \
-> +#define HPD_GPIO_REG_LIST_ENTRY(type, cd, id) \
->         .type ## _reg =3D  REG(DC_GPIO_HPD_## type),\
->         .type ## _mask =3D  DC_GPIO_HPD_ ## type ## __DC_GPIO_HPD ## id #=
-# _ ## type ## _MASK,\
->         .type ## _shift =3D DC_GPIO_HPD_ ## type ## __DC_GPIO_HPD ## id #=
-# _ ## type ## __SHIFT
+>         uint32_t hsync_offset =3D dc_crtc_timing->h_border_right +
+>                         dc_crtc_timing->h_front_porch;
+> @@ -603,7 +603,7 @@ void dce110_timing_generator_program_blanking(
+>  {
+>         uint32_t vsync_offset =3D timing->v_border_bottom +
+>                         timing->v_front_porch;
+> -       uint32_t v_sync_start =3Dtiming->v_addressable + vsync_offset;
+> +       uint32_t v_sync_start =3D timing->v_addressable + vsync_offset;
 >
->  #define HPD_GPIO_REG_LIST(id) \
->         {\
-> -       HPD_GPIO_REG_LIST_ENTRY(MASK,cd,id),\
-> -       HPD_GPIO_REG_LIST_ENTRY(A,cd,id),\
-> -       HPD_GPIO_REG_LIST_ENTRY(EN,cd,id),\
-> -       HPD_GPIO_REG_LIST_ENTRY(Y,cd,id)\
-> +       HPD_GPIO_REG_LIST_ENTRY(MASK, cd, id),\
-> +       HPD_GPIO_REG_LIST_ENTRY(A, cd, id),\
-> +       HPD_GPIO_REG_LIST_ENTRY(EN, cd, id),\
-> +       HPD_GPIO_REG_LIST_ENTRY(Y, cd, id)\
->         }
->
->  #define HPD_REG_LIST(id) \
+>         uint32_t hsync_offset =3D timing->h_border_right +
+>                         timing->h_front_porch;
 > --
 > 2.17.1
 >
