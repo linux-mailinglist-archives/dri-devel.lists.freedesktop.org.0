@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426F4772B03
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:34:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFB6772B0D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEEA10E2D4;
-	Mon,  7 Aug 2023 16:34:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D6B10E2D5;
+	Mon,  7 Aug 2023 16:36:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE6C10E2C6;
- Mon,  7 Aug 2023 16:34:13 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-1bbb4bde76dso3499975fac.2; 
- Mon, 07 Aug 2023 09:34:13 -0700 (PDT)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9370B10E2EC;
+ Mon,  7 Aug 2023 16:35:31 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1bb69c0070dso3611194fac.1; 
+ Mon, 07 Aug 2023 09:35:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691426053; x=1692030853;
+ d=gmail.com; s=20221208; t=1691426131; x=1692030931;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=355u3wxzUAPBEukgqITBwq4f3qWHBLHWp7l/yfnQN6k=;
- b=GZRu27dbzX8FvcS00nyGqmOQinIcuRBNRqiXH9h+pzDxYmJ2DdGcJO0QhC9lDGZykv
- pcsw8NV2H0J2eH1n18WceZW+1s0+HHTPh8vMxuJs8eAZ/rn5p80qpeDorwos+gqwipBy
- LO8vAvCK1i0MRS62hpnUaQNPB3ul5zTEBCxf4dxD1L9Iik3WJZAjUyg05BjD0fmJiGb9
- wK4mgYRT0mX2L70fYdcKnIwOOIEXKhe5WDSrWw3CZnHk+gwucgvYgv14fLvCJDARqLna
- cBnG6qqXOGkXdhErecJDXNZxqX25dvcLwXds+F8QBT5CZkecihhS5FDQizHkTTeENevC
- yfzg==
+ bh=DqtZMNFkHtE7NtetbFmM02AlfhGVT1s/OA7WGoZWJgw=;
+ b=O1FdvLNo2u7VnDpYvsN6GXkWaNuvA32nyCOocicZIPzzPZRMOxyL277vOMBmL5x4Gl
+ KhUfU93Yhb5e2he+cOSbqICKKNtdT6+oIq62WjFjw7v5wD4jS+JQ6m73KWbmT+JY1lAu
+ GPaLtWWeG/1GW1PuhLgrTGR+ICKWqHmKUl5OYv3mI6+Tu+InSpweqGoe5XfwNbD3OW6o
+ OtE7d5PWwTaIVSOiBPKSON4Yj8nbFH5wsEvrMLpKXdAl+jxSYJbhzA+QMf4rVLDjgwo9
+ oE12Dorsx7+vIOscd4oEkB9OfA52u3Sv5VTqvj4kB655SjgQoieEfaO/QaOemmhqdQyE
+ 0QwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691426053; x=1692030853;
+ d=1e100.net; s=20221208; t=1691426131; x=1692030931;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=355u3wxzUAPBEukgqITBwq4f3qWHBLHWp7l/yfnQN6k=;
- b=Bzb39R4jLNMM28sikCz1U2+YBDx5yvplJxQeQ/T/rt+3q2id2Ik/DT2G/RsUgvd30f
- MWDcCgZSeAteI/v5ClHEwy8iFKKa29lVonsY5TQ/q/dy41Gze4dqKKFGhDewL9CY1kAP
- DIQlJuLp3iEYOVv8dgRCol0972pnqr3vCnDmXs+wDtz/JITBSHp6R4Wgqy3BXmLBqjgT
- 9hSKYKN4kPuOfCmd6AoDClQgmCDcORNB7Ke5s37ZqLdTErrWgXfrgMZ+/rldGwvTGGZb
- Tw7eUr33IT5eKGG2xaHNUVuf57D8zBNPkiNw//tIissIb7WCxc7on8mDfYD1LH2wyW+A
- yqYQ==
-X-Gm-Message-State: AOJu0YyYGZ5d3LKs4geL6R58A4QolJJZbZVCGBc/K65N72U70cnIDLCC
- iAkkbut5yj60fBqMlH6xioxokGJrnXv2kX19GPI=
-X-Google-Smtp-Source: AGHT+IFC5BE479wBcqELZQpVQeGM0HBTQWCDcSzbvqyZzNr9zNQh+18S5QX8gg7gH5GWza1EoxxEYGNZsKrKryI5Vco=
-X-Received: by 2002:a05:6870:4724:b0:1be:f23f:99b with SMTP id
- b36-20020a056870472400b001bef23f099bmr12307708oaq.42.1691426053066; Mon, 07
- Aug 2023 09:34:13 -0700 (PDT)
+ bh=DqtZMNFkHtE7NtetbFmM02AlfhGVT1s/OA7WGoZWJgw=;
+ b=hZT4DExhIysSEJpdjTb3tvWf0XK1lAUAaadGWmyXav9h7TBv3ZhILwbcEFZLXkspE1
+ aenlQSruSkHGNpRgIqAbmH9VrGf4TwzmU3aF4Il2jW0PuxqzleqqFZLVLCejYJa+9gO4
+ 4IYDNTxaOeYTxE3y6Ntnzlg7Gun8+PvoYhsUbT8mE+e12JyZBUWOoUGljxHNXu3RFdbH
+ bydasuwLglXvCWppDweYI4kmH0bQDsVS2pXexhtLEHHJjeuiiSLRzxXeE+6PSw1Fw/k3
+ q8kFo5yiq1Bymjl3ubtOK91HvweoB3Zq2Z/gOhmvtGZ5d4p8D47wFbB8Nj8Cu3+YJNiy
+ AY9g==
+X-Gm-Message-State: AOJu0YykZqa011sliOoph0YxcM9Pht+5wNQceZ1nBqQEsSXCiJOoUWs3
+ qliUBnJO4Dh7Ypf5mvidhnOPJjswfrvUMBhryyY=
+X-Google-Smtp-Source: AGHT+IGhboSGrM8BwO6WHv6vc0JZfIHQ4hqv0io3t5Xhe8kg/xy7oZ3nOWEcRemjgOL8st18ke2YT0XkQwSfONDDXFc=
+X-Received: by 2002:a05:6870:e74a:b0:1be:ccce:7991 with SMTP id
+ t10-20020a056870e74a00b001beccce7991mr11787641oak.13.1691426130867; Mon, 07
+ Aug 2023 09:35:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801061529.6269-1-sunran001@208suo.com>
-In-Reply-To: <20230801061529.6269-1-sunran001@208suo.com>
+References: <20230801075507.6377-1-sunran001@208suo.com>
+In-Reply-To: <20230801075507.6377-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:34:02 -0400
-Message-ID: <CADnq5_PizYO5faQR3AoGyZRq__sccQr9_6VuSqxv_DqKoM8SqQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in smu7_powertune.c
+Date: Mon, 7 Aug 2023 12:35:19 -0400
+Message-ID: <CADnq5_Nzn41tiiYuA8mM2FuhUQ5xEeuGsO0WkAtUKNfKoFxYeA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in common_baco.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,124 +75,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 2:15=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Tue, Aug 1, 2023 at 3:55=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: that open brace { should be on the previous line
-> ERROR: space required after that ',' (ctx:VxV)
+> ERROR: code indent should use tabs where possible
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  .../gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/amd/pm/powerplay/hwmgr/common_baco.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c b/dr=
-ivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c
-> index 21be23ec3c79..edab3ef09d33 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_powertune.c
-> @@ -520,8 +520,7 @@ static const struct gpu_pt_config_reg DIDTConfig_Pola=
-ris12[] =3D {
->         {   0xFFFFFFFF  }
->  };
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/common_baco.c b/drive=
+rs/gpu/drm/amd/pm/powerplay/hwmgr/common_baco.c
+> index 1c73776bd606..fd79337a3536 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/common_baco.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/common_baco.c
+> @@ -42,7 +42,7 @@ static bool baco_wait_register(struct pp_hwmgr *hwmgr, =
+u32 reg, u32 mask, u32 va
+>  }
 >
-> -static const struct gpu_pt_config_reg DIDTConfig_Polaris11_Kicker[] =3D
-> -{
-> +static const struct gpu_pt_config_reg DIDTConfig_Polaris11_Kicker[] =3D =
-{
->  /* ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------
->   *      Offset                             Mask                         =
-                       Shift                                               =
-Value       Type
->   * ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------
-> @@ -646,7 +645,7 @@ static const struct gpu_pt_config_reg DIDTConfig_Pola=
-ris11_Kicker[] =3D
->         {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_=
-STALL_CTRL_ENABLE_MASK,   DIDT_TCP_STALL_CTRL__DIDT_STALL_CTRL_ENABLE__SHIF=
-T, 0x0001,     GPU_CONFIGREG_DIDT_IND },
->         {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_=
-STALL_DELAY_HI_MASK,      DIDT_TCP_STALL_CTRL__DIDT_STALL_DELAY_HI__SHIFT, =
-   0x0001,     GPU_CONFIGREG_DIDT_IND },
->         {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_=
-STALL_DELAY_LO_MASK,      DIDT_TCP_STALL_CTRL__DIDT_STALL_DELAY_LO__SHIFT, =
-   0x0001,     GPU_CONFIGREG_DIDT_IND },
-> -       {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_=
-HI_POWER_THRESHOLD_MASK,  DIDT_TCP_STALL_CTRL__DIDT_HI_POWER_THRESHOLD__SHI=
-FT,0x01aa,     GPU_CONFIGREG_DIDT_IND },
-> +       {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_=
-HI_POWER_THRESHOLD_MASK,  DIDT_TCP_STALL_CTRL__DIDT_HI_POWER_THRESHOLD__SHI=
-FT, 0x01aa,     GPU_CONFIGREG_DIDT_IND },
->         {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__UNUSE=
-D_0_MASK,                 DIDT_TCP_STALL_CTRL__UNUSED_0__SHIFT,            =
-   0x0000,     GPU_CONFIGREG_DIDT_IND },
->
->         {   ixDIDT_TCP_TUNING_CTRL,            DIDT_TCP_TUNING_CTRL__DIDT=
-_TUNING_ENABLE_MASK,      DIDT_TCP_TUNING_CTRL__DIDT_TUNING_ENABLE__SHIFT, =
-   0x0001,     GPU_CONFIGREG_DIDT_IND },
-> @@ -666,8 +665,7 @@ static const struct gpu_pt_config_reg DIDTConfig_Pola=
-ris11_Kicker[] =3D
->         {   0xFFFFFFFF  }  /* End of list */
->  };
->
-> -static const struct gpu_pt_config_reg GCCACConfig_VegaM[] =3D
-> -{
-> +static const struct gpu_pt_config_reg GCCACConfig_VegaM[] =3D {
->  // ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------
->  //      Offset                             Mask                         =
-                       Shift                                               =
-Value       Type
->  // ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------
-> @@ -703,8 +701,7 @@ static const struct gpu_pt_config_reg GCCACConfig_Veg=
-aM[] =3D
->      {   0xFFFFFFFF  }  // End of list
->  };
->
-> -static const struct gpu_pt_config_reg DIDTConfig_VegaM[] =3D
-> -{
-> +static const struct gpu_pt_config_reg DIDTConfig_VegaM[] =3D {
->  // ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------
->  //      Offset                             Mask                         =
-                       Shift                                               =
-Value       Type
->  // ---------------------------------------------------------------------=
----------------------------------------------------------------------------=
----------------------------------
-> @@ -831,7 +828,7 @@ static const struct gpu_pt_config_reg DIDTConfig_Vega=
-M[] =3D
->      {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_STA=
-LL_CTRL_ENABLE_MASK,   DIDT_TCP_STALL_CTRL__DIDT_STALL_CTRL_ENABLE__SHIFT, =
-0x0001,     GPU_CONFIGREG_DIDT_IND },
->      {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_STA=
-LL_DELAY_HI_MASK,      DIDT_TCP_STALL_CTRL__DIDT_STALL_DELAY_HI__SHIFT,    =
-0x0001,     GPU_CONFIGREG_DIDT_IND },
->      {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_STA=
-LL_DELAY_LO_MASK,      DIDT_TCP_STALL_CTRL__DIDT_STALL_DELAY_LO__SHIFT,    =
-0x0001,     GPU_CONFIGREG_DIDT_IND },
-> -    {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_HI_=
-POWER_THRESHOLD_MASK,  DIDT_TCP_STALL_CTRL__DIDT_HI_POWER_THRESHOLD__SHIFT,=
-0x01aa,     GPU_CONFIGREG_DIDT_IND },
-> +    {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__DIDT_HI_=
-POWER_THRESHOLD_MASK,  DIDT_TCP_STALL_CTRL__DIDT_HI_POWER_THRESHOLD__SHIFT,=
- 0x01aa,     GPU_CONFIGREG_DIDT_IND },
->      {   ixDIDT_TCP_STALL_CTRL,             DIDT_TCP_STALL_CTRL__UNUSED_0=
-_MASK,                 DIDT_TCP_STALL_CTRL__UNUSED_0__SHIFT,               =
-0x0000,     GPU_CONFIGREG_DIDT_IND },
->
->      {   ixDIDT_TCP_TUNING_CTRL,            DIDT_TCP_TUNING_CTRL__DIDT_TU=
-NING_ENABLE_MASK,      DIDT_TCP_TUNING_CTRL__DIDT_TUNING_ENABLE__SHIFT,    =
-0x0001,     GPU_CONFIGREG_DIDT_IND },
+>  static bool baco_cmd_handler(struct pp_hwmgr *hwmgr, u32 command, u32 re=
+g, u32 mask,
+> -                               u32 shift, u32 value, u32 timeout)
+> +                               u32 shift, u32 value, u32 timeout)
+>  {
+>         struct amdgpu_device *adev =3D (struct amdgpu_device *)(hwmgr->ad=
+ev);
+>         u32 data;
 > --
 > 2.17.1
 >
