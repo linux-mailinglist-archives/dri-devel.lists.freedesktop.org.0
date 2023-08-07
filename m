@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95252772D0D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057AF772D11
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:33:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB9C10E370;
-	Mon,  7 Aug 2023 17:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E57710E373;
+	Mon,  7 Aug 2023 17:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
- [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C463010E36C;
- Mon,  7 Aug 2023 17:33:02 +0000 (UTC)
-Received: by mail-oo1-xc35.google.com with SMTP id
- 006d021491bc7-56d0d7300d9so3327359eaf.1; 
- Mon, 07 Aug 2023 10:33:02 -0700 (PDT)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8215D10E371;
+ Mon,  7 Aug 2023 17:33:50 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id
+ 5614622812f47-3a78604f47fso2261805b6e.1; 
+ Mon, 07 Aug 2023 10:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691429582; x=1692034382;
+ d=gmail.com; s=20221208; t=1691429630; x=1692034430;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=slNXbmbSSnIwi3BpDNUJS0+fwnT8XgMHLlRFXSdcVVg=;
- b=kyVwv0vLuRg9EY/dgRbk8n4WXHmYQ04yaQgTCB4v/M8ramvvAGtL5yG4GTx+bD1jdi
- QRV1GH2b8yQBt9IyCYkOq4N7iliFzJ0CE63vl8XW5EeMg8JKd2qFcsIQ+ieqZno4m+vo
- HBDtOaHPkne2kT8uWWNvteB95MSi8jWiGUIRV342qKJY7QCi6zr3xDe7szTj97WEroRw
- oC+B4ENHKteZxs6RCmbgSb4geAbSo0rWAPOtkVs8sSd5ZqBsNeLy09q+pfN+R5H7oA9F
- 1vKML60T1L69es1bKX/xOqe+Mqa/P9MCL0gwQ7wEulST6P/Jum9zvlLfgrfbC/VAnj+4
- vcZA==
+ bh=8Xgnz7mlTNaIdh0IQghOP6QiClppwV7KNLYC2hrQ44c=;
+ b=QPZZdCl+yIUJyB11mddD06BONdKoecQPaEP9meDsWe2HbjDlBALihWQ4wMNJ7FoIz1
+ SQz3GbST9klBEdZ0nuYgVb3lBXEOFoBeNLSPG/M8wVoy0/B8fRmiRMuWrYjHSZ4Z7zlg
+ TIKT1BQu0vFEXl46H7x5/YZ5tA5bhqJtArOU/pROsUWre5q+2u6RfXdx0yw0OOFPABuF
+ Xem/F4Gqkvpur33XGzEI5spVd3kVX/AT2jkwK734EfSQ6iuPJgs1ksvXc+u5AkyDALYz
+ 4XXBL3B1shhfcVuLBt1JqhWB3hrwXWhfOaK8j5p3N3qZhhoyDuf37hBpU1ZxuPgv4D0X
+ SpOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691429582; x=1692034382;
+ d=1e100.net; s=20221208; t=1691429630; x=1692034430;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=slNXbmbSSnIwi3BpDNUJS0+fwnT8XgMHLlRFXSdcVVg=;
- b=fx/DW6k3b/Vmgq9CJNuMyRepdnnhfsiFUR65CrZTyO7FGDdJhD+101+MYGXsPI++EQ
- RLNcN2FvB5JagZpKtDVTIMb4DihfgGXWaVJHV6G5PFLkJgLr1uWgqFIT1EBms9V8y6La
- 0E/l1JkHScII4Hhly55onlu/WW1oWs/qsy96fKeFHgs/Oqa/4v/Dfx5aN2Dz8BXDVSMA
- iQjo7j06v5TehV3GPv6yJdxVb0HKfAMcy5yjE1mBH0MqvjXfo0dMYTPz2N+FD5/SbnMZ
- fDEQRpA3N+RZ12t8yEAzZupi1lO1LmtmK9aSf2YtGZZID/eIHYSKaHMG1LVzU7TLE7pB
- cXuA==
-X-Gm-Message-State: AOJu0YyC21yk8+XamInPy2GDOfOEKddAh1GpwloEbcMNl8ZUIW7UvDjm
- 4tn4kTTB7MMmUyqSdGixntwqbfoIqO0AKbWnqhY=
-X-Google-Smtp-Source: AGHT+IFkOeQkxPjn4cm9wX404EzPeGgHSyPEfKx3Z41F0ikI5Dv6r/HQGP8wlX8dojWOe3D9aspuzyqqbwmJVZRu/fk=
-X-Received: by 2002:a4a:7658:0:b0:560:ac0f:b87c with SMTP id
- w24-20020a4a7658000000b00560ac0fb87cmr9846723ooe.8.1691429579607; Mon, 07 Aug
- 2023 10:32:59 -0700 (PDT)
+ bh=8Xgnz7mlTNaIdh0IQghOP6QiClppwV7KNLYC2hrQ44c=;
+ b=HhAFx02qKCqzTB1Nlnvbl0BExL3XrqqOFp1MGYWiDKSuufkenm0yCPLTTW6asbkkF+
+ uPemP1wCFnDGh4Yd4Pfnf/llni9dgkm+FJZ0gpaZb3RTEQEAZjjniIDDyotnUMlEkms6
+ FAWlKj9GhmELcQed2dUyP8ktIYP5XUvRLNuuKY+tXFFbeaTEd4JlVavZ1sltfRG4HO/h
+ mdOUGlmbbwpXDPiqrIj2GnVqpzkGrLvDvnAC+ueP+uk2acP9f4YPyshFuGoX19ZJYRUR
+ 36b4mPFd1MPtjkjya2Jx97kG7pjZ4wy4MVrx+n38wpCMcxqXDd19mDaNz34RqLuklKJw
+ 8XTA==
+X-Gm-Message-State: AOJu0Yy4FCFjMpYOTkNYgKjILicU8p5mXwUlL8QDh+IBpQ9Np+B7rhby
+ iiZYBEiG6Jv8Rj0J1QNVNfNAwLP4tsHjllBRLts=
+X-Google-Smtp-Source: AGHT+IGB/gO1axOANy6aP1Itgk+YXBFfN97zNjuiniI4JVi6s03LTT2FmLcUSxQdRIIa1IqEQiOwimnRFlqlirYYu4M=
+X-Received: by 2002:a05:6808:15a5:b0:3a7:55f2:552d with SMTP id
+ t37-20020a05680815a500b003a755f2552dmr11757972oiw.58.1691429629797; Mon, 07
+ Aug 2023 10:33:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802075014.13861-1-sunran001@208suo.com>
-In-Reply-To: <20230802075014.13861-1-sunran001@208suo.com>
+References: <20230802075309.13950-1-sunran001@208suo.com>
+In-Reply-To: <20230802075309.13950-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:32:48 -0400
-Message-ID: <CADnq5_NiDj8fO05_67E8ccRwZg2j-fekwbi54EiTc+haQSUvBg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in tonga_ih.c
+Date: Mon, 7 Aug 2023 13:33:38 -0400
+Message-ID: <CADnq5_NdP=Uk3JCFwvO12nOWGJuFh9ZWaEuH7zSWsKAM9hufXQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in vcn_v3_0.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,32 +75,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 3:50=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 3:53=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
+> ERROR: space required before the open brace '{'
+> ERROR: "foo * bar" should be "foo *bar"
+> ERROR: space required before the open parenthesis '('
 > ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/tonga_ih.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c b/drivers/gpu/drm/amd/=
-amdgpu/tonga_ih.c
-> index b08905d1c00f..917707bba7f3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/tonga_ih.c
-> @@ -493,8 +493,7 @@ static void tonga_ih_set_interrupt_funcs(struct amdgp=
-u_device *adev)
->         adev->irq.ih_funcs =3D &tonga_ih_funcs;
->  }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c b/drivers/gpu/drm/amd/=
+amdgpu/vcn_v3_0.c
+> index b76ba21b5a89..1e7613bb80ae 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+> @@ -1105,7 +1105,7 @@ static int vcn_v3_0_start(struct amdgpu_device *ade=
+v)
+>                 if (adev->vcn.harvest_config & (1 << i))
+>                         continue;
 >
-> -const struct amdgpu_ip_block_version tonga_ih_ip_block =3D
+> -               if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG){
+> +               if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
+>                         r =3D vcn_v3_0_start_dpg_mode(adev, i, adev->vcn.=
+indirect_sram);
+>                         continue;
+>                 }
+> @@ -1789,7 +1789,7 @@ static int vcn_v3_0_dec_msg(struct amdgpu_cs_parser=
+ *p, struct amdgpu_job *job,
+>         struct amdgpu_bo *bo;
+>         uint64_t start, end;
+>         unsigned int i;
+> -       void * ptr;
+> +       void *ptr;
+>         int r;
+>
+>         addr &=3D AMDGPU_GMC_HOLE_MASK;
+> @@ -2129,7 +2129,7 @@ static int vcn_v3_0_set_powergating_state(void *han=
+dle,
+>                 return 0;
+>         }
+>
+> -       if(state =3D=3D adev->vcn.cur_state)
+> +       if (state =3D=3D adev->vcn.cur_state)
+>                 return 0;
+>
+>         if (state =3D=3D AMD_PG_STATE_GATE)
+> @@ -2137,7 +2137,7 @@ static int vcn_v3_0_set_powergating_state(void *han=
+dle,
+>         else
+>                 ret =3D vcn_v3_0_start(adev);
+>
+> -       if(!ret)
+> +       if (!ret)
+>                 adev->vcn.cur_state =3D state;
+>
+>         return ret;
+> @@ -2228,8 +2228,7 @@ static const struct amd_ip_funcs vcn_v3_0_ip_funcs =
+=3D {
+>         .set_powergating_state =3D vcn_v3_0_set_powergating_state,
+>  };
+>
+> -const struct amdgpu_ip_block_version vcn_v3_0_ip_block =3D
 > -{
-> +const struct amdgpu_ip_block_version tonga_ih_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_IH,
+> +const struct amdgpu_ip_block_version vcn_v3_0_ip_block =3D {
+>         .type =3D AMD_IP_BLOCK_TYPE_VCN,
 >         .major =3D 3,
 >         .minor =3D 0,
 > --
