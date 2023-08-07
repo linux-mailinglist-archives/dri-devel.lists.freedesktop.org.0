@@ -1,43 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D11A771771
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 02:05:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1AF771787
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 02:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF3E89FC9;
-	Mon,  7 Aug 2023 00:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF56F10E00C;
+	Mon,  7 Aug 2023 00:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9526B10E048
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 00:05:05 +0000 (UTC)
-Received: from workpc.. (109-252-150-127.dynamic.spd-mgts.ru [109.252.150.127])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7D27A660711A;
- Mon,  7 Aug 2023 01:05:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1691366704;
- bh=zxAsuZOqI5T9dSHzdfn9q25oiwiUf0oORASmCnorRKs=;
- h=From:To:Cc:Subject:Date:From;
- b=HRStPPOmPmcRYmy16V3Yif2MhylntUx0MSOU6dqy4iQJmQV9cpyKvwMkwidvbDDkB
- REo4Ju0loyZlofyAUGCjWxPvnu+hOxVmeYeQql5EiMLKuDJMFSlU6lG5snEKk0/HXb
- bi5WlKrP+NLd6c6/RHTn1amblRyBof4IFcXAS/wZWiOmu3KjXNH5yxwlUXkgcVMnIv
- 0CAdrsmWGfNIak6gwiIieA4mvsvZg+Dr3iURPvaUBkmLZy6ybyqYjMNQyH3SdAXzJC
- mTqI+FEiR1NI1DLgoZnLMm8TxqZozMPTDd8APBphlINNeU8qIuCLfzRMQ7iL+VdX5v
- 8bMouR/Y1szQQ==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v4] drm/panfrost: Sync IRQ by job's timeout handler
-Date: Mon,  7 Aug 2023 03:04:44 +0300
-Message-ID: <20230807000444.14926-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.41.0
+Received: from out30-112.freemail.mail.aliyun.com
+ (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B667710E00C
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 00:43:04 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=12; SR=0;
+ TI=SMTPD_---0Vp7CMlG_1691368978; 
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
+ fp:SMTPD_---0Vp7CMlG_1691368978) by smtp.aliyun-inc.com;
+ Mon, 07 Aug 2023 08:42:59 +0800
+From: Yang Li <yang.lee@linux.alibaba.com>
+To: airlied@gmail.com, daniel@ffwll.ch, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Subject: [PATCH -next] drm: bridge: dw_hdmi: clean up some inconsistent
+ indentings
+Date: Mon,  7 Aug 2023 08:42:56 +0800
+Message-Id: <20230807004256.25609-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,67 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panfrost IRQ handler may stuck for a long time, for example this happens
-when there is a bad HDMI connection and HDMI handler takes a long time to
-finish processing, holding Panfrost. Make Panfrost's job timeout handler
-to sync IRQ before checking fence signal status in order to prevent
-spurious job timeouts due to a slow IRQ processing.
+drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c:332 dw_hdmi_cec_suspend() warn: inconsistent indenting
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> # MediaTek MT8192 and MT8195 Chromebooks
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=6101
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Changelog:
-
-v4: - Improved comment like was suggested by Boris and added his r-b.
-
-v3: - Added comment to the code as was suggested by Boris
-
-    - Added r-b/t-b from Steven and Angelo
-
-v2: - Moved synchronize_irq() after first signal-check to avoid unnecessary
-      blocking on syncing.
-
-    - Added warn message about high interrupt latency.
-
- drivers/gpu/drm/panfrost/panfrost_job.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index dbc597ab46fb..db6d9a17004f 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -720,6 +720,22 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 	if (dma_fence_is_signaled(job->done_fence))
- 		return DRM_GPU_SCHED_STAT_NOMINAL;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+index be21c11de1f2..14640b219dfa 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+@@ -329,9 +329,9 @@ static int __maybe_unused dw_hdmi_cec_suspend(struct device *dev)
+ 	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
  
-+	/*
-+	 * Panfrost IRQ handler may take a long time to process an interrupt
-+	 * if there is another IRQ handler hogging the processing.
-+	 * For example, the HDMI encoder driver might be stuck in the IRQ
-+	 * handler for a significant time in a case of bad cable connection.
-+	 * In order to catch such cases and not report spurious Panfrost
-+	 * job timeouts, synchronize the IRQ handler and re-check the fence
-+	 * status.
-+	 */
-+	synchronize_irq(pfdev->js->irq);
-+
-+	if (dma_fence_is_signaled(job->done_fence)) {
-+		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
-+		return DRM_GPU_SCHED_STAT_NOMINAL;
-+	}
-+
- 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
- 		js,
- 		job_read(pfdev, JS_CONFIG(js)),
+ 	/* store interrupt status/mask registers */
+-	 cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+-	 cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
+-	 cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
++	cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
++	cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
++	cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
+ 
+ 	return 0;
+ }
 -- 
-2.41.0
+2.20.1.7.g153144c
 
