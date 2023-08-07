@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D31772BBE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC296772BC9
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2E3D10E2F8;
-	Mon,  7 Aug 2023 16:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2AB10E2FC;
+	Mon,  7 Aug 2023 16:57:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 008C610E2F8;
- Mon,  7 Aug 2023 16:56:04 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- 006d021491bc7-56ca1eebcd7so2903792eaf.0; 
- Mon, 07 Aug 2023 09:56:04 -0700 (PDT)
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7056B10E2FA;
+ Mon,  7 Aug 2023 16:57:02 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ 46e09a7af769-6bcbb0c40b1so3605586a34.3; 
+ Mon, 07 Aug 2023 09:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691427364; x=1692032164;
+ d=gmail.com; s=20221208; t=1691427421; x=1692032221;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=beDZjbbalYWwbDGUsSO0v+/HXnqZi1/VnHtRYjuZ0+4=;
- b=ImEKUzqeclILDmZaS8k97ytV1RXVCtHxaRu78+G64qjDmsYGMdCsGnuKYHvq+eKBDz
- JARuVhSV6I+82gFCTfR1eABBvJ5MRn5GOcWLd1drDs8UWxvqiHl6XrPShrmRBXDQ0VUn
- pZFdPkHBJNm8fcVGikF5WkX0lfzDFzUBO4JrF/dfcVGrXOZ9YBlKejpaPIEXspki2v3I
- bqvsJjPS1mglT3eAS0Cowz4llRCrgSCMD92RJ7CKeo5XjCg1Rybg5xIP03i+7/k/2JuW
- 9SBvKKZtM8tPW7gvSwlFMOCoGrERcF46HOKdwZhWGgD4p+z++ILb1B1lXfXpqcpHcqoV
- fzFg==
+ bh=8Z9p5km3UZGZafdK1BmpwIiY/ihSWzczB8XWA2EWH3s=;
+ b=ccB3GgXSCQRMNLG+BMreOOyUYdH/Yk6OtT9FMFT+DXInRGESpX3raYQ0RoHTYpfQWU
+ HmOQLJCeOG+1LXrhn5PfvzV+cBCT6hRpxdHDKcsbKTAy/KWvaZ2h3SCCjWoYonnxtwTm
+ bgjoa/tilS8y4hcg+Z83GJBeyFAsc6VdRowj8eG2v8DrgC6T8MxYpbjQujhnocnOi5Qw
+ SbVdFX+en6tFJEreM4H9GAZNpKvw2skyF80hSKiU6D+4z23j24Ki6k7nC7Ed0AHBXO+f
+ D33IdninngJcGEZwdFgdAj/wUPUat7sS28AGQ9nt/E2tvqxmGAOSa1xIx2zhiLotWffE
+ RQfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691427364; x=1692032164;
+ d=1e100.net; s=20221208; t=1691427421; x=1692032221;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=beDZjbbalYWwbDGUsSO0v+/HXnqZi1/VnHtRYjuZ0+4=;
- b=UKIZebH6TNPGVCRkqrzD7Ywrp/0YWad7zzxT7ESIB0JFdY8T0Gy119hzxR3DIdu03A
- 1keuYsEfOgJlSobROf7+lAFKQAsQaickILxtLCwzWSArZid2TQbmbvBL8XPb0Tvsqz7F
- XE3HsPD5ZuXP2UH005IAL4vTSfanF6bqVLnRcyOIqJFBCQ9lLpH21ldZyd/TiASDzmMW
- G51/4ndie/iW/RFIgXSJ1uiFTkJlGu/3KX48ADjBvBmNVycvga1Jz1xUDLkYfqnWKrv2
- FlMRf6q3/g1J2FaxeOWeUTzdTG8MuXg1FkvVza3sYuKO2t58jTguIvVIj63du7aNoBo3
- ZuHg==
-X-Gm-Message-State: AOJu0Yxj0BDOeKT/El+I5UmOlPlxTnlMu8v48/LgcHPAfa6td3DVrVcw
- Nv5UluoKJVeI9JMEOpEVhVZk72GywvbeSJHA/azb9oXh
-X-Google-Smtp-Source: AGHT+IEEyUblZYFAAwzOj84xyYJw3B8tUHYDCflhQppSAMoFASjHBqtEATDPSLQoSXHKmZ9SEGxDWEl3xyBS3AtYPIM=
-X-Received: by 2002:a4a:341e:0:b0:56c:d297:164c with SMTP id
- b30-20020a4a341e000000b0056cd297164cmr8800093ooa.4.1691427364148; Mon, 07 Aug
- 2023 09:56:04 -0700 (PDT)
+ bh=8Z9p5km3UZGZafdK1BmpwIiY/ihSWzczB8XWA2EWH3s=;
+ b=Rr5ZhSxnRJ2Kawiw95vEm/UfK5SvV6jPtsJG6Xqmps7nTkBAquWjcFPMJIhDfetxpw
+ j7uds7/i8yvG44mgWvnKMSHSr9F5m0IRe7TAegr4O0XifAAbKJ//1EnAIz/9hwPWbFCU
+ vEFP5+SmM6GGwQk0NPdB1e3dJ/TtD7wChw3c+RSfnC+FnBN7fJaxli+3leTo0aCm3nV1
+ bnjKqJmOOeUGXdPwuPZc+3RwdXWu7ijVzL1BMgVwOUuxYPrUF5if0MTLVJNIECeTu9Hx
+ w2h0oub4y8hapUyYCV2rr8boSug49gr7g0RDWSEc4rCYka5Lw5il9/sRqydXLeEjr8Oa
+ I/vQ==
+X-Gm-Message-State: AOJu0YxxDMdrNlcIiVwB3Uoy/ziUIlp8uB/HMvZF8XuNkL5Oi6bYDum4
+ TuIw8ptUFcu1uFIkfY7Sp9zlwzsGQQbucDpomcU=
+X-Google-Smtp-Source: AGHT+IHutKy2W7kS9zpFH4IQRQX0bm5b40a62etfa2b+Z/ydT1Qppa1f31tW3yJSQ3rofB8cu7Q1gAtSyc6mZ+N3Ps8=
+X-Received: by 2002:a05:6870:b48d:b0:1bb:a912:9339 with SMTP id
+ y13-20020a056870b48d00b001bba9129339mr12467712oap.7.1691427421691; Mon, 07
+ Aug 2023 09:57:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802012302.8498-1-sunran001@208suo.com>
-In-Reply-To: <20230802012302.8498-1-sunran001@208suo.com>
+References: <20230802012903.8589-1-sunran001@208suo.com>
+In-Reply-To: <20230802012903.8589-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:55:53 -0400
-Message-ID: <CADnq5_MwvypKA+B9FGwHE1BCKjJdRCrbRZbF+7_U7GxiHSFwAA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu71.h
+Date: Mon, 7 Aug 2023 12:56:50 -0400
+Message-ID: <CADnq5_PPWwnP7GUKC2hw2Eo9SdbXFuwHxATYtXHbg03a14eiMA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu7_fusion.h
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,7 +75,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 9:23=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrote=
+On Tue, Aug 1, 2023 at 9:29=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
@@ -85,89 +85,142 @@ On Tue, Aug 1, 2023 at 9:23=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrote=
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/inc/smu71.h | 22 +++++++-------------
->  1 file changed, 8 insertions(+), 14 deletions(-)
+>  .../drm/amd/pm/powerplay/inc/smu7_fusion.h    | 42 +++++++------------
+>  1 file changed, 16 insertions(+), 26 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/smu71.h b/drivers/gpu/d=
-rm/amd/pm/powerplay/inc/smu71.h
-> index 71c9b2d28640..b5f177412769 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/inc/smu71.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/inc/smu71.h
-> @@ -118,8 +118,7 @@ typedef struct {
->
->  #endif
->
-> -struct SMU71_PIDController
-> -{
-> +struct SMU71_PIDController {
->      uint32_t Ki;
->      int32_t LFWindupUpperLim;
->      int32_t LFWindupLowerLim;
-> @@ -133,8 +132,7 @@ struct SMU71_PIDController
->
->  typedef struct SMU71_PIDController SMU71_PIDController;
->
-> -struct SMU7_LocalDpmScoreboard
-> -{
-> +struct SMU7_LocalDpmScoreboard {
->      uint32_t PercentageBusy;
->
->      int32_t  PIDError;
-> @@ -179,8 +177,8 @@ struct SMU7_LocalDpmScoreboard
->      uint8_t  DteClampMode;
->      uint8_t  FpsClampMode;
->
-> -    uint16_t LevelResidencyCounters [SMU71_MAX_LEVELS_GRAPHICS];
-> -    uint16_t LevelSwitchCounters [SMU71_MAX_LEVELS_GRAPHICS];
-> +    uint16_t LevelResidencyCounters[SMU71_MAX_LEVELS_GRAPHICS];
-> +    uint16_t LevelSwitchCounters[SMU71_MAX_LEVELS_GRAPHICS];
->
->      void     (*TargetStateCalculator)(uint8_t);
->      void     (*SavedTargetStateCalculator)(uint8_t);
-> @@ -200,8 +198,7 @@ typedef struct SMU7_LocalDpmScoreboard SMU7_LocalDpmS=
-coreboard;
->
->  #define SMU7_MAX_VOLTAGE_CLIENTS 12
->
-> -struct SMU7_VoltageScoreboard
-> -{
-> +struct SMU7_VoltageScoreboard {
->      uint16_t CurrentVoltage;
->      uint16_t HighestVoltage;
->      uint16_t MaxVid;
-> @@ -325,8 +322,7 @@ typedef struct SMU7_PowerScoreboard SMU7_PowerScorebo=
-ard;
->
->  // ---------------------------------------------------------------------=
------------------------------
->
-> -struct SMU7_ThermalScoreboard
-> -{
-> +struct SMU7_ThermalScoreboard {
->     int16_t  GpuLimit;
->     int16_t  GpuHyst;
->     uint16_t CurrGnbTemp;
-> @@ -360,8 +356,7 @@ typedef struct SMU7_ThermalScoreboard SMU7_ThermalSco=
-reboard;
->  #define SMU7_VCE_SCLK_HANDSHAKE_DISABLE                  0x00020000
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/smu7_fusion.h b/drivers=
+/gpu/drm/amd/pm/powerplay/inc/smu7_fusion.h
+> index 78ada9ffd508..e130f52fe8d6 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/inc/smu7_fusion.h
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/inc/smu7_fusion.h
+> @@ -36,8 +36,7 @@
+>  #define SMU7_NUM_NON_TES 2
 >
 >  // All 'soft registers' should be uint32_t.
-> -struct SMU71_SoftRegisters
+> -struct SMU7_SoftRegisters
 > -{
-> +struct SMU71_SoftRegisters {
+> +struct SMU7_SoftRegisters {
 >      uint32_t        RefClockFrequency;
->      uint32_t        PmTimerPeriod;
+>      uint32_t        PmTimerP;
 >      uint32_t        FeatureEnables;
-> @@ -413,8 +408,7 @@ struct SMU71_SoftRegisters
+> @@ -80,8 +79,7 @@ struct SMU7_SoftRegisters
 >
->  typedef struct SMU71_SoftRegisters SMU71_SoftRegisters;
+>  typedef struct SMU7_SoftRegisters SMU7_SoftRegisters;
 >
-> -struct SMU71_Firmware_Header
+> -struct SMU7_Fusion_GraphicsLevel
 > -{
-> +struct SMU71_Firmware_Header {
->      uint32_t Digest[5];
->      uint32_t Version;
->      uint32_t HeaderSize;
+> +struct SMU7_Fusion_GraphicsLevel {
+>      uint32_t    MinVddNb;
+>
+>      uint32_t    SclkFrequency;
+> @@ -111,8 +109,7 @@ struct SMU7_Fusion_GraphicsLevel
+>
+>  typedef struct SMU7_Fusion_GraphicsLevel SMU7_Fusion_GraphicsLevel;
+>
+> -struct SMU7_Fusion_GIOLevel
+> -{
+> +struct SMU7_Fusion_GIOLevel {
+>      uint8_t     EnabledForActivity;
+>      uint8_t     LclkDid;
+>      uint8_t     Vid;
+> @@ -137,8 +134,7 @@ struct SMU7_Fusion_GIOLevel
+>  typedef struct SMU7_Fusion_GIOLevel SMU7_Fusion_GIOLevel;
+>
+>  // UVD VCLK/DCLK state (level) definition.
+> -struct SMU7_Fusion_UvdLevel
+> -{
+> +struct SMU7_Fusion_UvdLevel {
+>      uint32_t VclkFrequency;
+>      uint32_t DclkFrequency;
+>      uint16_t MinVddNb;
+> @@ -155,8 +151,7 @@ struct SMU7_Fusion_UvdLevel
+>  typedef struct SMU7_Fusion_UvdLevel SMU7_Fusion_UvdLevel;
+>
+>  // Clocks for other external blocks (VCE, ACP, SAMU).
+> -struct SMU7_Fusion_ExtClkLevel
+> -{
+> +struct SMU7_Fusion_ExtClkLevel {
+>      uint32_t Frequency;
+>      uint16_t MinVoltage;
+>      uint8_t  Divider;
+> @@ -166,8 +161,7 @@ struct SMU7_Fusion_ExtClkLevel
+>  };
+>  typedef struct SMU7_Fusion_ExtClkLevel SMU7_Fusion_ExtClkLevel;
+>
+> -struct SMU7_Fusion_ACPILevel
+> -{
+> +struct SMU7_Fusion_ACPILevel {
+>      uint32_t    Flags;
+>      uint32_t    MinVddNb;
+>      uint32_t    SclkFrequency;
+> @@ -181,8 +175,7 @@ struct SMU7_Fusion_ACPILevel
+>
+>  typedef struct SMU7_Fusion_ACPILevel SMU7_Fusion_ACPILevel;
+>
+> -struct SMU7_Fusion_NbDpm
+> -{
+> +struct SMU7_Fusion_NbDpm {
+>      uint8_t DpmXNbPsHi;
+>      uint8_t DpmXNbPsLo;
+>      uint8_t Dpm0PgNbPsHi;
+> @@ -197,8 +190,7 @@ struct SMU7_Fusion_NbDpm
+>
+>  typedef struct SMU7_Fusion_NbDpm SMU7_Fusion_NbDpm;
+>
+> -struct SMU7_Fusion_StateInfo
+> -{
+> +struct SMU7_Fusion_StateInfo {
+>      uint32_t SclkFrequency;
+>      uint32_t LclkFrequency;
+>      uint32_t VclkFrequency;
+> @@ -214,8 +206,7 @@ struct SMU7_Fusion_StateInfo
+>
+>  typedef struct SMU7_Fusion_StateInfo SMU7_Fusion_StateInfo;
+>
+> -struct SMU7_Fusion_DpmTable
+> -{
+> +struct SMU7_Fusion_DpmTable {
+>      uint32_t                            SystemFlags;
+>
+>      SMU7_PIDController                  GraphicsPIDController;
+> @@ -230,12 +221,12 @@ struct SMU7_Fusion_DpmTable
+>      uint8_t                            SamuLevelCount;
+>      uint16_t                           FpsHighT;
+>
+> -    SMU7_Fusion_GraphicsLevel         GraphicsLevel           [SMU__NUM_=
+SCLK_DPM_STATE];
+> +    SMU7_Fusion_GraphicsLevel         GraphicsLevel[SMU__NUM_SCLK_DPM_ST=
+ATE];
+>      SMU7_Fusion_ACPILevel             ACPILevel;
+> -    SMU7_Fusion_UvdLevel              UvdLevel                [SMU7_MAX_=
+LEVELS_UVD];
+> -    SMU7_Fusion_ExtClkLevel           VceLevel                [SMU7_MAX_=
+LEVELS_VCE];
+> -    SMU7_Fusion_ExtClkLevel           AcpLevel                [SMU7_MAX_=
+LEVELS_ACP];
+> -    SMU7_Fusion_ExtClkLevel           SamuLevel               [SMU7_MAX_=
+LEVELS_SAMU];
+> +    SMU7_Fusion_UvdLevel              UvdLevel[SMU7_MAX_LEVELS_UVD];
+> +    SMU7_Fusion_ExtClkLevel           VceLevel[SMU7_MAX_LEVELS_VCE];
+> +    SMU7_Fusion_ExtClkLevel           AcpLevel[SMU7_MAX_LEVELS_ACP];
+> +    SMU7_Fusion_ExtClkLevel           SamuLevel[SMU7_MAX_LEVELS_SAMU];
+>
+>      uint8_t                           UvdBootLevel;
+>      uint8_t                           VceBootLevel;
+> @@ -266,10 +257,9 @@ struct SMU7_Fusion_DpmTable
+>
+>  };
+>
+> -struct SMU7_Fusion_GIODpmTable
+> -{
+> +struct SMU7_Fusion_GIODpmTable {
+>
+> -    SMU7_Fusion_GIOLevel              GIOLevel                [SMU7_MAX_=
+LEVELS_GIO];
+> +    SMU7_Fusion_GIOLevel              GIOLevel[SMU7_MAX_LEVELS_GIO];
+>
+>      SMU7_PIDController                GioPIDController;
+>
 > --
 > 2.17.1
 >
