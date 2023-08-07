@@ -2,88 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10C8772E3B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 20:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BD9772FCD
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 21:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89B1110E37B;
-	Mon,  7 Aug 2023 18:54:35 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6386810E37B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 18:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691434472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fGmK0lr+Ae4kkT+rcZBfWw0gc9neet3R4+rYEQk6ky0=;
- b=BmuM9NqtWipzXsHxz9YV83QG5WWQIjxP/vJPdkFQDwOaZCMLiTii2C7fDQYW96oSWBuajT
- acNIyUSH15jrkW4vNjhM+fGpDfma7SNXoljnlA+IJ4kPApSCtY6AYKR4yBI2NIReoRopvh
- X5pPskVbxMM7cJJFtPeSHDQXR92lGMQ=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-465-V_V8-ZYNOH-YmVcyBfPowQ-1; Mon, 07 Aug 2023 14:54:29 -0400
-X-MC-Unique: V_V8-ZYNOH-YmVcyBfPowQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94a348facbbso362384366b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 11:54:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691434468; x=1692039268;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fGmK0lr+Ae4kkT+rcZBfWw0gc9neet3R4+rYEQk6ky0=;
- b=FLVzjIKAqH5Q61POMbI0d2byLncAiKU9Jya0G1dr2dZmBj9wLBIHAIp8fCu/TJcWW4
- 9ecf8X/rS1WFTgDdr6an0PJbEwaXa64DquG6oDjRRpEHsULiLpaXSOlV51vTgtYTBVQU
- fIA2UpbYvbkZMcyffYLxQLB+Rm0U2+tb0UUEywvELJlHWmY2PMJ0i/+RL4rqdR++40bg
- qPXWYqHVTxdP45W+/F80BIc3YPV5FWxlckJ9O3es35t+yU5DMddJ7u8ZEC9+vYbFCHah
- BFMr8lc8qEhnmdfUJHyCTf+mvE1qfzPtPsTLUMs1S58IOUq3lpVj+xfqXoZMvLl3DJSO
- 3Skg==
-X-Gm-Message-State: AOJu0Yzych8rg/fJMf6Na/DydQ+IFtbWO1gMnTDC2DpZ0J2oqtXXhttN
- QsD+mlB92zRF8uQSJ6DWPzcKf98Jo9LDQwi7NLXruz0bKwv6F9+Y8t6i96K3cUyx97j/2pwcqdh
- WpAPpI6KCUBEK5y6UtV/40qViSCy/
-X-Received: by 2002:a17:906:19b:b0:98d:1f6a:fd47 with SMTP id
- 27-20020a170906019b00b0098d1f6afd47mr8934653ejb.76.1691434468151; 
- Mon, 07 Aug 2023 11:54:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGBmf5yeIuKOZKg8cZawt01i8LS3w/uep4tJgbBbGkxhguyGfW95XtaFJPaIXTl4c7T/oQw3w==
-X-Received: by 2002:a17:906:19b:b0:98d:1f6a:fd47 with SMTP id
- 27-20020a170906019b00b0098d1f6afd47mr8934637ejb.76.1691434467873; 
- Mon, 07 Aug 2023 11:54:27 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- s8-20020a170906284800b0099bc08862b6sm5635415ejc.171.2023.08.07.11.54.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Aug 2023 11:54:27 -0700 (PDT)
-Message-ID: <619cbc61-d40f-a19f-179d-1ae35a1a17d4@redhat.com>
-Date: Mon, 7 Aug 2023 20:54:25 +0200
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1D110E060;
+	Mon,  7 Aug 2023 19:46:56 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7D410E060;
+ Mon,  7 Aug 2023 19:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691437615; x=1722973615;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=p33102MrkkXIkgIMPgJyWlxOFfSlTNW6WvDgLfXTIYg=;
+ b=QxU15AslSJi+PozAWLjackOfmY7sKr7aEj1moLkWfAC0XB1XdXW6herK
+ Eu28TmmjI498h+SB4fOT8fvmIz7NGG+mmloKP5LNTjhgGhagbpANKAekx
+ RmcrRhq0K5EUIeXVbzuRL3v0k5NY6Qi48PMWApHZvN8SFtI7yxAoBkjBY
+ f2Xp3yzHiV39QYqcSQdXT2gkiuEHaOqZslZ1DELWIaopSv1TFI03A9A3o
+ V1wx7lq7xDaLBJkp6cfi3p6XJBtSIrMagiRhoaqZnmXd5/+nYBat7ZPxt
+ MOYUpqpSreY/5Azb29/ai8tjXz6lI1ucYX/WUPJHXPU15XgVmMUOQ2y6K w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="436965530"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="436965530"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2023 12:46:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="821087757"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="821087757"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by FMSMGA003.fm.intel.com with ESMTP; 07 Aug 2023 12:46:54 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 7 Aug 2023 12:46:54 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 7 Aug 2023 12:46:53 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 7 Aug 2023 12:46:53 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Mon, 7 Aug 2023 12:46:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Im7WnS30PcnYI+oHtBenaOSk98ki4iW/Kc05kXHKc8m13Zuwjr0kP5fnoNMxE54T4V608v7xr6MqeKS4nFdo4wOnzruHOcgnWeuD4FrahmbYt69NrMMhWUzcmDcgtNxBRjPP+XMfPosskRGon3OjtsXxk5jFG5/I9zxKIgGuCi5h8p9SQ+RCQSYUpSsUFNQGh3yj84EUhcKDFp99sxUTJqCBoeZ0KxArzynFbgy0nG8xLluol7M/XSrvmQKnOptVPQiem8hdtnv9ERwElvGd+0ErXtjGQH5HIYhBmurwJNr/N3nVpwhmljLq3NkddYiAs3FLLLvZa3+FMJcORK/btg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IBfQEoarxbj+F5uxWFexHsfU07ZC+coRZR7bxXeixY4=;
+ b=QWhZRpfOqyPhxAkbF6EImTwjkl7JEbFcc/1tUTDx4iQMwZxGqzufc6ZUdlUDTR21I/29MlYiQFEwbElE7bIUAN11lRGdvPl8dryzhdxWxhQkhwNXFHp5jQCI0KgopP6siPtVEbn4KCauiNxuEESZYGQ61W3+1IJxycotnASYybcHJMbhKGHm8+WwNRNfAWMu6JePcO8FGdAoIx9VE0wabugADwbaQifV2NeBcJQp1mw4B6T16g94fE5UPvw/6ywbOnkYF5F36Oa+ds7xRefD5qCwofjpZisNAGGLx3qc+fhWsZuYgiglKy21DRPw44UaDrKVxmt8MBp/zqUV0tOJlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by CY8PR11MB7746.namprd11.prod.outlook.com (2603:10b6:930:86::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
+ 2023 19:46:50 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::6bdd:6fe1:4045:c26f]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::6bdd:6fe1:4045:c26f%6]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
+ 19:46:49 +0000
+Message-ID: <989e6e1c-cac3-58be-19d1-2c2468615cd6@intel.com>
+Date: Mon, 7 Aug 2023 12:46:46 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.14.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Fix potential null pointer
+ deref in GuC 'steal id' test
+Content-Language: en-GB
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20230802184940.911753-1-John.C.Harrison@Intel.com>
+ <ZMurfYjREPl5NIGB@ashyti-mobl2.lan>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <ZMurfYjREPl5NIGB@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P222CA0017.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::22) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v9 06/11] drm/nouveau: fence: separate fence
- alloc and emit
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
- corbet@lwn.net, bskeggs@redhat.com, Liam.Howlett@oracle.com,
- matthew.brost@intel.com, boris.brezillon@collabora.com,
- alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
- willy@infradead.org, jason@jlekstrand.net, donald.robson@imgtec.com
-References: <20230803165238.8798-1-dakr@redhat.com>
- <20230803165238.8798-7-dakr@redhat.com>
- <91fa63c6-dcce-34b0-938b-2f47362541e0@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <91fa63c6-dcce-34b0-938b-2f47362541e0@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|CY8PR11MB7746:EE_
+X-MS-Office365-Filtering-Correlation-Id: e57b753e-5b18-4ba2-bc80-08db977f0a68
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YRgs9Ul4gBGxMMywvPOszrToeGXmQyInCVnqbeiMDYCjKE1fDHkypqfpcmXNpVmrBpxJEOcCkmz5jf137lGjBvnH/OCsy6iJztnp8cLlk6Ue39Qc8hCUqGwumJsaGSvOiG04VHhB2z/G71F+pv17YjeG7bGp3z/X2azCBsfZWz6pt9kEaEzvj2G2GQBqCWRtleZD/4MStiyinLc+En6kphgB1kz8XeNZ5lWtL3bf6VEJMZfrmO4Fm5CtRl+8Os5if5ltO2jQYZk6f0JP+41njI4U1NaECBrPvZ1BWhYi7iNVhiqwnbuHZzVRfvWNGkZzBKYzMqL0XEZT3yG5PAY3L6a3vX+bqul7ezK6vd7ntH5w6WG2+2dFzhGuzpWkgrqi/4hphqO/nk+qrVHJ4Mvlb2E4faNT+n2skhZx5vstQv4+P7JtK+iFrl8fYOieD+P7oKBwKj99gBdi6/zDlXNsNTCR97kNJCyHBZnLvZt8Uf38nIdOVKUAMypsObKCD3bOrfJsNAYdNeZfYYgtVMMU9pU1TaA8BeqScEbHN89SiH95QjxduwqMF3rhq75F96LBrX2zSygHohEWkmqQV7HxXS9qyC6mPSd9RpzBd7vf6E7QP8+T1HtCtn6OAhV8UYRG7HZLbTvl8sT42CTSLS9mcg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(346002)(39860400002)(396003)(366004)(136003)(186006)(1800799003)(451199021)(41300700001)(26005)(2906002)(5660300002)(31686004)(83380400001)(8676002)(8936002)(2616005)(6916009)(86362001)(82960400001)(316002)(31696002)(6506007)(53546011)(38100700002)(478600001)(6486002)(66476007)(66556008)(66946007)(6666004)(6512007)(4326008)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cldub0VHUVlZcUM2Uml4ejRiY2Rxbll1NmlNTnFCY2VFdTRJRUZMOXcwUVBR?=
+ =?utf-8?B?SHZnVzFuTE16NDNubkprTVp0VndRaFV1L2VTTGgxazc2eHJ0YWQ4SDZrQ1oy?=
+ =?utf-8?B?VEt0TzhxUzF5dE5RdGhvcEJDTUVxYTczUWRCelZnSW5mcFQydXFCQ2M1ZDZk?=
+ =?utf-8?B?TEczRnB3a3lBYlpHM29jb0R0OHhhNGh5UEpxV3hFaWlOZnVzVlk1QW83M1pk?=
+ =?utf-8?B?MGhleDl6WkdwNXcrQlpEVlMvNFZXOUxvWW5ab1E1K1ZBTDZTYXA5eXk0SUtS?=
+ =?utf-8?B?L3UxQkZ5Y2U0TU50OEI1R2pobjhBbWl3QTB0c2l4MVlESGZSVjVwYktiZzRN?=
+ =?utf-8?B?eTRsODRuTmo2ckNwN2E0ZndRQ1JZc3dSMVY0d2tNQVRiL21lYnV0Z0gveXBk?=
+ =?utf-8?B?MW13ZUllVDBmRnYycU4wYmVRWG9TYVFrWVVjTTh6OVBSQ1phZkdmekZqdTg0?=
+ =?utf-8?B?YzF6S2RoNHBnWGMvMlBSMkQ3YVFyVzlETEZGN1VlbTlrUmhyVXhRRXdsVXN4?=
+ =?utf-8?B?Uk41eFZwcFczTlI3S1F6UGtISkxCQ0hQQmpjL0src0hRQkIwVnBLWk9PeFBp?=
+ =?utf-8?B?Z1dkYVNlVTY0ZjREb0UyWldwSTE0TFZNOXdYSjQrQklmYzFieS9iRVZKLysw?=
+ =?utf-8?B?dEJMcVBKWHk2R0UyWHY1NjdIbXVCUHp6UXpwVlRQa2JiMCsycEtKUkhpQ3pN?=
+ =?utf-8?B?KzF0ZkJaOXBONXV2TUlDVnJYK0FuS2hQUVJGT21pb2VBcmdQc3QwMXZBZ1Rh?=
+ =?utf-8?B?RjhlZ3l5QWs2Z2NHamVCTUdrbldIN1piV1RrUkJmQ08rbFVLaGhWbXNGZ2dR?=
+ =?utf-8?B?ZGhwRkFScmEvY0M5VlpWNlFTOHZNL1o0V1ZvV2h5TnJ5NzhzdWt2YmVNakV1?=
+ =?utf-8?B?VEZJN0kwWWJDTk4zYXFvbjRCRUgzV3YyZ21PeTFCWGdLWEo4ejJOS05tT2Mr?=
+ =?utf-8?B?Yzg0dHpiZUdiSDNiV0ZtTkpjOUp0VlJjZUhFUlhhbEFjUk1MbUdPcm1SYU9M?=
+ =?utf-8?B?UWFNNDNTT2NTdDd4OTNIaUlEWkhKWHM1eGNCUEhaWDlzcXFZOHR2Rm5jT0Ry?=
+ =?utf-8?B?UjhEbmoxZG9KR1VKV0g5SGZUemdDK1dlamJMSHM4bmt5KzRQeW0rMEJORE9F?=
+ =?utf-8?B?dnVNc0ZVdDdLRVcwWW90NzhWVWFhaDZYWlRIVWxJRytENzZqZEVLY0VQN2x0?=
+ =?utf-8?B?YzFPNkVpSUxvNlNyaEtuSXJSYXYzcmhTRDhoanpUVTIvUFZuRUovR3hMRm1Z?=
+ =?utf-8?B?dW9yaTRxck5zNkFITjNSZmdENDJLMTNOdVEydGdjSG5LUkdDc0piS1oremtv?=
+ =?utf-8?B?NUZBOUV2M0tTaTREVlV6b0xkNmpvZVhpZnpCZitMUndmT0Q0Z1ZpcDlVdGVs?=
+ =?utf-8?B?bnBHYVgrSDJISXdlTzRQRFhkSFowNlMrM1dnR2JnbEY3YUNZRElZYzZ6U0VB?=
+ =?utf-8?B?K2tJeW1VTnlGVlR2dmFvQWV6MGJNS3grNjFkME9xSHBET2NOZWVFTE9ZOUtM?=
+ =?utf-8?B?TW15REtNOEd4T2grRnBxcU1GZUxSc3d6ZG9YT015aWhjSWllbTBzV1F0dStL?=
+ =?utf-8?B?dy9aTnNiai9URDBtZmpHbVdjV01oejVFQ295ZjhybTcxbDhrbG1BODNJWVJV?=
+ =?utf-8?B?SVVNdjRuRjlDNmE1RThqZDd0YVZQdGpmTW5YZzJsY2dFNTN5blR3eGNmRjRw?=
+ =?utf-8?B?NTZGWlBvaGJBd0ZyYmFXeVVxTHMrWmpzTC84c2R2TEhIK25rbzY0ZzhlKy9Q?=
+ =?utf-8?B?akNDdHZORzBtNUR2d1NuemZpcWdpWmwvMVJWcFYxWENrdjl2ako4cDFON25B?=
+ =?utf-8?B?dlBUa2ZIYlI1MGlnSm9ES3dDd2lCNXFZRi9PN2t1NkFhV2l5Sk1hK0xwbGRq?=
+ =?utf-8?B?aVMzbUNJbzVGR1I4cDJILzNIMEN3V3cxcmZuZStBQmZpMXhydXZDaFl0SGR3?=
+ =?utf-8?B?Z05mSTVpRVIrSTc0UUNqRXZwZkIwdG1PZkhxWkRKQnNLbDVRZ2RnbC9oWjlp?=
+ =?utf-8?B?R1RqeTYzc3hrR0V3bDVabjh5RUVmVldQZHJiUGdoN1IzQ24wRGRNQlZpckhD?=
+ =?utf-8?B?dVExSnBXbDkwRFNQY2JDQ1N6dlVEK0M2RVZ1VjUzWjFNS2tuU0p0MlcwRGVz?=
+ =?utf-8?B?WDlBZ05EZ2VOODhseGRKMWs0cWpCQnFNVDVuN3NzcGdTem5id0EwU2toT0Q0?=
+ =?utf-8?B?Z3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e57b753e-5b18-4ba2-bc80-08db977f0a68
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 19:46:49.5551 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xC8C98z5MTDqwkSbk7AbwgzrF1OomM0u6gzHMsYAqKoML9qnP0q35DAcAVKwLoNxb4SCEZZQJE/I5RrPY3Na7BN67o35nA0X4e1hdja6Ays=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7746
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,269 +160,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: Intel-GFX@lists.freedesktop.org, DRI-Devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On 8/7/23 20:07, Christian König wrote:
-> Am 03.08.23 um 18:52 schrieb Danilo Krummrich:
->> The new (VM_BIND) UAPI exports DMA fences through DRM syncobjs. Hence,
->> in order to emit fences within DMA fence signalling critical sections
->> (e.g. as typically done in the DRM GPU schedulers run_job() callback) we
->> need to separate fence allocation and fence emitting.
-> 
-> At least from the description that sounds like it might be illegal. 
-> Daniel can you take a look as well.
-> 
-> What exactly are you doing here?
-
-I'm basically doing exactly the same as amdgpu_fence_emit() does in 
-amdgpu_ib_schedule() called by amdgpu_job_run().
-
-The difference - and this is what this patch is for - is that I separate 
-the fence allocation from emitting the fence, such that the fence 
-structure is allocated before the job is submitted to the GPU scheduler. 
-amdgpu solves this with GFP_ATOMIC within amdgpu_fence_emit() to 
-allocate the fence structure in this case.
-
-- Danilo
-
-> 
-> Regards,
-> Christian.
-> 
+On 8/3/2023 06:28, Andi Shyti wrote:
+> Hi John,
+>
+> On Wed, Aug 02, 2023 at 11:49:40AM -0700, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
 >>
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>> It was noticed that if the very first 'stealing' request failed to
+>> create for some reason then the 'steal all ids' loop would immediately
+>> exit with 'last' still being NULL. The test would attempt to continue
+>> but using a null pointer. Fix that by aborting the test if it fails to
+>> create any requests at all.
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 >> ---
->>   drivers/gpu/drm/nouveau/dispnv04/crtc.c |  9 ++++-
->>   drivers/gpu/drm/nouveau/nouveau_bo.c    | 52 +++++++++++++++----------
->>   drivers/gpu/drm/nouveau/nouveau_chan.c  |  6 ++-
->>   drivers/gpu/drm/nouveau/nouveau_dmem.c  |  9 +++--
->>   drivers/gpu/drm/nouveau/nouveau_fence.c | 16 +++-----
->>   drivers/gpu/drm/nouveau/nouveau_fence.h |  3 +-
->>   drivers/gpu/drm/nouveau/nouveau_gem.c   |  5 ++-
->>   7 files changed, 59 insertions(+), 41 deletions(-)
+>>   drivers/gpu/drm/i915/gt/uc/selftest_guc.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c 
->> b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
->> index a6f2e681bde9..a34924523133 100644
->> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
->> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
->> @@ -1122,11 +1122,18 @@ nv04_page_flip_emit(struct nouveau_channel *chan,
->>       PUSH_NVSQ(push, NV_SW, NV_SW_PAGE_FLIP, 0x00000000);
->>       PUSH_KICK(push);
->> -    ret = nouveau_fence_new(chan, false, pfence);
->> +    ret = nouveau_fence_new(pfence);
->>       if (ret)
->>           goto fail;
->> +    ret = nouveau_fence_emit(*pfence, chan);
->> +    if (ret)
->> +        goto fail_fence_unref;
->> +
->>       return 0;
->> +
->> +fail_fence_unref:
->> +    nouveau_fence_unref(pfence);
->>   fail:
->>       spin_lock_irqsave(&dev->event_lock, flags);
->>       list_del(&s->head);
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c 
->> b/drivers/gpu/drm/nouveau/nouveau_bo.c
->> index 057bc995f19b..e9cbbf594e6f 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
->> @@ -820,29 +820,39 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object 
->> *bo, int evict,
->>           mutex_lock(&cli->mutex);
->>       else
->>           mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
->> +
->>       ret = nouveau_fence_sync(nouveau_bo(bo), chan, true, 
->> ctx->interruptible);
->> -    if (ret == 0) {
->> -        ret = drm->ttm.move(chan, bo, bo->resource, new_reg);
->> -        if (ret == 0) {
->> -            ret = nouveau_fence_new(chan, false, &fence);
->> -            if (ret == 0) {
->> -                /* TODO: figure out a better solution here
->> -                 *
->> -                 * wait on the fence here explicitly as going through
->> -                 * ttm_bo_move_accel_cleanup somehow doesn't seem to 
->> do it.
->> -                 *
->> -                 * Without this the operation can timeout and we'll 
->> fallback to a
->> -                 * software copy, which might take several minutes to 
->> finish.
->> -                 */
->> -                nouveau_fence_wait(fence, false, false);
->> -                ret = ttm_bo_move_accel_cleanup(bo,
->> -                                &fence->base,
->> -                                evict, false,
->> -                                new_reg);
->> -                nouveau_fence_unref(&fence);
->> -            }
->> -        }
->> +    if (ret)
->> +        goto out_unlock;
->> +
->> +    ret = drm->ttm.move(chan, bo, bo->resource, new_reg);
->> +    if (ret)
->> +        goto out_unlock;
->> +
->> +    ret = nouveau_fence_new(&fence);
->> +    if (ret)
->> +        goto out_unlock;
->> +
->> +    ret = nouveau_fence_emit(fence, chan);
->> +    if (ret) {
->> +        nouveau_fence_unref(&fence);
->> +        goto out_unlock;
->>       }
->> +
->> +    /* TODO: figure out a better solution here
->> +     *
->> +     * wait on the fence here explicitly as going through
->> +     * ttm_bo_move_accel_cleanup somehow doesn't seem to do it.
->> +     *
->> +     * Without this the operation can timeout and we'll fallback to a
->> +     * software copy, which might take several minutes to finish.
->> +     */
->> +    nouveau_fence_wait(fence, false, false);
->> +    ret = ttm_bo_move_accel_cleanup(bo, &fence->base, evict, false,
->> +                    new_reg);
->> +    nouveau_fence_unref(&fence);
->> +
->> +out_unlock:
->>       mutex_unlock(&cli->mutex);
->>       return ret;
->>   }
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c 
->> b/drivers/gpu/drm/nouveau/nouveau_chan.c
->> index 6d639314250a..f69be4c8f9f2 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_chan.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
->> @@ -62,9 +62,11 @@ nouveau_channel_idle(struct nouveau_channel *chan)
->>           struct nouveau_fence *fence = NULL;
->>           int ret;
->> -        ret = nouveau_fence_new(chan, false, &fence);
->> +        ret = nouveau_fence_new(&fence);
->>           if (!ret) {
->> -            ret = nouveau_fence_wait(fence, false, false);
->> +            ret = nouveau_fence_emit(fence, chan);
->> +            if (!ret)
->> +                ret = nouveau_fence_wait(fence, false, false);
->>               nouveau_fence_unref(&fence);
->>           }
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c 
->> b/drivers/gpu/drm/nouveau/nouveau_dmem.c
->> index 789857faa048..4ad40e42cae1 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
->> @@ -209,7 +209,8 @@ static vm_fault_t 
->> nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
->>           goto done;
->>       }
->> -    nouveau_fence_new(dmem->migrate.chan, false, &fence);
->> +    if (!nouveau_fence_new(&fence))
->> +        nouveau_fence_emit(fence, dmem->migrate.chan);
->>       migrate_vma_pages(&args);
->>       nouveau_dmem_fence_done(&fence);
->>       dma_unmap_page(drm->dev->dev, dma_addr, PAGE_SIZE, 
->> DMA_BIDIRECTIONAL);
->> @@ -402,7 +403,8 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk 
->> *chunk)
->>           }
->>       }
->> -    nouveau_fence_new(chunk->drm->dmem->migrate.chan, false, &fence);
->> +    if (!nouveau_fence_new(&fence))
->> +        nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
->>       migrate_device_pages(src_pfns, dst_pfns, npages);
->>       nouveau_dmem_fence_done(&fence);
->>       migrate_device_finalize(src_pfns, dst_pfns, npages);
->> @@ -675,7 +677,8 @@ static void nouveau_dmem_migrate_chunk(struct 
->> nouveau_drm *drm,
->>           addr += PAGE_SIZE;
->>       }
->> -    nouveau_fence_new(drm->dmem->migrate.chan, false, &fence);
->> +    if (!nouveau_fence_new(&fence))
->> +        nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
->>       migrate_vma_pages(args);
->>       nouveau_dmem_fence_done(&fence);
->>       nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c 
->> b/drivers/gpu/drm/nouveau/nouveau_fence.c
->> index ee5e9d40c166..e946408f945b 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
->> @@ -210,6 +210,9 @@ nouveau_fence_emit(struct nouveau_fence *fence, 
->> struct nouveau_channel *chan)
->>       struct nouveau_fence_priv *priv = (void*)chan->drm->fence;
->>       int ret;
->> +    if (unlikely(!chan->fence))
->> +        return -ENODEV;
->> +
->>       fence->channel  = chan;
->>       fence->timeout  = jiffies + (15 * HZ);
->> @@ -396,25 +399,16 @@ nouveau_fence_unref(struct nouveau_fence **pfence)
->>   }
->>   int
->> -nouveau_fence_new(struct nouveau_channel *chan, bool sysmem,
->> -          struct nouveau_fence **pfence)
->> +nouveau_fence_new(struct nouveau_fence **pfence)
->>   {
->>       struct nouveau_fence *fence;
->> -    int ret = 0;
->> -
->> -    if (unlikely(!chan->fence))
->> -        return -ENODEV;
->>       fence = kzalloc(sizeof(*fence), GFP_KERNEL);
->>       if (!fence)
->>           return -ENOMEM;
->> -    ret = nouveau_fence_emit(fence, chan);
->> -    if (ret)
->> -        nouveau_fence_unref(&fence);
->> -
->>       *pfence = fence;
->> -    return ret;
->> +    return 0;
->>   }
->>   static const char *nouveau_fence_get_get_driver_name(struct 
->> dma_fence *fence)
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h 
->> b/drivers/gpu/drm/nouveau/nouveau_fence.h
->> index 0ca2bc85adf6..7c73c7c9834a 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
->> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
->> @@ -17,8 +17,7 @@ struct nouveau_fence {
->>       unsigned long timeout;
->>   };
->> -int  nouveau_fence_new(struct nouveau_channel *, bool sysmem,
->> -               struct nouveau_fence **);
->> +int  nouveau_fence_new(struct nouveau_fence **);
->>   void nouveau_fence_unref(struct nouveau_fence **);
->>   int  nouveau_fence_emit(struct nouveau_fence *, struct 
->> nouveau_channel *);
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c 
->> b/drivers/gpu/drm/nouveau/nouveau_gem.c
->> index a48f42aaeab9..9c8d1b911a01 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
->> @@ -873,8 +873,11 @@ nouveau_gem_ioctl_pushbuf(struct drm_device *dev, 
->> void *data,
->>           }
->>       }
->> -    ret = nouveau_fence_new(chan, false, &fence);
->> +    ret = nouveau_fence_new(&fence);
->> +    if (!ret)
->> +        ret = nouveau_fence_emit(fence, chan);
->>       if (ret) {
->> +        nouveau_fence_unref(&fence);
->>           NV_PRINTK(err, cli, "error fencing pushbuf: %d\n", ret);
->>           WIND_RING(chan);
->>           goto out;
-> 
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+>> index 1fd760539f77b..bfb72143566f6 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+>> @@ -204,9 +204,9 @@ static int intel_guc_steal_guc_ids(void *arg)
+>>   		if (IS_ERR(rq)) {
+>>   			ret = PTR_ERR(rq);
+>>   			rq = NULL;
+>> -			if (ret != -EAGAIN) {
+>> -				guc_err(guc, "Failed to create request %d: %pe\n",
+>> -					context_index, ERR_PTR(ret));
+>> +			if ((ret != -EAGAIN) || !last) {
+> isn't last alway NULL here?
+>
+> Andi
+No, only on the first pass around the loop. When a request is 
+successfully created, the else clause below assigns last to that new 
+request. So if the failure to create only happens on pass 2 or later, 
+last will be non-null. Which is the whole point of the code. It keeps 
+creating all the contexts/requests that it can until it runs out of 
+resources and gets an EAGAIN failure. At which point, last will be 
+pointing to the last successful creation and the test continues to the 
+next part of actually stealing an id.
+
+But if the EAGAIN failure happens on the first pass then last will be 
+null and it is not safe/valid to proceed so it needs to abort. And if 
+anything other than EAGAIN is returned then something has gone wrong and 
+it doesn't matter what last is set to, it needs to abort regardless.
+
+John.
+
+
+>
+>> +				guc_err(guc, "Failed to create %srequest %d: %pe\n",
+>> +					last ? "" : "first ", context_index, ERR_PTR(ret));
+>>   				goto err_spin_rq;
+>>   			}
+>>   		} else {
+>> -- 
+>> 2.39.1
 
