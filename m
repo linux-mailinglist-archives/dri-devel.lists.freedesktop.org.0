@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49747772AED
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:33:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4606A772AF7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:33:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 145EB10E2CC;
-	Mon,  7 Aug 2023 16:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6364B10E2D1;
+	Mon,  7 Aug 2023 16:33:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
  [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA1F10E2C8;
- Mon,  7 Aug 2023 16:33:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9EC10E2D1;
+ Mon,  7 Aug 2023 16:33:39 +0000 (UTC)
 Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1bef8f0904eso3460325fac.2; 
- Mon, 07 Aug 2023 09:33:02 -0700 (PDT)
+ 586e51a60fabf-1bb575a6ed3so3599532fac.2; 
+ Mon, 07 Aug 2023 09:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691425982; x=1692030782;
+ d=gmail.com; s=20221208; t=1691426019; x=1692030819;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Xyv2Ai8G6V59y/N5vBsqZfF6gA3n7Ds45WJJHRAYVC8=;
- b=NQX76BCOk/+2efqOSj8cNKLVHOsCRIJbntEvlmB9b3zrcky5wgMTIUcaw4wQEJSAr6
- qJ6/EElIlKUr4ztPrd++6fJ6AyAFE0j8CMyuLZKbXiJpQu3jzBOjtGWsvRFNxYFx6yxD
- 4WGHGe3DbsX4B1dJtrr19XyXtind4830Qb1N8CrNdp7BDSZd4IFfw+kXugYlFFls7ADW
- RK3SnyyshNV1AwxMSjYuA1Vap77n9x2ogpHMOdAu+AI5Mm1KvB3SCUj1VqkMckKi40om
- ba1wZ/bQp6IBo/SkdGh1Ex+8KT5mXVBxFyy7xAopNTs3em6aZCcpV6h66QIKPr/nmvnK
- Ggcw==
+ bh=GS+s5QA+7fmn3p9NicYuopwCAnPqna71fQArihZ77Ho=;
+ b=IlOvTRmvh6IFmi2KYgc6P7/WQhjjiI803ANoTJS/TMU5RE0REjCmC26D5/ucnqh/KV
+ VYFo9cfL4bdnTXtAjtg4sbtOJbHLzJnKv3e/bAIuNYhqqlHVrd8PUPpohDfB/3KbHtuO
+ GsCYAUrwdAyii6Q4bUqufJZek12biEoQJj7KQyGE5YeK/d9bHyAkQOM7tmxjyGxUF41s
+ sC4h2ProWpEMXieZv3bOOujlt+eKSiolxbSpg5tV708kBGRVfoYQiWwXszDn+6RsMaey
+ ftMtRAAZ/VZaUNgOWmvWfDNHDZ4Na9j9y1RkNsgDcyGXlzQFGqhO9o7T/FFHn1f3gA5E
+ eMqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425982; x=1692030782;
+ d=1e100.net; s=20221208; t=1691426019; x=1692030819;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Xyv2Ai8G6V59y/N5vBsqZfF6gA3n7Ds45WJJHRAYVC8=;
- b=F9rwZBBoPqsX40eLNsgu+a5znEII68d1Uuxab9W9pCeij9jAdCnq/ZqVimby0bsVCX
- xlibzth2Irh/QdZ+FEe05DxwBhav0KxTpIL/kJvizLqWJSR35EkORYWEHGej8nztAOvb
- GHyfWphXqKuXJGxX8O972+BrIhwGpuB0ZRAmW7mdPPB5i/GpOS1QUpj1Pa2Kq+dURCDP
- 5F6xua/6Gt26QcQe9dTNmGYqYaWobw86xjjGOeP6tXogvNiJVNgttUuCknhT3hywEM/u
- oj6L94OXXHMkvZTehpf8RWJCXc9eaQMcbXcxwYnnyJkPLG3no18kNOfYwP24wSUFV/uq
- UvEA==
-X-Gm-Message-State: AOJu0Yym62DAT8pu/I7dfGWTpZ0+MLkhGHzlkHMDR9XW/Tp383q4JVQS
- 6t4zBt02+cM2eGhLP2z3cUWuLYZiHfXU+b0rY8ik/6JM
-X-Google-Smtp-Source: AGHT+IEv0wSPqpzLjRH4T7IC9t0Cqdza37V3DEkz92T/k1+NQ5jEsfTCnO6IqACa6NIHr+9PGfuSxtBa+FwOnLb0sdo=
-X-Received: by 2002:a05:6870:5494:b0:1be:cf5d:6f7b with SMTP id
- f20-20020a056870549400b001becf5d6f7bmr11550277oan.17.1691425981935; Mon, 07
- Aug 2023 09:33:01 -0700 (PDT)
+ bh=GS+s5QA+7fmn3p9NicYuopwCAnPqna71fQArihZ77Ho=;
+ b=GthL7v2ZhnF/Z50LOJ04bd66O/c3GOJ0+F5e1n6dQrziD84l6CU+XUH04I+AGlmJez
+ QSqPBZL9T3HPbtsQeotEGgu0yxHBvryl0LnEDVrbejcmYlTB0nT/NdpZ1dcDqEe8Ggk1
+ bT7PAyF4/XMvpRGPveScLpy4NwdJwp7+QllEox6d1BFiidqHKEZOa+p/gqbvhZuzQhPB
+ /dqJULsMDMd6XvLhLBCBPds2egVpU6jpf/0ZWsq9KXnBzNG68Slask39zA34mk8t2WND
+ aZTij6ZBxIjuVfyxMaoHkwyc+9vwWTptvC355nCh7rM456j5HhGg1Qq48VeArp59pLBZ
+ 8IoQ==
+X-Gm-Message-State: AOJu0Yxom5vxk4/iO/joweH7sKfEOXh2Occkshsqa+vlSp3EwD1i4+Qx
+ 9ytY30uV55jGaZVzV7fjQm1oOucYcRBz138RScE=
+X-Google-Smtp-Source: AGHT+IEXPlOEjWezLgBbrAHmlydU64OP4b3QmZeeluV9R+nkqbnRn+LuWwHIFce6PmDPG8N6fuZTeoH0br82T7XlKZ4=
+X-Received: by 2002:a05:6870:4153:b0:1bb:8162:dfcc with SMTP id
+ r19-20020a056870415300b001bb8162dfccmr10564902oad.11.1691426017331; Mon, 07
+ Aug 2023 09:33:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801060443.6090-1-sunran001@208suo.com>
-In-Reply-To: <20230801060443.6090-1-sunran001@208suo.com>
+References: <20230801060937.6178-1-sunran001@208suo.com>
+In-Reply-To: <20230801060937.6178-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:32:51 -0400
-Message-ID: <CADnq5_OEG9hHxR7wgse7x3ibzH9q=bL66wCAhS2fDyTmRjeKqQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in vega12_pptable.h
+Date: Mon, 7 Aug 2023 12:33:26 -0400
+Message-ID: <CADnq5_MbgT64L+7ga8zzTrNJ1G0TvMFV4BPw5Lv9gDFfNCukMw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in vega12_baco.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,50 +75,85 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 2:04=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Tue, Aug 1, 2023 at 2:09=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: open brace '{' following struct go on the same line
-> ERROR: space prohibited before open square bracket '['
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  .../gpu/drm/amd/pm/powerplay/hwmgr/vega12_pptable.h   | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_baco.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_pptable.h b/dr=
-ivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_pptable.h
-> index bf4f5095b80d..9b8435a4d306 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_pptable.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_pptable.h
-> @@ -72,8 +72,7 @@ enum ATOM_VEGA12_PPCLOCK_ID {
->  typedef enum ATOM_VEGA12_PPCLOCK_ID ATOM_VEGA12_PPCLOCK_ID;
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_baco.c b/drive=
+rs/gpu/drm/amd/pm/powerplay/hwmgr/vega12_baco.c
+> index bc53cce4f32d..32cc8de296e4 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_baco.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_baco.c
+> @@ -29,16 +29,14 @@
+>  #include "vega12_ppsmc.h"
+>  #include "vega12_baco.h"
 >
->
-> -typedef struct _ATOM_VEGA12_POWERPLAYTABLE
+> -static const struct soc15_baco_cmd_entry  pre_baco_tbl[] =3D
 > -{
-> +typedef struct _ATOM_VEGA12_POWERPLAYTABLE {
->        struct atom_common_table_header sHeader;
->        UCHAR  ucTableRevision;
->        USHORT usTableSize;
-> @@ -92,11 +91,11 @@ typedef struct _ATOM_VEGA12_POWERPLAYTABLE
->        USHORT usODPowerSavePowerLimit;
->        USHORT usSoftwareShutdownTemp;
+> +static const struct soc15_baco_cmd_entry  pre_baco_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, NBIF_HWID, 0, mmBIF_DOORBELL_CNTL_BASE_IDX=
+, mmBIF_DOORBELL_CNTL, BIF_DOORBELL_CNTL__DOORBELL_MONITOR_EN_MASK, BIF_DOO=
+RBELL_CNTL__DOORBELL_MONITOR_EN__SHIFT, 0, 0 },
+>         { CMD_WRITE, NBIF_HWID, 0, mmBIF_FB_EN_BASE_IDX, mmBIF_FB_EN, 0, =
+0, 0, 0 },
+>         { CMD_READMODIFYWRITE, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_ID=
+X, mmBACO_CNTL, BACO_CNTL__BACO_DSTATE_BYPASS_MASK, BACO_CNTL__BACO_DSTATE_=
+BYPASS__SHIFT, 0, 1 },
+>         { CMD_READMODIFYWRITE, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_ID=
+X, mmBACO_CNTL, BACO_CNTL__BACO_RST_INTR_MASK_MASK, BACO_CNTL__BACO_RST_INT=
+R_MASK__SHIFT, 0, 1 }
+>  };
 >
-> -      ULONG PowerSavingClockMax  [ATOM_VEGA12_PPCLOCK_COUNT];
-> -      ULONG PowerSavingClockMin  [ATOM_VEGA12_PPCLOCK_COUNT];
-> +      ULONG PowerSavingClockMax[ATOM_VEGA12_PPCLOCK_COUNT];
-> +      ULONG PowerSavingClockMin[ATOM_VEGA12_PPCLOCK_COUNT];
+> -static const struct soc15_baco_cmd_entry enter_baco_tbl[] =3D
+> -{
+> +static const struct soc15_baco_cmd_entry enter_baco_tbl[] =3D {
+>         { CMD_WAITFOR, THM_HWID, 0, mmTHM_BACO_CNTL_BASE_IDX, mmTHM_BACO_=
+CNTL, THM_BACO_CNTL__SOC_DOMAIN_IDLE_MASK, THM_BACO_CNTL__SOC_DOMAIN_IDLE__=
+SHIFT, 0xffffffff, 0x80000000 },
+>         { CMD_READMODIFYWRITE, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_ID=
+X, mmBACO_CNTL, BACO_CNTL__BACO_EN_MASK, BACO_CNTL__BACO_EN__SHIFT, 0, 1 },
+>         { CMD_READMODIFYWRITE, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_ID=
+X, mmBACO_CNTL, BACO_CNTL__BACO_BIF_LCLK_SWITCH_MASK, BACO_CNTL__BACO_BIF_L=
+CLK_SWITCH__SHIFT, 0, 1 },
+> @@ -56,8 +54,7 @@ static const struct soc15_baco_cmd_entry enter_baco_tbl=
+[] =3D
+>         { CMD_WAITFOR, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_IDX, mmBAC=
+O_CNTL, BACO_CNTL__BACO_MODE_MASK, BACO_CNTL__BACO_MODE__SHIFT, 0xffffffff,=
+ 0x100 }
+>  };
 >
-> -      ULONG ODSettingsMax [ATOM_VEGA12_ODSETTING_COUNT];
-> -      ULONG ODSettingsMin [ATOM_VEGA12_ODSETTING_COUNT];
-> +      ULONG ODSettingsMax[ATOM_VEGA12_ODSETTING_COUNT];
-> +      ULONG ODSettingsMin[ATOM_VEGA12_ODSETTING_COUNT];
+> -static const struct soc15_baco_cmd_entry exit_baco_tbl[] =3D
+> -{
+> +static const struct soc15_baco_cmd_entry exit_baco_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_ID=
+X, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MASK, BACO_CNTL__BACO_POWER_OFF__=
+SHIFT, 0, 0 },
+>         { CMD_DELAY_MS, 0, 0, 0, 0, 0, 0, 10, 0 },
+>         { CMD_READMODIFYWRITE, THM_HWID, 0, mmTHM_BACO_CNTL_BASE_IDX, mmT=
+HM_BACO_CNTL, THM_BACO_CNTL__BACO_SOC_REFCLK_OFF_MASK, THM_BACO_CNTL__BACO_=
+SOC_REFCLK_OFF__SHIFT, 0, 0 },
+> @@ -77,8 +74,7 @@ static const struct soc15_baco_cmd_entry exit_baco_tbl[=
+] =3D
+>         { CMD_WAITFOR, NBIF_HWID, 0, mmRCC_BACO_CNTL_MISC_BASE_IDX, mmBAC=
+O_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xffffffff, 0 }
+>  };
 >
->        USHORT usReserve[5];
->
+> -static const struct soc15_baco_cmd_entry clean_baco_tbl[] =3D
+> -{
+> +static const struct soc15_baco_cmd_entry clean_baco_tbl[] =3D {
+>         { CMD_WRITE, NBIF_HWID, 0, mmBIOS_SCRATCH_6_BASE_IDX, mmBIOS_SCRA=
+TCH_6, 0, 0, 0, 0 },
+>         { CMD_WRITE, NBIF_HWID, 0, mmBIOS_SCRATCH_7_BASE_IDX, mmBIOS_SCRA=
+TCH_7, 0, 0, 0, 0 }
+>  };
 > --
 > 2.17.1
 >
