@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D2D772CB2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:21:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32BD6772CB7
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:22:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 789D010E1A0;
-	Mon,  7 Aug 2023 17:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0395110E34B;
+	Mon,  7 Aug 2023 17:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F14E10E1A0;
- Mon,  7 Aug 2023 17:21:48 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-1bb954414e8so3650863fac.0; 
- Mon, 07 Aug 2023 10:21:48 -0700 (PDT)
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
+ [IPv6:2607:f8b0:4864:20::c2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE92010E34B;
+ Mon,  7 Aug 2023 17:22:31 +0000 (UTC)
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ 006d021491bc7-56cc461f34fso2822167eaf.0; 
+ Mon, 07 Aug 2023 10:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428907; x=1692033707;
+ d=gmail.com; s=20221208; t=1691428951; x=1692033751;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8YvbsUJg0/MEi6rG+cUpAFNtn5WudefBqhX2T15JqJg=;
- b=ed1lHmdV820f17A4KM8vckb+CtmsQK+h8Na/No7yS6n8rRy92/oVzmqcGTuD+zm0j5
- c6KO4c4ZAHIaUqTRd4Jq/QxdveAcVWJMMhhXWnoiUuHV2uDzmoWABAL4jtoVrkdieqdX
- DvdPuBSLG/NC+MaWVyhOnGIflKlJDmuptwkQKdi8xPk31LKQJYvTavYfbLb+05F5TGJ8
- FgvhEDtssv3/jG168DMsO04k23WP8HE2zjqt51dC5n3nl2zUvWVvqvLJUcahraUXX5ha
- Yztyi+jc5YLth7eArr7EZogtQITjFmR+8RcUYRJV51nHiFAkCVB2Lr+PZiu6uJ7ayhG/
- KVtA==
+ bh=tdiT4VDFwEWB7gXAPktsqljyYxoKDZsI+pliCIWNBKQ=;
+ b=sq0kRQ+cYhoTN4ibTazfI3lKdSnU5a9uzGkj1ndxEhIbDKbavoAD0G1dE5zZ+F0X3J
+ x7DXk4NLGQyj+ps3xDE6TdwL2TeeVjHXGpV6DIOagKlPNfNiqK5yso4W7d7w/TDjCqeD
+ v96FwIeBKk8g6MaAhbEQ1B16PTDrabTq+doldAUbRQRcewkL4fYYQ1a2E9f/w+li3NvE
+ nLTMhI0iSvdayvRthG10b+nl/ZKYIU7dhurR8pOnliiy9YS0UJhoVFbFLTs5vE1nvaBV
+ fc6YSG/J16ANEEE+V2nKQD0vA0zbCeElVNcG1Q0R7Wk0O4Yca/gzGLo1J2DK9j05eTO1
+ F2aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428907; x=1692033707;
+ d=1e100.net; s=20221208; t=1691428951; x=1692033751;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8YvbsUJg0/MEi6rG+cUpAFNtn5WudefBqhX2T15JqJg=;
- b=lUymwtjAfJLQtolVMhwaP0TDLOjf1EkdAgxDlPxyk73j22KxZ8gTaLEobOHU4cM3nz
- Y9CA3uPc8AHYOk11DzUX3EWU7ZtoayAFRQOpNabn8AEUaZcVV4y6TUX7qYDaDYmC5rIl
- BXnWkNRN7kHu+2oQ8y8tgEgdySuZsWOOfpXxnsLXYdWB+3crNOwCiOoGRsg6VeCVRBhp
- qbNT0exFe3U2CTkXmHw0llbzFk9Clze5A66Rv8mFG+WdRGUhGxa7a5ViSnFQWKWxY29p
- ETJvjrGLWAoxLo8UhDA7l2dffTd8NdeB4nt1DCV/zfdjaUe8c06G90e8aHdaujMZC+0b
- 4aDQ==
-X-Gm-Message-State: AOJu0YxowmoQi91Nm8SGclwd/yS5VV2RCJpLnb0xN24qHI2ed9N+uyR1
- uRfaie7Yzs++RWCw10joTU7ZWkklQp6EXCYndaNheAdi
-X-Google-Smtp-Source: AGHT+IHawkKgmlrHGsgRqcMkQZbxvKoqspEbzHp781Amg3VTbLYE3tUVZu5Y5/KQnXJrM1eeSgpKwe0EleAfxLnD29I=
-X-Received: by 2002:a05:6870:c1cb:b0:1bf:4a66:d54f with SMTP id
- i11-20020a056870c1cb00b001bf4a66d54fmr11790002oad.56.1691428907356; Mon, 07
- Aug 2023 10:21:47 -0700 (PDT)
+ bh=tdiT4VDFwEWB7gXAPktsqljyYxoKDZsI+pliCIWNBKQ=;
+ b=H5w4YFvYTykRQdU4iLXXg9Oh/9+BpDJ8ug8L3xHvSaoU1e5qPY3tdka7GqY2hirqBx
+ tHzBG/mG7DTJsTZe4cjbs/VEP7pGfeDF3WHMzITPQy9P/p3IxaVKW0HMJ235HEEa48Ii
+ 4wiHlaChk5fgLCFAop0rcOUOYpc4LmXdvwJslTw73CauzqDLdNVdF7v2f1r2ZVS48lbd
+ 0T4MgPjKj5FVD8oGh5DCBL0HL1DHxrCxrUkWwVgaLcE+uQfXH04vQqGOfVRgYFdwXgq/
+ aQeaT4oz6RJ76ZDfa89alNktMZsCn0e4eeNCr9accXP5K+Nlh4862vuLYNX9ACW944UJ
+ dMPw==
+X-Gm-Message-State: AOJu0Yx83we+VJXTPG5i4ousbaaqGKFHh3mDo7kFGi2g0VWvdoSq5Myf
+ /bz6ZDHQz3cDDJv6YNsl4qMJub+zI9kj6v3qxhY=
+X-Google-Smtp-Source: AGHT+IF9DSieLDJ6wkuhVPEfT0WAsY+ArX+WPqVB+kikaHFxvekHPQvooC1UarJCEEPloluOY2IppngCAPeUPb1xJlo=
+X-Received: by 2002:a05:6808:189b:b0:3a7:2a94:73f6 with SMTP id
+ bi27-20020a056808189b00b003a72a9473f6mr13171907oib.49.1691428950972; Mon, 07
+ Aug 2023 10:22:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802065518.12271-1-sunran001@208suo.com>
-In-Reply-To: <20230802065518.12271-1-sunran001@208suo.com>
+References: <20230802065804.12360-1-sunran001@208suo.com>
+In-Reply-To: <20230802065804.12360-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:21:36 -0400
-Message-ID: <CADnq5_NOoz1ciFDqtbv54dRB2Bd_55sO-0kLnZXxBxxdT2cc_A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd: Clean up errors in amdgpu_cgs.c
+Date: Mon, 7 Aug 2023 13:22:20 -0400
+Message-ID: <CADnq5_Ntw2+Ett+JVPtye1RH4yi8WBD3si7_CqfErvC9keUi1A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in uvd_v7_0.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,99 +73,61 @@ Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Already fixed.
+Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 2:55=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 2:58=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: switch and case should be at the same indent
+> ERROR: spaces required around that ':' (ctx:VxE)
+> that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c | 64 ++++++++++++-------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_cgs.c
-> index 456e385333b6..fafe7057a8c9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cgs.c
-> @@ -163,38 +163,38 @@ static uint16_t amdgpu_get_firmware_version(struct =
-cgs_device *cgs_device,
->         uint16_t fw_version =3D 0;
->
->         switch (type) {
-> -               case CGS_UCODE_ID_SDMA0:
-> -                       fw_version =3D adev->sdma.instance[0].fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_SDMA1:
-> -                       fw_version =3D adev->sdma.instance[1].fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_CP_CE:
-> -                       fw_version =3D adev->gfx.ce_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_CP_PFP:
-> -                       fw_version =3D adev->gfx.pfp_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_CP_ME:
-> -                       fw_version =3D adev->gfx.me_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_CP_MEC:
-> -                       fw_version =3D adev->gfx.mec_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_CP_MEC_JT1:
-> -                       fw_version =3D adev->gfx.mec_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_CP_MEC_JT2:
-> -                       fw_version =3D adev->gfx.mec_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_RLC_G:
-> -                       fw_version =3D adev->gfx.rlc_fw_version;
-> -                       break;
-> -               case CGS_UCODE_ID_STORAGE:
-> -                       break;
-> -               default:
-> -                       DRM_ERROR("firmware type %d do not have version\n=
-", type);
-> -                       break;
-> +       case CGS_UCODE_ID_SDMA0:
-> +               fw_version =3D adev->sdma.instance[0].fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_SDMA1:
-> +               fw_version =3D adev->sdma.instance[1].fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_CP_CE:
-> +               fw_version =3D adev->gfx.ce_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_CP_PFP:
-> +               fw_version =3D adev->gfx.pfp_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_CP_ME:
-> +               fw_version =3D adev->gfx.me_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_CP_MEC:
-> +               fw_version =3D adev->gfx.mec_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_CP_MEC_JT1:
-> +               fw_version =3D adev->gfx.mec_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_CP_MEC_JT2:
-> +               fw_version =3D adev->gfx.mec_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_RLC_G:
-> +               fw_version =3D adev->gfx.rlc_fw_version;
-> +               break;
-> +       case CGS_UCODE_ID_STORAGE:
-> +               break;
-> +       default:
-> +               DRM_ERROR("firmware type %d do not have version\n", type)=
+> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c b/drivers/gpu/drm/amd/=
+amdgpu/uvd_v7_0.c
+> index abaa4463e906..86d1d46e1e5e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c
+> @@ -679,11 +679,11 @@ static void uvd_v7_0_mc_resume(struct amdgpu_device=
+ *adev)
+>                 if (adev->firmware.load_type =3D=3D AMDGPU_FW_LOAD_PSP) {
+>                         WREG32_SOC15(UVD, i, mmUVD_LMI_VCPU_CACHE_64BIT_B=
+AR_LOW,
+>                                 i =3D=3D 0 ?
+> -                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
+.tmr_mc_addr_lo:
+> +                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
+.tmr_mc_addr_lo :
+>                                 adev->firmware.ucode[AMDGPU_UCODE_ID_UVD1=
+].tmr_mc_addr_lo);
+>                         WREG32_SOC15(UVD, i, mmUVD_LMI_VCPU_CACHE_64BIT_B=
+AR_HIGH,
+>                                 i =3D=3D 0 ?
+> -                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
+.tmr_mc_addr_hi:
+> +                               adev->firmware.ucode[AMDGPU_UCODE_ID_UVD]=
+.tmr_mc_addr_hi :
+>                                 adev->firmware.ucode[AMDGPU_UCODE_ID_UVD1=
+].tmr_mc_addr_hi);
+>                         WREG32_SOC15(UVD, i, mmUVD_VCPU_CACHE_OFFSET0, 0)=
 ;
-> +               break;
+>                         offset =3D 0;
+> @@ -1908,8 +1908,7 @@ static void uvd_v7_0_set_irq_funcs(struct amdgpu_de=
+vice *adev)
 >         }
->         return fw_version;
 >  }
+>
+> -const struct amdgpu_ip_block_version uvd_v7_0_ip_block =3D
+> -{
+> +const struct amdgpu_ip_block_version uvd_v7_0_ip_block =3D {
+>                 .type =3D AMD_IP_BLOCK_TYPE_UVD,
+>                 .major =3D 7,
+>                 .minor =3D 0,
 > --
 > 2.17.1
 >
