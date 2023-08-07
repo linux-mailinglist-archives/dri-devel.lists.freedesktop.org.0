@@ -1,76 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7F87734C6
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 01:17:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4A97734F4
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 01:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA31910E04F;
-	Mon,  7 Aug 2023 23:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAB110E06A;
+	Mon,  7 Aug 2023 23:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E18D10E04F;
- Mon,  7 Aug 2023 23:17:40 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 377NHUCx014259; Mon, 7 Aug 2023 23:17:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=haSdIhLP1n0o22iUyQvSxYEe4IEa2zpM2Fu5jd9vnpM=;
- b=n/+/FQR4rPVmR6FUPEEHHODK67P7nFqGUE8Xa1KbuMb9gq1tQ/ygv8mrRiG7YYogV6oH
- yhFDTPLxfT+wagk6AmnDZOTjv0x2fsnaXxx4ao5IXq/qxt89/2M3HoQWmEziJK/RHIzr
- qhYHrj4bkH5Vo3QSIWTMlOMUaAzJetak0WWQAWwyYqyp5eI38oZBvQXUQvgQkaP8sWX+
- bOeFAkI/KdVxsyclZCHIbjhGjkE+drM1R1kRQco84rhbAl6xl1KoUEOPFEHSYcQmYgbL
- 9B5s33KoZ3PW/fIsMoIP3aU/X7tv7k0YCDn+RKVV+hW8cG8xaHKfcRMJDOQM6E/Fh5nR iQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sb9pqr1er-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Aug 2023 23:17:30 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 377NHTTQ027199
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 7 Aug 2023 23:17:29 GMT
-Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
- 2023 16:17:29 -0700
-Message-ID: <9918624f-184d-3ddc-189b-35b162ef5b18@quicinc.com>
-Date: Mon, 7 Aug 2023 16:17:28 -0700
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25AE310E06A
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 23:28:49 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id
+ d2e1a72fcca58-68783004143so3588990b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 16:28:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1691450928; x=1692055728;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0xqamAux0UTVG6klbJHwJNM84FqVsjBhqmY+h06Y7S4=;
+ b=adlg0mZ+HbNffKaKec2p7cVEI4EUlpFfVSVpmG5fvHzHnQEOdBYZjEy4QnkJtTu7lu
+ YmN6EGaH1vJkJ2ZOmqiBcV/yaN6Y4JVna47CjKD7nPXpOiMzYNw9UySGma80pWoaj7Dk
+ jUxXtUXqouB4bUXn3WeUBdMeMQNzv8NtKVfvER+m7KEKe99ZrQWUTG4Y9TUCDw4Kbcew
+ TFF8/aAopaaIk2YO3rVVNpTSZmvFLss5lfJ8bn13k+LTkCPg51SMuEfV97r2Zvr+7s3C
+ AcdJXj3qJcnQFWBnyvELMIWQLaBKzEk7yCwrvdFLv4Z0y5aFUIdjan9j2uUGZT7xZ3GX
+ Ib8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691450928; x=1692055728;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0xqamAux0UTVG6klbJHwJNM84FqVsjBhqmY+h06Y7S4=;
+ b=Vc/7qXt1Cs0nfnY1oUaQfenPk+Xo7YJ8UgMlqXlmG1kbh+uk2NA7TX30vD7axDAKRz
+ DvmURy1w4F+cEqQKB27KqVK+JkuGvP2JvAQE0jVEStHL2KCT7PHLUVBk61qEnoYh5PAq
+ DX3xwrecuR0EsG91HhlqA5gzfp85P4qgAHvcEHtqSB15hLW/yBeVHhWxGtD3BbmbY/9S
+ AROyrQQy8Df9vwcLsRMO177m3RM+suJjPhToCiVH81QyS9K2I+c63dti7WD7pt7k2zeZ
+ cwb7Mtdujbu7Qh4OsuF7LhOVGg3vVgyGohlBLGoPWlre3Lw2Z9uE7BJDYO5ookAXv6qK
+ omrw==
+X-Gm-Message-State: AOJu0YzS/Ssm+gXxtijBjIvsLoy0LWQBUKdDqLvx1TBYWvRqaplCUbeP
+ QYit9cTyN9rqqKAgJx4VAAw0Ow==
+X-Google-Smtp-Source: AGHT+IHWcHOenJQfOaWa9c7YDyMdy3l3j1H0rEzsEcwqog5HJ9HhPve3KCBNDXb4QQT+YEAg/cljWw==
+X-Received: by 2002:a05:6a20:8e04:b0:13c:8e50:34b8 with SMTP id
+ y4-20020a056a208e0400b0013c8e5034b8mr12892217pzj.35.1691450928413; 
+ Mon, 07 Aug 2023 16:28:48 -0700 (PDT)
+Received: from dread.disaster.area (pa49-180-166-213.pa.nsw.optusnet.com.au.
+ [49.180.166.213]) by smtp.gmail.com with ESMTPSA id
+ e18-20020aa78c52000000b0068620bee456sm6663729pfd.209.2023.08.07.16.28.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Aug 2023 16:28:47 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+ (envelope-from <david@fromorbit.com>) id 1qT9eW-002TeM-1d;
+ Tue, 08 Aug 2023 09:28:44 +1000
+Date: Tue, 8 Aug 2023 09:28:44 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH v4 45/48] mm: shrinker: make global slab shrink lockless
+Message-ID: <ZNF+LLUpKWHDEG1u@dread.disaster.area>
+References: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
+ <20230807110936.21819-46-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] drm/msm/dpu: Move DPU encoder wide_bus_en setting
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230802-add-widebus-support-v3-0-2661706be001@quicinc.com>
- <20230802-add-widebus-support-v3-1-2661706be001@quicinc.com>
- <mdmxxxs5atqtunsast542fucmoewpvjjqj7bdhbs2yuzgv52ws@qbrdltjo3734>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <mdmxxxs5atqtunsast542fucmoewpvjjqj7bdhbs2yuzgv52ws@qbrdltjo3734>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: PDO5iLTJru58BUDOHxWly-9v9KkB7aSC
-X-Proofpoint-ORIG-GUID: PDO5iLTJru58BUDOHxWly-9v9KkB7aSC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-07_25,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- malwarescore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 bulkscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308070209
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230807110936.21819-46-zhengqi.arch@bytedance.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,101 +76,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
+ cel@kernel.org, x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
+ simon.horman@corigine.com, xen-devel@lists.xenproject.org,
+ linux-ext4@vger.kernel.org, paulmck@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-nfs@vger.kernel.org, rcu@vger.kernel.org, linux-bcache@vger.kernel.org,
+ dlemoal@kernel.org, yujie.liu@intel.com, vbabka@suse.cz,
+ linux-raid@vger.kernel.org, brauner@kernel.org, tytso@mit.edu,
+ gregkh@linuxfoundation.org, muchun.song@linux.dev,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, senozhatsky@chromium.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Aug 07, 2023 at 07:09:33PM +0800, Qi Zheng wrote:
+> The shrinker_rwsem is a global read-write lock in shrinkers subsystem,
+> which protects most operations such as slab shrink, registration and
+> unregistration of shrinkers, etc. This can easily cause problems in the
+> following cases.
+....
+> This commit uses the refcount+RCU method [5] proposed by Dave Chinner
+> to re-implement the lockless global slab shrink. The memcg slab shrink is
+> handled in the subsequent patch.
+....
+> ---
+>  include/linux/shrinker.h | 17 ++++++++++
+>  mm/shrinker.c            | 70 +++++++++++++++++++++++++++++-----------
+>  2 files changed, 68 insertions(+), 19 deletions(-)
 
+There's no documentation in the code explaining how the lockless
+shrinker algorithm works. It's left to the reader to work out how
+this all goes together....
 
-On 8/2/2023 12:32 PM, Marijn Suijten wrote:
-> I find this title very undescriptive, it doesn't really explain from/to
-> where this move is happening nor why.
-> 
-> On 2023-08-02 11:08:48, Jessica Zhang wrote:
->> Move the setting of dpu_enc.wide_bus_en to
->> dpu_encoder_virt_atomic_enable() so that it mirrors the setting of
->> dpu_enc.dsc.
-> 
-> mirroring "the setting of dpu_enc.dsc" very much sounds like you are
-> mirroring _its value_, but that is not the case.  You are moving the
-> initialization (or just setting, because it could also be overwriting?)
-> to _the same place_ where .dsc is assigned.
+> diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
+> index eb342994675a..f06225f18531 100644
+> --- a/include/linux/shrinker.h
+> +++ b/include/linux/shrinker.h
+> @@ -4,6 +4,8 @@
+>  
+>  #include <linux/atomic.h>
+>  #include <linux/types.h>
+> +#include <linux/refcount.h>
+> +#include <linux/completion.h>
+>  
+>  #define SHRINKER_UNIT_BITS	BITS_PER_LONG
+>  
+> @@ -87,6 +89,10 @@ struct shrinker {
+>  	int seeks;	/* seeks to recreate an obj */
+>  	unsigned flags;
+>  
+> +	refcount_t refcount;
+> +	struct completion done;
+> +	struct rcu_head rcu;
 
-Hi Marijn,
+What does the refcount protect, why do we need the completion, etc?
 
-Hmm.. got it. Will reword it to "mirror how dpu_enc.dsc is being set" if 
-that makes it clearer.
+> +
+>  	void *private_data;
+>  
+>  	/* These are for internal use */
+> @@ -120,6 +126,17 @@ struct shrinker *shrinker_alloc(unsigned int flags, const char *fmt, ...);
+>  void shrinker_register(struct shrinker *shrinker);
+>  void shrinker_free(struct shrinker *shrinker);
+>  
+> +static inline bool shrinker_try_get(struct shrinker *shrinker)
+> +{
+> +	return refcount_inc_not_zero(&shrinker->refcount);
+> +}
+> +
+> +static inline void shrinker_put(struct shrinker *shrinker)
+> +{
+> +	if (refcount_dec_and_test(&shrinker->refcount))
+> +		complete(&shrinker->done);
+> +}
+> +
+>  #ifdef CONFIG_SHRINKER_DEBUG
+>  extern int __printf(2, 3) shrinker_debugfs_rename(struct shrinker *shrinker,
+>  						  const char *fmt, ...);
+> diff --git a/mm/shrinker.c b/mm/shrinker.c
+> index 1911c06b8af5..d318f5621862 100644
+> --- a/mm/shrinker.c
+> +++ b/mm/shrinker.c
+> @@ -2,6 +2,7 @@
+>  #include <linux/memcontrol.h>
+>  #include <linux/rwsem.h>
+>  #include <linux/shrinker.h>
+> +#include <linux/rculist.h>
+>  #include <trace/events/vmscan.h>
+>  
+>  #include "internal.h"
+> @@ -577,33 +578,42 @@ unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
+>  	if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+>  		return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+>  
+> -	if (!down_read_trylock(&shrinker_rwsem))
+> -		goto out;
+> -
+> -	list_for_each_entry(shrinker, &shrinker_list, list) {
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(shrinker, &shrinker_list, list) {
+>  		struct shrink_control sc = {
+>  			.gfp_mask = gfp_mask,
+>  			.nid = nid,
+>  			.memcg = memcg,
+>  		};
+>  
+> +		if (!shrinker_try_get(shrinker))
+> +			continue;
+> +
+> +		/*
+> +		 * We can safely unlock the RCU lock here since we already
+> +		 * hold the refcount of the shrinker.
+> +		 */
+> +		rcu_read_unlock();
+> +
+>  		ret = do_shrink_slab(&sc, shrinker, priority);
+>  		if (ret == SHRINK_EMPTY)
+>  			ret = 0;
+>  		freed += ret;
+> +
+>  		/*
+> -		 * Bail out if someone want to register a new shrinker to
+> -		 * prevent the registration from being stalled for long periods
+> -		 * by parallel ongoing shrinking.
+> +		 * This shrinker may be deleted from shrinker_list and freed
+> +		 * after the shrinker_put() below, but this shrinker is still
+> +		 * used for the next traversal. So it is necessary to hold the
+> +		 * RCU lock first to prevent this shrinker from being freed,
+> +		 * which also ensures that the next shrinker that is traversed
+> +		 * will not be freed (even if it is deleted from shrinker_list
+> +		 * at the same time).
+>  		 */
 
-> 
-> I am pretty sure that this has a runtime impact which we discussed
-> before (hotplug...?) but the commit message omits that.  This is
-> mandatory.
+This comment really should be at the head of the function,
+describing the algorithm used within the function itself. i.e. how
+reference counts are used w.r.t. the rcu_read_lock() usage to
+guarantee existence of the shrinker and the validity of the list
+walk.
 
-I'm assuming the prior discussion you're referring to is with Kuogee on 
-his DSC fix [1]. Unlike DSC, both DSI and DP know if wide bus is enabled 
-upon initialization.
+I'm not going to remember all these little details when I look at
+this code in another 6 months time, and having to work it out from
+first principles every time I look at the code will waste of a lot
+of time...
 
-The main reasons the setting of the wide_bus_en flag was moved here were
-
-1) to mirror how dpu_enc.dsc was being set (as stated in the commit 
-message) as wide bus is related to DSC,
-
-and 2) account for the possibility of DSC for DSI being set during 
-runtime in the future.
-
-Thanks,
-
-Jessica Zhang
-
-[1] https://patchwork.freedesktop.org/patch/543867/
-
-> 
-> - Marijn
-> 
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 11 +++++++----
->>   1 file changed, 7 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index d34e684a4178..3dcd37c48aac 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -1194,11 +1194,18 @@ static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
->>   	struct dpu_encoder_virt *dpu_enc = NULL;
->>   	int ret = 0;
->>   	struct drm_display_mode *cur_mode = NULL;
->> +	struct msm_drm_private *priv = drm_enc->dev->dev_private;
->> +	struct msm_display_info *disp_info;
->>   
->>   	dpu_enc = to_dpu_encoder_virt(drm_enc);
->> +	disp_info = &dpu_enc->disp_info;
->>   
->>   	dpu_enc->dsc = dpu_encoder_get_dsc_config(drm_enc);
->>   
->> +	if (disp_info->intf_type == INTF_DP)
->> +		dpu_enc->wide_bus_en = msm_dp_wide_bus_available(
->> +				priv->dp[disp_info->h_tile_instance[0]]);
->> +
->>   	mutex_lock(&dpu_enc->enc_lock);
->>   	cur_mode = &dpu_enc->base.crtc->state->adjusted_mode;
->>   
->> @@ -2383,10 +2390,6 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
->>   	timer_setup(&dpu_enc->frame_done_timer,
->>   			dpu_encoder_frame_done_timeout, 0);
->>   
->> -	if (disp_info->intf_type == INTF_DP)
->> -		dpu_enc->wide_bus_en = msm_dp_wide_bus_available(
->> -				priv->dp[disp_info->h_tile_instance[0]]);
->> -
->>   	INIT_DELAYED_WORK(&dpu_enc->delayed_off_work,
->>   			dpu_encoder_off_work);
->>   	dpu_enc->idle_timeout = IDLE_TIMEOUT;
->>
->> -- 
->> 2.41.0
->>
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
