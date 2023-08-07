@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F81772A72
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276CA772A75
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:21:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E79C410E2A4;
-	Mon,  7 Aug 2023 16:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825EC10E2A7;
+	Mon,  7 Aug 2023 16:21:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
  [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8249410E2A1;
- Mon,  7 Aug 2023 16:21:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762D410E2A6;
+ Mon,  7 Aug 2023 16:21:38 +0000 (UTC)
 Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1bb7e083783so3588928fac.2; 
- Mon, 07 Aug 2023 09:21:05 -0700 (PDT)
+ 586e51a60fabf-1bb571ea965so3610376fac.0; 
+ Mon, 07 Aug 2023 09:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691425265; x=1692030065;
+ d=gmail.com; s=20221208; t=1691425297; x=1692030097;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4qdhSHKQRIMTZzpksAfKTLhsTCnLJ8e90lPKFhVQAZo=;
- b=bvhiDDHiteijaY/QjGL96LOgdtUIXutA20l3dKbKx5vF65uC7pO8E37gF0qFen70fZ
- YWlikcaVtC/4FgGMBx2xbw5QU944OaCj5/Pl04yh+IYho/PPRMLaUqFGRoYdIB26SCfA
- 3xoZ8FpzOu4dJL7hzdPEH2jyAj1XsnnIQjkzlbywdY3KJuYevgzK8W4kNmjwqvGT3V31
- d8I/PDe5S2LczaqsiXBRvX9FKfpAIob8PjPddv34Cy5v6kBpd7NEo/HWeaALL4Bwg2yD
- WuZcmHIWZZFtLcmTUw8lfH9ko3DBxagu/DrGQOfoc1ezwnksE0gp2Sot/hwZkf9xSqer
- SRoQ==
+ bh=W6a6OPGqjVivVDw1eoWRT/DMOBdbCCUrI0pcLxomi0w=;
+ b=b8xSm4HEayy9a0u8zHlqX6LS/nvpqAH9HKyb7F5ICDjpGy/eYcNvMc54RfC/nWPvVd
+ NlCEnfjLDMSj0d3flf7SS5/MI1QGfd8jjVqP7u+OajuWWD7CwywAk/NKUAYmwHQsf3vr
+ EhBbwbnoR5B99pcE5jg/4K63eTmn9RT61M6ETknfLCMQTnhfQCXMxAsK+1s6WFtsqdaO
+ 9EFpm6n69F6jX0n/DbO32hhKC4SicrBhlMmwFas9DVSsriks+gp65VdT2UGjbnbi3YbZ
+ P3IXBX6VLURauHOnwFi+b/oCHxYbNyE3ha7nmWwA/0FtiJYKErKhG6ZvRYqZo37d/xO6
+ MnDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425265; x=1692030065;
+ d=1e100.net; s=20221208; t=1691425297; x=1692030097;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4qdhSHKQRIMTZzpksAfKTLhsTCnLJ8e90lPKFhVQAZo=;
- b=HdRIA9jTSIa2yy/AKNO1vdh/CSS+3AJJeXPJ/x1RP785GTi6HMBlcv+FQnSZ6tNyA/
- IhFAma3PDonCHeQ9PAbRBFlP5QyNZvrEibcE2YnNA5jsCWcT1xFT1fFSb3IpgWyyTUpl
- frDHIUakjho8ptSsCP1797MvYnlJqGUFENW+v68dHME0J2YZDGvwOs30df/KQFheU+La
- RALMm/c2ws6M4KVW+e0H7lr+iV5sm994vq7N8uBEvQz51/oQy22PUpZD+0MgyJfbmJgw
- I2kdTWcEP1ecPhx8uvBvLRF/7GbHwhbukaOGDkA744/vIeJRrkpwX206vjZ4YxL5kemI
- YSNw==
-X-Gm-Message-State: AOJu0Yw+PfwUsepWMv6DIJIZXJgGb4+1GVABaGMJz9KZh00TJfKzoSBO
- A0dWTOd33bBAQExfnfgT65j52sOTwYyxLyk+Yjw=
-X-Google-Smtp-Source: AGHT+IEBgJHKm4YZQsiROKtAjjgXuEh7bfHD2CzK9d1Yg8UYoKcOAC62IPpoaO/VmasLCDJ4K+m+OHzfabjSQRTa0ZE=
-X-Received: by 2002:a05:6870:5b9c:b0:1ba:dbbd:31cf with SMTP id
- em28-20020a0568705b9c00b001badbbd31cfmr10688237oab.7.1691425264743; Mon, 07
- Aug 2023 09:21:04 -0700 (PDT)
+ bh=W6a6OPGqjVivVDw1eoWRT/DMOBdbCCUrI0pcLxomi0w=;
+ b=Qh/20JoMrOnSUUVC0zZFSD8Cj8Xgp8ctNvsZRlhYYmZbJxGl161pFeD5gd+zUfWk0z
+ 5XlZB8h6dz4YmAPr2DGWIxSgGLTxNZN0E3KQlU1rZozi/i4ibXddYJAMXcZRaTEHsdgW
+ UxrIlQsN90ISZ/bDU+MywEFMfcxV1CmyKJYc7X8ugNONIk60StYEKtzJ/azm42e0ihI8
+ lb4QBnAd89Ek9QtvrjepD4+eokCxUObspJff1HEkUEJsan8b8bi37fR5RNGHF3hLZrBc
+ FADb3HMoHfTQp0XNtMU4+B9QMPatpS0WsIwu50i9Yjhs+8I6d6W5k99QuiCheI7yDSyj
+ Uokw==
+X-Gm-Message-State: AOJu0YxSltb5/xa6DuRmSq0aPTDeqWmhq4qB73Xv7bKnhv6IxYWYXabC
+ w1JFvINXrvajlcTL3i6IwTsdXG8YtLs3SZmsAjs=
+X-Google-Smtp-Source: AGHT+IHkQbeZrmJm8STaoLnhIdcxpNY5NmiGjOO7tyrMjyxIIgZifm159Q1bsgtg2qO+pREbHpds+OSLviai86hpVA0=
+X-Received: by 2002:a05:6870:5607:b0:1bb:b13c:7f9c with SMTP id
+ m7-20020a056870560700b001bbb13c7f9cmr10569693oao.57.1691425297605; Mon, 07
+ Aug 2023 09:21:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801020052.4192-1-sunran001@208suo.com>
-In-Reply-To: <20230801020052.4192-1-sunran001@208suo.com>
+References: <20230801020625.4281-1-sunran001@208suo.com>
+In-Reply-To: <20230801020625.4281-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:20:53 -0400
-Message-ID: <CADnq5_O9oAvxwcd5x5aAiXbDF36GeO6hnRGySr0rkHcXWtMXUw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in aldebaran_ppt.c
+Date: Mon, 7 Aug 2023 12:21:26 -0400
+Message-ID: <CADnq5_M9j6pM+cic6PHj2k+AhkxnsyYfWMh2gfJ168uQD2jANQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu_v13_0_6_ppt.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,89 +75,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Mon, Jul 31, 2023 at 10:01=E2=80=AFPM Ran Sun <sunran001@208suo.com> wro=
+On Mon, Jul 31, 2023 at 10:06=E2=80=AFPM Ran Sun <sunran001@208suo.com> wro=
 te:
 >
 > Fix the following errors reported by checkpatch:
 >
+> ERROR: code indent should use tabs where possible
 > ERROR: that open brace { should be on the previous line
-> ERROR: space required after that ',' (ctx:VxV)
-> ERROR: spaces required around that '=3D' (ctx:VxW)
-> ERROR: else should follow close brace '}'
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers=
-/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> index ce50ef46e73f..8f26123ac703 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-> @@ -94,8 +94,7 @@
->   */
->  #define SUPPORT_BAD_CHANNEL_INFO_MSG_VERSION 0x00443300
->
-> -static const struct smu_temperature_range smu13_thermal_policy[] =3D
-> -{
-> +static const struct smu_temperature_range smu13_thermal_policy[] =3D {
->         {-273150,  99000, 99000, -273150, 99000, 99000, -273150, 99000, 9=
-9000},
->         { 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000,=
- 120000},
->  };
-> @@ -196,7 +195,7 @@ static const struct cmn2asic_mapping aldebaran_featur=
-e_mask_map[SMU_FEATURE_COUN
->         ALDEBARAN_FEA_MAP(SMU_FEATURE_FW_CTF_BIT,                        =
-       FEATURE_FW_CTF_BIT),
->         ALDEBARAN_FEA_MAP(SMU_FEATURE_THERMAL_BIT,                       =
-       FEATURE_THERMAL_BIT),
->         ALDEBARAN_FEA_MAP(SMU_FEATURE_OUT_OF_BAND_MONITOR_BIT,  FEATURE_O=
-UT_OF_BAND_MONITOR_BIT),
-> -       ALDEBARAN_FEA_MAP(SMU_FEATURE_XGMI_PER_LINK_PWR_DWN_BIT,FEATURE_X=
-GMI_PER_LINK_PWR_DWN),
-> +       ALDEBARAN_FEA_MAP(SMU_FEATURE_XGMI_PER_LINK_PWR_DWN_BIT, FEATURE_=
-XGMI_PER_LINK_PWR_DWN),
->         ALDEBARAN_FEA_MAP(SMU_FEATURE_DF_CSTATE_BIT,                    F=
-EATURE_DF_CSTATE),
->  };
->
-> @@ -580,7 +579,7 @@ static int aldebaran_get_smu_metrics_data(struct smu_=
-context *smu,
->                                           MetricsMember_t member,
->                                           uint32_t *value)
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c b/drive=
+rs/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+> index 1ac552142763..43afa1ee1b4a 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c
+> @@ -1248,9 +1248,9 @@ static int smu_v13_0_6_get_power_limit(struct smu_c=
+ontext *smu,
+>                                        uint32_t *default_power_limit,
+>                                        uint32_t *max_power_limit)
 >  {
-> -       struct smu_table_context *smu_table=3D &smu->smu_table;
+> -        struct smu_table_context *smu_table =3D &smu->smu_table;
+> -        struct PPTable_t *pptable =3D
+> -                (struct PPTable_t *)smu_table->driver_pptable;
 > +       struct smu_table_context *smu_table =3D &smu->smu_table;
->         SmuMetrics_t *metrics =3D (SmuMetrics_t *)smu_table->metrics_tabl=
-e;
->         int ret =3D 0;
+> +       struct PPTable_t *pptable =3D
+> +               (struct PPTable_t *)smu_table->driver_pptable;
+>         uint32_t power_limit =3D 0;
+>         int ret;
 >
-> @@ -1906,8 +1905,7 @@ static int aldebaran_mode1_reset(struct smu_context=
- *smu)
->         smu_cmn_get_smc_version(smu, NULL, &smu_version);
->         if (smu_version < 0x00440700) {
->                 ret =3D smu_cmn_send_smc_msg(smu, SMU_MSG_Mode1Reset, NUL=
-L);
-> -       }
-> -       else {
-> +       } else {
->                 /* fatal error triggered by ras, PMFW supports the flag
->                    from 68.44.0 */
->                 if ((smu_version >=3D 0x00442c00) && ras &&
-> @@ -2116,7 +2114,7 @@ static const struct pptable_funcs aldebaran_ppt_fun=
-cs =3D {
->         .register_irq_handler =3D smu_v13_0_register_irq_handler,
->         .set_azalia_d3_pme =3D smu_v13_0_set_azalia_d3_pme,
->         .get_max_sustainable_clocks_by_dc =3D smu_v13_0_get_max_sustainab=
-le_clocks_by_dc,
-> -       .baco_is_support=3D aldebaran_is_baco_supported,
-> +       .baco_is_support =3D aldebaran_is_baco_supported,
->         .get_dpm_ultimate_freq =3D smu_v13_0_get_dpm_ultimate_freq,
->         .set_soft_freq_limited_range =3D aldebaran_set_soft_freq_limited_=
-range,
->         .od_edit_dpm_table =3D aldebaran_usr_edit_dpm_table,
+> @@ -1366,8 +1366,7 @@ static int smu_v13_0_6_set_irq_state(struct amdgpu_=
+device *adev,
+>         return 0;
+>  }
+>
+> -static const struct amdgpu_irq_src_funcs smu_v13_0_6_irq_funcs =3D
+> -{
+> +static const struct amdgpu_irq_src_funcs smu_v13_0_6_irq_funcs =3D {
+>         .set =3D smu_v13_0_6_set_irq_state,
+>         .process =3D smu_v13_0_6_irq_process,
+>  };
 > --
 > 2.17.1
 >
