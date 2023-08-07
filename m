@@ -2,48 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7B5773123
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 23:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BD977315C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 23:40:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32C6610E385;
-	Mon,  7 Aug 2023 21:19:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 281D110E382;
+	Mon,  7 Aug 2023 21:40:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA19110E385
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 21:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=mlF5UDBDbOnmfRRS/7aeAvmhPRmiuJzrDv7fWqR3RvU=; b=bZ7+HyeIlYs4hOygft9bO/twYE
- 0JjrJrZs6aHdZF2m2Z+qxq6eR+M/tMS86343FiCnQLayWlVeXipQZwJpIuLTbiY/yvndae6EJVZTG
- aOPICXoo7DEveMJkywfgpTHHUxSDwBKiZb8qJKLC7Sm1XQ5bFu/+kyZYrH1JVnd0PZmDpZeQnoBY5
- NyIjhe+hthONXUjpKni27CjMULWx7vssuz3gq7wxGOgLdXmN5ZjlJSUJaft0nKxg2HN4h0WUK7Bev
- 0p/X/qQ1qENGPzvfLFeFPwKFVh7dg5gMgYpVQR2CKjB6UNmYlFmWu1nJK8zVwsw7CVnanefcIsqZc
- 9UTahmLA==;
-Received: from [177.34.168.16] (helo=morissey..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qT7dN-00F1NC-V3; Mon, 07 Aug 2023 23:19:26 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
- Chema Casanova <jmcasanova@igalia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v2 2/2] drm/v3d: Expose the total GPU usage stats on sysfs
-Date: Mon,  7 Aug 2023 18:12:55 -0300
-Message-ID: <20230807211849.49867-3-mcanal@igalia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230807211849.49867-1-mcanal@igalia.com>
-References: <20230807211849.49867-1-mcanal@igalia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E84D10E0AC;
+ Mon,  7 Aug 2023 21:40:43 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 377LATvV004734; Mon, 7 Aug 2023 21:40:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ChsA3fQqo7pMelUu1Wxd5L7I56cDMAE/LAQ7Yun13uM=;
+ b=iK94d53sHuLNqSTOKYhgxqMXJSjwWn8wpoL8ltPaDK/bt6+9eJszUI+ar3nnSgVpSqbQ
+ naqWU91whC2Q+qTSFD9HCDXZFAPy3BCQp+IoX1SobRATOTbcGMbvdQOv8loyNk/oKrud
+ s2y4U/oT7wHMTxF7rQPdB3dHu9BXwP6U4OPLSTQ18+07yoq56IzvsamgNixpPL6njYEk
+ dOGH9kgX/Gv5zqIQR2r9mDP8VqUdKjoGgbAbuvpd6b1Zo3XVVsEN/vy8xvylDoVVQFd3
+ mF/Cr4aftazeNcQz9m5LA2MUj6+o6s6zD+uTIsCXZSdtAztHXSZ4S6pOxvrZ8PP87DXO OA== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3s9endme20-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Aug 2023 21:40:32 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 377LeWjj028653
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 7 Aug 2023 21:40:32 GMT
+Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
+ 2023 14:40:31 -0700
+Message-ID: <34598a37-7431-4f7e-7809-928bce65d237@quicinc.com>
+Date: Mon, 7 Aug 2023 14:40:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] drm/msm/dpu: Enable widebus for DSI INTF
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230802-add-widebus-support-v3-0-2661706be001@quicinc.com>
+ <20230802-add-widebus-support-v3-2-2661706be001@quicinc.com>
+ <CAA8EJpoPd_T+vLVrJ6RpCrYY6H1xLF4eFYVGV4N-wS3g+5cR-w@mail.gmail.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <CAA8EJpoPd_T+vLVrJ6RpCrYY6H1xLF4eFYVGV4N-wS3g+5cR-w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 0WR781ITtUQ-NXFs6o9OiUX1qKSmN2Vq
+X-Proofpoint-ORIG-GUID: 0WR781ITtUQ-NXFs6o9OiUX1qKSmN2Vq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-07_24,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308070198
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,349 +83,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Marijn
+ Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous patch exposed the accumulated amount of active time per
-client for each V3D queue. But this doesn't provide a global notion of
-the GPU usage.
 
-Therefore, provide the accumulated amount of active time for each V3D
-queue (BIN, RENDER, CSD, TFU and CACHE_CLEAN), considering all the jobs
-submitted to the queue, independent of the client.
 
-This data is exposed through the sysfs interface, so that if the
-interface is queried at two different points of time the usage percentage
-of each of the queues can be calculated.
+On 8/2/2023 11:20 AM, Dmitry Baryshkov wrote:
+> On Wed, 2 Aug 2023 at 21:09, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>>
+>> DPU supports a data-bus widen mode for DSI INTF.
+>>
+>> Enable this mode for all supported chipsets if widebus is enabled for DSI.
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 11 ++++++++---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  4 +++-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          |  3 +++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          |  1 +
+>>   drivers/gpu/drm/msm/msm_drv.h                        |  6 +++++-
+>>   5 files changed, 20 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 3dcd37c48aac..de08aad39e15 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -1196,15 +1196,20 @@ static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
+>>          struct drm_display_mode *cur_mode = NULL;
+>>          struct msm_drm_private *priv = drm_enc->dev->dev_private;
+>>          struct msm_display_info *disp_info;
+>> +       int index;
+>>
+>>          dpu_enc = to_dpu_encoder_virt(drm_enc);
+>>          disp_info = &dpu_enc->disp_info;
+>>
+>> +       disp_info = &dpu_enc->disp_info;
+>> +       index = disp_info->h_tile_instance[0];
+>> +
+>>          dpu_enc->dsc = dpu_encoder_get_dsc_config(drm_enc);
+>>
+>> -       if (disp_info->intf_type == INTF_DP)
+>> -               dpu_enc->wide_bus_en = msm_dp_wide_bus_available(
+>> -                               priv->dp[disp_info->h_tile_instance[0]]);
+>> +       if (disp_info->intf_type == INTF_DSI)
+>> +               dpu_enc->wide_bus_en = msm_dsi_is_widebus_enabled(priv->dsi[index]);
+>> +       else if (disp_info->intf_type == INTF_DP)
+>> +               dpu_enc->wide_bus_en = msm_dp_wide_bus_available(priv->dp[index]);
+> 
+> If you change the order, you won't have to touch DP lines.
 
-Co-developed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-Signed-off-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/v3d/Makefile    |   3 +-
- drivers/gpu/drm/v3d/v3d_drv.c   |   9 +++
- drivers/gpu/drm/v3d/v3d_drv.h   |   7 +++
- drivers/gpu/drm/v3d/v3d_gem.c   |   5 +-
- drivers/gpu/drm/v3d/v3d_irq.c   |  24 ++++++--
- drivers/gpu/drm/v3d/v3d_sched.c |  13 +++-
- drivers/gpu/drm/v3d/v3d_sysfs.c | 101 ++++++++++++++++++++++++++++++++
- 7 files changed, 155 insertions(+), 7 deletions(-)
- create mode 100644 drivers/gpu/drm/v3d/v3d_sysfs.c
+Hi Dmitry,
 
-diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-index e8b314137020..4b21b20e4998 100644
---- a/drivers/gpu/drm/v3d/Makefile
-+++ b/drivers/gpu/drm/v3d/Makefile
-@@ -11,7 +11,8 @@ v3d-y := \
- 	v3d_mmu.o \
- 	v3d_perfmon.o \
- 	v3d_trace_points.o \
--	v3d_sched.o
-+	v3d_sched.o \
-+	v3d_sysfs.o
- 
- v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index ca65c707da03..7fc84a2525ca 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -309,8 +309,14 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto irq_disable;
- 
-+	ret = v3d_sysfs_init(dev);
-+	if (ret)
-+		goto drm_unregister;
-+
- 	return 0;
- 
-+drm_unregister:
-+	drm_dev_unregister(drm);
- irq_disable:
- 	v3d_irq_disable(v3d);
- gem_destroy:
-@@ -324,6 +330,9 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
- {
- 	struct drm_device *drm = platform_get_drvdata(pdev);
- 	struct v3d_dev *v3d = to_v3d_dev(drm);
-+	struct device *dev = &pdev->dev;
-+
-+	v3d_sysfs_destroy(dev);
- 
- 	drm_dev_unregister(drm);
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 7f2897e5b2cb..c8f95a91af46 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -38,6 +38,9 @@ struct v3d_queue_state {
- 
- 	u64 fence_context;
- 	u64 emit_seqno;
-+
-+	u64 start_ns;
-+	u64 enabled_ns;
- };
- 
- /* Performance monitor object. The perform lifetime is controlled by userspace
-@@ -441,3 +444,7 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
- 			      struct drm_file *file_priv);
- int v3d_perfmon_get_values_ioctl(struct drm_device *dev, void *data,
- 				 struct drm_file *file_priv);
-+
-+/* v3d_sysfs.c */
-+int v3d_sysfs_init(struct device *dev);
-+void v3d_sysfs_destroy(struct device *dev);
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 40ed0c7c3fad..630ea2db8f8f 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -1014,8 +1014,11 @@ v3d_gem_init(struct drm_device *dev)
- 	u32 pt_size = 4096 * 1024;
- 	int ret, i;
- 
--	for (i = 0; i < V3D_MAX_QUEUES; i++)
-+	for (i = 0; i < V3D_MAX_QUEUES; i++) {
- 		v3d->queue[i].fence_context = dma_fence_context_alloc(1);
-+		v3d->queue[i].start_ns = 0;
-+		v3d->queue[i].enabled_ns = 0;
-+	}
- 
- 	spin_lock_init(&v3d->mm_lock);
- 	spin_lock_init(&v3d->job_lock);
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index c898800ae9c2..be4ff7559309 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -102,9 +102,13 @@ v3d_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->bin_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->bin_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_BIN];
- 
--		file->enabled_ns[V3D_BIN] += local_clock() - file->start_ns[V3D_BIN];
- 		file->start_ns[V3D_BIN] = 0;
-+		v3d->queue[V3D_BIN].start_ns = 0;
-+
-+		file->enabled_ns[V3D_BIN] += runtime;
-+		v3d->queue[V3D_BIN].enabled_ns += runtime;
- 
- 		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -115,9 +119,13 @@ v3d_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->render_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->render_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_RENDER];
- 
--		file->enabled_ns[V3D_RENDER] += local_clock() - file->start_ns[V3D_RENDER];
- 		file->start_ns[V3D_RENDER] = 0;
-+		v3d->queue[V3D_RENDER].start_ns = 0;
-+
-+		file->enabled_ns[V3D_RENDER] += runtime;
-+		v3d->queue[V3D_RENDER].enabled_ns += runtime;
- 
- 		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -128,9 +136,13 @@ v3d_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->csd_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->csd_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_CSD];
- 
--		file->enabled_ns[V3D_CSD] += local_clock() - file->start_ns[V3D_CSD];
- 		file->start_ns[V3D_CSD] = 0;
-+		v3d->queue[V3D_CSD].start_ns = 0;
-+
-+		file->enabled_ns[V3D_CSD] += runtime;
-+		v3d->queue[V3D_CSD].enabled_ns += runtime;
- 
- 		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-@@ -168,9 +180,13 @@ v3d_hub_irq(int irq, void *arg)
- 		struct v3d_fence *fence =
- 			to_v3d_fence(v3d->tfu_job->base.irq_fence);
- 		struct v3d_file_priv *file = v3d->tfu_job->base.file->driver_priv;
-+		u64 runtime = local_clock() - file->start_ns[V3D_TFU];
- 
--		file->enabled_ns[V3D_TFU] += local_clock() - file->start_ns[V3D_TFU];
- 		file->start_ns[V3D_TFU] = 0;
-+		v3d->queue[V3D_TFU].start_ns = 0;
-+
-+		file->enabled_ns[V3D_TFU] += runtime;
-+		v3d->queue[V3D_TFU].enabled_ns += runtime;
- 
- 		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
- 		dma_fence_signal(&fence->base);
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index b360709c0765..1a9c7f395862 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -110,6 +110,7 @@ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
- 			    job->start, job->end);
- 
- 	file->start_ns[V3D_BIN] = local_clock();
-+	v3d->queue[V3D_BIN].start_ns = file->start_ns[V3D_BIN];
- 	file->jobs_sent[V3D_BIN]++;
- 
- 	v3d_switch_perfmon(v3d, &job->base);
-@@ -165,6 +166,7 @@ static struct dma_fence *v3d_render_job_run(struct drm_sched_job *sched_job)
- 			    job->start, job->end);
- 
- 	file->start_ns[V3D_RENDER] = local_clock();
-+	v3d->queue[V3D_RENDER].start_ns = file->start_ns[V3D_RENDER];
- 	file->jobs_sent[V3D_RENDER]++;
- 
- 	v3d_switch_perfmon(v3d, &job->base);
-@@ -201,6 +203,7 @@ v3d_tfu_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_submit_tfu(dev, to_v3d_fence(fence)->seqno);
- 
- 	file->start_ns[V3D_TFU] = local_clock();
-+	v3d->queue[V3D_TFU].start_ns = file->start_ns[V3D_TFU];
- 	file->jobs_sent[V3D_TFU]++;
- 
- 	V3D_WRITE(V3D_TFU_IIA, job->args.iia);
-@@ -246,6 +249,7 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_submit_csd(dev, to_v3d_fence(fence)->seqno);
- 
- 	file->start_ns[V3D_CSD] = local_clock();
-+	v3d->queue[V3D_CSD].start_ns = file->start_ns[V3D_CSD];
- 	file->jobs_sent[V3D_CSD]++;
- 
- 	v3d_switch_perfmon(v3d, &job->base);
-@@ -264,14 +268,21 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
- 	struct v3d_job *job = to_v3d_job(sched_job);
- 	struct v3d_dev *v3d = job->v3d;
- 	struct v3d_file_priv *file = job->file->driver_priv;
-+	u64 runtime;
- 
- 	file->start_ns[V3D_CACHE_CLEAN] = local_clock();
-+	v3d->queue[V3D_CACHE_CLEAN].start_ns = file->start_ns[V3D_CACHE_CLEAN];
- 	file->jobs_sent[V3D_CACHE_CLEAN]++;
- 
- 	v3d_clean_caches(v3d);
- 
--	file->enabled_ns[V3D_CACHE_CLEAN] += local_clock() - file->start_ns[V3D_CACHE_CLEAN];
-+	runtime = local_clock() - file->start_ns[V3D_CACHE_CLEAN];
-+
-+	file->enabled_ns[V3D_CACHE_CLEAN] += runtime;
-+	v3d->queue[V3D_CACHE_CLEAN].enabled_ns += runtime;
-+
- 	file->start_ns[V3D_CACHE_CLEAN] = 0;
-+	v3d->queue[V3D_CACHE_CLEAN].start_ns = 0;
- 
- 	return NULL;
- }
-diff --git a/drivers/gpu/drm/v3d/v3d_sysfs.c b/drivers/gpu/drm/v3d/v3d_sysfs.c
-new file mode 100644
-index 000000000000..19cef3ddb7c6
---- /dev/null
-+++ b/drivers/gpu/drm/v3d/v3d_sysfs.c
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2023 Igalia S.L.
-+ */
-+
-+#include <linux/sched/clock.h>
-+#include <linux/sysfs.h>
-+
-+#include "v3d_drv.h"
-+
-+static u64
-+v3d_sysfs_emit_total_runtime(struct v3d_dev *v3d, enum v3d_queue queue, char *buf)
-+{
-+	u64 timestamp = local_clock();
-+	u64 active_runtime;
-+
-+	if (v3d->queue[queue].start_ns)
-+		active_runtime = timestamp - v3d->queue[queue].start_ns;
-+	else
-+		active_runtime = 0;
-+
-+	return sysfs_emit(buf, "timestamp: %llu %s: %llu ns\n",
-+			  timestamp,
-+			  v3d_queue_to_string(queue),
-+			  v3d->queue[queue].enabled_ns + active_runtime);
-+}
-+
-+static ssize_t
-+bin_queue_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+
-+	return v3d_sysfs_emit_total_runtime(v3d, V3D_BIN, buf);
-+}
-+static DEVICE_ATTR_RO(bin_queue);
-+
-+static ssize_t
-+render_queue_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+
-+	return v3d_sysfs_emit_total_runtime(v3d, V3D_RENDER, buf);
-+}
-+static DEVICE_ATTR_RO(render_queue);
-+
-+static ssize_t
-+tfu_queue_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+
-+	return v3d_sysfs_emit_total_runtime(v3d, V3D_TFU, buf);
-+}
-+static DEVICE_ATTR_RO(tfu_queue);
-+
-+static ssize_t
-+csd_queue_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+
-+	return v3d_sysfs_emit_total_runtime(v3d, V3D_CSD, buf);
-+}
-+static DEVICE_ATTR_RO(csd_queue);
-+
-+static ssize_t
-+cache_clean_queue_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	struct drm_device *drm = dev_get_drvdata(dev);
-+	struct v3d_dev *v3d = to_v3d_dev(drm);
-+
-+	return v3d_sysfs_emit_total_runtime(v3d, V3D_CACHE_CLEAN, buf);
-+}
-+static DEVICE_ATTR_RO(cache_clean_queue);
-+
-+static struct attribute *v3d_sysfs_entries[] = {
-+	&dev_attr_bin_queue.attr,
-+	&dev_attr_render_queue.attr,
-+	&dev_attr_tfu_queue.attr,
-+	&dev_attr_csd_queue.attr,
-+	&dev_attr_cache_clean_queue.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group v3d_sysfs_attr_group = {
-+	.attrs = v3d_sysfs_entries,
-+};
-+
-+int
-+v3d_sysfs_init(struct device *dev)
-+{
-+	return sysfs_create_group(&dev->kobj, &v3d_sysfs_attr_group);
-+}
-+
-+void
-+v3d_sysfs_destroy(struct device *dev)
-+{
-+	return sysfs_remove_group(&dev->kobj, &v3d_sysfs_attr_group);
-+}
--- 
-2.41.0
+Acked.
 
+> 
+>>
+>>          mutex_lock(&dpu_enc->enc_lock);
+>>          cur_mode = &dpu_enc->base.crtc->state->adjusted_mode;
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>> index df88358e7037..dace6168be2d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>> @@ -69,8 +69,10 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>>                                  phys_enc->hw_intf,
+>>                                  phys_enc->hw_pp->idx);
+>>
+>> -       if (intf_cfg.dsc != 0)
+>> +       if (intf_cfg.dsc != 0) {
+>>                  cmd_mode_cfg.data_compress = true;
+>> +               cmd_mode_cfg.wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
+>> +       }
+> 
+> This embeds the knowledge that a wide bus can only be enabled when DSC
+> is in use. Please move the wide_bus_en assignment out of conditional
+> code.
+
+Wide bus for DSI will only be enabled if DSC is enabled, so this is 
+technically not wrong, as DP will use the video mode path.
+
+> 
+>>
+>>          if (phys_enc->hw_intf->ops.program_intf_cmd_cfg)
+>>                  phys_enc->hw_intf->ops.program_intf_cmd_cfg(phys_enc->hw_intf, &cmd_mode_cfg);
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> index 8ec6505d9e78..dc6f3febb574 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> @@ -521,6 +521,9 @@ static void dpu_hw_intf_program_intf_cmd_cfg(struct dpu_hw_intf *ctx,
+> 
+> This function is only enabled for DPU >= 7.0, while IIRC wide bus can
+> be enabled even for some of the earlier chipsets.
+
+The command mode path is only called for DSI, which only supports wide 
+bus for DPU 7.0+.
+
+> 
+>>          if (cmd_mode_cfg->data_compress)
+>>                  intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+>>
+>> +       if (cmd_mode_cfg->wide_bus_en)
+>> +               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
+>> +
+>>          DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2);
+>>   }
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>> index 77f80531782b..c539025c418b 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>> @@ -50,6 +50,7 @@ struct dpu_hw_intf_status {
+>>
+>>   struct dpu_hw_intf_cmd_mode_cfg {
+>>          u8 data_compress;       /* enable data compress between dpu and dsi */
+>> +       u8 wide_bus_en;         /* enable databus widen mode */
+>>   };
+>>
+>>   /**
+>> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+>> index 9d9d5e009163..e4f706b16aad 100644
+>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>> @@ -344,6 +344,7 @@ void msm_dsi_snapshot(struct msm_disp_state *disp_state, struct msm_dsi *msm_dsi
+>>   bool msm_dsi_is_cmd_mode(struct msm_dsi *msm_dsi);
+>>   bool msm_dsi_is_bonded_dsi(struct msm_dsi *msm_dsi);
+>>   bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi);
+>> +bool msm_dsi_is_widebus_enabled(struct msm_dsi *msm_dsi);
+>>   struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi);
+>>   #else
+>>   static inline void __init msm_dsi_register(void)
+>> @@ -373,7 +374,10 @@ static inline bool msm_dsi_is_master_dsi(struct msm_dsi *msm_dsi)
+>>   {
+>>          return false;
+>>   }
+>> -
+>> +static inline bool msm_dsi_is_widebus_enabled(struct msm_dsi *msm_dsi)
+>> +{
+>> +       return false;
+>> +}
+> 
+> Empty line, please.
+
+Acked.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>>   static inline struct drm_dsc_config *msm_dsi_get_dsc_config(struct msm_dsi *msm_dsi)
+>>   {
+>>          return NULL;
+>>
+>> --
+>> 2.41.0
+>>
+> 
+> 
+> -- 
+> With best wishes
+> Dmitry
