@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D92771A96
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 08:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84138771A99
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 08:41:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A02ED10E1CF;
-	Mon,  7 Aug 2023 06:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCF710E1D3;
+	Mon,  7 Aug 2023 06:41:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D302110E1CF
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 06:41:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84A9810E1D3
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 06:41:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0C31461547;
- Mon,  7 Aug 2023 06:41:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE57C433C7;
- Mon,  7 Aug 2023 06:41:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C69AC61562;
+ Mon,  7 Aug 2023 06:41:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D911EC433C8;
+ Mon,  7 Aug 2023 06:41:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691390468;
- bh=shmkDixKjfxqPOOrej8a436ZyPxFgCre534PhMkTgyI=;
+ s=k20201202; t=1691390498;
+ bh=D1PYA+SIBAj6zDy2qHjqwZdn/DCEd0lZUWQARIceU+o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FxVD8Hp1iaXBb/k+3GfCnYUbLQrwZXepIexhr+bB3i12CvGu1/HUhgkqYVxip66NE
- zE3cZDqeeE9DByt2SwBSjhri8VRgVYOLRtY8jZzfjr5q5ulG0bGrsthbM8Kdfvkia7
- LWsS8vz5NcRTwmgYfdd0nOzLSRxDzAZ91hE6Vv+pK/eUiy7Mubr4DwgrofwHoG/VFC
- owsP8W+ZY/3UhwhGyVXACMr+CQMsp1Tal3r+x6MMvASR/gd7cOmQ3XvfQSwRIK8fEQ
- 6XdsGUgLUsXjDzxgLG550/Raa9ALWyH/U1J/P3AZxBN+oRO+A30XLMjaG4jqOfiBCF
- 0NwL9USzGJCEQ==
-Date: Mon, 7 Aug 2023 08:41:05 +0200
+ b=HHZFQ+m0l/bxzUVDo+9Tdu92z32BIK9+g/UtInRRtlgCR8ncEsccMYf/bQRhWPPbV
+ xK3/XG+NwrufxFgQ/72cqsWdnap7fZDD6DEoJEe8WR4KgWXtOChNdLrEi1FN8MqXHW
+ mt8sZ8b6r4iAgWQuIcXv+gexGCgTodbYs6AUHavyZ4lzp3WLCJ7MRjqYEP3aY5XIp2
+ N3GKxW+4gzpr6j1MI00bfeDW0oY2Y8WBsDx4Xkwe277M2TmdYNcQT8HFGeTRnT7A65
+ 23DpitUu0NwRB4jUbetVZdR0KucV3tZB/CEug0Wb5N2jWLYAKyW8D/frGlEcsvEOUh
+ yQ/4ysj8ImSig==
+Date: Mon, 7 Aug 2023 08:41:35 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [RFC PATCH 04/10] drm/panel_helper: Introduce drm_panel_helper
-Message-ID: <bphkopaq76imqzut7xrx7aprqybhx3veajdympqhig2wqlix6c@64ck23rc5cv7>
+Subject: Re: [RFC PATCH 10/10] drm/panel: Update TODO list item for cleaning
+ up prepared/enabled tracking
+Message-ID: <wmdlcufscroz5tek2pbx5odhbx23bcu5hdnvfo3nuzo7nb3s2j@4kfea5hc6plp>
 References: <20230804210644.1862287-1-dianders@chromium.org>
- <20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid>
+ <20230804140605.RFC.10.I104cdece7324b0c365e552a17f9883414ffaea01@changeid>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cxm7ekfl4brm6ey5"
+ protocol="application/pgp-signature"; boundary="k2kyoksr53nbivxr"
 Content-Disposition: inline
-In-Reply-To: <20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid>
+In-Reply-To: <20230804140605.RFC.10.I104cdece7324b0c365e552a17f9883414ffaea01@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,51 +55,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cxm7ekfl4brm6ey5
+--k2kyoksr53nbivxr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Doug,
-
-Thanks for working on this :)
-
-On Fri, Aug 04, 2023 at 02:06:07PM -0700, Douglas Anderson wrote:
-> The goal of this file is to contain helper functions for panel drivers
-> to use. To start off with, let's add drm_panel_helper_shutdown() for
-> use by panels that want to make sure they're powered off at
-> shutdown/remove time if they happen to be powered on.
->=20
-> The main goal of introducting this function is so that panel drivers
-> don't need to track the enabled/prepared state themselves.
+On Fri, Aug 04, 2023 at 02:06:13PM -0700, Douglas Anderson wrote:
+> Now that most panels have been updated not to track/double-check their
+> prepared/enabled state update the TODO with next steps.
 >=20
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>=20
+>  Documentation/gpu/todo.rst | 33 +++++++++++++--------------------
+>  1 file changed, 13 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index 139980487ccf..c73d9dbebbf4 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -460,26 +460,19 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+> =20
+>  Level: Starter
+> =20
+> -Clean up checks for already prepared/enabled in panels
+> -------------------------------------------------------
+> -
+> -In a whole pile of panel drivers, we have code to make the
+> -prepare/unprepare/enable/disable callbacks behave as no-ops if they've a=
+lready
+> -been called. To get some idea of the duplicated code, try::
+> -
+> -  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+> -  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+> -
+> -In the patch ("drm/panel: Check for already prepared/enabled in drm_pane=
+l")
+> -we've moved this check to the core. Now we can most definitely remove the
+> -check from the individual panels and save a pile of code.
+> -
+> -In adition to removing the check from the individual panels, it is belie=
+ved
+> -that even the core shouldn't need this check and that should be consider=
+ed
+> -an error if other code ever relies on this check. The check in the core
+> -currently prints a warning whenever something is relying on this check w=
+ith
+> -dev_warn(). After a little while, we likely want to promote this to a
+> -WARN(1) to help encourage folks not to rely on this behavior.
+> +Never double prepare/enable/disable/unprepare a panel
+> +-----------------------------------------------------
+> +
+> +As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enable=
+d in
+> +drm_panel"), we have a check in the drm_panel core to make sure nobody
+> +double-calls prepare/enable/disable/unprepare. However, that extra doubl=
+e-check
+> +shouldn't be necessary. The caller should always be matching up calls of
+> +prepare/unprepare and matching up calls of enable/disable.
+> +
+> +Hopefully the warning printed will encourage everyone to fix this. Event=
+ually
+> +we'll likely want to change this to a WARN_ON and (perhaps) fully remove=
+ the
+> +check. NOTE: even if we remove the double-check, drm_panel core still ne=
+eds
+> +to track the enabled/prepared state for its own purposes.
 
-It shouldn't be necessary at all: drivers should call
-drm_atomic_helper_shutdown at removal time which will disable the
-connector (which in turn should unprepare/disable its panel).
-
-If either the driver is missing drm_atomic_helper_shutdown, or if the
-connector doesn't properly disable the panel, then I would consider that
-a bug.
+Detailing what those purposes are would be nice :)
 
 Maxime
 
---cxm7ekfl4brm6ey5
+--k2kyoksr53nbivxr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZNCR+AAKCRDj7w1vZxhR
-xUuTAQCAryTeq8rxbABCSj1+5dZaS94tv1e24Y3awd+OHda54gD+MOimHLia2BN8
-S9vFKOumNJpLn7fm+W9z9AHJA1tCXQw=
-=TfNh
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZNCSHwAKCRDj7w1vZxhR
+xXLpAP9cVeomxd1Lxa2v4osi9rmwuqN8GiTb7Nwlm9asySDXDAD9GR4fhvYrt/Zi
+zUKPyZ3jB4jtwflLxARFu5GB3fzP+AM=
+=DOcT
 -----END PGP SIGNATURE-----
 
---cxm7ekfl4brm6ey5--
+--k2kyoksr53nbivxr--
