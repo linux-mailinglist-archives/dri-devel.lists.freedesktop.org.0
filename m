@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C920F772B78
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C816C772B7F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:52:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2F010E027;
-	Mon,  7 Aug 2023 16:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 103BB8826D;
+	Mon,  7 Aug 2023 16:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC4D410E2F3;
- Mon,  7 Aug 2023 16:49:56 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id
- 5614622812f47-3a6f3ef3155so3729823b6e.1; 
- Mon, 07 Aug 2023 09:49:56 -0700 (PDT)
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 235338826D;
+ Mon,  7 Aug 2023 16:52:19 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-1a1fa977667so3606422fac.1; 
+ Mon, 07 Aug 2023 09:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691426996; x=1692031796;
+ d=gmail.com; s=20221208; t=1691427138; x=1692031938;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cgQa+1FKvDWzR4zoWEz8VexbuxihC5GZckb0Q0xRORc=;
- b=FQTZy50gW5hiLnD/qVVaqF2n4OXGk9PzU4wck0u5FbLinIBT//IhILVvwwU3x9Rtm8
- +lZXsAW2YkdkgV9Eexq3fUXpgofjnAkhuSbOVy80lx+5f8pszAh1xrUONZD6fRNpAhkw
- tg2bGo0vdY0sr4sqUMdlcduc+IBdahhv+QzitcQbsf6Bynaw6PhS3KmIJW11tT7SJDZh
- itWgPTtTILvwpUbcpW5S2f1V9S6MXwMftJYXay9qge47tFbJh35OPuk1uQadtSnKw15M
- KH8KSK7YoQopcH3HxcWRgt5SqTw1l7IPsmEH3yyKI1yZIL7LgFqzUZvcWF0sxxuqRV8Q
- Wy3A==
+ bh=+zr5bzEAJ4u0jG+0pMtfI/Oc4OFWdg2dWRl6/DHgxTs=;
+ b=pJSy8y2sNQTIav/8/1US++ovx3EBG/babM+jC9VSwH89YPxl/9l32061+nQxW9EMWI
+ QWlkrZQ4KKLTf+RmB45uhJqZW6NrUpS+dNFJ+4+8epIfUH+YMao7jkNBcNfYeOCukpYV
+ m5HtCxp9KNdLxCPm4yO9Sjqvx2gLN+dFUOzoj5J608N8TBbfpo7gLJbmykemeXXgQcAp
+ jUzg98RKSoFx6nOjDZS+nCA+UrRJLoPMWDcGFXUqCQLMopI7zeWwS2NTepvlYGXd1v07
+ 4UzIAVAJLJBYw6VXtbtktd3jAZHOty0o8wg/kXympToTH20QNTRBw83wRUasuHO3uIN6
+ TUKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691426996; x=1692031796;
+ d=1e100.net; s=20221208; t=1691427138; x=1692031938;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cgQa+1FKvDWzR4zoWEz8VexbuxihC5GZckb0Q0xRORc=;
- b=YbAPdbcNlM2I7CdXohbSQOmLfk7h5PkQJB3OFSrby/SEQ6ykCPDwe7I41sdCTBAZWh
- lVNhgyylOf2doXOiRnkWDKQ+rdbK3tG10vBa5MFyVaI6s8rQCBViTI73QscQ+JppdJzz
- LJ9ooX1ngtg79gJEEXigGcwgTT+/kuTYHZoz9ZQ8qGITirdp21fKxhDk8DeVIVFjCA1I
- 5A9JGr+7IXLGk0Ibi72k0aN7tRAgxx0Ni8Y/HiGnkmBb2IJRoe+k5ccEDNy2Av6INjzC
- eOaJZhpbEEEnSIds0bM4cgb7mLo5NSs9zOGuc8XRsudgome+9osXOCLFNgV1RwHCanfj
- BgIw==
-X-Gm-Message-State: AOJu0YyJt7WJm2RtWwAM5EvJzHvjDRH3SqPw3jLNbMNv7AK1rndx3Atf
- ugOi0GYFX6+hLqk6zG4bphH4VI6JlpLvWrELKzc=
-X-Google-Smtp-Source: AGHT+IF/s1MEl434BzAsfKCcOnEZp4qpAJMatQaOEWnbl10rllg9YsKo7f4muZb+TbaWgnJGpjbma+BjChf8iv/FsII=
-X-Received: by 2002:a54:4e0d:0:b0:3a7:9837:7148 with SMTP id
- a13-20020a544e0d000000b003a798377148mr3848673oiy.58.1691426995953; Mon, 07
- Aug 2023 09:49:55 -0700 (PDT)
+ bh=+zr5bzEAJ4u0jG+0pMtfI/Oc4OFWdg2dWRl6/DHgxTs=;
+ b=M5F3RnkxrcxEQR1hf8gr6csQb+O0D25VhSOpjRrBEJdnMDrfwEf1t+hMKPKSio0c+/
+ hT/FkShIblYfZVA3VRKjmJICgkmhLh4zyl3/jmhMgdRo+akxs+Fi3WfZCBH4VfoCZEI0
+ YaXA2nQDvmTdrdd64flm2S+mKlLhTO2h4Kn5qaO/ARj29VFcswJhryU2/JOgve3dmauA
+ 9gtmiWP3J2x2lS8wus7qdyGa5EIf0zTZK42l6BAzBzo8uMybggUl7hYnM9Z/DdNNpapX
+ Tf2k2BfpgD5u+fD2VYF5d0iJf6LedK6khB+or5uM2fPknTM1x2yXvWk++P+mNioPtcB9
+ MtsA==
+X-Gm-Message-State: AOJu0YwOIARGxpt0LkVBWl+mU1fS5UU2TRFI7baOT3HdSSvJEdzC9cYM
+ pqRbVpdGVSaRLiuOJi9uyN9xNya1J+WEJHpUYqQ=
+X-Google-Smtp-Source: AGHT+IGOylr6WBFk/yfrsvOLNljNjtq4DOhPqdkeGj2n7GfTSiG1+C4wb1gY88HX3UzRmxq6kEie15ZwuW5xRY6gCUo=
+X-Received: by 2002:a05:6870:e6d4:b0:1b7:4655:2ac3 with SMTP id
+ s20-20020a056870e6d400b001b746552ac3mr11502882oak.13.1691427138338; Mon, 07
+ Aug 2023 09:52:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801094443.7942-1-sunran001@208suo.com>
-In-Reply-To: <20230801094443.7942-1-sunran001@208suo.com>
+References: <20230801094742.8032-1-sunran001@208suo.com>
+In-Reply-To: <20230801094742.8032-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:49:45 -0400
-Message-ID: <CADnq5_MbmP9sEkWHndxaG+pp6bJkeO7h1qvya3wZWmktDpFYpQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in vega20_pptable.h
+Date: Mon, 7 Aug 2023 12:52:07 -0400
+Message-ID: <CADnq5_N_EQgTBLsJ_PFtEBi_0TD+8=Zp3=2D7NcsmJH1MEEJpQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in polaris_baco.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,75 +75,146 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 5:44=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Tue, Aug 1, 2023 at 5:47=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: open brace '{' following struct go on the same line
-> ERROR: space prohibited before open square bracket '['
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  .../amd/pm/powerplay/hwmgr/vega20_pptable.h   | 19 ++++++++-----------
->  1 file changed, 8 insertions(+), 11 deletions(-)
+>  .../drm/amd/pm/powerplay/hwmgr/polaris_baco.c | 30 +++++++------------
+>  1 file changed, 10 insertions(+), 20 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_pptable.h b/dr=
-ivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_pptable.h
-> index 2222e29405c6..b468dddbefff 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_pptable.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega20_pptable.h
-> @@ -73,14 +73,13 @@ enum ATOM_VEGA20_ODSETTING_ID {
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/polaris_baco.c b/driv=
+ers/gpu/drm/amd/pm/powerplay/hwmgr/polaris_baco.c
+> index 8f8e296f2fe9..a6a6d43b09f8 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/polaris_baco.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/polaris_baco.c
+> @@ -35,8 +35,7 @@
+>  #include "smu/smu_7_1_3_d.h"
+>  #include "smu/smu_7_1_3_sh_mask.h"
+>
+> -static const struct baco_cmd_entry gpio_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry gpio_tbl[] =3D {
+>         { CMD_WRITE, mmGPIOPAD_EN, 0, 0, 0, 0x0 },
+>         { CMD_WRITE, mmGPIOPAD_PD_EN, 0, 0, 0, 0x0 },
+>         { CMD_WRITE, mmGPIOPAD_PU_EN, 0, 0, 0, 0x0 },
+> @@ -49,15 +48,13 @@ static const struct baco_cmd_entry gpio_tbl[] =3D
+>         { CMD_READMODIFYWRITE, mmDC_GPIO_SYNCA_MASK, 0, 0, 0, 0x00001111 =
+}
 >  };
->  typedef enum ATOM_VEGA20_ODSETTING_ID ATOM_VEGA20_ODSETTING_ID;
 >
-> -typedef struct _ATOM_VEGA20_OVERDRIVE8_RECORD
+> -static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =3D
 > -{
-> +typedef struct _ATOM_VEGA20_OVERDRIVE8_RECORD {
->    UCHAR ucODTableRevision;
->    ULONG ODFeatureCount;
-> -  UCHAR ODFeatureCapabilities [ATOM_VEGA20_ODFEATURE_MAX_COUNT];   //OD =
-feature support flags
-> +  UCHAR ODFeatureCapabilities[ATOM_VEGA20_ODFEATURE_MAX_COUNT];   //OD f=
-eature support flags
->    ULONG ODSettingCount;
-> -  ULONG ODSettingsMax [ATOM_VEGA20_ODSETTING_MAX_COUNT];           //Upp=
-er Limit for each OD Setting
-> -  ULONG ODSettingsMin [ATOM_VEGA20_ODSETTING_MAX_COUNT];           //Low=
-er Limit for each OD Setting
-> +  ULONG ODSettingsMax[ATOM_VEGA20_ODSETTING_MAX_COUNT];           //Uppe=
-r Limit for each OD Setting
-> +  ULONG ODSettingsMin[ATOM_VEGA20_ODSETTING_MAX_COUNT];           //Lowe=
-r Limit for each OD Setting
->  } ATOM_VEGA20_OVERDRIVE8_RECORD;
->
->  enum ATOM_VEGA20_PPCLOCK_ID {
-> @@ -99,16 +98,14 @@ enum ATOM_VEGA20_PPCLOCK_ID {
+> +static const struct baco_cmd_entry enable_fb_req_rej_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0300024 },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, 0x1, 0x0, 0, 0x1 },
+>         { CMD_WRITE, mmBIF_FB_EN, 0, 0, 0, 0x0 }
 >  };
->  typedef enum ATOM_VEGA20_PPCLOCK_ID ATOM_VEGA20_PPCLOCK_ID;
 >
-> -typedef struct _ATOM_VEGA20_POWER_SAVING_CLOCK_RECORD
+> -static const struct baco_cmd_entry use_bclk_tbl[] =3D
 > -{
-> +typedef struct _ATOM_VEGA20_POWER_SAVING_CLOCK_RECORD {
->    UCHAR ucTableRevision;
->    ULONG PowerSavingClockCount;                                 // Count =
-of PowerSavingClock Mode
-> -  ULONG PowerSavingClockMax  [ATOM_VEGA20_PPCLOCK_MAX_COUNT];      // Po=
-werSavingClock Mode Clock Maximum array In MHz
-> -  ULONG PowerSavingClockMin  [ATOM_VEGA20_PPCLOCK_MAX_COUNT];      // Po=
-werSavingClock Mode Clock Minimum array In MHz
-> +  ULONG PowerSavingClockMax[ATOM_VEGA20_PPCLOCK_MAX_COUNT];      // Powe=
-rSavingClock Mode Clock Maximum array In MHz
-> +  ULONG PowerSavingClockMin[ATOM_VEGA20_PPCLOCK_MAX_COUNT];      // Powe=
-rSavingClock Mode Clock Minimum array In MHz
->  } ATOM_VEGA20_POWER_SAVING_CLOCK_RECORD;
+> +static const struct baco_cmd_entry use_bclk_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPL=
+L_BYPASS_EN_MASK, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN__SHIFT, 0, 0x1 },
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0500170 },
+> @@ -70,8 +67,7 @@ static const struct baco_cmd_entry use_bclk_tbl[] =3D
+>         { CMD_READMODIFYWRITE, mmMPLL_CNTL_MODE, MPLL_CNTL_MODE__MPLL_MCL=
+K_SEL_MASK, MPLL_CNTL_MODE__MPLL_MCLK_SEL__SHIFT, 0, 0x0 }
+>  };
 >
-> -typedef struct _ATOM_VEGA20_POWERPLAYTABLE
+> -static const struct baco_cmd_entry turn_off_plls_tbl[] =3D
 > -{
-> +typedef struct _ATOM_VEGA20_POWERPLAYTABLE {
->        struct atom_common_table_header sHeader;
->        UCHAR  ucTableRevision;
->        USHORT usTableSize;
+> +static const struct baco_cmd_entry turn_off_plls_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, mmDC_GPIO_PAD_STRENGTH_1, DC_GPIO_PAD_STRE=
+NGTH_1__GENLK_STRENGTH_SP_MASK, DC_GPIO_PAD_STRENGTH_1__GENLK_STRENGTH_SP__=
+SHIFT, 0, 0x1 },
+>         { CMD_DELAY_US, 0, 0, 0, 1, 0x0 },
+>         { CMD_READMODIFYWRITE, mmMC_SEQ_DRAM, MC_SEQ_DRAM__RST_CTL_MASK, =
+MC_SEQ_DRAM__RST_CTL__SHIFT, 0, 0x1 },
+> @@ -92,8 +88,7 @@ static const struct baco_cmd_entry turn_off_plls_tbl[] =
+=3D
+>         { CMD_DELAY_US, 0, 0, 0, 5, 0x0 }
+>  };
+>
+> -static const struct baco_cmd_entry clk_req_b_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry clk_req_b_tbl[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixTHM_CLK_CNTL },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, THM_CLK_CNTL__CMON_CLK=
+_SEL_MASK, THM_CLK_CNTL__CMON_CLK_SEL__SHIFT, 0, 0x1 },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, THM_CLK_CNTL__TMON_CLK=
+_SEL_MASK, THM_CLK_CNTL__TMON_CLK_SEL__SHIFT, 0, 0x1 },
+> @@ -108,8 +103,7 @@ static const struct baco_cmd_entry clk_req_b_tbl[] =
+=3D
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, MPLL_BYPASSCLK_SEL__MP=
+LL_CLKOUT_SEL_MASK, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL__SHIFT, 0,     0x4 =
+}
+>  };
+>
+> -static const struct baco_cmd_entry enter_baco_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry enter_baco_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_EN_MASK, BACO=
+_CNTL__BACO_EN__SHIFT, 0, 0x01 },
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWIT=
+CH_MASK, BACO_CNTL__BACO_BIF_SCLK_SWITCH__SHIFT, 0, 0x01 },
+>         { CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_BIF_SCLK_SWITCH_MASK,=
+ 0, 5, 0x40000 },
+> @@ -126,8 +120,7 @@ static const struct baco_cmd_entry enter_baco_tbl[] =
+=3D
+>
+>  #define BACO_CNTL__PWRGOOD_MASK  BACO_CNTL__PWRGOOD_GPIO_MASK+BACO_CNTL_=
+_PWRGOOD_MEM_MASK+BACO_CNTL__PWRGOOD_DVO_MASK
+>
+> -static const struct baco_cmd_entry exit_baco_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry exit_baco_tbl[] =3D {
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_RESET_EN_MASK=
+, BACO_CNTL__BACO_RESET_EN__SHIFT, 0, 0x01 },
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_BCLK_OFF_MASK=
+, BACO_CNTL__BACO_BCLK_OFF__SHIFT, 0, 0x00 },
+>         { CMD_READMODIFYWRITE, mmBACO_CNTL, BACO_CNTL__BACO_POWER_OFF_MAS=
+K, BACO_CNTL__BACO_POWER_OFF__SHIFT, 0, 0x00 },
+> @@ -142,14 +135,12 @@ static const struct baco_cmd_entry exit_baco_tbl[] =
+=3D
+>         { CMD_WAITFOR, mmBACO_CNTL, BACO_CNTL__BACO_MODE_MASK, 0, 0xfffff=
+fff, 0x00 }
+>  };
+>
+> -static const struct baco_cmd_entry clean_baco_tbl[] =3D
+> -{
+> +static const struct baco_cmd_entry clean_baco_tbl[] =3D {
+>         { CMD_WRITE, mmBIOS_SCRATCH_6, 0, 0, 0, 0 },
+>         { CMD_WRITE, mmBIOS_SCRATCH_7, 0, 0, 0, 0 }
+>  };
+>
+> -static const struct baco_cmd_entry use_bclk_tbl_vg[] =3D
+> -{
+> +static const struct baco_cmd_entry use_bclk_tbl_vg[] =3D {
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, ixCG_SPLL_FUNC_CNTL },
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, CG_SPLL_FUNC_CNTL__SPL=
+L_BYPASS_EN_MASK, CG_SPLL_FUNC_CNTL__SPLL_BYPASS_EN__SHIFT, 0, 0x1 },
+>         { CMD_WRITE, mmGCK_SMC_IND_INDEX, 0, 0, 0, 0xC0500170 },
+> @@ -160,8 +151,7 @@ static const struct baco_cmd_entry use_bclk_tbl_vg[] =
+=3D
+>         { CMD_READMODIFYWRITE, mmGCK_SMC_IND_DATA, MPLL_BYPASSCLK_SEL__MP=
+LL_CLKOUT_SEL_MASK, MPLL_BYPASSCLK_SEL__MPLL_CLKOUT_SEL__SHIFT, 0, 0x2 }
+>  };
+>
+> -static const struct baco_cmd_entry turn_off_plls_tbl_vg[] =3D
+> -{
+> +static const struct baco_cmd_entry turn_off_plls_tbl_vg[] =3D {
+>         { CMD_READMODIFYWRITE, mmDC_GPIO_PAD_STRENGTH_1, DC_GPIO_PAD_STRE=
+NGTH_1__GENLK_STRENGTH_SP_MASK, DC_GPIO_PAD_STRENGTH_1__GENLK_STRENGTH_SP__=
+SHIFT, 0, 0x1 },
+>         { CMD_DELAY_US, 0, 0, 0, 1, 0x0 },
+>         { CMD_READMODIFYWRITE, mmMC_SEQ_DRAM, MC_SEQ_DRAM__RST_CTL_MASK, =
+MC_SEQ_DRAM__RST_CTL__SHIFT, 0, 0x1 },
 > --
 > 2.17.1
 >
