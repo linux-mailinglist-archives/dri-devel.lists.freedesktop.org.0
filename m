@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA23D7723DE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 14:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 081067723E5
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 14:27:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 793DF10E06D;
-	Mon,  7 Aug 2023 12:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 414B810E09B;
+	Mon,  7 Aug 2023 12:27:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D232889D7F;
- Mon,  7 Aug 2023 12:26:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD08710E09B;
+ Mon,  7 Aug 2023 12:27:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691411160; x=1722947160;
+ t=1691411231; x=1722947231;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=Z5Xn3wSmKkWX5JAPtWZEp/p5RR+TeRhb5M6LlS/C0sc=;
- b=N8BTII7d9f7Sw/yJcBJHvrMV31L7OppjonMO3ge524gnGMdLqXNn0KcC
- EYHlfdJIpbLRXU20JRZpbEAjfvh9ZkSPWbMuNrW8adE79+K9VSIzm9HmF
- sTlhufxmA6wA7jq6uieYTva2Oqim0sTSTkAQI54jJooWg4TUMi/EtGXmw
- 642olf3Af5xjxsjsQXdQxg3NEFpIYsCO1xqFcGrxYVxZXZchXz/g9B+9T
- EtFYov0QUs8qpIeLR7oDBGi41YvBxQ3BQSAO8vhq4h09vgBOEY3QyPJy8
- nBF+EyH7HjNCFVGfYTCalx9ugS2mtPKl8TRrE/4PxXeoS1+TY5RXzLVri w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="369431011"
-X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="369431011"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2023 05:26:00 -0700
+ bh=HXsI5QDhUQgFyRazXW9MikAEA9FemyZ0TDGodAk1XOc=;
+ b=US+QtSCguCPSDRC15a4kl2yfDSqT/xePVxwhboAUvsglwPjaEBdTBWln
+ JRMueMu5qqpN5WnlAVQhbyqyqjpUv6rLhMzcP6eAmwB8hCdJJzQYvZ5tA
+ PpA0MzlcHAb5i5K8h2EM6RqLOcPMLMnqutWlDTgevlYoaQ6eZRhU2kU1+
+ HZLT7WADwX3zU/yzK+a51458u8BN8hx8a4fQ1GxPKgE0UgtemHC3cyo6N
+ 1yUHZICFG61a0nBO0cxgFLLA3K//Q8VqdMxFs9piaDy2AYsSXtjgrxOr0
+ skvLrgxnj64/FsQiZ3yXqSj+PpoOL8Cmix1OEdzmSa882BoDPbGIzV6Sp g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="373280974"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="373280974"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2023 05:27:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="800921165"
-X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="800921165"
+X-IronPort-AV: E=McAfee;i="6600,9927,10794"; a="845007061"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="845007061"
 Received: from unknown (HELO intel.com) ([10.237.72.65])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2023 05:25:58 -0700
-Date: Mon, 7 Aug 2023 15:25:55 +0300
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2023 05:27:09 -0700
+Date: Mon, 7 Aug 2023 15:27:06 +0300
 From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
 To: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH 20/20] drm/i915/dp: Check if force_dsc_output_format is
- possible
-Message-ID: <ZNDi0z9R7XXYq6HP@intel.com>
+Subject: Re: [PATCH 19/20] drm/i915/dp: Check src/sink compressed bpp limit
+ for edp
+Message-ID: <ZNDjGuErT6RIqNIR@intel.com>
 References: <20230728041150.2524032-1-ankit.k.nautiyal@intel.com>
- <20230728041150.2524032-21-ankit.k.nautiyal@intel.com>
+ <20230728041150.2524032-20-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230728041150.2524032-21-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20230728041150.2524032-20-ankit.k.nautiyal@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,69 +64,56 @@ Cc: intel-gfx@lists.freedesktop.org, anusha.srivatsa@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 28, 2023 at 09:41:50AM +0530, Ankit Nautiyal wrote:
-> Currently for testing an output format with DSC, we just force the
-> output format, without checking if it can be supported.
-> This also creates an issue where there is a PCON which might need to
-> convert from forced output format to the format to sink format.
+On Fri, Jul 28, 2023 at 09:41:49AM +0530, Ankit Nautiyal wrote:
+> Use checks for src and sink limits before computing compressed bpp for
+> eDP.
 > 
 > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 
 Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 30 +++++++++++++++++++++++--
->  1 file changed, 28 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dp.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 0299b378ba6e..1aee27c0fb55 100644
+> index 9b71934e662e..0299b378ba6e 100644
 > --- a/drivers/gpu/drm/i915/display/intel_dp.c
 > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -935,16 +935,42 @@ dfp_can_convert_from_ycbcr444(struct intel_dp *intel_dp,
->  	return false;
->  }
->  
-> +static bool
-> +dfp_can_convert(struct intel_dp *intel_dp,
-> +		enum intel_output_format output_format,
-> +		enum intel_output_format sink_format)
-> +{
-> +	switch (output_format) {
-> +	case INTEL_OUTPUT_FORMAT_RGB:
-> +		return dfp_can_convert_from_rgb(intel_dp, sink_format);
-> +	case INTEL_OUTPUT_FORMAT_YCBCR444:
-> +		return dfp_can_convert_from_ycbcr444(intel_dp, sink_format);
-> +	default:
-> +		MISSING_CASE(output_format);
-> +		return false;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static enum intel_output_format
->  intel_dp_output_format(struct intel_connector *connector,
->  		       enum intel_output_format sink_format)
+> @@ -2032,6 +2032,8 @@ static int intel_edp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
 >  {
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
 >  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> +	enum intel_output_format force_dsc_output_format =
-> +		intel_dp->force_dsc_output_format;
->  	enum intel_output_format output_format;
-> +	if (force_dsc_output_format) {
-> +		if (source_can_output(intel_dp, force_dsc_output_format) &&
-> +		    (!drm_dp_is_branch(intel_dp->dpcd) ||
-> +		     sink_format != force_dsc_output_format ||
-> +		     dfp_can_convert(intel_dp, force_dsc_output_format, sink_format)))
-> +			return force_dsc_output_format;
+>  	int pipe_bpp, forced_bpp;
+> +	int dsc_src_min_bpp, dsc_sink_min_bpp, dsc_min_bpp;
+> +	int dsc_src_max_bpp, dsc_sink_max_bpp, dsc_max_bpp;
 >  
-> -	if (intel_dp->force_dsc_output_format)
-> -		return intel_dp->force_dsc_output_format;
-> +		drm_dbg_kms(&i915->drm, "Cannot force DSC output format\n");
-> +	}
+>  	forced_bpp = intel_dp_force_dsc_pipe_bpp(intel_dp, conn_state, limits);
 >  
->  	if (sink_format == INTEL_OUTPUT_FORMAT_RGB ||
->  	    dfp_can_convert_from_rgb(intel_dp, sink_format))
+> @@ -2049,9 +2051,21 @@ static int intel_edp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
+>  	}
+>  	pipe_config->port_clock = limits->max_rate;
+>  	pipe_config->lane_count = limits->max_lane_count;
+> -	pipe_config->dsc.compressed_bpp =
+> -		min_t(u16, drm_edp_dsc_sink_output_bpp(intel_dp->dsc_dpcd) >> 4,
+> -		      pipe_bpp);
+> +
+> +	dsc_src_min_bpp = dsc_src_min_compressed_bpp();
+> +	dsc_sink_min_bpp = intel_dp_dsc_sink_min_compressed_bpp(pipe_config);
+> +	dsc_min_bpp = max(dsc_src_min_bpp, dsc_sink_min_bpp);
+> +
+> +	dsc_src_max_bpp = dsc_src_max_compressed_bpp(intel_dp);
+> +	dsc_sink_max_bpp = intel_dp_dsc_sink_max_compressed_bpp(intel_dp,
+> +								pipe_config,
+> +								pipe_bpp / 3);
+> +	dsc_max_bpp = dsc_sink_max_bpp ? min(dsc_sink_max_bpp, dsc_src_max_bpp) : dsc_src_max_bpp;
+> +
+> +	/* Compressed BPP should be less than the Input DSC bpp */
+> +	dsc_max_bpp = min(dsc_max_bpp, pipe_bpp - 1);
+> +
+> +	pipe_config->dsc.compressed_bpp = max(dsc_min_bpp, dsc_max_bpp);
+>  
+>  	pipe_config->pipe_bpp = pipe_bpp;
+>  
 > -- 
 > 2.40.1
 > 
