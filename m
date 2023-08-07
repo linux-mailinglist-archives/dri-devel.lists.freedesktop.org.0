@@ -2,138 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF23772D49
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10F0772D56
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:57:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1854910E02C;
-	Mon,  7 Aug 2023 17:52:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 804CA10E375;
+	Mon,  7 Aug 2023 17:57:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454F4895EE;
- Mon,  7 Aug 2023 17:52:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0E810E375;
+ Mon,  7 Aug 2023 17:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691430730; x=1722966730;
+ t=1691431027; x=1722967027;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=DMxofzGXP2lonmEXD9FV2NWV4aT+vOGYjpqGCa9nwt0=;
- b=O0rlKvahEAqpNxWfOFC0JEGQ+oIFrqfuHYTK2ZvuNq2E14W/Kt3zzqbz
- WnZMG2OEisz1bcwV5kehvHHkUKtcgXUodUW4phIVP0nm7Ycpf4OKf7Ugy
- E/7S8RXFWKaq/X6K6lvGjXqZIXwyE8Dv+eVX2nm2mIDfAJoZ/M7Wgr6Mh
- MWJg4kIwujH8M/oQo+mwiQJeixbQ9nLirEvxWWjVe2142r+vOUJSElGNK
- KN3zcmNaNWS/DJmOid/NBxHbJYxx9++jRAQzBkiUSgGVqZ6iQad32vPwA
- bVsDzuV28tjnsaLrJ5aFI+JDyhfVHDnYgDkcVDQkbl/qTrHe9Yyq93En8 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373366253"
-X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="373366253"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2023 10:52:09 -0700
+ bh=EN+OvIPQ5AeS69AxTsAyUuCL5ZQGX9ajpi62uVgCedI=;
+ b=HMv+LnaPzafsyqYi9LjhuWLVUIr4x38EVstLd2DwUyr8ASiHAl33NZQG
+ joGXMHFTkwgVkMcS4jh+wfwSp0v3LAS6icynQItvH+IEhESV1/YpoBB/f
+ iTPGnlnkwbwmNQltlRsW5P2f6BD+UiOK239utO8yydIy+nBF2slmx4KqJ
+ cthgaAn0NsRK3XOWdXZKgDf69X6qYT9OGnhRSZeLTed1qDVLFmqdS2hxi
+ EsfJdUWxv1VCUANawpszqOeeN3ygo7IU4qGGuko0qu8t0B85IuzP5yokR
+ mexz9piPd/DqorgjKPwL+K2XXGSPGsa4ulOnGVKLaCXmLZ5V3tUUmGGP1 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="350916613"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="350916613"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2023 10:57:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="731059248"
-X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="731059248"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga002.jf.intel.com with ESMTP; 07 Aug 2023 10:52:09 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 7 Aug 2023 10:52:09 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="760588154"
+X-IronPort-AV: E=Sophos;i="6.01,262,1684825200"; d="scan'208";a="760588154"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 07 Aug 2023 10:57:06 -0700
 Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 7 Aug 2023 10:52:08 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ 15.1.2507.27; Mon, 7 Aug 2023 10:57:06 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 7 Aug 2023 10:57:05 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 7 Aug 2023 10:52:08 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.27 via Frontend Transport; Mon, 7 Aug 2023 10:57:05 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.48) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Mon, 7 Aug 2023 10:52:08 -0700
+ 15.1.2507.27; Mon, 7 Aug 2023 10:57:00 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hfnEpH7E0EgkAgizTltRlaEUbFV0RJxjCyPfPimRWsrT27tLhC3jUBBFXCqEylWuMjR0xcw2I9u9lZFPd6WYnpN7MH7dlKPMqae7BVZ1dJ/DqA6ZxOtSQV6GXuZ70GKNNFYLL/6GQWLeGy06p6i5IP28gf2ynb/iu2L3tfbvBZPvsUDkQtWtTouM4oCLVcTWv2o1AOIqrJJ857ivRSU/tYlFeZGX3c4x7vKr9ziFUQukUMtdPWtUsLAnrFM6D1xsetWFycZcnBOXY9eOJT+AAKatYHopzvR10ApCDP5/XauQJ7ZFo7YnsOss5WEYWt+OXE9sgaXkpUtZ5LUOlBumDg==
+ b=j0AEunTlyDwcncme5SnjFnNp/ySActy9X8anZrc6fwlL7yqaKGUbEiyztKl+IiUcbEj0m7Y6ACAB9m9UW4vj/8vfhpGEk4CwjxWMLu+8WEvrmb67w25du8+zXt1R3QQNPZJm4puF4qWGPgwGteFG1GAjn+5k5KKHhEN08Gp3Ce4T74Qc02rJWcJ23g9C128+5NCiCZs5RQfn16HVIws2ESISNrSLa1//w8pAgPOdGBZ6Kn/tt5clvUPHCkFtd0IAwxI1+WQZBKlaBJsOXWJQSCu5Y4IlYJ7jUxC5Ci1sYPTOL11vlEv9bWeg6mI0fQkSYg3jb3Kuk8411SDpGPwOgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EGmsYoFYHox/xU3OPU7zN9nqgzVXbYC915be3pK0g24=;
- b=ICYmcOchWK0fFpPuQE9lhtaO6V7g4zcRhJq5l9wYkhkdZI362GzsaY8bbgxX1vSgNyNcWk/G/sfNGPUUfvVx812TuA7UMjRgFOH9CR3VrAXuxDhTs3ENOBIy87xojxbUYSm7fx1dxl6EWbIVu9B1CpOqbOo46Olbxgixi8Dk6aaKaYAQ6cgU1a73DeZPhaIsRnZCgb3ZsfEpvwQEc5QNJTUXBFtrBDhj25oQg+apyHSlRT1SSfm3NphOYnwZ0MefgTstpCahtWsn4NzK7sFZjvLSuR/lbX8/ZJDQA9Rold3Y8VBvSYoOqT/mNIX0QPgZq4wYkgMKpEztFzGz5v22rQ==
+ bh=SuG9UUvykcBGV6pnPFUtJsHv1IQrT0Gy7SnSKGdij9o=;
+ b=QRlVQo81yd6NKWZZ24v5RzxwLSY+KEqbCw/I1cMIpHb/Zz3ChaksV+KEmFXcHiXUxVvUQjfgn+iVWykJ+mrvzTjWUrDnuCmMmA1F7+DEAVuxQ6UHXBwq+7FamfgKH/45BMB+3o44pk8ghNzaXbhchV7e2gkzk+Uw/7XqXx90YveBZA8CvXxLv3LVMklaZ+dvM/UQCe78rBkX4NF1p00PF1KWPVVtOtXSwBfdcyJXe9vpufzprzcveXCSoV3cH1wc4P19eoC0OKQFsszfD5l14Rw9OAgFUEe/Qx7ML6mJOc5GdH0vG3XzVd1umeSvJDJHHi4B2VINQUWK2sj2zOSJWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by CY8PR11MB7921.namprd11.prod.outlook.com (2603:10b6:930:7d::15)
- with Microsoft SMTP Server (version=TLS1_2,
+ by DM4PR11MB5374.namprd11.prod.outlook.com (2603:10b6:5:395::23) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
- 2023 17:52:07 +0000
+ 2023 17:56:59 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6652.026; Mon, 7 Aug 2023
- 17:52:07 +0000
-Date: Mon, 7 Aug 2023 13:52:02 -0400
+ 17:56:59 +0000
+Date: Mon, 7 Aug 2023 13:56:55 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Alan Previn <alan.previn.teres.alexis@intel.com>
-Subject: Re: [PATCH v1 1/3] drm/i915/guc: Flush context destruction worker at
- suspend
-Message-ID: <ZNEvQqeZgvd1XHPV@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v1 3/3] drm/i915/gt: Timeout when waiting for
+ idle in suspending
+Message-ID: <ZNEwZzp6KPEwEpsv@intel.com>
 References: <20230802233501.17074-1-alan.previn.teres.alexis@intel.com>
- <20230802233501.17074-2-alan.previn.teres.alexis@intel.com>
+ <20230802233501.17074-4-alan.previn.teres.alexis@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230802233501.17074-2-alan.previn.teres.alexis@intel.com>
-X-ClientProxiedBy: BYAPR02CA0036.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::49) To MN0PR11MB6059.namprd11.prod.outlook.com
+In-Reply-To: <20230802233501.17074-4-alan.previn.teres.alexis@intel.com>
+X-ClientProxiedBy: BYAPR07CA0052.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::29) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CY8PR11MB7921:EE_
-X-MS-Office365-Filtering-Correlation-Id: 892ff5d6-2052-4dec-3fb0-08db976f03d1
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM4PR11MB5374:EE_
+X-MS-Office365-Filtering-Correlation-Id: c58348cd-3748-41ed-0698-08db976fb20c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xB9YOpSdcKLZWIykvxLjdXkE/50N6CUMoky7Wq5dPJKW7m8VpR4h7ke89hwl4QXOEGtbfTlfFMrsxyeS72VQce2isPYC/OwutTDM4NExb3txmZJUiQBS1MIHTgmCi/S3+++QsSPU03pu4/1cpwXH5Tvy6SRuDlbTJMX33UngVfvlIFupKbF7B2mZVEePRufBUZFEMm4MY/QIxEG1Q3Kf94IlyXjzklOIAWWlmgrysm0ZnlZxqarK+2pLj7lBM02nPdSDWo+1J7YzSz5JwdfVl2KsKuXnxAbzSV9qt8ux4Jcl8ClQmR7HrsNWXEha75PAgKp8HXY+qXdXNf7Y/4OAd4W6QGh0JyhMEVh73xBKm9vegG6BZplpzqooj6niiPEmH/YEXvRJG1Eg/4Orowp9mWE9RU1qHNQVRle+hlWCZes3FXA6wELZghsaRMJ/tIUiF8LMY93U0sSdCYidDuvHk+aH7ZMVQ6RtuXEhTxGYbuTN0camFwU+egejep+QiwiJzya1/QFBplExAu94fum6iJvUk/6b4IjJCb4PueyzT3//KXWCmlkdpwUIzIsK96aw
+X-Microsoft-Antispam-Message-Info: BuQno0xj/owsSRuTLAykt9XvG8/T2j7Ir8rFGTOhBeS+3IYYT5TCS1ZG9XiuTSOwVgWGd2NNXdXT0XVdFyp2M8rN6z2CHbVSnbQrpvHLF5x1iQXKOH2zbwDHDsmBRohdFp1tFMEx45pSxbbfRCFy3zh/jl5i29fFhrnnDs6ibOMFmR+JNs3CnvjPn7RqqwYcWRIxvQrsS11uEONTLikyRLVf5ZwgK55vwwdxok8ShzQJnTHEbia+eLV3gcZX9qBrgrwysXEDvXkFkfYCqKXb2YzjfxvJcF+ZfMw6zk/nKfQZe5ukqLblCre2y7fSNc09PE0B9IpfXgSuM8veUyIGCFEKZ4utiytV+ddNtgmTSpbGXsBp3iSr476Yk4xHxP+dkmd52VR77/ax1l0IJPNUNnxwoflBRsY7wfwpA9HMtITzJLSjM26Cdm6RVTfFEsmws/cXDKXiLt2qSwrlMBcZ7yMtrPJc7mmqMXe0QkIyrOlojppykRrvTX9bW/8zY5a+iH+XeR4fdlf07wMnc6tDT1M5t0RuOJJ/C4zxpC+5+iQq1qkZ1VKVnrtpy+KpH7pn
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(366004)(396003)(136003)(346002)(39860400002)(376002)(451199021)(186006)(1800799003)(2616005)(36756003)(6512007)(4326008)(316002)(86362001)(6636002)(38100700002)(54906003)(66946007)(6666004)(478600001)(66556008)(66476007)(6486002)(37006003)(450100002)(6506007)(82960400001)(41300700001)(26005)(15650500001)(8676002)(8936002)(6862004)(2906002)(83380400001)(5660300002)(44832011);
+ SFS:(13230028)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199021)(1800799003)(186006)(2616005)(6486002)(6666004)(478600001)(86362001)(6512007)(82960400001)(26005)(36756003)(6506007)(15650500001)(41300700001)(8936002)(5660300002)(316002)(8676002)(6862004)(44832011)(37006003)(2906002)(4326008)(6636002)(66946007)(450100002)(66556008)(66476007)(38100700002)(83380400001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aVcW+jEYDg0IxGp3LBkSMK5FLLO8VUy1gEuSrT+Kqr3KKFCUC/+jYAxBryBs?=
- =?us-ascii?Q?X8L4UOV6E9/UDUJ7xWAvaif6Sptefx/jqh0GFO0LxUPrJlrCyzKK2FG485do?=
- =?us-ascii?Q?BYKLYcxBSrN/3nD4qxXMryNY5wupfa5hNwsDk8qmVrbfD3srNBXTMoB/BOJk?=
- =?us-ascii?Q?wc4KSRLn/jij43GfhEOsH2mJCPUFeKaM59zBSU5a6jiZrtzkU8ANceF+yIGQ?=
- =?us-ascii?Q?g625lmt7m60EMsWKIquTZ7QSAa/s81m9JNZf1U/IJf+RGgdglIjJQrcaeupo?=
- =?us-ascii?Q?+osgljE6sugIqbBCJKYK8Hmj4U0pXTyNe8D8+3KXreAwy5nwavLE58adwFNf?=
- =?us-ascii?Q?d0Z1thY2Dw125XDsl2XI6z4XhCvyHXoLRr8axAwE+7ILUEgs2E7msFvBdOAj?=
- =?us-ascii?Q?fdupmJ6lpJxfWXlPI0GiRwW1vwNrxp2KvlfL64XvZMELvFBMZ3j1du4Cm9Dp?=
- =?us-ascii?Q?KKVElMP/1NQY1DA/aOA2TrTrbbb1OgARmM/FdKNYaVHJFq1h5N4Eq78p41Uo?=
- =?us-ascii?Q?m5SDJaVO4UGPJKKvFvphgWlFrVP6/QkSxqXEVZNFarWeBfBPxbqTARHxlyLX?=
- =?us-ascii?Q?ukPR9jYpVkPoAvwPCSk2RYdqgV/veEEc5Psxi2jnxX/PdjPwVdoZbReb2Q2G?=
- =?us-ascii?Q?oDFE+f0Juq1osXGFBwiyeJw+9cBVvF9TrkIrtEIecq7eKRNSyjqJPrmJVy+P?=
- =?us-ascii?Q?hc1WgjkaZWkYnGo6+oQom/IwegC7HPaZhRcdc4SwfpI1pyv5d51t6jRsrS3X?=
- =?us-ascii?Q?VmSzgg1mwkYcNIwKpJQ6VDoKCk05Jk6bc4ynpzrKw9BrcyskkeBTDzC4FiYJ?=
- =?us-ascii?Q?vynAxsoxHymBIA9k54fMtmKa8rgeQBhBTh6ZyKkNxY4T4t6+lDoCR9AzeCcE?=
- =?us-ascii?Q?H0UWQ2JuaT2kBwOXPEj/OmG0Mh8nz8jWJQOIkF2qvW2hC6jo0GM393HHqAcJ?=
- =?us-ascii?Q?NrM364Oz3Cg2i7Zhk3r3K06AjwtgWg5Bf3e6FyA332zocpv0Xhx/E1lgftU+?=
- =?us-ascii?Q?fu8z42T86I4noUJqFN12YgqQQTWRuf46jMH0ZziigI+6FuJsqHL9MYM/21Ix?=
- =?us-ascii?Q?QhSco7deh0Mn1wPam3IFndNi6uNOy0VAh80r/bVIOMpcrbXs4QpLMP7j+vHk?=
- =?us-ascii?Q?5gljFjtwT/oLAuAP9Ipn2LMSW9FTxweOA5U5/iLvT1DSoL3AnMDWFYE4JWvA?=
- =?us-ascii?Q?pZtWn27Kc56AIL8r2bx7adBUyRTZSU0vfxfUkx+hPnnJVAzQHsrmp0LvGMyY?=
- =?us-ascii?Q?yTm/TuTUz3t95po3/2MEvCDwQvu/p2ZVLCk8ZA1i9l9eF8msqFGHZDfahxGE?=
- =?us-ascii?Q?Fisf91VFvNoEUrzrGOhknSl42kmCAK7vqMlTGk/3TcdgTQ6/aRjVzkH0vvbm?=
- =?us-ascii?Q?tQc7RC4iyhVixMYlNv+iUPeyvHH97BCYrX71xm4LACbqrAlZBo+zQhnP3xBZ?=
- =?us-ascii?Q?2Vc2NLyrSA+eWsUV7lKqXsVJxNGBCmXSWNAKa6QGEB0g1e2j6HfxAskUf6Cj?=
- =?us-ascii?Q?U08AwVXX69bPCJSnGLuVNC3FtdTppTSDu5BJsamZpfj3sMoYTn2CKbwXQFHw?=
- =?us-ascii?Q?kAJnnCBm0DV6orbaqD8tftvQxMk7XEprys3ZDhhB?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 892ff5d6-2052-4dec-3fb0-08db976f03d1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5jZ1ttXGsNwIRmJLTGrwpMkKxgFLPUWT2mIwRdpApFWTUAaQI1XZ84hiK5sC?=
+ =?us-ascii?Q?dSk+K51lbX1fboZvVnQ7HbOOCUMQeNvFovNgrKQs0y6DB4BPWM8k7iEOcmKS?=
+ =?us-ascii?Q?9gHLmT0qQ2f/9cyQVxY1jL6qVkuMZOJRcZNxMT8g8WKn99VQgJd5jt3CXKp9?=
+ =?us-ascii?Q?NP1SLHUC4Gr6QTDaalV9kgqxEqPYjH+iSobJw3WI55QIoRCHAZH/2Dcc2ZNG?=
+ =?us-ascii?Q?CuWOfRwFoPew8IHtq74U9jSjI0W8UwmyQMnCV1m/zXswz41gFaRVyXdBzy2S?=
+ =?us-ascii?Q?5dIHZF/9lkyhM9J5VuCTruj1+0QlkZPMsPbL94/ZDVsIADSUxym/EVYepxU/?=
+ =?us-ascii?Q?kuGGBvlkCyUVfaK6cxdIbKX6P7aCtHZiGdXjzt4E6nd78HOWBppTI5R+gobW?=
+ =?us-ascii?Q?rI+80TgE7IXZTzC5RLVusO4tmJ0cOw0NN+GRiANpnhXTTEy5JNTbt1fKGBzu?=
+ =?us-ascii?Q?4GwruEOJ0hZiQQnSUyTHk5h/s6oIpdqNGz1f2JQ1XEb9qudeXkEoQn5I+OGk?=
+ =?us-ascii?Q?SMYH0CYFcmUcbCdOf9+KdPMv8TCoKltu9yyyFUejYV35DVTUOl6ts3vmTHvB?=
+ =?us-ascii?Q?gJSreDym2j+onQmUpx/DjEo9xOwaDVp2x+vkTkqBxs+7OeafKR9amnlOLu4x?=
+ =?us-ascii?Q?mMMAFfgxc82Q4LS99aXueuu24wYDrKZBN+my9umZSHFYZ/CK1Uu6BIK8gxhB?=
+ =?us-ascii?Q?nXj2Z/387TFXbRYXRxN09tAXCLxFoJHlVeRCF/HVDdsbKWkU6qglXaOJKe9+?=
+ =?us-ascii?Q?i3Rds+QSQOcBA9R4A9cFjGd9L3qDqSNbKvsPexgMvUgqKhQ+Rxlek6TCVXd5?=
+ =?us-ascii?Q?wFUOQHo7taLzVpefZhUnJ9gY9P7zMklSunQo2qIY0caJ+TSz7tW953XDd8MM?=
+ =?us-ascii?Q?ghw0FfbBR1d9SQUJJaRxU8m20fQeGAYTzhx9ngRE6tyVICBYHarUTr88Px3V?=
+ =?us-ascii?Q?z6XJkhlN3azAThQbxGGF3hYfFbXhQOhpVOlzlmkEmhWDER+o1m4hQw53uQfb?=
+ =?us-ascii?Q?8ejywt4qIBZna9GEFbU0EPNe3FnfMMssDS840tuLx6eSdpCRoLNB244wCu4/?=
+ =?us-ascii?Q?dkJ3N3sZGPuCJDLQVEaSEil1xEigPKnWynBSFsj2Snyn7iAuQFZCF9Tur/dB?=
+ =?us-ascii?Q?UAIBrFxNMckUDdMOXxtniYc5jh7oiH5p0OEWsrX3XBc2lOeQ1GkI6tuGS1Zo?=
+ =?us-ascii?Q?abXRMae1nZNnlhlH7tbwTwcY0dIRVY9SDQiRM3MVO4J4CVXelYLLXZQyidh1?=
+ =?us-ascii?Q?wMfNk+VEWVR95EgA2pHh48OE1773WcS59ga1CU4UYTnF8THSwWzOd5ytOfml?=
+ =?us-ascii?Q?LEQmcrZqDNuEfy9kNiP5GSsDPJr9E7eMzuTgeHVd5iOICS3QO0KvBrYObBS9?=
+ =?us-ascii?Q?ZH0uDB1U2ljXW0JbDANvEcjBLgJxrLWe2amM3zjrYRhntnXqX3xUZQ7sr3B7?=
+ =?us-ascii?Q?PHgoaBMs16HM+C44w74suYqLkyVwkK0Wqv9IAu+U7I2zNusouh56pSPKIUhQ?=
+ =?us-ascii?Q?pGAu9dpTnJMK3U0bmPlFiaITK/dpY0GH3sEc/9A4mK6PXgOBcWuCMuJDU4Bt?=
+ =?us-ascii?Q?gJAoFVcunRfbW7jp3G9l4I4SpbDpZDsLA98WNzez?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c58348cd-3748-41ed-0698-08db976fb20c
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 17:52:06.9530 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 17:56:59.0650 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PlDHYxF0tRYFdv69NZhIQIaT3LC3Hz/5tviNd3b2WK6Ea48ggpUdpQLu03FYv5ShYgftjA7nAA2qaw+byxIXVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7921
+X-MS-Exchange-CrossTenant-UserPrincipalName: zIW0AxOd0CFs9ejuci2ipq0EOG0s75TIi6Ac2/dpWxm+lT9d/Do+HLjqOvRfeK8blRc5mRjLUtvKJw7miIcmdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5374
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -147,125 +147,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org, John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 02, 2023 at 04:34:59PM -0700, Alan Previn wrote:
-> Suspend is not like reset, it can unroll, so we have to properly
-> flush pending context-guc-id deregistrations to complete before
-> we return from suspend calls.
-
-But if is 'unrolls' the execution should just continue, no?!
-In other words, why is this flush needed? What happens if we
-don't flush, but resume doesn't proceed? in in which case
-of resume you are thinking that it returns and not having flushed?
-
+On Wed, Aug 02, 2023 at 04:35:01PM -0700, Alan Previn wrote:
+> When suspending, add a timeout when calling
+> intel_gt_pm_wait_for_idle else if we have a lost
+> G2H event that holds a wakeref (which would be
+> indicating of a bug elsewhere in the driver), we
+> get to complete the suspend-resume cycle, albeit
+> without all the lower power hw counters hitting
+> its targets, instead of hanging in the kernel.
 > 
 > Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c             | 6 +++++-
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 5 +++++
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h | 2 ++
->  drivers/gpu/drm/i915/gt/uc/intel_uc.c             | 7 +++++++
->  drivers/gpu/drm/i915/gt/uc/intel_uc.h             | 1 +
->  5 files changed, 20 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c     |  7 ++++++-
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  7 ++++++-
+>  drivers/gpu/drm/i915/intel_wakeref.c      | 14 ++++++++++----
+>  drivers/gpu/drm/i915/intel_wakeref.h      |  5 +++--
+>  5 files changed, 26 insertions(+), 9 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index ee15486fed0d..090438eb8682 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -688,7 +688,7 @@ void intel_engines_release(struct intel_gt *gt)
+>  		if (!engine->release)
+>  			continue;
+>  
+> -		intel_wakeref_wait_for_idle(&engine->wakeref);
+> +		intel_wakeref_wait_for_idle(&engine->wakeref, 0);
+>  		GEM_BUG_ON(intel_engine_pm_is_awake(engine));
+>  
+>  		engine->release(engine);
 > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index 5a942af0a14e..3162d859ed68 100644
+> index 3162d859ed68..dfe77eb3efd1 100644
 > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
 > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -289,8 +289,10 @@ int intel_gt_resume(struct intel_gt *gt)
+> @@ -289,6 +289,8 @@ int intel_gt_resume(struct intel_gt *gt)
 >  
 >  static void wait_for_suspend(struct intel_gt *gt)
 >  {
-> -	if (!intel_gt_pm_is_awake(gt))
-> +	if (!intel_gt_pm_is_awake(gt)) {
-> +		intel_uc_suspend_prepare(&gt->uc);
-
-why only on idle?
-
-Well, I know, if we are in idle it is because all the requests had
-already ended and gt will be wedged, but why do we need to do anything
-if we are in idle?
-
-And why here and not some upper layer? like in prepare....
-
+> +	int timeout_ms = CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT ? : 10000;
+> +
+>  	if (!intel_gt_pm_is_awake(gt)) {
+>  		intel_uc_suspend_prepare(&gt->uc);
 >  		return;
-> +	}
->  
->  	if (intel_gt_wait_for_idle(gt, I915_GT_SUSPEND_IDLE_TIMEOUT) == -ETIME) {
->  		/*
-> @@ -299,6 +301,8 @@ static void wait_for_suspend(struct intel_gt *gt)
->  		 */
->  		intel_gt_set_wedged(gt);
->  		intel_gt_retire_requests(gt);
-> +	} else {
-> +		intel_uc_suspend_prepare(&gt->uc);
+> @@ -305,7 +307,10 @@ static void wait_for_suspend(struct intel_gt *gt)
+>  		intel_uc_suspend_prepare(&gt->uc);
 >  	}
 >  
->  	intel_gt_pm_wait_for_idle(gt);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index a0e3ef1c65d2..dc7735a19a5a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -1578,6 +1578,11 @@ static void guc_flush_submissions(struct intel_guc *guc)
->  	spin_unlock_irqrestore(&sched_engine->lock, flags);
+> -	intel_gt_pm_wait_for_idle(gt);
+> +	/* we are suspending, so we shouldn't be waiting forever */
+> +	if (intel_gt_pm_wait_timeout_for_idle(gt, timeout_ms) == -ETIME)
+> +		drm_warn(&gt->i915->drm, "Bailing from %s after %d milisec timeout\n",
+> +			 __func__, timeout_ms);
 >  }
 >  
-> +void intel_guc_submission_suspend_prepare(struct intel_guc *guc)
-> +{
-> +	flush_work(&guc->submission_state.destroyed_worker);
+>  void intel_gt_suspend_prepare(struct intel_gt *gt)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> index 6c9a46452364..5358acc2b5b1 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> @@ -68,7 +68,12 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+>  
+>  static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+>  {
+> -	return intel_wakeref_wait_for_idle(&gt->wakeref);
+> +	return intel_wakeref_wait_for_idle(&gt->wakeref, 0);
 > +}
 > +
->  static void guc_flush_destroyed_contexts(struct intel_guc *guc);
->  
->  void intel_guc_submission_reset_prepare(struct intel_guc *guc)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> index c57b29cdb1a6..7f0705ece74b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> @@ -38,6 +38,8 @@ int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
->  				   bool interruptible,
->  				   long timeout);
->  
-> +void intel_guc_submission_suspend_prepare(struct intel_guc *guc);
-> +
->  static inline bool intel_guc_submission_is_supported(struct intel_guc *guc)
->  {
->  	return guc->submission_supported;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index 18250fb64bd8..468d7b397927 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -679,6 +679,13 @@ void intel_uc_runtime_suspend(struct intel_uc *uc)
->  	guc_disable_communication(guc);
+> +static inline int intel_gt_pm_wait_timeout_for_idle(struct intel_gt *gt, int timeout_ms)
+> +{
+> +	return intel_wakeref_wait_for_idle(&gt->wakeref, timeout_ms);
 >  }
 >  
-> +void intel_uc_suspend_prepare(struct intel_uc *uc)
-> +{
-> +	struct intel_guc *guc = &uc->guc;
-> +
-> +	intel_guc_submission_suspend_prepare(guc);
-> +}
-> +
->  void intel_uc_suspend(struct intel_uc *uc)
+>  void intel_gt_pm_init_early(struct intel_gt *gt);
+> diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+> index 718f2f1b6174..7e01d4cc300c 100644
+> --- a/drivers/gpu/drm/i915/intel_wakeref.c
+> +++ b/drivers/gpu/drm/i915/intel_wakeref.c
+> @@ -111,14 +111,20 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
+>  			 "wakeref.work", &key->work, 0);
+>  }
+>  
+> -int intel_wakeref_wait_for_idle(struct intel_wakeref *wf)
+> +int intel_wakeref_wait_for_idle(struct intel_wakeref *wf, int timeout_ms)
 >  {
->  	struct intel_guc *guc = &uc->guc;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> index 014bb7d83689..036877a07261 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.h
-> @@ -49,6 +49,7 @@ void intel_uc_reset_prepare(struct intel_uc *uc);
->  void intel_uc_reset(struct intel_uc *uc, intel_engine_mask_t stalled);
->  void intel_uc_reset_finish(struct intel_uc *uc);
->  void intel_uc_cancel_requests(struct intel_uc *uc);
-> +void intel_uc_suspend_prepare(struct intel_uc *uc);
->  void intel_uc_suspend(struct intel_uc *uc);
->  void intel_uc_runtime_suspend(struct intel_uc *uc);
->  int intel_uc_resume(struct intel_uc *uc);
+> -	int err;
+> +	int err = 0;
+>  
+>  	might_sleep();
+>  
+> -	err = wait_var_event_killable(&wf->wakeref,
+> -				      !intel_wakeref_is_active(wf));
+> +	if (!timeout_ms)
+> +		err = wait_var_event_killable(&wf->wakeref,
+> +					      !intel_wakeref_is_active(wf));
+> +	else if (wait_var_event_timeout(&wf->wakeref,
+> +					!intel_wakeref_is_active(wf),
+> +					msecs_to_jiffies(timeout_ms)) < 1)
+> +		err = -ETIME;
+
+it looks to me that -ETIMEDOUT would be a better error.
+
+> +
+>  	if (err)
+>  		return err;
+>  
+> diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
+> index ec881b097368..6fbb7a2fb6ea 100644
+> --- a/drivers/gpu/drm/i915/intel_wakeref.h
+> +++ b/drivers/gpu/drm/i915/intel_wakeref.h
+> @@ -251,15 +251,16 @@ __intel_wakeref_defer_park(struct intel_wakeref *wf)
+>  /**
+>   * intel_wakeref_wait_for_idle: Wait until the wakeref is idle
+>   * @wf: the wakeref
+> + * @timeout_ms: timeout to wait in milisecs, zero means forever
+>   *
+>   * Wait for the earlier asynchronous release of the wakeref. Note
+>   * this will wait for any third party as well, so make sure you only wait
+>   * when you have control over the wakeref and trust no one else is acquiring
+>   * it.
+>   *
+> - * Return: 0 on success, error code if killed.
+> + * Return: 0 on success, error code if killed, -ETIME if timed-out.
+>   */
+> -int intel_wakeref_wait_for_idle(struct intel_wakeref *wf);
+> +int intel_wakeref_wait_for_idle(struct intel_wakeref *wf, int timeout_ms);
+>  
+>  struct intel_wakeref_auto {
+>  	struct drm_i915_private *i915;
 > -- 
 > 2.39.0
 > 
