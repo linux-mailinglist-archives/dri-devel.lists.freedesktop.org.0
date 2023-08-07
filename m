@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C077727EF
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 16:36:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7937727F0
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 16:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E25310E29F;
-	Mon,  7 Aug 2023 14:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710DD10E2A5;
+	Mon,  7 Aug 2023 14:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5798E10E29B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 14:35:35 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-991c786369cso625514066b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 07:35:35 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8237710E29D
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 14:35:36 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-99cce6f7de2so226374166b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 07:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691418934; x=1692023734;
+ d=gmail.com; s=20221208; t=1691418935; x=1692023735;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/ZvPUmeI/1EMGUSu/xpT/NIbYPZbxTYJRvOXwkEg1y4=;
- b=nx3VdgiKuT2WAB9KWAoKXJPbURnaLo0c7g2k8OCRZ8JX+DDucBlkvE79w7wqREmoAv
- 5m7FMByQLnWy4CKH1Dv4uJlEb3ClC3MUvCJCJzVOELztu8Bwb8UvEnYwfynQk/JUNYSx
- +MS/6zWN36ApBG3RZEbKdTwu3whwBIpZDKUFQpIUwgJBVeslLFD0WUa2KIR4gjIZl0AR
- 31Tjy5cxqNBWmZjIo90FvvCkObwmUMp2i/HPzTAGn9i021AaopRAcOp1bHgvGI7+UelC
- FTRsHz8dxGIa9J04nv8A/KMFn9WutCosf0k7vXOoVhhYkk8k4Kd+RcEaQUl3NQ63Oe8z
- EwyA==
+ bh=asTM4rKFSzp+icJaUkDK1RLj/Utx4x2PWtAP4aO5Afg=;
+ b=hoJl9W9qSFU+nbBgkpjrBd7pg3z2yqFs/Sgdljv3EEXWkXxBFMd9YqhpbR1K/+gbtT
+ mFsK0CopCClhN2AaPqDAp+ZjOOsIEca6KuBq8qZIh/b+wSD8UT857URmRODNU1Nja+T2
+ fIa5zlxYOk30k7EizulVFt+7ZU/kJryvT54jOlPWZnHAmN1tkLRsOE7s32Egk4ZwCorV
+ FX54PCIMZeoD57Y1zpd4LnKbhqTH0gR2RHCSVDoN5q+4JbbxxkdxKwCrnhQHfcsc9Ryo
+ ihfkVPkgJfUNECsilJHguDxAvt69YfWaCX80fsuam6SIyIBs0N3OYIPC91Vfhlax1UlX
+ NUXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691418934; x=1692023734;
+ d=1e100.net; s=20221208; t=1691418935; x=1692023735;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/ZvPUmeI/1EMGUSu/xpT/NIbYPZbxTYJRvOXwkEg1y4=;
- b=lJHPYrDDSUzdcu0uYigp0yNrssZLq1xn5mZSJgVTaD5HBwOnLrnKa57f/w0Qc9D4Xr
- gH3BOJvUODbpfWwXtBv+WckWWqXhaNYulWdkjtmhr0fDtBUDcl3D4J8fDY6c1w+ScIT1
- 3lJUa/U8KUgiJHSDnls1lzUgaSh+sXEjCOzn3Xq6sAkqqKD8d6CDX/QMAAwaslB282do
- XKMpiCKZLKQUgtMXDuf9s0gaJ0TOFMx3GjFpBXnnLIxG7MpZ6hfdqGIZNnRYmS0CXIAL
- sFNS45gAzOW8TIe0BAeZQQAqhcWbIRS749aEbv+1/GfefSNdvjAN/psmbTqbEWIXQH6f
- X7ZQ==
-X-Gm-Message-State: AOJu0YymA+FH3+aIk3Spb1c4TdwheCvTxsUp2RTYGTpPrBimWgXzyznj
- lqH6dK1vIKeg+uJokRDNizZ02lt5o5aJTw==
-X-Google-Smtp-Source: AGHT+IFieJ8bZzt1TPzOApOQ7/Q2X9S0DhUWYiPxMLc7XZT0uMY2JEoLmpSSXlAl5GIQWxhXlFs4wA==
-X-Received: by 2002:a17:907:b09:b0:99c:5707:f458 with SMTP id
- h9-20020a1709070b0900b0099c5707f458mr6661271ejl.72.1691418933549; 
- Mon, 07 Aug 2023 07:35:33 -0700 (PDT)
+ bh=asTM4rKFSzp+icJaUkDK1RLj/Utx4x2PWtAP4aO5Afg=;
+ b=esciTGK3hnSzKylO5dlTwfQC6ydw6t0ywl2CtNbvC3A5oSDjBrugQN4DepspHztORg
+ 0BKpjM/iZZSqIQikQFbk4aixvb4q93Q/qxNnkrJ1vaatTJEDS2JT83qITeROTDjtHdnL
+ qm6UvXEAckhxIRinLyCaodtjNFvJi7MOgxxjFwpjvyhnXewvHeZOCDscb9u7kScGblPg
+ fLiG3nAjrdgZaDsPlccFj+RHjRKtkZF40wbOdoj1Tow5T0waUh3YpgjakJe95IvUR3zk
+ 5GJ75Q2nT5FK1U/2Wh7+rqqHIe5Bysj4YWCO7lqqzG1Y8cXRVxUWJkbasykHt2DUSCUY
+ JcWA==
+X-Gm-Message-State: AOJu0YwI4trqCs9/PM3T75JQFiLtzaPkpEofouRhvMDqia6x5nKcx8SY
+ 6ScePo3rhSccRkIbuRHj9BU=
+X-Google-Smtp-Source: AGHT+IEnSoGoSBbAkGwZZ6QVhfXEkQngtjQdyaY+wAvqyNycQ2LNqaPQeBes0NVHHROa9A2oaaJDUQ==
+X-Received: by 2002:a17:906:76d4:b0:99c:75f7:19c1 with SMTP id
+ q20-20020a17090676d400b0099c75f719c1mr7516516ejn.39.1691418934744; 
+ Mon, 07 Aug 2023 07:35:34 -0700 (PDT)
 Received: from xeon.. ([188.163.112.48]) by smtp.gmail.com with ESMTPSA id
- e3-20020a170906504300b0099329b3ab67sm5323292ejk.71.2023.08.07.07.35.32
+ e3-20020a170906504300b0099329b3ab67sm5323292ejk.71.2023.08.07.07.35.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 07:35:33 -0700 (PDT)
+ Mon, 07 Aug 2023 07:35:34 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -60,10 +60,10 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Mikko Perttunen <mperttunen@nvidia.com>,
  Svyatoslav Ryhel <clamor95@gmail.com>,
  Maxim Schwalm <maxim.schwalm@gmail.com>, Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH v3 2/5] dt-bindings: display: tegra: nvidia,
- tegra20-dc: Add parallel RGB output port node
-Date: Mon,  7 Aug 2023 17:35:12 +0300
-Message-Id: <20230807143515.7882-3-clamor95@gmail.com>
+Subject: [PATCH v3 3/5] dt-bindings: display: tegra: nvidia,
+ tegra20-hdmi: Add HDMI output port node
+Date: Mon,  7 Aug 2023 17:35:13 +0300
+Message-Id: <20230807143515.7882-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230807143515.7882-1-clamor95@gmail.com>
 References: <20230807143515.7882-1-clamor95@gmail.com>
@@ -94,51 +94,62 @@ present.
 Signed-off-by: Maxim Schwalm <maxim.schwalm@gmail.com>
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- .../display/tegra/nvidia,tegra20-dc.yaml      | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ .../display/tegra/nvidia,tegra20-hdmi.yaml    | 32 +++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-index 69be95afd562..102304703062 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-@@ -127,6 +127,37 @@ allOf:
-               $ref: /schemas/types.yaml#/definitions/phandle
-               description: phandle of a display panel
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+index f77197e4869f..f8292551b9c8 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+@@ -82,9 +82,39 @@ properties:
+     description: phandle of a display panel
+     $ref: /schemas/types.yaml#/definitions/phandle
  
-+            port:
-+              $ref: /schemas/graph.yaml#/$defs/port-base
-+              description: Parallel RGB output port
++  port:
++    description: HDMI output port
++    $ref: /schemas/graph.yaml#/properties/port
 +
-+              properties:
-+                endpoint:
-+                  $ref: /schemas/media/video-interfaces.yaml#
-+                  unevaluatedProperties: false
+   "#sound-dai-cells":
+     const: 0
+ 
++anyOf:
++  - if:
++      not:
++        properties:
++          nvidia,panel: false
++    then:
++      not:
++        properties:
++          port: true
++  - if:
++      not:
++        properties:
++          port: false
++    then:
++      not:
++        properties:
++          nvidia,panel: true
 +
-+              unevaluatedProperties: false
++if:
++  properties:
++    port: false
++then:
++  required:
++    - nvidia,ddc-i2c-bus
++    - nvidia,hpd-gpio
 +
-+          anyOf:
-+            - if:
-+                not:
-+                  properties:
-+                    nvidia,panel: false
-+              then:
-+                not:
-+                  properties:
-+                    port: true
-+            - if:
-+                not:
-+                  properties:
-+                    port: false
-+              then:
-+                not:
-+                  properties:
-+                    nvidia,panel: true
-+
-+          additionalProperties: false
-+
-   - if:
-       properties:
-         compatible:
+ additionalProperties: false
+ 
+ required:
+@@ -97,8 +127,6 @@ required:
+   - reset-names
+   - pll-supply
+   - vdd-supply
+-  - nvidia,ddc-i2c-bus
+-  - nvidia,hpd-gpio
+ 
+ examples:
+   - |
 -- 
 2.39.2
 
