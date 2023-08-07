@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C57772CD8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC73772CDB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7048510E35C;
-	Mon,  7 Aug 2023 17:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2EC210E35E;
+	Mon,  7 Aug 2023 17:26:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DDF710E358;
- Mon,  7 Aug 2023 17:25:39 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-565f2567422so3233862eaf.2; 
- Mon, 07 Aug 2023 10:25:39 -0700 (PDT)
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29B6810E368;
+ Mon,  7 Aug 2023 17:26:18 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id
+ 5614622812f47-3a7a180c3faso551058b6e.2; 
+ Mon, 07 Aug 2023 10:26:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691429138; x=1692033938;
+ d=gmail.com; s=20221208; t=1691429177; x=1692033977;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MT9ZoHa3QBN38VFI/biOZ0hMRuiUyTubHzewye4P1RM=;
- b=O1DRxAZ9GLVObJ/SVqp8h21UA2WiTQVFbdv1s7zTImPe9UdtKOemT2dTQX4Fnr3o8D
- IvCL0WHX1McghjNJkOYXZ/7lO9mJsg6ekXsGtakDRfzXkjvJsaLa6JfFGj29h4iGmkBI
- kjpsf42afYnlmz9egv4knpqvkRU5F8LLqw7nRfjby6PfxhF78u6J4gzZAk7CSC5h9pn7
- RgePyDz6lzMvjTLR8erI6HYN/nSlF8qRCt+N3jriURPzvJtF7TGpBS8wxMh2b1QlXbOc
- r7LnBmbtLbHT6oxk8OCGuazwSEXrbAvJTty0EnFmZB0dQDIK2zQvJsFpk4oS3V08nu/B
- d8ZA==
+ bh=CSOWVrjZ1/u9To54jiA15JDLcV2I1XHj1QAMnIKhAvY=;
+ b=scuOA7ac5toaJ55K4HcKWCHf+y9/KRko3nm0b2dp7tiEtLP/mHWWtrzGVarrKClqZ2
+ nAV2UNP3Xmw2LjuWLSQri0TO6ZQRdStQ3OUySRdMZu1rHxgjcIgGuTndjgCnFDhwkWNf
+ Q2kTu7A34vC0xJMsWFysuLy24ib3d4MJWJRybTw6uOibnqX5An7404wPNV+2MSLOADet
+ 9vkGQpE22x30LHyy9KUBNF7cWDgsTaIczRB8rmIxIe5xLo9Lw/3AvJY8Fuq6+9vOivyH
+ R7Rr8HmIQULCm3oiCkyGJD++nyniXbTrUPv44+xW0osY7fEfCZSDuGNJ+CAQRr9on78R
+ NDiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691429138; x=1692033938;
+ d=1e100.net; s=20221208; t=1691429177; x=1692033977;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MT9ZoHa3QBN38VFI/biOZ0hMRuiUyTubHzewye4P1RM=;
- b=goyYzL1IvHie8Om1Wxng2rKRtT2BksGbpdhgcD6LhNMd1x2Vmf/nD37TCJpF3KqWbT
- s316pS9/h9G0GRINASpYqTu0f1Dhq0O4/DPF1JiD3lYjkEMHvuHpg6AV5VcDPaqTJXEH
- Ye5Q/M+G6uE0X/CDRgkDP2KKn5JW6FPpxk/cuVVVclNXsR4RY/Tv7XgDGaPHL8e1wiIY
- QwwA2c805II6sZBn3pu9wOL2hJNCiIFzkrfzbYxKfBegXzpdCjIl4OO30v8a9VtyRncF
- OUZ8Rv8FeDGhZBa0kFkw6gfWn6RrD3feRQdZGvRIjvv0HjzwQ347kscv4ebw0a64xffL
- jL/Q==
-X-Gm-Message-State: AOJu0YynzcX2XHuWhAdCc1jTSuv95hbRqPPDiNPyb4867f+ym+Ov9QUh
- ubVwPgYANiu15EyOO51BgiXUGtpaLUGbGqWJnaU=
-X-Google-Smtp-Source: AGHT+IHKdYJhOzFLz7sRPBkKw8b9SIdR/Y65ZOVU8mGmwuV/MU3nCqvJ7FNIUlZ07bZFuuONi/WLIqWFKqq1TdTS0R4=
-X-Received: by 2002:a4a:3c5e:0:b0:56d:55b7:e99c with SMTP id
- p30-20020a4a3c5e000000b0056d55b7e99cmr9158977oof.1.1691429138564; Mon, 07 Aug
- 2023 10:25:38 -0700 (PDT)
+ bh=CSOWVrjZ1/u9To54jiA15JDLcV2I1XHj1QAMnIKhAvY=;
+ b=aUaL+KulmwYxwlcjVfE+cz1zSLtD4lmUmNoDHsfmPRXgD/xYo68CBBObrj6WZma/+O
+ AmSNDN3ppv9gmLO0nCo2oYJp71yPUEmGaPnsZfhbkMjVy57UWL4rY95fB7SOg5kJkCDL
+ MkJNw4MUpAokfVlSFM5z38R0lCy0cKtTZV/XwrHANThU8ijC9zL9HZH6w7057SEKD+Og
+ mzfpMfZytYDYEfscynLbQ+8TU23WL5oNI3LXFKPOT1ykTrCM0c3EF9Fh/+XC5YM5QXVG
+ twHkVaDs7L/y+Bj6vgLcK1Ls+kbvHyh340U1HIXnZ6GYsPPnVz8Ww/sCS9SVZLPjFxc/
+ IjQQ==
+X-Gm-Message-State: AOJu0Yyuj8XYb0WTaU5TbUm6wKinVxi5/YZcuF+BIx81c7Pu/mfneWbr
+ 5ZanL5wN57KcEtBd+GNRzx7zCiuv1gaBnrUBZ6A=
+X-Google-Smtp-Source: AGHT+IHv07CWDxAqO5ul3ZXsB9vYEfcAx0bnOry4mrq0FjhomLVxvTG9la8IwMlZQuK33HtwaISGD3Uk9EzhigswBg0=
+X-Received: by 2002:a05:6808:1410:b0:3a3:640d:ed71 with SMTP id
+ w16-20020a056808141000b003a3640ded71mr14211892oiv.10.1691429177306; Mon, 07
+ Aug 2023 10:26:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802071805.12808-1-sunran001@208suo.com>
-In-Reply-To: <20230802071805.12808-1-sunran001@208suo.com>
+References: <20230802072127.12896-1-sunran001@208suo.com>
+In-Reply-To: <20230802072127.12896-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:25:27 -0400
-Message-ID: <CADnq5_Oj_+k3E4Njhw-W4_YvSLb9LL9RfGsrQb6a085Dpc5iFQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in dce_v8_0.c
+Date: Mon, 7 Aug 2023 13:26:06 -0400
+Message-ID: <CADnq5_NK9xz9OAoLkjKMtaZ+k+7PsOT7oeCacqap8MRs_9oG1g@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in soc21.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,171 +75,144 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 3:18=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 3:21=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
 > ERROR: that open brace { should be on the previous line
-> ERROR: code indent should use tabs where possible
-> ERROR: space required before the open brace '{'
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c | 37 ++++++++++-----------------
->  1 file changed, 14 insertions(+), 23 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/soc21.c | 30 ++++++++++--------------------
+>  1 file changed, 10 insertions(+), 20 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/=
-amdgpu/dce_v8_0.c
-> index d421a268c9ff..f2b3cb5ed6be 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> @@ -53,8 +53,7 @@
->  static void dce_v8_0_set_display_funcs(struct amdgpu_device *adev);
->  static void dce_v8_0_set_irq_funcs(struct amdgpu_device *adev);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/soc21.c b/drivers/gpu/drm/amd/amd=
+gpu/soc21.c
+> index e5e5d68a4d70..4f3ecd66eb6b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/soc21.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/soc21.c
+> @@ -48,33 +48,28 @@
+>  static const struct amd_ip_funcs soc21_common_ip_funcs;
 >
-> -static const u32 crtc_offsets[6] =3D
+>  /* SOC21 */
+> -static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_encod=
+e_array_vcn0[] =3D
 > -{
-> +static const u32 crtc_offsets[6] =3D {
->         CRTC0_REGISTER_OFFSET,
->         CRTC1_REGISTER_OFFSET,
->         CRTC2_REGISTER_OFFSET,
-> @@ -63,8 +62,7 @@ static const u32 crtc_offsets[6] =3D
->         CRTC5_REGISTER_OFFSET
+> +static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_encod=
+e_array_vcn0[] =3D {
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
+6, 2304, 0)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 4096, 23=
+04, 0)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_AV1, 8192, 435=
+2, 0)},
 >  };
 >
-> -static const u32 hpd_offsets[] =3D
+> -static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_encod=
+e_array_vcn1[] =3D
 > -{
-> +static const u32 hpd_offsets[] =3D {
->         HPD0_REGISTER_OFFSET,
->         HPD1_REGISTER_OFFSET,
->         HPD2_REGISTER_OFFSET,
-> @@ -1345,9 +1343,9 @@ static void dce_v8_0_audio_write_sad_regs(struct dr=
-m_encoder *encoder)
->                                 if (sad->channels > max_channels) {
->                                         value =3D (sad->channels <<
->                                                  AZALIA_F0_CODEC_PIN_CONT=
-ROL_AUDIO_DESCRIPTOR0__MAX_CHANNELS__SHIFT) |
-> -                                               (sad->byte2 <<
-> +                                               (sad->byte2 <<
->                                                  AZALIA_F0_CODEC_PIN_CONT=
-ROL_AUDIO_DESCRIPTOR0__DESCRIPTOR_BYTE_2__SHIFT) |
-> -                                               (sad->freq <<
-> +                                               (sad->freq <<
->                                                  AZALIA_F0_CODEC_PIN_CONT=
-ROL_AUDIO_DESCRIPTOR0__SUPPORTED_FREQUENCIES__SHIFT);
->                                         max_channels =3D sad->channels;
->                                 }
-> @@ -1379,8 +1377,7 @@ static void dce_v8_0_audio_enable(struct amdgpu_dev=
-ice *adev,
->                 enable ? AZALIA_F0_CODEC_PIN_CONTROL_HOT_PLUG_CONTROL__AU=
-DIO_ENABLED_MASK : 0);
+> +static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_encod=
+e_array_vcn1[] =3D {
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
+6, 2304, 0)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 4096, 23=
+04, 0)},
+>  };
+>
+> -static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_encode_vc=
+n0 =3D
+> -{
+> +static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_encode_vc=
+n0 =3D {
+>         .codec_count =3D ARRAY_SIZE(vcn_4_0_0_video_codecs_encode_array_v=
+cn0),
+>         .codec_array =3D vcn_4_0_0_video_codecs_encode_array_vcn0,
+>  };
+>
+> -static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_encode_vc=
+n1 =3D
+> -{
+> +static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_encode_vc=
+n1 =3D {
+>         .codec_count =3D ARRAY_SIZE(vcn_4_0_0_video_codecs_encode_array_v=
+cn1),
+>         .codec_array =3D vcn_4_0_0_video_codecs_encode_array_vcn1,
+>  };
+>
+> -static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_decod=
+e_array_vcn0[] =3D
+> -{
+> +static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_decod=
+e_array_vcn0[] =3D {
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
+6, 4096, 52)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 8192, 43=
+52, 186)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 4096, 40=
+96, 0)},
+> @@ -82,22 +77,19 @@ static const struct amdgpu_video_codec_info vcn_4_0_0=
+_video_codecs_decode_array_
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_AV1, 8192, 435=
+2, 0)},
+>  };
+>
+> -static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_decod=
+e_array_vcn1[] =3D
+> -{
+> +static const struct amdgpu_video_codec_info vcn_4_0_0_video_codecs_decod=
+e_array_vcn1[] =3D {
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
+6, 4096, 52)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 8192, 43=
+52, 186)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_JPEG, 4096, 40=
+96, 0)},
+>         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 435=
+2, 0)},
+>  };
+>
+> -static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_decode_vc=
+n0 =3D
+> -{
+> +static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_decode_vc=
+n0 =3D {
+>         .codec_count =3D ARRAY_SIZE(vcn_4_0_0_video_codecs_decode_array_v=
+cn0),
+>         .codec_array =3D vcn_4_0_0_video_codecs_decode_array_vcn0,
+>  };
+>
+> -static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_decode_vc=
+n1 =3D
+> -{
+> +static const struct amdgpu_video_codecs vcn_4_0_0_video_codecs_decode_vc=
+n1 =3D {
+>         .codec_count =3D ARRAY_SIZE(vcn_4_0_0_video_codecs_decode_array_v=
+cn1),
+>         .codec_array =3D vcn_4_0_0_video_codecs_decode_array_vcn1,
+>  };
+> @@ -445,8 +437,7 @@ static void soc21_program_aspm(struct amdgpu_device *=
+adev)
+>                 adev->nbio.funcs->program_aspm(adev);
 >  }
 >
-> -static const u32 pin_offsets[7] =3D
+> -const struct amdgpu_ip_block_version soc21_common_ip_block =3D
 > -{
-> +static const u32 pin_offsets[7] =3D {
->         (0x1780 - 0x1780),
->         (0x1786 - 0x1780),
->         (0x178c - 0x1780),
-> @@ -1740,8 +1737,7 @@ static void dce_v8_0_afmt_fini(struct amdgpu_device=
- *adev)
->         }
->  }
->
-> -static const u32 vga_control_regs[6] =3D
-> -{
-> +static const u32 vga_control_regs[6] =3D {
->         mmD1VGA_CONTROL,
->         mmD2VGA_CONTROL,
->         mmD3VGA_CONTROL,
-> @@ -1895,9 +1891,9 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crt=
-c *crtc,
->         case DRM_FORMAT_XBGR8888:
->         case DRM_FORMAT_ABGR8888:
->                 fb_format =3D ((GRPH_DEPTH_32BPP << GRPH_CONTROL__GRPH_DE=
-PTH__SHIFT) |
-> -                            (GRPH_FORMAT_ARGB8888 << GRPH_CONTROL__GRPH_=
-FORMAT__SHIFT));
-> +                               (GRPH_FORMAT_ARGB8888 << GRPH_CONTROL__GR=
-PH_FORMAT__SHIFT));
->                 fb_swap =3D ((GRPH_RED_SEL_B << GRPH_SWAP_CNTL__GRPH_RED_=
-CROSSBAR__SHIFT) |
-> -                          (GRPH_BLUE_SEL_R << GRPH_SWAP_CNTL__GRPH_BLUE_=
-CROSSBAR__SHIFT));
-> +                       (GRPH_BLUE_SEL_R << GRPH_SWAP_CNTL__GRPH_BLUE_CRO=
-SSBAR__SHIFT));
->  #ifdef __BIG_ENDIAN
->                 fb_swap |=3D (GRPH_ENDIAN_8IN32 << GRPH_SWAP_CNTL__GRPH_E=
-NDIAN_SWAP__SHIFT);
->  #endif
-> @@ -3151,7 +3147,7 @@ static int dce_v8_0_pageflip_irq(struct amdgpu_devi=
-ce *adev,
->
->         spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
->         works =3D amdgpu_crtc->pflip_works;
-> -       if (amdgpu_crtc->pflip_status !=3D AMDGPU_FLIP_SUBMITTED){
-> +       if (amdgpu_crtc->pflip_status !=3D AMDGPU_FLIP_SUBMITTED) {
->                 DRM_DEBUG_DRIVER("amdgpu_crtc->pflip_status =3D %d !=3D "
->                                                 "AMDGPU_FLIP_SUBMITTED(%d=
-)\n",
->                                                 amdgpu_crtc->pflip_status=
-,
-> @@ -3544,8 +3540,7 @@ static void dce_v8_0_set_irq_funcs(struct amdgpu_de=
-vice *adev)
->         adev->hpd_irq.funcs =3D &dce_v8_0_hpd_irq_funcs;
->  }
->
-> -const struct amdgpu_ip_block_version dce_v8_0_ip_block =3D
-> -{
-> +const struct amdgpu_ip_block_version dce_v8_0_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_DCE,
->         .major =3D 8,
+> +const struct amdgpu_ip_block_version soc21_common_ip_block =3D {
+>         .type =3D AMD_IP_BLOCK_TYPE_COMMON,
+>         .major =3D 1,
 >         .minor =3D 0,
-> @@ -3553,8 +3548,7 @@ const struct amdgpu_ip_block_version dce_v8_0_ip_bl=
-ock =3D
->         .funcs =3D &dce_v8_0_ip_funcs,
->  };
+> @@ -547,8 +538,7 @@ static int soc21_update_umd_stable_pstate(struct amdg=
+pu_device *adev,
+>         return 0;
+>  }
 >
-> -const struct amdgpu_ip_block_version dce_v8_1_ip_block =3D
+> -static const struct amdgpu_asic_funcs soc21_asic_funcs =3D
 > -{
-> +const struct amdgpu_ip_block_version dce_v8_1_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_DCE,
->         .major =3D 8,
->         .minor =3D 1,
-> @@ -3562,8 +3556,7 @@ const struct amdgpu_ip_block_version dce_v8_1_ip_bl=
-ock =3D
->         .funcs =3D &dce_v8_0_ip_funcs,
->  };
->
-> -const struct amdgpu_ip_block_version dce_v8_2_ip_block =3D
-> -{
-> +const struct amdgpu_ip_block_version dce_v8_2_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_DCE,
->         .major =3D 8,
->         .minor =3D 2,
-> @@ -3571,8 +3564,7 @@ const struct amdgpu_ip_block_version dce_v8_2_ip_bl=
-ock =3D
->         .funcs =3D &dce_v8_0_ip_funcs,
->  };
->
-> -const struct amdgpu_ip_block_version dce_v8_3_ip_block =3D
-> -{
-> +const struct amdgpu_ip_block_version dce_v8_3_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_DCE,
->         .major =3D 8,
->         .minor =3D 3,
-> @@ -3580,8 +3572,7 @@ const struct amdgpu_ip_block_version dce_v8_3_ip_bl=
-ock =3D
->         .funcs =3D &dce_v8_0_ip_funcs,
->  };
->
-> -const struct amdgpu_ip_block_version dce_v8_5_ip_block =3D
-> -{
-> +const struct amdgpu_ip_block_version dce_v8_5_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_DCE,
->         .major =3D 8,
->         .minor =3D 5,
+> +static const struct amdgpu_asic_funcs soc21_asic_funcs =3D {
+>         .read_disabled_bios =3D &soc21_read_disabled_bios,
+>         .read_bios_from_rom =3D &amdgpu_soc15_read_bios_from_rom,
+>         .read_register =3D &soc21_read_register,
 > --
 > 2.17.1
 >
