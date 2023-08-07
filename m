@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD07772C94
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78693772C9B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:19:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCB1810E346;
-	Mon,  7 Aug 2023 17:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20BE510E349;
+	Mon,  7 Aug 2023 17:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
- [IPv6:2607:f8b0:4864:20::c2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F194010E343;
- Mon,  7 Aug 2023 17:18:44 +0000 (UTC)
-Received: by mail-oo1-xc2f.google.com with SMTP id
- 006d021491bc7-56c685b7e91so3124705eaf.2; 
- Mon, 07 Aug 2023 10:18:44 -0700 (PDT)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540E010E348;
+ Mon,  7 Aug 2023 17:19:18 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1bed90ee8b7so2687170fac.0; 
+ Mon, 07 Aug 2023 10:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691428724; x=1692033524;
+ d=gmail.com; s=20221208; t=1691428757; x=1692033557;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=47Rr/3UghjkQtHtnUD+LxrBoaPTikVLYxh6ulykjDi4=;
- b=TXhdtRQx2FmIOpLDtEf2CxM8TfUx3IKKt43guRPsVD2I3e4VN3U1DDE6vxswepiKXP
- yGtAbi42pg1rMhZ9WzSDjb35zj1EfeEnluDaJXoCZlZ+Kb4BC9IzChR68EnOGYYU1YRk
- VaJ+VLFCKRH6wNX0aBWNept//AvlhiMtw8+yoo7czF8t4y7vULYHopiFRjN5Rf5DKjza
- caXIkPnUuPq6mlz9TfNqNx0EtoHC+7oejVkQPJ1VDo603Vi+IFDDOpQHbrdpjsUR5TP6
- rbIbxEuhlCrDMrK0eyPH7OKj1NPuAaZ3bBlsy5LWwk3rFYf4UIoUQpK4G6kOxSSd2KpS
- yMeQ==
+ bh=sxEiyQxJR+MJn6mnDsJhhgZUCEoHOzUbkjiBn5UslYs=;
+ b=CJFPzwNdpeWZ00IiOd46LHzzZB8tpxBsf7PXlc/iWTquMWvh99W6YkZJKzWz8pYp4y
+ 8+sd9+MYFbLL/5rv2SaeEeIUltjQ1DtiHoiyzjYNQ9qitCHfm2zpHqS87kNUdhXqFC5y
+ YuIm9df9AutYhMFPD9fsuxr6SLBJyPj5xRKxzn5ZFV/eqyFT+l/z9nd+f4kWVKaAH00e
+ 0oTqPkLaiIPVaVDQIRZz+Fu+Jl7n1QEukHK29gavjXstwfImdeN9zKyA9SWhVv4WQtgU
+ m35TQvTSHLGniBaWVLf071fYNICYHeWNQ2cZAGAv9rLcFBFbEItVTIBwlfeAtlm6dZ+m
+ O4bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691428724; x=1692033524;
+ d=1e100.net; s=20221208; t=1691428757; x=1692033557;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=47Rr/3UghjkQtHtnUD+LxrBoaPTikVLYxh6ulykjDi4=;
- b=k5XVy9Eba/7Q87E/wBZFHZOOq84Oyn63pnZnppKjSMk/XjEYUrKUDOwxwbjdIsR2Ko
- IJ5RmYhTtGN3h4Y+Hv7dQulP2x/+HQGAjEg7HuE6xUjQWVgozY63t+m5TR3+EgHtwXes
- YWnb5cxDBfvKWmDDmFz5v47h1thQoAPQfHffhaEKetv1hX8DSjgXnLd7MiU6NtixVjqx
- vwoxRQVOwpFy8Ubyg7SudEWvCRhLQ9Q3C5YKnXh3RvJYazxFI7/Pbz9Id+q8rjMX9SG3
- OAFkVWSAXx+Qhl+GATNgXYEB5ctZCzyB+sFLrAM7Ofpm5wIWfEGjPYiyrKWwV3rfm4Im
- +zVw==
-X-Gm-Message-State: AOJu0Yy0OilYaUStCyDGsbNPUfjHNLiER/eJq/SkPdsJg0i2TI09pkfS
- w64QIrXUCgEebsB3FBHPRC8J+0QOtvcLWr66x+4=
-X-Google-Smtp-Source: AGHT+IGoKOewF1vuvkvqzojnNhMFKp4viXf3zxLKQiaT0fZK5/PbD41GPWSxmCvC11eqAMgQJxf7OuNGuEVeUXHX33Q=
-X-Received: by 2002:a4a:8554:0:b0:567:27f4:8c45 with SMTP id
- l20-20020a4a8554000000b0056727f48c45mr8880807ooh.8.1691428724196; Mon, 07 Aug
- 2023 10:18:44 -0700 (PDT)
+ bh=sxEiyQxJR+MJn6mnDsJhhgZUCEoHOzUbkjiBn5UslYs=;
+ b=aQutWjef3w0qwjq0KJcA7zixhgqwyqnnDqO6V3jorjiBmy0cLftROJ+xGY4976mDh9
+ O0PlJHOgcNLKxbTae5m3QCDVIoE5DWg4s8UjVl4KWVNQv2hoT4FZA9WTTIU6XfhjkjTy
+ +Qva/lDwzlqUsGwwd6ZRIlpSNVqPZ2NEMGLyqHq3ee7Y5+Pmj+bgea2QP5Z0/KqMl/lX
+ nfnbqtmNH4GLHB1pyaG+gAqHQ7IbMS6gQEVsrpjLxx/gEndg/puyVpwzBM+oyyTgBF7s
+ JrBLlit2suIRDydIv7YB085nWVOK7c2dHJtv/4QxKJlfd1pB61Wi7OPg+64jKN8wNaEO
+ PCfQ==
+X-Gm-Message-State: AOJu0YzeWs12VRiLjjGxYL1Woh+JM5rJhNmiJGKQkUoyEZM1V7BjqoAM
+ VPqTo9e6dGzfl14hJZ6kc8fC+bfc6k/wbS4+zs4=
+X-Google-Smtp-Source: AGHT+IE3xOaBqhnOeAxi1epTXhzLf4kTnq1R2FU9Q8JoPuQt/opYkvKf7wmsBzImz5m6YitBN8F7A1a9PCUQ1DBl3kE=
+X-Received: by 2002:a05:6871:151:b0:1ad:2b76:c3 with SMTP id
+ z17-20020a056871015100b001ad2b7600c3mr9537798oab.39.1691428757637; Mon, 07
+ Aug 2023 10:19:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802064606.12005-1-sunran001@208suo.com>
-In-Reply-To: <20230802064606.12005-1-sunran001@208suo.com>
+References: <20230802064822.12093-1-sunran001@208suo.com>
+In-Reply-To: <20230802064822.12093-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:18:33 -0400
-Message-ID: <CADnq5_P6JgNkvrV69LDc7xcbOnLD9suUfdBnxK0NR+mHPLwyAA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in vega20_ih.c
+Date: Mon, 7 Aug 2023 13:19:06 -0400
+Message-ID: <CADnq5_N_bSFmRtA-FuSCOUZo=+KijbPZ9w-OD37D=SPF9XZJSQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in mmhub_v9_4.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,46 +75,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 2:46=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 2:48=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: trailing statements should be on next line
-> ERROR: that open brace { should be on the previous line
+> ERROR: code indent should use tabs where possible
+> ERROR: space required before the open parenthesis '('
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/vega20_ih.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c b/drivers/gpu/drm/amd=
-/amdgpu/vega20_ih.c
-> index 544ee55a22da..dbc99536440f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vega20_ih.c
-> @@ -500,7 +500,8 @@ static int vega20_ih_self_irq(struct amdgpu_device *a=
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c b/drivers/gpu/drm/am=
+d/amdgpu/mmhub_v9_4.c
+> index e790f890aec6..5718e4d40e66 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v9_4.c
+> @@ -108,7 +108,7 @@ static void mmhub_v9_4_setup_vm_pt_regs(struct amdgpu=
+_device *adev, uint32_t vmi
+>  }
+>
+>  static void mmhub_v9_4_init_system_aperture_regs(struct amdgpu_device *a=
 dev,
->         case 2:
->                 schedule_work(&adev->irq.ih2_work);
->                 break;
-> -       default: break;
-> +       default:
-> +               break;
->         }
->         return 0;
->  }
-> @@ -710,8 +711,7 @@ static void vega20_ih_set_interrupt_funcs(struct amdg=
-pu_device *adev)
->         adev->irq.ih_funcs =3D &vega20_ih_funcs;
->  }
+> -                                                int hubid)
+> +                                               int hubid)
+>  {
+>         uint64_t value;
+>         uint32_t tmp;
+> @@ -1568,7 +1568,7 @@ static int mmhub_v9_4_get_ras_error_count(struct am=
+dgpu_device *adev,
+>         uint32_t sec_cnt, ded_cnt;
 >
-> -const struct amdgpu_ip_block_version vega20_ih_ip_block =3D
-> -{
-> +const struct amdgpu_ip_block_version vega20_ih_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_IH,
->         .major =3D 4,
->         .minor =3D 2,
+>         for (i =3D 0; i < ARRAY_SIZE(mmhub_v9_4_ras_fields); i++) {
+> -               if(mmhub_v9_4_ras_fields[i].reg_offset !=3D reg->reg_offs=
+et)
+> +               if (mmhub_v9_4_ras_fields[i].reg_offset !=3D reg->reg_off=
+set)
+>                         continue;
+>
+>                 sec_cnt =3D (value &
 > --
 > 2.17.1
 >
