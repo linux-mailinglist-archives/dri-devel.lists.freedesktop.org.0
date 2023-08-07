@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684CE772B28
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C59772B2C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B06B10E2DC;
-	Mon,  7 Aug 2023 16:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BF210E2DD;
+	Mon,  7 Aug 2023 16:38:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D392610E2DB;
- Mon,  7 Aug 2023 16:38:01 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 46e09a7af769-6bceaed7abbso1806254a34.0; 
- Mon, 07 Aug 2023 09:38:01 -0700 (PDT)
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8247D10E2DD;
+ Mon,  7 Aug 2023 16:38:43 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-1bed90ee8b7so2657233fac.0; 
+ Mon, 07 Aug 2023 09:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691426281; x=1692031081;
+ d=gmail.com; s=20221208; t=1691426323; x=1692031123;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rtzkyKDB15+3Mt70/7SpzjEUZ2ea1IYU12fbFIu9dOM=;
- b=H7ynB/gPElacr7v8xHKXcLr1yAlNCZdxr5nU8mrd8AMeaV8YijEoQ117HBPKbJR2kz
- S7wLd51gynS2JAIY6OMoZuoRC7yVkIB0j0dDdzQ3U0CkRBnwCHAv7lxQcQ/BIjukvFkf
- SmHVyZHfpCInLwBwCRcGuPC0MLWBGXMvSqFq+/khGupKkMCwSX7VT69iEMAcwMVnZh93
- /xkuFbqgGaEvNkEpjr8GHQiADEvZTeOBfSA10oWNUJ8VZGzlO6R+ABN729bkPAk14/gj
- keYGGb4XNW6d6HoUj+IYFnTIOrR/h31l1veYQYJG3T8ExGtK4CKcGjC6ytcmlTwPYLP8
- xFuQ==
+ bh=rarcK3MbD7gHOcFshzJfH5zeoDzMas3hks50J5ozAg0=;
+ b=OCjP+09Q1alWEsFY+IxdlRu38FWBMjCp3y8nFvqDAdqOpZLZdGQEWBO+RO1RyvVS9E
+ ofMvJAvuQUvo7DBHiV1E/sxJRFBP+BeZcD1qfsXN2sKrl4a/yOGwfcK6CUzVg/3P2jIP
+ vv5EMq7AimUln0OAoeyQFzE4DKoTlRzCXV1h7ivJU4UUNu7e/GMDVROnYLl3IjqHpTbl
+ huLEmqcbM7U9PT5j5WBRn//yBbeSr9i2PFxpGxi2kWlbXJarlt4EbGGo2qrw1xnX6Cgz
+ frFbK17PLe/RsCaTMg5PuhmpxWWQ1ssiicxfwZniSSJI3B/6N/b9O7YGLkSOx12o8jeP
+ 1x6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691426281; x=1692031081;
+ d=1e100.net; s=20221208; t=1691426323; x=1692031123;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rtzkyKDB15+3Mt70/7SpzjEUZ2ea1IYU12fbFIu9dOM=;
- b=OTt+LSJ1owW+XLnJXQO4v7BoD0lKLED8TzMzbbwI8zI2l1GyWFSw8/GorycyPGl1de
- PiF4hlphCYq99chC+gu0Ya6WmcEwVQuIJ75S6eLe10Mphv4FunweZBsSvTUxJ6Ls9yMr
- MiXZBSIto+AESpcMgg+Wqfhj8OhOpbL4wef5+CErawk38l2cTz7ubny58Yb4XNP/PWvT
- 1golIR+8HVMTCz2CrXoGYd8piQrVml6xaNGtIC4PuPJuQTNl/ofIvUGSbHkOop3Bjesd
- lTZr32lArVx8PEIdug8CzIK2lnbIEDKDio4TdHEaCzJKlgO1WpkuaqqukbSCHL7sHQVY
- +z+A==
-X-Gm-Message-State: AOJu0YztSleAImfSvrhuT4gW0IpQ0FdD5ccnZBwul5Av1iTs5Ex2NnEN
- DcfjwRzPg8D5Q6JTPtMqcfpVQJak5e5HuoHMtgk=
-X-Google-Smtp-Source: AGHT+IE8ONW21pbbjXSZYEQ4gzJQbgPMlPYnptto6HsDJxOhmFEM3i4JpJxz2crBEhwO2JR3T51qw1YZPj5lwnogFAw=
-X-Received: by 2002:a05:6871:89e:b0:1b3:eec8:fa90 with SMTP id
- r30-20020a056871089e00b001b3eec8fa90mr12937916oaq.6.1691426281110; Mon, 07
- Aug 2023 09:38:01 -0700 (PDT)
+ bh=rarcK3MbD7gHOcFshzJfH5zeoDzMas3hks50J5ozAg0=;
+ b=QFaE95x5OEz5fJ97dLFKZdE+vaGQp3cxtTzbS7T4fjOVm3rhvWznbS7JsaTICWyeZS
+ 4RxszVatEl+EVe4HcxkarWeiCFT3CMdGc2sivs0FsTauImKhDaV8PaHiFAhLzix8aq+e
+ jdq92hKAUyoN/0T+FgtSfzcMrB2NOF2wbcWIQ8hZomRAYuNEToUiez8YFZm17D2ZRV++
+ pQzXBrpiFhSB6RqLRdfJZvN5sW5WsjYWb/Cn5yDGytXsgzQHcpC4+B0ABAL86Nkx2SvW
+ 3fan3FNEtlzzomPX6CR8Ld7I6hElY6DXiFnYmJElXtK4+IBNOduABOj8HJFFEq4EKEF8
+ 5D4g==
+X-Gm-Message-State: AOJu0Yycf6QcZDK4/Z70Mp4+FxSJSB3pIZPdHA/D4xfbst4sJ0S1iCaZ
+ wTdnBSrFpBWU/VIfUBfcoiDt/aIht8VqvMDQ/9E=
+X-Google-Smtp-Source: AGHT+IFqN+3LznOGCB7Ec+vmLC5iyrrexubmYVqGFrrYDW9B7OvQdOGZ5AjY9CQYSSBF5Hfs0wiQPOyXky18W4I+sdk=
+X-Received: by 2002:a05:6870:3282:b0:1bf:df47:7b5d with SMTP id
+ q2-20020a056870328200b001bfdf477b5dmr4252575oac.24.1691426322778; Mon, 07 Aug
+ 2023 09:38:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230801083710.6738-1-sunran001@208suo.com>
-In-Reply-To: <20230801083710.6738-1-sunran001@208suo.com>
+References: <20230801084024.6826-1-sunran001@208suo.com>
+In-Reply-To: <20230801084024.6826-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 12:37:50 -0400
-Message-ID: <CADnq5_M7j0McrtPf6Zj=f_sxMLUOXgfWUmc-12NOjQ-+gFs14A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in ppatomctrl.h
+Date: Mon, 7 Aug 2023 12:38:31 -0400
+Message-ID: <CADnq5_Pn4U0uV4qLkBauxnWdRQZHtiq135qn+-uDRR34ZHbaPQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in vega10_pptable.h
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,7 +75,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 1, 2023 at 4:37=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Tue, Aug 1, 2023 at 4:40=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
@@ -84,34 +84,75 @@ On Tue, Aug 1, 2023 at 4:37=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  .../amd/pm/powerplay/hwmgr/vega10_pptable.h    | 18 ++++++------------
+>  1 file changed, 6 insertions(+), 12 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h b/driver=
-s/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
-> index b3103bd4be42..1f987e846628 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/ppatomctrl.h
-> @@ -278,16 +278,14 @@ struct pp_atom_ctrl__avfs_parameters {
->         uint8_t  ucReserved;
->  };
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h b/dr=
+ivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h
+> index 9c479bd9a786..8b0590b834cc 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_pptable.h
+> @@ -317,16 +317,14 @@ typedef struct _ATOM_Vega10_Thermal_Controller {
+>      UCHAR ucFlags;          /* to be defined */
+>  } ATOM_Vega10_Thermal_Controller;
 >
-> -struct _AtomCtrl_HiLoLeakageOffsetTable
+> -typedef struct _ATOM_Vega10_VCE_State_Record
 > -{
-> +struct _AtomCtrl_HiLoLeakageOffsetTable {
->      USHORT usHiLoLeakageThreshold;
->      USHORT usEdcDidtLoDpm7TableOffset;
->      USHORT usEdcDidtHiDpm7TableOffset;
->  };
->  typedef struct _AtomCtrl_HiLoLeakageOffsetTable AtomCtrl_HiLoLeakageOffs=
-etTable;
+> +typedef struct _ATOM_Vega10_VCE_State_Record {
+>      UCHAR  ucVCEClockIndex;         /*index into usVCEDependencyTableOff=
+set of 'ATOM_Vega10_MM_Dependency_Table' type */
+>      UCHAR  ucFlag;                  /* 2 bits indicates memory p-states =
+*/
+>      UCHAR  ucSCLKIndex;             /* index into ATOM_Vega10_SCLK_Depen=
+dency_Table */
+>      UCHAR  ucMCLKIndex;             /* index into ATOM_Vega10_MCLK_Depen=
+dency_Table */
+>  } ATOM_Vega10_VCE_State_Record;
 >
-> -struct _AtomCtrl_EDCLeakgeTable
+> -typedef struct _ATOM_Vega10_VCE_State_Table
 > -{
-> +struct _AtomCtrl_EDCLeakgeTable {
->      ULONG DIDT_REG[24];
->  };
->  typedef struct _AtomCtrl_EDCLeakgeTable AtomCtrl_EDCLeakgeTable;
+> +typedef struct _ATOM_Vega10_VCE_State_Table {
+>      UCHAR ucRevId;
+>      UCHAR ucNumEntries;
+>      ATOM_Vega10_VCE_State_Record entries[1];
+> @@ -361,8 +359,7 @@ typedef struct _ATOM_Vega10_PowerTune_Table {
+>         USHORT usTemperatureLimitTedge;
+>  } ATOM_Vega10_PowerTune_Table;
+>
+> -typedef struct _ATOM_Vega10_PowerTune_Table_V2
+> -{
+> +typedef struct _ATOM_Vega10_PowerTune_Table_V2 {
+>         UCHAR  ucRevId;
+>         USHORT usSocketPowerLimit;
+>         USHORT usBatteryPowerLimit;
+> @@ -388,8 +385,7 @@ typedef struct _ATOM_Vega10_PowerTune_Table_V2
+>         USHORT usTemperatureLimitTedge;
+>  } ATOM_Vega10_PowerTune_Table_V2;
+>
+> -typedef struct _ATOM_Vega10_PowerTune_Table_V3
+> -{
+> +typedef struct _ATOM_Vega10_PowerTune_Table_V3 {
+>         UCHAR  ucRevId;
+>         USHORT usSocketPowerLimit;
+>         USHORT usBatteryPowerLimit;
+> @@ -428,15 +424,13 @@ typedef struct _ATOM_Vega10_Hard_Limit_Record {
+>      USHORT usVddMemLimit;
+>  } ATOM_Vega10_Hard_Limit_Record;
+>
+> -typedef struct _ATOM_Vega10_Hard_Limit_Table
+> -{
+> +typedef struct _ATOM_Vega10_Hard_Limit_Table {
+>      UCHAR ucRevId;
+>      UCHAR ucNumEntries;
+>      ATOM_Vega10_Hard_Limit_Record entries[1];
+>  } ATOM_Vega10_Hard_Limit_Table;
+>
+> -typedef struct _Vega10_PPTable_Generic_SubTable_Header
+> -{
+> +typedef struct _Vega10_PPTable_Generic_SubTable_Header {
+>      UCHAR  ucRevId;
+>  } Vega10_PPTable_Generic_SubTable_Header;
+>
 > --
 > 2.17.1
 >
