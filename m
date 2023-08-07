@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC29D772BEB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:01:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8185E772BEE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:02:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9788710E304;
-	Mon,  7 Aug 2023 17:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3131C10E30C;
+	Mon,  7 Aug 2023 17:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDF0110E30F;
- Mon,  7 Aug 2023 17:01:05 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- 46e09a7af769-6bcb5df95c5so3613643a34.1; 
- Mon, 07 Aug 2023 10:01:05 -0700 (PDT)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B26CA10E30A;
+ Mon,  7 Aug 2023 17:01:56 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ 006d021491bc7-56c685b7e91so3113672eaf.2; 
+ Mon, 07 Aug 2023 10:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691427665; x=1692032465;
+ d=gmail.com; s=20221208; t=1691427716; x=1692032516;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GKi/ylxygovjlPf6mua/FLxbGKNsQH3//RWonl36ciA=;
- b=dop4vKi12DYvQUGfzdjXRJMSibHsdYHfzugjMw30Qhcq8rhJ0uUxtgyLU89kfE6xBE
- cPNoBQzVg9AOxB6P8ThKPRKrc0T65ZSwdvl3hkF+hA+s/CfICmq0MnvC1p40OGckN1so
- idOP7uZg79K8T2vAD5zHeN+LbyyEZDyTTyX7Pk0XUHY30AJ1+k0j8OJiFaGJi67HZpYD
- SLx/jkZ+P/+o2lVT/P4M/iMWPzwP7G5LppwJPdwRennzPotgWzxCtuVr/0lCkf99Enmb
- 3PCDUPQelwgvvP8m9nSK8r2C2J3SAkHJUDRQIuwxxp9INKYH70d3x9HBqXNkmspJc3vy
- KKBA==
+ bh=0sPbbuQHjUxy7oDdnPJjchuEOxUnF5YIqG/ENh0PvEY=;
+ b=m2cV+XgsH/1HSspbcpCMx+3r5uswy4jWSGM9tllwSpxcWEdFFaullwKWraLSzrdu9R
+ sm4rdsKfU2pLAKdAL7bwbq42jsH+UbIOhoOgKCbEdrM2UWJOA7f3S9w30HyQHw97ikqj
+ 06xYa2nUfu94x/XMPH2tIHbccwxFHP+pMi6VDOwh6XAIX2kRT25yUWsIvDlX+W4w7mB0
+ R+7zI3lEMUIhxvgqmkv2zoNai8VVgAea2KvSmOAqJGzBr0WIz/Ot0oeD1R99quCiyr4F
+ 7/Ic98LILCIMDYJ3+Ph/DfrjsLELA9yWOX6BJQPJPQCMQQaIu4vtulz+988gXJO6eNpv
+ zO4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691427665; x=1692032465;
+ d=1e100.net; s=20221208; t=1691427716; x=1692032516;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GKi/ylxygovjlPf6mua/FLxbGKNsQH3//RWonl36ciA=;
- b=MDlmYcketfQlvPE6eI3jvHxa+FULLKlpyFmY/7CcjWVwnCoUQeyBdouRIbWerrgLSf
- 3AaG3ubUK16UoboeUy6e+uWlyI/lMM6Bv4WQzaJIw+P4QDbivZWjizvPTSzbSE8SRkHF
- cOnXP7JkLFyKrY3IEjuPR32xD0aln4lE7Dfwq8mLth+1Q9fRMisMGgUSnMaye1fSE7HN
- Ck09+AAdOEi2jKQk+eScB4oS2zRtk5POwllWSm2yM38Lgc69PFDvtYjVXXal2yEwDqIX
- vFkYgriAUHxZMtfSBWthDK4PQj18p6C4OuAS6T7xvowlowg1k2sqw/nLya0ZkunIyY91
- c10Q==
-X-Gm-Message-State: AOJu0YxwGCmANb18pFfnYbYTuj5qPO4DhusXRLZ6F5dt50li0d6yqhsb
- l5aRH00U1izwGmrkv94W6Ck4bPiuQZu85KT4FjHjXTQU
-X-Google-Smtp-Source: AGHT+IHXcRHl6PiCY49Vwty52gk4G0CN2uuAjoSjckBdYdUSo4qenBQADiiDq3PreabnVG+dT82n9lPqjRi88StUeTI=
-X-Received: by 2002:a05:6870:524d:b0:1bb:a264:a7ba with SMTP id
- o13-20020a056870524d00b001bba264a7bamr11346535oai.56.1691427665071; Mon, 07
- Aug 2023 10:01:05 -0700 (PDT)
+ bh=0sPbbuQHjUxy7oDdnPJjchuEOxUnF5YIqG/ENh0PvEY=;
+ b=i2hCGtKlNexbZjucVgaiz0TQJMkbtU4wV2NyxMEmMEPzachtzZrZ/WNlw3n2XgWJHH
+ a3AQP3sedlInlBAPOePdsz4xMP37iCKH9ACVlB44RGyXTHWpSSYcEBrq1UIR9Uh5Z3qP
+ wNbA/+vNejHDuFQUNgmgyMcZIh8TTGQz99Tf59vJ32PPOz+pAHfQp7NSzM2NzrEexA7+
+ CcZqJMSeOpdVuS1uzIasCNZ3BZXBU1XxcrWFER0ZlwSOf0YgJXMZSo+cm5QauQu19Iho
+ ADI0vmLMoxr0XySinq7bXP9i+92wMhHqYiE4/getv+TaXY7ozOJ4Hto7C2NbsOEYWgNx
+ i1Tw==
+X-Gm-Message-State: AOJu0Yx0RgiPPpqRfnRndFlz8l/L4c7py/BtPc0H0k4O2SHciREM/UQ4
+ Rpj2rEb33aQCtCnDafP8foz7Mms+mjmiVEjEkfs=
+X-Google-Smtp-Source: AGHT+IF5QIcbT5+WCBnJ293rhtM/BzGfjCnE0duO5lX0GFVyhqKv0D57sO0c17AF/nWdnhkUJWf7lGgBSQM//mLkwuw=
+X-Received: by 2002:a4a:6c5b:0:b0:56c:e928:2889 with SMTP id
+ u27-20020a4a6c5b000000b0056ce9282889mr8692494oof.3.1691427715991; Mon, 07 Aug
+ 2023 10:01:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802015941.9124-1-sunran001@208suo.com>
-In-Reply-To: <20230802015941.9124-1-sunran001@208suo.com>
+References: <20230802020312.9233-1-sunran001@208suo.com>
+In-Reply-To: <20230802020312.9233-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:00:54 -0400
-Message-ID: <CADnq5_Mh7-uGDEG-WAkrUT=XjFQ_77wMMq_oaUFbZqmdQxGAcA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu75.h
+Date: Mon, 7 Aug 2023 13:01:45 -0400
+Message-ID: <CADnq5_MmwoaF-rprRfsAV86kYjkjRDV2BBgWkgXDLFifnnK6Sw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu8_smumgr.h
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,59 +73,39 @@ Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Need to be careful with these changes to make sure we aren't changing
+the size calculations somewhere.
 
-On Tue, Aug 1, 2023 at 9:59=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrote=
-:
+Alex
+
+On Tue, Aug 1, 2023 at 10:03=E2=80=AFPM Ran Sun <sunran001@208suo.com> wrot=
+e:
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: space prohibited before open square bracket '['
-> ERROR: "foo * bar" should be "foo *bar"
+> ERROR: Use C99 flexible arrays
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/inc/smu75.h | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/smu75.h b/drivers/gpu/d=
-rm/amd/pm/powerplay/inc/smu75.h
-> index 771523001533..7d5ed7751976 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/inc/smu75.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/inc/smu75.h
-> @@ -224,8 +224,8 @@ struct SMU7_LocalDpmScoreboard {
->         uint8_t  DteClampMode;
->         uint8_t  FpsClampMode;
+> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h b/driv=
+ers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> index c7b61222d258..475ffcf743d2 100644
+> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> @@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
 >
-> -       uint16_t LevelResidencyCounters [SMU75_MAX_LEVELS_GRAPHICS];
-> -       uint16_t LevelSwitchCounters [SMU75_MAX_LEVELS_GRAPHICS];
-> +       uint16_t LevelResidencyCounters[SMU75_MAX_LEVELS_GRAPHICS];
-> +       uint16_t LevelSwitchCounters[SMU75_MAX_LEVELS_GRAPHICS];
->
->         void     (*TargetStateCalculator)(uint8_t);
->         void     (*SavedTargetStateCalculator)(uint8_t);
-> @@ -316,7 +316,7 @@ struct SMU7_VoltageScoreboard {
->
->         VoltageChangeHandler_t functionLinks[6];
->
-> -       uint16_t * VddcFollower1;
-> +       uint16_t *VddcFollower1;
->         int16_t  Driver_OD_RequestedVidOffset1;
->         int16_t  Driver_OD_RequestedVidOffset2;
+>  struct smu8_ih_meta_data {
+>         uint32_t command;
+> -       struct smu8_register_index_data_pair register_index_value_pair[1]=
+;
+> +       struct smu8_register_index_data_pair register_index_value_pair[0]=
+;
 >  };
-> @@ -677,9 +677,9 @@ typedef struct SCS_CELL_t SCS_CELL_t;
 >
->  struct VFT_TABLE_t {
->         VFT_CELL_t    Cell[TEMP_RANGE_MAXSTEPS][NUM_VFT_COLUMNS];
-> -       uint16_t      AvfsGbv [NUM_VFT_COLUMNS];
-> -       uint16_t      BtcGbv  [NUM_VFT_COLUMNS];
-> -       int16_t       Temperature [TEMP_RANGE_MAXSTEPS];
-> +       uint16_t      AvfsGbv[NUM_VFT_COLUMNS];
-> +       uint16_t      BtcGbv[NUM_VFT_COLUMNS];
-> +       int16_t       Temperature[TEMP_RANGE_MAXSTEPS];
->
->  #ifdef SMU__FIRMWARE_SCKS_PRESENT__1
->         SCS_CELL_t    ScksCell[TEMP_RANGE_MAXSTEPS][NUM_VFT_COLUMNS];
+>  struct smu8_smumgr {
 > --
 > 2.17.1
 >
