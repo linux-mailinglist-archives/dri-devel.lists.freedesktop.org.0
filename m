@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD36B772D00
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:31:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6E772D02
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:31:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8929410E368;
-	Mon,  7 Aug 2023 17:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C668D10E357;
+	Mon,  7 Aug 2023 17:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6765010E36A;
- Mon,  7 Aug 2023 17:30:45 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1bbaa549c82so3745750fac.0; 
- Mon, 07 Aug 2023 10:30:45 -0700 (PDT)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91DFF10E36A;
+ Mon,  7 Aug 2023 17:31:17 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id
+ 5614622812f47-3a5ad21a1f9so3305965b6e.2; 
+ Mon, 07 Aug 2023 10:31:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691429444; x=1692034244;
+ d=gmail.com; s=20221208; t=1691429476; x=1692034276;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8eZYdmrjAP5EddhK/TydIBrWHOpUy2tMR3k7Eu28CYk=;
- b=sIp4cWE5E3ZUVbnRwYtZBltpvrR15qc7USeqwZdtG5tHnasnq6srmO6P4PErTH0OaE
- CiaD2iA8XvY23Oxy98c24QfUDH0pluFraH4/EZfCcXkjx72qY2NJVrmvIIE5T6reFAgk
- L2A+7LEt2DlQczPtC5L7EdTa7MLXcnt5xoj//Wzan7wYwZk7SFVhdoxGUKaRTM3WdK5G
- 9GbYdRWDQHMtXvQy0K5DDILh4ldmfbPQnlU4z+QH0fMstmdSZfDu0zVUONOWQWxE/HGS
- NMNZHEiepso6Ld90bkyc3W1P6OSsEx3ICbSxAJdXmZpOLHz3qX7kMvX84spRdwO8JES5
- GaOQ==
+ bh=Qod5ilU5NMCuYABqWl1EUZiybqxTkFSupdOBDiWIwRU=;
+ b=SJn3HAsXO6yEmMDIkJ9yWQkrqPEc2KzFkVJ0ShZWnldFsvftJf3ECrJ/2hzhMub6mr
+ 8YmbyZpHha8GChHbn7ehrbt7dnLnU/A497c+Hn4dHP5jmCK5R5G5PEXHWtkV784oi3jp
+ RHnf/6gvtyiT1XkeOS9nutjVdnJfaaiUpT3wFsDG0NplfuNSPGs/6BA+vuvVxLILj1e2
+ N7KxAR5gRTzaIVGy2AVIScoWRRpYcC9oIuZtgvdDnFPTVneh6C6dsthhecoCg2+B8qgC
+ /Kc9MRuHNEPKA+vjUWZHlxltfBEx6TAzrz/Tts9iptrE0Juj/eiHW/aawoQzDno79A7r
+ 7bmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691429444; x=1692034244;
+ d=1e100.net; s=20221208; t=1691429476; x=1692034276;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8eZYdmrjAP5EddhK/TydIBrWHOpUy2tMR3k7Eu28CYk=;
- b=YHdvDaFvfrkX6OmTyXGH7QTfRViukC9FkuQfoDMxwt+3OxAUi2Mz8VJE+t4tH9y6qQ
- HeRASpsGr81stz6pPu/4U8GgvnmFL4WAORFuc6MLpnoz2xnohuYAae2BxZJMvg4zBuuP
- uem03Eqapm2IhWPPq1bRxIv071PasQ3Emc3dj56cOJsvWe9YfM0LZEvvNUj7LXvRA962
- y05G6M2aXXJjEbWK7hBax4tcc4HLCNVk+WuWp0xvmzCmY1bbZSvcZsGfc8ay8a7mAvdp
- f48RGa0oS8V8Rj9Qebv2eTAqtPIaDyIk852AZM/0cUQtzXoKz7AgUSPfKtOfFTgw1rX+
- YKKg==
-X-Gm-Message-State: AOJu0YzpeyxRMcSlC5j6gX5wWkTT0+xWjYAMGDwxJ7hNS6F32gx/rwPy
- ft9ccyOraMgdQcfcLVUh3k5XIE3HPrjYS9o0NKQ=
-X-Google-Smtp-Source: AGHT+IGDHPNaPPiohwJKBgOo50isGGbZwLzfB6fU3qc7nO5Hd1NEo8h/7Goesn/N9+Q6Gw0yE1WYUMWdJFcSp0+ZRJA=
-X-Received: by 2002:a05:6870:d252:b0:1bf:5e6c:ce72 with SMTP id
- h18-20020a056870d25200b001bf5e6cce72mr13336767oac.53.1691429444578; Mon, 07
- Aug 2023 10:30:44 -0700 (PDT)
+ bh=Qod5ilU5NMCuYABqWl1EUZiybqxTkFSupdOBDiWIwRU=;
+ b=K3XZ13Q/5dwwcArolew8brkGySXQfi0bg8ew+O9lLkm63DxfdxHHTcYAu5TrUV0os4
+ pNrecUdooYH/7eYABCZfKsq9afOxzc+qn0Q/+IVKi2fRXBAXKnnOiH+KaY9wzsg/9cVa
+ XyFuhswWMkHVfd3lAoI0bKd2OxzeWSGNkuBNOtTG69zhRswX9ZIDqIcmmoRUzbawY372
+ MXaRcjmH/0+8WLIbvzCJzMQ9fKqpmZ14XUzGVDrxGZTg749XLaEJDoeKWCx2OfQi856X
+ yJDIf0wGMT1iYX8fM9tVzmcUBJ9GQpo+DGAv9h1IiEIIRk4LRIrTafI9EMaQ4ntOXlRv
+ 1lNw==
+X-Gm-Message-State: AOJu0YyoV3oObznf+8iH3O/Tl/+h4CXUZcQ1g3+abIQN8V26r3xU9UiK
+ fdo8MTqFTEizJmHeLWvScqKII/uRzk+8MTU30p0wAgk7
+X-Google-Smtp-Source: AGHT+IEVIihYiKP4M3IF6i2MpyJEiOQILtmqR+qZI3b4Mjg1G5d9WRQ99MTXk+RHgQTWwKTJ9yAY2ZpiY3BQUo/RqHo=
+X-Received: by 2002:a4a:2750:0:b0:56c:cefc:55d with SMTP id
+ w16-20020a4a2750000000b0056ccefc055dmr9289982oow.4.1691429476124; Mon, 07 Aug
+ 2023 10:31:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802073542.13515-1-sunran001@208suo.com>
-In-Reply-To: <20230802073542.13515-1-sunran001@208suo.com>
+References: <20230802073715.13598-1-sunran001@208suo.com>
+In-Reply-To: <20230802073715.13598-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:30:33 -0400
-Message-ID: <CADnq5_MjuJVSYdTU+irpko9AkNerY-YaaaDDc94QAEVTUPGkuQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in mxgpu_vi.c
+Date: Mon, 7 Aug 2023 13:31:05 -0400
+Message-ID: <CADnq5_NqdXju2Wf2PgiFX_83idVdy0E7AT0vMZ6JCn+inn6P5w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in uvd_v3_1.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,33 +75,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 3:35=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 3:37=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: spaces required around that '-=3D' (ctx:WxV)
+> ERROR: that open brace { should be on the previous line
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c b/drivers/gpu/drm/amd/=
-amdgpu/mxgpu_vi.c
-> index 288c414babdf..59f53c743362 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
-> @@ -334,7 +334,7 @@ static void xgpu_vi_mailbox_send_ack(struct amdgpu_de=
-vice *adev)
->                         break;
->                 }
->                 mdelay(1);
-> -               timeout -=3D1;
-> +               timeout -=3D 1;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c b/drivers/gpu/drm/amd/=
+amdgpu/uvd_v3_1.c
+> index 0fef925b6602..5534c769b655 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c
+> @@ -815,8 +815,7 @@ static const struct amd_ip_funcs uvd_v3_1_ip_funcs =
+=3D {
+>         .set_powergating_state =3D uvd_v3_1_set_powergating_state,
+>  };
 >
->                 reg =3D RREG32_NO_KIQ(mmMAILBOX_CONTROL);
->         }
+> -const struct amdgpu_ip_block_version uvd_v3_1_ip_block =3D
+> -{
+> +const struct amdgpu_ip_block_version uvd_v3_1_ip_block =3D {
+>         .type =3D AMD_IP_BLOCK_TYPE_UVD,
+>         .major =3D 3,
+>         .minor =3D 1,
 > --
 > 2.17.1
 >
