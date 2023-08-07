@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AD5772CFA
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:30:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD36B772D00
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 19:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A2E10E367;
-	Mon,  7 Aug 2023 17:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8929410E368;
+	Mon,  7 Aug 2023 17:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D130310E367;
- Mon,  7 Aug 2023 17:30:04 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-1bf08ca187cso3536417fac.3; 
- Mon, 07 Aug 2023 10:30:04 -0700 (PDT)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6765010E36A;
+ Mon,  7 Aug 2023 17:30:45 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-1bbaa549c82so3745750fac.0; 
+ Mon, 07 Aug 2023 10:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691429404; x=1692034204;
+ d=gmail.com; s=20221208; t=1691429444; x=1692034244;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VRFYnEPdLG8+V3CbBn+Rgg8YFLvKXfz9kmIHrHlJZqY=;
- b=i3AZl7f1zQofjB/HlnVbZ0HkHBJAKfQRelucEctSEMbl3SzjzuOLPDMB3JyLPFd3Jo
- y/afLAWDZkGKugC/SslQIaj42iw2fBK5bAg0NJvAPvyEfnXp1N4J95KebsMtI5IQlgMt
- NMWEM1l0ba1qcCgKdR46GTsKUyolgRKeWaJm7PSy26bb98/2C4X4vtnmgJBPDgHx9Z0C
- oPs+dFG+87CDjhFjsz/3A6MuHm6WYG4JSLFu7ZqSltqLAIDBcqb6i+J+fJ4EUCqpHKo1
- 1i0TpKUo9T/IF/FfUr799Mc9ec4zbzUFgf4CBZ2jGLYo3566dqTOwct9jJrCOYvPanN0
- qA5g==
+ bh=8eZYdmrjAP5EddhK/TydIBrWHOpUy2tMR3k7Eu28CYk=;
+ b=sIp4cWE5E3ZUVbnRwYtZBltpvrR15qc7USeqwZdtG5tHnasnq6srmO6P4PErTH0OaE
+ CiaD2iA8XvY23Oxy98c24QfUDH0pluFraH4/EZfCcXkjx72qY2NJVrmvIIE5T6reFAgk
+ L2A+7LEt2DlQczPtC5L7EdTa7MLXcnt5xoj//Wzan7wYwZk7SFVhdoxGUKaRTM3WdK5G
+ 9GbYdRWDQHMtXvQy0K5DDILh4ldmfbPQnlU4z+QH0fMstmdSZfDu0zVUONOWQWxE/HGS
+ NMNZHEiepso6Ld90bkyc3W1P6OSsEx3ICbSxAJdXmZpOLHz3qX7kMvX84spRdwO8JES5
+ GaOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691429404; x=1692034204;
+ d=1e100.net; s=20221208; t=1691429444; x=1692034244;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VRFYnEPdLG8+V3CbBn+Rgg8YFLvKXfz9kmIHrHlJZqY=;
- b=WTJb8gwLx4zrZUga8YEFDl7TK8BNZq0piCEn+4JEagkZeKLLNoqFFp136dQXklGPfw
- fgsaQmIrL43g31E8Xuo9EhQlCTDvxRJLXG9zvUOwpzfwXAJnuBia19f5OtaKnqL+s0VA
- nCLc5Vi0HBJynbSTKFVP7IwdvLAVV3R/thmDDZb+hPkyxSAJJ3tOxzhVjixCcC6Sc0/j
- ck/Bf3Q6vvehdR+N4SGlKD5IfgVGBJaf1gn+/dqgntDE44J8fYwhznKHhSA+zG/wUwjF
- yx08wKg2my77cFxWbqG8wZciGu/mQ93/6TGuH+GnKimQs2PtMsohAkDRRV7yIBQkyJqB
- n0UA==
-X-Gm-Message-State: AOJu0YyArvGQ/t3G/fqPRjovCRJGKkoyycI3V2z3BUWx2tVkZd5A6Z8F
- f6SlieUH5PkqfHkWQTIjwa0ASvA9pdIwPDH1nnZ+9Ogw
-X-Google-Smtp-Source: AGHT+IGAoRJJR7tAjLWYKQe5Tl1E9/UL30bicC3/HiF0MJyfYZJ1OmqLbll+xzQSnmt85AMPJBAJpYGa5/jvPggjckE=
-X-Received: by 2002:a05:6871:6a9:b0:1ba:2c39:5cf3 with SMTP id
- l41-20020a05687106a900b001ba2c395cf3mr12446829oao.31.1691429404084; Mon, 07
- Aug 2023 10:30:04 -0700 (PDT)
+ bh=8eZYdmrjAP5EddhK/TydIBrWHOpUy2tMR3k7Eu28CYk=;
+ b=YHdvDaFvfrkX6OmTyXGH7QTfRViukC9FkuQfoDMxwt+3OxAUi2Mz8VJE+t4tH9y6qQ
+ HeRASpsGr81stz6pPu/4U8GgvnmFL4WAORFuc6MLpnoz2xnohuYAae2BxZJMvg4zBuuP
+ uem03Eqapm2IhWPPq1bRxIv071PasQ3Emc3dj56cOJsvWe9YfM0LZEvvNUj7LXvRA962
+ y05G6M2aXXJjEbWK7hBax4tcc4HLCNVk+WuWp0xvmzCmY1bbZSvcZsGfc8ay8a7mAvdp
+ f48RGa0oS8V8Rj9Qebv2eTAqtPIaDyIk852AZM/0cUQtzXoKz7AgUSPfKtOfFTgw1rX+
+ YKKg==
+X-Gm-Message-State: AOJu0YzpeyxRMcSlC5j6gX5wWkTT0+xWjYAMGDwxJ7hNS6F32gx/rwPy
+ ft9ccyOraMgdQcfcLVUh3k5XIE3HPrjYS9o0NKQ=
+X-Google-Smtp-Source: AGHT+IGDHPNaPPiohwJKBgOo50isGGbZwLzfB6fU3qc7nO5Hd1NEo8h/7Goesn/N9+Q6Gw0yE1WYUMWdJFcSp0+ZRJA=
+X-Received: by 2002:a05:6870:d252:b0:1bf:5e6c:ce72 with SMTP id
+ h18-20020a056870d25200b001bf5e6cce72mr13336767oac.53.1691429444578; Mon, 07
+ Aug 2023 10:30:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802073439.13432-1-sunran001@208suo.com>
-In-Reply-To: <20230802073439.13432-1-sunran001@208suo.com>
+References: <20230802073542.13515-1-sunran001@208suo.com>
+In-Reply-To: <20230802073542.13515-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 7 Aug 2023 13:29:53 -0400
-Message-ID: <CADnq5_MwqU2dumXc4tjkap63sv4ynni29M3=MTFngzmbZ0BbLw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Clean up errors in nv.c
+Date: Mon, 7 Aug 2023 13:30:33 -0400
+Message-ID: <CADnq5_MjuJVSYdTU+irpko9AkNerY-YaaaDDc94QAEVTUPGkuQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Clean up errors in mxgpu_vi.c
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,216 +75,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Aug 2, 2023 at 3:34=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
+On Wed, Aug 2, 2023 at 3:35=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrote=
 :
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: that open brace { should be on the previous line
+> ERROR: spaces required around that '-=3D' (ctx:WxV)
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/nv.c | 48 +++++++++++----------------------
->  1 file changed, 16 insertions(+), 32 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/nv.c b/drivers/gpu/drm/amd/amdgpu=
-/nv.c
-> index 51523b27a186..414c3c85172d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/nv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/nv.c
-> @@ -67,21 +67,18 @@
->  static const struct amd_ip_funcs nv_common_ip_funcs;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c b/drivers/gpu/drm/amd/=
+amdgpu/mxgpu_vi.c
+> index 288c414babdf..59f53c743362 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c
+> @@ -334,7 +334,7 @@ static void xgpu_vi_mailbox_send_ack(struct amdgpu_de=
+vice *adev)
+>                         break;
+>                 }
+>                 mdelay(1);
+> -               timeout -=3D1;
+> +               timeout -=3D 1;
 >
->  /* Navi */
-> -static const struct amdgpu_video_codec_info nv_video_codecs_encode_array=
-[] =3D
-> -{
-> +static const struct amdgpu_video_codec_info nv_video_codecs_encode_array=
-[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 2304, 0)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 4096, 23=
-04, 0)},
->  };
->
-> -static const struct amdgpu_video_codecs nv_video_codecs_encode =3D
-> -{
-> +static const struct amdgpu_video_codecs nv_video_codecs_encode =3D {
->         .codec_count =3D ARRAY_SIZE(nv_video_codecs_encode_array),
->         .codec_array =3D nv_video_codecs_encode_array,
->  };
->
->  /* Navi1x */
-> -static const struct amdgpu_video_codec_info nv_video_codecs_decode_array=
-[] =3D
-> -{
-> +static const struct amdgpu_video_codec_info nv_video_codecs_decode_array=
-[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4=
-096, 3)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4=
-096, 5)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 4096, 52)},
-> @@ -91,8 +88,7 @@ static const struct amdgpu_video_codec_info nv_video_co=
-decs_decode_array[] =3D
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 435=
-2, 0)},
->  };
->
-> -static const struct amdgpu_video_codecs nv_video_codecs_decode =3D
-> -{
-> +static const struct amdgpu_video_codecs nv_video_codecs_decode =3D {
->         .codec_count =3D ARRAY_SIZE(nv_video_codecs_decode_array),
->         .codec_array =3D nv_video_codecs_decode_array,
->  };
-> @@ -108,8 +104,7 @@ static const struct amdgpu_video_codecs sc_video_code=
-cs_encode =3D {
->         .codec_array =3D sc_video_codecs_encode_array,
->  };
->
-> -static const struct amdgpu_video_codec_info sc_video_codecs_decode_array=
-_vcn0[] =3D
-> -{
-> +static const struct amdgpu_video_codec_info sc_video_codecs_decode_array=
-_vcn0[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4=
-096, 3)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4=
-096, 5)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 4096, 52)},
-> @@ -120,8 +115,7 @@ static const struct amdgpu_video_codec_info sc_video_=
-codecs_decode_array_vcn0[]
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_AV1, 8192, 435=
-2, 0)},
->  };
->
-> -static const struct amdgpu_video_codec_info sc_video_codecs_decode_array=
-_vcn1[] =3D
-> -{
-> +static const struct amdgpu_video_codec_info sc_video_codecs_decode_array=
-_vcn1[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4=
-096, 3)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4=
-096, 5)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 4096, 52)},
-> @@ -131,27 +125,23 @@ static const struct amdgpu_video_codec_info sc_vide=
-o_codecs_decode_array_vcn1[]
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 435=
-2, 0)},
->  };
->
-> -static const struct amdgpu_video_codecs sc_video_codecs_decode_vcn0 =3D
-> -{
-> +static const struct amdgpu_video_codecs sc_video_codecs_decode_vcn0 =3D =
-{
->         .codec_count =3D ARRAY_SIZE(sc_video_codecs_decode_array_vcn0),
->         .codec_array =3D sc_video_codecs_decode_array_vcn0,
->  };
->
-> -static const struct amdgpu_video_codecs sc_video_codecs_decode_vcn1 =3D
-> -{
-> +static const struct amdgpu_video_codecs sc_video_codecs_decode_vcn1 =3D =
-{
->         .codec_count =3D ARRAY_SIZE(sc_video_codecs_decode_array_vcn1),
->         .codec_array =3D sc_video_codecs_decode_array_vcn1,
->  };
->
->  /* SRIOV Sienna Cichlid, not const since data is controlled by host */
-> -static struct amdgpu_video_codec_info sriov_sc_video_codecs_encode_array=
-[] =3D
-> -{
-> +static struct amdgpu_video_codec_info sriov_sc_video_codecs_encode_array=
-[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 2160, 0)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_HEVC, 7680, 43=
-52, 0)},
->  };
->
-> -static struct amdgpu_video_codec_info sriov_sc_video_codecs_decode_array=
-_vcn0[] =3D
-> -{
-> +static struct amdgpu_video_codec_info sriov_sc_video_codecs_decode_array=
-_vcn0[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4=
-096, 3)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4=
-096, 5)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 4096, 52)},
-> @@ -162,8 +152,7 @@ static struct amdgpu_video_codec_info sriov_sc_video_=
-codecs_decode_array_vcn0[]
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_AV1, 8192, 435=
-2, 0)},
->  };
->
-> -static struct amdgpu_video_codec_info sriov_sc_video_codecs_decode_array=
-_vcn1[] =3D
-> -{
-> +static struct amdgpu_video_codec_info sriov_sc_video_codecs_decode_array=
-_vcn1[] =3D {
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG2, 4096, 4=
-096, 3)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4, 4096, 4=
-096, 5)},
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_MPEG4_AVC, 409=
-6, 4096, 52)},
-> @@ -173,20 +162,17 @@ static struct amdgpu_video_codec_info sriov_sc_vide=
-o_codecs_decode_array_vcn1[]
->         {codec_info_build(AMDGPU_INFO_VIDEO_CAPS_CODEC_IDX_VP9, 8192, 435=
-2, 0)},
->  };
->
-> -static struct amdgpu_video_codecs sriov_sc_video_codecs_encode =3D
-> -{
-> +static struct amdgpu_video_codecs sriov_sc_video_codecs_encode =3D {
->         .codec_count =3D ARRAY_SIZE(sriov_sc_video_codecs_encode_array),
->         .codec_array =3D sriov_sc_video_codecs_encode_array,
->  };
->
-> -static struct amdgpu_video_codecs sriov_sc_video_codecs_decode_vcn0 =3D
-> -{
-> +static struct amdgpu_video_codecs sriov_sc_video_codecs_decode_vcn0 =3D =
-{
->         .codec_count =3D ARRAY_SIZE(sriov_sc_video_codecs_decode_array_vc=
-n0),
->         .codec_array =3D sriov_sc_video_codecs_decode_array_vcn0,
->  };
->
-> -static struct amdgpu_video_codecs sriov_sc_video_codecs_decode_vcn1 =3D
-> -{
-> +static struct amdgpu_video_codecs sriov_sc_video_codecs_decode_vcn1 =3D =
-{
->         .codec_count =3D ARRAY_SIZE(sriov_sc_video_codecs_decode_array_vc=
-n1),
->         .codec_array =3D sriov_sc_video_codecs_decode_array_vcn1,
->  };
-> @@ -536,8 +522,7 @@ static void nv_program_aspm(struct amdgpu_device *ade=
-v)
->
->  }
->
-> -const struct amdgpu_ip_block_version nv_common_ip_block =3D
-> -{
-> +const struct amdgpu_ip_block_version nv_common_ip_block =3D {
->         .type =3D AMD_IP_BLOCK_TYPE_COMMON,
->         .major =3D 1,
->         .minor =3D 0,
-> @@ -642,8 +627,7 @@ static int nv_update_umd_stable_pstate(struct amdgpu_=
-device *adev,
->         return 0;
->  }
->
-> -static const struct amdgpu_asic_funcs nv_asic_funcs =3D
-> -{
-> +static const struct amdgpu_asic_funcs nv_asic_funcs =3D {
->         .read_disabled_bios =3D &nv_read_disabled_bios,
->         .read_bios_from_rom =3D &amdgpu_soc15_read_bios_from_rom,
->         .read_register =3D &nv_read_register,
+>                 reg =3D RREG32_NO_KIQ(mmMAILBOX_CONTROL);
+>         }
 > --
 > 2.17.1
 >
