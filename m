@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B63772AEB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75807772AEE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Aug 2023 18:33:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A931A10E2C5;
-	Mon,  7 Aug 2023 16:33:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B69810E2CE;
+	Mon,  7 Aug 2023 16:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9CB10E2C1
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 16:32:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E69C10E2C5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 16:32:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691425976;
+ s=mimecast20190719; t=1691425977;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FSJyklWcOYLh1Y7SYk3LyH530BHSBws8fX+6+9YjAp4=;
- b=ec/ZqnoZGHOiijvlH0hBAudZ5q2bAGp8RMbNHebzyj0SgdPdyghAhxZ7Pow3RBzfwPJN3x
- YvOILrlKf+cve0WAC9+zvYgxm5c5tcYi2v6g+O6nycsSozA2xptjjtJBg2MRN6lnGJZBF7
- NFWaPJjc4ZJgwUlzcQoAkYruESZwuLQ=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=piPAJWb0pb900GeCYfzlLDbns7cOjvHHVSLvNcNzuY4=;
+ b=Y0K6A1v9Gbzbw0NRWs99qaqcEDzlM9Ok9s0aJiHghHgj7ZF4EWYL6OgsnxFDvM7LS/hxDZ
+ p3/YpgCKUHrQ4NQvMPRRO5jbtqshJTh+PzlgVk5Hc2XRhTzKjO9z6Sg5eVBzW1yr4HolGg
+ gVCzU1u3dwBIju5bVqA6q4+b4mbzukc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-oS4t6aVONLCN-HJyo3OqxA-1; Mon, 07 Aug 2023 12:32:52 -0400
-X-MC-Unique: oS4t6aVONLCN-HJyo3OqxA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-4fe275023d4so4464406e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 09:32:52 -0700 (PDT)
+ us-mta-550-HcVkeRBZP8GGA8omDT3UOQ-1; Mon, 07 Aug 2023 12:32:56 -0400
+X-MC-Unique: HcVkeRBZP8GGA8omDT3UOQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-99bdee94b84so659207966b.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 09:32:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691425971; x=1692030771;
+ d=1e100.net; s=20221208; t=1691425975; x=1692030775;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FSJyklWcOYLh1Y7SYk3LyH530BHSBws8fX+6+9YjAp4=;
- b=iaxYjNKSMX3BYSvd0reFXNhtNW/CuE7wCzo7FQ+nCJvT0zQqZvH1qHW3DPcqT/evyh
- nZzAI+i7oDz8SrBdU0hB3qr2Jni8T8C/XwF/oTWkxkqmF480BU9mbTzWg3fJvs2+M9wp
- gW6Pt/w0J2c5sdUMwYBvvzbDUxqFd+uTIzyFYniPsWD6XArW3rKd30mPTpukH/J/bTyE
- GEP0by/qMUNTxL7CK31XmuCKtU7iL956gPUtf7l1AZ1+TnS3UMSoIBowLCAYw5SqVa6V
- xcgxZ/m1S6j5Qd5lnEMyH2qmxcivAc2qWPX+0IDDNjc+OymY3FuKE0nPLN7taSxyM+7j
- bAvA==
-X-Gm-Message-State: AOJu0YyBGXffsi1IIO8JCxPwQGjjaiFNnAyUprPZAhh48VKqG43D8bFx
- RXpn7kplmWwB9L9oLMdFngBzlAXLaIh1AhHm7VV5/FjNxdDIS+AmIY/F62Mv/iCqtvqJLEHq7P3
- ReIn/H8fRa0V/OXONSiR4FajNqZLd
-X-Received: by 2002:a05:6512:280c:b0:4fb:744e:17db with SMTP id
- cf12-20020a056512280c00b004fb744e17dbmr7711097lfb.1.1691425971022; 
- Mon, 07 Aug 2023 09:32:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFTmw8BlSLd66bLQQphUvYc14k91eYxq6U+Y6ebxxfanOvKoolnZuNuEXZTLdCuMfe0V95eA==
-X-Received: by 2002:a05:6512:280c:b0:4fb:744e:17db with SMTP id
- cf12-20020a056512280c00b004fb744e17dbmr7711084lfb.1.1691425970741; 
- Mon, 07 Aug 2023 09:32:50 -0700 (PDT)
+ bh=piPAJWb0pb900GeCYfzlLDbns7cOjvHHVSLvNcNzuY4=;
+ b=Kmlmfki3JoADffI1BIW/Mdy8Idu2T5BelKcZ2745u6aacvmSqBWpvaw2rXh/a3qesl
+ MK3i0xw7waNz0x5E0y75WbQgZHfR/vKV28q0scDYaBIlkrdr6vs7UWsJ0B/Sn2PGehYe
+ kpnHTDLms5wim1zl1htDixQ4eomWZNH89ejbdVGb06lEZ1PfRSKrGIKMrduPQVNEpEGV
+ +P6SjXdZvNJeDaallMk95e4IAXxUO+qsLyjgDKDng2GvFWDw8cgwtaya2+hRxieVXy14
+ cXtap9Wx9/9t/YCkiwbxBkFIKZBCOTzMGfiQ4CVOR/4DWxEmO4fXNp5L4kGgQ+7DYtJf
+ TCiA==
+X-Gm-Message-State: AOJu0YxxASRJ4cwr+dLsWQYkXSMcSIAe0qDENhlGbC7XtF4F89tMDppy
+ 93yqT5EvevOiIz0oW+6swKvsYqNe9lk2dEsdBO7E9RHiUJ9AtksGv5tHwWTxDB2iIfNRfh6Pr0q
+ ph6qTlcPPPnjXGuXwLDroybYpWNz9
+X-Received: by 2002:a17:906:108f:b0:994:1880:dc32 with SMTP id
+ u15-20020a170906108f00b009941880dc32mr8042336eju.17.1691425974849; 
+ Mon, 07 Aug 2023 09:32:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHAOrA3sQdOCxahpEKiwq8VOW54ZSfWV5X0WyopCri708v3H0dc43QYOi6NsAXi+7lwk8xLjA==
+X-Received: by 2002:a17:906:108f:b0:994:1880:dc32 with SMTP id
+ u15-20020a170906108f00b009941880dc32mr8042319eju.17.1691425974672; 
+ Mon, 07 Aug 2023 09:32:54 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- e26-20020a50ec9a000000b0051873c201a0sm5377862edr.26.2023.08.07.09.32.48
+ f8-20020a170906560800b00992b7ff3993sm5334625ejq.126.2023.08.07.09.32.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 09:32:50 -0700 (PDT)
+ Mon, 07 Aug 2023 09:32:54 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, bskeggs@redhat.com, kherbst@redhat.com,
  lyude@redhat.com, sfr@canb.auug.org.au
-Subject: [PATCH drm-misc-next 2/5] drm/nouveau: nvkm: vmm: silence warning
- from cast
-Date: Mon,  7 Aug 2023 18:32:23 +0200
-Message-ID: <20230807163238.2091-3-dakr@redhat.com>
+Subject: [PATCH drm-misc-next 3/5] drm/nouveau: remove incorrect __user
+ annotations
+Date: Mon,  7 Aug 2023 18:32:24 +0200
+Message-ID: <20230807163238.2091-4-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230807163238.2091-1-dakr@redhat.com>
 References: <20230807163238.2091-1-dakr@redhat.com>
@@ -91,40 +91,108 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cast the integer to a pointer-sized type first to keep the compiler
-happy.
+Fix copy-paste error causing EXEC and VM_BIND syscalls data pointers
+to carry incorrect __user annotations.
 
-Fixes: 6b252cf42281 ("drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm")
+Fixes: b88baab82871 ("drm/nouveau: implement new VM_BIND uAPI")
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_exec.c | 6 +++---
+ drivers/gpu/drm/nouveau/nouveau_exec.h | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c | 6 +++---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.h | 4 ++--
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-index 38b7ced934b1..46cbd4cedb78 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c
-@@ -399,6 +399,8 @@ nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
- 		.no_comp = true,
- 	};
- 	struct nvkm_memory *memory;
-+	void *argv = (void *)(uintptr_t)args->argv;
-+	int argc = args->argc;
- 	u64 handle = args->memory;
- 	u8 refd;
- 	int ret;
-@@ -418,8 +420,7 @@ nvkm_uvmm_mthd_raw_map(struct nvkm_uvmm *uvmm, struct nvif_vmm_raw_v0 *args)
- 		return PTR_ERR(memory);
- 	}
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
+index 42d9dd43ea02..0f927adda4ed 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.c
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+@@ -293,7 +293,7 @@ nouveau_exec(struct nouveau_exec_job_args *args)
  
--	ret = nvkm_memory_map(memory, args->offset, vmm, &vma,
--			      (void *)args->argv, args->argc);
-+	ret = nvkm_memory_map(memory, args->offset, vmm, &vma, argv, argc);
+ static int
+ nouveau_exec_ucopy(struct nouveau_exec_job_args *args,
+-		   struct drm_nouveau_exec __user *req)
++		   struct drm_nouveau_exec *req)
+ {
+ 	struct drm_nouveau_sync **s;
+ 	u32 inc = req->wait_count;
+@@ -352,7 +352,7 @@ nouveau_exec_ufree(struct nouveau_exec_job_args *args)
  
- 	nvkm_memory_unref(&vma.memory);
- 	nvkm_memory_unref(&memory);
+ int
+ nouveau_exec_ioctl_exec(struct drm_device *dev,
+-			void __user *data,
++			void *data,
+ 			struct drm_file *file_priv)
+ {
+ 	struct nouveau_abi16 *abi16 = nouveau_abi16_get(file_priv);
+@@ -360,7 +360,7 @@ nouveau_exec_ioctl_exec(struct drm_device *dev,
+ 	struct nouveau_abi16_chan *chan16;
+ 	struct nouveau_channel *chan = NULL;
+ 	struct nouveau_exec_job_args args = {};
+-	struct drm_nouveau_exec __user *req = data;
++	struct drm_nouveau_exec *req = data;
+ 	int ret = 0;
+ 
+ 	if (unlikely(!abi16))
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.h b/drivers/gpu/drm/nouveau/nouveau_exec.h
+index 3032db27b8d7..778cacd90f65 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.h
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.h
+@@ -48,7 +48,7 @@ struct nouveau_exec_job {
+ int nouveau_exec_job_init(struct nouveau_exec_job **job,
+ 			  struct nouveau_exec_job_args *args);
+ 
+-int nouveau_exec_ioctl_exec(struct drm_device *dev, void __user *data,
++int nouveau_exec_ioctl_exec(struct drm_device *dev, void *data,
+ 			    struct drm_file *file_priv);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index b515a21aa08e..2acbac73e57a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -1687,7 +1687,7 @@ nouveau_uvmm_vm_bind(struct nouveau_uvmm_bind_job_args *args)
+ 
+ static int
+ nouveau_uvmm_vm_bind_ucopy(struct nouveau_uvmm_bind_job_args *args,
+-			   struct drm_nouveau_vm_bind __user *req)
++			   struct drm_nouveau_vm_bind *req)
+ {
+ 	struct drm_nouveau_sync **s;
+ 	u32 inc = req->wait_count;
+@@ -1749,12 +1749,12 @@ nouveau_uvmm_vm_bind_ufree(struct nouveau_uvmm_bind_job_args *args)
+ 
+ int
+ nouveau_uvmm_ioctl_vm_bind(struct drm_device *dev,
+-			   void __user *data,
++			   void *data,
+ 			   struct drm_file *file_priv)
+ {
+ 	struct nouveau_cli *cli = nouveau_cli(file_priv);
+ 	struct nouveau_uvmm_bind_job_args args = {};
+-	struct drm_nouveau_vm_bind __user *req = data;
++	struct drm_nouveau_vm_bind *req = data;
+ 	int ret = 0;
+ 
+ 	if (unlikely(!nouveau_cli_uvmm_locked(cli)))
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.h b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
+index 3923c03012f9..534baadc3bf7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.h
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.h
+@@ -89,10 +89,10 @@ void nouveau_uvmm_fini(struct nouveau_uvmm *uvmm);
+ void nouveau_uvmm_bo_map_all(struct nouveau_bo *nvbov, struct nouveau_mem *mem);
+ void nouveau_uvmm_bo_unmap_all(struct nouveau_bo *nvbo);
+ 
+-int nouveau_uvmm_ioctl_vm_init(struct drm_device *dev, void __user *data,
++int nouveau_uvmm_ioctl_vm_init(struct drm_device *dev, void *data,
+ 			       struct drm_file *file_priv);
+ 
+-int nouveau_uvmm_ioctl_vm_bind(struct drm_device *dev, void __user *data,
++int nouveau_uvmm_ioctl_vm_bind(struct drm_device *dev, void *data,
+ 			       struct drm_file *file_priv);
+ 
+ static inline void nouveau_uvmm_lock(struct nouveau_uvmm *uvmm)
 -- 
 2.41.0
 
