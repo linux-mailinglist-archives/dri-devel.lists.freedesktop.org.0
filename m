@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8787736D0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 04:37:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AB87736E2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 04:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A00A610E394;
-	Tue,  8 Aug 2023 02:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BCD10E390;
+	Tue,  8 Aug 2023 02:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9094410E390;
- Tue,  8 Aug 2023 02:37:17 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-5230a22cfd1so6790375a12.1; 
- Mon, 07 Aug 2023 19:37:17 -0700 (PDT)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A0A110E390
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 02:43:39 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id
+ d2e1a72fcca58-68730bafa6bso4092188b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 19:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691462236; x=1692067036;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/Pzo/ae8fiZC5mD6rJbJETUk5SqmzLl4qP80bXe4VJw=;
- b=jp1qrrbYROFguZcOFx9Q8zIaj8439PAFQ7zNWYG0iZ0RiVY/dWssDNLrr6irn+1IVi
- 0IY+prmE0xcz50IQCnF/HguKEH9Vi5T81s8LnWFPeoUsog6Kh9ajCk0j8NslPILHNN+E
- kUG5oNIUfzmbirknglpMB/MLFr8g56RxYdc6YJBJowu4B+tFY1EgNahw4FcMni62kmdv
- Y9XKLpNrHImDw9nNBB7VsSi/6UHQmuAmSd/WL/am0vqJvPlqmy6jClV2grrAilGUVfvF
- ShNFNDujmkhRvbKePthwC1uMIY5zf/+u7pAV+g5CXRUIF1PU7sw1WnIgxO4Rq/1+Koxk
- HGow==
+ d=chromium.org; s=google; t=1691462618; x=1692067418;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=INNxwX5OXvLNLDOBW649YAXFL5xD3rewmot3fGeUu+U=;
+ b=A2/H7xZD3CqmMHtFxsVqnriGlaXy35N8gBbwRol4vGFZvKVXNjRJ4I2Ej91W89NYJM
+ wSNrqUuSu0NHolUuyrAQOlT9CF2bWUVb0RRUmRd1vsjGH8JXqQUMDtKUCngxFdnfJqFN
+ O4M6br26j+O/QUpWu/rrKJIXEuTHwWBeF8GT0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691462236; x=1692067036;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/Pzo/ae8fiZC5mD6rJbJETUk5SqmzLl4qP80bXe4VJw=;
- b=MWGA7A7hDBQo9eHf2oVhpvONeWdPFbQUU7cRUBrrx1F4BKOnNVqR9jKF5CV7FiYhBY
- Q9FNC0emJvDKeO0hBYcLPvJIwKigSGavi14Hmej4+pkMvGtwvaFSYN5t9+gWPWui1wsg
- tqcOlXeUSNywXPJO9RDHuBI0DztR+QRazRCvQyqbpdoijw+a9q9v6TYYYiEMiym9XeT+
- daO8S9qrmUcOFcxRUhO0x7iimdgto8p+WKD473Db9X3XWtX4ONKV5jis7RomfQPQPX7Q
- 88WLodu0HX+W2u7vQxP9+TqdkjWQBcXPAfE09UmpQZTT7AmrTeobRvdpb0tw2jCBjxWD
- 2dDQ==
-X-Gm-Message-State: AOJu0YzaAHJsN0I7WPHYzO6722IndBMRxceCAX+YhsRtabehaInM6VbW
- 8kK+FJTXmzIyrEVF0Z9mrqxFy/2HI5p77QXPBrqZTGvDl9o=
-X-Google-Smtp-Source: AGHT+IEh9niFo4xdJ945FQYYzvfAVJ3a7wxVMppL7pEawqEYWNmd2+JTGsKdFCsEX2UI/cKYLZoP0spIVcDaXCc5E8U=
-X-Received: by 2002:a17:906:3298:b0:99c:53f:1dc7 with SMTP id
- 24-20020a170906329800b0099c053f1dc7mr8795188ejw.54.1691462235711; Mon, 07 Aug
- 2023 19:37:15 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691462618; x=1692067418;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=INNxwX5OXvLNLDOBW649YAXFL5xD3rewmot3fGeUu+U=;
+ b=B0k4YtlsjuxI6Rgpl1wz1JBxyxlPxrQjtUBVrohiLUOD1HTGNW0xJzuta46H66OGAK
+ qwGuFOFQhOytaymEidqKz59gkBGX1f1ZguHATswWjJrvJ/Ug2RPhHfN5JgTd4X3stMZu
+ JGMA/BWZWJomhg4dRlN1gSGncx1sn5tvZS9h41RUVmBh7hR4JfF5s1qqP+Wj6OXy5PWX
+ 7XFSiseVdgW1sNId+B0UBbjPznsdtY9HJO6qe91bOPoVgmj3TS1Z7Io/X6jquuKwp+Or
+ le3Rz/cRtLpjk7nrUqoHM/4a3i9p+FkHjWD+HAshQpica3iBqQsbwXPd9Fjfz9G0mnRj
+ jUTA==
+X-Gm-Message-State: AOJu0YwBxtneLxyUwQZdLPcoY177kPcBLiIlk5bzBvIvZdwYPQiUuHzE
+ ZPd3TII4Ibx6zdmJmA3bmESj4Q==
+X-Google-Smtp-Source: AGHT+IEEHi3T6ZsjgaGRPluPDjQtcIdZ3It0oJBuq7pr5+R6rIUvnxra471DvdmsO6KuBdWwjldy+w==
+X-Received: by 2002:a05:6a20:440a:b0:133:38cb:2b93 with SMTP id
+ ce10-20020a056a20440a00b0013338cb2b93mr11291967pzb.9.1691462618594; 
+ Mon, 07 Aug 2023 19:43:38 -0700 (PDT)
+Received: from datalore.c.googlers.com.com
+ (148.175.199.104.bc.googleusercontent.com. [104.199.175.148])
+ by smtp.gmail.com with ESMTPSA id
+ p23-20020aa78617000000b00662610cf7a8sm7063479pfn.172.2023.08.07.19.43.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Aug 2023 19:43:38 -0700 (PDT)
+From: Brandon Pollack <brpol@chromium.org>
+To: jshargo@chromium.org
+Subject: 
+Date: Tue,  8 Aug 2023 02:42:33 +0000
+Message-ID: <20230808024313.2220391-2-brpol@chromium.org>
+X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
+In-Reply-To: <20230623222353.97283-1-jshargo@chromium.org>
+References: <20230623222353.97283-1-jshargo@chromium.org>
 MIME-Version: 1.0
-References: <20230807163238.2091-1-dakr@redhat.com>
-In-Reply-To: <20230807163238.2091-1-dakr@redhat.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 8 Aug 2023 12:37:03 +1000
-Message-ID: <CAPM=9twBcE8vRBvjxSSsk23wh246cBFX8jQx5Aap9veLYxOt-g@mail.gmail.com>
-Subject: Re: [PATCH drm-misc-next 0/5] Nouveau VM_BIND uAPI Fixes
-To: Danilo Krummrich <dakr@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,41 +71,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, kherbst@redhat.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bskeggs@redhat.com
+Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com, mairacanal@riseup.net,
+ mripard@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the series:
+Any progress on this?  Is it ok if yixie@chromium.org and I do the
+followups on this patch so that we can also submit the Hotplug patch I
+wrote (that's now archived?).
 
-Reviewed-by: Dave Airlie <airlied@redhat.com>
 
-On Tue, 8 Aug 2023 at 02:32, Danilo Krummrich <dakr@redhat.com> wrote:
->
-> The patch series provides a few fixes for the recently merged VM_BIND uAPI
-> mostly addressing a couple of warnings.
->
-> It also contains one patch to slightly reduce the memory footprint of
-> struct nouveau_uvma.
->
-> Danilo Krummrich (5):
->   nouveau/dmem: fix copy-paste error in nouveau_dmem_migrate_chunk()
->   drm/nouveau: nvkm: vmm: silence warning from cast
->   drm/nouveau: remove incorrect __user annotations
->   drm/nouveau: uvmm: remove incorrect calls to mas_unlock()
->   drm/nouveau: uvmm: remove dedicated VM pointer from VMAs
->
->  drivers/gpu/drm/nouveau/nouveau_dmem.c        |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_exec.c        |  6 ++---
->  drivers/gpu/drm/nouveau/nouveau_exec.h        |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 23 ++++++++-----------
->  drivers/gpu/drm/nouveau/nouveau_uvmm.h        | 14 +++++------
->  .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  5 ++--
->  6 files changed, 24 insertions(+), 28 deletions(-)
->
->
-> base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781
-> --
-> 2.41.0
->
