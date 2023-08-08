@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3A4773978
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 11:52:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8AA77398F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 12:11:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 763CA10E3DB;
-	Tue,  8 Aug 2023 09:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 236D010E032;
+	Tue,  8 Aug 2023 10:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B4410E3DB
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 09:52:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A715710E032;
+ Tue,  8 Aug 2023 10:11:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691488357; x=1723024357;
+ t=1691489505; x=1723025505;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sJe/FjkKGd8eh50/D7h20CQFn7rzavg+GsLadqC/Xh0=;
- b=JdLgoVnEd+oRcg+W+7soEV78Aoc3N3eUGGCdKUzvr9u1s2xhvfFshZ9u
- ++7f0rzBCGEFfZczWNkhak3HRrkNl0/3Or7Rg93xiX9rZHN53nHgKfh2j
- xY7gDOph/UVm/aGK0buG9d7PFyylQ6tX7P805boU5Nee0QjKi9uCSz7UQ
- CUuYJSpYWoMEgc1SarrpERc2Jt9TyWf6lARejrNypBdRWxKfUdFqQt3hL
- wg/S90CWxf75/+rGrhnPOloxN8lEk+RUi+HV91st/yu2cbV18QhHCuD4n
- glbjtbJc97O+s8rq3XWhPGjjYlQUCES4laQGAhqzqghrOQvYwbDgDN4CO g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="457161314"
-X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; d="scan'208";a="457161314"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2023 02:51:32 -0700
+ bh=/JHxGTMOkfoWs/3sDluPscy7r1Tfl4zDaRsbT3Fsm3c=;
+ b=ckhMm5opvghNDE5JVCFg9d55urDknRnm1Zje6MjND0DU61se7xMY4nyl
+ RIFm3otBcuZL9oDett1gyByqTCImQ/mO48Qo2H97U05EYIaarubM77gRN
+ qyRSfZ+RtNjZJ8qQwmbpXGv8Et4CautSleB1qftwGpzSYB2YORl3fYCdu
+ SLrJ8j15NUmKb3zi0kZx/JX1hbvp0uXLUVHg1yx732Nj1CZSeckN507qn
+ okHK3LkNBXVARL/5XNOpP/2wYdXFi4UJpfD44i4s+p6xbO4cpQySSOh9U
+ rx9zFWW2SsW6KCHerol+clXdfxOim7B71sXHY/FwG9rkRXiBkPAFj/JBF g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="351082702"
+X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; d="scan'208";a="351082702"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2023 03:11:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="1061945196"
-X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; d="scan'208";a="1061945196"
-Received: from czapiews-mobl.ger.corp.intel.com (HELO kdrobnik-desk.intel.com)
- ([10.213.30.100])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2023 02:51:29 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC v6 3/3] drm/ttm/tests: Add tests for ttm_pool
-Date: Tue,  8 Aug 2023 11:51:14 +0200
-Message-Id: <427ea373357d0b6cb376c9d7ebc33c930bf1d28a.1691487006.git.karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1691487006.git.karolina.stolarek@intel.com>
-References: <cover.1691487006.git.karolina.stolarek@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="977796330"
+X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; d="scan'208";a="977796330"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2023 03:11:43 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 10/20] drm/i915/dp: Add functions to get min/max src input bpc
+ with DSC
+Date: Tue,  8 Aug 2023 15:38:23 +0530
+Message-Id: <20230808100823.3355042-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230728041150.2524032-11-ankit.k.nautiyal@intel.com>
+References: <20230728041150.2524032-11-ankit.k.nautiyal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,530 +59,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
+ navaremanasi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add KUnit tests that exercise page allocation using page pools
-and freeing pages, either by returning them to the pool or
-freeing them. Add a basic test for ttm_pool cleanup. Introduce
-helpers to create a dummy ttm_buffer_object.
+Separate out functions for getting maximum and minimum input BPC based
+on platforms, when DSC is used.
 
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+v2: Use HAS_DSC macro instead of platform check while getting min input
+bpc. (Stan)
+
+Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 ---
- drivers/gpu/drm/ttm/tests/Makefile            |   1 +
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  17 +
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   4 +
- drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 437 ++++++++++++++++++
- 4 files changed, 459 insertions(+)
- create mode 100644 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
+ drivers/gpu/drm/i915/display/intel_dp.c | 35 +++++++++++++++++++------
+ 1 file changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-index 7917805f37af..ec87c4fc1ad5 100644
---- a/drivers/gpu/drm/ttm/tests/Makefile
-+++ b/drivers/gpu/drm/ttm/tests/Makefile
-@@ -2,4 +2,5 @@
- 
- obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
-         ttm_device_test.o \
-+        ttm_pool_test.o \
-         ttm_kunit_helpers.o
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-index dedc1857734b..81661d8827aa 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -25,6 +25,23 @@ int ttm_device_kunit_init(struct ttm_test_devices *priv,
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index c13efd0b7c98..b414d09b5e80 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1535,6 +1535,18 @@ intel_dp_compute_link_config_wide(struct intel_dp *intel_dp,
+ 	return -EINVAL;
  }
- EXPORT_SYMBOL_GPL(ttm_device_kunit_init);
  
-+struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
-+					    struct ttm_test_devices *devs,
-+					    size_t size)
++static
++u8 intel_dp_dsc_max_src_input_bpc(struct drm_i915_private *i915)
 +{
-+	struct drm_gem_object gem_obj = { .size = size };
-+	struct ttm_buffer_object *bo;
-+
-+	bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo);
-+
-+	bo->base = gem_obj;
-+	bo->bdev = devs->ttm_dev;
-+
-+	return bo;
-+}
-+EXPORT_SYMBOL_GPL(ttm_bo_kunit_init);
-+
- struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test)
- {
- 	struct ttm_test_devices *devs;
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-index f9f5bc03e93a..e261e3660d0b 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-@@ -7,6 +7,7 @@
- 
- #include <drm/drm_drv.h>
- #include <drm/ttm/ttm_device.h>
-+#include <drm/ttm/ttm_bo.h>
- 
- #include <drm/drm_kunit_helpers.h>
- #include <kunit/test.h>
-@@ -24,6 +25,9 @@ int ttm_device_kunit_init(struct ttm_test_devices *priv,
- 			  struct ttm_device *ttm,
- 			  bool use_dma_alloc,
- 			  bool use_dma32);
-+struct ttm_buffer_object *ttm_bo_kunit_init(struct kunit *test,
-+					    struct ttm_test_devices *devs,
-+					    size_t size);
- 
- struct ttm_test_devices *ttm_test_devices_basic(struct kunit *test);
- struct ttm_test_devices *ttm_test_devices_all(struct kunit *test);
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-new file mode 100644
-index 000000000000..8d90870fb199
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-@@ -0,0 +1,437 @@
-+// SPDX-License-Identifier: GPL-2.0 AND MIT
-+/*
-+ * Copyright © 2023 Intel Corporation
-+ */
-+#include <linux/mm.h>
-+
-+#include <drm/ttm/ttm_tt.h>
-+#include <drm/ttm/ttm_pool.h>
-+
-+#include "ttm_kunit_helpers.h"
-+
-+struct ttm_pool_test_case {
-+	const char *description;
-+	unsigned int order;
-+	bool use_dma_alloc;
-+};
-+
-+struct ttm_pool_test_priv {
-+	struct ttm_test_devices *devs;
-+
-+	/* Used to create mock ttm_tts */
-+	struct ttm_buffer_object *mock_bo;
-+};
-+
-+static struct ttm_operation_ctx simple_ctx = {
-+	.interruptible = true,
-+	.no_wait_gpu = false,
-+};
-+
-+static int ttm_pool_test_init(struct kunit *test)
-+{
-+	struct ttm_pool_test_priv *priv;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	priv->devs = ttm_test_devices_basic(test);
-+	test->priv = priv;
++	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
++	if (DISPLAY_VER(i915) >= 12)
++		return 12;
++	if (DISPLAY_VER(i915) == 11)
++		return 10;
 +
 +	return 0;
 +}
 +
-+static void ttm_pool_test_fini(struct kunit *test)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
+ int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
+ {
+ 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+@@ -1542,11 +1554,12 @@ int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
+ 	u8 dsc_bpc[3] = {0};
+ 	u8 dsc_max_bpc;
+ 
+-	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
+-	if (DISPLAY_VER(i915) >= 12)
+-		dsc_max_bpc = min_t(u8, 12, max_req_bpc);
+-	else
+-		dsc_max_bpc = min_t(u8, 10, max_req_bpc);
++	dsc_max_bpc = intel_dp_dsc_max_src_input_bpc(i915);
 +
-+	ttm_test_devices_put(test, priv->devs);
++	if (!dsc_max_bpc)
++		return dsc_max_bpc;
++
++	dsc_max_bpc = min_t(u8, dsc_max_bpc, max_req_bpc);
+ 
+ 	num_bpc = drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
+ 						       dsc_bpc);
+@@ -1674,6 +1687,13 @@ static bool intel_dp_dsc_supports_format(struct intel_dp *intel_dp,
+ 	return drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd, sink_dsc_format);
+ }
+ 
++static
++u8 intel_dp_dsc_min_src_input_bpc(struct drm_i915_private *i915)
++{
++	/* Min DSC Input BPC for ICL+ is 8 */
++	return HAS_DSC(i915) ? 8 : 0;
 +}
 +
-+static struct ttm_tt *ttm_tt_kunit_init(struct kunit *test,
-+					uint32_t page_flags,
-+					enum ttm_caching caching,
-+					size_t size)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
-+	struct ttm_buffer_object *bo;
-+	struct ttm_tt *tt;
-+	int err;
-+
-+	bo = ttm_bo_kunit_init(test, priv->devs, size);
-+	KUNIT_ASSERT_NOT_NULL(test, bo);
-+	priv->mock_bo = bo;
-+
-+	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	err = ttm_tt_init(tt, priv->mock_bo, page_flags, caching, 0);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	return tt;
-+}
-+
-+static struct ttm_pool *ttm_pool_pre_populated(struct kunit *test,
-+					       size_t size,
-+					       enum ttm_caching caching)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
-+	struct ttm_test_devices *devs = priv->devs;
-+	struct ttm_pool *pool;
-+	struct ttm_tt *tt;
-+	unsigned long order = __fls(size / PAGE_SIZE);
-+	int err;
-+
-+	tt = ttm_tt_kunit_init(test, order, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, true, false);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	return pool;
-+}
-+
-+static const struct ttm_pool_test_case ttm_pool_basic_cases[] = {
-+	{
-+		.description = "One page",
-+		.order = 0,
-+	},
-+	{
-+		.description = "More than one page",
-+		.order = 2,
-+	},
-+	{
-+		.description = "Above the allocation limit",
-+		.order = MAX_ORDER + 1,
-+	},
-+	{
-+		.description = "One page, with coherent DMA mappings enabled",
-+		.order = 0,
-+		.use_dma_alloc = true,
-+	},
-+	{
-+		.description = "Above the allocation limit, with coherent DMA mappings enabled",
-+		.order = MAX_ORDER + 1,
-+		.use_dma_alloc = true,
-+	},
-+};
-+
-+static void ttm_pool_alloc_case_desc(const struct ttm_pool_test_case *t,
-+				     char *desc)
-+{
-+	strscpy(desc, t->description, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(ttm_pool_alloc_basic, ttm_pool_basic_cases,
-+		  ttm_pool_alloc_case_desc);
-+
-+static void ttm_pool_alloc_basic(struct kunit *test)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
-+	struct ttm_test_devices *devs = priv->devs;
-+	const struct ttm_pool_test_case *params = test->param_value;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct page *fst_page, *last_page;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int expected_num_pages = 1 << params->order;
-+	size_t size = expected_num_pages * PAGE_SIZE;
-+	int err;
-+
-+	tt = ttm_tt_kunit_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, params->use_dma_alloc,
-+		      false);
-+
-+	KUNIT_ASSERT_PTR_EQ(test, pool->dev, devs->dev);
-+	KUNIT_ASSERT_EQ(test, pool->nid, NUMA_NO_NODE);
-+	KUNIT_ASSERT_EQ(test, pool->use_dma_alloc, params->use_dma_alloc);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
-+
-+	fst_page = tt->pages[0];
-+	last_page = tt->pages[tt->num_pages - 1];
-+
-+	if (params->order <= MAX_ORDER) {
-+		if (params->use_dma_alloc) {
-+			KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-+			KUNIT_ASSERT_NOT_NULL(test, (void *)last_page->private);
-+		} else {
-+			KUNIT_ASSERT_EQ(test, fst_page->private, params->order);
-+		}
-+	} else {
-+		if (params->use_dma_alloc) {
-+			KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-+			KUNIT_ASSERT_NULL(test, (void *)last_page->private);
-+		} else {
-+			/*
-+			 * We expect to alloc one big block, followed by
-+			 * order 0 blocks
-+			 */
-+			KUNIT_ASSERT_EQ(test, fst_page->private,
-+					min_t(unsigned int, MAX_ORDER,
-+					      params->order));
-+			KUNIT_ASSERT_EQ(test, last_page->private, 0);
-+		}
-+	}
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_alloc_basic_dma_addr(struct kunit *test)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
-+	struct ttm_test_devices *devs = priv->devs;
-+	const struct ttm_pool_test_case *params = test->param_value;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_buffer_object *bo;
-+	dma_addr_t dma1, dma2;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int expected_num_pages = 1 << params->order;
-+	size_t size = expected_num_pages * PAGE_SIZE;
-+	int err;
-+
-+	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	bo = ttm_bo_kunit_init(test, devs, size);
-+	KUNIT_ASSERT_NOT_NULL(test, bo);
-+
-+	err = ttm_sg_tt_init(tt, bo, 0, caching);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, true, false);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
-+
-+	dma1 = tt->dma_address[0];
-+	dma2 = tt->dma_address[tt->num_pages - 1];
-+
-+	KUNIT_ASSERT_NOT_NULL(test, (void *)dma1);
-+	KUNIT_ASSERT_NOT_NULL(test, (void *)dma2);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_alloc_order_caching_match(struct kunit *test)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 0;
-+	size_t size = PAGE_SIZE;
-+	int err;
-+
-+	pool = ttm_pool_pre_populated(test, size, caching);
-+
-+	pt = &pool->caching[caching].orders[order];
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-+
-+	tt = ttm_tt_kunit_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_alloc_caching_mismatch(struct kunit *test)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt_pool, *pt_tt;
-+	enum ttm_caching tt_caching = ttm_uncached;
-+	enum ttm_caching pool_caching = ttm_cached;
-+	size_t size = PAGE_SIZE;
-+	unsigned int order = 0;
-+	int err;
-+
-+	pool = ttm_pool_pre_populated(test, size, pool_caching);
-+
-+	pt_pool = &pool->caching[pool_caching].orders[order];
-+	pt_tt = &pool->caching[tt_caching].orders[order];
-+
-+	tt = ttm_tt_kunit_init(test, 0, tt_caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt_tt->pages));
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_tt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_alloc_order_mismatch(struct kunit *test)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt_pool, *pt_tt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 2;
-+	size_t fst_size = (1 << order) * PAGE_SIZE;
-+	size_t snd_size = PAGE_SIZE;
-+	int err;
-+
-+	pool = ttm_pool_pre_populated(test, fst_size, caching);
-+
-+	pt_pool = &pool->caching[caching].orders[order];
-+	pt_tt = &pool->caching[caching].orders[0];
-+
-+	tt = ttm_tt_kunit_init(test, 0, caching, snd_size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt_tt->pages));
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_tt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_free_dma_alloc(struct kunit *test)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
-+	struct ttm_test_devices *devs = priv->devs;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 2;
-+	size_t size = (1 << order) * PAGE_SIZE;
-+
-+	tt = ttm_tt_kunit_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, true, false);
-+	ttm_pool_alloc(pool, tt, &simple_ctx);
-+
-+	pt = &pool->caching[caching].orders[order];
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_free_no_dma_alloc(struct kunit *test)
-+{
-+	struct ttm_pool_test_priv *priv = test->priv;
-+	struct ttm_test_devices *devs = priv->devs;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 2;
-+	size_t size = (1 << order) * PAGE_SIZE;
-+
-+	tt = ttm_tt_kunit_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, false, false);
-+	ttm_pool_alloc(pool, tt, &simple_ctx);
-+
-+	pt = &pool->caching[caching].orders[order];
-+	KUNIT_ASSERT_TRUE(test, list_is_singular(&pt->pages));
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_TRUE(test, list_is_singular(&pt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_fini_basic(struct kunit *test)
-+{
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 0;
-+	size_t size = PAGE_SIZE;
-+
-+	pool = ttm_pool_pre_populated(test, size, caching);
-+	pt = &pool->caching[caching].orders[order];
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_fini(pool);
-+
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-+}
-+
-+static struct kunit_case ttm_pool_test_cases[] = {
-+	KUNIT_CASE_PARAM(ttm_pool_alloc_basic, ttm_pool_alloc_basic_gen_params),
-+	KUNIT_CASE_PARAM(ttm_pool_alloc_basic_dma_addr,
-+			 ttm_pool_alloc_basic_gen_params),
-+	KUNIT_CASE(ttm_pool_alloc_order_caching_match),
-+	KUNIT_CASE(ttm_pool_alloc_caching_mismatch),
-+	KUNIT_CASE(ttm_pool_alloc_order_mismatch),
-+	KUNIT_CASE(ttm_pool_free_dma_alloc),
-+	KUNIT_CASE(ttm_pool_free_no_dma_alloc),
-+	KUNIT_CASE(ttm_pool_fini_basic),
-+	{}
-+};
-+
-+static struct kunit_suite ttm_pool_test_suite = {
-+	.name = "ttm_pool",
-+	.init = ttm_pool_test_init,
-+	.exit = ttm_pool_test_fini,
-+	.test_cases = ttm_pool_test_cases,
-+};
-+
-+kunit_test_suites(&ttm_pool_test_suite);
-+
-+MODULE_LICENSE("GPL");
+ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+ 				struct intel_crtc_state *pipe_config,
+ 				struct drm_connector_state *conn_state,
+@@ -1707,10 +1727,9 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+ 		pipe_bpp = pipe_config->pipe_bpp;
+ 	}
+ 
+-	/* Min Input BPC for ICL+ is 8 */
+-	if (pipe_bpp < 8 * 3) {
++	if (pipe_bpp < intel_dp_dsc_min_src_input_bpc(dev_priv) * 3) {
+ 		drm_dbg_kms(&dev_priv->drm,
+-			    "No DSC support for less than 8bpc\n");
++			    "Computed BPC less than min supported by source for DSC\n");
+ 		return -EINVAL;
+ 	}
+ 
 -- 
-2.25.1
+2.40.1
 
