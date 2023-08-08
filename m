@@ -1,59 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0DB77478D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 21:16:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4844774C02
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 23:02:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0049D10E1B7;
-	Tue,  8 Aug 2023 19:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBCC10E0F6;
+	Tue,  8 Aug 2023 21:02:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677DB10E0F8;
- Tue,  8 Aug 2023 19:16:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691522176; x=1723058176;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=g2nPMWJVqJSdxvBU7K5NZtxMaqmdJgy/2x1pLE1f54o=;
- b=BW/Yn+kM/k+1XQ5Qjn4GS6AW3qcgvz9KopLOzPbYjbmZv1H0RkTzVvQ4
- kaoVO6Q97G+YkOpbFB9Cu+OgprLxqlEJoRc2dOO7LzYmzh8YTtTvhQeWf
- FErk77+FQRHocW00oE+C+iIOfC3w7rJMoUimQsOj61YY5IKR7WOzODw5x
- 4/FlVjdnOmDknqt1GJgd9ZoEpFbumAdzXnqnTgtgWYugkq06uiQHcVfnt
- S6bcfNmFNQcbNdyYZepZVlKxDexqoMdkCUydr3UX7X23FULEGPaETVo+Q
- fTJ/n0bxuVb1cpJPPi/KUzkiLz6jqxFbivSLtOEZhwyj8aVhXnXQnxMdi Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373710785"
-X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; d="scan'208";a="373710785"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2023 12:16:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="801445416"
-X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; d="scan'208";a="801445416"
-Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 08 Aug 2023 12:16:10 -0700
-Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qTSBd-0005Yk-3C;
- Tue, 08 Aug 2023 19:16:09 +0000
-Date: Wed, 9 Aug 2023 03:15:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
-Message-ID: <202308090347.sZtwmCUB-lkp@intel.com>
-References: <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 981E610E0F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 21:02:50 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2b9cf2b1309so3263731fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Aug 2023 14:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691528568; x=1692133368;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3P34b/1ma59FLttG1cQJqYU6A3Cv7kli+dnFU1B7pgw=;
+ b=SvILppwzHI+9Ubi5q64fEItmP2yIkds1QdhCpbBlvFNhQzLstXUavt86288C4GEyBK
+ rn5WmEo5R6YtwM8F+i1Q+qOJkxcMxHmVafcb6//Ztb7vExgr6jtrj9/kL3RfFA9SrVI/
+ veNjg4F9psz1PXD4JGEY67UBuEwQCkNY7c0OHD+IU4hPOw6NfrInszz4s+ZnDkQnAB7I
+ b87442JKlQiyWdH5Zg4q8YgzkUmxUW2gIXX8RGhQ13t5W4llS28E/yvK8X1PGtE7V7Bu
+ CNCd32oYEPdNi/2xTTN3z/FLl9+VsByE3RfN5wlklVBSJoLTF1+pScpVZyxhOzXDtip1
+ 9/Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691528568; x=1692133368;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3P34b/1ma59FLttG1cQJqYU6A3Cv7kli+dnFU1B7pgw=;
+ b=LwV6MZe+xhG1WOJxgP4XPSYUtBwuINmUL8QrMGJlVyHYxpvVUFoxyFvtAlKG8wisDV
+ i+hsgRrpxywZ3MVhHQkjsWLJx7hbcDlZ/8DyfWp2xAQxTSPRV1u10iH9bqXGo16K+3vn
+ ZhnF5PJEtUO/Wq9vxA9x7vud946VyJf0+y0y3sc2OkLpusw613A1e/Y8AN2WHI13hlff
+ uvN6TX7Jx7sFRdz3EVZgtL7Viszy/gomoghkz+V/dlVzYx9PRUE+017k0yecYwirFMi0
+ vKR1Osi5vjMWLX8HsDTOxVtgR8AApvq/dRPYLhDJrJpXjT0Vn7nEo7gSqPoYLguTOKTR
+ d3Tw==
+X-Gm-Message-State: AOJu0Yy67sFhdz3lgOpdlz33oT0BR3CMmYgb4rTS8C3pwmWXE6Qb2evS
+ VjL2pYvU+doKSZwWpZDC9iUmoA==
+X-Google-Smtp-Source: AGHT+IGHL7VCZl32wqCp2jnfDoOO0FgloZVtld9xzhtXOZv99HywIwA5QJc20hltfUJx2vGx0SoAhA==
+X-Received: by 2002:a2e:96d6:0:b0:2b6:cb3f:97e2 with SMTP id
+ d22-20020a2e96d6000000b002b6cb3f97e2mr340774ljj.16.1691528568465; 
+ Tue, 08 Aug 2023 14:02:48 -0700 (PDT)
+Received: from [192.168.1.101] (abxi185.neoplus.adsl.tpnet.pl. [83.9.2.185])
+ by smtp.gmail.com with ESMTPSA id
+ h11-20020a2eb0eb000000b002b6cc17add3sm2431483ljl.25.2023.08.08.14.02.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Aug 2023 14:02:47 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH v2 00/14] A7xx support
+Date: Tue, 08 Aug 2023 23:02:38 +0200
+Message-Id: <20230628-topic-a7xx_drmmsm-v2-0-1439e1b2343f@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230802011845.4176631-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG6t0mQC/32NQQqDMBAAvyI5NyWJom1P/qNIiXGjC5rIxopF/
+ Hu3PqDHGRhmFwkIIYlHtguCFRPGwGAumXCDDT1I7JiFUSZXpbnJJc7opK227dXRNKVJapP7XHV
+ V6XwluGttAtmSDW7gMrzHkeVM4HE7R8+GecC0RPqc31X/7L/FqqVi4YviXoJy2tQjBkvxGqkXz
+ XEcX/7jt0vIAAAA
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691528566; l=4016;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=28tVoyoZGi5ChYeTjClZPV9YNYzKToRLj0C2cpckT8w=;
+ b=RgpQP0zsl9mFXTKGli673/415ZK5uFGxg3V/njRZPs5d6JltKmhZpln3HGk20bN8dwDnBAlzi
+ E0GHwdH9KFCC0pEWDcBu8GuAaPMvE/TrGIsCvTwVCALH/HsP/+fbPIf
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,99 +88,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
+Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+This series attempts to introduce Adreno 700 support (with A730 and A740
+found on SM8450 and SM8550 respectively), reusing much of the existing
+A6xx code. This submission largely lays the groundwork for expansion and
+more or less gives us feature parity (on the kernel side, that is) with
+existing A6xx parts.
 
-kernel test robot noticed the following build errors:
+On top of introducing a very messy set of three (!) separate and
+obfuscated deivce identifiers for each 7xx part, this generation
+introduces very sophisticated hardware multi-threading and (on some SKUs)
+hardware ray-tracing (not supported yet).
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on usb/usb-testing usb/usb-next usb/usb-linus drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc5 next-20230808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+After this series, a long-overdue cleanup of drm/msm/adreno is planned
+in preparation for adding more features and removing some hardcoding.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-add-transparent-bridge-helper/20230802-091932
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230802011845.4176631-4-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v3 3/3] usb: typec: nb7vpq904m: switch to DRM_SIMPLE_BRIDGE
-config: s390-randconfig-r033-20230808 (https://download.01.org/0day-ci/archive/20230809/202308090347.sZtwmCUB-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230809/202308090347.sZtwmCUB-lkp@intel.com/reproduce)
+The last patch is a hack that may or may not be necessary depending
+on your board's humour.. eh.. :/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308090347.sZtwmCUB-lkp@intel.com/
+Developed atop (and hence depends on) [1]
 
-All errors (new ones prefixed by >>):
+The corresponding devicetree patches are initially available at [2] and
+will be posted after this series gets merged. To test it, you'll also need
+firmware that you need to obtain from your board (there's none with a
+redistributable license, sorry..). Most likely it will be in one of
+these directories on your stock android installation:
 
->> drivers/gpu/drm/bridge/simple-bridge.c:212:18: error: no member named 'of_node' in 'struct drm_bridge'
-           sbridge->bridge.of_node = pdev->dev.of_node;
-           ~~~~~~~~~~~~~~~ ^
-   1 error generated.
+* /vendor/firmware
+* /vendor/firmware_mnt
+* /system
 
+..but some vendors make it hard and you have to do some grepping ;)
 
-vim +212 drivers/gpu/drm/bridge/simple-bridge.c
+Requires [3] to work on the userspace side. You'll almost cerainly want
+to test it alongside Zink with a lot of debug flags (early impl), like:
 
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  168  
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  169  static int simple_bridge_probe(struct platform_device *pdev)
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  170  {
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  171  	struct simple_bridge *sbridge;
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  172  	struct device_node *remote;
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  173  
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  174  	sbridge = devm_kzalloc(&pdev->dev, sizeof(*sbridge), GFP_KERNEL);
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  175  	if (!sbridge)
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  176  		return -ENOMEM;
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  177  	platform_set_drvdata(pdev, sbridge);
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  178  
-272378ec0eb972 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-02-26  179  	sbridge->info = of_device_get_match_data(&pdev->dev);
-272378ec0eb972 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-02-26  180  
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  181  	/* Get the next bridge in the pipeline. */
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  182  	remote = of_graph_get_remote_node(pdev->dev.of_node, 1, -1);
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  183  	if (!remote)
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  184  		return -EINVAL;
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  185  
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  186  	sbridge->next_bridge = of_drm_find_bridge(remote);
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  187  	of_node_put(remote);
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  188  
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  189  	if (!sbridge->next_bridge) {
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  190  		dev_dbg(&pdev->dev, "Next bridge not found, deferring probe\n");
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  191  		return -EPROBE_DEFER;
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  192  	}
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  193  
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  194  	/* Get the regulator and GPIO resources. */
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  195  	sbridge->vdd = devm_regulator_get_optional(&pdev->dev, "vdd");
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  196  	if (IS_ERR(sbridge->vdd)) {
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  197  		int ret = PTR_ERR(sbridge->vdd);
-af948a25ecb214 drivers/gpu/drm/bridge/dumb-vga-dac.c  Chen-Yu Tsai     2016-11-16  198  		if (ret == -EPROBE_DEFER)
-af948a25ecb214 drivers/gpu/drm/bridge/dumb-vga-dac.c  Chen-Yu Tsai     2016-11-16  199  			return -EPROBE_DEFER;
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  200  		sbridge->vdd = NULL;
-af948a25ecb214 drivers/gpu/drm/bridge/dumb-vga-dac.c  Chen-Yu Tsai     2016-11-16  201  		dev_dbg(&pdev->dev, "No vdd regulator found: %d\n", ret);
-af948a25ecb214 drivers/gpu/drm/bridge/dumb-vga-dac.c  Chen-Yu Tsai     2016-11-16  202  	}
-af948a25ecb214 drivers/gpu/drm/bridge/dumb-vga-dac.c  Chen-Yu Tsai     2016-11-16  203  
-2df6428e290a61 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-02-26  204  	sbridge->enable = devm_gpiod_get_optional(&pdev->dev, "enable",
-2df6428e290a61 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-02-26  205  						  GPIOD_OUT_LOW);
-db8496d0b50519 drivers/gpu/drm/bridge/simple-bridge.c Ye Xingchen      2023-03-22  206  	if (IS_ERR(sbridge->enable))
-db8496d0b50519 drivers/gpu/drm/bridge/simple-bridge.c Ye Xingchen      2023-03-22  207  		return dev_err_probe(&pdev->dev, PTR_ERR(sbridge->enable),
-db8496d0b50519 drivers/gpu/drm/bridge/simple-bridge.c Ye Xingchen      2023-03-22  208  				     "Unable to retrieve enable GPIO\n");
-2df6428e290a61 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-02-26  209  
-00686ac55d0a21 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-05-26  210  	/* Register the bridge. */
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  211  	sbridge->bridge.funcs = &simple_bridge_bridge_funcs;
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26 @212  	sbridge->bridge.of_node = pdev->dev.of_node;
-272378ec0eb972 drivers/gpu/drm/bridge/simple-bridge.c Laurent Pinchart 2020-02-26  213  	sbridge->bridge.timings = sbridge->info->timings;
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  214  
-94ded532ffdb42 drivers/gpu/drm/bridge/dumb-vga-dac.c  Laurent Pinchart 2020-02-26  215  	drm_bridge_add(&sbridge->bridge);
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  216  
-47e34278549ca4 drivers/gpu/drm/bridge/dumb-vga-dac.c  Inki Dae         2017-07-03  217  	return 0;
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  218  }
-56fe8b6f499167 drivers/gpu/drm/bridge/dumb-vga-dac.c  Maxime Ripard    2016-09-30  219  
+TU_DEBUG=sysmem,nolrz,flushall,noubwc MESA_LOADER_DRIVER_OVERRIDE=zink kmscube
 
+[1] https://lore.kernel.org/linux-arm-msm/20230517-topic-a7xx_prep-v4-0-b16f273a91d4@linaro.org/
+[2] https://github.com/SoMainline/linux/commits/topic/a7xx_dt
+[3] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23217
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Changes in v2:
+- Rebase on chipid changes
+- Reuse existing description for qcom,aoss in patch 2
+- Pick up tags
+- Link to v1: https://lore.kernel.org/r/20230628-topic-a7xx_drmmsm-v1-0-a7f4496e0c12@linaro.org
+
+---
+Konrad Dybcio (14):
+      dt-bindings: display/msm/gmu: Add Adreno 7[34]0 GMU
+      dt-bindings: display/msm/gmu: Allow passing QMP handle
+      dt-bindings: display/msm/gpu: Allow A7xx SKUs
+      drm/msm/a6xx: Add missing regs for A7XX
+      drm/msm/a6xx: Introduce a6xx_llc_read
+      drm/msm/a6xx: Move LLC accessors to the common header
+      drm/msm/a6xx: Bail out early if setting GPU OOB fails
+      drm/msm/a6xx: Add skeleton A7xx support
+      drm/msm/a6xx: Send ACD state to QMP at GMU resume
+      drm/msm/a6xx: Mostly implement A7xx gpu_state
+      drm/msm/a6xx: Add A730 support
+      drm/msm/a6xx: Add A740 support
+      drm/msm/a6xx: Vastly increase HFI timeout
+      drm/msm/a6xx: Poll for GBIF unhalt status in hw_init
+
+ .../devicetree/bindings/display/msm/gmu.yaml       |  47 +-
+ .../devicetree/bindings/display/msm/gpu.yaml       |   4 +-
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              |   9 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 204 +++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   3 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   8 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 667 ++++++++++++++++++---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |  15 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  52 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  61 +-
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  90 ++-
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |  30 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   7 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  28 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h               |   2 +
+ 15 files changed, 1094 insertions(+), 133 deletions(-)
+---
+base-commit: b30de2c05cf2166f4e2c68850efc8dcea1c89780
+change-id: 20230628-topic-a7xx_drmmsm-123f30d76cf7
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Konrad Dybcio <konrad.dybcio@linaro.org>
+
