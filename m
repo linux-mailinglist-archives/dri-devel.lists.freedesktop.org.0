@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D511D774E4A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 00:34:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE050774E4F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 00:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97EA10E1F5;
-	Tue,  8 Aug 2023 22:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C082010E208;
+	Tue,  8 Aug 2023 22:34:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-104.mta1.migadu.com (out-104.mta1.migadu.com
- [IPv6:2001:41d0:203:375::68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEED810E1F5
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 22:34:25 +0000 (UTC)
+Received: from out-107.mta1.migadu.com (out-107.mta1.migadu.com
+ [95.215.58.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 775F910E1F5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 22:34:27 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1691534063;
+ t=1691534065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=tvIka87Hql946ZPpx6hd4vbkpJreYh/GIZnjwvj50oI=;
- b=fD3cQeg6RLS/RoDfc/Exz5Ycoc1KsDCs6Xcrk0c7SCJLaG4c8hqoFnWT1ZDYCXsxyMVNEv
- dt6ewPBVpkbZFj8YlHOjRjl6y8HrF8XzKAEqLa90xZETwhoEW48Jhr9DkTJR73SKlzW6St
- PbC84VaWW/+S7R6e1suM9448Bp4op8M=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kMZFiXLbvuUKqAxgf3kGEHVuig7HKmYmUGlXimZwqh0=;
+ b=gYYYZz7sgbjkXiOvct7Hq2K9qMFVYi6dEUWlDONqX31wbF397lhaoHM3Gu25Ys7eZvako7
+ sYZPMfyIWVfvIbJjpAJLLiU9lLXTr2G54lAaEnB4MeUCQBwZcDHl5k+G/QwNGqjjikkze3
+ sR6CG5IdMwL+A7es2aH1iHntSoZprGQ=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH v2 00/11] Fix typos, comments and copyright
-Date: Wed,  9 Aug 2023 06:34:01 +0800
-Message-Id: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
+Subject: [PATCH v2 01/11] PCI/VGA: Use unsigned type for the io_state variable
+Date: Wed,  9 Aug 2023 06:34:02 +0800
+Message-Id: <20230808223412.1743176-2-sui.jingfeng@linux.dev>
+In-Reply-To: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
+References: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -44,7 +47,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-pci@vger.kernel.org,
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Andi Shyti <andi.shyti@linux.intel.com>, linux-pci@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -52,32 +56,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-v1:
-	* Various improve.
-v2:
-	* More fixes, optimizations and improvements.
+The io_state variable in the vga_arb_write() function is declared with
+unsigned int type, while the vga_str_to_iostate() function takes 'int *'
+type. To keep them consistent, this patch replaceis the third argument of
+vga_str_to_iostate() function with 'unsigned int *' type.
 
-Sui Jingfeng (11):
-  PCI/VGA: Use unsigned type for the io_state variable
-  PCI: Add the pci_get_class_masked() helper
-  PCI/VGA: Deal with VGA class devices
-  PCI/VGA: Drop the inline in the vga_update_device_decodes() function.
-  PCI/VGA: Move the new_state assignment out of the loop
-  PCI/VGA: Fix two typos in the comments of pci_notify()
-  PCI/VGA: vga_client_register() return -ENODEV on failure, not -1
-  PCI/VGA: Fix a typo to the comment of vga_default
-  PCI/VGA: Fix a typo to the comments in vga_str_to_iostate() function
-  PCI/VGA: Tidy up the code and comment format
-  PCI/VGA: Replace full MIT license text with SPDX identifier
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/pci/vgaarb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/pci/search.c   |  30 ++++++
- drivers/pci/vgaarb.c   | 233 +++++++++++++++++++++++++----------------
- include/linux/pci.h    |   7 ++
- include/linux/vgaarb.h |  27 +----
- 4 files changed, 185 insertions(+), 112 deletions(-)
-
-
-base-commit: 69286072664490a366f3331f9496fe78efaca603
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index 5a696078b382..c1bc6c983932 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -77,7 +77,7 @@ static const char *vga_iostate_to_str(unsigned int iostate)
+ 	return "none";
+ }
+ 
+-static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
++static int vga_str_to_iostate(char *buf, int str_size, unsigned int *io_state)
+ {
+ 	/* we could in theory hand out locks on IO and mem
+ 	 * separately to userspace but it can cause deadlocks */
 -- 
 2.34.1
 
