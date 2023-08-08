@@ -2,77 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476EE773568
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 02:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE2E7735B8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 03:09:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57D010E06B;
-	Tue,  8 Aug 2023 00:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC0710E0A7;
+	Tue,  8 Aug 2023 01:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8480110E06B;
- Tue,  8 Aug 2023 00:33:59 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3780WrEq014902; Tue, 8 Aug 2023 00:33:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=WMFAHO81Ehu/mXvWjylWdRrhxiHNUS08a5q96AhxYYE=;
- b=MEwMN5X8DzBgOkeQR9nMWVE3cMPFPrubMsYiijj46txV3cXrcj2/VBOEhmHqlOmAjxOa
- 0Usoe/5rB/zMk6srNxQ0XLn8t8dMIj72fTxuo3QSp2xR+qhV7NDLRhIr3iwghgkP9apE
- h+JDRNcxzV/ege8vKmZYR2kwEVhu5tytm1syguOeZxtioJDREq4Ka1GELaoS3yoYBSGo
- dkJSKGp+Fi/WA1NBhH5lfo67CW92GifeIR0xiUISCNSe2NKswCjkpUr2BB4DQZfP+hzN
- loJRYWl6epRx8YJdtFPf/lxGE5RD4f0wC5Ple1te/HS8eiab8a4+u+n62L1fg23I6Cq6 3w== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sax18sp06-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Aug 2023 00:33:44 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3780XhLt022254
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 8 Aug 2023 00:33:43 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
- 2023 17:33:42 -0700
-Message-ID: <9a2e3ab2-a95f-3dee-b89c-aa69ffd9387e@quicinc.com>
-Date: Mon, 7 Aug 2023 17:33:41 -0700
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC74E10E0A7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 01:09:46 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-2b9c55e0fbeso79134651fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 18:09:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691456985; x=1692061785;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=v2WiY/PzP9OftvDaO3xHFVNVzeJ+Fqlc1tMWxnRjBio=;
+ b=cmY1VXYYDvgBrNS0ePJ/h1unT4zBVo+iHRO4Zqn6aUJDy9DkjofkrsyxPZ0fl6cBy4
+ WEo+IoqC6vwYzCl+h9ctqs3SNpGd9Mr4QrYHXlGHJi0QWwPu1nb1TPJlz2AIAf6YvtW8
+ VgPBEMBfJNi95bnYH4nlUKd4E/sL4W8z6ud5/r5bJZfA+S1PyiCBzDGLQz0mD7rkw7yC
+ XlZH6Oaa64FxW0Yc53x7wQ7vvhlMtiQBm9lqLE1dp1mhDpdfbno9dFN+nihAm9rcuZqO
+ wn6lP8qoCc7QpcRawYypJqLgjlbtXhySQNjComM0l7Tkt7d6h/ECjM/Y0IpmlmyplvPs
+ 8OIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691456985; x=1692061785;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=v2WiY/PzP9OftvDaO3xHFVNVzeJ+Fqlc1tMWxnRjBio=;
+ b=hPJeEqoKau/UZQfYpFtA8EyefLNrIuD+fL62iNBPb3EGozN5F9SlFjhTTMrJpbpbDu
+ i1g/OqKbaCc6wFEJqhZMWroeTSREQ8ngwDJl4jOhlmNBwHqYY/oa0KWHIO7XIIYLdNVz
+ 0k6ZgqwroR3KAB+zio9FeGvZiyS5CXraInQl/NFLShTPLTdq5DmfxZO5HYtmF+AuVZ1E
+ i3UaWEk0XHQxhFPkJKi6sNIUn9THH7DFpOBgOO5TN0UVevkmX5MmC6lZM/bb2c24rXW3
+ Y3JgGun2MqrqTJX5+qG1Aaezi+ctPUIrgqBF1u46I2zS00INIjSx9vfM+EQ5jqZap2XH
+ /Txw==
+X-Gm-Message-State: AOJu0Yy7t5M6/PUXlzdbOuHgwAZebB1eWT59Cc0OwkXMWUDqeSVwQdrB
+ G/c0eP6ZCFP75nM2aOwcd+YAgw==
+X-Google-Smtp-Source: AGHT+IHKBoy/zGIM1wWqpDA+354JQ4m54OuqBkue/PE1tVhQR9xt8m8ahsiVGv7yY6sehZwIf/fuwQ==
+X-Received: by 2002:ac2:58f1:0:b0:4fe:1f1c:184f with SMTP id
+ v17-20020ac258f1000000b004fe1f1c184fmr7250618lfo.44.1691456984821; 
+ Mon, 07 Aug 2023 18:09:44 -0700 (PDT)
+Received: from [127.0.0.1] ([188.162.64.78]) by smtp.gmail.com with ESMTPSA id
+ eq6-20020a056512488600b004fb7cd9651bsm1681427lfb.98.2023.08.07.18.09.43
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 07 Aug 2023 18:09:44 -0700 (PDT)
+Date: Tue, 08 Aug 2023 04:07:36 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH RFC v5 02/10] drm: Introduce solid fill DRM plane property
+User-Agent: K-9 Mail for Android
+In-Reply-To: <26b4bb91-8786-c7cf-a821-eb2b881a42ab@quicinc.com>
+References: <20230728-solid-fill-v5-0-053dbefa909c@quicinc.com>
+ <20230728-solid-fill-v5-2-053dbefa909c@quicinc.com>
+ <CAA8EJpq=pbDoYc9wqKKrX+RahXp8zWTPFqVqA=S-0TkWXXJUjQ@mail.gmail.com>
+ <26b4bb91-8786-c7cf-a821-eb2b881a42ab@quicinc.com>
+Message-ID: <656526F6-C123-4A5A-9E62-6ED092474113@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [PATCH 1/2] drm/msm/dpu: move writeback's
- atomic_check to dpu_writeback.c
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230519023011.3837868-1-dmitry.baryshkov@linaro.org>
- <20230519023011.3837868-2-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230519023011.3837868-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hxdK-WwxXfS0xJ2psYBZvdCNNmsnLAJZ
-X-Proofpoint-ORIG-GUID: hxdK-WwxXfS0xJ2psYBZvdCNNmsnLAJZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-07_27,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0 phishscore=0
- impostorscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308080003
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,241 +77,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ sebastian.wick@redhat.com, ppaalanen@gmail.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 5/18/2023 7:30 PM, Dmitry Baryshkov wrote:
-> dpu_encoder_phys_wb is the only user of encoder's atomic_check callback.
-> Move corresponding checks to drm_writeback_connector's implementation
-> and drop the dpu_encoder_phys_wb_atomic_check() function.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+On 8 August 2023 00:41:07 GMT+03:00, Jessica Zhang <quic_jesszhan@quicinc=
+=2Ecom> wrote:
+>
+>
+>On 8/4/2023 6:27 AM, Dmitry Baryshkov wrote:
+>> On Fri, 28 Jul 2023 at 20:03, Jessica Zhang <quic_jesszhan@quicinc=2Eco=
+m> wrote:
+>>>=20
+>>> Document and add support for solid_fill property to drm_plane=2E In
+>>> addition, add support for setting and getting the values for solid_fil=
+l=2E
+>>>=20
+>>> To enable solid fill planes, userspace must assign a property blob to
+>>> the "solid_fill" plane property containing the following information:
+>>>=20
+>>> struct drm_mode_solid_fill {
+>>>          u32 version;
+>>>          u32 r, g, b;
+>>> };
+>>>=20
+>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc=2Ecom>
+>>> ---
+>>>   drivers/gpu/drm/drm_atomic_state_helper=2Ec |  9 +++++
+>>>   drivers/gpu/drm/drm_atomic_uapi=2Ec         | 55 +++++++++++++++++++=
+++++++++++++
+>>>   drivers/gpu/drm/drm_blend=2Ec               | 30 +++++++++++++++++
+>>>   include/drm/drm_blend=2Eh                   |  1 +
+>>>   include/drm/drm_plane=2Eh                   | 35 +++++++++++++++++++=
++
+>>>   include/uapi/drm/drm_mode=2Eh               | 24 ++++++++++++++
+>>>   6 files changed, 154 insertions(+)
+>>>=20
+>>=20
+>> [skipped most of the patch]
+>>=20
+>>> diff --git a/include/uapi/drm/drm_mode=2Eh b/include/uapi/drm/drm_mode=
+=2Eh
+>>> index 43691058d28f=2E=2E53c8efa5ad7f 100644
+>>> --- a/include/uapi/drm/drm_mode=2Eh
+>>> +++ b/include/uapi/drm/drm_mode=2Eh
+>>> @@ -259,6 +259,30 @@ struct drm_mode_modeinfo {
+>>>          char name[DRM_DISPLAY_MODE_LEN];
+>>>   };
+>>>=20
+>>> +/**
+>>> + * struct drm_mode_solid_fill - User info for solid fill planes
+>>> + *
+>>> + * This is the userspace API solid fill information structure=2E
+>>> + *
+>>> + * Userspace can enable solid fill planes by assigning the plane "sol=
+id_fill"
+>>> + * property to a blob containing a single drm_mode_solid_fill struct =
+populated with an RGB323232
+>>> + * color and setting the pixel source to "SOLID_FILL"=2E
+>>> + *
+>>> + * For information on the plane property, see drm_plane_create_solid_=
+fill_property()
+>>> + *
+>>> + * @version: Version of the blob=2E Currently, there is only support =
+for version =3D=3D 1
+>>> + * @r: Red color value of single pixel
+>>> + * @g: Green color value of single pixel
+>>> + * @b: Blue color value of single pixel
+>>> + */
+>>> +struct drm_mode_solid_fill {
+>>> +       __u32 version;
+>>> +       __u32 r;
+>>> +       __u32 g;
+>>> +       __u32 b;
+>>=20
+>> Another thought about the drm_mode_solid_fill uABI=2E I still think we
+>> should add alpha here=2E The reason is the following:
+>>=20
+>> It is true that we have  drm_plane_state::alpha and the plane's
+>> "alpha" property=2E However it is documented as "the plane-wide opacity
+>> [=2E=2E=2E] It can be combined with pixel alpha=2E The pixel values in =
+the
+>> framebuffers are expected to not be pre-multiplied by the global alpha
+>> associated to the plane=2E"=2E
+>>=20
+>> I can imagine a use case, when a user might want to enable plane-wide
+>> opacity, set "pixel blend mode" to "Coverage" and then switch between
+>> partially opaque framebuffer and partially opaque solid-fill without
+>> touching the plane's alpha value=2E
+>
+>Hi Dmitry,
+>
+>I don't really agree that adding a solid fill alpha would be a good idea=
+=2E Since the intent behind solid fill is to have a single color for the en=
+tire plane, I think it makes more sense to have solid fill rely on the glob=
+al plane alpha=2E
+>
+>As stated in earlier discussions, I think having both a solid_fill=2Ealph=
+a and a plane_state=2Ealpha would be redundant and serve to confuse the use=
+r as to which one to set=2E
 
-I dont think this is correct even though I can make writeback work with 
-these. The issue is that, in the recent changes which I was holding back 
-posting till I reviewed this, I use the API 
-drm_atomic_helper_check_wb_encoder_state() to check the supported 
-formats in writeback (something which should have been present from the 
-beginning).
+That depends on the blending mode: in Coverage mode one has independent pl=
+ane and contents alpha values=2E And I consider alpha value to be a part of=
+ the colour in the rgba/bgra modes=2E
 
-It seems incorrect to call this from the connector's atomic_check.
 
-And I checked the writeback job validation across other vendor drivers 
-and the validation seems to be in encoder's atomic_check and not the 
-connector's.
+>
+>Thanks,
+>
+>Jessica Zhang
+>
+>>=20
+>> --=20
+>> With best wishes
+>> Dmitry
 
-I dont want to break that pattern for MSM alone.
-
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 54 ------------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  4 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 57 ++++++++++++++++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h |  3 +-
->   4 files changed, 60 insertions(+), 58 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index e14646c0501c..e73d5284eb2a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -225,59 +225,6 @@ static void dpu_encoder_phys_wb_setup_cdp(struct dpu_encoder_phys *phys_enc)
->   	}
->   }
->   
-> -/**
-> - * dpu_encoder_phys_wb_atomic_check - verify and fixup given atomic states
-> - * @phys_enc:	Pointer to physical encoder
-> - * @crtc_state:	Pointer to CRTC atomic state
-> - * @conn_state:	Pointer to connector atomic state
-> - */
-> -static int dpu_encoder_phys_wb_atomic_check(
-> -		struct dpu_encoder_phys *phys_enc,
-> -		struct drm_crtc_state *crtc_state,
-> -		struct drm_connector_state *conn_state)
-> -{
-> -	struct drm_framebuffer *fb;
-> -	const struct drm_display_mode *mode = &crtc_state->mode;
-> -
-> -	DPU_DEBUG("[atomic_check:%d, \"%s\",%d,%d]\n",
-> -			phys_enc->hw_wb->idx, mode->name, mode->hdisplay, mode->vdisplay);
-> -
-> -	if (!conn_state || !conn_state->connector) {
-> -		DPU_ERROR("invalid connector state\n");
-> -		return -EINVAL;
-> -	} else if (conn_state->connector->status !=
-> -			connector_status_connected) {
-> -		DPU_ERROR("connector not connected %d\n",
-> -				conn_state->connector->status);
-> -		return -EINVAL;
-> -	}
-> -
-> -	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
-> -		return 0;
-> -
-> -	fb = conn_state->writeback_job->fb;
-> -
-> -	DPU_DEBUG("[fb_id:%u][fb:%u,%u]\n", fb->base.id,
-> -			fb->width, fb->height);
-> -
-> -	if (fb->width != mode->hdisplay) {
-> -		DPU_ERROR("invalid fb w=%d, mode w=%d\n", fb->width,
-> -				mode->hdisplay);
-> -		return -EINVAL;
-> -	} else if (fb->height != mode->vdisplay) {
-> -		DPU_ERROR("invalid fb h=%d, mode h=%d\n", fb->height,
-> -				  mode->vdisplay);
-> -		return -EINVAL;
-> -	} else if (fb->width > phys_enc->hw_wb->caps->maxlinewidth) {
-> -		DPU_ERROR("invalid fb w=%d, maxlinewidth=%u\n",
-> -				  fb->width, phys_enc->hw_wb->caps->maxlinewidth);
-> -		return -EINVAL;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -
->   /**
->    * _dpu_encoder_phys_wb_update_flush - flush hardware update
->    * @phys_enc:	Pointer to physical encoder
-> @@ -652,7 +599,6 @@ static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
->   	ops->enable = dpu_encoder_phys_wb_enable;
->   	ops->disable = dpu_encoder_phys_wb_disable;
->   	ops->destroy = dpu_encoder_phys_wb_destroy;
-> -	ops->atomic_check = dpu_encoder_phys_wb_atomic_check;
->   	ops->wait_for_commit_done = dpu_encoder_phys_wb_wait_for_commit_done;
->   	ops->prepare_for_kickoff = dpu_encoder_phys_wb_prepare_for_kickoff;
->   	ops->handle_post_kickoff = dpu_encoder_phys_wb_handle_post_kickoff;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 10bd0fd4ff48..78b8e7fc1de8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -661,8 +661,8 @@ static int _dpu_kms_initialize_writeback(struct drm_device *dev,
->   		return PTR_ERR(encoder);
->   	}
->   
-> -	rc = dpu_writeback_init(dev, encoder, wb_formats,
-> -			n_formats);
-> +	rc = dpu_writeback_init(dev, encoder, wb_formats, n_formats,
-> +				dpu_rm_get_wb(&dpu_kms->rm, info.h_tile_instance[0])->caps->maxlinewidth);
->   	if (rc) {
->   		DPU_ERROR("dpu_writeback_init, rc = %d\n", rc);
->   		drm_encoder_cleanup(encoder);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> index 2a5a68366582..7f345a5c8be3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> @@ -4,6 +4,7 @@
->    */
->   
->   #include <drm/drm_edid.h>
-> +#include <drm/drm_framebuffer.h>
->   
->   #include "dpu_writeback.h"
->   
-> @@ -24,6 +25,57 @@ static int dpu_wb_conn_get_modes(struct drm_connector *connector)
->   			dev->mode_config.max_height);
->   }
->   
-> +static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
-> +				    struct drm_atomic_state *state)
-> +{
-> +	struct drm_writeback_connector *wb_conn = drm_connector_to_writeback(connector);
-> +	struct dpu_wb_connector *dpu_wb_conn = to_dpu_wb_conn(wb_conn);
-> +	struct drm_connector_state *conn_state =
-> +		drm_atomic_get_new_connector_state(state, connector);
-> +	struct drm_crtc *crtc = conn_state->crtc;
-> +	struct drm_crtc_state *crtc_state;
-> +	const struct drm_display_mode *mode;
-> +	struct drm_framebuffer *fb;
-> +
-> +	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-> +	if (IS_ERR(crtc_state))
-> +		return PTR_ERR(crtc_state);
-> +
-> +	mode = &crtc_state->mode;
-> +
-> +	DPU_DEBUG("[atomic_check:%d, \"%s\",%d,%d]\n",
-> +		  connector->base.id, mode->name, mode->hdisplay, mode->vdisplay);
-> +
-> +	if (!conn_state || !conn_state->connector) {
-> +		DPU_ERROR("invalid connector state\n");
-> +		return -EINVAL;
-> +	} else if (conn_state->connector->status != connector_status_connected) {
-> +		DPU_ERROR("connector not connected %d\n", conn_state->connector->status);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
-> +		return 0;
-> +
-> +	fb = conn_state->writeback_job->fb;
-> +
-> +	DPU_DEBUG("[fb_id:%u][fb:%u,%u]\n", fb->base.id, fb->width, fb->height);
-> +
-> +	if (fb->width != mode->hdisplay) {
-> +		DPU_ERROR("invalid fb w=%d, mode w=%d\n", fb->width, mode->hdisplay);
-> +		return -EINVAL;
-> +	} else if (fb->height != mode->vdisplay) {
-> +		DPU_ERROR("invalid fb h=%d, mode h=%d\n", fb->height, mode->vdisplay);
-> +		return -EINVAL;
-> +	} else if (fb->width > dpu_wb_conn->maxlinewidth) {
-> +		DPU_ERROR("invalid fb w=%d, maxlinewidth=%u\n",
-> +			  fb->width, dpu_wb_conn->maxlinewidth);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static const struct drm_connector_funcs dpu_wb_conn_funcs = {
->   	.reset = drm_atomic_helper_connector_reset,
->   	.fill_modes = drm_helper_probe_single_connector_modes,
-> @@ -59,12 +111,13 @@ static void dpu_wb_conn_cleanup_job(struct drm_writeback_connector *connector,
->   
->   static const struct drm_connector_helper_funcs dpu_wb_conn_helper_funcs = {
->   	.get_modes = dpu_wb_conn_get_modes,
-> +	.atomic_check = dpu_wb_conn_atomic_check,
->   	.prepare_writeback_job = dpu_wb_conn_prepare_job,
->   	.cleanup_writeback_job = dpu_wb_conn_cleanup_job,
->   };
->   
->   int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
-> -		const u32 *format_list, u32 num_formats)
-> +		const u32 *format_list, u32 num_formats, u32 maxlinewidth)
->   {
->   	struct dpu_wb_connector *dpu_wb_conn;
->   	int rc = 0;
-> @@ -73,6 +126,8 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
->   	if (!dpu_wb_conn)
->   		return -ENOMEM;
->   
-> +	dpu_wb_conn->maxlinewidth = maxlinewidth;
-> +
->   	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
->   
->   	/* DPU initializes the encoder and sets it up completely for writeback
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
-> index 5a75ea916101..4b11cca8014c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
-> @@ -18,6 +18,7 @@
->   struct dpu_wb_connector {
->   	struct drm_writeback_connector base;
->   	struct drm_encoder *wb_enc;
-> +	u32 maxlinewidth;
->   };
->   
->   static inline struct dpu_wb_connector *to_dpu_wb_conn(struct drm_writeback_connector *conn)
-> @@ -26,6 +27,6 @@ static inline struct dpu_wb_connector *to_dpu_wb_conn(struct drm_writeback_conne
->   }
->   
->   int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
-> -		const u32 *format_list, u32 num_formats);
-> +		const u32 *format_list, u32 num_formats, u32 maxlinewidth);
->   
->   #endif /*_DPU_WRITEBACK_H */
+--=20
+With best wishes
+Dmitry
