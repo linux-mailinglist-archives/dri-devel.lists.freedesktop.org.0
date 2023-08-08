@@ -1,36 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38F87738A8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 09:40:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DFC7738A7
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 09:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A81E10E3AF;
-	Tue,  8 Aug 2023 07:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4635310E080;
+	Tue,  8 Aug 2023 07:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BBCD10E1CE
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Aug 2023 06:21:08 +0000 (UTC)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RK5jN1YGpz1Z1Y8;
- Mon,  7 Aug 2023 14:18:16 +0800 (CST)
-Received: from huawei.com (10.67.175.31) by dggpemm500024.china.huawei.com
- (7.185.36.203) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 7 Aug
- 2023 14:21:03 +0800
-From: GUO Zihua <guozihua@huawei.com>
-To: <anitha.chrisanthus@intel.com>, <edmund.j.dea@intel.com>
-Subject: [PATCH -next v2] drm/kmb: Remove unused variable layer_irqs
-Date: Mon, 7 Aug 2023 14:20:36 +0800
-Message-ID: <20230807062036.7006-1-guozihua@huawei.com>
-X-Mailer: git-send-email 2.17.1
+Received: from out-104.mta1.migadu.com (out-104.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 430C310E390
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 02:28:49 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1691461726;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b018wDD09q8ybQHeVjJQlHvcOhDGiPGtV/Qkh1+P4Jk=;
+ b=qG+f2yssWczIj/c36Dv6lyS9LMH4Qo3IpX5TeG1prf8Sjbf2TndiPspYdq8X2q9u4a0d4+
+ mAWwkzbtPW05nR7/h47VG61cI5kT4JFrqpqLlXTjX8sbawq1mwyPUSZYPolnAScsj79wmk
+ u8AjZlHRxpLLihMJimmgVrAhX04JcfM=
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.31]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500024.china.huawei.com (7.185.36.203)
-X-CFilter-Loop: Reflected
+Subject: Re: [PATCH v4 19/48] rcu: dynamically allocate the rcu-kfree shrinker
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20230807110936.21819-20-zhengqi.arch@bytedance.com>
+Date: Tue, 8 Aug 2023 10:28:00 +0800
+Content-Transfer-Encoding: 7bit
+Message-Id: <0C2FEFBD-B866-46C4-B684-1FB9A048B899@linux.dev>
+References: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
+ <20230807110936.21819-20-zhengqi.arch@bytedance.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+X-Migadu-Flow: FLOW_OUT
 X-Mailman-Approved-At: Tue, 08 Aug 2023 07:40:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,44 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: kvm@vger.kernel.org, djwong@kernel.org,
+ Roman Gushchin <roman.gushchin@linux.dev>, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Linux-MM <linux-mm@kvack.org>, dm-devel@redhat.com,
+ linux-mtd@lists.infradead.org, cel@kernel.org, x86@kernel.org,
+ steven.price@arm.com, cluster-devel@redhat.com, simon.horman@corigine.com,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ "Paul E. McKenney" <paulmck@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-nfs@vger.kernel.org, rcu@vger.kernel.org, linux-bcache@vger.kernel.org,
+ dlemoal@kernel.org, yujie.liu@intel.com, Vlastimil Babka <vbabka@suse.cz>,
+ linux-raid@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ tytso@mit.edu, Greg KH <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ netdev <netdev@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-erofs@lists.ozlabs.org,
+ linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-layer_irqs does not seems to have any user. So remove it completely.
 
-This resolves sparse warning:
-  warning: symbol 'layer_irqs' was not declared. Should it be static?
 
-Signed-off-by: GUO Zihua <guozihua@huawei.com>
----
+> On Aug 7, 2023, at 19:09, Qi Zheng <zhengqi.arch@bytedance.com> wrote:
+> 
+> Use new APIs to dynamically allocate the rcu-kfree shrinker.
+> 
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 
-v2:
-  V1 is titled "drm/kmb: Make layer_irqs static". This patch removes
-layer_irqs completely as there does not seems to be a user for it.
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 
----
- drivers/gpu/drm/kmb/kmb_plane.c | 7 -------
- 1 file changed, 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 9e0562aa2bcb..5a8c7cbf27b0 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -17,13 +17,6 @@
- #include "kmb_plane.h"
- #include "kmb_regs.h"
- 
--const u32 layer_irqs[] = {
--	LCD_INT_VL0,
--	LCD_INT_VL1,
--	LCD_INT_GL0,
--	LCD_INT_GL1
--};
--
- /* Conversion (yuv->rgb) matrix from myriadx */
- static const u32 csc_coef_lcd[] = {
- 	1024, 0, 1436,
--- 
-2.17.1
 
