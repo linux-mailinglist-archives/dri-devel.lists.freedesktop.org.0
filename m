@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A946774E53
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 00:34:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 163B3774E54
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 00:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F5A10E209;
-	Tue,  8 Aug 2023 22:34:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D45F010E218;
+	Tue,  8 Aug 2023 22:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-120.mta1.migadu.com (out-120.mta1.migadu.com
- [IPv6:2001:41d0:203:375::78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 142E910E208
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 22:34:29 +0000 (UTC)
+Received: from out-101.mta1.migadu.com (out-101.mta1.migadu.com
+ [95.215.58.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE7A10E209
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 22:34:31 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1691534067;
+ t=1691534069;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UkFV97CQa3g6DrhggAXuzog1hzg5W10mASK1ByxDhpo=;
- b=PHfyGfjJY9Ur7O6u9zSuqLtFOfBXyBXUUFDLn09wdIeOTXwBdqdeMkEVbAfYkp+pfrdwJh
- D5tcQm5d30zgqXzASPmeEsy3pgGMANJ4IzoPHXwSO2Y+GD73xe/yMnpf71ZJqNKtBbj1lo
- lXO2AMWaiQes21PRybH44bgkLzjtuk4=
+ bh=noQeSrC40sd/EXkeg8fxahy+pA50ftyssyowKNSXpwM=;
+ b=bmnuHOjNxAVhqjQOMstFLbhvA7AheHtRPdPVazLBqkBj17xtd3uGnHL/K2InWr0ptnzDFD
+ ObY6ZX76LkF1kTuK4SxezbX0dBOd2wGgTr9nMpWDU3JDp173MGKw9ID+4bBl63G0cBZc7O
+ hT1KYhpjhwPNNTyUYGFhYaX3lUZEIYA=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH v2 02/11] PCI: Add the pci_get_class_masked() helper
-Date: Wed,  9 Aug 2023 06:34:03 +0800
-Message-Id: <20230808223412.1743176-3-sui.jingfeng@linux.dev>
+Subject: [PATCH v2 03/11] PCI/VGA: Deal with VGA class devices
+Date: Wed,  9 Aug 2023 06:34:04 +0800
+Message-Id: <20230808223412.1743176-4-sui.jingfeng@linux.dev>
 In-Reply-To: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
 References: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -49,98 +49,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-pci@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>,
  Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Because there is no good way to get the mask member used to searching for
-devices that conform to a specific PCI class code, an application needs to
-process all PCI display devices can achieve its goal as follows:
+vgaarb only cares about PCI(e) VGA devices (pdev->class == 0x0300XX)
+Currently, hence we only need to add VGA devices has its class code equals
+to 0x0300 to the arbiter. To keep align with the previous behavior. we
+ignore the programming interface byte (the least significant 8 bits)
+intentionally.
 
-pdev = NULL;
-do {
-	pdev = pci_get_class_masked(PCI_BASE_CLASS_DISPLAY << 16, 0xFF0000, pdev);
-	if (pdev)
-		do_something_for_pci_display_device(pdev);
-} while (pdev);
+After apply this patch, We will filter the unqualified devices out in the
+vga_arb_device_init() function. While the current implementation is to
+search all PCI devices in a system, this is not efficient. This also means
+that deleting a PCI device no longer needs to walk the list.
 
-While previously, we just can not ignore Sub-Class code and the Programming
-Interface byte when do the searching.
+Note that the major contribution of this patch is optimization.
 
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/pci/search.c | 30 ++++++++++++++++++++++++++++++
- include/linux/pci.h  |  7 +++++++
- 2 files changed, 37 insertions(+)
+ drivers/pci/vgaarb.c | 68 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 56 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/pci/search.c b/drivers/pci/search.c
-index b4c138a6ec02..f1c15aea868b 100644
---- a/drivers/pci/search.c
-+++ b/drivers/pci/search.c
-@@ -334,6 +334,36 @@ struct pci_dev *pci_get_device(unsigned int vendor, unsigned int device,
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index c1bc6c983932..8742a51d450f 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+ 	struct pci_dev *bridge;
+ 	u16 cmd;
+ 
+-	/* Only deal with VGA class devices */
+-	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+-		return false;
+-
+ 	/* Allocate structure */
+ 	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+ 	if (vgadev == NULL) {
+@@ -1493,6 +1489,42 @@ static void vga_arbiter_notify_clients(void)
+ 	spin_unlock_irqrestore(&vga_lock, flags);
  }
- EXPORT_SYMBOL(pci_get_device);
  
-+/**
-+ * pci_get_class_masked - begin or continue searching for a PCI device by class and mask
-+ * @class: search for a PCI device with this class designation
-+ * @from: Previous PCI device found in search, or %NULL for new search.
++/*
++ * The PCI Class Code spec implies that only VGA devices with programming
++ * interface 0x00 can depend on the legacy VGA address range. VGA devices
++ * with programming interface 0x01 are 8514-compatible controllers. Since
++ * VGA devices with programming interface 0x00 is VGA compatible, the 'vga'
++ * suffix here should refer to the VGA-compatible devices after a strict
++ * reading of that specification. But considering the fact that there
++ * probably don't has a 8514-compatible controller that could be used with
++ * upstream kernel anymore, we would like to just ignore the programming
++ * interface byte.
 + *
-+ * Iterates through the list of known PCI devices.  If a PCI device is
-+ * found with a matching @class, the reference count to the device is
-+ * incremented and a pointer to its device structure is returned.
-+ * Otherwise, %NULL is returned.
-+ * A new search is initiated by passing %NULL as the @from argument.
-+ * Otherwise if @from is not %NULL, searches continue from next device
-+ * on the global list.  The reference count for @from is always decremented
-+ * if it is not %NULL.
++ * Besides, there do exist non VGA-compatible display controllers in the
++ * world and hardware vendors may abandon the old VGA standard someday.
++ * The meaning of 'vga' suffix here may change to evolve with time.
++ *
++ * A strict understanding of 'vga' certainly should be VGA-compatible, While
++ * a relaxed understanding of 'vga' would be PCI devices that are able to
++ * display. Currently, we just keep aligned to the previous behavior.
++ * Deal with VGA class devices.
 + */
-+struct pci_dev *pci_get_class_masked(unsigned int class, unsigned int mask,
-+				     struct pci_dev *from)
++static bool pci_dev_is_vga(struct pci_dev *pdev)
 +{
-+	struct pci_device_id id = {
-+		.vendor = PCI_ANY_ID,
-+		.device = PCI_ANY_ID,
-+		.subvendor = PCI_ANY_ID,
-+		.subdevice = PCI_ANY_ID,
-+		.class_mask = mask,
-+		.class = class,
-+	};
++	if ((pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
++		return true;
 +
-+	return pci_get_dev_by_id(&id, from);
++	/*
++	 * The PCI_CLASS_NOT_DEFINED_VGA is defined to provide backward
++	 * compatibility for devices that were built before the class code
++	 * field was defined.
++	 */
++	if ((pdev->class >> 8) == PCI_CLASS_NOT_DEFINED_VGA)
++		return true;
++
++	return false;
 +}
-+EXPORT_SYMBOL(pci_get_class_masked);
 +
- /**
-  * pci_get_class - begin or continue searching for a PCI device by class
-  * @class: search for a PCI device with this class designation
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 0ff7500772e6..b20e7ba844bf 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1180,6 +1180,9 @@ struct pci_dev *pci_get_slot(struct pci_bus *bus, unsigned int devfn);
- struct pci_dev *pci_get_domain_bus_and_slot(int domain, unsigned int bus,
- 					    unsigned int devfn);
- struct pci_dev *pci_get_class(unsigned int class, struct pci_dev *from);
-+struct pci_dev *pci_get_class_masked(unsigned int class, unsigned int mask,
-+				     struct pci_dev *from);
+ static int pci_notify(struct notifier_block *nb, unsigned long action,
+ 		      void *data)
+ {
+@@ -1502,6 +1534,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+ 
+ 	vgaarb_dbg(dev, "%s\n", __func__);
+ 
++	if (!pci_dev_is_vga(pdev))
++		return 0;
 +
- int pci_dev_present(const struct pci_device_id *ids);
+ 	/* For now we're only intereted in devices added and removed. I didn't
+ 	 * test this thing here, so someone needs to double check for the
+ 	 * cases of hotplugable vga cards. */
+@@ -1534,8 +1569,8 @@ static struct miscdevice vga_arb_device = {
  
- int pci_bus_read_config_byte(struct pci_bus *bus, unsigned int devfn,
-@@ -1895,6 +1898,10 @@ static inline struct pci_dev *pci_get_class(unsigned int class,
- 					    struct pci_dev *from)
- { return NULL; }
+ static int __init vga_arb_device_init(void)
+ {
++	struct pci_dev *pdev = NULL;
+ 	int rc;
+-	struct pci_dev *pdev;
  
-+static inline struct pci_dev *pci_get_class_masked(unsigned int class,
-+						   unsigned int mask,
-+						   struct pci_dev *from)
-+{ return NULL; }
+ 	rc = misc_register(&vga_arb_device);
+ 	if (rc < 0)
+@@ -1543,13 +1578,22 @@ static int __init vga_arb_device_init(void)
  
- static inline int pci_dev_present(const struct pci_device_id *ids)
- { return 0; }
+ 	bus_register_notifier(&pci_bus_type, &pci_notifier);
+ 
+-	/* We add all PCI devices satisfying VGA class in the arbiter by
+-	 * default */
+-	pdev = NULL;
+-	while ((pdev =
+-		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+-			       PCI_ANY_ID, pdev)) != NULL)
+-		vga_arbiter_add_pci_device(pdev);
++	/*
++	 * We add all PCI devices satisfying VGA class in the arbiter
++	 * by default, but we ignore the programming interface byte
++	 * intentionally.
++	 */
++	do {
++		pdev = pci_get_class_masked(PCI_CLASS_DISPLAY_VGA << 8, 0xFFFF00, pdev);
++		if (pdev && pci_dev_is_vga(pdev))
++			vga_arbiter_add_pci_device(pdev);
++	} while (pdev);
++
++	do {
++		pdev = pci_get_class_masked(PCI_CLASS_NOT_DEFINED_VGA << 8, 0xFFFF00, pdev);
++		if (pdev && pci_dev_is_vga(pdev))
++			vga_arbiter_add_pci_device(pdev);
++	} while (pdev);
+ 
+ 	pr_info("loaded\n");
+ 	return rc;
 -- 
 2.34.1
 
