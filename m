@@ -1,69 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC5977367A
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 04:24:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8787736D0
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 04:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE05410E392;
-	Tue,  8 Aug 2023 02:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A00A610E394;
+	Tue,  8 Aug 2023 02:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C6BA10E397
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 02:24:14 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-1b8ad8383faso46445195ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Aug 2023 19:24:14 -0700 (PDT)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9094410E390;
+ Tue,  8 Aug 2023 02:37:17 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-5230a22cfd1so6790375a12.1; 
+ Mon, 07 Aug 2023 19:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1691461454; x=1692066254;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HUGk8Gm4qWKcvYyYW1oMdtOdnxgdWZtLrf0WmvG8aOg=;
- b=E8R/sNcxrOK1IUnWWdPxuHAURfzEKsQXFvPF/8WoYIocyBzrOF6C/15wk0bBTyq8fp
- w+9skh2POsCjChG96SdxCE1ukUJoo7U6iUCJoOHux3qHabiPQt2q8GYhzVnnqh4Ia8gf
- otMrpF/u+4+6GZvnjfH9iZQVLX7oYyO80eB3aSg/65gqSdDxQ6TBQ0eTbg/7hck8CRIR
- N2poqJrxPUv+xHM8+kwldwyyrpY8ClA2gjcNqxK3I6Rjaxj3f+CIGTw2aTNSrwyrBhAC
- fS1NWvmq7XKVFcVROA15iTu7BqzTlMOOgRsfusR61dD9uCRFfNfvH5SixHmdTB0ZZ2at
- NUZw==
+ d=gmail.com; s=20221208; t=1691462236; x=1692067036;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/Pzo/ae8fiZC5mD6rJbJETUk5SqmzLl4qP80bXe4VJw=;
+ b=jp1qrrbYROFguZcOFx9Q8zIaj8439PAFQ7zNWYG0iZ0RiVY/dWssDNLrr6irn+1IVi
+ 0IY+prmE0xcz50IQCnF/HguKEH9Vi5T81s8LnWFPeoUsog6Kh9ajCk0j8NslPILHNN+E
+ kUG5oNIUfzmbirknglpMB/MLFr8g56RxYdc6YJBJowu4B+tFY1EgNahw4FcMni62kmdv
+ Y9XKLpNrHImDw9nNBB7VsSi/6UHQmuAmSd/WL/am0vqJvPlqmy6jClV2grrAilGUVfvF
+ ShNFNDujmkhRvbKePthwC1uMIY5zf/+u7pAV+g5CXRUIF1PU7sw1WnIgxO4Rq/1+Koxk
+ HGow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691461454; x=1692066254;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HUGk8Gm4qWKcvYyYW1oMdtOdnxgdWZtLrf0WmvG8aOg=;
- b=dQ7K8D1Y/YrZsZIoypnBfA9gPtMsxyThyK1d+LMzLPtzAdW4BpG/hOkTZYZ03EE8hM
- K+Tzo6kDCPxp7P79Hs2J6E0PwCxEOaoPzWVf49cb8N0yatP0ID3mgMYtygng/3eL48zg
- +nyThHM2XiaQIZsHO+UrKgM7c+/hJCgx4SW5UqNX0TRGcjvB489iornDE5GQBwW5mK3L
- gqa6jFWhCJ32mb7sd2n83dJ8bd/710zdPjRORxDQwg+SY5QTj1HaPcQNdALgYQD+6p7a
- RHST/gDSjI887DfHA/R3E9ck8w4rOSssP81tGrWn072p+umg3L3sMe2xHe9hBGwmEysC
- 9cNA==
-X-Gm-Message-State: AOJu0YxH8wZXoochNrK+tM4kxSg+n7kC6pZ/DqGsCacCYmL+C+7pdt7h
- U0mN6yNuC3cy0U0Y4GkqOx6ewg==
-X-Google-Smtp-Source: AGHT+IEzrDGpXyLCXRNBmZGxK80nBmbnZ3Zc29NdEkVzSJ3QNXEJvOFh13D52+77LsVxnWz7HKqTHA==
-X-Received: by 2002:a17:902:8692:b0:1b9:d307:c1df with SMTP id
- g18-20020a170902869200b001b9d307c1dfmr10722096plo.17.1691461453690; 
- Mon, 07 Aug 2023 19:24:13 -0700 (PDT)
-Received: from dread.disaster.area (pa49-180-166-213.pa.nsw.optusnet.com.au.
- [49.180.166.213]) by smtp.gmail.com with ESMTPSA id
- h17-20020a170902f55100b001b864add154sm7583543plf.154.2023.08.07.19.24.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 19:24:13 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
- (envelope-from <david@fromorbit.com>) id 1qTCOH-002Wjl-2u;
- Tue, 08 Aug 2023 12:24:09 +1000
-Date: Tue, 8 Aug 2023 12:24:09 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH v4 45/48] mm: shrinker: make global slab shrink lockless
-Message-ID: <ZNGnSbiPN0lDLpSW@dread.disaster.area>
-References: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
- <20230807110936.21819-46-zhengqi.arch@bytedance.com>
+ d=1e100.net; s=20221208; t=1691462236; x=1692067036;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/Pzo/ae8fiZC5mD6rJbJETUk5SqmzLl4qP80bXe4VJw=;
+ b=MWGA7A7hDBQo9eHf2oVhpvONeWdPFbQUU7cRUBrrx1F4BKOnNVqR9jKF5CV7FiYhBY
+ Q9FNC0emJvDKeO0hBYcLPvJIwKigSGavi14Hmej4+pkMvGtwvaFSYN5t9+gWPWui1wsg
+ tqcOlXeUSNywXPJO9RDHuBI0DztR+QRazRCvQyqbpdoijw+a9q9v6TYYYiEMiym9XeT+
+ daO8S9qrmUcOFcxRUhO0x7iimdgto8p+WKD473Db9X3XWtX4ONKV5jis7RomfQPQPX7Q
+ 88WLodu0HX+W2u7vQxP9+TqdkjWQBcXPAfE09UmpQZTT7AmrTeobRvdpb0tw2jCBjxWD
+ 2dDQ==
+X-Gm-Message-State: AOJu0YzaAHJsN0I7WPHYzO6722IndBMRxceCAX+YhsRtabehaInM6VbW
+ 8kK+FJTXmzIyrEVF0Z9mrqxFy/2HI5p77QXPBrqZTGvDl9o=
+X-Google-Smtp-Source: AGHT+IEh9niFo4xdJ945FQYYzvfAVJ3a7wxVMppL7pEawqEYWNmd2+JTGsKdFCsEX2UI/cKYLZoP0spIVcDaXCc5E8U=
+X-Received: by 2002:a17:906:3298:b0:99c:53f:1dc7 with SMTP id
+ 24-20020a170906329800b0099c053f1dc7mr8795188ejw.54.1691462235711; Mon, 07 Aug
+ 2023 19:37:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230807110936.21819-46-zhengqi.arch@bytedance.com>
+References: <20230807163238.2091-1-dakr@redhat.com>
+In-Reply-To: <20230807163238.2091-1-dakr@redhat.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 8 Aug 2023 12:37:03 +1000
+Message-ID: <CAPM=9twBcE8vRBvjxSSsk23wh246cBFX8jQx5Aap9veLYxOt-g@mail.gmail.com>
+Subject: Re: [PATCH drm-misc-next 0/5] Nouveau VM_BIND uAPI Fixes
+To: Danilo Krummrich <dakr@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,159 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, djwong@kernel.org, roman.gushchin@linux.dev,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
- cel@kernel.org, x86@kernel.org, steven.price@arm.com, cluster-devel@redhat.com,
- simon.horman@corigine.com, xen-devel@lists.xenproject.org,
- linux-ext4@vger.kernel.org, paulmck@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-nfs@vger.kernel.org, rcu@vger.kernel.org, linux-bcache@vger.kernel.org,
- dlemoal@kernel.org, yujie.liu@intel.com, vbabka@suse.cz,
- linux-raid@vger.kernel.org, brauner@kernel.org, tytso@mit.edu,
- gregkh@linuxfoundation.org, muchun.song@linux.dev,
- linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-xfs@vger.kernel.org, senozhatsky@chromium.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: sfr@canb.auug.org.au, kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 07, 2023 at 07:09:33PM +0800, Qi Zheng wrote:
-> diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
-> index eb342994675a..f06225f18531 100644
-> --- a/include/linux/shrinker.h
-> +++ b/include/linux/shrinker.h
-> @@ -4,6 +4,8 @@
->  
->  #include <linux/atomic.h>
->  #include <linux/types.h>
-> +#include <linux/refcount.h>
-> +#include <linux/completion.h>
->  
->  #define SHRINKER_UNIT_BITS	BITS_PER_LONG
->  
-> @@ -87,6 +89,10 @@ struct shrinker {
->  	int seeks;	/* seeks to recreate an obj */
->  	unsigned flags;
->  
-> +	refcount_t refcount;
-> +	struct completion done;
-> +	struct rcu_head rcu;
+For the series:
 
-Documentation, please. What does the refcount protect, what does the
-completion provide, etc.
+Reviewed-by: Dave Airlie <airlied@redhat.com>
 
-> +
->  	void *private_data;
->  
->  	/* These are for internal use */
-> @@ -120,6 +126,17 @@ struct shrinker *shrinker_alloc(unsigned int flags, const char *fmt, ...);
->  void shrinker_register(struct shrinker *shrinker);
->  void shrinker_free(struct shrinker *shrinker);
->  
-> +static inline bool shrinker_try_get(struct shrinker *shrinker)
-> +{
-> +	return refcount_inc_not_zero(&shrinker->refcount);
-> +}
-> +
-> +static inline void shrinker_put(struct shrinker *shrinker)
-> +{
-> +	if (refcount_dec_and_test(&shrinker->refcount))
-> +		complete(&shrinker->done);
-> +}
-> +
->  #ifdef CONFIG_SHRINKER_DEBUG
->  extern int __printf(2, 3) shrinker_debugfs_rename(struct shrinker *shrinker,
->  						  const char *fmt, ...);
-> diff --git a/mm/shrinker.c b/mm/shrinker.c
-> index 1911c06b8af5..d318f5621862 100644
-> --- a/mm/shrinker.c
-> +++ b/mm/shrinker.c
-> @@ -2,6 +2,7 @@
->  #include <linux/memcontrol.h>
->  #include <linux/rwsem.h>
->  #include <linux/shrinker.h>
-> +#include <linux/rculist.h>
->  #include <trace/events/vmscan.h>
->  
->  #include "internal.h"
-> @@ -577,33 +578,42 @@ unsigned long shrink_slab(gfp_t gfp_mask, int nid, struct mem_cgroup *memcg,
->  	if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
->  		return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
->  
-> -	if (!down_read_trylock(&shrinker_rwsem))
-> -		goto out;
-> -
-> -	list_for_each_entry(shrinker, &shrinker_list, list) {
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(shrinker, &shrinker_list, list) {
->  		struct shrink_control sc = {
->  			.gfp_mask = gfp_mask,
->  			.nid = nid,
->  			.memcg = memcg,
->  		};
->  
-> +		if (!shrinker_try_get(shrinker))
-> +			continue;
-> +
-> +		/*
-> +		 * We can safely unlock the RCU lock here since we already
-> +		 * hold the refcount of the shrinker.
-> +		 */
-> +		rcu_read_unlock();
-> +
->  		ret = do_shrink_slab(&sc, shrinker, priority);
->  		if (ret == SHRINK_EMPTY)
->  			ret = 0;
->  		freed += ret;
-> +
->  		/*
-> -		 * Bail out if someone want to register a new shrinker to
-> -		 * prevent the registration from being stalled for long periods
-> -		 * by parallel ongoing shrinking.
-> +		 * This shrinker may be deleted from shrinker_list and freed
-> +		 * after the shrinker_put() below, but this shrinker is still
-> +		 * used for the next traversal. So it is necessary to hold the
-> +		 * RCU lock first to prevent this shrinker from being freed,
-> +		 * which also ensures that the next shrinker that is traversed
-> +		 * will not be freed (even if it is deleted from shrinker_list
-> +		 * at the same time).
->  		 */
-
-This needs to be moved to the head of the function, and document
-the whole list walk, get, put and completion parts of the algorithm
-that make it safe. There's more to this than "we hold a reference
-count", especially the tricky "we might see the shrinker before it
-is fully initialised" case....
-
-
-.....
->  void shrinker_free(struct shrinker *shrinker)
->  {
->  	struct dentry *debugfs_entry = NULL;
-> @@ -686,9 +712,18 @@ void shrinker_free(struct shrinker *shrinker)
->  	if (!shrinker)
->  		return;
->  
-> +	if (shrinker->flags & SHRINKER_REGISTERED) {
-> +		shrinker_put(shrinker);
-> +		wait_for_completion(&shrinker->done);
-> +	}
-
-Needs a comment explaining why we need to wait here...
-> +
->  	down_write(&shrinker_rwsem);
->  	if (shrinker->flags & SHRINKER_REGISTERED) {
-> -		list_del(&shrinker->list);
-> +		/*
-> +		 * Lookups on the shrinker are over and will fail in the future,
-> +		 * so we can now remove it from the lists and free it.
-> +		 */
-
-.... rather than here after the wait has been done and provided the
-guarantee that no shrinker is running or will run again...
-
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+On Tue, 8 Aug 2023 at 02:32, Danilo Krummrich <dakr@redhat.com> wrote:
+>
+> The patch series provides a few fixes for the recently merged VM_BIND uAPI
+> mostly addressing a couple of warnings.
+>
+> It also contains one patch to slightly reduce the memory footprint of
+> struct nouveau_uvma.
+>
+> Danilo Krummrich (5):
+>   nouveau/dmem: fix copy-paste error in nouveau_dmem_migrate_chunk()
+>   drm/nouveau: nvkm: vmm: silence warning from cast
+>   drm/nouveau: remove incorrect __user annotations
+>   drm/nouveau: uvmm: remove incorrect calls to mas_unlock()
+>   drm/nouveau: uvmm: remove dedicated VM pointer from VMAs
+>
+>  drivers/gpu/drm/nouveau/nouveau_dmem.c        |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_exec.c        |  6 ++---
+>  drivers/gpu/drm/nouveau/nouveau_exec.h        |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.c        | 23 ++++++++-----------
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.h        | 14 +++++------
+>  .../gpu/drm/nouveau/nvkm/subdev/mmu/uvmm.c    |  5 ++--
+>  6 files changed, 24 insertions(+), 28 deletions(-)
+>
+>
+> base-commit: 82d750e9d2f5d0594c8f7057ce59127e701af781
+> --
+> 2.41.0
+>
