@@ -2,84 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA48D773A16
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 14:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C94773A37
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Aug 2023 14:42:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 802BA10E09F;
-	Tue,  8 Aug 2023 12:14:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B232F10E002;
+	Tue,  8 Aug 2023 12:42:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D715C10E09F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 12:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691496844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rDuO9bhbYkQmnoJmdA06h2aMhfAOsX8hw8Z40IIdVdQ=;
- b=XC28ZiC1SaD0V1oFzUj3EiPcVNy2Jvs6NHxh4VqnW9Tf18pl+2eipeesOF+F7etaqCa5+A
- khKV3t4aXCftQ0Jz5JjOH/eYtvaWBKjbb3HfauSQycPi5wxgOe4fsfuEoJ3EJCcToM64yL
- MmiJ1HT9s7IfL0euSIih0AJFkuxON9s=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-444-T7AQE6tNN0S0zWTaS-wU-Q-1; Tue, 08 Aug 2023 08:14:02 -0400
-X-MC-Unique: T7AQE6tNN0S0zWTaS-wU-Q-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 38308e7fff4ca-2b9dc1bfdd2so58878231fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Aug 2023 05:14:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691496841; x=1692101641;
- h=content-transfer-encoding:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rDuO9bhbYkQmnoJmdA06h2aMhfAOsX8hw8Z40IIdVdQ=;
- b=cfhFRB7jOpxxzsXZWQl+UbMrS3KB2yyS+YQqmArrSWF4iUZXkWQH5PRAyxjEVghALu
- NCYDI/GHHByo6DBkq0BXdX3kgeYEFUY4WNdmE2qxgjECgJq8xToBgtGUQ9DFIKc+05bP
- JYIri7p3eICnguWsRNoQfDZ1UlAlwbGPRp5JFcogc3blRmNKBBTj34vXUsvSd56bELdx
- g48k+DYpqcuzczU3oh34E6GijHG/lInG4/RGE8bzO6L/uSnR2QK00J6cLacUKr49CDUg
- h97nXSQLr9LDp148IqBvjUobTJUZo0wawBqdE3R4e5bdXGZwpfajJdeuI8A2DkX0xzQ3
- aI9w==
-X-Gm-Message-State: AOJu0YzsVQf+8oFoQg3M2ariAAVktOu/d79l/+KruD98dmbcBCZxtblQ
- ejsF8w+TFVA99SqqH3ge5P556qOBEgZXqA1XedR3i3UuvtUfcmHOU20J8UAeFX0YTyB71SzJ31o
- 35UrNPjvTuPg4AJOjvRZCglrHclYI2asApeBPu+16tMst
-X-Received: by 2002:a2e:8884:0:b0:2b9:4413:864e with SMTP id
- k4-20020a2e8884000000b002b94413864emr8771818lji.53.1691496841066; 
- Tue, 08 Aug 2023 05:14:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG00dtg78xBWNPk1NuFuyep1trDdeEvs4ECjrJZuNImsJLQBbQZ4eZdAKc/+97p72TE9mUQKtvCTnAVcwA5V28=
-X-Received: by 2002:a2e:8884:0:b0:2b9:4413:864e with SMTP id
- k4-20020a2e8884000000b002b94413864emr8771790lji.53.1691496840716; Tue, 08 Aug
- 2023 05:14:00 -0700 (PDT)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2072.outbound.protection.outlook.com [40.107.96.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AEC310E002
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Aug 2023 12:42:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=myevh/uXjnStY1GaPgqsuBh/pdybGeR/C52/19OCqP05yOEZ3BBucWwx2y8wR49MGuraNge5ruaVg/cPsnQUacNeg+RHkK3TgbKlAI4vCCyT6H7rCQb9S7hJrR87WL27fUB+CUXlFs6rnIt//omjn5lZFPNl1lkxR6b14mrkDS+NViX8M77cY2BvK1ak2ElY/+VQb9VZgE54Fc3aCUk94+ebpOHoOj6ext3xSL8u6PDr7YHnaRhDZTYbwebitAwfXjpTvCm899xfyQTd0h295TjXrzgFFOTjV4keNSvHtNJDijYCPZZ47W1bnlK5/4rgl+YCL35I/Qnxge4fn+Ytpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=leF/oCEat2bXSVjyO+1FkU/uQdOeDyBDg0rGugIBiGs=;
+ b=XXgdLQ39ZV7+EcQ/PSUaZsoZQMh/PnSjYAcXoPlfrjs3m0MPOVUMXol2DcFl1ppz4DiwblxlhFV/x0EbgXyo30PwD41ndCgxnlkHLcI5CVj2MzRyQ89pbxwVydrcl0YlYROrfnUC6mvIG48Rz0kyMyoUbRIlB6u+wicrb3BkBgIanIwzQr1ej2Fou/LrZO6lpJNb0+OKq5hKgZH8KUJdzUoMGlmanrpZ9wWgdmDnAUep1Ag1htE4yHxw3GF13q1llskzlzvoG+NQm4C0uKTT50YqCIGAeTMDoxhklQku/fodokQNlC2utc5zfkEXICjlJRJKTb/xSpqXchm/+xX9tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=leF/oCEat2bXSVjyO+1FkU/uQdOeDyBDg0rGugIBiGs=;
+ b=rqwunRrLeTcdjm9I23n/2ay8WigoINE+0497UlH/1BmnFX8Zre8oPDzNNJODv8h6pweZhVWGsim6hzuWt6dST/uB9GImbUck/X3Ksy8trg6FRRI4SMBIzzTQHdhjVg7f1qcqPrw36vA/hHTUQAH/TrXtv3THhgfqigGnmXEvQpE21UZe4/Gu5CDgl4gFYcEQxzGya+k9BA9XtsToPpcLICS70Tr08O3lVdbhBMrImXmWWcshMppwvij0wMJ587EeDKaUu8PiwnsH+NgqcJgwWaAG8JV8H1Hl+KySbSfQPZ5qEztiiJ1B3d7lYhC6GNz/1RA550NG8uT3RnPBPuk50A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by BL0PR12MB4851.namprd12.prod.outlook.com (2603:10b6:208:1c1::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.27; Tue, 8 Aug
+ 2023 12:42:18 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::5111:16e8:5afe:1da1%6]) with mapi id 15.20.6652.026; Tue, 8 Aug 2023
+ 12:42:18 +0000
+Date: Tue, 8 Aug 2023 09:42:17 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Message-ID: <ZNI4KV+Z7CvffiHI@nvidia.com>
+References: <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMzz2OKbmiD6SKPE@nvidia.com>
+ <IA0PR11MB718593A011700F06BD6414E8F80DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <IA0PR11MB718593A011700F06BD6414E8F80DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR18CA0002.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::7) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
- <ZMz3IXIzXS5gNK3G@phenom.ffwll.local>
-In-Reply-To: <ZMz3IXIzXS5gNK3G@phenom.ffwll.local>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Tue, 8 Aug 2023 14:13:49 +0200
-Message-ID: <CA+hFU4wbn=efbS10c14A9sLTf9GYJ_O12kowh76ELLdo2+x5fA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, 
- pierre-eric.pelloux-prayer@amd.com, Simon Ser <contact@emersion.fr>, 
- Rob Clark <robdclark@gmail.com>, Pekka Paalanen <ppaalanen@gmail.com>, 
- Daniel Stone <daniel@fooishbar.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>, 
- Dave Airlie <airlied@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Randy Dunlap <rdunlap@infradead.org>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL0PR12MB4851:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7fb28d50-6b69-482b-9d32-08db980ce6eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NnJ1VpinmxArnHdmg03FIxoUWoDtXRUSGMhBjXQDqa8MuG5d6+kKWXaTINFqbBjGN3Irwz5tLH7U69UgcGaDDEuOLXQvHQss+qWwpUitAsV3oFq1LFlt/UHiYjWvAoAWzKagR6QNYI5PXotshqJUvj5KK9GIB+JfGPxYbHSTk5XKrGFxDhJTMfL0z3rLnXYs5kWQK0nQk1HBwbiKC5VBGkBwvz8tYN0E94V39sSUlZYchdDAJztbwv1JmJsBhX2SBCJEtIMFHtqjyDAS+dXTprMP9oluPKEKk86G12vE5ZXWrGbNGUx8eZ9PO7HsP1ti9/0bkB4ggD4kiW7ptsigJk7C1GjqwbtkVQLkAjid69PtvoXFfuCBwCW2fv64vATlW9AalY/qfVYDAxk94n9Ub0xawHM5oTMrScnS/Pd/Ypw8ME47e3qEWWjRAUSMw6B29f9b5lupuJb12YgJ7QYpphskXq7OeNfrGfJrWwO5LDzPySUd48hTnm4LE8+lIUbyWiVDZmSMFaKvmyF589ix3IRyEjKp6HcG6KI+dEm0ZYG4/OxmeMyepvucqFRKVjxsn3Om4ZlxqGnwZWhjWuGg2pkcsioTPT5qLZBGqY9XhKo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(376002)(346002)(39860400002)(366004)(396003)(186006)(1800799003)(451199021)(26005)(15650500001)(8936002)(2906002)(5660300002)(7416002)(83380400001)(8676002)(41300700001)(2616005)(6916009)(316002)(478600001)(6506007)(54906003)(38100700002)(6486002)(66476007)(66556008)(86362001)(66946007)(6512007)(4326008)(36756003)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?A8RR8cwYrG/Y3pAAoSO1P+SCGKZ/yfmn1nMbmolk1h62JQJi88TbwSYsD7ta?=
+ =?us-ascii?Q?7BC2Lsae/X1jwsVOvrG2Bo2cmb7Fvl5NUAIMfznyvQb1ZTeSbecQmWaJ78CV?=
+ =?us-ascii?Q?6aPgoyCUmPe860HxQuGiCzhfX/jjKeM4j2RGfU8BBzUDONxB4kD9Xp4UVWvC?=
+ =?us-ascii?Q?BfKNjfi8y0zZCJULuCRke2FDsgAndXvSPHJZz6dWY5VWgF76Am5w9pW7fy0j?=
+ =?us-ascii?Q?ddpo7RHub1efK1mlA2VW2oSmKgFBYsYfa06LXWBUjnv6Kp+I/JaOirGcySS7?=
+ =?us-ascii?Q?Y6G2vYyOc2K5Vmrb5cBz+6HzgxexJKHsepPdKrpOBqANY6lNEucBrr4xMbzM?=
+ =?us-ascii?Q?Npiz9SDTW+w5hj+1pBFACvzqkMlGiOvBr7MLqgA4juwGTwoSnJWVVptM8vgr?=
+ =?us-ascii?Q?llVw0CsSztQnNC9RNshAYtRHhJ5o4h+Vy8VeGZq+ewRD5xeDRamH1M3m9LW9?=
+ =?us-ascii?Q?2+uJWPZN59+6TvIOU8bP5sHQYdYhKOx+PfFcubWQi3qQAhx6Kcz55wpiKSVX?=
+ =?us-ascii?Q?q3PH8J1M6RwvuOvNkllz3cCmQysTvv4rkFL1XhP1E3qaZZrsdMVnpEmF+9j2?=
+ =?us-ascii?Q?2U7cT9p7qjy1W/dpacQUUPPGUvItbSmON5uxMKJsHeFolsCLGmaq4hL67L6v?=
+ =?us-ascii?Q?KoIGBfkK8dJqxyP+1pTUuMHCcuKkhktt1hV3EUwwTZxHxhbxFLqIEmG1T+qg?=
+ =?us-ascii?Q?MMD1lsbnXgr3RaRsctB3Q/t5vzPw2e18J19wvZoSZMcxNA2mUVZximk/s9ed?=
+ =?us-ascii?Q?x1LiOs44Kt8H9NcCowDjZtdv5NRnR3jMKECWaG1c6zKzNAeah0knQu5LHXLB?=
+ =?us-ascii?Q?PRoK6V03WCKVZHWE2j/g3ejOaPTGfC+ASqz79H8uIPczJsDOJJa+EufACu+y?=
+ =?us-ascii?Q?P3FRGI4GD2Va6P85CsS9dJWfNAVsBnIYyNIF/GvpJ/Z5L/d0UeRMe56YqyiR?=
+ =?us-ascii?Q?Kd1g6UDIFcu+IQUixNR+z3OTSXC9ZNaN9i9BraFfYeUBbs6BJCcptph50XJK?=
+ =?us-ascii?Q?DwY8WKM6vVogNz04C+NbHaDSthLY3U62mFYyD3eyEiKPSa9aXIEkqYboTtl6?=
+ =?us-ascii?Q?j1/giUyVRdY4kTwBmPTevQmgd8CcL3Mq+wm43fWblZrDk+YkIU/uauMfUrWZ?=
+ =?us-ascii?Q?V1CFlFcyio7iVwSl4Hk+4edpzCRAlF1CDjxLQhgFuYzuCwmWRw/2c8qbeGDZ?=
+ =?us-ascii?Q?MLXITuVX3YN5qwpEoltHeUDAIXmLwZF+Der49D1qe+k5bqynwBvh6163bFsM?=
+ =?us-ascii?Q?DrTk1qpfYVSo6fcLK4tEdqF7ZQD9t2Up4HVvTfDTKzvMYbqMnfjcJCAyO8vo?=
+ =?us-ascii?Q?jGwMqaF+RBnHFWAqQ/NTyaQ54Uw6oRCMiXxsTzBLrGzBR2GwWobcrP87NEhC?=
+ =?us-ascii?Q?hCyYD+WtK/Zzh+Fo4TN1YHRV6O3xg6KXPGS8lzegoGUdY9A6JLabwqLbjJpX?=
+ =?us-ascii?Q?xF2bIVBeXBzNheWCG95MeFbTL4ACQMR0YCIfrAA+r/WBiSWhovgRoqbttH0+?=
+ =?us-ascii?Q?2/JcYqiDNKCEBggEsxtegGCFKTLYh8J/AXp+aNmyLkFb3cEptZrJyNQjOtxz?=
+ =?us-ascii?Q?MpCafUlf+3qiqu6fxkcaQlqM+we+4XGLmpUmyaic?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb28d50-6b69-482b-9d32-08db980ce6eb
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2023 12:42:18.5814 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8GqaWFltaf1VE0vFtj3U+k5uMwjgkJwb5TfY2rxjx8/Ldz7HvPD8koNGQKdTljXT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4851
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,198 +123,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 4, 2023 at 3:03=E2=80=AFPM Daniel Vetter <daniel@ffwll.ch> wrot=
-e:
->
-> On Tue, Jun 27, 2023 at 10:23:23AM -0300, Andr=C3=A9 Almeida wrote:
-> > Create a section that specifies how to deal with DRM device resets for
-> > kernel and userspace drivers.
-> >
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> > ---
-> >
-> > v4: https://lore.kernel.org/lkml/20230626183347.55118-1-andrealmeid@iga=
-lia.com/
-> >
-> > Changes:
-> >  - Grammar fixes (Randy)
-> >
-> >  Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 68 insertions(+)
-> >
-> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
-i.rst
-> > index 65fb3036a580..3cbffa25ed93 100644
-> > --- a/Documentation/gpu/drm-uapi.rst
-> > +++ b/Documentation/gpu/drm-uapi.rst
-> > @@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a th=
-ird handler for
-> >  mmapped regular files. Threads cause additional pain with signal
-> >  handling as well.
-> >
-> > +Device reset
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +The GPU stack is really complex and is prone to errors, from hardware =
-bugs,
-> > +faulty applications and everything in between the many layers. Some er=
-rors
-> > +require resetting the device in order to make the device usable again.=
- This
-> > +sections describes the expectations for DRM and usermode drivers when =
-a
-> > +device resets and how to propagate the reset status.
-> > +
-> > +Kernel Mode Driver
-> > +------------------
-> > +
-> > +The KMD is responsible for checking if the device needs a reset, and t=
-o perform
-> > +it as needed. Usually a hang is detected when a job gets stuck executi=
-ng. KMD
-> > +should keep track of resets, because userspace can query any time abou=
-t the
-> > +reset stats for an specific context. This is needed to propagate to th=
-e rest of
-> > +the stack that a reset has happened. Currently, this is implemented by=
- each
-> > +driver separately, with no common DRM interface.
-> > +
-> > +User Mode Driver
-> > +----------------
-> > +
-> > +The UMD should check before submitting new commands to the KMD if the =
-device has
-> > +been reset, and this can be checked more often if the UMD requires it.=
- After
-> > +detecting a reset, UMD will then proceed to report it to the applicati=
-on using
-> > +the appropriate API error code, as explained in the section below abou=
-t
-> > +robustness.
-> > +
-> > +Robustness
-> > +----------
-> > +
-> > +The only way to try to keep an application working after a reset is if=
- it
-> > +complies with the robustness aspects of the graphical API that it is u=
-sing.
-> > +
-> > +Graphical APIs provide ways to applications to deal with device resets=
-. However,
-> > +there is no guarantee that the app will use such features correctly, a=
-nd the
-> > +UMD can implement policies to close the app if it is a repeating offen=
-der,
->
-> Not sure whether this one here is due to my input, but s/UMD/KMD. Repeat
-> offender killing is more a policy where the kernel enforces policy, and n=
-o
-> longer up to userspace to dtrt (because very clearly userspace is not
-> really doing the right thing anymore when it's just hanging the gpu in an
-> endless loop). Also maybe tune it down further to something like "the
-> kernel driver may implemnent ..."
->
-> In my opinion the umd shouldn't implement these kind of magic guesses, th=
-e
-> entire point of robustness apis is to delegate responsibility for
-> correctly recovering to the application. And the kernel is left with
-> enforcing fair resource usage policies (which eventually might be a
-> cgroups limit on how much gpu time you're allowed to waste with gpu
-> resets).
+On Tue, Aug 08, 2023 at 07:37:19AM +0000, Kasireddy, Vivek wrote:
+> Hi Jason,
+> 
+> > 
+> > > No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue.
+> > > Although, I do not have THP enabled (or built-in), shmem does not evict
+> > > the pages after hole punch as noted in the comment in shmem_fallocate():
+> > 
+> > This is the source of all your problems.
+> > 
+> > Things that are mm-centric are supposed to track the VMAs and changes to
+> > the PTEs. If you do something in userspace and it doesn't cause the
+> > CPU page tables to change then it certainly shouldn't cause any mmu
+> > notifiers or hmm_range_fault changes.
+> I am not doing anything out of the blue in the userspace. I think the behavior
+> I am seeing with shmem (where an invalidation event (MMU_NOTIFY_CLEAR)
+> does occur because of a hole punch but the PTEs don't really get updated)
+> can arguably be considered an optimization. 
 
-Killing apps that the kernel thinks are misbehaving really doesn't
-seem like a good idea to me. What if the process is a service getting
-restarted after getting killed? What if killing that process leaves
-the system in a bad state?
+Your explanations don't make sense.
 
-Can't the kernel provide some information to user space so that e.g.
-systemd can handle those situations?
+If MMU_NOTIFER_CLEAR was sent but the PTEs were left present then:
 
-> > +likely in a broken loop. This is done to ensure that it does not keep =
-blocking
-> > +the user interface from being correctly displayed. This should be done=
- even if
-> > +the app is correct but happens to trigger some bug in the hardware/dri=
-ver.
-> > +
-> > +OpenGL
-> > +~~~~~~
-> > +
-> > +Apps using OpenGL should use the available robust interfaces, like the
-> > +extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL E=
-S). This
-> > +interface tells if a reset has happened, and if so, all the context st=
-ate is
-> > +considered lost and the app proceeds by creating new ones. If it is po=
-ssible to
-> > +determine that robustness is not in use, the UMD will terminate the ap=
-p when a
-> > +reset is detected, giving that the contexts are lost and the app won't=
- be able
-> > +to figure this out and recreate the contexts.
-> > +
-> > +Vulkan
-> > +~~~~~~
-> > +
-> > +Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submis=
-sions.
-> > +This error code means, among other things, that a device reset has hap=
-pened and
-> > +it needs to recreate the contexts to keep going.
-> > +
-> > +Reporting causes of resets
-> > +--------------------------
-> > +
-> > +Apart from propagating the reset through the stack so apps can recover=
-, it's
-> > +really useful for driver developers to learn more about what caused th=
-e reset in
-> > +first place. DRM devices should make use of devcoredump to store relev=
-ant
-> > +information about the reset, so this information can be added to user =
-bug
-> > +reports.
->
-> Since we do not seem to have a solid consensus in the community about
-> non-robust userspace, maybe we could just document that lack of consensus
-> to unblock this patch? Something like this:
->
-> Non-Robust Userspace
-> --------------------
->
-> Userspace that doesn't support robust interfaces (like an non-robust
-> OpenGL context or API without any robustness support like libva) leave th=
-e
-> robustness handling entirely to the userspace driver. There is no strong
-> community consensus on what the userspace driver should do in that case,
-> since all reasonable approaches have some clear downsides.
->
-> With the s/UMD/KMD/ further up and maybe something added to record the
-> non-robustness non-consensus:
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> Cheers, Daniel
->
->
->
-> > +
-> >  .. _drm_driver_ioctl:
-> >
-> >  IOCTL Support on Device Nodes
-> > --
-> > 2.41.0
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
+> > There should still be an invalidation notifier at some point when the
+> > CPU tables do eventually change, whenever that is. Missing that
+> > notification would be a bug.
+> I clearly do not see any notification getting triggered (from both shmem_fault()
+> and hugetlb_fault()) when the PTEs do get updated as the hole is refilled
+> due to writes. Are you saying that there needs to be an invalidation event
+> (MMU_NOTIFY_CLEAR?) dispatched at this point?
 
+You don't get to get shmem_fault in the first place.
+
+If they were marked non-prsent during the CLEAR then the shadow side
+remains non-present until it gets its own fault.
+
+If they were made non-present without an invalidation then that is a
+bug.
+
+> > hmm_range_fault() is the correct API to use if you are working with
+> > notifiers. Do not hack something together using pin_user_pages.
+
+> I noticed that hmm_range_fault() does not seem to be working as expected
+> given that it gets stuck(hangs) while walking hugetlb pages.
+
+You are the first to report that, it sounds like a serious bug. Please
+try to fix it.
+
+> Regardless, as I mentioned above, the lack of notification when PTEs
+> do get updated due to writes is the crux of the issue
+> here. Therefore, AFAIU, triggering an invalidation event or some
+> other kind of notification would help in fixing this issue.
+
+You seem to be facing some kind of bug in the mm, it sounds pretty
+serious, and it almost certainly is a missing invalidation.
+
+Basically, anything that changes a PTE must eventually trigger an
+invalidation. It is illegal to change a PTE from one present value to
+another present value without invalidation notification.
+
+It is not surprising something would be missed here.
+
+Jason
