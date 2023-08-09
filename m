@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F03377519A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 05:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05A57751A0
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 05:45:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1426610E233;
-	Wed,  9 Aug 2023 03:45:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B035510E22F;
+	Wed,  9 Aug 2023 03:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76F2F10E130;
- Wed,  9 Aug 2023 03:45:34 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RLG8B1Qrsz9tDG;
- Wed,  9 Aug 2023 11:42:02 +0800 (CST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5759710E233;
+ Wed,  9 Aug 2023 03:45:36 +0000 (UTC)
+Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RLGBs3l84zmXBn;
+ Wed,  9 Aug 2023 11:44:21 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
  (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 9 Aug
- 2023 11:45:29 +0800
+ 2023 11:45:31 +0800
 From: Ruan Jinjie <ruanjinjie@huawei.com>
 To: <Felix.Kuehling@amd.com>, <alexander.deucher@amd.com>,
  <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
@@ -43,9 +43,9 @@ To: <Felix.Kuehling@amd.com>, <alexander.deucher@amd.com>,
  <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
  <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
  <nouveau@lists.freedesktop.org>, <virtualization@lists.linux-foundation.org>
-Subject: [PATCH -next 4/7] drm/radeon: Remove unnecessary NULL values
-Date: Wed, 9 Aug 2023 11:44:42 +0800
-Message-ID: <20230809034445.434902-5-ruanjinjie@huawei.com>
+Subject: [PATCH -next 5/7] drm/virtio: Remove an unnecessary NULL value
+Date: Wed, 9 Aug 2023 11:44:43 +0800
+Message-ID: <20230809034445.434902-6-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230809034445.434902-1-ruanjinjie@huawei.com>
 References: <20230809034445.434902-1-ruanjinjie@huawei.com>
@@ -72,83 +72,28 @@ Cc: ruanjinjie@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The NULL initialization of the pointers assigned by kzalloc() first is
-not necessary, because if the kzalloc() failed, the pointers will be
+The NULL initialization of the pointer assigned by kzalloc() first is
+not necessary, because if the kzalloc() failed, the pointer will be
 assigned NULL, otherwise it works as usual. so remove it.
 
 Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 ---
- drivers/gpu/drm/radeon/radeon_agp.c             | 2 +-
- drivers/gpu/drm/radeon/radeon_combios.c         | 6 +++---
- drivers/gpu/drm/radeon/radeon_legacy_encoders.c | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_submit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_agp.c b/drivers/gpu/drm/radeon/radeon_agp.c
-index d124600b5f58..a3d749e350f9 100644
---- a/drivers/gpu/drm/radeon/radeon_agp.c
-+++ b/drivers/gpu/drm/radeon/radeon_agp.c
-@@ -130,7 +130,7 @@ static struct radeon_agpmode_quirk radeon_agpmode_quirk_list[] = {
- struct radeon_agp_head *radeon_agp_head_init(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
+index 3c00135ead45..82563dbec2ab 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_submit.c
++++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
+@@ -274,7 +274,7 @@ static int virtio_gpu_fence_event_create(struct drm_device *dev,
+ 					 struct virtio_gpu_fence *fence,
+ 					 u32 ring_idx)
  {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	struct radeon_agp_head *head = NULL;
-+	struct radeon_agp_head *head;
+-	struct virtio_gpu_fence_event *e = NULL;
++	struct virtio_gpu_fence_event *e;
+ 	int ret;
  
- 	head = kzalloc(sizeof(*head), GFP_KERNEL);
- 	if (!head)
-diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
-index 795c3667f6d6..2620efc7c675 100644
---- a/drivers/gpu/drm/radeon/radeon_combios.c
-+++ b/drivers/gpu/drm/radeon/radeon_combios.c
-@@ -863,7 +863,7 @@ struct radeon_encoder_primary_dac *radeon_combios_get_primary_dac_info(struct
- 	struct radeon_device *rdev = dev->dev_private;
- 	uint16_t dac_info;
- 	uint8_t rev, bg, dac;
--	struct radeon_encoder_primary_dac *p_dac = NULL;
-+	struct radeon_encoder_primary_dac *p_dac;
- 	int found = 0;
- 
- 	p_dac = kzalloc(sizeof(struct radeon_encoder_primary_dac),
-@@ -1014,7 +1014,7 @@ struct radeon_encoder_tv_dac *radeon_combios_get_tv_dac_info(struct
- 	struct radeon_device *rdev = dev->dev_private;
- 	uint16_t dac_info;
- 	uint8_t rev, bg, dac;
--	struct radeon_encoder_tv_dac *tv_dac = NULL;
-+	struct radeon_encoder_tv_dac *tv_dac;
- 	int found = 0;
- 
- 	tv_dac = kzalloc(sizeof(struct radeon_encoder_tv_dac), GFP_KERNEL);
-@@ -1100,7 +1100,7 @@ static struct radeon_encoder_lvds *radeon_legacy_get_lvds_info_from_regs(struct
- 									 radeon_device
- 									 *rdev)
- {
--	struct radeon_encoder_lvds *lvds = NULL;
-+	struct radeon_encoder_lvds *lvds;
- 	uint32_t fp_vert_stretch, fp_horz_stretch;
- 	uint32_t ppll_div_sel, ppll_val;
- 	uint32_t lvds_ss_gen_cntl = RREG32(RADEON_LVDS_SS_GEN_CNTL);
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-index 601d35d34eab..c4350ac2b3d2 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
-@@ -1692,7 +1692,7 @@ static struct radeon_encoder_int_tmds *radeon_legacy_get_tmds_info(struct radeon
- {
- 	struct drm_device *dev = encoder->base.dev;
- 	struct radeon_device *rdev = dev->dev_private;
--	struct radeon_encoder_int_tmds *tmds = NULL;
-+	struct radeon_encoder_int_tmds *tmds;
- 	bool ret;
- 
- 	tmds = kzalloc(sizeof(struct radeon_encoder_int_tmds), GFP_KERNEL);
-@@ -1715,7 +1715,7 @@ static struct radeon_encoder_ext_tmds *radeon_legacy_get_ext_tmds_info(struct ra
- {
- 	struct drm_device *dev = encoder->base.dev;
- 	struct radeon_device *rdev = dev->dev_private;
--	struct radeon_encoder_ext_tmds *tmds = NULL;
-+	struct radeon_encoder_ext_tmds *tmds;
- 	bool ret;
- 
- 	if (rdev->is_atom_bios)
+ 	e = kzalloc(sizeof(*e), GFP_KERNEL);
 -- 
 2.34.1
 
