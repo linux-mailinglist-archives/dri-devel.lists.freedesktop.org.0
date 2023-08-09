@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B8C776BF1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:08:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A269A776BF5
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:09:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6E9F10E021;
-	Wed,  9 Aug 2023 22:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0AD10E124;
+	Wed,  9 Aug 2023 22:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2DA10E124;
- Wed,  9 Aug 2023 22:08:32 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4fe2de785e7so355766e87.1; 
- Wed, 09 Aug 2023 15:08:32 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA4E10E124;
+ Wed,  9 Aug 2023 22:09:48 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 46e09a7af769-6bc886d1504so294334a34.0; 
+ Wed, 09 Aug 2023 15:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691618910; x=1692223710;
+ d=gmail.com; s=20221208; t=1691618988; x=1692223788;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GHUgxVkqPfvJcpFnmASPtTtiWfAEUFEf5591PAmgwtU=;
- b=otZY1vS90mHUsvPz8IrtugIg5QTo1OpPKJNGpraZXaMZ8v82qd9vfoBqfMuq6giujN
- GjK/PP3fiT3D3rCe45IEhrzQw4jeg7bTHqUvj65o7HfXs6fQaABae/aJ2sGy8g4bAbTf
- 7fFHPnlUoLj5hJAMDkgixaSNq1BrkhXEpIqa3p9toiREAFbpenjcL9y7neXqBlKqt1Tw
- 3xJEpfQFkfCJJNzbOFuw51g9JLJGlyX1Jg/jTbV/EgwA+3/+rhbj30wyRcTfvOYUmgL/
- qJPovVVU195Crf3dXI4Hm0EtQsS5wl1DbDRVa1YVCIO297S82dvNpr0MWr/NPKbIcfnT
- 4gqQ==
+ bh=5wgDVu8p3LAXBRMLjZ335uEuofYsZ1H4TbcKoyLUoLo=;
+ b=pBH+yh35EtrJKvrb5fnLJvRLVaPCRGUT+7HvV1ZWoRkfAESNpFgDP7h54DHz9p4/r6
+ a42WOpxmxSXlV07+ptDJs5MVekWkF+X5zFZqlIHm6lJYfFo8GxvjhGOCojqzOzy0nI34
+ iYFp/PT+g1fAF95MVMeBHGOHnj/AZ3xZfKljJVBalSsAU0LqTCfPVKsnOwegpZY2VS9F
+ 2CgpUwUTP71Ex2B71oEmlOWAN4IfsVCFDXOJK2dIdpC7B/xgDoFoLDd8/m+fXTj4k99o
+ ene6pQH7hMtdKATN1DDzHcdbmLD59ChvMCA1GUJDcKV8IOW5u0/iLIuykZGxayGiaaLH
+ 4h8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691618910; x=1692223710;
+ d=1e100.net; s=20221208; t=1691618988; x=1692223788;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GHUgxVkqPfvJcpFnmASPtTtiWfAEUFEf5591PAmgwtU=;
- b=Inxi7K3Q0KvYBj7tx+L5VUgcfdi3XDCuSrMGtJtrdsQDgLA/Q8usu8Ytn1sCJD1B6M
- NJtBXQU/rFd1wOz+wKoyj3HahKXP/5zXNWKTCqbDVye8IhOlUr/9bKuK1p1p81VxVYFv
- 1/r/m3ShhDZf1PQoyZf9jl+MPhgaESYIAcK/WyCeEOmWhtgQSZe0UISdNNtYZSypExC/
- lMNRv49egZ/DIwzNDs2JTm5qlRUoyEjIEPwQkjLXcVLasvzryBnB9LJeG0ihy9BGInT8
- RZkab6CL7Cu7DTGobhta50AGpcZOty1arOsK2XkduHXPPjeLRqdpp+B5xdO1oLmofG/Q
- H/uQ==
-X-Gm-Message-State: AOJu0YwWbvNQIrEnEUYIuRYgv6iTHYrs0jplPcmwpWjK2x1CA2yQ6UP8
- ySIxlxeknD5l1wPOfdKc//Uf0I/aY6IL3+lBXQA=
-X-Google-Smtp-Source: AGHT+IH2b8kGczwJAoBo0Ln7jT0JTZMlZ2Z6w3uTsJYmieQUqA/VkAOaqXy5yXCemw3g99vGQCU3jel+VmIM5J7Ti+c=
-X-Received: by 2002:ac2:5f5b:0:b0:4fe:5a4b:911d with SMTP id
- 27-20020ac25f5b000000b004fe5a4b911dmr317491lfz.64.1691618910125; Wed, 09 Aug
- 2023 15:08:30 -0700 (PDT)
+ bh=5wgDVu8p3LAXBRMLjZ335uEuofYsZ1H4TbcKoyLUoLo=;
+ b=CwFWVVWqCXHZRsuq9996cHr/PchVEWmsRAn4dWHgWuf1r6OAbrpM8EjPSuDbqbqDJU
+ Dwt7ajsZ99dkAydKN4QEN3fDTBzUpgApKNstdgDJiUurMBnwmua2Mkggeuzr9fD4gJWv
+ c491VQYkmCs9vwt3qqnH8VxLmMVpbBarhVauxmGkw/B8xCOuCe4t1eNCnPUzjr9Dt5Tv
+ HNzmGTm7H8iQYr+q3LN2Ub6TsC3Pz/Ef5BJ8mL881FgQci2dKXCenW6EJNGNkOonW4jH
+ DZzMneS/Shv4m5gSXogaw97XHC0f0bqFxmNMA1QqW3+VqhCYRaE0JRdXFENr67x8OkIA
+ tbMA==
+X-Gm-Message-State: AOJu0YxiwQiAjgxe0XIxaIPdsCCtsw71rM7yL5v7r5lf93dQr3RTHMT1
+ y5FL3SRzx1+aJhMMI/m3qGw2FBuxrh8YRnakFpg=
+X-Google-Smtp-Source: AGHT+IGaFK09aQLRrcthM3O+uleFc4gf7oGBkgSQRy/BXP3AlJBxiNZU18R3ecPf1q5NWrORzYwZ8vWUHy/MM9WtzuY=
+X-Received: by 2002:a05:6870:970e:b0:1bb:b025:3e87 with SMTP id
+ n14-20020a056870970e00b001bbb0253e87mr688950oaq.58.1691618987999; Wed, 09 Aug
+ 2023 15:09:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230628-topic-a7xx_drmmsm-v2-0-1439e1b2343f@linaro.org>
-In-Reply-To: <20230628-topic-a7xx_drmmsm-v2-0-1439e1b2343f@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 9 Aug 2023 15:08:18 -0700
-Message-ID: <CAF6AEGuDK7DAu_0_6nDkkv0FNkY6rxrdtp3sJB_WviH-whWuDA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/14] A7xx support
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230703150135.5784-1-ubizjak@gmail.com>
+In-Reply-To: <20230703150135.5784-1-ubizjak@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 9 Aug 2023 18:09:36 -0400
+Message-ID: <CADnq5_MCquO_Sh0RUVYATbLwS1+h2UrLHoUkCXYeF7=R4kZmDg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Use local64_try_cmpxchg in amdgpu_perf_read
+To: Uros Bizjak <ubizjak@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,125 +68,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 8, 2023 at 2:02=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro.=
-org> wrote:
->
-> This series attempts to introduce Adreno 700 support (with A730 and A740
-> found on SM8450 and SM8550 respectively), reusing much of the existing
-> A6xx code. This submission largely lays the groundwork for expansion and
-> more or less gives us feature parity (on the kernel side, that is) with
-> existing A6xx parts.
->
-> On top of introducing a very messy set of three (!) separate and
-> obfuscated deivce identifiers for each 7xx part, this generation
-> introduces very sophisticated hardware multi-threading and (on some SKUs)
-> hardware ray-tracing (not supported yet).
+Applied.  Thanks!
 
-tbf most of this para above is describing choices kgsl made, and not
-really relevant upstream.. really the only thing that matters for the
-upstream kernel is that chip-id becomes "just a number" ;-)
+Alex
 
-If you want to mention why we align chip-id with kgsl, it is (a) mesa
-needs to deal with both upstream and kgsl, and (b) future things we'll
-read this from hw/fw
-
-BR,
--R
-
-> After this series, a long-overdue cleanup of drm/msm/adreno is planned
-> in preparation for adding more features and removing some hardcoding.
+On Mon, Jul 3, 2023 at 7:16=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wrot=
+e:
 >
-> The last patch is a hack that may or may not be necessary depending
-> on your board's humour.. eh.. :/
+> Use local64_try_cmpxchg instead of local64_cmpxchg (*ptr, old, new) =3D=
+=3D old
+> in amdgpu_perf_read.  x86 CMPXCHG instruction returns success in ZF flag,
+> so this change saves a compare after cmpxchg (and related move instructio=
+n
+> in front of cmpxchg).
 >
-> Developed atop (and hence depends on) [1]
+> Also, try_cmpxchg implicitly assigns old *ptr value to "old" when cmpxchg
+> fails. There is no need to re-read the value in the loop.
 >
-> The corresponding devicetree patches are initially available at [2] and
-> will be posted after this series gets merged. To test it, you'll also nee=
-d
-> firmware that you need to obtain from your board (there's none with a
-> redistributable license, sorry..). Most likely it will be in one of
-> these directories on your stock android installation:
+> No functional change intended.
 >
-> * /vendor/firmware
-> * /vendor/firmware_mnt
-> * /system
->
-> ..but some vendors make it hard and you have to do some grepping ;)
->
-> Requires [3] to work on the userspace side. You'll almost cerainly want
-> to test it alongside Zink with a lot of debug flags (early impl), like:
->
-> TU_DEBUG=3Dsysmem,nolrz,flushall,noubwc MESA_LOADER_DRIVER_OVERRIDE=3Dzin=
-k kmscube
->
-> [1] https://lore.kernel.org/linux-arm-msm/20230517-topic-a7xx_prep-v4-0-b=
-16f273a91d4@linaro.org/
-> [2] https://github.com/SoMainline/linux/commits/topic/a7xx_dt
-> [3] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23217
->
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
 > ---
-> Changes in v2:
-> - Rebase on chipid changes
-> - Reuse existing description for qcom,aoss in patch 2
-> - Pick up tags
-> - Link to v1: https://lore.kernel.org/r/20230628-topic-a7xx_drmmsm-v1-0-a=
-7f4496e0c12@linaro.org
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> ---
-> Konrad Dybcio (14):
->       dt-bindings: display/msm/gmu: Add Adreno 7[34]0 GMU
->       dt-bindings: display/msm/gmu: Allow passing QMP handle
->       dt-bindings: display/msm/gpu: Allow A7xx SKUs
->       drm/msm/a6xx: Add missing regs for A7XX
->       drm/msm/a6xx: Introduce a6xx_llc_read
->       drm/msm/a6xx: Move LLC accessors to the common header
->       drm/msm/a6xx: Bail out early if setting GPU OOB fails
->       drm/msm/a6xx: Add skeleton A7xx support
->       drm/msm/a6xx: Send ACD state to QMP at GMU resume
->       drm/msm/a6xx: Mostly implement A7xx gpu_state
->       drm/msm/a6xx: Add A730 support
->       drm/msm/a6xx: Add A740 support
->       drm/msm/a6xx: Vastly increase HFI timeout
->       drm/msm/a6xx: Poll for GBIF unhalt status in hw_init
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_pmu.c
+> index 71ee361d0972..6e91ea1de5aa 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+> @@ -276,9 +276,8 @@ static void amdgpu_perf_read(struct perf_event *event=
+)
+>             (!pe->adev->df.funcs->pmc_get_count))
+>                 return;
 >
->  .../devicetree/bindings/display/msm/gmu.yaml       |  47 +-
->  .../devicetree/bindings/display/msm/gpu.yaml       |   4 +-
->  drivers/gpu/drm/msm/adreno/a6xx.xml.h              |   9 +
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 204 +++++--
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   3 +
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h          |   8 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 667 +++++++++++++++=
-+++---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |  15 +
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  52 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  61 +-
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  90 ++-
->  drivers/gpu/drm/msm/adreno/adreno_device.c         |  30 +
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   7 +-
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  28 +-
->  drivers/gpu/drm/msm/msm_ringbuffer.h               |   2 +
->  15 files changed, 1094 insertions(+), 133 deletions(-)
-> ---
-> base-commit: b30de2c05cf2166f4e2c68850efc8dcea1c89780
-> change-id: 20230628-topic-a7xx_drmmsm-123f30d76cf7
+> +       prev =3D local64_read(&hwc->prev_count);
+>         do {
+> -               prev =3D local64_read(&hwc->prev_count);
+> -
+>                 switch (hwc->config_base) {
+>                 case AMDGPU_PMU_EVENT_CONFIG_TYPE_DF:
+>                 case AMDGPU_PMU_EVENT_CONFIG_TYPE_XGMI:
+> @@ -289,7 +288,7 @@ static void amdgpu_perf_read(struct perf_event *event=
+)
+>                         count =3D 0;
+>                         break;
+>                 }
+> -       } while (local64_cmpxchg(&hwc->prev_count, prev, count) !=3D prev=
+);
+> +       } while (!local64_try_cmpxchg(&hwc->prev_count, &prev, count));
 >
-> Best regards,
+>         local64_add(count - prev, &event->count);
+>  }
 > --
-> Konrad Dybcio <konrad.dybcio@linaro.org>
+> 2.41.0
 >
