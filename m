@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AFB777148
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 09:25:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678A0777149
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 09:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 109E110E4C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FFF10E4C9;
 	Thu, 10 Aug 2023 07:25:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A834F10E445
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 13:57:56 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D106710E446
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 14:02:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691589476; x=1723125476;
+ t=1691589741; x=1723125741;
  h=date:from:to:cc:subject:in-reply-to:message-id:
  references:mime-version;
- bh=CwDGqwd88thCoGdpEJAkv19uKXNI4W3xi+umzrTKwhQ=;
- b=DEO3aC09uiyK08Y+8JAClHNkzBSEvz8aflRxdfJ2oCZhrQovQNmdH1Kp
- hobjUymjzOYX99joPNXFwWcGgvXxvWhDf+y1JqU6DMp1IWskynOJUrILI
- luj6pW3TAEV5IwtTlLFRsOjIIRC56DIG51QpzB2QAYu9YqvFlfda+wBSI
- HNjv+Qo8ZYvmSgLTTmIlBrxlbPi6UPWAvshZQJaNuS28ymrKu+C2YT++X
- vpDLXDYjC3hdPUJuhsyPtYil1ro1Xt7MymBkJSWjxPsHqX0IzfDFTv3lV
- dbiKhzLGIy+w5MC58FKxZ8iKjfsSUasXmZj4AtCZgehI9cpA0KUxkwh4Y A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="373908215"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="373908215"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2023 06:57:56 -0700
+ bh=L9ygc58fdo1aeBLyS1//aI+mgtgoc2TWGD5CcSP3gyg=;
+ b=ZaUcfMY7Zbt1gTdMRil6MbB9zNkLdBhLVT+z0MSB1+BdyVqGrRYEFns9
+ 6QRJmpYow8bxReUNf/ymIg4Dqa0wJl98TmebjD2959mzbOSAPcBPBXm13
+ 9u8H1sajCUuDQ2tbtO6CZy/wOqsQAOEPm9DFAq8pneHBA2EI9cbcmQGya
+ t8Tq7E58FnH7vV25xzQoMaOHQbBJSzXHQ2uz6n+TVSdM3LiFJCzpnySIf
+ pGQvY81yq4jg29cBn1lH1ssRiwDzvVS7pO6cy48cgWDJxDo/Uuv5qzRDa
+ c/9n3Y3MmjNUpMLwY6ijGsNni789gLzuf5Im6gG9xA4fJHhO82jTKVY/p w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="437491822"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="437491822"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2023 07:01:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="761389587"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="761389587"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="855550674"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="855550674"
 Received: from cvogler-mobl1.ger.corp.intel.com ([10.252.40.229])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2023 06:57:53 -0700
-Date: Wed, 9 Aug 2023 16:57:50 +0300 (EEST)
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2023 07:01:46 -0700
+Date: Wed, 9 Aug 2023 17:01:44 +0300 (EEST)
 From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v2 01/11] PCI/VGA: Use unsigned type for the io_state
- variable
-In-Reply-To: <20230808223412.1743176-2-sui.jingfeng@linux.dev>
-Message-ID: <216235c1-d578-8f35-1f2-7f8ce59d2d7a@linux.intel.com>
+Subject: Re: [PATCH v2 02/11] PCI: Add the pci_get_class_masked() helper
+In-Reply-To: <20230808223412.1743176-3-sui.jingfeng@linux.dev>
+Message-ID: <19dc4b81-5b72-247c-d459-3ea9d1cddff0@linux.intel.com>
 References: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
- <20230808223412.1743176-2-sui.jingfeng@linux.dev>
+ <20230808223412.1743176-3-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-939066835-1691589475=:1846"
+Content-Type: text/plain; charset=US-ASCII
 X-Mailman-Approved-At: Thu, 10 Aug 2023 07:25:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,52 +58,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>,
- Andi Shyti <andi.shyti@linux.intel.com>, linux-pci@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Bjorn Helgaas <bhelgaas@google.com>, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-939066835-1691589475=:1846
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
 
 On Wed, 9 Aug 2023, Sui Jingfeng wrote:
 
 > From: Sui Jingfeng <suijingfeng@loongson.cn>
 > 
-> The io_state variable in the vga_arb_write() function is declared with
-> unsigned int type, while the vga_str_to_iostate() function takes 'int *'
-> type. To keep them consistent, this patch replaceis the third argument of
-> vga_str_to_iostate() function with 'unsigned int *' type.
+> Because there is no good way to get the mask member used to searching for
+> devices that conform to a specific PCI class code, an application needs to
+> process all PCI display devices can achieve its goal as follows:
+
+This is mixing old and new way in a single sentence (which is confusing)?
+ 
+> pdev = NULL;
+> do {
+> 	pdev = pci_get_class_masked(PCI_BASE_CLASS_DISPLAY << 16, 0xFF0000, pdev);
+> 	if (pdev)
+> 		do_something_for_pci_display_device(pdev);
+> } while (pdev);
 > 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> While previously, we just can not ignore Sub-Class code and the Programming
+
+cannot
+
+> Interface byte when do the searching.
+
+doing the search.
+
+> 
 > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 > ---
->  drivers/pci/vgaarb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/pci/search.c | 30 ++++++++++++++++++++++++++++++
+>  include/linux/pci.h  |  7 +++++++
+>  2 files changed, 37 insertions(+)
 > 
-> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index 5a696078b382..c1bc6c983932 100644
-> --- a/drivers/pci/vgaarb.c
-> +++ b/drivers/pci/vgaarb.c
-> @@ -77,7 +77,7 @@ static const char *vga_iostate_to_str(unsigned int iostate)
->  	return "none";
+> diff --git a/drivers/pci/search.c b/drivers/pci/search.c
+> index b4c138a6ec02..f1c15aea868b 100644
+> --- a/drivers/pci/search.c
+> +++ b/drivers/pci/search.c
+> @@ -334,6 +334,36 @@ struct pci_dev *pci_get_device(unsigned int vendor, unsigned int device,
 >  }
+>  EXPORT_SYMBOL(pci_get_device);
 >  
-> -static int vga_str_to_iostate(char *buf, int str_size, int *io_state)
-> +static int vga_str_to_iostate(char *buf, int str_size, unsigned int *io_state)
->  {
->  	/* we could in theory hand out locks on IO and mem
->  	 * separately to userspace but it can cause deadlocks */
+> +/**
+> + * pci_get_class_masked - begin or continue searching for a PCI device by class and mask
+> + * @class: search for a PCI device with this class designation
+> + * @from: Previous PCI device found in search, or %NULL for new search.
+> + *
+> + * Iterates through the list of known PCI devices.  If a PCI device is
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+No double spaces in kernel comments. Perhaps your editor might be adding 
+them on reflow (might be configurable to not do that).
+
+> + * found with a matching @class, the reference count to the device is
+> + * incremented and a pointer to its device structure is returned.
+> + * Otherwise, %NULL is returned.
+> + * A new search is initiated by passing %NULL as the @from argument.
+> + * Otherwise if @from is not %NULL, searches continue from next device
+> + * on the global list.  The reference count for @from is always decremented
+> + * if it is not %NULL.
+
+Use kerneldoc's Return: section for describing return value.
+
+> + */
+> +struct pci_dev *pci_get_class_masked(unsigned int class, unsigned int mask,
+> +				     struct pci_dev *from)
+> +{
+> +	struct pci_device_id id = {
+> +		.vendor = PCI_ANY_ID,
+> +		.device = PCI_ANY_ID,
+> +		.subvendor = PCI_ANY_ID,
+> +		.subdevice = PCI_ANY_ID,
+> +		.class_mask = mask,
+> +		.class = class,
+> +	};
+> +
+> +	return pci_get_dev_by_id(&id, from);
+> +}
+> +EXPORT_SYMBOL(pci_get_class_masked);
+> +
+>  /**
+>   * pci_get_class - begin or continue searching for a PCI device by class
+>   * @class: search for a PCI device with this class designation
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 0ff7500772e6..b20e7ba844bf 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1180,6 +1180,9 @@ struct pci_dev *pci_get_slot(struct pci_bus *bus, unsigned int devfn);
+>  struct pci_dev *pci_get_domain_bus_and_slot(int domain, unsigned int bus,
+>  					    unsigned int devfn);
+>  struct pci_dev *pci_get_class(unsigned int class, struct pci_dev *from);
+> +struct pci_dev *pci_get_class_masked(unsigned int class, unsigned int mask,
+> +				     struct pci_dev *from);
+> +
+>  int pci_dev_present(const struct pci_device_id *ids);
+>  
+>  int pci_bus_read_config_byte(struct pci_bus *bus, unsigned int devfn,
+> @@ -1895,6 +1898,10 @@ static inline struct pci_dev *pci_get_class(unsigned int class,
+>  					    struct pci_dev *from)
+>  { return NULL; }
+>  
+> +static inline struct pci_dev *pci_get_class_masked(unsigned int class,
+> +						   unsigned int mask,
+> +						   struct pci_dev *from)
+> +{ return NULL; }
+>  
+>  static inline int pci_dev_present(const struct pci_device_id *ids)
+>  { return 0; }
+> 
 
 -- 
  i.
 
---8323329-939066835-1691589475=:1846--
