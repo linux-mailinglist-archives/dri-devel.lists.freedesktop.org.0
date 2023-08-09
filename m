@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C49C77659C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 18:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 738657765A2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 18:54:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9906E10E470;
-	Wed,  9 Aug 2023 16:53:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E48410E47E;
+	Wed,  9 Aug 2023 16:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A373C10E470
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 16:53:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F01C10E46B
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 16:53:40 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 009846607220;
- Wed,  9 Aug 2023 17:53:37 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A6106607221;
+ Wed,  9 Aug 2023 17:53:38 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1691600018;
- bh=oyr+Q5JkVlDr0hn9NB2iEQKR0zqIMJ103x1XzeIjPYg=;
+ s=mail; t=1691600019;
+ bh=pd3BoPTp7ZUA6xth/73DzUhdA692/Sn0PVE63/KUwUc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bigBeoe7YiEdbhZUkCe+IhMEI1cdKtV/ixtXRvbziqyC3InmutJ9PXHM0Wp7K6jD/
- taOScYeFLw0huEammrY4G2G9Fdn8C3L90sQAYqEQ5XzvQt3EtqbkCrDxidjLUZmGXq
- 0//IKRKhyEQCIXfRkKcsTpq1XC1k+McnmP/d3qkh6wWF4vmaJGXzUZ24D8EmHqJnyc
- u1GasVMsqdHyFREbgjvtBfvVUG17mqzcB/amN6chtrRWdRfcNrE6c6/JXi+aKo28GC
- ZVrXxCrmpdAydQjqwWM8OqqpeJF4b7PGOn9NrjF/2NMKi4Gc/Fa5/KhmY1Zy5rb5KY
- f2MXMh5Wv0UYw==
+ b=NloPC5TgWiK/6BFqRf09B9no+Vqha+7DIs4uEnhqEHds4PWE6xQCMTUvHkmdyv9rE
+ Y3lR+roskZc4nrok9LxsoBUNWOUu11JQ40LOAU/VL3f1HST1Y4uv35V9u3EhceJ4k5
+ 4kwg/MBtOycKL3udNGkFeOFhYlPL8XyMjgNbHzjZACbQGW9vFCcSersFpqEkEzJ1Th
+ wdBTC+B8BeY4JvnTpzcJKR8111mMml6LETJa2IKlg3cqiwILOuuWBMKYHDKGUpQMpO
+ g8sO/pCTsR1WrBlgmnit7eJcXWi7x0Ci1p7YWX9YK7aPl3u00Bf92n/K5nOl0w46Ph
+ 71M+ZNJHAtyig==
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 08/15] drm/panthor: Add the MMU/VM logical block
-Date: Wed,  9 Aug 2023 18:53:21 +0200
-Message-ID: <20230809165330.2451699-9-boris.brezillon@collabora.com>
+Subject: [PATCH v2 09/15] drm/panthor: Add the FW logical block
+Date: Wed,  9 Aug 2023 18:53:22 +0200
+Message-ID: <20230809165330.2451699-10-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230809165330.2451699-1-boris.brezillon@collabora.com>
 References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,2751 +64,1964 @@ Cc: Nicolas Boichat <drinkcat@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MMU and VM management is related and placed in the same source file.
+Contains everything that's FW related, that includes the code dealing
+with the microcontroller unit (MCU) that's running the FW, and anything
+related to allocating memory shared between the FW and the CPU.
 
-Page table updates are delegated to the io-pgtable-arm driver that's in
-the iommu subsystem.
-
-The VM management logic is based on drm_gpuva_mgr, and is assuming the
-VA space is mostly managed by the usermode driver, except for a reserved
-portion of this VA-space that's used for kernel objects (like the heap
-contexts/chunks).
-
-Both asynchronous and synchronous VM operations are supported, and
-internal helpers are exposed to allow other logical blocks to map their
-buffers in the GPU VA space.
-
-There's one VM_BIND queue per-VM (meaning the Vulkan driver can only
-expose one sparse-binding queue), and this bind queue is managed with
-a 1:1 drm_sched_entity:drm_gpu_scheduler, such that each VM gets its own
-independent execution queue, avoiding VM operation serialization at the
-device level (things are still serialized at the VM level).
-
-The rest is just implementation details that are hopefully well explained
-in the documentation.
+A few global FW events are processed in the IRQ handler, the rest is
+forwarded to the scheduler, since scheduling is the primary reason for
+the FW existence, and also the main source of FW <-> kernel
+interactions.
 
 v2:
 - Rename the driver (pancsf -> panthor)
+- Rename the file (_mcu -> _fw)
 - Change the license (GPL2 -> MIT + GPL2)
 - Split the driver addition commit
 - Document the code
-- Use drm_gpuva_mgr
-- Replace VM_MAP/UNMAP by VM_BIND
-- Add support for asynchronous VM_BIND (VM_BIND queue implemented with
-  drm_sched)
 - Use drm_dev_{unplug,enter,exit}() to provide safe device removal
 - Use the panthor_irq layer to manage/process IRQs
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 2611 +++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_mmu.h |   81 +
- 2 files changed, 2692 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
+ drivers/gpu/drm/panthor/panthor_fw.c | 1417 ++++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_fw.h |  505 +++++++++
+ 2 files changed, 1922 insertions(+)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
 new file mode 100644
-index 000000000000..3ba784473023
+index 000000000000..359a68f7af03
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -0,0 +1,2611 @@
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -0,0 +1,1417 @@
 +// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
 +/* Copyright 2023 Collabora ltd. */
 +
-+#include <drm/drm_debugfs.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_exec.h>
-+#include <drm/drm_gpuva_mgr.h>
-+#include <drm/drm_managed.h>
-+#include <drm/gpu_scheduler.h>
-+#include <drm/panthor_drm.h>
-+
-+#include <linux/atomic.h>
-+#include <linux/bitfield.h>
-+#include <linux/delay.h>
++#include <linux/clk.h>
 +#include <linux/dma-mapping.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
++#include <linux/firmware.h>
 +#include <linux/iopoll.h>
-+#include <linux/io-pgtable.h>
-+#include <linux/iommu.h>
-+#include <linux/kmemleak.h>
++#include <linux/iosys-map.h>
++#include <linux/mutex.h>
 +#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/rwsem.h>
-+#include <linux/shmem_fs.h>
-+#include <linux/sizes.h>
++
++#include <drm/drm_drv.h>
++#include <drm/drm_managed.h>
 +
 +#include "panthor_device.h"
-+#include "panthor_heap.h"
++#include "panthor_gem.h"
++#include "panthor_gpu.h"
++#include "panthor_regs.h"
++#include "panthor_fw.h"
 +#include "panthor_mmu.h"
 +#include "panthor_sched.h"
-+#include "panthor_gem.h"
-+#include "panthor_regs.h"
 +
-+#define MAX_AS_SLOTS			32
++#define CSF_FW_NAME "mali_csffw.bin"
 +
-+struct panthor_vm;
++#define PING_INTERVAL_MS			12000
++#define PROGRESS_TIMEOUT_CYCLES			(5ull * 500 * 1024 * 1024)
++#define PROGRESS_TIMEOUT_SCALE_SHIFT		10
++#define IDLE_HYSTERESIS_US			800
++#define PWROFF_HYSTERESIS_US			10000
 +
 +/**
-+ * struct panthor_as_slot - Address space slot
++ * struct panthor_fw_mem - FW memory
 + */
-+struct panthor_as_slot {
-+	/** @vm: VM bound to this slot. NULL is no VM is bound. */
-+	struct panthor_vm *vm;
++struct panthor_fw_mem {
++	/** @bo: Buffer object backing the FW memory. */
++	struct panthor_gem_object *bo;
 +
-+	/** @lock: Lock used to serialize access to the AS registers. */
-+	spinlock_t lock;
++	/** @kmap: Kernel CPU mapping of the FW memory. */
++	void *kmap;
++
++	/** @va: MCU mapping of the FW memory. */
++	u64 va;
 +};
 +
 +/**
-+ * struct panthor_mmu - MMU related data
++ * struct panthor_fw_binary_hdr - Firmware binary header.
 + */
-+struct panthor_mmu {
-+	/** @irq: The MMU irq. */
-+	struct panthor_irq irq;
++struct panthor_fw_binary_hdr {
++	/** @magic: Magic value to check binary validity. */
++	u32 magic;
++#define CSF_FW_BINARY_HEADER_MAGIC		0xc3f13a6e
 +
-+	/** @as: Address space related fields.
-+	 *
-+	 * The GPU has a limited number of address spaces (AS) slots, forcing
-+	 * us to re-assign them to re-assign slots on-demand.
-+	 */
-+	struct {
-+		/** @slots_lock: Lock protecting access to all other AS fields. */
-+		struct mutex slots_lock;
++	/** @minor: Minor FW version. */
++	u8 minor;
 +
-+		/** @alloc_mask: Bitmask encoding the allocated slots. */
-+		unsigned long alloc_mask;
++	/** @major: Major FW version. */
++	u8 major;
++#define CSF_FW_BINARY_HEADER_MAJOR_MAX		0
 +
-+		/** @faulty_mask: Bitmask encoding the faulty slots. */
-+		unsigned long faulty_mask;
++	/** @padding1: MBZ. */
++	u16 padding1;
 +
-+		/** @slots: VMs currently bound to the AS slots. */
-+		struct panthor_as_slot slots[MAX_AS_SLOTS];
++	/** @version_hash: FW version hash. */
++	u32 version_hash;
 +
-+		/**
-+		 * @lru_list: List of least recently used VMs.
-+		 *
-+		 * We use this list to pick a VM to evict when all slots are
-+		 * used.
-+		 *
-+		 * There should be no more active VMs than there are AS slots,
-+		 * so this LRU is just here to keep VMs bound until there's
-+		 * a need to release a slot, thus avoid unnecessary TLB/cache
-+		 * flushes.
-+		 */
-+		struct list_head lru_list;
-+	} as;
++	/** @padding2: MBZ. */
++	u32 padding2;
 +
-+	/** @vm: VMs management fields */
-+	struct {
-+		/** @lock: Lock protecting access to list. */
-+		struct mutex lock;
-+
-+		/** @list: List containing all VMs. */
-+		struct list_head list;
-+
-+		/** @reset_in_progress: True if a reset is in progress. */
-+		bool reset_in_progress;
-+
-+		/** @wq: Workqueue used for the VM_BIND queues. */
-+		struct workqueue_struct *wq;
-+	} vm;
++	/** @size: FW binary size. */
++	u32 size;
 +};
 +
 +/**
-+ * struct panthor_vm_pool - VM pool object
++ * enum panthor_fw_binary_entry_type - Firmware binary entry type
 + */
-+struct panthor_vm_pool {
-+	/** @xa: Array used for VM handle tracking. */
-+	struct xarray xa;
++enum panthor_fw_binary_entry_type {
++	/** @CSF_FW_BINARY_ENTRY_TYPE_IFACE: Host <-> FW interface. */
++	CSF_FW_BINARY_ENTRY_TYPE_IFACE = 0,
++
++	/** @CSF_FW_BINARY_ENTRY_TYPE_CONFIG: FW config. */
++	CSF_FW_BINARY_ENTRY_TYPE_CONFIG = 1,
++
++	/** @CSF_FW_BINARY_ENTRY_TYPE_FUTF_TEST: Unit-tests. */
++	CSF_FW_BINARY_ENTRY_TYPE_FUTF_TEST = 2,
++
++	/** @CSF_FW_BINARY_ENTRY_TYPE_TRACE_BUFFER: Trace buffer interface. */
++	CSF_FW_BINARY_ENTRY_TYPE_TRACE_BUFFER = 3,
++
++	/** @CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA: Timeline metadata interface. */
++	CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA = 4,
 +};
 +
++#define CSF_FW_BINARY_ENTRY_TYPE(ehdr)					((ehdr) & 0xff)
++#define CSF_FW_BINARY_ENTRY_SIZE(ehdr)					(((ehdr) >> 8) & 0xff)
++#define CSF_FW_BINARY_ENTRY_UPDATE					BIT(30)
++#define CSF_FW_BINARY_ENTRY_OPTIONAL					BIT(31)
++
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_RD					BIT(0)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_WR					BIT(1)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_EX					BIT(2)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_NONE			(0 << 3)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED			(1 << 3)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_UNCACHED_COHERENT	(2 << 3)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED_COHERENT		(3 << 3)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK			GENMASK(4, 3)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_PROT				BIT(5)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED				BIT(30)
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO				BIT(31)
++
++#define CSF_FW_BINARY_IFACE_ENTRY_RD_SUPPORTED_FLAGS			\
++	(CSF_FW_BINARY_IFACE_ENTRY_RD_RD |				\
++	 CSF_FW_BINARY_IFACE_ENTRY_RD_WR |				\
++	 CSF_FW_BINARY_IFACE_ENTRY_RD_EX |				\
++	 CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK |			\
++	 CSF_FW_BINARY_IFACE_ENTRY_RD_PROT |				\
++	 CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED  |				\
++	 CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO)
++
 +/**
-+ * struct panthor_vma - GPU mapping object
-+ *
-+ * This is used to track GEM mappings in GPU space.
++ * struct panthor_fw_binary_section_entry_hdr - Describes a section of FW binary
 + */
-+struct panthor_vma {
-+	/** @base: Inherits from drm_gpuva. */
-+	struct drm_gpuva base;
-+
-+	/** @node: Used to insert the mapping in the panthor_vm::shared_bos list. */
-+	struct list_head node;
-+
-+	/**
-+	 * @flags: Combination of drm_panthor_vm_bind_op_flags.
-+	 *
-+	 * Only map related flags are accepted.
-+	 */
-+	u32 flags;
-+};
-+
-+/**
-+ * struct panthor_vm_op_ctx - VM operation context
-+ *
-+ * With VM operations potentially taking place in a dma-signaling path, we
-+ * need to make sure everything that might require resource allocation is
-+ * pre-allocated upfront. This is what this operation context is far.
-+ *
-+ * We also collect resources that have been freed, so we can release them
-+ * asynchronously, and let the VM_BIND scheduler process the next VM_BIND
-+ * request.
-+ */
-+struct panthor_vm_op_ctx {
-+	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
-+	struct {
-+		/** @count: Number of pages reserved. */
-+		u32 count;
-+
-+		/** @ptr: Point to the first unused page in the @pages table. */
-+		u32 ptr;
-+
-+		/**
-+		 * @page: Array of pages that can be used for an MMU page table update.
-+		 *
-+		 * After an VM operation, there might be free pages left in this array.
-+		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
-+		 */
-+		void **pages;
-+	} rsvd_page_tables;
-+
-+	/** @flags: Combination of drm_panthor_vm_bind_op_flags. */
++struct panthor_fw_binary_section_entry_hdr {
++	/** @flags: Section flags. */
 +	u32 flags;
 +
-+	/** @va: Virtual range targeted by the VM operation. */
++	/** @va: MCU virtual range to map this binary section to. */
 +	struct {
-+		/** @addr: Start address. */
-+		u64 addr;
++		/** @start: Start address. */
++		u32 start;
 +
-+		/** @range: Range size. */
-+		u64 range;
++		/** @end: End address. */
++		u32 end;
 +	} va;
 +
-+	/**
-+	 * @returned_vmas: List of panthor_vma objects returned after a VM operation.
-+	 *
-+	 * For unmap operations, this will contain all VMAs that were covered by the
-+	 * specified VA range.
-+	 *
-+	 * For map operations, this will contain all VMAs that previously mapped to
-+	 * the specified VA range.
-+	 *
-+	 * Those VMAs, and the resources they point to will be released as part of
-+	 * the op_ctx cleanup operation.
-+	 */
-+	struct list_head returned_vmas;
-+
-+	/** @map: Fields specific to a map operation. */
++	/** @data: Data to initialize the FW section with. */
 +	struct {
-+		/** @gem: GEM object information. */
-+		struct {
-+			/** @obj: GEM object to map. */
-+			struct drm_gem_object *obj;
++		/** @start: Start offset in the FW binary. */
++		u32 start;
 +
-+			/** @offset: Offset in the GEM object. */
-+			u64 offset;
-+		} gem;
-+
-+		/**
-+		 * @sgt: sg-table pointing to pages backing the GEM object.
-+		 *
-+		 * This is gathered at job creation time, such that we don't have
-+		 * to allocate in ::run_job().
-+		 */
-+		struct sg_table *sgt;
-+
-+		/**
-+		 * @prev_vma: Pre-allocated VMA object to deal with a remap situation.
-+		 *
-+		 * If the map request covers a region that's inside another VMA, the
-+		 * previous VMA will be split, requiring instantiation of a maximum of
-+		 * two new VMA objects.
-+		 */
-+		struct panthor_vma *prev_vma;
-+
-+		/**
-+		 * @new_vma: The new VMA object that will be inserted to the VA tree.
-+		 */
-+		struct panthor_vma *new_vma;
-+
-+		/**
-+		 * @next_vma: Pre-allocated VMA object to deal with a remap situation.
-+		 *
-+		 * See @prev_vma.
-+		 */
-+		struct panthor_vma *next_vma;
-+	} map;
++		/** @end: End offset in the FW binary. */
++		u32 end;
++	} data;
 +};
 +
 +/**
-+ * struct panthor_vm - VM object
++ * struct panthor_fw_binary_iter - Firmware binary iterator
 + *
-+ * A VM is an object representing a GPU (or MCU) virtual address space.
-+ * It embeds the MMU page table for this address space, a tree containing
-+ * all the virtual mappings of GEM objects, and other things needed to manage
-+ * the VM.
-+ *
-+ * Except for the MCU VM, which is managed by the kernel, all other VMs are
-+ * created by userspace and mostly managed by userspace, using the
-+ * %DRM_IOCTL_PANTHOR_VM_BIND ioctl.
-+ *
-+ * A portion of the virtual address space is reserved for kernel objects,
-+ * like heap chunks, and userspace gets to decide how much of the virtual
-+ * address space is left to the kernel (half of the virtual address space
-+ * by default).
++ * Used to parse a firmware binary.
 + */
-+struct panthor_vm {
-+	/**
-+	 * @va_mgr: GPU VA manager.
-+	 *
-+	 * We delegate all the VA management to the common drm_gpuva_mgr framework
-+	 * and only implement hooks to update the MMU page table.
-+	 */
-+	struct drm_gpuva_manager va_mgr;
++struct panthor_fw_binary_iter {
++	/** @data: FW binary data. */
++	const void *data;
 +
-+	/**
-+	 * @sched: Scheduler used for asynchronous VM_BIND request.
-+	 *
-+	 * We use a 1:1 scheduler here.
-+	 */
-+	struct drm_gpu_scheduler sched;
++	/** @size: FW binary size. */
++	size_t size;
 +
-+	/**
-+	 * @entity: Scheduling entity representing the VM_BIND queue.
-+	 *
-+	 * There's currently one bind queue per VM. It doesn't make sense to
-+	 * allow more given the VM operations are serialized anyway.
-+	 */
-+	struct drm_sched_entity entity;
++	/** @offset: Iterator offset. */
++	size_t offset;
++};
 +
-+	/** @ptdev: Device. */
-+	struct panthor_device *ptdev;
-+
-+	/** @refcount: Reference count. */
-+	struct kref refcount;
-+
-+	/** @memattr: Value to program to the AS_MEMATTR register. */
-+	u64 memattr;
-+
-+	/** @pgtbl_ops: Page table operations. */
-+	struct io_pgtable_ops *pgtbl_ops;
-+
-+	/**
-+	 * @dummy_gem: Used as a VM reservation object.
-+	 *
-+	 * We declare a drm_gem_object and no a dma_resv, so we can use drm_exec()
-+	 * for the VM reservation.
-+	 *
-+	 * All private BOs use the resv of this dummy GEM object instead of
-+	 * drm_gem_object::_resv, such that private GEM preparation is O(1)
-+	 * instead of O(N).
-+	 */
-+	struct drm_gem_object dummy_gem;
-+
-+	/**
-+	 * @op_lock: Lock used to serialize operations on a VM.
-+	 *
-+	 * The serialization of jobs queued to the VM_BIND queue is already
-+	 * taken care of by drm_sched, but we need to serialize synchronous
-+	 * and asynchronous VM_BIND request. This is what this lock is for.
-+	 */
-+	struct mutex op_lock;
-+
-+	/**
-+	 * @op_ctx: The context attached to the currently executing VM operation.
-+	 *
-+	 * NULL when no operation is in progress.
-+	 */
-+	struct panthor_vm_op_ctx *op_ctx;
-+
-+	/**
-+	 * @shared_bos: List of shared BOs.
-+	 *
-+	 * Shared BOs don't use the VM resv, and need to be prepared
-+	 * independently. This list keeps track of all VMAs that target
-+	 * non-private BOs.
-+	 *
-+	 * There might be duplicates, but drm_exec and dma_resv should
-+	 * handle that for us.
-+	 *
-+	 * TODO: This is not optimal. We should probably switch to the
-+	 * drm_gpuva_mgr solution for handling shared BOs once it's
-+	 * ready.
-+	 */
-+	struct list_head shared_bos;
-+
-+	/**
-+	 * @mm: Memory management object representing the auto-VA/kernel-VA.
-+	 *
-+	 * Used to auto-allocate VA space for kernel-managed objects (tiler
-+	 * heaps, ...).
-+	 *
-+	 * For the MCU VM, this is managing the VA range that's used to map
-+	 * all shared interfaces.
-+	 *
-+	 * For user VMs, the range is specified by userspace, and must not
-+	 * exceed half of the VA space addressable.
-+	 */
-+	struct drm_mm mm;
-+
-+	/** @mm_lock: Lock protecting the @mm field. */
-+	struct mutex mm_lock;
-+
-+	/** @as: Address space related fields. */
-+	struct {
-+		/**
-+		 * @id: ID of the address space this VM is bound to.
-+		 *
-+		 * A value of -1 means the VM is inactive/not bound.
-+		 */
-+		int id;
-+
-+		/**
-+		 * @lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
-+		 *
-+		 * Active VMs should not be inserted in the LRU list.
-+		 */
-+		struct list_head lru_node;
-+	} as;
-+
-+	/**
-+	 * @heaps: Tiler heap related fields.
-+	 */
-+	struct {
-+		/**
-+		 * @pool: The heap pool attached to this VM.
-+		 *
-+		 * Will stay NULL until someone creates a heap context on this VM.
-+		 */
-+		struct panthor_heap_pool *pool;
-+
-+		/** @lock: Lock used to protect access to @pool. */
-+		struct mutex lock;
-+	} heaps;
-+
-+	/** @node: Used to insert the VM in the panthor_mmu::vm::list. */
++/**
++ * struct panthor_fw_section - FW section
++ */
++struct panthor_fw_section {
++	/** @node: Used to keep track of FW sections. */
 +	struct list_head node;
 +
-+	/** @for_mcu: True if this is the MCU VM. */
-+	bool for_mcu;
++	/** @flags: Section flags, as encoded in the FW binary. */
++	u32 flags;
++
++	/** @mem: Section memory. */
++	struct panthor_fw_mem *mem;
 +
 +	/**
-+	 * @destroyed: True if the VM was destroyed.
++	 * @name: Name of the section, as specified in the binary.
 +	 *
-+	 * No further bind requests should be queued to a destroyed VM.
++	 * Can be NULL.
 +	 */
-+	bool destroyed;
++	const char *name;
 +
 +	/**
-+	 * @unusable: True if the VM has turned unusable because something
-+	 * bad happened during an asynchronous request.
++	 * @data: Initial data copied to the FW memory.
 +	 *
-+	 * We don't try to recover from such failures, because this implies
-+	 * informing userspace about the specific operation that failed, and
-+	 * hoping the userspace driver can replay things from there. This all
-+	 * sounds very complicated for little gain.
-+	 *
-+	 * Instead, we should just flag the VM as unusable, and fail any
-+	 * further request targeting this VM.
-+	 *
-+	 * We also provide a way to query a VM state, so userspace can destroy
-+	 * it and create a new one.
-+	 *
-+	 * As an analogy, this would be mapped to a VK_ERROR_DEVICE_LOST
-+	 * situation, where the logical device needs to be re-created.
++	 * We keep data around so we can reload sections after a reset.
 +	 */
-+	bool unusable;
++	struct {
++		/** @buf: Buffed used to store init data. */
++		const void *buf;
++
++		/** @size: Size of @buf in bytes. */
++		size_t size;
++	} data;
++};
++
++#define CSF_MCU_SHARED_REGION_START		0x04000000ULL
++#define CSF_MCU_SHARED_REGION_SIZE		0x04000000ULL
++
++#define MIN_CS_PER_CSG				8
++#define MIN_CSGS				3
++#define MAX_CSG_PRIO				0xf
++
++#define CSF_IFACE_VERSION(major, minor, patch)	\
++	(((major) << 24) | ((minor) << 16) | (patch))
++#define CSF_IFACE_VERSION_MAJOR(v)		((v) >> 24)
++#define CSF_IFACE_VERSION_MINOR(v)		(((v) >> 16) & 0xff)
++#define CSF_IFACE_VERSION_PATCH(v)		((v) & 0xffff)
++
++#define CSF_GROUP_CONTROL_OFFSET		0x1000
++#define CSF_STREAM_CONTROL_OFFSET		0x40
++#define CSF_UNPRESERVED_REG_COUNT		4
++
++/**
++ * struct panthor_fw_iface - FW interfaces
++ */
++struct panthor_fw_iface {
++	/** @global: Global interface. */
++	struct panthor_fw_global_iface global;
++
++	/** @groups: Group slot interfaces. */
++	struct panthor_fw_csg_iface groups[MAX_CSGS];
++
++	/** @streams: Command stream slot interfaces. */
++	struct panthor_fw_cs_iface streams[MAX_CSGS][MAX_CS_PER_CSG];
 +};
 +
 +/**
-+ * struct panthor_vm_bind_job - VM bind job
++ * struct panthor_fw - Firmware management
 + */
-+struct panthor_vm_bind_job {
-+	/** @base: Inherit from drm_sched_job. */
-+	struct drm_sched_job base;
-+
-+	/** @refcount: Reference count. */
-+	struct kref refcount;
-+
-+	/** @cleanup_op_ctx_work: Work used to cleanup the VM operation context. */
-+	struct work_struct cleanup_op_ctx_work;
-+
-+	/** @vm: VM targeted by the VM operation. */
++struct panthor_fw {
++	/** @vm: MCU VM. */
 +	struct panthor_vm *vm;
 +
-+	/** @ctx: Operation context. */
-+	struct panthor_vm_op_ctx ctx;
++	/** @sections: List of FW sections. */
++	struct list_head sections;
++
++	/** @shared_section: The section containing the FW interfaces. */
++	struct panthor_fw_section *shared_section;
++
++	/** @iface: FW interfaces. */
++	struct panthor_fw_iface iface;
++
++	/** @watchdog: Collection of fields relating to the FW watchdog. */
++	struct {
++		/** @ping_work: Delayed work used to ping the FW. */
++		struct delayed_work ping_work;
++	} watchdog;
++
++	/**
++	 * @waitqueues: Request waitqueues.
++	 *
++	 * Everytime a request is sent to a command stream group or the global
++	 * interface, the caller will first busy wait for the request to be
++	 * acknowledged, and then fallback to a sleeping wait.
++	 *
++	 * Those wait queues are here to support the sleeping wait flavor.
++	 *
++	 * Entry 31 is the global waitqueue, the other ones are the command
++	 * stream group slot waitqueues.
++	 */
++	wait_queue_head_t waitqueues[32];
++
++	/** @booted: True is the FW is booted */
++	bool booted;
++
++	/**
++	 * @fast_reset: True if the post_reset logic can proceed with a fast reset.
++	 *
++	 * A fast reset is just a reset where the driver doesn't reload the FW sections.
++	 *
++	 * Any time the firmware is properly suspended, a fast reset can take place.
++	 * On the other hand, if the halt operation failed, the driver will reload
++	 * all sections to make sure we start from a fresh state.
++	 */
++	bool fast_reset;
++
++	/** @irq: Job irq data. */
++	struct panthor_irq irq;
 +};
 +
 +/**
-+ * @pt_cache: Cache used to allocate MMU page tables.
++ * panthor_fw_get_glb_iface() - Get the global interface
++ * @ptdev: Device.
 + *
-+ * The pre-allocation pattern forces us to over-allocate to plan for
-+ * the worst case scenario, and return the pages we didn't use.
-+ *
-+ * Having a kmem_cache allows us to speed allocations.
++ * Return: The global interface.
 + */
-+static struct kmem_cache *pt_cache;
++struct panthor_fw_global_iface *
++panthor_fw_get_glb_iface(struct panthor_device *ptdev)
++{
++	return &ptdev->fw->iface.global;
++}
 +
 +/**
-+ * alloc_pt() - Custom page table allocator
-+ * @cookie: Cookie passed at page table allocation time.
-+ * @size: Size of the page table. This size should be fixed,
-+ * and determined at creation time based on the granule size.
-+ * @gfp: GFP flags.
++ * panthor_fw_get_glb_iface() - Get a command stream group slot interface
++ * @ptdev: Device.
++ * @csg_slot: Index of the command stream group slot.
 + *
-+ * We want a custom allocator so we can use a cache for page table
-+ * allocations and amortize the cost of the over-reservation that's
-+ * done to allow asynchronous VM operations.
-+ *
-+ * Return: non-NULL on success, NULL if the allocation failed for any
-+ * reason.
++ * Return: The command stream group slot interface.
 + */
-+static void *alloc_pt(void *cookie, size_t size, gfp_t gfp)
++struct panthor_fw_csg_iface *
++panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot)
 +{
-+	struct panthor_vm *vm = cookie;
-+	void *page;
-+
-+	/* We're not supposed to have anything bigger than 4k here, because we picked a
-+	 * 4k granule size at init time.
-+	 */
-+	if (drm_WARN_ON(&vm->ptdev->base, size != SZ_4K))
++	if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS))
 +		return NULL;
 +
-+	/* Allocation of the root page table happening during init. */
-+	if (!vm->pgtbl_ops) {
-+		drm_WARN_ON(&vm->ptdev->base, vm->op_ctx);
-+		page = kmem_cache_alloc(pt_cache, gfp);
-+		goto out;
-+	}
++	return &ptdev->fw->iface.groups[csg_slot];
++}
 +
-+	/* We must have some op_ctx attached to the VM and it must have at least one
-+	 * free page.
-+	 */
-+	if (drm_WARN_ON(&vm->ptdev->base, !vm->op_ctx) ||
-+	    drm_WARN_ON(&vm->ptdev->base,
-+			vm->op_ctx->rsvd_page_tables.ptr >= vm->op_ctx->rsvd_page_tables.count))
++/**
++ * panthor_fw_get_glb_iface() - Get a command stream slot interface
++ * @ptdev: Device.
++ * @csg_slot: Index of the command stream group slot.
++ * @cs_slot: Index of the command stream slot.
++ *
++ * Return: The command stream slot interface.
++ */
++struct panthor_fw_cs_iface *
++panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot)
++{
++	if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS || cs_slot > MAX_CS_PER_CSG))
 +		return NULL;
 +
-+	page = vm->op_ctx->rsvd_page_tables.pages[vm->op_ctx->rsvd_page_tables.ptr++];
-+	memset(page, 0, SZ_4K);
-+
-+out:
-+	/* Page table entries don't use virtual addresses, which trips out
-+	 * kmemleak. kmemleak_alloc_phys() might work, but physical addresses
-+	 * are mixed with other fields, and I fear kmemleak won't detect that
-+	 * either.
-+	 *
-+	 * Let's just ignore memory passed to the page-table driver for now.
-+	 */
-+	kmemleak_ignore(page);
-+	return page;
++	return &ptdev->fw->iface.streams[csg_slot][cs_slot];
 +}
 +
 +/**
-+ * @free_pt() - Custom page table free function
-+ * @cookie: Cookie passed at page table allocation time.
-+ * @data: Page table to free.
-+ * @size: Size of the page table. This size should be fixed,
-+ * and determined at creation time based on the granule size.
++ * panthor_fw_conv_timeout() - Convert a timeout into a cycle-count
++ * @ptdev: Device.
++ * @timeout_us: Timeout expressed in micro-seconds.
++ *
++ * The FW has two timer sources: the GPU counter or arch-timer. We need
++ * to express timeouts in term of number of cycles and specify which
++ * timer source should be used.
++ *
++ * Return: A value suitable for timeout fields in the global interface.
 + */
-+static void free_pt(void *cookie, void *data, size_t size)
++static u32 panthor_fw_conv_timeout(struct panthor_device *ptdev, u32 timeout_us)
 +{
-+	struct panthor_vm *vm = cookie;
++	bool use_cycle_counter = false;
++	u32 timer_rate = 0;
++	u64 cycles;
 +
-+	if (drm_WARN_ON(&vm->ptdev->base, size != SZ_4K))
++#ifdef CONFIG_ARM_ARCH_TIMER
++	timer_rate = arch_timer_get_cntfrq();
++#endif
++
++	if (!timer_rate) {
++		use_cycle_counter = true;
++		timer_rate = clk_get_rate(ptdev->clks.core);
++	}
++
++	if (drm_WARN_ON(&ptdev->base, !timer_rate)) {
++		/* We couldn't get a valid clock rate, let's just pick the
++		 * maximum value so the FW still handles the core
++		 * power on/off requests.
++		 */
++		return GLB_TIMER_VAL(0x7fffffff) |
++		       GLB_TIMER_SOURCE_GPU_COUNTER;
++	}
++
++	cycles = DIV_ROUND_UP_ULL((u64)timeout_us * timer_rate, 1000000);
++	return GLB_TIMER_VAL(cycles >> 10) |
++	       (use_cycle_counter ? GLB_TIMER_SOURCE_GPU_COUNTER : 0);
++}
++
++static int panthor_fw_binary_iter_read(struct panthor_device *ptdev,
++				       struct panthor_fw_binary_iter *iter,
++				       void *out, size_t size)
++{
++	size_t new_offset = iter->offset + size;
++
++	if (new_offset > iter->size || new_offset < iter->offset) {
++		drm_err(&ptdev->base, "Firmware too small\n");
++		return -EINVAL;
++	}
++
++	memcpy(out, iter->data + iter->offset, size);
++	iter->offset = new_offset;
++	return 0;
++}
++
++static void panthor_fw_init_section_mem(struct panthor_device *ptdev,
++					struct panthor_fw_section *section)
++{
++	bool was_mapped = !!section->mem->kmap;
++	void *kmap;
++
++	if (!section->data.size &&
++	    !(section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO))
 +		return;
 +
-+	/* Return the page to the pt_cache. */
-+	kmem_cache_free(pt_cache, data);
-+}
-+
-+static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
-+{
-+	int ret;
-+	u32 val;
-+
-+	/* Wait for the MMU status to indicate there is no active command, in
-+	 * case one is pending.
-+	 */
-+	ret = readl_relaxed_poll_timeout_atomic(ptdev->iomem + AS_STATUS(as_nr),
-+						val, !(val & AS_STATUS_AS_ACTIVE),
-+						10, 100000);
-+
-+	if (ret) {
-+		panthor_device_schedule_reset(ptdev);
-+		drm_err(&ptdev->base, "AS_ACTIVE bit stuck\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
-+{
-+	int status;
-+
-+	/* write AS_COMMAND when MMU is ready to accept another command */
-+	status = wait_ready(ptdev, as_nr);
-+	if (!status)
-+		gpu_write(ptdev, AS_COMMAND(as_nr), cmd);
-+
-+	return status;
-+}
-+
-+static void lock_region(struct panthor_device *ptdev, u32 as_nr,
-+			u64 region_start, u64 size)
-+{
-+	u8 region_width;
-+	u64 region;
-+	u64 region_end = region_start + size;
-+
-+	if (!size)
++	kmap = panthor_fw_mem_vmap(section->mem);
++	if (drm_WARN_ON(&ptdev->base, !kmap))
 +		return;
 +
-+	/*
-+	 * The locked region is a naturally aligned power of 2 block encoded as
-+	 * log2 minus(1).
-+	 * Calculate the desired start/end and look for the highest bit which
-+	 * differs. The smallest naturally aligned block must include this bit
-+	 * change, the desired region starts with this bit (and subsequent bits)
-+	 * zeroed and ends with the bit (and subsequent bits) set to one.
-+	 */
-+	region_width = max(fls64(region_start ^ (region_end - 1)),
-+			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
++	memcpy(kmap, section->data.buf, section->data.size);
++	if (section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO) {
++		memset(kmap + section->data.size, 0,
++		       section->mem->bo->base.base.size - section->data.size);
++	}
 +
-+	/*
-+	 * Mask off the low bits of region_start (which would be ignored by
-+	 * the hardware anyway)
-+	 */
-+	region_start &= GENMASK_ULL(63, region_width);
-+
-+	region = region_width | region_start;
-+
-+	/* Lock the region that needs to be updated */
-+	gpu_write(ptdev, AS_LOCKADDR_LO(as_nr), lower_32_bits(region));
-+	gpu_write(ptdev, AS_LOCKADDR_HI(as_nr), upper_32_bits(region));
-+	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
-+}
-+
-+static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
-+				      u64 iova, u64 size, u32 op)
-+{
-+	if (as_nr < 0)
-+		return 0;
-+
-+	if (op != AS_COMMAND_UNLOCK)
-+		lock_region(ptdev, as_nr, iova, size);
-+
-+	/* Run the MMU operation */
-+	write_cmd(ptdev, as_nr, op);
-+
-+	/* Wait for the flush to complete */
-+	return wait_ready(ptdev, as_nr);
-+}
-+
-+static int mmu_hw_do_operation(struct panthor_vm *vm,
-+			       u64 iova, u64 size, u32 op)
-+{
-+	struct panthor_device *ptdev = vm->ptdev;
-+	int ret;
-+
-+	spin_lock(&ptdev->mmu->as.slots[vm->as.id].lock);
-+	ret = mmu_hw_do_operation_locked(ptdev, vm->as.id, iova, size, op);
-+	spin_unlock(&ptdev->mmu->as.slots[vm->as.id].lock);
-+	return ret;
-+}
-+
-+static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
-+				 u64 transtab, u64 transcfg, u64 memattr)
-+{
-+	int ret;
-+
-+	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-+	if (ret)
-+		return ret;
-+
-+	gpu_write(ptdev, AS_TRANSTAB_LO(as_nr), lower_32_bits(transtab));
-+	gpu_write(ptdev, AS_TRANSTAB_HI(as_nr), upper_32_bits(transtab));
-+
-+	gpu_write(ptdev, AS_MEMATTR_LO(as_nr), lower_32_bits(memattr));
-+	gpu_write(ptdev, AS_MEMATTR_HI(as_nr), upper_32_bits(memattr));
-+
-+	gpu_write(ptdev, AS_TRANSCFG_LO(as_nr), lower_32_bits(transcfg));
-+	gpu_write(ptdev, AS_TRANSCFG_HI(as_nr), upper_32_bits(transcfg));
-+
-+	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
-+}
-+
-+static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
-+{
-+	int ret;
-+
-+	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-+	if (ret)
-+		return ret;
-+
-+	gpu_write(ptdev, AS_TRANSTAB_LO(as_nr), 0);
-+	gpu_write(ptdev, AS_TRANSTAB_HI(as_nr), 0);
-+
-+	gpu_write(ptdev, AS_MEMATTR_LO(as_nr), 0);
-+	gpu_write(ptdev, AS_MEMATTR_HI(as_nr), 0);
-+
-+	gpu_write(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
-+	gpu_write(ptdev, AS_TRANSCFG_HI(as_nr), 0);
-+
-+	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
-+}
-+
-+static u32 panthor_mmu_fault_mask(struct panthor_device *ptdev, u32 value)
-+{
-+	/* Bits 16 to 31 mean REQ_COMPLETE. */
-+	return value & GENMASK(15, 0);
-+}
-+
-+static u32 panthor_mmu_as_fault_mask(struct panthor_device *ptdev, u32 as)
-+{
-+	return BIT(as);
++	if (!was_mapped)
++		panthor_fw_mem_vunmap(section->mem);
 +}
 +
 +/**
-+ * panthor_vm_active() - Flag a VM as active
-+ * @VM: VM to flag as active.
++ * panthor_fw_mem_va() - Get the MCU address of a FW memory object.
++ * @mem: FW memory object.
 + *
-+ * Assigns an address space to a VM so it can be used by the GPU/MCU.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
++ * Return: The MCU address of a virtual object.
 + */
-+int panthor_vm_active(struct panthor_vm *vm)
++u64 panthor_fw_mem_va(struct panthor_fw_mem *mem)
 +{
-+	struct panthor_device *ptdev = vm->ptdev;
-+	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
-+	int ret = 0, as, cookie;
-+	u64 transtab, transcfg;
-+
-+	if (!drm_dev_enter(&ptdev->base, &cookie))
-+		return -ENODEV;
-+
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+
-+	as = vm->as.id;
-+	if (as >= 0) {
-+		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
-+
-+		if (ptdev->mmu->as.faulty_mask & mask) {
-+			/* Unhandled pagefault on this AS, the MMU was
-+			 * disabled. We need to re-enable the MMU after
-+			 * clearing+unmasking the AS interrupts.
-+			 */
-+			gpu_write(ptdev, MMU_INT_CLEAR, mask);
-+			ptdev->mmu->as.faulty_mask &= ~mask;
-+			gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
-+			goto out_enable_as;
-+		}
-+
-+		goto out_unlock;
-+	}
-+
-+	/* Check for a free AS */
-+	if (vm->for_mcu) {
-+		drm_WARN_ON(&ptdev->base, ptdev->mmu->as.alloc_mask & BIT(0));
-+		as = 0;
-+	} else {
-+		as = ffz(ptdev->mmu->as.alloc_mask | BIT(0));
-+	}
-+
-+	if (!(BIT(as) & ptdev->gpu_info.as_present)) {
-+		struct panthor_vm *lru_vm;
-+
-+		lru_vm = list_first_entry_or_null(&ptdev->mmu->as.lru_list,
-+						  struct panthor_vm,
-+						  as.lru_node);
-+		if (drm_WARN_ON(&ptdev->base, !lru_vm)) {
-+			ret = -EBUSY;
-+			goto out_unlock;
-+		}
-+
-+		list_del_init(&lru_vm->as.lru_node);
-+		as = lru_vm->as.id;
-+	} else {
-+		set_bit(as, &ptdev->mmu->as.alloc_mask);
-+	}
-+
-+	/* Assign the free or reclaimed AS to the FD */
-+	vm->as.id = as;
-+	ptdev->mmu->as.slots[as].vm = vm;
-+
-+out_enable_as:
-+	transtab = cfg->arm_lpae_s1_cfg.ttbr;
-+	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
-+		   AS_TRANSCFG_PTW_RA |
-+		   AS_TRANSCFG_ADRMODE_AARCH64_4K;
-+	if (ptdev->coherent)
-+		transcfg |= AS_TRANSCFG_PTW_SH_OS;
-+
-+	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
-+
-+out_unlock:
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+	drm_dev_exit(cookie);
-+	return ret;
++	return mem->va;
 +}
 +
 +/**
-+ * panthor_vm_idle() - Flag a VM idle
-+ * @VM: VM to flag as idle.
-+ *
-+ * When we know the GPU is done with the VM (no more jobs to process),
-+ * we can relinquish the AS slot attached to this VM, if any.
-+ *
-+ * We don't release the slot immediately, but instead place the VM in
-+ * the LRU list, so it can be evicted if another VM needs an AS slot.
-+ * This way, VMs keep attached to the AS they were given until we run
-+ * out of free slot, limiting the number of MMU operations (TLB flush
-+ * and other AS updates).
++ * panthor_fw_mem_vunmap() - Kill kernel space mapping of a FW memory object
++ * @mem: FW memory object.
 + */
-+void panthor_vm_idle(struct panthor_vm *vm)
++void panthor_fw_mem_vunmap(struct panthor_fw_mem *mem)
 +{
-+	struct panthor_device *ptdev = vm->ptdev;
++	if (mem->kmap) {
++		struct iosys_map map = IOSYS_MAP_INIT_VADDR(mem->kmap);
 +
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+	if (vm->as.id >= 0 && list_empty(&vm->as.lru_node))
-+		list_add_tail(&vm->as.lru_node, &ptdev->mmu->as.lru_list);
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+}
-+
-+static void panthor_vm_stop(struct panthor_vm *vm)
-+{
-+	drm_sched_stop(&vm->sched, NULL);
-+}
-+
-+static void panthor_vm_start(struct panthor_vm *vm)
-+{
-+	drm_sched_start(&vm->sched, true);
++		drm_gem_vunmap_unlocked(&mem->bo->base.base, &map);
++		mem->kmap = NULL;
++	}
 +}
 +
 +/**
-+ * panthor_vm_as() - Get the AS slot attached to a VM
-+ * @vm: VM to get the AS slot of.
++ * panthor_fw_mem_vunmap() - Map a FW memory object in kernel space
++ * @mem: FW memory object.
 + *
-+ * Return: -1 if the VM is not assigned an AS slot yet, >= 0 otherwise.
++ * Return: a non-NULL pointer on success, NULL otherwise.
 + */
-+int panthor_vm_as(struct panthor_vm *vm)
++void *panthor_fw_mem_vmap(struct panthor_fw_mem *mem)
 +{
-+	return vm->as.id;
-+}
++	if (!mem->kmap) {
++		struct iosys_map map;
++		int ret;
 +
-+static size_t get_pgsize(u64 addr, size_t size, size_t *count)
-+{
-+	/*
-+	 * io-pgtable only operates on multiple pages within a single table
-+	 * entry, so we need to split at boundaries of the table size, i.e.
-+	 * the next block size up. The distance from address A to the next
-+	 * boundary of block size B is logically B - A % B, but in unsigned
-+	 * two's complement where B is a power of two we get the equivalence
-+	 * B - A % B == (B - A) % B == (n * B - A) % B, and choose n = 0 :)
-+	 */
-+	size_t blk_offset = -addr % SZ_2M;
++		ret = drm_gem_vmap_unlocked(&mem->bo->base.base, &map);
++		if (ret)
++			return NULL;
 +
-+	if (blk_offset || size < SZ_2M) {
-+		*count = min_not_zero(blk_offset, size) / SZ_4K;
-+		return SZ_4K;
-+	}
-+	blk_offset = -addr % SZ_1G ?: SZ_1G;
-+	*count = min(blk_offset, size) / SZ_2M;
-+	return SZ_2M;
-+}
-+
-+static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
-+{
-+	struct panthor_device *ptdev = vm->ptdev;
-+	int ret = 0, cookie;
-+
-+	if (vm->as.id < 0)
-+		return 0;
-+
-+	/* If the device is unplugged, we just silently skip the flush. */
-+	if (!drm_dev_enter(&ptdev->base, &cookie))
-+		return 0;
-+
-+	/* Flush the PTs only if we're already awake */
-+	if (pm_runtime_active(ptdev->base.dev))
-+		ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
-+
-+	drm_dev_exit(cookie);
-+	return ret;
-+}
-+
-+static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, size_t size)
-+{
-+	struct panthor_device *ptdev = vm->ptdev;
-+	struct io_pgtable_ops *ops = vm->pgtbl_ops;
-+	size_t offset = 0;
-+
-+	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%zx", vm->as.id, iova, size);
-+
-+	while (offset < size) {
-+		size_t unmapped_sz = 0, pgcount;
-+		size_t pgsize = get_pgsize(iova + offset, size - offset, &pgcount);
-+
-+		unmapped_sz = ops->unmap_pages(ops, iova + offset, pgsize, pgcount, NULL);
-+
-+		if (drm_WARN_ON(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
-+			drm_err(&ptdev->base, "failed to unmap range %llx-%llx (requested range %llx-%llx)\n",
-+				iova + offset + unmapped_sz,
-+				iova + offset + pgsize * pgcount,
-+				iova, iova + size);
-+			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
-+			return  -EINVAL;
-+		}
-+		offset += unmapped_sz;
++		mem->kmap = map.vaddr;
 +	}
 +
-+	return panthor_vm_flush_range(vm, iova, size);
++	return mem->kmap;
 +}
 +
-+static int
-+panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
-+		     struct sg_table *sgt, u64 offset, ssize_t size)
++/**
++ * panthor_fw_mem_free() - Free a FW memory object.
++ * @ptdev: Device.
++ * @mem: FW memory object to free.
++ */
++void panthor_fw_mem_free(struct panthor_device *ptdev, struct panthor_fw_mem *mem)
 +{
-+	struct panthor_device *ptdev = vm->ptdev;
-+	unsigned int count;
-+	struct scatterlist *sgl;
-+	struct io_pgtable_ops *ops = vm->pgtbl_ops;
-+	u64 start_iova = iova;
++	if (IS_ERR_OR_NULL(mem))
++		return;
++
++	if (mem->bo)
++		panthor_gem_unmap_and_put(ptdev->fw->vm, mem->bo, mem->va, mem->kmap);
++
++	kfree(mem);
++}
++
++/**
++ * panthor_fw_mem_alloc() - Allocate a FW memory object and map it to the MCU VM.
++ * @ptdev: Device.
++ * @size: Size of the memory block.
++ * @bo_flags: BO flags.
++ * @vm_map_flags: VM_MAP flags.
++ * @va: Virtual address of the MCU mapping.
++ * Set to PANTHOR_GEM_ALLOC_VA for automatic VA-assignment. In that case, the
++ * VA will be allocated in the shared VA space.
++ *
++ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
++ */
++static struct panthor_fw_mem *
++panthor_fw_mem_alloc(struct panthor_device *ptdev, size_t size,
++		     u32 bo_flags, u32 vm_map_flags, u64 va)
++{
++	struct panthor_fw_mem *mem = kzalloc(sizeof(*mem), GFP_KERNEL);
 +	int ret;
 +
-+	if (!size)
-+		return 0;
-+
-+	for_each_sgtable_dma_sg(sgt, sgl, count) {
-+		dma_addr_t paddr = sg_dma_address(sgl);
-+		size_t len = sg_dma_len(sgl);
-+
-+		if (len <= offset) {
-+			offset -= len;
-+			continue;
-+		}
-+
-+		paddr -= offset;
-+		len -= offset;
-+
-+		if (size >= 0) {
-+			len = min_t(size_t, len, size);
-+			size -= len;
-+		}
-+
-+		drm_dbg(&ptdev->base, "map: as=%d, iova=%llx, paddr=%llx, len=%zx",
-+			vm->as.id, iova, paddr, len);
-+
-+		while (len) {
-+			size_t pgcount, mapped = 0;
-+			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
-+
-+			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
-+					     GFP_KERNEL, &mapped);
-+			iova += mapped;
-+			paddr += mapped;
-+			len -= mapped;
-+
-+			if (drm_WARN_ON(&ptdev->base, !ret && !mapped))
-+				ret = -ENOMEM;
-+
-+			if (ret) {
-+				/* If something failed, unmap what we've already mapped before
-+				 * returning. The unmap call is not supposed to fail.
-+				 */
-+				drm_WARN_ON(&ptdev->base,
-+					    panthor_vm_unmap_pages(vm, start_iova,
-+								   iova - start_iova));
-+				return ret;
-+			}
-+		}
-+
-+		if (!size)
-+			break;
-+	}
-+
-+	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
-+}
-+
-+static int flags_to_prot(u32 flags)
-+{
-+	int prot = 0;
-+
-+	if (flags & DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC)
-+		prot |= IOMMU_NOEXEC;
-+
-+	if (!(flags & DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED))
-+		prot |= IOMMU_CACHE;
-+
-+	if (flags & DRM_PANTHOR_VM_BIND_OP_MAP_READONLY)
-+		prot |= IOMMU_READ;
-+	else
-+		prot |= IOMMU_READ | IOMMU_WRITE;
-+
-+	return prot;
-+}
-+
-+/**
-+ * panthor_vm_alloc_va() - Allocate a region in the auto-va space
-+ * @VM: VM to allocate a region on.
-+ * @size: Size of the region.
-+ *
-+ * Some GPU objects, like heap chunks, are fully managed by the kernel and
-+ * need to be mapped to the userspace VM, in the region reserved for kernel
-+ * objects.
-+ *
-+ * This function takes care of allocating a region in this reserved space.
-+ *
-+ * Return: A valid pointer on success, and ERR_PTR() otherwise.
-+ */
-+struct drm_mm_node *
-+panthor_vm_alloc_va(struct panthor_vm *vm, size_t size)
-+{
-+	struct drm_mm_node *mm_node;
-+	int ret;
-+
-+	if (!size || (size & ~PAGE_MASK))
-+		return ERR_PTR(-EINVAL);
-+
-+	mm_node = kzalloc(sizeof(*mm_node), GFP_KERNEL);
-+	if (!mm_node)
++	if (!mem)
 +		return ERR_PTR(-ENOMEM);
 +
-+	mutex_lock(&vm->mm_lock);
-+	ret = drm_mm_insert_node(&vm->mm, mm_node, size);
-+	mutex_unlock(&vm->mm_lock);
-+
-+	if (ret) {
-+		kfree(mm_node);
-+		return ERR_PTR(ret);
++	mem->bo = panthor_gem_create_and_map(ptdev, ptdev->fw->vm,
++					     size, bo_flags, vm_map_flags,
++					     &va, NULL);
++	if (IS_ERR(mem->bo)) {
++		ret = PTR_ERR(mem->bo);
++		mem->bo = NULL;
++		goto err_free_mem;
 +	}
 +
-+	return mm_node;
++	mem->va = va;
++	return mem;
++
++err_free_mem:
++	panthor_fw_mem_free(ptdev, mem);
++	return ERR_PTR(ret);
 +}
 +
 +/**
-+ * panthor_vm_free_va() - Free a region allocated with panthor_vm_alloc_va()
-+ * @VM: VM to free the region on.
-+ * @mm_node: Memory node representing the region to free.
++ * panthor_fw_alloc_queue_iface_mem() - Allocate a ring-buffer interfaces.
++ * @ptdev: Device.
++ * @input: Pointer holding the input interface on success.
++ * Should be ignored on failure.
++ * @output: Pointer holding the output interface on success.
++ * Should be ignored on failure.
++ *
++ * Allocates panthor_fw_ringbuf_{input,out}_iface interfaces. The input
++ * interface is at offset 0, and the output interface at offset 4096.
++ *
++ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
 + */
-+void panthor_vm_free_va(struct panthor_vm *vm, struct drm_mm_node *mm_node)
++struct panthor_fw_mem *
++panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
++				 struct panthor_fw_ringbuf_input_iface **input,
++				 const struct panthor_fw_ringbuf_output_iface **output)
 +{
-+	if (!mm_node)
-+		return;
++	struct panthor_fw_mem *mem;
++	void *kmap;
 +
-+	mutex_lock(&vm->mm_lock);
-+	drm_mm_remove_node(mm_node);
-+	mutex_unlock(&vm->mm_lock);
++	mem = panthor_fw_mem_alloc(ptdev, 8192,
++				   DRM_PANTHOR_BO_NO_MMAP,
++				   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
++				   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
++				   PANTHOR_GEM_ALLOC_VA);
++	if (IS_ERR(mem))
++		return mem;
 +
-+	kfree(mm_node);
-+}
-+
-+static void panthor_vm_cleanup_op_ctx(struct panthor_vm_op_ctx *op_ctx,
-+				      struct panthor_vm *vm)
-+{
-+	struct panthor_vma *vma, *tmp_vma;
-+
-+	u32 remaining_pt_count = op_ctx->rsvd_page_tables.count -
-+				 op_ctx->rsvd_page_tables.ptr;
-+
-+	if (remaining_pt_count) {
-+		kmem_cache_free_bulk(pt_cache, remaining_pt_count,
-+				     op_ctx->rsvd_page_tables.pages +
-+				     op_ctx->rsvd_page_tables.ptr);
++	kmap = panthor_fw_mem_vmap(mem);
++	if (!kmap) {
++		panthor_fw_mem_free(ptdev, mem);
++		return ERR_PTR(-ENOMEM);
 +	}
 +
-+	kfree(op_ctx->rsvd_page_tables.pages);
-+	memset(&op_ctx->rsvd_page_tables, 0, sizeof(op_ctx->rsvd_page_tables));
-+
-+	if (op_ctx->map.gem.obj) {
-+		struct panthor_gem_object *bo = to_panthor_bo(op_ctx->map.gem.obj);
-+
-+		if (!bo->base.base.import_attach)
-+			drm_gem_shmem_unpin(&bo->base);
-+
-+		drm_gem_object_put(&bo->base.base);
-+	}
-+
-+	kfree(op_ctx->map.new_vma);
-+	kfree(op_ctx->map.next_vma);
-+	kfree(op_ctx->map.prev_vma);
-+	memset(&op_ctx->map, 0, sizeof(op_ctx->map));
-+
-+	list_for_each_entry_safe(vma, tmp_vma, &op_ctx->returned_vmas, node) {
-+		struct panthor_gem_object *bo = to_panthor_bo(vma->base.gem.obj);
-+
-+		if (!bo->base.base.import_attach)
-+			drm_gem_shmem_unpin(&bo->base);
-+
-+		drm_gem_object_put(&bo->base.base);
-+		list_del(&vma->node);
-+		kfree(vma);
-+	}
-+}
-+
-+#define PANTHOR_VM_BIND_OP_MAP_FLAGS \
-+	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED | \
-+	 DRM_PANTHOR_VM_BIND_OP_TYPE_MASK)
-+
-+static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
-+					 struct panthor_vm *vm,
-+					 struct panthor_gem_object *bo,
-+					 u64 offset,
-+					 size_t size, u64 va,
-+					 u32 flags)
-+{
-+	struct sg_table *sgt = NULL;
-+	u64 pt_count;
-+	int ret;
-+
-+	if (!bo)
-+		return -EINVAL;
-+
-+	if ((flags & ~PANTHOR_VM_BIND_OP_MAP_FLAGS) ||
-+	    (flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) != DRM_PANTHOR_VM_BIND_OP_TYPE_MAP)
-+		return -EINVAL;
-+
-+	/* Make sure the VA and size are aligned and in-bounds. */
-+	if (size > bo->base.base.size || offset > bo->base.base.size - size)
-+		return -EINVAL;
-+
-+	/* If the BO has an exclusive VM attached, it can't be mapped to other VMs. */
-+	if (bo->exclusive_vm && bo->exclusive_vm != vm)
-+		return -EINVAL;
-+
-+	memset(op_ctx, 0, sizeof(*op_ctx));
-+	INIT_LIST_HEAD(&op_ctx->returned_vmas);
-+	op_ctx->flags = flags;
-+	op_ctx->va.range = size;
-+	op_ctx->va.addr = va;
-+
-+	op_ctx->map.new_vma = kzalloc(sizeof(*op_ctx->map.new_vma), GFP_KERNEL);
-+	op_ctx->map.next_vma = kzalloc(sizeof(*op_ctx->map.next_vma), GFP_KERNEL);
-+	op_ctx->map.prev_vma = kzalloc(sizeof(*op_ctx->map.prev_vma), GFP_KERNEL);
-+	if (!op_ctx->map.new_vma || !op_ctx->map.next_vma || !op_ctx->map.prev_vma) {
-+		ret = -ENOMEM;
-+		goto err_cleanup;
-+	}
-+
-+	if (!bo->base.base.import_attach) {
-+		/* Pre-reserve the BO pages, so the map operation doesn't have to
-+		 * allocate.
-+		 */
-+		ret = drm_gem_shmem_pin(&bo->base);
-+		if (ret)
-+			goto err_cleanup;
-+	}
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
-+	if (IS_ERR(sgt)) {
-+		if (!bo->base.base.import_attach)
-+			drm_gem_shmem_unpin(&bo->base);
-+
-+		ret = PTR_ERR(sgt);
-+		goto err_cleanup;
-+	}
-+
-+	op_ctx->map.sgt = sgt;
-+	op_ctx->map.gem.obj = &bo->base.base;
-+	op_ctx->map.gem.offset = offset;
-+	drm_gem_object_get(op_ctx->map.gem.obj);
-+
-+	/* L1, L2 and L3 page tables.
-+	 * We could optimize L3 allocation by iterating over the sgt and merging
-+	 * 2M contiguous blocks, but it's simpler to over-provision and return
-+	 * the pages if they're not used.
-+	 */
-+	pt_count = ((ALIGN(va + size, 1ull << 39) - ALIGN_DOWN(va, 1ull << 39)) >> 39) +
-+		   ((ALIGN(va + size, 1ull << 30) - ALIGN_DOWN(va, 1ull << 30)) >> 30) +
-+		   ((ALIGN(va + size, 1ull << 21) - ALIGN_DOWN(va, 1ull << 21)) >> 21);
-+
-+	op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
-+						 sizeof(*op_ctx->rsvd_page_tables.pages),
-+						 GFP_KERNEL);
-+	if (!op_ctx->rsvd_page_tables.pages)
-+		goto err_cleanup;
-+
-+	ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
-+				    op_ctx->rsvd_page_tables.pages);
-+	op_ctx->rsvd_page_tables.count = ret;
-+	if (ret != pt_count) {
-+		ret = -ENOMEM;
-+		goto err_cleanup;
-+	}
-+
-+	return 0;
-+
-+err_cleanup:
-+	panthor_vm_cleanup_op_ctx(op_ctx, vm);
-+	return ret;
-+}
-+
-+static int panthor_vm_prepare_unmap_op_ctx(struct panthor_vm_op_ctx *op_ctx,
-+					   struct panthor_vm *vm,
-+					   u64 va, size_t size)
-+{
-+	u32 pt_count = 0;
-+	int ret;
-+
-+	memset(op_ctx, 0, sizeof(*op_ctx));
-+	INIT_LIST_HEAD(&op_ctx->returned_vmas);
-+	op_ctx->va.range = size;
-+	op_ctx->va.addr = va;
-+	op_ctx->flags = DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP;
-+
-+	/* Pre-allocate L3 page tables to account for the split-2M-block
-+	 * situation on unmap.
-+	 */
-+	if (va != ALIGN(va, SZ_2M))
-+		pt_count++;
-+
-+	if (va + size != ALIGN(va + size, SZ_2M) &&
-+	    ALIGN(va + size, SZ_2M) != ALIGN(va, SZ_2M))
-+		pt_count++;
-+
-+	if (pt_count) {
-+		op_ctx->rsvd_page_tables.pages = kcalloc(pt_count,
-+							 sizeof(*op_ctx->rsvd_page_tables.pages),
-+							 GFP_KERNEL);
-+		if (!op_ctx->rsvd_page_tables.pages)
-+			goto err_cleanup;
-+
-+		ret = kmem_cache_alloc_bulk(pt_cache, GFP_KERNEL, pt_count,
-+					    op_ctx->rsvd_page_tables.pages);
-+		if (ret != pt_count) {
-+			ret = -ENOMEM;
-+			goto err_cleanup;
-+		}
-+		op_ctx->rsvd_page_tables.count = pt_count;
-+	}
-+
-+	return 0;
-+
-+err_cleanup:
-+	panthor_vm_cleanup_op_ctx(op_ctx, vm);
-+	return ret;
++	memset(kmap, 0, mem->bo->base.base.size);
++	*input = kmap;
++	*output = kmap + 4096;
++	return mem;
 +}
 +
 +/**
-+ * panthor_vm_get_bo_for_va() - Get the GEM object mapped at a virtual address
-+ * @vm: VM to look into.
-+ * @va: Virtual address to search for.
-+ * @bo_offset: Offset of the GEM object mapped at this virtual address.
-+ * Only valid on success.
++ * panthor_fw_alloc_suspend_buf_mem() - Allocate a suspend buffer for a command stream group.
++ * @ptdev: Device.
++ * @size: Size of the suspend buffer.
 + *
-+ * The object returned by this function might no longer be mapped when the
-+ * function returns. It's the caller responsibility to ensure there's no
-+ * concurrent map/unmap operations making the returned value invalid, or
-+ * make sure it doesn't matter if the object is no longer mapped.
-+ *
-+ * Return: A valid pointer on success, an ERR_PTR() otherwise.
++ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
 + */
-+struct panthor_gem_object *
-+panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset)
++struct panthor_fw_mem *
++panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
 +{
-+	struct panthor_gem_object *bo = ERR_PTR(-ENOENT);
-+	struct drm_gpuva *gpuva;
-+	struct panthor_vma *vma;
-+	int ret;
-+
-+	/* Take the VM lock to prevent concurrent map/unmap operation. */
-+	ret = dma_resv_lock(vm->dummy_gem.resv, NULL);
-+	if (drm_WARN_ON(&vm->ptdev->base, ret))
-+		return NULL;
-+
-+	gpuva = drm_gpuva_find_first(&vm->va_mgr, va, 1);
-+	vma = gpuva ? container_of(gpuva, struct panthor_vma, base) : NULL;
-+	if (vma && vma->base.gem.obj) {
-+		drm_gem_object_get(vma->base.gem.obj);
-+		bo = to_panthor_bo(vma->base.gem.obj);
-+		*bo_offset = vma->base.gem.offset;
-+	}
-+	dma_resv_unlock(vm->dummy_gem.resv);
-+
-+	return bo;
++	return panthor_fw_mem_alloc(ptdev, size,
++				    DRM_PANTHOR_BO_NO_MMAP,
++				    DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
++				    PANTHOR_GEM_ALLOC_VA);
 +}
 +
-+/*
-+ * Only 32 VMs per open file. If that becomes a limiting factor, we can
-+ * increase this number.
-+ */
-+#define PANTHOR_MAX_VMS_PER_FILE	 32
-+
-+/**
-+ * panthor_vm_pool_create_vm() - Create a VM
-+ * @pool: The VM to create this VM on.
-+ * @kernel_va_start: Start of the region reserved for kernel objects.
-+ * @kernel_va_range: Size of the region reserved for kernel objects.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_pool_create_vm(struct panthor_device *ptdev, struct panthor_vm_pool *pool,
-+			      u64 kernel_va_start, u64 kernel_va_range)
++static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
++					 const struct firmware *fw,
++					 struct panthor_fw_binary_iter *iter,
++					 u32 ehdr)
 +{
-+	struct panthor_vm *vm;
++	struct panthor_fw_binary_section_entry_hdr hdr;
++	struct panthor_fw_section *section;
++	u32 section_size;
++	u32 name_len;
 +	int ret;
-+	u32 id;
 +
-+	vm = panthor_vm_create(ptdev, false, kernel_va_start, kernel_va_range);
-+	if (IS_ERR(vm))
-+		return PTR_ERR(vm);
-+
-+	ret = xa_alloc(&pool->xa, &id, vm,
-+		       XA_LIMIT(1, PANTHOR_MAX_VMS_PER_FILE), GFP_KERNEL);
-+
-+	if (ret) {
-+		panthor_vm_put(vm);
++	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
++	if (ret)
 +		return ret;
++
++	if (hdr.data.end < hdr.data.start) {
++		drm_err(&ptdev->base, "Firmware corrupted, data.end < data.start (0x%x < 0x%x)\n",
++			hdr.data.end, hdr.data.start);
++		return -EINVAL;
 +	}
 +
-+	return id;
-+}
++	if (hdr.va.end < hdr.va.start) {
++		drm_err(&ptdev->base, "Firmware corrupted, hdr.va.end < hdr.va.start (0x%x < 0x%x)\n",
++			hdr.va.end, hdr.va.start);
++		return -EINVAL;
++	}
 +
-+static void panthor_vm_destroy(struct panthor_vm *vm)
-+{
-+	if (!vm)
-+		return;
++	if (hdr.data.end > fw->size) {
++		drm_err(&ptdev->base, "Firmware corrupted, file truncated? data_end=0x%x > fw size=0x%zx\n",
++			hdr.data.end, fw->size);
++		return -EINVAL;
++	}
 +
-+	vm->destroyed = true;
++	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
++	    (hdr.va.end & ~PAGE_MASK) != 0) {
++		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
++			hdr.va.start, hdr.va.end);
++		return -EINVAL;
++	}
 +
-+	mutex_lock(&vm->heaps.lock);
-+	panthor_heap_pool_destroy(vm->heaps.pool);
-+	vm->heaps.pool = NULL;
-+	mutex_unlock(&vm->heaps.lock);
++	if (hdr.flags & ~CSF_FW_BINARY_IFACE_ENTRY_RD_SUPPORTED_FLAGS) {
++		drm_err(&ptdev->base, "Firmware contains interface with unsupported flags (0x%x)\n",
++			hdr.flags);
++		return -EINVAL;
++	}
 +
-+	drm_WARN_ON(&vm->ptdev->base,
-+		    panthor_vm_unmap_range(vm, vm->va_mgr.mm_start, vm->va_mgr.mm_range));
-+	panthor_vm_put(vm);
-+}
++	if (hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_PROT) {
++		drm_warn(&ptdev->base,
++			 "Firmware protected mode entry not be supported, ignoring");
++		return 0;
++	}
 +
-+/**
-+ * panthor_vm_destroy() - Destroy a VM.
-+ * @pool: VM pool.
-+ * @handle: VM handle.
-+ *
-+ * This function doesn't free the VM object or its resources, it just kills
-+ * all mappings, and makes sure nothing can be mapped after that point.
-+ *
-+ * If there was any active jobs at the time this function is called, these
-+ * jobs should experience page faults and be killed as a result.
-+ *
-+ * The VM resources are freed when the last reference on the VM object is
-+ * dropped.
-+ */
-+int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle)
-+{
-+	struct panthor_vm *vm;
++	if (hdr.va.start == CSF_MCU_SHARED_REGION_START &&
++	    !(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED)) {
++		drm_err(&ptdev->base,
++			"Interface at 0x%llx must be shared", CSF_MCU_SHARED_REGION_START);
++		return -EINVAL;
++	}
 +
-+	vm = xa_erase(&pool->xa, handle);
++	name_len = iter->size - iter->offset;
 +
-+	panthor_vm_destroy(vm);
-+
-+	return vm ? 0 : -EINVAL;
-+}
-+
-+/**
-+ * panthor_vm_pool_get_vm() - Retrieve VM object bound to a VM handle
-+ * @pool: VM pool to check.
-+ * @handle: Handle of the VM to retrieve.
-+ *
-+ * Return: A valid pointer if the VM exists, NULL otherwise.
-+ */
-+struct panthor_vm *
-+panthor_vm_pool_get_vm(struct panthor_vm_pool *pool, u32 handle)
-+{
-+	struct panthor_vm *vm;
-+
-+	vm = panthor_vm_get(xa_load(&pool->xa, handle));
-+
-+	return vm;
-+}
-+
-+/**
-+ * panthor_vm_pool_destroy() - Destroy a VM pool.
-+ * @pfile: File.
-+ *
-+ * Destroy all VMs in the pool, and release the pool resources.
-+ *
-+ * Note that VMs can outlive the pool they were created from if other
-+ * objects hold a reference to there VMs.
-+ */
-+void panthor_vm_pool_destroy(struct panthor_file *pfile)
-+{
-+	struct panthor_vm *vm;
-+	unsigned long i;
-+
-+	if (!pfile->vms)
-+		return;
-+
-+	xa_for_each(&pfile->vms->xa, i, vm)
-+		panthor_vm_destroy(vm);
-+
-+	xa_destroy(&pfile->vms->xa);
-+	kfree(pfile->vms);
-+}
-+
-+/**
-+ * panthor_vm_pool_create() - Create a VM pool
-+ * @pfile: File.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_pool_create(struct panthor_file *pfile)
-+{
-+	pfile->vms = kzalloc(sizeof(*pfile->vms), GFP_KERNEL);
-+	if (!pfile->vms)
++	section = drmm_kzalloc(&ptdev->base, sizeof(*section), GFP_KERNEL);
++	if (!section)
 +		return -ENOMEM;
 +
-+	xa_init_flags(&pfile->vms->xa, XA_FLAGS_ALLOC1);
-+	return 0;
-+}
++	list_add_tail(&section->node, &ptdev->fw->sections);
++	section->flags = hdr.flags;
++	section->data.size = hdr.data.end - hdr.data.start;
 +
-+/* dummy TLB ops, the real TLB flush happens in panthor_vm_flush_range() */
-+static void mmu_tlb_flush_all(void *cookie)
-+{
-+}
++	if (section->data.size > 0) {
++		void *data = drmm_kmalloc(&ptdev->base, section->data.size, GFP_KERNEL);
 +
-+static void mmu_tlb_flush_walk(unsigned long iova, size_t size, size_t granule, void *cookie)
-+{
-+}
++		if (!data)
++			return -ENOMEM;
 +
-+static const struct iommu_flush_ops mmu_tlb_ops = {
-+	.tlb_flush_all = mmu_tlb_flush_all,
-+	.tlb_flush_walk = mmu_tlb_flush_walk,
-+};
-+
-+static const char *access_type_name(struct panthor_device *ptdev,
-+				    u32 fault_status)
-+{
-+	switch (fault_status & AS_FAULTSTATUS_ACCESS_TYPE_MASK) {
-+	case AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC:
-+		return "ATOMIC";
-+	case AS_FAULTSTATUS_ACCESS_TYPE_READ:
-+		return "READ";
-+	case AS_FAULTSTATUS_ACCESS_TYPE_WRITE:
-+		return "WRITE";
-+	case AS_FAULTSTATUS_ACCESS_TYPE_EX:
-+		return "EXECUTE";
-+	default:
-+		drm_WARN_ON(&ptdev->base, 1);
-+		return NULL;
++		memcpy(data, fw->data + hdr.data.start, section->data.size);
++		section->data.buf = data;
 +	}
-+}
 +
-+static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
-+{
-+	status = panthor_mmu_fault_mask(ptdev, status);
-+	while (status) {
-+		u32 as = ffs(status | (status >> 16)) - 1;
-+		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
-+		u32 new_int_mask;
-+		u64 addr;
-+		u32 fault_status;
-+		u32 exception_type;
-+		u32 access_type;
-+		u32 source_id;
++	if (name_len > 0) {
++		char *name = drmm_kmalloc(&ptdev->base, name_len + 1, GFP_KERNEL);
 +
-+		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
-+		addr = gpu_read(ptdev, AS_FAULTADDRESS_LO(as));
-+		addr |= (u64)gpu_read(ptdev, AS_FAULTADDRESS_HI(as)) << 32;
++		if (!name)
++			return -ENOMEM;
 +
-+		/* decode the fault status */
-+		exception_type = fault_status & 0xFF;
-+		access_type = (fault_status >> 8) & 0x3;
-+		source_id = (fault_status >> 16);
++		memcpy(name, iter->data + iter->offset, name_len);
++		name[name_len] = '\0';
++		section->name = name;
++	}
 +
-+		/* Page fault only */
-+		mutex_lock(&ptdev->mmu->as.slots_lock);
++	section_size = hdr.va.end - hdr.va.start;
++	if (section_size) {
++		u32 cache_mode = hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK;
++		u32 vm_map_flags = 0;
++		struct sg_table *sgt;
++		u64 va = hdr.va.start;
 +
-+		new_int_mask =
-+			panthor_mmu_fault_mask(ptdev, ~ptdev->mmu->as.faulty_mask);
++		if (!(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_WR))
++			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_READONLY;
 +
-+		/* terminal fault, print info about the fault */
-+		drm_err(&ptdev->base,
-+			"Unhandled Page fault in AS%d at VA 0x%016llX\n"
-+			"raw fault status: 0x%X\n"
-+			"decoded fault status: %s\n"
-+			"exception type 0x%X: %s\n"
-+			"access type 0x%X: %s\n"
-+			"source id 0x%X\n",
-+			as, addr,
-+			fault_status,
-+			(fault_status & (1 << 10) ? "DECODER FAULT" : "SLAVE FAULT"),
-+			exception_type, panthor_exception_name(ptdev, exception_type),
-+			access_type, access_type_name(ptdev, fault_status),
-+			source_id);
++		if (!(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_EX))
++			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC;
 +
-+		/* Ignore MMU interrupts on this AS until it's been
-+		 * re-enabled.
++		/* TODO: CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_*_COHERENT are mapped to
++		 * non-cacheable for now. We might want to introduce a new
++		 * IOMMU_xxx flag (or abuse IOMMU_MMIO, which maps to device
++		 * memory and is currently not used by our driver) for
++		 * AS_MEMATTR_AARCH64_SHARED memory, so we can take benefit
++		 * of IO-coherent systems.
 +		 */
-+		ptdev->mmu->irq.mask = new_int_mask;
-+		gpu_write(ptdev, MMU_INT_MASK, new_int_mask);
++		if (cache_mode != CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED)
++			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED;
 +
-+		/* Disable the MMU to kill jobs on this AS. */
-+		panthor_mmu_as_disable(ptdev, as);
-+		mutex_unlock(&ptdev->mmu->as.slots_lock);
-+
-+		status &= ~mask;
-+	}
-+}
-+PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
-+
-+/**
-+ * panthor_mmu_suspend() - Suspend the MMU logic
-+ * @ptdev: Device.
-+ *
-+ * All we do here is de-assign the AS slots on all active VMs, so things
-+ * get flushed to the main memory, and no further access to these VMs are
-+ * possible.
-+ *
-+ * We also suspend the MMU IRQ.
-+ */
-+void panthor_mmu_suspend(struct panthor_device *ptdev)
-+{
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
-+		struct panthor_vm *vm = ptdev->mmu->as.slots[i].vm;
-+
-+		if (vm) {
-+			drm_WARN_ON(&ptdev->base, panthor_mmu_as_disable(ptdev, i));
-+			vm->as.id = -1;
-+			list_del_init(&vm->as.lru_node);
-+			ptdev->mmu->as.slots[i].vm = NULL;
-+		}
-+	}
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+
-+	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
-+}
-+
-+/**
-+ * panthor_mmu_resume() - Resume the MMU logic
-+ * @ptdev: Device.
-+ *
-+ * Resume the IRQ.
-+ *
-+ * We don't re-enable previously active VMs. We assume other parts of the
-+ * driver will call panthor_vm_active() on the VMs they intend to use.
-+ */
-+void panthor_mmu_resume(struct panthor_device *ptdev)
-+{
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+	ptdev->mmu->as.alloc_mask = 0;
-+	ptdev->mmu->as.faulty_mask = 0;
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+
-+	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
-+}
-+
-+/**
-+ * panthor_mmu_pre_reset() - Prepare for a reset
-+ * @ptdev: Device.
-+ *
-+ * Suspend the IRQ, and make sure all VM_BIND queues are stopped, so we
-+ * don't get asked to do a VM operation while the GPU is down.
-+ *
-+ * We don't cleanly shutdown the AS slots here, because the reset might
-+ * come from an AS_ACTIVE_BIT stuck situation.
-+ */
-+void panthor_mmu_pre_reset(struct panthor_device *ptdev)
-+{
-+	struct panthor_vm *vm;
-+
-+	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
-+
-+	mutex_lock(&ptdev->mmu->vm.lock);
-+	ptdev->mmu->vm.reset_in_progress = true;
-+	list_for_each_entry(vm, &ptdev->mmu->vm.list, node)
-+		panthor_vm_stop(vm);
-+	mutex_unlock(&ptdev->mmu->vm.lock);
-+}
-+
-+/**
-+ * panthor_mmu_post_reset() - Restore things after a reset
-+ * @ptdev: Device.
-+ *
-+ * Put the MMU logic back in action after a reset. That implies resuming the
-+ * IRQ and re-enabling the VM_BIND queues.
-+ */
-+void panthor_mmu_post_reset(struct panthor_device *ptdev)
-+{
-+	struct panthor_vm *vm;
-+
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+
-+	/* Now that the reset is effective, we can assume that none of the
-+	 * AS slots are setup, and clear the faulty flags too.
-+	 */
-+	ptdev->mmu->as.alloc_mask = 0;
-+	ptdev->mmu->as.faulty_mask = 0;
-+
-+	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
-+		struct panthor_vm *vm = ptdev->mmu->as.slots[i].vm;
-+
-+		if (vm) {
-+			vm->as.id = -1;
-+			list_del_init(&vm->as.lru_node);
-+			ptdev->mmu->as.slots[i].vm = NULL;
-+		}
-+	}
-+
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+
-+	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
-+
-+	/* Restart the VM_BIND queues. */
-+	mutex_lock(&ptdev->mmu->vm.lock);
-+	list_for_each_entry(vm, &ptdev->mmu->vm.list, node) {
-+		panthor_vm_start(vm);
-+	}
-+	ptdev->mmu->vm.reset_in_progress = false;
-+	mutex_unlock(&ptdev->mmu->vm.lock);
-+}
-+
-+static void panthor_vm_release(struct kref *kref)
-+{
-+	struct panthor_vm *vm = container_of(kref, struct panthor_vm, refcount);
-+	struct panthor_device *ptdev = vm->ptdev;
-+
-+	mutex_lock(&vm->heaps.lock);
-+	if (drm_WARN_ON(&ptdev->base, vm->heaps.pool))
-+		panthor_heap_pool_destroy(vm->heaps.pool);
-+	mutex_unlock(&vm->heaps.lock);
-+	mutex_destroy(&vm->heaps.lock);
-+
-+	mutex_lock(&ptdev->mmu->vm.lock);
-+	list_del(&vm->node);
-+	/* Restore the scheduler state so we can call drm_sched_entity_destroy()
-+	 * and drm_sched_fini(). If get there, that means we have no job left
-+	 * and no new jobs can be queued, so we can start the scheduler without
-+	 * risking interfering with the reset.
-+	 */
-+	if (ptdev->mmu->vm.reset_in_progress)
-+		panthor_vm_start(vm);
-+	mutex_unlock(&ptdev->mmu->vm.lock);
-+
-+	drm_sched_entity_destroy(&vm->entity);
-+	drm_sched_fini(&vm->sched);
-+
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+	if (vm->as.id >= 0) {
-+		int cookie;
-+
-+		if (drm_dev_enter(&ptdev->base, &cookie)) {
-+			panthor_mmu_as_disable(ptdev, vm->as.id);
-+			drm_dev_exit(cookie);
-+		}
-+
-+		ptdev->mmu->as.slots[vm->as.id].vm = NULL;
-+		clear_bit(vm->as.id, &ptdev->mmu->as.alloc_mask);
-+		list_del(&vm->as.lru_node);
-+	}
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+
-+	drm_WARN_ON(&ptdev->base,
-+		    panthor_vm_unmap_range(vm, vm->va_mgr.mm_start, vm->va_mgr.mm_range));
-+
-+	free_io_pgtable_ops(vm->pgtbl_ops);
-+
-+	drm_mm_takedown(&vm->mm);
-+	mutex_destroy(&vm->mm_lock);
-+	drm_gpuva_manager_destroy(&vm->va_mgr);
-+	drm_gem_private_object_fini(&vm->dummy_gem);
-+	mutex_destroy(&vm->op_lock);
-+	kfree(vm);
-+}
-+
-+/**
-+ * panthor_vm_put() - Release a reference on a VM
-+ * @vm: VM to release the reference on. Can be NULL.
-+ */
-+void panthor_vm_put(struct panthor_vm *vm)
-+{
-+	if (vm)
-+		kref_put(&vm->refcount, panthor_vm_release);
-+}
-+
-+/**
-+ * panthor_vm_get() - Get a VM reference
-+ * @vm: VM to get the reference on. Can be NULL.
-+ *
-+ * Return: @vm value.
-+ */
-+struct panthor_vm *panthor_vm_get(struct panthor_vm *vm)
-+{
-+	if (vm)
-+		kref_get(&vm->refcount);
-+
-+	return vm;
-+}
-+
-+/**
-+ * panthor_vm_get_heap_pool() - Get the heap pool attached to a VM
-+ * @vm: VM to query the heap pool on.
-+ * @create: True if the heap pool should be created when it doesn't exist.
-+ *
-+ * Heap pools are per-VM. This function allows one to retrieve the heap pool
-+ * attached to a VM.
-+ *
-+ * If no heap pool exists yet, and @create is true, we create one.
-+ *
-+ * The returned panthor_heap_pool should be released with panthor_heap_pool_put().
-+ *
-+ * Return: A valid pointer on success, an ERR_PTR() otherwise.
-+ */
-+struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create)
-+{
-+	struct panthor_heap_pool *pool;
-+
-+	mutex_lock(&vm->heaps.lock);
-+	if (!vm->heaps.pool && create) {
-+		if (vm->destroyed)
-+			pool = ERR_PTR(-EINVAL);
-+		else
-+			pool = panthor_heap_pool_create(vm->ptdev, vm);
-+
-+		if (!IS_ERR(pool))
-+			vm->heaps.pool = panthor_heap_pool_get(pool);
-+	} else {
-+		pool = panthor_heap_pool_get(vm->heaps.pool);
-+	}
-+	mutex_unlock(&vm->heaps.lock);
-+
-+	return pool;
-+}
-+
-+static u64 mair_to_memattr(u64 mair)
-+{
-+	u64 memattr = 0;
-+	u32 i;
-+
-+	for (i = 0; i < 8; i++) {
-+		u8 in_attr = mair >> (8 * i), out_attr;
-+		u8 outer = in_attr >> 4, inner = in_attr & 0xf;
-+
-+		/* For caching to be enabled, inner and outer caching policy
-+		 * have to be both write-back, if one of them is write-through
-+		 * or non-cacheable, we just choose non-cacheable. Device
-+		 * memory is also translated to non-cacheable.
++		/* Shared section is in the auto-VA range. We need to
++		 * reserve the VA range so it's not allocated to someone else.
 +		 */
-+		if (!(outer & 3) || !(outer & 4) || !(inner & 4)) {
-+			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_NC |
-+				   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER |
-+				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(false, false);
-+		} else {
-+			/* Use SH_CPU_INNER mode so SH_IS, which is used when
-+			 * IOMMU_CACHE is set, actually maps to the standard
-+			 * definition of inner-shareable and not Mali's
-+			 * internal-shareable mode.
-+			 */
-+			out_attr = AS_MEMATTR_AARCH64_INNER_OUTER_WB |
-+				   AS_MEMATTR_AARCH64_SH_CPU_INNER |
-+				   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(inner & 1, inner & 2);
-+		}
++		if (va >= CSF_MCU_SHARED_REGION_START &&
++		    va < CSF_MCU_SHARED_REGION_START + CSF_MCU_SHARED_REGION_SIZE)
++			va = PANTHOR_GEM_ALLOC_VA;
 +
-+		memattr |= (u64)out_attr << (8 * i);
++		section->mem = panthor_fw_mem_alloc(ptdev, section_size,
++						    DRM_PANTHOR_BO_NO_MMAP,
++						    vm_map_flags, va);
++		if (IS_ERR(section->mem))
++			return PTR_ERR(section->mem);
++
++		if (drm_WARN_ON(&ptdev->base, section->mem->va != hdr.va.start))
++			return -EINVAL;
++
++		panthor_fw_init_section_mem(ptdev, section);
++
++		sgt = drm_gem_shmem_get_pages_sgt(&section->mem->bo->base);
++		if (IS_ERR(sgt))
++			return PTR_ERR(section->mem);
++
++		dma_sync_sgtable_for_device(ptdev->base.dev, sgt, DMA_TO_DEVICE);
++
++		if (section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED) {
++			if (!panthor_fw_mem_vmap(section->mem))
++				return -ENOMEM;
++		}
 +	}
 +
-+	return memattr;
-+}
++	if (hdr.va.start == CSF_MCU_SHARED_REGION_START)
++		ptdev->fw->shared_section = section;
 +
-+static void panthor_vma_link(struct panthor_vm *vm, struct panthor_vma *vma)
-+{
-+	struct panthor_gem_object *bo = to_panthor_bo(vma->base.gem.obj);
-+
-+	mutex_lock(&bo->gpuva_list_lock);
-+	drm_gpuva_link(&vma->base);
-+	mutex_unlock(&bo->gpuva_list_lock);
-+
-+	if (!bo->exclusive_vm)
-+		list_add_tail(&vma->node, &vm->shared_bos);
-+}
-+
-+static void panthor_vma_unlink(struct panthor_vm_op_ctx *op_ctx,
-+			       struct panthor_vma *vma)
-+{
-+	struct panthor_gem_object *bo = to_panthor_bo(vma->base.gem.obj);
-+
-+	mutex_lock(&bo->gpuva_list_lock);
-+	drm_gpuva_unlink(&vma->base);
-+	mutex_unlock(&bo->gpuva_list_lock);
-+
-+	list_move_tail(&vma->node, &op_ctx->returned_vmas);
-+}
-+
-+static void panthor_vma_init(struct panthor_vma *vma,
-+			     struct drm_gem_object *obj,
-+			     u64 offset,
-+			     u64 va, u64 range, u32 flags)
-+{
-+	INIT_LIST_HEAD(&vma->node);
-+	vma->flags = flags;
-+	vma->base.gem.obj = obj;
-+	vma->base.gem.offset = offset;
-+	vma->base.va.addr = va;
-+	vma->base.va.range = range;
-+}
-+
-+#define PANTHOR_VM_MAP_FLAGS \
-+	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED)
-+
-+static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
-+{
-+	struct panthor_vm *vm = priv;
-+	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
-+	struct panthor_vma *vma = op_ctx->map.new_vma;
-+	int ret;
-+
-+	panthor_vma_init(vma, op->map.gem.obj, op->map.gem.offset, op->map.va.addr,
-+			 op->map.va.range, op_ctx->flags & PANTHOR_VM_MAP_FLAGS);
-+
-+	ret = panthor_vm_map_pages(vm, vma->base.va.addr, flags_to_prot(vma->flags),
-+				   op_ctx->map.sgt, vma->base.gem.offset,
-+				   vma->base.va.range);
-+	if (ret)
-+		return ret;
-+
-+	/* Ref owned by the mapping now, clear the obj field so we don't release the
-+	 * pinning/obj ref behind GPUVA's back.
-+	 */
-+	drm_gpuva_map(&vm->va_mgr, &vma->base, &op->map);
-+	panthor_vma_link(vm, op_ctx->map.new_vma);
-+	op_ctx->map.gem.obj = NULL;
-+	op_ctx->map.new_vma = NULL;
 +	return 0;
-+}
-+
-+static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
-+				       void *priv)
-+{
-+	struct panthor_vma *unmap_vma = container_of(op->remap.unmap->va, struct panthor_vma, base);
-+	const u64 va_start = op->remap.prev ?
-+			     op->remap.prev->va.addr + op->remap.prev->va.range :
-+			     op->remap.unmap->va->va.addr;
-+	const u64 va_end = op->remap.next ?
-+			   op->remap.next->va.addr :
-+			   op->remap.unmap->va->va.addr + op->remap.unmap->va->va.range;
-+	struct panthor_vm *vm = priv;
-+	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
-+	struct drm_gpuva *prev_va = NULL, *next_va = NULL;
-+	int ret;
-+
-+	ret = panthor_vm_unmap_pages(vm, va_start, va_end - va_start);
-+	if (ret)
-+		return ret;
-+
-+	if (op->remap.prev) {
-+		struct panthor_gem_object *bo = to_panthor_bo(op->remap.prev->gem.obj);
-+
-+		if (!bo->base.base.import_attach) {
-+			ret = drm_gem_shmem_pin(&bo->base);
-+			if (drm_WARN_ON(&vm->ptdev->base, ret))
-+				return ret;
-+		}
-+
-+		panthor_vma_init(op_ctx->map.prev_vma,
-+				 op->remap.prev->gem.obj,
-+				 op->remap.prev->gem.offset,
-+				 op->remap.prev->va.addr,
-+				 op->remap.prev->va.range,
-+				 unmap_vma->flags);
-+		prev_va = &op_ctx->map.prev_vma->base;
-+	}
-+
-+	if (op->remap.next) {
-+		struct panthor_gem_object *bo = to_panthor_bo(op->remap.next->gem.obj);
-+
-+		if (!bo->base.base.import_attach) {
-+			ret = drm_gem_shmem_pin(&bo->base);
-+			if (drm_WARN_ON(&vm->ptdev->base, ret))
-+				return ret;
-+		}
-+
-+		panthor_vma_init(op_ctx->map.next_vma,
-+				 op->remap.next->gem.obj,
-+				 op->remap.next->gem.offset,
-+				 op->remap.next->va.addr,
-+				 op->remap.next->va.range,
-+				 unmap_vma->flags);
-+		next_va = &op_ctx->map.next_vma->base;
-+	}
-+
-+	drm_gpuva_remap(prev_va, next_va, &op->remap);
-+
-+	if (prev_va) {
-+		drm_gem_object_get(prev_va->gem.obj);
-+		panthor_vma_link(vm, op_ctx->map.prev_vma);
-+		op_ctx->map.prev_vma = NULL;
-+	}
-+
-+	if (next_va) {
-+		drm_gem_object_get(next_va->gem.obj);
-+		panthor_vma_link(vm, op_ctx->map.next_vma);
-+		op_ctx->map.next_vma = NULL;
-+	}
-+
-+	panthor_vma_unlink(op_ctx, unmap_vma);
-+	return 0;
-+}
-+
-+static int panthor_gpuva_sm_step_unmap(struct drm_gpuva_op *op,
-+				       void *priv)
-+{
-+	struct panthor_vma *unmap_vma = container_of(op->unmap.va, struct panthor_vma, base);
-+	struct panthor_vm *vm = priv;
-+	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
-+	int ret;
-+
-+	ret = panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
-+				     unmap_vma->base.va.range);
-+	if (drm_WARN_ON(&vm->ptdev->base, ret))
-+		return ret;
-+
-+	drm_gpuva_unmap(&op->unmap);
-+	panthor_vma_unlink(op_ctx, unmap_vma);
-+	return 0;
-+}
-+
-+static const struct drm_gpuva_fn_ops panthor_gpuva_ops = {
-+	.sm_step_map = panthor_gpuva_sm_step_map,
-+	.sm_step_remap = panthor_gpuva_sm_step_remap,
-+	.sm_step_unmap = panthor_gpuva_sm_step_unmap,
-+};
-+
-+/**
-+ * panthor_vm_resv() - Get the dma_resv object attached to a VM.
-+ * @vm: VM to get the dma_resv of.
-+ *
-+ * Return: A dma_resv object.
-+ */
-+struct dma_resv *panthor_vm_resv(struct panthor_vm *vm)
-+{
-+	return vm->dummy_gem.resv;
-+}
-+
-+static int
-+panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
-+		   bool flag_vm_unusable_on_failure)
-+{
-+	int ret;
-+
-+	mutex_lock(&vm->op_lock);
-+	vm->op_ctx = op;
-+	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
-+	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
-+		if (vm->unusable) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+
-+		ret = drm_gpuva_sm_map(&vm->va_mgr, vm, op->va.addr, op->va.range,
-+				       op->map.gem.obj, op->map.gem.offset);
-+		break;
-+
-+	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
-+		ret = drm_gpuva_sm_unmap(&vm->va_mgr, vm, op->va.addr, op->va.range);
-+		break;
-+
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	if (ret && flag_vm_unusable_on_failure)
-+		vm->unusable = true;
-+
-+	vm->op_ctx = NULL;
-+	mutex_unlock(&vm->op_lock);
-+
-+	return ret;
-+}
-+
-+static struct dma_fence *
-+panthor_vm_bind_run_job(struct drm_sched_job *sched_job)
-+{
-+	struct panthor_vm_bind_job *job = container_of(sched_job, struct panthor_vm_bind_job, base);
-+	bool cookie;
-+	int ret;
-+
-+	/* Not only we report an error whose result is propagated to the
-+	 * drm_sched finished fence, but we also flag the VM as unusable, because
-+	 * a failure in the async VM_BIND results in an inconsistent state. VM needs
-+	 * to be destroyed and recreated.
-+	 */
-+	cookie = dma_fence_begin_signalling();
-+	ret = panthor_vm_exec_op(job->vm, &job->ctx, true);
-+	dma_fence_end_signalling(cookie);
-+
-+	return ret ? ERR_PTR(ret) : NULL;
-+}
-+
-+static void panthor_vm_bind_job_release(struct kref *kref)
-+{
-+	struct panthor_vm_bind_job *job = container_of(kref, struct panthor_vm_bind_job, refcount);
-+
-+	if (job->base.s_fence)
-+		drm_sched_job_cleanup(&job->base);
-+
-+	panthor_vm_cleanup_op_ctx(&job->ctx, job->vm);
-+	panthor_vm_put(job->vm);
-+	kfree(job);
-+}
-+
-+/**
-+ * panthor_vm_bind_job_put() - Release a VM_BIND job reference
-+ * @sched_job: Job to release the reference on.
-+ */
-+void panthor_vm_bind_job_put(struct drm_sched_job *sched_job)
-+{
-+	struct panthor_vm_bind_job *job =
-+		container_of(sched_job, struct panthor_vm_bind_job, base);
-+
-+	if (sched_job)
-+		kref_put(&job->refcount, panthor_vm_bind_job_release);
 +}
 +
 +static void
-+panthor_vm_bind_free_job(struct drm_sched_job *sched_job)
++panthor_reload_fw_sections(struct panthor_device *ptdev, bool full_reload)
 +{
-+	struct panthor_vm_bind_job *job =
-+		container_of(sched_job, struct panthor_vm_bind_job, base);
++	struct panthor_fw_section *section;
 +
-+	drm_sched_job_cleanup(sched_job);
++	list_for_each_entry(section, &ptdev->fw->sections, node) {
++		struct sg_table *sgt;
 +
-+	/* Do the heavy cleanups asynchronously, so we're out of the
-+	 * dma-signaling path and can acquire dma-resv locks safely.
-+	 */
-+	queue_work(panthor_cleanup_wq, &job->cleanup_op_ctx_work);
++		if (!full_reload && !(section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_WR))
++			continue;
++
++		panthor_fw_init_section_mem(ptdev, section);
++		sgt = drm_gem_shmem_get_pages_sgt(&section->mem->bo->base);
++		if (!drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(sgt)))
++			dma_sync_sgtable_for_device(ptdev->base.dev, sgt, DMA_TO_DEVICE);
++	}
 +}
 +
-+static enum drm_gpu_sched_stat
-+panthor_vm_bind_timedout_job(struct drm_sched_job *sched_job)
++static int panthor_fw_load_entry(struct panthor_device *ptdev,
++				 const struct firmware *fw,
++				 struct panthor_fw_binary_iter *iter)
 +{
-+	WARN(1, "VM_BIND ops are synchronous for now, there should be no timeout!");
-+	return DRM_GPU_SCHED_STAT_NOMINAL;
-+}
-+
-+static const struct drm_sched_backend_ops panthor_vm_bind_ops = {
-+	.run_job = panthor_vm_bind_run_job,
-+	.free_job = panthor_vm_bind_free_job,
-+	.timedout_job = panthor_vm_bind_timedout_job,
-+};
-+
-+/**
-+ * panthor_vm_create() - Create a VM
-+ * @ptdev: Device.
-+ * @for_mcu: True if this is the FW MCU VM.
-+ * @auto_va_start: Start of the auto-VA range.
-+ * @auto_va_range: Size of the auto-VA range.
-+ *
-+ * Return: A valid pointer on success, an ERR_PTR() otherwise.
-+ */
-+struct panthor_vm *
-+panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
-+		  u64 auto_va_start, u64 auto_va_range)
-+{
-+	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
-+	u32 pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
-+	struct drm_gpu_scheduler *sched;
-+	struct io_pgtable_cfg pgtbl_cfg;
-+	u64 mair, min_va, va_range;
-+	struct panthor_vm *vm;
++	struct panthor_fw_binary_iter eiter;
++	u32 ehdr;
 +	int ret;
 +
-+	vm = kzalloc(sizeof(*vm), GFP_KERNEL);
-+	if (!vm)
-+		return ERR_PTR(-ENOMEM);
-+
-+	mutex_init(&vm->heaps.lock);
-+	kref_init(&vm->refcount);
-+	drm_gem_private_object_init(&ptdev->base, &vm->dummy_gem, 0);
-+	vm->for_mcu = for_mcu;
-+	vm->ptdev = ptdev;
-+	INIT_LIST_HEAD(&vm->shared_bos);
-+	mutex_init(&vm->op_lock);
-+
-+	if (for_mcu) {
-+		/* CSF MCU is a cortex M7, and can only address 4G */
-+		min_va = 0;
-+		va_range = SZ_4G;
-+	} else {
-+		min_va = 0;
-+		va_range = (1ull << va_bits);
-+
-+		/* If the auto_va_range is zero, we reserve half of the VA
-+		 * space for kernel stuff.
-+		 */
-+		if (!auto_va_range) {
-+			auto_va_range = va_range / 2;
-+			auto_va_start = va_range - auto_va_range;
-+		}
-+	}
-+
-+	mutex_init(&vm->mm_lock);
-+	drm_mm_init(&vm->mm, auto_va_start, auto_va_range);
-+
-+	/* We intentionally leave the reserved range to zero, because we want kernel VMAs
-+	 * to be handled the same way user VMAs are.
-+	 */
-+	drm_gpuva_manager_init(&vm->va_mgr,
-+			       for_mcu ? "panthor-MCU-VA-manager" : "panthor-GPU-VA-manager",
-+			       min_va, va_range, 0, 0,
-+			       &panthor_gpuva_ops);
-+	INIT_LIST_HEAD(&vm->node);
-+	INIT_LIST_HEAD(&vm->as.lru_node);
-+	vm->as.id = -1;
-+
-+	pgtbl_cfg = (struct io_pgtable_cfg) {
-+		.pgsize_bitmap	= SZ_4K | SZ_2M,
-+		.ias		= va_bits,
-+		.oas		= pa_bits,
-+		.coherent_walk	= ptdev->coherent,
-+		.tlb		= &mmu_tlb_ops,
-+		.iommu_dev	= ptdev->base.dev,
-+		.alloc		= alloc_pt,
-+		.free		= free_pt,
-+	};
-+
-+	vm->pgtbl_ops = alloc_io_pgtable_ops(ARM_64_LPAE_S1, &pgtbl_cfg, vm);
-+	if (!vm->pgtbl_ops) {
-+		ret = -EINVAL;
-+		goto err_gpuva_destroy;
-+	}
-+
-+	/* Bind operations are synchronous for now, no timeout needed. */
-+	ret = drm_sched_init(&vm->sched, &panthor_vm_bind_ops, ptdev->mmu->vm.wq, 1, 0,
-+			     MAX_SCHEDULE_TIMEOUT, NULL, NULL,
-+			     "panthor-vm-bind", DRM_SCHED_POLICY_SINGLE_ENTITY,
-+			     ptdev->base.dev);
++	ret = panthor_fw_binary_iter_read(ptdev, iter, &ehdr, sizeof(ehdr));
 +	if (ret)
-+		goto err_free_io_pgtable;
-+
-+	sched = &vm->sched;
-+	ret = drm_sched_entity_init(&vm->entity, DRM_SCHED_PRIORITY_NORMAL,
-+				    &sched, 1, NULL);
-+	if (ret)
-+		goto err_sched_fini;
-+
-+	mair = io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg.arm_lpae_s1_cfg.mair;
-+	vm->memattr = mair_to_memattr(mair);
-+
-+	mutex_lock(&ptdev->mmu->vm.lock);
-+	list_add_tail(&vm->node, &ptdev->mmu->vm.list);
-+
-+	/* If a reset is in progress, stop the scheduler. */
-+	if (ptdev->mmu->vm.reset_in_progress)
-+		panthor_vm_stop(vm);
-+	mutex_unlock(&ptdev->mmu->vm.lock);
-+
-+	return vm;
-+
-+err_sched_fini:
-+	drm_sched_fini(&vm->sched);
-+
-+err_free_io_pgtable:
-+	free_io_pgtable_ops(vm->pgtbl_ops);
-+
-+err_gpuva_destroy:
-+	drm_mm_takedown(&vm->mm);
-+	drm_gpuva_manager_destroy(&vm->va_mgr);
-+	drm_gem_private_object_fini(&vm->dummy_gem);
-+	kfree(vm);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static int
-+panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
-+			       struct panthor_vm *vm,
-+			       const struct drm_panthor_vm_bind_op *op,
-+			       struct panthor_vm_op_ctx *op_ctx)
-+{
-+	struct drm_gem_object *gem;
-+	int ret;
-+
-+	/* Aligned on page size. */
-+	if ((op->va | op->size) & ~PAGE_MASK)
-+		return -EINVAL;
-+
-+	switch (op->flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) {
-+	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
-+		gem = drm_gem_object_lookup(file, op->bo_handle);
-+		ret = panthor_vm_prepare_map_op_ctx(op_ctx, vm,
-+						    gem ? to_panthor_bo(gem) : NULL,
-+						    op->bo_offset,
-+						    op->size,
-+						    op->va,
-+						    op->flags);
-+		drm_gem_object_put(gem);
 +		return ret;
 +
-+	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
-+		return panthor_vm_prepare_unmap_op_ctx(op_ctx, vm, op->va, op->size);
++	if ((iter->offset % sizeof(u32)) ||
++	    (CSF_FW_BINARY_ENTRY_SIZE(ehdr) % sizeof(u32))) {
++		drm_err(&ptdev->base, "Firmware entry isn't 32 bit aligned, offset=0x%x size=0x%x\n",
++			(u32)(iter->offset - sizeof(u32)), CSF_FW_BINARY_ENTRY_SIZE(ehdr));
++		return -EINVAL;
++	}
 +
++	eiter.offset = 0;
++	eiter.data = iter->data + iter->offset;
++	eiter.size = CSF_FW_BINARY_ENTRY_SIZE(ehdr) - sizeof(ehdr);
++	iter->offset += eiter.size;
++
++	switch (CSF_FW_BINARY_ENTRY_TYPE(ehdr)) {
++	case CSF_FW_BINARY_ENTRY_TYPE_IFACE:
++		return panthor_fw_load_section_entry(ptdev, fw, &eiter, ehdr);
++
++	/* FIXME: handle those entry types? */
++	case CSF_FW_BINARY_ENTRY_TYPE_CONFIG:
++	case CSF_FW_BINARY_ENTRY_TYPE_FUTF_TEST:
++	case CSF_FW_BINARY_ENTRY_TYPE_TRACE_BUFFER:
++	case CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA:
++		return 0;
 +	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static void panthor_vm_bind_job_cleanup_op_ctx_work(struct work_struct *work)
-+{
-+	struct panthor_vm_bind_job *job =
-+		container_of(work, struct panthor_vm_bind_job, cleanup_op_ctx_work);
-+
-+	panthor_vm_cleanup_op_ctx(&job->ctx, job->vm);
-+	panthor_vm_bind_job_put(&job->base);
-+}
-+
-+/**
-+ * panthor_vm_bind_job_create() - Create a VM_BIND job
-+ * @file: File.
-+ * @vm: VM targeted by the VM_BIND job.
-+ * @op: VM operation data.
-+ *
-+ * Return: A valid pointer on success, an ERR_PTR() otherwise.
-+ */
-+struct drm_sched_job *
-+panthor_vm_bind_job_create(struct drm_file *file,
-+			   struct panthor_vm *vm,
-+			   const struct drm_panthor_vm_bind_op *op)
-+{
-+	struct panthor_vm_bind_job *job;
-+	int ret;
-+
-+	if (!vm)
-+		return ERR_PTR(-EINVAL);
-+
-+	if (vm->destroyed || vm->unusable)
-+		return ERR_PTR(-EINVAL);
-+
-+	job = kzalloc(sizeof(*job), GFP_KERNEL);
-+	if (!job)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_WORK(&job->cleanup_op_ctx_work, panthor_vm_bind_job_cleanup_op_ctx_work);
-+	kref_init(&job->refcount);
-+	job->vm = panthor_vm_get(vm);
-+
-+	ret = panthor_vm_bind_prepare_op_ctx(file, vm, op, &job->ctx);
-+	if (ret)
-+		goto err_put_job;
-+
-+	ret = drm_sched_job_init(&job->base, &vm->entity, vm);
-+	if (ret)
-+		goto err_put_job;
-+
-+	return &job->base;
-+
-+err_put_job:
-+	panthor_vm_bind_job_put(&job->base);
-+	return ERR_PTR(ret);
-+}
-+
-+/**
-+ * panthor_vm_bind_job_prepare_resvs() - Prepare VM_BIND job dma_resvs
-+ * @exec: The locking/preparation context.
-+ * @sched_job: The job to prepare resvs on.
-+ *
-+ * Locks and prepare the VM resv.
-+ *
-+ * If this is a map operation, locks and prepares the GEM resv.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_bind_job_prepare_resvs(struct drm_exec *exec,
-+				      struct drm_sched_job *sched_job)
-+{
-+	struct panthor_vm_bind_job *job = container_of(sched_job, struct panthor_vm_bind_job, base);
-+	int ret;
-+
-+	/* Acquire the VM lock an reserve a slot for this VM bind job. */
-+	ret = drm_exec_prepare_obj(exec, &job->vm->dummy_gem, 1);
-+	if (ret)
-+		return ret;
-+
-+	if (job->ctx.map.gem.obj) {
-+		/* Lock/prepare the GEM being mapped. */
-+		ret = drm_exec_prepare_obj(exec, job->ctx.map.gem.obj, 1);
-+		if (ret)
-+			return ret;
++		break;
 +	}
 +
-+	return 0;
-+}
-+
-+/**
-+ * panthor_vm_bind_job_add_resvs_deps() - Add implicit deps to the VM_BIND job
-+ * @sched_job: Job to add implicit deps on.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_bind_job_add_resvs_deps(struct drm_sched_job *sched_job)
-+{
-+	struct panthor_vm_bind_job *job = container_of(sched_job, struct panthor_vm_bind_job, base);
-+	int ret;
-+
-+	/* We use explicit fencing, so no need to wait for anything else but
-+	 * DMA_RESV_USAGE_KERNEL on the BO being mapped or VM. If there are extra
-+	 * dependencies, they should be passed to the VM_BIND ioctl.
-+	 */
-+	ret = drm_sched_job_add_resv_dependencies(sched_job,
-+						  job->vm->dummy_gem.resv,
-+						  DMA_RESV_USAGE_KERNEL);
-+	if (ret)
-+		return ret;
-+
-+	if (job->ctx.map.gem.obj) {
-+		ret = drm_sched_job_add_resv_dependencies(sched_job,
-+							  job->ctx.map.gem.obj->resv,
-+							  DMA_RESV_USAGE_KERNEL);
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * panthor_vm_bind_job_update_resvs() - Update the resv objects touched by a job
-+ * @sched_job: Job to update the resvs on.
-+ */
-+void panthor_vm_bind_job_update_resvs(struct drm_sched_job *sched_job)
-+{
-+	struct panthor_vm_bind_job *job = container_of(sched_job, struct panthor_vm_bind_job, base);
-+
-+	/* Explicit sync => we just register our job finished fence as bookkeep. */
-+	dma_resv_add_fence(job->vm->dummy_gem.resv,
-+			   &sched_job->s_fence->finished,
-+			   DMA_RESV_USAGE_BOOKKEEP);
-+
-+	if (job->ctx.map.gem.obj) {
-+		dma_resv_add_fence(job->ctx.map.gem.obj->resv,
-+				   &sched_job->s_fence->finished,
-+				   DMA_RESV_USAGE_BOOKKEEP);
-+	}
-+}
-+
-+/**
-+ * panthor_vm_bind_exec_sync_op() - Execute a VM_BIND operation synchronously.
-+ * @file: File.
-+ * @vm: VM targeted by the VM operation.
-+ * @op: Data describing the VM operation.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_bind_exec_sync_op(struct drm_file *file,
-+				 struct panthor_vm *vm,
-+				 struct drm_panthor_vm_bind_op *op)
-+{
-+	struct panthor_vm_op_ctx op_ctx;
-+	int ret;
-+
-+	/* No sync objects allowed on synchronous operations. */
-+	if (op->syncs.count)
-+		return -EINVAL;
-+
-+	if (!op->size)
++	if (ehdr & CSF_FW_BINARY_ENTRY_OPTIONAL)
 +		return 0;
 +
-+	ret = panthor_vm_bind_prepare_op_ctx(file, vm, op, &op_ctx);
-+	if (ret)
-+		return ret;
-+
-+	ret = panthor_vm_exec_op(vm, &op_ctx, false);
-+	panthor_vm_cleanup_op_ctx(&op_ctx, vm);
-+
-+	return ret;
++	drm_err(&ptdev->base,
++		"Unsupported non-optional entry type %u in firmware\n",
++		CSF_FW_BINARY_ENTRY_TYPE(ehdr));
++	return -EINVAL;
 +}
 +
-+/**
-+ * panthor_vm_map_bo_range() - Map a GEM object range to a VM
-+ * @vm: VM to map the GEM to.
-+ * @bo: GEM object to map.
-+ * @offset: Offset in the GEM object.
-+ * @size: Size to map.
-+ * @va: Virtual address to map the object to.
-+ * @flags: Combination of drm_panthor_vm_bind_op_flags flags.
-+ * Only map-related flags are valid.
-+ *
-+ * Internal use only. For userspace requests, use
-+ * panthor_vm_bind_exec_sync_op() instead.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_map_bo_range(struct panthor_vm *vm, struct panthor_gem_object *bo,
-+			    u64 offset, size_t size, u64 va, u32 flags)
++static int panthor_fw_load(struct panthor_device *ptdev)
 +{
-+	struct panthor_vm_op_ctx op_ctx;
++	const struct firmware *fw = NULL;
++	struct panthor_fw_binary_iter iter = {};
++	struct panthor_fw_binary_hdr hdr;
 +	int ret;
 +
-+	ret = panthor_vm_prepare_map_op_ctx(&op_ctx, vm, bo, offset, size, va, flags);
-+	if (ret)
++	ret = request_firmware(&fw, CSF_FW_NAME, ptdev->base.dev);
++	if (ret) {
++		drm_err(&ptdev->base, "Failed to load firmware image '%s'\n",
++			CSF_FW_NAME);
 +		return ret;
++	}
 +
-+	ret = panthor_vm_exec_op(vm, &op_ctx, false);
-+	panthor_vm_cleanup_op_ctx(&op_ctx, vm);
-+
-+	return ret;
-+}
-+
-+/**
-+ * panthor_vm_unmap_range() - Unmap a portion of the VA space
-+ * @vm: VM to unmap the region from.
-+ * @va: Virtual address to unmap. Must be 4k aligned.
-+ * @size: Size of the region to unmap. Must be 4k aligned.
-+ *
-+ * Internal use only. For userspace requests, use
-+ * panthor_vm_bind_exec_sync_op() instead.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_unmap_range(struct panthor_vm *vm, u64 va, size_t size)
-+{
-+	struct panthor_vm_op_ctx op_ctx;
-+	int ret;
-+
-+	ret = panthor_vm_prepare_unmap_op_ctx(&op_ctx, vm, va, size);
++	iter.data = fw->data;
++	iter.size = fw->size;
++	ret = panthor_fw_binary_iter_read(ptdev, &iter, &hdr, sizeof(hdr));
 +	if (ret)
-+		return ret;
++		goto out;
 +
-+	ret = panthor_vm_exec_op(vm, &op_ctx, false);
-+	panthor_vm_cleanup_op_ctx(&op_ctx, vm);
++	if (hdr.magic != CSF_FW_BINARY_HEADER_MAGIC) {
++		ret = -EINVAL;
++		drm_err(&ptdev->base, "Invalid firmware magic\n");
++		goto out;
++	}
 +
-+	return ret;
-+}
++	if (hdr.major != CSF_FW_BINARY_HEADER_MAJOR_MAX) {
++		ret = -EINVAL;
++		drm_err(&ptdev->base, "Unsupported firmware binary header version %d.%d (expected %d.x)\n",
++			hdr.major, hdr.minor, CSF_FW_BINARY_HEADER_MAJOR_MAX);
++		goto out;
++	}
 +
-+/**
-+ * panthor_vm_prepare_mapped_bos_resvs() - Prepare resvs on VM BOs.
-+ * @exec: Locking/preparation context.
-+ * @vm: VM targeted by the GPU job.
-+ *
-+ * GPU jobs assume all BOs bound to the VM at the time the job is submitted
-+ * are available when the job is executed. In order to guarantee that, we
-+ * need to reserve a slot on all BOs mapped to a VM and update this slot with
-+ * the job fence after its submission.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm *vm)
-+{
-+	struct panthor_vma *vma;
-+	int ret;
++	if (hdr.size > iter.size) {
++		drm_err(&ptdev->base, "Firmware image is truncated\n");
++		goto out;
++	}
 +
-+	/* Acquire the VM lock an reserve a slot for this GPU job. */
-+	ret = drm_exec_prepare_obj(exec, &vm->dummy_gem, 1);
-+	if (ret)
-+		return ret;
++	iter.size = hdr.size;
 +
-+	list_for_each_entry(vma, &vm->shared_bos, node) {
-+		ret = drm_exec_prepare_obj(exec, vma->base.gem.obj, 1);
++	while (iter.offset < hdr.size) {
++		ret = panthor_fw_load_entry(ptdev, fw, &iter);
 +		if (ret)
-+			return ret;
++			goto out;
 +	}
 +
-+	return 0;
++	if (!ptdev->fw->shared_section) {
++		drm_err(&ptdev->base, "Shared interface region not found\n");
++		ret = -EINVAL;
++		goto out;
++	}
++
++out:
++	release_firmware(fw);
++	return ret;
 +}
 +
 +/**
-+ * panthor_vm_add_bos_resvs_deps_to_job() - Add implicit VM deps to a GPU job
-+ * @vm: VM targeted by the GPU job.
-+ * @job: GPU job.
-+ *
-+ * We just take care of kernel access. Other accesses should be passed as
-+ * explicit dependencies to the job.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_vm_add_bos_resvs_deps_to_job(struct panthor_vm *vm,
-+					 struct drm_sched_job *job)
-+{
-+	struct panthor_vma *vma;
-+	int ret;
-+
-+	/* We use explicit fencing, so no need to wait for anything else but
-+	 * DMA_RESV_USAGE_KERNEL on the BO being mapped or VM. If there are extra
-+	 * dependencies, they should be passed to the VM_BIND ioctl.
-+	 */
-+	ret = drm_sched_job_add_resv_dependencies(job,
-+						  vm->dummy_gem.resv,
-+						  DMA_RESV_USAGE_KERNEL);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry(vma, &vm->shared_bos, node) {
-+		ret = drm_sched_job_add_resv_dependencies(job,
-+							  vma->base.gem.obj->resv,
-+							  DMA_RESV_USAGE_KERNEL);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * panthor_vm_add_job_fence_to_bos_resvs() - Add GPU job fence to GEM resvs
-+ * @vm: VM targeted by the GPU job.
-+ * @job: GPU job.
-+ *
-+ * Update the GEM resvs after a job has been submitted. All GEMs currently
-+ * bound to the VMs get the job fence added to their resv as bookkeep. If
-+ * another type of implicit dependency is needed, it should be updated
-+ * with %DMA_BUF_IOCTL_IMPORT_SYNC_FILE after the
-+ * %DRM_IOCTL_PANTHOR_GROUP_SUBMIT ioctl has returned.
-+ */
-+void panthor_vm_add_job_fence_to_bos_resvs(struct panthor_vm *vm,
-+					   struct drm_sched_job *job)
-+{
-+	struct panthor_vma *vma;
-+
-+	/* Explicit sync => we just register our job finished fence as bookkeep. */
-+	dma_resv_add_fence(vm->dummy_gem.resv,
-+			   &job->s_fence->finished,
-+			   DMA_RESV_USAGE_BOOKKEEP);
-+
-+	list_for_each_entry(vma, &vm->shared_bos, node) {
-+		dma_resv_add_fence(vma->base.gem.obj->resv,
-+				   &job->s_fence->finished,
-+				   DMA_RESV_USAGE_BOOKKEEP);
-+	}
-+}
-+
-+/**
-+ * panthor_mmu_unplug() - Unplug the MMU logic
++ * iface_fw_to_cpu_addr() - Turn an MCU address into a CPU address
 + * @ptdev: Device.
++ * @mcu_va: MCU address.
 + *
-+ * No access to the MMU regs should be done after this function is called.
-+ * We suspend the IRQ and disable all VMs to guarantee that.
++ * Return: NULL if the address is not part of the shared section, non-NULL otherwise.
 + */
-+void panthor_mmu_unplug(struct panthor_device *ptdev)
++static void *iface_fw_to_cpu_addr(struct panthor_device *ptdev, u32 mcu_va)
 +{
-+	if (ptdev->mmu->irq.irq > 0)
-+		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
++	u64 shared_mem_start = ptdev->fw->shared_section->mem->va;
++	u64 shared_mem_end = ptdev->fw->shared_section->mem->va +
++			     ptdev->fw->shared_section->mem->bo->base.base.size;
++	if (mcu_va < shared_mem_start || mcu_va >= shared_mem_end)
++		return NULL;
 +
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
-+		struct panthor_vm *vm = ptdev->mmu->as.slots[i].vm;
++	return ptdev->fw->shared_section->mem->kmap + (mcu_va - shared_mem_start);
++}
 +
-+		if (vm) {
-+			drm_WARN_ON(&ptdev->base, panthor_mmu_as_disable(ptdev, i));
-+			vm->as.id = -1;
-+			list_del_init(&vm->as.lru_node);
-+			clear_bit(i, &ptdev->mmu->as.alloc_mask);
-+			ptdev->mmu->as.slots[i].vm = NULL;
++static int panthor_init_cs_iface(struct panthor_device *ptdev,
++				 unsigned int csg_idx, unsigned int cs_idx)
++{
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_idx);
++	struct panthor_fw_cs_iface *cs_iface = &ptdev->fw->iface.streams[csg_idx][cs_idx];
++	u64 shared_section_sz = ptdev->fw->shared_section->mem->bo->base.base.size;
++	u32 iface_offset = CSF_GROUP_CONTROL_OFFSET +
++			   (csg_idx * glb_iface->control->group_stride) +
++			   CSF_STREAM_CONTROL_OFFSET +
++			   (cs_idx * csg_iface->control->stream_stride);
++
++	if (iface_offset + sizeof(*cs_iface) >= shared_section_sz)
++		return -EINVAL;
++
++	spin_lock_init(&cs_iface->lock);
++	cs_iface->control = ptdev->fw->shared_section->mem->kmap + iface_offset;
++	cs_iface->input = iface_fw_to_cpu_addr(ptdev, cs_iface->control->input_va);
++	cs_iface->output = iface_fw_to_cpu_addr(ptdev, cs_iface->control->output_va);
++
++	if (!cs_iface->input || !cs_iface->output) {
++		drm_err(&ptdev->base, "Invalid stream control interface input/output VA");
++		return -EINVAL;
++	}
++
++	if (csg_idx > 0 || cs_idx > 0) {
++		struct panthor_fw_cs_iface *first_cs_iface =
++			panthor_fw_get_cs_iface(ptdev, 0, 0);
++
++		if (cs_iface->control->features != first_cs_iface->control->features) {
++			drm_err(&ptdev->base, "Expecting identical CS slots");
++			return -EINVAL;
++		}
++	} else {
++		u32 reg_count = CS_FEATURES_WORK_REGS(cs_iface->control->features);
++
++		ptdev->csif_info.cs_reg_count = reg_count;
++		ptdev->csif_info.unpreserved_cs_reg_count = CSF_UNPRESERVED_REG_COUNT;
++	}
++
++	return 0;
++}
++
++static int panthor_init_csg_iface(struct panthor_device *ptdev,
++				  unsigned int csg_idx)
++{
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++	struct panthor_fw_csg_iface *csg_iface = &ptdev->fw->iface.groups[csg_idx];
++	u64 shared_section_sz = ptdev->fw->shared_section->mem->bo->base.base.size;
++	u32 iface_offset = CSF_GROUP_CONTROL_OFFSET + (csg_idx * glb_iface->control->group_stride);
++	unsigned int i;
++
++	if (iface_offset + sizeof(*csg_iface) >= shared_section_sz)
++		return -EINVAL;
++
++	spin_lock_init(&csg_iface->lock);
++	csg_iface->control = ptdev->fw->shared_section->mem->kmap + iface_offset;
++	csg_iface->input = iface_fw_to_cpu_addr(ptdev, csg_iface->control->input_va);
++	csg_iface->output = iface_fw_to_cpu_addr(ptdev, csg_iface->control->output_va);
++
++	if (csg_iface->control->stream_num < MIN_CS_PER_CSG ||
++	    csg_iface->control->stream_num > MAX_CS_PER_CSG)
++		return -EINVAL;
++
++	if (!csg_iface->input || !csg_iface->output) {
++		drm_err(&ptdev->base, "Invalid group control interface input/output VA");
++		return -EINVAL;
++	}
++
++	if (csg_idx > 0) {
++		struct panthor_fw_csg_iface *first_csg_iface =
++			panthor_fw_get_csg_iface(ptdev, 0);
++		u32 first_protm_suspend_size = first_csg_iface->control->protm_suspend_size;
++
++		if (first_csg_iface->control->features != csg_iface->control->features ||
++		    first_csg_iface->control->suspend_size != csg_iface->control->suspend_size ||
++		    first_protm_suspend_size != csg_iface->control->protm_suspend_size ||
++		    first_csg_iface->control->stream_num != csg_iface->control->stream_num) {
++			drm_err(&ptdev->base, "Expecting identical CSG slots");
++			return -EINVAL;
 +		}
 +	}
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
++
++	for (i = 0; i < csg_iface->control->stream_num; i++) {
++		int ret = panthor_init_cs_iface(ptdev, csg_idx, i);
++
++		if (ret)
++			return ret;
++	}
++
++	return 0;
 +}
 +
-+static void panthor_mmu_release_wq(struct drm_device *ddev, void *res)
++static u32 panthor_get_instr_features(struct panthor_device *ptdev)
 +{
-+	destroy_workqueue(res);
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++
++	if (glb_iface->control->version < CSF_IFACE_VERSION(1, 1, 0))
++		return 0;
++
++	return glb_iface->control->instr_features;
++}
++
++static int panthor_fw_init_ifaces(struct panthor_device *ptdev)
++{
++	struct panthor_fw_global_iface *glb_iface = &ptdev->fw->iface.global;
++	unsigned int i;
++
++	if (!ptdev->fw->shared_section->mem->kmap)
++		return -EINVAL;
++
++	spin_lock_init(&glb_iface->lock);
++	glb_iface->control = ptdev->fw->shared_section->mem->kmap;
++
++	if (!glb_iface->control->version) {
++		drm_err(&ptdev->base, "Invalid CSF interface version %d.%d.%d (%x)",
++			CSF_IFACE_VERSION_MAJOR(glb_iface->control->version),
++			CSF_IFACE_VERSION_MINOR(glb_iface->control->version),
++			CSF_IFACE_VERSION_PATCH(glb_iface->control->version),
++			glb_iface->control->version);
++		return -EINVAL;
++	}
++
++	glb_iface->input = iface_fw_to_cpu_addr(ptdev, glb_iface->control->input_va);
++	glb_iface->output = iface_fw_to_cpu_addr(ptdev, glb_iface->control->output_va);
++	if (!glb_iface->input || !glb_iface->output) {
++		drm_err(&ptdev->base, "Invalid global control interface input/output VA");
++		return -EINVAL;
++	}
++
++	if (glb_iface->control->group_num > MAX_CSGS ||
++	    glb_iface->control->group_num < MIN_CSGS) {
++		drm_err(&ptdev->base, "Invalid number of control groups");
++		return -EINVAL;
++	}
++
++	for (i = 0; i < glb_iface->control->group_num; i++) {
++		int ret = panthor_init_csg_iface(ptdev, i);
++
++		if (ret)
++			return ret;
++	}
++
++	drm_info(&ptdev->base, "CSF FW v%d.%d.%d, Features %x Instrumentation features %x",
++		 CSF_IFACE_VERSION_MAJOR(glb_iface->control->version),
++		 CSF_IFACE_VERSION_MINOR(glb_iface->control->version),
++		 CSF_IFACE_VERSION_PATCH(glb_iface->control->version),
++		 glb_iface->control->features,
++		 panthor_get_instr_features(ptdev));
++	return 0;
++}
++
++static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
++{
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++
++	/* Enable all cores. */
++	glb_iface->input->core_en_mask = ptdev->gpu_info.shader_present;
++
++	/* Setup timers. */
++	glb_iface->input->poweroff_timer = panthor_fw_conv_timeout(ptdev, PWROFF_HYSTERESIS_US);
++	glb_iface->input->progress_timer = PROGRESS_TIMEOUT_CYCLES >> PROGRESS_TIMEOUT_SCALE_SHIFT;
++	glb_iface->input->idle_timer = panthor_fw_conv_timeout(ptdev, IDLE_HYSTERESIS_US);
++
++	/* Enable interrupts we care about. */
++	glb_iface->input->ack_irq_mask = GLB_CFG_ALLOC_EN |
++					 GLB_PING |
++					 GLB_CFG_PROGRESS_TIMER |
++					 GLB_CFG_POWEROFF_TIMER |
++					 GLB_IDLE_EN |
++					 GLB_IDLE;
++
++	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
++	panthor_fw_toggle_reqs(glb_iface, req, ack,
++			       GLB_CFG_ALLOC_EN |
++			       GLB_CFG_POWEROFF_TIMER |
++			       GLB_CFG_PROGRESS_TIMER);
++
++	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
++
++	/* Kick the watchdog. */
++	mod_delayed_work(ptdev->reset.wq, &ptdev->fw->watchdog.ping_work,
++			 msecs_to_jiffies(PING_INTERVAL_MS));
++}
++
++static void panthor_fw_process_global_irq(struct panthor_device *ptdev)
++{
++	/* If the FW is not booted, don't process IRQs, just flag the FW as booted. */
++	if (!ptdev->fw->booted)
++		ptdev->fw->booted = true;
++	else
++		panthor_sched_process_global_irq(ptdev);
++
++	wake_up_all(&ptdev->fw->waitqueues[31]);
++}
++
++static void panthor_fw_process_csg_irq(struct panthor_device *ptdev, u32 csg_slot)
++{
++	panthor_sched_process_csg_irq(ptdev, csg_slot);
++	wake_up_all(&ptdev->fw->waitqueues[csg_slot]);
++}
++
++static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
++{
++	if (status & JOB_INT_GLOBAL_IF) {
++		panthor_fw_process_global_irq(ptdev);
++		status &= ~JOB_INT_GLOBAL_IF;
++	}
++
++	while (status) {
++		u32 csg_id = ffs(status) - 1;
++
++		panthor_fw_process_csg_irq(ptdev, csg_id);
++		status &= ~BIT(csg_id);
++	}
++}
++PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
++
++static int panthor_fw_start(struct panthor_device *ptdev)
++{
++	bool timedout = false;
++
++	ptdev->fw->booted = false;
++	panthor_job_irq_resume(&ptdev->fw->irq, ~0);
++	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_AUTO);
++
++	if (!wait_event_timeout(ptdev->fw->waitqueues[31],
++				ptdev->fw->booted,
++				msecs_to_jiffies(1000))) {
++		if (!ptdev->fw->booted &&
++		    !(gpu_read(ptdev, JOB_INT_STAT) & JOB_INT_GLOBAL_IF))
++			timedout = true;
++	}
++
++	if (timedout) {
++		drm_err(&ptdev->base, "Failed to boot MCU");
++		return -ETIMEDOUT;
++	}
++
++	return 0;
++}
++
++static void panthor_fw_stop(struct panthor_device *ptdev)
++{
++	u32 status;
++
++	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
++	if (readl_poll_timeout(ptdev->iomem + MCU_CONTROL, status,
++			       status == MCU_CONTROL_DISABLE, 10, 100000))
++		drm_err(&ptdev->base, "Failed to stop MCU");
 +}
 +
 +/**
-+ * panthor_mmu_init() - Initialize the MMU logic.
++ * panthor_fw_pre_reset() - Call before a reset.
++ * @ptdev: Device.
++ * @on_hang: true if the reset was triggered on a GPU hang.
++ *
++ * If the reset is not triggered on a hang, we try to gracefully halt the
++ * MCU, so we can do a fast-reset when panthor_fw_post_reset() is called.
++ */
++void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
++{
++	/* Make sure we won't be woken up by a ping. */
++	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
++
++	ptdev->fw->fast_reset = false;
++
++	if (!on_hang) {
++		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++		u32 status;
++
++		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
++		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
++		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
++					status == MCU_STATUS_HALT, 10, 100000) &&
++		    glb_iface->output->halt_status == PANTHOR_FW_HALT_OK) {
++			ptdev->fw->fast_reset = true;
++		} else {
++			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
++		}
++
++		/* The FW detects 0 -> 1 transitions. Make sure we reset
++		 * the HALT bit before the FW is rebooted.
++		 */
++		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
++	}
++
++	panthor_job_irq_suspend(&ptdev->fw->irq);
++}
++
++/**
++ * panthor_fw_post_reset() - Call after a reset.
++ * @ptdev: Device.
++ *
++ * Start the FW. If this is not a fast reset, all FW sections are reloaded to
++ * make sure we can recover from a memory corruption.
++ */
++int panthor_fw_post_reset(struct panthor_device *ptdev)
++{
++	int ret;
++
++	/* Make the MCU VM active. */
++	ret = panthor_vm_active(ptdev->fw->vm);
++	if (ret)
++		return ret;
++
++	/* Reload all sections, including RO ones. We're not supposed
++	 * to end up here anyway, let's just assume the overhead of
++	 * reloading everything is acceptable.
++	 */
++	if (!ptdev->fw->fast_reset)
++		panthor_reload_fw_sections(ptdev, true);
++
++	ret = panthor_fw_start(ptdev);
++	if (ret)
++		return ret;
++
++	/* We must re-initialize the global interface even on fast-reset. */
++	panthor_fw_init_global_iface(ptdev);
++	return 0;
++}
++
++/**
++ * panthor_fw_unplug() - Called when the device is unplugged.
++ * @ptdev: Device.
++ *
++ * This function must make sure all pending operations are flushed before
++ * will release device resources, thus preventing any interaction with
++ * the HW.
++ *
++ * If there are still FW-relates works running after this function returns,
++ * they must use drm_dev_{enter,exit}() and skip any HW access when
++ * drm_dev_enter() returns false.
++ */
++void panthor_fw_unplug(struct panthor_device *ptdev)
++{
++	struct panthor_fw_section *section;
++
++	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
++
++	/* Make sure the IRQ handler can be called after that point. */
++	if (ptdev->fw->irq.irq)
++		panthor_job_irq_suspend(&ptdev->fw->irq);
++
++	panthor_fw_stop(ptdev);
++
++	if (ptdev->fw->vm)
++		panthor_vm_idle(ptdev->fw->vm);
++
++	list_for_each_entry(section, &ptdev->fw->sections, node) {
++		panthor_fw_mem_free(ptdev, section->mem);
++	}
++
++	panthor_vm_put(ptdev->fw->vm);
++
++	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
++}
++
++/**
++ * panthor_fw_wait_acks() - Wait for requests to be acknowledged by the FW.
++ * @req_ptr: Pointer to the req register.
++ * @ack_ptr: Pointer to the ack register.
++ * @wq: Wait queue to use for the sleeping wait.
++ * @req_mask: Mask of requests to wait for.
++ * @acked: Pointer to field that's updated with the acked requests.
++ * If the function returns 0, *acked == req_mask.
++ * @timeout_ms: Timeout expressed in milliseconds.
++ *
++ * Return: 0 on success, -ETIMEDOUT otherwise.
++ */
++static int panthor_fw_wait_acks(const u32 *req_ptr, const u32 *ack_ptr,
++				wait_queue_head_t *wq,
++				u32 req_mask, u32 *acked,
++				u32 timeout_ms)
++{
++	u32 ack, req = READ_ONCE(*req_ptr) & req_mask;
++	int ret;
++
++	/* Busy wait for a few µsecs before falling back to a sleeping wait. */
++	*acked = req_mask;
++	ret = read_poll_timeout_atomic(READ_ONCE, ack,
++				       (ack & req_mask) == req,
++				       0, 10, 0,
++				       *ack_ptr);
++	if (!ret)
++		return 0;
++
++	if (wait_event_timeout(*wq, (READ_ONCE(*ack_ptr) & req_mask) == req,
++			       msecs_to_jiffies(timeout_ms)))
++		return 0;
++
++	/* Check one last time, in case we were not woken up for some reason. */
++	ack = READ_ONCE(*ack_ptr);
++	if ((ack & req_mask) == req)
++		return 0;
++
++	*acked = ~(req ^ ack) & req_mask;
++	return -ETIMEDOUT;
++}
++
++/**
++ * panthor_fw_glb_wait_acks() - Wait for global requests to be acknowledged.
++ * @ptdev: Device.
++ * @req_mask: Mask of requests to wait for.
++ * @acked: Pointer to field that's updated with the acked requests.
++ * If the function returns 0, *acked == req_mask.
++ * @timeout_ms: Timeout expressed in milliseconds.
++ *
++ * Return: 0 on success, -ETIMEDOUT otherwise.
++ */
++int panthor_fw_glb_wait_acks(struct panthor_device *ptdev,
++			     u32 req_mask, u32 *acked,
++			     u32 timeout_ms)
++{
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++
++	/* GLB_HALT doesn't get acked through the FW interface. */
++	if (drm_WARN_ON(&ptdev->base, req_mask & (~GLB_REQ_MASK | GLB_HALT)))
++		return -EINVAL;
++
++	return panthor_fw_wait_acks(&glb_iface->input->req,
++				    &glb_iface->output->ack,
++				    &ptdev->fw->waitqueues[31],
++				    req_mask, acked, timeout_ms);
++}
++
++/**
++ * panthor_fw_glb_wait_acks() - Wait for command stream group requests to be acknowledged.
++ * @ptdev: Device.
++ * @req_mask: Mask of requests to wait for.
++ * @acked: Pointer to field that's updated with the acked requests.
++ * If the function returns 0, *acked == req_mask.
++ * @timeout_ms: Timeout expressed in milliseconds.
++ *
++ * Return: 0 on success, -ETIMEDOUT otherwise.
++ */
++int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_slot,
++			     u32 req_mask, u32 *acked, u32 timeout_ms)
++{
++	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_slot);
++	int ret;
++
++	if (drm_WARN_ON(&ptdev->base, req_mask & ~CSG_REQ_MASK))
++		return -EINVAL;
++
++	ret = panthor_fw_wait_acks(&csg_iface->input->req,
++				   &csg_iface->output->ack,
++				   &ptdev->fw->waitqueues[csg_slot],
++				   req_mask, acked, timeout_ms);
++
++	if (ret && (*acked & CSG_STATE_MASK) != CSG_STATE_MASK)
++		*acked &= ~CSG_STATE_MASK;
++
++	return ret;
++}
++
++/**
++ * panthor_fw_ring_csg_doorbells() - Ring command stream group doorbells.
++ * @ptdev: Device.
++ * @csg_mask: Bitmask encoding the command stream group doorbells to ring.
++ *
++ * This function is toggling bits in the doorbell_req and ringing the
++ * global doorbell. It doesn't require a user doorbell to be attached to
++ * the group.
++ */
++void panthor_fw_ring_csg_doorbells(struct panthor_device *ptdev, u32 csg_mask)
++{
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++
++	panthor_fw_toggle_reqs(glb_iface, doorbell_req, doorbell_ack, csg_mask);
++	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
++}
++
++static void panthor_fw_ping_work(struct work_struct *work)
++{
++	struct panthor_fw *fw = container_of(work, struct panthor_fw, watchdog.ping_work.work);
++	struct panthor_device *ptdev = fw->irq.ptdev;
++	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++	u32 acked;
++	int ret;
++
++	if (panthor_device_reset_is_pending(ptdev))
++		return;
++
++	panthor_fw_toggle_reqs(glb_iface, req, ack, GLB_PING);
++	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
++
++	ret = panthor_fw_glb_wait_acks(ptdev, GLB_PING, &acked, 100);
++	if (ret) {
++		panthor_device_schedule_reset(ptdev);
++		drm_err(&ptdev->base, "FW ping timeout, scheduling a reset");
++	} else {
++		mod_delayed_work(ptdev->reset.wq, &fw->watchdog.ping_work,
++				 msecs_to_jiffies(PING_INTERVAL_MS));
++	}
++}
++
++/**
++ * panthor_fw_init() - Initialize FW related data.
 + * @ptdev: Device.
 + *
 + * Return: 0 on success, a negative error code otherwise.
 + */
-+int panthor_mmu_init(struct panthor_device *ptdev)
++int panthor_fw_init(struct panthor_device *ptdev)
 +{
-+	struct panthor_mmu *mmu;
++	struct panthor_fw *fw;
 +	int ret, irq;
 +
-+	mmu = drmm_kzalloc(&ptdev->base, sizeof(*mmu), GFP_KERNEL);
-+	if (!mmu)
++	fw = drmm_kzalloc(&ptdev->base, sizeof(*fw), GFP_KERNEL);
++	if (!fw)
 +		return -ENOMEM;
 +
-+	INIT_LIST_HEAD(&mmu->as.lru_list);
++	ptdev->fw = fw;
++	for (u32 i = 0; i < ARRAY_SIZE(fw->waitqueues); i++)
++		init_waitqueue_head(&fw->waitqueues[i]);
 +
-+	for (u32 i = 0; i < ARRAY_SIZE(mmu->as.slots); i++)
-+		spin_lock_init(&mmu->as.slots[i].lock);
++	INIT_LIST_HEAD(&fw->sections);
++	INIT_DELAYED_WORK(&fw->watchdog.ping_work, panthor_fw_ping_work);
 +
-+	drmm_mutex_init(&ptdev->base, &mmu->as.slots_lock);
-+	INIT_LIST_HEAD(&mmu->vm.list);
-+	drmm_mutex_init(&ptdev->base, &mmu->vm.lock);
-+
-+	ptdev->mmu = mmu;
-+
-+	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "mmu");
++	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "job");
 +	if (irq <= 0)
 +		return -ENODEV;
 +
-+	ret = panthor_request_mmu_irq(ptdev, &mmu->irq, irq,
-+				      panthor_mmu_fault_mask(ptdev, ~0));
++	ret = panthor_request_job_irq(ptdev, &fw->irq, irq, 0);
++	if (ret) {
++		drm_err(&ptdev->base, "failed to request job irq");
++		return ret;
++	}
++
++	ret = panthor_gpu_l2_power_on(ptdev);
 +	if (ret)
 +		return ret;
 +
-+	mmu->vm.wq = alloc_workqueue("panthor-vm-bind", WQ_UNBOUND, 0);
-+	if (!mmu->vm.wq)
-+		return -ENOMEM;
-+
-+	return drmm_add_action_or_reset(&ptdev->base, panthor_mmu_release_wq, mmu->vm.wq);
-+}
-+
-+#ifdef CONFIG_DEBUG_FS
-+static int show_vm_gpuvas(struct panthor_vm *vm, struct seq_file *m)
-+{
-+	int ret;
-+
-+	mutex_lock(&vm->op_lock);
-+	ret = drm_debugfs_gpuva_info(m, &vm->va_mgr);
-+	mutex_unlock(&vm->op_lock);
-+
-+	return ret;
-+}
-+
-+static int show_each_vm(struct seq_file *m, void *arg)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *)m->private;
-+	struct drm_device *ddev = node->minor->dev;
-+	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-+	int (*show)(struct panthor_vm *, struct seq_file *) = node->info_ent->data;
-+	struct panthor_vm *vm;
-+	int ret = 0;
-+
-+	mutex_lock(&ptdev->mmu->vm.lock);
-+	list_for_each_entry(vm, &ptdev->mmu->vm.list, node) {
-+		ret = show(vm, m);
-+		if (ret < 0)
-+			break;
-+
-+		seq_puts(m, "\n");
++	fw->vm = panthor_vm_create(ptdev, true,
++				   CSF_MCU_SHARED_REGION_START,
++				   CSF_MCU_SHARED_REGION_SIZE);
++	if (IS_ERR(fw->vm)) {
++		ret = PTR_ERR(fw->vm);
++		fw->vm = NULL;
++		goto err_unplug_fw;
 +	}
-+	mutex_unlock(&ptdev->mmu->vm.lock);
 +
++	ret = panthor_fw_load(ptdev);
++	if (ret)
++		goto err_unplug_fw;
++
++	ret = panthor_vm_active(fw->vm);
++	if (ret)
++		goto err_unplug_fw;
++
++	ret = panthor_fw_start(ptdev);
++	if (ret)
++		goto err_unplug_fw;
++
++	ret = panthor_fw_init_ifaces(ptdev);
++	if (ret)
++		goto err_unplug_fw;
++
++	panthor_fw_init_global_iface(ptdev);
++	return 0;
++
++err_unplug_fw:
++	panthor_fw_unplug(ptdev);
 +	return ret;
 +}
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
+new file mode 100644
+index 000000000000..929760c2a46b
+--- /dev/null
++++ b/drivers/gpu/drm/panthor/panthor_fw.h
+@@ -0,0 +1,505 @@
++/* SPDX-License-Identifier: GPL-2.0 or MIT */
++/* Copyright 2023 Collabora ltd. */
 +
-+static struct drm_info_list panthor_mmu_debugfs_list[] = {
-+	DRM_DEBUGFS_GPUVA_INFO(show_each_vm, show_vm_gpuvas),
++#ifndef __PANTHOR_MCU_H__
++#define __PANTHOR_MCU_H__
++
++#include <linux/types.h>
++
++#include "panthor_device.h"
++
++struct panthor_fw_mem;
++
++#define MAX_CSGS				31
++#define MAX_CS_PER_CSG                          32
++
++struct panthor_fw_ringbuf_input_iface {
++	u64 insert;
++	u64 extract;
++} __packed;
++
++struct panthor_fw_ringbuf_output_iface {
++	u64 extract;
++	u32 active;
++} __packed;
++
++struct panthor_fw_cs_control_iface {
++#define CS_FEATURES_WORK_REGS(x)		(((x) & GENMASK(7, 0)) + 1)
++#define CS_FEATURES_SCOREBOARDS(x)		(((x) & GENMASK(15, 8)) >> 8)
++#define CS_FEATURES_COMPUTE			BIT(16)
++#define CS_FEATURES_FRAGMENT			BIT(17)
++#define CS_FEATURES_TILER			BIT(18)
++	u32 features;
++	u32 input_va;
++	u32 output_va;
++} __packed;
++
++struct panthor_fw_cs_input_iface {
++#define CS_STATE_MASK				GENMASK(2, 0)
++#define CS_STATE_STOP				0
++#define CS_STATE_START				1
++#define CS_EXTRACT_EVENT			BIT(4)
++#define CS_IDLE_SYNC_WAIT			BIT(8)
++#define CS_IDLE_PROTM_PENDING			BIT(9)
++#define CS_IDLE_EMPTY				BIT(10)
++#define CS_IDLE_RESOURCE_REQ			BIT(11)
++#define CS_TILER_OOM				BIT(26)
++#define CS_PROTM_PENDING			BIT(27)
++#define CS_FATAL				BIT(30)
++#define CS_FAULT				BIT(31)
++#define CS_REQ_MASK				(CS_STATE_MASK | \
++						 CS_EXTRACT_EVENT | \
++						 CS_IDLE_SYNC_WAIT | \
++						 CS_IDLE_PROTM_PENDING | \
++						 CS_IDLE_EMPTY | \
++						 CS_IDLE_RESOURCE_REQ)
++#define CS_EVT_MASK				(CS_TILER_OOM | \
++						 CS_PROTM_PENDING | \
++						 CS_FATAL | \
++						 CS_FAULT)
++	u32 req;
++
++#define CS_CONFIG_PRIORITY(x)			((x) & GENMASK(3, 0))
++#define CS_CONFIG_DOORBELL(x)			(((x) << 8) & GENMASK(15, 8))
++	u32 config;
++	u32 reserved1;
++	u32 ack_irq_mask;
++	u64 ringbuf_base;
++	u32 ringbuf_size;
++	u32 reserved2;
++	u64 heap_start;
++	u64 heap_end;
++	u64 ringbuf_input;
++	u64 ringbuf_output;
++	u32 instr_config;
++	u32 instrbuf_size;
++	u64 instrbuf_base;
++	u64 instrbuf_offset_ptr;
++} __packed;
++
++struct panthor_fw_cs_output_iface {
++	u32 ack;
++	u32 reserved1[15];
++	u64 status_cmd_ptr;
++
++#define CS_STATUS_WAIT_SB_MASK			GENMASK(15, 0)
++#define CS_STATUS_WAIT_SB_SRC_MASK		GENMASK(19, 16)
++#define CS_STATUS_WAIT_SB_SRC_NONE		(0 << 16)
++#define CS_STATUS_WAIT_SB_SRC_WAIT		(8 << 16)
++#define CS_STATUS_WAIT_SYNC_COND_LE		(0 << 24)
++#define CS_STATUS_WAIT_SYNC_COND_GT		(1 << 24)
++#define CS_STATUS_WAIT_SYNC_COND_MASK		GENMASK(27, 24)
++#define CS_STATUS_WAIT_PROGRESS			BIT(28)
++#define CS_STATUS_WAIT_PROTM			BIT(29)
++#define CS_STATUS_WAIT_SYNC_64B			BIT(30)
++#define CS_STATUS_WAIT_SYNC			BIT(31)
++	u32 status_wait;
++	u32 status_req_resource;
++	u64 status_wait_sync_ptr;
++	u32 status_wait_sync_value;
++	u32 status_scoreboards;
++
++#define CS_STATUS_BLOCKED_REASON_UNBLOCKED	0
++#define CS_STATUS_BLOCKED_REASON_SB_WAIT	1
++#define CS_STATUS_BLOCKED_REASON_PROGRESS_WAIT	2
++#define CS_STATUS_BLOCKED_REASON_SYNC_WAIT	3
++#define CS_STATUS_BLOCKED_REASON_DEFERRED	5
++#define CS_STATUS_BLOCKED_REASON_RES		6
++#define CS_STATUS_BLOCKED_REASON_FLUSH		7
++#define CS_STATUS_BLOCKED_REASON_MASK		GENMASK(3, 0)
++	u32 status_blocked_reason;
++	u32 status_wait_sync_value_hi;
++	u32 reserved2[6];
++
++#define CS_EXCEPTION_TYPE(x)			((x) & GENMASK(7, 0))
++#define CS_EXCEPTION_DATA(x)			(((x) >> 8) & GENMASK(23, 0))
++	u32 fault;
++	u32 fatal;
++	u64 fault_info;
++	u64 fatal_info;
++	u32 reserved3[10];
++	u32 heap_vt_start;
++	u32 heap_vt_end;
++	u32 reserved4;
++	u32 heap_frag_end;
++	u64 heap_address;
++} __packed;
++
++struct panthor_fw_csg_control_iface {
++	u32 features;
++	u32 input_va;
++	u32 output_va;
++	u32 suspend_size;
++	u32 protm_suspend_size;
++	u32 stream_num;
++	u32 stream_stride;
++} __packed;
++
++struct panthor_fw_csg_input_iface {
++#define CSG_STATE_MASK				GENMASK(2, 0)
++#define CSG_STATE_TERMINATE			0
++#define CSG_STATE_START				1
++#define CSG_STATE_SUSPEND			2
++#define CSG_STATE_RESUME			3
++#define CSG_ENDPOINT_CONFIG			BIT(4)
++#define CSG_STATUS_UPDATE			BIT(5)
++#define CSG_SYNC_UPDATE				BIT(28)
++#define CSG_IDLE				BIT(29)
++#define CSG_DOORBELL				BIT(30)
++#define CSG_PROGRESS_TIMER_EVENT		BIT(31)
++#define CSG_REQ_MASK				(CSG_STATE_MASK | \
++						 CSG_ENDPOINT_CONFIG | \
++						 CSG_STATUS_UPDATE)
++#define CSG_EVT_MASK				(CSG_SYNC_UPDATE | \
++						 CSG_IDLE | \
++						 CSG_PROGRESS_TIMER_EVENT)
++	u32 req;
++	u32 ack_irq_mask;
++
++	u32 doorbell_req;
++	u32 cs_irq_ack;
++	u32 reserved1[4];
++	u64 allow_compute;
++	u64 allow_fragment;
++	u32 allow_other;
++
++#define CSG_EP_REQ_COMPUTE(x)			((x) & GENMASK(7, 0))
++#define CSG_EP_REQ_FRAGMENT(x)			(((x) << 8) & GENMASK(15, 8))
++#define CSG_EP_REQ_TILER(x)			(((x) << 16) & GENMASK(19, 16))
++#define CSG_EP_REQ_EXCL_COMPUTE			BIT(20)
++#define CSG_EP_REQ_EXCL_FRAGMENT		BIT(21)
++#define CSG_EP_REQ_PRIORITY(x)			(((x) << 28) & GENMASK(31, 28))
++#define CSG_EP_REQ_PRIORITY_MASK		GENMASK(31, 28)
++	u32 endpoint_req;
++	u32 reserved2[2];
++	u64 suspend_buf;
++	u64 protm_suspend_buf;
++	u32 config;
++	u32 iter_trace_config;
++} __packed;
++
++struct panthor_fw_csg_output_iface {
++	u32 ack;
++	u32 reserved1;
++	u32 doorbell_ack;
++	u32 cs_irq_req;
++	u32 status_endpoint_current;
++	u32 status_endpoint_req;
++
++#define CSG_STATUS_STATE_IS_IDLE		BIT(0)
++	u32 status_state;
++	u32 resource_dep;
++} __packed;
++
++struct panthor_fw_global_control_iface {
++	u32 version;
++	u32 features;
++	u32 input_va;
++	u32 output_va;
++	u32 group_num;
++	u32 group_stride;
++	u32 perfcnt_size;
++	u32 instr_features;
++} __packed;
++
++struct panthor_fw_global_input_iface {
++#define GLB_HALT				BIT(0)
++#define GLB_CFG_PROGRESS_TIMER			BIT(1)
++#define GLB_CFG_ALLOC_EN			BIT(2)
++#define GLB_CFG_POWEROFF_TIMER			BIT(3)
++#define GLB_PROTM_ENTER				BIT(4)
++#define GLB_PERFCNT_EN				BIT(5)
++#define GLB_PERFCNT_SAMPLER			BIT(6)
++#define GLB_COUNTER_EN				BIT(7)
++#define GLB_PING				BIT(8)
++#define GLB_FWCFG_UPDATE			BIT(9)
++#define GLB_IDLE_EN				BIT(10)
++#define GLB_SLEEP				BIT(12)
++#define GLB_INACTIVE_COMPUTE			BIT(20)
++#define GLB_INACTIVE_FRAGMENT			BIT(21)
++#define GLB_INACTIVE_TILER			BIT(22)
++#define GLB_PROTM_EXIT				BIT(23)
++#define GLB_PERFCNT_THRESHOLD			BIT(24)
++#define GLB_PERFCNT_OVERFLOW			BIT(25)
++#define GLB_IDLE				BIT(26)
++#define GLB_DBG_CSF				BIT(30)
++#define GLB_DBG_HOST				BIT(31)
++#define GLB_REQ_MASK				GENMASK(10, 0)
++#define GLB_EVT_MASK				GENMASK(26, 20)
++	u32 req;
++	u32 ack_irq_mask;
++	u32 doorbell_req;
++	u32 reserved1;
++	u32 progress_timer;
++
++#define GLB_TIMER_VAL(x)			((x) & GENMASK(30, 0))
++#define GLB_TIMER_SOURCE_GPU_COUNTER		BIT(31)
++	u32 poweroff_timer;
++	u64 core_en_mask;
++	u32 reserved2;
++	u32 perfcnt_as;
++	u64 perfcnt_base;
++	u32 perfcnt_extract;
++	u32 reserved3[3];
++	u32 perfcnt_config;
++	u32 perfcnt_csg_select;
++	u32 perfcnt_fw_enable;
++	u32 perfcnt_csg_enable;
++	u32 perfcnt_csf_enable;
++	u32 perfcnt_shader_enable;
++	u32 perfcnt_tiler_enable;
++	u32 perfcnt_mmu_l2_enable;
++	u32 reserved4[8];
++	u32 idle_timer;
++} __packed;
++
++enum panthor_fw_halt_status {
++	PANTHOR_FW_HALT_OK = 0,
++	PANTHOR_FW_HALT_ON_PANIC = 0x4e,
++	PANTHOR_FW_HALT_ON_WATCHDOG_EXPIRATION = 0x4f,
++};
++
++struct panthor_fw_global_output_iface {
++	u32 ack;
++	u32 reserved1;
++	u32 doorbell_ack;
++	u32 reserved2;
++	u32 halt_status;
++	u32 perfcnt_status;
++	u32 perfcnt_insert;
++} __packed;
++
++/**
++ * struct panthor_fw_cs_iface - Firmware command stream slot interface
++ */
++struct panthor_fw_cs_iface {
++	/**
++	 * @lock: Lock protecting access to the panthor_fw_cs_input_iface::req
++	 * field.
++	 *
++	 * Needed so we can update the req field concurrently from the interrupt
++	 * handler and the scheduler logic.
++	 *
++	 * TODO: Ideally we'd want to use a cmpxchg() to update the req, but FW
++	 * interface sections are mapped uncached/write-combined right now, and
++	 * using cmpxchg() on such mappings leads to SError faults. Revisit when
++	 * we have 'SHARED' GPU mappings hooked up.
++	 */
++	spinlock_t lock;
++
++	/**
++	 * @control: Command stream slot control interface.
++	 *
++	 * Used to expose command stream slot properties.
++	 *
++	 * This interface is read-only.
++	 */
++	struct panthor_fw_cs_control_iface *control;
++
++	/**
++	 * @input: Command stream slot input interface.
++	 *
++	 * Used for host updates/events.
++	 */
++	struct panthor_fw_cs_input_iface *input;
++
++	/**
++	 * @output: Command stream slot output interface.
++	 *
++	 * Used for FW updates/events.
++	 *
++	 * This interface is read-only.
++	 */
++	const struct panthor_fw_cs_output_iface *output;
 +};
 +
 +/**
-+ * panthor_mmu_debugfs_init() - Initialize MMU debugfs entries
-+ * @minor: Minor.
++ * struct panthor_fw_csg_iface - Firmware command stream group slot interface
 + */
-+void panthor_mmu_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_create_files(panthor_mmu_debugfs_list,
-+				 ARRAY_SIZE(panthor_mmu_debugfs_list),
-+				 minor->debugfs_root, minor);
-+}
-+#endif /* CONFIG_DEBUG_FS */
++struct panthor_fw_csg_iface {
++	/**
++	 * @lock: Lock protecting access to the panthor_fw_csg_input_iface::req
++	 * field.
++	 *
++	 * Needed so we can update the req field concurrently from the interrupt
++	 * handler and the scheduler logic.
++	 *
++	 * TODO: Ideally we'd want to use a cmpxchg() to update the req, but FW
++	 * interface sections are mapped uncached/write-combined right now, and
++	 * using cmpxchg() on such mappings leads to SError faults. Revisit when
++	 * we have 'SHARED' GPU mappings hooked up.
++	 */
++	spinlock_t lock;
++
++	/**
++	 * @control: Command stream group slot control interface.
++	 *
++	 * Used to expose command stream group slot properties.
++	 *
++	 * This interface is read-only.
++	 */
++	const struct panthor_fw_csg_control_iface *control;
++
++	/**
++	 * @input: Command stream slot input interface.
++	 *
++	 * Used for host updates/events.
++	 */
++	struct panthor_fw_csg_input_iface *input;
++
++	/**
++	 * @output: Command stream group slot output interface.
++	 *
++	 * Used for FW updates/events.
++	 *
++	 * This interface is read-only.
++	 */
++	const struct panthor_fw_csg_output_iface *output;
++};
 +
 +/**
-+ * panthor_mmu_pt_cache_init() - Initialize the page table cache.
++ * struct panthor_fw_global_iface - Firmware global interface
++ */
++struct panthor_fw_global_iface {
++	/**
++	 * @lock: Lock protecting access to the panthor_fw_global_input_iface::req
++	 * field.
++	 *
++	 * Needed so we can update the req field concurrently from the interrupt
++	 * handler and the scheduler/FW management logic.
++	 *
++	 * TODO: Ideally we'd want to use a cmpxchg() to update the req, but FW
++	 * interface sections are mapped uncached/write-combined right now, and
++	 * using cmpxchg() on such mappings leads to SError faults. Revisit when
++	 * we have 'SHARED' GPU mappings hooked up.
++	 */
++	spinlock_t lock;
++
++	/**
++	 * @control: Command stream group slot control interface.
++	 *
++	 * Used to expose global FW properties.
++	 *
++	 * This interface is read-only.
++	 */
++	const struct panthor_fw_global_control_iface *control;
++
++	/**
++	 * @input: Global input interface.
++	 *
++	 * Used for host updates/events.
++	 */
++	struct panthor_fw_global_input_iface *input;
++
++	/**
++	 * @output: Global output interface.
++	 *
++	 * Used for FW updates/events.
++	 *
++	 * This interface is read-only.
++	 */
++	const struct panthor_fw_global_output_iface *output;
++};
++
++/**
++ * panthor_fw_toggle_reqs() - Toggle acknowledge bits to send an event to the FW
++ * @__iface: The interface to operate on.
++ * @__in_reg: Name of the register to update in the input section of the interface.
++ * @__out_reg: Name of the register to take as a reference in the output section of the
++ * interface.
++ * @__mask: Mask to apply to the update.
 + *
-+ * Return: 0 on success, a negative error code otherwise.
++ * The Host -> FW event/message passing was designed to be lockless, with each side of
++ * the channel having its writeable section. Events are signaled as a difference between
++ * the host and FW side in the req/ack registers (when a bit differs, there's an event
++ * pending, when they are the same, nothing needs attention).
++ *
++ * This helper allows one to update the req register based on the current value of the
++ * ack register managed by the FW. Toggling a specific bit will flag an event. In order
++ * for events to be re-evaluated, the interface doorbell needs to be rung.
++ *
++ * Concurrent accesses to the same req register is covered.
++ *
++ * Anything requiring atomic updates to multiple registers requires a dedicated lock.
 + */
-+int panthor_mmu_pt_cache_init(void)
-+{
-+	pt_cache = kmem_cache_create("panthor-mmu-pt", SZ_4K, SZ_4K, 0, NULL);
-+	if (!pt_cache)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
++#define panthor_fw_toggle_reqs(__iface, __in_reg, __out_reg, __mask) \
++	do { \
++		u32 __cur_val, __new_val, __out_val; \
++		spin_lock(&(__iface)->lock); \
++		__cur_val = READ_ONCE((__iface)->input->__in_reg); \
++		__out_val = READ_ONCE((__iface)->output->__out_reg); \
++		__new_val = ((__out_val ^ (__mask)) & (__mask)) | (__cur_val & ~(__mask)); \
++		WRITE_ONCE((__iface)->input->__in_reg, __new_val); \
++		spin_unlock(&(__iface)->lock); \
++	} while (0)
 +
 +/**
-+ * panthor_mmu_pt_cache_fini() - Destroy the page table cache.
++ * panthor_fw_update_reqs() - Update bits to reflect a configuration change
++ * @__iface: The interface to operate on.
++ * @__in_reg: Name of the register to update in the input section of the interface.
++ * @__val: Value to set.
++ * @__mask: Mask to apply to the update.
++ *
++ * Some configuration get passed through req registers that are also used to
++ * send events to the FW. Those req registers being updated from the interrupt
++ * handler, they require special helpers to update the configuration part as well.
++ *
++ * Concurrent accesses to the same req register is covered.
++ *
++ * Anything requiring atomic updates to multiple registers requires a dedicated lock.
 + */
-+void panthor_mmu_pt_cache_fini(void)
++#define panthor_fw_update_reqs(__iface, __in_reg, __val, __mask) \
++	do { \
++		u32 __cur_val, __new_val; \
++		spin_lock(&(__iface)->lock); \
++		__cur_val = READ_ONCE((__iface)->input->__in_reg); \
++		__new_val = (__cur_val & ~(__mask)) | ((__val) & (__mask)); \
++		WRITE_ONCE((__iface)->input->__in_reg, __new_val); \
++		spin_unlock(&(__iface)->lock); \
++	} while (0)
++
++struct panthor_fw_global_iface *
++panthor_fw_get_glb_iface(struct panthor_device *ptdev);
++
++struct panthor_fw_csg_iface *
++panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot);
++
++struct panthor_fw_cs_iface *
++panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot);
++
++int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_id, u32 req_mask,
++			     u32 *acked, u32 timeout_ms);
++
++int panthor_fw_glb_wait_acks(struct panthor_device *ptdev, u32 req_mask, u32 *acked,
++			     u32 timeout_ms);
++
++void panthor_fw_ring_csg_doorbells(struct panthor_device *ptdev, u32 csg_slot);
++
++void panthor_fw_mem_vunmap(struct panthor_fw_mem *mem);
++void *panthor_fw_mem_vmap(struct panthor_fw_mem *mem);
++u64 panthor_fw_mem_va(struct panthor_fw_mem *mem);
++void panthor_fw_mem_free(struct panthor_device *ptdev, struct panthor_fw_mem *mem);
++struct panthor_fw_mem *
++panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
++				 struct panthor_fw_ringbuf_input_iface **input,
++				 const struct panthor_fw_ringbuf_output_iface **output);
++struct panthor_fw_mem *
++panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size);
++
++void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang);
++int panthor_fw_post_reset(struct panthor_device *ptdev);
++
++static inline void panthor_fw_suspend(struct panthor_device *ptdev)
 +{
-+	kmem_cache_destroy(pt_cache);
++	panthor_fw_pre_reset(ptdev, false);
 +}
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-new file mode 100644
-index 000000000000..d94925ccdc8c
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-@@ -0,0 +1,81 @@
-+/* SPDX-License-Identifier: GPL-2.0 or MIT */
-+/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-+/* Copyright 2023 Collabora ltd. */
 +
-+#ifndef __PANTHOR_MMU_H__
-+#define __PANTHOR_MMU_H__
++static inline int panthor_fw_resume(struct panthor_device *ptdev)
++{
++	return panthor_fw_post_reset(ptdev);
++}
 +
-+struct drm_exec;
-+struct drm_sched_job;
-+struct panthor_gem_object;
-+struct panthor_heap_pool;
-+struct panthor_vm;
-+struct panthor_vma;
-+struct panthor_mmu;
-+
-+int panthor_mmu_init(struct panthor_device *ptdev);
-+void panthor_mmu_unplug(struct panthor_device *ptdev);
-+void panthor_mmu_pre_reset(struct panthor_device *ptdev);
-+void panthor_mmu_post_reset(struct panthor_device *ptdev);
-+void panthor_mmu_suspend(struct panthor_device *ptdev);
-+void panthor_mmu_resume(struct panthor_device *ptdev);
-+
-+int panthor_vm_map_bo_range(struct panthor_vm *vm, struct panthor_gem_object *bo,
-+			    u64 offset, size_t size, u64 va, u32 flags);
-+int panthor_vm_unmap_range(struct panthor_vm *vm, u64 va, size_t size);
-+struct panthor_gem_object *
-+panthor_vm_get_bo_for_va(struct panthor_vm *vm, u64 va, u64 *bo_offset);
-+
-+int panthor_vm_active(struct panthor_vm *vm);
-+void panthor_vm_idle(struct panthor_vm *vm);
-+int panthor_vm_as(struct panthor_vm *vm);
-+
-+struct panthor_heap_pool *
-+panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
-+
-+struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
-+void panthor_vm_put(struct panthor_vm *vm);
-+struct panthor_vm *panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
-+				     u64 auto_va_start, u64 auto_va_range);
-+
-+int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec,
-+					struct panthor_vm *vm);
-+int panthor_vm_add_bos_resvs_deps_to_job(struct panthor_vm *vm,
-+					 struct drm_sched_job *job);
-+void panthor_vm_add_job_fence_to_bos_resvs(struct panthor_vm *vm,
-+					   struct drm_sched_job *job);
-+
-+struct dma_resv *panthor_vm_resv(struct panthor_vm *vm);
-+
-+void panthor_vm_pool_destroy(struct panthor_file *pfile);
-+int panthor_vm_pool_create(struct panthor_file *pfile);
-+int panthor_vm_pool_create_vm(struct panthor_device *ptdev, struct panthor_vm_pool *pool,
-+			      u64 kernel_va_start, u64 kernel_va_range);
-+int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle);
-+struct panthor_vm *panthor_vm_pool_get_vm(struct panthor_vm_pool *pool, u32 handle);
-+
-+struct drm_mm_node *panthor_vm_alloc_va(struct panthor_vm *vm, size_t size);
-+void panthor_vm_free_va(struct panthor_vm *vm, struct drm_mm_node *mm_node);
-+
-+int panthor_vm_bind_exec_sync_op(struct drm_file *file,
-+				 struct panthor_vm *vm,
-+				 struct drm_panthor_vm_bind_op *op);
-+
-+struct drm_sched_job *
-+panthor_vm_bind_job_create(struct drm_file *file,
-+			   struct panthor_vm *vm,
-+			   const struct drm_panthor_vm_bind_op *op);
-+void panthor_vm_bind_job_put(struct drm_sched_job *job);
-+int panthor_vm_bind_job_prepare_resvs(struct drm_exec *exec,
-+				      struct drm_sched_job *job);
-+int panthor_vm_bind_job_add_resvs_deps(struct drm_sched_job *job);
-+void panthor_vm_bind_job_update_resvs(struct drm_sched_job *job);
-+
-+int panthor_mmu_pt_cache_init(void);
-+void panthor_mmu_pt_cache_fini(void);
-+
-+#ifdef CONFIG_DEBUG_FS
-+void panthor_mmu_debugfs_init(struct drm_minor *minor);
-+#endif
++int panthor_fw_init(struct panthor_device *ptdev);
++void panthor_fw_unplug(struct panthor_device *ptdev);
 +
 +#endif
 -- 
