@@ -2,65 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C943776422
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 17:39:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7ABD77647E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 17:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB8B10E45F;
-	Wed,  9 Aug 2023 15:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E78C010E093;
+	Wed,  9 Aug 2023 15:55:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 238DC10E45F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 15:39:49 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-583b0637c04so15396907b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 08:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691595588; x=1692200388;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=heTCs7dsv6GvWxFtBKhqH5NxQvlDCWaKtVOhiBVjHzo=;
- b=XNMmLG7ZfSIjfMuOUzinZG7jUOlFW/1qPQ+VX2RL6CyWKVVBVmGGOLj94aVupt48aL
- 5v6+ol4FalLFWgiRHaXMMdy00hlrkhFTyAx4JOzc2FmZPUTKmQmEN+ZDIgt1KMt3T+Ls
- O5Qw61eeRCczz8qGSGvTqIxNk00FVMPBVpkfQTkojmTG5vD4NjKYWw2CBKLGrBARYcAg
- KSQu1Mkmq09gCkMex/E0fb3Z4UEHlhXv3qqzEmSjSnHVaJNo1qiRtuc3dXmiR8Dfm/5t
- ndLFzHeTOIEUyTs2f57LEUvEb5PWUbvZAfKN8PaEQ732CP4vo9SsKUzeoRPgn27g8jpi
- qPdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691595588; x=1692200388;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=heTCs7dsv6GvWxFtBKhqH5NxQvlDCWaKtVOhiBVjHzo=;
- b=C5OCUg59Beuwix4/SNc5o9dBJUEf031F8wEYPTtu3XoWQr1tYucoIBT2C2f9KnqLtr
- 3JC6UNvJsK/YQ4NkiERNfaMZLwldHPnBCNWGePmlPQIk+/2M8Bjjv+1aiZLXb6fkn4eq
- feTbCBCCBL/cWuQLsyHscOqPoZnv3gU/BnueO31S601dDEFOZh+Cw8g2jTz9VhkR1woT
- nP46bOH4gScpActqStBTXT4eIYjzzxnNDaNEuHR1A15XiDKjuwsuiewIsKl4MIGUqDTo
- wD6bWwz7p3nhgIHxC3MggB7/fmPjo4+nkXsj7K1s62dzeAcQRvORmtKHZyDxJFIYyPeq
- TeSg==
-X-Gm-Message-State: AOJu0Yy1lO8MWZOaFvVICD7+HA2ThrLJ1Wxn8SMSINKCW41Yw5y48Tdn
- +cAEEqkr8E5f8KPrz5LY0uYq5FmW+BY=
-X-Google-Smtp-Source: AGHT+IGo7Klo90Ro2NwyFAAnkPv29d+Pa3MnKtD1QRsaDN5/qrYptNrTr6b1H082Gtg//Df0gteYZA==
-X-Received: by 2002:a81:6dc9:0:b0:57a:3942:bb74 with SMTP id
- i192-20020a816dc9000000b0057a3942bb74mr2862592ywc.17.1691595588241; 
- Wed, 09 Aug 2023 08:39:48 -0700 (PDT)
-Received: from localhost.localdomain ([75.28.21.198])
- by smtp.gmail.com with ESMTPSA id
- u15-20020a81a50f000000b005707fb5110bsm4043969ywg.58.2023.08.09.08.39.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Aug 2023 08:39:47 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: devicetree@vger.kernel.org
-Subject: [PATCH V2 2/2] drm/panel: nv3051d: Add Support for Anbernic 351V
-Date: Wed,  9 Aug 2023 10:39:41 -0500
-Message-Id: <20230809153941.1172-3-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230809153941.1172-1-macroalpha82@gmail.com>
-References: <20230809153941.1172-1-macroalpha82@gmail.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2132F10E093
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 15:55:02 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4RLZPx44d1zDqdH;
+ Wed,  9 Aug 2023 15:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1691596501; bh=aF7A+3UBO/0EyEuZ5Qvr9fcRDoScxOknAu7AQrEq5Fk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=luOJKwmI+pLE/SQCwvSARkK547TVgDgckd4FSFbP2sY2IYICoj6QpE67IQe15GWgC
+ oW/SgWDxPtN466A5XUkddaG/2xnN+8FFNHpdv8JttAmr0hQiYMw/sOgW0mzqEJ9BBW
+ bxSsOncL7ul6gHzFy/1xiyI3Ejmm+i5WLLf5Udsk=
+X-Riseup-User-ID: 2CA24FBF1F6B9845F016959FFE7F9C3E4F2BF06CB2DB7A3837A5BB500CCB2496
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RLZPt5nQ5zJqB9;
+ Wed,  9 Aug 2023 15:54:58 +0000 (UTC)
+Message-ID: <ac3f1ab3-9f0a-486e-b8ac-45cd6d82b02a@riseup.net>
+Date: Wed, 9 Aug 2023 12:54:53 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 4/6] drm/format-helper: Add KUnit tests for
+ drm_fb_build_fourcc_list()
+Content-Language: en-US
+To: Arthur Grillo <arthurgrillo@riseup.net>
+References: <20230721182316.560649-1-arthurgrillo@riseup.net>
+ <20230721182316.560649-5-arthurgrillo@riseup.net>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@riseup.net>
+In-Reply-To: <20230721182316.560649-5-arthurgrillo@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +53,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org
+Cc: tales.aparecida@gmail.com, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, mairacanal@riseup.net, tzimmermann@suse.de,
+ davidgow@google.com, jose.exposito89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Em 21/07/2023 15:23, Arthur Grillo escreveu:
+> Insert parameterized test for the drm_fb_build_fourcc_list() to ensure
+> correctness and prevent future regressions.
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>   .../gpu/drm/tests/drm_format_helper_test.c    | 143 ++++++++++++++++++
+>   1 file changed, 143 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index 2e1c5463f063..de4677868647 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -3,6 +3,7 @@
+>   #include <kunit/test.h>
+>   
+>   #include <drm/drm_device.h>
+> +#include <drm/drm_drv.h>
+>   #include <drm/drm_file.h>
+>   #include <drm/drm_format_helper.h>
+>   #include <drm/drm_fourcc.h>
+> @@ -11,6 +12,7 @@
+>   #include <drm/drm_mode.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_rect.h>
+> +#include <drm/drm_kunit_helpers.h>
 
-Add support for the Anbernic 351V. Just like the 353 series the
-underlying vendor is unknown/unmarked (at least not visible in a
-non-destructive manner). The panel had slightly different init
-sequences and timings in the BSP kernel, but works fine with the
-same ones used in the existing driver. The panel will not work without
-the inclusion of the MIPI_DSI_CLOCK_NON_CONTINUOUS flag, and this flag
-prevents the 353 series from working correctly, so a new compatible
-string is added.
+Keep the includes sorted please
 
-Tested colors and timings using modetest and all seem to work identical
-to the 353 otherwise.
+>   
+>   #include "../drm_crtc_internal.h"
+>   
+> @@ -1047,6 +1049,146 @@ static void drm_test_fb_clip_offset(struct kunit *test)
+>   	KUNIT_EXPECT_EQ(test, offset, params->expected_offset);
+>   }
+>   
+> +struct fb_build_fourcc_list_case {
+> +	const char *name;
+> +	u32 native_fourccs[TEST_BUF_SIZE];
+> +	u32 expected[TEST_BUF_SIZE];
+> +};
+> +
+> +struct fb_build_fourcc_list_case fb_build_fourcc_list_cases[] = {
+> +	{
+> +		.name = "no native formats",
+> +		.native_fourccs = { },
+> +		.expected = { DRM_FORMAT_XRGB8888 },
+> +	},
+> +	{
+> +		.name = "XRGB8888 as native format",
+> +		.native_fourccs = { DRM_FORMAT_XRGB8888 },
+> +		.expected = { DRM_FORMAT_XRGB8888 },
+> +	},
+> +	{
+> +		.name = "remove duplicates",
+> +		.native_fourccs = {
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB565,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB565,
+> +			DRM_FORMAT_RGB565,
+> +			DRM_FORMAT_XRGB8888,
+> +		},
+> +		.expected = {
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB565,
+> +		},
+> +	},
+> +	{
+> +		.name = "convert alpha formats",
+> +		.native_fourccs = {
+> +			DRM_FORMAT_ARGB1555,
+> +			DRM_FORMAT_ABGR1555,
+> +			DRM_FORMAT_RGBA5551,
+> +			DRM_FORMAT_BGRA5551,
+> +			DRM_FORMAT_ARGB8888,
+> +			DRM_FORMAT_ABGR8888,
+> +			DRM_FORMAT_RGBA8888,
+> +			DRM_FORMAT_BGRA8888,
+> +			DRM_FORMAT_ARGB2101010,
+> +			DRM_FORMAT_ABGR2101010,
+> +			DRM_FORMAT_RGBA1010102,
+> +			DRM_FORMAT_BGRA1010102,
+> +		},
+> +		.expected = {
+> +			DRM_FORMAT_XRGB1555,
+> +			DRM_FORMAT_XBGR1555,
+> +			DRM_FORMAT_RGBX5551,
+> +			DRM_FORMAT_BGRX5551,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_XBGR8888,
+> +			DRM_FORMAT_RGBX8888,
+> +			DRM_FORMAT_BGRX8888,
+> +			DRM_FORMAT_XRGB2101010,
+> +			DRM_FORMAT_XBGR2101010,
+> +			DRM_FORMAT_RGBX1010102,
+> +			DRM_FORMAT_BGRX1010102,
+> +		},
+> +	},
+> +	{
+> +		.name = "random formats",
+> +		.native_fourccs = {
+> +			DRM_FORMAT_Y212,
+> +			DRM_FORMAT_ARGB1555,
+> +			DRM_FORMAT_ABGR16161616F,
+> +			DRM_FORMAT_C8,
+> +			DRM_FORMAT_BGR888,
+> +			DRM_FORMAT_XRGB1555,
+> +			DRM_FORMAT_RGBA5551,
+> +			DRM_FORMAT_BGR565_A8,
+> +			DRM_FORMAT_R10,
+> +			DRM_FORMAT_XYUV8888,
+> +		},
+> +		.expected = {
+> +			DRM_FORMAT_Y212,
+> +			DRM_FORMAT_XRGB1555,
+> +			DRM_FORMAT_ABGR16161616F,
+> +			DRM_FORMAT_C8,
+> +			DRM_FORMAT_BGR888,
+> +			DRM_FORMAT_RGBX5551,
+> +			DRM_FORMAT_BGR565_A8,
+> +			DRM_FORMAT_R10,
+> +			DRM_FORMAT_XYUV8888,
+> +			DRM_FORMAT_XRGB8888,
+> +		},
+> +	},
+> +};
+> +
+> +static void fb_build_fourcc_list_case_desc(struct fb_build_fourcc_list_case *t, char *desc)
+> +{
+> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(fb_build_fourcc_list, fb_build_fourcc_list_cases, fb_build_fourcc_list_case_desc);
+> +
+> +static size_t get_nfourccs(const u32 *fourccs)
+> +{
+> +	size_t i;
+> +
+> +	for (i = 0; i < TEST_BUF_SIZE && fourccs[i]; ++i)
+> +		;
+> +
+> +	return i;
+> +}
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../gpu/drm/panel/panel-newvision-nv3051d.c    | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+I agree with Maira here, maybe a .fourccs_size struct member would be 
+better
 
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-index a07958038ffd..dc0d6dcca683 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-@@ -28,6 +28,7 @@ struct nv3051d_panel_info {
- 	unsigned int num_modes;
- 	u16 width_mm, height_mm;
- 	u32 bus_flags;
-+	unsigned long mode_flags;
- };
- 
- struct panel_nv3051d {
-@@ -385,8 +386,7 @@ static int panel_nv3051d_probe(struct mipi_dsi_device *dsi)
- 
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
--			  MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
-+	dsi->mode_flags = ctx->panel_info->mode_flags;
- 
- 	drm_panel_init(&ctx->panel, &dsi->dev, &panel_nv3051d_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
-@@ -480,10 +480,24 @@ static const struct nv3051d_panel_info nv3051d_rgxx3_info = {
- 	.width_mm = 70,
- 	.height_mm = 57,
- 	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
-+};
-+
-+static const struct nv3051d_panel_info nv3051d_rg351v_info = {
-+	.display_modes = nv3051d_rgxx3_modes,
-+	.num_modes = ARRAY_SIZE(nv3051d_rgxx3_modes),
-+	.width_mm = 70,
-+	.height_mm = 57,
-+	.bus_flags = DRM_BUS_FLAG_DE_LOW | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET |
-+		      MIPI_DSI_CLOCK_NON_CONTINUOUS,
- };
- 
- static const struct of_device_id newvision_nv3051d_of_match[] = {
- 	{ .compatible = "newvision,nv3051d", .data = &nv3051d_rgxx3_info },
-+	{ .compatible = "anbernic,rg351v-panel", .data = &nv3051d_rg351v_info },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, newvision_nv3051d_of_match);
--- 
-2.34.1
-
+> +
+> +static void drm_test_fb_build_fourcc_list(struct kunit *test)
+> +{
+> +	const struct fb_build_fourcc_list_case *params = test->param_value;
+> +	u32 fourccs_out[TEST_BUF_SIZE];
+> +	size_t nfourccs_out;
+> +	struct drm_device *drm;
+> +	struct device *dev;
+> +
+> +	dev = drm_kunit_helper_alloc_device(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
+> +
+> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
+> +
+> +	nfourccs_out = drm_fb_build_fourcc_list(drm, params->native_fourccs,
+> +						get_nfourccs(params->native_fourccs),
+> +						fourccs_out, TEST_BUF_SIZE);
+> +
+> +	drm_kunit_helper_free_device(test, dev);
+> +	KUNIT_EXPECT_EQ(test, nfourccs_out, get_nfourccs(params->expected));
+> +	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
+> +}
+> +
+>   static struct kunit_case drm_format_helper_test_cases[] = {
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
+> @@ -1061,6 +1203,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
+>   	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
+>   	{}
+>   };
+>   
