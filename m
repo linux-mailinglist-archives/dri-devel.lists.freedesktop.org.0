@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543AE774F45
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 01:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E3D774FE3
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 02:36:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB8D510E3FE;
-	Tue,  8 Aug 2023 23:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 412DF10E3F2;
+	Wed,  9 Aug 2023 00:36:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1BA310E225;
- Tue,  8 Aug 2023 23:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=NsaIqfpGRHhuu1KEMbWRWbIrElmncZ2eWcE/szEec0U=; b=lRAlkGHwHqRqhYDz5CZ6wQhW1H
- IcmI41Bxr7NnXFiRhoKeqFA8t692165C+ej5ZKP0u3OfaLp5LY5bJiMLZGisVNf1IBP0cFgTBQASI
- kPidY1gp0VUmAibD2pa7QSVzyCZ1kvNKbo+Kq9m9/SmReKR1Tv5HC74QhsGv1VpN7A4HjrlECX7WI
- zTccirgNLlkJhEeX6x3+QiiVQV26hVVIpbH/AjjA+LUNRylTtSqnGbfRg21IXEDOthv1Lb6E4WZMZ
- sIGP2ykAktnq2/yUbhINhqWsz+OCugd519yqsh//OO3phvFUVHUpi5swgNeBpAIihP6NHNfZaWn1o
- EYPeKDGQ==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qTW5s-003fom-2j; Tue, 08 Aug 2023 23:26:29 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: dmub_replay: don't use kernel-doc markers
-Date: Tue,  8 Aug 2023 16:26:26 -0700
-Message-ID: <20230808232627.21168-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.41.0
+X-Greylist: delayed 169182 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Aug 2023 00:36:39 UTC
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B122010E3F2;
+ Wed,  9 Aug 2023 00:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1691541393;
+ bh=6ettLlgLL+lNbJJyfC10IQ5aBlfsZGk/KbPDEESsreM=;
+ h=Date:From:To:Cc:Subject:From;
+ b=okMGYQ047vUFeZphNjsDnfTDdQUDUptnl5PBICJ4BFtXkqXkCqHNwKgt5JiypgmHT
+ ilmye8lyqRdWZD7UNCAJy4prVtZp7Anj6GY4HErR4r1XAjYNMx9lEz1167gn/6BQBI
+ KYyYHCvXnJezfmx1FNHjw39PWkHEBs1d6LXySXnOxSJ8XJJ3d351cAi7qwXlnNy3qs
+ aiTj6qt9kqnzHN9kexD90SoEk/gczV40srC0QS80a4quUWjM99EPeF7yjxqqE2Gx5a
+ iEQ7VScmNvA2W+b4cCWU/LYdZE10hUKvClhsDmYOfZNEJaTjB8L0gT34f0Vt+LNyC7
+ F2LZoJo3Kc7NQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4RLB272Y6sz4wxR;
+ Wed,  9 Aug 2023 10:36:30 +1000 (AEST)
+Date: Wed, 9 Aug 2023 10:36:26 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: linux-next: manual merge of the fbdev tree with the drm-misc tree
+Message-ID: <20230809103626.782dd87d@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/uUTjO8dq1.Wer9rHpScu0yz";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,132 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, kernel test robot <lkp@intel.com>,
- Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Fabio Estevam <festevam@denx.de>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These functions don't use kernel-doc notation for comments so
-don't begin each comment block with the "/**" kernel-doc marker.
+--Sig_/uUTjO8dq1.Wer9rHpScu0yz
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This prevents a bunch of kernel-doc warnings:
+Hi all,
 
-dmub_replay.c:37: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-dmub_replay.c:37: warning: missing initial short description on line:
- * Get Replay state from firmware.
-dmub_replay.c:66: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-dmub_replay.c:66: warning: missing initial short description on line:
- * Enable/Disable Replay.
-dmub_replay.c:116: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-dmub_replay.c:116: warning: missing initial short description on line:
- * Set REPLAY power optimization flags.
-dmub_replay.c:134: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-dmub_replay.c:134: warning: missing initial short description on line:
- * Setup Replay by programming phy registers and sending replay hw context values to firmware.
-and 10 more similar warnings.
+Today's linux-next merge of the fbdev tree got a conflict in:
 
-Fixes: c7ddc0a800bc ("drm/amd/display: Add Functions to enable Freesync Panel Replay")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Link: lore.kernel.org/r/202308081459.US5rLYAY-lkp@intel.com
-Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c |   18 ++++++-------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+  drivers/video/fbdev/Kconfig
 
-diff -- a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
---- a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
-@@ -33,7 +33,7 @@
- 
- #define MAX_PIPES 6
- 
--/**
-+/*
-  * Get Replay state from firmware.
-  */
- static void dmub_replay_get_state(struct dmub_replay *dmub, enum replay_state *state, uint8_t panel_inst)
-@@ -62,7 +62,7 @@ static void dmub_replay_get_state(struct
- 	}
- }
- 
--/**
-+/*
-  * Enable/Disable Replay.
-  */
- static void dmub_replay_enable(struct dmub_replay *dmub, bool enable, bool wait, uint8_t panel_inst)
-@@ -112,7 +112,7 @@ static void dmub_replay_enable(struct dm
- 
- }
- 
--/**
-+/*
-  * Set REPLAY power optimization flags.
-  */
- static void dmub_replay_set_power_opt(struct dmub_replay *dmub, unsigned int power_opt, uint8_t panel_inst)
-@@ -130,7 +130,7 @@ static void dmub_replay_set_power_opt(st
- 	dm_execute_dmub_cmd(dc, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
- }
- 
--/**
-+/*
-  * Setup Replay by programming phy registers and sending replay hw context values to firmware.
-  */
- static bool dmub_replay_copy_settings(struct dmub_replay *dmub,
-@@ -215,7 +215,7 @@ static bool dmub_replay_copy_settings(st
- 	return true;
- }
- 
--/**
-+/*
-  * Set coasting vtotal.
-  */
- static void dmub_replay_set_coasting_vtotal(struct dmub_replay *dmub,
-@@ -234,7 +234,7 @@ static void dmub_replay_set_coasting_vto
- 	dm_execute_dmub_cmd(dc, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
- }
- 
--/**
-+/*
-  * Get Replay residency from firmware.
-  */
- static void dmub_replay_residency(struct dmub_replay *dmub, uint8_t panel_inst,
-@@ -267,7 +267,7 @@ static const struct dmub_replay_funcs re
- 	.replay_residency		= dmub_replay_residency,
- };
- 
--/**
-+/*
-  * Construct Replay object.
-  */
- static void dmub_replay_construct(struct dmub_replay *replay, struct dc_context *ctx)
-@@ -276,7 +276,7 @@ static void dmub_replay_construct(struct
- 	replay->funcs = &replay_funcs;
- }
- 
--/**
-+/*
-  * Allocate and initialize Replay object.
-  */
- struct dmub_replay *dmub_replay_create(struct dc_context *ctx)
-@@ -293,7 +293,7 @@ struct dmub_replay *dmub_replay_create(s
- 	return replay;
- }
- 
--/**
-+/*
-  * Deallocate Replay object.
-  */
- void dmub_replay_destroy(struct dmub_replay **dmub)
+between commit:
+
+  8c47895b70a2 ("fbdev/mx3fb: Use fbdev I/O helpers")
+
+from the drm-misc tree and commit:
+
+  87ac8777d424 ("fbdev: mx3fb: Remove the driver")
+
+from the fbdev tree.
+
+I fixed it up (the latter removed the lines modified by the former,
+so I just used the latter) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/uUTjO8dq1.Wer9rHpScu0yz
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmTS34sACgkQAVBC80lX
+0GzqZwf9G9a0aUJYQDBMvEb2vlFiUPD+t6Zy9Cpfrhpvuu36cFqeVgWcFzT+MQd1
+Zh2uVYaJ/TTEmJSJiaFH1W0j6QSzNmjTN9mm+HMPtipdG887FO4uwGGJQ0MrQ0Ob
+FqPL7NV9xkkqQisXzAgLUkhgGDnU8rbA2qbwHx3hjbptRiOf25lDLVxb7UmqzcTc
+T6Gm+sm3HB8yCS94G83Wn2r9NCiwZYkFvXeUXTK2aggIHoHFzh2bWH72yKjnubc7
+5PgF7rPPOMwgkeTGngB9D8A1cM9rEkIP5uliqgSTSE1e0CGxYWlscUk9ZB2Dq3cw
+EBLTOf61NvBrKOCjWadD7P7+E713qA==
+=mfCY
+-----END PGP SIGNATURE-----
+
+--Sig_/uUTjO8dq1.Wer9rHpScu0yz--
