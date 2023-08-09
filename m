@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8E977602A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 15:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD76E776041
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 15:11:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07F4610E435;
-	Wed,  9 Aug 2023 13:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5CB010E438;
+	Wed,  9 Aug 2023 13:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 846CA10E435;
- Wed,  9 Aug 2023 13:05:19 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id
- 5614622812f47-3a6f87b2993so5059441b6e.3; 
- Wed, 09 Aug 2023 06:05:19 -0700 (PDT)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10E4310E438;
+ Wed,  9 Aug 2023 13:11:41 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id
+ 5614622812f47-3a7556e4edcso583934b6e.1; 
+ Wed, 09 Aug 2023 06:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691586319; x=1692191119;
+ d=gmail.com; s=20221208; t=1691586700; x=1692191500;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NMffwnQubDmr3m89sLgQURQ081HebwaWlxgqzFDRRig=;
- b=BSzOFLXkMELYLuxEcRiQoewWXGwLzLIHYKjcxfz+eCBzoUFRwc5NgWfV97sNLzWznk
- KAwLhS783puSZhul7vTr6a+wgyqX9bR6jfxd7dOg1Nt0pMgRv01o7yOVsfj44wL40Red
- B7u998bo4nPOYIwzDQGf+jAN9MM4wwVsImU4Apis7XMdx6kLdx6Jwzv+IUOIR4JtDeks
- S12NJlFXyS3tJMPnk6p9mHM9rG6CE9xqHm3tJ4gLHGTFwH1OC2P5HPOHvtfvmcAI1/Tg
- 9q6F5QVhVPvSJIjYEEZgehAqDOqA2fum1nULjAZ4LX4pK5BC3YmUSarrNv8S635dPZBi
- IY0g==
+ bh=0bsfHSbir+1N3BPwsEF83+v9jo06cZjJVauWxQE2x88=;
+ b=X39VyQ81ASYk/nBdQF2k0zkOJr/0vtM4ZpjXBKvnXgqH0R4bVOzYwN862VOzrR+xcj
+ x3FpupRMsRy7LDq7LpyqF25wC6tbW75E04I9YjPO14TSPjRX6C5prULvlJsGvEEptNVm
+ +KaJ1dgo9yDYvvU9xgG4hPh/jBo2jN+cWTaB9vM2sw0taGzXVXkI09vm9gjv3YdsbQfq
+ fVPylz6eN+KR5L6QcKAbs2scRSlOmKkbZMpF9eiAuRUCeeiue3+fNiq6cua13K7CE3MR
+ iwhCAiADw5MAtzoz2nRqhIRpteROYyPsV+/Zu+9qMzuIk9n/JNtv02kFrJu5jM+1rnUx
+ ohVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691586319; x=1692191119;
+ d=1e100.net; s=20221208; t=1691586700; x=1692191500;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NMffwnQubDmr3m89sLgQURQ081HebwaWlxgqzFDRRig=;
- b=bwoJcl8tM7UDbNvzBqSm1JL4rGMMuXneE2GO/pWNzaPjqG+lncvT8gEaXDj7fzPUap
- +9WE4GnMch1VJcrcXMQuOfG4eLXqS8z2gKI+af1yv2SbIDRFUjDAjccewkfOdVJ5ZqW4
- NXjpfVKqQcLsJr1w5Q4hQJdUsynV019LHcqcaKV3tQOg3pijNBPps2+NAAT3/jd/CK8Q
- zetFeIbJKbb8jap6tIil1YiiOyG3mxjF+XlMTUtI/tBnNfpM9nqI1C8SfAwm4Y+Y2J55
- EgnUGhMFqdQFIL+8j7nqQOwrfsaVXnN0ydOFOLKnnn9iZyHmK+8NmKMBwoNzBuf+2xGC
- SIAg==
-X-Gm-Message-State: AOJu0YxwnG97k84nHdtLE5rDalBT0W2FJODPUhh3x+n69XmlfAEO7n4y
- sdulbKQ9p70Ghv+hFnu2GVCMSqpqDZx7tZcp5qU=
-X-Google-Smtp-Source: AGHT+IHKQVBbOrtFJbejz/pPyZya/LqtwPBQP36d8ib/sTRMK8UfYl88mlYUOcq7BVBOX35lEXdB+RRrWdfJF4saP5U=
-X-Received: by 2002:a54:460e:0:b0:3a4:8590:90f2 with SMTP id
- p14-20020a54460e000000b003a4859090f2mr2830780oip.47.1691586318709; Wed, 09
- Aug 2023 06:05:18 -0700 (PDT)
+ bh=0bsfHSbir+1N3BPwsEF83+v9jo06cZjJVauWxQE2x88=;
+ b=fILUE4SrgWDIHSkLDf61gx/XFaEU5i7KWqgj059q6AddGOk0O9HuzrGHMLGpLG2rUV
+ PS38aYZdlPFj8NoJqhD4T3G7gFN4F80i4OrmgabUAM6N5WFtVcNe3liAn6njApr7zXgr
+ omuwhDcmq66GYuSmQGRUYI10QPPBdUbZhSuAqLz4dk/mWEWt/3IfrZ6fHsnP1HXiN77L
+ 0CfZWvFu4FJG8nvW94SUWiRe2KfgMiW3QDkdr6+3hfxMwBJ55uzl19E9kfxHgB0//8/p
+ Uk4nqSJkHpbqJ93jQmU7I9B5GuLK7LU34QqcCSq6hbKq9mUBAmz44oJwtg0PX1LDhYXa
+ hoXA==
+X-Gm-Message-State: AOJu0YyDpKzzsluzgpc/5bTJDpcaYeE0c3vDoAamfbRFfiOeQDXbIIvQ
+ qq6vxMMbT2pSYioTP3CVJ32FUi+NKpBapS8tK+k=
+X-Google-Smtp-Source: AGHT+IGr/N7x0qp/tLHJD9vnx3F+mQLn8Qo3mYlXKDAIof/DZHtBXv2c6gcV9z6BHmLltXrWKyQrwzMGuJze0KPjlPM=
+X-Received: by 2002:aca:bb0b:0:b0:3a7:46c4:e8cd with SMTP id
+ l11-20020acabb0b000000b003a746c4e8cdmr8330814oif.12.1691586700314; Wed, 09
+ Aug 2023 06:11:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230808232627.21168-1-rdunlap@infradead.org>
-In-Reply-To: <20230808232627.21168-1-rdunlap@infradead.org>
+References: <20230809034445.434902-1-ruanjinjie@huawei.com>
+ <20230809034445.434902-2-ruanjinjie@huawei.com>
+ <c2b0d96e-b768-b295-c672-3ae52e14b10b@amd.com>
+In-Reply-To: <c2b0d96e-b768-b295-c672-3ae52e14b10b@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 9 Aug 2023 09:05:06 -0400
-Message-ID: <CADnq5_PkGDM0ig9-D3y1Z87EauYnAnteNqr=EewUjhVaCUFA7g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: dmub_replay: don't use kernel-doc markers
-To: Randy Dunlap <rdunlap@infradead.org>
+Date: Wed, 9 Aug 2023 09:11:29 -0400
+Message-ID: <CADnq5_MZXYBmxr3dJn4vmW2qAbzUDM0eL48anjCot77LinE8tg@mail.gmail.com>
+Subject: Re: [PATCH -next 1/7] drm/amdkfd: Remove unnecessary NULL values
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,150 +70,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kherbst@redhat.com, wenjing.liu@amd.com, dri-devel@lists.freedesktop.org,
+ gurchetansingh@chromium.org, mairacanal@riseup.net, kraxel@redhat.com,
+ alim.akhtar@samsung.com, marijn.suijten@somainline.org,
+ arthurgrillo@riseup.net, Charlene.Liu@amd.com,
+ linux-samsung-soc@vger.kernel.org, Ruan Jinjie <ruanjinjie@huawei.com>,
+ Rodrigo.Siqueira@amd.com, krzysztof.kozlowski@linaro.org,
+ amd-gfx@lists.freedesktop.org, quic_vpolimer@quicinc.com,
+ tony.tascioglu@amd.com, aurabindo.pillai@amd.com, bskeggs@redhat.com,
+ george.shen@amd.com, kyungmin.park@samsung.com, haoping.liu@amd.com,
+ javierm@redhat.com, sunpeng.li@amd.com, linux-arm-msm@vger.kernel.org,
+ jiasheng@iscas.ac.cn, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ alexander.deucher@amd.com, davidgow@google.com, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org, noralf@tronnes.org,
+ paulo.miguel.almeida.rodenas@gmail.com, chiahsuan.chung@amd.com, drv@mailo.com,
+ tales.aparecida@gmail.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
+ sw0312.kim@samsung.com, jaehyun.chung@amd.com, tzimmermann@suse.de,
+ dmitry.baryshkov@linaro.org, jose.exposito89@gmail.com,
+ freedreno@lists.freedesktop.org, sancchen@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 8, 2023 at 7:26=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
+On Wed, Aug 9, 2023 at 2:15=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
 >
-> These functions don't use kernel-doc notation for comments so
-> don't begin each comment block with the "/**" kernel-doc marker.
+> Am 09.08.23 um 05:44 schrieb Ruan Jinjie:
+> > The NULL initialization of the pointers assigned by kzalloc() first is
+> > not necessary, because if the kzalloc() failed, the pointers will be
+> > assigned NULL, otherwise it works as usual. so remove it.
+> >
+> > Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 >
-> This prevents a bunch of kernel-doc warnings:
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for this one=
+,
+> the amd display code and the radeon stuff.
 >
-> dmub_replay.c:37: warning: This comment starts with '/**', but isn't a ke=
-rnel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> dmub_replay.c:37: warning: missing initial short description on line:
->  * Get Replay state from firmware.
-> dmub_replay.c:66: warning: This comment starts with '/**', but isn't a ke=
-rnel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> dmub_replay.c:66: warning: missing initial short description on line:
->  * Enable/Disable Replay.
-> dmub_replay.c:116: warning: This comment starts with '/**', but isn't a k=
-ernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> dmub_replay.c:116: warning: missing initial short description on line:
->  * Set REPLAY power optimization flags.
-> dmub_replay.c:134: warning: This comment starts with '/**', but isn't a k=
-ernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> dmub_replay.c:134: warning: missing initial short description on line:
->  * Setup Replay by programming phy registers and sending replay hw contex=
-t values to firmware.
-> and 10 more similar warnings.
+> Thanks,
+> Christian.
 >
-> Fixes: c7ddc0a800bc ("drm/amd/display: Add Functions to enable Freesync P=
-anel Replay")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: lore.kernel.org/r/202308081459.US5rLYAY-lkp@intel.com
-> Cc: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c |   18 ++++++-------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+> > ---
+> >   drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c b/drivers/gpu=
+/drm/amd/amdkfd/kfd_mqd_manager.c
+> > index 863cf060af48..d01bb57733b3 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
+> > @@ -48,7 +48,7 @@ int pipe_priority_map[] =3D {
+> >
+> >   struct kfd_mem_obj *allocate_hiq_mqd(struct kfd_node *dev, struct que=
+ue_properties *q)
+> >   {
+> > -     struct kfd_mem_obj *mqd_mem_obj =3D NULL;
+> > +     struct kfd_mem_obj *mqd_mem_obj;
+> >
+> >       mqd_mem_obj =3D kzalloc(sizeof(struct kfd_mem_obj), GFP_KERNEL);
+> >       if (!mqd_mem_obj)
+> > @@ -64,7 +64,7 @@ struct kfd_mem_obj *allocate_hiq_mqd(struct kfd_node =
+*dev, struct queue_properti
+> >   struct kfd_mem_obj *allocate_sdma_mqd(struct kfd_node *dev,
+> >                                       struct queue_properties *q)
+> >   {
+> > -     struct kfd_mem_obj *mqd_mem_obj =3D NULL;
+> > +     struct kfd_mem_obj *mqd_mem_obj;
+> >       uint64_t offset;
+> >
+> >       mqd_mem_obj =3D kzalloc(sizeof(struct kfd_mem_obj), GFP_KERNEL);
 >
-> diff -- a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c b/drivers/gpu/=
-drm/amd/display/dc/dce/dmub_replay.c
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c
-> @@ -33,7 +33,7 @@
->
->  #define MAX_PIPES 6
->
-> -/**
-> +/*
->   * Get Replay state from firmware.
->   */
->  static void dmub_replay_get_state(struct dmub_replay *dmub, enum replay_=
-state *state, uint8_t panel_inst)
-> @@ -62,7 +62,7 @@ static void dmub_replay_get_state(struct
->         }
->  }
->
-> -/**
-> +/*
->   * Enable/Disable Replay.
->   */
->  static void dmub_replay_enable(struct dmub_replay *dmub, bool enable, bo=
-ol wait, uint8_t panel_inst)
-> @@ -112,7 +112,7 @@ static void dmub_replay_enable(struct dm
->
->  }
->
-> -/**
-> +/*
->   * Set REPLAY power optimization flags.
->   */
->  static void dmub_replay_set_power_opt(struct dmub_replay *dmub, unsigned=
- int power_opt, uint8_t panel_inst)
-> @@ -130,7 +130,7 @@ static void dmub_replay_set_power_opt(st
->         dm_execute_dmub_cmd(dc, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
->  }
->
-> -/**
-> +/*
->   * Setup Replay by programming phy registers and sending replay hw conte=
-xt values to firmware.
->   */
->  static bool dmub_replay_copy_settings(struct dmub_replay *dmub,
-> @@ -215,7 +215,7 @@ static bool dmub_replay_copy_settings(st
->         return true;
->  }
->
-> -/**
-> +/*
->   * Set coasting vtotal.
->   */
->  static void dmub_replay_set_coasting_vtotal(struct dmub_replay *dmub,
-> @@ -234,7 +234,7 @@ static void dmub_replay_set_coasting_vto
->         dm_execute_dmub_cmd(dc, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
->  }
->
-> -/**
-> +/*
->   * Get Replay residency from firmware.
->   */
->  static void dmub_replay_residency(struct dmub_replay *dmub, uint8_t pane=
-l_inst,
-> @@ -267,7 +267,7 @@ static const struct dmub_replay_funcs re
->         .replay_residency               =3D dmub_replay_residency,
->  };
->
-> -/**
-> +/*
->   * Construct Replay object.
->   */
->  static void dmub_replay_construct(struct dmub_replay *replay, struct dc_=
-context *ctx)
-> @@ -276,7 +276,7 @@ static void dmub_replay_construct(struct
->         replay->funcs =3D &replay_funcs;
->  }
->
-> -/**
-> +/*
->   * Allocate and initialize Replay object.
->   */
->  struct dmub_replay *dmub_replay_create(struct dc_context *ctx)
-> @@ -293,7 +293,7 @@ struct dmub_replay *dmub_replay_create(s
->         return replay;
->  }
->
-> -/**
-> +/*
->   * Deallocate Replay object.
->   */
->  void dmub_replay_destroy(struct dmub_replay **dmub)
