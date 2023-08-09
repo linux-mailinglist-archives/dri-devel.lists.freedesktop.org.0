@@ -2,34 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888A4775EF9
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 14:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B164775FF7
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 14:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F256C10E42B;
-	Wed,  9 Aug 2023 12:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D7D10E431;
+	Wed,  9 Aug 2023 12:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24B4310E42B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 12:30:09 +0000 (UTC)
-Received: from [194.95.143.137] (helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1qTiJH-00071M-LR; Wed, 09 Aug 2023 14:29:07 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Uwe =?ISO-8859-1?Q?Kleine=2DK=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for drivers
-Date: Wed, 09 Aug 2023 14:29:04 +0200
-Message-ID: <5316381.7s5MMGUR32@phil>
-In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
- <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BEB510E142
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 12:57:29 +0000 (UTC)
+X-UUID: 497f41de36b411ee9cb5633481061a41-20230809
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=2sZQxcx0KmG2jwUfxyeIK+/P1Dx+ENWRtNYfhOBak7g=; 
+ b=GshYwU0A1toA9mM5S9yem/GK7QVOJkQ7ZraC3HXb79piT5qvS9psVVxmj7KIZH7TJtt7NfFcwiITrhaLEZh7Qjqfih1ErD3Gi+8CK6j9DcziRAYRnyOjcoIJ5xiE8/iqJXDr9wuEaNch4sKEV6XTnsk9wPpkGV1Vy94Nw7D6ux8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:1e3868cc-2c88-44f1-ba04-71a629830e16, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.31, REQID:1e3868cc-2c88-44f1-ba04-71a629830e16, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:0ad78a4, CLOUDID:db4956ee-9a6e-4c39-b73e-f2bc08ca3dc5,
+ B
+ ulkID:230809205725Q5Y6HLRD,BulkQuantity:0,Recheck:0,SF:19|48|38|29|28|17,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+ ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSD, TF_CID_SPAM_SNR, TF_CID_SPAM_SDM,
+ TF_CID_SPAM_ASC, TF_CID_SPAM_FAS
+X-UUID: 497f41de36b411ee9cb5633481061a41-20230809
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1011126167; Wed, 09 Aug 2023 20:57:25 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 9 Aug 2023 20:57:23 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 9 Aug 2023 20:57:23 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
+ <amergnat@baylibre.com>, Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH v5 0/2] Fix OVL iommu fault in cursor plane
+Date: Wed, 9 Aug 2023 20:57:20 +0800
+Message-ID: <20230809125722.24112-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,79 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-staging@lists.linux.dev, Andrzej Hajda <andrzej.hajda@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Johan Hovold <johan@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Paul Cercueil <paul@crapouillou.net>, linux-tegra@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, Pavel Machek <pavel@ucw.cz>,
- linux-amlogic@lists.infradead.org, Guenter Roeck <groeck@chromium.org>,
- chrome-platform@lists.linux.dev,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Michal Simek <michal.simek@amd.com>, linux-riscv@lists.infradead.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jerome Brunet <jbrunet@baylibre.com>,
- Luca Weiss <luca@z3ntu.xyz>, linux-samsung-soc@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Samuel Holland <samuel@sholland.org>, Sean Anderson <sean.anderson@seco.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
- Michael Walle <michael@walle.cc>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org,
- Orson Zhai <orsonzhai@gmail.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-pwm@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
- Vladimir Zapolskiy <vz@mleia.com>, linux-gpio@vger.kernel.org,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Sven Peter <sven@svenpeter.dev>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Andy Shevchenko <andy@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Alex Elder <elder@kernel.org>, Alexander Shiyan <shc_work@mail.ru>,
- Scott Branden <sbranden@broadcom.com>, greybus-dev@lists.linaro.org,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
- Hector Martin <marcan@marcan.st>, linux-stm32@st-md-mailman.stormreply.com,
- Douglas Anderson <dianders@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, asahi@lists.linux.dev,
- Kevin Hilman <khilman@baylibre.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@microchip.com>,
- Anjelique Melendez <quic_amelende@quicinc.com>,
- linux-rpi-kernel@lists.infradead.org
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 4. August 2023, 16:27:06 CEST schrieb Uwe Kleine-K=F6nig:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
->=20
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
-> module.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> ---
+Fix some IGT tests fail at iommu fault in OVL cursor plane.
 
->  drivers/pwm/pwm-rockchip.c            |  1 -
+Change in v5:
+1. Rollback the entire series to v3.
+2. Add more commit message inyo [PATCH v5 2/2].
 
-Acked-by: Heiko Stuebner <heiko@sntech.de> #pwm-rockchip
+Change in RESEND v4 :
+1. Remove redundant plane_state assigning.
 
+Change in v4:
+1. Change disable all layer method to update mtk_plane_state stored
+   in mtk_crtc by drm_atomic_state from mtk_drm_crtc_atomic_enable().
 
+Change in v3:
+1. Add Fixes tag before s.o.b.
+
+Change in v2:
+1. Add Fixes tag.
+
+Jason-JH.Lin (2):
+  drm/mediatek: Fix iommu fault by swapping FBs after updating plane
+    state
+  drm/mediatek: Fix iommu fault during crtc enabling
+
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 3 +++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+-- 
+2.18.0
 
