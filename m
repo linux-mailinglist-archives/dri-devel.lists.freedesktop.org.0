@@ -2,42 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E3D774FE3
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 02:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DC9774FFF
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 02:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412DF10E3F2;
-	Wed,  9 Aug 2023 00:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D8110E039;
+	Wed,  9 Aug 2023 00:46:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 169182 seconds by postgrey-1.36 at gabe;
- Wed, 09 Aug 2023 00:36:39 UTC
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B122010E3F2;
- Wed,  9 Aug 2023 00:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1691541393;
- bh=6ettLlgLL+lNbJJyfC10IQ5aBlfsZGk/KbPDEESsreM=;
- h=Date:From:To:Cc:Subject:From;
- b=okMGYQ047vUFeZphNjsDnfTDdQUDUptnl5PBICJ4BFtXkqXkCqHNwKgt5JiypgmHT
- ilmye8lyqRdWZD7UNCAJy4prVtZp7Anj6GY4HErR4r1XAjYNMx9lEz1167gn/6BQBI
- KYyYHCvXnJezfmx1FNHjw39PWkHEBs1d6LXySXnOxSJ8XJJ3d351cAi7qwXlnNy3qs
- aiTj6qt9kqnzHN9kexD90SoEk/gczV40srC0QS80a4quUWjM99EPeF7yjxqqE2Gx5a
- iEQ7VScmNvA2W+b4cCWU/LYdZE10hUKvClhsDmYOfZNEJaTjB8L0gT34f0Vt+LNyC7
- F2LZoJo3Kc7NQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4RLB272Y6sz4wxR;
- Wed,  9 Aug 2023 10:36:30 +1000 (AEST)
-Date: Wed, 9 Aug 2023 10:36:26 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: linux-next: manual merge of the fbdev tree with the drm-misc tree
-Message-ID: <20230809103626.782dd87d@canb.auug.org.au>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B501710E039
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 00:46:14 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3790069r021618; Wed, 9 Aug 2023 00:46:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=tbCr5K+hN8AUnuZ/XLJ9/nC/g0+MKTlafCRZyf50s70=;
+ b=mS9ABh386aw8tIOSHCJyDCqS19YWcCsHcVCsRAhxDH7X1FBmCqXoUTQBRW1zvbSZryhH
+ LiOlF7GwwFwGB1a6J/NgqkpFp1JzBrqCyt3dgzqmn1e4PFXhT/EpMjvcLUuRUkF/G9ut
+ rpX60qqafINUl24bA83o1+gH6q5QnO9jdT0atg9rBJonN+wM4DB+4bay7Sz+sHOolDAU
+ mYTj8UU+2AH1LbgDB+GVRnA3fyKA3ulAgelqKfePjR669HUDHpk/uhPlEAcgZAV8/Wss
+ SvWD7sNnr/Kam5rQYYSpo3cq0zSQRWdzZ8Stm6Wc91DY8IH9Zohxz++aDSAAONCrdXSm EQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sbe15t9r1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Aug 2023 00:46:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3790jqAA000657
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 9 Aug 2023 00:45:52 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 8 Aug
+ 2023 17:45:51 -0700
+Message-ID: <5089f2d7-35fd-ca17-ea8d-77ebd8749927@quicinc.com>
+Date: Tue, 8 Aug 2023 18:45:51 -0600
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/uUTjO8dq1.Wer9rHpScu0yz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 4/6] accel/ivpu: Add param ioctl to identify capabilities
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20230731161258.2987564-1-stanislaw.gruszka@linux.intel.com>
+ <20230731161258.2987564-5-stanislaw.gruszka@linux.intel.com>
+ <4d8e7269-f6d4-4d1a-8af3-70718adc0647@quicinc.com>
+ <20230803083737.GA3023441@linux.intel.com>
+ <20230808085219.GA3049188@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230808085219.GA3049188@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -pvj9da9H0R7YeS_O9ubfHZT-IEx60uG
+X-Proofpoint-ORIG-GUID: -pvj9da9H0R7YeS_O9ubfHZT-IEx60uG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-08_23,2023-08-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 mlxscore=0 adultscore=0 suspectscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 clxscore=1011 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308090005
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,61 +86,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabio Estevam <festevam@denx.de>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/uUTjO8dq1.Wer9rHpScu0yz
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 8/8/2023 2:52 AM, Stanislaw Gruszka wrote:
+> On Thu, Aug 03, 2023 at 10:37:37AM +0200, Stanislaw Gruszka wrote:
+>>> Seems like we might want to decide this now, because if we define a iVPU
+>>> specific ioctl as proposed here, but then switch to an Accel-wide mechanism
+>>> later, iVPU is going to be stuck supporting both.
+>>
+>> For the record, we do not add new ioctl in this patch, we just extend
+>> existing DRM_IOCTL_IVPU_GET_PARAM one.
+> 
+> To avoid confusion, I'll change the topic and commit massage
+> before applying:
+> 
+> accel/ivpu: Extend get_param ioctl to identify capabilities
+> 
+> Add DRM_IVPU_PARAM_CAPABILITIES parameters to get_param ioctl to query
+> driver capabilities. For now use it for identify metric streamer and
+> new dma memory range features. Currently upstream version of intel_vpu
+> does not have those, they will be added it the future.
 
-Hi all,
+This is perhaps slightly better.  I didn't find the original one confusing.
 
-Today's linux-next merge of the fbdev tree got a conflict in:
+Seems like no opinions on pushing this up to the framework.  You did 
+point out DRM drivers have driver level ones, so carry-on I guess.
 
-  drivers/video/fbdev/Kconfig
+Seems ok to me.  I'd prefer to see some comments in the uapi header 
+describing what the DRM_IVPU_CAP_* values mean.  A bit more than "device 
+has metric streamer support" - what is metric streamer, and why might 
+userspace care?
 
-between commit:
+However, as a uAPI change, is Oded's Ack not required?  I thought that 
+was the rule.
 
-  8c47895b70a2 ("fbdev/mx3fb: Use fbdev I/O helpers")
-
-from the drm-misc tree and commit:
-
-  87ac8777d424 ("fbdev: mx3fb: Remove the driver")
-
-from the fbdev tree.
-
-I fixed it up (the latter removed the lines modified by the former,
-so I just used the latter) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/uUTjO8dq1.Wer9rHpScu0yz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmTS34sACgkQAVBC80lX
-0GzqZwf9G9a0aUJYQDBMvEb2vlFiUPD+t6Zy9Cpfrhpvuu36cFqeVgWcFzT+MQd1
-Zh2uVYaJ/TTEmJSJiaFH1W0j6QSzNmjTN9mm+HMPtipdG887FO4uwGGJQ0MrQ0Ob
-FqPL7NV9xkkqQisXzAgLUkhgGDnU8rbA2qbwHx3hjbptRiOf25lDLVxb7UmqzcTc
-T6Gm+sm3HB8yCS94G83Wn2r9NCiwZYkFvXeUXTK2aggIHoHFzh2bWH72yKjnubc7
-5PgF7rPPOMwgkeTGngB9D8A1cM9rEkIP5uliqgSTSE1e0CGxYWlscUk9ZB2Dq3cw
-EBLTOf61NvBrKOCjWadD7P7+E713qA==
-=mfCY
------END PGP SIGNATURE-----
-
---Sig_/uUTjO8dq1.Wer9rHpScu0yz--
+-Jeff
