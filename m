@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A269A776BF5
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F07776C0F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0AD10E124;
-	Wed,  9 Aug 2023 22:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C88D10E12D;
+	Wed,  9 Aug 2023 22:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCA4E10E124;
- Wed,  9 Aug 2023 22:09:48 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 46e09a7af769-6bc886d1504so294334a34.0; 
- Wed, 09 Aug 2023 15:09:48 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969DB10E009;
+ Wed,  9 Aug 2023 22:15:30 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-31792ac0fefso303746f8f.2; 
+ Wed, 09 Aug 2023 15:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691618988; x=1692223788;
+ d=gmail.com; s=20221208; t=1691619329; x=1692224129;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5wgDVu8p3LAXBRMLjZ335uEuofYsZ1H4TbcKoyLUoLo=;
- b=pBH+yh35EtrJKvrb5fnLJvRLVaPCRGUT+7HvV1ZWoRkfAESNpFgDP7h54DHz9p4/r6
- a42WOpxmxSXlV07+ptDJs5MVekWkF+X5zFZqlIHm6lJYfFo8GxvjhGOCojqzOzy0nI34
- iYFp/PT+g1fAF95MVMeBHGOHnj/AZ3xZfKljJVBalSsAU0LqTCfPVKsnOwegpZY2VS9F
- 2CgpUwUTP71Ex2B71oEmlOWAN4IfsVCFDXOJK2dIdpC7B/xgDoFoLDd8/m+fXTj4k99o
- ene6pQH7hMtdKATN1DDzHcdbmLD59ChvMCA1GUJDcKV8IOW5u0/iLIuykZGxayGiaaLH
- 4h8w==
+ bh=m+iJ6yF+JifkMrPOYhZUvJyGxXgs7A1jvN2VjyrqrnI=;
+ b=AEnMxHFAjFr+t+Fv4gp5f6SaAAZn/zjl2EQxRQx4dG/wsepAOjR4pLmy9jhCnY/Vib
+ holfLQ4faoacjF3oUZ6yS4bgXfLU/W5gbvbChvkHkZ4O5MgiBd9ESj+bttV+W3S+BVCp
+ JH1kG73KIwWSZUaB9r5zXDlQT25w9zVlcz5La+VsX1V1t2fZRmtQHUnQnVdEJj9NYPJf
+ mXmMxylE3H29YihR2Ja7xSkhE0V9E26CmhkvLBb33e8nyh05uUDK8xzrJZOUnmZw2FIk
+ LkchJ9QHDF/gvTurw2NzZzgqKw/g320k9D/mc4HyndAYcfRHnbLGQtiRDLMIpEPvf3hW
+ 074A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691618988; x=1692223788;
+ d=1e100.net; s=20221208; t=1691619329; x=1692224129;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5wgDVu8p3LAXBRMLjZ335uEuofYsZ1H4TbcKoyLUoLo=;
- b=CwFWVVWqCXHZRsuq9996cHr/PchVEWmsRAn4dWHgWuf1r6OAbrpM8EjPSuDbqbqDJU
- Dwt7ajsZ99dkAydKN4QEN3fDTBzUpgApKNstdgDJiUurMBnwmua2Mkggeuzr9fD4gJWv
- c491VQYkmCs9vwt3qqnH8VxLmMVpbBarhVauxmGkw/B8xCOuCe4t1eNCnPUzjr9Dt5Tv
- HNzmGTm7H8iQYr+q3LN2Ub6TsC3Pz/Ef5BJ8mL881FgQci2dKXCenW6EJNGNkOonW4jH
- DZzMneS/Shv4m5gSXogaw97XHC0f0bqFxmNMA1QqW3+VqhCYRaE0JRdXFENr67x8OkIA
- tbMA==
-X-Gm-Message-State: AOJu0YxiwQiAjgxe0XIxaIPdsCCtsw71rM7yL5v7r5lf93dQr3RTHMT1
- y5FL3SRzx1+aJhMMI/m3qGw2FBuxrh8YRnakFpg=
-X-Google-Smtp-Source: AGHT+IGaFK09aQLRrcthM3O+uleFc4gf7oGBkgSQRy/BXP3AlJBxiNZU18R3ecPf1q5NWrORzYwZ8vWUHy/MM9WtzuY=
-X-Received: by 2002:a05:6870:970e:b0:1bb:b025:3e87 with SMTP id
- n14-20020a056870970e00b001bbb0253e87mr688950oaq.58.1691618987999; Wed, 09 Aug
- 2023 15:09:47 -0700 (PDT)
+ bh=m+iJ6yF+JifkMrPOYhZUvJyGxXgs7A1jvN2VjyrqrnI=;
+ b=TRfd5agLp/34Xy1q54j0zbkWMDrOB/yP9IfMEa/Lj74UAJtrGhx4At7gSRvgk6To5A
+ 0ZsduWTGG5fFxHvlOF/A1JePbmOO2tsykaFi8DlXwruTQX50myo2KcgT7H2zGqpOOcav
+ PJ9cd0bn/sGYkRAJCIlyaPApV67m+890dRVRVpR7giaX5zOik2BWIkUXTMhRVMPQcFAi
+ +XQUqBPvXmlFivx+WeGN8q9XxwjWHr4sov3FSYe2CpcRc8Tt9QxbEFxUkQMSIvkFjdXe
+ 523ve7gckqybOb+GgLRqdaTGPAh950ujgtyw2x0+nvi1Hu3YRaQJlsX1qGkcTBVlnr7D
+ BVKA==
+X-Gm-Message-State: AOJu0YzogDGqMznd4tn3c8oOQYQX6WDn6yT8paqmx3ZzyR26Gz0ON0a2
+ 4urCrChr8Vv3/QUGvsBZd+tlGxVIJNupo+GEDfY=
+X-Google-Smtp-Source: AGHT+IHV1xs1dkP+pOGfhd0RGUDfPYeFzLZpaU1m6hjicg46DC1woF+aE7CJjryFD6qT/kAeqsR5O9L8D1t5J2nM8P0=
+X-Received: by 2002:a5d:594a:0:b0:314:4915:689 with SMTP id
+ e10-20020a5d594a000000b0031449150689mr450261wri.34.1691619328716; Wed, 09 Aug
+ 2023 15:15:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703150135.5784-1-ubizjak@gmail.com>
-In-Reply-To: <20230703150135.5784-1-ubizjak@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 9 Aug 2023 18:09:36 -0400
-Message-ID: <CADnq5_MCquO_Sh0RUVYATbLwS1+h2UrLHoUkCXYeF7=R4kZmDg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Use local64_try_cmpxchg in amdgpu_perf_read
-To: Uros Bizjak <ubizjak@gmail.com>
+References: <20230628-topic-a7xx_drmmsm-v2-0-1439e1b2343f@linaro.org>
+ <20230628-topic-a7xx_drmmsm-v2-13-1439e1b2343f@linaro.org>
+In-Reply-To: <20230628-topic-a7xx_drmmsm-v2-13-1439e1b2343f@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 9 Aug 2023 15:15:17 -0700
+Message-ID: <CAF6AEGsJ1WyLttZcvkgJjxsHHxX-uyz6+yb4=xizqakeZrSdTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 13/14] drm/msm/a6xx: Vastly increase HFI timeout
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,70 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
-
-Alex
-
-On Mon, Jul 3, 2023 at 7:16=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wrot=
-e:
+On Tue, Aug 8, 2023 at 2:03=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro.=
+org> wrote:
 >
-> Use local64_try_cmpxchg instead of local64_cmpxchg (*ptr, old, new) =3D=
-=3D old
-> in amdgpu_perf_read.  x86 CMPXCHG instruction returns success in ZF flag,
-> so this change saves a compare after cmpxchg (and related move instructio=
-n
-> in front of cmpxchg).
+> A7xx GMUs can be slow as molasses at times.
+> Increase the timeout to 1 second to match the vendor driver.
 >
-> Also, try_cmpxchg implicitly assigns old *ptr value to "old" when cmpxchg
-> fails. There is no need to re-read the value in the loop.
->
-> No functional change intended.
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # sm8450
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_pmu.c
-> index 71ee361d0972..6e91ea1de5aa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
-> @@ -276,9 +276,8 @@ static void amdgpu_perf_read(struct perf_event *event=
-)
->             (!pe->adev->df.funcs->pmc_get_count))
->                 return;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/=
+adreno/a6xx_hfi.c
+> index cdb3f6e74d3e..e25ddb82a087 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -108,7 +108,7 @@ static int a6xx_hfi_wait_for_ack(struct a6xx_gmu *gmu=
+, u32 id, u32 seqnum,
 >
-> +       prev =3D local64_read(&hwc->prev_count);
->         do {
-> -               prev =3D local64_read(&hwc->prev_count);
-> -
->                 switch (hwc->config_base) {
->                 case AMDGPU_PMU_EVENT_CONFIG_TYPE_DF:
->                 case AMDGPU_PMU_EVENT_CONFIG_TYPE_XGMI:
-> @@ -289,7 +288,7 @@ static void amdgpu_perf_read(struct perf_event *event=
-)
->                         count =3D 0;
->                         break;
->                 }
-> -       } while (local64_cmpxchg(&hwc->prev_count, prev, count) !=3D prev=
-);
-> +       } while (!local64_try_cmpxchg(&hwc->prev_count, &prev, count));
+>         /* Wait for a response */
+>         ret =3D gmu_poll_timeout(gmu, REG_A6XX_GMU_GMU2HOST_INTR_INFO, va=
+l,
+> -               val & A6XX_GMU_GMU2HOST_INTR_INFO_MSGQ, 100, 5000);
+> +               val & A6XX_GMU_GMU2HOST_INTR_INFO_MSGQ, 100, 1000000);
+
+yikes.. so our default autosuspend delay is 66ms.. and we hit this
+path in the resume path (ie. if you click something after things have
+been sitting idle for >66ms).. you really don't want something in that
+critical path to take 1sec
+
+BR,
+-R
+
 >
->         local64_add(count - prev, &event->count);
->  }
+>         if (ret) {
+>                 DRM_DEV_ERROR(gmu->dev,
+>
 > --
 > 2.41.0
 >
