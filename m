@@ -1,84 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EE776C5E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:41:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64304776C74
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:50:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCF010E12C;
-	Wed,  9 Aug 2023 22:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C799110E131;
+	Wed,  9 Aug 2023 22:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBA8410E12C
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 22:40:58 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A05D10E131
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 22:50:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691620857;
+ s=mimecast20190719; t=1691621440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kqkWptdyICgKZLcTvquabOW8rAvUOuPeScuQD1YQUKA=;
- b=XbhWl7gJz61HdCfNcX9isnaOJpsgEcAa9PcT89v4Zcz/wogp7ZuM7SEZv15fTm2C7Qmu7h
- tljZPsyq30Xdj1klCj6blY+wzDX5Z16kcTBpH1VY59P61nO39mIeQ17e01O2413uJSQbkZ
- 3jvWNERSq8nz2MGEFEGr1E3vhPklh/Y=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gF/DsPM8L4MqlHp9tlfI2YXb+0b5z0aTjeRWWwXcwao=;
+ b=ceEqM6uDKOYdW+WBSv4TfEaMxqG1fOg1R8a+oYYumOC5Qg0D/1RlhDx1DG9vdUMT1bpGhN
+ e7nPtZoK1lrkwWCOz1Gp7ZEj6IQDJlTaSVou3IpWPW0IrOfllGf0DeVujSuxOV/6HUTw+P
+ zjaogHmzqHyOkdbrhai8xtn8c8VCxjg=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-134-0k6q0BF4MASvA3mHEVC2UQ-1; Wed, 09 Aug 2023 18:40:56 -0400
-X-MC-Unique: 0k6q0BF4MASvA3mHEVC2UQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-523282be1a5so154250a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 15:40:56 -0700 (PDT)
+ us-mta-691-fdiilVrePN6SviSIMivJJw-1; Wed, 09 Aug 2023 18:50:39 -0400
+X-MC-Unique: fdiilVrePN6SviSIMivJJw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-99bca0b9234so20273266b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 15:50:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691620855; x=1692225655;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1691621438; x=1692226238;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kqkWptdyICgKZLcTvquabOW8rAvUOuPeScuQD1YQUKA=;
- b=BPjerjZhZMGVTmBfxbloTvsj6vdh4fxFfP+O6zmgS5xyvz49v/WNviKlXLl56aGveJ
- l+fR7Ok+pjp4LxOQ0CVhq1E0KqzUJPYSJiePRqDvIDFSgPhSY+eePZHjjtfgjsYbDKcd
- IYJ8oD8HVGZN1Si83EjTX10G3/81Rdt3qInJl8uEMnKAnLwpSjPPFUw9xbB0SUsH7YkX
- WoSvyk9OaRw8OoVyssPJLFM+/dhopUA0ixkkZ2YCyoplTcrx/qQeNdixu2a7jxI9XPU+
- JmEjkiNnguRHtNwurLecEXm9exdb26iClLMmbePTq9WlaONLhX9EAEiWSXdZDUmUtpm1
- XX1Q==
-X-Gm-Message-State: AOJu0YyfNl/5ny7v9t/SrBtF7SaOUGKq/86KCuBUr1LxEGw5RbnF2Tln
- UYh+BsppQxnhS4IfGpgMTNkSvIkdUeTb7N5rlil7UL4Y88CwtW1gSxpyES/G9wl5LNZlW3Hlcsq
- dT/nKbOry2kdubhQax6WQVvNWRmla
-X-Received: by 2002:aa7:c687:0:b0:522:4cd7:efb0 with SMTP id
- n7-20020aa7c687000000b005224cd7efb0mr469654edq.17.1691620855563; 
- Wed, 09 Aug 2023 15:40:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGbc5d+5Pwrcb2mWJiUCFNf5HjHJlFOgUzg5E8ZB5Bw31sbH+4nAOdQBye19n8yg+HHqaYiFA==
-X-Received: by 2002:aa7:c687:0:b0:522:4cd7:efb0 with SMTP id
- n7-20020aa7c687000000b005224cd7efb0mr469630edq.17.1691620855277; 
- Wed, 09 Aug 2023 15:40:55 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ bh=gF/DsPM8L4MqlHp9tlfI2YXb+0b5z0aTjeRWWwXcwao=;
+ b=O6AI5i2nQm52lxhcRgTiaINHGQxP3ZNCOc0lJYp5PGt5mqAJ14lLCpKIT8hYk9tFIE
+ fNX0JUCOlJZ6jM6zEQxt0+jzCHKWwZm1eA9k5hiwLZbOULbEaRyVOAbnp3srG0cNb9KL
+ ZYHTNuBaDRppWhKDhkpHT+capQeTDLuk2s+XzNx43ELpdnza/h08rGpWPUPSGgZ8vWg0
+ dj2K/tc4xi3UfLuUHjt1ORnwd3uwnfhrTIc9eEtQwQhBnQafmUurbpkpwcy8C0AmTaK5
+ Gkz5Og2GeUL7cz1d3FC2wq6agfgG1icUu6bkeNJasHOvueC8V20xro3KBaJe3RyEgTNj
+ t8Dg==
+X-Gm-Message-State: AOJu0Yzpm0G9NIF7SBOJ2fh27yc59T/8I8ccEH02DthGbhlN5kMganoq
+ 0AilD+2o5zXh4GISlr4IjIR+oviu0g9LREYJCK35JUBO0aD+UfTwxVu7QVW0kudBfznxDV6BpOL
+ Rtr96+yehdFcSPMG0vsVFfXO+3sa4
+X-Received: by 2002:a17:906:105c:b0:99b:4956:e4e3 with SMTP id
+ j28-20020a170906105c00b0099b4956e4e3mr366947ejj.8.1691621438188; 
+ Wed, 09 Aug 2023 15:50:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG6vRNFFeqAB3QpQbIXjT+bkqtYOwBj+1lQOt4+Ju691WeyIdUOlvAcgM88u9tqNgL2EABoqQ==
+X-Received: by 2002:a17:906:105c:b0:99b:4956:e4e3 with SMTP id
+ j28-20020a170906105c00b0099b4956e4e3mr366938ejj.8.1691621437902; 
+ Wed, 09 Aug 2023 15:50:37 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- w26-20020a056402071a00b0052369656ed3sm48675edx.3.2023.08.09.15.40.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Aug 2023 15:40:54 -0700 (PDT)
-Message-ID: <3f4beed9-6aca-b544-80a2-9ea5264da119@redhat.com>
-Date: Thu, 10 Aug 2023 00:40:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH drm-misc-next v9 01/11] drm/gem: fix lockdep check for
- dma-resv lock
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230803165238.8798-1-dakr@redhat.com>
- <20230803165238.8798-2-dakr@redhat.com>
- <20230808092117.7f7fdef9@collabora.com>
+ kg23-20020a17090776f700b0099cfd0b2437sm99580ejc.99.2023.08.09.15.50.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Aug 2023 15:50:37 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230808092117.7f7fdef9@collabora.com>
+To: airlied@gmail.com, daniel@ffwll.ch, christian.koenig@amd.com,
+ alexander.deucher@amd.com, arthurgrillo@riseup.net
+Subject: [PATCH drm-misc-next] drm/test: drm_exec: fix memory leak on object
+ prepare
+Date: Thu, 10 Aug 2023 00:50:14 +0200
+Message-ID: <20230809225034.8803-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,92 +82,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, willy@infradead.org,
- dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
- ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, bskeggs@redhat.com, tzimmermann@suse.de,
- Liam.Howlett@oracle.com, bagasdotme@gmail.com, christian.koenig@amd.com,
- jason@jlekstrand.net, donald.robson@imgtec.com
+Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/8/23 09:21, Boris Brezillon wrote:
-> On Thu,  3 Aug 2023 18:52:20 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
->> When no custom lock is set to protect a GEMs GPUVA list, lockdep checks
->> should fall back to the GEM objects dma-resv lock. With the current
->> implementation we're setting the lock_dep_map of the GEM objects 'resv'
->> pointer (in case no custom lock_dep_map is set yet) on
->> drm_gem_private_object_init().
->>
->> However, the GEM objects 'resv' pointer might still change after
->> drm_gem_private_object_init() is called, e.g. through
->> ttm_bo_init_reserved(). This can result in the wrong lock being tracked.
->>
->> To fix this, call dma_resv_held() directly from
->> drm_gem_gpuva_assert_lock_held() and fall back to the GEMs lock_dep_map
->> pointer only if an actual custom lock is set.
->>
->> Fixes: e6303f323b1a ("drm: manager to keep track of GPUs VA mappings")
->> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> but I'm wondering if it wouldn't be a good thing to add a
-> drm_gem_set_resv() helper, so the core can control drm_gem_object::resv
-> re-assignments (block them if it's happening after the GEM has been
-> exposed to the outside world or update auxiliary data if it's happening
-> before that).
+drm_exec_prepare_obj() and drm_exec_prepare_array() both reserve
+dma-fence slots and hence a dma_resv_list without ever freeing it.
 
-I agree, this might be a good idea. There are quite a few places where 
-drm_gem_object::resv is set from external code.
+Make sure to call drm_gem_private_object_fini() for each GEM object
+passed to drm_exec_prepare_obj()/drm_exec_prepare_array() throughout the
+test to fix this up.
 
-> 
->> ---
->>   include/drm/drm_gem.h | 15 +++++++++------
->>   1 file changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->> index c0b13c43b459..bc9f6aa2f3fe 100644
->> --- a/include/drm/drm_gem.h
->> +++ b/include/drm/drm_gem.h
->> @@ -551,15 +551,17 @@ int drm_gem_evict(struct drm_gem_object *obj);
->>    * @lock: the lock used to protect the gpuva list. The locking primitive
->>    * must contain a dep_map field.
->>    *
->> - * Call this if you're not proctecting access to the gpuva list
->> - * with the dma-resv lock, otherwise, drm_gem_gpuva_init() takes care
->> - * of initializing lock_dep_map for you.
->> + * Call this if you're not proctecting access to the gpuva list with the
->> + * dma-resv lock, but with a custom lock.
->>    */
->>   #define drm_gem_gpuva_set_lock(obj, lock) \
->> -	if (!(obj)->gpuva.lock_dep_map) \
->> +	if (!WARN((obj)->gpuva.lock_dep_map, \
->> +		  "GEM GPUVA lock should be set only once.")) \
->>   		(obj)->gpuva.lock_dep_map = &(lock)->dep_map
->>   #define drm_gem_gpuva_assert_lock_held(obj) \
->> -	lockdep_assert(lock_is_held((obj)->gpuva.lock_dep_map))
->> +	lockdep_assert((obj)->gpuva.lock_dep_map ? \
->> +		       lock_is_held((obj)->gpuva.lock_dep_map) : \
->> +		       dma_resv_held((obj)->resv))
->>   #else
->>   #define drm_gem_gpuva_set_lock(obj, lock) do {} while (0)
->>   #define drm_gem_gpuva_assert_lock_held(obj) do {} while (0)
->> @@ -573,11 +575,12 @@ int drm_gem_evict(struct drm_gem_object *obj);
->>    *
->>    * Calling this function is only necessary for drivers intending to support the
->>    * &drm_driver_feature DRIVER_GEM_GPUVA.
->> + *
->> + * See also drm_gem_gpuva_set_lock().
->>    */
->>   static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
->>   {
->>   	INIT_LIST_HEAD(&obj->gpuva.list);
->> -	drm_gem_gpuva_set_lock(obj, &obj->resv->lock.base);
->>   }
->>   
->>   /**
-> 
+While at it, remove some trailing empty lines.
+
+Fixes: 9710631cc8f3 ("drm: add drm_exec selftests v4")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/tests/drm_exec_test.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
+index f79c9f0359aa..9ccf0dd9ca89 100644
+--- a/drivers/gpu/drm/tests/drm_exec_test.c
++++ b/drivers/gpu/drm/tests/drm_exec_test.c
+@@ -125,8 +125,6 @@ static void test_duplicates(struct kunit *test)
+ 	drm_exec_fini(&exec);
+ }
+ 
+-
+-
+ static void test_prepare(struct kunit *test)
+ {
+ 	struct drm_exec_priv *priv = test->priv;
+@@ -145,6 +143,8 @@ static void test_prepare(struct kunit *test)
+ 			break;
+ 	}
+ 	drm_exec_fini(&exec);
++
++	drm_gem_private_object_fini(&gobj);
+ }
+ 
+ static void test_prepare_array(struct kunit *test)
+@@ -165,6 +165,9 @@ static void test_prepare_array(struct kunit *test)
+ 					     1);
+ 	KUNIT_EXPECT_EQ(test, ret, 0);
+ 	drm_exec_fini(&exec);
++
++	drm_gem_private_object_fini(&gobj1);
++	drm_gem_private_object_fini(&gobj2);
+ }
+ 
+ static struct kunit_case drm_exec_tests[] = {
+
+base-commit: e05f3938c5a7896d09736e3381675a57ffee7a0a
+-- 
+2.41.0
 
