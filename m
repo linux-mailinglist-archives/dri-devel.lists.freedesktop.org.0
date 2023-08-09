@@ -1,79 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE8677674C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 20:30:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99039776863
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 21:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4114410E496;
-	Wed,  9 Aug 2023 18:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6AE210E0FE;
+	Wed,  9 Aug 2023 19:15:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5899210E493
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 18:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691605828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mbjndyEV18fW8Q6aaYiEgoKrYM26FczR+bnw1W1kYtY=;
- b=fD/VvTsJmOivGjkjUN91U9TuLuX5YxAIsRzS05UAtNDpqkiXUXKQRkeNGq96bum5U/ykSb
- 8iyshUqNSmQ4gI0pvLURljraf+1CaMCwrLvV7v2YZUw5pPYc5SqhMh2tC/kUsZYy+TQn7y
- fxUqh5uLgPDhSgRhel4Fk+RGpCCwAkc=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-609-eDENHfk7NmmOunEYbBBEMA-1; Wed, 09 Aug 2023 14:30:27 -0400
-X-MC-Unique: eDENHfk7NmmOunEYbBBEMA-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2b9cca3c395so216511fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 11:30:26 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B9510E0D0;
+ Wed,  9 Aug 2023 19:15:41 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2b703a0453fso2466461fa.3; 
+ Wed, 09 Aug 2023 12:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691608539; x=1692213339;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ih33D6tUiZAfLMClGioyRnGVJHXSceBJGFUENGWTcCM=;
+ b=Sqvs8vImIOvNM0R/NJECHqrRWJcQXlzLh4iNYEVO6/4xd/JQdBmZVHvRc1yzJx8tj+
+ DkQsb5BpJG1ZvhJkXFChG24teQ6ifDk2rs/a7sZMQF+l8Kb/Wsu36Vqqq6GC/BRnER3v
+ ttuFeKNY9DHdMvEhu3z9la68E+7PIwFHSRFMQTl/i4fKjLqfKcIKkTU+now5G2zrgCC7
+ a9INIUkGuz1hR/3LUKrgOkWcyu+cw2t/L+WCR1lFQt0n3pQn6DA5iIbVyACF9kWih4Nz
+ 7NuH/xOmuR26Tivw0nUE9k9+xTpXsWTM1v+DcY1ggv3owgEqhy0vbT4pZWaaP4FcSh9q
+ +0kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691605825; x=1692210625;
+ d=1e100.net; s=20221208; t=1691608539; x=1692213339;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mbjndyEV18fW8Q6aaYiEgoKrYM26FczR+bnw1W1kYtY=;
- b=iRc5XrRi8u7mq1yaz8p7amE6jwaqZJnGloOY4zOkccWOREGnp2anbq/uO71g4OuyY6
- 3VLXrNI3cVcfDHe8vg3+cJyeZ9m5yDEUhUlkRWH/OM2OzBEM4/i3JLHfQ77ur1ohkjsS
- vr56er5zBZTxQdlb/t/7RPQPg5NQsxKmZytfW5U+L+aVBR3QzYcGg3UhdLGb65Be9mRO
- RFIkSDmnC0QXHWfXfguIlO5sPVv95gtkC2K9eV3raQTcAnObqlO4qYLgSRp+DDWNfqX0
- qGKFix0G1aHMFNzLsj58gLD14hWoEfngsoSWanenO7jWWiRzKuBV+96kun/hNlDsa9P4
- MDhw==
-X-Gm-Message-State: AOJu0Yz56dd5Rk6N3ThfHL3/eFl++K2VoQsi8FDYRoYYbFSEctodqh9Z
- fP7saCB9e6S0JJSpVxi9kyZfMrQJlBW1v6rmhdizMVXT74esl2XFHojfr7rFP+g4yWtybpCzx6O
- bbKyWwnkI5KlgA+VfoJ4s10LGQburLynB1F711xMRI7+/
-X-Received: by 2002:a2e:bc26:0:b0:2b9:6610:d7ca with SMTP id
- b38-20020a2ebc26000000b002b96610d7camr2960818ljf.5.1691605825386; 
- Wed, 09 Aug 2023 11:30:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyvglv3LGH/ukn+Eb+jsR7KbtrzIbPTNwruMlpHnbwXO1CT5AZMoySQQYEHX6dyFsxo+vCB9UAiYpnP5/b6aw=
-X-Received: by 2002:a2e:bc26:0:b0:2b9:6610:d7ca with SMTP id
- b38-20020a2ebc26000000b002b96610d7camr2960796ljf.5.1691605825099; Wed, 09 Aug
- 2023 11:30:25 -0700 (PDT)
+ bh=Ih33D6tUiZAfLMClGioyRnGVJHXSceBJGFUENGWTcCM=;
+ b=D3fJ9ALo/bgqpo+qfZi/EdREwgYh05CeDowL+0nTL6YSVoxXWdq2rR4gbyansixJwq
+ 9AbsHRcJ8ivgG3X23+7jtveGVRU4oBPlP355L7cDByJQc/y6v/1hUserVuS6VbCUC1QT
+ 20te5uznFcBcPYxpZgH0REVjVRbpj5v1Rgc65DWyTdJVt4luedRbkuvXtRDBvrm3IzqZ
+ d0Bjc758sdGPyLngRK6fu7D7es0d8/tH4vx20wNrKEF3AMVLfIQZxWV2l4iGNiJc1Gf0
+ mijpbd/47wIf5dslH5OsDmveCZX/GbDDBf8n8MXWcoiFz+i4vAfuGa/T4z+83uWklJqD
+ oFRw==
+X-Gm-Message-State: AOJu0Yy2Bo2f21sy1qT/pN/goLyroO/hgYJpKoDhJf2Oo0zSrIDx4lbz
+ J8+s3DKqR4M9vxB0SdQo8Nj4oxy4+yIG7O8/0Sc=
+X-Google-Smtp-Source: AGHT+IFsP5OgaRMoPOM34vrjG64okHGUQOwTqcXiolOB6OqqEE7g0Qk8DFtykBiuzRS3C9+gSbCYObkNPd0iap0jm3A=
+X-Received: by 2002:a2e:878d:0:b0:2b6:c8e8:915f with SMTP id
+ n13-20020a2e878d000000b002b6c8e8915fmr103212lji.22.1691608539294; Wed, 09 Aug
+ 2023 12:15:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230806213107.GFZNARG6moWpFuSJ9W@fat_crate.local>
- <CACO55tvZD5U4J8DawFTRVnV-dLYLngfhuqO29_sWNEGofKfnBg@mail.gmail.com>
- <20230807150521.GGZNEIMQ9rsyCmkpoA@fat_crate.local>
- <CACO55tvWuSdwdirj7S3Dk-r4NAw8jC8g5RHKFd62WXi43iQP-w@mail.gmail.com>
- <87fs4sfu54.wl-tiwai@suse.de>
- <CACO55tszwFEgt=8xn4auAE7KJVs3ybGG68OzL9HJt19XGVhhHQ@mail.gmail.com>
- <874jl8fngo.wl-tiwai@suse.de>
- <CACO55ts9YWF7nLi3Zs4xKySpdHyUFgf4r566cKx3FwNTCaz0Sg@mail.gmail.com>
- <87wmy4e4uk.wl-tiwai@suse.de>
- <60ef0646-b0ab-b4e0-9eaa-a2c431c5d682@leemhuis.info>
- <CACO55tt=RosBaYPc_wf3NnRC-+prFg2G9E0GEjnV7TSkWjB2HQ@mail.gmail.com>
-In-Reply-To: <CACO55tt=RosBaYPc_wf3NnRC-+prFg2G9E0GEjnV7TSkWjB2HQ@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 9 Aug 2023 20:30:13 +0200
-Message-ID: <CACO55ttZUVCVuWpBiTcr1goWWxs2KP1Xxg00X+hYhbpeJzUEFA@mail.gmail.com>
-Subject: Re: 2b5d1c29f6c4 ("drm/nouveau/disp: PIOR DP uses GPIO for HPD, not
- PMGR AUX interrupts")
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <ZMz3IXIzXS5gNK3G@phenom.ffwll.local>
+ <CA+hFU4wbn=efbS10c14A9sLTf9GYJ_O12kowh76ELLdo2+x5fA@mail.gmail.com>
+ <CAAxE2A48uybsU6DY+fLTzQ9K2b0Ln+SW6bt3capbGAGb7L8fvQ@mail.gmail.com>
+ <3ca7a141-1385-351e-9186-00874e254165@mailbox.org>
+In-Reply-To: <3ca7a141-1385-351e-9186-00874e254165@mailbox.org>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Wed, 9 Aug 2023 15:15:02 -0400
+Message-ID: <CAAxE2A5pgwb-xLDzr9XyMp-1k7oFUWR9X812b17LSb98RTFKhA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,54 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ dri-devel@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel@vger.kernel.org, Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 9, 2023 at 8:28=E2=80=AFPM Karol Herbst <kherbst@redhat.com> wr=
-ote:
+On Wed, Aug 9, 2023 at 3:35=E2=80=AFAM Michel D=C3=A4nzer <michel.daenzer@m=
+ailbox.org> wrote:
 >
-> On Wed, Aug 9, 2023 at 4:04=E2=80=AFPM Thorsten Leemhuis
-> <regressions@leemhuis.info> wrote:
-> >
-> > On 09.08.23 15:13, Takashi Iwai wrote:
-> > >
-> > > If this can't be fixed quickly, I suppose it's safer to revert it fro=
-m
-> > > 6.4.y for now.  6.5 is still being cooked, but 6.4.x is already in
-> > > wide deployment, hence the regression has to be addressed quickly.
-> >
+> On 8/8/23 19:03, Marek Ol=C5=A1=C3=A1k wrote:
+> > It's the same situation as SIGSEGV. A process can catch the signal,
+> > but if it doesn't, it gets killed. GL and Vulkan APIs give you a way
+> > to catch the GPU error and prevent the process termination. If you
+> > don't use the API, you'll get undefined behavior, which means anything
+> > can happen, including process termination.
 >
-> feel free to send reverts to mainline and add my r-by tage to it and I
-> can push those changes up. Sadly those patches fixed another
-> use-after-free, but it seems like we have to take another shot unless
-> somebody does have time to look into it promptly.
+> Got a spec reference for that?
 >
+> I know the spec allows process termination in response to e.g. out of bou=
+nds buffer access by the application (which corresponds to SIGSEGV). There =
+are other causes for GPU hangs though, e.g. driver bugs. The ARB_robustness=
+ spec says:
+>
+>     If the reset notification behavior is NO_RESET_NOTIFICATION_ARB,
+>     then the implementation will never deliver notification of reset
+>     events, and GetGraphicsResetStatusARB will always return
+>     NO_ERROR[fn1].
+>        [fn1: In this case it is recommended that implementations should
+>         not allow loss of context state no matter what events occur.
+>         However, this is only a recommendation, and cannot be relied
+>         upon by applications.]
+>
+> No mention of process termination, that rather sounds to me like the GL i=
+mplementation should do its best to keep the application running.
 
-uhm and the two patches around that one,
-752a281032b2d6f4564be827e082bde6f7d2fd4fand
-ea293f823a8805735d9e00124df81a8f448ed1ae
+It basically says that we can do anything.
 
-> > Good luck with that. To quote
-> > https://docs.kernel.org/process/handling-regressions.html :
-> >
-> > ```
-> > Regarding stable and longterm kernels:
-> >
-> > [...]
-> >
-> > * Whenever you want to swiftly resolve a regression that recently also
-> > made it into a proper mainline, stable, or longterm release, fix it
-> > quickly in mainline; when appropriate thus involve Linus to fast-track
-> > the fix (see above). That's because the stable team normally does
-> > neither revert nor fix any changes that cause the same problems in main=
-line.
-> > ```
-> >
-> > Note the "normally" in there, so there is a chance.
-> >
-> > Ciao, Thorsten
-> >
+A frozen window or flipping between 2 random frames can't be described
+as "keeping the application running". That's the worst user
+experience. I will not accept it.
 
+A window system can force-enable robustness for its non-robust apps
+and control that. That's the best possible user experience and it's
+achievable everywhere. Everything else doesn't matter.
+
+Marek
+
+
+
+
+Marek
