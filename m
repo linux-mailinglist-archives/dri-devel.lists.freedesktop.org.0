@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D5D77631D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 16:57:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3C6776364
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 17:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7759E10E44E;
-	Wed,  9 Aug 2023 14:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F80B10E45D;
+	Wed,  9 Aug 2023 15:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28E6E10E44E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 14:57:25 +0000 (UTC)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D144210E45C
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 15:09:15 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4RLY7T01FHzDqD5
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 14:57:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1691593045; bh=4tX4rZiRnZLp2WoTTevA/Yx5F4ApE2E0HwyFY44x7mE=;
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6BFEF867EA;
+ Wed,  9 Aug 2023 17:09:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1691593753;
+ bh=c1oj8C9wOMOGdfDaeQFOTWTqQ0pdozX5Gv09kEzqDns=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WTo7+3v6+QuuiACj+W03Azz11vIXnI/1cIl+/TpOpSebq2ZsP2LcFQ4zfMjAUSTwD
- d5d4EAh6WQTYan2SA8GVOp5Mc9ZgyXy2RP9phz1ue7peWcgbGimj0DLXc8q9p4+mrc
- QoWk4hlBvr8xwwyEPXdOmuXn75SyXCdwxFRFhM0E=
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4RLY7S3TdLz9tGF;
- Wed,  9 Aug 2023 14:57:24 +0000 (UTC)
-X-Riseup-User-ID: C9EF3FE51A11584D0677A6C29BD1AF0C216FBA99BAFDD9B0E8443FB2F62C7365
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4RLY7P5zhJzJmmS;
- Wed,  9 Aug 2023 14:57:21 +0000 (UTC)
-Message-ID: <9a35adc2-435d-4c75-97de-c87fed184d4d@riseup.net>
-Date: Wed, 9 Aug 2023 11:57:18 -0300
+ b=0Kujr4MG+Ctvh68MMllLT29gSuG+F1+r2vHyxQC4iig0rbbk4LjevkwBB+kMTdY9V
+ tFxYMQGN7GXiRbGAoDp9BCPOy2IMutluKDddB+yz2hxMGnhKI6NCBQm4l/LWm9q55O
+ Y+H3IFgw21JuC3T6BYo/cslDZVi2AL5JS4lCMNx6HJ43MPkSf4hdbvam/nx5Q2mjTQ
+ iJEeolhHNcPRo8i5f1INE2PGUZCZgn96SnSISdJ6PDfWZvYv9D1/F5agw3IvHMe1m9
+ cEStGQvhRtkddeP3CJFSh6PIbydxJhzb9Rj8oEk2K966zMU4hR1c+DpDyP5uKJte0x
+ cdgVV4nl+UXwA==
+Message-ID: <8f567515-9125-c204-e6d0-9540167f06cf@denx.de>
+Date: Wed, 9 Aug 2023 17:09:11 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/6] drm/format-helper: Add KUnit tests for drm_fb_swab()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH v4] drm: bridge: samsung-dsim: Fix waiting for empty cmd
+ transfer FIFO on older Exynos
 Content-Language: en-US
-To: Arthur Grillo <arthurgrillo@riseup.net>
-References: <20230721182316.560649-1-arthurgrillo@riseup.net>
- <20230721182316.560649-3-arthurgrillo@riseup.net>
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@riseup.net>
-In-Reply-To: <20230721182316.560649-3-arthurgrillo@riseup.net>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org
+References: <CGME20230809145649eucas1p1bb67f98aa4b2987b263b0fd84204d8a2@eucas1p1.samsung.com>
+ <20230809145641.3213210-1-m.szyprowski@samsung.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230809145641.3213210-1-m.szyprowski@samsung.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +59,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tales.aparecida@gmail.com, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, mairacanal@riseup.net, tzimmermann@suse.de,
- davidgow@google.com, jose.exposito89@gmail.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Tomasz Figa <tfiga@chromium.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em 21/07/2023 15:23, Arthur Grillo escreveu:
-> Insert parameterized test for the drm_fb_swab() to ensure correctness
-> and prevent future regressions.
+On 8/9/23 16:56, Marek Szyprowski wrote:
+> Samsung DSIM used in older Exynos SoCs (like Exynos 4210, 4x12, 3250)
+> doesn't report empty level of packer header FIFO. In case of those SoCs,
+> use the old way of waiting for empty command tranfsfer FIFO, removed
+> recently by commit 14806c641582 ("Drain command transfer FIFO before
+> transfer").
 > 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
+> Fixes: 14806c641582 ("drm: bridge: samsung-dsim: Drain command transfer FIFO before transfer")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-[...]
+Oh, nice, there is already a bitfield piece in place.
 
-> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
-> +			.expected = {
-> +				0xFFFFFF11, 0x00000022,
-> +				0x0000FF33, 0x00FF0044,
-> +				0xFF000055, 0xFF00FF66,
-> +				0x00FFFF77, 0xFFFF0088,
-> +			},
-> +		},
->   	},
->   	{
->   		/* Randomly picked colors. Full buffer within the clip area. */
-> @@ -425,6 +448,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->   				0b010, 0b000,
->   			},
->   		},
-> +		.swab_result = {
-> +			.dst_pitch =  20,
-> +			.expected = {
-> +				0x9C440EA1, 0x054D11B1, 0x03F3A8C1, 0x00000000, 0x00000000,
-> +				0x73F06CD1, 0x9C440EA2, 0x054D11B2, 0x00000000, 0x00000000,
-> +				0x0303A8C2, 0x73F06CD2, 0x9C440EA3, 0x00000000, 0x00000000,
+Thanks !
 
-I would appreciated to have some information about those numbers in the 
-commit message.
+Reviewed-by: Marek Vasut <marex@denx.de>
