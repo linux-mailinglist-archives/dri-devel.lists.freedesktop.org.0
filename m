@@ -2,76 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF59E776712
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 20:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017D677673B
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Aug 2023 20:29:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89E5610E48B;
-	Wed,  9 Aug 2023 18:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CEF10E48C;
+	Wed,  9 Aug 2023 18:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B0410E489
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 18:15:38 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 379F8act005806; Wed, 9 Aug 2023 18:15:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=TdTJK7rXmdvom4IujR3FyQVvWCyDKaXZBuauVoQ6NAU=;
- b=fiOJ69Y3LbVUAxCdMFyXFMdoy7dgkk1tOlpPCPOiExlPAWbLuR6QDdYQ0YuHEgASHNoa
- XvA4NNlNscEzGTaiH1eTYI1JB7oynd/wrBrnZ1f/FaPNUuHIZVC6Q6HY6CVtrcsEWstN
- DImUPFEsEKUIHZ7tTPbTY/IX6HkoAuyUHVKXgdr34Ve8wVzzKtLY1Uj5KNrVX9kUvszC
- QQpUQD/A5eLWrJGKEvcQ+j8DELOH1YNy2vCJWfWntjllmvrayRuyuJ4JSvylI87wQKIw
- /vqlwIhfQf1NFDC4Xi5Dx7mk9J8ZG6ZYJGqkR2ldgaxfQDo6x1TgTVHmTEsP9oujEDgn +w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3scbd4gpvd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Aug 2023 18:15:32 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 379IFVLA026746
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 9 Aug 2023 18:15:31 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 9 Aug
- 2023 11:15:30 -0700
-Message-ID: <3dd7ba0d-61d5-813f-6895-56e2943cb465@quicinc.com>
-Date: Wed, 9 Aug 2023 12:15:29 -0600
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097F310E485;
+ Wed,  9 Aug 2023 18:29:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nlp4Mbohcl90UDDr48cPEIJ/b6aLyVbGHE0yd7aw3aMvm09LJUM2Hbf1kVFarx+sDQClUMWoNMHZL2vivCIVfcxRfMSqKgksgN34jVD2RSUSnD0kqWk3rE/vPefvkz8r4s8zuSIAm4V9k777TYx0Cx4ZVDOLKAG7moXzmQaYsaZrLgg7823YM5bM6rDFG6GErMZwEZMNqpyx/fCA2RJUJJYmXip5I5fX7evAcEbmL/nmpI5NMDif/M5rjcQ2ZdsFbvzicl0+TMgevOtAjxXCKM9J7C/ffI0a216O4LR6Yun2cj+g4npoeHZNqSdQ/8Q3NhyArFYa2flIcvUr9sDJtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m61zdj4Slz1GaIPDwq/ULJnNRWwSwonwWGUlBUqqOe8=;
+ b=VBEjyO+RGXHFy9ovwY8Q6yXzSNvT5L/4HldONQEwugYbxdxSiL5ra0vAVt6lzEFsMt8y00/tceyzL/b+Vespzr8qQjrb71ajtjc0SVysUjWXjaGWhkueP4QRs4lZtTnyOYFJhOmfcKeOCDPryHye4UgKLynKSg7Ig8h+Xxa5DY+AL7URxCIv3+Eg/mKzjK4vjTs/prIeCScTJVHtIEbZHEnUw5ub0+Hc7oMn9ODQ/aizWDw2yu6Yxj9P/e9b9aa8QcKbhHwid8qW6eYvTOv6IKpCP1J4K0M068K0QXz9dUfm8M4vFR6G8csti7os4pyQsAXCFjNGFNvihxeHF+V/YA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m61zdj4Slz1GaIPDwq/ULJnNRWwSwonwWGUlBUqqOe8=;
+ b=qtvkpyCNIayM5SBcVDyU41rZ3p4Qr/QzMWd5dfVgnZJxEs/36bdr5eh/Pwlt+c2xZZyRKP+pM4YFSoWImmDH97tTudwDo6ycEjr0yjTYSjJ8xSGeAegQL+yv0Xfj70g5FnWrpLXcjIcsQIkGmAk6Opc1AEVsdSrvrmJS/AcKmiE=
+Received: from DM6PR13CA0043.namprd13.prod.outlook.com (2603:10b6:5:134::20)
+ by MW4PR12MB6707.namprd12.prod.outlook.com (2603:10b6:303:1ee::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.21; Wed, 9 Aug
+ 2023 18:29:06 +0000
+Received: from CY4PEPF0000EDD4.namprd03.prod.outlook.com
+ (2603:10b6:5:134:cafe::54) by DM6PR13CA0043.outlook.office365.com
+ (2603:10b6:5:134::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.17 via Frontend
+ Transport; Wed, 9 Aug 2023 18:29:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000EDD4.mail.protection.outlook.com (10.167.241.208) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6652.19 via Frontend Transport; Wed, 9 Aug 2023 18:29:06 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 9 Aug
+ 2023 13:28:57 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu, amdkfd drm-fixes-6.5
+Date: Wed, 9 Aug 2023 14:28:27 -0400
+Message-ID: <20230809182827.8135-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5] accel/qaic: tighten integer overflow checking in
- map_user_pages()
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-References: <e6cbc8a3-c2ae-46be-a731-494470c0a21c@moroto.mountain>
- <67e728b4-7d3f-447d-bbaa-2f69f65bb63e@kadam.mountain>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <67e728b4-7d3f-447d-bbaa-2f69f65bb63e@kadam.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: rXp-Fn8L1kFksLKKSkADqc8ELJa3HSda
-X-Proofpoint-ORIG-GUID: rXp-Fn8L1kFksLKKSkADqc8ELJa3HSda
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-09_16,2023-08-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- phishscore=0 bulkscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2308090160
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD4:EE_|MW4PR12MB6707:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18dd7292-4c83-41bd-7524-08db990683ad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WXz8fsRbqzHYrP9pUmQ5OoOlVkjUZjqaD13YhkK9D3/8AzrsGrccbzPajVuH12dTWbGZKUx7Hdvdsn9Jx4UwFElWohgMKQvcChcZZI/EdxFb7T+F+A46mQ2MCJWNPc2TsIDJRkoeNB2VhNviDB5W4eNsWgZS6xytrXyq1UCbYdiMwQAjuL6rV63pCxhWpfpgFEgBIsPs9/si6+N8HT57sntAAbPFYFxLog9br4FIBcUkk3dUXR0v2vFo1zTtSUfJN7b5Qxe0G6DsTZZ+H/rRX4zmtZfv7TFXUBtw+pqByplDPrw6dVVcovz1my817GdzsILwUnbixxbk35HZzBApTWkGksI3bUs1OWTHnK3evlTBZxtJggh5THMPBHoWvEj8OZ2J8fPPMtfLKPFPngUgQWxCAQhD3dqYfSZyWRkuuSFJYEFZGc9TooVgqpBU0DRxLBpI+af5FoXc/s/rZWlgmMflK9oH0R6GjxqJyWwTM1NKZ+3R7omeIZ0VVbmYHjSMf/YQjpbd7X6HCyRA3qQhL1bARIaEgpSVztIse6sILnkHVHJWRdDzWG8rExY+Dbdcs4Xo7EmaT3gW6PtSjRyOoYG7Q0wZbjakNCvmwX1vU7RgsJGbWcU3+YPDid9FMGHSku0mlP11dz/8X1GZh6uVO5rbhwQ5/1RqSkv2uJG2p3rPFaZtC5tz4EqXA93olGDrUGEiXLD1hDVQEEIZHgqbEkMtwypZz2zYwlIcQrOTgyaiOESL9/ZI385yOTLfAfta
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(346002)(376002)(39860400002)(396003)(186006)(82310400008)(1800799006)(451199021)(36840700001)(46966006)(40470700004)(41300700001)(86362001)(8936002)(70206006)(70586007)(2906002)(8676002)(4326008)(356005)(478600001)(316002)(82740400003)(5660300002)(110136005)(6666004)(40460700003)(966005)(7696005)(36860700001)(1076003)(40480700001)(26005)(81166007)(83380400001)(36756003)(47076005)(2616005)(336012)(426003)(16526019)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2023 18:29:06.0156 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18dd7292-4c83-41bd-7524-08db990683ad
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6707
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,211 +99,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/7/2023 8:43 AM, Dan Carpenter wrote:
-> On Mon, Aug 07, 2023 at 05:09:34PM +0300, Dan Carpenter wrote:
->> The encode_dma() function has some validation on in_trans->size but it's
->> not complete and it would be more clear to move those checks to
->> find_and_map_user_pages().
->>
->> The encode_dma() had two checks:
->>
->> 	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
->> 		return -EINVAL;
->>
->> It's not sufficeint to just check if in_trans->size is zero.  The
+Hi Dave, Daniel,
 
-sufficient
+Fixes for 6.5.  Was on PTO last week, so two weeks worth.
 
->> resources->xferred_dma_size variable represent the number of bytes
->> already transferred.  If we have already transferred more bytes than
->> in_trans->size then there are negative bytes remaining which doesn't
->> make sense.  Check for that as well.
->>
->> I introduced a new variable "remaining" which represents the amount
+The following changes since commit 52a93d39b17dc7eb98b6aa3edb93943248e03b2f:
 
-introduce (commit text should be present tense per my understanding)
+  Linux 6.5-rc5 (2023-08-06 15:07:51 -0700)
 
->> we want to transfer (in_trans->size) minus the ammount we have already
+are available in the Git repository at:
 
-amount
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.5-2023-08-09
 
->> transferred (resources->xferred_dma_size).
->>
->> The check in encode_dma() checked that "addr + size" could not overflow
->> however we may already have transferred some bytes so the real starting
->> address is "xfer_start_addr" so check that "xfer_start_addr + size"
->> cannot overflow instead.  Also check that "addr +
->> resources->xferred_dma_size cannot overflow.
->>
->> My other concern was that we are dealing with u64 values but on 32bit
->> systems the kmalloc() function will truncate the sizes to 32 bits.  So
->> I calculated "total = in_trans->size + offset_in_page(xfer_start_addr);"
->> and returned -EINVAL if it were >= SIZE_MAX.  This will not affect 64bit
->> systems.
->>
->> Fixes: 129776ac2e38 ("accel/qaic: Add control path")
->> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->> ---
->> This is re-write re-write of the previous version.
->>
->> I am not necessarily sure it is correct.  Please review carefully.  In
->> particular, please check how "total" is calculated.  Maybe it would make
->> more sense to write that as:
->>
->> 	total = remaining + offset_in_page(xfer_start_addr);
+for you to fetch changes up to 091ae5473f96ced844af6ba39b94757359b12348:
 
-I think this makes more sense.
+  drm/amdkfd: disable IOMMUv2 support for Raven (2023-08-09 10:58:40 -0400)
 
->>
->> The other question I had is should we add a check:
->>
->> 	if (remaining == 0)
->> 		return 0;
+----------------------------------------------------------------
+amd-drm-fixes-6.5-2023-08-09:
 
-I don't see why adding this would hurt anything.  I don't believe it is 
-necessary.  Remaining is a function of of the driver code and not an 
-external input.  The driver transfers as much as it can, and stops when 
-everything is sent (remaining == 0).  If we hit this check, it is a 
-driver bug.
+amdgpu:
+- S/G display workaround for platforms with >= 64G of memory
+- S0i3 fix
+- SMU 13.0.0 fixes
+- Disable SMU 13.x OD features temporarily while the interface is reworked
+  to enable additional functionality
+- Fix cursor gamma issues on DCN3+
+- SMU 13.0.6 fixes
+- Fix possible UAF in CS IOCTL
+- Polaris display regression fix
+- Only enable CP GFX shadowing on SR-IOV
 
->>
->>   drivers/accel/qaic/qaic_control.c | 23 +++++++++++++++--------
->>   1 file changed, 15 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
->> index cfbc92da426f..d64505bcf4ae 100644
->> --- a/drivers/accel/qaic/qaic_control.c
->> +++ b/drivers/accel/qaic/qaic_control.c
->> @@ -392,18 +392,28 @@ static int find_and_map_user_pages(struct qaic_device *qdev,
->>   				   struct qaic_manage_trans_dma_xfer *in_trans,
->>   				   struct ioctl_resources *resources, struct dma_xfer *xfer)
->>   {
->> +	u64 xfer_start_addr, remaining, end, total;
->>   	unsigned long need_pages;
->>   	struct page **page_list;
->>   	unsigned long nr_pages;
->>   	struct sg_table *sgt;
->> -	u64 xfer_start_addr;
->>   	int ret;
->>   	int i;
->>   
->> -	xfer_start_addr = in_trans->addr + resources->xferred_dma_size;
->> +	if (check_add_overflow(in_trans->addr, resources->xferred_dma_size, &xfer_start_addr))
->> +		return -EINVAL;
->> +
->> +	if (in_trans->size == 0 ||
->> +	    in_trans->size < resources->xferred_dma_size ||
->> +	    check_add_overflow(xfer_start_addr, in_trans->size, &end))
->                                                  ^^^^^^^^^^^^^^
-> This should be remaining.  So maybe it should be something like this
-> with a return 0 for no bytes remaining and total calculated differently.
+amdkfd:
+- Raven/Picasso KFD regression fix
 
-Yep, should be remaining.  Your below proposed version looks good to me.
+----------------------------------------------------------------
+Alex Deucher (5):
+      drm/amdgpu: fix possible UAF in amdgpu_cs_pass1()
+      drm/amdgpu/gfx11: only enable CP GFX shadowing on SR-IOV
+      drm/amdkfd: ignore crat by default
+      drm/amdkfd: disable IOMMUv2 support for KV/CZ
+      drm/amdkfd: disable IOMMUv2 support for Raven
 
-> 
-> 	if (check_add_overflow(in_trans->addr, resources->xferred_dma_size, &xfer_start_addr))
-> 		return -EINVAL;
-> 
-> 	if (in_trans->size < resources->xferred_dma_size)
-> 		return -EINVAL;
+Evan Quan (1):
+      drm/amd/pm: disable the SMU13 OD feature support temporarily
 
-This check should never hit unless we have a driver bug.  I don't object 
-to having it though.
+Kenneth Feng (1):
+      drm/amd/pm: correct the pcie width for smu 13.0.0
 
-> 	remaining = in_trans->size - resources->xferred_dma_size;
-> 	if (remaining == 0)
-> 		return 0;
-> 
-> 	if (check_add_overflow(xfer_start_addr, remaining, &end))
-> 		return -EINVAL;
-> 
-> 	/* Still not really sure why total is calculated this way */
+Lijo Lazar (2):
+      drm/amdgpu: Match against exact bootloader status
+      drm/amd/pm: Fix SMU v13.0.6 energy reporting
 
-Physical memory layout.
+Mario Limonciello (3):
+      drm/amd: Disable S/G for APUs when 64GB or more host memory
+      drm/amd/display: Don't show stack trace for missing eDP
+      drm/amd/display: Fix a regression on Polaris cards
 
-Lets say remaining is 4k, and PAGE_SIZE is 4k.
+Melissa Wen (1):
+      drm/amd/display: check attr flag before set cursor degamma on DCN3+
 
-4k / 4k = 1 so we need 1 page.
+Tim Huang (1):
+      drm/amd/pm: skip the RLC stop when S0i3 suspend for SMU v13.0.4/11
 
-Except, if that 4k remaining is some remainder of the transfer and not 
-the complete transfer, then where we start the transfer matters.
-
-If the remaining 4k starts right at a page boundary, then we just need a 
-single page.  However, if the remaining 4k starts X bytes into a page 
-(where X is non-zero), we would actually be transferring data from two 
-physical pages, even though 4k can be fully represented by one page.
-
-This representation might make a bit more sense (although I argue it is 
-wrong) -
-
-total = remaining;
-need_pages = DIV_ROUND_UP(total, PAGE_SIZE);
-if (offset_in_page(xfer_state_addr))
-	need_pages++;
-
-Where this breaks down is when the start addr and the remaining combine 
-to fit into a page.
-
-Assume remaining == 5k and PAGE_SIZE == 4k.  offset_in_page() is going 
-to return 1k.
-
-The right answer is 2 pages.  The first page will contain 3k (4k - 1k 
-from the offset) and the second page will contain 2k.
-
-DIV_ROUND_UP(remaining, PAGE_SIZE) == 5k / 4k == 2
-
-DIV_ROUND_UP(remaining + offset_in_page(), PAGE_SIZE) == (5k + 1k) / 4k == 2
-
-Seems like we need a comment explaining this.
-
-> 	total = remaining + offset_in_page(xfer_start_addr);
-> 	if (total >= SIZE_MAX)
-> 		return -EINVAL;
-> 
-> 	need_pages = DIV_ROUND_UP(total, PAGE_SIZE);
-> 
-> regards,
-> dan carpenter
-> 
->> +		return -EINVAL;
->>   
->> -	need_pages = DIV_ROUND_UP(in_trans->size + offset_in_page(xfer_start_addr) -
->> -				  resources->xferred_dma_size, PAGE_SIZE);
->> +	remaining = in_trans->size - resources->xferred_dma_size;
->> +	total = in_trans->size + offset_in_page(xfer_start_addr);
->> +	if (total >= SIZE_MAX)
->> +		return -EINVAL;
->> +
->> +	need_pages = DIV_ROUND_UP(total - resources->xferred_dma_size, PAGE_SIZE);
->>   
->>   	nr_pages = need_pages;
->>   
->> @@ -435,7 +445,7 @@ static int find_and_map_user_pages(struct qaic_device *qdev,
->>   
->>   	ret = sg_alloc_table_from_pages(sgt, page_list, nr_pages,
->>   					offset_in_page(xfer_start_addr),
->> -					in_trans->size - resources->xferred_dma_size, GFP_KERNEL);
->> +					remaining, GFP_KERNEL);
->>   	if (ret) {
->>   		ret = -ENOMEM;
->>   		goto free_sgt;
->> @@ -566,9 +576,6 @@ static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list
->>   	    QAIC_MANAGE_EXT_MSG_LENGTH)
->>   		return -ENOMEM;
->>   
->> -	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
->> -		return -EINVAL;
->> -
->>   	xfer = kmalloc(sizeof(*xfer), GFP_KERNEL);
->>   	if (!xfer)
->>   		return -ENOMEM;
->> -- 
->> 2.39.2
-
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 26 ++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  8 +++++--
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c             | 15 +++++++------
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |  4 ----
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            | 13 -----------
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  8 +------
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  5 ++---
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  2 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  3 ++-
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c   |  7 ++++--
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  4 ++--
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 20 ++++++++++++-----
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  5 ++---
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   | 12 +++++++---
+ 16 files changed, 81 insertions(+), 54 deletions(-)
