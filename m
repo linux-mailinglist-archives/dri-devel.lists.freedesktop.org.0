@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5983A77714B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 09:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9D877714E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 09:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9004810E4CC;
-	Thu, 10 Aug 2023 07:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD92D10E4CD;
+	Thu, 10 Aug 2023 07:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D73B410E083
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 14:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691590724; x=1723126724;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=egJcWHJBDvwzfC17N46JLtCEDljGhvGBo354SWU8O+0=;
- b=fdnkb2IVIyYuDRbvd9qOPTif48wSJkxKQKq227scPXsdPoFHeUyM8dyX
- mct6YbvdpMgAtMQgD2QjyaRh0BGIHNuG4i3mSiX25QtliTKS2jY0RReS4
- Ll49t0wyApV8cYbGdsreZaa92Kk5x8i4ahTr86o/nQY35DSyW5YhxDSzN
- HaandpKynWKXsAiK/O3kD7h8dedLzt6qys5BI0XfbJhjwSj3p25ht4Gxo
- 4tgazMZulcZ4lnNVAVMsNzqDcwEJC2WNEZBYPIJTKMTYfI/yNRV/YHOyY
- 6Qc9r5k5FeqCtrcrjZQMWgz1N4sTqvQAGRuw1r8WMpNRyEiHe5xIFoyrm g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="370035455"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="370035455"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2023 07:18:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="1062494286"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="1062494286"
-Received: from cvogler-mobl1.ger.corp.intel.com ([10.252.40.229])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Aug 2023 07:18:41 -0700
-Date: Wed, 9 Aug 2023 17:18:39 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v2 10/11] PCI/VGA: Tidy up the code and comment format
-In-Reply-To: <20230808223412.1743176-11-sui.jingfeng@linux.dev>
-Message-ID: <6617a813-d840-3c39-5c4a-7288fd2f7295@linux.intel.com>
-References: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
- <20230808223412.1743176-11-sui.jingfeng@linux.dev>
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F169710E44F
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 15:04:59 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-586df08bba0so39242247b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 08:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691593499; x=1692198299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TUNHA5k0oc4UJ3HPv3ruu/iAAkeeULdAZcTUmh4s50w=;
+ b=cmUWaPIpgABWq6VhUwPcsQcIqckeGYwWCLHIzh5SmxxbhhwMNyabD5AclGPeSIGVeo
+ VCv9i7pvL24DbcuKO4E0QcbZUCbZeKKoclw3CTwYtNZiHPTrLahEgvYyOPF71bWryO+X
+ 6d3G2ZHh11Eqn7D9jOKgyfpS/vqgITvWge1EKdRUvmWOxHD9Uz+J4AZu1Z7JzoTrDAxx
+ WcTfzxLA3xKZJo6/uqFlRbNg3cjcKoLA8ewR92yRqvZ4P0scq0vdk8hsrYC7QXiTy6t9
+ o4H30LSpSif7NeTq/cvVU5YDRHtLc4BGw9iF3+iCFAbfvR33CqyyahnTZ8qTAOIcy6vZ
+ ieng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691593499; x=1692198299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TUNHA5k0oc4UJ3HPv3ruu/iAAkeeULdAZcTUmh4s50w=;
+ b=BkFfu0MN+3mJnxueoeYs8CoVDwbZQZqrsmP0XY00mGOUx2CbtAt6RBw++rM4wyBbQu
+ Kr6exSWn4p82/lL41GpeLx6jxlLwhbQLCCFHPCjlDVgYo315T9wdNBABHxOj6tbJnzXw
+ +0pn3AfGLiinucbVb+c4hVrXJcNmufklmkf4+WxPQEGGtlXHrsUBBCCYsvAH/S9aUHxU
+ bO25jJPoZ2xfq+kkHMloNXiailN5BcCPZDugDlN3ebfh17qJVzOWsmq1Kp5dt0zeaZQ2
+ 7wG8brv3EV1Vwg64gKhGBAazftGxIKisoPJPXN2uQ0VApaCwR1nwy4sG3U488SW7CK3S
+ 32qA==
+X-Gm-Message-State: AOJu0Yx2kZlNch6Ik3OqL6q2lWwkZ7TQ/+e+KmsHB06ODGHoheudaZPI
+ qKPjPZdQSPmv6K/BpIDvSMiH7hXsWP7dqJI1/IA=
+X-Google-Smtp-Source: AGHT+IGth0evnpBrLoCbQ/NjZeXG4/FKNjvMlrH8Pg4TU4y/1LSVl+3ahRRiojLkI+Z8Rb+JOAS+jkie9I21KObZ3x8=
+X-Received: by 2002:a81:a107:0:b0:583:9018:29ec with SMTP id
+ y7-20020a81a107000000b00583901829ecmr2934644ywg.32.1691593498807; Wed, 09 Aug
+ 2023 08:04:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1484049110-1691590724=:1846"
+References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com>
+ <20230731112155.GA3662@lst.de>
+ <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com>
+ <20230801171838.GA14599@lst.de>
+ <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
+ <20230802094725.GA28241@lst.de>
+ <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
+In-Reply-To: <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
+From: Pintu Agarwal <pintu.ping@gmail.com>
+Date: Wed, 9 Aug 2023 20:34:47 +0530
+Message-ID: <CAOuPNLjn3b3YSgy=ObnF+cE7kj-9vdZ+6fFzMp-bJYLFq3MgWw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma
+ region
+To: Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Thu, 10 Aug 2023 07:25:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,119 +76,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>,
- Andi Shyti <andi.shyti@linux.intel.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Helgaas <bhelgaas@google.com>, Dave Airlie <airlied@redhat.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, iommu@lists.linux.dev,
+ John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
+ Pintu Kumar <quic_pintu@quicinc.com>, akpm@linux-foundation.org,
+ Laura Abbott <labbott@redhat.com>, robin.murphy@arm.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi,
 
---8323329-1484049110-1691590724=:1846
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+On Thu, 3 Aug 2023 at 23:04, Pintu Agarwal <pintu.ping@gmail.com> wrote:
+>
+> Hi,
+>
+> On Wed, 2 Aug 2023 at 15:17, Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
+> > > So, forgive me, I've not had a chance to look into this, but my
+> > > recollection was "reserved" is the name we see on x86, but other name=
+s
+> > > are possibly provided via the dts node?
+> >
+> No, I think "reserved" is the name hard-coded (for all arch) in Kernel
+> for global-cma.
+> So, I don't think this is x86 specific. I am checking on arm32 itself.
+> When we can dma_alloc_coherent we see these in the logs (if dts region
+> is not present).
+> cma: cma_alloc(cma (ptrval), name: reserved, count 64, align 6)
+> Now, with this change we will see this:
+> cma: cma_alloc(cma (ptrval), name: global-cma-region, count 64, align 6)
+>
+> > Indeed, dma_contiguous_default_area can also be set through
+> > rmem_cma_setup, which then takes the name from DT.
+> >
+> I think this is a different case. If DT entry is present we get this:
+> Reserved memory: created CMA memory pool at 0x98000000, name: name:
+> linux,cma, size 128 MiB
+> cma: cma_alloc(cma (ptrval), name: linux,cma, count 64, align 6)
+>
+> Here we are talking about the default hard-coded name in Kernel code
+> if DT is not defined.
+> So, in one of the boards, this DT entry was not present and it shows
+> as "reserved".
+>
+> > > I believe on the hikey board its "linux,cma" is the name, so forcing
+> > > it to reserved would break that.
+> > >
+> Yes, everywhere in the DT it's defined as "linux,cma".
+> You mean this also should be changed to "linux,cma-global-region"
+> everywhere with this change ?
+>
+> > > Maybe instead add a compat config option to force the cma name (so x8=
+6
+> > > can set it to "default" if needed)?
+> >
+> Yes, having it in config is also a good option instead of hard-coding in =
+Kernel.
+> >
+> > I think we'll just need to leave it as-is.  I with dma-heaps had never
+> > exposed the name to userspace, but we'll have to l=D1=96ve with it now.
+>
+> Can you point me to the userspace utility we are talking about here ?
+> I think we should not worry much about userspace name exposure.
+> I guess it should fetch whatever is declared in Kernel or DTS, right ?
 
-On Wed, 9 Aug 2023, Sui Jingfeng wrote:
+Just to follow-up on this.
+For now, can we change the Kernel hard-coded value from "reserved" to
+"global-cma-region" ?
+Later, for the DTS defined name let it be "linux,cma" or change that
+also to "linux,global-cma-region" ?
 
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
-> 
-> This patch replaces the leading space with a tab and removes the double
-> blank line and fix various typos, no functional change.
-> 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/pci/vgaarb.c   | 90 ++++++++++++++++++++++++------------------
->  include/linux/vgaarb.h |  4 +-
->  2 files changed, 53 insertions(+), 41 deletions(-)
-> 
-> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index 9f5cf6a6e3a2..a2f6e0e6b634 100644
-> --- a/drivers/pci/vgaarb.c
-> +++ b/drivers/pci/vgaarb.c
-> @@ -30,14 +30,13 @@
->  #include <linux/vt.h>
->  #include <linux/console.h>
->  #include <linux/acpi.h>
-> -
->  #include <linux/uaccess.h>
-> -
->  #include <linux/vgaarb.h>
->  
->  static void vga_arbiter_notify_clients(void);
-> +
->  /*
-> - * We keep a list of all vga devices in the system to speed
-> + * We keep a list of all VGA devices in the system to speed
->   * up the various operations of the arbiter
->   */
->  struct vga_device {
-> @@ -61,7 +60,6 @@ static bool vga_arbiter_used;
->  static DEFINE_SPINLOCK(vga_lock);
->  static DECLARE_WAIT_QUEUE_HEAD(vga_wait_queue);
->  
-> -
->  static const char *vga_iostate_to_str(unsigned int iostate)
->  {
->  	/* Ignore VGA_RSRC_IO and VGA_RSRC_MEM */
-> @@ -195,14 +193,16 @@ int vga_remove_vgacon(struct pci_dev *pdev)
->  #endif
->  EXPORT_SYMBOL(vga_remove_vgacon);
->  
-> -/* If we don't ever use VGA arb we should avoid
-> -   turning off anything anywhere due to old X servers getting
-> -   confused about the boot device not being VGA */
-> +/*
-> + * If we don't ever use vgaarb, we should avoid turning off anything anywhere.
-> + * Due to old X servers getting confused about the boot device not being VGA.
-> + */
->  static void vga_check_first_use(void)
->  {
-> -	/* we should inform all GPUs in the system that
-> -	 * VGA arb has occurred and to try and disable resources
-> -	 * if they can */
-> +	/*
-> +	 * We should inform all GPUs in the system that
-> +	 * vgaarb has occurred and to try and disable resources if they can
-> +	 */
->  	if (!vga_arbiter_used) {
->  		vga_arbiter_used = true;
->  		vga_arbiter_notify_clients();
-> @@ -218,7 +218,8 @@ static struct vga_device *__vga_tryget(struct vga_device *vgadev,
->  	unsigned int pci_bits;
->  	u32 flags = 0;
->  
-> -	/* Account for "normal" resources to lock. If we decode the legacy,
-> +	/*
-> +	 * Account for "normal" resources to lock. If we decode the legacy,
->  	 * counterpart, we need to request it as well
->  	 */
->  	if ((rsrc & VGA_RSRC_NORMAL_IO) &&
-> @@ -238,7 +239,8 @@ static struct vga_device *__vga_tryget(struct vga_device *vgadev,
->  	if (wants == 0)
->  		goto lock_them;
->  
-> -	/* We don't need to request a legacy resource, we just enable
-> +	/*
-> +	 * We don't need to request a legacy resource, we just enable
->  	 * appropriate decoding and go
->  	 */
->  	legacy_wants = wants & VGA_RSRC_LEGACY_MASK;
-> @@ -254,7 +256,8 @@ static struct vga_device *__vga_tryget(struct vga_device *vgadev,
->  		if (vgadev == conflict)
->  			continue;
->  
-> -		/* We have a possible conflict. before we go further, we must
-> +		/*
-> +		 * We have a possible conflict. before we go further, we must
-
-Before
-
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
--- 
- i.
-
---8323329-1484049110-1691590724=:1846--
+Will this make sense ?
