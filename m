@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F30A7771CC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 09:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DD1777247
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 10:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E28AD10E4DF;
-	Thu, 10 Aug 2023 07:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 271E210E4EB;
+	Thu, 10 Aug 2023 08:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9A410E4DF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 07:45:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9912460B65;
- Thu, 10 Aug 2023 07:45:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06F2C433C7;
- Thu, 10 Aug 2023 07:45:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691653530;
- bh=zerCc/5DK+ilXY+6GqoWY1C74akVIuU8wehC3Y/Xvnc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n0FP8bv12958A5edSJpDYvHHP0PtTIiDihx8qlqAoCjnAkaxcLIgBV0fpHcpVDiqS
- s9VRtTxQQp8H0ihi2XPQofU3eJ6smqujCvo1bSYsOXuY0/EZnEY4a4gqUEPnOUm/Cb
- PjhjfSaganyty13ALdzAY2a51EDk1ogofCcZyv/U7ptCK4WrxN7y9b/J3M7H6JoBv4
- 1nwaGwF8t+REaRMuPWFjEXGJmGQd0M5DDlRLJOnUB2M32Mclh8zRof3uES1oR/jsiX
- RZzIDbLf59j7AVaG1/fptYJxuvlsufjpVKqWC922fVef7OAIVJNn39pa4BFQn59iep
- mQPpFkWXSTwJg==
-Date: Thu, 10 Aug 2023 09:45:27 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH 1/1] drm/fourcc: Add documentation about software color
- conversion.
-Message-ID: <iadbqczfvboqyxebbnjkjef3dttcaa76vu3e4ylve6cxaypbqf@oz5hhu3xrryr>
-References: <20230807140317.26146-1-jfalempe@redhat.com>
- <20230807140317.26146-2-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6793810E4EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 08:09:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691654989; x=1723190989;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IGvDYI8tw8XCk3r8xQTNWfLpvJAoku0Yyo9x7IbfACQ=;
+ b=NdMwSOgd67wevc5irGWG0oClAiy6UQiPgqJKK9oXgl+TaMB7QGBEXQDB
+ EkcdaT8n/Lfci6lWyphbj7+dDU/Ra4nCHzdRf3d2o/qQQngavWbVdsqo0
+ 4QpCvxSb7+Ez2a4YxTzKGiJYvxltIOcpOrsYbitAH8zfGHJLg7/y14hVu
+ a0B6tuonwY6x/USSzfJjUlrfPE4Rop9/DaWZbVA9fxLIRvlT+2epb82TK
+ 1pWCZ0/RSi+qAApx3jEPl1BMucM+Ws1tDSP5HBPvONbc8vJ/4YUYCGT34
+ 43+biPXOcZtCrPGZcalTazbeFXvAgtMHr8N/CmzHDbGUOomFbEkYW267C w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="435227066"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="435227066"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2023 01:07:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="822148391"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="822148391"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2023 01:07:09 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org,
+	Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH] accel/ivpu: Document DRM_IVPU_PARAM_CAPABILITIES
+Date: Thu, 10 Aug 2023 10:07:07 +0200
+Message-Id: <20230810080707.3545883-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5pxbbnm7vsid32re"
-Content-Disposition: inline
-In-Reply-To: <20230807140317.26146-2-jfalempe@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,82 +56,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- ppaalanen@gmail.com, airlied@redhat.com
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add comments regarding new DRM_IVPU_PARAM_CAPABILITIES param.
 
---5pxbbnm7vsid32re
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+---
+ include/uapi/drm/ivpu_accel.h | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-Hi
+diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
+index a58a14c9f222..7d1ecc5bbac3 100644
+--- a/include/uapi/drm/ivpu_accel.h
++++ b/include/uapi/drm/ivpu_accel.h
+@@ -69,8 +69,21 @@ extern "C" {
+ #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
+ #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
+ 
+-#define DRM_IVPU_CAP_METRIC_STREAMER	    1
+-#define DRM_IVPU_CAP_DMA_MEMORY_RANGE       2
++/**
++ * DRM_IVPU_CAP_METRIC_STREAMER
++ *
++ * Metric streamer support, provides sampling of various hardware
++ * performance metrics (like DMA bandwidth, cache miss/hits),
++ * can be used for profiling.
++ */
++#define DRM_IVPU_CAP_METRIC_STREAMER	1
++/**
++ * DRM_IVPU_CAP_DMA_MEMORY_RANGE
++ *
++ * Driver has capability to allocate separate memory range
++ * accessible by hardware DMA.
++ */
++#define DRM_IVPU_CAP_DMA_MEMORY_RANGE	2
+ 
+ /**
+  * struct drm_ivpu_param - Get/Set VPU parameters
+@@ -123,6 +136,8 @@ struct drm_ivpu_param {
+ 	 * %DRM_IVPU_PARAM_SKU:
+ 	 * VPU SKU ID (read-only)
+ 	 *
++	 * %DRM_IVPU_PARAM_CAPABILITIES:
++	 * Supported capabilities (read-only)
+ 	 */
+ 	__u32 param;
+ 
+-- 
+2.25.1
 
-On Mon, Aug 07, 2023 at 03:45:15PM +0200, Jocelyn Falempe wrote:
-> After discussions on IRC, the consensus is that the DRM drivers should
-> not do software color conversion, and only advertise the supported format=
-s.
-> Update the doc accordingly so that the rule and exceptions are clear for
-> everyone.
->=20
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
->  include/uapi/drm/drm_fourcc.h | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 8db7fd3f743e..00a29152da9f 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -38,6 +38,13 @@ extern "C" {
->   * fourcc code, a Format Modifier may optionally be provided, in order to
->   * further describe the buffer's format - for example tiling or compress=
-ion.
->   *
-> + * DRM drivers should not do software color conversion, and only adverti=
-se the
-> + * format they support in hardware. But there are two exceptions:
-
-I would do a bullet list here:
-https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lis=
-ts-and-quote-like-blocks
-
-> + * The first is to support XRGB8888 if the hardware doesn't support it, =
-because
-> + * it's the de facto standard for userspace applications.
-
-We can also provide a bit more context here, something like:
-
-All drivers must support XRGB8888, even if the hardware cannot support
-it. This has become the de-facto standard and a lot of user-space assume
-it will be present.
-
-> + * The second is to drop the unused bits when sending the data to the ha=
-rdware,
-> + * to improve the bandwidth, like dropping the "X" in XRGB8888.
-
-I think it can be made a bit more generic, with something like:
-
-Any driver is free to modify its internal representation of the format,
-as long as it doesn't alter the visible content in any way. An example
-would be to drop the padding component from a format to save some memory
-bandwidth.
-
-Otherwise, on principle, I'm fine with that change :)
-
-Maxime
-
---5pxbbnm7vsid32re
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZNSVlwAKCRDj7w1vZxhR
-xX+MAQCNMRjXjPIrJUmhF/gHST7bLvoWEeLzuv1QbRnA9wJfAgEA3KgkFEi39OGJ
-H7nT0Te8g7gJY+LPz5Ynl/kkDDlVKgI=
-=sGvp
------END PGP SIGNATURE-----
-
---5pxbbnm7vsid32re--
