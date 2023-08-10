@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85513777D75
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 18:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF24777D7C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 18:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49CCA10E5AB;
-	Thu, 10 Aug 2023 16:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F2010E5AD;
+	Thu, 10 Aug 2023 16:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B063C10E5A8;
- Thu, 10 Aug 2023 16:04:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1962D10E5A5;
+ Thu, 10 Aug 2023 16:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,26 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=4tWRLrqqWeLGyfJFSnJVygLyn2l6MVUmw75YAMLPyTY=; b=DT6BXPzTbQ74MjyZbRe4wdbLJY
- JaZDQ+3iGXL9V/bV4eaSG2xZZMOCYfg1Y1hiFBnMZ4LZVYAGaxrwXQBPd8gOmx3g/NQqdJTk1U82h
- f+56TaT2o6C4S1dBXFAllndA++BJqAvPC9f9P6MEfaSQSIqHOiBJ7e/OjAdd5DsKTauZX2SqUiqMx
- 5XwqZZmzaQAX8L6UFCncMLp7b1+SWgSANTsBDjIC8Oqu3merYfkqU5Wb4dV7+Szyo6uqAhJeUrpaE
- a2MqQVw2DluhqsigeOjKM+jQtE6OGstBkflOqpxHfL/W/uF6cqvPA3vifh5URsDonB+o9CxA4Xog4
- 15wZpTiw==;
+ bh=yHq44umxbz72Rz20XH2iZBLZvHRwkDfszD2Vw3Zd6YQ=; b=kit+Ut9J060t8AHo+kdeRRtW83
+ esElv5o5fK0t51UmcWOjxpqDo1Z/xghlfWB8/5CyBb3rHa3kLLpi6YoXl/5rQjbPxdlGyH6yFEXwY
+ 2IGwBzuxDNJWuVX7xmeUVMyhPPPN7VGqjM3E80i6qNzxQRIfQZJZB28A9YlG5kd9V0Ruk5n48aGCr
+ BZdcf5PdluDxGxNgTRgd09CmGYA98QT1x31nqbZoraltAfDLk3arBIqw/QmaGRGZDas1K1eU/mfck
+ ryIm6EsaOhOY8ZWudDPTialNvePMUYkRFJc6QHb9MOblFdd0PRzzjocTXCi31NCK9T3rRMOoGgUzJ
+ 7rbFJ9ag==;
 Received: from [38.44.68.151] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qU89D-00GjYD-Dl; Thu, 10 Aug 2023 18:04:27 +0200
+ id 1qU89F-00GjYD-Ia; Thu, 10 Aug 2023 18:04:29 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v2 32/34] drm/amd/display: add plane CTM driver-specific
- property
-Date: Thu, 10 Aug 2023 15:03:12 -0100
-Message-Id: <20230810160314.48225-33-mwen@igalia.com>
+Subject: [PATCH v2 33/34] drm/amd/display: add plane CTM support
+Date: Thu, 10 Aug 2023 15:03:13 -0100
+Message-Id: <20230810160314.48225-34-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230810160314.48225-1-mwen@igalia.com>
 References: <20230810160314.48225-1-mwen@igalia.com>
@@ -65,127 +64,71 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Plane CTM for pre-blending color space conversion. Only enable
-driver-specific plane CTM property on drivers that support both pre- and
-post-blending gamut remap matrix, i.e., DCN3+ family. Otherwise it
-conflits with DRM CRTC CTM property.
+Map the plane CTM driver-specific property to DC plane, instead of DC
+stream. The remaining steps to program DPP block are already implemented
+on DC shared-code.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  7 +++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  7 +++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 20 +++++++++++++++++++
- 4 files changed, 36 insertions(+)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 25 +++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index abb871a912d7..84bf501b02f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -363,6 +363,8 @@ struct amdgpu_mode_info {
- 	 * @plane_hdr_mult_property:
- 	 */
- 	struct drm_property *plane_hdr_mult_property;
-+
-+	struct drm_property *plane_ctm_property;
- 	/**
- 	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
- 	 * that converts color content before 3D LUT.
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 095f39f04210..6252ee912a63 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -769,6 +769,13 @@ struct dm_plane_state {
- 	 * S31.32 sign-magnitude.
- 	 */
- 	__u64 hdr_mult;
-+	/**
-+	 * @ctm:
-+	 *
-+	 * Color transformation matrix. See drm_crtc_enable_color_mgmt(). The
-+	 * blob (if not NULL) is a &struct drm_color_ctm.
-+	 */
-+	struct drm_property_blob *ctm;
- 	/**
- 	 * @shaper_lut: shaper lookup table blob. The blob (if not NULL) is an
- 	 * array of &struct drm_color_lut.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index dfe61c5ed49e..f239410234b3 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9578,6 +9578,7 @@ static bool should_reset_plane(struct drm_atomic_state *state,
+ 		if (dm_old_other_state->degamma_tf != dm_new_other_state->degamma_tf ||
+ 		    dm_old_other_state->degamma_lut != dm_new_other_state->degamma_lut ||
+ 		    dm_old_other_state->hdr_mult != dm_new_other_state->hdr_mult ||
++		    dm_old_other_state->ctm != dm_new_other_state->ctm ||
+ 		    dm_old_other_state->shaper_lut != dm_new_other_state->shaper_lut ||
+ 		    dm_old_other_state->shaper_tf != dm_new_other_state->shaper_tf ||
+ 		    dm_old_other_state->lut3d != dm_new_other_state->lut3d ||
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 4356846a2bce..86a918ab82be 100644
+index 86a918ab82be..7ff329101fd4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -218,6 +218,13 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
- 		return -ENOMEM;
- 	adev->mode_info.plane_hdr_mult_property = prop;
+@@ -1158,6 +1158,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 				      struct dc_plane_state *dc_plane_state)
+ {
+ 	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
++	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
++	struct drm_color_ctm *ctm = NULL;
+ 	struct dc_color_caps *color_caps = NULL;
+ 	bool has_crtc_cm_degamma;
+ 	int ret;
+@@ -1209,6 +1211,29 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 			return ret;
+ 	}
  
-+	prop = drm_property_create(adev_to_drm(adev),
-+				   DRM_MODE_PROP_BLOB,
-+				   "AMD_PLANE_CTM", 0);
-+	if (!prop)
-+		return -ENOMEM;
-+	adev->mode_info.plane_ctm_property = prop;
++	/* Setup CRTC CTM. */
++	if (dm_plane_state->ctm) {
++		ctm = (struct drm_color_ctm *)dm_plane_state->ctm->data;
 +
- 	prop = drm_property_create(adev_to_drm(adev),
- 				   DRM_MODE_PROP_BLOB,
- 				   "AMD_PLANE_SHAPER_LUT", 0);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 3fd57de7c5be..0b1081c690cb 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1355,6 +1355,8 @@ dm_drm_plane_duplicate_state(struct drm_plane *plane)
- 
- 	if (dm_plane_state->degamma_lut)
- 		drm_property_blob_get(dm_plane_state->degamma_lut);
-+	if (dm_plane_state->ctm)
-+		drm_property_blob_get(dm_plane_state->ctm);
- 	if (dm_plane_state->shaper_lut)
- 		drm_property_blob_get(dm_plane_state->shaper_lut);
- 	if (dm_plane_state->lut3d)
-@@ -1436,6 +1438,8 @@ static void dm_drm_plane_destroy_state(struct drm_plane *plane,
- 
- 	if (dm_plane_state->degamma_lut)
- 		drm_property_blob_put(dm_plane_state->degamma_lut);
-+	if (dm_plane_state->ctm)
-+		drm_property_blob_put(dm_plane_state->ctm);
- 	if (dm_plane_state->lut3d)
- 		drm_property_blob_put(dm_plane_state->lut3d);
- 	if (dm_plane_state->shaper_lut)
-@@ -1473,6 +1477,11 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
- 				   dm->adev->mode_info.plane_hdr_mult_property,
- 				   AMDGPU_HDR_MULT_DEFAULT);
- 
-+	/* Only enable plane CTM if both DPP and MPC gamut remap is available. */
-+	if (dm->dc->caps.color.mpc.gamut_remap)
-+		drm_object_attach_property(&plane->base,
-+					   dm->adev->mode_info.plane_ctm_property, 0);
++		/*
++		 * So far, if we have both plane and CRTC CTM, plane CTM takes
++		 * the priority and we discard data for CRTC CTM, as
++		 * implemented in dcn10_program_gamut_remap().  However, we
++		 * have MPC gamut_remap_matrix from DCN3 family, therefore we
++		 * can remap MPC programing of the matrix to MPC block and
++		 * provide support for both DPP and MPC matrix at the same
++		 * time.
++		 */
++		__drm_ctm_to_dc_matrix(ctm, dc_plane_state->gamut_remap_matrix.matrix);
 +
- 	if (dpp_color_caps.hw_3d_lut) {
- 		drm_object_attach_property(&plane->base,
- 					   mode_info.plane_shaper_lut_property, 0);
-@@ -1530,6 +1539,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
- 			dm_plane_state->hdr_mult = val;
- 			dm_plane_state->base.color_mgmt_changed = 1;
- 		}
-+	} else if (property == adev->mode_info.plane_ctm_property) {
-+		ret = drm_property_replace_blob_from_id(plane->dev,
-+							&dm_plane_state->ctm,
-+							val,
-+							sizeof(struct drm_color_ctm), -1,
-+							&replaced);
-+		dm_plane_state->base.color_mgmt_changed |= replaced;
-+		return ret;
- 	} else if (property == adev->mode_info.plane_shaper_lut_property) {
- 		ret = drm_property_replace_blob_from_id(plane->dev,
- 							&dm_plane_state->shaper_lut,
-@@ -1591,6 +1608,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
- 		*val = dm_plane_state->degamma_tf;
- 	} else if (property == adev->mode_info.plane_hdr_mult_property) {
- 		*val = dm_plane_state->hdr_mult;
-+	} else if (property == adev->mode_info.plane_ctm_property) {
-+		*val = (dm_plane_state->ctm) ?
-+			dm_plane_state->ctm->base.id : 0;
- 	} else 	if (property == adev->mode_info.plane_shaper_lut_property) {
- 		*val = (dm_plane_state->shaper_lut) ?
- 			dm_plane_state->shaper_lut->base.id : 0;
++		dc_plane_state->gamut_remap_matrix.enable_remap = true;
++		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
++	} else {
++		/* Bypass CTM. */
++		dc_plane_state->gamut_remap_matrix.enable_remap = false;
++		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
++	}
++
+ 	return amdgpu_dm_plane_set_color_properties(plane_state,
+ 						    dc_plane_state, color_caps);
+ }
 -- 
 2.40.1
 
