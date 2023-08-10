@@ -2,58 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CC5777B2C
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 16:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43024777B43
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 16:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A4610E551;
-	Thu, 10 Aug 2023 14:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C606B10E556;
+	Thu, 10 Aug 2023 14:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88C4810E550
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1691678702; x=1723214702;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=w0UAbxXWAQNdssPmXVzrxzDw2c7hP+0NfZiyE8xtXXA=;
- b=N/4CGcxh7yY4TWvEH4ptnJ8vq1BvaPmA+E/73mD9WPH1+L7DYBcxMZ7+
- wImfxTF5q4eHPEF59nLWSMdUFaUdY/9hKfu7Hz/zfXI+eLYfER6FbHPbX
- OLrFpYA8Vq114MSeu7QVSaivgY6Hv6KkMZ987QS25B5QkVymJbmZLnw4f
- dfzYp/izS+DNFgWjWpoFkNEYazg2O8FnIiDSJ5fu0qEYGd6oWQc0iLGeC
- D8UxrXyLSlC1am1JS68pdVIKF+TPCMbjSx6LdglVghAICdOHoxQV6mOkY
- E/OxtOoX/KzxEapYq3IZ5SXHCYPkEq9flBb1jozRoBl3DzIu26puuW1Mo Q==;
-X-IronPort-AV: E=Sophos;i="6.01,162,1684792800"; d="scan'208";a="32396725"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 10 Aug 2023 16:44:59 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6140928008D;
- Thu, 10 Aug 2023 16:44:59 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH 6/6] dt-bindings: timer: fsl,
- imxgpt: Add optional osc_per clock
-Date: Thu, 10 Aug 2023 16:44:51 +0200
-Message-Id: <20230810144451.1459985-7-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230810144451.1459985-1-alexander.stein@ew.tq-group.com>
-References: <20230810144451.1459985-1-alexander.stein@ew.tq-group.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7E4610E55E
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:49:56 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37AERwWi018666; Thu, 10 Aug 2023 14:49:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=O99nV7mRckyUqlfU2+1ZF3DC6m0GgiY6s5WZQWfGDZI=;
+ b=jJ1FCQnSkPVjmdEyloz9zDigp9FwFCe2B2u7tZIe7FRrKDZC9LcokhpgK6Y/zybKC3fP
+ xCQOe0uzNrmSKqFQkO/0Rbsxrc4uNgdc0i94HglLqjorHf/lSVr34uvaDDY36WVlCX9D
+ dfZeMsN8MtkGcBWCV3cX6iUEHLnCDzUBtT6+DW88xcpPhfe1opNeq4wkpzoM08u6DMWK
+ S19znTzqz/ywPCT++QB3mpKhyj9hObxZkBf5LSE79UmClQlwGHflRvPVTRwRldDrxFWu
+ BgCOxgGS5x9J7zeqzB1NS6NDTRd4hmovi//5TdktqQhruxgp1LWXO7w7dlmzQl5ss9Kp XA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3scw2urrx9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Aug 2023 14:49:03 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37AEn2JS011995
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Aug 2023 14:49:02 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 10 Aug
+ 2023 07:49:01 -0700
+Message-ID: <aa7495a6-50b6-908a-ee1f-e9fccb916b3f@quicinc.com>
+Date: Thu, 10 Aug 2023 08:49:00 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/ivpu: Document DRM_IVPU_PARAM_CAPABILITIES
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20230810080707.3545883-1-stanislaw.gruszka@linux.intel.com>
+ <6bbd1cc5-f85b-2b42-22f9-4fd313a6ebfc@quicinc.com>
+ <20230810143244.GB3329046@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230810143244.GB3329046@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: qWzIDiir0V1WxBavxKlp27s1pxNGC3xa
+X-Proofpoint-ORIG-GUID: qWzIDiir0V1WxBavxKlp27s1pxNGC3xa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-10_10,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ suspectscore=0 mlxlogscore=999 priorityscore=1501 adultscore=0 bulkscore=0
+ phishscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308100126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,89 +84,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Alexander Stein <alexander.stein@ew.tq-group.com>, netdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit bad3db104f89 ("ARM: imx: source gpt per clk from OSC for
-system timer") osc_per can be used for clocking the GPT which is not
-scaled when entering low bus mode.
-This clock source is available only on i.MX6Q (incl. i.MX6QP) and i.MX6DL.
+On 8/10/2023 8:32 AM, Stanislaw Gruszka wrote:
+> On Thu, Aug 10, 2023 at 08:27:08AM -0600, Jeffrey Hugo wrote:
+>> On 8/10/2023 2:07 AM, Stanislaw Gruszka wrote:
+>>> Add comments regarding new DRM_IVPU_PARAM_CAPABILITIES param.
+>>>
+>>> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>>> ---
+>>>    include/uapi/drm/ivpu_accel.h | 19 +++++++++++++++++--
+>>>    1 file changed, 17 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
+>>> index a58a14c9f222..7d1ecc5bbac3 100644
+>>> --- a/include/uapi/drm/ivpu_accel.h
+>>> +++ b/include/uapi/drm/ivpu_accel.h
+>>> @@ -69,8 +69,21 @@ extern "C" {
+>>>    #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
+>>>    #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
+>>> -#define DRM_IVPU_CAP_METRIC_STREAMER	    1
+>>> -#define DRM_IVPU_CAP_DMA_MEMORY_RANGE       2
+>>> +/**
+>>> + * DRM_IVPU_CAP_METRIC_STREAMER
+>>> + *
+>>> + * Metric streamer support, provides sampling of various hardware
+>>> + * performance metrics (like DMA bandwidth, cache miss/hits),
+>>> + * can be used for profiling.
+>>
+>> Feels like this is a run-on sentence.  I think this reads better -
+>>
+>> Metric streamer support.  Provides sampling of various hardware performance
+>> metrics like DMA bandwidth and cache miss/hits.  Can be used for profiling.
+>>
+>> What do you think?
+> 
+> Looks better :-)
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-
-Notes:
-    osc_per is only used in arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi, so I assume
-    this is the only platform supporting this source.
-    
-    I had to use minItem:2 and maxItems:3 in the constraints as fsl,imx6sx-gpt
-    and fsl,imx6sl-gpt are also compatible to fsl,imx6dl-gpt, but only provide
-    two clocks. Maybe this the compatible list needs some cleanup, but I do
-    not know which hardware is compatible to what. The driver
-    drivers/clocksource/timer-imx-gpt.c also gives no clues because it's totally
-    mixed.
-
- .../devicetree/bindings/timer/fsl,imxgpt.yaml | 27 +++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml b/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml
-index c5d3be8c1d68..e2607377cbae 100644
---- a/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml
-+++ b/Documentation/devicetree/bindings/timer/fsl,imxgpt.yaml
-@@ -48,14 +48,18 @@ properties:
-     maxItems: 1
- 
-   clocks:
-+    minItems: 2
-     items:
-       - description: SoC GPT ipg clock
-       - description: SoC GPT per clock
-+      - description: SoC GPT osc per clock
- 
-   clock-names:
-+    minItems: 2
-     items:
-       - const: ipg
-       - const: per
-+      - const: osc_per
- 
- required:
-   - compatible
-@@ -64,6 +68,29 @@ required:
-   - clocks
-   - clock-names
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - fsl,imx6dl-gpt
-+              - fsl,imx6q-gpt
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+          maxItems: 3
-+        clock-names:
-+          minItems: 2
-+          maxItems: 3
-+    else:
-+      properties:
-+        clocks:
-+          maxItems: 2
-+        clock-names:
-+          maxItems: 2
-+
- additionalProperties: false
- 
- examples:
--- 
-2.34.1
-
+Ok.  I guess with that
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
