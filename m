@@ -2,120 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E897770AB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 08:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C277770B7
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 08:52:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F6910E4C1;
-	Thu, 10 Aug 2023 06:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C13D10E4C3;
+	Thu, 10 Aug 2023 06:52:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2047.outbound.protection.outlook.com [40.107.244.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73D710E4C1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 06:48:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aehJlIY5qbW6yaNFN9X+YBEP+JuRDROa/BtNx793relpDhfx/O+96NHuZIKLTkCgQq595CsuvCPKAWUN/FQenNm+50ZfB8CrF6yYGvl5y2YelgON1ECtCIA9rgM1tqFY/iHCeMJbWep2wQAOx5xc7qAzUU6vCQdWFE8DcacnCJ8lGB4Va0WylNprkAJpLFq5NGcY/5rDxUFzTPxgrvCDACFeJl6EVpp5jvkeX6G7at+pevmDAbNfEFAUxjdVtd/wIIozaMjNHNEOoztKAF0h1rMRAhR+H43eGrq1RSHxeAtq7io+x2eoMkMjd2wvSSIydwy3RQtC5UR5Vuj2agzSYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IL451NG7+9aE6D3twBbE88KeBc9Hogd/YqizHwzFg/Q=;
- b=OqCEMonCStuyUCRMe0CcfpJzqh7IL1YO0a/oBcinEj8g/hYSOvnLbMGrDn//i+rUfsh625rKXZrtsSw5a6ZQJIiecJIZudv4JP5xsHT9Ft8VOKIafI8uJzrNlTF2s6RqUfOwjFQLe6oJWlz+hKaGuX4aQAF633G0gXEjL2ecx4tpsZZSq7BLoCowbZjLw4jSrlFp+IHTe+9KPp0t4hfl6rhaSmLxAZaD4zHpoEuI2ougJL/7gJsQun+SSvfQv8XA+W2zr6tpvESJupEiFwuMy7OgaftEDVKNBZjQncYTU5zvZUYJNCk6z/eRwy4t6n/DMXoearfZEf6R4SK0mYuAdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IL451NG7+9aE6D3twBbE88KeBc9Hogd/YqizHwzFg/Q=;
- b=kil9tCwUeiKOj7fxzNdTE1cymQCwfo3UZDg2iCFeNzvSEHs0FgMt/DLKYRV0kpEWiWyXsmZAjzC2YwMxF7PcgCLSPzQmNiWeI5qVcOo33qSGyKZJNUOBsg1XCXiFsKW8MobiOZbEfXlh2SLzv/HfpEcT4I53mTJciqpl1LqqTwQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB6487.namprd12.prod.outlook.com (2603:10b6:8:c4::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Thu, 10 Aug
- 2023 06:48:11 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6652.028; Thu, 10 Aug 2023
- 06:48:11 +0000
-Message-ID: <7a09909a-4c94-2e4b-dd9a-4bd019b67585@amd.com>
-Date: Thu, 10 Aug 2023 08:48:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Nathan Chancellor <nathan@kernel.org>
-References: <20230731123625.3766-1-christian.koenig@amd.com>
- <20230809153755.GA832145@dev-arch.thelio-3990X>
- <20230810084002.636cc827@collabora.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230810084002.636cc827@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::10) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5A510E4BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 06:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1691650350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=b+0U8wVrRTPkkjwUKlBvvDOuEk4aihjX5ZgOEV2VKxg=;
+ b=Y+2ya9RVk53+ECJkVmBGQ9mdcolihCMJxm9jNW2xrT1t+v57tfgaIFnA2Y+G6oWAM8vdfg
+ fTGZ1+SMojGCyeOu6l8bZbbMx8WS6q9OhraQnDayrEvrvqCaGcYAwfVtAVml4PpRL1trmB
+ NLUgIG2Ju8bGbqx0du+2cSmu6F901Qo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-446--Y-2_3H9Oze2Fm4eZay7qw-1; Thu, 10 Aug 2023 02:52:27 -0400
+X-MC-Unique: -Y-2_3H9Oze2Fm4eZay7qw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3176c4de5bbso365540f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 23:52:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691650347; x=1692255147;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=b+0U8wVrRTPkkjwUKlBvvDOuEk4aihjX5ZgOEV2VKxg=;
+ b=ApUF609iqvQ1CmnPatmv6IwgRQbPVU4rpSxlW5u8V0NMZoOooVVh6v8TQEjnoBPxXW
+ 0ZD1mVhX7gIQ5C8fUjOMH4D5+7AEQV+EHPA6YSBalRv1DYXZrda6KHsifme8bgjrpBce
+ wls9751GKZKUTJw+tTA65e2w6QXsqt3pZU1wQEnx7Be8OB45Qi2GjKv4S/hrL/KDpUHa
+ V97wKfLbXjW+7897K3YCIPzstz8qVugBiaY2XAyHBH+4bjiXxZ7t+vnNAMiXDhphdAvF
+ A9WPXQSnaeO+CKArQh9HB0a58nKBd15RjVEGNtByU/aB9NKNySt/9PTMSL9xxn/VzsSA
+ Eozw==
+X-Gm-Message-State: AOJu0YzlySPCjA0xSR8d0N9i7eSfIw8m6UWXSb/gS65Pa298o+0lq28G
+ 7KKpL9Sroji9UPHriQ9x6ru3R9qV7xRxKyulIsUt28qL1wKD+mZrSAKUB2Zl+j8npy/klc9B9+Q
+ +cvZGHrVoQS8CkJmI6na9TvTyA7vq
+X-Received: by 2002:a5d:49c5:0:b0:317:5d3d:d387 with SMTP id
+ t5-20020a5d49c5000000b003175d3dd387mr1193290wrs.25.1691650346760; 
+ Wed, 09 Aug 2023 23:52:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEQ9pejwZ5uHeojQgE78jsGWVGR7gpYcT5nGe0P6g72X1R+8zhXADpixV++ICBb/qTfgA4DLw==
+X-Received: by 2002:a5d:49c5:0:b0:317:5d3d:d387 with SMTP id
+ t5-20020a5d49c5000000b003175d3dd387mr1193267wrs.25.1691650346353; 
+ Wed, 09 Aug 2023 23:52:26 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::56b])
+ by smtp.gmail.com with ESMTPSA id
+ e3-20020a5d4e83000000b003176053506fsm1058564wru.99.2023.08.09.23.52.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Aug 2023 23:52:25 -0700 (PDT)
+Date: Thu, 10 Aug 2023 08:52:25 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <fwed6gzdtkse5ocrgd37elhyw7qirfptsvfp5mqqverdzifhxj@4da3vesxcqp2>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB6487:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06db5ac5-a2e5-45c4-7aa0-08db996dc38b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ND57KDUzqRID6DrDW/yhZJDTGVi0nNAKSnvzcb2gen0bXvKKjJ5hJZuccsEGZ2HJ7pgbpdF/4YZZ+y29YtEKoQm18plbgIUiW+bsrJiLntWb1gt119U0fNdDt6Cx9oCnE7zAcOhMM3CnS+IuVXbmweMohSi9KoNjWjTCcMFTNHF3Jabyt3t+jjXvlOtyBON3giooxcb0qhM2oXJpFyzovW2kOfL7fbGeCr9qOjcPAMSMHgMslIe7WgKdvQUx4XZ7KLEVPY2G6qYB+Gck+4S9Ni1QY5NNX2tcHO76RzsqeYod9S/ohgBR9saMXyn/xUyU62XuVm0LsApIFFjlFGq96h2D/BhIVdrCOJ/HUWsjxEMrFUzgo+oKR3IphmQ7067/HvqXPtBoAmE6PQc88Cm8g2W1A62qy9y8l5Mk09dVCwWWGSzs5gxHqt/8eCI63vKRKSwGZpkIAh+tIAzF7/DJD52jh800ZWcPIhoKKHgnKZ3QzaA1OvFB1h3fkjHF9rMVKk8LdZb6HA8otoRDY/t62odHn9BwTSR9+g+B65N3iJ5lSOVSZYbCUkoTlPRi4H53QIWDAVHZBTeGeOG/MSDjn9CAF0P18YoOponvW4bVW0EF7DGhA1xTQKvEpW/rVlcFWwdMJrw70+3UXxDkWg6Tug==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(186006)(1800799006)(451199021)(31686004)(316002)(41300700001)(4326008)(38100700002)(110136005)(8676002)(5660300002)(8936002)(66476007)(66946007)(66556008)(2616005)(86362001)(31696002)(6512007)(478600001)(7416002)(6506007)(6666004)(36756003)(2906002)(4744005)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cXFlcHJHM1RJenFTbGRUYVAwdlRWcmJJM1ZqNlpaUXdiYUVJN0dzeTNpb3Rh?=
- =?utf-8?B?elNKUG5CL0p0WXgvRDA3MXdmbVhOOVVpT1pLMW9UbThoUHV2YjArdC8zdWVP?=
- =?utf-8?B?Q2h6UHJwV3IyZ3pWQVEwMFgvUzExUHd4UTRxWEFUZlNFZnAwMFZQRHRjNW5n?=
- =?utf-8?B?UzFJVXAwQWk2KzJuS3dxTE9hajRnWEVWUG5CWGhpajJkTFdDcW9odnY1Q2xF?=
- =?utf-8?B?Z1ZMU0hBM3RRVVZ1WThBVU5VdWR0UlR2SHl0aW16VlljZFYvMFgxK0d0bTNz?=
- =?utf-8?B?c09MWWRiLzNFZ3JxMkdGdDNwb2RJaFNROElCZmt4U0phT1JnZ2NEMGtYUUxm?=
- =?utf-8?B?dnhFRlE2cXkzZkdwNGRvY0E3YkpZK0ZMWG5MdzBwYndJS3RtY0R4ZUMzc0RO?=
- =?utf-8?B?dm00NzRZRVF4aVJYbjlmZ2ZiQWt5aXA5K1FQSnBkeGd1SWtZOVNuQzgzSS91?=
- =?utf-8?B?UjByTnNLV1pzVTdNSVlLK3BjMHpVMkhhM2tVWjlJOXNFSnRhS3J5M3VLT0xY?=
- =?utf-8?B?alBuNThXTnZ0M2ZFMk1FUkthcGdRVk1oMDNPa3B1eW92Wi9oUUtMN0dqMi9k?=
- =?utf-8?B?QnhCVk5kRzIxc3ppZEFXd2ZiV2J4M2lURnVKeGd2MHBXUWgraUZTTDZGcXlw?=
- =?utf-8?B?aEduMWczK2laYUtLR2dYRzZxRXAvVUVBYXNaaWZVZTc0djlyV2hpVGJBdGlS?=
- =?utf-8?B?U0ltbDdobEIxRDM4ZkEvUEVuQzVOWlQvajFBSnhBcnZuU1pTRTZLdGxubHZW?=
- =?utf-8?B?TXZkUG5lMURoS2sxYjgrMzVrZTBtdzNrUDlycDBjMzZ2U1lmbHVnZmNzeHN5?=
- =?utf-8?B?eGtsb3l3dXZyZmtPcGhjamQrR2JwRnZWZTU5cktwV0UzUEw2ejVoZXZMeWZF?=
- =?utf-8?B?S2JMeFdlN1krR1lTbDN3QkRuZHBRR0Y4ZU53YXBUOEwvQko4dzBxa0hvM1hh?=
- =?utf-8?B?V0FQcGVNbU1MYUVTeVgweldma1JQcHB6OFpwY05EQ1ZIeldFcVZSVTBic2dP?=
- =?utf-8?B?YzZDUkV0b1A4V0hTQnRPMU9rSk9LUGxPQzRJVkdMVXZKM2NXc0k4MzBHOXdP?=
- =?utf-8?B?akFIVEc5OGsrYTBjRlhwclpEVEE1ODh1ZUZZR3NjQWJkZ2tKS0dWVlZldEpk?=
- =?utf-8?B?Sm9Oa1FSTmRRcTNOQjNvaXRpRUZxYWl5Kyt0bkgxNkJPSE9PWVNyTU9zTWpr?=
- =?utf-8?B?cEd2NEhJRGNSOXVsSEdRUzc1VVZqNmI2b2hDTHBycm8yQmRJcFNxMmFTSUox?=
- =?utf-8?B?Y3hnWisvRElHR0FmaEczSVZXVjROeWdjenFoeVJSS3Jsc2tPMG1jeCtkWS9Z?=
- =?utf-8?B?YnpxSU8xWCtITEVOTmkxcjlvbmFxWTdpTmxUZk9DS0l5Zi9BT1ErRGlIeEc4?=
- =?utf-8?B?M3pYZHFvcGFUdDJaeUJtYkYwWTFSRVBYUVA4ZC8reGJVNFN1SWpWSGlGSXF4?=
- =?utf-8?B?M1hMcHZieXJ2NGJaUERnUUx3RHVUS0t3RlFWNDBFbXVhWDBac244c0FpOENp?=
- =?utf-8?B?NkxpWi9ZZGQ3cC9mdXE2L05mOGFjK2FFVnU5a1crdVZ2WDVRZ29aeDhFbUYz?=
- =?utf-8?B?elFsSE4xckJndG9PQkJBeFNXQWdaTitDbG5HVVVXRDJqRUJaL1Y0RW4xeG1z?=
- =?utf-8?B?dks2QXZ2WWpXYWJkYllzbmtBVjlQZFJ2ZFJFakU0OFowbThyTDhlbWwyUlVq?=
- =?utf-8?B?cHBEQVlYd0NDSnRXUEJKMGNTWi9yb1ExeTVWc01KdUJWakViM3N6K1hPVVVS?=
- =?utf-8?B?WWl0dWhJQlR5UXRPZkY0WGRvVVg4RUhYVjRlalB3MnhpTE1ncVpqWDdPY2ND?=
- =?utf-8?B?bUVEVmFESVhjSVpxWWZncVcvcEh1eGpWcDdzZk12VDZLNDRtczlQSGp1UkVj?=
- =?utf-8?B?a0xNSE02a3hLSmQwdGYvb3M3TnFSOGJ4UVlhMG1xK01UVVdyYUN1QTAxeGhK?=
- =?utf-8?B?WUJoYlRCSkx5NjZ4VTgwQVJaZUNOc2ZIeVE0MmtZeXVVR3c1SDZyQTN4bzdh?=
- =?utf-8?B?NGZrMW1Sd3YwT3pjUUozbUFNUndGWXdzUmsvYUNDaHV0TlhtNUtBbytkaDFF?=
- =?utf-8?B?Tit0WlE2L2drVC9ZU25IRVhLK0pwUDNrSVpwRDZJYnFXMWpBUnR1Mi81S2o4?=
- =?utf-8?B?d1Y2QXR3MTU0dHUvN0J3aTZBdFhhMWM2M0FzZmJxa2p0d2NpKzRHaU00b0Ex?=
- =?utf-8?Q?C+if9zknvYajGQsylIpu8sAfrYOGLk85ola59nfm12Gs?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06db5ac5-a2e5-45c4-7aa0-08db996dc38b
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2023 06:48:11.6475 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 40RRlXFxWyV44ymvOiy/AurI5+/itT5l3/P8H+2+qv6TtdXoO6udURdwrufDIYw9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6487
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ejbjo6zdfcs43abf"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,25 +77,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, ndesaulniers@google.com, naresh.kamboju@linaro.org,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org, mripard@kernel.org,
- dakr@redhat.com, dri-devel@lists.freedesktop.org, trix@redhat.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.08.23 um 08:40 schrieb Boris Brezillon:
-> On Wed, 9 Aug 2023 08:37:55 -0700
-> Nathan Chancellor <nathan@kernel.org> wrote:
->
->> Hi Christian,
->>
->> Can this be applied to drm-misc? Other drivers are starting to make use
->> of this API and our builds with clang-17 and clang-18 have been broken
->> for some time due to this.
-> Queued to drm-misc-next.
 
-Sorry for the delay I have been on vacation last week and haven't yet 
-catched up to this point in my mails.
+--ejbjo6zdfcs43abf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for taking care of this,
-Christian.
+Hi,
+
+Here's this week drm-misc-fixes PR
+
+Maxime
+
+drm-misc-fixes-2023-08-10:
+Multiple fixes for nouveau around memory safety and DisplayPort, one fix
+to reduce the log level of rockchip, a power state fix for the it6505
+bridge, a timing fix for the lt9611 bridge, a cache maintenance fix for
+ivpu and one to reset vma->vm_ops on mmap for shmem-helper.
+The following changes since commit c71b7aa8619a0c9700132d0733e33999fb614339:
+
+  drm/panel: samsung-s6d7aa0: Add MODULE_DEVICE_TABLE (2023-08-02 10:56:50 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-08-10
+
+for you to fetch changes up to 07dd476f6116966cb2006e25fdcf48f0715115ff:
+
+  drm/shmem-helper: Reset vma->vm_ops before calling dma_buf_mmap() (2023-08-10 08:29:14 +0200)
+
+----------------------------------------------------------------
+Multiple fixes for nouveau around memory safety and DisplayPort, one fix
+to reduce the log level of rockchip, a power state fix for the it6505
+bridge, a timing fix for the lt9611 bridge, a cache maintenance fix for
+ivpu and one to reset vma->vm_ops on mmap for shmem-helper.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/nouveau: remove unused tu102_gr_load() function
+
+Boris Brezillon (1):
+      drm/shmem-helper: Reset vma->vm_ops before calling dma_buf_mmap()
+
+Daniel Stone (1):
+      drm/rockchip: Don't spam logs in atomic check
+
+Karol Herbst (2):
+      drm/nouveau/gr: enable memory loads on helper invocation on all channels
+      drm/nouveau/disp: Revert a NULL check inside nouveau_connector_get_modes
+
+Karol Wachowski (1):
+      accel/ivpu: Add set_pages_array_wc/uc for internal buffers
+
+Lyude Paul (1):
+      drm/nouveau/nvkm/dp: Add workaround to fix DP 1.3+ DPCD issues
+
+Neil Armstrong (1):
+      Revert "drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT packet"
+
+Pin-yen Lin (1):
+      drm/bridge: it6505: Check power state with it6505->powered in IRQ handler
+
+ drivers/accel/ivpu/ivpu_gem.c                      |  8 ++++
+ drivers/gpu/drm/bridge/ite-it6505.c                |  4 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |  4 +-
+ drivers/gpu/drm/drm_gem_shmem_helper.c             |  6 +++
+ drivers/gpu/drm/nouveau/nouveau_connector.c        |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c      | 48 +++++++++++++++++++++-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgf100.h  |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk104.c  |  4 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk110.c  | 10 +++++
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk110b.c |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgk208.c  |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/ctxgm107.c  |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/tu102.c     | 13 ------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        | 17 ++++----
+ 14 files changed, 92 insertions(+), 28 deletions(-)
+
+--ejbjo6zdfcs43abf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZNSJKQAKCRDj7w1vZxhR
+xc2sAP9GYrh9OMNYPjfnbwyIyTMaGzGzm4S4m1l6obKogFOj/AEA+tQRHhHLq8QE
+trDBRp1YbsK9Wz/H9XuNh3yaSXJGUgU=
+=rz6K
+-----END PGP SIGNATURE-----
+
+--ejbjo6zdfcs43abf--
+
