@@ -1,48 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854AF777811
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 14:18:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232F9777830
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 14:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C5210E180;
-	Thu, 10 Aug 2023 12:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB8410E182;
+	Thu, 10 Aug 2023 12:23:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-108.mta1.migadu.com (out-108.mta1.migadu.com
- [IPv6:2001:41d0:203:375::6c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C974410E180
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 12:18:43 +0000 (UTC)
-Message-ID: <38a37d61-529b-12c6-da32-25b780318175@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1691669920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gqIFbhKBuUW51FybyZoKrutyLB27EyK86A0iiFShgwM=;
- b=gn0k3dfRF5lr291o4BhbOFJQDK2XZYH3WIh2gwb/mYoGmO4N/2a2frr6tS+FyuiWLh+VlV
- VQA2D1MdWplq8qygIlv/Tf7hcdaSr3OJat+UzqK2gxZCSZcZ3bxgg8spLtSiHjRN6ieWJC
- rdw1uyuARFFFjesHbd9JYCfuxuS1r2g=
-Date: Thu, 10 Aug 2023 20:18:31 +0800
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14D6F10E182
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 12:23:12 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3fe2048c910so7279535e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 05:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691670190; x=1692274990;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Zr/Mhw5ILyK63+MjSQ6uC1kOGczJiabTmNqreNeP1g8=;
+ b=a733kCJZWdgy8S7SLUwWDixfAOOrZUbYpqO8z29w0ie5I7U490jMLttJrXPGbc2pnT
+ 1Zrx4FSgC4TuIO6UVsyBRcDmaRNK5rj6wwHBMp9J62hIRTEEc9W9OuJMahon+VAs93Tn
+ Yt5WsEK5+EwDWInCqcZOFFpDoAOUF0bj6xaurNkbi7CkNPWArDnxuQACNRpGkGHoBM3Q
+ hQMih1T77HUb9IezaYkynEgMNkn9RbRkBdudKWGXEH3ekhXIrojRZA2/w8zblDddVsCc
+ pT4G8jinfS5CnsCDnyoGXzoiYr9pGy930Pp4d1hWoYr1vnYYdBJw3MasaWom5fg+b2kA
+ EM6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691670190; x=1692274990;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zr/Mhw5ILyK63+MjSQ6uC1kOGczJiabTmNqreNeP1g8=;
+ b=VzYFtUEfFM8KNE+HU+tcYqYCEBzC6+pNdxUTUbMPr4e+BoNnqbNbeJX3kW5yhBmK4W
+ HHdWlYq/68yzak9Hc9CsJTieJNNqDCSahmL+o7G61ixxnnPECEBbWzFoZNu1c/ldhbLW
+ IcGMG7jU6pmwADd0CBJrN4Q+2nJvWkqOgj7Gzc76zkFeLxVBZZ+FQLdhczKTtjlZmSBQ
+ R+whUsJ59pd+3hP1PBrfgJ3xbZ5B1dG+iFoK6M5oTg16QIcotaLrlxL9IHRWSCm4XGQ6
+ lq28stX9oDPKzxz1ksr4iEgBxNSm7BqgDkWRBAfaUlQpzhfG3RVmW552PrlMXU7wSGUA
+ F8kA==
+X-Gm-Message-State: AOJu0YyDxiJkXfJigbu6eXHsw+MmsvcBddRDyaLyHWPtcUsu+/15GX/t
+ ga6chL5jOj37kvqTlZiCOTHjxw==
+X-Google-Smtp-Source: AGHT+IGXYtn2GpsCxrnbibEKzmgQkNNcdoFU2U3Bo5Oti8uDK9Ygc+2fIlj12Rg8GpXrcTsnR2aDOA==
+X-Received: by 2002:a05:600c:2288:b0:3fe:1deb:82 with SMTP id
+ 8-20020a05600c228800b003fe1deb0082mr1917714wmf.7.1691670190436; 
+ Thu, 10 Aug 2023 05:23:10 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ u16-20020a5d4690000000b00313de682eb3sm2003995wrq.65.2023.08.10.05.23.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Aug 2023 05:23:10 -0700 (PDT)
+Date: Thu, 10 Aug 2023 15:23:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH] accel/qaic: Clean up integer overflow checking in
+ map_user_pages()
+Message-ID: <24d3348b-25ac-4c1b-b171-9dae7c43e4e0@moroto.mountain>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 07/11] PCI/VGA: vga_client_register() return -ENODEV on
- failure, not -1
-Content-Language: en-US
-To: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- suijingfeng <suijingfeng@loongson.cn>
-References: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
- <20230808223412.1743176-8-sui.jingfeng@linux.dev>
- <b1a964e-a94b-2316-eeaf-fec2b2fa833b@linux.intel.com>
- <bfe424f2-6dad-c8c9-ec82-8eda70f23cdf@loongson.cn>
- <1f288175-a290-6f19-d562-cf98f613323c@linux.intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <1f288175-a290-6f19-d562-cf98f613323c@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,102 +70,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The encode_dma() function has some validation on in_trans->size but it
+would be more clear to move those checks to find_and_map_user_pages().
 
+The encode_dma() had two checks:
 
-On 2023/8/10 20:13, Ilpo Järvinen wrote:
-> On Thu, 10 Aug 2023, suijingfeng wrote:
->> On 2023/8/9 21:52, Ilpo Järvinen wrote:
->>> On Wed, 9 Aug 2023, Sui Jingfeng wrote:
->>>
->>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>
->>> Changelog body is missing.
->>
->> I thought that probably the Fixes tag could be taken as the body of this
->> commit,
->> since there are no warnings when I check the whole series with checkpatch.pl.
->>
->>
->>>> Fixes: 934f992c763a ("drm/i915: Recognise non-VGA display devices")
->>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>> ---
->>>>    drivers/pci/vgaarb.c | 15 ++++++---------
->>>>    1 file changed, 6 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->>>> index 811510253553..a6b8c0def35d 100644
->>>> --- a/drivers/pci/vgaarb.c
->>>> +++ b/drivers/pci/vgaarb.c
->>>> @@ -964,7 +964,7 @@ EXPORT_SYMBOL(vga_set_legacy_decoding);
->>>>     *
->>>>     * To unregister just call vga_client_unregister().
->>>>     *
->>>> - * Returns: 0 on success, -1 on failure
->>>> + * Returns: 0 on success, -ENODEV on failure
->>> So this is the true substance of this change??
->>>
->> Yes.
->>
->>
->>> It doesn't warrant Fixes tag which requires a real problem to fix. An
->>> incorrect comment is not enough.
->>>
->>> I think the shortlog is a bit misleading as is because it doesn't in any
->>> way indicate the problem is only in a comment.
->> But it's that commit(934f992c763a) alter the return value of
->> vga_client_register(),
->> which make the commit and code don't match anymore.
-> This is useful information, no point in withholding it which forces
-> others to figure it out by looking that commit up so put that detail into
-> the changelog body.
->
->>>    I'd prefer to
->>> initialize ret = 0 instead:
->>>
->>> 	int ret = 0;
->>> 	...
->>> 	if (!vgadev) {
->>> 		err = -ENODEV;
->>> 		goto unlock;
->>> 	}
->>> 	...
->>> unlock:
->>> 	...
->>>
->> But this is same as the original coding style, no fundamental improve.
->> The key point is to make the wrapped code between the spin_lock_irqsave() and
->> spin_unlock_irqrestore() compact.
->> my patch remove the necessary 'goto' statement and the 'bail' label.
->> After apply my patch, the vga_client_register() function became as this:
->>
->> int vga_client_register(struct pci_dev *pdev,
->>          unsigned int (*set_decode)(struct pci_dev *pdev, bool decode))
->> {
->>      int ret = -ENODEV;
->>      struct vga_device *vgadev;
->>      unsigned long flags;
->>
->>      spin_lock_irqsave(&vga_lock, flags);
->>      vgadev = vgadev_find(pdev);
->>      if (vgadev) {
->>          vgadev->set_decode = set_decode;
->>          ret = 0;
->>      }
->>      spin_unlock_irqrestore(&vga_lock, flags);
->>
->>      return ret;
->> }
-> I'm not too attached to either of the ways around since there's no
-> correctness issues here. Feel free to ignore my alternative suggestion
-> (make the separate patch out of it in anycase).
+	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
+		return -EINVAL;
 
+The in_trans->addr variable is the starting address.  The in_trans->size
+variable is the total size of the transfer.  The transfer can occur in
+parts and the resources->xferred_dma_size tracks how many bytes we have
+already transferred.
 
-OK, will be done at the next version.
+This patch introduces a new variable "remaining" which represents the
+amount we want to transfer (in_trans->size) minus the amount we have
+already transferred (resources->xferred_dma_size).
+
+I have modified the check for if in_trans->size is zero to instead check
+if in_trans->size is less than resources->xferred_dma_size.  If we have
+already transferred more bytes than in_trans->size then there are negative
+bytes remaining which doesn't make sense.  If there are zero bytes
+remaining to be copied, just return success.
+
+The check in encode_dma() checked that "addr + size" could not overflow
+and barring a driver bug that should work, but it's easier to check if
+we do this in parts.  First check that "in_trans->addr +
+resources->xferred_dma_size" is safe.  Then check that "xfer_start_addr +
+remaining" is safe.
+
+My final concern was that we are dealing with u64 values but on 32bit
+systems the kmalloc() function will truncate the sizes to 32 bits.  So
+I calculated "total = in_trans->size + offset_in_page(xfer_start_addr);"
+and returned -EINVAL if it were >= SIZE_MAX.  This will not affect 64bit
+systems.
+
+Fixes: 129776ac2e38 ("accel/qaic: Add control path")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+v6: it turns out this patch is mostly a clean up instead of a bug fix.
+    The only real issue is the 32bit truncation bug, and no one is going to
+    be using this driver on 32bit.
+
+    This patch does change the behavior to return 0 for
+    in_trans->size == 0 as discussed earlier.
+
+v5: re-write
+---
+ drivers/accel/qaic/qaic_control.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
+index cfbc92da426f..388abd40024b 100644
+--- a/drivers/accel/qaic/qaic_control.c
++++ b/drivers/accel/qaic/qaic_control.c
+@@ -392,18 +392,31 @@ static int find_and_map_user_pages(struct qaic_device *qdev,
+ 				   struct qaic_manage_trans_dma_xfer *in_trans,
+ 				   struct ioctl_resources *resources, struct dma_xfer *xfer)
+ {
++	u64 xfer_start_addr, remaining, end, total;
+ 	unsigned long need_pages;
+ 	struct page **page_list;
+ 	unsigned long nr_pages;
+ 	struct sg_table *sgt;
+-	u64 xfer_start_addr;
+ 	int ret;
+ 	int i;
+ 
+-	xfer_start_addr = in_trans->addr + resources->xferred_dma_size;
++	if (check_add_overflow(in_trans->addr, resources->xferred_dma_size, &xfer_start_addr))
++		return -EINVAL;
+ 
+-	need_pages = DIV_ROUND_UP(in_trans->size + offset_in_page(xfer_start_addr) -
+-				  resources->xferred_dma_size, PAGE_SIZE);
++	if (in_trans->size < resources->xferred_dma_size)
++		return -EINVAL;
++	remaining = in_trans->size - resources->xferred_dma_size;
++	if (remaining == 0)
++		return 0;
++
++	if (check_add_overflow(xfer_start_addr, remaining, &end))
++		return -EINVAL;
++
++	total = remaining + offset_in_page(xfer_start_addr);
++	if (total >= SIZE_MAX)
++		return -EINVAL;
++
++	need_pages = DIV_ROUND_UP(total, PAGE_SIZE);
+ 
+ 	nr_pages = need_pages;
+ 
+@@ -435,7 +448,7 @@ static int find_and_map_user_pages(struct qaic_device *qdev,
+ 
+ 	ret = sg_alloc_table_from_pages(sgt, page_list, nr_pages,
+ 					offset_in_page(xfer_start_addr),
+-					in_trans->size - resources->xferred_dma_size, GFP_KERNEL);
++					remaining, GFP_KERNEL);
+ 	if (ret) {
+ 		ret = -ENOMEM;
+ 		goto free_sgt;
+@@ -566,9 +579,6 @@ static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list
+ 	    QAIC_MANAGE_EXT_MSG_LENGTH)
+ 		return -ENOMEM;
+ 
+-	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
+-		return -EINVAL;
+-
+ 	xfer = kmalloc(sizeof(*xfer), GFP_KERNEL);
+ 	if (!xfer)
+ 		return -ENOMEM;
+-- 
+2.39.2
 
