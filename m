@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DD1777247
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 10:09:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B68877727F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 10:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 271E210E4EB;
-	Thu, 10 Aug 2023 08:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78C410E4EC;
+	Thu, 10 Aug 2023 08:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6793810E4EB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 08:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691654989; x=1723190989;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IGvDYI8tw8XCk3r8xQTNWfLpvJAoku0Yyo9x7IbfACQ=;
- b=NdMwSOgd67wevc5irGWG0oClAiy6UQiPgqJKK9oXgl+TaMB7QGBEXQDB
- EkcdaT8n/Lfci6lWyphbj7+dDU/Ra4nCHzdRf3d2o/qQQngavWbVdsqo0
- 4QpCvxSb7+Ez2a4YxTzKGiJYvxltIOcpOrsYbitAH8zfGHJLg7/y14hVu
- a0B6tuonwY6x/USSzfJjUlrfPE4Rop9/DaWZbVA9fxLIRvlT+2epb82TK
- 1pWCZ0/RSi+qAApx3jEPl1BMucM+Ws1tDSP5HBPvONbc8vJ/4YUYCGT34
- 43+biPXOcZtCrPGZcalTazbeFXvAgtMHr8N/CmzHDbGUOomFbEkYW267C w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="435227066"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="435227066"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 01:07:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="822148391"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="822148391"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 01:07:09 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] accel/ivpu: Document DRM_IVPU_PARAM_CAPABILITIES
-Date: Thu, 10 Aug 2023 10:07:07 +0200
-Message-Id: <20230810080707.3545883-1-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF8310E4EC;
+ Thu, 10 Aug 2023 08:13:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A9D00652F9;
+ Thu, 10 Aug 2023 08:13:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83019C433D9;
+ Thu, 10 Aug 2023 08:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691655210;
+ bh=gXVZ68cdpgp0Oc06O+iDMDHFl7uPsJSDhRHvYoDqwWY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bSQJ3MDGIPvJ0HMdmJojPNOITtyTnIaObs3s8neo3b0T4ZqDx67kFFQVnWaIlvSq0
+ XbT2KMjZ4kRCPECjY9wzhAZIaEpnY8sOrR6YoMMkBhomarPH2yUscPuKDgMwVXygvL
+ 931+QUJn8LtveKV+Uc+R4qqJYghlHkz7D5jRSTwBFNp5MlKKPGF92rAFNid/YCWjt5
+ wdoO/S0kBgRa9gvVkt8X79r5m0kQBttlpf/RvPowbcQWJMqkxTWaUIF7ln+O7O75gx
+ +/Z3QFtPJJd7fJuxGaoYpZUxAebuqPOXjPYpPpP2zE6JtAnsUtzsJNw2q7VYEwiMAs
+ Rw5p2OsG22CmA==
+Date: Thu, 10 Aug 2023 10:13:26 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Subject: Re: [PATCH] video/hdmi: convert *_infoframe_init() functions to void
+Message-ID: <ibwl2bpz5bs72co4ivkvjcc35lv5mqyuvj2hbr3p54hliujklm@uje662ldqfdw>
+References: <20230808180245.7474-1-n.zhandarovich@fintech.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="syn7hsjtm3zubtz2"
+Content-Disposition: inline
+In-Reply-To: <20230808180245.7474-1-n.zhandarovich@fintech.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,56 +53,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: linux-fbdev@vger.kernel.org, lvc-project@linuxtesting.org,
+ Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Helge Deller <deller@gmx.de>,
+ amd-gfx@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add comments regarding new DRM_IVPU_PARAM_CAPABILITIES param.
 
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- include/uapi/drm/ivpu_accel.h | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+--syn7hsjtm3zubtz2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-index a58a14c9f222..7d1ecc5bbac3 100644
---- a/include/uapi/drm/ivpu_accel.h
-+++ b/include/uapi/drm/ivpu_accel.h
-@@ -69,8 +69,21 @@ extern "C" {
- #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
- #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
- 
--#define DRM_IVPU_CAP_METRIC_STREAMER	    1
--#define DRM_IVPU_CAP_DMA_MEMORY_RANGE       2
-+/**
-+ * DRM_IVPU_CAP_METRIC_STREAMER
-+ *
-+ * Metric streamer support, provides sampling of various hardware
-+ * performance metrics (like DMA bandwidth, cache miss/hits),
-+ * can be used for profiling.
-+ */
-+#define DRM_IVPU_CAP_METRIC_STREAMER	1
-+/**
-+ * DRM_IVPU_CAP_DMA_MEMORY_RANGE
-+ *
-+ * Driver has capability to allocate separate memory range
-+ * accessible by hardware DMA.
-+ */
-+#define DRM_IVPU_CAP_DMA_MEMORY_RANGE	2
- 
- /**
-  * struct drm_ivpu_param - Get/Set VPU parameters
-@@ -123,6 +136,8 @@ struct drm_ivpu_param {
- 	 * %DRM_IVPU_PARAM_SKU:
- 	 * VPU SKU ID (read-only)
- 	 *
-+	 * %DRM_IVPU_PARAM_CAPABILITIES:
-+	 * Supported capabilities (read-only)
- 	 */
- 	__u32 param;
- 
--- 
-2.25.1
+Hi,
 
+On Tue, Aug 08, 2023 at 11:02:45AM -0700, Nikita Zhandarovich wrote:
+> Four hdmi_*_infoframe_init() functions that initialize different
+> types of hdmi infoframes only return the default 0 value, contrary to
+> their descriptions. Yet these functions are still unnecessarily checked
+> against possible errors in case of failure.
+>=20
+> Remove redundant error checks in calls to following functions:
+> - hdmi_spd_infoframe_init
+> - hdmi_audio_infoframe_init
+> - hdmi_vendor_infoframe_init
+> - hdmi_drm_infoframe_init
+> Also, convert these functions to 'void' and fix their descriptions.
+
+I'm not sure what value it actually adds. None of them return any
+errors, but very well might if we started to be a bit serious about it.
+
+Since the error handling is already there, then I'd rather leave it
+there.
+
+> Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions fo=
+r InfoFrames")
+
+I'm confused about that part. What does it fix exactly?
+
+Maxime
+
+--syn7hsjtm3zubtz2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZNScJgAKCRDj7w1vZxhR
+xSWxAPkBKpcYa8fvgV9S3h2fxehetHD5UXS8LuBJb/F6EtKr5QEA1tv3DgElGqJD
+Vd+9ES535Sb39MjXfvkcbNMyPRxsjQU=
+=6V+A
+-----END PGP SIGNATURE-----
+
+--syn7hsjtm3zubtz2--
