@@ -2,42 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D222A778829
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 09:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE690778825
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 09:26:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F62610E676;
-	Fri, 11 Aug 2023 07:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75E2510E675;
+	Fri, 11 Aug 2023 07:26:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1236 seconds by postgrey-1.36 at gabe;
- Thu, 10 Aug 2023 14:17:40 UTC
-Received: from wxsgout04.xfusion.com (wxsgout04.xfusion.com [36.139.87.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3276E10E1A4;
- Thu, 10 Aug 2023 14:17:40 +0000 (UTC)
-Received: from wuxshcsitd00600.xfusion.com (unknown [10.32.133.213])
- by wxsgout04.xfusion.com (SkyGuard) with ESMTPS id 4RM7jW43R3z9y0cV;
- Thu, 10 Aug 2023 21:55:27 +0800 (CST)
-Received: from fedora (10.82.147.3) by wuxshcsitd00600.xfusion.com
- (10.32.133.213) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 10 Aug
- 2023 21:56:40 +0800
-Date: Thu, 10 Aug 2023 21:56:39 +0800
-From: Wang Jinchao <wangjinchao@xfusion.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/i915/gmch: fix build error var set but not used
-Message-ID: <ZNTsl/mlElF/spog@fedora>
+X-Greylist: delayed 452 seconds by postgrey-1.36 at gabe;
+ Thu, 10 Aug 2023 14:51:11 UTC
+Received: from avasout-peh-002.plus.net (avasout-peh-002.plus.net
+ [212.159.14.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFE310E19F
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:51:11 +0000 (UTC)
+Received: from [192.168.1.190] ([46.208.81.29]) by smtp with ESMTPA
+ id U6rVq5vrcb4qhU6swqpRLw; Thu, 10 Aug 2023 15:43:36 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.4 cv=ZcsOi+ZA c=1 sm=1 tr=0 ts=64d4f798
+ a=4/TYW0LrnEpXeiqJr2p33Q==:117 a=4/TYW0LrnEpXeiqJr2p33Q==:17
+ a=r77TgQKjGQsHNAKrUKIA:9 a=7jl1q3i7JMjqkCRZIzkA:9 a=QEXdDO2ut3YA:10
+ a=F6M7YO7CNlnXaCf-_yIA:9 a=_W_S_7VecoQA:10
+X-AUTH: peebee@:2500
+Content-Type: multipart/alternative;
+ boundary="------------twy2mxR5IcftWWZaMeNVlHOy"
+Message-ID: <3e0c9cb6-6b85-e1c9-6e08-2fc771a54ae8@peebee.org.uk>
+Date: Thu, 10 Aug 2023 15:43:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.82.147.3]
-X-ClientProxiedBy: wuxshcsitd00602.xfusion.com (10.32.132.250) To
- wuxshcsitd00600.xfusion.com (10.32.133.213)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Nouveau] Fwd: System (Xeon Nvidia) hangs at boot terminal after
+ kernel 6.4.7
+Content-Language: en-GB
+To: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>
+References: <4b0c06ba-b05c-071c-d494-67775bd7250f@gmail.com>
+ <94a31824-016a-7fe3-7477-e3ab500844c1@leemhuis.info>
+From: Peter Bottomley <peter@peebee.org.uk>
+In-Reply-To: <94a31824-016a-7fe3-7477-e3ab500844c1@leemhuis.info>
+X-CMAE-Envelope: MS4xfBWCJdcwmKVb28Au/gEDG2I3/Z7PsIXlvS+HpPb7K65Tuqk3clhZD6LvPtFjvHHL+n01kms808ts0BLSKzSiEmMIipfjqi/36gRW/D61K6prECH4bHsf
+ Zby2DOKMj393L+mQII/0LE4Jl92ydAW/dFz1cZOGvelXRQk5lgkEUOok0f7lAUtuXcjiWWtB1EOKseBGMJoQQeTHV+gCG0X402c=
 X-Mailman-Approved-At: Fri, 11 Aug 2023 07:26:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,44 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stone.xulei@xfusion.com
+Cc: Linux Nouveau <nouveau@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Stable <stable@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When CONFIG_PNP is not defined, i915 will fail to compile with error bellow:
-	drivers/gpu/drm/i915/soc/intel_gmch.c:43:13: error: variable ‘mchbar_addr’ set but not used
-Fix it by surrounding variable declaration and assignment with ifdef
+This is a multi-part message in MIME format.
+--------------twy2mxR5IcftWWZaMeNVlHOy
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Wang Jinchao <wangjinchao@xfusion.com>
----
- drivers/gpu/drm/i915/soc/intel_gmch.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+6.4.9 built with unconn.c from 6.4.6 builds and boots and runs fine. 
+Thanks everybody.
 
-diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
-index 6d0204942f7a..d2c442b0b4eb 100644
---- a/drivers/gpu/drm/i915/soc/intel_gmch.c
-+++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
-@@ -38,16 +38,17 @@ intel_alloc_mchbar_resource(struct drm_i915_private *i915)
- {
- 	int reg = GRAPHICS_VER(i915) >= 4 ? MCHBAR_I965 : MCHBAR_I915;
- 	u32 temp_lo, temp_hi = 0;
--	u64 mchbar_addr;
- 	int ret;
--
-+#ifdef CONFIG_PNP
-+	u64 mchbar_addr;
-+#endif
- 	if (GRAPHICS_VER(i915) >= 4)
- 		pci_read_config_dword(i915->gmch.pdev, reg + 4, &temp_hi);
- 	pci_read_config_dword(i915->gmch.pdev, reg, &temp_lo);
--	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
- 
- 	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
- #ifdef CONFIG_PNP
-+	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
- 	if (mchbar_addr &&
- 	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
- 		return 0;
--- 
-2.40.0
 
+--------------twy2mxR5IcftWWZaMeNVlHOy
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font size="4">6.4.9 built with unconn.c from 6.4.6 builds and
+        boots and runs fine. Thanks everybody.</font></p>
+    <p><font size="4"><br>
+      </font></p>
+  </body>
+</html>
+
+--------------twy2mxR5IcftWWZaMeNVlHOy--
