@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C492777ADF
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 16:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C15E777AF6
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 16:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D89710E536;
-	Thu, 10 Aug 2023 14:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EEA610E53F;
+	Thu, 10 Aug 2023 14:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67EB710E536
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:38:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6A58765386;
- Thu, 10 Aug 2023 14:38:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E421C433C7;
- Thu, 10 Aug 2023 14:38:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691678291;
- bh=pb1Mpk6gHTiUNUX5UXjt9QQaJarDzRUuvVrX52gFOWw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tdU+jwiYBr/65i8kypKIoFPTX82qUusg8Am5Ss4kgFLmevUrjTTPGY+WZ3CC/vV5q
- bx+pBYz26PwfvOdqGESBv/4Wh5wuIJtvpnWk9/xTflfDwbBTc47XbK9dU1MlonZb5A
- ZNiICH+tuUzx53p7anw2/HnYAxrWArjzTrt7A91GT1QCEF3K+4uu+f5cBGeP/vEXku
- w2UAQuh54NhyYwOQ81125np9ViKGyQs2ZJtvcxvE8XqKydNtAznbtPFwEtj0bdTpk7
- BvOM1zH6v0XdQAFuwvBDqpi75TRdIH3QtifVslR2L6MoXmnMLGY0+7mMMWm4jeQ4Uy
- P/CoRhNIpZhyA==
-Date: Thu, 10 Aug 2023 07:38:09 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
-Message-ID: <20230810143809.GC1549244@dev-arch.thelio-3990X>
-References: <20230731123625.3766-1-christian.koenig@amd.com>
- <20230809153755.GA832145@dev-arch.thelio-3990X>
- <20230810084002.636cc827@collabora.com>
- <7a09909a-4c94-2e4b-dd9a-4bd019b67585@amd.com>
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB0A810E53F
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:41:27 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id E806AFF803;
+ Thu, 10 Aug 2023 14:41:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1691678485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IyUXDREdoK5KpDJLjt4F6V+kTmb3e3jKUO9hAJV9buU=;
+ b=ZgLU/UZ/OL7yBVxcfBH1xx7n+TJz4FIl8iltYgWqaAbmmkVE/41YRFMp+FPBkYeIu9k6Ez
+ oRsKvAJno8tFLB4ykSuflOaLZf0GB+mpatdZHXl8ztIWkQTkjFHj4c87uUiLNodvy0z8Rn
+ syEXlTdUw52bxhIDi35AtwEneFHwNGQXjNa7gK9eeVeLcWGrQEWCgZSZyBsY2y+MQdBF4b
+ Y65dPOzdskTjPyJ20YrvGCO/OaKBv8mwyGGEdsEmZIDtwJyUvMdlD086bbz8clRd01LA3b
+ B4NvKq25S7CLwBGBssD713B9P9fQ1piNf3KVK6lYJd+yQQx7ngV1XOFBt3Ogjw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Subject: [PATCH v2 1/3] dt-bindings: vendor-prefixes: add ShenZhen New Display
+ Co.
+Date: Thu, 10 Aug 2023 16:41:14 +0200
+Message-Id: <20230810144116.855951-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7a09909a-4c94-2e4b-dd9a-4bd019b67585@amd.com>
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,30 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ndesaulniers@google.com, naresh.kamboju@linaro.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, mripard@kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, trix@redhat.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 10, 2023 at 08:48:05AM +0200, Christian König wrote:
-> Am 10.08.23 um 08:40 schrieb Boris Brezillon:
-> > On Wed, 9 Aug 2023 08:37:55 -0700
-> > Nathan Chancellor <nathan@kernel.org> wrote:
-> > 
-> > > Hi Christian,
-> > > 
-> > > Can this be applied to drm-misc? Other drivers are starting to make use
-> > > of this API and our builds with clang-17 and clang-18 have been broken
-> > > for some time due to this.
-> > Queued to drm-misc-next.
-> 
-> Sorry for the delay I have been on vacation last week and haven't yet
-> catched up to this point in my mails.
+ShenZhen New Display Co., Limited is the manufacturer of the
+NDS040480800-V3 LCD panel according the datasheet.
 
-No worries, 'tis the season :) hope it was a good time and thank you
-both for getting this fixed!
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Cheers,
-Nathan
+---
+
+Changes in v2: none
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index af60bf1a6664..f73d6d4eabbe 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -929,6 +929,8 @@ patternProperties:
+     description: Netronix, Inc.
+   "^netxeon,.*":
+     description: Shenzhen Netxeon Technology CO., LTD
++  "^newdisplay,.*":
++    description: ShenZhen New Display Co., Limited
+   "^neweast,.*":
+     description: Guangdong Neweast Optoelectronics CO., LTD
+   "^newhaven,.*":
+-- 
+2.34.1
+
