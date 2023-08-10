@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9D877714E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 09:25:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D25777043
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 08:25:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD92D10E4CD;
-	Thu, 10 Aug 2023 07:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3948B10E167;
+	Thu, 10 Aug 2023 06:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F169710E44F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 15:04:59 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-586df08bba0so39242247b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 08:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691593499; x=1692198299;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TUNHA5k0oc4UJ3HPv3ruu/iAAkeeULdAZcTUmh4s50w=;
- b=cmUWaPIpgABWq6VhUwPcsQcIqckeGYwWCLHIzh5SmxxbhhwMNyabD5AclGPeSIGVeo
- VCv9i7pvL24DbcuKO4E0QcbZUCbZeKKoclw3CTwYtNZiHPTrLahEgvYyOPF71bWryO+X
- 6d3G2ZHh11Eqn7D9jOKgyfpS/vqgITvWge1EKdRUvmWOxHD9Uz+J4AZu1Z7JzoTrDAxx
- WcTfzxLA3xKZJo6/uqFlRbNg3cjcKoLA8ewR92yRqvZ4P0scq0vdk8hsrYC7QXiTy6t9
- o4H30LSpSif7NeTq/cvVU5YDRHtLc4BGw9iF3+iCFAbfvR33CqyyahnTZ8qTAOIcy6vZ
- ieng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691593499; x=1692198299;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TUNHA5k0oc4UJ3HPv3ruu/iAAkeeULdAZcTUmh4s50w=;
- b=BkFfu0MN+3mJnxueoeYs8CoVDwbZQZqrsmP0XY00mGOUx2CbtAt6RBw++rM4wyBbQu
- Kr6exSWn4p82/lL41GpeLx6jxlLwhbQLCCFHPCjlDVgYo315T9wdNBABHxOj6tbJnzXw
- +0pn3AfGLiinucbVb+c4hVrXJcNmufklmkf4+WxPQEGGtlXHrsUBBCCYsvAH/S9aUHxU
- bO25jJPoZ2xfq+kkHMloNXiailN5BcCPZDugDlN3ebfh17qJVzOWsmq1Kp5dt0zeaZQ2
- 7wG8brv3EV1Vwg64gKhGBAazftGxIKisoPJPXN2uQ0VApaCwR1nwy4sG3U488SW7CK3S
- 32qA==
-X-Gm-Message-State: AOJu0Yx2kZlNch6Ik3OqL6q2lWwkZ7TQ/+e+KmsHB06ODGHoheudaZPI
- qKPjPZdQSPmv6K/BpIDvSMiH7hXsWP7dqJI1/IA=
-X-Google-Smtp-Source: AGHT+IGth0evnpBrLoCbQ/NjZeXG4/FKNjvMlrH8Pg4TU4y/1LSVl+3ahRRiojLkI+Z8Rb+JOAS+jkie9I21KObZ3x8=
-X-Received: by 2002:a81:a107:0:b0:583:9018:29ec with SMTP id
- y7-20020a81a107000000b00583901829ecmr2934644ywg.32.1691593498807; Wed, 09 Aug
- 2023 08:04:58 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12C1F10E167
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 06:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691648706; x=1723184706;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HMmHtpCBwtu5DVRpOr49y3nxHCbn5kS4/gN9pxr6j6E=;
+ b=Gv6ymt0aUA6MS+0D73Nw9Fhg7KwXhlX55DKdJN0YKNWspzfH71LQFD7z
+ IWMXe8Ahe+UyaJabgIZM5epq9533a5eGH3Hu0ZbPI8UcXWBfxputiYXy1
+ sgeZxdf9ffQ5BUdVnSrum/KTaCKn/AsZFXm2UfoyD+Wxa1ptV95nNYkPb
+ LQZ0rDpNChXhHh7OKUwVHMk6X7EkgTNxo7nf03+qrxoU3xpz+Jr/TxAc4
+ 022aI2fGdGUYwr/2jg+SuYZhY1aM6FFquY1ksFf7w9Pw263Qn7/mgoNpF
+ +JeOxlzkqrynyqufboK+1hpaj5qc8kyQEFlO/CIHnwyBKDMBhow5v+XUs A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="457666769"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="457666769"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2023 23:25:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="797485828"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="797485828"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 09 Aug 2023 23:25:02 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qTz6T-0006nk-2B;
+ Thu, 10 Aug 2023 06:25:01 +0000
+Date: Thu, 10 Aug 2023 14:24:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net
+Subject: Re: [PATCH 1/2] drm/panic: Add a drm panic handler
+Message-ID: <202308101423.GSvLgbbe-lkp@intel.com>
+References: <20230809192514.158062-2-jfalempe@redhat.com>
 MIME-Version: 1.0
-References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com>
- <20230731112155.GA3662@lst.de>
- <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com>
- <20230801171838.GA14599@lst.de>
- <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
- <20230802094725.GA28241@lst.de>
- <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
-In-Reply-To: <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
-From: Pintu Agarwal <pintu.ping@gmail.com>
-Date: Wed, 9 Aug 2023 20:34:47 +0530
-Message-ID: <CAOuPNLjn3b3YSgy=ObnF+cE7kj-9vdZ+6fFzMp-bJYLFq3MgWw@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma
- region
-To: Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Thu, 10 Aug 2023 07:25:03 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230809192514.158062-2-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,79 +62,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-media@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, iommu@lists.linux.dev,
- John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
- Pintu Kumar <quic_pintu@quicinc.com>, akpm@linux-foundation.org,
- Laura Abbott <labbott@redhat.com>, robin.murphy@arm.com,
- Sumit Semwal <sumit.semwal@linaro.org>, m.szyprowski@samsung.com
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Jocelyn,
 
-On Thu, 3 Aug 2023 at 23:04, Pintu Agarwal <pintu.ping@gmail.com> wrote:
->
-> Hi,
->
-> On Wed, 2 Aug 2023 at 15:17, Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
-> > > So, forgive me, I've not had a chance to look into this, but my
-> > > recollection was "reserved" is the name we see on x86, but other name=
-s
-> > > are possibly provided via the dts node?
-> >
-> No, I think "reserved" is the name hard-coded (for all arch) in Kernel
-> for global-cma.
-> So, I don't think this is x86 specific. I am checking on arm32 itself.
-> When we can dma_alloc_coherent we see these in the logs (if dts region
-> is not present).
-> cma: cma_alloc(cma (ptrval), name: reserved, count 64, align 6)
-> Now, with this change we will see this:
-> cma: cma_alloc(cma (ptrval), name: global-cma-region, count 64, align 6)
->
-> > Indeed, dma_contiguous_default_area can also be set through
-> > rmem_cma_setup, which then takes the name from DT.
-> >
-> I think this is a different case. If DT entry is present we get this:
-> Reserved memory: created CMA memory pool at 0x98000000, name: name:
-> linux,cma, size 128 MiB
-> cma: cma_alloc(cma (ptrval), name: linux,cma, count 64, align 6)
->
-> Here we are talking about the default hard-coded name in Kernel code
-> if DT is not defined.
-> So, in one of the boards, this DT entry was not present and it shows
-> as "reserved".
->
-> > > I believe on the hikey board its "linux,cma" is the name, so forcing
-> > > it to reserved would break that.
-> > >
-> Yes, everywhere in the DT it's defined as "linux,cma".
-> You mean this also should be changed to "linux,cma-global-region"
-> everywhere with this change ?
->
-> > > Maybe instead add a compat config option to force the cma name (so x8=
-6
-> > > can set it to "default" if needed)?
-> >
-> Yes, having it in config is also a good option instead of hard-coding in =
-Kernel.
-> >
-> > I think we'll just need to leave it as-is.  I with dma-heaps had never
-> > exposed the name to userspace, but we'll have to l=D1=96ve with it now.
->
-> Can you point me to the userspace utility we are talking about here ?
-> I think we should not worry much about userspace name exposure.
-> I guess it should fetch whatever is declared in Kernel or DTS, right ?
+kernel test robot noticed the following build warnings:
 
-Just to follow-up on this.
-For now, can we change the Kernel hard-coded value from "reserved" to
-"global-cma-region" ?
-Later, for the DTS defined name let it be "linux,cma" or change that
-also to "linux,global-cma-region" ?
+[auto build test WARNING on 6995e2de6891c724bfeb2db33d7b87775f913ad1]
 
-Will this make sense ?
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Add-a-drm-panic-handler/20230810-032733
+base:   6995e2de6891c724bfeb2db33d7b87775f913ad1
+patch link:    https://lore.kernel.org/r/20230809192514.158062-2-jfalempe%40redhat.com
+patch subject: [PATCH 1/2] drm/panic: Add a drm panic handler
+config: s390-randconfig-r044-20230809 (https://download.01.org/0day-ci/archive/20230810/202308101423.GSvLgbbe-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230810/202308101423.GSvLgbbe-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308101423.GSvLgbbe-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_panic.c:9:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/drm_panic.c:9:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/drm_panic.c:9:
+   In file included from include/linux/iosys-map.h:10:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/gpu/drm/drm_panic.c:246:6: warning: no previous prototype for function 'drm_panic_init_client' [-Wmissing-prototypes]
+     246 | void drm_panic_init_client(struct drm_device *dev)
+         |      ^
+   drivers/gpu/drm/drm_panic.c:246:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     246 | void drm_panic_init_client(struct drm_device *dev)
+         | ^
+         | static 
+>> drivers/gpu/drm/drm_panic.c:272:6: warning: no previous prototype for function 'drm_panic_init' [-Wmissing-prototypes]
+     272 | void drm_panic_init(void)
+         |      ^
+   drivers/gpu/drm/drm_panic.c:272:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     272 | void drm_panic_init(void)
+         | ^
+         | static 
+>> drivers/gpu/drm/drm_panic.c:282:6: warning: no previous prototype for function 'drm_panic_exit' [-Wmissing-prototypes]
+     282 | void drm_panic_exit(void)
+         |      ^
+   drivers/gpu/drm/drm_panic.c:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     282 | void drm_panic_exit(void)
+         | ^
+         | static 
+   15 warnings generated.
+--
+>> drivers/gpu/drm/drm_panic.c:28: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This module displays a user friendly message on screen when a kernel panic
+   drivers/gpu/drm/drm_panic.c:36: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * List of drm clients
+>> drivers/gpu/drm/drm_panic.c:283: warning: expecting prototype for drm_log_exit(). Prototype was for drm_panic_exit() instead
+
+
+vim +/drm_panic_init_client +246 drivers/gpu/drm/drm_panic.c
+
+   245	
+ > 246	void drm_panic_init_client(struct drm_device *dev)
+   247	{
+   248		struct dpanic_drm_client *new;
+   249		int ret;
+   250	
+   251		new = kzalloc(sizeof(*new), GFP_KERNEL);
+   252		if (!new)
+   253			return;
+   254	
+   255		ret = drm_client_init(dev, &new->client, "drm_panic", NULL);
+   256		if (ret < 0) {
+   257			kfree(new);
+   258			return;
+   259		}
+   260		drm_client_register(&new->client);
+   261		list_add_tail(&new->head, &dpanic_clients);
+   262	
+   263		drm_info(dev, "Registered with drm panic\n");
+   264	}
+   265	EXPORT_SYMBOL(drm_panic_init_client);
+   266	
+   267	/**
+   268	 * drm_panic_init() - Initialize drm-panic subsystem
+   269	 *
+   270	 * register the panic notifier
+   271	 */
+ > 272	void drm_panic_init(void)
+   273	{
+   274		/* register panic handler */
+   275		atomic_notifier_chain_register(&panic_notifier_list,
+   276					       &drm_panic_notifier);
+   277	}
+   278	
+   279	/**
+   280	 * drm_log_exit() - Shutdown drm-panic subsystem
+   281	 */
+ > 282	void drm_panic_exit(void)
+ > 283	{
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
