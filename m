@@ -2,58 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABC07781CB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 21:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF057781DB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 21:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42DE110E5F9;
-	Thu, 10 Aug 2023 19:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88AE10E5FC;
+	Thu, 10 Aug 2023 19:54:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0783B10E5F5;
- Thu, 10 Aug 2023 19:49:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E016310E02F;
+ Thu, 10 Aug 2023 19:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691696957; x=1723232957;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=VAaBgDJLhBWmi/GvbFglmzyFahCHaSJI/9S17GpRxzg=;
- b=W3quRB4CzH3DI5mlQQEQ0dhfTL/7EbNPs/IPgbUtBDk7XZOHaoqo8Sat
- 3N9TiWRAx5cYBljS6BiD64zvNK901F/0S3xIhW/xSiZvr3F40Ik9r38+N
- v8uifS2nkm4Bthzi8QsqGLoCj71GNaqBjf8MgpYs+hKZqXjY6+d/6BZC2
- ihX1rblJKP55tDzhpFoNMUZEvSvO3PY4rn0qdEIlvxTx6luD2awbwSqvf
- InaIOZi527bnDrNdAYHlTxGfPbG4cX9AZ+9FYtD1AETrWRi9Nu0n3d13i
- ElS50xYSYuEEZey1rtFW9fyEviwf2sWRLoNNjK4lMxhcwfcl1YQ9q+Cxd w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="371513058"
-X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; d="scan'208";a="371513058"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 12:49:13 -0700
+ t=1691697238; x=1723233238;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=fjG8HQbnpM4FwXahZm+1faiDhsEGRrml+wQfiFVKOHM=;
+ b=eCtaEeOOyGiIzoHW/L1tIV8sRNx2YFJC3zAadsrmb8dI/+c/1ixRu4o9
+ QH/hrzaigqTNe1/2yB/tDJnibd28xJPJYhVSUllnp1a4rgevOzKUsUkZS
+ rHp/60/W3HTn8vVrNqg9J6isWLFXFMlX6v+6JD3xTpKARDqps0f9xzJwv
+ fNdLFC1oBOcxyo7mNmdJxaRM4Si0BfPkFFe53iXgAJ+F8olank21YZvvW
+ +jiaIwFk/oeUeYzd0IHGIIgwbnciWXRbEl7GsjrKCcGaR7hMPGuvNScyu
+ 9/5ZqRjVilxio8vGmhSm+i5ftNsQbLl8gs4jviAY99UucigBtlYrGNCRC w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="375222660"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; d="scan'208";a="375222660"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2023 12:53:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="856024486"
-X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; d="scan'208";a="856024486"
-Received: from chengdey-mobl1.ccr.corp.intel.com (HELO [10.249.254.166])
- ([10.249.254.166])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 12:49:08 -0700
-Message-ID: <68891fe4-7bbb-be0b-d022-5772bc45d15a@linux.intel.com>
-Date: Thu, 10 Aug 2023 21:49:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [Intel-xe] [PATCH v5] Documentation/gpu: Add a VM_BIND async
- draft document
-To: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-References: <20230715154543.13183-1-thomas.hellstrom@linux.intel.com>
- <50419f5bf1e3e5238cce2d71fd2e100cb7bc3364.camel@intel.com>
- <ZM1ZS9ZTU154Eyah@intel.com>
- <fca40ff15732627ec4391d1b6277388505af1bb7.camel@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <fca40ff15732627ec4391d1b6277388505af1bb7.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="846520242"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; d="scan'208";a="846520242"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP; 10 Aug 2023 12:53:56 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 10 Aug 2023 12:53:56 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Thu, 10 Aug 2023 12:53:56 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Thu, 10 Aug 2023 12:53:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X5Vyucur1Q3AsACoViNOJjZANKC5wXsK5ZtjLWneFMMptFbEiH503tlZDF48SIBDJpj1pqkKVwHF6ytQSVgWnFYejNEcfxOk67u/Fq7WEGFmLSxWLyOqpymn3NNUY1Kz94C8NksWpQ6nofEr2nLn9U3mtK+MaYKSY/n+ZsP56eFeyh/WvHBmxVxaJfMcdDMz8stD++wZ3Cuha1k83Nsh7pZZKrfL1oy6+i6MbvAW4tmaCzzGLJJUf7dAmJaj0WpaVwvBDN09C59J+nP6eZLF+6E31CpwcUZB9PgTUZ6mOk8AXhGE0yEANhO+++65wXGcPEGEKvf8X6qjoS5JV20GbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EEoiyK+VrvLZQfMN15Uy+L1ZBYMoOfgtP7MW+8EKDCM=;
+ b=BESnArzq0cEYKwDPTPE9ipuQ2L7RdjvAw9FTZHeyZGjcuRfw1ypRwBbyS5ygmRzLuHzqIPOys8t6HWfqAJ10+sHE3ycNnK7msCu4dAzOv86oz1d0ZF7nGiQMJw+Edvqanr//WzYJD5x0yhhgVJYgAxPo24+ftbl8K6+VFnnc/sKEMvPnUcGJcOYrS/gR1D3I3t0uSLzyztKM0NQVWjRct9xXJ0vjuSZmyt7A56oqLuf5Lw3bVa0d9YrW/+mgLDs39Q8ztAjrDKzyiZIDutXywybyHMRu2fzLh1yuqmUCEOFtgjBtgJFFK6aIyUTAlKWHtJEymXC2xL0PG3COO5UJdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by PH0PR11MB4789.namprd11.prod.outlook.com (2603:10b6:510:38::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Thu, 10 Aug
+ 2023 19:53:49 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6652.029; Thu, 10 Aug 2023
+ 19:53:49 +0000
+Date: Thu, 10 Aug 2023 15:53:43 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next
+Message-ID: <ZNVAR53jmvA1p6D5@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY5PR20CA0006.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::19) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH0PR11MB4789:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69ff0c3b-36d5-4291-712f-08db99db839b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DYJook9XCmP7Yv9DPYt0isweCrnstH06q36402/3SUI+kXZ9WnX3kIpEwSEoz1WYH6KBxT6ksc/hcziPzBZCuG8H7GaSPlQw9waHgVtZwvet9+DVFe7eUjRz5NLD6ulEDdj6eLoAd2dn7ZjUkbH06rTAi1r1WzuowE0lZJ1M+aDqqw04WZrUgX/v8qbUwCylCVb/3adooybOmcWYSQrfNa9CZTxxDTO7QtndpyCQ+yq6k0T+1FM/KQ3YVPvvYjEZQ5QqiiRVa1LwO2J5eYMdQOMmzyDjfo+EQdOq4Lr7ej+YExHY53kBQpwbNn83rbLw2arihJ3zH1GsN5fSM8dSTkdlktBgKmmtX8Qd1kS4WVGUFOZaFGtTpoqFz/ft+bG7XZFzzVrQJyHi6Op4mmmDbapKZ2AKpvUk3W0tUZzfyDr96jolb9pjdjPC61W2gfoHedsdWV50hhNZkMBvabFWkw7hjchFFlAOHHaEjVbYs45aD0WDQp1hsbF0Z5YuHCS5OJ3xCGH53LjpHkEiknWKEKs1s05dT1ktL3XeRrFXbgSfZGQukUToF51J7M8ZULtW
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(376002)(136003)(346002)(39860400002)(366004)(451199021)(186006)(1800799006)(2906002)(41300700001)(8676002)(316002)(7416002)(44832011)(8936002)(5660300002)(36756003)(86362001)(110136005)(82960400001)(54906003)(38100700002)(478600001)(2616005)(26005)(6506007)(6486002)(6666004)(6512007)(4326008)(66556008)(66476007)(66946007)(66574015)(83380400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?ptt3lSViZCsr6nmDeky5QoKn3gqJk6IQgRUeJwe3qTMlshYGk59MHnteZR?=
+ =?iso-8859-1?Q?btelrZNPyFF8ZTDykymB2RquTPgo33J0uad8nQ9immzwbQ+6mLALaqp0D7?=
+ =?iso-8859-1?Q?FRF09JoQzej/al7DoWRl2oc/ptZRJD9WJ7aWqvDkKjgrooPDVp0PejyEAt?=
+ =?iso-8859-1?Q?B8nQjlOtLKf+CLV/tQMAGBSNqBKJZUn6JN5qN556Wdm6Tc/QT9nP8jIBWu?=
+ =?iso-8859-1?Q?m/zuuCE8m+Zy83seBRxUf1BeKwMcI8WoTZxKIsZJN2maKgENpJt16iKf/o?=
+ =?iso-8859-1?Q?SQ50/lXU8mM6neNVcQDJZvnvSPzwbeu+fTJivTmbst/99w86MFKzz50z6Z?=
+ =?iso-8859-1?Q?jg8werd9+vUmJfJxQqQ2VprqXOOCmnybToGGO/3vt9HyQZHua2RgqDfyWC?=
+ =?iso-8859-1?Q?dufJYCd+ry767/lURDkby4D62jvqn3vhIE+tFX4Z2wAQ+93EG02OgYpeDG?=
+ =?iso-8859-1?Q?TRuyidk0eZwGjdJO+9bBw9NX36lfDzQ0qD9DYll8L+CIjNrqUe1uI62zy6?=
+ =?iso-8859-1?Q?nlTwbae6TDULm/EUsvsHJxztfkwnipl1LJEzvBqNVUhDfanVX7Jo8Ucs7C?=
+ =?iso-8859-1?Q?ZWUArUvaziGq1qz+PcOVclHB6SaIs7vv6pN1kckNNJoaiwybQnfV2vESKW?=
+ =?iso-8859-1?Q?WhOmpszijxPdqfeDWRsVM7PBjtHOd3ONossSjI30a0/5TRwyIGa2Y6XjFY?=
+ =?iso-8859-1?Q?fraJzj9ix/mqCnTLT9TQQWku0C33gtArJvPzAYf41QoxTAReOF8n4khDPY?=
+ =?iso-8859-1?Q?/CtkieL+f5A2sY8coeORuZeiqIBetD+qDxns6RMAdx5E+YvWZAmh+u/LD2?=
+ =?iso-8859-1?Q?MPEKZu0b0fAow+s2bk/+L44Sbl7frsa6ePmWQ3lT1ESSiQTInt4dMdtj3o?=
+ =?iso-8859-1?Q?TdZvcjGutg7BSnjZcGl+tcXxofD7FT9yf4m5qH1fGOdGG3kS2ZpdQorBzX?=
+ =?iso-8859-1?Q?x3s39BHrJtf1hFEvQ57LK++10JAK/PsB4v4PrY6Qw0Hp1yYKH2e81/N/3e?=
+ =?iso-8859-1?Q?eXnKcuzXz/AxLN4XxQNUH0Vp9Zi2LXuMBH/CQmOELYYvQGrVbx+VHBoJHB?=
+ =?iso-8859-1?Q?s+PwefbWhor0eNLOsrVYpGDGQ4y5eo9/woH1jJcty1QFH+63i5pVIneZTw?=
+ =?iso-8859-1?Q?MeMWkwg5EFvAm98dwq1cR5WfwQLEvoFYhBVNKJtTOrNYsEdf7z3qioQqvO?=
+ =?iso-8859-1?Q?ltDcSoHLhJZSgD+VVn26vy0b1Um+uNufv+EQcc+gkhCfvnM9wgQ6lkIdO0?=
+ =?iso-8859-1?Q?85mtF/COBLP6wLlSVtf9nZGknZ35wf03dbz3R/tAQT0gKacSekggLuknM4?=
+ =?iso-8859-1?Q?SuOpUubr4vNv7d4FjQA9Eljs+RleaAsagV6nfRAWog2silwk0VHksKKtW8?=
+ =?iso-8859-1?Q?/dd/37DpWOJTNWaLZw+OXwq05DqVLMvwXBD5Y7y3oA7d/SPN/xnlaYarfE?=
+ =?iso-8859-1?Q?Q24B9mTqjPcQE66EKF+8/9ITHs+/yyDwA6Ag5yH3JgDsDMA84eUtPiIK1R?=
+ =?iso-8859-1?Q?EdGR1J2XdCBkQ4dAuY3pd4GLl5btSBBoS7tA8VL4u1VH7hK83DTvWJeNKV?=
+ =?iso-8859-1?Q?+TWgBzl+MSlmrQv55YHcXVGP1Fs4WkS9kGXZGCnCFd0ZAOqYTYbM/xKLMQ?=
+ =?iso-8859-1?Q?H1woeXGDZAyo3IyO+7MvvmPzTrYaECqP1g?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69ff0c3b-36d5-4291-712f-08db99db839b
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2023 19:53:49.0851 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AhRlKC4lExNFwDOf4RMbTZcAjCElQVVWQ9FDYPGNwjT0hi4XRrj1tD3EtaRSMwGrEv+C7U7fhqerHQUxCjoCmA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4789
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,426 +141,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Dugast, Francois" <francois.dugast@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Zeng,
- Oak" <oak.zeng@intel.com>, "dakr@redhat.com" <dakr@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Das,
- Nirmoy" <nirmoy.das@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Paulo.
+Hi Dave and Daniel,
 
-Thanks for reviewing. I'd like to try give some answers below.
+This is likely our latest PR from drm-intel-next towards 6.6
 
-On 8/4/23 23:30, Zanoni, Paulo R wrote:
-> On Fri, 2023-08-04 at 16:02 -0400, Rodrigo Vivi wrote:
->> On Wed, Jul 19, 2023 at 07:50:21PM +0000, Zanoni, Paulo R wrote:
->>> On Sat, 2023-07-15 at 17:45 +0200, Thomas Hellström wrote:
->>>> Add a motivation for and description of asynchronous VM_BIND operation
->>> I think I may have missed some other documentation, which would explain
->>> some of my questions below, so please be patient with my
->>> misunderstandings. But here's a review from the POV of a UMD person.
->>>
->>>
->>>> v2:
->>>> - Fix typos (Nirmoy Das)
->>>> - Improve the description of a memory fence (Oak Zeng)
->>>> - Add a reference to the document in the Xe RFC.
->>>> - Add pointers to sample uAPI suggestions
->>>> v3:
->>>> - Address review comments (Danilo Krummrich)
->>>> - Formatting fixes
->>>> v4:
->>>> - Address typos (Francois Dugast)
->>>> - Explain why in-fences are not allowed for VM_BIND operations for long-
->>>>    running workloads (Matthew Brost)
->>>> v5:
->>>> - More typo- and style fixing
->>>> - Further clarify the implications of disallowing in-fences for VM_BIND
->>>>    operations for long-running workloads (Matthew Brost)
->>>>
->>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>>> Acked-by: Nirmoy Das <nirmoy.das@intel.com>
->>>> ---
->>>>   Documentation/gpu/drm-vm-bind-async.rst | 171 ++++++++++++++++++++++++
->>>>   Documentation/gpu/rfc/xe.rst            |   4 +-
->>>>   2 files changed, 173 insertions(+), 2 deletions(-)
->>>>   create mode 100644 Documentation/gpu/drm-vm-bind-async.rst
->>>>
->>>> diff --git a/Documentation/gpu/drm-vm-bind-async.rst b/Documentation/gpu/drm-vm-bind-async.rst
->>>> new file mode 100644
->>>> index 000000000000..d2b02a38198a
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/drm-vm-bind-async.rst
->>>> @@ -0,0 +1,171 @@
->>>> +====================
->>>> +Asynchronous VM_BIND
->>>> +====================
->>>> +
->>>> +Nomenclature:
->>>> +=============
->>>> +
->>>> +* ``VRAM``: On-device memory. Sometimes referred to as device local memory.
->>>> +
->>>> +* ``gpu_vm``: A GPU address space. Typically per process, but can be shared by
->>>> +  multiple processes.
->>>> +
->>>> +* ``VM_BIND``: An operation or a list of operations to modify a gpu_vm using
->>>> +  an IOCTL. The operations include mapping and unmapping system- or
->>>> +  VRAM memory.
->>>> +
->>>> +* ``syncobj``: A container that abstracts synchronization objects. The
->>>> +  synchronization objects can be either generic, like dma-fences or
->>>> +  driver specific. A syncobj typically indicates the type of the
->>>> +  underlying synchronization object.
->>>> +
->>>> +* ``in-syncobj``: Argument to a VM_BIND IOCTL, the VM_BIND operation waits
->>>> +  for these before starting.
->>>> +
->>>> +* ``out-syncobj``: Argument to a VM_BIND_IOCTL, the VM_BIND operation
->>>> +  signals these when the bind operation is complete.
->>>> +
->>>> +* ``memory fence``: A synchronization object, different from a dma-fence.
->>> Since you've mentioned it twice in this document already, for
->>> completeness would you mind also giving a definition for dma-fence in
->>> what it relates/contrasts to the rest of the text?
->> Maybe worth a link to the dma-fence doc itself?
->> (somehow making sphinx to point out to driver-api/dma-buf.html#dma-fences)
+drm-intel-next-2023-08-10:
 
-Will respin and add a link to this. This document indeed assumes the 
-reader is somewhat familiar with the dma-fence concept.
-
->>
->> But the differences are written below Paulo:
->>
->>>
->>>> +  A memory fence uses the value of a specified memory location to determine
->>>> +  signaled status. A memory fence can be awaited and signaled by both
->>>> +  the GPU and CPU. Memory fences are sometimes referred to as
->>>> +  user-fences, userspace-fences or gpu futexes and do not necessarily obey
->>>> +  the dma-fence rule of signaling within a "reasonable amount of time".
->>>> +  The kernel should thus avoid waiting for memory fences with locks held.
->> ^
->>
->>>> +
->>>> +* ``long-running workload``: A workload that may take more than the
->>>> +  current stipulated dma-fence maximum signal delay to complete and
->>> Where is this delay defined? Is this the same as the gpuhang timer?
->> dma-fence defines it in a very "cool" way: "reasonable amount of time":
->> https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#dma-fences
->>
->> so, in contrast, long-running workload is *anything* above that
->> "reasonable amount of time".
-> That answers it but doesn't exactly answer it either. In practice, how
-> much is that "reasonable amount of time"? This is documentation, it
-> should avoid using vague statements or hypothetical cases. The
-> documentation you posted suggested this may be the same as the GPU hang
-> timeout, but doesn't give a definitive answer (because multiple drivers
-> may define it differently, apparently). In practice, what do drivers
-> do? As a user-space developer, how long can I wait before things fail?
-> Is there a way to figure out, maybe query a parameter somewhere? Which
-> driver waits the least? Which driver waits the most?  Is 10 seconds
-> "reasonable amount of time"? My grandma thinks 2 weeks is a reasonable
-> amount of time when waiting for things.
-
-We can't do much more than point to the dma-fence document here, since 
-we can't have a vague definition in the main document which is 
-overridden in another document describing something completely different.
-
-FWIW a reasonable amount of time is ideally slightly shorter than the 
-the time where a user thinks the system is hung, gets irritated and 
-presses the reset button.
-
->
->>>
->>>> +  which therefore needs to set the gpu_vm or the GPU execution context in
->>>> +  a certain mode that disallows completion dma-fences.
->>>> +
->>>> +* ``exec function``: An exec function is a function that revalidates all
->>>> +  affected gpu_vmas, submits a GPU command batch and registers the
->>>> +  dma_fence representing the GPU command's activity with all affected
->>>> +  dma_resvs. For completeness, although not covered by this document,
->>>> +  it's worth mentioning that an exec function may also be the
->>>> +  revalidation worker that is used by some drivers in compute /
->>>> +  long-running mode.
->>>> +
->>>> +* ``bind context``: A context identifier used for the VM_BIND
->>>> +  operation. VM_BIND operations that use the same bind context can be
->>>> +  assumed, where it matters, to complete in order of submission. No such
->>>> +  assumptions can be made for VM_BIND operations using separate bind contexts.
->>>> +
->>>> +* ``UMD``: User-mode driver.
->>>> +
->>>> +* ``KMD``: Kernel-mode driver.
->>>> +
->>>> +
->>>> +Synchronous / Asynchronous VM_BIND operation
->>>> +============================================
->>>> +
->>>> +Synchronous VM_BIND
->>>> +___________________
->>>> +With Synchronous VM_BIND, the VM_BIND operations all complete before the
->>>> +IOCTL returns. A synchronous VM_BIND takes neither in-fences nor
->>>> +out-fences. Synchronous VM_BIND may block and wait for GPU operations;
->>>> +for example swap-in or clearing, or even previous binds.
->>>> +
->>>> +Asynchronous VM_BIND
->>>> +____________________
->>>> +Asynchronous VM_BIND accepts both in-syncobjs and out-syncobjs. While the
->>>> +IOCTL may return immediately, the VM_BIND operations wait for the in-syncobjs
->>>> +before modifying the GPU page-tables, and signal the out-syncobjs when
->>>> +the modification is done in the sense that the next exec function that
->>>> +awaits for the out-syncobjs will see the change. Errors are reported
->>>> +synchronously assuming that the asynchronous part of the job never errors.
->>> There's a small degree of uncertainty here, which I think we can
->>> eliminate. Can you please make the text clearer? Do you mean "some
->>> errors will be reported synchronously but some others won't"? In what
->>> conditions can the async part error?
->> "assuming that the asynchronous part of the job ***never*** errors"
->>
->> Errors are only reported synchronously.
-> This is documentation, that "assumption" there really throws things up
-> in the air. We need a precise statement: can things EVER fail after the
-> ioctl returns? If yes, how can user space know about it and how should
-> it proceed? If no, please adjust the text. Is it the case that some
-> drivers can but others can't? Which ones?
-
-I'll change that to "errors are only reported synchronously".
-
->
->
->>>
->>>> +In low-memory situations the implementation may block, performing the
->>>> +VM_BIND synchronously, because there might not be enough memory
->>>> +immediately available for preparing the asynchronous operation.
->>>> +
->>>> +If the VM_BIND IOCTL takes a list or an array of operations as an argument,
->>>> +the in-syncobjs needs to signal before the first operation starts to
->>>> +execute, and the out-syncobjs signal after the last operation
->>>> +completes. Operations in the operation list can be assumed, where it
->>>> +matters, to complete in order.
->>>> +
->>>> +Since asynchronous VM_BIND operations may use dma-fences embedded in
->>>> +out-syncobjs and internally in KMD to signal bind completion,  any
->>>> +memory fences given as VM_BIND in-fences need to be awaited
->>>> +synchronously before the VM_BIND ioctl returns, since dma-fences,
->>>> +required to signal in a reasonable amount of time, can never be made
->>>> +to depend on memory fences that don't have such a restriction.
->>>> +
->>>> +To aid in supporting user-space queues, the VM_BIND may take a bind context.
->>>> +
->>>> +The purpose of an Asynchronous VM_BIND operation is for user-mode
->>>> +drivers to be able to pipeline interleaved gpu_vm modifications and
->>>> +exec functions. For long-running workloads, such pipelining of a bind
->>>> +operation is not allowed and any in-fences need to be awaited
->>>> +synchronously. The reason for this is twofold. First, any memory
->>>> +fences gated by a long-running workload and used as in-syncobjs for the
->>>> +VM_BIND operation will need to be awaited synchronously anyway (see
->>>> +above). Second, any dma-fences used as in-syncobjs for VM_BIND
->>>> +operations for long-running workloads will not allow for pipelining
->>>> +anyway since long-running workloads don't allow for dma-fences as
->>>> +out-syncobjs, so while theoretically possible the use of them is
->>>> +questionable and should be rejected until there is a valuable use-case.
->>>> +Note that this is not a limitation imposed by dma-fence rules, but
->>>> +rather a limitation imposed to keep KMD implementation simple. It does
->>>> +not affect using dma-fences as dependencies for the long-running
->>>> +workload itself, which is allowed by dma-fence rules, but rather for
->>>> +the VM_BIND operation only.
->>>> +
->>>> +Also for VM_BINDS for long-running gpu_vms the user-mode driver should typically
->>>> +select memory fences as out-fences since that gives greater flexibility for
->>>> +the kernel mode driver to inject other operations into the bind /
->>>> +unbind operations. Like for example inserting breakpoints into batch
->>>> +buffers. The workload execution can then easily be pipelined behind
->>>> +the bind completion using the memory out-fence as the signal condition
->>>> +for a GPU semaphore embedded by UMD in the workload.
->>>> +
->>>> +Multi-operation VM_BIND IOCTL error handling and interrupts
->>>> +===========================================================
->>> What do you mean by multi-operation here? Is it where I pass multiple
->>> addresses to a single vm_bind ioctl? If yes, where is the section for
->>> single-operation errors? What differs between multi-operation and
->>> single-operation?
->> I don't feel that we need a single-operation mode, because if it failed
->> it failed by itself without dependency tracking. The problem comes only
->> on the multi-operation.
-> That doesn't answer my question. It would be good if the text precisely
-> defined what multi-operation means, what single-operation means and how
-> things behave during single-operation.
-
-Will improve on this. Multi-operation is where you combine multiple 
-VM_BIND operations in a single IOCTL, rather than supporting just a 
-single operation per IOCTL. Will double-check if any of the drivers 
-support the latter.
-
-
->>>
->>>> +
->>>> +The VM_BIND operations of the IOCTL may error due to lack of resources
->>>> +to complete and also due to interrupted waits. In both situations UMD
->>> Earlier you talked about two classes of errors: ones that get signaled
->>> when the ioctl returns, and ones that happen during the "asynchronous
->>> part of the job". It seems here you're talking about the first. But
->>> then, what about the second class of errors?
->> there's only synchronously errors.
-> Do you mean "there is only reporting for synchronous errors" or "there
-> can't be errors in the asynchronous part"?
->
-> The whole description of "when things fail, the system may be left in
-> an undefined state where only some operations were done" doesn't seem
-> to align with what I would expect of a "gather all resources earlier,
-> fail if we can't, then do things asynchronously later in a way which
-> they can't fail" mode, because "some things completed and others
-> didn't, but you got an error code synchronously" kinda suggests that
-> the operation was synchronous instead of asynchronous, unless there's a
-> way of  traveling back in time to give the error before the ioctl
-> returned, or I'm way off in my interpretation.
-
-This all boils down to the "multiple operations" IOCTL. Say that we do 
-100 vm binds in a single IOCTL. Implementation-wise we could do either
-
-1) Gather all resources needed for all 100 operations.
-2) Submit for execution.
-
-OR
-
-for all 100 operations do
-     gather all resources for a single operation
-     submit the single operation for execution
-end
-
-The text deals with the latter case. If 99 operations already were 
-submitted without an error, but we error on the 100th.
-
->
->>>
->>>
->>>> +should preferably restart the IOCTL after taking suitable action. If
->>>> +UMD has over-committed a memory resource, an -ENOSPC error will be
->>>> +returned, and UMD may then unbind resources that are not used at the
->>>> +moment and restart the IOCTL. On -EINTR, UMD should simply restart the
->>>> +IOCTL and on -ENOMEM user-space may either attempt to free known
->>>> +system memory resources or abort the operation. If aborting as a
->>>> +result of a failed operation in a list of operations, some operations
->>>> +may still have completed, and to get back to a known state, user-space
->>>> +should therefore attempt to unbind all virtual memory regions touched
->>>> +by the failing IOCTL.
->>>> +Unbind operations are guaranteed not to cause any errors due to
->>>> +resource constraints.
->>>> +In between a failed VM_BIND IOCTL and a successful restart there may
->>> Wait a minute, the paragraphs above just say "if things fail, try
->>> clearing resources and then try again". What constitutes of a
->>> "successful restart"? Is there some kind of state machine involved? Is
->>> this talking about errors after the ioctl returns? Why don't errors
->>> simply undo everything and leave user space in the same state as before
->>> the ioctl?
->> This is exactly the "Open:" documented below.
->>
->>>
->>>> +be implementation defined restrictions on the use of the gpu_vm. For a
->>>> +description why, please see KMD implementation details under `error
->>>> +state saving`_.
->>>> +
->>>> +Sample uAPI implementations
->>>> +===========================
->>>> +Suggested uAPI implementations at the moment of writing can be found for
->>>> +the Nouveau driver `here
->>>> +<https://patchwork.freedesktop.org/patch/543260/?series=112994&rev=6>`_.
->>>> +and for the Xe driver `here
->>>> +<https://cgit.freedesktop.org/drm/drm-xe/diff/include/uapi/drm/xe_drm.h?h=drm-xe-next&id=9cb016ebbb6a275f57b1cb512b95d5a842391ad7>`_.
->>>> +
->>>> +KMD implementation details
->>>> +==========================
->>>> +
->>>> +Error state saving
->>>> +__________________
->>>> +Open: When the VM_BIND IOCTL returns an error, some or even parts of
->>       ^ Note the "Open:" here.
->>
->>>> +an operation may have been completed. If the IOCTL is restarted, in
->>>> +order to know where to restart, the KMD can either put the gpu_vm in
->>>> +an error state and save one instance of the needed restart state
->>>> +internally. In this case, KMD needs to block further modifications of
->>>> +the gpu_vm state that may cause additional failures requiring a
->>>> +restart state save, until the error has been fully resolved. If the
->>>> +uAPI instead defines a pointer to a UMD allocated cookie in the IOCTL
->>>> +struct, it could also choose to store the restart state in that cookie.
->>> Ok, so there is some kind of state machine here, but either I don't
->>> understand or it's not fully explained. This whole "restart state" part
->>> is confusing to me, please clarify.
->> It is an open that we still need to define...
->>
->>>
->>>> +
->>>> +The restart state may, for example, be the number of successfully
->>>> +completed operations.
->>>> +
->>>> +Easiest for UMD would of course be if KMD did a full unwind on error
->>>> +so that no error state needs to be saved.
->>> But does KMD do it? As a UMD person, what should I expect?\
->> it is an open question. I believe we should rewind all the operations
->> in the same ioctl. Possible? Easy? I don't know, but it would be good
->> to have UMD input here.
-> As someone who's writing user-space, for my case I don't know if
-> there's anything I can do besides undoing anything the Kernel has done
-> and return failure hoping the upper layers of the stack run some kind
-> of garbage colletor or just have better luck the next frame. So either
-> the Kernel does it for me, or I'll have to write code to do it myself,
-> but the Kernel is probably in a *way* better position to revert state
-> back to the point where it was before I issue the ioctl, assuming the
-> error actually happens before the ioctl returns. And if errors can
-> happen asynchronously, I just have no idea how to fix things, perhaps
-> there's not much besides doing what we do when we get a GPU hang.
->
-> You suggested errors can only happen synchronously, but if that's the
-> case why do we even have this apparent state machine? How does it help
-> to be put in a restricted state where you need to deal with unbinds in
-> a different way, instead of just allowing me to do unbinds normally?
-> What do we gain with the state machine? What case does it help?
-
-Personally, I'm for KMD rolling back everything on error. Nouveau does 
-that. Benefits it gives a clean understandable user-interface without 
-ever putting the vm in an error state the UMD needs to know about. There 
-are two main drawbacks, though.
-
-1) Gathering resources for VM_BIND operations may take time and 
-restarting will be faster than rolling back and retry.
-2) It will be a bit painful to implement KMD rollbacks in Xe. A 
-substantial code refactoring.
-
->
->> Should KMD rewind everything that succedded before the error? or
->> have the cookie idea and block all the further operations on that
->> vm unless if the cookie information is valid?
->>
->>>
->>>> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
->>>> index 2516fe141db6..0f062e1346d2 100644
->>>> --- a/Documentation/gpu/rfc/xe.rst
->>>> +++ b/Documentation/gpu/rfc/xe.rst
->>>> @@ -138,8 +138,8 @@ memory fences. Ideally with helper support so people don't get it wrong in all
->>>>   possible ways.
->>>>   
->>>>   As a key measurable result, the benefits of ASYNC VM_BIND and a discussion of
->>>> -various flavors, error handling and a sample API should be documented here or in
->>>> -a separate document pointed to by this document.
->>>> +various flavors, error handling and sample API suggestions are documented in
->>>> +Documentation/gpu/drm-vm-bind-async.rst
->>>>   
->>>>   Userptr integration and vm_bind
->>>>   -------------------------------
->> While writing this answers I had to read everything again.
->> I agree with Danilo on ensuring we explicitly add the 'virtual'
-
-I'll double-check on that as well.
+- Display SDVO fixes (Juha-Pekka, Jani)
+- Taking Stolen handling out of FBC code (Jouni)
+- Replace acronym with full platform name in defines (Dnyaneshwar, A\
+nusha)
+- Display IRQ cleanups (Jani)
+- Initialize display version numbers (Luca)
 
 Thanks,
+Rodrigo.
 
-Thomas
+The following changes since commit d9aa1da9a8cfb0387eb5703c15bd1f54421460ac:
 
+  Merge tag 'drm-intel-gt-next-2023-08-04' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-08-07 13:49:25 +1000)
 
->> to the gpu_vm description. And with that:
->>
->> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2023-08-10
+
+for you to fetch changes up to 129ebb54f58562c17d30adf71d577aa9286e6ae4:
+
+  drm/i915/irq: move all PCH irq postinstall calls to display code (2023-08-10 15:14:58 +0300)
+
+----------------------------------------------------------------
+- Display SDVO fixes (Juha-Pekka, Jani)
+- Taking Stolen handling out of FBC code (Jouni)
+- Replace acronym with full platform name in defines (Dnyaneshwar, A\
+nusha)
+- Display IRQ cleanups (Jani)
+- Initialize display version numbers (Luca)
+
+----------------------------------------------------------------
+Anusha Srivatsa (1):
+      drm/i915/adln: s/ADLP/ALDERLAKE_P in ADLN defines
+
+Dnyaneshwar Bhadane (13):
+      drm/i915/hsw: s/HSW/HASWELL for platform/subplatform defines
+      drm/i915/bdw: s/BDW/BROADWELL for platform/subplatform defines
+      drm/i915/skl: s/SKL/SKYLAKE for platform/subplatform defines
+      drm/i915/kbl: s/KBL/KABYLAKE for platform/subplatform defines
+      drm/i915/cfl: s/CFL/COFFEELAKE for platform/subplatform defines
+      drm/i915/cml: s/CML/COMETLAKE for platform/subplatform defines
+      drm/i915/rkl: s/RKL/ROCKETLAKE for platform/subplatform defines
+      drm/i915/jsl: s/JSL/JASPERLAKE for platform/subplatform defines
+      drm/i915/tgl: s/TGL/TIGERLAKE for platform/subplatform defines
+      drm/i915/adlp: s/ADLP/ALDERLAKE_P for display and graphics step
+      drm/i915/rplp: s/ADLP_RPLP/RAPTORLAKE_P for RPLP defines
+      drm/i915/rplu: s/ADLP_RPLU/RAPTORLAKE_U in RPLU defines
+      drm/i915/adls: s/ADLS_RPLS/RAPTORLAKE_S in platform and subplatform defines
+
+Jani Nikula (7):
+      drm/i915/sdvo: fix panel_type initialization
+      drm/i915: fix display probe for IVB Q and IVB D GT2 server
+      drm/i915: debug log when GMD ID indicates there's no display
+      drm/i915/irq: add dedicated intel_display_irq_init()
+      drm/i915/irq: add dg1_de_irq_postinstall()
+      drm/i915/irq: add ilk_de_irq_postinstall()
+      drm/i915/irq: move all PCH irq postinstall calls to display code
+
+Jouni H�gander (3):
+      drm/i915: Move stolen memory handling into i915_gem_stolen
+      drm/i915/fbc: Make FBC check stolen at use time
+      drm/i915/fbc: Moved fence related code away from intel_fbc
+
+Juha-Pekka Heikkila (1):
+      drm/i915/sdvo: ignore returned broken edid on intel_sdvo_tmds_sink_detect
+
+Luca Coelho (1):
+      drm/i915/display: pre-initialize some values in probe_gmdid_display()
+
+Rodrigo Vivi (1):
+      Merge drm/drm-next into drm-intel-next
+
+ drivers/gpu/drm/i915/display/icl_dsi.c             |  5 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c         | 14 ++--
+ drivers/gpu/drm/i915/display/intel_combo_phy.c     |  7 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |  7 +-
+ drivers/gpu/drm/i915/display/intel_ddi_buf_trans.c | 10 +--
+ drivers/gpu/drm/i915/display/intel_display.c       |  7 +-
+ .../gpu/drm/i915/display/intel_display_device.c    | 40 +++++++--
+ .../gpu/drm/i915/display/intel_display_device.h    |  2 +-
+ .../gpu/drm/i915/display/intel_display_driver.c    |  2 +
+ drivers/gpu/drm/i915/display/intel_display_irq.c   | 84 ++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_display_irq.h   |  7 +-
+ drivers/gpu/drm/i915/display/intel_display_power.c |  2 +-
+ drivers/gpu/drm/i915/display/intel_dp.c            |  4 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      | 29 ++++---
+ drivers/gpu/drm/i915/display/intel_fbc.c           | 64 ++++++++-------
+ drivers/gpu/drm/i915/display/intel_hdmi.c          |  3 +-
+ drivers/gpu/drm/i915/display/intel_pch_refclk.c    |  2 +-
+ drivers/gpu/drm/i915/display/intel_psr.c           | 10 +--
+ drivers/gpu/drm/i915/display/intel_sdvo.c          |  4 +-
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c         | 36 +++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h         | 13 +++
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c                 |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h           |  2 +
+ drivers/gpu/drm/i915/gt/intel_sseu.c               |  2 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        | 13 +--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c    |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  2 +-
+ drivers/gpu/drm/i915/i915_driver.c                 |  2 +-
+ drivers/gpu/drm/i915/i915_drv.h                    | 94 ++++++++--------------
+ drivers/gpu/drm/i915/i915_irq.c                    | 74 +----------------
+ drivers/gpu/drm/i915/i915_vma.h                    |  5 ++
+ drivers/gpu/drm/i915/intel_clock_gating.c          |  4 +-
+ drivers/gpu/drm/i915/intel_step.c                  | 10 +--
+ drivers/gpu/drm/i915/soc/intel_pch.c               | 18 +++--
+ 38 files changed, 339 insertions(+), 255 deletions(-)
