@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C42776FB3
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 07:43:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFCF776FBA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 07:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 241A010E15A;
-	Thu, 10 Aug 2023 05:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB31810E4B2;
+	Thu, 10 Aug 2023 05:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5F910E15A
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 05:43:17 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id
- ca18e2360f4ac-7878e573827so17690539f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 22:43:17 -0700 (PDT)
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA6110E4B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 05:44:52 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id
+ ca18e2360f4ac-790b95beeedso18951339f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 22:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1691646197; x=1692250997;
+ d=chromium.org; s=google; t=1691646291; x=1692251091;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sP2WNJmHGIojwtQNcqjJWegFiViuW7cigU9WfO1EE3Q=;
- b=J9GRbINtJZ1U7q1Z8bNomXairU+CRVjznqa7I/Rwr41NQ6ZhIEHW6cmx9dJK7gm6FI
- ZU6KLdv1FVl0QOz3tTXoBkf417djpOYMvuGlrxD42RT6aNiOtCUOsXfFEdt0tDxMuE1b
- fVEuh6ds+gNjdJcMFmDVy2UmO5N/gdhxyqJ/U=
+ bh=tPy+GgB9Rn2CrQzZMkbpjUhP00w0ETOf0gW/R2Mixqg=;
+ b=UpEmLjFDDfYYoBt8kR7pb3fR6r+T9htSqTAB/LcnYVCtCUx4UOtZebsISzSwd9514h
+ R1VtadxEV1Xeh1kMh7LxzWMnJEfPbJn8pI77nVIsdx3DHo2o21ZXM2HWZALKs4InKuZu
+ E5zw0N+dukxjsqc/qFfym3krRsicHrVwOQmPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691646197; x=1692250997;
+ d=1e100.net; s=20221208; t=1691646291; x=1692251091;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sP2WNJmHGIojwtQNcqjJWegFiViuW7cigU9WfO1EE3Q=;
- b=ZlVX4008W4DQLzhlccZPekXEy0QbHo4ysYt9r7+Wm4XuGS+HSIsh2P+dx4X3kpQ+Px
- DwMsQhKbvJJwOSh1B43NdLmAq8Xj9krP7UoY2LEGn+WRB9AE7EbiHacLmwW2QZz5OCBm
- V738E19s9zhuzisNH1IE+RqQxxIjR/SZHJPWAKb/TyfM17flJ3rSjR6Jy7ZZJMNy+d9E
- pKlu3VBzt3egJU6KFaEfkL6uKeNSJ+17etAV6QRk2uNhTgZo8+fezIJtAFclZaLMLcqX
- v0VjCI+RWWMM/Iy6EZpFDveK8G2zhiExpwluVzi9JofaRsvRrIx3SXUSswMKsnGkpJho
- juQg==
-X-Gm-Message-State: AOJu0Yxu/1GbrSu2PzPni23xEBLSoeFTlnma5jEADjbv0kTmDnmIvDSj
- 1wgNRlrUm7mJXfR3NhogshsI23I750McDZ4mXGs=
-X-Google-Smtp-Source: AGHT+IFVZu/tXbB5g0Y9gLiHeIB4PuLlyhriq0NH4xchq14hgotNewdG6+UKjV3XeHQMt/b0eS64rg==
-X-Received: by 2002:a05:6e02:11b4:b0:349:851b:3e5a with SMTP id
- 20-20020a056e0211b400b00349851b3e5amr1520487ilj.15.1691646196929; 
- Wed, 09 Aug 2023 22:43:16 -0700 (PDT)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
- [209.85.166.50]) by smtp.gmail.com with ESMTPSA id
- c13-20020a92dc8d000000b00345b34fcf34sm222705iln.38.2023.08.09.22.43.16
+ bh=tPy+GgB9Rn2CrQzZMkbpjUhP00w0ETOf0gW/R2Mixqg=;
+ b=XSKE+mRxXUiRxfXo0ovva7ogJrYTdPcg+OQHDHM2pl6+G1e1nmH5/cGXzk+WT5Xmit
+ fSQt5/kiavMM/PF7wK91Ib1YmXsBPor0y3XQAol6dtHiNVIaV6S6RT7St4ZDZVrqAoJW
+ tH9qgSWQSQw5SxZt46tGD7Oh6v7JNLrm6qcK/zavm4DlFK73USmeF3T/us+P/+Mld+RC
+ 9YphHv26lfaTKoZ67jdsb6+GHx1Ae2I6vfGkcqD/Fl1XHir5NzGlysUGNk5DPuvKDxIT
+ SdG+FC3GL4w1nXfAdG4q6K1hJkGjabQ0QKWBq4FnbsMsCRMnZFc34579YniR3JFuppgb
+ IGKA==
+X-Gm-Message-State: AOJu0YwFqs3MVGYjeky5+I0inojOAGFJdl5ny8EQH0ZBAGkTGhhjP8ky
+ zqo24xvY4ZDPSvwdPAmPjiH59YRCsj0mGg2GGlU=
+X-Google-Smtp-Source: AGHT+IHIew07lzBo24E6rlEDDtHSeWoc2IScRMvl3B+kllgg2q9MFPNDJjdQbDTqOfrzetLjUS065g==
+X-Received: by 2002:a05:6602:5:b0:787:34d:f1ea with SMTP id
+ b5-20020a056602000500b00787034df1eamr2063761ioa.8.1691646291667; 
+ Wed, 09 Aug 2023 22:44:51 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
+ [209.85.166.46]) by smtp.gmail.com with ESMTPSA id
+ z13-20020a5ec90d000000b00790d81167a7sm253603iol.2.2023.08.09.22.44.49
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Aug 2023 22:43:16 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id
- ca18e2360f4ac-7878e573827so17690239f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 22:43:16 -0700 (PDT)
-X-Received: by 2002:a05:6602:20c2:b0:787:1c51:ff99 with SMTP id
- 2-20020a05660220c200b007871c51ff99mr2004510ioz.11.1691646196046; Wed, 09 Aug
- 2023 22:43:16 -0700 (PDT)
+ Wed, 09 Aug 2023 22:44:50 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-77acb04309dso18234539f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 22:44:49 -0700 (PDT)
+X-Received: by 2002:a6b:5c03:0:b0:790:ff32:eb3 with SMTP id
+ z3-20020a6b5c03000000b00790ff320eb3mr1894689ioh.17.1691646288713; Wed, 09 Aug
+ 2023 22:44:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230809181525.7561-1-jason-jh.lin@mediatek.com>
- <20230809181525.7561-5-jason-jh.lin@mediatek.com>
-In-Reply-To: <20230809181525.7561-5-jason-jh.lin@mediatek.com>
+ <20230809181525.7561-6-jason-jh.lin@mediatek.com>
+In-Reply-To: <20230809181525.7561-6-jason-jh.lin@mediatek.com>
 From: Fei Shao <fshao@chromium.org>
-Date: Thu, 10 Aug 2023 13:42:39 +0800
-X-Gmail-Original-Message-ID: <CAC=S1ngxyACUvMXTu5ZDwiLJ=ZzDXMMiVVhNr_Kjv3rxsX5gGQ@mail.gmail.com>
-Message-ID: <CAC=S1ngxyACUvMXTu5ZDwiLJ=ZzDXMMiVVhNr_Kjv3rxsX5gGQ@mail.gmail.com>
-Subject: Re: [PATCH v9 4/7] drm/mediatek: Add encoder_index function to
- mtk_ddp_comp_funcs for dpi
+Date: Thu, 10 Aug 2023 13:44:12 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njBP2uhAgz8MOm5jxHHPb5M8=UaH8powW2mCFjBWPp+FA@mail.gmail.com>
+Message-ID: <CAC=S1njBP2uhAgz8MOm5jxHHPb5M8=UaH8powW2mCFjBWPp+FA@mail.gmail.com>
+Subject: Re: [PATCH v9 5/7] drm/mediatek: Add connector dynamic selection
+ capability for mt8188
 To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -80,7 +80,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
  Eugen Hristev <eugen.hristev@collabora.com>,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
@@ -93,16 +93,25 @@ Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 10, 2023 at 2:15=E2=80=AFAM Jason-JH.Lin <jason-jh.lin@mediatek=
+On Thu, Aug 10, 2023 at 2:16=E2=80=AFAM Jason-JH.Lin <jason-jh.lin@mediatek=
 .com> wrote:
 >
-> To support dynamic connector selection function, each ddp_comp need to
-> get their encoder_index to identify which connector should be selected.
+> Add dynamic select available connector flow in mtk_drm_crtc_create()
+> and mtk_drm_crtc_atomic_enable().
 >
-> Add encoder_index function to mtk_ddp_comp_funcs and the implementation
-> of mtk_dpi_encoder_index to get its encoder_index.
+> In mtk_drm_crtc_create(), if there is a connector routes array in drm
+> driver data, all components definded in the connector routes array will
+> be checked and their encoder_index will be set.
 >
+> In mtk_drm_crtc_atomic_enable(), crtc will check its encoder_index to
+> identify which componet in the connector routes array should append.
+>
+> Move DDP_COMPONENT_DP_INTF0 from mt8188_mtk_ddp_main array to a
+> connector routes array called mt8188_mtk_ddp_main_routes to support
+> dynamic selection capability for mt8188.
+>
+> Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
+> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
 > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 
-Reviewed-by: Fei Shao <fshao@chromium.org>
 Tested-by: Fei Shao <fshao@chromium.org>
