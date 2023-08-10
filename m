@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62350777ACA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 16:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C492777ADF
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 16:38:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAAE810E1A4;
-	Thu, 10 Aug 2023 14:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D89710E536;
+	Thu, 10 Aug 2023 14:38:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7AE10E1A4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691677968; x=1723213968;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4QpmRJGx3DgpyGJJUgsvoiDNPeYcRzKtnHnrpoPL8gg=;
- b=lp3RS5SgFqSWP2IGPC95ilqQO4Me2T94U2BwIHyIUI5CagJE09Sw9o1N
- SCSWkvnIYqMJau4DnatY4XaRSDod0MiOG8lLVWkVOL0XXoOyBOr5ZifHY
- cWrBk2+R6jKa+3UStpfLjz9qMSBqlROjVz2rEEDrDp+qK7Tok3FJDg1s1
- KiW1A+fEduMGx3ryJZcPsqt6C1ctZnju4JGnewyI63NK378sFGVYUKHWR
- siR118qfs4SMJ2oaVO0EfCaCUbTrg3Es1OPGM1k3496TdpcE7qy2zmIQB
- TJbdiYi/nS0wb7hJL9TCynp33ApXApLX3KJGE3Jv4TSJ6WJwwE3lswlmF g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="361555670"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="361555670"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 07:32:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="802238002"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="802238002"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 07:32:46 -0700
-Date: Thu, 10 Aug 2023 16:32:44 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] accel/ivpu: Document DRM_IVPU_PARAM_CAPABILITIES
-Message-ID: <20230810143244.GB3329046@linux.intel.com>
-References: <20230810080707.3545883-1-stanislaw.gruszka@linux.intel.com>
- <6bbd1cc5-f85b-2b42-22f9-4fd313a6ebfc@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67EB710E536
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 14:38:13 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6A58765386;
+ Thu, 10 Aug 2023 14:38:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E421C433C7;
+ Thu, 10 Aug 2023 14:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691678291;
+ bh=pb1Mpk6gHTiUNUX5UXjt9QQaJarDzRUuvVrX52gFOWw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tdU+jwiYBr/65i8kypKIoFPTX82qUusg8Am5Ss4kgFLmevUrjTTPGY+WZ3CC/vV5q
+ bx+pBYz26PwfvOdqGESBv/4Wh5wuIJtvpnWk9/xTflfDwbBTc47XbK9dU1MlonZb5A
+ ZNiICH+tuUzx53p7anw2/HnYAxrWArjzTrt7A91GT1QCEF3K+4uu+f5cBGeP/vEXku
+ w2UAQuh54NhyYwOQ81125np9ViKGyQs2ZJtvcxvE8XqKydNtAznbtPFwEtj0bdTpk7
+ BvOM1zH6v0XdQAFuwvBDqpi75TRdIH3QtifVslR2L6MoXmnMLGY0+7mMMWm4jeQ4Uy
+ P/CoRhNIpZhyA==
+Date: Thu, 10 Aug 2023 07:38:09 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/2] drm/exec: use unique instead of local label
+Message-ID: <20230810143809.GC1549244@dev-arch.thelio-3990X>
+References: <20230731123625.3766-1-christian.koenig@amd.com>
+ <20230809153755.GA832145@dev-arch.thelio-3990X>
+ <20230810084002.636cc827@collabora.com>
+ <7a09909a-4c94-2e4b-dd9a-4bd019b67585@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <6bbd1cc5-f85b-2b42-22f9-4fd313a6ebfc@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7a09909a-4c94-2e4b-dd9a-4bd019b67585@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,46 +57,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: ndesaulniers@google.com, naresh.kamboju@linaro.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, dakr@redhat.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, trix@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 10, 2023 at 08:27:08AM -0600, Jeffrey Hugo wrote:
-> On 8/10/2023 2:07 AM, Stanislaw Gruszka wrote:
-> > Add comments regarding new DRM_IVPU_PARAM_CAPABILITIES param.
+On Thu, Aug 10, 2023 at 08:48:05AM +0200, Christian König wrote:
+> Am 10.08.23 um 08:40 schrieb Boris Brezillon:
+> > On Wed, 9 Aug 2023 08:37:55 -0700
+> > Nathan Chancellor <nathan@kernel.org> wrote:
 > > 
-> > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> > ---
-> >   include/uapi/drm/ivpu_accel.h | 19 +++++++++++++++++--
-> >   1 file changed, 17 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-> > index a58a14c9f222..7d1ecc5bbac3 100644
-> > --- a/include/uapi/drm/ivpu_accel.h
-> > +++ b/include/uapi/drm/ivpu_accel.h
-> > @@ -69,8 +69,21 @@ extern "C" {
-> >   #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
-> >   #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
-> > -#define DRM_IVPU_CAP_METRIC_STREAMER	    1
-> > -#define DRM_IVPU_CAP_DMA_MEMORY_RANGE       2
-> > +/**
-> > + * DRM_IVPU_CAP_METRIC_STREAMER
-> > + *
-> > + * Metric streamer support, provides sampling of various hardware
-> > + * performance metrics (like DMA bandwidth, cache miss/hits),
-> > + * can be used for profiling.
+> > > Hi Christian,
+> > > 
+> > > Can this be applied to drm-misc? Other drivers are starting to make use
+> > > of this API and our builds with clang-17 and clang-18 have been broken
+> > > for some time due to this.
+> > Queued to drm-misc-next.
 > 
-> Feels like this is a run-on sentence.  I think this reads better -
-> 
-> Metric streamer support.  Provides sampling of various hardware performance
-> metrics like DMA bandwidth and cache miss/hits.  Can be used for profiling.
-> 
-> What do you think?
+> Sorry for the delay I have been on vacation last week and haven't yet
+> catched up to this point in my mails.
 
-Looks better :-)
+No worries, 'tis the season :) hope it was a good time and thank you
+both for getting this fixed!
 
-Thanks
-Stanislaw
-
+Cheers,
+Nathan
