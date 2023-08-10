@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC2E777099
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 08:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE5C7770A2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 08:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABF6710E4C0;
-	Thu, 10 Aug 2023 06:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B06210E4BE;
+	Thu, 10 Aug 2023 06:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD1B10E4BE
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 06:42:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B0F110E4BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 06:45:57 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E38626607214;
- Thu, 10 Aug 2023 07:42:20 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BB1766607214;
+ Thu, 10 Aug 2023 07:45:55 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1691649741;
- bh=AH7PasgmgN1fEaZCrE2ClwlHFqQahh2muQjAvp9GeQ8=;
+ s=mail; t=1691649956;
+ bh=sssu7S7I5IMdLNake9bmuW0hNZ9kLGZut123UXQZjnU=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VNRJsYk7VGrAI3ZM3AcUbmIpZYSSS+pkF7xRZCTaNIxhZRo3T/FDtclioONFy8tAY
- 7NqrObI7Iy02axN1y9764P9w6VUFky0vv8dgyANXQy7qGwPf00e8NzbZX+V35FZJDv
- hTYhX3RfzADDwgvy7KXl+P+bl/yA6KgAzRORCsDcVyJ42WqZkRYJL85JecDpGppCp+
- vACbHTJJdwL/VY3XUyaH3v6LIlIAzFcf8xgR5LyC77iA+sX9PSXceMgJVy1D/br1hY
- +RDghSC/dHWSAyKXwi1iab01wCYNalvFTolAAxLZzWgrkTXpHItIc7A4X9Wj5uggHF
- J3+j79CqPzw2A==
-Date: Thu, 10 Aug 2023 08:42:19 +0200
+ b=I9m90szIhyCx6Cn710V4Q4FSgVssoVdzUc6afzCK4XN1BgGktSKFLxIxxIQpThDX0
+ vhqHG5Z8vUtigncwFn3EBdH9/jf39h3JZEiSMd66xl5vkNFISbTbBGOWlUPblf4ff0
+ UYtkMmtQFeapES7vi8L2XlaNF0Kpxd5aM15xzbtpUH977RroXyhkDHRIj2ZmNaoA5k
+ LQbEhwUlL5OQJHKfqvqCLYyozR1FnU5Agc3Ggc8ryMs0AcToniadQcMyx9zam8O2JR
+ d7Lt+3dD888PNhXET42iUK7ZwhCVdaAaglf9nMYNfvrI5YrmCFte7aE8q7zBALOeiL
+ +DlqQkuUfAZxw==
+Date: Thu, 10 Aug 2023 08:45:52 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4] drm/panfrost: Sync IRQ by job's timeout handler
-Message-ID: <20230810084219.73ca8037@collabora.com>
-In-Reply-To: <20230807000444.14926-1-dmitry.osipenko@collabora.com>
-References: <20230807000444.14926-1-dmitry.osipenko@collabora.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH] drm: atmel-hlcdc: Support inverting the pixel clock
+ polarity
+Message-ID: <20230810084552.3db3d8c6@collabora.com>
+In-Reply-To: <20230808083338.5e31584c@xps-13>
+References: <20230609144843.851327-1-miquel.raynal@bootlin.com>
+ <20230610200515.GA1041001@ravnborg.org>
+ <20230807111246.663637a6@xps-13>
+ <20230807165245.GA281773@ravnborg.org>
+ <20230808083338.5e31584c@xps-13>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -53,76 +58,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, kernel@collabora.com,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, rfoss@kernel.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  7 Aug 2023 03:04:44 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+On Tue, 8 Aug 2023 08:33:38 +0200
+Miquel Raynal <miquel.raynal@bootlin.com> wrote:
 
-> Panfrost IRQ handler may stuck for a long time, for example this happens
-> when there is a bad HDMI connection and HDMI handler takes a long time to
-> finish processing, holding Panfrost. Make Panfrost's job timeout handler
-> to sync IRQ before checking fence signal status in order to prevent
-> spurious job timeouts due to a slow IRQ processing.
+> Hi Sam,
 > 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> # MediaTek MT8192 and MT8195 Chromebooks
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> sam@ravnborg.org wrote on Mon, 7 Aug 2023 18:52:45 +0200:
+> 
+> > Hi Miquel,
+> > 
+> > On Mon, Aug 07, 2023 at 11:12:46AM +0200, Miquel Raynal wrote:  
+> > > Hi Sam,
+> > > 
+> > > sam@ravnborg.org wrote on Sat, 10 Jun 2023 22:05:15 +0200:
+> > >     
+> > > > On Fri, Jun 09, 2023 at 04:48:43PM +0200, Miquel Raynal wrote:    
+> > > > > On the SoC host controller, the pixel clock can be:
+> > > > > * standard: data is launched on the rising edge
+> > > > > * inverted: data is launched on the falling edge
+> > > > > 
+> > > > > Some panels may need the inverted option to be used so let's support
+> > > > > this DRM flag.
+> > > > > 
+> > > > > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>      
+> > > > 
+> > > > Hi Miquel,
+> > > > 
+> > > > the patch is:
+> > > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > > > 
+> > > > I hope someone else can pick it up and apply it to drm-misc as
+> > > > my drm-misc setup is hopelessly outdated atm.    
+> > > 
+> > > I haven't been noticed this patch was picked-up, is your tree still
+> > > outdated or can you take care of it?    
+> > 
+> > I am still hopelessly behind on stuff.  
+> 
+> No problem.
 
-Queued to drm-misc-next.
+I queued it to drm-misc-next this morning.
 
-Thanks,
+Regards,
 
 Boris
-
-> ---
-> 
-> Changelog:
-> 
-> v4: - Improved comment like was suggested by Boris and added his r-b.
-> 
-> v3: - Added comment to the code as was suggested by Boris
-> 
->     - Added r-b/t-b from Steven and Angelo
-> 
-> v2: - Moved synchronize_irq() after first signal-check to avoid unnecessary
->       blocking on syncing.
-> 
->     - Added warn message about high interrupt latency.
-> 
->  drivers/gpu/drm/panfrost/panfrost_job.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index dbc597ab46fb..db6d9a17004f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -720,6 +720,22 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->  	if (dma_fence_is_signaled(job->done_fence))
->  		return DRM_GPU_SCHED_STAT_NOMINAL;
->  
-> +	/*
-> +	 * Panfrost IRQ handler may take a long time to process an interrupt
-> +	 * if there is another IRQ handler hogging the processing.
-> +	 * For example, the HDMI encoder driver might be stuck in the IRQ
-> +	 * handler for a significant time in a case of bad cable connection.
-> +	 * In order to catch such cases and not report spurious Panfrost
-> +	 * job timeouts, synchronize the IRQ handler and re-check the fence
-> +	 * status.
-> +	 */
-> +	synchronize_irq(pfdev->js->irq);
-> +
-> +	if (dma_fence_is_signaled(job->done_fence)) {
-> +		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
-> +		return DRM_GPU_SCHED_STAT_NOMINAL;
-> +	}
-> +
->  	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
->  		js,
->  		job_read(pfdev, JS_CONFIG(js)),
-
