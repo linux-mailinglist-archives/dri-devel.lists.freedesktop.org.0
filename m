@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F4577793B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 15:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F16E77790D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 15:05:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C9210E548;
-	Thu, 10 Aug 2023 13:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8561010E519;
+	Thu, 10 Aug 2023 13:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFB410E532;
- Thu, 10 Aug 2023 13:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691672902; x=1723208902;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5pQ/XqvtwYzPv/DsMWrp19iqzyGzttqvzoUla8hshG0=;
- b=Hdpxd3ZZEO0c/7DLx+rIqoEZsdXVoF42UAl1lyzE2FjOnJFuk78t7PoR
- kpe8oQ9FXZPJkWI+bwj9eBZdHSPX9420UJNDS5CwRGMHI8g95GJ8OJ4Qf
- Oh1RkE2joGUlbqNlgs+THgueRyZjA0Z9BAL6EM0uvgGTIOeTiWhnnDc3r
- G79TjhTTvxfQOYoSIkRShzgXEtR8E6+bnUL08tVg822yvDod5Nr/fNHjk
- VJM5XFg0IMWghKusqoiDsbm8WlT6mIygjQ3yWVKM9y1YEEhgZWItizcfm
- bq4XGwOyvxbaPI4CFZ0tZToUW5b8WkTrUAFWllvzeX1nuqKmGgg8/E0BC g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="356358671"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="356358671"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 06:07:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="709143703"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="709143703"
-Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Aug 2023 06:07:25 -0700
-From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 20/20] drm/i915: Query compressed bpp properly using correct
- DPCD and DP Spec info
-Date: Thu, 10 Aug 2023 18:33:19 +0530
-Message-Id: <20230810130319.3708392-21-ankit.k.nautiyal@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230810130319.3708392-1-ankit.k.nautiyal@intel.com>
-References: <20230810130319.3708392-1-ankit.k.nautiyal@intel.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B1F310E519
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 13:05:47 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxRvGp4NRkJ64UAA--.44517S3;
+ Thu, 10 Aug 2023 21:05:45 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxF82p4NRkgC9TAA--.8581S3; 
+ Thu, 10 Aug 2023 21:05:45 +0800 (CST)
+Message-ID: <a0d6277c-a4ad-38a5-bc6f-883513987547@loongson.cn>
+Date: Thu, 10 Aug 2023 21:05:44 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 02/11] PCI: Add the pci_get_class_masked() helper
+Content-Language: en-US
+To: =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+References: <20230808223412.1743176-1-sui.jingfeng@linux.dev>
+ <20230808223412.1743176-3-sui.jingfeng@linux.dev>
+ <19dc4b81-5b72-247c-d459-3ea9d1cddff0@linux.intel.com>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <19dc4b81-5b72-247c-d459-3ea9d1cddff0@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxF82p4NRkgC9TAA--.8581S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWrWUXF4xJFW7KF1UtrW7WrX_yoWruFy8pF
+ W3Aay5KrW8KFy7Gr13Zw4xZFyfX392ya4rCr4Skw1Yk390yF9Yqr97WF15Ar1fArWDuF1U
+ tw4UKryUWr1FqagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ XVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+ Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4s2-UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,186 +66,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
- navaremanasi@google.com
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Hi,
 
-Currently we seem to be using wrong DPCD register for reading
-compressed bpps, reading min/max input bpc instead of compressed bpp.
-Fix that, so that we now apply min/max compressed bpp limitations we
-get from DP Spec Table 2-157 DP v2.0 and/or correspondent DPCD
-register DP_DSC_MAX_BITS_PER_PIXEL_LOW/HIGH.
 
-This might also allow us to get rid of an ugly compressed bpp
-recalculation, which we had to add to make some MST hubs usable.
+On 2023/8/9 22:01, Ilpo Järvinen wrote:
+> On Wed, 9 Aug 2023, Sui Jingfeng wrote:
+>
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> Because there is no good way to get the mask member used to searching for
+>> devices that conform to a specific PCI class code, an application needs to
+>> process all PCI display devices can achieve its goal as follows:
+> This is mixing old and new way in a single sentence (which is confusing)?
 
-v2: - Fix operator precedence
-v3: - Added debug info about compressed bpps
-v4: - Don't try to intersect Sink input bpp and compressed bpps.
-v5: - Decrease step while looking for suitable compressed bpp to
-      accommodate.
-v6: - Use helper for getting min and max compressed_bpp (Ankit)
-v7: - Fix checkpatch warning (Ankit)
 
-Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c     | 20 +++++----
- drivers/gpu/drm/i915/display/intel_dp.h     |  4 ++
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 47 +++++++++------------
- 3 files changed, 36 insertions(+), 35 deletions(-)
+Thanks for reviewing, but I can't understand this sentence.
+Are you telling me that my description have grammar problem or something else?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 9e904bb4ac5c..bdaa2249409d 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -1789,7 +1789,7 @@ u16 intel_dp_dsc_max_sink_compressed_bppx16(struct intel_dp *intel_dp,
- 	return 0;
- }
- 
--static int dsc_sink_min_compressed_bpp(struct intel_crtc_state *pipe_config)
-+int intel_dp_dsc_sink_min_compressed_bpp(struct intel_crtc_state *pipe_config)
- {
- 	/* From Mandatory bit rate range Support Table 2-157 (DP v2.0) */
- 	switch (pipe_config->output_format) {
-@@ -1806,9 +1806,9 @@ static int dsc_sink_min_compressed_bpp(struct intel_crtc_state *pipe_config)
- 	return 0;
- }
- 
--static int dsc_sink_max_compressed_bpp(struct intel_dp *intel_dp,
--				       struct intel_crtc_state *pipe_config,
--				       int bpc)
-+int intel_dp_dsc_sink_max_compressed_bpp(struct intel_dp *intel_dp,
-+					 struct intel_crtc_state *pipe_config,
-+					 int bpc)
- {
- 	return intel_dp_dsc_max_sink_compressed_bppx16(intel_dp,
- 						       pipe_config, bpc) >> 4;
-@@ -1921,11 +1921,13 @@ static int dsc_compute_compressed_bpp(struct intel_dp *intel_dp,
- 	int dsc_joiner_max_bpp;
- 
- 	dsc_src_min_bpp = dsc_src_min_compressed_bpp();
--	dsc_sink_min_bpp = dsc_sink_min_compressed_bpp(pipe_config);
-+	dsc_sink_min_bpp = intel_dp_dsc_sink_min_compressed_bpp(pipe_config);
- 	dsc_min_bpp = max(dsc_src_min_bpp, dsc_sink_min_bpp);
- 
- 	dsc_src_max_bpp = dsc_src_max_compressed_bpp(intel_dp);
--	dsc_sink_max_bpp = dsc_sink_max_compressed_bpp(intel_dp, pipe_config, pipe_bpp / 3);
-+	dsc_sink_max_bpp = intel_dp_dsc_sink_max_compressed_bpp(intel_dp,
-+								pipe_config,
-+								pipe_bpp / 3);
- 	dsc_max_bpp = dsc_sink_max_bpp ? min(dsc_sink_max_bpp, dsc_src_max_bpp) : dsc_src_max_bpp;
- 
- 	dsc_joiner_max_bpp = get_max_compressed_bpp_with_joiner(i915, adjusted_mode->clock,
-@@ -2074,11 +2076,13 @@ static int intel_edp_dsc_compute_pipe_bpp(struct intel_dp *intel_dp,
- 	pipe_config->lane_count = limits->max_lane_count;
- 
- 	dsc_src_min_bpp = dsc_src_min_compressed_bpp();
--	dsc_sink_min_bpp = dsc_sink_min_compressed_bpp(pipe_config);
-+	dsc_sink_min_bpp = intel_dp_dsc_sink_min_compressed_bpp(pipe_config);
- 	dsc_min_bpp = max(dsc_src_min_bpp, dsc_sink_min_bpp);
- 
- 	dsc_src_max_bpp = dsc_src_max_compressed_bpp(intel_dp);
--	dsc_sink_max_bpp = dsc_sink_max_compressed_bpp(intel_dp, pipe_config, pipe_bpp / 3);
-+	dsc_sink_max_bpp = intel_dp_dsc_sink_max_compressed_bpp(intel_dp,
-+								pipe_config,
-+								pipe_bpp / 3);
- 	dsc_max_bpp = dsc_sink_max_bpp ? min(dsc_sink_max_bpp, dsc_src_max_bpp) : dsc_src_max_bpp;
- 
- 	/* Compressed BPP should be less than the Input DSC bpp */
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index 788a577ebe16..f29e48028f39 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -114,6 +114,10 @@ u16 intel_dp_dsc_get_max_compressed_bpp(struct drm_i915_private *i915,
- 					enum intel_output_format output_format,
- 					u32 pipe_bpp,
- 					u32 timeslots);
-+int intel_dp_dsc_sink_min_compressed_bpp(struct intel_crtc_state *pipe_config);
-+int intel_dp_dsc_sink_max_compressed_bpp(struct intel_dp *intel_dp,
-+					 struct intel_crtc_state *pipe_config,
-+					 int bpc);
- u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
- 				int mode_clock, int mode_hdisplay,
- 				bool bigjoiner);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 3eb085fbc7c8..06a456517383 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -101,6 +101,9 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
- 							      crtc_state->lane_count);
- 	}
- 
-+	drm_dbg_kms(&i915->drm, "Looking for slots in range min bpp %d max bpp %d\n",
-+		    min_bpp, max_bpp);
-+
- 	for (bpp = max_bpp; bpp >= min_bpp; bpp -= step) {
- 		drm_dbg_kms(&i915->drm, "Trying bpp %d\n", bpp);
- 
-@@ -194,8 +197,7 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
- 	u8 dsc_bpc[3] = {0};
- 	int min_bpp, max_bpp, sink_min_bpp, sink_max_bpp;
- 	u8 dsc_max_bpc;
--	bool need_timeslot_recalc = false;
--	u32 last_compressed_bpp;
-+	int min_compressed_bpp, max_compressed_bpp;
- 
- 	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
- 	if (DISPLAY_VER(i915) >= 12)
-@@ -231,34 +233,25 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
- 	if (max_bpp > sink_max_bpp)
- 		max_bpp = sink_max_bpp;
- 
--	slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, max_bpp,
--						     min_bpp, limits,
--						     conn_state, 2 * 3, true);
--
--	if (slots < 0)
--		return slots;
--
--	last_compressed_bpp = crtc_state->dsc.compressed_bpp;
-+	max_compressed_bpp = intel_dp_dsc_sink_max_compressed_bpp(intel_dp,
-+								  crtc_state,
-+								  max_bpp / 3);
-+	min_compressed_bpp = intel_dp_dsc_sink_min_compressed_bpp(crtc_state);
-+	drm_dbg_kms(&i915->drm, "DSC Sink supported compressed min bpp %d compressed max bpp %d\n",
-+		    min_compressed_bpp, max_compressed_bpp);
- 
--	crtc_state->dsc.compressed_bpp = intel_dp_dsc_nearest_valid_bpp(i915,
--									last_compressed_bpp,
--									crtc_state->pipe_bpp);
-+	/* Align compressed bpps according to our own constraints */
-+	max_compressed_bpp = intel_dp_dsc_nearest_valid_bpp(i915, max_compressed_bpp,
-+							    crtc_state->pipe_bpp);
-+	min_compressed_bpp = intel_dp_dsc_nearest_valid_bpp(i915, min_compressed_bpp,
-+							    crtc_state->pipe_bpp);
- 
--	if (crtc_state->dsc.compressed_bpp != last_compressed_bpp)
--		need_timeslot_recalc = true;
-+	slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state, max_compressed_bpp,
-+						     min_compressed_bpp, limits,
-+						     conn_state, 1, true);
- 
--	/*
--	 * Apparently some MST hubs dislike if vcpi slots are not matching precisely
--	 * the actual compressed bpp we use.
--	 */
--	if (need_timeslot_recalc) {
--		slots = intel_dp_mst_find_vcpi_slots_for_bpp(encoder, crtc_state,
--							     crtc_state->dsc.compressed_bpp,
--							     crtc_state->dsc.compressed_bpp,
--							     limits, conn_state, 2 * 3, true);
--		if (slots < 0)
--			return slots;
--	}
-+	if (slots < 0)
-+		return slots;
- 
- 	intel_link_compute_m_n(crtc_state->dsc.compressed_bpp,
- 			       crtc_state->lane_count,
--- 
-2.40.1
+
+I means that before apply this patch, we don't have a function can be used
+to get all PCI(e) devices in a system by matching against its the PCI base class code only,
+while keep the Sub-Class code and the Programming Interface ignored.
+By supply a mask as argument, such thing become possible.
+
+If an application want to process all PCI display devices in the system,
+then it can achieve its goal by calling pci_get_class_masked() function.
+
+
+>> pdev = NULL;
+>> do {
+>> 	pdev = pci_get_class_masked(PCI_BASE_CLASS_DISPLAY << 16, 0xFF0000, pdev);
+>> 	if (pdev)
+>> 		do_something_for_pci_display_device(pdev);
+>> } while (pdev);
+>>
+>> While previously, we just can not ignore Sub-Class code and the Programming
+> cannot
+>
+>> Interface byte when do the searching.
+> doing the search.
+
+
+OK, will be fixed at the next version.
+
+
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/pci/search.c | 30 ++++++++++++++++++++++++++++++
+>>   include/linux/pci.h  |  7 +++++++
+>>   2 files changed, 37 insertions(+)
+>>
+>> diff --git a/drivers/pci/search.c b/drivers/pci/search.c
+>> index b4c138a6ec02..f1c15aea868b 100644
+>> --- a/drivers/pci/search.c
+>> +++ b/drivers/pci/search.c
+>> @@ -334,6 +334,36 @@ struct pci_dev *pci_get_device(unsigned int vendor, unsigned int device,
+>>   }
+>>   EXPORT_SYMBOL(pci_get_device);
+>>   
+>> +/**
+>> + * pci_get_class_masked - begin or continue searching for a PCI device by class and mask
+>> + * @class: search for a PCI device with this class designation
+>> + * @from: Previous PCI device found in search, or %NULL for new search.
+>> + *
+>> + * Iterates through the list of known PCI devices.  If a PCI device is
+> No double spaces in kernel comments. Perhaps your editor might be adding
+> them on reflow (might be configurable to not do that).
+>
+>> + * found with a matching @class, the reference count to the device is
+>> + * incremented and a pointer to its device structure is returned.
+>> + * Otherwise, %NULL is returned.
+>> + * A new search is initiated by passing %NULL as the @from argument.
+>> + * Otherwise if @from is not %NULL, searches continue from next device
+>> + * on the global list.  The reference count for @from is always decremented
+>> + * if it is not %NULL.
+> Use kerneldoc's Return: section for describing return value.
+>
+>> + */
+>> +struct pci_dev *pci_get_class_masked(unsigned int class, unsigned int mask,
+>> +				     struct pci_dev *from)
+>> +{
+>> +	struct pci_device_id id = {
+>> +		.vendor = PCI_ANY_ID,
+>> +		.device = PCI_ANY_ID,
+>> +		.subvendor = PCI_ANY_ID,
+>> +		.subdevice = PCI_ANY_ID,
+>> +		.class_mask = mask,
+>> +		.class = class,
+>> +	};
+>> +
+>> +	return pci_get_dev_by_id(&id, from);
+>> +}
+>> +EXPORT_SYMBOL(pci_get_class_masked);
+>> +
+>>   /**
+>>    * pci_get_class - begin or continue searching for a PCI device by class
+>>    * @class: search for a PCI device with this class designation
+>> diff --git a/include/linux/pci.h b/include/linux/pci.h
+>> index 0ff7500772e6..b20e7ba844bf 100644
+>> --- a/include/linux/pci.h
+>> +++ b/include/linux/pci.h
+>> @@ -1180,6 +1180,9 @@ struct pci_dev *pci_get_slot(struct pci_bus *bus, unsigned int devfn);
+>>   struct pci_dev *pci_get_domain_bus_and_slot(int domain, unsigned int bus,
+>>   					    unsigned int devfn);
+>>   struct pci_dev *pci_get_class(unsigned int class, struct pci_dev *from);
+>> +struct pci_dev *pci_get_class_masked(unsigned int class, unsigned int mask,
+>> +				     struct pci_dev *from);
+>> +
+>>   int pci_dev_present(const struct pci_device_id *ids);
+>>   
+>>   int pci_bus_read_config_byte(struct pci_bus *bus, unsigned int devfn,
+>> @@ -1895,6 +1898,10 @@ static inline struct pci_dev *pci_get_class(unsigned int class,
+>>   					    struct pci_dev *from)
+>>   { return NULL; }
+>>   
+>> +static inline struct pci_dev *pci_get_class_masked(unsigned int class,
+>> +						   unsigned int mask,
+>> +						   struct pci_dev *from)
+>> +{ return NULL; }
+>>   
+>>   static inline int pci_dev_present(const struct pci_device_id *ids)
+>>   { return 0; }
+>>
 
