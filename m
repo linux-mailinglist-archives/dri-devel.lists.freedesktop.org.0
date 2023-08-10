@@ -1,75 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64304776C74
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 00:50:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C74776D43
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 02:57:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C799110E131;
-	Wed,  9 Aug 2023 22:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0026810E13F;
+	Thu, 10 Aug 2023 00:57:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A05D10E131
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Aug 2023 22:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1691621440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gF/DsPM8L4MqlHp9tlfI2YXb+0b5z0aTjeRWWwXcwao=;
- b=ceEqM6uDKOYdW+WBSv4TfEaMxqG1fOg1R8a+oYYumOC5Qg0D/1RlhDx1DG9vdUMT1bpGhN
- e7nPtZoK1lrkwWCOz1Gp7ZEj6IQDJlTaSVou3IpWPW0IrOfllGf0DeVujSuxOV/6HUTw+P
- zjaogHmzqHyOkdbrhai8xtn8c8VCxjg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-691-fdiilVrePN6SviSIMivJJw-1; Wed, 09 Aug 2023 18:50:39 -0400
-X-MC-Unique: fdiilVrePN6SviSIMivJJw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-99bca0b9234so20273266b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 15:50:39 -0700 (PDT)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E25CF10E13F
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 00:57:33 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-5223910acf2so3118a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Aug 2023 17:57:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1691629052; x=1692233852;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pENb1t85EdhZr2S/NRQldNOIuogVZkW2tw0vSMoDYS4=;
+ b=DcyoSSCwJwp9vWokfe6dcIcLr97RyCLwBKjCbSskay0ACsx3/Izc9hLNsxwGuAVej/
+ wB2ynNNpnWSk9rjEmycLvjbxhdjuGCr4gLKPNdtYax8aYtgx0roYCOdnsQxs2XvY8Kyz
+ zm4+OHdnDZS1cSMHKnWNLEjHVbE+tLFR1H4cuVpsMI7fqGM3Rm7czFUMk2/pAODSkQ8h
+ qpa6v2aLXK8WqWZ0zBc0vDg3ZDBlNkD+nEgNFbauOexdn14Eul3ITgPmwpU+k0aY3DlC
+ U695WvJ65wCg4BdHjT1N2bzpnjEz1BPQGdzsN8A21gHFmb8YSwAg7Z0RT6ewZLnRVqRo
+ JX5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691621438; x=1692226238;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gF/DsPM8L4MqlHp9tlfI2YXb+0b5z0aTjeRWWwXcwao=;
- b=O6AI5i2nQm52lxhcRgTiaINHGQxP3ZNCOc0lJYp5PGt5mqAJ14lLCpKIT8hYk9tFIE
- fNX0JUCOlJZ6jM6zEQxt0+jzCHKWwZm1eA9k5hiwLZbOULbEaRyVOAbnp3srG0cNb9KL
- ZYHTNuBaDRppWhKDhkpHT+capQeTDLuk2s+XzNx43ELpdnza/h08rGpWPUPSGgZ8vWg0
- dj2K/tc4xi3UfLuUHjt1ORnwd3uwnfhrTIc9eEtQwQhBnQafmUurbpkpwcy8C0AmTaK5
- Gkz5Og2GeUL7cz1d3FC2wq6agfgG1icUu6bkeNJasHOvueC8V20xro3KBaJe3RyEgTNj
- t8Dg==
-X-Gm-Message-State: AOJu0Yzpm0G9NIF7SBOJ2fh27yc59T/8I8ccEH02DthGbhlN5kMganoq
- 0AilD+2o5zXh4GISlr4IjIR+oviu0g9LREYJCK35JUBO0aD+UfTwxVu7QVW0kudBfznxDV6BpOL
- Rtr96+yehdFcSPMG0vsVFfXO+3sa4
-X-Received: by 2002:a17:906:105c:b0:99b:4956:e4e3 with SMTP id
- j28-20020a170906105c00b0099b4956e4e3mr366947ejj.8.1691621438188; 
- Wed, 09 Aug 2023 15:50:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG6vRNFFeqAB3QpQbIXjT+bkqtYOwBj+1lQOt4+Ju691WeyIdUOlvAcgM88u9tqNgL2EABoqQ==
-X-Received: by 2002:a17:906:105c:b0:99b:4956:e4e3 with SMTP id
- j28-20020a170906105c00b0099b4956e4e3mr366938ejj.8.1691621437902; 
- Wed, 09 Aug 2023 15:50:37 -0700 (PDT)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
- by smtp.gmail.com with ESMTPSA id
- kg23-20020a17090776f700b0099cfd0b2437sm99580ejc.99.2023.08.09.15.50.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Aug 2023 15:50:37 -0700 (PDT)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@gmail.com, daniel@ffwll.ch, christian.koenig@amd.com,
- alexander.deucher@amd.com, arthurgrillo@riseup.net
-Subject: [PATCH drm-misc-next] drm/test: drm_exec: fix memory leak on object
- prepare
-Date: Thu, 10 Aug 2023 00:50:14 +0200
-Message-ID: <20230809225034.8803-1-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
+ d=1e100.net; s=20221208; t=1691629052; x=1692233852;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pENb1t85EdhZr2S/NRQldNOIuogVZkW2tw0vSMoDYS4=;
+ b=RqMNYQvoT7QB4quFWpbUHYnnIX8b/zsBedqBf9mD2PXOUJ42XD2poG5HKZDdR0Mf3J
+ NGGlfr5dHHtYZYbVcZRibhDQ4KkOKOrn9IUOG25Kma4FsPxbv1yqKEdv72c35DuSx5ux
+ nreu1BK1WroXVU79dGG88IxTnGFlhkohDhD3bBlmmPf7IfFQahHj2gvJUQsZP4lo9ERS
+ dSiR0ON0dLmHY0lyAALWvVhRLosqYjPsSp5uZ2t8C9MR5Of0PDmP3TgyL60bfF37vh/g
+ jEms2x0fwCaKCWZltZIgfpOaBv0udH4QvkdIM6B7kg47turEILrBnrZ+OFjXixMygzNY
+ enyQ==
+X-Gm-Message-State: AOJu0YymDWmJz290TW6C5Uv4y03Rtv5fROMSPoh1xF7TmTDeJ/r2++uJ
+ PE4KtF3btKXfSXQ7GsdUqkkO6dVPqZjSjYHufgQf
+X-Google-Smtp-Source: AGHT+IGC3Ojhu3H3wyaJnO0AFrfMJr5XHWFXJ1jg2Nd0krAXKutumnTRxviNOopna7nevL3OGuuOsnupTL3vhP1snHY=
+X-Received: by 2002:a50:99db:0:b0:522:28a1:2095 with SMTP id
+ n27-20020a5099db000000b0052228a12095mr191965edb.3.1691629052118; Wed, 09 Aug
+ 2023 17:57:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <1690598115-26287-1-git-send-email-quic_pintu@quicinc.com>
+ <20230731112155.GA3662@lst.de>
+ <CAOuPNLjnfq1JefngtNrg0Q+JdMTSRz+eEqxGQJFfx9+af+k9WA@mail.gmail.com>
+ <20230801171838.GA14599@lst.de>
+ <CANDhNCq+3OEosUcQJ5GFgk+5OyG+JqXKM43UAo0aPz-V27OgAA@mail.gmail.com>
+ <20230802094725.GA28241@lst.de>
+ <CAOuPNLjAOk0BOXDcjbY+evX_uxbZyptrJXMf0ULhReECzEX0CQ@mail.gmail.com>
+ <CAOuPNLjn3b3YSgy=ObnF+cE7kj-9vdZ+6fFzMp-bJYLFq3MgWw@mail.gmail.com>
+In-Reply-To: <CAOuPNLjn3b3YSgy=ObnF+cE7kj-9vdZ+6fFzMp-bJYLFq3MgWw@mail.gmail.com>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 9 Aug 2023 17:57:19 -0700
+Message-ID: <CANDhNCpJ_di5sjyExPw8itoSOfSoG5syy-t8CmKHzHBSp4qqFQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-contiguous: define proper name for global cma
+ region
+To: Pintu Agarwal <pintu.ping@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,60 +76,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Pintu Kumar <quic_pintu@quicinc.com>, akpm@linux-foundation.org,
+ Laura Abbott <labbott@redhat.com>, robin.murphy@arm.com,
+ Christoph Hellwig <hch@lst.de>, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_exec_prepare_obj() and drm_exec_prepare_array() both reserve
-dma-fence slots and hence a dma_resv_list without ever freeing it.
+On Wed, Aug 9, 2023 at 8:04=E2=80=AFAM Pintu Agarwal <pintu.ping@gmail.com>=
+ wrote:
+>
+> Hi,
+>
+> On Thu, 3 Aug 2023 at 23:04, Pintu Agarwal <pintu.ping@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, 2 Aug 2023 at 15:17, Christoph Hellwig <hch@lst.de> wrote:
+> > >
+> > > On Tue, Aug 01, 2023 at 10:39:04PM -0700, John Stultz wrote:
+> > > > So, forgive me, I've not had a chance to look into this, but my
+> > > > recollection was "reserved" is the name we see on x86, but other na=
+mes
+> > > > are possibly provided via the dts node?
+> > >
+> > No, I think "reserved" is the name hard-coded (for all arch) in Kernel
+> > for global-cma.
+> > So, I don't think this is x86 specific. I am checking on arm32 itself.
+> > When we can dma_alloc_coherent we see these in the logs (if dts region
+> > is not present).
+> > cma: cma_alloc(cma (ptrval), name: reserved, count 64, align 6)
+> > Now, with this change we will see this:
+> > cma: cma_alloc(cma (ptrval), name: global-cma-region, count 64, align 6=
+)
+> >
+> > > Indeed, dma_contiguous_default_area can also be set through
+> > > rmem_cma_setup, which then takes the name from DT.
+> > >
+> > I think this is a different case. If DT entry is present we get this:
+> > Reserved memory: created CMA memory pool at 0x98000000, name: name:
+> > linux,cma, size 128 MiB
+> > cma: cma_alloc(cma (ptrval), name: linux,cma, count 64, align 6)
+> >
+> > Here we are talking about the default hard-coded name in Kernel code
+> > if DT is not defined.
+> > So, in one of the boards, this DT entry was not present and it shows
+> > as "reserved".
+> >
+> > > > I believe on the hikey board its "linux,cma" is the name, so forcin=
+g
+> > > > it to reserved would break that.
+> > > >
+> > Yes, everywhere in the DT it's defined as "linux,cma".
+> > You mean this also should be changed to "linux,cma-global-region"
+> > everywhere with this change ?
+> >
+> > > > Maybe instead add a compat config option to force the cma name (so =
+x86
+> > > > can set it to "default" if needed)?
+> > >
+> > Yes, having it in config is also a good option instead of hard-coding i=
+n Kernel.
+> > >
+> > > I think we'll just need to leave it as-is.  I with dma-heaps had neve=
+r
+> > > exposed the name to userspace, but we'll have to l=D1=96ve with it no=
+w.
+> >
+> > Can you point me to the userspace utility we are talking about here ?
+> > I think we should not worry much about userspace name exposure.
+> > I guess it should fetch whatever is declared in Kernel or DTS, right ?
+>
+> Just to follow-up on this.
+> For now, can we change the Kernel hard-coded value from "reserved" to
+> "global-cma-region" ?
+> Later, for the DTS defined name let it be "linux,cma" or change that
+> also to "linux,global-cma-region" ?
+>
+> Will this make sense ?
 
-Make sure to call drm_gem_private_object_fini() for each GEM object
-passed to drm_exec_prepare_obj()/drm_exec_prepare_array() throughout the
-test to fix this up.
+Apologies, sorry for not responding to your earlier message, it slipped by.
 
-While at it, remove some trailing empty lines.
+So, the concern is there may be allocators (like gralloc in Android)
+that allocate from the CMA region via the dma-buf heaps interface.
 
-Fixes: 9710631cc8f3 ("drm: add drm_exec selftests v4")
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/tests/drm_exec_test.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+So by changing the name (either hardcoded or DTS names), you'll change
+the user-visible heap name, potentially breaking those userland
+allocators.
 
-diff --git a/drivers/gpu/drm/tests/drm_exec_test.c b/drivers/gpu/drm/tests/drm_exec_test.c
-index f79c9f0359aa..9ccf0dd9ca89 100644
---- a/drivers/gpu/drm/tests/drm_exec_test.c
-+++ b/drivers/gpu/drm/tests/drm_exec_test.c
-@@ -125,8 +125,6 @@ static void test_duplicates(struct kunit *test)
- 	drm_exec_fini(&exec);
- }
- 
--
--
- static void test_prepare(struct kunit *test)
- {
- 	struct drm_exec_priv *priv = test->priv;
-@@ -145,6 +143,8 @@ static void test_prepare(struct kunit *test)
- 			break;
- 	}
- 	drm_exec_fini(&exec);
-+
-+	drm_gem_private_object_fini(&gobj);
- }
- 
- static void test_prepare_array(struct kunit *test)
-@@ -165,6 +165,9 @@ static void test_prepare_array(struct kunit *test)
- 					     1);
- 	KUNIT_EXPECT_EQ(test, ret, 0);
- 	drm_exec_fini(&exec);
-+
-+	drm_gem_private_object_fini(&gobj1);
-+	drm_gem_private_object_fini(&gobj2);
- }
- 
- static struct kunit_case drm_exec_tests[] = {
+Now, the dmabuf heaps are designed to be like other dynamic devices
+(like disks or partitions), which may be different from device to
+device. However, changing the name would still be an inconvenience for
+folks who have hard-coded that name in their userland allocator which
+was designed for a single device.  This would be similar to the old
+issue of an existing fstab breaking from the ide (hda) to sata (sda)
+driver transition.  Or similar to what folks went through a while back
+with network device names changing from eth0 -> ens0 or whatever.
 
-base-commit: e05f3938c5a7896d09736e3381675a57ffee7a0a
--- 
-2.41.0
+That said, most android devices historically haven't upreved to new
+kernel versions wihtout major userspace changes, so the impact might
+be minimal, but that is likely to change in the future so we should be
+careful here.
 
+What I'd propose instead is to either leave it alone as Christoph
+suggested, or have a build option/boot argument so folks can preserve
+the legacy name if they need.
+
+thanks
+-john
