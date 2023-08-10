@@ -2,26 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A187778AF
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 14:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF55677791B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 15:08:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD3AD10E518;
-	Thu, 10 Aug 2023 12:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A64C10E520;
+	Thu, 10 Aug 2023 13:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1502D10E186;
- Thu, 10 Aug 2023 12:41:12 +0000 (UTC)
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Handle legacy cursor update as normal update
-Date: Thu, 10 Aug 2023 14:41:05 +0200
-Message-Id: <20230810124105.124395-2-maarten.lankhorst@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230810124105.124395-1-maarten.lankhorst@linux.intel.com>
-References: <20230810124105.124395-1-maarten.lankhorst@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D77010E51E;
+ Thu, 10 Aug 2023 13:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691672890; x=1723208890;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PQbvgn81YjI+IlZGV0d4cGrf+i/ggf+6NQYWq9/IA/c=;
+ b=KQU9i28niL8kBTESADzQnF3yG8wILOMK7cP8tNzPiYiCGLhIaDSQkeLu
+ I9wlFl3UyJ3UdVA1vom+YBHfXk5mlNl7wQIoSRzfLcgcJoPhM0UC+UEt+
+ wB7ZvkvQNBiFW9/70+ABuvwZt2+fFQNILVgIDoJe/GYJ5JO+0zWbKDlw+
+ AgQG/wrjMe6ldZ4etWRVMjYoYNVgPBsKZK9N998Lgc3P2FUiMsuYJ0hoF
+ V05fKGw+cuD169aDLzN4u2NB+7ea2oRkGF7GYFgCm5ULDTvpzIuNb57yT
+ UcY528a+NsQMFd9Tk9R1ilIWyJMW/7El5kVGChHb10BOItIP4hLtIwnqZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="356358510"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="356358510"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2023 06:06:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10797"; a="709142874"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="709142874"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2023 06:06:38 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/20] DSC misc fixes
+Date: Thu, 10 Aug 2023 18:32:59 +0530
+Message-Id: <20230810130319.3708392-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -35,161 +57,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
+ navaremanasi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abuse the vblank worker to make the changes as small as possible. We
-need a way to sync flip_done, but if we wait on flip_done, all async
-tests start failing.
+This series is an attempt to address multiple issues with DSC,
+scattered in separate existing series.
 
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_crtc.c    | 21 ++++++++++++++------
- drivers/gpu/drm/i915/display/intel_crtc.h    |  6 ++++--
- drivers/gpu/drm/i915/display/intel_display.c | 10 +++++++---
- 3 files changed, 26 insertions(+), 11 deletions(-)
+Patches 1-4 are DSC fixes from series to Handle BPC for HDMI2.1 PCON
+https://patchwork.freedesktop.org/series/107550/
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index 182c6dd64f47..2adcce303271 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -389,8 +389,13 @@ int intel_crtc_init(struct drm_i915_private *dev_priv, enum pipe pipe)
- 	return ret;
- }
- 
--static bool intel_crtc_needs_vblank_work(const struct intel_crtc_state *crtc_state)
-+static bool intel_crtc_needs_vblank_work(const struct intel_atomic_state *state,
-+					 const struct intel_crtc_state *crtc_state)
- {
-+	/* Always init for legacy cursor update, so we can sync on teardown */
-+	if (state->base.legacy_cursor_update)
-+		return true;
-+
- 	return crtc_state->hw.active &&
- 		!intel_crtc_needs_modeset(crtc_state) &&
- 		!crtc_state->preload_luts &&
-@@ -438,7 +443,7 @@ void intel_wait_for_vblank_workers(struct intel_atomic_state *state)
- 	int i;
- 
- 	for_each_new_intel_crtc_in_state(state, crtc, crtc_state, i) {
--		if (!intel_crtc_needs_vblank_work(crtc_state))
-+		if (!intel_crtc_needs_vblank_work(state, crtc_state))
- 			continue;
- 
- 		drm_vblank_work_flush(&crtc_state->vblank_work);
-@@ -470,6 +475,7 @@ static int intel_mode_vblank_start(const struct drm_display_mode *mode)
- 
- /**
-  * intel_pipe_update_start() - start update of a set of display registers
-+ * @state: the intel atomic state
-  * @new_crtc_state: the new crtc state
-  *
-  * Mark the start of an update to pipe registers that should be updated
-@@ -480,7 +486,8 @@ static int intel_mode_vblank_start(const struct drm_display_mode *mode)
-  * until a subsequent call to intel_pipe_update_end(). That is done to
-  * avoid random delays.
-  */
--void intel_pipe_update_start(struct intel_crtc_state *new_crtc_state)
-+void intel_pipe_update_start(struct intel_atomic_state *state,
-+			     struct intel_crtc_state *new_crtc_state)
- {
- 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
- 	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
-@@ -497,7 +504,7 @@ void intel_pipe_update_start(struct intel_crtc_state *new_crtc_state)
- 	if (new_crtc_state->do_async_flip)
- 		return;
- 
--	if (intel_crtc_needs_vblank_work(new_crtc_state))
-+	if (intel_crtc_needs_vblank_work(state, new_crtc_state))
- 		intel_crtc_vblank_work_init(new_crtc_state);
- 
- 	if (new_crtc_state->vrr.enable) {
-@@ -631,13 +638,15 @@ static void dbg_vblank_evade(struct intel_crtc *crtc, ktime_t end) {}
- 
- /**
-  * intel_pipe_update_end() - end update of a set of display registers
-+ * @state: the intel atomic state
-  * @new_crtc_state: the new crtc state
-  *
-  * Mark the end of an update started with intel_pipe_update_start(). This
-  * re-enables interrupts and verifies the update was actually completed
-  * before a vblank.
-  */
--void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
-+void intel_pipe_update_end(struct intel_atomic_state *state,
-+			   struct intel_crtc_state *new_crtc_state)
- {
- 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
- 	enum pipe pipe = crtc->pipe;
-@@ -665,7 +674,7 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
- 	 * Would be slightly nice to just grab the vblank count and arm the
- 	 * event outside of the critical section - the spinlock might spin for a
- 	 * while ... */
--	if (intel_crtc_needs_vblank_work(new_crtc_state)) {
-+	if (intel_crtc_needs_vblank_work(state, new_crtc_state)) {
- 		drm_vblank_work_schedule(&new_crtc_state->vblank_work,
- 					 drm_crtc_accurate_vblank_count(&crtc->base) + 1,
- 					 false);
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.h b/drivers/gpu/drm/i915/display/intel_crtc.h
-index 51a4c8df9e65..ca7f45a454a0 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.h
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.h
-@@ -36,8 +36,10 @@ void intel_crtc_state_reset(struct intel_crtc_state *crtc_state,
- u32 intel_crtc_get_vblank_counter(struct intel_crtc *crtc);
- void intel_crtc_vblank_on(const struct intel_crtc_state *crtc_state);
- void intel_crtc_vblank_off(const struct intel_crtc_state *crtc_state);
--void intel_pipe_update_start(struct intel_crtc_state *new_crtc_state);
--void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state);
-+void intel_pipe_update_start(struct intel_atomic_state *state,
-+			     struct intel_crtc_state *new_crtc_state);
-+void intel_pipe_update_end(struct intel_atomic_state *state,
-+			   struct intel_crtc_state *new_crtc_state);
- void intel_wait_for_vblank_workers(struct intel_atomic_state *state);
- struct intel_crtc *intel_first_crtc(struct drm_i915_private *i915);
- struct intel_crtc *intel_crtc_for_pipe(struct drm_i915_private *i915,
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 763ab569d8f3..e1ca1f9c3941 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -6604,7 +6604,7 @@ static void intel_update_crtc(struct intel_atomic_state *state,
- 	intel_crtc_planes_update_noarm(state, crtc);
- 
- 	/* Perform vblank evasion around commit operation */
--	intel_pipe_update_start(new_crtc_state);
-+	intel_pipe_update_start(state, new_crtc_state);
- 
- 	commit_pipe_pre_planes(state, crtc);
- 
-@@ -6612,7 +6612,7 @@ static void intel_update_crtc(struct intel_atomic_state *state,
- 
- 	commit_pipe_post_planes(state, crtc);
- 
--	intel_pipe_update_end(new_crtc_state);
-+	intel_pipe_update_end(state, new_crtc_state);
- 
- 	/*
- 	 * We usually enable FIFO underrun interrupts as part of the
-@@ -6895,6 +6895,9 @@ static void intel_atomic_cleanup_work(struct work_struct *work)
- 	struct intel_crtc *crtc;
- 	int i;
- 
-+	if (state->base.legacy_cursor_update)
-+		intel_wait_for_vblank_workers(state);
-+
- 	for_each_old_intel_crtc_in_state(state, crtc, old_crtc_state, i)
- 		intel_color_cleanup_commit(old_crtc_state);
- 
-@@ -7056,7 +7059,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 	if (state->modeset)
- 		intel_set_cdclk_post_plane_update(state);
- 
--	intel_wait_for_vblank_workers(state);
-+	if (!state->base.legacy_cursor_update)
-+		intel_wait_for_vblank_workers(state);
- 
- 	/* FIXME: We should call drm_atomic_helper_commit_hw_done() here
- 	 * already, but still need the state for the delayed optimization. To
+Patches 5-6 are from series DSC fixes for Bigjoiner:
+https://patchwork.freedesktop.org/series/115773/
+
+Patches 7-17 are based on series to add DSC fractional BPP support:
+https://patchwork.freedesktop.org/series/111391/
+
+Patch 20 is to fix compressed bpc for MST DSC, from Stan's series :
+https://patchwork.freedesktop.org/series/116179/
+
+Rev2: Addressed review comments from Stan, Ville.
+
+Rev3: Split larger patches. Separate out common helpers.
+
+Rev4: Rebased, fixed checkpatch warnings.
+
+Rev5: Addressed review comments from Stan.
+Added a patch to check if forced dsc format can be used before forcing.
+
+Rev6: Addressed review comments from Stan.
+
+Rev7: Reordered and rebased.
+
+Ankit Nautiyal (19):
+  drm/i915/dp: Consider output_format while computing dsc bpp
+  drm/i915/dp: Move compressed bpp check with 420 format inside the
+    helper
+  drm/i915/dp_mst: Use output_format to get the final link bpp
+  drm/i915/dp: Use consistent name for link bpp and compressed bpp
+  drm/i915/dp: Update Bigjoiner interface bits for computing compressed
+    bpp
+  drm/i915/intel_cdclk: Add vdsc with bigjoiner constraints on min_cdlck
+  drm/i915/dp: Remove extra logs for printing DSC info
+  drm/display/dp: Fix the DP DSC Receiver cap size
+  drm/i915/dp: Avoid forcing DSC BPC for MST case
+  drm/i915/dp: Add functions to get min/max src input bpc with DSC
+  drm/i915/dp: Check min bpc DSC limits for dsc_force_bpc also
+  drm/i915/dp: Avoid left shift of DSC output bpp by 4
+  drm/i915/dp: Rename helper to get DSC max pipe_bpp
+  drm/i915/dp: Separate out functions for edp/DP for computing DSC bpp
+  drm/i915/dp: Add DSC BPC/BPP constraints while selecting pipe bpp with
+    DSC
+  drm/i915/dp: Separate out function to get compressed bpp with joiner
+  drm/i915/dp: Get optimal link config to have best compressed bpp
+  drm/i915/dp: Check src/sink compressed bpp limit for edp
+  drm/i915/dp: Check if force_dsc_output_format is possible
+
+Stanislav Lisovskiy (1):
+  drm/i915: Query compressed bpp properly using correct DPCD and DP Spec
+    info
+
+ drivers/gpu/drm/i915/display/intel_cdclk.c  |  59 +-
+ drivers/gpu/drm/i915/display/intel_dp.c     | 655 ++++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_dp.h     |  20 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c |  80 +--
+ include/drm/display/drm_dp.h                |   2 +-
+ 5 files changed, 625 insertions(+), 191 deletions(-)
+
 -- 
-2.39.2
+2.40.1
 
