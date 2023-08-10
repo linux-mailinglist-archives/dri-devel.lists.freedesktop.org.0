@@ -1,52 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1140D77871E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 07:53:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABDA778828
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 09:26:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE4E10E655;
-	Fri, 11 Aug 2023 05:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E038710E674;
+	Fri, 11 Aug 2023 07:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A9E10E655
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 05:53:44 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 104E840005;
- Fri, 11 Aug 2023 05:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1691733222;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vNk4YUvVLgEnJuWGDn/lCvoxEjA0/6874Hfwr58t2dU=;
- b=ZsaDZsTK90x53D6QzGeChgCkbKAIkmtF4dQswziNM++ndDaGPnAppXdT8xp9EX9Pm1g4f8
- FMANfcUtdtxOx9vBFo4Xr0UnObTMuZAjTteLaa1Bme6JmVlhgy56P1W62DM3XHQgkiryXp
- 8dQ5XVzHZ0taDYd5knpKKq9H6HbYIEuOsyUGIOV4033fNEYP+/+w8kgJoe0sjFzEihvrfr
- 7QLEFoGwLrJCCWeDFcdDLpmZ1uSqbCdPNhcBi66L34rmqHg7VjEEM81uoxsUtFfHVQBm1p
- 4+V4YJJwfyLPmH1K4oBMdxR6rdtRGOkz/z95r+rANxELx39qeX0UmrmjWXlw8A==
-Date: Fri, 11 Aug 2023 07:53:38 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH] drm: atmel-hlcdc: Support inverting the pixel clock
- polarity
-Message-ID: <20230811075338.5c6852eb@xps-13>
-In-Reply-To: <20230810173125.GA91332@ravnborg.org>
-References: <20230609144843.851327-1-miquel.raynal@bootlin.com>
- <20230610200515.GA1041001@ravnborg.org>
- <20230807111246.663637a6@xps-13>
- <20230807165245.GA281773@ravnborg.org>
- <20230808083338.5e31584c@xps-13>
- <20230810084552.3db3d8c6@collabora.com>
- <20230810173125.GA91332@ravnborg.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DA910E50C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 11:54:53 +0000 (UTC)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RM4yH5qNNzCrM1;
+ Thu, 10 Aug 2023 19:51:19 +0800 (CST)
+Received: from huawei.com (10.67.175.31) by dggpemm500024.china.huawei.com
+ (7.185.36.203) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Thu, 10 Aug
+ 2023 19:54:48 +0800
+From: GUO Zihua <guozihua@huawei.com>
+To: <bskeggs@redhat.com>, <kherbst@redhat.com>, <lyude@redhat.com>
+Subject: [PATCH -next] drm/nouveau/fifo: Remove duplicated include
+Date: Thu, 10 Aug 2023 19:54:24 +0800
+Message-ID: <20230810115424.22569-1-guozihua@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain
+X-Originating-IP: [10.67.175.31]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500024.china.huawei.com (7.185.36.203)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Fri, 11 Aug 2023 07:26:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,25 +44,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, rfoss@kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Boris,
+Remove duplicated include of chid.h. Resolves checkincludes message.
 
-sam@ravnborg.org wrote on Thu, 10 Aug 2023 19:31:25 +0200:
+Signed-off-by: GUO Zihua <guozihua@huawei.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> > I queued it to drm-misc-next this morning. =20
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
+index b7c9d6115bce..b19a3612b62e 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c
+@@ -24,7 +24,6 @@
+ #include "chan.h"
+ #include "chid.h"
+ #include "cgrp.h"
+-#include "chid.h"
+ #include "runl.h"
+ #include "priv.h"
+ 
+-- 
+2.17.1
 
-Yeah, thanks a lot!
-
-Cheers,
-Miqu=C3=A8l
