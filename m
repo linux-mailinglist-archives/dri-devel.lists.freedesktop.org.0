@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD34777F22
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 19:31:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93586778081
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 20:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FD910E0F2;
-	Thu, 10 Aug 2023 17:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F31A10E5D5;
+	Thu, 10 Aug 2023 18:41:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
- (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB9610E0F2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 17:31:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=NbPi842XVg+zlQNBeb5AXkdZzzcv7g0f1wJvKgq2vg4=;
- b=CtofHbui9sWvMF70T2IaXzsWLLp6CipJUxH4Z8QmItDeYHOZfd7oJB3YXCiHqIqA42LGW7FqM3n5t
- hJx3OzauFb9Kq2I8O9c9jnnRdLlu3tNVGv6klFnfhQKWkcHuy3kUZtu+Ayv6qkwtu8sukZWSrOZsy/
- S0VngqRCP4NP5wBh5Ek26mgouTWV9DuZ0AbPZ4nVZulmIgIeAa9R13TTk01iVX27TTJtiYBeujwODF
- D92A8H5wC5RAHMMpv3KLunCtyvGmforZ0PwxOiFP02x+dy0nrmsmQb8mCOo31PfjSs3SOZRJGdHRJT
- 9lsZPSsZYYhKY+PESW8FRElngIpRbfw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=NbPi842XVg+zlQNBeb5AXkdZzzcv7g0f1wJvKgq2vg4=;
- b=/1WYac6eAVxHKMCzw0VYNxB13NjxOCr6W3t0LIZ/Ew/4tcbwO6kdPIlj1t+U9ffKuM+1dKFyE8vLj
- cUX9OKfAA==
-X-HalOne-ID: ba868d09-37a3-11ee-abbe-b90637070a9d
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3 (Halon) with ESMTPSA
- id ba868d09-37a3-11ee-abbe-b90637070a9d;
- Thu, 10 Aug 2023 17:31:26 +0000 (UTC)
-Date: Thu, 10 Aug 2023 19:31:25 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH] drm: atmel-hlcdc: Support inverting the pixel clock
- polarity
-Message-ID: <20230810173125.GA91332@ravnborg.org>
-References: <20230609144843.851327-1-miquel.raynal@bootlin.com>
- <20230610200515.GA1041001@ravnborg.org>
- <20230807111246.663637a6@xps-13>
- <20230807165245.GA281773@ravnborg.org>
- <20230808083338.5e31584c@xps-13>
- <20230810084552.3db3d8c6@collabora.com>
+Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD0C010E5D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 18:41:33 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-571-CchlRz1TPGa8t5h2FSUj1Q-1; Thu, 10 Aug 2023 14:41:19 -0400
+X-MC-Unique: CchlRz1TPGa8t5h2FSUj1Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D20F51C0782D;
+ Thu, 10 Aug 2023 18:41:18 +0000 (UTC)
+Received: from nomad.redhat.com (unknown [10.64.136.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DAA0C15BAE;
+ Thu, 10 Aug 2023 18:41:17 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] nouveau/u_memcpya: use kvmalloc_array.
+Date: Fri, 11 Aug 2023 04:41:16 +1000
+Message-ID: <20230810184116.230831-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230810084552.3db3d8c6@collabora.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, rfoss@kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org, skeggsb@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> I queued it to drm-misc-next this morning.
+From: Dave Airlie <airlied@redhat.com>
 
-Thanks Boris!
+I think there are limit checks in places for most things but the
+new api wants to not have them.
 
-	Sam
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouvea=
+u/nouveau_drv.h
+index 54063b094a69..6661f3057b72 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -192,9 +192,7 @@ u_memcpya(uint64_t user, unsigned nmemb, unsigned size)
+ =09void *mem;
+ =09void __user *userptr =3D (void __force __user *)(uintptr_t)user;
+=20
+-=09size *=3D nmemb;
+-
+-=09mem =3D kvmalloc(size, GFP_KERNEL);
++=09mem =3D kvmalloc_array(nmemb, size, GFP_KERNEL);
+ =09if (!mem)
+ =09=09return ERR_PTR(-ENOMEM);
+=20
+--=20
+2.41.0
+
