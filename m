@@ -2,45 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B68877727F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 10:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1C97772CD
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 10:23:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D78C410E4EC;
-	Thu, 10 Aug 2023 08:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3670710E163;
+	Thu, 10 Aug 2023 08:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF8310E4EC;
- Thu, 10 Aug 2023 08:13:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A9D00652F9;
- Thu, 10 Aug 2023 08:13:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83019C433D9;
- Thu, 10 Aug 2023 08:13:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691655210;
- bh=gXVZ68cdpgp0Oc06O+iDMDHFl7uPsJSDhRHvYoDqwWY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bSQJ3MDGIPvJ0HMdmJojPNOITtyTnIaObs3s8neo3b0T4ZqDx67kFFQVnWaIlvSq0
- XbT2KMjZ4kRCPECjY9wzhAZIaEpnY8sOrR6YoMMkBhomarPH2yUscPuKDgMwVXygvL
- 931+QUJn8LtveKV+Uc+R4qqJYghlHkz7D5jRSTwBFNp5MlKKPGF92rAFNid/YCWjt5
- wdoO/S0kBgRa9gvVkt8X79r5m0kQBttlpf/RvPowbcQWJMqkxTWaUIF7ln+O7O75gx
- +/Z3QFtPJJd7fJuxGaoYpZUxAebuqPOXjPYpPpP2zE6JtAnsUtzsJNw2q7VYEwiMAs
- Rw5p2OsG22CmA==
-Date: Thu, 10 Aug 2023 10:13:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Subject: Re: [PATCH] video/hdmi: convert *_infoframe_init() functions to void
-Message-ID: <ibwl2bpz5bs72co4ivkvjcc35lv5mqyuvj2hbr3p54hliujklm@uje662ldqfdw>
-References: <20230808180245.7474-1-n.zhandarovich@fintech.ru>
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42EBF10E509
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 08:23:33 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id
+ 3f1490d57ef6-d479d128596so924450276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 01:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1691655812; x=1692260612;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0FSQOxCgo47VmIjcYi/njGt347ahAIyw5h4v3LyUWu0=;
+ b=eIW4Fs5A42B2jvHBg7u7h7ZH53RGKE9aq6BXQT/kJuJA7pwmgm8ERy9rF371C7gjl8
+ HmXYa19Fo2AgBFTzm3z1ESM+b7kgLu9yVwHF9ZQx07oFflmNZzqH2KWlhXCBMm359YqE
+ xIiZTXdBwjkcXqziCH3qy10kCKRTn2dDujpAl+nUkpZee4tgmO5VrEeUHM7Z7M5qHLMD
+ xS1tC/uqJ+fe9i7rrZ61v9lsjdmdmbaRkJAvdm1ZWegU47VzYUAGqU5jUBfJ8EyzHaYN
+ 2MzP2BPJWj61L9ts1B9NKbD7KPY+8Np/9Zl8oJPBsWAntVhfuV/q8NhZNF1pjRjmyWab
+ stOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691655812; x=1692260612;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0FSQOxCgo47VmIjcYi/njGt347ahAIyw5h4v3LyUWu0=;
+ b=Er9THBZyBLsM6SnxSN0LLgQJApSDMG+MchPClNgy1bwiuMYWsy60q5qSuwbkg8WI3W
+ Fe8250bxfUS5M+vuCbldivHsRkpvQdybiV+aqnvWJihaN/hq5DikKbrEDO9d+hvyC31a
+ fRIyPcMCxixPK06cF+CkevI8Zr3zj91LDixOu2KzEZ84g7Sw52Tabdu1FUNbOvJPrVlY
+ ZcZ8ev/O23d5m59WpPYhxZNya1kWdrJ8AT66K0InCVK4nWFxus/BVcoM8s4j1TZw+sfu
+ WcVieKPR4SofJnBs6Hn1YrxBMCIpPad0CUhV0Ezusirjk6K6BXvPdcJM99AfvzYX06IA
+ fRYQ==
+X-Gm-Message-State: AOJu0YxtJNtnlIE8jFCBj6vE1IHy0mkEzVWDD9pyeMGwEXySXfiSblUA
+ BJ6u8FeGlr/1SsgIyyJt0Z8IOqJ0NpdGlTf7kkr2Gg==
+X-Google-Smtp-Source: AGHT+IGvMAyo4iVUK0KCiOuLVtXH4HFq8epNfYNz2HxnUTtMcuEIenQ0cd01eohWWTH+rLFqJyxWQRkAuz/SPRd4vxs=
+X-Received: by 2002:a25:e6d4:0:b0:d47:7448:81a with SMTP id
+ d203-20020a25e6d4000000b00d477448081amr1662391ybh.23.1691655812036; Thu, 10
+ Aug 2023 01:23:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="syn7hsjtm3zubtz2"
-Content-Disposition: inline
-In-Reply-To: <20230808180245.7474-1-n.zhandarovich@fintech.ru>
+References: <20230804210644.1862287-1-dianders@chromium.org>
+In-Reply-To: <20230804210644.1862287-1-dianders@chromium.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 10 Aug 2023 10:23:21 +0200
+Message-ID: <CACRpkdaF4GqHtdJeBed0JGVXNkpA9dvbPgGMK=Qy0_RZyvOtNQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/10] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+To: Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,65 +69,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, lvc-project@linuxtesting.org,
- Emma Anholt <emma@anholt.net>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Helge Deller <deller@gmx.de>,
- amd-gfx@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Ondrej Jirman <megous@megous.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Purism Kernel Team <kernel@puri.sm>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org,
+ Stefan Mavrodiev <stefan@olimex.com>, Jianhua Lu <lujianhua000@gmail.com>,
+ dri-devel@lists.freedesktop.org, Robert Chiras <robert.chiras@nxp.com>,
+ Ondrej Jirman <megi@xff.cz>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 4, 2023 at 11:07=E2=80=AFPM Douglas Anderson <dianders@chromium=
+.org> wrote:
 
---syn7hsjtm3zubtz2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> prepared/enabled in drm_panel"), we want to remove needless code from
+> panel drivers that was storing and double-checking the
+> prepared/enabled state. Even if someone was relying on the
+> double-check before, that double-check is now in the core and not
+> needed in individual drivers.
+>
+> This series attempts to do just that. While the original grep, AKA:
+>   git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+>   git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+> ...still produces a few hits after my series, they are _mostly_ all
+> gone. The ones that are left are less trivial to fix.
+>
+> One of the main reasons that many panels probably needed to store and
+> double-check their prepared/enabled appears to have been to handle
+> shutdown and/or remove. Panels drivers often wanted to force the power
+> off for panels in these cases and this was a good reason for the
+> double-check. As part of this series a new helper is added that uses
+> the state tracking that the drm_panel core is doing so each individual
+> panel driver doesn't need to do it.
+>
+> This series changes a lot of drivers and obviously the author can't
+> test on all of them. The changes here are also not completely trivial
+> in all cases. Please double-check your drivers carefully to make sure
+> something wasn't missed. After looking at over 40 drivers I'll admit
+> that my eyes glazed over a little.
+>
+> I've attempted to organize these patches like to group together panels
+> that needed similar handling. Panels that had code that didn't seem to
+> match anyone else got their own patch. I made judgement calls on what
+> I considered "similar".
+>
+> As noted in individual patches, there are some cases here where I
+> expect behavior to change a little bit. I'm hoping these changes are
+> for the better and don't cause any problems. Fingers crossed.
+>
+> I have at least confirmed that "allmodconfig" for arm64 doesn't fall
+> on its face with this series. I haven't done a ton of other testing.
 
-Hi,
+The series:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-On Tue, Aug 08, 2023 at 11:02:45AM -0700, Nikita Zhandarovich wrote:
-> Four hdmi_*_infoframe_init() functions that initialize different
-> types of hdmi infoframes only return the default 0 value, contrary to
-> their descriptions. Yet these functions are still unnecessarily checked
-> against possible errors in case of failure.
->=20
-> Remove redundant error checks in calls to following functions:
-> - hdmi_spd_infoframe_init
-> - hdmi_audio_infoframe_init
-> - hdmi_vendor_infoframe_init
-> - hdmi_drm_infoframe_init
-> Also, convert these functions to 'void' and fix their descriptions.
+Please send out a non-RFC version, this is clearly the right thing to
+do.
 
-I'm not sure what value it actually adds. None of them return any
-errors, but very well might if we started to be a bit serious about it.
-
-Since the error handling is already there, then I'd rather leave it
-there.
-
-> Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions fo=
-r InfoFrames")
-
-I'm confused about that part. What does it fix exactly?
-
-Maxime
-
---syn7hsjtm3zubtz2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZNScJgAKCRDj7w1vZxhR
-xSWxAPkBKpcYa8fvgV9S3h2fxehetHD5UXS8LuBJb/F6EtKr5QEA1tv3DgElGqJD
-Vd+9ES535Sb39MjXfvkcbNMyPRxsjQU=
-=6V+A
------END PGP SIGNATURE-----
-
---syn7hsjtm3zubtz2--
+Yours,
+Linus Walleij
