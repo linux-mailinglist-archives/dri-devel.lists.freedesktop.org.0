@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A13877818A
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 21:29:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A067D7781A3
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 21:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB00C10E5F4;
-	Thu, 10 Aug 2023 19:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C327810E4FA;
+	Thu, 10 Aug 2023 19:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5818F10E5EF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 19:28:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 791E610E4FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 19:30:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AC7FD667DC;
- Thu, 10 Aug 2023 19:28:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D23F6C433C7;
- Thu, 10 Aug 2023 19:28:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0132160E9F;
+ Thu, 10 Aug 2023 19:30:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABBAC433CB;
+ Thu, 10 Aug 2023 19:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691695732;
- bh=IEzU2DKKPUYeJ2z2QsiU9Rp2PhhCyyWQFd1ITrF1zUU=;
+ s=k20201202; t=1691695827;
+ bh=d4mQBWjLbcx61H9YHtMpK3a+gUbbTesFof4Bts3umRM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l5LLl2rsvkRG17mG6WMeOcShoItFHlO0zl6abEQcJpbIjgoEXoXpszP4cfX8C5Hjs
- 0+TYU7GCRf4PoAUOeYSedzKZZ/3FocmtbiHSC2B7rMApA8omTiaHNi5iz1orMwlNRg
- bEOfiPKjRNNWnbGRK8R7LZL5/LurlI4KhdGEJ12z+VQI+o22Kqino2EichPTlWaUkS
- ToN9u4EMRCQX/EW/mMdDE7FdBIajaOd9ptHz13bgpYjwOgR6R+Q334zrGeuEEsbNFL
- BEq2FhsVZZ1kBdnUzNgjrg9k9Ydsq2wGsgJrkvi5UgnzVa3ZOb8JOy48R010wMh59R
- uD+lBCRD5pzMQ==
-Date: Thu, 10 Aug 2023 20:28:47 +0100
+ b=NRW7TH8PRNpQmj9Ac3TqlrJ3tWZLVjbp9UDGLNq5AcBE+MB4tkEZtTQOTbdWqU43Y
+ XLlsCgfBMUvoEPNoTUiuRr/wVXpaB9rh0pqV0a3qwDlvc5pb2Q/fwRuJkJOBEXMEuo
+ 0sKIFEzExMs8D1Vt/a1fPagAeeSC9SzGRVPPBStVkxxS8Scjf/gmpHoXSymR55uB0q
+ LFr2umbfkFxVZziTbS9DHQImk4qS58tt+BTj5RpSy3gY63SMf+rk/bTAilUwxr9P7S
+ 6QMtNoAnvtgKlhKrTtsAVfNp4QpqEhuTDBlQV7xNsUVg2Rv0HEBnvToNYiCH5NLAF4
+ AJG0/gp4Wb98Q==
+Date: Thu, 10 Aug 2023 20:30:21 +0100
 From: Conor Dooley <conor@kernel.org>
-To: Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH V2 1/2] dt-bindings: display: newvision,nv3051d: Add
- Anbernic 351V Support
-Message-ID: <20230810-settling-greyhound-cb9ef7048a2b@spud>
-References: <20230809153941.1172-1-macroalpha82@gmail.com>
- <20230809153941.1172-2-macroalpha82@gmail.com>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
+Subject: Re: [PATCH] dt-bindings: mxsfb: Exclude i.MX8MQ from power-domains
+ requirement
+Message-ID: <20230810-embroider-seduce-ee4506e7608b@spud>
+References: <20230730184120.94984-1-david@ixit.cz>
+ <ZMonFSqutQRqs61n@qwark.sigxcpu.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MzyQSsnUd6NUiXUc"
+ protocol="application/pgp-signature"; boundary="yVk3JZ7fl+mjKj73"
 Content-Disposition: inline
-In-Reply-To: <20230809153941.1172-2-macroalpha82@gmail.com>
+In-Reply-To: <ZMonFSqutQRqs61n@qwark.sigxcpu.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,93 +55,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org
+Cc: Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, David Heidelberg <david@ixit.cz>,
+ kernel@puri.sm
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---MzyQSsnUd6NUiXUc
-Content-Type: text/plain; charset=us-ascii
+--yVk3JZ7fl+mjKj73
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 09, 2023 at 10:39:40AM -0500, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+On Wed, Aug 02, 2023 at 11:51:17AM +0200, Guido G=FCnther wrote:
+> Hi,
+> On Sun, Jul 30, 2023 at 09:41:20PM +0300, David Heidelberg wrote:
+> > i.MX8MQ uses as secondary compatible fsl,imx6sx-lcdif, which triggers
+> > requirement of power-domains, thou it's not required.
+> >=20
+> > Fixes: f62678a77d58 ("dt-bindings: mxsfb: Document i.MX8M/i.MX6SX/i.MX6=
+SL power-domains property")
+> >=20
+> > Signed-off-by: David Heidelberg <david@ixit.cz>
+> > ---
+> >  .../devicetree/bindings/display/fsl,lcdif.yaml        | 11 +++++++++--
+> >  1 file changed, 9 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b=
+/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > index fc11ab5fc465..2d868276b0f9 100644
+> > --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > @@ -129,8 +129,15 @@ allOf:
+> >                - fsl,imx8mp-lcdif
+> >                - fsl,imx93-lcdif
+> >      then:
+> > -      required:
+> > -        - power-domains
+> > +      if:
+> > +        properties:
+> > +          compatible:
+> > +            not:
+> > +              contains:
+> > +                const: fsl,imx8mq-lcdif
+> > +      then:
+> > +        required:
+> > +          - power-domains
 >=20
-> Document the Anbernic RG351V panel, which appears to be identical to
-> the panel used in their 353 series except for in inclusion of an
-> additional DSI format flag.
+> We currently enable the mipi power domain for the mipi dphy and nwl
+> bridge only but not for LCDIF itself assuming it's not needed (as there's
+> other outputs LCDIF can drive). I *think* this is correct but maybe
+> Marek or Liu can confirm?
 
-Sure?
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I'm happy to Ack this, but I've been sitting on it waiting to see if
+Marek or Liu popped up..
 
-Thanks,
-Conor.
-
->=20
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  .../display/panel/newvision,nv3051d.yaml       | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv=
-3051d.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv30=
-51d.yaml
-> index 116c1b6030a2..576f3640cb33 100644
-> --- a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.y=
-aml
-> +++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.y=
-aml
-> @@ -7,9 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: NewVision NV3051D based LCD panel
-> =20
->  description: |
-> -  The NewVision NV3051D is a driver chip used to drive DSI panels. For n=
-ow,
-> -  this driver only supports the 640x480 panels found in the Anbernic RG3=
-53
-> -  based devices.
-> +  The NewVision NV3051D is a driver chip used to drive DSI panels.
-> =20
->  maintainers:
->    - Chris Morgan <macromorgan@hotmail.com>
-> @@ -19,11 +17,15 @@ allOf:
-> =20
->  properties:
->    compatible:
-> -    items:
-> -      - enum:
-> -          - anbernic,rg353p-panel
-> -          - anbernic,rg353v-panel
-> -      - const: newvision,nv3051d
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - anbernic,rg353p-panel
-> +              - anbernic,rg353v-panel
-> +          - const: newvision,nv3051d
-> +
-> +      - items:
-> +          - const: anbernic,rg351v-panel
-> =20
->    reg: true
->    backlight: true
-> --=20
-> 2.34.1
->=20
-
---MzyQSsnUd6NUiXUc
+--yVk3JZ7fl+mjKj73
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZNU6bwAKCRB4tDGHoIJi
-0kd7AQD8CIJknzMrEg/5OOgz+XcfwEtfPq/RrBpHSWThntRYvwD/W08epyTcTLlc
-p6rlrgGoUFiBQAOQJtNmc/AOAppGFQk=
-=X2WQ
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZNU6zQAKCRB4tDGHoIJi
+0s2nAP9Dmws9nUO7FWU2dnCYapILH8BgEDhPZlOjfqFaw+mE+QD/atHR0u47ijBF
+egbmUZYBYV2cDqiKmos4DpMp6XI4WAY=
+=OYJ6
 -----END PGP SIGNATURE-----
 
---MzyQSsnUd6NUiXUc--
+--yVk3JZ7fl+mjKj73--
