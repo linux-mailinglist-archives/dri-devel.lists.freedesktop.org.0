@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5718777C77
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 17:41:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E793777C87
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Aug 2023 17:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E380710E55B;
-	Thu, 10 Aug 2023 15:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F35010E561;
+	Thu, 10 Aug 2023 15:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF9210E55B;
- Thu, 10 Aug 2023 15:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=LZZwhU2q9tKRTuT4LMGtkLl/YytlWdJV5ADQ7yyf884=; b=nzCVWxdZKZwPPVrpb79vDihKKN
- YQMNeNih7Df6L+pZOvTjw50y9FCJs6aH8rL8h5X2REST5vdC3Wq9YdRoE5xnf6hw68vx0zt8985/4
- +9cDPaBlKuKeAHsCvu3wOh/4f+NA8FgH2SNngUajJxMQhE16KsGIQEWgQG79GUlXunzjgzLhpAOr+
- SYDCVy0iFP1vRNzRSbC+T0oIVVz6F2RvcjiMZYX3czR+nm5oLvCNzwtupO+DnMacrLMCIbCpZMS31
- kUka0xfiEZR78ZR0A8ZecYiCVpTdwXhUWyz2kMWRbBUeMIq9zHuWNHz7b8W60+R7DbtqAwg0Ryp6u
- XrPT05iA==;
-Received: from [2601:1c2:980:9ec0::2764]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qU7mf-0084NA-10; Thu, 10 Aug 2023 15:41:09 +0000
-Message-ID: <efb2d30c-3945-a63d-9a3f-7cf39124f76a@infradead.org>
-Date: Thu, 10 Aug 2023 08:41:07 -0700
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481F910E561
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Aug 2023 15:44:43 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1F8F56607225;
+ Thu, 10 Aug 2023 16:44:41 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1691682281;
+ bh=OMYSYaJbyigtYvasOupc09C1FcffZya9JFL2oFrKVJk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=HhCu+ortyx2/GP/SasRsskVBy/sHK5g7HaqRoQrS4jocyIz21bmGo9BqwC359VqCG
+ 1Kk4fFWJcKMip2gPgjfZZqq/E5NWPwa8+k3gvZ0c641oDEQC8Tw2smKyzOT4E7gYa8
+ JnHDji7QrW6WfhmMuVPepQ3HJiFdTfOgzMBSqbfsVB+YWYNtAEdJFNL4PE2Lok4m0I
+ Tx4ECd0bXeclbextCRzJpgNylapX5XHe05kxZNBzzBSFcm2EYne3NA/kBpgJ+6oatv
+ cDIwJrGodtzuiOot8d4wkgDnu19sH74LJsuoz0hV1qHhqgAj/qPD+SRFl0E3dI7qTj
+ UFS2QJgIkWauw==
+Date: Thu, 10 Aug 2023 17:44:38 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 00/15] drm: Add a driver for FW-based Mali GPUs
+Message-ID: <20230810174438.2dba9b04@collabora.com>
+In-Reply-To: <CAL_JsqJgymu8r0ApXmYkwL2dk5o5KyZ8iG14t7th_heJY5uP+w@mail.gmail.com>
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <CAL_JsqJgymu8r0ApXmYkwL2dk5o5KyZ8iG14t7th_heJY5uP+w@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH V8 1/9] drivers core: Add support for Wifi band RF
- mitigations
-Content-Language: en-US
-To: Evan Quan <evan.quan@amd.com>, rafael@kernel.org, lenb@kernel.org,
- Alexander.Deucher@amd.com, Christian.Koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, johannes@sipsolutions.net,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, Mario.Limonciello@amd.com, mdaenzer@redhat.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, hdegoede@redhat.com,
- jingyuwang_vip@163.com, Lijo.Lazar@amd.com, jim.cromie@gmail.com,
- bellosilicio@gmail.com, andrealmeid@igalia.com, trix@redhat.com,
- jsg@jsg.id.au, arnd@arndb.de, andrew@lunn.ch
-References: <20230810073803.1643451-1-evan.quan@amd.com>
- <20230810073803.1643451-2-evan.quan@amd.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230810073803.1643451-2-evan.quan@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, Daniel Stone <daniels@collabora.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, "Marty
+ E . Plummer" <hanetzer@startmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Rob,
 
+On Wed, 9 Aug 2023 14:22:59 -0600
+Rob Herring <robh@kernel.org> wrote:
 
-On 8/10/23 00:37, Evan Quan wrote:
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a1457995fd41..21f73a0bbd0b 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -7152,3 +7152,12 @@
->  				xmon commands.
->  			off	xmon is disabled.
->  
-> +	wbrf=		[KNL]
-> +			Format: { on | auto | off }
-> +			Controls if WBRF features should be enabled or disabled
-> +			forcely. Default is auto.
+> On Wed, Aug 9, 2023 at 10:53=E2=80=AFAM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > I tried to Cc anyone that was involved in any development of the code
+> > I picked from panfrost, so they can acknowledge the GPL2 -> MIT+GPL2
+> > change. If I missed someone, please let me know. =20
+>=20
+> Panfrost was largely based on etnaviv, vc4, v3d, and msm. Those are
+> all GPL2 (or 2+) only.
 
-"forcely" is not a word. "forcedly" is a word, but it's not used very much
-AFAIK.
-I would probably write "Controls if WBRF features should be forced on or off."
+Uh, I must have missed some copyright headers then. Note that not all
+panfrost files were taken as a base for panthor:
 
-> +			on	Force enable the WBRF features.
-> +			auto	Up to the system to do proper checks to
-> +				determine the WBRF features should be enabled
-> +				or not.
-> +			off	Force disable the WBRF features.
+- Makefile/Kconfig. I honestly hope there's nothing copyright-able in
+  there, given there's no other way to define your driver and
+  compilation rules.
+- panthor_device.{c,h} copied from panfrost_device.{c,h} with quite a
+  few modifications in the process. This one has your copyright, and
+  Marty's one.
+- a tiny part of panthor_drv.c was copied from panfrost_drv.c, but let's
+  be honest, the part that was copied (ioctl wrappers, mostly), can't
+  really be done differently. This one has your copyright, Marty's one,
+  and Collabora's one.
+- panthor_regs.h copied from panfrost_regs.h. This one has your
+  copyright, Marty's one and Arm's one (definitions extracted from
+  kbase). But again, I'm not even sure register definitions are
+  copyright-able, given there's no other way to define them. If that
+  makes a difference, I changed the prefix, and dropped definition that
+  do not exist on CSF HW.
+- panthor_gpu.{c,h} copied from panfrost_gpu.{c,h}. These files have
+  your copyright, Marty's one, and Collabora's one.
+- panthor_{gem,mmu}.{c,h} copied from panfrost_{gem,mmu}.{c,h}. Those
+  ones have your copyright only.
+- panthor_devfreq.{c,h} copied from panfrost_devfreq.{c,h}. Collabora's
+  copyright only.
+- panthor_{heap,fw,sched}.{c,h}. Those are brand new files, that were
+  written from scratch.
 
--- 
-~Randy
+I also git-blamed the lines I copies to Cc any contributors to the
+above files. I might have omitted someone, but I did my best to
+try and spot people that have a word in this decision.
+
+> How is relicensing that code okay?
+
+Sorry, the copyright headers of the files I copied didn't mention that
+:-/. If that's an omission, it would be good to have the headers updated
+to reflect the actual chain of copyrights.
+
+> Also,
+> panfrost depends on drm_gem_shmem_helper.c (at least) which is GPL2.
+> Does that get re-implemented in a MIT licensed environment?
+
+Not only drm_gem_shmem, but drm_gpuva_mgr and drm_sched too. And yes,
+any helper function/lib that's not GPL+MIT will have to be
+re-implemented or replaced by something else.
+
+>=20
+> Maybe some drivers are enough of a silo to get away with MIT
+> licensing, but I wouldn't be comfortable claiming it.
+
+Well, yes, re-using the code as-is is almost impossible, unless
+someone rewrites the various GPL components we depend on. But if
+someone wants to pick, say, the scheduling logic, and replace drm_sched
+by something else, they can. Not saying it's worth it, just saying it's
+possible.
+
+Regards,
+
+Boris
+
