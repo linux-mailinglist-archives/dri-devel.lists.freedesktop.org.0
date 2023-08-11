@@ -1,44 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D97C77879F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 08:45:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EEA7787C8
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 09:01:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6D510E667;
-	Fri, 11 Aug 2023 06:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B5010E665;
+	Fri, 11 Aug 2023 07:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1512710E665
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 06:45:27 +0000 (UTC)
-Received: from 46.183.103.8.relaix.net ([46.183.103.8] helo=[172.18.99.178]);
- authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1qULtd-0001jS-CA; Fri, 11 Aug 2023 08:45:17 +0200
-Message-ID: <f32b4636-969c-3b9e-6802-5991f511739e@leemhuis.info>
-Date: Fri, 11 Aug 2023 08:45:12 +0200
+X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
+ Fri, 11 Aug 2023 07:01:48 UTC
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D17110E665
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 07:01:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1691737308; x=1723273308;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BsK4TCop8Tvvq64YuM67VXvxRYKw44rbaUJs8CrYGWQ=;
+ b=Ahm6QfN+YuWQka2sg/HU2ufGxZbetzT+CDrGcEm8wpiuF0iA1ealeu6y
+ 9tT56wjzpa2/7E/OhFTy2/mG3ygAlw3wLQulCJwfK/JQxrdUy5SeADA17
+ 8sVs+35kVi9l66jy/g9NUxixMWJpx9WE/pF9/SRs4BzPMuQvcEMmj0a5B
+ BmPonO3RRgOJYn3UbuqWYUk0DhmHpjclZzopTW95lGvFrMs0hti8CmzvN
+ ilCwh1COlpFusBVmVfnCjQpgPybxtoys7EZK+Alsqz5KkkbUDc9AtnL+b
+ gw2+cyrf0qf+j6CYlxsVdaF7W6JBJUYoeSVVAivUJ44KPgE0L1Y8IsYUM w==;
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
+ d="asc'?scan'208";a="229270610"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 10 Aug 2023 23:54:40 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 10 Aug 2023 23:54:32 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
+ Transport; Thu, 10 Aug 2023 23:54:29 -0700
+Date: Fri, 11 Aug 2023 07:53:52 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH] dt-bindings: mxsfb: Exclude i.MX8MQ from power-domains
+ requirement
+Message-ID: <20230811-purgatory-obliged-1f0755ac88d2@wendy>
+References: <20230730184120.94984-1-david@ixit.cz>
+ <ZMonFSqutQRqs61n@qwark.sigxcpu.org>
+ <20230810-embroider-seduce-ee4506e7608b@spud>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] HDMI connector detection broken in 6.3 on Intel(R)
- Celeron(R) N3060 integrated graphics
-Content-Language: en-US, de-DE
-To: Mikhail Rudenko <mike.rudenko@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <87v8dmr6ty.fsf@gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <87v8dmr6ty.fsf@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1691736327;
- 8a6f12a0; 
-X-HE-SMSGID: 1qULtd-0001jS-CA
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ItxO9H8fCtDVgFN+"
+Content-Disposition: inline
+In-Reply-To: <20230810-embroider-seduce-ee4506e7608b@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,88 +68,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- regressions@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, David Heidelberg <david@ixit.cz>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>, kernel@puri.sm
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[CCing the i915 maintainers and the dri maintainers]
+--ItxO9H8fCtDVgFN+
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi, Thorsten here, the Linux kernel's regression tracker.
+On Thu, Aug 10, 2023 at 08:30:21PM +0100, Conor Dooley wrote:
+> On Wed, Aug 02, 2023 at 11:51:17AM +0200, Guido G=FCnther wrote:
+> > Hi,
+> > On Sun, Jul 30, 2023 at 09:41:20PM +0300, David Heidelberg wrote:
+> > > i.MX8MQ uses as secondary compatible fsl,imx6sx-lcdif, which triggers
+> > > requirement of power-domains, thou it's not required.
+> > >=20
+> > > Fixes: f62678a77d58 ("dt-bindings: mxsfb: Document i.MX8M/i.MX6SX/i.M=
+X6SL power-domains property")
+> > >=20
+> > > Signed-off-by: David Heidelberg <david@ixit.cz>
+> > > ---
+> > >  .../devicetree/bindings/display/fsl,lcdif.yaml        | 11 +++++++++=
+--
+> > >  1 file changed, 9 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml=
+ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > > index fc11ab5fc465..2d868276b0f9 100644
+> > > --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> > > @@ -129,8 +129,15 @@ allOf:
+> > >                - fsl,imx8mp-lcdif
+> > >                - fsl,imx93-lcdif
+> > >      then:
+> > > -      required:
+> > > -        - power-domains
+> > > +      if:
+> > > +        properties:
+> > > +          compatible:
+> > > +            not:
+> > > +              contains:
+> > > +                const: fsl,imx8mq-lcdif
+> > > +      then:
+> > > +        required:
+> > > +          - power-domains
+> >=20
+> > We currently enable the mipi power domain for the mipi dphy and nwl
+> > bridge only but not for LCDIF itself assuming it's not needed (as there=
+'s
+> > other outputs LCDIF can drive). I *think* this is correct but maybe
+> > Marek or Liu can confirm?
+>=20
+> I'm happy to Ack this, but I've been sitting on it waiting to see if
+> Marek or Liu popped up..
 
-On 10.08.23 21:33, Mikhail Rudenko wrote:
-> The following is a copy an issue I posted to drm/i915 gitlab [1] two
-> months ago. I repost it to the mailing lists in hope that it will help
-> the right people pay attention to it.
+Well, I got two positive responses, so
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Thx for your report. Wonder why Dmitry (who authored a4e771729a51) or
-Thomas (who committed it) it didn't look into this, but maybe the i915
-devs didn't forward the report to them.
+Thanks,
+Conor.
 
-Let's see if these mails help. Just wondering: does reverting
-a4e771729a51 from 6.5-rc5 or drm-tip help as well?
 
-BTW, there was an earlier report about a problem with a4e771729a51 that
-afaics was never addressed, but it might be unrelated.
 
-https://lore.kernel.org/all/20230328023129.3596968-1-zhouzongmin@kylinos.cn/
+--ItxO9H8fCtDVgFN+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Ciao, Thorsten
+-----BEGIN PGP SIGNATURE-----
 
-> After kernel upgrade from 6.2.13 to 6.3 HDMI connector detection is
-> broken for me. Issue is 100% reproducible:
-> 
-> 1. Start system as usual with HDMI connected.
-> 2. Disconnect HDMI
-> 3. Connect HDMI back
-> 4. Get "no signal" on display, connector status in sysfs is disconnected
-> 
-> Curiously, running xrandr over ssh like
-> 
->     ssh qnap251.local env DISPLAY=:0 xrandr
-> 
-> makes display come back. drm-tip tip is affected as well (last test
-> 2023-08-02).
-> 
-> Bisecting points at a4e771729a51 ("drm/probe_helper: sort out poll_running vs poll_enabled").
-> Reverting that commit on top of 6.3 fixes the issue for me.
-> 
-> System information:
-> * System architecture: x86_64
-> * Kernel version: 6.3.arch1
-> * Linux distribution: Arch Linux
-> * Machine: QNAP TS-251A, CPU: Intel(R) Celeron(R) CPU N3060 @ 1.60GHz
-> * Display connector: single HDMI display
-> * dmesg with debug information (captured on drm-tip, following above 4 steps): [2]
-> * xrandr output:
-> 
->     Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 16384 x 16384
->     DP-1 disconnected (normal left inverted right x axis y axis)
->     HDMI-1 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 708mm x 398mm
->        1920x1080     60.00*+  50.00    59.94    30.00    25.00    24.00    29.97    23.98
->        1920x1080i    60.00    50.00    59.94
->        1360x768      59.80
->        1280x768      60.35
->        1280x720      60.00    50.00    59.94
->        1024x768      75.03    70.07    60.00
->        832x624       74.55
->        800x600       75.00    60.32
->        720x576       50.00
->        720x480       60.00    59.94
->        640x480       75.00    60.00    59.94
->        720x400       70.08
->     DP-2 disconnected (normal left inverted right x axis y axis)
->     HDMI-2 disconnected (normal left inverted right x axis y axis)```
-> 
-> I'm willing to provide additional information and/or test fixes.
-> 
-> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/8451
-> [2] https://gitlab.freedesktop.org/drm/intel/uploads/fda7aff0b13ef20962856c2c7be51544/dmesg.txt
-> 
-> #regzbot introduced: a4e771729a51
-> 
-> --
-> Best regards,
-> Mikhail Rudenko
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZNXbAAAKCRB4tDGHoIJi
+0ivxAQCX4HLM88F3C85q+xIpWfw/hZxtiBMY3aKnSvpKM2M+nAEAtRYGseVn9VrH
+EcVfsRku0eySutPtAoQsqd9peXJm/g8=
+=jTU0
+-----END PGP SIGNATURE-----
+
+--ItxO9H8fCtDVgFN+--
