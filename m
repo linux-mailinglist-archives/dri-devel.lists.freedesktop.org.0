@@ -2,49 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1A7779004
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 14:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D14779063
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 15:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0B710E0B6;
-	Fri, 11 Aug 2023 12:59:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9573210E0CA;
+	Fri, 11 Aug 2023 13:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D148110E0B6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 12:59:52 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 37D2E65E66;
- Fri, 11 Aug 2023 12:59:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B893CC433C8;
- Fri, 11 Aug 2023 12:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691758791;
- bh=x+uN9Za/4d0M/iYmnpne9+Q6zWzuYU0ohyG404YXD2E=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d3E/362z7vfoGeQM+O8cuX0jxh+8LY5wg57vKDsJ5qNN+ukjiZCtUoeDvsAfXxWU4
- Vwnh4r7Pnh45+/+w2OKL20kao03cd7XnlnSqi3CjWGyTWVrIpfMt5hCIddHKyMBD52
- 91yHnmd77BY0ckqWP6w3fA9EExi2gzxLCm1Ivk4N0nGVjHz/lp8fR1xFbtgajWHDMY
- y6L7zxUD4qvr5R9/hxcJyACpLkqMAcF0cnjqD9kpfMtF3c4EJ78xLXfJd3YtACJDhC
- iSZEHk6cLpvf1hgGd+GF9ddyKVVpg1HjIwr4TPNbzOCmT4UkFrDiz5sHKC68OAPnjQ
- Fp4vpUfFQAjuA==
-From: Robert Foss <rfoss@kernel.org>
-To: dri-devel@lists.freedesktop.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v4] drm: bridge: samsung-dsim: Fix waiting for empty cmd
- transfer FIFO on older Exynos
-Date: Fri, 11 Aug 2023 14:59:38 +0200
-Message-ID: <169175865996.293502.7367123633298049810.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230809145641.3213210-1-m.szyprowski@samsung.com>
-References: <CGME20230809145649eucas1p1bb67f98aa4b2987b263b0fd84204d8a2@eucas1p1.samsung.com>
- <20230809145641.3213210-1-m.szyprowski@samsung.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 895AE10E0D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 13:08:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AE35113E;
+ Fri, 11 Aug 2023 06:09:11 -0700 (PDT)
+Received: from [10.1.30.25] (e122027.cambridge.arm.com [10.1.30.25])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D37C73F6C4;
+ Fri, 11 Aug 2023 06:08:26 -0700 (PDT)
+Message-ID: <b6bf9a39-0b61-363c-324b-eb6789a24b74@arm.com>
+Date: Fri, 11 Aug 2023 14:08:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 01/15] drm/shmem-helper: Make pages_use_count an
+ atomic_t
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-2-boris.brezillon@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230809165330.2451699-2-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,33 +46,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Aug 2023 16:56:41 +0200, Marek Szyprowski wrote:
-> Samsung DSIM used in older Exynos SoCs (like Exynos 4210, 4x12, 3250)
-> doesn't report empty level of packer header FIFO. In case of those SoCs,
-> use the old way of waiting for empty command tranfsfer FIFO, removed
-> recently by commit 14806c641582 ("Drain command transfer FIFO before
-> transfer").
+On 09/08/2023 17:53, Boris Brezillon wrote:
+> This way we can grab a pages ref without acquiring the resv lock when
+> pages_use_count > 0. Need to implement asynchronous map using the
+
+NIT: s/Need/This is needed/
+
+> drm_gpuva_mgr when the map/unmap operation triggers a mapping split,
+> requiring the new left/right regions to grab an additional page ref
+> to guarantee that the pages stay pinned when the middle section is
+> unmapped.
 > 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c  | 28 +++++++++++++------------
+>  drivers/gpu/drm/lima/lima_gem.c         |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c |  2 +-
+>  include/drm/drm_gem_shmem_helper.h      |  2 +-
+>  4 files changed, 18 insertions(+), 16 deletions(-)
 > 
-> [...]
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index a783d2245599..ca6938ea1b82 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -155,7 +155,7 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  		if (shmem->pages)
+>  			drm_gem_shmem_put_pages(shmem);
+>  
+> -		drm_WARN_ON(obj->dev, shmem->pages_use_count);
+> +		drm_WARN_ON(obj->dev, atomic_read(&shmem->pages_use_count));
+>  
+>  		dma_resv_unlock(shmem->base.resv);
+>  	}
+> @@ -172,14 +172,14 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>  
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> -	if (shmem->pages_use_count++ > 0)
+> +	if (atomic_inc_return(&shmem->pages_use_count) > 1)
+>  		return 0;
+>  
+>  	pages = drm_gem_get_pages(obj);
+>  	if (IS_ERR(pages)) {
+>  		drm_dbg_kms(obj->dev, "Failed to get pages (%ld)\n",
+>  			    PTR_ERR(pages));
+> -		shmem->pages_use_count = 0;
+> +		atomic_set(&shmem->pages_use_count, 0);
+>  		return PTR_ERR(pages);
+>  	}
+>  
+> @@ -210,10 +210,10 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+>  
+>  	dma_resv_assert_held(shmem->base.resv);
+>  
+> -	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+> +	if (drm_WARN_ON_ONCE(obj->dev, !atomic_read(&shmem->pages_use_count)))
+>  		return;
+>  
+> -	if (--shmem->pages_use_count > 0)
+> +	if (atomic_dec_return(&shmem->pages_use_count) > 0)
+>  		return;
+>  
+>  #ifdef CONFIG_X86
+> @@ -263,6 +263,10 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> +	/* If we are the first owner, we need to grab the lock. */
+> +	if (atomic_inc_not_zero(&shmem->pages_use_count))
+> +		return 0;
+> +
 
-Fixed formatting warning related to commit message syntax.
+Unless I'm misunderstanding I think this introduces a race where two
+threads call drm_gem_shmem_pin() at the same time:
 
-Applied, thanks!
+Thread1				| Thread 2
+--------------------------------+------------------------------
+drm_gem_shmem_pin()		|
+ - pages_use_count == 0 so not  |
+   incremented                  |
+ - lock taken			|
+drm_gem_shmem_pin_locked()	|
+drm_gem_shmem_get_pages()	|
+ - pages_use_count incremented	|
+<thread descheduled>            | drm_gem_shmem_pin()
+                                |  - pages_use_count == 1 so is it
+				|    incremented and returns early
+				|    without taking the lock
+				| Code tries to use shmem->pages
+<thread rescheduled>		| and blows up
+drm_gem_get_pages()		|
+shmem->pages populated		|
+lock released			|
 
-[1/1] drm: bridge: samsung-dsim: Fix waiting for empty cmd transfer FIFO on older Exynos
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=15f389da1125
+I think you need to modify drm_gem_shmem_get_pages() to only increment
+pages_use_count when shmem->pages has been populated. That also gets rid
+of the atomic_set() in that function which scares me.
 
+Steve
 
-
-Rob
+>  	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
+>  	if (ret)
+>  		return ret;
+> @@ -286,6 +290,10 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> +	/* If we are the last owner, we need to grab the lock. */
+> +	if (atomic_add_unless(&shmem->pages_use_count, -1, 1))
+> +		return;
+> +
+>  	dma_resv_lock(shmem->base.resv, NULL);
+>  	drm_gem_shmem_unpin_locked(shmem);
+>  	dma_resv_unlock(shmem->base.resv);
+> @@ -543,18 +551,12 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> -	dma_resv_lock(shmem->base.resv, NULL);
+> -
+>  	/*
+>  	 * We should have already pinned the pages when the buffer was first
+>  	 * mmap'd, vm_open() just grabs an additional reference for the new
+>  	 * mm the vma is getting copied into (ie. on fork()).
+>  	 */
+> -	if (!drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+> -		shmem->pages_use_count++;
+> -
+> -	dma_resv_unlock(shmem->base.resv);
+> -
+> +	drm_WARN_ON_ONCE(obj->dev, atomic_inc_return(&shmem->pages_use_count) == 1);
+>  	drm_gem_vm_open(vma);
+>  }
+>  
+> @@ -632,7 +634,7 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+>  	if (shmem->base.import_attach)
+>  		return;
+>  
+> -	drm_printf_indent(p, indent, "pages_use_count=%u\n", shmem->pages_use_count);
+> +	drm_printf_indent(p, indent, "pages_use_count=%u\n", atomic_read(&shmem->pages_use_count));
+>  	drm_printf_indent(p, indent, "vmap_use_count=%u\n", shmem->vmap_use_count);
+>  	drm_printf_indent(p, indent, "vaddr=%p\n", shmem->vaddr);
+>  }
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 4f9736e5f929..0116518b1601 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -47,7 +47,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>  		}
+>  
+>  		bo->base.pages = pages;
+> -		bo->base.pages_use_count = 1;
+> +		atomic_set(&bo->base.pages_use_count, 1);
+>  
+>  		mapping_set_unevictable(mapping);
+>  	}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index c0123d09f699..f66e63bf743e 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -487,7 +487,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>  			goto err_unlock;
+>  		}
+>  		bo->base.pages = pages;
+> -		bo->base.pages_use_count = 1;
+> +		atomic_set(&bo->base.pages_use_count, 1);
+>  	} else {
+>  		pages = bo->base.pages;
+>  		if (pages[page_offset]) {
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index bf0c31aa8fbe..0661f87d3bda 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -37,7 +37,7 @@ struct drm_gem_shmem_object {
+>  	 * Reference count on the pages table.
+>  	 * The pages are put when the count reaches zero.
+>  	 */
+> -	unsigned int pages_use_count;
+> +	atomic_t pages_use_count;
+>  
+>  	/**
+>  	 * @madv: State for madvise
 
