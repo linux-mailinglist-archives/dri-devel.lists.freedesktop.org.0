@@ -2,74 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04D57794B1
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 865247794BE
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:35:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E1410E6C6;
-	Fri, 11 Aug 2023 16:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B399610E6BE;
+	Fri, 11 Aug 2023 16:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8719910E6BC
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:33:09 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4fe0d5f719dso3588804e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691771587; x=1692376387;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9Kmg99ifzvVDXw5iZF67CnPsk4R1aNFzdMl+/K7HXgc=;
- b=I0Bwbkye7tXfJM3o4t36qj6mD05r/dqvJZR0jcPgseHrr/gA5yyKFgQadJ5qvYL7T1
- 7PiYMe00V8B4o+CtGwdRqSSa6fq4sAibeJDkeTh/XtR785K1WThCx7FDzoWI7u6ISLp8
- uVTa6+WSWdaXgcxm8635IeKHbyFuPCnqRTn7pxNRM3L+5WtT4eluR3dgPFwzX3FB7QJT
- C7U1+ho4n/2RZrX5hFrMMLnxksJIw4jmiO6bmlYF9nZsopofcgUc1iJQXMzJz6kHMC3r
- oopbZmOrkw+HbXvouLZxCTSo5CHikfLLhpsn1ghwL2OmtNdm3PqKzTZCkfRobWrQzB2C
- C/Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691771587; x=1692376387;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9Kmg99ifzvVDXw5iZF67CnPsk4R1aNFzdMl+/K7HXgc=;
- b=ibZhCtBGEoMLpdGO88VlVM6R1pqGne702mvckH91TbgEjqSHrEqrdt7kpfjmwPIZPT
- dyFJv1NpE/7WvQij6pYGmBRCdZ4zklLtOXf7e4yOFpcryFlCWpyXtJy/KsJKkafuEjPs
- fVgt2IDkKmJAmQgbKlkDYi1g9WTAfJlmyPbQ4DW6ay+w1EkCBhoBO3dw6Su5VkNDymOs
- 9Kt1vXGVXWb4PrWQ5c6FXngQhcAlqCD5vJFdqGkQEdZgCCxQJ4Ah6KnJzbI6+LgDD4xA
- R7/NeWs8PG6kiLPs46NG+xEnPxtHjIYnoLJ6Ofa4uPTgBhGafNQa9aibn7cgug+t5RXf
- OM2g==
-X-Gm-Message-State: AOJu0YyJr81zyNrjlvae7o3iHUHe7OJLUmjrK4LNZOkocGRrtD4ff3Fd
- dv9uyjbNgWCek7xoSx2KRW1ZfBXpa1akkhds
-X-Google-Smtp-Source: AGHT+IFElx8WS0ZZqIvWLUu7tKaWNnBRxvEUBFofkrojqyjjnTkXPXKV4dBNqgEmzlv7RfLEI+WZ7A==
-X-Received: by 2002:a19:8c56:0:b0:4fe:6ff:dfcb with SMTP id
- i22-20020a198c56000000b004fe06ffdfcbmr1706443lfj.30.1691771587622; 
- Fri, 11 Aug 2023 09:33:07 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-92-32.kaisa-laajakaista.fi.
- [85.29.92.32]) by smtp.gmail.com with ESMTPSA id
- a5-20020a19f805000000b004fb9536bc99sm778839lff.169.2023.08.11.09.33.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Aug 2023 09:33:07 -0700 (PDT)
-Message-ID: <455e16aa-7e51-4ebf-ab36-2bd5db4e4f16@gmail.com>
-Date: Fri, 11 Aug 2023 19:35:09 +0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7CC5310E6BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:35:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65757113E;
+ Fri, 11 Aug 2023 09:36:33 -0700 (PDT)
+Received: from [10.57.1.174] (unknown [10.57.1.174])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F37D73F64C;
+ Fri, 11 Aug 2023 09:35:48 -0700 (PDT)
+Message-ID: <abed970e-db59-9eef-c4b6-dee49718f582@arm.com>
+Date: Fri, 11 Aug 2023 17:35:40 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] drm/bridge: tc358768: Fix tc358768_ns_to_cnt()
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-9-1afd44b7826b@ideasonboard.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20230804-tc358768-v1-9-1afd44b7826b@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 13/15] drm/panthor: Allow driver compilation
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
+ <20230809165330.2451699-14-boris.brezillon@collabora.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230809165330.2451699-14-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,41 +45,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Steven Price <steven.price@arm.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 04/08/2023 13:44, Tomi Valkeinen wrote:
-> The tc358768_ns_to_cnt() is, most likely, supposed to do a div-round-up
-> operation, but it misses subtracting one from the dividend.
+On 2023-08-09 17:53, Boris Brezillon wrote:
+> Now that all blocks are available, we can add/update Kconfig/Makefile
+> files to allow compilation.
 > 
-> Fix this by just using DIV_ROUND_UP().
-
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
-> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> v2:
+> - Rename the driver (pancsf -> panthor)
+> - Change the license (GPL2 -> MIT + GPL2)
+> - Split the driver addition commit
+> - Add new dependencies on GPUVA and DRM_SCHED
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > ---
->  drivers/gpu/drm/bridge/tc358768.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/Kconfig          |  2 ++
+>   drivers/gpu/drm/Makefile         |  1 +
+>   drivers/gpu/drm/panthor/Kconfig  | 16 ++++++++++++++++
+>   drivers/gpu/drm/panthor/Makefile | 15 +++++++++++++++
+>   4 files changed, 34 insertions(+)
+>   create mode 100644 drivers/gpu/drm/panthor/Kconfig
+>   create mode 100644 drivers/gpu/drm/panthor/Makefile
 > 
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index 9411b0fb471e..dc2241c18dde 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -630,7 +630,7 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
->  
->  static u32 tc358768_ns_to_cnt(u32 ns, u32 period_ps)
->  {
-> -	return (ns * 1000 + period_ps) / period_ps;
-> +	return DIV_ROUND_UP(ns * 1000, period_ps);
->  }
->  
->  static u32 tc358768_ps_to_ns(u32 ps)
-> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 2a44b9419d4d..bddfbdb2ffee 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -358,6 +358,8 @@ source "drivers/gpu/drm/lima/Kconfig"
+>   
+>   source "drivers/gpu/drm/panfrost/Kconfig"
+>   
+> +source "drivers/gpu/drm/panthor/Kconfig"
+> +
+>   source "drivers/gpu/drm/aspeed/Kconfig"
+>   
+>   source "drivers/gpu/drm/mcde/Kconfig"
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 215e78e79125..0a260727505f 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -188,6 +188,7 @@ obj-$(CONFIG_DRM_TVE200) += tve200/
+>   obj-$(CONFIG_DRM_XEN) += xen/
+>   obj-$(CONFIG_DRM_VBOXVIDEO) += vboxvideo/
+>   obj-$(CONFIG_DRM_LIMA)  += lima/
+> +obj-$(CONFIG_DRM_PANTHOR) += panthor/
+>   obj-$(CONFIG_DRM_PANFROST) += panfrost/
+>   obj-$(CONFIG_DRM_ASPEED_GFX) += aspeed/
+>   obj-$(CONFIG_DRM_MCDE) += mcde/
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
+> new file mode 100644
+> index 000000000000..a9d17b1bbb75
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -0,0 +1,16 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +config DRM_PANTHOR
+> +	tristate "Panthor (DRM support for ARM Mali CSF-based GPUs)"
+> +	depends on DRM
+> +	depends on ARM || ARM64 || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> +	depends on MMU
+> +	select DRM_EXEC
+> +	select DRM_SCHED
+> +	select IOMMU_SUPPORT
+> +	select IOMMU_IO_PGTABLE_LPAE
+> +	select DRM_GEM_SHMEM_HELPER
+> +	select PM_DEVFREQ
+> +	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+> +	help
+> +	  DRM driver for ARM Mali CSF-based GPUs.
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> new file mode 100644
+> index 000000000000..64193a484879
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +panthor-y := \
+> +	panthor_devfreq.o \
+> +	panthor_device.o \
+> +	panthor_drv.o \
+> +	panthor_gem.o \
+> +	panthor_gpu.o \
+> +	panthor_heap.o \
+> +	panthor_heap.o \
+> +	panthor_fw.o \
+> +	panthor_mmu.o \
+> +	panthor_sched.o
+> +
+> +obj-$(CONFIG_DRM_PANTHOR) += panthor.o
 
--- 
-Péter
+FWIW I still think it would be nice to have a minor 
+directory/Kconfig/Makefile reshuffle and a trivial bit of extra 
+registration glue to build both drivers into a single module. It seems 
+like it could be a perpetual source of confusion to end users where Mesa 
+"panfrost" is the right option but kernel "panfrost" is the wrong one. 
+Especially when pretty much every other GPU driver is also just one big 
+top-level module to load for many different generations of hardware. 
+Plus it would mean that if someone did want to have a go at 
+deduplicating the resource-wrangling boilerplate for OPPs etc. in 
+future, there's more chance of being able to do so meaningfully.
+
+Cheers,
+Robin.
