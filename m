@@ -1,73 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0246E779454
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:24:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1213D7794A0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1A410E6B6;
-	Fri, 11 Aug 2023 16:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 314AA10E6BB;
+	Fri, 11 Aug 2023 16:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A310710E6B6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:24:39 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fe216edaf7so3840933e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:24:39 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B098810E6B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:31:16 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2b9a2033978so33589731fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:31:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691771078; x=1692375878;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1691771475; x=1692376275;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iAbWJt7VYJZGb0oGJLZpXmL9Pg/Akce6I5YlnCbDdyQ=;
- b=aRrYJz8d5a5QwsSiJmRKAxgPPv6BSTNLZCK5XP2vev2u1XU7FVBaHn7B88YPZgdJBZ
- YlEQ17K7ymZaAR0wlgGOUhnPZvqnspOocaQhuqcLx9uLGgmxEoXo7HQbw0aTaBX0w3Zb
- XmMfrbBxszQzcoeRnJK+pPlgdNMEJX07Mh6Th+i0wrylCNWmZwrBOtG51WQ9v/2Q7EaU
- aH5Ky7PHIF+1gaI44Jyv+Ks/YNhn8IKjCrptpZQyFXxqGYk5CdUJ6DBClB1od7AsEiti
- MLGw70erkPOOTtfDOZ329UPusEs94y4/KVwVGcrijEw9NSvZVy74hg8aJlyUIFliWWq0
- Iamw==
+ bh=kLkcROD0bRaahMTY5iVtJo3yNizIeUpQp+dJ24ES2Uw=;
+ b=RDyb7eyEm+haK0975YQ+/4L22fz9Y6+ak8l8Bcyjf045yR2TwVHulziSP8YCS+8B18
+ 3ZCxXK57fS/42EDAdDJvj+ckgaSvZPGIRC0Raw3xaWXuxf9HLvJj94MWJ71NkWOOwQ69
+ ozcPZUf1e4vD1SU2flS6UsZxBPwZCVHmE1tJhfz9mbvgRjnTFGFtT0qN6bmhgDAcYKT1
+ wM5X3ymbk/q49tW5hNZ47BrFn6n1tB8q9nh0yRFGCWUUsnJOc0wEEwsNB4UAylOEqwFQ
+ Bejr3x9j32h077Us8WJBD5WIonfix5Tw27uhHu5ex47yjshRUlxjWVxCdpVCOkEh5htI
+ gCZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691771078; x=1692375878;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1691771475; x=1692376275;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iAbWJt7VYJZGb0oGJLZpXmL9Pg/Akce6I5YlnCbDdyQ=;
- b=g2KNagqQZaVEX0mjMj3JkCUtGYkgQG6yoYCIvnOy2YMnFO5jKKlv8NalJRCALJwqRK
- rVpwqtxi74DpAkRobnU5E2kygWVJsa2n0gFmIK2CYR/GenkPQvDGStE8m4o+Gy6F82SY
- 2/x7X5rzlZzI2V9aI55qZMvqiXTaNrrgHrRpiY6NFDe8b3XFUjTTikfLq+lJ9vHp90+M
- Rn3/4Vn/ngyQZdAuNNdroJwpXRNWw79lPkIxN+GgQBFupE2okq6XHqa6DUdFtW5nFucA
- f5HaQfDy+TTGPzak3UCLGvkaJlxGVAYXVJx/eL+PPqrEA1fJ0AUq156Rec+ahbLmTwSh
- +ZEA==
-X-Gm-Message-State: AOJu0Yyw1nRvcRKP0EOBeOcIUXT1l8cwcvZlrt3iNLGiBPYwo2d/hbFX
- qv/jHRkKb/qnk9LZg8YxoKg=
-X-Google-Smtp-Source: AGHT+IHHMbS4s6/fha5oRksXj7wM/uqwtsEzCvucfz9dORGMVqMCWoCVpT6Le3zAlSqejE7QrgnmMA==
-X-Received: by 2002:a05:6512:3089:b0:4fe:17a8:bee5 with SMTP id
- z9-20020a056512308900b004fe17a8bee5mr933959lfd.31.1691771077544; 
- Fri, 11 Aug 2023 09:24:37 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-92-32.kaisa-laajakaista.fi.
- [85.29.92.32]) by smtp.gmail.com with ESMTPSA id
- v7-20020ac25587000000b004fe3229e584sm768475lfg.270.2023.08.11.09.24.36
+ bh=kLkcROD0bRaahMTY5iVtJo3yNizIeUpQp+dJ24ES2Uw=;
+ b=eU4HEDHdnKhFOD15SmTT6cv8m0tLdJSW8cViTnX0s5s3wEIVpONHTP5xJ8C5PEuAY9
+ N9IOL74AibeiZBskSGidKRjIMe7tqxq//lq5Sx3d7Av37aVmRQ+k/YZWVyUQI/w6Fkdl
+ J+ex5M8+m9zpOD3bG/9U1dDO7V4DMk2AbqfsS7jWVLzeKUSMbXFSrh2y84j1hlGFzWLc
+ 4J1Or60iYG1BuHvMuz0aFjct9XgsMQStE8vUIRoVYpvO3cf6lJSp1qxVwTaOBGDgHzGv
+ QCyXBDK0u7SooVgNE3JxAvWRyEiqKFK9rKB4JsM3EnBE3RH/0JJT8iPq7ObGjxTmplLP
+ t/FA==
+X-Gm-Message-State: AOJu0Ywa/CCixv+Ujca6cUiDeo1b2x3gmUURlMR722xSHcQUagQfWgPM
+ /pPREXWzX1tdxd18kxY0txMvuw==
+X-Google-Smtp-Source: AGHT+IHFG9ollgImzMMdYBRWWMcnL/V7VX58KVS60uOPaSHqMPSI4Tyau4UrFJ2sGfQ9V423VK6Gig==
+X-Received: by 2002:a2e:82d7:0:b0:2b9:3684:165 with SMTP id
+ n23-20020a2e82d7000000b002b936840165mr1991259ljh.8.1691771474857; 
+ Fri, 11 Aug 2023 09:31:14 -0700 (PDT)
+Received: from [192.168.1.101] (abyj188.neoplus.adsl.tpnet.pl. [83.9.29.188])
+ by smtp.gmail.com with ESMTPSA id
+ v23-20020a2e9917000000b002b6cb40e9aasm911429lji.103.2023.08.11.09.31.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Aug 2023 09:24:37 -0700 (PDT)
-Message-ID: <1df8fff3-9ba0-49cb-80e4-03f0cef57f9b@gmail.com>
-Date: Fri, 11 Aug 2023 19:26:40 +0300
+ Fri, 11 Aug 2023 09:31:14 -0700 (PDT)
+Message-ID: <39ffcd61-eb56-41c5-ac43-9ace2595c11b@linaro.org>
+Date: Fri, 11 Aug 2023 18:31:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] drm/bridge: tc358768: Use struct videomode
+Subject: Re: [PATCH] drm/msm/a690: Switch to a660_gmu.bin
 Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-4-1afd44b7826b@ideasonboard.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20230804-tc358768-v1-4-1afd44b7826b@ideasonboard.com>
+To: Rob Clark <robdclark@gmail.com>
+References: <20230811160505.174574-1-robdclark@gmail.com>
+ <CAF6AEGtNgCxsOLyF31=WCdag4Gb7+2FvFEvOWDcqd_TxiTeE3w@mail.gmail.com>
+ <d400c787-3c81-4e37-b541-371d6096cf7e@linaro.org>
+ <CAF6AEGuHKuW_LGYfC640fBHsf3xzxSiyqL0YVpb5HqE=HSiL4w@mail.gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <CAF6AEGuHKuW_LGYfC640fBHsf3xzxSiyqL0YVpb5HqE=HSiL4w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,147 +113,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 04/08/2023 13:44, Tomi Valkeinen wrote:
-> The TC358768 documentation uses HFP, HBP, etc. values to deal with the
-> video mode, while the driver currently uses the DRM display mode
-> (htotal, hsync_start, etc).
+On 11.08.2023 18:21, Rob Clark wrote:
+> On Fri, Aug 11, 2023 at 9:11 AM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>>
+>> On 11.08.2023 18:09, Rob Clark wrote:
+>>> On Fri, Aug 11, 2023 at 9:05 AM Rob Clark <robdclark@gmail.com> wrote:
+>>>>
+>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>
+>>>> There isn't actually a a690_gmu.bin.  But it appears that the normal
+>>>> a660_gmu.bin works fine.  Normally all the devices within a sub-
+>>>> generation (or "family") will use the same fw, and a690 is in the a660
+>>>> family.
+>>>>
+>>>
+>>> possibly this could be considered as:
+>>>
+>>> Fixes: 5e7665b5e484 ("drm/msm/adreno: Add Adreno A690 support")
+>> For a lack of a better response, "meh"
 > 
-> Change the driver to convert the DRM display mode to struct videomode,
-> which then allows us to use the same units the documentation uses. This
-> makes it much easier to work on the code when using the TC358768
-> documentation as a reference.
-
-Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> It would help route the change back to 6.4.y so we can stop explaining
+> to folks that they should create a symlink ;-)
+Ok fair!
 
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/tc358768.c | 45 +++++++++++++++++++++------------------
->  1 file changed, 24 insertions(+), 21 deletions(-)
+>> Other than that:
+>>
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>
+>> Perhaps we could take this further and do something like
+>>
+>> if (failed to load gmu fw)
+>>         try loading "gmu.bin"
 > 
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index d5831a1236e9..9b633038af33 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -650,6 +650,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  	u32 dsiclk, dsibclk, video_start;
->  	const u32 internal_delay = 40;
->  	int ret, i;
-> +	struct videomode vm;
->  
->  	if (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
->  		dev_warn_once(priv->dev, "Non-continuous mode unimplemented, falling back to continuous\n");
-> @@ -673,6 +674,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  		return;
->  	}
->  
-> +	drm_display_mode_to_videomode(mode, &vm);
-> +
->  	dsiclk = priv->dsiclk;
->  	dsibclk = dsiclk / 4;
->  
-> @@ -681,28 +684,28 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  	switch (dsi_dev->format) {
->  	case MIPI_DSI_FMT_RGB888:
->  		val |= (0x3 << 4);
-> -		hact = mode->hdisplay * 3;
-> -		video_start = (mode->htotal - mode->hsync_start) * 3;
-> +		hact = vm.hactive * 3;
-> +		video_start = (vm.hsync_len + vm.hback_porch) * 3;
->  		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_24;
->  		break;
->  	case MIPI_DSI_FMT_RGB666:
->  		val |= (0x4 << 4);
-> -		hact = mode->hdisplay * 3;
-> -		video_start = (mode->htotal - mode->hsync_start) * 3;
-> +		hact = vm.hactive * 3;
-> +		video_start = (vm.hsync_len + vm.hback_porch) * 3;
->  		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_18;
->  		break;
->  
->  	case MIPI_DSI_FMT_RGB666_PACKED:
->  		val |= (0x4 << 4) | BIT(3);
-> -		hact = mode->hdisplay * 18 / 8;
-> -		video_start = (mode->htotal - mode->hsync_start) * 18 / 8;
-> +		hact = vm.hactive * 18 / 8;
-> +		video_start = (vm.hsync_len + vm.hback_porch) * 18 / 8;
->  		data_type = MIPI_DSI_PIXEL_STREAM_3BYTE_18;
->  		break;
->  
->  	case MIPI_DSI_FMT_RGB565:
->  		val |= (0x5 << 4);
-> -		hact = mode->hdisplay * 2;
-> -		video_start = (mode->htotal - mode->hsync_start) * 2;
-> +		hact = vm.hactive * 2;
-> +		video_start = (vm.hsync_len + vm.hback_porch) * 2;
->  		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_16;
->  		break;
->  	default:
-> @@ -814,43 +817,43 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  		tc358768_write(priv, TC358768_DSI_EVENT, 0);
->  
->  		/* vact */
-> -		tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-> +		tc358768_write(priv, TC358768_DSI_VACT, vm.vactive);
->  
->  		/* vsw */
-> -		tc358768_write(priv, TC358768_DSI_VSW,
-> -			       mode->vsync_end - mode->vsync_start);
-> +		tc358768_write(priv, TC358768_DSI_VSW, vm.vsync_len);
-> +
->  		/* vbp */
-> -		tc358768_write(priv, TC358768_DSI_VBPR,
-> -			       mode->vtotal - mode->vsync_end);
-> +		tc358768_write(priv, TC358768_DSI_VBPR, vm.vback_porch);
->  
->  		/* hsw * byteclk * ndl / pclk */
-> -		val = (u32)div_u64((mode->hsync_end - mode->hsync_start) *
-> +		val = (u32)div_u64(vm.hsync_len *
->  				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> -				   mode->clock * 1000);
-> +				   vm.pixelclock);
->  		tc358768_write(priv, TC358768_DSI_HSW, val);
->  
->  		/* hbp * byteclk * ndl / pclk */
-> -		val = (u32)div_u64((mode->htotal - mode->hsync_end) *
-> +		val = (u32)div_u64(vm.hback_porch *
->  				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> -				   mode->clock * 1000);
-> +				   vm.pixelclock);
->  		tc358768_write(priv, TC358768_DSI_HBPR, val);
->  	} else {
->  		/* Set event mode */
->  		tc358768_write(priv, TC358768_DSI_EVENT, 1);
->  
->  		/* vact */
-> -		tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-> +		tc358768_write(priv, TC358768_DSI_VACT, vm.vactive);
->  
->  		/* vsw (+ vbp) */
->  		tc358768_write(priv, TC358768_DSI_VSW,
-> -			       mode->vtotal - mode->vsync_start);
-> +			       vm.vsync_len + vm.vback_porch);
-> +
->  		/* vbp (not used in event mode) */
->  		tc358768_write(priv, TC358768_DSI_VBPR, 0);
->  
->  		/* (hsw + hbp) * byteclk * ndl / pclk */
-> -		val = (u32)div_u64((mode->htotal - mode->hsync_start) *
-> +		val = (u32)div_u64((vm.hsync_len + vm.hback_porch) *
->  				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
-> -				   mode->clock * 1000);
-> +				   vm.pixelclock);
->  		tc358768_write(priv, TC358768_DSI_HSW, val);
->  
->  		/* hbp (not used in event mode) */
-> 
+> that (loading random fw) sounds like a bad idea.. plus gmu.bin doesn't exist
+I guess we still should hear from Qualcomm on this one, but I
+do believe that "aXYZ_gmu.bin" is really "gmu firmware, tagged
+at aXYZ release". They're even versioned and adreno-gpulist.h
+downstream contains the minimum version for each SKU.
 
--- 
-Péter
+Konrad
