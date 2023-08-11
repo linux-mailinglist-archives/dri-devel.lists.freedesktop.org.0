@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44675778942
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 10:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455FB778A0A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 11:35:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10F7210E08B;
-	Fri, 11 Aug 2023 08:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB3B10E682;
+	Fri, 11 Aug 2023 09:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0225310E08B
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 08:52:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691743979; x=1723279979;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=cCVp2Bnwi6/2FPlKJfCGZTvgDQWpoyP8lmlU37N1zxs=;
- b=c2VjQuExD7UQNbPpwUrjGydk0+aVnxxURRgwf4phwHBvOqR+KTuP+JYa
- 9nDsL0SZpYFoJJYpSloCywyfMGN2WhIVEW7dMZjs36Jty+R2gCODlZmW6
- 1Z9oG63IKS8pd2pOsTn7niXtUXyJzSLvMUn0UZT161BPTmUOULu0oCxaX
- yrH4N5xlSTd5tYlA99i4BTZQdDygxYAMZDetcmNfIONJLzxUndv4SPOIA
- DRpc10kZz8iFRP7gUWCM5cd8xk078PNwnYuJk5FdcDcJRHsiNUDQ9BvnT
- eLHyaWdjR9bWye/fW8Ebk5euPLxzqiwwz+3fsFSitT8OySjOZUUrTOQ6d w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="369102785"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; d="scan'208";a="369102785"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2023 01:52:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10798"; a="906364876"
-X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; d="scan'208";a="906364876"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2023 01:52:40 -0700
-Date: Fri, 11 Aug 2023 10:52:38 +0200
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH] accel/ivpu: Document DRM_IVPU_PARAM_CAPABILITIES
-Message-ID: <20230811085238.GC3329046@linux.intel.com>
-References: <20230810080707.3545883-1-stanislaw.gruszka@linux.intel.com>
- <6bbd1cc5-f85b-2b42-22f9-4fd313a6ebfc@quicinc.com>
- <20230810143244.GB3329046@linux.intel.com>
- <aa7495a6-50b6-908a-ee1f-e9fccb916b3f@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7DE10E682;
+ Fri, 11 Aug 2023 09:35:01 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7AAED66D3A;
+ Fri, 11 Aug 2023 09:35:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D312C433C8;
+ Fri, 11 Aug 2023 09:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691746499;
+ bh=6nDL0utgw9wol8LbIsinlH77MMHM0gseUrwwE+1ZLyU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EeG1NLe583ovTo1ZKn2ViOlb2z0+MIv6z8INw8IouAdVmkw4jEAlxtWA55ZI/rENV
+ 2JS9IQHwBpdxSeezxRH21OyWoY/KJXJzAtUk71UgGeUvVJmNvJiUnbMra0c19t+tyy
+ XFVZZFQkrjbB+G7hfjPPq1lwkJq/npA8LYbO3LXS7x5GJJSw8tWGDsOU1d/5QOZG9R
+ 7MLbnKt2uSes8rpWROYaRfjlziiS9cHmBz97Ys/d8kolTTgcs9NQO0Hi/7mZjE2xQH
+ j2eWboyoeIujLA8u9+EMXQZvZS4hpGDbBOtDFLKIValNbUrgKMFqu+MLcm+CtFycfK
+ z04vFqqVFQPsA==
+Date: Fri, 11 Aug 2023 11:34:51 +0200
+From: Simon Horman <horms@kernel.org>
+To: Evan Quan <evan.quan@amd.com>
+Subject: Re: [PATCH V8 6/9] drm/amd/pm: setup the framework to support Wifi
+ RFI mitigation feature
+Message-ID: <ZNYAuyrEWbRiHm55@vergenet.net>
+References: <20230810073803.1643451-1-evan.quan@amd.com>
+ <20230810073803.1643451-7-evan.quan@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aa7495a6-50b6-908a-ee1f-e9fccb916b3f@quicinc.com>
+In-Reply-To: <20230810073803.1643451-7-evan.quan@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +54,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: andrew@lunn.ch, jingyuwang_vip@163.com, bellosilicio@gmail.com,
+ rafael@kernel.org, trix@redhat.com, Lijo.Lazar@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ mdaenzer@redhat.com, Mario.Limonciello@amd.com, amd-gfx@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de, hdegoede@redhat.com,
+ netdev@vger.kernel.org, Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org,
+ edumazet@google.com, Christian.Koenig@amd.com, tzimmermann@suse.de,
+ Alexander.Deucher@amd.com, johannes@sipsolutions.net, davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 10, 2023 at 08:49:00AM -0600, Jeffrey Hugo wrote:
-> On 8/10/2023 8:32 AM, Stanislaw Gruszka wrote:
-> > On Thu, Aug 10, 2023 at 08:27:08AM -0600, Jeffrey Hugo wrote:
-> > > On 8/10/2023 2:07 AM, Stanislaw Gruszka wrote:
-> > > > Add comments regarding new DRM_IVPU_PARAM_CAPABILITIES param.
-> > > > 
-> > > > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> > > > ---
-> > > >    include/uapi/drm/ivpu_accel.h | 19 +++++++++++++++++--
-> > > >    1 file changed, 17 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/include/uapi/drm/ivpu_accel.h b/include/uapi/drm/ivpu_accel.h
-> > > > index a58a14c9f222..7d1ecc5bbac3 100644
-> > > > --- a/include/uapi/drm/ivpu_accel.h
-> > > > +++ b/include/uapi/drm/ivpu_accel.h
-> > > > @@ -69,8 +69,21 @@ extern "C" {
-> > > >    #define DRM_IVPU_CONTEXT_PRIORITY_FOCUS	    2
-> > > >    #define DRM_IVPU_CONTEXT_PRIORITY_REALTIME  3
-> > > > -#define DRM_IVPU_CAP_METRIC_STREAMER	    1
-> > > > -#define DRM_IVPU_CAP_DMA_MEMORY_RANGE       2
-> > > > +/**
-> > > > + * DRM_IVPU_CAP_METRIC_STREAMER
-> > > > + *
-> > > > + * Metric streamer support, provides sampling of various hardware
-> > > > + * performance metrics (like DMA bandwidth, cache miss/hits),
-> > > > + * can be used for profiling.
-> > > 
-> > > Feels like this is a run-on sentence.  I think this reads better -
-> > > 
-> > > Metric streamer support.  Provides sampling of various hardware performance
-> > > metrics like DMA bandwidth and cache miss/hits.  Can be used for profiling.
-> > > 
-> > > What do you think?
-> > 
-> > Looks better :-)
+On Thu, Aug 10, 2023 at 03:38:00PM +0800, Evan Quan wrote:
+> With WBRF feature supported, as a driver responding to the frequencies,
+> amdgpu driver is able to do shadow pstate switching to mitigate possible
+> interference(between its (G-)DDR memory clocks and local radio module
+> frequency bands used by Wifi 6/6e/7).
 > 
-> Ok.  I guess with that
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Evan Quan <evan.quan@amd.com>
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Thanks, applied to drm-misc-next
+...
 
-Regards
-Stanislaw
+> +/**
+> + * smu_wbrf_event_handler - handle notify events
+> + *
+> + * @nb: notifier block
+> + * @action: event type
+> + * @data: event data
+
+Hi Evan,
+
+a minor nit from my side: although it is documented here,
+smu_wbrf_event_handler has no @data parameter, while
+it does have an undocumented _arg parameter.
+
+> + *
+> + * Calls relevant amdgpu function in response to wbrf event
+> + * notification from kernel.
+> + */
+> +static int smu_wbrf_event_handler(struct notifier_block *nb,
+> +				  unsigned long action, void *_arg)
+> +{
+> +	struct smu_context *smu = container_of(nb, struct smu_context,
+> +					       wbrf_notifier);
+> +
+> +	switch (action) {
+> +	case WBRF_CHANGED:
+> +		smu_wbrf_handle_exclusion_ranges(smu);
+> +		break;
+> +	default:
+> +		return NOTIFY_DONE;
+> +	};
+> +
+> +	return NOTIFY_OK;
+> +}
+
+...
