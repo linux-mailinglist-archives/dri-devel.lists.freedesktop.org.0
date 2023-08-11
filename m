@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FF077943E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA71477944D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39F810E6B4;
-	Fri, 11 Aug 2023 16:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C2710E6B5;
+	Fri, 11 Aug 2023 16:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5D8D10E6B7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:21:47 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fe4f5290daso3373482e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:21:47 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3F310E6B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:23:42 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-4fe82ac3ab4so3332524e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691770906; x=1692375706;
+ d=gmail.com; s=20221208; t=1691771020; x=1692375820;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZLDri0jvZJfj7mGD0JyPOhugI1LYfhwOtVS/jje4bxA=;
- b=K9rMRoupby6QdTPnm22QVt5NzSt/YP/r9okFLwJvRrhVXZiqVNOZ1dq8TnOucVQjBW
- lAZcluiy5zc+y1mRQXUXdv/ndVf8KB7Mdr2PGu3vpxQA1XwTTlI1bfPwLRcfsHUHXMK0
- kUUg0PODHCklG9X/zmHpTtiwGUG0zOwfdHujTA0BSZlkxmo5n2ngFpMLQTJ9kcRcA7sc
- 8lT3N55G/tdwV7smH6BUcXFXaGqGQRY7MrhTv3dq36NgMTjNWEUAmFRuJ3/TjPpSomnr
- 2zlykM+XnorW9sQvww2yWd9mTPC5DJJjPGcUkbf4Q/t5roooiXHnj+pJ4Ju+u8pF6L9W
- s4mw==
+ bh=hqzfx48+4bGEQ1sZCe8YnSKBTocZAhGI3MQXtEYWZBE=;
+ b=pDwdIQtwpAy5gwScoUCpKPDoulw1HZVu9xB39OdbB8j1OoQ/kX6uIGJ90le/tUyo0w
+ BFPJbbk4uNsfSALbk/0tkwFQfpujpmfXyIAoIWrv+EYJ+7g2oo18HOixp3X1Z+KKarFr
+ zNaH3QZ1zqymrJX/U3lmSxpF0VEOVklcwOqmlbIIRP9R44VNWBnrnR/347nCaXLY1AvA
+ z+vZPjzJ7rXNWGjyeli8mBvM4lionUf9jdHqV/CyTdJXn7uGsEfYUBT2zZKUNtJiDeJG
+ sRwvR/bYnNQ9rnr30RzddiNOX2I2GexPqHGQ+pL3nVhQEeTHjFTWiF4gdiBqjxY6Z9Lq
+ //9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691770906; x=1692375706;
+ d=1e100.net; s=20221208; t=1691771020; x=1692375820;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZLDri0jvZJfj7mGD0JyPOhugI1LYfhwOtVS/jje4bxA=;
- b=l6E3tTaz7JEjlVdJFMT0uw3igDTRaN0SnXZnOwoFRpGIIax7et4gh7AdhXTjZhNfvJ
- rr6G36jEomLecTjrXM/25mob9SlpxLndQy/oJ2NzD1M47hzPRSxbisGFOv599uVJy009
- OOc8MDEKeG9i/AN70SpQ5OwIX9hmIJbhFhbuF1oSo7cep1i1kkf9Nq5E4yL2GSmuU4g9
- tcv9YwPh04JXLzwo5hL7DSzpXuG5/62INK2UOjQMh1FybeCVrzPNReuSFKQRx6k498KD
- 1KY9+HZGSWwJ9K7IhmHPpy43IiYjMxzRVd6zsJcAmjJE9gCYRNUy+GOmfhnqTJafosWE
- 6jeQ==
-X-Gm-Message-State: AOJu0YyD9qNAS7uI8P5WSxYS27QtGeZwo2u2Ks2Ey8xHZRANqOqx0OGw
- YkrTAn3VwhAqCvAqokgjX54=
-X-Google-Smtp-Source: AGHT+IGuQWDDOMFGid/bM+iY6jyj/AI00a6xZWHcx+lJToKGyKs2rPO2yFJtbfVUKprVCx1jF1zukg==
-X-Received: by 2002:a05:6512:39d3:b0:4fe:5860:7abe with SMTP id
- k19-20020a05651239d300b004fe58607abemr2218937lfu.7.1691770905786; 
- Fri, 11 Aug 2023 09:21:45 -0700 (PDT)
+ bh=hqzfx48+4bGEQ1sZCe8YnSKBTocZAhGI3MQXtEYWZBE=;
+ b=cULLyxU/ekoXnabNfgVHBpRZDWzbsSyyEKG7JbFjQk2YpUiclcJ3h9g0vXVM+XG0Bq
+ sYVxLk5Hd+WHGZZsEWlru5q2FVeXbuOMXdhm885uMo8aT2wrqOjU6cgPzpMg0a1blSA1
+ ANKX7bINDQQU/9KC6AUgMyXW8PK5/ujMkeBPzn4l25eP8zYWiQ7q/aII/Ywax6zbpZU5
+ CH/9P60cA3H4OsjkO1gtLjOMP6b7ZjljglPk4ufTksZbbJ2maLWJWOuMYpxck4exsQW5
+ +jplm7+25DpugfJrUPFHTC8T5DNmpdoNg33JCwt2ukkxN4x43m02poHyMNvlr+cI9QNu
+ VV3g==
+X-Gm-Message-State: AOJu0Yz21Srn+O8R4IRmG06UwNbYHjTMIafcyi8WSs8F/gk43T5MCwCA
+ EHZ/xOLRnNT0hm6GCrWICLI=
+X-Google-Smtp-Source: AGHT+IHC13cbClzY90Y55unkxCOoWrmOntuVE/+/Y9XeBTdh/V0ucptEYX5I1jxE2ifwnmqZ6ceLcg==
+X-Received: by 2002:a05:6512:2804:b0:4f3:d682:7b1c with SMTP id
+ cf4-20020a056512280400b004f3d6827b1cmr2272410lfb.45.1691771020463; 
+ Fri, 11 Aug 2023 09:23:40 -0700 (PDT)
 Received: from [10.0.0.100] (host-85-29-92-32.kaisa-laajakaista.fi.
  [85.29.92.32]) by smtp.gmail.com with ESMTPSA id
- q17-20020ac246f1000000b004fe5608e412sm780128lfo.170.2023.08.11.09.21.44
+ v7-20020ac25587000000b004fe3229e584sm768475lfg.270.2023.08.11.09.23.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Aug 2023 09:21:45 -0700 (PDT)
-Message-ID: <cd5d39a2-4f4c-419a-8137-d2719135e205@gmail.com>
-Date: Fri, 11 Aug 2023 19:23:48 +0300
+ Fri, 11 Aug 2023 09:23:40 -0700 (PDT)
+Message-ID: <37cf3e0d-5a30-466f-86d3-cda077c3921f@gmail.com>
+Date: Fri, 11 Aug 2023 19:25:42 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] drm/bridge: tc358768: Fix bit updates
+Subject: Re: [PATCH 03/11] drm/bridge: tc358768: Cleanup PLL calculations
 Content-Language: en-US
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -65,9 +65,9 @@ To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Francesco Dolcini <francesco@dolcini.it>
 References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-2-1afd44b7826b@ideasonboard.com>
+ <20230804-tc358768-v1-3-1afd44b7826b@ideasonboard.com>
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20230804-tc358768-v1-2-1afd44b7826b@ideasonboard.com>
+In-Reply-To: <20230804-tc358768-v1-3-1afd44b7826b@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,61 +90,80 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 04/08/2023 13:44, Tomi Valkeinen wrote:
-> The driver has a few places where it does:
+> As is quite common, some of TC358768's PLL register fields are to be
+> programmed with (value - 1). Specifically, the FBD and PRD, multiplier
+> and divider, are such fields.
 > 
-> if (thing_is_enabled_in_config)
-> 	update_thing_bit_in_hw()
+> However, what the driver currently does is that it considers that the
+> formula used for PLL rate calculation is:
 > 
-> This means that if the thing is _not_ enabled, the bit never gets
-> cleared. This affects the h/vsyncs and continuous DSI clock bits.
+> RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)]
+> 
+> where FBD and PRD are values directly from the registers, while a more
+> sensible way to look at it is:
+> 
+> RefClk * FBD / PRD * (1 / (2^FRS))
+> 
+> and when the FBD and PRD values are written to the registers, they will
+> be subtracted by one.
+> 
+> Change the driver accordingly, as it simplifies the PLL code.
 
-I guess the idea was to keep the reset value unless it needs to be flipped.
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
 
 > 
-> Fix the driver to always update the bit.
-> 
-> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/tc358768.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/bridge/tc358768.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index bc97a837955b..b668f77673c3 100644
+> index b668f77673c3..d5831a1236e9 100644
 > --- a/drivers/gpu/drm/bridge/tc358768.c
 > +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -794,8 +794,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  		val |= BIT(i + 1);
->  	tc358768_write(priv, TC358768_HSTXVREGEN, val);
+> @@ -316,7 +316,7 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
 >  
-> -	if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
-> -		tc358768_write(priv, TC358768_TXOPTIONCNTRL, 0x1);
-> +	tc358768_write(priv, TC358768_TXOPTIONCNTRL,
-> +		       (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) ? 0 : BIT(0));
+>  	target_pll = tc358768_pclk_to_pll(priv, mode->clock * 1000);
 >  
->  	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
->  	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
-> @@ -861,11 +861,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->  	tc358768_write(priv, TC358768_DSI_HACT, hact);
+> -	/* pll_clk = RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)] */
+> +	/* pll_clk = RefClk * FBD / PRD * (1 / (2^FRS)) */
 >  
->  	/* VSYNC polarity */
-> -	if (!(mode->flags & DRM_MODE_FLAG_NVSYNC))
-> -		tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5), BIT(5));
-> +	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5),
-> +			     (mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIT(5) : 0);
-
-Was this the reverse before and should be:
-(mode->flags & DRM_MODE_FLAG_PVSYNC) ? 0 : BIT(5)
-
-> +
->  	/* HSYNC polarity */
-> -	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
-> -		tc358768_update_bits(priv, TC358768_PP_MISC, BIT(0), BIT(0));
-> +	tc358768_update_bits(priv, TC358768_PP_MISC, BIT(0),
-> +			     (mode->flags & DRM_MODE_FLAG_PHSYNC) ? BIT(0) : 0);
+>  	for (i = 0; i < ARRAY_SIZE(frs_limits); i++)
+>  		if (target_pll >= frs_limits[i])
+> @@ -336,19 +336,19 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
+>  	best_prd = 0;
+>  	best_fbd = 0;
 >  
->  	/* Start DSI Tx */
->  	tc358768_write(priv, TC358768_DSI_START, 0x1);
+> -	for (prd = 0; prd < 16; ++prd) {
+> -		u32 divisor = (prd + 1) * (1 << frs);
+> +	for (prd = 1; prd <= 16; ++prd) {
+> +		u32 divisor = prd * (1 << frs);
+>  		u32 fbd;
+>  
+> -		for (fbd = 0; fbd < 512; ++fbd) {
+> +		for (fbd = 1; fbd <= 512; ++fbd) {
+>  			u32 pll, diff, pll_in;
+>  
+> -			pll = (u32)div_u64((u64)refclk * (fbd + 1), divisor);
+> +			pll = (u32)div_u64((u64)refclk * fbd, divisor);
+>  
+>  			if (pll >= max_pll || pll < min_pll)
+>  				continue;
+>  
+> -			pll_in = (u32)div_u64((u64)refclk, prd + 1);
+> +			pll_in = (u32)div_u64((u64)refclk, prd);
+>  			if (pll_in < 4000000)
+>  				continue;
+>  
+> @@ -611,7 +611,7 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
+>  		mode->clock * 1000);
+>  
+>  	/* PRD[15:12] FBD[8:0] */
+> -	tc358768_write(priv, TC358768_PLLCTL0, (prd << 12) | fbd);
+> +	tc358768_write(priv, TC358768_PLLCTL0, ((prd - 1) << 12) | (fbd - 1));
+>  
+>  	/* FRS[11:10] LBWS[9:8] CKEN[4] RESETB[1] EN[0] */
+>  	tc358768_write(priv, TC358768_PLLCTL1,
 > 
 
 -- 
