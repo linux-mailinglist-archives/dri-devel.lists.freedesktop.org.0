@@ -2,103 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1213D7794A0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2D177948F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314AA10E6BB;
-	Fri, 11 Aug 2023 16:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC0FC10E6B8;
+	Fri, 11 Aug 2023 16:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B098810E6B9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:31:16 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-2b9a2033978so33589731fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:31:16 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DB210E6B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:29:38 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4fe21e7f3d1so3477303e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1691771475; x=1692376275;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1691771377; x=1692376177;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kLkcROD0bRaahMTY5iVtJo3yNizIeUpQp+dJ24ES2Uw=;
- b=RDyb7eyEm+haK0975YQ+/4L22fz9Y6+ak8l8Bcyjf045yR2TwVHulziSP8YCS+8B18
- 3ZCxXK57fS/42EDAdDJvj+ckgaSvZPGIRC0Raw3xaWXuxf9HLvJj94MWJ71NkWOOwQ69
- ozcPZUf1e4vD1SU2flS6UsZxBPwZCVHmE1tJhfz9mbvgRjnTFGFtT0qN6bmhgDAcYKT1
- wM5X3ymbk/q49tW5hNZ47BrFn6n1tB8q9nh0yRFGCWUUsnJOc0wEEwsNB4UAylOEqwFQ
- Bejr3x9j32h077Us8WJBD5WIonfix5Tw27uhHu5ex47yjshRUlxjWVxCdpVCOkEh5htI
- gCZw==
+ bh=LbKVVoKe9lHcyRo4G8rW0bpG63v+YaiDvH2/j+9t1mI=;
+ b=SbAG2zKZSMMoEpRYns/zRlmuufpAnNqHQGewndCVdfcVCr4uhxup4n9UumeVFIwqXY
+ Amx8twMOA8+6bQhEk+DJpN1SJrdq4z8gLX3mhUmPr5KjcMmbRoWAJlhD+tbu6y6/Q0mW
+ 2SwxiANcpcVG2qOhL9ZeQBK5/C/xQ3y77YRk8fC5MWAeRwuJZXOrRJxlRnZT1pV8qZeB
+ JRaDONxCMRDtJRopqnfJTK81yRBs85W3ODsecpT0mOJyg7RWqWOhQ0CR9UWaCSWSVUUS
+ OwJShiyp6F/Km0029weOZdsHJTtfrjAMsf2qX6pQn/wjaap8FfuFXmOzuohc9lyLgm+Q
+ wfkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691771475; x=1692376275;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1691771377; x=1692376177;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kLkcROD0bRaahMTY5iVtJo3yNizIeUpQp+dJ24ES2Uw=;
- b=eU4HEDHdnKhFOD15SmTT6cv8m0tLdJSW8cViTnX0s5s3wEIVpONHTP5xJ8C5PEuAY9
- N9IOL74AibeiZBskSGidKRjIMe7tqxq//lq5Sx3d7Av37aVmRQ+k/YZWVyUQI/w6Fkdl
- J+ex5M8+m9zpOD3bG/9U1dDO7V4DMk2AbqfsS7jWVLzeKUSMbXFSrh2y84j1hlGFzWLc
- 4J1Or60iYG1BuHvMuz0aFjct9XgsMQStE8vUIRoVYpvO3cf6lJSp1qxVwTaOBGDgHzGv
- QCyXBDK0u7SooVgNE3JxAvWRyEiqKFK9rKB4JsM3EnBE3RH/0JJT8iPq7ObGjxTmplLP
- t/FA==
-X-Gm-Message-State: AOJu0Ywa/CCixv+Ujca6cUiDeo1b2x3gmUURlMR722xSHcQUagQfWgPM
- /pPREXWzX1tdxd18kxY0txMvuw==
-X-Google-Smtp-Source: AGHT+IHFG9ollgImzMMdYBRWWMcnL/V7VX58KVS60uOPaSHqMPSI4Tyau4UrFJ2sGfQ9V423VK6Gig==
-X-Received: by 2002:a2e:82d7:0:b0:2b9:3684:165 with SMTP id
- n23-20020a2e82d7000000b002b936840165mr1991259ljh.8.1691771474857; 
- Fri, 11 Aug 2023 09:31:14 -0700 (PDT)
-Received: from [192.168.1.101] (abyj188.neoplus.adsl.tpnet.pl. [83.9.29.188])
- by smtp.gmail.com with ESMTPSA id
- v23-20020a2e9917000000b002b6cb40e9aasm911429lji.103.2023.08.11.09.31.13
+ bh=LbKVVoKe9lHcyRo4G8rW0bpG63v+YaiDvH2/j+9t1mI=;
+ b=QvE/ZIOWWdCzWBo6sqDbHGIlibzDCRbljPzwtA/qwF+3QbpBZks3hIoJs0fsaHiRq0
+ vOhZ6YmjVHdNlYZHc+WTHDHg0MlZxxOjqxNvyOb9cVgA4Kx5mWWwVQWcUAH9LSSGerKY
+ gdxwUdp/Z+QIgIJ5xe6ZSDsftkUWXjSBc3RvFPvWA5cCo13lPHNpDb+w2nFHdokn39vi
+ 9e32Q2X8qvep7mICLBcMvOSBhxYzTcMKhx7h+iXNjdTh3pmgyMvjWx0WyRp0stCKTSwI
+ QdQ37P269sidLokkTaRfwKQiAn7aEtfrEsc2RDMpwCtkous8cnvvTfItxcpMGf7tX3iG
+ 1LVw==
+X-Gm-Message-State: AOJu0Yxsh2B+KucxWlSxJQHEE7dHF5RJBUwQ1sImc3yQ2QO48xosCw8s
+ /WRXrB+qab2yU0iaKWYWiHQ=
+X-Google-Smtp-Source: AGHT+IF+1Fy++yU+PI4XAoVkFXGJbBZoVEDN/KP3rXNDgmjv6ZKNGYZvlyGomVg5KFlM+OJTLhhNAQ==
+X-Received: by 2002:a05:6512:203c:b0:4fd:fabf:b923 with SMTP id
+ s28-20020a056512203c00b004fdfabfb923mr1646459lfs.14.1691771376530; 
+ Fri, 11 Aug 2023 09:29:36 -0700 (PDT)
+Received: from [10.0.0.100] (host-85-29-92-32.kaisa-laajakaista.fi.
+ [85.29.92.32]) by smtp.gmail.com with ESMTPSA id
+ a5-20020a19f805000000b004fb9536bc99sm778839lff.169.2023.08.11.09.29.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Aug 2023 09:31:14 -0700 (PDT)
-Message-ID: <39ffcd61-eb56-41c5-ac43-9ace2595c11b@linaro.org>
-Date: Fri, 11 Aug 2023 18:31:13 +0200
+ Fri, 11 Aug 2023 09:29:36 -0700 (PDT)
+Message-ID: <e74e055d-b3df-4ac9-aef6-8b07b2062a7f@gmail.com>
+Date: Fri, 11 Aug 2023 19:31:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a690: Switch to a660_gmu.bin
+Subject: Re: [PATCH 05/11] drm/bridge: tc358768: Print logical values, not raw
+ register values
 Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230811160505.174574-1-robdclark@gmail.com>
- <CAF6AEGtNgCxsOLyF31=WCdag4Gb7+2FvFEvOWDcqd_TxiTeE3w@mail.gmail.com>
- <d400c787-3c81-4e37-b541-371d6096cf7e@linaro.org>
- <CAF6AEGuHKuW_LGYfC640fBHsf3xzxSiyqL0YVpb5HqE=HSiL4w@mail.gmail.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <CAF6AEGuHKuW_LGYfC640fBHsf3xzxSiyqL0YVpb5HqE=HSiL4w@mail.gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Francesco Dolcini <francesco@dolcini.it>
+References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
+ <20230804-tc358768-v1-5-1afd44b7826b@ideasonboard.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
+In-Reply-To: <20230804-tc358768-v1-5-1afd44b7826b@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,53 +83,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Aradhya Bhatia <a-bhatia1@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.08.2023 18:21, Rob Clark wrote:
-> On Fri, Aug 11, 2023 at 9:11 AM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->> On 11.08.2023 18:09, Rob Clark wrote:
->>> On Fri, Aug 11, 2023 at 9:05 AM Rob Clark <robdclark@gmail.com> wrote:
->>>>
->>>> From: Rob Clark <robdclark@chromium.org>
->>>>
->>>> There isn't actually a a690_gmu.bin.  But it appears that the normal
->>>> a660_gmu.bin works fine.  Normally all the devices within a sub-
->>>> generation (or "family") will use the same fw, and a690 is in the a660
->>>> family.
->>>>
->>>
->>> possibly this could be considered as:
->>>
->>> Fixes: 5e7665b5e484 ("drm/msm/adreno: Add Adreno A690 support")
->> For a lack of a better response, "meh"
-> 
-> It would help route the change back to 6.4.y so we can stop explaining
-> to folks that they should create a symlink ;-)
-Ok fair!
+
+
+On 04/08/2023 13:44, Tomi Valkeinen wrote:
+> The driver debug prints DSI related timings as raw register values in
+> hex. It is much more useful to see the "logical" value of the timing,
+> not the register value.
+
+I'm a bit confused by the term 'logical' value, I think you meant
+decimal, easier to read by humans numbers.
+
+> Change the prints to print the values separately, in case a single
+> register contains multiple values, and use %u to have it in a more human
+> consumable form.
+
+But, yes, decimal is better for the dmesg, as I recall I had a tool
+which was using hex numbers so it was better to have the prints also in hex.
+
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
 
 > 
->> Other than that:
->>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>
->> Perhaps we could take this further and do something like
->>
->> if (failed to load gmu fw)
->>         try loading "gmu.bin"
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358768.c | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
 > 
-> that (loading random fw) sounds like a bad idea.. plus gmu.bin doesn't exist
-I guess we still should hear from Qualcomm on this one, but I
-do believe that "aXYZ_gmu.bin" is really "gmu firmware, tagged
-at aXYZ release". They're even versioned and adreno-gpulist.h
-downstream contains the minimum version for each SKU.
+> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+> index 9b633038af33..0ef51d04bb21 100644
+> --- a/drivers/gpu/drm/bridge/tc358768.c
+> +++ b/drivers/gpu/drm/bridge/tc358768.c
+> @@ -739,57 +739,59 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  
+>  	/* LP11 > 100us for D-PHY Rx Init */
+>  	val = tc358768_ns_to_cnt(100 * 1000, dsibclk_nsk) - 1;
+> -	dev_dbg(priv->dev, "LINEINITCNT: 0x%x\n", val);
+> +	dev_dbg(priv->dev, "LINEINITCNT: %u\n", val);
+>  	tc358768_write(priv, TC358768_LINEINITCNT, val);
+>  
+>  	/* LPTimeCnt > 50ns */
+>  	val = tc358768_ns_to_cnt(50, dsibclk_nsk) - 1;
+>  	lptxcnt = val;
+> -	dev_dbg(priv->dev, "LPTXTIMECNT: 0x%x\n", val);
+> +	dev_dbg(priv->dev, "LPTXTIMECNT: %u\n", val);
+>  	tc358768_write(priv, TC358768_LPTXTIMECNT, val);
+>  
+>  	/* 38ns < TCLK_PREPARE < 95ns */
+>  	val = tc358768_ns_to_cnt(65, dsibclk_nsk) - 1;
+> +	dev_dbg(priv->dev, "TCLK_PREPARECNT %u\n", val);
+>  	/* TCLK_PREPARE + TCLK_ZERO > 300ns */
+>  	val2 = tc358768_ns_to_cnt(300 - tc358768_to_ns(2 * ui_nsk),
+>  				  dsibclk_nsk) - 2;
+> +	dev_dbg(priv->dev, "TCLK_ZEROCNT %u\n", val2);
+>  	val |= val2 << 8;
+> -	dev_dbg(priv->dev, "TCLK_HEADERCNT: 0x%x\n", val);
+>  	tc358768_write(priv, TC358768_TCLK_HEADERCNT, val);
+>  
+>  	/* TCLK_TRAIL > 60ns AND TEOT <= 105 ns + 12*UI */
+>  	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(2 * ui_nsk), dsibclk_nsk) - 5;
+>  	val = clamp(raw_val, 0, 127);
+> -	dev_dbg(priv->dev, "TCLK_TRAILCNT: 0x%x\n", val);
+> +	dev_dbg(priv->dev, "TCLK_TRAILCNT: %u\n", val);
+>  	tc358768_write(priv, TC358768_TCLK_TRAILCNT, val);
+>  
+>  	/* 40ns + 4*UI < THS_PREPARE < 85ns + 6*UI */
+>  	val = 50 + tc358768_to_ns(4 * ui_nsk);
+>  	val = tc358768_ns_to_cnt(val, dsibclk_nsk) - 1;
+> +	dev_dbg(priv->dev, "THS_PREPARECNT %u\n", val);
+>  	/* THS_PREPARE + THS_ZERO > 145ns + 10*UI */
+>  	raw_val = tc358768_ns_to_cnt(145 - tc358768_to_ns(3 * ui_nsk), dsibclk_nsk) - 10;
+>  	val2 = clamp(raw_val, 0, 127);
+> +	dev_dbg(priv->dev, "THS_ZEROCNT %u\n", val2);
+>  	val |= val2 << 8;
+> -	dev_dbg(priv->dev, "THS_HEADERCNT: 0x%x\n", val);
+>  	tc358768_write(priv, TC358768_THS_HEADERCNT, val);
+>  
+>  	/* TWAKEUP > 1ms in lptxcnt steps */
+>  	val = tc358768_ns_to_cnt(1020000, dsibclk_nsk);
+>  	val = val / (lptxcnt + 1) - 1;
+> -	dev_dbg(priv->dev, "TWAKEUP: 0x%x\n", val);
+> +	dev_dbg(priv->dev, "TWAKEUP: %u\n", val);
+>  	tc358768_write(priv, TC358768_TWAKEUP, val);
+>  
+>  	/* TCLK_POSTCNT > 60ns + 52*UI */
+>  	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(52 * ui_nsk),
+>  				 dsibclk_nsk) - 3;
+> -	dev_dbg(priv->dev, "TCLK_POSTCNT: 0x%x\n", val);
+> +	dev_dbg(priv->dev, "TCLK_POSTCNT: %u\n", val);
+>  	tc358768_write(priv, TC358768_TCLK_POSTCNT, val);
+>  
+>  	/* max(60ns + 4*UI, 8*UI) < THS_TRAILCNT < 105ns + 12*UI */
+>  	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(18 * ui_nsk),
+>  				     dsibclk_nsk) - 4;
+>  	val = clamp(raw_val, 0, 15);
+> -	dev_dbg(priv->dev, "THS_TRAILCNT: 0x%x\n", val);
+> +	dev_dbg(priv->dev, "THS_TRAILCNT: %u\n", val);
+>  	tc358768_write(priv, TC358768_THS_TRAILCNT, val);
+>  
+>  	val = BIT(0);
+> @@ -803,10 +805,11 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
+>  	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
+>  	val = tc358768_ns_to_cnt(val, dsibclk_nsk) / 4 - 1;
+> +	dev_dbg(priv->dev, "TXTAGOCNT: %u\n", val);
+>  	val2 = tc358768_ns_to_cnt(tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk),
+>  				  dsibclk_nsk) - 2;
+> +	dev_dbg(priv->dev, "RXTASURECNT: %u\n", val2);
+>  	val = val << 16 | val2;
+> -	dev_dbg(priv->dev, "BTACNTRL1: 0x%x\n", val);
+>  	tc358768_write(priv, TC358768_BTACNTRL1, val);
+>  
+>  	/* START[0] */
+> 
 
-Konrad
+-- 
+Péter
