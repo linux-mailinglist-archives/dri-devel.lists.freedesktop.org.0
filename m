@@ -2,75 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A86077942C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C5C77943B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:21:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5FFF10E6B1;
-	Fri, 11 Aug 2023 16:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8777510E6B3;
+	Fri, 11 Aug 2023 16:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5C110E6B1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:17:50 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4fe0e34f498so3470437e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:17:50 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B899A10E6B3;
+ Fri, 11 Aug 2023 16:21:36 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-5236a9788a7so2866328a12.0; 
+ Fri, 11 Aug 2023 09:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691770668; x=1692375468;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=B2gSBPKAlfj96SXmOm7KUFn9UQg8rFevKIpSF4EFD0s=;
- b=VbF1MsQVpjuK29p6lUu0cazT3/Cq+2NXuthRHhd8u5uDDMW/p0J++4lL/oWuaqzhsF
- a/mMZxAiJF1Sl11AVKy9iik9m2YmTr1ljou4gIYOGVvv6XTZNx7KKj4KaspbA2xpkV9T
- pb3nm5HgEKXCKj3U5bmPTevnzp881LXdE5nwREQayrI3y675HdNGSHiS2nV8pV42RoJS
- x8hhpZwFVsfi5eizMOaWA12LQx6fJOhgrY9SMsCgIZAgPLgp58so2WKpzY0qDcRCeXAs
- jSozEFRUN9p8i+IsKQ0hZtu9EwdQJgkTix4/kEoYZlZKufStdRag8W3SfEcvaB4blIVD
- VM4Q==
+ d=gmail.com; s=20221208; t=1691770895; x=1692375695;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gu8V37ck4bhW/MDHFFxPdQxj3+UGhQMkMY7C4RdA7kU=;
+ b=iE5QNHzCs/a84dftki8VPTvxzfS4UsEgOLYbiwuZGVELYQrM2auOZfRbn2xmXEaybz
+ LniC3FU0oDl/F+bCXaqR+mdTR2tYvlGPKSpXA2WGpX2/0T62EpBViCPJE+J8uSlJdd4f
+ B9zRO3ZU9LE3B93qLUU+LQTF7A3kovZzRMTl1UB+rMLIpPorGCl/Qv+MvWtpd9SH60i8
+ YigMmy8UUL1rBUauj/6gMTUfEui7sBuIp7YCDhqF0nUhzcK8cYQ3GHwn+GQq6exDw8Su
+ 5ZqwSQDQ3xiHLdGobRkcra8le1Hq9jONgFb8MId+bscgVlWoy7JOwl6WsPRHd0E2v2Yd
+ UpKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691770668; x=1692375468;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B2gSBPKAlfj96SXmOm7KUFn9UQg8rFevKIpSF4EFD0s=;
- b=WYdP0y5AjhtTDILs1SX8ojrARSaL1sRouq0syegi/gzFZO66f0mRd0UG7V45ydkDcB
- WEY1Mr1MRX7szEWVkBo3SFtp9Jf32QSz3Vbnc6hCalSHPo4edVpE+EdmtbkqVR6HQLcj
- w6Ans6RHYE2SXrIllRtVjXYL6QIWseXPze0vabL2zKCZQyidKIPkiwvFpKpItRqRWrC3
- 4fl8IgSKd+dKPj4kbaUT06HRT36n9ZDB5tbyyLrHwtcCs1Vml26nHBL48T25Y5h6eX+U
- shdZAZxSuYEoDpYVp/xLylk1sqkS9kaOV4C1jqDb5S+ZdstkMguo+h50IVFcInP8M0KH
- rULQ==
-X-Gm-Message-State: AOJu0YwAVFiSBL/i03VJKNAcYFJVDJ+BjXn7u7CcnmRN7fYnn8kk438U
- ZQe8IZyRskopMS01320t5gY=
-X-Google-Smtp-Source: AGHT+IHR5UUVXRQtpaX+qj7roLMDkQXkVR/6t2Q956x1Qp4fFtaEciJEI/y8z28z2ZUo8amjjAUWjQ==
-X-Received: by 2002:a05:6512:3e1e:b0:4f8:7897:55e6 with SMTP id
- i30-20020a0565123e1e00b004f8789755e6mr2152260lfv.45.1691770667954; 
- Fri, 11 Aug 2023 09:17:47 -0700 (PDT)
-Received: from [10.0.0.100] (host-85-29-92-32.kaisa-laajakaista.fi.
- [85.29.92.32]) by smtp.gmail.com with ESMTPSA id
- 5-20020ac24825000000b004fe0c3d8bb4sm783212lft.84.2023.08.11.09.17.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Aug 2023 09:17:47 -0700 (PDT)
-Message-ID: <09c63a63-4967-4289-9538-e144842de8c3@gmail.com>
-Date: Fri, 11 Aug 2023 19:19:49 +0300
+ d=1e100.net; s=20221208; t=1691770895; x=1692375695;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gu8V37ck4bhW/MDHFFxPdQxj3+UGhQMkMY7C4RdA7kU=;
+ b=YsMwiClf34o6A5DAY0JR8GAR3KPDzeIlSNmadG/wv634HKWip2NCtbALvmMAKzwyWg
+ LSqyOL0tNQVvUKW5LXIHwKuuYU0Yotrf6K3yICBV6TFvQpV1tTn49MQOhqU0MRNmatVJ
+ g/83CGLO/JkCwUi2oEubSH/bgj4Umo6w2J+029S+LtNPTRY1P5aEIgTs/T+Fp+ikrxjK
+ dfMHl9CQz1WhQxTsEZ2/Ul7mh9JJDDOvwpWqire+cWg4MRHOlSRLg1YNsOJcONYy+W7o
+ Jd/7bIucAUAruTxM1Q6EM++61p8D8LFCn5KEYga2HUaT/oI5TJ8YLWDPD2R2HVj6DthE
+ s/Fw==
+X-Gm-Message-State: AOJu0YygzHac09w01bUvXtKAGUtpCYPdc0XSyjMlb3OcIqyrzJH2LzAu
+ zDu35TytNPX+GbOI5IMjh12zwpMqnRDfAHm5eak=
+X-Google-Smtp-Source: AGHT+IHxJ7loqb9uBPUfzjEVz2W5ApsU10Ng4qTENXy3nPtyg76zYG6eo2MZZO+e2x4Qu1z+qceCnvjHoMnNVoJMK9Y=
+X-Received: by 2002:aa7:c956:0:b0:523:b1b0:f69f with SMTP id
+ h22-20020aa7c956000000b00523b1b0f69fmr2241060edt.32.1691770894855; Fri, 11
+ Aug 2023 09:21:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] drm/bridge: tc358768: Fix use of uninitialized
- variable
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-1-1afd44b7826b@ideasonboard.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20230804-tc358768-v1-1-1afd44b7826b@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230811160505.174574-1-robdclark@gmail.com>
+ <CAF6AEGtNgCxsOLyF31=WCdag4Gb7+2FvFEvOWDcqd_TxiTeE3w@mail.gmail.com>
+ <d400c787-3c81-4e37-b541-371d6096cf7e@linaro.org>
+In-Reply-To: <d400c787-3c81-4e37-b541-371d6096cf7e@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 11 Aug 2023 09:21:22 -0700
+Message-ID: <CAF6AEGuHKuW_LGYfC640fBHsf3xzxSiyqL0YVpb5HqE=HSiL4w@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a690: Switch to a660_gmu.bin
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,46 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 11, 2023 at 9:11=E2=80=AFAM Konrad Dybcio <konrad.dybcio@linaro=
+.org> wrote:
+>
+> On 11.08.2023 18:09, Rob Clark wrote:
+> > On Fri, Aug 11, 2023 at 9:05=E2=80=AFAM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> >>
+> >> From: Rob Clark <robdclark@chromium.org>
+> >>
+> >> There isn't actually a a690_gmu.bin.  But it appears that the normal
+> >> a660_gmu.bin works fine.  Normally all the devices within a sub-
+> >> generation (or "family") will use the same fw, and a690 is in the a660
+> >> family.
+> >>
+> >
+> > possibly this could be considered as:
+> >
+> > Fixes: 5e7665b5e484 ("drm/msm/adreno: Add Adreno A690 support")
+> For a lack of a better response, "meh"
 
+It would help route the change back to 6.4.y so we can stop explaining
+to folks that they should create a symlink ;-)
 
-On 04/08/2023 13:44, Tomi Valkeinen wrote:
-> smatch reports:
-> 
-> drivers/gpu/drm/bridge/tc358768.c:223 tc358768_update_bits() error: uninitialized symbol 'orig'.
-> 
-> Fix this by bailing out from tc358768_update_bits() if the
-> tc358768_read() produces an error.
-> 
-> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/tc358768.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index 819a4b6ec2a0..bc97a837955b 100644
-> --- a/drivers/gpu/drm/bridge/tc358768.c
-> +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -216,6 +216,10 @@ static void tc358768_update_bits(struct tc358768_priv *priv, u32 reg, u32 mask,
->  	u32 tmp, orig;
->  
->  	tc358768_read(priv, reg, &orig);
-> +
+> Other than that:
+>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>
+> Perhaps we could take this further and do something like
+>
+> if (failed to load gmu fw)
+>         try loading "gmu.bin"
 
-no need for blank line
+that (loading random fw) sounds like a bad idea.. plus gmu.bin doesn't exis=
+t
 
-> +	if (priv->error)
-> +		return;
-> +
->  	tmp = orig & ~mask;
->  	tmp |= val & mask;
->  	if (tmp != orig)
-> 
+BR,
+-R
 
--- 
-Péter
+>
+> Konrad
+> >
+> >> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >> ---
+> >>  drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/=
+drm/msm/adreno/adreno_device.c
+> >> index 1ed270dae148..756a9cfe1cbf 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >> @@ -478,7 +478,7 @@ static const struct adreno_info gpulist[] =3D {
+> >>                 .family =3D ADRENO_6XX_GEN4,
+> >>                 .fw =3D {
+> >>                         [ADRENO_FW_SQE] =3D "a660_sqe.fw",
+> >> -                       [ADRENO_FW_GMU] =3D "a690_gmu.bin",
+> >> +                       [ADRENO_FW_GMU] =3D "a660_gmu.bin",
+> >>                 },
+> >>                 .gmem =3D SZ_4M,
+> >>                 .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> >> --
+> >> 2.41.0
+> >>
