@@ -2,37 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30803779182
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 16:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372A57791E7
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 16:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E2E10E6A4;
-	Fri, 11 Aug 2023 14:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BCF110E6A5;
+	Fri, 11 Aug 2023 14:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 390F710E6A5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 14:13:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2077B1424;
- Fri, 11 Aug 2023 07:14:10 -0700 (PDT)
-Received: from [10.1.30.25] (e122027.cambridge.arm.com [10.1.30.25])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 298133F844;
- Fri, 11 Aug 2023 07:13:24 -0700 (PDT)
-Message-ID: <2b801b98-5158-5aba-9ab7-23b0b0b9c0a1@arm.com>
-Date: Fri, 11 Aug 2023 15:13:23 +0100
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2077.outbound.protection.outlook.com [40.107.220.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E990410E6A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 14:31:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GJOJ377EbPI6vBes/OydUUT1ijlfh2ziosDKB6vB9MBtaAj+vuUDDJfVnrv+ABcKnXktXCg+4OpqoffVBvUuCiC4rQmJkDJWV5JoltY1kNtZDwyfOMJJFHQDqSaarK/tP4LAtwYdY5zo6BGOhsdttMhmXwq4h73jtlC5vYXy+vuocsreyjbay/4kw9flBxI2CR1GA/yMlPYkPlAwJepThlPS6fVKOXJmn9WYWLny0crO8OrlD/xGbntmxjSuXXVR0rPjKQ5meP4YIU9kT+jzZ4guGhcvQaY/e7nRjAqMyhp/R18TtaTD5JrELYhtsc+R10ezNY2aIebAuq9Ghs0FMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EtLbGvRp1Oxee7sjL/QXYdJSFpb8EUs4GfGOdw3yvFU=;
+ b=ZDx/Yvcc8NAolJrb4qX9JnTmjHuv8hKynemV+NqaDEZjMpywlHOF06DeZ+tzmdnsEUnJDu5tl4J8kG9TJq+BEVoID1V1Q1m+kVQMyArXmpxUfbwwcIR2Poih09qb04MmQGSU5YOqaO/zthBtuuEW7AuFn4cIU/xGq/O1P3sZlZ8LagjWmApa00EZvxGrXUnHqEeSf0ElgvasRsMk68kN/L3SoDgjKcaPhInIPhSF/gdprSOQELEIDSu+61ijk192BCBndqd3hVMyKC2bFS6c2ynRSTj9vxQ3IYo3T+j0hODJi/Tlqht3sOgCgBbbKwL5jxGVFESQ88e2P5gxxgIHoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EtLbGvRp1Oxee7sjL/QXYdJSFpb8EUs4GfGOdw3yvFU=;
+ b=Ox6qa0W94E+t/2zrysKx53dZ7gg4yf3AcOrzwETusqAitesdG2y8DwETCsAbCy/Xn06m+i5RbTp9ravKWtZEWgDtOFdUYg/Fx/XzIjkWqGCe8OuKJHHv/y2dTXXYwVwHWiBMaP8oIPN/zUN7RSkZHlxkx+Zo6gnoRNa4fmqxcjM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by LV2PR12MB5774.namprd12.prod.outlook.com (2603:10b6:408:17a::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Fri, 11 Aug
+ 2023 14:31:09 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6652.028; Fri, 11 Aug 2023
+ 14:31:09 +0000
+Message-ID: <54cf8068-0ad8-a5e0-a95e-ab5c527127d3@amd.com>
+Date: Fri, 11 Aug 2023 16:31:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v2 03/15] drm/panthor: Add GPU register definitions
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>,
+Subject: Re: [PATCH drm-misc-next] drm/ttm/tests: Require MMU when testing
+Content-Language: en-US
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
  dri-devel@lists.freedesktop.org
-References: <20230809165330.2451699-1-boris.brezillon@collabora.com>
- <20230809165330.2451699-4-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230809165330.2451699-4-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230811113649.697886-1-karolina.stolarek@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230811113649.697886-1-karolina.stolarek@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0183.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a4::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|LV2PR12MB5774:EE_
+X-MS-Office365-Filtering-Correlation-Id: deb0c0a0-9a01-40ca-413d-08db9a779ab9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hwgku6x2XK1MIYBG8G5tRiDUwQ+83/UgIxGhmG8+4jk6nMJswty3CQtLGmfbmw6jZ04A1V+RXcZXewWnfLXqw6GS6BUsIkM96yMxve8G3ctBf6Tn55lt2tmzWuJj/m46A8/ZzoExGxgD1c+l8L5LKh5LkhEwx8OBBtLmAE0s+C6cWVYBf1z5fF0brXMpJL3wVwk8T5b4U15G3e8w+XGbR7yapNQN+YLiqUhv6YjDxMNS5/6PqtIYVVdr2f+4iDNiNoCsLkEWrrj/eKIGdW0TICHPGrOHjYO553QLYZ+lcWad3lUCrmsXTDJJPjAvpFRP4uFLVWgz2kELpJCt8JOsuJhXRcrDEsaYCVydmQ53NKKnS0u4AGp69NYtVeipWMIibMW8K2vZGOBv1apjohZn4Hp1BBjp6t6swgxV4kGKp5gQMDSqxvVvZ6Pv/Zwjb4ftcGoLHY0D8rvFjLlcs8qZSJK9g8FpAIQKA0hYFEBNCJjejHJlFSNudPQH862SBK3H97jn7EkmQ8g77VX8KI6sYWr3RIYsy7D5vsEPyAXMkFb8m0yQKzHH4bX3VR1giX5tdsCbIiAVz5gHvU79yowV2nXS5pr1fk5l9WdnF55Gj9ldNDEq1tZ91kr97C3W8ppeyZ6n71UTFlDTLqKfqgV9vnCw6FhFtkJRc7ajojF27ZxoCfmmU8Ap+eufn49cOmAP
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(136003)(39860400002)(396003)(346002)(366004)(1800799006)(186006)(451199021)(31696002)(36756003)(478600001)(6666004)(66946007)(66476007)(6506007)(66556008)(6486002)(6512007)(4326008)(316002)(41300700001)(2906002)(8936002)(8676002)(38100700002)(5660300002)(86362001)(83380400001)(2616005)(66574015)(966005)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUI3eHhuejl4TkhiOFlDRXBzZVlTaFNoNTJvZTlPUmlNc3VRS2JLUm80WU9C?=
+ =?utf-8?B?bmFUZzVvQkJvaEltOTM1VFZLWkNocHhxcXlCd0xaRjJBVWxqQ0pEWDY1MVFh?=
+ =?utf-8?B?RlcybEpQejI0ZjlFczJ4eks1MTRWNDFzbVppTFczY00xQ1haaVl5Q1JkWERt?=
+ =?utf-8?B?OGZjL2sveGp3YjdxK29GN2d0djgxT2hDVmhvZXFkT2ROVk90T01jNjBjR0xP?=
+ =?utf-8?B?RW1sakdKUUY5L2czYnEyV2prQjNDNEdhVXlNcTdBYldQK0lJL2gwWGVwQXNN?=
+ =?utf-8?B?dWt3a0ZLS2xQNmxrT1N6MHU1SlJQRHN2WDZ6ek5yYWJtdHVyekM2N0I1SHVj?=
+ =?utf-8?B?YjZ3RzAxQ3JEemZSdCtYeU9nQTNiczZQb2JERWFXMVoyaFE1VkF6em5nRlFN?=
+ =?utf-8?B?cVd5UTRzczlPTW5Ha05vRjZzS0lmNmlnVUo3VEh6OVc3UnhEWVB3NVlpTmRy?=
+ =?utf-8?B?Wmg5ZDJyQytTbm55SlQvN2FNeEU3SXAvYU1HSWlEc1NkUXNMYlByNVp6bWts?=
+ =?utf-8?B?UUZpeDV0ZWhzWGJkK3JzUGtrQjltVzdNbE45bVZMTllhZkdpcUozekZlQU9C?=
+ =?utf-8?B?M2NaVHMrN0t5bVNDbnNYaFVnMFNmaHdSTnpXN2Ztc3BnMHArZ1lyamRTQUJh?=
+ =?utf-8?B?TmdJNm9GUXVab1RzWitGbjJ2V3F2dFhkSWoxaUh5VmpMZEdCeWRoVkZQb28r?=
+ =?utf-8?B?dE5HMEM2b0hZNEtTbEo0aTlETWJ0Y3B2RWtFL2s5OW9JT21rYm95Z1V0dEk5?=
+ =?utf-8?B?Q3RHb1U1WENpcEZrQ2IxVTQ0OHBqRVQ4bzlXUVcwUktjZlg2TUZwUGRUdTBU?=
+ =?utf-8?B?NXFERFdEYTM5UWRoTWlkZnFxdEZkSEhJTEF6Z25RRVNoVnZ1N1haWEpDaUxk?=
+ =?utf-8?B?dHRMZmVZNG4xaVFLWFpSbVkvVVpjQ2pjTlE3b3Q4SEZFbys4U1RNWjQ3SEdx?=
+ =?utf-8?B?Y3BRUE50cUNpb2RjYkZrSkcwYmZZYys1eitSVDZsYnZvOXB2Z3Ixc3FmS1FZ?=
+ =?utf-8?B?YWx3enJ5RGtYTmdTTmlCdjRKb0E2N3VCa21URU1ySnhXRjM3UEQ4bTMrK0xo?=
+ =?utf-8?B?aWErV29yRnhpbG5Tczd2YjU2OWlFaGtZdmdaUkRMUnlGQ0UzeFRudC9FTURL?=
+ =?utf-8?B?a3FIcCtEL3dyRS9HeldFQW1JRFRJRGNXaDIxY2Y4eWErYW93WUNna1JxWlRZ?=
+ =?utf-8?B?K2luYUdUVzhnT0tOR0paeGdSNHorbDBtM0ZSN3pvbjVBYllZUWE0S1NxTTM5?=
+ =?utf-8?B?RGJ3b0p4VXV4Q2dxdTkxS1NiWkwwU1RsTlhiOENESzVVUzl6K1RrTCtZeW9p?=
+ =?utf-8?B?Ujgvc05BNnNUN09pWFVJTHAxcTEzZDBDSk5iNjQyM1Zjb0dKUzN6bE9oVmh2?=
+ =?utf-8?B?ZTd0YWgyU3R6Zm1xam1wVUJTdjVqUll2OTBkeE56K2p2TGw0UEt3R2F2ZzNw?=
+ =?utf-8?B?UG9JQ3B0QUR1bG1POS9RZUVxV0JFdndTaUF3QnUyZWRJM1R5VGtxRFN6Mkpa?=
+ =?utf-8?B?eGhvbzFFalR6OVIvOGVCZmZpbUJ4clNtKzRKVkwyalR1SnN5bkZxaCthK1dL?=
+ =?utf-8?B?MWZRa3YzUmI2N1cwVDdCWnJyc0ZBWUxPWTdES3M0aXdDaytNam4rTmdwK1ZK?=
+ =?utf-8?B?aEFKMkVaL0ZtSCtKdXJHL3FkSEJFRjFTSDVnSEVOaE90dERwUCt2UUVzcDZC?=
+ =?utf-8?B?QWRpazF6bWpNVzdzK2d2Z1l1b0xieXlZU1ppNTljV3dMamFRME1HaVhybGI3?=
+ =?utf-8?B?KzRGY0lYVmQ3alB3NnB0VllxRXM2cTg3bXcyc0VoUTZkUnJUL2dYN1hEVEVH?=
+ =?utf-8?B?MnNJZEpnMFR2bmpBQW13c09PekVmOXJCMkIraUFMT1pTYzQvVmRYTlQ4M1FX?=
+ =?utf-8?B?UHBibnc0UjNqMTFXTVZhaHNyRENDaDBkVFYrQnQ1Q0dibUZRZ3drVlRkOTF1?=
+ =?utf-8?B?eDJLd2JNdzNwYVA2UWJGdjJGdXNKZk1NZzJ4Wjd1WnpDSWJFWld3cC9FbGMx?=
+ =?utf-8?B?UXpVUGZZSk5nUFNtbEtBQ3VOMHltS3owK0Myb29LVHF3Sjk3Yi80YUtkT2lJ?=
+ =?utf-8?B?cVBmY2NrVGtLTkJaVFByc1NFRTBic0h2endSdTlEeGJoemM1U3FPRlZqTExa?=
+ =?utf-8?B?S01xZU43MHowRmN4R051YzJJVmRkS1JrWG9ad3B3Snp5VEVuQnV3WFNaYTVq?=
+ =?utf-8?Q?FbI+iPx9CstGYuVRPQDGjFe2+WYmdJQNFpcgTvVzY+zM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: deb0c0a0-9a01-40ca-413d-08db9a779ab9
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2023 14:31:09.2925 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 20b5Mn81bBsgvVCLWZCR3boZsMR/JuTBrXXah1Hdxo2nLM92l1NzzhACp4UJuKy6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5774
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,280 +126,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/08/2023 17:53, Boris Brezillon wrote:
-> Those are the registers directly accessible through the MMIO range.
-> 
-> FW registers are exposed in panthor_fw.h.
-> 
-> v2:
-> - Rename the driver (pancsf -> panthor)
-> - Change the license (GPL2 -> MIT + GPL2)
-> - Split the driver addition commit
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Am 11.08.23 um 13:36 schrieb Karolina Stolarek:
+> Satisfy MMU dependency when testing TTM with KUnit. This fixes
+> compilation errors on platforms that don't select this option
+> by default.
+>
+> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202308110133.f0lhFwMV-lkp@intel.com/
+> Closes: https://lore.kernel.org/oe-kbuild-all/202308111032.enU8IisR-lkp@intel.com/
 
-Two possible redundant defines (see below), but otherwise:
-
-Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed and pushed to drm-misc-next.
 
 > ---
->  drivers/gpu/drm/panthor/panthor_regs.h | 229 +++++++++++++++++++++++++
->  1 file changed, 229 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> new file mode 100644
-> index 000000000000..00e149cf9eab
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -0,0 +1,229 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2023 Collabora ltd. */
-> +/*
-> + * Register definitions based on mali_kbase_gpu_regmap.h and
-> + * mali_kbase_gpu_regmap_csf.h
-> + * (C) COPYRIGHT 2010-2022 ARM Limited. All rights reserved.
-> + */
-> +#ifndef __PANTHOR_REGS_H__
-> +#define __PANTHOR_REGS_H__
-> +
-> +#define GPU_ID						0x00
-> +#define GPU_L2_FEATURES					0x004
-> +#define GPU_TILER_FEATURES				0x00C
-> +#define GPU_MEM_FEATURES				0x010
-> +#define   GROUPS_L2_COHERENT				BIT(0)
-> +
-> +#define GPU_MMU_FEATURES				0x014
-> +#define  GPU_MMU_FEATURES_VA_BITS(x)			((x) & GENMASK(7, 0))
-> +#define  GPU_MMU_FEATURES_PA_BITS(x)			(((x) >> 8) & GENMASK(7, 0))
-> +#define GPU_AS_PRESENT					0x018
-> +#define GPU_CSF_ID					0x01C
-> +
-> +#define GPU_INT_RAWSTAT					0x20
-> +#define GPU_INT_CLEAR					0x24
-> +#define GPU_INT_MASK					0x28
-> +#define GPU_INT_STAT					0x2c
-> +#define   GPU_IRQ_FAULT					BIT(0)
-> +#define   GPU_IRQ_PROTM_FAULT				BIT(1)
-> +#define   GPU_IRQ_RESET_COMPLETED			BIT(8)
-> +#define   GPU_IRQ_POWER_CHANGED				BIT(9)
-> +#define   GPU_IRQ_POWER_CHANGED_ALL			BIT(10)
-> +#define   GPU_IRQ_CLEAN_CACHES_COMPLETED		BIT(17)
-> +#define   GPU_IRQ_DOORBELL_MIRROR			BIT(18)
-> +#define   GPU_IRQ_MCU_STATUS_CHANGED			BIT(19)
-> +#define GPU_CMD						0x30
-> +#define   GPU_CMD_DEF(type, payload)			((type) | ((payload) << 8))
-> +#define   GPU_SOFT_RESET				GPU_CMD_DEF(1, 1)
-> +#define   GPU_HARD_RESET				GPU_CMD_DEF(1, 2)
-> +#define   CACHE_CLEAN					BIT(0)
-> +#define   CACHE_INV					BIT(1)
-> +#define   GPU_FLUSH_CACHES(l2, lsc, oth)		\
-> +	  GPU_CMD_DEF(4, ((l2) << 0) | ((lsc) << 4) | ((oth) << 8))
-> +
-> +#define GPU_STATUS					0x34
-> +#define   GPU_STATUS_ACTIVE				BIT(0)
-> +#define   GPU_STATUS_PWR_ACTIVE				BIT(1)
-> +#define   GPU_STATUS_PAGE_FAULT				BIT(4)
-> +#define   GPU_STATUS_PROTM_ACTIVE			BIT(7)
-> +#define   GPU_STATUS_DBG_ENABLED			BIT(8)
-> +
-> +#define GPU_FAULT_STATUS				0x3C
-> +#define GPU_FAULT_ADDR_LO				0x40
-> +#define GPU_FAULT_ADDR_HI				0x44
-> +
-> +#define GPU_PWR_KEY					0x50
-> +#define  GPU_PWR_KEY_UNLOCK				0x2968A819
-> +#define GPU_PWR_OVERRIDE0				0x54
-> +#define GPU_PWR_OVERRIDE1				0x58
-> +
-> +#define GPU_TIMESTAMP_OFFSET_LO				0x88
-> +#define GPU_TIMESTAMP_OFFSET_HI				0x8C
-> +#define GPU_CYCLE_COUNT_LO				0x90
-> +#define GPU_CYCLE_COUNT_HI				0x94
-> +#define GPU_TIMESTAMP_LO				0x98
-> +#define GPU_TIMESTAMP_HI				0x9C
-> +
-> +#define GPU_THREAD_MAX_THREADS				0xA0
-> +#define GPU_THREAD_MAX_WORKGROUP_SIZE			0xA4
-> +#define GPU_THREAD_MAX_BARRIER_SIZE			0xA8
-> +#define GPU_THREAD_FEATURES				0xAC
-> +
-> +#define GPU_TEXTURE_FEATURES(n)				(0xB0 + ((n) * 4))
-> +
-> +#define GPU_SHADER_PRESENT_LO				0x100
-> +#define GPU_SHADER_PRESENT_HI				0x104
-> +#define GPU_TILER_PRESENT_LO				0x110
-> +#define GPU_TILER_PRESENT_HI				0x114
-> +#define GPU_L2_PRESENT_LO				0x120
-> +#define GPU_L2_PRESENT_HI				0x124
-> +
-> +#define SHADER_READY_LO					0x140
-> +#define SHADER_READY_HI					0x144
-> +#define TILER_READY_LO					0x150
-> +#define TILER_READY_HI					0x154
-> +#define L2_READY_LO					0x160
-> +#define L2_READY_HI					0x164
-> +
-> +#define SHADER_PWRON_LO					0x180
-> +#define SHADER_PWRON_HI					0x184
-> +#define TILER_PWRON_LO					0x190
-> +#define TILER_PWRON_HI					0x194
-> +#define L2_PWRON_LO					0x1A0
-> +#define L2_PWRON_HI					0x1A4
-> +
-> +#define SHADER_PWROFF_LO				0x1C0
-> +#define SHADER_PWROFF_HI				0x1C4
-> +#define TILER_PWROFF_LO					0x1D0
-> +#define TILER_PWROFF_HI					0x1D4
-> +#define L2_PWROFF_LO					0x1E0
-> +#define L2_PWROFF_HI					0x1E4
-> +
-> +#define SHADER_PWRTRANS_LO				0x200
-> +#define SHADER_PWRTRANS_HI				0x204
-> +#define TILER_PWRTRANS_LO				0x210
-> +#define TILER_PWRTRANS_HI				0x214
-> +#define L2_PWRTRANS_LO					0x220
-> +#define L2_PWRTRANS_HI					0x224
-> +
-> +#define SHADER_PWRACTIVE_LO				0x240
-> +#define SHADER_PWRACTIVE_HI				0x244
-> +#define TILER_PWRACTIVE_LO				0x250
-> +#define TILER_PWRACTIVE_HI				0x254
-> +#define L2_PWRACTIVE_LO					0x260
-> +#define L2_PWRACTIVE_HI					0x264
-> +
-> +#define GPU_REVID					0x280
-> +
-> +#define GPU_COHERENCY_FEATURES				0x300
-> +#define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
-> +
-> +#define GPU_COHERENCY_PROTOCOL				0x304
-> +#define   GPU_COHERENCY_ACE				0
-> +#define   GPU_COHERENCY_ACE_LITE			1
-> +#define   GPU_COHERENCY_NONE				31
-> +
-> +#define MCU_CONTROL					0x700
-> +#define MCU_CONTROL_ENABLE				1
-> +#define MCU_CONTROL_AUTO				2
-> +#define MCU_CONTROL_DISABLE				0
-> +
-> +#define MCU_STATUS					0x704
-> +#define MCU_STATUS_DISABLED				0
-> +#define MCU_STATUS_ENABLED				1
-> +#define MCU_STATUS_HALT					2
-> +#define MCU_STATUS_FATAL				3
-> +
-> +/* Job Control regs */
-> +#define JOB_INT_RAWSTAT					0x1000
-> +#define JOB_INT_CLEAR					0x1004
-> +#define JOB_INT_MASK					0x1008
-> +#define JOB_INT_STAT					0x100c
-> +#define   JOB_INT_GLOBAL_IF				BIT(31)
-> +#define   JOB_INT_CSG_IF(x)				BIT(x)
-> +
-> +/* MMU regs */
-> +#define MMU_INT_RAWSTAT					0x2000
-> +#define MMU_INT_CLEAR					0x2004
-> +#define MMU_INT_MASK					0x2008
-> +#define MMU_INT_STAT					0x200c
-> +
-> +/* AS_COMMAND register commands */
-> +
-> +#define MMU_BASE					0x2400
-> +#define MMU_AS_SHIFT					6
-> +#define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
-> +
-> +#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x00)
-> +#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x04)
-> +#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x08)
-> +#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0x0C)
-> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
-> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
-> +							 ((w) ? BIT(0) : 0) | \
-> +							 ((r) ? BIT(1) : 0))
-> +#define   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER		(0 << 4)
-> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER		(1 << 4)
-> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH	(2 << 4)
-> +#define   AS_MEMATTR_AARCH64_SHARED			(0 << 6)
-> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
-> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
-> +#define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
-> +#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
-> +#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
-> +#define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
-> +#define   AS_COMMAND_NOP				0
-> +#define   AS_COMMAND_UPDATE				1
-> +#define   AS_COMMAND_LOCK				2
-> +#define   AS_COMMAND_UNLOCK				3
-> +#define   AS_COMMAND_FLUSH_PT				4
-> +#define   AS_COMMAND_FLUSH_MEM				5
-> +#define   AS_LOCK_REGION_MIN_SIZE			(1ULL << 15)
-> +#define AS_FAULTSTATUS(as)				(MMU_AS(as) + 0x1C)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC		(0x0 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
-> +#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
-> +#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
-> +#define AS_STATUS(as)					(MMU_AS(as) + 0x28)
-> +#define   AS_STATUS_AS_ACTIVE				BIT(0)
-> +#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
-> +#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
-> +#define   AS_TRANSCFG_ADRMODE_LEGACY			(0 << 0)
-
-I don't believe legacy mode exists any more (it's not in my copy of the
-spec).
-
-> +#define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_AARCH64_64K		(8 << 0)
-> +#define   AS_TRANSCFG_INA_BITS(x)			((x) << 6)
-> +#define   AS_TRANSCFG_OUTA_BITS(x)			((x) << 14)
-> +#define   AS_TRANSCFG_SL_CONCAT				BIT(22)
-> +#define   AS_TRANSCFG_PTW_MEMATTR_NC			(1 << 24)
-> +#define   AS_TRANSCFG_PTW_MEMATTR_WB			(2 << 24)
-> +#define   AS_TRANSCFG_PTW_SH_NS				(0 << 28)
-> +#define   AS_TRANSCFG_PTW_SH_OS				(2 << 28)
-> +#define   AS_TRANSCFG_PTW_SH_IS				(3 << 28)
-> +#define   AS_TRANSCFG_PTW_RA				BIT(30)
-> +#define   AS_TRANSCFG_DISABLE_HIER_AP			BIT(33)
-> +#define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
-> +#define   AS_TRANSCFG_WXN				BIT(35)
-> +#define   AS_TRANSCFG_XREADABLE				BIT(36)
-> +#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
-> +#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
-> +
-> +#define CSF_GPU_LATEST_FLUSH_ID				0x10000
-> +#define CSF_GPU_LATEST_FLUSH_ID_DEFAULT			0xffffe0
-
-I'm not sure why we need the default value of this register? Seems an
-odd thing to include.
-
-Steve
-
-> +
-> +#define CSF_DOORBELL(i)					(0x80000 + ((i) * 0x10000))
-> +#define CSF_GLB_DOORBELL_ID				0
-> +
-> +#define gpu_write(dev, reg, data) \
-> +	writel(data, (dev)->iomem + (reg))
-> +
-> +#define gpu_read(dev, reg) \
-> +	readl((dev)->iomem + (reg))
-> +
-> +#endif
+>   drivers/gpu/drm/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 9d1f0e04fd56..ab9ef1c20349 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -198,7 +198,7 @@ config DRM_TTM
+>   config DRM_TTM_KUNIT_TEST
+>           tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
+>           default n
+> -        depends on DRM && KUNIT
+> +        depends on DRM && KUNIT && MMU
+>           select DRM_TTM
+>           select DRM_EXPORT_FOR_TESTS if m
+>           select DRM_KUNIT_TEST_HELPERS
 
