@@ -2,46 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32C677959B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 19:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C897795A1
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 19:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66BDA10E6CA;
-	Fri, 11 Aug 2023 17:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE49E10E6CB;
+	Fri, 11 Aug 2023 17:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C00BC10E6CA;
- Fri, 11 Aug 2023 17:04:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4835C6778C;
- Fri, 11 Aug 2023 17:04:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA2EC433C7;
- Fri, 11 Aug 2023 17:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691773459;
- bh=LZGP/air+2wvae6xLeGOfYYOENdL4ySCVIGxTfx1yy4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dr/ZSU50g1LCjI6n2lyl8KXz0mUjPN6XnyorDImTEWlmWDuwEEBggyyouPT8GNF/8
- 1c3ahRjhkbq2gYdjbiOGY+F6omPh4oVHOEwcgtoCx8c18GCKsajv5Mj8pKS+PMYYcE
- JplN7eBwHy/k7jN4SMhAQB2Fnzs8iSP1oyQhgA9eXo5MpJ55s10JQKjqJOHD1/KdvV
- SKo/NS4vYn/e6Xzqr3PhSq+nwwdimr/HnfxodbXmn2Bh3GNByPFg5dXjZ2XD+FlvVK
- y26ZhggKZc1/sPkc0+RIH9vr2LQcAdq1x+Ife+5zxtHV2qZj7GQUg1wZ15ViDiEieL
- on627zLQkfy4g==
-Received: (nullmailer pid 3614707 invoked by uid 1000);
- Fri, 11 Aug 2023 17:04:15 -0000
-Date: Fri, 11 Aug 2023 11:04:15 -0600
-From: Rob Herring <robh@kernel.org>
-To: Rohit Agarwal <quic_rohiagar@quicinc.com>
-Subject: Re: [PATCH v2] dt-bindings: qcom: Update RPMHPD entries for some SoCs
-Message-ID: <169177345491.3614642.17326420788227805482.robh@kernel.org>
-References: <1690461813-22564-1-git-send-email-quic_rohiagar@quicinc.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE0510E6CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 17:06:03 +0000 (UTC)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
+ [91.154.35.171])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC780FA6;
+ Fri, 11 Aug 2023 19:04:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1691773493;
+ bh=aaPoirlmZg6vlC83FhqXIwEasaSW+9wd+nAmaSdq26s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QZ3AH09xCtZ+D3q2U5Vuz+ewShCcXC+7lgdaJDLmdVx8d8wczR12ug4vWdtpCP1HE
+ NiQFgcy/ea+zdMYuQ7PwwyxGmWZbOCaC6tX+JszlZP8CScAcXpxYEk/OK8By/FIRi9
+ 9hU/tSG+WOC/3gXB6QRO78xwWArbN7z8J5T/Qah4=
+Message-ID: <af25e724-e06b-e3cd-665b-38281f0c7fad@ideasonboard.com>
+Date: Fri, 11 Aug 2023 20:05:58 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1690461813-22564-1-git-send-email-quic_rohiagar@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 05/11] drm/bridge: tc358768: Print logical values, not raw
+ register values
+Content-Language: en-US
+To: =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Francesco Dolcini <francesco@dolcini.it>
+References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
+ <20230804-tc358768-v1-5-1afd44b7826b@ideasonboard.com>
+ <e74e055d-b3df-4ac9-aef6-8b07b2062a7f@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <e74e055d-b3df-4ac9-aef6-8b07b2062a7f@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +58,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, mturquette@baylibre.com,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_vgarodia@quicinc.com, krzysztof.kozlowski+dt@linaro.org,
- marijn.suijten@somainline.org, linux-clk@vger.kernel.org, rfoss@kernel.org,
- jonathan@marek.ca, stanimir.k.varbanov@gmail.com, agross@kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
- bhupesh.sharma@linaro.org, mani@kernel.org, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, robh+dt@kernel.org, mchehab@kernel.org,
- sean@poorly.run, neil.armstrong@linaro.org, mathieu.poirier@linaro.org,
- sboyd@kernel.org, andersson@kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, konrad.dybcio@linaro.org, quic_tdas@quicinc.com,
- dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
- vladimir.zapolskiy@linaro.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Aradhya Bhatia <a-bhatia1@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/08/2023 19:31, Péter Ujfalusi wrote:
+> 
+> 
+> On 04/08/2023 13:44, Tomi Valkeinen wrote:
+>> The driver debug prints DSI related timings as raw register values in
+>> hex. It is much more useful to see the "logical" value of the timing,
+>> not the register value.
+> 
+> I'm a bit confused by the term 'logical' value, I think you meant
+> decimal, easier to read by humans numbers.
 
-On Thu, 27 Jul 2023 18:13:33 +0530, Rohit Agarwal wrote:
-> Update the RPMHPD references with new bindings defined in rpmhpd.h
-> for Qualcomm SoCs SM8[2345]50.
-> 
-> Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
-> ---
-> 
-> Changes in v2:
->  - Removed the unnecessary inclusion of header rpmpd.h.
-> 
-> This patch is dependent on the series that includes the new rpmhpd.h header
-> https://lore.kernel.org/all/1689744162-9421-1-git-send-email-quic_rohiagar@quicinc.com/
-> 
->  Documentation/devicetree/bindings/clock/qcom,dispcc-sm8x50.yaml   | 4 ++--
->  Documentation/devicetree/bindings/clock/qcom,sm8350-videocc.yaml  | 4 ++--
->  Documentation/devicetree/bindings/clock/qcom,sm8450-camcc.yaml    | 4 ++--
->  Documentation/devicetree/bindings/clock/qcom,sm8450-dispcc.yaml   | 4 ++--
->  Documentation/devicetree/bindings/clock/qcom,sm8450-videocc.yaml  | 4 ++--
->  Documentation/devicetree/bindings/clock/qcom,sm8550-dispcc.yaml   | 4 ++--
->  Documentation/devicetree/bindings/clock/qcom,videocc.yaml         | 4 ++--
->  .../devicetree/bindings/display/msm/qcom,sm8250-dpu.yaml          | 4 ++--
->  .../devicetree/bindings/display/msm/qcom,sm8250-mdss.yaml         | 8 ++++----
->  .../devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml          | 4 ++--
->  .../devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml         | 6 +++---
->  .../devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml          | 4 ++--
->  .../devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml         | 8 ++++----
->  .../devicetree/bindings/display/msm/qcom,sm8550-dpu.yaml          | 4 ++--
->  .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml         | 8 ++++----
->  Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml    | 4 ++--
->  Documentation/devicetree/bindings/mmc/sdhci-msm.yaml              | 4 ++--
->  Documentation/devicetree/bindings/remoteproc/qcom,sm8350-pas.yaml | 6 +++---
->  18 files changed, 44 insertions(+), 44 deletions(-)
-> 
+Not just decimal. Previously the code printed the register values, which 
+e.g. could contain two values ORed together. So, with "logical" I just 
+meant the "real" value, instead of "register-encoded".
 
-Acked-by: Rob Herring <robh@kernel.org>
+>> Change the prints to print the values separately, in case a single
+>> register contains multiple values, and use %u to have it in a more human
+>> consumable form.
+> 
+> But, yes, decimal is better for the dmesg, as I recall I had a tool
+> which was using hex numbers so it was better to have the prints also in hex.
+> 
+> Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> 
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/gpu/drm/bridge/tc358768.c | 21 ++++++++++++---------
+>>   1 file changed, 12 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+>> index 9b633038af33..0ef51d04bb21 100644
+>> --- a/drivers/gpu/drm/bridge/tc358768.c
+>> +++ b/drivers/gpu/drm/bridge/tc358768.c
+>> @@ -739,57 +739,59 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>>   
+>>   	/* LP11 > 100us for D-PHY Rx Init */
+>>   	val = tc358768_ns_to_cnt(100 * 1000, dsibclk_nsk) - 1;
+>> -	dev_dbg(priv->dev, "LINEINITCNT: 0x%x\n", val);
+>> +	dev_dbg(priv->dev, "LINEINITCNT: %u\n", val);
+>>   	tc358768_write(priv, TC358768_LINEINITCNT, val);
+>>   
+>>   	/* LPTimeCnt > 50ns */
+>>   	val = tc358768_ns_to_cnt(50, dsibclk_nsk) - 1;
+>>   	lptxcnt = val;
+>> -	dev_dbg(priv->dev, "LPTXTIMECNT: 0x%x\n", val);
+>> +	dev_dbg(priv->dev, "LPTXTIMECNT: %u\n", val);
+>>   	tc358768_write(priv, TC358768_LPTXTIMECNT, val);
+>>   
+>>   	/* 38ns < TCLK_PREPARE < 95ns */
+>>   	val = tc358768_ns_to_cnt(65, dsibclk_nsk) - 1;
+>> +	dev_dbg(priv->dev, "TCLK_PREPARECNT %u\n", val);
+>>   	/* TCLK_PREPARE + TCLK_ZERO > 300ns */
+>>   	val2 = tc358768_ns_to_cnt(300 - tc358768_to_ns(2 * ui_nsk),
+>>   				  dsibclk_nsk) - 2;
+>> +	dev_dbg(priv->dev, "TCLK_ZEROCNT %u\n", val2);
+>>   	val |= val2 << 8;
+>> -	dev_dbg(priv->dev, "TCLK_HEADERCNT: 0x%x\n", val);
+>>   	tc358768_write(priv, TC358768_TCLK_HEADERCNT, val);
+>>   
+>>   	/* TCLK_TRAIL > 60ns AND TEOT <= 105 ns + 12*UI */
+>>   	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(2 * ui_nsk), dsibclk_nsk) - 5;
+>>   	val = clamp(raw_val, 0, 127);
+>> -	dev_dbg(priv->dev, "TCLK_TRAILCNT: 0x%x\n", val);
+>> +	dev_dbg(priv->dev, "TCLK_TRAILCNT: %u\n", val);
+>>   	tc358768_write(priv, TC358768_TCLK_TRAILCNT, val);
+>>   
+>>   	/* 40ns + 4*UI < THS_PREPARE < 85ns + 6*UI */
+>>   	val = 50 + tc358768_to_ns(4 * ui_nsk);
+>>   	val = tc358768_ns_to_cnt(val, dsibclk_nsk) - 1;
+>> +	dev_dbg(priv->dev, "THS_PREPARECNT %u\n", val);
+>>   	/* THS_PREPARE + THS_ZERO > 145ns + 10*UI */
+>>   	raw_val = tc358768_ns_to_cnt(145 - tc358768_to_ns(3 * ui_nsk), dsibclk_nsk) - 10;
+>>   	val2 = clamp(raw_val, 0, 127);
+>> +	dev_dbg(priv->dev, "THS_ZEROCNT %u\n", val2);
+>>   	val |= val2 << 8;
+>> -	dev_dbg(priv->dev, "THS_HEADERCNT: 0x%x\n", val);
+>>   	tc358768_write(priv, TC358768_THS_HEADERCNT, val);
+>>   
+>>   	/* TWAKEUP > 1ms in lptxcnt steps */
+>>   	val = tc358768_ns_to_cnt(1020000, dsibclk_nsk);
+>>   	val = val / (lptxcnt + 1) - 1;
+>> -	dev_dbg(priv->dev, "TWAKEUP: 0x%x\n", val);
+>> +	dev_dbg(priv->dev, "TWAKEUP: %u\n", val);
+>>   	tc358768_write(priv, TC358768_TWAKEUP, val);
+>>   
+>>   	/* TCLK_POSTCNT > 60ns + 52*UI */
+>>   	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(52 * ui_nsk),
+>>   				 dsibclk_nsk) - 3;
+>> -	dev_dbg(priv->dev, "TCLK_POSTCNT: 0x%x\n", val);
+>> +	dev_dbg(priv->dev, "TCLK_POSTCNT: %u\n", val);
+>>   	tc358768_write(priv, TC358768_TCLK_POSTCNT, val);
+>>   
+>>   	/* max(60ns + 4*UI, 8*UI) < THS_TRAILCNT < 105ns + 12*UI */
+>>   	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(18 * ui_nsk),
+>>   				     dsibclk_nsk) - 4;
+>>   	val = clamp(raw_val, 0, 15);
+>> -	dev_dbg(priv->dev, "THS_TRAILCNT: 0x%x\n", val);
+>> +	dev_dbg(priv->dev, "THS_TRAILCNT: %u\n", val);
+>>   	tc358768_write(priv, TC358768_THS_TRAILCNT, val);
+>>   
+>>   	val = BIT(0);
+>> @@ -803,10 +805,11 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>>   	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
+>>   	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
+>>   	val = tc358768_ns_to_cnt(val, dsibclk_nsk) / 4 - 1;
+>> +	dev_dbg(priv->dev, "TXTAGOCNT: %u\n", val);
+>>   	val2 = tc358768_ns_to_cnt(tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk),
+>>   				  dsibclk_nsk) - 2;
+>> +	dev_dbg(priv->dev, "RXTASURECNT: %u\n", val2);
+>>   	val = val << 16 | val2;
+>> -	dev_dbg(priv->dev, "BTACNTRL1: 0x%x\n", val);
+>>   	tc358768_write(priv, TC358768_BTACNTRL1, val);
+>>   
+>>   	/* START[0] */
+>>
+> 
 
