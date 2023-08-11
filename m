@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA71477944D
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0246E779454
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Aug 2023 18:24:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C2710E6B5;
-	Fri, 11 Aug 2023 16:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1A410E6B6;
+	Fri, 11 Aug 2023 16:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3F310E6B5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:23:42 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4fe82ac3ab4so3332524e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:23:42 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A310710E6B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 16:24:39 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4fe216edaf7so3840933e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Aug 2023 09:24:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691771020; x=1692375820;
+ d=gmail.com; s=20221208; t=1691771078; x=1692375878;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hqzfx48+4bGEQ1sZCe8YnSKBTocZAhGI3MQXtEYWZBE=;
- b=pDwdIQtwpAy5gwScoUCpKPDoulw1HZVu9xB39OdbB8j1OoQ/kX6uIGJ90le/tUyo0w
- BFPJbbk4uNsfSALbk/0tkwFQfpujpmfXyIAoIWrv+EYJ+7g2oo18HOixp3X1Z+KKarFr
- zNaH3QZ1zqymrJX/U3lmSxpF0VEOVklcwOqmlbIIRP9R44VNWBnrnR/347nCaXLY1AvA
- z+vZPjzJ7rXNWGjyeli8mBvM4lionUf9jdHqV/CyTdJXn7uGsEfYUBT2zZKUNtJiDeJG
- sRwvR/bYnNQ9rnr30RzddiNOX2I2GexPqHGQ+pL3nVhQEeTHjFTWiF4gdiBqjxY6Z9Lq
- //9g==
+ bh=iAbWJt7VYJZGb0oGJLZpXmL9Pg/Akce6I5YlnCbDdyQ=;
+ b=aRrYJz8d5a5QwsSiJmRKAxgPPv6BSTNLZCK5XP2vev2u1XU7FVBaHn7B88YPZgdJBZ
+ YlEQ17K7ymZaAR0wlgGOUhnPZvqnspOocaQhuqcLx9uLGgmxEoXo7HQbw0aTaBX0w3Zb
+ XmMfrbBxszQzcoeRnJK+pPlgdNMEJX07Mh6Th+i0wrylCNWmZwrBOtG51WQ9v/2Q7EaU
+ aH5Ky7PHIF+1gaI44Jyv+Ks/YNhn8IKjCrptpZQyFXxqGYk5CdUJ6DBClB1od7AsEiti
+ MLGw70erkPOOTtfDOZ329UPusEs94y4/KVwVGcrijEw9NSvZVy74hg8aJlyUIFliWWq0
+ Iamw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691771020; x=1692375820;
+ d=1e100.net; s=20221208; t=1691771078; x=1692375878;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hqzfx48+4bGEQ1sZCe8YnSKBTocZAhGI3MQXtEYWZBE=;
- b=cULLyxU/ekoXnabNfgVHBpRZDWzbsSyyEKG7JbFjQk2YpUiclcJ3h9g0vXVM+XG0Bq
- sYVxLk5Hd+WHGZZsEWlru5q2FVeXbuOMXdhm885uMo8aT2wrqOjU6cgPzpMg0a1blSA1
- ANKX7bINDQQU/9KC6AUgMyXW8PK5/ujMkeBPzn4l25eP8zYWiQ7q/aII/Ywax6zbpZU5
- CH/9P60cA3H4OsjkO1gtLjOMP6b7ZjljglPk4ufTksZbbJ2maLWJWOuMYpxck4exsQW5
- +jplm7+25DpugfJrUPFHTC8T5DNmpdoNg33JCwt2ukkxN4x43m02poHyMNvlr+cI9QNu
- VV3g==
-X-Gm-Message-State: AOJu0Yz21Srn+O8R4IRmG06UwNbYHjTMIafcyi8WSs8F/gk43T5MCwCA
- EHZ/xOLRnNT0hm6GCrWICLI=
-X-Google-Smtp-Source: AGHT+IHC13cbClzY90Y55unkxCOoWrmOntuVE/+/Y9XeBTdh/V0ucptEYX5I1jxE2ifwnmqZ6ceLcg==
-X-Received: by 2002:a05:6512:2804:b0:4f3:d682:7b1c with SMTP id
- cf4-20020a056512280400b004f3d6827b1cmr2272410lfb.45.1691771020463; 
- Fri, 11 Aug 2023 09:23:40 -0700 (PDT)
+ bh=iAbWJt7VYJZGb0oGJLZpXmL9Pg/Akce6I5YlnCbDdyQ=;
+ b=g2KNagqQZaVEX0mjMj3JkCUtGYkgQG6yoYCIvnOy2YMnFO5jKKlv8NalJRCALJwqRK
+ rVpwqtxi74DpAkRobnU5E2kygWVJsa2n0gFmIK2CYR/GenkPQvDGStE8m4o+Gy6F82SY
+ 2/x7X5rzlZzI2V9aI55qZMvqiXTaNrrgHrRpiY6NFDe8b3XFUjTTikfLq+lJ9vHp90+M
+ Rn3/4Vn/ngyQZdAuNNdroJwpXRNWw79lPkIxN+GgQBFupE2okq6XHqa6DUdFtW5nFucA
+ f5HaQfDy+TTGPzak3UCLGvkaJlxGVAYXVJx/eL+PPqrEA1fJ0AUq156Rec+ahbLmTwSh
+ +ZEA==
+X-Gm-Message-State: AOJu0Yyw1nRvcRKP0EOBeOcIUXT1l8cwcvZlrt3iNLGiBPYwo2d/hbFX
+ qv/jHRkKb/qnk9LZg8YxoKg=
+X-Google-Smtp-Source: AGHT+IHHMbS4s6/fha5oRksXj7wM/uqwtsEzCvucfz9dORGMVqMCWoCVpT6Le3zAlSqejE7QrgnmMA==
+X-Received: by 2002:a05:6512:3089:b0:4fe:17a8:bee5 with SMTP id
+ z9-20020a056512308900b004fe17a8bee5mr933959lfd.31.1691771077544; 
+ Fri, 11 Aug 2023 09:24:37 -0700 (PDT)
 Received: from [10.0.0.100] (host-85-29-92-32.kaisa-laajakaista.fi.
  [85.29.92.32]) by smtp.gmail.com with ESMTPSA id
- v7-20020ac25587000000b004fe3229e584sm768475lfg.270.2023.08.11.09.23.39
+ v7-20020ac25587000000b004fe3229e584sm768475lfg.270.2023.08.11.09.24.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Aug 2023 09:23:40 -0700 (PDT)
-Message-ID: <37cf3e0d-5a30-466f-86d3-cda077c3921f@gmail.com>
-Date: Fri, 11 Aug 2023 19:25:42 +0300
+ Fri, 11 Aug 2023 09:24:37 -0700 (PDT)
+Message-ID: <1df8fff3-9ba0-49cb-80e4-03f0cef57f9b@gmail.com>
+Date: Fri, 11 Aug 2023 19:26:40 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/11] drm/bridge: tc358768: Cleanup PLL calculations
+Subject: Re: [PATCH 04/11] drm/bridge: tc358768: Use struct videomode
 Content-Language: en-US
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -65,9 +65,9 @@ To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Francesco Dolcini <francesco@dolcini.it>
 References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-3-1afd44b7826b@ideasonboard.com>
+ <20230804-tc358768-v1-4-1afd44b7826b@ideasonboard.com>
 From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <20230804-tc358768-v1-3-1afd44b7826b@ideasonboard.com>
+In-Reply-To: <20230804-tc358768-v1-4-1afd44b7826b@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,80 +90,138 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 04/08/2023 13:44, Tomi Valkeinen wrote:
-> As is quite common, some of TC358768's PLL register fields are to be
-> programmed with (value - 1). Specifically, the FBD and PRD, multiplier
-> and divider, are such fields.
+> The TC358768 documentation uses HFP, HBP, etc. values to deal with the
+> video mode, while the driver currently uses the DRM display mode
+> (htotal, hsync_start, etc).
 > 
-> However, what the driver currently does is that it considers that the
-> formula used for PLL rate calculation is:
-> 
-> RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)]
-> 
-> where FBD and PRD are values directly from the registers, while a more
-> sensible way to look at it is:
-> 
-> RefClk * FBD / PRD * (1 / (2^FRS))
-> 
-> and when the FBD and PRD values are written to the registers, they will
-> be subtracted by one.
-> 
-> Change the driver accordingly, as it simplifies the PLL code.
+> Change the driver to convert the DRM display mode to struct videomode,
+> which then allows us to use the same units the documentation uses. This
+> makes it much easier to work on the code when using the TC358768
+> documentation as a reference.
 
 Reviewed-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
 
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/tc358768.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/bridge/tc358768.c | 45 +++++++++++++++++++++------------------
+>  1 file changed, 24 insertions(+), 21 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> index b668f77673c3..d5831a1236e9 100644
+> index d5831a1236e9..9b633038af33 100644
 > --- a/drivers/gpu/drm/bridge/tc358768.c
 > +++ b/drivers/gpu/drm/bridge/tc358768.c
-> @@ -316,7 +316,7 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
+> @@ -650,6 +650,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  	u32 dsiclk, dsibclk, video_start;
+>  	const u32 internal_delay = 40;
+>  	int ret, i;
+> +	struct videomode vm;
 >  
->  	target_pll = tc358768_pclk_to_pll(priv, mode->clock * 1000);
+>  	if (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
+>  		dev_warn_once(priv->dev, "Non-continuous mode unimplemented, falling back to continuous\n");
+> @@ -673,6 +674,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  		return;
+>  	}
 >  
-> -	/* pll_clk = RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)] */
-> +	/* pll_clk = RefClk * FBD / PRD * (1 / (2^FRS)) */
+> +	drm_display_mode_to_videomode(mode, &vm);
+> +
+>  	dsiclk = priv->dsiclk;
+>  	dsibclk = dsiclk / 4;
 >  
->  	for (i = 0; i < ARRAY_SIZE(frs_limits); i++)
->  		if (target_pll >= frs_limits[i])
-> @@ -336,19 +336,19 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
->  	best_prd = 0;
->  	best_fbd = 0;
+> @@ -681,28 +684,28 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  	switch (dsi_dev->format) {
+>  	case MIPI_DSI_FMT_RGB888:
+>  		val |= (0x3 << 4);
+> -		hact = mode->hdisplay * 3;
+> -		video_start = (mode->htotal - mode->hsync_start) * 3;
+> +		hact = vm.hactive * 3;
+> +		video_start = (vm.hsync_len + vm.hback_porch) * 3;
+>  		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_24;
+>  		break;
+>  	case MIPI_DSI_FMT_RGB666:
+>  		val |= (0x4 << 4);
+> -		hact = mode->hdisplay * 3;
+> -		video_start = (mode->htotal - mode->hsync_start) * 3;
+> +		hact = vm.hactive * 3;
+> +		video_start = (vm.hsync_len + vm.hback_porch) * 3;
+>  		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_18;
+>  		break;
 >  
-> -	for (prd = 0; prd < 16; ++prd) {
-> -		u32 divisor = (prd + 1) * (1 << frs);
-> +	for (prd = 1; prd <= 16; ++prd) {
-> +		u32 divisor = prd * (1 << frs);
->  		u32 fbd;
+>  	case MIPI_DSI_FMT_RGB666_PACKED:
+>  		val |= (0x4 << 4) | BIT(3);
+> -		hact = mode->hdisplay * 18 / 8;
+> -		video_start = (mode->htotal - mode->hsync_start) * 18 / 8;
+> +		hact = vm.hactive * 18 / 8;
+> +		video_start = (vm.hsync_len + vm.hback_porch) * 18 / 8;
+>  		data_type = MIPI_DSI_PIXEL_STREAM_3BYTE_18;
+>  		break;
 >  
-> -		for (fbd = 0; fbd < 512; ++fbd) {
-> +		for (fbd = 1; fbd <= 512; ++fbd) {
->  			u32 pll, diff, pll_in;
+>  	case MIPI_DSI_FMT_RGB565:
+>  		val |= (0x5 << 4);
+> -		hact = mode->hdisplay * 2;
+> -		video_start = (mode->htotal - mode->hsync_start) * 2;
+> +		hact = vm.hactive * 2;
+> +		video_start = (vm.hsync_len + vm.hback_porch) * 2;
+>  		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_16;
+>  		break;
+>  	default:
+> @@ -814,43 +817,43 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+>  		tc358768_write(priv, TC358768_DSI_EVENT, 0);
 >  
-> -			pll = (u32)div_u64((u64)refclk * (fbd + 1), divisor);
-> +			pll = (u32)div_u64((u64)refclk * fbd, divisor);
+>  		/* vact */
+> -		tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
+> +		tc358768_write(priv, TC358768_DSI_VACT, vm.vactive);
 >  
->  			if (pll >= max_pll || pll < min_pll)
->  				continue;
+>  		/* vsw */
+> -		tc358768_write(priv, TC358768_DSI_VSW,
+> -			       mode->vsync_end - mode->vsync_start);
+> +		tc358768_write(priv, TC358768_DSI_VSW, vm.vsync_len);
+> +
+>  		/* vbp */
+> -		tc358768_write(priv, TC358768_DSI_VBPR,
+> -			       mode->vtotal - mode->vsync_end);
+> +		tc358768_write(priv, TC358768_DSI_VBPR, vm.vback_porch);
 >  
-> -			pll_in = (u32)div_u64((u64)refclk, prd + 1);
-> +			pll_in = (u32)div_u64((u64)refclk, prd);
->  			if (pll_in < 4000000)
->  				continue;
+>  		/* hsw * byteclk * ndl / pclk */
+> -		val = (u32)div_u64((mode->hsync_end - mode->hsync_start) *
+> +		val = (u32)div_u64(vm.hsync_len *
+>  				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
+> -				   mode->clock * 1000);
+> +				   vm.pixelclock);
+>  		tc358768_write(priv, TC358768_DSI_HSW, val);
 >  
-> @@ -611,7 +611,7 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
->  		mode->clock * 1000);
+>  		/* hbp * byteclk * ndl / pclk */
+> -		val = (u32)div_u64((mode->htotal - mode->hsync_end) *
+> +		val = (u32)div_u64(vm.hback_porch *
+>  				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
+> -				   mode->clock * 1000);
+> +				   vm.pixelclock);
+>  		tc358768_write(priv, TC358768_DSI_HBPR, val);
+>  	} else {
+>  		/* Set event mode */
+>  		tc358768_write(priv, TC358768_DSI_EVENT, 1);
 >  
->  	/* PRD[15:12] FBD[8:0] */
-> -	tc358768_write(priv, TC358768_PLLCTL0, (prd << 12) | fbd);
-> +	tc358768_write(priv, TC358768_PLLCTL0, ((prd - 1) << 12) | (fbd - 1));
+>  		/* vact */
+> -		tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
+> +		tc358768_write(priv, TC358768_DSI_VACT, vm.vactive);
 >  
->  	/* FRS[11:10] LBWS[9:8] CKEN[4] RESETB[1] EN[0] */
->  	tc358768_write(priv, TC358768_PLLCTL1,
+>  		/* vsw (+ vbp) */
+>  		tc358768_write(priv, TC358768_DSI_VSW,
+> -			       mode->vtotal - mode->vsync_start);
+> +			       vm.vsync_len + vm.vback_porch);
+> +
+>  		/* vbp (not used in event mode) */
+>  		tc358768_write(priv, TC358768_DSI_VBPR, 0);
+>  
+>  		/* (hsw + hbp) * byteclk * ndl / pclk */
+> -		val = (u32)div_u64((mode->htotal - mode->hsync_start) *
+> +		val = (u32)div_u64((vm.hsync_len + vm.hback_porch) *
+>  				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
+> -				   mode->clock * 1000);
+> +				   vm.pixelclock);
+>  		tc358768_write(priv, TC358768_DSI_HSW, val);
+>  
+>  		/* hbp (not used in event mode) */
 > 
 
 -- 
