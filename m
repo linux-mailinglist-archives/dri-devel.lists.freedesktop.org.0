@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD80777A1CC
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Aug 2023 20:34:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A501F77A1E8
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Aug 2023 20:53:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 151A610E027;
-	Sat, 12 Aug 2023 18:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E082C10E02C;
+	Sat, 12 Aug 2023 18:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808B110E027
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 18:34:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2E810E02C
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 18:52:58 +0000 (UTC)
 Received: from newone.lan (unknown [10.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id D5030160BE6;
- Sat, 12 Aug 2023 20:34:04 +0200 (CEST)
+ by ixit.cz (Postfix) with ESMTPSA id 5C287160D84;
+ Sat, 12 Aug 2023 20:52:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1691865244;
+ t=1691866376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=e/X3Jp03pfCojLdzJqlMAuYtV41cck+wlhq+414/CjQ=;
- b=KQshq1aG5s6vd3VRPPPirmrRIriAu8hACMtBQN9thn0RX37gRWY0eVCDJMdFkE63k8ICBV
- 0noxhLgEk8ANfhdO0MTIJHS5MK3eMlnMJghhPq/npbndQN0GK5pUrEmSWBsZkRcSoU1qxg
- 4ds2pQAlHI/h+SjQHfx81sK7MEk19fg=
+ bh=p+cYZqPkq2yEiMfVnzXTw563FqsEFK6qc54FcPd8+P0=;
+ b=K3MLvFpImbRBT6R7DBzNxwdVTxUCRU1KwWNdGL873rYIcyGGTLP5WDe6SyI5JwTQsX1443
+ Id9l0PcuhrNLqcy4AKi/D3cqIlztMyWiCScCihqdTzt7pKcmRcaA079VWJ3yjtdt1L1PU5
+ qL5/zP0mBFSLRdzsrzedG/wCGDD6eG8=
 From: David Heidelberg <david@ixit.cz>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/panel: JDI LT070ME05000 drop broken link
-Date: Sat, 12 Aug 2023 20:34:03 +0200
-Message-Id: <20230812183404.374718-1-david@ixit.cz>
+Subject: [RESEND PATCH v2] drm/panel: JDI LT070ME05000 simplify with
+ dev_err_probe()
+Date: Sat, 12 Aug 2023 20:52:39 +0200
+Message-Id: <20230812185239.378582-1-david@ixit.cz>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,32 +55,80 @@ Cc: dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link is no longer functional and web.archive.org doesn't provide PDF
-with detail information.
+Use the dev_err_probe() helper to simplify error handling during probe.
+This also handle scenario, when EDEFER is returned and useless error is printed.
 
-Some informations can be found from web.archive.org here:
-https://web.archive.org/web/20170629205602/http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
+Fixes error:
+panel-jdi-lt070me05000 4700000.dsi.0: cannot get enable-gpio -517
 
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/panel/panel-jdi-lt070me05000.c | 4 ----
- 1 file changed, 4 deletions(-)
+resend:
+ - applies cleanly on -next
+v2:
+ - original v1 patch name "drm/panel: JDI LT070ME05000 remove useless warning"
+ - use dev_err_probe function
+
+ .../gpu/drm/panel/panel-jdi-lt070me05000.c    | 36 ++++++++-----------
+ 1 file changed, 14 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-index 213008499caa..f9a69f347068 100644
+index e94c98f00391..f9a69f347068 100644
 --- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
 +++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-@@ -5,10 +5,6 @@
-  *
-  * Copyright (C) 2016 Linaro Ltd
-  * Author: Sumit Semwal <sumit.semwal@linaro.org>
-- *
-- * From internet archives, the panel for Nexus 7 2nd Gen, 2013 model is a
-- * JDI model LT070ME05000, and its data sheet is at:
-- * http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
-  */
+@@ -400,38 +400,30 @@ static int jdi_panel_add(struct jdi_panel *jdi)
  
- #include <linux/backlight.h>
+ 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(jdi->supplies),
+ 				      jdi->supplies);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to init regulator, ret=%d\n", ret);
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret,
++				     "failed to init regulator, ret=%d\n", ret);
+ 
+ 	jdi->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+ 	if (IS_ERR(jdi->enable_gpio)) {
+-		ret = PTR_ERR(jdi->enable_gpio);
+-		dev_err(dev, "cannot get enable-gpio %d\n", ret);
+-		return ret;
++		return dev_err_probe(dev, PTR_ERR(jdi->enable_gpio),
++				     "cannot get enable-gpio %d\n", ret);
+ 	}
+ 
+ 	jdi->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+-	if (IS_ERR(jdi->reset_gpio)) {
+-		ret = PTR_ERR(jdi->reset_gpio);
+-		dev_err(dev, "cannot get reset-gpios %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(jdi->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(jdi->reset_gpio),
++				     "cannot get reset-gpios %d\n", ret);
+ 
+ 	jdi->dcdc_en_gpio = devm_gpiod_get(dev, "dcdc-en", GPIOD_OUT_LOW);
+-	if (IS_ERR(jdi->dcdc_en_gpio)) {
+-		ret = PTR_ERR(jdi->dcdc_en_gpio);
+-		dev_err(dev, "cannot get dcdc-en-gpio %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(jdi->dcdc_en_gpio))
++		return dev_err_probe(dev, PTR_ERR(jdi->dcdc_en_gpio),
++				     "cannot get dcdc-en-gpio %d\n", ret);
+ 
+ 	jdi->backlight = drm_panel_create_dsi_backlight(jdi->dsi);
+-	if (IS_ERR(jdi->backlight)) {
+-		ret = PTR_ERR(jdi->backlight);
+-		dev_err(dev, "failed to register backlight %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(jdi->backlight))
++		return dev_err_probe(dev, PTR_ERR(jdi->backlight),
++				     "failed to register backlight %d\n", ret);
+ 
+ 	drm_panel_init(&jdi->base, &jdi->dsi->dev, &jdi_panel_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
 -- 
 2.40.1
 
