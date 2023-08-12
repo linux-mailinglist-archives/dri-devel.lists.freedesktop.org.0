@@ -1,27 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A38477B25E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:26:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E80F077B25D
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE46210E128;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B15310E11F;
 	Mon, 14 Aug 2023 07:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1076 seconds by postgrey-1.36 at gabe;
- Sat, 12 Aug 2023 09:37:32 UTC
 Received: from wxsgout04.xfusion.com (wxsgout03.xfusion.com [36.139.52.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA56210E012;
- Sat, 12 Aug 2023 09:37:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F6010E012;
+ Sat, 12 Aug 2023 09:39:33 +0000 (UTC)
 Received: from wuxshcsitd00600.xfusion.com (unknown [10.32.133.213])
- by wxsgout04.xfusion.com (SkyGuard) with ESMTPS id 4RNFSl53Y4z9xyqf;
- Sat, 12 Aug 2023 17:18:15 +0800 (CST)
+ by wxsgout04.xfusion.com (SkyGuard) with ESMTPS id 4RNFvq0Jvrz9xrdT;
+ Sat, 12 Aug 2023 17:38:15 +0800 (CST)
 Received: from fedora (10.82.147.3) by wuxshcsitd00600.xfusion.com
  (10.32.133.213) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sat, 12 Aug
- 2023 17:19:29 +0800
-Date: Sat, 12 Aug 2023 17:19:28 +0800
+ 2023 17:39:28 +0800
+Date: Sat, 12 Aug 2023 17:39:27 +0800
 From: Wang Jinchao <wangjinchao@xfusion.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
  <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
@@ -29,7 +27,7 @@ To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/i915: Fix Kconfig error for CONFIG_DRM_I915
+Subject: [PATCH v2] drm/i915: Fix Kconfig error for CONFIG_DRM_I915
 Message-ID: <ZNdOoHvIg7HXh7Gg@fedora>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -50,7 +48,6 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stone.xulei@xfusion.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -71,10 +68,13 @@ is set to 'm', we encountered an ld.lld error during the build process:
 
 This issue occurred because intel_backlight_device_register and
 intel_backlight_device_unregister were enclosed within
+\#if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE) and #endif directives.
 However, according to Kconfig, CONFIG_DRM_I915 will select
 BACKLIGHT_CLASS_DEVICE only if ACPI is enabled.
 This led to an error, which can be resolved by removing the
 conditional statements related to ACPI.
+
+v2: Add a line starting with #
 
 Signed-off-by: Wang Jinchao <wangjinchao@xfusion.com>
 ---
