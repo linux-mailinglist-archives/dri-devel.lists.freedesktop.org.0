@@ -1,60 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303DA77A093
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Aug 2023 16:54:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD80777A1CC
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Aug 2023 20:34:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84FA710E066;
-	Sat, 12 Aug 2023 14:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 151A610E027;
+	Sat, 12 Aug 2023 18:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8890E10E069
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 14:54:12 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-991c786369cso393211366b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 07:54:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gfxstrand-net.20221208.gappssmtp.com; s=20221208; t=1691852051; x=1692456851;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=uBMSfz23O1Rvr42aW/JSGymLkrRHHgkghxffl9JWGcA=;
- b=LMoO632y0/4u9D7qUMoT5bo8/AZLcWdF/MSSd8MuF7BlQSmdElAyLNTTTAVKH1sIgY
- hbM5AAIWhmxXIbklgzw2QiWVtshqyINylN3tHl2mpzXy0aATHsCDTscFMm/hVTP/FETF
- 8DHZ8kIv5V1WhTBBDS7RVVfqVz2rxyAmnThGasjccSFZpe9X78uxkqjQvpHhZ9oEnUY7
- uLyenYyz8lhG9n+zQkyD6UIZ7h/u7bKqVNQXo+KZ10MKwdIDOfcNe6AtxH8bT5e96SoZ
- xwftUWRpc74DqZtiY5wrK1Yq8NLUrG6bg4TtB3Di7bFU728T3TCMy31KDXGg1h2xdWXA
- 7KAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691852051; x=1692456851;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uBMSfz23O1Rvr42aW/JSGymLkrRHHgkghxffl9JWGcA=;
- b=ba4a/GKGAg4V80Q7hTMelZUi20ddZ1Qsr1wQtDUszPbWlWnDpsdycWrkQABdzA4Fmi
- KTx3R3GG0O19aPmcd2MoA+yOszf2MiAac3Gc3BJkPNqmiVzJIOGIdoBwpgfULUZZs77r
- 3xeH/KdhL7XRrPqPJAfISYMI+ogU5BgOFIOq58dyD6VUB9Os4wwm/EnJUBQ6h0JyK42n
- TT+mNCWJvi6dJNTJAtf06Ee+hZWnltWcliH+ogKuGyXWn0zFwuEE00tcqIFWxGThOYh2
- CRcLdL3XB9HcuDWjVcnF4n5tF1QriAc2GzUw2G0U8j5NURC4mWqBzGlIGmHZaiezT8FQ
- JlWA==
-X-Gm-Message-State: AOJu0Yygo0c0pNicNOczvCJyuLZqXpGXNZQWjP+hFij9SR4iHjcqRVmA
- W834NECB6dmVqWi8nraTPBYWA7GfEiKz51z9PJihTA==
-X-Google-Smtp-Source: AGHT+IEPT6VcajySNHKBIYcvE7F+n3Q+h66yqBsgyxxIVBZJzQE5aAUpxcA6iKrMF1x05/hl2QyO+J73SygA4pctEK0=
-X-Received: by 2002:a17:906:196:b0:99c:4c94:1a9a with SMTP id
- 22-20020a170906019600b0099c4c941a9amr4322523ejb.42.1691852050480; Sat, 12 Aug
- 2023 07:54:10 -0700 (PDT)
+Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 808B110E027
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 18:34:07 +0000 (UTC)
+Received: from newone.lan (unknown [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id D5030160BE6;
+ Sat, 12 Aug 2023 20:34:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1691865244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=e/X3Jp03pfCojLdzJqlMAuYtV41cck+wlhq+414/CjQ=;
+ b=KQshq1aG5s6vd3VRPPPirmrRIriAu8hACMtBQN9thn0RX37gRWY0eVCDJMdFkE63k8ICBV
+ 0noxhLgEk8ANfhdO0MTIJHS5MK3eMlnMJghhPq/npbndQN0GK5pUrEmSWBsZkRcSoU1qxg
+ 4ds2pQAlHI/h+SjQHfx81sK7MEk19fg=
+From: David Heidelberg <david@ixit.cz>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/panel: JDI LT070ME05000 drop broken link
+Date: Sat, 12 Aug 2023 20:34:03 +0200
+Message-Id: <20230812183404.374718-1-david@ixit.cz>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230811031520.248341-1-airlied@gmail.com>
-In-Reply-To: <20230811031520.248341-1-airlied@gmail.com>
-From: Faith Ekstrand <faith@gfxstrand.net>
-Date: Sat, 12 Aug 2023 09:53:58 -0500
-Message-ID: <CAOFGe94gb9Yu8zpnuVY6ZyqtahLDKMQp0JZmB9xxer0CirhawA@mail.gmail.com>
-Subject: Re: [PATCH] nouveau: find the smallest page allocation to cover a
- buffer alloc.
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000007b53ea0602bb00f2"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,127 +49,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000007b53ea0602bb00f2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Link is no longer functional and web.archive.org doesn't provide PDF
+with detail information.
 
-On Thu, Aug 10, 2023 at 10:15=E2=80=AFPM Dave Airlie <airlied@gmail.com> wr=
-ote:
+Some informations can be found from web.archive.org here:
+https://web.archive.org/web/20170629205602/http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
 
-> From: Dave Airlie <airlied@redhat.com>
->
-> With the new uapi we don't have the comp flags on the allocation,
-> so we shouldn't be using the first size that works, we should be
-> iterating until we get the correct one.
->
-> This reduces allocations from 2MB to 64k in lots of places.
->
-> Fixes dEQP-VK.memory.allocation.basic.size_8KiB.forward.count_4000
-> on my ampere/gsp system.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
->
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ drivers/gpu/drm/panel/panel-jdi-lt070me05000.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Reviewed-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+index 213008499caa..f9a69f347068 100644
+--- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
++++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+@@ -5,10 +5,6 @@
+  *
+  * Copyright (C) 2016 Linaro Ltd
+  * Author: Sumit Semwal <sumit.semwal@linaro.org>
+- *
+- * From internet archives, the panel for Nexus 7 2nd Gen, 2013 model is a
+- * JDI model LT070ME05000, and its data sheet is at:
+- * http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
+  */
+ 
+ #include <linux/backlight.h>
+-- 
+2.40.1
 
-
-> ---
->  drivers/gpu/drm/nouveau/nouveau_bo.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 949195d5d782..a6993c7807b6 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -318,8 +318,9 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size,
-> int *align, u32 domain,
->                             (!vmm->page[i].host || vmm->page[i].shift >
-> PAGE_SHIFT))
->                                 continue;
->
-> -                       if (pi < 0)
-> -                               pi =3D i;
-> +                       /* pick the last one as it will be smallest. */
-> +                       pi =3D i;
-> +
->                         /* Stop once the buffer is larger than the curren=
-t
-> page size. */
->                         if (*size >=3D 1ULL << vmm->page[i].shift)
->                                 break;
-> --
-> 2.41.0
->
->
-
---0000000000007b53ea0602bb00f2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, Aug 10, 2023 at 10:15=E2=80=AFPM Dave Airlie &lt;<a href=3D"=
-mailto:airlied@gmail.com">airlied@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">From: Dave Airlie &lt;<a href=3D=
-"mailto:airlied@redhat.com" target=3D"_blank">airlied@redhat.com</a>&gt;<br=
->
-<br>
-With the new uapi we don&#39;t have the comp flags on the allocation,<br>
-so we shouldn&#39;t be using the first size that works, we should be<br>
-iterating until we get the correct one.<br>
-<br>
-This reduces allocations from 2MB to 64k in lots of places.<br>
-<br>
-Fixes dEQP-VK.memory.allocation.basic.size_8KiB.forward.count_4000<br>
-on my ampere/gsp system.<br>
-<br>
-Signed-off-by: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" target=
-=3D"_blank">airlied@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
-Reviewed-by: Faith Ekstrand &lt;<a href=3D"mailto:faith.ekstrand@collabora.=
-com">faith.ekstrand@collabora.com</a>&gt;<br></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0drivers/gpu/drm/nouveau/nouveau_bo.c | 5 +++--<br>
-=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau=
-/nouveau_bo.c<br>
-index 949195d5d782..a6993c7807b6 100644<br>
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c<br>
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c<br>
-@@ -318,8 +318,9 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, in=
-t *align, u32 domain,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 (!vmm-&gt;page[i].host || vmm-&gt;page[i].shift &g=
-t; PAGE_SHIFT))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if (pi &lt; 0)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pi =3D i;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0/* pick the last one as it will be smallest. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0pi =3D i;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 /* Stop once the buffer is larger than the current page size. */=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if (*size &gt;=3D 1ULL &lt;&lt; vmm-&gt;page[i].shift)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--- <br>
-2.41.0<br>
-<br>
-</blockquote></div></div>
-
---0000000000007b53ea0602bb00f2--
