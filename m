@@ -1,42 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A501F77A1E8
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Aug 2023 20:53:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D9277A3A8
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 00:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E082C10E02C;
-	Sat, 12 Aug 2023 18:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE93310E03A;
+	Sat, 12 Aug 2023 22:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2E810E02C
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 18:52:58 +0000 (UTC)
-Received: from newone.lan (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 5C287160D84;
- Sat, 12 Aug 2023 20:52:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1691866376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=p+cYZqPkq2yEiMfVnzXTw563FqsEFK6qc54FcPd8+P0=;
- b=K3MLvFpImbRBT6R7DBzNxwdVTxUCRU1KwWNdGL873rYIcyGGTLP5WDe6SyI5JwTQsX1443
- Id9l0PcuhrNLqcy4AKi/D3cqIlztMyWiCScCihqdTzt7pKcmRcaA079VWJ3yjtdt1L1PU5
- qL5/zP0mBFSLRdzsrzedG/wCGDD6eG8=
-From: David Heidelberg <david@ixit.cz>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [RESEND PATCH v2] drm/panel: JDI LT070ME05000 simplify with
- dev_err_probe()
-Date: Sat, 12 Aug 2023 20:52:39 +0200
-Message-Id: <20230812185239.378582-1-david@ixit.cz>
-X-Mailer: git-send-email 2.40.1
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961BD10E03A
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 22:28:31 +0000 (UTC)
+Received: from i53875bbf.versanet.de ([83.135.91.191] helo=phil.lan)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1qUx5r-0002QJ-4H; Sun, 13 Aug 2023 00:28:23 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>
+Subject: Re: [PATCH v2 0/5] drm/rockchip: Fix crtc duplicate state and crtc
+ reset funcs
+Date: Sun, 13 Aug 2023 00:28:21 +0200
+Message-Id: <169187928908.3734147.12874056475289998677.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230621223311.2239547-1-jonas@kwiboo.se>
+References: <20230621223311.2239547-1-jonas@kwiboo.se>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,85 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>,
- linux-kernel@vger.kernel.org
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Andy Yan <andy.yan@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the dev_err_probe() helper to simplify error handling during probe.
-This also handle scenario, when EDEFER is returned and useless error is printed.
+On Wed, 21 Jun 2023 22:33:15 +0000 (UTC), Jonas Karlman wrote:
+> This series fixes a reset of state in duplicate state crtc funcs for VOP
+> driver, a possible crash and ensure crtc reset helper is called in VOP2
+> driver.
+> 
+> Patch 1 use kmemdup instead of kzalloc to duplicate the crtc state.
+> Patch 2 change to use crtc and plane cleanup helpers directly.
+> Patch 3 adds a null guard for allocation failure.
+> Patch 4 adds a crash guard for empty crtc state.
+> Patch 5 adds a missing call to crtc reset helper.
+> 
+> [...]
 
-Fixes error:
-panel-jdi-lt070me05000 4700000.dsi.0: cannot get enable-gpio -517
+Applied, thanks!
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-resend:
- - applies cleanly on -next
-v2:
- - original v1 patch name "drm/panel: JDI LT070ME05000 remove useless warning"
- - use dev_err_probe function
+[1/5] drm/rockchip: vop: Fix reset of state in duplicate state crtc funcs
+      commit: 13fc28804bf10ca0b7bce3efbba95c534836d7ca
+[2/5] drm/rockchip: vop: Use cleanup helper directly as destroy funcs
+      commit: 800f7c332df7cd9614c416fd005a6bb53f96f13c
+[3/5] drm/rockchip: vop: Fix call to crtc reset helper
+      commit: 5aacd290837828c089a83ac9795c74c4c9e2c923
+[4/5] drm/rockchip: vop2: Don't crash for invalid duplicate_state
+      commit: 342f7e4967d02b0ec263b15916304fc54841b608
+[5/5] drm/rockchip: vop2: Add missing call to crtc reset helper
+      commit: 4d49d87b3606369c6e29b9d051892ee1a6fc4e75
 
- .../gpu/drm/panel/panel-jdi-lt070me05000.c    | 36 ++++++++-----------
- 1 file changed, 14 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-index e94c98f00391..f9a69f347068 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-@@ -400,38 +400,30 @@ static int jdi_panel_add(struct jdi_panel *jdi)
- 
- 	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(jdi->supplies),
- 				      jdi->supplies);
--	if (ret < 0) {
--		dev_err(dev, "failed to init regulator, ret=%d\n", ret);
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret,
-+				     "failed to init regulator, ret=%d\n", ret);
- 
- 	jdi->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
- 	if (IS_ERR(jdi->enable_gpio)) {
--		ret = PTR_ERR(jdi->enable_gpio);
--		dev_err(dev, "cannot get enable-gpio %d\n", ret);
--		return ret;
-+		return dev_err_probe(dev, PTR_ERR(jdi->enable_gpio),
-+				     "cannot get enable-gpio %d\n", ret);
- 	}
- 
- 	jdi->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(jdi->reset_gpio)) {
--		ret = PTR_ERR(jdi->reset_gpio);
--		dev_err(dev, "cannot get reset-gpios %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(jdi->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(jdi->reset_gpio),
-+				     "cannot get reset-gpios %d\n", ret);
- 
- 	jdi->dcdc_en_gpio = devm_gpiod_get(dev, "dcdc-en", GPIOD_OUT_LOW);
--	if (IS_ERR(jdi->dcdc_en_gpio)) {
--		ret = PTR_ERR(jdi->dcdc_en_gpio);
--		dev_err(dev, "cannot get dcdc-en-gpio %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(jdi->dcdc_en_gpio))
-+		return dev_err_probe(dev, PTR_ERR(jdi->dcdc_en_gpio),
-+				     "cannot get dcdc-en-gpio %d\n", ret);
- 
- 	jdi->backlight = drm_panel_create_dsi_backlight(jdi->dsi);
--	if (IS_ERR(jdi->backlight)) {
--		ret = PTR_ERR(jdi->backlight);
--		dev_err(dev, "failed to register backlight %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(jdi->backlight))
-+		return dev_err_probe(dev, PTR_ERR(jdi->backlight),
-+				     "failed to register backlight %d\n", ret);
- 
- 	drm_panel_init(&jdi->base, &jdi->dsi->dev, &jdi_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
+Best regards,
 -- 
-2.40.1
-
+Heiko Stuebner <heiko@sntech.de>
