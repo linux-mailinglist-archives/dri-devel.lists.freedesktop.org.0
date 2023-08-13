@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD9977A685
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 15:30:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7A277A687
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 15:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5241E882B5;
-	Sun, 13 Aug 2023 13:30:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62DEA10E02E;
+	Sun, 13 Aug 2023 13:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1115310E02E
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 13:30:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92A6B10E02E
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 13:32:03 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4RNz0v3pGcz9t79;
- Sun, 13 Aug 2023 13:30:07 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4RNz3725SBz9t0j;
+ Sun, 13 Aug 2023 13:32:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1691933407; bh=uxgKfImHi+R0MmJPEYgAXOWB2rLKO8UyVG5N8gJUme8=;
+ t=1691933523; bh=AslZaOrK9FZVmstoeIAp8MvLDeg+RldAT+4FNsSjf/Q=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YsCfcTzZ4TUfCuinXO0lr79wNYykdjWd8YLC7byEst+mwbD/1AttC1IulAdpc+pvT
- WZQPqpj9FkOB6VTm+iPuU7QYHDJCGA8snkGG3UGusviDAGfXAeOoOwrXnGO8KbEiI4
- XLi6VbV1CEgWKlietKr5iE2KEnMw8RdRSJ1f3G/c=
-X-Riseup-User-ID: B7AA047F9B5EF262DE8CBA0C08CA396E73DFEE41C27B76DBB7472CA77AA0DB51
+ b=sipr6eWl5G8nDIofY939v4NZYFDzZZiK1czT4aX/RxTSRcN9ATRB6SdibfPKLRwha
+ xge2n9TYAlTvf1QlytY5ebu+PMutO0Z7SuKTXHrNH2nlEaAtwX14uehBr0HKQBdaOz
+ 2nKjj50WOz0Ky7JLmhzYwKOIdqthO8IDkU1BRKc8=
+X-Riseup-User-ID: D1EA3B1A78CD6B42CECA90CEEEECE9EE0E06FE8D429B021B4A07C6030AA8788A
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RNz0r4JK4zFqhC;
- Sun, 13 Aug 2023 13:30:04 +0000 (UTC)
-Message-ID: <d948da3a-1b9d-6f09-554b-1dee37f4d151@riseup.net>
-Date: Sun, 13 Aug 2023 10:30:01 -0300
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RNz346JgVzFpwq;
+ Sun, 13 Aug 2023 13:32:00 +0000 (UTC)
+Message-ID: <ad121cee-dd68-aa58-78fb-1ba306ccd239@riseup.net>
+Date: Sun, 13 Aug 2023 10:31:59 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 6/6] drm/tests: Add KUnit tests for drm_fb_memcpy()
+Subject: Re: [PATCH v2 4/6] drm/tests: Add KUnit tests for
+ drm_fb_build_fourcc_list()
+Content-Language: en-US
 To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
 References: <20230811-gsoc-drm-format-test-v2-v2-0-763b17890644@riseup.net>
- <20230811-gsoc-drm-format-test-v2-v2-6-763b17890644@riseup.net>
-Content-Language: en-US
+ <20230811-gsoc-drm-format-test-v2-v2-4-763b17890644@riseup.net>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230811-gsoc-drm-format-test-v2-v2-6-763b17890644@riseup.net>
+In-Reply-To: <20230811-gsoc-drm-format-test-v2-v2-4-763b17890644@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,444 +60,198 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arthur,
+
 
 On 8/11/23 15:17, Arthur Grillo wrote:
-> Insert parameterized test for the drm_fb_memcpy() to ensure correctness
-> and prevent future regressions. The test case can accept different
-> formats.
+> Insert parameterized test for the drm_fb_build_fourcc_list() to ensure
+> correctness and prevent future regressions.
 > 
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > ---
->   drivers/gpu/drm/tests/drm_format_helper_test.c | 391 +++++++++++++++++++++++++
->   1 file changed, 391 insertions(+)
+>   drivers/gpu/drm/tests/drm_format_helper_test.c | 148 +++++++++++++++++++++++++
+>   1 file changed, 148 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 08071b6c00f8..09214ae65091 100644
+> index 7f24da0b1e00..2b55d9f025f9 100644
 > --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 > +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -1188,6 +1188,396 @@ static void drm_test_fb_build_fourcc_list(struct kunit *test)
->   	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
+> @@ -3,11 +3,13 @@
+>   #include <kunit/test.h>
+>   
+>   #include <drm/drm_device.h>
+> +#include <drm/drm_drv.h>
+>   #include <drm/drm_file.h>
+>   #include <drm/drm_format_helper.h>
+>   #include <drm/drm_fourcc.h>
+>   #include <drm/drm_framebuffer.h>
+>   #include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_kunit_helpers.h>
+>   #include <drm/drm_mode.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_rect.h>
+> @@ -1041,6 +1043,151 @@ static void drm_test_fb_clip_offset(struct kunit *test)
+>   	KUNIT_EXPECT_EQ(test, offset, params->expected_offset);
 >   }
 >   
-> +struct fb_memcpy_result {
-> +	unsigned int dst_pitches[DRM_FORMAT_MAX_PLANES];
-> +	const u32 expected[DRM_FORMAT_MAX_PLANES][TEST_BUF_SIZE];
-> +};
-> +
-> +struct multi_plane_op_case {
-
-I'm not sure if this is the best name to describe the test. Maybe a name 
-related to drm_fb_memcpy would be more appropriate.
-
+> +struct fb_build_fourcc_list_case {
 > +	const char *name;
-> +	u32 format;
-> +	struct drm_rect clip;
-> +	unsigned int src_pitches[DRM_FORMAT_MAX_PLANES];
-> +	const u32 src[DRM_FORMAT_MAX_PLANES][TEST_BUF_SIZE];
-> +	struct fb_memcpy_result memcpy_result;
-
-Could you write
-
-struct {
-	unsigned int dst_pitches[DRM_FORMAT_MAX_PLANES];
-	const u32 expected[DRM_FORMAT_MAX_PLANES][TEST_BUF_SIZE];
-} memcpy_result;
-
-instead of creating a named struct?
-
+> +	u32 native_fourccs[TEST_BUF_SIZE];
+> +	u32 expected[TEST_BUF_SIZE];
+> +	size_t fourccs_size;
 > +};
 > +
-> +/* The `src` and `expected` buffers are u32 arrays. To deal with planes that
-> + * have a cpp != 4 the values are stored together on the same u32 number in a
-> + * way so the order in memory is correct in a little-endian machine.
-> + *
-> + * Because of that, on some occasions, parts of a u32 will not be part of the
-> + * test, to make this explicit the 0xFF byte is used on those parts.
-> + */
-> +
-> +static struct multi_plane_op_case multi_plane_op_cases[] = {
+> +static struct fb_build_fourcc_list_case fb_build_fourcc_list_cases[] = {
 > +	{
-> +		.name = "single_pixel_source_buffer",
-> +		.format = DRM_FORMAT_XRGB8888,
-> +		.clip = DRM_RECT_INIT(0, 0, 1, 1),
-> +		.src_pitches = { 1 * 4 },
-> +		.src = {{ 0x01020304 }},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {{ 0x01020304 }},
-> +		}
+> +		.name = "no native formats",
+> +		.native_fourccs = { },
+> +		.expected = { DRM_FORMAT_XRGB8888 },
+> +		.fourccs_size = 1,
 > +	},
 > +	{
-> +		.name = "single_pixel_source_buffer",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(0, 0, 1, 1),
-> +		.src_pitches = { 1 * 4, 1 },
-> +		.src = {
-> +			{ 0x01020304 },
-> +			{ 0xFFFFFF01 },
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x01020304 },
-> +				{ 0x00000001 },
-> +			},
-> +		},
+> +		.name = "XRGB8888 as native format",
+> +		.native_fourccs = { DRM_FORMAT_XRGB8888 },
+> +		.expected = { DRM_FORMAT_XRGB8888 },
+> +		.fourccs_size = 1,
 > +	},
 > +	{
-> +		.name = "single_pixel_source_buffer",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(0, 0, 1, 1),
-> +		.src_pitches = { 1, 1, 1 },
-> +		.src = {
-> +			{ 0xFFFFFF01 },
-> +			{ 0xFFFFFF01 },
-> +			{ 0xFFFFFF01 },
+> +		.name = "remove duplicates",
+> +		.native_fourccs = {
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB565,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB565,
+> +			DRM_FORMAT_RGB565,
+> +			DRM_FORMAT_XRGB8888,
 > +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +			},
+> +		.expected = {
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_RGB888,
+> +			DRM_FORMAT_RGB565,
 > +		},
+> +		.fourccs_size = 3,
 > +	},
 > +	{
-> +		.name = "single_pixel_clip_rectangle",
-> +		.format = DRM_FORMAT_XBGR8888,
-> +		.clip = DRM_RECT_INIT(1, 1, 1, 1),
-> +		.src_pitches = { 2 * 4 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000,
-> +				0x00000000, 0x01020304,
-> +			},
+> +		.name = "convert alpha formats",
+> +		.native_fourccs = {
+> +			DRM_FORMAT_ARGB1555,
+> +			DRM_FORMAT_ABGR1555,
+> +			DRM_FORMAT_RGBA5551,
+> +			DRM_FORMAT_BGRA5551,
+> +			DRM_FORMAT_ARGB8888,
+> +			DRM_FORMAT_ABGR8888,
+> +			DRM_FORMAT_RGBA8888,
+> +			DRM_FORMAT_BGRA8888,
+> +			DRM_FORMAT_ARGB2101010,
+> +			DRM_FORMAT_ABGR2101010,
+> +			DRM_FORMAT_RGBA1010102,
+> +			DRM_FORMAT_BGRA1010102,
 > +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x01020304 },
-> +			},
+> +		.expected = {
+> +			DRM_FORMAT_XRGB1555,
+> +			DRM_FORMAT_XBGR1555,
+> +			DRM_FORMAT_RGBX5551,
+> +			DRM_FORMAT_BGRX5551,
+> +			DRM_FORMAT_XRGB8888,
+> +			DRM_FORMAT_XBGR8888,
+> +			DRM_FORMAT_RGBX8888,
+> +			DRM_FORMAT_BGRX8888,
+> +			DRM_FORMAT_XRGB2101010,
+> +			DRM_FORMAT_XBGR2101010,
+> +			DRM_FORMAT_RGBX1010102,
+> +			DRM_FORMAT_BGRX1010102,
 > +		},
+> +		.fourccs_size = 12,
 > +	},
 > +	{
-> +		.name = "single_pixel_clip_rectangle",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(1, 1, 1, 1),
-> +		.src_pitches = { 2 * 4, 2 * 1 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000,
-> +				0x00000000, 0x01020304,
-> +			},
-> +			{ 0x01000000 },
+> +		.name = "random formats",
+> +		.native_fourccs = {
+> +			DRM_FORMAT_Y212,
+> +			DRM_FORMAT_ARGB1555,
+> +			DRM_FORMAT_ABGR16161616F,
+> +			DRM_FORMAT_C8,
+> +			DRM_FORMAT_BGR888,
+> +			DRM_FORMAT_XRGB1555,
+> +			DRM_FORMAT_RGBA5551,
+> +			DRM_FORMAT_BGR565_A8,
+> +			DRM_FORMAT_R10,
+> +			DRM_FORMAT_XYUV8888,
 > +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x01020304 },
-> +				{ 0x00000001 },
-> +			},
+> +		.expected = {
+> +			DRM_FORMAT_Y212,
+> +			DRM_FORMAT_XRGB1555,
+> +			DRM_FORMAT_ABGR16161616F,
+> +			DRM_FORMAT_C8,
+> +			DRM_FORMAT_BGR888,
+> +			DRM_FORMAT_RGBX5551,
+> +			DRM_FORMAT_BGR565_A8,
+> +			DRM_FORMAT_R10,
+> +			DRM_FORMAT_XYUV8888,
+> +			DRM_FORMAT_XRGB8888,
 > +		},
-> +	},
-> +	{
-> +		.name = "single_pixel_clip_rectangle",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(1, 1, 1, 1),
-> +		.src_pitches = { 2 * 1, 2 * 1, 2 * 1 },
-> +		.src = {
-> +			{ 0x01000000 },
-> +			{ 0x01000000 },
-> +			{ 0x01000000 },
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +				{ 0x00000001 },
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "well_known_colors",
-> +		.format = DRM_FORMAT_XBGR8888,
-> +		.clip = DRM_RECT_INIT(1, 1, 2, 4),
-> +		.src_pitches = { 4 * 4 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000, 0x00000000, 0x00000000,
-> +				0x00000000, 0x11FFFFFF, 0x22000000, 0x00000000,
-> +				0x00000000, 0x33FF0000, 0x4400FF00, 0x00000000,
-> +				0x00000000, 0x550000FF, 0x66FF00FF, 0x00000000,
-> +				0x00000000, 0x77FFFF00, 0x8800FFFF, 0x00000000,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{
-> +					0x11FFFFFF, 0x22000000,
-> +					0x33FF0000, 0x4400FF00,
-> +					0x550000FF, 0x66FF00FF,
-> +					0x77FFFF00, 0x8800FFFF,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "well_known_colors",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(1, 1, 2, 4),
-> +		.src_pitches = { 4 * 4, 4 * 1 },
-> +		.src = {
-> +			{
-> +				0x00000000, 0x00000000, 0x00000000, 0x00000000,
-> +				0x00000000, 0xFFFFFFFF, 0xFF000000, 0x00000000,
-> +				0x00000000, 0xFFFF0000, 0xFF00FF00, 0x00000000,
-> +				0x00000000, 0xFF0000FF, 0xFFFF00FF, 0x00000000,
-> +				0x00000000, 0xFFFFFF00, 0xFF00FFFF, 0x00000000,
-> +			},
-> +			{
-> +				0x00000000,
-> +				0x00221100,
-> +				0x00443300,
-> +				0x00665500,
-> +				0x00887700,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{
-> +					0xFFFFFFFF, 0xFF000000,
-> +					0xFFFF0000, 0xFF00FF00,
-> +					0xFF0000FF, 0xFFFF00FF,
-> +					0xFFFFFF00, 0xFF00FFFF,
-> +				},
-> +				{
-> +					0x44332211,
-> +					0x88776655,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "well_known_colors",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(1, 1, 2, 4),
-> +		.src_pitches = { 4 * 1, 4 * 1, 4 * 1 },
-> +		.src = {
-> +			{
-> +				0x00000000,
-> +				0x0000FF00,
-> +				0x00954C00,
-> +				0x00691D00,
-> +				0x00B2E100,
-> +			},
-> +			{
-> +				0x00000000,
-> +				0x00000000,
-> +				0x00BEDE00,
-> +				0x00436500,
-> +				0x00229B00,
-> +			},
-> +			{
-> +				0x00000000,
-> +				0x00000000,
-> +				0x007E9C00,
-> +				0x0083E700,
-> +				0x00641A00,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { TEST_USE_DEFAULT_PITCH },
-> +			.expected = {
-> +				{
-> +					0x954C00FF,
-> +					0xB2E1691D,
-> +				},
-> +				{
-> +					0xBEDE0000,
-> +					0x229B4365,
-> +				},
-> +				{
-> +					0x7E9C0000,
-> +					0x641A83E7,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "destination_pitch",
-> +		.format = DRM_FORMAT_XBGR8888,
-> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
-> +		.src_pitches = { 3 * 4 },
-> +		.src = {
-> +			{
-> +				0xA10E449C, 0xB1114D05, 0xC1A8F303,
-> +				0xD16CF073, 0xA20E449C, 0xB2114D05,
-> +				0xC2A80303, 0xD26CF073, 0xA30E449C,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { 5 * 4 },
-> +			.expected = {
-> +				{
-> +					0xA10E449C, 0xB1114D05, 0xC1A8F303, 0x00000000, 0x00000000,
-> +					0xD16CF073, 0xA20E449C, 0xB2114D05, 0x00000000, 0x00000000,
-> +					0xC2A80303, 0xD26CF073, 0xA30E449C, 0x00000000, 0x00000000,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "destination_pitch",
-> +		.format = DRM_FORMAT_XRGB8888_A8,
-> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
-> +		.src_pitches = { 3 * 4, 3 * 1 },
-> +		.src = {
-> +			{
-> +				0xFF0E449C, 0xFF114D05, 0xFFA8F303,
-> +				0xFF6CF073, 0xFF0E449C, 0xFF114D05,
-> +				0xFFA80303, 0xFF6CF073, 0xFF0E449C,
-> +			},
-> +			{
-> +				0xB2C1B1A1,
-> +				0xD2A3D1A2,
-> +				0xFFFFFFC2,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { 5 * 4, 5 * 1 },
-> +			.expected = {
-> +				{
-> +					0xFF0E449C, 0xFF114D05, 0xFFA8F303, 0x00000000, 0x00000000,
-> +					0xFF6CF073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
-> +					0xFFA80303, 0xFF6CF073, 0xFF0E449C, 0x00000000, 0x00000000,
-> +				},
-> +				{
-> +					0x00C1B1A1,
-> +					0xD1A2B200,
-> +					0xD2A30000,
-> +					0xFF0000C2,
-> +				},
-> +			},
-> +		},
-> +	},
-> +	{
-> +		.name = "destination_pitch",
-> +		.format = DRM_FORMAT_YUV444,
-> +		.clip = DRM_RECT_INIT(0, 0, 3, 3),
-> +		.src_pitches = { 3 * 1, 3 * 1, 3 * 1 },
-> +		.src = {
-> +			{
-> +				0xBAC1323D,
-> +				0xBA34323D,
-> +				0xFFFFFF3D,
-> +			},
-> +			{
-> +				0xE1ABEC2A,
-> +				0xE1EAEC2A,
-> +				0xFFFFFF2A,
-> +			},
-> +			{
-> +				0xBCEBE4D7,
-> +				0xBC65E4D7,
-> +				0xFFFFFFD7,
-> +			},
-> +		},
-> +		.memcpy_result = {
-> +			.dst_pitches = { 5 * 1, 5 * 1, 5 * 1 },
-> +			.expected = {
-> +				{
-> +					0x00C1323D,
-> +					0x323DBA00,
-> +					0xBA340000,
-> +					0xFF00003D,
-> +				},
-> +				{
-> +					0x00ABEC2A,
-> +					0xEC2AE100,
-> +					0xE1EA0000,
-> +					0xFF00002A,
-> +				},
-> +				{
-> +					0x00EBE4D7,
-> +					0xE4D7BC00,
-> +					0xBC650000,
-> +					0xFF0000D7,
-> +				},
-> +			},
-> +		},
+> +		.fourccs_size = 10,
 > +	},
 > +};
 > +
-> +static void multi_plane_op_case_desc(struct multi_plane_op_case *t, char *desc)
+> +static void fb_build_fourcc_list_case_desc(struct fb_build_fourcc_list_case *t, char *desc)
 > +{
-> +	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s: %p4cc", t->name, &t->format);
+> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
 > +}
 > +
-> +KUNIT_ARRAY_PARAM(multi_plane_op, multi_plane_op_cases, multi_plane_op_case_desc);
+> +KUNIT_ARRAY_PARAM(fb_build_fourcc_list, fb_build_fourcc_list_cases, fb_build_fourcc_list_case_desc);
 > +
-> +static void drm_test_fb_memcpy(struct kunit *test)
+> +static size_t get_nfourccs(const u32 *fourccs)
 > +{
-> +	const struct multi_plane_op_case *params = test->param_value;
-> +	const struct fb_memcpy_result *result = &params->memcpy_result;
-> +	size_t dst_size[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	u32 *buf[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	__le32 *src_cp[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	__le32 *expected[DRM_FORMAT_MAX_PLANES] = { 0 };
-> +	struct iosys_map dst[DRM_FORMAT_MAX_PLANES];
-> +	struct iosys_map src[DRM_FORMAT_MAX_PLANES];
+> +	size_t i;
 > +
-> +	struct drm_framebuffer fb = {
-> +		.format = drm_format_info(params->format),
-> +	};
+> +	for (i = 0; i < TEST_BUF_SIZE && fourccs[i]; ++i)
+> +		;
 > +
-> +	memcpy(fb.pitches, params->src_pitches, DRM_FORMAT_MAX_PLANES * sizeof(int));
+> +	return i;
+> +}
 > +
-> +	for (size_t i = 0; i < fb.format->num_planes; i++) {
-> +		dst_size[i] = conversion_buf_size(params->format, result->dst_pitches[i],
-> +						  &params->clip, i);
-> +		KUNIT_ASSERT_GT(test, dst_size[i], 0);
+> +static void drm_test_fb_build_fourcc_list(struct kunit *test)
+> +{
+> +	const struct fb_build_fourcc_list_case *params = test->param_value;
+> +	u32 fourccs_out[TEST_BUF_SIZE];
+> +	size_t nfourccs_out;
+> +	struct drm_device *drm;
+> +	struct device *dev;
 > +
-> +		buf[i] = kunit_kzalloc(test, dst_size[i], GFP_KERNEL);
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf[i]);
-> +		iosys_map_set_vaddr(&dst[i], buf[i]);
+> +	dev = drm_kunit_helper_alloc_device(test);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
 > +
-> +		src_cp[i] = cpubuf_to_le32(test, params->src[i], TEST_BUF_SIZE);
-> +		iosys_map_set_vaddr(&src[i], src_cp[i]);
-> +	}
+> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
 > +
-> +	if (result->dst_pitches[0] == TEST_USE_DEFAULT_PITCH)
-> +		drm_fb_memcpy(dst, NULL, src, &fb, &params->clip);
-> +	else
-> +		drm_fb_memcpy(dst, result->dst_pitches, src, &fb, &params->clip);
+> +	nfourccs_out = drm_fb_build_fourcc_list(drm, params->native_fourccs,
+> +						get_nfourccs(params->native_fourccs),
 
-Could you use a ternary operator, just like in the other tests?
+Can we hard-code the number of native fourccs?
 
 Best Regards,
 - Maíra
 
+> +						fourccs_out, TEST_BUF_SIZE);
 > +
-> +	for (size_t i = 0; i < fb.format->num_planes; i++) {
-> +		expected[i] = cpubuf_to_le32(test, result->expected[i], TEST_BUF_SIZE);
-> +		KUNIT_EXPECT_MEMEQ_MSG(test, buf[i], expected[i], dst_size[i],
-> +				       "Failed expectation on plane %zu", i);
-> +	}
+> +	KUNIT_EXPECT_EQ(test, nfourccs_out, params->fourccs_size);
+> +	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
 > +}
 > +
 >   static struct kunit_case drm_format_helper_test_cases[] = {
 >   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
 >   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-> @@ -1203,6 +1593,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+> @@ -1055,6 +1202,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+>   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
 >   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
 >   	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_memcpy, multi_plane_op_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
 >   	{}
 >   };
 >   
