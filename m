@@ -2,34 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E90C77A5A7
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 10:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57FA77A630
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 13:27:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C62BE10E07D;
-	Sun, 13 Aug 2023 08:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F9810E040;
+	Sun, 13 Aug 2023 11:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7B78010E07D
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 08:51:45 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.01,169,1684767600"; d="scan'208";a="172815530"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 13 Aug 2023 17:51:44 +0900
-Received: from localhost.localdomain (unknown [10.226.92.13])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2114740083E6;
- Sun, 13 Aug 2023 17:51:38 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/bridge/analogix/anx78xx: Extend match data support for ID
- table
-Date: Sun, 13 Aug 2023 09:51:37 +0100
-Message-Id: <20230813085137.74608-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D1C10E040
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 11:26:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1DBB061D22;
+ Sun, 13 Aug 2023 11:26:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B695DC433C8;
+ Sun, 13 Aug 2023 11:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691926015;
+ bh=rlKj/mDDGKn6pmmyFelrGiNR0L9ITP4m+ZN6VYvbJrk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WolvVV7Zms7r1VD9RiBM/rRhIdlsuIc+RDBfAAsVZQOvqR8GFnNCviUepG/8k5esh
+ cRDFzp0mefIay1+vX9Cp+hTbcM6uQ4XUtvijYAGwGxLRoPIVwg02EMPBClWK7YX1xE
+ 54mRg9S4jibe2lwVDP0maXvF7P+S4Z4tpVTVOu1lzekdL968uq8RcsanpDcZ+4ccQ2
+ HqbGbZPx/eC/Z++o6cZPXHD4tPqHj+HXJ9SbxfUf+JikicgY7TFdaLEuxNf8tSZOGX
+ iQ45e7TYh2ZhNerrY3mlc9bfYrVjsQ0bI5MPLOUXEYyAFcBYKaMZ1+V4+dSAWYLgzR
+ GK2ozQYZzH0Kw==
+Date: Sun, 13 Aug 2023 14:26:50 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC PATCH v2 02/11] netdev: implement netlink api to bind
+ dma-buf to netdevice
+Message-ID: <20230813112650.GK7707@unreal>
+References: <20230810015751.3297321-1-almasrymina@google.com>
+ <20230810015751.3297321-3-almasrymina@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230810015751.3297321-3-almasrymina@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,52 +55,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
- Zhu Wang <wangzhu9@huawei.com>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, sdf@google.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Hari Ramakrishnan <rharix@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Andy Lutomirski <luto@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, Willem de Bruijn <willemb@google.com>,
+ netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ "David S. Miller" <davem@davemloft.net>, stephen@networkplumber.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver has ID  table, but still it uses device_get_match_data()
-for retrieving match data. Replace device_get_match_data->
-i2c_get_match_data() for retrieving OF/ACPI/I2C match data by adding
-match data for ID table similar to OF table.
+On Wed, Aug 09, 2023 at 06:57:38PM -0700, Mina Almasry wrote:
+> Add a netdev_dmabuf_binding struct which represents the
+> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
+> an rx queue on the netdevice. On the binding, the dma_buf_attach
+> & dma_buf_map_attachment will occur. The entries in the sg_table from
+> mapping will be inserted into a genpool to make it ready
+> for allocation.
+> 
+> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
+> holds the dma-buf offset of the base of the chunk and the dma_addr of
+> the chunk. Both are needed to use allocations that come from this chunk.
+> 
+> We create a new type that represents an allocation from the genpool:
+> page_pool_iov. We setup the page_pool_iov allocation size in the
+> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
+> allocated by the page pool and given to the drivers.
+> 
+> The user can unbind the dmabuf from the netdevice by closing the netlink
+> socket that established the binding. We do this so that the binding is
+> automatically unbound even if the userspace process crashes.
+> 
+> The binding and unbinding leaves an indicator in struct netdev_rx_queue
+> that the given queue is bound, but the binding doesn't take effect until
+> the driver actually reconfigures its queues, and re-initializes its page
+> pool. This issue/weirdness is highlighted in the memory provider
+> proposal[1], and I'm hoping that some generic solution for all
+> memory providers will be discussed; this patch doesn't address that
+> weirdness again.
+> 
+> The netdev_dmabuf_binding struct is refcounted, and releases its
+> resources only when all the refs are released.
+> 
+> [1] https://lore.kernel.org/netdev/20230707183935.997267-1-kuba@kernel.org/
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> ---
+>  include/linux/netdevice.h |  57 ++++++++++++
+>  include/net/page_pool.h   |  27 ++++++
+>  net/core/dev.c            | 178 ++++++++++++++++++++++++++++++++++++++
+>  net/core/netdev-genl.c    | 101 ++++++++++++++++++++-
+>  4 files changed, 361 insertions(+), 2 deletions(-)
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-This patch is only compile tested
----
- drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+<...>
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 800555aef97f..f56a46b993a7 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -1259,7 +1259,7 @@ static int anx78xx_i2c_probe(struct i2c_client *client)
- 	}
- 
- 	/* Map slave addresses of ANX7814 */
--	i2c_addresses = device_get_match_data(&client->dev);
-+	i2c_addresses = i2c_get_match_data(client);
- 	for (i = 0; i < I2C_NUM_ADDRESSES; i++) {
- 		struct i2c_client *i2c_dummy;
- 
-@@ -1368,7 +1368,7 @@ static void anx78xx_i2c_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id anx78xx_id[] = {
--	{ "anx7814", 0 },
-+	{ "anx7814", (kernel_ulong_t)anx781x_i2c_addresses },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, anx78xx_id);
--- 
-2.25.1
+> +void __netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding);
+> +
+> +static inline void
+> +netdev_devmem_binding_get(struct netdev_dmabuf_binding *binding)
+> +{
+> +	refcount_inc(&binding->ref);
+> +}
+> +
+> +static inline void
+> +netdev_devmem_binding_put(struct netdev_dmabuf_binding *binding)
+> +{
+> +	if (!refcount_dec_and_test(&binding->ref))
+> +		return;
+> +
+> +	__netdev_devmem_binding_free(binding);
+> +}
 
+Not a big deal, but it looks like reimplemented version of kref_get/kref_put to me.
+
+Thanks
