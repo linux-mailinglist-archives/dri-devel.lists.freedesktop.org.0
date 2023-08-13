@@ -1,80 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4301477B25C
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:26:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D68477B25F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0BD110E115;
-	Mon, 14 Aug 2023 07:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0180A10E127;
+	Mon, 14 Aug 2023 07:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C17F10E042
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 00:23:26 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-99bf9252eddso442335566b.3
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Aug 2023 17:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691886204; x=1692491004;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=w8UpPEN/PkpMGRBM/kJqhYOp8lqLmyddT0ZDjSAgSpY=;
- b=MHI6BSdYmfvQUuGts4c9XfX7RmDJKyv/Ebh8scD0xAZWfMgl0jCvAmv4Az37voEGv8
- ruPlzjOSso8TG8jzcytKqkZeuxIB3n4ZLqcz1GgTApZHwWrIb6BoFDMYqP6XMA90/med
- TEYh2deTkvBBSw3cNfs8AqBXQUh+jvYkjKe4v1hKcQXmd5AdnIXjmCWx2Y5455MnN92w
- D7qKm2XnfmQ2QcIX29wT5Hiu7a90vT6efxQLMwYEfXlD70fRQ63Dz7LF4o9D9JVHRXYd
- rgDDtd9KX2CSpjLlBC9EAXPs91P1qI8aMo6Q0Yad044igMY1xghV0qqChKjhGwagljT8
- /Gug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691886204; x=1692491004;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=w8UpPEN/PkpMGRBM/kJqhYOp8lqLmyddT0ZDjSAgSpY=;
- b=lGDI+BPAPew86cjyzrUWn7u4VfX1T2dAZqUO8PfDTd0GuLbuAKnRHdKTnoi1XQLI3J
- SzrtIsmX9qpRLH/iu4aNMG1uhnt2YikbXP5eNUKdqOuTKc1VsfhoVGZazWtfgZ2+rWqw
- 878im2yhVO8e5lNVaE81c4QIQv53paeP3W4Cq7ddYuGpy4U/jaT3rho2JYFPRUC/Tbgo
- upIsQBN56Qst8N6XKXx0BsjE5viWrXpjMRVM+XRnHQSw6897WHSX8e2sXIM4f6i+RWe3
- xvMfw4rwoEvvncrbrEzq5IYIjP7JqQXL3AOtq03Qz8crX4avFsVZQkfcaDTUHRTP2Snk
- CvlA==
-X-Gm-Message-State: AOJu0YyA5F7keM06pPXfac7kEm/yZ7Y+4ApsBHT+FBYH2VRQYvGgyMus
- DcFLSRqmEAHaTQKWo0+HTiY=
-X-Google-Smtp-Source: AGHT+IGmxGn+1wkhVOC2Kxcn/Fx1V1CGIxcIkQTjXVlEIo+4NlVGkUPQ4yN9ZshjCtW779kxW6O6cw==
-X-Received: by 2002:a17:906:315a:b0:99b:e5c3:2e45 with SMTP id
- e26-20020a170906315a00b0099be5c32e45mr4636857eje.28.1691886204277; 
- Sat, 12 Aug 2023 17:23:24 -0700 (PDT)
-Received: from ?IPV6:2a02:908:8b3:1840:9c00:9bd:fed3:8356?
- ([2a02:908:8b3:1840:9c00:9bd:fed3:8356])
- by smtp.gmail.com with ESMTPSA id
- k8-20020a1709061c0800b0099d9b50d786sm720356ejg.199.2023.08.12.17.23.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 12 Aug 2023 17:23:23 -0700 (PDT)
-Message-ID: <92396880-edb5-d8e0-4fcf-54aeaa2b40d7@gmail.com>
-Date: Sun, 13 Aug 2023 02:23:22 +0200
+Received: from sonic312-22.consmr.mail.bf2.yahoo.com
+ (sonic312-22.consmr.mail.bf2.yahoo.com [74.6.128.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 328F310E04D
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 02:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verizon.net; s=a2048;
+ t=1691893261; bh=fWxRfNM2cND9/63P3/kXOlW7MU7xCvgf7dVrVRENZxU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=Rn8+3t/S7QgkNSGA40yx65x7QSLAzL9ayzxpuS4oybqq3nuKNBkP63cCKoyyJk4YgrsvNUIWxbC7HrqqtlUClgK+aip1KkTu+XAS4/awexRu/MolkZ7Do5oBMaObYAuoy7bJToi6AjIaAxbwaeaG6CN+mIkhuKtm7LPm6AgPx6YyaCwT2E3LK1dGdZWHCIr/avsO6EY2kctB5kWN4oOGyYDSZEQR/1xHS2X0TSIpNQ4byacAPMEEyj8XDRyS7mYbXIya71ESeVNedZRkvR2bQcd2SEiSfzqe3BIcCTMIaqInxEKW9qVOACYW+RnUxl341CRZ9XYBLSj3gCSuEfJ+6w==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1691893261; bh=VH/c1i6ej//kAyMPCPWE7gEPxAX32HbpAbTuIIImYaU=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=qcMW2aQ0D+Odq3OrtJnL66nz8Ao25b8HvgQLC4uRCyCn+0oKhUsMjasMhSdKtJIABi/PmP8UKroQb51T+yXPJkZ1D9rMKVhv7ucDDzHvJ49WnisVB6Q7IYWqUWUfPZDrcQBbd4PyDCFakVeRT11HmuzgB0G2wQbZ4r7A2pspzpRIbsl4BDJEQwTlj1WNNf7r8Ym3NNy2m5Pn5JU1OIs5qemhHR5Omut+qjq7a5slDMO9pMSbaQKkwt2xgcVwWUMDFFVfF580KGf7/sDcMxAiDYDN28yqHOHc6WSdh0vtP/gKCYCigLBbQBsOsQgXlYlB+TPKt/Whipl++yG5tpStDw==
+X-YMail-OSG: 1y4EIUgVM1mIf2bnvAx2mNKYGvNxNj_m.dCD8aG3abNwV.Tz2OYhLwI8g8Tal1J
+ apIqjqBYR3Lc7Se4csUx._HmYTzlt.Zvco09A9LP0Znqfr97GqrTBeoAkOLcjfMv4.6GY620K02B
+ 5JNJjfu53G0iwT06EbPdDQ9TxykYENpjkUgK4YszCV2Xx8v9emVSkQfyBVKjuA60lWY7_WHsEyVB
+ SokeHe1SwIF3sQDKt9b3KWBTkcZ9wzET6mt9.FOx0RP1cSV0tUUKqY.0WKPdCssuOx2FpsIjkzDh
+ VkWxhyz8CZxVeqRAYszKSiTk0BH6EH2W08r2iT_qdewsfyapWRWlWmtQF9cL5A63aKwR1JnwjjKZ
+ _ua3yUvo4u6VeROSLlYNuRPMkfe__dccJKK6qa75bhcllRxsV_MTHO2x8S5lc82H.h98KVLf_iow
+ SvxNFqgq78Nj70_WQg2rMaK2aWindh6fQ6bAtOGPyg2CWZLYotv2JZvo7SRjx.bHESa5u.0VrSRY
+ 34fxRwZVjw2qWOv..7LI0Xcpa9typozY1lOYWNQqzZUyPefWa1kjkjxXhey1PjxvpmhaZZ0Y1auJ
+ MHemxXo12bAiSG2a9Uv55yXo4pOjElhc5ZYUpZMWbQ_xDhC7kBvGMg6vmHZp1R09yCwGydREftIp
+ 9CeJmnhMl6tNYfqi4AMMmO.iakPphzwSw_RhS9q9Sx7_Y0t9pjXu329g0hEfifP95SjQTAM_ru5s
+ UjPl2saGhSppTDpyTt9986IFP5NgdbMHKcNW.g_eHlnUY6YH71TDojy_JpWH.TZZwGaI9fdp3yYy
+ EGM561mSEfnP7UpKYLA5sQyjJhDs5g8jBwG2brZKZoPfKR5Uxowuli_QowvDTiJ16fz1Yk7UGLVp
+ uScui6fzrXSu8o72tgR4ElNj_LUTpvwtxkVTf2I0EXFxoA6kvRt9s47R8iTAqaTVpFys.xxqmipa
+ VqxOBglJXut77mLfw5kFo2e7YCnKZwWPYIer_0zJgoLBP1Chlcbgbz6raTXRH.i6a11N0ya1Tpai
+ 3j5lEdhL24EPnb_Xks5XdawDYCkB94bNNrq04wzDxy0fFgM4Gwim2pFtba.NPsxE7LOH.o1Quf.a
+ 9S5GAtT2EyE7Dia5mSrTFDcJwzpkGOlp8O3PZPiXxArY9LX.4fk7aY0SUouyrueV0cVy1MNZXLj9
+ 0ZxyRCPZcKrUZZEO9hkJL2VzMa9hw5iNcKF_YTlROjKMa_sNploXlUiyCZGDWJVMtxBXBqSMu7ma
+ JS7T3fYeWC2V2UAkpPbWeBXPkGA8ltu2YARyM8LSlRv8TKr.EkN1NkMWoL9UrlE5UzLuF3iWk4gP
+ iMLphjPciYMP4CirLGPY4ArieiZHxJiPHfyoJDqVhPKG6p.UX9eaCIpfycokLbgiVPK.l0VB0GZR
+ VwN5sZTcuM.lgk4cYi7LJ21Gp.JHGegYARgzfee3X6hMGPRCoL.YTLk.i2QvVex3OnoJPz5SmMfi
+ zwYmCB.ss_SB71poVxrPIZscg4adOrRGVsemVTzlHmHjNB.k33qFjMFAplzejtjiAJ6CJuVau32O
+ B3JrGRcCjcOXzMsHa7UX5N0UcO6Nmy05t6SZayE80sSW4boVia7NHXYyAH4nYrTWvnnNfPKOJLJg
+ IZz3VMYaFP59FJo6kjylcbIDQg9kGYO3sb_9PJjWJclRZHilfRP4i0WqmAz_oSgF0fazcRANFy5w
+ kixJOYhYeADDjIu.OK1t70W5EnnVUkD_s5kw9wNjfBNmsNpxX74lKfBZqMOSymGCmD_odBQJ70ZD
+ RyAlZ_dP5BAVWa75kSmPABijQqDe3KINW4xP6Wesru2G4mkyYjJkCOhgsIkr2Lbd8zl.gCUcP7mw
+ 5KM5VcIf_gA9_k_WacaLC1LwPYnOhK714wqRYpOsyxH8yE8w4IXE3fhHd.TN.xlRrmjD2_SQm9PN
+ WxiTOg4D.6xu52.nwq.bGFIZiOiq4WDG1tgd.rr2WthrMDCkv4u6MNaAjdIp9M_.JfrNez_8OMfE
+ QqjiElcISVYQW2AeRsdZKdDNqVar_yUydjIpzDLTWc8peFcZ1IPH2U6LqI7_QKNcLE4e8wvl.4kk
+ jY5bl1nKKrgKkIoBdsU.HDuXg_Kels2wfZTcD92cPsq.X4mYcr7JussUDnsKFsbhscP1RBrChiqq
+ ZzRTZTRaa4fRfoc_71WhNGOUGIu522eJxpTyK9EmgnNZ42CQPFQiXb0b7j8EVmBVPVZJyqOv_V5z
+ EdD0lHtPk5Rk1PuuYTlENt.DUREEkfdKFgYTai5KgjWdT1KaJ6ffi
+X-Sonic-MF: <bluescreen_avenger@verizon.net>
+X-Sonic-ID: 94b050cd-29b7-4c78-9ee5-513e71bd989c
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.bf2.yahoo.com with HTTP; Sun, 13 Aug 2023 02:21:01 +0000
+Received: by hermes--production-bf1-865889d799-x5klk (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 625558f0b743f66ad7acffa31f3ac5b7; 
+ Sun, 13 Aug 2023 02:20:58 +0000 (UTC)
+From: nerdopolis <bluescreen_avenger@verizon.net>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [RFC][PATCH 0/2] drm/panic: Add a drm panic handler
+Date: Sat, 12 Aug 2023 22:20:57 -0400
+Message-ID: <3182767.5fSG56mABF@nerdopolis2>
+In-Reply-To: <20230809192514.158062-1-jfalempe@redhat.com>
+References: <20230809192514.158062-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 02/11] drm/bridge: tc358768: Fix bit updates
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-2-1afd44b7826b@ideasonboard.com>
- <cd5d39a2-4f4c-419a-8137-d2719135e205@gmail.com>
- <241937b4-1ef8-abad-7c4a-b26bfab86a3a@ideasonboard.com>
-From: Maxim Schwalm <maxim.schwalm@gmail.com>
-In-Reply-To: <241937b4-1ef8-abad-7c4a-b26bfab86a3a@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Mailer: WebService/1.1.21695
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-Mailman-Approved-At: Mon, 14 Aug 2023 07:25:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,70 +86,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 11.08.23 19:02, Tomi Valkeinen wrote:
-> On 11/08/2023 19:23, Péter Ujfalusi wrote:
->>
->>
->> On 04/08/2023 13:44, Tomi Valkeinen wrote:
->>> The driver has a few places where it does:
->>>
->>> if (thing_is_enabled_in_config)
->>> 	update_thing_bit_in_hw()
->>>
->>> This means that if the thing is _not_ enabled, the bit never gets
->>> cleared. This affects the h/vsyncs and continuous DSI clock bits.
->>
->> I guess the idea was to keep the reset value unless it needs to be flipped.
->>
->>>
->>> Fix the driver to always update the bit.
->>>
->>> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>   drivers/gpu/drm/bridge/tc358768.c | 13 +++++++------
->>>   1 file changed, 7 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
->>> index bc97a837955b..b668f77673c3 100644
->>> --- a/drivers/gpu/drm/bridge/tc358768.c
->>> +++ b/drivers/gpu/drm/bridge/tc358768.c
->>> @@ -794,8 +794,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->>>   		val |= BIT(i + 1);
->>>   	tc358768_write(priv, TC358768_HSTXVREGEN, val);
->>>   
->>> -	if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
->>> -		tc358768_write(priv, TC358768_TXOPTIONCNTRL, 0x1);
->>> +	tc358768_write(priv, TC358768_TXOPTIONCNTRL,
->>> +		       (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) ? 0 : BIT(0));
->>>   
->>>   	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
->>>   	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
->>> @@ -861,11 +861,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->>>   	tc358768_write(priv, TC358768_DSI_HACT, hact);
->>>   
->>>   	/* VSYNC polarity */
->>> -	if (!(mode->flags & DRM_MODE_FLAG_NVSYNC))
->>> -		tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5), BIT(5));
->>> +	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5),
->>> +			     (mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIT(5) : 0);
->>
->> Was this the reverse before and should be:
->> (mode->flags & DRM_MODE_FLAG_PVSYNC) ? 0 : BIT(5)
+On Wednesday, August 9, 2023 3:17:27 PM EDT Jocelyn Falempe wrote:
+> This introduces a new drm panic handler, which displays a message when a panic occurs.
+> So when fbcon is disabled, you can still see a kernel panic.
 > 
-> Bit 5 is 1 for active high vsync polarity. The test was previously 
-> !nvsync, i.e. the same as pvsync.
+> This is one of the missing feature, when disabling VT/fbcon in the kernel:
+> https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+> Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
+> 
+> This is a proof of concept, and works only with simpledrm, using the drm_client API.
+> This implementation with the drm client API, allocates new framebuffers, and looks a bit too complex to run in a panic handler.
+> Maybe we should add an API to "steal" the current framebuffer instead, because in a panic handler user-space is already stopped.
+> 
+> To test it, make sure you're using the simpledrm driver, and trigger a panic:
+> echo c > /proc/sysrq-trigger
+> 
+> There is one thing I don't know how to do, is to unregister the drm_panic when the graphic driver is unloaded.
+> drm_client_register() says it will automatically unregister on driver unload. But then I don't know how to remove it from my linked list, and free the drm_client_dev struct.
+> 
+> This is a first draft, so let me know what do you think about it.
+Hi, 
 
-this statement doesn't seem to be true, since this change causes a
-regression on the Asus TF700T. Apparently, !nvsync is true and pvsync is
-false in the present case. 
+Oh wow, that's my post. I'm sorry about the late reply, I only saw this late yesterday, and I wanted to test it first.
+I had to edit my test QEMU script a bit to use TianoCore for virtual UEFI boot as there is no gfxmode=keep for SimpleDRM to work otherwise when specifying -kernel to qemu AFAIK
 
-Best regards,
-Maxim
+I tested it, and it works! That's pretty cool, although is it possible to show the message, such as "attempted to kill init"?
+
+I like the little ASCII Tux. Maybe an ASCII /!\ or [X] on the belly would make it more obvious to users that it is an error condition. 
+Especially for non-English speaking users
+
+
+I will tweak my script a bit so I can test it more quickly in the future too.
+
+Thanks!
+> 
+> Best regards,
+> 
+> 
+> 
+> 
+> Jocelyn Falempe (2):
+>   drm/panic: Add a drm panic handler
+>   drm/simpledrm: Add drm_panic support
+> 
+>  drivers/gpu/drm/Kconfig          |  11 ++
+>  drivers/gpu/drm/Makefile         |   1 +
+>  drivers/gpu/drm/drm_drv.c        |   3 +
+>  drivers/gpu/drm/drm_panic.c      | 286 +++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tiny/simpledrm.c |   2 +
+>  include/drm/drm_panic.h          |  26 +++
+>  6 files changed, 329 insertions(+)
+>  create mode 100644 drivers/gpu/drm/drm_panic.c
+>  create mode 100644 include/drm/drm_panic.h
+> 
+> 
+> base-commit: 6995e2de6891c724bfeb2db33d7b87775f913ad1
+> 
+
+
+
+
