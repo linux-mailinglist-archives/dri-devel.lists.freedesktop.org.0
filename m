@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7A277A687
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 15:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D1177A688
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 15:32:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62DEA10E02E;
-	Sun, 13 Aug 2023 13:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F253A10E083;
+	Sun, 13 Aug 2023 13:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A6B10E02E
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 13:32:03 +0000 (UTC)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E374210E083
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 13:32:49 +0000 (UTC)
 Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx0.riseup.net (Postfix) with ESMTPS id 4RNz3725SBz9t0j;
- Sun, 13 Aug 2023 13:32:03 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4RNz413J2szDq9t;
+ Sun, 13 Aug 2023 13:32:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1691933523; bh=AslZaOrK9FZVmstoeIAp8MvLDeg+RldAT+4FNsSjf/Q=;
+ t=1691933569; bh=2y314U/J3PqMY9KAaaUij5BoQIDQ9kwvf0MYAZPfDCA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sipr6eWl5G8nDIofY939v4NZYFDzZZiK1czT4aX/RxTSRcN9ATRB6SdibfPKLRwha
- xge2n9TYAlTvf1QlytY5ebu+PMutO0Z7SuKTXHrNH2nlEaAtwX14uehBr0HKQBdaOz
- 2nKjj50WOz0Ky7JLmhzYwKOIdqthO8IDkU1BRKc8=
-X-Riseup-User-ID: D1EA3B1A78CD6B42CECA90CEEEECE9EE0E06FE8D429B021B4A07C6030AA8788A
+ b=Mkz3C95Vu/B6srwnHLyFqA2bXDykZc3cqAIqwu8jmV2aGcZuLzb0T+3T2/r9YgJJg
+ +/PPQ/elReZSyZS8JuEsJzqdDB3PlmiD5FajsnBHX0cDkd/NK/cXcgB9YEBYGLgsou
+ 8vAXXeVbMwPPpMYX7zlcKqMG67wxjzrh7JbY78lI=
+X-Riseup-User-ID: 1C435A4C7B8EA2E7D9D347A1B790F1182EC41F759E93FEEBC95950C93A7D5C59
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RNz346JgVzFpwq;
- Sun, 13 Aug 2023 13:32:00 +0000 (UTC)
-Message-ID: <ad121cee-dd68-aa58-78fb-1ba306ccd239@riseup.net>
-Date: Sun, 13 Aug 2023 10:31:59 -0300
+ by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4RNz3y63p0zFpwq;
+ Sun, 13 Aug 2023 13:32:46 +0000 (UTC)
+Message-ID: <dd14980b-14bb-2e1f-25aa-8ef3468d3ee6@riseup.net>
+Date: Sun, 13 Aug 2023 10:32:45 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 4/6] drm/tests: Add KUnit tests for
- drm_fb_build_fourcc_list()
+Subject: Re: [PATCH v2 1/6] drm/tests: Test default pitch fallback
 Content-Language: en-US
 To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
 References: <20230811-gsoc-drm-format-test-v2-v2-0-763b17890644@riseup.net>
- <20230811-gsoc-drm-format-test-v2-v2-4-763b17890644@riseup.net>
+ <20230811-gsoc-drm-format-test-v2-v2-1-763b17890644@riseup.net>
 From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230811-gsoc-drm-format-test-v2-v2-4-763b17890644@riseup.net>
+In-Reply-To: <20230811-gsoc-drm-format-test-v2-v2-1-763b17890644@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,199 +59,392 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
+Hi Arthur,
 
 On 8/11/23 15:17, Arthur Grillo wrote:
-> Insert parameterized test for the drm_fb_build_fourcc_list() to ensure
-> correctness and prevent future regressions.
+> Test the default pitch fallback when NULL is passed as the dst_pitch on
+> the conversion procedures.
 > 
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->   drivers/gpu/drm/tests/drm_format_helper_test.c | 148 +++++++++++++++++++++++++
->   1 file changed, 148 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 7f24da0b1e00..2b55d9f025f9 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -3,11 +3,13 @@
->   #include <kunit/test.h>
->   
->   #include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_format_helper.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_framebuffer.h>
->   #include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_kunit_helpers.h>
->   #include <drm/drm_mode.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_rect.h>
-> @@ -1041,6 +1043,151 @@ static void drm_test_fb_clip_offset(struct kunit *test)
->   	KUNIT_EXPECT_EQ(test, offset, params->expected_offset);
->   }
->   
-> +struct fb_build_fourcc_list_case {
-> +	const char *name;
-> +	u32 native_fourccs[TEST_BUF_SIZE];
-> +	u32 expected[TEST_BUF_SIZE];
-> +	size_t fourccs_size;
-> +};
-> +
-> +static struct fb_build_fourcc_list_case fb_build_fourcc_list_cases[] = {
-> +	{
-> +		.name = "no native formats",
-> +		.native_fourccs = { },
-> +		.expected = { DRM_FORMAT_XRGB8888 },
-> +		.fourccs_size = 1,
-> +	},
-> +	{
-> +		.name = "XRGB8888 as native format",
-> +		.native_fourccs = { DRM_FORMAT_XRGB8888 },
-> +		.expected = { DRM_FORMAT_XRGB8888 },
-> +		.fourccs_size = 1,
-> +	},
-> +	{
-> +		.name = "remove duplicates",
-> +		.native_fourccs = {
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB565,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB565,
-> +			DRM_FORMAT_RGB565,
-> +			DRM_FORMAT_XRGB8888,
-> +		},
-> +		.expected = {
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_RGB888,
-> +			DRM_FORMAT_RGB565,
-> +		},
-> +		.fourccs_size = 3,
-> +	},
-> +	{
-> +		.name = "convert alpha formats",
-> +		.native_fourccs = {
-> +			DRM_FORMAT_ARGB1555,
-> +			DRM_FORMAT_ABGR1555,
-> +			DRM_FORMAT_RGBA5551,
-> +			DRM_FORMAT_BGRA5551,
-> +			DRM_FORMAT_ARGB8888,
-> +			DRM_FORMAT_ABGR8888,
-> +			DRM_FORMAT_RGBA8888,
-> +			DRM_FORMAT_BGRA8888,
-> +			DRM_FORMAT_ARGB2101010,
-> +			DRM_FORMAT_ABGR2101010,
-> +			DRM_FORMAT_RGBA1010102,
-> +			DRM_FORMAT_BGRA1010102,
-> +		},
-> +		.expected = {
-> +			DRM_FORMAT_XRGB1555,
-> +			DRM_FORMAT_XBGR1555,
-> +			DRM_FORMAT_RGBX5551,
-> +			DRM_FORMAT_BGRX5551,
-> +			DRM_FORMAT_XRGB8888,
-> +			DRM_FORMAT_XBGR8888,
-> +			DRM_FORMAT_RGBX8888,
-> +			DRM_FORMAT_BGRX8888,
-> +			DRM_FORMAT_XRGB2101010,
-> +			DRM_FORMAT_XBGR2101010,
-> +			DRM_FORMAT_RGBX1010102,
-> +			DRM_FORMAT_BGRX1010102,
-> +		},
-> +		.fourccs_size = 12,
-> +	},
-> +	{
-> +		.name = "random formats",
-> +		.native_fourccs = {
-> +			DRM_FORMAT_Y212,
-> +			DRM_FORMAT_ARGB1555,
-> +			DRM_FORMAT_ABGR16161616F,
-> +			DRM_FORMAT_C8,
-> +			DRM_FORMAT_BGR888,
-> +			DRM_FORMAT_XRGB1555,
-> +			DRM_FORMAT_RGBA5551,
-> +			DRM_FORMAT_BGR565_A8,
-> +			DRM_FORMAT_R10,
-> +			DRM_FORMAT_XYUV8888,
-> +		},
-> +		.expected = {
-> +			DRM_FORMAT_Y212,
-> +			DRM_FORMAT_XRGB1555,
-> +			DRM_FORMAT_ABGR16161616F,
-> +			DRM_FORMAT_C8,
-> +			DRM_FORMAT_BGR888,
-> +			DRM_FORMAT_RGBX5551,
-> +			DRM_FORMAT_BGR565_A8,
-> +			DRM_FORMAT_R10,
-> +			DRM_FORMAT_XYUV8888,
-> +			DRM_FORMAT_XRGB8888,
-> +		},
-> +		.fourccs_size = 10,
-> +	},
-> +};
-> +
-> +static void fb_build_fourcc_list_case_desc(struct fb_build_fourcc_list_case *t, char *desc)
-> +{
-> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(fb_build_fourcc_list, fb_build_fourcc_list_cases, fb_build_fourcc_list_case_desc);
-> +
-> +static size_t get_nfourccs(const u32 *fourccs)
-> +{
-> +	size_t i;
-> +
-> +	for (i = 0; i < TEST_BUF_SIZE && fourccs[i]; ++i)
-> +		;
-> +
-> +	return i;
-> +}
-> +
-> +static void drm_test_fb_build_fourcc_list(struct kunit *test)
-> +{
-> +	const struct fb_build_fourcc_list_case *params = test->param_value;
-> +	u32 fourccs_out[TEST_BUF_SIZE];
-> +	size_t nfourccs_out;
-> +	struct drm_device *drm;
-> +	struct device *dev;
-> +
-> +	dev = drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +
-> +	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-> +
-> +	nfourccs_out = drm_fb_build_fourcc_list(drm, params->native_fourccs,
-> +						get_nfourccs(params->native_fourccs),
 
-Can we hard-code the number of native fourccs?
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
 Best Regards,
 - Maíra
 
-> +						fourccs_out, TEST_BUF_SIZE);
+> ---
+>   drivers/gpu/drm/tests/drm_format_helper_test.c | 126 ++++++++++++++++---------
+>   1 file changed, 81 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index 474bb7a1c4ee..938d4fdb4291 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -16,6 +16,8 @@
+>   
+>   #define TEST_BUF_SIZE 50
+>   
+> +#define TEST_USE_DEFAULT_PITCH 0
 > +
-> +	KUNIT_EXPECT_EQ(test, nfourccs_out, params->fourccs_size);
-> +	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
-> +}
+>   struct convert_to_gray8_result {
+>   	unsigned int dst_pitch;
+>   	const u8 expected[TEST_BUF_SIZE];
+> @@ -97,48 +99,48 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   		.clip = DRM_RECT_INIT(0, 0, 1, 1),
+>   		.xrgb8888 = { 0x01FF0000 },
+>   		.gray8_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x4C },
+>   		},
+>   		.rgb332_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xE0 },
+>   		},
+>   		.rgb565_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xF800 },
+>   			.expected_swab = { 0x00F8 },
+>   		},
+>   		.xrgb1555_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x7C00 },
+>   		},
+>   		.argb1555_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFC00 },
+>   		},
+>   		.rgba5551_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xF801 },
+>   		},
+>   		.rgb888_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x00, 0x00, 0xFF },
+>   		},
+>   		.argb8888_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFFFF0000 },
+>   		},
+>   		.xrgb2101010_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x3FF00000 },
+>   		},
+>   		.argb2101010_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFFF00000 },
+>   		},
+>   		.mono_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0b0 },
+>   		},
+>   	},
+> @@ -151,48 +153,48 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			0x00000000, 0x10FF0000,
+>   		},
+>   		.gray8_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x4C },
+>   		},
+>   		.rgb332_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xE0 },
+>   		},
+>   		.rgb565_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xF800 },
+>   			.expected_swab = { 0x00F8 },
+>   		},
+>   		.xrgb1555_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x7C00 },
+>   		},
+>   		.argb1555_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFC00 },
+>   		},
+>   		.rgba5551_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xF801 },
+>   		},
+>   		.rgb888_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x00, 0x00, 0xFF },
+>   		},
+>   		.argb8888_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFFFF0000 },
+>   		},
+>   		.xrgb2101010_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0x3FF00000 },
+>   		},
+>   		.argb2101010_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0xFFF00000 },
+>   		},
+>   		.mono_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = { 0b0 },
+>   		},
+>   	},
+> @@ -212,7 +214,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			0x00000000, 0x77FFFF00, 0x8800FFFF, 0x00000000,
+>   		},
+>   		.gray8_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFF, 0x00,
+>   				0x4C, 0x99,
+> @@ -221,7 +223,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.rgb332_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFF, 0x00,
+>   				0xE0, 0x1C,
+> @@ -230,7 +232,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.rgb565_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFFFF, 0x0000,
+>   				0xF800, 0x07E0,
+> @@ -245,7 +247,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.xrgb1555_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0x7FFF, 0x0000,
+>   				0x7C00, 0x03E0,
+> @@ -254,7 +256,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.argb1555_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFFFF, 0x8000,
+>   				0xFC00, 0x83E0,
+> @@ -263,7 +265,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.rgba5551_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFFFF, 0x0001,
+>   				0xF801, 0x07C1,
+> @@ -272,7 +274,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.rgb888_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
+>   				0x00, 0x00, 0xFF, 0x00, 0xFF, 0x00,
+> @@ -281,7 +283,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.argb8888_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFFFFFFFF, 0xFF000000,
+>   				0xFFFF0000, 0xFF00FF00,
+> @@ -290,7 +292,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.xrgb2101010_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0x3FFFFFFF, 0x00000000,
+>   				0x3FF00000, 0x000FFC00,
+> @@ -299,7 +301,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.argb2101010_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch = TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0xFFFFFFFF, 0xC0000000,
+>   				0xFFF00000, 0xC00FFC00,
+> @@ -308,7 +310,7 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>   			},
+>   		},
+>   		.mono_result = {
+> -			.dst_pitch = 0,
+> +			.dst_pitch =  TEST_USE_DEFAULT_PITCH,
+>   			.expected = {
+>   				0b01,
+>   				0b10,
+> @@ -530,7 +532,11 @@ static void drm_test_fb_xrgb8888_to_gray8(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_gray8(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
 > +
->   static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-> @@ -1055,6 +1202,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->   	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_swab, convert_xrgb8888_gen_params),
->   	KUNIT_CASE_PARAM(drm_test_fb_clip_offset, clip_offset_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
->   	{}
->   };
+> +	drm_fb_xrgb8888_to_gray8(&dst, dst_pitch, &src, &fb, &params->clip);
+> +
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+> @@ -560,7 +566,10 @@ static void drm_test_fb_xrgb8888_to_rgb332(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_rgb332(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_rgb332(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+> @@ -590,12 +599,15 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip, false);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src, &fb, &params->clip, false);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   
+>   	buf = dst.vaddr; /* restore original value of buf */
+> -	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip, true);
+> +		drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip, true);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected_swab, dst_size);
+>   }
+> @@ -626,7 +638,10 @@ static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_xrgb1555(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_xrgb1555(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+> @@ -657,7 +672,10 @@ static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_argb1555(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_argb1555(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+> @@ -688,7 +706,10 @@ static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_rgba5551(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_rgba5551(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+> @@ -723,7 +744,10 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
+>   	 * RGB888 expected results are already in little-endian
+>   	 * order, so there's no need to convert the test output.
+>   	 */
+> -	drm_fb_xrgb8888_to_rgb888(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_rgb888(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+>   
+> @@ -753,7 +777,10 @@ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_argb8888(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_argb8888(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+> @@ -784,7 +811,10 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_xrgb2101010(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_xrgb2101010(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le32buf_to_cpu(test, buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+> @@ -815,7 +845,10 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_argb2101010(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_argb2101010(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
+> @@ -846,7 +879,10 @@ static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
+>   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+>   	iosys_map_set_vaddr(&src, xrgb8888);
+>   
+> -	drm_fb_xrgb8888_to_mono(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	const unsigned int *dst_pitch = (result->dst_pitch == TEST_USE_DEFAULT_PITCH) ?
+> +		NULL : &result->dst_pitch;
+> +
+> +	drm_fb_xrgb8888_to_mono(&dst, dst_pitch, &src, &fb, &params->clip);
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   }
 >   
 > 
