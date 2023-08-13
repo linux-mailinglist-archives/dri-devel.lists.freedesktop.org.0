@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F8B77A7DD
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 17:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E506B77A7E0
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 17:52:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1217710E004;
-	Sun, 13 Aug 2023 15:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A48D210E098;
+	Sun, 13 Aug 2023 15:52:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B48010E00E;
- Sun, 13 Aug 2023 15:52:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9E510E098;
+ Sun, 13 Aug 2023 15:52:21 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7D4416329B;
- Sun, 13 Aug 2023 15:52:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA4AEC433C7;
- Sun, 13 Aug 2023 15:52:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 15DD263352;
+ Sun, 13 Aug 2023 15:52:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95491C433C7;
+ Sun, 13 Aug 2023 15:52:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691941927;
- bh=s0QdHBomRFLyh8ndiu/Tmd6GY0v5OCbcJ9HPzEBj1mY=;
+ s=k20201202; t=1691941940;
+ bh=fXnt3r/UAkMPV8w18Ut3/0wkC4x+jXI9+0xFkb4dbXo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RBSLyBVI9FtUcPwJR1HLjfzbek+C6uG7/yfarRJ8ZzU5cI49UHg5+8MnWQPNlUvhe
- 80D7S9LUEKCnQkgqXJVEHtqalXVYQSvnMdNAxPcggiyT7WlzFmTTehASZNCeuonIar
- 6OhHXuSitH9j4kQyfwkfkJCgvF8Wn+0aEH8kJAy6kmukNWsHugw+L7lNkSeH1IHYC4
- N//F+Awf8euR7V80oVaFuZ7Adp0p4byPVDxvEee9zhelLkbS65hhjNbDrlnXdeUhKo
- vTjyCe6+mZWjbJVS03k3eOlTIfm2Ed03wTVAtfozVd73CrHCyALodH6Kqe6Yz7QEhx
- hK51wCHwFTeFA==
+ b=NBP9RP9TSaM13cr7+OvGdmVkv5+rZISdgpAumPBivmTGSD65XWybFsKU7dQeI/5gs
+ X5a3BKOxXqu04xQXybwnHasr4AyLd+R71spbhweccYkVf8+9/IiO+HFxoNwFevHcGj
+ Z8e0Q+ygGb3nPWwNZekNTECj+4So2ayG/VwTxsFTSdKT+EOpy4FEBMbnhSgVGFe0QS
+ QS2D9hsr69v/Y9Ta7ph0u0YYbx02tznYYIXoVAkdNT79iNjt0jYtm5UlYO164SGuix
+ c2y5/5/QEzCZkCl+2cdFgtmcn8LhFfpPp39lobu6eSkzi6u0twGIhUx+W7KCNgLLaE
+ EmkBU3LWM9veg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 42/54] drm/amd/smu: use AverageGfxclkFrequency* to
- replace previous GFX Curr Clock
-Date: Sun, 13 Aug 2023 11:49:21 -0400
-Message-Id: <20230813154934.1067569-42-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.4 43/54] drm/amd/display: Guard DCN31 PHYD32CLK
+ logic against chip family
+Date: Sun, 13 Aug 2023 11:49:22 -0400
+Message-Id: <20230813154934.1067569-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230813154934.1067569-1-sashal@kernel.org>
 References: <20230813154934.1067569-1-sashal@kernel.org>
@@ -58,43 +57,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
- Jane Jian <Jane.Jian@amd.com>, kenneth.feng@amd.com,
- Lijo Lazar <lijo.lazar@amd.com>, candice.li@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Feifei.Xu@amd.com, Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
+ Hansen Dsouza <hansen.dsouza@amd.com>, Alex Hung <alex.hung@amd.com>,
+ qingqing.zhuo@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, nicholas.kazlauskas@amd.com, sunpeng.li@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
+ George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ jun.lei@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jane Jian <Jane.Jian@amd.com>
+From: George Shen <george.shen@amd.com>
 
-[ Upstream commit 4a37c55b859a69f429bfa7fab4fc43ee470b60ed ]
+[ Upstream commit 25b054c3c89cb6a7106a7982f0f70e83d0797dab ]
 
-Report current GFX clock also from average clock value as the original
-CurrClock data is not valid/accurate any more as per FW team
+[Why]
+Current yellow carp B0 PHYD32CLK logic is incorrectly applied to other
+ASICs.
 
-Signed-off-by: Jane Jian <Jane.Jian@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+[How]
+Add guard to check chip family is yellow carp before applying logic.
+
+Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: George Shen <george.shen@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-index 907cc43d16a90..7d284ee53818a 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
-@@ -1324,7 +1324,7 @@ static ssize_t smu_v13_0_0_get_gpu_metrics(struct smu_context *smu,
- 	gpu_metrics->average_vclk1_frequency = metrics->AverageVclk1Frequency;
- 	gpu_metrics->average_dclk1_frequency = metrics->AverageDclk1Frequency;
- 
--	gpu_metrics->current_gfxclk = metrics->CurrClock[PPCLK_GFXCLK];
-+	gpu_metrics->current_gfxclk = gpu_metrics->average_gfxclk_frequency;
- 	gpu_metrics->current_socclk = metrics->CurrClock[PPCLK_SOCCLK];
- 	gpu_metrics->current_uclk = metrics->CurrClock[PPCLK_UCLK];
- 	gpu_metrics->current_vclk0 = metrics->CurrClock[PPCLK_VCLK_0];
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c
+index 4c2fdfea162f5..4e3af0aedd77f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c
+@@ -76,7 +76,8 @@ static enum phyd32clk_clock_source get_phy_mux_symclk(
+ 		struct dcn_dccg *dccg_dcn,
+ 		enum phyd32clk_clock_source src)
+ {
+-	if (dccg_dcn->base.ctx->asic_id.hw_internal_rev == YELLOW_CARP_B0) {
++	if (dccg_dcn->base.ctx->asic_id.chip_family == FAMILY_YELLOW_CARP &&
++			dccg_dcn->base.ctx->asic_id.hw_internal_rev == YELLOW_CARP_B0) {
+ 		if (src == PHYD32CLKC)
+ 			src = PHYD32CLKF;
+ 		if (src == PHYD32CLKD)
 -- 
 2.40.1
 
