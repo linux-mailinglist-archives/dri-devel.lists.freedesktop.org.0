@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B9477AA7B
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 20:05:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC29377AA7D
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 20:05:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0635A10E0EA;
-	Sun, 13 Aug 2023 18:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3DBB10E0F0;
+	Sun, 13 Aug 2023 18:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
  [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5ED4F10E0EA
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 18:05:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.01,170,1684767600"; d="scan'208";a="176521216"
+ by gabe.freedesktop.org (Postfix) with ESMTP id CACFE10E0F0
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 18:05:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.01,170,1684767600"; d="scan'208";a="176521226"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 14 Aug 2023 03:05:46 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 14 Aug 2023 03:05:53 +0900
 Received: from localhost.localdomain (unknown [10.226.92.13])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id DADE3405D103;
- Mon, 14 Aug 2023 03:05:40 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 557A9405E63A;
+ Mon, 14 Aug 2023 03:05:47 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 4/7] drm: adv7511: Add supply_names and num_supplies variables
- to struct adv7511_chip_info
-Date: Sun, 13 Aug 2023 19:05:09 +0100
-Message-Id: <20230813180512.307418-5-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 5/7] drm: adv7511: Add has_dsi feature bit to struct
+ adv7511_chip_info
+Date: Sun, 13 Aug 2023 19:05:10 +0100
+Message-Id: <20230813180512.307418-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
 References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
@@ -57,110 +57,111 @@ Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ADV7511 has 5 power supplies compared to 7 that of ADV75{33,35}. Add
-supply_names and num_supplies variables to struct adv7511_chip_info to
-handle this difference.
+The ADV7533 and ADV7535 have DSI support. Add a feature bit has_dsi to
+struct adv7511_chip_info for handling configuration related to DSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 29 ++++++++++----------
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 20 +++++++++++---------
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index 0e2c721a856f..b29d11cae932 100644
+index b29d11cae932..2a017bb31a14 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -337,6 +337,8 @@ struct adv7511_chip_info {
- 	enum adv7511_type type;
- 	unsigned long max_mode_clock;
+@@ -339,6 +339,7 @@ struct adv7511_chip_info {
  	unsigned long max_lane_freq;
-+	const char * const *supply_names;
-+	unsigned int num_supplies;
+ 	const char * const *supply_names;
+ 	unsigned int num_supplies;
++	unsigned has_dsi:1;
  };
  
  struct adv7511 {
-@@ -375,7 +377,6 @@ struct adv7511 {
- 	struct gpio_desc *gpio_pd;
- 
- 	struct regulator_bulk_data *supplies;
--	unsigned int num_supplies;
- 
- 	/* ADV7533 DSI RX related params */
- 	struct device_node *host_node;
 diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 29e087e6d721..f6f15c1b0882 100644
+index f6f15c1b0882..66b3f8fcf67d 100644
 --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1004,37 +1004,30 @@ static const char * const adv7533_supply_names[] = {
+@@ -373,7 +373,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
+ 	 */
+ 	regcache_sync(adv7511->regmap);
  
- static int adv7511_init_regulators(struct adv7511 *adv)
+-	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535)
++	if (adv7511->info->has_dsi)
+ 		adv7533_dsi_power_on(adv7511);
+ 	adv7511->powered = true;
+ }
+@@ -397,7 +397,7 @@ static void __adv7511_power_off(struct adv7511 *adv7511)
+ static void adv7511_power_off(struct adv7511 *adv7511)
  {
-+	const char * const *supply_names = adv->info->supply_names;
-+	unsigned int num_supplies = adv->info->num_supplies;
- 	struct device *dev = &adv->i2c_main->dev;
--	const char * const *supply_names;
- 	unsigned int i;
- 	int ret;
- 
--	if (adv->info->type == ADV7511) {
--		supply_names = adv7511_supply_names;
--		adv->num_supplies = ARRAY_SIZE(adv7511_supply_names);
--	} else {
--		supply_names = adv7533_supply_names;
--		adv->num_supplies = ARRAY_SIZE(adv7533_supply_names);
--	}
--
--	adv->supplies = devm_kcalloc(dev, adv->num_supplies,
-+	adv->supplies = devm_kcalloc(dev, num_supplies,
- 				     sizeof(*adv->supplies), GFP_KERNEL);
- 	if (!adv->supplies)
- 		return -ENOMEM;
- 
--	for (i = 0; i < adv->num_supplies; i++)
-+	for (i = 0; i < num_supplies; i++)
- 		adv->supplies[i].supply = supply_names[i];
- 
--	ret = devm_regulator_bulk_get(dev, adv->num_supplies, adv->supplies);
-+	ret = devm_regulator_bulk_get(dev, num_supplies, adv->supplies);
- 	if (ret)
- 		return ret;
- 
--	return regulator_bulk_enable(adv->num_supplies, adv->supplies);
-+	return regulator_bulk_enable(num_supplies, adv->supplies);
+ 	__adv7511_power_off(adv7511);
+-	if (adv7511->info->type == ADV7533 || adv7511->info->type == ADV7535)
++	if (adv7511->info->has_dsi)
+ 		adv7533_dsi_power_off(adv7511);
+ 	adv7511->powered = false;
  }
+@@ -786,7 +786,7 @@ static void adv7511_mode_set(struct adv7511 *adv7511,
+ 	else
+ 		low_refresh_rate = ADV7511_LOW_REFRESH_RATE_NONE;
  
- static void adv7511_uninit_regulators(struct adv7511 *adv)
+-	if (adv7511->info->type == ADV7511)
++	if (!adv7511->info->has_dsi)
+ 		regmap_update_bits(adv7511->regmap, 0xfb,
+ 				   0x6, low_refresh_rate << 1);
+ 	else
+@@ -921,7 +921,7 @@ static enum drm_mode_status adv7511_bridge_mode_valid(struct drm_bridge *bridge,
  {
--	regulator_bulk_disable(adv->num_supplies, adv->supplies);
-+	regulator_bulk_disable(adv->info->num_supplies, adv->supplies);
- }
+ 	struct adv7511 *adv = bridge_to_adv7511(bridge);
  
- static bool adv7511_cec_register_volatile(struct device *dev, unsigned int reg)
-@@ -1367,19 +1360,25 @@ static void adv7511_remove(struct i2c_client *i2c)
- }
+-	if (adv->info->type == ADV7533 || adv->info->type == ADV7535)
++	if (adv->info->has_dsi)
+ 		return adv7533_mode_valid(adv, mode);
+ 	else
+ 		return adv7511_mode_valid(adv, mode);
+@@ -1086,7 +1086,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+ 		goto err;
+ 	}
  
- static const struct adv7511_chip_info adv7511_chip_info = {
--	.type = ADV7511
-+	.type = ADV7511,
-+	.supply_names = adv7511_supply_names,
-+	.num_supplies = ARRAY_SIZE(adv7511_supply_names)
- };
+-	if (adv->info->type == ADV7533 || adv->info->type == ADV7535) {
++	if (adv->info->has_dsi) {
+ 		ret = adv7533_patch_cec_registers(adv);
+ 		if (ret)
+ 			goto err;
+@@ -1245,7 +1245,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 		goto uninit_regulators;
+ 	dev_dbg(dev, "Rev. %d\n", val);
  
- static const struct adv7511_chip_info adv7533_chip_info = {
- 	.type = ADV7533,
+-	if (info->type == ADV7511)
++	if (!info->has_dsi)
+ 		ret = regmap_register_patch(adv7511->regmap,
+ 					    adv7511_fixed_registers,
+ 					    ARRAY_SIZE(adv7511_fixed_registers));
+@@ -1316,7 +1316,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+ 
+ 	adv7511_audio_init(dev, adv7511);
+ 
+-	if (info->type == ADV7533 || info->type == ADV7535) {
++	if (info->has_dsi) {
+ 		ret = adv7533_attach_dsi(adv7511);
+ 		if (ret)
+ 			goto err_unregister_audio;
+@@ -1370,7 +1370,8 @@ static const struct adv7511_chip_info adv7533_chip_info = {
  	.max_mode_clock = 80000,
  	.max_lane_freq = 800000,
-+	.supply_names = adv7533_supply_names,
-+	.num_supplies = ARRAY_SIZE(adv7533_supply_names)
+ 	.supply_names = adv7533_supply_names,
+-	.num_supplies = ARRAY_SIZE(adv7533_supply_names)
++	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
++	.has_dsi = 1
  };
  
  static const struct adv7511_chip_info adv7535_chip_info = {
- 	.type = ADV7535,
+@@ -1378,7 +1379,8 @@ static const struct adv7511_chip_info adv7535_chip_info = {
  	.max_mode_clock = 148500,
  	.max_lane_freq = 891000,
-+	.supply_names = adv7533_supply_names,
-+	.num_supplies = ARRAY_SIZE(adv7533_supply_names)
+ 	.supply_names = adv7533_supply_names,
+-	.num_supplies = ARRAY_SIZE(adv7533_supply_names)
++	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
++	.has_dsi = 1
  };
  
  static const struct i2c_device_id adv7511_i2c_ids[] = {
