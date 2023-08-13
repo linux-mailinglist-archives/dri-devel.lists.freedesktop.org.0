@@ -1,37 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDFD77AA81
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 20:06:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4FF77AAD0
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 21:10:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BAFE10E0F4;
-	Sun, 13 Aug 2023 18:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8151610E0FB;
+	Sun, 13 Aug 2023 19:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id B083910E0F4
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 18:06:06 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="6.01,170,1684767600"; d="scan'208";a="172836586"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 14 Aug 2023 03:06:06 +0900
-Received: from localhost.localdomain (unknown [10.226.92.13])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4109A405E63A;
- Mon, 14 Aug 2023 03:05:59 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 7/7] drm: adv7511: Add hpd_override_enable feature bit to
- struct adv7511_chip_info
-Date: Sun, 13 Aug 2023 19:05:12 +0100
-Message-Id: <20230813180512.307418-8-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
-References: <20230813180512.307418-1-biju.das.jz@bp.renesas.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3437210E0F5;
+ Sun, 13 Aug 2023 19:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691953845; x=1723489845;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xg4mFYd0bSzUJ6T2rDTewtz03S+l8kY6TLXsMswBTio=;
+ b=iStDqsiF+rlOScZnyv2RgwtGpvHnrGhZZRYddK2eQm3coqrpFbCJXzz+
+ JbxOgQimkJgcrNe2hbFAglRmZhhaeyTORCiBqMMVp43I07SLqKu9z3kxz
+ 9YoCUAnOjsd95BsE1m3teOb9xZ+v69gKPh+R7Sx+TC8pFJc5ZdLCipWTO
+ pvPE06gLK66kzMkU5mOb9dM73jGKMPjs/iXWIq0mEx9c/YGMmYEriJURn
+ 498P91DrpnHSQYIrDNFqms7J/6x44eJ1F5IdLwZORJoLgOLfNzBFeu4x9
+ BRWuzkF+ToQZ9EexvjPDK1j79o2aSDDkhM25XOs/eJUcPJmL9zDUoDV1R g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="438249040"
+X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; d="scan'208";a="438249040"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2023 12:10:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="733216691"
+X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; d="scan'208";a="733216691"
+Received: from lkp-server01.sh.intel.com (HELO d1ccc7e87e8f) ([10.239.97.150])
+ by orsmga002.jf.intel.com with ESMTP; 13 Aug 2023 12:10:40 -0700
+Received: from kbuild by d1ccc7e87e8f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qVGU4-0009C4-22;
+ Sun, 13 Aug 2023 19:10:40 +0000
+Date: Mon, 14 Aug 2023 03:10:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RESEND v3 4/5] drm/amdgpu: Move coredump code to amdgpu_reset
+ file
+Message-ID: <202308140200.o4DoWaAQ-lkp@intel.com>
+References: <20230810192330.198326-5-andrealmeid@igalia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230810192330.198326-5-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,127 +63,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-renesas-soc@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Biju Das <biju.das.jz@bp.renesas.com>, Adam Ford <aford173@gmail.com>,
- Bogdan Togorean <bogdan.togorean@analog.com>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ oe-kbuild-all@lists.linux.dev, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per spec, it is allowed to pulse the HPD signal to indicate that the
-EDID information has changed. Some monitors do this when they wake up
-from standby or are enabled. When the HPD goes low the adv7511 is
-reset and the outputs are disabled which might cause the monitor to
-go to standby again. To avoid this we ignore the HPD pin for the
-first few seconds after enabling the output. On the other hand,
-adv7535 require to enable HPD Override bit for proper HPD.
+Hi André,
 
-Add hpd_override_enable feature bit to struct adv7511_chip_info to handle
-this scenario.
+kernel test robot noticed the following build warnings:
 
-While at it, drop the enum adv7511_type as it is unused.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.5-rc5 next-20230809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/gpu/drm/bridge/adv7511/adv7511.h     |  8 +-------
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 12 +++++-------
- 2 files changed, 6 insertions(+), 14 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/drm-amdgpu-Create-a-module-param-to-disable-soft-recovery/20230811-032440
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230810192330.198326-5-andrealmeid%40igalia.com
+patch subject: [RESEND v3 4/5] drm/amdgpu: Move coredump code to amdgpu_reset file
+config: alpha-randconfig-r062-20230814 (https://download.01.org/0day-ci/archive/20230814/202308140200.o4DoWaAQ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230814/202308140200.o4DoWaAQ-lkp@intel.com/reproduce)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index 627531f48f84..c523ac4c9bc8 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -325,22 +325,16 @@ struct adv7511_video_config {
- 	struct hdmi_avi_infoframe avi_infoframe;
- };
- 
--enum adv7511_type {
--	ADV7511,
--	ADV7533,
--	ADV7535,
--};
--
- #define ADV7511_MAX_ADDRS 3
- 
- struct adv7511_chip_info {
--	enum adv7511_type type;
- 	unsigned long max_mode_clock;
- 	unsigned long max_lane_freq;
- 	const char * const *supply_names;
- 	unsigned int num_supplies;
- 	unsigned has_dsi:1;
- 	unsigned link_config:1;
-+	unsigned hpd_override_enable:1;
- };
- 
- struct adv7511 {
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 6974c267b1d5..7b06a0a21685 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511 *adv7511)
- 	 * first few seconds after enabling the output. On the other hand
- 	 * adv7535 require to enable HPD Override bit for proper HPD.
- 	 */
--	if (adv7511->info->type == ADV7535)
-+	if (adv7511->info->hpd_override_enable)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
- 				   ADV7535_REG_POWER2_HPD_OVERRIDE,
- 				   ADV7535_REG_POWER2_HPD_OVERRIDE);
-@@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
- static void __adv7511_power_off(struct adv7511 *adv7511)
- {
- 	/* TODO: setup additional power down modes */
--	if (adv7511->info->type == ADV7535)
-+	if (adv7511->info->hpd_override_enable)
- 		regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
- 				   ADV7535_REG_POWER2_HPD_OVERRIDE, 0);
- 
-@@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
- 			status = connector_status_disconnected;
- 	} else {
- 		/* Renable HPD sensing */
--		if (adv7511->info->type == ADV7535)
-+		if (adv7511->info->hpd_override_enable)
- 			regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
- 					   ADV7535_REG_POWER2_HPD_OVERRIDE,
- 					   ADV7535_REG_POWER2_HPD_OVERRIDE);
-@@ -1360,14 +1360,12 @@ static void adv7511_remove(struct i2c_client *i2c)
- }
- 
- static const struct adv7511_chip_info adv7511_chip_info = {
--	.type = ADV7511,
- 	.supply_names = adv7511_supply_names,
- 	.num_supplies = ARRAY_SIZE(adv7511_supply_names),
- 	.link_config = 1
- };
- 
- static const struct adv7511_chip_info adv7533_chip_info = {
--	.type = ADV7533,
- 	.max_mode_clock = 80000,
- 	.max_lane_freq = 800000,
- 	.supply_names = adv7533_supply_names,
-@@ -1376,12 +1374,12 @@ static const struct adv7511_chip_info adv7533_chip_info = {
- };
- 
- static const struct adv7511_chip_info adv7535_chip_info = {
--	.type = ADV7535,
- 	.max_mode_clock = 148500,
- 	.max_lane_freq = 891000,
- 	.supply_names = adv7533_supply_names,
- 	.num_supplies = ARRAY_SIZE(adv7533_supply_names),
--	.has_dsi = 1
-+	.has_dsi = 1,
-+	.hpd_override_enable = 1
- };
- 
- static const struct i2c_device_id adv7511_i2c_ids[] = {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308140200.o4DoWaAQ-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c:228:12-19: WARNING: kzalloc should be used for 
+    
+>> 	 coredump  , instead of kmalloc/memset
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
