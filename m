@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B7577A886
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 18:03:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FCD77A88D
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 18:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3084A10E0AC;
-	Sun, 13 Aug 2023 16:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6456010E0CF;
+	Sun, 13 Aug 2023 16:03:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 889D910E0AA;
- Sun, 13 Aug 2023 16:03:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6352110E0B8;
+ Sun, 13 Aug 2023 16:03:45 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 05F5C62548;
- Sun, 13 Aug 2023 16:03:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E57EC433C7;
- Sun, 13 Aug 2023 16:03:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E012B635B5;
+ Sun, 13 Aug 2023 16:03:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21471C433C9;
+ Sun, 13 Aug 2023 16:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691942616;
- bh=Bfwab8q+XLexBBEYsH7/gnGoEE6MOrki01bthbpbRbA=;
+ s=k20201202; t=1691942624;
+ bh=D6WyqihPlwHzn84Rbro53Dl1NzW8vSn66RIg9kRIHo8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ti72JHN8//RP2Sw3zT93oznIKnMCcZ9X8kiuoEl6UZita7vwzGB7MT8loLQ2VUTbS
- oF5LQIaTomm3yyjS5u0sSJtcOWq2nScXMmA8NVUXnV8G/win6IpATGzTIRcwewu7xG
- yw7cnY+gh1vRv2KIW5B4SLWVFW4Kh5QUeVawEUUG8UKbGA9GjxiAR5aZZGR+zbM/De
- 3cg1lXIp0UlFxa1qhgGjow3iftuYxG4kuQ3t211pDbWF9AXKD3PWgX/+DBJDhpgsbl
- KfTCNtaCTJmNhvawlTYMe2c86hQTQ2W0rYdUwAxR1j5Ijs+8GYoKl50G6j0uex9aVe
- lFEwPgHW1k5oQ==
+ b=NYiavyB+a/5tue64tAhJ2ZGpCrIdbtw6EwbhErn6NQGkZBDJGDkWz2LMJqob4Ffqs
+ uiGhjicjWF6HBriwo1nmpoIYDcp/z2I9FWffR1XbXqUKeUw0ib5GtxalagR+a/NNCk
+ Q54Ka773ik4iWdgLYVl/eFQD/pBVaDJislu81QIQRwe9vLuSFNu/8hiCmMBL9YvefJ
+ wFf253sRRz1wK/fdflP0RQ1kB5ZunOAFDGxwQbpG0pmbMKgcBTPdUnxRkuKPc7YOoc
+ W9VWHWX6w2z7Fqwv7a0vwIPVfzKxgwB6gvtmK/y8uc/DEXIkoi5jkI+9pRVxXiONqA
+ CUP4BWPz7cjXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 38/47] drm/amd/display: Guard DCN31 PHYD32CLK
- logic against chip family
-Date: Sun, 13 Aug 2023 11:59:33 -0400
-Message-Id: <20230813160006.1073695-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 39/47] drm/amd/display: Exit idle optimizations
+ before attempt to access PHY
+Date: Sun, 13 Aug 2023 11:59:34 -0400
+Message-Id: <20230813160006.1073695-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230813160006.1073695-1-sashal@kernel.org>
 References: <20230813160006.1073695-1-sashal@kernel.org>
@@ -57,52 +57,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, stylon.wang@amd.com,
- Hansen Dsouza <hansen.dsouza@amd.com>, Charlene.Liu@amd.com,
- Alex Hung <alex.hung@amd.com>, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- nicholas.kazlauskas@amd.com, sunpeng.li@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- George Shen <george.shen@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- jun.lei@amd.com, christian.koenig@amd.com
+Cc: Iswara.Nagulendran@amd.com, wenjing.liu@amd.com,
+ dri-devel@lists.freedesktop.org, Jun.Lei@amd.com,
+ Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
+ Leo Chen <sancchen@amd.com>, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, tony.tascioglu@amd.com, sunpeng.li@amd.com,
+ Alvin.Lee2@amd.com, Jingwen.Zhu@amd.com, Alex Hung <alex.hung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>, Xinhui.Pan@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: George Shen <george.shen@amd.com>
+From: Leo Chen <sancchen@amd.com>
 
-[ Upstream commit 25b054c3c89cb6a7106a7982f0f70e83d0797dab ]
+[ Upstream commit de612738e9771bd66aeb20044486c457c512f684 ]
 
-[Why]
-Current yellow carp B0 PHYD32CLK logic is incorrectly applied to other
-ASICs.
+[Why & How]
+DMUB may hang when powering down pixel clocks due to no dprefclk.
 
-[How]
-Add guard to check chip family is yellow carp before applying logic.
+It is fixed by exiting idle optimization before the attempt to access PHY.
 
-Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: George Shen <george.shen@amd.com>
+Signed-off-by: Leo Chen <sancchen@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c
-index 7d2b982506fd7..0cc510e16d9d5 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c
-@@ -76,7 +76,8 @@ static enum phyd32clk_clock_source get_phy_mux_symclk(
- 		struct dcn_dccg *dccg_dcn,
- 		enum phyd32clk_clock_source src)
- {
--	if (dccg_dcn->base.ctx->asic_id.hw_internal_rev == YELLOW_CARP_B0) {
-+	if (dccg_dcn->base.ctx->asic_id.chip_family == FAMILY_YELLOW_CARP &&
-+			dccg_dcn->base.ctx->asic_id.hw_internal_rev == YELLOW_CARP_B0) {
- 		if (src == PHYD32CLKC)
- 			src = PHYD32CLKF;
- 		if (src == PHYD32CLKD)
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index d260eaa1509ed..9378c98d02cfe 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -1813,10 +1813,13 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
+ 			hws->funcs.edp_backlight_control(edp_link_with_sink, false);
+ 		}
+ 		/*resume from S3, no vbios posting, no need to power down again*/
++		clk_mgr_exit_optimized_pwr_state(dc, dc->clk_mgr);
++
+ 		power_down_all_hw_blocks(dc);
+ 		disable_vga_and_power_gate_all_controllers(dc);
+ 		if (edp_link_with_sink && !keep_edp_vdd_on)
+ 			dc->hwss.edp_power_control(edp_link_with_sink, false);
++		clk_mgr_optimize_pwr_state(dc, dc->clk_mgr);
+ 	}
+ 	bios_set_scratch_acc_mode_change(dc->ctx->dc_bios, 1);
+ }
 -- 
 2.40.1
 
