@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC9D77A7FA
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 17:53:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC4977A882
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 18:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E59210E0A3;
-	Sun, 13 Aug 2023 15:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8966510E0A7;
+	Sun, 13 Aug 2023 16:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBAF10E0A3
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 15:52:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0428910E0A7;
+ Sun, 13 Aug 2023 16:03:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0919163385;
- Sun, 13 Aug 2023 15:52:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40225C433C7;
- Sun, 13 Aug 2023 15:52:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 676456365E;
+ Sun, 13 Aug 2023 16:03:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5D20C433C8;
+ Sun, 13 Aug 2023 16:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691941977;
- bh=Xl+zWuxlzf8UrZZuScqSJCZOz7bnr8WH0zt1Hh4Qr00=;
+ s=k20201202; t=1691942607;
+ bh=FYW91m020kBBNeUmgboDzHpwcLT4wR5HvrIdu5ZOBZA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rHyixOt5JDoBueaLQbG0oikg300GpknpFfMQUSOa72ZDTVpY9C2yr9ULN24xyPeIb
- eDpErAnMKhVex82OsinofQDzdtlPt83/yOmhLB3EKpi65luhOVSW/Nbq2t8ucs81RB
- f8mSA15hn24XYe0u6M+Z+mr7/20LjC0gty5+MSB5BBVG5hAqbu1I34B9daRbzcVG9m
- F/pKxvB0A35olJoHVLNinYg9uCps/DF/ZGxDmO6M3sV9BF/8z/WlGRbmfH5Uqg34/l
- 8ig1k4iCdsMeKFg+Tf5Lttry981cmp2DGabsQ9ho80OdEbLj1RImtqjyxKmnePvbph
- 3y6I6tcQbCAhg==
+ b=hAmCkPvmNayAEM30rNi8YWnjDImQI3EvGmMegAK9cQOIMlSwII76cT3w1uHoHq+qt
+ QeSehZ535PMWftOrR/j66krK9HBVcX/GNFRIxs0CZAg2f5y+KGxywdHAQ7jhlKaMiF
+ B5dz+ngNW6tp7Nxm/O5L1Ma6S/3Cv27m0yvsyVJTS1MxA8iAXLMHJWgReeXJAM8jhS
+ Y7Gnc5ogrBT10l6UZ0pj/1JURaCem7egpAlcjYBqo+5biAenRusMtWOh/83AWxrTyc
+ B4/uQEcQxB13n5ogWV3RVcoF005+u9O6zRkUDtqT4LEtgKvO/CUbwBoxIp102JQhn7
+ /RsUu6ZElpYkg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.4 50/54] staging: fbtft: ili9341: use macro
- FBTFT_REGISTER_SPI_DRIVER
-Date: Sun, 13 Aug 2023 11:49:29 -0400
-Message-Id: <20230813154934.1067569-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 37/47] drm/amd/smu: use AverageGfxclkFrequency* to
+ replace previous GFX Curr Clock
+Date: Sun, 13 Aug 2023 11:59:32 -0400
+Message-Id: <20230813160006.1073695-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230813154934.1067569-1-sashal@kernel.org>
-References: <20230813154934.1067569-1-sashal@kernel.org>
+In-Reply-To: <20230813160006.1073695-1-sashal@kernel.org>
+References: <20230813160006.1073695-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.4.10
+X-stable-base: Linux 6.1.45
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,40 +58,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Raphael Gallais-Pou <rgallaispou@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
+ Jane Jian <Jane.Jian@amd.com>, kenneth.feng@amd.com,
+ Lijo Lazar <lijo.lazar@amd.com>, candice.li@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Feifei.Xu@amd.com, Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+From: Jane Jian <Jane.Jian@amd.com>
 
-[ Upstream commit 4912649e1cf0317bf563f91655e04a303cacaf8d ]
+[ Upstream commit 4a37c55b859a69f429bfa7fab4fc43ee470b60ed ]
 
-Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
-ultimately causes a warning when the module probes. Fixes it.
+Report current GFX clock also from average clock value as the original
+CurrClock data is not valid/accurate any more as per FW team
 
-Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Link: https://lore.kernel.org/r/20230718172024.67488-1-rgallaispou@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Jane Jian <Jane.Jian@amd.com>
+Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/fbtft/fb_ili9341.c | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
-index 9ccd0823c3ab3..47e72b87d76d9 100644
---- a/drivers/staging/fbtft/fb_ili9341.c
-+++ b/drivers/staging/fbtft/fb_ili9341.c
-@@ -145,7 +145,7 @@ static struct fbtft_display display = {
- 	},
- };
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
+index f7ac488a3da20..503e844baede2 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c
+@@ -1305,7 +1305,7 @@ static ssize_t smu_v13_0_0_get_gpu_metrics(struct smu_context *smu,
+ 	gpu_metrics->average_vclk1_frequency = metrics->AverageVclk1Frequency;
+ 	gpu_metrics->average_dclk1_frequency = metrics->AverageDclk1Frequency;
  
--FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
-+FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
- 
- MODULE_ALIAS("spi:" DRVNAME);
- MODULE_ALIAS("platform:" DRVNAME);
+-	gpu_metrics->current_gfxclk = metrics->CurrClock[PPCLK_GFXCLK];
++	gpu_metrics->current_gfxclk = gpu_metrics->average_gfxclk_frequency;
+ 	gpu_metrics->current_socclk = metrics->CurrClock[PPCLK_SOCCLK];
+ 	gpu_metrics->current_uclk = metrics->CurrClock[PPCLK_UCLK];
+ 	gpu_metrics->current_vclk0 = metrics->CurrClock[PPCLK_VCLK_0];
 -- 
 2.40.1
 
