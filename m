@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092D977A895
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 18:04:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1EB77A8F5
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Aug 2023 18:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250AF10E0D4;
-	Sun, 13 Aug 2023 16:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 922D310E0DA;
+	Sun, 13 Aug 2023 16:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E223D10E0D4
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 16:04:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21F6910E0A8;
+ Sun, 13 Aug 2023 16:08:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5A6F2636C7;
- Sun, 13 Aug 2023 16:04:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47571C433C7;
- Sun, 13 Aug 2023 16:04:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8808B639A6;
+ Sun, 13 Aug 2023 16:08:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3180C433C9;
+ Sun, 13 Aug 2023 16:08:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691942645;
- bh=Xl+zWuxlzf8UrZZuScqSJCZOz7bnr8WH0zt1Hh4Qr00=;
+ s=k20201202; t=1691942932;
+ bh=Ad+VPTzUqsuGL7Qu7taz1hNn7yO2oPcIzjn5aVcNT3o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R8pTDLZt3ESHWBqv+URripYM5p8T95uGeRxv+KUD59zY8mlwTmHtIUcbTZkP00ciE
- +hmOAAei5NEuT2RbzWGRYtp7nObWI+nmnc5PIN5w21b/8yadRtITgGyv8H4ACzVHSk
- IfCaWNEXW8M/HC3f8iPbjz8C5dGCUNMJilw4O9vxeg34OVScpxtQNRcuYrsROgtUI6
- gi3aA1FKoTe46xJWNJY1+F/ksWFrI2rlRf/XbrHp33sGacFmRfc27Flgqk6BWOqs7i
- JWCkSKdYX/wyC7AGODT/JSXvl0Y3PUw1TW0wXPtxKktwhKLt2HtotSiHL4oGh+ayQM
- 3y4gVd6/lhsWA==
+ b=f/lVmbwPE8oW8ZC+ODgdC5axdHogxfaL2QUHYh+HfT38NZ8o6bRD/8lNjlR2IhBiH
+ h7wFteJqasg4GoYgIhFN2S4aYyYnBKdXfSfkFIGCAH539cqo7nthA12X3GUvnuV/f6
+ BE4e22vAeS+ZmzwleXoKNzpMALRzI7CAgAqQQM4A09L6WkPCRqNxXsplaLe+Tiy/UA
+ kIyZT/FxnvZB8LZKEmDOYKNOqHK9aCF7fJOoHaqRC7TocdEzlejA263XZMkePVJ6xc
+ dB0poJI3R1u5VF2l8fEfKDCEgNyW+SA9AeIiNrSuIOWOhcnvpUYS9aErFJwQ99jvvM
+ DV8DOyDgW5Nhg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 45/47] staging: fbtft: ili9341: use macro
- FBTFT_REGISTER_SPI_DRIVER
-Date: Sun, 13 Aug 2023 11:59:40 -0400
-Message-Id: <20230813160006.1073695-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 25/31] drm/amd/display: Exit idle optimizations
+ before attempt to access PHY
+Date: Sun, 13 Aug 2023 12:05:58 -0400
+Message-Id: <20230813160605.1080385-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230813160006.1073695-1-sashal@kernel.org>
-References: <20230813160006.1073695-1-sashal@kernel.org>
+In-Reply-To: <20230813160605.1080385-1-sashal@kernel.org>
+References: <20230813160605.1080385-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.45
+X-stable-base: Linux 5.15.126
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,40 +58,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Raphael Gallais-Pou <rgallaispou@gmail.com>
+Cc: Iswara.Nagulendran@amd.com, wenjing.liu@amd.com,
+ dri-devel@lists.freedesktop.org, Jun.Lei@amd.com, Jingwen.Zhu@amd.com,
+ Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
+ Leo Chen <sancchen@amd.com>, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, tony.tascioglu@amd.com, sunpeng.li@amd.com,
+ Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Xinhui.Pan@amd.com, Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ zhikai.zhai@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+From: Leo Chen <sancchen@amd.com>
 
-[ Upstream commit 4912649e1cf0317bf563f91655e04a303cacaf8d ]
+[ Upstream commit de612738e9771bd66aeb20044486c457c512f684 ]
 
-Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
-ultimately causes a warning when the module probes. Fixes it.
+[Why & How]
+DMUB may hang when powering down pixel clocks due to no dprefclk.
 
-Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Link: https://lore.kernel.org/r/20230718172024.67488-1-rgallaispou@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+It is fixed by exiting idle optimization before the attempt to access PHY.
+
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Leo Chen <sancchen@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/fbtft/fb_ili9341.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
-index 9ccd0823c3ab3..47e72b87d76d9 100644
---- a/drivers/staging/fbtft/fb_ili9341.c
-+++ b/drivers/staging/fbtft/fb_ili9341.c
-@@ -145,7 +145,7 @@ static struct fbtft_display display = {
- 	},
- };
- 
--FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
-+FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
- 
- MODULE_ALIAS("spi:" DRVNAME);
- MODULE_ALIAS("platform:" DRVNAME);
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+index 46d7e75e4553e..52142d272c868 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
+@@ -1744,10 +1744,13 @@ void dce110_enable_accelerated_mode(struct dc *dc, struct dc_state *context)
+ 			hws->funcs.edp_backlight_control(edp_link_with_sink, false);
+ 		}
+ 		/*resume from S3, no vbios posting, no need to power down again*/
++		clk_mgr_exit_optimized_pwr_state(dc, dc->clk_mgr);
++
+ 		power_down_all_hw_blocks(dc);
+ 		disable_vga_and_power_gate_all_controllers(dc);
+ 		if (edp_link_with_sink && !keep_edp_vdd_on)
+ 			dc->hwss.edp_power_control(edp_link_with_sink, false);
++		clk_mgr_optimize_pwr_state(dc, dc->clk_mgr);
+ 	}
+ 	bios_set_scratch_acc_mode_change(dc->ctx->dc_bios, 1);
+ }
 -- 
 2.40.1
 
