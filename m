@@ -1,44 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064C777B669
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 12:17:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F7077B684
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 12:21:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0067F10E196;
-	Mon, 14 Aug 2023 10:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6203610E1A0;
+	Mon, 14 Aug 2023 10:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6055C10E196
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 10:17:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8254F6BE;
- Mon, 14 Aug 2023 12:16:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692008191;
- bh=+tNL4NQA0CoBOCXHjja5RO3urDrFcvaNCJTMS8guwcY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EzctgWqnagqN8IGEy/u7xkW4p3ki+DpVeJoONsRnBXdloH6uhY0XlmAeUJsz2Q8Bh
- YZRNvFlGcKEb4l8vk58h71jwZ4NLrFcofw4jMPUz9zcB1WUMYiocfErE5pcXRWBSYZ
- kEIRuihUgGsvTYMr7HAjpdl0oo8jAEfgmJPmLaFs=
-Date: Mon, 14 Aug 2023 13:17:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 11/11] drm/bridge: tc358768: Add
- DRM_BRIDGE_ATTACH_NO_CONNECTOR support
-Message-ID: <20230814101750.GA5723@pendragon.ideasonboard.com>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-11-1afd44b7826b@ideasonboard.com>
- <e857d383-2287-a985-24c5-fa1fff1da199@gmail.com>
- <0855d804-3ba3-4f29-32b1-bab3b999e506@ideasonboard.com>
- <20230814101041.GA277347@ravnborg.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A76210E03B;
+ Mon, 14 Aug 2023 10:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692008499; x=1723544499;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=29wof/6NpjSzrKT6qzH2JPg0H1YIgtNF7q2e72lMGLE=;
+ b=VTnI4L10OtRagMjA976bE3f7o6x7IECxqgWZ00RABAV51Tg7KwxhrVcz
+ o9W8fFzapxQEeonwVI6jUQnEHFEMHywAHN3l0iD1/oGkDAhWnHElZOO79
+ YjNOIqZfrh+s6ead8gUoDEy/9/jBnMlgOGD50w1Df1U1cpnP/WO2PsBCv
+ CVSDbEFYKGOmMno3P+qgyt0zMHTWAhItdnRxMPyMFzf6B9rgLAQKseG/W
+ AmeYOQ2yGohdakkrLb9TciWk8G/NWnxwX1TmC3yz8Q1dMhfzd6Z2rXxLu
+ mz3SG7758KMDgNcA08z4SFPqIF4zBfOkNgqqW0E17tJtGmeaDZ35mhggb g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="458369953"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; d="scan'208";a="458369953"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2023 03:21:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="736484654"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; d="scan'208";a="736484654"
+Received: from guptan-mobl2.gar.corp.intel.com (HELO [10.249.254.26])
+ ([10.249.254.26])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2023 03:21:36 -0700
+Message-ID: <a89f8790-a043-4412-2508-d960b480d709@linux.intel.com>
+Date: Mon, 14 Aug 2023 12:21:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230814101041.GA277347@ravnborg.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5] Documentation/gpu: Add a VM_BIND async draft document
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>
+References: <20230715154543.13183-1-thomas.hellstrom@linux.intel.com>
+ <955bc56a-6cfa-447a-31a9-2b35d8b23149@redhat.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <955bc56a-6cfa-447a-31a9-2b35d8b23149@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,139 +62,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Jonas Karlman <jonas@kwiboo.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?utf-8?B?UMOpdGVy?= Ujfalusi <peter.ujfalusi@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Francesco Dolcini <francesco@dolcini.it>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Oak Zeng <oak.zeng@intel.com>,
+ intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 14, 2023 at 12:10:41PM +0200, Sam Ravnborg wrote:
-> > From c13c691bd8826b978325575be9a87f577b83b86b Mon Sep 17 00:00:00 2001
-> > From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Date: Mon, 14 Aug 2023 13:02:23 +0300
-> > Subject: [PATCH] drm/bridge: tc358768: fix 'Add DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> >  support'
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/bridge/tc358768.c | 56 +++++++++++++------------------
-> >  1 file changed, 24 insertions(+), 32 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> > index 82ea4d9a814a..9705ce1bd028 100644
-> > --- a/drivers/gpu/drm/bridge/tc358768.c
-> > +++ b/drivers/gpu/drm/bridge/tc358768.c
-> > @@ -455,8 +455,6 @@ static int tc358768_dsi_host_detach(struct mipi_dsi_host *host,
-> >  	struct tc358768_priv *priv = dsi_host_to_tc358768(host);
-> >  
-> >  	drm_bridge_remove(&priv->bridge);
-> > -	if (priv->output.panel)
-> > -		drm_panel_bridge_remove(priv->output.next_bridge);
-> >  
-> >  	return 0;
-> >  }
-> > @@ -531,49 +529,42 @@ static int tc358768_bridge_attach(struct drm_bridge *bridge,
-> >  				  enum drm_bridge_attach_flags flags)
-> >  {
-> >  	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-> > +	struct drm_bridge *next_bridge;
-> > +	struct drm_panel *panel;
-> > +	int ret;
-> >  
-> >  	if (!drm_core_check_feature(bridge->dev, DRIVER_ATOMIC)) {
-> >  		dev_err(priv->dev, "needs atomic updates support\n");
-> >  		return -ENOTSUPP;
-> >  	}
-> >  
-> > -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> > -		struct device_node *node;
-> > -
-> > -		/* Get the next bridge, connected to port@1. */
-> > -		node = of_graph_get_remote_node(priv->dev->of_node, 1, -1);
-> > -		if (!node)
-> > -			return -ENODEV;
-> > -
-> > -		priv->output.next_bridge = of_drm_find_bridge(node);
-> > -		of_node_put(node);
-> > -		if (!priv->output.next_bridge)
-> > -			return -EPROBE_DEFER;
-> > -	} else {
-> > -		struct drm_bridge *bridge;
-> > -		struct drm_panel *panel;
-> > -		int ret;
-> > -
-> > -		ret = drm_of_find_panel_or_bridge(priv->dev->of_node, 1, 0,
-> > -						  &panel, &bridge);
-> > -		if (ret)
-> > -			return ret;
-> > -
-> > -		if (panel) {
-> > -			bridge = drm_panel_bridge_add_typed(panel,
-> > -				DRM_MODE_CONNECTOR_DSI);
-> > -			if (IS_ERR(bridge))
-> > -				return PTR_ERR(bridge);
-> > -		}
-> > +	ret = drm_of_find_panel_or_bridge(priv->dev->of_node, 1, -1, &panel,
-> > +					  &next_bridge);
-> 
-> I think the right way is to wrap the panel in a bridge,
-> so something like:
-> 
-> 	next_bridge = devm_drm_of_get_bridge(dev, priv->dev->of_node, 1, -1)
-> 
-> 	if (IS_ERR(next_bridge))
-> 		return ...
-> 	priv->output.next_bridge = next_bridge;
 
-Should we at some point bite the bullet and wrap panels in bridges
-directly in drm_panel.c ? That would simplify all the consumers.
+On 7/19/23 16:24, Danilo Krummrich wrote:
+> On 7/15/23 17:45, Thomas Hellström wrote:
+>> Add a motivation for and description of asynchronous VM_BIND operation
+>>
+>> v2:
+>> - Fix typos (Nirmoy Das)
+>> - Improve the description of a memory fence (Oak Zeng)
+>> - Add a reference to the document in the Xe RFC.
+>> - Add pointers to sample uAPI suggestions
+>> v3:
+>> - Address review comments (Danilo Krummrich)
+>> - Formatting fixes
+>> v4:
+>> - Address typos (Francois Dugast)
+>> - Explain why in-fences are not allowed for VM_BIND operations for long-
+>>    running workloads (Matthew Brost)
+>> v5:
+>> - More typo- and style fixing
+>> - Further clarify the implications of disallowing in-fences for VM_BIND
+>>    operations for long-running workloads (Matthew Brost)
+>>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+>> ---
+>>   Documentation/gpu/drm-vm-bind-async.rst | 171 ++++++++++++++++++++++++
+>>   Documentation/gpu/rfc/xe.rst            |   4 +-
+>>   2 files changed, 173 insertions(+), 2 deletions(-)
+>>   create mode 100644 Documentation/gpu/drm-vm-bind-async.rst
+>>
+>> diff --git a/Documentation/gpu/drm-vm-bind-async.rst 
+>> b/Documentation/gpu/drm-vm-bind-async.rst
+>> new file mode 100644
+>> index 000000000000..d2b02a38198a
+>> --- /dev/null
+>> +++ b/Documentation/gpu/drm-vm-bind-async.rst
+>> @@ -0,0 +1,171 @@
+>> +====================
+>> +Asynchronous VM_BIND
+>> +====================
+>> +
+>> +Nomenclature:
+>> +=============
+>> +
+>> +* ``VRAM``: On-device memory. Sometimes referred to as device local 
+>> memory.
+>> +
+>> +* ``gpu_vm``: A GPU address space. Typically per process, but can be 
+>> shared by
+>> +  multiple processes.
+>
+> Again, pretty obvious, but I suggest to be explicit "GPU virtual 
+> address space".
+>
+> Also, you might want to remove "draft" from the patch subject.
+>
+> Otherwise: Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
-> > +	if (ret)
-> > +		return ret;
-> >  
-> > -		priv->output.next_bridge = bridge;
-> > -		priv->output.panel = panel;
-> > +	if (panel) {
-> > +		next_bridge = drm_panel_bridge_add_typed(panel,
-> > +			DRM_MODE_CONNECTOR_DSI);
-> > +		if (IS_ERR(next_bridge))
-> > +			return PTR_ERR(next_bridge);
-> >  	}
-> >  
-> > +	priv->output.next_bridge = next_bridge;
-> > +	priv->output.panel = panel;
-> > +
-> >  	return drm_bridge_attach(bridge->encoder, priv->output.next_bridge, bridge,
-> >  				 flags);
-> >  }
-> >  
-> > +void tc358768_bridge_detach(struct drm_bridge *bridge)
-> > +{
-> > +	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
-> > +
-> > +	if (priv->output.panel)
-> > +		drm_panel_bridge_remove(priv->output.next_bridge);
-> > +}
-> > +
-> >  static enum drm_mode_status
-> >  tc358768_bridge_mode_valid(struct drm_bridge *bridge,
-> >  			   const struct drm_display_info *info,
-> > @@ -1156,6 +1147,7 @@ tc358768_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >  
-> >  static const struct drm_bridge_funcs tc358768_bridge_funcs = {
-> >  	.attach = tc358768_bridge_attach,
-> > +	.detach = tc358768_bridge_detach,
-> >  	.mode_valid = tc358768_bridge_mode_valid,
-> >  	.pre_enable = tc358768_bridge_pre_enable,
-> >  	.enable = tc358768_bridge_enable,
+Sure. Thanks for reviewing, Danilo.
 
--- 
-Regards,
 
-Laurent Pinchart
+
+>
+>> +
+>> +* ``VM_BIND``: An operation or a list of operations to modify a 
+>> gpu_vm using
+>> +  an IOCTL. The operations include mapping and unmapping system- or
+>> +  VRAM memory.
+>> +
+>> +* ``syncobj``: A container that abstracts synchronization objects. The
+>> +  synchronization objects can be either generic, like dma-fences or
+>> +  driver specific. A syncobj typically indicates the type of the
+>> +  underlying synchronization object.
+>> +
+>> +* ``in-syncobj``: Argument to a VM_BIND IOCTL, the VM_BIND operation 
+>> waits
+>> +  for these before starting.
+>> +
+>> +* ``out-syncobj``: Argument to a VM_BIND_IOCTL, the VM_BIND operation
+>> +  signals these when the bind operation is complete.
+>> +
+>> +* ``memory fence``: A synchronization object, different from a 
+>> dma-fence.
+>> +  A memory fence uses the value of a specified memory location to 
+>> determine
+>> +  signaled status. A memory fence can be awaited and signaled by both
+>> +  the GPU and CPU. Memory fences are sometimes referred to as
+>> +  user-fences, userspace-fences or gpu futexes and do not 
+>> necessarily obey
+>> +  the dma-fence rule of signaling within a "reasonable amount of time".
+>> +  The kernel should thus avoid waiting for memory fences with locks 
+>> held.
+>> +
+>> +* ``long-running workload``: A workload that may take more than the
+>> +  current stipulated dma-fence maximum signal delay to complete and
+>> +  which therefore needs to set the gpu_vm or the GPU execution 
+>> context in
+>> +  a certain mode that disallows completion dma-fences.
+>> +
+>> +* ``exec function``: An exec function is a function that revalidates 
+>> all
+>> +  affected gpu_vmas, submits a GPU command batch and registers the
+>> +  dma_fence representing the GPU command's activity with all affected
+>> +  dma_resvs. For completeness, although not covered by this document,
+>> +  it's worth mentioning that an exec function may also be the
+>> +  revalidation worker that is used by some drivers in compute /
+>> +  long-running mode.
+>> +
+>> +* ``bind context``: A context identifier used for the VM_BIND
+>> +  operation. VM_BIND operations that use the same bind context can be
+>> +  assumed, where it matters, to complete in order of submission. No 
+>> such
+>> +  assumptions can be made for VM_BIND operations using separate bind 
+>> contexts.
+>> +
+>> +* ``UMD``: User-mode driver.
+>> +
+>> +* ``KMD``: Kernel-mode driver.
+>> +
+>> +
+>> +Synchronous / Asynchronous VM_BIND operation
+>> +============================================
+>> +
+>> +Synchronous VM_BIND
+>> +___________________
+>> +With Synchronous VM_BIND, the VM_BIND operations all complete before 
+>> the
+>> +IOCTL returns. A synchronous VM_BIND takes neither in-fences nor
+>> +out-fences. Synchronous VM_BIND may block and wait for GPU operations;
+>> +for example swap-in or clearing, or even previous binds.
+>> +
+>> +Asynchronous VM_BIND
+>> +____________________
+>> +Asynchronous VM_BIND accepts both in-syncobjs and out-syncobjs. 
+>> While the
+>> +IOCTL may return immediately, the VM_BIND operations wait for the 
+>> in-syncobjs
+>> +before modifying the GPU page-tables, and signal the out-syncobjs when
+>> +the modification is done in the sense that the next exec function that
+>> +awaits for the out-syncobjs will see the change. Errors are reported
+>> +synchronously assuming that the asynchronous part of the job never 
+>> errors.
+>> +In low-memory situations the implementation may block, performing the
+>> +VM_BIND synchronously, because there might not be enough memory
+>> +immediately available for preparing the asynchronous operation.
+>> +
+>> +If the VM_BIND IOCTL takes a list or an array of operations as an 
+>> argument,
+>> +the in-syncobjs needs to signal before the first operation starts to
+>> +execute, and the out-syncobjs signal after the last operation
+>> +completes. Operations in the operation list can be assumed, where it
+>> +matters, to complete in order.
+>> +
+>> +Since asynchronous VM_BIND operations may use dma-fences embedded in
+>> +out-syncobjs and internally in KMD to signal bind completion, any
+>> +memory fences given as VM_BIND in-fences need to be awaited
+>> +synchronously before the VM_BIND ioctl returns, since dma-fences,
+>
+> IOCTL
+>
+>> +required to signal in a reasonable amount of time, can never be made
+>> +to depend on memory fences that don't have such a restriction.
+>> +
+>> +To aid in supporting user-space queues, the VM_BIND may take a bind 
+>> context.
+>> +
+>> +The purpose of an Asynchronous VM_BIND operation is for user-mode
+>> +drivers to be able to pipeline interleaved gpu_vm modifications and
+>> +exec functions. For long-running workloads, such pipelining of a bind
+>> +operation is not allowed and any in-fences need to be awaited
+>> +synchronously. The reason for this is twofold. First, any memory
+>> +fences gated by a long-running workload and used as in-syncobjs for the
+>> +VM_BIND operation will need to be awaited synchronously anyway (see
+>> +above). Second, any dma-fences used as in-syncobjs for VM_BIND
+>> +operations for long-running workloads will not allow for pipelining
+>> +anyway since long-running workloads don't allow for dma-fences as
+>> +out-syncobjs, so while theoretically possible the use of them is
+>> +questionable and should be rejected until there is a valuable use-case.
+>> +Note that this is not a limitation imposed by dma-fence rules, but
+>> +rather a limitation imposed to keep KMD implementation simple. It does
+>> +not affect using dma-fences as dependencies for the long-running
+>> +workload itself, which is allowed by dma-fence rules, but rather for
+>> +the VM_BIND operation only.
+>> +
+>> +Also for VM_BINDS for long-running gpu_vms the user-mode driver 
+>> should typically
+>> +select memory fences as out-fences since that gives greater 
+>> flexibility for
+>> +the kernel mode driver to inject other operations into the bind /
+>> +unbind operations. Like for example inserting breakpoints into batch
+>> +buffers. The workload execution can then easily be pipelined behind
+>> +the bind completion using the memory out-fence as the signal condition
+>> +for a GPU semaphore embedded by UMD in the workload.
+>> +
+>> +Multi-operation VM_BIND IOCTL error handling and interrupts
+>> +===========================================================
+>> +
+>> +The VM_BIND operations of the IOCTL may error due to lack of resources
+>> +to complete and also due to interrupted waits. In both situations UMD
+>> +should preferably restart the IOCTL after taking suitable action. If
+>> +UMD has over-committed a memory resource, an -ENOSPC error will be
+>> +returned, and UMD may then unbind resources that are not used at the
+>> +moment and restart the IOCTL. On -EINTR, UMD should simply restart the
+>> +IOCTL and on -ENOMEM user-space may either attempt to free known
+>> +system memory resources or abort the operation. If aborting as a
+>> +result of a failed operation in a list of operations, some operations
+>> +may still have completed, and to get back to a known state, user-space
+>> +should therefore attempt to unbind all virtual memory regions touched
+>> +by the failing IOCTL.
+>> +Unbind operations are guaranteed not to cause any errors due to
+>> +resource constraints.
+>> +In between a failed VM_BIND IOCTL and a successful restart there may
+>> +be implementation defined restrictions on the use of the gpu_vm. For a
+>> +description why, please see KMD implementation details under `error
+>> +state saving`_.
+>> +
+>> +Sample uAPI implementations
+>> +===========================
+>> +Suggested uAPI implementations at the moment of writing can be found 
+>> for
+>> +the Nouveau driver `here
+>> +<https://patchwork.freedesktop.org/patch/543260/?series=112994&rev=6>`_. 
+>>
+>> +and for the Xe driver `here
+>> +<https://cgit.freedesktop.org/drm/drm-xe/diff/include/uapi/drm/xe_drm.h?h=drm-xe-next&id=9cb016ebbb6a275f57b1cb512b95d5a842391ad7>`_. 
+>>
+>> +
+>> +KMD implementation details
+>> +==========================
+>> +
+>> +Error state saving
+>> +__________________
+>> +Open: When the VM_BIND IOCTL returns an error, some or even parts of
+>> +an operation may have been completed. If the IOCTL is restarted, in
+>> +order to know where to restart, the KMD can either put the gpu_vm in
+>> +an error state and save one instance of the needed restart state
+>> +internally. In this case, KMD needs to block further modifications of
+>> +the gpu_vm state that may cause additional failures requiring a
+>> +restart state save, until the error has been fully resolved. If the
+>> +uAPI instead defines a pointer to a UMD allocated cookie in the IOCTL
+>> +struct, it could also choose to store the restart state in that cookie.
+>> +
+>> +The restart state may, for example, be the number of successfully
+>> +completed operations.
+>> +
+>> +Easiest for UMD would of course be if KMD did a full unwind on error
+>> +so that no error state needs to be saved.
+>> diff --git a/Documentation/gpu/rfc/xe.rst b/Documentation/gpu/rfc/xe.rst
+>> index 2516fe141db6..0f062e1346d2 100644
+>> --- a/Documentation/gpu/rfc/xe.rst
+>> +++ b/Documentation/gpu/rfc/xe.rst
+>> @@ -138,8 +138,8 @@ memory fences. Ideally with helper support so 
+>> people don't get it wrong in all
+>>   possible ways.
+>>     As a key measurable result, the benefits of ASYNC VM_BIND and a 
+>> discussion of
+>> -various flavors, error handling and a sample API should be 
+>> documented here or in
+>> -a separate document pointed to by this document.
+>> +various flavors, error handling and sample API suggestions are 
+>> documented in
+>> +Documentation/gpu/drm-vm-bind-async.rst
+>>     Userptr integration and vm_bind
+>>   -------------------------------
+>
