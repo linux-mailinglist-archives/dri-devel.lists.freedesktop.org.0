@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47B577B8CC
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 14:39:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB6177B8D1
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 14:39:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B2710E1D8;
-	Mon, 14 Aug 2023 12:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFA010E1CB;
+	Mon, 14 Aug 2023 12:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC5E10E1D8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 12:39:29 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3fe501e0b4cso39708485e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 05:39:29 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB4AD10E1CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 12:39:50 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fe8242fc4dso34773395e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 05:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692016768; x=1692621568;
+ d=linaro.org; s=google; t=1692016789; x=1692621589;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=hpbSxgw45nAC+tlCwInuCfzL+dDo7dZHHtU0fZD2iC0=;
- b=IoW1+2NrVx8aip98rgcobGKSGktEsYQ9ZsJKE5JQpOqli6yihZaiU4ntnuS2HyBV03
- gccBRoOmmjJluQzeG0jxu40zyQ72XG732bhwXAIDlacdBJT0QI/CPUj8U3/oaPCrX9Wu
- 3Z0ytBSAvCuda3dsjxpkuhmbwQhIRG99+ta0+v6mMv1RI+v7lJMtY4KBdUQfTqTjx2K7
- 26uQX0qSkCyM3Fv62qnYVOwaNFq+GD7aVKUoztMoeU3PQBk0Y6YnfTEMnKGS2ZSaiszQ
- 7glXDDMbx8JJezPJBrpb0OL+r4szdgSDtP9v3CJEoFIcglG9zLvZr3ykbXFpsw6GxJSZ
- P+BA==
+ :reply-to; bh=MaW4bORmwFdLBeozTIiRBmy0rVkdPjQDOyBPETHjUOc=;
+ b=hEJNdeug2ZTgRi2Dc7CDYT1/LUEvAL/EhtH58drTb32MyoUFaKuk+cBG4xVH7G4eJ1
+ Bt+qkTRJngb0f5VSVTDWfrYurjckxqvDaK0pZHLZ4VI+xuAEMQmk7hHNF5qYnphyIc1/
+ 3ke0JiA5EGaMs/helu7sfq2dnNOxL1+ghmkkAVon8nHbhTa3OaFyE1+Ww3QHuUuIw/vo
+ SqAhy/vtRb6x4TFWVXEx5JZ4oK/SJnmtBNvHF1ahRokAYSZ9NebD9kJzMM+WcgkMv5iU
+ dQ7lWNZh/vJWEtu4o8xKBlyjJKn5U0zwRzlrQWb2P6fKvDHvYc8zFkLcZL+xrPbg1WzH
+ uBug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692016768; x=1692621568;
+ d=1e100.net; s=20221208; t=1692016789; x=1692621589;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=hpbSxgw45nAC+tlCwInuCfzL+dDo7dZHHtU0fZD2iC0=;
- b=K5OK/Um53hdJM+LxLh/jwwqaeJCcqiEvRJ6S3eYkTjeNOwfHJY71lD4HsTFSM0VIgT
- woBPABm6LGmtHGdEJAhB19z0ifm5+Xsmg9GFf6K7WUV+LExQU+XBYhhKwja5Zdokvq3H
- Erw5NE7uOkdnuHCFBkGCMZRl9TjWDi8uqhSr3eRZP+Yk+ztuGzluZ018z7wuusOuxUPH
- unA3GCSppc2wRR255jWbQdU+EblpT/EmVGbbtKtwDmwEWvB+y0fLA3tiX7wB9HA6EatQ
- bfFc0zjJ4KKGzRf2QBs361Wi0aFHOm+V/LawlTVf0I7wQ32p+INr5x099PtlpMV4lGMY
- Mbaw==
-X-Gm-Message-State: AOJu0YwNw3Hkgg7iXDa2xCsB9+iSPheD8MlCgR+dq1WGYKIT7UXJLPHZ
- 7CqV6dLl+AGz7t1i34Elivt03w==
-X-Google-Smtp-Source: AGHT+IFBM6qBD5Z8etFJth9xYWuZU2OYq9ybL//WTaViCH9Z1q6IDQJ0cv18+s90O1Lagv3qwTg1VA==
-X-Received: by 2002:a05:600c:3787:b0:3fe:89be:cd3 with SMTP id
- o7-20020a05600c378700b003fe89be0cd3mr6579845wmr.22.1692016767877; 
- Mon, 14 Aug 2023 05:39:27 -0700 (PDT)
+ bh=MaW4bORmwFdLBeozTIiRBmy0rVkdPjQDOyBPETHjUOc=;
+ b=AIAALH5l+JheeEpSBCFlEczR/2cacsJkgp2GXkZs8FHPJ3iiGl+gvn8Xay0L3bDoik
+ YkFlpagkiC69Jr2gaFH3lj42UVm+FshuBDU31KS5+J2UxXKAw1zu79sZ2X0cgyFFi7/V
+ c9P1Pwf/IZQQ1fYB5m/azIa3GekVco8H7EW7qAsJcDpn9MIK4AH4+mTcSCJUr/LY9k9G
+ qjoxzXgZyU0PiAc2APXo+1uMhgKBFwFc/oxCOeYvLnz7k+2Xyi96laulSzeSwyXqAbVH
+ 1JBr4nLkZJ99aSQg5tF09SwNaXwIHp0Se+zOyQnXbunX1bvJ5KY8WRm7/Qe+JJTGsbZY
+ 48qA==
+X-Gm-Message-State: AOJu0YzhiNWgqZY0KWKS9evVokgNysM0aOtBUwucUBFIW5SZ5O4oBKS/
+ oeEB4WG7AduanhF8Te1GRLay5g==
+X-Google-Smtp-Source: AGHT+IFLoMvOszpMHBwo1mQ1xr/E3a7hFhmXRDVqgNS4e1intI14cCpMXKnb+Pu1ZD0N9Utc7RWurA==
+X-Received: by 2002:a05:600c:2197:b0:3fb:b56b:470f with SMTP id
+ e23-20020a05600c219700b003fbb56b470fmr7194256wme.14.1692016789103; 
+ Mon, 14 Aug 2023 05:39:49 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0?
  ([2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0])
  by smtp.gmail.com with ESMTPSA id
- v14-20020a1cf70e000000b003fe24441e23sm14193823wmh.24.2023.08.14.05.39.26
+ v14-20020a1cf70e000000b003fe24441e23sm14193823wmh.24.2023.08.14.05.39.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Aug 2023 05:39:27 -0700 (PDT)
-Message-ID: <fa5d2936-93db-4965-be6d-1b6cdaee2755@linaro.org>
-Date: Mon, 14 Aug 2023 14:39:26 +0200
+ Mon, 14 Aug 2023 05:39:48 -0700 (PDT)
+Message-ID: <e6024f7e-a7b7-41d9-a949-ac0a72e2512e@linaro.org>
+Date: Mon, 14 Aug 2023 14:39:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 2/2] drm/panel: simple: Add support for Mitsubishi
- AA084XE01
+Subject: Re: [PATCH] drm/panel: JDI LT070ME05000 drop broken link
 Content-Language: en-US
-To: Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>
-References: <20230807123138.67443-1-miquel.raynal@bootlin.com>
- <20230807123138.67443-2-miquel.raynal@bootlin.com>
+To: David Heidelberg <david@ixit.cz>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230812183404.374718-1-david@ixit.cz>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -89,7 +88,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20230807123138.67443-2-miquel.raynal@bootlin.com>
+In-Reply-To: <20230812183404.374718-1-david@ixit.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,83 +104,36 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, Conor Dooley <conor.dooley@microchip.com>,
- Rob Herring <robh+dt@kernel.org>, Thomas Weber <thomas.weber@corscience.de>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/08/2023 14:31, Miquel Raynal wrote:
-> From: Thomas Weber <thomas.weber@corscience.de>
+On 12/08/2023 20:34, David Heidelberg wrote:
+> Link is no longer functional and web.archive.org doesn't provide PDF
+> with detail information.
 > 
-> Add support for the Mitsubishi AA084XE01 panel which is an 8.4 inch XGA
-> TFT-LCD module for industrial use.
+> Some informations can be found from web.archive.org here:
+> https://web.archive.org/web/20170629205602/http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
 > 
-> Link: https://www.mouser.fr/datasheet/2/274/aa084xe01_e-364171.pdf
-> Signed-off-by: Thomas Weber <thomas.weber@corscience.de>
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
+>   drivers/gpu/drm/panel/panel-jdi-lt070me05000.c | 4 ----
+>   1 file changed, 4 deletions(-)
 > 
-> Changes in v4:
-> * None.
-> 
-> Changes in v3:
-> * Fix connector type.
-> 
-> Changes in v2:
-> * Add connector type and bus flags.
-> 
->   drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
->   1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index a247a0e7c799..e498a40e1f78 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -2763,6 +2763,32 @@ static const struct panel_desc mitsubishi_aa070mc01 = {
->   	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
->   };
+> diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+> index 213008499caa..f9a69f347068 100644
+> --- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+> +++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
+> @@ -5,10 +5,6 @@
+>    *
+>    * Copyright (C) 2016 Linaro Ltd
+>    * Author: Sumit Semwal <sumit.semwal@linaro.org>
+> - *
+> - * From internet archives, the panel for Nexus 7 2nd Gen, 2013 model is a
+> - * JDI model LT070ME05000, and its data sheet is at:
+> - * http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
+>    */
 >   
-> +static const struct drm_display_mode mitsubishi_aa084xe01_mode = {
-> +	.clock = 56234,
-> +	.hdisplay = 1024,
-> +	.hsync_start = 1024 + 24,
-> +	.hsync_end = 1024 + 24 + 63,
-> +	.htotal = 1024 + 24 + 63 + 1,
-> +	.vdisplay = 768,
-> +	.vsync_start = 768 + 3,
-> +	.vsync_end = 768 + 3 + 6,
-> +	.vtotal = 768 + 3 + 6 + 1,
-> +	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
-> +};
-> +
-> +static const struct panel_desc mitsubishi_aa084xe01 = {
-> +	.modes = &mitsubishi_aa084xe01_mode,
-> +	.num_modes = 1,
-> +	.bpc = 8,
-> +	.size = {
-> +		.width = 1024,
-> +		.height = 768,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB565_1X16,
-> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-> +};
-> +
->   static const struct display_timing multi_inno_mi0700s4t_6_timing = {
->   	.pixelclock = { 29000000, 33000000, 38000000 },
->   	.hactive = { 800, 800, 800 },
-> @@ -4286,6 +4312,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "mitsubishi,aa070mc01-ca1",
->   		.data = &mitsubishi_aa070mc01,
-> +	}, {
-> +		.compatible = "mitsubishi,aa084xe01",
-> +		.data = &mitsubishi_aa084xe01,
->   	}, {
->   		.compatible = "multi-inno,mi0700s4t-6",
->   		.data = &multi_inno_mi0700s4t_6,
+>   #include <linux/backlight.h>
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
