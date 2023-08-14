@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9CD77B19D
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 08:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F2F77B261
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0233E10E116;
-	Mon, 14 Aug 2023 06:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3666D10E129;
+	Mon, 14 Aug 2023 07:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5733210E141
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 06:34:10 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 161666BE;
- Mon, 14 Aug 2023 08:32:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1691994777;
- bh=/DYEn30+6HEozQkj6O3O6Do0eZsx6OSvvF348Fw4750=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dorz4o2gnoAbS/qairEhmdNGqWIxg5BzJSB292xN4A8/axFaqsCtVtXT3mp2CnkNy
- +DybRrmnq+3kzQyiTd8prmF15Deqhohspc5l3HRrYciLDCN6czA7yHz8WAcp1xawxF
- RHE1T6oikUomo0PhxwxsOhcVShok89ZHl8zZUjOY=
-Message-ID: <52151daa-90af-a6c0-9b03-f69081321253@ideasonboard.com>
-Date: Mon, 14 Aug 2023 09:34:04 +0300
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 999A210E077;
+ Mon, 14 Aug 2023 07:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1691998010; x=1723534010;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=5mB685TMqnywZWJpaoTuMK9CKZJvbZb4EVjI2N4hKMg=;
+ b=JzEyz48HAoSqV3VvzT7wQw3RFMZZy5uGLC2vQCDJrowkmbxIPHsfSrZ+
+ p5clZ/wmKp3HYYAqHhtsK2Q7Mg7Zss81WVfT6Tb22ParLTSW6utflXEtI
+ f24Xb/jeUEjLQVdjb+Xph8qys7ljpB/PLuX4OHj1g54ezcaJuGsdQTLR/
+ u28bWO7BHvpg7XGRuZoq1YEkmswJblIQ5E6r0rAHfbyqhAhR7+7JK3yqg
+ PN92IYENI1aZDbUTUcGghSLEbwGFr7wBa040FS80G5BMioBqunmZE3z0b
+ jojyBgH10HW2RKtS43EirJUfKy/ss/eEPCSWeqWgqmLtnvsM/qiN2OVcM w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="356945410"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; d="scan'208";a="356945410"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2023 00:26:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="856986999"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; d="scan'208";a="856986999"
+Received: from pameiner-mobl2.amr.corp.intel.com (HELO localhost)
+ ([10.252.51.125])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2023 00:26:47 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Wang Jinchao <wangjinchao@xfusion.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915: Fix Kconfig error for CONFIG_DRM_I915
+In-Reply-To: <ZNdOoHvIg7HXh7Gg@fedora>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <ZNdOoHvIg7HXh7Gg@fedora>
+Date: Mon, 14 Aug 2023 10:26:45 +0300
+Message-ID: <87o7jaythm.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 02/11] drm/bridge: tc358768: Fix bit updates
-To: Maxim Schwalm <maxim.schwalm@gmail.com>,
- =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco@dolcini.it>
-References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
- <20230804-tc358768-v1-2-1afd44b7826b@ideasonboard.com>
- <cd5d39a2-4f4c-419a-8137-d2719135e205@gmail.com>
- <241937b4-1ef8-abad-7c4a-b26bfab86a3a@ideasonboard.com>
- <92396880-edb5-d8e0-4fcf-54aeaa2b40d7@gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <92396880-edb5-d8e0-4fcf-54aeaa2b40d7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,80 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: stone.xulei@xfusion.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/08/2023 03:23, Maxim Schwalm wrote:
-> Hi,
-> 
-> On 11.08.23 19:02, Tomi Valkeinen wrote:
->> On 11/08/2023 19:23, Péter Ujfalusi wrote:
->>>
->>>
->>> On 04/08/2023 13:44, Tomi Valkeinen wrote:
->>>> The driver has a few places where it does:
->>>>
->>>> if (thing_is_enabled_in_config)
->>>> 	update_thing_bit_in_hw()
->>>>
->>>> This means that if the thing is _not_ enabled, the bit never gets
->>>> cleared. This affects the h/vsyncs and continuous DSI clock bits.
->>>
->>> I guess the idea was to keep the reset value unless it needs to be flipped.
->>>
->>>>
->>>> Fix the driver to always update the bit.
->>>>
->>>> Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/gpu/drm/bridge/tc358768.c | 13 +++++++------
->>>>    1 file changed, 7 insertions(+), 6 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
->>>> index bc97a837955b..b668f77673c3 100644
->>>> --- a/drivers/gpu/drm/bridge/tc358768.c
->>>> +++ b/drivers/gpu/drm/bridge/tc358768.c
->>>> @@ -794,8 +794,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->>>>    		val |= BIT(i + 1);
->>>>    	tc358768_write(priv, TC358768_HSTXVREGEN, val);
->>>>    
->>>> -	if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
->>>> -		tc358768_write(priv, TC358768_TXOPTIONCNTRL, 0x1);
->>>> +	tc358768_write(priv, TC358768_TXOPTIONCNTRL,
->>>> +		       (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) ? 0 : BIT(0));
->>>>    
->>>>    	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
->>>>    	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
->>>> @@ -861,11 +861,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
->>>>    	tc358768_write(priv, TC358768_DSI_HACT, hact);
->>>>    
->>>>    	/* VSYNC polarity */
->>>> -	if (!(mode->flags & DRM_MODE_FLAG_NVSYNC))
->>>> -		tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5), BIT(5));
->>>> +	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5),
->>>> +			     (mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIT(5) : 0);
->>>
->>> Was this the reverse before and should be:
->>> (mode->flags & DRM_MODE_FLAG_PVSYNC) ? 0 : BIT(5)
->>
->> Bit 5 is 1 for active high vsync polarity. The test was previously
->> !nvsync, i.e. the same as pvsync.
-> 
-> this statement doesn't seem to be true, since this change causes a
-> regression on the Asus TF700T. Apparently, !nvsync is true and pvsync is
-> false in the present case.
+On Sat, 12 Aug 2023, Wang Jinchao <wangjinchao@xfusion.com> wrote:
+> When CONFIG_DRM_I915 is set to 'y' and CONFIG_BACKLIGHT_CLASS_DEVICE
+> is set to 'm', we encountered an ld.lld error during the build process:
+>
+> 	ld.lld: error: undefined symbol: backlight_device_get_by_name
+> 	>>> referenced by intel_backlight.c:955
+> 	>>>               vmlinux.o:(intel_backlight_device_register)
+>
+> 	ld.lld: error: undefined symbol: backlight_device_register
+> 	>>> referenced by intel_backlight.c:971
+> 	>>>               vmlinux.o:(intel_backlight_device_register)
+>
+> 	ld.lld: error: undefined symbol: backlight_device_unregister
+> 	>>> referenced by intel_backlight.c:999
+> 	>>>               vmlinux.o:(intel_backlight_device_unregister)
+>
+> This issue occurred because intel_backlight_device_register and
+> intel_backlight_device_unregister were enclosed within
+> However, according to Kconfig, CONFIG_DRM_I915 will select
+> BACKLIGHT_CLASS_DEVICE only if ACPI is enabled.
+> This led to an error, which can be resolved by removing the
+> conditional statements related to ACPI.
 
-panasonic_vvx10f004b00_mode in panel_simple.c doesn't seem to have mode 
-flags set. I would say that means the panel doesn't care about the sync 
-polarities (which obviously is not the case), but maybe there's an 
-assumption that if sync polarities are not set, the default is... 
-positive? But I can't find any mention about this.
+The real fix is to use
 
-Does it work for you if you set the polarities in 
-panasonic_vvx10f004b00_mode?
+	depends on BACKLIGHT_CLASS_DEVICE || BACKLIGHT_CLASS_DEVICE=n
 
-  Tomi
+but in order to do that, you need to change a lot of places to depend
+on, not select BACKLIGHT_CLASS_DEVICE, because otherwise you end up with
+other dependency issues.
 
+BR,
+Jani.
+
+>
+> Signed-off-by: Wang Jinchao <wangjinchao@xfusion.com>
+> ---
+>  drivers/gpu/drm/i915/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+> index 01b5a8272a27..5003de921bf7 100644
+> --- a/drivers/gpu/drm/i915/Kconfig
+> +++ b/drivers/gpu/drm/i915/Kconfig
+> @@ -24,7 +24,7 @@ config DRM_I915
+>  	select IRQ_WORK
+>  	# i915 depends on ACPI_VIDEO when ACPI is enabled
+>  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
+> -	select BACKLIGHT_CLASS_DEVICE if ACPI
+> +	select BACKLIGHT_CLASS_DEVICE
+>  	select INPUT if ACPI
+>  	select X86_PLATFORM_DEVICES if ACPI
+>  	select ACPI_WMI if ACPI
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
