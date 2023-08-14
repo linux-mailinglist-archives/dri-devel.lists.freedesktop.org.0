@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB6177B8D1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 14:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDC577B8D2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 14:40:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFA010E1CB;
-	Mon, 14 Aug 2023 12:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D716510E1DD;
+	Mon, 14 Aug 2023 12:40:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4AD10E1CB
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 12:39:50 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3fe8242fc4dso34773395e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 05:39:50 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39AA610E1DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 12:40:08 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3fea0640d88so4139985e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 05:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692016789; x=1692621589;
+ d=linaro.org; s=google; t=1692016806; x=1692621606;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=MaW4bORmwFdLBeozTIiRBmy0rVkdPjQDOyBPETHjUOc=;
- b=hEJNdeug2ZTgRi2Dc7CDYT1/LUEvAL/EhtH58drTb32MyoUFaKuk+cBG4xVH7G4eJ1
- Bt+qkTRJngb0f5VSVTDWfrYurjckxqvDaK0pZHLZ4VI+xuAEMQmk7hHNF5qYnphyIc1/
- 3ke0JiA5EGaMs/helu7sfq2dnNOxL1+ghmkkAVon8nHbhTa3OaFyE1+Ww3QHuUuIw/vo
- SqAhy/vtRb6x4TFWVXEx5JZ4oK/SJnmtBNvHF1ahRokAYSZ9NebD9kJzMM+WcgkMv5iU
- dQ7lWNZh/vJWEtu4o8xKBlyjJKn5U0zwRzlrQWb2P6fKvDHvYc8zFkLcZL+xrPbg1WzH
- uBug==
+ :reply-to; bh=rPY+jEXhrjcjJjgPf7QBsv25ZrENh0KuhnzLi48FeUE=;
+ b=OekTk5KXyYJdvEt2nZom//pEkAn+1z1/7Z7tdpH7IQ4Uv98uMNQHSe1WmZN/EOH/Mz
+ kGYjVKrZb/eZb00QbdKioR6Y1PWO4iiDLGPUWI+nPjpNfkuAOZM0k3dJityEHst4qgJi
+ ixbpSxIyObrhR6gWe01jvC+0RaeX33oRoG8eTpDpmGnOMzsf4rNgikeFENKdnSpR2zqH
+ lvO53OJlHkeMdbdiU15RGkacUVIJ8F/zWI1H/gGUtPNX3J01ZlIYLVZvgZD01el4DpN9
+ qr7UJEQhXxs41mA+m9XaS+DzR0GIaTt/m5RkaPxGmzCbYJAys9AOfA++Zrr7h4ZyuBVv
+ +iZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692016789; x=1692621589;
+ d=1e100.net; s=20221208; t=1692016806; x=1692621606;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=MaW4bORmwFdLBeozTIiRBmy0rVkdPjQDOyBPETHjUOc=;
- b=AIAALH5l+JheeEpSBCFlEczR/2cacsJkgp2GXkZs8FHPJ3iiGl+gvn8Xay0L3bDoik
- YkFlpagkiC69Jr2gaFH3lj42UVm+FshuBDU31KS5+J2UxXKAw1zu79sZ2X0cgyFFi7/V
- c9P1Pwf/IZQQ1fYB5m/azIa3GekVco8H7EW7qAsJcDpn9MIK4AH4+mTcSCJUr/LY9k9G
- qjoxzXgZyU0PiAc2APXo+1uMhgKBFwFc/oxCOeYvLnz7k+2Xyi96laulSzeSwyXqAbVH
- 1JBr4nLkZJ99aSQg5tF09SwNaXwIHp0Se+zOyQnXbunX1bvJ5KY8WRm7/Qe+JJTGsbZY
- 48qA==
-X-Gm-Message-State: AOJu0YzhiNWgqZY0KWKS9evVokgNysM0aOtBUwucUBFIW5SZ5O4oBKS/
- oeEB4WG7AduanhF8Te1GRLay5g==
-X-Google-Smtp-Source: AGHT+IFLoMvOszpMHBwo1mQ1xr/E3a7hFhmXRDVqgNS4e1intI14cCpMXKnb+Pu1ZD0N9Utc7RWurA==
-X-Received: by 2002:a05:600c:2197:b0:3fb:b56b:470f with SMTP id
- e23-20020a05600c219700b003fbb56b470fmr7194256wme.14.1692016789103; 
- Mon, 14 Aug 2023 05:39:49 -0700 (PDT)
+ bh=rPY+jEXhrjcjJjgPf7QBsv25ZrENh0KuhnzLi48FeUE=;
+ b=lamQ5o6iAO5FXL0AlIRRW9q7fedoDB9exF67lpyqBkI6wY4lAeDG76396RttdY5+sO
+ jkUScF7uIF9P6l60w9exBM3SSrVuvGDcIzij+ntSWjzPYIL7QrAuW9ZufozMhpFDJEvh
+ xar5OVsmzr2Nukp7HCR++w7QHxoA3uT7SJk7Doo4TWXD094dF/OI78lcZAZdpIJFVh2I
+ DmjX83kJqzn9BbWdDk84UAamGFWORbqsP3bzKUrCCeA92Qs/d7e/H2I10Z+ocPUWMkxW
+ lZPeYyTeoLfAvjM8O6tGpkKSItTwX7R7ZUROuw5vxZpnW1qLt12eqvdDo7LrSF6FIEJ/
+ wI6Q==
+X-Gm-Message-State: AOJu0YwzBu4fP2DMSrdnkmwqvc2PgL4xUV2stzUnAi97pnVKT6TjoQIU
+ y8KMvQwg1D4848uDt6yy984n3Q==
+X-Google-Smtp-Source: AGHT+IESQmxYAQ8invo+LuS7mk45cJFiPtXV3GC3mIfli1/teCY1sJQhbbarUG1utFPIMFPDdu9srg==
+X-Received: by 2002:a05:600c:259:b0:3fe:2102:8083 with SMTP id
+ 25-20020a05600c025900b003fe21028083mr6801544wmj.26.1692016806660; 
+ Mon, 14 Aug 2023 05:40:06 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0?
  ([2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0])
  by smtp.gmail.com with ESMTPSA id
- v14-20020a1cf70e000000b003fe24441e23sm14193823wmh.24.2023.08.14.05.39.48
+ v14-20020a1cf70e000000b003fe24441e23sm14193823wmh.24.2023.08.14.05.40.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Aug 2023 05:39:48 -0700 (PDT)
-Message-ID: <e6024f7e-a7b7-41d9-a949-ac0a72e2512e@linaro.org>
-Date: Mon, 14 Aug 2023 14:39:48 +0200
+ Mon, 14 Aug 2023 05:40:06 -0700 (PDT)
+Message-ID: <b5878783-303c-410a-8542-3000e214bf78@linaro.org>
+Date: Mon, 14 Aug 2023 14:40:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: JDI LT070ME05000 drop broken link
+Subject: Re: [RESEND PATCH v2] drm/panel: JDI LT070ME05000 simplify with
+ dev_err_probe()
 Content-Language: en-US
 To: David Heidelberg <david@ixit.cz>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230812183404.374718-1-david@ixit.cz>
+References: <20230812185239.378582-1-david@ixit.cz>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -88,7 +89,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20230812183404.374718-1-david@ixit.cz>
+In-Reply-To: <20230812185239.378582-1-david@ixit.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,32 +109,80 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/08/2023 20:34, David Heidelberg wrote:
-> Link is no longer functional and web.archive.org doesn't provide PDF
-> with detail information.
+On 12/08/2023 20:52, David Heidelberg wrote:
+> Use the dev_err_probe() helper to simplify error handling during probe.
+> This also handle scenario, when EDEFER is returned and useless error is printed.
 > 
-> Some informations can be found from web.archive.org here:
-> https://web.archive.org/web/20170629205602/http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
+> Fixes error:
+> panel-jdi-lt070me05000 4700000.dsi.0: cannot get enable-gpio -517
 > 
 > Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
->   drivers/gpu/drm/panel/panel-jdi-lt070me05000.c | 4 ----
->   1 file changed, 4 deletions(-)
+> resend:
+>   - applies cleanly on -next
+> v2:
+>   - original v1 patch name "drm/panel: JDI LT070ME05000 remove useless warning"
+>   - use dev_err_probe function
+> 
+>   .../gpu/drm/panel/panel-jdi-lt070me05000.c    | 36 ++++++++-----------
+>   1 file changed, 14 insertions(+), 22 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> index 213008499caa..f9a69f347068 100644
+> index e94c98f00391..f9a69f347068 100644
 > --- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
 > +++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> @@ -5,10 +5,6 @@
->    *
->    * Copyright (C) 2016 Linaro Ltd
->    * Author: Sumit Semwal <sumit.semwal@linaro.org>
-> - *
-> - * From internet archives, the panel for Nexus 7 2nd Gen, 2013 model is a
-> - * JDI model LT070ME05000, and its data sheet is at:
-> - * http://panelone.net/en/7-0-inch/JDI_LT070ME05000_7.0_inch-datasheet
->    */
+> @@ -400,38 +400,30 @@ static int jdi_panel_add(struct jdi_panel *jdi)
 >   
->   #include <linux/backlight.h>
+>   	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(jdi->supplies),
+>   				      jdi->supplies);
+> -	if (ret < 0) {
+> -		dev_err(dev, "failed to init regulator, ret=%d\n", ret);
+> -		return ret;
+> -	}
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret,
+> +				     "failed to init regulator, ret=%d\n", ret);
+>   
+>   	jdi->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+>   	if (IS_ERR(jdi->enable_gpio)) {
+> -		ret = PTR_ERR(jdi->enable_gpio);
+> -		dev_err(dev, "cannot get enable-gpio %d\n", ret);
+> -		return ret;
+> +		return dev_err_probe(dev, PTR_ERR(jdi->enable_gpio),
+> +				     "cannot get enable-gpio %d\n", ret);
+>   	}
+>   
+>   	jdi->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> -	if (IS_ERR(jdi->reset_gpio)) {
+> -		ret = PTR_ERR(jdi->reset_gpio);
+> -		dev_err(dev, "cannot get reset-gpios %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(jdi->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(jdi->reset_gpio),
+> +				     "cannot get reset-gpios %d\n", ret);
+>   
+>   	jdi->dcdc_en_gpio = devm_gpiod_get(dev, "dcdc-en", GPIOD_OUT_LOW);
+> -	if (IS_ERR(jdi->dcdc_en_gpio)) {
+> -		ret = PTR_ERR(jdi->dcdc_en_gpio);
+> -		dev_err(dev, "cannot get dcdc-en-gpio %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(jdi->dcdc_en_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(jdi->dcdc_en_gpio),
+> +				     "cannot get dcdc-en-gpio %d\n", ret);
+>   
+>   	jdi->backlight = drm_panel_create_dsi_backlight(jdi->dsi);
+> -	if (IS_ERR(jdi->backlight)) {
+> -		ret = PTR_ERR(jdi->backlight);
+> -		dev_err(dev, "failed to register backlight %d\n", ret);
+> -		return ret;
+> -	}
+> +	if (IS_ERR(jdi->backlight))
+> +		return dev_err_probe(dev, PTR_ERR(jdi->backlight),
+> +				     "failed to register backlight %d\n", ret);
+>   
+>   	drm_panel_init(&jdi->base, &jdi->dsi->dev, &jdi_panel_funcs,
+>   		       DRM_MODE_CONNECTOR_DSI);
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
