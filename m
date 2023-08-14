@@ -1,52 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D161E77B625
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 12:11:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064C777B669
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 12:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6700710E197;
-	Mon, 14 Aug 2023 10:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0067F10E196;
+	Mon, 14 Aug 2023 10:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org
- [IPv6:2001:67c:2050:0:465::201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6625C10E196;
- Mon, 14 Aug 2023 10:11:47 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4RPVYW6kb9z9shD;
- Mon, 14 Aug 2023 12:11:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1692007903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eRmekkgzYD+ywS0c9zPB8cc4nrdPTbQZm63uTZVZSHY=;
- b=f/y5bHDQs/AO8BpFCZNWo7L/AsZywOE2HEm/AqCzLvcmVXHVMGdlco5KE914O1JLyjeYyF
- NoFl/bJ4tWra/C9n/n1aPlEtl0GH1dybmNgAsRR4TOxlab2robBUY+DPICkg5K/S7w9amB
- WcKYL78aLdy4nJTCmTQzykXyNwBPRYKH4MGHWOYVBhMGSca8ABOYIpyHMHv7jcrnYsZi5i
- pOQPpC1TfXqdEH2BnE/tIym4UtA3tE5yatUp2yrQ+RjSH27vMqm4C+XZMhzTzhbh9MwJBC
- 16CHfuyFFUgmWAJhwkdLnsPrRvRKeZX7M5P6l/wuP2yrrOD88Ginp/62eIy7qw==
-Message-ID: <8e560379-4bdc-a3f0-591a-435833bfacda@mailbox.org>
-Date: Mon, 14 Aug 2023 12:11:35 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6055C10E196
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 10:17:44 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8254F6BE;
+ Mon, 14 Aug 2023 12:16:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1692008191;
+ bh=+tNL4NQA0CoBOCXHjja5RO3urDrFcvaNCJTMS8guwcY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EzctgWqnagqN8IGEy/u7xkW4p3ki+DpVeJoONsRnBXdloH6uhY0XlmAeUJsz2Q8Bh
+ YZRNvFlGcKEb4l8vk58h71jwZ4NLrFcofw4jMPUz9zcB1WUMYiocfErE5pcXRWBSYZ
+ kEIRuihUgGsvTYMr7HAjpdl0oo8jAEfgmJPmLaFs=
+Date: Mon, 14 Aug 2023 13:17:50 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 11/11] drm/bridge: tc358768: Add
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR support
+Message-ID: <20230814101750.GA5723@pendragon.ideasonboard.com>
+References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
+ <20230804-tc358768-v1-11-1afd44b7826b@ideasonboard.com>
+ <e857d383-2287-a985-24c5-fa1fff1da199@gmail.com>
+ <0855d804-3ba3-4f29-32b1-bab3b999e506@ideasonboard.com>
+ <20230814101041.GA277347@ravnborg.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6] drm/doc: Document DRM device reset expectations
-Content-Language: de-CH-frami, en-CA
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230811185508.252194-1-andrealmeid@igalia.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <20230811185508.252194-1-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: qjyhhe5pbxmotxcc3nc413xfdj3mkqrm
-X-MBO-RS-ID: 1b65540c5e13e99182b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230814101041.GA277347@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +51,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- Pekka Paalanen <ppaalanen@gmail.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?utf-8?B?UMOpdGVy?= Ujfalusi <peter.ujfalusi@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Maxim Schwalm <maxim.schwalm@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Francesco Dolcini <francesco@dolcini.it>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/11/23 20:55, André Almeida wrote:
-> Create a section that specifies how to deal with DRM device resets for
-> kernel and userspace drivers.
+On Mon, Aug 14, 2023 at 12:10:41PM +0200, Sam Ravnborg wrote:
+> > From c13c691bd8826b978325575be9a87f577b83b86b Mon Sep 17 00:00:00 2001
+> > From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Date: Mon, 14 Aug 2023 13:02:23 +0300
+> > Subject: [PATCH] drm/bridge: tc358768: fix 'Add DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> >  support'
+> > 
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/bridge/tc358768.c | 56 +++++++++++++------------------
+> >  1 file changed, 24 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
+> > index 82ea4d9a814a..9705ce1bd028 100644
+> > --- a/drivers/gpu/drm/bridge/tc358768.c
+> > +++ b/drivers/gpu/drm/bridge/tc358768.c
+> > @@ -455,8 +455,6 @@ static int tc358768_dsi_host_detach(struct mipi_dsi_host *host,
+> >  	struct tc358768_priv *priv = dsi_host_to_tc358768(host);
+> >  
+> >  	drm_bridge_remove(&priv->bridge);
+> > -	if (priv->output.panel)
+> > -		drm_panel_bridge_remove(priv->output.next_bridge);
+> >  
+> >  	return 0;
+> >  }
+> > @@ -531,49 +529,42 @@ static int tc358768_bridge_attach(struct drm_bridge *bridge,
+> >  				  enum drm_bridge_attach_flags flags)
+> >  {
+> >  	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+> > +	struct drm_bridge *next_bridge;
+> > +	struct drm_panel *panel;
+> > +	int ret;
+> >  
+> >  	if (!drm_core_check_feature(bridge->dev, DRIVER_ATOMIC)) {
+> >  		dev_err(priv->dev, "needs atomic updates support\n");
+> >  		return -ENOTSUPP;
+> >  	}
+> >  
+> > -	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
+> > -		struct device_node *node;
+> > -
+> > -		/* Get the next bridge, connected to port@1. */
+> > -		node = of_graph_get_remote_node(priv->dev->of_node, 1, -1);
+> > -		if (!node)
+> > -			return -ENODEV;
+> > -
+> > -		priv->output.next_bridge = of_drm_find_bridge(node);
+> > -		of_node_put(node);
+> > -		if (!priv->output.next_bridge)
+> > -			return -EPROBE_DEFER;
+> > -	} else {
+> > -		struct drm_bridge *bridge;
+> > -		struct drm_panel *panel;
+> > -		int ret;
+> > -
+> > -		ret = drm_of_find_panel_or_bridge(priv->dev->of_node, 1, 0,
+> > -						  &panel, &bridge);
+> > -		if (ret)
+> > -			return ret;
+> > -
+> > -		if (panel) {
+> > -			bridge = drm_panel_bridge_add_typed(panel,
+> > -				DRM_MODE_CONNECTOR_DSI);
+> > -			if (IS_ERR(bridge))
+> > -				return PTR_ERR(bridge);
+> > -		}
+> > +	ret = drm_of_find_panel_or_bridge(priv->dev->of_node, 1, -1, &panel,
+> > +					  &next_bridge);
 > 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> I think the right way is to wrap the panel in a bridge,
+> so something like:
+> 
+> 	next_bridge = devm_drm_of_get_bridge(dev, priv->dev->of_node, 1, -1)
+> 
+> 	if (IS_ERR(next_bridge))
+> 		return ...
+> 	priv->output.next_bridge = next_bridge;
 
-[...]
+Should we at some point bite the bullet and wrap panels in bridges
+directly in drm_panel.c ? That would simplify all the consumers.
 
-> +Robustness
-> +----------
-> +
-> +The only way to try to keep an application working after a reset is if it
-> +complies with the robustness aspects of the graphical API that it is using.
-
-"The only way to try to keep a graphical API context working after a device reset [...]"
-
-If a graphical API context stops working properly, it doesn't necessarily mean that the application as a whole stops working.
-
+> > +	if (ret)
+> > +		return ret;
+> >  
+> > -		priv->output.next_bridge = bridge;
+> > -		priv->output.panel = panel;
+> > +	if (panel) {
+> > +		next_bridge = drm_panel_bridge_add_typed(panel,
+> > +			DRM_MODE_CONNECTOR_DSI);
+> > +		if (IS_ERR(next_bridge))
+> > +			return PTR_ERR(next_bridge);
+> >  	}
+> >  
+> > +	priv->output.next_bridge = next_bridge;
+> > +	priv->output.panel = panel;
+> > +
+> >  	return drm_bridge_attach(bridge->encoder, priv->output.next_bridge, bridge,
+> >  				 flags);
+> >  }
+> >  
+> > +void tc358768_bridge_detach(struct drm_bridge *bridge)
+> > +{
+> > +	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+> > +
+> > +	if (priv->output.panel)
+> > +		drm_panel_bridge_remove(priv->output.next_bridge);
+> > +}
+> > +
+> >  static enum drm_mode_status
+> >  tc358768_bridge_mode_valid(struct drm_bridge *bridge,
+> >  			   const struct drm_display_info *info,
+> > @@ -1156,6 +1147,7 @@ tc358768_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> >  
+> >  static const struct drm_bridge_funcs tc358768_bridge_funcs = {
+> >  	.attach = tc358768_bridge_attach,
+> > +	.detach = tc358768_bridge_detach,
+> >  	.mode_valid = tc358768_bridge_mode_valid,
+> >  	.pre_enable = tc358768_bridge_pre_enable,
+> >  	.enable = tc358768_bridge_enable,
 
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+Regards,
 
+Laurent Pinchart
