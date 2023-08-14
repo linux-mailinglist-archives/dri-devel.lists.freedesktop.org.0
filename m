@@ -1,118 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E034A77B2D8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:46:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 494F177B2DF
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B8310E141;
-	Mon, 14 Aug 2023 07:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 785A610E149;
+	Mon, 14 Aug 2023 07:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2061c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::61c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1158A10E137;
- Mon, 14 Aug 2023 07:46:13 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2425710E145;
+ Mon, 14 Aug 2023 07:47:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BbIwKUmcAtGGgGu/6+gb9X/6IsYPPqjR0rpDbGLNn746+fWRQ3Z8IbfhJ553xfkTQogacZsInmNatI03kZMM5UWwcvLC3aMUAS4sJCMKvxskyzNzVYi5zuM9A9/3LSShKM9/rMk2bBOFseFxlGxcQULVPOc+YkFQ+JrKzERrqqEre587g3qS73rD13yC5iTZJ0pXoqT9S36964h3tZ8ldt6+gGvr/8uWyE6VLrm0+2zhjnwmSowgrbMO7TPICw0QUDaTBUjA7xYdzmeSF1LWwUPWU7DqF6kNJP0KHmZdzfEJkqE81qScX+C6Si4Tv4nNTOQKPkRWr9Mt19ssDAKcfA==
+ b=KyHpqzjaEJbTRGy0g8YvJ2O9ceeCjhGp4N92lt6kOL5I35rVZhl3R+QwQJE1zFezvY+Ca/LflTeSKPwk5AaAmtdK/BNE39TIKaWaL+PvskZIxJaK/8BxsMG8rb4Ky1NnDNLrpkL5VLODIYFmgOEqaZun1+77+A6/pCZOtCTsHjTCdIC21v6ynNHJ3XvD34706L/gsleR60dMqm/aec+jtqhxTGaOYHzOA8TY07/XVgHjMiyNrRXIqwYV4JRsz4pZeAqcOzsm6Jzs07SLMgHbRL5mrpWyNx7bG6cFQUQ3VuzIOsjv7XbAQh0KvorPmjCNtth42CdVOOON5qAYLUhwNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JdFvQyk693fVqmIOaAwwFy/qgIKoizkoOGNT6QJXr9E=;
- b=YMv89hGJ8MDdfhsU40Bjn9WokzUOduQm756naeAESnV9kR0OSby1Xsc1bYa8jL46JZx/0ReLa7hPA+H2b2I/6P9BC476bKVxOoM2464cDpjxv9K8LLNlAUW8twlJqzS+lRZAjHxbO69DYTHPXQnxuYBCxV+vDcFkT8b6PUsHY8D7N8hX2FRGTOEywQnp2wDT+191x4EY7Xogp5befXxqiLDtGyj2i7XiRL2BCkqvAF/9G08/34lxboqGt6CetDk/oRGAb8rUX3VAhlPtqhUdbXwcZLkCkphB7Tgy7I+gfk9/nPWAn3Sst2RVOXZz7xroAgli0V8PgbuV+hSRxrAZqw==
+ bh=6BdtJuUwuwfwtIcoNVR/TBdg9eTbXzCDEGhbKzAXMkY=;
+ b=TRJ+W7dyd3vvptJyuWm3ZfGEzE8u622q+9vOgq2UefjeZ0rGBvEg1pfmBfF6hHMdE1nH438UKe+g7gpN6l6oTFur4gfMAqOEt6EWO1f1cPbufrpKxRVSmCwYdPQI/3FO0Rn0c589qJT4OZ0XhgG/VVGDGQygIxckK+axVO892haTy7AdGZ9ULIiLXpx74fmpoPXu8ThaRbtbG3fUD3M7I1hQJBEoHHFEIWcqteEyPRuNxG3SY4Veh1YxUisYFkL9QhQC/hHK3Hkzd57GwYf2FoIo7jHxI2OAPzt1/nP83Uh1fgc3lVp96L/IfehyvnhE86V06OCBmj1h3wlxHFOD+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JdFvQyk693fVqmIOaAwwFy/qgIKoizkoOGNT6QJXr9E=;
- b=c4+ebAWDg/+bv7cZRAE5VXirB04ZeyZahf/aQhWMfhTYf+ghiC43YgiPYMkAcTcBVj8dCeP37EBlsYZLCdnlbA3mAs5AetLpUrAqZGj01SLBsYmOes2bOJkmOIeisoeVCbLiJoeWJlrkdV0Vxo1jZAJ3DYuipwsh+kheXrTWLWI=
+ bh=6BdtJuUwuwfwtIcoNVR/TBdg9eTbXzCDEGhbKzAXMkY=;
+ b=NthudOvj5gkDk7KZnlLNqFU6t5A0CYJDge/HQamzyq8tsVmd4Ajc29dBdvwVc6MF9BOzWimZhazZ1IoAxkpFnvZJTfHJNP7ljwRX2CltKNiqY3sFQXJH3oY5LQM7q3Evjiq+5JErD5SyT341m3xIqufb1UQW2+4WWdN0vkEec7U=
 Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
  DM4PR12MB7694.namprd12.prod.outlook.com (2603:10b6:8:102::6) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6678.24; Mon, 14 Aug 2023 07:46:11 +0000
+ 15.20.6678.24; Mon, 14 Aug 2023 07:47:34 +0000
 Received: from DM6PR12MB2619.namprd12.prod.outlook.com
  ([fe80::ed2a:4807:1825:170f]) by DM6PR12MB2619.namprd12.prod.outlook.com
  ([fe80::ed2a:4807:1825:170f%5]) with mapi id 15.20.6678.022; Mon, 14 Aug 2023
- 07:46:10 +0000
+ 07:47:34 +0000
 From: "Quan, Evan" <Evan.Quan@amd.com>
 To: Simon Horman <horms@kernel.org>
-Subject: RE: [PATCH V8 2/9] drivers core: add ACPI based WBRF mechanism
- introduced by AMD
-Thread-Topic: [PATCH V8 2/9] drivers core: add ACPI based WBRF mechanism
- introduced by AMD
-Thread-Index: AQHZy13cCCFdkuqP4kWyz/74g5zCw6/k2DIAgASXm2A=
-Date: Mon, 14 Aug 2023 07:46:10 +0000
-Message-ID: <DM6PR12MB26197EFD7E9F1ACC6F52C40AE417A@DM6PR12MB2619.namprd12.prod.outlook.com>
+Subject: RE: [PATCH V8 6/9] drm/amd/pm: setup the framework to support Wifi
+ RFI mitigation feature
+Thread-Topic: [PATCH V8 6/9] drm/amd/pm: setup the framework to support Wifi
+ RFI mitigation feature
+Thread-Index: AQHZy14e3OnvhnQIWky/lZoPSxsKIK/k12uAgASYsXA=
+Date: Mon, 14 Aug 2023 07:47:33 +0000
+Message-ID: <DM6PR12MB261906B335C4490EAB5DA6B3E417A@DM6PR12MB2619.namprd12.prod.outlook.com>
 References: <20230810073803.1643451-1-evan.quan@amd.com>
- <20230810073803.1643451-3-evan.quan@amd.com> <ZNYBYuUSaio66vLN@vergenet.net>
-In-Reply-To: <ZNYBYuUSaio66vLN@vergenet.net>
+ <20230810073803.1643451-7-evan.quan@amd.com> <ZNYAuyrEWbRiHm55@vergenet.net>
+In-Reply-To: <ZNYAuyrEWbRiHm55@vergenet.net>
 Accept-Language: en-US, zh-CN
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-08-14T07:46:07Z; 
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-08-14T07:47:31Z; 
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=3e316eeb-438d-4aa2-b94f-4442fa998ea8;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=5c97aa45-4901-401b-bddc-26d30f32ed97;
  MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DM6PR12MB2619:EE_|DM4PR12MB7694:EE_
-x-ms-office365-filtering-correlation-id: f303e7c8-1a2b-4d4a-9d37-08db9c9a86fa
+x-ms-office365-filtering-correlation-id: ee8da75f-8d78-4174-23c0-08db9c9ab89b
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8GFLli7fZetMbMiR3j1ooqzc7r+Rx4K0zgrD7IeJGBNBZ2BC2EtcIh+uQLqzdlq+deSH48U7bhNdOMxGDYVjPrABs/usrxZfgPfm/hOC3foAnov2Dg7+qvS2SsFYhiNxdmjggPaSTP6V3iPZllOHxmnlJfpWqHjoeInfJedNWlSaGWtoQmNaAl6FKIcRiXRx3Xf/0nH9X2RiP7zfryKvex1Z9gNyqfd/Y27XsL1ezQzoS/8WqO0X/sMbtY/mvgXaiWbqRHqqv5SIMa8GwHz9bpfifKcKkbRPtYb5pTeSdKD9iu2lUA0KuJZrmvwznRoXH67j+dGRRz06qH4OO1587cAG88BfthxGyTLjJnC71UXjuoYdlIq7ZkwhSVcFOIaGXzP0AUBh4gEhHGf4nUHPrlih7NTHJhHZpGRJhA2j1X3MvOR/Gb6S/+NbFk337PLC5pgCBFeLSpMqag5p7dQbGBR1oJvM2xW9DORZBQZwCQqstCiPtlE2X2RHljephgCCBvKPy9ISb+9AOwJL5qo1Vk3OISxuj9uiD0I2JdG7EwPc6sVwQiutVzpixXc7ujY7DSiUoy1nR+zPPjg9rmxeg3ZSFfk0XzOhPgUF4Afzu+0lEJXWzTEsA6MQZw2l00Je
+x-microsoft-antispam-message-info: +4qHWNErIOCaJrVF/PVYCIXmKtnMBGcLpbZTdhK/gnH+PSKvlZcXL4OMTzUIpVVBEwbX949G5sHJ+EBTOKq1/s7W0DRd10EqBtTuTGSU8PIcjBwuisWuEAhwsJ6e3q48NcusIKfbLZ7EoOjgHvMK/46W9LprCzMZcLXDRHGr03Uxdj5rbx4IWaxsaFFEr5Sj6ObT9TN1iwZznvYQzFo3j0iQUF4vpRFXkYQ9SLlp2y+ooGUVdLa6cxGc1BDk9tMG4g9g4PCsoHO2JmpTveCTbcV8Z2D1J3RO8O3Yz/yhdNGGVbLeXYPMY26p9GGIVRQQZ9cnKum0aOluTnpwiv9umaiZ/H0YTrRfb0TeqYyfvk6so7Gmv8ae2GWa+qq9uZS0GQDIOdS6AYjZuYZz3kMnyUaZhFpujoqTRG/0JXeJh2IaNbqOC83QrZFkjiO4dnS6igXwo5TeenYNNyOPvEccu6KI6ZHRT9YTqMklpeKUIJc/eE9uaLZV+te7KSV5kTfK+n4WbwARlWgfjLN8wZG3EXkuaGtaQvGO97pLMmOhg+1Chfz8Osu5EDr083t3LBu8gKj83Z0vcVpKBFKJj/xQUblUaYmvwr2JkC7Fe83TajiaD0ohxMLUHEeqHwMHynHv
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230028)(346002)(136003)(396003)(366004)(376002)(39860400002)(1800799006)(186006)(451199021)(6506007)(53546011)(26005)(8936002)(41300700001)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(8676002)(316002)(9686003)(83380400001)(71200400001)(7696005)(122000001)(478600001)(38100700002)(55016003)(54906003)(33656002)(86362001)(6916009)(4326008)(5660300002)(2906002)(7416002)(38070700005)(52536014);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?T8ydrTOgW3G3EhajlAuvLaRhdCZ67Og7EOvIRl++EsZb0Txj0ga6pr48gC55?=
- =?us-ascii?Q?wu1dtmM8Rk4mdoVU+kmEDiDpPrGQdeOjBm+AIHFq4+kHYVhEPa+2sGK1FaNY?=
- =?us-ascii?Q?mTjAplBWUxq8Pf1jiu8CYr9lO+ER+zkal153L3vIVn1wUZioyIvk3ZSWwEoo?=
- =?us-ascii?Q?LCkLTql+V19G59YO7+aTAGC1HLPVmkp+9l/7buNjr+mYEVA+MIqsKK9XIwGM?=
- =?us-ascii?Q?dbk9SqTlTUNVZTLqcfuic36RPy36rRKe7p1X1N2XVu3rcVFJyZwl/smLz94i?=
- =?us-ascii?Q?90OyP726tXYU31dnFEeDjj5Oil/mFxpAyp4IsKCDhVn/vq+UjsbhDqLwEIrs?=
- =?us-ascii?Q?/jsB++QwxS9TbdgiRzNw493Kbn5jk7IdJTNmy4WmiWP2teikCUDc3onnPaVa?=
- =?us-ascii?Q?jAwbcn962Otn1r2GsbbgmMTRg5+UK4bCQCLOjNMkng0dk5ik5iirUorvpzg+?=
- =?us-ascii?Q?cA4oTJ57Nku6ZEDZtgSlJaUhz3WRWNb7klixDWFKz/uzQRTspyi1OiRUhRdk?=
- =?us-ascii?Q?5afQ3FQf1Ua3+rtdjTlPKBT3PCKfAJ6UYyDqkdb6ZneBuXj+qhA451Y9Xo61?=
- =?us-ascii?Q?v5BV1oPeyvI3fgzeGUQzkFYUoOitrLMX+0O8V0Wp37nQGtKRrv8yVLQB1QT1?=
- =?us-ascii?Q?b7sgcT2RRL9pmLE+HiEVBUEPFbC00fqAsDgETCmS/6ESz9i20Rs/Yr9158/8?=
- =?us-ascii?Q?MIiQA/BPIsOowJv1pb4fkDFuI2z/TDpozNlnPQouUL0WrzImmqhSiNREWGl4?=
- =?us-ascii?Q?E4EcMmbfExHkJ4aov58hbGqjefOfgBnjwW7GDm0O7NgpMRCKCDWYNAw09Lcs?=
- =?us-ascii?Q?xsGsaeHe25cYfCrGacVTb0ck9DYQ9JbHDVsvSKZjmg5EJgwyawdwIKg41u4E?=
- =?us-ascii?Q?DeK+X3xUpP/GAuhSr6otI3Rgmna9RWy7/ESJC4bs8YTzANTREsUL//AP8CI2?=
- =?us-ascii?Q?ulwfxUo2wjHYl8TW60Ukh0OCyuZaHz16ZBrnO+TLL5ATT2rFi4S3KpTNYqBr?=
- =?us-ascii?Q?Q/iuQQGeTzUCiy3C25VyDQePLn1XYZDxcxmuET0G3siPi/rNDWtQe0gJwAv5?=
- =?us-ascii?Q?EblfAVSgSzdSlhsCBlM735bUBlI1Pu9iE8NCosJSEoKdMQfy0DIVLVx0yBpd?=
- =?us-ascii?Q?uLjOJpDmk5oIQ6LRLU04fQAFhlmJf1DuK/VbZcZWNH7YGgHPUSfRhL+Zs/aV?=
- =?us-ascii?Q?0WPS6aPvBZPIm+WWbm2CCdxAwkr4rrV08h/jsacqZiTO4hCx7l3WOcMpFtNs?=
- =?us-ascii?Q?9FcxwYwIwD9iAZPrHjijhoxOIMZWZthwqylOrX0EVaBQrDZISP/DJv7A8X15?=
- =?us-ascii?Q?NVKBpRiOvdcsH1V4K+r0OA8/GHfQtzcH78Sk3nhY6jEV2TwI6w0qNj6jFrSV?=
- =?us-ascii?Q?elNtJZHo0WIWtL3D61kquFDM3TCy4tJxqRnB3lSTVe8LBxVVSxKcw5rWAJjY?=
- =?us-ascii?Q?o+8TwnjLZ0Bf3p3ryfQbyJiTTOw2LUlXG5IoD7EJ0UCsLufsu69UBkThu4Wt?=
- =?us-ascii?Q?P2QKj+gi8oaApaPn382YnHqDWb7SkdfnKu/CSyB3epp9RvXnvUJundwvqC7L?=
- =?us-ascii?Q?mY7c0LI4dgwDModjSwI=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zTw92pJI5GQsExsRS2oCZIZqr83TTQOELRfwUDXlZCDcJOZhM4qZLGJSxS0I?=
+ =?us-ascii?Q?0NxmEcodIBVWP/GNKmfqvs4hxKDwnncwP48HytGvRiUvWNvm14CCMJrMrrF0?=
+ =?us-ascii?Q?LUGQ94rvof8kiE7T4jkDMo6BWp5GZkJB+0CW+/rxTk5+A5tHllT+LKFXtA9V?=
+ =?us-ascii?Q?wzlldhfwqtZL/9jGmQ++XJAIVN+gP5G7ZLsbTynxop1uouejIBIWqdxSCbgm?=
+ =?us-ascii?Q?LHuRoARl3NI7OY7ho3pJbPDEQL9zGxxwSaTZj0oTkO1trIGqht1tgvL8+R93?=
+ =?us-ascii?Q?RIMy4/hPDJjOFWC4Y/Q0Y0YwC1DGuRauotbwzAbmk92VroIujtzuIka6mAwC?=
+ =?us-ascii?Q?y048B/0amF2ddxSAyg93X5lep4DHYCG86yUI9VN8rVBTCED4+YFW1LwFHtL9?=
+ =?us-ascii?Q?AhxHc/+sfchhGSz9rOb3A/IVPTSFUWPsbP1FDefm2wMZlaVcW4nl7LHnk/z4?=
+ =?us-ascii?Q?ZBeYYxDT5NM9ja/0Is+oGgEthraaVtICfVlAff4eV0Na2lfvhTy3C9HrFsTW?=
+ =?us-ascii?Q?RlTlvRPeGHOMGtR7E45rDCu2JuVcBle4rtY0sYHsMn6rcFf1oJfMp1wEU7kb?=
+ =?us-ascii?Q?H6i2VzQRW4IrzeQk67rSjI1445wkTs2uz1WJfK9nH1Vuv8vD/j9ZQdTR256i?=
+ =?us-ascii?Q?N8jld8/Osm6eoZSig5taylTs44GUirlOJWQvQuMXro47em3rwpr64IWa60iu?=
+ =?us-ascii?Q?rH6mKJgu8wBO8c+ZgidMPoJ2/VDFU1x1V5sqBftw+Ieg7t+nUk1zSlt3kmSh?=
+ =?us-ascii?Q?VIuzHjaHKMzmjMrt0Wn78Ak52/62pYNmXSZzh03qf1ZCcP/qSrn1fUqr5OpC?=
+ =?us-ascii?Q?hm2TMWLkeIV3syvJDv2/LOpC3uxYEek3AVl3kXq2YSZrKaaxtUjQI8FyYDf2?=
+ =?us-ascii?Q?H4d4a60vh//QaLgRSXbpfMqx3nO0DggcTSNYB8mWUP2wOrC6GzAd3+DRlQWB?=
+ =?us-ascii?Q?VP+I+zmUMAAFBcaYd3nqAkehm5a+i+JgZnXJunxuBU8UBpFu0N1fjf3x/iJg?=
+ =?us-ascii?Q?cJH1A4674jbAB41ZRbVUqwTLPhu+N/rphiF47gNMAM/hi+HBsOYFVmm0nxmr?=
+ =?us-ascii?Q?5yYHdSToU3mER+FxvdzpWiIaieduVrzUbmgfzFoHIPOsXo/pEwy/h7aRK/rE?=
+ =?us-ascii?Q?A671ZbTi6mt7rUlK++uI2TrbkaVasHmDA1i4oLi8HkH29uZaITNe4AUFB8e3?=
+ =?us-ascii?Q?KCEeUQtDnb14Y4OQJNTX/GlH7CIm1TacbAerWgpVvyk7JkKLgBGilbQT0Juc?=
+ =?us-ascii?Q?8wyj1AK/iJBel7kf2sKPpLjyFIOWjoTSn9TRfFRKzWPbeYDqG7QIqgq5c4ew?=
+ =?us-ascii?Q?MnwYtKXAPM//n8f23eO+5S/gvpb8KfvkJzxn43fG6HHiXgeEkDZ8IyODzsMQ?=
+ =?us-ascii?Q?oYyjCHCEnL4Yke5Yya81mXPs/t2bLjV5RXlXkHRb9bkVfMLgWIsG38rUKEMM?=
+ =?us-ascii?Q?ZgZ0DmXkt1RwR29pno70tFA0Ey9shSBxoSlVEHRkyARXdEQ1NPM1jUeGvT/e?=
+ =?us-ascii?Q?MoXXj+xm4K/Yvv1/HfspI301VwhtgkHc5ZlmwMm/nHjzyWtOTqg4t10OcxSu?=
+ =?us-ascii?Q?NfBKqfivDBggJzkHRZ0=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f303e7c8-1a2b-4d4a-9d37-08db9c9a86fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2023 07:46:10.6428 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee8da75f-8d78-4174-23c0-08db9c9ab89b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2023 07:47:33.9096 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3qDDNDPjlC8m0GfXSN+AYeI09M2nwDasViMuZ+4+NYqtHq8/YRykSAe7x9lN4SRE
+X-MS-Exchange-CrossTenant-userprincipalname: bXakM/97IT+kIfTTWzAgliDYmWc04arfXhima65n/Bz7grEB1vztdlrPhaGBIPC0
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7694
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,7 +158,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 > -----Original Message-----
 > From: Simon Horman <horms@kernel.org>
-> Sent: Friday, August 11, 2023 5:38 PM
+> Sent: Friday, August 11, 2023 5:35 PM
 > To: Quan, Evan <Evan.Quan@amd.com>
 > Cc: rafael@kernel.org; lenb@kernel.org; Deucher, Alexander
 > <Alexander.Deucher@amd.com>; Koenig, Christian
@@ -175,76 +174,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > kernel@vger.kernel.org; linux-acpi@vger.kernel.org; amd-
 > gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
 > wireless@vger.kernel.org; netdev@vger.kernel.org
-> Subject: Re: [PATCH V8 2/9] drivers core: add ACPI based WBRF mechanism
-> introduced by AMD
+> Subject: Re: [PATCH V8 6/9] drm/amd/pm: setup the framework to support
+> Wifi RFI mitigation feature
 >=20
-> On Thu, Aug 10, 2023 at 03:37:56PM +0800, Evan Quan wrote:
-> > AMD has introduced an ACPI based mechanism to support WBRF for some
-> > platforms with AMD dGPU + WLAN. This needs support from BIOS equipped
-> > with necessary AML implementations and dGPU firmwares.
+> On Thu, Aug 10, 2023 at 03:38:00PM +0800, Evan Quan wrote:
+> > With WBRF feature supported, as a driver responding to the frequencies,
+> > amdgpu driver is able to do shadow pstate switching to mitigate possibl=
+e
+> > interference(between its (G-)DDR memory clocks and local radio module
+> > frequency bands used by Wifi 6/6e/7).
 > >
-> > For those systems without the ACPI mechanism and developing solutions,
-> > user can use/fall-back the generic WBRF solution for diagnosing potenti=
-al
-> > interference issues.
-> >
-> > And for the platform which does not equip with the necessary AMD ACPI
-> > implementations but with CONFIG_WBRF_AMD_ACPI built as 'y', it will
-> > fall back to generic WBRF solution if the `wbrf` is set as "on".
-> >
-> > Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> > Co-developed-by: Evan Quan <evan.quan@amd.com>
 > > Signed-off-by: Evan Quan <evan.quan@amd.com>
+> > Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 >=20
 > ...
 >=20
-> > diff --git a/drivers/acpi/amd_wbrf.c b/drivers/acpi/amd_wbrf.c
->=20
-> ...
->=20
-> > +static bool check_acpi_wbrf(acpi_handle handle, u64 rev, u64 funcs)
-> > +{
-> > +	int i;
-> > +	u64 mask =3D 0;
-> > +	union acpi_object *obj;
-> > +
-> > +	if (funcs =3D=3D 0)
-> > +		return false;
-> > +
-> > +	obj =3D acpi_evaluate_wbrf(handle, rev, 0);
-> > +	if (!obj)
-> > +		return false;
-> > +
-> > +	if (obj->type !=3D ACPI_TYPE_BUFFER)
-> > +		return false;
-> > +
-> > +	/*
-> > +	 * Bit vector providing supported functions information.
-> > +	 * Each bit marks support for one specific function of the WBRF
-> method.
-> > +	 */
-> > +	for (i =3D 0; i < obj->buffer.length && i < 8; i++)
-> > +		mask |=3D (((u64)obj->buffer.pointer[i]) << (i * 8));
-> > +
-> > +	ACPI_FREE(obj);
-> > +
-> > +	if ((mask & BIT(WBRF_ENABLED)) &&
-> > +	     (mask & funcs) =3D=3D funcs)
+> > +/**
+> > + * smu_wbrf_event_handler - handle notify events
+> > + *
+> > + * @nb: notifier block
+> > + * @action: event type
+> > + * @data: event data
 >=20
 > Hi Evan,
 >=20
-> a minor nit from my side: the indentation of the line above seems odd.
-Thanks. Will update this.
+> a minor nit from my side: although it is documented here,
+> smu_wbrf_event_handler has no @data parameter, while
+> it does have an undocumented _arg parameter.
+Thanks for pointing this out. I will fix this.
 
 Evan
 >=20
-> 	if ((mask & BIT(WBRF_ENABLED)) &&
-> 	    (mask & funcs) =3D=3D funcs)
->=20
-> > +		return true;
+> > + *
+> > + * Calls relevant amdgpu function in response to wbrf event
+> > + * notification from kernel.
+> > + */
+> > +static int smu_wbrf_event_handler(struct notifier_block *nb,
+> > +				  unsigned long action, void *_arg)
+> > +{
+> > +	struct smu_context *smu =3D container_of(nb, struct smu_context,
+> > +					       wbrf_notifier);
 > > +
-> > +	return false;
+> > +	switch (action) {
+> > +	case WBRF_CHANGED:
+> > +		smu_wbrf_handle_exclusion_ranges(smu);
+> > +		break;
+> > +	default:
+> > +		return NOTIFY_DONE;
+> > +	};
+> > +
+> > +	return NOTIFY_OK;
 > > +}
 >=20
-> ...=
+> ...
