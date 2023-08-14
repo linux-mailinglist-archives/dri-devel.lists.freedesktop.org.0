@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9821977AF62
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 04:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDC877AF69
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 04:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F105510E010;
-	Mon, 14 Aug 2023 02:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C19B610E056;
+	Mon, 14 Aug 2023 02:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE09C10E010
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 02:04:37 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- 006d021491bc7-56e16e4aba7so505236eaf.2
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 19:04:37 -0700 (PDT)
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
+ [IPv6:2607:f8b0:4864:20::e31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E15210E03E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 02:11:16 +0000 (UTC)
+Received: by mail-vs1-xe31.google.com with SMTP id
+ ada2fe7eead31-44756c21105so2530908137.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Aug 2023 19:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1691978677; x=1692583477;
+ d=google.com; s=20221208; t=1691979075; x=1692583875;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p3CWs2a/aqkyMZzUi/8F6QPrxbcgao5FpG8Y8wFnFRw=;
- b=kNqgnYtfEmsQ05T+4QteqiRrVltDTmgP9Lxfz/3cukxd1IkDO1e1ELGW8QyzPO8HrB
- XxhuPeexBpDXaOIaEXIUsYC57TuPN7FcjoMoKR5MD+GIPm1MpLJuFzEOpE7ySktPc0af
- yO5TDBP+pDmQ1kM91Yzag8Pb8skWHDc0Ebdr+EpBLUis2Mm1oIv5OgSz2PXsSnEEWIXc
- bmR1z/ks19oT5HyYb+nsr6XZD6AJNZykKNu0dp5vNzfHr/1Xl8NPddM8OAYzF2+nVK4z
- WyLGisx/9UzDOCAMXFAW3Fnv62AAuf4y23RCeHYaHmqV5/yPKuxahqlw2cxDwN2pNGkY
- idng==
+ bh=gTisJfmxpiQjRZepraPBBUqLn8hEMFr6WrBeDd6EuoA=;
+ b=F0iWnHAw+V1aSjQSG8od9J+DIiu1SgbyKMFElPfHVlHhrWQ1dpHkWFZxgK9EIYY7ey
+ q5EXKZput4xCaBR6tL4xkQZjBNm9vE7bHBkhCgkXhXkpx4yo7rK75t4KDvUR7XZzHSk4
+ 4IB17VEnsGMDh1yCCADSRMzBOa2T0V9QSuNVKFVWUPXwJIiXyb4nNN/uzoGwegiL/lFS
+ 0g5JdALTntiHrpm1KSLVGu3hqOD6ArcklRiB1ZB6adnzkIhPivUNj8HZX9AcHn2jcPQb
+ B4y5zWPPgqkalg+85T4kat7WtYeUTyYBDUoE3c5dX81EAXmglT3ThUmhb5ZJv1HFjrGQ
+ py0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691978677; x=1692583477;
+ d=1e100.net; s=20221208; t=1691979075; x=1692583875;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p3CWs2a/aqkyMZzUi/8F6QPrxbcgao5FpG8Y8wFnFRw=;
- b=fkc26DB7TM1g0mvGQRXuBEBMNmA80h5G7JUqDt+b1S+n/lRZLeC11JskEeGEP5SMLk
- duDdtcBws81y37oaB8mLSMr8tV8kCJVvEjSWibfuCAG1ATe/UyTKw6zM1gTEYQNc7hB+
- sJrMrhOhyKDtLYd9PGFoDQBA10+Hf4FIAm502/uDBeLwDIQo7tbS6KM7/ukQPhw65I9J
- F8mVmHGNLYdXHLdId+9L1uIeGuP4w/uZsj8WhQgwX23H0KAWr7vJ7Wtnvrb8obsx7Fjq
- dT1hqdbak/Z7jwJOzs+ysO3vfJLtexg3Pa3yDKZcheMVoPpSXro9NCXWX7s5tyEScJKB
- bLfw==
-X-Gm-Message-State: AOJu0YyN5hxF0LqY8/LHLO0TrtmpvJisIVZQNsKuhr25yF810Z2cSQFJ
- rQcDDH2XwKY4ldUln1Iw3enZCUfKow2e1tUwjt2a0g==
-X-Google-Smtp-Source: AGHT+IEF3YDCXiFs9BnVJRJMwav36YAQtdB7xfnK1Mz/vSdq/b7dCWsxKGRs9zRysu44gdRAJADpXBUInUAlnlwqIoc=
-X-Received: by 2002:a05:6870:630e:b0:1b3:54b5:ac6e with SMTP id
- s14-20020a056870630e00b001b354b5ac6emr8293452oao.50.1691978676644; Sun, 13
- Aug 2023 19:04:36 -0700 (PDT)
+ bh=gTisJfmxpiQjRZepraPBBUqLn8hEMFr6WrBeDd6EuoA=;
+ b=edFp2Y2kh3jbiZwxxWOp7oIHS0Q1stztD/oHhq970igCz14F+xImY7aQtcLS2ug09A
+ eQ1d0g23CsFD5FqrbDWiN3zymW9qcx5hrdvILTVI8VofH0Am+reBPVutBnCvBzsoA8ju
+ oeTxZYD6sAiQDADfFwAJYqrDUWHvo0PHkSvEBEd2BNN85kLmk7I/QcmVqaS8SjDQpkXO
+ M1xumIdmEtpLVflAIPwGrIBXtbP7YbftpdDBixJDz1e0lBDMpLrVizGjiSHmjs0PWF10
+ zkMnq4XJxjyCMQgY22XrsFU7M8uRjxneBcCi8BTqwO9NwqGxU5vxINtuSrfCM9tH1Jmw
+ AuuQ==
+X-Gm-Message-State: AOJu0YxvRfFY8GvIoHlTVBLgXcQBx3W75cW4CRhhyp3xjtNB/7UB5ZbA
+ ng0V+XTe39xYrouDTyhhVn6JRqFtbwkGdOm0xbT9wA==
+X-Google-Smtp-Source: AGHT+IF1rPP9x6xLGMyBgWC+RTyq65mADE5uBMIBOqR3Bb/YApLc+KhXpnEEMzsyY2RXUTmG4ClbCwLYyw7MPbLOHJ0=
+X-Received: by 2002:a05:6102:2759:b0:447:695c:75b8 with SMTP id
+ p25-20020a056102275900b00447695c75b8mr9799892vsu.7.1691979074945; Sun, 13 Aug
+ 2023 19:11:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
- <20230703-fix-boe-tv101wum-nl6-v3-3-bd6e9432c755@linaro.org>
-In-Reply-To: <20230703-fix-boe-tv101wum-nl6-v3-3-bd6e9432c755@linaro.org>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Mon, 14 Aug 2023 10:04:25 +0800
-Message-ID: <CAHwB_NKMFvZMqnaeEoq-ruDtp3kjS3xhCdBDDFSmANGeUhACgg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] drm/panel: ili9882t: Break out as separate driver
-To: Linus Walleij <linus.walleij@linaro.org>
+References: <20230810015751.3297321-1-almasrymina@google.com>
+ <7dc4427f-ee99-e401-9ff8-d554999e60ca@kernel.org>
+In-Reply-To: <7dc4427f-ee99-e401-9ff8-d554999e60ca@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sun, 13 Aug 2023 19:11:03 -0700
+Message-ID: <CAHS8izMHsipF1VEKUy4cGUNvVjXNLzOM1H470U_u1pCozH3m8A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/11] Device Memory TCP
+To: David Ahern <dsahern@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,1272 +69,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ netdev@vger.kernel.org, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ stephen@networkplumber.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Eric Dumazet <edumazet@google.com>, sdf@google.com,
+ Andy Lutomirski <luto@kernel.org>, Hari Ramakrishnan <rharix@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,Linus
+On Sun, Aug 13, 2023 at 6:12=E2=80=AFPM David Ahern <dsahern@kernel.org> wr=
+ote:
+>
+> On 8/9/23 7:57 PM, Mina Almasry wrote:
+> > Changes in RFC v2:
+> > ------------------
+> >
+> > The sticking point in RFC v1[1] was the dma-buf pages approach we used =
+to
+> > deliver the device memory to the TCP stack. RFC v2 is a proof-of-concep=
+t
+> > that attempts to resolve this by implementing scatterlist support in th=
+e
+> > networking stack, such that we can import the dma-buf scatterlist
+> > directly. This is the approach proposed at a high level here[2].
+> >
+> > Detailed changes:
+> > 1. Replaced dma-buf pages approach with importing scatterlist into the
+> >    page pool.
+> > 2. Replace the dma-buf pages centric API with a netlink API.
+> > 3. Removed the TX path implementation - there is no issue with
+> >    implementing the TX path with scatterlist approach, but leaving
+> >    out the TX path makes it easier to review.
+> > 4. Functionality is tested with this proposal, but I have not conducted
+> >    perf testing yet. I'm not sure there are regressions, but I removed
+> >    perf claims from the cover letter until they can be re-confirmed.
+> > 5. Added Signed-off-by: contributors to the implementation.
+> > 6. Fixed some bugs with the RX path since RFC v1.
+> >
+> > Any feedback welcome, but specifically the biggest pending questions
+> > needing feedback IMO are:
+> >
+> > 1. Feedback on the scatterlist-based approach in general.
+> > 2. Netlink API (Patch 1 & 2).
+> > 3. Approach to handle all the drivers that expect to receive pages from
+> >    the page pool (Patch 6).
+> >
+> > [1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4=
+@gmail.com/T/
+> > [2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jL=
+VO8nzTLXCc=3DH7Nw@mail.gmail.com/
+> >
+> > ----------------------
+> >
+> > * TL;DR:
+> >
+> > Device memory TCP (devmem TCP) is a proposal for transferring data to a=
+nd/or
+> > from device memory efficiently, without bouncing the data to a host mem=
+ory
+> > buffer.
+> >
+> > * Problem:
+> >
+> > A large amount of data transfers have device memory as the source and/o=
+r
+> > destination. Accelerators drastically increased the volume of such tran=
+sfers.
+> > Some examples include:
+> > - ML accelerators transferring large amounts of training data from stor=
+age into
+> >   GPU/TPU memory. In some cases ML training setup time can be as long a=
+s 50% of
+> >   TPU compute time, improving data transfer throughput & efficiency can=
+ help
+> >   improving GPU/TPU utilization.
+> >
+> > - Distributed training, where ML accelerators, such as GPUs on differen=
+t hosts,
+> >   exchange data among them.
+> >
+> > - Distributed raw block storage applications transfer large amounts of =
+data with
+> >   remote SSDs, much of this data does not require host processing.
+> >
+> > Today, the majority of the Device-to-Device data transfers the network =
+are
+> > implemented as the following low level operations: Device-to-Host copy,
+> > Host-to-Host network transfer, and Host-to-Device copy.
+> >
+> > The implementation is suboptimal, especially for bulk data transfers, a=
+nd can
+> > put significant strains on system resources, such as host memory bandwi=
+dth,
+> > PCIe bandwidth, etc. One important reason behind the current state is t=
+he
+> > kernel=E2=80=99s lack of semantics to express device to network transfe=
+rs.
+> >
+> > * Proposal:
+> >
+> > In this patch series we attempt to optimize this use case by implementi=
+ng
+> > socket APIs that enable the user to:
+> >
+> > 1. send device memory across the network directly, and
+> > 2. receive incoming network packets directly into device memory.
+> >
+> > Packet _payloads_ go directly from the NIC to device memory for receive=
+ and from
+> > device memory to NIC for transmit.
+> > Packet _headers_ go to/from host memory and are processed by the TCP/IP=
+ stack
+> > normally. The NIC _must_ support header split to achieve this.
+> >
+> > Advantages:
+> >
+> > - Alleviate host memory bandwidth pressure, compared to existing
+> >  network-transfer + device-copy semantics.
+> >
+> > - Alleviate PCIe BW pressure, by limiting data transfer to the lowest l=
+evel
+> >   of the PCIe tree, compared to traditional path which sends data throu=
+gh the
+> >   root complex.
+> >
+> > * Patch overview:
+> >
+> > ** Part 1: netlink API
+> >
+> > Gives user ability to bind dma-buf to an RX queue.
+> >
+> > ** Part 2: scatterlist support
+> >
+> > Currently the standard for device memory sharing is DMABUF, which doesn=
+'t
+> > generate struct pages. On the other hand, networking stack (skbs, drive=
+rs, and
+> > page pool) operate on pages. We have 2 options:
+> >
+> > 1. Generate struct pages for dmabuf device memory, or,
+> > 2. Modify the networking stack to process scatterlist.
+> >
+> > Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+> >
+> > ** part 3: page pool support
+> >
+> > We piggy back on page pool memory providers proposal:
+> > https://github.com/kuba-moo/linux/tree/pp-providers
+> >
+> > It allows the page pool to define a memory provider that provides the
+> > page allocation and freeing. It helps abstract most of the device memor=
+y
+> > TCP changes from the driver.
+> >
+> > ** part 4: support for unreadable skb frags
+> >
+> > Page pool iovs are not accessible by the host; we implement changes
+> > throughput the networking stack to correctly handle skbs with unreadabl=
+e
+> > frags.
+> >
+> > ** Part 5: recvmsg() APIs
+> >
+> > We define user APIs for the user to send and receive device memory.
+> >
+> > Not included with this RFC is the GVE devmem TCP support, just to
+> > simplify the review. Code available here if desired:
+> > https://github.com/mina/linux/tree/tcpdevmem
+> >
+> > This RFC is built on top of net-next with Jakub's pp-providers changes
+> > cherry-picked.
+> >
+> > * NIC dependencies:
+> >
+> > 1. (strict) Devmem TCP require the NIC to support header split, i.e. th=
+e
+> >    capability to split incoming packets into a header + payload and to =
+put
+> >    each into a separate buffer. Devmem TCP works by using device memory
+> >    for the packet payload, and host memory for the packet headers.
+> >
+> > 2. (optional) Devmem TCP works better with flow steering support & RSS =
+support,
+> >    i.e. the NIC's ability to steer flows into certain rx queues. This a=
+llows the
+> >    sysadmin to enable devmem TCP on a subset of the rx queues, and stee=
+r
+> >    devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+> >
+> > The NIC I have access to with these properties is the GVE with DQO supp=
+ort
+> > running in Google Cloud, but any NIC that supports these features would=
+ suffice.
+> > I may be able to help reviewers bring up devmem TCP on their NICs.
+> >
+> > * Testing:
+> >
+> > The series includes a udmabuf kselftest that show a simple use case of
+> > devmem TCP and validates the entire data path end to end without
+> > a dependency on a specific dmabuf provider.
+> >
+> > ** Test Setup
+> >
+> > Kernel: net-next with this RFC and memory provider API cherry-picked
+> > locally.
+> >
+> > Hardware: Google Cloud A3 VMs.
+> >
+> > NIC: GVE with header split & RSS & flow steering support.
+>
+> This set seems to depend on Jakub's memory provider patches and a netdev
+> driver change which is not included. For the testing mentioned here, you
+> must have a tree + branch with all of the patches. Is it publicly availab=
+le?
+>
 
-On Mon, Jul 3, 2023 at 9:21=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
->
-> The Starry ILI9882t-based panel should never have been part of the boe
-> tv101wum driver, it is clearly based on the Ilitek ILI9882t display
-> controller and if you look at the custom command sequences for the
-> panel these clearly contain the signature Ilitek page switch (0xff)
-> commands. The hardware has nothing in common with the other panels
-> supported by this driver.
->
-> Break this out into a separate driver and config symbol instead.
->
-> If the placement here is out of convenience for using similar code,
-> we should consider creating a helper library instead.
->
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpu/drm/panel/Kconfig                  |   9 +
->  drivers/gpu/drm/panel/Makefile                 |   1 +
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 386 -------------
->  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c  | 739 +++++++++++++++++++=
-++++++
->  4 files changed, 749 insertions(+), 386 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfi=
-g
-> index 1a0fd0754692..c39e949a26eb 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -203,6 +203,15 @@ config DRM_PANEL_ILITEK_ILI9881C
->           Say Y if you want to enable support for panels based on the
->           Ilitek ILI9881c controller.
->
-> +config DRM_PANEL_ILITEK_ILI9882T
-> +       tristate "Ilitek ILI9882t-based panels"
-> +       depends on OF
-> +       depends on DRM_MIPI_DSI
-> +       depends on BACKLIGHT_CLASS_DEVICE
-> +       help
-> +         Say Y if you want to enable support for panels based on the
-> +         Ilitek ILI9882t controller.
-> +
->  config DRM_PANEL_INNOLUX_EJ030NA
->          tristate "Innolux EJ030NA 320x480 LCD panel"
->          depends on OF && SPI
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makef=
-ile
-> index 499e38244253..75c2533d337e 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_PANEL_HIMAX_HX8394) +=3D panel-himax-h=
-x8394.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) +=3D panel-ilitek-ili9322.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) +=3D panel-ilitek-ili9341.o
->  obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) +=3D panel-ilitek-ili9881c.o
-> +obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9882T) +=3D panel-ilitek-ili9882t.o
->  obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) +=3D panel-innolux-ej030na.o
->  obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) +=3D panel-innolux-p079zca.o
->  obj-$(CONFIG_DRM_PANEL_JADARD_JD9365DA_H3) +=3D panel-jadard-jd9365da-h3=
-.o
-> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu=
-/drm/panel/panel-boe-tv101wum-nl6.c
-> index 358918e0f03f..14a0ee95a803 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-> @@ -1348,361 +1348,6 @@ static int starry_himax83102_j02_init(struct mipi=
-_dsi_device *dsi)
->         return 0;
->  };
->
-> -
-> -static int starry_ili9882t_init(struct mipi_dsi_device *dsi)
-> -{
-> -       int ret;
-> -
-> -       msleep(5);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x00, 0x42);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x01, 0x11);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x02, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x03, 0x00);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x04, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x05, 0x11);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x06, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x00);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x80);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x81);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0A, 0x71);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0B, 0x00);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0C, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0E, 0x1A);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x24, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x25, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x26, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x27, 0x00);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2C, 0xD4);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x40);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x11);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x32);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xD1, 0x30);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x55);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xD0, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE3, 0x93);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE4, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x80);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x31, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x32, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x33, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x34, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x35, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x36, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x37, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x38, 0x28);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x39, 0x29);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x11);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x13);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3C, 0x15);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x17);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3E, 0x09);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3F, 0x0D);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x40, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x41, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x42, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x43, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x44, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x45, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x46, 0x02);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x47, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x48, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x49, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x4A, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x4B, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x4C, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x4D, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x4E, 0x28);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x4F, 0x29);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x50, 0x10);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x51, 0x12);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x52, 0x14);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x53, 0x16);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x54, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x55, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x56, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x57, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x58, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x59, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x5A, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x5B, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x5C, 0x02);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x61, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x62, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x63, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x64, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x65, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x66, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x67, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x68, 0x28);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x69, 0x29);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6A, 0x16);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6B, 0x14);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6C, 0x12);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6D, 0x10);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6E, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6F, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x70, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x71, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x72, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x73, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x74, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x75, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x76, 0x02);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x77, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x78, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x79, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7A, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7B, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7C, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7D, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7E, 0x28);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7F, 0x29);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x80, 0x17);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x81, 0x15);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x82, 0x13);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x83, 0x11);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x84, 0x0D);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x85, 0x09);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x86, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x87, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x88, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x89, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x8A, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x8B, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x8C, 0x07);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x29, 0x3A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x3B);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x06, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x44);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3C, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x39, 0x11);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x44);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0x53, 0x1F);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x5E, 0x40);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x20, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x21, 0x3C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x22, 0xFA);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE2, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x91);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x3C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE8, 0xFA);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x12);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x87, 0x2C);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x73, 0xE5);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x7F, 0x6B);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6D, 0xA4);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x79, 0x54);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x69, 0x97);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6A, 0x97);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xA5, 0x3F);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x61, 0xDA);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xA7, 0xF1);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x5F, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x62, 0x3F);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1D, 0x90);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x86, 0x87);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x80);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x58);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xCE, 0x58);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xCF, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x67, 0x60);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x10, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x92, 0x22);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x55);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xDC, 0x38);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x00, 0x10, 0x2A, 0x4D, 0x61, 0=
-x56, 0x6A, 0x6E, 0x79,
-> -                              0x76, 0x8F, 0x95, 0x98, 0xAE, 0xAA, 0xB2, =
-0xBB, 0xCE, 0xC6, 0xBD,
-> -                              0xD5, 0xE2, 0xE8);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x00, 0x10, 0x2A, 0x4D, 0x61, 0=
-x56, 0x6A, 0x6E, 0x79,
-> -                              0x76, 0x8F, 0x95, 0x98, 0xAE, 0xAA, 0xB2, =
-0xBB, 0xCE, 0xC6, 0xBD,
-> -                              0xD5, 0xE2, 0xE8);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x81);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x00, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x01, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x02, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x03, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x04, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x05, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x06, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0A, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0B, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0C, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0D, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0E, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x0F, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x10, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x11, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x12, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x13, 0x09);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x14, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x15, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x16, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x17, 0x0B);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x18, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x19, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1A, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1B, 0x0D);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1C, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1D, 0x0E);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1E, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x1F, 0x0F);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x20, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x21, 0x10);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x22, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x23, 0x11);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x24, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x25, 0x12);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x26, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x27, 0x13);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x28, 0x07);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x29, 0x14);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x15);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2C, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2D, 0x16);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2E, 0x09);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2F, 0x17);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x30, 0x08);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x31, 0x18);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x32, 0x09);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x33, 0x19);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x34, 0x09);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x35, 0x1A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x36, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x37, 0x1B);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x38, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x39, 0x1C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x1D);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3C, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x1E);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3E, 0x0A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x3F, 0x1F);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x01);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0E);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x02, 0x0C);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x20, 0x10);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x25, 0x16);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x26, 0xE0);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x27, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x29, 0x71);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x46);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x1F);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x2D, 0xC7);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x31, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x32, 0xDF);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x33, 0x5A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x34, 0xC0);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x35, 0x5A);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x36, 0xC0);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x38, 0x65);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x80, 0x3E);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x81, 0xA0);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x01);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xB1, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x12);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xC9, 0xCC);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x30, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x00, 0x81);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x02);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x21);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x04, 0x10);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x1E);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x60, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x64, 0x00);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x6D, 0x00);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0B);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xA6, 0x44);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xA7, 0xB6);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xA8, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xA9, 0x03);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xAA, 0x51);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xAB, 0x51);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xAC, 0x04);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x92);
-> -       mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xA1);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x05);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x86, 0x87);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x06);
-> -       mipi_dsi_dcs_write_seq(dsi, 0x92, 0x22);
-> -
-> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x00);
-> -
-> -       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -       if (ret)
-> -               return ret;
-> -       msleep(120);
-> -       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> -       if (ret)
-> -               return ret;
-> -       msleep(20);
-> -
-> -       return 0;
-> -};
-> -
->  static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
->  {
->         return container_of(panel, struct boe_panel, base);
-> @@ -2081,34 +1726,6 @@ static const struct panel_desc starry_himax83102_j=
-02_desc =3D {
->         .lp11_before_reset =3D true,
->  };
->
-> -static const struct drm_display_mode starry_ili9882t_default_mode =3D {
-> -       .clock =3D 165280,
-> -       .hdisplay =3D 1200,
-> -       .hsync_start =3D 1200 + 32,
-> -       .hsync_end =3D 1200 + 32 + 30,
-> -       .htotal =3D 1200 + 32 + 30 + 32,
-> -       .vdisplay =3D 1920,
-> -       .vsync_start =3D 1920 + 68,
-> -       .vsync_end =3D 1920 + 68 + 2,
-> -       .vtotal =3D 1920 + 68 + 2 + 10,
-> -       .type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> -};
-> -
-> -static const struct panel_desc starry_ili9882t_desc =3D {
-> -       .modes =3D &starry_ili9882t_default_mode,
-> -       .bpc =3D 8,
-> -       .size =3D {
-> -               .width_mm =3D 141,
-> -               .height_mm =3D 226,
-> -       },
-> -       .lanes =3D 4,
-> -       .format =3D MIPI_DSI_FMT_RGB888,
-> -       .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PU=
-LSE |
-> -                     MIPI_DSI_MODE_LPM,
-> -       .init =3D starry_ili9882t_init,
-> -       .lp11_before_reset =3D true,
-> -};
-> -
->  static int boe_panel_get_modes(struct drm_panel *panel,
->                                struct drm_connector *connector)
->  {
-> @@ -2285,9 +1902,6 @@ static const struct of_device_id boe_of_match[] =3D=
- {
->         { .compatible =3D "starry,himax83102-j02",
->           .data =3D &starry_himax83102_j02_desc
->         },
-> -       { .compatible =3D "starry,ili9882t",
-> -         .data =3D &starry_ili9882t_desc
-> -       },
->         { /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, boe_of_match);
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/=
-drm/panel/panel-ilitek-ili9882t.c
-> new file mode 100644
-> index 000000000000..20f3cc37fa83
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
-> @@ -0,0 +1,739 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Panels based on the Ilitek ILI9882T display controller.
-> + */
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
-> +
-> +#include <video/mipi_display.h>
-> +
-> +/*
-> + * Use this descriptor struct to describe different panels using the
-> + * Ilitek ILI9882T display controller.
-> + */
-> +struct panel_desc {
-> +       const struct drm_display_mode *modes;
-> +       unsigned int bpc;
-> +
-> +       /**
-> +        * @width_mm: width of the panel's active display area
-> +        * @height_mm: height of the panel's active display area
-> +        */
-> +       struct {
-> +               unsigned int width_mm;
-> +               unsigned int height_mm;
-> +       } size;
-> +
-> +       unsigned long mode_flags;
-> +       enum mipi_dsi_pixel_format format;
-> +       int (*init)(struct mipi_dsi_device *dsi);
-> +       unsigned int lanes;
-> +       bool discharge_on_disable;
-> +       bool lp11_before_reset;
-> +};
-> +
-> +struct ili9882t {
-> +       struct drm_panel base;
-> +       struct mipi_dsi_device *dsi;
-> +
-> +       const struct panel_desc *desc;
-> +
-> +       enum drm_panel_orientation orientation;
-> +       struct regulator *pp3300;
-> +       struct regulator *pp1800;
-> +       struct regulator *avee;
-> +       struct regulator *avdd;
-> +       struct gpio_desc *enable_gpio;
-> +};
-> +
-> +static int starry_ili9882t_init(struct mipi_dsi_device *dsi)
-> +{
-> +       int ret;
-> +
-> +       msleep(5);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x00, 0x42);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x01, 0x11);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x02, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x03, 0x00);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x04, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x05, 0x11);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x06, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x00);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x80);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x81);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0A, 0x71);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0B, 0x00);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0C, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0E, 0x1A);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x24, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x25, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x26, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x27, 0x00);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2C, 0xD4);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x40);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x11);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x32);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xD1, 0x30);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x55);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xD0, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE3, 0x93);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE4, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x80);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x31, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x32, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x33, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x34, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x35, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x36, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x37, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x38, 0x28);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x39, 0x29);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x11);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x13);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3C, 0x15);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x17);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3E, 0x09);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3F, 0x0D);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x40, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x41, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x42, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x43, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x44, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x45, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x46, 0x02);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x47, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x48, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x49, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x4A, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x4B, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x4C, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x4D, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x4E, 0x28);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x4F, 0x29);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x50, 0x10);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x51, 0x12);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x52, 0x14);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x53, 0x16);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x54, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x55, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x56, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x57, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x58, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x59, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x5A, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x5B, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x5C, 0x02);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x61, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x62, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x63, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x64, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x65, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x66, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x67, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x68, 0x28);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x69, 0x29);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6A, 0x16);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6B, 0x14);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6C, 0x12);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6D, 0x10);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6E, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6F, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x70, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x71, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x72, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x73, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x74, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x75, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x76, 0x02);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x77, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x78, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x79, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7A, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7B, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7C, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7D, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7E, 0x28);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7F, 0x29);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x80, 0x17);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x81, 0x15);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x82, 0x13);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x83, 0x11);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x84, 0x0D);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x85, 0x09);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x86, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x87, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x88, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x89, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x8A, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x8B, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x8C, 0x07);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x29, 0x3A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x3B);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x06, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x44);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3C, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x39, 0x11);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x44);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0x53, 0x1F);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x5E, 0x40);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x20, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x21, 0x3C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x22, 0xFA);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE2, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x91);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x3C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE8, 0xFA);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x12);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x87, 0x2C);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x73, 0xE5);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x7F, 0x6B);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6D, 0xA4);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x79, 0x54);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x69, 0x97);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6A, 0x97);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xA5, 0x3F);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x61, 0xDA);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xA7, 0xF1);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x5F, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x62, 0x3F);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1D, 0x90);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x86, 0x87);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x80);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x58);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xCE, 0x58);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xCF, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x67, 0x60);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x10, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x92, 0x22);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x55);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xDC, 0x38);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x00, 0x10, 0x2A, 0x4D, 0x61, 0=
-x56, 0x6A, 0x6E, 0x79,
-> +                              0x76, 0x8F, 0x95, 0x98, 0xAE, 0xAA, 0xB2, =
-0xBB, 0xCE, 0xC6, 0xBD,
-> +                              0xD5, 0xE2, 0xE8);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x00, 0x10, 0x2A, 0x4D, 0x61, 0=
-x56, 0x6A, 0x6E, 0x79,
-> +                              0x76, 0x8F, 0x95, 0x98, 0xAE, 0xAA, 0xB2, =
-0xBB, 0xCE, 0xC6, 0xBD,
-> +                              0xD5, 0xE2, 0xE8);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x81);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x00, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x01, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x02, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x03, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x04, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x05, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x06, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0A, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0B, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0C, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0D, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0E, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0F, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x10, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x11, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x12, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x13, 0x09);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x14, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x15, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x16, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x17, 0x0B);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x18, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x19, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1A, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1B, 0x0D);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1C, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1D, 0x0E);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1E, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x1F, 0x0F);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x20, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x21, 0x10);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x22, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x23, 0x11);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x24, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x25, 0x12);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x26, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x27, 0x13);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x28, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x29, 0x14);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x15);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2C, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2D, 0x16);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2E, 0x09);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2F, 0x17);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x30, 0x08);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x31, 0x18);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x32, 0x09);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x33, 0x19);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x34, 0x09);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x35, 0x1A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x36, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x37, 0x1B);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x38, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x39, 0x1C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3A, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3B, 0x1D);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3C, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3D, 0x1E);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3E, 0x0A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x3F, 0x1F);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x01);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0E);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x02, 0x0C);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x20, 0x10);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x25, 0x16);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x26, 0xE0);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x27, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x29, 0x71);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x46);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2B, 0x1F);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x2D, 0xC7);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x31, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x32, 0xDF);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x33, 0x5A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x34, 0xC0);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x35, 0x5A);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x36, 0xC0);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x38, 0x65);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x80, 0x3E);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x81, 0xA0);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xB1, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x12);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xC9, 0xCC);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x30, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x00, 0x81);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x02);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x09, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x21);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x04, 0x10);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x1E);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x60, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x64, 0x00);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x6D, 0x00);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0B);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xA6, 0x44);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xA7, 0xB6);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xA8, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xA9, 0x03);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xAA, 0x51);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xAB, 0x51);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xAC, 0x04);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x92);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xA1);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x86, 0x87);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x06);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x92, 0x22);
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x00);
-> +
-> +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +       if (ret)
-> +               return ret;
-> +       msleep(120);
-> +       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> +       if (ret)
-> +               return ret;
-> +       msleep(20);
-> +
-> +       return 0;
-> +};
-> +
-> +static inline struct ili9882t *to_ili9882t(struct drm_panel *panel)
-> +{
-> +       return container_of(panel, struct ili9882t, base);
-> +}
-> +
-> +static int ili9882t_enter_sleep_mode(struct ili9882t *ili)
-> +{
-> +       struct mipi_dsi_device *dsi =3D ili->dsi;
-> +       int ret;
-> +
-> +       dsi->mode_flags &=3D ~MIPI_DSI_MODE_LPM;
-> +
-> +       ret =3D mipi_dsi_dcs_set_display_off(dsi);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       ret =3D mipi_dsi_dcs_enter_sleep_mode(dsi);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> +
-> +static int ili9882t_disable(struct drm_panel *panel)
-> +{
-> +       struct ili9882t *ili =3D to_ili9882t(panel);
-> +       int ret;
-> +
-> +       ret =3D ili9882t_enter_sleep_mode(ili);
-> +       if (ret < 0) {
-> +               dev_err(panel->dev, "failed to set panel off: %d\n", ret)=
-;
-> +               return ret;
-> +       }
-> +
-> +       msleep(150);
-> +
-> +       return 0;
-> +}
-> +
-> +static int ili9882t_unprepare(struct drm_panel *panel)
-> +{
-> +       struct ili9882t *ili =3D to_ili9882t(panel);
-> +
-> +       if (ili->desc->discharge_on_disable) {
-> +               regulator_disable(ili->avee);
-> +               regulator_disable(ili->avdd);
-> +               usleep_range(5000, 7000);
-> +               gpiod_set_value(ili->enable_gpio, 0);
-> +               usleep_range(5000, 7000);
-> +               regulator_disable(ili->pp1800);
-> +               regulator_disable(ili->pp3300);
-> +       } else {
-> +               gpiod_set_value(ili->enable_gpio, 0);
-> +               usleep_range(1000, 2000);
-> +               regulator_disable(ili->avee);
-> +               regulator_disable(ili->avdd);
-> +               usleep_range(5000, 7000);
-> +               regulator_disable(ili->pp1800);
-> +               regulator_disable(ili->pp3300);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int ili9882t_prepare(struct drm_panel *panel)
-> +{
-> +       struct ili9882t *ili =3D to_ili9882t(panel);
-> +       int ret;
-> +
-> +       gpiod_set_value(ili->enable_gpio, 0);
-> +       usleep_range(1000, 1500);
-> +
-> +       ret =3D regulator_enable(ili->pp3300);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       ret =3D regulator_enable(ili->pp1800);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       usleep_range(3000, 5000);
-> +
-> +       ret =3D regulator_enable(ili->avdd);
-> +       if (ret < 0)
-> +               goto poweroff1v8;
-> +       ret =3D regulator_enable(ili->avee);
-> +       if (ret < 0)
-> +               goto poweroffavdd;
-> +
-> +       usleep_range(10000, 11000);
-> +
-> +       if (ili->desc->lp11_before_reset) {
-> +               mipi_dsi_dcs_nop(ili->dsi);
-> +               usleep_range(1000, 2000);
-> +       }
-> +       gpiod_set_value(ili->enable_gpio, 1);
-> +       usleep_range(1000, 2000);
-> +       gpiod_set_value(ili->enable_gpio, 0);
-> +       usleep_range(1000, 2000);
+Yes, the net-next based branch is right here:
+https://github.com/mina/linux/tree/tcpdevmem
 
-Can the RST delay be increased to 40ms-50ms?
-At present, we have found that there may be a problem of blurred
-screen during fast sleep. The direct cause of the blurred screen
-is that the IC does not receive 0x28/0x10. Because of the
-particularity of the IC, before the panel enters sleep hid must
-stop scanning, i2c_hid_core_suspend before ili9882t_disable.
-This doesn't look very spec-compliant. So in order to solve this
-problem, the IC can handle it through the exception mechanism when
-it cannot receive 0X28/0X10. Handling exceptions requires a reset
-50ms delay. Refer to vendor detailed analysis [1].
+Here is the git log of that branch:
+https://github.com/mina/linux/commits/tcpdevmem
 
-[1]: https://github.com/ILITEK-LoganLin/Document/tree/main/ILITEK_Power_Seq=
-uence
+FWIW, it's already linked from the (long) cover letter, at the end of
+the '* Patch overview:' section.
 
-Looking forward for your reply, thank you.
+The branch includes all you mentioned above. The netdev driver I'm
+using in the GVE. It also includes patches to implement header split &
+flow steering for GVE (being upstreamed separately), and some debug
+changes.
 
-> +       gpiod_set_value(ili->enable_gpio, 1);
-> +       usleep_range(6000, 10000);
-> +
-> +       if (ili->desc->init) {
-> +               ret =3D ili->desc->init(ili->dsi);
-> +               if (ret < 0) {
-> +                       dev_err(panel->dev, "failed to init panel: %d\n",=
- ret);
-> +                       goto poweroff;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +
-> +poweroff:
-> +       regulator_disable(ili->avee);
-> +poweroffavdd:
-> +       regulator_disable(ili->avdd);
-> +poweroff1v8:
-> +       usleep_range(5000, 7000);
-> +       regulator_disable(ili->pp1800);
-> +       gpiod_set_value(ili->enable_gpio, 0);
-> +
-> +       return ret;
-> +}
-> +
-> +static int ili9882t_enable(struct drm_panel *panel)
-> +{
-> +       msleep(130);
-> +       return 0;
-> +}
-> +
-> +static const struct drm_display_mode starry_ili9882t_default_mode =3D {
-> +       .clock =3D 165280,
-> +       .hdisplay =3D 1200,
-> +       .hsync_start =3D 1200 + 32,
-> +       .hsync_end =3D 1200 + 32 + 30,
-> +       .htotal =3D 1200 + 32 + 30 + 32,
-> +       .vdisplay =3D 1920,
-> +       .vsync_start =3D 1920 + 68,
-> +       .vsync_end =3D 1920 + 68 + 2,
-> +       .vtotal =3D 1920 + 68 + 2 + 10,
-> +       .type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> +};
-> +
-> +static const struct panel_desc starry_ili9882t_desc =3D {
-> +       .modes =3D &starry_ili9882t_default_mode,
-> +       .bpc =3D 8,
-> +       .size =3D {
-> +               .width_mm =3D 141,
-> +               .height_mm =3D 226,
-> +       },
-> +       .lanes =3D 4,
-> +       .format =3D MIPI_DSI_FMT_RGB888,
-> +       .mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PU=
-LSE |
-> +                     MIPI_DSI_MODE_LPM,
-> +       .init =3D starry_ili9882t_init,
-> +       .lp11_before_reset =3D true,
-> +};
-> +
-> +static int ili9882t_get_modes(struct drm_panel *panel,
-> +                              struct drm_connector *connector)
-> +{
-> +       struct ili9882t *ili =3D to_ili9882t(panel);
-> +       const struct drm_display_mode *m =3D ili->desc->modes;
-> +       struct drm_display_mode *mode;
-> +
-> +       mode =3D drm_mode_duplicate(connector->dev, m);
-> +       if (!mode) {
-> +               dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-> +                       m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-> +               return -ENOMEM;
-> +       }
-> +
-> +       mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +       drm_mode_set_name(mode);
-> +       drm_mode_probed_add(connector, mode);
-> +
-> +       connector->display_info.width_mm =3D ili->desc->size.width_mm;
-> +       connector->display_info.height_mm =3D ili->desc->size.height_mm;
-> +       connector->display_info.bpc =3D ili->desc->bpc;
-> +       /*
-> +        * TODO: Remove once all drm drivers call
-> +        * drm_connector_set_orientation_from_panel()
-> +        */
-> +       drm_connector_set_panel_orientation(connector, ili->orientation);
-> +
-> +       return 1;
-> +}
-> +
-> +static enum drm_panel_orientation ili9882t_get_orientation(struct drm_pa=
-nel *panel)
-> +{
-> +       struct ili9882t *ili =3D to_ili9882t(panel);
-> +
-> +       return ili->orientation;
-> +}
-> +
-> +static const struct drm_panel_funcs ili9882t_funcs =3D {
-> +       .disable =3D ili9882t_disable,
-> +       .unprepare =3D ili9882t_unprepare,
-> +       .prepare =3D ili9882t_prepare,
-> +       .enable =3D ili9882t_enable,
-> +       .get_modes =3D ili9882t_get_modes,
-> +       .get_orientation =3D ili9882t_get_orientation,
-> +};
-> +
-> +static int ili9882t_add(struct ili9882t *ili)
-> +{
-> +       struct device *dev =3D &ili->dsi->dev;
-> +       int err;
-> +
-> +       ili->avdd =3D devm_regulator_get(dev, "avdd");
-> +       if (IS_ERR(ili->avdd))
-> +               return PTR_ERR(ili->avdd);
-> +
-> +       ili->avee =3D devm_regulator_get(dev, "avee");
-> +       if (IS_ERR(ili->avee))
-> +               return PTR_ERR(ili->avee);
-> +
-> +       ili->pp3300 =3D devm_regulator_get(dev, "pp3300");
-> +       if (IS_ERR(ili->pp3300))
-> +               return PTR_ERR(ili->pp3300);
-> +
-> +       ili->pp1800 =3D devm_regulator_get(dev, "pp1800");
-> +       if (IS_ERR(ili->pp1800))
-> +               return PTR_ERR(ili->pp1800);
-> +
-> +       ili->enable_gpio =3D devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW)=
-;
-> +       if (IS_ERR(ili->enable_gpio)) {
-> +               dev_err(dev, "cannot get reset-gpios %ld\n",
-> +                       PTR_ERR(ili->enable_gpio));
-> +               return PTR_ERR(ili->enable_gpio);
-> +       }
-> +
-> +       gpiod_set_value(ili->enable_gpio, 0);
-> +
-> +       drm_panel_init(&ili->base, dev, &ili9882t_funcs,
-> +                      DRM_MODE_CONNECTOR_DSI);
-> +       err =3D of_drm_get_panel_orientation(dev->of_node, &ili->orientat=
-ion);
-> +       if (err < 0) {
-> +               dev_err(dev, "%pOF: failed to get orientation %d\n", dev-=
->of_node, err);
-> +               return err;
-> +       }
-> +
-> +       err =3D drm_panel_of_backlight(&ili->base);
-> +       if (err)
-> +               return err;
-> +
-> +       ili->base.funcs =3D &ili9882t_funcs;
-> +       ili->base.dev =3D &ili->dsi->dev;
-> +
-> +       drm_panel_add(&ili->base);
-> +
-> +       return 0;
-> +}
-> +
-> +static int ili9882t_probe(struct mipi_dsi_device *dsi)
-> +{
-> +       struct ili9882t *ili;
-> +       int ret;
-> +       const struct panel_desc *desc;
-> +
-> +       ili =3D devm_kzalloc(&dsi->dev, sizeof(*ili), GFP_KERNEL);
-> +       if (!ili)
-> +               return -ENOMEM;
-> +
-> +       desc =3D of_device_get_match_data(&dsi->dev);
-> +       dsi->lanes =3D desc->lanes;
-> +       dsi->format =3D desc->format;
-> +       dsi->mode_flags =3D desc->mode_flags;
-> +       ili->desc =3D desc;
-> +       ili->dsi =3D dsi;
-> +       ret =3D ili9882t_add(ili);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       mipi_dsi_set_drvdata(dsi, ili);
-> +
-> +       ret =3D mipi_dsi_attach(dsi);
-> +       if (ret)
-> +               drm_panel_remove(&ili->base);
-> +
-> +       return ret;
-> +}
-> +
-> +static void ili9882t_shutdown(struct mipi_dsi_device *dsi)
-> +{
-> +       struct ili9882t *ili =3D mipi_dsi_get_drvdata(dsi);
-> +
-> +       drm_panel_disable(&ili->base);
-> +       drm_panel_unprepare(&ili->base);
-> +}
-> +
-> +static void ili9882t_remove(struct mipi_dsi_device *dsi)
-> +{
-> +       struct ili9882t *ili =3D mipi_dsi_get_drvdata(dsi);
-> +       int ret;
-> +
-> +       ili9882t_shutdown(dsi);
-> +
-> +       ret =3D mipi_dsi_detach(dsi);
-> +       if (ret < 0)
-> +               dev_err(&dsi->dev, "failed to detach from DSI host: %d\n"=
-, ret);
-> +
-> +       if (ili->base.dev)
-> +               drm_panel_remove(&ili->base);
-> +}
-> +
-> +static const struct of_device_id ili9882t_of_match[] =3D {
-> +       { .compatible =3D "starry,ili9882t",
-> +         .data =3D &starry_ili9882t_desc
-> +       },
-> +       { /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, ili9882t_of_match);
-> +
-> +static struct mipi_dsi_driver ili9882t_driver =3D {
-> +       .driver =3D {
-> +               .name =3D "panel-ili9882t",
-> +               .of_match_table =3D ili9882t_of_match,
-> +       },
-> +       .probe =3D ili9882t_probe,
-> +       .remove =3D ili9882t_remove,
-> +       .shutdown =3D ili9882t_shutdown,
-> +};
-> +module_mipi_dsi_driver(ili9882t_driver);
-> +
-> +MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
-> +MODULE_DESCRIPTION("Ilitek ILI9882T-based panels driver");
-> +MODULE_LICENSE("GPL");
+> It would be interesting to see how well (easy) this integrates with
+> io_uring. Besides avoiding all of the syscalls for receiving the iov and
+> releasing the buffers back to the pool, io_uring also brings in the
+> ability to seed a page_pool with registered buffers which provides a
+> means to get simpler Rx ZC for host memory.
 >
-> --
-> 2.34.1
->
+> Overall I like the intent and possibilities for extensions, but a lot of
+> details are missing - perhaps some are answered by seeing an end-to-end
+> implementation.
+
+--=20
+Thanks,
+Mina
