@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1166377BF4A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 19:52:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F1977BF58
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 19:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D28DD10E21A;
-	Mon, 14 Aug 2023 17:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C52A10E223;
+	Mon, 14 Aug 2023 17:53:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6565310E21A;
- Mon, 14 Aug 2023 17:51:58 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id
- 5614622812f47-3a1ebb85f99so4363494b6e.2; 
- Mon, 14 Aug 2023 10:51:58 -0700 (PDT)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8280410E221;
+ Mon, 14 Aug 2023 17:53:26 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id
+ 5614622812f47-3a812843f0fso32169b6e.2; 
+ Mon, 14 Aug 2023 10:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692035517; x=1692640317;
+ d=gmail.com; s=20221208; t=1692035606; x=1692640406;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HIBMc1Pc73jtTeqexlKEiDPeJffujSakc49ekoQBfEw=;
- b=X0GzjxNkFGdsC2FAJ0D0BeFPlg+0QkEZzweKtNqg/6IpcR6A5qVnbDZ7ykD+TV3iNd
- DxOGLsXpcrRQqI4uqKBxBkK9mSnlO6Jem1upRzZgaHX3y1iV+bxfijkDp3c3Ls0OAwLa
- eNPNIzbaoXxiOBRP1V7ZHkBkR4GRqhiHoH6T4QOG65szHCi4+0FSal6iGsbR2yUJhaW7
- V3R+9sQu5AiPrdrnx9LhOA4jVUHS1cGOpH0IsVHGw/JZnr1eUsjyMJdu3o0atm2j1fEE
- z7SYvdSF3cpcUxyJ0jYj/DIbea7BtKhumoYnhgsi9uWasa9UmcNzRSvRpdCu0J1gWvuq
- PwiA==
+ bh=DNj4Ehy/sfd0pFzOH9dNZTRBv9sp3KUM4KIPo2H4CmY=;
+ b=rN42HWWDFze8qvsP/5ZO5xHNVC1uJACbX1HAtVkEbdgDXR1+Bfdrm1H+0/7J4sJImJ
+ oW2Y8orP6PAthtO1xZ3wQaRWB8YwRMcAJiTXh6YScl+8WM7UW36db95j/Bih10gi3eyX
+ 2ceDPLBzqQNeUnSckxy8FE2wOuuHIKM7XnXdrgYsWQd9OqT1PH5ffT8x7X9cELduQDDS
+ I2+TovgvXXmA1otGD4LzagdMAN89bIGTRIE3pBzqLb4/Kq/RyPLV75k6meF6eeG5QKze
+ 4F/6NrcAg+UAW5vAozvCRLjnyFnYakzvFDQsRBPymTtzaCbADc6K6iKoe+XMcpYOF+Ji
+ UXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692035517; x=1692640317;
+ d=1e100.net; s=20221208; t=1692035606; x=1692640406;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HIBMc1Pc73jtTeqexlKEiDPeJffujSakc49ekoQBfEw=;
- b=giJ8eGCicKmr2YLapMsd+ljHxmSxbuSOe3RtgQtwMr0wPhk92udskqQR4wDGaRRFEO
- L3DzShr6SfT+KbeCxnCU2UuTWxccpjorpt2mzG639s5+BVLTKInUXMk6vUAJ4a73hnR7
- 85yHj+ac+6zFgEFxIhCTNo5FYasS+W/q8mEX1WqHPs1T/g7cblKZiiqTxwF4Ua6LYYO8
- HvLymNd7RTYliLwIvVOBq0pFrEKKuifvnw8hccepEUo9Qi3ZqQF29sLTyuhXl1AF7Cul
- JdX+qgCLSbzRkEDLjMqfU/47DDDOtKhOBg9RRqF/YZhr92+UY/vwV0TsVVwFN2cPuI0p
- cSUg==
-X-Gm-Message-State: AOJu0YywaCTR/nxadyMFHBJW5452fhFXAcZrse0BLv+US1gUNTEBOj+5
- Z5HGgYc2V0S1X4ztWc7XHwXWnQ5pCT81u6Szry+GmFgL
-X-Google-Smtp-Source: AGHT+IESEwrsFUbztJaxvtJi++NMkNad4w1FKUijFhYl0d8tpjrbfjvVvQgcHh1aXZsKt+AHt+JbeThdt46h0wcJr2o=
-X-Received: by 2002:a05:6808:1316:b0:39a:bd0e:43d with SMTP id
- y22-20020a056808131600b0039abd0e043dmr14466780oiv.36.1692035517491; Mon, 14
- Aug 2023 10:51:57 -0700 (PDT)
+ bh=DNj4Ehy/sfd0pFzOH9dNZTRBv9sp3KUM4KIPo2H4CmY=;
+ b=eC+Sv9gdE+eQF26fUAwmsN9WYfVAuCUXY28rzTkhBdsxEXlJpSBCqvRwy7hUGZr5RL
+ bD9Tia0dSyNLMRMsOCyHA5UQq7TjprzGU+R6vxklQoR5BWtiiObfM7Ic73mIj4AwOTRe
+ 2CXX63DmrGUbVbhV6gYn4gleUbE8BVrHczSTbIshD8mXhkJIQ1Ao34B1wWiPP+x511by
+ QUpFu1xH+UbdjBeGuWQ6qnYjyQFbKaOj0D5ISzgFBy54B8O5Togtr0GZU0RbtNjdzi3X
+ b6boDnZdP9Hcd82Ho/xf89Ld4GFKd6qrv9yOT+wkmNGBy9THuVPtXTxBfTSWVSL5Liyc
+ xgdw==
+X-Gm-Message-State: AOJu0YxMYLwQgPurlb+w0K7QvSrH645biuLm6fAwfnJP+PsS3lzblMLX
+ KKKsVYe8zDdxoinLFj4jmm7iHjZjco9yxhLOeAhRT5+O
+X-Google-Smtp-Source: AGHT+IGJXHhBOUTVGCeeiEOn2js4InfzSyxZIwh2hBBvYmWwgDTWI6octp0dURI2oWFYuqtzBpHx3gdNmZPVQNUPUmE=
+X-Received: by 2002:a05:6870:424c:b0:1be:c688:1cc with SMTP id
+ v12-20020a056870424c00b001bec68801ccmr8400287oac.5.1692035605733; Mon, 14 Aug
+ 2023 10:53:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230731092108.3162-1-sunran001@208suo.com>
-In-Reply-To: <20230731092108.3162-1-sunran001@208suo.com>
+References: <20230731093009.3243-1-sunran001@208suo.com>
+In-Reply-To: <20230731093009.3243-1-sunran001@208suo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 14 Aug 2023 13:51:46 -0400
-Message-ID: <CADnq5_P0L5Np9U5N11EKXKW1K7K8S7GGiBRJDU1Hh3a0Bmts4w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: Clean up errors in smu_v11_0_pptable.h
+Date: Mon, 14 Aug 2023 13:53:14 -0400
+Message-ID: <CADnq5_Mmzv0-UmRX5fowsg6AOBmBvsWPjm2FSHmxL4oLF_MVDg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: Clean up errors in amdgpu_smu.h
 To: Ran Sun <sunran001@208suo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,90 +75,133 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Mon, Jul 31, 2023 at 5:22=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrot=
+On Mon, Jul 31, 2023 at 5:30=E2=80=AFAM Ran Sun <sunran001@208suo.com> wrot=
 e:
 >
 > Fix the following errors reported by checkpatch:
 >
-> ERROR: trailing whitespace
+> ERROR: open brace '{' following enum go on the same line
 > ERROR: open brace '{' following struct go on the same line
-> ERROR: code indent should use tabs where possible
 >
 > Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->  .../gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h  | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h | 36 +++++++------------
+>  1 file changed, 12 insertions(+), 24 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h b/drive=
-rs/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h
-> index 0116e3d04fad..df7430876e0c 100644
-> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h
-> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h
-> @@ -101,8 +101,7 @@ enum SMU_11_0_ODSETTING_ID {
->  };
->  #define SMU_11_0_MAX_ODSETTING    32          //Maximum Number of ODSett=
-ings
->
-> -struct smu_11_0_overdrive_table
-> -{
-> +struct smu_11_0_overdrive_table {
->      uint8_t  revision;                                        //Revision=
- =3D SMU_11_0_PP_OVERDRIVE_VERSION
->      uint8_t  reserve[3];                                      //Zero fil=
-led field reserved for future use
->      uint32_t feature_count;                                   //Total nu=
-mber of supported features
-> @@ -127,8 +126,7 @@ enum SMU_11_0_PPCLOCK_ID {
->  };
->  #define SMU_11_0_MAX_PPCLOCK      16          //Maximum Number of PP Clo=
-cks
->
-> -struct smu_11_0_power_saving_clock_table
-> -{
-> +struct smu_11_0_power_saving_clock_table {
->      uint8_t  revision;                                        //Revision=
- =3D SMU_11_0_PP_POWERSAVINGCLOCK_VERSION
->      uint8_t  reserve[3];                                      //Zero fil=
-led field reserved for future use
->      uint32_t count;                                           //power_sa=
-ving_clock_count =3D SMU_11_0_PPCLOCK_COUNT
-> @@ -136,8 +134,7 @@ struct smu_11_0_power_saving_clock_table
->      uint32_t min[SMU_11_0_MAX_PPCLOCK];                       //PowerSav=
-ingClock Mode Clock Minimum array In MHz
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h b/drivers/gpu/=
+drm/amd/pm/swsmu/inc/amdgpu_smu.h
+> index 6e2069dcb6b9..190a90b24d74 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h
+> @@ -200,29 +200,25 @@ struct smu_power_state {
+>         struct smu_hw_power_state                     hardware;
 >  };
 >
-> -struct smu_11_0_powerplay_table
+> -enum smu_power_src_type
 > -{
-> +struct smu_11_0_powerplay_table {
->        struct atom_common_table_header header;
->        uint8_t  table_revision;
->        uint16_t table_size;                          //Driver portion tab=
-le size. The offset to smc_pptable including header size
-> @@ -145,14 +142,14 @@ struct smu_11_0_powerplay_table
->        uint32_t golden_revision;
->        uint16_t format_id;
->        uint32_t platform_caps;                       //POWERPLAYABLE::ulP=
-latformCaps
-> -
-> +
->        uint8_t  thermal_controller_type;             //one of SMU_11_0_PP=
-_THERMALCONTROLLER
+> +enum smu_power_src_type {
+>         SMU_POWER_SOURCE_AC,
+>         SMU_POWER_SOURCE_DC,
+>         SMU_POWER_SOURCE_COUNT,
+>  };
 >
->        uint16_t small_power_limit1;
->        uint16_t small_power_limit2;
->        uint16_t boost_power_limit;
-> -      uint16_t od_turbo_power_limit;                //Power limit settin=
-g for Turbo mode in Performance UI Tuning.
-> -      uint16_t od_power_save_power_limit;           //Power limit settin=
-g for PowerSave/Optimal mode in Performance UI Tuning.
-> +      uint16_t od_turbo_power_limit;                //Power limit settin=
-g for Turbo mode in Performance UI Tuning.
-> +      uint16_t od_power_save_power_limit;           //Power limit settin=
-g for PowerSave/Optimal mode in Performance UI Tuning.
->        uint16_t software_shutdown_temp;
+> -enum smu_ppt_limit_type
+> -{
+> +enum smu_ppt_limit_type {
+>         SMU_DEFAULT_PPT_LIMIT =3D 0,
+>         SMU_FAST_PPT_LIMIT,
+>  };
 >
->        uint16_t reserve[6];                          //Zero filled field =
-reserved for future use
+> -enum smu_ppt_limit_level
+> -{
+> +enum smu_ppt_limit_level {
+>         SMU_PPT_LIMIT_MIN =3D -1,
+>         SMU_PPT_LIMIT_CURRENT,
+>         SMU_PPT_LIMIT_DEFAULT,
+>         SMU_PPT_LIMIT_MAX,
+>  };
+>
+> -enum smu_memory_pool_size
+> -{
+> +enum smu_memory_pool_size {
+>      SMU_MEMORY_POOL_SIZE_ZERO   =3D 0,
+>      SMU_MEMORY_POOL_SIZE_256_MB =3D 0x10000000,
+>      SMU_MEMORY_POOL_SIZE_512_MB =3D 0x20000000,
+> @@ -282,8 +278,7 @@ struct smu_clock_info {
+>         uint32_t max_bus_bandwidth;
+>  };
+>
+> -struct smu_bios_boot_up_values
+> -{
+> +struct smu_bios_boot_up_values {
+>         uint32_t                        revision;
+>         uint32_t                        gfxclk;
+>         uint32_t                        uclk;
+> @@ -305,8 +300,7 @@ struct smu_bios_boot_up_values
+>         uint32_t                        firmware_caps;
+>  };
+>
+> -enum smu_table_id
+> -{
+> +enum smu_table_id {
+>         SMU_TABLE_PPTABLE =3D 0,
+>         SMU_TABLE_WATERMARKS,
+>         SMU_TABLE_CUSTOM_DPM,
+> @@ -326,8 +320,7 @@ enum smu_table_id
+>         SMU_TABLE_COUNT,
+>  };
+>
+> -struct smu_table_context
+> -{
+> +struct smu_table_context {
+>         void                            *power_play_table;
+>         uint32_t                        power_play_table_size;
+>         void                            *hardcode_pptable;
+> @@ -390,8 +383,7 @@ struct smu_power_context {
+>  };
+>
+>  #define SMU_FEATURE_MAX        (64)
+> -struct smu_feature
+> -{
+> +struct smu_feature {
+>         uint32_t feature_num;
+>         DECLARE_BITMAP(supported, SMU_FEATURE_MAX);
+>         DECLARE_BITMAP(allowed, SMU_FEATURE_MAX);
+> @@ -416,21 +408,18 @@ struct mclock_latency_table {
+>         struct mclk_latency_entries  entries[MAX_REGULAR_DPM_NUM];
+>  };
+>
+> -enum smu_reset_mode
+> -{
+> +enum smu_reset_mode {
+>      SMU_RESET_MODE_0,
+>      SMU_RESET_MODE_1,
+>      SMU_RESET_MODE_2,
+>  };
+>
+> -enum smu_baco_state
+> -{
+> +enum smu_baco_state {
+>         SMU_BACO_STATE_ENTER =3D 0,
+>         SMU_BACO_STATE_EXIT,
+>  };
+>
+> -struct smu_baco_context
+> -{
+> +struct smu_baco_context {
+>         uint32_t state;
+>         bool platform_support;
+>         bool maco_support;
+> @@ -478,8 +467,7 @@ struct stb_context {
+>
+>  #define WORKLOAD_POLICY_MAX 7
+>
+> -struct smu_context
+> -{
+> +struct smu_context {
+>         struct amdgpu_device            *adev;
+>         struct amdgpu_irq_src           irq_source;
+>
 > --
 > 2.17.1
 >
