@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F2F77B261
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AD077B26C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Aug 2023 09:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3666D10E129;
-	Mon, 14 Aug 2023 07:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 009DD10E00F;
+	Mon, 14 Aug 2023 07:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 999A210E077;
- Mon, 14 Aug 2023 07:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1691998010; x=1723534010;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=5mB685TMqnywZWJpaoTuMK9CKZJvbZb4EVjI2N4hKMg=;
- b=JzEyz48HAoSqV3VvzT7wQw3RFMZZy5uGLC2vQCDJrowkmbxIPHsfSrZ+
- p5clZ/wmKp3HYYAqHhtsK2Q7Mg7Zss81WVfT6Tb22ParLTSW6utflXEtI
- f24Xb/jeUEjLQVdjb+Xph8qys7ljpB/PLuX4OHj1g54ezcaJuGsdQTLR/
- u28bWO7BHvpg7XGRuZoq1YEkmswJblIQ5E6r0rAHfbyqhAhR7+7JK3yqg
- PN92IYENI1aZDbUTUcGghSLEbwGFr7wBa040FS80G5BMioBqunmZE3z0b
- jojyBgH10HW2RKtS43EirJUfKy/ss/eEPCSWeqWgqmLtnvsM/qiN2OVcM w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="356945410"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; d="scan'208";a="356945410"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2023 00:26:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10801"; a="856986999"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; d="scan'208";a="856986999"
-Received: from pameiner-mobl2.amr.corp.intel.com (HELO localhost)
- ([10.252.51.125])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2023 00:26:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Wang Jinchao <wangjinchao@xfusion.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/i915: Fix Kconfig error for CONFIG_DRM_I915
-In-Reply-To: <ZNdOoHvIg7HXh7Gg@fedora>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <ZNdOoHvIg7HXh7Gg@fedora>
-Date: Mon, 14 Aug 2023 10:26:45 +0300
-Message-ID: <87o7jaythm.fsf@intel.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D106110E00F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Aug 2023 07:28:39 +0000 (UTC)
+X-UUID: 2caf6cb43a7411ee9cb5633481061a41-20230814
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=twJrawqYNsLX5OYiSHLJ8K+fzkDnTpMm9uFy2cIxYJY=; 
+ b=BiShEad1gL0qwkpDsonxxY2Zf4RpZVU4J7VSX2BkXGeniX6hFtSjUBp007HBdK3fElzxAaR9Yiv+j/iBkRsLkzsseLHl5sOqkp4uL51KE05D2C5Uevp4kg7R7FsfrzPM0KOfZkSQuoQwZ1mtpKWi1vGpgHo+Rv7zFJDMZTEqnBA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.31, REQID:1398bd86-eaab-4f57-96b1-6aa4eafdad32, IP:0,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-5
+X-CID-META: VersionHash:0ad78a4, CLOUDID:c5c24c1f-33fd-4aaa-bb43-d3fd68d9d5ae,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 2caf6cb43a7411ee9cb5633481061a41-20230814
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 683186235; Mon, 14 Aug 2023 15:28:33 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 14 Aug 2023 15:28:32 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 14 Aug 2023 15:28:31 +0800
+From: Shuijing Li <shuijing.li@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, 
+ <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
+Subject: [PATCH v4,0/3] Add compatible to increase MT8188 audio control
+Date: Mon, 14 Aug 2023 15:28:39 +0800
+Message-ID: <20230814072842.28597-1-shuijing.li@mediatek.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,63 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stone.xulei@xfusion.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Shuijing Li <shuijing.li@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 12 Aug 2023, Wang Jinchao <wangjinchao@xfusion.com> wrote:
-> When CONFIG_DRM_I915 is set to 'y' and CONFIG_BACKLIGHT_CLASS_DEVICE
-> is set to 'm', we encountered an ld.lld error during the build process:
->
-> 	ld.lld: error: undefined symbol: backlight_device_get_by_name
-> 	>>> referenced by intel_backlight.c:955
-> 	>>>               vmlinux.o:(intel_backlight_device_register)
->
-> 	ld.lld: error: undefined symbol: backlight_device_register
-> 	>>> referenced by intel_backlight.c:971
-> 	>>>               vmlinux.o:(intel_backlight_device_register)
->
-> 	ld.lld: error: undefined symbol: backlight_device_unregister
-> 	>>> referenced by intel_backlight.c:999
-> 	>>>               vmlinux.o:(intel_backlight_device_unregister)
->
-> This issue occurred because intel_backlight_device_register and
-> intel_backlight_device_unregister were enclosed within
-> However, according to Kconfig, CONFIG_DRM_I915 will select
-> BACKLIGHT_CLASS_DEVICE only if ACPI is enabled.
-> This led to an error, which can be resolved by removing the
-> conditional statements related to ACPI.
+Add dt-binding documentation of dp-tx for MediaTek MT8188 SoC.
+Mainly add the following two flag:
 
-The real fix is to use
+1.The audio packet arrangement function is to only arrange audio
+packets into the Hblanking area. In order to align with the HW
+default setting of g1200, this function needs to be turned off.
 
-	depends on BACKLIGHT_CLASS_DEVICE || BACKLIGHT_CLASS_DEVICE=n
+2.Due to the difference of HW, different dividers need to be set.
 
-but in order to do that, you need to change a lot of places to depend
-on, not select BACKLIGHT_CLASS_DEVICE, because otherwise you end up with
-other dependency issues.
+Base on the branch of linus/master v6.4.
 
-BR,
-Jani.
+Shuijing Li (3):
+  dt-bindings: display: mediatek: dp: Add compatible for MediaTek MT8188
+  drm/mediatek: dp: Add the audio packet flag to mtk_dp_data struct
+  drm/mediatek: dp: Add the audio divider to mtk_dp_data struct
 
->
-> Signed-off-by: Wang Jinchao <wangjinchao@xfusion.com>
-> ---
->  drivers/gpu/drm/i915/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> index 01b5a8272a27..5003de921bf7 100644
-> --- a/drivers/gpu/drm/i915/Kconfig
-> +++ b/drivers/gpu/drm/i915/Kconfig
-> @@ -24,7 +24,7 @@ config DRM_I915
->  	select IRQ_WORK
->  	# i915 depends on ACPI_VIDEO when ACPI is enabled
->  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
-> -	select BACKLIGHT_CLASS_DEVICE if ACPI
-> +	select BACKLIGHT_CLASS_DEVICE
->  	select INPUT if ACPI
->  	select X86_PLATFORM_DEVICES if ACPI
->  	select ACPI_WMI if ACPI
+ .../display/mediatek/mediatek,dp.yaml         |  2 ++
+ drivers/gpu/drm/mediatek/mtk_dp.c             | 36 ++++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h         | 23 ++++++++----
+ 3 files changed, 54 insertions(+), 7 deletions(-)
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.40.1
+
