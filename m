@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988E577D4C5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 23:04:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CF577D4E1
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 23:08:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32AB310E18E;
-	Tue, 15 Aug 2023 21:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1243689343;
+	Tue, 15 Aug 2023 21:08:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5E910E18E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 21:04:24 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C3689343
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 21:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1692133454; x=1692738254; i=deller@gmx.de;
- bh=D62PIGDg7sygKLE/mNfm11BCcwgAlRAB2wYX6/8trYA=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=NekiG8AO408hQAv7oI4ohAMSod9826A6f2drP4Tnn0bwR21i2CLzBdRaMW4aR7ETSlUXIvd
- UmqrXmfRsK9ppwI5j2vzZI7G2Yc7LRVbEPacl0X9cvM6+K9VdPTWFXx47VUx5kz1HO10V+hkK
- TIS/8r4P85k7FDUBgUUYde7lkiQXhbZ5B6y2ySdkrs9sFTQuM+hk7kOe7LAQhmASsElabGWkJ
- 99VaqCvA7ON+n7zU6cYE1HKxeO/eo0W8fCtH8hTrMPG9WP2OJpEo6ARclJZBDXFv8xCW4DY9N
- q4S6DEQtcyMp9IVoXjLAwOscmO8ZaMm5jpZu8S6pYPCcfC3kM9uA==
+ s=s31663417; t=1692133700; x=1692738500; i=deller@gmx.de;
+ bh=AKb3aYCWzBhsjnJcRFCgQf3uU5feEmUxdpHtfyaTV/U=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=lCWorK0KIrraXGg7Vft8UNk4sgR3FL0Riy1y7DZKckr9mU+75jJLXJE+ED+Wc8/LNJNz3uK
+ MIv4sfsyT6nDmOQxTDGkVoQHhifWCNMF4Elz7hukpKCvWzXpydNqQ28xmpCvD7nDlqQPeKhQf
+ OvtA6Wm7j4KQ1cZA18aw/5+NOaRGkN/4xe8P6Ahl8GP8ZPZdpK6UQSN8TWw73SVsRn+oA4a7c
+ HnDKVcZsiZ51WBEa5rulK6WuEsTDOpK+FWCEFKIJG80Bl7ysPV2L+Se5ygNdaHz3lzXQ3OjZ5
+ zY5re5uUIO9IvFVVD+VoLETd5OE1kR7eFSXyDi/Qt3rkoZRaIKMw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.60] ([94.134.159.222]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRmfo-1qKMLs0SWw-00TAUz; Tue, 15
- Aug 2023 23:04:14 +0200
-Message-ID: <e9fd06cb-a3cd-19f9-42e6-9012f06dba63@gmx.de>
-Date: Tue, 15 Aug 2023 23:04:12 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MNbp3-1q6w9P2J0V-00P3ah; Tue, 15
+ Aug 2023 23:08:20 +0200
+Message-ID: <f4b9b52e-2b1d-6991-f27b-fbda4a4e27c6@gmx.de>
+Date: Tue, 15 Aug 2023 23:08:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH -next] video: fbdev: kyro: Remove unused declarations
+Subject: Re: [PATCH -next] fbdev: atmel_lcdfb: Remove redundant of_match_ptr()
 Content-Language: en-US
-To: Yue Haibing <yuehaibing@huawei.com>
-References: <20230814140510.42408-1-yuehaibing@huawei.com>
+To: Ruan Jinjie <ruanjinjie@huawei.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
+References: <20230811072811.2350474-1-ruanjinjie@huawei.com>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230814140510.42408-1-yuehaibing@huawei.com>
+In-Reply-To: <20230811072811.2350474-1-ruanjinjie@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:VRIRcyFc33D9WSOQvlU1E3W1RMkVYB+aNmpoJDb3aMqfZUkE3FM
- Iu6dWMVEoQbInyItH8VJOGnRMHhckYmQWx7g6JjAvbJGIaQwN2PqRGtwr/8LlvJBgoIAyCm
- 7DPJD5/ZUB5Pjt4jKFZ6s/vfh7z7/hyntiCMbGgsYTsWwwIMj2DDxJ4acfI1NU5cHRZ/mJO
- EEEZNpJBk0yDSTSx9KkOQ==
+X-Provags-ID: V03:K1:XDDxd6WEmUBhvXIFwXRWgl9qDu2jWDVjRX7/gDpHzXfjkp35LM2
+ pf/hwN9m2ewqsfRFifABo10y8vVjpg7YX3biu2kZXR1uqOWzi2IE/Q4VwZEMESLGfWBRyXh
+ zNZNYPEY458fWteG0PW9tFJ9d9Hhv6ZdedEj2S89HFgqOo7mRymHmBdbaK073ix3KvPYkmv
+ dlhEJqHv7kWc6XopZVG0Q==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:T269scm5ZNs=;T4DU760QjWoJdBvDiUG9B3l94hy
- kw83i9Vgce7l9V0rk9uDRJRQX9dZSEDiBVGO9tx8eaiOcFTggJgstIAwG4kNPz4s4038VEXjK
- SXsAPZZs0eJqmkbHsaVnCAwka3DVy3cyoNeYUi/m9UgufYm/H56GOQ4iyHAIKvGNfWgE40jZq
- /A3tB8kxuv02h/+h4pSF2u6zCE6Vlv77qBOikJVE6NB5nzpvJutnf1CTjHJjsG9blxkbjbcs6
- iLSGzUfOEMFUzxHUjlLJlAKeWsGSCCYdrssG9z4jxQdYSTsxrPLE5XQCepvrtgI1O15kIT5P7
- r1foJRpnJovf2gJ7WnckrjUH2KVI1zaK6o3e517lIK73wBOKjl+/OEj42+fKBXfxtA1nk62ti
- d2qKzN6B+k5m7UkOiXChz+wLvgbLORqcpswMcCtM8ww8+je8orpCRgkdrwx2sjJuKhHlvMKvQ
- a3oWE7wKYD8+K6MAoDaLZlkD+LA7897XPCaOrqgj0UdCxO16gItBp2414NAiuDVrgbYMcN4ue
- 9AdS7U9hB8yVf8DiyU2mkV+YxP2UIy3+6+ueCQ1fz8aChZIcltcuNYvZBAH2H5Wtjhkx6G71q
- ASZmPfUXmQpO7zTJ4oyXuZqBapj8b9+xtnxiGIIkssbZzF7SrHxCQDrkvwuNeFQuwjCULg7ai
- tXsKzVkfo8e/ZEeGvVS0Xpj52B9vAoZd07UpRoSnWt+rkIJfs1ITdiwBy4o0TUfCsSVVD5tP5
- aGDoGeqYMoNhJ+/MngFE7rkA9R1w0HF1J9UK+yKtQiNMKpZEaEprlsUUeLRxsOkNjaIvyInfq
- g8hS15YFWOK+zITBWk8Xozo0+4GVyxOn9YRT7eMEwD6FG2RTqzQYcUEAx0G5VgAd3iP6omk58
- TR22IrpcytJXq1JoAVPLgFw9erSbefJzfIV9B5/mZHQPcQ4LnrskJm14BeVR8dg6hHL2fmjLp
- gxq7N+X/rRuHewtdVa9NB0tde6Y=
+UI-OutboundReport: notjunk:1;M01:P0:ZilbdJAkuyQ=;7Ngh845/WiB/IlKNwRplirqOpGQ
+ Hs61mZdgf7XAjICKdFQ/yrqYKOjJsj+e2pf/lVnAZa2K0Zn/ioF271ykyJRYv+8l3WbsfdU8u
+ MNgVBE0RzYlWnT6kXNzqf2zQXQ1EbwuOMUiDQAhn2QFvyxdKG5iEiLAzQXyJgdU6BjMSFIA8v
+ 7UPHIKpC2UyDplD7aJ61oHgPl3/I917B0BeRhsNRBi/mORcep4gx/Ee0NQ+KiDgcP2Wes5iC3
+ xPgU4QYZ1/x8xXyebZdNjSEuz1GlZc5dbUZLQod3e3Mb0sWIsaqfMnKVD1EhC/Kk9OW05uk7J
+ 4DZyzOfJQ2KyigZo9/PLdwo2NI/THWjJO/8hGWt1HELf5Bbce32tGsROMbQlg5ECQS/eGs7Ci
+ lQkeb51CGQKT2QEgkFLi4MEzcRsdksHTjsoSd0cvNZJSqoqO8WZI1voOW3Sf6FZBSlSeWLXtG
+ 5Cs/DrJ3gk+SgMUbKmz/pRIWuRYKtIEP7oFY/sw2KuHsscRK4mJa4+QDxzJEQISDhh1twyAGS
+ /xd8vJcdlXnehBW2SBB51+a7x1lQQN3VEqZrphTWkcNWs5mmIY3Sg/wyDDWfkelQefXejKhtG
+ GrVa1p3RgJEytc7+lAfQJ4mMGmcHdHSKd5Hfdo7xaG2ePnevBrYUJRCT63St2EBFVQzr2pEQ3
+ 6RIMwNqzzAwTJVPxrBSa6Jg6sHP21F09EtRGantUZ9i5nPfTr5k6OjzdyT4B9O/cJIJxKZFOk
+ pTem2M/p++Kv4O/ZkyaSpr4LjNVCL1z8pKq0ogR50lByKb1mv1W1WV2ebJpJMdtK8vfnpZpAd
+ AI7i47sB7ySUNzXX+/iJj332u2+W86ztCttuqjfORV7yyBddr2OM5MsihGljqQvrLdZVNf/Yu
+ uHAYuzOem6bfcFtXxWFAakc6NzLKXlT/s80kZTsCJZ2dnKI4BROgUt98VfF8x9td1GAgkGFI0
+ JbezPqCHQAjmhJorbxLUqk4mo6Q=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +74,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/14/23 16:05, Yue Haibing wrote:
-> These declarations is never implemented since the beginning of git histo=
-ry.
+On 8/11/23 09:28, Ruan Jinjie wrote:
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
 >
-> Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
 applied.
 
 Thanks!
 Helge
 
+
 > ---
->   include/video/kyro.h | 12 ------------
->   1 file changed, 12 deletions(-)
+>   drivers/video/fbdev/atmel_lcdfb.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/video/kyro.h b/include/video/kyro.h
-> index b958c2e9c915..418eef6c5523 100644
-> --- a/include/video/kyro.h
-> +++ b/include/video/kyro.h
-> @@ -38,18 +38,6 @@ struct kyrofb_info {
->   	int wc_cookie;
+> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atm=
+el_lcdfb.c
+> index c75a62287ec4..a908db233409 100644
+> --- a/drivers/video/fbdev/atmel_lcdfb.c
+> +++ b/drivers/video/fbdev/atmel_lcdfb.c
+> @@ -1306,7 +1306,7 @@ static struct platform_driver atmel_lcdfb_driver =
+=3D {
+>   	.resume		=3D atmel_lcdfb_resume,
+>   	.driver		=3D {
+>   		.name	=3D "atmel_lcdfb",
+> -		.of_match_table	=3D of_match_ptr(atmel_lcdfb_dt_ids),
+> +		.of_match_table	=3D atmel_lcdfb_dt_ids,
+>   	},
 >   };
 >
-> -extern int kyro_dev_init(void);
-> -extern void kyro_dev_reset(void);
-> -
-> -extern unsigned char *kyro_dev_physical_fb_ptr(void);
-> -extern unsigned char *kyro_dev_virtual_fb_ptr(void);
-> -extern void *kyro_dev_physical_regs_ptr(void);
-> -extern void *kyro_dev_virtual_regs_ptr(void);
-> -extern unsigned int kyro_dev_fb_size(void);
-> -extern unsigned int kyro_dev_regs_size(void);
-> -
-> -extern u32 kyro_dev_overlay_offset(void);
-> -
->   /*
->    * benedict.gaster@superh.com
->    * Added the follow IOCTLS for the creation of overlay services...
 
