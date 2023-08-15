@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B841E77C4E7
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 03:12:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E1F77C4E5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 03:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2628810E238;
-	Tue, 15 Aug 2023 01:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238BC10E237;
+	Tue, 15 Aug 2023 01:12:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9418110E132;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4575510E132;
  Tue, 15 Aug 2023 01:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1692061933; x=1723597933;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GVoOGnr99B/RxwUSdbJ3/RkHljCesuxF5pPCXVGEM50=;
- b=fvkH55prvYX5IOvqadXLSt/vxBTiILsqPJjNNnVnShyXwjfjnlSrt5Dx
- irDir0cnb8vh0vdn2aGzSlhWu42aLnooZxZBOlze3Nit33zYuBN/72NxZ
- XCr3w827zKcBwkgZbP4tQkGIgYOzlTV2KO/KD6y35gzLcIUTpgM4Z7+qZ
- 6DhMZ1Qx190mkl3qB+PYrDLXntfvah7kRP8z3jrmwUXOGXU0lEI9ryOGk
- P6pXgDWiSSUovRweZ6P+lg2s7WuP9F7Glragn2V/5WmRIUqZHJSt9WnTo
- QEniP6PXzTTvwR6COdx5CjCDOKbkX0JjKV4idPHZOoixU8k5uiphp7IJf w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="403155168"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; d="scan'208";a="403155168"
+ bh=oBQu2AB7P8ial1n8HBJ/dd+GYHdpeL/GiPzTEKJ9W3Y=;
+ b=GJysLdlH6eEN8a4EESzxvegeWHpQhLnmkf9ps+fyvQ1I2kFocnTO63HS
+ LFcgMhWXzrYuNyw6FlKlNZS71mQE/jH5ZWsDqz7wRn7qmEwM4T6Z6k5tj
+ /nAthHlO493q06wF1Mjfo75stxQ0S2cA6ScuaBcnVCJchx+DbYcnNcGAf
+ ZSKXn5SfPl9Zl3vzn93IfBP615ba8vFfHtVWC5SdtUuZCR9JKiCVFvEJK
+ yLJZG57yyOU8gFeXK75JOSM0GhGN2jBKXjY5BfwqNdbqITmwOMnXtuklq
+ zCSWzXYlE+qpALPxVqs+W6UOqA/PKctzB0tKhjLtBBy9nMn9JzWwhXAij A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="403155169"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; d="scan'208";a="403155169"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Aug 2023 18:12:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803637043"
-X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; d="scan'208";a="803637043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="803637046"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; d="scan'208";a="803637046"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by fmsmga004.fm.intel.com with ESMTP; 14 Aug 2023 18:12:12 -0700
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/3] drm/i915/guc: Close deregister-context race against
- CT-loss
-Date: Mon, 14 Aug 2023 18:12:09 -0700
-Message-Id: <20230815011210.1188379-3-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v2 3/3] drm/i915/gt: Timeout when waiting for idle in
+ suspending
+Date: Mon, 14 Aug 2023 18:12:10 -0700
+Message-Id: <20230815011210.1188379-4-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230815011210.1188379-1-alan.previn.teres.alexis@intel.com>
 References: <20230815011210.1188379-1-alan.previn.teres.alexis@intel.com>
@@ -65,118 +65,131 @@ Cc: John Harrison <john.c.harrison@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we are at the end of suspend or very early in resume
-its possible an async fence signal could lead us to the
-execution of the context destruction worker (after the
-prior worker flush).
-
-Even if checking that the CT is enabled before calling
-destroyed_worker_func, guc_lrc_desc_unpin may still fail
-because in corner cases, as we traverse the GuC's
-context-destroy list, the CT could get disabled in the mid
-of it right before calling the GuC's CT send function.
-
-We've witnessed this race condition once every ~6000-8000
-suspend-resume cycles while ensuring workloads that render
-something onscreen is continuously started just before
-we suspend (and the workload is small enough to complete
-and trigger the queued engine/context free-up either very
-late in suspend or very early in resume).
-
-In such a case, we need to unroll the unpin process because
-guc-lrc-unpin takes a gt wakeref which only gets released in
-the G2H IRQ reply that never comes through in this corner
-case. That will cascade into a kernel hang later at the tail
-end of suspend in this function:
-
-   intel_wakeref_wait_for_idle(&gt->wakeref)
-   (called by) - intel_gt_pm_wait_for_idle
-   (called by) - wait_for_suspend
-
-Doing this unroll and keeping the context in the GuC's
-destroy-list will allow the context to get picked up on
-the next destroy worker invocation or purged as part of a
-major GuC sanitization or reset flow.
+When suspending, add a timeout when calling
+intel_gt_pm_wait_for_idle else if we have a lost
+G2H event that holds a wakeref (which would be
+indicative of a bug elsewhere in the driver),
+driver will at least complete the suspend-resume
+cycle, (albeit not hitting all the targets for
+low power hw counters), instead of hanging in the kernel.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 40 +++++++++++++++++--
- 1 file changed, 36 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c     |  7 ++++++-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  7 ++++++-
+ drivers/gpu/drm/i915/intel_wakeref.c      | 14 ++++++++++----
+ drivers/gpu/drm/i915/intel_wakeref.h      |  5 +++--
+ 5 files changed, 26 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 050572bb8dbe..ddb4ee4c4e51 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -235,6 +235,13 @@ set_context_destroyed(struct intel_context *ce)
- 	ce->guc_state.sched_state |= SCHED_STATE_DESTROYED;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index ee15486fed0d..090438eb8682 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -688,7 +688,7 @@ void intel_engines_release(struct intel_gt *gt)
+ 		if (!engine->release)
+ 			continue;
+ 
+-		intel_wakeref_wait_for_idle(&engine->wakeref);
++		intel_wakeref_wait_for_idle(&engine->wakeref, 0);
+ 		GEM_BUG_ON(intel_engine_pm_is_awake(engine));
+ 
+ 		engine->release(engine);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+index 5a942af0a14e..e8b006c3ef29 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -289,6 +289,8 @@ int intel_gt_resume(struct intel_gt *gt)
+ 
+ static void wait_for_suspend(struct intel_gt *gt)
+ {
++	int timeout_ms = CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT ? : 10000;
++
+ 	if (!intel_gt_pm_is_awake(gt))
+ 		return;
+ 
+@@ -301,7 +303,10 @@ static void wait_for_suspend(struct intel_gt *gt)
+ 		intel_gt_retire_requests(gt);
+ 	}
+ 
+-	intel_gt_pm_wait_for_idle(gt);
++	/* we are suspending, so we shouldn't be waiting forever */
++	if (intel_gt_pm_wait_timeout_for_idle(gt, timeout_ms) == -ETIME)
++		gt_warn(gt, "bailing from %s after %d milisec timeout\n",
++			__func__, timeout_ms);
  }
  
-+static inline void
-+clr_context_destroyed(struct intel_context *ce)
-+{
-+	lockdep_assert_held(&ce->guc_state.lock);
-+	ce->guc_state.sched_state &= ~SCHED_STATE_DESTROYED;
+ void intel_gt_suspend_prepare(struct intel_gt *gt)
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+index 6c9a46452364..5358acc2b5b1 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+@@ -68,7 +68,12 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+ 
+ static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+ {
+-	return intel_wakeref_wait_for_idle(&gt->wakeref);
++	return intel_wakeref_wait_for_idle(&gt->wakeref, 0);
 +}
 +
- static inline bool context_pending_disable(struct intel_context *ce)
++static inline int intel_gt_pm_wait_timeout_for_idle(struct intel_gt *gt, int timeout_ms)
++{
++	return intel_wakeref_wait_for_idle(&gt->wakeref, timeout_ms);
+ }
+ 
+ void intel_gt_pm_init_early(struct intel_gt *gt);
+diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+index 718f2f1b6174..383a37521415 100644
+--- a/drivers/gpu/drm/i915/intel_wakeref.c
++++ b/drivers/gpu/drm/i915/intel_wakeref.c
+@@ -111,14 +111,20 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
+ 			 "wakeref.work", &key->work, 0);
+ }
+ 
+-int intel_wakeref_wait_for_idle(struct intel_wakeref *wf)
++int intel_wakeref_wait_for_idle(struct intel_wakeref *wf, int timeout_ms)
  {
- 	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
-@@ -3175,7 +3182,7 @@ static void guc_context_close(struct intel_context *ce)
- 	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
- }
+-	int err;
++	int err = 0;
  
--static inline void guc_lrc_desc_unpin(struct intel_context *ce)
-+static inline int guc_lrc_desc_unpin(struct intel_context *ce)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
- 	struct intel_gt *gt = guc_to_gt(guc);
-@@ -3199,10 +3206,20 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- 	if (unlikely(disabled)) {
- 		release_guc_id(guc, ce);
- 		__guc_context_destroy(ce);
--		return;
-+		return 0;
-+	}
+ 	might_sleep();
+ 
+-	err = wait_var_event_killable(&wf->wakeref,
+-				      !intel_wakeref_is_active(wf));
++	if (!timeout_ms)
++		err = wait_var_event_killable(&wf->wakeref,
++					      !intel_wakeref_is_active(wf));
++	else if (wait_var_event_timeout(&wf->wakeref,
++					!intel_wakeref_is_active(wf),
++					msecs_to_jiffies(timeout_ms)) < 1)
++		err = -ETIMEDOUT;
 +
-+	if (deregister_context(ce, ce->guc_id.id)) {
-+		/* Seal race with concurrent suspend by unrolling */
-+		spin_lock_irqsave(&ce->guc_state.lock, flags);
-+		set_context_registered(ce);
-+		clr_context_destroyed(ce);
-+		intel_gt_pm_put(gt);
-+		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+		return -ENODEV;
- 	}
+ 	if (err)
+ 		return err;
  
--	deregister_context(ce, ce->guc_id.id);
-+	return 0;
- }
+diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
+index ec881b097368..6fbb7a2fb6ea 100644
+--- a/drivers/gpu/drm/i915/intel_wakeref.h
++++ b/drivers/gpu/drm/i915/intel_wakeref.h
+@@ -251,15 +251,16 @@ __intel_wakeref_defer_park(struct intel_wakeref *wf)
+ /**
+  * intel_wakeref_wait_for_idle: Wait until the wakeref is idle
+  * @wf: the wakeref
++ * @timeout_ms: timeout to wait in milisecs, zero means forever
+  *
+  * Wait for the earlier asynchronous release of the wakeref. Note
+  * this will wait for any third party as well, so make sure you only wait
+  * when you have control over the wakeref and trust no one else is acquiring
+  * it.
+  *
+- * Return: 0 on success, error code if killed.
++ * Return: 0 on success, error code if killed, -ETIME if timed-out.
+  */
+-int intel_wakeref_wait_for_idle(struct intel_wakeref *wf);
++int intel_wakeref_wait_for_idle(struct intel_wakeref *wf, int timeout_ms);
  
- static void __guc_context_destroy(struct intel_context *ce)
-@@ -3270,7 +3287,22 @@ static void deregister_destroyed_contexts(struct intel_guc *guc)
- 		if (!ce)
- 			break;
- 
--		guc_lrc_desc_unpin(ce);
-+		if (guc_lrc_desc_unpin(ce)) {
-+			/*
-+			 * This means GuC's CT link severed mid-way which could happen
-+			 * in suspend-resume corner cases. In this case, put the
-+			 * context back into the destroyed_contexts list which will
-+			 * get picked up on the next context deregistration event or
-+			 * purged in a GuC sanitization event (reset/unload/wedged/...).
-+			 */
-+			spin_lock_irqsave(&guc->submission_state.lock, flags);
-+			list_add_tail(&ce->destroyed_link,
-+				      &guc->submission_state.destroyed_contexts);
-+			spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-+			/* Bail now since the list might never be emptied if h2gs fail */
-+			break;
-+		}
-+
- 	}
- }
- 
+ struct intel_wakeref_auto {
+ 	struct drm_i915_private *i915;
 -- 
 2.39.0
 
