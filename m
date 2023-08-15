@@ -2,37 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBC177DB3D
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 09:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBEC77DB43
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 09:39:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 322D810E2B3;
-	Wed, 16 Aug 2023 07:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B120710E047;
+	Wed, 16 Aug 2023 07:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wxsgout04.xfusion.com (wxsgout03.xfusion.com [36.139.52.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E9E10E13F;
- Tue, 15 Aug 2023 01:27:11 +0000 (UTC)
-Received: from wuxshcsitd00600.xfusion.com (unknown [10.32.133.213])
- by wxsgout04.xfusion.com (SkyGuard) with ESMTPS id 4RPtrF4Brwz9xgXd;
- Tue, 15 Aug 2023 09:25:49 +0800 (CST)
-Received: from localhost (10.82.147.3) by wuxshcsitd00600.xfusion.com
- (10.32.133.213) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 15 Aug
- 2023 09:27:06 +0800
-Date: Tue, 15 Aug 2023 09:27:05 +0800
-From: Wang Jinchao <wangjinchao@xfusion.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Fix Kconfig error for CONFIG_DRM_I915
-Message-ID: <ZNrUaawrwPmPcQn9@fedora>
-References: <ZNdOoHvIg7HXh7Gg@fedora> <87o7jaythm.fsf@intel.com>
- <ZNoY9bnpLlUwY8ai@fedora> <87h6p1ddoz.fsf@intel.com>
+Received: from out-37.mta0.migadu.com (out-37.mta0.migadu.com [91.218.175.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B471210E154
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 08:37:08 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1692088626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uBmn5bY96EnmwKJFlv+WltFrhGvpjIbZEKIiYirKvRY=;
+ b=vz0KHcPQmyiJWfmlN0KqRtShPV8OO94S7Ve+8NAyKaJzlfD3l3Gwdcs50vzwkyJwFeNk42
+ wWmdUe83i5yu+zc+P73iwMyGZC6f36VMufdeZyZpMS2xcjecgpOeJWBucmjek3/RmzHbqM
+ Esg+z/IvqlGN9dYsqiRnMi0+1ICkj/k=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87h6p1ddoz.fsf@intel.com>
-X-Originating-IP: [10.82.147.3]
-X-ClientProxiedBy: wuxshcsitd00602.xfusion.com (10.32.132.250) To
- wuxshcsitd00600.xfusion.com (10.32.133.213)
+Subject: Re: [PATCH v4 01/48] mm: move some shrinker-related function
+ declarations to mm/internal.h
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20230807110936.21819-2-zhengqi.arch@bytedance.com>
+Date: Tue, 15 Aug 2023 16:36:31 +0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FC3AE898-443D-4ACB-BCB4-0F8F2F48CDD0@linux.dev>
+References: <20230807110936.21819-1-zhengqi.arch@bytedance.com>
+ <20230807110936.21819-2-zhengqi.arch@bytedance.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+X-Migadu-Flow: FLOW_OUT
 X-Mailman-Approved-At: Wed, 16 Aug 2023 07:39:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,95 +51,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- stone.xulei@xfusion.com
+Cc: kvm@vger.kernel.org, djwong@kernel.org,
+ Roman Gushchin <roman.gushchin@linux.dev>, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Linux-MM <linux-mm@kvack.org>, dm-devel@redhat.com,
+ linux-mtd@lists.infradead.org, cel@kernel.org, x86@kernel.org,
+ steven.price@arm.com, cluster-devel@redhat.com, simon.horman@corigine.com,
+ xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+ "Paul E. McKenney" <paulmck@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-nfs@vger.kernel.org, rcu@vger.kernel.org, linux-bcache@vger.kernel.org,
+ dlemoal@kernel.org, yujie.liu@intel.com, Vlastimil Babka <vbabka@suse.cz>,
+ linux-raid@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ tytso@mit.edu, Greg KH <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
+ linux-xfs@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linux-erofs@lists.ozlabs.org,
+ linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 14, 2023 at 03:13:32PM +0300, Jani Nikula wrote:
-> On Mon, 14 Aug 2023, Wang Jinchao <wangjinchao@xfusion.com> wrote:
-> > On Mon, Aug 14, 2023 at 10:26:45AM +0300, Jani Nikula wrote:
-> >> On Sat, 12 Aug 2023, Wang Jinchao <wangjinchao@xfusion.com> wrote:
-> >> > When CONFIG_DRM_I915 is set to 'y' and CONFIG_BACKLIGHT_CLASS_DEVICE
-> >> > is set to 'm', we encountered an ld.lld error during the build process:
-> >> >
-> >> > 	ld.lld: error: undefined symbol: backlight_device_get_by_name
-> >> > 	>>> referenced by intel_backlight.c:955
-> >> > 	>>>               vmlinux.o:(intel_backlight_device_register)
-> >> >
-> >> > 	ld.lld: error: undefined symbol: backlight_device_register
-> >> > 	>>> referenced by intel_backlight.c:971
-> >> > 	>>>               vmlinux.o:(intel_backlight_device_register)
-> >> >
-> >> > 	ld.lld: error: undefined symbol: backlight_device_unregister
-> >> > 	>>> referenced by intel_backlight.c:999
-> >> > 	>>>               vmlinux.o:(intel_backlight_device_unregister)
-> >> >
-> >> > This issue occurred because intel_backlight_device_register and
-> >> > intel_backlight_device_unregister were enclosed within
-> >> > However, according to Kconfig, CONFIG_DRM_I915 will select
-> >> > BACKLIGHT_CLASS_DEVICE only if ACPI is enabled.
-> >> > This led to an error, which can be resolved by removing the
-> >> > conditional statements related to ACPI.
-> >> 
-> >> The real fix is to use
-> >> 
-> >> 	depends on BACKLIGHT_CLASS_DEVICE || BACKLIGHT_CLASS_DEVICE=n
-> > it works.
-> >> 
-> >> but in order to do that, you need to change a lot of places to depend
-> > Why, what are the other places?
-> 
-> Generally when you have a mixture of depends on and select on a kconfig
-> symbol, you'll eventually end up with dependency problems.
-> 
-> BR,
-> Jani.
-> 
-Now that I understand what you said, I will make an effort to correct it.
 
-      GEN     Makefile
-    drivers/gpu/drm/i915/Kconfig:2:error: recursive dependency detected!
-    drivers/gpu/drm/i915/Kconfig:2: symbol DRM_I915 depends on BACKLIGHT_CLASS_DEVICE
-    drivers/video/backlight/Kconfig:136:    symbol BACKLIGHT_CLASS_DEVICE is selected by DRM_FSL_DCU
-    drivers/gpu/drm/fsl-dcu/Kconfig:2:      symbol DRM_FSL_DCU depends on COMMON_CLK
-    drivers/clk/Kconfig:21: symbol COMMON_CLK is selected by X86_INTEL_QUARK
-    arch/x86/Kconfig:627:   symbol X86_INTEL_QUARK depends on X86_PLATFORM_DEVICES
-    drivers/platform/x86/Kconfig:6: symbol X86_PLATFORM_DEVICES is selected by DRM_I915
-    For a resolution refer to Documentation/kbuild/kconfig-language.rst
-    subsection "Kconfig recursive dependency limitations"
-> 
-> >> on, not select BACKLIGHT_CLASS_DEVICE, because otherwise you end up with
-> > got it.
-> >> other dependency issues.
-> >> 
-> >> BR,
-> >> Jani.
-> >> 
-> >> >
-> >> > Signed-off-by: Wang Jinchao <wangjinchao@xfusion.com>
-> >> > ---
-> >> >  drivers/gpu/drm/i915/Kconfig | 2 +-
-> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> >
-> >> > diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-> >> > index 01b5a8272a27..5003de921bf7 100644
-> >> > --- a/drivers/gpu/drm/i915/Kconfig
-> >> > +++ b/drivers/gpu/drm/i915/Kconfig
-> >> > @@ -24,7 +24,7 @@ config DRM_I915
-> >> >  	select IRQ_WORK
-> >> >  	# i915 depends on ACPI_VIDEO when ACPI is enabled
-> >> >  	# but for select to work, need to select ACPI_VIDEO's dependencies, ick
-> >> > -	select BACKLIGHT_CLASS_DEVICE if ACPI
-> >> > +	select BACKLIGHT_CLASS_DEVICE
-> >> >  	select INPUT if ACPI
-> >> >  	select X86_PLATFORM_DEVICES if ACPI
-> >> >  	select ACPI_WMI if ACPI
-> >> 
-> >> -- 
-> >> Jani Nikula, Intel Open Source Graphics Center
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+
+> On Aug 7, 2023, at 19:08, Qi Zheng <zhengqi.arch@bytedance.com> wrote:
+>=20
+> The following functions are only used inside the mm subsystem, so it's
+> better to move their declarations to the mm/internal.h file.
+>=20
+> 1. shrinker_debugfs_add()
+> 2. shrinker_debugfs_detach()
+> 3. shrinker_debugfs_remove()
+>=20
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+
+One nit bellow.
+
+[...]
+
+> +
+> +/*
+> + * shrinker related functions
+> + */
+
+This is a multi-comment format. "/* shrinker related functions. */" is
+the right one-line format of comment.
+
+> +
+> +#ifdef CONFIG_SHRINKER_DEBUG
+> +extern int shrinker_debugfs_add(struct shrinker *shrinker);
+> +extern struct dentry *shrinker_debugfs_detach(struct shrinker =
+*shrinker,
+> +      int *debugfs_id);
+> +extern void shrinker_debugfs_remove(struct dentry *debugfs_entry,
+> +    int debugfs_id);
+> +#else /* CONFIG_SHRINKER_DEBUG */
+> +static inline int shrinker_debugfs_add(struct shrinker *shrinker)
+> +{
+> +	return 0;
+> +}
+> +static inline struct dentry *shrinker_debugfs_detach(struct shrinker =
+*shrinker,
+> +     int *debugfs_id)
+> +{
+> +	*debugfs_id =3D -1;
+> +	return NULL;
+> +}
+> +static inline void shrinker_debugfs_remove(struct dentry =
+*debugfs_entry,
+> +	int debugfs_id)
+> +{
+> +}
+> +#endif /* CONFIG_SHRINKER_DEBUG */
+> +
+> #endif /* __MM_INTERNAL_H */
+> --=20
+> 2.30.2
+>=20
+
