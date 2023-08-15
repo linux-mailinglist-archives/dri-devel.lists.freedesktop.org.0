@@ -1,58 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE5677CCC4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 14:36:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2164A77CCEE
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 14:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05BD010E178;
-	Tue, 15 Aug 2023 12:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B9E10E187;
+	Tue, 15 Aug 2023 12:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC6C410E178
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 12:36:06 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-1bb3df62b34so606927fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 05:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1692102966; x=1692707766;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WVL87guyrjCBpvHgO84cKF3Q11DoY2+NXqHRgmv+xAI=;
- b=e+i3kUHJIwUJ0tRITL7y0wZfUDQu6vWVKymHJKJioIVNHrwqLuQzlk+CIvwJPwC+yV
- AywyVW9auTyI1wj//7akf32JDe3C2bnDOqB9qSgx30EImyJSeKP3L+vg8RM0n0W7lgcp
- mba4mOzv5Oq47gHPSgpdocy+fv+hOD2zieOGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692102966; x=1692707766;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WVL87guyrjCBpvHgO84cKF3Q11DoY2+NXqHRgmv+xAI=;
- b=lX4WxvWeTcKH06ofozAiI+IUp+WYi0eOC6LeitGGZUqhwnkrp9CUN4hKf8gjvrjbO3
- WwrA2wsJVIHJ0EZDJM9pj8cIsTdwRd5q7IHcnzcrfxnNUBNvd9ucZbW9dRluzbH3t2lH
- 5kjD1mGg5J38K1yEI+e4IO8zrAc/Pa305Xdj2NAemnj6rToUqTcMvLDEi48r66mgBf5n
- wyS8UyM+BYylJoQMW8o2McHymQJPEDIEnx8XpGxiEZ23nV5yZBRPqM/oRj+jKoa3w9NX
- NEWjxxZION4Lii88CMsnGtJ1o9X/lGmTSOV+8vc4ys0Ih1LeTQ2LKMFbYjGhmZYLSlx8
- FcbQ==
-X-Gm-Message-State: AOJu0YyIC69Td5hmr0Mhs3XaL5WCXB+bzQpZclzJ9pd2mkhBtY+uCY85
- ISRt4DZxrHOwK+G287n3lEAdKK//j3D6vtptHTnQFw==
-X-Google-Smtp-Source: AGHT+IERPMoNjjtyPhxTIBw8Q9A7abJznvQzaOgobDG1OzykjpPIu/34Q4Dlv/xVMwyGSnzoYT/6waLNy2K3hLYgeP4=
-X-Received: by 2002:a05:6871:298:b0:1c3:c45b:92a7 with SMTP id
- i24-20020a056871029800b001c3c45b92a7mr10537623oae.0.1692102965854; Tue, 15
- Aug 2023 05:36:05 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6EA710E187
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 12:50:59 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9542F21845;
+ Tue, 15 Aug 2023 12:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1692103858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PSoUuWUc8pS7nDMdVC5H8EXEOG3xRU7WLoRrv5+owCI=;
+ b=nn7pTAJjTueSycS/nGAB7iG/C9HTs77i/iqPH3HUCMGUjuScQNaFvgJnVMpOhPKKfmUMwf
+ FSBNkEpU2SJtKy5aW7dD9R6OwnGCrro62ocRmUnAoQ7CoDJOGeCLIVGU+av6oSWkCAYSFS
+ sseOpsj2hLhgNmMPBbU27+OOkHOBKSc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1692103858;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PSoUuWUc8pS7nDMdVC5H8EXEOG3xRU7WLoRrv5+owCI=;
+ b=i4aAIO0IUWe0+IQSgnPWntTcyfD/c6lNHO1Gz7kuYiD2YrSXoq2gC7OeP/4sn1gsxKWBce
+ aw3yH+7sPm+fGQCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C17313909;
+ Tue, 15 Aug 2023 12:50:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2/tdBbJ022TtIwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 15 Aug 2023 12:50:58 +0000
+Message-ID: <1b9ea227-b068-9d91-1036-28a4161b1744@suse.de>
+Date: Tue, 15 Aug 2023 14:50:57 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PULL for v6.6] drm-misc-next
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "airlied@gmail.com" <airlied@gmail.com>
 References: <389b-64db6700-1-3dc04b80@31442286>
  <b278375f-4644-2db6-9a14-9088470d528c@suse.de>
-In-Reply-To: <b278375f-4644-2db6-9a14-9088470d528c@suse.de>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Tue, 15 Aug 2023 14:35:54 +0200
-Message-ID: <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
-Subject: Re: [PULL for v6.6] drm-misc-next
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Ss08beDOp9IxFwcOiROBx0P6"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,252 +72,316 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, robdclark@google.com, gustavo.padovan@collabora.com,
+Cc: daniels@collabora.com, robdclark@google.com, david.heidelberg@collabora.com,
  guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
  linux-kernel@vger.kernel.org, robclark@freedesktop.org,
- david.heidelberg@collabora.com,
+ gustavo.padovan@collabora.com,
  Helen Mae Koike Fornazier <helen.koike@collabora.com>, anholt@google.com,
  dri-devel@lists.freedesktop.org, emma@anholt.net, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Aug 2023 at 14:31, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi,
->
-> thanks for your patchset.
->
-> Am 15.08.23 um 13:53 schrieb Helen Mae Koike Fornazier:
-> > On Tuesday, August 15, 2023 06:12 -03, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> >
-> >> On Mon, 14 Aug 2023, Helen Koike <helen.koike@collabora.com> wrote:
-> >>> The following changes since commit f5d8f9c0d8b4bc8ad7e7b23a9f4d116e99202dd3:
-> >>>
-> >>>    drm/panel: JDI LT070ME05000 simplify with dev_err_probe() (2023-08-14 14:44:30 +0200)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>    git@gitlab.freedesktop.org:helen.fornazier/linux.git tags/drm-ci-v13-drm-misc
-> >>>
-> >>> for you to fetch changes up to 60242246bc906a37a7eae2094633a38bda7d45e6:
-> >>>
-> >>>    drm: Add initial ci/ subdirectory (2023-08-14 20:47:37 -0300)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> drm-ci for drm-misc-next
-> >>
-> >> FYI, usually the subject indicates the source or what to pull, not the
-> >> destination. Was confused here for a bit. ;)
-> >
-> > Thanks for the info! Should I re-send this one?
->
-> Yes, please.
->
-> As a developer, you are not supposed to send pull requests or any other
-> emails with [PULL] in their subject line. We don't merge pull requests
-> into drm-misc.
->
-> To get your patches merged, please make a patchset on top of the a
-> recent checkout of drm-misc-next. Then send the patchset via
->
->    git send-email
->
-> to dri-devel@lists.freedesktop.org and all the developers and
-> maintainers that are affected by the changes. This will start the review
-> process. After your patchset has entered the drm-misc-next branch, we
-> (the maintainers of the drm-misc tree) will create the appropriate pull
-> requests when the time has come.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Ss08beDOp9IxFwcOiROBx0P6
+Content-Type: multipart/mixed; boundary="------------J0RNiiEIur5Ew5x0Uzf7M0i1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "airlied@gmail.com" <airlied@gmail.com>
+Cc: daniels@collabora.com, robdclark@google.com,
+ gustavo.padovan@collabora.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
+ robclark@freedesktop.org, david.heidelberg@collabora.com,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>, anholt@google.com,
+ dri-devel@lists.freedesktop.org, emma@anholt.net, airlied@redhat.com
+Message-ID: <1b9ea227-b068-9d91-1036-28a4161b1744@suse.de>
+Subject: Re: [PULL for v6.6] drm-misc-next
+References: <389b-64db6700-1-3dc04b80@31442286>
+ <b278375f-4644-2db6-9a14-9088470d528c@suse.de>
+ <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
+In-Reply-To: <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
 
-I think we have a coordination problem, at least the rough plan I
-discussed with Dave was that we'd do an entirely separate pull request
-to Linus for the gitlab stuff, so that there's no surprises or "you
-snuck this in without making it obvious" talk after the fact.
+--------------J0RNiiEIur5Ew5x0Uzf7M0i1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I'll check with Dave whether he wants to do the branch directly in
-drm.git or whether we'll take the pull from Helen.
+SGkgRGFuaWVsDQoNCkFtIDE1LjA4LjIzIHVtIDE0OjM1IHNjaHJpZWIgRGFuaWVsIFZldHRl
+cjoNCj4gT24gVHVlLCAxNSBBdWcgMjAyMyBhdCAxNDozMSwgVGhvbWFzIFppbW1lcm1hbm4g
+PHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4NCj4+IEhpLA0KPj4NCj4+IHRoYW5r
+cyBmb3IgeW91ciBwYXRjaHNldC4NCj4+DQo+PiBBbSAxNS4wOC4yMyB1bSAxMzo1MyBzY2hy
+aWViIEhlbGVuIE1hZSBLb2lrZSBGb3JuYXppZXI6DQo+Pj4gT24gVHVlc2RheSwgQXVndXN0
+IDE1LCAyMDIzIDA2OjEyIC0wMywgSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4Lmlu
+dGVsLmNvbT4gd3JvdGU6DQo+Pj4NCj4+Pj4gT24gTW9uLCAxNCBBdWcgMjAyMywgSGVsZW4g
+S29pa2UgPGhlbGVuLmtvaWtlQGNvbGxhYm9yYS5jb20+IHdyb3RlOg0KPj4+Pj4gVGhlIGZv
+bGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBmNWQ4ZjljMGQ4YjRiYzhhZDdlN2IyM2E5
+ZjRkMTE2ZTk5MjAyZGQzOg0KPj4+Pj4NCj4+Pj4+ICAgICBkcm0vcGFuZWw6IEpESSBMVDA3
+ME1FMDUwMDAgc2ltcGxpZnkgd2l0aCBkZXZfZXJyX3Byb2JlKCkgKDIwMjMtMDgtMTQgMTQ6
+NDQ6MzAgKzAyMDApDQo+Pj4+Pg0KPj4+Pj4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJl
+cG9zaXRvcnkgYXQ6DQo+Pj4+Pg0KPj4+Pj4gICAgIGdpdEBnaXRsYWIuZnJlZWRlc2t0b3Au
+b3JnOmhlbGVuLmZvcm5hemllci9saW51eC5naXQgdGFncy9kcm0tY2ktdjEzLWRybS1taXNj
+DQo+Pj4+Pg0KPj4+Pj4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDYwMjQyMjQ2
+YmM5MDZhMzdhN2VhZTIwOTQ2MzNhMzhiZGE3ZDQ1ZTY6DQo+Pj4+Pg0KPj4+Pj4gICAgIGRy
+bTogQWRkIGluaXRpYWwgY2kvIHN1YmRpcmVjdG9yeSAoMjAyMy0wOC0xNCAyMDo0NzozNyAt
+MDMwMCkNCj4+Pj4+DQo+Pj4+PiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4+PiBkcm0tY2kgZm9yIGRybS1t
+aXNjLW5leHQNCj4+Pj4NCj4+Pj4gRllJLCB1c3VhbGx5IHRoZSBzdWJqZWN0IGluZGljYXRl
+cyB0aGUgc291cmNlIG9yIHdoYXQgdG8gcHVsbCwgbm90IHRoZQ0KPj4+PiBkZXN0aW5hdGlv
+bi4gV2FzIGNvbmZ1c2VkIGhlcmUgZm9yIGEgYml0LiA7KQ0KPj4+DQo+Pj4gVGhhbmtzIGZv
+ciB0aGUgaW5mbyEgU2hvdWxkIEkgcmUtc2VuZCB0aGlzIG9uZT8NCj4+DQo+PiBZZXMsIHBs
+ZWFzZS4NCj4+DQo+PiBBcyBhIGRldmVsb3BlciwgeW91IGFyZSBub3Qgc3VwcG9zZWQgdG8g
+c2VuZCBwdWxsIHJlcXVlc3RzIG9yIGFueSBvdGhlcg0KPj4gZW1haWxzIHdpdGggW1BVTExd
+IGluIHRoZWlyIHN1YmplY3QgbGluZS4gV2UgZG9uJ3QgbWVyZ2UgcHVsbCByZXF1ZXN0cw0K
+Pj4gaW50byBkcm0tbWlzYy4NCj4+DQo+PiBUbyBnZXQgeW91ciBwYXRjaGVzIG1lcmdlZCwg
+cGxlYXNlIG1ha2UgYSBwYXRjaHNldCBvbiB0b3Agb2YgdGhlIGENCj4+IHJlY2VudCBjaGVj
+a291dCBvZiBkcm0tbWlzYy1uZXh0LiBUaGVuIHNlbmQgdGhlIHBhdGNoc2V0IHZpYQ0KPj4N
+Cj4+ICAgICBnaXQgc2VuZC1lbWFpbA0KPj4NCj4+IHRvIGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcgYW5kIGFsbCB0aGUgZGV2ZWxvcGVycyBhbmQNCj4+IG1haW50YWluZXJz
+IHRoYXQgYXJlIGFmZmVjdGVkIGJ5IHRoZSBjaGFuZ2VzLiBUaGlzIHdpbGwgc3RhcnQgdGhl
+IHJldmlldw0KPj4gcHJvY2Vzcy4gQWZ0ZXIgeW91ciBwYXRjaHNldCBoYXMgZW50ZXJlZCB0
+aGUgZHJtLW1pc2MtbmV4dCBicmFuY2gsIHdlDQo+PiAodGhlIG1haW50YWluZXJzIG9mIHRo
+ZSBkcm0tbWlzYyB0cmVlKSB3aWxsIGNyZWF0ZSB0aGUgYXBwcm9wcmlhdGUgcHVsbA0KPj4g
+cmVxdWVzdHMgd2hlbiB0aGUgdGltZSBoYXMgY29tZS4NCj4gDQo+IEkgdGhpbmsgd2UgaGF2
+ZSBhIGNvb3JkaW5hdGlvbiBwcm9ibGVtLCBhdCBsZWFzdCB0aGUgcm91Z2ggcGxhbiBJDQo+
+IGRpc2N1c3NlZCB3aXRoIERhdmUgd2FzIHRoYXQgd2UnZCBkbyBhbiBlbnRpcmVseSBzZXBh
+cmF0ZSBwdWxsIHJlcXVlc3QNCj4gdG8gTGludXMgZm9yIHRoZSBnaXRsYWIgc3R1ZmYsIHNv
+IHRoYXQgdGhlcmUncyBubyBzdXJwcmlzZXMgb3IgInlvdQ0KPiBzbnVjayB0aGlzIGluIHdp
+dGhvdXQgbWFraW5nIGl0IG9idmlvdXMiIHRhbGsgYWZ0ZXIgdGhlIGZhY3QuDQo+IA0KPiBJ
+J2xsIGNoZWNrIHdpdGggRGF2ZSB3aGV0aGVyIGhlIHdhbnRzIHRvIGRvIHRoZSBicmFuY2gg
+ZGlyZWN0bHkgaW4NCj4gZHJtLmdpdCBvciB3aGV0aGVyIHdlJ2xsIHRha2UgdGhlIHB1bGwg
+ZnJvbSBIZWxlbi4NCg0KVGhlIFBSIHNvdW5kcyBsaWtlIGEgc2ltcGxlIG5ld2JpZSBtaXN0
+YWtlIHRvIG1lLiBJdCBpcyBzdXBwb3NlZCB0byBiZSANCnB1bGxlZCBpbnRvIGRybS1taXNj
+LW5leHQsIHdoaWNoIHdlIG5ldmVyIGRvLiBJZiB0aGUgY292ZXIgbGV0dGVyIGlzIA0KY29y
+cmVjdCwgaXQgc2hvdWxkIGp1c3QgYmUgYSByZWd1bGFyIHBhdGNoc2V0Lg0KDQpPdGhlcndp
+c2UsIHRoZXJlIHNob3VsZCBiZSBzb21ldGhpbmcgbGlrZSBhIGRybS1jaSB0cmVlLCBmcm9t
+IHdoaWNoIHlvdSANCmNhbiBmZXRjaCB0aGUgY2hhbmdlcyBkaXJlY3RseS4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gQ2hlZXJzLCBTaW1hDQo+IA0KPj4NCj4+IEJlc3Qg
+cmVnYXJkcw0KPj4gVGhvbWFzDQo+Pg0KPj4+DQo+Pj4gUmVnYXJkcywNCj4+PiBIZWxlbg0K
+Pj4+DQo+Pj4+DQo+Pj4+IEJSLA0KPj4+PiBKYW5pLg0KPj4+Pg0KPj4+Pj4NCj4+Pj4+IEhl
+cmUgaXMgdGhlIHBhdGNoIHRoYXQgYWRkcyBhIGNpLyBzdWJkaXJlY3RvcnkgdG8gZHJtIGFu
+ZCBhbGxvd3MNCj4+Pj4+IGRldmVsb3BlcnMgdG8gZWFzaWx5IGV4ZWN1dGUgdGVzdHMuDQo+
+Pj4+Pg0KPj4+Pj4gRGV2ZWxvcGVycyBjYW4gZWFzaWx5IGV4ZWN1dGUgc2V2ZXJhbCB0ZXN0
+cyBvbiBkaWZmZXJlbnQgZGV2aWNlcw0KPj4+Pj4gYnkganVzdCBwdXNoaW5nIHRoZWlyIGJy
+YW5jaCB0byB0aGVpciBmb3JrIGluIGEgcmVwb3NpdG9yeSBob3N0ZWQNCj4+Pj4+IG9uIGdp
+dGxhYi5mcmVlZGVza3RvcC5vcmcgd2hpY2ggaGFzIGFuIGluZnJhc3RydWN0dXJlIHRvIHJ1
+biBqb2JzDQo+Pj4+PiBpbiBzZXZlcmFsIHJ1bm5lcnMgYW5kIGZhcm1zIHdpdGggZGlmZmVy
+ZW50IGRldmljZXMuDQo+Pj4+Pg0KPj4+Pj4gVGhlIHBhdGNoIHdhcyBhY2tlZCBhbmQgdGVz
+dGVkIGJ5IG90aGVycy4NCj4+Pj4+DQo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBIZWxlbiBLb2lr
+ZSA8aGVsZW4ua29pa2VAY29sbGFib3JhLmNvbT4NCj4+Pj4+DQo+Pj4+PiAtLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+DQo+Pj4+PiBUb21ldSBWaXpvc28gKDEpOg0KPj4+Pj4gICAgICAgICBkcm06IEFkZCBpbml0
+aWFsIGNpLyBzdWJkaXJlY3RvcnkNCj4+Pj4+DQo+Pj4+PiAgICBEb2N1bWVudGF0aW9uL2dw
+dS9hdXRvbWF0ZWRfdGVzdGluZy5yc3QgICAgICAgICAgICB8ICAxNDQgKw0KPj4+Pj4gICAg
+RG9jdW1lbnRhdGlvbi9ncHUvaW5kZXgucnN0ICAgICAgICAgICAgICAgICAgICAgICAgfCAg
+ICAxICsNCj4+Pj4+ICAgIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwgICAgOCArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kvYXJt
+LmNvbmZpZyAgICAgICAgICAgICAgICAgICAgICB8ICAgNjkgKw0KPj4+Pj4gICAgZHJpdmVy
+cy9ncHUvZHJtL2NpL2FybTY0LmNvbmZpZyAgICAgICAgICAgICAgICAgICAgfCAgMTk5ICsr
+DQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kvYnVpbGQtaWd0LnNoICAgICAgICAgICAg
+ICAgICAgICB8ICAgMzUgKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL2J1aWxkLnNo
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTU3ICsrDQo+Pj4+PiAgICBkcml2ZXJzL2dw
+dS9kcm0vY2kvYnVpbGQueW1sICAgICAgICAgICAgICAgICAgICAgICB8ICAxMTAgKw0KPj4+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL2NoZWNrLXBhdGNoLnB5ICAgICAgICAgICAgICAg
+ICAgfCAgIDU3ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS9jb250YWluZXIueW1s
+ICAgICAgICAgICAgICAgICAgIHwgICA2NSArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0v
+Y2kvZ2l0bGFiLWNpLnltbCAgICAgICAgICAgICAgICAgICB8ICAyNTEgKysNCj4+Pj4+ICAg
+IGRyaXZlcnMvZ3B1L2RybS9jaS9pZ3RfcnVubmVyLnNoICAgICAgICAgICAgICAgICAgIHwg
+ICA3NyArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kvaW1hZ2UtdGFncy55bWwgICAg
+ICAgICAgICAgICAgICB8ICAgMTUgKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL2xh
+dmEtc3VibWl0LnNoICAgICAgICAgICAgICAgICAgfCAgIDU3ICsNCj4+Pj4+ICAgIGRyaXZl
+cnMvZ3B1L2RybS9jaS9zdGF0aWMtY2hlY2tzLnltbCAgICAgICAgICAgICAgIHwgICAxMiAr
+DQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kvdGVzdC55bWwgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAzMzUgKysrDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kvdGVzdGxp
+c3QudHh0ICAgICAgICAgICAgICAgICAgICB8IDI5MTIgKysrKysrKysrKysrKysrKysrKysN
+Cj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ODZfNjQuY29uZmlnICAgICAgICAgICAg
+ICAgICAgIHwgIDExMSArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2Ft
+ZGdwdS1zdG9uZXktZmFpbHMudHh0ICB8ICAgMTkgKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUv
+ZHJtL2NpL3hmYWlscy9hbWRncHUtc3RvbmV5LWZsYWtlcy50eHQgfCAgIDIxICsNCj4+Pj4+
+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvYW1kZ3B1LXN0b25leS1za2lwcy50eHQg
+IHwgICAgMiArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtYW1s
+eS1mYWlscy50eHQgICAgICB8ICAgMTcgKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2Np
+L3hmYWlscy9pOTE1LWFtbHktZmxha2VzLnR4dCAgICAgfCAgIDMyICsNCj4+Pj4+ICAgIGRy
+aXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS1hbWx5LXNraXBzLnR4dCAgICAgIHwgICAg
+NCArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtYXBsLWZhaWxz
+LnR4dCAgICAgICB8ICAgNTggKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWls
+cy9pOTE1LWFwbC1mbGFrZXMudHh0ICAgICAgfCAgICAxICsNCj4+Pj4+ICAgIGRyaXZlcnMv
+Z3B1L2RybS9jaS94ZmFpbHMvaTkxNS1hcGwtc2tpcHMudHh0ICAgICAgIHwgICAgNiArDQo+
+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtY21sLWZhaWxzLnR4dCAg
+ICAgICB8ICAgMTggKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1
+LWNtbC1mbGFrZXMudHh0ICAgICAgfCAgIDM4ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2Ry
+bS9jaS94ZmFpbHMvaTkxNS1jbWwtc2tpcHMudHh0ICAgICAgIHwgICAgMiArDQo+Pj4+PiAg
+ICBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtZ2xrLWZhaWxzLnR4dCAgICAgICB8
+ICAgMTkgKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LWdsay1m
+bGFrZXMudHh0ICAgICAgfCAgIDQxICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94
+ZmFpbHMvaTkxNS1nbGstc2tpcHMudHh0ICAgICAgIHwgICAgNSArDQo+Pj4+PiAgICBkcml2
+ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUta2JsLWZhaWxzLnR4dCAgICAgICB8ICAgMjUg
+Kw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LWtibC1mbGFrZXMu
+dHh0ICAgICAgfCAgIDI2ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMv
+aTkxNS1rYmwtc2tpcHMudHh0ICAgICAgIHwgICAgNSArDQo+Pj4+PiAgICBkcml2ZXJzL2dw
+dS9kcm0vY2kveGZhaWxzL2k5MTUtdGdsLWZhaWxzLnR4dCAgICAgICB8ICAgMzcgKw0KPj4+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LXRnbC1mbGFrZXMudHh0ICAg
+ICAgfCAgICA1ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS10
+Z2wtc2tpcHMudHh0ICAgICAgIHwgICAxMSArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0v
+Y2kveGZhaWxzL2k5MTUtd2hsLWZhaWxzLnR4dCAgICAgICB8ICAgNDggKw0KPj4+Pj4gICAg
+ZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LXdobC1mbGFrZXMudHh0ICAgICAgfCAg
+ICAxICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS13aGwtc2tp
+cHMudHh0ICAgICAgIHwgICAgMiArDQo+Pj4+PiAgICAuLi4vZ3B1L2RybS9jaS94ZmFpbHMv
+bWVkaWF0ZWstbXQ4MTczLWZhaWxzLnR4dCAgICB8ICAgMjkgKw0KPj4+Pj4gICAgLi4uL2dw
+dS9kcm0vY2kveGZhaWxzL21lZGlhdGVrLW10ODE3My1mbGFrZXMudHh0ICAgfCAgICAwDQo+
+Pj4+PiAgICAuLi4vZ3B1L2RybS9jaS94ZmFpbHMvbWVkaWF0ZWstbXQ4MTgzLWZhaWxzLnR4
+dCAgICB8ICAgMTAgKw0KPj4+Pj4gICAgLi4uL2dwdS9kcm0vY2kveGZhaWxzL21lZGlhdGVr
+LW10ODE4My1mbGFrZXMudHh0ICAgfCAgIDE0ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2Ry
+bS9jaS94ZmFpbHMvbWVzb24tZzEyYi1mYWlscy50eHQgICAgIHwgICAxMiArDQo+Pj4+PiAg
+ICBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL21lc29uLWcxMmItZmxha2VzLnR4dCAgICB8
+ICAgIDQgKw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tYXBxODAx
+Ni1mYWlscy50eHQgICAgfCAgIDE1ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94
+ZmFpbHMvbXNtLWFwcTgwMTYtZmxha2VzLnR4dCAgIHwgICAgNCArDQo+Pj4+PiAgICBkcml2
+ZXJzL2dwdS9kcm0vY2kveGZhaWxzL21zbS1hcHE4MDk2LWZhaWxzLnR4dCAgICB8ICAgIDIg
+Kw0KPj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tYXBxODA5Ni1mbGFr
+ZXMudHh0ICAgfCAgICA0ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMv
+bXNtLWFwcTgwOTYtc2tpcHMudHh0ICAgIHwgICAgMiArDQo+Pj4+PiAgICBkcml2ZXJzL2dw
+dS9kcm0vY2kveGZhaWxzL21zbS1zYzcxODAtZmFpbHMudHh0ICAgICB8ICAgMjUgKw0KPj4+
+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tc2M3MTgwLWZsYWtlcy50eHQg
+ICAgfCAgICA3ICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvbXNtLXNj
+NzE4MC1za2lwcy50eHQgICAgIHwgICAyMyArDQo+Pj4+PiAgICBkcml2ZXJzL2dwdS9kcm0v
+Y2kveGZhaWxzL21zbS1zZG04NDUtZmFpbHMudHh0ICAgICB8ICAgNjggKw0KPj4+Pj4gICAg
+ZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tc2RtODQ1LWZsYWtlcy50eHQgICAgfCAg
+IDExICsNCj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvbXNtLXNkbTg0NS1z
+a2lwcy50eHQgICAgIHwgICAgMiArDQo+Pj4+PiAgICAuLi4vZ3B1L2RybS9jaS94ZmFpbHMv
+cm9ja2NoaXAtcmszMjg4LWZhaWxzLnR4dCAgICB8ICAgNDggKw0KPj4+Pj4gICAgLi4uL2dw
+dS9kcm0vY2kveGZhaWxzL3JvY2tjaGlwLXJrMzI4OC1mbGFrZXMudHh0ICAgfCAgICA5ICsN
+Cj4+Pj4+ICAgIC4uLi9ncHUvZHJtL2NpL3hmYWlscy9yb2NrY2hpcC1yazMyODgtc2tpcHMu
+dHh0ICAgIHwgICA1MiArDQo+Pj4+PiAgICAuLi4vZ3B1L2RybS9jaS94ZmFpbHMvcm9ja2No
+aXAtcmszMzk5LWZhaWxzLnR4dCAgICB8ICAgMzYgKw0KPj4+Pj4gICAgLi4uL2dwdS9kcm0v
+Y2kveGZhaWxzL3JvY2tjaGlwLXJrMzM5OS1mbGFrZXMudHh0ICAgfCAgIDI0ICsNCj4+Pj4+
+ICAgIC4uLi9ncHUvZHJtL2NpL3hmYWlscy9yb2NrY2hpcC1yazMzOTktc2tpcHMudHh0ICAg
+IHwgICAgNSArDQo+Pj4+PiAgICAuLi4vZ3B1L2RybS9jaS94ZmFpbHMvdmlydGlvX2dwdS1u
+b25lLWZhaWxzLnR4dCAgICB8ICAgMzggKw0KPj4+Pj4gICAgLi4uL2dwdS9kcm0vY2kveGZh
+aWxzL3ZpcnRpb19ncHUtbm9uZS1mbGFrZXMudHh0ICAgfCAgICAwDQo+Pj4+PiAgICAuLi4v
+Z3B1L2RybS9jaS94ZmFpbHMvdmlydGlvX2dwdS1ub25lLXNraXBzLnR4dCAgICB8ICAgIDYg
+Kw0KPj4+Pj4gICAgNjggZmlsZXMgY2hhbmdlZCwgNTUwOCBpbnNlcnRpb25zKCspDQo+Pj4+
+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9ncHUvYXV0b21hdGVkX3Rl
+c3RpbmcucnN0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJt
+L2NpL2FybS5jb25maWcNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vY2kvYXJtNjQuY29uZmlnDQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2NpL2J1aWxkLWlndC5zaA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAw
+NjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS9idWlsZC5zaA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS9idWlsZC55bWwNCj4+Pj4+ICAgIGNyZWF0ZSBt
+b2RlIDEwMDc1NSBkcml2ZXJzL2dwdS9kcm0vY2kvY2hlY2stcGF0Y2gucHkNCj4+Pj4+ICAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kvY29udGFpbmVyLnltbA0K
+Pj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS9naXRsYWIt
+Y2kueW1sDQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA3NTUgZHJpdmVycy9ncHUvZHJtL2Np
+L2lndF9ydW5uZXIuc2gNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vY2kvaW1hZ2UtdGFncy55bWwNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDc1NSBk
+cml2ZXJzL2dwdS9kcm0vY2kvbGF2YS1zdWJtaXQuc2gNCj4+Pj4+ICAgIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kvc3RhdGljLWNoZWNrcy55bWwNCj4+Pj4+ICAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kvdGVzdC55bWwNCj4+Pj4+
+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kvdGVzdGxpc3QudHh0
+DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3g4Nl82
+NC5jb25maWcNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
+Y2kveGZhaWxzL2FtZGdwdS1zdG9uZXktZmFpbHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9hbWRncHUtc3RvbmV5LWZsYWtl
+cy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kv
+eGZhaWxzL2FtZGdwdS1zdG9uZXktc2tpcHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LWFtbHktZmFpbHMudHh0DQo+
+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9p
+OTE1LWFtbHktZmxha2VzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZl
+cnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS1hbWx5LXNraXBzLnR4dA0KPj4+Pj4gICAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS1hcGwtZmFp
+bHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2Np
+L3hmYWlscy9pOTE1LWFwbC1mbGFrZXMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2
+NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LWFwbC1za2lwcy50eHQNCj4+Pj4+
+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUt
+Y21sLWZhaWxzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1
+L2RybS9jaS94ZmFpbHMvaTkxNS1jbWwtZmxha2VzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS1jbWwtc2tpcHMudHh0
+DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWls
+cy9pOTE1LWdsay1mYWlscy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2
+ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtZ2xrLWZsYWtlcy50eHQNCj4+Pj4+ICAgIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtZ2xrLXNr
+aXBzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9j
+aS94ZmFpbHMvaTkxNS1rYmwtZmFpbHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2
+NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LWtibC1mbGFrZXMudHh0DQo+Pj4+
+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1
+LWtibC1za2lwcy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vY2kveGZhaWxzL2k5MTUtdGdsLWZhaWxzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvaTkxNS10Z2wtZmxha2VzLnR4
+dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFp
+bHMvaTkxNS10Z2wtc2tpcHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2NpL3hmYWlscy9pOTE1LXdobC1mYWlscy50eHQNCj4+Pj4+ICAgIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL2k5MTUtd2hsLWZs
+YWtlcy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
+Y2kveGZhaWxzL2k5MTUtd2hsLXNraXBzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAw
+NjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvbWVkaWF0ZWstbXQ4MTczLWZhaWxzLnR4
+dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFp
+bHMvbWVkaWF0ZWstbXQ4MTczLWZsYWtlcy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL21lZGlhdGVrLW10ODE4My1mYWlscy50
+eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZh
+aWxzL21lZGlhdGVrLW10ODE4My1mbGFrZXMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9tZXNvbi1nMTJiLWZhaWxzLnR4dA0K
+Pj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMv
+bWVzb24tZzEyYi1mbGFrZXMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tYXBxODAxNi1mYWlscy50eHQNCj4+Pj4+ICAg
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL21zbS1hcHE4
+MDE2LWZsYWtlcy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vY2kveGZhaWxzL21zbS1hcHE4MDk2LWZhaWxzLnR4dA0KPj4+Pj4gICAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvbXNtLWFwcTgwOTYtZmxh
+a2VzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9j
+aS94ZmFpbHMvbXNtLWFwcTgwOTYtc2tpcHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tc2M3MTgwLWZhaWxzLnR4dA0K
+Pj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMv
+bXNtLXNjNzE4MC1mbGFrZXMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
+dmVycy9ncHUvZHJtL2NpL3hmYWlscy9tc20tc2M3MTgwLXNraXBzLnR4dA0KPj4+Pj4gICAg
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvbXNtLXNkbTg0
+NS1mYWlscy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9k
+cm0vY2kveGZhaWxzL21zbS1zZG04NDUtZmxha2VzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvbXNtLXNkbTg0NS1za2lwcy50
+eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZh
+aWxzL3JvY2tjaGlwLXJrMzI4OC1mYWlscy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kveGZhaWxzL3JvY2tjaGlwLXJrMzI4OC1mbGFrZXMu
+dHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hm
+YWlscy9yb2NrY2hpcC1yazMyODgtc2tpcHMudHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAx
+MDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hmYWlscy9yb2NrY2hpcC1yazMzOTktZmFpbHMu
+dHh0DQo+Pj4+PiAgICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2NpL3hm
+YWlscy9yb2NrY2hpcC1yazMzOTktZmxha2VzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvcm9ja2NoaXAtcmszMzk5LXNraXBz
+LnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94
+ZmFpbHMvdmlydGlvX2dwdS1ub25lLWZhaWxzLnR4dA0KPj4+Pj4gICAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9jaS94ZmFpbHMvdmlydGlvX2dwdS1ub25lLWZsYWtl
+cy50eHQNCj4+Pj4+ICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vY2kv
+eGZhaWxzL3ZpcnRpb19ncHUtbm9uZS1za2lwcy50eHQNCj4+Pj4NCj4+Pj4gLS0NCj4+Pj4g
+SmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcg0KPj4+DQo+
+Pg0KPj4gLS0NCj4+IFRob21hcyBaaW1tZXJtYW5uDQo+PiBHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQo+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCj4+IEZy
+YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQo+PiBHRjogSXZv
+IFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFu
+DQo+PiBIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCj4gDQo+IA0KPiANCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51
+ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcg
+TWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-Cheers, Sima
 
->
-> Best regards
-> Thomas
->
-> >
-> > Regards,
-> > Helen
-> >
-> >>
-> >> BR,
-> >> Jani.
-> >>
-> >>>
-> >>> Here is the patch that adds a ci/ subdirectory to drm and allows
-> >>> developers to easily execute tests.
-> >>>
-> >>> Developers can easily execute several tests on different devices
-> >>> by just pushing their branch to their fork in a repository hosted
-> >>> on gitlab.freedesktop.org which has an infrastructure to run jobs
-> >>> in several runners and farms with different devices.
-> >>>
-> >>> The patch was acked and tested by others.
-> >>>
-> >>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> Tomeu Vizoso (1):
-> >>>        drm: Add initial ci/ subdirectory
-> >>>
-> >>>   Documentation/gpu/automated_testing.rst            |  144 +
-> >>>   Documentation/gpu/index.rst                        |    1 +
-> >>>   MAINTAINERS                                        |    8 +
-> >>>   drivers/gpu/drm/ci/arm.config                      |   69 +
-> >>>   drivers/gpu/drm/ci/arm64.config                    |  199 ++
-> >>>   drivers/gpu/drm/ci/build-igt.sh                    |   35 +
-> >>>   drivers/gpu/drm/ci/build.sh                        |  157 ++
-> >>>   drivers/gpu/drm/ci/build.yml                       |  110 +
-> >>>   drivers/gpu/drm/ci/check-patch.py                  |   57 +
-> >>>   drivers/gpu/drm/ci/container.yml                   |   65 +
-> >>>   drivers/gpu/drm/ci/gitlab-ci.yml                   |  251 ++
-> >>>   drivers/gpu/drm/ci/igt_runner.sh                   |   77 +
-> >>>   drivers/gpu/drm/ci/image-tags.yml                  |   15 +
-> >>>   drivers/gpu/drm/ci/lava-submit.sh                  |   57 +
-> >>>   drivers/gpu/drm/ci/static-checks.yml               |   12 +
-> >>>   drivers/gpu/drm/ci/test.yml                        |  335 +++
-> >>>   drivers/gpu/drm/ci/testlist.txt                    | 2912 ++++++++++++++++++++
-> >>>   drivers/gpu/drm/ci/x86_64.config                   |  111 +
-> >>>   drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt  |   19 +
-> >>>   drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt |   21 +
-> >>>   drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt  |    2 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-amly-fails.txt      |   17 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt     |   32 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-amly-skips.txt      |    4 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-apl-fails.txt       |   58 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt      |    1 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-apl-skips.txt       |    6 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-cml-fails.txt       |   18 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt      |   38 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-cml-skips.txt       |    2 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-glk-fails.txt       |   19 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt      |   41 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-glk-skips.txt       |    5 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt       |   25 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt      |   26 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt       |    5 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt       |   37 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt      |    5 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt       |   11 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-whl-fails.txt       |   48 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt      |    1 +
-> >>>   drivers/gpu/drm/ci/xfails/i915-whl-skips.txt       |    2 +
-> >>>   .../gpu/drm/ci/xfails/mediatek-mt8173-fails.txt    |   29 +
-> >>>   .../gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt   |    0
-> >>>   .../gpu/drm/ci/xfails/mediatek-mt8183-fails.txt    |   10 +
-> >>>   .../gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt   |   14 +
-> >>>   drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt     |   12 +
-> >>>   drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt    |    4 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt    |   15 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt   |    4 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt    |    2 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt   |    4 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt    |    2 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt     |   25 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt    |    7 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt     |   23 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt     |   68 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt    |   11 +
-> >>>   drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt     |    2 +
-> >>>   .../gpu/drm/ci/xfails/rockchip-rk3288-fails.txt    |   48 +
-> >>>   .../gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt   |    9 +
-> >>>   .../gpu/drm/ci/xfails/rockchip-rk3288-skips.txt    |   52 +
-> >>>   .../gpu/drm/ci/xfails/rockchip-rk3399-fails.txt    |   36 +
-> >>>   .../gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt   |   24 +
-> >>>   .../gpu/drm/ci/xfails/rockchip-rk3399-skips.txt    |    5 +
-> >>>   .../gpu/drm/ci/xfails/virtio_gpu-none-fails.txt    |   38 +
-> >>>   .../gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt   |    0
-> >>>   .../gpu/drm/ci/xfails/virtio_gpu-none-skips.txt    |    6 +
-> >>>   68 files changed, 5508 insertions(+)
-> >>>   create mode 100644 Documentation/gpu/automated_testing.rst
-> >>>   create mode 100644 drivers/gpu/drm/ci/arm.config
-> >>>   create mode 100644 drivers/gpu/drm/ci/arm64.config
-> >>>   create mode 100644 drivers/gpu/drm/ci/build-igt.sh
-> >>>   create mode 100644 drivers/gpu/drm/ci/build.sh
-> >>>   create mode 100644 drivers/gpu/drm/ci/build.yml
-> >>>   create mode 100755 drivers/gpu/drm/ci/check-patch.py
-> >>>   create mode 100644 drivers/gpu/drm/ci/container.yml
-> >>>   create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
-> >>>   create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
-> >>>   create mode 100644 drivers/gpu/drm/ci/image-tags.yml
-> >>>   create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
-> >>>   create mode 100644 drivers/gpu/drm/ci/static-checks.yml
-> >>>   create mode 100644 drivers/gpu/drm/ci/test.yml
-> >>>   create mode 100644 drivers/gpu/drm/ci/testlist.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/x86_64.config
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
-> >>>   create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
-> >>
-> >> --
-> >> Jani Nikula, Intel Open Source Graphics Center
-> >
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
+--------------J0RNiiEIur5Ew5x0Uzf7M0i1--
 
+--------------Ss08beDOp9IxFwcOiROBx0P6
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTbdLEFAwAAAAAACgkQlh/E3EQov+Do
+1Q/+IT1myWjAt7Zj6mgFzb/Zw8iOhI7MQTX9xeUqhA8qt7wcm324ItkDC/44SHf/XlJlSPEHUSot
+iTpS137/d8ND+FqlyIqEYszeaOyR/4V5Fuzldvm12HejEv5gP5/GDqbzRZ5uYHqcj8NTRV+rxmwE
+mcc3isR8tT+Lk7eK3+uHYe63TL3V7ecYQqFrVzre5+U4Sw9wuDqBmbae8YQpktSMT6wm71+YX0br
+zTNy3Z7tcNuAi5C/Y/0jOygEytaQVnQIWKdt53BSPFxTLqpTHoZRXoY+hFS/V6/THOLGSewegkic
+vjtkrwdNsje2Y/+lQD+i7ZRi8Eynvj24cqTm3ZUco8uXTeDl65pnEfJsfrRFN3azxnrLWSbONS2H
+53lFPLHZwjhjVaDwFSxZ9HkNyqbNSE0Zg0v0TddHVwxpPqCVp4SM9hR5KoAFvKkChrie+XTXCJlp
+fyQsMsYc36pe+MvU2fjySr3nPSS2M2min+/OcmIuGiBANgssWGOXtlMZdQqC1d++xMIkcDtwDUTG
+5J8rlAAuYLfPY92EG6e+G+GGdvizGQcAMWKEQy7MvqDLN4GQ48W6EfuPbvUsTv9eV0wRbrdjLmuM
+38Z/ZcEHw81Pw6KPDzQ3QU/2JXwwN0J9jGnGcK0wzsvxAlM/6zO06tb9w6Xp5eXgQ7InvSSq1EaG
+XV4=
+=Y2mB
+-----END PGP SIGNATURE-----
+
+--------------Ss08beDOp9IxFwcOiROBx0P6--
