@@ -1,62 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C425C77CF91
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 17:50:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 878B677CFA8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 17:54:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDE310E19F;
-	Tue, 15 Aug 2023 15:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F98F10E1A7;
+	Tue, 15 Aug 2023 15:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D905510E194;
- Tue, 15 Aug 2023 15:50:16 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-1c4d67f493bso1869727fac.2; 
- Tue, 15 Aug 2023 08:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692114616; x=1692719416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AVuBwJh4e/PJsRX9uAJCAxNUSRGi87vXGCf9LVu/RZI=;
- b=l3+v0arNVlZh6xKCSEAle7gwWilV7bK3j2wrYSbZVr04kMpHxTqsCnZRoWoukqnCnC
- 1MRXCZ5nD4dHr4sWev1L+/ppIWlewwToWwYT6/WRiwCmP/XVgSIaEzb8CepIT9Aqjd7H
- 5M00zyBo1wXrovalLFsg/mqKAweK4cUBFUkzWSlT7bcXZATmJvNGSAKufNqhnVciD0uc
- RYXAiBorG/4StHafZLNn7eemP+BAtYgfSvnMlsy6FfSdKkcJVZXmn8DL0VZhL5MD+b0A
- SdyRbRDT7ReMwIBkzmgSbmKkJuj9I0eupsWB7kjs6L2LscV0icsjt0Fl8eoikx93qVWN
- sNcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692114616; x=1692719416;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AVuBwJh4e/PJsRX9uAJCAxNUSRGi87vXGCf9LVu/RZI=;
- b=Uuof9qAQrIyMJaVxEOPMVWBoMOirfKC53OTzyiRn0hpqGOoCvAKMS7k0zb6IXazOzn
- IBojkF6TJhW11KjlVLIH+r/S2x20dlqj4W3Xc/V74b30O0UL4OsK9uv/G3gqxzszIdXp
- wFNZ8Mau5GRB9itwBjJw7ISRJPJNPwDynqwJqUoNFbWW7G4NQB23ryRrze2rGeF7tXFp
- fvxtYxC5lMDZIsUPMqxUBisjdxP1EmREy3wsEJmG90bybte2+rQLUlexNT2RJyTjFLeq
- EHU8icyce91BxdR3uKFtr9V54YcmtXa/6lCU82qczp1M8ltP8CkAKMf0lcypRXHsysxl
- NlIg==
-X-Gm-Message-State: AOJu0YwMruH6pMCZ2LYXDYNi/aaH1opDlyPy9Ug7xsWhMK4Hnri/9NIN
- F13Y2AUXiSBnujxs8s6uJcdVt70oViEEIR/YfVs=
-X-Google-Smtp-Source: AGHT+IHnfanJXW9hOJVO0LHdf7NOx4OjrsIyG1aeMXAi9KSDW4x3gIykJjmw9TK435u51yUPEFMT1UKL4QlqQgtdoWE=
-X-Received: by 2002:a05:6870:638b:b0:1ba:c3a2:fb71 with SMTP id
- t11-20020a056870638b00b001bac3a2fb71mr13551780oap.31.1692114616012; Tue, 15
- Aug 2023 08:50:16 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B90310E1A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 15:54:03 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37FFOgDa010244; Tue, 15 Aug 2023 15:53:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=2PlecWAlfBhCfts3ubDN5CZ/qZA3WWvzg+/g3N09+2M=;
+ b=GoTUYmaIF3Z12V6FCjqpoUPfoI7S8w3AitCo3W+xf2G09/YLmyW9A5m0wCC/vt9biJWM
+ IRYYw3At9/DlC57VT95984ZxIXboD/PFfSAk0x8Q/6i15EkAEBp8jYfiIqKQhjtXabFB
+ uu9iXe8n6I13wIeGg1kcHzU+xKYhCxtIXMJ8PxVta1ob63LMTVZL51xeZPYlZheuTm0h
+ shVi1Bl8qO8Fdwf/AOXRRCgyFvSsVbx+XfUrEsJz7mV730zY3UiB1cDPtqtj8Yf1d2C7
+ TuawlMh37ucqGyxIN/ufsvDw9z6M6E8Yl9QWvpzjoXLLf0sZ2nuIbuozKQpPjtUoRSLj kg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sfh74k28d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Aug 2023 15:53:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37FFrsCW001811
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Aug 2023 15:53:54 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Tue, 15 Aug
+ 2023 08:53:53 -0700
+Message-ID: <c581e23c-805e-6acf-78ea-07b4dba8efc7@quicinc.com>
+Date: Tue, 15 Aug 2023 09:53:53 -0600
 MIME-Version: 1.0
-References: <20230815065445.25576-1-hongao@uniontech.com>
-In-Reply-To: <20230815065445.25576-1-hongao@uniontech.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 15 Aug 2023 11:50:04 -0400
-Message-ID: <CADnq5_N8nHV5ub0qf6ihU=+QKXOFfM4AnWbYmWf=EG8SbJXa8A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/gmc6: fix in case the PCI BAR is larger than
- the actual amount of vram
-To: hongao <hongao@uniontech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Clean up integer overflow checking in
+ map_user_pages()
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <24d3348b-25ac-4c1b-b171-9dae7c43e4e0@moroto.mountain>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <24d3348b-25ac-4c1b-b171-9dae7c43e4e0@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: sFySdkTOyzTLpVrdi0Z8UvFRlHjHWhys
+X-Proofpoint-GUID: sFySdkTOyzTLpVrdi0Z8UvFRlHjHWhys
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-15_16,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308150142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +83,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- mario.limonciello@amd.com, alexander.deucher@amd.com
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>, Jacek
+ Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On 8/10/2023 6:23 AM, Dan Carpenter wrote:
+> The encode_dma() function has some validation on in_trans->size but it
+> would be more clear to move those checks to find_and_map_user_pages().
+> 
+> The encode_dma() had two checks:
+> 
+> 	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
+> 		return -EINVAL;
+> 
+> The in_trans->addr variable is the starting address.  The in_trans->size
+> variable is the total size of the transfer.  The transfer can occur in
+> parts and the resources->xferred_dma_size tracks how many bytes we have
+> already transferred.
+> 
+> This patch introduces a new variable "remaining" which represents the
+> amount we want to transfer (in_trans->size) minus the amount we have
+> already transferred (resources->xferred_dma_size).
+> 
+> I have modified the check for if in_trans->size is zero to instead check
+> if in_trans->size is less than resources->xferred_dma_size.  If we have
+> already transferred more bytes than in_trans->size then there are negative
+> bytes remaining which doesn't make sense.  If there are zero bytes
+> remaining to be copied, just return success.
+> 
+> The check in encode_dma() checked that "addr + size" could not overflow
+> and barring a driver bug that should work, but it's easier to check if
+> we do this in parts.  First check that "in_trans->addr +
+> resources->xferred_dma_size" is safe.  Then check that "xfer_start_addr +
+> remaining" is safe.
+> 
+> My final concern was that we are dealing with u64 values but on 32bit
+> systems the kmalloc() function will truncate the sizes to 32 bits.  So
+> I calculated "total = in_trans->size + offset_in_page(xfer_start_addr);"
+> and returned -EINVAL if it were >= SIZE_MAX.  This will not affect 64bit
+> systems.
+> 
+> Fixes: 129776ac2e38 ("accel/qaic: Add control path")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-On Tue, Aug 15, 2023 at 3:13=E2=80=AFAM hongao <hongao@uniontech.com> wrote=
-:
->
-> [why]
-> limit visible_vram_size to real_vram_size in case
-> the PCI BAR is larger than the actual amount of vram.
->
-> Signed-off-by: hongao <hongao@uniontech.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/=
-amdgpu/gmc_v6_0.c
-> index b7dad4e67813..c0de7496bfd1 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
-> @@ -320,6 +320,8 @@ static int gmc_v6_0_mc_init(struct amdgpu_device *ade=
-v)
->         adev->gmc.aper_base =3D pci_resource_start(adev->pdev, 0);
->         adev->gmc.aper_size =3D pci_resource_len(adev->pdev, 0);
->         adev->gmc.visible_vram_size =3D adev->gmc.aper_size;
-> +       if (adev->gmc.visible_vram_size > adev->gmc.real_vram_size)
-> +               adev->gmc.visible_vram_size =3D adev->gmc.real_vram_size;
->
->         /* set the gart size */
->         if (amdgpu_gart_size =3D=3D -1) {
-> --
-> 2.20.1
->
+Pushed to drm-misc-fixes
+
+-Jeff
