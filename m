@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C6D77C844
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 09:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B0E77C8F8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 09:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7BE10E0CC;
-	Tue, 15 Aug 2023 07:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2C410E0C6;
+	Tue, 15 Aug 2023 07:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72DBA10E0C6
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 07:10:37 +0000 (UTC)
-Received: from xpredator (unknown
- [IPv6:2a02:2f08:470d:cf00:7656:3cff:fe3f:7ce9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: mvlad)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9838D66071E7;
- Tue, 15 Aug 2023 08:10:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1692083436;
- bh=0u3+160xZMEGghTqSGh6eI8lfhv/O9H7bF1e8kOR1hs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jm1WaL2MxdxMFXaG7DRcKgZ2UE+8ule7LmTqkmDn4ilYIqMDBnxXTFbSwfw8Q1STZ
- TJvhwvSxSN/5p/2pqwrT1T6JuQYWvKp7UEE8wCkU5FQ+j21v6jAdbL6o3ci1GI14Dq
- 5dTKMu0Dm4z94AAPfmqeXNRLq2YLRWhGCWZ1ielucN8f3GYqkvq5sZfvgla5G56S5M
- h7rBZFGpaHe/XKj6atl7yhOmek8TDsD2ihhltId+ouJl80UmH90blZzXqflhv33ora
- vi64g5E2+Cz4erEFlog+tjDHdH07mNnJDWaEi+MMFFBC1sO+cCpa9t7HvHMS5M51uF
- ugDHik3yAaNqw==
-Date: Tue, 15 Aug 2023 10:10:32 +0300
-From: Marius Vlad <marius.vlad@collabora.com>
-To: Brandon Ross Pollack <brpol@chromium.org>, jshargo@chromium.org,
- yixie@chromium.org
-Subject: Re: [PATCH v2 0/6] Adds support for ConfigFS to VKMS!
-Message-ID: <ZNsk6PDfJNxBJ97Z@xpredator>
-References: <20230623222353.97283-1-jshargo@chromium.org>
- <17326fa0-b0f9-1a6b-e9c5-d7801b383f04@chromium.org>
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
+ [IPv6:2607:f8b0:4864:20::933])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C6C10E0C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 07:57:40 +0000 (UTC)
+Received: by mail-ua1-x933.google.com with SMTP id
+ a1e0cc1a2514c-79969c14964so1456826241.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 00:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1692086259; x=1692691059;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lDmhrht0DgZsou5OmGTQJ7RdS2UG4tX4DI13kPMsfH8=;
+ b=Hl8xpItKM1unZIC/QApK/kOpo7yZRoqZaB0tTBpIBX4YJfBz2jTSAWku5KL3CpotmC
+ piTtzYuD1KJfr8vlCOFgPocp68n5wdLQ4oIke3Q1CgMpTBiK/tcCqjnMvbJiDRncq0pD
+ zkvw4TBD7YXAkVEq54zbG5MWHSszi3tVK4LRA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692086259; x=1692691059;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lDmhrht0DgZsou5OmGTQJ7RdS2UG4tX4DI13kPMsfH8=;
+ b=AxDTxX0C6vZ5nm5cXnZ5K83HTXRTayHGxHxtfIWppG1sqg5oqK24MH1O2aZjz7KEcy
+ J+TwhIAu74k3QOvNZ6yDmNRtBEkbEv378YoiRUflLTDFJVPL0TSyMGv+kZPAgXwAB20B
+ IxKU3JX5h3g4cwNM2iz3ez1xzFezyV+rJJ/Nj69QfWS6RVOPEg5TN2XNld49pETc5M8s
+ 3tbxFLRntEz17/I7GXWtSamc7Z0GaMJSDj96o8Yk2PBQHFVGZxH9VjqpdxRCmoD7dma+
+ BwYYQyniQAwkvqGE37MC2CYX1NZ0ZD1V9Cke62Uwwbx8M3o4bn+0ePESK2y9c3go2sKl
+ qfVA==
+X-Gm-Message-State: AOJu0YzFysO9xZwz87pRi6T8CF4H0+4KXDcZUqag7YjL1jHdMZB4ZJJt
+ Jz2TrlZ9ykhxMxixJ8IULt52kqYULLlAfaoECl8ATw==
+X-Google-Smtp-Source: AGHT+IEowaTnqYOhJvJPxTsiUy1ga51y3VUIR347NmHxFEGb93pAX1OVpvHZqI6/KkhO1jw551U7+Xzacun4OaWd7HY=
+X-Received: by 2002:a05:6102:4b7:b0:443:5bec:a2fd with SMTP id
+ r23-20020a05610204b700b004435beca2fdmr11705935vsa.18.1692086259473; Tue, 15
+ Aug 2023 00:57:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="x5xBW3ITDXSHDQyO"
-Content-Disposition: inline
-In-Reply-To: <17326fa0-b0f9-1a6b-e9c5-d7801b383f04@chromium.org>
+References: <20230804072850.89365-1-angelogioacchino.delregno@collabora.com>
+ <20230804072850.89365-12-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230804072850.89365-12-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 15 Aug 2023 15:57:28 +0800
+Message-ID: <CAGXv+5Hw2QqRVCqxZ+P96uM4hcm3qSQESA8Kh5b6RyJDQLFqQQ@mail.gmail.com>
+Subject: Re: [PATCH v10 11/16] drm/mediatek: gamma: Add support for 12-bit LUT
+ and MT8195
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,180 +67,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ ehristev@collabora.com, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 4, 2023 at 3:29=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Add support for 12-bit gamma lookup tables and introduce the first
+> user for it: MT8195.
+> While at it, also reorder the variables in mtk_gamma_set_common()
+> and rename `lut_base` to `lut0_base` to improve readability.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> Reviewed-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 74 +++++++++++++++++++----
+>  1 file changed, 62 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/=
+mediatek/mtk_disp_gamma.c
+> index 3f1c6815ea5a..7d2f8042ace0 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> @@ -26,12 +26,20 @@
+>  #define DISP_GAMMA_SIZE_VSIZE                          GENMASK(12, 0)
+>  #define DISP_GAMMA_BANK                                0x0100
+>  #define DISP_GAMMA_BANK_BANK                           GENMASK(1, 0)
+> +#define DISP_GAMMA_BANK_DATA_MODE                      BIT(2)
+>  #define DISP_GAMMA_LUT                         0x0700
+> +#define DISP_GAMMA_LUT1                                0x0b00
+>
+> +/* For 10 bit LUT layout, R/G/B are in the same register */
+>  #define DISP_GAMMA_LUT_10BIT_R                 GENMASK(29, 20)
+>  #define DISP_GAMMA_LUT_10BIT_G                 GENMASK(19, 10)
+>  #define DISP_GAMMA_LUT_10BIT_B                 GENMASK(9, 0)
+>
+> +/* For 12 bit LUT layout, R/G are in LUT, B is in LUT1 */
+> +#define DISP_GAMMA_LUT_12BIT_R                 GENMASK(11, 0)
+> +#define DISP_GAMMA_LUT_12BIT_G                 GENMASK(23, 12)
+> +#define DISP_GAMMA_LUT_12BIT_B                 GENMASK(11, 0)
+> +
+>  #define LUT_10BIT_MASK                         0x03ff
+>  #define LUT_BITS_DEFAULT                       10
+>  #define LUT_SIZE_DEFAULT                       512
+> @@ -77,14 +85,30 @@ unsigned int mtk_gamma_get_lut_size(struct device *de=
+v)
+>         return LUT_SIZE_DEFAULT;
+>  }
+>
+> +/*
+> + * SoCs supporting 12-bits LUTs are using a new register layout that doe=
+s
+> + * always support (by HW) both 12-bits and 10-bits LUT but, on those, we
+> + * ignore the support for 10-bits in this driver and always use 12-bits.
+> + *
+> + * Summarizing:
+> + * - SoC HW support 9/10-bits LUT only
+> + *   - Old register layout
+> + *     - 10-bits LUT supported
+> + *     - 9-bits LUT not supported
+> + * - SoC HW support both 10/12bits LUT
+> + *   - New register layout
+> + *     - 12-bits LUT supported
+> + *     - 10-its LUT not supported
+> + */
+>  void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
+>  {
+>         struct mtk_disp_gamma *gamma =3D dev_get_drvdata(dev);
+> -       unsigned int i;
+> -       struct drm_color_lut *lut;
+> -       void __iomem *lut_base;
+> -       u32 cfg_val, lbank_val, word;
+> +       void __iomem *lut0_base =3D gamma->regs + DISP_GAMMA_LUT;
+> +       void __iomem *lut1_base =3D gamma->regs + DISP_GAMMA_LUT1;
+> +       u32 cfg_val, data_mode, lbank_val, word[2];
+>         int cur_bank, num_lut_banks;
+> +       struct drm_color_lut *lut;
+> +       unsigned int i;
+>
+>         /* If there's no gamma lut there's nothing to do here. */
+>         if (!state->gamma_lut)
+> @@ -92,14 +116,17 @@ void mtk_gamma_set(struct device *dev, struct drm_cr=
+tc_state *state)
+>
+>         num_lut_banks =3D gamma->data->lut_size / gamma->data->lut_bank_s=
+ize;
+>         cfg_val =3D readl(gamma->regs + DISP_GAMMA_CFG);
+> -       lut_base =3D gamma->regs + DISP_GAMMA_LUT;
+>         lut =3D (struct drm_color_lut *)state->gamma_lut->data;
+>
+> +       /* Switch to 12 bits data mode if supported */
+> +       data_mode =3D FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(gamma->dat=
+a->lut_bits =3D=3D 12));
+> +
+>         for (cur_bank =3D 0; cur_bank < num_lut_banks; cur_bank++) {
+>
+>                 /* Switch gamma bank and set data mode before writing LUT=
+ */
+>                 if (num_lut_banks > 1) {
+>                         lbank_val =3D FIELD_PREP(DISP_GAMMA_BANK_BANK, cu=
+r_bank);
+> +                       lbank_val |=3D data_mode;
+>                         writel(lbank_val, gamma->regs + DISP_GAMMA_BANK);
+>                 }
+>
+> @@ -112,9 +139,15 @@ void mtk_gamma_set(struct device *dev, struct drm_cr=
+tc_state *state)
+>                         hwlut.blue =3D drm_color_lut_extract(lut[n].blue,=
+ gamma->data->lut_bits);
+>
+>                         if (!gamma->data->lut_diff || (i % 2 =3D=3D 0)) {
+> -                               word =3D FIELD_PREP(DISP_GAMMA_LUT_10BIT_=
+R, hwlut.red);
+> -                               word |=3D FIELD_PREP(DISP_GAMMA_LUT_10BIT=
+_G, hwlut.green);
+> -                               word |=3D FIELD_PREP(DISP_GAMMA_LUT_10BIT=
+_B, hwlut.blue);
+> +                               if (gamma->data->lut_bits =3D=3D 12) {
+> +                                       word[0] =3D FIELD_PREP(DISP_GAMMA=
+_LUT_12BIT_R, hwlut.red);
+> +                                       word[0] |=3D FIELD_PREP(DISP_GAMM=
+A_LUT_12BIT_G, hwlut.green);
+> +                                       word[1] =3D FIELD_PREP(DISP_GAMMA=
+_LUT_12BIT_B, hwlut.blue);
+> +                               } else {
+> +                                       word[0] =3D FIELD_PREP(DISP_GAMMA=
+_LUT_10BIT_R, hwlut.red);
+> +                                       word[0] |=3D FIELD_PREP(DISP_GAMM=
+A_LUT_10BIT_G, hwlut.green);
+> +                                       word[0] |=3D FIELD_PREP(DISP_GAMM=
+A_LUT_10BIT_B, hwlut.blue);
+> +                               }
+>                         } else {
+>                                 diff.red =3D lut[n].red - lut[n - 1].red;
+>                                 diff.red =3D drm_color_lut_extract(diff.r=
+ed, gamma->data->lut_bits);
+> @@ -125,11 +158,19 @@ void mtk_gamma_set(struct device *dev, struct drm_c=
+rtc_state *state)
+>                                 diff.blue =3D lut[n].blue - lut[n - 1].bl=
+ue;
+>                                 diff.blue =3D drm_color_lut_extract(diff.=
+blue, gamma->data->lut_bits);
+>
+> -                               word =3D FIELD_PREP(DISP_GAMMA_LUT_10BIT_=
+R, diff.red);
+> -                               word |=3D FIELD_PREP(DISP_GAMMA_LUT_10BIT=
+_G, diff.green);
+> -                               word |=3D FIELD_PREP(DISP_GAMMA_LUT_10BIT=
+_B, diff.blue);
+> +                               if (gamma->data->lut_bits =3D=3D 12) {
+> +                                       word[0] =3D FIELD_PREP(DISP_GAMMA=
+_LUT_12BIT_R, diff.red);
+> +                                       word[0] |=3D FIELD_PREP(DISP_GAMM=
+A_LUT_12BIT_G, diff.green);
+> +                                       word[1] =3D FIELD_PREP(DISP_GAMMA=
+_LUT_12BIT_B, diff.blue);
+> +                               } else {
+> +                                       word[0] =3D FIELD_PREP(DISP_GAMMA=
+_LUT_10BIT_R, diff.red);
+> +                                       word[0] |=3D FIELD_PREP(DISP_GAMM=
+A_LUT_10BIT_G, diff.green);
+> +                                       word[0] |=3D FIELD_PREP(DISP_GAMM=
+A_LUT_10BIT_B, diff.blue);
+> +                               }
+>                         }
+> -                       writel(word, (lut_base + i * 4));
+> +                       writel(word[0], (lut0_base + i * 4));
+> +                       if (gamma->data->lut_bits =3D=3D 12)
+> +                               writel(word[1], (lut1_base + i * 4));
+>                 }
+>         }
+>
+> @@ -246,11 +287,20 @@ static const struct mtk_disp_gamma_data mt8183_gamm=
+a_driver_data =3D {
+>         .lut_size =3D 512,
+>  };
+>
+> +static const struct mtk_disp_gamma_data mt8195_gamma_driver_data =3D {
+> +       .lut_bank_size =3D 256,
+> +       .lut_bits =3D 12,
+> +       .lut_diff =3D true,
+> +       .lut_size =3D 1024,
+> +};
+> +
+>  static const struct of_device_id mtk_disp_gamma_driver_dt_match[] =3D {
+>         { .compatible =3D "mediatek,mt8173-disp-gamma",
+>           .data =3D &mt8173_gamma_driver_data},
+>         { .compatible =3D "mediatek,mt8183-disp-gamma",
+>           .data =3D &mt8183_gamma_driver_data},
+> +       { .compatible =3D "mediatek,mt8195-disp-gamma",
+> +         .data =3D &mt8195_gamma_driver_data},
 
---x5xBW3ITDXSHDQyO
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I assume we need matching changes for the DT binding and to the DT?
 
-Hi Brandon,
+ChenYu
 
-Is Jim Shargo no longer able to follow-up with these anymore? Can you
-reach out to him? Maybe he's on holiday/vacation at this point?
-
-If you decide to follow-up we need a v3 -- and possibly a few more, but
-I'd just focus on getting the ConfigFS infrastructure in, addressing
-current comments, re-base on top of drm-misc as they do not apply
-anymore, and further polishing the patches.
-
-After that gets in, I'd then focus of getting on expanding on it and
-getting hot-plug. You'd need also some i-g-t tests for that.
-
-There's also bunch of i-g-t tests sitting in a MR but those need to be=20
-posted to igt-dev@lists.freedesktop.org rather than on gitlab. We'd need
-that in as well.
-
-On Tue, Aug 08, 2023 at 12:30:38PM +0900, Brandon Ross Pollack wrote:
-> Some of these comments have been sitting for a while.=A0 Would it be ok if
-> yixie@chromium.org and myself picked these up and did an iteration so we
-> could also get https://patchwork.kernel.org/project/dri-devel/patch/20230=
-711013148.3155572-1-brpol@chromium.org/
-> submitted?=A0 These will enable a lot of virtual multi display testing in
-> linux! :)
->=20
-> On 6/24/23 07:23, Jim Shargo wrote:
-> > Intro
-> > =3D=3D=3D=3D=3D
-> >=20
-> > At long last, we're back!
-> >=20
-> > This patchset adds basic ConfigFS support to VKMS, allowing users to
-> > build new DRM devices with user-defined DRM objects and object
-> > relationships by creating, writing, and symlinking files.
-> >=20
-> > Usageubmitted
-> > =3D=3D=3D=3D=3D
-> >=20
-> > After installing these patches, you can create a VKMS device with two
-> > displays and a movable overlay like so (this is documented in the
-> > patches):
-> >=20
-> >    $ modprobe vkms enable_overlay=3D1 enable_cursor=3D1 enable_writebac=
-k=3D1
-> >    $ mkdir -p /config/
-> >    $ mount -t configfs none /config
-> >=20
-> >    $ export DRM_PLANE_TYPE_PRIMARY=3D1
-> >    $ export DRM_PLANE_TYPE_CURSOR=3D2
-> >    $ export DRM_PLANE_TYPE_OVERLAY=3D0
-> >=20
-> >    $ mkdir /config/vkms/test
-> >=20
-> >    $ mkdir /config/vkms/test/planes/primary
-> >    $ echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/ty=
-pe
-> >=20
-> >    $ mkdir /config/vkms/test/planes/other_primary
-> >    $ echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_prim=
-ary/type
-> >=20
-> >    $ mkdir /config/vkms/test/planes/cursor
-> >    $ echo $DRM_PLANE_TYPE_CURSOR > /config/vkms/test/planes/cursor/type
-> >=20
-> >    $ mkdir /config/vkms/test/planes/overlay
-> >    $ echo $DRM_PLANE_TYPE_OVERLAY > /config/vkms/test/planes/overlay/ty=
-pe
-> >=20
-> >    $ mkdir /config/vkms/test/crtcs/crtc
-> >    $ mkdir /config/vkms/test/crtcs/crtc_other
-> >    $ mkdir /config/vkms/test/encoders/encoder
-> >    $ mkdir /config/vkms/test/connectors/connector
-> >=20
-> >    $ ln -s /config/vkms/test/encoders/encoder /config/vkms/test/connect=
-ors/connector/possible_encoders
-> >    $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/encoders/enco=
-der/possible_crtcs/
-> >    $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/primar=
-y/possible_crtcs/
-> >    $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/cursor=
-/possible_crtcs/
-> >    $ ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/overla=
-y/possible_crtcs/
-> >    $ ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/=
-overlay/possible_crtcs/
-> >    $ ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/=
-other_primary/possible_crtcs/
-> >=20
-> >    $ echo 1 > /config/vkms/test/enabled
-> >=20
-> > Changes within core VKMS
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> > This introduces a few important changes to the overall structure of
-> > VKMS:
-> >=20
-> >    - Devices are now memory managed!
-> >    - Support for multiple CRTCs and other objects has been added
-> >=20
-> > Since v1
-> > =3D=3D=3D=3D=3D=3D=3D=3D
-> >=20
-> >    - Added DRMM memory management to automatically clean up resources
-> >    - Added a param to disable the default device
-> >    - Renamed "cards" to "devices" to improve legibility
-> >    - Added a lock for the configfs setup handler
-> >    - Moved all the new docs into the relevant .c file
-> >    - Addressed as many of sean@poorly.run as possible
-> >=20
-> > Testing
-> > =3D=3D=3D=3D=3D=3D=3D
-> >=20
-> >    - New IGT tests (see
-> >      gitlab.freedesktop.org/jshargo/igt-gpu-tools/-/merge_requests/1)
-> >    - Existing IGT tests (excluding .*suspend.*, including .*kms_flip.*
-> >      .*kms_writeback.* .*kms_cursor_crc.*, .*kms_plane.*)
-> >=20
-> > Outro
-> > =3D=3D=3D=3D=3D
-> >=20
-> > I'm excited to share these changes, it's my still my first kernel patch
-> > and I've been putting a lot of love into these.
-> >=20
-> > Jim Shargo (6):
-> >    drm/vkms: Back VKMS with DRM memory management instead of static
-> >      objects
-> >    drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
-> >    drm/vkms: Provide platform data when creating VKMS devices
-> >    drm/vkms: Add ConfigFS scaffolding to VKMS
-> >    drm/vkms: Support enabling ConfigFS devices
-> >    drm/vkms: Add a module param to enable/disable the default device
-> >=20
-> >   Documentation/gpu/vkms.rst            |  17 +-
-> >   drivers/gpu/drm/Kconfig               |   1 +
-> >   drivers/gpu/drm/vkms/Makefile         |   1 +
-> >   drivers/gpu/drm/vkms/vkms_composer.c  |  28 +-
-> >   drivers/gpu/drm/vkms/vkms_configfs.c  | 657 ++++++++++++++++++++++++++
-> >   drivers/gpu/drm/vkms/vkms_crtc.c      |  97 ++--
-> >   drivers/gpu/drm/vkms/vkms_drv.c       | 208 +++++---
-> >   drivers/gpu/drm/vkms/vkms_drv.h       | 166 +++++--
-> >   drivers/gpu/drm/vkms/vkms_output.c    | 299 ++++++++++--
-> >   drivers/gpu/drm/vkms/vkms_plane.c     |  44 +-
-> >   drivers/gpu/drm/vkms/vkms_writeback.c |  26 +-
-> >   11 files changed, 1312 insertions(+), 232 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
-
---x5xBW3ITDXSHDQyO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmTbJOUACgkQ9jQS5glH
-1u/nFRAAvZjbB/sQZVwni9H7odnbTUEGKasiZW6zLv9uBDCfNycgCDQqV7Pq8Xiy
-VCiN5MqAJXko8xaVjrb9woFxr/Lbj+zOMXPEaq6E7nkUa4prDElNN0jQwsilrM8K
-xWv9EqMBibjeGe4IugJLxaJCqgK8X3YlNGwKJBbOOBxd1sLH/nm0dxzupMVO/s+P
-nt1ND1e55pGRHviVwx6gI64Ln2GiSLimNCQ+5gvtD6vWvX9vbviAimply7ANg6tW
-mZq3/HdjwnxRtbdK2fwaEAncSdjt8VCreweJtAgt7HI13ZVnyLJ6L45l77DFGqzN
-UHlMSTx2X/9uubo3hSMayXLEfEsemWxkFWoDrB7IxWflhnoJBBD+fYKCb5xtCZIw
-BUgGwPPX5imwCR6X0LRpWtRqNGxUlogWwhJoO7X0LzAh6zbbRZGsjTYRJu6GC9+B
-xS4Nvs9CaYmQ82vIKv/IMRx3Cw40ctSaIKNJ7PLxOg602XSbS9/odPm9LpdcEBWd
-Bw+9gwJKuPNYx1QYcszcmozR2YOBy+P2UrkcjK0NCZtLCSZEAnV6xMERoGJZsUj6
-L6XIWlzZoVHAOTzDeCQ83dspUuPuH0QYmtPKIKtlGXIfK2q96dr8FoPOJd96qMbF
-QQU14duh2LmuAT/6jOF9fICisiIgR39RWSkrEVIOstZXaS74NdQ=
-=lDW9
------END PGP SIGNATURE-----
-
---x5xBW3ITDXSHDQyO--
+>         {},
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
+> --
+> 2.41.0
+>
