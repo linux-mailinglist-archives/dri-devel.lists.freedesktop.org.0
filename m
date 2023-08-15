@@ -1,66 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D577D3BE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 21:59:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A56177D3F9
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 22:17:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4F410E28C;
-	Tue, 15 Aug 2023 19:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2873810E28F;
+	Tue, 15 Aug 2023 20:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB4610E28C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 19:59:20 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-5256d74dab9so2556635a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 12:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692129559; x=1692734359;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dS3682mu41R84swNF5+hT9srqojwp9Qst5EvX4qVzLE=;
- b=s5olbKVdhKlvi640Pu+d6Uo1NM7DWFOxBE/fc/1wRI2KzhtFAeaikb4tld/eZCIIWG
- cLKDfsThY6LfoU2wsFcKVbBUU3Fc48mLb2Hw2WsJkPDxM7DpgGLuEMJ53t0K3k3oA8WU
- H8MNM9Lcq1PrqlewzhhZ5n9jFgATLuKJe9rJ+kE/giOW+OY6D/4bNn1wFGIDvZNUxE5n
- TzxM2SDt5JSUtM8cRfielD6Qfrkuz9+2TLSm4U+rf3CZorXZTgn5jBeg67aTu5zR+Z8W
- IAKiYzEtDaO3EtnE6AzTvSZMe5hNJzq9CJyjIHQe5pS/4tI8/b+EpkVRUZFsaRydjX0w
- sEOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692129559; x=1692734359;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dS3682mu41R84swNF5+hT9srqojwp9Qst5EvX4qVzLE=;
- b=L+6RTAfETx1NQcB0NLtIdnxXyDDl6op2OQMrlO9F6eL+VZwFyFJqkFd75ZZCpqmpct
- VoCJbcxzn2MwbkvhQ+OH6wekUJteFL/0mV6rmVZIoyPzZIKfRWjmHP6VhsqgagyR+rZm
- aWv56pMFCZe7J6D5oomWcsxYWNO19rMoL3jUQ9/KpaWRIFg1OeJTaV9Su//NUaB5a2zZ
- DRdWlpY9zTPxrKJ/OVOALIA0kCOhPNz6YABCBluxrIbPSa5Sj3N9R1F96WCmipIPTkvm
- LG8NoNXIoESqpSQ1PCBgro4VgfLNrCsIZN/oAH9Ye8EDqToVw1Meu9c0ZJQd9uLmj+ST
- NmHg==
-X-Gm-Message-State: AOJu0YzV83F5R//hcbrVkS5h+FM2G6LAqnlW09qDQUez+wYSmQV4ecZC
- RyvRzuQ8xVxPa06SJocMEHj99+eZHboHeq81m8s=
-X-Google-Smtp-Source: AGHT+IHHb56ttVQa6Oqj7RSVogcURFidJJbohelPmCf3855K7tcoy0NXMphXT9xQQGdX0OkVXYeV1e60uBdxWZTqyhA=
-X-Received: by 2002:a05:6402:447:b0:523:bb8a:8dca with SMTP id
- p7-20020a056402044700b00523bb8a8dcamr11369118edw.16.1692129559165; Tue, 15
- Aug 2023 12:59:19 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAA8210E29E;
+ Tue, 15 Aug 2023 20:17:31 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 37FJHDvN029298; Tue, 15 Aug 2023 20:17:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=fo/8vx9iG79UB/hMaDM5BJQ3mB4rzJH4dTXcccXXiyU=;
+ b=W08L/7q6wTUWh57TqPMAidIgKdL/aaeSzwF9pIKFfvk4GJlxhK5LxPoeOJfR7B09ILl/
+ 4rZGwNqQxmoPG6k6upR8DK/wtxhs8zO4fjVVmps4zhbN7bmOvQojelVGCpi2rQG0djDA
+ 9TszbEK3uNjzn/+iaSS+f2ZXLlotcWEfjfeyQgyhmDLdC7bN49DPutK+asGIrypW+FvL
+ apjTL6zi4Zig5SeFlQ6MY/dd0HKb456ePzsosOFx/ONhTU+usXje7qLJvSePkxkaaL3l
+ lW88neDaC0V+/8NUkDOX5nDfnIQEM54zEIb0+xrrcDTeco8EqxtGU61D0igYqyeRkbAt IA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sgex38586-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Aug 2023 20:17:09 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37FKH8kZ010530
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Aug 2023 20:17:08 GMT
+Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 15 Aug
+ 2023 13:17:08 -0700
+Message-ID: <4212982a-e5fc-c7f2-1b4f-96f2e1848a74@quicinc.com>
+Date: Tue, 15 Aug 2023 13:17:07 -0700
 MIME-Version: 1.0
-References: <389b-64db6700-1-3dc04b80@31442286>
- <b278375f-4644-2db6-9a14-9088470d528c@suse.de>
- <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
- <1b9ea227-b068-9d91-1036-28a4161b1744@suse.de>
- <CAF6AEGsr+2xaCeExm9wPmK=nU+jxevLcd8RDWTSFrwKR-yCvZg@mail.gmail.com>
- <CAPM=9tx16UoYoOw4hBChVNPcj57ox1XsybPPTGZn=r2DDQBJmw@mail.gmail.com>
-In-Reply-To: <CAPM=9tx16UoYoOw4hBChVNPcj57ox1XsybPPTGZn=r2DDQBJmw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 15 Aug 2023 12:59:07 -0700
-Message-ID: <CAF6AEGu8mRB_wiFeWx17Z12Eu+NnP6VLFBr5sypcnxjQyj7_sQ@mail.gmail.com>
-Subject: Re: [PULL for v6.6] drm-misc-next
-To: Dave Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/13] drm/msm/dpu: use devres-managed allocation for
+ MDP TOP
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230730011920.354575-1-dmitry.baryshkov@linaro.org>
+ <20230730011920.354575-6-dmitry.baryshkov@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20230730011920.354575-6-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: tRXR8fe8Bsy8UO5u0Yoy_gAcasI_gDYT
+X-Proofpoint-GUID: tRXR8fe8Bsy8UO5u0Yoy_gAcasI_gDYT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-15_19,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=999
+ mlxscore=0 suspectscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2308150183
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +85,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, daniels@collabora.com, robdclark@google.com,
- david.heidelberg@collabora.com, Daniel Vetter <daniel.vetter@ffwll.ch>,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- linux-kernel@vger.kernel.org, robclark@freedesktop.org,
- gustavo.padovan@collabora.com,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>, anholt@google.com,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- airlied@redhat.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 15, 2023 at 12:23=E2=80=AFPM Dave Airlie <airlied@gmail.com> wr=
-ote:
->
-> > > Otherwise, there should be something like a drm-ci tree, from which y=
-ou
-> > > can fetch the changes directly.
-> >
-> > I asked for a pull request so that I could also merge it to msm-next
-> > so that I can do CI this cycle.  (Unlike the earlier out-of-tree
-> > version of the drm/ci yml, this version needs to be in the branch that
-> > CI runs on, so I can't use the workaround that I had in previous
-> > cycles.)
-> >
-> > Perhaps it should be a pull request targeting drm-next instead of drm-m=
-isc-next.
-> >
-> > We were going to do this one-off for this cycle and then evaluate
-> > going forward whether a drm-ci-next tree is needed.  But perhaps it is
-> > a good idea.
->
->
-> I'm still not 100% sure how this is going down, and I'm meant to be off t=
-oday,
->
-> Don't send this as patches to drm-misc-next, but I think we'd want
-> this in drm-next for a cycle before sending it to Linus, but maybe
-> it's not directly interfering with the kernel so it's fine
->
-> Ideally when the real merge window opens and drm-next is merged I'd
-> want to have a branch + PR written for this against drm-next that I
-> can send to Linus separately and see how it goes.
 
-The tricky thing is we need this patch in-tree to run CI in the first
-place.. so soak time in drm-next on it's own isn't hugely useful.  (Or
-at least I'd need to move msm-next forward to drm-next for it to be
-useful.)
 
-I guess that is a bit of an advantage to the earlier approach that
-kept everything but the expectation files in a different git tree..
+On 7/29/2023 6:19 PM, Dmitry Baryshkov wrote:
+> Use devm_kzalloc to create MDP TOP structure. This allows us to remove
+> corresponding kfree and drop dpu_hw_mdp_destroy() function.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c | 17 +++++++----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h |  8 +++++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    |  5 ++---
+>   3 files changed, 14 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> index cff48763ce25..481b373d9ccb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> @@ -2,6 +2,8 @@
+>   /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>    */
+>   
+> +#include <drm/drm_managed.h>
 
-BR,
--R
+Hi Dmitry,
+
+Is it possible to put this #include in a common header? Since it seems 
+that this is a common change for a lot of patches in this series.
+
+Thanks,
+
+Jessica Zhang
+
+> +
+>   #include "dpu_hwio.h"
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_top.h"
+> @@ -268,16 +270,17 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
+>   		ops->intf_audio_select = dpu_hw_intf_audio_select;
+>   }
+>   
+> -struct dpu_hw_mdp *dpu_hw_mdptop_init(const struct dpu_mdp_cfg *cfg,
+> -		void __iomem *addr,
+> -		const struct dpu_mdss_cfg *m)
+> +struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
+> +				      const struct dpu_mdp_cfg *cfg,
+> +				      void __iomem *addr,
+> +				      const struct dpu_mdss_cfg *m)
+>   {
+>   	struct dpu_hw_mdp *mdp;
+>   
+>   	if (!addr)
+>   		return ERR_PTR(-EINVAL);
+>   
+> -	mdp = kzalloc(sizeof(*mdp), GFP_KERNEL);
+> +	mdp = drmm_kzalloc(dev, sizeof(*mdp), GFP_KERNEL);
+>   	if (!mdp)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> @@ -292,9 +295,3 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(const struct dpu_mdp_cfg *cfg,
+>   
+>   	return mdp;
+>   }
+> -
+> -void dpu_hw_mdp_destroy(struct dpu_hw_mdp *mdp)
+> -{
+> -	kfree(mdp);
+> -}
+> -
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> index 8b1463d2b2f0..6f3dc98087df 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> @@ -145,13 +145,15 @@ struct dpu_hw_mdp {
+>   
+>   /**
+>    * dpu_hw_mdptop_init - initializes the top driver for the passed config
+> + * @dev:  Corresponding device for devres management
+>    * @cfg:  MDP TOP configuration from catalog
+>    * @addr: Mapped register io address of MDP
+>    * @m:    Pointer to mdss catalog data
+>    */
+> -struct dpu_hw_mdp *dpu_hw_mdptop_init(const struct dpu_mdp_cfg *cfg,
+> -		void __iomem *addr,
+> -		const struct dpu_mdss_cfg *m);
+> +struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
+> +				      const struct dpu_mdp_cfg *cfg,
+> +				      void __iomem *addr,
+> +				      const struct dpu_mdss_cfg *m);
+>   
+>   void dpu_hw_mdp_destroy(struct dpu_hw_mdp *mdp);
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index 6e0643ea4868..d4f4cb402663 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -820,8 +820,6 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
+>   
+>   	dpu_kms->catalog = NULL;
+>   
+> -	if (dpu_kms->hw_mdp)
+> -		dpu_hw_mdp_destroy(dpu_kms->hw_mdp);
+>   	dpu_kms->hw_mdp = NULL;
+>   }
+>   
+> @@ -1091,7 +1089,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>   
+>   	dpu_kms->rm_init = true;
+>   
+> -	dpu_kms->hw_mdp = dpu_hw_mdptop_init(dpu_kms->catalog->mdp,
+> +	dpu_kms->hw_mdp = dpu_hw_mdptop_init(dev,
+> +					     dpu_kms->catalog->mdp,
+>   					     dpu_kms->mmio,
+>   					     dpu_kms->catalog);
+>   	if (IS_ERR(dpu_kms->hw_mdp)) {
+> -- 
+> 2.39.2
+> 
