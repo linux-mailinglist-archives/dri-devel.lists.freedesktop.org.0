@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E526C77CE65
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 16:48:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C425C77CF91
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 17:50:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28FC10E251;
-	Tue, 15 Aug 2023 14:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DDE310E19F;
+	Tue, 15 Aug 2023 15:50:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD8010E251
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 14:48:14 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2b72161c6e9so75748831fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 07:48:14 -0700 (PDT)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D905510E194;
+ Tue, 15 Aug 2023 15:50:16 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1c4d67f493bso1869727fac.2; 
+ Tue, 15 Aug 2023 08:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=joelfernandes.org; s=google; t=1692110892; x=1692715692;
+ d=gmail.com; s=20221208; t=1692114616; x=1692719416;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ibbiZiUA+psUXSR5jUh/+IlNRDXZdtdDillHT+rm3pU=;
- b=U6hg5sg6uAKSWxt0HUVBLWSx0P/Va40jtTADSEVuzIH5KWeO3zdr21ZbxzFVKpfBlW
- KB24HHDVpVo7o/EFigR2hlv89p5idw9I8cydSgr34swBjeccniKPaLFWsjj6eBP8fehe
- xUIHKwJdDXkOatWNSUnQLVWbU7I6GIGScGp5w=
+ bh=AVuBwJh4e/PJsRX9uAJCAxNUSRGi87vXGCf9LVu/RZI=;
+ b=l3+v0arNVlZh6xKCSEAle7gwWilV7bK3j2wrYSbZVr04kMpHxTqsCnZRoWoukqnCnC
+ 1MRXCZ5nD4dHr4sWev1L+/ppIWlewwToWwYT6/WRiwCmP/XVgSIaEzb8CepIT9Aqjd7H
+ 5M00zyBo1wXrovalLFsg/mqKAweK4cUBFUkzWSlT7bcXZATmJvNGSAKufNqhnVciD0uc
+ RYXAiBorG/4StHafZLNn7eemP+BAtYgfSvnMlsy6FfSdKkcJVZXmn8DL0VZhL5MD+b0A
+ SdyRbRDT7ReMwIBkzmgSbmKkJuj9I0eupsWB7kjs6L2LscV0icsjt0Fl8eoikx93qVWN
+ sNcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692110892; x=1692715692;
+ d=1e100.net; s=20221208; t=1692114616; x=1692719416;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ibbiZiUA+psUXSR5jUh/+IlNRDXZdtdDillHT+rm3pU=;
- b=YzEhVzNwVkFFeAaRl1jms/9pTXHY0v+d6xGEJoUMrkjHOu7O+FPsyu6oEDhr+qCkKL
- oDJRfoT1kaCKZvWLkCKv0vHBTBihAxhTHaawbE22shaBBnpGlYOO6D9iqYaVF2/MmQwc
- 2gRlNaWHNdHLPeXOCcldYWOtd+/dX/Vt5SY0jfPZBbqjHY2Vmp4aP2ea8SROnOo1P0V5
- ZhxXmmvHL86+50lZB+idv0xtGzfC3DTiBgmMYgshc3nCGTtUTTh+uZxxhIBpFic6sTGO
- El/AD6T4fVsWPLMg6KRpgcrEmzk4M0gj8fUY+7XSdZJefUOxXkhZWn1zb+38tqoMidNv
- Igsg==
-X-Gm-Message-State: AOJu0Ywd79vM1q9a8MswNnmGM47x6yKVvrOaQ78WqrpZ80o/1Ilh2gJW
- jMcPkvh+c6v1uL1TRv6B6dK/SShbS0SkCnfuzi+/jN3NXiBASq5+
-X-Google-Smtp-Source: AGHT+IHTIyZF2a0Lewx1kaEyopouMrrXNjHT3NJi7iQHgr1EAUrSfMtmSq7xI4WQF76YzqD1XX4CAWsZeuHhipxQA3A=
-X-Received: by 2002:a2e:9206:0:b0:2b4:6a06:4c26 with SMTP id
- k6-20020a2e9206000000b002b46a064c26mr710210ljg.2.1692110892069; Tue, 15 Aug
- 2023 07:48:12 -0700 (PDT)
+ bh=AVuBwJh4e/PJsRX9uAJCAxNUSRGi87vXGCf9LVu/RZI=;
+ b=Uuof9qAQrIyMJaVxEOPMVWBoMOirfKC53OTzyiRn0hpqGOoCvAKMS7k0zb6IXazOzn
+ IBojkF6TJhW11KjlVLIH+r/S2x20dlqj4W3Xc/V74b30O0UL4OsK9uv/G3gqxzszIdXp
+ wFNZ8Mau5GRB9itwBjJw7ISRJPJNPwDynqwJqUoNFbWW7G4NQB23ryRrze2rGeF7tXFp
+ fvxtYxC5lMDZIsUPMqxUBisjdxP1EmREy3wsEJmG90bybte2+rQLUlexNT2RJyTjFLeq
+ EHU8icyce91BxdR3uKFtr9V54YcmtXa/6lCU82qczp1M8ltP8CkAKMf0lcypRXHsysxl
+ NlIg==
+X-Gm-Message-State: AOJu0YwMruH6pMCZ2LYXDYNi/aaH1opDlyPy9Ug7xsWhMK4Hnri/9NIN
+ F13Y2AUXiSBnujxs8s6uJcdVt70oViEEIR/YfVs=
+X-Google-Smtp-Source: AGHT+IHnfanJXW9hOJVO0LHdf7NOx4OjrsIyG1aeMXAi9KSDW4x3gIykJjmw9TK435u51yUPEFMT1UKL4QlqQgtdoWE=
+X-Received: by 2002:a05:6870:638b:b0:1ba:c3a2:fb71 with SMTP id
+ t11-20020a056870638b00b001bac3a2fb71mr13551780oap.31.1692114616012; Tue, 15
+ Aug 2023 08:50:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230616122815.1037425-1-juerg.haefliger@canonical.com>
- <20230620054031.1203960-1-juerg.haefliger@canonical.com>
- <b0460532-b5f1-7efc-49af-8d4feecc1085@linaro.org>
- <20230815135214.15aeff63@gollum>
-In-Reply-To: <20230815135214.15aeff63@gollum>
-From: Joel Fernandes <joel@joelfernandes.org>
-Date: Tue, 15 Aug 2023 10:48:01 -0400
-Message-ID: <CAEXW_YShF2RMnsgTzjB1z6vLU+3oOv1vEPtWnmBT-NsREh88-g@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/adreno: Add missing MODULE_FIRMWARE macros
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
+References: <20230815065445.25576-1-hongao@uniontech.com>
+In-Reply-To: <20230815065445.25576-1-hongao@uniontech.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 15 Aug 2023 11:50:04 -0400
+Message-ID: <CADnq5_N8nHV5ub0qf6ihU=+QKXOFfM4AnWbYmWf=EG8SbJXa8A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/gmc6: fix in case the PCI BAR is larger than
+ the actual amount of vram
+To: hongao <hongao@uniontech.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,43 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, quic_akhilpo@quicinc.com, ribalda@chromium.org,
+Cc: Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, konrad.dybcio@linaro.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, johan+linaro@kernel.org
+ mario.limonciello@amd.com, alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 15, 2023 at 7:52=E2=80=AFAM Juerg Haefliger
-<juerg.haefliger@canonical.com> wrote:
->
-> On Thu, 22 Jun 2023 21:44:25 +0300
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->
-> > On 20/06/2023 08:40, Juerg Haefliger wrote:
-> > > The driver references some firmware files that don't have correspondi=
-ng
-> > > MODULE_FIRMWARE macros and thus won't be listed via modinfo. Fix that=
-.
-> > >
-> > > Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
-> > >
-> > > ---
-> > > v2:
-> > >    - Drop addition and removal of zap files (needs more discussion)
-> > >    - Add new a690_gmu.bin
-> > >    - Update commit subject and message accordingly
-> > > ---
-> > >   drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +++++++++++
-> > >   1 file changed, 11 insertions(+)
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
->
+Applied.  Thanks!
 
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-
-thanks,
-
- - Joel
+On Tue, Aug 15, 2023 at 3:13=E2=80=AFAM hongao <hongao@uniontech.com> wrote=
+:
+>
+> [why]
+> limit visible_vram_size to real_vram_size in case
+> the PCI BAR is larger than the actual amount of vram.
+>
+> Signed-off-by: hongao <hongao@uniontech.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/=
+amdgpu/gmc_v6_0.c
+> index b7dad4e67813..c0de7496bfd1 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+> @@ -320,6 +320,8 @@ static int gmc_v6_0_mc_init(struct amdgpu_device *ade=
+v)
+>         adev->gmc.aper_base =3D pci_resource_start(adev->pdev, 0);
+>         adev->gmc.aper_size =3D pci_resource_len(adev->pdev, 0);
+>         adev->gmc.visible_vram_size =3D adev->gmc.aper_size;
+> +       if (adev->gmc.visible_vram_size > adev->gmc.real_vram_size)
+> +               adev->gmc.visible_vram_size =3D adev->gmc.real_vram_size;
+>
+>         /* set the gart size */
+>         if (amdgpu_gart_size =3D=3D -1) {
+> --
+> 2.20.1
+>
