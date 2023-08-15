@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78D477CA4E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 11:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B686C77CA85
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 11:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D52D10E241;
-	Tue, 15 Aug 2023 09:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12AA210E246;
+	Tue, 15 Aug 2023 09:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5D9210E241
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 09:19:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692091164; x=1723627164;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=mAC4DXIcqQ/8JD4Zjwy/1kp3a2e9CjhUfeak91eAFIY=;
- b=e4Sr44fcx1v/MXXnfxEcH1XeLraUEfGrsfB/wp0ZnJ0m+Ct81SbhiVS6
- G1EaRojKwoVqtQBsbac5FILFUdIFCmslobyhbfDz34+IersekhlIIAp8B
- b14T/e9rwI2Sd9WHGCrEySHFRbS54gh4T7CR3MiT2BBGKM6/BmipyQJhf
- 4YSY2E3Vf+/QtipqhMurnemLX8g5LfY0M/IeIInKa4dutiIRXPbr+x9IN
- uVRbQsXYJE9jPlx8KJmf5f45eFPz0/TuOV9glOPy8chn2sJcSXIYPBmr8
- dU0BjcVKq4MPU649WdLFCU0gSrmqCVkXrf4bFufWhTcyufZDUt4jKI+1S g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="436135729"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="436135729"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2023 02:19:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="799137260"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="799137260"
-Received: from cristina-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.52.75])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2023 02:19:17 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>
-Subject: Re: [PATCH RFC 01/13] drm/connector: Introduce an HDMI connector
-In-Reply-To: <20230814-kms-hdmi-connector-state-v1-1-048054df3654@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org>
- <20230814-kms-hdmi-connector-state-v1-1-048054df3654@kernel.org>
-Date: Tue, 15 Aug 2023 12:19:14 +0300
-Message-ID: <878racd5nx.fsf@intel.com>
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4582F10E246
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 09:34:25 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id
+ 3f1490d57ef6-d64f0c2bc95so4368259276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 02:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1692092064; x=1692696864;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+aqCbCTG3SX610WFzHfhqf3xPqj9uNEUpVVBMJW8z0I=;
+ b=XZGntxvNC+CEc2MXkWduVwxQi/ZuEzk3rFernd2f4QjilSsrdJmUghl+FHjvuNQzC8
+ ivqd7dhBa9J/B/4/jrx3sxY2Du+fT/+GuhwAgRbKXs8SkKr67v8yeviWAxaertP00iW1
+ 4DvodqdlEQ1BPwQUYnIYiaz4zpvDov0HyFQVmUIzmd+t62iP5DbMEsj8HmFjAGEtQ2S/
+ 0X75oWuQx0UijmbqrDZbquibpVg+6BQ6iVmSEMU68CPeKd9yj3fJQ6hoDVZUJ1roOhdb
+ yup0nHP2wifPqQ+nuSoKVHxW8EpkzO+G3FqG+T5EJHX+WPfHnpGaoMySAzDEkGSOLx82
+ M1EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692092064; x=1692696864;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+aqCbCTG3SX610WFzHfhqf3xPqj9uNEUpVVBMJW8z0I=;
+ b=NTb6+fT424M+oSC14DKPYL0GtCsZiujAiduJkGjEUitpX4rIwdbru98FGSelgXZqMb
+ ehznfSctfgsHTZ+YociMJxG2r9tJwMVMK7wDK0qfaR/PiEQ2CSrr7pqyiTRQsm7gl4C0
+ zJ6wY682hCKJnnc+F8Y+zmMXe/QsNUxNMMYW008EdvdgXppl370RPHG6QxOAXjVGOR+z
+ gTnOuPE0ylK2vmmtYpc2G73oOc4O4qO4r/ogspSKPXoG7iQhp7izmVuVLPmzAO7nRypw
+ yeTTO5YDiawdG6fNzqd90fM62I6ujAh9Ry1Ps9PDPe3k4I0PGWu/H92GljPNIkWssa0f
+ rQCw==
+X-Gm-Message-State: AOJu0YyzfHPm5QA+owEOZ/wESKcBFAQD0ExHUAeB1Y1+mNLc1/rFf8Y+
+ /OinVNJUq1BKsDJvvhAesXyjMA+fe2WWFfcdSc3uKA==
+X-Google-Smtp-Source: AGHT+IEfXX/MlO8c55xxd4nYTkR0pVOGbMSAvB3eqL1ZoAPyv0aSzyNCevnKIi/joAb+59pUky5etVEa0uWfeiJJaYs=
+X-Received: by 2002:a5b:951:0:b0:d4c:82ff:7bde with SMTP id
+ x17-20020a5b0951000000b00d4c82ff7bdemr11623030ybq.63.1692092064397; Tue, 15
+ Aug 2023 02:34:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230720125418.236140-1-imre.deak@intel.com>
+ <20230720125418.236140-3-imre.deak@intel.com>
+In-Reply-To: <20230720125418.236140-3-imre.deak@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 15 Aug 2023 12:34:13 +0300
+Message-ID: <CAA8EJposiCUaC5xixiYU_awKy=B8tW9ptn3fSpesSVephAg99g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] drm: Add an HPD poll helper to reschedule the poll
+ work
+To: Imre Deak <imre.deak@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,133 +68,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 14 Aug 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> A lot of the various HDMI drivers duplicate some logic that depends on
-> the HDMI spec itself and not really a particular hardware
-> implementation.
+On Thu, 20 Jul 2023 at 15:54, Imre Deak <imre.deak@intel.com> wrote:
 >
-> Output BPC or format selection, infoframe generation are good examples
-> of such areas.
+> Add a helper to reschedule drm_mode_config::output_poll_work after
+> polling has been enabled for a connector (and needing a reschedule,
+> since previously polling was disabled for all connectors and hence
+> output_poll_work was not running).
 >
-> This creates a lot of boilerplate, with a lot of variations, which makes
-> it hard for userspace to rely on, and makes it difficult to get it right
-> for drivers.
+> This is needed by the next patch fixing HPD polling on i915.
 >
-> Let's create a new connector variant specifically dedicated to HDMI
-> controllers that will allow to abstract away the duplicated logic.
->
-> Hopefully, this will make drivers simpler to handle, and their behaviour
-> more consistent.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->  drivers/gpu/drm/Makefile             |  1 +
->  drivers/gpu/drm/drm_hdmi_connector.c | 45 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_connector.h          | 16 +++++++++++++
->  3 files changed, 62 insertions(+)
->
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 7a09a89b493b..1520d4ccd3d7 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -27,6 +27,7 @@ drm-y := \
->  	drm_fourcc.o \
->  	drm_framebuffer.o \
->  	drm_gem.o \
-> +	drm_hdmi_connector.o \
->  	drm_ioctl.o \
->  	drm_lease.o \
->  	drm_managed.o \
-> diff --git a/drivers/gpu/drm/drm_hdmi_connector.c b/drivers/gpu/drm/drm_hdmi_connector.c
-> new file mode 100644
-> index 000000000000..62f01dd2e6df
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_hdmi_connector.c
-> @@ -0,0 +1,45 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_mode.h>
-> +
-> +#include <linux/export.h>
-> +
-> +/**
-> + * drmm_hdmi_connector_init - Init a preallocated HDMI connector
-> + * @dev: DRM device
-> + * @hdmi_connector: A pointer to the HDMI connector to init
-> + * @connector_type: user visible type of the connector
-> + * @ddc: optional pointer to the associated ddc adapter
-> + *
-> + * Initialises a preallocated HDMI connector. Connectors can be
-> + * subclassed as part of driver connector objects.
-> + *
-> + * Cleanup is automatically handled with a call to
-> + * drm_connector_cleanup() in a DRM-managed action.
-> + *
-> + * The connector structure should be allocated with drmm_kzalloc().
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drmm_hdmi_connector_init(struct drm_device *dev,
-> +			     struct drm_hdmi_connector *hdmi_connector,
-> +			     const struct drm_connector_funcs *funcs,
-> +			     int connector_type,
-> +			     struct i2c_adapter *ddc)
-> +{
-> +	struct drm_connector *connector = &hdmi_connector->base;
-> +	int ret;
-> +
-> +	if (connector_type != DRM_MODE_CONNECTOR_HDMIA ||
-> +	    connector_type != DRM_MODE_CONNECTOR_HDMIB)
-> +		return -EINVAL;
-> +
-> +	ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drmm_hdmi_connector_init);
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index d300fde6c1a4..1859b74083f5 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -2042,6 +2042,22 @@ void drm_connector_attach_privacy_screen_provider(
->  	struct drm_connector *connector, struct drm_privacy_screen *priv);
->  void drm_connector_update_privacy_screen(const struct drm_connector_state *connector_state);
->  
-> +struct drm_hdmi_connector {
-> +	/**
-> +	 * @base: Base Connector
-> +	 */
-> +	struct drm_connector base;
-> +};
-> +
-> +#define connector_to_hdmi_connector(connector) \
-> +	container_of_const(connector, struct drm_hdmi_connector, base)
-> +
-> +int drmm_hdmi_connector_init(struct drm_device *dev,
-> +			     struct drm_hdmi_connector *hdmi_connector,
-> +			     const struct drm_connector_funcs *funcs,
-> +			     int connector_type,
-> +			     struct i2c_adapter *ddc);
-> +
+>  drivers/gpu/drm/drm_probe_helper.c | 68 ++++++++++++++++++++----------
+>  include/drm/drm_probe_helper.h     |  1 +
+>  2 files changed, 47 insertions(+), 22 deletions(-)
 
-Pure bikeshedding, maybe add drm_hdmi_connector.h from the start so we
-don't have to split this up later.
-
-BR,
-Jani.
-
->  /**
->   * struct drm_tile_group - Tile group metadata
->   * @refcount: reference count
+I support merging these patches through drm-intel rather than drm-misc.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+With best wishes
+Dmitry
