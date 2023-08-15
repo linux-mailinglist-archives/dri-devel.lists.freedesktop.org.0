@@ -2,140 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586C477CD9D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 15:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB5977CDBC
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Aug 2023 16:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8280810E182;
-	Tue, 15 Aug 2023 13:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A193B10E24E;
+	Tue, 15 Aug 2023 14:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623AA10E182;
- Tue, 15 Aug 2023 13:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692107796; x=1723643796;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=yWyCJE5vhqB/p7AAskJPD/5GbomWweT6jr9WJ3T7ce4=;
- b=NfkjXiKaGr8eUIDFoYsgz4AtFm9ezt1KtNxBSsGCMkG5ZmdGx6/MbnoM
- NSl1zq4VmAcsGxk+IT/ItJuaAPa4NQ/CPMvdGO1z2uzXhi7K0dpGH4yj0
- k7k6yENRvwQd5eTc0B6yFw3gW61ejz++7Z6W2MtV40v0e9N/2jEac/8XU
- O9gX6RX+wfApSpg8AzMkAaZF+EEeY/hxkfzGtDk5aAC34FKRo+6PtYBua
- QQQ7i50+HWcM+hODuPadmtCDNJGArH9ptp9vNi1yf1BtvHLhSyoMpXISq
- 1PXcXfG5siZ0kNcY/511i3uTsc0N5SJ+NpeQNFdK4kWSKme7HTNwW+RX/ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="375050466"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="375050466"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2023 06:56:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="907592405"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="907592405"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga005.jf.intel.com with ESMTP; 15 Aug 2023 06:56:35 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 15 Aug 2023 06:56:35 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 15 Aug 2023 06:56:35 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Tue, 15 Aug 2023 06:56:35 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Tue, 15 Aug 2023 06:56:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MUOlaQuAuqJTyuHvGyKRy3IlngP1g50oVQwxP+r4djjzuKvk0/oVFsg2NEDzuvJeVjHRd0mMUBNeuBy6lQv7XeRm90TW3mma06wSROF+VYuyXUd4v/bWppYhM06UxefOxmA2Qrnux3XIIGlui3NLXJr+KO5ccyajzS/MRJ3iK6BpUgREoglm0pkEszbAGGLF7XPlVOlpPLuwa1piWOPDstMEqeoVnFf34aohjxVpKap+/GZYu6Nb3uDvb3ET/m3dGVLdkzwPuDsKJkLPaqaJtYgcmUf0l1h4n3KQsX+ywoDHQVu0DswrINTW7ae/MHh5+VwsyZgSPdfAjBzlNw7Cpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i+2HWBz7tOzm/kD5kpmY3Cxb2SDN9sKVBJE2gOc6s7k=;
- b=BhbQj5awdYhzCU0J0zBcE940ff8vEQ3A0K+A2DizFPVk2etE1jxW1kzjumSuLZf79PkiAgdvnEaqgyapOGC4+STvrcb0NkJQ+Dfh2t0bpLRx7xR3yKAn4f/838kazpqcvlrjOWCYQkiYSYUX7sVSU9Fe5EleVCSo3CgMlKDz7nyXS/KgKIWKoayFCjmzIVX7opMMm822iDpc9F8QDhXmAwB48gew78QbkU7tnXujEUlky147lBVBm/qhvUqlcr9OECqy/rVfnDzWYMLd02y5q2ObLL0l9mreXddrSjL0AFXT+w/0FIF6FgWMGK2zYhaJ/iPbH5KAGtCmrnuyaM2KCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by PH7PR11MB6606.namprd11.prod.outlook.com (2603:10b6:510:1b1::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Tue, 15 Aug
- 2023 13:56:12 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::7f94:b6c4:1ce2:294%5]) with mapi id 15.20.6678.022; Tue, 15 Aug 2023
- 13:56:11 +0000
-Date: Tue, 15 Aug 2023 09:56:04 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>
-Subject: Re: [PATCH v2 2/3] drm/i915/guc: Close deregister-context race
- against CT-loss
-Message-ID: <ZNuD9JdmoYhYJ+G5@intel.com>
-References: <20230815011210.1188379-1-alan.previn.teres.alexis@intel.com>
- <20230815011210.1188379-3-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230815011210.1188379-3-alan.previn.teres.alexis@intel.com>
-X-ClientProxiedBy: BYAPR08CA0033.namprd08.prod.outlook.com
- (2603:10b6:a03:100::46) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D291410E24E
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Aug 2023 14:02:00 +0000 (UTC)
+Received: from xpredator (unknown
+ [IPv6:2a02:2f08:470d:cf00:7656:3cff:fe3f:7ce9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: mvlad)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 88C1F66071F0;
+ Tue, 15 Aug 2023 15:01:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1692108119;
+ bh=WmoWxyrjOh1kRTgRWY//MX772lQdQiNQTzfkQL8io3s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W8uGCd1gSBz6skMxS/qUiw9GNgsPHkUG33Ad/owjouxAoeZqNv4uWL+N/eyrDuNnq
+ sWLiUXD6er3Rz/mKxYr1izfIcOmF8ZZOBepf2LDWqt4NrQekJUL69ZAgt3jsYoCYku
+ qMQgk9QTHuUzIOAT/2V+RBScBgdCAhjdf+2thVV1OyFh/gDdOlfAqpShABHoHr/o6R
+ CKiLulEbKI5FnePWVpYfbDNbJjAbExFIeKVaB1ViUwgNK4k/p1PkD7+hFM9WRxqwEg
+ /0yx9IQtHsPooFb9ouU5bNBT68P/Ejpe3xWHUhsSjLFSZ5uP4zHUo2AmBSzUVA5GQm
+ qnkJil2R2QNjw==
+Date: Tue, 15 Aug 2023 17:01:55 +0300
+From: Marius Vlad <marius.vlad@collabora.com>
+To: Jim Shargo <jshargo@chromium.org>
+Subject: Re: [PATCH v2 5/6] drm/vkms: Support enabling ConfigFS devices
+Message-ID: <ZNuFU3VbiKhZTIWk@xpredator>
+References: <20230623222353.97283-1-jshargo@chromium.org>
+ <20230623222353.97283-6-jshargo@chromium.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH7PR11MB6606:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13f32e69-fae9-4f07-42f9-08db9d9761c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XvvGUmlhldAOPirNcq1z5u4uG78akjWaFigOsy6ISbjP879jxtOJPlBS1LVDvGp3oaKTBecnbF66eoYGJkbmE6o/UG0mxMHa9Izj8SgApblJzrwDMPlJLHBAkhFcVQlePdIhXE0Bde7CWpA5PlW+7cLk66/vBIMYDpSLhYSazxIX00V3WB4bEY3u7Vp+t2TxacDBkbKxkCUpqsAGeCISqX8vrYzwjEXFzUg08gYFOIpH2niS+y9QhWGYxCwoF3LO644s6fRweop4wu374udWBbIwZ4mJkDo2DR+L32oBHqGl5MhV5rrmXwoQskM2IFpN9Wwq4XmQP7E3e+jzazv8+gd5X4Plc7/MouQDiwIaCg0ZsEfh2N9sMpnSOm+kqDYg7FgUfJdkkeFBK5GgOGf5NdJIrsPMCTLk2EsgHDXffMxiQhwg2EMnXF0GFbam3Bz/ZxnD1Y9LGy3prQxLo2ohd3WnYfR+DQuPQOh21L5Fk1Rs6NIocj7E2ujjSLH8PTCrLM56Rr+9c1nOlWmkXNVru+B1n7Db39ladcyPM+PhPH27TeJ23LY9+sC6sf5TQNB0dtJE/6QR3emV87g5IycCjWdjIHmtb6f8A9l+6WC1B7g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(366004)(376002)(136003)(39860400002)(396003)(451199024)(1800799009)(186009)(478600001)(6486002)(38100700002)(82960400001)(86362001)(36756003)(2616005)(6506007)(66476007)(66556008)(6636002)(66946007)(316002)(5660300002)(41300700001)(26005)(6666004)(83380400001)(107886003)(450100002)(37006003)(54906003)(6512007)(4326008)(6862004)(2906002)(8676002)(44832011)(8936002)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TfZPeF3V7VsnAHQfPBCvmLmHJ6dZuKrH5Mk3v63jGPcQ3LrHoDJV9oCv7+Jt?=
- =?us-ascii?Q?nm8GhBQQWf6zgZh9aalyjG81UZqDfTfgHRD8d5CANdRzMYsk7mlHIBNGc6pT?=
- =?us-ascii?Q?AzI2tJ8sDaQsoAxnU6TmsAqWnH46Yf71YVMC48LCVrPhv9zAL1XOq+SLckZ4?=
- =?us-ascii?Q?j7PTrJD4ZuBaie0HyLuCQIOVin40a7Dkn2K5sizMF+rE5oHsStOomrqZScxT?=
- =?us-ascii?Q?YvCeIx6HXHu//YH31EvpMyd3yZ+u4XXxaQqlnPJ4DEmJnW9AtP3JD0Aj2AWy?=
- =?us-ascii?Q?yGi1j2mG82RC8pEIPSEDNqxzuuNzbGoX1JcQpAynYeZKb24768Jav0EWiUwv?=
- =?us-ascii?Q?kInwzrhrLjS1RVnmHfikVhGcdAOcxaSziRUg/vLMbYQEtv36DNFeFZNSR5iW?=
- =?us-ascii?Q?hKY5fK5GnALVzVgmK6+vEpzNyLRMSMNVRbjB/IwVJyUkHYl8iGCQg2a4330w?=
- =?us-ascii?Q?xKhsF0ar2C0IGICaPVE8TKbYUcaD8EbVTvIxCo1ubRBqTjaEtTEnDDCnw67c?=
- =?us-ascii?Q?vVlFeAORwMR1l8hRQwWJx2X+qQBeOCEUu/gZAMQ0dXOjMUkcNYWUnJGTsPpa?=
- =?us-ascii?Q?r6p1ssjOCqNHbTZsgGIXGVDtj1tBwfJh4Bmn/wQo2gDfChiD8dIeSN5b7DT4?=
- =?us-ascii?Q?RfGuh9W59ITRDWK5Qtt+wsC+iYB2HVErIYBYrjO9p8kq08K9E2j8zxtEm96W?=
- =?us-ascii?Q?3qBMDoOr8soBOBwaEkuk4hJHC7KY/zS4xTX2Hqr658zmfEYcKlMI4Sl32Fte?=
- =?us-ascii?Q?9lUMdriZrrMt1PtPRl1TM9uw6RLbVXjst8txX4DU2eQcd1kOacA8ycIukIup?=
- =?us-ascii?Q?u+MzsLuALvF/6H3aRt6kkbaSAxhhenUoj2WojoXQZw29BAVF3nGywhoPdEqF?=
- =?us-ascii?Q?uzvpO6OwVRWCLi/tXJDON0i7R/ufCIbF3OwGWL0vmF7V+m5aYaUYGG7neygD?=
- =?us-ascii?Q?N39yhkFQ/cQ8l+iIR/03bg1H6ZsIbvyxFFkjwlOBWjxF9u2KsqIjf+3ETReF?=
- =?us-ascii?Q?rRxSheBZARZyK4zZDXpdFCVRbuQADlqrWcE2xSLPqt1cvhODCZv01k/duh3z?=
- =?us-ascii?Q?iZoqWJbHIOMsMGYj5lc6H8kNhREMflVBHXCwg5+43brzdnLR+Z+f1A3ldX15?=
- =?us-ascii?Q?nPZzBdNY/CL2iQu8gnXfPAoZPL8iYJlmSM1lJ0kXrY8ZWtUC9UqLSwrGmAkz?=
- =?us-ascii?Q?YQBNKhuQDEX087HRDvtxiHcRe9qfp0Q8s/ZAhPNNWbNMH8WCj5bEd7eeRgfB?=
- =?us-ascii?Q?6CsbZulSIg74OopwfH8nmJzXdoPhrQGSZuCjmTJcFJ1V6WuoISuCH2tiNE3t?=
- =?us-ascii?Q?ho1IPwHYLIf7HQyUEXylamK12roP1ASe1mIbi0OiLcD9XSSRHoBzWFvtz+9N?=
- =?us-ascii?Q?re7T4cPBvqz0fGHgO2RByz1cVMf7D+7iQtUaWO64dbEHojHKkK3Ljr5gTNRH?=
- =?us-ascii?Q?dlVTDHqYeVqnzjfwZmtsNFR1p5xlZxaxef5U6Fkzfv7xZnT3dFyQEPlRQemw?=
- =?us-ascii?Q?e28298X8bJmWdw3Jb433dcjCohDuL7V2M6rQZ9GzXnOJe1/BAbNx/lVFgvA6?=
- =?us-ascii?Q?XI9XftMWhEFC2z2HRmzmnuqeGhMyE6vKSpalkYv/vz2jqFjlImN3JgA8BjD3?=
- =?us-ascii?Q?cw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13f32e69-fae9-4f07-42f9-08db9d9761c1
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 13:56:11.5170 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g0QX0BvD+IRcmm9VbZSmGQAzf8+zJ/Qw+56v6Nl9MnJz4FrqCmbZTT2M1a9Y6zZcbsZzG3ekSbFSPpTWIjGIvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6606
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7mVKmyV3VPXXjhnm"
+Content-Disposition: inline
+In-Reply-To: <20230623222353.97283-6-jshargo@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,129 +55,483 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <melissa.srw@gmail.com>, mairacanal@riseup.net,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 14, 2023 at 06:12:09PM -0700, Alan Previn wrote:
-> If we are at the end of suspend or very early in resume
-> its possible an async fence signal could lead us to the
-> execution of the context destruction worker (after the
-> prior worker flush).
-> 
-> Even if checking that the CT is enabled before calling
-> destroyed_worker_func, guc_lrc_desc_unpin may still fail
-> because in corner cases, as we traverse the GuC's
-> context-destroy list, the CT could get disabled in the mid
-> of it right before calling the GuC's CT send function.
-> 
-> We've witnessed this race condition once every ~6000-8000
-> suspend-resume cycles while ensuring workloads that render
-> something onscreen is continuously started just before
-> we suspend (and the workload is small enough to complete
-> and trigger the queued engine/context free-up either very
-> late in suspend or very early in resume).
-> 
-> In such a case, we need to unroll the unpin process because
-> guc-lrc-unpin takes a gt wakeref which only gets released in
-> the G2H IRQ reply that never comes through in this corner
-> case. That will cascade into a kernel hang later at the tail
-> end of suspend in this function:
-> 
->    intel_wakeref_wait_for_idle(&gt->wakeref)
->    (called by) - intel_gt_pm_wait_for_idle
->    (called by) - wait_for_suspend
-> 
-> Doing this unroll and keeping the context in the GuC's
-> destroy-list will allow the context to get picked up on
-> the next destroy worker invocation or purged as part of a
-> major GuC sanitization or reset flow.
-> 
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+
+--7mVKmyV3VPXXjhnm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+See below some minor comments:
+
+On Fri, Jun 23, 2023 at 06:23:47PM -0400, Jim Shargo wrote:
+> VKMS now supports creating and using virtual devices!
+>=20
+> In addition to the enabling logic, this commit also prevents users from
+> adding new objects once a card is registered.
+>=20
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
 > ---
->  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 40 +++++++++++++++++--
->  1 file changed, 36 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 050572bb8dbe..ddb4ee4c4e51 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -235,6 +235,13 @@ set_context_destroyed(struct intel_context *ce)
->  	ce->guc_state.sched_state |= SCHED_STATE_DESTROYED;
->  }
->  
-> +static inline void
-> +clr_context_destroyed(struct intel_context *ce)
-> +{
-> +	lockdep_assert_held(&ce->guc_state.lock);
-> +	ce->guc_state.sched_state &= ~SCHED_STATE_DESTROYED;
-> +}
+>  drivers/gpu/drm/vkms/vkms_configfs.c |  37 +++--
+>  drivers/gpu/drm/vkms/vkms_crtc.c     |   4 +-
+>  drivers/gpu/drm/vkms/vkms_drv.c      |   3 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h      |   2 +-
+>  drivers/gpu/drm/vkms/vkms_output.c   | 201 +++++++++++++++++++++++----
+>  5 files changed, 202 insertions(+), 45 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/=
+vkms_configfs.c
+> index 544024735d19..f5eed6d23dcd 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -504,29 +504,40 @@ static ssize_t device_enabled_store(struct config_i=
+tem *item, const char *buf,
+>  {
+>  	struct vkms_configfs *configfs =3D item_to_configfs(item);
+>  	struct vkms_device *device;
+> -	int value, ret;
+> +	int enabled, ret;
+> =20
+> -	ret =3D kstrtoint(buf, 0, &value);
+> +	ret =3D kstrtoint(buf, 0, &enabled);
+>  	if (ret)
+>  		return ret;
+> =20
+> -	if (value !=3D 1)
+> -		return -EINVAL;
+> -
+> -	mutex_lock(&configfs->lock);
+> -
+> -	if (configfs->vkms_device) {
+> +	if (enabled =3D=3D 0) {
+> +		mutex_lock(&configfs->lock);
+> +		if (configfs->vkms_device) {
+> +			vkms_remove_device(configfs->vkms_device);
+> +			configfs->vkms_device =3D NULL;
+> +		}
+>  		mutex_unlock(&configfs->lock);
 > +
->  static inline bool context_pending_disable(struct intel_context *ce)
->  {
->  	return ce->guc_state.sched_state & SCHED_STATE_PENDING_DISABLE;
-> @@ -3175,7 +3182,7 @@ static void guc_context_close(struct intel_context *ce)
->  	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>  		return len;
+>  	}
+> =20
+> -	device =3D vkms_add_device(configfs);
+> -	mutex_unlock(&configfs->lock);
+> +	if (enabled =3D=3D 1) {
+> +		mutex_lock(&configfs->lock);
+> +		if (!configfs->vkms_device) {
+> +			device =3D vkms_add_device(configfs);
+> +			if (IS_ERR(device)) {
+> +				mutex_unlock(&configfs->lock);
+> +				return -PTR_ERR(device);
+> +			}
+> +
+> +			configfs->vkms_device =3D device;
+> +		}
+> +		mutex_unlock(&configfs->lock);
+> =20
+> -	if (IS_ERR(device))
+> -		return -PTR_ERR(device);
+> +		return len;
+> +	}
+> =20
+> -	return len;
+> +	return -EINVAL;
 >  }
->  
-> -static inline void guc_lrc_desc_unpin(struct intel_context *ce)
-> +static inline int guc_lrc_desc_unpin(struct intel_context *ce)
+> =20
+>  CONFIGFS_ATTR(device_, enabled);
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
+_crtc.c
+> index d91e49c53adc..5ebb5264f6ef 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -278,7 +278,7 @@ static const struct drm_crtc_helper_funcs vkms_crtc_h=
+elper_funcs =3D {
+> =20
+>  struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
+>  				 struct drm_plane *primary,
+> -				 struct drm_plane *cursor)
+> +				 struct drm_plane *cursor, const char *name)
 >  {
->  	struct intel_guc *guc = ce_to_guc(ce);
->  	struct intel_gt *gt = guc_to_gt(guc);
-> @@ -3199,10 +3206,20 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
->  	if (unlikely(disabled)) {
->  		release_guc_id(guc, ce);
->  		__guc_context_destroy(ce);
-> -		return;
-> +		return 0;
+>  	struct drm_device *dev =3D &vkmsdev->drm;
+>  	struct vkms_crtc *vkms_crtc;
+> @@ -290,7 +290,7 @@ struct vkms_crtc *vkms_crtc_init(struct vkms_device *=
+vkmsdev,
+>  	vkms_crtc =3D &vkmsdev->output.crtcs[vkmsdev->output.num_crtcs++];
+> =20
+>  	ret =3D drmm_crtc_init_with_planes(dev, &vkms_crtc->base, primary, curs=
+or,
+> -					 &vkms_crtc_funcs, NULL);
+> +					 &vkms_crtc_funcs, name);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to init CRTC\n");
+>  		goto out_error;
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
+drv.c
+> index 1b5b7143792f..314a04659c5f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -210,7 +210,7 @@ static int vkms_platform_probe(struct platform_device=
+ *pdev)
+>  	ret =3D drm_dev_register(&vkms_device->drm, 0);
+>  	if (ret) {
+>  		DRM_ERROR("Unable to register device with id %d\n", pdev->id);
+> -		return ret;
+> +		goto out_release_group;
+>  	}
+> =20
+>  	drm_fbdev_generic_setup(&vkms_device->drm, 0);
+> @@ -256,6 +256,7 @@ struct vkms_device *vkms_add_device(struct vkms_confi=
+gfs *configfs)
+>  			dev, &vkms_platform_driver.driver))) {
+>  		pdev =3D to_platform_device(dev);
+>  		max_id =3D max(max_id, pdev->id);
+> +		put_device(dev);
+>  	}
+> =20
+>  	pdev =3D platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index 3634eeeb4548..3d592d085f49 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -239,7 +239,7 @@ void vkms_remove_device(struct vkms_device *vkms_devi=
+ce);
+>  /* CRTC */
+>  struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
+>  				 struct drm_plane *primary,
+> -				 struct drm_plane *cursor);
+> +				 struct drm_plane *cursor, const char *name);
+> =20
+>  int vkms_output_init(struct vkms_device *vkmsdev);
+>  int vkms_output_init_default(struct vkms_device *vkmsdev);
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vk=
+ms_output.c
+> index c9e6c653de19..806ff01954ad 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -2,8 +2,10 @@
+> =20
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_connector.h>
+> +#include <drm/drm_crtc.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> =20
+> @@ -82,7 +84,6 @@ static struct drm_encoder *vkms_encoder_init(struct vkm=
+s_device *vkms_device)
+> =20
+>  int vkms_output_init_default(struct vkms_device *vkmsdev)
+>  {
+> -	struct vkms_output *output =3D &vkmsdev->output;
+>  	struct drm_device *dev =3D &vkmsdev->drm;
+>  	struct drm_connector *connector;
+>  	struct drm_encoder *encoder;
+> @@ -101,8 +102,7 @@ int vkms_output_init_default(struct vkms_device *vkms=
+dev)
+>  			struct vkms_plane *overlay =3D vkms_plane_init(
+>  				vkmsdev, DRM_PLANE_TYPE_OVERLAY);
+>  			if (IS_ERR(overlay)) {
+> -				ret =3D PTR_ERR(overlay);
+> -				goto err_planes;
+> +				return PTR_ERR(overlay);
+>  			}
+>  		}
+>  	}
+> @@ -110,17 +110,16 @@ int vkms_output_init_default(struct vkms_device *vk=
+msdev)
+>  	if (vkmsdev->config.cursor) {
+>  		cursor =3D vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
+>  		if (IS_ERR(cursor)) {
+> -			ret =3D PTR_ERR(cursor);
+> -			goto err_planes;
+> +			return PTR_ERR(cursor);
+>  		}
+>  	}
+> =20
+>  	vkms_crtc =3D vkms_crtc_init(vkmsdev, &primary->base,
+> -				   cursor ? &cursor->base : NULL);
+> +				   cursor ? &cursor->base : NULL,
+> +				   "crtc-default");
+>  	if (IS_ERR(vkms_crtc)) {
+>  		DRM_ERROR("Failed to init crtc\n");
+> -		ret =3D PTR_ERR(vkms_crtc);
+> -		goto err_planes;
+> +		return PTR_ERR(vkms_crtc);
+>  	}
+> =20
+>  	for (int i =3D 0; i < vkmsdev->output.num_planes; i++) {
+> @@ -131,22 +130,20 @@ int vkms_output_init_default(struct vkms_device *vk=
+msdev)
+>  	connector =3D vkms_connector_init(vkmsdev);
+>  	if (IS_ERR(connector)) {
+>  		DRM_ERROR("Failed to init connector\n");
+> -		ret =3D PTR_ERR(connector);
+> -		goto err_connector;
+> +		return PTR_ERR(connector);
+>  	}
+> =20
+>  	encoder =3D vkms_encoder_init(vkmsdev);
+>  	if (IS_ERR(encoder)) {
+>  		DRM_ERROR("Failed to init encoder\n");
+> -		ret =3D PTR_ERR(encoder);
+> -		goto err_encoder;
+> +		return PTR_ERR(encoder);
+>  	}
+>  	encoder->possible_crtcs |=3D drm_crtc_mask(&vkms_crtc->base);
+> =20
+>  	ret =3D drm_connector_attach_encoder(connector, encoder);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to attach connector to encoder\n");
+> -		goto err_attach;
+> +		return ret;
+>  	}
+> =20
+>  	if (vkmsdev->config.writeback) {
+> @@ -158,27 +155,175 @@ int vkms_output_init_default(struct vkms_device *v=
+kmsdev)
+>  	drm_mode_config_reset(dev);
+> =20
+>  	return 0;
+> +}
+> =20
+> -err_attach:
+> -	drm_encoder_cleanup(encoder);
+> +static bool is_object_linked(struct vkms_config_links *links, unsigned l=
+ong idx)
+> +{
+> +	return links->linked_object_bitmap & (1 << idx);
+> +}
+> =20
+> -err_encoder:
+> -	drm_connector_cleanup(connector);
+> +int vkms_output_init(struct vkms_device *vkmsdev)
+> +{
+> +	struct drm_device *dev =3D &vkmsdev->drm;
+> +	struct vkms_configfs *configfs =3D vkmsdev->configfs;
+> +	struct vkms_output *output =3D &vkmsdev->output;
+> +	struct plane_map {
+> +		struct vkms_config_plane *config_plane;
+> +		struct vkms_plane *plane;
+> +	} plane_map[VKMS_MAX_PLANES] =3D { 0 };
+> +	struct encoder_map {
+> +		struct vkms_config_encoder *config_encoder;
+> +		struct drm_encoder *encoder;
+> +	} encoder_map[VKMS_MAX_OUTPUT_OBJECTS] =3D { 0 };
+> +	struct config_item *item;
+> +	int map_idx =3D 0;
+> +
+> +	list_for_each_entry(item, &configfs->planes_group.cg_children,
+> +			    ci_entry) {
+> +		struct vkms_config_plane *config_plane =3D
+> +			item_to_config_plane(item);
+> +		struct vkms_plane *plane =3D
+> +			vkms_plane_init(vkmsdev, config_plane->type);
+> +
+> +		if (IS_ERR(plane)) {
+> +			DRM_ERROR("Unable to init plane from config: %s",
+> +				  item->ci_name);
+> +			return PTR_ERR(plane);
+> +		}
+> =20
+> -err_connector:
+> -	drm_crtc_cleanup(&vkms_crtc->base);
+> +		plane_map[map_idx].config_plane =3D config_plane;
+> +		plane_map[map_idx].plane =3D plane;
+> +		map_idx +=3D 1;
+> +	}
+> =20
+> -err_planes:
+> -	for (int i =3D 0; i < output->num_planes; i++) {
+> -		drm_plane_cleanup(&output->planes[i].base);
+> +	map_idx =3D 0;
+> +	list_for_each_entry(item, &configfs->encoders_group.cg_children,
+> +			    ci_entry) {
+> +		struct vkms_config_encoder *config_encoder =3D
+> +			item_to_config_encoder(item);
+> +		struct drm_encoder *encoder =3D vkms_encoder_init(vkmsdev);
+> +
+> +		if (IS_ERR(encoder)) {
+> +			DRM_ERROR("Failed to init config encoder: %s",
+> +				  item->ci_name);
+> +			return PTR_ERR(encoder);
+> +		}
+> +		encoder_map[map_idx].config_encoder =3D config_encoder;
+A two connector configuration without an encoder would have the
+potential of blowing up if we don't create a second_encoder.
+> +		encoder_map[map_idx].encoder =3D encoder;
+> +		map_idx +=3D 1;
+>  	}
+> =20
+> -	memset(output, 0, sizeof(*output));
+> +	list_for_each_entry(item, &configfs->connectors_group.cg_children,
+> +			    ci_entry) {
+> +		struct vkms_config_connector *config_connector =3D
+> +			item_to_config_connector(item);
+> +		struct drm_connector *connector =3D vkms_connector_init(vkmsdev);
+> =20
+> -	return ret;
+> -}
+> +		if (IS_ERR(connector)) {
+> +			DRM_ERROR("Failed to init connector from config: %s",
+> +				  item->ci_name);
+> +			return PTR_ERR(connector);
+> +		}
+> =20
+> -int vkms_output_init(struct vkms_device *vkmsdev)
+> -{
+> -	return -ENOTSUPP;
+> +		for (int j =3D 0; j < output->num_connectors; j++) {
+> +			struct encoder_map *encoder =3D &encoder_map[j];
+> +
+> +			if (is_object_linked(
+> +				    &config_connector->possible_encoders,
+> +				    encoder->config_encoder
+> +					    ->encoder_config_idx)) {
+Here encoder->config_encoder for two connectors but a single encoder
+will give back a empty encoder.
+> +				drm_connector_attach_encoder(connector,
+> +							     encoder->encoder);
+> +			}
+> +		}
 > +	}
 > +
-> +	if (deregister_context(ce, ce->guc_id.id)) {
-> +		/* Seal race with concurrent suspend by unrolling */
-> +		spin_lock_irqsave(&ce->guc_state.lock, flags);
-> +		set_context_registered(ce);
-> +		clr_context_destroyed(ce);
-> +		intel_gt_pm_put(gt);
-
-how sure we are this is not calling unbalanced puts?
-could we wrap this in some existent function to make this clear?
-
-> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-> +		return -ENODEV;
->  	}
->  
-> -	deregister_context(ce, ce->guc_id.id);
-> +	return 0;
->  }
->  
->  static void __guc_context_destroy(struct intel_context *ce)
-> @@ -3270,7 +3287,22 @@ static void deregister_destroyed_contexts(struct intel_guc *guc)
->  		if (!ce)
->  			break;
->  
-> -		guc_lrc_desc_unpin(ce);
-> +		if (guc_lrc_desc_unpin(ce)) {
-> +			/*
-> +			 * This means GuC's CT link severed mid-way which could happen
-> +			 * in suspend-resume corner cases. In this case, put the
-> +			 * context back into the destroyed_contexts list which will
-> +			 * get picked up on the next context deregistration event or
-> +			 * purged in a GuC sanitization event (reset/unload/wedged/...).
-> +			 */
-> +			spin_lock_irqsave(&guc->submission_state.lock, flags);
-> +			list_add_tail(&ce->destroyed_link,
-> +				      &guc->submission_state.destroyed_contexts);
-> +			spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> +			/* Bail now since the list might never be emptied if h2gs fail */
-> +			break;
+> +	list_for_each_entry(item, &configfs->crtcs_group.cg_children,
+> +			    ci_entry) {
+> +		struct vkms_config_crtc *config_crtc =3D
+> +			item_to_config_crtc(item);
+> +		struct vkms_crtc *vkms_crtc;
+> +		struct drm_plane *primary =3D NULL, *cursor =3D NULL;
+> +
+> +		for (int j =3D 0; j < output->num_planes; j++) {
+> +			struct plane_map *plane_entry =3D &plane_map[j];
+> +			struct drm_plane *plane =3D &plane_entry->plane->base;
+> +
+> +			if (!is_object_linked(
+> +				    &plane_entry->config_plane->possible_crtcs,
+> +				    config_crtc->crtc_config_idx)) {
+> +				continue;
+> +			}
+> +
+> +			if (plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY) {
+> +				if (primary) {
+> +					DRM_WARN(
+> +						"Too many primary planes found for crtc %s.",
+> +						item->ci_name);
+> +					return EINVAL;
+> +				}
+> +				primary =3D plane;
+> +			} else if (plane->type =3D=3D DRM_PLANE_TYPE_CURSOR) {
+> +				if (cursor) {
+> +					DRM_WARN(
+> +						"Too many cursor planes found for crtc %s.",
+> +						item->ci_name);
+> +					return EINVAL;
+> +				}
+> +				cursor =3D plane;
+> +			}
 > +		}
 > +
->  	}
+> +		if (!primary) {
+> +			DRM_WARN("No primary plane configured for crtc %s",
+> +				 item->ci_name);
+> +			return EINVAL;
+> +		}
+> +
+> +		vkms_crtc =3D
+> +			vkms_crtc_init(vkmsdev, primary, cursor, item->ci_name);
+> +		if (IS_ERR(vkms_crtc)) {
+> +			DRM_WARN("Unable to init crtc from config: %s",
+> +				 item->ci_name);
+> +			return PTR_ERR(vkms_crtc);
+> +		}
+> +
+> +		for (int j =3D 0; j < output->num_planes; j++) {
+> +			struct plane_map *plane_entry =3D &plane_map[j];
+> +
+> +			if (!plane_entry->plane)
+> +				break;
+> +
+> +			if (is_object_linked(
+> +				    &plane_entry->config_plane->possible_crtcs,
+> +				    config_crtc->crtc_config_idx)) {
+> +				plane_entry->plane->base.possible_crtcs |=3D
+> +					drm_crtc_mask(&vkms_crtc->base);
+> +			}
+> +		}
+> +
+> +		for (int j =3D 0; j < output->num_encoders; j++) {
+> +			struct encoder_map *encoder_entry =3D &encoder_map[j];
+> +
+> +			if (is_object_linked(&encoder_entry->config_encoder
+> +						      ->possible_crtcs,
+> +					     config_crtc->crtc_config_idx)) {
+> +				encoder_entry->encoder->possible_crtcs |=3D
+> +					drm_crtc_mask(&vkms_crtc->base);
+> +			}
+> +		}
+> +
+> +		if (vkmsdev->config.writeback) {
+> +			int ret =3D vkms_enable_writeback_connector(vkmsdev,
+> +								  vkms_crtc);
+> +			if (ret)
+> +				DRM_WARN(
+> +					"Failed to init writeback connector for config crtc: %s. Error code=
+ %d",
+> +					item->ci_name, ret);
+> +		}
+> +	}
+I think we might be needing here a test for missing symlinks - invalid
+configurations, like unused crtcs, encoders, connectors. I
+suppose anything that's not matched with is_object_linked(),
+such we avoid invalid configuration found by drm_mode_config_validate()=20
+and inform users about missing them.
+
+An example here would be to create a second encoder, connector, crtc and
+not symlink them to their possible_encoders,possible_crtcs mask. An
+i-g-t test for this very thing would be needed to stress different kind
+of combinations.
+
+> +
+> +	drm_mode_config_reset(dev);
+> +
+> +	return 0;
 >  }
->  
-> -- 
-> 2.39.0
-> 
+> --=20
+> 2.41.0.162.gfafddb0af9-goog
+>=20
+
+--7mVKmyV3VPXXjhnm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmTbhVAACgkQ9jQS5glH
+1u9JeBAAg7X7ZPxpaFSyYbJXx6IH2TE0FVKh7r66TIKEFaCMhezqty1sDmntyyPr
+HcTpLQuyApNhKPmOYFIqR0Ii+oXuUw0g2vsOfex5KJV4dwrA2alopeH5WnBWaxEa
+mhxGu4O96oWOC/j2vL301hfpXIUd5iggqZwgGwT5/qCZSCbTlBu98ld2ZmG8km5f
+PzWfq7LJjDfZQCGm2aylOvmblPkvoSFsGk8QKiySaK+AyI5BMr6JVuZ/f1ozAYgs
+rjNIIi8gcBS9uPH/4xpqw14aHrkAQ3DDx0kTv8qqh6IhPyrtghPedVMH3TdCnwFF
+xy64GpUBj3gPdtyTrKBscw7vterRNrDawyu5LpV9Y/ScBinpBChNHGr2/fIvoACA
+dmZSYrzp7YfvTpaadF50Z44peGPDhEfP/4sMrJzBdj8u7Ochkz3J1EqF8OxtRJnj
+AKM2Q/LfzWHrzEybH6bFjzoOJ2DmUpPtflVpXYItsR3tQujzfm6M1gv89mQcBrQ1
+873OGn9GoVdNc9WIfle+WsqrSp3R2ESgFHIhzVyeoqqCePMdCiFB20kCFcjRt4ZX
+zYSX+TP12VqAucFPusccBu0Tz5p1V8GPCcyszPLfXZlDuJhDdIIxlyeEBxWJKyF5
+NatoH6vbrhs0hjo19KMOy3tVUtxoyRXcvYr70kTSwSrJhoQ+tAA=
+=ZxkW
+-----END PGP SIGNATURE-----
+
+--7mVKmyV3VPXXjhnm--
