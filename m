@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C4B77DAB0
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 08:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A4477DAB4
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 08:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57BB10E2EA;
-	Wed, 16 Aug 2023 06:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24F3D10E2EB;
+	Wed, 16 Aug 2023 06:53:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E74610E2EA
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:52:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9F610E2EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:53:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 73D0E636D8
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:52:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D70D2C433C9
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:52:35 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D777864CA5
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:53:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4CB03C433C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:53:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692168755;
- bh=r/r6A9VEbsik3CX4hHjztFvVRd65NzymWAvTxA5u1RY=;
+ s=k20201202; t=1692168790;
+ bh=ZvBH3sfBjTjEI2nMgE4efrENv9/4c3ZJZpNoj28cuaA=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=qVhl6/0Ga5s2giXnqjoMg9Cyz0aSQizGxenvPwEClMXudthloJaXXw1GrU0eftCY6
- iJxiRWr1J8msltEqbo6lOjmaND6QSBrYiCJUcWTmT9E4Sk1NaUrV0IPsTMAvf05s4P
- THlfO1tjCXEJu4O7gR4BjaqRYNcUXYbjbnJ3TOCz57BmknPzjKt/8RPB3/3586Ys/I
- cbO7BmoEbWKQlgejQt13T7pBl+pv/ZBCLDPSpqzqP49KvQQcr4Wa6Ync723l/M73yf
- 6eo9xdU6VsVQF3TXb/c5+WD+YB2qBAGddeab5DWa5MEBYF6nMOodHGRFxrdKuvVlBl
- U0z49WfPjTnDQ==
+ b=HS2AXw4RhHEIHTE/hRhyb47FkqnA/eu5rmIglRwUo9qvkwxnp4KaNIVXVGNtqOBfp
+ qXcT1vxFhitsniiUmhi+N3Kq1wbtfqQnNDnjnA9XEt9I3+qOb44H/DLKryOXESTdwY
+ JGiWWztbp+knLmRlEd8UyNc8lQ30n6dB6QvigaR6mYHkHfE+fU4ciPWptsagtCBP4T
+ aHs0zh2UsONLtnY2hL2jlcSrydF4942Vkt3uvuAxW1SMP462r5QxNrmWLTnsXZ2wQQ
+ qgUWrfW3cEo7D8/nqNpBZM+J3CgG9wB7F5iExcCwoP9QJLNNLnNgA/xL8JPZmeMFcc
+ h825sxyc3fO0g==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C1C03C53BCD; Wed, 16 Aug 2023 06:52:35 +0000 (UTC)
+ from userid 48) id 3B317C53BD0; Wed, 16 Aug 2023 06:53:10 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217664] Laptop doesnt wake up from suspend mode.
-Date: Wed, 16 Aug 2023 06:52:35 +0000
+Date: Wed, 16 Aug 2023 06:53:09 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -43,15 +43,15 @@ X-Bugzilla-Product: ACPI
 X-Bugzilla-Component: Power-Sleep-Wake
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: high
 X-Bugzilla-Who: penteljapan@o2.pl
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: component rep_platform product
-Message-ID: <bug-217664-2300-IqZQLospnn@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_severity
+Message-ID: <bug-217664-2300-hC4XbYsBLW@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217664-2300@https.bugzilla.kernel.org/>
 References: <bug-217664-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -80,9 +80,7 @@ popus_czy_to_ty (penteljapan@o2.pl) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-          Component|Video(DRI - non Intel)      |Power-Sleep-Wake
-           Hardware|All                         |AMD
-            Product|Drivers                     |ACPI
+           Severity|normal                      |high
 
 --=20
 You may reply to this email to add a comment.
