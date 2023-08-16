@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2961C77E03E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B3D77E03F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 219D910E353;
-	Wed, 16 Aug 2023 11:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2928F10E355;
+	Wed, 16 Aug 2023 11:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2818C10E34A
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:25:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FAD910E34A
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:25:51 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 583E7F02;
- Wed, 16 Aug 2023 13:24:35 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70E621B83;
+ Wed, 16 Aug 2023 13:24:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692185076;
- bh=rtp9mGXPYI+O3f2aQFTiJmta7zUghg7DuTpPSnMYVrU=;
+ s=mail; t=1692185077;
+ bh=TUkJXEdGx2L3x9eOO5C14gMRZFfjPUo5XB/iG7hSXNo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mwCAAGor0XgfCErUPPpzGnuvPj+F/xtuqYCPV3JzuIAVA4Fx8SLlwSNCUIOOmUpLe
- hbm/TDWVPEZMgrKH/pz/O6cQ91Pb2mIPqRUv8qibNP9q8FmYKsMLg7SO7ijJNmkrkq
- 1VAsgkhw78bhxjX+urOH27F5uJK4vwn5+HJFOG2s=
+ b=wT8uai6kYpCT7e997tqiHmEJ/tk3gv0JlMksq2mqAvavq+vOILPJrOjwZlo1evyT4
+ dLqiG035pa5IgCTPz09hF0mrnNPpUuhGZCStlA8A1VXh3lne83cXa/XLf7k8zIXglm
+ eLWPlg1bbdyZkXTKfJcfoxEWUMe1bxxy1QYmnmb4=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 16 Aug 2023 14:25:06 +0300
-Subject: [PATCH v2 03/12] drm/bridge: tc358768: Fix bit updates
+Date: Wed, 16 Aug 2023 14:25:07 +0300
+Subject: [PATCH v2 04/12] drm/bridge: tc358768: Cleanup PLL calculations
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230816-tc358768-v2-3-242b9d5f703a@ideasonboard.com>
+Message-Id: <20230816-tc358768-v2-4-242b9d5f703a@ideasonboard.com>
 References: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
 In-Reply-To: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -41,21 +41,21 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxim Schwalm <maxim.schwalm@gmail.com>, 
  Francesco Dolcini <francesco@dolcini.it>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1966;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2487;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=rtp9mGXPYI+O3f2aQFTiJmta7zUghg7DuTpPSnMYVrU=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI0QrBzBy8JYnZMC0ia0eGlN+H4kYue70rxj
- yc9B2U59P6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNAAKCRD6PaqMvJYe
- 9SzRD/kBDOiaahTVcDeoCwdXi2cZbkUCNuFaOATo9bfBOi4hQtS8OMsvezTaMM+NWKDEY6Kgj42
- sFBHoEA+HjiGZZk8p4wnaXsixWR4hOUHqeA4JA5ddUKJPqyuSCIIWvAyMgEP2cCFxqBARYhLSDu
- N/dOyKzg3cYbUWUdBnMEXHJ5xV9+pIvFQTzXGkQl6h+HbwfMoM2sqmoFTaQ+9x24KerjGmoYHq7
- /Ktjqx0Hea8rER9jyGvNmHon26nmx/XvBCotC+32tobYK5FSbyda53kjlCT8t+hltyhciWyDCMC
- iuxTuJwqwaJbGtc3F2IRCqjgYXOZ8GGFMXVkQivhs+mWLnGEBMSM/vnkm5T3llydM7s2YljcEnd
- Vl6zreE3s0CkyVqrg71GilTa4zrRmS40AN12t5KoXCu2klr1iwe+iB7fZpHtE73IS4WDhRSqnfE
- DA1whhFB4xviBGrkj7Og01itLpnFJ+CuZgleFJ54byuHDlODqk9uk9JrzwEDxTUxtnaILivokOE
- VfeDlpHl1VbxYaGivSQEq2oMKjN9WiRUOPiqZXlbsbGA+xEv1HDYY1w38B4481r3NWJ1Tgc6J4k
- NVt0n5ORBrWxvqGmQsjyE5idCGAABEIKMmbC39KcuIGHIwbDK6dSrk/YmmPpvz6pw7AdcFweNah
- sPmuaIaHDiwh9rw==
+ bh=TUkJXEdGx2L3x9eOO5C14gMRZFfjPUo5XB/iG7hSXNo=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI1SArTyutIV17XojzHHC5KuLY3z8/2Bvl6T
+ W9ACZ1vZH6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNQAKCRD6PaqMvJYe
+ 9XjrD/45qk5Y/wFlKk/Bcmd+Exi9hMi7jS30ahdF3g95qpQPuUJxJZ1xRhvuB4U5nNqXmQEb04Q
+ 6adABiSq1H0UhTkvKRghu3IQvlyE4KIDgTjLNF+sQVERbtx9I1eUg0sob89lwHzdId8fdvc7+dU
+ kxx3GHiq+LkAhqRmaZKYL2ORkUs04iSyKIMThQUeFHMMsNEqgm62YKfWkMSG8nzP1c9xW+Hjjmg
+ NpXP9HK+cRwV5oB8xL/RmZ5dM/+vf/Iu4oVgIYFDqa61Atk8bsHxsnPWChvKRCLBgcfCojeO2xj
+ PtXwixAYpKRcVqeETBN81igYzw5y+1sKCzR2+F6ZVlch3uN71tolfGX45wsM9Va9wgdas2ubS7u
+ joIT/iwSmSqYnSgixAGNw00FmZyJS9KMnxGBJyh3BUPmVOBz1Q8qIYVBXavTqvq5eeB2Zn3E/Cq
+ 3YkY+4a9X22Q1NE+sU2vwtqVcPD212UcnaYszOqIJlRgvRYSnYoZxR0egWlHW+J1NEkjcwgeLDh
+ vBX3afulH4ueTLOygHdy+ObyjSvvGRGSsPQmoPQOwqR2yAufCJhznuX8CHdY5VKboRwOgdZKgou
+ ItYPjwUiM6A7zy/FZz5w62KpJPNGjpmSzkkmal1o/QTMsHjgSqEexVTwPzqiz0YtXcE1B+vUE2t
+ pX8N+4LYn/GBZ5g==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,54 +76,77 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver has a few places where it does:
+As is quite common, some of TC358768's PLL register fields are to be
+programmed with (value - 1). Specifically, the FBD and PRD, multiplier
+and divider, are such fields.
 
-if (thing_is_enabled_in_config)
-	update_thing_bit_in_hw()
+However, what the driver currently does is that it considers that the
+formula used for PLL rate calculation is:
 
-This means that if the thing is _not_ enabled, the bit never gets
-cleared. This affects the h/vsyncs and continuous DSI clock bits.
+RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)]
 
-Fix the driver to always update the bit.
+where FBD and PRD are values directly from the registers, while a more
+sensible way to look at it is:
 
-Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
+RefClk * FBD / PRD * (1 / (2^FRS))
+
+and when the FBD and PRD values are written to the registers, they will
+be subtracted by one.
+
+Change the driver accordingly, as it simplifies the PLL code.
+
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/tc358768.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index bc97a837955b..b668f77673c3 100644
+index b668f77673c3..d5831a1236e9 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -794,8 +794,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		val |= BIT(i + 1);
- 	tc358768_write(priv, TC358768_HSTXVREGEN, val);
+@@ -316,7 +316,7 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
  
--	if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
--		tc358768_write(priv, TC358768_TXOPTIONCNTRL, 0x1);
-+	tc358768_write(priv, TC358768_TXOPTIONCNTRL,
-+		       (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) ? 0 : BIT(0));
+ 	target_pll = tc358768_pclk_to_pll(priv, mode->clock * 1000);
  
- 	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
- 	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
-@@ -861,11 +861,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	tc358768_write(priv, TC358768_DSI_HACT, hact);
+-	/* pll_clk = RefClk * [(FBD + 1)/ (PRD + 1)] * [1 / (2^FRS)] */
++	/* pll_clk = RefClk * FBD / PRD * (1 / (2^FRS)) */
  
- 	/* VSYNC polarity */
--	if (!(mode->flags & DRM_MODE_FLAG_NVSYNC))
--		tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5), BIT(5));
-+	tc358768_update_bits(priv, TC358768_CONFCTL, BIT(5),
-+			     (mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIT(5) : 0);
-+
- 	/* HSYNC polarity */
--	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
--		tc358768_update_bits(priv, TC358768_PP_MISC, BIT(0), BIT(0));
-+	tc358768_update_bits(priv, TC358768_PP_MISC, BIT(0),
-+			     (mode->flags & DRM_MODE_FLAG_PHSYNC) ? BIT(0) : 0);
+ 	for (i = 0; i < ARRAY_SIZE(frs_limits); i++)
+ 		if (target_pll >= frs_limits[i])
+@@ -336,19 +336,19 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
+ 	best_prd = 0;
+ 	best_fbd = 0;
  
- 	/* Start DSI Tx */
- 	tc358768_write(priv, TC358768_DSI_START, 0x1);
+-	for (prd = 0; prd < 16; ++prd) {
+-		u32 divisor = (prd + 1) * (1 << frs);
++	for (prd = 1; prd <= 16; ++prd) {
++		u32 divisor = prd * (1 << frs);
+ 		u32 fbd;
+ 
+-		for (fbd = 0; fbd < 512; ++fbd) {
++		for (fbd = 1; fbd <= 512; ++fbd) {
+ 			u32 pll, diff, pll_in;
+ 
+-			pll = (u32)div_u64((u64)refclk * (fbd + 1), divisor);
++			pll = (u32)div_u64((u64)refclk * fbd, divisor);
+ 
+ 			if (pll >= max_pll || pll < min_pll)
+ 				continue;
+ 
+-			pll_in = (u32)div_u64((u64)refclk, prd + 1);
++			pll_in = (u32)div_u64((u64)refclk, prd);
+ 			if (pll_in < 4000000)
+ 				continue;
+ 
+@@ -611,7 +611,7 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
+ 		mode->clock * 1000);
+ 
+ 	/* PRD[15:12] FBD[8:0] */
+-	tc358768_write(priv, TC358768_PLLCTL0, (prd << 12) | fbd);
++	tc358768_write(priv, TC358768_PLLCTL0, ((prd - 1) << 12) | (fbd - 1));
+ 
+ 	/* FRS[11:10] LBWS[9:8] CKEN[4] RESETB[1] EN[0] */
+ 	tc358768_write(priv, TC358768_PLLCTL1,
 
 -- 
 2.34.1
