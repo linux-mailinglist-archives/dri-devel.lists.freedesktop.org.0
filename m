@@ -2,71 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71FE77E9F7
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 21:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7705977EA4C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 22:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884AD10E3A4;
-	Wed, 16 Aug 2023 19:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D64F10E3AA;
+	Wed, 16 Aug 2023 20:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
- [IPv6:2607:f8b0:4864:20::1149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24DFD10E3A4
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 19:55:32 +0000 (UTC)
-Received: by mail-yw1-x1149.google.com with SMTP id
- 00721157ae682-589f986ab8aso4043127b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 12:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1692215731; x=1692820531;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=N67WiS7/3sb8Cj5N6RzDQuOPr7zI0dDToiYbr0rmgmw=;
- b=qqAMPQ5GdxbgdBzVIb7T7A7AxjWjb8DZommfyeV76VQL2kkVv7tkNkJUQ06TRq8XnT
- waLMQoVGcBnknva0JTqjv8UZ6Q+wYnClzOw4zyn+P5Ngf3Q6q6Cwk2hfakEIaqveWx8P
- jZ/xK08v011Lo51sEevdEdRGkUqTHL/QXB1gJnUCRoKect4TDA2Sc283QbDuly1TgYla
- 7GtIvdLrfvitpRwndHWgT14eFK2AP78lTlIxPi7aMm16JurApTs+jnKNpgETgQfCyxeY
- dql2gk9AN8kJCTSa0Tf0acm/kTGEVr94Od1hnkrMQeCIIDi2UMgZnvcJa9mI5IEpOKer
- nAmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692215731; x=1692820531;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N67WiS7/3sb8Cj5N6RzDQuOPr7zI0dDToiYbr0rmgmw=;
- b=MKvJPnawrjQYYNtoJDNJpQIrf23UyLHOgAcz+Hk6AUmVjclyOORxfVG/xpmhHBn960
- VKzh+hbNU8yy/TOp+2/4ULpI9B+afmk0FNTGsBnrWPpisPucPx9nFTB2DfEr8VrrAkUU
- r3lvRhDdqTqR3MgjUpMFPrau478lXYwpCNte/E2Oz1LjX1/9DizPSK+ziHq652Tfu9Ze
- OuiD1pKHy7cDok4hn3psCrWcq8JcKLO5O6pHO8qOTrJEHOokETvgnj8d8am/DdpzywPN
- KUMUu0zam/CUSa1YC0L2T0CO1HLpf/tw91jvt9UMW4AFJBkwzag+tXdNvVJk6fsEIcMR
- bBRA==
-X-Gm-Message-State: AOJu0Yy5azfS/HDohyfnv7QdgTcfuUakWeNZfjitLCGS7be8trzlYM0l
- ml89QmWKyRobZpoRmb10YFusztVDy7ThYfcQVw==
-X-Google-Smtp-Source: AGHT+IH1FY4dJduz6fzigREg8tgE5e/JoOxQTJRQ+4NUOdZQ3sjCJGTYtxjEsAd879DrJol6J6MNGzXEiww4uT8XAA==
-X-Received: from jstitt-linux1.c.googlers.com
- ([fda3:e722:ac3:cc00:2b:ff92:c0a8:23b5])
- (user=justinstitt job=sendgmr) by 2002:a81:ac16:0:b0:586:e91a:46c2 with SMTP
- id k22-20020a81ac16000000b00586e91a46c2mr10910ywh.4.1692215731117; Wed, 16
- Aug 2023 12:55:31 -0700 (PDT)
-Date: Wed, 16 Aug 2023 19:55:29 +0000
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIALAp3WQC/x2NywqEMAwAf0Vy3kBbwcf+yrKHYqLmYC2pFkX8d
- 4u3mcvMBYlVOMG3ukA5S5I1FLGfCobZh4lRqDg442rT2QbzKoSkklkTTnEvvOAm4UTl6CMretP
- Vzg7U99RC6UTlUY738fvf9wNunyWqcwAAAA==
-X-Developer-Key: i=justinstitt@google.com; a=ed25519;
- pk=tC3hNkJQTpNX/gLKxTNQKDmiQl6QjBNCGKJINqAdJsE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692215730; l=1587;
- i=justinstitt@google.com; s=20230717; h=from:subject:message-id;
- bh=1YZyFhkuynphmxg7TZPqc+HCfPgAHdsuqMCKaSpuV/U=;
- b=bBQyQBouy2hNFI2Y+MZ5b8WiXWffYYC1ZHRHShS4JwLZXQ5M+xDLuy36HSKM9qv3Feh2sFmcI
- EcULJCqRSxRDiOcyGlXjVSpYurYZS4f1tLMAnsNdkAn4PX9rVhH0Fj0
-X-Mailer: b4 0.12.3
-Message-ID: <20230816-void-drivers-gpu-drm-tiny-repaper-v1-1-9d8d10f0d52f@google.com>
-Subject: [PATCH] drm/repaper: fix -Wvoid-pointer-to-enum-cast warning
-From: Justin Stitt <justinstitt@google.com>
-To: "=?utf-8?q?Noralf_Tr=C3=B8nnes?=" <noralf@tronnes.org>,
- David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on20616.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eab::616])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6757210E3A5;
+ Wed, 16 Aug 2023 20:03:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WPNwUCqxBbjDb+9xsDBAzT8bpYIgUQQxvhaZYzB8lOfG4V+tahu5cg9Q3G9YwK8lKsw3Dn+tiBxkYbVweFcrSQviDSqkrqjoej+0BxyJq8OvMTetcyNpnLlPD4dgOi3USz4W1AFN1KbmxUF9VnST0GPkb/wPftGQ5mSF+Ox2hiIUVOpwLoInxG2LXyzjF5dpeqbvt7ttr8KvYwwLLK0gqNL/3WnsHLCSvWT3SNlyW4eQ3VBQnXz/1rZ1RtOjAK+x8eYHWTMPC9f70I8gLj2hrKG+OZtlbzM7FXxvJG9LpQiUAqCG4AB7fILXJxTNsKfu4ZkRXniSISjT6hirNW+A3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aHR3QAqQ26DXtUNLi0uQOuGOlWULvHVC1+heA02NSoQ=;
+ b=LoiKtY1L7JpFoVbTO1BzTu4ldIxMHGLg7Bc3MWaBlFw3C+i/H7h3vZjevGkiF972pGS+hNx9UFPZMWDdCimuOXEyO6deVqxQnpfSztdIpILj2uELyMLQVV5ZTKYHBrzH0e1Ny97I9M7t/1syrEbp527btM8hNEzg2a3MEFEmEt7LMPHwW1x9plvfncpUN9HzMyizdBQcH2ZCecrfG/QKxkXhq/ufbHlRqZeCBQU/WtX1GB6EMRSARFRBjtzvHLbFbSlPb5shWYQsAm9yEZYcg+GE88/Vubly5qPPXdmefcXVbLnqM1R8c51VCN20W58pGaAPSMJt91djbsI479eT/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aHR3QAqQ26DXtUNLi0uQOuGOlWULvHVC1+heA02NSoQ=;
+ b=yub9KbL09aBPumnUeokgIgN96x2tJy1FgcrnJgdSaEX7kzo3r1U1JrmljKxBrmswXyYRW7Frtqo8icXJBVf4bwefxNucBYKaZLhkRGGp1Y0pmuEaZcIzCIodUpIgr2TI2WkPWjt/ndB5Pe5bK9wnbjDpE6TK4fWDfl7ZfiCpRvA=
+Received: from CY5PR19CA0112.namprd19.prod.outlook.com (2603:10b6:930:64::12)
+ by SA1PR12MB8743.namprd12.prod.outlook.com (2603:10b6:806:37c::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
+ 2023 20:03:04 +0000
+Received: from CY4PEPF0000E9CD.namprd03.prod.outlook.com
+ (2603:10b6:930:64:cafe::17) by CY5PR19CA0112.outlook.office365.com
+ (2603:10b6:930:64::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.15 via Frontend
+ Transport; Wed, 16 Aug 2023 20:03:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000E9CD.mail.protection.outlook.com (10.167.241.140) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6699.15 via Frontend Transport; Wed, 16 Aug 2023 20:03:03 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 16 Aug
+ 2023 15:03:01 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.5
+Date: Wed, 16 Aug 2023 16:02:26 -0400
+Message-ID: <20230816200226.10771-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CD:EE_|SA1PR12MB8743:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccadbe2a-b656-429d-9eb3-08db9e93ccde
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rK6jRI6kkOKiOzhvRzw0//IzgK/RQTP94NFPLknqmk4iPS8FGUNDOM25WeqWRjoJbGDhRLciquvWj2ZODLV9L5ELQrbLbIff936FDtKDYNONNSLae8BkhhHH7Bck/5O/O08rN2CCPoLhwVnfvFzOwlMcc7YUN29QVaVrkK0EEYMNQJUhZj7ap3+/L+M27ozxi5n9btHQAFQvvw35lIX3w2mOuojfSr4Pb8/pbktbAbPPs+LstNLtdcjZ5Ra3z8xUtnvQAKrMOE7KVqWzsHKokOcgfDSgfLyoCMZkafpDIt+YWeKQiX12XURBbkM5Ogx5qyL3dQGeWZIkFKVvB8WXAoYlL4uAg4a0+1Cr5MlUMe70OYSOoMBXpVBuIlzreg0jPCsyGMVz3aaKDpQlW1EFZqvcXvCkBL1Kbwpr8ur9uxtaif0BnSIQT/i/92EasZVtdfV+piNCYegApKlJaPREBrCDNCGNZIPToR/yGJJPEewDu26oxEltaA4ZH56mgx+7jt3sbTBWTIfNzmD8obcU2B5AZ22EaH2IWX5Y4dzalzbBvM9c4jKABqO5NoU0xRFVqrL52HYJG3glUOF94FLd6u14SYwvBpGRb4Ed2k8IyKgjcTPv4oIOblrnfuxE5ciYMiKUVaCSoXdN8tAyyC7exkWLaDcOsCEDRHcpQ+PzqZ/yl8uzpYPZbOtaHe4P3Si0sGs2FHFWZOAx+e/1Z7KpTwN/Rvyk9KwqS8zGqL7n9XzUUSOEOLwNSbGCUhLSRA8H
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(39860400002)(346002)(136003)(396003)(451199024)(1800799009)(186009)(82310400011)(40470700004)(36840700001)(46966006)(316002)(82740400003)(356005)(81166007)(110136005)(70586007)(70206006)(966005)(5660300002)(41300700001)(36860700001)(47076005)(8676002)(4326008)(8936002)(2906002)(40460700003)(83380400001)(26005)(16526019)(40480700001)(478600001)(426003)(336012)(86362001)(7696005)(36756003)(6666004)(1076003)(2616005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 20:03:03.6642 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccadbe2a-b656-429d-9eb3-08db9e93ccde
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9CD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8743
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,51 +100,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Justin Stitt <justinstitt@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When building with clang 18 I see the following warning:
-|       drivers/gpu/drm/tiny/repaper.c:952:11: warning: cast to smaller integer
-|       type 'enum repaper_model' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-|         952 |                 model = (enum repaper_model)match;
-|
+Hi Dave, Daniel,
 
-This is due to the fact that `match` is a void* while `enum repaper_model`
-has the size of an int.
+Fixes for 6.5.
 
-Add uintptr_t cast to silence clang warning while also keeping enum cast
-for readability and consistency with other `model` assignment just a
-few lines below:
-|       model = (enum repaper_model)spi_id->driver_data;
+The following changes since commit 2ccdd1b13c591d306f0401d98dedc4bdcd02b421:
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/1910
-Reported-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Justin Stitt <justinstitt@google.com>
----
- drivers/gpu/drm/tiny/repaper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Linux 6.5-rc6 (2023-08-13 11:29:55 -0700)
 
-diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-index c2677d081a7b..165f2099e7d8 100644
---- a/drivers/gpu/drm/tiny/repaper.c
-+++ b/drivers/gpu/drm/tiny/repaper.c
-@@ -949,7 +949,7 @@ static int repaper_probe(struct spi_device *spi)
- 
- 	match = device_get_match_data(dev);
- 	if (match) {
--		model = (enum repaper_model)match;
-+		model = (enum repaper_model)(uintptr_t)match;
- 	} else {
- 		spi_id = spi_get_device_id(spi);
- 		model = (enum repaper_model)spi_id->driver_data;
+are available in the Git repository at:
 
----
-base-commit: 2ccdd1b13c591d306f0401d98dedc4bdcd02b421
-change-id: 20230816-void-drivers-gpu-drm-tiny-repaper-a08321cd99d7
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.5-2023-08-16
 
-Best regards,
---
-Justin Stitt <justinstitt@google.com>
+for you to fetch changes up to 6ecc10295abb2fdd9c21dd17b34e4cacfd829cd4:
 
+  Revert "Revert "drm/amdgpu/display: change pipe policy for DCN 2.0"" (2023-08-16 15:46:40 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.5-2023-08-16:
+
+amdgpu:
+- SMU 13.x fixes
+- Fix mcbp parameter for gfx9
+- SMU 11.x fixes
+- Temporary fix for large numbers of XCP partitions
+- S0ix fixes
+- DCN 2.0 fix
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      Revert "Revert "drm/amdgpu/display: change pipe policy for DCN 2.0""
+
+Asad Kamal (1):
+      drm/amd/pm: Update pci link width for smu v13.0.6
+
+James Zhu (1):
+      drm/amdgpu: skip xcp drm device allocation when out of drm resource
+
+Jiadong Zhu (1):
+      drm/amdgpu: disable mcbp if parameter zero is set
+
+Kenneth Feng (1):
+      drm/amd/pm: disallow the fan setting if there is no fan on smu 13.0.0
+
+Lijo Lazar (1):
+      drm/amd/pm: Fix temperature unit of SMU v13.0.6
+
+Mario Limonciello (1):
+      drm/amd: flush any delayed gfxoff on suspend entry
+
+Tim Huang (1):
+      drm/amdgpu: skip fence GFX interrupts disable/enable for S0ix
+
+Umio Yasuno (1):
+      drm/amdgpu/pm: fix throttle_status for other than MP1 11.0.7
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 10 +++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          | 41 ++++++++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  9 +----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring_mux.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c            | 13 ++++++-
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c          |  9 ++++-
+ .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |  2 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 14 ++++----
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  4 +++
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   | 19 +++++++---
+ 10 files changed, 93 insertions(+), 30 deletions(-)
