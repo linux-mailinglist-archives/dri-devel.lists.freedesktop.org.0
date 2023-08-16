@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D31377DF59
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 12:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D74D77DF93
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 12:46:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5037610E34F;
-	Wed, 16 Aug 2023 10:45:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDDD10E336;
+	Wed, 16 Aug 2023 10:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 303DB10E32C
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 10:44:44 +0000 (UTC)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E05A410E334
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 10:44:43 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5d0c:f209:12a7:4ce5])
- by laurent.telenet-ops.be with bizsmtp
- id aAkg2A00Q45ualL01AkgUz; Wed, 16 Aug 2023 12:44:43 +0200
+ by xavier.telenet-ops.be with bizsmtp
+ id aAkg2A00w45ualL01Akgwr; Wed, 16 Aug 2023 12:44:43 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qWE0w-000orr-7b;
+ (envelope-from <geert@linux-m68k.org>) id 1qWE0w-000orn-4y;
  Wed, 16 Aug 2023 12:44:40 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qWDAw-00676G-TT;
+ (envelope-from <geert@linux-m68k.org>) id 1qWDAw-00676L-UF;
  Wed, 16 Aug 2023 11:50:50 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -29,9 +29,10 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH v3 27/41] drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
-Date: Wed, 16 Aug 2023 11:50:34 +0200
-Message-Id: <fda36d120e483d37fdb7cdd51d9ed788d6c84b99.1692178020.git.geert+renesas@glider.be>
+Subject: [PATCH v3 28/41] drm: renesas: shmobile: Rename
+ shmob_drm_connector.connector
+Date: Wed, 16 Aug 2023 11:50:35 +0200
+Message-Id: <f871662b5f2078b98c7a5f43dd932b255694d6dd.1692178020.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692178020.git.geert+renesas@glider.be>
 References: <cover.1692178020.git.geert+renesas@glider.be>
@@ -56,8 +57,8 @@ Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename the "crtc" member of the shmob_drm_crtc subclass structure to
-"base", to improve readability.
+Rename the "connector" member of the shmob_drm_connector subclass
+structure to "base", to improve readability.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
@@ -69,136 +70,45 @@ v3:
 v2:
   - Add Reviewed-by.
 ---
- .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 26 +++++++++----------
- .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  2 +-
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 4 ++--
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-index 564051b505ed4ac5..84a773a5363035e0 100644
+index 84a773a5363035e0..f55b5263e611c782 100644
 --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
 +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-@@ -55,7 +55,7 @@ static const struct {
+@@ -560,7 +560,7 @@ int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
  
- static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
+ static inline struct shmob_drm_connector *to_shmob_connector(struct drm_connector *connector)
  {
--	struct drm_crtc *crtc = &scrtc->crtc;
-+	struct drm_crtc *crtc = &scrtc->base;
- 	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
- 	const struct drm_display_info *info = &sdev->connector->display_info;
- 	const struct drm_display_mode *mode = &crtc->mode;
-@@ -114,7 +114,7 @@ static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
- 
- static void shmob_drm_crtc_start_stop(struct shmob_drm_crtc *scrtc, bool start)
- {
--	struct shmob_drm_device *sdev = to_shmob_device(scrtc->crtc.dev);
-+	struct shmob_drm_device *sdev = to_shmob_device(scrtc->base.dev);
- 	u32 value;
- 
- 	value = lcdc_read(sdev, LDCNT2R);
-@@ -147,7 +147,7 @@ static void shmob_drm_crtc_start_stop(struct shmob_drm_crtc *scrtc, bool start)
-  */
- static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
- {
--	struct drm_crtc *crtc = &scrtc->crtc;
-+	struct drm_crtc *crtc = &scrtc->base;
- 	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
- 	const struct shmob_drm_interface_data *idata = &sdev->pdata->iface;
- 	const struct shmob_drm_format_info *format;
-@@ -227,7 +227,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
- 
- static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
- {
--	struct drm_crtc *crtc = &scrtc->crtc;
-+	struct drm_crtc *crtc = &scrtc->base;
- 	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
- 
- 	if (!scrtc->started)
-@@ -260,7 +260,7 @@ void shmob_drm_crtc_resume(struct shmob_drm_crtc *scrtc)
- static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
- 					int x, int y)
- {
--	struct drm_crtc *crtc = &scrtc->crtc;
-+	struct drm_crtc *crtc = &scrtc->base;
- 	struct drm_framebuffer *fb = crtc->primary->fb;
- 	struct drm_gem_dma_object *gem;
- 	unsigned int bpp;
-@@ -281,7 +281,7 @@ static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
- 
- static void shmob_drm_crtc_update_base(struct shmob_drm_crtc *scrtc)
- {
--	struct drm_crtc *crtc = &scrtc->crtc;
-+	struct drm_crtc *crtc = &scrtc->base;
- 	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
- 
- 	shmob_drm_crtc_compute_base(scrtc, crtc->x, crtc->y);
-@@ -295,7 +295,7 @@ static void shmob_drm_crtc_update_base(struct shmob_drm_crtc *scrtc)
- 
- static inline struct shmob_drm_crtc *to_shmob_crtc(struct drm_crtc *crtc)
- {
--	return container_of(crtc, struct shmob_drm_crtc, crtc);
-+	return container_of(crtc, struct shmob_drm_crtc, base);
+-	return container_of(connector, struct shmob_drm_connector, connector);
++	return container_of(connector, struct shmob_drm_connector, base);
  }
  
- static void shmob_drm_crtc_dpms(struct drm_crtc *crtc, int mode)
-@@ -367,15 +367,15 @@ static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
- void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
- {
- 	struct drm_pending_vblank_event *event;
--	struct drm_device *dev = scrtc->crtc.dev;
-+	struct drm_device *dev = scrtc->base.dev;
- 	unsigned long flags;
+ static int shmob_drm_connector_get_modes(struct drm_connector *connector)
+@@ -632,7 +632,7 @@ shmob_drm_connector_init(struct shmob_drm_device *sdev,
+ 	if (!scon)
+ 		return ERR_PTR(-ENOMEM);
  
- 	spin_lock_irqsave(&dev->event_lock, flags);
- 	event = scrtc->event;
- 	scrtc->event = NULL;
- 	if (event) {
--		drm_crtc_send_vblank_event(&scrtc->crtc, event);
--		drm_crtc_vblank_put(&scrtc->crtc);
-+		drm_crtc_send_vblank_event(&scrtc->base, event);
-+		drm_crtc_vblank_put(&scrtc->base);
- 	}
- 	spin_unlock_irqrestore(&dev->event_lock, flags);
- }
-@@ -387,7 +387,7 @@ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
- 				    struct drm_modeset_acquire_ctx *ctx)
- {
- 	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
--	struct drm_device *dev = scrtc->crtc.dev;
-+	struct drm_device *dev = scrtc->base.dev;
- 	unsigned long flags;
+-	connector = &scon->connector;
++	connector = &scon->base;
+ 	scon->encoder = encoder;
+ 	scon->mode = &sdev->pdata->panel.mode;
  
- 	spin_lock_irqsave(&dev->event_lock, flags);
-@@ -402,7 +402,7 @@ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
- 
- 	if (event) {
- 		event->pipe = 0;
--		drm_crtc_vblank_get(&scrtc->crtc);
-+		drm_crtc_vblank_get(&scrtc->base);
- 		spin_lock_irqsave(&dev->event_lock, flags);
- 		scrtc->event = event;
- 		spin_unlock_irqrestore(&dev->event_lock, flags);
-@@ -454,7 +454,7 @@ static const struct drm_crtc_funcs crtc_funcs = {
- 
- int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
- {
--	struct drm_crtc *crtc = &sdev->crtc.crtc;
-+	struct drm_crtc *crtc = &sdev->crtc.base;
- 	struct drm_plane *primary, *plane;
- 	unsigned int i;
- 	int ret;
 diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-index f507eaf912e16a22..79cce0a0ada4cfce 100644
+index 79cce0a0ada4cfce..2c6d7541427581a6 100644
 --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
 +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-@@ -21,7 +21,7 @@ struct shmob_drm_device;
- struct shmob_drm_format_info;
+@@ -33,7 +33,7 @@ struct shmob_drm_crtc {
+ };
  
- struct shmob_drm_crtc {
--	struct drm_crtc crtc;
-+	struct drm_crtc base;
- 
- 	struct drm_pending_vblank_event *event;
- 	int dpms;
+ struct shmob_drm_connector {
+-	struct drm_connector connector;
++	struct drm_connector base;
+ 	struct drm_encoder *encoder;
+ 	const struct videomode *mode;
+ };
 -- 
 2.34.1
 
