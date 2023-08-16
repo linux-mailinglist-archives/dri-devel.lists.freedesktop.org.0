@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FBD77DF53
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 12:45:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E527377DF2A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 12:45:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38F4310E363;
-	Wed, 16 Aug 2023 10:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3FA010E331;
+	Wed, 16 Aug 2023 10:44:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D0C10E332
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 10:44:43 +0000 (UTC)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E686310E33C
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 10:44:44 +0000 (UTC)
 Received: from ramsan.of.borg ([84.195.187.55])
- by laurent.telenet-ops.be with bizsmtp
- id aAki2A0081C8whw01AkiVV; Wed, 16 Aug 2023 12:44:42 +0200
+ by baptiste.telenet-ops.be with bizsmtp
+ id aAki2A0031C8whw01Akike; Wed, 16 Aug 2023 12:44:43 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qWE0x-000ot2-KF;
+ (envelope-from <geert@linux-m68k.org>) id 1qWE0x-000osz-IB;
  Wed, 16 Aug 2023 12:44:42 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qWDAw-00674e-Fq;
+ (envelope-from <geert@linux-m68k.org>) id 1qWDAw-00674j-GW;
  Wed, 16 Aug 2023 11:50:50 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -29,9 +29,10 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH v3 07/41] drm: renesas: shmobile: Add support for Runtime PM
-Date: Wed, 16 Aug 2023 11:50:14 +0200
-Message-Id: <c5b83030702a08ba94082f17e5390da84737aa92.1692178020.git.geert+renesas@glider.be>
+Subject: [PATCH v3 08/41] drm: renesas: shmobile: Restore indentation of
+ shmob_drm_setup_clocks()
+Date: Wed, 16 Aug 2023 11:50:15 +0200
+Message-Id: <8aae9654bc927ea1d9c9d7b9d072f9c7e91fc1e1.1692178020.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692178020.git.geert+renesas@glider.be>
 References: <cover.1692178020.git.geert+renesas@glider.be>
@@ -50,182 +51,41 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SH-Mobile LCD Controller is part of a PM Domain on all relevant SoCs
-(clock domain on all, power domain on some).  Hence it may not be
-sufficient to manage the LCDC module clock explicitly (e.g. if the
-selected clock source differs from SHMOB_DRM_CLK_BUS).
-
-Fix this by using Runtime PM for all clock handling.  Add an explicit
-dependency on CONFIG_PM, which should already be met on all affected
-platforms.
+Commit 56550d94cbaeaa19 ("Drivers: gpu: remove __dev* attributes.")
+forgot to realign the continuation of the parameter section of
+shmob_drm_setup_clocks().
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 v3:
   - No changes,
 
 v2:
-  - Move explicit clock handling to Runtime PM callbacks,
-  - Move devm_pm_runtime_enable() after shmob_drm_setup_clocks(),
-  - Depend on PM.
+  - Add Reviewed-by.
 ---
- drivers/gpu/drm/renesas/shmobile/Kconfig      |  2 +-
- .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 32 ++--------------
- .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 38 +++++++++++++++++--
- 3 files changed, 40 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/Kconfig b/drivers/gpu/drm/renesas/shmobile/Kconfig
-index ad14112999ad8aba..ba941587ca70e08c 100644
---- a/drivers/gpu/drm/renesas/shmobile/Kconfig
-+++ b/drivers/gpu/drm/renesas/shmobile/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- config DRM_SHMOBILE
- 	tristate "DRM Support for SH Mobile"
--	depends on DRM
-+	depends on DRM && PM
- 	depends on ARCH_RENESAS || ARCH_SHMOBILE || COMPILE_TEST
- 	select BACKLIGHT_CLASS_DEVICE
- 	select DRM_KMS_HELPER
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-index fbfd906844da490c..2d9ae0c6ab7b18a8 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/backlight.h>
- #include <linux/clk.h>
-+#include <linux/pm_runtime.h>
- 
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
-@@ -34,29 +35,6 @@
-  * TODO: panel support
-  */
- 
--/* -----------------------------------------------------------------------------
-- * Clock management
-- */
--
--static int shmob_drm_clk_on(struct shmob_drm_device *sdev)
--{
--	int ret;
--
--	if (sdev->clock) {
--		ret = clk_prepare_enable(sdev->clock);
--		if (ret < 0)
--			return ret;
--	}
--
--	return 0;
--}
--
--static void shmob_drm_clk_off(struct shmob_drm_device *sdev)
--{
--	if (sdev->clock)
--		clk_disable_unprepare(sdev->clock);
--}
--
- /* -----------------------------------------------------------------------------
-  * CRTC
-  */
-@@ -170,9 +148,8 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
- 	if (WARN_ON(format == NULL))
- 		return;
- 
--	/* Enable clocks before accessing the hardware. */
--	ret = shmob_drm_clk_on(sdev);
--	if (ret < 0)
-+	ret = pm_runtime_resume_and_get(sdev->dev);
-+	if (ret)
- 		return;
- 
- 	/* Reset and enable the LCDC. */
-@@ -268,8 +245,7 @@ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
- 	/* Disable the display output. */
- 	lcdc_write(sdev, LDCNT1R, 0);
- 
--	/* Stop clocks. */
--	shmob_drm_clk_off(sdev);
-+	pm_runtime_put(sdev->dev);
- 
- 	scrtc->started = false;
- }
 diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-index 30493ce874192e3e..3fc7d820abdc61d4 100644
+index 3fc7d820abdc61d4..64fc3fb02e6c6dc8 100644
 --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
 +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-@@ -13,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
-+#include <linux/pm_runtime.h>
- #include <linux/slab.h>
- 
- #include <drm/drm_drv.h>
-@@ -165,8 +166,35 @@ static int shmob_drm_pm_resume(struct device *dev)
- 	return 0;
+@@ -67,7 +67,7 @@ static int shmob_drm_init_interface(struct shmob_drm_device *sdev)
  }
  
--static DEFINE_SIMPLE_DEV_PM_OPS(shmob_drm_pm_ops,
--				shmob_drm_pm_suspend, shmob_drm_pm_resume);
-+static int shmob_drm_pm_runtime_suspend(struct device *dev)
-+{
-+	struct shmob_drm_device *sdev = dev_get_drvdata(dev);
-+
-+	if (sdev->clock)
-+		clk_disable_unprepare(sdev->clock);
-+
-+	return 0;
-+}
-+
-+static int shmob_drm_pm_runtime_resume(struct device *dev)
-+{
-+	struct shmob_drm_device *sdev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	if (sdev->clock) {
-+		ret = clk_prepare_enable(sdev->clock);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops shmob_drm_pm_ops = {
-+	SYSTEM_SLEEP_PM_OPS(shmob_drm_pm_suspend, shmob_drm_pm_resume)
-+	RUNTIME_PM_OPS(shmob_drm_pm_runtime_suspend,
-+		       shmob_drm_pm_runtime_resume, NULL)
-+};
- 
- /* -----------------------------------------------------------------------------
-  * Platform driver
-@@ -220,6 +248,10 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = devm_pm_runtime_enable(&pdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	ret = shmob_drm_init_interface(sdev);
- 	if (ret < 0)
- 		return ret;
-@@ -291,7 +323,7 @@ static struct platform_driver shmob_drm_platform_driver = {
- 	.remove		= shmob_drm_remove,
- 	.driver		= {
- 		.name	= "shmob-drm",
--		.pm	= pm_sleep_ptr(&shmob_drm_pm_ops),
-+		.pm	= &shmob_drm_pm_ops,
- 	},
- };
- 
+ static int shmob_drm_setup_clocks(struct shmob_drm_device *sdev,
+-					    enum shmob_drm_clk_source clksrc)
++				  enum shmob_drm_clk_source clksrc)
+ {
+ 	struct clk *clk;
+ 	char *clkname;
 -- 
 2.34.1
 
