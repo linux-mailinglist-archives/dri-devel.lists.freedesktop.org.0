@@ -1,146 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5917677E3CA
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 16:40:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DEA77E42D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 16:54:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0908C10E376;
-	Wed, 16 Aug 2023 14:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79AE110E0E7;
+	Wed, 16 Aug 2023 14:53:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67C8610E371;
- Wed, 16 Aug 2023 14:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692196805; x=1723732805;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=ySzy0eqFaTUPMzW8lE0PlKahVQJhU1EaZ5UjXhr7bQg=;
- b=Jz6LQnPgwQ8NlWJEpy5JYl0kc60e9xQZ59RKV8fwueWOfpdEH1/e0EZ8
- W1KguUy6BLbcINiwMBmyhsUEGEq5Y9q2zfAMbrPc+lLyAZW5VrdXkU5gm
- g2TaEjIkTurNekPMg80U//O5RRiBxb9qs0JbkjOKzrUBTvQL9aLbSt6gt
- 5UF1M1kbu7mb2FnXx79tZ406FLmOJxp/EwDI7yeqwAp+pd6cK4mJ5tflG
- q3BO+++TT7Rhf0LPDfdHMcVEpmSTJtZpLKdS6uDbk0LcphhLRXBTACGQp
- BsXuWjpoK1gyc4I4Siwc0CdEkv8wbHnP4Di1x/+bnInR17HDaSuCdm064 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352139590"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; d="scan'208";a="352139590"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2023 07:40:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799632517"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; d="scan'208";a="799632517"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga008.fm.intel.com with ESMTP; 16 Aug 2023 07:40:00 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 16 Aug 2023 07:40:00 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 16 Aug 2023 07:39:59 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 16 Aug 2023 07:39:59 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Wed, 16 Aug 2023 07:39:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XLdTDizwypAoJwc6qvroRN2gFv8O/bGwrL/cZBW0pKVzADUGlHxqyuxJxXnihQhEp7JA4YdXxXhpsTxANjhXLQCooRcrVLDqC96lrpOERWd0wU2RQKjZlrIJj25uX0RFi6xEnPpcrPw62zlQwSD1XQAN4dNFWLmX83tGs1eoIZTkM1A0zCvj/mSL9EaY0paQ4Px/4M07A9rIuEVt9LrVZVYT/jUpv1/4StllPRFghpJXTtPwuXj0ZRdDmKL92VWaoaHfoS1S9R1HvjBgqqYzDs1n8AJEHeJoUlU/AiQ5QkNsJ5FzQ1v2MnPd4a5iMp020KJlzZq7bc4TfYRsaMHItQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TDXGPqPUx6IfA8DIDMiWQho39u4Y23fdPtkmXXLdatY=;
- b=CZ6OYX6VyBgy1Ef2JheAs1eEev6cdG9YLBeByvgPMzpfZofoBvFp/hGCqE9q9YUhXX62IRwme1QHa5k8GzFiSlNO2Kh4qu7ORzSlk3rIuQcEGp9x+H2nO6yyYWlbV6Mim/RHSubyrHPJoiq8J3VfA7qkBrEDko4IzNeVHnW0COuViO7CIr5aY+CgQ0UHxSmaiqDVwkWL6c+C4Us83GokHFd/No28MfqtgN1QHxWcqzNuLb30wjKaAlQpMEwkk/ip4yn2uUODBt/rjLt5OTyRhSK1+MWiROhfqlATDbqFZ/24l80J4MioduBh5etnvnPp0GTBYL7bGCVkgyNFzKQlhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by MN6PR11MB8147.namprd11.prod.outlook.com (2603:10b6:208:46f::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Wed, 16 Aug
- 2023 14:39:58 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::b429:ee19:a001:eb69]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::b429:ee19:a001:eb69%5]) with mapi id 15.20.6678.025; Wed, 16 Aug 2023
- 14:39:58 +0000
-Date: Wed, 16 Aug 2023 14:38:56 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
- queue rather than kthread
-Message-ID: <ZNzfgNFmR/tevvh6@DUT025-TGLU.fm.intel.com>
-References: <20230811023137.659037-1-matthew.brost@intel.com>
- <20230811023137.659037-2-matthew.brost@intel.com>
- <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
- <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
- <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
-X-ClientProxiedBy: SJ0PR13CA0239.namprd13.prod.outlook.com
- (2603:10b6:a03:2c1::34) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1608D10E0E7;
+ Wed, 16 Aug 2023 14:53:55 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 23E8140E0193; 
+ Wed, 16 Aug 2023 14:53:53 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id H2xnBl_8putw; Wed, 16 Aug 2023 14:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1692197630; bh=eATcUugUKmg/0JLDPnk8Wvs/F7ufU1c8fhbjk7WJvtI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BTK7HLiiZf02cDAAdM3jz4GmxhDB0shh60FYymu0Vlw1t8ld2/jJ6GNQ+HS84wBP1
+ nZsvabY37js5GdXt4MCn+7AiK7gfQCViow2ueU0NsyPmdeZcq+znNZOmb+b8l+KTOF
+ uUk9VgYDxHOkBlH4FYbheDy4m30u8juOd1BfUV2+pHV8HUc9Dkkz7Cs9dSTPZgjGL+
+ UcezEFCH2UI8WOQh4pmsXGxiFjoKqO9bXbh0YrI2oXwuaH8RO4ykXYxozPIjqdNCSS
+ o1k7up5aK2o3E9wmj+LYTTLe2VOKyNMOrbn1lUcjfmpziRCw4rj9p/8cWregNJjMXn
+ DoqCvnNU19ErIrJ/UZrk8YU1/bM10A6808cGXYYtyn8tpRHNZp/6ngw2T6syeX7No+
+ cMEOdk6czenYVV73LUx0qrGd+bFU4IyLFNj9p/Q+dQsuk0JwcyOnfLRfdJXmiNy3b0
+ FH62Fy3alJfJjqkhSGBI6WoDiUWgwSW+5KB8Z5J1DHpPo9W/DxPZQQXc7ZaKegSGO+
+ Nfi09lkBPiP1AaDM0vhYEx4QH1BinPVwbGksInzBXErqRz/hqyedBaVcUluu/fiDHz
+ kP/z7U2ipabaDDZc4l42BCzywGm2FY7AunmGHGUs5U28on/PqdXfNH3KLN3x/CIEX+
+ p47aHtVtcbL3x11/EvkaJs4w=
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id AFD0E40E00F4;
+ Wed, 16 Aug 2023 14:53:43 +0000 (UTC)
+Date: Wed, 16 Aug 2023 16:53:38 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
+ of nouveau_connector_create
+Message-ID: <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
+References: <20230814144933.3956959-1-kherbst@redhat.com>
+ <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
+ <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MN6PR11MB8147:EE_
-X-MS-Office365-Filtering-Correlation-Id: c570be26-513c-44dc-5ce5-08db9e66a9f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hmjE2x3/nYvraj5y8juNz8qcMCPwvrkMQrwb4a2V7Evu4uGOk5+3GlVBU4dT6k/e10ixeNV5uzxPtpMrVVI8luG7875paXnt0kUq5wBQPfsxPY3NIyjwFUiweub+upvOm6lpy0AuPMcZOr2dFOgvfJ1iAoZmmDp+30HDFq2YKoh3kqwwYctABoecfxWZzthHzKqetz0WzzxsAtIrpH37LPW0NGQy8yWCzU1No5WUaJ/5DJIRax2v0Ww1nS3ogA99/ev662VT4XwNHkD+E19fBbvxHxl4jEtmxYqYbnWS1cfPZ0VkwJ59rLglQ8qcNoGVeujK3VuLptY5wAlsLYIN3y0ArSGvBd1PjLfEXvl3W35T0jHuZ5ZCqOl/QUEWbLjrQgX/qE1j1tRbF5IhIbIpinPVidTfPYP8OAS5oe2fXutVW/zO9lJqr4RvJilug1Q22jlCEhByxgfMC3TtRzzI9PZck4zo8rx6vwuNO+xSFM7ad/+cGUehEb3gC8z3m8x2g7msQI3+s374xQsAHWweRgNi0AkM3GtvEk5LJ6P3oSNqNNn5wuumo2CqXeVWTnd4
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(1800799009)(451199024)(186009)(316002)(6916009)(66946007)(66476007)(66556008)(41300700001)(5660300002)(44832011)(66574015)(38100700002)(8676002)(4326008)(8936002)(82960400001)(2906002)(83380400001)(26005)(478600001)(7416002)(86362001)(6512007)(53546011)(6506007)(6486002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?7ShZ+6gm/MBYQ6hJ3Q+6KejCtk/uYFLgI9YSs3H3zWPgxIjMktJphlA+fu?=
- =?iso-8859-1?Q?/fHu2C3en7xAEAS8OtEAbJUMCJBzklTN85zKrr++TNHAcjKAlY238VktAd?=
- =?iso-8859-1?Q?Mtmjry549hzDka5GpnTWZeVIzjkdmkDdueCDIL/5OnCzDvYdsNq5SDaoW5?=
- =?iso-8859-1?Q?Ym61CVQ2F2kXZlKBol+v7nH9HiflSCXOBZi+jcT/nXZiEzRHu41LUvu1ox?=
- =?iso-8859-1?Q?cJ4l1LkGnTvqYXIvYrKM0/f+xbcxFJ/hlLhg/X0zfyyubxm9Y+IHocDtxA?=
- =?iso-8859-1?Q?5uc/D3wdKSo+7v50EbN5kL+Z1qfw0YkSi2zL1HOQV+BJ4DUCElzPtRhY6g?=
- =?iso-8859-1?Q?G9bc2dgRHaCMk6Nd0b3cqkeXPKp4LoQXl1TfpZcDKrl6xP0VkwpZW1NkeS?=
- =?iso-8859-1?Q?uY1uIW81qTLeaC/D2vZ6pI7RN/QqwIx+3Qj+QM/8TIvXhZnrTZOUcKSwUf?=
- =?iso-8859-1?Q?RAqHkQ9Kzd2No5dOqKU283eFFTqU+bz6Mzjg/tL/Lu2Sn7vBu3ChYY0Qry?=
- =?iso-8859-1?Q?p6B+UxsT8C8zktgzaSiAAOFw4azwKQ4arpKAIadbU+p3NQPgicUzQ+nmQT?=
- =?iso-8859-1?Q?GutlpbLWChs2zpi8rLkMqKocy/iJmSHDXo0opbxRFSbfLElbdn7kBFd5H1?=
- =?iso-8859-1?Q?geoKQ2ZY6mOSWovK+ZjJvqtRvvhH+IcSre4Q8wPyqcSOEdpuWanL7bFRUn?=
- =?iso-8859-1?Q?AXce2ls4oTsQcWBWBch8fCJKOIaMUTEsHPlICHeyPO/UKQQC39K4CS6Ytf?=
- =?iso-8859-1?Q?SnITdGglrxq7pqGbPFHjrnKr+895/a4kVdD/kjWHL1eiiiwZ49VvbYrq9e?=
- =?iso-8859-1?Q?VkvBnajNX6dbMKa8UNqYfyff0hX6/tleSGXQnkUXdLvWkf6sVRAu9mrG/L?=
- =?iso-8859-1?Q?tjWjzKdunSv5CbyvysDLm2+3KXwWkXaxnWOSQm8tE3T/e5cdmoZ+2ErpB+?=
- =?iso-8859-1?Q?z7vEKA8tDTotG7rNts16oxjca6JrY0dShB0hym88F8hDgqQGmxE3h2zm2f?=
- =?iso-8859-1?Q?jjoeWNdI133TWGd1qwAd7NNNOaQtMkKFQZVPiA8v5Xy2V/2nl90Uc210vk?=
- =?iso-8859-1?Q?QdlL5INe9ZgNXS9QFuie3oYy6Nx9XMq1ip8Ia2lq3q+4ICb+tyNAGwGVlM?=
- =?iso-8859-1?Q?/dB/cAxPPuJSyAwL4bM461nlZWZw75bpAQTpxM57Xycflug5pRsoB3NxtL?=
- =?iso-8859-1?Q?wwNbiMcTOpAE82wYtkHn3LFsV3s/KNC8sZBbxt8zcvxHZSTYjkSOvk5uvu?=
- =?iso-8859-1?Q?zlGl3qMZkhQ9GoYi5eeO3NF8QGN/LKpAyssJWoTLzJRkYon5oL+nAs4YJf?=
- =?iso-8859-1?Q?3bCQOET0bIWKugGIWnmymcDHyM2gNE3BmhsEZCusiGo6HuXUDnJ2yk53AU?=
- =?iso-8859-1?Q?s6t+wSGU7/bbVmsvvxtpTToHYNMi5oj0jZzRjsQ2KSzryNu7tDMCAb8kE2?=
- =?iso-8859-1?Q?t7YQYFuPjW+usZRnC8vD0o75ZBT1ZWgLDR4ksEOUez/zldZVJ3ZCfYI0/A?=
- =?iso-8859-1?Q?VBnf3OytN5umpeLOwgXwSIutKU6esPgG/siSrlyZN5m6LovHwHJItN5cgZ?=
- =?iso-8859-1?Q?CgLj82ez9xNUWpS/TZ1jd55Vpva8GYZaUvTD/P9IG2dlXxltAx4HRuOcO/?=
- =?iso-8859-1?Q?8Hw3odw0vSKL0Wy6gZBnx1Zj9qnFPLuiVHjIn/6wehONzV51JKg8K2Ew?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c570be26-513c-44dc-5ce5-08db9e66a9f2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 14:39:58.0101 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f/12Vf4KpE9d1HXctY/FwNz+MjcPjj/KCjnF2MqEsyxGN4LAEBVJYLmmIwRnsJ8Z4Cd21Vs6bWIcgO4IQzMJQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8147
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,118 +66,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
- Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, luben.tuikov@amd.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- faith.ekstrand@collabora.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 16, 2023 at 02:30:38PM +0200, Danilo Krummrich wrote:
-> On 8/16/23 16:05, Christian König wrote:
-> > Am 16.08.23 um 13:30 schrieb Danilo Krummrich:
-> > > Hi Matt,
-> > > 
-> > > On 8/11/23 04:31, Matthew Brost wrote:
-> > > > In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
-> > > > mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
-> > > > seems a bit odd but let us explain the reasoning below.
-> > > > 
-> > > > 1. In XE the submission order from multiple drm_sched_entity is not
-> > > > guaranteed to be the same completion even if targeting the same hardware
-> > > > engine. This is because in XE we have a firmware scheduler, the GuC,
-> > > > which allowed to reorder, timeslice, and preempt submissions. If a using
-> > > > shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
-> > > > apart as the TDR expects submission order == completion order. Using a
-> > > > dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
-> > > > 
-> > > > 2. In XE submissions are done via programming a ring buffer (circular
-> > > > buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
-> > > > limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
-> > > > control on the ring for free.
-> > > 
-> > > In XE, where does the limitation of MAX_SIZE_PER_JOB come from?
-> > > 
+On Wed, Aug 16, 2023 at 11:51:50AM +0200, Karol Herbst wrote:
+> Mind sharing your kernel logs with that patch applied? I suspect your
+> system boots up but you might just not have the connector available or
+> something? It could be that you have one of those GPUs affected by the
+> original change and then we'd have to figure out what to do with that.
 
-In Xe the job submission is series of ring instructions done by the KMD.
-The instructions are cache flushes, seqno writes, jump to user BB,
-etc... The exact instructions for each job vary based on hw engine type,
-platform, etc... We dervive MAX_SIZE_PER_JOB from the largest set of
-instructions to submit a job and have a define in the driver for this. I
-believe it is currently set to 192 bytes (the actual define is
-MAX_JOB_SIZE_BYTES). So a 16k ring lets Xe have 85 jobs inflight at
-once.
+Close. With your patch applied, the machine is up and I can log in and
+use it. However, the output on the connected monitor stops after...
 
-> > > In Nouveau we currently do have such a limitation as well, but it is
-> > > derived from the RING_SIZE, hence RING_SIZE / MAX_SIZE_PER_JOB would
-> > > always be 1. However, I think most jobs won't actually utilize the
-> > > whole ring.
-> > 
-> > Well that should probably rather be RING_SIZE / MAX_SIZE_PER_JOB =
-> > hw_submission_limit (or even hw_submission_limit - 1 when the hw can't
+[    6.815167] ACPI: \_PR_.CP05: Found 4 idle states
+[    6.825438] ACPI: \_PR_.CP06: Found 4 idle states
+[    6.835661] ACPI: \_PR_.CP07: Found 4 idle states
+[    7.280093] Freeing initrd memory: 8328K
+[    7.601986] tsc: Refined TSC clocksource calibration: 3591.346 MHz
+[    7.608360] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x33c46403b59, max_idle_ns: 440795293818 ns
+[    7.620254] clocksource: Switched to clocksource tsc
+[    8.337724] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    8.350553] 00:05: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[    8.375311] serial 0000:00:16.3: enabling device (0000 -> 0003)
+[    8.403681] 0000:00:16.3: ttyS1 at I/O 0xf0a0 (irq = 17, base_baud = 115200) is a 16550A
+[    8.424951] Linux agpgart interface v0.103
+[    8.432456] ACPI: bus type drm_connector registered
 
-Yes, hw_submission_limit = RING_SIZE / MAX_SIZE_PER_JOB in Xe.
+... this line here above. It is the last one output. What you see here
+below what I'm catching from serial.
 
+[    8.456734] Console: switching to colour dummy device 80x25
+[    8.464414] nouveau 0000:03:00.0: vgaarb: deactivate vga console
+[    8.473063] nouveau 0000:03:00.0: NVIDIA GT218 (0a8c00b1)
+[    8.594096] nouveau 0000:03:00.0: bios: version 70.18.83.00.08
+[    8.607906] nouveau 0000:03:00.0: fb: 512 MiB DDR3
+[    8.926721] nouveau 0000:03:00.0: DRM: VRAM: 512 MiB
+[    8.931763] nouveau 0000:03:00.0: DRM: GART: 1048576 MiB
+[    8.937156] nouveau 0000:03:00.0: DRM: TMDS table version 2.0
+[    8.942969] nouveau 0000:03:00.0: DRM: DCB version 4.0
+[    8.948173] nouveau 0000:03:00.0: DRM: DCB outp 00: 02000360 00000000
+[    8.954696] nouveau 0000:03:00.0: DRM: DCB outp 01: 02000362 00020010
+[    8.961211] nouveau 0000:03:00.0: DRM: DCB outp 02: 028003a6 0f220010
+[    8.967739] nouveau 0000:03:00.0: DRM: DCB outp 03: 01011380 00000000
+[    8.974261] nouveau 0000:03:00.0: DRM: DCB outp 04: 08011382 00020010
+[    8.980769] nouveau 0000:03:00.0: DRM: DCB outp 05: 088113c6 0f220010
+[    8.987293] nouveau 0000:03:00.0: DRM: DCB conn 00: 00101064
+[    8.993015] nouveau 0000:03:00.0: DRM: DCB conn 01: 00202165
+[    9.005724] nouveau 0000:03:00.0: DRM: MM: using COPY for buffer copies
+[    9.023889] [drm] Initialized nouveau 1.3.1 20120801 for 0000:03:00.0 on minor 0
+[    9.032044] nouveau 0000:03:00.0: [drm] Cannot find any crtc or sizes
+[    9.162909] megasas: 07.725.01.00-rc1
+[    9.167537] st: Version 20160209, fixed bufsize 32768, s/g segs 256
+[    9.176058] ahci 0000:00:1f.2: version 3.0
+[    9.194078] ahci 0000:00:1f.2: AHCI 0001.0300 32 slots 6 ports 6 Gbps 0x3 impl SATA mode
+[    9.202487] ahci 0000:00:1f.2: flags: 64bit ncq sntf pm led clo pio slum part ems apst 
+[    9.243154] scsi host0: ahci
+[    9.252090] scsi host1: ahci
+[    9.260389] scsi host2: ahci
+[    9.268061] scsi host3: ahci
+[    9.273542] scsi host4: ahci
+[    9.279071] scsi host5: ahci
+...
 
-> > distinct full vs empty ring buffer).
-> 
-> Not sure if I get you right, let me try to clarify what I was trying to say:
-> I wanted to say that in Nouveau MAX_SIZE_PER_JOB isn't really limited by
-> anything other than the RING_SIZE and hence we'd never allow more than 1
-> active job.
+and so on until full boot.
 
-I'm confused how there isn't a limit on the size of the job in Nouveau?
-Based on what you have said, a job could be larger than the ring then?
+-- 
+Regards/Gruss,
+    Boris.
 
-> 
-> However, it seems to be more efficient to base ring flow control on the
-> actual size of each incoming job rather than the worst case, namely the
-> maximum size of a job.
->
-
-If this doesn't work for Nouveau, feel free flow control the ring
-differently but this works rather well (and simple) for Xe.
-
-Matt
-
-> > 
-> > Otherwise your scheduler might just overwrite the ring buffer by pushing
-> > things to fast.
-> > 
-> > Christian.
-> > 
-> > > 
-> > > Given that, it seems like it would be better to let the scheduler
-> > > keep track of empty ring "slots" instead, such that the scheduler
-> > > can deceide whether a subsequent job will still fit on the ring and
-> > > if not re-evaluate once a previous job finished. Of course each
-> > > submitted job would be required to carry the number of slots it
-> > > requires on the ring.
-> > > 
-> > > What to you think of implementing this as alternative flow control
-> > > mechanism? Implementation wise this could be a union with the
-> > > existing hw_submission_limit.
-> > > 
-> > > - Danilo
-> > > 
-> > > > 
-> > > > A problem with this design is currently a drm_gpu_scheduler uses a
-> > > > kthread for submission / job cleanup. This doesn't scale if a large
-> > > > number of drm_gpu_scheduler are used. To work around the scaling issue,
-> > > > use a worker rather than kthread for submission / job cleanup.
-> > > > 
-> > > > v2:
-> > > >    - (Rob Clark) Fix msm build
-> > > >    - Pass in run work queue
-> > > > v3:
-> > > >    - (Boris) don't have loop in worker
-> > > > v4:
-> > > >    - (Tvrtko) break out submit ready, stop, start helpers into own patch
-> > > > 
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > 
-> > 
-> 
+https://people.kernel.org/tglx/notes-about-netiquette
