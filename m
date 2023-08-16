@@ -1,59 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81C277EAF8
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 22:46:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9F477EAFB
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 22:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9A8610E3B9;
-	Wed, 16 Aug 2023 20:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A65310E3BB;
+	Wed, 16 Aug 2023 20:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1C910E3B4;
- Wed, 16 Aug 2023 20:46:23 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1bfc2b68090so5131374fac.3; 
- Wed, 16 Aug 2023 13:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692218783; x=1692823583;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SETSG1C+Cu9UyG+a+AwjbHIVQl99cMTjMKSLpy0hw8c=;
- b=KNLYWsGhOBPF/4dSZgPXQFQLBMQKr1pA0I1SYdp/eikxyFXUYlUR+2iQkZsYtcDajf
- maX/6+vcDBR1ctlqCNC9qXV25aXvQ9Bwx4b3LH4k9czb53SWsg5DJpMMHh2ktCSyJErC
- vg8PynpqzNU1y38K7pTebKL1USSGJtjvAvmQpRox0mHxjE1+i70jGUW3BczVW3ao3pGW
- tXuLPDEmDUGoUak1w7lplPiwM+oxUoK62i7dm46+NpASpYFjo3JANeGfz22VsnjksmlR
- THKroUMHAdWkoE4kmwZG52ISv7Xj6Sv+pYgOThqRIqu0iv2kiibZlV3k36nitn+onauT
- v/zw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE5310E3BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 20:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692218836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lp/ElRMpuHX0ZQF1pFmv/A7hZ/+TiJdwRTSI4ctDg4Q=;
+ b=U9V03XlWWEGYWMhiGJgZUsnvasy4jWLY3pHVUhZKtA6Vz+lfnlPYNEZ03pikNnr+vQghXz
+ gPW8eATEH2/2rY+Bfi1yoyt26n8/9lnLtEdcPsw+43NtheMt5QZbkvcm5HyirXsZVg/GRT
+ H/c5WyGBgjU+45HHeaHiHfhJhaNer10=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-373-YWz-moblOHOSrSSyXI0GTQ-1; Wed, 16 Aug 2023 16:47:14 -0400
+X-MC-Unique: YWz-moblOHOSrSSyXI0GTQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-40eedfd4119so73630161cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 13:47:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692218783; x=1692823583;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SETSG1C+Cu9UyG+a+AwjbHIVQl99cMTjMKSLpy0hw8c=;
- b=av24JMGfYMM+NO+KZuQAJjL+plbEd/weZqwMKh9lhcHDqZwVjCzcT1W82arerpcCki
- /s/cbSxMqLM/7XZLH06qMZ3zw/SBHkzpSzvGe511VtHBY1dh21dngeikPBHS2IbZ6LZf
- V0W+90WjM8NbHkWJ+1+PZPzwIeLXj/BKyhVEWjjvo6QrUoo7T67eqXZp5m55Grfy1NgG
- VIq24r6X2UHBgjj6i1xXrJErgz6HZ/hPTzq9C6FidMGZFu/pY5X7DyE35V75CNsjO+ex
- hHa1rLYtrkmDai+b5iUNEM+gnOCEsrlJ2pEzWtde5Y7cZr19bcTF6sMfnikUiLLF/xJF
- WvbA==
-X-Gm-Message-State: AOJu0YwO93aGgN6yTWJpUAgMr2X5/pTt7MvUkzojohdPmNopLug+vDpO
- E4SDJdLmoqDPGa5RthXX4vzV9mV6da4Av2EDkTz7GGe+4v8=
-X-Google-Smtp-Source: AGHT+IGNMzjuoTgpi0Qb1c6zsvcpH9Gh4ezJYdj0Wfk5fzSl1OkL4HqXNAC0eKc+5fXeEm4HySVX8diyJT7aZ6rfiwQ=
-X-Received: by 2002:a05:6871:288:b0:1b3:eec8:fa90 with SMTP id
- i8-20020a056871028800b001b3eec8fa90mr3621542oae.6.1692218783171; Wed, 16 Aug
- 2023 13:46:23 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1692218834; x=1692823634;
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=e3IvmL0y1viiHXLAUyfip1yCYlhOkZ7NLyhRvcY+CDk=;
+ b=Y/JIrSLwgPAdGts8qhiT2EaoxbYuUlNyxLlvKQNnHgyb6qFf5UugLfJvOOjRVi7P0G
+ WtNxzpN/wl0+d81lF5AJJnthaeNqr6JmW0asmweXP+C1RZ/kDE0o7LmltgzGxvvRhlT8
+ kf36j1A87iidcqzFxDIsEcHw/vJ+vGqHtsPeIgaUsunfgaeQh64x3ArWmMruiCLDLPNN
+ KgpAMKWpfeER2jKnb5QMoL55IE3CMm8nAmizlTWeP/xiyQRhQo1q8gM7ApdSwmJBLJ3s
+ ujVp7Jr/ufX6GdPSWHvnqeWRamcyv+qxNAxj0nRT3D9NcArOz4+eEGNL2lSYHRek61UF
+ J8cg==
+X-Gm-Message-State: AOJu0YzqH3gYR9i7v/qgDoBhhNXUpPUrV5VxIN59I5i8Ki5bBs4+qSZH
+ x+z9SDymEHxGI1vewJtTIXEAr2MxIT7iTgItGA10oasj7Wrb8N84XmODhgOQdK87btlZuvRkS54
+ a9TyfXt839ueBeWbT2oLlvCamJTol
+X-Received: by 2002:a05:622a:1210:b0:403:e895:155b with SMTP id
+ y16-20020a05622a121000b00403e895155bmr3853833qtx.34.1692218834031; 
+ Wed, 16 Aug 2023 13:47:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEey1QVl493qQLI7bMS4KR7ZC4Pq5U6vCDQZyZMtY+jGAPCQ+P+AzAMGob1aMDWpaV//+fi6g==
+X-Received: by 2002:a05:622a:1210:b0:403:e895:155b with SMTP id
+ y16-20020a05622a121000b00403e895155bmr3853816qtx.34.1692218833802; 
+ Wed, 16 Aug 2023 13:47:13 -0700 (PDT)
+Received: from ?IPv6:2600:4040:5c7d:5f00::feb? ([2600:4040:5c7d:5f00::feb])
+ by smtp.gmail.com with ESMTPSA id
+ w8-20020ac84d08000000b0040b8ba13701sm4735297qtv.52.2023.08.16.13.47.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Aug 2023 13:47:13 -0700 (PDT)
+Message-ID: <a612e9d4560aa3827114339b1ea92f0181550eca.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
+ of nouveau_connector_create
+From: Lyude Paul <lyude@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org
+Date: Wed, 16 Aug 2023 16:47:12 -0400
+In-Reply-To: <20230814144933.3956959-1-kherbst@redhat.com>
+References: <20230814144933.3956959-1-kherbst@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38)
 MIME-Version: 1.0
-References: <20230816035603.690383-1-lijo.lazar@amd.com>
-In-Reply-To: <20230816035603.690383-1-lijo.lazar@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 16 Aug 2023 16:46:12 -0400
-Message-ID: <CADnq5_NwgrvS4tdwX9Tg=1nLU8iJck2tjKfRLVU_vR3Xi=NrLg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/gpu: Update amdgpu documentation
-To: Lijo Lazar <lijo.lazar@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,57 +85,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alexander.Deucher@amd.com, airlied@redhat.com,
- Hawking.Zhang@amd.com
+Cc: nouveau@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 16, 2023 at 12:15=E2=80=AFAM Lijo Lazar <lijo.lazar@amd.com> wr=
-ote:
->
-> 7957ec80ef97 ("drm/amdgpu: Add FRU sysfs nodes only if needed") moved
-> the documentation for some of the sysfs nodes to amdgpu_fru_eeprom.c.
-> Update the documentation accordingly.
->
-> Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+On Mon, 2023-08-14 at 16:49 +0200, Karol Herbst wrote:
+> We can't simply free the connector after calling drm_connector_init on it=
+.
+> We need to clean up the drm side first.
+>=20
+> It might not fix all regressions from 2b5d1c29f6c4 ("drm/nouveau/disp:
+> PIOR DP uses GPIO for HPD, not PMGR AUX interrupts"), but at least it
+> fixes a memory corruption in error handling related to that commit.
+>=20
+> Link: https://lore.kernel.org/lkml/20230806213107.GFZNARG6moWpFuSJ9W@fat_=
+crate.local/
+> Fixes: 95983aea8003 ("drm/nouveau/disp: add connector class")
+> Signed-off-by: Karol Herbst <kherbst@redhat.com>
 > ---
->  Documentation/gpu/amdgpu/driver-misc.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu=
-/amdgpu/driver-misc.rst
-> index be131e963d87..26334e54447b 100644
-> --- a/Documentation/gpu/amdgpu/driver-misc.rst
-> +++ b/Documentation/gpu/amdgpu/driver-misc.rst
-> @@ -11,19 +11,19 @@ via sysfs
->  product_name
->  ------------
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
->     :doc: product_name
->
->  product_number
->  --------------
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
->     :doc: product_name
+>  drivers/gpu/drm/nouveau/nouveau_connector.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/dr=
+m/nouveau/nouveau_connector.c
+> index a2e0033e8a260..622f6eb9a8bfd 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> @@ -1408,8 +1408,7 @@ nouveau_connector_create(struct drm_device *dev,
+>  =09=09ret =3D nvif_conn_ctor(&disp->disp, nv_connector->base.name, nv_co=
+nnector->index,
+>  =09=09=09=09     &nv_connector->conn);
+>  =09=09if (ret) {
+> -=09=09=09kfree(nv_connector);
+> -=09=09=09return ERR_PTR(ret);
+> +=09=09=09goto drm_conn_err;
+>  =09=09}
+> =20
+>  =09=09ret =3D nvif_conn_event_ctor(&nv_connector->conn, "kmsHotplug",
+> @@ -1426,8 +1425,7 @@ nouveau_connector_create(struct drm_device *dev,
+>  =09=09=09if (ret) {
+>  =09=09=09=09nvif_event_dtor(&nv_connector->hpd);
+>  =09=09=09=09nvif_conn_dtor(&nv_connector->conn);
+> -=09=09=09=09kfree(nv_connector);
+> -=09=09=09=09return ERR_PTR(ret);
+> +=09=09=09=09goto drm_conn_err;
+>  =09=09=09}
+>  =09=09}
+>  =09}
+> @@ -1475,4 +1473,9 @@ nouveau_connector_create(struct drm_device *dev,
+> =20
+>  =09drm_connector_register(connector);
+>  =09return connector;
+> +
+> +drm_conn_err:
+> +=09drm_connector_cleanup(connector);
+> +=09kfree(nv_connector);
+> +=09return ERR_PTR(ret);
+>  }
 
-I think this should be product_number
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-Alex
-
->
->  serial_number
->  -------------
->
-> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
->     :doc: serial_number
->
->  unique_id
-> --
-> 2.25.1
->
