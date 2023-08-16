@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB1A77E043
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F79A77E041
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F9410E35A;
-	Wed, 16 Aug 2023 11:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A6310E356;
+	Wed, 16 Aug 2023 11:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5973F10E354
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:25:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76ED310E355
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:25:53 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8960F2FB2;
- Wed, 16 Aug 2023 13:24:37 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4E643B3C;
+ Wed, 16 Aug 2023 13:24:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692185078;
- bh=WCGNIXcGcdl4nJn+dx6lcBvQUFqQ55HfWTEz54MJwVw=;
+ s=mail; t=1692185079;
+ bh=VL2Zw7Ueb46o20OnyXzo7UsNsItrGawjFD5subpRhLA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Pobx7GREq+jxP2D5S9cwrkgVYulAKHsDT35rrBRDgNucTIoQu9HbsG842iTqIO1A4
- t/3TLHbRgRNmJMsYgQyI1R8cskIOXJfPTmBkvBk2Lr/IkJe5wqRw1j3TFoCieG5Ivb
- PQb6UIuNTYahbl42b3FioXAarBVPiy6RVlfhzb1I=
+ b=hWtBUSsH07OyVSm+CV8lXWWMY19eHrc0OqTwKXT76JBpUEeFbxsokinGaGqWm3vrx
+ dqzXXt1zT4WxncSrAvuXAObVnIMitCasUGy4mRxXYJpgP3vZUIWJKWggW/TaqP5qCN
+ iNzep7BbBqSr3sOvbUBB7CaaMuGSM5ldaXaxyDUk=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 16 Aug 2023 14:25:08 +0300
-Subject: [PATCH v2 05/12] drm/bridge: tc358768: Use struct videomode
+Date: Wed, 16 Aug 2023 14:25:09 +0300
+Subject: [PATCH v2 06/12] drm/bridge: tc358768: Print logical values, not
+ raw register values
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230816-tc358768-v2-5-242b9d5f703a@ideasonboard.com>
+Message-Id: <20230816-tc358768-v2-6-242b9d5f703a@ideasonboard.com>
 References: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
 In-Reply-To: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -41,21 +42,21 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxim Schwalm <maxim.schwalm@gmail.com>, 
  Francesco Dolcini <francesco@dolcini.it>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4738;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4161;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=WCGNIXcGcdl4nJn+dx6lcBvQUFqQ55HfWTEz54MJwVw=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI1cyiU52QNWyrMoqwKywZcdpedX3eMKPmwu
- 4irGh3r+BqJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNQAKCRD6PaqMvJYe
- 9URSD/9d/CWhuuFgasgn/wBnjZOa9QJezas5p4Mq+uKptu+IRpybFzC6w1Sf8TQJG2XZ5bC1AGO
- wK1P2zL4Tyrm2RI6Ky+FNwbkRt0YjaQaFrX1cw7blftTmvmlgCfOQZszCKX/wVOQ9+rZnICQrTS
- Kof4rXhlPL3D02EikOOo60SFIzbzckq5tFWt4F7I6x2LEFDDph5iRQtc1bnIJlVRsZ7//0xipqH
- phgbpxWPopwUua5wFnogl+H9YXxZIrp3DZCVVGC//RudSCqDWZbPvtMkBNmkaigpQr2HX5ZlmON
- xo5o3WYuWpVxUNvPW6NBlKKBKRaOVwAnX0qYmDF37UGKLgCRGGToNLY0LMFeGXn0+BwJ3HDL7zq
- +aWTqZfigv+wGMcBsCvkE4XIm7zkVR+WzR4yfKRzwCjaVggbeppkLRI1em1+mKTNNFBosF7ayOQ
- jx96eZX8qbAATzsQ+mN2py3gboMC7Z9Rqwz+/b9M44JktRU6+WeCqlrkAAfrjvSDL9zmFqcrLuV
- SbNE93YWe3lAowDTHsQKgx9ql31Lck7ca5V3mFh/8iNZlUnKvHF9jd0KwDqJjo8OqHSiehD6WMB
- EdofYdnyQ5zysa9FRuvG+3R0BfLsgyEvFkj9C7xXTp31yt+s4ZOyIxbjlyXErdDGfbNfkqvRE/I
- pMfkbVgY4kaW12w==
+ bh=VL2Zw7Ueb46o20OnyXzo7UsNsItrGawjFD5subpRhLA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI1rU6lTiy7LrKpsdpK4Gv7SuXUNWlKJi/FV
+ hc8iD4IBGeJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNQAKCRD6PaqMvJYe
+ 9Wt4EACimvd/85vtRtwqQJ9M5bZ9ypzeH0to/cYCidE7g4EHnfbB7h/Y46vOYUKblCnlqXE4dJ6
+ FL9RoLY9pn9KfjvZM7woKWVJAw8O5FZb/+do902++WWMHBO9DYLaa8JaIymcWcAI3fdDtUM8k6l
+ SL6kDXyPqW7txqpzmqMa3RACd8ijvDkZu+emM49WyoF9U6W2qxzLnQ4EF9766nINNfS9XG48Jez
+ 4yND8CCf+ajTtqJGapOGP8d4zwcmDUUdf6hytpDHs6I319IXOhL1EmuKDtlm0Fj4q/8ibSmh4Hk
+ rOG4xBFP1DDsvzkWIRl1GrECeNkRHynbhgcNe64w1Hsbkqm2YWX/wmSE+pj9ShE7WBDrHSTgrYz
+ hBrjtk0XPdj/7cZx2DQXEKryWHh5MLHjib6H276aJI8Dq6sO4N+Aucmqv1mn5r/hWHm9Q4/QuoD
+ +N/MGXkJgWfCkPURp4ES6CHKfPsTXIPoxwKcAMICEd+wPU5RmW4wydK8sLu9Tq75NKVB4p0O7jG
+ cbq+GIUyRUtpm5ff1G+uxN+m55czQvON/vWiOQOca7TqBBbOy5josAcRQC3aBKvJSAG1vTCZXin
+ 3MsaM7WPuDRlbAa2vVQdYjdLlF+WQHHibsaqqB+/KGh+FlmkwfpqVQzSBDQjDFPwK8bGJP+Oc5V
+ U72OpOiXRFnKb7w==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,135 +77,104 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358768 documentation uses HFP, HBP, etc. values to deal with the
-video mode, while the driver currently uses the DRM display mode
-(htotal, hsync_start, etc).
+The driver debug prints DSI related timings as raw register values in
+hex. It is much more useful to see the "logical" value of the timing,
+not the register value.
 
-Change the driver to convert the DRM display mode to struct videomode,
-which then allows us to use the same units the documentation uses. This
-makes it much easier to work on the code when using the TC358768
-documentation as a reference.
+Change the prints to print the values separately, in case a single
+register contains multiple values, and use %u to have it in a more human
+consumable form.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 45 +++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/bridge/tc358768.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index d5831a1236e9..9b633038af33 100644
+index 9b633038af33..0ef51d04bb21 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -650,6 +650,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	u32 dsiclk, dsibclk, video_start;
- 	const u32 internal_delay = 40;
- 	int ret, i;
-+	struct videomode vm;
+@@ -739,57 +739,59 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
  
- 	if (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
- 		dev_warn_once(priv->dev, "Non-continuous mode unimplemented, falling back to continuous\n");
-@@ -673,6 +674,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		return;
- 	}
+ 	/* LP11 > 100us for D-PHY Rx Init */
+ 	val = tc358768_ns_to_cnt(100 * 1000, dsibclk_nsk) - 1;
+-	dev_dbg(priv->dev, "LINEINITCNT: 0x%x\n", val);
++	dev_dbg(priv->dev, "LINEINITCNT: %u\n", val);
+ 	tc358768_write(priv, TC358768_LINEINITCNT, val);
  
-+	drm_display_mode_to_videomode(mode, &vm);
-+
- 	dsiclk = priv->dsiclk;
- 	dsibclk = dsiclk / 4;
+ 	/* LPTimeCnt > 50ns */
+ 	val = tc358768_ns_to_cnt(50, dsibclk_nsk) - 1;
+ 	lptxcnt = val;
+-	dev_dbg(priv->dev, "LPTXTIMECNT: 0x%x\n", val);
++	dev_dbg(priv->dev, "LPTXTIMECNT: %u\n", val);
+ 	tc358768_write(priv, TC358768_LPTXTIMECNT, val);
  
-@@ -681,28 +684,28 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	switch (dsi_dev->format) {
- 	case MIPI_DSI_FMT_RGB888:
- 		val |= (0x3 << 4);
--		hact = mode->hdisplay * 3;
--		video_start = (mode->htotal - mode->hsync_start) * 3;
-+		hact = vm.hactive * 3;
-+		video_start = (vm.hsync_len + vm.hback_porch) * 3;
- 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_24;
- 		break;
- 	case MIPI_DSI_FMT_RGB666:
- 		val |= (0x4 << 4);
--		hact = mode->hdisplay * 3;
--		video_start = (mode->htotal - mode->hsync_start) * 3;
-+		hact = vm.hactive * 3;
-+		video_start = (vm.hsync_len + vm.hback_porch) * 3;
- 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_18;
- 		break;
+ 	/* 38ns < TCLK_PREPARE < 95ns */
+ 	val = tc358768_ns_to_cnt(65, dsibclk_nsk) - 1;
++	dev_dbg(priv->dev, "TCLK_PREPARECNT %u\n", val);
+ 	/* TCLK_PREPARE + TCLK_ZERO > 300ns */
+ 	val2 = tc358768_ns_to_cnt(300 - tc358768_to_ns(2 * ui_nsk),
+ 				  dsibclk_nsk) - 2;
++	dev_dbg(priv->dev, "TCLK_ZEROCNT %u\n", val2);
+ 	val |= val2 << 8;
+-	dev_dbg(priv->dev, "TCLK_HEADERCNT: 0x%x\n", val);
+ 	tc358768_write(priv, TC358768_TCLK_HEADERCNT, val);
  
- 	case MIPI_DSI_FMT_RGB666_PACKED:
- 		val |= (0x4 << 4) | BIT(3);
--		hact = mode->hdisplay * 18 / 8;
--		video_start = (mode->htotal - mode->hsync_start) * 18 / 8;
-+		hact = vm.hactive * 18 / 8;
-+		video_start = (vm.hsync_len + vm.hback_porch) * 18 / 8;
- 		data_type = MIPI_DSI_PIXEL_STREAM_3BYTE_18;
- 		break;
+ 	/* TCLK_TRAIL > 60ns AND TEOT <= 105 ns + 12*UI */
+ 	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(2 * ui_nsk), dsibclk_nsk) - 5;
+ 	val = clamp(raw_val, 0, 127);
+-	dev_dbg(priv->dev, "TCLK_TRAILCNT: 0x%x\n", val);
++	dev_dbg(priv->dev, "TCLK_TRAILCNT: %u\n", val);
+ 	tc358768_write(priv, TC358768_TCLK_TRAILCNT, val);
  
- 	case MIPI_DSI_FMT_RGB565:
- 		val |= (0x5 << 4);
--		hact = mode->hdisplay * 2;
--		video_start = (mode->htotal - mode->hsync_start) * 2;
-+		hact = vm.hactive * 2;
-+		video_start = (vm.hsync_len + vm.hback_porch) * 2;
- 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_16;
- 		break;
- 	default:
-@@ -814,43 +817,43 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		tc358768_write(priv, TC358768_DSI_EVENT, 0);
+ 	/* 40ns + 4*UI < THS_PREPARE < 85ns + 6*UI */
+ 	val = 50 + tc358768_to_ns(4 * ui_nsk);
+ 	val = tc358768_ns_to_cnt(val, dsibclk_nsk) - 1;
++	dev_dbg(priv->dev, "THS_PREPARECNT %u\n", val);
+ 	/* THS_PREPARE + THS_ZERO > 145ns + 10*UI */
+ 	raw_val = tc358768_ns_to_cnt(145 - tc358768_to_ns(3 * ui_nsk), dsibclk_nsk) - 10;
+ 	val2 = clamp(raw_val, 0, 127);
++	dev_dbg(priv->dev, "THS_ZEROCNT %u\n", val2);
+ 	val |= val2 << 8;
+-	dev_dbg(priv->dev, "THS_HEADERCNT: 0x%x\n", val);
+ 	tc358768_write(priv, TC358768_THS_HEADERCNT, val);
  
- 		/* vact */
--		tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-+		tc358768_write(priv, TC358768_DSI_VACT, vm.vactive);
+ 	/* TWAKEUP > 1ms in lptxcnt steps */
+ 	val = tc358768_ns_to_cnt(1020000, dsibclk_nsk);
+ 	val = val / (lptxcnt + 1) - 1;
+-	dev_dbg(priv->dev, "TWAKEUP: 0x%x\n", val);
++	dev_dbg(priv->dev, "TWAKEUP: %u\n", val);
+ 	tc358768_write(priv, TC358768_TWAKEUP, val);
  
- 		/* vsw */
--		tc358768_write(priv, TC358768_DSI_VSW,
--			       mode->vsync_end - mode->vsync_start);
-+		tc358768_write(priv, TC358768_DSI_VSW, vm.vsync_len);
-+
- 		/* vbp */
--		tc358768_write(priv, TC358768_DSI_VBPR,
--			       mode->vtotal - mode->vsync_end);
-+		tc358768_write(priv, TC358768_DSI_VBPR, vm.vback_porch);
+ 	/* TCLK_POSTCNT > 60ns + 52*UI */
+ 	val = tc358768_ns_to_cnt(60 + tc358768_to_ns(52 * ui_nsk),
+ 				 dsibclk_nsk) - 3;
+-	dev_dbg(priv->dev, "TCLK_POSTCNT: 0x%x\n", val);
++	dev_dbg(priv->dev, "TCLK_POSTCNT: %u\n", val);
+ 	tc358768_write(priv, TC358768_TCLK_POSTCNT, val);
  
- 		/* hsw * byteclk * ndl / pclk */
--		val = (u32)div_u64((mode->hsync_end - mode->hsync_start) *
-+		val = (u32)div_u64(vm.hsync_len *
- 				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
--				   mode->clock * 1000);
-+				   vm.pixelclock);
- 		tc358768_write(priv, TC358768_DSI_HSW, val);
+ 	/* max(60ns + 4*UI, 8*UI) < THS_TRAILCNT < 105ns + 12*UI */
+ 	raw_val = tc358768_ns_to_cnt(60 + tc358768_to_ns(18 * ui_nsk),
+ 				     dsibclk_nsk) - 4;
+ 	val = clamp(raw_val, 0, 15);
+-	dev_dbg(priv->dev, "THS_TRAILCNT: 0x%x\n", val);
++	dev_dbg(priv->dev, "THS_TRAILCNT: %u\n", val);
+ 	tc358768_write(priv, TC358768_THS_TRAILCNT, val);
  
- 		/* hbp * byteclk * ndl / pclk */
--		val = (u32)div_u64((mode->htotal - mode->hsync_end) *
-+		val = (u32)div_u64(vm.hback_porch *
- 				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
--				   mode->clock * 1000);
-+				   vm.pixelclock);
- 		tc358768_write(priv, TC358768_DSI_HBPR, val);
- 	} else {
- 		/* Set event mode */
- 		tc358768_write(priv, TC358768_DSI_EVENT, 1);
+ 	val = BIT(0);
+@@ -803,10 +805,11 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
+ 	val = tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk * 4);
+ 	val = tc358768_ns_to_cnt(val, dsibclk_nsk) / 4 - 1;
++	dev_dbg(priv->dev, "TXTAGOCNT: %u\n", val);
+ 	val2 = tc358768_ns_to_cnt(tc358768_to_ns((lptxcnt + 1) * dsibclk_nsk),
+ 				  dsibclk_nsk) - 2;
++	dev_dbg(priv->dev, "RXTASURECNT: %u\n", val2);
+ 	val = val << 16 | val2;
+-	dev_dbg(priv->dev, "BTACNTRL1: 0x%x\n", val);
+ 	tc358768_write(priv, TC358768_BTACNTRL1, val);
  
- 		/* vact */
--		tc358768_write(priv, TC358768_DSI_VACT, mode->vdisplay);
-+		tc358768_write(priv, TC358768_DSI_VACT, vm.vactive);
- 
- 		/* vsw (+ vbp) */
- 		tc358768_write(priv, TC358768_DSI_VSW,
--			       mode->vtotal - mode->vsync_start);
-+			       vm.vsync_len + vm.vback_porch);
-+
- 		/* vbp (not used in event mode) */
- 		tc358768_write(priv, TC358768_DSI_VBPR, 0);
- 
- 		/* (hsw + hbp) * byteclk * ndl / pclk */
--		val = (u32)div_u64((mode->htotal - mode->hsync_start) *
-+		val = (u32)div_u64((vm.hsync_len + vm.hback_porch) *
- 				   ((u64)priv->dsiclk / 4) * priv->dsi_lanes,
--				   mode->clock * 1000);
-+				   vm.pixelclock);
- 		tc358768_write(priv, TC358768_DSI_HSW, val);
- 
- 		/* hbp (not used in event mode) */
+ 	/* START[0] */
 
 -- 
 2.34.1
