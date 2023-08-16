@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B41377DC33
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 10:27:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EAB77DC27
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 10:27:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749D110E305;
-	Wed, 16 Aug 2023 08:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F07B10E2BF;
+	Wed, 16 Aug 2023 08:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E7B10E2F3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 08:26:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA7F210E2F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 08:27:01 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
  by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 37G7djRb002497; Wed, 16 Aug 2023 09:26:40 +0100
+ 37G7djRe002497; Wed, 16 Aug 2023 09:26:42 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=OnwjbFxwjpaawl13D9FvWzszMT6NJ9gxVu3/jsBGsf4=; b=ZjV
- 7JdqyisSi/S3UE/BoePO8bxI4fFJv2YQGSHtuibRHO2dOO8hnysKtEFsQCaOBSq/
- NNAMo5w1TqZBoclacmPbeu/O56AS3Ns8TCvudfu044LAgQrmkHWguoxFvJcRKjE2
- FMAORCy1FfittxAyXjv9FYbo2idGfHBXSrgvcidZtnOgW1Rb0CFISdoQV7BEosNd
- pJsKo6Vs3iodeblNBKO9BR7kBNT/5HFHNAuWQzM9dvKkXieAM4DtuJfqIUKmMDgP
- QRJkqfAAFP3d5zL4mYjad/ZnQchEtAAbXOqiOWUkzNCtacjbW7YmI7aMKC2w7vYB
- hL7GquKlvp9Q/FiPoFg==
+ dk201812; bh=fTJxwLXDyppVkFOA4BNwFcD9q0OTGGU3WGvF74+tfh0=; b=HEQ
+ npXspiho3h1r0bKLF38jQ6wOVzdk3ui45NNRkR4DviaLFJKTmRxbOdy3o3mYLSn7
+ rJTIywPs/9/m5fDWZH/b6IPveiVkyo4odPbq6LwHsJ5X876gq9DFQMFkjH7nUvdo
+ afw5tkPndGxg53LzCoOgc/yoQVeJ8CdnZaxfnoozMoNOUGR+QBlayVbtIO2PvgrS
+ Z2m/GdvMFnakhoVe69J7bAS8IEUMVLQYcucfMPtovknMR3faxhRgqkYdZx3PZZCz
+ pLajgMfbVvXdWGXUEFBEi9OYrbOMUVFX4iLjLM/usWtuYCoD4gT3nZXYYXsVrHR3
+ c1r+4L5L39HlFa+JaIw==
 Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3se25ttutw-7
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3se25ttutw-10
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 16 Aug 2023 09:26:40 +0100 (BST)
+ Wed, 16 Aug 2023 09:26:41 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
  HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 16 Aug 2023 09:26:29 +0100
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
+ 15.1.2507.27; Wed, 16 Aug 2023 09:26:30 +0100
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.112)
  by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 16 Aug 2023 09:26:29 +0100
+ 15.1.2507.27 via Frontend Transport; Wed, 16 Aug 2023 09:26:30 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UqEQzPr7YNY6MKz/97W7LMRNZ2g2H6ZSYrEQo84Zykl/AtrKKx17c5GZuMcyuEyySEovZqBcTvsURS5jyMuUNERP5uTq6KL+fIsQ0DKXGjR/oL9OgwBzgkR3gdRDi2JhyfOvx420GTjVL+m3PTTNJztZQHWVH+4ehbT+mP7a3Evwj7Qm0Hr+9oPu40ldebvo11Dxk8pb+BKkfiyGz3HkRidXsHOXpgHEUoFWR8l7hMUslsmjfLNv0ieJ/9CoaFCb2vonKOZwDmTRvnZfHGRoIvhYsrLWdFoE27Nwgpkh6oTmHqjIUAn3/x7OjcuROlr9Bb91EY9ns2eE3ShrtCqfqw==
+ b=TL0NEKOsYA24RJSg7tDmfO3TUr6Q402E9XZzZBLaT/Y20JajwtomqnxxrTf92yjnoUOTrAumLrSTC1zfvjbmbgQgqwoj3VQvDZMbTKQUr4f5TXe2mySppcRiTZSVfJjXUGYw6pdDTB655cEkaojuQ4e5iKOKiGDSYU8xqZk9JU4vacE8WYyvLHJOC0qw4KnlG66dpOmDUDmkUWcThiZtwUOgAZyPfCfJVKQR9Bct9WGycF5PWiVoDwDzi3SE/lGUYRWVOa7c7RJrBZD3zAZWyLswbTqh9jnBu/JGirofARPIC1gZPCGMbdTr8GTJRLfDMxXDTxaL/7xpvd8uRWapxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OnwjbFxwjpaawl13D9FvWzszMT6NJ9gxVu3/jsBGsf4=;
- b=jNm1TEPRpfTUcfoNsiUILeULOfvU2PYCtFKKR2Gp83uILfEION/kHgn4vE+p2SmcYD6lLdPYau1W0SCcuF0gYPJEG1VZSWDzwAhy8OZ1A7E8V3dbWWnkToGyF8iMew6djshDAEe6jcTKFmJcyvk0vuVLtz8BUmAYVsqnSTBfUi9s0+xyqKS+myGYnv05vfhKJRY4rS+LixAxRm3CcfdGDSnukfP1RFo41OtRQj9jtsLQ1P1JeWNocgTAHn1fCImCjNPL2zKwgy7Jo1xotedjHesAzb6C/EFc6scwG00rcg1pDT5wb4YzuGN54EeI0pO6k7FQJhHSY4RO+f10d7OeNQ==
+ bh=fTJxwLXDyppVkFOA4BNwFcD9q0OTGGU3WGvF74+tfh0=;
+ b=gHcypHudqf7WXjWWkOvOrtEkKUzVc1c2mZui7H7fAL8wt2Krzwj4FFMlnMsLxEG1QRwx4nIuN38OKxYVwOxtUyTHwbGkaoLgcjCa0n16/8qKncZu2mXsueufffRGBpuJkV8ahTJMNsrjh2ml71ZOq4MfMKNGV1NsU9Lh8K4BJh7p/k9Aqxt0kWwAUeyRk+DqbQdljiyj2gxMVIzMQxJcsx3QHUvWxDzA/wzLrz/CmS6Pn5p/7tsBBugaOOKKWZp7bL28NvjVbozX3Hle1EUJXm1q7rB46VQSZPT/jVH+QblXxaLlEBUqp20auOldfzVUkiIKl725MvNBjgCrEtPFng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OnwjbFxwjpaawl13D9FvWzszMT6NJ9gxVu3/jsBGsf4=;
- b=FU/ZLcw5Una50Do8y02JqXR0iLoOXRZT4qUn3xY+25pMm4n+WwBIK0OUqIBVtamRsUaiC5MolefUZBJOTV2F/IhhD4xzoBTrUMvWqWCaOTBQDrzEbKWQfCK/AdwULxL8Cmb6u2rXs0OapSR4jpI2Y7D3nhNbCRSWyMuEf2Wk940=
+ bh=fTJxwLXDyppVkFOA4BNwFcD9q0OTGGU3WGvF74+tfh0=;
+ b=LM/YIY/WbMJ5zHKwKnE/WU2/Se3bsFWpAzlNfyq6DsiVHa28H0EnLd2KvWzaBluonAJO3z/GJbO9CRiAOGGIOG1fZo1VMSWWDq81AV3pRNC2utjeQHUZyB0j8fdRlR/yUFS9o6Icabs9Kj256QrDPQacralBKhQtxXknf7GohPs=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
  by LNXP265MB2491.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:130::13) with
  Microsoft SMTP Server (version=TLS1_2,
@@ -61,12 +61,12 @@ Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::ee4f:2d71:fe8a:ffdf]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::ee4f:2d71:fe8a:ffdf%7]) with mapi id 15.20.6678.022; Wed, 16 Aug 2023
- 08:26:26 +0000
+ 08:26:27 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v5 15/17] drm/imagination: Add firmware trace to debugfs
-Date: Wed, 16 Aug 2023 09:25:30 +0100
-Message-Id: <20230816082531.164695-16-sarah.walker@imgtec.com>
+Subject: [PATCH v5 16/17] drm/imagination: Add driver documentation
+Date: Wed, 16 Aug 2023 09:25:31 +0100
+Message-Id: <20230816082531.164695-17-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230816082531.164695-1-sarah.walker@imgtec.com>
 References: <20230816082531.164695-1-sarah.walker@imgtec.com>
@@ -78,57 +78,57 @@ X-ClientProxiedBy: LO3P265CA0023.GBRP265.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LNXP265MB2491:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa97e6eb-62d8-4123-b225-08db9e327beb
+X-MS-Office365-Filtering-Correlation-Id: 8a849469-f490-4eba-a8b2-08db9e327c48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fs/mMXH2kgU/4thBczz4lWMRjHec3U6NCVDE2tBQBXDVZ0QHH1CyyuSNOgDzEygbRCyhGnIIs+s+jmP9ROPf6QzEl5dy8uazpG+yKIl6pJnxVdhxN0Cqr983q01pyYb3RW0zzT1nC5KvnxjpMu5VwOAmaQA0ia97QYelKSCxSmDGD3vofJXe+kTmi7NABadrIRaNhZn66803JP69lR/ibBSEg7ki72iMnRUUPj4GhzRB6wS2kIAuMM9aO5RPoo7hDD9i+mwERkWqaXgmjaQB6BRzulkp3WBq7EF35wpqo7J1gCGeFmo1PN4n3ZXJt+ckMGAzBnQGJQ0Leex7p7TJ3ZDRbO1r1ksfzafmPybfbW+Fe7DFRRLr/j3JSazpZIvPg6aUB6Ea/fdz9pE6et8MivCejLLAe3zf45atSVEBJstHb+biLyy61+23juUhgqOGYWzwR1fZmfU6CzhahOXr06z2xzfvG/jWdT9G7N2+W0BSrNJjsSTANnn5hbNpti0X2sH0PffHazFzSKLNvj8tdj3aG9wZ71MGmV7QwaKHVtdYS0eqsQEpjcxavTGsWhYRUS9XqtCssNDX0txL7KTPmAB1dpgEx1GBoT4ndMy3Nw8Hc3x9yYLbBxV7OLzcUP7j
+X-Microsoft-Antispam-Message-Info: CGVNZiFlcl3Y7oJ2zH5UePq1yB60/c35fyKETvBeRavAkh+Lx0vxwhY4Rpy3imJXnf03TtomKXa3SysuNgSBrhBkHaBzVAQYSE1Pv7WZG5UQHzLZfgIyP4elOajxdvdvfmA17buVrGX9QyoV2maC4HBuAJggLZ5Fn5VPKcWyiK7P42HN6WnZfOOYw/bleH2OJLjsRWq6GXQDI0+BD4GV2MYLZ1y//Kwx0CqItni15Pko+gUVTzeBAxzIH3Rc9mBNWmsM30a9be1brim6LggWRXrXV8+PYHyx16KD1w6+PluS5ER5OJAjEzKWDVFIehT600ajCNh1vQr+W4lWvmuO6xAy96Yawc83S3YgoJtE4y9Jz0W0K+9szBTaWRZfVw6jROxVWk47RGqHDdRPrd+Srqzx8yty4o1x3cNIK9oIyQqNSiTGsHy3dadREinBGt0SK9pKgZhLIq9uuTJCbb2SDOyCdLVgE8Aq8euV9Mu+QX+pky9oNJAg1D+JW/mvMikmfGscTGiVTIBrTP2hkmhiQtI6b6ySz0KsAVEZdRJWvaB9ja9GBiYqO+k66az1S3qYfFTI8SAu/Rq03tz4cMw+wNovgOL4HBilO1tz9tFxywfbg9/kbJ6SYWFKGAK9Oh2h
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
  SFS:(13230031)(376002)(366004)(396003)(39850400004)(346002)(136003)(1800799009)(451199024)(186009)(6666004)(66476007)(66556008)(66946007)(6512007)(6486002)(6506007)(30864003)(2906002)(478600001)(1076003)(26005)(6916009)(7416002)(107886003)(5660300002)(2616005)(83380400001)(41300700001)(316002)(44832011)(52116002)(8936002)(4326008)(8676002)(38350700002)(38100700002)(36756003)(86362001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kO6W58cycBSxtthngsd/EgOZwKOCFlpqZFIPo4FgUNL5be+HLuCxZnsEtHos?=
- =?us-ascii?Q?hvyuaN+ofDZ2u6sLaTZNlFP2hBDxfbshSLUUBCWhmZvMvVUEj+KYixB3yCAg?=
- =?us-ascii?Q?XPWni3gWQ9tCQ1v7RIVtjz6o1YvxmTNVGISpVfogrWCHpIqLc2fatBdVV+d2?=
- =?us-ascii?Q?V0j3p1rlP+6wCvOBZ+iI5bQ6dwqVnT5JnymtaNNg3BcbRihFqoO+p1WhUTNI?=
- =?us-ascii?Q?kAaBhU0ZzyNzvlHOqGmIr23QtB3mg1H8lk6q4gPnVSRs6VAwI/LqbFRfbxgt?=
- =?us-ascii?Q?ZjSO9gS8uXLoWd+bSM7sL+ytEuxaJemV8shCcDe535KpkJnHHEa0RPUGkcTP?=
- =?us-ascii?Q?ZZ6nh/ruQazbhlbZYOEAaXuDsq0doLYlh8Zn3Cu2EqVWVzxxh+67TDxGoEOl?=
- =?us-ascii?Q?bIBSRvoZj+l1xlRuJveRuF4wasQmcrpzGOltD/YwUrgdhK5paktcXfqAu60e?=
- =?us-ascii?Q?UlZuWI4HdQ/ZpmdDabtoWUywI7gZsFZxTUKrZYtKgFDpxqH0v67isOz33m7y?=
- =?us-ascii?Q?DuICWteZh7nQk9mesFD8wNlvd5ADnVOgECgcyORNK/UaD6c897i9w+y4dnFl?=
- =?us-ascii?Q?Em+V+u3nPwy300pP28/FQvazZx96Cbx1HFoN01Zw4YApPYmraHTgpohwKkOe?=
- =?us-ascii?Q?ZzUS2fonBqjp4yp4gJWS03hCfUa+340l1sgSrigY841pPLBF3c9cNwPb67SF?=
- =?us-ascii?Q?QCXnqBAZajZNIjjNAi0yjPwm5x81H1xe6Kxs4wgf6IWE6m663HRsHcFdnS4h?=
- =?us-ascii?Q?ZjvJHjWciVZzEjsI9VYRtFmMKH3hMOrwRDKSfWRsoKlm5I//vqATTITEcDZe?=
- =?us-ascii?Q?bco1KonaM50ONF/cR5+UzVMVnHG2C+hLmaM72qRhqSdXEpLqWYAZR0hBjjxA?=
- =?us-ascii?Q?pzjfFgOQQpEFBMZ4Ryj4t1LW6SFYDBFczZxxbykZagRKM1hYJ/jSI5i8EsSW?=
- =?us-ascii?Q?dry3+Dds0Tgb+TN2dX7IS4KJ9XzN/87ewvrw1p3pfz9reKf9tU58snzw6+Vw?=
- =?us-ascii?Q?46EIEKs1DRN5mpAKhh4tV6BJ/drkkzP33s/4Y6a0l1UrTcsuXsXZmIGjoN5+?=
- =?us-ascii?Q?rpQqryoNFIVVZsIY3jIl2X6FBMegJy2rAK5Cm0rJQToaU5MLBWxYq7j1eOJ9?=
- =?us-ascii?Q?oXTgGV27nm6luYyHbUMHkpwThPESnveUZAjZNUWqduqSiqVT6lD+z/EnvJ2H?=
- =?us-ascii?Q?HnAJxo8k4cirLPjcGuEJw/n0x4qjCn1vSGkfNKsKJ9cFaDmooPOXBkrV/e/5?=
- =?us-ascii?Q?kV4A+NQtAHn2CtWMKXfUz44ySnbxcTI66IpjnnOVaAv/QMleazJc7QOWi3IT?=
- =?us-ascii?Q?i9bGd+Czl/uoUG0sgmbHvYfWNmuQeeagRCvfIFU1oy8Sb24TdnTMOdx50iFs?=
- =?us-ascii?Q?MdXF3vjgMMZNsAGlUMuxbUTAbZTg7zuPtq6f1fmyVxjNIbh3AbK0p87xE+HO?=
- =?us-ascii?Q?I+SQ+2bz43+clrHkyb1AnJHVAqjmuXwHHUZ7qVuplxPwj+4bo+c6aBd63qM7?=
- =?us-ascii?Q?NqqIqveUqJyVG3GvEK7hlqw1zBCyksxRbWUtxIGrYiKyKbYJvILkX02JBm1/?=
- =?us-ascii?Q?K70mCElvcOUrtevt+IKVb/1nj5l73X4xEIrdg96EnFH5te16yteZheWLcZsN?=
- =?us-ascii?Q?Xw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa97e6eb-62d8-4123-b225-08db9e327beb
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zV3nEfVT5Si7uUSu+LaWRVMynUEE7MjBwsm3lMGvgY+M5OkzQJEunCUAjsBF?=
+ =?us-ascii?Q?UK69wjBr7LwjkzAhbihL2I2ccUX26+zxvbERM9djAcidO3XQXwOR+e2ghWx4?=
+ =?us-ascii?Q?QLlIjcfi6RtruS+a2EHEsd3j74zoYU7+36PM33doEGKbcUQYmmVJUshDaH6w?=
+ =?us-ascii?Q?8ivh2zyhlkrFBon9NvE/GnzLBsQRWFJP5JANb84+N2LH4j1MEuZcbaUQH83q?=
+ =?us-ascii?Q?r0QuyYBzsKK9ZtA7AxTTh/dR8ET2atzudvYz0uALuiceSm5BOVAkT01DZJu8?=
+ =?us-ascii?Q?yevYTD8potttSRNLo1+Te2UTaeAM+H4LN/x8Xd3cH1QjziZ9YeMXw5z42omT?=
+ =?us-ascii?Q?bp1Ow6rxGoG+2NWkiQz5m32X5o8i/t5+ZE5N6r04szX439Rlfo4WKeL7eSlJ?=
+ =?us-ascii?Q?JxNSzY5qQ68QhWaGIMKpIuwRajDe5/z08RePGy+R162heMQ3M5GRdG9LH/S/?=
+ =?us-ascii?Q?Fn67CT3i1laG1MG9fj/AVAjFHnqB7BH7M+gZ79RGh4cQlHbECXO0/BCnvJ/m?=
+ =?us-ascii?Q?ev+h0ZGSHb2WLL6eCoKzyfiJSfaED+KoXnnFWaQYu/blySKxlqOUhJPB5ZKz?=
+ =?us-ascii?Q?Yx351oAVIxqsq8L/jWuhf9S3afC98SJv0WDxKnG3q6cgzKdrbyc4zCS6lqzg?=
+ =?us-ascii?Q?XehF11o82xuTnSHQ7iZcWzhwy8PagUD7pjPNeyjBUINoMAy2gFdP7jsERx4j?=
+ =?us-ascii?Q?i0mmL8mm/dtys8Vy7seKzEa6RFwMSbDXl58rBQr5loNQjPFma0Svek04cXAN?=
+ =?us-ascii?Q?vHp70SUjbI6i6jaNpxj6oVi3fWpu2tQSIOQKyLNS1Int+mqmSA+DTRbIUrX0?=
+ =?us-ascii?Q?WdEyjZX/rbFkPGzrxiLjsecpKeH2HDpqHOI2EgeeNp8GTCGHnj//gn9CzBPS?=
+ =?us-ascii?Q?vni/WpmjEjjwT6fEpPzDl3XhBGA4lGxuVZWNZg93maUws1XI7QUaaBNiar2d?=
+ =?us-ascii?Q?UAEmUE+XJpfckY3hcAqH9OXsnzrmI27ewnB3aa3/XSBkrZXi0PhqlHRdWj7C?=
+ =?us-ascii?Q?bdjyzaxabsIPa1MHIEMOTf++5hqBMdQYvwaauuZzqHVOt6hSiXunBapMRYRV?=
+ =?us-ascii?Q?NnRczbULczGdXhaEGm5ea0uhJG+xePUXcubRpaUI1TkVX2w/zUp8D+bwEfSJ?=
+ =?us-ascii?Q?qgHiMD51IcBI7BuCqTxXBL8jo1q+lqoJ81l+9gHvOkZ1pYhowV2E7I5AZe18?=
+ =?us-ascii?Q?tcLXhk7lkdLIFXLjqfR6XXNPt33yqK5IcPmu/KhRq2Nrw6gZw24Lcrky3rPA?=
+ =?us-ascii?Q?MDO/p8tvM8TOXNmLbLIvdKjDYh2YfvTgVmnrXn5ZTRp2KL7ayDU8eCKdrMKk?=
+ =?us-ascii?Q?klO+K2RyrQKMWzNH03H7sLRt1ufQcdWUuBNUb+DAi1Se74HUlLpj8+L411xB?=
+ =?us-ascii?Q?3Pz3LaTgApq+I0TA5JmMpN10JOMNSCaTMf9P/ATNPUP4wcP82/epo4Ou7Fvd?=
+ =?us-ascii?Q?8QntYlGP4L6z7JZQoFoFRnFCnh7giY40hFJn/Psd8l9masn8Wd8qfDs3iNih?=
+ =?us-ascii?Q?l5SFEIx32zPniuV8owaHSQ3SUXux72lPG3fbNOEO4Qw2S8U470xg5oeed7SY?=
+ =?us-ascii?Q?xW2SMD5YtFDUUPrLHGL4b1hEmw8QtYIhfCUYSFQIx04lLxCMRC/hZOLRTZh7?=
+ =?us-ascii?Q?tQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a849469-f490-4eba-a8b2-08db9e327c48
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 08:26:26.9200 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 08:26:27.5102 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ilPHG+wbEatQx3s2aP4C/XBrJs7jSTJWBPRfpJHsWQeSBhD3LO0AjGhc3hm6kUArQAMfmvQKnM50eufkR6f85g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nk4/KH5O2ehzDL+OSVC0LEcXUIm4oGJfG8wepNqlPkgKr42TkZEQKhYa/jKOyTTexOnDQcWX7n9KXrpblfXCtg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2491
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: Ix5Xx_qRhqjX_PY_TYAgnij4UFJ2_izs
-X-Proofpoint-GUID: Ix5Xx_qRhqjX_PY_TYAgnij4UFJ2_izs
+X-Proofpoint-ORIG-GUID: b0OE0UjKJmurFriZX3B3VRDer7tG9f_8
+X-Proofpoint-GUID: b0OE0UjKJmurFriZX3B3VRDer7tG9f_8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,863 +149,721 @@ Cc: matthew.brost@intel.com, luben.tuikov@amd.com, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Firmware trace is exposed at /sys/debug/dri/<dev_nr>/pvr_fw/trace_0.
-Trace is enabled via the group mask at
-/sys/debug/dri/<dev_nr>/pvr_params/fw_trace_mask.
-
-Changes since v3:
-- Use drm_dev_{enter,exit}
+Add documentation for the UAPI and for the virtual memory design.
 
 Co-developed-by: Matt Coster <matt.coster@imgtec.com>
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+Co-developed-by: Donald Robson <donald.robson@imgtec.com>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/imagination/Makefile       |   4 +
- drivers/gpu/drm/imagination/pvr_debugfs.c  |  53 +++
- drivers/gpu/drm/imagination/pvr_debugfs.h  |  29 ++
- drivers/gpu/drm/imagination/pvr_device.c   |   9 +
- drivers/gpu/drm/imagination/pvr_device.h   |  10 +
- drivers/gpu/drm/imagination/pvr_drv.c      |   4 +
- drivers/gpu/drm/imagination/pvr_fw_trace.c | 394 +++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_params.c   | 147 ++++++++
- drivers/gpu/drm/imagination/pvr_params.h   |  72 ++++
- 9 files changed, 722 insertions(+)
- create mode 100644 drivers/gpu/drm/imagination/pvr_debugfs.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_debugfs.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_params.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_params.h
+ Documentation/gpu/drivers.rst                 |   2 +
+ Documentation/gpu/imagination/index.rst       |  14 +
+ Documentation/gpu/imagination/uapi.rst        | 174 +++++++
+ .../gpu/imagination/virtual_memory.rst        | 462 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 5 files changed, 653 insertions(+)
+ create mode 100644 Documentation/gpu/imagination/index.rst
+ create mode 100644 Documentation/gpu/imagination/uapi.rst
+ create mode 100644 Documentation/gpu/imagination/virtual_memory.rst
 
-diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 313af5312d7b..1db003cf39ee 100644
---- a/drivers/gpu/drm/imagination/Makefile
-+++ b/drivers/gpu/drm/imagination/Makefile
-@@ -20,6 +20,7 @@ powervr-y := \
- 	pvr_hwrt.o \
- 	pvr_job.o \
- 	pvr_mmu.o \
-+	pvr_params.o \
- 	pvr_power.o \
- 	pvr_queue.o \
- 	pvr_stream.o \
-@@ -28,4 +29,7 @@ powervr-y := \
- 	pvr_vm.o \
- 	pvr_vm_mips.o
+diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+index 3a52f48215a3..5487deb218a3 100644
+--- a/Documentation/gpu/drivers.rst
++++ b/Documentation/gpu/drivers.rst
+@@ -3,9 +3,11 @@ GPU Driver Documentation
+ ========================
  
-+powervr-$(CONFIG_DEBUG_FS) += \
-+	pvr_debugfs.o
-+
- obj-$(CONFIG_DRM_POWERVR) += powervr.o
-diff --git a/drivers/gpu/drm/imagination/pvr_debugfs.c b/drivers/gpu/drm/imagination/pvr_debugfs.c
+ .. toctree::
++   :maxdepth: 3
+ 
+    amdgpu/index
+    i915
++   imagination/index
+    mcde
+    meson
+    pl111
+diff --git a/Documentation/gpu/imagination/index.rst b/Documentation/gpu/imagination/index.rst
 new file mode 100644
-index 000000000000..fa0d7c89773c
+index 000000000000..57f28e460a03
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_debugfs.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
++++ b/Documentation/gpu/imagination/index.rst
+@@ -0,0 +1,14 @@
++=======================================
++drm/imagination PowerVR Graphics Driver
++=======================================
 +
-+#include "pvr_debugfs.h"
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_drv.c
++   :doc: PowerVR Graphics Driver
 +
-+#include "pvr_device.h"
-+#include "pvr_fw_trace.h"
-+#include "pvr_params.h"
++Contents
++========
++.. toctree::
++   :maxdepth: 2
 +
-+#include <linux/dcache.h>
-+#include <linux/debugfs.h>
-+#include <linux/err.h>
-+#include <linux/kernel.h>
-+#include <linux/types.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_print.h>
-+
-+static const struct pvr_debugfs_entry pvr_debugfs_entries[] = {
-+	{"pvr_params", pvr_params_debugfs_init},
-+	{"pvr_fw", pvr_fw_trace_debugfs_init},
-+};
-+
-+void
-+pvr_debugfs_init(struct drm_minor *minor)
-+{
-+	struct drm_device *drm_dev = minor->dev;
-+	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
-+	struct dentry *root = minor->debugfs_root;
-+	size_t i;
-+
-+	for (i = 0; i < ARRAY_SIZE(pvr_debugfs_entries); ++i) {
-+		const struct pvr_debugfs_entry *entry = &pvr_debugfs_entries[i];
-+		struct dentry *dir;
-+
-+		dir = debugfs_create_dir(entry->name, root);
-+		if (IS_ERR(dir)) {
-+			drm_warn(drm_dev,
-+				 "failed to create debugfs dir '%s' (err=%d)",
-+				 entry->name, (int)PTR_ERR(dir));
-+			continue;
-+		}
-+
-+		entry->init(pvr_dev, dir);
-+	}
-+}
-+
-+/*
-+ * Since all entries are created under &drm_minor->debugfs_root, there's no
-+ * need for a pvr_debugfs_fini() as DRM will clean up everything under its root
-+ * automatically.
-+ */
-diff --git a/drivers/gpu/drm/imagination/pvr_debugfs.h b/drivers/gpu/drm/imagination/pvr_debugfs.h
++   uapi
++   virtual_memory
+diff --git a/Documentation/gpu/imagination/uapi.rst b/Documentation/gpu/imagination/uapi.rst
 new file mode 100644
-index 000000000000..7b7ff384053e
+index 000000000000..2227ea7e6222
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_debugfs.h
-@@ -0,0 +1,29 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
-+
-+#ifndef PVR_DEBUGFS_H
-+#define PVR_DEBUGFS_H
-+
-+/* Forward declaration from <drm/drm_drv.h>. */
-+struct drm_minor;
-+
-+#if defined(CONFIG_DEBUG_FS)
-+/* Forward declaration from "pvr_device.h". */
-+struct pvr_device;
-+
-+/* Forward declaration from <linux/dcache.h>. */
-+struct dentry;
-+
-+struct pvr_debugfs_entry {
-+	const char *name;
-+	void (*init)(struct pvr_device *pvr_dev, struct dentry *dir);
-+};
-+
-+void pvr_debugfs_init(struct drm_minor *minor);
-+#else /* defined(CONFIG_DEBUG_FS) */
-+#include <linux/compiler_attributes.h>
-+
-+static __always_inline void pvr_debugfs_init(struct drm_minor *minor) {}
-+#endif /* defined(CONFIG_DEBUG_FS) */
-+
-+#endif /* PVR_DEBUGFS_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
-index 9ae758a88644..a01544f64d8e 100644
---- a/drivers/gpu/drm/imagination/pvr_device.c
-+++ b/drivers/gpu/drm/imagination/pvr_device.c
-@@ -5,6 +5,7 @@
- #include "pvr_device_info.h"
- 
- #include "pvr_fw.h"
-+#include "pvr_params.h"
- #include "pvr_power.h"
- #include "pvr_queue.h"
- #include "pvr_rogue_cr_defs.h"
-@@ -488,6 +489,14 @@ pvr_device_init(struct pvr_device *pvr_dev)
- 	struct device *dev = drm_dev->dev;
- 	int err;
- 
-+	/*
-+	 * Setup device parameters. We do this first in case other steps
-+	 * depend on them.
-+	 */
-+	err = pvr_device_params_init(&pvr_dev->params);
-+	if (err)
-+		return err;
-+
- 	/* Enable and initialize clocks required for the device to operate. */
- 	err = pvr_device_clk_init(pvr_dev);
- 	if (err)
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index fc6124ae4b26..fcaaeef8519d 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -7,6 +7,7 @@
- #include "pvr_ccb.h"
- #include "pvr_device_info.h"
- #include "pvr_fw.h"
-+#include "pvr_params.h"
- #include "pvr_rogue_fwif_stream.h"
- #include "pvr_stream.h"
- 
-@@ -148,6 +149,15 @@ struct pvr_device {
- 	/** @fw_dev: Firmware related data. */
- 	struct pvr_fw_device fw_dev;
- 
-+	/**
-+	 * @params: Device-specific parameters.
-+	 *
-+	 *          The values of these parameters are initialized from the
-+	 *          defaults specified as module parameters. They may be
-+	 *          modified at runtime via debugfs (if enabled).
-+	 */
-+	struct pvr_device_params params;
-+
- 	/** @stream_musthave_quirks: Bit array of "must-have" quirks for stream commands. */
- 	u32 stream_musthave_quirks[PVR_STREAM_TYPE_MAX][PVR_STREAM_EXTHDR_TYPE_MAX];
- 
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index 757263eee34e..004395f2a9e8 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -2,6 +2,7 @@
- /* Copyright (c) 2023 Imagination Technologies Ltd. */
- 
- #include "pvr_context.h"
-+#include "pvr_debugfs.h"
- #include "pvr_device.h"
- #include "pvr_drv.h"
- #include "pvr_free_list.h"
-@@ -1391,6 +1392,9 @@ static struct drm_driver pvr_drm_driver = {
- 	.ioctls = pvr_drm_driver_ioctls,
- 	.num_ioctls = ARRAY_SIZE(pvr_drm_driver_ioctls),
- 	.fops = &pvr_drm_driver_fops,
-+#if defined(CONFIG_DEBUG_FS)
-+	.debugfs_init = pvr_debugfs_init,
-+#endif
- 
- 	.name = PVR_DRIVER_NAME,
- 	.desc = PVR_DRIVER_DESC,
-diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
-index 11f10946aeb1..3f184d0f6e05 100644
---- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
-+++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
-@@ -7,6 +7,7 @@
- #include "pvr_rogue_fwif_sf.h"
- #include "pvr_fw_trace.h"
- 
-+#include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- 
- #include <linux/build_bug.h>
-@@ -119,3 +120,396 @@ void pvr_fw_trace_fini(struct pvr_device *pvr_dev)
- 	}
- 	pvr_fw_object_unmap_and_destroy(fw_trace->tracebuf_ctrl_obj);
- }
-+
-+/**
-+ * update_logtype() - Send KCCB command to trigger FW to update logtype
-+ * @pvr_dev: Target PowerVR device
-+ * @group_mask: New log group mask.
-+ *
-+ * Returns:
-+ *  * 0 on success,
-+ *  * Any error returned by pvr_kccb_send_cmd(), or
-+ *  * -%EIO if the device is lost.
-+ */
-+static int
-+update_logtype(struct pvr_device *pvr_dev, u32 group_mask)
-+{
-+	struct pvr_fw_trace *fw_trace = &pvr_dev->fw_dev.fw_trace;
-+	struct rogue_fwif_kccb_cmd cmd;
-+	int idx;
-+	int err;
-+
-+	if (group_mask)
-+		fw_trace->tracebuf_ctrl->log_type = ROGUE_FWIF_LOG_TYPE_TRACE | group_mask;
-+	else
-+		fw_trace->tracebuf_ctrl->log_type = ROGUE_FWIF_LOG_TYPE_NONE;
-+
-+	fw_trace->group_mask = group_mask;
-+
-+	down_read(&pvr_dev->reset_sem);
-+	if (!drm_dev_enter(from_pvr_device(pvr_dev), &idx)) {
-+		err = -EIO;
-+		goto err_up_read;
-+	}
-+
-+	cmd.cmd_type = ROGUE_FWIF_KCCB_CMD_LOGTYPE_UPDATE;
-+	cmd.kccb_flags = 0;
-+
-+	err = pvr_kccb_send_cmd(pvr_dev, &cmd, NULL);
-+
-+	drm_dev_exit(idx);
-+
-+err_up_read:
-+	up_read(&pvr_dev->reset_sem);
-+
-+	return err;
-+}
-+
-+#if defined(CONFIG_DEBUG_FS)
-+
-+static int fw_trace_group_mask_show(struct seq_file *m, void *data)
-+{
-+	struct pvr_device *pvr_dev = m->private;
-+
-+	seq_printf(m, "%08x\n", pvr_dev->fw_dev.fw_trace.group_mask);
-+
-+	return 0;
-+}
-+
-+static int fw_trace_group_mask_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, fw_trace_group_mask_show, inode->i_private);
-+}
-+
-+static ssize_t fw_trace_group_mask_write(struct file *file, const char __user *ubuf, size_t len,
-+					 loff_t *offp)
-+{
-+	struct seq_file *m = file->private_data;
-+	struct pvr_device *pvr_dev = m->private;
-+	u32 new_group_mask;
-+	int err;
-+
-+	err = kstrtouint_from_user(ubuf, len, 0, &new_group_mask);
-+	if (err)
-+		return err;
-+
-+	err = update_logtype(pvr_dev, new_group_mask);
-+	if (err)
-+		return err;
-+
-+	pvr_dev->fw_dev.fw_trace.group_mask = new_group_mask;
-+
-+	return (ssize_t)len;
-+}
-+
-+static const struct file_operations pvr_fw_trace_group_mask_fops = {
-+	.owner = THIS_MODULE,
-+	.open = fw_trace_group_mask_open,
-+	.read = seq_read,
-+	.write = fw_trace_group_mask_write,
-+	.llseek = default_llseek,
-+	.release = single_release,
-+};
-+
-+struct pvr_fw_trace_seq_data {
-+	/** @buffer: Pointer to copy of trace data. */
-+	u32 *buffer;
-+
-+	/** @start_offset: Starting offset in trace data, as reported by FW. */
-+	u32 start_offset;
-+
-+	/** @idx: Current index into trace data. */
-+	u32 idx;
-+
-+	/** @assert_buf: Trace assert buffer, as reported by FW. */
-+	struct rogue_fwif_file_info_buf assert_buf;
-+};
-+
-+static u32 find_sfid(u32 id)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < ARRAY_SIZE(stid_fmts); i++) {
-+		if (stid_fmts[i].id == id)
-+			return i;
-+	}
-+
-+	return ROGUE_FW_SF_LAST;
-+}
-+
-+static u32 read_fw_trace(struct pvr_fw_trace_seq_data *trace_seq_data, u32 offset)
-+{
-+	u32 idx;
-+
-+	idx = trace_seq_data->idx + offset;
-+	if (idx >= ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS)
-+		return 0;
-+
-+	idx = (idx + trace_seq_data->start_offset) % ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS;
-+	return trace_seq_data->buffer[idx];
-+}
-+
-+/**
-+ * fw_trace_get_next() - Advance trace index to next entry
-+ * @trace_seq_data: Trace sequence data.
-+ *
-+ * Returns:
-+ *  * %true if trace index is now pointing to a valid entry, or
-+ *  * %false if trace index is pointing to an invalid entry, or has hit the end
-+ *    of the trace.
-+ */
-+static bool fw_trace_get_next(struct pvr_fw_trace_seq_data *trace_seq_data)
-+{
-+	u32 id, sf_id;
-+
-+	while (trace_seq_data->idx < ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS) {
-+		id = read_fw_trace(trace_seq_data, 0);
-+		trace_seq_data->idx++;
-+		if (!ROGUE_FW_LOG_VALIDID(id))
-+			continue;
-+		if (id == ROGUE_FW_SF_MAIN_ASSERT_FAILED) {
-+			/* Assertion failure marks the end of the trace. */
-+			return false;
-+		}
-+
-+		sf_id = find_sfid(id);
-+		if (sf_id == ROGUE_FW_SF_FIRST)
-+			continue;
-+		if (sf_id == ROGUE_FW_SF_LAST) {
-+			/*
-+			 * Could not match with an ID in the SF table, trace is
-+			 * most likely corrupt from this point.
-+			 */
-+			return false;
-+		}
-+
-+		/* Skip over the timestamp, and any parameters. */
-+		trace_seq_data->idx += 2 + ROGUE_FW_SF_PARAMNUM(id);
-+
-+		/* Ensure index is now pointing to a valid trace entry. */
-+		id = read_fw_trace(trace_seq_data, 0);
-+		if (!ROGUE_FW_LOG_VALIDID(id))
-+			continue;
-+
-+		return true;
-+	};
-+
-+	/* Hit end of trace data. */
-+	return false;
-+}
-+
-+/**
-+ * fw_trace_get_first() - Find first valid entry in trace
-+ * @trace_seq_data: Trace sequence data.
-+ *
-+ * Skips over invalid (usually zero) and ROGUE_FW_SF_FIRST entries.
-+ *
-+ * If the trace has no valid entries, this function will exit with the trace
-+ * index pointing to the end of the trace. trace_seq_show() will return an error
-+ * in this state.
-+ */
-+static void fw_trace_get_first(struct pvr_fw_trace_seq_data *trace_seq_data)
-+{
-+	trace_seq_data->idx = 0;
-+
-+	while (trace_seq_data->idx < ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS) {
-+		u32 id = read_fw_trace(trace_seq_data, 0);
-+
-+		if (ROGUE_FW_LOG_VALIDID(id)) {
-+			u32 sf_id = find_sfid(id);
-+
-+			if (sf_id != ROGUE_FW_SF_FIRST)
-+				break;
-+		}
-+		trace_seq_data->idx++;
-+	}
-+}
-+
-+static void *fw_trace_seq_start(struct seq_file *s, loff_t *pos)
-+{
-+	struct pvr_fw_trace_seq_data *trace_seq_data = s->private;
-+	u32 i;
-+
-+	/* Reset trace index, then advance to *pos. */
-+	fw_trace_get_first(trace_seq_data);
-+
-+	for (i = 0; i < *pos; i++) {
-+		if (!fw_trace_get_next(trace_seq_data))
-+			return NULL;
-+	}
-+
-+	return (trace_seq_data->idx < ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS) ? pos : NULL;
-+}
-+
-+static void *fw_trace_seq_next(struct seq_file *s, void *v, loff_t *pos)
-+{
-+	struct pvr_fw_trace_seq_data *trace_seq_data = s->private;
-+
-+	(*pos)++;
-+	if (!fw_trace_get_next(trace_seq_data))
-+		return NULL;
-+
-+	return (trace_seq_data->idx < ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS) ? pos : NULL;
-+}
-+
-+static void fw_trace_seq_stop(struct seq_file *s, void *v)
-+{
-+}
-+
-+static int fw_trace_seq_show(struct seq_file *s, void *v)
-+{
-+	struct pvr_fw_trace_seq_data *trace_seq_data = s->private;
-+	u64 timestamp;
-+	u32 id;
-+	u32 sf_id;
-+
-+	if (trace_seq_data->idx >= ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS)
-+		return -EINVAL;
-+
-+	id = read_fw_trace(trace_seq_data, 0);
-+	/* Index is not pointing at a valid entry. */
-+	if (!ROGUE_FW_LOG_VALIDID(id))
-+		return -EINVAL;
-+
-+	sf_id = find_sfid(id);
-+	/* Index is not pointing at a valid entry. */
-+	if (sf_id == ROGUE_FW_SF_LAST)
-+		return -EINVAL;
-+
-+	timestamp = read_fw_trace(trace_seq_data, 1) |
-+		((u64)read_fw_trace(trace_seq_data, 2) << 32);
-+	timestamp = (timestamp & ~ROGUE_FWT_TIMESTAMP_TIME_CLRMSK) >>
-+		ROGUE_FWT_TIMESTAMP_TIME_SHIFT;
-+
-+	seq_printf(s, "[%llu] : ", timestamp);
-+	if (id == ROGUE_FW_SF_MAIN_ASSERT_FAILED) {
-+		seq_printf(s, "ASSERTION %s failed at %s:%u",
-+			   trace_seq_data->assert_buf.info,
-+			   trace_seq_data->assert_buf.path,
-+			   trace_seq_data->assert_buf.line_num);
-+	} else {
-+		seq_printf(s, stid_fmts[sf_id].name,
-+			   read_fw_trace(trace_seq_data, 3),
-+			   read_fw_trace(trace_seq_data, 4),
-+			   read_fw_trace(trace_seq_data, 5),
-+			   read_fw_trace(trace_seq_data, 6),
-+			   read_fw_trace(trace_seq_data, 7),
-+			   read_fw_trace(trace_seq_data, 8),
-+			   read_fw_trace(trace_seq_data, 9),
-+			   read_fw_trace(trace_seq_data, 10),
-+			   read_fw_trace(trace_seq_data, 11),
-+			   read_fw_trace(trace_seq_data, 12),
-+			   read_fw_trace(trace_seq_data, 13),
-+			   read_fw_trace(trace_seq_data, 14),
-+			   read_fw_trace(trace_seq_data, 15),
-+			   read_fw_trace(trace_seq_data, 16),
-+			   read_fw_trace(trace_seq_data, 17),
-+			   read_fw_trace(trace_seq_data, 18),
-+			   read_fw_trace(trace_seq_data, 19),
-+			   read_fw_trace(trace_seq_data, 20),
-+			   read_fw_trace(trace_seq_data, 21),
-+			   read_fw_trace(trace_seq_data, 22));
-+	}
-+	seq_puts(s, "\n");
-+	return 0;
-+}
-+
-+static const struct seq_operations pvr_fw_trace_seq_ops = {
-+	.start = fw_trace_seq_start,
-+	.next = fw_trace_seq_next,
-+	.stop = fw_trace_seq_stop,
-+	.show = fw_trace_seq_show
-+};
-+
-+static int fw_trace_open(struct inode *inode, struct file *file)
-+{
-+	struct pvr_fw_trace_buffer *trace_buffer = inode->i_private;
-+	struct rogue_fwif_tracebuf_space *tracebuf_space =
-+		trace_buffer->tracebuf_space;
-+	struct pvr_fw_trace_seq_data *trace_seq_data;
-+	int err;
-+
-+	trace_seq_data = kzalloc(sizeof(*trace_seq_data), GFP_KERNEL);
-+	if (!trace_seq_data)
-+		return -ENOMEM;
-+
-+	trace_seq_data->buffer = kcalloc(ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS,
-+					 sizeof(*trace_seq_data->buffer), GFP_KERNEL);
-+	if (!trace_seq_data->buffer) {
-+		err = -ENOMEM;
-+		goto err_free_data;
-+	}
-+
-+	/*
-+	 * Take a local copy of the trace buffer, as firmware may still be
-+	 * writing to it. This will exist as long as this file is open.
-+	 */
-+	memcpy(trace_seq_data->buffer, trace_buffer->buf,
-+	       ROGUE_FW_TRACE_BUF_DEFAULT_SIZE_IN_DWORDS * sizeof(u32));
-+	trace_seq_data->start_offset = READ_ONCE(tracebuf_space->trace_pointer);
-+	trace_seq_data->assert_buf = tracebuf_space->assert_buf;
-+	fw_trace_get_first(trace_seq_data);
-+
-+	err = seq_open(file, &pvr_fw_trace_seq_ops);
-+	if (err)
-+		goto err_free_buffer;
-+
-+	((struct seq_file *)file->private_data)->private = trace_seq_data;
-+
-+	return 0;
-+
-+err_free_buffer:
-+	kfree(trace_seq_data->buffer);
-+
-+err_free_data:
-+	kfree(trace_seq_data);
-+
-+	return err;
-+}
-+
-+static int fw_trace_release(struct inode *inode, struct file *file)
-+{
-+	struct pvr_fw_trace_seq_data *trace_seq_data =
-+		((struct seq_file *)file->private_data)->private;
-+
-+	seq_release(inode, file);
-+	kfree(trace_seq_data->buffer);
-+	kfree(trace_seq_data);
-+
-+	return 0;
-+}
-+
-+static const struct file_operations pvr_fw_trace_fops = {
-+	.owner = THIS_MODULE,
-+	.open = fw_trace_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = fw_trace_release,
-+};
-+
-+void
-+pvr_fw_trace_mask_update(struct pvr_device *pvr_dev, u32 old_mask, u32 new_mask)
-+{
-+	if (old_mask != new_mask)
-+		update_logtype(pvr_dev, new_mask);
-+}
-+
-+void
-+pvr_fw_trace_debugfs_init(struct pvr_device *pvr_dev, struct dentry *dir)
-+{
-+	struct pvr_fw_trace *fw_trace = &pvr_dev->fw_dev.fw_trace;
-+	u32 thread_nr;
-+
-+	static_assert(ARRAY_SIZE(fw_trace->buffers) <= 10,
-+		      "The filename buffer is only large enough for a single-digit thread count");
-+
-+	for (thread_nr = 0; thread_nr < ARRAY_SIZE(fw_trace->buffers); ++thread_nr) {
-+		char filename[8];
-+
-+		snprintf(filename, ARRAY_SIZE(filename), "trace_%u", thread_nr);
-+		debugfs_create_file(filename, 0400, dir,
-+				    &fw_trace->buffers[thread_nr],
-+				    &pvr_fw_trace_fops);
-+	}
-+}
-+#endif
-diff --git a/drivers/gpu/drm/imagination/pvr_params.c b/drivers/gpu/drm/imagination/pvr_params.c
++++ b/Documentation/gpu/imagination/uapi.rst
+@@ -0,0 +1,174 @@
++====
++UAPI
++====
++The sources associated with this section can be found in ``pvr_drm.h``.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR UAPI
++
++OBJECT ARRAYS
++=============
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_obj_array
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: DRM_PVR_OBJ_ARRAY
++
++IOCTLS
++======
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: PVR_IOCTL
++
++DEV_QUERY
++---------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL DEV_QUERY interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_dev_query
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_dev_query_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_dev_query_gpu_info
++                 drm_pvr_dev_query_runtime_info
++                 drm_pvr_dev_query_hwrt_info
++                 drm_pvr_dev_query_quirks
++                 drm_pvr_dev_query_enhancements
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_heap_id
++                 drm_pvr_heap
++                 drm_pvr_dev_query_heap_info
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_static_data_area_usage
++                 drm_pvr_static_data_area
++                 drm_pvr_dev_query_static_data_areas
++
++CREATE_BO
++---------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_BO interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_bo_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for CREATE_BO
++
++GET_BO_MMAP_OFFSET
++------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL GET_BO_MMAP_OFFSET interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_get_bo_mmap_offset_args
++
++CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT
++----------------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_VM_CONTEXT and DESTROY_VM_CONTEXT interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_vm_context_args
++                 drm_pvr_ioctl_destroy_vm_context_args
++
++VM_MAP and VM_UNMAP
++-------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL VM_MAP and VM_UNMAP interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_vm_map_args
++                 drm_pvr_ioctl_vm_unmap_args
++
++CREATE_CONTEXT and DESTROY_CONTEXT
++----------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_CONTEXT and DESTROY_CONTEXT interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_context_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ctx_priority
++                 drm_pvr_ctx_type
++                 drm_pvr_static_render_context_state
++                 drm_pvr_static_render_context_state_format
++                 drm_pvr_reset_framework
++                 drm_pvr_reset_framework_format
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_destroy_context_args
++
++CREATE_FREE_LIST and DESTROY_FREE_LIST
++--------------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_FREE_LIST and DESTROY_FREE_LIST interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_free_list_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_destroy_free_list_args
++
++CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET
++--------------------------------------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET interfaces
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_create_hwrt_dataset_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_create_hwrt_geom_data_args
++                 drm_pvr_create_hwrt_rt_data_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_destroy_hwrt_dataset_args
++
++SUBMIT_JOBS
++-----------
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: PowerVR IOCTL SUBMIT_JOBS interface
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for the drm_pvr_sync_op object.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_ioctl_submit_jobs_args
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl geometry command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl fragment command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl compute command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :doc: Flags for SUBMIT_JOB ioctl transfer command.
++
++.. kernel-doc:: include/uapi/drm/pvr_drm.h
++   :identifiers: drm_pvr_sync_op
++                 drm_pvr_job_type
++                 drm_pvr_hwrt_data_ref
++                 drm_pvr_job
++
++Internal notes
++==============
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
++   :doc: IOCTL validation helpers
++
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_device.h
++   :identifiers: PVR_STATIC_ASSERT_64BIT_ALIGNED PVR_IOCTL_UNION_PADDING_CHECK
++                 pvr_ioctl_union_padding_check
+diff --git a/Documentation/gpu/imagination/virtual_memory.rst b/Documentation/gpu/imagination/virtual_memory.rst
 new file mode 100644
-index 000000000000..6e2a3750e70e
+index 000000000000..aab58e12a24e
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_params.c
-@@ -0,0 +1,147 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
++++ b/Documentation/gpu/imagination/virtual_memory.rst
+@@ -0,0 +1,462 @@
++===========================
++GPU Virtual Memory Handling
++===========================
++The sources associated with this section can be found in ``pvr_vm.c`` and
++``pvr_vm.h``.
 +
-+#include "pvr_params.h"
++There's a lot going on in this section, so it's broken down into several parts;
++beginning with the public-facing API surface.
 +
-+#include <linux/cache.h>
-+#include <linux/moduleparam.h>
++.. admonition:: Note on page table naming
 +
-+static struct pvr_device_params pvr_device_param_defaults __read_mostly = {
-+#define X(type_, name_, value_, desc_, ...) .name_ = (value_),
-+	PVR_DEVICE_PARAMS
-+#undef X
-+};
++   This file uses a different naming convention for page table levels than the
++   generated hardware defs. Since page table implementation details are not
++   exposed outside this file, the description of the name mapping exists here
++   in its normative form:
 +
-+#define PVR_DEVICE_PARAM_NAMED(name_, type_, desc_) \
-+	module_param_named(name_, pvr_device_param_defaults.name_, type_, \
-+			   0400);                                         \
-+	MODULE_PARM_DESC(name_, desc_);
++   * Level 0 page table => Page table
++   * Level 1 page table => Page directory
++   * Level 2 page table => Page catalog
 +
-+/*
-+ * This list of defines must contain every type specified in "pvr_params.h" as
-+ * ``PVR_PARAM_TYPE_*_C``.
-+ */
-+#define PVR_PARAM_TYPE_X32_MODPARAM uint
++   The variable/function naming convention in this file is ``page_table_lx_*``
++   where x is either ``0``, ``1`` or ``2`` to represent the level of the page
++   table structure. The name ``page_table_*`` without the ``_lx`` suffix is
++   used for references to the entire tree structure including all three levels,
++   or an operation or value which is level-agnostic.
 +
-+#define X(type_, name_, value_, desc_, ...) \
-+	PVR_DEVICE_PARAM_NAMED(name_, PVR_PARAM_TYPE_##type_##_MODPARAM, desc_);
-+PVR_DEVICE_PARAMS
-+#undef X
++.. contents::
++   :local:
++   :depth: 1
 +
-+int
-+pvr_device_params_init(struct pvr_device_params *params)
-+{
-+	/*
-+	 * If heap-allocated parameters are added in the future (e.g.
-+	 * modparam's charp type), they must be handled specially here (via
-+	 * kstrdup() in the case of charp). Since that's not necessary yet,
-+	 * a straight copy will do for now. This change will also require a
-+	 * pvr_device_params_fini() function to free any heap-allocated copies.
-+	 */
 +
-+	*params = pvr_device_param_defaults;
++Public API
++==========
++The public-facing API of our virtual memory management is exposed as a
++collection of functions associated with an opaque handle type.
 +
-+	return 0;
-+}
++The opaque handle is :c:type:`pvr_vm_context`. This holds a "global state",
++including a complete page table tree structure. You do not need to consider
++this internal structure (or anything else in :c:type:`pvr_vm_context`) when
++using this API; it is designed to operate as a black box.
 +
-+#if defined(CONFIG_DEBUG_FS)
-+#include "pvr_device.h"
++Usage
++-----
++Begin by calling :c:func:`pvr_vm_create_context` to obtain a VM context. It is
++bound to a PowerVR device (:c:type:`pvr_device`) and holds a reference to it.
++This binding is immutable.
 +
-+#include <linux/dcache.h>
-+#include <linux/debugfs.h>
-+#include <linux/export.h>
-+#include <linux/fs.h>
-+#include <linux/stddef.h>
++Once you're finished with a VM context, call :c:func:`pvr_vm_destroy_context`
++to release it. This should be done before freeing or otherwise releasing the
++PowerVR device to which the VM context is bound.
 +
-+/*
-+ * This list of defines must contain every type specified in "pvr_params.h" as
-+ * ``PVR_PARAM_TYPE_*_C``.
-+ */
-+#define PVR_PARAM_TYPE_X32_FMT "0x%08llx"
++It is an error to destroy a VM context which has already been destroyed. If a
++VM context still contains valid memory mappings at the point it is destroyed,
++these will be unmapped, and (optionally) warnings will be printed.
 +
-+#define X_SET(name_, mode_) X_SET_##mode_(name_)
-+#define X_SET_DEF(name_, update_, mode_) X_SET_DEF_##mode_(name_, update_)
++Functions
++---------
++* :c:func:`pvr_vm_create_context`
++* :c:func:`pvr_vm_destroy_context`
++* :c:func:`pvr_vm_map`
++* :c:func:`pvr_vm_map_partial`
++* :c:func:`pvr_vm_unmap`
 +
-+#define X_SET_RO(name_) NULL
-+#define X_SET_RW(name_) __pvr_device_param_##name_##set
++Helper functions
++----------------
++* :c:func:`pvr_device_addr_is_valid`
++* :c:func:`pvr_device_addr_and_size_are_valid`
++* :c:func:`pvr_vm_get_root_page_table_addr`
 +
-+#define X_SET_DEF_RO(name_, update_)
-+#define X_SET_DEF_RW(name_, update_)                                    \
-+	static int                                                      \
-+	X_SET_RW(name_)(void *data, u64 val)                            \
-+	{                                                               \
-+		struct pvr_device *pvr_dev = data;                      \
-+		/* This is not just (update_) to suppress -Waddress. */ \
-+		if ((void *)(update_) != NULL)                          \
-+			(update_)(pvr_dev, pvr_dev->params.name_, val); \
-+		pvr_dev->params.name_ = val;                            \
-+		return 0;                                               \
-+	}
++Constants
++---------
++* :c:macro:`PVR_VM_BACKING_PAGE_SIZE`
 +
-+#define X(type_, name_, value_, desc_, mode_, update_)                     \
-+	static int                                                         \
-+	__pvr_device_param_##name_##_get(void *data, u64 *val)             \
-+	{                                                                  \
-+		struct pvr_device *pvr_dev = data;                         \
-+		*val = pvr_dev->params.name_;                              \
-+		return 0;                                                  \
-+	}                                                                  \
-+	X_SET_DEF(name_, update_, mode_)                                   \
-+	static int                                                         \
-+	__pvr_device_param_##name_##_open(struct inode *inode,             \
-+					  struct file *file)               \
-+	{                                                                  \
-+		__simple_attr_check_format(PVR_PARAM_TYPE_##type_##_FMT,   \
-+					   0ull);                          \
-+		return simple_attr_open(inode, file,                       \
-+					__pvr_device_param_##name_##_get,  \
-+					X_SET(name_, mode_),               \
-+					PVR_PARAM_TYPE_##type_##_FMT);     \
-+	}
-+PVR_DEVICE_PARAMS
-+#undef X
 +
-+#undef X_SET
-+#undef X_SET_RO
-+#undef X_SET_RW
-+#undef X_SET_DEF
-+#undef X_SET_DEF_RO
-+#undef X_SET_DEF_RW
++Memory mappings
++===============
++Physical memory is exposed to the device via **mappings**. Mappings may never
++overlap, although any given region of physical memory may be referenced by
++multiple mappings.
 +
-+static struct {
-+#define X(type_, name_, value_, desc_, mode_, update_) \
-+	const struct file_operations name_;
-+	PVR_DEVICE_PARAMS
-+#undef X
-+} pvr_device_param_debugfs_fops = {
-+#define X(type_, name_, value_, desc_, mode_, update_)     \
-+	.name_ = {                                         \
-+		.owner = THIS_MODULE,                      \
-+		.open = __pvr_device_param_##name_##_open, \
-+		.release = simple_attr_release,            \
-+		.read = simple_attr_read,                  \
-+		.write = simple_attr_write,                \
-+		.llseek = generic_file_llseek,             \
-+	},
-+	PVR_DEVICE_PARAMS
-+#undef X
-+};
++Use :c:func:`pvr_vm_map` to create a mapping, providing a
++:c:type:`pvr_gem_object` holding the physical memory to be mapped. The physical
++memory behind the object (or each "section" if it's not contiguous) must be
++device page-aligned. This restriction is checked by :c:func:`pvr_vm_map`, which
++returns -``EINVAL`` if the check fails.
 +
-+void
-+pvr_params_debugfs_init(struct pvr_device *pvr_dev, struct dentry *dir)
-+{
-+#define X_MODE(mode_) X_MODE_##mode_
-+#define X_MODE_RO 0400
-+#define X_MODE_RW 0600
++If only part of the :c:type:`pvr_gem_object` must be mapped, use
++:c:func:`pvr_vm_map_partial` instead. In addition to the parameters accepted by
++:c:func:`pvr_vm_map`, this also takes an offset into the object and the size of
++the mapping to be created. The restrictions regarding alignment on
++:c:func:`pvr_vm_map` also apply here, with the exception that only the region
++of the object within the bounds specified by the offset and size must satisfy
++them. These are checked by :c:func:`pvr_vm_map_partial`, along with the offset
++and size values to ensure that the region they specify falls entirely within
++the bounds of the provided object.
 +
-+#define X(type_, name_, value_, desc_, mode_, update_)             \
-+	debugfs_create_file(#name_, X_MODE(mode_), dir, pvr_dev,   \
-+			    &pvr_device_param_debugfs_fops.name_);
-+	PVR_DEVICE_PARAMS
-+#undef X
++Both of these mapping functions call :c:func:`pvr_gem_object_get` to ensure the
++underlying physical memory is not freed until *after* the mapping is released.
 +
-+#undef X_MODE
-+#undef X_MODE_RO
-+#undef X_MODE_RW
-+}
-+#endif
-diff --git a/drivers/gpu/drm/imagination/pvr_params.h b/drivers/gpu/drm/imagination/pvr_params.h
-new file mode 100644
-index 000000000000..9988c941f83f
---- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_params.h
-@@ -0,0 +1,72 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/* Copyright (c) 2023 Imagination Technologies Ltd. */
++Although :c:func:`pvr_vm_map_partial` could technically always be used in place
++of :c:func:`pvr_vm_map`, the latter should be preferred when possible since it
++is a more efficient operation.
 +
-+#ifndef PVR_PARAMS_H
-+#define PVR_PARAMS_H
++Mappings are tracked internally so that it is theoretically impossible to
++accidentally create overlapping mappings. No handle is returned after a
++mapping operation succeeds; callers should instead use the start device
++virtual address of the mapping as its handle.
 +
-+#include "pvr_rogue_fwif.h"
++When mapped memory is no longer required by the device, it should be
++unmapped using :c:func:`pvr_vm_unmap`. In addition to making the memory
++inaccessible to the device, this will call :c:func:`pvr_gem_object_put` to
++release the underlying physical memory. If the mapping held the last reference,
++the physical memory will automatically be freed. Attempting to unmap an invalid
++mapping (or one that has already been unmapped) will result in an -``ENOENT``
++error.
 +
-+#include <linux/cache.h>
-+#include <linux/compiler_attributes.h>
++Types
++-----
++* :c:type:`pvr_vm_mapping`
 +
-+/*
-+ * This is the definitive list of types allowed in the definition of
-+ * %PVR_DEVICE_PARAMS.
-+ */
-+#define PVR_PARAM_TYPE_X32_C u32
++Functions
++---------
++* :c:func:`pvr_vm_mapping_init_partial`
++* :c:func:`pvr_vm_mapping_init`
++* :c:func:`pvr_vm_mapping_fini`
++* :c:func:`pvr_vm_mapping_map`
++* :c:func:`pvr_vm_mapping_unmap`
++* :c:func:`pvr_vm_mapping_page_flags_raw`
 +
-+/*
-+ * This macro defines all device-specific parameters; that is parameters which
-+ * are set independently per device.
-+ *
-+ * The X-macro accepts the following arguments. Arguments marked with [debugfs]
-+ * are ignored when debugfs is disabled; values used for these arguments may
-+ * safely be gated behind CONFIG_DEBUG_FS.
-+ *
-+ * @type_: The definitive list of allowed values is PVR_PARAM_TYPE_*_C.
-+ * @name_: Name of the parameter. This is used both as the field name in C and
-+ *         stringified as the parameter name.
-+ * @value_: Initial/default value.
-+ * @desc_: String literal used as help text to describe the usage of this
-+ *         parameter.
-+ * @mode_: [debugfs] One of {RO,RW}. The access mode of the debugfs entry for
-+ *         this parameter.
-+ * @update_: [debugfs] When debugfs support is enabled, parameters may be
-+ *           updated at runtime. When this happens, this function will be
-+ *           called to allow changes to propagate. The signature of this
-+ *           function is:
-+ *
-+ *              void (*)(struct pvr_device *pvr_dev, T old_val, T new_val)
-+ *
-+ *           Where T is the C type associated with @type_.
-+ *
-+ *           If @mode_ does not allow write access, this function will never be
-+ *           called. In this case, or if no update callback is required, you
-+ *           should specify NULL for this argument.
-+ */
-+#define PVR_DEVICE_PARAMS                                                    \
-+	X(X32, fw_trace_mask, ROGUE_FWIF_LOG_TYPE_NONE,                      \
-+	  "Enable FW trace for the specified groups. Specifying 0 disables " \
-+	  "all FW tracing.",                                                 \
-+	  RW, pvr_fw_trace_mask_update)
++Constants
++---------
++* :c:macro:`PVR_VM_MAPPING_COMPLETE`
 +
-+struct pvr_device_params {
-+#define X(type_, name_, value_, desc_, ...) \
-+	PVR_PARAM_TYPE_##type_##_C name_;
-+	PVR_DEVICE_PARAMS
-+#undef X
-+};
 +
-+int pvr_device_params_init(struct pvr_device_params *params);
++VM backing pages
++================
++While the page tables hold memory accessible to the rest of the driver, the
++page tables themselves must have memory allocated to back them. We call this
++memory "VM backing pages". Conveniently, each page table is (currently) exactly
++4KiB, as defined by ``PVR_VM_BACKING_PAGE_SIZE``. We currently support any CPU
++page size of this size or greater.
 +
-+#if defined(CONFIG_DEBUG_FS)
-+/* Forward declaration from "pvr_device.h". */
-+struct pvr_device;
++Usage
++-----
++To add this functionality to a structure which wraps a raw page table, embed
++an instance of :c:type:`pvr_vm_backing_page` in the wrapper struct. Call
++:c:func:`pvr_vm_backing_page_init` to allocate and map the backing page, and
++:c:func:`pvr_vm_backing_page_fini` to perform the reverse operations when
++you're finished with it. Use :c:func:`pvr_vm_backing_page_sync` to flush the
++memory from the host to the device. As this is an expensive operation (calling
++out to :c:func:`dma_sync_single_for_device`), be sure to perform all necessary
++changes to the backing memory before calling it.
 +
-+/* Forward declaration from <linux/dcache.h>. */
-+struct dentry;
++Between calls to :c:func:`pvr_vm_backing_page_init` and
++:c:func:`pvr_vm_backing_page_fini`, the public fields of
++:c:type:`pvr_vm_backing_page` can be used to access the allocated page. To
++access the memory from the CPU, use :c:member:`pvr_vm_backing_page.host_ptr`.
++For an address which can be passed to the device, use
++:c:member:`pvr_vm_backing_page.dma_addr`.
 +
-+void pvr_params_debugfs_init(struct pvr_device *pvr_dev, struct dentry *dir);
-+#endif /* defined(CONFIG_DEBUG_FS) */
++It is expected that the embedded :c:type:`pvr_vm_backing_page` will be zeroed
++before calling :c:func:`pvr_vm_backing_page_init`. In return,
++:c:func:`pvr_vm_backing_page_fini` will re-zero it before returning. You can
++therefore compare the value of either :c:member:`pvr_vm_backing_page.dma_addr`
++or :c:member:`pvr_vm_backing_page.host_ptr` to zero or ``NULL`` to check if the
++backing page is ready for use.
 +
-+#endif /* PVR_PARAMS_H */
++.. note:: This API is not expected to be exposed outside ``pvr_vm.c``.
++
++Types
++-----
++* :c:type:`pvr_vm_backing_page`
++
++Functions
++---------
++* :c:func:`pvr_vm_backing_page_init`
++* :c:func:`pvr_vm_backing_page_fini`
++* :c:func:`pvr_vm_backing_page_sync`
++
++Constants
++---------
++* :c:macro:`PVR_VM_BACKING_PAGE_SIZE`
++
++
++Raw page tables
++===============
++These types define the lowest level representation of the page table structure.
++This is the format which a PowerVR device's MMU can interpret directly. As
++such, their definitions are taken directly from hardware documentation.
++
++To store additional information required by the driver, we use
++`mirror page tables`_. In most cases, the mirror types are the ones you want to
++use for handles.
++
++Types
++-----
++* :c:type:`pvr_page_table_l2_entry_raw`
++* :c:type:`pvr_page_table_l1_entry_raw`
++* :c:type:`pvr_page_table_l0_entry_raw`
++* :c:type:`pvr_page_table_l2_raw`
++* :c:type:`pvr_page_table_l1_raw`
++* :c:type:`pvr_page_table_l0_raw`
++
++Functions
++---------
++* :c:func:`pvr_page_table_l2_entry_raw_is_valid`
++* :c:func:`pvr_page_table_l2_entry_raw_set`
++* :c:func:`pvr_page_table_l2_entry_raw_clear`
++* :c:func:`pvr_page_table_l1_entry_raw_is_valid`
++* :c:func:`pvr_page_table_l1_entry_raw_set`
++* :c:func:`pvr_page_table_l1_entry_raw_clear`
++* :c:func:`pvr_page_table_l0_entry_raw_is_valid`
++* :c:func:`pvr_page_table_l0_entry_raw_set`
++* :c:func:`pvr_page_table_l0_entry_raw_clear`
++
++
++Mirror page tables
++==================
++These structures hold additional information required by the driver that cannot
++be stored in `raw page tables`_ (since those are defined by the hardware).
++
++In most cases, you should hold a handle to these types instead of the raw types
++directly.
++
++Types
++-----
++* :c:type:`pvr_page_table_l2`
++* :c:type:`pvr_page_table_l1`
++* :c:type:`pvr_page_table_l0`
++
++Functions
++---------
++* :c:func:`pvr_page_table_l2_init`
++* :c:func:`pvr_page_table_l2_fini`
++* :c:func:`pvr_page_table_l2_sync`
++* :c:func:`pvr_page_table_l2_get_raw`
++* :c:func:`pvr_page_table_l2_get_entry_raw`
++* :c:func:`pvr_page_table_l2_insert`
++* :c:func:`pvr_page_table_l2_remove`
++* :c:func:`pvr_page_table_l1_init`
++* :c:func:`pvr_page_table_l1_fini`
++* :c:func:`pvr_page_table_l1_sync`
++* :c:func:`pvr_page_table_l1_get_raw`
++* :c:func:`pvr_page_table_l1_get_entry_raw`
++* :c:func:`pvr_page_table_l1_insert`
++* :c:func:`pvr_page_table_l1_remove`
++* :c:func:`pvr_page_table_l0_init`
++* :c:func:`pvr_page_table_l0_fini`
++* :c:func:`pvr_page_table_l0_sync`
++* :c:func:`pvr_page_table_l0_get_raw`
++* :c:func:`pvr_page_table_l0_get_entry_raw`
++* :c:func:`pvr_page_table_l0_insert`
++* :c:func:`pvr_page_table_l0_remove`
++
++
++Page table index utilities
++==========================
++These utilities are not tied to the raw or mirror page tables since they
++operate only on device-virtual addresses which are identical between the two
++structures.
++
++Functions
++---------
++* :c:func:`pvr_page_table_l2_idx`
++* :c:func:`pvr_page_table_l1_idx`
++* :c:func:`pvr_page_table_l0_idx`
++
++Constants
++---------
++* :c:macro:`PVR_PAGE_TABLE_ADDR_SPACE_SIZE`
++* :c:macro:`PVR_PAGE_TABLE_ADDR_BITS`
++* :c:macro:`PVR_PAGE_TABLE_ADDR_MASK`
++
++
++High-level page table operations
++================================
++We designate any functions which operate on our wrappers for page tables as
++"high-level".
++
++.. note::
++
++    This section contains functions prefixed with ``__`` that should never be
++    called directly, even internally.
++
++The two primary functions in this section are consumed by the page table
++pointer operations; that API is the expected method of performing operations
++on the page table tree structure
++
++The ``__`` functions noted previously are triggered when the refcount
++(implemented as the number of valid entries in the target page table) reaches
++zero.
++
++Functions
++---------
++* :c:func:`pvr_page_table_l1_get_or_create`
++* :c:func:`pvr_page_table_l0_get_or_create`
++
++Internal functions
++------------------
++* :c:func:`pvr_page_table_l1_create_unchecked`
++* :c:func:`__pvr_page_table_l1_destroy`
++* :c:func:`pvr_page_table_l0_create_unchecked`
++* :c:func:`__pvr_page_table_l0_destroy`
++
++
++Page table pointer
++==================
++Traversing the page table tree structure is not a straightforward operation
++since there are multiple layers, each with different properties. To contain and
++attempt to reduce this complexity, it's mostly encompassed in a "heavy pointer"
++type (:c:type:`pvr_page_table_ptr`) and its associated functions.
++
++Usage
++-----
++To start using a :c:type:`pvr_page_table_ptr` instance (a "pointer"), you must
++first initialize it to the starting address of your traversal using
++:c:func:`pvr_page_table_ptr_init`. Once finished, destroy it with
++:c:func:`pvr_page_table_ptr_fini`.
++
++You can advance the pointer using :c:func:`pvr_page_table_ptr_next_page`. If
++you're writing to the page table structure, you'll want to set the
++``should_create`` argument to ``true``. This will ensure the pointer doesn't
++dangle after advancing. See the function doc for more details.
++
++The pointer cannot be iterated in reverse; if you need to backtrack (e.g. in
++case of an error), keep a copy using :c:func:`pvr_page_table_ptr_copy`. The
++copy must be destroyed in the same fashion as the original (using
++:c:func:`pvr_page_table_ptr_fini`). There are no restrictions on the lifetime
++of the copy; it may outlive its original. Pending sync operations are not
++copied, so they will only be executed by operations on the original. This
++prevents some sync duplication, but it should be considered when working with
++copies.
++
++To avoid a free/alloc pair, you can reuse an existing pointer for a completely
++different range. This is achieved by calling :c:func:`pvr_page_table_ptr_set`
++to effectively re-initialize the pointer.
++
++We've mentioned sync operations in passing, but here are some actual details
++about how the pointer performs them. When a pointer is "initialized" (either by
++:c:func:`pvr_page_table_ptr_init`, :c:func:`pvr_page_table_ptr_copy` or
++:c:func:`pvr_page_table_ptr_set`), it's marked as "synced". If the pointer was
++destroyed at this point, no sync operation would occur. As the page table
++hierarchy is traversed (using :c:func:`pvr_page_table_ptr_next_page`), you
++should call :c:func:`pvr_page_table_ptr_require_sync` to indicate which levels
++of the hierarchy have been touched. This is a very cheap operation which just
++marks the pointer as "unsynced" up to and including the specified page table
++level.
++
++At the *next* call to :c:func:`pvr_page_table_ptr_next_page`, this "unsynced"
++level will be compared against the maximum level in the tree structure at which
++the pointer has changed. This information will then be used to perform the
++(somewhat expensive) DMA sync operation (:c:func:`pvr_vm_backing_page_sync`) on
++only the touched tables. Remember this decision relies on the user (you)
++reporting this status correctly, so always call
++:c:func:`pvr_page_table_ptr_require_sync`! In addition to
++:c:func:`pvr_page_table_ptr_next_page`, this "smart sync" will be performed by
++:c:func:`pvr_page_table_ptr_fini`. It can also be triggered manually by calling
++:c:func:`pvr_page_table_sync_partial`, or the simpler
++:c:func:`pvr_page_table_sync`. The former will only perform sync operations up
++to a specified level, while the latter always leaves the pointer in the
++"synced" state.
++
++Types
++-----
++* :c:type:`pvr_page_table_ptr`
++
++Functions
++---------
++* :c:func:`pvr_page_table_ptr_init`
++* :c:func:`pvr_page_table_ptr_fini`
++* :c:func:`pvr_page_table_ptr_next_page`
++* :c:func:`pvr_page_table_ptr_set`
++* :c:func:`pvr_page_table_ptr_require_sync`
++* :c:func:`pvr_page_table_ptr_copy`
++* :c:func:`pvr_page_table_ptr_sync`
++* :c:func:`pvr_page_table_ptr_sync_partial`
++
++Internal functions
++------------------
++* :c:func:`pvr_page_table_ptr_sync_manual`
++* :c:func:`pvr_page_table_ptr_load_tables`
++
++Constants
++---------
++* :c:macro:`PVR_PAGE_TABLE_PTR_IN_SYNC`
++
++
++Single page operations
++======================
++These functions operate on single device-virtual pages, as addressed by a
++:c:type:`pvr_page_table_ptr`. They keep the page table hierarchy updated.
++
++They are distinct from the High-level page table operations because they are
++used by consumers of the page table pointer, rather than the page table pointer
++functions themselves.
++
++Functions
++---------
++* :c:func:`pvr_page_create`
++* :c:func:`pvr_page_destroy`
++
++
++Interval tree base implementation
++=================================
++There is a note in ``<linux/interval_tree_generic.h>`` which says:
++
++   Note - before using this, please consider if generic version
++   (``interval_tree.h``) would work for you...
++
++Here, then, is our justification for using the generic version, instead of the
++generic version (naming is hard, okay!):
++
++The generic version of :c:type:`interval_tree_node` (from
++``<linux/interval_tree.h>``) uses unsigned long. We always need the elements to
++be 64 bits wide, regardless of host pointer size. We could gate this
++implementation on ``BITS_PER_LONG``, but it's better for us to store ``start``
++and ``size`` then derive ``last`` rather than the way
++:c:type:`interval_tree_node` does it, storing ``start`` and ``last`` then
++deriving ``size``.
++
++Types
++-----
++* :c:type:`pvr_vm_interval_tree_node`
++
++Functions
++---------
++* :c:func:`pvr_vm_interval_tree_compute_last`
++* :c:func:`pvr_vm_interval_tree_insert`
++* :c:func:`pvr_vm_interval_tree_iter_first`
++* :c:func:`pvr_vm_interval_tree_iter_next`
++* :c:func:`pvr_vm_interval_tree_init`
++* :c:func:`pvr_vm_interval_tree_fini`
++* :c:func:`pvr_vm_interval_tree_node_init`
++* :c:func:`pvr_vm_interval_tree_node_fini`
++* :c:func:`pvr_vm_interval_tree_node_start`
++* :c:func:`pvr_vm_interval_tree_node_size`
++* :c:func:`pvr_vm_interval_tree_node_last`
++* :c:func:`pvr_vm_interval_tree_node_is_inserted`
++* :c:func:`pvr_vm_interval_tree_node_mark_removed`
++
++
++Reference
++=========
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_vm.c
++   :identifiers:
++
++Constants
++---------
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_vm.h
++   :doc: Public API (constants)
++
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_vm.c
++   :doc: Memory mappings (constants)
++
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_vm.c
++   :doc: VM backing pages (constants)
++
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_vm.c
++   :doc: Page table index utilities (constants)
++
++.. kernel-doc:: drivers/gpu/drm/imagination/pvr_vm.c
++   :doc: Page table pointer (constants)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 82b82cbdb22a..7f99999ceabb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10144,6 +10144,7 @@ M:	Sarah Walker <sarah.walker@imgtec.com>
+ M:	Donald Robson <donald.robson@imgtec.com>
+ S:	Supported
+ F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
++F:	Documentation/gpu/imagination/
+ F:	drivers/gpu/drm/imagination/
+ F:	include/uapi/drm/pvr_drm.h
+ 
 -- 
 2.41.0
 
