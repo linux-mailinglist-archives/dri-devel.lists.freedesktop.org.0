@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD8A77DBE3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 10:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9946877DC0A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 10:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9F910E233;
-	Wed, 16 Aug 2023 08:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC0510E073;
+	Wed, 16 Aug 2023 08:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8496B10E233
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 08:14:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 294AB10E073
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 08:21:29 +0000 (UTC)
 Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
  [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE811B2A;
- Wed, 16 Aug 2023 10:13:33 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 00A53B2A;
+ Wed, 16 Aug 2023 10:20:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692173615;
- bh=ElXL6fYxDLsP/9sUEgVHcxzYyUCsen+i+kQs9f4MzQE=;
+ s=mail; t=1692174016;
+ bh=YSYSNTqKVyOXHnX+At0jwHzkoKfmrs+ev+WeIQDxMHM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=KyppgEgRNn/0vwjZ3IAxWZOVAc4lrgoLqpIsiRNgyw8h4S0hjp4zFj2mLXM8dhF/s
- LdRtGvZdIfG/iZuy6mdPsGjS38TBDICA5Aav1Lp1+I+4cf+aFSmgVznn2x8mHiPYoZ
- EZS1r2BOdwg+cnia5cEFatf691v4ZAnQViqE6G0I=
-Message-ID: <5ffb773d-5a3e-cb88-db3b-522423f2b834@ideasonboard.com>
-Date: Wed, 16 Aug 2023 11:14:43 +0300
+ b=UNjzeLmjHe1RTt7zUbHZ5/23qNxypogbuPBtztSL0eNzUxd3OF7TRV6xTBwemuzic
+ zS14iiFY0/uNREcEgvHTgJNJSGjfguUF91i0qH2/cF75nMX+WymT+ficwF7nj57GMQ
+ bIBvH2rzYGraVNViSD2G8z7qrUDc4pSzBpTEjzPQ=
+Message-ID: <6bb64c1c-973c-d5fd-5b66-a7b42666f615@ideasonboard.com>
+Date: Wed, 16 Aug 2023 11:21:25 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH 02/11] drm/bridge: tc358768: Fix bit updates
+Content-Language: en-US
 To: Maxim Schwalm <maxim.schwalm@gmail.com>,
  =?UTF-8?Q?P=c3=a9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -37,7 +38,8 @@ To: Maxim Schwalm <maxim.schwalm@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Francesco Dolcini <francesco@dolcini.it>
+ Francesco Dolcini <francesco@dolcini.it>,
+ Thierry Reding <thierry.reding@gmail.com>
 References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
  <20230804-tc358768-v1-2-1afd44b7826b@ideasonboard.com>
  <cd5d39a2-4f4c-419a-8137-d2719135e205@gmail.com>
@@ -45,7 +47,6 @@ References: <20230804-tc358768-v1-0-1afd44b7826b@ideasonboard.com>
  <92396880-edb5-d8e0-4fcf-54aeaa2b40d7@gmail.com>
  <52151daa-90af-a6c0-9b03-f69081321253@ideasonboard.com>
  <d55fc4d3-015d-8cc2-417e-e92aa4687ca2@gmail.com>
-Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 In-Reply-To: <d55fc4d3-015d-8cc2-417e-e92aa4687ca2@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -148,16 +149,9 @@ On 15/08/2023 20:21, Maxim Schwalm wrote:
 > BTW, the vendor kernel configures the display controller as well as the
 > bridge for negative H-/Vsync.
 
-Ah, of course, I wasn't thinking. It's a DSI panel (obviously...), so it 
-doesn't have sync polarities and as such it doesn't really make sense to 
-define them in the panel-simple.c.
-
-But we still need an agreed sync polarity between the tegra and the 
-tc358768, as that is a parallel video bus. And that polarity is not 
-defined anywhere, as it is expected to come from the panel.
-
-Maybe tc358768 should have a mode-fixup, where it sets the polarities if 
-they are not defined? I'll have to look at this a bit more.
+Also regarding the tegra driver, with a quick look it indeed looks like 
+it is configuring hardcoded sync polarities, which is not good. Maybe 
+it's time to apply the patch from Thierry, dated 2015 =).
 
   Tomi
 
