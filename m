@@ -2,127 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B2E77DA1B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 08:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9F477DA99
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 08:43:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EED0710E2CB;
-	Wed, 16 Aug 2023 06:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63D9910E2E5;
+	Wed, 16 Aug 2023 06:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2040.outbound.protection.outlook.com [40.107.102.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0B310E2CB;
- Wed, 16 Aug 2023 06:05:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E99EE10E2E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692168224; x=1723704224;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=MQ/BQ6h0Z2PHSjv7ek36h/CCobcP/3DeBfa77K3TL4Y=;
+ b=kMmTn/2Vuv/5GHTL3OjPhV2+IVxG69zss83W0zrE3EibDQk6l+20Vmn1
+ C8cVU1hRTUuDxN1JpNgcjla7QtSGjo3IRAF7+hzds7xLq6pHVXd3QIYBK
+ Fs9ZUCkIfLl5mIq1VLIV/cDMqSCSJLOQnBcxlvJGkuKwHQ5vv92Z+5w37
+ /5pG/lagKw95GzFRtfYzYKp4KEGNeXZoPQBtxNXkOZUhzatqHaWeWXyUk
+ ND+oGFFfqKzqcUKIe0dcOBKQbWO4e4ks6i1ezyM05CeIjttQ/+NC6W0RG
+ bwm9/OGOAx3wX50s5GVWvAkohOyVwpJo8qfq5yKHOb5Z24NF4Mbk+UDuH A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352783918"
+X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; d="scan'208";a="352783918"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2023 23:43:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="727652461"
+X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; d="scan'208";a="727652461"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga007.jf.intel.com with ESMTP; 15 Aug 2023 23:43:29 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 15 Aug 2023 23:43:29 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 15 Aug 2023 23:43:29 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 15 Aug 2023 23:43:28 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hWJvR9ObeThh5dTFBscf+sdcv8RBd/fm3uBaosRJHHpDK26bbhcPt1wxoBsdz1PVBBVrgKHMe2Zn3H5UPcMdoPwXbUSRLyWiJrHsez/fSOhTq6gojC62caa/Szzicy7gQJXF2EITtTMbN8q9o5zIohkNwD3q0foI3W6TvBogdv9cO6o75Qkc5fzkxddouvalMybgcYx3hTdxqfJTiVZEDD+U1S8ulIo/FK5rnyP7y9EZ5SPZW7KI6oGjHKVHXk6lba++NZLYsvYng7q1a+578bbjXt5n6SXfHFchiV4tsiVZafYW8a4aOPOgQjVxP31rcuCI1lKQKVL0FVBRi2CEaQ==
+ b=aDdnrCdJNiji3P7tJns1EVv5+kzL6CA/ZAi9GrweRDPLP5kqmsvloFMf6YLJLb5qaXi9TKJ4k93jRlDvKrEJQ/Gw3pMaYDvAErWaO97CVr8w5h5RWf/09appBUtdoJ1FS5pXraOQmb1TrXzWNWmQqFwQQuIEFktEI+ALVc88miGLyf9dHc+r3JUJJARGQupV5Mb6JQ2YJxYKrWwB+Dvm5TXt7oWB09Crw9EEOVE86n7wT13/DrkGYlG2EAiOFTP0XL7Gnr6MfLa1Sf2g+wtRLNkdr6W5Y9BftTcFbfhiSCpVzc2s+0eQPl+iDXeYtxAIxMUqobNRkDSXevqqEqjfUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qoqiWNUg8S4Ge0iiJmuO3XldC29xzMhHgBNcyWDNkxE=;
- b=ZJD0GHbZL3KKPmC2/XnZph5rARiX2H8KeJsi34H49I0+KH1tj0wpHHbB7RZBWAb18ZrQxKE47dlWMzYJbZuzNisI/+1X6yOW7ts23Hy2xcYmkik4XukMnkL1lbkgpl0cCKYmBXStQRF4UnPtU6dR0a06tpeCYQ/TZgWR/S1StZERK1cironR2DTbDZN1RtnQ+albJMN4Si1HlQTxzPZp6HEOXsD7ZqP269MfgrvgQ63a7aGS/PIJF08FeZLZ08fL4uGhU0Xi8PCQLSEm8CazyhYgB4hw42t6WkAeHJbphy8TbkfuAsFWqGRfZo16SWY0f82liVvdsPLvQtwUx1UReQ==
+ bh=MQ/BQ6h0Z2PHSjv7ek36h/CCobcP/3DeBfa77K3TL4Y=;
+ b=mRVABMhDCWr5ZVUyttR1lykaLjD77uZh+vhX+SbZ/32TU7qQ8d9c0dKTgXApR2rSD62dEPg6TyjELvBtk5MjK9aNSyn9tYae7xO98O2Os9vS8c0bkMFM5Qbn9mSReJ0K8xVZuuj51k0Jqdi5+EjZA3bBgh/fvCClg6yv/77234NdLVgBiP08eS6GbmrgVk2Jhz5uaIuHrf4xHL5U6yyBV/FmFzeHPSwBgR33QRvMuuH5pTdlg5qzpROG1C9iyKlCOCn5ENbQ9VNyLS3UZwLE7SubkQA6xnIuhpApijQFNVX8Y1a0a/i/IKlP5p9gZX9U2QKP7p4g2EvLiTvpYyH4NA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qoqiWNUg8S4Ge0iiJmuO3XldC29xzMhHgBNcyWDNkxE=;
- b=tyzQpUnGK3aGHIC8KE82zj5iCLG7vtoHG8Wz+nIEqrtyCA1cE7GdNf4ESZutxH7YnvSfiYspWNsJBQiy0c4LpxIGV02NgTPR8v9cPQrp/5qlH9jehJtG/DKhchPXex9rAif7mZifF11sKp0et3JUJqAg5OEbPixRGigSnoyzAzU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM4PR12MB7743.namprd12.prod.outlook.com (2603:10b6:8:101::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.26; Wed, 16 Aug
- 2023 06:05:50 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6678.029; Wed, 16 Aug 2023
- 06:05:50 +0000
-Message-ID: <3c125b60-df60-2037-c23f-918734e4973f@amd.com>
-Date: Wed, 16 Aug 2023 08:05:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: Implement svm without BO concept in xe driver
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by CH3PR11MB8591.namprd11.prod.outlook.com (2603:10b6:610:1af::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
+ 2023 06:43:27 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::b78c:107e:e7ad:4e2b%3]) with mapi id 15.20.6678.025; Wed, 16 Aug 2023
+ 06:43:27 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: RE: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Topic: [RFC v1 1/3] mm/mmu_notifier: Add a new notifier for mapping
+ updates (new pages)
+Thread-Index: AQHZuVToVshy99YkkE2dGyNcPWpnjq/AWUSAgAGkBBCAAGFsAIAF9M/ggAChIwCAADi24IABSWKAgABl6ECAAEZHgIABcLAQgAD86oCAAQfUEIAEas2AgAGbU1CAANOWAIAAAN4AgAAASgCAAADJgIAAACaAgAAAiQCAAFefQIAACl6AgAICCrCAALzcgIAABQIAgADEKYCAAD264IAAlRIAgAVz8QCAANNhgIALoJuw
+Date: Wed, 16 Aug 2023 06:43:26 +0000
+Message-ID: <IA0PR11MB71857FDD99CAC23C88C9F27CF815A@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <3427735b-2a73-2df7-ebd9-0d1066a55771@redhat.com>
+ <IA0PR11MB7185CF1FDFA5D5EDE3B6AF08F80AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMlMoRIkPoO0gG3B@nvidia.com>
+ <IA0PR11MB7185304345516521FA3005C2F808A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMuaQ4vpv03GTPbF@nvidia.com>
+ <2aee6681-f756-9ace-74d8-2f1e1e7b3ae6@redhat.com>
+ <87cz0364kx.fsf@nvdebian.thelocal>
+ <IA0PR11MB7185974FA204015EA3B74066F809A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZMzz2OKbmiD6SKPE@nvidia.com>
+ <IA0PR11MB718593A011700F06BD6414E8F80DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZNI4KV+Z7CvffiHI@nvidia.com>
+In-Reply-To: <ZNI4KV+Z7CvffiHI@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>, Felix Kuehling
- <felix.kuehling@amd.com>, =?UTF-8?Q?Thomas_Hellstr=c3=b6m?=
- <thomas.hellstrom@linux.intel.com>, "Brost, Matthew"
- <matthew.brost@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
- "Welty, Brian" <brian.welty@intel.com>, Philip Yang <Philip.Yang@amd.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <SA1PR11MB699192A66D7A2CC7305A59569214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <SA1PR11MB6991F9E3107C963BDF95E04E9214A@SA1PR11MB6991.namprd11.prod.outlook.com>
- <e0d7d6a2-5c9d-6e17-4b4b-be03deb6c130@amd.com>
- <SA1PR11MB69918E5603E286961789DE6D9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <SA1PR11MB69918E5603E286961789DE6D9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0066.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|CH3PR11MB8591:EE_
+x-ms-office365-filtering-correlation-id: 6a04b4e2-b00a-4f9f-a875-08db9e241872
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Bss6PaOFMlC+UYc6TAy13DiA70AtaASTI3j8GjJP+OiuTsp26vDI3FEhpXn4d65DFEnJj5UC/QKRzuNN84nWJvQgF+g2VHipdPHCpTEzjMScYVBpopouUBUKMbHFJ3HOXjiiNPsw9LByCMTvuBJBjivmnWxN5gRBS4pOqG3GRW6QckCvytOKXbb1gUyKafpMW80wIZAvMang9zI7RZiATmJfob3yoF/RriTHSVGFuD4I46ivgwiDVBA/iuELZscc/wraj8cmLJsHScbkNmG+IZsVvKGEaaj6dm8wu3sqm+Y2xRdit1BrB+ty1zEjDwlQdIyh6WFRTkETy+j8eCy6jwYcAERFNBqwE0KwNB/jIrl/SBdBT2Yfaqc+bK2XTS7UB2vf6HY4grVw3XoteiWXD72Crph2oblZmCuXbEe7gsOIQgGZlGvTo31gY6x3z3luJQyRox+5KiAmpzqc87BAXb1X+ZvUDfrUUiOEO+MTEaJZVYiMsFLdTm0GPayXCtw8Gon1SYW6S792cTQovAQF4KbzguHaBA9f8EEH//SoUIHzuh/ck/hv6T/3gDj45fWbAp2qCeAnTxYRVLJLaYUV64NTusf3NUCG5ar9uM9LKQPJr+RbGLtK8WxY3bekG1rz
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(346002)(136003)(376002)(39860400002)(396003)(451199024)(186009)(1800799009)(7696005)(71200400001)(6506007)(478600001)(9686003)(83380400001)(26005)(2906002)(15650500001)(316002)(41300700001)(76116006)(66946007)(66446008)(64756008)(66556008)(66476007)(6916009)(54906003)(52536014)(5660300002)(8676002)(4326008)(8936002)(33656002)(55016003)(38070700005)(86362001)(122000001)(38100700002)(82960400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sIODO2M+h2eQLklFWtzd+Thw622yrza0ox1weGJKtjTbV90+BMJEbQD631qh?=
+ =?us-ascii?Q?MqNFgvwWogvatg8AfIOEXr45/ke8H95q2DNf3rxrV4eepN9SG39b7haCR2Dd?=
+ =?us-ascii?Q?qCY3iTl5kw9Fe+hLU7euI1yRIV7HkfsRQPzy8/LbZmv0U3G/cTSrvhGmGyl0?=
+ =?us-ascii?Q?mj1dIm3lhzhUWsYsBHejDiZlXLCMVGR/dq1BOvp3W7Ol9kTrdiCRSknB0AoY?=
+ =?us-ascii?Q?L27UuCcZ6KEBYeQQQsjm3m0W0FwJzKC+T7Yn589HPxatZ2D/bRbtcCUijl0M?=
+ =?us-ascii?Q?bpmHtK/KYumBrBYbysEAINK2GGB2Pwj0auLxTiurnh+lpinDKWsjQA7pMkRq?=
+ =?us-ascii?Q?uewtr4SqOfWN2YOm1lTZaMX7OkwLaXXBmfVkt2yAXmH8ZbXOBTK/ei7fZgrL?=
+ =?us-ascii?Q?C7VByLJnP1cQm3Ag4afacVr+n8Ins04ICS/B33b7abT3pCMuzn325voyUWET?=
+ =?us-ascii?Q?0GR1bcOlHFOkPkxOM1FQO/j7STwq6ExzJfkiDnXrqgRi5xWQOlw0Bv4DlBTH?=
+ =?us-ascii?Q?8lrhMAzXChYXO8fOc8eGkYxNiDR1owJCN5Z1D9r1L2p8eob1hgSyR6c61mCC?=
+ =?us-ascii?Q?OjIgYnwfjLGv9fstXF8ckXzrJo6TuPFzlnK+zuHsYxLznjMb+veB5WeRhNmg?=
+ =?us-ascii?Q?JIyf9AsUG+vM+qeYuyEVNiQKhsT84xAPhtZc7eCxGdcpVQkS5PKyGFdc6WQA?=
+ =?us-ascii?Q?78ljNfOWHa024GnYQPoPZzFux8RnTpYnXCm/AcZwmv+cpjvikhWG3fIswDjj?=
+ =?us-ascii?Q?kltnRPDheD1yHLlF+IU6DrbOrkMsSb+myFQGwu7NIvf+PTbDF+MIuIuidtP8?=
+ =?us-ascii?Q?RfUrekWSdxAWnB6KFnNxgcaHEAVbIFtKEqgTFvaxCacyI8XKZdWpnWiQ1yG0?=
+ =?us-ascii?Q?RE7iJLvYpz11VFi37+Zbrr4Amhdt+pln7crMjRe8ZSgv05Ift0nYfzlaMYAc?=
+ =?us-ascii?Q?H2lsiqoqUtbRSKa+dhGrtrE5or9QPqpx0PKYuPtxJ79l9irB0OlWVZbWif4z?=
+ =?us-ascii?Q?sJSIOjfnDGlSZ+S62Mby5IdWYy24bY1ep91b0UVf5mbg2IEKuICdldG3DR+I?=
+ =?us-ascii?Q?ZYIbMgqzRwD6kuWhZ1qduSsYj3tVKQDZwm71/MQWLJtDf9F45qQyAQyVEctv?=
+ =?us-ascii?Q?h+YRW3xEF2R28hO3YTmxeNfeNxrtfBU7/yXGMjjx79aMbmQs1z3ChkZkLSxS?=
+ =?us-ascii?Q?YzmiMt3B8PCwB84QSSqhu6DINmKAM4gNyLcZtKJS8mqx5wlEhaP59ddgghzX?=
+ =?us-ascii?Q?WSI0gigx8iUWSs9esDa2Yq18ZyldrRPP3HN+8TI8a/umeBNkGvXIrGRdV4kn?=
+ =?us-ascii?Q?KGYQbVJPHJEenyuUrKQ34dcK7TMunU6zOVf2xRN8wDwOFxiWTv5MArD4Na3n?=
+ =?us-ascii?Q?kpFxOdSuLRsSaXbHpy9vBB/WKsFSoaqVGQCOgUYEkLh1N8r5l6XXePMz3pKB?=
+ =?us-ascii?Q?eIGqX5GWyyazdrTd/2QmcKbRA44SQeWhqbDbZX1a7X/ovBnCFnSTqfn7Z297?=
+ =?us-ascii?Q?BWd37YGxk8wY6d4Q1rwHckMeSKSN+6q1foTlyOmjMTlPvD8FFWzq5iyexsAw?=
+ =?us-ascii?Q?grDdAQce1FmFvZwMPJ8bC/muLb0s7qV5wSNsBrSX?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB7743:EE_
-X-MS-Office365-Filtering-Correlation-Id: 352a4d02-8255-48f8-f239-08db9e1ed717
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ray/sfega9LYC/VM5ort36HcHEksvbMui9XL6K0gVjLncpWHVlsSJqmlMK/nxL9mIeelewJNMjfwb7dLRagGCLLlABU2jz0tK3P1VJl8opGjhWYyatyuKkEvI6KNT1zHoVNhCZ+E1r42twkxktL1a8r1kjLMs6G+BZQ8lCOpbuQSiTARVfjChu/roKlx/JyS60n9jvcykJped+YUJGWUegas8k9sUlEZN6GgUgbkGw9tdrJ96lBBr4meiC945Ro9Yc1crBxy4Sx4N25RMI2J91jIM+Xq6sDg1XQtt+mgHtusKgahUpBrPGZknejTgWXQWSvvWFtilrGHstrMu63WmdZDE5/zY77R7NKp3Pz2gspTC7O2egWfyYhhKlVOjjl6OXBFJyKwmn+tnFj8rMvev449C4I29NByNbNtrV2nVaYDnqCYbyGRFFMQSdDYaP8VkNJJlrz0WdInyYUN2pWBVQdmF7jw4N3IJwQkpUgZMSRxOE8PkLzwEsGBW5wn2Hf6ravZagmvRJqg3mSRYRo9Fp8/9HOY9M5MshUVVRBPZ4vpmEFKcT+Czyei8RoOAtX6G2QHA9UEJ5bGsKDdkHQvgXU4hbVXEyawVaz3sN1Qn8EI6ULT73oD5qdQ3BmMkPtzGFso20ww6xBCAQePreVT3C7Dn77cG0M2CniEI4ucx0g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(366004)(39860400002)(396003)(346002)(136003)(1800799009)(451199024)(186009)(6666004)(31686004)(66476007)(66556008)(66946007)(6512007)(6486002)(6506007)(2906002)(478600001)(110136005)(5660300002)(2616005)(83380400001)(41300700001)(316002)(66574015)(53546011)(8936002)(8676002)(66899024)(921005)(38100700002)(36756003)(86362001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjNtZGRXYkpRYWN5ZWpQamIwZHQrMSt5blZoMWoyeXF2dFZmWVROeGZwaXg0?=
- =?utf-8?B?Z3RoRDI5RGxjZ2JleWZRWUwrdWxnSEVhNDFTaG5rZXU3aTRldTlrVU0rdUFr?=
- =?utf-8?B?OUc2QXhrSXJ5elplanNiU1poUEZVRGxOMndaWW1BREZaU3gxRGlmdGdwdUp1?=
- =?utf-8?B?cjhGejg5eWVyeDVJdGlMWDJiMTgrZlpkaElCRkFwdkVFZjVkL2srWkFoQktZ?=
- =?utf-8?B?enlBT0NGR1FDZWJOMGVpcjVJdlBxN2Z5R2k3bnU3dTlHeDh3UVpweVgwNjll?=
- =?utf-8?B?bWU2a2hLQ0dNMzJoUjBHQnNWczJkc0M5c3dSejZFak1JSnZtOTRZNytYMDV5?=
- =?utf-8?B?a3JkUlY1blNsMnlBT2RjT1pLaDZjUXEwWTZtc0cvelg4TzdITU9nTTljS0N0?=
- =?utf-8?B?QlcrbWR1eERXVStTU2tNcUdHMmd6aVNpVzU4aytEcGxHY2RRcFVMcmJvekRD?=
- =?utf-8?B?eEV1dERrNWJ6clRLdDNvV2FOOElOekoxVkRWeWtwNUVpeEt6NGl6cFp2U3ZI?=
- =?utf-8?B?U2tGQ3ZWR1d0dWprZXoyU3VjaHppS2RRcGlqQmVSbk95WkdvZUxpRHlwUW9j?=
- =?utf-8?B?dWhoYUZxV0I3SGNJamNFYkJ3Z2pHckxZMVk2TndxdVpKcVZPVUcvclVsVXNX?=
- =?utf-8?B?OS9ycjM2NXEzVm5hQnRZRURSQmJVdWJzWEJnZHdxVG9CdGRSaGRySXlOc0Ro?=
- =?utf-8?B?V013dkhNc3dxc25Pc1ZUVXlIc0RYa280cE1rYnJWbFptL3BObmFHUzlLVkVk?=
- =?utf-8?B?SkRwc2grMHV3MFJ4ZUt4SnlPQUhDaTROVjMwcmtQYVMvYU0wT29BK2hDZWZ0?=
- =?utf-8?B?dWtFTDl3U2lFVHNzcUNsUWRDZGFEV0xTKy9iSCtxYVhCRXRiVnZNRlhmRFVj?=
- =?utf-8?B?MEh3elVyNFdDUUNsZStLVWFWTEVpYTNRMkxQY1NMM2UrZFNQMjI5ZUQxU0ty?=
- =?utf-8?B?ZXRaT29ZZWVFTXloWVNoYXlVd2t5MmhPeVJXamJKdkFrOHZxUXMrdHlwYkp3?=
- =?utf-8?B?aDA0UDFKcUovWkhlQVc5VDFYMlR2TE9Lcjl0SktGQ1E3M1pFRHZyOGlWQ1VM?=
- =?utf-8?B?dUtTYmVYUGMrQzlaVnU2SFI2em1ZN0J4eWVlYktYU0podEZDTDNHRHQyWDhl?=
- =?utf-8?B?L3NoTTNUL3k4bzRLVTgwSFlHN0pMekdFMlFEcktuN1FCT0xXTXBrdTl0dVBa?=
- =?utf-8?B?Vkg2VThjb21YMkpvUk4yRFVVYXhaSGdTend2czQrMWhBMGFKeHZndUtldHBT?=
- =?utf-8?B?UnhuUTlmUEY5RVFDUVhFNk9uNmNFSkhGRGh0MXVoKy9yUnlUT1ZrenBYcVpl?=
- =?utf-8?B?NXoyMlJINVpheW55QVBWUzdFU3Ezb042Z3BiTjR2bkJESHNjTEhzZ0QxRmJX?=
- =?utf-8?B?ZXZpWDlZZnk4dzVoOXVoOVdiZFBIRHB4R1RvMGFPSDZ1dHpGVG85dWV4dGJ4?=
- =?utf-8?B?ZTVwcVlKdDNITHN3SzdKa2dDVldQYUdURWFiOTgxZ1VyQXU5Y2puYnNpYWJZ?=
- =?utf-8?B?T2wxUTJuZ3BjcklGTjZMelRJbjN6ck9acDNKSDhEeTZmYXhrTWpzNHR0Vm55?=
- =?utf-8?B?dFhvd2l2SFo0Nk56NXFjQVBFSTl5SlRVbmxwR2ZYM1NlaDEwaHpFWnNmdnd5?=
- =?utf-8?B?Z2JuK1hFN09LV3pWT001Tk1RT2FzZ1RCdS92VnAzUXJwcUVBS3VrbFZHaFhT?=
- =?utf-8?B?ajIzYTgvbjgveXNvMGhiNGtVWVNvdXprNzhPUWtiTWlHRDdoM2p3VWtscUt6?=
- =?utf-8?B?cXpjSVdzSjRsSHdvRTFLTWRwVGc3VmpDdit3TWxOSDA3MnkzQlY4Q0d4K2VW?=
- =?utf-8?B?cmZkYndXb1hadUxrNGJObHdnU2RGL3Yrb2d0aEJ3YThnTkVRc3RlRHRPYW5N?=
- =?utf-8?B?bkRFVVk5UzBMNVhNdnVTdHNKSjNWZkpNVHZWMTk4ME9Ub09RZUNPL1NnbUE4?=
- =?utf-8?B?dUhQRGhwSXVFTzVHVWgvS3R1YnVMSmljc3NUanR3czVETnJFU0EvWHcrdWNw?=
- =?utf-8?B?aTNaZzJIYkVWNnk5WFdQNjd3c0VlcE9wbm50MVU0M291MWRwbkI3eVZvY3lJ?=
- =?utf-8?B?R1BBZE5ZQ0hydllZMWJNR3N1RGdLdWl4cWY3cVE5blZZVnBLMTlHNHY1ZFRQ?=
- =?utf-8?B?TmxIeEcybmRTbXBnV203R3RjM2RBNUptWlVhaDA3SFZvbENhaUhLNjhtOHp6?=
- =?utf-8?Q?a/1IVR3HJMJBpdvNf/dYHgSIdlvUnbNoE+OBtaAapa2L?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 352a4d02-8255-48f8-f239-08db9e1ed717
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 06:05:49.9481 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: STaQokAupzTtH1i80CB2Oj58oDFggptBhV09ZdtfZf3mkaJV7HEprW2g6Obcus+a
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7743
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a04b4e2-b00a-4f9f-a875-08db9e241872
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2023 06:43:26.9228 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2BoeI8IpsX7qqf8R8spLkb2jf/gsyhc6Laa+fUPR73vI1PRITjo1bDqaaP0YjIpiIl+QzgoIUUzYp3wclPTwMLLk4OVENWdIkd0+7KBmY1U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8591
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,135 +156,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Alistair Popple <apopple@nvidia.com>,
+ Hugh Dickins <hughd@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Peter Xu <peterx@redhat.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Oak,
+Hi Jason,
 
-yeah, I completely agree with you and Felix. The main problem here is 
-getting the memory pressure visible on both sides.
+> > >
+> > > > No, adding HMM_PFN_REQ_WRITE still doesn't help in fixing the issue=
+.
+> > > > Although, I do not have THP enabled (or built-in), shmem does not e=
+vict
+> > > > the pages after hole punch as noted in the comment in
+> shmem_fallocate():
+> > >
+> > > This is the source of all your problems.
+> > >
+> > > Things that are mm-centric are supposed to track the VMAs and changes
+> to
+> > > the PTEs. If you do something in userspace and it doesn't cause the
+> > > CPU page tables to change then it certainly shouldn't cause any mmu
+> > > notifiers or hmm_range_fault changes.
+> > I am not doing anything out of the blue in the userspace. I think the
+> behavior
+> > I am seeing with shmem (where an invalidation event
+> (MMU_NOTIFY_CLEAR)
+> > does occur because of a hole punch but the PTEs don't really get update=
+d)
+> > can arguably be considered an optimization.
+>=20
+> Your explanations don't make sense.
+>=20
+> If MMU_NOTIFER_CLEAR was sent but the PTEs were left present then:
+>=20
+> > > There should still be an invalidation notifier at some point when the
+> > > CPU tables do eventually change, whenever that is. Missing that
+> > > notification would be a bug.
+> > I clearly do not see any notification getting triggered (from both
+> shmem_fault()
+> > and hugetlb_fault()) when the PTEs do get updated as the hole is refill=
+ed
+> > due to writes. Are you saying that there needs to be an invalidation ev=
+ent
+> > (MMU_NOTIFY_CLEAR?) dispatched at this point?
+>=20
+> You don't get to get shmem_fault in the first place.
+What I am observing is that even after MMU_NOTIFY_CLEAR (hole punch) is sen=
+t,
+hmm_range_fault() finds that the PTEs associated with the hole are still pt=
+e_present().
+I think it remains this way as long as there are reads on the hole. Once th=
+ere are
+writes, it triggers shmem_fault() which results in PTEs getting updated but=
+ without
+any notification.
 
-At the moment I have absolutely no idea how to handle that, maybe 
-something like the ttm_resource object shared between TTM and HMM?
+>=20
+> If they were marked non-prsent during the CLEAR then the shadow side
+> remains non-present until it gets its own fault.
+>=20
+> If they were made non-present without an invalidation then that is a
+> bug.
+>=20
+> > > hmm_range_fault() is the correct API to use if you are working with
+> > > notifiers. Do not hack something together using pin_user_pages.
+>=20
+> > I noticed that hmm_range_fault() does not seem to be working as expecte=
+d
+> > given that it gets stuck(hangs) while walking hugetlb pages.
+>=20
+> You are the first to report that, it sounds like a serious bug. Please
+> try to fix it.
+>=20
+> > Regardless, as I mentioned above, the lack of notification when PTEs
+> > do get updated due to writes is the crux of the issue
+> > here. Therefore, AFAIU, triggering an invalidation event or some
+> > other kind of notification would help in fixing this issue.
+>=20
+> You seem to be facing some kind of bug in the mm, it sounds pretty
+> serious, and it almost certainly is a missing invalidation.
+>=20
+> Basically, anything that changes a PTE must eventually trigger an
+> invalidation. It is illegal to change a PTE from one present value to
+> another present value without invalidation notification.
+>=20
+> It is not surprising something would be missed here.
+As you suggest, it looks like the root-cause of this issue is the missing
+invalidation notification when the PTEs are changed from one present
+value to another. I'd like to fix this issue eventually but I first need to
+focus on addressing udmabuf page migration (out of movable zone)
+and also look into the locking concerns Daniel mentioned about pairing
+static and dynamic dmabuf exporters and importers.
 
-Regards,
-Christian.
-
-Am 16.08.23 um 05:47 schrieb Zeng, Oak:
-> Hi Felix,
->
-> It is great to hear from you!
->
-> When I implement the HMM-based SVM for intel devices, I found this interesting problem: HMM uses struct page based memory management scheme which is completely different against the BO/TTM style memory management philosophy. Writing SVM code upon the BO/TTM concept seems overkill and awkward. So I thought we better make the SVM code BO-less and TTM-less. But on the other hand, currently vram eviction and cgroup memory accounting are all hooked to the TTM layer, which means a TTM-less SVM driver won't be able to evict vram allocated through TTM/gpu_vram_mgr.
->
-> Ideally HMM migration should use drm-buddy for vram allocation, but we need to solve this TTM/HMM mutual eviction problem as you pointed out (I am working with application engineers to figure out whether mutual eviction can truly benefit applications). Maybe we can implement a TTM-less vram management block which can be shared b/t the HMM-based driver and the BO-based driver:
->     * allocate/free memory from drm-buddy, buddy-block based
->     * memory eviction logics, allow driver to specify which allocation is evictable
->     * memory accounting, cgroup logic
->
-> Maybe such a block can be placed at drm layer (say, call it drm_vram_mgr for now), so it can be shared b/t amd and intel. So I involved amd folks. Today both amd and intel-xe driver implemented a TTM-based vram manager which doesn't serve above design goal. Once the drm_vram_mgr is implemented, both amd and intel's BO-based/TTM-based vram manager, and the HMM-based vram manager can call into this drm-vram-mgr.
->
-> Thanks again,
-> Oak
->
->> -----Original Message-----
->> From: Felix Kuehling <felix.kuehling@amd.com>
->> Sent: August 15, 2023 6:17 PM
->> To: Zeng, Oak <oak.zeng@intel.com>; Thomas Hellström
->> <thomas.hellstrom@linux.intel.com>; Brost, Matthew
->> <matthew.brost@intel.com>; Vishwanathapura, Niranjana
->> <niranjana.vishwanathapura@intel.com>; Welty, Brian <brian.welty@intel.com>;
->> Christian König <christian.koenig@amd.com>; Philip Yang
->> <Philip.Yang@amd.com>; intel-xe@lists.freedesktop.org; dri-
->> devel@lists.freedesktop.org
->> Subject: Re: Implement svm without BO concept in xe driver
->>
->> Hi Oak,
->>
->> I'm not sure what you're looking for from AMD? Are we just CC'ed FYI? Or
->> are you looking for comments about
->>
->>    * Our plans for VRAM management with HMM
->>    * Our experience with BO-based VRAM management
->>    * Something else?
->>
->> IMO, having separate memory pools for HMM and TTM is a non-starter for
->> AMD. We need access to the full VRAM in either of the APIs for it to be
->> useful. That also means, we need to handle memory pressure in both
->> directions. That's one of the main reasons we went with the BO-based
->> approach initially. I think in the long run, using the buddy allocator,
->> or the amdgpu_vram_mgr directly for HMM migrations would be better,
->> assuming we can handle memory pressure in both directions between HMM
->> and TTM sharing the same pool of physical memory.
->>
->> Regards,
->>     Felix
->>
->>
->> On 2023-08-15 16:34, Zeng, Oak wrote:
->>> Also + Christian
->>>
->>> Thanks,
->>>
->>> Oak
->>>
->>> *From:*Intel-xe <intel-xe-bounces@lists.freedesktop.org> *On Behalf Of
->>> *Zeng, Oak
->>> *Sent:* August 14, 2023 11:38 PM
->>> *To:* Thomas Hellström <thomas.hellstrom@linux.intel.com>; Brost,
->>> Matthew <matthew.brost@intel.com>; Vishwanathapura, Niranjana
->>> <niranjana.vishwanathapura@intel.com>; Welty, Brian
->>> <brian.welty@intel.com>; Felix Kuehling <felix.kuehling@amd.com>;
->>> Philip Yang <Philip.Yang@amd.com>; intel-xe@lists.freedesktop.org;
->>> dri-devel@lists.freedesktop.org
->>> *Subject:* [Intel-xe] Implement svm without BO concept in xe driver
->>>
->>> Hi Thomas, Matt and all,
->>>
->>> This came up when I port i915 svm codes to xe driver. In i915
->>> implementation, we have i915_buddy manage gpu vram and svm codes
->>> directly call i915_buddy layer to allocate/free vram. There is no
->>> gem_bo/ttm bo concept involved in the svm implementation.
->>>
->>> In xe driver,  we have drm_buddy, xe_ttm_vram_mgr and ttm layer to
->>> manage vram. Drm_buddy is initialized during xe_ttm_vram_mgr
->>> initialization. Vram allocation/free is done through xe_ttm_vram_mgr
->>> functions which call into drm_buddy layer to allocate vram blocks.
->>>
->>> I plan to implement xe svm driver the same way as we did in i915,
->>> which means there will not be bo concept in the svm implementation.
->>> Drm_buddy will be passed to svm layer during vram initialization and
->>> svm will allocate/free memory directly from drm_buddy, bypassing
->>> ttm/xee vram manager. Here are a few considerations/things we are
->>> aware of:
->>>
->>>   1. This approach seems match hmm design better than bo concept. Our
->>>      svm implementation will be based on hmm. In hmm design, each vram
->>>      page is backed by a struct page. It is very easy to perform page
->>>      granularity migrations (b/t vram and system memory). If BO concept
->>>      is involved, we will have to split/remerge BOs during page
->>>      granularity migrations.
->>>
->>>   2. We have a prove of concept of this approach in i915, originally
->>>      implemented by Niranjana. It seems work but it only has basic
->>>      functionalities for now. We don’t have advanced features such as
->>>      memory eviction etc.
->>>
->>>   3. With this approach, vram will divided into two separate pools: one
->>>      for xe_gem_created BOs and one for vram used by svm. Those two
->>>      pools are not connected: memory pressure from one pool won’t be
->>>      able to evict vram from another pool. At this point, we don’t
->>>      whether this aspect is good or not.
->>>
->>>   4. Amdkfd svm went different approach which is BO based. The benefit
->>>      of this approach is a lot of existing driver facilities (such as
->>>      memory eviction/cgroup/accounting) can be reused
->>>
->>> Do you have any comment to this approach? Should I come back with a
->>> RFC of some POC codes?
->>>
->>> Thanks,
->>>
->>> Oak
->>>
+Thanks,
+Vivek
 
