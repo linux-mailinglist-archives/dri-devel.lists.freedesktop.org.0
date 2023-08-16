@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9FD77DC1E
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 10:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBF777DC20
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 10:26:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E06510E292;
-	Wed, 16 Aug 2023 08:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D41C210E29A;
+	Wed, 16 Aug 2023 08:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
  [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0ADD10E292
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 08:26:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7412410E2A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 08:26:34 +0000 (UTC)
 Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
  by mx08-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 37G7Gh4Q019180; Wed, 16 Aug 2023 09:25:57 +0100
+ 37G5e2k3025650; Wed, 16 Aug 2023 09:26:19 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=2JlrcO76QfHGQi9RSMwwrm3ohkOuHCDQJ90Fn2fC5do=; b=bAh
- fSnF/VPmB4+8yvMIVT5paX73Au14+BrGZsFF6dDcUKBnNZXldwQG9dDxtAFdqCLY
- NtV7EGuvyN//jP79imBwlcYb6SKhuSe/lN3osWTWMmyGcWxrk0gGmRP6/8dUiNqQ
- onVoJSY5JjKp16mqXZheMouB8sAoTLBU976u+Vn0ziC665ei71K0HYpro4M3j90X
- mTGGgEYO9qMXKP+MP9prd8rVskGcXVld0hp6PwTqL913Kyu6ewJrw5UzSSctGGhY
- Jxk+wvBKIqwrka+/sRXEA4Y+BplUTag7VfRvsX2as/n6IA8rQNlcwS4abtmtrrmS
- r6DxfTid3vneYrBfBEw==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3se0brawkr-1
+ dk201812; bh=m6CKlzn0ZuZnil/cYcqAAgs6UXBHDnhvNUqeqmhjsKM=; b=HD8
+ zKngzfjAQMPxt0Z8cpKgPXBs7VOs4++mevOVsMSQ1NIzFdzGhY5UxeMouqWCp+rt
+ 7PnA1p3r7hTtsWnjcxarV4S5amzfNn+Z6eNiaiN36bARL8KHpFfXSyMPKKiAMLwj
+ rhN1kbi6/TCHqIUsLlna0lEdFTx+dqD26ceRJwDFsgZKVcZU3vGI99zhXQ+rOusy
+ P+7h82FHN7zJPVV7CiUxvzNyYbbJZ16/g3NIw5gr7qSu+tCr5vbl5VfJoRXKLknm
+ 4JrFFYdtgllwtx/4DClmPdTkNr6aHaQlHJtYmAvnkvk6lQCrwB7KMmYCxQBiu1xF
+ du4TyhsJRFGhSdgcIrw==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3se0brawmb-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 16 Aug 2023 09:25:57 +0100 (BST)
+ Wed, 16 Aug 2023 09:26:19 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 16 Aug 2023 09:25:56 +0100
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.113)
- by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Wed, 16 Aug 2023 09:25:56 +0100
+ 15.1.2507.27; Wed, 16 Aug 2023 09:26:19 +0100
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.55) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27 via Frontend
+ Transport; Wed, 16 Aug 2023 09:26:18 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FQY/vGTd0IeCw4qQ0YVYWymprWAHIm8MUnsjXjDeqXWKEQMyizoB2mymawsuYnrXudDMGWW9GZjU5TIVSaUYUgj5+Y71grLHSF+fkQUCfHSAWLqjdRq8LbeWcS9eBAjxLyFv0MbJDRZItkwQiiTrkzUxg2xMZNJgKT6qbStu9O8xN9GDAscpQw+HVlNEShVDPVCOtES4Kw8CFIYwoGRdzbeiuo7ApjUpdgqChl8Y8DIPWaLpYA8kngT9Ixc9oVU9LLpQUsrI7QT7lsPLopJZeeqUwr6NYuah9lvkgloo1lN1V2tzQJNjrNFDcxsRyrHLSBnx3alSxBW28gfSq2zkUQ==
+ b=SsQxQucGMfZHfJ7kb0mXvFDWk8jbNZ/uUCr6NQ4SSRTFcEZ+m1nKOrW1BQHR56NBvkHNakJwIugQiw2mqeZtNVAZGv9KI27iccBiAZtP6JugSjdlSfonasxpZCy/hIQm3PpGpl9uHlVnLBbTpzhQpyPI7yMbFLY23GWe0YbHWvv+NaAVfr5BjEDYZTfuQx4KOEIeA1HHYc7++sYpN1cIM9U02f+T3mjtIMLt6sdV2EIA4uaSmKpzyaWPgM5V1eLQCFLNWobfycLt2EYxGxEVIhgTWstPfdvkPf/6HlGuQ5F+8H3RgaZpY6Kk/Gb8S0L/ITyiRBFyEUo80nFxlQ5HRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2JlrcO76QfHGQi9RSMwwrm3ohkOuHCDQJ90Fn2fC5do=;
- b=MVDBPTmBpmOifrgWgKbgGdI0wTN9C8UHBf7kTvgTwJHKjaMmDNzAire6ypLNv59z91M0B/QkTJzqOUhFmn3ijeWDFNcwLeHtJ4/tt62ZrJJHehoutXoTuvj0WL5j91Qcz8JL23JO0xxee6kg1sln5DNhWxgwDN1jRC9O+CRNhyy0kxRA/xWBGoZMEVJU/x4UetI4kG9xSPPBVDRW5G6jsIiFs4mUgCRDpLeKP1d20XEOonJBW35WIPjF4EsXDGsl2W17DEa3K52KAQqhHk/UGX9ytdIr5zlPHj873TH+L12EORPYpMRKIwoiHrDaIxszW5WP+BRoZ/zWLNL7/KqtFQ==
+ bh=m6CKlzn0ZuZnil/cYcqAAgs6UXBHDnhvNUqeqmhjsKM=;
+ b=XPP7FIpbGGcm6/68ikAA3GuO8t2z6nw317sd7COwjUpDV+xj2ksY5nmiV6FwEOgXL5fBIs2teBBkkQuPyyqVDOEcAo7trDOciNi2TCjTIkWIe6gkMnaUMZB5kx/N/l66HFG/+xR8TW9Y5Y4rUiOYjXaGBjUVXJ8W+iKsGZLNvtKVkKHhw0Skki3V266h1YhkzEhURjIv8RK1UjLh62ycJ8Zy504rUsPIYRIY2G+c2xQG88jf3jnkfduBfe7KbXUBcEmI+K8KXT75nB2v0gmytUQYS8R3g3WfDIn7py7SRk5t5chYK3hdp35txHzf0+zbTEQPKReG5ahsd2geKfyXrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2JlrcO76QfHGQi9RSMwwrm3ohkOuHCDQJ90Fn2fC5do=;
- b=hzKM3Pq8C34c+WSizEkKW3Az3KhGosZtNMFT5Fvp+WB/bFSeCs/qxY/jp0/PI9SrmWotPHdWm/fVkicNXudIolTshKHZby2x6uE3uyLA8ZfaWRaIbxjVMVGAb6nITv5sLIzko5t3PDDHVQJ+ylXqOQdi6oFyxkGNqWqaeq84XrM=
+ bh=m6CKlzn0ZuZnil/cYcqAAgs6UXBHDnhvNUqeqmhjsKM=;
+ b=cOpOhVuwpr961gYiwdkPFcOp0CzPaDZ+xzv5IyguxrRS2xkHGvvdAE3XQAm8GfdGnMQkwWw2rYNLHCqfoMYmRNmYXvhN/8slb+uqmtZe4BBEE9/NN0vGDgsRQp43cy31bMQyoUMOI+V42hM6uUd6BMyRmH7K+Qz7CN45RYLvdEw=
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:170::9)
- by CWLP265MB2546.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:95::8) with
+ by LNXP265MB2491.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:130::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
- 2023 08:25:55 +0000
+ 2023 08:26:17 +0000
 Received: from CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::ee4f:2d71:fe8a:ffdf]) by CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
  ([fe80::ee4f:2d71:fe8a:ffdf%7]) with mapi id 15.20.6678.022; Wed, 16 Aug 2023
- 08:25:55 +0000
+ 08:26:17 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v5 01/17] sizes.h: Add entries between 32G and 64T
-Date: Wed, 16 Aug 2023 09:25:15 +0100
-Message-Id: <20230816082531.164695-2-sarah.walker@imgtec.com>
+Subject: [PATCH v5 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
+Date: Wed, 16 Aug 2023 09:25:17 +0100
+Message-Id: <20230816082531.164695-3-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230816082531.164695-1-sarah.walker@imgtec.com>
 References: <20230816082531.164695-1-sarah.walker@imgtec.com>
@@ -77,58 +79,58 @@ X-ClientProxiedBy: LO3P265CA0023.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:400:170::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|CWLP265MB2546:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8e1dcd1-a978-4d87-5d16-08db9e326953
+X-MS-TrafficTypeDiagnostic: CWLP265MB4817:EE_|LNXP265MB2491:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9795e3d6-b921-4bb2-ab85-08db9e32766f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nWiGi/9FqvEfQUcYVMcdo7bDyQik77om99wfyeD2BW2HwtfAMT2/GNco8hWrOZFkS7j6NTzEX7A1YZtSi1iDtPuxtgxMjkTDn+tSeQMfgpRrO+5eZBha5u/w7irdq5MmJY7/+gMp05QtwgWB66PalPX8iNXz2RV7ZFtSYlyrYvMV8rbmOjA6iMUS61IPLn9kZar6IlsCmz2RG1wXIEDe12zCoQvKBRMhg5hKdGCvf1YoCUiRLatAJiOJnw35VDmvVYNlX4mE7ZjNnoDrNHaZPoGDfkstfObPXDl74FffU62VbwDCty4kbKYWr0K8WzJQ4wv5xNSnRZYE8CdBzy1fXmkGcrYeHtrFW5GyVZAUpBNiorESkRUPY/TeBtHnnDxrf9eD/R6CmVavWizMp3nVe7GKylhTiXj1cb2q4IJ8Ycp2+7eX99zZ7wV2WOzsMunlaaSzSRXvrX4ueH7YV2BztrCsIOvStKvWG9bx3axVvVqf4Y1eOcBJTBH33B8aLaT/0e6q6hwYieCf4CVN7i+HTVPf7Cvzqo6OHe7vo9ortjHGC2eyQn7LbK//vSMtU5yMAPJH8SAzeICN5P3bAne9vJqFDJu4065ZfO7Si6bTvPWTBrVCdhS/WvWJUwl7Eeo0
+X-Microsoft-Antispam-Message-Info: um04gPC91D01OLTnBShC8Ovq0+E7pY/hSE5e1sb1SuEchcJgt33Iz7V+0X5Fduvk5DhM2iw6yiNOI9Ay1n4iJ1isIcjq9obIyuPMyfz4pzrFk5lUhrC6+pAW2tM8JZSjBA0+vh2c9VRvjMEIjrQVMh4iwF0hMfXmAQ6iJO3jWCkq18Eu4PZ0SsLJ5rE8PO3WnGTK7KfZN12+0N7RAPcOCPrcwSDse/DBdt81SFKN8Y2c0fS0NZ91dATSMNHFxZh2+DnRfdMacGBjvQnGFgvsNW2q53KimfSDsOrWDCkVavEyV/TTmkU3aW5Dmr8a26V2fFSzMRi74l/NhlURON2v3JRuBm3rVuG6sRGKws5+B2EYfUdjyhOIZLAcP0KC83z4kyG3f7i6wksyOHCA+llyT+N4qbFS7S79q3O9dbQqHN34i0Y3p4ljvvFREVEOAEeRWekFNQSucIBwSC6pIFEjxAPEDA0IFxwMJCjaDfiBYXWuHCRVBW27hKmuJz3unxz2/rJhha4dSxWWUI6C+Fmhs/RQT0oYqdVTQ9IX1uSCMCa+IstP3kMTLJvA4xe2RMNSWT3I6pIjriA3ure1bqsUu0nQ1ra7V2umcHlrC9AFo7I=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(366004)(396003)(39850400004)(346002)(136003)(1800799009)(451199024)(186009)(6666004)(54906003)(66476007)(66556008)(66946007)(6512007)(6486002)(6506007)(4744005)(2906002)(478600001)(1076003)(26005)(6916009)(7416002)(5660300002)(2616005)(41300700001)(316002)(44832011)(52116002)(8936002)(4326008)(8676002)(38350700002)(38100700002)(36756003)(86362001);
+ SFS:(13230031)(376002)(366004)(396003)(39850400004)(346002)(136003)(1800799009)(451199024)(186009)(66476007)(66556008)(66946007)(6512007)(6486002)(6506007)(2906002)(478600001)(966005)(1076003)(26005)(6916009)(7416002)(5660300002)(2616005)(83380400001)(41300700001)(316002)(44832011)(52116002)(8936002)(4326008)(8676002)(38350700002)(38100700002)(36756003)(86362001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eBB/X8uC3KR+bWqzDVv96Z8hDj8u1PEyHQKzMj/Qc/N4lyFujmWSktjy1R/a?=
- =?us-ascii?Q?1hsjvvvp4wDDVQtsahsMfK2NtLyioQoHSdGmESvVxWoOgR8dS8HgS34BxFqh?=
- =?us-ascii?Q?IaNYBY4QHkcwyr2zLPFO9b/J0jQjt9CSylCLu4Y5CEVpojySA/wwO4W7EhH/?=
- =?us-ascii?Q?m8Xym2jSzZWnooqS4vwrWFqYkQ4yD6Ob5SCOjTP+/zgybdoqH2Yvxbs8dLiI?=
- =?us-ascii?Q?h3Bfw2xq1GNi7M1OBL7SXWA3sTYoAo8SPJO5SdwdNVRuHvpPzn2L8ct2yBCi?=
- =?us-ascii?Q?UFGp42cYaJwMb034pkoZ56Z6lWWIhj3psxUr3YUI5S57LY20mqwUCTz/9reP?=
- =?us-ascii?Q?n8d3x7HEfLE79+a6KEZrmIT65DBy8ipl1wJsWQo/dexM4rLCIE0Y/X33co9a?=
- =?us-ascii?Q?4V/GMIY3qBkyu1IkKOP6BYDTsvDZYo5XBI5i6yXHR2mSUz3NJF6KzVBjpqCL?=
- =?us-ascii?Q?ktVolboVNqfpMYc8hBE5Wm1/u3RAXKTiF/PckdQgECsBRP/hEItYd42AaT1k?=
- =?us-ascii?Q?ZAkRavoXFc/s1O9cs7n53Um9oAGixEOOju+hNHK+L2rJtI5Dwv3UMSXuZVIF?=
- =?us-ascii?Q?lRQET6WTtjs3f+BHEF3gCztnlaemWtpZpT+U5mk3sf0phMn7/pdwcFYU26dJ?=
- =?us-ascii?Q?3rO06P3XOagLvw08Qnegkv71ZgLNW7G9Nmrh5RwRWM4gs0Ma8DFDCO3fBHRL?=
- =?us-ascii?Q?tAmxEixvMOZPCKD8BRgFyJt6d+8/GX27ituLffcxRDbPZFM1sUCgCdZbKvqj?=
- =?us-ascii?Q?/vatJHSPYrHD5MyUsww7u1BJ6m02lcU2gnLka9ENdp87QL6oRCtjHcvQaWP8?=
- =?us-ascii?Q?RDmxuD50uEhqBShpuYLlF86wBN1NQbFfS4w8vJnZIufBSgFm8XD1bDTNu4bk?=
- =?us-ascii?Q?2JU/i4kLZxmKTmoFnGMM5efPJ7PZ5cIQXLhwdP5JqDeRoc1U5XklhZ5kI1b3?=
- =?us-ascii?Q?F6x7TL0FDS1SbEb4van7t0tw5JoJtPsTciFt8KJMD55W2BESwzalrRAhlIDy?=
- =?us-ascii?Q?Zqj+rjcNy5pbWtL6kciGPM0tIJyvCGKrIe1Hb0sSVkxgoP35ONJkw/GpCa9O?=
- =?us-ascii?Q?KFvHwnTIjJwA9OTBrQbwCCanu1g+2j+ppBkfd512+BjEnSR6muHuPiLf5V9m?=
- =?us-ascii?Q?XccSOIwmKLW56JgtuELAdro/anudVWazSyUoSO6/MjPkndArP5aXbmr+92On?=
- =?us-ascii?Q?MuD+jj1VMTxEfC3eKWa3Ub7XWzHGkwww9PjY1z29D83W95KibzF0RyStkDPs?=
- =?us-ascii?Q?fpmaD0WUa5MvfYKfP1sWN0fiEhYzWaqCR6DerBKAMkU2OQiY0MVOBl47pkpp?=
- =?us-ascii?Q?C9JW68QJ0EjKf/XFQd0rNmcWP2QvBC/RV/9btXk9rBzf/DxzCL10soEX5L+1?=
- =?us-ascii?Q?p/elWS1nx0piBSAxSII0CONaFIqZm6tgdjIT6amT9bLbpoBPRroeFgtBlvGU?=
- =?us-ascii?Q?/3725+cl/0R1d7QtFJUl8BFn3FGZdWQf9tP95hMEw2OHBYLJQhu+FRo2KI+G?=
- =?us-ascii?Q?RXiwYyVIapo6sCb5JsWZLJrVAJ/AW1wTVUaH2OIRTnIcr7XJHagfoFjsn7i+?=
- =?us-ascii?Q?pmTOCwbqjW6/ZntrjXs0BQt83RtVkGhNgn+B61IOgb5VMZo4KZpKrHKhwEEZ?=
- =?us-ascii?Q?Aw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8e1dcd1-a978-4d87-5d16-08db9e326953
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Ujp1mhaqQLv03tFiogCaPbSY5+oLzX0J6RKRjXLHBbdIa9ByEoP7r2FKxxCk?=
+ =?us-ascii?Q?mMC58/hqYeXpH8XPxTH1xUWjtZ7b/vLv61WQaUCDqKB1E1FlXNnYI6m0knpb?=
+ =?us-ascii?Q?ST5Wssh/L6OUTjoNv7YAFuKjxUx6TC282JczOLpjhXIroiXcoMoYDAQnky+f?=
+ =?us-ascii?Q?6Yd8E5f/yXl52E3HbrkL6sVOxhCFgb0v0xatEtjIxm6479VW7hjMZIwRR0pM?=
+ =?us-ascii?Q?NDI6v4a4UTaja/ZkAj/nggEVJ1cx/ybPJA4OxBBU2dbwMBMelWZIHLEPolbO?=
+ =?us-ascii?Q?t+c7f0lfiRUfKFuWpwfsHlNt/tsiIDd3QOF+j7+zukgOMAbzF/a5Fobi7IUK?=
+ =?us-ascii?Q?Tu2kJOK5TBfJsUfM9mlvEVBOmZQRXA2gG0P0s/ebp4HvNgvGjxFFz1lg7io3?=
+ =?us-ascii?Q?kkWYWhuKWwOVmsrse81tnCHzy4BaCFH1CayL6y4CagJP3TsjX9vHX6gbguGX?=
+ =?us-ascii?Q?i2cRTPTXh2sNYMdqUPNT36FBEGiugvh690pzIhJnqTHGdVs0RonKn2kwqQ0r?=
+ =?us-ascii?Q?0XMgha2HU2iQ17Ny1tkLKP675ZS//ABPTZ0ACwf90Qod2BFRH2kb2AKxRQAn?=
+ =?us-ascii?Q?GBhkfvNHnmBeAxUCeYx0tewHSmvzr5hjpwJdF0gJDAd6JlQ+Cs1GJQWGpqun?=
+ =?us-ascii?Q?021LMGNpyKZcYoeRNWlJYgv+QZ/LMjIfBEqyDK3dbEOSItG3Bk42lKP/4qzN?=
+ =?us-ascii?Q?JQaiAOLafBNaSCpbBrb5H9M3gQNkins5w/fy/4PZ/ya54c0Fvd8vmN1wJrzA?=
+ =?us-ascii?Q?QtebKisPGK6QybHTbus0/E3T0C9IUJdYWlSl44QbTQE8bh5icFEPEKmK7fyk?=
+ =?us-ascii?Q?8itTjrmbk+cK6KzIQ69O0gRA/8LWQSyACRoyBxhPq/xqe+8jIapP/jCEg93L?=
+ =?us-ascii?Q?coK/Cq0HIdiToBgvPirnqOWI7X8VD0dkpzpIcPgkTXrdbAsDtJvX2Bu8qQNG?=
+ =?us-ascii?Q?mXCChGlZ6Zoe4e4gwT1u8PLMiSLS0zXxbV8QJFCbKqoKLdqUCmj45btwnueP?=
+ =?us-ascii?Q?Yh6fFicHQNz4BSHADDXTvbWDY/1pN4gbnPcEQ1DEszsvi2tRXSX9oyqQHDvK?=
+ =?us-ascii?Q?kPVJ/WGXfCvLnkb9UaJFCIISRakMmc69BDZEuQc48lwAV5QFoGESIgM6Ahjf?=
+ =?us-ascii?Q?qXWRZXa/Ye97ZgGC/zcVBXN4u3hcj40ehQSAYRxcvKPvtXLWVYqhXU6OYsPJ?=
+ =?us-ascii?Q?oXs5pOZVwBAR/SzP40cRBVLLkDVZXn5qFxcVE/u0m9nIB5nQhlj7i/aLYyDt?=
+ =?us-ascii?Q?pkRbJkYq7WG5RW6I0unxT/c+WxFYl0e9ergD1V2CsAcY9wqg5XFn9/7DTGeX?=
+ =?us-ascii?Q?udGxZwhLFxJ/dClS8QF7/SeyWHIfTLbHYAD4udzYOzKzRCabUeKMeIXdG0ia?=
+ =?us-ascii?Q?vD+gbo/7JKQPV/mp/0Bckmq1p9RxWfz0yqeDfi1hvydOvKQ4YSJ/EFGeUeR2?=
+ =?us-ascii?Q?3RaNuHimM3tkBHrH43xOw8k3oLZZ5+0u110ha2xB8rsEzkc3t2NCnK9+afM8?=
+ =?us-ascii?Q?b5+ryqjPo3HMVkvODqbaz9dL4Onwb9payAmABbUjiXO0D8opDiASrTBSFKVr?=
+ =?us-ascii?Q?YtpvF5/kPz/dA5Qlhq09YHAEZCU3qK0q/woLoM6lUzj19QsKUD1Bbx7VfHKN?=
+ =?us-ascii?Q?qg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9795e3d6-b921-4bb2-ab85-08db9e32766f
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB4817.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 08:25:55.6855 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 08:26:17.7020 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dnPCbjwjGcMcBW+3Pmqwj1FlzoCoICW4wmthtmOGhPveg+DLgrYpZ0Wbgv/M/J0s2A/pGwNFMXzdIaphuewmDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2546
+X-MS-Exchange-CrossTenant-UserPrincipalName: yxcq2MQBjoyDWqLEf9J9s4OlAGQzP22m6eC/ZWjHMK4hjWAUOpEGDyhJqvM0UI+sJOglny1ioo0toAARAhxufQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2491
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: x4Tu9VgH-g6RVTaXIvJRZrVs3eKMANkT
-X-Proofpoint-GUID: x4Tu9VgH-g6RVTaXIvJRZrVs3eKMANkT
+X-Proofpoint-ORIG-GUID: UY5bicqNVUoNbgo6GN2BZSkbFlDoIGx9
+X-Proofpoint-GUID: UY5bicqNVUoNbgo6GN2BZSkbFlDoIGx9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,42 +145,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: matthew.brost@intel.com, luben.tuikov@amd.com, tzimmermann@suse.de,
  linux-kernel@vger.kernel.org, mripard@kernel.org, afd@ti.com,
- Matt Coster <matt.coster@imgtec.com>, boris.brezillon@collabora.com,
- dakr@redhat.com, donald.robson@imgtec.com, hns@goldelico.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+ boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
+ hns@goldelico.com, christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Coster <matt.coster@imgtec.com>
+Add the device tree binding documentation for the Series AXE GPU used in
+TI AM62 SoCs.
 
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Co-developed-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Frank Binns <frank.binns@imgtec.com>
+Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- include/linux/sizes.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Changes since v4:
+- Add clocks constraint for ti,am62-gpu
+- Remove excess address and size cells in example
+- Remove interrupt name and add maxItems
+- Make property order consistent between dts and bindings doc
+- Update example to match dts
 
-diff --git a/include/linux/sizes.h b/include/linux/sizes.h
-index 84aa448d8bb3..c3a00b967d18 100644
---- a/include/linux/sizes.h
-+++ b/include/linux/sizes.h
-@@ -47,8 +47,17 @@
- #define SZ_8G				_AC(0x200000000, ULL)
- #define SZ_16G				_AC(0x400000000, ULL)
- #define SZ_32G				_AC(0x800000000, ULL)
-+#define SZ_64G				_AC(0x1000000000, ULL)
-+#define SZ_128G				_AC(0x2000000000, ULL)
-+#define SZ_256G				_AC(0x4000000000, ULL)
-+#define SZ_512G				_AC(0x8000000000, ULL)
+Changes since v3:
+- Remove oneOf in compatible property
+- Remove power-supply (not used on AM62)
+
+Changes since v2:
+- Add commit message description
+- Remove mt8173-gpu support (not currently supported)
+- Drop quotes from $id and $schema
+- Remove reg: minItems
+- Drop _clk suffixes from clock-names
+- Remove operating-points-v2 property and cooling-cells (not currently
+  used)
+- Add additionalProperties: false
+- Remove stray blank line at the end of file
+
+ .../devicetree/bindings/gpu/img,powervr.yaml  | 75 +++++++++++++++++++
+ MAINTAINERS                                   |  7 ++
+ 2 files changed, 82 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
+
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+new file mode 100644
+index 000000000000..40ade5ceef6e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2023 Imagination Technologies Ltd.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Imagination Technologies PowerVR GPU
++
++maintainers:
++  - Sarah Walker <sarah.walker@imgtec.com>
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - ti,am62-gpu
++      - const: img,powervr-seriesaxe
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: core
++      - const: mem
++      - const: sys
++    minItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++
++additionalProperties: false
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: ti,am62-gpu
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names:
++          const: core
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/soc/ti,sci_pm_domain.h>
++
++    gpu: gpu@fd00000 {
++        compatible = "ti,am62-gpu", "img,powervr-seriesaxe";
++        reg = <0x0fd00000 0x20000>;
++        clocks = <&k3_clks 187 0>;
++        clock-names = "core";
++        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
++        power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cd882b87a3c6..f84390bb6cfe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10138,6 +10138,13 @@ IMGTEC IR DECODER DRIVER
+ S:	Orphan
+ F:	drivers/media/rc/img-ir/
  
- #define SZ_1T				_AC(0x10000000000, ULL)
-+#define SZ_2T				_AC(0x20000000000, ULL)
-+#define SZ_4T				_AC(0x40000000000, ULL)
-+#define SZ_8T				_AC(0x80000000000, ULL)
-+#define SZ_16T				_AC(0x100000000000, ULL)
-+#define SZ_32T				_AC(0x200000000000, ULL)
- #define SZ_64T				_AC(0x400000000000, ULL)
- 
- #endif /* __LINUX_SIZES_H__ */
++IMGTEC POWERVR DRM DRIVER
++M:	Frank Binns <frank.binns@imgtec.com>
++M:	Sarah Walker <sarah.walker@imgtec.com>
++M:	Donald Robson <donald.robson@imgtec.com>
++S:	Supported
++F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
++
+ IMON SOUNDGRAPH USB IR RECEIVER
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
 -- 
 2.41.0
 
