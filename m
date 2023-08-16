@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA5B77E045
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2E277E044
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7A710E35C;
-	Wed, 16 Aug 2023 11:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57FA110E35B;
+	Wed, 16 Aug 2023 11:26:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B07710E354
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:25:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 244D210E359
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:25:59 +0000 (UTC)
 Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F570D92;
- Wed, 16 Aug 2023 13:24:43 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F6E28610;
+ Wed, 16 Aug 2023 13:24:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692185084;
- bh=V/DMo8p5jJ8+UtiQ3KTL91bfgqjlzonLkdA5+0U3ogc=;
+ s=mail; t=1692185085;
+ bh=mzuNNrlR1ZEml0Ert0BP5I69sb5mNHms4gIhBN+F6LM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ERltfdu2eBnpmL/LBoit72Hru9VBNcX47Lo1zx1ccPyZft0YP2LkbhIZoxpkIGHGL
- 52JVyDtKk44gkv4B5lUjvFx+/XAqKVzc3mV1CGvgrflZoEvjsal7ZuWilrYnbSFuk/
- mOnEUvjXYdp6U+I4DZPS+KJLH4TuLmLtd1sf7aIw=
+ b=pWdHSAkhOGjZbGsoA05DL+QpwetHGveQ/urdVmLrGeG/UGbFf5NJYQK4EC5WuBZC8
+ EAIcz1z0cGed2DApNnuCZIOAMy6+qMGsbsxfuv64IA+81EbRTLAnysIwYP/kAnb/LQ
+ hRFibGT8B5m/sBwd63euJvL9A20JoNQWLx6LoCK4=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 16 Aug 2023 14:25:13 +0300
-Subject: [PATCH v2 10/12] drm/bridge: tc358768: Fix tc358768_ns_to_cnt()
+Date: Wed, 16 Aug 2023 14:25:14 +0300
+Subject: [PATCH v2 11/12] drm/bridge: tc358768: Attempt to fix DSI
+ horizontal timings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230816-tc358768-v2-10-242b9d5f703a@ideasonboard.com>
+Message-Id: <20230816-tc358768-v2-11-242b9d5f703a@ideasonboard.com>
 References: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
 In-Reply-To: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -41,21 +42,21 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxim Schwalm <maxim.schwalm@gmail.com>, 
  Francesco Dolcini <francesco@dolcini.it>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=900;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11714;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=V/DMo8p5jJ8+UtiQ3KTL91bfgqjlzonLkdA5+0U3ogc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI3zCHuO6AmxVhkUJGJFXofoGAsxytMXWp9P
- arfgWl12GmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNwAKCRD6PaqMvJYe
- 9VYjD/4sMcfAdNbGdhnKHr0OSe9t2N96tQd5xl7nJ0/QhduZXNKyXr9fYrJnhA9+JuR/jeD5TGq
- TLYSxH1CURmXkIDIGDhrNALFcyei8Ypd6rWd9Mty80vwbH/L7Bny3JwHa3mjv0yJN1EI0Sel3hC
- lGD2h2VBQeKo2NaKIHChPAbzNcIyomW+SYkm4jn+k/tlGj84dyDXyy1TcuhVPsjAs2pGm1bGzvv
- xrYyBeIl5z2QC2H+q9lDhmSCvWJauztkfhWJlka6N3mSD+DtxAcNfX62oSv8iB0TUWw7l2dlSwG
- 0PiWHGzm8UklqQbo15R4VAxAm6uSod8lFxjgrGH6rp3Ws483IbIkr2jz0jujvL3TCm+kK4ru+Fn
- Hff2AmoObx6kKWqs1uyHlALGi/YOB63BnNMRI+askPFSVwIY9U2HmE+rZWbMvedT54SY23o8ZS6
- Wup76E1AWdcRi6C1eQ4V2cR8inFSYdtAL8l8KRhzwcg4l6t2X6LSRIN8/K3xriSEq56WQOJyvfI
- aJN3xZ1qFstbMahyQ4syXdWVvz+y52MX0OyEGvaURaJ+I4fe8DSYf4v3ZFU9WSZvON0o+hjEImB
- UPjJB2Ffno+wV2zggrgnXSau4ymuaMHVkR9PwEoFMg/DLQb0F91qDUfe8AF1DVadu7GGaPeQW7M
- oMVpAHeEAeqpyuQ==
+ bh=mzuNNrlR1ZEml0Ert0BP5I69sb5mNHms4gIhBN+F6LM=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI3Uidt1E4yEDF+aclzj4oCB+msIZNn9l4Ng
+ Tx0Nv+fYeaJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNwAKCRD6PaqMvJYe
+ 9WfrEACtOllk1tRNUw2ZkjdZztZCfkF46yJLT7JMqI8uQzztjG4ub87cDZZXF1naHdPv5mCXpJ6
+ rzwJworMrPJl7N/ohHdYsi4Y98IywpTvySul8InDq34HSAIZTYZreNddMJTHlcjlBYi1Ln8p+gS
+ AVZrN44V1O3AuKRVe4G1ePH7GqI39Yqriq0Uehu7+kNKLKvXDelY4o3voTJ+P3+BiMzaH2J+3Z+
+ 2QYx2KCeWxL6p01fTmk/VXD6rn34gGvue/alCfmkWQSLUZst1HykZusbtp0IMyyRwxKylZB6rSW
+ mWkSb5HBy08YskcV3urJA5tyFxoOESmxcGmX4TRu5UPKZ63otfZikvtjIJySB0BlQfhklAeNKId
+ xgHcr++x8ZvGLlTZR3kd7b6ESi4RCox8Gb9GMFtdmqYO06JI0/U/7wWrJ4lDs5JN/CeqDaA5gue
+ hEX8bbIFqp9PfX/C9Cggt/isTlByy6Ka8jSswLcxN/ACayudP8WIeBGPzAXCunh3Blr8TLrkTsN
+ yoTwujF9ZkNAhsxDwCEWE0oy2N8yfsdAgqqu650Dr7sVzH6Osv15VaXyB5PxtBOo5WBptrjUzf6
+ +YNMfhVObFDIBmtMJNe9b8r6/LgvZdl5eXKl/HnZX5XrAt01riaxcK6mu9PeCa2hL07qqavwAlm
+ EzuyXPV1G8tPTuA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,30 +77,332 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tc358768_ns_to_cnt() is, most likely, supposed to do a div-round-up
-operation, but it misses subtracting one from the dividend.
+The DSI horizontal timing calculations done by the driver seem to often
+lead to underflows or overflows, depending on the videomode.
 
-Fix this by just using DIV_ROUND_UP().
+There are two main things the current driver doesn't seem to get right:
+DSI HSW and HFP, and VSDly. However, even following Toshiba's
+documentation it seems we don't always get a working display.
 
-Fixes: ff1ca6397b1d ("drm/bridge: Add tc358768 driver")
+This patch attempts to fix the horizontal timings for DSI event mode, and
+on a system with a DSI->HDMI encoder, a lot of standard HDMI modes now
+seem to work. The work relies on Toshiba's documentation, but also quite
+a bit on empirical testing.
+
+This also adds timing related debug prints to make it easier to improve
+on this later.
+
+The DSI pulse mode has only been tested with a fixed-resolution panel,
+which limits the testing of different modes on DSI pulse mode. However,
+as the VSDly calculation also affects pulse mode, so this might cause a
+regression.
+
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/tc358768.c | 211 +++++++++++++++++++++++++++++++++-----
+ 1 file changed, 183 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 9411b0fb471e..dc2241c18dde 100644
+index dc2241c18dde..ea19de5509ed 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -630,7 +630,7 @@ static int tc358768_setup_pll(struct tc358768_priv *priv,
+@@ -9,6 +9,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
++#include <linux/math64.h>
+ #include <linux/media-bus-format.h>
+ #include <linux/minmax.h>
+ #include <linux/module.h>
+@@ -157,6 +158,7 @@ struct tc358768_priv {
+ 	u32 frs;	/* PLL Freqency range for HSCK (post divider) */
  
- static u32 tc358768_ns_to_cnt(u32 ns, u32 period_ps)
- {
--	return (ns * 1000 + period_ps) / period_ps;
-+	return DIV_ROUND_UP(ns * 1000, period_ps);
+ 	u32 dsiclk;	/* pll_clk / 2 */
++	u32 pclk;	/* incoming pclk rate */
+ };
+ 
+ static inline struct tc358768_priv *dsi_host_to_tc358768(struct mipi_dsi_host
+@@ -380,6 +382,7 @@ static int tc358768_calc_pll(struct tc358768_priv *priv,
+ 	priv->prd = best_prd;
+ 	priv->frs = frs;
+ 	priv->dsiclk = best_pll / 2;
++	priv->pclk = mode->clock * 1000;
+ 
+ 	return 0;
+ }
+@@ -638,6 +641,28 @@ static u32 tc358768_ps_to_ns(u32 ps)
+ 	return ps / 1000;
  }
  
- static u32 tc358768_ps_to_ns(u32 ps)
++static u32 tc358768_dpi_to_ns(u32 val, u32 pclk)
++{
++	return (u32)div_u64((u64)val * NANO, pclk);
++}
++
++/* Convert value in DPI pixel clock units to DSI byte count */
++static u32 tc358768_dpi_to_dsi_bytes(struct tc358768_priv *priv, u32 val)
++{
++	u64 m = (u64)val * priv->dsiclk / 4 * priv->dsi_lanes;
++	u64 n = priv->pclk;
++
++	return (u32)div_u64(m + n - 1, n);
++}
++
++static u32 tc358768_dsi_bytes_to_ns(struct tc358768_priv *priv, u32 val)
++{
++	u64 m = (u64)val * NANO;
++	u64 n = priv->dsiclk / 4 * priv->dsi_lanes;
++
++	return (u32)div_u64(m, n);
++}
++
+ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ {
+ 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+@@ -647,11 +672,19 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	s32 raw_val;
+ 	const struct drm_display_mode *mode;
+ 	u32 hsbyteclk_ps, dsiclk_ps, ui_ps;
+-	u32 dsiclk, hsbyteclk, video_start;
+-	const u32 internal_delay = 40;
++	u32 dsiclk, hsbyteclk;
+ 	int ret, i;
+ 	struct videomode vm;
+ 	struct device *dev = priv->dev;
++	/* In pixelclock units */
++	u32 dpi_htot, dpi_data_start;
++	/* In byte units */
++	u32 dsi_dpi_htot, dsi_dpi_data_start;
++	u32 dsi_hsw, dsi_hbp, dsi_hact, dsi_hfp;
++	const u32 dsi_hss = 4; /* HSS is a short packet (4 bytes) */
++	/* In hsbyteclk units */
++	u32 dsi_vsdly;
++	const u32 internal_dly = 40;
+ 
+ 	if (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
+ 		dev_warn_once(dev, "Non-continuous mode unimplemented, falling back to continuous\n");
+@@ -686,27 +719,23 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	case MIPI_DSI_FMT_RGB888:
+ 		val |= (0x3 << 4);
+ 		hact = vm.hactive * 3;
+-		video_start = (vm.hsync_len + vm.hback_porch) * 3;
+ 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_24;
+ 		break;
+ 	case MIPI_DSI_FMT_RGB666:
+ 		val |= (0x4 << 4);
+ 		hact = vm.hactive * 3;
+-		video_start = (vm.hsync_len + vm.hback_porch) * 3;
+ 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_18;
+ 		break;
+ 
+ 	case MIPI_DSI_FMT_RGB666_PACKED:
+ 		val |= (0x4 << 4) | BIT(3);
+ 		hact = vm.hactive * 18 / 8;
+-		video_start = (vm.hsync_len + vm.hback_porch) * 18 / 8;
+ 		data_type = MIPI_DSI_PIXEL_STREAM_3BYTE_18;
+ 		break;
+ 
+ 	case MIPI_DSI_FMT_RGB565:
+ 		val |= (0x5 << 4);
+ 		hact = vm.hactive * 2;
+-		video_start = (vm.hsync_len + vm.hback_porch) * 2;
+ 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_16;
+ 		break;
+ 	default:
+@@ -716,9 +745,150 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 		return;
+ 	}
+ 
++	/*
++	 * There are three important things to make TC358768 work correctly,
++	 * which are not trivial to manage:
++	 *
++	 * 1. Keep the DPI line-time and the DSI line-time as close to each
++	 *    other as possible.
++	 * 2. TC358768 goes to LP mode after each line's active area. The DSI
++	 *    HFP period has to be long enough for entering and exiting LP mode.
++	 *    But it is not clear how to calculate this.
++	 * 3. VSDly (video start delay) has to be long enough to ensure that the
++	 *    DSI TX does not start transmitting util we have started receiving
++	 *    pixel data from the DPI input. It is not clear how to calculate
++	 *    this either.
++	 */
++
++	dpi_htot = vm.hactive + vm.hfront_porch + vm.hsync_len + vm.hback_porch;
++	dpi_data_start = vm.hsync_len + vm.hback_porch;
++
++	dev_dbg(dev, "dpi horiz timing (pclk): %u + %u + %u + %u = %u\n",
++		vm.hsync_len, vm.hback_porch, vm.hactive, vm.hfront_porch,
++		dpi_htot);
++
++	dev_dbg(dev, "dpi horiz timing (ns): %u + %u + %u + %u = %u\n",
++		tc358768_dpi_to_ns(vm.hsync_len, vm.pixelclock),
++		tc358768_dpi_to_ns(vm.hback_porch, vm.pixelclock),
++		tc358768_dpi_to_ns(vm.hactive, vm.pixelclock),
++		tc358768_dpi_to_ns(vm.hfront_porch, vm.pixelclock),
++		tc358768_dpi_to_ns(dpi_htot, vm.pixelclock));
++
++	dev_dbg(dev, "dpi data start (ns): %u + %u = %u\n",
++		tc358768_dpi_to_ns(vm.hsync_len, vm.pixelclock),
++		tc358768_dpi_to_ns(vm.hback_porch, vm.pixelclock),
++		tc358768_dpi_to_ns(dpi_data_start, vm.pixelclock));
++
++	dsi_dpi_htot = tc358768_dpi_to_dsi_bytes(priv, dpi_htot);
++	dsi_dpi_data_start = tc358768_dpi_to_dsi_bytes(priv, dpi_data_start);
++
++	if (dsi_dev->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) {
++		dsi_hsw = tc358768_dpi_to_dsi_bytes(priv, vm.hsync_len);
++		dsi_hbp = tc358768_dpi_to_dsi_bytes(priv, vm.hback_porch);
++	} else {
++		/* HBP is included in HSW in event mode */
++		dsi_hbp = 0;
++		dsi_hsw = tc358768_dpi_to_dsi_bytes(priv,
++			vm.hsync_len + vm.hback_porch);
++
++		/*
++		 * The pixel packet includes the actual pixel data, and:
++		 * DSI packet header = 4 bytes
++		 * DCS code = 1 byte
++		 * DSI packet footer = 2 bytes
++		 */
++		dsi_hact = hact + 4 + 1 + 2;
++
++		dsi_hfp = dsi_dpi_htot - dsi_hact - dsi_hsw - dsi_hss;
++
++		/*
++		 * Here we should check if HFP is long enough for entering LP
++		 * and exiting LP, but it's not clear how to calculate that.
++		 * Instead, this is a naive algorithm that just adjusts the HFP
++		 * and HSW so that HFP is (at least) roughly 2/3 of the total
++		 * blanking time.
++		 */
++		if (dsi_hfp < (dsi_hfp + dsi_hsw + dsi_hss) * 2 / 3) {
++			u32 old_hfp = dsi_hfp;
++			u32 old_hsw = dsi_hsw;
++			u32 tot = dsi_hfp + dsi_hsw + dsi_hss;
++
++			dsi_hsw = tot / 3;
++
++			/*
++			 * Seems like sometimes HSW has to be divisible by num-lanes, but
++			 * not always...
++			 */
++			dsi_hsw = roundup(dsi_hsw, priv->dsi_lanes);
++
++			dsi_hfp = dsi_dpi_htot - dsi_hact - dsi_hsw - dsi_hss;
++
++			dev_dbg(dev,
++				"hfp too short, adjusting dsi hfp and dsi hsw from %u, %u to %u, %u\n",
++				old_hfp, old_hsw, dsi_hfp, dsi_hsw);
++		}
++
++		dev_dbg(dev,
++			"dsi horiz timing (bytes): %u, %u + %u + %u + %u = %u\n",
++			dsi_hss, dsi_hsw, dsi_hbp, dsi_hact, dsi_hfp,
++			dsi_hss + dsi_hsw + dsi_hbp + dsi_hact + dsi_hfp);
++
++		dev_dbg(dev, "dsi horiz timing (ns): %u + %u + %u + %u + %u = %u\n",
++			tc358768_dsi_bytes_to_ns(priv, dsi_hss),
++			tc358768_dsi_bytes_to_ns(priv, dsi_hsw),
++			tc358768_dsi_bytes_to_ns(priv, dsi_hbp),
++			tc358768_dsi_bytes_to_ns(priv, dsi_hact),
++			tc358768_dsi_bytes_to_ns(priv, dsi_hfp),
++			tc358768_dsi_bytes_to_ns(priv, dsi_hss + dsi_hsw + dsi_hbp + dsi_hact + dsi_hfp));
++	}
++
++	/* VSDly calculation */
++
++	/* Start with the HW internal delay */
++	dsi_vsdly = internal_dly;
++
++	/* Convert to byte units as the other variables are in byte units */
++	dsi_vsdly *= priv->dsi_lanes;
++
++	/* Do we need more delay, in addition to the internal? */
++	if (dsi_dpi_data_start > dsi_vsdly + dsi_hss + dsi_hsw + dsi_hbp) {
++		dsi_vsdly = dsi_dpi_data_start - dsi_hss - dsi_hsw - dsi_hbp;
++		dsi_vsdly = roundup(dsi_vsdly, priv->dsi_lanes);
++	}
++
++	dev_dbg(dev, "dsi data start (bytes) %u + %u + %u + %u = %u\n",
++		dsi_vsdly, dsi_hss, dsi_hsw, dsi_hbp,
++		dsi_vsdly + dsi_hss + dsi_hsw + dsi_hbp);
++
++	dev_dbg(dev, "dsi data start (ns) %u + %u + %u + %u = %u\n",
++		tc358768_dsi_bytes_to_ns(priv, dsi_vsdly),
++		tc358768_dsi_bytes_to_ns(priv, dsi_hss),
++		tc358768_dsi_bytes_to_ns(priv, dsi_hsw),
++		tc358768_dsi_bytes_to_ns(priv, dsi_hbp),
++		tc358768_dsi_bytes_to_ns(priv, dsi_vsdly + dsi_hss + dsi_hsw + dsi_hbp));
++
++	/* Convert back to hsbyteclk */
++	dsi_vsdly /= priv->dsi_lanes;
++
++	/*
++	 * The docs say that there is an internal delay of 40 cycles.
++	 * However, we get underflows if we follow that rule. If we
++	 * instead ignore the internal delay, things work. So either
++	 * the docs are wrong or the calculations are wrong.
++	 *
++	 * As a temporary fix, add the internal delay here, to counter
++	 * the subtraction when writing the register.
++	 */
++	dsi_vsdly += internal_dly;
++
++	/* Clamp to the register max */
++	if (dsi_vsdly - internal_dly > 0x3ff) {
++		dev_warn(dev, "VSDly too high, underflows likely\n");
++		dsi_vsdly = 0x3ff + internal_dly;
++	}
++
+ 	/* VSDly[9:0] */
+-	video_start = max(video_start, internal_delay + 1) - internal_delay;
+-	tc358768_write(priv, TC358768_VSDLY, video_start);
++	tc358768_write(priv, TC358768_VSDLY, dsi_vsdly - internal_dly);
+ 
+ 	tc358768_write(priv, TC358768_DATAFMT, val);
+ 	tc358768_write(priv, TC358768_DSITX_DT, data_type);
+@@ -826,18 +996,6 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 
+ 		/* vbp */
+ 		tc358768_write(priv, TC358768_DSI_VBPR, vm.vback_porch);
+-
+-		/* hsw * byteclk * ndl / pclk */
+-		val = (u32)div_u64(vm.hsync_len *
+-				   (u64)hsbyteclk * priv->dsi_lanes,
+-				   vm.pixelclock);
+-		tc358768_write(priv, TC358768_DSI_HSW, val);
+-
+-		/* hbp * byteclk * ndl / pclk */
+-		val = (u32)div_u64(vm.hback_porch *
+-				   (u64)hsbyteclk * priv->dsi_lanes,
+-				   vm.pixelclock);
+-		tc358768_write(priv, TC358768_DSI_HBPR, val);
+ 	} else {
+ 		/* Set event mode */
+ 		tc358768_write(priv, TC358768_DSI_EVENT, 1);
+@@ -851,16 +1009,13 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 
+ 		/* vbp (not used in event mode) */
+ 		tc358768_write(priv, TC358768_DSI_VBPR, 0);
++	}
+ 
+-		/* (hsw + hbp) * byteclk * ndl / pclk */
+-		val = (u32)div_u64((vm.hsync_len + vm.hback_porch) *
+-				   (u64)hsbyteclk * priv->dsi_lanes,
+-				   vm.pixelclock);
+-		tc358768_write(priv, TC358768_DSI_HSW, val);
++	/* hsw (bytes) */
++	tc358768_write(priv, TC358768_DSI_HSW, dsi_hsw);
+ 
+-		/* hbp (not used in event mode) */
+-		tc358768_write(priv, TC358768_DSI_HBPR, 0);
+-	}
++	/* hbp (bytes) */
++	tc358768_write(priv, TC358768_DSI_HBPR, dsi_hbp);
+ 
+ 	/* hact (bytes) */
+ 	tc358768_write(priv, TC358768_DSI_HACT, hact);
 
 -- 
 2.34.1
