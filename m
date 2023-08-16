@@ -1,60 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7A277E31B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 15:58:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D5377E37A
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 16:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C19A10E0B6;
-	Wed, 16 Aug 2023 13:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78DFD10E372;
+	Wed, 16 Aug 2023 14:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 895CD10E0B6
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 13:58:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692194283; x=1723730283;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=DUczewNPllC94OPCnns3pO2+rMVMgE13ohRtdkbEVoM=;
- b=PdGFLCar8eL4e4VW7HxPoBdzKG97HEV7eUTvi7hEmFo7C0R8szGhPPXK
- 69W8RVUgHLuamGtjFYwjskO95xtiZPXfGcQvijhWlRABU2SGcFLhurjIk
- HZlOCaFu5tWAbl5Tdd+6oS0H7QnsRbhQCAPHbwuOZODNss/zGbZ4PO5Al
- wcdVNVi3+ciaMIbc3r4uLgAsVfGlesQGu5OzYWOicFdi7rOuDNxTCfNrO
- PhpGZjdwDdn+YfnEID72JVsj30Fj3nkpzdtxscxoHeWqI7iD8xni/kdYO
- 16YEIKqqoWjrkR/Z+yDA+NPwHnMOJhJsW3/rzwpwBEdtivkrXxXEweNs0 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352863250"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; d="scan'208";a="352863250"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2023 06:58:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="857828332"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; d="scan'208";a="857828332"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 16 Aug 2023 06:57:56 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qWH23-0000M5-18;
- Wed, 16 Aug 2023 13:57:55 +0000
-Date: Wed, 16 Aug 2023 21:57:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
- david@fromorbit.com, tkhai@ya.ru, vbabka@suse.cz,
- roman.gushchin@linux.dev, djwong@kernel.org, brauner@kernel.org,
- paulmck@kernel.org, tytso@mit.edu, steven.price@arm.com,
- cel@kernel.org, senozhatsky@chromium.org, yujie.liu@intel.com,
- gregkh@linuxfoundation.org, muchun.song@linux.dev,
- joel@joelfernandes.org, christian.koenig@amd.com
-Subject: Re: [PATCH 1/5] mm: move some shrinker-related function declarations
- to mm/internal.h
-Message-ID: <202308162105.y9XrlTA7-lkp@intel.com>
-References: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB4B10E371
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 14:24:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692195868;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3sRKlT8hXEn5OFLextJhDHP3mx2JjgDHfqkY8schRFY=;
+ b=Ib0HuuMjIYEDcNBU8dSc/ySsvb3dZGwAAxnz1qnaLN9HEbvKXQUOVNdN4iqk4Wf4aXFPC+
+ ZQAdYf6a016hb5EuHeAu48x8sJ8IBWjaGNKDDTEE5Tu90HkXqSjCojDYTIKcrTCg+x0qwc
+ aXjhONQe+zlH6WC1d8ES5mu69jeQfuc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-312-8v73ISX2PhG_KNJoMJ9LHw-1; Wed, 16 Aug 2023 10:24:27 -0400
+X-MC-Unique: 8v73ISX2PhG_KNJoMJ9LHw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-98e40d91fdfso35989766b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 07:24:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692195866; x=1692800666;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3sRKlT8hXEn5OFLextJhDHP3mx2JjgDHfqkY8schRFY=;
+ b=Nf2r30DHG2FOOSv0vqR/mkXtVdmReFQB2YlGtS52Wpqtg77x3v9HbJUUroBskdYMFJ
+ DWOCAulFmRplZJDEewXtww3hivo67fa56S7OFVIsmoLdEi69V6RegjxEP1DZ5cIqAsi1
+ cy5w9PTN3rGaol35VLomatL6q29d6WuUTKzjMZuS7e523URiJ07UHXTYCrwLpCp+U8uv
+ oDtA7wPqakiZ8NN4oGiVJQz2RGeVY50J1wOurzjSk4NLCkJ1cq8eeGJjsq5UUa7NFBal
+ sAHmTND/Ha5d2kC3rp/V2FpXSrhhhxTVMiwFXk130Ak9h+dKdCxfRJUg3BZUNs3Yq3PT
+ vCow==
+X-Gm-Message-State: AOJu0YwaH/t8EWPD2kfTmj8PLBOiVt3neveRxVmNMNVUZOc12z7Sxd/6
+ tp1zMAjJCT4zSCFq75JODjdBnk6Tr0PHsttdXAapwoXjJfVvgHjt7nXjSPKrLSQzPfPoBH7UrTR
+ TkJSVryqb/0ruDkNeVKXFvFypc84D
+X-Received: by 2002:a17:906:8a72:b0:99b:d1cb:5add with SMTP id
+ hy18-20020a1709068a7200b0099bd1cb5addmr1451234ejc.35.1692195866153; 
+ Wed, 16 Aug 2023 07:24:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEClvCwwkJzjT3/xLqFrOuVuDQISqd1sTXWJv9Jzko1G9VG6cN7ytoLbmVcGiwK0DKG9S9g/w==
+X-Received: by 2002:a17:906:8a72:b0:99b:d1cb:5add with SMTP id
+ hy18-20020a1709068a7200b0099bd1cb5addmr1451218ejc.35.1692195865862; 
+ Wed, 16 Aug 2023 07:24:25 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ j23-20020a170906411700b00988e953a586sm8533663ejk.61.2023.08.16.07.24.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Aug 2023 07:24:25 -0700 (PDT)
+Message-ID: <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
+Date: Wed, 16 Aug 2023 14:30:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-2-matthew.brost@intel.com>
+ <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
+ <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,151 +93,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Muchun Song <songmuchun@bytedance.com>, linux-kernel@vger.kernel.org,
- Qi Zheng <zhengqi.arch@bytedance.com>, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Qi,
+On 8/16/23 16:05, Christian KÃ¶nig wrote:
+> Am 16.08.23 um 13:30 schrieb Danilo Krummrich:
+>> Hi Matt,
+>>
+>> On 8/11/23 04:31, Matthew Brost wrote:
+>>> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
+>>> mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
+>>> seems a bit odd but let us explain the reasoning below.
+>>>
+>>> 1. In XE the submission order from multiple drm_sched_entity is not
+>>> guaranteed to be the same completion even if targeting the same hardware
+>>> engine. This is because in XE we have a firmware scheduler, the GuC,
+>>> which allowed to reorder, timeslice, and preempt submissions. If a using
+>>> shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
+>>> apart as the TDR expects submission order == completion order. Using a
+>>> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
+>>>
+>>> 2. In XE submissions are done via programming a ring buffer (circular
+>>> buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
+>>> limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
+>>> control on the ring for free.
+>>
+>> In XE, where does the limitation of MAX_SIZE_PER_JOB come from?
+>>
+>> In Nouveau we currently do have such a limitation as well, but it is 
+>> derived from the RING_SIZE, hence RING_SIZE / MAX_SIZE_PER_JOB would 
+>> always be 1. However, I think most jobs won't actually utilize the 
+>> whole ring.
+> 
+> Well that should probably rather be RING_SIZE / MAX_SIZE_PER_JOB = 
+> hw_submission_limit (or even hw_submission_limit - 1 when the hw can't 
+> distinct full vs empty ring buffer).
 
-kernel test robot noticed the following build warnings:
+Not sure if I get you right, let me try to clarify what I was trying to 
+say: I wanted to say that in Nouveau MAX_SIZE_PER_JOB isn't really 
+limited by anything other than the RING_SIZE and hence we'd never allow 
+more than 1 active job.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.5-rc6 next-20230816]
-[cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next vfs-idmapping/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+However, it seems to be more efficient to base ring flow control on the 
+actual size of each incoming job rather than the worst case, namely the 
+maximum size of a job.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-move-some-shrinker-related-function-declarations-to-mm-internal-h/20230816-163833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20230816083419.41088-2-zhengqi.arch%40bytedance.com
-patch subject: [PATCH 1/5] mm: move some shrinker-related function declarations to mm/internal.h
-config: m68k-randconfig-r013-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162105.y9XrlTA7-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162105.y9XrlTA7-lkp@intel.com/reproduce)
+> 
+> Otherwise your scheduler might just overwrite the ring buffer by pushing 
+> things to fast.
+> 
+> Christian.
+> 
+>>
+>> Given that, it seems like it would be better to let the scheduler keep 
+>> track of empty ring "slots" instead, such that the scheduler can 
+>> deceide whether a subsequent job will still fit on the ring and if not 
+>> re-evaluate once a previous job finished. Of course each submitted job 
+>> would be required to carry the number of slots it requires on the ring.
+>>
+>> What to you think of implementing this as alternative flow control 
+>> mechanism? Implementation wise this could be a union with the existing 
+>> hw_submission_limit.
+>>
+>> - Danilo
+>>
+>>>
+>>> A problem with this design is currently a drm_gpu_scheduler uses a
+>>> kthread for submission / job cleanup. This doesn't scale if a large
+>>> number of drm_gpu_scheduler are used. To work around the scaling issue,
+>>> use a worker rather than kthread for submission / job cleanup.
+>>>
+>>> v2:
+>>> Â Â  - (Rob Clark) Fix msm build
+>>> Â Â  - Pass in run work queue
+>>> v3:
+>>> Â Â  - (Boris) don't have loop in worker
+>>> v4:
+>>> Â Â  - (Tvrtko) break out submit ready, stop, start helpers into own patch
+>>>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308162105.y9XrlTA7-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/shrinker_debug.c:174:5: warning: no previous prototype for 'shrinker_debugfs_add' [-Wmissing-prototypes]
-     174 | int shrinker_debugfs_add(struct shrinker *shrinker)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> mm/shrinker_debug.c:249:16: warning: no previous prototype for 'shrinker_debugfs_detach' [-Wmissing-prototypes]
-     249 | struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
->> mm/shrinker_debug.c:265:6: warning: no previous prototype for 'shrinker_debugfs_remove' [-Wmissing-prototypes]
-     265 | void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/shrinker_debugfs_add +174 mm/shrinker_debug.c
-
-bbf535fd6f06b9 Roman Gushchin     2022-05-31  173  
-5035ebc644aec9 Roman Gushchin     2022-05-31 @174  int shrinker_debugfs_add(struct shrinker *shrinker)
-5035ebc644aec9 Roman Gushchin     2022-05-31  175  {
-5035ebc644aec9 Roman Gushchin     2022-05-31  176  	struct dentry *entry;
-e33c267ab70de4 Roman Gushchin     2022-05-31  177  	char buf[128];
-5035ebc644aec9 Roman Gushchin     2022-05-31  178  	int id;
-5035ebc644aec9 Roman Gushchin     2022-05-31  179  
-47a7c01c3efc65 Qi Zheng           2023-06-09  180  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec9 Roman Gushchin     2022-05-31  181  
-5035ebc644aec9 Roman Gushchin     2022-05-31  182  	/* debugfs isn't initialized yet, add debugfs entries later. */
-5035ebc644aec9 Roman Gushchin     2022-05-31  183  	if (!shrinker_debugfs_root)
-5035ebc644aec9 Roman Gushchin     2022-05-31  184  		return 0;
-5035ebc644aec9 Roman Gushchin     2022-05-31  185  
-5035ebc644aec9 Roman Gushchin     2022-05-31  186  	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
-5035ebc644aec9 Roman Gushchin     2022-05-31  187  	if (id < 0)
-5035ebc644aec9 Roman Gushchin     2022-05-31  188  		return id;
-5035ebc644aec9 Roman Gushchin     2022-05-31  189  	shrinker->debugfs_id = id;
-5035ebc644aec9 Roman Gushchin     2022-05-31  190  
-e33c267ab70de4 Roman Gushchin     2022-05-31  191  	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-5035ebc644aec9 Roman Gushchin     2022-05-31  192  
-5035ebc644aec9 Roman Gushchin     2022-05-31  193  	/* create debugfs entry */
-5035ebc644aec9 Roman Gushchin     2022-05-31  194  	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-5035ebc644aec9 Roman Gushchin     2022-05-31  195  	if (IS_ERR(entry)) {
-5035ebc644aec9 Roman Gushchin     2022-05-31  196  		ida_free(&shrinker_debugfs_ida, id);
-5035ebc644aec9 Roman Gushchin     2022-05-31  197  		return PTR_ERR(entry);
-5035ebc644aec9 Roman Gushchin     2022-05-31  198  	}
-5035ebc644aec9 Roman Gushchin     2022-05-31  199  	shrinker->debugfs_entry = entry;
-5035ebc644aec9 Roman Gushchin     2022-05-31  200  
-2124f79de6a909 John Keeping       2023-04-18  201  	debugfs_create_file("count", 0440, entry, shrinker,
-5035ebc644aec9 Roman Gushchin     2022-05-31  202  			    &shrinker_debugfs_count_fops);
-2124f79de6a909 John Keeping       2023-04-18  203  	debugfs_create_file("scan", 0220, entry, shrinker,
-bbf535fd6f06b9 Roman Gushchin     2022-05-31  204  			    &shrinker_debugfs_scan_fops);
-5035ebc644aec9 Roman Gushchin     2022-05-31  205  	return 0;
-5035ebc644aec9 Roman Gushchin     2022-05-31  206  }
-5035ebc644aec9 Roman Gushchin     2022-05-31  207  
-e33c267ab70de4 Roman Gushchin     2022-05-31  208  int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
-e33c267ab70de4 Roman Gushchin     2022-05-31  209  {
-e33c267ab70de4 Roman Gushchin     2022-05-31  210  	struct dentry *entry;
-e33c267ab70de4 Roman Gushchin     2022-05-31  211  	char buf[128];
-e33c267ab70de4 Roman Gushchin     2022-05-31  212  	const char *new, *old;
-e33c267ab70de4 Roman Gushchin     2022-05-31  213  	va_list ap;
-e33c267ab70de4 Roman Gushchin     2022-05-31  214  	int ret = 0;
-e33c267ab70de4 Roman Gushchin     2022-05-31  215  
-e33c267ab70de4 Roman Gushchin     2022-05-31  216  	va_start(ap, fmt);
-e33c267ab70de4 Roman Gushchin     2022-05-31  217  	new = kvasprintf_const(GFP_KERNEL, fmt, ap);
-e33c267ab70de4 Roman Gushchin     2022-05-31  218  	va_end(ap);
-e33c267ab70de4 Roman Gushchin     2022-05-31  219  
-e33c267ab70de4 Roman Gushchin     2022-05-31  220  	if (!new)
-e33c267ab70de4 Roman Gushchin     2022-05-31  221  		return -ENOMEM;
-e33c267ab70de4 Roman Gushchin     2022-05-31  222  
-47a7c01c3efc65 Qi Zheng           2023-06-09  223  	down_write(&shrinker_rwsem);
-e33c267ab70de4 Roman Gushchin     2022-05-31  224  
-e33c267ab70de4 Roman Gushchin     2022-05-31  225  	old = shrinker->name;
-e33c267ab70de4 Roman Gushchin     2022-05-31  226  	shrinker->name = new;
-e33c267ab70de4 Roman Gushchin     2022-05-31  227  
-e33c267ab70de4 Roman Gushchin     2022-05-31  228  	if (shrinker->debugfs_entry) {
-e33c267ab70de4 Roman Gushchin     2022-05-31  229  		snprintf(buf, sizeof(buf), "%s-%d", shrinker->name,
-e33c267ab70de4 Roman Gushchin     2022-05-31  230  			 shrinker->debugfs_id);
-e33c267ab70de4 Roman Gushchin     2022-05-31  231  
-e33c267ab70de4 Roman Gushchin     2022-05-31  232  		entry = debugfs_rename(shrinker_debugfs_root,
-e33c267ab70de4 Roman Gushchin     2022-05-31  233  				       shrinker->debugfs_entry,
-e33c267ab70de4 Roman Gushchin     2022-05-31  234  				       shrinker_debugfs_root, buf);
-e33c267ab70de4 Roman Gushchin     2022-05-31  235  		if (IS_ERR(entry))
-e33c267ab70de4 Roman Gushchin     2022-05-31  236  			ret = PTR_ERR(entry);
-e33c267ab70de4 Roman Gushchin     2022-05-31  237  		else
-e33c267ab70de4 Roman Gushchin     2022-05-31  238  			shrinker->debugfs_entry = entry;
-e33c267ab70de4 Roman Gushchin     2022-05-31  239  	}
-e33c267ab70de4 Roman Gushchin     2022-05-31  240  
-47a7c01c3efc65 Qi Zheng           2023-06-09  241  	up_write(&shrinker_rwsem);
-e33c267ab70de4 Roman Gushchin     2022-05-31  242  
-e33c267ab70de4 Roman Gushchin     2022-05-31  243  	kfree_const(old);
-e33c267ab70de4 Roman Gushchin     2022-05-31  244  
-e33c267ab70de4 Roman Gushchin     2022-05-31  245  	return ret;
-e33c267ab70de4 Roman Gushchin     2022-05-31  246  }
-e33c267ab70de4 Roman Gushchin     2022-05-31  247  EXPORT_SYMBOL(shrinker_debugfs_rename);
-e33c267ab70de4 Roman Gushchin     2022-05-31  248  
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03 @249  struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  250  				       int *debugfs_id)
-5035ebc644aec9 Roman Gushchin     2022-05-31  251  {
-badc28d4924bfe Qi Zheng           2023-02-02  252  	struct dentry *entry = shrinker->debugfs_entry;
-badc28d4924bfe Qi Zheng           2023-02-02  253  
-47a7c01c3efc65 Qi Zheng           2023-06-09  254  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec9 Roman Gushchin     2022-05-31  255  
-e33c267ab70de4 Roman Gushchin     2022-05-31  256  	kfree_const(shrinker->name);
-14773bfa70e67f Tetsuo Handa       2022-07-20  257  	shrinker->name = NULL;
-e33c267ab70de4 Roman Gushchin     2022-05-31  258  
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  259  	*debugfs_id = entry ? shrinker->debugfs_id : -1;
-badc28d4924bfe Qi Zheng           2023-02-02  260  	shrinker->debugfs_entry = NULL;
-badc28d4924bfe Qi Zheng           2023-02-02  261  
-badc28d4924bfe Qi Zheng           2023-02-02  262  	return entry;
-5035ebc644aec9 Roman Gushchin     2022-05-31  263  }
-5035ebc644aec9 Roman Gushchin     2022-05-31  264  
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03 @265  void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  266  {
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  267  	debugfs_remove_recursive(debugfs_entry);
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  268  	ida_free(&shrinker_debugfs_ida, debugfs_id);
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  269  }
-26e239b37ebdfd Joan Bruguera Micó 2023-05-03  270  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
