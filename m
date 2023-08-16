@@ -2,75 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9F477EAFB
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 22:47:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B3077EB0C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 22:53:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A65310E3BB;
-	Wed, 16 Aug 2023 20:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3068E10E3BE;
+	Wed, 16 Aug 2023 20:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE5310E3BB
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 20:47:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692218836;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lp/ElRMpuHX0ZQF1pFmv/A7hZ/+TiJdwRTSI4ctDg4Q=;
- b=U9V03XlWWEGYWMhiGJgZUsnvasy4jWLY3pHVUhZKtA6Vz+lfnlPYNEZ03pikNnr+vQghXz
- gPW8eATEH2/2rY+Bfi1yoyt26n8/9lnLtEdcPsw+43NtheMt5QZbkvcm5HyirXsZVg/GRT
- H/c5WyGBgjU+45HHeaHiHfhJhaNer10=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-373-YWz-moblOHOSrSSyXI0GTQ-1; Wed, 16 Aug 2023 16:47:14 -0400
-X-MC-Unique: YWz-moblOHOSrSSyXI0GTQ-1
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-40eedfd4119so73630161cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 13:47:14 -0700 (PDT)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B709310E3BD;
+ Wed, 16 Aug 2023 20:53:37 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1a1fa977667so5302171fac.1; 
+ Wed, 16 Aug 2023 13:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692219217; x=1692824017;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EIGT6OAj0mzc2nkSC81/vi+6gJHIm4hDaa2CtM6vDTc=;
+ b=jAt76ss7cehgq1Dn5iOREr+cxVG88QaqkvEhHuTilA5zdE8+5EztxLpVfrxuKabZpL
+ 5EDhUl00fL16E+qJysUnVI4gSQpsXTNU2i12+O//pK4ZiaRlgdHgKwVRpPHkYKQzhOW7
+ 0WyozT8FtOJU/lXgUDgzKB38HWhzwCI/WnYsUKH1AnM7D5pY5/talOzf1tRh1JscDnBJ
+ HixAi78lHnYFj+cg6pXxodQOrJY8UV6nqUMB4bwyiAi8On3oF0uRRL3rDeUJpZCU9Uiu
+ XJJQbN24wn2Q3i16H85yTZfOztbdbVjai6ZasP8wvReeT1Gac+yshCp3eFhK2rHKjrGg
+ SGCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692218834; x=1692823634;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e3IvmL0y1viiHXLAUyfip1yCYlhOkZ7NLyhRvcY+CDk=;
- b=Y/JIrSLwgPAdGts8qhiT2EaoxbYuUlNyxLlvKQNnHgyb6qFf5UugLfJvOOjRVi7P0G
- WtNxzpN/wl0+d81lF5AJJnthaeNqr6JmW0asmweXP+C1RZ/kDE0o7LmltgzGxvvRhlT8
- kf36j1A87iidcqzFxDIsEcHw/vJ+vGqHtsPeIgaUsunfgaeQh64x3ArWmMruiCLDLPNN
- KgpAMKWpfeER2jKnb5QMoL55IE3CMm8nAmizlTWeP/xiyQRhQo1q8gM7ApdSwmJBLJ3s
- ujVp7Jr/ufX6GdPSWHvnqeWRamcyv+qxNAxj0nRT3D9NcArOz4+eEGNL2lSYHRek61UF
- J8cg==
-X-Gm-Message-State: AOJu0YzqH3gYR9i7v/qgDoBhhNXUpPUrV5VxIN59I5i8Ki5bBs4+qSZH
- x+z9SDymEHxGI1vewJtTIXEAr2MxIT7iTgItGA10oasj7Wrb8N84XmODhgOQdK87btlZuvRkS54
- a9TyfXt839ueBeWbT2oLlvCamJTol
-X-Received: by 2002:a05:622a:1210:b0:403:e895:155b with SMTP id
- y16-20020a05622a121000b00403e895155bmr3853833qtx.34.1692218834031; 
- Wed, 16 Aug 2023 13:47:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEey1QVl493qQLI7bMS4KR7ZC4Pq5U6vCDQZyZMtY+jGAPCQ+P+AzAMGob1aMDWpaV//+fi6g==
-X-Received: by 2002:a05:622a:1210:b0:403:e895:155b with SMTP id
- y16-20020a05622a121000b00403e895155bmr3853816qtx.34.1692218833802; 
- Wed, 16 Aug 2023 13:47:13 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c7d:5f00::feb? ([2600:4040:5c7d:5f00::feb])
- by smtp.gmail.com with ESMTPSA id
- w8-20020ac84d08000000b0040b8ba13701sm4735297qtv.52.2023.08.16.13.47.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Aug 2023 13:47:13 -0700 (PDT)
-Message-ID: <a612e9d4560aa3827114339b1ea92f0181550eca.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
- of nouveau_connector_create
-From: Lyude Paul <lyude@redhat.com>
-To: Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org
-Date: Wed, 16 Aug 2023 16:47:12 -0400
-In-Reply-To: <20230814144933.3956959-1-kherbst@redhat.com>
-References: <20230814144933.3956959-1-kherbst@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38)
+ d=1e100.net; s=20221208; t=1692219217; x=1692824017;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EIGT6OAj0mzc2nkSC81/vi+6gJHIm4hDaa2CtM6vDTc=;
+ b=I1he64accmzQYBdaDLsDlV0AlUptuu6NayJgwqNHAUW3Lf2N79CQZJx1ge/bVD1+4B
+ /6YObOjzigV8m9I9i0py+wdVgnKklBIiNu39OJIYUD4a29TJT6wUaG3NUREn50g7en84
+ +1IYsEZAvPi9fQrkMLLRN/8+jho7+Jwh5BXJNLmdRTFm431Di5Yr6RgdvPmfcqe1jhdn
+ MX5OJPvQ8QC1i47XHXuv1kqcf8L28aO5qArpcXI7TFOyQQEJmRLq7MsAzkivdrdI6X3+
+ WWrATYgXX8ZEIix0GQlA9YIaKHTxVYWEWVYXEnf0pCPzUzKdkiO0X0CSbbfAEtN+5dUK
+ mL9A==
+X-Gm-Message-State: AOJu0YzOSEge70ccAX2WSLjA70B0/qCHuVuKnTvvHvZdqbIXTt/t7CUZ
+ yhpdgGktoPSXbkzfZdrQosgA47dzLMedLJCC3hQ=
+X-Google-Smtp-Source: AGHT+IEHByZDoeR4EN4tKZmePnJQvlusqIFsy11WBSSJOGEA8538DdR6m/+/HXE/O6AAXqy9FNy4znBTsYvuvRZZo3o=
+X-Received: by 2002:a05:6870:b295:b0:1bb:583a:db4a with SMTP id
+ c21-20020a056870b29500b001bb583adb4amr3879233oao.44.1692219216975; Wed, 16
+ Aug 2023 13:53:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230816021958.1921084-1-chenjiahao16@huawei.com>
+In-Reply-To: <20230816021958.1921084-1-chenjiahao16@huawei.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 16 Aug 2023 16:53:26 -0400
+Message-ID: <CADnq5_M51bEAhofMsFPeMi9abcg7OVggUDdR2BUbxX9OUc9bzg@mail.gmail.com>
+Subject: Re: [PATCH -next v3] drm/amd/amdgpu: Use kmemdup to simplify kmalloc
+ and memcpy logic
+To: Chen Jiahao <chenjiahao16@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,69 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Ben Skeggs <bskeggs@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: srinivasan.shanmugam@amd.com, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com, javierm@redhat.com,
+ hongao@uniontech.com, luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, xurui@kylinos.cn, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Applied.  Thanks!
 
-On Mon, 2023-08-14 at 16:49 +0200, Karol Herbst wrote:
-> We can't simply free the connector after calling drm_connector_init on it=
-.
-> We need to clean up the drm side first.
->=20
-> It might not fix all regressions from 2b5d1c29f6c4 ("drm/nouveau/disp:
-> PIOR DP uses GPIO for HPD, not PMGR AUX interrupts"), but at least it
-> fixes a memory corruption in error handling related to that commit.
->=20
-> Link: https://lore.kernel.org/lkml/20230806213107.GFZNARG6moWpFuSJ9W@fat_=
-crate.local/
-> Fixes: 95983aea8003 ("drm/nouveau/disp: add connector class")
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
+Alex
+
+On Tue, Aug 15, 2023 at 10:20=E2=80=AFPM Chen Jiahao <chenjiahao16@huawei.c=
+om> wrote:
+>
+> Using kmemdup() helper function rather than implementing it again
+> with kmalloc() + memcpy(), which improves the code readability.
+>
+> Signed-off-by: Chen Jiahao <chenjiahao16@huawei.com>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/dr=
-m/nouveau/nouveau_connector.c
-> index a2e0033e8a260..622f6eb9a8bfd 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -1408,8 +1408,7 @@ nouveau_connector_create(struct drm_device *dev,
->  =09=09ret =3D nvif_conn_ctor(&disp->disp, nv_connector->base.name, nv_co=
-nnector->index,
->  =09=09=09=09     &nv_connector->conn);
->  =09=09if (ret) {
-> -=09=09=09kfree(nv_connector);
-> -=09=09=09return ERR_PTR(ret);
-> +=09=09=09goto drm_conn_err;
->  =09=09}
-> =20
->  =09=09ret =3D nvif_conn_event_ctor(&nv_connector->conn, "kmsHotplug",
-> @@ -1426,8 +1425,7 @@ nouveau_connector_create(struct drm_device *dev,
->  =09=09=09if (ret) {
->  =09=09=09=09nvif_event_dtor(&nv_connector->hpd);
->  =09=09=09=09nvif_conn_dtor(&nv_connector->conn);
-> -=09=09=09=09kfree(nv_connector);
-> -=09=09=09=09return ERR_PTR(ret);
-> +=09=09=09=09goto drm_conn_err;
->  =09=09=09}
->  =09=09}
->  =09}
-> @@ -1475,4 +1473,9 @@ nouveau_connector_create(struct drm_device *dev,
-> =20
->  =09drm_connector_register(connector);
->  =09return connector;
-> +
-> +drm_conn_err:
-> +=09drm_connector_cleanup(connector);
-> +=09kfree(nv_connector);
-> +=09return ERR_PTR(ret);
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu=
+/drm/amd/amdgpu/amdgpu_connectors.c
+> index d34037b85cf8..7473a42f7d45 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+> @@ -264,16 +264,9 @@ struct edid *amdgpu_connector_edid(struct drm_connec=
+tor *connector)
+>  static struct edid *
+>  amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
+>  {
+> -       struct edid *edid;
+> -
+>         if (adev->mode_info.bios_hardcoded_edid) {
+> -               edid =3D kmalloc(adev->mode_info.bios_hardcoded_edid_size=
+, GFP_KERNEL);
+> -               if (edid) {
+> -                       memcpy((unsigned char *)edid,
+> -                              (unsigned char *)adev->mode_info.bios_hard=
+coded_edid,
+> -                              adev->mode_info.bios_hardcoded_edid_size);
+> -                       return edid;
+> -               }
+> +               return kmemdup((unsigned char *)adev->mode_info.bios_hard=
+coded_edid,
+> +                              adev->mode_info.bios_hardcoded_edid_size, =
+GFP_KERNEL);
+>         }
+>         return NULL;
 >  }
-
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+> --
+> 2.34.1
+>
