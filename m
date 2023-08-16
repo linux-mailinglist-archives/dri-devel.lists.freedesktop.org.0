@@ -1,72 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC7977DDE5
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 11:52:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95F577DF8C
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 12:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1EE10E320;
-	Wed, 16 Aug 2023 09:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED96F10E345;
+	Wed, 16 Aug 2023 10:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 205D910E31E;
- Wed, 16 Aug 2023 09:52:46 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-5236b2b4cdbso8228512a12.3; 
- Wed, 16 Aug 2023 02:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692179564; x=1692784364;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=W3+V3AaCHKihRhw6vb0FdbJtuhD76LgeUye7PCXJ2SE=;
- b=pCrQaVcJL1qGo0F3u2cicidBkvSixEzj/UC9HA4fvFjmSJFLyVCUuD8LrFYV1uMDl1
- Ls9z37cIl9arAHJLxUQjOehJEZJOfMfOlVH5Km68rI3wjQm2/LqCzJ2Pqa8EkBcZtkIP
- vsDN21u5MFWtAi0tGNLhHisbc+zH3JeF6TJp5rDk7HvatXc9S0Ok+PiTgd5GWYjRHaaJ
- r40+JeaLFugdRe3j7GidHCLL1KvbhEpHNFHI/H7lEq4A/3uBRqMFSSva6PkPb7t5KiyY
- a+7UwQtyizab6u8hgrs2lGAOJAcSMUIGijPgKd0MtoXDmeY4RIjZrYiBMbFfOkJ5R9iv
- CC0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692179564; x=1692784364;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=W3+V3AaCHKihRhw6vb0FdbJtuhD76LgeUye7PCXJ2SE=;
- b=hnpkTgt+uXU2TUMI1ZYoQCyxUiXndIlnaSk73TAZ36o+nRPvggZeEZNRLYUV8ZXnca
- Kvo4pBiXRAK0uV+8Su+dxA/sQasntJylrlmAc2cJpvKOQAIAy33aGPOepKwfngwiDcn0
- 23lNPPuuMMRKBkHzbykvM7siQEd26xzaJj4lkFiKJpH6Iq4uf0JlpOhG3V06ha+haDUw
- jvQeeJhXayJckOK0T2Awf42Z9l171Rmq74yDa3y/j0mVBOdRnVTFNEhn9GurzBUkiCqo
- N1jGz7BzqTMN146DTTS0NG6st5EMng4Hxm7KdE/1MtIwVQOuMLURBElZIyZYR7X56Rkp
- OSQQ==
-X-Gm-Message-State: AOJu0Yy1lVJ9OAkqrjT9RRM+wjBWS8Ifdgk7QAE1nfXpXbkauGZjtHbk
- bwE/AoL/i+ZWigXgd4WHA7v1Hrbxfoghhg==
-X-Google-Smtp-Source: AGHT+IEnlQcEDjqLhUl1YzI9zcNBO8j+Yrulk+M7ocpIBv2GEEKh5r//p6Mor7/UcqXW8fvYoqyDwg==
-X-Received: by 2002:a05:6402:1215:b0:523:1400:2d7c with SMTP id
- c21-20020a056402121500b0052314002d7cmr1080264edw.35.1692179564384; 
- Wed, 16 Aug 2023 02:52:44 -0700 (PDT)
-Received: from ?IPV6:2a00:e180:15f4:7600:6260:d6f0:1ba4:569e?
- ([2a00:e180:15f4:7600:6260:d6f0:1ba4:569e])
- by smtp.gmail.com with ESMTPSA id
- v17-20020aa7d9d1000000b0052563bff34bsm4045903eds.63.2023.08.16.02.52.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Aug 2023 02:52:43 -0700 (PDT)
-Message-ID: <9fb57890-9efc-de70-ab37-8b5dc13cf871@gmail.com>
-Date: Wed, 16 Aug 2023 11:52:42 +0200
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4F410E096
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 10:44:51 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5d0c:f209:12a7:4ce5])
+ by laurent.telenet-ops.be with bizsmtp
+ id aAki2A00X45ualL01AkiVq; Wed, 16 Aug 2023 12:44:51 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qWE0y-000otL-0D;
+ Wed, 16 Aug 2023 12:44:42 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qWDAw-006747-AN;
+ Wed, 16 Aug 2023 11:50:50 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Magnus Damm <magnus.damm@gmail.com>
+Subject: [PATCH v3 00/41] drm: renesas: shmobile: Atomic conversion + DT
+ support
+Date: Wed, 16 Aug 2023 11:50:07 +0200
+Message-Id: <cover.1692178020.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 3/4] drm/amdgpu: Move coredump code to amdgpu_reset file
-Content-Language: en-US
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230815195100.294458-1-andrealmeid@igalia.com>
- <20230815195100.294458-4-andrealmeid@igalia.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230815195100.294458-4-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,272 +49,395 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, devicetree@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.08.23 um 21:50 schrieb André Almeida:
-> Giving that we use codedump just for device resets, move it's functions
-> and structs to a more semantic file, the amdgpu_reset.{c, h}.
->
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+	Hi all,
 
-Acked-by: Christian König <christian.koenig@amd.com> for this patch here.
+It has been 3 years since the last conversion of a DRM driver to atomic
+modesetting, so I guess it's time for another one? ;-)
 
-I'm going to push patch #1 from this series into our internal branch 
-since that is actually a bug fix.
+Currently, there are two drivers for the LCD controller on Renesas
+SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+  1. sh_mobile_lcdcfb, using the fbdev framework,
+  2. shmob_drm, using the DRM framework.
+However, only the former driver is used, as all platform support
+integrates the former.  None of these drivers support DT-based systems.
 
- From my side the rest looks good as well, but going to leave this here 
-on the list until Shashank had time to take a look as well.
+This patch series converts the SH-Mobile DRM driver to atomic
+modesetting, and adds DT support, complemented by the customary set of
+fixes and improvements.
 
-Thanks,
-Christian.
+Overview:
+  - Patch 1 adds a separate maintainer entry.
+  - Patch 2 adds DT bindings for the SH-Mobile LCD controller,
+  - Patch 3 adds definitions for RGB666 9:9 media bus formats,
+  - Patches 4-35 contains miscellaneous fixes, improvements, and
+    cleanups for the SH-Mobile DRM driver,
+  - Patches 36-40 convert the SH-Mobile DRM driver to atomic
+    modesetting,
+  - Patch 41 adds DT support to the SH-Mobile DRM driver.
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  9 ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 78 ----------------------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c  | 76 +++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h  | 11 +++
->   4 files changed, 87 insertions(+), 87 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> index 0d560b713948..314b06cddc39 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1100,15 +1100,6 @@ struct amdgpu_device {
->   	uint32_t			aid_mask;
->   };
->   
-> -#ifdef CONFIG_DEV_COREDUMP
-> -struct amdgpu_coredump_info {
-> -	struct amdgpu_device		*adev;
-> -	struct amdgpu_task_info         reset_task_info;
-> -	struct timespec64               reset_time;
-> -	bool                            reset_vram_lost;
-> -};
-> -#endif
-> -
->   static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
->   {
->   	return container_of(ddev, struct amdgpu_device, ddev);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index b5b879bcc5c9..9706f608723a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -32,8 +32,6 @@
->   #include <linux/slab.h>
->   #include <linux/iommu.h>
->   #include <linux/pci.h>
-> -#include <linux/devcoredump.h>
-> -#include <generated/utsrelease.h>
->   #include <linux/pci-p2pdma.h>
->   #include <linux/apple-gmux.h>
->   
-> @@ -4799,82 +4797,6 @@ static int amdgpu_reset_reg_dumps(struct amdgpu_device *adev)
->   	return 0;
->   }
->   
-> -#ifndef CONFIG_DEV_COREDUMP
-> -static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> -			    struct amdgpu_reset_context *reset_context)
-> -{
-> -}
-> -#else
-> -static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
-> -		size_t count, void *data, size_t datalen)
-> -{
-> -	struct drm_printer p;
-> -	struct amdgpu_coredump_info *coredump = data;
-> -	struct drm_print_iterator iter;
-> -	int i;
-> -
-> -	iter.data = buffer;
-> -	iter.offset = 0;
-> -	iter.start = offset;
-> -	iter.remain = count;
-> -
-> -	p = drm_coredump_printer(&iter);
-> -
-> -	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
-> -	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
-> -	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
-> -	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec, coredump->reset_time.tv_nsec);
-> -	if (coredump->reset_task_info.pid)
-> -		drm_printf(&p, "process_name: %s PID: %d\n",
-> -			   coredump->reset_task_info.process_name,
-> -			   coredump->reset_task_info.pid);
-> -
-> -	if (coredump->reset_vram_lost)
-> -		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
-> -	if (coredump->adev->num_regs) {
-> -		drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value:\n");
-> -
-> -		for (i = 0; i < coredump->adev->num_regs; i++)
-> -			drm_printf(&p, "0x%08x: 0x%08x\n",
-> -				   coredump->adev->reset_dump_reg_list[i],
-> -				   coredump->adev->reset_dump_reg_value[i]);
-> -	}
-> -
-> -	return count - iter.remain;
-> -}
-> -
-> -static void amdgpu_devcoredump_free(void *data)
-> -{
-> -	kfree(data);
-> -}
-> -
-> -static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> -			    struct amdgpu_reset_context *reset_context)
-> -{
-> -	struct amdgpu_coredump_info *coredump;
-> -	struct drm_device *dev = adev_to_drm(adev);
-> -
-> -	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
-> -
-> -	if (!coredump) {
-> -		DRM_ERROR("%s: failed to allocate memory for coredump\n", __func__);
-> -		return;
-> -	}
-> -
-> -	coredump->reset_vram_lost = vram_lost;
-> -
-> -	if (reset_context->job && reset_context->job->vm)
-> -		coredump->reset_task_info = reset_context->job->vm->task_info;
-> -
-> -	coredump->adev = adev;
-> -
-> -	ktime_get_ts64(&coredump->reset_time);
-> -
-> -	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
-> -		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-> -}
-> -#endif
-> -
->   int amdgpu_do_asic_reset(struct list_head *device_list_handle,
->   			 struct amdgpu_reset_context *reset_context)
->   {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> index 5fed06ffcc6b..46c8d6ce349c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> @@ -21,6 +21,9 @@
->    *
->    */
->   
-> +#include <linux/devcoredump.h>
-> +#include <generated/utsrelease.h>
-> +
->   #include "amdgpu_reset.h"
->   #include "aldebaran.h"
->   #include "sienna_cichlid.h"
-> @@ -167,5 +170,78 @@ void amdgpu_device_unlock_reset_domain(struct amdgpu_reset_domain *reset_domain)
->   	up_write(&reset_domain->sem);
->   }
->   
-> +#ifndef CONFIG_DEV_COREDUMP
-> +void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> +		     struct amdgpu_reset_context *reset_context)
-> +{
-> +}
-> +#else
-> +static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
-> +		size_t count, void *data, size_t datalen)
-> +{
-> +	struct drm_printer p;
-> +	struct amdgpu_coredump_info *coredump = data;
-> +	struct drm_print_iterator iter;
-> +	int i;
-> +
-> +	iter.data = buffer;
-> +	iter.offset = 0;
-> +	iter.start = offset;
-> +	iter.remain = count;
-> +
-> +	p = drm_coredump_printer(&iter);
-> +
-> +	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
-> +	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
-> +	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
-> +	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec, coredump->reset_time.tv_nsec);
-> +	if (coredump->reset_task_info.pid)
-> +		drm_printf(&p, "process_name: %s PID: %d\n",
-> +			   coredump->reset_task_info.process_name,
-> +			   coredump->reset_task_info.pid);
-> +
-> +	if (coredump->reset_vram_lost)
-> +		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
-> +	if (coredump->adev->num_regs) {
-> +		drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value:\n");
-> +
-> +		for (i = 0; i < coredump->adev->num_regs; i++)
-> +			drm_printf(&p, "0x%08x: 0x%08x\n",
-> +				   coredump->adev->reset_dump_reg_list[i],
-> +				   coredump->adev->reset_dump_reg_value[i]);
-> +	}
-> +
-> +	return count - iter.remain;
-> +}
->   
-> +static void amdgpu_devcoredump_free(void *data)
-> +{
-> +	kfree(data);
-> +}
->   
-> +void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> +			    struct amdgpu_reset_context *reset_context)
-> +{
-> +	struct amdgpu_coredump_info *coredump;
-> +	struct drm_device *dev = adev_to_drm(adev);
-> +
-> +	coredump = kzalloc(sizeof(*coredump), GFP_NOWAIT);
-> +
-> +	if (!coredump) {
-> +		DRM_ERROR("%s: failed to allocate memory for coredump\n", __func__);
-> +		return;
-> +	}
-> +
-> +	coredump->reset_vram_lost = vram_lost;
-> +
-> +	if (reset_context->job && reset_context->job->vm)
-> +		coredump->reset_task_info = reset_context->job->vm->task_info;
-> +
-> +	coredump->adev = adev;
-> +
-> +	ktime_get_ts64(&coredump->reset_time);
-> +
-> +	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_NOWAIT,
-> +		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
-> +}
-> +#endif
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> index f4a501ff87d9..362954521721 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> @@ -87,6 +87,15 @@ struct amdgpu_reset_domain {
->   	atomic_t reset_res;
->   };
->   
-> +#ifdef CONFIG_DEV_COREDUMP
-> +struct amdgpu_coredump_info {
-> +	struct amdgpu_device		*adev;
-> +	struct amdgpu_task_info         reset_task_info;
-> +	struct timespec64               reset_time;
-> +	bool                            reset_vram_lost;
-> +};
-> +#endif
-> +
->   
->   int amdgpu_reset_init(struct amdgpu_device *adev);
->   int amdgpu_reset_fini(struct amdgpu_device *adev);
-> @@ -126,4 +135,6 @@ void amdgpu_device_lock_reset_domain(struct amdgpu_reset_domain *reset_domain);
->   
->   void amdgpu_device_unlock_reset_domain(struct amdgpu_reset_domain *reset_domain);
->   
-> +void amdgpu_coredump(struct amdgpu_device *adev, bool vram_lost,
-> +		     struct amdgpu_reset_context *reset_context);
->   #endif
+To reduce strain on the audience, I have CCed the DT and media people
+only on the cover letter and the DT resp. media patches.  If interested,
+the full series should be available through lore.kernel.org.
 
+Some comments and questions can be found in the individual patches.
+
+Changes compared to v2[1]:
+  - Add Reviewed-by.
+
+Changes compared to v1[2]:
+  - New patches
+      - "[PATCH v2 01/41] MAINTAINER: Create entry for Renesas SH-Mobile
+	 DRM drivers",
+      - "[PATCH v2 18/41] drm: renesas: shmobile: Remove custom plane
+	 destroy callback",
+  - Add myself as co-maintainer,
+  - Make fck clock required,
+  - Drop ports description referring to obsolete graph.txt,
+  - Condition ports to compatible strings,
+  - Drop label and status from example,
+  - Add Reviewed-by,
+  - Drop unused MEDIA_BUS_FMT_RGB666_2X9_LE, as requested by Laurent,
+  - Move explicit clock handling to Runtime PM callbacks,
+  - Move devm_pm_runtime_enable() after shmob_drm_setup_clocks(),
+  - Depend on PM,
+  - Split off removal of call to drm_plane_force_disable(),
+  - Select VIDEOMODE_HELPERS,
+  - Keep table instead of replacing it by a switch() statement,
+  - Fix shmob_drm_interface_data.bus_fmt comment,
+  - Drop superfluous blank lines,
+  - Keep initialization of info fields together,
+  - Use shmob_drm_bus_fmts[],
+  - Keep bus format validation at probe time,
+  - Pass plane type to shmob_drm_plane_create() to avoid having to shift
+    all overlay plane indices by one,
+  - Rename primary_plane_funcs to shmob_drm_primary_plane_funcs,
+  - Rename shmob_drm_plane_funcs to shmob_drm_overlay_plane_funcs,
+  - Move shmob_drm_crtc_finish_page_flip() further up,
+  - Inline shmob_drm_crtc_st{art,op}(),
+  - Use devm_drm_of_get_bridge(),
+  - Don't print bridge->of_node on failure, as this field depends on
+    CONFIG_OF.
+
+This has been tested on the R-Mobile A1-based Atmark Techno
+Armadillo-800-EVA development board, using both legacy[3] and
+DT-based[4] instantiation, with the fbdev-emulated text console and
+modetest, a.o.
+
+    modetest -M shmob-drm -s 43:800x480@RG16 -P 33@41:640x320+80+80@RG16
+    modetest -M shmob-drm -s 43:800x480@RG16
+
+The output of "modetest -M shmob-drm" can be found below[5].
+
+Thanks for your comments!
+
+[1] "[PATCH v2 00/41] drm: renesas: shmobile: Atomic conversion + DT
+     support"
+    https://lore.kernel.org/r/cover.1689698048.git.geert+renesas@glider.be
+
+[2] "[PATCH 00/39] drm: renesas: shmobile: Atomic conversion + DT
+     support"
+    https://lore.kernel.org/r/cover.1687423204.git.geert+renesas@glider.be/
+
+[3] "[PATCH/RFC] staging: board: armadillo800eva: Add DRM support"
+    https://lore.kernel.org/r/f7874a9da4bcb20fbc9cd133147b67862ebcf0b9.1687418281.git.geert+renesas@glider.be
+
+[4] "[PATCH 0/2] ARM: dts: r8a7740/armadillo800eva: Add LCD support"
+    https://lore.kernel.org/r/cover.1687417585.git.geert+renesas@glider.be
+
+[5] Encoders:
+    id	crtc	type	possible crtcs	possible clones
+    42	41	DPI	0x00000001	0x00000001
+
+    Connectors:
+    id	encoder	status		name		size (mm)	modes	encoders
+    43	42	connected	DPI-1          	111x67		1	42
+      modes:
+	    index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
+      #0 800x480 59.99 800 840 968 1056 480 515 517 525 33260 flags: nhsync, nvsync; type: preferred, driver
+      props:
+	    1 EDID:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+	    2 DPMS:
+		    flags: enum
+		    enums: On=0 Standby=1 Suspend=2 Off=3
+		    value: 0
+	    5 link-status:
+		    flags: enum
+		    enums: Good=0 Bad=1
+		    value: 0
+	    6 non-desktop:
+		    flags: immutable range
+		    values: 0 1
+		    value: 0
+	    4 TILE:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+
+    CRTCs:
+    id	fb	pos	size
+    41	44	(0,0)	(800x480)
+      #0 800x480 59.99 800 840 968 1056 480 515 517 525 33260 flags: nhsync, nvsync; type: preferred, driver
+      props:
+	    24 VRR_ENABLED:
+		    flags: range
+		    values: 0 1
+		    value: 0
+
+    Planes:
+    id	crtc	fb	CRTC x,y	x,y	gamma size	possible crtcs
+    31	41	44	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 1
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    33	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    35	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    37	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+    39	0	0	0,0		0,0	0       	0x00000001
+      formats: RG16 RG24 AR24 XR24 NV12 NV21 NV16 NV61 NV24 NV42
+      props:
+	    8 type:
+		    flags: immutable enum
+		    enums: Overlay=0 Primary=1 Cursor=2
+		    value: 0
+	    30 IN_FORMATS:
+		    flags: immutable blob
+		    blobs:
+
+		    value:
+			    01000000000000000a00000018000000
+			    01000000400000005247313652473234
+			    41523234585232344e5631324e563231
+			    4e5631364e5636314e5632344e563432
+			    ff030000000000000000000000000000
+			    0000000000000000
+		    in_formats blob decoded:
+			     RG16:  LINEAR
+			     RG24:  LINEAR
+			     AR24:  LINEAR
+			     XR24:  LINEAR
+			     NV12:  LINEAR
+			     NV21:  LINEAR
+			     NV16:  LINEAR
+			     NV61:  LINEAR
+			     NV24:  LINEAR
+			     NV42:  LINEAR
+
+    Frame buffers:
+    id	size	pitch
+
+Geert Uytterhoeven (36):
+  MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+  dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+  media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+  drm: renesas: shmobile: Fix overlay plane disable
+  drm: renesas: shmobile: Fix ARGB32 overlay format typo
+  drm: renesas: shmobile: Correct encoder/connector types
+  drm: renesas: shmobile: Add support for Runtime PM
+  drm: renesas: shmobile: Restore indentation of
+    shmob_drm_setup_clocks()
+  drm: renesas: shmobile: Use %p4cc to print fourcc code
+  drm: renesas: shmobile: Add missing YCbCr formats
+  drm: renesas: shmobile: Improve shmob_drm_format_info table
+  drm: renesas: shmobile: Improve error handling
+  drm: renesas: shmobile: Convert to use devm_request_irq()
+  drm: renesas: shmobile: Remove custom plane destroy callback
+  drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+  drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+  drm: renesas: shmobile: Convert container helpers to static inline
+    functions
+  drm: renesas: shmobile: Replace .dev_private with container_of()
+  drm: renesas: shmobile: Use media bus formats in platform data
+  drm: renesas: shmobile: Move interface handling to connector setup
+  drm: renesas: shmobile: Unify plane allocation
+  drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+  drm: renesas: shmobile: Rename shmob_drm_connector.connector
+  drm: renesas: shmobile: Rename shmob_drm_plane.plane
+  drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+  drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+  drm: renesas: shmobile: Wait for page flip when turning CRTC off
+  drm: renesas: shmobile: Turn vblank on/off when enabling/disabling
+    CRTC
+  drm: renesas: shmobile: Shutdown the display on remove
+  drm: renesas: shmobile: Cleanup encoder
+  drm: renesas: shmobile: Atomic conversion part 1
+  drm: renesas: shmobile: Atomic conversion part 2
+  drm: renesas: shmobile: Use suspend/resume helpers
+  drm: renesas: shmobile: Remove internal CRTC state tracking
+  drm: renesas: shmobile: Atomic conversion part 3
+  drm: renesas: shmobile: Add DT support
+
+Laurent Pinchart (5):
+  drm: renesas: shmobile: Remove backlight support
+  drm: renesas: shmobile: Don't set display info width and height twice
+  drm: renesas: shmobile: Rename input clocks
+  drm: renesas: shmobile: Remove support for SYS panels
+  drm: renesas: shmobile: Use struct videomode in platform data
+
+ .../display/renesas,shmobile-lcdc.yaml        | 130 ++++
+ .../media/v4l/subdev-formats.rst              |  72 ++
+ MAINTAINERS                                   |  13 +-
+ drivers/gpu/drm/renesas/shmobile/Kconfig      |   3 +-
+ drivers/gpu/drm/renesas/shmobile/Makefile     |   3 +-
+ .../renesas/shmobile/shmob_drm_backlight.c    |  82 ---
+ .../renesas/shmobile/shmob_drm_backlight.h    |  19 -
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 650 ++++++++----------
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  27 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 180 +++--
+ .../gpu/drm/renesas/shmobile/shmob_drm_drv.h  |  18 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.c  |  77 ++-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.h  |   9 +-
+ .../drm/renesas/shmobile/shmob_drm_plane.c    | 326 +++++----
+ .../drm/renesas/shmobile/shmob_drm_plane.h    |   5 +-
+ include/linux/platform_data/shmob_drm.h       |  57 +-
+ include/uapi/linux/media-bus-format.h         |   3 +-
+ 17 files changed, 860 insertions(+), 814 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: devicetree@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+-- 
+2.34.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
