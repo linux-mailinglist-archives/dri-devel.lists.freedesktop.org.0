@@ -2,96 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C974677E6EE
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 18:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF1A77E6FA
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 18:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 297E910E388;
-	Wed, 16 Aug 2023 16:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53AE610E392;
+	Wed, 16 Aug 2023 16:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E51B910E388
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 16:49:16 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3fe426b86a8so63311545e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 09:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692204555; x=1692809355;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=duxJYrjSrqz85oEQCWBdJi0EhTynzuxtEIsf04thOsM=;
- b=Jk4hD0USNi6iprGkPVjDZTCHzkxJgFzyy+ieKpvlY3zXiOFxPqOzyIovekRXMzsryF
- DEl8NgZhaKR35riGBI0LR9pBmVTk5Key4Yx3Csi/2qD8iTjhc3FJ5Lcac5pdiaU7ADu5
- RNu/xUGU5Ui3jE/kbe55y1lbkRCJoduPplHAmyEXXflVe4ptEhRoho0FUeyv3Rczp+DA
- mdsVFfRpWMUbktthOFoo72XcgUAvG94KdbqjLMbtfLnzSCpJCJxbjWAvQNTg+OL3MG95
- lQflFaHjrEkSfsdibCiKLBjvL5oc+6Gj7reS2AiRRF7vUVwlmf2D7dT/580pCVgNMX75
- /3sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692204555; x=1692809355;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=duxJYrjSrqz85oEQCWBdJi0EhTynzuxtEIsf04thOsM=;
- b=bijJB8NW+50LPnkxJwJpWla7lPR16j/BDU/6INsReerRlNy+VRJ9M5mV6Bu3fbX04s
- oSLsvSeJe83ceHEmosYDaI3fpOw3jQeK2wvzVpSmPPWqltVU1nVSy6dnj8nE1+39DvyQ
- ELnqb6vEVoyY/HjWUlnmhFg3qwibtXki3x7lBH5bM2YUJ51+Nltxp5mCY5rwAPGNon9F
- 95R8GYqzKYNthe94fNwSTdNacHL6o8YSOd6jD0zPBWFUJjl7OGG0kaioWzBHgehlmEIh
- Crzjn2hh4cVtDPxKn2nP4MsMMZ4HgTa3ez2u1KQk+NOzCyBTnZ2/i3GO30aMsZc0luBU
- On/w==
-X-Gm-Message-State: AOJu0YxxslHy8op2jxz+VlTVF4fhWBri7hV84xUpoqHia+Ps6klNN+e0
- g3gDDoqcktKujoQCml92aq4xTg==
-X-Google-Smtp-Source: AGHT+IF5ykLF7wDEPX8wEUNaUoTUoY5Gdcs1wqkQn2ENWIUk4WIIF4kguMzgPSXvH6CgGA37r3bbDg==
-X-Received: by 2002:a05:600c:218f:b0:3fe:1232:93fa with SMTP id
- e15-20020a05600c218f00b003fe123293famr1812307wme.22.1692204555170; 
- Wed, 16 Aug 2023 09:49:15 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:9f7b:ceef:54e7:3152?
- ([2a01:e0a:982:cbb0:9f7b:ceef:54e7:3152])
- by smtp.gmail.com with ESMTPSA id
- 24-20020a05600c029800b003fe2397c17fsm24399102wmk.17.2023.08.16.09.49.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Aug 2023 09:49:14 -0700 (PDT)
-Message-ID: <d901648c-d8ca-4407-b21f-05232ae6ca45@linaro.org>
-Date: Wed, 16 Aug 2023 18:49:13 +0200
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2049.outbound.protection.outlook.com [40.107.94.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C7C10E38F
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 16:53:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e8qMEV8yOxKHCWqKglX/G13KGjDYo4AyEWVXWKJz2GNlWj6DBa2Ae6MUxhylZcfsFoINKD60CA8uRCZ1Rho6B2e/txIANOG2GTZBRHgSPVl/JroDqD9aT2+k0DFAQnYGKw/aMeZxqz2dp3jjVlN2IWUuIGbXCSARmB1hTSEbxxzizSL+TQZKYkWVOlnMJFVT/qX739OBucLYCceYg7ptqwwwVlEZ4T8pojQJmCWIDv5NEDwsezR/8i/AXnmJGPsk90KPdRVif7BWL4IZ3HhE2+stBqaGZAhL7LYX4wKyvL+RdUiIhy1O94HBY70OV1w0PEtEtboK9ajvwU56ikhGug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dlGfzpiBk0gUQZx0oX32lw6ITLrbBg9RzPs0JgA7gxc=;
+ b=TrS/gxtWXSr9kIijb/U/5DOB1mhpazqVvBjdfCyagbtoJeSkB5oSKyt6QPQb+Dpg/t+DmJw1UkgOhPDaaDG6fy8dInp07Odgw+HCJWQzpBqbf2vcBVFXrbpOHMJaQznPfLvS7DwmQxnfuFe5qtR+77qmzvZPWTVIAgJLQ74UCG8RoeMS1Gv/6vrv0t3OpXk1H8z9a6mS1z6nUXgReZzJQv3Eq1S8yv3ZajAVT3Euwti/uo5z6q85xMbIdkYoUKv0ZCWOyR3PXQzmdYEj7hFK1BfIx3aEsO2jpNuKbNsti/qaGz+/qK0KSkZF/Vg2n8ZXK/K9hTeBsMhqMsDML56K6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dlGfzpiBk0gUQZx0oX32lw6ITLrbBg9RzPs0JgA7gxc=;
+ b=l9ioCqnRqsDy2ohgpRcMC2eu1fpBU+WmlqUwHxGolnU2KvtlAynMZH09yq1zEH2/zn9/3cB+MrwVoazYcIOmAhttiS84IXWlE26KYIclDTQM++0ero97H8EQKi3nK7IXx+uCcQN3PogY/l/2vLVcK8IKvbjh+4DUlJ6rPbzyfkTE+jiAk7mj25ztfjHhXNf8GtaZCaPdWGmuRagpymfIj2BC114p2RgCaMcuffFrUa4VPw87MFv8Qruj/FHj4c9nLDy8Mol2vRcecSqowigTQBk85+F4hengQgysb0O6zHKVBWOaUhjys7jH8PQPFwGz5wl0PfJjWDx8Ft+ESGFw9w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH0PR12MB5122.namprd12.prod.outlook.com (2603:10b6:610:bd::12)
+ by BL1PR12MB5237.namprd12.prod.outlook.com (2603:10b6:208:30b::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.30; Wed, 16 Aug
+ 2023 16:53:45 +0000
+Received: from CH0PR12MB5122.namprd12.prod.outlook.com
+ ([fe80::c858:af19:997:b12a]) by CH0PR12MB5122.namprd12.prod.outlook.com
+ ([fe80::c858:af19:997:b12a%3]) with mapi id 15.20.6678.029; Wed, 16 Aug 2023
+ 16:53:45 +0000
+Message-ID: <87412161-6c77-ceb3-9f1a-8c9594709869@nvidia.com>
+Date: Wed, 16 Aug 2023 09:53:42 -0700
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v3 2/5] drm/panel: Add driver for JDI LPM102A188A
-Content-Language: en-US, fr
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, sam@ravnborg.org,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-References: <20230807133307.27456-1-diogo.ivo@tecnico.ulisboa.pt>
- <20230807133307.27456-3-diogo.ivo@tecnico.ulisboa.pt>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20230807133307.27456-3-diogo.ivo@tecnico.ulisboa.pt>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] drm/syncobj: fix DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>
+References: <1fac96f1-2f3f-f9f9-4eb0-340f27a8f6c0@nvidia.com>
+ <XMsmays-xGmL68CFTjnEY24F0jiSpQld5_ErWb02c6_LToDRM4sGOs2vlsjGbgphvtFRVYSRCqqrg77ya2XUMkxerGOOM8YFBUWjq5C0oUo=@emersion.fr>
+From: Erik Kurzinger <ekurzinger@nvidia.com>
+In-Reply-To: <XMsmays-xGmL68CFTjnEY24F0jiSpQld5_ErWb02c6_LToDRM4sGOs2vlsjGbgphvtFRVYSRCqqrg77ya2XUMkxerGOOM8YFBUWjq5C0oUo=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR01CA0023.prod.exchangelabs.com (2603:10b6:a02:80::36)
+ To CH0PR12MB5122.namprd12.prod.outlook.com
+ (2603:10b6:610:bd::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5122:EE_|BL1PR12MB5237:EE_
+X-MS-Office365-Filtering-Correlation-Id: eba226f6-8db6-4c50-5214-08db9e795a6b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tH0FlqMn45HsiiSR4ZGiKF4NsHMoR0j4mQEYpeeFLBH+DmACocatsAQElvt1IGktTpJB3b76d7tYtABQUMYf8Oi8yTIkkGmqM4sXoAxXSpuJGmWOnnpT+46sqs2KmwHS0EfhRDebwXoGh+pxKogVz4Zc/o0l3QEc6MtB+le9dclTCOL5XFFrtzBzf7JR6ybWvYI3hxyFWCka0oAhWaJGZQfq9BG5Z0dnr2Fgna/1GXA/0JJVyOa5FgvPu1oTRRhYue1yjlKW7jusnqoj6sTMBJEaNWU1ZKPCiQBO1rs/cj68bzo3GNKRn9UNF7BMsDZAmq6xtz/dmUftrRje6DzivBtgL08D/d1sKR1BtGa026Q2+XrJWiWe7R9TULy8DIUXKYGNMBwPqw/3QkJ5PO90UikpRyqTS7UC6mR/wv89UINLBa9qDgb+rPID+qfqMQlUVni3WA+M4boUoqw8XryDoiMXnd7fUpw3Szhtm5n9Bg80nH81dQWxsplG8WKXXaQ20eA+39Mm+/m9Go5B83uLCmnOD32q/OX9xU/l7K0YZjqhUGbYOxtIqBGGKIH+vzjLrNsfg6UBA2y2AVxWZ/8FamlRNfhGwVYoMK0Y7RycyC21CDe7gsY1bdHo3TppQ6YXYYfvhhaZZZSXLs3VOPLGgfpJefJxLtUt1IN6OVI1YjcxJfj2zADC0wNOjXNsVeSA
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR12MB5122.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(1800799009)(451199024)(186009)(316002)(6916009)(66946007)(66476007)(66556008)(966005)(41300700001)(5660300002)(38100700002)(31686004)(8676002)(4326008)(8936002)(2906002)(4744005)(26005)(478600001)(86362001)(31696002)(6512007)(53546011)(6506007)(36756003)(6666004)(2616005)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2pmTW1qQk5DQVBjSDZ1cjN4dkxsZUZ3YllibEVPWnNOb1hWZ1FNL0xqaEs1?=
+ =?utf-8?B?L0NvdmlwNVRIRDJQWkFEZytWeHhlS3I0RzZlbWpnQ2JqZHJCYVMyWnpRYjAw?=
+ =?utf-8?B?bnMzUVpHekVVd2NzT3l5cmxDY0R0bE1iTUlKOTlQQVpOa1RyNHFDaUNlZDVW?=
+ =?utf-8?B?WThMUGpra25BczFzS0lTWVh1WVphQXNmaHBDVjNINnpJLytXQXVCRkZ4QjNK?=
+ =?utf-8?B?b1I1VGs4bXVVSDY4RUFQM0NzUllCdkljZnBRM2lUKzdPa2hzaURKVWxHVlA3?=
+ =?utf-8?B?RmZiVXJnbGxzYkFlTTlyUUpudE94WFRyRWtJS3g4L2VsVXJNMkV6ZXlFUjdO?=
+ =?utf-8?B?dll2N0h0TDFVajlKUGQwREVPUXdEdW83T2x4TmdlOG9TcVQ4Um9ZT29DN3Fv?=
+ =?utf-8?B?eElqNWx1U3hWb0xyWFI0UlVxeVVCWmc1QW5kbDl3U0R3QVJxU1BQdDJJT3dp?=
+ =?utf-8?B?OEVVaW9JYk5kY2h6VCs1NHJQU2paM2dYNGVPMEJoaStEMVArdThnem1xNlk5?=
+ =?utf-8?B?YzhxbW5ud084SHk4Q2Q0c3RDZE5xNGZ2QnNwc0VJa0RrZmhKR1RBV2t0VHNZ?=
+ =?utf-8?B?b1ZGUnpDa1BjdFRIUVhLTlg2Z0puSk1LcnRNdlFPRjVuSDNhNWRFUFNmeWNJ?=
+ =?utf-8?B?MGFndTBKdU9SV3ZNcmV3emNqYUxsUXFPS1B3bTlid2hYeFVsT3NCTE5aWVB6?=
+ =?utf-8?B?TkpkcEp6WGpKbkg3TXRzNUd3WGMya1M5emhDZVJNTXBtZnhtV0N2R0xjUGxG?=
+ =?utf-8?B?dWxiNUdvRUZnaVVtT05HUWVtYWtZMjdlbk4vbkFUQUpBVllsZEtrZFB6dTlu?=
+ =?utf-8?B?dGFUa3lIblIzWm1YSk1IVkpKNFBrcTkzN05PUmlJaVFIbWlISmtyYThSZjNt?=
+ =?utf-8?B?T1lHYnhJRmZOcXFaSVR3UHZ6YmlkanFVOHVtS3U2VlEwdGdPOEQvdGNjUEl4?=
+ =?utf-8?B?eTlQTUpsMloyaURmV05NbThaRjdURDhGY01WenMwMDR2VUNOcUpFbG5kZ3ky?=
+ =?utf-8?B?NlV0RkJKMjlSZnJsbE16aWU3c2t0VG9JUkpSUXpjRkpDODNLV3NNN2h3VWVK?=
+ =?utf-8?B?RjV0ZEVxS3RJMEpKYlEwTUc4T3luc1FmVXlzRlVLMTZVZEZEZjBFN3VKOFhx?=
+ =?utf-8?B?Y3M3OFUvZnlUcXBRY1JFWm8vaCtTRU5XNTBHY29nQzNLVEM0SGlGMGh4b0pr?=
+ =?utf-8?B?Y3pJMUgvNU1zRStNTlBIc3lmSGxnRGZmMVpuaStsQXBkWnZhRnhHa2svNm50?=
+ =?utf-8?B?REhzZjBoWExLVysvUnFWUFIzcUR3VmM0QVBnekhHZUt5cFVWR2hhWGhRYnlY?=
+ =?utf-8?B?aGZQR2hFdlJNMHJQNjVabGdMUVlqM1B2Q05Fc2RFTDRrZEVwZVpKOE42dWVN?=
+ =?utf-8?B?dm1PakFEVHFsYktWMlJjZXVqQ0ZwZC8zSlJmUytJa2kyMVJwTFNra2g3OGlj?=
+ =?utf-8?B?a0hNbjJoalk4UHRMd3lCL2JHajIzdVROQXpwLzZyVFhHN3l5elErWVI1SWI1?=
+ =?utf-8?B?Q3pCY0xIYy9xbitFeDdUcEJCb2FpTjBNbHVNWmJUbmZUS3RNTG85MVpFblBJ?=
+ =?utf-8?B?UEdmVEZuZW44Zk9Ed3Fna0xGT2poNmkyMUFyT29WYWgzK3g2UndlRzVvMEtM?=
+ =?utf-8?B?MUlFU2FWbVM0YmNkSmQ3NU9LUmJaVStOSjgvNEs5REIvMThSSTFLNWhweWFR?=
+ =?utf-8?B?VVJVMlJSd3A2cXRHZEsxMVJPQVlQR3RLRklmVFMvYnFITUlMREg3djVDRmNM?=
+ =?utf-8?B?MkE1S3M1Vno0U24xNHozbU1QQ25jOWdydEdpVWpJdWcyc3VGckNzREVhVVpM?=
+ =?utf-8?B?U0orYXlHdDVESmV1WldvRXhVLzJUbFVJWlBJYWxISzNNcTdxNmZZNTd3cUZS?=
+ =?utf-8?B?QnJzS2daYkRHT3NHWlkyOTlNSEUrUzByN2wvSFk0Zkxsd00zK1Q0cVI4SmIz?=
+ =?utf-8?B?d1F4TFlhRXAzdGZsTVF1ZWgxYUplRGFGaFNWdlRmbE9EdjZqUlZ5UVBQQkE2?=
+ =?utf-8?B?SVpuTUR5Q3kvVDdZdDcyZm1sZ3RMdlVSZ1FrZ21QZVFHbFNxUWVUY1I3ZGFM?=
+ =?utf-8?B?ZTMyS3BQU25LVnMwOVdtb1M2bDBCcG9iSEQzQ1I3a1J1TjhINXd3OVNHMWQw?=
+ =?utf-8?Q?qu/nrJU9DIyGwvttEUyhEUuXi?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eba226f6-8db6-4c50-5214-08db9e795a6b
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5122.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 16:53:45.4840 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UCRxZhd3JYvxKO8dUZjoNHZCdrKYrqS5bTpxukQvn6cBf0DmHx8bCVMq0U1jl1KQuFJRXHYJv4jZDMkeIM8aJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5237
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,624 +125,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
+Cc: david1.zhou@amd.com, dri-devel@lists.freedesktop.org, faith@gfxstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/08/2023 15:33, Diogo Ivo wrote:
-> The JDI LPM102A188A is a 2560x1800 IPS panel found in the Google Pixel C.
-> This driver is based on the downstream GPLv2 driver released by Google
-> written by Sean Paul [1], which was then adapted to the newer kernel APIs.
-> 
-> [1]: https://android.googlesource.com/kernel/tegra/+/refs/heads/android-tegra-dragon-3.18-oreo/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> 
-> Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> ---
-> Changes in v2:
->   - tuned backlight delays
-> 
-> Changed in v3:
->   - removed "-dsi" from driver name, renamed "control"->"command" (Rayyan Ansari)
->   - fix error handling
->   - remove enabled/prepared booleans
->   - add dc/dc setting function
-> 
->   drivers/gpu/drm/panel/Kconfig                 |  11 +
->   drivers/gpu/drm/panel/Makefile                |   1 +
->   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 551 ++++++++++++++++++
->   3 files changed, 563 insertions(+)
->   create mode 100644 drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 203c0ef0bbfd..787e6ac6f1e7 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -244,6 +244,17 @@ config DRM_PANEL_JDI_LT070ME05000
->   	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
->   	  24 bit per pixel.
->   
-> +config DRM_PANEL_JDI_LPM102A188A
-> +	tristate "JDI LPM102A188A DSI panel"
-> +	depends on OF && GPIOLIB
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y here if you want to enable support for JDI LPM102A188A DSI
-> +	  command mode panel as found in Google Pixel C devices.
-> +	  The panel has a 2560×1800 resolution. It provides a MIPI DSI interface
-> +	  to the host.
-> +
->   config DRM_PANEL_JDI_R63452
->   	tristate "JDI R63452 Full HD DSI panel"
->   	depends on OF
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index 30cf553c8d1d..e5a235017c86 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -22,6 +22,7 @@ obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) += panel-innolux-ej030na.o
->   obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
->   obj-$(CONFIG_DRM_PANEL_JADARD_JD9365DA_H3) += panel-jadard-jd9365da-h3.o
->   obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
-> +obj-$(CONFIG_DRM_PANEL_JDI_LPM102A188A) += panel-jdi-lpm102a188a.o
->   obj-$(CONFIG_DRM_PANEL_JDI_R63452) += panel-jdi-fhd-r63452.o
->   obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
->   obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> new file mode 100644
-> index 000000000000..5b5082efb282
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> @@ -0,0 +1,551 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2014 Google, Inc.
-> + *
-> + * Copyright (C) 2022 Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> + *
-> + * Adapted from the downstream Pixel C driver written by Sean Paul
-> + */
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <video/mipi_display.h>
-> +
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
-> +
-> +#define MCS_CMD_ACS_PROT			0xB0
-> +#define MCS_CMD_ACS_PROT_OFF			(0 << 0)
-> +
-> +#define MCS_PWR_CTRL_FUNC			0xD0
-> +#define MCS_PWR_CTRL_PARAM1_DEFAULT		(2 << 0)
-> +#define MCS_PWR_CTRL_PARAM1_VGH_210_DIV		(1 << 4)
-> +#define MCS_PWR_CTRL_PARAM1_VGH_240_DIV		(2 << 4)
-> +#define MCS_PWR_CTRL_PARAM1_VGH_280_DIV		(3 << 4)
-> +#define MCS_PWR_CTRL_PARAM1_VGH_330_DIV		(4 << 4)
-> +#define MCS_PWR_CTRL_PARAM1_VGH_410_DIV		(5 << 4)
-> +#define MCS_PWR_CTRL_PARAM2_DEFAULT		(9 << 4)
-> +#define MCS_PWR_CTRL_PARAM2_VGL_210_DIV		(1 << 0)
-> +#define MCS_PWR_CTRL_PARAM2_VGL_240_DIV		(2 << 0)
-> +#define MCS_PWR_CTRL_PARAM2_VGL_280_DIV		(3 << 0)
-> +#define MCS_PWR_CTRL_PARAM2_VGL_330_DIV		(4 << 0)
-> +#define MCS_PWR_CTRL_PARAM2_VGL_410_DIV		(5 << 0)
-> +
-> +struct jdi_panel {
-> +	struct drm_panel base;
-> +	struct mipi_dsi_device *link1;
-> +	struct mipi_dsi_device *link2;
-> +
-> +	struct regulator *supply;
-> +	struct regulator *ddi_supply;
-> +	struct backlight_device *backlight;
-> +
-> +	struct gpio_desc *enable_gpio;
-> +	struct gpio_desc *reset_gpio;
-> +
-> +	const struct drm_display_mode *mode;
-> +};
-> +
-> +static inline struct jdi_panel *to_panel_jdi(struct drm_panel *panel)
-> +{
-> +	return container_of(panel, struct jdi_panel, base);
-> +}
-> +
-> +static void jdi_wait_frames(struct jdi_panel *jdi, unsigned int frames)
-> +{
-> +	unsigned int refresh = drm_mode_vrefresh(jdi->mode);
-> +
-> +	if (WARN_ON(frames > refresh))
-> +		return;
-> +
-> +	msleep(1000 / (refresh / frames));
-> +}
-> +
-> +static int jdi_panel_disable(struct drm_panel *panel)
-> +{
-> +	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +
-> +	backlight_disable(jdi->backlight);
-> +
-> +	jdi_wait_frames(jdi, 2);
-> +
-> +	return 0;
-> +}
-> +
-> +static int jdi_panel_unprepare(struct drm_panel *panel)
-> +{
-> +	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +	int ret;
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(jdi->link1);
-> +	if (ret < 0)
-> +		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +
-> +	ret = mipi_dsi_dcs_set_display_off(jdi->link2);
-> +	if (ret < 0)
-> +		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +
-> +	/* Specified by JDI @ 50ms, subject to change */
-> +	msleep(50);
-> +
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
-> +	if (ret < 0)
-> +		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> +	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
-> +	if (ret < 0)
-> +		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> +
-> +	/* Specified by JDI @ 150ms, subject to change */
-> +	msleep(150);
-> +
-> +	gpiod_set_value(jdi->reset_gpio, 1);
-> +
-> +	/* T4 = 1ms */
-> +	usleep_range(1000, 3000);
-> +
-> +	gpiod_set_value(jdi->enable_gpio, 0);
-> +
-> +	/* T5 = 2ms */
-> +	usleep_range(2000, 4000);
-> +
-> +	regulator_disable(jdi->ddi_supply);
-> +
-> +	/* T6 = 2ms plus some time to discharge capacitors */
-> +	usleep_range(7000, 9000);
-> +
-> +	regulator_disable(jdi->supply);
-> +	/* Specified by JDI @ 20ms, subject to change */
-> +	msleep(20);
-> +
-> +	return ret;
-> +}
-> +
-> +static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
-> +				       struct mipi_dsi_device *right,
-> +				       const struct drm_display_mode *mode)
-> +{
-> +	int err;
-> +
-> +	err = mipi_dsi_dcs_set_column_address(left, 0, mode->hdisplay / 2 - 1);
-> +	if (err < 0) {
-> +		dev_err(&left->dev, "failed to set column address: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_column_address(right, 0, mode->hdisplay / 2 - 1);
-> +	if (err < 0) {
-> +		dev_err(&right->dev, "failed to set column address: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_page_address(left, 0, mode->vdisplay - 1);
-> +	if (err < 0) {
-> +		dev_err(&left->dev, "failed to set page address: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_page_address(right, 0, mode->vdisplay - 1);
-> +	if (err < 0) {
-> +		dev_err(&right->dev, "failed to set page address: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-> +{
-> +	/* Clear the manufacturer command access protection */
-> +	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
-> +				   MCS_CMD_ACS_PROT_OFF);
-> +	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
-> +				   MCS_CMD_ACS_PROT_OFF);
-> +	/*
-> +	 * Change the VGH/VGL divide rations to move the noise generated by the
-> +	 * TCONN. This should hopefully avoid interaction with the backlight
-> +	 * controller.
-> +	 */
-> +	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
-> +				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> +				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> +				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> +				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> +
-> +	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
-> +				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> +				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> +				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> +				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> +
-> +	return 0;
-> +}
-> +
-> +static int jdi_panel_prepare(struct drm_panel *panel)
-> +{
-> +	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +	int err;
-> +
-> +	/* Disable backlight to avoid showing random pixels
-> +	 * with a conservative delay for it to take effect.
-> +	 */
-> +	backlight_disable(jdi->backlight);
-> +	jdi_wait_frames(jdi, 3);
-> +
-> +	jdi->link1->mode_flags |= MIPI_DSI_MODE_LPM;
-> +	jdi->link2->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	err = regulator_enable(jdi->supply);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to enable supply: %d\n", err);
-> +		return err;
-> +	}
-> +	/* T1 = 2ms */
-> +	usleep_range(2000, 4000);
-> +
-> +	err = regulator_enable(jdi->ddi_supply);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to enable ddi_supply: %d\n", err);
-> +		goto supply_off;
-> +	}
-> +	/* T2 = 1ms */
-> +	usleep_range(1000, 3000);
-> +
-> +	gpiod_set_value(jdi->enable_gpio, 1);
-> +	/* T3 = 10ms */
-> +	usleep_range(10000, 15000);
-> +
-> +	gpiod_set_value(jdi->reset_gpio, 0);
-> +	/* Specified by JDI @ 3ms, subject to change */
-> +	usleep_range(3000, 5000);
-> +
-> +	/*
-> +	 * TODO: The device supports both left-right and even-odd split
-> +	 * configurations, but this driver currently supports only the left-
-> +	 * right split. To support a different mode a mechanism needs to be
-> +	 * put in place to communicate the configuration back to the DSI host
-> +	 * controller.
-> +	 */
-> +	err = jdi_setup_symmetrical_split(jdi->link1, jdi->link2,
-> +					  jdi->mode);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set up symmetrical split: %d\n",
-> +			err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_tear_scanline(jdi->link1,
-> +					     jdi->mode->vdisplay - 16);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_tear_scanline(jdi->link2,
-> +					     jdi->mode->vdisplay - 16);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_tear_on(jdi->link1,
-> +				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_tear_on(jdi->link2,
-> +				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_pixel_format(jdi->link1, MIPI_DCS_PIXEL_FMT_24BIT);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_pixel_format(jdi->link2, MIPI_DCS_PIXEL_FMT_24BIT);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link1);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link2);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = jdi_write_dcdc_registers(jdi);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to write dcdc registers: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +	/*
-> +	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode() and
-> +	 * mipi_dsi_dcs_set_display_on().
-> +	 */
-> +	msleep(150);
-> +
-> +	err = mipi_dsi_dcs_set_display_on(jdi->link1);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	err = mipi_dsi_dcs_set_display_on(jdi->link2);
-> +	if (err < 0) {
-> +		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> +		goto poweroff;
-> +	}
-> +
-> +	jdi->link1->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +	jdi->link2->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	return 0;
-> +
-> +poweroff:
-> +	regulator_disable(jdi->ddi_supply);
-> +
-> +	/* T6 = 2ms plus some time to discharge capacitors */
-> +	usleep_range(7000, 9000);
-> +supply_off:
-> +	regulator_disable(jdi->supply);
-> +	/* Specified by JDI @ 20ms, subject to change */
-> +	msleep(20);
-> +
-> +	return err;
-> +}
-> +
-> +static int jdi_panel_enable(struct drm_panel *panel)
-> +{
-> +	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +
-> +	/*
-> +	 * Ensure we send image data before turning the backlight
-> +	 * on, to avoid the display showing random pixels.
-> +	 */
-> +	jdi_wait_frames(jdi, 3);
-> +
-> +	backlight_enable(jdi->backlight);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_display_mode default_mode = {
-> +	.clock = (2560 + 80 + 80 + 80) * (1800 + 4 + 4 + 4) * 60 / 1000,
-> +	.hdisplay = 2560,
-> +	.hsync_start = 2560 + 80,
-> +	.hsync_end = 2560 + 80 + 80,
-> +	.htotal = 2560 + 80 + 80 + 80,
-> +	.vdisplay = 1800,
-> +	.vsync_start = 1800 + 4,
-> +	.vsync_end = 1800 + 4 + 4,
-> +	.vtotal = 1800 + 4 + 4 + 4,
-> +	.flags = 0,
-> +};
-> +
-> +static int jdi_panel_get_modes(struct drm_panel *panel,
-> +			       struct drm_connector *connector)
-> +{
-> +	struct drm_display_mode *mode;
-> +	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +	struct device *dev = &jdi->link1->dev;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, &default_mode);
-> +	if (!mode) {
-> +		dev_err(dev, "failed to add mode %ux%ux@%u\n",
-> +			default_mode.hdisplay, default_mode.vdisplay,
-> +			drm_mode_vrefresh(&default_mode));
-> +		return -ENOMEM;
-> +	}
-> +
-> +	drm_mode_set_name(mode);
-> +
-> +	drm_mode_probed_add(connector, mode);
-> +
-> +	connector->display_info.width_mm = 211;
-> +	connector->display_info.height_mm = 148;
-> +	connector->display_info.bpc = 8;
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct drm_panel_funcs jdi_panel_funcs = {
-> +	.prepare = jdi_panel_prepare,
-> +	.enable = jdi_panel_enable,
-> +	.disable = jdi_panel_disable,
-> +	.unprepare = jdi_panel_unprepare,
-> +	.get_modes = jdi_panel_get_modes,
-> +};
-> +
-> +static const struct of_device_id jdi_of_match[] = {
-> +	{ .compatible = "jdi,lpm102a188a", },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, jdi_of_match);
-> +
-> +static int jdi_panel_add(struct jdi_panel *jdi)
-> +{
-> +	struct device *dev = &jdi->link1->dev;
-> +
-> +	jdi->mode = &default_mode;
-> +
-> +	jdi->supply = devm_regulator_get(dev, "power");
-> +	if (IS_ERR(jdi->supply))
-> +		return dev_err_probe(dev, PTR_ERR(jdi->supply),
-> +				     "failed to get power regulator\n");
-> +
-> +	jdi->ddi_supply = devm_regulator_get(dev, "ddi");
-> +	if (IS_ERR(jdi->ddi_supply))
-> +		return dev_err_probe(dev, PTR_ERR(jdi->ddi_supply),
-> +				     "failed to get ddi regulator\n");
-> +
-> +	jdi->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(jdi->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(jdi->reset_gpio),
-> +				     "failed to get reset gpio\n");
-> +	/* T4 = 1ms */
-> +	usleep_range(1000, 3000);
-> +
-> +	jdi->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-> +	if (IS_ERR(jdi->enable_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(jdi->enable_gpio),
-> +				     "failed to get enable gpio\n");
-> +	/* T5 = 2ms */
-> +	usleep_range(2000, 4000);
-> +
-> +	jdi->backlight = devm_of_find_backlight(dev);
-> +	if (IS_ERR(jdi->backlight))
-> +		return dev_err_probe(dev, PTR_ERR(jdi->backlight),
-> +				     "failed to create backlight\n");
-> +
-> +	drm_panel_init(&jdi->base, &jdi->link1->dev, &jdi_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +
-> +	drm_panel_add(&jdi->base);
-> +
-> +	return 0;
-> +}
-> +
-> +static void jdi_panel_del(struct jdi_panel *jdi)
-> +{
-> +	if (jdi->base.dev)
-> +		drm_panel_remove(&jdi->base);
-> +
-> +	if (jdi->link2)
-> +		put_device(&jdi->link2->dev);
-> +}
-> +
-> +static int jdi_panel_dsi_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct mipi_dsi_device *secondary = NULL;
-> +	struct jdi_panel *jdi;
-> +	struct device_node *np;
-> +	int err;
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = 0;
-> +
-> +	/* Find DSI-LINK1 */
-> +	np = of_parse_phandle(dsi->dev.of_node, "link2", 0);
-> +	if (np) {
-> +		secondary = of_find_mipi_dsi_device_by_node(np);
-> +		of_node_put(np);
-> +
-> +		if (!secondary)
-> +			return -EPROBE_DEFER;
-> +	}
-> +
-> +	/* register a panel for only the DSI-LINK1 interface */
-> +	if (secondary) {
-> +		jdi = devm_kzalloc(&dsi->dev, sizeof(*jdi), GFP_KERNEL);
-> +		if (!jdi) {
-> +			put_device(&secondary->dev);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		mipi_dsi_set_drvdata(dsi, jdi);
-> +
-> +		jdi->link1 = dsi;
-> +		jdi->link2 = secondary;
-> +
-> +		err = jdi_panel_add(jdi);
-> +		if (err < 0) {
-> +			put_device(&secondary->dev);
-> +			return err;
-> +		}
-> +	}
-> +
-> +	err = mipi_dsi_attach(dsi);
-> +	if (err < 0) {
-> +		if (secondary)
-> +			jdi_panel_del(jdi);
-> +
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void jdi_panel_dsi_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct jdi_panel *jdi = mipi_dsi_get_drvdata(dsi);
-> +	int err;
-> +
-> +	/* only detach from host for the DSI-LINK2 interface */
-> +	if (!jdi)
-> +		mipi_dsi_detach(dsi);
-> +
-> +	err = jdi_panel_disable(&jdi->base);
-> +	if (err < 0)
-> +		dev_err(&dsi->dev, "failed to disable panel: %d\n", err);
-> +
-> +	err = mipi_dsi_detach(dsi);
-> +	if (err < 0)
-> +		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", err);
-> +
-> +	jdi_panel_del(jdi);
-> +}
-> +
-> +static void jdi_panel_dsi_shutdown(struct mipi_dsi_device *dsi)
-> +{
-> +	struct jdi_panel *jdi = mipi_dsi_get_drvdata(dsi);
-> +
-> +	if (!jdi)
-> +		return;
-> +
-> +	jdi_panel_disable(&jdi->base);
-> +}
-> +
-> +static struct mipi_dsi_driver jdi_panel_dsi_driver = {
-> +	.driver = {
-> +		.name = "panel-jdi-lpm102a188a",
-> +		.of_match_table = jdi_of_match,
-> +	},
-> +	.probe = jdi_panel_dsi_probe,
-> +	.remove = jdi_panel_dsi_remove,
-> +	.shutdown = jdi_panel_dsi_shutdown,
-> +};
-> +module_mipi_dsi_driver(jdi_panel_dsi_driver);
-> +
-> +MODULE_AUTHOR("Sean Paul <seanpaul@chromium.org>");
-> +MODULE_AUTHOR("Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>");
-> +MODULE_DESCRIPTION("DRM Driver for JDI LPM102A188A DSI panel, command mode");
-> +MODULE_LICENSE("GPL");
+That's actually a bit of a tricky question. It seems that the existing IGT syncobj_timeline test asserts the incorrect behavior that waiting for an unsubmitted fence with WAIT_AVAILABLE set should fail with EINVAL.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+I've sent a patch to igt-dev correcting this https://lists.freedesktop.org/archives/igt-dev/2023-August/059858.html however that will cause the test to fail with current kernels.
+
+I don't know how big of a problem that would be. Personally I kinda feel like the test *should* fail with current kernels, since current kernels do indeed have a bug.
+
+On 8/16/23 09:40, Simon Ser wrote:
+> BTW, question: do you know if we could add an IGT test to make sure we
+> don't regress this?
+
