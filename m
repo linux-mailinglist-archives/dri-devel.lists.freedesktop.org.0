@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F7D77ECEE
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 00:14:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFCC677ED6B
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 00:52:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCCC10E3DC;
-	Wed, 16 Aug 2023 22:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F6E10E3DF;
+	Wed, 16 Aug 2023 22:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1892010E3D9;
- Wed, 16 Aug 2023 22:14:10 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 29FE840E0196; 
- Wed, 16 Aug 2023 22:14:08 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id uAkQTv2wM7Q1; Wed, 16 Aug 2023 22:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1692224045; bh=EDI4sHIEq7V/ok4vu3g7Qxtb5Wy13BDjKdqukYKZlXI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UAzs3c5SctsxoQVF3W9YGPMFj3S1M/W0FAPUkbHvEWBvnfr9jH4Y+1sHwr4Jx5iJX
- Qp83T3sTPaz1AuO2vZQ2jWIQK1CjM6WhKJz/VsZ7ggxm74thWpOw7P8Qlu6SW9ZeVD
- z6YYlx7A7ytvHJgUJ2krgvcKPJJmD3sxwI89Y3CIIZ9tRi/qTe+q051SPH8RTWx9DU
- 1LGdcPkIonq03fX/vLtsm/sxNG/FbE67wIdOJcGgFbu9yw+0Dc7BOvqx7Ml+YvBEyl
- CtZBE6a53gnm7/UNOaWBROOLar+IUmeAf9Wz2DAaJZFCGn/w8/G9iOBGueF89LdBTe
- ADDwdqSQHEkiLGJSzlTnboiRjOyQ+fIQquXqxvMrDuJIgjy8zhfvkROlOQCLIX3iZ0
- c7dFnpj1XISe2mU9Dnj1R9ECBgTdJ+9Eq4bz/JK/M5/7x+Do993C4YUhv6GJUQM5Pc
- Aq4/o9+VWv77+oVs7E4UwhPjKN8auQ3Cw/DoSe3M9RX86z8TvjRsG/6d4PSlkI1IM4
- wRI5Uq5SJHP4ea2wyZ8ADTtxcivm/xa5n0erB4fQ+/JWn0Lwg4bnYSV9PILIZM0Kxg
- 1O8cYH6NoiYKT4/JKFky6ISHK5NvedehVydEaBNa3O8ILDNNRI7YGZQ6KVAVtBpAYh
- 9WfUkvVpfzate7a1VVRRcnco=
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6B72040E00F4;
- Wed, 16 Aug 2023 22:13:58 +0000 (UTC)
-Date: Thu, 17 Aug 2023 00:13:53 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
- of nouveau_connector_create
-Message-ID: <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
-References: <20230814144933.3956959-1-kherbst@redhat.com>
- <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
- <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
- <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
- <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
- <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
- <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE75410E3DB;
+ Wed, 16 Aug 2023 22:52:10 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4fe85fd3d27so11770464e87.0; 
+ Wed, 16 Aug 2023 15:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692226329; x=1692831129;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mvsfyfQv/bBDPqR+U9oMm9lfLxeMxfNdU7tZWDaoRG8=;
+ b=Y/4SMJQv1BlfNiGD3efCwGBwiTfG7NLs5HbBNeX2gUsqQXrRxALZugNwI6wLIMb/DD
+ UylGzWl7YoMdeHXciHh2N3QWKBVsMRW4GQNa5+m5KDzeT0ix8AtNhulAqlzX3W2eZ2XW
+ T/rGpCAV966rSV25OvsNRPhnu1oEGDYqSFepKZ1VuCmHzyKfLaQIabjfmHzHcHn3MnJc
+ ULSQXWxEJiNWQ8BWRC4zurQEVgqzIRPQ5Uwd2udzjgm2ImjKqtBGRfqEdER7clFuliDx
+ BAzpR3Q+Zi9mo3w048Vt2lNAw+wvVPO7OZd5eAKafaMqmDffgUkNq3TVsj3KyA9ewGXl
+ WC6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692226329; x=1692831129;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mvsfyfQv/bBDPqR+U9oMm9lfLxeMxfNdU7tZWDaoRG8=;
+ b=ez3FFD0SZmppbs4PG1xNPzi9VCkK5+9kXJgsgpv48rzkpx8HDZDzP2cWbk5nfH+Qdv
+ HAC62oqYuoMEoWbbvG+C2/xYYpXNf+ptmGPGzsfIug1XQnbk0Uy4/6qdbgxwPDW+2c4j
+ UX3qgLplwP20lfLo1hsxTu0hM9ec83kDmMAJrrp4zfjzDuZ6V5cQEMYWqbao6vmf0Vxs
+ UMtUyW2wyj2BdV/NTmffyQibVna2jV1/zTWepQBPbZISrU9yHAwsugwUe0/e4EEOe/0E
+ 30tA8o3eVO2zV1TZ2gx+R5kC+0YxgQe0pL0GKwLVzsfdc8MI5romKGowaW3EL5eU5HyT
+ NBVw==
+X-Gm-Message-State: AOJu0Yw/SO/EEcapveHP9M/KxWdfSluyvflrjwpav6tEkYOzAlW23sFu
+ UW7izlXb/gqkp361pbZG8OywbRD8w5AL9w0OZJhyoGEjB1M=
+X-Google-Smtp-Source: AGHT+IEscuSyTKTC/BNayYHGLsI+l7nktHOw7wGlPPwZPmtJ1kH4ILcfF8wVeYbNrrquIn2bmH2a3NG2UnH1kD2CjBM=
+X-Received: by 2002:a2e:7d07:0:b0:2b6:ed80:15d1 with SMTP id
+ y7-20020a2e7d07000000b002b6ed8015d1mr2430325ljc.24.1692226328835; Wed, 16 Aug
+ 2023 15:52:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
+References: <SA1PR11MB699192A66D7A2CC7305A59569214A@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <SA1PR11MB6991F9E3107C963BDF95E04E9214A@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <e0d7d6a2-5c9d-6e17-4b4b-be03deb6c130@amd.com>
+ <SA1PR11MB69918E5603E286961789DE6D9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <3c125b60-df60-2037-c23f-918734e4973f@amd.com>
+ <SA1PR11MB69916E51CE5A9217D447B91C9215A@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <7ae5f112-d0e9-cc52-2b22-7265ea435cc2@amd.com>
+In-Reply-To: <7ae5f112-d0e9-cc52-2b22-7265ea435cc2@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 17 Aug 2023 08:51:57 +1000
+Message-ID: <CAPM=9tyots9C8wEU0TgGnFmLOkfqn62ngaYYjV2yuTf7jwDGFw@mail.gmail.com>
+Subject: Re: Implement svm without BO concept in xe driver
+To: Felix Kuehling <felix.kuehling@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,18 +74,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: "Brost, Matthew" <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Philip Yang <Philip.Yang@amd.com>, "Welty, Brian" <brian.welty@intel.com>,
+ "Zeng, Oak" <oak.zeng@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 16, 2023 at 11:27:05PM +0200, Karol Herbst wrote:
-> that GPU has only a `DMS-59` connector, is that right?
+On Thu, 17 Aug 2023 at 08:15, Felix Kuehling <felix.kuehling@amd.com> wrote=
+:
+>
+> On 2023-08-16 13:30, Zeng, Oak wrote:
+> > I spoke with Thomas. We discussed two approaches:
+> >
+> > 1) make ttm_resource a central place for vram management functions such=
+ as eviction, cgroup memory accounting. Both the BO-based driver and BO-les=
+s SVM codes call into ttm_resource_alloc/free functions for vram allocation=
+/free.
+> >      *This way BO driver and SVM driver shares the eviction/cgroup logi=
+c, no need to reimplment LRU eviction list in SVM driver. Cgroup logic shou=
+ld be in ttm_resource layer. +Maarten.
+> >      *ttm_resource is not a perfect match for SVM to allocate vram. It =
+is still a big overhead. The *bo* member of ttm_resource is not needed for =
+SVM - this might end up with invasive changes to ttm...need to look into mo=
+re details
+>
+> Overhead is a problem. We'd want to be able to allocate, free and evict
+> memory at a similar granularity as our preferred migration and page
+> fault granularity, which defaults to 2MB in our SVM implementation.
+>
+>
+> >
+> > 2) svm code allocate memory directly from drm-buddy allocator, and expo=
+se memory eviction functions from both ttm and svm so they can evict memory=
+ from each other. For example, expose the ttm_mem_evict_first function from=
+ ttm side so hmm/svm code can call it; expose a similar function from svm s=
+ide so ttm can evict hmm memory.
+>
+> I like this option. One thing that needs some thought with this is how
+> to get some semblance of fairness between the two types of clients.
+> Basically how to choose what to evict. And what share of the available
+> memory does each side get to use on average. E.g. an idle client may get
+> all its memory evicted while a busy client may get a bigger share of the
+> available memory.
 
-No clue. How do I figure that out?
+I'd also like to suggest we try to write any management/generic code
+in driver agnostic way as much as possible here. I don't really see
+much hw difference should be influencing it.
 
--- 
-Regards/Gruss,
-    Boris.
+I do worry about having effectively 2 LRUs here, you can't really have
+two "leasts".
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Like if we hit the shrinker paths who goes first? do we shrink one
+object from each side in turn?
+
+Also will we have systems where we can expose system SVM but userspace
+may choose to not use the fine grained SVM and use one of the older
+modes, will that path get emulated on top of SVM or use the BO paths?
+
+Dave.
