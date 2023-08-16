@@ -2,62 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CE077E046
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 13:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D53C77E291
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 15:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 711D110E35D;
-	Wed, 16 Aug 2023 11:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9263710E0CA;
+	Wed, 16 Aug 2023 13:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45CDF10E357
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 11:26:00 +0000 (UTC)
-Received: from [127.0.1.1] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DA1DF02;
- Wed, 16 Aug 2023 13:24:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1692185086;
- bh=lJbs+u3Qj3Q0zC4Wo5t/O8IezT1rm6E1W3iejTWvFus=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Ze7KdHL3OAdq7ax0zkkKIHQ/HlllSOfnky93i4Xp34qVfrUJC9p2Ax0U6ZbStay4M
- eh7D0WjAH8J+MowPxRlG9va8kjuiueCx6rQXOdIbuL6ymOiNaD2nJ/8dfz6uO09Hak
- 2ezuRdzgSd9HGLK22D2500LcsCCAW5CdBVItDP4A=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 16 Aug 2023 14:25:15 +0300
-Subject: [PATCH v2 12/12] drm/bridge: tc358768: Default to positive h/v syncs
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3202D10E371
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 13:29:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692192558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0zzWey38HM2kl2tP6Yo35O0O7svAYPRwrWuIqvfpikk=;
+ b=O4v8xYrOOhAxxOanqHhJ+Yg+/HIHzMibQLxrTRPLiUn0u/7wVfgJuRkl4COjeZYepyylD7
+ a1GhWQaSWExOXBE8i917zqXryA1te7Z0j6I9/HsDoGZKFYe/aOdk7erMs2WD6JE1t28633
+ ivLbVvln8JcLWN1jJhL6CS0mCYhKiW4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-578-2Zq-KqSPPyOqzIhBaRuqpw-1; Wed, 16 Aug 2023 09:29:16 -0400
+X-MC-Unique: 2Zq-KqSPPyOqzIhBaRuqpw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-51d8823eb01so4209859a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 06:29:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692192555; x=1692797355;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0zzWey38HM2kl2tP6Yo35O0O7svAYPRwrWuIqvfpikk=;
+ b=MayEuJTwF6vWBnji9avG448tXeKDxgR4jfZiJ1/nSPzwwTwhBasvaIJmVG+TIemK63
+ Wa5Nx+TiMvwnEsMXI8R3ncrjnVZdNlYYV1zXQAmHpAi8B5R0zDbcj2QDRqOhA4N4bH4O
+ Iwxq2ue3ks3TzVwHWZLEQP9zlEFsZI68sLAbL9/n/oHiI3zohzvvJiX3fqYjDswal499
+ mNjv+yjsvWg1ewjS8FvSizAbnrgW+8TUxHd4hAg5Hoq9rLvyhcW18BW2osjBR86ukPRH
+ e7Vus34TYCRQ+aEOpz+X47j7DeyJ+PFkY+3p5c4S2uAE+llG+uZTE02U9OHKuhhrsN3g
+ OmJw==
+X-Gm-Message-State: AOJu0YzVXmpKXk6LU1K9ULwqLI7sNQEEjqmCiRm3tdBQl4W1T8RgGpoa
+ 3MCjFQMHQNVrHRTaerY8pN5SWp//o2W0qf1eJMFo50qptQ3oc1N426Pi68oTqBBMj8i0BHUCB3r
+ HvJOVkf1cRJ87sNntGk9vZBgoezqk
+X-Received: by 2002:a17:906:118b:b0:99d:f0e8:5623 with SMTP id
+ n11-20020a170906118b00b0099df0e85623mr1477940eja.54.1692192555666; 
+ Wed, 16 Aug 2023 06:29:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH7BO553Uv2K2M6GZIjOmPRpCfK/eILJ+o7OHtWwUS+06gCkH7BYmuFP151ju9neAoHrQ836A==
+X-Received: by 2002:a17:906:118b:b0:99d:f0e8:5623 with SMTP id
+ n11-20020a170906118b00b0099df0e85623mr1477921eja.54.1692192555305; 
+ Wed, 16 Aug 2023 06:29:15 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ gx20-20020a170906f1d400b0099cbe71f3b5sm8452748ejb.0.2023.08.16.06.29.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Aug 2023 06:29:14 -0700 (PDT)
+Message-ID: <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
+Date: Wed, 16 Aug 2023 13:30:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+To: Matthew Brost <matthew.brost@intel.com>
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-2-matthew.brost@intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230811023137.659037-2-matthew.brost@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230816-tc358768-v2-12-242b9d5f703a@ideasonboard.com>
-References: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
-In-Reply-To: <20230816-tc358768-v2-0-242b9d5f703a@ideasonboard.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>, 
- Maxim Schwalm <maxim.schwalm@gmail.com>, 
- Francesco Dolcini <francesco@dolcini.it>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1587;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=lJbs+u3Qj3Q0zC4Wo5t/O8IezT1rm6E1W3iejTWvFus=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBk3LI3X79NX4TNGdgFOlXsh77AMKmBQn51e/e1l
- 8Djg/M+A/WJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZNyyNwAKCRD6PaqMvJYe
- 9SKlD/9WJ72o8W4x/nTq2DdYvThqd3Yi0xdA6Fs2VtWFglzyIy80utupxMrnHJ8188TWLM+IRUg
- k3vjjUENpUD+mMUB2qTJoOyLPf/cwZdOlkq1You1A7MGGsVXHfU4BUKNDnWDFB1lE4kESuHSPMy
- qC1p1N4nMgJCJqkcNq1HGHrG67u+bfQgWb7OMBnLOcb+8x88doP8RAi8outnRQ5DtAwpPZ2MnFR
- PQSJ23GC8/E6afT9QrwMuAxsCXb5OcgndOs+zzNdPV4dje1Y2kRC3xayoVfj7Xk50vnlVCDfgvA
- +/jA2L24ZIL5iCSCo8yr028Ck7rjGYX588IHLMUxiBulQ3fx1VAHWEH67w/EcjbAyA2mvwynfeP
- Jm5vfbkM02c20/0NqX/rhVyCImb+rRI5N42rtY3CbGvjVLliYZer8Uw4FHzJbtgEJf/LWnaIoMd
- ag/AIBwotOKEk7/VdszmuH8BEUe+CJJ72/ruorEm0FbflxD1nifUPjXMWCH2VaxZI9pBdbL+ddE
- 0d6j4EoL7w66cFHRyKA77UhkPQ37kp40bQsY3nz5CaMU++M1a6t/3TlMI6bVcVWLEh7M+aj0kC5
- ydRbg5BTgT/LLNCLcraNeHvs32awVRT+qFEEBYWcS7Kv8k8HFWD0cXqVQjRvBZuTIlRthlXY2jq
- gFkxiqI8+XhlJ/A==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,56 +90,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Aradhya Bhatia <a-bhatia1@ti.com>
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, luben.tuikov@amd.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the TC358768 is a DPI to DSI bridge, the DSI side does not need to
-define h/v sync polarities. This means that sometimes we have a mode
-without defined sync polarities, which does not work on the DPI side.
+Hi Matt,
 
-Add a mode_fixup hook to default to positive sync polarities.
+On 8/11/23 04:31, Matthew Brost wrote:
+> In XE, the new Intel GPU driver, a choice has made to have a 1 to 1
+> mapping between a drm_gpu_scheduler and drm_sched_entity. At first this
+> seems a bit odd but let us explain the reasoning below.
+> 
+> 1. In XE the submission order from multiple drm_sched_entity is not
+> guaranteed to be the same completion even if targeting the same hardware
+> engine. This is because in XE we have a firmware scheduler, the GuC,
+> which allowed to reorder, timeslice, and preempt submissions. If a using
+> shared drm_gpu_scheduler across multiple drm_sched_entity, the TDR falls
+> apart as the TDR expects submission order == completion order. Using a
+> dedicated drm_gpu_scheduler per drm_sched_entity solve this problem.
+> 
+> 2. In XE submissions are done via programming a ring buffer (circular
+> buffer), a drm_gpu_scheduler provides a limit on number of jobs, if the
+> limit of number jobs is set to RING_SIZE / MAX_SIZE_PER_JOB we get flow
+> control on the ring for free.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/bridge/tc358768.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+In XE, where does the limitation of MAX_SIZE_PER_JOB come from?
 
-diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index ea19de5509ed..b465e0a31d09 100644
---- a/drivers/gpu/drm/bridge/tc358768.c
-+++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -1124,9 +1124,27 @@ tc358768_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
- }
- 
-+static bool tc358768_mode_fixup(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	/* Default to positive sync */
-+
-+	if (!(adjusted_mode->flags &
-+	      (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NHSYNC)))
-+		adjusted_mode->flags |= DRM_MODE_FLAG_PHSYNC;
-+
-+	if (!(adjusted_mode->flags &
-+	      (DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NVSYNC)))
-+		adjusted_mode->flags |= DRM_MODE_FLAG_PVSYNC;
-+
-+	return true;
-+}
-+
- static const struct drm_bridge_funcs tc358768_bridge_funcs = {
- 	.attach = tc358768_bridge_attach,
- 	.mode_valid = tc358768_bridge_mode_valid,
-+	.mode_fixup = tc358768_mode_fixup,
- 	.pre_enable = tc358768_bridge_pre_enable,
- 	.enable = tc358768_bridge_enable,
- 	.disable = tc358768_bridge_disable,
+In Nouveau we currently do have such a limitation as well, but it is 
+derived from the RING_SIZE, hence RING_SIZE / MAX_SIZE_PER_JOB would 
+always be 1. However, I think most jobs won't actually utilize the whole 
+ring.
 
--- 
-2.34.1
+Given that, it seems like it would be better to let the scheduler keep 
+track of empty ring "slots" instead, such that the scheduler can deceide 
+whether a subsequent job will still fit on the ring and if not 
+re-evaluate once a previous job finished. Of course each submitted job 
+would be required to carry the number of slots it requires on the ring.
+
+What to you think of implementing this as alternative flow control 
+mechanism? Implementation wise this could be a union with the existing 
+hw_submission_limit.
+
+- Danilo
+
+> 
+> A problem with this design is currently a drm_gpu_scheduler uses a
+> kthread for submission / job cleanup. This doesn't scale if a large
+> number of drm_gpu_scheduler are used. To work around the scaling issue,
+> use a worker rather than kthread for submission / job cleanup.
+> 
+> v2:
+>    - (Rob Clark) Fix msm build
+>    - Pass in run work queue
+> v3:
+>    - (Boris) don't have loop in worker
+> v4:
+>    - (Tvrtko) break out submit ready, stop, start helpers into own patch
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
