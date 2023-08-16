@@ -2,59 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E9E77E254
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 15:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7D577E2D5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 15:40:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF4C410E0A2;
-	Wed, 16 Aug 2023 13:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D8C10E0D5;
+	Wed, 16 Aug 2023 13:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 457C010E0A2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Aug 2023 13:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692191736; x=1723727736;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=CLai+YNN3OujjOwMSs+ewWzyb1YQrY4aGWQEsGhHt0M=;
- b=BUrTQHMVYLQlCicEhjkLNfstvf4jzDh4tjzC4uPfzUno9+K8/jFqm78e
- PjJ2HY6JRkyOICu7sNd1jnzDEi/2Fl2XXbLjZkeOjqknfC3RsittZ9oGI
- q2fV4CJtGoD0BE2POa7ETvLpIgJqUTSJvp0DztJ9JUYpkKTmd3mZ2FuvA
- eb6EdonClveaoI10cFFgxSKGgH5VSYmtoD97UOXbEPktPeixX7VTUeDcd
- exBo8aXrq4YZFObKUqMrCgKv2OuEQW94v1Jcl67v2MAhPlMNStOpekHMG
- QEReJpZwQpPGMWFk2cDih89W4RPImmozypNaNVxhRwSpzvL7fuN19QlYm Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="352854193"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; d="scan'208";a="352854193"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Aug 2023 06:15:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="734204567"
-X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; d="scan'208";a="734204567"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 16 Aug 2023 06:15:26 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qWGMr-0000K0-29;
- Wed, 16 Aug 2023 13:15:22 +0000
-Date: Wed, 16 Aug 2023 21:14:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
- david@fromorbit.com, tkhai@ya.ru, vbabka@suse.cz,
- roman.gushchin@linux.dev, djwong@kernel.org, brauner@kernel.org,
- paulmck@kernel.org, tytso@mit.edu, steven.price@arm.com,
- cel@kernel.org, senozhatsky@chromium.org, yujie.liu@intel.com,
- gregkh@linuxfoundation.org, muchun.song@linux.dev,
- joel@joelfernandes.org, christian.koenig@amd.com
-Subject: Re: [PATCH 1/5] mm: move some shrinker-related function declarations
- to mm/internal.h
-Message-ID: <202308162118.motJd6aG-lkp@intel.com>
-References: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5AB310E0C1;
+ Wed, 16 Aug 2023 13:40:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LvAd4NZ+AQEfiza4VzPDPzCOiMctt8BIZngHA6BVWsjCtrEOKJ34tIm1vozyJg5/h5iMwdOTfolk0oBT3tTKHGcokzdQkoziawKnVaSJpSEw4sKWt25bYlE9JxqQskzUtxTypZwlRoJATmIMpsoHP0wSP16yfJFpApv9zzXS2v30EbC3u8kCTZv8CuulqfA63jZeN+yjs9++ZSYjKK7oYn2iDXm8TATOnGHbTs9ZUFCFfvr+eMFHwo4ymVX1aZzuMTfJfD5cZJ4NGatStq78WxnyoDcH9EByEcHjLsWcw/OoU61FdNbwNbwhc41GBdZHrWuT7ZPnLJsSHbxX5tU3tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DOQfOc4Yxfr7it5mZvy4N4esSHvp0aTLX6/pW7iBxyA=;
+ b=OCXOCcQ561xlWn/ttkMFf2jn8x3dEWrEREfA0ahkrSZxOuJHUNjpQYy221BpArKGScgnU/hVi+eO8UKJmsTPRuM7Gx9UjGBtZezLjHyV39iBTF31TzyoOntlVw7C9uhEQL6zAs6Q8I3VjAlRY+F5qPivK0cSEZLIq7oRaLtXfbZnCdwXgPDCvCx7UnVf5MLjUCQpjODe/GYdCCM/TBVfaRQiERnRibv4pNEoldMvuSU1ps1pEdEeRTMgRgO12kwRo3R2F3nEqB2zR5/SkJpLAAb8nLYiZ/YYrpPApBdV5DlC+WiN8Eqs2zjJS6pSObXjwd6BLlHkdf5cbk4phL9HiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DOQfOc4Yxfr7it5mZvy4N4esSHvp0aTLX6/pW7iBxyA=;
+ b=UoJJR5sRBhJ8tM2MRZBUoCq6qUCmN1KhzE4YTJYspJ9AFxX/GtsbtxLxA1ZGz5/Xru0wm4UZoxEqKVTe9sQ/K2qC0DtsJRig5uyc+hXJIm7NzLhxzdFZg0V0fekDhwkNClJS6Y6e5zOdq3vNynJ1cXTA/hiQkDity6VsNd3EAVY=
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by DS7PR12MB6005.namprd12.prod.outlook.com (2603:10b6:8:7c::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.30; Wed, 16 Aug
+ 2023 13:40:41 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::bcfa:7757:68bd:f905]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::bcfa:7757:68bd:f905%5]) with mapi id 15.20.6678.029; Wed, 16 Aug 2023
+ 13:40:41 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: "Lazar, Lijo" <Lijo.Lazar@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] Documentation/gpu: Update amdgpu documentation
+Thread-Topic: [PATCH] Documentation/gpu: Update amdgpu documentation
+Thread-Index: AQHZz/WgIsE05G/et0mmwgz++XwXQK/s7oDS
+Date: Wed, 16 Aug 2023 13:40:41 +0000
+Message-ID: <BL1PR12MB51441C9445438AFC6F37A6E5F715A@BL1PR12MB5144.namprd12.prod.outlook.com>
+References: <20230816035603.690383-1-lijo.lazar@amd.com>
+In-Reply-To: <20230816035603.690383-1-lijo.lazar@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=True;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-08-16T13:40:40.724Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard; 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5144:EE_|DS7PR12MB6005:EE_
+x-ms-office365-filtering-correlation-id: f23be301-7ff6-4de6-96de-08db9e5e6236
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9FLjPQ657IkJhk9IHaDBqTD+JIDy2tBIzxRqYfWCQ8q84mSkCgR19qV9BmPUqVsHrZwP8kgnuT57v/o/nDVxqVw4fQQKkzW43cwZZimw6zKT9d+vHR6mssMommyBhTgIeQIbzUR0eNLlvLGsFOt9dxfREI1domlJ8pSCAEFz+Bz0uJ3ge90nwIDhlCtSQdHUPx2ongWqra4Sd5bkF/JANavebv+80j4hNntlv4FzCOZFfRrIGvhDSDc9bzdLlVBTmCnTyzTMwJGxsVgdNkOAFIOA6WyXkD6VRjlLElU0TRcqBOTcFJtRJzpmTzqkSM2GHDcr3eWOJBbBpb0ZpZt9excYlh9/MSCgU11qlQqzu666+YnNTzqIjmlz3BtVo8BNq67fy/pD1Vx6DTqQ3MgzMIEvjEfQp3pAZi3xWcyRujpzEqVEUW8DaG9QRCVTepEqZmYV1RdKy3KLGB0SNqzHBn+cl/6qgASXGphcSUwBgGQtzbt6uHfqShzACe5vp7zJTDyY//BcWv6v3Eu1srmodjOGDzwInHhv2hLb64ZWQDw1kR2/eC0K+QCE9l4N8eL/j0/732gc3oI9BOmEkYb6sC9XkAlIgCoptm+8zz+BM6tHRW3i7pIwWr45hPIlJwoQ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(1800799009)(451199024)(186009)(316002)(54906003)(76116006)(66946007)(64756008)(110136005)(66476007)(66556008)(66446008)(122000001)(19627405001)(41300700001)(52536014)(5660300002)(38070700005)(38100700002)(8676002)(4326008)(8936002)(2906002)(15650500001)(83380400001)(26005)(55016003)(478600001)(86362001)(9686003)(53546011)(33656002)(7696005)(6506007)(71200400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?IoHkWa6V/VOVohVjBGLTOlKgVrmpHSkKg7p19xNMIlcBvx9qFixpZ/ra0zUg?=
+ =?us-ascii?Q?7DFvMGDF5/nx9BHw+XrQYnjXDB1+EqlIFdDG3HL43GQ44gb+qAeYDBSex8tm?=
+ =?us-ascii?Q?1w6xwxXXKMfWel8NsibDgUTEfO0SdSy4z+pp2+RhAFsFGZ5+9Ydz+GATBSwL?=
+ =?us-ascii?Q?Eb/bZpwRAIKUCPRR9btUvnwR1DOy0GsAl6E/K3BRXBYFY82q0cdNek8Vt582?=
+ =?us-ascii?Q?MST7zv3t6ohY6xCAVa4NtHtm5emTX4k9l3KZ35+Ntrvjmmj/wzQNyi6sKtuL?=
+ =?us-ascii?Q?xAi3PlRnwJS1NOQtgsOpt+b9EaNyGeHVS/10YDN3Z2440NTDkDszo6SgxsuB?=
+ =?us-ascii?Q?cBkZ+DtOS59hUAJJS9kiVAzASZ+WxlpB/R3V3UZCmkFTd12ujJoYQTyb4oH4?=
+ =?us-ascii?Q?jNoaNECPZpw0uD0dfHnWJJAfyhVDx5mT9kRrA5au+W3V47aLxQTwZqqZ9gtD?=
+ =?us-ascii?Q?+M/KEEXw7Sgizbs6SnPrChNYzxdUZyCZFjahY9sJTQFWFxQZQRJRK8AzEjVT?=
+ =?us-ascii?Q?3S7tN+OVkOqRUyDyeE8+7tI0drD5rOwcefhhWBtxYCfPeeT9oF3CBYFkTwBz?=
+ =?us-ascii?Q?+eqmXRI57Upr7f9G3ARiPE9mFvfB/NKRiWdbyNfOJCZrOXZuQX31zfUfWwNK?=
+ =?us-ascii?Q?XVAAPl3bc0qbz3GSZKSseiUOapwNg7pPJVzllwzssvP+z5Iy51YBEiWCs2DF?=
+ =?us-ascii?Q?iU+CQa0Jf3Lhxn6kB3TkbJB+RdZUOlvxrA3PEBfYsOHFEXE0I/CnSuyyBJkp?=
+ =?us-ascii?Q?Yrm9nyq2Wu6gjBZ9aq0gdbvL2mVJe7M02osG7SSbqtQKj/A50JSd03in7wpU?=
+ =?us-ascii?Q?d5Uo8PDN5aOVhn/qCKyi2Z3xm9ikb75CIlp4HhEqZUs/xQHjYQB+OTd/+b7h?=
+ =?us-ascii?Q?D9nsVdb4H1rJz2qTuZJuSBXwFR8SIz92srLJDE7AjwaNSuvUK2gOotHOD8B1?=
+ =?us-ascii?Q?ZUHtVgMI151TLlA8HRkZmBEMqDWWu4p1yP1KTGiQKR3WtUXHzjw0304M+DSG?=
+ =?us-ascii?Q?o8BpPxfcB87tkMAhcebZs6w0C53ybij0eHPAbJoc2V60VdwnpXC+aHk/I5Lf?=
+ =?us-ascii?Q?UCWNwymhOZi6SrXWoKsuCkRERodeCLoIJWpdzskj0YLW97ZV4MnteWUdzO8s?=
+ =?us-ascii?Q?narBCsjxMnDaJ8Kh2NzrmnqE4AuAfTNy6Ynom1aRF5uOZm9FtzUFD/8D46Im?=
+ =?us-ascii?Q?wWfS1A8RrRnC7LC9nMniuVHHATgaFFe3f1XI5g1U6rwnnf3beHKHWn6G0Kfw?=
+ =?us-ascii?Q?xylXhHfKYyK2Ze1IxmtsISNhbf3YNRD5atnvZ6yl5JRGVwS/vZcnL4rwmsyl?=
+ =?us-ascii?Q?9rQOIvHg4voS6111CK7HbvMpn52uZEKVWscsp7S/x1LP8cIORTcTO8G5IYfm?=
+ =?us-ascii?Q?cmfy8CE/7b73WCldKBs7+wYLw4jsGNVoEiAYajRGitE8eW1yvCx0/IRSBrrs?=
+ =?us-ascii?Q?p3SA0VuZpiuqTl2IphtyagLfqgPyDwN3PzfFKVnX4/s8YUtIqsvC2LTmIhAI?=
+ =?us-ascii?Q?yyiN7KqhYTqr9i/wC6FLfJB7huH5kpAWxRTMw9XOI+7mhOgToPxwTfLC2jrG?=
+ =?us-ascii?Q?l0gpRq+fT7/GZq0auBE=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_BL1PR12MB51441C9445438AFC6F37A6E5F715ABL1PR12MB5144namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230816083419.41088-2-zhengqi.arch@bytedance.com>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f23be301-7ff6-4de6-96de-08db9e5e6236
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2023 13:40:41.4688 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Zo+aRkiSjw90Ll5s6SBwOlWTlbGe4TIPmjtfTQjOsYttJPtf7yBQV71zgGRkUXkcag/nehuF61ivt1yAkuoMPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6005
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,264 +122,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Qi Zheng <zhengqi.arch@bytedance.com>, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>
+Cc: "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Zhang,
+ Hawking" <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Qi,
+--_000_BL1PR12MB51441C9445438AFC6F37A6E5F715ABL1PR12MB5144namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build warnings:
+[AMD Official Use Only - General]
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.5-rc6 next-20230816]
-[cannot apply to akpm-mm/mm-everything drm-misc/drm-misc-next vfs-idmapping/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+________________________________
+From: Lazar, Lijo <Lijo.Lazar@amd.com>
+Sent: Tuesday, August 15, 2023 11:56 PM
+To: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>
+Cc: Zhang, Hawking <Hawking.Zhang@amd.com>; Deucher, Alexander <Alexander.D=
+eucher@amd.com>; sfr@canb.auug.org.au <sfr@canb.auug.org.au>; airlied@redha=
+t.com <airlied@redhat.com>; dri-devel@lists.freedesktop.org <dri-devel@list=
+s.freedesktop.org>
+Subject: [PATCH] Documentation/gpu: Update amdgpu documentation
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-move-some-shrinker-related-function-declarations-to-mm-internal-h/20230816-163833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20230816083419.41088-2-zhengqi.arch%40bytedance.com
-patch subject: [PATCH 1/5] mm: move some shrinker-related function declarations to mm/internal.h
-config: riscv-randconfig-r015-20230816 (https://download.01.org/0day-ci/archive/20230816/202308162118.motJd6aG-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230816/202308162118.motJd6aG-lkp@intel.com/reproduce)
+7957ec80ef97 ("drm/amdgpu: Add FRU sysfs nodes only if needed") moved
+the documentation for some of the sysfs nodes to amdgpu_fru_eeprom.c.
+Update the documentation accordingly.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308162118.motJd6aG-lkp@intel.com/
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+---
+ Documentation/gpu/amdgpu/driver-misc.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-All warnings (new ones prefixed by >>):
+diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/a=
+mdgpu/driver-misc.rst
+index be131e963d87..26334e54447b 100644
+--- a/Documentation/gpu/amdgpu/driver-misc.rst
++++ b/Documentation/gpu/amdgpu/driver-misc.rst
+@@ -11,19 +11,19 @@ via sysfs
+ product_name
+ ------------
 
-                                            ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from mm/shrinker_debug.c:7:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> mm/shrinker_debug.c:174:5: warning: no previous prototype for function 'shrinker_debugfs_add' [-Wmissing-prototypes]
-   int shrinker_debugfs_add(struct shrinker *shrinker)
-       ^
-   mm/shrinker_debug.c:174:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int shrinker_debugfs_add(struct shrinker *shrinker)
-   ^
-   static 
->> mm/shrinker_debug.c:249:16: warning: no previous prototype for function 'shrinker_debugfs_detach' [-Wmissing-prototypes]
-   struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-                  ^
-   mm/shrinker_debug.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-   ^
-   static 
->> mm/shrinker_debug.c:265:6: warning: no previous prototype for function 'shrinker_debugfs_remove' [-Wmissing-prototypes]
-   void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-        ^
-   mm/shrinker_debug.c:265:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-   ^
-   static 
-   16 warnings generated.
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
+    :doc: product_name
+
+ product_number
+ --------------
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
+    :doc: product_name
+
+ serial_number
+ -------------
+
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c
+    :doc: serial_number
+
+ unique_id
+--
+2.25.1
 
 
-vim +/shrinker_debugfs_add +174 mm/shrinker_debug.c
+--_000_BL1PR12MB51441C9445438AFC6F37A6E5F715ABL1PR12MB5144namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-bbf535fd6f06b94 Roman Gushchin     2022-05-31  173  
-5035ebc644aec92 Roman Gushchin     2022-05-31 @174  int shrinker_debugfs_add(struct shrinker *shrinker)
-5035ebc644aec92 Roman Gushchin     2022-05-31  175  {
-5035ebc644aec92 Roman Gushchin     2022-05-31  176  	struct dentry *entry;
-e33c267ab70de42 Roman Gushchin     2022-05-31  177  	char buf[128];
-5035ebc644aec92 Roman Gushchin     2022-05-31  178  	int id;
-5035ebc644aec92 Roman Gushchin     2022-05-31  179  
-47a7c01c3efc658 Qi Zheng           2023-06-09  180  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec92 Roman Gushchin     2022-05-31  181  
-5035ebc644aec92 Roman Gushchin     2022-05-31  182  	/* debugfs isn't initialized yet, add debugfs entries later. */
-5035ebc644aec92 Roman Gushchin     2022-05-31  183  	if (!shrinker_debugfs_root)
-5035ebc644aec92 Roman Gushchin     2022-05-31  184  		return 0;
-5035ebc644aec92 Roman Gushchin     2022-05-31  185  
-5035ebc644aec92 Roman Gushchin     2022-05-31  186  	id = ida_alloc(&shrinker_debugfs_ida, GFP_KERNEL);
-5035ebc644aec92 Roman Gushchin     2022-05-31  187  	if (id < 0)
-5035ebc644aec92 Roman Gushchin     2022-05-31  188  		return id;
-5035ebc644aec92 Roman Gushchin     2022-05-31  189  	shrinker->debugfs_id = id;
-5035ebc644aec92 Roman Gushchin     2022-05-31  190  
-e33c267ab70de42 Roman Gushchin     2022-05-31  191  	snprintf(buf, sizeof(buf), "%s-%d", shrinker->name, id);
-5035ebc644aec92 Roman Gushchin     2022-05-31  192  
-5035ebc644aec92 Roman Gushchin     2022-05-31  193  	/* create debugfs entry */
-5035ebc644aec92 Roman Gushchin     2022-05-31  194  	entry = debugfs_create_dir(buf, shrinker_debugfs_root);
-5035ebc644aec92 Roman Gushchin     2022-05-31  195  	if (IS_ERR(entry)) {
-5035ebc644aec92 Roman Gushchin     2022-05-31  196  		ida_free(&shrinker_debugfs_ida, id);
-5035ebc644aec92 Roman Gushchin     2022-05-31  197  		return PTR_ERR(entry);
-5035ebc644aec92 Roman Gushchin     2022-05-31  198  	}
-5035ebc644aec92 Roman Gushchin     2022-05-31  199  	shrinker->debugfs_entry = entry;
-5035ebc644aec92 Roman Gushchin     2022-05-31  200  
-2124f79de6a9096 John Keeping       2023-04-18  201  	debugfs_create_file("count", 0440, entry, shrinker,
-5035ebc644aec92 Roman Gushchin     2022-05-31  202  			    &shrinker_debugfs_count_fops);
-2124f79de6a9096 John Keeping       2023-04-18  203  	debugfs_create_file("scan", 0220, entry, shrinker,
-bbf535fd6f06b94 Roman Gushchin     2022-05-31  204  			    &shrinker_debugfs_scan_fops);
-5035ebc644aec92 Roman Gushchin     2022-05-31  205  	return 0;
-5035ebc644aec92 Roman Gushchin     2022-05-31  206  }
-5035ebc644aec92 Roman Gushchin     2022-05-31  207  
-e33c267ab70de42 Roman Gushchin     2022-05-31  208  int shrinker_debugfs_rename(struct shrinker *shrinker, const char *fmt, ...)
-e33c267ab70de42 Roman Gushchin     2022-05-31  209  {
-e33c267ab70de42 Roman Gushchin     2022-05-31  210  	struct dentry *entry;
-e33c267ab70de42 Roman Gushchin     2022-05-31  211  	char buf[128];
-e33c267ab70de42 Roman Gushchin     2022-05-31  212  	const char *new, *old;
-e33c267ab70de42 Roman Gushchin     2022-05-31  213  	va_list ap;
-e33c267ab70de42 Roman Gushchin     2022-05-31  214  	int ret = 0;
-e33c267ab70de42 Roman Gushchin     2022-05-31  215  
-e33c267ab70de42 Roman Gushchin     2022-05-31  216  	va_start(ap, fmt);
-e33c267ab70de42 Roman Gushchin     2022-05-31  217  	new = kvasprintf_const(GFP_KERNEL, fmt, ap);
-e33c267ab70de42 Roman Gushchin     2022-05-31  218  	va_end(ap);
-e33c267ab70de42 Roman Gushchin     2022-05-31  219  
-e33c267ab70de42 Roman Gushchin     2022-05-31  220  	if (!new)
-e33c267ab70de42 Roman Gushchin     2022-05-31  221  		return -ENOMEM;
-e33c267ab70de42 Roman Gushchin     2022-05-31  222  
-47a7c01c3efc658 Qi Zheng           2023-06-09  223  	down_write(&shrinker_rwsem);
-e33c267ab70de42 Roman Gushchin     2022-05-31  224  
-e33c267ab70de42 Roman Gushchin     2022-05-31  225  	old = shrinker->name;
-e33c267ab70de42 Roman Gushchin     2022-05-31  226  	shrinker->name = new;
-e33c267ab70de42 Roman Gushchin     2022-05-31  227  
-e33c267ab70de42 Roman Gushchin     2022-05-31  228  	if (shrinker->debugfs_entry) {
-e33c267ab70de42 Roman Gushchin     2022-05-31  229  		snprintf(buf, sizeof(buf), "%s-%d", shrinker->name,
-e33c267ab70de42 Roman Gushchin     2022-05-31  230  			 shrinker->debugfs_id);
-e33c267ab70de42 Roman Gushchin     2022-05-31  231  
-e33c267ab70de42 Roman Gushchin     2022-05-31  232  		entry = debugfs_rename(shrinker_debugfs_root,
-e33c267ab70de42 Roman Gushchin     2022-05-31  233  				       shrinker->debugfs_entry,
-e33c267ab70de42 Roman Gushchin     2022-05-31  234  				       shrinker_debugfs_root, buf);
-e33c267ab70de42 Roman Gushchin     2022-05-31  235  		if (IS_ERR(entry))
-e33c267ab70de42 Roman Gushchin     2022-05-31  236  			ret = PTR_ERR(entry);
-e33c267ab70de42 Roman Gushchin     2022-05-31  237  		else
-e33c267ab70de42 Roman Gushchin     2022-05-31  238  			shrinker->debugfs_entry = entry;
-e33c267ab70de42 Roman Gushchin     2022-05-31  239  	}
-e33c267ab70de42 Roman Gushchin     2022-05-31  240  
-47a7c01c3efc658 Qi Zheng           2023-06-09  241  	up_write(&shrinker_rwsem);
-e33c267ab70de42 Roman Gushchin     2022-05-31  242  
-e33c267ab70de42 Roman Gushchin     2022-05-31  243  	kfree_const(old);
-e33c267ab70de42 Roman Gushchin     2022-05-31  244  
-e33c267ab70de42 Roman Gushchin     2022-05-31  245  	return ret;
-e33c267ab70de42 Roman Gushchin     2022-05-31  246  }
-e33c267ab70de42 Roman Gushchin     2022-05-31  247  EXPORT_SYMBOL(shrinker_debugfs_rename);
-e33c267ab70de42 Roman Gushchin     2022-05-31  248  
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03 @249  struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  250  				       int *debugfs_id)
-5035ebc644aec92 Roman Gushchin     2022-05-31  251  {
-badc28d4924bfed Qi Zheng           2023-02-02  252  	struct dentry *entry = shrinker->debugfs_entry;
-badc28d4924bfed Qi Zheng           2023-02-02  253  
-47a7c01c3efc658 Qi Zheng           2023-06-09  254  	lockdep_assert_held(&shrinker_rwsem);
-5035ebc644aec92 Roman Gushchin     2022-05-31  255  
-e33c267ab70de42 Roman Gushchin     2022-05-31  256  	kfree_const(shrinker->name);
-14773bfa70e67f4 Tetsuo Handa       2022-07-20  257  	shrinker->name = NULL;
-e33c267ab70de42 Roman Gushchin     2022-05-31  258  
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  259  	*debugfs_id = entry ? shrinker->debugfs_id : -1;
-badc28d4924bfed Qi Zheng           2023-02-02  260  	shrinker->debugfs_entry = NULL;
-badc28d4924bfed Qi Zheng           2023-02-02  261  
-badc28d4924bfed Qi Zheng           2023-02-02  262  	return entry;
-5035ebc644aec92 Roman Gushchin     2022-05-31  263  }
-5035ebc644aec92 Roman Gushchin     2022-05-31  264  
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03 @265  void shrinker_debugfs_remove(struct dentry *debugfs_entry, int debugfs_id)
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  266  {
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  267  	debugfs_remove_recursive(debugfs_entry);
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  268  	ida_free(&shrinker_debugfs_ida, debugfs_id);
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  269  }
-26e239b37ebdfd1 Joan Bruguera Micó 2023-05-03  270  
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;font-=
+style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
+[AMD Official Use Only - General]<br>
+</p>
+<br>
+<div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Reviewed-by: Alex Deucher &lt;alexander.deucher@amd.com&gt;<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Lazar, Lijo &lt;Lijo.=
+Lazar@amd.com&gt;<br>
+<b>Sent:</b> Tuesday, August 15, 2023 11:56 PM<br>
+<b>To:</b> amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.freedesktop.org&=
+gt;<br>
+<b>Cc:</b> Zhang, Hawking &lt;Hawking.Zhang@amd.com&gt;; Deucher, Alexander=
+ &lt;Alexander.Deucher@amd.com&gt;; sfr@canb.auug.org.au &lt;sfr@canb.auug.=
+org.au&gt;; airlied@redhat.com &lt;airlied@redhat.com&gt;; dri-devel@lists.=
+freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt;<br>
+<b>Subject:</b> [PATCH] Documentation/gpu: Update amdgpu documentation</fon=
+t>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">7957ec80ef97 (&quot;drm/amdgpu: Add FRU sysfs node=
+s only if needed&quot;) moved<br>
+the documentation for some of the sysfs nodes to amdgpu_fru_eeprom.c.<br>
+Update the documentation accordingly.<br>
+<br>
+Signed-off-by: Lijo Lazar &lt;lijo.lazar@amd.com&gt;<br>
+---<br>
+&nbsp;Documentation/gpu/amdgpu/driver-misc.rst | 6 +++---<br>
+&nbsp;1 file changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/a=
+mdgpu/driver-misc.rst<br>
+index be131e963d87..26334e54447b 100644<br>
+--- a/Documentation/gpu/amdgpu/driver-misc.rst<br>
++++ b/Documentation/gpu/amdgpu/driver-misc.rst<br>
+@@ -11,19 +11,19 @@ via sysfs<br>
+&nbsp;product_name<br>
+&nbsp;------------<br>
+&nbsp;<br>
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
++.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c<br>
+&nbsp;&nbsp;&nbsp; :doc: product_name<br>
+&nbsp;<br>
+&nbsp;product_number<br>
+&nbsp;--------------<br>
+&nbsp;<br>
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
++.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c<br>
+&nbsp;&nbsp;&nbsp; :doc: product_name<br>
+&nbsp;<br>
+&nbsp;serial_number<br>
+&nbsp;-------------<br>
+&nbsp;<br>
+-.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
++.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_fru_eeprom.c<br>
+&nbsp;&nbsp;&nbsp; :doc: serial_number<br>
+&nbsp;<br>
+&nbsp;unique_id<br>
+-- <br>
+2.25.1<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--_000_BL1PR12MB51441C9445438AFC6F37A6E5F715ABL1PR12MB5144namp_--
