@@ -1,57 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8788877DD4A
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 11:30:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D03D77DDA2
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Aug 2023 11:45:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2016D10E30E;
-	Wed, 16 Aug 2023 09:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D64F010E30C;
+	Wed, 16 Aug 2023 09:44:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCF110E30E;
- Wed, 16 Aug 2023 09:30:34 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 2DFAB40E0140; 
- Wed, 16 Aug 2023 09:30:30 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id d7ePAOSzahNX; Wed, 16 Aug 2023 09:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1692178227; bh=P6NhbwykV33BYuwxgNIWya2/w0ZvTwkFQjVCfw8K6js=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QU1or508FycqFDuv+O8i4Uny9FoAOlEp0TMZNyRjsBRNGCdiENV3itTqwc0hMe1ub
- 8JeHBG3g36HkjIHyv3wDgEpBg4vIaC+psLVC1dWIh6sdYLuWIEQDBuxhhF6Rz5tjx2
- tChu0PgO/WUY7xJzVx03+V+KjqyHJ8MrKfAd6CXbqqxuJtgZcQx/4ZQb0h4bp/a0x4
- 88pygUnHEzrJKgY/6KHc2aFwq0Rf8+93n+aJvcxl1aPwBREfVYZn57hK0xe4i66Na/
- Id36jX03n8j2h95wipIXebwkTDLKDvW4sd87iZxZZLEubqDcSawVG/THcpPOWyK3Yp
- ANY49t/fPoyqDfsPh+kb8t4rYCLjLGMkDTb7U5ges08lV9ay/N3G3jM9mjwWzhMXYn
- +AChUem+48p6Nf6eoFwUCCggz/3jME4yramG2I/XsWuiArMPsXOlq1UGKQWvudEDzw
- dVp8RK5QxzUztSFWRrd3WyZH6pc+PzNu6PjjPOxmqpRFHamiYjcbI2w8PBKRw5rtwy
- k6tPUfylKZk/1b+73KskU6UbrVfD1vvEZ0UlqzW+DTp0j2oYam4KmdKFP84THhLrk0
- 5o3ohNHNYAwQibZicrdeXGY7KoTVhOi9PpnXh0ZhjX5YgYSVRdzjz3TSk31lqmc7vh
- 2tp7tSkNWNBMeceEBIc0J4vc=
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9B22140E0196;
- Wed, 16 Aug 2023 09:30:20 +0000 (UTC)
-Date: Wed, 16 Aug 2023 11:30:15 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
- of nouveau_connector_create
-Message-ID: <20230816093015.GDZNyXJ28y9uspb4Mr@fat_crate.local>
-References: <20230814144933.3956959-1-kherbst@redhat.com>
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22DE210E08B;
+ Wed, 16 Aug 2023 09:44:52 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id
+ 4fb4d7f45d1cf-5259cf39154so78165a12.2; 
+ Wed, 16 Aug 2023 02:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692179090; x=1692783890;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+8zand1bf++dDgXm+FjYcnuIBuhLXkX3zFM+5SMeXGc=;
+ b=HRYFoxGjBZzXBdTkpHd73l2h3v/JuuD2i1kNBqAwYjOdIpHBBSZoy5H9X8PTFnyZNa
+ qBvUGytxHcEACJtKntItMDimW+GC0SsKZvM97Q5F0ucWIMEyKbI4KcI9ctspDyBVDDrY
+ RapzgyftLuS63fDgcmoBmvBXAYmliy4rGchDoK15Pluse8JQDskGGz7oWHbu+x5VshoD
+ B9wii+pAmee+v+Q0pFAUVCKvhBg6m4AuTzt3nZkbnPMc3zrRFbW4HzvORRg9MQtcFD1/
+ CG3oLBDo1J8nwI/0byiDkt7NTABA1yLSDt+AN5+YpPSI5EVr/uJ9uTniZc6PxMLb7VIk
+ W23Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692179090; x=1692783890;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+8zand1bf++dDgXm+FjYcnuIBuhLXkX3zFM+5SMeXGc=;
+ b=SKANF5wMSlyE5nx7cpN2T7TrYSGmqJekGn0+d6pDRKcfdygHTAquQbGIZhl6l39I7o
+ s1igyYkJ9JW07BwglfunkfYFp+h/CwJ6Dq/QDhTAHzUoHjKWGR0Ljo3YNorLg1RhmKv7
+ wHxEnc2RtAQwEGRru4tPm7a0SRj2oIPuLYASMSjZ+0ceWxFZdRipE1xX9221k6LTN/6l
+ 0i5Nz1tNopAQycZIXQDleGAA5IwBsqjzgaxq6AZ8MATPdmV75J0Aw3xQRhYdUBzpOZLh
+ Bi8vrmE/LNG3e7DpWxJW9CxSA7ezJgrRdxur1r67KXly9l86KDfpD5vJntMkc202PAdS
+ w6ig==
+X-Gm-Message-State: AOJu0YyJSvBRo/tbXroo1ObWZY+2xOs6WF+oNFYgjc+9fp5q8SG5UVJr
+ E5J7eOYPgH0GyRCkBFQy6Mc=
+X-Google-Smtp-Source: AGHT+IEHjvlHvnzDZrz7U+x+ynkgWAIb4qZcKYYFRjnG3NOZ2EpwdYWyFkZxj65jMbqaDEqTu/83Uw==
+X-Received: by 2002:a17:906:4999:b0:999:26d3:b815 with SMTP id
+ p25-20020a170906499900b0099926d3b815mr1234651eju.64.1692179090211; 
+ Wed, 16 Aug 2023 02:44:50 -0700 (PDT)
+Received: from ?IPV6:2a00:e180:15f4:7600:6260:d6f0:1ba4:569e?
+ ([2a00:e180:15f4:7600:6260:d6f0:1ba4:569e])
+ by smtp.gmail.com with ESMTPSA id
+ y22-20020a17090668d600b0099bcdfff7cbsm8200410ejr.160.2023.08.16.02.44.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Aug 2023 02:44:49 -0700 (PDT)
+Message-ID: <fd477ce4-1726-b5a1-1826-8cc5245fcf89@gmail.com>
+Date: Wed, 16 Aug 2023 11:44:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230814144933.3956959-1-kherbst@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/amdgpu/gmc6: fix in case the PCI BAR is larger than
+ the actual amount of vram
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>, hongao <hongao@uniontech.com>
+References: <20230815065445.25576-1-hongao@uniontech.com>
+ <CADnq5_N8nHV5ub0qf6ihU=+QKXOFfM4AnWbYmWf=EG8SbJXa8A@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CADnq5_N8nHV5ub0qf6ihU=+QKXOFfM4AnWbYmWf=EG8SbJXa8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +79,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Xinhui.Pan@amd.com, lijo.lazar@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 14, 2023 at 04:49:32PM +0200, Karol Herbst wrote:
-> We can't simply free the connector after calling drm_connector_init on it.
-> We need to clean up the drm side first.
-> 
-> It might not fix all regressions from 2b5d1c29f6c4 ("drm/nouveau/disp:
-> PIOR DP uses GPIO for HPD, not PMGR AUX interrupts"), but at least it
-> fixes a memory corruption in error handling related to that commit.
-> 
-> Link: https://lore.kernel.org/lkml/20230806213107.GFZNARG6moWpFuSJ9W@fat_crate.local/
-> Fixes: 95983aea8003 ("drm/nouveau/disp: add connector class")
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+Wait a second.
 
-This one ontop of -rc5 doesn't help, unfortunately.
+This is unnecessary because we have this check in 
+amdgpu_gmc_vram_location():
 
-Thx.
+         if (mc->real_vram_size < mc->visible_vram_size)
+                 mc->visible_vram_size = mc->real_vram_size;
 
--- 
-Regards/Gruss,
-    Boris.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Which makes sure that the visible VRAM size is never larger than the 
+actual size for all HW generations.
+
+Regards,
+Christian.
+
+Am 15.08.23 um 17:50 schrieb Alex Deucher:
+> Applied.  Thanks!
+>
+> On Tue, Aug 15, 2023 at 3:13 AM hongao <hongao@uniontech.com> wrote:
+>> [why]
+>> limit visible_vram_size to real_vram_size in case
+>> the PCI BAR is larger than the actual amount of vram.
+>>
+>> Signed-off-by: hongao <hongao@uniontech.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+>> index b7dad4e67813..c0de7496bfd1 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c
+>> @@ -320,6 +320,8 @@ static int gmc_v6_0_mc_init(struct amdgpu_device *adev)
+>>          adev->gmc.aper_base = pci_resource_start(adev->pdev, 0);
+>>          adev->gmc.aper_size = pci_resource_len(adev->pdev, 0);
+>>          adev->gmc.visible_vram_size = adev->gmc.aper_size;
+>> +       if (adev->gmc.visible_vram_size > adev->gmc.real_vram_size)
+>> +               adev->gmc.visible_vram_size = adev->gmc.real_vram_size;
+>>
+>>          /* set the gart size */
+>>          if (amdgpu_gart_size == -1) {
+>> --
+>> 2.20.1
+>>
+
