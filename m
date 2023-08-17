@@ -1,152 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8342D77F817
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 15:53:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A7A77F93A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 16:38:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A9E110E492;
-	Thu, 17 Aug 2023 13:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5F210E4AE;
+	Thu, 17 Aug 2023 14:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE23410E492;
- Thu, 17 Aug 2023 13:53:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692280414; x=1723816414;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=k+SB9KT7WHoEzKFbnpHP/Ho4UMMGBor5bH3D+yLHh5c=;
- b=WkAWzmubOK6DY0h8eTOnfkfmc3ODQSyeJL9YeR5lqcavKpm53SMwCZg1
- HNXGpgEMRvUOLStlofLCeMTNGHvFBAKgDxH3V2T7N+Pj8cwdvbeulbq9k
- bT2V/AMUkWQPNjDbBheIzn+z2kd7agl69ewQdJVuFoHMpNZD3JxcWEugb
- fzfrzhcsEc/rV0iK+X48TFDIpFci5wc4L3EqeHZntKyZXkyQmx/DMtuHM
- /MX3D1jPwLHsdU+ffoMDg8NhkCtzj/FGWAkSfjZ5g0hLqUqX7BUdb8OhP
- ZUOrXPN4HcjMXHoDTFUjejilWK/g1DJbqFdzzax0VJzeonlGnKinu3s4q Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403795492"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="403795492"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 06:53:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="878238738"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2023 06:53:22 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 17 Aug 2023 06:53:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 17 Aug 2023 06:53:18 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 17 Aug 2023 06:53:18 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 17 Aug 2023 06:53:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=himr1sPMPa1axAo12uWAh/Zdu0WEsTBebDjSvNKdULnFcQ4FnnTKuXK5xIMijeEdK6QTfoKLWO9w4vYqGn4g4hY4sthB0I6ixxUWoU4CHyPOzGqTikvvCRZ01IS2hINQbCBINYI6ryddW+uu2TObuNmCtgFMByTEnuEZ6kaBPftUwTYd/ZZxXr/AsOHGG22wZ81BaQ67r7NkmORmeCVGWy5vnXxc1iyTt2VmmVP0JjNksz21DZ31PYF1tJyqTNB6xtIN0ht5HpTGOxzbXGbzEmc3i4hSnmABQp/yrV9i4Vebv3uH+1g39MtrrnZJC2UuJE6YD1NMkaE6hzhCiEu1Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xyIbfgzvHjIAslpohJf7HuBHvQwDzp4YSBQRjZ5j+Sc=;
- b=dnC+IqIwBo29CCTD2y85/3vLGhiqJ4cI7E4QmYsZhufqkO+2Yr6lhQ05JmzfWPfZJpCPiJE7vdS4rwUgjHaNoa1LiriG8N657W6dqQk6x/5zjjmHHyA4xrpTlJrZsA5xO92J/k7yvmPRFdGEuC4Q5wt5ae67yX4/HiZLHslEr3Sd5MkK/4X7tXHs0aw6XdV3UKS+hom4kLeBx74HMCh/i/yU/Qb3whYo7LKS3v/iveSd4uDmzxX2W6xlNL+Dh0VaXcfAG5uWQD2afeDvf0UmTYD5nc43i41syvZk8vgC7XJvBOo3cZYN61OnynBBCi+Bmx3yBby3KPMBFMlEVXirOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by CO1PR11MB4801.namprd11.prod.outlook.com (2603:10b6:303:9c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Thu, 17 Aug
- 2023 13:53:10 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::1e8d:5942:e23b:c08d]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::1e8d:5942:e23b:c08d%6]) with mapi id 15.20.6678.031; Thu, 17 Aug 2023
- 13:53:10 +0000
-Message-ID: <7eb6917c-a894-a10a-af8c-6753ab43eb80@intel.com>
-Date: Thu, 17 Aug 2023 19:22:58 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH 00/20] DSC misc fixes
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20230810130319.3708392-1-ankit.k.nautiyal@intel.com>
- <87wmxu80db.fsf@intel.com>
-Content-Language: en-US
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <87wmxu80db.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0149.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:c8::22) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982A110E4AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 14:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1692283098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IU2tly2AhtdFtbxtaCxJNcdKsYvG8JAXPFPJT3GasHg=;
+ b=ViThy5DRTEo61YJQuS/RPzFn6t0R8gD47j22/9EE3+Ji4kJQqFSoeUcXTF3qltQI81nY0d
+ yCwR3Fbb3jnadcdIfNyJ8J4JJxpUlpag5o7w9RM1Iv+xNGYI2KOe3fTGhIGb+NL28V1kSF
+ xY61XQoX8vgOHbPPi8KqKNKz9gzLOfE=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-387-dTce1jJhPrO411n1Fi_s4A-1; Thu, 17 Aug 2023 10:38:17 -0400
+X-MC-Unique: dTce1jJhPrO411n1Fi_s4A-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-98e40d91fdfso103753166b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:38:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692283096; x=1692887896;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IU2tly2AhtdFtbxtaCxJNcdKsYvG8JAXPFPJT3GasHg=;
+ b=H46akgas4Lszhhmy9KgUTdCGqAlS20IcSMrDXuexnA1sXw8cQtZD3mgP+FyS0bGJP9
+ 4qFw7KMc9KfnJT3c6h1HhJIgMebxGWB/SO6Eac4Cf2zDa3i1it2hu6XUjTzLKB4sqXv3
+ CsGRu4SpPr/9MKn/0UyVrkuMYW/t+ZbBNx2rorAV8Uj3cPt2p3/AD3KxqmTMDea9O9eB
+ dpgX1regZJx2d456tEPrAfSHrn02hd7V+egjHvC/mPdi3wshBtSg4i3Y/B7KO3z60rct
+ KYVMENE/xiCZV9RzdIjPFzKgZJnKNqN6Bor0feKnJ/iBgCi0KIO+WjfelDNKoi9guyNE
+ H9pg==
+X-Gm-Message-State: AOJu0Yy6e1MDEr7QvGLwcVqRn75/9N3OfzT5EGU8hm3y+61c3MKVf7vU
+ tnkL8Q0Gdwz6KRsAOBPSfgjWOw7VM+oaOfC/mEevDHBYuQMlhFjGedMGauz9dnVS3dL5YP/m+0F
+ HmlAONSBfByi3YcYEXYCNPUBkh6uv
+X-Received: by 2002:a17:906:2112:b0:993:d7fe:7f1d with SMTP id
+ 18-20020a170906211200b00993d7fe7f1dmr3900013ejt.28.1692283096248; 
+ Thu, 17 Aug 2023 07:38:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+F5+H0WBzKpmCycE5M9iD9rlXxyLNJ0FNlmJHuWqXoqxBweptuKKx/57ngEDeKO3xkkDsgw==
+X-Received: by 2002:a17:906:2112:b0:993:d7fe:7f1d with SMTP id
+ 18-20020a170906211200b00993d7fe7f1dmr3899999ejt.28.1692283095934; 
+ Thu, 17 Aug 2023 07:38:15 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ p23-20020a1709060e9700b00977eec7b7e8sm10165987ejf.68.2023.08.17.07.38.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Aug 2023 07:38:15 -0700 (PDT)
+Message-ID: <a80be2c1-132e-5ee1-4278-47655916494a@redhat.com>
+Date: Thu, 17 Aug 2023 14:48:31 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|CO1PR11MB4801:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffda466c-6fc6-4d33-3701-08db9f294adf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9bpU264wgY4qs/N3f58GEZWf1oiRqXid8pNFy8GC2NbVbi4HOkjYFOKonKikG8XckumQwnidhpFJCLM7RJMeLIlUN7pgRqfqKdaoBMCIBAIphLZKItl/c7e4sI19eCeKe6cWGkEFp1xwEm9XbS5XsDBpfYRDHCJMpalnixJ9Pi+m5Q/Lu7qcIk1+V5riCtz27/E2w6mFp0OA/OAG8l/BEDnw2lpDDJO2pPwNnVUbFwIlZIhHHdu8foHdxhieJSWdvjp2WKmR+cm0p6MZ5+FwbAyX6IBtSChPigw7kwA1u+Xx/T0ReT6LUITCVKdnYj4a3KR0/RM6ddfzDLB1rGSBd4v61U0qtX0vHkjV6V4lO6sWg2ysWcB1facCYsUZKAC00nne+v7LmcXofmFRuXoISlIksTXKjaivMNMXguitKKvpuiS7GPxT+qPnGAPaRIYAIuYzXLZw1HEyTwgEK6rJyjqj/XQd1z5TjLpmNYU3m+kWcbxup6QWIM6kSnjzAblqyOatsS4wRiYlMrS5/QNxUYDhkCEQOSe/gvXyK4XoLe92/HtX6+a4eW8AJVXCXh7ZrbFwozb7vd2pt4lIEd9t/LovXNdxtlSGaxtdy0EgRvf3lG1W8PhfkaxfGl5kQugt/C0sYH/l2+T3cncAGe4sEn2MSs6sqCb1/2rV83xeSsk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(376002)(346002)(136003)(39860400002)(396003)(186009)(451199024)(1800799009)(36756003)(86362001)(31696002)(31686004)(83380400001)(4326008)(8676002)(53546011)(2906002)(5660300002)(8936002)(41300700001)(55236004)(6506007)(26005)(6486002)(6666004)(2616005)(6512007)(966005)(478600001)(316002)(66946007)(82960400001)(38100700002)(66476007)(66556008)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NDZpZUxTd0w4a1BDZmJ6SHhSQjZ3dTRyRGp2RXgwYlhWS1hMNEZ5Mmw5UjVq?=
- =?utf-8?B?aWwxcEVtZkpXSktKRFAxOHNjTS9PNDI2Ukd2NUxlbm4wV0l2d291YmJkUmJ0?=
- =?utf-8?B?RVc4cUZDTG9mSk16TXFqREtrVjJuNUhyQ0t1Z1UvTlZNV21GeFg5UmtOOTMy?=
- =?utf-8?B?NElqSFhpNkE5R285YnlqSWt3a0FRc3g0K2VJdWl4OVZSODN5QW54MDFMQW5k?=
- =?utf-8?B?eTlCYm1WRHJHcnJJNjZhYVZDNGtXUUZRZzJ3RG1CQnlmd3FhK0ZxbWQ0NlZM?=
- =?utf-8?B?cVFzeTduMWFYYld1V3FVZzZhbE9ZdHFFNkdoUGVvNkwveVU2eFNZTytHblA3?=
- =?utf-8?B?SnloS3NVOFNzQnpUWkpxcHhQQ0paN2Npelc4TTJBRTFoMHN1RkxGQ3UraUg5?=
- =?utf-8?B?NW5pak1ObmhHcEdGU1F3dkhVTVNsd0Yrb1laU1AxZWg0NGkwc3ZMc05OZDZx?=
- =?utf-8?B?RTQyWUV1Y0R6U2c1azZUeXRGUFgrZlVVZzNIRStsa3VwYnBWWUt2OEEwNkFq?=
- =?utf-8?B?UFBSak5kaXZJcXRORVJjMWcxMTBtNW5xVzAvdEZBOUthZ3FubmJYeXN2QUVL?=
- =?utf-8?B?V0ZxRWM0aU5MQ2IvMXRMalUxMWI2WjBod1c2alVWZVVQUzZEdWxqbWdqZEhO?=
- =?utf-8?B?bWt4aGYzbUpGcS93Qit4cEw3NUpSNFNhVzMyaEloVVQ4SnlxSG1zQXA1MVFw?=
- =?utf-8?B?WkhRcnRvbTBRMjc1L2t3TERWVzV5MWxkdm8xK1AxNksrLzBaTlQ4VCtiYXM2?=
- =?utf-8?B?dGlGM1llKzdpUlhlbjJsK05POVpPdWFydEdHYVlnRm1XdG5aeG8rdmplYWJQ?=
- =?utf-8?B?MlNzL1RScGNRT2g4MW9McVF6ZE5ZdlkvRnRpUE5CYWdwdFlqOE5meHNmeENX?=
- =?utf-8?B?dWlsdmdpQ0Y3eENlUVlhM3AxeXJQOUQzZmN1SzNoVWJCbUNPUzRuUngzSnhj?=
- =?utf-8?B?TnFERmh3QmhvYmFiSHZmUFpTbm1laTNCQjJwMkhJOUdhSWs5S21kb1pWU05V?=
- =?utf-8?B?S3REVUZjYUhZcWVjUUI1TVF3RzRjL202T2lhMXB3SHNjYlhad3lrVzNLc28z?=
- =?utf-8?B?MTdVN0JmM3padUlxZGxlMkRrVm50QjhQQzMyMVJmQlZYTFhqd1BVS0dEM0Yw?=
- =?utf-8?B?VHdjMVFmT210dDZMWC9OSGZvbkVXeFgydVRybis2NnJkZitBMmVjL1N2QkxV?=
- =?utf-8?B?UEwyWVV3SHpDL0ZVNytWdmpvbk1HY1FRc3ZaZm41RUNDSEdxdGdzQzMyVkhD?=
- =?utf-8?B?eGo2bG5yZ2JwK2kyTWpyUWY1ZjdiMFZBVXBFT2IyOE4rZlVXdWVLYzhTZVNp?=
- =?utf-8?B?eUN6TmxDUlo1V3JIVURGM2V4b3JmMzhpT2daUmFRM3hhOXpvVkV5bXlGOXFG?=
- =?utf-8?B?MzRiT1JMSzM5d3IyQkxhRzM4YlZxb2REQWl4cGJQWlBxNG5TZ3lzZzBUa21r?=
- =?utf-8?B?Zm9HZTZPSkpQY3FyRzJVYnI3dFlvaXF2d0NuWXkzZ3VRZThGTFBhd2g4WElt?=
- =?utf-8?B?KzJ1NWFZeXNVMnFlVENZMUp0TEcvR00xRXNDWlgrMDZvTGFOK3NMdGJLLzdp?=
- =?utf-8?B?LzRscGpDcld6YXp0MGV4WFRJWGk3SWJqejJaTnVFa0pyeTV3VGp6ZitSQ2hC?=
- =?utf-8?B?aGUyOWRhay9vdC9HSHVYQ242YkFpdVVvd2tMcmVCdUVkY3dIVEgwMmc0Szd0?=
- =?utf-8?B?bFBkaXFKdWV6eGVkeFBlSjJ1bzNDTzBvNWsyRHQxb3pMczQ5TTFyNDBhbVRw?=
- =?utf-8?B?OWVtajlqbTJTS2k4S1RONFErMjlNdm5uZC80L2VMM2ppQjl3VGdCVlRydnF0?=
- =?utf-8?B?MDNwTmxzL0d6Z3lnV25xQjl3MC9mT3pjcmQ1VGgzN1hOQ2NzeWRpMnIxc2Fz?=
- =?utf-8?B?YmVPeWpzNGFBb2R3eDQ4NGtTUzZ6aVRmc0YyYWM4ODlHeDJmZVl5VkRYR3gv?=
- =?utf-8?B?czRHOXExR2hSdUxNSHpyeTRaRXpibVRkNU1FNGtGTUpvSC9vTGI1SEJvT28r?=
- =?utf-8?B?VFlzTTk2c1FXQUdNRGxkOWlBVHBBY1N0RzNjQVkxZTZmYUx2cTNvRDQzME92?=
- =?utf-8?B?dVRSc0RrRkpDM2c0RlFFcUJQU0Nwa2JsL0pobURNai9UWkt1aWRqaEJMY0Rn?=
- =?utf-8?B?Rm0vdEsxb1BSa29ENmlBUnNKQW9pWVI3bmJyWWF2c1kveXY2YUk0Y3J3WU43?=
- =?utf-8?B?Snc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffda466c-6fc6-4d33-3701-08db9f294adf
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2023 13:53:10.3147 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t/B/UNm1lGZpDGZ6i27cEtme6mFf8R5bXATA0sJ0yQtFOgLMennOub/0leTW2v/YBPDjVHmsMq5XVJG/M8flD39MVk2fcaodOgQdr+5tDqE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4801
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 1/9] drm/sched: Convert drm scheduler to use a work
+ queue rather than kthread
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20230811023137.659037-1-matthew.brost@intel.com>
+ <20230811023137.659037-2-matthew.brost@intel.com>
+ <69b648f8-c6b3-5846-0d03-05a380d010d8@redhat.com>
+ <069e6cd0-abd3-fdd9-217d-173e8f8e1d29@amd.com>
+ <b9a6493c-243b-1078-afbc-d9270cac904a@redhat.com>
+ <982800c1-e7d3-f276-51d0-1a431f92eacb@amd.com>
+ <5fdf7d59-3323-24b5-a35a-bd60b06b4ce5@redhat.com>
+ <0bf839df-db7f-41fa-8b34-59792d2ba8be@amd.com>
+ <e8fa305a-0ac8-ece7-efeb-f9cec2892d44@redhat.com>
+ <ef4d2c78-6927-3d3b-7aac-27d013af7ea6@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <ef4d2c78-6927-3d3b-7aac-27d013af7ea6@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,107 +99,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
- navaremanasi@google.com
+Cc: robdclark@chromium.org, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org, luben.tuikov@amd.com,
+ donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ intel-xe@lists.freedesktop.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/17/23 15:35, Christian König wrote:
+> Am 17.08.23 um 13:13 schrieb Danilo Krummrich:
+>> On 8/17/23 07:33, Christian König wrote:
+>>> [SNIP]
+>>> The hardware seems to work mostly the same for all vendors, but you 
+>>> somehow seem to think that filling the ring is somehow beneficial 
+>>> which is really not the case as far as I can see.
+>>
+>> I think that's a misunderstanding. I'm not trying to say that it is 
+>> *always* beneficial to fill up the ring as much as possible. But I 
+>> think it is under certain circumstances, exactly those circumstances I 
+>> described for Nouveau.
+> 
+> As far as I can see this is not correct for Nouveau either.
+> 
+>>
+>> As mentioned, in Nouveau the size of a job is only really limited by 
+>> the ring size, which means that one job can (but does not necessarily) 
+>> fill up the whole ring. We both agree that this is inefficient, 
+>> because it potentially results into the HW run dry due to 
+>> hw_submission_limit == 1.
+>>
+>> I recognize you said that one should define hw_submission_limit and 
+>> adjust the other parts of the equation accordingly, the options I see 
+>> are:
+>>
+>> (1) Increase the ring size while keeping the maximum job size.
+>> (2) Decrease the maximum job size while keeping the ring size.
+>> (3) Let the scheduler track the actual job size rather than the 
+>> maximum job size.
+>>
+>> (1) results into potentially wasted ring memory, because we're not 
+>> always reaching the maximum job size, but the scheduler assumes so.
+>>
+>> (2) results into more IOCTLs from userspace for the same amount of IBs 
+>> and more jobs result into more memory allocations and more work being 
+>> submitted to the workqueue (with Matt's patches).
+>>
+>> (3) doesn't seem to have any of those draw backs.
+>>
+>> What would be your take on that?
+>>
+>> Actually, if none of the other drivers is interested into a more 
+>> precise way of keeping track of the ring utilization, I'd be totally 
+>> fine to do it in a driver specific way. However, unfortunately I don't 
+>> see how this would be possible.
+>>
+>> My proposal would be to just keep the hw_submission_limit (maybe 
+>> rename it to submission_unit_limit) and add a submission_units field 
+>> to struct drm_sched_job. By default a jobs submission_units field 
+>> would be 0 and the scheduler would behave the exact same way as it 
+>> does now.
+>>
+>> Accordingly, jobs with submission_units > 1 would contribute more than 
+>> one unit to the submission_unit_limit.
+>>
+>> What do you think about that?
+> 
+> I think you are approaching this from the completely wrong side.
 
-On 8/17/2023 3:19 PM, Jani Nikula wrote:
-> On Thu, 10 Aug 2023, Ankit Nautiyal <ankit.k.nautiyal@intel.com> wrote:
->> This series is an attempt to address multiple issues with DSC,
->> scattered in separate existing series.
-> I think it's a good idea to have one person manage the series, and
-> combine it all together, because it touches the same areas.
->
-> However, once you have smaller batches of patches that are all reviewed,
-> send them out as smaller series, and get them merged. Re-sending and
-> rebasing ready patches as part of a 19-patch series where some patches
-> aren't ready has become counter-productive.
->
-> Getting patches upstream is like working on a machine that has a certain
-> peak throughput. Send patches one by one, and it's inefficient. Send too
-> many at once, and it bogs down. Personally, I think 5-10 non-trivial
-> patches at a time is about right, get them reviewed and merged, rebase
-> the rest locally, and again send the next 5-10.
->
-> Or you can initially send a longer series, but once the first 5-10 have
-> been reviewed, send them separately.
+First of all, thanks for keeping up the discussion - I appreciate it. 
+Some more comments / questions below.
 
-Yeah this indeed become bloated with assortment of fixes. Should have 
-separated series as they got reviewed. Will take care going forward.
+> 
+> See the UAPI needs to be stable, so you need a maximum job size 
+> otherwise it can happen that a combination of large and small 
+> submissions work while a different combination doesn't.
 
-For this series, I will merge the reviewed i915 patches and send a 
-separate series for the drm patch#8 (drm/display/dp: Fix the DP DSC 
-Receiver cap size).
+How is this related to the uAPI being stable? What do you mean by 
+'stable' in this context?
 
-Regards,
+The Nouveau uAPI allows userspace to pass EXEC jobs by supplying the 
+ring ID (channel), in-/out-syncs and a certain amount of indirect push 
+buffers. The amount of IBs per job is limited by the amount of IBs 
+fitting into the ring. Just to be clear, when I say 'job size' I mean 
+the amount of IBs per job.
 
-Ankit
+Maybe I should also mention that the rings we are talking about are 
+software rings managed by a firmware scheduler. We can have an arbitrary 
+amount of software rings and even multiple ones per FD.
 
+Given a constant ring size I really don't see why I should limit the 
+maximum amount of IBs userspace can push per job just to end up with a 
+hw_submission_limit > 1.
 
->
->
-> BR,
-> Jani.
->
->
->> Patches 1-4 are DSC fixes from series to Handle BPC for HDMI2.1 PCON
->> https://patchwork.freedesktop.org/series/107550/
+For example, let's just assume the ring can take 128 IBs, why would I 
+limit userspace to submit just e.g. 16 IBs at a time, such that the 
+hw_submission_limit becomes 8?
+
+What is the advantage of doing that, rather than letting userspace 
+submit *up to* 128 IBs per job and just letting the scheduler push IBs 
+to the ring as long as there's actually space left on the ring?
+
+> 
+> So what you usually do, and this is driver independent because simply a 
+> requirement of the UAPI, is that you say here that's my maximum job size 
+> as well as the number of submission which should be pushed to the hw at 
+> the same time. And then get the resulting ring size by the product of 
+> the two.
+
+Given the above, how is that a requirement of the uAPI?
+
+> 
+> That the ring in this use case can't be fully utilized is not a draw 
+> back, this is completely intentional design which should apply to all 
+> drivers independent of the vendor.
+
+Why wouldn't we want to fully utilize the ring size?
+
+- Danilo
+
+> 
 >>
->> Patches 5-6 are from series DSC fixes for Bigjoiner:
->> https://patchwork.freedesktop.org/series/115773/
+>> Besides all that, you said that filling up the ring just enough to not 
+>> let the HW run dry rather than filling it up entirely is desirable. 
+>> Why do you think so? I tend to think that in most cases it shouldn't 
+>> make difference.
+> 
+> That results in better scheduling behavior. It's mostly beneficial if 
+> you don't have a hw scheduler, but as far as I can see there is no need 
+> to pump everything to the hw as fast as possible.
+> 
+> Regards,
+> Christian.
+> 
 >>
->> Patches 7-17 are based on series to add DSC fractional BPP support:
->> https://patchwork.freedesktop.org/series/111391/
+>> - Danilo
 >>
->> Patch 20 is to fix compressed bpc for MST DSC, from Stan's series :
->> https://patchwork.freedesktop.org/series/116179/
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>> Because one really is the minimum if you want to do work at all, but 
+>>>> as you mentioned above a job limit of one can let the ring run dry.
+>>>>
+>>>> In the end my proposal comes down to tracking the actual size of a 
+>>>> job rather than just assuming a pre-defined maximum job size, and 
+>>>> hence a dynamic job limit.
+>>>>
+>>>> I don't think this would hurt the scheduler granularity. In fact, it 
+>>>> should even contribute to the desire of not letting the ring run dry 
+>>>> even better. Especially for sequences of small jobs, where the 
+>>>> current implementation might wrongly assume the ring is already full 
+>>>> although actually there would still be enough space left.
+>>>>
+>>>>>
+>>>>> Christian.
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Otherwise your scheduler might just overwrite the ring buffer by 
+>>>>>>> pushing things to fast.
+>>>>>>>
+>>>>>>> Christian.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Given that, it seems like it would be better to let the 
+>>>>>>>> scheduler keep track of empty ring "slots" instead, such that 
+>>>>>>>> the scheduler can deceide whether a subsequent job will still 
+>>>>>>>> fit on the ring and if not re-evaluate once a previous job 
+>>>>>>>> finished. Of course each submitted job would be required to 
+>>>>>>>> carry the number of slots it requires on the ring.
+>>>>>>>>
+>>>>>>>> What to you think of implementing this as alternative flow 
+>>>>>>>> control mechanism? Implementation wise this could be a union 
+>>>>>>>> with the existing hw_submission_limit.
+>>>>>>>>
+>>>>>>>> - Danilo
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> A problem with this design is currently a drm_gpu_scheduler uses a
+>>>>>>>>> kthread for submission / job cleanup. This doesn't scale if a 
+>>>>>>>>> large
+>>>>>>>>> number of drm_gpu_scheduler are used. To work around the 
+>>>>>>>>> scaling issue,
+>>>>>>>>> use a worker rather than kthread for submission / job cleanup.
+>>>>>>>>>
+>>>>>>>>> v2:
+>>>>>>>>>    - (Rob Clark) Fix msm build
+>>>>>>>>>    - Pass in run work queue
+>>>>>>>>> v3:
+>>>>>>>>>    - (Boris) don't have loop in worker
+>>>>>>>>> v4:
+>>>>>>>>>    - (Tvrtko) break out submit ready, stop, start helpers into 
+>>>>>>>>> own patch
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
 >>
->> Rev2: Addressed review comments from Stan, Ville.
->>
->> Rev3: Split larger patches. Separate out common helpers.
->>
->> Rev4: Rebased, fixed checkpatch warnings.
->>
->> Rev5: Addressed review comments from Stan.
->> Added a patch to check if forced dsc format can be used before forcing.
->>
->> Rev6: Addressed review comments from Stan.
->>
->> Rev7: Reordered and rebased.
->>
->> Ankit Nautiyal (19):
->>    drm/i915/dp: Consider output_format while computing dsc bpp
->>    drm/i915/dp: Move compressed bpp check with 420 format inside the
->>      helper
->>    drm/i915/dp_mst: Use output_format to get the final link bpp
->>    drm/i915/dp: Use consistent name for link bpp and compressed bpp
->>    drm/i915/dp: Update Bigjoiner interface bits for computing compressed
->>      bpp
->>    drm/i915/intel_cdclk: Add vdsc with bigjoiner constraints on min_cdlck
->>    drm/i915/dp: Remove extra logs for printing DSC info
->>    drm/display/dp: Fix the DP DSC Receiver cap size
->>    drm/i915/dp: Avoid forcing DSC BPC for MST case
->>    drm/i915/dp: Add functions to get min/max src input bpc with DSC
->>    drm/i915/dp: Check min bpc DSC limits for dsc_force_bpc also
->>    drm/i915/dp: Avoid left shift of DSC output bpp by 4
->>    drm/i915/dp: Rename helper to get DSC max pipe_bpp
->>    drm/i915/dp: Separate out functions for edp/DP for computing DSC bpp
->>    drm/i915/dp: Add DSC BPC/BPP constraints while selecting pipe bpp with
->>      DSC
->>    drm/i915/dp: Separate out function to get compressed bpp with joiner
->>    drm/i915/dp: Get optimal link config to have best compressed bpp
->>    drm/i915/dp: Check src/sink compressed bpp limit for edp
->>    drm/i915/dp: Check if force_dsc_output_format is possible
->>
->> Stanislav Lisovskiy (1):
->>    drm/i915: Query compressed bpp properly using correct DPCD and DP Spec
->>      info
->>
->>   drivers/gpu/drm/i915/display/intel_cdclk.c  |  59 +-
->>   drivers/gpu/drm/i915/display/intel_dp.c     | 655 ++++++++++++++++----
->>   drivers/gpu/drm/i915/display/intel_dp.h     |  20 +-
->>   drivers/gpu/drm/i915/display/intel_dp_mst.c |  80 +--
->>   include/drm/display/drm_dp.h                |   2 +-
->>   5 files changed, 625 insertions(+), 191 deletions(-)
+> 
+
