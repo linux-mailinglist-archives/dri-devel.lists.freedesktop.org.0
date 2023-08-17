@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4581C77F077
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 08:26:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4978777F076
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 08:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6ED810E3FA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB1F410E3F8;
 	Thu, 17 Aug 2023 06:26:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D05E10E3F8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CBF10E3FA
  for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 06:26:30 +0000 (UTC)
-X-UUID: fde2225a3cc611ee9cb5633481061a41-20230817
+X-UUID: fdf671563cc611ee9cb5633481061a41-20230817
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=OvunkvNy8DkEJYgJvd+z2cTJ68TynjaGzW99dIUA88I=; 
- b=u00NJQ7kKv1tWba7rEvssL0aWULu7L0zitFxsem1qYyF08lCY67oM8xEzd4cPsZIV1Rlu118PbwXa3+2ceKNrV5meF5KTNqFFT7dFVrhtmNgEQDsggZJw4PMNT00dfJqhH7hEJ6D1K4Rb+sCWdd9Ul7RgxBcp6Hu2DqebFHyup4=;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=fX44CM7VzZaYku9SFn3p9jU3SuiRPlW2YOZ/5ZGRDBc=; 
+ b=e7AfuFxZ0wIzOgosayYWUFN34icpQSHGBwIzgzyzES+NvBF1z3cuyVnFD00hyMJ7Jgg5k5MMpWmuMr7YZ6X9k0NJzZ3FyBuRWNmo7fs+dSlBO/MhQcDVBDzj2L1qiq6dLkfm1J6VZ3wjJSMwrCvMdTY7acDuwx3EQZM++J7LK/8=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31, REQID:871effcd-840a-4694-b246-cbe2743aa162, IP:0,
+X-CID-O-INFO: VERSION:1.1.31, REQID:956f1f1b-93ad-473f-ba00-ceddbf689df2, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:90
-X-CID-INFO: VERSION:1.1.31, REQID:871effcd-840a-4694-b246-cbe2743aa162, IP:0,
- URL
- :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
- N:quarantine,TS:90
-X-CID-META: VersionHash:0ad78a4, CLOUDID:2a30de12-4929-4845-9571-38c601e9c3c9,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:0ad78a4, CLOUDID:fd89a0ee-9a6e-4c39-b73e-f2bc08ca3dc5,
  B
- ulkID:230817142626MYYD39X3,BulkQuantity:0,Recheck:0,SF:17|19|48|38|29|28,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+ NO,DKR:0,DKP:0,BRR:0,BRE:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_SDM, TF_CID_SPAM_ASC,
- TF_CID_SPAM_FAS, TF_CID_SPAM_FSD
-X-UUID: fde2225a3cc611ee9cb5633481061a41-20230817
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: fdf671563cc611ee9cb5633481061a41-20230817
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
  mailgw01.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1669641412; Thu, 17 Aug 2023 14:26:25 +0800
+ with ESMTP id 977568047; Thu, 17 Aug 2023 14:26:25 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Thu, 17 Aug 2023 14:26:24 +0800
 Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 17 Aug 2023 14:26:23 +0800
+ 15.2.1118.26 via Frontend Transport; Thu, 17 Aug 2023 14:26:24 +0800
 From: Shuijing Li <shuijing.li@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
  <daniel@ffwll.ch>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, 
  <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
  <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>
-Subject: [PATCH v5,0/4] Add compatible to increase MT8188 audio control 
-Date: Thu, 17 Aug 2023 14:26:31 +0800
-Message-ID: <20230817062635.8786-1-shuijing.li@mediatek.com>
+Subject: [PATCH v5,
+ 1/4] dt-bindings: display: mediatek: dp: Add compatible for MediaTek
+ MT8188
+Date: Thu, 17 Aug 2023 14:26:32 +0800
+Message-ID: <20230817062635.8786-2-shuijing.li@mediatek.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230817062635.8786-1-shuijing.li@mediatek.com>
+References: <20230817062635.8786-1-shuijing.li@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -77,33 +76,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- Shuijing Li <shuijing.li@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+ Shuijing Li <shuijing.li@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Add dt-binding documentation of dp-tx for MediaTek MT8188 SoC.
-Mainly add the following two flag:
 
-1.The audio packet arrangement function is to only arrange audio
-packets into the Hblanking area. In order to align with the HW
-default setting of g1200, this function needs to be turned off.
+Signed-off-by: Shuijing Li <shuijing.li@mediatek.com>
+Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+Changes in v2:
+add a mediatek,mt8188-edp-tx compatible per suggestion from the previous thread:
+https://lore.kernel.org/lkml/c4a4a900-c80d-b110-f10e-7fa2dae8b7b5@collabora.com/
+---
+ .../devicetree/bindings/display/mediatek/mediatek,dp.yaml       | 2 ++
+ 1 file changed, 2 insertions(+)
 
-2.Due to the difference of HW, different dividers need to be set.
-
-Base on the branch of linus/master v6.4.
-
-Shuijing Li (4):
-  dt-bindings: display: mediatek: dp: Add compatible for MediaTek MT8188
-  drm/mediatek: dp: Add the audio packet flag to mtk_dp_data struct
-  drm/mediatek: dp: Add the audio divider to mtk_dp_data struct
-  drm/mediatek: dp: Add support MT8188 dp/edp function
-
- .../display/mediatek/mediatek,dp.yaml         |  2 ++
- drivers/gpu/drm/mediatek/mtk_dp.c             | 36 ++++++++++++++++++-
- drivers/gpu/drm/mediatek/mtk_dp_reg.h         | 23 ++++++++----
- 3 files changed, 54 insertions(+), 7 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+index ff781f2174a0..2aef1eb32e11 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -21,6 +21,8 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - mediatek,mt8188-dp-tx
++      - mediatek,mt8188-edp-tx
+       - mediatek,mt8195-dp-tx
+       - mediatek,mt8195-edp-tx
+ 
 -- 
 2.40.1
 
