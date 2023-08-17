@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CB077FC58
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 18:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5219F77FC7D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 19:07:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B807C10E097;
-	Thu, 17 Aug 2023 16:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5430110E515;
+	Thu, 17 Aug 2023 17:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D91D810E097
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 16:49:04 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id
- d2e1a72fcca58-6887b3613e4so2113312b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 09:49:04 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD34B10E1D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 17:07:08 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-99bf3f59905so1051032366b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 10:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1692290944; x=1692895744;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gP/+HX8tff5J7C1dVpOFmStGY34cS59+ah5Jqhr0qQ4=;
- b=HanMEXUDwyG1Ey2rPH3QP5JdIubd+ihoyATb0QBayRB/ONa5VMdVHpRhU9WoTypSy7
- Ta3y8sF8WJrowBXiNZH6rT1fQgcZuF/h0VpHyQ3uYzlCJlvakO84AZ2z1c7iN7albAcP
- 2IAVJpLqJyUY6/V3KsXzvdsYzFfZGp0FzRD3U=
+ d=linaro.org; s=google; t=1692292027; x=1692896827;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=A+SXi8NxNvzClt206ZYu7BQotGewF/k7fWXbsVFMs0g=;
+ b=MD3wZSf6KPnikBXVO7cWOAPTpV4s8nTFPFX1YpgpF6YAddXF4riEdJSbkxZ2d9sz5V
+ Dsna/rKX9OgnOf2A/POCxcOd9ygNG/RDWmugUAZQlIRs0L0LtNI/xURGUVwuZGIHetnT
+ PYd/593qRgzRFx3aQZ2MXhsu2EINCI2gBXV/ysouOEh25BF6fU2Rmxp/bsD+cRPbTtfW
+ 9tROMtyrA7TrJHAE9aGZidkT/WsgGwFqdywqbWAI8FOrJxgXEEKInzeNODEAz9uvBA9+
+ d0DhYiLMCw/0QX/sc9SzCu8WVrrVXhtNP+8ZzG82vv3cKwQmzZDXDzcIXHHasleuWWdH
+ /Alg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692290944; x=1692895744;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gP/+HX8tff5J7C1dVpOFmStGY34cS59+ah5Jqhr0qQ4=;
- b=XJf7gxhs0qy3ppmB/ixnNwtYQxVnEiiKR0DATiKdxrYKrNi+Q5XwkRmSlrsZxvnK3y
- JOxTaT4VI2j49gXII2oooXnlHbfzGwpaK0wYyoA0LTCXfw0ZbJrnC/wnfJoEduvHcS49
- ZWDIrXq0nrFP1NzZHymH6kE1GY7NalN+YWUcZmReaxFjpTbA/ZNs1P6SZPvUzWXeroY4
- jUqx3FljiKUYvxiUueFC2+LhuK/KMXGzW1glEPFFNfgEtvTpxSFv4sNNqp+7sAXSZlJX
- rBzcQRjLnIYXFcJ18FU8WzwnAciquIhCCf+iaha615RsXS4Jc/XwKD07L8uvnoOyqgJ3
- 9jFA==
-X-Gm-Message-State: AOJu0YzrLBErPM5PNj67gcok+mR6pvJhBMT6tdHRW6n2Mwy95xQLfPLM
- VGrt+EN+uqGex8WIzRkkDd6+sAs9m0l7Gt7FP7fAp12O
-X-Google-Smtp-Source: AGHT+IG5HtCnsJr+Qd3MkrklMr6FAcaFlWe6RUsfkPHTrmoEIk0vkUIXUn7KSIq/2M4+8rT3kKHLGQ==
-X-Received: by 2002:aa7:8890:0:b0:67a:8fc7:1b61 with SMTP id
- z16-20020aa78890000000b0067a8fc71b61mr86709pfe.11.1692290943715; 
- Thu, 17 Aug 2023 09:49:03 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:2d64:9188:a5b0:3e0a])
+ d=1e100.net; s=20221208; t=1692292027; x=1692896827;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=A+SXi8NxNvzClt206ZYu7BQotGewF/k7fWXbsVFMs0g=;
+ b=G8FCHAOvH+mJlURs9ylGL/NRivdbv0xLxQYMlyd9MjmPqg6XtWAJN5z6n7GTQbYivX
+ yHbQqDGuAhEBmmUtqrvW+KQpGNs7Iij4TEc4JEx4SvMiQMhQdxCR3TEoEVw0f+0NRl8H
+ 8AB04G3lfWkrth2Q1FXT2t2wCPScrJ0k2X+q4UdsMrN73mpFtmYVUIeLClI/o2H2WEpV
+ HLBPbN45ZvpHKWq51k9SGBxNv8KQVlKDG6pVXfTHLTSeLTpQMoEva1qbnVbZC0C6SRRe
+ ZW/C49vktToh41o/95d3xGxtCku+iHi4wrUzePItMCg7ZVOvnNlDQ0m7BAZid6cy/N/G
+ 29ag==
+X-Gm-Message-State: AOJu0Ywa0sGJT5u7YvPn/4yLl7C+ku499GZ3bdmPcTBYvRBWUL/nEVLs
+ NVE2oNySuSm9W2UN8X1xPq4uzw==
+X-Google-Smtp-Source: AGHT+IGR6FHDHLEB7JT4lPOySOl0W5l8tLy4Ib1OMiQcJHZZ+sD6GWAjdH84ie6V1awGmErBWSvPtg==
+X-Received: by 2002:a17:906:59:b0:99d:f3ae:9a3e with SMTP id
+ 25-20020a170906005900b0099df3ae9a3emr49117ejg.38.1692292027065; 
+ Thu, 17 Aug 2023 10:07:07 -0700 (PDT)
+Received: from [10.10.15.130] ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- e26-20020aa7825a000000b00686dd062207sm13096073pfn.150.2023.08.17.09.49.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Aug 2023 09:49:03 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: Fix kernel-doc typo in desc of output_bus_cfg in
- drm_bridge_state
-Date: Thu, 17 Aug 2023 09:48:09 -0700
-Message-ID: <20230817094808.1.I41b04c3a8305c9f1c17af886c327941c5136ca3b@changeid>
-X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
+ kk3-20020a170907766300b0098e2eaec395sm10388443ejc.130.2023.08.17.10.07.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Aug 2023 10:07:06 -0700 (PDT)
+Message-ID: <f1b89b4c-bf6c-42c9-8a62-acc41747cb1e@linaro.org>
+Date: Thu, 17 Aug 2023 20:07:04 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] drm/msm/dpu: Enable widebus for DSI INTF
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <20230802-add-widebus-support-v3-0-2661706be001@quicinc.com>
+ <20230802-add-widebus-support-v3-2-2661706be001@quicinc.com>
+ <CAA8EJpoPd_T+vLVrJ6RpCrYY6H1xLF4eFYVGV4N-wS3g+5cR-w@mail.gmail.com>
+ <34598a37-7431-4f7e-7809-928bce65d237@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <34598a37-7431-4f7e-7809-928bce65d237@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,38 +78,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Maxime Ripard <mripard@kernel.org>
+Cc: freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's an obvious copy-paste error in the description of
-output_bus_cfg. Fix it.
+On 08/08/2023 00:40, Jessica Zhang wrote:
+> 
+> 
+> On 8/2/2023 11:20 AM, Dmitry Baryshkov wrote:
+>> On Wed, 2 Aug 2023 at 21:09, Jessica Zhang <quic_jesszhan@quicinc.com> 
+>> wrote:
 
-Fixes: f32df58acc68 ("drm/bridge: Add the necessary bits to support bus format negotiation")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> index df88358e7037..dace6168be2d 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+>>> @@ -69,8 +69,10 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>>>                                  phys_enc->hw_intf,
+>>>                                  phys_enc->hw_pp->idx);
+>>>
+>>> -       if (intf_cfg.dsc != 0)
+>>> +       if (intf_cfg.dsc != 0) {
+>>>                  cmd_mode_cfg.data_compress = true;
+>>> +               cmd_mode_cfg.wide_bus_en = 
+>>> dpu_encoder_is_widebus_enabled(phys_enc->parent);
+>>> +       }
+>>
+>> This embeds the knowledge that a wide bus can only be enabled when DSC
+>> is in use. Please move the wide_bus_en assignment out of conditional
+>> code.
+> 
+> Wide bus for DSI will only be enabled if DSC is enabled, so this is 
+> technically not wrong, as DP will use the video mode path.
+> 
+>>
+>>>
+>>>          if (phys_enc->hw_intf->ops.program_intf_cmd_cfg)
+>>>                  
+>>> phys_enc->hw_intf->ops.program_intf_cmd_cfg(phys_enc->hw_intf, 
+>>> &cmd_mode_cfg);
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> index 8ec6505d9e78..dc6f3febb574 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>>> @@ -521,6 +521,9 @@ static void 
+>>> dpu_hw_intf_program_intf_cmd_cfg(struct dpu_hw_intf *ctx,
+>>
+>> This function is only enabled for DPU >= 7.0, while IIRC wide bus can
+>> be enabled even for some of the earlier chipsets.
+> 
+> The command mode path is only called for DSI, which only supports wide 
+> bus for DPU 7.0+.
 
- include/drm/drm_atomic.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+After second consideration, let's ignore this part, as wide bus will 
+only be enabled for DSI / CMD after 7.0. If we ever have SoC that has 
+CMD + wide_bus earlier than 5.0, we can reconsider this code pice.
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 9a022caacf93..cf8e1220a4ac 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -1126,7 +1126,7 @@ struct drm_bridge_state {
- 	struct drm_bus_cfg input_bus_cfg;
- 
- 	/**
--	 * @output_bus_cfg: input bus configuration
-+	 * @output_bus_cfg: output bus configuration
- 	 */
- 	struct drm_bus_cfg output_bus_cfg;
- };
+Can you please add a comment that the register itself is present earlier 
+(5.0), but it doesn't have to be programmed since the flags will not be 
+set anyway.
+
+> 
+>>
+>>>          if (cmd_mode_cfg->data_compress)
+>>>                  intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+>>>
+>>> +       if (cmd_mode_cfg->wide_bus_en)
+>>> +               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
+>>> +
+>>>          DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2);
+>>>   }
+>>>
+
+
+
 -- 
-2.41.0.694.ge786442a9b-goog
+With best wishes
+Dmitry
 
