@@ -2,124 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC14177FB0A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F1777FD25
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 19:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3176410E4EC;
-	Thu, 17 Aug 2023 15:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7121210E522;
+	Thu, 17 Aug 2023 17:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2077.outbound.protection.outlook.com [40.107.93.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB6A210E4EB;
- Thu, 17 Aug 2023 15:42:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e9dPEaeOLNoq4bKvFvB13rDH3Qik6Z1v45Kp7MOGOvOsoMyDCo2NzBhmMd8IQlcrro+/gxf1l9LaLZGDkikH/SrfdITPI9hbN9dLMow5CQ+86hVws6MvPamD/HHRUbLBqP4q40d5HNbHVVbeVoanapZCVCSRm4z0XLxpqeZwAvSi1nS4QhAPeNLfZBKi8w5U6C9q3Os56hny0XwhXWfNzxDoU8WDS0EkL4WXpZ2XVJxiOOGcTlkQiF1vL9FDew2GstMt6l9tXbShGzLg68cJLYbcm0S4ZfP15Iv/QCRXTzIMlAQFLZ4sIuYxHtXHYTndXr97hP5mfnu/zYS9CcMEOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dCIn1VDLjzJFYTrd+bB18OO79IWPN3gIkm69NKPkCK0=;
- b=izN9SwVQ19MH/2aMraPSZ3jxWRHDjGrOeeyF8rKoQe5uHzuUUPFEa7sXYSRsHj9NCX+ryTwHUbo00YqhAVqb5RJdPRWqO3KVCSFOt+byC3YOTBwD8peXsA+2IBbq6ZE/jlMOQTwnKmL9AOrtzGv2Lu115KEoS3veGvM0fx6dzWH4DtnLjwuI/uU10pIGIXuKtApNmZMCAklMxYvnVRiMWMM+ewjb7HCevrUxT3lemLyBATLLg5CJK6rbhxmLx398AxPCOE5qtS5ZlVK7KYfEQPP+iwzc/5Hq+qpgZcLaYDBcVdqVsd/7hIzdCyImrQhW3ePTz4fYRlA8pG2ELsULwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dCIn1VDLjzJFYTrd+bB18OO79IWPN3gIkm69NKPkCK0=;
- b=rOmM9J73abwXz3U5zjnz2/upwDxTrvZmtZP0scbhgFiRi6A4frLtJcuQVUrPPTTBXp2COX9bsnW6dZcPi3D8ikFvUKfIvLPc3Utczl29H+rjezwpzafslhL+R+AUB7+VeAOOZi73Q+lgWbeVgbpCUybpkOzWp7psU6+hFn1ndhc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW4PR12MB5667.namprd12.prod.outlook.com (2603:10b6:303:18a::10)
- by MN0PR12MB6246.namprd12.prod.outlook.com (2603:10b6:208:3c2::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Thu, 17 Aug
- 2023 15:42:52 +0000
-Received: from MW4PR12MB5667.namprd12.prod.outlook.com
- ([fe80::dc06:ffb3:46ec:6b86]) by MW4PR12MB5667.namprd12.prod.outlook.com
- ([fe80::dc06:ffb3:46ec:6b86%3]) with mapi id 15.20.6678.029; Thu, 17 Aug 2023
- 15:42:52 +0000
-Message-ID: <6e641ffe-8caf-d4b6-5423-8bc822b22f07@amd.com>
-Date: Thu, 17 Aug 2023 17:42:43 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v4 2/4] drm/amdgpu: Rework coredump to use memory
- dynamically
-Content-Language: en-US
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-References: <20230815195100.294458-1-andrealmeid@igalia.com>
- <20230815195100.294458-3-andrealmeid@igalia.com>
- <07ef59db-da17-15cf-789a-7f5d01b2c9c9@amd.com>
- <a6e90991-91bb-4da9-ab67-d0ec28a29680@igalia.com>
- <eaef1599-4da3-ac10-a03e-4f2d8304c60d@amd.com>
- <43f2df2f-46ff-4240-a86b-eff5f0c08888@igalia.com>
- <e1795fa8-f34e-6805-c937-1937490f09a5@amd.com>
- <48c9521c-88f5-4975-8bf0-85ac42431a36@igalia.com>
-From: Shashank Sharma <shashank.sharma@amd.com>
-In-Reply-To: <48c9521c-88f5-4975-8bf0-85ac42431a36@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BE1P281CA0251.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:8b::19) To MW4PR12MB5667.namprd12.prod.outlook.com
- (2603:10b6:303:18a::10)
+X-Greylist: delayed 356 seconds by postgrey-1.36 at gabe;
+ Thu, 17 Aug 2023 14:36:01 UTC
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
+ [85.215.255.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF4B510E4B7;
+ Thu, 17 Aug 2023 14:36:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1692282599; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=nwPkhHHF9c9LhTjHQfyxTjtNxewFjRyvhDkQFl0tsLHpQq+MiGqAUhyS6oy0J10aOI
+ jd2+0ruRG8BD9bdOnrxnOKnvtSPLgP5LOdP+2T8/WN7ZyL6Dh4Q9ravEEayVXhJL/yhp
+ c+UIC2PYL4kk5O0E6coVG+8CooJSJGjUb+vluuW/VyeF229GRrGSD+Vl9egDID3sE8st
+ zQO+w2IjFkIzb4w369WgjpsKOWikaEPw7WDQVltGAYzJPFnr9F/C4F7RXh15L6+lXIyb
+ hy39cJzKXC1XvGd4jzQHi07CfeHJHXoHlx6GRnyrRNaxy4snezvuv9+gN4GekVuaKSuz
+ 292A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1692282599;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=aJx1+Gq6572ZJqz9J1SRBPonJNmw4x17hkYbeGde3aw=;
+ b=QMx1TTxHkj6iIy73/N3CPEXhKeBe3EqIDfxVv1I3XsdR+EK5Ry+NBxKmRA2TQYIiiM
+ j10zXLD9ZaV0IrMJrOttUAT/GXsMC6wEJUvDD7wsCtdc+f6S1YZtEDIzr3G84Dm/sp+7
+ UTgESR3FCv7coETYiahV+XLKXucc9UOzHDcuPH6L7ofBqa13ahqkQVNyeW8FsvCgZS1C
+ 3fGKlqRPHIMgf0TX7OteoIN1CLwcWLX9awvFy1RzGrKp0KLm0MT6hiFMivJfMTaIg5Jd
+ 1R9e8ysvcjHFz4d/a5Kj7C/7yaQuEfgHjVOUT0/0YIp8ur3x3MO7fehrk90Rk9+bU4cV
+ b71Q==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1692282599;
+ s=strato-dkim-0002; d=dj-l.de;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=aJx1+Gq6572ZJqz9J1SRBPonJNmw4x17hkYbeGde3aw=;
+ b=hMFomRmlhqrYhghz2DULhbOK0eY3OY3UVGURkNoBQb5W253Y2qs87PtXYGNDamjW5S
+ IZVYTkKSkkEJYNpFCaTseYR60GR/gBoFh6GGcOJW/gk5FPCKq/IEAZNzVsnUYDDP20nW
+ 4K9AoD/5cY8OULmQvjnOtjL0Pqdjv3cGvGlpitRaUQvGTndn/3/0xgpUkl5I9lyiFE19
+ bHnGd+SyhuPeHllQeah8Tv7qLJEid2EaWX2WhfcRqM55dVBx+kq8ITeUEulHXt5dNicp
+ VGmpWm9DOulS9FN9gcaAhtRYkb0fWDJng0NWHyrOr3tWBAXr2wocflX8xY47qLP3tc6E
+ hIhA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1692282599;
+ s=strato-dkim-0003; d=dj-l.de;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=aJx1+Gq6572ZJqz9J1SRBPonJNmw4x17hkYbeGde3aw=;
+ b=O7h5QQo+yVX2cOm9623RGrFrenzgaNT0Njv+nYASmuRaQX0caep03AaUnjrNo2Cy+T
+ GpW5f/GdjBlnspdbiUBg==
+X-RZG-AUTH: ":P3kUZU+6b98krx+obdayI8W03AmGfcBvHDl7XjDebWJQeuUnG9IEOXb1Jjptvu5y9w=="
+Received: from [192.168.63.137] by smtp.strato.de (RZmta 49.6.6 DYNA|AUTH)
+ with ESMTPSA id ja88a5z7HETw3Sm
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Thu, 17 Aug 2023 16:29:58 +0200 (CEST)
+Message-ID: <481c8c19-d1db-417f-b4f2-ed2df21231bb@dj-l.de>
+Date: Thu, 17 Aug 2023 16:29:57 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB5667:EE_|MN0PR12MB6246:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c896272-a15d-4cf8-422d-08db9f389db9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1PoUN0K2fUUgreNeU8itaxltyYBj+lg7yCWqiNlThsLiEFkUEb8ooRBBnTIRCkZpTHUh6Y6LV37k0QumjB87kCbpG8veHxy0kiExtnscMmqf5UyKAfHdzpcVEuiN6dACkGGrATl/+5v1GsoKMERDW7cAy0a1m78bi8zZdM+0jYVFVMJDtTWiPCSlRkAU4ciDhQ5biH78qFIUed+OXDno8UexMks+83Ir9oSfcgu4VqufWohFvGOI+g3+vGNNDtk7TnjSJ1BwTSrP568m59ML0vnfcERV86bzyKVtgMtsn5EuZ0/rd63Ql9WX4W7JWUaL78o35kUXOhoWz8YnoHRAomQ99QBrqzE6NK7efHVyFSyS+ZYP0kYMftxHbQHd+NLxja7f2AHAukQYxX1VWrA9pSUb7flqPWr/YfVKMvFEa3SXTFqklva4RppdrgkZ+rAfC6rpqLZTXBXuXaoW+iwmEuqzczf06vArNtBoNIPmdbwyBEagNGYSswDjHx4/EZxvXnkXshiAS4XWXyoGVVuVFF4sDVc5DEUAQ3BVTboO1Xf/ahw+tDJZBqerIZ/4zOFLPALySjQVC6rH3tDTpMOAtCMPeo09dDQXlSc9obCea8styPai2cgWX8vrucb0kDVnGc0JaVwI/gLcyYgf1+LWjA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR12MB5667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(376002)(136003)(396003)(39860400002)(366004)(451199024)(1800799009)(186009)(31686004)(86362001)(31696002)(36756003)(38100700002)(2616005)(5660300002)(44832011)(66556008)(478600001)(6506007)(66476007)(66946007)(316002)(53546011)(6666004)(54906003)(6486002)(6916009)(26005)(6512007)(41300700001)(4326008)(8676002)(8936002)(83380400001)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emhpSkNFRHZIWHBpdjI3Zk04NkNuQ3k4T2FBTUsxK0JxNnV1WitRanc0ZU1P?=
- =?utf-8?B?RU9hNUN1cndNWG1LUGZqaURwUmcrNnVYWDRaQzk5SXlkRTBoSER6WU5KK1Rl?=
- =?utf-8?B?eXo0SzF2N21tYWl0SEtaSTUwRlA2Wk13VWV3U1JGSVlUR3dRcjlIZEM2MnUw?=
- =?utf-8?B?R04ra3VKREJ5QU1XN3JNUDlyNnM4UkdWODM1ZkZiNjRpb3V0Z3hEU284T1Mx?=
- =?utf-8?B?SnU2aVA4SmswYm1EL2hWaFRmdy9hN3VLYzZPSGUvRnBERlNHdU8rQjVtamVs?=
- =?utf-8?B?bHhSbjhXQWlkbkMrbmpwV2VuVHdlTDFxUFlCK2QvcWZ4cHBQaEZ5V3ZDdXRW?=
- =?utf-8?B?ZXlQL3EvN2NzYjRDbkhHdXRqa3Z2Y3kzc3hNLzIrN3VvK0tEejQ1WWZDVkpo?=
- =?utf-8?B?b0lQYVZtVnU3TGk5TmtaSUVoNUhRTmlENTZqQXYyL1BmWWlzalArMDQxK3JM?=
- =?utf-8?B?ZlBPbmJYS3pWUnhRNGRML0M0d0hCNG53djdJYklKb2pZZTBCYldyVytPUCtQ?=
- =?utf-8?B?dFpHMDVuQ0ozNmprV1BibmdSbjhrVk4rY01HZ2JpVXA5WjMxYzJVeDhNc2Jj?=
- =?utf-8?B?ZWFaNUVSYUF0eERSSU9CRWxORFd0YndlUVRmUVNuY2tRbmVCZ09mTlJaVnNG?=
- =?utf-8?B?dHgwMkJRNUFwWnpmZEdZM0Y4T1U2dHMrT2VzV2hjeUY3T2pXT1g5ZUp4OURK?=
- =?utf-8?B?b2d0TXdaUDY5VC9vNmNlYXNmV29GKzlXSjFheEVJbXg4RDVaSkQ3RVZuNk5h?=
- =?utf-8?B?c2FCWFVYQnd0eVFmL1MwUCsraGtiQm9xd3hCMXVrb3czV2NTdnVKKzMxbGFT?=
- =?utf-8?B?c3JCR0I3MDd2NUhMc1VsOFlLdWVyYmpST1Q4cmVnQm1lbUxUSzduN1I5Zlhm?=
- =?utf-8?B?ajdzRkpOUG01WnFocU5CanZsNk9vVno1NGJVYWora3BXZnpFTjJZOWdCc2lH?=
- =?utf-8?B?LzBhK3AxeXN6bFpnUURTbEJXb3RWZVVFN21oSEttVnduQytyVVU4NUplVVda?=
- =?utf-8?B?L29XNFZTWCtRYVRZTnplcVB2VGwwNHdLcFgyb0prUkRmYWovR1l4MDk5T3Vu?=
- =?utf-8?B?SzJ3QU4xakdqSG9MWWtoYk9kYlMzWjVnZnhNcDBrVnUxWFhQZ2ZHSVVOVGdu?=
- =?utf-8?B?Z1pIbmZNVmdjYWMzTklDaVRzcGdHVlk0ZnBrTUx1bVJOSHVNY2R0WExGU1Fs?=
- =?utf-8?B?N1NIa1RZUHlJallKSHBMNHZsUnRQZ0ZxeVBlY2pMWlVlYlJtL3RqeG53TXdI?=
- =?utf-8?B?bzdSK2hSNFphd0J2MTR0MTh5VUNYWVJ6L2VRTkVYY0VGNytuQ3Jja0dOenp1?=
- =?utf-8?B?T2hIQ2p2MmljUWpKTmgxL2czU3F5c002cWFIU2ViM1lQaXh6aU9aeG81c0ow?=
- =?utf-8?B?RDZ1bnN6c1J5WGFtNk94dXhtbnRnNFNvVFExYVRoWEU5Z2dhK1JkSWZkTHlZ?=
- =?utf-8?B?YlVuamluMXJ1VC9zL2xnR1NCeEp5aklpc2pNMzVoMGpvT3QrMFMrbm1NSThm?=
- =?utf-8?B?dVU1VHJGK3c0ZmNWb2h0UzJMc3VVb3ZjbzFtcnd6OHkzNXozMGJFajl3anNp?=
- =?utf-8?B?alRFMVdaU1c0Y1JnSUZaZFdNdHNhd0FURng4YzhYZUFqM09OZXlpTm54dXBp?=
- =?utf-8?B?YVVLU3kzazN1QTNaK0I0RjdIM0drUFdQbWlZdkpZL1pLbHNMSktCZ1ZaMEJt?=
- =?utf-8?B?VjhQSWJpSXQ3V0FkdzNQUnlqUW5KWG9QbGt2dlR2d2VEamtVd2N6TmpJS0Q2?=
- =?utf-8?B?RFdoRStQeUFkeGtiN25FQlRxaDI3TmNwOHpTUXl5bnZHRzhEYzZqdGkrNUs0?=
- =?utf-8?B?VzRKbTdvcXZwa0xPNUZJbDRVaDNQaWtDSGhmNGR0QmZRcjVZa2JkSHhFRVhG?=
- =?utf-8?B?eWppVkRWZHBNUWtrYnMrRVlHL2xPTGc1SUFJMWVYeFhCOUdvUFR0eWJXSExv?=
- =?utf-8?B?Z05PUDlFcU44OVVzQmZUT0JCcFBETDV3Zy84NUxjbHRpMHczRE9HSS9UM09s?=
- =?utf-8?B?VmVjTXJObGRycWEyN0UvOWhDdjMvZDRlbVFacytpQlV4WloxRU9jLzZTd091?=
- =?utf-8?B?TUlsMWhlb0hFYUNGeTVSY20yTDRRa2Yva3JzNVZOODl0WTdrQnhKNjc3ckVQ?=
- =?utf-8?Q?CNRA+UMxGtRZp5ZnarmvrhWop?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c896272-a15d-4cf8-422d-08db9f389db9
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB5667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2023 15:42:51.9200 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 11RvYHWx4wiQcsMYSSutS7SJax1jfM+7lr+aHxMaEl3lBFnmTD/EWmYfBBqF3S5n5GfWx2g/MLElguvpVcf0BQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6246
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/edid: Fix "Analog composite sync!" for current
+ eDP display panels
+Content-Language: en-US, de-DE
+To: Jani Nikula <jani.nikula@intel.com>, Dirk Lehmann <develop@dj-l.de>,
+ stable@vger.kernel.org
+References: <20230815101907.2900768-1-jani.nikula@intel.com>
+ <E1qWbpR-0007ey-0B@djlnb.local> <87o7j595u3.fsf@intel.com>
+From: Dirk Lehmann <support@dj-l.de>
+In-Reply-To: <87o7j595u3.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 17 Aug 2023 17:42:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,151 +90,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Jani,
 
-On 17/08/2023 17:38, André Almeida wrote:
->
->
-> Em 17/08/2023 12:26, Shashank Sharma escreveu:
+On 8/17/23 15:05, Jani Nikula wrote:
+> On Thu, 17 Aug 2023, Dirk Lehmann <develop@dj-l.de> wrote:
+>> VESA Enhanced EDID Standard does not clearly describe how display
+>> panel vendors should setup the Sync Signal Defintions (bit 4 & 3) in
+>> the Detailed Timing Definition (relative offset 17, absolute offset
+>> 47h[+18]) for Digital Video Signal Interfaces (bit 7 at offset 14h).
 >>
->> On 17/08/2023 17:17, André Almeida wrote:
->>>
->>>
->>> Em 17/08/2023 12:04, Shashank Sharma escreveu:
->>>>
->>>> On 17/08/2023 15:45, André Almeida wrote:
->>>>> Hi Shashank,
->>>>>
->>>>> Em 17/08/2023 03:41, Shashank Sharma escreveu:
->>>>>> Hello Andre,
->>>>>>
->>>>>> On 15/08/2023 21:50, André Almeida wrote:
->>>>>>> Instead of storing coredump information inside amdgpu_device 
->>>>>>> struct,
->>>>>>> move if to a proper separated struct and allocate it 
->>>>>>> dynamically. This
->>>>>>> will make it easier to further expand the logged information.
->>>>>>>
->>>>>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->>>>>>> ---
->>>>>>> v4: change kmalloc to kzalloc
->>>>>>> ---
->>>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 14 +++--
->>>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 63 
->>>>>>> ++++++++++++++--------
->>>>>>>   2 files changed, 49 insertions(+), 28 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
->>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>> index 9c6a332261ab..0d560b713948 100644
->>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->>>>>>> @@ -1088,11 +1088,6 @@ struct amdgpu_device {
->>>>>>>       uint32_t *reset_dump_reg_list;
->>>>>>>       uint32_t            *reset_dump_reg_value;
->>>>>>>       int                             num_regs;
->>>>>>> -#ifdef CONFIG_DEV_COREDUMP
->>>>>>> -    struct amdgpu_task_info         reset_task_info;
->>>>>>> -    bool                            reset_vram_lost;
->>>>>>> -    struct timespec64               reset_time;
->>>>>>> -#endif
->>>>>>>       bool                            scpm_enabled;
->>>>>>>       uint32_t                        scpm_status;
->>>>>>> @@ -1105,6 +1100,15 @@ struct amdgpu_device {
->>>>>>>       uint32_t            aid_mask;
->>>>>>>   };
->>>>>>> +#ifdef CONFIG_DEV_COREDUMP
->>>>>>> +struct amdgpu_coredump_info {
->>>>>>> +    struct amdgpu_device        *adev;
->>>>>>> +    struct amdgpu_task_info         reset_task_info;
->>>>>>> +    struct timespec64               reset_time;
->>>>>>> +    bool                            reset_vram_lost;
->>>>>>> +};
->>>>>>
->>>>>> The patch looks good to me in general, but I would recommend 
->>>>>> slightly different arrangement and segregation of GPU reset 
->>>>>> information.
->>>>>>
->>>>>> Please consider a higher level structure adev->gpu_reset_info, 
->>>>>> and move everything related to reset dump info into that, 
->>>>>> including this new coredump_info structure, something like this:
->>>>>>
->>>>>> struct amdgpu_reset_info {
->>>>>>
->>>>>>      uint32_t *reset_dump_reg_list;
->>>>>>
->>>>>>      uint32_t *reset_dump_reg_value;
->>>>>>
->>>>>>      int num_regs;
->>>>>>
->>>>>
->>>>> Right, I can encapsulate there reset_dump members,
->>>>>
->>>>>> #ifdef CONFIG_DEV_COREDUMP
->>>>>>
->>>>>>     struct amdgpu_coredump_info *coredump_info;/* keep this 
->>>>>> dynamic allocation */
->>>>>
->>>>> but we don't need a pointer for amdgpu_coredump_info inside 
->>>>> amdgpu_device or inside of amdgpu_device->gpu_reset_info, right?
->>>>
->>>> I think it would be better if we keep all of the GPU reset related 
->>>> data in the same structure, so adev->gpu_reset_info->coredump_info 
->>>> sounds about right to me.
->>>>
->>>
->>> But after patch 2/4, we don't need to store a coredump_info pointer 
->>> inside adev, this is what I meant. What would be the purpose of 
->>> having this pointer? It's freed by amdgpu_devcoredump_free(), so we 
->>> don't need to keep track of it.
+>> In practice many eDP panels which using a Digital Video Signal
+>> Interfaces (bit 7 at offset 14h == 1) are leaving the Sync Signal
+>> Defintions at offset 47h[+18] blank 0x00, which would mean concerned
+>> with the VESA Standard [1] that they are using "Analog Composite
+>> Sync".
 >>
->> Well, actually we are pulling in some 0parallel efforts on enhancing 
->> the GPU reset information, and we were planning to use the coredump 
->> info for some additional things. So if I have the coredump_info 
->> available (like reset_task_info and vram_lost) across a few functions 
->> in the driver with adev, it would make my job easy there :).
->
-> It seems dangerous to use an object with this limited lifetime to rely 
-> to read on. If you want to use it you will need to change 
-> amdgpu_devcoredump_free() to drop a reference or you will need to use 
-> it statically, which defeats the purpose of this patch. Anyway, I'll 
-> add it as you requested.
->
-I guess if the coredump_free function can make the
-
-adev->reset_info->coredump_info= NULL, after freeing it, that will 
-actually help the case.
-
-
-While consuming it, I can simply check if 
-(adev->reset_info->coredump_info) is available to be read.
-
-- Shashank
-
+>> Fix: Just detect Analog Sync Signal if an Analog Video Signal
+>>       Interface (bit 7 at offset 14h == 0) is in use.  Just detect
+>>       Digital Sync Signal if an Digital Video Signal Interface is in
+>>       use.
 >>
->> - Shashank
+>> Reference: [1] VESA Enhanced EDID Standard, Release A, Rev.2, Page 35
+> 
+> Please don't reply with patches in-reply-to other people's patches.
+
+Sorry, I am new with such patch lists :/ ...
+
+> 
+>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8789
+> 
+> This is now fixed by the revert that I just pushed.
+> 
+>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8146
+> 
+> I don't think this patch fixes that one; see below.
+> 
+>> Signed-off-by: Dirk Lehmann <develop@dj-l.de>
+>> ---
+>>   drivers/gpu/drm/drm_edid.c | 74 ++++++++++++++++++++++++++++++++------
+>>   include/drm/drm_edid.h     | 12 +++++--
+>>   2 files changed, 73 insertions(+), 13 deletions(-)
 >>
->>>
->>>> - Shashank
->>>>
->>>>>
->>>>>>
->>>>>> #endif
->>>>>>
->>>>>> }
->>>>>>
->>>>>>
->>>>>> This will make sure that all the relevant information is at the 
->>>>>> same place.
->>>>>>
->>>>>> - Shashank
->>>>>>
->>>>>        amdgpu_inc_vram_lost(tmp_adev);
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 1f470968ed14..6afdc34e55ce 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -3437,6 +3437,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>>   	const struct drm_display_info *info = &connector->display_info;
+>>   	struct drm_device *dev = connector->dev;
+>>   	struct drm_display_mode *mode;
+>> +	const struct edid *edid = drm_edid->edid;
+>>   	const struct detailed_pixel_timing *pt = &timing->data.pixel_data;
+>>   	unsigned hactive = (pt->hactive_hblank_hi & 0xf0) << 4 | pt->hactive_lo;
+>>   	unsigned vactive = (pt->vactive_vblank_hi & 0xf0) << 4 | pt->vactive_lo;
+>> @@ -3456,10 +3457,6 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>>   			    connector->base.id, connector->name);
+>>   		return NULL;
+>>   	}
+>> -	if (!(pt->misc & DRM_EDID_PT_SEPARATE_SYNC)) {
+>> -		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync not supported\n",
+>> -			    connector->base.id, connector->name);
+>> -	}
+>>   
+>>   	/* it is incorrect if hsync/vsync width is zero */
+>>   	if (!hsync_pulse_width || !vsync_pulse_width) {
+>> @@ -3505,11 +3502,68 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>>   
+>>   	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
+>>   		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
+>> +	} else if (edid->input & DRM_EDID_INPUT_DIGITAL) {
+>> +		/* !info->quirks && edid->input == DIGITAL  */
+>> +		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
+>> +		/* VESA Enhanced EDID Standard, Release A, Rev.2, Page 35
+>> +		 *
+>> +		 * CASE DRM_EDID_PT_ANALOG_CSYNC:
+>> +		 *
+>> +		 * (pt->misc & DRM_EDID_PT_SYNC_MASK == 0x00) means
+>> +		 * "Analog Composite Sync" as described in VESA
+>> +		 * Standard.  But many digital display panels without
+>> +		 * composite sync are also using 0x00 here.
+>> +		 *
+>> +		 * Therefore use DEFAULT: as we are currently on an
+>> +		 * digital video signal interface.
+>> +		 */
+>> +		case DRM_EDID_PT_DIGITAL_CSYNC:
+>> +			drm_dbg_kms(dev,
+>> +				"[CONNECTOR:%d:%s] Digital composite sync!\n",
+>> +				connector->base.id, connector->name);
+>> +			mode->flags |= DRM_MODE_FLAG_CSYNC;
+>> +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> +				DRM_MODE_FLAG_PCSYNC : DRM_MODE_FLAG_NCSYNC;
+>> +			break;
+>> +		case DRM_EDID_PT_DIGITAL_SEPARATE_SYNC:
+>> +			drm_dbg_kms(dev,
+>> +				"[CONNECTOR:%d:%s] Digital seperate sync!\n",
+>> +				connector->base.id, connector->name);
+>> +			goto digital_default;
+>> +			break; /* Missing BREAK throws a compiler warning  */
+> 
+> fallthrough; will do the trick.
+
+Cool, that's new for me.  FALLTHROUGH really works, great :)
+
+> 
+>> +		default:
+>> +digital_default:
+>> +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> +				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
+>> +			mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
+>> +				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+> 
+> The failing mode in bug [1] has 0x0a for flags, so it ends up here, and
+> for that display this patch is a no-op.
+
+Aaaeem yes, something is wrong here.  If the EDID data are correct, then 
+since 0001-*_5.15.patch in [1] should broke the implementation.
+
+   (0x1a & (3 << 3)) == (3 << 3) == DRM_EDID_PT_DIGITAL_SEPARATE_SYNC
+
+But this implementation here I made and we are discussing should be have 
+the same behavior as before in that case of [1].  The no-op should also 
+be before.  But then the fix ca62297b2085b before is useless.  Yes, you 
+are right, then reverting is the better idea xD
+
+> 
+> As I explained in [2], all the problematic cases have invalid data, but
+> the ones fixed by the revert need to ignore the analog sync *flags* and
+> accept the mode, and the display in [1] needs to have the whole *mode*
+> rejected.
+> 
+
+I don't know about the other problematic cases.  I don't have the data 
+of the use cases for that.
+
+> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/8146
+> [2] https://gitlab.freedesktop.org/drm/intel/-/issues/8789#note_2047902
+> 
+>> +			break;
+>> +		}
+>>   	} else {
+>> -		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> -			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
+>> -		mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
+>> -			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+>> +		/* !info->quirks && edid->input == ANALOG  */
+>> +		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
+>> +		/* VESA Enhanced EDID Standard, Release A, Rev.2, Page 35
+>> +		 *
+>> +		 * CASE DRM_EDID_PT_ANALOG_CSYNC:
+>> +		 *
+>> +		 * (pt->misc & DRM_EDID_PT_SYNC_MASK == 0x00) for
+>> +		 * "Analog Composite Sync" is possible here, as we are
+>> +		 * currently on an analog video signal interface.
+>> +		 */
+>> +		case DRM_EDID_PT_ANALOG_CSYNC:
+>> +		case DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC:
+>> +			drm_dbg_kms(dev,
+>> +				"[CONNECTOR:%d:%s] Analog composite sync!\n",
+>> +				connector->base.id, connector->name);
+>> +			mode->flags |= DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC;
+>> +			break;
+>> +		default:
+>> +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> +				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
+>> +			mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
+>> +				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+>> +			break;
+>> +		}
+> 
+> Another angle is that for analog displays, EDID offset 0x14 has info
+> about the supported sync modes. If we're separating digital/analog sync
+> handling, we should probably filter the analog sync with the info from
+> 0x14.
+
+Yeah I also saw that in the VESA Standard, but I reflected that the 
+analog display implementation should be more stable, as they are longer 
+exist.  For current digital eDP panels which have 0x00 at 47h are these 
+composite bits at 14h not reachable --- because bit 7 of 14h is 1.  It 
+may just have effects on older analog displays.
+
+> 
+> BR,
+> Jani.
+> 
+
+Okay, summary: You may be right, as the fix commit ca62297b2085b makes 
+less sense.
+
+Yeah, greets and thanks for the fast fix.  Really great =D
+Dirk
+
+> 
+>>   	}
+>>   
+>>   set_size:
+>> @@ -3522,8 +3576,8 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
+>>   	}
+>>   
+>>   	if (info->quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
+>> -		mode->width_mm = drm_edid->edid->width_cm * 10;
+>> -		mode->height_mm = drm_edid->edid->height_cm * 10;
+>> +		mode->width_mm = edid->width_cm * 10;
+>> +		mode->height_mm = edid->height_cm * 10;
+>>   	}
+>>   
+>>   	mode->type = DRM_MODE_TYPE_DRIVER;
+>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>> index 48e93f909ef6..169755d3de19 100644
+>> --- a/include/drm/drm_edid.h
+>> +++ b/include/drm/drm_edid.h
+>> @@ -61,9 +61,15 @@ struct std_timing {
+>>   	u8 vfreq_aspect;
+>>   } __attribute__((packed));
+>>   
+>> -#define DRM_EDID_PT_HSYNC_POSITIVE (1 << 1)
+>> -#define DRM_EDID_PT_VSYNC_POSITIVE (1 << 2)
+>> -#define DRM_EDID_PT_SEPARATE_SYNC  (3 << 3)
+>> +#define DRM_EDID_PT_SYNC_MASK              (3 << 3)
+>> +# define DRM_EDID_PT_ANALOG_CSYNC          (0 << 3)
+>> +# define DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC  (1 << 3)
+>> +# define DRM_EDID_PT_DIGITAL_CSYNC         (2 << 3)
+>> +#  define DRM_EDID_PT_CSYNC_ON_RGB         (1 << 1) /* analog csync only */
+>> +#  define DRM_EDID_PT_CSYNC_SERRATE        (1 << 2)
+>> +# define DRM_EDID_PT_DIGITAL_SEPARATE_SYNC (3 << 3)
+>> +#  define DRM_EDID_PT_HSYNC_POSITIVE       (1 << 1) /* also digital csync */
+>> +#  define DRM_EDID_PT_VSYNC_POSITIVE       (1 << 2)
+>>   #define DRM_EDID_PT_STEREO         (1 << 5)
+>>   #define DRM_EDID_PT_INTERLACED     (1 << 7)
+> 
