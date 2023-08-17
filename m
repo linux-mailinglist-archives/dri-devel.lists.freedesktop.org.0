@@ -2,51 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA2177F74A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 15:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3F077F757
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 15:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BC010E47A;
-	Thu, 17 Aug 2023 13:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C32410E023;
+	Thu, 17 Aug 2023 13:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 631D710E47C;
- Thu, 17 Aug 2023 13:06:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692277583; x=1723813583;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=wE7qeL3PmBJFRmq8LxVnfupjLQQE+KvKqnjTG7gUkqw=;
- b=UcmX4+BsbZGsxB9HofroWxyi+x3IjKwvBtIkQ23RlaItMdPxJ5/oJIsN
- 4DEgLk53JyRzGM5lMXKs0b1NgknDGtUTw6+6Bg145nZC4YX7ktj2tjZ86
- 7Duhr2FVlOsVkl6jwKF38ZgpPy/H9E1sEDzRdVqIVdaAvATY0KkTWSJWW
- Z83RfWGxj48cyVR/kmGL1SDvv7S+Mb0BiU6HaOSp8DdGVDmskmgfzzS46
- wySwBbjKGfRrmH1sRnTfugo/jBjG2SdTgyg6JaTr0+2kpzRA487JHFhE/
- oVMw8o9OUtX5ZZJNUEj7EDRFt4exMLwsq4kzGh4/9YMRpyxbVfqORtdiU w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="436707635"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="436707635"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 06:06:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="981150375"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="981150375"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 06:06:00 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dirk Lehmann <develop@dj-l.de>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm/edid: Fix "Analog composite sync!" for
- current eDP display panels
-In-Reply-To: <E1qWbpR-0007ey-0B@djlnb.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230815101907.2900768-1-jani.nikula@intel.com>
- <E1qWbpR-0007ey-0B@djlnb.local>
-Date: Thu, 17 Aug 2023 16:05:56 +0300
-Message-ID: <87o7j595u3.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77A2510E023
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 13:11:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 078F32186B;
+ Thu, 17 Aug 2023 13:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1692277871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gd8cWLdyx5VFHJUnkLhhuqLzODL61DNhTi7avg9x0ac=;
+ b=aQXhIAXr9CzqTIlNDNn8iVwBPHlF6BULf86KKniaJta8HJCyY2Kf1n8MKrLQKbgRiPRrD2
+ qHsKHh8mpPXW5T+HmMtcR4N4PnBzwGbuhfrMl1Q3qOlSVK/2e8Efjh00x7652716hS1J3m
+ uHFBE/QEk0rC17k322CzIl7YzBsbxIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1692277871;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gd8cWLdyx5VFHJUnkLhhuqLzODL61DNhTi7avg9x0ac=;
+ b=4GytIyS1eA2OnQey9glmZg5anWedL+UN8Y+/VZRU4IXdR+eZJ/dL8o3yF3CmC1eB+94gXI
+ 3M39xqqQBpdZx4Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC0D01392B;
+ Thu, 17 Aug 2023 13:11:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id gFOXMG4c3mSDdgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 17 Aug 2023 13:11:10 +0000
+Message-ID: <c5506f08-f9a1-aa58-58b8-1c5969f85c2e@suse.de>
+Date: Thu, 17 Aug 2023 15:11:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH drm-misc-next] drm/ttm/tests: Require MMU when testing
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230811113649.697886-1-karolina.stolarek@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230811113649.697886-1-karolina.stolarek@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------sru0nvCG5GDPvDdRRdm9Lzg0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,200 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Dirk Lehmann <develop@dj-l.de>,
- dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 17 Aug 2023, Dirk Lehmann <develop@dj-l.de> wrote:
-> VESA Enhanced EDID Standard does not clearly describe how display
-> panel vendors should setup the Sync Signal Defintions (bit 4 & 3) in
-> the Detailed Timing Definition (relative offset 17, absolute offset
-> 47h[+18]) for Digital Video Signal Interfaces (bit 7 at offset 14h).
->
-> In practice many eDP panels which using a Digital Video Signal
-> Interfaces (bit 7 at offset 14h == 1) are leaving the Sync Signal
-> Defintions at offset 47h[+18] blank 0x00, which would mean concerned
-> with the VESA Standard [1] that they are using "Analog Composite
-> Sync".
->
-> Fix: Just detect Analog Sync Signal if an Analog Video Signal
->      Interface (bit 7 at offset 14h == 0) is in use.  Just detect
->      Digital Sync Signal if an Digital Video Signal Interface is in
->      use.
->
-> Reference: [1] VESA Enhanced EDID Standard, Release A, Rev.2, Page 35
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------sru0nvCG5GDPvDdRRdm9Lzg0
+Content-Type: multipart/mixed; boundary="------------2jBMrWnxCuGdwjQpgkn401Bt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ kernel test robot <lkp@intel.com>
+Message-ID: <c5506f08-f9a1-aa58-58b8-1c5969f85c2e@suse.de>
+Subject: Re: [PATCH drm-misc-next] drm/ttm/tests: Require MMU when testing
+References: <20230811113649.697886-1-karolina.stolarek@intel.com>
+In-Reply-To: <20230811113649.697886-1-karolina.stolarek@intel.com>
 
-Please don't reply with patches in-reply-to other people's patches.
+--------------2jBMrWnxCuGdwjQpgkn401Bt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8789
+SGkNCg0KSSd2ZSBjaGVycnktcGlja2VkIHRoZSBwYXRjaCBpbnRvIGRybS1taXNjLW5leHQt
+Zml4ZXMsIHNvIGl0IHdpbGwgc2hvdyANCnVwIGluIHVwc3RyZWFtIHNvb24uDQoNCkFtIDEx
+LjA4LjIzIHVtIDEzOjM2IHNjaHJpZWIgS2Fyb2xpbmEgU3RvbGFyZWs6DQo+IFNhdGlzZnkg
+TU1VIGRlcGVuZGVuY3kgd2hlbiB0ZXN0aW5nIFRUTSB3aXRoIEtVbml0LiBUaGlzIGZpeGVz
+DQo+IGNvbXBpbGF0aW9uIGVycm9ycyBvbiBwbGF0Zm9ybXMgdGhhdCBkb24ndCBzZWxlY3Qg
+dGhpcyBvcHRpb24NCj4gYnkgZGVmYXVsdC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEthcm9s
+aW5hIFN0b2xhcmVrIDxrYXJvbGluYS5zdG9sYXJla0BpbnRlbC5jb20+DQo+IENjOiBDaHJp
+c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+IFJlcG9ydGVkLWJ5
+OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gQ2xvc2VzOiBodHRwczov
+L2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjMwODExMDEzMy5mMGxoRndNVi1s
+a3BAaW50ZWwuY29tLw0KPiBDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWti
+dWlsZC1hbGwvMjAyMzA4MTExMDMyLmVuVThJaXNSLWxrcEBpbnRlbC5jb20vDQoNClRoaXMg
+c2hvdWxkIGhhdmUgYWxzbyBtZW50aW9uZWQNCg0KRml4ZXM6IGUzOTEyZDA5YmY4ZCAoImRy
+bS90dG06IEludHJvZHVjZSBLVW5pdCB0ZXN0IikNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
+Cg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyB8IDIgKy0NCj4gICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9LY29u
+ZmlnDQo+IGluZGV4IDlkMWYwZTA0ZmQ1Ni4uYWI5ZWYxYzIwMzQ5IDEwMDY0NA0KPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vS2Nv
+bmZpZw0KPiBAQCAtMTk4LDcgKzE5OCw3IEBAIGNvbmZpZyBEUk1fVFRNDQo+ICAgY29uZmln
+IERSTV9UVE1fS1VOSVRfVEVTVA0KPiAgICAgICAgICAgdHJpc3RhdGUgIktVbml0IHRlc3Rz
+IGZvciBUVE0iIGlmICFLVU5JVF9BTExfVEVTVFMNCj4gICAgICAgICAgIGRlZmF1bHQgbg0K
+PiAtICAgICAgICBkZXBlbmRzIG9uIERSTSAmJiBLVU5JVA0KPiArICAgICAgICBkZXBlbmRz
+IG9uIERSTSAmJiBLVU5JVCAmJiBNTVUNCj4gICAgICAgICAgIHNlbGVjdCBEUk1fVFRNDQo+
+ICAgICAgICAgICBzZWxlY3QgRFJNX0VYUE9SVF9GT1JfVEVTVFMgaWYgbQ0KPiAgICAgICAg
+ICAgc2VsZWN0IERSTV9LVU5JVF9URVNUX0hFTFBFUlMNCg0KLS0gDQpUaG9tYXMgWmltbWVy
+bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywg
+R2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQs
+IEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-This is now fixed by the revert that I just pushed.
+--------------2jBMrWnxCuGdwjQpgkn401Bt--
 
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8146
+--------------sru0nvCG5GDPvDdRRdm9Lzg0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I don't think this patch fixes that one; see below.
+-----BEGIN PGP SIGNATURE-----
 
-> Signed-off-by: Dirk Lehmann <develop@dj-l.de>
-> ---
->  drivers/gpu/drm/drm_edid.c | 74 ++++++++++++++++++++++++++++++++------
->  include/drm/drm_edid.h     | 12 +++++--
->  2 files changed, 73 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 1f470968ed14..6afdc34e55ce 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -3437,6 +3437,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
->  	const struct drm_display_info *info = &connector->display_info;
->  	struct drm_device *dev = connector->dev;
->  	struct drm_display_mode *mode;
-> +	const struct edid *edid = drm_edid->edid;
->  	const struct detailed_pixel_timing *pt = &timing->data.pixel_data;
->  	unsigned hactive = (pt->hactive_hblank_hi & 0xf0) << 4 | pt->hactive_lo;
->  	unsigned vactive = (pt->vactive_vblank_hi & 0xf0) << 4 | pt->vactive_lo;
-> @@ -3456,10 +3457,6 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
->  			    connector->base.id, connector->name);
->  		return NULL;
->  	}
-> -	if (!(pt->misc & DRM_EDID_PT_SEPARATE_SYNC)) {
-> -		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync not supported\n",
-> -			    connector->base.id, connector->name);
-> -	}
->  
->  	/* it is incorrect if hsync/vsync width is zero */
->  	if (!hsync_pulse_width || !vsync_pulse_width) {
-> @@ -3505,11 +3502,68 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
->  
->  	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
->  		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
-> +	} else if (edid->input & DRM_EDID_INPUT_DIGITAL) {
-> +		/* !info->quirks && edid->input == DIGITAL  */
-> +		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
-> +		/* VESA Enhanced EDID Standard, Release A, Rev.2, Page 35
-> +		 *
-> +		 * CASE DRM_EDID_PT_ANALOG_CSYNC:
-> +		 *
-> +		 * (pt->misc & DRM_EDID_PT_SYNC_MASK == 0x00) means
-> +		 * "Analog Composite Sync" as described in VESA
-> +		 * Standard.  But many digital display panels without
-> +		 * composite sync are also using 0x00 here.
-> +		 *
-> +		 * Therefore use DEFAULT: as we are currently on an
-> +		 * digital video signal interface.
-> +		 */
-> +		case DRM_EDID_PT_DIGITAL_CSYNC:
-> +			drm_dbg_kms(dev,
-> +				"[CONNECTOR:%d:%s] Digital composite sync!\n",
-> +				connector->base.id, connector->name);
-> +			mode->flags |= DRM_MODE_FLAG_CSYNC;
-> +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PCSYNC : DRM_MODE_FLAG_NCSYNC;
-> +			break;
-> +		case DRM_EDID_PT_DIGITAL_SEPARATE_SYNC:
-> +			drm_dbg_kms(dev,
-> +				"[CONNECTOR:%d:%s] Digital seperate sync!\n",
-> +				connector->base.id, connector->name);
-> +			goto digital_default;
-> +			break; /* Missing BREAK throws a compiler warning  */
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTeHG0FAwAAAAAACgkQlh/E3EQov+DO
+KBAArVDOHywDGwac040n3rRTCwhog4dfl2FylEgJhxfy6O4IaxPaB6lxXMaPLyaaxOLXtDB+DzPH
+B5fPY+AAftYsNU/NvJQimeJqLPLiACf3WHIbOihQGJfeve6pXMJRH6d/GBXcf5GR/geGr7dzbZoR
++tm+VCIbvH3Fv5S3B0UfMfUuQ9Ikag97L8CEcIHytkrTWbCFlK0D7qPOB7QLaGfzjnlkjznfZ0lI
+lMUJYEmtd01w0DM1TBbyXaPym+u74FB5FiN+shFrQ9FtaeDjezQ5CDRJx/llsURF7sZnxu8RZ5sy
+6BuiNK+pRnYEG1BQH+U/7/uIj4CiGAVvcZdVxZW8joW5hXnHv53qix5kYlk9pogO2P8XaVYl+pzt
+s8hvZ1EUbnXhGnxvf1SV6oXXEFHhRQbB94lbmHINa4Clwb61Bg/duCdAu1jN2YWQ/ADnvKq/H7xt
+9VEuAerIJtHO7T2RUgiBYj5w17bdhnwSPNxwrME+7enTkz7jD4Ez8E2cqX/bOu9O87qNxym0VXAU
+h42dAsFw2VV14wFgnkEc9iZYQIiFZ3jMeBYq6dF3GLv5mfF+3jF8ROU0OFVio8/KkZbjZDjRNblv
+0FTqwvzUpaxhNWc+2pnFj5E/EnF2hi4lHLOl8KDnih2270YhVK7Hz4FKjQ79nhzOOIjxH6pdmtnv
+mrY=
+=wXOb
+-----END PGP SIGNATURE-----
 
-fallthrough; will do the trick.
-
-> +		default:
-> +digital_default:
-> +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> +			mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-
-The failing mode in bug [1] has 0x0a for flags, so it ends up here, and
-for that display this patch is a no-op.
-
-As I explained in [2], all the problematic cases have invalid data, but
-the ones fixed by the revert need to ignore the analog sync *flags* and
-accept the mode, and the display in [1] needs to have the whole *mode*
-rejected.
-
-[1] https://gitlab.freedesktop.org/drm/intel/-/issues/8146
-[2] https://gitlab.freedesktop.org/drm/intel/-/issues/8789#note_2047902
-
-> +			break;
-> +		}
->  	} else {
-> -		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> -			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> -		mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> -			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-> +		/* !info->quirks && edid->input == ANALOG  */
-> +		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
-> +		/* VESA Enhanced EDID Standard, Release A, Rev.2, Page 35
-> +		 *
-> +		 * CASE DRM_EDID_PT_ANALOG_CSYNC:
-> +		 *
-> +		 * (pt->misc & DRM_EDID_PT_SYNC_MASK == 0x00) for
-> +		 * "Analog Composite Sync" is possible here, as we are
-> +		 * currently on an analog video signal interface.
-> +		 */
-> +		case DRM_EDID_PT_ANALOG_CSYNC:
-> +		case DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC:
-> +			drm_dbg_kms(dev,
-> +				"[CONNECTOR:%d:%s] Analog composite sync!\n",
-> +				connector->base.id, connector->name);
-> +			mode->flags |= DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC;
-> +			break;
-> +		default:
-> +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> +			mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-> +			break;
-> +		}
-
-Another angle is that for analog displays, EDID offset 0x14 has info
-about the supported sync modes. If we're separating digital/analog sync
-handling, we should probably filter the analog sync with the info from
-0x14.
-
-BR,
-Jani.
-
-
->  	}
->  
->  set_size:
-> @@ -3522,8 +3576,8 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
->  	}
->  
->  	if (info->quirks & EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE) {
-> -		mode->width_mm = drm_edid->edid->width_cm * 10;
-> -		mode->height_mm = drm_edid->edid->height_cm * 10;
-> +		mode->width_mm = edid->width_cm * 10;
-> +		mode->height_mm = edid->height_cm * 10;
->  	}
->  
->  	mode->type = DRM_MODE_TYPE_DRIVER;
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 48e93f909ef6..169755d3de19 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -61,9 +61,15 @@ struct std_timing {
->  	u8 vfreq_aspect;
->  } __attribute__((packed));
->  
-> -#define DRM_EDID_PT_HSYNC_POSITIVE (1 << 1)
-> -#define DRM_EDID_PT_VSYNC_POSITIVE (1 << 2)
-> -#define DRM_EDID_PT_SEPARATE_SYNC  (3 << 3)
-> +#define DRM_EDID_PT_SYNC_MASK              (3 << 3)
-> +# define DRM_EDID_PT_ANALOG_CSYNC          (0 << 3)
-> +# define DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC  (1 << 3)
-> +# define DRM_EDID_PT_DIGITAL_CSYNC         (2 << 3)
-> +#  define DRM_EDID_PT_CSYNC_ON_RGB         (1 << 1) /* analog csync only */
-> +#  define DRM_EDID_PT_CSYNC_SERRATE        (1 << 2)
-> +# define DRM_EDID_PT_DIGITAL_SEPARATE_SYNC (3 << 3)
-> +#  define DRM_EDID_PT_HSYNC_POSITIVE       (1 << 1) /* also digital csync */
-> +#  define DRM_EDID_PT_VSYNC_POSITIVE       (1 << 2)
->  #define DRM_EDID_PT_STEREO         (1 << 5)
->  #define DRM_EDID_PT_INTERLACED     (1 << 7)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--------------sru0nvCG5GDPvDdRRdm9Lzg0--
