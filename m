@@ -2,36 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AC277F7DA
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 15:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29EA77F7DB
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 15:38:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A31B710E49A;
-	Thu, 17 Aug 2023 13:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A3F10E46D;
+	Thu, 17 Aug 2023 13:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C1D10E47D
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 13:37:58 +0000 (UTC)
-Received: from canpemm500007.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RRQyS3w3wzkWsb
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 21:36:32 +0800 (CST)
-Received: from localhost (10.174.179.215) by canpemm500007.china.huawei.com
- (7.192.104.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 17 Aug
- 2023 21:37:54 +0800
-From: Yue Haibing <yuehaibing@huawei.com>
-To: <patrik.r.jakobsson@gmail.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <yuehaibing@huawei.com>
-Subject: [PATCH -next] drm/gma500: Remove unused declarations
-Date: Thu, 17 Aug 2023 21:37:54 +0800
-Message-ID: <20230817133754.36524-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3226910E46D
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 13:38:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D31E31F37E;
+ Thu, 17 Aug 2023 13:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1692279498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WxeGfEKP7k5DtlvEj0Is/FM3UJz92sE6rDepFaUyGX8=;
+ b=lwRCzrl+xoPFDh7GZPPs0yclQ26ZBtASEtmESPv85T4MsYDCrf8BxdTf5DsdMDmBQ/Exc1
+ 9dJskjl1LUVVd/cpCcOHLgPQ2aA0+xNMViHl/gVxPtVGhXnencEMY9aFKz5A9sitBEfHrc
+ SZgM0ZJ7oROcdkUkUT3k3CyFY2vvV80=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1692279498;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WxeGfEKP7k5DtlvEj0Is/FM3UJz92sE6rDepFaUyGX8=;
+ b=z7bg/Mf0SuX6XO3mDTNTcxxu8VnhmgdUCkHnWJQ1al8cGuwhGx5Sma4YMt30KXTLlhbPBX
+ Qc5/cJHlJt8zCKAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5D44B1358B;
+ Thu, 17 Aug 2023 13:38:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id auAPFcoi3mR1BwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 17 Aug 2023 13:38:18 +0000
+Message-ID: <dcff3281-9d38-a244-4844-1633039a9076@suse.de>
+Date: Thu, 17 Aug 2023 15:38:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.179.215]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500007.china.huawei.com (7.192.104.62)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PULL for v6.6] drm-misc-next
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, Dave Airlie <airlied@gmail.com>
+References: <389b-64db6700-1-3dc04b80@31442286>
+ <b278375f-4644-2db6-9a14-9088470d528c@suse.de>
+ <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
+ <1b9ea227-b068-9d91-1036-28a4161b1744@suse.de>
+ <CAF6AEGsr+2xaCeExm9wPmK=nU+jxevLcd8RDWTSFrwKR-yCvZg@mail.gmail.com>
+ <CAPM=9tx16UoYoOw4hBChVNPcj57ox1XsybPPTGZn=r2DDQBJmw@mail.gmail.com>
+ <CAF6AEGu8mRB_wiFeWx17Z12Eu+NnP6VLFBr5sypcnxjQyj7_sQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAF6AEGu8mRB_wiFeWx17Z12Eu+NnP6VLFBr5sypcnxjQyj7_sQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------TlIK8OwTrOaxUBL1tEguO0z9"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,76 +75,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, robdclark@google.com, david.heidelberg@collabora.com,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
+ robclark@freedesktop.org, gustavo.padovan@collabora.com,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>, anholt@google.com,
+ dri-devel@lists.freedesktop.org, emma@anholt.net, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These declarations are not implemented now, remove them.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------TlIK8OwTrOaxUBL1tEguO0z9
+Content-Type: multipart/mixed; boundary="------------DBTRdJq1R4rSVpITJ0YfCoY9";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Clark <robdclark@gmail.com>, Dave Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, daniels@collabora.com,
+ robdclark@google.com, gustavo.padovan@collabora.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ linux-kernel@vger.kernel.org, robclark@freedesktop.org,
+ david.heidelberg@collabora.com,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>, anholt@google.com,
+ dri-devel@lists.freedesktop.org, emma@anholt.net, airlied@redhat.com
+Message-ID: <dcff3281-9d38-a244-4844-1633039a9076@suse.de>
+Subject: Re: [PULL for v6.6] drm-misc-next
+References: <389b-64db6700-1-3dc04b80@31442286>
+ <b278375f-4644-2db6-9a14-9088470d528c@suse.de>
+ <CAKMK7uF1hv3S--=jsmFWG_tkOKavgMBOkWQt6VOSV0d1U7C0VA@mail.gmail.com>
+ <1b9ea227-b068-9d91-1036-28a4161b1744@suse.de>
+ <CAF6AEGsr+2xaCeExm9wPmK=nU+jxevLcd8RDWTSFrwKR-yCvZg@mail.gmail.com>
+ <CAPM=9tx16UoYoOw4hBChVNPcj57ox1XsybPPTGZn=r2DDQBJmw@mail.gmail.com>
+ <CAF6AEGu8mRB_wiFeWx17Z12Eu+NnP6VLFBr5sypcnxjQyj7_sQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGu8mRB_wiFeWx17Z12Eu+NnP6VLFBr5sypcnxjQyj7_sQ@mail.gmail.com>
 
-Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
----
- drivers/gpu/drm/gma500/gma_display.h   |  1 -
- drivers/gpu/drm/gma500/psb_intel_drv.h | 14 --------------
- 2 files changed, 15 deletions(-)
+--------------DBTRdJq1R4rSVpITJ0YfCoY9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/gma500/gma_display.h b/drivers/gpu/drm/gma500/gma_display.h
-index c8b611a2f6c6..1188a8d61caf 100644
---- a/drivers/gpu/drm/gma500/gma_display.h
-+++ b/drivers/gpu/drm/gma500/gma_display.h
-@@ -81,7 +81,6 @@ extern void gma_encoder_destroy(struct drm_encoder *encoder);
- 
- /* Common clock related functions */
- extern const struct gma_limit_t *gma_limit(struct drm_crtc *crtc, int refclk);
--extern void gma_clock(int refclk, struct gma_clock_t *clock);
- extern bool gma_pll_is_valid(struct drm_crtc *crtc,
- 			     const struct gma_limit_t *limit,
- 			     struct gma_clock_t *clock);
-diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
-index 0bb85494e3da..c111e933e1ed 100644
---- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-@@ -186,19 +186,13 @@ extern bool psb_intel_ddc_probe(struct i2c_adapter *adapter);
- 
- extern void psb_intel_crtc_init(struct drm_device *dev, int pipe,
- 			    struct psb_intel_mode_device *mode_dev);
--extern void psb_intel_crt_init(struct drm_device *dev);
- extern bool psb_intel_sdvo_init(struct drm_device *dev, int output_device);
--extern void psb_intel_dvo_init(struct drm_device *dev);
--extern void psb_intel_tv_init(struct drm_device *dev);
- extern void psb_intel_lvds_init(struct drm_device *dev,
- 			    struct psb_intel_mode_device *mode_dev);
- extern void psb_intel_lvds_set_brightness(struct drm_device *dev, int level);
- extern void oaktrail_lvds_init(struct drm_device *dev,
- 			   struct psb_intel_mode_device *mode_dev);
--extern void oaktrail_wait_for_INTR_PKT_SENT(struct drm_device *dev);
- struct gma_i2c_chan *oaktrail_lvds_i2c_init(struct drm_device *dev);
--extern void mid_dsi_init(struct drm_device *dev,
--		    struct psb_intel_mode_device *mode_dev, int dsi_num);
- 
- extern struct drm_encoder *gma_best_encoder(struct drm_connector *connector);
- extern void gma_connector_attach_encoder(struct gma_connector *connector,
-@@ -214,11 +208,6 @@ extern struct drm_display_mode *psb_intel_crtc_mode_get(struct drm_device *dev,
- 						    struct drm_crtc *crtc);
- extern struct drm_crtc *psb_intel_get_crtc_from_pipe(struct drm_device *dev,
- 						 int pipe);
--extern struct drm_connector *psb_intel_sdvo_find(struct drm_device *dev,
--					     int sdvoB);
--extern int intelfb_probe(struct drm_device *dev);
--extern int intelfb_remove(struct drm_device *dev,
--			  struct drm_framebuffer *fb);
- extern bool psb_intel_lvds_mode_fixup(struct drm_encoder *encoder,
- 				      const struct drm_display_mode *mode,
- 				      struct drm_display_mode *adjusted_mode);
-@@ -242,9 +231,6 @@ extern void cdv_intel_dp_set_m_n(struct drm_crtc *crtc,
- 					struct drm_display_mode *mode,
- 					struct drm_display_mode *adjusted_mode);
- 
--extern void psb_intel_attach_force_audio_property(struct drm_connector *connector);
--extern void psb_intel_attach_broadcast_rgb_property(struct drm_connector *connector);
--
- extern int cdv_sb_read(struct drm_device *dev, u32 reg, u32 *val);
- extern int cdv_sb_write(struct drm_device *dev, u32 reg, u32 val);
- extern void cdv_sb_reset(struct drm_device *dev);
--- 
-2.34.1
+SGkNCg0KQW0gMTUuMDguMjMgdW0gMjE6NTkgc2NocmllYiBSb2IgQ2xhcms6DQo+IE9uIFR1
+ZSwgQXVnIDE1LCAyMDIzIGF0IDEyOjIz4oCvUE0gRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21h
+aWwuY29tPiB3cm90ZToNCj4+DQo+Pj4+IE90aGVyd2lzZSwgdGhlcmUgc2hvdWxkIGJlIHNv
+bWV0aGluZyBsaWtlIGEgZHJtLWNpIHRyZWUsIGZyb20gd2hpY2ggeW91DQo+Pj4+IGNhbiBm
+ZXRjaCB0aGUgY2hhbmdlcyBkaXJlY3RseS4NCj4+Pg0KPj4+IEkgYXNrZWQgZm9yIGEgcHVs
+bCByZXF1ZXN0IHNvIHRoYXQgSSBjb3VsZCBhbHNvIG1lcmdlIGl0IHRvIG1zbS1uZXh0DQo+
+Pj4gc28gdGhhdCBJIGNhbiBkbyBDSSB0aGlzIGN5Y2xlLiAgKFVubGlrZSB0aGUgZWFybGll
+ciBvdXQtb2YtdHJlZQ0KPj4+IHZlcnNpb24gb2YgdGhlIGRybS9jaSB5bWwsIHRoaXMgdmVy
+c2lvbiBuZWVkcyB0byBiZSBpbiB0aGUgYnJhbmNoIHRoYXQNCj4+PiBDSSBydW5zIG9uLCBz
+byBJIGNhbid0IHVzZSB0aGUgd29ya2Fyb3VuZCB0aGF0IEkgaGFkIGluIHByZXZpb3VzDQo+
+Pj4gY3ljbGVzLikNCj4+Pg0KPj4+IFBlcmhhcHMgaXQgc2hvdWxkIGJlIGEgcHVsbCByZXF1
+ZXN0IHRhcmdldGluZyBkcm0tbmV4dCBpbnN0ZWFkIG9mIGRybS1taXNjLW5leHQuDQo+Pj4N
+Cj4+PiBXZSB3ZXJlIGdvaW5nIHRvIGRvIHRoaXMgb25lLW9mZiBmb3IgdGhpcyBjeWNsZSBh
+bmQgdGhlbiBldmFsdWF0ZQ0KPj4+IGdvaW5nIGZvcndhcmQgd2hldGhlciBhIGRybS1jaS1u
+ZXh0IHRyZWUgaXMgbmVlZGVkLiAgQnV0IHBlcmhhcHMgaXQgaXMNCj4+PiBhIGdvb2QgaWRl
+YS4NCj4+DQo+Pg0KPj4gSSdtIHN0aWxsIG5vdCAxMDAlIHN1cmUgaG93IHRoaXMgaXMgZ29p
+bmcgZG93biwgYW5kIEknbSBtZWFudCB0byBiZSBvZmYgdG9kYXksDQo+Pg0KPj4gRG9uJ3Qg
+c2VuZCB0aGlzIGFzIHBhdGNoZXMgdG8gZHJtLW1pc2MtbmV4dCwgYnV0IEkgdGhpbmsgd2Un
+ZCB3YW50DQo+PiB0aGlzIGluIGRybS1uZXh0IGZvciBhIGN5Y2xlIGJlZm9yZSBzZW5kaW5n
+IGl0IHRvIExpbnVzLCBidXQgbWF5YmUNCj4+IGl0J3Mgbm90IGRpcmVjdGx5IGludGVyZmVy
+aW5nIHdpdGggdGhlIGtlcm5lbCBzbyBpdCdzIGZpbmUNCj4+DQo+PiBJZGVhbGx5IHdoZW4g
+dGhlIHJlYWwgbWVyZ2Ugd2luZG93IG9wZW5zIGFuZCBkcm0tbmV4dCBpcyBtZXJnZWQgSSdk
+DQo+PiB3YW50IHRvIGhhdmUgYSBicmFuY2ggKyBQUiB3cml0dGVuIGZvciB0aGlzIGFnYWlu
+c3QgZHJtLW5leHQgdGhhdCBJDQo+PiBjYW4gc2VuZCB0byBMaW51cyBzZXBhcmF0ZWx5IGFu
+ZCBzZWUgaG93IGl0IGdvZXMuDQo+IA0KPiBUaGUgdHJpY2t5IHRoaW5nIGlzIHdlIG5lZWQg
+dGhpcyBwYXRjaCBpbi10cmVlIHRvIHJ1biBDSSBpbiB0aGUgZmlyc3QNCj4gcGxhY2UuLiBz
+byBzb2FrIHRpbWUgaW4gZHJtLW5leHQgb24gaXQncyBvd24gaXNuJ3QgaHVnZWx5IHVzZWZ1
+bC4gIChPcg0KPiBhdCBsZWFzdCBJJ2QgbmVlZCB0byBtb3ZlIG1zbS1uZXh0IGZvcndhcmQg
+dG8gZHJtLW5leHQgZm9yIGl0IHRvIGJlDQo+IHVzZWZ1bC4pDQo+IA0KPiBJIGd1ZXNzIHRo
+YXQgaXMgYSBiaXQgb2YgYW4gYWR2YW50YWdlIHRvIHRoZSBlYXJsaWVyIGFwcHJvYWNoIHRo
+YXQNCj4ga2VwdCBldmVyeXRoaW5nIGJ1dCB0aGUgZXhwZWN0YXRpb24gZmlsZXMgaW4gYSBk
+aWZmZXJlbnQgZ2l0IHRyZWUuLg0KDQpJIHNhdyB0aGF0IHRoaXMgcGF0Y2hzZXQgaGFzIGJl
+ZW4gcmV2aWV3ZWQgb24gZHJpLWRldmVsLiBJZiB5b3UgZG9uJ3QgDQp3YW50IGl0IHRvIGdv
+IHRocm91Z2ggRFJNIG1pc2MsIEkgZ3Vlc3MgaXQgc2hvdWxkIHJlYWxseSBiZSBwdWxsZWQg
+aW50byANCmRybS1uZXh0IGRpcmVjdGx5Lg0KDQpEbyB5b3UgcGxhbiB0byBzZXQgdXAgYXV0
+by1DSSBmb3IgRFJNIG1pc2MgYnJhbmNoZXM/IChTb3JyeSBpZiB0aGlzIA0KcXVlc3Rpb24g
+aGFzIGJlZW4gYW5zd2VyZWQgYmVmb3JlLikNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
+PiANCj4gQlIsDQo+IC1SDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+RnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8g
+VG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4N
+CkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
+--------------DBTRdJq1R4rSVpITJ0YfCoY9--
+
+--------------TlIK8OwTrOaxUBL1tEguO0z9
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmTeIskFAwAAAAAACgkQlh/E3EQov+DC
+vw//c63YOLo2tM4Ncjrea7TJMtHtK1RjrK0iBKsI9ZcOzCz1g3uw7Z2UpM68Z2DntPZ3OCMGzu1b
+0y44zsrNblvgLrQ3/j0FfWNfI8DwCB0XzdzlSPblLYHTqVRTXy+nGNZcDXxMsIwVvyG+x8SCnHT2
+6YdTv9fVNAe34rtVlZT0rMqtU/8HwAXVHzwH2St3tHGx7jXxm5NqHiGZcP0yShr8om2+wCc0wyWJ
+Y1u7pKvSq+0emUoLX+yuxinDBqU9TXa2kR1vemOfJJhUyIlLj/1VFENRRLB1TVC34FFCU5I1Biji
+5jxp6KAEKo2SOQ6eXSH7sWmO8lLWBbqyh7gOS56jk7/MnuPFQGtpR595yuXCBKS6xWW2iqE/XlLe
+lppxzjsz0QrBqmO6t8Tmp52guUqbjIc4u2GYxmwhVFc9wclfc56qE4albNCc7cpyufZLJGPnRvg7
+ER2L1+lU4shF2EwCUtNxFiwK2FET8Mt4D3nTijjPILhbsTqmmdFFGH5ObSBqu9BpZAN7FybBwzKq
+Yzc1wEDF+TWYeD8eNjm09aZgWX3wUia0AyVPs4h3ZSHN3gt1K9vX/aw3wpl/v5DqgiLUaLwQpUgQ
+QdzvO4p9DC9Va57B7WdE20DO1NCNPCptr7zBDxIdlV2GxAqr+oS8h9oJCKBP4WwYbxLyxUdnnxgV
+RpA=
+=+PnC
+-----END PGP SIGNATURE-----
+
+--------------TlIK8OwTrOaxUBL1tEguO0z9--
