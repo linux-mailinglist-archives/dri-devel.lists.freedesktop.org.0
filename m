@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8CB77F0ED
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 09:10:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAF977F0EE
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 09:10:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2BDD10E1BB;
-	Thu, 17 Aug 2023 07:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1945010E1B4;
+	Thu, 17 Aug 2023 07:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7814310E1B4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6387810E1B1
  for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1692256220; x=1723792220;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JjzPYPUuROIA08YPCfDWkzc6f7ow2v3WRVW39hUB6/A=;
- b=SZ6oeVXPhc7JCQMgsmsZ7Sfa1GN1v9qVhw5hczAbtvjWpGGAS/bL9OqE
- DVChFS/xR5GSvyJKwoPj8uTaxsp0HuD9X9761mZj/e8qvv6glR3Z4jFKk
- k6X6FBu//3z3lD+XasBv/N6YmmYPJadGJfQVL5nXv455+4qP8qVV9C26F
- JrzUYjq1Yo3uqGLD4YNjAzoyDcadxMRhMdIBe65zxE+OWIgzOteGBcS/c
- JD1VLSVN9RUmlLToY5ryMRm/jodfm5rnZ+vP5zhA0Xrm7HBWEWtcr6sPr
- 0PNg7568d8BK8quLH3QuqsMFT0vRuJ8PPBNK0H3HxQosBISnX7jZFZ5Ii g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370200885"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="370200885"
+ bh=oHz4gJ1RUR72JutajLhDLQnJNp66EtQNsodmpCFgLug=;
+ b=VW/x8Szetdt8SjjuPReIhnYwI/MZnc7z4pf78iBW7uFQ1kHQ0F9ykqqD
+ XjH930l0Ut8PEIiSbHK0rcRq4JY+pcxPa28TCn1hyewDwvtkotM+MUzCk
+ RSTrKSHZs8Cjm1c4+KsWqowNmu27aRYpRyfRs1WiNcdh/ERhHKahLkbrF
+ CxVVpWRxiYm6MyJanZnEk4d4s6ETOKj+BfG33SrKS5xHeWo9QzrTm9lQw
+ NsV7FlAZiCpX738hzutW6Wh+hRRXKtHYHcx0UrSHRpRpi/zG1y1o9GQOx
+ 4kV8xLmv72J7F2wKIptsanq9w9vp3qvgOZQ18nv2YRQTPvxAISu0W08Gm w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370200892"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="370200892"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Aug 2023 00:10:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065142182"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="1065142182"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065142185"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="1065142185"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Aug 2023 00:10:18 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v1 1/3] mm/gup: Export check_and_migrate_movable_pages()
-Date: Wed, 16 Aug 2023 23:49:32 -0700
-Message-Id: <20230817064934.3424431-2-vivek.kasireddy@intel.com>
+Subject: [PATCH v1 2/3] udmabuf: Add support for page migration out of movable
+ zone or CMA
+Date: Wed, 16 Aug 2023 23:49:33 -0700
+Message-Id: <20230817064934.3424431-3-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230817064934.3424431-1-vivek.kasireddy@intel.com>
 References: <20230817064934.3424431-1-vivek.kasireddy@intel.com>
@@ -67,18 +68,16 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For drivers that would like to migrate pages out of the movable
-zone (or CMA) in order to pin them (longterm) for DMA, using
-check_and_migrate_movable_pages() directly provides a convenient
-option instead of duplicating similar checks (e.g, checking
-the folios for zone, hugetlb, etc) and calling migrate_pages()
-directly.
+Since udmabuf could potentially pin pages that may reside in the
+movable zone or CMA and thereby break features such as memory
+hotunplug, it makes sense to migrate the pages out of these
+areas. In order to accomplish this, we note the mapping and the
+index of each page and then call check_and_migrate_movable_pages().
 
-Ideally, a driver is expected to call pin_user_pages(FOLL_LONGTERM)
-to migrate and pin the pages for longterm DMA but there are
-situations where the GUP APIs cannot be used directly for
-various reasons (e.g, when the VMA or start addr cannot be
-easily determined but the relevant pages are available).
+As check_and_migrate_movable_pages() unpins all the pages (and
+also replaces the migrated pages in the mapping) upon successful
+migration, we need to retrieve all the pages from their associated
+mapping using the index we noted down earlier and re-pin them again.
 
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
@@ -89,56 +88,190 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/linux/mm.h | 2 ++
- mm/gup.c           | 9 +++++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/dma-buf/udmabuf.c | 106 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 100 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 406ab9ea818f..81871ffd3ff9 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1547,6 +1547,8 @@ void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages,
- void unpin_user_page_range_dirty_lock(struct page *page, unsigned long npages,
- 				      bool make_dirty);
- void unpin_user_pages(struct page **pages, unsigned long npages);
-+long check_and_migrate_movable_pages(unsigned long nr_pages,
-+				     struct page **pages);
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 1a41c4a069ea..63912c73d122 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -30,6 +30,12 @@ struct udmabuf {
+ 	struct sg_table *sg;
+ 	struct miscdevice *device;
+ 	pgoff_t *subpgoff;
++	struct udmabuf_backing_info *backing;
++};
++
++struct udmabuf_backing_info {
++	struct address_space *mapping;
++	pgoff_t mapidx;
+ };
  
- static inline bool is_cow_mapping(vm_flags_t flags)
- {
-diff --git a/mm/gup.c b/mm/gup.c
-index 76d222ccc3ff..18beda89fcf3 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -2141,8 +2141,8 @@ static int migrate_longterm_unpinnable_pages(
-  * If everything is OK and all pages in the range are allowed to be pinned, then
-  * this routine leaves all pages pinned and returns zero for success.
-  */
--static long check_and_migrate_movable_pages(unsigned long nr_pages,
--					    struct page **pages)
-+long check_and_migrate_movable_pages(unsigned long nr_pages,
-+				     struct page **pages)
- {
- 	unsigned long collected;
- 	LIST_HEAD(movable_page_list);
-@@ -2156,12 +2156,13 @@ static long check_and_migrate_movable_pages(unsigned long nr_pages,
- 						pages);
- }
- #else
--static long check_and_migrate_movable_pages(unsigned long nr_pages,
--					    struct page **pages)
-+long check_and_migrate_movable_pages(unsigned long nr_pages,
-+				     struct page **pages)
- {
- 	return 0;
- }
- #endif /* CONFIG_MIGRATION */
-+EXPORT_SYMBOL(check_and_migrate_movable_pages);
+ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+@@ -156,8 +162,10 @@ static void release_udmabuf(struct dma_buf *buf)
+ 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
  
- /*
-  * __gup_longterm_locked() is a wrapper for __get_user_pages_locked which
+ 	for (pg = 0; pg < ubuf->pagecount; pg++)
+-		put_page(ubuf->pages[pg]);
++		unpin_user_page(ubuf->pages[pg]);
++
+ 	kfree(ubuf->subpgoff);
++	kfree(ubuf->backing);
+ 	kfree(ubuf->pages);
+ 	kfree(ubuf);
+ }
+@@ -211,6 +219,76 @@ static const struct dma_buf_ops udmabuf_ops = {
+ #define SEALS_WANTED (F_SEAL_SHRINK)
+ #define SEALS_DENIED (F_SEAL_WRITE)
+ 
++static int udmabuf_pin_pages(struct udmabuf *ubuf)
++{
++	struct address_space *mapping;
++	struct folio *folio;
++	struct page *page;
++	pgoff_t pg, mapidx;
++	int ret;
++
++	for (pg = 0; pg < ubuf->pagecount; pg++) {
++		mapping = ubuf->backing[pg].mapping;
++		mapidx = ubuf->backing[pg].mapidx;
++
++		if (!ubuf->pages[pg]) {
++			page = find_get_page_flags(mapping, mapidx,
++						   FGP_ACCESSED);
++			if (!page) {
++				if (!shmem_mapping(mapping)) {
++					ret = -EINVAL;
++					goto err;
++				}
++
++				page = shmem_read_mapping_page(mapping,
++							       mapidx);
++				if (IS_ERR(page)) {
++					ret = PTR_ERR(page);
++					goto err;
++				}
++			}
++			ubuf->pages[pg] = page;
++		}
++
++		folio = page_folio(ubuf->pages[pg]);
++		if (folio_test_large(folio))
++			atomic_add(1, &folio->_pincount);
++		else
++			folio_ref_add(folio, GUP_PIN_COUNTING_BIAS);
++
++		/* Since we are doing the equivalent of FOLL_PIN above, we can
++		 * go ahead and release our (udmabuf) reference on the pages.
++		 * Otherwise, migrate_pages() will fail as it doesn't like the
++		 * extra reference.
++		 */
++		put_page(ubuf->pages[pg]);
++	}
++	return 0;
++
++err:
++	while (pg > 0 && ubuf->pages[--pg]) {
++		unpin_user_page(ubuf->pages[pg]);
++		ubuf->pages[pg] = NULL;
++	}
++	return ret;
++}
++
++static long udmabuf_migrate_pages(struct udmabuf *ubuf)
++{
++	long ret;
++
++	do {
++		ret = udmabuf_pin_pages(ubuf);
++		if (ret < 0)
++			break;
++
++		ret = check_and_migrate_movable_pages(ubuf->pagecount,
++						      ubuf->pages);
++	} while (ret == -EAGAIN);
++
++	return ret;
++}
++
+ static long udmabuf_create(struct miscdevice *device,
+ 			   struct udmabuf_create_list *head,
+ 			   struct udmabuf_create_item *list)
+@@ -224,7 +302,8 @@ static long udmabuf_create(struct miscdevice *device,
+ 	struct page *page, *hpage = NULL;
+ 	pgoff_t mapidx, chunkoff, maxchunks;
+ 	struct hstate *hpstate;
+-	int seals, ret = -EINVAL;
++	long ret = -EINVAL;
++	int seals;
+ 	u32 i, flags;
+ 
+ 	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
+@@ -252,6 +331,13 @@ static long udmabuf_create(struct miscdevice *device,
+ 		goto err;
+ 	}
+ 
++	ubuf->backing = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->backing),
++				      GFP_KERNEL);
++	if (!ubuf->backing) {
++		ret = -ENOMEM;
++		goto err;
++	}
++
+ 	pgbuf = 0;
+ 	for (i = 0; i < head->count; i++) {
+ 		ret = -EBADFD;
+@@ -298,7 +384,8 @@ static long udmabuf_create(struct miscdevice *device,
+ 				}
+ 				get_page(hpage);
+ 				ubuf->pages[pgbuf] = hpage;
+-				ubuf->subpgoff[pgbuf++] = chunkoff << PAGE_SHIFT;
++				ubuf->subpgoff[pgbuf] = chunkoff << PAGE_SHIFT;
++				ubuf->backing[pgbuf].mapidx = mapidx;
+ 				if (++chunkoff == maxchunks) {
+ 					put_page(hpage);
+ 					hpage = NULL;
+@@ -312,8 +399,10 @@ static long udmabuf_create(struct miscdevice *device,
+ 					ret = PTR_ERR(page);
+ 					goto err;
+ 				}
+-				ubuf->pages[pgbuf++] = page;
++				ubuf->pages[pgbuf] = page;
++				ubuf->backing[pgbuf].mapidx = mapidx;
+ 			}
++			ubuf->backing[pgbuf++].mapping = mapping;
+ 		}
+ 		fput(memfd);
+ 		memfd = NULL;
+@@ -323,6 +412,10 @@ static long udmabuf_create(struct miscdevice *device,
+ 		}
+ 	}
+ 
++	ret = udmabuf_migrate_pages(ubuf);
++	if (ret < 0)
++		goto err;
++
+ 	exp_info.ops  = &udmabuf_ops;
+ 	exp_info.size = ubuf->pagecount << PAGE_SHIFT;
+ 	exp_info.priv = ubuf;
+@@ -341,11 +434,12 @@ static long udmabuf_create(struct miscdevice *device,
+ 	return dma_buf_fd(buf, flags);
+ 
+ err:
+-	while (pgbuf > 0)
+-		put_page(ubuf->pages[--pgbuf]);
++	while (pgbuf > 0 && ubuf->pages[--pgbuf])
++		put_page(ubuf->pages[pgbuf]);
+ 	if (memfd)
+ 		fput(memfd);
+ 	kfree(ubuf->subpgoff);
++	kfree(ubuf->backing);
+ 	kfree(ubuf->pages);
+ 	kfree(ubuf);
+ 	return ret;
 -- 
 2.39.2
 
