@@ -2,76 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DD077F40A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 12:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8448377F41D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 12:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE7D10E424;
-	Thu, 17 Aug 2023 10:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5645D10E42D;
+	Thu, 17 Aug 2023 10:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DF310E424
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 10:05:56 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4fe457ec6e7so12123072e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 03:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692266755; x=1692871555;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=tU1OBnu/6KxECDpM0IzJ/SgAaQcKe+fJT4+4ZHxLk2k=;
- b=o7F1Q+VWc8vFZ8O6jibK3igZE8P/juYrKZZGxZfHPCtZBv/VveZyfn2blr+KinpS0o
- BYsM5RQa9Vekp/1Of4n3WHI72P6R+VBCXIzL5Yi3nCjm2jApUfXOmZlRYSd+ZatQl74B
- zwx2QQ/0hyQmoRvj+dizVxULpy3Jv0KL2KKN2sLlRLZAsUPN5rZSEKR/fa45rOL3eITm
- DdbedVuyXLZRQRRpKs0GVKJnwxH6dwrvNmYoBZxTDgmUCbGryeK2AEgtL2GXtv2VOHlt
- NUudH9bgGBCVBbASmSZtGH/P42s5t2qkTN2BZPq3kWaEIv2CV3PIq6FkbGqknTCjIc6G
- +xyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692266755; x=1692871555;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tU1OBnu/6KxECDpM0IzJ/SgAaQcKe+fJT4+4ZHxLk2k=;
- b=M+mEdRSC0AuCgr46r2Vxa8hh4E2lCn5iOLurLB5NJShA75DoB5eiwCPI2OQ8C8i8az
- vKG33UhjCt5mVK7ZohGDXIObiTavONKc72fbc+ha3u6nHNOuaOr+HKWZdk86KCzXeMq4
- rm8XVGvJMudAj7rnMLzvddRv2jkDH3KyrdBzat2ggn4lsfM6ofOsAP8tNe8Gtfs56BWs
- SQcXmgpk3qT9oJNN78y/ja4Oo2my3Yki5KNMcaN7GNrB7Htr9nTYB9JcMrqbbcZX+kZI
- WwmIm0Fopiq6rychBu/ZSqJC2FYE6mHWQWZzZLu3mtLTtvDVx3Ezz7xaG8Ui/49RSXOR
- GBuQ==
-X-Gm-Message-State: AOJu0Yw6dH/YEydCLFuMmLAVJYjBFHrhBRuX/N6viuZgXpvwTWdT/cQp
- hLWJCJFw5E1YndkWP7r+gjogRw==
-X-Google-Smtp-Source: AGHT+IFCG5Al/QsWgxP4N4ZeswwQ4NoxpW9761uM5QnL5lXermAgUtYjDUWYz2a42K4cgDwfPj70ow==
-X-Received: by 2002:a19:915b:0:b0:4f8:8be4:8a82 with SMTP id
- y27-20020a19915b000000b004f88be48a82mr3310881lfj.22.1692266754892; 
- Thu, 17 Aug 2023 03:05:54 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- h24-20020a197018000000b004ff9ab6463fsm276653lfc.87.2023.08.17.03.05.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Aug 2023 03:05:54 -0700 (PDT)
-Message-ID: <c485b64e-3c83-4616-b8d8-76c2c7d56b0e@linaro.org>
-Date: Thu, 17 Aug 2023 13:05:53 +0300
+Received: from mail.alien8.de (mail.alien8.de [IPv6:2a01:4f9:3051:3f93::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B92CC10E421;
+ Thu, 17 Aug 2023 10:11:45 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CAD7A40E0196; 
+ Thu, 17 Aug 2023 10:11:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id KfEvzXzcj4JY; Thu, 17 Aug 2023 10:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1692267101; bh=nwRKpw2lLdAbOLqAH3ClWxZ8c53sZrQ8xdbQI4tBrGw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i3YZ450yxXJoSOZ6sWhxBbqtASp9hjH1tcfbm4vIz4lVagX79hZnSJ33l1X0fLKua
+ V0mcmNBS7/3/SYPV4fNCswxEPfQGlzO1F+mn8Jo+u/+/yGjG9BibKOBZRh+J5WacfR
+ wRbDufBVzLxKj8iSIF2oXbCG8cCeMohRZevM/A2VpRod+zLCgw+C1a4kspYu6LbYVB
+ s6NGGeDo8Cee4/IMG92FDLMVsla0byCbAUWvPRan9uCaXZs1Fol90/1ozMt2Q2JsrU
+ fITHA8YbH2y6gLdtnKHBIYEhZP0jJXF6iDZvYazujX7RmMk8ycr/jDjANbaUVlrFRK
+ djJ1BAfFv3taYdL8OLfeAiD5xYIBKCxCzIv7lWoXIEobrCN1xREzWWbjIZqmBX8iAM
+ yjMXduDYBdhwWSE+MGTqatnP+K27n6yN026l8ULeNcAHH7r78knAxhhuSm5fsMFsKG
+ rs86iRtSwjOxjZ1gM1mnrIXohpE8RuK8TSIawp2l8No/xi/0IXy49HapiyEfk9z8X7
+ fLQUm/Zs2K2Angoli50CsrBZsOH4EuT3cZgY2yj0VHjDVYsPQv1p1XNX/2zxicZrEI
+ rxYQgsOr5g+DzgC/7uzUzWUdUvxDVuoCWkt1GGz7oD4SjRKqCVnGKAoUbvX2lBbPTn
+ fYKuClmwmbIm+LSUt/OrhTWc=
+Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 22D3740E0140;
+ Thu, 17 Aug 2023 10:11:34 +0000 (UTC)
+Date: Thu, 17 Aug 2023 12:11:29 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
+ of nouveau_connector_create
+Message-ID: <20230817101129.GCZN3yUTWHkt22Jgec@fat_crate.local>
+References: <CACO55tu8ab-rxCzxFXbUh4Z=W9E-1f8sH6BVd=P+16dQ9PQNjg@mail.gmail.com>
+ <20230816145338.GIZNzi8o3d9x9bcPzX@fat_crate.local>
+ <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
+ <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
+ <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
+ <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
+ <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
+ <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
+ <CACO55tv-dKnDzUYYFW+d2pNoAhEoEniUT=QAmD4-c_xKQw0cfw@mail.gmail.com>
+ <CACO55tuWTYngfw+MZnan+U4eYyE+SvOWgxzffaCMNGQgriq3ig@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/7] phy: Add HDMI configuration options
-To: Sandor Yu <Sandor.yu@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, airlied@gmail.com,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
- vkoul@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20230808083243.3113192-1-Sandor.yu@nxp.com>
- <20230808083243.3113192-3-Sandor.yu@nxp.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230808083243.3113192-3-Sandor.yu@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACO55tuWTYngfw+MZnan+U4eYyE+SvOWgxzffaCMNGQgriq3ig@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,31 +73,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, sam@ravnborg.org,
- linux-imx@nxp.com, kernel@pengutronix.de
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/08/2023 11:32, Sandor Yu wrote:
-> Allow HDMI PHYs to be configured through the generic
-> functions through a custom structure added to the generic union.
-> 
-> The parameters added here are based on HDMI PHY
-> implementation practices.  The current set of parameters
-> should cover the potential users.
-> 
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> ---
->   include/linux/phy/phy-hdmi.h | 24 ++++++++++++++++++++++++
->   include/linux/phy/phy.h      |  7 ++++++-
->   2 files changed, 30 insertions(+), 1 deletion(-)
->   create mode 100644 include/linux/phy/phy-hdmi.h
+On Thu, Aug 17, 2023 at 12:00:47PM +0200, Karol Herbst wrote:
+> btw, what would help is to know where `nvkm_uconn_uevent` actually
+> fails, or rather, are you running into this "/* TODO: support DP IRQ
+> on ANX9805 and remove this hack. */" condition?
 
-I think this looks good now, thank you!
+Send me a diff, I'll run it here and catch output over serial.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thx.
 
 -- 
-With best wishes
-Dmitry
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
