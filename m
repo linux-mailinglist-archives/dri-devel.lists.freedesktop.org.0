@@ -2,72 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0550B77F676
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 14:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD4F77F685
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 14:40:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3954C10E1D5;
-	Thu, 17 Aug 2023 12:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D784010E473;
+	Thu, 17 Aug 2023 12:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A01410E1D5
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 12:31:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1692275492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j+xsGM0xCcV9RwUrKQrUxI1E3eQXED1KqHZXvIE2BI4=;
- b=h9LfUD6Mbl5OaVd+quNritAsm/n5WFjLOJ50AYweCL9nkpzdhS3ZnFo2/rqDivYyMbVWp1
- xto/PQWWAEiYNiqwVU9mQs0ybZ3/8LeoO9EQgNxJsaXBOzddLDXkHgSxEihSX/YeqfvpQ5
- iQVIE9g43hM11aBudpAdEOJj1mDhg9I=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-365-DBd_46-kN4auGO1uzSlaIg-1; Thu, 17 Aug 2023 08:31:28 -0400
-X-MC-Unique: DBd_46-kN4auGO1uzSlaIg-1
-Received: by mail-ot1-f70.google.com with SMTP id
- 46e09a7af769-6b9e081b9f7so6110304a34.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 05:31:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692275487; x=1692880287;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j+xsGM0xCcV9RwUrKQrUxI1E3eQXED1KqHZXvIE2BI4=;
- b=Tk45iI3iZckokncEr2I7FKhJvIMEIK2pME8eKjug2rgH2Iqw77kVQeDHvLYVa0j4RI
- L2rEb/kqUMGYP1Y/CacbLOMnYSseroGz1hdTQ/8S9IHHjXs71qL4GEbjNH9aZIkgTRSC
- Zf3rbZjpMMzo2Qzv5tq/g03tNJCxgwIj4umeMVzHlyzPCiZcAW8u6RcablJsUYV6NIIn
- mCVPG2mPpucVNhRLfUzX71qP0gIzo4D76ZM6P0ZJfCGG4j1T7/Onmj+Aw/v1YJrYITgY
- 8pXkdxJrijqjPSqahM3RC5gRvKadudjUBxUKOc8PXO15Sq236lWxdMI+4W9QYFpwSVVR
- 4fYg==
-X-Gm-Message-State: AOJu0YyIPfq7LK/+5cZPAW9Vn4KMyEt6pMJbgCjQftwm81iQmSnAA+Pz
- r9QnTeCO18kjjmo+lidAQeJmoNOxx34B7+F2Fk8IQVDgdCiOZwJ9uDCovXv0udG8Ux8vhrevRfx
- ai/kmPBmqOSBf1d2tYpwQI4RVV73l
-X-Received: by 2002:a05:6830:1314:b0:6bc:f328:696e with SMTP id
- p20-20020a056830131400b006bcf328696emr4382923otq.0.1692275487740; 
- Thu, 17 Aug 2023 05:31:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFbLMPcppybJV+jOD4Mzdj/MSx7jY9uLAskDT3+YlZ3091KhVbY1KfqBrUcpg47H2FQH6IE8A==
-X-Received: by 2002:a05:6830:1314:b0:6bc:f328:696e with SMTP id
- p20-20020a056830131400b006bcf328696emr4382911otq.0.1692275487502; 
- Thu, 17 Aug 2023 05:31:27 -0700 (PDT)
-Received: from localhost ([181.120.144.238]) by smtp.gmail.com with ESMTPSA id
- a9-20020a05683012c900b006b74bea76c0sm7126970otq.47.2023.08.17.05.31.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Aug 2023 05:31:27 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Thomas Zimmermann
- <tzimmermann@suse.de>
-Subject: Re: Simple DRM frame buffer driver not working on Dell desktop with
- Nvidia card
-In-Reply-To: <7287c4cc-2ac4-43a7-a60d-466d5299f576@molgen.mpg.de>
-References: <7287c4cc-2ac4-43a7-a60d-466d5299f576@molgen.mpg.de>
-Date: Thu, 17 Aug 2023 14:31:24 +0200
-Message-ID: <87bkf5g89v.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B49910E470;
+ Thu, 17 Aug 2023 12:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692276007; x=1723812007;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=zM8RnN99n0BSrCuxy2qnwMFhVWY3WXOLfkYZSHOWqQc=;
+ b=UJzyp9tZzhwxZr/AeKOcBuHTu2HL9MXXS6wgVW/DWgslHczzRwLTL23R
+ mwwCQGrZM58jm6PY6oceiGj1rUTfBpbSvReuGTugxXcouge6GoKsl8A4T
+ xCm13GGDEmCLHe6XFgaHEhAXb8NxRFhxR8OVJ0TFiqwjAdexcha4WQoR6
+ GJ5XTr7b5OO3CxNAqKRkj4D/9L6ojhO7PdJQ1xct40RRwc5RzWpN/Ayck
+ 77Ir5/nC6TGfDdUN0s9K1AINqkWI0euZDJ3BIOk7K//PlCQkbcDe8KQRQ
+ qL0lxDO9PV1BuyXptwM8uO96feWnNgVcVvDHhwBGf9PXsvO9cjKPAtkKw A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="353113373"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="353113373"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2023 05:40:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="684410460"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="684410460"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2023 05:40:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] Revert "drm/edid: Fix csync detailed mode parsing"
+In-Reply-To: <ZN4GBQCtIi6v0D28@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230815101907.2900768-1-jani.nikula@intel.com>
+ <ZN4GBQCtIi6v0D28@intel.com>
+Date: Thu, 17 Aug 2023 15:40:00 +0300
+Message-ID: <87r0o1971b.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,29 +59,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Paul Menzel <pmenzel@molgen.mpg.de> writes:
-
-Hello Paul,
-
-> Dear Linux folks,
+On Thu, 17 Aug 2023, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Tue, Aug 15, 2023 at 01:19:07PM +0300, Jani Nikula wrote:
+>> This reverts commit ca62297b2085b5b3168bd891ca24862242c635a1.
+>>=20
+>> Commit ca62297b2085 ("drm/edid: Fix csync detailed mode parsing") fixed
+>> EDID detailed mode sync parsing. Unfortunately, there are quite a few
+>> displays out there that have bogus (zero) sync field that are broken by
+>> the change. Zero means analog composite sync, which is not right for
+>> digital displays, and the modes get rejected. Regardless, it used to
+>> work, and it needs to continue to work. Revert the change.
 >
+> Bah. I guess one option would be to quirk the bogus EDIDs, or maybe just
+> ignore bogus sync flags for the eDP preferred mode. But maybe needs a
+> bit more thinking, so
 >
-> On the Dell OptiPlex 7021 with a dedicated Nvidia card, the monitor is 
-> only connect to that, Linux 6.1.39 does not display any messages, and 
-> the GRUB messages stay until the X.Org X Server starts.
+> Acked-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+
+Thanks, pushed to drm-misc-fixes.
+
+BR,
+Jani.
+
+
 >
+>>=20
+>> Rejecting modes with analog composite sync was the part that fixed the
+>> gitlab issue 8146 [1]. We'll need to get back to the drawing board with
+>> that.
+>>=20
+>> [1] https://gitlab.freedesktop.org/drm/intel/-/issues/8146
+>>=20
+>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8789
+>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8930
+>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9044
+>> Fixes: ca62297b2085 ("drm/edid: Fix csync detailed mode parsing")
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: <stable@vger.kernel.org> # v6.4+
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 29 ++++++++---------------------
+>>  include/drm/drm_edid.h     | 12 +++---------
+>>  2 files changed, 11 insertions(+), 30 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index f95152fac427..340da8257b51 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -3457,6 +3457,10 @@ static struct drm_display_mode *drm_mode_detailed=
+(struct drm_connector *connecto
+>>  			    connector->base.id, connector->name);
+>>  		return NULL;
+>>  	}
+>> +	if (!(pt->misc & DRM_EDID_PT_SEPARATE_SYNC)) {
+>> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync not supported\n",
+>> +			    connector->base.id, connector->name);
+>> +	}
+>>=20=20
+>>  	/* it is incorrect if hsync/vsync width is zero */
+>>  	if (!hsync_pulse_width || !vsync_pulse_width) {
+>> @@ -3503,27 +3507,10 @@ static struct drm_display_mode *drm_mode_detaile=
+d(struct drm_connector *connecto
+>>  	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
+>>  		mode->flags |=3D DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
+>>  	} else {
+>> -		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
+>> -		case DRM_EDID_PT_ANALOG_CSYNC:
+>> -		case DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC:
+>> -			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Analog composite sync!\n",
+>> -				    connector->base.id, connector->name);
+>> -			mode->flags |=3D DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC;
+>> -			break;
+>> -		case DRM_EDID_PT_DIGITAL_CSYNC:
+>> -			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Digital composite sync!\n",
+>> -				    connector->base.id, connector->name);
+>> -			mode->flags |=3D DRM_MODE_FLAG_CSYNC;
+>> -			mode->flags |=3D (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> -				DRM_MODE_FLAG_PCSYNC : DRM_MODE_FLAG_NCSYNC;
+>> -			break;
+>> -		case DRM_EDID_PT_DIGITAL_SEPARATE_SYNC:
+>> -			mode->flags |=3D (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> -				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
+>> -			mode->flags |=3D (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
+>> -				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+>> -			break;
+>> -		}
+>> +		mode->flags |=3D (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+>> +			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
+>> +		mode->flags |=3D (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
+>> +			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+>>  	}
+>>=20=20
+>>  set_size:
+>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>> index 169755d3de19..48e93f909ef6 100644
+>> --- a/include/drm/drm_edid.h
+>> +++ b/include/drm/drm_edid.h
+>> @@ -61,15 +61,9 @@ struct std_timing {
+>>  	u8 vfreq_aspect;
+>>  } __attribute__((packed));
+>>=20=20
+>> -#define DRM_EDID_PT_SYNC_MASK              (3 << 3)
+>> -# define DRM_EDID_PT_ANALOG_CSYNC          (0 << 3)
+>> -# define DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC  (1 << 3)
+>> -# define DRM_EDID_PT_DIGITAL_CSYNC         (2 << 3)
+>> -#  define DRM_EDID_PT_CSYNC_ON_RGB         (1 << 1) /* analog csync onl=
+y */
+>> -#  define DRM_EDID_PT_CSYNC_SERRATE        (1 << 2)
+>> -# define DRM_EDID_PT_DIGITAL_SEPARATE_SYNC (3 << 3)
+>> -#  define DRM_EDID_PT_HSYNC_POSITIVE       (1 << 1) /* also digital csy=
+nc */
+>> -#  define DRM_EDID_PT_VSYNC_POSITIVE       (1 << 2)
+>> +#define DRM_EDID_PT_HSYNC_POSITIVE (1 << 1)
+>> +#define DRM_EDID_PT_VSYNC_POSITIVE (1 << 2)
+>> +#define DRM_EDID_PT_SEPARATE_SYNC  (3 << 3)
+>>  #define DRM_EDID_PT_STEREO         (1 << 5)
+>>  #define DRM_EDID_PT_INTERLACED     (1 << 7)
+>>=20=20
+>> --=20
+>> 2.39.2
 
-It's a known issue. The Nvidia proprietary driver doesn't register an
-emulated fbdev device and it relies on efifb to have fbcon/VT support.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
