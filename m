@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C18777FA08
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:00:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F7777FA09
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5063310E4E0;
-	Thu, 17 Aug 2023 14:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C28810E4DB;
+	Thu, 17 Aug 2023 14:59:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C411110E4D3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 14:59:47 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-98377c5d53eso1013492266b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:59:47 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25CD010E4D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 14:59:49 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-99df431d4bfso222403666b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1692284386; x=1692889186;
+ d=linaro.org; s=google; t=1692284387; x=1692889187;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rcfI9dJEQGwO2jpUJU2BmFA8ECYrDPYOAyZ+fcK6u6s=;
- b=qqdMTpkEEYUo+2H0ldiuOrd3i053WCImL+6eghhBSKXWsN4ra0gICZTvfEi+FX8yL4
- Ei4zqsl+hSTfgYaUbSuXqRgvXGje67UkoisUOd1TN3JbYJGkyFIhsAo8igOFNE1r63CB
- AbJMGZD9hNGu8HiOOt6NuasrWYRxEr0gNEOh+2GftpKsKXifEL44VkdP2BiqvnPySTEr
- S5plSdA/82CwIwcc3CrMfrE1r4fyNZZiKb2LGgL3qLq5W5IAH8I/TsjNDEDSxtpw5lsm
- dpNtVOsMJaOK/9kvotTflTTMRUkg/5cwFT4Btyg/aqXFd8yV4K3VLtK2yLCBGNB9L3UH
- zRFg==
+ bh=jyrnYd+/grcDQWPBP5YRxE3h8w3O63U4ojbQQv8+188=;
+ b=i8FbFHOG1mmFj7PIdrs6Zmo5zyhxgDtP2ATKD8llf4JJfnMx7olqSqs+54+VgSSKlo
+ J2oO8jVUS+elgWtZxpzcG8A53UMIypAcb7xJfBARwXOwtaRQpBpMcIxq5yIplYJAoKWt
+ P1azHtVrokAvSW1fGaO69NqqtMo62ut9prYyWQqEybIM7yGealQUycmM28RpwAgVzYNp
+ CBN0dZm2e8nxsNELv9aHp5yEd70V8jVxipzWI+pmn2QqiXUQ20phD1fbXHppYwifwS+o
+ Fy8KNZ1Z/8y0DCPcqYTCLc/lBZExIxGTRe6K4gAYuvxmADo17shmuGBJ2vqSJUxhGClO
+ 2VYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692284386; x=1692889186;
+ d=1e100.net; s=20221208; t=1692284387; x=1692889187;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rcfI9dJEQGwO2jpUJU2BmFA8ECYrDPYOAyZ+fcK6u6s=;
- b=iOWbBLlZytJ4wYygDRm4GibR7nfLkSr9UleVTBAHN4k5B9u6R691fJFu28EPhjmxUh
- 0qmHxQJRCu08PfQ9Dhn298sE5N8NALyOY4AQv5T/aH9m6HlnVuSLomSJnJnSNBYCv8E8
- uM/lqXflydEKyphQ9njRdUNqZyqFRPM/qVMTHkaaoX4iM4MJda0m35+ck89IX4hPpU61
- Zq2m61y4ogWwtlzjv7dczT/uJUVP50JWswOiAhnDNHWVzIaKEsYcwu3RZw2dgGRm6w/H
- u3o0radLGt8RDegAy3q/DvOC2JAvd+Guu9jbsgkuaigkW/O1u2XQStl/FMQ0/X6vsIVF
- SNkw==
-X-Gm-Message-State: AOJu0YxkRPRr1tIBz7T3GBf3VSq17xex0AKcYx2phw/++y8cJw8q1Qck
- VvY8NLzbc5z7MB65dbiW6l5dQw==
-X-Google-Smtp-Source: AGHT+IECi+eaQXrTqAbnKkv+RqFUnl86IqnerKbx0KVhX6hpc4uR2HN5mcfm7ey/sghhrQyauD8hbA==
-X-Received: by 2002:a17:906:74ce:b0:99d:f7f1:cdd9 with SMTP id
- z14-20020a17090674ce00b0099df7f1cdd9mr4093338ejl.50.1692284386344; 
- Thu, 17 Aug 2023 07:59:46 -0700 (PDT)
+ bh=jyrnYd+/grcDQWPBP5YRxE3h8w3O63U4ojbQQv8+188=;
+ b=K+pmsDMBMpb4aPkkjqlBoetYjsWL1VHn4wVQTpThpxCN1HifS3xlPOY2IgJa4WLlFi
+ ku31udl/w9e/gGzn2hxZEZ7TjEh/aVgOO3M37AWYtJBVvCQrA8fTZB7oic5r9EazEOp5
+ 2cpgLBwLfl1caX3BOfNb7Tu/G865xaBkWwjqxcU9GkAxZuBvc9TKHkKhsalTabOMjTft
+ bDKk/xZIbbdPpfV8Cld1566W1Qi/DoYhmjl+keaRfu5oxsuNVEbk1LOJKUdEsnWD8rAH
+ 4J/nox25WAay0ix0awEFeyM5xX4bSasbKZw5lRdRtGQSj0EL2faimvrE6XbK+vALoaFU
+ IYFw==
+X-Gm-Message-State: AOJu0YyN31TWvAcdwmk8gxbz09rJreupKKVyjPI//uCQgZpYQRHN8tc7
+ iVbPLK5SKQqbysn1lqgH235fFQ==
+X-Google-Smtp-Source: AGHT+IFrDXU9RyQ2b51UNFwD8gODzimUQlViN1buaLRaNRS/xBOehnJnNWmJk7sJ/VfKKwLbM4dG8g==
+X-Received: by 2002:a17:906:31cf:b0:99c:5623:a2f1 with SMTP id
+ f15-20020a17090631cf00b0099c5623a2f1mr3775578ejf.48.1692284387650; 
+ Thu, 17 Aug 2023 07:59:47 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- lj9-20020a170906f9c900b00988be3c1d87sm10233557ejb.116.2023.08.17.07.59.45
+ lj9-20020a170906f9c900b00988be3c1d87sm10233557ejb.116.2023.08.17.07.59.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Aug 2023 07:59:45 -0700 (PDT)
+ Thu, 17 Aug 2023 07:59:47 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -58,10 +58,9 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 3/4] arm64: dts: qcom: qrb5165-rb5: enable displayport
- controller
-Date: Thu, 17 Aug 2023 17:59:39 +0300
-Message-Id: <20230817145940.9887-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 4/4] arm64: dts: qcom: qrb5165-rb5: enable DP altmode
+Date: Thu, 17 Aug 2023 17:59:40 +0300
+Message-Id: <20230817145940.9887-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230817145940.9887-1-dmitry.baryshkov@linaro.org>
 References: <20230817145940.9887-1-dmitry.baryshkov@linaro.org>
@@ -85,41 +84,32 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the onboard displayport controller, connect it to QMP PHY.
+Add displayport altmode declaration to the Type-C controller node to
+enable DP altmode negotiation.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-index a4f7a9f9c22c..3bd0c06e7315 100644
+index 3bd0c06e7315..c8cd40a462a3 100644
 --- a/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
 +++ b/arch/arm64/boot/dts/qcom/qrb5165-rb5.dts
-@@ -656,6 +656,15 @@ &mdss {
- 	status = "okay";
- };
+@@ -1423,6 +1423,13 @@ PDO_FIXED_DUAL_ROLE |
+ 					 PDO_FIXED_USB_COMM |
+ 					 PDO_FIXED_DATA_SWAP)>;
  
-+&mdss_dp {
-+	status = "okay";
-+};
++		altmodes {
++			displayport {
++				svid = <0xff01>;
++				vdo = <0x00001c46>;
++			};
++		};
 +
-+&mdss_dp_out {
-+	data-lanes = <0 1>;
-+	remote-endpoint = <&usb_1_qmpphy_dp_in>;
-+};
-+
- &mdss_dsi0 {
- 	status = "okay";
- 	vdda-supply = <&vreg_l9a_1p2>;
-@@ -1442,3 +1451,7 @@ pm8150b_typec_sbu_out: endpoint {
- 		};
- 	};
- };
-+
-+&usb_1_qmpphy_dp_in {
-+	remote-endpoint = <&mdss_dp_out>;
-+};
+ 		ports {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
 -- 
 2.39.2
 
