@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EE177F0E3
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 09:07:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF2077F0E4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 09:07:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CFC610E1AD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5208510E1B0;
 	Thu, 17 Aug 2023 07:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69BA10E135
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:07:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE9710E1AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692256062; x=1723792062;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=AYQerLR/X/IZ6Z/nENPeMrAhM6+yQUwckeympg8jWbw=;
- b=kfErd0qtBwNAOfzoSglJI7XogEPvvjCYqMRJMStIjS8Sc5WhpR0ySuie
- X8Z3nkVeojp3Qh8D3IMxJOSBpSgIqp/nfgjz0NJNNIGmW+NfgQ2gWihD1
- hCKPTYl3hzMv5c5mXt1wPYcfsVX878F9aduVD8lJHEqPy+zkNCNv1NOGO
- 1uCHJ+tzvmAn7AJ6b1JpKJy5Eb9W+BBCLOxT5eXCJJf2j0cLcRCdilnd7
- 16Nw96Xu4FIdQbPtXandgphtWA5TJbBoLIn/iMmjXLiX08wbyFfaUWWJe
- iizcpNo51Yi9/h1aCKmUli4ihaUtZKqtJ+WObjiFa0JzJEMXZyf/c7gY6 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357697942"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="357697942"
+ t=1692256063; x=1723792063;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=U5Op4CjhDDAHfKtiDzpe6+9a1b7R8CllBxVTE/TesJE=;
+ b=mKfXcga2ZUCsAmXD46otD1Gib6pNGEap0uFZ32o8HjxCKG/AAo788Y23
+ bXp7SKnZ4H3G8w4rLwIh4pinsULu1D9CMJ1KTMTj9HGE/pSGmkuc+azYL
+ 0wgJ1LBFcBLhS06xeVshFTvLMy7eR750lrcmYGQHZ84fqXWW9W4XwjiUG
+ /+iOW8R7WhPM4jIqaJ+Bqmq4nBfUVF+1033N7FOoxAJqsrvrZC6hJmbDy
+ YZCrI0G2iaXB2HjPuZdrXsBq5fmc9izF+xgEIDdO4NEurysnbhW98a3Bx
+ ow3GY8aWs2BExZBH12LzOo8Pnxev44kODbVjB65W6P14jBWj9/ktYs4/u A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357697949"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="357697949"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 00:07:41 -0700
+ 17 Aug 2023 00:07:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799913423"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="799913423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799913426"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="799913426"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Aug 2023 00:07:41 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v3 0/2] udmabuf: Add back support for mapping hugetlb pages
- (v3)
-Date: Wed, 16 Aug 2023 23:46:21 -0700
-Message-Id: <20230817064623.3424348-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 1/2] udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling
+ mmap
+Date: Wed, 16 Aug 2023 23:46:22 -0700
+Message-Id: <20230817064623.3424348-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230817064623.3424348-1-vivek.kasireddy@intel.com>
+References: <20230817064623.3424348-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,47 +68,58 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first patch ensures that the mappings needed for handling mmap
-operation would be managed by using the pfn instead of struct page.
-The second patch restores support for mapping hugetlb pages where
-subpages of a hugepage are not directly used anymore (main reason
-for revert) and instead the hugetlb pages and the relevant offsets
-are used to populate the scatterlist for dma-buf export and for
-mmap operation.
+Add VM_PFNMAP to vm_flags in the mmap handler to ensure that
+the mappings would be managed without using struct page.
 
-Testcase: default_hugepagesz=2M hugepagesz=2M hugepages=2500 options
-were passed to the Host kernel and Qemu was launched with these
-relevant options: qemu-system-x86_64 -m 4096m....
--device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
--display gtk,gl=on
--object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
--machine memory-backend=mem1
-
-Replacing -display gtk,gl=on with -display gtk,gl=off above would
-exercise the mmap handler.
-
-v2: Updated the second patch to manually populate the scatterlist.
-
-v3: Replaced the fields offsets with subpgoff and hpoff with mapidx
-    in the second patch. This should not cause any functional changes.
+And, in the vm_fault handler, use vmf_insert_pfn to share the
+page's pfn to userspace instead of directly sharing the page
+(via struct page *).
 
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Mike Kravetz <mike.kravetz@oracle.com>
 Cc: Hugh Dickins <hughd@google.com>
 Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>`
+Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/dma-buf/udmabuf.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Vivek Kasireddy (2):
-  udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling mmap
-  udmabuf: Add back support for mapping hugetlb pages (v3)
-
- drivers/dma-buf/udmabuf.c | 93 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 77 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c40645999648..820c993c8659 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -35,12 +35,13 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct udmabuf *ubuf = vma->vm_private_data;
+ 	pgoff_t pgoff = vmf->pgoff;
++	unsigned long pfn;
+ 
+ 	if (pgoff >= ubuf->pagecount)
+ 		return VM_FAULT_SIGBUS;
+-	vmf->page = ubuf->pages[pgoff];
+-	get_page(vmf->page);
+-	return 0;
++
++	pfn = page_to_pfn(ubuf->pages[pgoff]);
++	return vmf_insert_pfn(vma, vmf->address, pfn);
+ }
+ 
+ static const struct vm_operations_struct udmabuf_vm_ops = {
+@@ -56,6 +57,7 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ 
+ 	vma->vm_ops = &udmabuf_vm_ops;
+ 	vma->vm_private_data = ubuf;
++	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+ 	return 0;
+ }
+ 
 -- 
 2.39.2
 
