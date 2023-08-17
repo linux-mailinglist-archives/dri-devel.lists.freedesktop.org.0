@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3208377F0E2
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 09:07:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3204077F0EC
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 09:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9EA110E135;
-	Thu, 17 Aug 2023 07:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B302810E1B1;
+	Thu, 17 Aug 2023 07:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1E310E135
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:07:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC1110E1BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 07:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692256063; x=1723792063;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4gHoMhYSuE9PY2sLaMjLckWZ81rKPYGfJDvuxgZ60RU=;
- b=DyFdBr3J2Q+0nVVsXJGEQCl7AYOKQkrGZCLlNKGu+TnF1nWMAx1dnPvf
- ufsAIFOeRtHhn+mPzdB4bM/sT4f5NkQytVZNkbEiG+C0SSCPoKqQMOvd4
- 4qrXsW4SxuXDwLjiQjyTvslBIthtL0L7fQ7r10E2HblSvmHIq1o/2hPXZ
- c+Zz2R6/C9uMoHxEVlEmQzgrT+z5Z5rsB/782QclVqXjg1mjs/7X01YZc
- t72uDRidCdnpWl0M5yV6bMvXwEsTGUH3LA14bd8IOPMRVqFaZB49f0fMi
- DfUbqctxQqSlYpfUDV7XhNfy8db0Lg0tmPzccDXXR7DoRl9vzl+ZOSe3h Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="357697956"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="357697956"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 00:07:42 -0700
+ t=1692256220; x=1723792220;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+78dlvA/51d4wBsy1EIEYrq6opiEqB7AJeBx2sGkqW8=;
+ b=GObZAgsA2qRA4YSd8Xqp1n7L6n2U1TnwBHLSzwBlechBjvgSSdobs+gk
+ 4i8txq29Va2osVnEc8WotfCgQJD5H3nX8QXxTanoTX5hJEDkkxRxdWxna
+ RlLtaY9oc19Z/MJ1v5OtY6h4vgPpn41enAv4JeH4P3J7CG6hqdVUN92w6
+ dFshQIUF44WOChBtBhnHMh4uuTtZt3bL7845iuQNkIouHkhn1rGRkZxrP
+ ZOkoUoARTB8b02YmQfDOE2Pntkt6+VbRGtvPywgAm6W3dh9QScwmGqGVf
+ 7M0EpESR3YMEK+64fU5XR20txQlta8+3t476fxcGAtCB/tITtZm1qbRM8 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="370200878"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="370200878"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2023 00:10:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="799913428"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="799913428"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065142179"
+X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; d="scan'208";a="1065142179"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 00:07:41 -0700
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2023 00:10:18 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v3 2/2] udmabuf: Add back support for mapping hugetlb pages
- (v3)
-Date: Wed, 16 Aug 2023 23:46:23 -0700
-Message-Id: <20230817064623.3424348-3-vivek.kasireddy@intel.com>
+Subject: [PATCH v1 0/3] udmabuf: Add support for page migration out of movable
+ zone or CMA
+Date: Wed, 16 Aug 2023 23:49:31 -0700
+Message-Id: <20230817064934.3424431-1-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230817064623.3424348-1-vivek.kasireddy@intel.com>
-References: <20230817064623.3424348-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,31 +66,15 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A user or admin can configure a VMM (Qemu) Guest's memory to be
-backed by hugetlb pages for various reasons. However, a Guest OS
-would still allocate (and pin) buffers that are backed by regular
-4k sized pages. In order to map these buffers and create dma-bufs
-for them on the Host, we first need to find the hugetlb pages where
-the buffer allocations are located and then determine the offsets
-of individual chunks (within those pages) and use this information
-to eventually populate a scatterlist.
+This patch series adds support for migrating pages associated with
+a udmabuf out of the movable zone or CMA to avoid breaking features
+such as memory hotunplug.
 
-Testcase: default_hugepagesz=2M hugepagesz=2M hugepages=2500 options
-were passed to the Host kernel and Qemu was launched with these
-relevant options: qemu-system-x86_64 -m 4096m....
--device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
--display gtk,gl=on
--object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
--machine memory-backend=mem1
-
-Replacing -display gtk,gl=on with -display gtk,gl=off above would
-exercise the mmap handler.
-
-v2: Updated get_sg_table() to manually populate the scatterlist for
-    both huge page and non-huge-page cases.
-
-v3: s/offsets/subpgoff/g
-    s/hpoff/mapidx/g
+The first patch exports check_and_migrate_movable_pages() function
+out of GUP so that the udmabuf driver can leverage it for page
+migration that is done as part of the second patch. The last patch
+adds two new udmabuf selftests to verify data coherency after
+page migration.
 
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
@@ -103,180 +85,19 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com> (v2)
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- drivers/dma-buf/udmabuf.c | 85 +++++++++++++++++++++++++++++++++------
- 1 file changed, 72 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 820c993c8659..1a41c4a069ea 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -10,6 +10,7 @@
- #include <linux/miscdevice.h>
- #include <linux/module.h>
- #include <linux/shmem_fs.h>
-+#include <linux/hugetlb.h>
- #include <linux/slab.h>
- #include <linux/udmabuf.h>
- #include <linux/vmalloc.h>
-@@ -28,6 +29,7 @@ struct udmabuf {
- 	struct page **pages;
- 	struct sg_table *sg;
- 	struct miscdevice *device;
-+	pgoff_t *subpgoff;
- };
- 
- static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
-@@ -41,6 +43,10 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
- 		return VM_FAULT_SIGBUS;
- 
- 	pfn = page_to_pfn(ubuf->pages[pgoff]);
-+	if (ubuf->subpgoff) {
-+		pfn += ubuf->subpgoff[pgoff] >> PAGE_SHIFT;
-+	}
-+
- 	return vmf_insert_pfn(vma, vmf->address, pfn);
- }
- 
-@@ -90,23 +96,31 @@ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
- {
- 	struct udmabuf *ubuf = buf->priv;
- 	struct sg_table *sg;
-+	struct scatterlist *sgl;
-+	pgoff_t offset;
-+	unsigned long i = 0;
- 	int ret;
- 
- 	sg = kzalloc(sizeof(*sg), GFP_KERNEL);
- 	if (!sg)
- 		return ERR_PTR(-ENOMEM);
--	ret = sg_alloc_table_from_pages(sg, ubuf->pages, ubuf->pagecount,
--					0, ubuf->pagecount << PAGE_SHIFT,
--					GFP_KERNEL);
-+
-+	ret = sg_alloc_table(sg, ubuf->pagecount, GFP_KERNEL);
- 	if (ret < 0)
--		goto err;
-+		goto err_alloc;
-+
-+	for_each_sg(sg->sgl, sgl, ubuf->pagecount, i) {
-+		offset = ubuf->subpgoff ? ubuf->subpgoff[i] : 0;
-+		sg_set_page(sgl, ubuf->pages[i], PAGE_SIZE, offset);
-+	}
- 	ret = dma_map_sgtable(dev, sg, direction, 0);
- 	if (ret < 0)
--		goto err;
-+		goto err_map;
- 	return sg;
- 
--err:
-+err_map:
- 	sg_free_table(sg);
-+err_alloc:
- 	kfree(sg);
- 	return ERR_PTR(ret);
- }
-@@ -143,6 +157,7 @@ static void release_udmabuf(struct dma_buf *buf)
- 
- 	for (pg = 0; pg < ubuf->pagecount; pg++)
- 		put_page(ubuf->pages[pg]);
-+	kfree(ubuf->subpgoff);
- 	kfree(ubuf->pages);
- 	kfree(ubuf);
- }
-@@ -206,7 +221,9 @@ static long udmabuf_create(struct miscdevice *device,
- 	struct udmabuf *ubuf;
- 	struct dma_buf *buf;
- 	pgoff_t pgoff, pgcnt, pgidx, pgbuf = 0, pglimit;
--	struct page *page;
-+	struct page *page, *hpage = NULL;
-+	pgoff_t mapidx, chunkoff, maxchunks;
-+	struct hstate *hpstate;
- 	int seals, ret = -EINVAL;
- 	u32 i, flags;
- 
-@@ -242,7 +259,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		if (!memfd)
- 			goto err;
- 		mapping = memfd->f_mapping;
--		if (!shmem_mapping(mapping))
-+		if (!shmem_mapping(mapping) && !is_file_hugepages(memfd))
- 			goto err;
- 		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
- 		if (seals == -EINVAL)
-@@ -253,16 +270,57 @@ static long udmabuf_create(struct miscdevice *device,
- 			goto err;
- 		pgoff = list[i].offset >> PAGE_SHIFT;
- 		pgcnt = list[i].size   >> PAGE_SHIFT;
-+		if (is_file_hugepages(memfd)) {
-+			if (!ubuf->subpgoff) {
-+				ubuf->subpgoff = kmalloc_array(ubuf->pagecount,
-+							       sizeof(*ubuf->subpgoff),
-+							       GFP_KERNEL);
-+				if (!ubuf->subpgoff) {
-+					ret = -ENOMEM;
-+					goto err;
-+				}
-+			}
-+			hpstate = hstate_file(memfd);
-+			mapidx = list[i].offset >> huge_page_shift(hpstate);
-+			chunkoff = (list[i].offset &
-+				    ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
-+			maxchunks = huge_page_size(hpstate) >> PAGE_SHIFT;
-+		}
- 		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
--			page = shmem_read_mapping_page(mapping, pgoff + pgidx);
--			if (IS_ERR(page)) {
--				ret = PTR_ERR(page);
--				goto err;
-+			if (is_file_hugepages(memfd)) {
-+				if (!hpage) {
-+					hpage = find_get_page_flags(mapping, mapidx,
-+								    FGP_ACCESSED);
-+					if (!hpage) {
-+						ret = -EINVAL;
-+						goto err;
-+					}
-+				}
-+				get_page(hpage);
-+				ubuf->pages[pgbuf] = hpage;
-+				ubuf->subpgoff[pgbuf++] = chunkoff << PAGE_SHIFT;
-+				if (++chunkoff == maxchunks) {
-+					put_page(hpage);
-+					hpage = NULL;
-+					chunkoff = 0;
-+					mapidx++;
-+				}
-+			} else {
-+				mapidx = pgoff + pgidx;
-+				page = shmem_read_mapping_page(mapping, mapidx);
-+				if (IS_ERR(page)) {
-+					ret = PTR_ERR(page);
-+					goto err;
-+				}
-+				ubuf->pages[pgbuf++] = page;
- 			}
--			ubuf->pages[pgbuf++] = page;
- 		}
- 		fput(memfd);
- 		memfd = NULL;
-+		if (hpage) {
-+			put_page(hpage);
-+			hpage = NULL;
-+		}
- 	}
- 
- 	exp_info.ops  = &udmabuf_ops;
-@@ -287,6 +345,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		put_page(ubuf->pages[--pgbuf]);
- 	if (memfd)
- 		fput(memfd);
-+	kfree(ubuf->subpgoff);
- 	kfree(ubuf->pages);
- 	kfree(ubuf);
- 	return ret;
+Vivek Kasireddy (3):
+  mm/gup: Export check_and_migrate_movable_pages()
+  udmabuf: Add support for page migration out of movable zone or CMA
+  selftests/dma-buf/udmabuf: Add tests to verify data after page
+    migration
+
+ drivers/dma-buf/udmabuf.c                     | 106 +++++++++++-
+ include/linux/mm.h                            |   2 +
+ mm/gup.c                                      |   9 +-
+ .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++++-
+ 4 files changed, 254 insertions(+), 14 deletions(-)
+
 -- 
 2.39.2
 
