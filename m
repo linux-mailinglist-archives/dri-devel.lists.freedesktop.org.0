@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D56077F46F
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 12:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE20277F505
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 13:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 352E510E43A;
-	Thu, 17 Aug 2023 10:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674C810E458;
+	Thu, 17 Aug 2023 11:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org
- [IPv6:2001:67c:2050:0:465::202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BBD10E43A;
- Thu, 17 Aug 2023 10:48:28 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4RRMDS2MTxz9sLw;
- Thu, 17 Aug 2023 12:48:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1692269304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fny/CqimyoLLetisFV/XZE9q+b3vH4Uf6+53LTeD3Xc=;
- b=hVrjAYaQqtte52ViUZbgir0d7TtghFlhbHRwegFjkkYjk7ftLkbcStF6PkuYU5A49Jqxq4
- CDX4KYQcvSK8wKjf+NiEodmAzEO9qyZjXj0RHad3XUkheEAnlE8XEAd/qXa/pefZmUQdAK
- WypLm+WOAKWdx38LERuoW8szCPw4it79som631ccxWrHlk5ZHjF+kH8Z1cWYdF1uwcVVOh
- fGFHhoRI5a5/Qjfz+6MyXJ0euq/Xxq/vLZFKifQV/OTk/5N7N+lGjwuN2vJ043546eDX1P
- sQfwYEam4UFjResU8YVAEtqYJ+bcyRbqZsWl+JGKYbcl+1BlhhUl4TcKTKKoyA==
-Message-ID: <cec0fe4d-d244-d78b-ff70-e8dfba23070b@mailbox.org>
-Date: Thu, 17 Aug 2023 12:48:21 +0200
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8829D10E451
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 11:24:21 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1bf11a7cf9fso1077025ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 04:24:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1692271461; x=1692876261;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TjcEuXYPc+3P+LflzNgS/R35PrZZxb+MjPLlVSZIGUc=;
+ b=VQyIIEXMiq6pS36wIOW0IXVYQlXj6t1+KnNqrtLm+JWyhseZuF/zL3mfYeyfkuTkax
+ L2evGQoksYxnfMdnfi7L5aelupBzM9GKiySr4tbyMKg6ti09dvUHMz3K83sLuqcnwOC6
+ zVhrcmRWkwFwqkOo511Jr7OJuivS8aHsEj+t05Cp5TVi9xMh+ZV1Hl/K1hNUfhJjioSV
+ u8B2KKWIBCJGihrrTPOzc7H9CH4IHP54TtrVh2620huZ9ap2bfecBprTLHC6J6Qv+Jfa
+ lCH0H3x/Qd9cZhCqRkB+y1K0uMDQJXkuZPox9U/8W4MA2XkhKTj+NGusIquX0F6iHqpx
+ BONw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692271461; x=1692876261;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TjcEuXYPc+3P+LflzNgS/R35PrZZxb+MjPLlVSZIGUc=;
+ b=a9VutMCTGwmPYihKgmmHyDpZHcbjsNPqYRCfRiOxlajzfaM8SswaL4YZI1rWoDafQw
+ wUCcilALSZy/K80eKkFvqfICTopc5c4CUnDGo0wI6gg1gk5Y2+Lj75yGGC8QHdQ6gVo7
+ IXnwOTAW1JAGTsidaT4PS10pB/w94Q4P0yKe9M65k3KPuX+X4EyNcMbTrJKvS21ML10A
+ bqZKApj+g29ZsTdCPRcrhEE9ZZnjWI+Ch5t5ErInHsLd9PYrq/3/6VhhC43HMNvQ2nV+
+ kQkLNXvu3W3tng19Y7n8f5zNXe96fJNWuW3ayTjCPRAdX2wkkWwnV6bBJirSunGWG1To
+ Rfmg==
+X-Gm-Message-State: AOJu0YzGK3Br/TPp60maMBWvMMu0dLYMy5rlFsffPcZFeAm8ObWEPJsR
+ aGzXVTmox4P8Ix6hp988ud7K9Q==
+X-Google-Smtp-Source: AGHT+IEeXBbxeyhPNz97Ub6nYdX4Bl9hgGdsmEb3/sN/aMQfAJ6bX7scVeQIfkeMLyVVQUcumeSs6g==
+X-Received: by 2002:a17:902:e803:b0:1b8:9fc4:2733 with SMTP id
+ u3-20020a170902e80300b001b89fc42733mr5237062plg.3.1692271460997; 
+ Thu, 17 Aug 2023 04:24:20 -0700 (PDT)
+Received: from C02DW0BEMD6R.bytedance.net ([203.208.167.146])
+ by smtp.gmail.com with ESMTPSA id
+ jd22-20020a170903261600b001bde877a7casm7229309plb.264.2023.08.17.04.24.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Aug 2023 04:24:20 -0700 (PDT)
+From: Qi Zheng <zhengqi.arch@bytedance.com>
+To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
+ vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
+ brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu,
+ steven.price@arm.com, cel@kernel.org, senozhatsky@chromium.org,
+ yujie.liu@intel.com, gregkh@linuxfoundation.org, muchun.song@linux.dev,
+ joel@joelfernandes.org, christian.koenig@amd.com
+Subject: [PATCH v2 0/5] use refcount+RCU method to implement lockless slab
+ shrink (part 1)
+Date: Thu, 17 Aug 2023 19:23:57 +0800
+Message-Id: <20230817112402.77010-1-zhengqi.arch@bytedance.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 6/6] drm/doc: Define KMS atomic state set
-Content-Language: de-CH-frami, en-CA
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, wayland-devel@lists.freedesktop.org
-References: <20230815185710.159779-1-andrealmeid@igalia.com>
- <20230815185710.159779-7-andrealmeid@igalia.com>
- <1b23576d-1649-ff5c-6273-b54729ea46d8@mailbox.org>
-In-Reply-To: <1b23576d-1649-ff5c-6273-b54729ea46d8@mailbox.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: s7ajxdmgaxdr1ccm97yikip8rdmjuqny
-X-MBO-RS-ID: 1601beecaa62c7d6caf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +77,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- kernel-dev@igalia.com, alexander.deucher@amd.com, hwentlan@amd.com,
- christian.koenig@amd.com, joshua@froggi.es
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Qi Zheng <zhengqi.arch@bytedance.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/17/23 12:37, Michel Dänzer wrote:
-> On 8/15/23 20:57, André Almeida wrote:
->> From: Pekka Paalanen <pekka.paalanen@collabora.com>
->>
->> Specify how the atomic state is maintained between userspace and
->> kernel, plus the special case for async flips.
->>
->> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> 
-> [...]
-> 
->> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
->> +effectively change only the FB_ID property on any planes. No-operation changes
->> +are ignored as always. [...]
-> 
-> During the hackfest in Brno, it was mentioned that a commit which re-sets the same FB_ID could actually have an effect with VRR: It could trigger scanout of the next frame before vertical blank has reached its maximum duration. Some kind of mechanism is required for this in order to allow user space to perform low frame rate compensation.
+Hi all,
 
-That said, it doesn't make too much sense to use DRM_MODE_PAGE_FLIP_ASYNC for this, since it won't have any effect outside of vertical blank anyway.
+To make reviewing and updating easier, I've chosen to split the previous
+patchset[1] into the following three parts:
 
+part 1: some cleanups and preparations
+part 2: introduce new APIs and convert all shrinnkers to use these
+part 3: implement lockless slab shrink
+
+This series is the part 1 and is based on the next-20230815.
+
+Comments and suggestions are welcome.
+
+[1]. https://lore.kernel.org/lkml/20230807110936.21819-1-zhengqi.arch@bytedance.com/
+
+Thanks,
+Qi
+
+Changlog in part 1 v1 -> part 1 v2:
+ - fix compilation warning in [PATCH 1/5]
+ - rename synchronize_shrinkers() to ttm_pool_synchronize_shrinkers()
+   (pointed by Christian König)
+ - collect Reviewed-by
+
+Changlog in v4 -> part 1 v1:
+ - split from the previous large patchset
+ - fix comment format in [PATCH v4 01/48] (pointed by Muchun Song)
+ - change to use kzalloc_node() and fix typo in [PATCH v4 44/48]
+   (pointed by Dave Chinner)
+ - collect Reviewed-bys
+ - rebase onto the next-20230815
+
+Qi Zheng (5):
+  mm: move some shrinker-related function declarations to mm/internal.h
+  mm: vmscan: move shrinker-related code into a separate file
+  mm: shrinker: remove redundant shrinker_rwsem in debugfs operations
+  drm/ttm: introduce pool_shrink_rwsem
+  mm: shrinker: add a secondary array for shrinker_info::{map,
+    nr_deferred}
+
+ drivers/gpu/drm/ttm/ttm_pool.c |  17 +-
+ include/linux/memcontrol.h     |  12 +-
+ include/linux/shrinker.h       |  37 +-
+ mm/Makefile                    |   4 +-
+ mm/internal.h                  |  28 ++
+ mm/shrinker.c                  | 751 +++++++++++++++++++++++++++++++++
+ mm/shrinker_debug.c            |  18 +-
+ mm/vmscan.c                    | 701 ------------------------------
+ 8 files changed, 818 insertions(+), 750 deletions(-)
+ create mode 100644 mm/shrinker.c
 
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+2.30.2
 
