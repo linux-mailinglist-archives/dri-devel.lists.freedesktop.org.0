@@ -1,57 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9375A77FA79
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:14:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE3F77FA89
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B44EB10E0C4;
-	Thu, 17 Aug 2023 15:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5051710E4DD;
+	Thu, 17 Aug 2023 15:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D53210E0C4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 15:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692285273; x=1723821273;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1hndQl9W6c/sH31dXMVTwUkTb63Rp/C/PF9sphtZ5VU=;
- b=feEqHIcrw6a3RCWj3cFQQzWMQukBSFSrXKboqkNNfcpMZ5aHiqId5NuI
- dvfxSc+saPJTJKTXk0+StuU5APPtDPjD9SnD57mDDVKZ7MxyiV+mlR7DW
- /88UxtemTn3LMLAQFiQ61x3tvE+sccZqb1mTpRl+Om9MHdr6roRqAMo3q
- IyR9tJvuNenqB70kErOtGy7swUSWF1q33c+I/WRUN0HWzFamI8G9RnTy+
- AlomZNRsDcKz/h84n96r3iLy7k0XpDFZw5FhdU1ehMtmDpQEGWG6vGlfH
- eObgKQzDceDgwMUkd7LsSIa5rYnfrC8dhRARn+MOsLJnxzid2wnjSbr2h A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="439215585"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="439215585"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Aug 2023 08:14:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="908426946"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="908426946"
-Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
- by orsmga005.jf.intel.com with ESMTP; 17 Aug 2023 08:14:21 -0700
-Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qWehY-0001Fx-0h;
- Thu, 17 Aug 2023 15:14:20 +0000
-Date: Thu, 17 Aug 2023 23:13:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, sam@ravnborg.org,
- bbrezillon@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
- lee@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/8] drm: atmel_hlcdc: Add support for XLCDC in atmel
- LCD driver
-Message-ID: <202308172209.DZ2HgtVa-lkp@intel.com>
-References: <20230817091250.225512-6-manikandan.m@microchip.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5176410E4C7;
+ Thu, 17 Aug 2023 15:17:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Xtf1+F99I69nSRhwPNidOBjKYhYnddXLhkniPjo8Y3I=; b=es0PuuDPVH2MKNnfMl/ZDt02GM
+ 9cXAOntaAOHXNC884acGkSfMXTYN+a7NXzSKpOpcweUrQ3FGM6UypYf46sExKhtvV3ogl5dNnT4Rx
+ K85vVs8228zE8022b37wPZraU627olxbDr179Ws4rK6fYF+ev3rUbrPskEu+MndmwGZQBDaL347kT
+ hR6tMjd9YjeBYi3LkzbyyI5wMGY8r5bfCopcQuYXjNyBe+ltyxbgVGsfdcX40GY6ZHmNPBEbG48mR
+ HHzgnyg1UvQtGGXuqt50bJTS+0MRCe2uxg9SbYuzkAEr3UmN1SouBUOFuTzCuHxmEMgFn7NqL00GB
+ RdVRQjng==;
+Received: from [191.193.179.209] (helo=[192.168.1.111])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qWekl-001xjX-IH; Thu, 17 Aug 2023 17:17:39 +0200
+Message-ID: <43f2df2f-46ff-4240-a86b-eff5f0c08888@igalia.com>
+Date: Thu, 17 Aug 2023 12:17:35 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230817091250.225512-6-manikandan.m@microchip.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/amdgpu: Rework coredump to use memory
+ dynamically
+Content-Language: en-US
+To: Shashank Sharma <shashank.sharma@amd.com>
+References: <20230815195100.294458-1-andrealmeid@igalia.com>
+ <20230815195100.294458-3-andrealmeid@igalia.com>
+ <07ef59db-da17-15cf-789a-7f5d01b2c9c9@amd.com>
+ <a6e90991-91bb-4da9-ab67-d0ec28a29680@igalia.com>
+ <eaef1599-4da3-ac10-a03e-4f2d8304c60d@amd.com>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <eaef1599-4da3-ac10-a03e-4f2d8304c60d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,84 +58,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
- Balamanikandan.Gunasundar@microchip.com,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Hari.PrasathGE@microchip.com, Dharma.B@microchip.com,
- Durai Manickam KR <durai.manickamkr@microchip.com>,
- oe-kbuild-all@lists.linux.dev, Varshini.Rajendran@microchip.com
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Manikandan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.5-rc6 next-20230817]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/mfd-atmel-hlcdc-Add-compatible-for-sam9x75-XLCD-controller/20230817-172003
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230817091250.225512-6-manikandan.m%40microchip.com
-patch subject: [PATCH v3 5/8] drm: atmel_hlcdc: Add support for XLCDC in atmel LCD driver
-config: arm-randconfig-r033-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172209.DZ2HgtVa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172209.DZ2HgtVa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308172209.DZ2HgtVa-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1013:6: warning: no previous prototype for 'hlcdc_irq_dbg' [-Wmissing-prototypes]
-    1013 | void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-         |      ^~~~~~~~~~~~~
->> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1029:6: warning: no previous prototype for 'xlcdc_irq_dbg' [-Wmissing-prototypes]
-    1029 | void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-         |      ^~~~~~~~~~~~~
 
 
-vim +/hlcdc_irq_dbg +1013 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+Em 17/08/2023 12:04, Shashank Sharma escreveu:
+> 
+> On 17/08/2023 15:45, André Almeida wrote:
+>> Hi Shashank,
+>>
+>> Em 17/08/2023 03:41, Shashank Sharma escreveu:
+>>> Hello Andre,
+>>>
+>>> On 15/08/2023 21:50, André Almeida wrote:
+>>>> Instead of storing coredump information inside amdgpu_device struct,
+>>>> move if to a proper separated struct and allocate it dynamically. This
+>>>> will make it easier to further expand the logged information.
+>>>>
+>>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>>>> ---
+>>>> v4: change kmalloc to kzalloc
+>>>> ---
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 14 +++--
+>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 63 
+>>>> ++++++++++++++--------
+>>>>   2 files changed, 49 insertions(+), 28 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
+>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>>> index 9c6a332261ab..0d560b713948 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>>> @@ -1088,11 +1088,6 @@ struct amdgpu_device {
+>>>>       uint32_t                        *reset_dump_reg_list;
+>>>>       uint32_t            *reset_dump_reg_value;
+>>>>       int                             num_regs;
+>>>> -#ifdef CONFIG_DEV_COREDUMP
+>>>> -    struct amdgpu_task_info         reset_task_info;
+>>>> -    bool                            reset_vram_lost;
+>>>> -    struct timespec64               reset_time;
+>>>> -#endif
+>>>>       bool                            scpm_enabled;
+>>>>       uint32_t                        scpm_status;
+>>>> @@ -1105,6 +1100,15 @@ struct amdgpu_device {
+>>>>       uint32_t            aid_mask;
+>>>>   };
+>>>> +#ifdef CONFIG_DEV_COREDUMP
+>>>> +struct amdgpu_coredump_info {
+>>>> +    struct amdgpu_device        *adev;
+>>>> +    struct amdgpu_task_info         reset_task_info;
+>>>> +    struct timespec64               reset_time;
+>>>> +    bool                            reset_vram_lost;
+>>>> +};
+>>>
+>>> The patch looks good to me in general, but I would recommend slightly 
+>>> different arrangement and segregation of GPU reset information.
+>>>
+>>> Please consider a higher level structure adev->gpu_reset_info, and 
+>>> move everything related to reset dump info into that, including this 
+>>> new coredump_info structure, something like this:
+>>>
+>>> struct amdgpu_reset_info {
+>>>
+>>>      uint32_t *reset_dump_reg_list;
+>>>
+>>>      uint32_t *reset_dump_reg_value;
+>>>
+>>>      int num_regs;
+>>>
+>>
+>> Right, I can encapsulate there reset_dump members,
+>>
+>>> #ifdef CONFIG_DEV_COREDUMP
+>>>
+>>>     struct amdgpu_coredump_info *coredump_info;/* keep this dynamic 
+>>> allocation */
+>>
+>> but we don't need a pointer for amdgpu_coredump_info inside 
+>> amdgpu_device or inside of amdgpu_device->gpu_reset_info, right?
+> 
+> I think it would be better if we keep all of the GPU reset related data 
+> in the same structure, so adev->gpu_reset_info->coredump_info sounds 
+> about right to me.
+> 
 
-  1012	
-> 1013	void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-  1014			   const struct atmel_hlcdc_layer_desc *desc)
-  1015	{
-  1016		u32 isr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_ISR);
-  1017	
-  1018		/*
-  1019		 * There's not much we can do in case of overrun except informing
-  1020		 * the user. However, we are in interrupt context here, hence the
-  1021		 * use of dev_dbg().
-  1022		 */
-  1023		if (isr &
-  1024		    (ATMEL_HLCDC_LAYER_OVR_IRQ(0) | ATMEL_HLCDC_LAYER_OVR_IRQ(1) |
-  1025		     ATMEL_HLCDC_LAYER_OVR_IRQ(2)))
-  1026			pr_warn("%s: overrun on plane %s\n", __func__, desc->name);
-  1027	}
-  1028	
-> 1029	void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
-  1030			   const struct atmel_hlcdc_layer_desc *desc)
-  1031	{
-  1032		u32 isr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_XLCDC_LAYER_ISR);
-  1033	
-  1034		/*
-  1035		 * There's not much we can do in case of overrun except informing
-  1036		 * the user. However, we are in interrupt context here, hence the
-  1037		 * use of dev_dbg().
-  1038		 */
-  1039		if (isr &
-  1040		    (ATMEL_XLCDC_LAYER_OVR_IRQ(0) | ATMEL_XLCDC_LAYER_OVR_IRQ(1) |
-  1041		     ATMEL_XLCDC_LAYER_OVR_IRQ(2)))
-  1042			pr_warn("%s: overrun on plane %s\n", __func__, desc->name);
-  1043	}
-  1044	
+But after patch 2/4, we don't need to store a coredump_info pointer 
+inside adev, this is what I meant. What would be the purpose of having 
+this pointer? It's freed by amdgpu_devcoredump_free(), so we don't need 
+to keep track of it.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> - Shashank
+> 
+>>
+>>>
+>>> #endif
+>>>
+>>> }
+>>>
+>>>
+>>> This will make sure that all the relevant information is at the same 
+>>> place.
+>>>
+>>> - Shashank
+>>>
+>>        amdgpu_inc_vram_lost(tmp_adev);
