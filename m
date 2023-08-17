@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D486C77FA8B
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8175577FAAF
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Aug 2023 17:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B37DF10E4DF;
-	Thu, 17 Aug 2023 15:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC9910E4E2;
+	Thu, 17 Aug 2023 15:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4ABD10E066;
- Thu, 17 Aug 2023 15:17:54 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 7341740E00F4; 
- Thu, 17 Aug 2023 15:17:52 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id QmBmwkyxKu7T; Thu, 17 Aug 2023 15:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1692285470; bh=ub9UHmv4k4n9Fnzww3zqDAiez22GxzEYG+O3pBXVSr4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DJKLdJGakm5QLV1vCz5EbOOXhQVEpm6bNC1dVTHuka1drW77i2q2EJK+4I5XyPcq1
- f4/AjqEpE7gb7HatHtfd+HzHtigSmxV5v34Btnpq5BnBVj3c8JrY8ttSIfOCV9JTfR
- dUg3mBiIfN2f/CBUsF8BMgYBUDDcQyeOWvy8/ke39lDBVQMSJBAZjSs3g1N2fe2xIV
- eTFD82YLIhNSXw9ZldQSArzNJXglxT5m9uZUwg3/XgmYVTYJlPfdVH9EYwYfSh1CmX
- wJOy/hNBn0T1rgN/45gmWhDVBDhYgtjVaQ29Tm52jphkKKl/FhTflBcaGKHBL0MRGg
- +o4E0nlspAo1Qc7pcLgrs7WIDcC+r6FrW+ZNtl5A8Ao29I1VKVAEYtcuBL7UdUoLfl
- eJXqYgTnLApmp/g8IGUtOxC5qQsdR5TvMW0heU2NzoD3dOl/ndjAnFZqdMlJ/rd9xG
- R3zqnEizgvh3/N7UY5nbESEZ11kqNv12+blNLKGz9tAKwUnS+qP/K76D9i4xnbNlYw
- n5xCfyNXxaIsR0UZRp4FxWfBgAoSwNIqMJsCedCcPvcsr/Rmu4r96D+NnKdSF0FHf+
- IubBZQdyEBq6HgXIlTbKK1EQV3IMl3wLMrQTjWMMkNI40oTuY1Aktvr4kr6FdcWyQK
- RylsoRsiY5MRB2GAFojCiOwY=
-Received: from zn.tnic (pd9530d32.dip0.t-ipconnect.de [217.83.13.50])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 24CBE40E00B0;
- Thu, 17 Aug 2023 15:17:43 +0000 (UTC)
-Date: Thu, 17 Aug 2023 17:17:39 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Karol Herbst <kherbst@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: fix use-after-free in error handling
- of nouveau_connector_create
-Message-ID: <20230817151739.GEZN46E2T/1GS+baIZ@fat_crate.local>
-References: <CACO55ttasKLxBTmZjN-XBOuJFC7rng2PbLgxCT8WT6ukOZNGzQ@mail.gmail.com>
- <20230816151252.GKZNzndDNySuWC+Vwz@fat_crate.local>
- <CACO55tunC5mEu3Tw64rKLqNM6MN6d=N90kYQKYwXWNMB=ahDaw@mail.gmail.com>
- <20230816221353.GXZN1KIXloRn8cGt5E@fat_crate.local>
- <CACO55ts7430tAUDC+0qY0EZ5ReO=2Rjwj1SzHaBLodmyBgrUrw@mail.gmail.com>
- <20230817081032.GAZN3V+NQ1blzQC2sU@fat_crate.local>
- <CACO55tv-dKnDzUYYFW+d2pNoAhEoEniUT=QAmD4-c_xKQw0cfw@mail.gmail.com>
- <CACO55tuWTYngfw+MZnan+U4eYyE+SvOWgxzffaCMNGQgriq3ig@mail.gmail.com>
- <20230817101129.GCZN3yUTWHkt22Jgec@fat_crate.local>
- <CACO55tt9ZLKjaTyARXQ4VePgd41nYCQBn+wAGGDJRw1QV3hPBQ@mail.gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2353510E4DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Aug 2023 15:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1692285943; x=1723821943;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=dv1rWAggk6QsneHzEIlpHOBsevb6HNOlpyXK3ZrSojM=;
+ b=jFyW2xuwnHXE7dgHiawWiiDVoG6byTOH7cY3Wh7kursmGoEO2DlIEO5U
+ vc30ST80ZixKLUrYpIByszysfiEF8ccIJtV17mCrEHHkrB0jW5MSiSx51
+ 6Fyvp4m8mrQ6GcRius45OHHcPNaVVGmUhfrG2TYSNiUa3/JPKd/p21261
+ t6k1NyltuZMt0VgtMLdT2HYNiCOBMp/bwvQdFFl+dmH5wSxToKBPDINzu
+ TepR2NjL7NEVunIJgXHGoN2HMrplAbhpmK5N7BUce7k4xr+17l3aa+g6k
+ bmn09ML9g3lAFUy1Y8hQoOgboCODhYOJ1G69JLM8UogFJi+VOYhsvRL0V Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="372832648"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="372832648"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Aug 2023 08:25:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10805"; a="728175525"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="728175525"
+Received: from lkp-server02.sh.intel.com (HELO a9caf1a0cf30) ([10.239.97.151])
+ by orsmga007.jf.intel.com with ESMTP; 17 Aug 2023 08:25:22 -0700
+Received: from kbuild by a9caf1a0cf30 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qWesD-0001Gs-0v;
+ Thu, 17 Aug 2023 15:25:21 +0000
+Date: Thu, 17 Aug 2023 23:24:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>, sam@ravnborg.org,
+ bbrezillon@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+ lee@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/8] drm: atmel_hlcdc: Add support for XLCDC in atmel
+ LCD driver
+Message-ID: <202308172303.AgUIhGKY-lkp@intel.com>
+References: <20230817091250.225512-6-manikandan.m@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACO55tt9ZLKjaTyARXQ4VePgd41nYCQBn+wAGGDJRw1QV3hPBQ@mail.gmail.com>
+In-Reply-To: <20230817091250.225512-6-manikandan.m@microchip.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,66 +64,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
+ Balamanikandan.Gunasundar@microchip.com, llvm@lists.linux.dev,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Hari.PrasathGE@microchip.com, Dharma.B@microchip.com,
+ Durai Manickam KR <durai.manickamkr@microchip.com>,
+ oe-kbuild-all@lists.linux.dev, Varshini.Rajendran@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 17, 2023 at 12:24:45PM +0200, Karol Herbst wrote:
-> simply throw a
-> 
-> printk(KERN_WARNING "nvkm_uconn_uevent %u\n", outp->info.location);
-> 
-> inside drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c:104 after that
-> mentioned comment.
+Hi Manikandan,
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
-index 46b057fe1412..661fd0cf3b3b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/uconn.c
-@@ -101,6 +101,7 @@ nvkm_uconn_uevent(struct nvkm_object *object, void *argv, u32 argc, struct nvkm_
-        if (args->v0.types & NVIF_CONN_EVENT_V0_UNPLUG) bits |= NVKM_GPIO_LO;
-        if (args->v0.types & NVIF_CONN_EVENT_V0_IRQ) {
-                /* TODO: support DP IRQ on ANX9805 and remove this hack. */
-+               printk(KERN_WARNING "nvkm_uconn_uevent %u\n", outp->info.location);
-                if (!outp->info.location)
-                        return -EINVAL;
-        }
+kernel test robot noticed the following build warnings:
 
-result:
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.5-rc6 next-20230817]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[   10.566759] ACPI: bus type drm_connector registered
-[   10.591171] Console: switching to colour dummy device 80x25
-[   10.598472] nouveau 0000:03:00.0: vgaarb: deactivate vga console
-[   10.607121] nouveau 0000:03:00.0: NVIDIA GT218 (0a8c00b1)
-[   10.728361] nouveau 0000:03:00.0: bios: version 70.18.83.00.08
-[   10.742137] nouveau 0000:03:00.0: fb: 512 MiB DDR3
-[   11.059848] nouveau 0000:03:00.0: DRM: VRAM: 512 MiB
-[   11.064911] nouveau 0000:03:00.0: DRM: GART: 1048576 MiB
-[   11.070302] nouveau 0000:03:00.0: DRM: TMDS table version 2.0
-[   11.076126] nouveau 0000:03:00.0: DRM: DCB version 4.0
-[   11.081335] nouveau 0000:03:00.0: DRM: DCB outp 00: 02000360 00000000
-[   11.087865] nouveau 0000:03:00.0: DRM: DCB outp 01: 02000362 00020010
-[   11.094395] nouveau 0000:03:00.0: DRM: DCB outp 02: 028003a6 0f220010
-[   11.100912] nouveau 0000:03:00.0: DRM: DCB outp 03: 01011380 00000000
-[   11.107422] nouveau 0000:03:00.0: DRM: DCB outp 04: 08011382 00020010
-[   11.113940] nouveau 0000:03:00.0: DRM: DCB outp 05: 088113c6 0f220010
-[   11.120457] nouveau 0000:03:00.0: DRM: DCB conn 00: 00101064
-[   11.126182] nouveau 0000:03:00.0: DRM: DCB conn 01: 00202165
-[   11.138865] nouveau 0000:03:00.0: DRM: MM: using COPY for buffer copies
-[   11.151291] nvkm_uconn_uevent 0
-[   11.154643] nvkm_uconn_uevent 0
-[   11.157975] nvkm_uconn_uevent 0
-[   11.161298] nvkm_uconn_uevent 0
-[   11.164616] nvkm_uconn_uevent 0
-[   11.167943] nvkm_uconn_uevent 0
-[   11.176010] [drm] Initialized nouveau 1.3.1 20120801 for 0000:03:00.0 on minor 0
-[   11.184186] nouveau 0000:03:00.0: [drm] Cannot find any crtc or sizes
-[   11.260527] megasas: 07.725.01.00-rc1
-[   11.264555] st: Version 20160209, fixed bufsize 32768, s/g segs 256
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/mfd-atmel-hlcdc-Add-compatible-for-sam9x75-XLCD-controller/20230817-172003
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230817091250.225512-6-manikandan.m%40microchip.com
+patch subject: [PATCH v3 5/8] drm: atmel_hlcdc: Add support for XLCDC in atmel LCD driver
+config: arm-randconfig-r046-20230817 (https://download.01.org/0day-ci/archive/20230817/202308172303.AgUIhGKY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230817/202308172303.AgUIhGKY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308172303.AgUIhGKY-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1013:6: warning: no previous prototype for function 'hlcdc_irq_dbg' [-Wmissing-prototypes]
+    1013 | void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+         |      ^
+   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1013:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1013 | void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+         | ^
+         | static 
+>> drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1029:6: warning: no previous prototype for function 'xlcdc_irq_dbg' [-Wmissing-prototypes]
+    1029 | void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+         |      ^
+   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c:1029:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1029 | void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/hlcdc_irq_dbg +1013 drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+
+  1012	
+> 1013	void hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+  1014			   const struct atmel_hlcdc_layer_desc *desc)
+  1015	{
+  1016		u32 isr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_HLCDC_LAYER_ISR);
+  1017	
+  1018		/*
+  1019		 * There's not much we can do in case of overrun except informing
+  1020		 * the user. However, we are in interrupt context here, hence the
+  1021		 * use of dev_dbg().
+  1022		 */
+  1023		if (isr &
+  1024		    (ATMEL_HLCDC_LAYER_OVR_IRQ(0) | ATMEL_HLCDC_LAYER_OVR_IRQ(1) |
+  1025		     ATMEL_HLCDC_LAYER_OVR_IRQ(2)))
+  1026			pr_warn("%s: overrun on plane %s\n", __func__, desc->name);
+  1027	}
+  1028	
+> 1029	void xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+  1030			   const struct atmel_hlcdc_layer_desc *desc)
+  1031	{
+  1032		u32 isr = atmel_hlcdc_layer_read_reg(&plane->layer, ATMEL_XLCDC_LAYER_ISR);
+  1033	
+  1034		/*
+  1035		 * There's not much we can do in case of overrun except informing
+  1036		 * the user. However, we are in interrupt context here, hence the
+  1037		 * use of dev_dbg().
+  1038		 */
+  1039		if (isr &
+  1040		    (ATMEL_XLCDC_LAYER_OVR_IRQ(0) | ATMEL_XLCDC_LAYER_OVR_IRQ(1) |
+  1041		     ATMEL_XLCDC_LAYER_OVR_IRQ(2)))
+  1042			pr_warn("%s: overrun on plane %s\n", __func__, desc->name);
+  1043	}
+  1044	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
